@@ -1,42 +1,29 @@
-import { request } from './http'
+import http from './http'
 
 export function listComments(articleId) {
-  return request(`/api/public/articles/${articleId}/comments`)
+  return http.get(`/api/public/articles/${articleId}/comments`)
 }
 
 export function createComment(data) {
-  return request('/api/comments', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  return http.post('/api/comments', data)
 }
 
 export function reportComment(id) {
-  return request(`/api/comments/${id}/report`, {
-    method: 'POST'
-  })
+  return http.post(`/api/comments/${id}/report`)
 }
 
 export function likeArticle(id) {
-  return request(`/api/articles/${id}/like`, {
-    method: 'POST'
-  })
+  return http.post(`/api/articles/${id}/like`)
 }
 
 export function unlikeArticle(id) {
-  return request(`/api/articles/${id}/like`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/articles/${id}/like`)
 }
 
 export function favoriteArticle(id) {
-  return request(`/api/articles/${id}/favorite`, {
-    method: 'POST'
-  })
+  return http.post(`/api/articles/${id}/favorite`)
 }
 
 export function unfavoriteArticle(id) {
-  return request(`/api/articles/${id}/favorite`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/articles/${id}/favorite`)
 }

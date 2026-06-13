@@ -1,252 +1,153 @@
-import { request } from './http'
+import http from './http'
 
+// 文章相关
 export function listAdminArticles(params = {}) {
-  const query = new URLSearchParams()
-  if (params.status) query.set('status', params.status)
-  if (params.category) query.set('category', params.category)
-  if (params.keyword) query.set('keyword', params.keyword)
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/articles${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/articles', { params })
 }
 
 export function getAdminArticle(id) {
-  return request(`/api/admin/articles/${id}`)
+  return http.get(`/api/admin/articles/${id}`)
 }
 
 export function createAdminArticle(data) {
-  return request('/api/admin/articles', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  return http.post('/api/admin/articles', data)
 }
 
 export function updateAdminArticle(id, data) {
-  return request(`/api/admin/articles/${id}`, {
-    method: 'PATCH',
-    body: JSON.stringify(data)
-  })
+  return http.patch(`/api/admin/articles/${id}`, data)
 }
 
 export function publishAdminArticle(id) {
-  return request(`/api/admin/articles/${id}/publish`, {
-    method: 'POST'
-  })
+  return http.post(`/api/admin/articles/${id}/publish`)
 }
 
 export function deleteAdminArticle(id) {
-  return request(`/api/admin/articles/${id}`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/admin/articles/${id}`)
 }
 
 // 回收站相关
 export function listTrashArticles(params = {}) {
-  const query = new URLSearchParams()
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/articles/trash/list${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/articles/trash/list', { params })
 }
 
 export function restoreArticle(id) {
-  return request(`/api/admin/articles/${id}/restore`, {
-    method: 'POST'
-  })
+  return http.post(`/api/admin/articles/${id}/restore`)
 }
 
 export function permanentDeleteArticle(id) {
-  return request(`/api/admin/articles/${id}/permanent`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/admin/articles/${id}/permanent`)
 }
 
 export function emptyTrash() {
-  return request('/api/admin/articles/trash/empty', {
-    method: 'DELETE'
-  })
+  return http.delete('/api/admin/articles/trash/empty')
 }
 
+// 分类相关
 export function listAdminCategories(params = {}) {
-  const query = new URLSearchParams()
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/categories${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/categories', { params })
 }
 
 export function createAdminCategory(data) {
-  return request('/api/admin/categories', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  return http.post('/api/admin/categories', data)
 }
 
 export function updateAdminCategory(id, data) {
-  return request(`/api/admin/categories/${id}`, {
-    method: 'PATCH',
-    body: JSON.stringify(data)
-  })
+  return http.patch(`/api/admin/categories/${id}`, data)
 }
 
 export function deleteAdminCategory(id) {
-  return request(`/api/admin/categories/${id}`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/admin/categories/${id}`)
 }
 
+// 标签相关
 export function listAdminTags(params = {}) {
-  const query = new URLSearchParams()
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/tags${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/tags', { params })
 }
 
 export function createAdminTag(data) {
-  return request('/api/admin/tags', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  return http.post('/api/admin/tags', data)
 }
 
 export function updateAdminTag(id, data) {
-  return request(`/api/admin/tags/${id}`, {
-    method: 'PATCH',
-    body: JSON.stringify(data)
-  })
+  return http.patch(`/api/admin/tags/${id}`, data)
 }
 
 export function deleteAdminTag(id) {
-  return request(`/api/admin/tags/${id}`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/admin/tags/${id}`)
 }
 
+// 评论相关
 export function listAdminComments(params = {}) {
-  const query = new URLSearchParams()
-  if (params.status) query.set('status', params.status)
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/comments${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/comments', { params })
 }
 
 export function reviewAdminComment(id, action) {
-  return request(`/api/admin/comments/${id}/${action}`, {
-    method: 'POST'
-  })
+  return http.post(`/api/admin/comments/${id}/${action}`)
 }
 
+// 用户相关
 export function listAdminUsers(params = {}) {
-  const query = new URLSearchParams()
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/users${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/users', { params })
 }
 
 export function updateAdminUserStatus(id, status) {
-  return request(`/api/admin/users/${id}/status`, {
-    method: 'PATCH',
-    body: JSON.stringify({ status })
-  })
+  return http.patch(`/api/admin/users/${id}/status`, { status })
 }
 
+// 统计
 export function getAdminStats() {
-  return request('/api/admin/stats')
+  return http.get('/api/admin/stats')
 }
 
+// 媒体相关
 export function listAdminMedia(params = {}) {
-  const query = new URLSearchParams()
-  if (params.kind) query.set('kind', params.kind)
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/media${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/media', { params })
 }
 
 export function uploadAdminMedia(file) {
   const formData = new FormData()
   formData.append('file', file)
-
-  return request('/api/admin/media', {
-    method: 'POST',
-    headers: {},
-    body: formData
-  })
+  return http.post('/api/admin/media', formData)
 }
 
 export function deleteAdminMedia(id) {
-  return request(`/api/admin/media/${id}`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/admin/media/${id}`)
 }
 
+// 公告相关
 export function listAdminAnnouncements(params = {}) {
-  const query = new URLSearchParams()
-  if (params.level) query.set('level', params.level)
-  if (params.isActive !== undefined && params.isActive !== '') query.set('isActive', params.isActive)
-  if (params.page) query.set('page', params.page)
-  if (params.pageSize) query.set('pageSize', params.pageSize)
-
-  const queryStr = query.toString()
-  return request(`/api/admin/announcements${queryStr ? '?' + queryStr : ''}`)
+  return http.get('/api/admin/announcements', { params })
 }
 
 export function getAdminAnnouncement(id) {
-  return request(`/api/admin/announcements/detail/${id}`)
+  return http.get(`/api/admin/announcements/detail/${id}`)
 }
 
 export function createAdminAnnouncement(data) {
-  return request('/api/admin/announcements', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  return http.post('/api/admin/announcements', data)
 }
 
 export function updateAdminAnnouncement(id, data) {
-  return request(`/api/admin/announcements/${id}`, {
-    method: 'PATCH',
-    body: JSON.stringify(data)
-  })
+  return http.patch(`/api/admin/announcements/${id}`, data)
 }
 
 export function deleteAdminAnnouncement(id) {
-  return request(`/api/admin/announcements/${id}`, {
-    method: 'DELETE'
-  })
+  return http.delete(`/api/admin/announcements/${id}`)
 }
 
 export function batchToggleAnnouncement(ids, isActive) {
-  return request('/api/admin/announcements/batch-toggle', {
-    method: 'POST',
-    body: JSON.stringify({ ids, isActive })
-  })
+  return http.post('/api/admin/announcements/batch-toggle', { ids, isActive })
 }
 
 export function batchDeleteAnnouncements(ids) {
-  return request('/api/admin/announcements/batch-delete', {
-    method: 'POST',
-    body: JSON.stringify({ ids })
-  })
+  return http.post('/api/admin/announcements/batch-delete', { ids })
 }
 
+// 设置相关
 export function getAdminSettings() {
-  return request('/api/admin/settings')
+  return http.get('/api/admin/settings')
 }
 
 export function updateAdminSettings(data) {
-  return request('/api/admin/settings', {
-    method: 'PATCH',
-    body: JSON.stringify(data)
-  })
+  return http.patch('/api/admin/settings', data)
 }

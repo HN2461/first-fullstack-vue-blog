@@ -1,20 +1,7 @@
-import { request } from './http'
-
-function toQuery(params = {}) {
-  const search = new URLSearchParams()
-
-  Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined && value !== null && value !== '') {
-      search.set(key, value)
-    }
-  })
-
-  const query = search.toString()
-  return query ? `?${query}` : ''
-}
+import http from './http'
 
 export function getPublicHome() {
-  return request('/api/public/home')
+  return http.get('/api/public/home')
 }
 
 export async function listPublicCategories() {
@@ -23,39 +10,35 @@ export async function listPublicCategories() {
 }
 
 export function listPublicArticles(params = {}) {
-  return request(`/api/public/articles${toQuery(params)}`)
+  return http.get('/api/public/articles', { params })
 }
 
 export function searchPublicArticles(params = {}) {
-  return request(`/api/public/search${toQuery(params)}`)
+  return http.get('/api/public/search', { params })
 }
 
 export function getPublicArticle(slug) {
-  return request(`/api/public/articles/${encodeURIComponent(slug)}`)
+  return http.get(`/api/public/articles/${encodeURIComponent(slug)}`)
 }
 
 // ==================== 公告通知相关 ====================
 
 export function listPublicAnnouncements(params = {}) {
-  return request(`/api/public/announcements${toQuery(params)}`)
+  return http.get('/api/public/announcements', { params })
 }
 
 export function getUnreadCount() {
-  return request('/api/public/announcements/unread-count')
+  return http.get('/api/public/announcements/unread-count')
 }
 
 export function getPopupAnnouncements() {
-  return request('/api/public/announcements/popups')
+  return http.get('/api/public/announcements/popups')
 }
 
 export function markAnnouncementRead(id) {
-  return request(`/api/public/announcements/${id}/read`, {
-    method: 'POST'
-  })
+  return http.post(`/api/public/announcements/${id}/read`)
 }
 
 export function markAllAnnouncementsRead() {
-  return request('/api/public/announcements/read-all', {
-    method: 'POST'
-  })
+  return http.post('/api/public/announcements/read-all')
 }

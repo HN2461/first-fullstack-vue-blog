@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const TOKEN_KEY = 'blog-access-token'
 
 export function getStoredToken() {
@@ -9,59 +11,117 @@ export function setStoredToken(token) {
     localStorage.setItem(TOKEN_KEY, token)
     return
   }
-
   localStorage.removeItem(TOKEN_KEY)
 }
 
+// 创建 axios 实例
+const http = axios.create({
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+
+// 请求拦截器：自动添加 token
+http.interceptors.request.use(
+  (config) => {
+    const token = getStoredToken()
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+
+    // FormData 时删除 Content-Type，让浏览器自动设置
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type']
+    }
+
+    return config
+  },
+  (error) => Promise.reject(error)
+)
+
+// 响应拦截器：统一处理响应
+http.interceptors.response.use(
+  (response) => {
+    const payload = response.data
+
+    // 后端统一返回 { success, message, data }
+    if (payload && payload.success === false) {
+      const error = new Error(payload.message || '请求失败')
+      error.code = payload.code
+      error.details = payload.details
+      return Promise.reject(error)
+    }
+
+    // 返回 data 字段（解包一层）
+    return payload?.data ?? null
+  },
+  (error) => {
+    // 网络错误、超时等
+    if (error.response) {
+      const payload = error.response.data
+      const message = payload?.message || `请求失败：${error.response.status}`
+      const err = new Error(message)
+      err.code = payload?.code
+      err.status = error.response.status
+
+      // 401 未授权：清除 token，跳转登录
+      if (error.response.status === 401) {
+        setStoredToken('')
+        // 可选：跳转到登录页
+        // window.location.href = '/login'
+      }
+
+      return Promise.reject(err)
+    }
+
+    if (error.code === 'ECONNABORTED') {
+      return Promise.reject(new Error('请求超时，请稍后重试'))
+    }
+
+    return Promise.reject(error)
+  }
+)
+
+// 兼容旧的 request 函数（逐步迁移用）
 export async function request(path, options = {}) {
-  const token = getStoredToken()
-  const headers = {
-    ...(options.headers || {})
-  }
+  const { method = 'GET', body, headers = {} } = options
 
-  if (!(options.body instanceof FormData)) {
-    headers['Content-Type'] = headers['Content-Type'] || 'application/json'
-  }
-
-  if (token) {
-    headers.Authorization = `Bearer ${token}`
-  }
-
-  const response = await fetch(path, {
-    ...options,
+  const config = {
+    url: path,
+    method: method.toLowerCase(),
     headers
-  })
-
-  const payload = await response.json().catch(() => null)
-
-  if (!response.ok || payload?.success === false) {
-    const message = payload?.message || `请求失败：${response.status}`
-    throw new Error(message)
   }
 
-  return payload?.data ?? null
+  if (body) {
+    // 如果 body 是 FormData，直接作为 data
+    if (body instanceof FormData) {
+      config.data = body
+    } else {
+      // JSON 字符串需要解析回对象
+      config.data = typeof body === 'string' ? JSON.parse(body) : body
+    }
+  }
+
+  return http(config)
 }
 
+// ==================== 认证相关 ====================
+
 export function getHealth() {
-  return request('/api/health')
+  return http.get('/api/health')
 }
 
 export function registerAccount(data) {
-  return request('/api/auth/register', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  return http.post('/api/auth/register', data)
 }
 
 export function loginAccount(data) {
-  return request('/api/auth/login', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
+  return http.post('/api/auth/login', data)
 }
 
 export function getCurrentUser() {
-  return request('/api/auth/me')
+  return http.get('/api/auth/me')
 }
 
 /**
@@ -69,7 +129,7 @@ export function getCurrentUser() {
  * @returns {Promise<{captchaId: string, captchaSvg: string}>}
  */
 export function getCaptcha() {
-  return request('/api/captcha/generate')
+  return http.get('/api/captcha/generate')
 }
 
 /**
@@ -78,10 +138,7 @@ export function getCaptcha() {
  * @param {string} captchaText - 用户输入的验证码
  */
 export function verifyCaptcha(captchaId, captchaText) {
-  return request('/api/captcha/verify', {
-    method: 'POST',
-    body: JSON.stringify({ captchaId, captchaText })
-  })
+  return http.post('/api/captcha/verify', { captchaId, captchaText })
 }
 
 // ==================== 个人信息相关 ====================
@@ -90,7 +147,7 @@ export function verifyCaptcha(captchaId, captchaText) {
  * 获取个人信息
  */
 export function getProfile() {
-  return request('/api/profile')
+  return http.get('/api/profile')
 }
 
 /**
@@ -98,34 +155,17 @@ export function getProfile() {
  * @param {Object} data - { username?, bio? }
  */
 export function updateProfile(data) {
-  return request('/api/profile', {
-    method: 'PUT',
-    body: JSON.stringify(data)
-  })
+  return http.put('/api/profile', data)
 }
 
 /**
  * 上传头像
  * @param {File} file - 头像文件
  */
-export async function uploadAvatar(file) {
+export function uploadAvatar(file) {
   const formData = new FormData()
   formData.append('avatar', file)
-
-  const token = getStoredToken()
-  const response = await fetch('/api/profile/avatar', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`
-    },
-    body: formData
-  })
-
-  const payload = await response.json().catch(() => null)
-  if (!response.ok || payload?.success === false) {
-    throw new Error(payload?.message || '上传失败')
-  }
-  return payload?.data ?? null
+  return http.post('/api/profile/avatar', formData)
 }
 
 /**
@@ -133,10 +173,7 @@ export async function uploadAvatar(file) {
  * @param {Object} data - { oldPassword, newPassword }
  */
 export function changePassword(data) {
-  return request('/api/profile/password', {
-    method: 'PUT',
-    body: JSON.stringify(data)
-  })
+  return http.put('/api/profile/password', data)
 }
 
 /**
@@ -144,5 +181,8 @@ export function changePassword(data) {
  * @returns {Promise<{articles: number, comments: number, likes: number}>}
  */
 export function getUserStats() {
-  return request('/api/profile/stats')
+  return http.get('/api/profile/stats')
 }
+
+export { http }
+export default http
