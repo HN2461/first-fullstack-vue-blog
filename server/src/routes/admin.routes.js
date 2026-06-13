@@ -102,12 +102,7 @@ adminRouter.post('/articles/:id/publish', asyncHandler(async (req, res) => {
   res.json(ok(article, '文章已发布'))
 }))
 
-adminRouter.delete('/articles/:id', asyncHandler(async (req, res) => {
-  const result = await deleteArticle(req.params.id, req.user)
-  res.json(ok(result, '文章已移至回收站'))
-}))
-
-// 回收站相关路由
+// 回收站相关路由（必须在通用 /articles/:id 前面，避免 :id 抢占 trash/permanent 路径）
 adminRouter.get('/articles/trash/list', asyncHandler(async (req, res) => {
   res.json(ok(await listDeletedArticles()))
 }))
@@ -125,6 +120,11 @@ adminRouter.delete('/articles/:id/permanent', asyncHandler(async (req, res) => {
 adminRouter.delete('/articles/trash/empty', asyncHandler(async (req, res) => {
   const result = await emptyTrash()
   res.json(ok(result, `已清空 ${result.deletedCount} 条记录`))
+}))
+
+adminRouter.delete('/articles/:id', asyncHandler(async (req, res) => {
+  const result = await deleteArticle(req.params.id, req.user)
+  res.json(ok(result, '文章已移至回收站'))
 }))
 
 adminRouter.get('/comments', asyncHandler(async (req, res) => {

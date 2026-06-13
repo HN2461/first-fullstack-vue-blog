@@ -123,6 +123,7 @@ const columns = [
   {
     title: '原状态',
     key: 'status',
+    dataIndex: 'status',
     width: 100,
     customRender: ({ text }) => {
       const map = { published: '已发布', draft: '草稿', archived: '已下架' }
