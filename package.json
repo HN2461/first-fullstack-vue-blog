@@ -1,0 +1,24 @@
+{
+  "name": "personal-fullstack-blog",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace server\" \"npm run dev --workspace client\"",
+    "build": "npm run build --workspace shared && npm run build --workspace client",
+    "test": "npm run test --workspace server && npm run test --workspace client",
+    "check:encoding": "pwsh -File scripts/check-encoding.ps1",
+    "install:all": "npm install"
+  },
+  "workspaces": [
+    "client",
+    "server",
+    "shared"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

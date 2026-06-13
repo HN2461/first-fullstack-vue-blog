@@ -1,0 +1,10 @@
+{
+  "name": "@blog/shared",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/constants.js",
+  "scripts": {
+    "build": "node -e \"import('./src/constants.js').then(() => console.log('shared constants ok'))\""
+  }
+}
