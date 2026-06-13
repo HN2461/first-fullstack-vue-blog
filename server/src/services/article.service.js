@@ -113,7 +113,9 @@ export async function publishArticle(id, user) {
 }
 
 export async function listArticles(options = {}) {
-  const { status, category, keyword, page = 1, pageSize = 10 } = options
+  const { status, category, keyword } = options
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 10))
 
   // 构建查询条件
   const query = { deletedAt: null }
@@ -185,13 +187,28 @@ export async function deleteArticle(id, user) {
 }
 
 // 获取回收站列表（已删除的文章）
-export async function listDeletedArticles() {
-  const articles = await Article.find({ deletedAt: { $ne: null } })
-    .populate('category')
-    .populate('tags')
-    .sort({ deletedAt: -1 })
+export async function listDeletedArticles(options = {}) {
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
+  const query = { deletedAt: { $ne: null } }
+  const skip = (page - 1) * pageSize
 
-  return articles.map((article) => article.toSafeJSON())
+  const [articles, total] = await Promise.all([
+    Article.find(query)
+      .populate('category')
+      .populate('tags')
+      .sort({ deletedAt: -1 })
+      .skip(skip)
+      .limit(pageSize),
+    Article.countDocuments(query)
+  ])
+
+  return {
+    items: articles.map((article) => article.toSafeJSON()),
+    total,
+    page,
+    pageSize
+  }
 }
 
 // 恢复文章（从回收站）

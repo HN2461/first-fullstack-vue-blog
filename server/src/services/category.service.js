@@ -27,11 +27,25 @@ export async function createCategory(input) {
   return category.toSafeJSON()
 }
 
-export async function listCategories() {
-  const categories = await Category.find()
-    .sort({ sortOrder: 1, createdAt: -1 })
+export async function listCategories(options = {}) {
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 50))
+  const skip = (page - 1) * pageSize
 
-  return categories.map((category) => category.toSafeJSON())
+  const [categories, total] = await Promise.all([
+    Category.find()
+      .sort({ sortOrder: 1, createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize),
+    Category.countDocuments()
+  ])
+
+  return {
+    items: categories.map((category) => category.toSafeJSON()),
+    total,
+    page,
+    pageSize
+  }
 }
 
 export async function updateCategory(id, input) {

@@ -63,13 +63,28 @@ export async function listVisibleComments(articleId) {
   return comments.map((comment) => comment.toSafeJSON())
 }
 
-export async function listAdminComments(status = '') {
+export async function listAdminComments(options = {}) {
+  const { status } = options
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const query = status ? { status } : {}
-  const comments = await Comment.find(query)
-    .populate('user')
-    .sort({ createdAt: -1 })
+  const skip = (page - 1) * pageSize
 
-  return comments.map((comment) => comment.toSafeJSON())
+  const [comments, total] = await Promise.all([
+    Comment.find(query)
+      .populate('user')
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize),
+    Comment.countDocuments(query)
+  ])
+
+  return {
+    items: comments.map((comment) => comment.toSafeJSON()),
+    total,
+    page,
+    pageSize
+  }
 }
 
 export async function reviewComment(id, action, admin) {
@@ -141,7 +156,23 @@ export async function updateUserStatus(userId, status) {
   return user.toSafeJSON()
 }
 
-export async function listUsers() {
-  const users = await User.find().sort({ createdAt: -1 })
-  return users.map((user) => user.toSafeJSON())
+export async function listUsers(options = {}) {
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
+  const skip = (page - 1) * pageSize
+
+  const [users, total] = await Promise.all([
+    User.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize),
+    User.countDocuments()
+  ])
+
+  return {
+    items: users.map((user) => user.toSafeJSON()),
+    total,
+    page,
+    pageSize
+  }
 }

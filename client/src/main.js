@@ -1,30 +1,6 @@
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
-import {
-  Alert,
-  Avatar,
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  Empty,
-  Form,
-  Input,
-  Layout,
-  List,
-  Dropdown,
-  Menu,
-  Radio,
-  Row,
-  Select,
-  Space,
-  Statistic,
-  Table,
-  Tag,
-  Tooltip,
-  Typography,
-  Upload
-} from 'ant-design-vue'
+import Antd from 'ant-design-vue'
 import App from './App.vue'
 import { router } from './router'
 import { useAuthStore } from './stores/auth'
@@ -38,35 +14,7 @@ const pinia = createPinia()
 
 app.use(pinia)
 app.use(router)
-const antComponents = [
-  Alert,
-  Avatar,
-  Breadcrumb,
-  Button,
-  Card,
-  Col,
-  Empty,
-  Form,
-  Input,
-  Layout,
-  List,
-  Dropdown,
-  Menu,
-  Radio,
-  Row,
-  Select,
-  Space,
-  Statistic,
-  Table,
-  Tag,
-  Tooltip,
-  Typography,
-  Upload
-]
-
-antComponents.forEach((component) => {
-  app.use(component)
-})
+app.use(Antd)
 
 const authStore = useAuthStore()
 authStore.restoreSession().finally(() => {

@@ -42,6 +42,7 @@
             <template #icon><PlusOutlined /></template>
           </a-button>
         </a-tooltip>
+        <NotificationBell />
         <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
           <a-button class="enterprise-icon-action" @click="appStore.toggleTheme">
             <template #icon>
@@ -153,6 +154,7 @@
       </a-layout>
     </a-layout>
   </a-layout>
+  <AnnouncementPopup />
 </template>
 
 <script setup>
@@ -174,6 +176,8 @@ import {
   SettingOutlined,
   UserOutlined
 } from '@ant-design/icons-vue'
+import NotificationBell from '@/components/NotificationBell.vue'
+import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
 import { Menu } from 'ant-design-vue'
 import { Moon, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'

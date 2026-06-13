@@ -19,17 +19,33 @@ export async function createTag(input) {
     name: input.name.trim(),
     slug,
     description: input.description || '',
-    color: input.color || '#2852b8'
+    color: input.color || '#2852b8',
+    sortOrder: input.sortOrder || 0,
+    status: input.status || 'active'
   })
 
   return tag.toSafeJSON()
 }
 
-export async function listTags() {
-  const tags = await Tag.find()
-    .sort({ articleCount: -1, createdAt: -1 })
+export async function listTags(options = {}) {
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 50))
+  const skip = (page - 1) * pageSize
 
-  return tags.map((tag) => tag.toSafeJSON())
+  const [tags, total] = await Promise.all([
+    Tag.find()
+      .sort({ articleCount: -1, createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize),
+    Tag.countDocuments()
+  ])
+
+  return {
+    items: tags.map((tag) => tag.toSafeJSON()),
+    total,
+    page,
+    pageSize
+  }
 }
 
 export async function updateTag(id, input) {
@@ -50,6 +66,8 @@ export async function updateTag(id, input) {
   if (input.name !== undefined) tag.name = input.name.trim()
   if (input.description !== undefined) tag.description = input.description
   if (input.color !== undefined) tag.color = input.color
+  if (input.sortOrder !== undefined) tag.sortOrder = input.sortOrder
+  if (input.status !== undefined) tag.status = input.status
 
   await tag.save()
   return tag.toSafeJSON()

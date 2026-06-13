@@ -6,7 +6,7 @@ import { createArticle, deleteArticle, emptyTrash, getArticleById, listArticles,
 import { createCategory, deleteCategory, listCategories, updateCategory } from '../services/category.service.js'
 import { listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
 import { createMediaFromFile, deleteMedia, getUploadSubdir, listMedia } from '../services/media.service.js'
-import { createAnnouncement, deleteAnnouncement, listAnnouncements, updateAnnouncement } from '../services/notification.service.js'
+import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '../services/notification.service.js'
 import { getSettings, updateSettings } from '../services/setting.service.js'
 import { getAdminStats } from '../services/stats.service.js'
 import { createTag, deleteTag, listTags, updateTag } from '../services/tag.service.js'
@@ -38,7 +38,7 @@ const upload = multer({
 adminRouter.use(requireAuth, requireAdmin)
 
 adminRouter.get('/categories', asyncHandler(async (req, res) => {
-  res.json(ok(await listCategories()))
+  res.json(ok(await listCategories(req.query)))
 }))
 
 adminRouter.post('/categories', asyncHandler(async (req, res) => {
@@ -58,7 +58,7 @@ adminRouter.delete('/categories/:id', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/tags', asyncHandler(async (req, res) => {
-  res.json(ok(await listTags()))
+  res.json(ok(await listTags(req.query)))
 }))
 
 adminRouter.post('/tags', asyncHandler(async (req, res) => {
@@ -104,7 +104,7 @@ adminRouter.post('/articles/:id/publish', asyncHandler(async (req, res) => {
 
 // 回收站相关路由（必须在通用 /articles/:id 前面，避免 :id 抢占 trash/permanent 路径）
 adminRouter.get('/articles/trash/list', asyncHandler(async (req, res) => {
-  res.json(ok(await listDeletedArticles()))
+  res.json(ok(await listDeletedArticles(req.query)))
 }))
 
 adminRouter.post('/articles/:id/restore', asyncHandler(async (req, res) => {
@@ -128,7 +128,7 @@ adminRouter.delete('/articles/:id', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/comments', asyncHandler(async (req, res) => {
-  res.json(ok(await listAdminComments(req.query.status || '')))
+  res.json(ok(await listAdminComments(req.query)))
 }))
 
 adminRouter.post('/comments/:id/:action', asyncHandler(async (req, res) => {
@@ -137,7 +137,7 @@ adminRouter.post('/comments/:id/:action', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/users', asyncHandler(async (req, res) => {
-  res.json(ok(await listUsers()))
+  res.json(ok(await listUsers(req.query)))
 }))
 
 adminRouter.patch('/users/:id/status', asyncHandler(async (req, res) => {
@@ -150,7 +150,7 @@ adminRouter.get('/stats', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/media', asyncHandler(async (req, res) => {
-  res.json(ok(await listMedia(req.query.kind || '')))
+  res.json(ok(await listMedia(req.query)))
 }))
 
 adminRouter.post('/media', upload.single('file'), asyncHandler(async (req, res) => {
@@ -171,17 +171,44 @@ adminRouter.delete('/media/:id', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/announcements', asyncHandler(async (req, res) => {
-  res.json(ok(await listAnnouncements(true)))
+  const result = await listAnnouncements(true, req.query)
+  res.json(ok(result))
 }))
 
 adminRouter.post('/announcements', asyncHandler(async (req, res) => {
-  const announcement = await createAnnouncement(req.body)
+  const announcement = await createAnnouncement(req.body, req.user?._id)
   res.status(201).json(ok(announcement, '公告已创建'))
 }))
 
 adminRouter.patch('/announcements/:id', asyncHandler(async (req, res) => {
   const announcement = await updateAnnouncement(req.params.id, req.body)
   res.json(ok(announcement, '公告已更新'))
+}))
+
+adminRouter.get('/announcements/detail/:id', asyncHandler(async (req, res) => {
+  res.json(ok(await getAnnouncementById(req.params.id)))
+}))
+
+adminRouter.post('/announcements/batch-toggle', asyncHandler(async (req, res) => {
+  const { ids, isActive } = req.body
+  if (!Array.isArray(ids) || ids.length === 0) {
+    const error = new Error('请选择要操作的公告')
+    error.statusCode = 400
+    throw error
+  }
+  const result = await batchToggleAnnouncement(ids, isActive)
+  res.json(ok(result, `已${isActive ? '上架' : '下架'} ${result.modifiedCount} 条公告`))
+}))
+
+adminRouter.post('/announcements/batch-delete', asyncHandler(async (req, res) => {
+  const { ids } = req.body
+  if (!Array.isArray(ids) || ids.length === 0) {
+    const error = new Error('请选择要删除的公告')
+    error.statusCode = 400
+    throw error
+  }
+  const result = await batchDeleteAnnouncements(ids)
+  res.json(ok(result, `已删除 ${result.deletedCount} 条公告`))
 }))
 
 adminRouter.delete('/announcements/:id', asyncHandler(async (req, res) => {

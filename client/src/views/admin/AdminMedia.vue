@@ -6,9 +6,6 @@
         <h2>媒体资产</h2>
         <p>统一上传和管理文章配图、附件和资料文件，当前存储到本地 uploads 目录。</p>
       </div>
-      <div class="enterprise-page-toolbar">
-        <a-button @click="loadMedia">刷新</a-button>
-      </div>
     </div>
 
     <a-row :gutter="[16, 16]">
@@ -31,11 +28,14 @@
       </a-col>
       <a-col :xs="24" :lg="16">
         <a-card class="enterprise-table-card" title="媒体资产列表" :bordered="false">
-          <a-table
-            row-key="id"
+          <BlogTable
+            ref="tableRef"
+            :api-fn="loadMedia"
             :columns="columns"
-            :data-source="media"
-            :pagination="{ pageSize: 10, showSizeChanger: false }"
+            :auto-load="true"
+            :page-size="10"
+            :page-sizes="['10', '20', '50']"
+            :bare="true"
           >
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'kind'">
@@ -53,7 +53,7 @@
                 </a-popconfirm>
               </template>
             </template>
-          </a-table>
+          </BlogTable>
         </a-card>
       </a-col>
     </a-row>
@@ -61,14 +61,16 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { InboxOutlined } from '@ant-design/icons-vue'
+import BlogTable from '@/components/BlogTable.vue'
 import { deleteAdminMedia, listAdminMedia, uploadAdminMedia } from '@/services/admin'
 
+const tableRef = ref(null)
 const file = ref(null)
-const media = ref([])
 const errorMessage = ref('')
+
 const columns = [
   { title: '文件名', dataIndex: 'originalName', key: 'originalName' },
   { title: '类型', key: 'kind', width: 110 },
@@ -82,8 +84,9 @@ function beforeUpload(nextFile) {
   return false
 }
 
-async function loadMedia() {
-  media.value = await listAdminMedia()
+// 作为 apiFn 传给 BlogTable（返回数组，前端分页）
+async function loadMedia(params) {
+  return await listAdminMedia(params)
 }
 
 async function uploadFile() {
@@ -92,7 +95,8 @@ async function uploadFile() {
   try {
     await uploadAdminMedia(file.value)
     file.value = null
-    await loadMedia()
+    message.success('上传成功')
+    tableRef.value?.refresh()
   } catch (error) {
     errorMessage.value = error.message || '上传失败'
   }
@@ -102,11 +106,39 @@ async function handleDelete(id) {
   try {
     await deleteAdminMedia(id)
     message.success('文件已删除')
-    await loadMedia()
+    tableRef.value?.refresh()
   } catch (error) {
     message.error(error.message || '删除失败')
   }
 }
-
-onMounted(loadMedia)
 </script>
+
+<style scoped>
+.enterprise-page-header {
+  margin-bottom: 16px;
+}
+
+.enterprise-page-kicker {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #8c8c8c;
+  margin-bottom: 4px;
+}
+
+.enterprise-page-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #1a1a1a;
+}
+
+.enterprise-page-header p {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+.upload-button {
+  margin-top: 16px;
+}
+</style>

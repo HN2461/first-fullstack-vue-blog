@@ -43,8 +43,13 @@ export function deleteAdminArticle(id) {
 }
 
 // 回收站相关
-export function listTrashArticles() {
-  return request('/api/admin/articles/trash/list')
+export function listTrashArticles(params = {}) {
+  const query = new URLSearchParams()
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/articles/trash/list${queryStr ? '?' + queryStr : ''}`)
 }
 
 export function restoreArticle(id) {
@@ -65,8 +70,13 @@ export function emptyTrash() {
   })
 }
 
-export function listAdminCategories() {
-  return request('/api/admin/categories')
+export function listAdminCategories(params = {}) {
+  const query = new URLSearchParams()
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/categories${queryStr ? '?' + queryStr : ''}`)
 }
 
 export function createAdminCategory(data) {
@@ -89,8 +99,13 @@ export function deleteAdminCategory(id) {
   })
 }
 
-export function listAdminTags() {
-  return request('/api/admin/tags')
+export function listAdminTags(params = {}) {
+  const query = new URLSearchParams()
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/tags${queryStr ? '?' + queryStr : ''}`)
 }
 
 export function createAdminTag(data) {
@@ -113,9 +128,14 @@ export function deleteAdminTag(id) {
   })
 }
 
-export function listAdminComments(status = '') {
-  const query = status ? `?status=${encodeURIComponent(status)}` : ''
-  return request(`/api/admin/comments${query}`)
+export function listAdminComments(params = {}) {
+  const query = new URLSearchParams()
+  if (params.status) query.set('status', params.status)
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/comments${queryStr ? '?' + queryStr : ''}`)
 }
 
 export function reviewAdminComment(id, action) {
@@ -124,8 +144,13 @@ export function reviewAdminComment(id, action) {
   })
 }
 
-export function listAdminUsers() {
-  return request('/api/admin/users')
+export function listAdminUsers(params = {}) {
+  const query = new URLSearchParams()
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/users${queryStr ? '?' + queryStr : ''}`)
 }
 
 export function updateAdminUserStatus(id, status) {
@@ -139,9 +164,14 @@ export function getAdminStats() {
   return request('/api/admin/stats')
 }
 
-export function listAdminMedia(kind = '') {
-  const query = kind ? `?kind=${encodeURIComponent(kind)}` : ''
-  return request(`/api/admin/media${query}`)
+export function listAdminMedia(params = {}) {
+  const query = new URLSearchParams()
+  if (params.kind) query.set('kind', params.kind)
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/media${queryStr ? '?' + queryStr : ''}`)
 }
 
 export function uploadAdminMedia(file) {
@@ -161,8 +191,19 @@ export function deleteAdminMedia(id) {
   })
 }
 
-export function listAdminAnnouncements() {
-  return request('/api/admin/announcements')
+export function listAdminAnnouncements(params = {}) {
+  const query = new URLSearchParams()
+  if (params.level) query.set('level', params.level)
+  if (params.isActive !== undefined && params.isActive !== '') query.set('isActive', params.isActive)
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/announcements${queryStr ? '?' + queryStr : ''}`)
+}
+
+export function getAdminAnnouncement(id) {
+  return request(`/api/admin/announcements/detail/${id}`)
 }
 
 export function createAdminAnnouncement(data) {
@@ -182,6 +223,20 @@ export function updateAdminAnnouncement(id, data) {
 export function deleteAdminAnnouncement(id) {
   return request(`/api/admin/announcements/${id}`, {
     method: 'DELETE'
+  })
+}
+
+export function batchToggleAnnouncement(ids, isActive) {
+  return request('/api/admin/announcements/batch-toggle', {
+    method: 'POST',
+    body: JSON.stringify({ ids, isActive })
+  })
+}
+
+export function batchDeleteAnnouncements(ids) {
+  return request('/api/admin/announcements/batch-delete', {
+    method: 'POST',
+    body: JSON.stringify({ ids })
   })
 }
 

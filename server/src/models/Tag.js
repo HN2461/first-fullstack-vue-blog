@@ -24,6 +24,15 @@ const tagSchema = new mongoose.Schema(
       type: String,
       default: '#2852b8'
     },
+    sortOrder: {
+      type: Number,
+      default: 0
+    },
+    status: {
+      type: String,
+      enum: ['active', 'hidden'],
+      default: 'active'
+    },
     articleCount: {
       type: Number,
       default: 0
@@ -41,6 +50,8 @@ tagSchema.methods.toSafeJSON = function toSafeJSON() {
     slug: this.slug,
     description: this.description,
     color: this.color,
+    sortOrder: this.sortOrder,
+    status: this.status,
     articleCount: this.articleCount,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt

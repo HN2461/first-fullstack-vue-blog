@@ -7,10 +7,6 @@
         <span class="header-desc">管理所有文章的发布、编辑和删除</span>
       </div>
       <div class="header-right">
-        <a-button @click="loadArticles">
-          <template #icon><ReloadOutlined /></template>
-          刷新
-        </a-button>
         <a-button type="primary" @click="$router.push('/console/manage/articles/new')">
           <template #icon><PlusOutlined /></template>
           新建文章
@@ -18,9 +14,18 @@
       </div>
     </div>
 
-    <!-- 筛选工具栏 -->
-    <div class="filter-bar">
-      <div class="filter-left">
+    <!-- 文章表格 -->
+    <BlogTable
+      ref="tableRef"
+      :api-fn="fetchArticles"
+      :columns="columns"
+      :params="filterParams"
+      :auto-load="true"
+      :page-size="10"
+      :page-sizes="['10', '20', '50']"
+      :show-column-setting="true"
+    >
+      <template #toolbar>
         <a-input-search
           v-model:value="searchKeyword"
           placeholder="搜索文章标题..."
@@ -34,7 +39,6 @@
           placeholder="状态筛选"
           style="width: 120px"
           allow-clear
-          @change="handleFilter"
         >
           <a-select-option value="all">全部状态</a-select-option>
           <a-select-option value="published">已发布</a-select-option>
@@ -46,123 +50,106 @@
           placeholder="分类筛选"
           style="width: 140px"
           allow-clear
-          @change="handleFilter"
         >
           <a-select-option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</a-select-option>
         </a-select>
-      </div>
-      <div class="filter-right">
-        <span class="total-text">共 {{ pagination.total }} 篇文章</span>
-      </div>
-    </div>
+      </template>
 
-    <!-- 文章表格 -->
-    <div class="table-wrapper">
-      <a-table
-        row-key="id"
-        :loading="loading"
-        :columns="columns"
-        :data-source="articles"
-        :pagination="pagination"
-        @change="handleTableChange"
-      >
-        <template #bodyCell="{ column, record }">
-          <!-- 标题列 -->
-          <template v-if="column.key === 'title'">
-            <div class="article-title-cell">
-              <span class="article-title" @click="$router.push(`/console/manage/articles/${record.id}`)">
-                {{ record.title }}
-              </span>
-              <span class="article-summary">{{ record.summary || '暂无摘要' }}</span>
-            </div>
-          </template>
-
-          <!-- 分类列 -->
-          <template v-else-if="column.key === 'category'">
-            <a-tag v-if="record.category?.name">{{ record.category.name }}</a-tag>
-            <span v-else class="text-muted">未分类</span>
-          </template>
-
-          <!-- 标签列 -->
-          <template v-else-if="column.key === 'tags'">
-            <template v-if="record.tags?.length">
-              <a-tag v-for="tag in record.tags.slice(0, 2)" :key="tag.id" :color="tag.color || 'blue'">
-                {{ tag.name }}
-              </a-tag>
-              <a-tooltip v-if="record.tags.length > 2">
-                <template #title>
-                  <span v-for="tag in record.tags" :key="tag.id">{{ tag.name }} </span>
-                </template>
-                <a-tag>+{{ record.tags.length - 2 }}</a-tag>
-              </a-tooltip>
-            </template>
-            <span v-else class="text-muted">无标签</span>
-          </template>
-
-          <!-- 状态列 -->
-          <template v-else-if="column.key === 'status'">
-            <a-badge :status="getStatusBadge(record.status)" :text="getStatusLabel(record.status)" />
-          </template>
-
-          <!-- 数据列 -->
-          <template v-else-if="column.key === 'stats'">
-            <div class="stats-cell">
-              <span title="阅读量"><EyeOutlined /> {{ record.viewCount || 0 }}</span>
-              <span title="点赞数"><LikeOutlined /> {{ record.likeCount || 0 }}</span>
-            </div>
-          </template>
-
-          <!-- 时间列：legacy 文章显示写作时间（publishedAt），其他显示更新时间（updatedAt） -->
-          <template v-else-if="column.key === 'updatedAt'">
-            <div class="time-cell">
-              <span>{{ formatArticleTime(record) }}</span>
-              <span class="time-ago" :title="record.source === 'legacy-notes' ? '写作时间' : '更新时间'">
-                {{ record.source === 'legacy-notes' ? '迁移文章' : formatTimeAgo(record.updatedAt) }}
-              </span>
-            </div>
-          </template>
-
-          <!-- 操作列 -->
-          <template v-else-if="column.key === 'action'">
-            <a-space>
-              <a-button type="link" size="small" @click="$router.push(`/console/manage/articles/${record.id}`)">
-                编辑
-              </a-button>
-              <a-dropdown>
-                <a-button type="link" size="small">
-                  更多 <DownOutlined />
-                </a-button>
-                <template #overlay>
-                  <a-menu @click="({ key }) => handleAction(key, record)">
-                    <a-menu-item key="publish" v-if="record.status === 'draft'">
-                      <CheckCircleOutlined /> 发布
-                    </a-menu-item>
-                    <a-menu-item key="archive" v-if="record.status === 'published'">
-                      <MinusCircleOutlined /> 下架
-                    </a-menu-item>
-                    <a-menu-item key="draft" v-if="record.status === 'archived'">
-                      <EditOutlined /> 转为草稿
-                    </a-menu-item>
-                    <a-menu-divider />
-                    <a-menu-item key="delete" danger>
-                      <DeleteOutlined /> 删除
-                    </a-menu-item>
-                  </a-menu>
-                </template>
-              </a-dropdown>
-            </a-space>
-          </template>
+      <template #bodyCell="{ column, record }">
+        <!-- 标题列 -->
+        <template v-if="column.key === 'title'">
+          <div class="article-title-cell">
+            <span class="article-title" @click="$router.push(`/console/manage/articles/${record.id}`)">
+              {{ record.title }}
+            </span>
+            <span class="article-summary">{{ record.summary || '暂无摘要' }}</span>
+          </div>
         </template>
-      </a-table>
-    </div>
+
+        <!-- 分类列 -->
+        <template v-else-if="column.key === 'category'">
+          <a-tag v-if="record.category?.name">{{ record.category.name }}</a-tag>
+          <span v-else class="text-muted">未分类</span>
+        </template>
+
+        <!-- 标签列 -->
+        <template v-else-if="column.key === 'tags'">
+          <template v-if="record.tags?.length">
+            <a-tag v-for="tag in record.tags.slice(0, 2)" :key="tag.id" :color="tag.color || 'blue'">
+              {{ tag.name }}
+            </a-tag>
+            <a-tooltip v-if="record.tags.length > 2">
+              <template #title>
+                <span v-for="tag in record.tags" :key="tag.id">{{ tag.name }} </span>
+              </template>
+              <a-tag>+{{ record.tags.length - 2 }}</a-tag>
+            </a-tooltip>
+          </template>
+          <span v-else class="text-muted">无标签</span>
+        </template>
+
+        <!-- 状态列 -->
+        <template v-else-if="column.key === 'status'">
+          <a-badge :status="getStatusBadge(record.status)" :text="getStatusLabel(record.status)" />
+        </template>
+
+        <!-- 数据列 -->
+        <template v-else-if="column.key === 'stats'">
+          <div class="stats-cell">
+            <span title="阅读量"><EyeOutlined /> {{ record.viewCount || 0 }}</span>
+            <span title="点赞数"><LikeOutlined /> {{ record.likeCount || 0 }}</span>
+          </div>
+        </template>
+
+        <!-- 时间列 -->
+        <template v-else-if="column.key === 'updatedAt'">
+          <div class="time-cell">
+            <span>{{ formatArticleTime(record) }}</span>
+            <span class="time-ago" :title="record.source === 'legacy-notes' ? '写作时间' : '更新时间'">
+              {{ record.source === 'legacy-notes' ? '迁移文章' : formatTimeAgo(record.updatedAt) }}
+            </span>
+          </div>
+        </template>
+
+        <!-- 操作列 -->
+        <template v-else-if="column.key === 'action'">
+          <a-space>
+            <a-button type="link" size="small" @click="$router.push(`/console/manage/articles/${record.id}`)">
+              编辑
+            </a-button>
+            <a-dropdown>
+              <a-button type="link" size="small">
+                更多 <DownOutlined />
+              </a-button>
+              <template #overlay>
+                <a-menu @click="({ key }) => handleAction(key, record)">
+                  <a-menu-item key="publish" v-if="record.status === 'draft'">
+                    <CheckCircleOutlined /> 发布
+                  </a-menu-item>
+                  <a-menu-item key="archive" v-if="record.status === 'published'">
+                    <MinusCircleOutlined /> 下架
+                  </a-menu-item>
+                  <a-menu-item key="draft" v-if="record.status === 'archived'">
+                    <EditOutlined /> 转为草稿
+                  </a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item key="delete" danger>
+                    <DeleteOutlined /> 删除
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </a-space>
+        </template>
+      </template>
+    </BlogTable>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import {
-  ReloadOutlined,
   PlusOutlined,
   EyeOutlined,
   LikeOutlined,
@@ -172,6 +159,7 @@ import {
   EditOutlined,
   DeleteOutlined
 } from '@ant-design/icons-vue'
+import BlogTable from '@/components/BlogTable.vue'
 import {
   listAdminArticles,
   deleteAdminArticle,
@@ -180,25 +168,19 @@ import {
   listAdminCategories
 } from '@/services/admin'
 
-// 状态
-const loading = ref(false)
-const articles = ref([])
+const tableRef = ref(null)
 const categories = ref([])
 const searchKeyword = ref('')
 const filterStatus = ref('all')
 const filterCategory = ref(undefined)
 
-// 分页
-const pagination = reactive({
-  current: 1,
-  pageSize: 10,
-  total: 0,
-  showSizeChanger: true,
-  showQuickJumper: true,
-  showTotal: (total) => `共 ${total} 条`
-})
+// 筛选参数：变化时 BlogTable 自动重新加载
+const filterParams = computed(() => ({
+  status: filterStatus.value === 'all' ? undefined : filterStatus.value,
+  category: filterCategory.value,
+  keyword: searchKeyword.value || undefined
+}))
 
-// 表格列定义
 const columns = [
   {
     title: '文章标题',
@@ -243,12 +225,12 @@ const columns = [
 // 状态相关
 function getStatusLabel(status) {
   const map = { published: '已发布', draft: '草稿', archived: '已下架' }
-  return map[status] || '草稿'  // 默认显示草稿
+  return map[status] || '草稿'
 }
 
 function getStatusBadge(status) {
   const map = { published: 'success', draft: 'warning', archived: 'default' }
-  return map[status] || 'warning'  // 默认显示警告色（草稿）
+  return map[status] || 'warning'
 }
 
 // 时间格式化
@@ -263,7 +245,6 @@ function formatDate(dateStr) {
   })
 }
 
-// 文章时间显示：legacy 文章优先显示 publishedAt（写作时间），其他显示 updatedAt
 function formatArticleTime(record) {
   if (record.source === 'legacy-notes' && record.publishedAt) {
     return formatDate(record.publishedAt)
@@ -284,25 +265,10 @@ function formatTimeAgo(dateStr) {
   return ''
 }
 
-// 加载数据
-async function loadArticles() {
-  loading.value = true
-  try {
-    const result = await listAdminArticles({
-      status: filterStatus.value === 'all' ? undefined : filterStatus.value,
-      category: filterCategory.value,
-      keyword: searchKeyword.value,
-      page: pagination.current,
-      pageSize: pagination.pageSize
-    })
-
-    articles.value = result.items || []
-    pagination.total = result.total || 0
-  } catch (error) {
-    message.error(error.message || '加载失败')
-  } finally {
-    loading.value = false
-  }
+// 数据加载（适配 BlogTable 的 apiFn 格式）
+async function fetchArticles(params) {
+  const result = await listAdminArticles(params)
+  return { items: result.items || [], total: result.total || 0 }
 }
 
 async function loadCategories() {
@@ -313,32 +279,16 @@ async function loadCategories() {
   }
 }
 
-// 搜索
-function handleSearch() {
-  pagination.current = 1
-  loadArticles()
-}
-
+// 搜索防抖
 let searchTimer = null
+function handleSearch() {
+  // 直接搜索时，filterParams 变化会触发 BlogTable 自动重载
+}
 function handleSearchChange() {
   clearTimeout(searchTimer)
   searchTimer = setTimeout(() => {
-    pagination.current = 1
-    loadArticles()
+    // 防抖：filterParams 通过 computed 自动更新，BlogTable watch 会处理
   }, 300)
-}
-
-// 筛选
-function handleFilter() {
-  pagination.current = 1
-  loadArticles()
-}
-
-// 表格变化（分页、排序）
-function handleTableChange(pag) {
-  pagination.current = pag.current
-  pagination.pageSize = pag.pageSize
-  loadArticles()
 }
 
 // 操作处理
@@ -363,7 +313,7 @@ async function handlePublish(id) {
   try {
     await publishAdminArticle(id)
     message.success('文章已发布')
-    loadArticles()
+    tableRef.value?.refresh()
   } catch (error) {
     message.error(error.message || '发布失败')
   }
@@ -373,7 +323,7 @@ async function handleArchive(id) {
   try {
     await updateAdminArticle(id, { status: 'archived' })
     message.success('文章已下架')
-    loadArticles()
+    tableRef.value?.refresh()
   } catch (error) {
     message.error(error.message || '操作失败')
   }
@@ -383,7 +333,7 @@ async function handleToDraft(id) {
   try {
     await updateAdminArticle(id, { status: 'draft' })
     message.success('已转为草稿')
-    loadArticles()
+    tableRef.value?.refresh()
   } catch (error) {
     message.error(error.message || '操作失败')
   }
@@ -400,7 +350,7 @@ function handleDelete(record) {
       try {
         await deleteAdminArticle(record.id)
         message.success('文章已删除')
-        loadArticles()
+        tableRef.value?.refresh()
       } catch (error) {
         message.error(error.message || '删除失败')
       }
@@ -411,7 +361,6 @@ function handleDelete(record) {
 // 初始化
 onMounted(() => {
   loadCategories()
-  loadArticles()
 })
 </script>
 
@@ -443,51 +392,6 @@ onMounted(() => {
 .header-right {
   display: flex;
   gap: 10px;
-}
-
-/* 筛选栏 */
-.filter-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #fff;
-  padding: 16px 20px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  border: 1px solid #f0f0f0;
-}
-
-.filter-left {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.total-text {
-  font-size: 13px;
-  color: #8c8c8c;
-}
-
-/* 表格 */
-.table-wrapper {
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #f0f0f0;
-}
-
-.table-wrapper :deep(.ant-table) {
-  border-radius: 8px;
-}
-
-.table-wrapper :deep(.ant-table-thead > tr > th) {
-  background: #fafafa;
-  font-weight: 600;
-  font-size: 13px;
-  color: #666;
-}
-
-.table-wrapper :deep(.ant-table-tbody > tr:hover > td) {
-  background: #f5f7fa;
 }
 
 /* 文章标题单元格 */
@@ -560,11 +464,6 @@ onMounted(() => {
     flex-direction: column;
     gap: 12px;
     align-items: flex-start;
-  }
-
-  .filter-left {
-    width: 100%;
-    flex-wrap: wrap;
   }
 }
 

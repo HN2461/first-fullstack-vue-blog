@@ -7,12 +7,8 @@
         <span class="header-desc">已删除的文章，可恢复或彻底删除</span>
       </div>
       <div class="header-right">
-        <a-button @click="loadTrash">
-          <template #icon><ReloadOutlined /></template>
-          刷新
-        </a-button>
         <a-button
-          v-if="articles.length > 0"
+          v-if="tableRef?.getData()?.length > 0"
           danger
           @click="confirmEmptyTrash"
         >
@@ -32,68 +28,66 @@
     />
 
     <!-- 文章表格 -->
-    <div class="table-wrapper">
-      <a-table
-        row-key="id"
-        :loading="loading"
-        :columns="columns"
-        :data-source="articles"
-        :pagination="{ pageSize: 10, showSizeChanger: false }"
-      >
-        <template #bodyCell="{ column, record }">
-          <!-- 标题列 -->
-          <template v-if="column.key === 'title'">
-            <div class="article-title-cell">
-              <span class="article-title">{{ record.title }}</span>
-              <span class="article-summary">{{ record.summary || '暂无摘要' }}</span>
-            </div>
-          </template>
-
-          <!-- 分类列 -->
-          <template v-else-if="column.key === 'category'">
-            <a-tag v-if="record.category?.name">{{ record.category.name }}</a-tag>
-            <span v-else class="text-muted">未分类</span>
-          </template>
-
-          <!-- 删除时间列 -->
-          <template v-else-if="column.key === 'deletedAt'">
-            <div class="time-cell">
-              <span>{{ formatDate(record.deletedAt) }}</span>
-              <span class="time-ago">{{ formatTimeAgo(record.deletedAt) }}</span>
-            </div>
-          </template>
-
-          <!-- 操作列 -->
-          <template v-else-if="column.key === 'action'">
-            <a-space>
-              <a-button type="link" size="small" @click="handleRestore(record)">
-                <template #icon><UndoOutlined /></template>
-                恢复
-              </a-button>
-              <a-button type="link" size="small" danger @click="confirmPermanentDelete(record)">
-                <template #icon><DeleteOutlined /></template>
-                彻底删除
-              </a-button>
-            </a-space>
-          </template>
+    <BlogTable
+      ref="tableRef"
+      :api-fn="loadTrash"
+      :columns="columns"
+      :auto-load="true"
+      :page-size="10"
+      :page-sizes="['10', '20', '50']"
+    >
+      <template #bodyCell="{ column, record }">
+        <!-- 标题列 -->
+        <template v-if="column.key === 'title'">
+          <div class="article-title-cell">
+            <span class="article-title">{{ record.title }}</span>
+            <span class="article-summary">{{ record.summary || '暂无摘要' }}</span>
+          </div>
         </template>
-      </a-table>
-    </div>
+
+        <!-- 分类列 -->
+        <template v-else-if="column.key === 'category'">
+          <a-tag v-if="record.category?.name">{{ record.category.name }}</a-tag>
+          <span v-else class="text-muted">未分类</span>
+        </template>
+
+        <!-- 删除时间列 -->
+        <template v-else-if="column.key === 'deletedAt'">
+          <div class="time-cell">
+            <span>{{ formatDate(record.deletedAt) }}</span>
+            <span class="time-ago">{{ formatTimeAgo(record.deletedAt) }}</span>
+          </div>
+        </template>
+
+        <!-- 操作列 -->
+        <template v-else-if="column.key === 'action'">
+          <a-space>
+            <a-button type="link" size="small" @click="handleRestore(record)">
+              <template #icon><UndoOutlined /></template>
+              恢复
+            </a-button>
+            <a-button type="link" size="small" danger @click="confirmPermanentDelete(record)">
+              <template #icon><DeleteOutlined /></template>
+              彻底删除
+            </a-button>
+          </a-space>
+        </template>
+      </template>
+    </BlogTable>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import {
-  ReloadOutlined,
   UndoOutlined,
   DeleteOutlined
 } from '@ant-design/icons-vue'
+import BlogTable from '@/components/BlogTable.vue'
 import { listTrashArticles, restoreArticle, permanentDeleteArticle, emptyTrash } from '@/services/admin'
 
-const loading = ref(false)
-const articles = ref([])
+const tableRef = ref(null)
 
 const columns = [
   {
@@ -154,16 +148,9 @@ function formatTimeAgo(dateStr) {
   return ''
 }
 
-// 加载回收站
-async function loadTrash() {
-  loading.value = true
-  try {
-    articles.value = await listTrashArticles()
-  } catch (error) {
-    message.error(error.message || '加载失败')
-  } finally {
-    loading.value = false
-  }
+// 加载回收站（作为 apiFn 传给 BlogTable）
+async function loadTrash(params) {
+  return await listTrashArticles(params)
 }
 
 // 恢复文章
@@ -171,13 +158,13 @@ async function handleRestore(record) {
   try {
     await restoreArticle(record.id)
     message.success(`文章「${record.title}」已恢复`)
-    loadTrash()
+    tableRef.value?.refresh()
   } catch (error) {
     message.error(error.message || '恢复失败')
   }
 }
 
-// 彻底删除（用 Modal.confirm 替代 a-popconfirm）
+// 彻底删除
 function confirmPermanentDelete(record) {
   Modal.confirm({
     title: '彻底删除',
@@ -189,7 +176,7 @@ function confirmPermanentDelete(record) {
       try {
         await permanentDeleteArticle(record.id)
         message.success('文章已彻底删除')
-        loadTrash()
+        tableRef.value?.refresh()
       } catch (error) {
         message.error(error.message || '删除失败')
       }
@@ -197,7 +184,7 @@ function confirmPermanentDelete(record) {
   })
 }
 
-// 清空回收站（用 Modal.confirm 替代 a-popconfirm）
+// 清空回收站
 function confirmEmptyTrash() {
   Modal.confirm({
     title: '清空回收站',
@@ -209,15 +196,13 @@ function confirmEmptyTrash() {
       try {
         const result = await emptyTrash()
         message.success(`已清空 ${result.deletedCount || 0} 条记录`)
-        loadTrash()
+        tableRef.value?.refresh()
       } catch (error) {
         message.error(error.message || '清空失败')
       }
     }
   })
 }
-
-onMounted(loadTrash)
 </script>
 
 <style scoped>
@@ -244,10 +229,9 @@ onMounted(loadTrash)
   color: #8c8c8c;
 }
 
-.table-wrapper {
-  background: #fff;
-  border-radius: 8px;
-  border: 1px solid #f0f0f0;
+.header-right {
+  display: flex;
+  gap: 10px;
 }
 
 .article-title-cell {

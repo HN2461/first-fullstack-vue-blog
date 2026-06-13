@@ -6,84 +6,75 @@
         <h2>评论审核</h2>
         <p>统一处理读者评论的展示、驳回和隐藏状态，保持知识库互动区清晰可控。</p>
       </div>
-      <div class="enterprise-page-toolbar">
-        <a-button @click="loadComments">刷新</a-button>
-      </div>
     </div>
 
-    <a-card class="enterprise-filter-card" :bordered="false">
-      <a-space :size="12">
-        <span class="filter-label">状态</span>
-        <a-select v-model:value="status" style="width: 160px" @change="loadComments">
-          <a-select-option value="">全部评论</a-select-option>
-          <a-select-option value="pending">待审核</a-select-option>
-          <a-select-option value="visible">已展示</a-select-option>
-          <a-select-option value="rejected">已驳回</a-select-option>
-          <a-select-option value="hidden">已隐藏</a-select-option>
-        </a-select>
-      </a-space>
-    </a-card>
-
-    <a-card class="enterprise-table-card" :bordered="false">
-      <template #title>
-        <div class="table-title">
-          <strong>审核队列</strong>
-          <span>共 {{ comments.length }} 条记录</span>
-        </div>
+    <BlogTable
+      ref="tableRef"
+      :api-fn="fetchComments"
+      :columns="columns"
+      :params="filterParams"
+      :auto-load="true"
+      :page-size="10"
+      :page-sizes="['10', '20', '50']"
+    >
+      <template #toolbar>
+        <a-space :size="12">
+          <span class="filter-label">状态</span>
+          <a-select v-model:value="status" style="width: 160px">
+            <a-select-option value="">全部评论</a-select-option>
+            <a-select-option value="pending">待审核</a-select-option>
+            <a-select-option value="visible">已展示</a-select-option>
+            <a-select-option value="rejected">已驳回</a-select-option>
+            <a-select-option value="hidden">已隐藏</a-select-option>
+          </a-select>
+        </a-space>
       </template>
 
-      <a-alert v-if="errorMessage" type="error" show-icon :message="errorMessage" />
-      <a-table
-        v-else
-        row-key="id"
-        :loading="loading"
-        :columns="columns"
-        :data-source="comments"
-        :pagination="{ pageSize: 10, showSizeChanger: false }"
-      >
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'content'">
-            <p class="comment-content">{{ record.content }}</p>
-            <div class="table-summary">文章：{{ record.article?.title || '未知文章' }}</div>
-          </template>
-          <template v-else-if="column.key === 'user'">
-            <a-typography-text strong>{{ record.user?.username || '未知用户' }}</a-typography-text>
-            <div class="table-summary">{{ record.user?.email || '无邮箱信息' }}</div>
-          </template>
-          <template v-else-if="column.key === 'status'">
-            <a-tag :color="getStatusColor(record.status)">{{ getStatusLabel(record.status) }}</a-tag>
-          </template>
-          <template v-else-if="column.key === 'risk'">
-            <a-space wrap>
-              <a-tag v-if="!record.riskReasons?.length">正常</a-tag>
-              <a-tag v-for="reason in record.riskReasons" v-else :key="reason" color="red">{{ reason }}</a-tag>
-            </a-space>
-          </template>
-          <template v-else-if="column.key === 'createdAt'">
-            {{ formatDate(record.createdAt) }}
-          </template>
-          <template v-else-if="column.key === 'action'">
-            <a-space>
-              <a-button size="small" type="primary" @click="review(record.id, 'approve')">通过</a-button>
-              <a-button size="small" @click="review(record.id, 'reject')">驳回</a-button>
-              <a-button size="small" danger @click="review(record.id, 'hide')">隐藏</a-button>
-            </a-space>
-          </template>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'content'">
+          <p class="comment-content">{{ record.content }}</p>
+          <div class="table-summary">文章：{{ record.article?.title || '未知文章' }}</div>
         </template>
-      </a-table>
-      <a-empty v-if="comments.length === 0 && !errorMessage && !loading" description="暂无评论" />
-    </a-card>
+        <template v-else-if="column.key === 'user'">
+          <a-typography-text strong>{{ record.user?.username || '未知用户' }}</a-typography-text>
+          <div class="table-summary">{{ record.user?.email || '无邮箱信息' }}</div>
+        </template>
+        <template v-else-if="column.key === 'status'">
+          <a-tag :color="getStatusColor(record.status)">{{ getStatusLabel(record.status) }}</a-tag>
+        </template>
+        <template v-else-if="column.key === 'risk'">
+          <a-space wrap>
+            <a-tag v-if="!record.riskReasons?.length">正常</a-tag>
+            <a-tag v-for="reason in record.riskReasons" v-else :key="reason" color="red">{{ reason }}</a-tag>
+          </a-space>
+        </template>
+        <template v-else-if="column.key === 'createdAt'">
+          {{ formatDate(record.createdAt) }}
+        </template>
+        <template v-else-if="column.key === 'action'">
+          <a-space>
+            <a-button size="small" type="primary" @click="review(record.id, 'approve')">通过</a-button>
+            <a-button size="small" @click="review(record.id, 'reject')">驳回</a-button>
+            <a-button size="small" danger @click="review(record.id, 'hide')">隐藏</a-button>
+          </a-space>
+        </template>
+      </template>
+    </BlogTable>
   </section>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref, computed } from 'vue'
+import { message } from 'ant-design-vue'
+import BlogTable from '@/components/BlogTable.vue'
 import { listAdminComments, reviewAdminComment } from '@/services/admin'
 
+const tableRef = ref(null)
 const status = ref('pending')
-const comments = ref([])
-const loading = ref(false)
-const errorMessage = ref('')
+
+// 筛选参数：status 变化时 BlogTable 自动重新加载
+const filterParams = computed(() => ({ status: status.value }))
+
 const columns = [
   { title: '评论内容', key: 'content', dataIndex: 'content' },
   { title: '用户', key: 'user', width: 190 },
@@ -112,23 +103,61 @@ function formatDate(value) {
   return value ? new Date(value).toLocaleString() : '-'
 }
 
-async function loadComments() {
-  loading.value = true
-  errorMessage.value = ''
-
-  try {
-    comments.value = await listAdminComments(status.value)
-  } catch (error) {
-    errorMessage.value = error.message || '评论加载失败'
-  } finally {
-    loading.value = false
-  }
+// 适配 BlogTable 的 apiFn 格式
+async function fetchComments(params) {
+  return await listAdminComments(params)
 }
 
 async function review(id, action) {
-  await reviewAdminComment(id, action)
-  await loadComments()
+  try {
+    await reviewAdminComment(id, action)
+    message.success('操作成功')
+    tableRef.value?.refresh()
+  } catch (error) {
+    message.error(error.message || '操作失败')
+  }
+}
+</script>
+
+<style scoped>
+.enterprise-page-header {
+  margin-bottom: 16px;
 }
 
-onMounted(loadComments)
-</script>
+.enterprise-page-kicker {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #8c8c8c;
+  margin-bottom: 4px;
+}
+
+.enterprise-page-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #1a1a1a;
+}
+
+.enterprise-page-header p {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+.filter-label {
+  font-size: 13px;
+  color: #666;
+}
+
+.comment-content {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.table-summary {
+  font-size: 12px;
+  color: #8c8c8c;
+  margin-top: 2px;
+}
+</style>

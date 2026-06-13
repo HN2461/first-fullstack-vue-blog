@@ -21,10 +21,27 @@ export async function createMediaFromFile(file, user) {
   return media.toSafeJSON()
 }
 
-export async function listMedia(kind = '') {
+export async function listMedia(options = {}) {
+  const { kind } = options
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const query = kind ? { kind } : {}
-  const media = await Media.find(query).sort({ createdAt: -1 })
-  return media.map((item) => item.toSafeJSON())
+  const skip = (page - 1) * pageSize
+
+  const [media, total] = await Promise.all([
+    Media.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(pageSize),
+    Media.countDocuments(query)
+  ])
+
+  return {
+    items: media.map((item) => item.toSafeJSON()),
+    total,
+    page,
+    pageSize
+  }
 }
 
 export function getUploadSubdir() {
