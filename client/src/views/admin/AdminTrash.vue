@@ -11,19 +11,14 @@
           <template #icon><ReloadOutlined /></template>
           刷新
         </a-button>
-        <a-popconfirm
+        <a-button
           v-if="articles.length > 0"
-          title="确定要清空回收站吗？所有文章将被永久删除，此操作不可恢复！"
-          ok-text="确认清空"
-          cancel-text="取消"
-          ok-type="danger"
-          @confirm="handleEmptyTrash"
+          danger
+          @click="confirmEmptyTrash"
         >
-          <a-button danger>
-            <template #icon><DeleteOutlined /></template>
-            清空回收站
-          </a-button>
-        </a-popconfirm>
+          <template #icon><DeleteOutlined /></template>
+          清空回收站
+        </a-button>
       </div>
     </div>
 
@@ -75,18 +70,10 @@
                 <template #icon><UndoOutlined /></template>
                 恢复
               </a-button>
-              <a-popconfirm
-                title="确定要彻底删除此文章吗？此操作不可恢复！"
-                ok-text="彻底删除"
-                cancel-text="取消"
-                ok-type="danger"
-                @confirm="handlePermanentDelete(record.id)"
-              >
-                <a-button type="link" size="small" danger>
-                  <template #icon><DeleteOutlined /></template>
-                  彻底删除
-                </a-button>
-              </a-popconfirm>
+              <a-button type="link" size="small" danger @click="confirmPermanentDelete(record)">
+                <template #icon><DeleteOutlined /></template>
+                彻底删除
+              </a-button>
             </a-space>
           </template>
         </template>
@@ -97,7 +84,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import {
   ReloadOutlined,
   UndoOutlined,
@@ -190,26 +177,44 @@ async function handleRestore(record) {
   }
 }
 
-// 彻底删除
-async function handlePermanentDelete(id) {
-  try {
-    await permanentDeleteArticle(id)
-    message.success('文章已彻底删除')
-    loadTrash()
-  } catch (error) {
-    message.error(error.message || '删除失败')
-  }
+// 彻底删除（用 Modal.confirm 替代 a-popconfirm）
+function confirmPermanentDelete(record) {
+  Modal.confirm({
+    title: '彻底删除',
+    content: `确定要彻底删除文章「${record.title}」吗？此操作不可恢复！`,
+    okText: '彻底删除',
+    okType: 'danger',
+    cancelText: '取消',
+    async onOk() {
+      try {
+        await permanentDeleteArticle(record.id)
+        message.success('文章已彻底删除')
+        loadTrash()
+      } catch (error) {
+        message.error(error.message || '删除失败')
+      }
+    }
+  })
 }
 
-// 清空回收站
-async function handleEmptyTrash() {
-  try {
-    const result = await emptyTrash()
-    message.success(`已清空 ${result.deletedCount || 0} 条记录`)
-    loadTrash()
-  } catch (error) {
-    message.error(error.message || '清空失败')
-  }
+// 清空回收站（用 Modal.confirm 替代 a-popconfirm）
+function confirmEmptyTrash() {
+  Modal.confirm({
+    title: '清空回收站',
+    content: '确定要清空回收站吗？所有文章将被永久删除，此操作不可恢复！',
+    okText: '确认清空',
+    okType: 'danger',
+    cancelText: '取消',
+    async onOk() {
+      try {
+        const result = await emptyTrash()
+        message.success(`已清空 ${result.deletedCount || 0} 条记录`)
+        loadTrash()
+      } catch (error) {
+        message.error(error.message || '清空失败')
+      }
+    }
+  })
 }
 
 onMounted(loadTrash)
@@ -243,7 +248,6 @@ onMounted(loadTrash)
   background: #fff;
   border-radius: 8px;
   border: 1px solid #f0f0f0;
-  overflow: hidden;
 }
 
 .article-title-cell {
