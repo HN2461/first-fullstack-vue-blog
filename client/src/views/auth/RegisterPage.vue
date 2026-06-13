@@ -117,6 +117,13 @@
           <span>{{ lang === 'zh' ? '已有账号？' : 'Already have an account?' }}</span>
           <router-link to="/login">{{ lang === 'zh' ? '立即登录' : 'Sign In' }}</router-link>
         </div>
+
+        <div class="back-home">
+          <router-link to="/">
+            <HomeOutlined />
+            <span>{{ lang === 'zh' ? '返回首页' : 'Back to Home' }}</span>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -127,7 +134,7 @@ import { reactive, ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
-  UserOutlined, MailOutlined, LockOutlined,
+  UserOutlined, MailOutlined, LockOutlined, HomeOutlined,
   ReadOutlined, CommentOutlined, StarOutlined, SafetyOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
@@ -750,6 +757,27 @@ async function handleSubmit() {
   color: #1677ff;
   font-weight: 600;
   margin-left: 4px;
+}
+
+/* 返回首页 */
+.back-home {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.back-home a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.back-home a:hover {
+  color: #1677ff;
 }
 
 @media (max-width: 768px) {

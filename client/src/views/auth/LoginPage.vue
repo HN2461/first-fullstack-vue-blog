@@ -133,6 +133,13 @@
           <span>{{ lang === 'zh' ? '还没有账号？' : "Don't have an account?" }}</span>
           <router-link to="/register">{{ lang === 'zh' ? '立即注册' : 'Sign Up' }}</router-link>
         </div>
+
+        <div class="back-home">
+          <router-link to="/">
+            <HomeOutlined />
+            <span>{{ lang === 'zh' ? '返回首页' : 'Back to Home' }}</span>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -143,7 +150,7 @@ import { reactive, ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
-  MailOutlined, LockOutlined, QqOutlined, WechatOutlined, GithubOutlined,
+  MailOutlined, LockOutlined, QqOutlined, WechatOutlined, GithubOutlined, HomeOutlined,
   FileTextOutlined, AuditOutlined, PictureOutlined, SettingOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
@@ -897,6 +904,27 @@ onMounted(() => {
   color: #1677ff;
   font-weight: 600;
   margin-left: 4px;
+}
+
+/* 返回首页 */
+.back-home {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.back-home a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  transition: color 0.3s;
+}
+
+.back-home a:hover {
+  color: #1677ff;
 }
 
 @media (max-width: 768px) {

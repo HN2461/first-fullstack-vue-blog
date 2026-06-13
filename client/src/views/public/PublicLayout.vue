@@ -10,8 +10,6 @@
       </router-link>
 
       <nav class="public-nav">
-        <router-link to="/articles">文章</router-link>
-        <router-link to="/search">检索</router-link>
         <router-link v-if="authStore.isLoggedIn" class="public-console-link" to="/console">进入知识库</router-link>
         <router-link v-else class="public-console-link" to="/login">登录 / 注册</router-link>
       </nav>
