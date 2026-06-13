@@ -26,6 +26,9 @@
             <a-radio-button value="dark">暗色</a-radio-button>
           </a-radio-group>
         </a-form-item>
+        <a-form-item label="系统版本">
+          <a-input v-model:value.trim="form.systemVersion" placeholder="例如 v1.0.0" />
+        </a-form-item>
         <a-button type="primary" html-type="submit">保存设置</a-button>
       </a-form>
     </a-card>
@@ -41,7 +44,8 @@ const form = reactive({
   siteTitle: '',
   siteDescription: '',
   authorName: '',
-  defaultTheme: 'light'
+  defaultTheme: 'light',
+  systemVersion: ''
 })
 
 onMounted(async () => {

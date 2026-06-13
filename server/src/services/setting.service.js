@@ -5,7 +5,8 @@ const DEFAULT_SETTINGS = {
   siteDescription: '一个由 Vue、Express 和 MongoDB 驱动的个人技术博客。',
   authorName: 'Haonan',
   commentEnabled: true,
-  defaultTheme: 'light'
+  defaultTheme: 'light',
+  systemVersion: 'v1.0.0'
 }
 
 export async function getSettings() {
