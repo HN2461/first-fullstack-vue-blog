@@ -12,7 +12,8 @@
     "migrate:draft": "node src/scripts/migrateArticles.js --draft",
     "migrate:dry-run": "node src/scripts/migrateArticles.js --dry-run",
     "migrate:audit": "node src/scripts/migrateArticles.js --audit",
-    "migrate:repair": "node src/scripts/migrateArticles.js --repair-existing"
+    "migrate:repair": "node src/scripts/migrateArticles.js --repair-existing",
+    "fix:timestamps": "node src/scripts/fixArticleTimestamps.js"
   },
   "dependencies": {
     "@blog/shared": "file:../shared",

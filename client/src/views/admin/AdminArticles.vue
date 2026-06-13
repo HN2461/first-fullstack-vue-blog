@@ -112,11 +112,13 @@
             </div>
           </template>
 
-          <!-- 时间列 -->
+          <!-- 时间列：legacy 文章显示写作时间（publishedAt），其他显示更新时间（updatedAt） -->
           <template v-else-if="column.key === 'updatedAt'">
             <div class="time-cell">
-              <span>{{ formatDate(record.updatedAt) }}</span>
-              <span class="time-ago">{{ formatTimeAgo(record.updatedAt) }}</span>
+              <span>{{ formatArticleTime(record) }}</span>
+              <span class="time-ago" :title="record.source === 'legacy-notes' ? '写作时间' : '更新时间'">
+                {{ record.source === 'legacy-notes' ? '迁移文章' : formatTimeAgo(record.updatedAt) }}
+              </span>
             </div>
           </template>
 
@@ -226,7 +228,7 @@ const columns = [
     width: 120
   },
   {
-    title: '更新时间',
+    title: '时间',
     key: 'updatedAt',
     width: 150
   },
@@ -259,6 +261,14 @@ function formatDate(dateStr) {
     hour: '2-digit',
     minute: '2-digit'
   })
+}
+
+// 文章时间显示：legacy 文章优先显示 publishedAt（写作时间），其他显示 updatedAt
+function formatArticleTime(record) {
+  if (record.source === 'legacy-notes' && record.publishedAt) {
+    return formatDate(record.publishedAt)
+  }
+  return formatDate(record.updatedAt)
 }
 
 function formatTimeAgo(dateStr) {

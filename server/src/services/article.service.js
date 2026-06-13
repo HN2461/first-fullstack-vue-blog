@@ -137,12 +137,14 @@ export async function listArticles(options = {}) {
   const skip = (page - 1) * pageSize
 
   // 并行查询总数和列表
+  // 排序：优先按 publishedAt（写作/发布时间）倒序，让迁移来的文章按原始写作顺序排列
+  // updatedAt 作为兜底排序，保证同一天发布的文章也有确定顺序
   const [total, articles] = await Promise.all([
     Article.countDocuments(query),
     Article.find(query)
       .populate('category')
       .populate('tags')
-      .sort({ updatedAt: -1 })
+      .sort({ publishedAt: -1, createdAt: -1, updatedAt: -1 })
       .skip(skip)
       .limit(pageSize)
   ])
