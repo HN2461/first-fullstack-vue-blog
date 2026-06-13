@@ -1,52 +1,50 @@
 <template>
-  <div class="login-page">
-    <!-- 左侧 70% 品牌展示 -->
-    <div class="login-left">
-      <!-- 动态背景 -->
+  <div class="login-page" :class="pageClasses">
+    <!-- 设置按钮 -->
+    <AuthSettings
+      v-model:theme="theme"
+      v-model:lang="lang"
+      v-model:layout="layout"
+    />
+
+    <!-- 左侧品牌展示 - 居中模式隐藏 -->
+    <div v-if="layout !== 'center'" class="login-left">
       <div class="left-bg">
-        <!-- 光晕效果 -->
         <div class="bg-glow glow-1"></div>
         <div class="bg-glow glow-2"></div>
         <div class="bg-glow glow-3"></div>
-        <!-- 旋转圆圈 -->
         <div class="bg-circle c1"></div>
         <div class="bg-circle c2"></div>
         <div class="bg-circle c3"></div>
         <div class="bg-circle c4"></div>
-        <!-- 浮动粒子 -->
         <div class="bg-dot" v-for="i in 12" :key="i" :class="'d' + i"></div>
-        <!-- 流动线条 -->
         <div class="bg-line line-1"></div>
         <div class="bg-line line-2"></div>
         <div class="bg-line line-3"></div>
       </div>
 
-      <!-- Logo - 紧贴左上角 -->
       <div class="brand-logo">
         <div class="logo-icon">K</div>
         <div class="logo-text">
-          <h3>知识库</h3>
+          <h3>{{ lang === 'zh' ? '知识库' : 'Knowledge' }}</h3>
           <p>Knowledge OS</p>
         </div>
       </div>
 
-      <!-- 主内容 -->
       <div class="left-content">
-        <!-- 标题区域 -->
         <div class="hero-text">
           <h1>
-            <span class="line">面向长期维护的</span>
-            <span class="line highlight">个人技术知识库</span>
-            <span class="line">后台管理系统</span>
+            <span class="line">{{ lang === 'zh' ? '面向长期维护的' : 'Long-term' }}</span>
+            <span class="line highlight">{{ lang === 'zh' ? '个人技术知识库' : 'Personal Tech' }}</span>
+            <span class="line">{{ lang === 'zh' ? '后台管理系统' : 'Knowledge Base' }}</span>
           </h1>
           <p class="hero-desc">
-            统一管理文章、媒体、评论与站点配置，高效构建个人知识体系。
+            {{ lang === 'zh' ? '统一管理文章、媒体、评论与站点配置，高效构建个人知识体系。' : 'Manage articles, media, comments and site settings efficiently.' }}
           </p>
         </div>
 
-        <!-- 功能卡片 -->
         <div class="features">
-          <div class="feature-item" v-for="(item, i) in features" :key="i">
+          <div class="feature-item" v-for="(item, i) in featureItems" :key="i">
             <div class="feature-icon">
               <component :is="item.icon" />
             </div>
@@ -57,136 +55,83 @@
           </div>
         </div>
 
-        <!-- 统计数据 -->
         <div class="stats">
           <div class="stat-item">
             <span class="stat-num">1000+</span>
-            <span class="stat-label">文章</span>
+            <span class="stat-label">{{ lang === 'zh' ? '文章' : 'Articles' }}</span>
           </div>
           <div class="stat-item">
             <span class="stat-num">50+</span>
-            <span class="stat-label">分类</span>
+            <span class="stat-label">{{ lang === 'zh' ? '分类' : 'Categories' }}</span>
           </div>
           <div class="stat-item">
             <span class="stat-num">99%</span>
-            <span class="stat-label">可用性</span>
+            <span class="stat-label">{{ lang === 'zh' ? '可用性' : 'Uptime' }}</span>
           </div>
         </div>
       </div>
 
-      <!-- 底部版权 -->
       <div class="left-footer">
-        <p>© 2024 Knowledge OS</p>
+        <p>© 2026 Knowledge OS</p>
       </div>
     </div>
 
-    <!-- 右侧 30% 登录区域 -->
-    <div class="login-right">
+    <!-- 右侧登录区域 -->
+    <div class="login-right" :class="{ 'full-width': layout === 'center' }">
       <div class="login-form-wrapper">
-        <!-- 头部 -->
         <div class="form-header">
-          <h2>欢迎回来</h2>
-          <p>登录您的账户以继续</p>
+          <h2>{{ lang === 'zh' ? '欢迎回来' : 'Welcome Back' }}</h2>
+          <p>{{ lang === 'zh' ? '登录您的账户以继续' : 'Sign in to your account' }}</p>
         </div>
 
-        <!-- 登录表单 -->
-        <a-form
-          :model="form"
-          @finish="handleSubmit"
-          layout="vertical"
-          class="login-form"
-        >
-          <a-form-item
-            name="email"
-            :rules="[
-              { required: true, message: '请输入邮箱地址' },
-              { type: 'email', message: '请输入有效的邮箱格式' }
-            ]"
-          >
-            <a-input
-              v-model:value.trim="form.email"
-              placeholder="请输入邮箱地址"
-              size="large"
-              allow-clear
-            >
+        <a-form :model="form" @finish="handleSubmit" layout="vertical" class="login-form">
+          <a-form-item name="email" :rules="emailRules">
+            <a-input v-model:value.trim="form.email" :placeholder="lang === 'zh' ? '请输入邮箱地址' : 'Email address'" size="large" allow-clear>
               <template #prefix><MailOutlined /></template>
             </a-input>
           </a-form-item>
 
-          <a-form-item
-            name="password"
-            :rules="[
-              { required: true, message: '请输入密码' },
-              { min: 6, message: '密码至少6个字符' }
-            ]"
-          >
-            <a-input-password
-              v-model:value="form.password"
-              placeholder="请输入密码"
-              size="large"
-              @keyup.enter="handleSubmit"
-            >
+          <a-form-item name="password" :rules="passwordRules">
+            <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码' : 'Password'" size="large" @keyup.enter="handleSubmit">
               <template #prefix><LockOutlined /></template>
             </a-input-password>
           </a-form-item>
 
-          <!-- 滑块验证 -->
           <a-form-item class="captcha-item">
-            <SlideCaptcha
-              ref="slideCaptchaRef"
-              @success="onCaptchaSuccess"
-            />
+            <SlideCaptcha ref="slideCaptchaRef" @success="onCaptchaSuccess" />
           </a-form-item>
 
-          <!-- 选项行 - 修复复选框 -->
           <div class="form-options">
             <label class="remember-label" @click="form.remember = !form.remember">
               <span class="checkbox" :class="{ checked: form.remember }">
                 <span v-if="form.remember" class="check-icon">✓</span>
               </span>
-              <span>记住账号</span>
+              <span>{{ lang === 'zh' ? '记住账号' : 'Remember me' }}</span>
             </label>
             <router-link to="/forgot-password" class="forgot-link">
-              忘记密码？
+              {{ lang === 'zh' ? '忘记密码？' : 'Forgot password?' }}
             </router-link>
           </div>
 
-          <!-- 登录按钮 -->
-          <a-button
-            type="primary"
-            html-type="submit"
-            size="large"
-            block
-            :loading="submitting"
-            :disabled="!captchaVerified"
-            class="login-btn"
-          >
-            登录
+          <a-button type="primary" html-type="submit" size="large" block :loading="submitting" :disabled="!captchaVerified" class="login-btn">
+            {{ lang === 'zh' ? '登录' : 'Sign In' }}
           </a-button>
         </a-form>
 
-        <!-- 其他登录方式 -->
         <div class="other-login">
           <div class="divider">
-            <span>其他登录方式</span>
+            <span>{{ lang === 'zh' ? '其他登录方式' : 'Other ways' }}</span>
           </div>
           <div class="social-btns">
-            <div class="social-btn" title="QQ登录" style="color: #12B7F5">
-              <QqOutlined />
-            </div>
-            <div class="social-btn" title="微信登录" style="color: #07C160">
-              <WechatOutlined />
-            </div>
-            <div class="social-btn" title="GitHub登录" style="color: #333">
-              <GithubOutlined />
-            </div>
+            <div class="social-btn" title="QQ" style="color: #12B7F5"><QqOutlined /></div>
+            <div class="social-btn" title="微信/WeChat" style="color: #07C160"><WechatOutlined /></div>
+            <div class="social-btn github-btn" title="GitHub"><GithubOutlined /></div>
           </div>
         </div>
 
-        <!-- 注册入口 -->
         <div class="form-footer">
-          <span>还没有账号？</span>
-          <router-link to="/register">立即注册</router-link>
+          <span>{{ lang === 'zh' ? '还没有账号？' : "Don't have an account?" }}</span>
+          <router-link to="/register">{{ lang === 'zh' ? '立即注册' : 'Sign Up' }}</router-link>
         </div>
       </div>
     </div>
@@ -194,44 +139,57 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted } from 'vue'
+import { reactive, ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
-  MailOutlined,
-  LockOutlined,
-  QqOutlined,
-  WechatOutlined,
-  GithubOutlined,
-  FileTextOutlined,
-  AuditOutlined,
-  PictureOutlined,
-  SettingOutlined
+  MailOutlined, LockOutlined, QqOutlined, WechatOutlined, GithubOutlined,
+  FileTextOutlined, AuditOutlined, PictureOutlined, SettingOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import SlideCaptcha from '@/components/SlideCaptcha.vue'
+import AuthSettings from '@/components/AuthSettings.vue'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 
-const form = reactive({
-  email: '',
-  password: '',
-  remember: false
-})
+// 设置状态
+const theme = ref(localStorage.getItem('auth-theme') || 'dark')
+const lang = ref(localStorage.getItem('auth-lang') || 'zh')
+const layout = ref(localStorage.getItem('auth-layout') || 'right')
 
+watch(theme, (v) => localStorage.setItem('auth-theme', v))
+watch(lang, (v) => localStorage.setItem('auth-lang', v))
+watch(layout, (v) => localStorage.setItem('auth-layout', v))
+
+// 计算页面类名
+const pageClasses = computed(() => [
+  `theme-${theme.value}`,
+  `layout-${layout.value}`
+])
+
+const form = reactive({ email: '', password: '', remember: false })
 const submitting = ref(false)
 const captchaVerified = ref(false)
 const slideCaptchaRef = ref(null)
 
-// 精简后的功能卡片
-const features = [
-  { icon: FileTextOutlined, title: '内容发布', desc: '文章管理与发布' },
-  { icon: AuditOutlined, title: '评论审核', desc: '互动内容管理' },
-  { icon: PictureOutlined, title: '媒体资产', desc: '图片文件管理' },
-  { icon: SettingOutlined, title: '站点运营', desc: '配置数据分析' }
-]
+const emailRules = computed(() => [
+  { required: true, message: lang.value === 'zh' ? '请输入邮箱地址' : 'Email is required' },
+  { type: 'email', message: lang.value === 'zh' ? '请输入有效的邮箱格式' : 'Invalid email format' }
+])
+
+const passwordRules = computed(() => [
+  { required: true, message: lang.value === 'zh' ? '请输入密码' : 'Password is required' },
+  { min: 6, message: lang.value === 'zh' ? '密码至少6个字符' : 'At least 6 characters' }
+])
+
+const featureItems = computed(() => [
+  { icon: FileTextOutlined, title: lang.value === 'zh' ? '内容发布' : 'Content', desc: lang.value === 'zh' ? '文章管理与发布' : 'Article management' },
+  { icon: AuditOutlined, title: lang.value === 'zh' ? '评论审核' : 'Comments', desc: lang.value === 'zh' ? '互动内容管理' : 'Interaction management' },
+  { icon: PictureOutlined, title: lang.value === 'zh' ? '媒体资产' : 'Media', desc: lang.value === 'zh' ? '图片文件管理' : 'File management' },
+  { icon: SettingOutlined, title: lang.value === 'zh' ? '站点运营' : 'Settings', desc: lang.value === 'zh' ? '配置数据分析' : 'Configuration' }
+])
 
 function onCaptchaSuccess() {
   captchaVerified.value = true
@@ -239,28 +197,22 @@ function onCaptchaSuccess() {
 
 async function handleSubmit() {
   if (!captchaVerified.value) {
-    message.warning('请先完成滑块验证')
+    message.warning(lang.value === 'zh' ? '请先完成滑块验证' : 'Please complete the captcha')
     return
   }
 
   submitting.value = true
-
   try {
-    await authStore.login({
-      email: form.email,
-      password: form.password
-    })
-
+    await authStore.login({ email: form.email, password: form.password })
     if (form.remember) {
       localStorage.setItem('blog-remembered-email', form.email)
     } else {
       localStorage.removeItem('blog-remembered-email')
     }
-
-    message.success('登录成功，正在跳转...')
+    message.success(lang.value === 'zh' ? '登录成功，正在跳转...' : 'Login successful!')
     await router.push(route.query.redirect || '/console')
   } catch (error) {
-    message.error(error.message || '登录失败，请检查邮箱和密码')
+    message.error(error.message || (lang.value === 'zh' ? '登录失败' : 'Login failed'))
     slideCaptchaRef.value?.reset()
     captchaVerified.value = false
   } finally {
@@ -278,35 +230,94 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* 全局布局 */
 .login-page {
   display: flex;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  transition: all 0.3s;
+  background-color: var(--right-bg);
 }
 
-/* ========== 左侧 70% ========== */
-.login-left {
+/* ========== 主题变量 ========== */
+.login-page.theme-dark {
+  --left-bg: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1c2333 100%);
+  --right-bg: #0d1117;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --input-bg: #161b22;
+  --input-border: #30363d;
+  --input-text: #e6edf3;
+  --input-placeholder: #484f58;
+}
+
+.login-page.theme-light {
+  --left-bg: linear-gradient(135deg, #f0f2f5 0%, #e8ecf0 100%);
+  --right-bg: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --input-bg: #f8f9fa;
+  --input-border: #d0d0d0;
+  --input-text: #1a1a1a;
+  --input-placeholder: #b0b0b0;
+}
+
+/* ========== 布局模式 ========== */
+.login-page.layout-right {
+  flex-direction: row;
+}
+
+.login-page.layout-right .login-left {
   width: 70%;
+}
+
+.login-page.layout-right .login-right {
+  width: 30%;
+}
+
+.login-page.layout-left {
+  flex-direction: row-reverse;
+}
+
+.login-page.layout-left .login-left {
+  width: 70%;
+}
+
+.login-page.layout-left .login-right {
+  width: 30%;
+}
+
+.login-page.layout-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.login-page.layout-center .login-right {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ========== 左侧卡片 ========== */
+.login-left {
   height: 100%;
-  background: linear-gradient(135deg, #0a1628 0%, #132743 50%, #1a3a5c 100%);
+  background: var(--left-bg);
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 80px 80px 60px;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s;
 }
 
-/* 动态背景 */
 .left-bg {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-/* 光晕效果 */
 .bg-glow {
   position: absolute;
   border-radius: 50%;
@@ -346,7 +357,6 @@ onMounted(() => {
   50% { transform: scale(1.3); opacity: 0.8; }
 }
 
-/* 旋转圆圈 */
 .bg-circle {
   position: absolute;
   border-radius: 50%;
@@ -398,7 +408,6 @@ onMounted(() => {
   to { transform: rotate(360deg); }
 }
 
-/* 浮动粒子 */
 .bg-dot {
   position: absolute;
   width: 8px;
@@ -439,7 +448,6 @@ onMounted(() => {
   50% { transform: translate(35px, -55px) scale(1.7); opacity: 1; }
 }
 
-/* 流动线条 */
 .bg-line {
   position: absolute;
   height: 3px;
@@ -479,7 +487,6 @@ onMounted(() => {
   100% { transform: translateX(250%) rotate(-15deg); opacity: 0; }
 }
 
-/* Logo - 紧贴左上角 */
 .brand-logo {
   position: absolute;
   top: 30px;
@@ -517,14 +524,12 @@ onMounted(() => {
   margin: 2px 0 0;
 }
 
-/* 左侧内容 */
 .left-content {
   position: relative;
   z-index: 2;
   max-width: 640px;
 }
 
-/* 标题区域 */
 .hero-text {
   margin-bottom: 48px;
 }
@@ -564,7 +569,6 @@ onMounted(() => {
   margin: 0;
 }
 
-/* 功能卡片 - 优化样式和动画 */
 .features {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -580,19 +584,7 @@ onMounted(() => {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
-  cursor: default;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: fade-in 0.5s ease-out both;
-}
-
-.feature-item:nth-child(1) { animation-delay: 0.1s; }
-.feature-item:nth-child(2) { animation-delay: 0.2s; }
-.feature-item:nth-child(3) { animation-delay: 0.3s; }
-.feature-item:nth-child(4) { animation-delay: 0.4s; }
-
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  transition: all 0.3s;
 }
 
 .feature-item:hover {
@@ -613,12 +605,6 @@ onMounted(() => {
   font-size: 20px;
   color: #69b1ff;
   flex-shrink: 0;
-  transition: all 0.3s;
-}
-
-.feature-item:hover .feature-icon {
-  background: rgba(22, 119, 255, 0.3);
-  transform: scale(1.1);
 }
 
 .feature-body h4 {
@@ -634,7 +620,65 @@ onMounted(() => {
   margin: 0;
 }
 
-/* 统计数据 */
+/* 亮色模式左侧内容文字 */
+.theme-light .hero-text .line {
+  color: #1a1a1a;
+}
+
+.theme-light .hero-text .highlight {
+  background: linear-gradient(90deg, #1677ff, #4096ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.theme-light .hero-desc {
+  color: #666;
+}
+
+.theme-light .logo-text h3 {
+  color: #1a1a1a;
+}
+
+.theme-light .logo-text p {
+  color: #999;
+}
+
+.theme-light .feature-item {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.theme-light .feature-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.theme-light .feature-body h4 {
+  color: #1a1a1a;
+}
+
+.theme-light .feature-body p {
+  color: #999;
+}
+
+.theme-light .feature-icon {
+  background: rgba(22, 119, 255, 0.1);
+  color: #1677ff;
+}
+
+.theme-light .stat-num {
+  color: #1a1a1a;
+}
+
+.theme-light .stat-label {
+  color: #999;
+}
+
+.theme-light .left-footer {
+  color: rgba(0, 0, 0, 0.3);
+}
+
 .stats {
   display: flex;
   gap: 48px;
@@ -658,7 +702,6 @@ onMounted(() => {
   margin-top: 6px;
 }
 
-/* 底部版权 */
 .left-footer {
   position: absolute;
   bottom: 24px;
@@ -667,24 +710,26 @@ onMounted(() => {
   font-size: 12px;
 }
 
-/* ========== 右侧 30% ========== */
+/* ========== 右侧卡片 ========== */
 .login-right {
-  width: 30%;
   height: 100%;
-  background: #fff;
+  background: var(--right-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
+  transition: all 0.3s;
+}
+
+.login-right.full-width {
+  width: 100%;
 }
 
 .login-form-wrapper {
   width: 100%;
-  max-width: 340px;
-  animation: fade-in 0.5s ease-out;
+  max-width: 360px;
 }
 
-/* 表单头部 */
 .form-header {
   margin-bottom: 32px;
 }
@@ -692,28 +737,27 @@ onMounted(() => {
 .form-header h2 {
   font-size: 26px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-primary);
   margin: 0 0 8px;
 }
 
 .form-header p {
   font-size: 14px;
-  color: #8c8c8c;
+  color: var(--text-secondary);
   margin: 0;
 }
 
-/* 表单样式 */
 .login-form {
   margin-bottom: 24px;
 }
 
+/* 输入框布局样式 - 背景色由全局 auth-inputs.css 控制 */
 :deep(.ant-input-affix-wrapper) {
   border-radius: 10px;
   padding: 10px 14px;
 }
 
 :deep(.ant-input-prefix) {
-  color: #bfbfbf;
   margin-right: 10px;
 }
 
@@ -721,7 +765,6 @@ onMounted(() => {
   margin-bottom: 16px;
 }
 
-/* 选项行 - 修复复选框 */
 .form-options {
   display: flex;
   justify-content: space-between;
@@ -735,14 +778,14 @@ onMounted(() => {
   gap: 8px;
   cursor: pointer;
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
   user-select: none;
 }
 
 .checkbox {
   width: 18px;
   height: 18px;
-  border: 2px solid #d9d9d9;
+  border: 2px solid var(--input-border);
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -766,11 +809,6 @@ onMounted(() => {
   font-size: 14px;
 }
 
-.forgot-link:hover {
-  color: #4096ff;
-}
-
-/* 登录按钮 */
 .login-btn {
   height: 46px;
   font-size: 16px;
@@ -791,7 +829,6 @@ onMounted(() => {
   box-shadow: none;
 }
 
-/* 其他登录 */
 .other-login {
   margin-bottom: 28px;
 }
@@ -807,12 +844,12 @@ onMounted(() => {
   content: '';
   flex: 1;
   height: 1px;
-  background: #e8e8e8;
+  background: var(--border-color);
 }
 
 .divider span {
   padding: 0 16px;
-  color: #bfbfbf;
+  color: var(--text-secondary);
   font-size: 13px;
 }
 
@@ -826,27 +863,34 @@ onMounted(() => {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #f5f5f5;
+  background: var(--input-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
-  color: #666;
   cursor: pointer;
   transition: all 0.3s;
+  border: 1px solid var(--border-color);
 }
 
 .social-btn:hover {
-  background: #e6f4ff;
-  color: #1677ff;
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* 底部注册 */
+/* GitHub 图标适配 */
+.github-btn {
+  color: #e8e8e8;
+}
+
+.theme-light .github-btn {
+  color: #333;
+}
+
 .form-footer {
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .form-footer a {
@@ -855,70 +899,28 @@ onMounted(() => {
   margin-left: 4px;
 }
 
-/* ========== 响应式 ========== */
-@media (max-width: 1024px) {
-  .login-left {
-    padding: 60px 50px;
-  }
-
-  .brand-logo {
-    top: 24px;
-    left: 24px;
-  }
-
-  .hero-text .line {
-    font-size: 34px;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-  }
-
-  .stats {
-    gap: 32px;
-  }
-}
-
 @media (max-width: 768px) {
   .login-page {
-    flex-direction: column;
+    flex-direction: column !important;
   }
 
   .login-left {
-    width: 100%;
+    width: 100% !important;
     height: auto;
-    padding: 80px 24px 40px;
-  }
-
-  .brand-logo {
-    top: 20px;
-    left: 20px;
-  }
-
-  .hero-text .line {
-    font-size: 26px;
-  }
-
-  .hero-desc {
-    font-size: 13px;
-  }
-
-  .features {
-    display: none;
-  }
-
-  .stats {
-    display: none;
-  }
-
-  .left-footer {
-    position: static;
-    margin-top: 24px;
+    padding: 60px 24px 40px;
   }
 
   .login-right {
-    width: 100%;
+    width: 100% !important;
     padding: 30px 20px;
+  }
+
+  .hero-text .line {
+    font-size: 28px;
+  }
+
+  .features, .stats {
+    display: none;
   }
 }
 </style>

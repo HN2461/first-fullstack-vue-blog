@@ -1,52 +1,53 @@
 <template>
-  <div class="register-page">
-    <!-- 左侧 70% 品牌展示 -->
-    <div class="register-left">
+  <div class="register-page" :class="[`theme-${theme}`, `layout-${layout}`]">
+    <!-- 设置按钮 -->
+    <AuthSettings
+      v-model:theme="theme"
+      v-model:lang="lang"
+      v-model:layout="layout"
+    />
+
+    <!-- 左侧品牌展示 -->
+    <div v-if="layout !== 'center'" class="register-left">
       <!-- 动态背景 -->
       <div class="left-bg">
-        <!-- 光晕效果 -->
         <div class="bg-glow glow-1"></div>
         <div class="bg-glow glow-2"></div>
         <div class="bg-glow glow-3"></div>
-        <!-- 旋转圆圈 -->
         <div class="bg-circle c1"></div>
         <div class="bg-circle c2"></div>
         <div class="bg-circle c3"></div>
         <div class="bg-circle c4"></div>
-        <!-- 浮动粒子 -->
         <div class="bg-dot" v-for="i in 12" :key="i" :class="'d' + i"></div>
-        <!-- 流动线条 -->
         <div class="bg-line line-1"></div>
         <div class="bg-line line-2"></div>
         <div class="bg-line line-3"></div>
       </div>
 
-      <!-- Logo - 紧贴左上角 -->
+      <!-- Logo -->
       <div class="brand-logo">
         <div class="logo-icon">K</div>
         <div class="logo-text">
-          <h3>知识库</h3>
+          <h3>{{ lang === 'zh' ? '知识库' : 'Knowledge' }}</h3>
           <p>Knowledge OS</p>
         </div>
       </div>
 
       <!-- 主内容 -->
       <div class="left-content">
-        <!-- 标题区域 -->
         <div class="hero-text">
           <h1>
-            <span class="line">创建您的</span>
-            <span class="line highlight">知识库账号</span>
-            <span class="line">开启学习之旅</span>
+            <span class="line">{{ lang === 'zh' ? '创建您的' : 'Create Your' }}</span>
+            <span class="line highlight">{{ lang === 'zh' ? '知识库账号' : 'Account' }}</span>
+            <span class="line">{{ lang === 'zh' ? '开启学习之旅' : 'Start Learning' }}</span>
           </h1>
           <p class="hero-desc">
-            注册后可阅读文章、参与评论、收藏内容，构建属于您的知识体系。
+            {{ lang === 'zh' ? '注册后可阅读文章、参与评论、收藏内容，构建属于您的知识体系。' : 'Register to read articles, comment, and build your knowledge base.' }}
           </p>
         </div>
 
-        <!-- 功能卡片 -->
         <div class="features">
-          <div class="feature-item" v-for="(item, i) in features" :key="i">
+          <div class="feature-item" v-for="(item, i) in featureItems" :key="i">
             <div class="feature-icon">
               <component :is="item.icon" />
             </div>
@@ -57,123 +58,64 @@
           </div>
         </div>
 
-        <!-- 统计数据 -->
         <div class="stats">
           <div class="stat-item">
             <span class="stat-num">1000+</span>
-            <span class="stat-label">文章</span>
+            <span class="stat-label">{{ lang === 'zh' ? '文章' : 'Articles' }}</span>
           </div>
           <div class="stat-item">
             <span class="stat-num">50+</span>
-            <span class="stat-label">分类</span>
+            <span class="stat-label">{{ lang === 'zh' ? '分类' : 'Categories' }}</span>
           </div>
           <div class="stat-item">
             <span class="stat-num">99%</span>
-            <span class="stat-label">可用性</span>
+            <span class="stat-label">{{ lang === 'zh' ? '可用性' : 'Uptime' }}</span>
           </div>
         </div>
       </div>
 
-      <!-- 底部版权 -->
       <div class="left-footer">
-        <p>© 2024 Knowledge OS</p>
+        <p>© 2026 Knowledge OS</p>
       </div>
     </div>
 
-    <!-- 右侧 30% 注册区域 -->
+    <!-- 右侧注册区域 -->
     <div class="register-right">
       <div class="register-form-wrapper">
-        <!-- 头部 -->
         <div class="form-header">
-          <h2>创建账号</h2>
-          <p>填写以下信息完成注册</p>
+          <h2>{{ lang === 'zh' ? '创建账号' : 'Create Account' }}</h2>
+          <p>{{ lang === 'zh' ? '填写以下信息完成注册' : 'Fill in the form to register' }}</p>
         </div>
 
-        <!-- 注册表单 -->
-        <a-form
-          :model="form"
-          @finish="handleSubmit"
-          layout="vertical"
-          class="register-form"
-        >
-          <a-form-item
-            name="username"
-            :rules="[
-              { required: true, message: '请输入昵称' },
-              { min: 2, max: 32, message: '昵称长度2-32个字符' }
-            ]"
-          >
-            <a-input
-              v-model:value.trim="form.username"
-              placeholder="请输入昵称"
-              size="large"
-              allow-clear
-            >
+        <a-form :model="form" @finish="handleSubmit" layout="vertical" class="register-form">
+          <a-form-item name="username" :rules="usernameRules">
+            <a-input v-model:value.trim="form.username" :placeholder="lang === 'zh' ? '请输入昵称' : 'Username'" size="large" allow-clear>
               <template #prefix><UserOutlined /></template>
             </a-input>
           </a-form-item>
 
-          <a-form-item
-            name="email"
-            :rules="[
-              { required: true, message: '请输入邮箱地址' },
-              { type: 'email', message: '请输入有效的邮箱格式' }
-            ]"
-          >
-            <a-input
-              v-model:value.trim="form.email"
-              placeholder="请输入邮箱地址"
-              size="large"
-              allow-clear
-            >
+          <a-form-item name="email" :rules="emailRules">
+            <a-input v-model:value.trim="form.email" :placeholder="lang === 'zh' ? '请输入邮箱地址' : 'Email address'" size="large" allow-clear>
               <template #prefix><MailOutlined /></template>
             </a-input>
           </a-form-item>
 
-          <a-form-item
-            name="password"
-            :rules="[
-              { required: true, message: '请输入密码' },
-              { min: 8, message: '密码至少8个字符' }
-            ]"
-          >
-            <a-input-password
-              v-model:value="form.password"
-              placeholder="请输入密码（至少8位）"
-              size="large"
-            >
+          <a-form-item name="password" :rules="passwordRules">
+            <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码（至少8位）' : 'Password (8+ chars)'" size="large">
               <template #prefix><LockOutlined /></template>
             </a-input-password>
           </a-form-item>
 
-          <!-- 错误提示 -->
-          <a-alert
-            v-if="errorMessage"
-            :message="errorMessage"
-            type="error"
-            show-icon
-            closable
-            class="error-alert"
-            @close="errorMessage = ''"
-          />
+          <a-alert v-if="errorMessage" :message="errorMessage" type="error" show-icon closable class="error-alert" @close="errorMessage = ''" />
 
-          <!-- 注册按钮 -->
-          <a-button
-            type="primary"
-            html-type="submit"
-            size="large"
-            block
-            :loading="submitting"
-            class="register-btn"
-          >
-            注册
+          <a-button type="primary" html-type="submit" size="large" block :loading="submitting" class="register-btn">
+            {{ lang === 'zh' ? '注册' : 'Sign Up' }}
           </a-button>
         </a-form>
 
-        <!-- 登录入口 -->
         <div class="form-footer">
-          <span>已有账号？</span>
-          <router-link to="/login">立即登录</router-link>
+          <span>{{ lang === 'zh' ? '已有账号？' : 'Already have an account?' }}</span>
+          <router-link to="/login">{{ lang === 'zh' ? '立即登录' : 'Sign In' }}</router-link>
         </div>
       </div>
     </div>
@@ -181,38 +123,54 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
-  UserOutlined,
-  MailOutlined,
-  LockOutlined,
-  ReadOutlined,
-  CommentOutlined,
-  StarOutlined,
-  SafetyOutlined
+  UserOutlined, MailOutlined, LockOutlined,
+  ReadOutlined, CommentOutlined, StarOutlined, SafetyOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
+import AuthSettings from '@/components/AuthSettings.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
-const form = reactive({
-  username: '',
-  email: '',
-  password: ''
-})
+// 设置状态
+const theme = ref(localStorage.getItem('auth-theme') || 'dark')
+const lang = ref(localStorage.getItem('auth-lang') || 'zh')
+const layout = ref(localStorage.getItem('auth-layout') || 'right')
 
+watch(theme, (v) => localStorage.setItem('auth-theme', v))
+watch(lang, (v) => localStorage.setItem('auth-lang', v))
+watch(layout, (v) => localStorage.setItem('auth-layout', v))
+
+const form = reactive({ username: '', email: '', password: '' })
 const submitting = ref(false)
 const errorMessage = ref('')
 
-const features = [
-  { icon: ReadOutlined, title: '知识阅读', desc: '浏览技术文章' },
-  { icon: CommentOutlined, title: '评论互动', desc: '参与讨论交流' },
-  { icon: StarOutlined, title: '内容收藏', desc: '收藏优质内容' },
-  { icon: SafetyOutlined, title: '账号安全', desc: '数据安全保障' }
-]
+// 动态验证规则
+const usernameRules = computed(() => [
+  { required: true, message: lang.value === 'zh' ? '请输入昵称' : 'Username is required' },
+  { min: 2, max: 32, message: lang.value === 'zh' ? '昵称长度2-32个字符' : '2-32 characters' }
+])
+
+const emailRules = computed(() => [
+  { required: true, message: lang.value === 'zh' ? '请输入邮箱地址' : 'Email is required' },
+  { type: 'email', message: lang.value === 'zh' ? '请输入有效的邮箱格式' : 'Invalid email format' }
+])
+
+const passwordRules = computed(() => [
+  { required: true, message: lang.value === 'zh' ? '请输入密码' : 'Password is required' },
+  { min: 8, message: lang.value === 'zh' ? '密码至少8个字符' : 'At least 8 characters' }
+])
+
+const featureItems = computed(() => [
+  { icon: ReadOutlined, title: lang.value === 'zh' ? '知识阅读' : 'Reading', desc: lang.value === 'zh' ? '浏览技术文章' : 'Browse articles' },
+  { icon: CommentOutlined, title: lang.value === 'zh' ? '评论互动' : 'Comments', desc: lang.value === 'zh' ? '参与讨论交流' : 'Join discussions' },
+  { icon: StarOutlined, title: lang.value === 'zh' ? '内容收藏' : 'Favorites', desc: lang.value === 'zh' ? '收藏优质内容' : 'Save content' },
+  { icon: SafetyOutlined, title: lang.value === 'zh' ? '账号安全' : 'Security', desc: lang.value === 'zh' ? '数据安全保障' : 'Data protection' }
+])
 
 async function handleSubmit() {
   submitting.value = true
@@ -220,10 +178,10 @@ async function handleSubmit() {
 
   try {
     await authStore.register(form)
-    message.success('注册成功，正在跳转...')
+    message.success(lang.value === 'zh' ? '注册成功，正在跳转...' : 'Registration successful!')
     await router.push('/console')
   } catch (error) {
-    errorMessage.value = error.message || '注册失败，请稍后重试'
+    errorMessage.value = error.message || (lang.value === 'zh' ? '注册失败' : 'Registration failed')
   } finally {
     submitting.value = false
   }
@@ -231,28 +189,87 @@ async function handleSubmit() {
 </script>
 
 <style scoped>
-/* 全局布局 */
 .register-page {
   display: flex;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  transition: all 0.3s;
+  background-color: var(--right-bg);
 }
 
-/* ========== 左侧 70% ========== */
-.register-left {
+/* 主题变量 */
+.register-page.theme-dark {
+  --left-bg: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1c2333 100%);
+  --right-bg: #0d1117;
+  --text-primary: #e6edf3;
+  --text-secondary: #8b949e;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --input-bg: #161b22;
+  --input-border: #30363d;
+  --input-text: #e6edf3;
+  --input-placeholder: #484f58;
+}
+
+.register-page.theme-light {
+  --left-bg: linear-gradient(135deg, #f0f2f5 0%, #e8ecf0 100%);
+  --right-bg: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --border-color: #e0e0e0;
+  --input-bg: #f8f9fa;
+  --input-border: #d0d0d0;
+  --input-text: #1a1a1a;
+  --input-placeholder: #b0b0b0;
+}
+
+/* 布局模式 */
+.register-page.layout-right {
+  flex-direction: row;
+}
+
+.register-page.layout-right .register-left {
   width: 70%;
+}
+
+.register-page.layout-right .register-right {
+  width: 30%;
+}
+
+.register-page.layout-left {
+  flex-direction: row-reverse;
+}
+
+.register-page.layout-left .register-left {
+  width: 70%;
+}
+
+.register-page.layout-left .register-right {
+  width: 30%;
+}
+
+.register-page.layout-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.register-page.layout-center .register-right {
+  width: 100%;
+  max-width: 480px;
+}
+
+.register-left {
   height: 100%;
-  background: linear-gradient(135deg, #0a1628 0%, #132743 50%, #1a3a5c 100%);
+  background: var(--left-bg);
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 80px 80px 60px;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s;
 }
 
-/* 动态背景 */
 .left-bg {
   position: absolute;
   inset: 0;
@@ -432,7 +449,7 @@ async function handleSubmit() {
   100% { transform: translateX(250%) rotate(-15deg); opacity: 0; }
 }
 
-/* Logo - 紧贴左上角 */
+/* Logo */
 .brand-logo {
   position: absolute;
   top: 30px;
@@ -470,14 +487,12 @@ async function handleSubmit() {
   margin: 2px 0 0;
 }
 
-/* 左侧内容 */
 .left-content {
   position: relative;
   z-index: 2;
   max-width: 640px;
 }
 
-/* 标题区域 */
 .hero-text {
   margin-bottom: 48px;
 }
@@ -517,7 +532,6 @@ async function handleSubmit() {
   margin: 0;
 }
 
-/* 功能卡片 */
 .features {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -533,19 +547,7 @@ async function handleSubmit() {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
-  cursor: default;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: fade-in 0.5s ease-out both;
-}
-
-.feature-item:nth-child(1) { animation-delay: 0.1s; }
-.feature-item:nth-child(2) { animation-delay: 0.2s; }
-.feature-item:nth-child(3) { animation-delay: 0.3s; }
-.feature-item:nth-child(4) { animation-delay: 0.4s; }
-
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  transition: all 0.3s;
 }
 
 .feature-item:hover {
@@ -566,12 +568,6 @@ async function handleSubmit() {
   font-size: 20px;
   color: #69b1ff;
   flex-shrink: 0;
-  transition: all 0.3s;
-}
-
-.feature-item:hover .feature-icon {
-  background: rgba(22, 119, 255, 0.3);
-  transform: scale(1.1);
 }
 
 .feature-body h4 {
@@ -587,7 +583,65 @@ async function handleSubmit() {
   margin: 0;
 }
 
-/* 统计数据 */
+/* 亮色模式左侧内容文字 */
+.theme-light .hero-text .line {
+  color: #1a1a1a;
+}
+
+.theme-light .hero-text .highlight {
+  background: linear-gradient(90deg, #1677ff, #4096ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.theme-light .hero-desc {
+  color: #666;
+}
+
+.theme-light .logo-text h3 {
+  color: #1a1a1a;
+}
+
+.theme-light .logo-text p {
+  color: #999;
+}
+
+.theme-light .feature-item {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.theme-light .feature-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+.theme-light .feature-body h4 {
+  color: #1a1a1a;
+}
+
+.theme-light .feature-body p {
+  color: #999;
+}
+
+.theme-light .feature-icon {
+  background: rgba(22, 119, 255, 0.1);
+  color: #1677ff;
+}
+
+.theme-light .stat-num {
+  color: #1a1a1a;
+}
+
+.theme-light .stat-label {
+  color: #999;
+}
+
+.theme-light .left-footer {
+  color: rgba(0, 0, 0, 0.3);
+}
+
 .stats {
   display: flex;
   gap: 48px;
@@ -611,7 +665,6 @@ async function handleSubmit() {
   margin-top: 6px;
 }
 
-/* 底部版权 */
 .left-footer {
   position: absolute;
   bottom: 24px;
@@ -620,24 +673,22 @@ async function handleSubmit() {
   font-size: 12px;
 }
 
-/* ========== 右侧 30% ========== */
+/* 右侧 */
 .register-right {
-  width: 30%;
   height: 100%;
-  background: #fff;
+  background: var(--right-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
+  transition: all 0.3s;
 }
 
 .register-form-wrapper {
   width: 100%;
-  max-width: 340px;
-  animation: fade-in 0.5s ease-out;
+  max-width: 360px;
 }
 
-/* 表单头部 */
 .form-header {
   margin-bottom: 32px;
 }
@@ -645,28 +696,27 @@ async function handleSubmit() {
 .form-header h2 {
   font-size: 26px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-primary);
   margin: 0 0 8px;
 }
 
 .form-header p {
   font-size: 14px;
-  color: #8c8c8c;
+  color: var(--text-secondary);
   margin: 0;
 }
 
-/* 表单样式 */
 .register-form {
   margin-bottom: 24px;
 }
 
+/* 输入框布局样式 - 背景色由全局 auth-inputs.css 控制 */
 :deep(.ant-input-affix-wrapper) {
   border-radius: 10px;
   padding: 10px 14px;
 }
 
 :deep(.ant-input-prefix) {
-  color: #bfbfbf;
   margin-right: 10px;
 }
 
@@ -675,7 +725,6 @@ async function handleSubmit() {
   border-radius: 8px;
 }
 
-/* 注册按钮 */
 .register-btn {
   height: 46px;
   font-size: 16px;
@@ -691,11 +740,10 @@ async function handleSubmit() {
   box-shadow: 0 6px 20px rgba(22, 119, 255, 0.4);
 }
 
-/* 底部登录入口 */
 .form-footer {
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .form-footer a {
@@ -704,70 +752,28 @@ async function handleSubmit() {
   margin-left: 4px;
 }
 
-/* ========== 响应式 ========== */
-@media (max-width: 1024px) {
-  .register-left {
-    padding: 60px 50px;
-  }
-
-  .brand-logo {
-    top: 24px;
-    left: 24px;
-  }
-
-  .hero-text .line {
-    font-size: 34px;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-  }
-
-  .stats {
-    gap: 32px;
-  }
-}
-
 @media (max-width: 768px) {
   .register-page {
     flex-direction: column;
   }
 
   .register-left {
-    width: 100%;
+    width: 100% !important;
     height: auto;
-    padding: 80px 24px 40px;
-  }
-
-  .brand-logo {
-    top: 20px;
-    left: 20px;
-  }
-
-  .hero-text .line {
-    font-size: 26px;
-  }
-
-  .hero-desc {
-    font-size: 13px;
-  }
-
-  .features {
-    display: none;
-  }
-
-  .stats {
-    display: none;
-  }
-
-  .left-footer {
-    position: static;
-    margin-top: 24px;
+    padding: 60px 24px 40px;
   }
 
   .register-right {
-    width: 100%;
+    width: 100% !important;
     padding: 30px 20px;
+  }
+
+  .hero-text .line {
+    font-size: 28px;
+  }
+
+  .features, .stats {
+    display: none;
   }
 }
 </style>

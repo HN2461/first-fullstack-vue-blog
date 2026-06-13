@@ -1,0 +1,163 @@
+/**
+ * 登录/注册页面输入框强制样式覆盖
+ * 使用 GitHub Dark 风格深色主题
+ */
+
+/* ============================================
+   暗黑主题 - 强制覆盖所有输入框
+   ============================================ */
+
+/* 输入框容器 */
+.theme-dark .ant-input-affix-wrapper {
+  background-color: #161b22 !important;
+  background-image: none !important;
+  border-color: #30363d !important;
+}
+
+/* 输入框本体 */
+.theme-dark .ant-input {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #e6edf3 !important;
+}
+
+/* 密码输入框外层容器 */
+.theme-dark .ant-input-password {
+  background-color: #161b22 !important;
+  background-image: none !important;
+}
+
+/* 密码输入框内部 input */
+.theme-dark .ant-input-password .ant-input {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #e6edf3 !important;
+}
+
+/* 密码输入框眼睛图标区域 */
+.theme-dark .ant-input-password .ant-input-suffix {
+  background-color: transparent !important;
+}
+
+/* 占位符 */
+.theme-dark .ant-input::placeholder {
+  color: #484f58 !important;
+}
+
+/* 输入框前缀图标 */
+.theme-dark .ant-input-prefix {
+  color: #8b949e !important;
+}
+
+/* 输入框后缀图标（包括密码眼睛） */
+.theme-dark .ant-input-suffix {
+  color: #8b949e !important;
+}
+
+.theme-dark .ant-input-password .anticon {
+  color: #8b949e !important;
+}
+
+/* 聚焦状态 */
+.theme-dark .ant-input-affix-wrapper:focus,
+.theme-dark .ant-input-affix-wrapper-focused,
+.theme-dark .ant-input-affix-wrapper:hover {
+  border-color: #58a6ff !important;
+}
+
+/* ============================================
+   浏览器自动填充样式覆盖
+   ============================================ */
+
+/* Chrome/Safari 自动填充 */
+.theme-dark input:-webkit-autofill,
+.theme-dark input:-webkit-autofill:hover,
+.theme-dark input:-webkit-autofill:focus,
+.theme-dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #161b22 inset !important;
+  -webkit-text-fill-color: #e6edf3 !important;
+  background-color: #161b22 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Firefox 自动填充 */
+.theme-dark input:-moz-autofill {
+  background-color: #161b22 !important;
+  color: #e6edf3 !important;
+}
+
+/* ============================================
+   亮色主题
+   ============================================ */
+
+.theme-light .ant-input-affix-wrapper {
+  background-color: #f6f8fa !important;
+  background-image: none !important;
+  border-color: #d0d7de !important;
+}
+
+.theme-light .ant-input {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #1f2328 !important;
+}
+
+.theme-light .ant-input-password {
+  background-color: #f6f8fa !important;
+  background-image: none !important;
+}
+
+.theme-light .ant-input-password .ant-input {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: #1f2328 !important;
+}
+
+.theme-light .ant-input::placeholder {
+  color: #6e7781 !important;
+}
+
+.theme-light .ant-input-prefix {
+  color: #57606a !important;
+}
+
+.theme-light .ant-input-suffix {
+  color: #57606a !important;
+}
+
+.theme-light .ant-input-password .anticon {
+  color: #57606a !important;
+}
+
+.theme-light .ant-input-affix-wrapper:focus,
+.theme-light .ant-input-affix-wrapper-focused,
+.theme-light .ant-input-affix-wrapper:hover {
+  border-color: #0969da !important;
+}
+
+/* 亮色自动填充 */
+.theme-light input:-webkit-autofill,
+.theme-light input:-webkit-autofill:hover,
+.theme-light input:-webkit-autofill:focus,
+.theme-light input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #f6f8fa inset !important;
+  -webkit-text-fill-color: #1f2328 !important;
+  background-color: #f6f8fa !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* ============================================
+   通用样式 - 移除阴影
+   ============================================ */
+
+.ant-input-affix-wrapper,
+.ant-input,
+.ant-input-password,
+.ant-input-password .ant-input {
+  box-shadow: none !important;
+}
+
+/* 输入框聚焦阴影 */
+.ant-input-affix-wrapper-focused {
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.15) !important;
+}

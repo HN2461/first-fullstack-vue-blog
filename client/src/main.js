@@ -31,6 +31,7 @@ import { useAuthStore } from './stores/auth'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.css'
 import './styles/console.css'
+import './styles/auth-inputs.css'
 
 const app = createApp(App)
 const pinia = createPinia()
