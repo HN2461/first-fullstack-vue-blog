@@ -1,7 +1,15 @@
 import { request } from './http'
 
-export function listAdminArticles() {
-  return request('/api/admin/articles')
+export function listAdminArticles(params = {}) {
+  const query = new URLSearchParams()
+  if (params.status) query.set('status', params.status)
+  if (params.category) query.set('category', params.category)
+  if (params.keyword) query.set('keyword', params.keyword)
+  if (params.page) query.set('page', params.page)
+  if (params.pageSize) query.set('pageSize', params.pageSize)
+
+  const queryStr = query.toString()
+  return request(`/api/admin/articles${queryStr ? '?' + queryStr : ''}`)
 }
 
 export function getAdminArticle(id) {
@@ -30,6 +38,29 @@ export function publishAdminArticle(id) {
 
 export function deleteAdminArticle(id) {
   return request(`/api/admin/articles/${id}`, {
+    method: 'DELETE'
+  })
+}
+
+// 回收站相关
+export function listTrashArticles() {
+  return request('/api/admin/articles/trash/list')
+}
+
+export function restoreArticle(id) {
+  return request(`/api/admin/articles/${id}/restore`, {
+    method: 'POST'
+  })
+}
+
+export function permanentDeleteArticle(id) {
+  return request(`/api/admin/articles/${id}/permanent`, {
+    method: 'DELETE'
+  })
+}
+
+export function emptyTrash() {
+  return request('/api/admin/articles/trash/empty', {
     method: 'DELETE'
   })
 }

@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import multer from 'multer'
 import { Router } from 'express'
 import { requireAdmin, requireAuth } from '../middlewares/auth.js'
-import { createArticle, deleteArticle, getArticleById, listArticles, publishArticle, updateArticle } from '../services/article.service.js'
+import { createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle } from '../services/article.service.js'
 import { createCategory, deleteCategory, listCategories, updateCategory } from '../services/category.service.js'
 import { listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
 import { createMediaFromFile, deleteMedia, getUploadSubdir, listMedia } from '../services/media.service.js'
@@ -78,7 +78,7 @@ adminRouter.delete('/tags/:id', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/articles', asyncHandler(async (req, res) => {
-  res.json(ok(await listArticles()))
+  res.json(ok(await listArticles(req.query)))
 }))
 
 adminRouter.post('/articles', asyncHandler(async (req, res) => {
@@ -104,7 +104,27 @@ adminRouter.post('/articles/:id/publish', asyncHandler(async (req, res) => {
 
 adminRouter.delete('/articles/:id', asyncHandler(async (req, res) => {
   const result = await deleteArticle(req.params.id, req.user)
-  res.json(ok(result, '文章已删除'))
+  res.json(ok(result, '文章已移至回收站'))
+}))
+
+// 回收站相关路由
+adminRouter.get('/articles/trash/list', asyncHandler(async (req, res) => {
+  res.json(ok(await listDeletedArticles()))
+}))
+
+adminRouter.post('/articles/:id/restore', asyncHandler(async (req, res) => {
+  const article = await restoreArticle(req.params.id, req.user)
+  res.json(ok(article, '文章已恢复'))
+}))
+
+adminRouter.delete('/articles/:id/permanent', asyncHandler(async (req, res) => {
+  const result = await permanentDeleteArticle(req.params.id)
+  res.json(ok(result, '文章已彻底删除'))
+}))
+
+adminRouter.delete('/articles/trash/empty', asyncHandler(async (req, res) => {
+  const result = await emptyTrash()
+  res.json(ok(result, `已清空 ${result.deletedCount} 条记录`))
 }))
 
 adminRouter.get('/comments', asyncHandler(async (req, res) => {

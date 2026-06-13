@@ -19,6 +19,7 @@ const AdminStats = () => import('@/views/admin/AdminStats.vue')
 const AdminMedia = () => import('@/views/admin/AdminMedia.vue')
 const AdminNotifications = () => import('@/views/admin/AdminNotifications.vue')
 const AdminSettings = () => import('@/views/admin/AdminSettings.vue')
+const AdminTrash = () => import('@/views/admin/AdminTrash.vue')
 const ProfilePage = () => import('@/views/console/ProfilePage.vue')
 
 export const router = createRouter({
@@ -181,6 +182,12 @@ export const router = createRouter({
           name: 'AdminSettings',
           component: AdminSettings,
           meta: { title: '系统设置', requiresAdmin: true }
+        },
+        {
+          path: 'manage/trash',
+          name: 'AdminTrash',
+          component: AdminTrash,
+          meta: { title: '回收站', requiresAdmin: true }
         }
       ]
     },
