@@ -36,3 +36,19 @@ export function getUploadSubdir() {
     String(date.getMonth() + 1).padStart(2, '0')
   )
 }
+
+export async function deleteMedia(id) {
+  const media = await Media.findById(id)
+  if (!media) {
+    const error = new Error('媒体文件不存在')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+
+  // 删除物理文件（可选，这里只删除数据库记录）
+  // fs.unlinkSync(media.storagePath)
+
+  await Media.findByIdAndDelete(id)
+  return { id, deleted: true }
+}

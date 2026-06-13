@@ -132,3 +132,18 @@ export async function getArticleById(id) {
 
   return article.toSafeJSON()
 }
+
+export async function deleteArticle(id, user) {
+  const article = await Article.findOne({ _id: id, deletedAt: null })
+
+  if (!article) {
+    throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
+  }
+
+  // 软删除：设置 deletedAt
+  article.deletedAt = new Date()
+  article.updatedBy = user._id
+  await article.save()
+
+  return { id, deleted: true }
+}

@@ -28,6 +28,12 @@ export function publishAdminArticle(id) {
   })
 }
 
+export function deleteAdminArticle(id) {
+  return request(`/api/admin/articles/${id}`, {
+    method: 'DELETE'
+  })
+}
+
 export function listAdminCategories() {
   return request('/api/admin/categories')
 }
@@ -39,6 +45,19 @@ export function createAdminCategory(data) {
   })
 }
 
+export function updateAdminCategory(id, data) {
+  return request(`/api/admin/categories/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  })
+}
+
+export function deleteAdminCategory(id) {
+  return request(`/api/admin/categories/${id}`, {
+    method: 'DELETE'
+  })
+}
+
 export function listAdminTags() {
   return request('/api/admin/tags')
 }
@@ -47,6 +66,19 @@ export function createAdminTag(data) {
   return request('/api/admin/tags', {
     method: 'POST',
     body: JSON.stringify(data)
+  })
+}
+
+export function updateAdminTag(id, data) {
+  return request(`/api/admin/tags/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  })
+}
+
+export function deleteAdminTag(id) {
+  return request(`/api/admin/tags/${id}`, {
+    method: 'DELETE'
   })
 }
 
@@ -92,6 +124,12 @@ export function uploadAdminMedia(file) {
   })
 }
 
+export function deleteAdminMedia(id) {
+  return request(`/api/admin/media/${id}`, {
+    method: 'DELETE'
+  })
+}
+
 export function listAdminAnnouncements() {
   return request('/api/admin/announcements')
 }
@@ -100,6 +138,19 @@ export function createAdminAnnouncement(data) {
   return request('/api/admin/announcements', {
     method: 'POST',
     body: JSON.stringify(data)
+  })
+}
+
+export function updateAdminAnnouncement(id, data) {
+  return request(`/api/admin/announcements/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  })
+}
+
+export function deleteAdminAnnouncement(id) {
+  return request(`/api/admin/announcements/${id}`, {
+    method: 'DELETE'
   })
 }
 

@@ -13,16 +13,19 @@
 
     <a-row :gutter="[16, 16]">
       <a-col :xs="24" :lg="8">
-        <a-card title="新增分类" :bordered="false">
+        <a-card :title="editingId ? '编辑分类' : '新增分类'" :bordered="false">
           <a-alert v-if="errorMessage" class="form-alert" type="error" show-icon :message="errorMessage" />
-          <a-form layout="vertical" :model="form" @finish="createCategory">
+          <a-form layout="vertical" :model="form" @finish="handleSubmit">
             <a-form-item label="分类名称" name="name" :rules="[{ required: true, message: '请输入分类名称' }]">
               <a-input v-model:value.trim="form.name" placeholder="例如 Node.js" />
             </a-form-item>
             <a-form-item label="Slug" name="slug" :rules="[{ required: true, message: '请输入 slug' }]">
               <a-input v-model:value.trim="form.slug" placeholder="例如 node-js" />
             </a-form-item>
-            <a-button block type="primary" html-type="submit">新增分类</a-button>
+            <a-space>
+              <a-button type="primary" html-type="submit">{{ editingId ? '保存修改' : '新增分类' }}</a-button>
+              <a-button v-if="editingId" @click="cancelEdit">取消编辑</a-button>
+            </a-space>
           </a-form>
         </a-card>
       </a-col>
@@ -33,7 +36,18 @@
             :columns="columns"
             :data-source="categories"
             :pagination="{ pageSize: 10, showSizeChanger: false }"
-          />
+          >
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'action'">
+                <a-space>
+                  <a-button type="link" size="small" @click="startEdit(record)">编辑</a-button>
+                  <a-popconfirm title="确定删除此分类？" @confirm="handleDelete(record.id)">
+                    <a-button type="link" size="small" danger>删除</a-button>
+                  </a-popconfirm>
+                </a-space>
+              </template>
+            </template>
+          </a-table>
         </a-card>
       </a-col>
     </a-row>
@@ -42,34 +56,67 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
-import { createAdminCategory, listAdminCategories } from '@/services/admin'
+import { message } from 'ant-design-vue'
+import { createAdminCategory, deleteAdminCategory, listAdminCategories, updateAdminCategory } from '@/services/admin'
 
 const categories = ref([])
 const errorMessage = ref('')
+const editingId = ref(null)
 const form = reactive({
   name: '',
   slug: ''
 })
+
 const columns = [
   { title: '分类名称', dataIndex: 'name', key: 'name' },
   { title: 'Slug', dataIndex: 'slug', key: 'slug' },
-  { title: '文章数', dataIndex: 'articleCount', key: 'articleCount', width: 100 }
+  { title: '文章数', dataIndex: 'articleCount', key: 'articleCount', width: 100 },
+  { title: '操作', key: 'action', width: 150 }
 ]
 
 async function loadCategories() {
   categories.value = await listAdminCategories()
 }
 
-async function createCategory() {
+async function handleSubmit() {
   errorMessage.value = ''
 
   try {
-    await createAdminCategory(form)
-    form.name = ''
-    form.slug = ''
+    if (editingId.value) {
+      await updateAdminCategory(editingId.value, form)
+      message.success('分类已更新')
+      cancelEdit()
+    } else {
+      await createAdminCategory(form)
+      message.success('分类已创建')
+      form.name = ''
+      form.slug = ''
+    }
     await loadCategories()
   } catch (error) {
-    errorMessage.value = error.message || '分类创建失败'
+    errorMessage.value = error.message || '操作失败'
+  }
+}
+
+function startEdit(record) {
+  editingId.value = record.id
+  form.name = record.name
+  form.slug = record.slug
+}
+
+function cancelEdit() {
+  editingId.value = null
+  form.name = ''
+  form.slug = ''
+}
+
+async function handleDelete(id) {
+  try {
+    await deleteAdminCategory(id)
+    message.success('分类已删除')
+    await loadCategories()
+  } catch (error) {
+    message.error(error.message || '删除失败')
   }
 }
 

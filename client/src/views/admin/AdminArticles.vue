@@ -56,7 +56,12 @@
             {{ formatDate(record.updatedAt) }}
           </template>
           <template v-else-if="column.key === 'action'">
-            <a-button type="link" @click="$router.push(`/console/manage/articles/${record.id}`)">编辑</a-button>
+            <a-space>
+              <a-button type="link" @click="$router.push(`/console/manage/articles/${record.id}`)">编辑</a-button>
+              <a-popconfirm title="确定删除此文章？删除后不可恢复。" @confirm="handleDelete(record.id)">
+                <a-button type="link" danger>删除</a-button>
+              </a-popconfirm>
+            </a-space>
           </template>
         </template>
       </a-table>
@@ -66,7 +71,8 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { listAdminArticles } from '@/services/admin'
+import { message } from 'ant-design-vue'
+import { deleteAdminArticle, listAdminArticles } from '@/services/admin'
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -128,6 +134,16 @@ async function loadArticles() {
     errorMessage.value = error.message || '文章加载失败'
   } finally {
     loading.value = false
+  }
+}
+
+async function handleDelete(id) {
+  try {
+    await deleteAdminArticle(id)
+    message.success('文章已删除')
+    await loadArticles()
+  } catch (error) {
+    message.error(error.message || '删除失败')
   }
 }
 

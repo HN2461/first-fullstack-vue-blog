@@ -47,6 +47,11 @@
               <template v-else-if="column.key === 'url'">
                 <a-typography-text copyable>{{ record.url }}</a-typography-text>
               </template>
+              <template v-else-if="column.key === 'action'">
+                <a-popconfirm title="确定删除此文件？" @confirm="handleDelete(record.id)">
+                  <a-button type="link" size="small" danger>删除</a-button>
+                </a-popconfirm>
+              </template>
             </template>
           </a-table>
         </a-card>
@@ -57,8 +62,9 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { message } from 'ant-design-vue'
 import { InboxOutlined } from '@ant-design/icons-vue'
-import { listAdminMedia, uploadAdminMedia } from '@/services/admin'
+import { deleteAdminMedia, listAdminMedia, uploadAdminMedia } from '@/services/admin'
 
 const file = ref(null)
 const media = ref([])
@@ -67,7 +73,8 @@ const columns = [
   { title: '文件名', dataIndex: 'originalName', key: 'originalName' },
   { title: '类型', key: 'kind', width: 110 },
   { title: '大小', key: 'size', width: 110 },
-  { title: '访问地址', key: 'url' }
+  { title: '访问地址', key: 'url' },
+  { title: '操作', key: 'action', width: 80 }
 ]
 
 function beforeUpload(nextFile) {
@@ -88,6 +95,16 @@ async function uploadFile() {
     await loadMedia()
   } catch (error) {
     errorMessage.value = error.message || '上传失败'
+  }
+}
+
+async function handleDelete(id) {
+  try {
+    await deleteAdminMedia(id)
+    message.success('文件已删除')
+    await loadMedia()
+  } catch (error) {
+    message.error(error.message || '删除失败')
   }
 }
 
