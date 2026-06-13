@@ -255,7 +255,7 @@ body:has(.enterprise-admin-shell) {
   background: var(--console-bg);
 }
 
-.enterprise-sider {
+.ant-layout-sider.enterprise-sider {
   height: calc(100vh - var(--console-header-height));
   overflow: hidden;
   background: var(--console-surface);
@@ -280,7 +280,7 @@ body:has(.enterprise-admin-shell) {
   white-space: nowrap;
 }
 
-.enterprise-sider.ant-layout-sider-collapsed .enterprise-sider-head {
+.ant-layout-sider.enterprise-sider.ant-layout-sider-collapsed .enterprise-sider-head {
   justify-content: center;
   padding: 0;
 }
@@ -393,7 +393,7 @@ body:has(.enterprise-admin-shell) {
   background: var(--console-surface-hover);
 }
 
-.enterprise-sider.ant-layout-sider-collapsed .enterprise-sider-collapse {
+.ant-layout-sider.enterprise-sider.ant-layout-sider-collapsed .enterprise-sider-collapse {
   width: 100%;
 }
 
