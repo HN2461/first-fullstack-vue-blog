@@ -11,6 +11,7 @@ import { authRouter } from './routes/auth.routes.js'
 import captchaRouter from './routes/captcha.routes.js'
 import { healthRouter } from './routes/health.routes.js'
 import { interactionRouter } from './routes/interaction.routes.js'
+import profileRouter from './routes/profile.routes.js'
 import { publicRouter } from './routes/public.routes.js'
 
 export function createApp() {
@@ -33,6 +34,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/admin`, adminRouter)
   app.use(`${API_PREFIX}/auth`, authRouter)
   app.use(`${API_PREFIX}/captcha`, captchaRouter)
+  app.use(`${API_PREFIX}/profile`, profileRouter)
   app.use(`${API_PREFIX}/public`, publicRouter)
   app.use(API_PREFIX, healthRouter)
   app.use(API_PREFIX, interactionRouter)

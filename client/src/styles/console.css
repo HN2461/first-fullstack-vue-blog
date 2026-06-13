@@ -288,9 +288,17 @@ body:has(.enterprise-admin-shell) {
 .enterprise-menu {
   height: calc(100vh - var(--console-header-height) - var(--console-sider-head-height) - var(--console-sider-footer-height));
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   border-inline-end: 0;
   padding: 8px 10px 14px;
   background: var(--console-surface);
+}
+
+.enterprise-menu::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .enterprise-menu.ant-menu-light,
@@ -303,6 +311,23 @@ body:has(.enterprise-admin-shell) {
 .enterprise-menu.ant-menu-dark .ant-menu-sub,
 .enterprise-menu.ant-menu-dark .ant-menu-submenu,
 .enterprise-menu.ant-menu-dark .ant-menu-submenu-title {
+  background: var(--console-surface);
+}
+
+.enterprise-menu.ant-menu-inline,
+.enterprise-menu .ant-menu-inline,
+.enterprise-menu .ant-menu-sub.ant-menu-inline,
+.enterprise-menu .ant-menu-submenu,
+.enterprise-menu .ant-menu-submenu-inline,
+.enterprise-menu .ant-menu-submenu-open,
+.enterprise-menu .ant-menu-submenu-open > .ant-menu,
+.enterprise-menu .ant-menu-submenu-open > .ant-menu-sub,
+.enterprise-menu .ant-menu-submenu-selected,
+.enterprise-menu .ant-menu-submenu-selected > .ant-menu,
+.enterprise-menu .ant-menu-submenu-selected > .ant-menu-sub,
+.enterprise-menu .ant-menu-submenu-active,
+.enterprise-menu .ant-menu-submenu-active > .ant-menu,
+.enterprise-menu .ant-menu-submenu-active > .ant-menu-sub {
   background: var(--console-surface);
 }
 
@@ -352,7 +377,7 @@ body:has(.enterprise-admin-shell) {
 }
 
 .enterprise-menu .ant-menu-sub.ant-menu-inline {
-  background: transparent;
+  background: var(--console-surface);
 }
 
 .enterprise-menu--management > .enterprise-dashboard-item.ant-menu-item-selected {
@@ -395,6 +420,18 @@ body:has(.enterprise-admin-shell) {
 
 .ant-layout-sider.enterprise-sider.ant-layout-sider-collapsed .enterprise-sider-collapse {
   width: 100%;
+}
+
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu.ant-menu,
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu .ant-menu,
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu .ant-menu-sub,
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu .ant-menu-sub.ant-menu-inline,
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu.ant-menu-light .ant-menu-sub.ant-menu-inline,
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu.ant-menu-dark .ant-menu-sub.ant-menu-inline,
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu .ant-menu-submenu > .ant-menu,
+.enterprise-admin-shell .ant-layout-sider.enterprise-sider .enterprise-menu .ant-menu-submenu > .ant-menu-sub {
+  background-color: var(--console-surface);
+  background-image: none;
 }
 
 .enterprise-main-layout {

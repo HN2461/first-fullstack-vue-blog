@@ -4,12 +4,21 @@
     <div class="register-left">
       <!-- 动态背景 -->
       <div class="left-bg">
+        <!-- 光晕效果 -->
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+        <div class="bg-glow glow-3"></div>
+        <!-- 旋转圆圈 -->
         <div class="bg-circle c1"></div>
         <div class="bg-circle c2"></div>
         <div class="bg-circle c3"></div>
-        <div class="bg-dot d1"></div>
-        <div class="bg-dot d2"></div>
-        <div class="bg-dot d3"></div>
+        <div class="bg-circle c4"></div>
+        <!-- 浮动粒子 -->
+        <div class="bg-dot" v-for="i in 12" :key="i" :class="'d' + i"></div>
+        <!-- 流动线条 -->
+        <div class="bg-line line-1"></div>
+        <div class="bg-line line-2"></div>
+        <div class="bg-line line-3"></div>
       </div>
 
       <!-- Logo - 紧贴左上角 -->
@@ -250,10 +259,51 @@ async function handleSubmit() {
   pointer-events: none;
 }
 
+/* 光晕效果 */
+.bg-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+
+.glow-1 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(22, 119, 255, 0.4), transparent);
+  top: -100px;
+  right: -100px;
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+.glow-2 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.35), transparent);
+  bottom: -50px;
+  left: -50px;
+  animation: glow-pulse 5s ease-in-out infinite 1s;
+}
+
+.glow-3 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.3), transparent);
+  top: 50%;
+  left: 50%;
+  animation: glow-pulse 6s ease-in-out infinite 2s;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.3); opacity: 0.8; }
+}
+
+/* 旋转圆圈 */
 .bg-circle {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.15);
 }
 
 .c1 {
@@ -261,23 +311,39 @@ async function handleSubmit() {
   height: 500px;
   top: -150px;
   right: -150px;
-  animation: spin 30s linear infinite;
+  animation: spin 25s linear infinite;
+  border-style: dashed;
+  border-color: rgba(22, 119, 255, 0.2);
 }
 
 .c2 {
-  width: 350px;
-  height: 350px;
+  width: 380px;
+  height: 380px;
   bottom: -100px;
   left: -100px;
-  animation: spin 25s linear infinite reverse;
+  animation: spin 20s linear infinite reverse;
+  border-color: rgba(22, 119, 255, 0.2);
 }
 
 .c3 {
-  width: 200px;
-  height: 200px;
+  width: 220px;
+  height: 220px;
   top: 45%;
   right: 20%;
-  animation: spin 20s linear infinite;
+  animation: spin 18s linear infinite;
+  border-width: 3px;
+  border-style: dotted;
+  border-color: rgba(99, 102, 241, 0.2);
+}
+
+.c4 {
+  width: 180px;
+  height: 180px;
+  top: 10%;
+  left: 15%;
+  animation: spin 12s linear infinite reverse;
+  border-color: rgba(99, 102, 241, 0.2);
+  border-style: dashed;
 }
 
 @keyframes spin {
@@ -285,22 +351,85 @@ async function handleSubmit() {
   to { transform: rotate(360deg); }
 }
 
+/* 浮动粒子 */
 .bg-dot {
   position: absolute;
-  width: 6px;
-  height: 6px;
-  background: rgba(255, 255, 255, 0.15);
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 50%;
-  animation: float-dot 6s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 30px rgba(22, 119, 255, 0.3);
 }
 
-.d1 { top: 20%; left: 10%; animation-delay: 0s; }
-.d2 { top: 60%; right: 15%; animation-delay: 2s; }
-.d3 { bottom: 25%; left: 30%; animation-delay: 4s; }
+.d1 { top: 10%; left: 5%; animation: float-1 8s ease-in-out infinite; }
+.d2 { top: 25%; left: 20%; animation: float-2 7s ease-in-out infinite 0.5s; }
+.d3 { top: 40%; left: 8%; animation: float-3 9s ease-in-out infinite 1s; }
+.d4 { top: 15%; right: 10%; animation: float-1 6s ease-in-out infinite 1.5s; }
+.d5 { top: 35%; right: 20%; animation: float-2 8s ease-in-out infinite 2s; }
+.d6 { top: 55%; left: 15%; animation: float-3 7s ease-in-out infinite 0.5s; }
+.d7 { top: 70%; left: 25%; animation: float-1 9s ease-in-out infinite 1s; }
+.d8 { top: 65%; right: 15%; animation: float-2 6s ease-in-out infinite 2.5s; }
+.d9 { bottom: 20%; left: 10%; animation: float-3 8s ease-in-out infinite 1.5s; }
+.d10 { bottom: 15%; right: 25%; animation: float-1 7s ease-in-out infinite 3s; }
+.d11 { top: 80%; left: 40%; animation: float-2 9s ease-in-out infinite 0.5s; }
+.d12 { top: 50%; right: 8%; animation: float-3 6s ease-in-out infinite 2s; }
 
-@keyframes float-dot {
-  0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
-  50% { transform: translateY(-20px) scale(1.5); opacity: 0.6; }
+@keyframes float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+  25% { transform: translate(25px, -40px) scale(1.3); opacity: 1; }
+  50% { transform: translate(-15px, -65px) scale(1.6); opacity: 0.7; }
+  75% { transform: translate(20px, -30px) scale(1.2); opacity: 1; }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+  33% { transform: translate(-30px, -50px) scale(1.4); opacity: 1; }
+  66% { transform: translate(20px, -75px) scale(1.5); opacity: 0.8; }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1.1); opacity: 0.7; }
+  50% { transform: translate(35px, -55px) scale(1.7); opacity: 1; }
+}
+
+/* 流动线条 */
+.bg-line {
+  position: absolute;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(22, 119, 255, 0.6), rgba(99, 102, 241, 0.4), transparent);
+  border-radius: 3px;
+  box-shadow: 0 0 10px rgba(22, 119, 255, 0.3);
+}
+
+.line-1 {
+  width: 350px;
+  top: 30%;
+  left: -50px;
+  transform: rotate(-15deg);
+  animation: line-flow 4s ease-in-out infinite;
+}
+
+.line-2 {
+  width: 300px;
+  bottom: 40%;
+  right: -30px;
+  transform: rotate(20deg);
+  animation: line-flow 5s ease-in-out infinite 1s;
+}
+
+.line-3 {
+  width: 250px;
+  top: 60%;
+  left: 30%;
+  transform: rotate(-10deg);
+  animation: line-flow 6s ease-in-out infinite 2s;
+}
+
+@keyframes line-flow {
+  0% { transform: translateX(-100%) rotate(-15deg); opacity: 0; }
+  30% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { transform: translateX(250%) rotate(-15deg); opacity: 0; }
 }
 
 /* Logo - 紧贴左上角 */

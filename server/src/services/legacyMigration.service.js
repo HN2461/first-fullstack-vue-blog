@@ -5,6 +5,15 @@ import matter from 'gray-matter'
 
 const ASCII_FALLBACK_PREFIX = 'legacy'
 const NAVIGATION_FILE_NAMES = new Set(['目录.md', 'README.md', 'readme.md', 'index.md', 'Index.md'])
+const KNOWN_CONTENT_REPAIRS = {
+  '项目复用技术/WebSocket/09-WebSocket与AI流式传输深度解析_SSE对比_实现方案与最佳实践.md': [
+    ['AI生成的token可能���序到达', 'AI生成的token可能乱序到达'],
+    ['AI流式传输��「首字节时间」', 'AI流式传输的「首字节时间」']
+  ]
+}
+const EXPECTED_REPLACEMENT_CHAR_PATHS = new Set([
+  '我的总结/JS/辅助资料/10_字符串.md'
+])
 
 export function shortHash(input, length = 8) {
   return crypto.createHash('sha256').update(String(input)).digest('hex').slice(0, length)
@@ -189,8 +198,12 @@ export function buildLegacyArticleRecord(file, notesRoot) {
   }
 
   const frontmatter = parsed.data || {}
-  const contentMarkdown = parsed.content || sanitizedContent
   const relPath = normalizeRelPath(path.relative(notesRoot, file.fullPath) || file.relPath)
+  let contentMarkdown = parsed.content || sanitizedContent
+  const repairs = KNOWN_CONTENT_REPAIRS[relPath] || []
+  for (const [brokenText, fixedText] of repairs) {
+    contentMarkdown = contentMarkdown.split(brokenText).join(fixedText)
+  }
   const rawSegments = path.dirname(relPath).split('/').filter(Boolean)
   const categoryPath = rawSegments.length > 0
     ? rawSegments.map(cleanDirectoryName).filter(Boolean)
@@ -227,7 +240,13 @@ export function analyzeLegacyNotes(notesRoot) {
   const scan = scanLegacyNotes(notesRoot)
   const records = scan.files.map((file) => buildLegacyArticleRecord(file, notesRoot))
   const suspiciousEncoding = records
-    .filter((record) => /�|鍥|乱码/.test(record.contentMarkdown))
+    .filter((record) => {
+      if (EXPECTED_REPLACEMENT_CHAR_PATHS.has(record.sourcePath)) {
+        return /鍥/.test(record.contentMarkdown)
+      }
+
+      return /�|鍥/.test(record.contentMarkdown)
+    })
     .map((record) => record.sourcePath)
 
   return {

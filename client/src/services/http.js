@@ -83,3 +83,66 @@ export function verifyCaptcha(captchaId, captchaText) {
     body: JSON.stringify({ captchaId, captchaText })
   })
 }
+
+// ==================== 个人信息相关 ====================
+
+/**
+ * 获取个人信息
+ */
+export function getProfile() {
+  return request('/api/profile')
+}
+
+/**
+ * 更新个人信息
+ * @param {Object} data - { username?, bio? }
+ */
+export function updateProfile(data) {
+  return request('/api/profile', {
+    method: 'PUT',
+    body: JSON.stringify(data)
+  })
+}
+
+/**
+ * 上传头像
+ * @param {File} file - 头像文件
+ */
+export async function uploadAvatar(file) {
+  const formData = new FormData()
+  formData.append('avatar', file)
+
+  const token = getStoredToken()
+  const response = await fetch('/api/profile/avatar', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: formData
+  })
+
+  const payload = await response.json().catch(() => null)
+  if (!response.ok || payload?.success === false) {
+    throw new Error(payload?.message || '上传失败')
+  }
+  return payload?.data ?? null
+}
+
+/**
+ * 修改密码
+ * @param {Object} data - { oldPassword, newPassword }
+ */
+export function changePassword(data) {
+  return request('/api/profile/password', {
+    method: 'PUT',
+    body: JSON.stringify(data)
+  })
+}
+
+/**
+ * 获取用户统计数据
+ * @returns {Promise<{articles: number, comments: number, likes: number}>}
+ */
+export function getUserStats() {
+  return request('/api/profile/stats')
+}
