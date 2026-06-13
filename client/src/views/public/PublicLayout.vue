@@ -2,9 +2,9 @@
   <div class="public-site">
     <header class="public-header">
       <router-link class="public-brand" to="/">
-        <span>FS</span>
+        <span>K</span>
         <div>
-          <strong>全站知识库</strong>
+          <strong>Knowledge OS</strong>
           <small>Personal Tech Knowledge Base</small>
         </div>
       </router-link>

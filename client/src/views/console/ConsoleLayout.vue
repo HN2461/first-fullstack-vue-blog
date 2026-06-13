@@ -46,7 +46,7 @@
           </a-button>
         </a-tooltip>
 
-        <a-dropdown trigger="click">
+        <a-dropdown :trigger="['hover']">
           <button class="enterprise-profile-button" type="button">
             <a-avatar class="enterprise-avatar">{{ userInitial }}</a-avatar>
             <span>
@@ -81,19 +81,15 @@
         :trigger="null"
       >
         <div class="enterprise-sider-head">
-          <button class="enterprise-sider-collapse" type="button" @click="siderCollapsed = !siderCollapsed">
-            <MenuFoldOutlined v-if="!siderCollapsed" />
-            <MenuUnfoldOutlined v-else />
-          </button>
           <div v-if="!siderCollapsed">
-            <span>{{ primarySection === 'management' ? 'MANAGEMENT' : 'KNOWLEDGE' }}</span>
             <strong>{{ primarySection === 'management' ? '后台管理' : '知识库' }}</strong>
           </div>
+          <strong v-else>{{ primarySection === 'management' ? '管' : '知' }}</strong>
         </div>
 
         <a-menu
           v-model:openKeys="openKeys"
-          class="enterprise-menu"
+          :class="['enterprise-menu', `enterprise-menu--${primarySection}`]"
           mode="inline"
           :theme="menuTheme"
           :inline-collapsed="siderCollapsed"
@@ -143,32 +139,36 @@
           </template>
 
           <template v-else>
-            <a-sub-menu key="managementRoot">
-              <template #icon><ControlOutlined /></template>
-              <template #title>后台管理</template>
-              <a-menu-item key="/console">
-                <template #icon><DashboardOutlined /></template>
-                管理工作台
-              </a-menu-item>
-              <a-sub-menu key="contentRoot">
-                <template #icon><FileTextOutlined /></template>
-                <template #title>内容资产</template>
-                <a-menu-item key="/console/manage/articles">文章管理</a-menu-item>
-                <a-menu-item key="/console/manage/categories">分类体系</a-menu-item>
-                <a-menu-item key="/console/manage/tags">标签体系</a-menu-item>
-                <a-menu-item key="/console/manage/media">媒体资产</a-menu-item>
-              </a-sub-menu>
-              <a-sub-menu key="governanceRoot">
-                <template #icon><SettingOutlined /></template>
-                <template #title>运营治理</template>
-                <a-menu-item key="/console/manage/comments">评论审核</a-menu-item>
-                <a-menu-item key="/console/manage/users">用户管理</a-menu-item>
-                <a-menu-item key="/console/manage/notifications">公告管理</a-menu-item>
-                <a-menu-item key="/console/manage/settings">系统设置</a-menu-item>
-              </a-sub-menu>
+            <a-menu-item class="enterprise-dashboard-item" key="/console">
+              <template #icon><DashboardOutlined /></template>
+              管理工作台
+            </a-menu-item>
+            <a-sub-menu key="contentRoot">
+              <template #icon><FileTextOutlined /></template>
+              <template #title>内容资产</template>
+              <a-menu-item key="/console/manage/articles">文章管理</a-menu-item>
+              <a-menu-item key="/console/manage/categories">分类体系</a-menu-item>
+              <a-menu-item key="/console/manage/tags">标签体系</a-menu-item>
+              <a-menu-item key="/console/manage/media">媒体资产</a-menu-item>
+            </a-sub-menu>
+            <a-sub-menu key="governanceRoot">
+              <template #icon><SettingOutlined /></template>
+              <template #title>运营治理</template>
+              <a-menu-item key="/console/manage/comments">评论审核</a-menu-item>
+              <a-menu-item key="/console/manage/users">用户管理</a-menu-item>
+              <a-menu-item key="/console/manage/notifications">公告管理</a-menu-item>
+              <a-menu-item key="/console/manage/settings">系统设置</a-menu-item>
             </a-sub-menu>
           </template>
         </a-menu>
+
+        <div class="enterprise-sider-footer">
+          <button class="enterprise-sider-collapse" type="button" @click="siderCollapsed = !siderCollapsed">
+            <MenuFoldOutlined v-if="!siderCollapsed" />
+            <MenuUnfoldOutlined v-else />
+            <span v-if="!siderCollapsed">收起菜单</span>
+          </button>
+        </div>
       </a-layout-sider>
 
       <a-layout class="enterprise-main-layout">
@@ -266,11 +266,19 @@ function handleProfileAction({ key }) {
 
 function resolveOpenKeys(path) {
   if (primarySection.value === 'management') {
-    if (path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/tags') || path.includes('/manage/media')) {
-      return ['managementRoot', 'contentRoot']
+    if (path === '/console') {
+      return []
     }
 
-    return ['managementRoot', 'governanceRoot']
+    if (path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/tags') || path.includes('/manage/media')) {
+      return ['contentRoot']
+    }
+
+    if (path.includes('/manage/comments') || path.includes('/manage/users') || path.includes('/manage/notifications') || path.includes('/manage/settings')) {
+      return ['governanceRoot']
+    }
+
+    return []
   }
 
   if (path.includes('/console/categories/')) {

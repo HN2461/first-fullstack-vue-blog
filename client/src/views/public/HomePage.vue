@@ -109,7 +109,7 @@ const capabilityItems = [
   },
   {
     title: '数据驱动',
-    description: '所有内容进入 MongoDB，不再依赖静态文件，后续迁移和扩展更可控。',
+    description: '所有内容进入 MongoDB，不再依赖静态文件，数据维护和功能扩展更可控。',
     icon: DatabaseOutlined
   }
 ]

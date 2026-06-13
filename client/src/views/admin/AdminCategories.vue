@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">TAXONOMY</p>
         <h2>分类体系</h2>
-        <p>维护知识库一级目录，用于文章归档、门户筛选和后续知识导航结构扩展。</p>
+        <p>维护知识库一级目录，用于文章归档、门户筛选和知识导航。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="loadCategories">刷新</a-button>

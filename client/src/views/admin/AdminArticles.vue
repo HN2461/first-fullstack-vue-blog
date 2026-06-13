@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">CONTENT ASSETS</p>
         <h2>文章管理</h2>
-        <p>维护草稿、已发布文章和后续迁移进数据库的知识库文档，统一管理内容生命周期。</p>
+        <p>维护草稿、已发布文章和知识库文档，统一管理内容生命周期。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="loadArticles">刷新</a-button>

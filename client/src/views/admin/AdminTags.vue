@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">TAXONOMY</p>
         <h2>标签体系</h2>
-        <p>维护知识主题、技术栈和内容标签，支持文章聚合、搜索筛选和后续推荐能力。</p>
+        <p>维护知识主题、技术栈和内容标签，支持文章聚合与搜索筛选。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="loadTags">刷新</a-button>

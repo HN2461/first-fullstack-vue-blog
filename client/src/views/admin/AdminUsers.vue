@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">IDENTITY</p>
         <h2>用户管理</h2>
-        <p>查看注册用户、角色和账号状态，为后续权限体系、团队协作和更多业务模块预留治理入口。</p>
+        <p>查看注册用户、角色和账号状态，维护控制台访问权限与账号秩序。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="loadUsers">刷新</a-button>

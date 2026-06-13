@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">ASSETS</p>
         <h2>媒体资产</h2>
-        <p>统一上传和管理文章配图、附件和迁移资料，当前存储到本地 uploads 目录，后续可平滑接对象存储。</p>
+        <p>统一上传和管理文章配图、附件和资料文件，当前存储到本地 uploads 目录。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="loadMedia">刷新</a-button>

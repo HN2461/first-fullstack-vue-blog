@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">GOVERNANCE</p>
         <h2>评论审核</h2>
-        <p>统一处理读者评论的展示、驳回和隐藏状态，后续可扩展举报、敏感词、人工复核等治理能力。</p>
+        <p>统一处理读者评论的展示、驳回和隐藏状态，保持知识库互动区清晰可控。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="loadComments">刷新</a-button>

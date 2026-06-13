@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">ACCOUNT</p>
         <h2>个人信息</h2>
-        <p>查看当前登录账号、权限身份和系统访问状态。资料编辑、头像上传和密码修改后续可在这里继续扩展。</p>
+        <p>查看当前登录账号、权限身份和系统访问状态。</p>
       </div>
     </div>
 
@@ -87,13 +87,13 @@ const securityItems = [
   },
   {
     title: '资料编辑',
-    description: '后续可接入用户资料修改接口。',
-    status: '待扩展'
+    description: '用于维护账号昵称、头像和公开资料。',
+    status: '规划中'
   },
   {
     title: '密码安全',
-    description: '后续可接入修改密码和登录记录。',
-    status: '待扩展'
+    description: '用于维护密码策略、登录记录和安全提醒。',
+    status: '规划中'
   }
 ]
 </script>

@@ -6,7 +6,7 @@
       <div>
         <p class="enterprise-page-kicker">WORKBENCH</p>
         <h2>知识库运营工作台</h2>
-        <p>集中查看内容生产、互动审核、用户治理和系统配置状态。这个控制台会作为后续扩展模块的统一入口。</p>
+        <p>集中查看内容生产、互动审核、用户治理和系统配置状态。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="$router.push('/console/articles')">查看知识库</a-button>

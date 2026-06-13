@@ -4,7 +4,7 @@
       <div>
         <p class="enterprise-page-kicker">OPERATIONS</p>
         <h2>公告管理</h2>
-        <p>维护站内公告和运营通知，后续可扩展发布范围、置顶策略和消息中心。</p>
+        <p>维护站内公告和运营通知，保持门户信息同步更新。</p>
       </div>
       <div class="enterprise-page-toolbar">
         <a-button @click="loadAnnouncements">刷新</a-button>

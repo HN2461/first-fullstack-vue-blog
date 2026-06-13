@@ -2,14 +2,14 @@
   <section class="enterprise-login">
     <div class="login-product-panel">
       <div class="login-brand">
-        <span>FS</span>
+        <span>K</span>
         <div>
-          <strong>全站知识库管理系统</strong>
+          <strong>Knowledge OS</strong>
           <small>Personal Knowledge Operations</small>
         </div>
       </div>
       <h1>面向长期维护的个人技术知识库后台</h1>
-      <p>统一管理文章库、媒体资产、评论审核、站点配置和后续迁移进来的 Markdown 知识文档。</p>
+      <p>统一管理文章库、媒体资产、评论审核、站点配置和技术知识文档。</p>
       <a-row :gutter="[12, 12]" class="login-capabilities">
         <a-col :span="12"><a-card size="small">内容发布</a-card></a-col>
         <a-col :span="12"><a-card size="small">评论审核</a-card></a-col>
