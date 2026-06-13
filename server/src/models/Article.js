@@ -71,6 +71,24 @@ const articleSchema = new mongoose.Schema(
       type: Number,
       default: 1
     },
+    source: {
+      type: String,
+      enum: ['manual', 'legacy-notes'],
+      default: 'manual'
+    },
+    sourcePath: {
+      type: String,
+      default: '',
+      index: true
+    },
+    sourceHash: {
+      type: String,
+      default: ''
+    },
+    importedAt: {
+      type: Date,
+      default: null
+    },
     publishedAt: {
       type: Date,
       default: null
@@ -126,6 +144,10 @@ articleSchema.methods.toSafeJSON = function toSafeJSON() {
     commentCount: this.commentCount,
     wordCount: this.wordCount,
     readingMinutes: this.readingMinutes,
+    source: this.source,
+    sourcePath: this.sourcePath,
+    sourceHash: this.sourceHash,
+    importedAt: this.importedAt,
     publishedAt: this.publishedAt,
     createdBy: this.createdBy?.toString?.(),
     updatedBy: this.updatedBy?.toString?.(),

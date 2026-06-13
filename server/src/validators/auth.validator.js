@@ -8,7 +8,9 @@ export const registerSchema = z.object({
 
 export const loginSchema = z.object({
   email: z.string().trim().email('邮箱格式不正确'),
-  password: z.string().min(1, '请输入密码')
+  password: z.string().min(1, '请输入密码'),
+  captchaId: z.string().min(1, '验证码 ID 缺失'),
+  captchaText: z.string().min(1, '请输入验证码')
 })
 
 export function parseBody(schema, body) {

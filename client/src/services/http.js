@@ -63,3 +63,23 @@ export function loginAccount(data) {
 export function getCurrentUser() {
   return request('/api/auth/me')
 }
+
+/**
+ * 获取验证码
+ * @returns {Promise<{captchaId: string, captchaSvg: string}>}
+ */
+export function getCaptcha() {
+  return request('/api/captcha/generate')
+}
+
+/**
+ * 验证验证码
+ * @param {string} captchaId - 验证码 ID
+ * @param {string} captchaText - 用户输入的验证码
+ */
+export function verifyCaptcha(captchaId, captchaText) {
+  return request('/api/captcha/verify', {
+    method: 'POST',
+    body: JSON.stringify({ captchaId, captchaText })
+  })
+}

@@ -22,6 +22,7 @@ export const env = Object.freeze({
   jwtSecret: process.env.JWT_SECRET || 'development-only-secret',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
   uploadDir: process.env.UPLOAD_DIR || 'uploads',
+  legacyNotesDir: process.env.OLD_NOTES_DIR || path.resolve(rootDir, '../个人技术博客网站/public/notes'),
   adminUsername: process.env.ADMIN_USERNAME || '',
   adminEmail: process.env.ADMIN_EMAIL || '',
   adminPassword: process.env.ADMIN_PASSWORD || ''

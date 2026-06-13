@@ -133,11 +133,18 @@ describe('auth routes', () => {
       })
       .expect(201)
 
+    const captchaResponse = await request(app)
+      .get('/api/captcha/generate')
+      .expect(200)
+    const storedCaptcha = global.captchaStore.get(captchaResponse.body.captchaId)
+
     const loginResponse = await request(app)
       .post('/api/auth/login')
       .send({
         email: 'reader@example.com',
-        password: 'password123'
+        password: 'password123',
+        captchaId: captchaResponse.body.captchaId,
+        captchaText: storedCaptcha.text
       })
       .expect(200)
 

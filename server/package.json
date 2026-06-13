@@ -7,7 +7,12 @@
     "dev": "node --watch src/server.js",
     "start": "node src/server.js",
     "test": "vitest run",
-    "create:admin": "node src/scripts/createAdmin.js"
+    "create:admin": "node src/scripts/createAdmin.js",
+    "migrate": "node src/scripts/migrateArticles.js",
+    "migrate:draft": "node src/scripts/migrateArticles.js --draft",
+    "migrate:dry-run": "node src/scripts/migrateArticles.js --dry-run",
+    "migrate:audit": "node src/scripts/migrateArticles.js --audit",
+    "migrate:repair": "node src/scripts/migrateArticles.js --repair-existing"
   },
   "dependencies": {
     "@blog/shared": "file:../shared",
@@ -15,11 +20,13 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "gray-matter": "^4.0.3",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.18.1",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "svg-captcha": "^1.4.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {

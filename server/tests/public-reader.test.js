@@ -125,4 +125,31 @@ describe('public reader routes', () => {
     expect(byTag.body.data.items).toHaveLength(1)
     expect(byQuery.body.data.items).toHaveLength(1)
   })
+
+  it('includes descendant category articles when filtering by a parent category', async () => {
+    const app = createApp()
+    const childCategory = await createCategory({
+      name: 'Express',
+      slug: 'express-child',
+      parent: category.id
+    })
+
+    await createArticle({
+      title: '子分类文章',
+      slug: 'child-category-post',
+      summary: '这篇文章属于 Node.js 的子分类',
+      contentMarkdown: '# 子分类文章',
+      category: childCategory.id,
+      status: ARTICLE_STATUS.PUBLISHED
+    }, admin)
+
+    const response = await request(app)
+      .get('/api/public/articles')
+      .query({ category: 'node-js', pageSize: 20 })
+      .expect(200)
+
+    expect(response.body.data.items.map((item) => item.slug)).toEqual(
+      expect.arrayContaining(['published-post', 'child-category-post'])
+    )
+  })
 })

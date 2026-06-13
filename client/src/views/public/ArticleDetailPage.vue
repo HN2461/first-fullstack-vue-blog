@@ -38,7 +38,7 @@
       </div>
 
       <div :class="inConsole ? 'console-reader-card' : ''">
-        <MarkdownRenderer :content="article.contentMarkdown" />
+        <MarkdownRenderer :content="article.contentMarkdown" :asset-base="legacyAssetBase" />
       </div>
 
       <section class="comment-section">
@@ -86,6 +86,11 @@ const categoryPath = computed(() => {
   const slug = article.value.category?.slug
   if (!slug) return inConsole.value ? '/console/articles' : '/articles'
   return inConsole.value ? `/console/categories/${slug}` : `/categories/${slug}`
+})
+const legacyAssetBase = computed(() => {
+  if (article.value.source !== 'legacy-notes' || !article.value.sourcePath) return ''
+  const directory = article.value.sourcePath.split('/').slice(0, -1).map(encodeURIComponent).join('/')
+  return directory ? `/legacy-notes/${directory}` : '/legacy-notes'
 })
 const loading = ref(false)
 const errorMessage = ref('')

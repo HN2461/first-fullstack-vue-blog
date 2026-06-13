@@ -32,6 +32,11 @@
             <template #icon><HomeOutlined /></template>
           </a-button>
         </a-tooltip>
+        <a-tooltip title="全文检索">
+          <a-button class="enterprise-icon-action" @click="router.push('/console/search')">
+            <template #icon><SearchOutlined /></template>
+          </a-button>
+        </a-tooltip>
         <a-tooltip v-if="authStore.isAdmin" title="新建文章">
           <a-button class="enterprise-icon-action" type="primary" @click="router.push('/console/manage/articles/new')">
             <template #icon><PlusOutlined /></template>
@@ -82,7 +87,7 @@
       >
         <div class="enterprise-sider-head">
           <div v-if="!siderCollapsed">
-            <strong>{{ primarySection === 'management' ? '后台管理' : '知识库' }}</strong>
+            <strong>{{ primarySection === 'management' ? '后台管理' : '文章分类' }}</strong>
           </div>
           <strong v-else>{{ primarySection === 'management' ? '管' : '知' }}</strong>
         </div>
@@ -97,45 +102,12 @@
           @click="handleSecondaryClick"
         >
           <template v-if="primarySection === 'knowledge'">
-            <a-sub-menu key="knowledgeRoot">
-              <template #icon><BookOutlined /></template>
-              <template #title>知识库</template>
-              <a-menu-item key="/console/articles">
-                <template #icon><UnorderedListOutlined /></template>
-                全部文章
-              </a-menu-item>
-              <a-menu-item key="/console/search">
-                <template #icon><SearchOutlined /></template>
-                全文检索
-              </a-menu-item>
-              <a-menu-item key="/console/profile">
-                <template #icon><UserOutlined /></template>
-                个人中心
-              </a-menu-item>
-              <a-sub-menu key="categoryRoot">
-                <template #icon><FolderOutlined /></template>
-                <template #title>文章分类</template>
-                <a-sub-menu
-                  v-for="category in categoryTree"
-                  :key="`category:${category.slug}`"
-                >
-                  <template #icon><FolderOutlined /></template>
-                  <template #title>{{ category.name }}</template>
-                  <a-menu-item :key="`/console/categories/${category.slug}`">
-                    分类首页
-                  </a-menu-item>
-                  <a-menu-item
-                    v-for="article in category.articles"
-                    :key="`/console/articles/${article.slug}`"
-                  >
-                    {{ article.title }}
-                  </a-menu-item>
-                </a-sub-menu>
-                <a-menu-item v-if="categoryTree.length === 0" key="/console/articles" disabled>
-                  暂无分类
-                </a-menu-item>
-              </a-sub-menu>
-            </a-sub-menu>
+            <template v-for="category in categoryTree" :key="`category-node:${category.slug}`">
+              <ConsoleCategoryMenu :category="category" />
+            </template>
+            <a-menu-item v-if="categoryTree.length === 0" key="/console/articles" disabled>
+              暂无分类
+            </a-menu-item>
           </template>
 
           <template v-else>
@@ -183,7 +155,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, h, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   BookOutlined,
@@ -199,9 +171,9 @@ import {
   PlusOutlined,
   SearchOutlined,
   SettingOutlined,
-  UnorderedListOutlined,
   UserOutlined
 } from '@ant-design/icons-vue'
+import { Menu } from 'ant-design-vue'
 import { Moon, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
@@ -214,9 +186,11 @@ const authStore = useAuthStore()
 const categories = ref([])
 const articles = ref([])
 const siderCollapsed = ref(false)
-const openKeys = ref(['knowledgeRoot', 'categoryRoot'])
+const openKeys = ref([])
 
 const menuTheme = computed(() => appStore.isDark ? 'dark' : 'light')
+const AMenuItem = Menu.Item
+const ASubMenu = Menu.SubMenu
 const primarySection = computed(() => {
   if (route.path.includes('/console/manage') || route.path === '/console') {
     return authStore.isAdmin ? 'management' : 'knowledge'
@@ -233,11 +207,72 @@ const selectedKeys = computed(() => {
 const userInitial = computed(() => {
   return (authStore.user?.username || authStore.user?.email || 'U').slice(0, 1).toUpperCase()
 })
+const ConsoleCategoryMenu = defineComponent({
+  name: 'ConsoleCategoryMenu',
+  props: {
+    category: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
+    return () => h(
+      ASubMenu,
+      { key: `category:${props.category.slug}` },
+      {
+        icon: () => h(FolderOutlined),
+        title: () => props.category.name,
+        default: () => [
+          ...props.category.children.map((child) => h(ConsoleCategoryMenu, {
+            key: `category-node:${child.slug}`,
+            category: child
+          })),
+          ...props.category.articles.map((article) => h(AMenuItem, {
+            key: `/console/articles/${article.slug}`
+          }, () => article.title))
+        ]
+      }
+    )
+  }
+})
 const categoryTree = computed(() => {
-  return categories.value.map((category) => ({
-    ...category,
-    articles: articles.value.filter((article) => article.category?.slug === category.slug)
-  }))
+  const categoryMap = new Map(categories.value.map((category) => [
+    category.id,
+    {
+      ...category,
+      children: [],
+      articles: articles.value.filter((article) => article.category?.id === category.id)
+    }
+  ]))
+  const roots = []
+
+  categoryMap.forEach((category) => {
+    const parent = category.parent ? categoryMap.get(category.parent) : null
+
+    if (parent) {
+      parent.children.push(category)
+      return
+    }
+
+    roots.push(category)
+  })
+
+  const sortTree = (items) => {
+    return items
+      .sort((left, right) => {
+        const sortValue = (left.sortOrder || 0) - (right.sortOrder || 0)
+        return sortValue || left.name.localeCompare(right.name, 'zh-Hans-CN')
+      })
+      .map((item) => ({
+        ...item,
+        children: sortTree(item.children),
+        articles: item.articles.sort((left, right) => {
+          return new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt)
+        })
+      }))
+  }
+
+  return sortTree(roots)
 })
 
 function handlePrimaryClick({ key }) {
@@ -283,24 +318,42 @@ function resolveOpenKeys(path) {
 
   if (path.includes('/console/categories/')) {
     const slug = path.split('/').at(-1)
-    return ['knowledgeRoot', 'categoryRoot', `category:${slug}`]
+    return resolveCategoryOpenKeys(slug)
   }
 
   if (path.includes('/console/articles/')) {
     const article = articles.value.find((item) => `/console/articles/${item.slug}` === path)
     return article?.category?.slug
-      ? ['knowledgeRoot', 'categoryRoot', `category:${article.category.slug}`]
-      : ['knowledgeRoot', 'categoryRoot']
+      ? resolveCategoryOpenKeys(article.category.slug)
+      : []
   }
 
-  return ['knowledgeRoot']
+  return []
+}
+
+function resolveCategoryOpenKeys(slug) {
+  const categoryBySlug = new Map(categories.value.map((category) => [category.slug, category]))
+  const categoryById = new Map(categories.value.map((category) => [category.id, category]))
+  const current = categoryBySlug.get(slug)
+
+  if (!current) return [`category:${slug}`]
+
+  const keys = []
+  let pointer = current
+
+  while (pointer) {
+    keys.unshift(`category:${pointer.slug}`)
+    pointer = pointer.parent ? categoryById.get(pointer.parent) : null
+  }
+
+  return keys
 }
 
 async function loadKnowledgeMenu() {
   try {
     const [categoryList, articleResult] = await Promise.all([
       listPublicCategories(),
-      listPublicArticles({ pageSize: 30 })
+      listPublicArticles({ pageSize: 500 })
     ])
     categories.value = categoryList
     articles.value = articleResult.items || []

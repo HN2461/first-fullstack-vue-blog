@@ -6,7 +6,7 @@
         <h2>文章列表</h2>
         <p v-if="inConsole">按分类浏览知识库文章，点击任意条目可在控制台工作区内阅读全文。</p>
       </div>
-      <router-link :class="inConsole ? 'ant-btn ant-btn-default' : 'icon-button'" :to="searchPath">搜索</router-link>
+      <router-link v-if="!inConsole" class="icon-button" :to="searchPath">搜索</router-link>
     </div>
 
     <a-card v-if="inConsole" class="enterprise-table-card" :bordered="false">

@@ -12,7 +12,7 @@ function createHttpError(statusCode, code, message) {
 
 function getPagination(query) {
   const page = Math.max(1, Number.parseInt(query.page || '1', 10))
-  const pageSize = Math.min(30, Math.max(1, Number.parseInt(query.pageSize || '10', 10)))
+  const pageSize = Math.min(500, Math.max(1, Number.parseInt(query.pageSize || '10', 10)))
   return {
     page,
     pageSize,
@@ -43,6 +43,33 @@ async function resolveCategoryId(slug) {
   return category?._id || '__missing__'
 }
 
+async function resolveCategoryAndDescendantIds(slug) {
+  const rootId = await resolveCategoryId(slug)
+
+  if (!rootId || rootId === '__missing__') {
+    return rootId
+  }
+
+  const categories = await Category.find({ status: 'active' }).select('_id parent')
+  const pending = [rootId.toString()]
+  const resolved = new Set(pending)
+
+  while (pending.length > 0) {
+    const current = pending.shift()
+    categories.forEach((category) => {
+      const parentId = category.parent?.toString()
+      const categoryId = category._id.toString()
+
+      if (parentId === current && !resolved.has(categoryId)) {
+        resolved.add(categoryId)
+        pending.push(categoryId)
+      }
+    })
+  }
+
+  return [...resolved]
+}
+
 async function resolveTagId(slug) {
   if (!slug) return null
   const tag = await Tag.findOne({ slug })
@@ -52,11 +79,11 @@ async function resolveTagId(slug) {
 export async function listPublicArticles(rawQuery = {}) {
   const pagination = getPagination(rawQuery)
   const query = createPublishedQuery({ search: rawQuery.q || rawQuery.search || '' })
-  const categoryId = await resolveCategoryId(rawQuery.category)
+  const categoryIds = await resolveCategoryAndDescendantIds(rawQuery.category)
   const tagId = await resolveTagId(rawQuery.tag)
 
-  if (categoryId) {
-    query.category = categoryId
+  if (categoryIds) {
+    query.category = Array.isArray(categoryIds) ? { $in: categoryIds } : categoryIds
   }
 
   if (tagId) {
