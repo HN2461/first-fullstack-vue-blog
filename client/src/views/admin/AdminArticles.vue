@@ -164,8 +164,8 @@ import {
   listAdminArticles,
   deleteAdminArticle,
   publishAdminArticle,
-  updateAdminArticle,
-  listAdminCategories
+  updateAdminArticleStatus,
+  listAllAdminCategories
 } from '@/services/admin'
 
 const tableRef = ref(null)
@@ -273,7 +273,7 @@ async function fetchArticles(params) {
 
 async function loadCategories() {
   try {
-    categories.value = await listAdminCategories()
+    categories.value = await listAllAdminCategories()
   } catch (error) {
     console.error('分类加载失败:', error)
   }
@@ -321,7 +321,7 @@ async function handlePublish(id) {
 
 async function handleArchive(id) {
   try {
-    await updateAdminArticle(id, { status: 'archived' })
+    await updateAdminArticleStatus(id, 'archived')
     message.success('文章已下架')
     tableRef.value?.refresh()
   } catch (error) {
@@ -331,7 +331,7 @@ async function handleArchive(id) {
 
 async function handleToDraft(id) {
   try {
-    await updateAdminArticle(id, { status: 'draft' })
+    await updateAdminArticleStatus(id, 'draft')
     message.success('已转为草稿')
     tableRef.value?.refresh()
   } catch (error) {

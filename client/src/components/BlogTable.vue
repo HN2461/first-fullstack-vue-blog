@@ -11,7 +11,12 @@
  * <BlogTable :api-fn="listAdminArticles" :columns="columns" :params="{ status: 'published' }" />
 -->
 <template>
-  <div class="blog-table" :style="rootStyle" ref="rootRef">
+  <div
+    ref="rootRef"
+    class="blog-table"
+    :class="{ 'blog-table--stretch': isStretchLayout }"
+    :style="rootStyle"
+  >
     <!-- 工具栏 -->
     <div class="blog-table__toolbar" v-if="!bare && ($slots.toolbar || showColumnSetting)">
       <div class="blog-table__toolbar-left">
@@ -64,7 +69,11 @@
     </div>
 
     <!-- 表格区域 -->
-    <div class="blog-table__body" :style="bodyStyle">
+    <div
+      class="blog-table__body"
+      :class="{ 'blog-table__body--stretch': isStretchLayout }"
+      :style="bodyStyle"
+    >
       <a-table
         ref="tableRef"
         :row-key="rowKey"
@@ -113,6 +122,7 @@
 import { ref, computed, watch, onMounted, onUnmounted, useAttrs, nextTick } from 'vue'
 import { ReloadOutlined, SettingOutlined } from '@ant-design/icons-vue'
 import tableConfig from '@/config/table'
+import { normalizeTableResponse } from '@/utils/tableData'
 
 const props = defineProps({
   // 数据请求函数，返回 { items, total, page, pageSize }
@@ -237,12 +247,12 @@ async function loadData() {
     }
 
     const res = await props.apiFn(reqParams)
+    const normalized = normalizeTableResponse(res)
 
-    // 统一处理 { items, total } 格式
-    tableData.value = res.items || []
-    total.value = res.total || 0
+    tableData.value = normalized.items
+    total.value = normalized.total
 
-    emit('data-change', { items: tableData.value, total: total.value, raw: res })
+    emit('data-change', { items: tableData.value, total: total.value, raw: normalized.raw })
   } catch (error) {
     tableData.value = []
     total.value = 0
@@ -284,6 +294,7 @@ function getSelectedRows() {
 function clearSelection() {
   selectedRowKeys.value = []
   selectedRows.value = []
+  emit('selection-change', [], [])
 }
 
 // ──── 事件处理 ────
@@ -363,7 +374,7 @@ const rootStyle = computed(() => {
 
 const bodyStyle = computed(() => {
   const style = {}
-  if (props.height && props.height !== 'auto') {
+  if (isStretchLayout.value) {
     style.flex = '1 1 0'
     style.minHeight = 0
     style.overflow = 'hidden'
@@ -373,6 +384,8 @@ const bodyStyle = computed(() => {
   }
   return style
 })
+
+const isStretchLayout = computed(() => props.height && props.height !== 'auto')
 
 const tableAttrs = computed(() => {
   // 过滤掉不应传递给 a-table 的属性
@@ -436,12 +449,16 @@ defineExpose({
 
 <style scoped>
 .blog-table {
-  display: flex;
-  flex-direction: column;
+  display: block;
   background: var(--console-surface, #fff);
   border: 1px solid var(--console-border, #f0f0f0);
   border-radius: 8px;
   overflow: hidden;
+}
+
+.blog-table--stretch {
+  display: flex;
+  flex-direction: column;
 }
 
 /* 工具栏 */
@@ -491,12 +508,16 @@ defineExpose({
 
 /* 表格主体 */
 .blog-table__body {
+  min-height: 1px;
+}
+
+.blog-table__body--stretch {
   flex: 1 1 0;
   min-height: 0;
   overflow: hidden;
 }
 
-.blog-table__body :deep(.ant-table-wrapper) {
+.blog-table__body--stretch :deep(.ant-table-wrapper) {
   height: 100%;
 }
 

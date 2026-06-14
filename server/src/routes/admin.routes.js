@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import multer from 'multer'
 import { Router } from 'express'
 import { requireAdmin, requireAuth } from '../middlewares/auth.js'
-import { createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle } from '../services/article.service.js'
+import { createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle, updateArticleStatus } from '../services/article.service.js'
 import { createCategory, deleteCategory, listCategories, updateCategory } from '../services/category.service.js'
 import { listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
 import { createMediaFromFile, deleteMedia, getUploadSubdir, listMedia } from '../services/media.service.js'
@@ -12,6 +12,7 @@ import { getAdminStats } from '../services/stats.service.js'
 import { createTag, deleteTag, listTags, updateTag } from '../services/tag.service.js'
 import { ok } from '../utils/apiResponse.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
+import { buildSafeStoredFilename } from '../utils/uploadFilename.js'
 import { articleSchema, categorySchema, parseBody, tagSchema } from '../validators/content.validator.js'
 
 export const adminRouter = Router()
@@ -23,7 +24,7 @@ const storage = multer.diskStorage({
     cb(null, uploadDir)
   },
   filename(req, file, cb) {
-    const safeName = file.originalname.replace(/[^\w.\-]+/g, '-')
+    const safeName = buildSafeStoredFilename(file.originalname)
     cb(null, `${Date.now()}-${safeName}`)
   }
 })
@@ -95,6 +96,11 @@ adminRouter.patch('/articles/:id', asyncHandler(async (req, res) => {
   const input = parseBody(articleSchema, req.body)
   const article = await updateArticle(req.params.id, input, req.user)
   res.json(ok(article, '文章已保存'))
+}))
+
+adminRouter.patch('/articles/:id/status', asyncHandler(async (req, res) => {
+  const article = await updateArticleStatus(req.params.id, req.body.status, req.user)
+  res.json(ok(article, '文章状态已更新'))
 }))
 
 adminRouter.post('/articles/:id/publish', asyncHandler(async (req, res) => {

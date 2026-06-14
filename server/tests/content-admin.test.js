@@ -51,8 +51,8 @@ describe('content admin services', () => {
       name: 'Node.js',
       slug: 'node-js'
     })
-    expect(categories).toHaveLength(1)
-    expect(categories[0].slug).toBe('node-js')
+    expect(categories.items).toHaveLength(1)
+    expect(categories.items[0].slug).toBe('node-js')
   })
 
   it('creates and lists tags', async () => {
@@ -68,7 +68,7 @@ describe('content admin services', () => {
       name: 'Express',
       slug: 'express'
     })
-    expect(tags).toHaveLength(1)
+    expect(tags.items).toHaveLength(1)
   })
 
   it('creates a draft article and publishes it', async () => {
@@ -178,6 +178,14 @@ describe('content admin routes', () => {
       .expect(200)
 
     expect(publishResponse.body.data.status).toBe(ARTICLE_STATUS.PUBLISHED)
+
+    const archiveResponse = await request(app)
+      .patch(`/api/admin/articles/${articleResponse.body.data.id}/status`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ status: ARTICLE_STATUS.ARCHIVED })
+      .expect(200)
+
+    expect(archiveResponse.body.data.status).toBe(ARTICLE_STATUS.ARCHIVED)
   })
 
   it('rejects normal users from admin content APIs', async () => {

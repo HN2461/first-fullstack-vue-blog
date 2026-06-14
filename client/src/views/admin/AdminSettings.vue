@@ -75,6 +75,7 @@ import { ref, reactive, onMounted, onUnmounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { SettingOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
 import { getAdminSettings, updateAdminSettings } from '@/services/admin'
+import { setCachedSiteProfile } from '@/utils/siteProfile'
 
 const saving = ref(false)
 const currentTime = ref('')
@@ -97,6 +98,7 @@ async function loadSettings() {
   try {
     const settings = await getAdminSettings()
     Object.assign(form, settings)
+    setCachedSiteProfile(settings)
   } catch (error) {
     message.error('加载失败')
   }
@@ -106,6 +108,7 @@ async function saveSettings() {
   saving.value = true
   try {
     await updateAdminSettings(form)
+    setCachedSiteProfile(form)
     message.success('设置已保存')
   } catch (error) {
     message.error(error.message || '保存失败')

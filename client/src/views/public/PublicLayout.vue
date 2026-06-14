@@ -4,8 +4,8 @@
       <router-link class="public-brand" to="/">
         <span>K</span>
         <div>
-          <strong>Knowledge OS</strong>
-          <small>Personal Tech Knowledge Base</small>
+          <strong>{{ siteStore.siteTitle }}</strong>
+          <small>{{ siteStore.profile.authorName || 'Knowledge OS' }}</small>
         </div>
       </router-link>
 
@@ -22,7 +22,30 @@
 </template>
 
 <script setup>
+import { onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
+import { useSiteStore } from '@/stores/site'
+import { buildDocumentTitle } from '@/utils/siteProfile'
 
 const authStore = useAuthStore()
+const appStore = useAppStore()
+const siteStore = useSiteStore()
+const route = useRoute()
+
+onMounted(async () => {
+  const profile = await siteStore.loadProfile()
+  if (!localStorage.getItem('blog-theme') && profile.defaultTheme) {
+    appStore.setTheme(profile.defaultTheme, { persist: false })
+  }
+})
+
+watch(
+  () => [route.meta.title, siteStore.siteTitle],
+  ([routeTitle, siteTitle]) => {
+    document.title = buildDocumentTitle(routeTitle, siteTitle)
+  },
+  { immediate: true }
+)
 </script>

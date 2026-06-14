@@ -97,19 +97,30 @@ export async function updateArticle(id, input, user) {
   return article.toSafeJSON()
 }
 
-export async function publishArticle(id, user) {
+export async function updateArticleStatus(id, status, user) {
   const article = await Article.findById(id)
 
   if (!article || article.deletedAt) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
-  article.status = ARTICLE_STATUS.PUBLISHED
-  article.publishedAt = article.publishedAt || new Date()
-  article.updatedBy = user._id
-  await article.save()
+  if (!Object.values(ARTICLE_STATUS).includes(status)) {
+    throw createHttpError(400, 'INVALID_ARTICLE_STATUS', '文章状态不正确')
+  }
 
+  article.status = status
+  article.updatedBy = user._id
+
+  if (status === ARTICLE_STATUS.PUBLISHED) {
+    article.publishedAt = article.publishedAt || new Date()
+  }
+
+  await article.save()
   return article.toSafeJSON()
+}
+
+export async function publishArticle(id, user) {
+  return updateArticleStatus(id, ARTICLE_STATUS.PUBLISHED, user)
 }
 
 export async function listArticles(options = {}) {

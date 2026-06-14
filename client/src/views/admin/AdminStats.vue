@@ -159,7 +159,12 @@ import {
   TagOutlined, FolderOutlined, BellOutlined, ToolOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
-import { getAdminStats, listAdminArticles, listAdminAnnouncements, getAdminSettings } from '@/services/admin'
+import {
+  getAdminStats,
+  getAdminSettings,
+  listRecentAdminAnnouncements,
+  listRecentAdminArticles
+} from '@/services/admin'
 
 const authStore = useAuthStore()
 const stats = ref({})
@@ -235,13 +240,13 @@ async function loadData() {
   try {
     const [s, a, n, st] = await Promise.all([
       getAdminStats(),
-      listAdminArticles(),
-      listAdminAnnouncements(),
+      listRecentAdminArticles(5),
+      listRecentAdminAnnouncements(5),
       getAdminSettings()
     ])
     stats.value = s || {}
-    recentArticles.value = (a || []).slice(0, 5)
-    announcements.value = (n || []).slice(0, 5)
+    recentArticles.value = a || []
+    announcements.value = n || []
     settings.value = st || {}
   } catch (e) {
     console.error('工作台加载失败:', e)

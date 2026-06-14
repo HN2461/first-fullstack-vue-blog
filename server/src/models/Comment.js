@@ -61,13 +61,20 @@ const commentSchema = new mongoose.Schema(
 )
 
 commentSchema.methods.toSafeJSON = function toSafeJSON() {
+  const article = this.article && typeof this.article === 'object' && this.article.title
+    ? {
+        id: this.article._id?.toString?.() || this.article.id,
+        title: this.article.title,
+        slug: this.article.slug || ''
+      }
+    : this.article?.toString?.()
   const user = this.user && typeof this.user === 'object' && this.user.username
     ? this.user.toSafeJSON?.() || this.user
     : this.user?.toString?.()
 
   return {
     id: this._id.toString(),
-    article: this.article?.toString?.(),
+    article,
     user,
     parent: this.parent ? this.parent.toString() : null,
     replyTo: this.replyTo ? this.replyTo.toString() : null,

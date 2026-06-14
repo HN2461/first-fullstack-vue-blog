@@ -1,15 +1,17 @@
 import path from 'node:path'
 import { env } from '../config/env.js'
 import { Media } from '../models/Media.js'
+import { decodeUploadFilename } from '../utils/uploadFilename.js'
 
 export async function createMediaFromFile(file, user) {
   const kind = file.mimetype.startsWith('image/') ? 'image' : 'attachment'
   const normalizedPath = file.path.replace(/\\/g, '/')
   const uploadsIndex = normalizedPath.lastIndexOf('uploads/')
   const relativePath = uploadsIndex >= 0 ? normalizedPath.slice(uploadsIndex) : normalizedPath
+  const originalName = decodeUploadFilename(file.originalname)
   const media = await Media.create({
     filename: file.filename,
-    originalName: file.originalname,
+    originalName,
     mimeType: file.mimetype,
     size: file.size,
     url: `/${relativePath}`,

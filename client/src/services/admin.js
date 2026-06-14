@@ -1,8 +1,27 @@
 import http from './http'
+import { toItemList, toPageResult } from './contracts'
+
+async function collectAllPageItems(loader, params = {}, pageSize = 200) {
+  const items = []
+  let page = 1
+  let total = 0
+
+  do {
+    const result = await loader({ ...params, page, pageSize })
+    const pageItems = toItemList(result)
+    const pageTotal = Number(result?.total) || pageItems.length
+
+    items.push(...pageItems)
+    total = pageTotal
+    page += 1
+  } while (items.length < total)
+
+  return items
+}
 
 // 文章相关
-export function listAdminArticles(params = {}) {
-  return http.get('/api/admin/articles', { params })
+export async function listAdminArticles(params = {}) {
+  return toPageResult(await http.get('/api/admin/articles', { params }), params.pageSize || 10)
 }
 
 export function getAdminArticle(id) {
@@ -17,6 +36,10 @@ export function updateAdminArticle(id, data) {
   return http.patch(`/api/admin/articles/${id}`, data)
 }
 
+export function updateAdminArticleStatus(id, status) {
+  return http.patch(`/api/admin/articles/${id}/status`, { status })
+}
+
 export function publishAdminArticle(id) {
   return http.post(`/api/admin/articles/${id}/publish`)
 }
@@ -26,8 +49,8 @@ export function deleteAdminArticle(id) {
 }
 
 // 回收站相关
-export function listTrashArticles(params = {}) {
-  return http.get('/api/admin/articles/trash/list', { params })
+export async function listTrashArticles(params = {}) {
+  return toPageResult(await http.get('/api/admin/articles/trash/list', { params }), params.pageSize || 20)
 }
 
 export function restoreArticle(id) {
@@ -43,8 +66,12 @@ export function emptyTrash() {
 }
 
 // 分类相关
-export function listAdminCategories(params = {}) {
-  return http.get('/api/admin/categories', { params })
+export async function listAdminCategories(params = {}) {
+  return toPageResult(await http.get('/api/admin/categories', { params }), params.pageSize || 50)
+}
+
+export async function listAllAdminCategories(params = {}) {
+  return collectAllPageItems(listAdminCategories, params)
 }
 
 export function createAdminCategory(data) {
@@ -60,8 +87,12 @@ export function deleteAdminCategory(id) {
 }
 
 // 标签相关
-export function listAdminTags(params = {}) {
-  return http.get('/api/admin/tags', { params })
+export async function listAdminTags(params = {}) {
+  return toPageResult(await http.get('/api/admin/tags', { params }), params.pageSize || 50)
+}
+
+export async function listAllAdminTags(params = {}) {
+  return collectAllPageItems(listAdminTags, params)
 }
 
 export function createAdminTag(data) {
@@ -77,8 +108,8 @@ export function deleteAdminTag(id) {
 }
 
 // 评论相关
-export function listAdminComments(params = {}) {
-  return http.get('/api/admin/comments', { params })
+export async function listAdminComments(params = {}) {
+  return toPageResult(await http.get('/api/admin/comments', { params }), params.pageSize || 20)
 }
 
 export function reviewAdminComment(id, action) {
@@ -86,8 +117,8 @@ export function reviewAdminComment(id, action) {
 }
 
 // 用户相关
-export function listAdminUsers(params = {}) {
-  return http.get('/api/admin/users', { params })
+export async function listAdminUsers(params = {}) {
+  return toPageResult(await http.get('/api/admin/users', { params }), params.pageSize || 20)
 }
 
 export function updateAdminUserStatus(id, status) {
@@ -100,8 +131,8 @@ export function getAdminStats() {
 }
 
 // 媒体相关
-export function listAdminMedia(params = {}) {
-  return http.get('/api/admin/media', { params })
+export async function listAdminMedia(params = {}) {
+  return toPageResult(await http.get('/api/admin/media', { params }), params.pageSize || 20)
 }
 
 export function uploadAdminMedia(file) {
@@ -115,8 +146,16 @@ export function deleteAdminMedia(id) {
 }
 
 // 公告相关
-export function listAdminAnnouncements(params = {}) {
-  return http.get('/api/admin/announcements', { params })
+export async function listAdminAnnouncements(params = {}) {
+  return toPageResult(await http.get('/api/admin/announcements', { params }), params.pageSize || 20)
+}
+
+export async function listRecentAdminArticles(limit = 5, params = {}) {
+  return toItemList(await listAdminArticles({ pageSize: limit, ...params }))
+}
+
+export async function listRecentAdminAnnouncements(limit = 5, params = {}) {
+  return toItemList(await listAdminAnnouncements({ pageSize: limit, ...params }))
 }
 
 export function getAdminAnnouncement(id) {

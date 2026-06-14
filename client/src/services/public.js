@@ -1,5 +1,9 @@
 import http from './http'
 
+export function getPublicSiteProfile() {
+  return http.get('/api/public/site/profile')
+}
+
 export function getPublicHome() {
   return http.get('/api/public/home')
 }

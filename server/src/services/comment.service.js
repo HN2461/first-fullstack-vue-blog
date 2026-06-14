@@ -72,6 +72,7 @@ export async function listAdminComments(options = {}) {
 
   const [comments, total] = await Promise.all([
     Comment.find(query)
+      .populate('article', 'title slug')
       .populate('user')
       .sort({ createdAt: -1 })
       .skip(skip)

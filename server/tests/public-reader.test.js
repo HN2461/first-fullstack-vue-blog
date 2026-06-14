@@ -126,6 +126,24 @@ describe('public reader routes', () => {
     expect(byQuery.body.data.items).toHaveLength(1)
   })
 
+  it('returns an empty list for unknown category or tag slug instead of failing', async () => {
+    const app = createApp()
+
+    const unknownCategory = await request(app)
+      .get('/api/public/articles?category=missing-category')
+      .expect(200)
+
+    expect(unknownCategory.body.data.items).toEqual([])
+    expect(unknownCategory.body.data.total).toBe(0)
+
+    const unknownTag = await request(app)
+      .get('/api/public/articles?tag=missing-tag')
+      .expect(200)
+
+    expect(unknownTag.body.data.items).toEqual([])
+    expect(unknownTag.body.data.total).toBe(0)
+  })
+
   it('includes descendant category articles when filtering by a parent category', async () => {
     const app = createApp()
     const childCategory = await createCategory({

@@ -105,6 +105,16 @@ describe('interaction routes', () => {
       .expect(200)
 
     expect(approved.body.data.status).toBe(COMMENT_STATUS.VISIBLE)
+
+    const list = await request(app)
+      .get('/api/admin/comments')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(list.body.data.items[0].article).toMatchObject({
+      id: article.id,
+      title: article.title
+    })
   })
 
   it('blocks muted users from commenting', async () => {

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { buildDocumentTitle } from '@/utils/siteProfile'
 
 const HomePage = () => import('@/views/public/HomePage.vue')
 const ArticleListPage = () => import('@/views/public/ArticleListPage.vue')
@@ -112,6 +113,12 @@ export const router = createRouter({
           meta: { title: '分类文章', requiresAuth: true }
         },
         {
+          path: 'tags/:tag',
+          name: 'ConsoleTagArticles',
+          component: ArticleListPage,
+          meta: { title: '标签文章', requiresAuth: true }
+        },
+        {
           path: 'search',
           name: 'ConsoleSearch',
           component: SearchPage,
@@ -219,18 +226,22 @@ router.beforeEach(async (to) => {
     }
   }
 
+  if (to.path === '/console' && authStore.isLoggedIn && !authStore.isAdmin) {
+    return { name: 'ConsoleArticles' }
+  }
+
   if (to.meta.requiresAdmin && !authStore.isAdmin) {
-    return {
-      name: 'Login',
-      query: { redirect: to.fullPath }
-    }
+    return authStore.isLoggedIn
+      ? { name: 'ConsoleArticles' }
+      : {
+          name: 'Login',
+          query: { redirect: to.fullPath }
+        }
   }
 
   return true
 })
 
 router.afterEach((to) => {
-  document.title = to.meta.title
-    ? `${to.meta.title} - 个人全栈博客系统`
-    : '个人全栈博客系统'
+  document.title = buildDocumentTitle(to.meta.title)
 })

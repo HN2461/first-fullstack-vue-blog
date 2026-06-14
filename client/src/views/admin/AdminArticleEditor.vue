@@ -68,8 +68,8 @@ import { useRoute, useRouter } from 'vue-router'
 import {
   createAdminArticle,
   getAdminArticle,
-  listAdminCategories,
-  listAdminTags,
+  listAllAdminCategories,
+  listAllAdminTags,
   publishAdminArticle,
   updateAdminArticle
 } from '@/services/admin'
@@ -109,8 +109,8 @@ function normalizePayload() {
 
 async function loadOptions() {
   const [categoryList, tagList] = await Promise.all([
-    listAdminCategories(),
-    listAdminTags()
+    listAllAdminCategories(),
+    listAllAdminTags()
   ])
   categories.value = categoryList
   tags.value = tagList

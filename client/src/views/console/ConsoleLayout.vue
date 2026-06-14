@@ -103,9 +103,23 @@
           @click="handleSecondaryClick"
         >
           <template v-if="primarySection === 'knowledge'">
+            <a-menu-item key="/console/articles">
+              <template #icon><FileTextOutlined /></template>
+              全部文章
+            </a-menu-item>
             <template v-for="category in categoryTree" :key="`category-node:${category.slug}`">
               <ConsoleCategoryMenu :category="category" />
             </template>
+            <a-sub-menu v-if="uncategorizedArticles.length > 0" key="category:__uncategorized">
+              <template #icon><FolderOutlined /></template>
+              <template #title>未分类</template>
+              <a-menu-item
+                v-for="article in uncategorizedArticles"
+                :key="`/console/articles/${article.slug}`"
+              >
+                {{ article.title }}
+              </a-menu-item>
+            </a-sub-menu>
             <a-menu-item v-if="categoryTree.length === 0" key="/console/articles" disabled>
               暂无分类
             </a-menu-item>
@@ -207,10 +221,16 @@ const selectedKeys = computed(() => {
   if (route.path.includes('/console/manage/articles')) return ['/console/manage/articles']
   if (route.path.includes('/console/articles/')) return [route.path]
   if (route.path.includes('/console/categories/')) return [route.path]
+  if (route.path.includes('/console/tags/')) return [route.path]
   return [route.path]
 })
 const userInitial = computed(() => {
   return (authStore.user?.username || authStore.user?.email || 'U').slice(0, 1).toUpperCase()
+})
+const uncategorizedArticles = computed(() => {
+  return articles.value
+    .filter((article) => !article.category?.id)
+    .sort((left, right) => new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt))
 })
 const ConsoleCategoryMenu = defineComponent({
   name: 'ConsoleCategoryMenu',
@@ -328,9 +348,9 @@ function resolveOpenKeys(path) {
 
   if (path.includes('/console/articles/')) {
     const article = articles.value.find((item) => `/console/articles/${item.slug}` === path)
-    return article?.category?.slug
-      ? resolveCategoryOpenKeys(article.category.slug)
-      : []
+    if (!article) return []
+    if (!article.category?.slug) return ['category:__uncategorized']
+    return resolveCategoryOpenKeys(article.category.slug)
   }
 
   return []

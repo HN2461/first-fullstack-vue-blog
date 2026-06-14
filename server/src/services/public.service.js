@@ -82,6 +82,15 @@ export async function listPublicArticles(rawQuery = {}) {
   const categoryIds = await resolveCategoryAndDescendantIds(rawQuery.category)
   const tagId = await resolveTagId(rawQuery.tag)
 
+  if (categoryIds === '__missing__' || tagId === '__missing__') {
+    return {
+      items: [],
+      total: 0,
+      page: pagination.page,
+      pageSize: pagination.pageSize
+    }
+  }
+
   if (categoryIds) {
     query.category = Array.isArray(categoryIds) ? { $in: categoryIds } : categoryIds
   }

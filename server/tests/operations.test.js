@@ -72,8 +72,8 @@ describe('operations routes', () => {
       .get('/api/public/announcements')
       .expect(200)
 
-    expect(response.body.data).toHaveLength(1)
-    expect(response.body.data[0].title).toBe('系统公告')
+    expect(response.body.data.items).toHaveLength(1)
+    expect(response.body.data.items[0].title).toBe('系统公告')
   })
 
   it('returns basic admin stats', async () => {

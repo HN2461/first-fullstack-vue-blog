@@ -102,7 +102,7 @@
           </div>
         </template>
 
-        <!-- 阅读量列 -->
+        <!-- 已读人数列 -->
         <template v-else-if="column.key === 'viewCount'">
           <span class="announce-view-count">
             <EyeOutlined /> {{ record.readCount || 0 }}
@@ -330,7 +330,7 @@ const columns = [
   { title: '公告级别', key: 'level', width: 120, align: 'center' },
   { title: '上下架', key: 'isActive', width: 100, align: 'center' },
   { title: '发布时间', key: 'createdAt', width: 170 },
-  { title: '阅读量', key: 'viewCount', width: 90, align: 'center' },
+  { title: '已读', key: 'viewCount', width: 90, align: 'center' },
   { title: '操作', key: 'action', width: 220, fixed: 'right' }
 ]
 
@@ -462,6 +462,7 @@ async function handleBatchToggle(isActive) {
         await batchToggleAnnouncement(selectedRowKeys.value, isActive)
         message.success(`已${isActive ? '上架' : '下架'}所选公告`)
         selectedRowKeys.value = []
+        tableRef.value?.clearSelection()
         tableRef.value?.refresh()
       } catch (error) {
         message.error(error.message || '操作失败')
@@ -482,6 +483,7 @@ function handleBatchDelete() {
         await batchDeleteAnnouncements(selectedRowKeys.value)
         message.success('已删除所选公告')
         selectedRowKeys.value = []
+        tableRef.value?.clearSelection()
         tableRef.value?.refresh()
       } catch (error) {
         message.error(error.message || '删除失败')

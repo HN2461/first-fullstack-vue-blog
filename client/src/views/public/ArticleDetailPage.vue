@@ -19,7 +19,7 @@
             <router-link
             v-for="tag in article.tags"
             :key="tag.id || tag"
-            :to="`/tags/${tag.slug}`"
+            :to="tagPath(tag.slug)"
           >
             #{{ tag.name }}
           </router-link>
@@ -87,6 +87,9 @@ const categoryPath = computed(() => {
   if (!slug) return inConsole.value ? '/console/articles' : '/articles'
   return inConsole.value ? `/console/categories/${slug}` : `/categories/${slug}`
 })
+function tagPath(slug) {
+  return inConsole.value ? `/console/tags/${slug}` : `/tags/${slug}`
+}
 const legacyAssetBase = computed(() => {
   if (article.value.source !== 'legacy-notes' || !article.value.sourcePath) return ''
   const directory = article.value.sourcePath.split('/').slice(0, -1).map(encodeURIComponent).join('/')
