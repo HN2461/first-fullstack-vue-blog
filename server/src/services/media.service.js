@@ -76,6 +76,23 @@ export async function listMedia(options = {}) {
     query.category = normalizeMediaCategory(options.category)
   }
 
+  if (Array.isArray(options.excludeCategories) && options.excludeCategories.length > 0) {
+    const excludedCategories = options.excludeCategories.map((item) => normalizeMediaCategory(item))
+
+    if (query.category) {
+      if (excludedCategories.includes(query.category)) {
+        return {
+          items: [],
+          total: 0,
+          page,
+          pageSize
+        }
+      }
+    } else {
+      query.category = { $nin: excludedCategories }
+    }
+  }
+
   if (keyword) {
     query.$or = [
       { originalName: { $regex: keyword, $options: 'i' } },

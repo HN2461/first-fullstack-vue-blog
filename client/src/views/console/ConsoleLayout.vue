@@ -172,8 +172,8 @@
       </a-layout-sider>
 
       <a-layout class="enterprise-main-layout">
-        <a-layout-content :class="['enterprise-content', { 'enterprise-content--writer': isWriterRoute }]">
-          <div :class="['enterprise-content-inner', { 'enterprise-content-inner--writer': isWriterRoute }]">
+        <a-layout-content :class="['enterprise-content', { 'enterprise-content--immersive': isImmersiveRoute }]">
+          <div :class="['enterprise-content-inner', { 'enterprise-content-inner--immersive': isImmersiveRoute }]">
             <router-view />
           </div>
         </a-layout-content>
@@ -224,6 +224,9 @@ let knowledgeMenuRequestId = 0
 const menuTheme = computed(() => appStore.isDark ? 'dark' : 'light')
 const AMenuItem = Menu.Item
 const ASubMenu = Menu.SubMenu
+const isWriterRoute = computed(() => route.path === '/console/write' || route.path.includes('/console/manage/articles/'))
+const isArticleDetailRoute = computed(() => route.path.includes('/console/articles/'))
+const isImmersiveRoute = computed(() => isWriterRoute.value || isArticleDetailRoute.value)
 const primarySection = computed(() => {
   if (route.path.includes('/console/manage') || route.path === '/console') {
     return authStore.isAdmin ? 'management' : 'knowledge'

@@ -60,7 +60,7 @@ publicRouter.get('/search', asyncHandler(async (req, res) => {
 }))
 
 publicRouter.get('/articles/:slug', asyncHandler(async (req, res) => {
-  res.json(ok(await getPublicArticleBySlug(req.params.slug)))
+  res.json(ok(await getPublicArticleBySlug(req.params.slug, req.user?._id || null)))
 }))
 
 publicRouter.get('/articles/:id/comments', asyncHandler(async (req, res) => {

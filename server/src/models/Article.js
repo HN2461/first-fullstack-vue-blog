@@ -161,6 +161,14 @@ articleSchema.methods.toSafeJSON = function toSafeJSON() {
   const category = this.category && typeof this.category === 'object' && this.category.name
     ? this.category.toSafeJSON?.() || this.category
     : this.category?.toString?.() || null
+  const author = this.createdBy && typeof this.createdBy === 'object' && this.createdBy.username
+    ? {
+        id: this.createdBy._id?.toString?.() || this.createdBy.id,
+        username: this.createdBy.username,
+        avatar: this.createdBy.avatar || '',
+        role: this.createdBy.role || 'user'
+      }
+    : null
   const tags = Array.isArray(this.tags)
     ? this.tags.map((tag) => (tag && typeof tag === 'object' && tag.name ? tag.toSafeJSON?.() || tag : tag.toString()))
     : []
@@ -184,6 +192,7 @@ articleSchema.methods.toSafeJSON = function toSafeJSON() {
     contentMarkdown: this.contentMarkdown,
     cover: this.cover,
     resources,
+    author,
     category,
     tags,
     status: this.status,

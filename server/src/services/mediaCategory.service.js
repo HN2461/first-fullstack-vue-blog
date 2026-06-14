@@ -1,6 +1,19 @@
 import { MediaCategory } from '../models/MediaCategory.js'
 import { Media } from '../models/Media.js'
 
+export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
+  {
+    name: '默认素材',
+    description: '系统默认资源分类',
+    sortOrder: 0
+  },
+  {
+    name: '文章封面',
+    description: '文章封面专用资源分类',
+    sortOrder: 1
+  }
+])
+
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
   error.statusCode = statusCode
@@ -13,17 +26,16 @@ function normalizeCategoryName(name) {
 }
 
 export async function ensureDefaultMediaCategory() {
-  const defaultName = '默认素材'
-  const exists = await MediaCategory.findOne({ name: defaultName })
-  if (exists) {
-    return exists
-  }
+  const [defaultCategory] = await Promise.all(SYSTEM_MEDIA_CATEGORIES.map(async (item) => {
+    const exists = await MediaCategory.findOne({ name: item.name })
+    if (exists) {
+      return exists
+    }
 
-  return MediaCategory.create({
-    name: defaultName,
-    description: '系统默认资源分类',
-    sortOrder: 0
-  })
+    return MediaCategory.create(item)
+  }))
+
+  return defaultCategory
 }
 
 export async function listMediaCategoryEntities() {
@@ -75,6 +87,10 @@ export async function updateMediaCategory(id, input) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
   }
 
+  if (SYSTEM_MEDIA_CATEGORIES.some((item) => item.name === category.name)) {
+    throw createHttpError(400, 'MEDIA_CATEGORY_RESERVED', '系统资源分类不支持修改')
+  }
+
   if (input.name !== undefined) {
     const nextName = normalizeCategoryName(input.name)
     if (!nextName) {
@@ -111,8 +127,8 @@ export async function deleteMediaCategory(id) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
   }
 
-  if (category.name === '默认素材') {
-    throw createHttpError(400, 'MEDIA_CATEGORY_RESERVED', '默认素材分类不可删除')
+  if (SYSTEM_MEDIA_CATEGORIES.some((item) => item.name === category.name)) {
+    throw createHttpError(400, 'MEDIA_CATEGORY_RESERVED', '系统资源分类不可删除')
   }
 
   await Media.updateMany({ category: category.name }, { $set: { category: '默认素材' } })

@@ -189,7 +189,7 @@
                 type="link"
                 size="small"
                 danger
-                :disabled="item.name === '默认素材'"
+                :disabled="['默认素材', '文章封面'].includes(item.name)"
                 @click="removeCategory(item)"
               >
                 删除
@@ -423,6 +423,11 @@ function resetCategoryDraft() {
 }
 
 function editCategory(item) {
+  if (['默认素材', '文章封面'].includes(item.name)) {
+    errorMessage.value = '系统资源分类不支持编辑'
+    return
+  }
+
   editingCategoryId.value = item.id
   categoryDraft.value = {
     name: item.name,

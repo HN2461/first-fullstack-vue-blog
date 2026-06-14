@@ -101,18 +101,40 @@ describe('content admin services', () => {
     expect(published.publishedAt).toEqual(expect.any(Date))
   })
 
-  it('rejects duplicated article slug', async () => {
-    await createArticle({
-      title: '第一篇',
-      slug: 'same-slug'
+  it('auto generates unique article slugs', async () => {
+    const first = await createArticle({
+      title: '同名文章'
     }, admin)
 
-    await expect(createArticle({
-      title: '第二篇',
-      slug: 'same-slug'
-    }, admin)).rejects.toMatchObject({
-      statusCode: 409,
-      code: 'ARTICLE_SLUG_EXISTS'
+    const second = await createArticle({
+      title: '同名文章'
+    }, admin)
+
+    expect(first.slug).toBeTruthy()
+    expect(second.slug).toBeTruthy()
+    expect(second.slug).not.toBe(first.slug)
+  })
+
+  it('allows saving draft without publish-only metadata', async () => {
+    const draft = await createArticle({
+      title: '只有标题和正文',
+      contentMarkdown: '# 草稿正文'
+    }, admin)
+
+    expect(draft.status).toBe(ARTICLE_STATUS.DRAFT)
+    expect(draft.summary).toBe('')
+    expect(draft.category).toBeNull()
+  })
+
+  it('requires summary and category only when publishing', async () => {
+    const draft = await createArticle({
+      title: '待发布文章',
+      contentMarkdown: '# 正文'
+    }, admin)
+
+    await expect(publishArticle(draft.id, admin)).rejects.toMatchObject({
+      statusCode: 400,
+      code: 'ARTICLE_SUMMARY_REQUIRED'
     })
   })
 })

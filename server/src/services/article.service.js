@@ -200,6 +200,28 @@ export async function updateArticleStatus(id, status, user) {
 }
 
 export async function publishArticle(id, user) {
+  const article = await Article.findById(id)
+
+  if (!article || article.deletedAt) {
+    throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
+  }
+
+  if (!String(article.title || '').trim()) {
+    throw createHttpError(400, 'ARTICLE_TITLE_REQUIRED', '发布前请填写文章标题')
+  }
+
+  if (!String(article.contentMarkdown || '').trim()) {
+    throw createHttpError(400, 'ARTICLE_CONTENT_REQUIRED', '发布前请填写正文内容')
+  }
+
+  if (!String(article.summary || '').trim()) {
+    throw createHttpError(400, 'ARTICLE_SUMMARY_REQUIRED', '发布前请填写文章摘要')
+  }
+
+  if (!article.category) {
+    throw createHttpError(400, 'ARTICLE_CATEGORY_REQUIRED', '发布前请选择所属分类')
+  }
+
   return updateArticleStatus(id, ARTICLE_STATUS.PUBLISHED, user)
 }
 

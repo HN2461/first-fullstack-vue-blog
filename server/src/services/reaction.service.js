@@ -12,6 +12,33 @@ function getCounterName(type) {
   return type === 'favorite' ? 'favoriteCount' : 'likeCount'
 }
 
+async function buildArticleReactionPayload(article, userId) {
+  const payload = article.toSafeJSON()
+
+  if (!userId) {
+    return {
+      ...payload,
+      likedByCurrentUser: false,
+      favoritedByCurrentUser: false
+    }
+  }
+
+  const reactions = await Reaction.find({
+    user: userId,
+    targetType: 'article',
+    targetId: article._id,
+    type: { $in: ['like', 'favorite'] }
+  }).select('type')
+
+  const reactionTypes = new Set(reactions.map((item) => item.type))
+
+  return {
+    ...payload,
+    likedByCurrentUser: reactionTypes.has('like'),
+    favoritedByCurrentUser: reactionTypes.has('favorite')
+  }
+}
+
 export async function addArticleReaction(articleId, user, type) {
   const article = await Article.findById(articleId)
 
@@ -37,7 +64,7 @@ export async function addArticleReaction(articleId, user, type) {
     await article.save()
   }
 
-  return article.toSafeJSON()
+  return buildArticleReactionPayload(article, user._id)
 }
 
 export async function removeArticleReaction(articleId, user, type) {
@@ -59,5 +86,5 @@ export async function removeArticleReaction(articleId, user, type) {
     await article.save()
   }
 
-  return article.toSafeJSON()
+  return buildArticleReactionPayload(article, user._id)
 }

@@ -66,6 +66,7 @@
       title="发布文章"
       :confirm-loading="publishing"
       :mask-closable="false"
+      wrap-class-name="business-modal publish-modal"
       centered
       width="720px"
       ok-text="确认发布"
@@ -73,19 +74,19 @@
       @ok="confirmPublish"
       @cancel="closePublishModal"
     >
-      <a-form layout="vertical" class="publish-form">
-        <a-form-item label="文章摘要">
-          <a-textarea
-            v-model:value.trim="publishForm.summary"
-            :rows="4"
-            :maxlength="300"
-            show-count
-            placeholder="建议用 2-3 句话总结文章内容与价值。"
-          />
-        </a-form-item>
+      <div class="modal-scroll-shell">
+        <a-form layout="vertical" class="publish-form">
+          <a-form-item label="文章摘要">
+            <a-textarea
+              v-model:value.trim="publishForm.summary"
+              :rows="4"
+              :maxlength="300"
+              show-count
+              placeholder="建议用 2-3 句话总结文章内容与价值。"
+            />
+          </a-form-item>
 
-        <a-row :gutter="16">
-          <a-col :span="12">
+          <div class="publish-grid">
             <a-form-item label="所属分类">
               <div class="publish-field-row">
                 <a-select
@@ -99,8 +100,6 @@
                 <a-button @click="openCategoryModal">新建</a-button>
               </div>
             </a-form-item>
-          </a-col>
-          <a-col :span="12">
             <a-form-item label="推荐文章">
               <a-switch
                 v-model:checked="publishForm.isRecommended"
@@ -108,68 +107,79 @@
                 un-checked-children="普通"
               />
             </a-form-item>
-          </a-col>
-        </a-row>
+          </div>
 
-        <a-form-item label="文章标签">
-          <div class="publish-field-row">
-            <a-select
-              v-model:value="publishForm.tags"
-              mode="multiple"
-              show-search
-              option-filter-prop="label"
-              allow-clear
-              placeholder="选择标签"
-              :options="tagOptions"
-              :max-tag-count="4"
-              :filter-option="filterSelectOption"
-            />
-            <a-button @click="openTagModal">新建</a-button>
-          </div>
-        </a-form-item>
-
-        <a-form-item label="封面图片">
-          <div class="cover-upload-field">
-            <a-upload
-              :show-upload-list="false"
-              accept="image/*"
-              :custom-request="handleCoverUpload"
-            >
-              <a-button :loading="coverUploading">上传封面</a-button>
-            </a-upload>
-            <span class="cover-upload-tip">直接从本地电脑选择图片上传</span>
-          </div>
-          <div v-if="publishForm.cover" class="cover-preview">
-            <img :src="publishForm.cover" alt="封面预览">
-          </div>
-        </a-form-item>
-
-        <a-form-item label="关联资源">
-          <div class="publish-resource-toolbar">
-            <a-button @click="openResourcePicker">从媒体库选择</a-button>
-          </div>
-          <div v-if="publishForm.resources.length === 0" class="publish-resource-empty">
-            当前还没有关联资源
-          </div>
-          <div v-else class="publish-resource-list">
-            <div
-              v-for="(resource, index) in publishForm.resources"
-              :key="`${resource.url}-${index}`"
-              class="publish-resource-item"
-            >
-              <div class="publish-resource-item__meta">
-                <strong>{{ resource.name }}</strong>
-                <span>{{ resource.kind === 'image' ? '图片资源' : '附件资源' }}</span>
-              </div>
-              <a-input
-                v-model:value.trim="resource.description"
-                placeholder="资源说明，可选"
+          <a-form-item label="文章标签">
+            <div class="publish-field-row">
+              <a-select
+                v-model:value="publishForm.tags"
+                mode="multiple"
+                show-search
+                option-filter-prop="label"
+                allow-clear
+                placeholder="选择标签"
+                :options="tagOptions"
+                :max-tag-count="4"
+                :filter-option="filterSelectOption"
               />
-              <a-button danger @click="removeResource(index)">移除</a-button>
+              <a-button @click="openTagModal">新建</a-button>
             </div>
-          </div>
-        </a-form-item>
-      </a-form>
+          </a-form-item>
+
+          <a-form-item label="封面图片">
+            <div class="cover-upload-panel">
+              <div class="cover-upload-field">
+                <a-upload
+                  :show-upload-list="false"
+                  accept="image/*"
+                  :custom-request="handleCoverUpload"
+                >
+                  <a-button :loading="coverUploading">上传封面</a-button>
+                </a-upload>
+                <span class="cover-upload-tip">直接从本地电脑选择图片上传，预览尺寸已固定。</span>
+              </div>
+              <div v-if="publishForm.cover" class="cover-preview">
+                <img :src="publishForm.cover" alt="封面预览">
+              </div>
+            </div>
+          </a-form-item>
+
+          <a-form-item label="关联资源">
+            <div class="publish-resource-toolbar">
+              <a-button @click="openResourcePicker">从媒体库选择</a-button>
+              <span class="publish-resource-toolbar__tip">以附件列表形式展示，阅读页可按文章资源区统一呈现。</span>
+            </div>
+            <div v-if="publishForm.resources.length === 0" class="publish-resource-empty">
+              当前还没有关联资源
+            </div>
+            <div v-else class="publish-resource-list">
+              <div
+                v-for="(resource, index) in publishForm.resources"
+                :key="`${resource.url}-${index}`"
+                class="publish-resource-item"
+              >
+                <div class="publish-resource-item__main">
+                  <div class="publish-resource-item__meta">
+                    <strong>{{ resource.name }}</strong>
+                    <div class="publish-resource-item__tags">
+                      <a-tag :bordered="false" color="blue">{{ resource.kind === 'image' ? '图片' : '附件' }}</a-tag>
+                      <a-tag v-if="resource.fileClass" :bordered="false">{{ getFileClassLabel(resource.fileClass) }}</a-tag>
+                    </div>
+                  </div>
+                  <div class="publish-resource-item__actions">
+                    <a-button type="link" @click="previewSelectedResource(resource)">查看</a-button>
+                    <a-button danger type="text" @click="removeResource(index)">移除</a-button>
+                  </div>
+                </div>
+                <a-input
+                  v-model:value.trim="resource.description"
+                  placeholder="资源说明，可选"
+                />
+              </div>
+            </div>
+          </a-form-item>
+        </a-form>
+      </div>
     </a-modal>
 
     <a-modal
@@ -177,49 +187,109 @@
       title="选择关联资源"
       width="980px"
       :footer="null"
+      wrap-class-name="business-modal resource-picker-modal"
       centered
       @cancel="closeResourcePicker"
     >
-      <div class="media-picker media-picker--resource">
-        <div class="media-picker__toolbar">
-          <a-input-search
-            v-model:value="resourceKeyword"
-            placeholder="搜索文件名"
-            allow-clear
-            style="width: 240px"
-            @search="loadResourceOptions"
-          />
-          <a-button @click="loadResourceOptions">刷新</a-button>
-        </div>
+      <div class="modal-scroll-shell">
+        <div class="media-picker media-picker--resource">
+          <div class="media-picker__toolbar">
+            <a-input-search
+              v-model:value="resourceKeyword"
+              placeholder="搜索文件名"
+              allow-clear
+              style="width: 240px"
+              @search="loadResourceOptions"
+            />
+            <a-button @click="loadResourceOptions">刷新</a-button>
+          </div>
 
-        <div v-if="resourceLoading" class="media-picker__status">正在加载资源...</div>
-        <div v-else-if="resourceItems.length === 0" class="media-picker__status">暂无可用资源，请先上传媒体文件。</div>
+          <div v-if="resourceLoading" class="media-picker__status">正在加载资源...</div>
+          <div v-else-if="resourceItems.length === 0" class="media-picker__status">暂无可用资源，请先上传媒体文件。</div>
 
-        <div v-else class="media-picker__grid">
-          <button
-            v-for="item in resourceItems"
-            :key="item.id"
-            type="button"
-            class="media-picker__card"
-            @click="selectArticleResource(item)"
-          >
-            <div class="media-picker__thumb" :class="{ 'media-picker__thumb--file': item.kind !== 'image' }">
-              <img v-if="item.kind === 'image'" :src="item.url" :alt="item.originalName">
-              <span v-else>{{ item.originalName.split('.').at(-1)?.toUpperCase() || 'FILE' }}</span>
+          <div v-else class="resource-picker-list">
+            <div
+              v-for="item in resourceItems"
+              :key="item.id"
+              class="resource-picker-row"
+            >
+              <div class="resource-picker-row__main">
+                <div class="resource-picker-row__icon" :class="`is-${item.fileClass || 'other'}`">
+                  {{ getFileBadge(item) }}
+                </div>
+                <div class="resource-picker-row__meta">
+                  <strong>{{ item.originalName }}</strong>
+                  <div class="resource-picker-row__sub">
+                    <span>{{ item.category || '未分类' }}</span>
+                    <span>{{ getFileClassLabel(item.fileClass) }}</span>
+                    <span>{{ formatFileSize(item.size) }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="resource-picker-row__actions">
+                <a-button type="link" @click="previewResource(item)">查看</a-button>
+                <a-button
+                  type="primary"
+                  ghost
+                  :disabled="isResourceSelected(item)"
+                  @click="selectArticleResource(item)"
+                >
+                  {{ isResourceSelected(item) ? '已关联' : '选择' }}
+                </a-button>
+              </div>
             </div>
-            <strong>{{ item.originalName }}</strong>
-            <span>{{ Math.ceil((item.size || 0) / 1024) }} KB</span>
-          </button>
-        </div>
+          </div>
 
-        <div v-if="resourceTotal > resourcePageSize" class="media-picker__pagination">
-          <a-pagination
-            v-model:current="resourcePage"
-            :page-size="resourcePageSize"
-            :total="resourceTotal"
-            size="small"
-            @change="loadResourceOptions"
-          />
+          <div v-if="resourceTotal > resourcePageSize" class="media-picker__pagination">
+            <a-pagination
+              v-model:current="resourcePage"
+              :page-size="resourcePageSize"
+              :total="resourceTotal"
+              size="small"
+              @change="loadResourceOptions"
+            />
+          </div>
+        </div>
+      </div>
+    </a-modal>
+
+    <a-modal
+      v-model:open="resourcePreviewVisible"
+      title="资源详情"
+      width="640px"
+      :footer="null"
+      wrap-class-name="business-modal resource-preview-modal"
+      centered
+      @cancel="closeResourcePreview"
+    >
+      <div v-if="resourcePreviewItem" class="modal-scroll-shell">
+        <div class="resource-preview">
+          <div v-if="resourcePreviewItem.kind === 'image'" class="resource-preview__image">
+            <img :src="resourcePreviewItem.url" :alt="resourcePreviewItem.originalName || resourcePreviewItem.name">
+          </div>
+
+          <div class="resource-preview__meta">
+            <div class="resource-preview__meta-row">
+              <span>资源名称</span>
+              <strong>{{ resourcePreviewItem.originalName || resourcePreviewItem.name }}</strong>
+            </div>
+            <div class="resource-preview__meta-row">
+              <span>资源分类</span>
+              <strong>{{ resourcePreviewItem.category || '未分类' }}</strong>
+            </div>
+            <div class="resource-preview__meta-row">
+              <span>文件类型</span>
+              <strong>{{ getFileClassLabel(resourcePreviewItem.fileClass) }}</strong>
+            </div>
+            <div class="resource-preview__meta-row">
+              <span>文件大小</span>
+              <strong>{{ formatFileSize(resourcePreviewItem.size || resourcePreviewItem.fileSize || 0) }}</strong>
+            </div>
+            <div class="resource-preview__meta-row">
+              <span>资源链接</span>
+              <a :href="resourcePreviewItem.url" target="_blank" rel="noreferrer">打开资源</a>
+            </div>
+          </div>
         </div>
       </div>
     </a-modal>
@@ -229,19 +299,22 @@
       title="新建分类"
       :confirm-loading="categorySubmitting"
       centered
+      wrap-class-name="business-modal form-modal"
       ok-text="保存分类"
       cancel-text="取消"
       @ok="handleCreateCategory"
       @cancel="closeCategoryModal"
     >
-      <a-form layout="vertical">
-        <a-form-item label="分类名称" required>
-          <a-input v-model:value.trim="categoryDraft.name" placeholder="例如 产品文档" />
-        </a-form-item>
-        <a-form-item label="分类路径">
-          <a-input v-model:value.trim="categoryDraft.slug" placeholder="不填则自动生成" />
-        </a-form-item>
-      </a-form>
+      <div class="modal-scroll-shell">
+        <a-form layout="vertical">
+          <a-form-item label="分类名称" required>
+            <a-input v-model:value.trim="categoryDraft.name" placeholder="例如 产品文档" />
+          </a-form-item>
+          <a-form-item label="分类路径">
+            <a-input v-model:value.trim="categoryDraft.slug" placeholder="不填则自动生成" />
+          </a-form-item>
+        </a-form>
+      </div>
     </a-modal>
 
     <a-modal
@@ -249,22 +322,25 @@
       title="新建标签"
       :confirm-loading="tagSubmitting"
       centered
+      wrap-class-name="business-modal form-modal"
       ok-text="保存标签"
       cancel-text="取消"
       @ok="handleCreateTag"
       @cancel="closeTagModal"
     >
-      <a-form layout="vertical">
-        <a-form-item label="标签名称" required>
-          <a-input v-model:value.trim="tagDraft.name" placeholder="例如 入门指南" />
-        </a-form-item>
-        <a-form-item label="标签路径">
-          <a-input v-model:value.trim="tagDraft.slug" placeholder="不填则自动生成" />
-        </a-form-item>
-        <a-form-item label="标签颜色">
-          <a-input v-model:value.trim="tagDraft.color" placeholder="#1677ff" />
-        </a-form-item>
-      </a-form>
+      <div class="modal-scroll-shell">
+        <a-form layout="vertical">
+          <a-form-item label="标签名称" required>
+            <a-input v-model:value.trim="tagDraft.name" placeholder="例如 入门指南" />
+          </a-form-item>
+          <a-form-item label="标签路径">
+            <a-input v-model:value.trim="tagDraft.slug" placeholder="不填则自动生成" />
+          </a-form-item>
+          <a-form-item label="标签颜色">
+            <a-input v-model:value.trim="tagDraft.color" placeholder="#1677ff" />
+          </a-form-item>
+        </a-form>
+      </div>
     </a-modal>
   </section>
 </template>
@@ -303,14 +379,17 @@ const tagModalVisible = ref(false)
 const categorySubmitting = ref(false)
 const tagSubmitting = ref(false)
 const resourceLoading = ref(false)
+const resourcePreviewVisible = ref(false)
 const coverUploading = ref(false)
 const categories = ref([])
 const tags = ref([])
 const resourceItems = ref([])
+const resourcePreviewItem = ref(null)
 const resourceKeyword = ref('')
 const resourcePage = ref(1)
 const resourcePageSize = 12
 const resourceTotal = ref(0)
+const ARTICLE_COVER_CATEGORY = '文章封面'
 const editorId = 'knowledge-writer-editor'
 const viewMode = ref('edit')
 const viewModeOptions = [
@@ -385,6 +464,14 @@ const tagOptions = computed(() => tags.value.map((item) => ({
   label: item.name,
   value: item.id
 })))
+
+const fileClassOptions = [
+  { label: '图片', value: 'image' },
+  { label: '代码', value: 'code' },
+  { label: '文档', value: 'document' },
+  { label: '压缩包', value: 'archive' },
+  { label: '其他', value: 'other' }
+]
 
 function handleTitleInput() {
   return form.title
@@ -475,6 +562,16 @@ function validateWritingContent() {
 
 function validatePublishPayload() {
   if (!validateWritingContent()) {
+    return false
+  }
+
+  if (!publishForm.summary.trim()) {
+    message.warning('发布前请填写文章摘要')
+    return false
+  }
+
+  if (!publishForm.category) {
+    message.warning('发布前请选择所属分类')
     return false
   }
 
@@ -586,6 +683,33 @@ function filterSelectOption(input, option) {
   return label.includes(keyword)
 }
 
+function formatFileSize(size = 0) {
+  if (size >= 1024 * 1024) {
+    return `${(size / 1024 / 1024).toFixed(1)} MB`
+  }
+  return `${Math.max(Math.ceil(size / 1024), 1)} KB`
+}
+
+function getFileBadge(record = {}) {
+  if (record.fileClass === 'image') {
+    return 'IMG'
+  }
+  if (record.fileClass === 'code') {
+    return 'CODE'
+  }
+  if (record.fileClass === 'document') {
+    return 'DOC'
+  }
+  if (record.fileClass === 'archive') {
+    return 'ZIP'
+  }
+  return record.originalName?.split('.').at(-1)?.toUpperCase() || 'FILE'
+}
+
+function getFileClassLabel(fileClass) {
+  return fileClassOptions.find((item) => item.value === fileClass)?.label || '其他'
+}
+
 async function handleCreateTag() {
   if (!tagDraft.name.trim()) {
     message.warning('请输入标签名称')
@@ -623,13 +747,33 @@ function closeResourcePicker() {
   resourcePickerVisible.value = false
 }
 
+function previewResource(item) {
+  resourcePreviewItem.value = item
+  resourcePreviewVisible.value = true
+}
+
+function previewSelectedResource(item) {
+  resourcePreviewItem.value = {
+    ...item,
+    originalName: item.name,
+    size: item.fileSize || 0
+  }
+  resourcePreviewVisible.value = true
+}
+
+function closeResourcePreview() {
+  resourcePreviewVisible.value = false
+  resourcePreviewItem.value = null
+}
+
 async function loadResourceOptions() {
   resourceLoading.value = true
   try {
     const result = await listAdminMedia({
       page: resourcePage.value,
       pageSize: resourcePageSize,
-      keyword: resourceKeyword.value || undefined
+      keyword: resourceKeyword.value || undefined,
+      excludeCategories: [ARTICLE_COVER_CATEGORY]
     })
     resourceItems.value = result.items || []
     resourceTotal.value = result.total || 0
@@ -643,7 +787,7 @@ async function loadResourceOptions() {
 async function handleCoverUpload({ file, onSuccess, onError }) {
   coverUploading.value = true
   try {
-    const media = await uploadAdminMedia(file)
+    const media = await uploadAdminMedia(file, { category: ARTICLE_COVER_CATEGORY })
     publishForm.cover = media.url
     message.success('封面图片已上传')
     onSuccess?.(media)
@@ -669,7 +813,9 @@ function selectArticleResource(item) {
     kind: item.kind === 'image' ? 'image' : 'attachment',
     description: '',
     fileSize: item.size || 0,
-    mimeType: item.mimeType || ''
+    mimeType: item.mimeType || '',
+    fileClass: item.fileClass || 'other',
+    category: item.category || ''
   })
   resourcePickerVisible.value = false
   message.success('关联资源已添加')
@@ -677,6 +823,10 @@ function selectArticleResource(item) {
 
 function removeResource(index) {
   publishForm.resources.splice(index, 1)
+}
+
+function isResourceSelected(item) {
+  return publishForm.resources.some((resource) => resource.url === item.url)
 }
 
 async function confirmPublish() {
@@ -702,6 +852,7 @@ async function confirmPublish() {
       publish: normalizePublishPayload()
     })
     message.success('文章已发布')
+    await router.push('/console/manage/articles')
   } catch (error) {
     message.error(error.message || '发布失败')
   } finally {
@@ -929,12 +1080,52 @@ onMounted(async () => {
   gap: 8px;
 }
 
+.publish-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.modal-scroll-shell {
+  max-height: min(68vh, 720px);
+  overflow-y: auto;
+  overflow-x: auto;
+  max-width: min(70vw, 100%);
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+
+.publish-form {
+  padding-top: 4px;
+}
+
+.cover-upload-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 16px;
+  align-items: start;
+}
+
+.cover-upload-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.cover-upload-tip {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #8c8c8c;
+}
+
 .cover-preview {
-  margin-top: 12px;
+  width: 220px;
+  height: 124px;
   overflow: hidden;
+  border: 1px solid #f0f0f0;
   border-radius: 8px;
-  background: #f5f5f5;
-  aspect-ratio: 16 / 9;
+  background: #fafafa;
 }
 
 .cover-preview img {
@@ -942,6 +1133,275 @@ onMounted(async () => {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.publish-resource-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.publish-resource-toolbar__tip {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.publish-resource-empty {
+  padding: 20px 16px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 8px;
+  background: #fafafa;
+  font-size: 13px;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+.publish-resource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.publish-resource-item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.publish-resource-item__main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.publish-resource-item__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.publish-resource-item__meta strong {
+  color: #262626;
+  line-height: 1.5;
+}
+
+.publish-resource-item__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.publish-resource-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.media-picker--resource {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.media-picker__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.media-picker__status {
+  padding: 48px 16px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #8c8c8c;
+  text-align: center;
+}
+
+.resource-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resource-picker-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.resource-picker-row:hover {
+  border-color: #d6e4ff;
+  box-shadow: 0 8px 24px rgba(22, 119, 255, 0.08);
+}
+
+.resource-picker-row__main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.resource-picker-row__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #595959;
+  background: #f5f5f5;
+  flex-shrink: 0;
+}
+
+.resource-picker-row__icon.is-image {
+  color: #1677ff;
+  background: #e6f4ff;
+}
+
+.resource-picker-row__icon.is-code {
+  color: #2f54eb;
+  background: #f0f5ff;
+}
+
+.resource-picker-row__icon.is-document {
+  color: #389e0d;
+  background: #f6ffed;
+}
+
+.resource-picker-row__icon.is-archive {
+  color: #d46b08;
+  background: #fff7e6;
+}
+
+.resource-picker-row__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.resource-picker-row__meta strong {
+  color: #262626;
+  line-height: 1.5;
+}
+
+.resource-picker-row__sub {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.resource-picker-row__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.media-picker__pagination {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+
+.resource-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.resource-preview__image {
+  overflow: hidden;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  background: #fafafa;
+  max-height: 320px;
+}
+
+.resource-preview__image img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  display: block;
+}
+
+.resource-preview__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resource-preview__meta-row {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  font-size: 14px;
+}
+
+.resource-preview__meta-row span {
+  color: #8c8c8c;
+}
+
+.resource-preview__meta-row strong,
+.resource-preview__meta-row a {
+  color: #262626;
+  word-break: break-all;
+}
+
+.resource-preview__meta-row a {
+  color: #1677ff;
+}
+
+:deep(.business-modal .ant-modal-content) {
+  overflow: hidden;
+}
+
+:deep(.business-modal .ant-modal-body) {
+  padding-top: 12px;
+  overflow-x: hidden;
+}
+
+:deep(.publish-modal .ant-modal) {
+  width: min(720px, 70vw) !important;
+  max-width: 70vw;
+}
+
+:deep(.resource-picker-modal .ant-modal) {
+  width: min(980px, 70vw) !important;
+  max-width: 70vw;
+}
+
+:deep(.resource-preview-modal .ant-modal) {
+  width: min(640px, 70vw) !important;
+  max-width: 70vw;
+}
+
+:deep(.form-modal .ant-modal) {
+  width: min(520px, 70vw) !important;
+  max-width: 70vw;
 }
 
 @media (max-width: 960px) {
@@ -994,6 +1454,33 @@ onMounted(async () => {
     min-height: calc(100vh - 280px);
     padding: 4px 20px 72px !important;
     font-size: 17px;
+  }
+
+  .cover-upload-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .publish-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .cover-preview {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .publish-resource-toolbar,
+  .media-picker__toolbar,
+  .publish-resource-item__main,
+  .resource-picker-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .publish-resource-item__actions,
+  .resource-picker-row__actions {
+    justify-content: flex-end;
   }
 }
 </style>

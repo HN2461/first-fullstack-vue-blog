@@ -451,10 +451,18 @@ body:has(.enterprise-admin-shell) {
   background: var(--console-bg);
 }
 
+.enterprise-content--immersive {
+  padding: 0;
+}
+
 .enterprise-content-inner {
   width: 100%;
   min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
   margin: 0 auto;
+}
+
+.enterprise-content-inner--immersive {
+  min-height: 100%;
 }
 
 .enterprise-page {

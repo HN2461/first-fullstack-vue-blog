@@ -1,6 +1,7 @@
 import { ARTICLE_STATUS } from '@blog/shared'
 import { Article } from '../models/Article.js'
 import { Category } from '../models/Category.js'
+import { Reaction } from '../models/Reaction.js'
 import { Tag } from '../models/Tag.js'
 
 function createHttpError(statusCode, code, message) {
@@ -103,6 +104,7 @@ export async function listPublicArticles(rawQuery = {}) {
     Article.find(query)
       .populate('category')
       .populate('tags')
+      .populate('createdBy', 'username avatar role')
       .sort({ publishedAt: -1, createdAt: -1 })
       .skip(pagination.skip)
       .limit(pagination.pageSize),
@@ -117,7 +119,7 @@ export async function listPublicArticles(rawQuery = {}) {
   }
 }
 
-export async function getPublicArticleBySlug(slug) {
+export async function getPublicArticleBySlug(slug, currentUserId = null) {
   const article = await Article.findOne({
     slug,
     status: ARTICLE_STATUS.PUBLISHED,
@@ -125,12 +127,39 @@ export async function getPublicArticleBySlug(slug) {
   })
     .populate('category')
     .populate('tags')
+    .populate('createdBy', 'username avatar role')
 
   if (!article) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
-  return article.toSafeJSON()
+  article.viewCount += 1
+  await article.save()
+
+  const payload = article.toSafeJSON()
+
+  if (!currentUserId) {
+    return {
+      ...payload,
+      likedByCurrentUser: false,
+      favoritedByCurrentUser: false
+    }
+  }
+
+  const reactions = await Reaction.find({
+    user: currentUserId,
+    targetType: 'article',
+    targetId: article._id,
+    type: { $in: ['like', 'favorite'] }
+  }).select('type')
+
+  const reactionTypes = new Set(reactions.map((item) => item.type))
+
+  return {
+    ...payload,
+    likedByCurrentUser: reactionTypes.has('like'),
+    favoritedByCurrentUser: reactionTypes.has('favorite')
+  }
 }
 
 export async function getPublicHomeData() {
@@ -147,6 +176,7 @@ export async function getPublicHomeData() {
     })
       .populate('category')
       .populate('tags')
+      .populate('createdBy', 'username avatar role')
       .sort({ publishedAt: -1, createdAt: -1 })
       .limit(5),
     Article.find({
@@ -156,6 +186,7 @@ export async function getPublicHomeData() {
     })
       .populate('category')
       .populate('tags')
+      .populate('createdBy', 'username avatar role')
       .sort({ publishedAt: -1, createdAt: -1 })
       .limit(4)
   ])

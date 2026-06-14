@@ -33,7 +33,13 @@ export const tagSchema = z.object({
 
 export const articleSchema = z.object({
   title: z.string().trim().min(1, '文章标题不能为空').max(120, '文章标题不能超过 120 个字符'),
-  slug: z.string().trim().toLowerCase().regex(slugPattern, '文章 slug 只能包含小写字母、数字和短横线').optional().default(''),
+  slug: z.preprocess(
+    (value) => {
+      const text = String(value ?? '').trim().toLowerCase()
+      return text || undefined
+    },
+    z.string().regex(slugPattern, '文章 slug 只能包含小写字母、数字和短横线').optional()
+  ),
   summary: z.string().trim().max(300, '文章摘要不能超过 300 个字符').optional().default(''),
   contentMarkdown: z.string().optional().default(''),
   cover: z.string().trim().optional().default(''),
