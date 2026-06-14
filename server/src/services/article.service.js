@@ -31,6 +31,23 @@ function calculateReadingMinutes(wordCount) {
   return Math.max(1, Math.ceil(wordCount / 400))
 }
 
+function slugifyArticleTitle(title) {
+  const asciiSlug = String(title || '')
+    .trim()
+    .toLowerCase()
+    .replace(/['"]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-{2,}/g, '-')
+    .replace(/^-|-$/g, '')
+
+  if (asciiSlug) {
+    return asciiSlug
+  }
+
+  const timestamp = new Date().toISOString().replace(/[-:TZ.]/g, '').slice(0, 14)
+  return `article-${timestamp}`
+}
+
 async function assertUniqueSlug(slug, excludeId = null) {
   const query = { slug }
 
@@ -45,9 +62,55 @@ async function assertUniqueSlug(slug, excludeId = null) {
   }
 }
 
+async function ensureUniqueGeneratedSlug(baseSlug, excludeId = null) {
+  let candidate = baseSlug
+  let index = 1
+
+  while (true) {
+    const query = { slug: candidate }
+
+    if (excludeId) {
+      query._id = { $ne: excludeId }
+    }
+
+    const exists = await Article.exists(query)
+    if (!exists) {
+      return candidate
+    }
+
+    index += 1
+    candidate = `${baseSlug}-${index}`
+  }
+}
+
+async function resolveCreateSlug(input) {
+  const requestedSlug = String(input.slug || '').trim().toLowerCase()
+
+  if (requestedSlug) {
+    await assertUniqueSlug(requestedSlug)
+    return requestedSlug
+  }
+
+  return ensureUniqueGeneratedSlug(slugifyArticleTitle(input.title))
+}
+
+async function resolveUpdateSlug(input, article) {
+  const requestedSlug = String(input.slug || '').trim().toLowerCase()
+
+  if (requestedSlug) {
+    await assertUniqueSlug(requestedSlug, article._id)
+    return requestedSlug
+  }
+
+  if (article.slug) {
+    return article.slug
+  }
+
+  return ensureUniqueGeneratedSlug(slugifyArticleTitle(input.title), article._id)
+}
+
 export async function createArticle(input, user) {
-  const slug = input.slug.trim().toLowerCase()
-  await assertUniqueSlug(slug)
+  const slug = await resolveCreateSlug(input)
 
   const wordCount = calculateWordCount(input.contentMarkdown)
   const article = await Article.create({
@@ -77,8 +140,7 @@ export async function updateArticle(id, input, user) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
-  const slug = input.slug.trim().toLowerCase()
-  await assertUniqueSlug(slug, article._id)
+  const slug = await resolveUpdateSlug(input, article)
 
   const wordCount = calculateWordCount(input.contentMarkdown)
   article.title = input.title.trim()

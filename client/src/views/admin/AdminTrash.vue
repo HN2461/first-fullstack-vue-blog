@@ -79,15 +79,17 @@
 
 <script setup>
 import { ref } from 'vue'
-import { message, Modal } from 'ant-design-vue'
 import {
   UndoOutlined,
   DeleteOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listTrashArticles, restoreArticle, permanentDeleteArticle, emptyTrash } from '@/services/admin'
+import { useAdminActions } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
+const actionLoadingKey = ref('')
+const { runAction, confirmAction } = useAdminActions()
 
 const columns = [
   {
@@ -155,53 +157,62 @@ async function loadTrash(params) {
 
 // 恢复文章
 async function handleRestore(record) {
+  actionLoadingKey.value = `restore:${record.id}`
   try {
-    await restoreArticle(record.id)
-    message.success(`文章「${record.title}」已恢复`)
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '恢复失败')
+    await runAction(() => restoreArticle(record.id), {
+      successMessage: `文章「${record.title}」已恢复`,
+      errorMessage: '恢复失败',
+      onSuccess: () => tableRef.value?.refresh()
+    })
+  } finally {
+    actionLoadingKey.value = ''
   }
 }
 
 // 彻底删除
 function confirmPermanentDelete(record) {
-  Modal.confirm({
+  confirmAction({
     title: '彻底删除',
     content: `确定要彻底删除文章「${record.title}」吗？此操作不可恢复！`,
     okText: '彻底删除',
     okType: 'danger',
-    cancelText: '取消',
     async onOk() {
+      actionLoadingKey.value = `permanent:${record.id}`
       try {
-        await permanentDeleteArticle(record.id)
-        message.success('文章已彻底删除')
-        tableRef.value?.refresh()
-      } catch (error) {
-        message.error(error.message || '删除失败')
+        await runAction(() => permanentDeleteArticle(record.id), {
+          successMessage: '文章已彻底删除',
+          errorMessage: '删除失败',
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        actionLoadingKey.value = ''
       }
     }
-  })
+  }).catch(() => {})
 }
 
 // 清空回收站
 function confirmEmptyTrash() {
-  Modal.confirm({
+  confirmAction({
     title: '清空回收站',
     content: '确定要清空回收站吗？所有文章将被永久删除，此操作不可恢复！',
     okText: '确认清空',
     okType: 'danger',
-    cancelText: '取消',
     async onOk() {
+      actionLoadingKey.value = 'empty-trash'
       try {
-        const result = await emptyTrash()
-        message.success(`已清空 ${result.deletedCount || 0} 条记录`)
-        tableRef.value?.refresh()
-      } catch (error) {
-        message.error(error.message || '清空失败')
+        const result = await runAction(() => emptyTrash(), {
+          errorMessage: '清空失败'
+        })
+        await runAction(() => Promise.resolve(result), {
+          successMessage: `已清空 ${result.deletedCount || 0} 条记录`,
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        actionLoadingKey.value = ''
       }
     }
-  })
+  }).catch(() => {})
 }
 </script>
 

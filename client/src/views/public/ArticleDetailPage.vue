@@ -27,6 +27,10 @@
         </div>
       </header>
 
+      <div v-if="article.cover" class="article-cover-hero">
+        <img :src="article.cover" :alt="article.title">
+      </div>
+
       <div class="article-actions">
         <button class="icon-button" type="button" :disabled="!authStore.isLoggedIn" @click="likeCurrentArticle">
           点赞
@@ -72,12 +76,13 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 import { useAuthStore } from '@/stores/auth'
 import { createComment, favoriteArticle, likeArticle, listComments, reportComment } from '@/services/interaction'
 import { getPublicArticle } from '@/services/public'
+
+const MarkdownRenderer = defineAsyncComponent(() => import('@/components/MarkdownRenderer.vue'))
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -106,6 +111,7 @@ const article = ref({
   title: '',
   summary: '',
   contentMarkdown: '',
+  cover: '',
   category: null,
   tags: []
 })
@@ -173,3 +179,19 @@ async function reportCurrentComment(id) {
 onMounted(loadArticle)
 watch(() => route.params.slug, loadArticle)
 </script>
+
+<style scoped>
+.article-cover-hero {
+  margin-bottom: 20px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f5f5f5;
+}
+
+.article-cover-hero img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+}
+</style>

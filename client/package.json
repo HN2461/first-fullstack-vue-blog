@@ -16,6 +16,7 @@
     "axios": "^1.17.0",
     "lucide-vue-next": "^0.468.0",
     "markdown-it": "^14.1.0",
+    "md-editor-v3": "^6.5.1",
     "pinia": "^2.3.1",
     "vite": "^5.4.20",
     "vue": "^3.5.21",

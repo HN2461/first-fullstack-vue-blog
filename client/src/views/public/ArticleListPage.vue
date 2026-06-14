@@ -25,6 +25,9 @@
           class="console-article-row"
           :to="articlePath(article.slug)"
         >
+          <div v-if="article.cover" class="article-cover-thumb">
+            <img :src="article.cover" :alt="article.title">
+          </div>
           <div>
             <a-tag>{{ article.category?.name || '未分类' }}</a-tag>
             <h3>{{ article.title }}</h3>
@@ -48,6 +51,9 @@
         class="article-row"
         :to="articlePath(article.slug)"
       >
+        <div v-if="article.cover" class="article-cover-thumb article-cover-thumb--public">
+          <img :src="article.cover" :alt="article.title">
+        </div>
         <div>
           <span>{{ article.category?.name || '未分类' }}</span>
           <h3>{{ article.title }}</h3>
@@ -106,3 +112,25 @@ async function loadArticles() {
 onMounted(loadArticles)
 watch(() => route.fullPath, loadArticles)
 </script>
+
+<style scoped>
+.article-cover-thumb {
+  width: 120px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f5f5f5;
+  flex-shrink: 0;
+}
+
+.article-cover-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.article-cover-thumb--public {
+  margin-right: 16px;
+}
+</style>

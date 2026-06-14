@@ -7,6 +7,8 @@
         <h3>站点信息</h3>
       </div>
       <div class="panel-body">
+        <p v-if="loadError" class="settings-feedback settings-feedback--error">{{ loadError }}</p>
+        <p v-else class="settings-feedback">{{ saving ? '正在保存设置...' : '修改后请主动保存，离开页面前会提醒未保存内容。' }}</p>
         <div class="form-item">
           <label>站点标题</label>
           <a-input v-model:value.trim="form.siteTitle" placeholder="显示在浏览器标签页" />
@@ -72,13 +74,16 @@
 
 <script setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue'
-import { message } from 'ant-design-vue'
 import { SettingOutlined, InfoCircleOutlined } from '@ant-design/icons-vue'
 import { getAdminSettings, updateAdminSettings } from '@/services/admin'
 import { setCachedSiteProfile } from '@/utils/siteProfile'
+import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 
 const saving = ref(false)
+const loading = ref(false)
 const currentTime = ref('')
+const loadError = ref('')
+const { runAction, toMessage } = useAdminActions()
 
 const form = reactive({
   siteTitle: '',
@@ -86,6 +91,12 @@ const form = reactive({
   authorName: '',
   defaultTheme: 'light',
   systemVersion: ''
+})
+const { markClean } = useUnsavedChanges({
+  getSnapshot: () => ({ ...form }),
+  enabled: () => !loading.value && !saving.value,
+  title: '离开设置页面？',
+  content: '当前站点设置还未保存，离开后本次修改会丢失。'
 })
 
 let timer = null
@@ -95,23 +106,29 @@ function updateTime() {
 }
 
 async function loadSettings() {
+  loading.value = true
+  loadError.value = ''
   try {
     const settings = await getAdminSettings()
     Object.assign(form, settings)
     setCachedSiteProfile(settings)
+    markClean()
   } catch (error) {
-    message.error('加载失败')
+    loadError.value = toMessage(error, '加载失败')
+  } finally {
+    loading.value = false
   }
 }
 
 async function saveSettings() {
   saving.value = true
   try {
-    await updateAdminSettings(form)
+    await runAction(() => updateAdminSettings(form), {
+      successMessage: '设置已保存',
+      errorMessage: '保存失败'
+    })
     setCachedSiteProfile(form)
-    message.success('设置已保存')
-  } catch (error) {
-    message.error(error.message || '保存失败')
+    markClean()
   } finally {
     saving.value = false
   }
@@ -161,6 +178,16 @@ onUnmounted(() => {
 
 .panel-body {
   padding: 20px;
+}
+
+.settings-feedback {
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.settings-feedback--error {
+  color: #cf1322;
 }
 
 /* 左侧表单 */

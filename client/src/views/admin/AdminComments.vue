@@ -65,12 +65,14 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { message } from 'ant-design-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listAdminComments, reviewAdminComment } from '@/services/admin'
+import { useAdminActions } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
 const status = ref('pending')
+const actionLoadingKey = ref('')
+const { runAction, confirmAction } = useAdminActions()
 
 // 筛选参数：status 变化时 BlogTable 自动重新加载
 const filterParams = computed(() => ({ status: status.value }))
@@ -109,13 +111,34 @@ async function fetchComments(params) {
 }
 
 async function review(id, action) {
-  try {
-    await reviewAdminComment(id, action)
-    message.success('操作成功')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
+  const actionLabelMap = {
+    approve: '通过',
+    reject: '驳回',
+    hide: '隐藏'
   }
+
+  if (actionLoadingKey.value) {
+    return
+  }
+
+  await confirmAction({
+    title: `确认${actionLabelMap[action]}评论`,
+    content: `执行后，评论状态将更新为“${actionLabelMap[action]}”结果。`,
+    okText: `确认${actionLabelMap[action]}`,
+    okType: action === 'hide' ? 'danger' : 'primary',
+    async onOk() {
+      actionLoadingKey.value = `${action}:${id}`
+      try {
+        await runAction(() => reviewAdminComment(id, action), {
+          successMessage: '评论状态已更新',
+          errorMessage: '操作失败',
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        actionLoadingKey.value = ''
+      }
+    }
+  }).catch(() => {})
 }
 </script>
 

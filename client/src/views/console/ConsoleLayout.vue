@@ -37,8 +37,8 @@
             <template #icon><SearchOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-tooltip v-if="authStore.isAdmin" title="新建文章">
-          <a-button class="enterprise-icon-action" type="primary" @click="router.push('/console/manage/articles/new')">
+        <a-tooltip v-if="authStore.isAdmin" title="开始写作">
+          <a-button class="enterprise-icon-action" type="primary" @click="router.push('/console/write')">
             <template #icon><PlusOutlined /></template>
           </a-button>
         </a-tooltip>
@@ -133,6 +133,7 @@
             <a-sub-menu key="contentRoot">
               <template #icon><FileTextOutlined /></template>
               <template #title>内容资产</template>
+              <a-menu-item key="/console/write">开始写作</a-menu-item>
               <a-menu-item key="/console/manage/articles">文章管理</a-menu-item>
               <a-menu-item key="/console/manage/categories">分类体系</a-menu-item>
               <a-menu-item key="/console/manage/tags">标签体系</a-menu-item>
@@ -206,6 +207,8 @@ const categories = ref([])
 const articles = ref([])
 const siderCollapsed = ref(false)
 const openKeys = ref([])
+const knowledgeMenuLoaded = ref(false)
+let knowledgeMenuRequestId = 0
 
 const menuTheme = computed(() => appStore.isDark ? 'dark' : 'light')
 const AMenuItem = Menu.Item
@@ -218,6 +221,7 @@ const primarySection = computed(() => {
   return 'knowledge'
 })
 const selectedKeys = computed(() => {
+  if (route.path === '/console/write') return ['/console/write']
   if (route.path.includes('/console/manage/articles')) return ['/console/manage/articles']
   if (route.path.includes('/console/articles/')) return [route.path]
   if (route.path.includes('/console/categories/')) return [route.path]
@@ -330,7 +334,7 @@ function resolveOpenKeys(path) {
       return []
     }
 
-    if (path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/tags') || path.includes('/manage/media')) {
+    if (path === '/console/write' || path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/tags') || path.includes('/manage/media')) {
       return ['contentRoot']
     }
 
@@ -375,15 +379,27 @@ function resolveCategoryOpenKeys(slug) {
 }
 
 async function loadKnowledgeMenu() {
+  const requestId = ++knowledgeMenuRequestId
+
   try {
     const [categoryList, articleResult] = await Promise.all([
       listPublicCategories(),
       listPublicArticles({ pageSize: 500 })
     ])
+
+    if (requestId !== knowledgeMenuRequestId) {
+      return
+    }
+
     categories.value = categoryList
     articles.value = articleResult.items || []
+    knowledgeMenuLoaded.value = true
     openKeys.value = resolveOpenKeys(route.path)
   } catch {
+    if (requestId !== knowledgeMenuRequestId) {
+      return
+    }
+
     categories.value = []
     articles.value = []
   }
@@ -395,11 +411,23 @@ watch(() => route.path, (path) => {
   }
 })
 
+watch(primarySection, async (section) => {
+  if (section !== 'knowledge' || knowledgeMenuLoaded.value) {
+    return
+  }
+
+  await loadKnowledgeMenu()
+}, { immediate: true })
+
 watch(() => authStore.isAdmin, () => {
   if (!authStore.isAdmin && route.path.includes('/console/manage')) {
     router.push('/console/articles')
   }
 })
 
-onMounted(loadKnowledgeMenu)
+onMounted(() => {
+  if (primarySection.value === 'knowledge' && !knowledgeMenuLoaded.value) {
+    loadKnowledgeMenu()
+  }
+})
 </script>

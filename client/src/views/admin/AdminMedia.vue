@@ -48,9 +48,7 @@
                 <a-typography-text copyable>{{ record.url }}</a-typography-text>
               </template>
               <template v-else-if="column.key === 'action'">
-                <a-popconfirm title="确定删除此文件？" @confirm="handleDelete(record.id)">
-                  <a-button type="link" size="small" danger>删除</a-button>
-                </a-popconfirm>
+                <a-button type="link" size="small" danger @click="handleDelete(record)">删除</a-button>
               </template>
             </template>
           </BlogTable>
@@ -62,14 +60,17 @@
 
 <script setup>
 import { ref } from 'vue'
-import { message } from 'ant-design-vue'
 import { InboxOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteAdminMedia, listAdminMedia, uploadAdminMedia } from '@/services/admin'
+import { useAdminActions } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
 const file = ref(null)
 const errorMessage = ref('')
+const uploading = ref(false)
+const actionLoadingKey = ref('')
+const { runAction, confirmAction } = useAdminActions()
 
 const columns = [
   { title: '文件名', dataIndex: 'originalName', key: 'originalName' },
@@ -92,24 +93,40 @@ async function loadMedia(params) {
 async function uploadFile() {
   if (!file.value) return
   errorMessage.value = ''
+  uploading.value = true
   try {
-    await uploadAdminMedia(file.value)
+    await runAction(() => uploadAdminMedia(file.value), {
+      successMessage: '上传成功',
+      errorMessage: '上传失败'
+    })
     file.value = null
-    message.success('上传成功')
     tableRef.value?.refresh()
   } catch (error) {
     errorMessage.value = error.message || '上传失败'
+  } finally {
+    uploading.value = false
   }
 }
 
-async function handleDelete(id) {
-  try {
-    await deleteAdminMedia(id)
-    message.success('文件已删除')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '删除失败')
-  }
+function handleDelete(record) {
+  confirmAction({
+    title: '确定删除此文件？',
+    content: `文件「${record.originalName}」删除后将无法继续在文章或公告中引用。`,
+    okText: '确认删除',
+    okType: 'danger',
+    async onOk() {
+      actionLoadingKey.value = `delete:${record.id}`
+      try {
+        await runAction(() => deleteAdminMedia(record.id), {
+          successMessage: '文件已删除',
+          errorMessage: '删除失败',
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        actionLoadingKey.value = ''
+      }
+    }
+  }).catch(() => {})
 }
 </script>
 

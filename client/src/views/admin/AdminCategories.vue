@@ -45,9 +45,7 @@
             >
               {{ record.status === 'active' ? '禁用' : '启用' }}
             </a-button>
-            <a-popconfirm title="确定删除此分类？" @confirm="handleDelete(record.id)">
-              <a-button type="link" size="small" danger class="action-delete">删除</a-button>
-            </a-popconfirm>
+            <a-button type="link" size="small" danger class="action-delete" @click="handleDelete(record)">删除</a-button>
           </div>
         </template>
       </template>
@@ -93,22 +91,31 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { message } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { createAdminCategory, deleteAdminCategory, listAdminCategories, updateAdminCategory } from '@/services/admin'
+import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
 const modalVisible = ref(false)
 const submitting = ref(false)
 const editingId = ref(null)
 const formRef = ref(null)
+const rowActionKey = ref('')
+const { runAction, confirmAction } = useAdminActions()
 
 const form = reactive({
   name: '',
   slug: '',
   sortOrder: 0,
   status: 'active'
+})
+const { isDirty, markClean, pauseTracking } = useUnsavedChanges({
+  getSnapshot: () => ({ ...form }),
+  enabled: () => modalVisible.value && !submitting.value,
+  title: '关闭分类编辑？',
+  content: '当前分类表单还有未保存修改，关闭后将丢失本次输入。',
+  okText: '仍然关闭'
 })
 
 const columns = [
@@ -146,9 +153,25 @@ function openModal(record) {
     form.status = 'active'
   }
   modalVisible.value = true
+  markClean()
 }
 
 function closeModal() {
+  if (isDirty.value) {
+    confirmAction({
+      title: '关闭分类编辑？',
+      content: '当前分类表单还有未保存修改，关闭后将丢失本次输入。',
+      okText: '仍然关闭',
+      async onOk() {
+        pauseTracking()
+        modalVisible.value = false
+        editingId.value = null
+      }
+    }).catch(() => {})
+    return
+  }
+
+  pauseTracking()
   modalVisible.value = false
   editingId.value = null
 }
@@ -162,27 +185,29 @@ async function handleModalSubmit() {
 
   submitting.value = true
   try {
-    if (editingId.value) {
-      await updateAdminCategory(editingId.value, {
+    await runAction(() => (
+      editingId.value
+        ? updateAdminCategory(editingId.value, {
+          name: form.name,
+          slug: form.slug,
+          sortOrder: form.sortOrder,
+          status: form.status
+        })
+        : createAdminCategory({
         name: form.name,
         slug: form.slug,
         sortOrder: form.sortOrder,
         status: form.status
       })
-      message.success('分类已更新')
-    } else {
-      await createAdminCategory({
-        name: form.name,
-        slug: form.slug,
-        sortOrder: form.sortOrder,
-        status: form.status
-      })
-      message.success('分类已创建')
-    }
-    closeModal()
+    ), {
+      successMessage: editingId.value ? '分类已更新' : '分类已创建',
+      errorMessage: '操作失败'
+    })
+    markClean()
+    pauseTracking()
+    modalVisible.value = false
+    editingId.value = null
     tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
   } finally {
     submitting.value = false
   }
@@ -190,23 +215,37 @@ async function handleModalSubmit() {
 
 async function handleToggleStatus(record) {
   const newStatus = record.status === 'active' ? 'hidden' : 'active'
+  rowActionKey.value = `status:${record.id}`
   try {
-    await updateAdminCategory(record.id, { status: newStatus })
-    message.success(newStatus === 'active' ? '已启用' : '已禁用')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
+    await runAction(() => updateAdminCategory(record.id, { status: newStatus }), {
+      successMessage: newStatus === 'active' ? '已启用' : '已禁用',
+      errorMessage: '操作失败',
+      onSuccess: () => tableRef.value?.refresh()
+    })
+  } finally {
+    rowActionKey.value = ''
   }
 }
 
-async function handleDelete(id) {
-  try {
-    await deleteAdminCategory(id)
-    message.success('分类已删除')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '删除失败')
-  }
+function handleDelete(record) {
+  confirmAction({
+    title: '确定删除此分类？',
+    content: `分类「${record.name}」删除后，相关文章将失去该分类关联。`,
+    okText: '确认删除',
+    okType: 'danger',
+    async onOk() {
+      rowActionKey.value = `delete:${record.id}`
+      try {
+        await runAction(() => deleteAdminCategory(record.id), {
+          successMessage: '分类已删除',
+          errorMessage: '删除失败',
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        rowActionKey.value = ''
+      }
+    }
+  }).catch(() => {})
 }
 </script>
 

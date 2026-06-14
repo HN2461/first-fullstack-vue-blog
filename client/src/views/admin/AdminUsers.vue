@@ -46,12 +46,14 @@
 
 <script setup>
 import { ref } from 'vue'
-import { message } from 'ant-design-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listAdminUsers, updateAdminUserStatus } from '@/services/admin'
+import { useAdminActions } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
 const errorMessage = ref('')
+const actionLoadingKey = ref('')
+const { runAction, confirmAction } = useAdminActions()
 
 const columns = [
   { title: '用户', key: 'user', dataIndex: 'username' },
@@ -85,13 +87,34 @@ async function loadUsers(params) {
 }
 
 async function setStatus(id, status) {
-  try {
-    await updateAdminUserStatus(id, status)
-    message.success('状态已更新')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
+  const statusLabelMap = {
+    active: '正常',
+    muted: '禁言',
+    disabled: '禁用'
   }
+
+  if (actionLoadingKey.value) {
+    return
+  }
+
+  confirmAction({
+    title: `确认调整用户状态`,
+    content: `确定要将该用户状态调整为“${statusLabelMap[status]}”吗？`,
+    okText: '确认调整',
+    okType: status === 'disabled' ? 'danger' : 'primary',
+    async onOk() {
+      actionLoadingKey.value = `${status}:${id}`
+      try {
+        await runAction(() => updateAdminUserStatus(id, status), {
+          successMessage: '状态已更新',
+          errorMessage: '操作失败',
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        actionLoadingKey.value = ''
+      }
+    }
+  }).catch(() => {})
 }
 </script>
 

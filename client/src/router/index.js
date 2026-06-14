@@ -131,6 +131,12 @@ export const router = createRouter({
           meta: { title: '个人信息', requiresAuth: true }
         },
         {
+          path: 'write',
+          name: 'AdminWriter',
+          component: AdminArticleEditor,
+          meta: { title: '开始写作', requiresAdmin: true }
+        },
+        {
           path: 'manage/articles',
           name: 'AdminArticles',
           component: AdminArticles,

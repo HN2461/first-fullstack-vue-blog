@@ -7,7 +7,7 @@
         <span class="header-desc">管理所有文章的发布、编辑和删除</span>
       </div>
       <div class="header-right">
-        <a-button type="primary" @click="$router.push('/console/manage/articles/new')">
+        <a-button type="primary" @click="$router.push('/console/write')">
           <template #icon><PlusOutlined /></template>
           新建文章
         </a-button>
@@ -148,7 +148,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { message, Modal } from 'ant-design-vue'
 import {
   PlusOutlined,
   EyeOutlined,
@@ -167,12 +166,16 @@ import {
   updateAdminArticleStatus,
   listAllAdminCategories
 } from '@/services/admin'
+import { useAdminActions } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
 const categories = ref([])
 const searchKeyword = ref('')
 const filterStatus = ref('all')
 const filterCategory = ref(undefined)
+const categoryLoading = ref(false)
+const actionLoadingKey = ref('')
+const { runAction, confirmAction } = useAdminActions()
 
 // 筛选参数：变化时 BlogTable 自动重新加载
 const filterParams = computed(() => ({
@@ -272,10 +275,13 @@ async function fetchArticles(params) {
 }
 
 async function loadCategories() {
+  categoryLoading.value = true
   try {
     categories.value = await listAllAdminCategories()
   } catch (error) {
     console.error('分类加载失败:', error)
+  } finally {
+    categoryLoading.value = false
   }
 }
 
@@ -293,6 +299,10 @@ function handleSearchChange() {
 
 // 操作处理
 async function handleAction(key, record) {
+  if (actionLoadingKey.value) {
+    return
+  }
+
   switch (key) {
     case 'publish':
       await handlePublish(record.id)
@@ -310,52 +320,63 @@ async function handleAction(key, record) {
 }
 
 async function handlePublish(id) {
+  actionLoadingKey.value = `publish:${id}`
   try {
-    await publishAdminArticle(id)
-    message.success('文章已发布')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '发布失败')
+    await runAction(() => publishAdminArticle(id), {
+      successMessage: '文章已发布',
+      errorMessage: '发布失败',
+      onSuccess: () => tableRef.value?.refresh()
+    })
+  } finally {
+    actionLoadingKey.value = ''
   }
 }
 
 async function handleArchive(id) {
+  actionLoadingKey.value = `archive:${id}`
   try {
-    await updateAdminArticleStatus(id, 'archived')
-    message.success('文章已下架')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
+    await runAction(() => updateAdminArticleStatus(id, 'archived'), {
+      successMessage: '文章已下架',
+      errorMessage: '下架失败',
+      onSuccess: () => tableRef.value?.refresh()
+    })
+  } finally {
+    actionLoadingKey.value = ''
   }
 }
 
 async function handleToDraft(id) {
+  actionLoadingKey.value = `draft:${id}`
   try {
-    await updateAdminArticleStatus(id, 'draft')
-    message.success('已转为草稿')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
+    await runAction(() => updateAdminArticleStatus(id, 'draft'), {
+      successMessage: '已转为草稿',
+      errorMessage: '转草稿失败',
+      onSuccess: () => tableRef.value?.refresh()
+    })
+  } finally {
+    actionLoadingKey.value = ''
   }
 }
 
 function handleDelete(record) {
-  Modal.confirm({
+  confirmAction({
     title: '确认删除',
-    content: `确定要删除文章「${record.title}」吗？删除后不可恢复。`,
+    content: `确定要删除文章「${record.title}」吗？删除后将进入删除流程且前台不可再访问。`,
     okText: '确认删除',
     okType: 'danger',
-    cancelText: '取消',
     async onOk() {
+      actionLoadingKey.value = `delete:${record.id}`
       try {
-        await deleteAdminArticle(record.id)
-        message.success('文章已删除')
-        tableRef.value?.refresh()
-      } catch (error) {
-        message.error(error.message || '删除失败')
+        await runAction(() => deleteAdminArticle(record.id), {
+          successMessage: '文章已删除',
+          errorMessage: '删除失败',
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        actionLoadingKey.value = ''
       }
     }
-  })
+  }).catch(() => {})
 }
 
 // 初始化

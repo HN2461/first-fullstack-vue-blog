@@ -246,7 +246,6 @@
 
 <script setup>
 import { ref, computed, reactive } from 'vue'
-import { message, Modal } from 'ant-design-vue'
 import {
   ClockCircleOutlined,
   ClearOutlined,
@@ -264,9 +263,13 @@ import {
   listAdminAnnouncements,
   updateAdminAnnouncement
 } from '@/services/admin'
+import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
 const selectedRowKeys = ref([])
+const detailLoading = ref(false)
+const rowActionKey = ref('')
+const { runAction, warn, confirmAction } = useAdminActions()
 
 // 筛选
 const filterLevel = ref(undefined)
@@ -288,6 +291,20 @@ const form = reactive({
   level: 'info',
   isActive: true,
   autoPopup: false
+})
+const { isDirty: formDirty, markClean: markFormClean, pauseTracking: pauseFormTracking } = useUnsavedChanges({
+  getSnapshot: () => ({
+    title: form.title,
+    content: form.content,
+    link: form.link,
+    level: form.level,
+    isActive: form.isActive,
+    autoPopup: form.autoPopup
+  }),
+  enabled: () => formModalVisible.value && !submitting.value,
+  title: '关闭公告编辑？',
+  content: '公告表单还有未保存修改，关闭后将丢失当前输入。',
+  okText: '仍然关闭'
 })
 
 // 详情弹窗
@@ -361,6 +378,7 @@ function openCreateModal() {
   form.isActive = true
   form.autoPopup = false
   formModalVisible.value = true
+  markFormClean()
 }
 
 // 编辑弹窗
@@ -373,36 +391,52 @@ function openEditModal(record) {
   form.isActive = record.isActive !== false
   form.autoPopup = record.autoPopup || false
   formModalVisible.value = true
+  markFormClean()
 }
 
 function closeFormModal() {
+  if (formDirty.value) {
+    confirmAction({
+      title: '关闭公告编辑？',
+      content: '当前公告还有未保存修改，关闭后将丢失当前输入。',
+      okText: '仍然关闭',
+      async onOk() {
+        pauseFormTracking()
+        formModalVisible.value = false
+      }
+    }).catch(() => {})
+    return
+  }
+
+  pauseFormTracking()
   formModalVisible.value = false
 }
 
 // 提交表单
 async function handleFormSubmit() {
   if (!form.title.trim()) {
-    message.warning('请输入公告标题')
+    warn('请输入公告标题')
     return
   }
   if (!form.content.trim()) {
-    message.warning('请输入公告内容')
+    warn('请输入公告内容')
     return
   }
 
   submitting.value = true
   try {
-    if (editingId.value) {
-      await updateAdminAnnouncement(editingId.value, form)
-      message.success('公告已更新')
-    } else {
-      await createAdminAnnouncement(form)
-      message.success('公告已发布')
-    }
-    closeFormModal()
+    await runAction(() => (
+      editingId.value
+        ? updateAdminAnnouncement(editingId.value, form)
+        : createAdminAnnouncement(form)
+    ), {
+      successMessage: editingId.value ? '公告已更新' : '公告已发布',
+      errorMessage: '操作失败'
+    })
+    markFormClean()
+    pauseFormTracking()
+    formModalVisible.value = false
     tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
   } finally {
     submitting.value = false
   }
@@ -410,86 +444,92 @@ async function handleFormSubmit() {
 
 // 详情弹窗
 async function openDetailModal(record) {
+  detailLoading.value = true
   try {
-    const detail = await getAdminAnnouncement(record.id)
+    const detail = await runAction(() => getAdminAnnouncement(record.id), {
+      errorMessage: '获取详情失败'
+    })
     detailData.value = detail
     detailModalVisible.value = true
-  } catch (error) {
-    message.error(error.message || '获取详情失败')
+  } finally {
+    detailLoading.value = false
   }
 }
 
 // 上架 / 下架
 async function handleToggleActive(record) {
+  rowActionKey.value = `toggle:${record.id}`
   try {
-    await updateAdminAnnouncement(record.id, { isActive: !record.isActive })
-    message.success(record.isActive ? '已下架' : '已上架')
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '操作失败')
+    await runAction(() => updateAdminAnnouncement(record.id, { isActive: !record.isActive }), {
+      successMessage: record.isActive ? '已下架' : '已上架',
+      errorMessage: '操作失败',
+      onSuccess: () => tableRef.value?.refresh()
+    })
+  } finally {
+    rowActionKey.value = ''
   }
 }
 
 // 删除
 function handleDelete(record) {
-  Modal.confirm({
+  confirmAction({
     title: '确认删除',
     content: `确定要删除公告「${record.title}」吗？删除后不可恢复。`,
     okText: '确认删除',
     okType: 'danger',
-    cancelText: '取消',
     async onOk() {
+      rowActionKey.value = `delete:${record.id}`
       try {
-        await deleteAdminAnnouncement(record.id)
-        message.success('公告已删除')
-        tableRef.value?.refresh()
-      } catch (error) {
-        message.error(error.message || '删除失败')
+        await runAction(() => deleteAdminAnnouncement(record.id), {
+          successMessage: '公告已删除',
+          errorMessage: '删除失败',
+          onSuccess: () => tableRef.value?.refresh()
+        })
+      } finally {
+        rowActionKey.value = ''
       }
     }
-  })
+  }).catch(() => {})
 }
 
 // 批量操作
 async function handleBatchToggle(isActive) {
-  Modal.confirm({
+  confirmAction({
     title: isActive ? '批量上架' : '批量下架',
     content: `确定要${isActive ? '上架' : '下架'} ${selectedRowKeys.value.length} 条公告吗？`,
     okText: '确认',
-    cancelText: '取消',
     async onOk() {
-      try {
-        await batchToggleAnnouncement(selectedRowKeys.value, isActive)
-        message.success(`已${isActive ? '上架' : '下架'}所选公告`)
-        selectedRowKeys.value = []
-        tableRef.value?.clearSelection()
-        tableRef.value?.refresh()
-      } catch (error) {
-        message.error(error.message || '操作失败')
-      }
+      await runAction(() => batchToggleAnnouncement(selectedRowKeys.value, isActive), {
+        successMessage: `已${isActive ? '上架' : '下架'}所选公告`,
+        errorMessage: '操作失败',
+        onSuccess: () => {
+          selectedRowKeys.value = []
+          tableRef.value?.clearSelection()
+          tableRef.value?.refresh()
+        }
+      })
     }
-  })
+  }).catch(() => {})
 }
 
 function handleBatchDelete() {
-  Modal.confirm({
+  confirmAction({
     title: '批量删除',
     content: `确定要删除 ${selectedRowKeys.value.length} 条公告吗？删除后不可恢复。`,
     okText: '确认删除',
     okType: 'danger',
-    cancelText: '取消',
     async onOk() {
-      try {
-        await batchDeleteAnnouncements(selectedRowKeys.value)
-        message.success('已删除所选公告')
-        selectedRowKeys.value = []
-        tableRef.value?.clearSelection()
-        tableRef.value?.refresh()
-      } catch (error) {
-        message.error(error.message || '删除失败')
-      }
+      await runAction(() => batchDeleteAnnouncements(selectedRowKeys.value), {
+        successMessage: '已删除所选公告',
+        errorMessage: '删除失败',
+        onSuccess: () => {
+          selectedRowKeys.value = []
+          tableRef.value?.clearSelection()
+          tableRef.value?.refresh()
+        }
+      })
     }
-  })
+  }).catch(() => {})
 }
 </script>
 
