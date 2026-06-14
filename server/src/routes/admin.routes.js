@@ -4,7 +4,7 @@ import { Router } from 'express'
 import { MulterError } from 'multer'
 import { requireAdmin, requireAuth } from '../middlewares/auth.js'
 import { createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle, updateArticleStatus } from '../services/article.service.js'
-import { createCategory, deleteCategory, listCategories, updateCategory } from '../services/category.service.js'
+import { createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveCategoryBranch, updateCategory } from '../services/category.service.js'
 import { listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '../services/mediaCategory.service.js'
 import { createMediaFromFile, deleteMedia, getUploadSubdir, listMedia, listMediaCategories } from '../services/media.service.js'
@@ -15,7 +15,7 @@ import { createTag, deleteTag, listTags, updateTag } from '../services/tag.servi
 import { ok } from '../utils/apiResponse.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { buildSafeStoredFilename } from '../utils/uploadFilename.js'
-import { articleSchema, categorySchema, parseBody, tagSchema } from '../validators/content.validator.js'
+import { articleCategoryMoveSchema, articleSchema, categoryMoveSchema, categorySchema, parseBody, tagSchema } from '../validators/content.validator.js'
 
 export const adminRouter = Router()
 
@@ -44,6 +44,14 @@ adminRouter.get('/categories', asyncHandler(async (req, res) => {
   res.json(ok(await listCategories(req.query)))
 }))
 
+adminRouter.get('/categories/tree', asyncHandler(async (req, res) => {
+  res.json(ok(await listCategoryTree(req.query)))
+}))
+
+adminRouter.get('/categories/:id/articles', asyncHandler(async (req, res) => {
+  res.json(ok(await listCategoryArticles(req.params.id, req.query)))
+}))
+
 adminRouter.post('/categories', asyncHandler(async (req, res) => {
   const input = parseBody(categorySchema, req.body)
   const category = await createCategory(input)
@@ -58,6 +66,25 @@ adminRouter.patch('/categories/:id', asyncHandler(async (req, res) => {
 adminRouter.delete('/categories/:id', asyncHandler(async (req, res) => {
   const result = await deleteCategory(req.params.id)
   res.json(ok(result, '分类已删除'))
+}))
+
+adminRouter.post('/categories/:id/move', asyncHandler(async (req, res) => {
+  const input = parseBody(categoryMoveSchema, req.body)
+  const category = await moveCategoryBranch(req.params.id, input.targetParentId)
+  if (input.sortOrder !== undefined) {
+    const updated = await updateCategory(req.params.id, {
+      sortOrder: input.sortOrder
+    })
+    res.json(ok(updated, '分类位置已更新'))
+    return
+  }
+  res.json(ok(category, '分类位置已更新'))
+}))
+
+adminRouter.post('/articles/:id/category', asyncHandler(async (req, res) => {
+  const input = parseBody(articleCategoryMoveSchema, req.body)
+  const article = await moveArticleCategory(req.params.id, input.targetCategoryId)
+  res.json(ok(article, '文章分类已更新'))
 }))
 
 adminRouter.get('/tags', asyncHandler(async (req, res) => {

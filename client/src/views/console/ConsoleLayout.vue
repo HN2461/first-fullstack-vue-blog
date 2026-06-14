@@ -147,6 +147,7 @@
               <template #title>内容资产</template>
               <a-menu-item key="/console/manage/articles">文章管理</a-menu-item>
               <a-menu-item key="/console/manage/categories">分类体系</a-menu-item>
+              <a-menu-item key="/console/manage/migration">迁移配置</a-menu-item>
               <a-menu-item key="/console/manage/tags">标签体系</a-menu-item>
               <a-menu-item key="/console/manage/media">媒体资产</a-menu-item>
             </a-sub-menu>
@@ -358,7 +359,7 @@ function resolveOpenKeys(path) {
       return []
     }
 
-    if (path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/tags') || path.includes('/manage/media')) {
+    if (path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/migration') || path.includes('/manage/tags') || path.includes('/manage/media')) {
       return ['contentRoot']
     }
 

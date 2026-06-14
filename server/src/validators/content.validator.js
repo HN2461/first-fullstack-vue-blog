@@ -15,7 +15,13 @@ const articleResourceSchema = z.object({
 
 export const categorySchema = z.object({
   name: z.string().trim().min(1, '分类名称不能为空').max(40, '分类名称不能超过 40 个字符'),
-  slug: z.string().trim().toLowerCase().regex(slugPattern, '分类 slug 只能包含小写字母、数字和短横线'),
+  slug: z.preprocess(
+    (value) => {
+      const text = String(value ?? '').trim().toLowerCase()
+      return text || undefined
+    },
+    z.string().regex(slugPattern, '分类 slug 只能包含小写字母、数字和短横线').optional()
+  ),
   description: z.string().trim().max(240, '分类描述不能超过 240 个字符').optional().default(''),
   parent: z.string().regex(objectIdPattern, '父级分类 id 不正确').nullable().optional().default(null),
   sortOrder: z.number().int().optional().default(0),
@@ -48,6 +54,15 @@ export const articleSchema = z.object({
   tags: z.array(z.string().regex(objectIdPattern, '标签 id 不正确')).optional().default([]),
   status: z.enum(Object.values(ARTICLE_STATUS)).optional().default(ARTICLE_STATUS.DRAFT),
   isRecommended: z.boolean().optional().default(false)
+})
+
+export const categoryMoveSchema = z.object({
+  targetParentId: z.string().regex(objectIdPattern, '目标父级分类 id 不正确').nullable().optional().default(null),
+  sortOrder: z.number().int().optional().default(0)
+})
+
+export const articleCategoryMoveSchema = z.object({
+  targetCategoryId: z.string().regex(objectIdPattern, '目标分类 id 不正确')
 })
 
 export function parseBody(schema, body) {

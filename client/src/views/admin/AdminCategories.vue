@@ -72,8 +72,8 @@
         <a-form-item label="分类名称" name="name" :rules="[{ required: true, message: '请输入分类名称' }]">
           <a-input v-model:value.trim="form.name" placeholder="例如 Node.js" />
         </a-form-item>
-        <a-form-item label="Slug" name="slug" :rules="[{ required: true, message: '请输入 slug' }]">
-          <a-input v-model:value.trim="form.slug" placeholder="例如 node-js" />
+        <a-form-item label="Slug" name="slug">
+          <a-input v-model:value.trim="form.slug" placeholder="留空自动生成，例如 node-js" />
         </a-form-item>
         <a-form-item label="排序" name="sortOrder">
           <a-input-number v-model:value="form.sortOrder" :min="0" :max="9999" style="width: 100%" placeholder="数值越小越靠前" />
@@ -185,20 +185,20 @@ async function handleModalSubmit() {
 
   submitting.value = true
   try {
+    const payload = {
+      name: form.name,
+      sortOrder: form.sortOrder,
+      status: form.status
+    }
+
+    if (String(form.slug || '').trim()) {
+      payload.slug = form.slug
+    }
+
     await runAction(() => (
       editingId.value
-        ? updateAdminCategory(editingId.value, {
-          name: form.name,
-          slug: form.slug,
-          sortOrder: form.sortOrder,
-          status: form.status
-        })
-        : createAdminCategory({
-        name: form.name,
-        slug: form.slug,
-        sortOrder: form.sortOrder,
-        status: form.status
-      })
+        ? updateAdminCategory(editingId.value, payload)
+        : createAdminCategory(payload)
     ), {
       successMessage: editingId.value ? '分类已更新' : '分类已创建',
       errorMessage: '操作失败'

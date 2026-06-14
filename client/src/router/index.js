@@ -13,6 +13,7 @@ const ConsoleLayout = () => import('@/views/console/ConsoleLayout.vue')
 const AdminArticles = () => import('@/views/admin/AdminArticles.vue')
 const AdminArticleEditor = () => import('@/views/admin/AdminArticleEditor.vue')
 const AdminCategories = () => import('@/views/admin/AdminCategories.vue')
+const AdminMigration = () => import('@/views/admin/AdminMigration.vue')
 const AdminTags = () => import('@/views/admin/AdminTags.vue')
 const AdminComments = () => import('@/views/admin/AdminComments.vue')
 const AdminUsers = () => import('@/views/admin/AdminUsers.vue')
@@ -159,6 +160,12 @@ export const router = createRouter({
           name: 'AdminCategories',
           component: AdminCategories,
           meta: { title: '分类管理', requiresAdmin: true }
+        },
+        {
+          path: 'manage/migration',
+          name: 'AdminMigration',
+          component: AdminMigration,
+          meta: { title: '迁移配置', requiresAdmin: true }
         },
         {
           path: 'manage/tags',

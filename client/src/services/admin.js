@@ -74,12 +74,28 @@ export async function listAllAdminCategories(params = {}) {
   return collectAllPageItems(listAdminCategories, params)
 }
 
+export async function listAdminCategoryTree() {
+  return http.get('/api/admin/categories/tree')
+}
+
+export async function listAdminCategoryArticles(id, params = {}) {
+  return toPageResult(await http.get(`/api/admin/categories/${id}/articles`, { params }), params.pageSize || 20)
+}
+
 export function createAdminCategory(data) {
   return http.post('/api/admin/categories', data)
 }
 
 export function updateAdminCategory(id, data) {
   return http.patch(`/api/admin/categories/${id}`, data)
+}
+
+export function moveAdminCategory(id, data) {
+  return http.post(`/api/admin/categories/${id}/move`, data)
+}
+
+export function moveAdminArticleCategory(id, targetCategoryId) {
+  return http.post(`/api/admin/articles/${id}/category`, { targetCategoryId })
 }
 
 export function deleteAdminCategory(id) {
