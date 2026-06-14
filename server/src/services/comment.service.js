@@ -145,11 +145,22 @@ export async function reportComment(id) {
   return comment.toSafeJSON()
 }
 
+const VALID_USER_STATUSES = new Set(Object.values(USER_STATUS))
+
 export async function updateUserStatus(userId, status) {
+  if (!VALID_USER_STATUSES.has(status)) {
+    throw createHttpError(400, 'INVALID_STATUS', `无效的用户状态: ${status}`)
+  }
+
   const user = await User.findById(userId)
 
   if (!user) {
     throw createHttpError(404, 'USER_NOT_FOUND', '用户不存在')
+  }
+
+  // 状态未变化时直接返回，避免无意义的写操作
+  if (user.status === status) {
+    return user.toSafeJSON()
   }
 
   user.status = status
@@ -162,12 +173,29 @@ export async function listUsers(options = {}) {
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const skip = (page - 1) * pageSize
 
+  // 构建筛选条件
+  const query = {}
+  if (options.keyword) {
+    const keyword = options.keyword.trim()
+    const regex = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i')
+    query.$or = [
+      { username: regex },
+      { email: regex }
+    ]
+  }
+  if (options.role && options.role !== 'all') {
+    query.role = options.role
+  }
+  if (options.status && options.status !== 'all') {
+    query.status = options.status
+  }
+
   const [users, total] = await Promise.all([
-    User.find()
+    User.find(query)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(pageSize),
-    User.countDocuments()
+    User.countDocuments(query)
   ])
 
   return {

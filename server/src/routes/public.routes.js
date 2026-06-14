@@ -2,6 +2,7 @@ import { Router } from 'express'
 import { listVisibleComments } from '../services/comment.service.js'
 import { getPopupAnnouncements, listActiveAnnouncements, getUnreadCount, markAllAsRead, markAsRead } from '../services/notification.service.js'
 import { getPublicArticleBySlug, getPublicHomeData, listPublicArticles } from '../services/public.service.js'
+import { getSearchSuggestions, searchArticles } from '../services/search.service.js'
 import { getSettings } from '../services/setting.service.js'
 import { optionalAuth, requireAuth } from '../middlewares/auth.js'
 import { ok } from '../utils/apiResponse.js'
@@ -55,8 +56,12 @@ publicRouter.get('/articles', asyncHandler(async (req, res) => {
   res.json(ok(await listPublicArticles(req.query)))
 }))
 
+publicRouter.get('/search/suggest', asyncHandler(async (req, res) => {
+  res.json(ok(await getSearchSuggestions(req.query)))
+}))
+
 publicRouter.get('/search', asyncHandler(async (req, res) => {
-  res.json(ok(await listPublicArticles(req.query)))
+  res.json(ok(await searchArticles(req.query)))
 }))
 
 publicRouter.get('/articles/:slug', asyncHandler(async (req, res) => {

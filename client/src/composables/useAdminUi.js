@@ -82,11 +82,23 @@ export function useUnsavedChanges(options) {
     enabled = () => true
   } = options
 
+  /** 兼容函数和 ref/computed 两种写法 */
+  function resolveEnabled() {
+    if (typeof enabled === 'function') {
+      return enabled()
+    }
+    // 处理 ref / computed 等 Vue 响应式对象
+    if (enabled && typeof enabled === 'object' && 'value' in enabled) {
+      return enabled.value
+    }
+    return true
+  }
+
   const baseline = ref('')
   const ready = ref(false)
 
   const currentSnapshot = computed(() => serializeSnapshot(getSnapshot?.()))
-  const isDirty = computed(() => ready.value && enabled() && currentSnapshot.value !== baseline.value)
+  const isDirty = computed(() => ready.value && resolveEnabled() && currentSnapshot.value !== baseline.value)
 
   function markClean(snapshot = getSnapshot?.()) {
     baseline.value = serializeSnapshot(snapshot)

@@ -1,54 +1,66 @@
 <template>
-  <section class="enterprise-page announce-page">
-    <!-- 页头 -->
-    <div class="enterprise-page-header">
-      <div>
-        <p class="enterprise-page-kicker">OPERATIONS</p>
-        <h2>公告管理</h2>
-        <p>维护站内公告和运营通知，保持门户信息同步更新。</p>
-      </div>
-      <div class="enterprise-page-toolbar">
-        <a-button type="primary" @click="openCreateModal">
-          <template #icon><PlusOutlined /></template>
-          发布公告
+  <section class="announce-page">
+    <!-- 精简顶栏：标题 + 筛选 + 操作，一行搞定 -->
+    <div class="announce-topbar">
+      <h2 class="announce-title">公告管理</h2>
+      <div class="announce-filters">
+        <a-select
+          v-model:value="filterLevel"
+          placeholder="级别"
+          class="announce-filter-select"
+          allow-clear
+        >
+          <a-select-option value="info">普通提示</a-select-option>
+          <a-select-option value="warning">重要警告</a-select-option>
+          <a-select-option value="error">紧急高危</a-select-option>
+        </a-select>
+        <a-select
+          v-model:value="filterIsActive"
+          placeholder="状态"
+          class="announce-filter-select"
+          allow-clear
+        >
+          <a-select-option value="true">已上架</a-select-option>
+          <a-select-option value="false">已下架</a-select-option>
+        </a-select>
+        <a-button size="small" class="announce-reset-btn" @click="resetFilters">
+          <template #icon><ClearOutlined /></template>
+          重置
         </a-button>
       </div>
+      <a-button type="primary" class="announce-add-btn" @click="openCreateModal">
+        <template #icon><PlusOutlined /></template>
+        发布公告
+      </a-button>
     </div>
 
-    <!-- 筛选栏 -->
-    <a-card class="enterprise-filter-card" :bordered="false">
-      <div class="announce-filter">
-        <div class="announce-filter-left">
-          <a-select
-            v-model:value="filterLevel"
-            placeholder="公告级别"
-            style="width: 130px"
-            allow-clear
-          >
-            <a-select-option value="info">普通提示</a-select-option>
-            <a-select-option value="warning">重要警告</a-select-option>
-            <a-select-option value="error">紧急高危</a-select-option>
-          </a-select>
-          <a-select
-            v-model:value="filterIsActive"
-            placeholder="上下架状态"
-            style="width: 130px"
-            allow-clear
-          >
-            <a-select-option value="true">已上架</a-select-option>
-            <a-select-option value="false">已下架</a-select-option>
-          </a-select>
-        </div>
-        <div class="announce-filter-right">
-          <a-button @click="resetFilters">
-            <template #icon><ClearOutlined /></template>
-            重置
-          </a-button>
+    <!-- 批量操作栏：选中后内嵌在表格头部区域 -->
+    <Transition name="batch-fade">
+      <div v-if="selectedRowKeys.length > 0" class="announce-batch-bar">
+        <span class="batch-hint">已选 <strong>{{ selectedRowKeys.length }}</strong> 项</span>
+        <div class="batch-actions">
+          <a-tooltip title="批量上架">
+            <a-button type="text" size="small" class="batch-btn batch-btn--up" @click="handleBatchToggle(true)">
+              <template #icon><PlayCircleOutlined /></template> 上架
+            </a-button>
+          </a-tooltip>
+          <a-tooltip title="批量下架">
+            <a-button type="text" size="small" class="batch-btn batch-btn--down" @click="handleBatchToggle(false)">
+              <template #icon><StopOutlined /></template> 下架
+            </a-button>
+          </a-tooltip>
+          <a-divider type="vertical" class="batch-divider" />
+          <a-tooltip title="批量删除">
+            <a-button type="text" size="small" class="batch-btn batch-btn--del" @click="handleBatchDelete">
+              <template #icon><DeleteOutlined /></template> 删除
+            </a-button>
+          </a-tooltip>
+          <a-button type="text" size="small" class="batch-btn batch-btn--close" @click="tableRef?.clearSelection()">取消</a-button>
         </div>
       </div>
-    </a-card>
+    </Transition>
 
-    <!-- 表格 -->
+    <!-- 表格区：绝对主角 -->
     <BlogTable
       ref="tableRef"
       :api-fn="fetchAnnouncements"
@@ -57,19 +69,11 @@
       :row-selection="true"
       :auto-load="true"
       :page-size="15"
-      :page-sizes="['10', '15', '30', '50']"
-      :scroll="{ x: 900 }"
+      :page-sizes="['10', '15', '20', '50']"
+      :show-column-setting="true"
+      class="announce-table"
       @selection-change="onSelectionChange"
     >
-      <template #toolbar>
-        <div v-if="selectedRowKeys.length > 0" class="announce-batch-bar">
-          <span class="announce-batch-text">已选择 {{ selectedRowKeys.length }} 项</span>
-          <a-button size="small" @click="handleBatchToggle(true)">批量上架</a-button>
-          <a-button size="small" @click="handleBatchToggle(false)">批量下架</a-button>
-          <a-button size="small" danger @click="handleBatchDelete">批量删除</a-button>
-          <a-button size="small" type="link" @click="tableRef?.clearSelection()">取消选择</a-button>
-        </div>
-      </template>
 
       <template #bodyCell="{ column, record }">
         <!-- 标题列 -->
@@ -111,18 +115,32 @@
 
         <!-- 操作列 -->
         <template v-else-if="column.key === 'action'">
-          <a-space>
-            <a-button type="link" size="small" @click="openDetailModal(record)">详情</a-button>
-            <a-button type="link" size="small" @click="openEditModal(record)">编辑</a-button>
-            <a-button
-              type="link"
-              size="small"
-              @click="handleToggleActive(record)"
-            >
-              {{ record.isActive ? '下架' : '上架' }}
-            </a-button>
-            <a-button type="link" size="small" danger @click="handleDelete(record)">删除</a-button>
-          </a-space>
+          <div class="announce-actions">
+            <a-tooltip title="详情">
+              <a-button type="text" class="action-btn action-detail" @click="openDetailModal(record)">
+                <template #icon><EyeOutlined /></template>
+              </a-button>
+            </a-tooltip>
+            <a-tooltip title="编辑">
+              <a-button type="text" class="action-btn action-edit" @click="openEditModal(record)">
+                <template #icon><EditOutlined /></template>
+              </a-button>
+            </a-tooltip>
+            <a-tooltip :title="record.isActive ? '下架' : '上架'">
+              <a-button type="text" class="action-btn" :class="record.isActive ? 'action-disable' : 'action-enable'" @click="handleToggleActive(record)">
+                <template #icon>
+                  <StopOutlined v-if="record.isActive" />
+                  <PlayCircleOutlined v-else />
+                </template>
+              </a-button>
+            </a-tooltip>
+            <a-divider type="vertical" class="action-divider" />
+            <a-tooltip title="删除">
+              <a-button type="text" class="action-btn action-delete" @click="handleDelete(record)">
+                <template #icon><DeleteOutlined /></template>
+              </a-button>
+            </a-tooltip>
+          </div>
         </template>
       </template>
     </BlogTable>
@@ -249,9 +267,13 @@ import { ref, computed, reactive } from 'vue'
 import {
   ClockCircleOutlined,
   ClearOutlined,
+  EditOutlined,
+  DeleteOutlined,
   EyeOutlined,
   LinkOutlined,
-  PlusOutlined
+  PlusOutlined,
+  StopOutlined,
+  PlayCircleOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import {
@@ -343,12 +365,12 @@ function formatDate(dateStr) {
 
 // 表格列
 const columns = [
-  { title: '公告标题', key: 'title', dataIndex: 'title', width: '28%', ellipsis: true },
-  { title: '公告级别', key: 'level', width: 120, align: 'center' },
-  { title: '上下架', key: 'isActive', width: 100, align: 'center' },
+  { title: '公告标题', key: 'title', dataIndex: 'title', ellipsis: true },
+  { title: '级别', key: 'level', width: 110, align: 'center' },
+  { title: '状态', key: 'isActive', width: 90, align: 'center' },
   { title: '发布时间', key: 'createdAt', width: 170 },
-  { title: '已读', key: 'viewCount', width: 90, align: 'center' },
-  { title: '操作', key: 'action', width: 220, fixed: 'right' }
+  { title: '已读', key: 'viewCount', width: 80, align: 'center' },
+  { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
 ]
 
 // 数据加载（适配 BlogTable 的 apiFn 格式）
@@ -534,45 +556,229 @@ function handleBatchDelete() {
 </script>
 
 <style scoped>
+/* ===== 页面容器：表格是绝对主角 ===== */
 .announce-page {
-  max-width: 1400px;
-}
-
-/* 筛选栏 */
-.announce-filter {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   gap: 12px;
+  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  overflow: hidden;
 }
 
-.announce-filter-left {
+/* ===== 精简顶栏：一行搞定 ===== */
+.announce-topbar {
   display: flex;
-  gap: 12px;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 16px;
+  padding: 4px 0;
+  flex-shrink: 0;
 }
 
-.announce-filter-right {
+.announce-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--console-text);
+  white-space: nowrap;
+  line-height: 32px;
+}
+
+.announce-filters {
   display: flex;
+  align-items: center;
   gap: 8px;
+  flex: 1;
+  min-width: 0;
 }
 
-/* 批量操作栏 */
+.announce-filter-select {
+  width: 120px;
+  border-radius: 6px;
+}
+
+.announce-reset-btn {
+  border-radius: 6px;
+}
+
+.announce-add-btn {
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+/* ===== 表格区域 ===== */
+.announce-table {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.announce-table :deep(.blog-table) {
+  border: 1px solid var(--console-border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* ===== 批量操作栏：轻量嵌入风格 ===== */
 .announce-batch-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.announce-batch-text {
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: 8px 16px;
+  background: var(--console-surface-muted, #fafafa);
+  border-bottom: 1px solid var(--console-border, #f0f0f0);
   font-size: 13px;
-  font-weight: 500;
-  color: var(--console-primary-strong, #0958d9);
-  margin-right: 8px;
 }
 
-/* 标题单元格 */
+.batch-hint {
+  color: var(--console-text-secondary);
+  font-size: 13px;
+}
+
+.batch-hint strong {
+  color: var(--console-primary-strong);
+  font-weight: 600;
+}
+
+.batch-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.batch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 28px;
+  padding: 0 8px;
+  font-size: 12px;
+  border-radius: 5px;
+  color: var(--console-text-secondary);
+  transition: all 0.15s ease;
+}
+
+.batch-btn:hover:not(:disabled) {
+  background: var(--console-surface-hover);
+  color: var(--console-text);
+}
+
+.batch-btn--up {
+  color: #52c41a;
+}
+
+.batch-btn--up:hover:not(:disabled) {
+  background: rgba(82, 196, 26, 0.08);
+}
+
+.batch-btn--down {
+  color: #faad14;
+}
+
+.batch-btn--down:hover:not(:disabled) {
+  background: rgba(250, 173, 20, 0.08);
+}
+
+.batch-btn--del {
+  color: #ff4d4f;
+}
+
+.batch-btn--del:hover:not(:disabled) {
+  background: rgba(255, 77, 79, 0.08);
+}
+
+.batch-btn--close {
+  margin-left: 4px;
+  color: var(--console-text-tertiary, #999);
+}
+
+.batch-divider {
+  margin: 0 6px;
+  height: 14px;
+  background: var(--console-border-light, #e8e8e8);
+}
+
+/* 过渡动画 */
+.batch-fade-enter-active,
+.batch-fade-leave-active {
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.batch-fade-enter-from,
+.batch-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* ===== 操作按钮：图标风格 ===== */
+.announce-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover:not(:disabled) {
+  background: var(--console-surface-hover);
+  transform: scale(1.05);
+}
+
+.action-detail {
+  color: var(--console-text-secondary);
+}
+
+.action-edit {
+  color: var(--console-primary-strong);
+}
+
+.action-edit:hover:not(:disabled) {
+  background: var(--console-primary-soft);
+}
+
+.action-enable {
+  color: #52c41a;
+}
+
+.action-enable:hover:not(:disabled) {
+  background: rgba(82, 196, 26, 0.1);
+}
+
+.action-disable {
+  color: #faad14;
+}
+
+.action-disable:hover:not(:disabled) {
+  background: rgba(250, 173, 20, 0.1);
+}
+
+.action-delete {
+  color: #ff4d4f;
+}
+
+.action-delete:hover:not(:disabled) {
+  background: rgba(255, 77, 79, 0.1);
+}
+
+.action-divider {
+  margin: 0 4px;
+  height: 16px;
+  background: var(--console-border);
+}
+
+/* ===== 单元格内容 ===== */
 .announce-title-cell {
   display: flex;
   flex-direction: column;
@@ -580,7 +786,8 @@ function handleBatchDelete() {
 }
 
 .announce-title-text {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 14px;
   color: var(--console-text);
   line-height: 1.5;
 }
@@ -591,7 +798,9 @@ function handleBatchDelete() {
   align-items: center;
   gap: 6px;
   border: 0;
+  border-radius: 4px;
   font-weight: 500;
+  font-size: 12px;
 }
 
 .announce-level-dot {
@@ -603,9 +812,6 @@ function handleBatchDelete() {
 
 /* 时间 */
 .announce-time-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
   font-size: 13px;
   color: var(--console-text-secondary);
 }
@@ -679,15 +885,46 @@ function handleBatchDelete() {
   margin-top: 12px;
 }
 
-/* 响应式 */
+/* ===== 表格行细节 ===== */
+.announce-table :deep(.ant-table-thead > tr > th) {
+  height: 46px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: var(--console-text-secondary);
+  background: var(--console-surface-muted);
+  border-bottom: 1px solid var(--console-border);
+}
+
+.announce-table :deep(.ant-table-tbody > tr > td) {
+  padding: 12px 16px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--console-border-light, #f0f0f0);
+  transition: background 0.15s ease;
+}
+
+.announce-table :deep(.ant-table-tbody > tr:hover > td) {
+  background: var(--console-surface-hover, #fafafa);
+}
+
+.announce-table :deep(.ant-tag) {
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ===== 响应式 ===== */
 @media (max-width: 768px) {
-  .announce-filter {
-    flex-direction: column;
-    align-items: flex-start;
+  .announce-topbar {
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  .announce-filter-left {
-    width: 100%;
+  .announce-filters {
+    order: 3;
+    flex-basis: 100%;
   }
 }
 </style>

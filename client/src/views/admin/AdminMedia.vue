@@ -65,7 +65,8 @@
         :auto-load="true"
         :page-size="16"
         :page-sizes="['16', '32', '64']"
-        :bare="true"
+        :scroll="{ x: 920 }"
+        height="auto"
       >
         <template #bodyCell="{ column, record }">
           <!-- 文件信息：缩略图 + 文件名 -->
@@ -113,8 +114,8 @@
           <!-- 操作按钮 -->
           <template v-else-if="column.key === 'action'">
             <a-space :size="4">
-              <a-tooltip title="在新窗口查看">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--view" @click="window.open(record.url, '_blank', 'noopener')">
+              <a-tooltip title="预览">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--view" @click="handleView(record)">
                   <template #icon><EyeOutlined /></template>
                   查看
                 </a-button>
@@ -177,21 +178,121 @@
       </div>
     </a-modal>
 
+    <!-- 媒体预览弹窗 -->
+    <a-modal
+      v-model:open="previewVisible"
+      :title="previewRecord?.originalName || '预览'"
+      :footer="null"
+      :width="previewModalWidth"
+      centered
+      :destroy-on-close="true"
+      @cancel="closePreview"
+    >
+      <div class="media-preview">
+        <!-- 图片预览 -->
+        <div v-if="previewType === 'image'" class="media-preview__image">
+          <img :src="previewRecord.url" :alt="previewRecord.originalName" />
+        </div>
+
+        <!-- 视频预览 -->
+        <div v-else-if="previewType === 'video'" class="media-preview__video">
+          <video
+            :src="previewRecord.url"
+            controls
+            preload="metadata"
+            class="media-preview__player"
+          >您的浏览器不支持视频播放</video>
+        </div>
+
+        <!-- 音频预览 -->
+        <div v-else-if="previewType === 'audio'" class="media-preview__audio">
+          <div class="media-preview__audio-icon">
+            <CustomerServiceOutlined style="font-size: 48px; color: #8b5cf6" />
+          </div>
+          <h3>{{ previewRecord.originalName }}</h3>
+          <audio :src="previewRecord.url" controls preload="metadata" class="media-preview__player">
+            您的浏览器不支持音频播放
+          </audio>
+        </div>
+
+        <!-- PDF 预览 -->
+        <div v-else-if="previewType === 'pdf'" class="media-preview__pdf">
+          <iframe :src="previewRecord.url" class="media-preview__iframe" />
+        </div>
+
+        <!-- Office 文档预览（doc/docx/xls/xlsx/ppt/pptx/csv） -->
+        <div v-else-if="previewType === 'office'" class="media-preview__office">
+          <!-- Office Viewer 加载失败时降级到下载卡片 -->
+          <template v-if="!officeLoadError">
+            <iframe :src="officeViewerUrl" class="media-preview__iframe" @error="onOfficeViewerError" />
+          </template>
+          <div v-else class="media-preview__fallback">
+            <div class="media-preview__file-card">
+              <FileWordOutlined style="font-size: 48px; color: #2563eb" />
+              <h3>{{ previewRecord?.originalName }}</h3>
+              <p>在线预览暂不可用（可能文件不在公网可访问地址）</p>
+              <div class="media-preview__file-meta">
+                <span>类型：{{ previewRecord?.mimeType || '未知' }}</span>
+                <span>大小：{{ formatFileSize(previewRecord?.size) }}</span>
+              </div>
+              <a-space :size="8">
+                <a-button type="primary" :href="previewRecord?.url" download target="_blank">
+                  <template #icon><DownloadOutlined /></template>
+                  下载文件
+                </a-button>
+                <a-button @click="retryOfficeViewer" :loading="officeRetrying">
+                  重试预览
+                </a-button>
+              </a-space>
+            </div>
+          </div>
+        </div>
+
+        <!-- 文本/代码预览 -->
+        <div v-else-if="previewType === 'text'" class="media-preview__text">
+          <a-spin :spinning="textLoading" tip="加载内容中…">
+            <pre class="media-preview__code"><code>{{ textContent }}</code></pre>
+          </a-spin>
+        </div>
+
+        <!-- 不可预览类型：文件信息卡片 -->
+        <div v-else class="media-preview__fallback">
+          <div class="media-preview__file-card">
+            <div class="media-preview__file-icon">
+              <FileZipOutlined v-if="previewRecord?.fileClass === 'archive'" style="font-size: 48px; color: #f97316" />
+              <FileUnknownOutlined v-else style="font-size: 48px; color: #94a3b8" />
+            </div>
+            <h3>{{ previewRecord?.originalName }}</h3>
+            <p>此文件类型暂不支持在线预览</p>
+            <div class="media-preview__file-meta">
+              <span>类型：{{ previewRecord?.mimeType || '未知' }}</span>
+              <span>大小：{{ formatFileSize(previewRecord?.size) }}</span>
+            </div>
+            <a-button type="primary" :href="previewRecord?.url" download target="_blank">
+              <template #icon><DownloadOutlined /></template>
+              下载文件
+            </a-button>
+          </div>
+        </div>
+      </div>
+    </a-modal>
+
     <a-modal
       v-model:open="categoryModalVisible"
       title="资源分类"
       :footer="null"
-      width="720px"
+      width="560px"
       centered
     >
       <div class="media-category-panel">
+        <!-- 固定表单区 -->
         <div class="media-category-panel__form">
           <a-form layout="vertical">
             <a-form-item label="分类名称">
               <a-input v-model:value="categoryDraft.name" placeholder="例如 项目截图 / 课程资料 / 接口示例" />
             </a-form-item>
             <a-form-item label="分类描述">
-              <a-textarea v-model:value="categoryDraft.description" :rows="3" placeholder="可选，说明这个分类存放什么资源" />
+              <a-textarea v-model:value="categoryDraft.description" :rows="2" placeholder="可选，说明这个分类存放什么资源" />
             </a-form-item>
             <div class="media-category-panel__actions">
               <a-button v-if="editingCategoryId" @click="resetCategoryDraft">取消编辑</a-button>
@@ -202,29 +303,39 @@
           </a-form>
         </div>
 
-        <div class="media-category-panel__list">
-          <div
-            v-for="item in categories"
-            :key="item.id"
-            class="media-category-item"
-          >
-            <div>
-              <strong>{{ item.name }}</strong>
-              <p>{{ item.description || '暂无分类描述' }}</p>
-              <span>{{ item.count || 0 }} 个资源</span>
+        <!-- 可滚动列表区 -->
+        <div class="media-category-panel__list-wrap">
+          <div v-if="categories.length === 0" class="media-category-panel__empty">暂无自定义分类</div>
+          <div v-else class="media-category-panel__list">
+            <div
+              v-for="item in categories"
+              :key="item.id"
+              class="media-category-item"
+            >
+              <div class="media-category-item__info">
+                <strong>{{ item.name }}</strong>
+                <span>{{ item.count || 0 }} 个资源</span>
+              </div>
+              <a-space size="small">
+                <a-tooltip :title="isSystemCategory(item.name) ? '系统分类不支持编辑' : ''">
+                  <a-button
+                    type="link"
+                    size="small"
+                    :disabled="isSystemCategory(item.name)"
+                    @click="editCategory(item)"
+                  >编辑</a-button>
+                </a-tooltip>
+                <a-tooltip :title="isSystemCategory(item.name) ? '系统分类不能删除' : ''">
+                  <a-button
+                    type="link"
+                    size="small"
+                    danger
+                    :disabled="isSystemCategory(item.name)"
+                    @click="removeCategory(item)"
+                  >删除</a-button>
+                </a-tooltip>
+              </a-space>
             </div>
-            <a-space size="small">
-              <a-button type="link" size="small" @click="editCategory(item)">编辑</a-button>
-              <a-button
-                type="link"
-                size="small"
-                danger
-                :disabled="['默认素材', '文章封面'].includes(item.name)"
-                @click="removeCategory(item)"
-              >
-                删除
-              </a-button>
-            </a-space>
           </div>
         </div>
       </div>
@@ -234,7 +345,16 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { InboxOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import {
+  InboxOutlined,
+  EyeOutlined,
+  DeleteOutlined,
+  CustomerServiceOutlined,
+  FileZipOutlined,
+  FileUnknownOutlined,
+  FileWordOutlined,
+  DownloadOutlined
+} from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import {
   createAdminMediaCategory,
@@ -425,6 +545,94 @@ async function uploadFile() {
   }
 }
 
+const previewVisible = ref(false)
+const previewRecord = ref(null)
+const textContent = ref('')
+const textLoading = ref(false)
+const officeLoadError = ref(false)
+const officeRetrying = ref(false)
+
+/**
+ * 判断预览类型：image / video / audio / pdf / text / other
+ */
+function getPreviewType(record) {
+  const mime = (record.mimeType || '').toLowerCase()
+  const ext = (record.originalName || '').split('.').pop().toLowerCase()
+
+  if (mime.startsWith('image/') || record.fileClass === 'image') return 'image'
+  if (mime.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'].includes(ext)) return 'video'
+  if (mime.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma'].includes(ext)) return 'audio'
+  if (mime === 'application/pdf' || ext === 'pdf') return 'pdf'
+
+  const officeExtensions = new Set(['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'])
+  if (officeExtensions.has(ext)) return 'office'
+
+  const textExtensions = new Set([
+    'js', 'jsx', 'ts', 'tsx', 'vue', 'json', 'yml', 'yaml', 'xml',
+    'html', 'css', 'scss', 'less', 'md', 'txt', 'sh', 'bat', 'ps1',
+    'py', 'java', 'go', 'rb', 'php', 'sql', 'c', 'cpp', 'h', 'cs',
+    'kt', 'swift', 'rs', 'ini', 'conf', 'env', 'gitignore', 'editorconfig'
+  ])
+  if (mime.startsWith('text/') || textExtensions.has(ext)) return 'text'
+
+  return 'other'
+}
+
+const previewType = computed(() => previewRecord.value ? getPreviewType(previewRecord.value) : 'other')
+
+const previewModalWidth = computed(() => {
+  if (previewType.value === 'video') return '800px'
+  if (previewType.value === 'pdf' || previewType.value === 'office') return '900px'
+  if (previewType.value === 'image') return '800px'
+  return '640px'
+})
+
+const officeViewerUrl = computed(() => {
+  if (!previewRecord.value?.url) return ''
+  return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(window.location.origin + previewRecord.value.url)}`
+})
+
+async function handleView(record) {
+  previewRecord.value = record
+  previewVisible.value = true
+  officeLoadError.value = false
+
+  if (getPreviewType(record) === 'text') {
+    textContent.value = ''
+    textLoading.value = true
+    try {
+      const response = await fetch(record.url)
+      if (response.ok) {
+        textContent.value = await response.text()
+      } else {
+        textContent.value = `无法加载文件内容（HTTP ${response.status}）`
+      }
+    } catch {
+      textContent.value = '加载文件内容失败，请尝试下载后查看'
+    } finally {
+      textLoading.value = false
+    }
+  }
+}
+
+function closePreview() {
+  previewVisible.value = false
+  textContent.value = ''
+  officeLoadError.value = false
+}
+
+function onOfficeViewerError() {
+  officeLoadError.value = true
+}
+
+function retryOfficeViewer() {
+  officeRetrying.value = true
+  officeLoadError.value = false
+  setTimeout(() => {
+    officeRetrying.value = false
+  }, 2000)
+}
+
 function handleDelete(record) {
   confirmAction({
     title: '确定删除此文件？',
@@ -457,8 +665,12 @@ function resetCategoryDraft() {
   }
 }
 
+function isSystemCategory(name) {
+  return ['默认素材', '文章封面'].includes(name)
+}
+
 function editCategory(item) {
-  if (['默认素材', '文章封面'].includes(item.name)) {
+  if (isSystemCategory(item.name)) {
     errorMessage.value = '系统资源分类不支持编辑'
     return
   }
@@ -606,7 +818,7 @@ onMounted(loadCategories)
 .media-cloud__body {
   flex: 1;
   min-height: 0; /* 关键：允许 flex 子元素收缩 */
-  overflow: hidden;
+  overflow: hidden; /* 强制裁剪，防止内容撑开 */
 }
 
 /* ===== 表格行：文件信息 ===== */
@@ -759,65 +971,223 @@ onMounted(loadCategories)
 /* ===== 表格区域深度样式覆盖 ===== */
 
 .media-category-panel {
-  display: grid;
-  grid-template-columns: 300px minmax(0, 1fr);
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.media-category-panel__form {
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .media-category-panel__actions {
   display: flex;
   justify-content: flex-end;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* 列表区域：固定最大高度，内部滚动 */
+.media-category-panel__list-wrap {
+  max-height: 360px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.media-category-panel__empty {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+  padding: 32px 0;
 }
 
 .media-category-panel__list {
-  display: grid;
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
+/* 精简的分类条目：紧凑行式 */
 .media-category-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 20px;
-  border: 1px solid #e2e8f0;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
-  box-shadow: 0 1px 3px 0 rgb(16 24 40 / 0.1);
-  transition: all 0.2s ease;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #f8fafc;
+  transition: all 0.15s ease;
 }
 
 .media-category-item:hover {
-  border-color: #cbd5e1;
-  box-shadow: 0 4px 6px -1px rgb(16 24 40 / 0.1);
-  transform: translateY(-1px);
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.media-category-item__info {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
 }
 
 .media-category-item strong {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #1e293b;
-  line-height: 1.4;
-}
-
-.media-category-item p {
-  margin: 0 0 6px;
   font-size: 14px;
-  color: #64748b;
-  line-height: 1.5;
+  font-weight: 500;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .media-category-item span {
-  font-size: 13px;
+  font-size: 12px;
   color: #94a3b8;
-  background: #f1f5f9;
-  padding: 2px 8px;
-  border-radius: 6px;
-  display: inline-block;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ===== 媒体预览弹窗 ===== */
+.media-preview {
+  min-height: 200px;
+}
+
+.media-preview__image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.media-preview__image img {
+  max-width: 100%;
+  max-height: 70vh;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.media-preview__video {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-preview__player {
+  width: 100%;
+  border-radius: 8px;
+  outline: none;
+}
+
+.media-preview__audio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 40px 20px;
+}
+
+.media-preview__audio h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #1e293b;
+  word-break: break-all;
+  text-align: center;
+}
+
+.media-preview__audio-icon {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-preview__pdf,
+.media-preview__office {
+  height: 75vh;
+}
+
+.media-preview__iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 8px;
+}
+
+.media-preview__text {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.media-preview__code {
+  background: #1e293b;
+  color: #e2e8f0;
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  min-height: 200px;
+  max-height: 70vh;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+.media-preview__fallback {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 280px;
+}
+
+.media-preview__file-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px;
+  text-align: center;
+}
+
+.media-preview__file-card h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  word-break: break-all;
+}
+
+.media-preview__file-card p {
+  margin: 0;
+  font-size: 14px;
+  color: #94a3b8;
+}
+
+.media-preview__file-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.media-preview__file-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ===== 响应式 ===== */
@@ -870,14 +1240,12 @@ onMounted(loadCategories)
     font-size: 11px !important;
   }
 
-  .media-category-panel {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .media-category-panel__list-wrap {
+    max-height: 280px;
   }
 
   .media-category-item {
-    padding: 14px 16px;
-    gap: 12px;
+    padding: 8px 10px;
   }
 }
 

@@ -21,6 +21,10 @@ export function searchPublicArticles(params = {}) {
   return http.get('/api/public/search', { params })
 }
 
+export function getSearchSuggestions(params = {}) {
+  return http.get('/api/public/search/suggest', { params })
+}
+
 export function getPublicArticle(slug) {
   return http.get(`/api/public/articles/${encodeURIComponent(slug)}`)
 }

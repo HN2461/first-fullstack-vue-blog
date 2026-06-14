@@ -1,13 +1,12 @@
 <template>
   <section class="taxonomy-page">
-    <!-- 头部区域：带有层次感的标题栏 -->
-    <div class="taxonomy-page-head">
-      <div class="taxonomy-head-content">
-        <div class="taxonomy-title-group">
-          <span class="taxonomy-badge">分类管理</span>
-          <h2>分类体系</h2>
-          <p class="taxonomy-subtitle">管理博客文章分类，支持拖拽排序与批量操作</p>
-        </div>
+    <!-- 精简顶栏：标题 + 统计 + 操作，一行搞定不抢戏 -->
+    <div class="taxonomy-topbar">
+      <h2 class="taxonomy-title">分类体系</h2>
+      <div class="taxonomy-stats-inline">
+        <span class="stat-chip">共 <strong>{{ totalCount }}</strong> 个</span>
+        <span class="stat-chip stat-chip--active">启用 <strong>{{ activeCount }}</strong></span>
+        <span class="stat-chip stat-chip--system">系统 <strong>{{ systemCount }}</strong></span>
       </div>
       <a-button type="primary" class="taxonomy-add-btn" @click="openModal()">
         <template #icon><PlusOutlined /></template>
@@ -15,44 +14,9 @@
       </a-button>
     </div>
 
-    <!-- 统计卡片区域 -->
-    <div class="taxonomy-stats">
-      <div class="stat-card">
-        <div class="stat-icon stat-icon--total">
-          <FolderOutlined />
-        </div>
-        <div class="stat-info">
-          <span class="stat-label">总分类数</span>
-          <strong class="stat-value">{{ totalCount }}</strong>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon stat-icon--active">
-          <CheckCircleOutlined />
-        </div>
-        <div class="stat-info">
-          <span class="stat-label">已启用</span>
-          <strong class="stat-value">{{ activeCount }}</strong>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon stat-icon--system">
-          <LockOutlined />
-        </div>
-        <div class="stat-info">
-          <span class="stat-label">系统分类</span>
-          <strong class="stat-value">{{ systemCount }}</strong>
-        </div>
-      </div>
-    </div>
-
-    <!-- 表格区：使用卡片式设计 -->
+    <!-- 表格区：绝对主角 -->
     <div class="taxonomy-table-card">
       <div class="taxonomy-table-header">
-        <div class="taxonomy-table-title">
-          <UnorderedListOutlined />
-          <span>分类列表</span>
-        </div>
         <div class="taxonomy-table-actions">
           <a-input-search
             v-model:value="searchKeyword"
@@ -195,10 +159,6 @@
 import { reactive, ref, computed } from 'vue'
 import {
   PlusOutlined,
-  FolderOutlined,
-  CheckCircleOutlined,
-  LockOutlined,
-  UnorderedListOutlined,
   EditOutlined,
   DeleteOutlined,
   StopOutlined,
@@ -390,160 +350,75 @@ function handleDelete(record) {
 </script>
 
 <style scoped>
-/* ── 页面容器 ── */
+/* ===== 页面容器：表格是绝对主角 ===== */
 .taxonomy-page {
-  width: 100%;
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
+  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
   overflow: hidden;
 }
 
-/* ── 头部区域 ── */
-.taxonomy-page-head {
-  flex: 0 0 auto;
+/* ===== 精简顶栏：一行搞定，不抢戏 ===== */
+.taxonomy-topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px;
-  background: var(--console-surface);
-  border: 1px solid var(--console-border);
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+  gap: 20px;
+  padding: 4px 0;
+  flex-shrink: 0;
 }
 
-.taxonomy-head-content {
+.taxonomy-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--console-text);
+  white-space: nowrap;
+  line-height: 32px;
+}
+
+/* 内联统计：弱化为小 chip，不抢表格风头 */
+.taxonomy-stats-inline {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
 }
 
-.taxonomy-title-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.taxonomy-badge {
+.stat-chip {
   display: inline-flex;
   align-items: center;
-  width: fit-content;
+  gap: 4px;
   padding: 2px 10px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  color: var(--console-primary-strong);
-  background: var(--console-primary-soft);
-  border-radius: 20px;
-}
-
-.taxonomy-page-head h2 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--console-text);
-  letter-spacing: -0.3px;
-}
-
-.taxonomy-subtitle {
-  margin: 0;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--console-text-secondary);
-  line-height: 1.5;
+  background: var(--console-surface-muted);
+  border-radius: 12px;
+  white-space: nowrap;
+  line-height: 20px;
+}
+
+.stat-chip strong {
+  color: var(--console-text);
+  font-weight: 600;
+}
+
+.stat-chip--active strong {
+  color: #52c41a;
+}
+
+.stat-chip--system strong {
+  color: #faad14;
 }
 
 .taxonomy-add-btn {
-  height: 40px;
-  padding: 0 20px;
-  font-size: 14px;
-  font-weight: 500;
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(22, 104, 220, 0.15);
-  transition: all 0.2s ease;
-}
-
-.taxonomy-add-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(22, 104, 220, 0.25);
-}
-
-/* ── 统计卡片区域 ── */
-.taxonomy-stats {
-  flex: 0 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-.stat-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px 24px;
-  background: var(--console-surface);
-  border: 1px solid var(--console-border);
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
-  transition: all 0.2s ease;
-}
-
-.stat-card:hover {
-  border-color: var(--console-border-strong);
-  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.08);
-  transform: translateY(-2px);
-}
-
-.stat-icon {
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  font-size: 22px;
-  transition: all 0.3s ease;
-}
-
-.stat-icon--total {
-  color: var(--console-primary-strong);
-  background: var(--console-primary-soft);
-}
-
-.stat-icon--active {
-  color: #52c41a;
-  background: rgba(82, 196, 26, 0.1);
-}
-
-.stat-icon--system {
-  color: #faad14;
-  background: rgba(250, 173, 20, 0.1);
-}
-
-.stat-card:hover .stat-icon {
-  transform: scale(1.05);
-}
-
-.stat-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.stat-label {
+  flex-shrink: 0;
+  height: 32px;
+  padding: 0 16px;
   font-size: 13px;
-  color: var(--console-text-secondary);
   font-weight: 500;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 700;
-  color: var(--console-text);
-  line-height: 1.2;
-  letter-spacing: -0.5px;
+  border-radius: 6px;
 }
 
 /* ── 表格卡片 ── */
@@ -563,24 +438,10 @@ function handleDelete(record) {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
+  justify-content: flex-end;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--console-border);
   background: var(--console-surface-muted);
-}
-
-.taxonomy-table-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--console-text);
-}
-
-.taxonomy-table-title :deep(.anticon) {
-  font-size: 16px;
-  color: var(--console-primary-strong);
 }
 
 .taxonomy-table-actions {
@@ -858,27 +719,15 @@ function handleDelete(record) {
 }
 
 /* ── 响应式适配 ── */
-@media (max-width: 1200px) {
-  .taxonomy-stats {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 @media (max-width: 768px) {
-  .taxonomy-stats {
-    grid-template-columns: 1fr;
+  .taxonomy-topbar {
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
-  .taxonomy-page-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .taxonomy-table-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  .taxonomy-stats-inline {
+    order: 3;
+    flex-basis: 100%;
   }
 
   .taxonomy-search {

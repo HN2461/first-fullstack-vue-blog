@@ -151,11 +151,21 @@ const articleSchema = new mongoose.Schema(
   }
 )
 
-articleSchema.index({
-  title: 'text',
-  summary: 'text',
-  contentMarkdown: 'text'
-})
+articleSchema.index(
+  {
+    title: 'text',
+    summary: 'text',
+    contentMarkdown: 'text'
+  },
+  {
+    weights: {
+      title: 10,
+      summary: 5,
+      contentMarkdown: 1
+    },
+    name: 'article_text_index'
+  }
+)
 
 articleSchema.methods.toSafeJSON = function toSafeJSON() {
   const category = this.category && typeof this.category === 'object' && this.category.name

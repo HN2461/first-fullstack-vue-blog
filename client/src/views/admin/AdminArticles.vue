@@ -10,6 +10,7 @@
       :page-sizes="['10', '20', '50']"
       :show-column-setting="true"
       :height="'100%'"
+      :scroll="{ x: 960 }"
     >
       <template #toolbar>
         <a-input-search
@@ -171,44 +172,48 @@ const columns = [
   {
     title: '封面',
     key: 'cover',
-    width: 116
+    width: 100
   },
   {
     title: '标题',
     key: 'title',
     dataIndex: 'title',
-    width: '32%',
+    width: 320,
     ellipsis: true
   },
   {
     title: '发布时间',
     key: 'publishedAt',
-    width: 168
+    width: 156
   },
   {
     title: '阅读量',
     key: 'viewCount',
-    width: 96
+    width: 80,
+    align: 'center'
   },
   {
     title: '点赞数',
     key: 'likeCount',
-    width: 96
+    width: 80,
+    align: 'center'
   },
   {
     title: '评论数',
     key: 'commentCount',
-    width: 96
+    width: 80,
+    align: 'center'
   },
   {
     title: '收藏数',
     key: 'favoriteCount',
-    width: 96
+    width: 80,
+    align: 'center'
   },
   {
     title: '操作',
     key: 'action',
-    width: 148,
+    width: 140,
     fixed: 'right'
   }
 ]
@@ -276,14 +281,17 @@ async function loadCategories() {
   }
 }
 
-// 搜索防抖
+// 搜索防抖：输入时延迟 300ms 再触发实际请求
 let searchTimer = null
 function handleSearch() {
-  // 直接搜索时，filterParams 变化会触发 BlogTable 自动重载
+  // 点击搜索按钮时立即执行
+  clearTimeout(searchTimer)
 }
 function handleSearchChange() {
+  // 输入变化时防抖 300ms，filterParams 变化会触发 BlogTable 自动重载
   clearTimeout(searchTimer)
   searchTimer = setTimeout(() => {
+    // 防抖结束后不需要额外操作，filterParams computed 会自动响应 searchKeyword 变化
   }, 300)
 }
 
@@ -393,11 +401,12 @@ onMounted(() => {
 }
 
 .article-cover-cell {
-  width: 84px;
-  height: 56px;
+  width: 72px;
+  height: 48px;
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 6px;
   background: #f5f7fa;
+  flex-shrink: 0;
 }
 
 .article-cover-image {
@@ -420,7 +429,9 @@ onMounted(() => {
 .article-title-cell {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .article-title {
@@ -439,22 +450,31 @@ onMounted(() => {
 }
 
 .article-summary {
-  font-size: 13px;
+  font-size: 12px;
   color: #8c8c8c;
-  line-height: 1.5;
+  line-height: 1.4;
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
 }
 
 .article-meta-line {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
   font-size: 12px;
   color: #8c8c8c;
+  overflow: hidden;
+}
+
+.article-meta-line span:not(:first-child) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .metric-cell {
