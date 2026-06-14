@@ -1,4 +1,5 @@
 import { ARTICLE_STATUS } from '@blog/shared'
+import { Category } from '../models/Category.js'
 import { Article } from '../models/Article.js'
 
 function createHttpError(statusCode, code, message) {
@@ -45,6 +46,17 @@ function normalizeResources(resources = []) {
         mimeType: item.mimeType || ''
       }))
     : []
+}
+
+export async function adjustCategoryArticleCount(categoryId, delta) {
+  if (!categoryId || !Number.isFinite(delta) || delta === 0) {
+    return
+  }
+
+  await Category.updateOne(
+    { _id: categoryId },
+    { $inc: { articleCount: delta } }
+  )
 }
 
 function slugifyArticleTitle(title) {
@@ -147,6 +159,10 @@ export async function createArticle(input, user) {
     publishedAt: input.status === ARTICLE_STATUS.PUBLISHED ? new Date() : null
   })
 
+  if (article.category) {
+    await adjustCategoryArticleCount(article.category, 1)
+  }
+
   return article.toSafeJSON()
 }
 
@@ -158,6 +174,8 @@ export async function updateArticle(id, input, user) {
   }
 
   const slug = await resolveUpdateSlug(input, article)
+  const previousCategoryId = article.category ? article.category.toString() : null
+  const nextCategoryId = input.category || null
 
   const wordCount = calculateWordCount(input.contentMarkdown)
   article.title = input.title.trim()
@@ -174,6 +192,16 @@ export async function updateArticle(id, input, user) {
   article.updatedBy = user._id
 
   await article.save()
+
+  if (previousCategoryId !== nextCategoryId) {
+    if (previousCategoryId) {
+      await adjustCategoryArticleCount(previousCategoryId, -1)
+    }
+    if (nextCategoryId) {
+      await adjustCategoryArticleCount(nextCategoryId, 1)
+    }
+  }
+
   return article.toSafeJSON()
 }
 
@@ -292,6 +320,9 @@ export async function deleteArticle(id, user) {
   }
 
   // 软删除：设置 deletedAt
+  if (article.category) {
+    await adjustCategoryArticleCount(article.category, -1)
+  }
   article.deletedAt = new Date()
   article.updatedBy = user._id
   await article.save()
@@ -335,6 +366,10 @@ export async function restoreArticle(id, user) {
   article.deletedAt = null
   article.updatedBy = user._id
   await article.save()
+
+  if (article.category) {
+    await adjustCategoryArticleCount(article.category, 1)
+  }
 
   return article.toSafeJSON()
 }

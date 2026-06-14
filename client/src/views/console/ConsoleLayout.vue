@@ -247,7 +247,7 @@ const userInitial = computed(() => {
 })
 const uncategorizedArticles = computed(() => {
   return articles.value
-    .filter((article) => !article.category?.id)
+    .filter((article) => !article.category?.id || article.category?.isSystem || article.category?.slug === 'uncategorized')
     .sort((left, right) => new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt))
 })
 const ConsoleCategoryMenu = defineComponent({
@@ -378,7 +378,7 @@ function resolveOpenKeys(path) {
   if (path.includes('/console/articles/')) {
     const article = articles.value.find((item) => `/console/articles/${item.slug}` === path)
     if (!article) return []
-    if (!article.category?.slug) return ['category:__uncategorized']
+    if (!article.category?.slug || article.category?.isSystem || article.category?.slug === 'uncategorized') return ['category:__uncategorized']
     return resolveCategoryOpenKeys(article.category.slug)
   }
 

@@ -1,6 +1,16 @@
 import crypto from 'node:crypto'
 import { Category } from '../models/Category.js'
 import { Article } from '../models/Article.js'
+import { adjustCategoryArticleCount } from './article.service.js'
+
+export const SYSTEM_UNCATEGORIZED_CATEGORY = Object.freeze({
+  name: '未分类',
+  slug: 'uncategorized',
+  description: '系统兜底分类，删除分类时内容自动转入这里',
+  sortOrder: -9999,
+  status: 'active',
+  isSystem: true
+})
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -36,6 +46,12 @@ function generateAsciiSlug(parts, fallbackInput, maxLength = 70) {
     .replace(/^-+|-+$/g, '')
 
   return `${trimmed || 'cat'}-${hash}`
+}
+
+function isReservedCategoryIdentity({ name, slug } = {}) {
+  const normalizedName = String(name || '').trim()
+  const normalizedSlug = String(slug || '').trim().toLowerCase()
+  return normalizedName === SYSTEM_UNCATEGORIZED_CATEGORY.name || normalizedSlug === SYSTEM_UNCATEGORIZED_CATEGORY.slug
 }
 
 async function ensureUniqueSlug(baseSlug, excludeId = null) {
@@ -87,6 +103,8 @@ function buildTree(items) {
   const sortNodes = (nodes) => {
     return nodes
       .sort((left, right) => {
+        const systemDiff = Number(!!right.isSystem) - Number(!!left.isSystem)
+        if (systemDiff) return systemDiff
         const diff = (left.sortOrder || 0) - (right.sortOrder || 0)
         return diff || String(left.name).localeCompare(String(right.name), 'zh-Hans-CN')
       })
@@ -97,6 +115,42 @@ function buildTree(items) {
   }
 
   return sortNodes(roots)
+}
+
+async function ensureUncategorizedCategory() {
+  const existing = await Category.findOne({ slug: SYSTEM_UNCATEGORIZED_CATEGORY.slug })
+
+  if (existing) {
+    let touched = false
+    if (existing.name !== SYSTEM_UNCATEGORIZED_CATEGORY.name) {
+      existing.name = SYSTEM_UNCATEGORIZED_CATEGORY.name
+      touched = true
+    }
+    if (existing.description !== SYSTEM_UNCATEGORIZED_CATEGORY.description) {
+      existing.description = SYSTEM_UNCATEGORIZED_CATEGORY.description
+      touched = true
+    }
+    if (existing.sortOrder !== SYSTEM_UNCATEGORIZED_CATEGORY.sortOrder) {
+      existing.sortOrder = SYSTEM_UNCATEGORIZED_CATEGORY.sortOrder
+      touched = true
+    }
+    if (existing.status !== SYSTEM_UNCATEGORIZED_CATEGORY.status) {
+      existing.status = SYSTEM_UNCATEGORIZED_CATEGORY.status
+      touched = true
+    }
+    if (existing.isSystem !== true) {
+      existing.isSystem = true
+      touched = true
+    }
+
+    if (touched) {
+      await existing.save()
+    }
+
+    return existing
+  }
+
+  return Category.create(SYSTEM_UNCATEGORIZED_CATEGORY)
 }
 
 async function collectDescendantIds(categoryId) {
@@ -128,6 +182,10 @@ async function collectDescendantIds(categoryId) {
 }
 
 export async function createCategory(input) {
+  if (isReservedCategoryIdentity(input)) {
+    throw createHttpError(400, 'CATEGORY_RESERVED', '未分类为系统保留分类，不能重复创建')
+  }
+
   const rawSlug = String(input.slug || '').trim().toLowerCase()
   const baseSlug = rawSlug || generateAsciiSlug([input.name], input.name, 70)
   const slug = await ensureUniqueSlug(baseSlug)
@@ -143,20 +201,22 @@ export async function createCategory(input) {
     description: input.description || '',
     parent: input.parent || null,
     sortOrder: input.sortOrder || 0,
-    status: input.status || 'active'
+    status: input.status || 'active',
+    isSystem: false
   })
 
   return category.toSafeJSON()
 }
 
 export async function listCategories(options = {}) {
+  await ensureUncategorizedCategory()
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 50))
   const skip = (page - 1) * pageSize
 
   const [categories, total] = await Promise.all([
     Category.find()
-      .sort({ sortOrder: 1, createdAt: -1 })
+      .sort({ isSystem: -1, sortOrder: 1, createdAt: -1 })
       .skip(skip)
       .limit(pageSize),
     Category.countDocuments()
@@ -176,8 +236,15 @@ export async function updateCategory(id, input) {
     throw createHttpError(404, 'CATEGORY_NOT_FOUND', '分类不存在')
   }
 
+  if (category.isSystem) {
+    throw createHttpError(400, 'CATEGORY_RESERVED', '系统保留分类不允许修改')
+  }
+
   if (input.slug !== undefined) {
     const rawSlug = String(input.slug || '').trim().toLowerCase()
+    if (isReservedCategoryIdentity({ slug: rawSlug })) {
+      throw createHttpError(400, 'CATEGORY_RESERVED', '未分类为系统保留分类，不能重复使用')
+    }
     const baseSlug = rawSlug || generateAsciiSlug([input.name || category.name], input.name || category.name, 70)
     category.slug = await ensureUniqueSlug(baseSlug, id)
   }
@@ -193,7 +260,8 @@ export async function updateCategory(id, input) {
 }
 
 export async function listCategoryTree() {
-  const categories = await Category.find({}).sort({ sortOrder: 1, createdAt: 1 }).lean()
+  await ensureUncategorizedCategory()
+  const categories = await Category.find({}).sort({ isSystem: -1, sortOrder: 1, createdAt: 1 }).lean()
   return buildTree(categories.map((item) => ({
     ...item,
     toSafeJSON() {
@@ -205,6 +273,7 @@ export async function listCategoryTree() {
         parent: item.parent ? item.parent.toString() : null,
         sortOrder: item.sortOrder,
         status: item.status,
+        isSystem: item.isSystem,
         articleCount: item.articleCount,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt
@@ -214,10 +283,12 @@ export async function listCategoryTree() {
 }
 
 export async function listCategoryArticles(categoryId, options = {}) {
+  const uncategorized = await ensureUncategorizedCategory()
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const skip = (page - 1) * pageSize
   const includeDescendants = String(options.includeDescendants ?? '1') !== '0'
+  const isUncategorizedCategory = String(categoryId) === String(uncategorized._id)
 
   const categoryIds = includeDescendants
     ? await collectDescendantIds(categoryId)
@@ -225,7 +296,9 @@ export async function listCategoryArticles(categoryId, options = {}) {
 
   const query = {
     deletedAt: null,
-    category: { $in: categoryIds }
+    category: isUncategorizedCategory
+      ? { $in: [...categoryIds, null] }
+      : { $in: categoryIds }
   }
 
   const [items, total] = await Promise.all([
@@ -258,16 +331,67 @@ export async function moveArticleCategory(articleId, targetCategoryId) {
     throw createHttpError(404, 'CATEGORY_NOT_FOUND', '目标分类不存在')
   }
 
+  const previousCategoryId = article.category ? article.category.toString() : null
   article.category = targetCategory._id
   await article.save()
 
+  if (previousCategoryId && previousCategoryId !== String(targetCategory._id)) {
+    await adjustCategoryArticleCount(previousCategoryId, -1)
+  }
+  if (previousCategoryId !== String(targetCategory._id)) {
+    await adjustCategoryArticleCount(targetCategory._id, 1)
+  }
+
   return article.toSafeJSON()
+}
+
+export async function moveArticlesCategory(articleIds, targetCategoryId) {
+  if (!Array.isArray(articleIds) || articleIds.length === 0) {
+    throw createHttpError(400, 'ARTICLE_IDS_REQUIRED', '请选择要迁移的文章')
+  }
+
+  const targetCategory = await Category.findById(targetCategoryId)
+  if (!targetCategory) {
+    throw createHttpError(404, 'CATEGORY_NOT_FOUND', '目标分类不存在')
+  }
+
+  const articles = await Article.find({
+    _id: { $in: articleIds },
+    deletedAt: null
+  })
+
+  let movedCount = 0
+  for (const article of articles) {
+    const previousCategoryId = article.category ? article.category.toString() : null
+    const nextCategoryId = targetCategory._id.toString()
+    if (previousCategoryId === nextCategoryId) {
+      continue
+    }
+
+    article.category = targetCategory._id
+    await article.save()
+
+    if (previousCategoryId) {
+      await adjustCategoryArticleCount(previousCategoryId, -1)
+    }
+    await adjustCategoryArticleCount(targetCategory._id, 1)
+    movedCount += 1
+  }
+
+  return {
+    movedCount,
+    targetCategory: targetCategory.toSafeJSON()
+  }
 }
 
 export async function moveCategoryBranch(categoryId, targetParentId) {
   const category = await Category.findById(categoryId)
   if (!category) {
     throw createHttpError(404, 'CATEGORY_NOT_FOUND', '分类不存在')
+  }
+
+  if (category.isSystem) {
+    throw createHttpError(400, 'CATEGORY_RESERVED', '系统保留分类不允许移动')
   }
 
   if (String(category._id) === String(targetParentId)) {
@@ -292,11 +416,40 @@ export async function moveCategoryBranch(categoryId, targetParentId) {
 }
 
 export async function deleteCategory(id) {
+  const uncategorized = await ensureUncategorizedCategory()
   const category = await Category.findById(id)
   if (!category) {
     throw createHttpError(404, 'CATEGORY_NOT_FOUND', '分类不存在')
   }
 
+  if (category.isSystem) {
+    throw createHttpError(400, 'CATEGORY_RESERVED', '系统保留分类不允许删除')
+  }
+
+  const descendantIds = await collectDescendantIds(category._id)
+  const directChildren = await Category.find({ parent: category._id }).select('_id')
+  const rootArticleCount = await Article.countDocuments({ deletedAt: null, category: category._id })
+  const rootCategoryId = String(category._id)
+
+  await Promise.all([
+    ...directChildren.map((child) => Category.updateOne({ _id: child._id }, { $set: { parent: uncategorized._id } })),
+    Article.updateMany({ deletedAt: null, category: category._id }, { $set: { category: uncategorized._id } })
+  ])
+
+  if (rootArticleCount > 0) {
+    await adjustCategoryArticleCount(uncategorized._id, rootArticleCount)
+  }
+
   await Category.findByIdAndDelete(id)
-  return { id, deleted: true }
+
+  return {
+    id: rootCategoryId,
+    deleted: true,
+    movedTo: uncategorized.toSafeJSON(),
+    descendantIds
+  }
+}
+
+export async function ensureCategorySystemState() {
+  await ensureUncategorizedCategory()
 }

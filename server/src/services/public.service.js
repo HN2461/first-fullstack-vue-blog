@@ -40,7 +40,7 @@ function createPublishedQuery(filters = {}) {
 
 async function resolveCategoryId(slug) {
   if (!slug) return null
-  const category = await Category.findOne({ slug })
+  const category = await Category.findOne({ slug, isSystem: { $ne: true } })
   return category?._id || '__missing__'
 }
 
@@ -51,7 +51,7 @@ async function resolveCategoryAndDescendantIds(slug) {
     return rootId
   }
 
-  const categories = await Category.find({ status: 'active' }).select('_id parent')
+  const categories = await Category.find({ status: 'active', isSystem: { $ne: true } }).select('_id parent')
   const pending = [rootId.toString()]
   const resolved = new Set(pending)
 
@@ -168,7 +168,7 @@ export async function getPublicHomeData() {
       status: ARTICLE_STATUS.PUBLISHED,
       deletedAt: null
     }),
-    Category.find({ status: 'active' }).sort({ sortOrder: 1, createdAt: -1 }),
+    Category.find({ status: 'active', isSystem: { $ne: true } }).sort({ sortOrder: 1, createdAt: -1 }),
     Tag.find().sort({ articleCount: -1, createdAt: -1 }),
     Article.find({
       status: ARTICLE_STATUS.PUBLISHED,

@@ -33,19 +33,21 @@
           <a-tag :color="record.status === 'active' ? 'success' : 'default'">
             {{ record.status === 'active' ? '启用' : '禁用' }}
           </a-tag>
+          <a-tag v-if="record.isSystem" color="gold" style="margin-left: 6px;">系统</a-tag>
         </template>
         <template v-else-if="column.key === 'action'">
           <div class="taxonomy-actions">
-            <a-button type="link" size="small" class="action-edit" @click="openModal(record)">编辑</a-button>
+            <a-button type="link" size="small" class="action-edit" :disabled="record.isSystem" @click="openModal(record)">编辑</a-button>
             <a-button
               type="link"
               size="small"
               :class="record.status === 'active' ? 'action-disable' : 'action-enable'"
+              :disabled="record.isSystem"
               @click="handleToggleStatus(record)"
             >
               {{ record.status === 'active' ? '禁用' : '启用' }}
             </a-button>
-            <a-button type="link" size="small" danger class="action-delete" @click="handleDelete(record)">删除</a-button>
+            <a-button type="link" size="small" danger class="action-delete" :disabled="record.isSystem" @click="handleDelete(record)">删除</a-button>
           </div>
         </template>
       </template>
@@ -139,6 +141,9 @@ async function loadCategories(params) {
 }
 
 function openModal(record) {
+  if (record?.isSystem) {
+    return
+  }
   if (record) {
     editingId.value = record.id
     form.name = record.name
@@ -214,6 +219,9 @@ async function handleModalSubmit() {
 }
 
 async function handleToggleStatus(record) {
+  if (record.isSystem) {
+    return
+  }
   const newStatus = record.status === 'active' ? 'hidden' : 'active'
   rowActionKey.value = `status:${record.id}`
   try {
@@ -228,6 +236,9 @@ async function handleToggleStatus(record) {
 }
 
 function handleDelete(record) {
+  if (record.isSystem) {
+    return
+  }
   confirmAction({
     title: '确定删除此分类？',
     content: `分类「${record.name}」删除后，相关文章将失去该分类关联。`,

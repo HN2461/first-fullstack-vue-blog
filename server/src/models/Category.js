@@ -34,6 +34,10 @@ const categorySchema = new mongoose.Schema(
       enum: ['active', 'hidden'],
       default: 'active'
     },
+    isSystem: {
+      type: Boolean,
+      default: false
+    },
     articleCount: {
       type: Number,
       default: 0
@@ -53,6 +57,7 @@ categorySchema.methods.toSafeJSON = function toSafeJSON() {
     parent: this.parent ? this.parent.toString() : null,
     sortOrder: this.sortOrder,
     status: this.status,
+    isSystem: this.isSystem,
     articleCount: this.articleCount,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt

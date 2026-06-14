@@ -44,7 +44,8 @@
           <template #title="{ dataRef }">
             <span class="migration-tree-title">
               <span class="migration-tree-name">{{ dataRef.titleText }}</span>
-              <a-tag v-if="dataRef.status === 'hidden'" color="default">隐藏</a-tag>
+              <a-tag v-if="dataRef.isSystem" color="gold">锁定</a-tag>
+              <a-tag v-else-if="dataRef.status === 'hidden'" color="default">隐藏</a-tag>
               <span class="migration-tree-count">{{ dataRef.articleCount || 0 }}</span>
             </span>
           </template>
@@ -59,32 +60,35 @@
               <span>{{ currentCategory ? currentCategory.name : '未选择分类' }}</span>
             </div>
             <a-space>
-              <a-button @click="openCreateModal(selectedCategoryId ? currentCategory?.id : null)">
+              <a-button
+                :disabled="!currentCategory || isLockedCategory"
+                @click="openCreateModal(selectedCategoryId ? currentCategory?.id : null)"
+              >
                 <template #icon><FolderAddOutlined /></template>
                 新增子分类
               </a-button>
-              <a-button :disabled="!currentCategory" @click="resetEditForm">
+              <a-button :disabled="!currentCategory || isLockedCategory" @click="resetEditForm">
                 <template #icon><UndoOutlined /></template>
                 重置
               </a-button>
               <a-button
                 type="primary"
-                :disabled="!currentCategory"
+                :disabled="!currentCategory || isLockedCategory"
                 :loading="savingCategory"
                 @click="saveSelectedCategory"
               >
                 <template #icon><SaveOutlined /></template>
                 保存修改
               </a-button>
-                <a-popconfirm
-                  :title="currentCategory ? `确定删除分类「${currentCategory.name}」？` : '请先选择分类'"
-                  ok-text="删除"
-                  cancel-text="取消"
-                  :ok-button-props="{ danger: true }"
-                  :disabled="!currentCategory"
-                  @confirm="deleteSelectedCategory"
-                >
-                <a-button danger :disabled="!currentCategory" :loading="deletingCategory">
+              <a-popconfirm
+                :title="currentCategory ? `确定删除分类「${currentCategory.name}」？` : '请先选择分类'"
+                ok-text="删除"
+                cancel-text="取消"
+                :ok-button-props="{ danger: true }"
+                :disabled="!currentCategory || isLockedCategory"
+                @confirm="deleteSelectedCategory"
+              >
+                <a-button danger :disabled="!currentCategory || isLockedCategory" :loading="deletingCategory">
                   <template #icon><DeleteOutlined /></template>
                   删除
                 </a-button>
@@ -105,25 +109,26 @@
                   name="name"
                   :rules="[{ required: true, message: '请输入分类名称' }]"
                 >
-                  <a-input v-model:value.trim="editForm.name" placeholder="例如 JavaScript" />
+                  <a-input v-model:value.trim="editForm.name" :disabled="isLockedCategory" placeholder="例如 JavaScript" />
                 </a-form-item>
                 <a-form-item label="Slug" name="slug">
-                  <a-input v-model:value.trim="editForm.slug" placeholder="留空自动生成" />
+                  <a-input v-model:value.trim="editForm.slug" :disabled="isLockedCategory" placeholder="留空自动生成" />
                 </a-form-item>
                 <a-form-item label="父级分类" name="parent">
                   <a-tree-select
                     v-model:value="editForm.parent"
                     :tree-data="parentTreeData"
+                    :disabled="isLockedCategory"
                     allow-clear
                     placeholder="保持为空则为顶级分类"
                     tree-default-expand-all
                   />
                 </a-form-item>
                 <a-form-item label="排序" name="sortOrder">
-                  <a-input-number v-model:value="editForm.sortOrder" :min="0" :max="9999" style="width: 100%" />
+                  <a-input-number v-model:value="editForm.sortOrder" :disabled="isLockedCategory" :min="0" :max="9999" style="width: 100%" />
                 </a-form-item>
                 <a-form-item label="状态" name="status">
-                  <a-select v-model:value="editForm.status">
+                  <a-select v-model:value="editForm.status" :disabled="isLockedCategory">
                     <a-select-option value="active">启用</a-select-option>
                     <a-select-option value="hidden">隐藏</a-select-option>
                   </a-select>
@@ -131,6 +136,7 @@
                 <a-form-item label="说明" name="description" class="migration-description-field">
                   <a-textarea
                     v-model:value="editForm.description"
+                    :disabled="isLockedCategory"
                     :rows="3"
                     placeholder="分类说明可留空"
                   />
@@ -154,7 +160,16 @@
               <strong>分类文章</strong>
               <span>{{ selectedCategoryId ? '支持单篇文章迁移到任意分类' : '请选择一个分类后加载文章' }}</span>
             </div>
-            <a-tag v-if="selectedCategoryId" color="processing">
+            <a-space v-if="selectedArticleIds.length > 0">
+              <a-tag color="processing">已选 {{ selectedArticleIds.length }} 篇</a-tag>
+              <a-button type="primary" @click="openBatchMoveModal">
+                批量迁移
+              </a-button>
+              <a-button @click="clearArticleSelection">
+                清空选择
+              </a-button>
+            </a-space>
+            <a-tag v-else-if="selectedCategoryId" color="processing">
               {{ branchArticlesTotal }} 篇
             </a-tag>
           </div>
@@ -167,7 +182,14 @@
             :auto-load="Boolean(selectedCategoryId)"
             :page-size="8"
             :page-sizes="['8', '15', '30']"
+            :row-selection="selectedCategoryId ? true : false"
+            @selection-change="handleArticleSelectionChange"
           >
+            <template #toolbar>
+              <span class="migration-toolbar-note">
+                可多选文章后批量迁移，或逐篇迁移到指定目录。
+              </span>
+            </template>
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'title'">
                 <div class="migration-article-title">
@@ -261,9 +283,9 @@
       @cancel="closeMoveArticleModal"
     >
       <a-space direction="vertical" style="width: 100%" size="middle">
-        <div class="migration-move-summary" v-if="movingArticleRecord">
-          <strong>{{ movingArticleRecord.title }}</strong>
-          <span>{{ movingArticleRecord.category?.name || '未分类' }}</span>
+        <div class="migration-move-summary" v-if="moveSummaryText">
+          <strong>{{ moveSummaryText }}</strong>
+          <span>{{ moveSourceText }}</span>
         </div>
         <a-form layout="vertical">
           <a-form-item label="目标分类">
@@ -298,6 +320,7 @@ import {
   listAdminCategoryArticles,
   listAdminCategoryTree,
   moveAdminArticleCategory,
+  moveAdminArticlesCategory,
   moveAdminCategory,
   updateAdminCategory
 } from '@/services/admin'
@@ -319,7 +342,10 @@ const editFormRef = ref(null)
 const createFormRef = ref(null)
 const createModalVisible = ref(false)
 const moveArticleModalVisible = ref(false)
+const moveMode = ref('single')
 const movingArticleRecord = ref(null)
+const selectedArticleIds = ref([])
+const selectedArticleRows = ref([])
 const moveArticleTargetId = ref('')
 const categoryKeyword = ref('')
 const branchArticlesTotal = ref(0)
@@ -441,11 +467,11 @@ function filterTree(nodes, keyword) {
 const normalizedTree = computed(() => cloneCategoryTree(categoryTree.value))
 const flatCategories = computed(() => flattenCategoryTree(categoryTree.value))
 const currentCategory = computed(() => findNodeById(categoryTree.value, selectedCategoryId.value))
+const isLockedCategory = computed(() => !!currentCategory.value?.isSystem)
 const currentCategoryPath = computed(() => {
   const path = currentCategory.value ? findPath(categoryTree.value, currentCategory.value.id) : null
   return path?.map((node) => node.name).join(' / ') || '-'
 })
-
 const filteredTreeData = computed(() => filterTree(normalizedTree.value, categoryKeyword.value))
 const parentTreeData = computed(() => {
   if (!selectedCategoryId.value) {
@@ -471,7 +497,6 @@ const parentTreeData = computed(() => {
 
   return walk(normalizedTree.value)
 })
-
 const createParentTreeData = computed(() => {
   if (!createForm.id) {
     return normalizedTree.value
@@ -496,8 +521,25 @@ const createParentTreeData = computed(() => {
 
   return walk(normalizedTree.value)
 })
-
 const articleMoveTreeData = computed(() => normalizedTree.value)
+const moveSummaryText = computed(() => {
+  if (moveMode.value === 'batch') {
+    return `批量迁移 ${selectedArticleIds.value.length} 篇文章`
+  }
+
+  return movingArticleRecord.value ? `迁移文章：${movingArticleRecord.value.title}` : ''
+})
+const moveSourceText = computed(() => {
+  if (moveMode.value === 'batch') {
+    return selectedArticleRows.value.length > 0
+      ? `来源分类：${selectedArticleRows.value[0]?.category?.name || '未分类'}`
+      : '来源分类：批量选择'
+  }
+
+  return movingArticleRecord.value
+    ? `来源分类：${movingArticleRecord.value.category?.name || '未分类'}`
+    : ''
+})
 
 async function reloadAll() {
   await loadCategoryTree()
@@ -561,6 +603,7 @@ function handleSelectTree(selectedKeysValue) {
   selectedCategoryId.value = nextId
   expandedKeys.value = findPath(categoryTree.value, nextId)?.map((node) => node.id) || []
   syncEditForm()
+  clearArticleSelection()
   articleTableRef.value?.refresh?.()
 }
 
@@ -569,7 +612,7 @@ function handleExpandTree(keys) {
 }
 
 async function saveSelectedCategory() {
-  if (!currentCategory.value) {
+  if (!currentCategory.value || isLockedCategory.value) {
     return
   }
 
@@ -613,6 +656,7 @@ async function saveSelectedCategory() {
       successMessage: '分类已保存',
       errorMessage: '保存失败'
     })
+
     await reloadAll()
     selectedCategoryId.value = editForm.id
     expandedKeys.value = findPath(categoryTree.value, editForm.id)?.map((node) => node.id) || []
@@ -623,7 +667,7 @@ async function saveSelectedCategory() {
 }
 
 async function deleteSelectedCategory() {
-  if (!currentCategory.value) {
+  if (!currentCategory.value || isLockedCategory.value) {
     return
   }
 
@@ -677,9 +721,7 @@ async function submitCreateForm() {
       payload.slug = createForm.slug
     }
 
-    const created = await runAction(() => createAdminCategory({
-      ...payload
-    }), {
+    const created = await runAction(() => createAdminCategory(payload), {
       successMessage: '分类已创建',
       errorMessage: '创建失败'
     })
@@ -705,8 +747,31 @@ async function loadBranchArticles(params = {}) {
   return result
 }
 
+function handleArticleSelectionChange(keys, rows) {
+  selectedArticleIds.value = keys || []
+  selectedArticleRows.value = rows || []
+}
+
+function clearArticleSelection() {
+  selectedArticleIds.value = []
+  selectedArticleRows.value = []
+  articleTableRef.value?.clearSelection?.()
+}
+
 function openMoveArticleModal(record) {
+  moveMode.value = 'single'
   movingArticleRecord.value = record
+  moveArticleTargetId.value = ''
+  moveArticleModalVisible.value = true
+}
+
+function openBatchMoveModal() {
+  if (selectedArticleIds.value.length === 0) {
+    return
+  }
+
+  moveMode.value = 'batch'
+  movingArticleRecord.value = null
   moveArticleTargetId.value = ''
   moveArticleModalVisible.value = true
 }
@@ -715,19 +780,29 @@ function closeMoveArticleModal() {
   moveArticleModalVisible.value = false
   movingArticleRecord.value = null
   moveArticleTargetId.value = ''
+  moveMode.value = 'single'
 }
 
 async function submitMoveArticle() {
-  if (!movingArticleRecord.value || !moveArticleTargetId.value) {
+  if (!moveArticleTargetId.value) {
     return
   }
 
   movingArticle.value = true
   try {
-    await runAction(() => moveAdminArticleCategory(movingArticleRecord.value.id, moveArticleTargetId.value), {
-      successMessage: '文章已迁移',
-      errorMessage: '迁移失败'
-    })
+    if (moveMode.value === 'batch') {
+      await runAction(() => moveAdminArticlesCategory(selectedArticleIds.value, moveArticleTargetId.value), {
+        successMessage: '文章已批量迁移',
+        errorMessage: '批量迁移失败'
+      })
+      clearArticleSelection()
+    } else if (movingArticleRecord.value) {
+      await runAction(() => moveAdminArticleCategory(movingArticleRecord.value.id, moveArticleTargetId.value), {
+        successMessage: '文章已迁移',
+        errorMessage: '迁移失败'
+      })
+    }
+
     closeMoveArticleModal()
     articleTableRef.value?.refresh?.()
     await reloadAll()
@@ -892,6 +967,11 @@ onMounted(() => {
 
 .migration-article-panel {
   min-height: 420px;
+}
+
+.migration-toolbar-note {
+  color: var(--console-text-secondary);
+  font-size: 13px;
 }
 
 .migration-article-title {

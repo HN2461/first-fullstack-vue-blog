@@ -98,6 +98,10 @@ export function moveAdminArticleCategory(id, targetCategoryId) {
   return http.post(`/api/admin/articles/${id}/category`, { targetCategoryId })
 }
 
+export function moveAdminArticlesCategory(articleIds, targetCategoryId) {
+  return http.post('/api/admin/articles/category/batch', { articleIds, targetCategoryId })
+}
+
 export function deleteAdminCategory(id) {
   return http.delete(`/api/admin/categories/${id}`)
 }

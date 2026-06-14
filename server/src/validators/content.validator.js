@@ -65,6 +65,11 @@ export const articleCategoryMoveSchema = z.object({
   targetCategoryId: z.string().regex(objectIdPattern, '目标分类 id 不正确')
 })
 
+export const articleCategoryBatchMoveSchema = z.object({
+  articleIds: z.array(z.string().regex(objectIdPattern, '文章 id 不正确')).min(1, '请选择要迁移的文章'),
+  targetCategoryId: z.string().regex(objectIdPattern, '目标分类 id 不正确')
+})
+
 export function parseBody(schema, body) {
   const result = schema.safeParse(body)
 
