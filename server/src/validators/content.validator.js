@@ -3,6 +3,15 @@ import { ARTICLE_STATUS } from '@blog/shared'
 
 const objectIdPattern = /^[a-f\d]{24}$/i
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const articleResourceSchema = z.object({
+  mediaId: z.string().regex(objectIdPattern, '资源 media id 不正确').nullable().optional().default(null),
+  name: z.string().trim().min(1, '资源名称不能为空').max(120, '资源名称不能超过 120 个字符'),
+  url: z.string().trim().min(1, '资源地址不能为空'),
+  kind: z.enum(['image', 'attachment']).optional().default('attachment'),
+  description: z.string().trim().max(240, '资源说明不能超过 240 个字符').optional().default(''),
+  fileSize: z.number().int().nonnegative().optional().default(0),
+  mimeType: z.string().trim().optional().default('')
+})
 
 export const categorySchema = z.object({
   name: z.string().trim().min(1, '分类名称不能为空').max(40, '分类名称不能超过 40 个字符'),
@@ -28,6 +37,7 @@ export const articleSchema = z.object({
   summary: z.string().trim().max(300, '文章摘要不能超过 300 个字符').optional().default(''),
   contentMarkdown: z.string().optional().default(''),
   cover: z.string().trim().optional().default(''),
+  resources: z.array(articleResourceSchema).optional().default([]),
   category: z.string().regex(objectIdPattern, '分类 id 不正确').nullable().optional().default(null),
   tags: z.array(z.string().regex(objectIdPattern, '标签 id 不正确')).optional().default([]),
   status: z.enum(Object.values(ARTICLE_STATUS)).optional().default(ARTICLE_STATUS.DRAFT),

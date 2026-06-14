@@ -37,11 +37,23 @@
             <template #icon><SearchOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-tooltip v-if="authStore.isAdmin" title="开始写作">
-          <a-button class="enterprise-icon-action" type="primary" @click="router.push('/console/write')">
-            <template #icon><PlusOutlined /></template>
+        <a-dropdown v-if="authStore.isAdmin" :trigger="['click', 'hover']">
+          <a-button class="enterprise-icon-action" @click.prevent>
+            <template #icon><SquarePen :size="16" /></template>
           </a-button>
-        </a-tooltip>
+          <template #overlay>
+            <a-menu class="enterprise-create-menu" @click="handleCreateAction">
+              <a-menu-item key="article">
+                <template #icon><FileTextOutlined /></template>
+                新建文章
+              </a-menu-item>
+              <a-menu-item key="media">
+                <template #icon><PictureOutlined /></template>
+                上传媒体资产
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
         <NotificationBell />
         <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
           <a-button class="enterprise-icon-action" @click="appStore.toggleTheme">
@@ -133,7 +145,6 @@
             <a-sub-menu key="contentRoot">
               <template #icon><FileTextOutlined /></template>
               <template #title>内容资产</template>
-              <a-menu-item key="/console/write">开始写作</a-menu-item>
               <a-menu-item key="/console/manage/articles">文章管理</a-menu-item>
               <a-menu-item key="/console/manage/categories">分类体系</a-menu-item>
               <a-menu-item key="/console/manage/tags">标签体系</a-menu-item>
@@ -161,8 +172,8 @@
       </a-layout-sider>
 
       <a-layout class="enterprise-main-layout">
-        <a-layout-content class="enterprise-content">
-          <div class="enterprise-content-inner">
+        <a-layout-content :class="['enterprise-content', { 'enterprise-content--writer': isWriterRoute }]">
+          <div :class="['enterprise-content-inner', { 'enterprise-content-inner--writer': isWriterRoute }]">
             <router-view />
           </div>
         </a-layout-content>
@@ -186,7 +197,7 @@ import {
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  PlusOutlined,
+  PictureOutlined,
   SearchOutlined,
   SettingOutlined,
   UserOutlined
@@ -194,7 +205,7 @@ import {
 import NotificationBell from '@/components/NotificationBell.vue'
 import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
 import { Menu } from 'ant-design-vue'
-import { Moon, Sun } from 'lucide-vue-next'
+import { Moon, SquarePen, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { listPublicArticles, listPublicCategories } from '@/services/public'
@@ -221,8 +232,7 @@ const primarySection = computed(() => {
   return 'knowledge'
 })
 const selectedKeys = computed(() => {
-  if (route.path === '/console/write') return ['/console/write']
-  if (route.path.includes('/console/manage/articles')) return ['/console/manage/articles']
+  if (route.path === '/console/manage/articles') return ['/console/manage/articles']
   if (route.path.includes('/console/articles/')) return [route.path]
   if (route.path.includes('/console/categories/')) return [route.path]
   if (route.path.includes('/console/tags/')) return [route.path]
@@ -328,13 +338,24 @@ function handleProfileAction({ key }) {
   router.push('/')
 }
 
+function handleCreateAction({ key }) {
+  if (key === 'article') {
+    router.push('/console/manage/articles/new')
+    return
+  }
+
+  if (key === 'media') {
+    router.push('/console/manage/media')
+  }
+}
+
 function resolveOpenKeys(path) {
   if (primarySection.value === 'management') {
     if (path === '/console') {
       return []
     }
 
-    if (path === '/console/write' || path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/tags') || path.includes('/manage/media')) {
+    if (path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/tags') || path.includes('/manage/media')) {
       return ['contentRoot']
     }
 

@@ -31,6 +31,22 @@ function calculateReadingMinutes(wordCount) {
   return Math.max(1, Math.ceil(wordCount / 400))
 }
 
+function normalizeResources(resources = []) {
+  return Array.isArray(resources)
+    ? resources
+      .filter((item) => item && item.url && item.name)
+      .map((item) => ({
+        mediaId: item.mediaId || null,
+        name: item.name.trim(),
+        url: item.url.trim(),
+        kind: item.kind === 'image' ? 'image' : 'attachment',
+        description: item.description || '',
+        fileSize: Number(item.fileSize) || 0,
+        mimeType: item.mimeType || ''
+      }))
+    : []
+}
+
 function slugifyArticleTitle(title) {
   const asciiSlug = String(title || '')
     .trim()
@@ -119,6 +135,7 @@ export async function createArticle(input, user) {
     summary: input.summary || '',
     contentMarkdown: input.contentMarkdown || '',
     cover: input.cover || '',
+    resources: normalizeResources(input.resources),
     category: input.category || null,
     tags: input.tags || [],
     status: input.status || ARTICLE_STATUS.DRAFT,
@@ -148,6 +165,7 @@ export async function updateArticle(id, input, user) {
   article.summary = input.summary || ''
   article.contentMarkdown = input.contentMarkdown || ''
   article.cover = input.cover || ''
+  article.resources = normalizeResources(input.resources)
   article.category = input.category || null
   article.tags = input.tags || []
   article.isRecommended = !!input.isRecommended

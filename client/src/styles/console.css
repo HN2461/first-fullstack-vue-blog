@@ -243,6 +243,10 @@ body:has(.enterprise-admin-shell) {
   line-height: 16px;
 }
 
+.enterprise-create-menu {
+  min-width: 176px;
+}
+
 .enterprise-avatar,
 .profile-avatar {
   color: #ffffff;

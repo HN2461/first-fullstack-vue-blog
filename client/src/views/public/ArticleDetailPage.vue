@@ -31,6 +31,32 @@
         <img :src="article.cover" :alt="article.title">
       </div>
 
+      <section v-if="article.resources?.length" class="article-resource-panel">
+        <div class="article-resource-panel__head">
+          <h3>关联资源</h3>
+          <span>{{ article.resources.length }} 项</span>
+        </div>
+        <div class="article-resource-list">
+          <a
+            v-for="resource in article.resources"
+            :key="`${resource.url}-${resource.name}`"
+            class="article-resource-item"
+            :href="resource.url"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <div>
+              <strong>{{ resource.name }}</strong>
+              <p v-if="resource.description">{{ resource.description }}</p>
+              <span>{{ resource.kind === 'image' ? '图片资源' : '附件资源' }}</span>
+            </div>
+            <span class="article-resource-item__action">
+              {{ resource.kind === 'image' ? '查看' : '下载' }}
+            </span>
+          </a>
+        </div>
+      </section>
+
       <div class="article-actions">
         <button class="icon-button" type="button" :disabled="!authStore.isLoggedIn" @click="likeCurrentArticle">
           点赞
@@ -112,6 +138,7 @@ const article = ref({
   summary: '',
   contentMarkdown: '',
   cover: '',
+  resources: [],
   category: null,
   tags: []
 })
@@ -193,5 +220,78 @@ watch(() => route.params.slug, loadArticle)
   max-height: 420px;
   object-fit: cover;
   display: block;
+}
+
+.article-resource-panel {
+  margin: 0 0 20px;
+  padding: 16px 18px;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.article-resource-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.article-resource-panel__head h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #1f1f1f;
+}
+
+.article-resource-panel__head span {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.article-resource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.article-resource-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #fafafa;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.article-resource-item:hover {
+  background: #f0f5ff;
+}
+
+.article-resource-item strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #1f1f1f;
+}
+
+.article-resource-item p {
+  margin: 0 0 4px;
+  font-size: 13px;
+  color: #595959;
+}
+
+.article-resource-item span {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.article-resource-item__action {
+  flex-shrink: 0;
+  color: #1677ff !important;
+  font-weight: 500;
 }
 </style>

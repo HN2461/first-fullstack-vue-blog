@@ -11,42 +11,54 @@
       >
 
       <div class="writer-studio__actions">
+        <a-segmented
+          v-model:value="viewMode"
+          class="writer-studio__mode-switch"
+          :options="viewModeOptions"
+        />
         <a-button :loading="saving" @click="saveDraft">保存草稿</a-button>
         <a-button type="primary" :loading="publishing" @click="openPublishModal">发布</a-button>
       </div>
     </header>
 
     <div class="writer-studio__body">
-      <aside class="writer-studio__catalog" v-if="showCatalog">
-        <div class="writer-studio__catalog-head">
-          <strong>目录</strong>
-          <a-button type="text" size="small" @click="showCatalog = false">收起</a-button>
+      <div v-if="viewMode === 'preview'" class="writer-studio__preview-board">
+        <div class="writer-studio__preview-header">
+          <h1>{{ form.title.trim() || '无标题文章' }}</h1>
         </div>
-        <MdCatalog
-          :editor-id="editorId"
-          :scroll-element="scrollElement"
-          theme="light"
-          class="writer-studio__catalog-body"
-        />
-      </aside>
+        <div class="writer-studio__preview-body">
+          <MdPreview
+            :id="`${editorId}-preview-mode`"
+            class="writer-studio__preview-content"
+            :model-value="form.contentMarkdown"
+            theme="light"
+            preview-theme="github"
+            code-theme="atom"
+          />
+        </div>
+      </div>
 
-      <MdEditor
-        :id="editorId"
-        v-model="form.contentMarkdown"
-        :class="['writer-studio__editor', { 'writer-studio__editor--with-catalog': showCatalog }]"
-        theme="light"
-        language="zh-CN"
-        preview-theme="github"
-        code-theme="atom"
-        placeholder="开始在线写作"
-        :toolbars="toolbars"
-        :show-code-row-number="true"
-        :tab-width="2"
-        :auto-detect-code="true"
-        :footers="[]"
-        :no-upload-img="false"
-        :on-upload-img="handleUploadImg"
-      />
+      <div v-else class="writer-studio__editor-shell">
+        <MdEditor
+          :id="editorId"
+          v-model="form.contentMarkdown"
+          :class="['writer-studio__editor', { 'writer-studio__editor--compare': viewMode === 'compare' }]"
+          theme="light"
+          language="zh-CN"
+          preview-theme="github"
+          code-theme="atom"
+          placeholder="开始在线写作"
+          :toolbars="toolbars"
+          :show-code-row-number="true"
+          :tab-width="2"
+          :auto-detect-code="true"
+          :input-box-width="viewMode === 'compare' ? '50%' : '100%'"
+          :footers="[]"
+          :preview="viewMode === 'compare'"
+          :no-upload-img="false"
+          :on-upload-img="handleUploadImg"
+        />
+      </div>
     </div>
 
     <a-modal
@@ -124,6 +136,32 @@
             <img :src="publishForm.cover" alt="封面预览">
           </div>
         </a-form-item>
+
+        <a-form-item label="关联资源">
+          <div class="publish-resource-toolbar">
+            <a-button @click="openResourcePicker">从媒体库选择</a-button>
+          </div>
+          <div v-if="publishForm.resources.length === 0" class="publish-resource-empty">
+            当前还没有关联资源
+          </div>
+          <div v-else class="publish-resource-list">
+            <div
+              v-for="(resource, index) in publishForm.resources"
+              :key="`${resource.url}-${index}`"
+              class="publish-resource-item"
+            >
+              <div class="publish-resource-item__meta">
+                <strong>{{ resource.name }}</strong>
+                <span>{{ resource.kind === 'image' ? '图片资源' : '附件资源' }}</span>
+              </div>
+              <a-input
+                v-model:value.trim="resource.description"
+                placeholder="资源说明，可选"
+              />
+              <a-button danger @click="removeResource(index)">移除</a-button>
+            </div>
+          </div>
+        </a-form-item>
       </a-form>
     </a-modal>
 
@@ -179,6 +217,58 @@
     </a-modal>
 
     <a-modal
+      v-model:open="resourcePickerVisible"
+      title="选择关联资源"
+      width="920px"
+      :footer="null"
+      centered
+      @cancel="closeResourcePicker"
+    >
+      <div class="media-picker">
+        <div class="media-picker__toolbar">
+          <a-input-search
+            v-model:value="resourceKeyword"
+            placeholder="搜索文件名"
+            allow-clear
+            style="width: 240px"
+            @search="loadResourceOptions"
+          />
+          <a-button @click="loadResourceOptions">刷新</a-button>
+        </div>
+
+        <div v-if="resourceLoading" class="media-picker__status">正在加载资源...</div>
+        <div v-else-if="resourceItems.length === 0" class="media-picker__status">暂无可用资源，请先上传媒体文件。</div>
+
+        <div v-else class="media-picker__grid">
+          <button
+            v-for="item in resourceItems"
+            :key="item.id"
+            type="button"
+            class="media-picker__card"
+            @click="selectArticleResource(item)"
+          >
+            <div class="media-picker__thumb" :class="{ 'media-picker__thumb--file': item.kind !== 'image' }">
+              <img v-if="item.kind === 'image'" :src="item.url" :alt="item.originalName">
+              <span v-else>{{ item.originalName.split('.').at(-1)?.toUpperCase() || 'FILE' }}</span>
+            </div>
+            <strong>{{ item.originalName }}</strong>
+            <span>{{ Math.ceil((item.size || 0) / 1024) }} KB</span>
+          </button>
+        </div>
+
+        <div v-if="resourceTotal > resourcePageSize" class="media-picker__pagination">
+          <a-pagination
+            v-model:current="resourcePage"
+            :page-size="resourcePageSize"
+            :total="resourceTotal"
+            size="small"
+            @change="loadResourceOptions"
+          />
+        </div>
+      </div>
+    </a-modal>
+
+    <a-modal
       v-model:open="categoryModalVisible"
       title="新建分类"
       :confirm-loading="categorySubmitting"
@@ -227,8 +317,9 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
-import { MdCatalog, MdEditor } from 'md-editor-v3'
+import { MdEditor, MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
+import 'md-editor-v3/lib/preview.css'
 import {
   createAdminArticle,
   createAdminCategory,
@@ -251,22 +342,32 @@ const saving = ref(false)
 const publishing = ref(false)
 const publishModalVisible = ref(false)
 const mediaPickerVisible = ref(false)
+const resourcePickerVisible = ref(false)
 const categoryModalVisible = ref(false)
 const tagModalVisible = ref(false)
 const categorySubmitting = ref(false)
 const tagSubmitting = ref(false)
 const mediaLoading = ref(false)
+const resourceLoading = ref(false)
 const categories = ref([])
 const tags = ref([])
-const isSlugTouched = ref(false)
 const mediaItems = ref([])
 const mediaKeyword = ref('')
 const mediaPage = ref(1)
 const mediaPageSize = 12
 const mediaTotal = ref(0)
-const showCatalog = ref(true)
+const resourceItems = ref([])
+const resourceKeyword = ref('')
+const resourcePage = ref(1)
+const resourcePageSize = 12
+const resourceTotal = ref(0)
 const editorId = 'knowledge-writer-editor'
-const scrollElement = 'html'
+const viewMode = ref('edit')
+const viewModeOptions = [
+  { label: '编辑', value: 'edit' },
+  { label: '对比', value: 'compare' },
+  { label: '预览', value: 'preview' }
+]
 
 const toolbars = [
   'bold',
@@ -287,8 +388,6 @@ const toolbars = [
   '-',
   'revoke',
   'next',
-  '=',
-  'preview',
   'fullscreen'
 ]
 
@@ -303,7 +402,8 @@ const publishForm = reactive({
   category: undefined,
   tags: [],
   cover: '',
-  isRecommended: false
+  isRecommended: false,
+  resources: []
 })
 const categoryDraft = reactive({
   name: '',
@@ -346,7 +446,18 @@ function normalizePublishPayload() {
     category: publishForm.category || null,
     tags: Array.isArray(publishForm.tags) ? publishForm.tags : [],
     cover: publishForm.cover.trim(),
-    isRecommended: !!publishForm.isRecommended
+    isRecommended: !!publishForm.isRecommended,
+    resources: Array.isArray(publishForm.resources)
+      ? publishForm.resources.map((item) => ({
+        mediaId: item.mediaId || null,
+        name: item.name,
+        url: item.url,
+        kind: item.kind,
+        description: item.description || '',
+        fileSize: item.fileSize || 0,
+        mimeType: item.mimeType || ''
+      }))
+      : []
   }
 }
 
@@ -380,6 +491,7 @@ function applyArticleToForm(article) {
   publishForm.tags = (article.tags || []).map((tag) => tag.id || tag)
   publishForm.cover = article.cover || ''
   publishForm.isRecommended = !!article.isRecommended
+  publishForm.resources = Array.isArray(article.resources) ? article.resources.map((item) => ({ ...item })) : []
 }
 
 async function loadOptions() {
@@ -551,6 +663,17 @@ function closeMediaPicker() {
   mediaPickerVisible.value = false
 }
 
+function openResourcePicker() {
+  resourcePickerVisible.value = true
+  if (resourceItems.value.length === 0) {
+    loadResourceOptions()
+  }
+}
+
+function closeResourcePicker() {
+  resourcePickerVisible.value = false
+}
+
 async function loadMediaOptions() {
   mediaLoading.value = true
   try {
@@ -569,10 +692,51 @@ async function loadMediaOptions() {
   }
 }
 
+async function loadResourceOptions() {
+  resourceLoading.value = true
+  try {
+    const result = await listAdminMedia({
+      page: resourcePage.value,
+      pageSize: resourcePageSize,
+      keyword: resourceKeyword.value || undefined
+    })
+    resourceItems.value = result.items || []
+    resourceTotal.value = result.total || 0
+  } catch (error) {
+    message.error(error.message || '资源加载失败')
+  } finally {
+    resourceLoading.value = false
+  }
+}
+
 function selectCoverImage(item) {
   publishForm.cover = item.url
   mediaPickerVisible.value = false
   message.success('封面图片已选中')
+}
+
+function selectArticleResource(item) {
+  const exists = publishForm.resources.some((resource) => resource.url === item.url)
+  if (exists) {
+    message.info('该资源已添加到文章')
+    return
+  }
+
+  publishForm.resources.push({
+    mediaId: item.id,
+    name: item.originalName,
+    url: item.url,
+    kind: item.kind === 'image' ? 'image' : 'attachment',
+    description: '',
+    fileSize: item.size || 0,
+    mimeType: item.mimeType || ''
+  })
+  resourcePickerVisible.value = false
+  message.success('关联资源已添加')
+}
+
+function removeResource(index) {
+  publishForm.resources.splice(index, 1)
 }
 
 async function confirmPublish() {
@@ -646,8 +810,9 @@ onMounted(async () => {
 .writer-studio {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 108px);
-  min-height: 720px;
+  min-height: 100vh;
+  padding: 28px 56px 40px;
+  background: #f6f3ea;
 }
 
 .writer-studio__topbar {
@@ -655,23 +820,23 @@ onMounted(async () => {
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 16px;
-  padding: 0 0 16px;
+  padding: 8px 0 20px;
 }
 
 .writer-studio__title {
   width: 100%;
   border: none;
-  padding: 4px 0;
-  font-size: 34px;
+  padding: 0;
+  font-size: 42px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.2;
   color: #1f1f1f;
   background: transparent;
   outline: none;
 }
 
 .writer-studio__title::placeholder {
-  color: #bfbfbf;
+  color: #c5c0b3;
 }
 
 .writer-studio__actions {
@@ -680,40 +845,142 @@ onMounted(async () => {
   gap: 10px;
 }
 
+.writer-studio__mode-switch {
+  margin-right: 8px;
+}
+
 .writer-studio__body {
   flex: 1 1 auto;
   min-height: 0;
+  background: transparent;
+}
+
+.writer-studio__preview-board {
+  height: calc(100vh - 210px);
+  min-height: 680px;
+  overflow: auto;
+  border: 1px solid rgba(31, 35, 41, 0.08);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 18px 46px rgba(31, 35, 41, 0.06);
+}
+
+.writer-studio__preview-header {
+  padding: 28px 44px 16px;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.08);
+}
+
+.writer-studio__preview-header h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.3;
+  color: #1f1f1f;
+}
+
+.writer-studio__preview-body {
+  padding: 24px 0 60px;
+}
+
+.writer-studio__preview-content {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 44px;
+}
+
+.writer-studio__editor-shell {
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
 }
 
 .writer-studio__editor {
-  height: 100%;
-  border: 1px solid #f0f0f0;
-  border-radius: 8px;
+  height: calc(100vh - 210px);
+  min-height: 680px;
+  border: 1px solid rgba(31, 35, 41, 0.08);
+  border-radius: 20px;
   overflow: hidden;
-  background: #fff;
+  background: #ffffff;
+  box-shadow: 0 18px 46px rgba(31, 35, 41, 0.06);
 }
 
 .writer-studio__editor :deep(.md-editor) {
   height: 100%;
+  min-height: 100%;
+  border: none;
+  background: #ffffff;
+  box-shadow: none;
 }
 
 .writer-studio__editor :deep(.md-editor-toolbar) {
-  padding: 0 12px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 0 8px 0 4px;
+  border-bottom: 1px solid rgba(28, 28, 28, 0.08);
+  background: #ffffff;
 }
 
-.writer-studio__editor :deep(.md-editor-input-wrapper textarea),
+.writer-studio__editor :deep(.md-editor-toolbar-wrapper) {
+  width: 100%;
+  padding: 14px 20px 10px;
+  background: #ffffff;
+}
+
+.writer-studio__editor :deep(.md-editor-input-wrapper) {
+  background: #ffffff;
+}
+
+.writer-studio__editor :deep(.cm-editor) {
+  height: 100%;
+  background: #ffffff;
+}
+
+.writer-studio__editor :deep(.cm-scroller) {
+  height: 100%;
+  padding: 24px 0 40px;
+}
+
+.writer-studio__editor :deep(.cm-content) {
+  width: 100%;
+  max-width: none;
+  min-height: calc(100vh - 330px);
+  padding: 8px 44px 120px !important;
+  font-size: 19px;
+  line-height: 2;
+  color: #262626;
+}
+
+.writer-studio__editor :deep(.cm-line) {
+  padding: 0;
+}
+
+.writer-studio__editor :deep(.cm-focused) {
+  outline: none;
+}
+
+.writer-studio__editor :deep(.md-editor-input),
+.writer-studio__editor :deep(.md-editor-preview-wrapper),
 .writer-studio__editor :deep(.md-editor-preview) {
-  font-size: 15px;
-  line-height: 1.95;
+  background: #ffffff;
 }
 
-.writer-studio__editor :deep(.md-editor-input-wrapper textarea) {
-  padding: 20px 24px;
+.writer-studio__editor--compare :deep(.md-editor-preview-wrapper) {
+  border-left: 1px solid rgba(28, 28, 28, 0.08);
 }
 
-.writer-studio__editor :deep(.md-editor-preview) {
-  padding: 20px 24px;
+.writer-studio__editor--compare :deep(.md-editor-preview) {
+  padding: 28px 28px 80px;
+}
+
+.writer-studio__preview-content :deep(.md-editor-preview) {
+  padding: 0;
+  font-size: 18px;
+  line-height: 2;
+  color: #262626;
+}
+
+.writer-studio__editor :deep(.md-editor-footer) {
+  display: none;
 }
 
 .publish-field-row {
@@ -739,8 +1006,8 @@ onMounted(async () => {
 
 @media (max-width: 960px) {
   .writer-studio {
-    height: auto;
-    min-height: 0;
+    min-height: 100vh;
+    padding: 20px 18px 28px;
   }
 
   .writer-studio__topbar {
@@ -752,12 +1019,41 @@ onMounted(async () => {
     flex-wrap: wrap;
   }
 
+  .writer-studio__mode-switch {
+    width: 100%;
+    margin-right: 0;
+  }
+
   .writer-studio__title {
     font-size: 28px;
   }
 
-  .writer-studio__body {
-    min-height: 620px;
+  .writer-studio__editor-shell {
+    max-width: 100%;
+  }
+
+  .writer-studio__preview-board,
+  .writer-studio__editor {
+    height: calc(100vh - 180px);
+    min-height: 560px;
+  }
+
+  .writer-studio__preview-header {
+    padding: 20px 20px 14px;
+  }
+
+  .writer-studio__preview-header h1 {
+    font-size: 28px;
+  }
+
+  .writer-studio__preview-content {
+    padding: 0 20px;
+  }
+
+  .writer-studio__editor :deep(.cm-content) {
+    min-height: calc(100vh - 280px);
+    padding: 4px 20px 72px !important;
+    font-size: 17px;
   }
 }
 </style>

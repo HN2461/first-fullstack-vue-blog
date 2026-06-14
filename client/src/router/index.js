@@ -81,6 +81,24 @@ export const router = createRouter({
       meta: { title: '注册' }
     },
     {
+      path: '/console/write',
+      name: 'AdminWriter',
+      component: AdminArticleEditor,
+      meta: { title: '新建文章', requiresAdmin: true }
+    },
+    {
+      path: '/console/manage/articles/new',
+      name: 'AdminArticleNew',
+      component: AdminArticleEditor,
+      meta: { title: '新建文章', requiresAdmin: true }
+    },
+    {
+      path: '/console/manage/articles/:id',
+      name: 'AdminArticleEdit',
+      component: AdminArticleEditor,
+      meta: { title: '编辑文章', requiresAdmin: true }
+    },
+    {
       path: '/console',
       component: ConsoleLayout,
       meta: {
@@ -131,28 +149,10 @@ export const router = createRouter({
           meta: { title: '个人信息', requiresAuth: true }
         },
         {
-          path: 'write',
-          name: 'AdminWriter',
-          component: AdminArticleEditor,
-          meta: { title: '开始写作', requiresAdmin: true }
-        },
-        {
           path: 'manage/articles',
           name: 'AdminArticles',
           component: AdminArticles,
           meta: { title: '文章管理', requiresAdmin: true }
-        },
-        {
-          path: 'manage/articles/new',
-          name: 'AdminArticleNew',
-          component: AdminArticleEditor,
-          meta: { title: '新建文章', requiresAdmin: true }
-        },
-        {
-          path: 'manage/articles/:id',
-          name: 'AdminArticleEdit',
-          component: AdminArticleEditor,
-          meta: { title: '编辑文章', requiresAdmin: true }
         },
         {
           path: 'manage/categories',

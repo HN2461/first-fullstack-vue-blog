@@ -29,6 +29,44 @@ const articleSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    resources: [{
+      mediaId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Media',
+        default: null
+      },
+      name: {
+        type: String,
+        default: '',
+        trim: true,
+        maxlength: 120
+      },
+      url: {
+        type: String,
+        default: '',
+        trim: true
+      },
+      kind: {
+        type: String,
+        enum: ['image', 'attachment'],
+        default: 'attachment'
+      },
+      description: {
+        type: String,
+        default: '',
+        trim: true,
+        maxlength: 240
+      },
+      fileSize: {
+        type: Number,
+        default: 0
+      },
+      mimeType: {
+        type: String,
+        default: '',
+        trim: true
+      }
+    }],
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
@@ -126,6 +164,17 @@ articleSchema.methods.toSafeJSON = function toSafeJSON() {
   const tags = Array.isArray(this.tags)
     ? this.tags.map((tag) => (tag && typeof tag === 'object' && tag.name ? tag.toSafeJSON?.() || tag : tag.toString()))
     : []
+  const resources = Array.isArray(this.resources)
+    ? this.resources.map((item) => ({
+      mediaId: item.mediaId?.toString?.() || item.mediaId || null,
+      name: item.name || '',
+      url: item.url || '',
+      kind: item.kind || 'attachment',
+      description: item.description || '',
+      fileSize: item.fileSize || 0,
+      mimeType: item.mimeType || ''
+    }))
+    : []
 
   return {
     id: this._id.toString(),
@@ -134,6 +183,7 @@ articleSchema.methods.toSafeJSON = function toSafeJSON() {
     summary: this.summary,
     contentMarkdown: this.contentMarkdown,
     cover: this.cover,
+    resources,
     category,
     tags,
     status: this.status,

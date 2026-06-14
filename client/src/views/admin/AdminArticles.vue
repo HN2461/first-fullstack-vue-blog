@@ -1,20 +1,12 @@
 <template>
   <div class="articles-page">
-    <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-left">
         <h2>文章管理</h2>
-        <span class="header-desc">管理所有文章的发布、编辑和删除</span>
-      </div>
-      <div class="header-right">
-        <a-button type="primary" @click="$router.push('/console/write')">
-          <template #icon><PlusOutlined /></template>
-          新建文章
-        </a-button>
+        <span class="header-desc">集中查看文章封面、发布时间与互动数据，快速进入编辑或阅读。</span>
       </div>
     </div>
 
-    <!-- 文章表格 -->
     <BlogTable
       ref="tableRef"
       :api-fn="fetchArticles"
@@ -56,70 +48,70 @@
       </template>
 
       <template #bodyCell="{ column, record }">
-        <!-- 标题列 -->
-        <template v-if="column.key === 'title'">
+        <template v-if="column.key === 'cover'">
+          <div class="article-cover-cell">
+            <img
+              v-if="record.cover"
+              :src="record.cover"
+              :alt="record.title"
+              class="article-cover-image"
+            >
+            <div v-else class="article-cover-placeholder">封面</div>
+          </div>
+        </template>
+
+        <template v-else-if="column.key === 'title'">
           <div class="article-title-cell">
-            <span class="article-title" @click="$router.push(`/console/manage/articles/${record.id}`)">
+            <button
+              type="button"
+              class="article-title"
+              @click="$router.push(`/console/manage/articles/${record.id}`)"
+            >
               {{ record.title }}
-            </span>
-            <span class="article-summary">{{ record.summary || '暂无摘要' }}</span>
+            </button>
+            <span class="article-summary">{{ record.summary || '暂无摘要，发布时可补充内容概览。' }}</span>
+            <div class="article-meta-line">
+              <a-tag :bordered="false" color="processing">{{ getStatusLabel(record.status) }}</a-tag>
+              <span>{{ record.category?.name || '未分类' }}</span>
+              <span v-if="record.tags?.length">{{ formatTagSummary(record.tags) }}</span>
+            </div>
           </div>
         </template>
 
-        <!-- 分类列 -->
-        <template v-else-if="column.key === 'category'">
-          <a-tag v-if="record.category?.name">{{ record.category.name }}</a-tag>
-          <span v-else class="text-muted">未分类</span>
-        </template>
-
-        <!-- 标签列 -->
-        <template v-else-if="column.key === 'tags'">
-          <template v-if="record.tags?.length">
-            <a-tag v-for="tag in record.tags.slice(0, 2)" :key="tag.id" :color="tag.color || 'blue'">
-              {{ tag.name }}
-            </a-tag>
-            <a-tooltip v-if="record.tags.length > 2">
-              <template #title>
-                <span v-for="tag in record.tags" :key="tag.id">{{ tag.name }} </span>
-              </template>
-              <a-tag>+{{ record.tags.length - 2 }}</a-tag>
-            </a-tooltip>
-          </template>
-          <span v-else class="text-muted">无标签</span>
-        </template>
-
-        <!-- 状态列 -->
-        <template v-else-if="column.key === 'status'">
-          <a-badge :status="getStatusBadge(record.status)" :text="getStatusLabel(record.status)" />
-        </template>
-
-        <!-- 数据列 -->
-        <template v-else-if="column.key === 'stats'">
-          <div class="stats-cell">
-            <span title="阅读量"><EyeOutlined /> {{ record.viewCount || 0 }}</span>
-            <span title="点赞数"><LikeOutlined /> {{ record.likeCount || 0 }}</span>
-          </div>
-        </template>
-
-        <!-- 时间列 -->
-        <template v-else-if="column.key === 'updatedAt'">
+        <template v-else-if="column.key === 'publishedAt'">
           <div class="time-cell">
             <span>{{ formatArticleTime(record) }}</span>
-            <span class="time-ago" :title="record.source === 'legacy-notes' ? '写作时间' : '更新时间'">
-              {{ record.source === 'legacy-notes' ? '迁移文章' : formatTimeAgo(record.updatedAt) }}
+            <span class="time-ago" :title="record.status === 'published' ? '发布时间' : '最近更新时间'">
+              {{ record.status === 'published' ? '已发布' : '待发布' }}
             </span>
           </div>
         </template>
 
-        <!-- 操作列 -->
+        <template v-else-if="column.key === 'viewCount'">
+          <span class="metric-cell">{{ formatMetric(record.viewCount) }}</span>
+        </template>
+
+        <template v-else-if="column.key === 'likeCount'">
+          <span class="metric-cell">{{ formatMetric(record.likeCount) }}</span>
+        </template>
+
+        <template v-else-if="column.key === 'commentCount'">
+          <span class="metric-cell">{{ formatMetric(record.commentCount) }}</span>
+        </template>
+
+        <template v-else-if="column.key === 'favoriteCount'">
+          <span class="metric-cell">{{ formatMetric(record.favoriteCount) }}</span>
+        </template>
+
         <template v-else-if="column.key === 'action'">
-          <a-space>
+          <a-space size="small">
             <a-button type="link" size="small" @click="$router.push(`/console/manage/articles/${record.id}`)">
               编辑
             </a-button>
+            <a-button type="link" size="small" @click="openReader(record)">阅读</a-button>
             <a-dropdown>
-              <a-button type="link" size="small">
-                更多 <DownOutlined />
+              <a-button type="text" size="small">
+                <MoreOutlined />
               </a-button>
               <template #overlay>
                 <a-menu @click="({ key }) => handleAction(key, record)">
@@ -149,11 +141,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import {
-  PlusOutlined,
-  EyeOutlined,
-  LikeOutlined,
-  DownOutlined,
   CheckCircleOutlined,
+  MoreOutlined,
   MinusCircleOutlined,
   EditOutlined,
   DeleteOutlined
@@ -186,41 +175,46 @@ const filterParams = computed(() => ({
 
 const columns = [
   {
-    title: '文章标题',
+    title: '封面',
+    key: 'cover',
+    width: 116
+  },
+  {
+    title: '标题',
     key: 'title',
     dataIndex: 'title',
-    width: '30%',
+    width: '32%',
     ellipsis: true
   },
   {
-    title: '分类',
-    key: 'category',
-    width: 100
+    title: '发布时间',
+    key: 'publishedAt',
+    width: 168
   },
   {
-    title: '标签',
-    key: 'tags',
-    width: 150
+    title: '阅读量',
+    key: 'viewCount',
+    width: 96
   },
   {
-    title: '发布状态',
-    key: 'status',
-    width: 100
+    title: '点赞数',
+    key: 'likeCount',
+    width: 96
   },
   {
-    title: '数据',
-    key: 'stats',
-    width: 120
+    title: '评论数',
+    key: 'commentCount',
+    width: 96
   },
   {
-    title: '时间',
-    key: 'updatedAt',
-    width: 150
+    title: '收藏数',
+    key: 'favoriteCount',
+    width: 96
   },
   {
     title: '操作',
     key: 'action',
-    width: 120,
+    width: 148,
     fixed: 'right'
   }
 ]
@@ -249,26 +243,29 @@ function formatDate(dateStr) {
 }
 
 function formatArticleTime(record) {
-  if (record.source === 'legacy-notes' && record.publishedAt) {
+  if (record.publishedAt) {
     return formatDate(record.publishedAt)
   }
   return formatDate(record.updatedAt)
 }
 
-function formatTimeAgo(dateStr) {
-  if (!dateStr) return ''
-  const date = new Date(dateStr)
-  const now = new Date()
-  const diff = now - date
-
-  if (diff < 60000) return '刚刚'
-  if (diff < 3600000) return `${Math.floor(diff / 60000)}分钟前`
-  if (diff < 86400000) return `${Math.floor(diff / 3600000)}小时前`
-  if (diff < 604800000) return `${Math.floor(diff / 86400000)}天前`
-  return ''
+function formatMetric(value) {
+  return Number(value) || 0
 }
 
-// 数据加载（适配 BlogTable 的 apiFn 格式）
+function formatTagSummary(tags = []) {
+  if (!tags.length) {
+    return ''
+  }
+
+  const names = tags.map((tag) => tag.name).filter(Boolean)
+  if (names.length <= 2) {
+    return names.join(' / ')
+  }
+
+  return `${names.slice(0, 2).join(' / ')} 等 ${names.length} 个标签`
+}
+
 async function fetchArticles(params) {
   const result = await listAdminArticles(params)
   return { items: result.items || [], total: result.total || 0 }
@@ -293,8 +290,18 @@ function handleSearch() {
 function handleSearchChange() {
   clearTimeout(searchTimer)
   searchTimer = setTimeout(() => {
-    // 防抖：filterParams 通过 computed 自动更新，BlogTable watch 会处理
   }, 300)
+}
+
+function openReader(record) {
+  if (record.slug) {
+    window.open(`/articles/${record.slug}`, '_blank', 'noopener')
+    return
+  }
+
+  if (record.id) {
+    window.open(`/console/manage/articles/${record.id}`, '_blank', 'noopener')
+  }
 }
 
 // 操作处理
@@ -390,7 +397,6 @@ onMounted(() => {
   max-width: 1400px;
 }
 
-/* 页面头部 */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -410,19 +416,42 @@ onMounted(() => {
   color: #8c8c8c;
 }
 
-.header-right {
-  display: flex;
-  gap: 10px;
+.article-cover-cell {
+  width: 84px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f5f7fa;
 }
 
-/* 文章标题单元格 */
+.article-cover-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.article-cover-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bfbfbf;
+  font-size: 12px;
+}
+
 .article-title-cell {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .article-title {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
   font-weight: 500;
   color: #1a1a1a;
   cursor: pointer;
@@ -434,29 +463,32 @@ onMounted(() => {
 }
 
 .article-summary {
-  font-size: 12px;
-  color: #8c8c8c;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 300px;
-}
-
-/* 数据单元格 */
-.stats-cell {
-  display: flex;
-  gap: 12px;
   font-size: 13px;
-  color: #666;
+  color: #8c8c8c;
+  line-height: 1.5;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.stats-cell span {
+.article-meta-line {
   display: flex;
   align-items: center;
-  gap: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: #8c8c8c;
 }
 
-/* 时间单元格 */
+.metric-cell {
+  display: inline-flex;
+  min-width: 36px;
+  justify-content: center;
+  font-size: 13px;
+  color: #525252;
+}
+
 .time-cell {
   display: flex;
   flex-direction: column;
@@ -479,12 +511,9 @@ onMounted(() => {
   font-size: 13px;
 }
 
-/* 响应式 */
 @media (max-width: 1200px) {
-  .filter-bar {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
+  .articles-page {
+    max-width: 100%;
   }
 }
 
