@@ -1,11 +1,13 @@
 import fs from 'node:fs'
 import multer from 'multer'
 import { Router } from 'express'
+import { MulterError } from 'multer'
 import { requireAdmin, requireAuth } from '../middlewares/auth.js'
 import { createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle, updateArticleStatus } from '../services/article.service.js'
 import { createCategory, deleteCategory, listCategories, updateCategory } from '../services/category.service.js'
 import { listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
-import { createMediaFromFile, deleteMedia, getUploadSubdir, listMedia } from '../services/media.service.js'
+import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '../services/mediaCategory.service.js'
+import { createMediaFromFile, deleteMedia, getUploadSubdir, listMedia, listMediaCategories } from '../services/media.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '../services/notification.service.js'
 import { getSettings, updateSettings } from '../services/setting.service.js'
 import { getAdminStats } from '../services/stats.service.js'
@@ -159,17 +161,54 @@ adminRouter.get('/media', asyncHandler(async (req, res) => {
   res.json(ok(await listMedia(req.query)))
 }))
 
-adminRouter.post('/media', upload.single('file'), asyncHandler(async (req, res) => {
-  if (!req.file) {
-    const error = new Error('请选择要上传的文件')
-    error.statusCode = 400
-    error.code = 'FILE_REQUIRED'
-    throw error
-  }
-
-  const media = await createMediaFromFile(req.file, req.user)
-  res.status(201).json(ok(media, '文件已上传'))
+adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
+  res.json(ok(await listMediaCategoryEntities()))
 }))
+
+adminRouter.post('/media/categories', asyncHandler(async (req, res) => {
+  res.status(201).json(ok(await createMediaCategory(req.body), '资源分类已创建'))
+}))
+
+adminRouter.patch('/media/categories/:id', asyncHandler(async (req, res) => {
+  res.json(ok(await updateMediaCategory(req.params.id, req.body), '资源分类已更新'))
+}))
+
+adminRouter.delete('/media/categories/:id', asyncHandler(async (req, res) => {
+  res.json(ok(await deleteMediaCategory(req.params.id), '资源分类已删除'))
+}))
+
+adminRouter.post('/media', (req, res, next) => {
+  upload.single('file')(req, res, async (error) => {
+    if (error) {
+      if (error instanceof MulterError) {
+        error.statusCode = 400
+        error.code = error.code || 'UPLOAD_ERROR'
+        if (error.code === 'LIMIT_FILE_SIZE') {
+          error.message = '文件大小不能超过 5MB'
+        }
+      }
+
+      next(error)
+      return
+    }
+
+    try {
+      if (!req.file) {
+        const fileError = new Error('请选择要上传的文件')
+        fileError.statusCode = 400
+        fileError.code = 'FILE_REQUIRED'
+        throw fileError
+      }
+
+      const media = await createMediaFromFile(req.file, req.user, {
+        category: req.body?.category
+      })
+      res.status(201).json(ok(media, '文件已上传'))
+    } catch (handlerError) {
+      next(handlerError)
+    }
+  })
+})
 
 adminRouter.delete('/media/:id', asyncHandler(async (req, res) => {
   const result = await deleteMedia(req.params.id)

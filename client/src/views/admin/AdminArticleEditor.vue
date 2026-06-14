@@ -90,9 +90,11 @@
               <div class="publish-field-row">
                 <a-select
                   v-model:value="publishForm.category"
+                  show-search
                   allow-clear
                   placeholder="选择分类"
                   :options="categoryOptions"
+                  :filter-option="filterSelectOption"
                 />
                 <a-button @click="openCategoryModal">新建</a-button>
               </div>
@@ -114,24 +116,29 @@
             <a-select
               v-model:value="publishForm.tags"
               mode="multiple"
+              show-search
+              option-filter-prop="label"
               allow-clear
               placeholder="选择标签"
               :options="tagOptions"
               :max-tag-count="4"
+              :filter-option="filterSelectOption"
             />
             <a-button @click="openTagModal">新建</a-button>
           </div>
         </a-form-item>
 
-        <a-form-item label="封面图片地址">
-          <a-input-group compact>
-            <a-input
-              v-model:value.trim="publishForm.cover"
-              style="width: calc(100% - 96px)"
-              placeholder="可选，填写封面图 URL"
-            />
-            <a-button style="width: 96px" @click="openCoverPicker">选择图片</a-button>
-          </a-input-group>
+        <a-form-item label="封面图片">
+          <div class="cover-upload-field">
+            <a-upload
+              :show-upload-list="false"
+              accept="image/*"
+              :custom-request="handleCoverUpload"
+            >
+              <a-button :loading="coverUploading">上传封面</a-button>
+            </a-upload>
+            <span class="cover-upload-tip">直接从本地电脑选择图片上传</span>
+          </div>
           <div v-if="publishForm.cover" class="cover-preview">
             <img :src="publishForm.cover" alt="封面预览">
           </div>
@@ -166,65 +173,14 @@
     </a-modal>
 
     <a-modal
-      v-model:open="mediaPickerVisible"
-      title="选择封面图片"
-      width="920px"
-      :footer="null"
-      centered
-      @cancel="closeMediaPicker"
-    >
-      <div class="media-picker">
-        <div class="media-picker__toolbar">
-          <a-input-search
-            v-model:value="mediaKeyword"
-            placeholder="搜索文件名"
-            allow-clear
-            style="width: 240px"
-            @search="loadMediaOptions"
-          />
-          <a-button @click="loadMediaOptions">刷新</a-button>
-        </div>
-
-        <div v-if="mediaLoading" class="media-picker__status">正在加载媒体文件...</div>
-        <div v-else-if="mediaItems.length === 0" class="media-picker__status">暂无可用图片，请先上传图片素材。</div>
-
-        <div v-else class="media-picker__grid">
-          <button
-            v-for="item in mediaItems"
-            :key="item.id"
-            type="button"
-            class="media-picker__card"
-            @click="selectCoverImage(item)"
-          >
-            <div class="media-picker__thumb">
-              <img :src="item.url" :alt="item.originalName">
-            </div>
-            <strong>{{ item.originalName }}</strong>
-            <span>{{ Math.ceil((item.size || 0) / 1024) }} KB</span>
-          </button>
-        </div>
-
-        <div v-if="mediaTotal > mediaPageSize" class="media-picker__pagination">
-          <a-pagination
-            v-model:current="mediaPage"
-            :page-size="mediaPageSize"
-            :total="mediaTotal"
-            size="small"
-            @change="loadMediaOptions"
-          />
-        </div>
-      </div>
-    </a-modal>
-
-    <a-modal
       v-model:open="resourcePickerVisible"
       title="选择关联资源"
-      width="920px"
+      width="980px"
       :footer="null"
       centered
       @cancel="closeResourcePicker"
     >
-      <div class="media-picker">
+      <div class="media-picker media-picker--resource">
         <div class="media-picker__toolbar">
           <a-input-search
             v-model:value="resourceKeyword"
@@ -341,21 +297,15 @@ const loading = ref(false)
 const saving = ref(false)
 const publishing = ref(false)
 const publishModalVisible = ref(false)
-const mediaPickerVisible = ref(false)
 const resourcePickerVisible = ref(false)
 const categoryModalVisible = ref(false)
 const tagModalVisible = ref(false)
 const categorySubmitting = ref(false)
 const tagSubmitting = ref(false)
-const mediaLoading = ref(false)
 const resourceLoading = ref(false)
+const coverUploading = ref(false)
 const categories = ref([])
 const tags = ref([])
-const mediaItems = ref([])
-const mediaKeyword = ref('')
-const mediaPage = ref(1)
-const mediaPageSize = 12
-const mediaTotal = ref(0)
 const resourceItems = ref([])
 const resourceKeyword = ref('')
 const resourcePage = ref(1)
@@ -626,6 +576,16 @@ function closeTagModal() {
   tagModalVisible.value = false
 }
 
+function filterSelectOption(input, option) {
+  const keyword = String(input || '').trim().toLowerCase()
+  if (!keyword) {
+    return true
+  }
+
+  const label = String(option?.label || '').toLowerCase()
+  return label.includes(keyword)
+}
+
 async function handleCreateTag() {
   if (!tagDraft.name.trim()) {
     message.warning('请输入标签名称')
@@ -652,17 +612,6 @@ async function handleCreateTag() {
   }
 }
 
-function openCoverPicker() {
-  mediaPickerVisible.value = true
-  if (mediaItems.value.length === 0) {
-    loadMediaOptions()
-  }
-}
-
-function closeMediaPicker() {
-  mediaPickerVisible.value = false
-}
-
 function openResourcePicker() {
   resourcePickerVisible.value = true
   if (resourceItems.value.length === 0) {
@@ -672,24 +621,6 @@ function openResourcePicker() {
 
 function closeResourcePicker() {
   resourcePickerVisible.value = false
-}
-
-async function loadMediaOptions() {
-  mediaLoading.value = true
-  try {
-    const result = await listAdminMedia({
-      kind: 'image',
-      page: mediaPage.value,
-      pageSize: mediaPageSize,
-      keyword: mediaKeyword.value || undefined
-    })
-    mediaItems.value = result.items || []
-    mediaTotal.value = result.total || 0
-  } catch (error) {
-    message.error(error.message || '媒体文件加载失败')
-  } finally {
-    mediaLoading.value = false
-  }
 }
 
 async function loadResourceOptions() {
@@ -709,10 +640,19 @@ async function loadResourceOptions() {
   }
 }
 
-function selectCoverImage(item) {
-  publishForm.cover = item.url
-  mediaPickerVisible.value = false
-  message.success('封面图片已选中')
+async function handleCoverUpload({ file, onSuccess, onError }) {
+  coverUploading.value = true
+  try {
+    const media = await uploadAdminMedia(file)
+    publishForm.cover = media.url
+    message.success('封面图片已上传')
+    onSuccess?.(media)
+  } catch (error) {
+    message.error(error.message || '封面上传失败')
+    onError?.(error)
+  } finally {
+    coverUploading.value = false
+  }
 }
 
 function selectArticleResource(item) {

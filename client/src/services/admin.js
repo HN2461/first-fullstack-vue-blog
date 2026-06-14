@@ -135,9 +135,28 @@ export async function listAdminMedia(params = {}) {
   return toPageResult(await http.get('/api/admin/media', { params }), params.pageSize || 20)
 }
 
-export function uploadAdminMedia(file) {
+export function listAdminMediaCategories() {
+  return http.get('/api/admin/media/categories')
+}
+
+export function createAdminMediaCategory(data) {
+  return http.post('/api/admin/media/categories', data)
+}
+
+export function updateAdminMediaCategory(id, data) {
+  return http.patch(`/api/admin/media/categories/${id}`, data)
+}
+
+export function deleteAdminMediaCategory(id) {
+  return http.delete(`/api/admin/media/categories/${id}`)
+}
+
+export function uploadAdminMedia(file, metadata = {}) {
   const formData = new FormData()
   formData.append('file', file)
+  if (metadata.category) {
+    formData.append('category', metadata.category)
+  }
   return http.post('/api/admin/media', formData)
 }
 

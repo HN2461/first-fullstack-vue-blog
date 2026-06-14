@@ -1,4 +1,5 @@
 import request from 'supertest'
+import path from 'node:path'
 import { ARTICLE_STATUS, USER_ROLES } from '@blog/shared'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
@@ -197,5 +198,39 @@ describe('content admin routes', () => {
       .expect(403)
 
     expect(response.body.code).toBe('FORBIDDEN')
+  })
+
+  it('allows admins to create media categories and upload categorized files', async () => {
+    const app = createApp()
+
+    const categoryResponse = await request(app)
+      .post('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '项目素材',
+        description: '项目截图与演示文件'
+      })
+      .expect(201)
+
+    expect(categoryResponse.body.data.name).toBe('项目素材')
+
+    const uploadResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .field('category', '项目素材')
+      .attach('file', path.resolve(process.cwd(), 'tests/upload-filename.test.js'))
+      .expect(201)
+
+    expect(uploadResponse.body.data.category).toBe('项目素材')
+    expect(uploadResponse.body.data.fileClass).toBe('code')
+
+    const listResponse = await request(app)
+      .get('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    const createdCategory = listResponse.body.data.find((item) => item.name === '项目素材')
+    expect(createdCategory).toBeTruthy()
+    expect(createdCategory.count).toBeGreaterThanOrEqual(1)
   })
 })

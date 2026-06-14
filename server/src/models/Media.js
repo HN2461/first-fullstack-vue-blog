@@ -31,6 +31,17 @@ const mediaSchema = new mongoose.Schema(
       enum: ['image', 'attachment'],
       required: true
     },
+    category: {
+      type: String,
+      trim: true,
+      default: '未分类',
+      maxlength: 40
+    },
+    fileClass: {
+      type: String,
+      enum: ['image', 'code', 'document', 'archive', 'other'],
+      default: 'other'
+    },
     uploader: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -57,6 +68,8 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
     url: this.url,
     storagePath: this.storagePath,
     kind: this.kind,
+    category: this.category || '未分类',
+    fileClass: this.fileClass || 'other',
     uploader: this.uploader?.toString?.(),
     article: this.article?.toString?.() || null,
     createdAt: this.createdAt,
