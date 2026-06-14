@@ -1,12 +1,5 @@
 <template>
   <div class="articles-page">
-    <div class="page-header">
-      <div class="header-left">
-        <h2>文章管理</h2>
-        <span class="header-desc">集中查看文章封面、发布时间与互动数据，快速进入编辑或阅读。</span>
-      </div>
-    </div>
-
     <BlogTable
       ref="tableRef"
       :api-fn="fetchArticles"
@@ -16,6 +9,7 @@
       :page-size="10"
       :page-sizes="['10', '20', '50']"
       :show-column-setting="true"
+      :height="'100%'"
     >
       <template #toolbar>
         <a-input-search
@@ -395,25 +389,7 @@ onMounted(() => {
 <style scoped>
 .articles-page {
   max-width: 1400px;
-}
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.header-left h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 0 4px;
-  color: #1a1a1a;
-}
-
-.header-desc {
-  font-size: 13px;
-  color: #8c8c8c;
+  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
 }
 
 .article-cover-cell {
@@ -514,14 +490,6 @@ onMounted(() => {
 @media (max-width: 1200px) {
   .articles-page {
     max-width: 100%;
-  }
-}
-
-@media (max-width: 768px) {
-  .page-header {
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
   }
 }
 </style>

@@ -1,111 +1,140 @@
 <template>
   <section class="media-cloud">
-    <div class="media-cloud__panel">
-      <div class="media-cloud__upload">
-        <div class="media-cloud__upload-head">
-          <h2>上传资源</h2>
-          <a-button type="primary" ghost @click="uploadModalVisible = true">上传资源</a-button>
-        </div>
-        <div class="media-cloud__rules">
-          <span>支持格式：图片、代码、文档、压缩包等常见资源</span>
-          <span>单文件上限：5MB</span>
-        </div>
+    <!-- 顶栏：标题 + 上传 + 筛选，一行搞定 -->
+    <div class="media-cloud__topbar">
+      <h2 class="media-cloud__title">媒体资产</h2>
+      <div class="media-cloud__filters">
+        <a-input-search
+          v-model:value="keyword"
+          allow-clear
+          placeholder="搜索文件名或分类"
+          style="width: 220px"
+          size="middle"
+          @search="refreshTable"
+        />
+        <a-select
+          v-model:value="filterCategory"
+          allow-clear
+          show-search
+          placeholder="分类筛选"
+          style="width: 150px"
+          size="middle"
+          :options="filterCategoryOptions"
+          :filter-option="filterSelectOption"
+        />
+        <a-select
+          v-model:value="filterFileClass"
+          allow-clear
+          placeholder="类型"
+          style="width: 110px"
+          size="middle"
+          :options="fileClassOptions"
+        />
       </div>
+      <div class="media-cloud__actions">
+        <a-button size="middle" @click="categoryModalVisible = true">管理分类</a-button>
+        <a-button type="primary" size="middle" @click="uploadModalVisible = true">
+          <template #icon><InboxOutlined /></template>
+          上传资源
+        </a-button>
+      </div>
+    </div>
 
-      <div class="media-cloud__library">
-        <div class="media-cloud__toolbar">
-          <a-input-search
-            v-model:value="keyword"
-            allow-clear
-            placeholder="搜索文件名或分类"
-            style="width: 280px"
-            @search="refreshTable"
-          />
-          <a-select
-            v-model:value="filterCategory"
-            allow-clear
-            show-search
-            placeholder="分类筛选"
-            style="width: 180px"
-            :options="filterCategoryOptions"
-            :filter-option="filterSelectOption"
-          />
-          <a-select
-            v-model:value="filterFileClass"
-            allow-clear
-            placeholder="资源类型"
-            style="width: 160px"
-            :options="fileClassOptions"
-          />
-          <a-button @click="categoryModalVisible = true">管理分类</a-button>
-        </div>
+    <!-- 类型快捷筛选条 -->
+    <div class="media-cloud__type-filter">
+      <button
+        v-for="item in summaryCards"
+        :key="item.key"
+        class="media-type-chip"
+        :class="{ 'is-active': filterFileClass === item.value }"
+        @click="toggleFileClassFilter(item.value)"
+      >
+        {{ item.label }}
+        <b>{{ item.count }}</b>
+      </button>
+    </div>
 
-        <div class="media-cloud__summary">
-          <div
-            v-for="item in summaryCards"
-            :key="item.key"
-            class="media-cloud__summary-card"
-            :class="{ 'is-active': filterFileClass === item.value }"
-            @click="toggleFileClassFilter(item.value)"
-          >
-            <strong>{{ item.label }}</strong>
-            <span>{{ item.count }}</span>
-          </div>
-        </div>
+    <!-- 表格主体 -->
+    <div class="media-cloud__body">
 
-        <BlogTable
-          ref="tableRef"
-          :api-fn="loadMedia"
-          :columns="columns"
-          :params="tableParams"
-          :auto-load="true"
-          :page-size="12"
-          :page-sizes="['12', '24', '48']"
-          :bare="true"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'asset'">
-              <div class="media-item">
-                <div class="media-item__thumb" :class="`is-${record.fileClass || 'other'}`">
-                  <img v-if="record.kind === 'image'" :src="record.url" :alt="record.originalName">
-                  <span v-else>{{ getFileBadge(record) }}</span>
-                </div>
-                <div class="media-item__meta">
-                  <strong>{{ record.originalName }}</strong>
-                  <span>{{ record.category || '未分类' }}</span>
-                </div>
+      <BlogTable
+        ref="tableRef"
+        :api-fn="loadMedia"
+        :columns="columns"
+        :params="tableParams"
+        :auto-load="true"
+        :page-size="16"
+        :page-sizes="['16', '32', '64']"
+        :bare="true"
+      >
+        <template #bodyCell="{ column, record }">
+          <!-- 文件信息：缩略图 + 文件名 -->
+          <template v-if="column.key === 'asset'">
+            <div class="media-file">
+              <div class="media-file__thumb" :class="`is-${record.fileClass || 'other'}`">
+                <img v-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
+                <span v-else class="media-file__ext">{{ getFileBadge(record) }}</span>
               </div>
-            </template>
+              <div class="media-file__info">
+                <div class="media-file__name" :title="record.originalName">{{ record.originalName }}</div>
+                <a-typography-text
+                  :content="record.url"
+                  :copyable="{ text: record.url, tooltips: ['复制地址', '已复制'] }"
+                  class="media-file__url"
+                >
+                  {{ record.url }}
+                </a-typography-text>
+              </div>
+            </div>
+          </template>
 
-            <template v-else-if="column.key === 'fileClass'">
-              <a-tag :bordered="false" :color="getFileClassColor(record.fileClass)">
-                {{ getFileClassLabel(record.fileClass) }}
-              </a-tag>
-            </template>
+          <!-- 类型标签 -->
+          <template v-else-if="column.key === 'fileClass'">
+            <a-tag :bordered="false" :color="getFileClassColor(record.fileClass)" class="media-type-tag">
+              {{ getFileClassLabel(record.fileClass) }}
+            </a-tag>
+          </template>
 
-            <template v-else-if="column.key === 'size'">
-              {{ formatFileSize(record.size) }}
-            </template>
+          <!-- 文件大小 -->
+          <template v-else-if="column.key === 'size'">
+            <span class="media-size">{{ formatFileSize(record.size) }}</span>
+          </template>
 
-            <template v-else-if="column.key === 'url'">
-              <a-typography-text copyable>{{ record.url }}</a-typography-text>
-            </template>
+          <!-- 分类 -->
+          <template v-else-if="column.key === 'category'">
+            <span class="media-category-label">{{ record.category || '未分类' }}</span>
+          </template>
 
-            <template v-else-if="column.key === 'createdAt'">
-              {{ formatDate(record.createdAt) }}
-            </template>
+          <!-- 上传时间 -->
+          <template v-else-if="column.key === 'createdAt'">
+            <span class="media-time">{{ formatDate(record.createdAt) }}</span>
+          </template>
 
-            <template v-else-if="column.key === 'action'">
-              <a-space size="small">
-                <a-button type="link" size="small" @click="window.open(record.url, '_blank', 'noopener')">
+          <!-- 操作按钮 -->
+          <template v-else-if="column.key === 'action'">
+            <a-space :size="4">
+              <a-tooltip title="在新窗口查看">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--view" @click="window.open(record.url, '_blank', 'noopener')">
+                  <template #icon><EyeOutlined /></template>
                   查看
                 </a-button>
-                <a-button type="link" size="small" danger @click="handleDelete(record)">删除</a-button>
-              </a-space>
-            </template>
+              </a-tooltip>
+              <a-popconfirm
+                title="确定删除该资源？"
+                ok-text="删除"
+                cancel-text="取消"
+                ok-type="danger"
+                @confirm="handleDelete(record)"
+              >
+                <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete">
+                  <template #icon><DeleteOutlined /></template>
+                  删除
+                </a-button>
+              </a-popconfirm>
+            </a-space>
           </template>
-        </BlogTable>
-      </div>
+        </template>
+      </BlogTable>
     </div>
 
     <a-modal
@@ -115,6 +144,7 @@
       ok-text="上传到媒体库"
       cancel-text="取消"
       centered
+      width="520px"
       @ok="uploadFile"
       @cancel="resetUploadDraft"
     >
@@ -204,7 +234,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { InboxOutlined } from '@ant-design/icons-vue'
+import { InboxOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import {
   createAdminMediaCategory,
@@ -270,12 +300,17 @@ const tableParams = computed(() => ({
 }))
 
 const columns = [
-  { title: '资源', key: 'asset', width: '34%' },
-  { title: '类型', key: 'fileClass', width: 110 },
-  { title: '大小', key: 'size', width: 110 },
-  { title: '访问地址', key: 'url' },
-  { title: '上传时间', key: 'createdAt', width: 168 },
-  { title: '操作', key: 'action', width: 120 }
+  {
+    title: '文件信息',
+    key: 'asset',
+    width: 320,
+    fixed: 'left'
+  },
+  { title: '类型', key: 'fileClass', width: 90, align: 'center' },
+  { title: '大小', key: 'size', width: 95, align: 'right' },
+  { title: '分类', key: 'category', width: 120, align: 'center' },
+  { title: '上传时间', key: 'createdAt', width: 170, align: 'center' },
+  { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
 ]
 
 const summaryCards = computed(() => {
@@ -482,256 +517,415 @@ onMounted(loadCategories)
 </script>
 
 <style scoped>
+/* ===== 页面容器：表格是绝对主角 ===== */
 .media-cloud {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: calc(100vh - 72px); /* 让表格撑满屏幕 */
 }
 
-.media-cloud__panel {
-  display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
-  gap: 18px;
-}
-
-.media-cloud__upload,
-.media-cloud__library {
-  border: 1px solid #eef1f5;
-  border-radius: 12px;
-  background: #ffffff;
-}
-
-.media-cloud__upload {
-  padding: 18px;
-}
-
-.media-cloud__upload-head {
+/* ===== 顶栏：一行搞定，不抢戏 ===== */
+.media-cloud__topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 16px;
+  padding: 12px 4px 4px;
+  flex-shrink: 0;
 }
 
-.media-cloud__upload-head h2 {
+.media-cloud__title {
   margin: 0;
-  font-size: 18px;
-  color: #1f1f1f;
-}
-
-.media-cloud__alert {
-  margin-bottom: 16px;
-}
-
-.media-cloud__rules {
-  display: grid;
-  gap: 8px;
-  font-size: 13px;
-  color: #667085;
-}
-
-.media-cloud__file-chip {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 16px;
-  padding: 10px 12px;
-  border-radius: 10px;
-  background: #f6f8fb;
-}
-
-.media-cloud__file-chip strong {
-  font-size: 13px;
-  color: #1f1f1f;
-}
-
-.media-cloud__file-chip span {
-  font-size: 12px;
-  color: #8c8c8c;
-}
-
-.media-cloud__upload-button {
-  margin-top: 16px;
-}
-
-.media-cloud__library {
-  padding: 18px;
-}
-
-.media-cloud__toolbar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.media-cloud__summary {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 18px;
-}
-
-.media-cloud__summary-card {
-  padding: 14px 16px;
-  border: 1px solid #eef1f5;
-  border-radius: 12px;
-  background: #fafcff;
-  cursor: pointer;
-  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-}
-
-.media-cloud__summary-card:hover,
-.media-cloud__summary-card.is-active {
-  border-color: #1677ff;
-  background: #f0f6ff;
-  transform: translateY(-1px);
-}
-
-.media-cloud__summary-card strong,
-.media-cloud__summary-card span {
-  display: block;
-}
-
-.media-cloud__summary-card strong {
-  margin-bottom: 6px;
-  font-size: 13px;
-  color: #1f1f1f;
-}
-
-.media-cloud__summary-card span {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 600;
-  color: #1677ff;
+  color: #1e293b;
+  white-space: nowrap;
+  line-height: 32px;
 }
 
-.media-item {
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
-  gap: 12px;
+.media-cloud__filters {
+  display: flex;
   align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
 }
 
-.media-item__thumb {
-  width: 64px;
-  height: 48px;
+.media-cloud__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ===== 类型快捷筛选条：极简 chip 风格 ===== */
+.media-cloud__type-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 4px;
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.media-type-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: #ffffff;
+  font-size: 13px;
+  color: #64748b;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.media-type-chip:hover {
+  border-color: #94a3b8;
+  color: #334155;
+  background: #f8fafc;
+}
+
+.media-type-chip.is-active {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  color: #2563eb;
+  font-weight: 500;
+}
+
+.media-type-chip b {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 表格主体：占据剩余全部空间 ===== */
+.media-cloud__body {
+  flex: 1;
+  min-height: 0; /* 关键：允许 flex 子元素收缩 */
+  overflow: hidden;
+}
+
+/* ===== 表格行：文件信息 ===== */
+.media-file {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.media-file__thumb {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   border-radius: 10px;
-  background: #f6f8fb;
-  color: #1677ff;
-  font-size: 12px;
-  font-weight: 700;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  position: relative;
 }
 
-.media-item__thumb img {
+.media-file__thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
+  border-radius: 9px;
 }
 
-.media-item__thumb.is-code {
-  background: #eef4ff;
+.media-file__ext {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #64748b;
 }
 
-.media-item__thumb.is-document {
-  background: #edf9f1;
-  color: #389e0d;
+/* 文件类型缩略图色彩 */
+.media-file__thumb.is-image {
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  border-color: #bfdbfe;
 }
+.media-file__thumb.is-image .media-file__ext { color: #2563eb; }
 
-.media-item__thumb.is-archive {
-  background: #fff7e8;
-  color: #d46b08;
+.media-file__thumb.is-code {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border-color: #bbf7d0;
 }
+.media-file__thumb.is-code .media-file__ext { color: #16a34a; }
 
-.media-item__meta {
+.media-file__thumb.is-document {
+  background: linear-gradient(135deg, #fefce8, #fef9c3);
+  border-color: #fde68a;
+}
+.media-file__thumb.is-document .media-file__ext { color: #ca8a04; }
+
+.media-file__thumb.is-archive {
+  background: linear-gradient(135deg, #fff1f2, #ffe4e6);
+  border-color: #fecdd3;
+}
+.media-file__thumb.is-archive .media-file__ext { color: #e11d48; }
+
+.media-file__info {
+  flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.media-item__meta strong,
-.media-item__meta span {
-  display: block;
+.media-file__name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.4;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: default;
 }
 
-.media-item__meta strong {
-  margin-bottom: 4px;
-  font-size: 14px;
-  color: #1f1f1f;
+.media-file__url {
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
 }
 
-.media-item__meta span {
-  font-size: 12px;
-  color: #8c8c8c;
+/* ===== 类型标签 ===== */
+.media-type-tag {
+  font-size: 12px !important;
+  line-height: 1 !important;
+  padding-inline: 8px !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
 }
+
+/* ===== 文件大小 ===== */
+.media-size {
+  font-size: 13px;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ===== 分类标签 ===== */
+.media-category-label {
+  font-size: 13px;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 2px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ===== 时间 ===== */
+.media-time {
+  font-size: 13px;
+  color: #64748b;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 操作按钮 ===== */
+.media-action-btn {
+  font-size: 13px !important;
+  border-radius: 6px !important;
+  transition: all 0.15s ease !important;
+}
+
+.media-action-btn--view {
+  color: #3b82f6 !important;
+}
+
+.media-action-btn--view:hover {
+  background: #eff6ff !important;
+  color: #2563eb !important;
+}
+
+.media-action-btn--delete:hover {
+  background: #fef2f2 !important;
+}
+
+/* ===== 表格区域深度样式覆盖 ===== */
 
 .media-category-panel {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: 20px;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 24px;
 }
 
 .media-category-panel__actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .media-category-panel__list {
   display: grid;
-  gap: 12px;
+  gap: 16px;
 }
 
 .media-category-item {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 16px;
-  border: 1px solid #eef1f5;
-  border-radius: 12px;
-  background: #fafcff;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  box-shadow: 0 1px 3px 0 rgb(16 24 40 / 0.1);
+  transition: all 0.2s ease;
+}
+
+.media-category-item:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 6px -1px rgb(16 24 40 / 0.1);
+  transform: translateY(-1px);
 }
 
 .media-category-item strong {
   display: block;
-  margin-bottom: 4px;
-  font-size: 14px;
-  color: #1f1f1f;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.4;
 }
 
 .media-category-item p {
-  margin: 0 0 4px;
-  font-size: 12px;
-  color: #667085;
+  margin: 0 0 6px;
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
 }
 
 .media-category-item span {
-  font-size: 12px;
-  color: #98a2b3;
+  font-size: 13px;
+  color: #94a3b8;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
 }
 
-@media (max-width: 1180px) {
-  .media-cloud__panel {
-    grid-template-columns: 1fr;
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+  .media-cloud {
+    height: calc(100vh - 64px);
   }
 
-  .media-cloud__summary {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .media-cloud__topbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .media-cloud__title {
+    font-size: 16px;
+  }
+
+  .media-cloud__filters {
+    order: 3;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+  }
+
+  .media-cloud__filters :deep(.ant-input-search),
+  .media-cloud__filters :deep(.ant-select) {
+    width: 100% !important;
+  }
+
+  .media-type-chip {
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+
+  .media-file {
+    gap: 10px;
+  }
+
+  .media-file__thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+  }
+
+  .media-file__name {
+    font-size: 13px;
+  }
+
+  .media-file__url {
+    max-width: 140px;
+    font-size: 11px !important;
   }
 
   .media-category-panel {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .media-category-item {
+    padding: 14px 16px;
+    gap: 12px;
   }
 }
 
-@media (max-width: 720px) {
-  .media-cloud__summary {
-    grid-template-columns: 1fr;
+@media (max-width: 480px) {
+  .media-cloud__title {
+    font-size: 15px;
+  }
+
+  .media-cloud__actions {
+    gap: 6px;
+  }
+
+  .media-type-chip {
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+
+  .media-file {
+    gap: 8px;
+  }
+
+  .media-file__thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+  }
+
+  .media-file__ext {
+    font-size: 9px;
+  }
+
+  .media-file__name {
+    font-size: 12px;
+  }
+
+  .media-file__url {
+    max-width: 100px;
+    font-size: 10px !important;
+  }
+
+  .media-category-item {
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .media-category-panel__actions {
+    flex-direction: column;
   }
 }
 </style>

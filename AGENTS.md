@@ -103,6 +103,14 @@
   - 浅色/深色主题一致性。
   - 普通用户/管理员权限差异。
 
+## 通用表格组件规则
+
+- 涉及后台列表、控制台列表、分页数据表格、带筛选/操作列的数据展示时，优先使用 `client/src/components/BlogTable.vue`，不要在业务页面重复手写 `a-table + a-pagination` 的通用封装逻辑。
+- 使用 `BlogTable` 时，优先通过组件已有能力完成需求，例如 `columns`、`scroll`、`height`、`rowSelection`、`toolbar` 插槽、`bodyCell` 插槽、`show-column-setting`、`column-border`、`striped`、`bordered`、固定列 `fixed: 'left' | 'right'`、列宽 `width` 等。
+- 业务页面需要个性化表格样式时，优先在业务页面通过传参、列配置、插槽或局部样式实现，避免为了单个页面直接改动 `BlogTable`。
+- `BlogTable.vue` 是高复用公共组件，默认禁止主动修改它。只有当用户明确要求修改该组件，或已经向用户说明影响范围并获得同意后，才可以编辑 `client/src/components/BlogTable.vue`。
+- 如果确实需要扩展 `BlogTable`，必须保持向后兼容：新增能力优先做成可选 prop / slot / columns 配置，不能改变现有页面默认表现；修改后需要运行前端构建并抽查 UTF-8 无 BOM。
+
 ## 验证命令
 
 重要改动后至少运行：

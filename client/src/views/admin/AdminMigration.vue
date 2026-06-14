@@ -1,84 +1,112 @@
 <template>
-  <section class="migration-page">
-    <header class="migration-header">
-      <div>
-        <h2>菜单 / 知识库迁移配置</h2>
-        <p>直接编辑分类层级、排序和文章归属，按当前数据库内容手动对齐你的知识库目录习惯。</p>
+  <section class="mg-page">
+    <!-- ══════ 页面头部 ══════ -->
+    <header class="mg-page-header">
+      <div class="mg-header-info">
+        <p class="mg-header-kicker">内容资产</p>
+        <h2>知识库迁移配置</h2>
+        <p class="mg-header-desc">编辑分类层级、排序和文章归属，按当前数据库内容手动对齐你的知识库目录习惯。</p>
       </div>
-      <div class="migration-header-actions">
-        <a-button @click="reloadAll" :loading="treeLoading">
+      <div class="mg-header-toolbar">
+        <a-button class="mg-btn" @click="reloadAll" :loading="treeLoading">
           <template #icon><ReloadOutlined /></template>
-          刷新
+          刷新数据
         </a-button>
-        <a-button type="primary" @click="openCreateModal()">
+        <a-button type="primary" class="mg-btn mg-btn-primary" @click="openCreateModal()">
           <template #icon><PlusOutlined /></template>
           新增根分类
         </a-button>
       </div>
     </header>
 
-    <div class="migration-grid">
-      <a-card class="migration-tree-panel" :bordered="false">
-        <div class="migration-panel-head">
-          <div>
+    <!-- ══════ 主体工作区 ══════ -->
+    <div class="mg-workspace">
+      <!-- ── 左栏：分类树 ── -->
+      <aside class="mg-tree-aside">
+        <div class="mg-aside-header">
+          <div class="mg-aside-title">
+            <ApartmentOutlined class="mg-aside-icon" />
             <strong>分类树</strong>
-            <span>共 {{ flatCategories.length }} 个节点</span>
+            <span class="mg-aside-count">{{ flatCategories.length }} 个节点</span>
           </div>
           <a-input-search
             v-model:value="categoryKeyword"
-            placeholder="搜索分类名称或 slug"
+            placeholder="搜索分类名称"
             allow-clear
-            style="width: 220px"
+            class="mg-tree-search"
           />
         </div>
 
-        <a-tree
-          :tree-data="filteredTreeData"
-          :selected-keys="selectedKeys"
-          :expanded-keys="expandedKeys"
-          block-node
-          show-line
-          @select="handleSelectTree"
-          @expand="handleExpandTree"
-        >
-          <template #title="{ dataRef }">
-            <span class="migration-tree-title">
-              <span class="migration-tree-name">{{ dataRef.titleText }}</span>
-              <a-tag v-if="dataRef.isSystem" color="gold">锁定</a-tag>
-              <a-tag v-else-if="dataRef.status === 'hidden'" color="default">隐藏</a-tag>
-              <span class="migration-tree-count">{{ dataRef.articleCount || 0 }}</span>
-            </span>
-          </template>
-        </a-tree>
-      </a-card>
+        <div class="mg-tree-body">
+          <a-spin :spinning="treeLoading" tip="加载中...">
+            <a-tree
+              v-if="filteredTreeData.length"
+              :tree-data="filteredTreeData"
+              :selected-keys="selectedKeys"
+              :expanded-keys="expandedKeys"
+              block-node
+              show-line
+              class="mg-category-tree"
+              @select="handleSelectTree"
+              @expand="handleExpandTree"
+            >
+              <template #title="{ dataRef }">
+                <span
+                  class="mg-tree-node"
+                  :class="{ 'mg-tree-node--locked': dataRef.isSystem, 'mg-tree-node--hidden': dataRef.status === 'hidden' }"
+                >
+                  <span class="mg-tree-name">{{ dataRef.titleText }}</span>
+                  <a-tag v-if="dataRef.isSystem" color="gold" class="mg-tree-tag">锁定</a-tag>
+                  <a-tag v-else-if="dataRef.status === 'hidden'" class="mg-tree-tag mg-tree-tag--hidden">隐藏</a-tag>
+                  <span class="mg-tree-arts">{{ dataRef.articleCount || 0 }}</span>
+                </span>
+              </template>
+            </a-tree>
+            <a-empty v-else description="暂无分类数据" class="mg-tree-empty" />
+          </a-spin>
+        </div>
+      </aside>
 
-      <div class="migration-main">
-        <a-card class="migration-detail-panel" :bordered="false">
-          <div class="migration-panel-head">
-            <div>
-              <strong>当前分类</strong>
-              <span>{{ currentCategory ? currentCategory.name : '未选择分类' }}</span>
+      <!-- ── 右栏主区域 ── -->
+      <div class="mg-main">
+        <!-- ── 分类详情面板 ── -->
+        <div class="mg-detail-panel">
+          <div class="mg-panel-header">
+            <div class="mg-panel-title-group">
+              <div class="mg-panel-icon-wrap">
+                <FolderOutlined />
+              </div>
+              <div>
+                <strong class="mg-panel-title">当前分类</strong>
+                <span class="mg-panel-subtitle">{{ currentCategory ? currentCategory.name : '请从左侧选择一个分类' }}</span>
+              </div>
             </div>
-            <a-space>
+            <a-space :size="6" class="mg-panel-actions">
               <a-button
+                class="mg-btn mg-btn-ghost"
                 :disabled="!currentCategory || isLockedCategory"
                 @click="openCreateModal(selectedCategoryId ? currentCategory?.id : null)"
               >
                 <template #icon><FolderAddOutlined /></template>
                 新增子分类
               </a-button>
-              <a-button :disabled="!currentCategory || isLockedCategory" @click="resetEditForm">
+              <a-button
+                class="mg-btn mg-btn-ghost"
+                :disabled="!currentCategory || isLockedCategory"
+                @click="resetEditForm"
+              >
                 <template #icon><UndoOutlined /></template>
                 重置
               </a-button>
               <a-button
                 type="primary"
+                class="mg-btn mg-btn-primary"
                 :disabled="!currentCategory || isLockedCategory"
                 :loading="savingCategory"
                 @click="saveSelectedCategory"
               >
                 <template #icon><SaveOutlined /></template>
-                保存修改
+                保存
               </a-button>
               <a-popconfirm
                 :title="currentCategory ? `确定删除分类「${currentCategory.name}」？` : '请先选择分类'"
@@ -88,7 +116,12 @@
                 :disabled="!currentCategory || isLockedCategory"
                 @confirm="deleteSelectedCategory"
               >
-                <a-button danger :disabled="!currentCategory || isLockedCategory" :loading="deletingCategory">
+                <a-button
+                  danger
+                  class="mg-btn"
+                  :disabled="!currentCategory || isLockedCategory"
+                  :loading="deletingCategory"
+                >
                   <template #icon><DeleteOutlined /></template>
                   删除
                 </a-button>
@@ -97,13 +130,24 @@
           </div>
 
           <template v-if="currentCategory">
+            <!-- 锁定提示 -->
+            <a-alert
+              v-if="isLockedCategory"
+              type="warning"
+              show-icon
+              class="mg-lock-alert"
+              message="系统保留分类"
+              description="该分类由系统自动维护，不支持编辑、移动或删除操作。"
+            />
+
+            <!-- 编辑表单 -->
             <a-form
               ref="editFormRef"
               :model="editForm"
               layout="vertical"
-              class="migration-form"
+              class="mg-form"
             >
-              <div class="migration-form-grid">
+              <div class="mg-form-grid">
                 <a-form-item
                   label="分类名称"
                   name="name"
@@ -133,7 +177,7 @@
                     <a-select-option value="hidden">隐藏</a-select-option>
                   </a-select>
                 </a-form-item>
-                <a-form-item label="说明" name="description" class="migration-description-field">
+                <a-form-item label="说明" name="description" class="mg-form-span-full">
                   <a-textarea
                     v-model:value="editForm.description"
                     :disabled="isLockedCategory"
@@ -144,81 +188,97 @@
               </div>
             </a-form>
 
-            <div class="migration-meta">
-              <span>路径：{{ currentCategoryPath }}</span>
-              <span>文章数：{{ currentCategory.articleCount || 0 }}</span>
-              <span>创建时间：{{ formatDate(currentCategory.createdAt) }}</span>
+            <!-- 元信息条 -->
+            <div class="mg-meta-bar">
+              <div class="mg-meta-item">
+                <span class="mg-meta-label">路径</span>
+                <span class="mg-meta-value">{{ currentCategoryPath }}</span>
+              </div>
+              <div class="mg-meta-item">
+                <span class="mg-meta-label">文章数</span>
+                <span class="mg-meta-value">{{ currentCategory.articleCount || 0 }}</span>
+              </div>
+              <div class="mg-meta-item">
+                <span class="mg-meta-label">创建时间</span>
+                <span class="mg-meta-value">{{ formatDate(currentCategory.createdAt) }}</span>
+              </div>
+              <div class="mg-meta-item">
+                <span class="mg-meta-label">更新时间</span>
+                <span class="mg-meta-value">{{ formatDate(currentCategory.updatedAt) }}</span>
+              </div>
             </div>
           </template>
 
-          <a-empty v-else description="从左侧选择一个分类开始管理" />
-        </a-card>
-
-        <a-card class="migration-article-panel" :bordered="false">
-          <div class="migration-panel-head">
-            <div>
-              <strong>分类文章</strong>
-              <span>{{ selectedCategoryId ? '支持单篇文章迁移到任意分类' : '请选择一个分类后加载文章' }}</span>
-            </div>
-            <a-space v-if="selectedArticleIds.length > 0">
-              <a-tag color="processing">已选 {{ selectedArticleIds.length }} 篇</a-tag>
-              <a-button type="primary" @click="openBatchMoveModal">
-                批量迁移
-              </a-button>
-              <a-button @click="clearArticleSelection">
-                清空选择
-              </a-button>
-            </a-space>
-            <a-tag v-else-if="selectedCategoryId" color="processing">
-              {{ branchArticlesTotal }} 篇
-            </a-tag>
+          <!-- 空状态 -->
+          <div v-else class="mg-empty-state">
+            <FolderOpenOutlined class="mg-empty-icon" />
+            <strong>选择一个分类开始管理</strong>
+            <span>从左侧分类树中选择节点，即可编辑属性和迁移文章</span>
           </div>
+        </div>
 
-          <BlogTable
-            ref="articleTableRef"
-            :key="selectedCategoryId || 'empty'"
-            :api-fn="loadBranchArticles"
-            :columns="articleColumns"
-            :auto-load="Boolean(selectedCategoryId)"
-            :page-size="8"
-            :page-sizes="['8', '15', '30']"
-            :row-selection="selectedCategoryId ? true : false"
-            @selection-change="handleArticleSelectionChange"
-          >
-            <template #toolbar>
-              <span class="migration-toolbar-note">
-                可多选文章后批量迁移，或逐篇迁移到指定目录。
+        <!-- ── 文章表格 ── -->
+        <BlogTable
+          ref="articleTableRef"
+          :key="selectedCategoryId || 'empty'"
+          :api-fn="loadBranchArticles"
+          :columns="articleColumns"
+          :auto-load="Boolean(selectedCategoryId)"
+          :page-size="8"
+          :page-sizes="['8', '15', '30']"
+          :row-selection="selectedCategoryId ? true : false"
+          :show-column-setting="true"
+          @selection-change="handleArticleSelectionChange"
+        >
+          <template #toolbar>
+            <div class="mg-article-toolbar">
+              <template v-if="selectedArticleIds.length > 0">
+                <a-tag color="processing" class="mg-selected-tag">
+                  已选 {{ selectedArticleIds.length }} 篇
+                </a-tag>
+                <a-button type="primary" size="small" @click="openBatchMoveModal">
+                  <template #icon><SwapOutlined /></template>
+                  批量迁移
+                </a-button>
+                <a-button size="small" @click="clearArticleSelection">清空</a-button>
+              </template>
+              <a-tag v-else-if="selectedCategoryId" class="mg-total-tag">
+                共 {{ branchArticlesTotal }} 篇
+              </a-tag>
+              <span v-else class="mg-table-hint">
+                <InfoCircleOutlined style="margin-right: 4px" />
+                请先从左侧选择一个分类
               </span>
+            </div>
+          </template>
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'title'">
+              <div class="mg-article-title">
+                <strong>{{ record.title }}</strong>
+                <span>{{ record.summary || '暂无摘要' }}</span>
+              </div>
             </template>
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.key === 'title'">
-                <div class="migration-article-title">
-                  <strong>{{ record.title }}</strong>
-                  <span>{{ record.summary || '暂无摘要' }}</span>
-                </div>
-              </template>
 
-              <template v-else-if="column.key === 'category'">
-                <span>{{ record.category?.name || '未分类' }}</span>
-              </template>
-
-              <template v-else-if="column.key === 'publishedAt'">
-                <span>{{ formatDate(record.publishedAt || record.createdAt) }}</span>
-              </template>
-
-              <template v-else-if="column.key === 'action'">
-                <a-space>
-                  <a-button type="link" size="small" @click="openMoveArticleModal(record)">
-                    迁移文章
-                  </a-button>
-                </a-space>
-              </template>
+            <template v-else-if="column.key === 'category'">
+              <a-tag :bordered="false">{{ record.category?.name || '未分类' }}</a-tag>
             </template>
-          </BlogTable>
-        </a-card>
+
+            <template v-else-if="column.key === 'publishedAt'">
+              <span class="mg-time-cell">{{ formatDate(record.publishedAt || record.createdAt) }}</span>
+            </template>
+
+            <template v-else-if="column.key === 'action'">
+              <a-button type="link" size="small" @click="openMoveArticleModal(record)">
+                <template #icon><SwapOutlined /></template>
+                迁移
+              </a-button>
+            </template>
+          </template>
+        </BlogTable>
       </div>
     </div>
 
+    <!-- ══════ 新增分类弹窗 ══════ -->
     <a-modal
       v-model:open="createModalVisible"
       :title="createForm.id ? '编辑分类' : '新增分类'"
@@ -227,11 +287,12 @@
       destroy-on-close
       ok-text="确认"
       cancel-text="取消"
+      class="mg-modal"
       @ok="submitCreateForm"
       @cancel="closeCreateModal"
     >
-      <a-form ref="createFormRef" :model="createForm" layout="vertical" class="migration-modal-form">
-        <div class="migration-form-grid">
+      <a-form ref="createFormRef" :model="createForm" layout="vertical" class="mg-form">
+        <div class="mg-form-grid">
           <a-form-item
             label="分类名称"
             name="name"
@@ -260,7 +321,7 @@
               <a-select-option value="hidden">隐藏</a-select-option>
             </a-select>
           </a-form-item>
-          <a-form-item label="说明" name="description" class="migration-description-field">
+          <a-form-item label="说明" name="description" class="mg-form-span-full">
             <a-textarea
               v-model:value="createForm.description"
               :rows="3"
@@ -271,6 +332,7 @@
       </a-form>
     </a-modal>
 
+    <!-- ══════ 迁移文章弹窗 ══════ -->
     <a-modal
       v-model:open="moveArticleModalVisible"
       title="迁移文章"
@@ -279,13 +341,19 @@
       destroy-on-close
       ok-text="确认迁移"
       cancel-text="取消"
+      class="mg-modal"
       @ok="submitMoveArticle"
       @cancel="closeMoveArticleModal"
     >
-      <a-space direction="vertical" style="width: 100%" size="middle">
-        <div class="migration-move-summary" v-if="moveSummaryText">
-          <strong>{{ moveSummaryText }}</strong>
-          <span>{{ moveSourceText }}</span>
+      <div class="mg-move-modal-body">
+        <div v-if="moveSummaryText" class="mg-move-summary">
+          <div class="mg-move-summary-icon">
+            <SwapOutlined />
+          </div>
+          <div>
+            <strong>{{ moveSummaryText }}</strong>
+            <span>{{ moveSourceText }}</span>
+          </div>
         </div>
         <a-form layout="vertical">
           <a-form-item label="目标分类">
@@ -298,7 +366,7 @@
             />
           </a-form-item>
         </a-form>
-      </a-space>
+      </div>
     </a-modal>
   </section>
 </template>
@@ -306,11 +374,16 @@
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import {
+  ApartmentOutlined,
   DeleteOutlined,
   FolderAddOutlined,
+  FolderOpenOutlined,
+  FolderOutlined,
+  InfoCircleOutlined,
   PlusOutlined,
   ReloadOutlined,
   SaveOutlined,
+  SwapOutlined,
   UndoOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
@@ -372,9 +445,9 @@ const createForm = reactive({
 
 const articleColumns = [
   { title: '标题', key: 'title', ellipsis: true },
-  { title: '当前分类', key: 'category', width: 180 },
+  { title: '当前分类', key: 'category', width: 160 },
   { title: '发布时间', key: 'publishedAt', width: 160 },
-  { title: '操作', key: 'action', width: 120, align: 'center' }
+  { title: '操作', key: 'action', width: 100, align: 'center' }
 ]
 
 function cloneCategoryTree(nodes = []) {
@@ -833,159 +906,498 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.migration-page {
+/* ═══════════════════════════════════════════
+   迁移配置 - 企业级管理面板样式
+   风格: Data-Dense Dashboard / Swiss Modernism
+   ═══════════════════════════════════════════ */
+
+/* ── 页面骨架 ── */
+.mg-page {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--console-page-gap);
   width: 100%;
+  min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  overflow: visible;
 }
 
-.migration-header,
-.migration-grid {
-  width: 100%;
-}
-
-.migration-header {
+/* ── 页面头部 ── */
+.mg-page-header {
+  flex: 0 0 auto;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
-  padding: 16px 20px;
+  gap: 20px;
+  padding: 16px 18px;
   background: var(--console-surface);
   border: 1px solid var(--console-border);
-  border-radius: 10px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
 }
 
-.migration-header h2 {
-  margin: 0 0 4px;
+.mg-header-kicker {
+  margin: 0 0 2px;
+  color: var(--console-primary-strong);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.mg-page-header h2 {
+  margin: 0;
+  color: var(--console-text);
   font-size: 20px;
   font-weight: 650;
-  color: var(--console-text);
+  line-height: 28px;
 }
 
-.migration-header p {
-  margin: 0;
+.mg-header-desc {
+  margin: 4px 0 0;
+  max-width: 680px;
   color: var(--console-text-secondary);
   font-size: 13px;
+  line-height: 1.6;
 }
 
-.migration-header-actions {
+.mg-header-toolbar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 16px;
+}
+
+/* ── 按钮系统 ── */
+.mg-btn {
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.mg-btn-primary {
+  box-shadow: 0 1px 2px rgba(9, 88, 217, 0.2);
+}
+
+.mg-btn-ghost {
+  border-color: var(--console-border);
+  color: var(--console-text-secondary);
+}
+
+.mg-btn-ghost:not(:disabled):hover {
+  color: var(--console-primary-strong);
+  border-color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
+}
+
+/* ── 工作区双栏布局 ── */
+.mg-workspace {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: var(--console-page-gap);
+  min-height: 0;
+}
+
+/* ── 左栏：分类树侧栏 ── */
+.mg-tree-aside {
+  display: flex;
+  flex-direction: column;
+  min-height: 720px;
+  background: var(--console-surface);
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  overflow: hidden;
+}
+
+.mg-aside-header {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid var(--console-border);
+}
+
+.mg-aside-title {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.migration-grid {
-  display: grid;
-  grid-template-columns: 360px minmax(0, 1fr);
-  gap: 16px;
+.mg-aside-icon {
+  color: var(--console-primary-strong);
+  font-size: 16px;
 }
 
-.migration-tree-panel,
-.migration-detail-panel,
-.migration-article-panel {
+.mg-aside-title strong {
+  color: var(--console-text);
+  font-size: 15px;
+  font-weight: 650;
+}
+
+.mg-aside-count {
+  margin-left: auto;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.mg-tree-search {
+  width: 100%;
+}
+
+.mg-tree-search :deep(.ant-input) {
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* ── 树体 ── */
+.mg-tree-body {
+  flex: 1 1 0;
+  padding: 8px 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--console-border) transparent;
+}
+
+.mg-tree-body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.mg-tree-body::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: var(--console-border);
+}
+
+.mg-tree-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ── Ant Design Tree 微调（只调视觉，不动布局）── */
+/* 节点行高收紧 */
+.mg-category-tree :deep(.ant-tree-treenode) {
+  padding: 2px 0;
+}
+
+/* 节点内容区域：hover / 选中态 */
+.mg-category-tree :deep(.ant-tree-node-content-wrapper) {
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: all 0.15s ease;
+}
+
+.mg-category-tree :deep(.ant-tree-node-content-wrapper:hover) {
+  background: var(--console-surface-hover);
+}
+
+.mg-category-tree :deep(.ant-tree-node-content-wrapper.ant-tree-node-selected) {
+  background: var(--console-primary-soft);
+  box-shadow: inset 3px 0 0 var(--console-primary-strong);
+}
+
+/* 连接线颜色微调 */
+.mg-category-tree :deep(.ant-tree-switcher-line-icon) {
+  color: var(--console-border);
+}
+
+.mg-category-tree :deep(.ant-tree-line) {
+  border-color: var(--console-border);
+}
+
+/* 树节点内容 */
+.mg-tree-node {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  font-size: 13.5px;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+.mg-tree-node--locked {
+  opacity: 0.75;
+}
+
+.mg-tree-node--hidden .mg-tree-name {
+  color: var(--console-text-secondary);
+  text-decoration: line-through;
+  text-decoration-color: var(--console-border);
+}
+
+.mg-tree-name {
+  color: var(--console-text);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   min-width: 0;
-  border-radius: 10px;
-  border: 1px solid var(--console-border);
+  max-width: 140px;
+}
+
+/* 锁定标签 — 紧凑精致 */
+.mg-tree-tag {
+  flex: 0 0 auto;
+  font-size: 11px;
+  line-height: 18px;
+  padding: 0 5px;
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.mg-tree-tag--hidden {
+  color: var(--console-text-secondary);
+  border-color: var(--console-border);
+}
+
+/* 文章计数 — 右对齐数字，紧凑显示 */
+.mg-tree-arts {
+  margin-left: auto;
+  flex: 0 0 auto;
+  min-width: 18px;
+  text-align: right;
+  font-size: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--console-text-secondary);
+}
+
+/* 有文章时用主色强调 */
+.mg-tree-arts:not(:empty) {
+  /* 默认灰色即可，有数据时不额外强调避免视觉噪音 */
+}
+
+.mg-tree-empty {
+  padding: 40px 0;
+}
+
+/* ── 右栏主区域 ── */
+.mg-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--console-page-gap);
+  min-width: 0;
+}
+
+/* ── 面板通用 ── */
+.mg-detail-panel,
+.mg-article-panel {
   background: var(--console-surface);
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  overflow: hidden;
 }
 
-.migration-tree-panel :deep(.ant-card-body),
-.migration-detail-panel :deep(.ant-card-body),
-.migration-article-panel :deep(.ant-card-body) {
-  padding: 16px;
+.mg-detail-panel {
+  flex: 0 0 auto;
 }
 
-.migration-tree-panel {
-  min-height: 720px;
-}
-
-.migration-main {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 16px;
-  min-width: 0;
-}
-
-.migration-panel-head {
+/* ── 面板头部 ── */
+.mg-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 16px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--console-border);
+  background: var(--console-surface-muted);
 }
 
-.migration-panel-head strong {
+.mg-panel-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.mg-panel-icon-wrap {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-size: 15px;
+  color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
+}
+
+.mg-panel-title {
   display: block;
   color: var(--console-text);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 650;
+  line-height: 20px;
 }
 
-.migration-panel-head span {
+.mg-panel-subtitle {
+  display: block;
+  margin-top: 1px;
   color: var(--console-text-secondary);
-  font-size: 13px;
-}
-
-.migration-tree-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.migration-tree-name {
-  color: var(--console-text);
-}
-
-.migration-tree-count {
-  margin-left: auto;
-  color: var(--console-text-tertiary);
   font-size: 12px;
+  line-height: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.migration-form-grid {
+.mg-panel-actions {
+  flex: 0 0 auto;
+}
+
+/* ── 锁定提示 ── */
+.mg-lock-alert {
+  margin: 16px 18px 0;
+  border-radius: 6px;
+}
+
+/* ── 表单系统 ── */
+.mg-form {
+  padding: 14px 16px 0;
+}
+
+.mg-form-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 16px;
 }
 
-.migration-description-field {
+.mg-form-span-full {
   grid-column: 1 / -1;
 }
 
-.migration-meta {
+.mg-form :deep(.ant-form-item-label > label) {
+  font-weight: 500;
+  font-size: 13px;
+  color: var(--console-text);
+}
+
+.mg-form :deep(.ant-input),
+.mg-form :deep(.ant-select-selector),
+.mg-form :deep(.ant-input-number),
+.mg-form :deep(.ant-picker) {
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* ── 元信息条 ── */
+.mg-meta-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 6px;
-  padding-top: 14px;
+  gap: 0;
+  margin: 10px 16px 14px;
+  padding: 0;
   border-top: 1px solid var(--console-border);
+  border-radius: 0;
+  background: transparent;
+}
+
+.mg-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 16px 10px 0;
+  min-width: 0;
+}
+
+.mg-meta-item + .mg-meta-item {
+  padding-left: 16px;
+  border-left: 1px solid var(--console-border);
+}
+
+.mg-meta-label {
+  font-size: 11px;
+  font-weight: 500;
   color: var(--console-text-secondary);
-  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
-.migration-article-panel {
-  min-height: 420px;
+.mg-meta-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--console-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.migration-toolbar-note {
+/* ── 空状态 ── */
+.mg-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 36px 20px;
+  text-align: center;
+}
+
+.mg-empty-icon {
+  font-size: 32px;
+  color: var(--console-border-strong);
+  margin-bottom: 4px;
+}
+
+.mg-empty-state strong {
+  color: var(--console-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mg-empty-state span {
   color: var(--console-text-secondary);
   font-size: 13px;
 }
 
-.migration-article-title {
+/* ── 文章面板扩展 ── */
+.mg-article-toolbar {
+  flex: 0 0 auto;
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
 }
 
-.migration-article-title strong {
-  font-size: 14px;
+.mg-selected-tag {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.mg-total-tag {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  border-color: var(--console-border);
+}
+
+.mg-table-hint {
+  display: inline-flex;
+  align-items: center;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+/* ── BlogTable 微调 ── */
+.mg-main :deep(.blog-table) {
+  border-radius: 8px;
+}
+
+.mg-article-title {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mg-article-title strong {
+  font-size: 13px;
+  font-weight: 500;
   color: var(--console-text);
 }
 
-.migration-article-title span {
+.mg-article-title span {
   color: var(--console-text-secondary);
   font-size: 12px;
   line-height: 1.5;
@@ -995,40 +1407,124 @@ onMounted(() => {
   -webkit-line-clamp: 2;
 }
 
-.migration-move-summary {
+.mg-time-cell {
+  font-size: 13px;
+  color: var(--console-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 迁移弹窗 ── */
+.mg-move-modal-body {
+  padding: 4px 0 0;
+}
+
+.mg-move-summary {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 12px 14px;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
   border-radius: 8px;
-  background: var(--console-surface-muted);
+  background: var(--console-primary-soft);
   border: 1px solid var(--console-border);
 }
 
-.migration-move-summary strong {
-  color: var(--console-text);
-  font-size: 14px;
+.mg-move-summary-icon {
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--console-primary);
+  color: #fff;
+  font-size: 16px;
 }
 
-.migration-move-summary span {
+.mg-move-summary strong {
+  display: block;
+  color: var(--console-text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.mg-move-summary span {
+  display: block;
+  margin-top: 2px;
   color: var(--console-text-secondary);
   font-size: 12px;
 }
 
+/* ── 弹窗表单微调 ── */
+.mg-modal :deep(.ant-modal-header) {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--console-border);
+}
+
+.mg-modal :deep(.ant-modal-body) {
+  padding: 20px 24px;
+}
+
+/* ═══════════════════════════════════════════
+   响应式
+   ═══════════════════════════════════════════ */
 @media (max-width: 1280px) {
-  .migration-grid {
+  .mg-workspace {
     grid-template-columns: 1fr;
+  }
+
+  .mg-tree-aside {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mg-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .mg-tree-aside {
+    max-height: 420px;
+  }
+
+  .mg-article-panel {
+    min-height: 360px;
   }
 }
 
 @media (max-width: 768px) {
-  .migration-header {
+  .mg-page-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .mg-header-toolbar {
+    padding-top: 0;
+  }
+
+  .mg-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mg-meta-bar {
+    flex-direction: column;
+  }
+
+  .mg-meta-item + .mg-meta-item {
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--console-border);
+  }
+
+  .mg-panel-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .migration-form-grid {
-    grid-template-columns: 1fr;
+  .mg-panel-actions {
+    width: 100%;
   }
 }
 </style>
