@@ -64,9 +64,9 @@
           </a-button>
         </a-tooltip>
 
-        <a-dropdown :trigger="['hover']">
-          <button class="enterprise-profile-button" type="button">
-            <a-avatar class="enterprise-avatar">{{ userInitial }}</a-avatar>
+          <a-dropdown :trigger="['hover']">
+            <button class="enterprise-profile-button" type="button">
+              <a-avatar class="enterprise-avatar" :src="authStore.user?.avatar || ''">{{ userInitial }}</a-avatar>
             <span>
               <strong>{{ authStore.user?.username || '用户' }}</strong>
               <small>{{ authStore.isAdmin ? '管理员' : '普通用户' }}</small>

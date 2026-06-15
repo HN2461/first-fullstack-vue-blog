@@ -15,9 +15,9 @@
             <input
               ref="avatarInputRef"
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/gif,image/webp"
               style="display: none"
-              @change="handleAvatarChange"
+              @change="handleAvatarFileSelect"
             />
           </div>
           <h3 class="user-name">{{ authStore.user?.username || '未设置昵称' }}</h3>
@@ -26,6 +26,31 @@
             {{ isAdmin ? '管理员' : '普通用户' }}
           </a-tag>
         </div>
+
+        <!-- 头像裁剪弹窗 -->
+        <a-modal
+          v-model:open="cropperVisible"
+          title="裁剪头像"
+          :confirm-loading="uploadingAvatar"
+          :width="720"
+          :destroy-on-close="true"
+          ok-text="确认上传"
+          cancel-text="取消"
+          @ok="handleCropConfirm"
+          @cancel="handleCropCancel"
+        >
+          <div v-if="cropperSrc" class="avatar-cropper-modal__body">
+            <AvatarCropper
+              ref="avatarCropperRef"
+              :src="cropperSrc"
+              :compress="0.9"
+              :aspect-ratio="1"
+            />
+          </div>
+          <div class="avatar-cropper-modal__tip">
+            <p>拖拽调整裁剪区域，滚轮缩放图片。上传后图片将裁剪为正方形。</p>
+          </div>
+        </a-modal>
 
         <!-- 统计数据 -->
         <div class="stats-section">
@@ -260,6 +285,7 @@ import {
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import { updateProfile, uploadAvatar, changePassword, getUserStats } from '@/services/http'
+import AvatarCropper from '@/components/AvatarCropper.vue'
 
 const authStore = useAuthStore()
 
@@ -315,27 +341,68 @@ const saving = ref(false)
 const changingPassword = ref(false)
 const avatarInputRef = ref(null)
 
+// 裁剪相关状态
+const cropperVisible = ref(false)
+const cropperSrc = ref('')
+const uploadingAvatar = ref(false)
+const avatarCropperRef = ref(null)
+
 function triggerAvatarUpload() {
   avatarInputRef.value?.click()
 }
 
-async function handleAvatarChange(e) {
+/** 选择文件后，打开裁剪弹窗 */
+function handleAvatarFileSelect(e) {
   const file = e.target.files[0]
   if (!file) return
 
-  if (file.size > 2 * 1024 * 1024) {
-    message.error('图片大小不能超过 2MB')
+  // 校验文件类型
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+  if (!allowedTypes.includes(file.type)) {
+    message.error('仅支持 JPG/PNG/GIF/WebP 格式')
+    e.target.value = ''
     return
   }
 
+  // 校验文件大小
+  if (file.size > 5 * 1024 * 1024) {
+    message.error('图片大小不能超过 5MB')
+    e.target.value = ''
+    return
+  }
+
+  // 读取为 base64，打开裁剪弹窗
+  const reader = new FileReader()
+  reader.onload = (ev) => {
+    cropperSrc.value = ev.target.result
+    cropperVisible.value = true
+  }
+  reader.readAsDataURL(file)
+  e.target.value = ''
+}
+
+/** 裁剪确认 → 上传 */
+async function handleCropConfirm() {
+  if (!avatarCropperRef.value) return
+
+  uploadingAvatar.value = true
   try {
-    const result = await uploadAvatar(file)
+    const croppedFile = await avatarCropperRef.value.getCropFile('avatar.jpg', 'image/jpeg')
+    const result = await uploadAvatar(croppedFile)
     authStore.user.avatar = result.avatar
     message.success('头像上传成功')
+    cropperVisible.value = false
+    cropperSrc.value = ''
   } catch (error) {
     message.error(error.message || '头像上传失败')
+  } finally {
+    uploadingAvatar.value = false
   }
-  e.target.value = ''
+}
+
+/** 取消裁剪 */
+function handleCropCancel() {
+  cropperSrc.value = ''
 }
 
 async function handleSaveProfile() {
@@ -680,6 +747,25 @@ onMounted(async () => {
   font-size: 12px;
   color: #8c8c8c;
   margin-top: 2px;
+}
+
+/* ========== 头像裁剪弹窗 ========== */
+.avatar-cropper-modal__body {
+  margin-top: 8px;
+}
+
+.avatar-cropper-modal__tip {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #f6f8fa;
+  border-radius: 6px;
+}
+
+.avatar-cropper-modal__tip p {
+  margin: 0;
+  font-size: 12px;
+  color: #8c8c8c;
+  line-height: 1.6;
 }
 
 /* 响应式 */

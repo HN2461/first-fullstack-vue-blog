@@ -8,14 +8,19 @@ import { Comment } from '../models/Comment.js'
 import bcrypt from 'bcryptjs'
 import multer from 'multer'
 import path from 'path'
+import fs from 'node:fs'
 import { env } from '../config/env.js'
 
 const router = Router()
 
+// 确保头像上传目录存在
+const avatarDir = path.join(env.rootDir, 'uploads/avatars')
+fs.mkdirSync(avatarDir, { recursive: true })
+
 // 配置文件上传
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(env.rootDir, 'uploads/avatars'))
+    cb(null, avatarDir)
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname)
