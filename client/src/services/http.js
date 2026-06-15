@@ -152,10 +152,33 @@ export function getProfile() {
 
 /**
  * 更新个人信息
- * @param {Object} data - { username?, bio? }
+ * @param {Object} data - { username?, bio?, website?, location? }
  */
 export function updateProfile(data) {
   return http.put('/api/profile', data)
+}
+
+/**
+ * 获取通知偏好
+ * @returns {Promise<{email: boolean, site: boolean, comment: boolean, like: boolean}>}
+ */
+export function getNotificationSettings() {
+  return http.get('/api/profile/notifications')
+}
+
+/**
+ * 更新通知偏好
+ * @param {Object} data - { email?, site?, comment?, like? }
+ */
+export function updateNotificationSettings(data) {
+  return http.put('/api/profile/notifications', data)
+}
+
+/**
+ * 获取登录记录。当前后端仅返回待接入真实审计数据的空状态。
+ */
+export function getLoginRecords() {
+  return http.get('/api/profile/login-records')
 }
 
 /**

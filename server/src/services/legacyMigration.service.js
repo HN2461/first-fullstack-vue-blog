@@ -207,7 +207,7 @@ export function buildLegacyArticleRecord(file, notesRoot) {
   const rawSegments = path.dirname(relPath).split('/').filter(Boolean)
   const categoryPath = rawSegments.length > 0
     ? rawSegments.map(cleanDirectoryName).filter(Boolean)
-    : ['未分类']
+    : ['默认分类']
   const title = pickString(frontmatter, ['title', '标题']) || cleanTitleFromFilename(file.filename)
   const frontmatterCategory = pickString(frontmatter, ['category', 'categories', '分类'])
   const finalCategoryPath = frontmatterCategory

@@ -58,6 +58,100 @@ describe('operations routes', () => {
     expect(response.body.data.authorName).toBe('主人')
   })
 
+  it('blocks new comments when comment setting is disabled', async () => {
+    const article = await createArticle({
+      title: '关闭评论文章',
+      slug: 'comment-disabled-post',
+      status: 'published'
+    }, admin)
+
+    await request(app)
+      .patch('/api/admin/settings')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ commentEnabled: false })
+      .expect(200)
+
+    const response = await request(app)
+      .post('/api/comments')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        articleId: article.id,
+        content: '这里不应该写入评论'
+      })
+      .expect(403)
+
+    expect(response.body.code).toBe('COMMENTS_DISABLED')
+  })
+
+  it('keeps profile fields aligned between profile page and admin users', async () => {
+    const profileResponse = await request(app)
+      .put('/api/profile')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        username: '资料管理员',
+        bio: '长期维护知识库',
+        website: 'https://example.com',
+        location: '深圳'
+      })
+      .expect(200)
+
+    expect(profileResponse.body.data).toMatchObject({
+      username: '资料管理员',
+      bio: '长期维护知识库',
+      website: 'https://example.com',
+      location: '深圳'
+    })
+
+    const notificationResponse = await request(app)
+      .put('/api/profile/notifications')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        email: false,
+        site: true,
+        comment: false,
+        like: true
+      })
+      .expect(200)
+
+    expect(notificationResponse.body.data).toEqual({
+      email: false,
+      site: true,
+      comment: false,
+      like: true
+    })
+
+    const usersResponse = await request(app)
+      .get('/api/admin/users')
+      .query({ keyword: '深圳' })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(usersResponse.body.data.items[0]).toMatchObject({
+      id: admin._id.toString(),
+      username: '资料管理员',
+      bio: '长期维护知识库',
+      website: 'https://example.com',
+      location: '深圳',
+      notificationSettings: {
+        email: false,
+        site: true,
+        comment: false,
+        like: true
+      }
+    })
+
+    const recordsResponse = await request(app)
+      .get('/api/profile/login-records')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(recordsResponse.body.data).toEqual({
+      items: [],
+      total: 0,
+      source: 'pending_integration'
+    })
+  })
+
   it('creates admin announcements and lists active public announcements', async () => {
     await request(app)
       .post('/api/admin/announcements')

@@ -30,6 +30,36 @@ const userSchema = new mongoose.Schema(
       default: '',
       maxlength: 240
     },
+    website: {
+      type: String,
+      default: '',
+      trim: true,
+      maxlength: 120
+    },
+    location: {
+      type: String,
+      default: '',
+      trim: true,
+      maxlength: 60
+    },
+    notificationSettings: {
+      email: {
+        type: Boolean,
+        default: true
+      },
+      site: {
+        type: Boolean,
+        default: true
+      },
+      comment: {
+        type: Boolean,
+        default: true
+      },
+      like: {
+        type: Boolean,
+        default: false
+      }
+    },
     role: {
       type: String,
       enum: Object.values(USER_ROLES),
@@ -53,6 +83,14 @@ userSchema.methods.toSafeJSON = function toSafeJSON() {
     email: this.email,
     avatar: this.avatar,
     bio: this.bio,
+    website: this.website,
+    location: this.location,
+    notificationSettings: {
+      email: this.notificationSettings?.email ?? true,
+      site: this.notificationSettings?.site ?? true,
+      comment: this.notificationSettings?.comment ?? true,
+      like: this.notificationSettings?.like ?? false
+    },
     role: this.role,
     status: this.status,
     createdAt: this.createdAt,

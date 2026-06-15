@@ -3,6 +3,7 @@ import path from 'node:path'
 import { ARTICLE_STATUS, USER_ROLES } from '@blog/shared'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
+import { Category } from '../src/models/Category.js'
 import { User } from '../src/models/User.js'
 import { createArticle, publishArticle } from '../src/services/article.service.js'
 import { createCategory, listCategories } from '../src/services/category.service.js'
@@ -52,8 +53,7 @@ describe('content admin services', () => {
       name: 'Node.js',
       slug: 'node-js'
     })
-    expect(categories.items).toHaveLength(1)
-    expect(categories.items[0].slug).toBe('node-js')
+    expect(categories.items.some((item) => item.slug === 'node-js')).toBe(true)
   })
 
   it('creates and lists tags', async () => {
@@ -209,6 +209,198 @@ describe('content admin routes', () => {
       .expect(200)
 
     expect(archiveResponse.body.data.status).toBe(ARTICLE_STATUS.ARCHIVED)
+  })
+
+  it('supports the migration config category and article move workflow', async () => {
+    const app = createApp()
+
+    const sourceResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '前端体系',
+        slug: 'frontend-system',
+        sortOrder: 10
+      })
+      .expect(201)
+
+    const childResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'Vue 专题',
+        slug: 'vue-topic',
+        parent: sourceResponse.body.data.id,
+        sortOrder: 20
+      })
+      .expect(201)
+
+    const targetResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '工程实践',
+        slug: 'engineering-practice'
+      })
+      .expect(201)
+
+    const sourceArticle = await createArticle({
+      title: '前端目录整理',
+      slug: 'frontend-catalog',
+      category: sourceResponse.body.data.id
+    }, admin)
+
+    const childArticle = await createArticle({
+      title: 'Vue 迁移说明',
+      slug: 'vue-migration-note',
+      category: childResponse.body.data.id
+    }, admin)
+
+    await Category.updateMany({}, { $set: { articleCount: 999 } })
+
+    const treeResponse = await request(app)
+      .get('/api/admin/categories/tree')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    const sourceNode = treeResponse.body.data.find((item) => item.id === sourceResponse.body.data.id)
+    expect(sourceNode).toMatchObject({
+      id: sourceResponse.body.data.id,
+      name: '前端体系',
+      articleCount: 1,
+      directArticleCount: 1,
+      branchArticleCount: 2
+    })
+    expect(sourceNode.children[0]).toMatchObject({
+      id: childResponse.body.data.id,
+      name: 'Vue 专题',
+      articleCount: 1,
+      directArticleCount: 1,
+      branchArticleCount: 1
+    })
+
+    const branchArticlesResponse = await request(app)
+      .get(`/api/admin/categories/${sourceResponse.body.data.id}/articles`)
+      .query({ page: 1, pageSize: 20 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(branchArticlesResponse.body.data.total).toBe(2)
+    expect(branchArticlesResponse.body.data.items.map((item) => item.id)).toEqual(expect.arrayContaining([
+      sourceArticle.id,
+      childArticle.id
+    ]))
+
+    const singleMoveResponse = await request(app)
+      .post(`/api/admin/articles/${childArticle.id}/category`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ targetCategoryId: targetResponse.body.data.id })
+      .expect(200)
+
+    expect(singleMoveResponse.body.data.category).toBe(targetResponse.body.data.id)
+
+    const batchMoveResponse = await request(app)
+      .post('/api/admin/articles/category/batch')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        articleIds: [sourceArticle.id],
+        targetCategoryId: targetResponse.body.data.id
+      })
+      .expect(200)
+
+    expect(batchMoveResponse.body.data.movedCount).toBe(1)
+
+    const emptySourceResponse = await request(app)
+      .get(`/api/admin/categories/${sourceResponse.body.data.id}/articles`)
+      .query({ page: 1, pageSize: 20 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(emptySourceResponse.body.data.total).toBe(0)
+
+    const targetArticlesResponse = await request(app)
+      .get(`/api/admin/categories/${targetResponse.body.data.id}/articles`)
+      .query({ page: 1, pageSize: 20 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(targetArticlesResponse.body.data.total).toBe(2)
+  })
+
+  it('keeps category sort order when moving without a sortOrder payload', async () => {
+    const app = createApp()
+
+    const categoryResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '排序保持',
+        slug: 'keep-sort-order',
+        sortOrder: 88
+      })
+      .expect(201)
+
+    const moveResponse = await request(app)
+      .post(`/api/admin/categories/${categoryResponse.body.data.id}/move`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ targetParentId: null })
+      .expect(200)
+
+    expect(moveResponse.body.data.sortOrder).toBe(88)
+  })
+
+  it('validates category update payloads and regenerates slug when cleared', async () => {
+    const app = createApp()
+
+    const categoryResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'Node 分类',
+        slug: 'node-category'
+      })
+      .expect(201)
+
+    const treeResponse = await request(app)
+      .get('/api/admin/categories/tree')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    const uncategorized = treeResponse.body.data.find((item) => item.isSystem)
+    expect(uncategorized).toMatchObject({
+      name: '默认分类',
+      slug: 'uncategorized'
+    })
+
+    const invalidResponse = await request(app)
+      .patch(`/api/admin/categories/${categoryResponse.body.data.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ status: 'disabled' })
+      .expect(400)
+
+    expect(invalidResponse.body.code).toBe('VALIDATION_ERROR')
+
+    const reservedParentResponse = await request(app)
+      .patch(`/api/admin/categories/${categoryResponse.body.data.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        parent: uncategorized.id
+      })
+      .expect(400)
+
+    expect(reservedParentResponse.body.code).toBe('CATEGORY_RESERVED')
+
+    const updateResponse = await request(app)
+      .patch(`/api/admin/categories/${categoryResponse.body.data.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'Node 分类更新',
+        slug: ''
+      })
+      .expect(200)
+
+    expect(updateResponse.body.data.slug).toBeTruthy()
+    expect(updateResponse.body.data.slug).not.toBe('node-category')
   })
 
   it('rejects normal users from admin content APIs', async () => {

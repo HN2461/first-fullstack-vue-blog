@@ -63,6 +63,19 @@
           </a-tag>
         </template>
 
+        <template v-else-if="column.key === 'profile'">
+          <div class="profile-cell">
+            <span class="profile-bio">{{ record.bio || '未填写简介' }}</span>
+            <span class="profile-meta">
+              {{ record.location || '未填写所在地' }}
+              <template v-if="record.website">
+                ·
+                <a :href="record.website" target="_blank" rel="noreferrer">个人网站</a>
+              </template>
+            </span>
+          </div>
+        </template>
+
         <template v-else-if="column.key === 'status'">
           <a-tag :color="getStatusColor(record.status)" :bordered="false">
             {{ getStatusLabel(record.status) }}
@@ -139,6 +152,12 @@ const columns = [
     key: 'role',
     width: 100,
     align: 'center'
+  },
+  {
+    title: '资料',
+    key: 'profile',
+    dataIndex: 'bio',
+    width: 240
   },
   {
     title: '状态',
@@ -298,6 +317,33 @@ async function handleAction(key, record) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.profile-cell {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.profile-bio,
+.profile-meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-bio {
+  color: #1f2937;
+  font-size: 13px;
+}
+
+.profile-meta {
+  color: #8c8c8c;
+  font-size: 12px;
+}
+
+.profile-meta a {
+  color: #1677ff;
 }
 
 /* 时间 */

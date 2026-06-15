@@ -189,17 +189,22 @@
 
           <!-- 登录记录 -->
           <h3 class="content-title" style="margin-top: 32px">登录记录</h3>
-          <div class="record-list">
-            <div class="record-item" v-for="i in 3" :key="i">
+          <div v-if="loadingLoginRecords" class="record-loading">正在加载登录记录...</div>
+          <div v-else-if="loginRecords.length" class="record-list">
+            <div class="record-item" v-for="record in loginRecords" :key="record.id">
               <div class="record-icon"><DesktopOutlined /></div>
               <div class="record-info">
-                <span class="record-title">Chrome on Windows</span>
-                <span class="record-desc">上次登录：2024-01-15 10:30</span>
+                <span class="record-title">{{ record.device || '未知设备' }}</span>
+                <span class="record-desc">登录时间：{{ formatDate(record.loggedAt) }}</span>
               </div>
-              <a-tag v-if="i === 1" color="green">当前设备</a-tag>
+              <a-tag v-if="record.current" color="green">当前设备</a-tag>
             </div>
           </div>
-          <p class="feature-hint">完整登录记录功能开发中...</p>
+          <a-empty
+            v-else
+            description="登录记录接口待接入真实审计数据"
+            :image-style="{ height: '48px' }"
+          />
         </div>
 
         <!-- 账号绑定 -->
@@ -225,7 +230,7 @@
               </a-button>
             </div>
           </div>
-          <p class="feature-hint">第三方绑定功能开发中...</p>
+          <p class="feature-hint">第三方绑定模块已预留，后续接入正式授权接口。</p>
         </div>
 
         <!-- 通知设置 -->
@@ -237,31 +242,35 @@
                 <span class="setting-title">邮件通知</span>
                 <span class="setting-desc">接收评论回复、系统通知等邮件</span>
               </div>
-              <a-switch v-model:checked="notificationSettings.email" disabled />
+              <a-switch v-model:checked="notificationSettings.email" />
             </div>
             <div class="setting-item">
               <div class="setting-info">
                 <span class="setting-title">站内消息</span>
                 <span class="setting-desc">接收站内私信和系统消息</span>
               </div>
-              <a-switch v-model:checked="notificationSettings.site" disabled />
+              <a-switch v-model:checked="notificationSettings.site" />
             </div>
             <div class="setting-item">
               <div class="setting-info">
                 <span class="setting-title">评论提醒</span>
                 <span class="setting-desc">有人评论您的文章时通知</span>
               </div>
-              <a-switch v-model:checked="notificationSettings.comment" disabled />
+              <a-switch v-model:checked="notificationSettings.comment" />
             </div>
             <div class="setting-item">
               <div class="setting-info">
                 <span class="setting-title">点赞提醒</span>
                 <span class="setting-desc">有人点赞您的文章时通知</span>
               </div>
-              <a-switch v-model:checked="notificationSettings.like" disabled />
+              <a-switch v-model:checked="notificationSettings.like" />
             </div>
           </div>
-          <p class="feature-hint">通知设置功能开发中...</p>
+          <div class="notification-actions">
+            <a-button type="primary" :loading="savingNotifications" @click="handleSaveNotifications">
+              保存通知设置
+            </a-button>
+          </div>
         </div>
       </div>
     </div>
@@ -284,7 +293,16 @@ import {
   RightOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
-import { updateProfile, uploadAvatar, changePassword, getUserStats } from '@/services/http'
+import {
+  changePassword,
+  getLoginRecords,
+  getNotificationSettings,
+  getProfile,
+  getUserStats,
+  updateNotificationSettings,
+  updateProfile,
+  uploadAvatar
+} from '@/services/http'
 import AvatarCropper from '@/components/AvatarCropper.vue'
 
 const authStore = useAuthStore()
@@ -339,6 +357,9 @@ const notificationSettings = reactive({
 
 const saving = ref(false)
 const changingPassword = ref(false)
+const savingNotifications = ref(false)
+const loadingLoginRecords = ref(false)
+const loginRecords = ref([])
 const avatarInputRef = ref(null)
 
 // 裁剪相关状态
@@ -349,6 +370,24 @@ const avatarCropperRef = ref(null)
 
 function triggerAvatarUpload() {
   avatarInputRef.value?.click()
+}
+
+function syncProfileForm(user = {}) {
+  profileForm.username = user.username || ''
+  profileForm.bio = user.bio || ''
+  profileForm.website = user.website || ''
+  profileForm.location = user.location || ''
+}
+
+function syncNotificationSettings(settings = {}) {
+  notificationSettings.email = settings.email ?? true
+  notificationSettings.site = settings.site ?? true
+  notificationSettings.comment = settings.comment ?? true
+  notificationSettings.like = settings.like ?? false
+}
+
+function formatDate(value) {
+  return value ? new Date(value).toLocaleString('zh-CN') : '-'
 }
 
 /** 选择文件后，打开裁剪弹窗 */
@@ -389,7 +428,7 @@ async function handleCropConfirm() {
   try {
     const croppedFile = await avatarCropperRef.value.getCropFile('avatar.jpg', 'image/jpeg')
     const result = await uploadAvatar(croppedFile)
-    authStore.user.avatar = result.avatar
+    authStore.user = { ...authStore.user, ...result }
     message.success('头像上传成功')
     cropperVisible.value = false
     cropperSrc.value = ''
@@ -410,15 +449,34 @@ async function handleSaveProfile() {
   try {
     const result = await updateProfile({
       username: profileForm.username,
-      bio: profileForm.bio
+      bio: profileForm.bio,
+      website: profileForm.website,
+      location: profileForm.location
     })
-    authStore.user.username = result.username
-    authStore.user.bio = result.bio
+    authStore.user = { ...authStore.user, ...result }
+    syncProfileForm(result)
     message.success('个人资料更新成功')
   } catch (error) {
     message.error(error.message || '更新失败')
   } finally {
     saving.value = false
+  }
+}
+
+async function handleSaveNotifications() {
+  savingNotifications.value = true
+  try {
+    const result = await updateNotificationSettings({ ...notificationSettings })
+    syncNotificationSettings(result)
+    authStore.user = {
+      ...authStore.user,
+      notificationSettings: { ...result }
+    }
+    message.success('通知设置已保存')
+  } catch (error) {
+    message.error(error.message || '通知设置保存失败')
+  } finally {
+    savingNotifications.value = false
   }
 }
 
@@ -451,10 +509,39 @@ async function handleChangePassword() {
 }
 
 onMounted(async () => {
-  if (authStore.user) {
-    profileForm.username = authStore.user.username || ''
-    profileForm.bio = authStore.user.bio || ''
+  loadingLoginRecords.value = true
+  const [profileResult, notificationResult, recordResult] = await Promise.allSettled([
+    getProfile(),
+    getNotificationSettings(),
+    getLoginRecords()
+  ])
+
+  if (profileResult.status === 'fulfilled') {
+    const profile = profileResult.value || {}
+    authStore.user = { ...authStore.user, ...profile }
+    syncProfileForm(profile)
+    if (notificationResult.status !== 'fulfilled') {
+      syncNotificationSettings(profile.notificationSettings)
+    }
+  } else {
+    syncProfileForm(authStore.user || {})
+    console.error('获取个人资料失败:', profileResult.reason)
   }
+
+  if (notificationResult.status === 'fulfilled') {
+    syncNotificationSettings(notificationResult.value)
+  } else {
+    syncNotificationSettings(authStore.user?.notificationSettings)
+    console.error('获取通知设置失败:', notificationResult.reason)
+  }
+
+  if (recordResult.status === 'fulfilled') {
+    loginRecords.value = recordResult.value.items || []
+  } else {
+    loginRecords.value = []
+    console.error('获取登录记录失败:', recordResult.reason)
+  }
+  loadingLoginRecords.value = false
 
   // 获取用户统计数据
   try {
@@ -641,6 +728,14 @@ onMounted(async () => {
   gap: 12px;
 }
 
+.record-loading {
+  padding: 16px;
+  color: #8c8c8c;
+  background: #fafafa;
+  border-radius: 8px;
+  text-align: center;
+}
+
 .record-item {
   display: flex;
   align-items: center;
@@ -747,6 +842,12 @@ onMounted(async () => {
   font-size: 12px;
   color: #8c8c8c;
   margin-top: 2px;
+}
+
+.notification-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* ========== 头像裁剪弹窗 ========== */

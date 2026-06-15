@@ -4,13 +4,15 @@ import { Article } from '../models/Article.js'
 import { adjustCategoryArticleCount } from './article.service.js'
 
 export const SYSTEM_UNCATEGORIZED_CATEGORY = Object.freeze({
-  name: '未分类',
+  name: '默认分类',
   slug: 'uncategorized',
   description: '系统兜底分类，删除分类时内容自动转入这里',
   sortOrder: -9999,
   status: 'active',
   isSystem: true
 })
+
+const LEGACY_UNCATEGORIZED_NAME = '未分类'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -51,7 +53,9 @@ function generateAsciiSlug(parts, fallbackInput, maxLength = 70) {
 function isReservedCategoryIdentity({ name, slug } = {}) {
   const normalizedName = String(name || '').trim()
   const normalizedSlug = String(slug || '').trim().toLowerCase()
-  return normalizedName === SYSTEM_UNCATEGORIZED_CATEGORY.name || normalizedSlug === SYSTEM_UNCATEGORIZED_CATEGORY.slug
+  return normalizedName === SYSTEM_UNCATEGORIZED_CATEGORY.name ||
+    normalizedName === LEGACY_UNCATEGORIZED_NAME ||
+    normalizedSlug === SYSTEM_UNCATEGORIZED_CATEGORY.slug
 }
 
 async function ensureUniqueSlug(baseSlug, excludeId = null) {
@@ -108,13 +112,46 @@ function buildTree(items) {
         const diff = (left.sortOrder || 0) - (right.sortOrder || 0)
         return diff || String(left.name).localeCompare(String(right.name), 'zh-Hans-CN')
       })
-      .map((node) => ({
-        ...node,
-        children: sortNodes(node.children)
-      }))
+      .map((node) => {
+        const children = sortNodes(node.children)
+        const directArticleCount = Number(node.articleCount) || 0
+        const unassignedArticleCount = Number(node.unassignedArticleCount) || 0
+        const branchArticleCount = children.reduce((sum, child) => sum + (Number(child.branchArticleCount) || 0), directArticleCount + unassignedArticleCount)
+
+        return {
+          ...node,
+          directArticleCount,
+          branchArticleCount,
+          children
+        }
+      })
   }
 
   return sortNodes(roots)
+}
+
+async function getLiveCategoryArticleCounts() {
+  const rows = await Article.aggregate([
+    { $match: { deletedAt: null } },
+    { $group: { _id: '$category', count: { $sum: 1 } } }
+  ])
+
+  const directCountMap = new Map()
+  let unassignedCount = 0
+
+  for (const row of rows) {
+    if (!row._id) {
+      unassignedCount += row.count
+      continue
+    }
+
+    directCountMap.set(String(row._id), row.count)
+  }
+
+  return {
+    directCountMap,
+    unassignedCount
+  }
 }
 
 async function ensureUncategorizedCategory() {
@@ -181,10 +218,53 @@ async function collectDescendantIds(categoryId) {
   return [...resolved]
 }
 
+async function assertParentExists(parentId) {
+  if (!parentId) {
+    return
+  }
+
+  const parent = await Category.findById(parentId)
+  if (!parent) {
+    throw createHttpError(404, 'CATEGORY_NOT_FOUND', '父级分类不存在')
+  }
+}
+
+async function assertParentIsEditable(parentId) {
+  if (!parentId) {
+    return
+  }
+
+  const parent = await Category.findById(parentId)
+  if (parent?.isSystem) {
+    throw createHttpError(400, 'CATEGORY_RESERVED', '系统保留分类不能作为父级分类')
+  }
+}
+
+async function assertValidParentForCategory(categoryId, parentId) {
+  if (!parentId) {
+    return
+  }
+
+  if (String(categoryId) === String(parentId)) {
+    throw createHttpError(400, 'CATEGORY_MOVE_INVALID', '不能把分类移动到自身下')
+  }
+
+  await assertParentExists(parentId)
+  await assertParentIsEditable(parentId)
+
+  const descendantIds = await collectDescendantIds(categoryId)
+  if (descendantIds.includes(String(parentId))) {
+    throw createHttpError(400, 'CATEGORY_MOVE_INVALID', '不能把分类移动到自己的子级下')
+  }
+}
+
 export async function createCategory(input) {
   if (isReservedCategoryIdentity(input)) {
-    throw createHttpError(400, 'CATEGORY_RESERVED', '未分类为系统保留分类，不能重复创建')
+    throw createHttpError(400, 'CATEGORY_RESERVED', '默认分类为系统保留分类，不能重复创建')
   }
+
+  await assertParentExists(input.parent)
+  await assertParentIsEditable(input.parent)
 
   const rawSlug = String(input.slug || '').trim().toLowerCase()
   const baseSlug = rawSlug || generateAsciiSlug([input.name], input.name, 70)
@@ -243,10 +323,14 @@ export async function updateCategory(id, input) {
   if (input.slug !== undefined) {
     const rawSlug = String(input.slug || '').trim().toLowerCase()
     if (isReservedCategoryIdentity({ slug: rawSlug })) {
-      throw createHttpError(400, 'CATEGORY_RESERVED', '未分类为系统保留分类，不能重复使用')
+      throw createHttpError(400, 'CATEGORY_RESERVED', '默认分类为系统保留分类，不能重复使用')
     }
     const baseSlug = rawSlug || generateAsciiSlug([input.name || category.name], input.name || category.name, 70)
     category.slug = await ensureUniqueSlug(baseSlug, id)
+  }
+
+  if (input.parent !== undefined) {
+    await assertValidParentForCategory(category._id, input.parent)
   }
 
   if (input.name !== undefined) category.name = input.name.trim()
@@ -260,11 +344,16 @@ export async function updateCategory(id, input) {
 }
 
 export async function listCategoryTree() {
-  await ensureUncategorizedCategory()
-  const categories = await Category.find({}).sort({ isSystem: -1, sortOrder: 1, createdAt: 1 }).lean()
+  const uncategorized = await ensureUncategorizedCategory()
+  const [categories, counts] = await Promise.all([
+    Category.find({}).sort({ isSystem: -1, sortOrder: 1, createdAt: 1 }).lean(),
+    getLiveCategoryArticleCounts()
+  ])
+
   return buildTree(categories.map((item) => ({
     ...item,
     toSafeJSON() {
+      const directArticleCount = counts.directCountMap.get(item._id.toString()) || 0
       return {
         id: item._id.toString(),
         name: item.name,
@@ -274,7 +363,9 @@ export async function listCategoryTree() {
         sortOrder: item.sortOrder,
         status: item.status,
         isSystem: item.isSystem,
-        articleCount: item.articleCount,
+        articleCount: directArticleCount,
+        directArticleCount,
+        unassignedArticleCount: String(item._id) === String(uncategorized._id) ? counts.unassignedCount : 0,
         createdAt: item.createdAt,
         updatedAt: item.updatedAt
       }
@@ -399,15 +490,7 @@ export async function moveCategoryBranch(categoryId, targetParentId) {
   }
 
   if (targetParentId) {
-    const targetParent = await Category.findById(targetParentId)
-    if (!targetParent) {
-      throw createHttpError(404, 'CATEGORY_NOT_FOUND', '目标父级分类不存在')
-    }
-
-    const descendantIds = await collectDescendantIds(category._id)
-    if (descendantIds.includes(String(targetParent._id))) {
-      throw createHttpError(400, 'CATEGORY_MOVE_INVALID', '不能把分类移动到自己的子级下')
-    }
+    await assertValidParentForCategory(category._id, targetParentId)
   }
 
   category.parent = targetParentId || null

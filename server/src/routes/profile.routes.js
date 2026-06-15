@@ -6,10 +6,11 @@ import { User } from '../models/User.js'
 import { Article } from '../models/Article.js'
 import { Comment } from '../models/Comment.js'
 import bcrypt from 'bcryptjs'
-import multer from 'multer'
+import multer, { MulterError } from 'multer'
 import path from 'path'
 import fs from 'node:fs'
 import { env } from '../config/env.js'
+import { notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema } from '../validators/profile.validator.js'
 
 const router = Router()
 
@@ -30,16 +31,37 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
     if (allowedTypes.includes(file.mimetype)) {
       cb(null, true)
     } else {
-      cb(new Error('仅支持 JPG/PNG/GIF/WebP 格式'))
+      const error = new Error('仅支持 JPG/PNG/GIF/WebP 格式')
+      error.statusCode = 400
+      error.code = 'INVALID_AVATAR_TYPE'
+      cb(error)
     }
   }
 })
+
+function handleAvatarUpload(req, res, next) {
+  upload.single('avatar')(req, res, (error) => {
+    if (error) {
+      if (error instanceof MulterError) {
+        error.statusCode = 400
+        error.code = error.code || 'UPLOAD_ERROR'
+        if (error.code === 'LIMIT_FILE_SIZE') {
+          error.message = '图片大小不能超过 5MB'
+        }
+      }
+      next(error)
+      return
+    }
+
+    next()
+  })
+}
 
 /**
  * GET /api/profile
@@ -78,28 +100,10 @@ router.get('/stats', requireAuth, asyncHandler(async (req, res) => {
 
 /**
  * PUT /api/profile
- * 更新个人信息（昵称、简介）
+ * 更新个人信息（昵称、简介、个人网站、所在地）
  */
 router.put('/', requireAuth, asyncHandler(async (req, res) => {
-  const { username, bio } = req.body
-
-  const updates = {}
-  if (username !== undefined) {
-    if (username.length < 2 || username.length > 32) {
-      const error = new Error('昵称长度需在 2-32 个字符之间')
-      error.statusCode = 400
-      throw error
-    }
-    updates.username = username.trim()
-  }
-  if (bio !== undefined) {
-    if (bio.length > 240) {
-      const error = new Error('简介不能超过 240 个字符')
-      error.statusCode = 400
-      throw error
-    }
-    updates.bio = bio.trim()
-  }
+  const updates = parseBody(profileUpdateSchema, req.body)
 
   const user = await User.findByIdAndUpdate(
     req.user._id,
@@ -114,7 +118,7 @@ router.put('/', requireAuth, asyncHandler(async (req, res) => {
  * POST /api/profile/avatar
  * 上传头像
  */
-router.post('/avatar', requireAuth, upload.single('avatar'), asyncHandler(async (req, res) => {
+router.post('/avatar', requireAuth, handleAvatarUpload, asyncHandler(async (req, res) => {
   if (!req.file) {
     const error = new Error('请选择要上传的图片')
     error.statusCode = 400
@@ -129,7 +133,48 @@ router.post('/avatar', requireAuth, upload.single('avatar'), asyncHandler(async 
     { new: true }
   )
 
-  res.json(ok({ avatar: avatarUrl }, '头像上传成功'))
+  res.json(ok(user.toSafeJSON(), '头像上传成功'))
+}))
+
+/**
+ * GET /api/profile/notifications
+ * 获取当前用户通知偏好
+ */
+router.get('/notifications', requireAuth, asyncHandler(async (req, res) => {
+  res.json(ok(req.user.toSafeJSON().notificationSettings))
+}))
+
+/**
+ * PUT /api/profile/notifications
+ * 更新当前用户通知偏好
+ */
+router.put('/notifications', requireAuth, asyncHandler(async (req, res) => {
+  const input = parseBody(notificationSettingsSchema, req.body)
+  const current = req.user.toSafeJSON().notificationSettings
+  const notificationSettings = {
+    ...current,
+    ...input
+  }
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { $set: { notificationSettings } },
+    { new: true }
+  )
+
+  res.json(ok(user.toSafeJSON().notificationSettings, '通知设置已保存'))
+}))
+
+/**
+ * GET /api/profile/login-records
+ * 登录记录暂未接入真实审计数据，先返回明确空状态，避免前端展示模拟记录。
+ */
+router.get('/login-records', requireAuth, asyncHandler(async (req, res) => {
+  res.json(ok({
+    items: [],
+    total: 0,
+    source: 'pending_integration'
+  }))
 }))
 
 /**
@@ -137,19 +182,7 @@ router.post('/avatar', requireAuth, upload.single('avatar'), asyncHandler(async 
  * 修改密码
  */
 router.put('/password', requireAuth, asyncHandler(async (req, res) => {
-  const { oldPassword, newPassword } = req.body
-
-  if (!oldPassword || !newPassword) {
-    const error = new Error('请输入原密码和新密码')
-    error.statusCode = 400
-    throw error
-  }
-
-  if (newPassword.length < 8) {
-    const error = new Error('新密码至少需要 8 个字符')
-    error.statusCode = 400
-    throw error
-  }
+  const { oldPassword, newPassword } = parseBody(passwordUpdateSchema, req.body)
 
   // 验证原密码
   const user = await User.findById(req.user._id)

@@ -28,6 +28,21 @@ export const categorySchema = z.object({
   status: z.enum(['active', 'hidden']).optional().default('active')
 })
 
+export const categoryUpdateSchema = z.object({
+  name: z.string().trim().min(1, '分类名称不能为空').max(40, '分类名称不能超过 40 个字符').optional(),
+  slug: z.preprocess(
+    (value) => String(value ?? '').trim().toLowerCase(),
+    z.union([
+      z.literal(''),
+      z.string().regex(slugPattern, '分类 slug 只能包含小写字母、数字和短横线')
+    ]).optional()
+  ),
+  description: z.string().trim().max(240, '分类描述不能超过 240 个字符').optional(),
+  parent: z.string().regex(objectIdPattern, '父级分类 id 不正确').nullable().optional(),
+  sortOrder: z.number().int().optional(),
+  status: z.enum(['active', 'hidden']).optional()
+})
+
 export const tagSchema = z.object({
   name: z.string().trim().min(1, '标签名称不能为空').max(32, '标签名称不能超过 32 个字符'),
   slug: z.preprocess(
@@ -64,7 +79,7 @@ export const articleSchema = z.object({
 
 export const categoryMoveSchema = z.object({
   targetParentId: z.string().regex(objectIdPattern, '目标父级分类 id 不正确').nullable().optional().default(null),
-  sortOrder: z.number().int().optional().default(0)
+  sortOrder: z.number().int().optional()
 })
 
 export const articleCategoryMoveSchema = z.object({

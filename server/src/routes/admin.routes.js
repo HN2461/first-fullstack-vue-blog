@@ -15,7 +15,8 @@ import { createTag, deleteTag, listTags, updateTag } from '../services/tag.servi
 import { ok } from '../utils/apiResponse.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { buildSafeStoredFilename } from '../utils/uploadFilename.js'
-import { articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, categoryMoveSchema, categorySchema, parseBody, tagSchema } from '../validators/content.validator.js'
+import { articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, parseBody, tagSchema } from '../validators/content.validator.js'
+import { settingSchema } from '../validators/setting.validator.js'
 
 export const adminRouter = Router()
 
@@ -59,7 +60,8 @@ adminRouter.post('/categories', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.patch('/categories/:id', asyncHandler(async (req, res) => {
-  const category = await updateCategory(req.params.id, req.body)
+  const input = parseBody(categoryUpdateSchema, req.body)
+  const category = await updateCategory(req.params.id, input)
   res.json(ok(category, '分类已更新'))
 }))
 
@@ -299,5 +301,6 @@ adminRouter.get('/settings', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.patch('/settings', asyncHandler(async (req, res) => {
-  res.json(ok(await updateSettings(req.body, req.user), '设置已保存'))
+  const input = parseBody(settingSchema, req.body)
+  res.json(ok(await updateSettings(input, req.user), '设置已保存'))
 }))

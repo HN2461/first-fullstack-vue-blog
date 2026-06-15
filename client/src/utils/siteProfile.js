@@ -4,6 +4,7 @@ export const defaultSiteProfile = {
   siteTitle: '个人全栈博客系统',
   siteDescription: '一个由 Vue、Express 和 MongoDB 驱动的个人技术博客。',
   authorName: 'Haonan',
+  commentEnabled: true,
   defaultTheme: 'light',
   systemVersion: 'v1.0.0'
 }

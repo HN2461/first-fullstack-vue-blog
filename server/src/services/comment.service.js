@@ -2,6 +2,7 @@ import { COMMENT_STATUS, USER_STATUS } from '@blog/shared'
 import { Article } from '../models/Article.js'
 import { Comment } from '../models/Comment.js'
 import { User } from '../models/User.js'
+import { getSettings } from './setting.service.js'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -23,6 +24,12 @@ function detectRiskReasons(content) {
 export async function createComment(input, user) {
   if (user.status === USER_STATUS.MUTED) {
     throw createHttpError(403, 'USER_MUTED', '账号已被禁言，不能发表评论')
+  }
+
+  const settings = await getSettings()
+  // 评论开关是全站级运营配置，必须在写入评论和增加计数前统一拦截。
+  if (settings.commentEnabled === false) {
+    throw createHttpError(403, 'COMMENTS_DISABLED', '评论功能已关闭')
   }
 
   const article = await Article.findById(input.articleId)
@@ -180,7 +187,10 @@ export async function listUsers(options = {}) {
     const regex = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i')
     query.$or = [
       { username: regex },
-      { email: regex }
+      { email: regex },
+      { bio: regex },
+      { location: regex },
+      { website: regex }
     ]
   }
   if (options.role && options.role !== 'all') {

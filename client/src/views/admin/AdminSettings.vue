@@ -28,8 +28,14 @@
           <!-- 表单 -->
           <a-form layout="vertical" class="settings-form">
             <div class="form-item">
-              <label>站点标题</label>
+              <div class="field-header">
+                <label for="siteTitle">站点标题</label>
+                <a-tooltip :title="settingHelp.siteTitle">
+                  <QuestionCircleOutlined class="field-help" />
+                </a-tooltip>
+              </div>
               <a-input
+                id="siteTitle"
                 v-model:value.trim="form.siteTitle"
                 placeholder="显示在浏览器标签页"
                 :maxlength="60"
@@ -41,8 +47,14 @@
             </div>
 
             <div class="form-item">
-              <label>站点描述</label>
+              <div class="field-header">
+                <label for="siteDescription">站点描述</label>
+                <a-tooltip :title="settingHelp.siteDescription">
+                  <QuestionCircleOutlined class="field-help" />
+                </a-tooltip>
+              </div>
               <a-textarea
+                id="siteDescription"
                 v-model:value.trim="form.siteDescription"
                 placeholder="简要描述你的站点内容..."
                 :rows="3"
@@ -54,8 +66,14 @@
 
             <div class="form-row">
               <div class="form-item form-item--half">
-                <label>作者名称</label>
+                <div class="field-header">
+                  <label for="authorName">作者名称</label>
+                  <a-tooltip :title="settingHelp.authorName">
+                    <QuestionCircleOutlined class="field-help" />
+                  </a-tooltip>
+                </div>
                 <a-input
+                  id="authorName"
                   v-model:value.trim="form.authorName"
                   placeholder="显示在文章页面"
                   :maxlength="32"
@@ -64,8 +82,14 @@
                 </a-input>
               </div>
               <div class="form-item form-item--half">
-                <label>系统版本</label>
+                <div class="field-header">
+                  <label for="systemVersion">系统版本</label>
+                  <a-tooltip :title="settingHelp.systemVersion">
+                    <QuestionCircleOutlined class="field-help" />
+                  </a-tooltip>
+                </div>
                 <a-input
+                  id="systemVersion"
                   v-model:value.trim="form.systemVersion"
                   placeholder="例如 v1.0.0"
                   :maxlength="20"
@@ -76,7 +100,28 @@
             </div>
 
             <div class="form-item">
-              <label>默认主题</label>
+              <div class="field-header">
+                <label>评论功能</label>
+                <a-tooltip :title="settingHelp.commentEnabled">
+                  <QuestionCircleOutlined class="field-help" />
+                </a-tooltip>
+              </div>
+              <div class="toggle-field">
+                <div class="toggle-field__copy">
+                  <strong>允许登录用户发表评论</strong>
+                  <span>关闭后，前台评论提交会被统一拦截，历史评论仍保留展示。</span>
+                </div>
+                <a-switch v-model:checked="form.commentEnabled" />
+              </div>
+            </div>
+
+            <div class="form-item">
+              <div class="field-header">
+                <label>默认主题</label>
+                <a-tooltip :title="settingHelp.defaultTheme">
+                  <QuestionCircleOutlined class="field-help" />
+                </a-tooltip>
+              </div>
               <a-radio-group v-model:value="form.defaultTheme" class="theme-switcher">
                 <a-radio-button value="light" class="theme-opt theme-opt--light">
                   <Sun :size="16" /> 浅色
@@ -149,6 +194,7 @@ import {
   UserOutlined,
   TagOutlined,
   ClockCircleOutlined,
+  QuestionCircleOutlined,
   UndoOutlined,
   SaveOutlined
 } from '@ant-design/icons-vue'
@@ -156,20 +202,42 @@ import { Sun, Moon } from 'lucide-vue-next'
 import { getAdminSettings, updateAdminSettings } from '@/services/admin'
 import { setCachedSiteProfile } from '@/utils/siteProfile'
 import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
+import { useSiteStore } from '@/stores/site'
+
+const defaultForm = {
+  siteTitle: '',
+  siteDescription: '',
+  authorName: '',
+  commentEnabled: true,
+  defaultTheme: 'light',
+  systemVersion: ''
+}
+
+const settingHelp = {
+  siteTitle: '站点标题会同步到公开站点页眉、浏览器标题和 SEO 标题，用于让访客快速识别站点身份。',
+  siteDescription: '站点描述用于首页简介、搜索引擎摘要和社交分享预览，建议写成一句完整说明。',
+  authorName: '作者名称会展示在文章页、站点品牌区和公开入口中，代表站点内容的署名主体。',
+  commentEnabled: '关闭后会统一禁止新增评论，前台提交入口将直接返回“评论功能已关闭”。',
+  defaultTheme: '默认主题决定新访客首次进入站点时采用的浅色或暗色外观。',
+  systemVersion: '系统版本用于后台信息展示和后续运维排查，建议与当前发布版本保持一致。'
+}
+
+function normalizeSettings(settings = {}) {
+  return {
+    ...defaultForm,
+    ...settings,
+    commentEnabled: settings.commentEnabled !== false
+  }
+}
 
 const saving = ref(false)
 const loading = ref(false)
 const currentTime = ref('')
 const loadError = ref('')
 const { runAction, toMessage } = useAdminActions()
+const siteStore = useSiteStore()
 
-const form = reactive({
-  siteTitle: '',
-  siteDescription: '',
-  authorName: '',
-  defaultTheme: 'light',
-  systemVersion: ''
-})
+const form = reactive(normalizeSettings())
 const { markClean } = useUnsavedChanges({
   getSnapshot: () => ({ ...form }),
   enabled: computed(() => !loading.value && !saving.value),
@@ -195,8 +263,9 @@ async function loadSettings() {
   loadError.value = ''
   try {
     const settings = await getAdminSettings()
-    Object.assign(form, settings)
-    setCachedSiteProfile(settings)
+    Object.assign(form, normalizeSettings(settings))
+    setCachedSiteProfile({ ...form })
+    siteStore.setProfile({ ...form })
     markClean()
   } catch (error) {
     loadError.value = toMessage(error, '加载失败')
@@ -208,11 +277,14 @@ async function loadSettings() {
 async function saveSettings() {
   saving.value = true
   try {
-    await runAction(() => updateAdminSettings(form), {
+    const payload = normalizeSettings(form)
+    await runAction(() => updateAdminSettings(payload), {
       successMessage: '设置已保存',
       errorMessage: '保存失败'
     })
-    setCachedSiteProfile(form)
+    Object.assign(form, payload)
+    setCachedSiteProfile(payload)
+    siteStore.setProfile(payload)
     markClean()
   } finally {
     saving.value = false
@@ -243,7 +315,7 @@ onUnmounted(() => {
 .settings-panel {
   background: var(--console-surface);
   border: 1px solid var(--console-border);
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -263,7 +335,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--console-primary-soft);
   color: var(--console-primary-strong);
   font-size: 18px;
@@ -341,13 +413,32 @@ onUnmounted(() => {
   margin-bottom: 0;
 }
 
+.field-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
 .form-item label {
   display: block;
   font-size: 14px;
   font-weight: 600;
   color: var(--console-text);
-  margin-bottom: 10px;
   letter-spacing: 0.03em;
+}
+
+.field-help {
+  margin-top: 1px;
+  color: var(--console-text-secondary);
+  font-size: 14px;
+  cursor: help;
+  transition: color 0.2s;
+}
+
+.field-help:hover {
+  color: var(--console-primary-strong);
 }
 
 .form-item :deep(.ant-input),
@@ -436,6 +527,36 @@ onUnmounted(() => {
   gap: 20px;
   position: sticky;
   top: 0;
+}
+
+.toggle-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+  padding: 14px 16px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface-muted);
+}
+
+.toggle-field__copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.toggle-field__copy strong {
+  color: var(--console-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.toggle-field__copy span {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 /* 系统信息卡片 */

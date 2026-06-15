@@ -45,7 +45,6 @@
               :selected-keys="selectedKeys"
               :expanded-keys="expandedKeys"
               block-node
-              show-line
               class="mg-category-tree"
               @select="handleSelectTree"
               @expand="handleExpandTree"
@@ -53,12 +52,35 @@
               <template #title="{ dataRef }">
                 <span
                   class="mg-tree-node"
-                  :class="{ 'mg-tree-node--locked': dataRef.isSystem, 'mg-tree-node--hidden': dataRef.status === 'hidden' }"
+                  :class="{
+                    'mg-tree-node--locked': dataRef.isSystem,
+                    'mg-tree-node--hidden': dataRef.status === 'hidden',
+                    'mg-tree-node--branch': dataRef.children?.length
+                  }"
                 >
+                  <span
+                    class="mg-tree-node-icon"
+                    :class="{ 'mg-tree-node-icon--toggleable': dataRef.children?.length }"
+                    :role="dataRef.children?.length ? 'button' : undefined"
+                    :tabindex="dataRef.children?.length ? 0 : -1"
+                    :aria-label="dataRef.children?.length ? `${isTreeNodeExpanded(dataRef.id) ? '收起' : '展开'}${dataRef.titleText}` : undefined"
+                    @click.stop="toggleTreeNode(dataRef)"
+                    @keydown.enter.stop.prevent="toggleTreeNode(dataRef)"
+                    @keydown.space.stop.prevent="toggleTreeNode(dataRef)"
+                  >
+                    <InboxOutlined v-if="dataRef.isSystem" />
+                    <FolderOpenOutlined v-else-if="dataRef.children?.length && isTreeNodeExpanded(dataRef.id)" />
+                    <FolderOutlined v-else />
+                  </span>
                   <span class="mg-tree-name">{{ dataRef.titleText }}</span>
                   <a-tag v-if="dataRef.isSystem" color="gold" class="mg-tree-tag">锁定</a-tag>
                   <a-tag v-else-if="dataRef.status === 'hidden'" class="mg-tree-tag mg-tree-tag--hidden">隐藏</a-tag>
-                  <span class="mg-tree-arts">{{ dataRef.articleCount || 0 }}</span>
+                  <span
+                    class="mg-tree-arts"
+                    title="当前分类及其子分类下的文章数量"
+                  >
+                    {{ dataRef.branchArticleCount ?? dataRef.articleCount ?? 0 }}
+                  </span>
                 </span>
               </template>
             </a-tree>
@@ -195,8 +217,8 @@
                 <span class="mg-meta-value">{{ currentCategoryPath }}</span>
               </div>
               <div class="mg-meta-item">
-                <span class="mg-meta-label">文章数</span>
-                <span class="mg-meta-value">{{ currentCategory.articleCount || 0 }}</span>
+                <span class="mg-meta-label">含子分类文章数</span>
+                <span class="mg-meta-value mg-meta-value--number">{{ currentCategoryBranchArticleCount }}</span>
               </div>
               <div class="mg-meta-item">
                 <span class="mg-meta-label">创建时间</span>
@@ -260,7 +282,7 @@
             </template>
 
             <template v-else-if="column.key === 'category'">
-              <a-tag :bordered="false">{{ record.category?.name || '未分类' }}</a-tag>
+              <a-tag :bordered="false">{{ record.category?.name || DEFAULT_CATEGORY_LABEL }}</a-tag>
             </template>
 
             <template v-else-if="column.key === 'publishedAt'">
@@ -379,6 +401,7 @@ import {
   FolderAddOutlined,
   FolderOpenOutlined,
   FolderOutlined,
+  InboxOutlined,
   InfoCircleOutlined,
   PlusOutlined,
   ReloadOutlined,
@@ -400,6 +423,8 @@ import {
 import { useAdminActions } from '@/composables/useAdminUi'
 
 const { runAction } = useAdminActions()
+
+const DEFAULT_CATEGORY_LABEL = '默认分类'
 
 const treeLoading = ref(false)
 const savingCategory = ref(false)
@@ -456,8 +481,18 @@ function cloneCategoryTree(nodes = []) {
     titleText: node.name,
     key: node.id,
     value: node.id,
-    title: `${node.name}${node.articleCount ? ` (${node.articleCount})` : ''}`,
+    title: node.name,
+    directArticleCount: node.directArticleCount ?? node.articleCount ?? 0,
+    branchArticleCount: node.branchArticleCount ?? node.articleCount ?? 0,
     children: cloneCategoryTree(node.children || [])
+  }))
+}
+
+function disableSystemParentNodes(nodes = []) {
+  return nodes.map((node) => ({
+    ...node,
+    disabled: !!node.isSystem,
+    children: disableSystemParentNodes(node.children || [])
   }))
 }
 
@@ -545,10 +580,11 @@ const currentCategoryPath = computed(() => {
   const path = currentCategory.value ? findPath(categoryTree.value, currentCategory.value.id) : null
   return path?.map((node) => node.name).join(' / ') || '-'
 })
+const currentCategoryBranchArticleCount = computed(() => currentCategory.value?.branchArticleCount ?? currentCategory.value?.articleCount ?? 0)
 const filteredTreeData = computed(() => filterTree(normalizedTree.value, categoryKeyword.value))
 const parentTreeData = computed(() => {
   if (!selectedCategoryId.value) {
-    return normalizedTree.value
+    return disableSystemParentNodes(normalizedTree.value)
   }
 
   const bannedIds = new Set(collectDescendantIds(categoryTree.value, selectedCategoryId.value))
@@ -562,6 +598,7 @@ const parentTreeData = computed(() => {
 
         return {
           ...node,
+          disabled: !!node.isSystem,
           children: walk(node.children || [])
         }
       })
@@ -572,7 +609,7 @@ const parentTreeData = computed(() => {
 })
 const createParentTreeData = computed(() => {
   if (!createForm.id) {
-    return normalizedTree.value
+    return disableSystemParentNodes(normalizedTree.value)
   }
 
   const bannedIds = new Set(collectDescendantIds(categoryTree.value, createForm.id))
@@ -586,6 +623,7 @@ const createParentTreeData = computed(() => {
 
         return {
           ...node,
+          disabled: !!node.isSystem,
           children: walk(node.children || [])
         }
       })
@@ -605,12 +643,12 @@ const moveSummaryText = computed(() => {
 const moveSourceText = computed(() => {
   if (moveMode.value === 'batch') {
     return selectedArticleRows.value.length > 0
-      ? `来源分类：${selectedArticleRows.value[0]?.category?.name || '未分类'}`
+      ? `来源分类：${selectedArticleRows.value[0]?.category?.name || DEFAULT_CATEGORY_LABEL}`
       : '来源分类：批量选择'
   }
 
   return movingArticleRecord.value
-    ? `来源分类：${movingArticleRecord.value.category?.name || '未分类'}`
+    ? `来源分类：${movingArticleRecord.value.category?.name || DEFAULT_CATEGORY_LABEL}`
     : ''
 })
 
@@ -684,6 +722,21 @@ function handleExpandTree(keys) {
   expandedKeys.value = keys
 }
 
+function isTreeNodeExpanded(id) {
+  return expandedKeys.value.includes(id)
+}
+
+function toggleTreeNode(node) {
+  if (!node?.children?.length) {
+    return
+  }
+
+  const key = node.id
+  expandedKeys.value = isTreeNodeExpanded(key)
+    ? expandedKeys.value.filter((item) => item !== key)
+    : [...expandedKeys.value, key]
+}
+
 async function saveSelectedCategory() {
   if (!currentCategory.value || isLockedCategory.value) {
     return
@@ -715,12 +768,9 @@ async function saveSelectedCategory() {
       if (profileChanged) {
         const payload = {
           name: editForm.name,
+          slug: editForm.slug || '',
           description: editForm.description,
           status: editForm.status
-        }
-
-        if (String(editForm.slug || '').trim()) {
-          payload.slug = editForm.slug
         }
 
         await updateAdminCategory(editForm.id, payload)
@@ -1080,10 +1130,20 @@ onMounted(() => {
   padding: 2px 0;
 }
 
+/* 折叠箭头隐藏，改为节点图标承载展开/收起 */
+.mg-category-tree :deep(.ant-tree-switcher) {
+  width: 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
 /* 节点内容区域：hover / 选中态 */
 .mg-category-tree :deep(.ant-tree-node-content-wrapper) {
-  padding: 2px 6px;
-  border-radius: 5px;
+  padding: 3px 6px;
+  border-radius: 6px;
   transition: all 0.15s ease;
 }
 
@@ -1096,28 +1156,48 @@ onMounted(() => {
   box-shadow: inset 3px 0 0 var(--console-primary-strong);
 }
 
-/* 连接线颜色微调 */
-.mg-category-tree :deep(.ant-tree-switcher-line-icon) {
-  color: var(--console-border);
-}
-
-.mg-category-tree :deep(.ant-tree-line) {
-  border-color: var(--console-border);
-}
-
 /* 树节点内容 */
 .mg-tree-node {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   width: 100%;
   font-size: 13.5px;
-  line-height: 24px;
+  line-height: 26px;
   cursor: pointer;
 }
 
 .mg-tree-node--locked {
-  opacity: 0.75;
+  opacity: 0.9;
+}
+
+.mg-tree-node-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 22px;
+  color: var(--console-text-secondary);
+  font-size: 15px;
+  transition: all 0.15s ease;
+}
+
+.mg-tree-node-icon--toggleable {
+  cursor: pointer;
+}
+
+.mg-tree-node--branch .mg-tree-node-icon {
+  color: var(--console-primary-strong);
+}
+
+.mg-tree-node--locked .mg-tree-node-icon {
+  color: #ad6800;
+}
+
+.mg-category-tree :deep(.ant-tree-node-content-wrapper:hover) .mg-tree-node-icon,
+.mg-category-tree :deep(.ant-tree-node-content-wrapper.ant-tree-node-selected) .mg-tree-node-icon {
+  color: var(--console-primary-strong);
 }
 
 .mg-tree-node--hidden .mg-tree-name {
@@ -1133,7 +1213,7 @@ onMounted(() => {
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
-  max-width: 140px;
+  max-width: 150px;
 }
 
 /* 锁定标签 — 紧凑精致 */
@@ -1156,17 +1236,26 @@ onMounted(() => {
 .mg-tree-arts {
   margin-left: auto;
   flex: 0 0 auto;
-  min-width: 18px;
-  text-align: right;
+  min-width: 30px;
+  height: 20px;
+  padding: 0 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
-  font-weight: 500;
+  line-height: 20px;
+  font-weight: 650;
   font-variant-numeric: tabular-nums;
   color: var(--console-text-secondary);
+  background: var(--console-surface-muted);
+  border: 1px solid var(--console-border);
+  border-radius: 999px;
 }
 
-/* 有文章时用主色强调 */
-.mg-tree-arts:not(:empty) {
-  /* 默认灰色即可，有数据时不额外强调避免视觉噪音 */
+.mg-category-tree :deep(.ant-tree-node-content-wrapper.ant-tree-node-selected) .mg-tree-arts {
+  color: var(--console-primary-strong);
+  background: #fff;
+  border-color: color-mix(in srgb, var(--console-primary-strong) 38%, var(--console-border));
 }
 
 .mg-tree-empty {
@@ -1324,6 +1413,18 @@ onMounted(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.mg-meta-value--number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 42px;
+  color: var(--console-primary-strong);
+  font-size: 18px;
+  line-height: 22px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── 空状态 ── */
