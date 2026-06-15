@@ -30,7 +30,13 @@ export const categorySchema = z.object({
 
 export const tagSchema = z.object({
   name: z.string().trim().min(1, '标签名称不能为空').max(32, '标签名称不能超过 32 个字符'),
-  slug: z.string().trim().toLowerCase().regex(slugPattern, '标签 slug 只能包含小写字母、数字和短横线'),
+  slug: z.preprocess(
+    (value) => {
+      const text = String(value ?? '').trim().toLowerCase()
+      return text || undefined
+    },
+    z.string().regex(slugPattern, '标签 slug 只能包含小写字母、数字和短横线').optional()
+  ),
   description: z.string().trim().max(180, '标签描述不能超过 180 个字符').optional().default(''),
   color: z.string().trim().optional().default('#2852b8'),
   sortOrder: z.number().int().optional().default(0),

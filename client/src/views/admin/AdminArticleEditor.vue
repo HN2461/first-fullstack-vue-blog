@@ -11,6 +11,7 @@
       >
 
       <div class="writer-studio__actions">
+        <a-button @click="handleBack">返回</a-button>
         <a-segmented
           v-model:value="viewMode"
           class="writer-studio__mode-switch"
@@ -333,11 +334,11 @@
           <a-form-item label="标签名称" required>
             <a-input v-model:value.trim="tagDraft.name" placeholder="例如 入门指南" />
           </a-form-item>
-          <a-form-item label="标签路径">
-            <a-input v-model:value.trim="tagDraft.slug" placeholder="不填则自动生成" />
-          </a-form-item>
           <a-form-item label="标签颜色">
-            <a-input v-model:value.trim="tagDraft.color" placeholder="#1677ff" />
+            <div class="color-picker-row">
+              <input type="color" v-model="tagDraft.color" class="color-picker-input" />
+              <a-input v-model:value="tagDraft.color" placeholder="#1677ff" style="flex: 1" />
+            </div>
           </a-form-item>
         </a-form>
       </div>
@@ -440,7 +441,6 @@ const categoryDraft = reactive({
 })
 const tagDraft = reactive({
   name: '',
-  slug: '',
   color: '#1677ff'
 })
 
@@ -477,6 +477,10 @@ function handleTitleInput() {
   return form.title
 }
 
+function handleBack() {
+  router.back()
+}
+
 function normalizePublishPayload() {
   return {
     summary: publishForm.summary.trim(),
@@ -499,7 +503,7 @@ function normalizePublishPayload() {
 }
 
 function buildSimpleSlug(value) {
-  return String(value || '')
+  const ascii = String(value || '')
     .trim()
     .toLowerCase()
     .replace(/['"]/g, '')
@@ -507,6 +511,14 @@ function buildSimpleSlug(value) {
     .replace(/[\u4e00-\u9fa5]/g, '')
     .replace(/-{2,}/g, '-')
     .replace(/^-|-$/g, '')
+
+  // 纯中文或无 ASCII 字符时，生成 fallback slug
+  if (!ascii) {
+    const suffix = Math.random().toString(36).slice(2, 10)
+    return `tag-${suffix}`
+  }
+
+  return ascii
 }
 
 function normalizeArticlePayload(status = 'draft') {
@@ -664,7 +676,6 @@ async function handleCreateCategory() {
 
 function openTagModal() {
   tagDraft.name = ''
-  tagDraft.slug = ''
   tagDraft.color = '#1677ff'
   tagModalVisible.value = true
 }
@@ -718,13 +729,13 @@ async function handleCreateTag() {
 
   tagSubmitting.value = true
   try {
-    const created = await createAdminTag({
+    const payload = {
       name: tagDraft.name.trim(),
-      slug: tagDraft.slug.trim() || buildSimpleSlug(tagDraft.name),
       color: tagDraft.color.trim() || '#1677ff',
       sortOrder: 0,
       status: 'active'
-    })
+    }
+    const created = await createAdminTag(payload)
     await loadOptions()
     publishForm.tags = [...new Set([...publishForm.tags, created.id])]
     tagModalVisible.value = false
@@ -1402,6 +1413,32 @@ onMounted(async () => {
 :deep(.form-modal .ant-modal) {
   width: min(520px, 70vw) !important;
   max-width: 70vw;
+}
+
+.color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-picker-input {
+  width: 36px;
+  height: 36px;
+  padding: 2px;
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: #fff;
+}
+
+.color-picker-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.color-picker-input::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
 }
 
 @media (max-width: 960px) {

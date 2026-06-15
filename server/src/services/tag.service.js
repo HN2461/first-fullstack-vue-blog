@@ -1,3 +1,4 @@
+import crypto from 'node:crypto'
 import { Tag } from '../models/Tag.js'
 
 function createHttpError(statusCode, code, message) {
@@ -7,13 +8,46 @@ function createHttpError(statusCode, code, message) {
   return error
 }
 
-export async function createTag(input) {
-  const slug = input.slug.trim().toLowerCase()
-  const exists = await Tag.exists({ slug })
+function generateTagSlug(name) {
+  const normalized = String(name || '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
 
-  if (exists) {
-    throw createHttpError(409, 'TAG_SLUG_EXISTS', '标签 slug 已存在')
+  const hash = crypto.createHash('sha256').update(String(name || '')).digest('hex').slice(0, 8)
+  const fallback = `tag-${hash}`
+  const base = normalized || fallback
+  const trimmed = base.slice(0, Math.max(1, 62 - hash.length - 1)).replace(/^-+|-+$/g, '')
+
+  return `${trimmed || 'tag'}-${hash}`
+}
+
+async function ensureUniqueTagSlug(baseSlug, excludeId = null) {
+  let candidate = baseSlug
+  let index = 1
+
+  while (true) {
+    const query = { slug: candidate }
+    if (excludeId) {
+      query._id = { $ne: excludeId }
+    }
+
+    const exists = await Tag.exists(query)
+    if (!exists) {
+      return candidate
+    }
+
+    index += 1
+    candidate = `${baseSlug}-${index}`
   }
+}
+
+export async function createTag(input) {
+  const rawSlug = String(input.slug || '').trim().toLowerCase()
+  const baseSlug = rawSlug || generateTagSlug(input.name)
+  const slug = await ensureUniqueTagSlug(baseSlug)
 
   const tag = await Tag.create({
     name: input.name.trim(),

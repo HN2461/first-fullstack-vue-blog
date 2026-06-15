@@ -72,8 +72,8 @@
         <a-form-item label="标签名称" name="name" :rules="[{ required: true, message: '请输入标签名称' }]">
           <a-input v-model:value.trim="form.name" placeholder="例如 Express" />
         </a-form-item>
-        <a-form-item label="Slug" name="slug" :rules="[{ required: true, message: '请输入 slug' }]">
-          <a-input v-model:value.trim="form.slug" placeholder="例如 express" />
+        <a-form-item label="Slug" name="slug">
+          <a-input v-model:value.trim="form.slug" placeholder="留空则自动生成" />
         </a-form-item>
         <a-form-item label="标签颜色" name="color">
           <a-input v-model:value.trim="form.color" placeholder="#1677ff">
@@ -195,22 +195,20 @@ async function handleModalSubmit() {
 
   submitting.value = true
   try {
+    const payload = {
+      name: form.name,
+      color: form.color,
+      sortOrder: form.sortOrder,
+      status: form.status
+    }
+    if (form.slug.trim()) {
+      payload.slug = form.slug.trim()
+    }
+
     await runAction(() => (
       editingId.value
-        ? updateAdminTag(editingId.value, {
-          name: form.name,
-          slug: form.slug,
-          color: form.color,
-          sortOrder: form.sortOrder,
-          status: form.status
-        })
-        : createAdminTag({
-        name: form.name,
-        slug: form.slug,
-        color: form.color,
-        sortOrder: form.sortOrder,
-        status: form.status
-      })
+        ? updateAdminTag(editingId.value, payload)
+        : createAdminTag(payload)
     ), {
       successMessage: editingId.value ? '标签已更新' : '标签已创建',
       errorMessage: '操作失败'
