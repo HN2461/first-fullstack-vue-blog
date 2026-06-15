@@ -873,9 +873,11 @@ async function openTrashModal() {
 async function loadTrashMediaList() {
   trashLoading.value = true
   try {
-    const result = await listTrashMedia({
+    const result = await runAction(() => listTrashMedia({
       page: trashPage.value,
       pageSize: trashPageSize
+    }), {
+      errorMessage: '回收站加载失败'
     })
     trashItems.value = result.items || []
     trashTotal.value = result.total || 0
@@ -1018,10 +1020,14 @@ function removeCategory(item) {
 }
 
 onMounted(async () => {
-  await Promise.all([
-    loadCategories(),
-    loadUploadRules()
-  ])
+  try {
+    await Promise.all([
+      loadCategories(),
+      loadUploadRules()
+    ])
+  } catch (error) {
+    errorMessage.value = error.message || '媒体页初始化失败'
+  }
 })
 </script>
 
