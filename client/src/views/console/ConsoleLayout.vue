@@ -157,7 +157,7 @@
             </template>
             <a-sub-menu v-if="uncategorizedArticles.length > 0" key="category:__uncategorized">
               <template #icon><FolderOutlined /></template>
-              <template #title>未分类</template>
+              <template #title>默认分类</template>
               <a-menu-item
                 v-for="article in uncategorizedArticles"
                 :key="`/console/articles/${article.slug}`"
