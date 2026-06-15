@@ -51,6 +51,15 @@ const mediaSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Article',
       default: null
+    },
+    deletedAt: {
+      type: Date,
+      default: null
+    },
+    deletedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null
     }
   },
   {
@@ -72,6 +81,8 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
     fileClass: this.fileClass || 'other',
     uploader: this.uploader?.toString?.(),
     article: this.article?.toString?.() || null,
+    deletedAt: this.deletedAt || null,
+    deletedBy: this.deletedBy?.toString?.() || null,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   }

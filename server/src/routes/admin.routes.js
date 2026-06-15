@@ -7,7 +7,7 @@ import { createArticle, deleteArticle, emptyTrash, getArticleById, listArticles,
 import { createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '../services/category.service.js'
 import { listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '../services/mediaCategory.service.js'
-import { createMediaFromFile, deleteMedia, getUploadSubdir, listMedia, listMediaCategories } from '../services/media.service.js'
+import { createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, restoreMedia } from '../services/media.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '../services/notification.service.js'
 import { getSettings, updateSettings } from '../services/setting.service.js'
 import { getAdminStats } from '../services/stats.service.js'
@@ -32,12 +32,55 @@ const storage = multer.diskStorage({
   }
 })
 
+const ABSOLUTE_MAX_MEDIA_FILES = 20
+const ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB = 200
+
 const upload = multer({
   storage,
   limits: {
-    fileSize: 5 * 1024 * 1024
+    fileSize: ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB * 1024 * 1024
   }
 })
+
+function getUploadedFiles(req) {
+  if (Array.isArray(req.files)) {
+    return req.files
+  }
+
+  return [
+    ...(req.files?.files || []),
+    ...(req.files?.file || [])
+  ]
+}
+
+async function cleanupUploadedFiles(files = []) {
+  await Promise.all(files.map(async (file) => {
+    if (!file?.path) return
+
+    try {
+      await fs.promises.unlink(file.path)
+    } catch (error) {
+      if (error.code !== 'ENOENT') {
+        throw error
+      }
+    }
+  }))
+}
+
+async function getMediaUploadRules() {
+  const settings = await getSettings()
+  return {
+    maxFiles: Number(settings.mediaMaxFilesPerUpload) || 5,
+    maxFileSizeMB: Number(settings.mediaMaxFileSizeMB) || 20
+  }
+}
+
+function createUploadValidationError(message, code) {
+  const error = new Error(message)
+  error.statusCode = 400
+  error.code = code
+  return error
+}
 
 adminRouter.use(requireAuth, requireAdmin)
 
@@ -196,6 +239,10 @@ adminRouter.get('/media', asyncHandler(async (req, res) => {
   res.json(ok(await listMedia(req.query)))
 }))
 
+adminRouter.get('/media/trash', asyncHandler(async (req, res) => {
+  res.json(ok(await listMedia({ ...req.query, scope: 'trash' })))
+}))
+
 adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
   res.json(ok(await listMediaCategoryEntities()))
 }))
@@ -213,13 +260,18 @@ adminRouter.delete('/media/categories/:id', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.post('/media', (req, res, next) => {
-  upload.single('file')(req, res, async (error) => {
+  upload.fields([
+    { name: 'files', maxCount: ABSOLUTE_MAX_MEDIA_FILES },
+    { name: 'file', maxCount: 1 }
+  ])(req, res, async (error) => {
     if (error) {
       if (error instanceof MulterError) {
         error.statusCode = 400
         error.code = error.code || 'UPLOAD_ERROR'
         if (error.code === 'LIMIT_FILE_SIZE') {
-          error.message = '文件大小不能超过 5MB'
+          error.message = `文件大小不能超过 ${ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB}MB`
+        } else if (error.code === 'LIMIT_UNEXPECTED_FILE') {
+          error.message = `单次最多上传 ${ABSOLUTE_MAX_MEDIA_FILES} 个文件`
         }
       }
 
@@ -228,26 +280,52 @@ adminRouter.post('/media', (req, res, next) => {
     }
 
     try {
-      if (!req.file) {
+      const files = getUploadedFiles(req)
+      if (files.length === 0) {
         const fileError = new Error('请选择要上传的文件')
         fileError.statusCode = 400
         fileError.code = 'FILE_REQUIRED'
         throw fileError
       }
 
-      const media = await createMediaFromFile(req.file, req.user, {
+      const rules = await getMediaUploadRules()
+      if (files.length > rules.maxFiles) {
+        await cleanupUploadedFiles(files)
+        throw createUploadValidationError(`单次最多上传 ${rules.maxFiles} 个文件`, 'MEDIA_UPLOAD_COUNT_LIMIT')
+      }
+
+      const oversized = files.find((file) => file.size > rules.maxFileSizeMB * 1024 * 1024)
+      if (oversized) {
+        await cleanupUploadedFiles(files)
+        throw createUploadValidationError(`单文件大小不能超过 ${rules.maxFileSizeMB}MB`, 'MEDIA_UPLOAD_SIZE_LIMIT')
+      }
+
+      const result = await createMediaFromFiles(files, req.user, {
         category: req.body?.category
       })
-      res.status(201).json(ok(media, '文件已上传'))
+      res.status(201).json(ok(result.total === 1 ? result.items[0] : result, `已上传 ${result.total} 个文件`))
     } catch (handlerError) {
       next(handlerError)
     }
   })
 })
 
+adminRouter.post('/media/:id/restore', asyncHandler(async (req, res) => {
+  res.json(ok(await restoreMedia(req.params.id), '媒体文件已恢复'))
+}))
+
+adminRouter.delete('/media/:id/permanent', asyncHandler(async (req, res) => {
+  res.json(ok(await permanentDeleteMedia(req.params.id), '媒体文件已彻底删除'))
+}))
+
+adminRouter.delete('/media/trash/empty', asyncHandler(async (req, res) => {
+  const result = await emptyMediaTrash()
+  res.json(ok(result, `已清空 ${result.deletedCount} 个回收站文件`))
+}))
+
 adminRouter.delete('/media/:id', asyncHandler(async (req, res) => {
-  const result = await deleteMedia(req.params.id)
-  res.json(ok(result, '媒体文件已删除'))
+  const result = await deleteMedia(req.params.id, req.user)
+  res.json(ok(result, '媒体文件已移入回收站'))
 }))
 
 adminRouter.get('/announcements', asyncHandler(async (req, res) => {

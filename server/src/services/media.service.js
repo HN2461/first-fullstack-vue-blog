@@ -1,3 +1,4 @@
+import fs from 'node:fs/promises'
 import path from 'node:path'
 import { env } from '../config/env.js'
 import { Media } from '../models/Media.js'
@@ -57,12 +58,27 @@ export async function createMediaFromFile(file, user, metadata = {}) {
   return media.toSafeJSON()
 }
 
+export async function createMediaFromFiles(files, user, metadata = {}) {
+  const items = []
+
+  for (const file of files) {
+    items.push(await createMediaFromFile(file, user, metadata))
+  }
+
+  return {
+    items,
+    total: items.length
+  }
+}
+
 export async function listMedia(options = {}) {
   await ensureDefaultMediaCategory()
   const { kind, fileClass, keyword } = options
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
-  const query = {}
+  const query = options.deleted === 'true' || options.scope === 'trash'
+    ? { deletedAt: { $exists: true, $ne: null } }
+    : { deletedAt: null }
 
   if (kind) {
     query.kind = kind
@@ -123,6 +139,11 @@ export async function listMediaCategories() {
   await ensureDefaultMediaCategory()
   const rows = await Media.aggregate([
     {
+      $match: {
+        deletedAt: null
+      }
+    },
+    {
       $group: {
         _id: { $ifNull: ['$category', '默认素材'] },
         count: { $sum: 1 }
@@ -154,7 +175,70 @@ export function getUploadSubdir() {
   )
 }
 
-export async function deleteMedia(id) {
+function getUploadsRoot() {
+  return path.resolve(env.rootDir, env.uploadDir)
+}
+
+function isPathInside(parent, target) {
+  const relative = path.relative(parent, target)
+  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative))
+}
+
+async function removeStoredFile(storagePath) {
+  const uploadsRoot = getUploadsRoot()
+  const targetPath = path.resolve(storagePath)
+
+  if (!isPathInside(uploadsRoot, targetPath)) {
+    const error = new Error('媒体文件存储路径不安全，已阻止物理删除')
+    error.statusCode = 400
+    error.code = 'MEDIA_STORAGE_PATH_UNSAFE'
+    throw error
+  }
+
+  try {
+    await fs.unlink(targetPath)
+    return true
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return false
+    }
+    throw error
+  }
+}
+
+export async function deleteMedia(id, user) {
+  const media = await Media.findOne({ _id: id, deletedAt: null })
+  if (!media) {
+    const error = new Error('媒体文件不存在')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+
+  media.deletedAt = new Date()
+  media.deletedBy = user?._id || null
+  await media.save()
+
+  return { id, deleted: true, mode: 'soft' }
+}
+
+export async function restoreMedia(id) {
+  const media = await Media.findOne({ _id: id, deletedAt: { $exists: true, $ne: null } })
+  if (!media) {
+    const error = new Error('回收站中未找到该媒体文件')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+
+  media.deletedAt = null
+  media.deletedBy = null
+  await media.save()
+
+  return media.toSafeJSON()
+}
+
+export async function permanentDeleteMedia(id) {
   const media = await Media.findById(id)
   if (!media) {
     const error = new Error('媒体文件不存在')
@@ -163,9 +247,28 @@ export async function deleteMedia(id) {
     throw error
   }
 
-  // 删除物理文件（可选，这里只删除数据库记录）
-  // fs.unlinkSync(media.storagePath)
+  const fileRemoved = await removeStoredFile(media.storagePath)
 
   await Media.findByIdAndDelete(id)
-  return { id, deleted: true }
+  return { id, deleted: true, mode: 'permanent', fileRemoved }
+}
+
+export async function emptyMediaTrash() {
+  const mediaList = await Media.find({ deletedAt: { $exists: true, $ne: null } })
+  let removedFileCount = 0
+
+  for (const media of mediaList) {
+    if (await removeStoredFile(media.storagePath)) {
+      removedFileCount += 1
+    }
+  }
+
+  const result = await Media.deleteMany({
+    _id: { $in: mediaList.map((media) => media._id) }
+  })
+
+  return {
+    deletedCount: result.deletedCount || 0,
+    removedFileCount
+  }
 }

@@ -32,6 +32,14 @@
         />
       </div>
       <div class="media-cloud__actions">
+        <a-button size="middle" @click="openUploadSettings">
+          <template #icon><SettingOutlined /></template>
+          上传限制
+        </a-button>
+        <a-button size="middle" @click="openTrashModal">
+          <template #icon><RestOutlined /></template>
+          回收站
+        </a-button>
         <a-button size="middle" @click="categoryModalVisible = true">管理分类</a-button>
         <a-button type="primary" size="middle" @click="uploadModalVisible = true">
           <template #icon><InboxOutlined /></template>
@@ -120,18 +128,10 @@
                   查看
                 </a-button>
               </a-tooltip>
-              <a-popconfirm
-                title="确定删除该资源？"
-                ok-text="删除"
-                cancel-text="取消"
-                ok-type="danger"
-                @confirm="handleDelete(record)"
-              >
-                <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete">
-                  <template #icon><DeleteOutlined /></template>
-                  删除
-                </a-button>
-              </a-popconfirm>
+              <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete" @click="handleDelete(record)">
+                <template #icon><DeleteOutlined /></template>
+                删除
+              </a-button>
             </a-space>
           </template>
         </template>
@@ -163,18 +163,113 @@
         </a-form-item>
         <a-form-item label="选择文件">
           <a-upload-dragger
+            multiple
             :before-upload="beforeUpload"
             :show-upload-list="false"
             accept="image/*,.pdf,.txt,.md,.zip,.rar,.7z,.json,.js,.ts,.vue,.java,.py,.sql,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv"
           >
             <p class="ant-upload-drag-icon"><InboxOutlined /></p>
             <p class="ant-upload-text">拖拽文件到这里，或点击选择本地资源</p>
+            <p class="ant-upload-hint">
+              单次最多 {{ uploadRules.maxFiles }} 个文件，单文件最大 {{ uploadRules.maxFileSizeMB }}MB
+            </p>
           </a-upload-dragger>
         </a-form-item>
       </a-form>
-      <div v-if="file" class="media-cloud__file-chip">
-        <strong>{{ file.name }}</strong>
-        <span>{{ Math.ceil((file.size || 0) / 1024) }} KB</span>
+      <div v-if="files.length" class="media-cloud__file-list">
+        <div v-for="(item, index) in files" :key="`${item.name}-${item.size}-${index}`" class="media-cloud__file-chip">
+          <strong>{{ item.name }}</strong>
+          <span>{{ formatFileSize(item.size) }}</span>
+          <a-button type="text" size="small" danger @click="removeSelectedFile(index)">移除</a-button>
+        </div>
+      </div>
+    </a-modal>
+
+    <a-modal
+      v-model:open="settingsModalVisible"
+      title="上传限制"
+      :confirm-loading="settingsSaving"
+      ok-text="保存限制"
+      cancel-text="取消"
+      centered
+      width="420px"
+      @ok="saveUploadSettings"
+    >
+      <a-form layout="vertical">
+        <a-form-item label="单次最大上传文件数量">
+          <a-input-number
+            v-model:value="settingsDraft.mediaMaxFilesPerUpload"
+            :min="1"
+            :max="20"
+            style="width: 100%"
+          />
+        </a-form-item>
+        <a-form-item label="单文件上传最大容量（MB）">
+          <a-input-number
+            v-model:value="settingsDraft.mediaMaxFileSizeMB"
+            :min="1"
+            :max="200"
+            style="width: 100%"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:open="trashModalVisible"
+      title="媒体回收站"
+      :footer="null"
+      width="760px"
+      centered
+      @cancel="trashPage = 1"
+    >
+      <div class="media-trash">
+        <div class="media-trash__toolbar">
+          <span>普通删除的资源会保留在回收站，彻底删除后会同步移除服务器磁盘文件。</span>
+          <a-space>
+            <a-button size="small" @click="loadTrashMediaList">
+              <template #icon><ReloadOutlined /></template>
+              刷新
+            </a-button>
+            <a-button size="small" danger :disabled="trashTotal === 0" @click="handleEmptyTrash">
+              <template #icon><DeleteOutlined /></template>
+              清空回收站
+            </a-button>
+          </a-space>
+        </div>
+        <a-table
+          :columns="trashColumns"
+          :data-source="trashItems"
+          :loading="trashLoading"
+          :pagination="trashPagination"
+          row-key="id"
+          size="small"
+          @change="handleTrashTableChange"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'asset'">
+              <div class="media-trash-file">
+                <strong :title="record.originalName">{{ record.originalName }}</strong>
+                <span>{{ record.category || '未分类' }} · {{ formatFileSize(record.size) }}</span>
+              </div>
+            </template>
+            <template v-else-if="column.key === 'deletedAt'">
+              <span class="media-time">{{ formatDate(record.deletedAt) }}</span>
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <a-space size="small">
+                <a-button type="link" size="small" @click="handleRestoreTrash(record)">
+                  <template #icon><ReloadOutlined /></template>
+                  恢复
+                </a-button>
+                <a-button type="link" size="small" danger @click="handlePermanentDelete(record)">
+                  <template #icon><DeleteOutlined /></template>
+                  彻底删除
+                </a-button>
+              </a-space>
+            </template>
+          </template>
+        </a-table>
       </div>
     </a-modal>
 
@@ -349,6 +444,9 @@ import {
   InboxOutlined,
   EyeOutlined,
   DeleteOutlined,
+  SettingOutlined,
+  RestOutlined,
+  ReloadOutlined,
   CustomerServiceOutlined,
   FileZipOutlined,
   FileUnknownOutlined,
@@ -360,15 +458,21 @@ import {
   createAdminMediaCategory,
   deleteAdminMedia,
   deleteAdminMediaCategory,
+  emptyMediaTrash,
+  getAdminSettings,
   listAdminMedia,
   listAdminMediaCategories,
+  listTrashMedia,
+  permanentDeleteAdminMedia,
+  restoreAdminMedia,
   updateAdminMediaCategory,
+  updateAdminSettings,
   uploadAdminMedia
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
-const file = ref(null)
+const files = ref([])
 const errorMessage = ref('')
 const uploading = ref(false)
 const uploadCategory = ref('默认素材')
@@ -381,6 +485,22 @@ const categoryModalVisible = ref(false)
 const categorySubmitting = ref(false)
 const editingCategoryId = ref('')
 const actionLoadingKey = ref('')
+const settingsModalVisible = ref(false)
+const settingsSaving = ref(false)
+const uploadRules = ref({
+  maxFiles: 5,
+  maxFileSizeMB: 20
+})
+const settingsDraft = ref({
+  mediaMaxFilesPerUpload: 5,
+  mediaMaxFileSizeMB: 20
+})
+const trashModalVisible = ref(false)
+const trashLoading = ref(false)
+const trashItems = ref([])
+const trashPage = ref(1)
+const trashPageSize = 10
+const trashTotal = ref(0)
 const categoryDraft = ref({
   name: '',
   description: ''
@@ -433,6 +553,33 @@ const columns = [
   { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
 ]
 
+const trashColumns = [
+  {
+    title: '文件',
+    key: 'asset'
+  },
+  {
+    title: '删除时间',
+    key: 'deletedAt',
+    width: 180,
+    align: 'center'
+  },
+  {
+    title: '操作',
+    key: 'action',
+    width: 180,
+    align: 'center'
+  }
+]
+
+const trashPagination = computed(() => ({
+  current: trashPage.value,
+  pageSize: trashPageSize,
+  total: trashTotal.value,
+  showSizeChanger: false,
+  size: 'small'
+}))
+
 const summaryCards = computed(() => {
   const countMap = Object.fromEntries(fileClassOptions.map((item) => [item.value, 0]))
   categories.value.forEach(() => {})
@@ -460,12 +607,27 @@ function filterSelectOption(input, option) {
 }
 
 function beforeUpload(nextFile) {
-  file.value = nextFile
+  if (files.value.length >= uploadRules.value.maxFiles) {
+    errorMessage.value = `单次最多选择 ${uploadRules.value.maxFiles} 个文件`
+    return false
+  }
+
+  if ((nextFile.size || 0) > uploadRules.value.maxFileSizeMB * 1024 * 1024) {
+    errorMessage.value = `单文件大小不能超过 ${uploadRules.value.maxFileSizeMB}MB`
+    return false
+  }
+
+  errorMessage.value = ''
+  files.value.push(nextFile)
   return false
 }
 
+function removeSelectedFile(index) {
+  files.value.splice(index, 1)
+}
+
 function resetUploadDraft() {
-  file.value = null
+  files.value = []
   errorMessage.value = ''
 }
 
@@ -522,16 +684,58 @@ async function loadCategories() {
   categories.value = await listAdminMediaCategories()
 }
 
+async function loadUploadRules() {
+  const settings = await getAdminSettings()
+  uploadRules.value = {
+    maxFiles: Number(settings.mediaMaxFilesPerUpload) || 5,
+    maxFileSizeMB: Number(settings.mediaMaxFileSizeMB) || 20
+  }
+  settingsDraft.value = {
+    mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
+    mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB
+  }
+}
+
+function openUploadSettings() {
+  settingsDraft.value = {
+    mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
+    mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB
+  }
+  settingsModalVisible.value = true
+}
+
+async function saveUploadSettings() {
+  settingsSaving.value = true
+  try {
+    const nextSettings = await runAction(() => updateAdminSettings({
+      mediaMaxFilesPerUpload: Number(settingsDraft.value.mediaMaxFilesPerUpload),
+      mediaMaxFileSizeMB: Number(settingsDraft.value.mediaMaxFileSizeMB)
+    }), {
+      successMessage: '上传限制已保存',
+      errorMessage: '上传限制保存失败'
+    })
+
+    uploadRules.value = {
+      maxFiles: Number(nextSettings.mediaMaxFilesPerUpload) || 5,
+      maxFileSizeMB: Number(nextSettings.mediaMaxFileSizeMB) || 20
+    }
+    settingsModalVisible.value = false
+    resetUploadDraft()
+  } finally {
+    settingsSaving.value = false
+  }
+}
+
 async function uploadFile() {
-  if (!file.value) {
+  if (files.value.length === 0) {
     errorMessage.value = '请选择要上传的资源文件'
     return
   }
   errorMessage.value = ''
   uploading.value = true
   try {
-    await runAction(() => uploadAdminMedia(file.value, { category: uploadCategory.value || '默认素材' }), {
-      successMessage: '上传成功',
+    await runAction(() => uploadAdminMedia(files.value, { category: uploadCategory.value || '默认素材' }), {
+      successMessage: `已上传 ${files.value.length} 个资源`,
       errorMessage: '上传失败'
     })
     resetUploadDraft()
@@ -635,24 +839,112 @@ function retryOfficeViewer() {
 
 function handleDelete(record) {
   confirmAction({
-    title: '确定删除此文件？',
-    content: `文件「${record.originalName}」删除后将无法继续在文章或公告中引用。`,
-    okText: '确认删除',
+    title: '移入回收站',
+    content: `文件「${record.originalName}」会从媒体库列表移除，数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`,
+    okText: '移入回收站',
     okType: 'danger',
     async onOk() {
       actionLoadingKey.value = `delete:${record.id}`
       try {
         await runAction(() => deleteAdminMedia(record.id), {
-          successMessage: '文件已删除',
+          successMessage: '文件已移入回收站',
           errorMessage: '删除失败',
           onSuccess: async () => {
             await loadCategories()
+            if (trashModalVisible.value) {
+              await loadTrashMediaList()
+            }
             tableRef.value?.refresh()
           }
         })
       } finally {
         actionLoadingKey.value = ''
       }
+    }
+  }).catch(() => {})
+}
+
+async function openTrashModal() {
+  trashModalVisible.value = true
+  trashPage.value = 1
+  await loadTrashMediaList()
+}
+
+async function loadTrashMediaList() {
+  trashLoading.value = true
+  try {
+    const result = await listTrashMedia({
+      page: trashPage.value,
+      pageSize: trashPageSize
+    })
+    trashItems.value = result.items || []
+    trashTotal.value = result.total || 0
+  } finally {
+    trashLoading.value = false
+  }
+}
+
+function handleTrashTableChange(pagination) {
+  trashPage.value = pagination.current || 1
+  loadTrashMediaList()
+}
+
+function handleRestoreTrash(record) {
+  confirmAction({
+    title: '恢复媒体文件',
+    content: `确认恢复「${record.originalName}」到媒体库？`,
+    okText: '恢复',
+    async onOk() {
+      await runAction(() => restoreAdminMedia(record.id), {
+        successMessage: '媒体文件已恢复',
+        errorMessage: '恢复失败',
+        onSuccess: async () => {
+          await loadCategories()
+          await loadTrashMediaList()
+          tableRef.value?.refresh()
+        }
+      })
+    }
+  }).catch(() => {})
+}
+
+function handlePermanentDelete(record) {
+  confirmAction({
+    title: '彻底删除媒体文件',
+    content: `彻底删除「${record.originalName}」会同步删除数据库记录和服务器磁盘文件，无法恢复。`,
+    okText: '彻底删除',
+    okType: 'danger',
+    async onOk() {
+      await runAction(() => permanentDeleteAdminMedia(record.id), {
+        successMessage: '媒体文件已彻底删除',
+        errorMessage: '彻底删除失败',
+        onSuccess: async () => {
+          await loadCategories()
+          await loadTrashMediaList()
+          tableRef.value?.refresh()
+        }
+      })
+    }
+  }).catch(() => {})
+}
+
+function handleEmptyTrash() {
+  confirmAction({
+    title: '清空媒体回收站',
+    content: '清空后会批量删除回收站内媒体的数据库记录和服务器磁盘文件，无法恢复。',
+    okText: '清空回收站',
+    okType: 'danger',
+    async onOk() {
+      await runAction(() => emptyMediaTrash(), {
+        successMessage: '媒体回收站已清空',
+        errorMessage: '清空回收站失败',
+        onSuccess: async () => {
+          trashPage.value = 1
+          await loadCategories()
+          await loadTrashMediaList()
+          tableRef.value?.refresh()
+        }
+      })
     }
   }).catch(() => {})
 }
@@ -725,7 +1017,12 @@ function removeCategory(item) {
   }).catch(() => {})
 }
 
-onMounted(loadCategories)
+onMounted(async () => {
+  await Promise.all([
+    loadCategories(),
+    loadUploadRules()
+  ])
+})
 </script>
 
 <style scoped>
@@ -966,6 +1263,81 @@ onMounted(loadCategories)
 
 .media-action-btn--delete:hover {
   background: #fef2f2 !important;
+}
+
+.media-cloud__alert {
+  margin-bottom: 12px;
+}
+
+.media-cloud__file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-top: 4px;
+}
+
+.media-cloud__file-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.media-cloud__file-chip strong {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+.media-cloud__file-chip span {
+  color: #64748b;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.media-trash {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.media-trash__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.media-trash-file {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.media-trash-file strong {
+  overflow: hidden;
+  color: #1e293b;
+  font-size: 13px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-trash-file span {
+  color: #94a3b8;
+  font-size: 12px;
 }
 
 /* ===== 表格区域深度样式覆盖 ===== */
@@ -1242,6 +1614,11 @@ onMounted(loadCategories)
 
   .media-category-panel__list-wrap {
     max-height: 280px;
+  }
+
+  .media-trash__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .media-category-item {

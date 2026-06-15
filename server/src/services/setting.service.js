@@ -6,7 +6,9 @@ const DEFAULT_SETTINGS = {
   authorName: 'Haonan',
   commentEnabled: true,
   defaultTheme: 'light',
-  systemVersion: 'v1.0.0'
+  systemVersion: 'v1.0.0',
+  mediaMaxFilesPerUpload: 5,
+  mediaMaxFileSizeMB: 20
 }
 
 export async function getSettings() {
@@ -21,14 +23,14 @@ export async function updateSettings(input, user) {
   const entries = Object.entries(input)
 
   for (const [key, value] of entries) {
-    await Setting.findOneAndUpdate(
-      { key },
-      {
-        key,
-        value,
-        group: key.startsWith('site') || key.startsWith('author') ? 'site' : 'system',
-        updatedBy: user._id
-      },
+      await Setting.findOneAndUpdate(
+        { key },
+        {
+          key,
+          value,
+          group: key.startsWith('site') || key.startsWith('author') ? 'site' : key.startsWith('media') ? 'media' : 'system',
+          updatedBy: user._id
+        },
       {
         upsert: true,
         new: true

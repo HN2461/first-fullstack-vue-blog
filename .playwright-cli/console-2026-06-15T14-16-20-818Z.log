@@ -1,0 +1,9 @@
+[     304ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:5173/favicon.ico:0
+[     356ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:5173/node_modules/.vite/deps/highlight__js_lib_languages_dockerfile.js?v=c9741d22:0
+[     357ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:5173/node_modules/.vite/deps/highlight__js_lib_languages_dos.js?v=8f956e66:0
+[     357ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:5173/node_modules/.vite/deps/highlight__js_lib_languages_http.js?v=0ae29135:0
+[     357ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:5173/node_modules/.vite/deps/highlight__js_lib_languages_nginx.js?v=b56bfc7b:0
+[     360ms] [WARNING] [Vue Router warn]: uncaught error during route navigation: @ http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=83d75f42:51
+[     360ms] [ERROR] TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5173/src/views/public/ArticleDetailPage.vue?t=1781532114246 @ http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=83d75f42:2107
+[     361ms] [WARNING] [Vue Router warn]: Unexpected error when starting the router: TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5173/src/views/public/ArticleDetailPage.vue?t=1781532114246 @ http://127.0.0.1:5173/node_modules/.vite/deps/vue-router.js?v=83d75f42:51
+[     361ms] [ERROR] Failed to load resource: the server responded with a status of 504 (Outdated Optimize Dep) @ http://127.0.0.1:5173/node_modules/.vite/deps/highlight__js_lib_languages_properties.js?v=fd0fdb9e:0

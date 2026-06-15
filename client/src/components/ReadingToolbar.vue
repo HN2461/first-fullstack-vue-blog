@@ -76,6 +76,13 @@
               <span>{{ immersiveMode ? '退出沉浸' : '沉浸阅读' }}</span>
             </button>
           </div>
+
+          <div v-if="!footerActionsVisible" class="panel-section">
+            <button class="action-btn footer-btn" type="button" @click.stop="showFooterActions">
+              <Eye :size="18" />
+              <span>显示底栏</span>
+            </button>
+          </div>
         </section>
       </Transition>
     </div>
@@ -84,16 +91,24 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { Focus, RotateCcw, X } from 'lucide-vue-next'
+import { Eye, Focus, RotateCcw, X } from 'lucide-vue-next'
 import { getDefaultFontSize, getFontSize, MAX_FONT_SIZE, MIN_FONT_SIZE, setFontSize } from '@/utils/fontSizeStorage'
 import { resolveScrollableContainer } from '@/utils/scrollContainer'
 
-const emit = defineEmits(['fontSizeChange', 'toggleImmersive'])
+const emit = defineEmits(['fontSizeChange', 'toggleImmersive', 'showFooterActions'])
 
-defineProps({
+const props = defineProps({
   immersiveMode: {
     type: Boolean,
     default: false
+  },
+  footerActionsVisible: {
+    type: Boolean,
+    default: true
+  },
+  defaultBottom: {
+    type: Number,
+    default: 24
   }
 })
 
@@ -118,7 +133,7 @@ const positionStyle = computed(() => {
   if (position.value.x === null) {
     return {
       right: '24px',
-      bottom: '24px'
+      bottom: `${props.defaultBottom}px`
     }
   }
 
@@ -136,14 +151,14 @@ const panelStyle = computed(() => {
   }
 
   const panelWidth = viewportWidth.value <= 768 ? Math.min(280, viewportWidth.value - 32) : 240
-  const panelHeight = 252
+  const panelHeight = props.footerActionsVisible ? 252 : 308
   const buttonSize = viewportWidth.value <= 768 ? 48 : 56
   const padding = 16
 
   if (position.value.x === null) {
     return {
       right: '0',
-      bottom: '70px',
+      bottom: `${props.defaultBottom + (props.footerActionsVisible ? 70 : 118)}px`,
       width: `${panelWidth}px`
     }
   }
@@ -234,6 +249,11 @@ function resetFontSize() {
 
 function toggleImmersive() {
   emit('toggleImmersive')
+  isExpanded.value = false
+}
+
+function showFooterActions() {
+  emit('showFooterActions')
   isExpanded.value = false
 }
 

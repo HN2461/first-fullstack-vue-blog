@@ -94,15 +94,48 @@
         v-model:collapsed="siderCollapsed"
         width="280"
         :collapsed-width="72"
-        class="enterprise-sider"
+        :class="['enterprise-sider', { 'enterprise-sider--full-labels': siderFullLabels }]"
         collapsible
         :trigger="null"
       >
         <div class="enterprise-sider-head">
-          <div v-if="!siderCollapsed">
-            <strong>{{ primarySection === 'management' ? '后台管理' : '文章分类' }}</strong>
-          </div>
-          <strong v-else>{{ primarySection === 'management' ? '管' : '知' }}</strong>
+          <button
+            class="enterprise-sider-head-action"
+            type="button"
+            :aria-label="siderCollapsed ? '展开菜单' : '收起菜单'"
+            :title="siderCollapsed ? '展开菜单' : '收起菜单'"
+            @click="siderCollapsed = !siderCollapsed"
+          >
+            <MenuUnfoldOutlined v-if="siderCollapsed" />
+            <MenuFoldOutlined v-else />
+          </button>
+          <strong v-if="!siderCollapsed" :title="sectionTitle">{{ sectionTitle }}</strong>
+
+          <a-dropdown v-if="!siderCollapsed" :trigger="['click']">
+            <button
+              class="enterprise-sider-head-action"
+              type="button"
+              aria-label="打开菜单操作"
+              @click.prevent
+            >
+              <MoreOutlined />
+            </button>
+            <template #overlay>
+              <a-menu class="enterprise-sider-actions" @click="handleSiderAction">
+                <a-menu-item key="toggle-labels">
+                  <template #icon>
+                    <ExpandOutlined v-if="!siderFullLabels" />
+                    <CompressOutlined v-else />
+                  </template>
+                  <span>{{ siderFullLabels ? '恢复单行名称' : '展开完整名称' }}</span>
+                </a-menu-item>
+                <a-menu-item key="reset-current">
+                  <template #icon><AimOutlined /></template>
+                  定位当前菜单
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
         </div>
 
         <a-menu
@@ -163,13 +196,6 @@
           </template>
         </a-menu>
 
-        <div class="enterprise-sider-footer">
-          <button class="enterprise-sider-collapse" type="button" @click="siderCollapsed = !siderCollapsed">
-            <MenuFoldOutlined v-if="!siderCollapsed" />
-            <MenuUnfoldOutlined v-else />
-            <span v-if="!siderCollapsed">收起菜单</span>
-          </button>
-        </div>
       </a-layout-sider>
 
       <a-layout class="enterprise-main-layout">
@@ -188,16 +214,20 @@
 import { computed, defineComponent, h, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
+  AimOutlined,
   BookOutlined,
+  CompressOutlined,
   ControlOutlined,
   DashboardOutlined,
   DownOutlined,
+  ExpandOutlined,
   FileTextOutlined,
   FolderOutlined,
   HomeOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MoreOutlined,
   PictureOutlined,
   SearchOutlined,
   SettingOutlined,
@@ -218,6 +248,7 @@ const authStore = useAuthStore()
 const categories = ref([])
 const articles = ref([])
 const siderCollapsed = ref(false)
+const siderFullLabels = ref(false)
 const openKeys = ref([])
 const knowledgeMenuLoaded = ref(false)
 let knowledgeMenuRequestId = 0
@@ -245,6 +276,7 @@ const selectedKeys = computed(() => {
 const userInitial = computed(() => {
   return (authStore.user?.username || authStore.user?.email || 'U').slice(0, 1).toUpperCase()
 })
+const sectionTitle = computed(() => (primarySection.value === 'management' ? '后台管理' : '文章分类'))
 const uncategorizedArticles = computed(() => {
   return articles.value
     .filter((article) => !article.category?.id || article.category?.isSystem || article.category?.slug === 'uncategorized')
@@ -350,6 +382,17 @@ function handleCreateAction({ key }) {
 
   if (key === 'media') {
     router.push('/console/manage/media')
+  }
+}
+
+function handleSiderAction({ key }) {
+  if (key === 'toggle-labels') {
+    siderFullLabels.value = !siderFullLabels.value
+    return
+  }
+
+  if (key === 'reset-current') {
+    openKeys.value = resolveOpenKeys(route.path)
   }
 }
 

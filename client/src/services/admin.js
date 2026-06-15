@@ -171,9 +171,15 @@ export function deleteAdminMediaCategory(id) {
   return http.delete(`/api/admin/media/categories/${id}`)
 }
 
-export function uploadAdminMedia(file, metadata = {}) {
+export function uploadAdminMedia(fileOrFiles, metadata = {}) {
   const formData = new FormData()
-  formData.append('file', file)
+  const files = Array.isArray(fileOrFiles) ? fileOrFiles : [fileOrFiles]
+  const fieldName = files.length > 1 ? 'files' : 'file'
+
+  files.forEach((file) => {
+    formData.append(fieldName, file)
+  })
+
   if (metadata.category) {
     formData.append('category', metadata.category)
   }
@@ -182,6 +188,22 @@ export function uploadAdminMedia(file, metadata = {}) {
 
 export function deleteAdminMedia(id) {
   return http.delete(`/api/admin/media/${id}`)
+}
+
+export async function listTrashMedia(params = {}) {
+  return toPageResult(await http.get('/api/admin/media/trash', { params }), params.pageSize || 20)
+}
+
+export function restoreAdminMedia(id) {
+  return http.post(`/api/admin/media/${id}/restore`)
+}
+
+export function permanentDeleteAdminMedia(id) {
+  return http.delete(`/api/admin/media/${id}/permanent`)
+}
+
+export function emptyMediaTrash() {
+  return http.delete('/api/admin/media/trash/empty')
 }
 
 // 公告相关

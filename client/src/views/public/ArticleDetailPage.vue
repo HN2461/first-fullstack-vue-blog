@@ -4,7 +4,8 @@
       'doc-reader',
       {
         'doc-reader--console': inConsole,
-        'doc-reader--immersive': isImmersiveReading
+        'doc-reader--immersive': isImmersiveReading,
+        'doc-reader--footer-hidden': !actionBarVisible
       }
     ]"
   >
@@ -102,7 +103,7 @@
         </Transition>
       </aside>
 
-      <footer v-if="!isImmersiveReading" class="doc-reader__footer">
+      <footer v-if="actionBarVisible" class="doc-reader__footer">
         <div class="doc-reader__author">
           <div class="doc-reader__author-avatar">
             <img v-if="article.author?.avatar" :src="article.author.avatar" :alt="article.author?.username || '作者头像'">
@@ -160,8 +161,10 @@
               <template #icon><EllipsisOutlined /></template>
             </a-button>
             <template #overlay>
-              <a-menu>
-                <a-menu-item @click="reportArticle">举报</a-menu-item>
+              <a-menu @click="handleFooterMoreAction">
+                <a-menu-item key="hide-session">本次登录隐藏底栏</a-menu-item>
+                <a-menu-divider />
+                <a-menu-item key="report">举报</a-menu-item>
               </a-menu>
             </template>
           </a-dropdown>
@@ -170,8 +173,10 @@
 
       <ReadingToolbar
         :immersive-mode="isImmersiveReading"
-        :default-bottom="isImmersiveReading ? 24 : 108"
+        :footer-actions-visible="showFooterActions"
+        :default-bottom="actionBarVisible ? 88 : 24"
         @font-size-change="handleFontSizeChange"
+        @show-footer-actions="showFooterActionBar"
         @toggle-immersive="toggleImmersiveReading"
       />
 
@@ -264,6 +269,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 const siteStore = useSiteStore()
 const readerScrollRef = ref(null)
+const FOOTER_ACTIONS_SESSION_KEY = 'article-footer-actions-hidden'
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -279,6 +285,7 @@ const favoritedByCurrentUser = ref(false)
 const fontSize = ref(17)
 const isImmersiveReading = ref(false)
 const isTocOpen = ref(false)
+const showFooterActions = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
 
 const article = ref({
   id: '',
@@ -303,6 +310,7 @@ const article = ref({
 const inConsole = computed(() => route.path.startsWith('/console'))
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
+const actionBarVisible = computed(() => !isImmersiveReading.value && showFooterActions.value)
 const authorInitial = computed(() => (article.value.author?.username || '知').slice(0, 1).toUpperCase())
 const categoryPath = computed(() => {
   const slug = article.value.category?.slug
@@ -350,6 +358,27 @@ function toggleImmersiveReading() {
       behavior: 'auto'
     })
   })
+}
+
+function hideFooterActionBarForSession() {
+  showFooterActions.value = false
+  sessionStorage.setItem(FOOTER_ACTIONS_SESSION_KEY, 'true')
+}
+
+function showFooterActionBar() {
+  showFooterActions.value = true
+  sessionStorage.removeItem(FOOTER_ACTIONS_SESSION_KEY)
+}
+
+function handleFooterMoreAction({ key }) {
+  if (key === 'hide-session') {
+    hideFooterActionBarForSession()
+    return
+  }
+
+  if (key === 'report') {
+    reportArticle()
+  }
 }
 
 async function loadComments() {
@@ -523,9 +552,9 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
   height: calc(100vh - 72px);
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 24px 20px 108px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 24px 20px 92px;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--primary-color) 38%, var(--border-color)) transparent;
 }
 
 .doc-reader--console .doc-reader__scroll {
@@ -533,9 +562,27 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 }
 
 .doc-reader__scroll::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+  width: 10px;
+  height: 10px;
+}
+
+.doc-reader__scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.doc-reader__scroll::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+  background-color: color-mix(in srgb, var(--primary-color) 40%, var(--border-color));
+}
+
+.doc-reader__scroll::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 62%, var(--border-color));
+}
+
+.doc-reader--footer-hidden .doc-reader__scroll {
+  padding-bottom: 48px;
 }
 
 .doc-reader__layout {
@@ -647,8 +694,8 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 16px;
-  min-height: 76px;
-  padding: 0 22px;
+  min-height: 62px;
+  padding: 0 20px;
   border-top: 1px solid var(--border-color);
   background: color-mix(in srgb, var(--bg-elevated) 96%, transparent);
   box-shadow: 0 -8px 28px rgba(15, 23, 42, 0.08);
@@ -675,8 +722,8 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 42px;
-  height: 42px;
+  height: 34px;
+  width: 34px;
   overflow: hidden;
   border-radius: 50%;
   color: var(--primary-color);
@@ -698,7 +745,7 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 
 .doc-reader__author-meta strong {
   color: var(--text-primary);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.2;
 }
 
@@ -720,8 +767,8 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
   justify-content: center;
   gap: 6px;
   min-width: 64px;
-  height: 40px;
-  padding: 0 12px;
+  height: 34px;
+  padding: 0 10px;
   border-radius: 6px;
   color: var(--text-secondary);
 }
@@ -935,7 +982,7 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
     height: auto;
     min-height: calc(100vh - 72px);
     overflow: visible;
-    padding: 18px 14px 112px;
+    padding: 18px 14px 96px;
   }
 
   .doc-reader--console .doc-reader__scroll {
@@ -976,8 +1023,8 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
   .doc-reader__footer {
     left: 0;
     grid-template-columns: 1fr;
-    min-height: 88px;
-    padding: 10px 14px;
+    min-height: 76px;
+    padding: 8px 14px;
   }
 
   .doc-reader__actions {

@@ -1,7 +1,9 @@
 import request from 'supertest'
+import fs from 'node:fs'
 import { USER_ROLES } from '@blog/shared'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
+import { Media } from '../src/models/Media.js'
 import { User } from '../src/models/User.js'
 import { createArticle } from '../src/services/article.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
@@ -199,5 +201,110 @@ describe('operations routes', () => {
 
     expect(response.body.data.originalName).toBe('hello.txt')
     expect(response.body.data.kind).toBe('attachment')
+  })
+
+  it('enforces configurable media upload limits', async () => {
+    await request(app)
+      .patch('/api/admin/settings')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        mediaMaxFilesPerUpload: 1,
+        mediaMaxFileSizeMB: 1
+      })
+      .expect(200)
+
+    const countResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('files', Buffer.from('first'), {
+        filename: 'first.txt',
+        contentType: 'text/plain'
+      })
+      .attach('files', Buffer.from('second'), {
+        filename: 'second.txt',
+        contentType: 'text/plain'
+      })
+      .expect(400)
+
+    expect(countResponse.body.code).toBe('MEDIA_UPLOAD_COUNT_LIMIT')
+
+    const sizeResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('files', Buffer.alloc(1024 * 1024 + 1), {
+        filename: 'large.bin',
+        contentType: 'application/octet-stream'
+      })
+      .expect(400)
+
+    expect(sizeResponse.body.code).toBe('MEDIA_UPLOAD_SIZE_LIMIT')
+  })
+
+  it('uses recycle bin lifecycle for media files', async () => {
+    const uploadResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('files', Buffer.from('recyclable file'), {
+        filename: 'recycle.txt',
+        contentType: 'text/plain'
+      })
+      .expect(201)
+
+    const media = uploadResponse.body.data
+    expect(fs.existsSync(media.storagePath)).toBe(true)
+
+    const softDeleteResponse = await request(app)
+      .delete(`/api/admin/media/${media.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(softDeleteResponse.body.data).toMatchObject({
+      id: media.id,
+      deleted: true,
+      mode: 'soft'
+    })
+    expect(fs.existsSync(media.storagePath)).toBe(true)
+    expect(await Media.findById(media.id)).toBeTruthy()
+
+    const activeResponse = await request(app)
+      .get('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(activeResponse.body.data.total).toBe(0)
+
+    const trashResponse = await request(app)
+      .get('/api/admin/media/trash')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(trashResponse.body.data.total).toBe(1)
+    expect(trashResponse.body.data.items[0].deletedAt).toBeTruthy()
+
+    const restoreResponse = await request(app)
+      .post(`/api/admin/media/${media.id}/restore`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(restoreResponse.body.data.deletedAt).toBeNull()
+
+    await request(app)
+      .delete(`/api/admin/media/${media.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    const permanentDeleteResponse = await request(app)
+      .delete(`/api/admin/media/${media.id}/permanent`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(permanentDeleteResponse.body.data).toMatchObject({
+      id: media.id,
+      deleted: true,
+      mode: 'permanent',
+      fileRemoved: true
+    })
+    expect(fs.existsSync(media.storagePath)).toBe(false)
+    expect(await Media.findById(media.id)).toBeNull()
   })
 })
