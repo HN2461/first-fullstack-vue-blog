@@ -496,6 +496,7 @@ body:has(.enterprise-admin-shell) {
 }
 
 .enterprise-content {
+  min-width: 0;
   height: calc(100vh - var(--console-header-height));
   overflow: auto;
   padding: var(--console-content-padding);
@@ -508,6 +509,8 @@ body:has(.enterprise-admin-shell) {
 
 .enterprise-content-inner {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
   margin: 0 auto;
 }
@@ -518,6 +521,8 @@ body:has(.enterprise-admin-shell) {
 
 .enterprise-page {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   display: grid;
   gap: var(--console-page-gap);
 }

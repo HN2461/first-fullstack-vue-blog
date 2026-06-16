@@ -1,275 +1,157 @@
 <template>
-  <section :class="inConsole ? 'enterprise-page' : 'section-panel'">
-    <div :class="inConsole ? 'enterprise-page-header' : 'admin-page-head'">
-      <div>
-        <p :class="inConsole ? 'enterprise-page-kicker' : 'eyebrow'">SEARCH</p>
-        <h2>全文检索</h2>
-        <p v-if="inConsole">按标题、摘要、正文和标签名检索知识库内容，支持多词组合与相关度排序。</p>
+  <section :class="inConsole ? 'enterprise-page csdn-search' : 'section-panel csdn-search csdn-search--public'">
+    <div ref="searchInputWrapperRef" class="csdn-search__command">
+      <a-input
+        ref="searchInputRef"
+        v-model:value.trim="query"
+        size="large"
+        placeholder="搜索文章标题、摘要、正文"
+        allow-clear
+        @focus="handleInputFocus"
+        @input="onInputChange"
+        @pressEnter="submitSearch"
+      >
+        <template #prefix>
+          <SearchOutlined />
+        </template>
+        <template #suffix>
+          <a-button type="link" class="csdn-search__submit" @click="submitSearch">搜索</a-button>
+        </template>
+      </a-input>
+
+      <div v-if="showDropdown && dropdownItems.length > 0" class="csdn-search__dropdown">
+        <div class="csdn-search__dropdown-head">
+          <strong>{{ query ? '搜索建议' : '最近搜索' }}</strong>
+          <a-button v-if="!query && searchHistory.length > 0" type="link" size="small" danger @click="clearHistory">清空</a-button>
+        </div>
+
+        <button
+          v-for="item in dropdownItems"
+          :key="item.slug || item.title || item"
+          type="button"
+          class="csdn-search__dropdown-item"
+          @mousedown.prevent="applyDropdownItem(item)"
+        >
+          <SearchOutlined />
+          <span>{{ typeof item === 'string' ? item : item.title }}</span>
+          <small v-if="typeof item !== 'string' && item.category">{{ item.category.name }}</small>
+        </button>
       </div>
     </div>
 
-    <!-- ── 搜索框 ── -->
-    <a-card v-if="inConsole" class="enterprise-filter-card" :bordered="false">
-      <div class="search-bar">
-        <div class="search-input-wrapper">
-          <a-input
-            ref="searchInputRef"
-            v-model:value.trim="query"
-            style="flex: 1; max-width: 480px"
-            placeholder="输入关键词，空格分隔多词…"
-            allow-clear
-            @input="onInputChange"
-            @pressEnter="runSearch"
-          >
-            <template #prefix>
-              <SearchOutlined style="color: rgba(0,0,0,0.25)" />
-            </template>
-          </a-input>
+    <div v-if="searched" class="csdn-search__resultbar">
+      <span>共 {{ total }} 条结果</span>
+      <span v-if="tookMs > 0">{{ tookMs }}ms</span>
+      <span v-if="activeCategory">分类筛选中</span>
+      <span v-if="activeTag">标签筛选中</span>
+    </div>
 
-          <!-- 搜索建议下拉（相对于 search-input-wrapper 定位） -->
-          <div v-if="showSuggestions && suggestions.length > 0" class="suggest-dropdown">
-            <div
-              v-for="item in suggestions"
-              :key="item.slug"
-              class="suggest-item"
-              @mousedown.prevent="applySuggestion(item)"
-            >
-              <SearchOutlined style="color: rgba(0,0,0,0.35); margin-right: 8px" />
-              <span class="suggest-title">{{ item.title }}</span>
-              <a-tag v-if="item.category" size="small" style="margin-left: auto">{{ item.category.name }}</a-tag>
-            </div>
-          </div>
-        </div>
-
-        <a-button type="primary" :loading="loading" @click="runSearch">搜索</a-button>
-
-        <!-- 多词匹配模式 -->
-        <div v-if="hasMultipleWords" class="match-mode-group">
-          <a-radio-group v-model:value="matchMode" size="small" button-style="solid" @change="onModeChange">
-            <a-radio-button value="AND">全部包含</a-radio-button>
-            <a-radio-button value="OR">任意包含</a-radio-button>
-          </a-radio-group>
-        </div>
-      </div>
-    </a-card>
-
-    <form v-else class="inline-form" @submit.prevent="runSearch">
-      <div class="public-search-row">
-        <input
-          ref="searchInputRef"
-          v-model.trim="query"
-          placeholder="输入关键词，空格分隔多词…"
-          @input="onInputChange"
+    <div v-if="searched && (facets.categories.length || facets.tags.length)" class="csdn-search__facet-strip">
+      <div v-if="facets.categories.length" class="csdn-search__facet-row">
+        <strong>分类</strong>
+        <button
+          type="button"
+          :class="['csdn-search__facet-chip', { 'is-active': !activeCategory }]"
+          @click="toggleCategory('')"
         >
-        <button class="primary-button" type="submit">搜索</button>
-        <div v-if="hasMultipleWords" class="match-mode-public">
-          <button
-            type="button"
-            :class="['mode-toggle', { active: matchMode === 'AND' }]"
-            @click="matchMode = 'AND'; runSearch()"
-          >全部</button>
-          <button
-            type="button"
-            :class="['mode-toggle', { active: matchMode === 'OR' }]"
-            @click="matchMode = 'OR'; runSearch()"
-          >任意</button>
-        </div>
+          全部
+        </button>
+        <button
+          v-for="item in facets.categories"
+          :key="item.slug"
+          type="button"
+          :class="['csdn-search__facet-chip', { 'is-active': activeCategory === item.slug }]"
+          @click="toggleCategory(item.slug)"
+        >
+          {{ item.name }}
+        </button>
       </div>
-    </form>
 
-    <!-- ── 结果面板 ── -->
-    <a-card v-if="inConsole" class="enterprise-table-card" :bordered="false">
-      <template #title>
-        <div class="table-title">
-          <strong>搜索结果</strong>
-          <span v-if="!searched">输入关键词后开始检索</span>
-          <span v-else-if="!loading">
-            共 <strong>{{ total }}</strong> 条结果
-            <template v-if="tookMs > 0"> · 耗时 {{ tookMs }}ms</template>
-            <template v-if="searchTerms.length > 0"> · {{ searchTerms.join(' + ') }}</template>
-          </span>
-        </div>
-      </template>
+      <div v-if="facets.tags.length" class="csdn-search__facet-row">
+        <strong>标签</strong>
+        <button
+          type="button"
+          :class="['csdn-search__facet-chip', { 'is-active': !activeTag }]"
+          @click="toggleTag('')"
+        >
+          全部
+        </button>
+        <button
+          v-for="item in facets.tags"
+          :key="item.slug"
+          type="button"
+          :class="['csdn-search__facet-chip', { 'is-active': activeTag === item.slug }]"
+          @click="toggleTag(item.slug)"
+        >
+          {{ item.name }}
+        </button>
+      </div>
+    </div>
 
-      <template #extra>
-        <!-- 排序选择 -->
-        <a-radio-group v-if="searched && total > 0" v-model:value="sortBy" size="small" @change="onSortChange">
-          <a-radio-button value="relevance">相关度</a-radio-button>
-          <a-radio-button value="date">最新</a-radio-button>
-          <a-radio-button value="views">浏览量</a-radio-button>
-        </a-radio-group>
-      </template>
-
-      <a-spin :spinning="loading">
-        <p v-if="errorMessage" class="status-text is-error padded-status">{{ errorMessage }}</p>
-
-        <template v-else-if="searched && total > 0">
-          <!-- 分类 + 标签 Facet 筛选 -->
-          <div v-if="facets.categories.length > 1 || facets.tags.length > 0" class="facet-bar">
-            <div v-if="facets.categories.length > 1" class="facet-group">
-              <span class="facet-label">分类：</span>
-              <a-tag
-                :color="!activeCategory ? 'blue' : ''"
-                style="cursor: pointer"
-                @click="activeCategory = ''"
-              >全部</a-tag>
-              <a-tag
-                v-for="cat in facets.categories"
-                :key="cat.slug"
-                :color="activeCategory === cat.slug ? 'blue' : ''"
-                style="cursor: pointer"
-                @click="activeCategory = activeCategory === cat.slug ? '' : cat.slug"
-              >{{ cat.name }} ({{ cat.count }})</a-tag>
-            </div>
-            <div v-if="facets.tags.length > 0" class="facet-group">
-              <span class="facet-label">标签：</span>
-              <a-tag
-                v-for="t in facets.tags"
-                :key="t.slug"
-                :color="activeTag === t.slug ? 'green' : ''"
-                style="cursor: pointer"
-                @click="activeTag = activeTag === t.slug ? '' : t.slug"
-              >{{ t.name }} ({{ t.count }})</a-tag>
-            </div>
-          </div>
-
-          <!-- 结果列表 -->
-          <div class="search-result-list">
-            <router-link
-              v-for="article in pagedItems"
-              :key="article.id"
-              class="search-result-item"
-              :to="articlePath(article.slug)"
-            >
-              <div class="result-item-head">
-                <a-tag v-if="article.category" size="small">{{ article.category.name || '未分类' }}</a-tag>
-                <span class="result-item-meta">
-                  {{ formatDate(article.publishedAt || article.createdAt) }}
-                  · {{ article.wordCount || 0 }} 字
-                  · {{ article.readingMinutes || 1 }} 分钟
-                  <template v-if="article.viewCount > 0"> · {{ article.viewCount }} 浏览</template>
-                </span>
-                <span v-if="article.relevanceScore > 0" class="result-item-score">
-                  相关度 {{ article.relevanceScore }}
-                </span>
-              </div>
-              <h3 class="result-item-title" v-html="article.highlightedTitle || article.title"></h3>
-              <p class="result-item-summary" v-html="article.highlightedSummary || article.summary"></p>
-              <p v-if="article.snippet" class="result-item-snippet">{{ article.snippet }}</p>
-              <div class="result-item-footer">
-                <div class="result-item-tags">
-                  <a-tag
-                    v-for="t in (article.tags || []).slice(0, 5)"
-                    :key="t.id || t.slug"
-                    size="small"
-                  >{{ t.name }}</a-tag>
-                </div>
-                <span class="result-item-author" v-if="article.author">
-                  {{ article.author.username }}
-                </span>
-              </div>
-            </router-link>
-          </div>
-
-          <!-- 分页 -->
-          <div class="search-pagination" v-if="totalPages > 1">
-            <a-pagination
-              v-model:current="currentPage"
-              :total="total"
-              :page-size="pageSize"
-              :show-size-changer="true"
-              :page-size-options="['10', '20', '50']"
-              size="small"
-              show-quick-jumper
-              @change="onPageChange"
-            />
-          </div>
+    <div class="csdn-search__list">
+      <div v-if="errorMessage" class="csdn-search__state csdn-search__state--error">{{ errorMessage }}</div>
+      <div v-else-if="loading" class="csdn-search__state">正在检索文章...</div>
+      <div v-else-if="!searched" class="csdn-search__state">输入关键词后开始检索。</div>
+      <a-empty v-else-if="searched && total === 0" description="没有找到相关文章">
+        <template #description>
+          <p>没有找到与 “{{ query }}” 相关的文章</p>
         </template>
+      </a-empty>
 
-        <!-- 无结果 -->
-        <a-empty v-else-if="searched && total === 0" description="没有找到相关文章">
-          <template #description>
-            <p>没有找到"{{ query }}"相关文章</p>
-            <p style="color: rgba(0,0,0,0.45); font-size: 13px">试试更短的关键词，或切换匹配模式为"任意包含"</p>
-          </template>
-        </a-empty>
-      </a-spin>
-    </a-card>
-
-    <!-- ── 公共页面结果 ── -->
-    <template v-else>
-      <p v-if="loading" class="status-text">正在搜索...</p>
-      <p v-else-if="errorMessage" class="status-text is-error">{{ errorMessage }}</p>
-
-      <div v-if="!loading && !errorMessage && searched && total > 0" class="article-list">
-        <div class="public-result-meta">
-          共 {{ total }} 条结果
-          <template v-if="tookMs > 0"> · {{ tookMs }}ms</template>
-          <div class="public-sort-btns">
-            <button :class="['sort-btn', { active: sortBy === 'relevance' }]" @click="sortBy = 'relevance'; runSearch()">相关度</button>
-            <button :class="['sort-btn', { active: sortBy === 'date' }]" @click="sortBy = 'date'; runSearch()">最新</button>
-            <button :class="['sort-btn', { active: sortBy === 'views' }]" @click="sortBy = 'views'; runSearch()">浏览量</button>
-          </div>
-        </div>
-
+      <template v-else>
         <router-link
-          v-for="article in pagedItems"
+          v-for="article in result.items"
           :key="article.id"
-          class="article-row"
+          :class="['csdn-search__item', { 'csdn-search__item--plain': !article.cover }]"
           :to="articlePath(article.slug)"
         >
-          <div>
-            <span>{{ article.category?.name || '未分类' }}</span>
-            <h3 v-html="article.highlightedTitle || article.title"></h3>
-            <p v-html="article.highlightedSummary || article.summary || '这篇文章还没有摘要。'"></p>
+          <div v-if="article.cover" class="csdn-search__thumb">
+            <img :src="article.cover" :alt="article.title">
           </div>
-          <small>{{ article.readingMinutes }} 分钟</small>
+
+          <div class="csdn-search__body">
+            <h3 class="csdn-search__title" v-html="article.highlightedTitle || article.title"></h3>
+            <p
+              class="csdn-search__snippet"
+              v-html="article.highlightedSnippet || article.snippet || article.highlightedSummary || article.summary || '这篇文章还没有摘要。'"
+            ></p>
+
+            <div class="csdn-search__meta-row">
+              <span class="csdn-search__category">{{ article.category?.name || '未分类' }}</span>
+              <span>{{ formatDate(article.publishedAt || article.createdAt) }}</span>
+              <span>{{ article.viewCount || 0 }} 浏览</span>
+              <span>{{ article.readingMinutes || 1 }} 分钟</span>
+              <span>相关度 {{ article.relevanceScore }}</span>
+            </div>
+          </div>
         </router-link>
-
-        <div v-if="totalPages > 1" class="public-pagination">
-          <button :disabled="currentPage <= 1" @click="currentPage--; runSearch()">上一页</button>
-          <span>{{ currentPage }} / {{ totalPages }}</span>
-          <button :disabled="currentPage >= totalPages" @click="currentPage++; runSearch()">下一页</button>
-        </div>
-      </div>
-
-      <p v-else-if="searched && total === 0" class="status-text">没有找到相关文章。</p>
-    </template>
-
-    <!-- ── 搜索历史 ── -->
-    <a-card
-      v-if="inConsole && !searched && searchHistory.length > 0"
-      class="enterprise-filter-card"
-      :bordered="false"
-      style="margin-top: 12px"
-    >
-      <template #title>
-        <div class="table-title">
-          <strong>最近搜索</strong>
-          <a-button type="link" size="small" danger @click="clearHistory">清空</a-button>
-        </div>
       </template>
-      <div class="history-tags">
-        <a-tag
-          v-for="(item, idx) in searchHistory"
-          :key="idx"
-          style="cursor: pointer; margin-bottom: 4px"
-          @click="applyHistory(item)"
-        >{{ item }}</a-tag>
-      </div>
-    </a-card>
+    </div>
+
+    <div class="csdn-search__pagination" v-if="searched && totalPages > 1">
+      <a-pagination
+        v-model:current="currentPage"
+        :page-size="pageSize"
+        :total="total"
+        :page-size-options="['10', '20', '30']"
+        :show-size-changer="true"
+        show-quick-jumper
+        size="small"
+        @change="handlePageChange"
+      />
+    </div>
   </section>
 </template>
 
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { getSearchSuggestions, searchPublicArticles } from '@/services/public'
 
 const route = useRoute()
+const router = useRouter()
 
-// ── 状态 ──
 const query = ref('')
 const searched = ref(false)
 const loading = ref(false)
@@ -280,19 +162,17 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 const activeCategory = ref('')
 const activeTag = ref('')
-const searchInputRef = ref(null)
 
-// 搜索建议
+const searchInputRef = ref(null)
+const searchInputWrapperRef = ref(null)
 const suggestions = ref([])
-const showSuggestions = ref(false)
+const showDropdown = ref(false)
 let suggestTimeout = null
 
-// 搜索历史
 const HISTORY_KEY = 'blog-search-history'
 const HISTORY_LIMIT = 10
 const searchHistory = ref([])
 
-// 结果数据
 const result = ref({
   items: [],
   total: 0,
@@ -300,63 +180,67 @@ const result = ref({
   pageSize: 10,
   facets: { categories: [], tags: [] },
   tookMs: 0,
-  terms: []
+  terms: [],
+  meta: {}
 })
 
 const inConsole = computed(() => route.path.startsWith('/console'))
-
-const hasMultipleWords = computed(() => {
-  const terms = splitTerms(query.value)
-  return terms.length > 1
-})
-
 const total = computed(() => result.value.total || 0)
 const tookMs = computed(() => result.value.tookMs || 0)
-const searchTerms = computed(() => result.value.terms || [])
-const facets = computed(() => result.value.facets || { categories: [], tags: [] })
-
 const totalPages = computed(() => Math.ceil(total.value / pageSize.value))
-
-const pagedItems = computed(() => {
-  return result.value.items || []
+const facets = computed(() => result.value.facets || { categories: [], tags: [] })
+const dropdownItems = computed(() => {
+  if (query.value) return suggestions.value
+  return searchHistory.value
 })
-
-// ── 方法 ──
-
-function splitTerms(raw = '') {
-  return Array.from(
-    new Set(
-      String(raw || '')
-        .trim()
-        .split(/[\s,，、|]+/)
-        .map((s) => s.trim())
-        .filter((s) => s.length > 0)
-    )
-  )
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return ''
-  const d = new Date(dateStr)
-  if (isNaN(d.getTime())) return ''
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
-}
 
 function articlePath(slug) {
   return inConsole.value ? `/console/articles/${slug}` : `/articles/${slug}`
 }
 
-async function runSearch() {
+function formatDate(value) {
+  if (!value) return ''
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+}
+
+async function syncRouteQuery() {
+  const nextQuery = { ...route.query }
+
+  if (query.value) nextQuery.q = query.value
+  else delete nextQuery.q
+
+  if (nextQuery.q === route.query.q) return
+
+  await router.replace({ query: nextQuery })
+}
+
+async function runSearch({ resetPage = false } = {}) {
+  if (resetPage) currentPage.value = 1
+
   if (!query.value) {
-    result.value = { items: [], total: 0, page: 1, pageSize: 10, facets: { categories: [], tags: [] }, tookMs: 0, terms: [] }
+    result.value = {
+      items: [],
+      total: 0,
+      page: 1,
+      pageSize: pageSize.value,
+      facets: { categories: [], tags: [] },
+      tookMs: 0,
+      terms: [],
+      meta: {}
+    }
     searched.value = false
+    errorMessage.value = ''
+    await syncRouteQuery()
     return
   }
 
   loading.value = true
   searched.value = true
   errorMessage.value = ''
-  showSuggestions.value = false
+  showDropdown.value = false
+  await syncRouteQuery()
 
   try {
     const params = {
@@ -366,6 +250,7 @@ async function runSearch() {
       page: currentPage.value,
       pageSize: pageSize.value
     }
+
     if (activeCategory.value) params.category = activeCategory.value
     if (activeTag.value) params.tag = activeTag.value
 
@@ -378,58 +263,64 @@ async function runSearch() {
   }
 }
 
-// 输入时搜索建议 + 防抖搜索
+function submitSearch() {
+  runSearch({ resetPage: true })
+}
+
+function handleInputFocus() {
+  showDropdown.value = dropdownItems.value.length > 0
+}
+
 function onInputChange() {
-  // 搜索建议
   if (suggestTimeout) clearTimeout(suggestTimeout)
-  if (query.value.length >= 1) {
-    suggestTimeout = setTimeout(async () => {
-      try {
-        const res = await getSearchSuggestions({ q: query.value })
-        suggestions.value = res.items || []
-        showSuggestions.value = suggestions.value.length > 0
-      } catch {
-        suggestions.value = []
-      }
-    }, 200)
-  } else {
+
+  if (!query.value) {
     suggestions.value = []
-    showSuggestions.value = false
+    showDropdown.value = searchHistory.value.length > 0
+    return
   }
+
+  suggestTimeout = setTimeout(async () => {
+    try {
+      const response = await getSearchSuggestions({ q: query.value })
+      suggestions.value = response.items || []
+      showDropdown.value = suggestions.value.length > 0
+    } catch {
+      suggestions.value = []
+      showDropdown.value = false
+    }
+  }, 180)
 }
 
-function applySuggestion(item) {
-  query.value = item.title
-  showSuggestions.value = false
-  suggestions.value = []
-  currentPage.value = 1
-  runSearch()
+function applyDropdownItem(item) {
+  if (typeof item === 'string') {
+    query.value = item
+  } else {
+    query.value = item.title
+  }
+  showDropdown.value = false
+  submitSearch()
 }
 
-function onModeChange() {
-  currentPage.value = 1
-  runSearch()
-}
-
-function onSortChange() {
-  currentPage.value = 1
-  runSearch()
-}
-
-function onPageChange(page, size) {
+function handlePageChange(page, size) {
   currentPage.value = page
   pageSize.value = size
   runSearch()
 }
 
-// 点击外部关闭建议
-function onDocumentClick(e) {
-  if (showSuggestions.value) {
-    showSuggestions.value = false
-  }
+function toggleCategory(slug) {
+  activeCategory.value = activeCategory.value === slug ? '' : slug
 }
 
-// ── 搜索历史 ──
+function toggleTag(slug) {
+  activeTag.value = activeTag.value === slug ? '' : slug
+}
+
+function onDocumentClick(event) {
+  if (!searchInputWrapperRef.value?.contains(event.target)) {
+    showDropdown.value = false
+  }
+}
 
 function loadHistory() {
   try {
@@ -440,36 +331,56 @@ function loadHistory() {
   }
 }
 
-function saveHistory(q) {
-  const trimmed = q.trim()
-  if (trimmed.length <= 1) return
-  const list = [trimmed, ...searchHistory.value.filter((item) => item !== trimmed)]
-  searchHistory.value = list.slice(0, HISTORY_LIMIT)
+function saveHistory(value) {
+  const text = String(value || '').trim()
+  if (text.length <= 1) return
+  searchHistory.value = [text, ...searchHistory.value.filter((item) => item !== text)].slice(0, HISTORY_LIMIT)
   localStorage.setItem(HISTORY_KEY, JSON.stringify(searchHistory.value))
 }
 
 function clearHistory() {
   searchHistory.value = []
   localStorage.removeItem(HISTORY_KEY)
+  showDropdown.value = false
 }
 
-function applyHistory(item) {
-  query.value = item
-  currentPage.value = 1
-  runSearch()
-}
+watch([activeCategory, activeTag], () => {
+  if (searched.value && query.value) {
+    runSearch({ resetPage: true })
+  }
+})
 
-// ── 生命周期 ──
+watch(() => route.query.q, async (nextValue) => {
+  const nextQuery = String(nextValue || '')
+  if (nextQuery === query.value) return
+
+  query.value = nextQuery
+  if (nextQuery) {
+    await runSearch({ resetPage: true })
+    return
+  }
+
+  searched.value = false
+  result.value = {
+    items: [],
+    total: 0,
+    page: 1,
+    pageSize: pageSize.value,
+    facets: { categories: [], tags: [] },
+    tookMs: 0,
+    terms: [],
+    meta: {}
+  }
+})
 
 onMounted(async () => {
   loadHistory()
   document.addEventListener('click', onDocumentClick)
 
-  // 从 URL 读取初始搜索词
-  const urlQuery = route.query.q || ''
-  if (urlQuery) {
-    query.value = urlQuery
-    await runSearch()
+  const initialQuery = String(route.query.q || '')
+  if (initialQuery) {
+    query.value = initialQuery
+    await runSearch({ resetPage: true })
   }
 
   nextTick(() => {
@@ -481,345 +392,279 @@ onUnmounted(() => {
   document.removeEventListener('click', onDocumentClick)
   if (suggestTimeout) clearTimeout(suggestTimeout)
 })
-
-// 监听筛选条件变化 → 重新搜索
-watch([activeCategory, activeTag], () => {
-  if (searched.value) {
-    currentPage.value = 1
-    runSearch()
-  }
-})
 </script>
 
 <style scoped>
-/* ── 搜索栏 ── */
-.search-bar {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.search-input-wrapper {
-  position: relative;
-  flex: 1;
-  max-width: 480px;
-  min-width: 200px;
-}
-
-.match-mode-group {
-  flex-shrink: 0;
-}
-
-/* ── 搜索建议下拉 ── */
-.suggest-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-  margin-top: 4px;
-  background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-}
-
-.suggest-item {
-  display: flex;
-  align-items: center;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: background 0.15s;
-}
-
-.suggest-item:hover {
-  background: rgba(22, 119, 255, 0.06);
-}
-
-.suggest-title {
-  flex: 1;
+.csdn-search {
+  gap: 0;
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
+  min-height: 100%;
+  align-content: start;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
-/* ── Facet 筛选 ── */
-.facet-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f0f0f0;
+.enterprise-page.csdn-search {
+  min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
 }
 
-.facet-group {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
+.csdn-search__command {
+  position: relative;
+  min-width: 0;
+  padding: 0 0 14px;
 }
 
-.facet-label {
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.45);
-  margin-right: 4px;
-  white-space: nowrap;
+.csdn-search__submit {
+  padding-inline: 0;
 }
 
-/* ── 搜索结果列表 ── */
-.search-result-list {
-  display: grid;
-  gap: 12px;
+.csdn-search__dropdown {
+  position: absolute;
+  top: calc(100% - 2px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: min(360px, calc(100vh - 180px));
+  overflow-y: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--bg-elevated);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.1);
 }
 
-.search-result-item {
-  display: block;
-  padding: 16px 20px;
-  border: 1px solid #f0f0f0;
-  border-radius: 10px;
-  background: #fafafa;
-  text-decoration: none;
-  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
-}
-
-.search-result-item:hover {
-  border-color: rgba(22, 119, 255, 0.35);
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.06);
-}
-
-.result-item-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.result-item-meta {
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.45);
-}
-
-.result-item-score {
-  margin-left: auto;
-  font-size: 11px;
-  color: rgba(0, 0, 0, 0.3);
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.result-item-title {
-  margin: 8px 0 6px;
-  font-size: 17px;
-  font-weight: 600;
-  color: rgba(0, 0, 0, 0.85);
-  line-height: 1.5;
-}
-
-.result-item-title :deep(mark) {
-  padding: 0 2px;
-  border-radius: 3px;
-  background: rgba(250, 173, 20, 0.25);
-  color: inherit;
-}
-
-.result-item-summary {
-  margin: 0 0 6px;
-  font-size: 14px;
-  color: rgba(0, 0, 0, 0.55);
-  line-height: 1.7;
-}
-
-.result-item-summary :deep(mark) {
-  padding: 0 2px;
-  border-radius: 3px;
-  background: rgba(250, 173, 20, 0.25);
-  color: inherit;
-}
-
-.result-item-snippet {
-  margin: 0 0 8px;
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.4);
-  line-height: 1.7;
-  max-height: 3.4em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.result-item-footer {
+.csdn-search__dropdown-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 10px;
+  padding: 10px 14px 6px;
 }
 
-.result-item-tags {
-  display: flex;
-  gap: 4px;
-  flex-wrap: wrap;
+.csdn-search__dropdown-head strong {
+  font-size: 13px;
 }
 
-.result-item-author {
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.35);
+.csdn-search__dropdown-item {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 10px 14px;
+  border: none;
+  color: var(--text-primary);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
 }
 
-/* ── 分页 ── */
-.search-pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  padding-top: 16px;
-  border-top: 1px solid #f0f0f0;
+.csdn-search__dropdown-item:hover {
+  background: color-mix(in srgb, var(--primary-color) 6%, transparent);
 }
 
-/* ── 搜索历史 ── */
-.history-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+.csdn-search__dropdown-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-/* ── 公共页面样式 ── */
-.public-search-row {
+.csdn-search__dropdown-item small {
+  color: var(--text-muted);
+}
+
+.csdn-search__resultbar {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
-}
-
-.public-search-row input {
-  flex: 1;
-  min-width: 200px;
-}
-
-.match-mode-public {
-  display: flex;
-  gap: 4px;
-}
-
-.mode-toggle {
-  padding: 6px 14px;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  background: #fff;
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-muted);
   font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
+  min-width: 0;
 }
 
-.mode-toggle.active {
-  border-color: #1677ff;
-  color: #1677ff;
-  background: rgba(22, 119, 255, 0.06);
+.csdn-search__facet-strip {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-y: visible;
+  padding: 8px 0 6px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.public-result-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  font-size: 13px;
-  color: rgba(0, 0, 0, 0.45);
-}
-
-.public-sort-btns {
-  display: flex;
-  gap: 4px;
-}
-
-.public-sort-btns .sort-btn {
-  padding: 3px 10px;
-  border: 1px solid #d9d9d9;
-  border-radius: 4px;
-  background: transparent;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.public-sort-btns .sort-btn.active {
-  border-color: #1677ff;
-  color: #1677ff;
-  background: rgba(22, 119, 255, 0.06);
-}
-
-.public-pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.public-pagination button {
-  padding: 6px 16px;
-  border: 1px solid #d9d9d9;
-  border-radius: 6px;
-  background: #fff;
-  cursor: pointer;
-}
-
-.public-pagination button:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-/* ── 通用 ── */
-.status-text {
-  color: rgba(0, 0, 0, 0.45);
-  font-size: 14px;
-}
-
-.status-text.is-error {
-  color: #ff4d4f;
-}
-
-.padded-status {
-  padding: 24px 0;
-}
-
-.table-title {
+.csdn-search__facet-row {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   display: flex;
   align-items: center;
   gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: 6px;
+  padding-bottom: 2px;
+  white-space: nowrap;
+  scrollbar-width: thin;
 }
 
-.table-title strong {
-  font-size: 15px;
+.csdn-search__facet-row:last-child {
+  margin-bottom: 0;
 }
 
-.table-title span {
+.csdn-search__facet-row strong {
+  position: sticky;
+  left: 0;
+  flex: 0 0 auto;
+  padding-right: 4px;
+  background: var(--bg-elevated);
   font-size: 13px;
-  color: rgba(0, 0, 0, 0.45);
-  font-weight: normal;
 }
 
-/* ── 深色主题适配 ── */
-:deep(.ant-card) .search-result-item {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
+.csdn-search__facet-chip {
+  flex: 0 0 auto;
+  border: none;
+  padding: 0;
+  color: var(--text-secondary);
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
 }
 
-:deep(.ant-card) .search-result-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(22, 119, 255, 0.35);
+.csdn-search__facet-chip.is-active,
+.csdn-search__facet-chip:hover {
+  color: var(--primary-color);
 }
 
-:deep(.ant-card) .suggest-dropdown {
-  background: #1f1f1f;
-  border-color: rgba(255, 255, 255, 0.12);
+.csdn-search__list {
+  min-width: 0;
+  margin-top: 2px;
 }
 
-:deep(.ant-card) .suggest-item:hover {
-  background: rgba(22, 119, 255, 0.12);
+:deep(.csdn-search__item) {
+  display: grid;
+  grid-template-columns: 118px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
+  color: inherit;
+}
+
+:deep(.csdn-search__item:hover .csdn-search__title) {
+  color: var(--primary-color);
+}
+
+:deep(.csdn-search__item--plain) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.csdn-search__thumb {
+  width: 118px;
+  height: 74px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+}
+
+.csdn-search__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.csdn-search__body {
+  min-width: 0;
+}
+
+.csdn-search__title {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 19px;
+  line-height: 1.35;
+  transition: color 0.18s ease;
+}
+
+.csdn-search__snippet {
+  margin: 6px 0 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.65;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.csdn-search__snippet {
+  color: var(--text-muted);
+  -webkit-line-clamp: 2;
+}
+
+.csdn-search__title :deep(mark),
+.csdn-search__snippet :deep(mark) {
+  padding: 0 2px;
+  color: inherit;
+  background: rgba(250, 173, 20, 0.32);
+}
+
+.csdn-search__meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.csdn-search__category {
+  color: #e65a4f;
+}
+
+.csdn-search__state {
+  padding: 20px 0;
+  color: var(--text-secondary);
+}
+
+.csdn-search__state--error {
+  color: #ff4d4f;
+}
+
+.csdn-search__pagination {
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+}
+
+@media (max-width: 960px) {
+  .csdn-search__resultbar {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  :deep(.csdn-search__item) {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px 0;
+  }
+
+  :deep(.csdn-search__item--plain) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .csdn-search__thumb {
+    width: 96px;
+    height: 64px;
+  }
+
+  .csdn-search__title {
+    font-size: 17px;
+  }
+
+  .csdn-search__snippet {
+    font-size: 14px;
+  }
 }
 </style>

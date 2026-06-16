@@ -2,6 +2,7 @@ import request from 'supertest'
 import { ARTICLE_STATUS, USER_ROLES } from '@blog/shared'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
+import { Article } from '../src/models/Article.js'
 import { User } from '../src/models/User.js'
 import { createArticle } from '../src/services/article.service.js'
 import { createCategory } from '../src/services/category.service.js'
@@ -64,6 +65,17 @@ describe('search routes', () => {
     }, admin)
 
     await createArticle({
+      title: 'Node.js 与 MongoDB 构建 Express API',
+      slug: 'node-mongodb-express-api',
+      summary: '一篇同时覆盖 Node.js、MongoDB、Express 的综合实践文章',
+      contentMarkdown: '# 全栈 API 实战\n\n本文通过 Node.js、Express 与 MongoDB 组合构建企业知识库接口，包含索引、检索与性能调优。',
+      category: category.id,
+      tags: [tag.id],
+      status: ARTICLE_STATUS.PUBLISHED,
+      isRecommended: true
+    }, admin)
+
+    await createArticle({
       title: 'Vue3 组合式 API 实战',
       slug: 'vue3-composition-api',
       summary: '深入理解 Vue3 Composition API 的设计理念与最佳实践',
@@ -79,6 +91,10 @@ describe('search routes', () => {
       contentMarkdown: 'MongoDB 草稿内容',
       status: ARTICLE_STATUS.DRAFT
     }, admin)
+
+    await Article.updateOne({ slug: 'express-middleware' }, { $set: { viewCount: 120 } })
+    await Article.updateOne({ slug: 'mongodb-index-guide' }, { $set: { viewCount: 40 } })
+    await Article.updateOne({ slug: 'node-mongodb-express-api' }, { $set: { viewCount: 260 } })
   })
 
   afterAll(async () => {
@@ -98,11 +114,14 @@ describe('search routes', () => {
     expect(data.items.length).toBeGreaterThanOrEqual(1)
     expect(data.items[0].title).toContain('MongoDB')
     expect(data.items[0].relevanceScore).toBeDefined()
+    expect(data.items[0].matchedFields).toBeInstanceOf(Array)
+    expect(data.items[0].matchedTerms).toContain('MongoDB')
     expect(data.items[0].highlightedTitle).toBeDefined()
     expect(data.items[0].snippet).toBeDefined()
     expect(data.total).toBeGreaterThanOrEqual(1)
     expect(data.tookMs).toBeDefined()
     expect(data.terms).toContain('MongoDB')
+    expect(data.meta).toBeDefined()
   })
 
   it('excludes draft articles from search results', async () => {
@@ -181,6 +200,7 @@ describe('search routes', () => {
       .expect(200)
 
     expect(response.body.data.items).toBeInstanceOf(Array)
+    expect(response.body.data.items[0].slug).toBe('node-mongodb-express-api')
   })
 
   it('returns empty results for missing category', async () => {
@@ -244,6 +264,7 @@ describe('search routes', () => {
     expect(item).toBeDefined()
     expect(item.highlightedTitle).toContain('<mark>')
     expect(item.highlightedSummary || item.summary).toBeDefined()
+    expect(item.highlightedSnippet || item.snippet).toBeDefined()
   })
 
   it('returns multi-word search results', async () => {
@@ -256,6 +277,35 @@ describe('search routes', () => {
 
     expect(response.body.data.terms).toContain('MongoDB')
     expect(response.body.data.terms).toContain('索引')
+  })
+
+  it('supports strict AND mode across multiple terms', async () => {
+    const app = createApp()
+
+    const response = await request(app)
+      .get('/api/public/search')
+      .query({ q: 'MongoDB Express', mode: 'AND' })
+      .expect(200)
+
+    expect(response.body.data.items.length).toBeGreaterThanOrEqual(1)
+    response.body.data.items.forEach((item) => {
+      expect(item.matchedTerms).toContain('MongoDB')
+      expect(item.matchedTerms).toContain('Express')
+    })
+    expect(response.body.data.items[0].slug).toBe('node-mongodb-express-api')
+  })
+
+  it('supports OR mode for broader recall', async () => {
+    const app = createApp()
+
+    const response = await request(app)
+      .get('/api/public/search')
+      .query({ q: 'MongoDB Vue3', mode: 'OR' })
+      .expect(200)
+
+    const slugs = response.body.data.items.map((item) => item.slug)
+    expect(slugs).toContain('mongodb-index-guide')
+    expect(slugs).toContain('vue3-composition-api')
   })
 
   it('supports pagination', async () => {

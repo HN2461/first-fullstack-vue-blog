@@ -37,36 +37,6 @@ export const router = createRouter({
           name: 'Home',
           component: HomePage,
           meta: { title: '首页' }
-        },
-        {
-          path: 'articles',
-          name: 'Articles',
-          component: ArticleListPage,
-          meta: { title: '文章' }
-        },
-        {
-          path: 'articles/:slug',
-          name: 'ArticleDetail',
-          component: ArticleDetailPage,
-          meta: { title: '文章详情' }
-        },
-        {
-          path: 'categories/:category',
-          name: 'CategoryArticles',
-          component: ArticleListPage,
-          meta: { title: '分类文章' }
-        },
-        {
-          path: 'tags/:tag',
-          name: 'TagArticles',
-          component: ArticleListPage,
-          meta: { title: '标签文章' }
-        },
-        {
-          path: 'search',
-          name: 'Search',
-          component: SearchPage,
-          meta: { title: '搜索' }
         }
       ]
     },
@@ -232,11 +202,69 @@ export const router = createRouter({
   }
 })
 
+function getConsoleTargetForLegacyPath(to) {
+  if (to.path === '/articles') {
+    return { name: 'ConsoleArticles', query: to.query, hash: to.hash }
+  }
+
+  const articleMatch = to.path.match(/^\/articles\/([^/]+)$/)
+  if (articleMatch) {
+    return {
+      name: 'ConsoleArticleDetail',
+      params: { slug: decodeURIComponent(articleMatch[1]) },
+      query: to.query,
+      hash: to.hash
+    }
+  }
+
+  const categoryMatch = to.path.match(/^\/categories\/([^/]+)$/)
+  if (categoryMatch) {
+    return {
+      name: 'ConsoleCategoryArticles',
+      params: { category: decodeURIComponent(categoryMatch[1]) },
+      query: to.query,
+      hash: to.hash
+    }
+  }
+
+  const tagMatch = to.path.match(/^\/tags\/([^/]+)$/)
+  if (tagMatch) {
+    return {
+      name: 'ConsoleTagArticles',
+      params: { tag: decodeURIComponent(tagMatch[1]) },
+      query: to.query,
+      hash: to.hash
+    }
+  }
+
+  if (to.path === '/search') {
+    return { name: 'ConsoleSearch', query: to.query, hash: to.hash }
+  }
+
+  return null
+}
+
 router.beforeEach(async (to) => {
   const authStore = useAuthStore()
 
   if (!authStore.ready) {
     await authStore.restoreSession()
+  }
+
+  const consoleTarget = getConsoleTargetForLegacyPath(to)
+  if (consoleTarget) {
+    if (authStore.isLoggedIn) {
+      return consoleTarget
+    }
+
+    return {
+      name: 'Login',
+      query: { redirect: router.resolve(consoleTarget).fullPath }
+    }
+  }
+
+  if (!to.matched.length) {
+    return authStore.isLoggedIn ? { name: 'ConsoleArticles' } : { name: 'Login' }
   }
 
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {

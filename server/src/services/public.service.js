@@ -21,6 +21,10 @@ function getPagination(query) {
   }
 }
 
+function escapeRegExp(str = '') {
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 function createPublishedQuery(filters = {}) {
   const query = {
     status: ARTICLE_STATUS.PUBLISHED,
@@ -28,10 +32,11 @@ function createPublishedQuery(filters = {}) {
   }
 
   if (filters.search) {
+    const safeKeyword = escapeRegExp(filters.search)
     query.$or = [
-      { title: new RegExp(filters.search, 'i') },
-      { summary: new RegExp(filters.search, 'i') },
-      { contentMarkdown: new RegExp(filters.search, 'i') }
+      { title: new RegExp(safeKeyword, 'i') },
+      { summary: new RegExp(safeKeyword, 'i') },
+      { contentMarkdown: new RegExp(safeKeyword, 'i') }
     ]
   }
 
@@ -82,6 +87,11 @@ export async function listPublicArticles(rawQuery = {}) {
   const query = createPublishedQuery({ search: rawQuery.q || rawQuery.search || '' })
   const categoryIds = await resolveCategoryAndDescendantIds(rawQuery.category)
   const tagId = await resolveTagId(rawQuery.tag)
+  const sort = rawQuery.sort === 'views'
+    ? { viewCount: -1, publishedAt: -1, createdAt: -1 }
+    : rawQuery.sort === 'recommended'
+      ? { isRecommended: -1, publishedAt: -1, createdAt: -1 }
+      : { publishedAt: -1, createdAt: -1 }
 
   if (categoryIds === '__missing__' || tagId === '__missing__') {
     return {
@@ -105,7 +115,7 @@ export async function listPublicArticles(rawQuery = {}) {
       .populate('category')
       .populate('tags')
       .populate('createdBy', 'username avatar role')
-      .sort({ publishedAt: -1, createdAt: -1 })
+      .sort(sort)
       .skip(pagination.skip)
       .limit(pagination.pageSize),
     Article.countDocuments(query)
