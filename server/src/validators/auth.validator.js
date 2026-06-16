@@ -11,6 +11,15 @@ export const loginSchema = z.object({
   password: z.string().min(1, '请输入密码')
 })
 
+export const resetPasswordSchema = z.object({
+  email: z.string().trim().email('邮箱格式不正确'),
+  newPassword: z.string().min(8, '新密码至少需要 8 个字符').max(72, '新密码不能超过 72 个字符'),
+  confirmPassword: z.string().min(1, '请确认新密码')
+}).strict('存在不支持的密码重置字段').refine((data) => data.newPassword === data.confirmPassword, {
+  message: '两次输入的新密码不一致',
+  path: ['confirmPassword']
+})
+
 export function parseBody(schema, body) {
   const result = schema.safeParse(body)
 

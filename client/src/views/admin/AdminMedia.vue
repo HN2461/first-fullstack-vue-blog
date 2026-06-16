@@ -284,6 +284,23 @@
       @cancel="closePreview"
     >
       <div class="media-preview">
+        <div v-if="previewRecord" class="media-preview__toolbar">
+          <div class="media-preview__toolbar-text">
+            <strong>{{ getFileClassLabel(previewRecord.fileClass) }}</strong>
+            <span>{{ formatFileSize(previewRecord.size) }}</span>
+          </div>
+          <a-space :size="8">
+            <a-button :href="previewOpenUrl" target="_blank" rel="noopener noreferrer">
+              <template #icon><ExportOutlined /></template>
+              新页面打开
+            </a-button>
+            <a-button :href="previewOpenUrl" download target="_blank" rel="noopener noreferrer">
+              <template #icon><DownloadOutlined /></template>
+              下载
+            </a-button>
+          </a-space>
+        </div>
+
         <!-- 图片预览 -->
         <div v-if="previewType === 'image'" class="media-preview__image">
           <img :src="previewRecord.url" :alt="previewRecord.originalName" />
@@ -312,28 +329,57 @@
 
         <!-- PDF 预览 -->
         <div v-else-if="previewType === 'pdf'" class="media-preview__pdf">
-          <iframe :src="previewRecord.url" class="media-preview__iframe" />
+          <template v-if="!pdfLoadError">
+            <iframe :src="previewOpenUrl" class="media-preview__iframe" @error="onPdfViewerError" />
+          </template>
+          <div v-else class="media-preview__fallback">
+            <div class="media-preview__file-card">
+              <FileWordOutlined style="font-size: 48px; color: #2563eb" />
+              <h3>{{ previewRecord?.originalName }}</h3>
+              <p>浏览器内嵌 PDF 预览不可用，请在新页面打开或下载后查看。</p>
+              <div class="media-preview__file-meta">
+                <span>类型：{{ previewRecord?.mimeType || '未知' }}</span>
+                <span>大小：{{ formatFileSize(previewRecord?.size) }}</span>
+              </div>
+              <a-space :size="8">
+                <a-button type="primary" :href="previewOpenUrl" target="_blank" rel="noopener noreferrer">
+                  <template #icon><ExportOutlined /></template>
+                  新页面打开
+                </a-button>
+                <a-button @click="retryPdfViewer">重试预览</a-button>
+              </a-space>
+            </div>
+          </div>
         </div>
 
         <!-- Office 文档预览（doc/docx/xls/xlsx/ppt/pptx/csv） -->
         <div v-else-if="previewType === 'office'" class="media-preview__office">
           <!-- Office Viewer 加载失败时降级到下载卡片 -->
           <template v-if="!officeLoadError">
-            <iframe :src="officeViewerUrl" class="media-preview__iframe" @error="onOfficeViewerError" />
+            <iframe
+              :key="officeViewerKey"
+              :src="officeViewerUrl"
+              class="media-preview__iframe"
+              @load="onOfficeViewerLoad"
+              @error="onOfficeViewerError"
+            />
           </template>
           <div v-else class="media-preview__fallback">
             <div class="media-preview__file-card">
               <FileWordOutlined style="font-size: 48px; color: #2563eb" />
               <h3>{{ previewRecord?.originalName }}</h3>
-              <p>在线预览暂不可用（可能文件不在公网可访问地址）</p>
+              <p>在线文档预览暂不可用，可能是 Office Viewer 无法访问该文件。请在新页面打开，或下载后使用本地软件查看。</p>
               <div class="media-preview__file-meta">
                 <span>类型：{{ previewRecord?.mimeType || '未知' }}</span>
                 <span>大小：{{ formatFileSize(previewRecord?.size) }}</span>
               </div>
               <a-space :size="8">
-                <a-button type="primary" :href="previewRecord?.url" download target="_blank">
-                  <template #icon><DownloadOutlined /></template>
-                  下载文件
+                <a-button type="primary" :href="previewOpenUrl" target="_blank" rel="noopener noreferrer">
+                  <template #icon><ExportOutlined /></template>
+                  新页面打开
+                </a-button>
+                <a-button :href="previewOpenUrl" download target="_blank" rel="noopener noreferrer">
+                  下载
                 </a-button>
                 <a-button @click="retryOfficeViewer" :loading="officeRetrying">
                   重试预览
@@ -451,6 +497,7 @@ import {
   FileZipOutlined,
   FileUnknownOutlined,
   FileWordOutlined,
+  ExportOutlined,
   DownloadOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
@@ -753,8 +800,11 @@ const previewVisible = ref(false)
 const previewRecord = ref(null)
 const textContent = ref('')
 const textLoading = ref(false)
+const pdfLoadError = ref(false)
 const officeLoadError = ref(false)
 const officeRetrying = ref(false)
+const officeViewerKey = ref(0)
+let officeFallbackTimer = null
 
 /**
  * 判断预览类型：image / video / audio / pdf / text / other
@@ -793,13 +843,42 @@ const previewModalWidth = computed(() => {
 
 const officeViewerUrl = computed(() => {
   if (!previewRecord.value?.url) return ''
-  return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(window.location.origin + previewRecord.value.url)}`
+  return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(previewOpenUrl.value)}`
 })
+
+const previewOpenUrl = computed(() => {
+  if (!previewRecord.value?.url) return ''
+  return new URL(previewRecord.value.url, window.location.origin).href
+})
+
+function clearOfficeFallbackTimer() {
+  if (officeFallbackTimer) {
+    clearTimeout(officeFallbackTimer)
+    officeFallbackTimer = null
+  }
+}
+
+function armOfficeFallbackTimer() {
+  clearOfficeFallbackTimer()
+  officeFallbackTimer = setTimeout(() => {
+    if (previewVisible.value && previewType.value === 'office') {
+      officeLoadError.value = true
+    }
+  }, 8000)
+}
 
 async function handleView(record) {
   previewRecord.value = record
   previewVisible.value = true
+  pdfLoadError.value = false
   officeLoadError.value = false
+  officeRetrying.value = false
+  clearOfficeFallbackTimer()
+
+  if (getPreviewType(record) === 'office') {
+    officeViewerKey.value += 1
+    armOfficeFallbackTimer()
+  }
 
   if (getPreviewType(record) === 'text') {
     textContent.value = ''
@@ -822,16 +901,34 @@ async function handleView(record) {
 function closePreview() {
   previewVisible.value = false
   textContent.value = ''
+  pdfLoadError.value = false
   officeLoadError.value = false
+  officeRetrying.value = false
+  clearOfficeFallbackTimer()
+}
+
+function onPdfViewerError() {
+  pdfLoadError.value = true
+}
+
+function retryPdfViewer() {
+  pdfLoadError.value = false
+}
+
+function onOfficeViewerLoad() {
+  clearOfficeFallbackTimer()
 }
 
 function onOfficeViewerError() {
+  clearOfficeFallbackTimer()
   officeLoadError.value = true
 }
 
 function retryOfficeViewer() {
   officeRetrying.value = true
   officeLoadError.value = false
+  officeViewerKey.value += 1
+  armOfficeFallbackTimer()
   setTimeout(() => {
     officeRetrying.value = false
   }, 2000)
@@ -1434,6 +1531,37 @@ onMounted(async () => {
   min-height: 200px;
 }
 
+.media-preview__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.media-preview__toolbar-text {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.media-preview__toolbar-text strong {
+  color: #1e293b;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.media-preview__toolbar-text span {
+  white-space: nowrap;
+}
+
 .media-preview__image {
   display: flex;
   justify-content: center;
@@ -1490,7 +1618,7 @@ onMounted(async () => {
 
 .media-preview__pdf,
 .media-preview__office {
-  height: 75vh;
+  height: min(68vh, 720px);
 }
 
 .media-preview__iframe {
@@ -1620,6 +1748,11 @@ onMounted(async () => {
 
   .media-category-panel__list-wrap {
     max-height: 280px;
+  }
+
+  .media-preview__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .media-trash__toolbar {

@@ -54,3 +54,26 @@ export async function loginUser(input) {
     user: user.toSafeJSON()
   }
 }
+
+export async function resetPassword(input) {
+  const email = input.email.trim().toLowerCase()
+  const user = await User.findOne({ email })
+
+  if (!user) {
+    throw createHttpError(404, 'USER_NOT_FOUND', '该邮箱未注册')
+  }
+
+  if (user.status === USER_STATUS.DISABLED) {
+    throw createHttpError(403, 'USER_DISABLED', '账号已被禁用，无法重置密码')
+  }
+
+  const sameAsCurrent = await bcrypt.compare(input.newPassword, user.passwordHash)
+  if (sameAsCurrent) {
+    throw createHttpError(400, 'PASSWORD_UNCHANGED', '新密码不能与当前密码相同')
+  }
+
+  user.passwordHash = await bcrypt.hash(input.newPassword, 12)
+  await user.save()
+
+  return user.toSafeJSON()
+}

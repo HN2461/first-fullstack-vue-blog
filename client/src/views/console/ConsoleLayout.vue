@@ -165,7 +165,13 @@
                 {{ article.title }}
               </a-menu-item>
             </a-sub-menu>
-            <a-menu-item v-if="categoryTree.length === 0" key="/console/articles" disabled>
+            <a-menu-item v-if="knowledgeMenuLoading && !hasKnowledgeMenuData" key="knowledge-menu-loading" disabled>
+              正在同步目录...
+            </a-menu-item>
+            <a-menu-item v-else-if="knowledgeMenuError && !hasKnowledgeMenuData" key="knowledge-menu-error" disabled>
+              目录加载失败
+            </a-menu-item>
+            <a-menu-item v-else-if="knowledgeMenuLoaded && categoryTree.length === 0" key="/console/articles" disabled>
               暂无分类
             </a-menu-item>
           </template>
@@ -242,6 +248,13 @@ import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { listPublicArticles, listPublicCategories } from '@/services/public'
 
+const KNOWLEDGE_MENU_CACHE_TTL = 60 * 1000
+const knowledgeMenuCache = {
+  categories: [],
+  articles: [],
+  loadedAt: 0
+}
+
 const route = useRoute()
 const router = useRouter()
 const appStore = useAppStore()
@@ -251,8 +264,14 @@ const articles = ref([])
 const siderCollapsed = ref(false)
 const siderFullLabels = ref(false)
 const openKeys = ref([])
-const knowledgeMenuLoaded = ref(false)
+const knowledgeMenuLoaded = ref(knowledgeMenuCache.loadedAt > 0)
+const knowledgeMenuLoading = ref(false)
+const knowledgeMenuError = ref('')
 let knowledgeMenuRequestId = 0
+if (knowledgeMenuLoaded.value) {
+  categories.value = knowledgeMenuCache.categories
+  articles.value = knowledgeMenuCache.articles
+}
 
 const menuTheme = computed(() => appStore.isDark ? 'dark' : 'light')
 const AMenuItem = Menu.Item
@@ -283,6 +302,7 @@ const uncategorizedArticles = computed(() => {
     .filter((article) => !article.category?.id || article.category?.isSystem || article.category?.slug === 'uncategorized')
     .sort((left, right) => new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt))
 })
+const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)
 const ConsoleCategoryMenu = defineComponent({
   name: 'ConsoleCategoryMenu',
   props: {
@@ -447,8 +467,29 @@ function resolveCategoryOpenKeys(slug) {
   return keys
 }
 
-async function loadKnowledgeMenu() {
+function isKnowledgeMenuCacheFresh() {
+  return knowledgeMenuCache.loadedAt > 0 && Date.now() - knowledgeMenuCache.loadedAt < KNOWLEDGE_MENU_CACHE_TTL
+}
+
+async function loadKnowledgeMenu({ force = false } = {}) {
+  if (knowledgeMenuLoading.value) {
+    return
+  }
+
+  if (!force && isKnowledgeMenuCacheFresh()) {
+    categories.value = knowledgeMenuCache.categories
+    articles.value = knowledgeMenuCache.articles
+    knowledgeMenuLoaded.value = true
+    knowledgeMenuError.value = ''
+    if (!siderCollapsed.value) {
+      openKeys.value = resolveOpenKeys(route.path)
+    }
+    return
+  }
+
   const requestId = ++knowledgeMenuRequestId
+  knowledgeMenuLoading.value = true
+  knowledgeMenuError.value = ''
 
   try {
     const [categoryList, articleResult] = await Promise.all([
@@ -460,17 +501,30 @@ async function loadKnowledgeMenu() {
       return
     }
 
+    const nextArticles = articleResult.items || []
     categories.value = categoryList
-    articles.value = articleResult.items || []
+    articles.value = nextArticles
+    knowledgeMenuCache.categories = categoryList
+    knowledgeMenuCache.articles = nextArticles
+    knowledgeMenuCache.loadedAt = Date.now()
     knowledgeMenuLoaded.value = true
     openKeys.value = resolveOpenKeys(route.path)
-  } catch {
+  } catch (error) {
     if (requestId !== knowledgeMenuRequestId) {
       return
     }
 
-    categories.value = []
-    articles.value = []
+    knowledgeMenuError.value = error.message || '知识库目录加载失败'
+    // 保留上一次成功加载的目录，避免接口抖动时左侧菜单清空闪烁。
+    if (!hasKnowledgeMenuData.value && knowledgeMenuCache.loadedAt > 0) {
+      categories.value = knowledgeMenuCache.categories
+      articles.value = knowledgeMenuCache.articles
+      knowledgeMenuLoaded.value = true
+    }
+  } finally {
+    if (requestId === knowledgeMenuRequestId) {
+      knowledgeMenuLoading.value = false
+    }
   }
 }
 

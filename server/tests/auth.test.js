@@ -4,8 +4,10 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import {
   loginUser,
-  registerUser
+  registerUser,
+  resetPassword
 } from '../src/services/auth.service.js'
+import { User } from '../src/models/User.js'
 import {
   clearTestDatabase,
   connectTestDatabase,
@@ -90,6 +92,52 @@ describe('auth service', () => {
       code: 'INVALID_CREDENTIALS'
     })
   })
+
+  it('resets password without requiring the old password', async () => {
+    await registerUser({
+      username: 'reader',
+      email: 'reader@example.com',
+      password: 'password123'
+    })
+
+    await resetPassword({
+      email: 'reader@example.com',
+      newPassword: 'newPassword123',
+      confirmPassword: 'newPassword123'
+    })
+
+    await expect(loginUser({
+      email: 'reader@example.com',
+      password: 'password123'
+    })).rejects.toMatchObject({
+      statusCode: 401,
+      code: 'INVALID_CREDENTIALS'
+    })
+
+    const result = await loginUser({
+      email: 'reader@example.com',
+      password: 'newPassword123'
+    })
+    expect(result.user.email).toBe('reader@example.com')
+  })
+
+  it('rejects password reset for disabled users', async () => {
+    await registerUser({
+      username: 'reader',
+      email: 'reader@example.com',
+      password: 'password123'
+    })
+    await User.updateOne({ email: 'reader@example.com' }, { $set: { status: USER_STATUS.DISABLED } })
+
+    await expect(resetPassword({
+      email: 'reader@example.com',
+      newPassword: 'newPassword123',
+      confirmPassword: 'newPassword123'
+    })).rejects.toMatchObject({
+      statusCode: 403,
+      code: 'USER_DISABLED'
+    })
+  })
 })
 
 describe('auth routes', () => {
@@ -164,5 +212,37 @@ describe('auth routes', () => {
       .expect(401)
 
     expect(response.body.code).toBe('UNAUTHORIZED')
+  })
+
+  it('resets password through POST /api/auth/reset-password', async () => {
+    const app = createApp()
+
+    await request(app)
+      .post('/api/auth/register')
+      .send({
+        username: 'reader',
+        email: 'reader@example.com',
+        password: 'password123'
+      })
+      .expect(201)
+
+    await request(app)
+      .post('/api/auth/reset-password')
+      .send({
+        email: 'reader@example.com',
+        newPassword: 'newPassword123',
+        confirmPassword: 'newPassword123'
+      })
+      .expect(200)
+
+    const loginResponse = await request(app)
+      .post('/api/auth/login')
+      .send({
+        email: 'reader@example.com',
+        password: 'newPassword123'
+      })
+      .expect(200)
+
+    expect(loginResponse.body.data.user.email).toBe('reader@example.com')
   })
 })

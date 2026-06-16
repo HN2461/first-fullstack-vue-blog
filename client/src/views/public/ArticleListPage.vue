@@ -3,13 +3,14 @@
     <header class="csdn-index__head">
       <h2>{{ pageTitle }}</h2>
       <div class="csdn-index__count">
+        <span v-if="loading && hasArticles" class="csdn-index__syncing">正在同步</span>
         <span>{{ result.total }} 篇文章</span>
         <span>{{ pageSize }} 条/页</span>
       </div>
     </header>
 
     <div class="csdn-index__list">
-      <p v-if="loading" class="csdn-index__state">正在加载文章...</p>
+      <p v-if="loading && !hasArticles" class="csdn-index__state">正在加载文章...</p>
       <p v-else-if="errorMessage" class="csdn-index__state csdn-index__state--error">{{ errorMessage }}</p>
 
       <template v-else>
@@ -78,8 +79,10 @@ const result = ref({
   page: 1,
   pageSize: 10
 })
+let articleRequestId = 0
 
 const inConsole = computed(() => route.path.startsWith('/console'))
+const hasArticles = computed(() => result.value.items.length > 0)
 const pageTitle = computed(() => {
   if (route.params.category) return `分类 / ${decodeURIComponent(route.params.category)}`
   if (route.params.tag) {
@@ -112,20 +115,26 @@ async function syncPageQuery() {
 }
 
 async function loadArticles() {
+  const requestId = ++articleRequestId
   loading.value = true
   errorMessage.value = ''
 
   try {
-    result.value = await listPublicArticles({
+    const nextResult = await listPublicArticles({
       category: route.params.category,
       tag: route.params.tag,
       page: currentPage.value,
       pageSize: pageSize.value
     })
+    if (requestId !== articleRequestId) return
+    result.value = nextResult
   } catch (error) {
+    if (requestId !== articleRequestId) return
     errorMessage.value = error.message || '文章加载失败'
   } finally {
-    loading.value = false
+    if (requestId === articleRequestId) {
+      loading.value = false
+    }
   }
 }
 
@@ -175,6 +184,13 @@ onMounted(async () => {
   flex-wrap: wrap;
   color: var(--text-muted);
   font-size: 13px;
+}
+
+.csdn-index__syncing {
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: var(--primary-color);
+  background: color-mix(in srgb, var(--primary-color) 9%, transparent);
 }
 
 .csdn-index__list {

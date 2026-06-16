@@ -157,7 +157,9 @@
         <div v-show="activeTab === 'security'" class="tab-content">
           <h3 class="content-title">修改密码</h3>
           <a-form
+            ref="passwordFormRef"
             :model="passwordForm"
+            :rules="passwordRules"
             @finish="handleChangePassword"
             layout="vertical"
             class="password-form"
@@ -361,12 +363,41 @@ const savingNotifications = ref(false)
 const loadingLoginRecords = ref(false)
 const loginRecords = ref([])
 const avatarInputRef = ref(null)
+const passwordFormRef = ref(null)
 
 // 裁剪相关状态
 const cropperVisible = ref(false)
 const cropperSrc = ref('')
 const uploadingAvatar = ref(false)
 const avatarCropperRef = ref(null)
+
+const passwordRules = {
+  oldPassword: [
+    { required: true, message: '请输入原密码' }
+  ],
+  newPassword: [
+    { required: true, message: '请输入新密码' },
+    { min: 8, message: '新密码至少需要 8 个字符' },
+    { max: 72, message: '新密码不能超过 72 个字符' },
+    {
+      validator: async (_rule, value) => {
+        if (value && value === passwordForm.oldPassword) {
+          throw new Error('新密码不能与原密码相同')
+        }
+      }
+    }
+  ],
+  confirmPassword: [
+    { required: true, message: '请确认新密码' },
+    {
+      validator: async (_rule, value) => {
+        if (value && value !== passwordForm.newPassword) {
+          throw new Error('两次输入的新密码不一致')
+        }
+      }
+    }
+  ]
+}
 
 function triggerAvatarUpload() {
   avatarInputRef.value?.click()
@@ -481,13 +512,9 @@ async function handleSaveNotifications() {
 }
 
 async function handleChangePassword() {
-  if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-    message.error('两次输入的密码不一致')
-    return
-  }
-
-  if (passwordForm.newPassword.length < 8) {
-    message.error('新密码至少需要 8 个字符')
+  try {
+    await passwordFormRef.value?.validate()
+  } catch {
     return
   }
 

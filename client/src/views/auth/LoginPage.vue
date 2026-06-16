@@ -108,15 +108,58 @@
               </span>
               <span>{{ lang === 'zh' ? '记住账号' : 'Remember me' }}</span>
             </label>
-            <router-link to="/forgot-password" class="forgot-link">
+            <button type="button" class="forgot-link" @click="openForgotPasswordModal">
               {{ lang === 'zh' ? '忘记密码？' : 'Forgot password?' }}
-            </router-link>
+            </button>
           </div>
 
           <a-button type="primary" html-type="submit" size="large" block :loading="submitting" :disabled="!captchaVerified" class="login-btn">
             {{ lang === 'zh' ? '登录' : 'Sign In' }}
           </a-button>
         </a-form>
+
+        <a-modal
+          v-model:open="forgotPasswordVisible"
+          :title="lang === 'zh' ? '重置密码' : 'Reset password'"
+          :confirm-loading="resettingPassword"
+          :ok-text="lang === 'zh' ? '确认重置' : 'Reset'"
+          :cancel-text="lang === 'zh' ? '取消' : 'Cancel'"
+          :width="440"
+          :destroy-on-close="true"
+          @ok="submitForgotPassword"
+        >
+          <a-alert
+            class="reset-tip"
+            type="info"
+            show-icon
+            :message="lang === 'zh' ? '忘记密码流程无需输入旧密码。' : 'Old password is not required for this flow.'"
+            :description="lang === 'zh' ? '请输入注册邮箱与新密码，重置成功后可直接使用新密码登录。' : 'Enter your registered email and a new password, then sign in with it.'"
+          />
+          <a-form
+            ref="forgotPasswordFormRef"
+            :model="forgotPasswordForm"
+            :rules="forgotPasswordRules"
+            layout="vertical"
+            class="reset-form"
+            @finish="handleResetPassword"
+          >
+            <a-form-item :label="lang === 'zh' ? '注册邮箱' : 'Email'" name="email">
+              <a-input v-model:value.trim="forgotPasswordForm.email" :placeholder="lang === 'zh' ? '请输入注册邮箱' : 'Registered email'" size="large" allow-clear>
+                <template #prefix><MailOutlined /></template>
+              </a-input>
+            </a-form-item>
+            <a-form-item :label="lang === 'zh' ? '新密码' : 'New password'" name="newPassword">
+              <a-input-password v-model:value="forgotPasswordForm.newPassword" :placeholder="lang === 'zh' ? '至少 8 个字符' : 'At least 8 characters'" size="large">
+                <template #prefix><LockOutlined /></template>
+              </a-input-password>
+            </a-form-item>
+            <a-form-item :label="lang === 'zh' ? '确认新密码' : 'Confirm password'" name="confirmPassword">
+              <a-input-password v-model:value="forgotPasswordForm.confirmPassword" :placeholder="lang === 'zh' ? '请再次输入新密码' : 'Enter the new password again'" size="large" @keyup.enter="submitForgotPassword">
+                <template #prefix><LockOutlined /></template>
+              </a-input-password>
+            </a-form-item>
+          </a-form>
+        </a-modal>
 
         <div class="other-login">
           <div class="divider">
@@ -156,6 +199,7 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import SlideCaptcha from '@/components/SlideCaptcha.vue'
 import AuthSettings from '@/components/AuthSettings.vue'
+import { resetAccountPassword } from '@/services/http'
 
 const route = useRoute()
 const router = useRouter()
@@ -177,9 +221,13 @@ const pageClasses = computed(() => [
 ])
 
 const form = reactive({ email: '', password: '', remember: false })
+const forgotPasswordForm = reactive({ email: '', newPassword: '', confirmPassword: '' })
 const submitting = ref(false)
+const resettingPassword = ref(false)
+const forgotPasswordVisible = ref(false)
 const captchaVerified = ref(false)
 const slideCaptchaRef = ref(null)
+const forgotPasswordFormRef = ref(null)
 
 const emailRules = computed(() => [
   { required: true, message: lang.value === 'zh' ? '请输入邮箱地址' : 'Email is required' },
@@ -191,6 +239,28 @@ const passwordRules = computed(() => [
   { min: 6, message: lang.value === 'zh' ? '密码至少6个字符' : 'At least 6 characters' }
 ])
 
+const forgotPasswordRules = computed(() => ({
+  email: [
+    { required: true, message: lang.value === 'zh' ? '请输入注册邮箱' : 'Email is required' },
+    { type: 'email', message: lang.value === 'zh' ? '请输入有效的邮箱格式' : 'Invalid email format' }
+  ],
+  newPassword: [
+    { required: true, message: lang.value === 'zh' ? '请输入新密码' : 'New password is required' },
+    { min: 8, message: lang.value === 'zh' ? '新密码至少需要 8 个字符' : 'At least 8 characters' },
+    { max: 72, message: lang.value === 'zh' ? '新密码不能超过 72 个字符' : 'No more than 72 characters' }
+  ],
+  confirmPassword: [
+    { required: true, message: lang.value === 'zh' ? '请确认新密码' : 'Please confirm the new password' },
+    {
+      validator: async (_rule, value) => {
+        if (value && value !== forgotPasswordForm.newPassword) {
+          throw new Error(lang.value === 'zh' ? '两次输入的新密码不一致' : 'Passwords do not match')
+        }
+      }
+    }
+  ]
+}))
+
 const featureItems = computed(() => [
   { icon: FileTextOutlined, title: lang.value === 'zh' ? '内容发布' : 'Content', desc: lang.value === 'zh' ? '文章管理与发布' : 'Article management' },
   { icon: AuditOutlined, title: lang.value === 'zh' ? '评论审核' : 'Comments', desc: lang.value === 'zh' ? '互动内容管理' : 'Interaction management' },
@@ -200,6 +270,37 @@ const featureItems = computed(() => [
 
 function onCaptchaSuccess() {
   captchaVerified.value = true
+}
+
+function openForgotPasswordModal() {
+  forgotPasswordForm.email = form.email || localStorage.getItem('blog-remembered-email') || ''
+  forgotPasswordForm.newPassword = ''
+  forgotPasswordForm.confirmPassword = ''
+  forgotPasswordVisible.value = true
+}
+
+async function submitForgotPassword() {
+  try {
+    await forgotPasswordFormRef.value?.validate()
+    await handleResetPassword()
+  } catch {
+    // Ant Design Vue 会在表单项内展示具体校验信息。
+  }
+}
+
+async function handleResetPassword() {
+  resettingPassword.value = true
+  try {
+    await resetAccountPassword({ ...forgotPasswordForm })
+    form.email = forgotPasswordForm.email
+    form.password = ''
+    forgotPasswordVisible.value = false
+    message.success(lang.value === 'zh' ? '密码重置成功，请使用新密码登录' : 'Password reset successfully')
+  } catch (error) {
+    message.error(error.message || (lang.value === 'zh' ? '密码重置失败' : 'Password reset failed'))
+  } finally {
+    resettingPassword.value = false
+  }
 }
 
 async function handleSubmit() {
@@ -812,8 +913,27 @@ onMounted(() => {
 }
 
 .forgot-link {
+  padding: 0;
+  border: 0;
   color: #1677ff;
+  background: transparent;
   font-size: 14px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.forgot-link:hover {
+  color: #4096ff;
+}
+
+.reset-tip {
+  margin-bottom: 18px;
+}
+
+.reset-form {
+  max-height: min(58vh, 420px);
+  overflow-y: auto;
+  padding-right: 2px;
 }
 
 .login-btn {

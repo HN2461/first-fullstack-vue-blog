@@ -120,6 +120,14 @@ export function loginAccount(data) {
   return http.post('/api/auth/login', data)
 }
 
+/**
+ * 忘记密码重置。该流程不要求登录态，也不复用个人信息页旧密码校验接口。
+ * @param {Object} data - { email, newPassword, confirmPassword }
+ */
+export function resetAccountPassword(data) {
+  return http.post('/api/auth/reset-password', data)
+}
+
 export function getCurrentUser() {
   return http.get('/api/auth/me')
 }

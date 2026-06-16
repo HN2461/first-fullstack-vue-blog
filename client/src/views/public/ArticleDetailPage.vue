@@ -9,7 +9,51 @@
       }
     ]"
   >
-    <div v-if="loading" class="doc-reader__state">正在加载文章...</div>
+    <div v-if="loading" class="doc-reader__scroll doc-reader__scroll--skeleton" aria-busy="true">
+      <div class="doc-reader__layout">
+        <article class="doc-reader__article doc-reader__skeleton">
+          <header class="doc-reader__header doc-reader__skeleton-header">
+            <div class="skeleton-line skeleton-line--kicker"></div>
+            <div class="skeleton-line skeleton-line--title"></div>
+            <div class="skeleton-line skeleton-line--title-short"></div>
+            <div class="skeleton-meta">
+              <span v-for="item in 4" :key="item" class="skeleton-pill"></span>
+            </div>
+            <div class="skeleton-tags">
+              <span class="skeleton-tag"></span>
+              <span class="skeleton-tag skeleton-tag--wide"></span>
+              <span class="skeleton-tag"></span>
+            </div>
+          </header>
+
+          <div class="doc-reader__skeleton-body">
+            <div class="skeleton-paragraph">
+              <span class="skeleton-line"></span>
+              <span class="skeleton-line"></span>
+              <span class="skeleton-line skeleton-line--body-short"></span>
+            </div>
+            <div class="skeleton-heading"></div>
+            <div class="skeleton-paragraph">
+              <span class="skeleton-line"></span>
+              <span class="skeleton-line skeleton-line--body-mid"></span>
+              <span class="skeleton-line"></span>
+              <span class="skeleton-line skeleton-line--body-short"></span>
+            </div>
+            <div class="skeleton-code">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="skeleton-paragraph">
+              <span class="skeleton-line"></span>
+              <span class="skeleton-line skeleton-line--body-mid"></span>
+              <span class="skeleton-line skeleton-line--body-short"></span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
     <div v-else-if="errorMessage" class="doc-reader__state doc-reader__state--error">{{ errorMessage }}</div>
 
     <template v-else>
@@ -557,6 +601,10 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
   scrollbar-color: color-mix(in srgb, var(--primary-color) 38%, var(--border-color)) transparent;
 }
 
+.doc-reader__scroll--skeleton {
+  animation: skeleton-fade-in 0.18s ease both;
+}
+
 .doc-reader--console .doc-reader__scroll {
   height: calc(100vh - var(--console-header-height, 64px));
 }
@@ -682,6 +730,146 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 
 .doc-reader__content :deep(.markdown-body) {
   color: var(--text-primary);
+}
+
+.doc-reader__skeleton {
+  pointer-events: none;
+}
+
+.doc-reader__skeleton-header {
+  display: grid;
+  gap: 14px;
+}
+
+.doc-reader__skeleton-body {
+  display: grid;
+  gap: 26px;
+  padding-bottom: 40px;
+}
+
+.skeleton-paragraph {
+  display: grid;
+  gap: 12px;
+}
+
+.skeleton-line,
+.skeleton-pill,
+.skeleton-tag,
+.skeleton-heading,
+.skeleton-code span {
+  display: block;
+  overflow: hidden;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--text-muted) 12%, var(--bg-elevated)) 0%,
+    color-mix(in srgb, var(--primary-color) 10%, var(--bg-elevated)) 44%,
+    color-mix(in srgb, var(--text-muted) 12%, var(--bg-elevated)) 88%
+  );
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.35s ease-in-out infinite;
+}
+
+.skeleton-line {
+  width: 100%;
+  height: 15px;
+}
+
+.skeleton-line--kicker {
+  width: 220px;
+  height: 14px;
+  border-radius: 999px;
+}
+
+.skeleton-line--title {
+  width: min(100%, 760px);
+  height: 40px;
+  margin-top: 6px;
+}
+
+.skeleton-line--title-short {
+  width: min(68%, 520px);
+  height: 40px;
+}
+
+.skeleton-line--body-mid {
+  width: 84%;
+}
+
+.skeleton-line--body-short {
+  width: 62%;
+}
+
+.skeleton-meta,
+.skeleton-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+}
+
+.skeleton-pill {
+  width: 96px;
+  height: 18px;
+  border-radius: 999px;
+}
+
+.skeleton-tag {
+  width: 72px;
+  height: 24px;
+  border-radius: 999px;
+}
+
+.skeleton-tag--wide {
+  width: 116px;
+}
+
+.skeleton-heading {
+  width: min(42%, 280px);
+  height: 28px;
+}
+
+.skeleton-code {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 10%, var(--border-color));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--bg-elevated) 78%, var(--bg-secondary));
+}
+
+.skeleton-code span {
+  width: 100%;
+  height: 13px;
+}
+
+.skeleton-code span:nth-child(2) {
+  width: 76%;
+}
+
+.skeleton-code span:nth-child(3) {
+  width: 88%;
+}
+
+.skeleton-code span:nth-child(4) {
+  width: 54%;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}
+
+@keyframes skeleton-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .doc-reader__footer {
