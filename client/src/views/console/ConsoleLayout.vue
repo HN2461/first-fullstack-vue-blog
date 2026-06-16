@@ -191,6 +191,7 @@
               <a-menu-item key="/console/manage/users">用户管理</a-menu-item>
               <a-menu-item key="/console/manage/notifications">公告管理</a-menu-item>
               <a-menu-item key="/console/manage/settings">系统设置</a-menu-item>
+              <a-menu-item key="/console/manage/monitor">服务监控</a-menu-item>
               <a-menu-item key="/console/manage/trash">回收站</a-menu-item>
             </a-sub-menu>
           </template>
@@ -406,7 +407,7 @@ function resolveOpenKeys(path) {
       return ['contentRoot']
     }
 
-    if (path.includes('/manage/comments') || path.includes('/manage/users') || path.includes('/manage/notifications') || path.includes('/manage/settings') || path.includes('/manage/trash')) {
+    if (path.includes('/manage/comments') || path.includes('/manage/users') || path.includes('/manage/notifications') || path.includes('/manage/settings') || path.includes('/manage/monitor') || path.includes('/manage/trash')) {
       return ['governanceRoot']
     }
 

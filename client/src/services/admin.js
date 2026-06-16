@@ -150,6 +150,10 @@ export function getAdminStats() {
   return http.get('/api/admin/stats')
 }
 
+export function getAdminMonitorOverview() {
+  return http.get('/api/admin/monitor/overview')
+}
+
 // 媒体相关
 export async function listAdminMedia(params = {}) {
   return toPageResult(await http.get('/api/admin/media', { params }), params.pageSize || 20)

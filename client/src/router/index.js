@@ -18,6 +18,7 @@ const AdminTags = () => import('@/views/admin/AdminTags.vue')
 const AdminComments = () => import('@/views/admin/AdminComments.vue')
 const AdminUsers = () => import('@/views/admin/AdminUsers.vue')
 const AdminStats = () => import('@/views/admin/AdminStats.vue')
+const AdminMonitor = () => import('@/views/admin/AdminMonitor.vue')
 const AdminMedia = () => import('@/views/admin/AdminMedia.vue')
 const AdminNotifications = () => import('@/views/admin/AdminNotifications.vue')
 const AdminSettings = () => import('@/views/admin/AdminSettings.vue')
@@ -202,6 +203,12 @@ export const router = createRouter({
           name: 'AdminSettings',
           component: AdminSettings,
           meta: { title: '系统设置', requiresAdmin: true }
+        },
+        {
+          path: 'manage/monitor',
+          name: 'AdminMonitor',
+          component: AdminMonitor,
+          meta: { title: '服务监控', requiresAdmin: true }
         },
         {
           path: 'manage/trash',

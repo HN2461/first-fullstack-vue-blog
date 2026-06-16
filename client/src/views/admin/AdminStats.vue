@@ -156,7 +156,7 @@ import {
   PlusOutlined, BookOutlined,
   FileTextOutlined, FileDoneOutlined, EditOutlined,
   TeamOutlined, CommentOutlined, PictureOutlined,
-  TagOutlined, FolderOutlined, BellOutlined, ToolOutlined
+  TagOutlined, FolderOutlined, BellOutlined, ToolOutlined, ApiOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import {
@@ -214,7 +214,8 @@ const quickActions = [
   { label: '用户', icon: TeamOutlined, bg: '#f9f0ff', color: '#722ed1', route: '/console/manage/users' },
   { label: '媒体', icon: PictureOutlined, bg: '#e6fffb', color: '#13c2c2', route: '/console/manage/media' },
   { label: '公告', icon: BellOutlined, bg: '#fff0f6', color: '#eb2f96', route: '/console/manage/notifications' },
-  { label: '设置', icon: ToolOutlined, bg: '#f5f5f5', color: '#666', route: '/console/manage/settings' }
+  { label: '设置', icon: ToolOutlined, bg: '#f5f5f5', color: '#666', route: '/console/manage/settings' },
+  { label: '监控', icon: ApiOutlined, bg: '#e6f4ff', color: '#1677ff', route: '/console/manage/monitor' }
 ]
 
 function getLevelColor(level) {

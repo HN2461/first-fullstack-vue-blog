@@ -189,6 +189,28 @@ describe('operations routes', () => {
     expect(response.body.data.userCount).toBe(1)
   })
 
+  it('returns monitor overview for admin users', async () => {
+    await request(app)
+      .get('/api/health')
+      .expect(200)
+
+    const response = await request(app)
+      .get('/api/admin/monitor/overview')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(response.body.data.system).toMatchObject({
+      environment: expect.any(String),
+      platform: expect.any(String),
+      nodeVersion: expect.any(String),
+      serviceVersion: expect.any(String)
+    })
+    expect(response.body.data.service.api.status).toBe('up')
+    expect(response.body.data.service.database.readyState).toBe(1)
+    expect(response.body.data.requests.totalRequests).toBeGreaterThanOrEqual(1)
+    expect(Array.isArray(response.body.data.alerts)).toBe(true)
+  })
+
   it('uploads media metadata', async () => {
     const response = await request(app)
       .post('/api/admin/media')

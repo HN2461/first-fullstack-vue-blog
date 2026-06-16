@@ -8,6 +8,7 @@ import { createCategory, deleteCategory, listCategories, listCategoryArticles, l
 import { listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '../services/mediaCategory.service.js'
 import { createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, restoreMedia } from '../services/media.service.js'
+import { getMonitorOverview } from '../services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '../services/notification.service.js'
 import { getSettings, updateSettings } from '../services/setting.service.js'
 import { getAdminStats } from '../services/stats.service.js'
@@ -233,6 +234,10 @@ adminRouter.patch('/users/:id/status', asyncHandler(async (req, res) => {
 
 adminRouter.get('/stats', asyncHandler(async (req, res) => {
   res.json(ok(await getAdminStats()))
+}))
+
+adminRouter.get('/monitor/overview', asyncHandler(async (req, res) => {
+  res.json(ok(await getMonitorOverview()))
 }))
 
 adminRouter.get('/media', asyncHandler(async (req, res) => {

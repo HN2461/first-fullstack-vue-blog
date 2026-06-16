@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import { API_PREFIX } from '@blog/shared'
 import { env } from './config/env.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
+import { requestMetricsMiddleware } from './middlewares/requestMetrics.js'
 import { adminRouter } from './routes/admin.routes.js'
 import { authRouter } from './routes/auth.routes.js'
 import captchaRouter from './routes/captcha.routes.js'
@@ -26,6 +27,7 @@ export function createApp() {
   app.use(express.urlencoded({ extended: true }))
   app.use('/uploads', express.static(path.join(env.rootDir, env.uploadDir)))
   app.use('/legacy-notes', express.static(env.legacyNotesDir))
+  app.use(requestMetricsMiddleware)
 
   if (env.nodeEnv !== 'test') {
     app.use(morgan('dev'))
