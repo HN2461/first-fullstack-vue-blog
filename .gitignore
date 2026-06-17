@@ -8,4 +8,5 @@ coverage/
 Thumbs.db
 uploads/*
 !uploads/.gitkeep
-server/logs/
+backend/logs/
+backend/legacy-notes/

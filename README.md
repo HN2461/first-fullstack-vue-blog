@@ -1,37 +1,36 @@
 # 个人全栈博客系统
 
-这是一个从零开始建设的全栈个人技术博客系统，采用 Vue 3、Express 和 MongoDB。
+本仓库已拆分为两个独立应用：
 
-现有静态博客 `个人技术博客网站` 只作为 UI 参考和后期 Markdown 内容迁移来源，新系统运行时不依赖旧项目的静态索引文件。
+- `frontend/`：前端 Vue 3 + Vite
+- `backend/`：后端 Express + MongoDB
 
-## 本地开发
+## 启动方式
 
-1. 安装 Node.js 20 或更高版本。
-2. 安装并启动 MongoDB。
-3. 复制 `.env.example` 为 `.env`，按本机环境修改配置。
-4. 执行 `npm install`。
-5. 执行 `npm run dev`。
-
-## 目录
-
-- `client/`：Vue 3 前端。
-- `server/`：Express API 服务。
-- `shared/`：共享常量和枚举。
-- `uploads/`：本地上传文件目录。
-- `docs/`：项目文档。
-
-## 初始化管理员
-
-复制 `.env.example` 为 `.env` 后，填写：
-
-- `ADMIN_USERNAME`
-- `ADMIN_EMAIL`
-- `ADMIN_PASSWORD`
-
-然后执行：
+### 前端
 
 ```bash
-npm run create:admin --workspace server
+cd frontend
+npm install
+npm run dev
 ```
 
-管理员账号用于登录 `/admin` 后台。普通注册用户不能访问后台。
+### 后端
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+## 文档入口
+
+先看 [docs/README.md](docs/README.md)，里面有中文分类索引。
+
+## 目录说明
+
+- `frontend/`：前端应用
+- `backend/`：后端 API 服务
+- `deploy/`：Nginx / PM2 部署模板
+- `docs/`：部署与发布说明
+- `uploads/`：后端上传目录

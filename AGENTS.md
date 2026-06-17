@@ -10,11 +10,11 @@
 
 - 前端：Vue 3、Vite、Pinia、Vue Router、Ant Design Vue、lucide-vue-next。
 - 后端：Node.js、Express、MongoDB、Mongoose。
-- 架构：Monorepo + npm workspaces。
+- 架构：前端、后端独立项目；仓库只作为代码收纳，不再使用根 npm workspaces。
 - 主要目录：
-  - `client`：前端应用。
-  - `server`：Express API 服务。
-  - `shared`：前后端共享常量和工具。
+  - `frontend`：前端应用，拥有独立 `package.json` / `package-lock.json` / `node_modules`。
+  - `backend`：Express API 服务，拥有独立 `package.json` / `package-lock.json` / `node_modules`。
+  - `backend/src/constants`：后端领域常量；前端如需展示字典，自行在前端维护展示配置。
   - `uploads`：本地媒体上传目录。
 
 ## 产品结构原则
@@ -105,10 +105,10 @@
 
 ## 通用表格组件规则
 
-- 涉及后台列表、控制台列表、分页数据表格、带筛选/操作列的数据展示时，优先使用 `client/src/components/BlogTable.vue`，不要在业务页面重复手写 `a-table + a-pagination` 的通用封装逻辑。
+- 涉及后台列表、控制台列表、分页数据表格、带筛选/操作列的数据展示时，优先使用 `frontend/src/components/BlogTable.vue`，不要在业务页面重复手写 `a-table + a-pagination` 的通用封装逻辑。
 - 使用 `BlogTable` 时，优先通过组件已有能力完成需求，例如 `columns`、`scroll`、`height`、`rowSelection`、`toolbar` 插槽、`bodyCell` 插槽、`show-column-setting`、`column-border`、`striped`、`bordered`、固定列 `fixed: 'left' | 'right'`、列宽 `width` 等。
 - 业务页面需要个性化表格样式时，优先在业务页面通过传参、列配置、插槽或局部样式实现，避免为了单个页面直接改动 `BlogTable`。
-- `BlogTable.vue` 是高复用公共组件，默认禁止主动修改它。只有当用户明确要求修改该组件，或已经向用户说明影响范围并获得同意后，才可以编辑 `client/src/components/BlogTable.vue`。
+- `BlogTable.vue` 是高复用公共组件，默认禁止主动修改它。只有当用户明确要求修改该组件，或已经向用户说明影响范围并获得同意后，才可以编辑 `frontend/src/components/BlogTable.vue`。
 - 如果确实需要扩展 `BlogTable`，必须保持向后兼容：新增能力优先做成可选 prop / slot / columns 配置，不能改变现有页面默认表现；修改后需要运行前端构建并抽查 UTF-8 无 BOM。
 
 ## 验证命令
@@ -116,9 +116,12 @@
 重要改动后至少运行：
 
 ```powershell
-npm run build --workspace client
-npm run test --workspace server
-npm run check:encoding
+cd frontend
+npm run build
+cd ..\backend
+npm run test
+cd ..
+pwsh -File scripts\check-encoding.ps1
 ```
 
 前端视觉改动还应打开浏览器检查：
