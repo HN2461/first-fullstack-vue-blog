@@ -87,6 +87,7 @@ export async function listPublicArticles(rawQuery = {}) {
   const query = createPublishedQuery({ search: rawQuery.q || rawQuery.search || '' })
   const categoryIds = await resolveCategoryAndDescendantIds(rawQuery.category)
   const tagId = await resolveTagId(rawQuery.tag)
+  const includeContent = rawQuery.includeContent === 'true'
   const sort = rawQuery.sort === 'views'
     ? { viewCount: -1, publishedAt: -1, createdAt: -1 }
     : rawQuery.sort === 'recommended'
@@ -122,7 +123,10 @@ export async function listPublicArticles(rawQuery = {}) {
   ])
 
   return {
-    items: items.map((article) => article.toSafeJSON()),
+    items: items.map((article) => article.toSafeJSON({
+      includeContent,
+      includeResources: includeContent
+    })),
     total,
     page: pagination.page,
     pageSize: pagination.pageSize
@@ -211,5 +215,27 @@ export async function getPublicHomeData() {
     tags: tags.map((tag) => tag.toSafeJSON()),
     recentArticles: recentArticles.map((article) => article.toSafeJSON()),
     recommendedArticles: recommendedArticles.map((article) => article.toSafeJSON())
+  }
+}
+
+export async function getKnowledgeMenuData() {
+  const [categories, articles] = await Promise.all([
+    Category.find({ status: 'active', isSystem: { $ne: true } })
+      .sort({ sortOrder: 1, createdAt: -1 }),
+    Article.find({
+      status: ARTICLE_STATUS.PUBLISHED,
+      deletedAt: null
+    })
+      .populate('category')
+      .sort({ publishedAt: -1, createdAt: -1 })
+      .limit(500)
+  ])
+
+  return {
+    categories: categories.map((category) => category.toSafeJSON()),
+    articles: articles.map((article) => article.toSafeJSON({
+      includeContent: false,
+      includeResources: false
+    }))
   }
 }

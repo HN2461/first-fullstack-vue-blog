@@ -167,7 +167,9 @@ articleSchema.index(
   }
 )
 
-articleSchema.methods.toSafeJSON = function toSafeJSON() {
+articleSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
+  const includeContent = options.includeContent !== false
+  const includeResources = options.includeResources !== false
   const category = this.category && typeof this.category === 'object' && this.category.name
     ? this.category.toSafeJSON?.() || this.category
     : this.category?.toString?.() || null
@@ -199,9 +201,9 @@ articleSchema.methods.toSafeJSON = function toSafeJSON() {
     title: this.title,
     slug: this.slug,
     summary: this.summary,
-    contentMarkdown: this.contentMarkdown,
     cover: this.cover,
-    resources,
+    ...(includeContent ? { contentMarkdown: this.contentMarkdown } : {}),
+    ...(includeResources ? { resources } : {}),
     author,
     category,
     tags,

@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { listVisibleComments } from '../services/comment.service.js'
 import { getPopupAnnouncements, listActiveAnnouncements, getUnreadCount, markAllAsRead, markAsRead } from '../services/notification.service.js'
-import { getPublicArticleBySlug, getPublicHomeData, listPublicArticles } from '../services/public.service.js'
+import { getKnowledgeMenuData, getPublicArticleBySlug, getPublicHomeData, listPublicArticles } from '../services/public.service.js'
 import { getSearchSuggestions, searchArticles } from '../services/search.service.js'
 import { getSettings } from '../services/setting.service.js'
 import { optionalAuth, requireAuth } from '../middlewares/auth.js'
@@ -12,6 +12,10 @@ export const publicRouter = Router()
 
 publicRouter.get('/home', asyncHandler(async (req, res) => {
   res.json(ok(await getPublicHomeData()))
+}))
+
+publicRouter.get('/knowledge-menu', asyncHandler(async (req, res) => {
+  res.json(ok(await getKnowledgeMenuData()))
 }))
 
 publicRouter.get('/site/profile', asyncHandler(async (req, res) => {

@@ -246,7 +246,7 @@ import { Menu } from 'ant-design-vue'
 import { Moon, SquarePen, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
-import { listPublicArticles, listPublicCategories } from '@/services/public'
+import { getKnowledgeMenu, listPublicArticles } from '@/services/public'
 
 const KNOWLEDGE_MENU_CACHE_TTL = 60 * 1000
 const knowledgeMenuCache = {
@@ -492,19 +492,17 @@ async function loadKnowledgeMenu({ force = false } = {}) {
   knowledgeMenuError.value = ''
 
   try {
-    const [categoryList, articleResult] = await Promise.all([
-      listPublicCategories(),
-      listPublicArticles({ pageSize: 500 })
-    ])
+    const menuResult = await getKnowledgeMenu()
 
     if (requestId !== knowledgeMenuRequestId) {
       return
     }
 
-    const nextArticles = articleResult.items || []
-    categories.value = categoryList
+    const nextCategories = menuResult.categories || []
+    const nextArticles = menuResult.articles || []
+    categories.value = nextCategories
     articles.value = nextArticles
-    knowledgeMenuCache.categories = categoryList
+    knowledgeMenuCache.categories = nextCategories
     knowledgeMenuCache.articles = nextArticles
     knowledgeMenuCache.loadedAt = Date.now()
     knowledgeMenuLoaded.value = true

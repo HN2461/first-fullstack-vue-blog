@@ -8,9 +8,8 @@ export function getPublicHome() {
   return http.get('/api/public/home')
 }
 
-export async function listPublicCategories() {
-  const home = await getPublicHome()
-  return home.categories || []
+export function getKnowledgeMenu() {
+  return http.get('/api/public/knowledge-menu')
 }
 
 export function listPublicArticles(params = {}) {
