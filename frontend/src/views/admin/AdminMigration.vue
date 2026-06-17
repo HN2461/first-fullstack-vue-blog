@@ -121,6 +121,14 @@
                 重置
               </a-button>
               <a-button
+                class="mg-btn mg-btn-ghost"
+                :disabled="!currentCategory"
+                @click="openCategoryArticlesModal"
+              >
+                <template #icon><UnorderedListOutlined /></template>
+                查看该分类文章
+              </a-button>
+              <a-button
                 type="primary"
                 class="mg-btn mg-btn-primary"
                 :disabled="!currentCategory || isLockedCategory"
@@ -235,70 +243,77 @@
           <div v-else class="mg-empty-state">
             <FolderOpenOutlined class="mg-empty-icon" />
             <strong>选择一个分类开始管理</strong>
-            <span>从左侧分类树中选择节点，即可编辑属性和迁移文章</span>
+            <span>从左侧分类树中选择节点，即可编辑属性；文章列表通过弹窗查看。</span>
           </div>
         </div>
-
-        <!-- ── 文章表格 ── -->
-        <BlogTable
-          ref="articleTableRef"
-          :key="selectedCategoryId || 'empty'"
-          :api-fn="loadBranchArticles"
-          :columns="articleColumns"
-          :auto-load="Boolean(selectedCategoryId)"
-          :page-size="8"
-          :page-sizes="['8', '15', '30']"
-          :row-selection="selectedCategoryId ? true : false"
-          :show-column-setting="true"
-          @selection-change="handleArticleSelectionChange"
-        >
-          <template #toolbar>
-            <div class="mg-article-toolbar">
-              <template v-if="selectedArticleIds.length > 0">
-                <a-tag color="processing" class="mg-selected-tag">
-                  已选 {{ selectedArticleIds.length }} 篇
-                </a-tag>
-                <a-button type="primary" size="small" @click="openBatchMoveModal">
-                  <template #icon><SwapOutlined /></template>
-                  批量迁移
-                </a-button>
-                <a-button size="small" @click="clearArticleSelection">清空</a-button>
-              </template>
-              <a-tag v-else-if="selectedCategoryId" class="mg-total-tag">
-                共 {{ branchArticlesTotal }} 篇
-              </a-tag>
-              <span v-else class="mg-table-hint">
-                <InfoCircleOutlined style="margin-right: 4px" />
-                请先从左侧选择一个分类
-              </span>
-            </div>
-          </template>
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'title'">
-              <div class="mg-article-title">
-                <strong>{{ record.title }}</strong>
-                <span>{{ record.summary || '暂无摘要' }}</span>
-              </div>
-            </template>
-
-            <template v-else-if="column.key === 'category'">
-              <a-tag :bordered="false">{{ record.category?.name || DEFAULT_CATEGORY_LABEL }}</a-tag>
-            </template>
-
-            <template v-else-if="column.key === 'publishedAt'">
-              <span class="mg-time-cell">{{ formatDate(record.publishedAt || record.createdAt) }}</span>
-            </template>
-
-            <template v-else-if="column.key === 'action'">
-              <a-button type="link" size="small" @click="openMoveArticleModal(record)">
-                <template #icon><SwapOutlined /></template>
-                迁移
-              </a-button>
-            </template>
-          </template>
-        </BlogTable>
       </div>
     </div>
+
+    <!-- ══════ 分类文章弹窗 ══════ -->
+    <a-modal
+      v-model:open="categoryArticlesModalVisible"
+      :title="currentCategory ? `分类文章：${currentCategory.name}` : '分类文章'"
+      width="1080px"
+      :footer="null"
+      destroy-on-close
+      class="mg-modal mg-articles-modal"
+      @cancel="closeCategoryArticlesModal"
+    >
+      <BlogTable
+        ref="articleTableRef"
+        :key="categoryArticlesModalVisible ? selectedCategoryId : 'closed'"
+        :api-fn="loadBranchArticles"
+        :columns="articleColumns"
+        :auto-load="categoryArticlesModalVisible && Boolean(selectedCategoryId)"
+        :page-size="8"
+        :page-sizes="['8', '15', '30']"
+        :row-selection="selectedCategoryId ? true : false"
+        :show-column-setting="true"
+        height="560px"
+        @selection-change="handleArticleSelectionChange"
+      >
+        <template #toolbar>
+          <div class="mg-article-toolbar">
+            <template v-if="selectedArticleIds.length > 0">
+              <a-tag color="processing" class="mg-selected-tag">
+                已选 {{ selectedArticleIds.length }} 篇
+              </a-tag>
+              <a-button type="primary" size="small" @click="openBatchMoveModal">
+                <template #icon><SwapOutlined /></template>
+                批量迁移
+              </a-button>
+              <a-button size="small" @click="clearArticleSelection">清空</a-button>
+            </template>
+            <a-tag v-else class="mg-total-tag">
+              共 {{ branchArticlesTotal }} 篇
+            </a-tag>
+          </div>
+        </template>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'title'">
+            <div class="mg-article-title">
+              <strong>{{ record.title }}</strong>
+              <span>{{ record.summary || '暂无摘要' }}</span>
+            </div>
+          </template>
+
+          <template v-else-if="column.key === 'category'">
+            <a-tag :bordered="false">{{ record.category?.name || DEFAULT_CATEGORY_LABEL }}</a-tag>
+          </template>
+
+          <template v-else-if="column.key === 'publishedAt'">
+            <span class="mg-time-cell">{{ formatDate(record.publishedAt || record.createdAt) }}</span>
+          </template>
+
+          <template v-else-if="column.key === 'action'">
+            <a-button type="link" size="small" @click="openMoveArticleModal(record)">
+              <template #icon><SwapOutlined /></template>
+              迁移
+            </a-button>
+          </template>
+        </template>
+      </BlogTable>
+    </a-modal>
 
     <!-- ══════ 新增分类弹窗 ══════ -->
     <a-modal
@@ -407,6 +422,7 @@ import {
   ReloadOutlined,
   SaveOutlined,
   SwapOutlined,
+  UnorderedListOutlined,
   UndoOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
@@ -439,6 +455,7 @@ const articleTableRef = ref(null)
 const editFormRef = ref(null)
 const createFormRef = ref(null)
 const createModalVisible = ref(false)
+const categoryArticlesModalVisible = ref(false)
 const moveArticleModalVisible = ref(false)
 const moveMode = ref('single')
 const movingArticleRecord = ref(null)
@@ -654,7 +671,9 @@ const moveSourceText = computed(() => {
 
 async function reloadAll() {
   await loadCategoryTree()
-  articleTableRef.value?.refresh?.()
+  if (categoryArticlesModalVisible.value) {
+    articleTableRef.value?.refresh?.()
+  }
 }
 
 async function loadCategoryTree() {
@@ -663,10 +682,8 @@ async function loadCategoryTree() {
     const tree = await listAdminCategoryTree()
     categoryTree.value = Array.isArray(tree) ? tree : []
 
-    if (!selectedCategoryId.value) {
-      selectedCategoryId.value = categoryTree.value[0]?.id || ''
-    } else if (!findNodeById(categoryTree.value, selectedCategoryId.value)) {
-      selectedCategoryId.value = categoryTree.value[0]?.id || ''
+    if (selectedCategoryId.value && !findNodeById(categoryTree.value, selectedCategoryId.value)) {
+      selectedCategoryId.value = ''
     }
 
     expandedKeys.value = selectedCategoryId.value ? (findPath(categoryTree.value, selectedCategoryId.value)?.map((node) => node.id) || []) : []
@@ -715,7 +732,9 @@ function handleSelectTree(selectedKeysValue) {
   expandedKeys.value = findPath(categoryTree.value, nextId)?.map((node) => node.id) || []
   syncEditForm()
   clearArticleSelection()
-  articleTableRef.value?.refresh?.()
+  if (categoryArticlesModalVisible.value) {
+    articleTableRef.value?.refresh?.()
+  }
 }
 
 function handleExpandTree(keys) {
@@ -870,6 +889,20 @@ async function loadBranchArticles(params = {}) {
   return result
 }
 
+function openCategoryArticlesModal() {
+  if (!selectedCategoryId.value) {
+    return
+  }
+
+  categoryArticlesModalVisible.value = true
+  clearArticleSelection()
+}
+
+function closeCategoryArticlesModal() {
+  categoryArticlesModalVisible.value = false
+  clearArticleSelection()
+}
+
 function handleArticleSelectionChange(keys, rows) {
   selectedArticleIds.value = keys || []
   selectedArticleRows.value = rows || []
@@ -927,7 +960,9 @@ async function submitMoveArticle() {
     }
 
     closeMoveArticleModal()
-    articleTableRef.value?.refresh?.()
+    if (categoryArticlesModalVisible.value) {
+      articleTableRef.value?.refresh?.()
+    }
     await reloadAll()
   } finally {
     movingArticle.value = false

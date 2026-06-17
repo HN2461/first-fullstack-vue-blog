@@ -1,21 +1,9 @@
 <template>
   <section class="comment-review-page">
-    <!-- 精简顶栏 -->
     <div class="comment-topbar">
       <h2 class="comment-title">评论审核</h2>
-      <div class="comment-filters">
-        <span class="filter-label">状态</span>
-        <a-select v-model:value="status" class="status-select">
-          <a-select-option value="">全部</a-select-option>
-          <a-select-option value="pending">待审核</a-select-option>
-          <a-select-option value="visible">已展示</a-select-option>
-          <a-select-option value="rejected">已驳回</a-select-option>
-          <a-select-option value="hidden">已隐藏</a-select-option>
-        </a-select>
-      </div>
     </div>
 
-    <!-- 表格区：绝对主角 -->
     <BlogTable
       ref="tableRef"
       :api-fn="fetchComments"
@@ -30,11 +18,23 @@
       @selection-change="handleSelectionChange"
     >
       <template #toolbar>
-        <BatchActionBar :count="selectedCommentIds.length" @clear="clearSelection">
-          <a-button size="small" @click="batchReview('approve')">批量通过</a-button>
-          <a-button size="small" @click="batchReview('reject')">批量驳回</a-button>
-          <a-button size="small" danger @click="batchReview('hide')">批量隐藏</a-button>
-        </BatchActionBar>
+        <div class="comment-toolbar">
+          <div class="comment-filters">
+            <span class="filter-label">状态</span>
+            <a-select v-model:value="status" class="status-select">
+              <a-select-option value="">全部</a-select-option>
+              <a-select-option value="pending">待审核</a-select-option>
+              <a-select-option value="visible">已展示</a-select-option>
+              <a-select-option value="rejected">已驳回</a-select-option>
+              <a-select-option value="hidden">已隐藏</a-select-option>
+            </a-select>
+          </div>
+          <BatchActionBar :count="selectedCommentIds.length" @clear="clearSelection">
+            <a-button size="small" @click="batchReview('approve')">批量通过</a-button>
+            <a-button size="small" @click="batchReview('reject')">批量驳回</a-button>
+            <a-button size="small" danger @click="batchReview('hide')">批量隐藏</a-button>
+          </BatchActionBar>
+        </div>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'content'">
@@ -230,6 +230,14 @@ async function review(id, action) {
   color: var(--console-text);
   white-space: nowrap;
   line-height: 32px;
+}
+
+.comment-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .comment-filters {

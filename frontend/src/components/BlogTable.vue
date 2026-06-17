@@ -3,8 +3,8 @@
  * 基于 Ant Design Vue 的 a-table 封装，统一服务端分页、滚动和列设置。
  *
  * 推荐结构：
- * 1. 页面外层需要限制高度时，给页面容器设置 height + min-height: 0；
- * 2. BlogTable 使用 height="100%" 可自动撑满容器并让表格主体滚动；
+ * 1. 默认 auto 模式会撑满页面剩余可视高度，分页栏贴合表格底部；
+ * 2. 表格容器固定高度，超量数据只在表格主体内部滚动，页面外层不随行数拉伸；
  * 3. columns 使用 Ant Design Vue 的列配置，宽表建议设置 scroll="{ x: 1000 }" 或给列设置 width；
  * 4. toolbar 插槽放搜索、筛选、新增等页面级操作；底部会统一放分页、刷新和列设置；
  * 5. 通过 ref 可调用 refresh() 刷新当前页、reload() 回到第一页重载、clearSelection() 清空选择。
@@ -19,10 +19,8 @@
  * 带筛选参数:
  * <BlogTable :api-fn="listAdminArticles" :columns="columns" :params="{ status: 'published' }" />
  *
- * 固定高度/自动滚动:
- * <div style="height: 600px; min-height: 0">
- *   <BlogTable :api-fn="loadList" :columns="columns" height="100%" />
- * </div>
+ * 固定高度:
+ * <BlogTable :api-fn="loadList" :columns="columns" height="600px" />
  *
  * 固定列/列宽/分界线:
  * const columns = [
@@ -388,10 +386,9 @@ const effectiveRowSelection = computed(() => {
 
 // ──── 样式计算 ────
 
-const autoScrollY = ref(0)
 const autoRootHeight = ref(0)
+const autoScrollY = ref(0)
 const stretchScrollY = ref(0)
-let bodyEl = null
 
 const showSizeChanger = computed(() => props.pageSizes.length > 0)
 const showQuickJumper = computed(() => total.value > currentPageSize.value)
@@ -399,6 +396,32 @@ const pageSizeOptions = computed(() => props.pageSizes.map(String))
 const showPagination = computed(() => !props.hidePagination && total.value > 0)
 const showFooterActions = computed(() => Boolean(slots.toolbarRight) || props.showColumnSetting || Boolean(props.apiFn))
 const showFooter = computed(() => !props.bare && (showPagination.value || showFooterActions.value))
+
+function calcScrollY() {
+  if (!rootRef.value) return
+  const rect = rootRef.value.getBoundingClientRect()
+  const viewportH = window.innerHeight
+  const topOffset = rect.top
+  const bottomGap = 16
+  autoRootHeight.value = Math.max(viewportH - topOffset - bottomGap, 320)
+  autoScrollY.value = Math.max(autoRootHeight.value - getBodyReservedHeight() - getTableHeaderHeight(), 200)
+}
+
+function calcStretchScrollY() {
+  if (!bodyRef.value) return
+  stretchScrollY.value = Math.max(bodyRef.value.clientHeight - getTableHeaderHeight(), 200)
+}
+
+function calcLayout() {
+  if (props.height === 'auto') {
+    calcScrollY()
+    return
+  }
+
+  if (isStretchLayout.value) {
+    calcStretchScrollY()
+  }
+}
 
 function getBodyReservedHeight() {
   if (!rootRef.value) return 0
@@ -412,25 +435,8 @@ function getTableHeaderHeight() {
   return bodyRef.value?.querySelector('.ant-table-thead')?.getBoundingClientRect().height || 48
 }
 
-function calcScrollY() {
-  if (!rootRef.value) return
-  const rect = rootRef.value.getBoundingClientRect()
-  const viewportH = window.innerHeight
-  const topOffset = rect.top
-  const bottomGap = 16
-  autoRootHeight.value = Math.max(viewportH - topOffset - bottomGap, 320)
-  const availableHeight = autoRootHeight.value - getBodyReservedHeight() - getTableHeaderHeight()
-  autoScrollY.value = Math.max(availableHeight, 200)
-}
-
-function calcStretchScrollY() {
-  if (bodyEl) {
-    stretchScrollY.value = Math.max(bodyEl.clientHeight - getTableHeaderHeight(), 200)
-  }
-}
-
 const effectiveScroll = computed(() => {
-  const scroll = { ...props.scroll }
+  const scroll = { ...(props.scroll || {}) }
 
   if (!scroll.x && hasFixedColumn.value) {
     // 固定列依赖横向滚动容器，兜底避免使用方忘记配置 scroll.x 后固定列失效。
@@ -439,10 +445,8 @@ const effectiveScroll = computed(() => {
 
   if (!scroll.y) {
     if (props.height === 'auto') {
-      // auto 模式：用 calcScrollY 自动计算
       scroll.y = autoScrollY.value || undefined
     } else if (isStretchLayout.value) {
-      // stretch 模式：使用 body 容器的实际像素高度
       scroll.y = stretchScrollY.value || undefined
     }
   }
@@ -526,11 +530,7 @@ watch(
 watch(
   () => [showFooter.value, total.value, props.height],
   () => nextTick(() => {
-    if (props.height === 'auto') {
-      calcScrollY()
-    } else if (isStretchLayout.value) {
-      calcStretchScrollY()
-    }
+    calcLayout()
   })
 )
 
@@ -551,17 +551,8 @@ watch(
 // ──── 生命周期 ────
 
 onMounted(() => {
-  if (props.height === 'auto') {
-    nextTick(calcScrollY)
-    window.addEventListener('resize', calcScrollY)
-  } else if (isStretchLayout.value) {
-    // stretch 模式：等 DOM 渲染后测量 body 容器实际高度
-    bodyEl = bodyRef.value
-    nextTick(() => {
-      calcStretchScrollY()
-      window.addEventListener('resize', calcStretchScrollY)
-    })
-  }
+  nextTick(calcLayout)
+  window.addEventListener('resize', calcLayout)
 
   if (props.autoLoad && props.apiFn) {
     loadData()
@@ -569,8 +560,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', calcScrollY)
-  window.removeEventListener('resize', calcStretchScrollY)
+  window.removeEventListener('resize', calcLayout)
 })
 
 defineExpose({
@@ -660,6 +650,7 @@ defineExpose({
 .blog-table__body :deep(.ant-table-content),
 .blog-table__body :deep(.ant-table-container) {
   height: 100%;
+  min-height: 0;
 }
 
 .blog-table__body--stretch :deep(.ant-table-wrapper),
@@ -669,6 +660,7 @@ defineExpose({
 .blog-table__body--stretch :deep(.ant-table-content),
 .blog-table__body--stretch :deep(.ant-table-container) {
   height: 100%;
+  min-height: 0;
 }
 
 .blog-table__body :deep(.ant-table-container) {
@@ -677,6 +669,10 @@ defineExpose({
 
 .blog-table__body :deep(.ant-table-body) {
   scrollbar-width: thin;
+}
+
+.blog-table__body :deep(.ant-table-placeholder) {
+  height: 100%;
 }
 
 .blog-table__body :deep(.ant-table-thead > tr > th) {
@@ -730,6 +726,7 @@ defineExpose({
   grid-template-columns: minmax(96px, 1fr) auto minmax(96px, 1fr);
   align-items: center;
   gap: 12px;
+  margin-top: auto;
   min-height: 52px;
   padding: 8px 16px;
   border-top: 1px solid var(--console-border, #f0f0f0);

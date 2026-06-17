@@ -4,7 +4,7 @@
     <div class="page-header">
       <div class="header-left">
         <h2>回收站</h2>
-        <span class="header-desc">已删除的文章，可恢复或彻底删除</span>
+        <span class="header-tip">回收站中的文章不会在前台显示，可恢复或彻底删除。</span>
       </div>
       <div class="header-right">
         <a-button
@@ -17,15 +17,6 @@
         </a-button>
       </div>
     </div>
-
-    <!-- 提示信息 -->
-    <a-alert
-      message="回收站说明"
-      description="回收站中的文章不会在前台显示。您可以恢复文章使其重新发布，或彻底删除（此操作不可恢复）。"
-      type="info"
-      show-icon
-      style="margin-bottom: 16px"
-    />
 
     <!-- 文章表格 -->
     <BlogTable
@@ -218,14 +209,19 @@ function confirmEmptyTrash() {
 
 <style scoped>
 .trash-page {
-  max-width: 1400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  overflow: hidden;
 }
 
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0;
 }
 
 .header-left h2 {
@@ -235,9 +231,10 @@ function confirmEmptyTrash() {
   color: #1a1a1a;
 }
 
-.header-desc {
+.header-tip {
+  display: inline-flex;
+  color: var(--console-primary-strong, #1677ff);
   font-size: 13px;
-  color: #8c8c8c;
 }
 
 .header-right {
