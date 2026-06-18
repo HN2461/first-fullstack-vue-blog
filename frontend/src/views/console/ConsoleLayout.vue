@@ -2,7 +2,7 @@
   <a-layout class="enterprise-admin-shell">
     <a-layout-header class="enterprise-topnav">
       <button class="enterprise-topnav-brand" type="button" @click="router.push('/console/articles')">
-        <span>K</span>
+        <img class="enterprise-brand-icon" src="/favicon.svg" alt="" aria-hidden="true">
         <div>
           <strong>Knowledge OS</strong>
           <small>企业级个人知识库系统</small>
@@ -37,23 +37,25 @@
             <template #icon><SearchOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-dropdown v-if="authStore.isAdmin" :trigger="['click', 'hover']">
-          <a-button class="enterprise-icon-action" @click.prevent>
-            <template #icon><SquarePen :size="16" /></template>
-          </a-button>
-          <template #overlay>
-            <a-menu class="enterprise-create-menu" @click="handleCreateAction">
-              <a-menu-item key="article">
-                <template #icon><FileTextOutlined /></template>
-                新建文章
-              </a-menu-item>
-              <a-menu-item key="media">
-                <template #icon><PictureOutlined /></template>
-                上传媒体资产
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
+        <a-tooltip v-if="authStore.isAdmin" title="新建内容">
+          <a-dropdown :trigger="['click', 'hover']">
+            <a-button class="enterprise-icon-action" @click.prevent>
+              <template #icon><SquarePen :size="16" /></template>
+            </a-button>
+            <template #overlay>
+              <a-menu class="enterprise-create-menu" @click="handleCreateAction">
+                <a-menu-item key="article">
+                  <template #icon><FileTextOutlined /></template>
+                  新建文章
+                </a-menu-item>
+                <a-menu-item key="media">
+                  <template #icon><PictureOutlined /></template>
+                  上传媒体资产
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </a-tooltip>
         <NotificationBell />
         <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
           <a-button class="enterprise-icon-action" @click="appStore.toggleTheme">
@@ -139,18 +141,23 @@
         </div>
 
         <a-menu
-          v-model:openKeys="openKeys"
+          :open-keys="effectiveOpenKeys"
           :class="['enterprise-menu', `enterprise-menu--${primarySection}`]"
           mode="inline"
           :theme="menuTheme"
           :inline-collapsed="siderCollapsed"
           :selected-keys="selectedKeys"
+          @openChange="handleMenuOpenChange"
           @click="handleSecondaryClick"
         >
           <template v-if="primarySection === 'knowledge'">
             <a-menu-item key="/console/articles">
               <template #icon><FileTextOutlined /></template>
               全部文章
+            </a-menu-item>
+            <a-menu-item key="/console/memos">
+              <template #icon><BulbOutlined /></template>
+              备忘录
             </a-menu-item>
             <template v-for="category in categoryTree" :key="`category-node:${category.slug}`">
               <ConsoleCategoryMenu :category="category" />
@@ -177,29 +184,12 @@
           </template>
 
           <template v-else>
-            <a-menu-item class="enterprise-dashboard-item" key="/console">
-              <template #icon><DashboardOutlined /></template>
-              管理工作台
+            <template v-for="menu in visibleManagementMenus" :key="menu.id">
+              <ConsoleDynamicMenu :menu="menu" />
+            </template>
+            <a-menu-item v-if="visibleManagementMenus.length === 0" key="management-empty" disabled>
+              暂无可访问后台菜单
             </a-menu-item>
-            <a-sub-menu key="contentRoot">
-              <template #icon><FileTextOutlined /></template>
-              <template #title>内容资产</template>
-              <a-menu-item key="/console/manage/articles">文章管理</a-menu-item>
-              <a-menu-item key="/console/manage/categories">分类体系</a-menu-item>
-              <a-menu-item key="/console/manage/migration">迁移配置</a-menu-item>
-              <a-menu-item key="/console/manage/tags">标签体系</a-menu-item>
-              <a-menu-item key="/console/manage/media">媒体资产</a-menu-item>
-            </a-sub-menu>
-            <a-sub-menu key="governanceRoot">
-              <template #icon><SettingOutlined /></template>
-              <template #title>运营治理</template>
-              <a-menu-item key="/console/manage/comments">评论审核</a-menu-item>
-              <a-menu-item key="/console/manage/users">用户管理</a-menu-item>
-              <a-menu-item key="/console/manage/notifications">公告管理</a-menu-item>
-              <a-menu-item key="/console/manage/settings">系统设置</a-menu-item>
-              <a-menu-item key="/console/manage/monitor">服务监控</a-menu-item>
-              <a-menu-item key="/console/manage/trash">回收站</a-menu-item>
-            </a-sub-menu>
           </template>
         </a-menu>
 
@@ -223,21 +213,31 @@ import { useRoute, useRouter } from 'vue-router'
 import {
   AimOutlined,
   BookOutlined,
+  BulbOutlined,
   CompressOutlined,
   ControlOutlined,
+  AuditOutlined,
+  BellOutlined,
   DashboardOutlined,
+  DeleteOutlined,
   DownOutlined,
   ExpandOutlined,
   FileTextOutlined,
   FolderOutlined,
   HomeOutlined,
   LogoutOutlined,
+  MenuOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MonitorOutlined,
   MoreOutlined,
   PictureOutlined,
   SearchOutlined,
+  SafetyOutlined,
   SettingOutlined,
+  SwapOutlined,
+  TagsOutlined,
+  TeamOutlined,
   UserOutlined
 } from '@ant-design/icons-vue'
 import NotificationBell from '@/components/NotificationBell.vue'
@@ -276,6 +276,23 @@ if (knowledgeMenuLoaded.value) {
 const menuTheme = computed(() => appStore.isDark ? 'dark' : 'light')
 const AMenuItem = Menu.Item
 const ASubMenu = Menu.SubMenu
+const iconMap = {
+  AuditOutlined,
+  BellOutlined,
+  DashboardOutlined,
+  DeleteOutlined,
+  FileTextOutlined,
+  FolderOutlined,
+  MenuOutlined,
+  MonitorOutlined,
+  PictureOutlined,
+  SafetyOutlined,
+  SettingOutlined,
+  SwapOutlined,
+  TagsOutlined,
+  TeamOutlined,
+  UserOutlined
+}
 const isWriterRoute = computed(() => route.path === '/console/write' || route.path.includes('/console/manage/articles/'))
 const isArticleDetailRoute = computed(() => route.path.includes('/console/articles/'))
 const isImmersiveRoute = computed(() => isWriterRoute.value || isArticleDetailRoute.value)
@@ -287,6 +304,11 @@ const primarySection = computed(() => {
   return 'knowledge'
 })
 const selectedKeys = computed(() => {
+  if (primarySection.value === 'management') {
+    const matched = findManagementRouteState(visibleManagementMenus.value, route.path)
+    return [matched?.selectedKey || route.path]
+  }
+
   if (route.path === '/console/manage/articles') return ['/console/manage/articles']
   if (route.path.includes('/console/articles/')) return [route.path]
   if (route.path.includes('/console/categories/')) return [route.path]
@@ -303,6 +325,50 @@ const uncategorizedArticles = computed(() => {
     .sort((left, right) => new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt))
 })
 const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)
+const visibleManagementMenus = computed(() => {
+  return (authStore.managementMenus || []).filter((menu) => menu.enabled !== false && !menu.hidden)
+})
+const effectiveOpenKeys = computed(() => (siderCollapsed.value ? [] : openKeys.value))
+const ConsoleDynamicMenu = defineComponent({
+  name: 'ConsoleDynamicMenu',
+  props: {
+    menu: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
+    return () => {
+      const iconComponent = iconMap[props.menu.icon] || MenuOutlined
+      const children = (props.menu.children || []).filter((item) => item.enabled !== false && !item.hidden)
+      const nodeKey = getManagementMenuKey(props.menu)
+
+      if (children.length > 0) {
+        return h(
+          ASubMenu,
+          { key: nodeKey },
+          {
+            icon: () => h(iconComponent),
+            title: () => props.menu.name,
+            default: () => children.map((child) => h(ConsoleDynamicMenu, {
+              key: getManagementMenuKey(child),
+              menu: child
+            }))
+          }
+        )
+      }
+
+      return h(
+        AMenuItem,
+        { key: props.menu.routePath },
+        {
+          icon: () => h(iconComponent),
+          default: () => props.menu.name
+        }
+      )
+    }
+  }
+})
 const ConsoleCategoryMenu = defineComponent({
   name: 'ConsoleCategoryMenu',
   props: {
@@ -385,13 +451,13 @@ function handleSecondaryClick({ key }) {
   router.push(key)
 }
 
-function handleProfileAction({ key }) {
+async function handleProfileAction({ key }) {
   if (key === 'profile') {
     router.push('/console/profile')
     return
   }
 
-  authStore.logout()
+  await authStore.logout()
   router.push('/')
 }
 
@@ -417,21 +483,50 @@ function handleSiderAction({ key }) {
   }
 }
 
+function handleMenuOpenChange(nextKeys) {
+  if (siderCollapsed.value) return
+  openKeys.value = [...nextKeys]
+}
+
+function getManagementMenuKey(menu) {
+  return menu?.id || menu?.code || menu?.routePath
+}
+
+function findManagementRouteState(items = [], path, ancestors = []) {
+  let matched = null
+
+  for (const item of items) {
+    const itemKey = getManagementMenuKey(item)
+    const children = (item.children || []).filter((child) => child.enabled !== false && !child.hidden)
+
+    if (children.length > 0) {
+      const childMatched = findManagementRouteState(children, path, [...ancestors, itemKey])
+      if (childMatched && (!matched || childMatched.matchLength > matched.matchLength)) {
+        matched = childMatched
+      }
+    }
+
+    const routePath = item.routePath || ''
+    const isLeaf = children.length === 0
+    const isMatchedLeaf = isLeaf && routePath && (path === routePath || path.startsWith(`${routePath}/`))
+    if (isMatchedLeaf) {
+      const candidate = {
+        selectedKey: routePath,
+        openKeys: ancestors,
+        matchLength: routePath.length
+      }
+      if (!matched || candidate.matchLength > matched.matchLength) {
+        matched = candidate
+      }
+    }
+  }
+
+  return matched
+}
+
 function resolveOpenKeys(path) {
   if (primarySection.value === 'management') {
-    if (path === '/console') {
-      return []
-    }
-
-    if (path.includes('/manage/articles') || path.includes('/manage/categories') || path.includes('/manage/migration') || path.includes('/manage/tags') || path.includes('/manage/media')) {
-      return ['contentRoot']
-    }
-
-    if (path.includes('/manage/comments') || path.includes('/manage/users') || path.includes('/manage/notifications') || path.includes('/manage/settings') || path.includes('/manage/monitor') || path.includes('/manage/trash')) {
-      return ['governanceRoot']
-    }
-
-    return []
+    return findManagementRouteState(visibleManagementMenus.value, path)?.openKeys || []
   }
 
   if (path.includes('/console/categories/')) {

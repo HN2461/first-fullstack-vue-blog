@@ -5,7 +5,8 @@ export function signAccessToken(user) {
   return jwt.sign(
     {
       sub: user._id.toString(),
-      role: user.role
+      role: user.role,
+      tv: user.tokenVersion || 0
     },
     env.jwtSecret,
     {

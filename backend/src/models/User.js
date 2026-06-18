@@ -65,10 +65,34 @@ const userSchema = new mongoose.Schema(
       enum: Object.values(USER_ROLES),
       default: USER_ROLES.USER
     },
+    roles: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Role'
+    }],
     status: {
       type: String,
       enum: Object.values(USER_STATUS),
       default: USER_STATUS.ACTIVE
+    },
+    tokenVersion: {
+      type: Number,
+      default: 0
+    },
+    failedLoginCount: {
+      type: Number,
+      default: 0
+    },
+    lockedUntil: {
+      type: Date,
+      default: null
+    },
+    lastLoginAt: {
+      type: Date,
+      default: null
+    },
+    passwordChangedAt: {
+      type: Date,
+      default: null
     }
   },
   {
@@ -76,7 +100,26 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-userSchema.methods.toSafeJSON = function toSafeJSON() {
+userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
+  const roles = options.roles || this.roles || []
+  const safeRoles = Array.isArray(roles)
+    ? roles.map((role) => {
+        if (role && typeof role === 'object' && role.toSafeJSON) {
+          return role.toSafeJSON()
+        }
+        if (role && typeof role === 'object' && role._id) {
+          return {
+            id: role._id.toString(),
+            name: role.name,
+            code: role.code,
+            isSuperAdmin: !!role.isSuperAdmin
+          }
+        }
+        return role?.toString?.() || role
+      })
+    : []
+  const isSuperAdmin = safeRoles.some((role) => role?.isSuperAdmin || role?.code === 'super-admin') || this.role === USER_ROLES.SUPER_ADMIN
+
   return {
     id: this._id.toString(),
     username: this.username,
@@ -92,6 +135,12 @@ userSchema.methods.toSafeJSON = function toSafeJSON() {
       like: this.notificationSettings?.like ?? false
     },
     role: this.role,
+    roles: safeRoles,
+    isSuperAdmin,
+    permissions: options.permissions || {
+      menus: [],
+      menuPaths: []
+    },
     status: this.status,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt

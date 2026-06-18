@@ -2,7 +2,7 @@
   <div class="public-site">
     <header class="public-header">
       <router-link class="public-brand" to="/">
-        <span>K</span>
+        <img class="public-brand-icon" src="/favicon.svg" alt="" aria-hidden="true">
         <div>
           <strong>{{ siteStore.siteTitle }}</strong>
           <small>{{ siteStore.profile.authorName || 'Knowledge OS' }}</small>

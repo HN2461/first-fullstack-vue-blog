@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Knowledge OS</title>
+  <desc id="desc">A warm paper-toned knowledge icon shaped as an open book with a bookmark and reading nodes.</desc>
+  <defs>
+    <linearGradient id="paperLeft" x1="16" y1="17" x2="31" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFF8E8"/>
+      <stop offset="0.58" stop-color="#F3E3C4"/>
+      <stop offset="1" stop-color="#D7BE8F"/>
+    </linearGradient>
+    <linearGradient id="paperRight" x1="48" y1="17" x2="33" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFDF2"/>
+      <stop offset="0.56" stop-color="#F6E8CD"/>
+      <stop offset="1" stop-color="#DCC495"/>
+    </linearGradient>
+    <linearGradient id="spine" x1="32" y1="18" x2="32" y2="54" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#C98F3A"/>
+      <stop offset="1" stop-color="#7B4A1D"/>
+    </linearGradient>
+    <filter id="paperShadow" x="-18%" y="-18%" width="136%" height="144%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#4A2E15" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+
+  <path
+    d="M10.5 17.7c7.1-3.4 14.3-3 21.5 1.1v34.1c-7.4-4.2-14.6-4.5-21.5-.8V17.7Z"
+    fill="url(#paperLeft)"
+    stroke="#7B4A1D"
+    stroke-width="2.4"
+    stroke-linejoin="round"
+    filter="url(#paperShadow)"
+  />
+  <path
+    d="M53.5 17.7c-7.1-3.4-14.3-3-21.5 1.1v34.1c7.4-4.2 14.6-4.5 21.5-.8V17.7Z"
+    fill="url(#paperRight)"
+    stroke="#7B4A1D"
+    stroke-width="2.4"
+    stroke-linejoin="round"
+    filter="url(#paperShadow)"
+  />
+  <path d="M32 18.9v34.6" stroke="url(#spine)" stroke-width="3" stroke-linecap="round"/>
+
+  <path d="M18.2 25.2c3.5-.9 6.6-.5 9.5 1.1" fill="none" stroke="#A46D2D" stroke-width="2" stroke-linecap="round" opacity="0.72"/>
+  <path d="M18.2 31.5c3.6-.7 6.7-.3 9.5 1.1" fill="none" stroke="#A46D2D" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <path d="M45.8 25.2c-3.5-.9-6.6-.5-9.5 1.1" fill="none" stroke="#A46D2D" stroke-width="2" stroke-linecap="round" opacity="0.72"/>
+  <path d="M45.8 31.5c-3.6-.7-6.7-.3-9.5 1.1" fill="none" stroke="#A46D2D" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+
+  <path d="M42 15.5v16.4l3.4-2.8 3.4 2.8V14.4c-2.3-.3-4.6.1-6.8 1.1Z" fill="#B8642A" stroke="#6F3F19" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M20.5 40.2 28 35l7.7 4.4 8.1-8.8" fill="none" stroke="#7F5C2B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="20.5" cy="40.2" r="3.1" fill="#F4D28B" stroke="#74491D" stroke-width="1.5"/>
+  <circle cx="28" cy="35" r="3.1" fill="#F7E0A4" stroke="#74491D" stroke-width="1.5"/>
+  <circle cx="35.7" cy="39.4" r="3.1" fill="#F4D28B" stroke="#74491D" stroke-width="1.5"/>
+  <circle cx="43.8" cy="30.6" r="3.1" fill="#F7E0A4" stroke="#74491D" stroke-width="1.5"/>
+</svg>

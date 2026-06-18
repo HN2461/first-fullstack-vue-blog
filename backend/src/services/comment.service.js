@@ -1,7 +1,11 @@
-import { COMMENT_STATUS, USER_STATUS } from '#constants/domain'
+import bcrypt from 'bcryptjs'
+import { BUILTIN_ROLE_CODES, COMMENT_STATUS, USER_STATUS } from '#constants/domain'
 import { Article } from '../models/Article.js'
 import { Comment } from '../models/Comment.js'
+import { PermissionRequest } from '../models/PermissionRequest.js'
+import { Role } from '../models/Role.js'
 import { User } from '../models/User.js'
+import { getVisitorRole } from './rbac.service.js'
 import { getSettings } from './setting.service.js'
 
 function createHttpError(statusCode, code, message) {
@@ -203,6 +207,137 @@ export async function batchUpdateUserStatus(ids, status) {
   return { updatedCount, status }
 }
 
+async function assertRoleIdsExist(roleIds = []) {
+  const ids = [...new Set(roleIds)]
+  const roles = await Role.find({ _id: { $in: ids } })
+  if (roles.length !== ids.length) {
+    throw createHttpError(400, 'ROLE_NOT_FOUND', '包含不存在的角色')
+  }
+  if (roles.some((role) => role.code === BUILTIN_ROLE_CODES.SUPER_ADMIN || role.isSuperAdmin)) {
+    throw createHttpError(403, 'SUPER_ROLE_PROTECTED', '不能通过用户管理分配超级管理员角色')
+  }
+  return ids
+}
+
+export async function createAdminUser(input) {
+  const email = input.email.trim().toLowerCase()
+  const exists = await User.exists({ email })
+  if (exists) {
+    throw createHttpError(409, 'EMAIL_EXISTS', '该邮箱已注册')
+  }
+
+  let roleIds = await assertRoleIdsExist(input.roleIds || [])
+  if (!roleIds.length) {
+    const visitorRole = await getVisitorRole()
+    roleIds = visitorRole ? [visitorRole._id] : []
+  }
+
+  const user = await User.create({
+    username: input.username.trim(),
+    email,
+    passwordHash: await bcrypt.hash(input.password, 12),
+    roles: roleIds,
+    status: input.status || USER_STATUS.ACTIVE
+  })
+
+  await user.populate('roles')
+  return user.toSafeJSON({ roles: user.roles })
+}
+
+export async function updateUserRoles(userId, roleIds) {
+  const user = await User.findById(userId).populate('roles')
+  if (!user) {
+    throw createHttpError(404, 'USER_NOT_FOUND', '用户不存在')
+  }
+  const isSuperAdminUser = user.role === 'super_admin' || (user.roles || []).some((role) => role?.isSuperAdmin || role?.code === BUILTIN_ROLE_CODES.SUPER_ADMIN)
+  if (isSuperAdminUser) {
+    throw createHttpError(403, 'SUPER_ADMIN_USER_PROTECTED', '超级管理员账号角色不允许修改')
+  }
+
+  const ids = await assertRoleIdsExist(roleIds)
+  user.roles = ids
+  await user.save()
+  await user.populate('roles')
+  return user.toSafeJSON({ roles: user.roles })
+}
+
+export async function batchUpdateUserRoles(userIds, roleIds) {
+  if (!Array.isArray(userIds) || userIds.length === 0) {
+    throw createHttpError(400, 'USER_IDS_REQUIRED', '请选择要操作的用户')
+  }
+
+  const ids = await assertRoleIdsExist(roleIds)
+  const users = await User.find({ _id: { $in: userIds } }).populate('roles')
+  if (users.some((user) => user.role === 'super_admin' || (user.roles || []).some((role) => role?.isSuperAdmin || role?.code === BUILTIN_ROLE_CODES.SUPER_ADMIN))) {
+    throw createHttpError(403, 'SUPER_ADMIN_USER_PROTECTED', '批量操作不能修改超级管理员账号角色')
+  }
+  const result = await User.updateMany(
+    { _id: { $in: userIds } },
+    { $set: { roles: ids } }
+  )
+
+  return { updatedCount: result.modifiedCount || 0 }
+}
+
+export async function batchResetUserPasswords(userIds, newPassword) {
+  if (!Array.isArray(userIds) || userIds.length === 0) {
+    throw createHttpError(400, 'USER_IDS_REQUIRED', '请选择要重置密码的用户')
+  }
+
+  const passwordHash = await bcrypt.hash(newPassword, 12)
+  const result = await User.updateMany(
+    { _id: { $in: userIds } },
+    {
+      $set: {
+        passwordHash,
+        failedLoginCount: 0,
+        lockedUntil: null,
+        passwordChangedAt: new Date()
+      },
+      $inc: { tokenVersion: 1 }
+    }
+  )
+
+  return { updatedCount: result.modifiedCount || 0 }
+}
+
+export async function deleteAdminUser(userId, operatorId = null) {
+  const user = await User.findById(userId).populate('roles')
+  if (!user) {
+    throw createHttpError(404, 'USER_NOT_FOUND', '用户不存在')
+  }
+
+  const isSuperAdminUser = user.role === 'super_admin' || (user.roles || []).some((role) => role?.isSuperAdmin || role?.code === BUILTIN_ROLE_CODES.SUPER_ADMIN)
+  if (isSuperAdminUser) {
+    throw createHttpError(403, 'SUPER_ADMIN_USER_PROTECTED', '超级管理员账号不允许删除')
+  }
+
+  if (operatorId && user._id.toString() === operatorId.toString()) {
+    throw createHttpError(403, 'SELF_DELETE_FORBIDDEN', '当前登录账号不允许删除自己')
+  }
+
+  await Promise.all([
+    PermissionRequest.deleteMany({ user: user._id }),
+    Comment.updateMany({ user: user._id }, { $set: { status: COMMENT_STATUS.DELETED } })
+  ])
+  await User.deleteOne({ _id: user._id })
+  return { deletedCount: 1 }
+}
+
+export async function batchDeleteAdminUsers(userIds, operatorId = null) {
+  if (!Array.isArray(userIds) || userIds.length === 0) {
+    throw createHttpError(400, 'USER_IDS_REQUIRED', '请选择要删除的用户')
+  }
+
+  let deletedCount = 0
+  for (const userId of userIds) {
+    const result = await deleteAdminUser(userId, operatorId)
+    deletedCount += result.deletedCount || 0
+  }
+
+  return { deletedCount }
+}
+
 export async function listUsers(options = {}) {
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
@@ -222,7 +357,11 @@ export async function listUsers(options = {}) {
     ]
   }
   if (options.role && options.role !== 'all') {
-    query.role = options.role
+    const role = await Role.findOne({ code: options.role })
+    query.$or = [
+      { role: options.role },
+      ...(role ? [{ roles: role._id }] : [])
+    ]
   }
   if (options.status && options.status !== 'all') {
     query.status = options.status
@@ -230,14 +369,29 @@ export async function listUsers(options = {}) {
 
   const [users, total] = await Promise.all([
     User.find(query)
+      .populate('roles')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(pageSize),
     User.countDocuments(query)
   ])
+  const requestMap = new Map()
+  const latestRequests = await PermissionRequest.find({
+    user: { $in: users.map((user) => user._id) }
+  }).sort({ createdAt: -1 })
+
+  for (const request of latestRequests) {
+    const userId = request.user.toString()
+    if (!requestMap.has(userId)) {
+      requestMap.set(userId, request.status)
+    }
+  }
 
   return {
-    items: users.map((user) => user.toSafeJSON()),
+    items: users.map((user) => ({
+      ...user.toSafeJSON({ roles: user.roles }),
+      permissionRequestStatus: requestMap.get(user._id.toString()) || 'none'
+    })),
     total,
     page,
     pageSize

@@ -24,7 +24,7 @@
       </div>
 
       <div class="brand-logo">
-        <div class="logo-icon">K</div>
+        <img class="logo-icon" src="/favicon.svg" alt="" aria-hidden="true">
         <div class="logo-text">
           <h3>{{ lang === 'zh' ? '知识库' : 'Knowledge' }}</h3>
           <p>Knowledge OS</p>
@@ -92,7 +92,7 @@
           </a-form-item>
 
           <a-form-item name="password" :rules="passwordRules">
-            <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码' : 'Password'" size="large" @keyup.enter="handleSubmit">
+            <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码' : 'Password'" size="large" autocomplete="current-password" @keyup.enter="handleSubmit">
               <template #prefix><LockOutlined /></template>
             </a-input-password>
           </a-form-item>
@@ -116,6 +116,10 @@
           <a-button type="primary" html-type="submit" size="large" block :loading="submitting" :disabled="!captchaVerified" class="login-btn">
             {{ lang === 'zh' ? '登录' : 'Sign In' }}
           </a-button>
+
+          <p class="security-note">
+            {{ lang === 'zh' ? '密码会在浏览器内完成一次性加密后提交，并通过安全会话 Cookie 保持登录。' : 'Password is encrypted in the browser before submission and the session is kept by a secure cookie.' }}
+          </p>
         </a-form>
 
         <a-modal
@@ -149,12 +153,12 @@
               </a-input>
             </a-form-item>
             <a-form-item :label="lang === 'zh' ? '新密码' : 'New password'" name="newPassword">
-              <a-input-password v-model:value="forgotPasswordForm.newPassword" :placeholder="lang === 'zh' ? '至少 8 个字符' : 'At least 8 characters'" size="large">
+              <a-input-password v-model:value="forgotPasswordForm.newPassword" :placeholder="lang === 'zh' ? '至少 8 个字符' : 'At least 8 characters'" size="large" autocomplete="new-password">
                 <template #prefix><LockOutlined /></template>
               </a-input-password>
             </a-form-item>
             <a-form-item :label="lang === 'zh' ? '确认新密码' : 'Confirm password'" name="confirmPassword">
-              <a-input-password v-model:value="forgotPasswordForm.confirmPassword" :placeholder="lang === 'zh' ? '请再次输入新密码' : 'Enter the new password again'" size="large" @keyup.enter="submitForgotPassword">
+              <a-input-password v-model:value="forgotPasswordForm.confirmPassword" :placeholder="lang === 'zh' ? '请再次输入新密码' : 'Enter the new password again'" size="large" autocomplete="new-password" @keyup.enter="submitForgotPassword">
                 <template #prefix><LockOutlined /></template>
               </a-input-password>
             </a-form-item>
@@ -199,7 +203,6 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import SlideCaptcha from '@/components/SlideCaptcha.vue'
 import AuthSettings from '@/components/AuthSettings.vue'
-import { resetAccountPassword } from '@/services/http'
 
 const route = useRoute()
 const router = useRouter()
@@ -236,7 +239,7 @@ const emailRules = computed(() => [
 
 const passwordRules = computed(() => [
   { required: true, message: lang.value === 'zh' ? '请输入密码' : 'Password is required' },
-  { min: 6, message: lang.value === 'zh' ? '密码至少6个字符' : 'At least 6 characters' }
+  { min: 8, message: lang.value === 'zh' ? '密码至少8个字符' : 'At least 8 characters' }
 ])
 
 const forgotPasswordRules = computed(() => ({
@@ -291,7 +294,7 @@ async function submitForgotPassword() {
 async function handleResetPassword() {
   resettingPassword.value = true
   try {
-    await resetAccountPassword({ ...forgotPasswordForm })
+    await authStore.resetPassword({ ...forgotPasswordForm })
     form.email = forgotPasswordForm.email
     form.password = ''
     forgotPasswordVisible.value = false
@@ -608,15 +611,9 @@ onMounted(() => {
 .logo-icon {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #1677ff, #4096ff);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(22, 119, 255, 0.4);
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(74, 46, 21, 0.26));
 }
 
 .logo-text h3 {
@@ -954,6 +951,13 @@ onMounted(() => {
 .login-btn:disabled {
   background: #d9d9d9;
   box-shadow: none;
+}
+
+.security-note {
+  margin: 12px 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .other-login {

@@ -19,6 +19,22 @@ export async function createAnnouncement(input, authorId) {
   return notification.toSafeJSON()
 }
 
+export async function createSystemNotification(input, recipientId = null) {
+  const notification = await Notification.create({
+    recipient: recipientId || null,
+    type: 'system',
+    title: input.title.trim(),
+    content: input.content.trim(),
+    level: input.level || 'info',
+    link: input.link || '',
+    isActive: input.isActive !== false,
+    autoPopup: input.autoPopup === true,
+    author: input.authorId || null
+  })
+
+  return notification.toSafeJSON()
+}
+
 export async function listAnnouncements(includeInactive = false, filters = {}) {
   const query = { type: 'announcement' }
 
@@ -119,7 +135,13 @@ export async function batchDeleteAnnouncements(ids) {
    =========================== */
 
 export async function listActiveAnnouncements(userId, filters = {}) {
-  const query = { type: 'announcement', isActive: true }
+  const query = {
+    isActive: true,
+    $or: [
+      { type: 'announcement' },
+      { type: 'system', recipient: userId || null }
+    ]
+  }
 
   if (filters.level) {
     query.level = filters.level
@@ -148,10 +170,16 @@ export async function listActiveAnnouncements(userId, filters = {}) {
 export async function getUnreadCount(userId) {
   if (!userId) return 0
 
-  const total = await Notification.countDocuments({ type: 'announcement', isActive: true })
-  const readCount = await Notification.countDocuments({
-    type: 'announcement',
+  const visibleQuery = {
     isActive: true,
+    $or: [
+      { type: 'announcement' },
+      { type: 'system', recipient: userId }
+    ]
+  }
+  const total = await Notification.countDocuments(visibleQuery)
+  const readCount = await Notification.countDocuments({
+    ...visibleQuery,
     'readBy.user': userId
   })
 
@@ -186,8 +214,11 @@ export async function markAllAsRead(userId) {
   if (!userId) return { modifiedCount: 0 }
 
   const unreadAnnouncements = await Notification.find({
-    type: 'announcement',
     isActive: true,
+    $or: [
+      { type: 'announcement' },
+      { type: 'system', recipient: userId }
+    ],
     'readBy.user': { $ne: userId }
   })
 
@@ -212,9 +243,12 @@ export async function getPopupAnnouncements(userId) {
   if (!userId) return []
 
   const announcements = await Notification.find({
-    type: 'announcement',
     isActive: true,
     autoPopup: true,
+    $or: [
+      { type: 'announcement' },
+      { type: 'system', recipient: userId }
+    ],
     'readBy.user': { $ne: userId }
   }).sort({ createdAt: -1 }).limit(5).lean()
 

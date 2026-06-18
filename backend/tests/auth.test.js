@@ -1,4 +1,5 @@
 import request from 'supertest'
+import crypto from 'node:crypto'
 import { USER_ROLES, USER_STATUS } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
@@ -13,6 +14,27 @@ import {
   connectTestDatabase,
   disconnectTestDatabase
 } from './helpers/testDatabase.js'
+
+function encryptCredential(challenge, purpose, payload) {
+  const encrypted = crypto.publicEncrypt(
+    {
+      key: challenge.publicKey,
+      oaepHash: 'sha256',
+      padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
+    },
+    Buffer.from(JSON.stringify({
+      purpose,
+      challengeId: challenge.challengeId,
+      nonce: challenge.nonce,
+      ...payload
+    }), 'utf8')
+  )
+
+  return {
+    challengeId: challenge.challengeId,
+    payload: encrypted.toString('base64')
+  }
+}
 
 describe('auth service', () => {
   beforeAll(async () => {
@@ -75,6 +97,31 @@ describe('auth service', () => {
 
     expect(result.token).toEqual(expect.any(String))
     expect(result.user.email).toBe('reader@example.com')
+  })
+
+  it('locks an account after repeated invalid credentials', async () => {
+    await registerUser({
+      username: 'reader',
+      email: 'reader@example.com',
+      password: 'password123'
+    })
+
+    for (let i = 0; i < 5; i += 1) {
+      await expect(loginUser({
+        email: 'reader@example.com',
+        password: 'wrong-password'
+      })).rejects.toMatchObject({
+        code: 'INVALID_CREDENTIALS'
+      })
+    }
+
+    await expect(loginUser({
+      email: 'reader@example.com',
+      password: 'password123'
+    })).rejects.toMatchObject({
+      statusCode: 423,
+      code: 'ACCOUNT_LOCKED'
+    })
   })
 
   it('rejects invalid login credentials', async () => {
@@ -156,20 +203,29 @@ describe('auth routes', () => {
   it('registers through POST /api/auth/register', async () => {
     const app = createApp()
 
+    const challengeResponse = await request(app)
+      .get('/api/auth/challenge')
+      .query({ purpose: 'register' })
+      .expect(200)
+    const credential = encryptCredential(challengeResponse.body.data, 'register', {
+      password: 'password123'
+    })
+
     const response = await request(app)
       .post('/api/auth/register')
       .send({
         username: 'reader',
         email: 'reader@example.com',
-        password: 'password123'
+        credential
       })
       .expect(201)
 
     expect(response.body.data.token).toEqual(expect.any(String))
     expect(response.body.data.user.email).toBe('reader@example.com')
+    expect(response.headers['set-cookie']?.join(';')).toContain('blog_session=')
   })
 
-  it('logs in and fetches current user through token', async () => {
+  it('logs in and fetches current user through secure cookie', async () => {
     const app = createApp()
 
     await request(app)
@@ -181,27 +237,68 @@ describe('auth routes', () => {
       })
       .expect(201)
 
-    const captchaResponse = await request(app)
-      .get('/api/captcha/generate')
+    const challengeResponse = await request(app)
+      .get('/api/auth/challenge')
+      .query({ purpose: 'login' })
       .expect(200)
-    const storedCaptcha = global.captchaStore.get(captchaResponse.body.captchaId)
+    const credential = encryptCredential(challengeResponse.body.data, 'login', {
+      password: 'password123'
+    })
 
     const loginResponse = await request(app)
       .post('/api/auth/login')
       .send({
         email: 'reader@example.com',
-        password: 'password123',
-        captchaId: captchaResponse.body.captchaId,
-        captchaText: storedCaptcha.text
+        credential
       })
       .expect(200)
+    const cookie = loginResponse.headers['set-cookie']
 
     const meResponse = await request(app)
       .get('/api/auth/me')
-      .set('Authorization', `Bearer ${loginResponse.body.data.token}`)
+      .set('Cookie', cookie)
       .expect(200)
 
     expect(meResponse.body.data.email).toBe('reader@example.com')
+  })
+
+  it('rejects reused encrypted credential challenges', async () => {
+    const app = createApp()
+
+    await request(app)
+      .post('/api/auth/register')
+      .send({
+        username: 'reader',
+        email: 'reader@example.com',
+        password: 'password123'
+      })
+      .expect(201)
+
+    const challengeResponse = await request(app)
+      .get('/api/auth/challenge')
+      .query({ purpose: 'login' })
+      .expect(200)
+    const credential = encryptCredential(challengeResponse.body.data, 'login', {
+      password: 'password123'
+    })
+
+    await request(app)
+      .post('/api/auth/login')
+      .send({
+        email: 'reader@example.com',
+        credential
+      })
+      .expect(200)
+
+    const replayResponse = await request(app)
+      .post('/api/auth/login')
+      .send({
+        email: 'reader@example.com',
+        credential
+      })
+      .expect(400)
+
+    expect(replayResponse.body.code).toBe('AUTH_CHALLENGE_EXPIRED')
   })
 
   it('rejects current user request without token', async () => {

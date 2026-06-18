@@ -26,7 +26,7 @@
 
       <!-- Logo -->
       <div class="brand-logo">
-        <div class="logo-icon">K</div>
+        <img class="logo-icon" src="/favicon.svg" alt="" aria-hidden="true">
         <div class="logo-text">
           <h3>{{ lang === 'zh' ? '知识库' : 'Knowledge' }}</h3>
           <p>Knowledge OS</p>
@@ -101,9 +101,25 @@
           </a-form-item>
 
           <a-form-item name="password" :rules="passwordRules">
-            <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码（至少8位）' : 'Password (8+ chars)'" size="large">
+            <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码（至少8位）' : 'Password (8+ chars)'" size="large" autocomplete="new-password">
               <template #prefix><LockOutlined /></template>
             </a-input-password>
+          </a-form-item>
+
+          <a-form-item class="permission-apply-item">
+            <a-checkbox v-model:checked="form.applyAdmin">
+              {{ lang === 'zh' ? '注册时申请管理员权限' : 'Apply for admin access' }}
+            </a-checkbox>
+          </a-form-item>
+
+          <a-form-item v-if="form.applyAdmin" name="permissionRequestReason" :rules="permissionReasonRules">
+            <a-textarea
+              v-model:value="form.permissionRequestReason"
+              :rows="3"
+              :maxlength="500"
+              show-count
+              :placeholder="lang === 'zh' ? '请说明申请用途，例如内容运营、数据管理或系统维护' : 'Describe why you need admin access'"
+            />
           </a-form-item>
 
           <a-alert v-if="errorMessage" :message="errorMessage" type="error" show-icon closable class="error-alert" @close="errorMessage = ''" />
@@ -111,6 +127,10 @@
           <a-button type="primary" html-type="submit" size="large" block :loading="submitting" class="register-btn">
             {{ lang === 'zh' ? '注册' : 'Sign Up' }}
           </a-button>
+
+          <p class="security-note">
+            {{ lang === 'zh' ? '注册密码会在浏览器内完成一次性加密后提交，服务端仅保存不可逆哈希。' : 'Password is encrypted in the browser before submission and only an irreversible hash is stored.' }}
+          </p>
         </a-form>
 
         <div class="form-footer">
@@ -152,7 +172,7 @@ watch(theme, (v) => localStorage.setItem('auth-theme', v))
 watch(lang, (v) => localStorage.setItem('auth-lang', v))
 watch(layout, (v) => localStorage.setItem('auth-layout', v))
 
-const form = reactive({ username: '', email: '', password: '' })
+const form = reactive({ username: '', email: '', password: '', applyAdmin: false, permissionRequestReason: '' })
 const submitting = ref(false)
 const errorMessage = ref('')
 
@@ -169,7 +189,13 @@ const emailRules = computed(() => [
 
 const passwordRules = computed(() => [
   { required: true, message: lang.value === 'zh' ? '请输入密码' : 'Password is required' },
-  { min: 8, message: lang.value === 'zh' ? '密码至少8个字符' : 'At least 8 characters' }
+  { min: 8, message: lang.value === 'zh' ? '密码至少8个字符' : 'At least 8 characters' },
+  { max: 72, message: lang.value === 'zh' ? '密码不能超过72个字符' : 'No more than 72 characters' }
+])
+
+const permissionReasonRules = computed(() => [
+  { required: true, message: lang.value === 'zh' ? '请填写申请说明' : 'Application reason is required' },
+  { max: 500, message: lang.value === 'zh' ? '申请说明不能超过500个字符' : 'No more than 500 characters' }
 ])
 
 const featureItems = computed(() => [
@@ -184,7 +210,12 @@ async function handleSubmit() {
   errorMessage.value = ''
 
   try {
-    await authStore.register(form)
+    await authStore.register({
+      username: form.username,
+      email: form.email,
+      password: form.password,
+      permissionRequestReason: form.applyAdmin ? form.permissionRequestReason : ''
+    })
     message.success(lang.value === 'zh' ? '注册成功，正在跳转...' : 'Registration successful!')
     await router.push('/console')
   } catch (error) {
@@ -470,15 +501,9 @@ async function handleSubmit() {
 .logo-icon {
   width: 44px;
   height: 44px;
-  background: linear-gradient(135deg, #1677ff, #4096ff);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(22, 119, 255, 0.4);
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 10px rgba(74, 46, 21, 0.26));
 }
 
 .logo-text h3 {
@@ -745,6 +770,13 @@ async function handleSubmit() {
 .register-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(22, 119, 255, 0.4);
+}
+
+.security-note {
+  margin: 12px 0 0;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .form-footer {

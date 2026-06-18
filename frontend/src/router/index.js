@@ -17,12 +17,16 @@ const AdminMigration = () => import('@/views/admin/AdminMigration.vue')
 const AdminTags = () => import('@/views/admin/AdminTags.vue')
 const AdminComments = () => import('@/views/admin/AdminComments.vue')
 const AdminUsers = () => import('@/views/admin/AdminUsers.vue')
+const AdminRoles = () => import('@/views/admin/AdminRoles.vue')
+const AdminMenus = () => import('@/views/admin/AdminMenus.vue')
+const AdminApprovals = () => import('@/views/admin/AdminApprovals.vue')
 const AdminStats = () => import('@/views/admin/AdminStats.vue')
 const AdminMonitor = () => import('@/views/admin/AdminMonitor.vue')
 const AdminMedia = () => import('@/views/admin/AdminMedia.vue')
 const AdminNotifications = () => import('@/views/admin/AdminNotifications.vue')
 const AdminSettings = () => import('@/views/admin/AdminSettings.vue')
 const AdminTrash = () => import('@/views/admin/AdminTrash.vue')
+const MemoPage = () => import('@/views/console/MemoPage.vue')
 const ProfilePage = () => import('@/views/console/ProfilePage.vue')
 
 export const router = createRouter({
@@ -115,6 +119,12 @@ export const router = createRouter({
           meta: { title: '全文检索', requiresAuth: true }
         },
         {
+          path: 'memos',
+          name: 'ConsoleMemos',
+          component: MemoPage,
+          meta: { title: '备忘录', requiresAuth: true }
+        },
+        {
           path: 'profile',
           name: 'ConsoleProfile',
           component: ProfilePage,
@@ -155,6 +165,24 @@ export const router = createRouter({
           name: 'AdminUsers',
           component: AdminUsers,
           meta: { title: '用户管理', requiresAdmin: true }
+        },
+        {
+          path: 'manage/roles',
+          name: 'AdminRoles',
+          component: AdminRoles,
+          meta: { title: '角色管理', requiresAdmin: true }
+        },
+        {
+          path: 'manage/menus',
+          name: 'AdminMenus',
+          component: AdminMenus,
+          meta: { title: '菜单管理', requiresAdmin: true }
+        },
+        {
+          path: 'manage/approvals',
+          name: 'AdminApprovals',
+          component: AdminApprovals,
+          meta: { title: '权限审批', requiresAdmin: true }
         },
         {
           path: 'manage/media',
@@ -274,11 +302,11 @@ router.beforeEach(async (to) => {
     }
   }
 
-  if (to.path === '/console' && authStore.isLoggedIn && !authStore.isAdmin) {
+  if (to.path === '/console' && authStore.isLoggedIn && !authStore.canAccessPath('/console')) {
     return { name: 'ConsoleArticles' }
   }
 
-  if (to.meta.requiresAdmin && !authStore.isAdmin) {
+  if (to.meta.requiresAdmin && !authStore.canAccessPath(to.path)) {
     return authStore.isLoggedIn
       ? { name: 'ConsoleArticles' }
       : {

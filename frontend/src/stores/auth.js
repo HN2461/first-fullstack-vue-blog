@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import {
+  getAuthChallenge,
   getCurrentUser,
   getStoredToken,
   loginAccount,
+  logoutAccount,
   registerAccount,
+  resetAccountPassword,
   setStoredToken
 } from '@/services/http'
+import { encryptAuthCredential } from '@/utils/credentialCrypto'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
@@ -14,41 +18,112 @@ export const useAuthStore = defineStore('auth', () => {
   const ready = ref(false)
 
   const isLoggedIn = computed(() => !!user.value)
-  const isAdmin = computed(() => user.value?.role === 'admin')
+  const isSuperAdmin = computed(() => !!user.value?.isSuperAdmin)
+  const menuPaths = computed(() => user.value?.permissions?.menuPaths || [])
+  const managementMenus = computed(() => user.value?.permissions?.menus || [])
+  const isAdmin = computed(() => {
+    return isSuperAdmin.value ||
+      user.value?.role === 'admin' ||
+      menuPaths.value.some((path) => path === '/console' || path.startsWith('/console/manage'))
+  })
 
-  async function restoreSession() {
-    if (!token.value) {
-      ready.value = true
-      return
+  function canAccessPath(path) {
+    if (!path) return false
+    if (isSuperAdmin.value) return true
+    if (path === '/console/articles' || path === '/console/search' || path.startsWith('/console/articles/') || path.startsWith('/console/categories/') || path.startsWith('/console/tags/') || path === '/console/profile') {
+      return isLoggedIn.value
     }
 
+    if (path === '/console') {
+      return menuPaths.value.includes('/console') || isAdmin.value
+    }
+
+    return menuPaths.value.some((menuPath) => path === menuPath || path.startsWith(`${menuPath}/`))
+  }
+
+  async function restoreSession() {
     try {
       user.value = await getCurrentUser()
     } catch {
-      logout()
+      clearSession()
     } finally {
       ready.value = true
     }
   }
 
   async function register(form) {
-    const result = await registerAccount(form)
-    token.value = result.token
+    const challenge = await getAuthChallenge('register')
+    const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+      purpose: 'register',
+      challengeId: challenge.challengeId,
+      nonce: challenge.nonce,
+      password: form.password
+    })
+    const result = await registerAccount({
+      username: form.username,
+      email: form.email,
+      permissionRequestReason: form.permissionRequestReason || undefined,
+      credential: {
+        challengeId: challenge.challengeId,
+        payload: encryptedPayload
+      }
+    })
+    token.value = ''
     user.value = result.user
-    setStoredToken(result.token)
+    setStoredToken('')
   }
 
   async function login(form) {
-    const result = await loginAccount(form)
-    token.value = result.token
+    const challenge = await getAuthChallenge('login')
+    const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+      purpose: 'login',
+      challengeId: challenge.challengeId,
+      nonce: challenge.nonce,
+      password: form.password
+    })
+    const result = await loginAccount({
+      email: form.email,
+      credential: {
+        challengeId: challenge.challengeId,
+        payload: encryptedPayload
+      }
+    })
+    token.value = ''
     user.value = result.user
-    setStoredToken(result.token)
+    setStoredToken('')
   }
 
-  function logout() {
+  async function resetPassword(form) {
+    const challenge = await getAuthChallenge('reset-password')
+    const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+      purpose: 'reset-password',
+      challengeId: challenge.challengeId,
+      nonce: challenge.nonce,
+      newPassword: form.newPassword,
+      confirmPassword: form.confirmPassword
+    })
+
+    await resetAccountPassword({
+      email: form.email,
+      credential: {
+        challengeId: challenge.challengeId,
+        payload: encryptedPayload
+      }
+    })
+  }
+
+  function clearSession() {
     token.value = ''
     user.value = null
     setStoredToken('')
+  }
+
+  async function logout() {
+    try {
+      await logoutAccount()
+    } finally {
+      clearSession()
+    }
   }
 
   return {
@@ -56,10 +131,15 @@ export const useAuthStore = defineStore('auth', () => {
     token,
     ready,
     isLoggedIn,
+    isSuperAdmin,
     isAdmin,
+    menuPaths,
+    managementMenus,
+    canAccessPath,
     restoreSession,
     register,
     login,
+    resetPassword,
     logout
   }
 })

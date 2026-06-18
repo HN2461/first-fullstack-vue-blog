@@ -1,5 +1,6 @@
 import http from './http'
 import { toItemList, toPageResult } from './contracts'
+import { encryptAuthCredential } from '@/utils/credentialCrypto'
 
 async function collectAllPageItems(loader, params = {}, pageSize = 200) {
   const items = []
@@ -177,12 +178,123 @@ export async function listAdminUsers(params = {}) {
   return toPageResult(await http.get('/api/admin/users', { params }), params.pageSize || 20)
 }
 
+export async function createAdminUser(data) {
+  const challenge = await http.get('/api/auth/challenge', {
+    params: { purpose: 'admin-create-user' }
+  })
+  const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+    purpose: 'admin-create-user',
+    challengeId: challenge.challengeId,
+    nonce: challenge.nonce,
+    password: data.password
+  })
+
+  return http.post('/api/admin/users', {
+    username: data.username,
+    email: data.email,
+    roleIds: data.roleIds || [],
+    status: data.status || 'active',
+    credential: {
+      challengeId: challenge.challengeId,
+      payload: encryptedPayload
+    }
+  })
+}
+
 export function updateAdminUserStatus(id, status) {
   return http.patch(`/api/admin/users/${id}/status`, { status })
 }
 
 export function batchUpdateAdminUserStatus(ids, status) {
   return http.post('/api/admin/users/batch/status', { ids, status })
+}
+
+export function updateAdminUserRoles(id, roleIds) {
+  return http.patch(`/api/admin/users/${id}/roles`, { roleIds })
+}
+
+export function batchUpdateAdminUserRoles(ids, roleIds) {
+  return http.post('/api/admin/users/batch/roles', { ids, roleIds })
+}
+
+export function deleteAdminUser(id) {
+  return http.delete(`/api/admin/users/${id}`)
+}
+
+export function batchDeleteAdminUsers(ids) {
+  return http.post('/api/admin/users/batch/delete', { ids })
+}
+
+export async function batchResetAdminUserPasswords(userIds, newPassword) {
+  const challenge = await http.get('/api/auth/challenge', {
+    params: { purpose: 'admin-reset-password' }
+  })
+  const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+    purpose: 'admin-reset-password',
+    challengeId: challenge.challengeId,
+    nonce: challenge.nonce,
+    newPassword
+  })
+
+  return http.post('/api/admin/users/batch/reset-password', {
+    userIds,
+    credential: {
+      challengeId: challenge.challengeId,
+      payload: encryptedPayload
+    }
+  })
+}
+
+export function listRbacRoles() {
+  return http.get('/api/rbac/roles')
+}
+
+export function createRbacRole(data) {
+  return http.post('/api/rbac/roles', data)
+}
+
+export function updateRbacRole(id, data) {
+  return http.patch(`/api/rbac/roles/${id}`, data)
+}
+
+export function deleteRbacRole(id) {
+  return http.delete(`/api/rbac/roles/${id}`)
+}
+
+export function batchDeleteRbacRoles(ids) {
+  return http.post('/api/rbac/roles/batch/delete', { ids })
+}
+
+export function batchUpdateRbacRoleMenus(ids, menuIds) {
+  return http.post('/api/rbac/roles/batch/menus', { ids, menuIds })
+}
+
+export function listRbacMenus() {
+  return http.get('/api/rbac/menus')
+}
+
+export function createRbacMenu(data) {
+  return http.post('/api/rbac/menus', data)
+}
+
+export function updateRbacMenu(id, data) {
+  return http.patch(`/api/rbac/menus/${id}`, data)
+}
+
+export function reorderRbacMenus(items) {
+  return http.post('/api/rbac/menus/reorder', { items })
+}
+
+export function deleteRbacMenu(id) {
+  return http.delete(`/api/rbac/menus/${id}`)
+}
+
+export async function listPermissionRequests(params = {}) {
+  return toPageResult(await http.get('/api/rbac/permission-requests', { params }), params.pageSize || 20)
+}
+
+export function reviewPermissionRequest(id, data) {
+  return http.post(`/api/rbac/permission-requests/${id}/review`, data)
 }
 
 // 统计

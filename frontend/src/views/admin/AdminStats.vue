@@ -1,5 +1,17 @@
 <template>
   <div class="workbench">
+    <a-alert
+      v-if="loadError"
+      class="workbench-alert"
+      type="warning"
+      show-icon
+      :message="loadError"
+    >
+      <template #action>
+        <a-button size="small" type="link" @click="loadData">重试</a-button>
+      </template>
+    </a-alert>
+
     <!-- 欢迎区域 -->
     <div class="welcome-section">
       <div class="welcome-content">
@@ -8,7 +20,7 @@
           <p>{{ todayFormatted }}</p>
         </div>
         <div class="welcome-actions">
-          <a-button type="primary" @click="$router.push('/console/manage/articles/new')">
+          <a-button type="primary" :loading="loading" @click="$router.push('/console/manage/articles/new')">
             <template #icon><PlusOutlined /></template>
             新建文章
           </a-button>
@@ -22,20 +34,31 @@
 
     <!-- 统计卡片 -->
     <div class="stats-grid">
-      <div class="stat-card" v-for="item in statCards" :key="item.label">
-        <div class="stat-icon" :style="{ background: item.iconBg }">
-          <component :is="item.icon" :style="{ color: item.iconColor }" />
+      <template v-if="loading && !hasLoaded">
+        <a-skeleton
+          v-for="item in 6"
+          :key="`stat-skeleton-${item}`"
+          class="stat-card stat-card-skeleton"
+          active
+          :paragraph="{ rows: 1, width: '72%' }"
+        />
+      </template>
+      <template v-else>
+        <div class="stat-card" v-for="item in statCards" :key="item.label">
+          <div class="stat-icon" :style="{ background: item.iconBg }">
+            <component :is="item.icon" :style="{ color: item.iconColor }" />
+          </div>
+          <div class="stat-body">
+            <span class="stat-label">{{ item.label }}</span>
+            <span class="stat-value">{{ item.value }}</span>
+          </div>
+          <div class="stat-trend" v-if="item.trend !== null">
+            <span :class="['trend-num', item.trend >= 0 ? 'up' : 'down']">
+              {{ item.trend >= 0 ? '+' : '' }}{{ item.trend }}%
+            </span>
+          </div>
         </div>
-        <div class="stat-body">
-          <span class="stat-label">{{ item.label }}</span>
-          <span class="stat-value">{{ item.value }}</span>
-        </div>
-        <div class="stat-trend" v-if="item.trend !== null">
-          <span :class="['trend-num', item.trend >= 0 ? 'up' : 'down']">
-            {{ item.trend >= 0 ? '+' : '' }}{{ item.trend }}%
-          </span>
-        </div>
-      </div>
+      </template>
     </div>
 
     <!-- 主内容 -->
@@ -48,8 +71,9 @@
             <h3>待办事项</h3>
             <a-tag color="red" v-if="totalPending > 0">{{ totalPending }}</a-tag>
           </div>
-          <div class="todo-list">
-            <div class="todo-item" v-for="item in todoItems" :key="item.label" @click="$router.push(item.route)">
+          <a-skeleton v-if="loading && !hasLoaded" active :paragraph="{ rows: 3 }" />
+          <div v-else class="todo-list">
+            <button class="todo-item" v-for="item in todoItems" :key="item.label" type="button" @click="$router.push(item.route)">
               <div class="todo-icon" :style="{ background: item.color }">
                 <component :is="item.icon" />
               </div>
@@ -58,7 +82,7 @@
                 <span class="todo-desc">{{ item.desc }}</span>
               </div>
               <span class="todo-count">{{ item.count }}</span>
-            </div>
+            </button>
           </div>
         </div>
 
@@ -68,7 +92,8 @@
             <h3>最近发布</h3>
             <a-button type="link" size="small" @click="$router.push('/console/manage/articles')">全部</a-button>
           </div>
-          <div class="recent-list">
+          <a-skeleton v-if="loading && !hasLoaded" active :paragraph="{ rows: 5 }" />
+          <div v-else class="recent-list">
             <div class="recent-item" v-for="item in recentArticles" :key="item.id">
               <div class="recent-info">
                 <span class="recent-title">{{ item.title }}</span>
@@ -93,12 +118,12 @@
             <h3>快捷操作</h3>
           </div>
           <div class="quick-grid">
-            <div class="quick-item" v-for="item in quickActions" :key="item.label" @click="$router.push(item.route)">
+            <button class="quick-item" v-for="item in quickActions" :key="item.label" type="button" @click="$router.push(item.route)">
               <div class="quick-icon" :style="{ background: item.bg, color: item.color }">
                 <component :is="item.icon" />
               </div>
               <span>{{ item.label }}</span>
-            </div>
+            </button>
           </div>
         </div>
 
@@ -108,7 +133,8 @@
             <h3>系统公告</h3>
             <a-button type="link" size="small" @click="$router.push('/console/manage/notifications')">管理</a-button>
           </div>
-          <div class="notice-list">
+          <a-skeleton v-if="loading && !hasLoaded" active :paragraph="{ rows: 3 }" />
+          <div v-else class="notice-list">
             <div class="notice-item" v-for="item in announcements" :key="item.id">
               <a-tag :color="getLevelColor(item.level)" size="small">{{ getLevelText(item.level) }}</a-tag>
               <span class="notice-title">{{ item.title }}</span>
@@ -122,7 +148,8 @@
           <div class="card-header">
             <h3>系统信息</h3>
           </div>
-          <div class="sys-info">
+          <a-skeleton v-if="loading && !hasLoaded" active :paragraph="{ rows: 4 }" />
+          <div v-else class="sys-info">
             <div class="info-row">
               <span class="info-key">站点</span>
               <span class="info-val">{{ settings.siteTitle || '-' }}</span>
@@ -171,6 +198,9 @@ const stats = ref({})
 const recentArticles = ref([])
 const announcements = ref([])
 const settings = ref({})
+const loading = ref(false)
+const hasLoaded = ref(false)
+const loadError = ref('')
 
 const greeting = computed(() => {
   const h = new Date().getHours()
@@ -238,6 +268,9 @@ function formatDate(dateStr) {
 }
 
 async function loadData() {
+  loading.value = true
+  loadError.value = ''
+
   try {
     const [s, a, n, st] = await Promise.all([
       getAdminStats(),
@@ -249,8 +282,11 @@ async function loadData() {
     recentArticles.value = a || []
     announcements.value = n || []
     settings.value = st || {}
+    hasLoaded.value = true
   } catch (e) {
-    console.error('工作台加载失败:', e)
+    loadError.value = e?.message || '工作台数据加载失败，请稍后重试。'
+  } finally {
+    loading.value = false
   }
 }
 
@@ -263,12 +299,17 @@ onMounted(loadData)
   margin: 0 auto;
 }
 
+.workbench-alert {
+  margin-bottom: 16px;
+}
+
 /* 欢迎区 */
 .welcome-section {
-  background: linear-gradient(135deg, #1677ff 0%, #4096ff 100%);
-  border-radius: 10px;
-  padding: 24px 32px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  padding: 22px 28px;
   margin-bottom: 20px;
+  background: var(--console-surface);
 }
 
 .welcome-content {
@@ -278,14 +319,14 @@ onMounted(loadData)
 }
 
 .welcome-text h1 {
-  color: #fff;
+  color: var(--console-text);
   font-size: 22px;
   margin: 0 0 4px;
   font-weight: 600;
 }
 
 .welcome-text p {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--console-text-secondary);
   font-size: 13px;
   margin: 0;
 }
@@ -301,9 +342,9 @@ onMounted(loadData)
 }
 
 .welcome-actions .ant-btn-default {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-  color: #fff;
+  border-color: var(--console-border-strong);
+  color: var(--console-text);
+  background: var(--console-surface);
 }
 
 /* 统计卡片 */
@@ -315,9 +356,9 @@ onMounted(loadData)
 }
 
 .stat-card {
-  background: #fff;
-  border: 1px solid #f0f0f0;
-  border-radius: 10px;
+  background: var(--console-surface);
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
   padding: 16px;
   display: flex;
   align-items: center;
@@ -326,13 +367,14 @@ onMounted(loadData)
 }
 
 .stat-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  border-color: var(--console-border-strong);
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
 }
 
 .stat-icon {
   width: 40px;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -348,7 +390,7 @@ onMounted(loadData)
 .stat-label {
   display: block;
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   margin-bottom: 2px;
 }
 
@@ -356,7 +398,7 @@ onMounted(loadData)
   display: block;
   font-size: 22px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--console-text);
   line-height: 1.2;
 }
 
@@ -380,9 +422,9 @@ onMounted(loadData)
 }
 
 .content-card {
-  background: #fff;
-  border: 1px solid #f0f0f0;
-  border-radius: 10px;
+  background: var(--console-surface);
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
   padding: 20px;
   margin-bottom: 16px;
 }
@@ -398,7 +440,7 @@ onMounted(loadData)
   font-size: 15px;
   font-weight: 600;
   margin: 0;
-  color: #1a1a1a;
+  color: var(--console-text);
 }
 
 /* 待办 */
@@ -411,15 +453,24 @@ onMounted(loadData)
 .todo-item {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 12px;
+  border: 1px solid transparent;
   padding: 12px;
-  background: #fafafa;
+  color: inherit;
+  text-align: left;
+  background: var(--console-surface-muted);
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
 }
 
-.todo-item:hover { background: #f0f0f0; }
+.todo-item:hover,
+.todo-item:focus {
+  border-color: var(--console-border-strong);
+  background: var(--console-surface-hover);
+  outline: none;
+}
 
 .todo-icon {
   width: 36px;
@@ -442,18 +493,18 @@ onMounted(loadData)
   display: block;
   font-size: 13px;
   font-weight: 500;
-  color: #1a1a1a;
+  color: var(--console-text);
 }
 
 .todo-desc {
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
 }
 
 .todo-count {
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--console-text);
   flex-shrink: 0;
 }
 
@@ -465,7 +516,7 @@ onMounted(loadData)
 
 .recent-item {
   padding: 10px 0;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--console-border);
 }
 
 .recent-item:last-child { border-bottom: none; }
@@ -473,7 +524,7 @@ onMounted(loadData)
 .recent-title {
   display: block;
   font-size: 13px;
-  color: #1a1a1a;
+  color: var(--console-text);
   margin-bottom: 4px;
   white-space: nowrap;
   overflow: hidden;
@@ -485,7 +536,7 @@ onMounted(loadData)
   align-items: center;
   gap: 8px;
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
 }
 
 /* 快捷操作 */
@@ -500,13 +551,21 @@ onMounted(loadData)
   flex-direction: column;
   align-items: center;
   gap: 6px;
+  border: 1px solid transparent;
   padding: 12px 4px;
   border-radius: 8px;
+  color: inherit;
+  background: transparent;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s;
 }
 
-.quick-item:hover { background: #fafafa; }
+.quick-item:hover,
+.quick-item:focus {
+  border-color: var(--console-border);
+  background: var(--console-surface-hover);
+  outline: none;
+}
 
 .quick-icon {
   width: 36px;
@@ -520,7 +579,7 @@ onMounted(loadData)
 
 .quick-item span {
   font-size: 11px;
-  color: #666;
+  color: var(--console-menu-text);
 }
 
 /* 公告 */
@@ -534,7 +593,7 @@ onMounted(loadData)
   align-items: center;
   gap: 8px;
   padding: 8px 0;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid var(--console-border);
 }
 
 .notice-item:last-child { border-bottom: none; }
@@ -542,7 +601,7 @@ onMounted(loadData)
 .notice-title {
   flex: 1;
   font-size: 13px;
-  color: #333;
+  color: var(--console-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -563,12 +622,12 @@ onMounted(loadData)
 
 .info-key {
   font-size: 13px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
 }
 
 .info-val {
   font-size: 13px;
-  color: #1a1a1a;
+  color: var(--console-text);
   font-weight: 500;
 }
 

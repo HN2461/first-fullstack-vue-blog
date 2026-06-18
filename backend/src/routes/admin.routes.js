@@ -2,10 +2,10 @@ import fs from 'node:fs'
 import multer from 'multer'
 import { Router } from 'express'
 import { MulterError } from 'multer'
-import { requireAdmin, requireAuth } from '../middlewares/auth.js'
+import { requireAdmin, requireAuth, requireMenuAccess, requireSuperAdmin } from '../middlewares/auth.js'
 import { batchDeleteArticles, batchPermanentDeleteArticles, batchRestoreArticles, batchUpdateArticleStatus, createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle, updateArticleStatus } from '../services/article.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '../services/category.service.js'
-import { batchReviewComments, batchUpdateUserStatus, listAdminComments, listUsers, reviewComment, updateUserStatus } from '../services/comment.service.js'
+import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRoles, updateUserStatus } from '../services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '../services/mediaCategory.service.js'
 import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, restoreMedia } from '../services/media.service.js'
 import { getMonitorOverview } from '../services/monitor.service.js'
@@ -15,8 +15,10 @@ import { getAdminStats } from '../services/stats.service.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '../services/tag.service.js'
 import { ok } from '../utils/apiResponse.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
+import { decryptCredential } from '../utils/authSecurity.js'
 import { buildSafeStoredFilename } from '../utils/uploadFilename.js'
 import { articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '../validators/content.validator.js'
+import { userBatchResetPasswordSchema, userCreateSchema, userRoleAssignSchema } from '../validators/rbac.validator.js'
 import { settingSchema } from '../validators/setting.validator.js'
 
 export const adminRouter = Router()
@@ -84,6 +86,30 @@ function createUploadValidationError(message, code) {
 }
 
 adminRouter.use(requireAuth, requireAdmin)
+
+const canAccessArticles = requireMenuAccess('/console/manage/articles')
+const canAccessCategories = requireMenuAccess('/console/manage/categories')
+const canAccessComments = requireMenuAccess('/console/manage/comments')
+const canAccessMedia = requireMenuAccess('/console/manage/media')
+const canAccessMonitor = requireMenuAccess('/console/manage/monitor')
+const canAccessNotifications = requireMenuAccess('/console/manage/notifications')
+const canAccessSettings = requireMenuAccess('/console/manage/settings')
+const canAccessTags = requireMenuAccess('/console/manage/tags')
+const canAccessTrash = requireMenuAccess('/console/manage/trash')
+const canAccessUsers = requireMenuAccess('/console/manage/users')
+
+adminRouter.use('/articles/trash', canAccessTrash)
+adminRouter.use('/articles', canAccessArticles)
+adminRouter.use('/categories', canAccessCategories)
+adminRouter.use('/comments', canAccessComments)
+adminRouter.use('/media/trash', canAccessTrash)
+adminRouter.use('/media', canAccessMedia)
+adminRouter.use('/monitor', canAccessMonitor)
+adminRouter.use('/announcements', canAccessNotifications)
+adminRouter.use('/settings', canAccessSettings)
+adminRouter.use('/stats', requireMenuAccess('/console'))
+adminRouter.use('/tags', canAccessTags)
+adminRouter.use('/users', canAccessUsers)
 
 adminRouter.get('/categories', asyncHandler(async (req, res) => {
   res.json(ok(await listCategories(req.query)))
@@ -281,15 +307,56 @@ adminRouter.get('/users', asyncHandler(async (req, res) => {
   res.json(ok(await listUsers(req.query)))
 }))
 
+adminRouter.post('/users', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const { credential: encryptedCredential, ...body } = req.body
+  const { password } = decryptCredential(encryptedCredential, 'admin-create-user')
+  const input = parseBody(userCreateSchema, {
+    ...body,
+    password
+  })
+  const user = await createAdminUser(input)
+  res.status(201).json(ok(user, '用户已创建'))
+}))
+
 adminRouter.post('/users/batch/status', asyncHandler(async (req, res) => {
   const input = parseBody(statusBatchSchema, req.body)
   const result = await batchUpdateUserStatus(input.ids, input.status)
   res.json(ok(result, `已更新 ${result.updatedCount} 个用户`))
 }))
 
+adminRouter.post('/users/batch/roles', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const input = parseBody(idBatchSchema.extend(userRoleAssignSchema.shape), req.body)
+  const result = await batchUpdateUserRoles(input.ids, input.roleIds)
+  res.json(ok(result, `已更新 ${result.updatedCount} 个用户角色`))
+}))
+
+adminRouter.post('/users/batch/reset-password', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const input = parseBody(userBatchResetPasswordSchema, req.body)
+  const credential = decryptCredential(input.credential, 'admin-reset-password')
+  const result = await batchResetUserPasswords(input.userIds, credential.newPassword)
+  res.json(ok(result, `已重置 ${result.updatedCount} 个用户密码`))
+}))
+
+adminRouter.post('/users/batch/delete', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const input = parseBody(idBatchSchema, req.body)
+  const result = await batchDeleteAdminUsers(input.ids, req.user._id)
+  res.json(ok(result, `已删除 ${result.deletedCount} 个用户`))
+}))
+
 adminRouter.patch('/users/:id/status', asyncHandler(async (req, res) => {
   const user = await updateUserStatus(req.params.id, req.body.status)
   res.json(ok(user, '用户状态已更新'))
+}))
+
+adminRouter.patch('/users/:id/roles', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const input = parseBody(userRoleAssignSchema, req.body)
+  const user = await updateUserRoles(req.params.id, input.roleIds)
+  res.json(ok(user, '用户角色已更新'))
+}))
+
+adminRouter.delete('/users/:id', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const result = await deleteAdminUser(req.params.id, req.user._id)
+  res.json(ok(result, '用户已删除'))
 }))
 
 adminRouter.get('/stats', asyncHandler(async (req, res) => {

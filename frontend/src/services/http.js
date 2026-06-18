@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { encryptAuthCredential } from '@/utils/credentialCrypto'
 
 const TOKEN_KEY = 'blog-access-token'
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
@@ -19,16 +20,17 @@ export function setStoredToken(token) {
 const http = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
   }
 })
 
-// 请求拦截器：自动添加 token
+// 请求拦截器：自动添加 token，兼容旧版 Bearer 逻辑
 http.interceptors.request.use(
   (config) => {
     const token = getStoredToken()
-    if (token) {
+    if (token && !config.headers.Authorization) {
       config.headers.Authorization = `Bearer ${token}`
     }
 
@@ -122,6 +124,16 @@ export function loginAccount(data) {
   return http.post('/api/auth/login', data)
 }
 
+export function getAuthChallenge(purpose) {
+  return http.get('/api/auth/challenge', {
+    params: { purpose }
+  })
+}
+
+export function logoutAccount() {
+  return http.post('/api/auth/logout')
+}
+
 /**
  * 忘记密码重置。该流程不要求登录态，也不复用个人信息页旧密码校验接口。
  * @param {Object} data - { email, newPassword, confirmPassword }
@@ -191,6 +203,14 @@ export function getLoginRecords() {
   return http.get('/api/profile/login-records')
 }
 
+export function listMyPermissionRequests(params = {}) {
+  return http.get('/api/profile/permission-requests', { params })
+}
+
+export function createMyPermissionRequest(data) {
+  return http.post('/api/profile/permission-requests', data)
+}
+
 /**
  * 上传头像
  * @param {File} file - 头像文件
@@ -202,11 +222,25 @@ export function uploadAvatar(file) {
 }
 
 /**
- * 修改密码
+ * 修改密码。密码字段在浏览器内先完成一次性公钥加密，再提交给后端。
  * @param {Object} data - { oldPassword, newPassword }
  */
-export function changePassword(data) {
-  return http.put('/api/profile/password', data)
+export async function changePassword(data) {
+  const challenge = await getAuthChallenge('change-password')
+  const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+    purpose: 'change-password',
+    challengeId: challenge.challengeId,
+    nonce: challenge.nonce,
+    oldPassword: data.oldPassword,
+    newPassword: data.newPassword
+  })
+
+  return http.put('/api/profile/password', {
+    credential: {
+      challengeId: challenge.challengeId,
+      payload: encryptedPayload
+    }
+  })
 }
 
 /**

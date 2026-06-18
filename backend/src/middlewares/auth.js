@@ -1,5 +1,7 @@
 import { USER_ROLES, USER_STATUS } from '#constants/domain'
 import { User } from '../models/User.js'
+import { hydrateUserPermissions } from '../services/rbac.service.js'
+import { getAuthCookieToken } from '../utils/authSecurity.js'
 import { verifyAccessToken } from '../utils/jwt.js'
 
 function authError(statusCode, code, message) {
@@ -12,7 +14,8 @@ function authError(statusCode, code, message) {
 export async function requireAuth(req, res, next) {
   try {
     const header = req.get('Authorization') || ''
-    const token = header.startsWith('Bearer ') ? header.slice(7) : ''
+    const bearerToken = header.startsWith('Bearer ') ? header.slice(7) : ''
+    const token = getAuthCookieToken(req) || bearerToken
 
     if (!token) {
       throw authError(401, 'UNAUTHORIZED', '请先登录')
@@ -21,7 +24,7 @@ export async function requireAuth(req, res, next) {
     const payload = verifyAccessToken(token)
     const user = await User.findById(payload.sub)
 
-    if (!user || user.status === USER_STATUS.DISABLED) {
+    if (!user || user.status === USER_STATUS.DISABLED || (payload.tv ?? 0) !== (user.tokenVersion || 0)) {
       throw authError(401, 'UNAUTHORIZED', '登录状态已失效')
     }
 
@@ -44,13 +47,14 @@ export async function requireAuth(req, res, next) {
 export async function optionalAuth(req, res, next) {
   try {
     const header = req.get('Authorization') || ''
-    const token = header.startsWith('Bearer ') ? header.slice(7) : ''
+    const bearerToken = header.startsWith('Bearer ') ? header.slice(7) : ''
+    const token = getAuthCookieToken(req) || bearerToken
 
     if (token) {
       const payload = verifyAccessToken(token)
       const user = await User.findById(payload.sub)
 
-      if (user && user.status !== USER_STATUS.DISABLED) {
+      if (user && user.status !== USER_STATUS.DISABLED && (payload.tv ?? 0) === (user.tokenVersion || 0)) {
         req.user = user
       }
     }
@@ -62,11 +66,45 @@ export async function optionalAuth(req, res, next) {
 }
 
 export function requireAdmin(req, res, next) {
-  if (!req.user || req.user.role !== USER_ROLES.ADMIN) {
-    const error = authError(403, 'FORBIDDEN', '没有后台访问权限')
-    next(error)
-    return
-  }
+  ;(async () => {
+    const safeUser = await hydrateUserPermissions(req.user)
+    const hasAdminAccess = safeUser?.isSuperAdmin || safeUser?.permissions?.menuPaths?.some((path) => path.startsWith('/console/manage') || path === '/console')
 
-  next()
+    if (!hasAdminAccess && req.user?.role !== USER_ROLES.ADMIN && req.user?.role !== USER_ROLES.SUPER_ADMIN) {
+      throw authError(403, 'FORBIDDEN', '没有后台访问权限')
+    }
+
+    req.rbacUser = safeUser
+    next()
+  })().catch(next)
+}
+
+export function requireSuperAdmin(req, res, next) {
+  ;(async () => {
+    const safeUser = req.rbacUser || await hydrateUserPermissions(req.user)
+
+    if (!safeUser?.isSuperAdmin && req.user?.role !== USER_ROLES.SUPER_ADMIN) {
+      throw authError(403, 'SUPER_ADMIN_REQUIRED', '仅超级管理员可执行该操作')
+    }
+
+    req.rbacUser = safeUser
+    next()
+  })().catch(next)
+}
+
+export function requireMenuAccess(routePath) {
+  return function menuAccessMiddleware(req, res, next) {
+    ;(async () => {
+      const safeUser = req.rbacUser || await hydrateUserPermissions(req.user)
+      const hasAccess = safeUser?.isSuperAdmin ||
+        safeUser?.permissions?.menuPaths?.some((path) => routePath === path || routePath.startsWith(`${path}/`))
+
+      if (!hasAccess) {
+        throw authError(403, 'MENU_PERMISSION_REQUIRED', '没有该菜单的访问权限')
+      }
+
+      req.rbacUser = safeUser
+      next()
+    })().catch(next)
+  }
 }

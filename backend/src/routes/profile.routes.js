@@ -10,7 +10,10 @@ import multer, { MulterError } from 'multer'
 import path from 'path'
 import fs from 'node:fs'
 import { env } from '../config/env.js'
+import { createPermissionRequest, listPermissionRequests } from '../services/rbac.service.js'
+import { decryptCredential } from '../utils/authSecurity.js'
 import { notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema } from '../validators/profile.validator.js'
+import { permissionRequestQuerySchema, permissionRequestSchema } from '../validators/rbac.validator.js'
 
 const router = Router()
 
@@ -177,12 +180,29 @@ router.get('/login-records', requireAuth, asyncHandler(async (req, res) => {
   }))
 }))
 
+router.get('/permission-requests', requireAuth, asyncHandler(async (req, res) => {
+  const input = parseBody(permissionRequestQuerySchema, req.query)
+  res.json(ok(await listPermissionRequests({
+    ...input,
+    userId: req.user._id.toString()
+  })))
+}))
+
+router.post('/permission-requests', requireAuth, asyncHandler(async (req, res) => {
+  const input = parseBody(permissionRequestSchema, req.body)
+  const request = await createPermissionRequest(req.user, input)
+  res.status(201).json(ok(request, '权限申请已提交'))
+}))
+
 /**
  * PUT /api/profile/password
  * 修改密码
  */
 router.put('/password', requireAuth, asyncHandler(async (req, res) => {
-  const { oldPassword, newPassword } = parseBody(passwordUpdateSchema, req.body)
+  const input = req.body.credential
+    ? decryptCredential(req.body.credential, 'change-password')
+    : parseBody(passwordUpdateSchema, req.body)
+  const { oldPassword, newPassword } = parseBody(passwordUpdateSchema, input)
 
   // 验证原密码
   const user = await User.findById(req.user._id)
@@ -195,7 +215,15 @@ router.put('/password', requireAuth, asyncHandler(async (req, res) => {
 
   // 更新密码
   const passwordHash = await bcrypt.hash(newPassword, 12)
-  await User.findByIdAndUpdate(req.user._id, { $set: { passwordHash } })
+  await User.findByIdAndUpdate(req.user._id, {
+    $set: {
+      passwordHash,
+      passwordChangedAt: new Date(),
+      failedLoginCount: 0,
+      lockedUntil: null
+    },
+    $inc: { tokenVersion: 1 }
+  })
 
   res.json(ok(null, '密码修改成功'))
 }))

@@ -274,9 +274,78 @@
             </a-button>
           </div>
         </div>
+
+        <!-- 权限申请 -->
+        <div v-show="activeTab === 'permission'" class="tab-content">
+          <div class="permission-header">
+            <div>
+              <h3 class="content-title">权限申请</h3>
+              <p>提交后台管理权限申请后，由超级管理员统一审批。</p>
+            </div>
+            <a-button type="primary" :disabled="hasPendingPermissionRequest" @click="applicationVisible = true">
+              提交申请
+            </a-button>
+          </div>
+
+          <div class="role-summary">
+            <span>当前角色</span>
+            <a-space wrap size="small">
+              <a-tag
+                v-for="role in authStore.user?.roles || []"
+                :key="role.id || role.code"
+                :color="role.isSuperAdmin ? 'red' : 'blue'"
+                :bordered="false"
+              >
+                {{ role.name || role.code }}
+              </a-tag>
+              <a-tag v-if="!authStore.user?.roles?.length" :bordered="false">未分配</a-tag>
+            </a-space>
+          </div>
+
+          <h3 class="content-title" style="margin-top: 28px">申请记录</h3>
+          <div v-if="loadingPermissionRequests" class="record-loading">正在加载申请记录...</div>
+          <div v-else-if="permissionRequests.length" class="permission-request-list">
+            <div v-for="item in permissionRequests" :key="item.id" class="permission-request-item">
+              <div>
+                <strong>{{ item.targetRole?.name || '管理员基础角色' }}</strong>
+                <p>{{ item.reason }}</p>
+                <small v-if="item.rejectReason">驳回原因：{{ item.rejectReason }}</small>
+              </div>
+              <div class="permission-request-meta">
+                <a-tag :color="getPermissionStatusMeta(item.status).color" :bordered="false">
+                  {{ getPermissionStatusMeta(item.status).label }}
+                </a-tag>
+                <span>{{ formatDate(item.createdAt) }}</span>
+              </div>
+            </div>
+          </div>
+          <a-empty v-else description="暂无权限申请记录" :image-style="{ height: '48px' }" />
+        </div>
       </div>
     </div>
   </div>
+
+  <a-modal
+    v-model:open="applicationVisible"
+    title="提交权限申请"
+    ok-text="提交申请"
+    cancel-text="取消"
+    :confirm-loading="submittingApplication"
+    :destroy-on-close="true"
+    @ok="submitPermissionApplication"
+  >
+    <a-form ref="applicationFormRef" :model="applicationForm" :rules="applicationRules" layout="vertical">
+      <a-form-item label="申请说明" name="reason">
+        <a-textarea
+          v-model:value="applicationForm.reason"
+          :rows="5"
+          :maxlength="500"
+          show-count
+          placeholder="请说明申请后台管理权限的用途，例如内容运营、评论审核或系统配置维护。"
+        />
+      </a-form-item>
+    </a-form>
+  </a-modal>
 </template>
 
 <script setup>
@@ -287,6 +356,7 @@ import {
   SafetyOutlined,
   LinkOutlined,
   BellOutlined,
+  KeyOutlined,
   CameraOutlined,
   DesktopOutlined,
   GithubOutlined,
@@ -297,10 +367,12 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import {
   changePassword,
+  createMyPermissionRequest,
   getLoginRecords,
   getNotificationSettings,
   getProfile,
   getUserStats,
+  listMyPermissionRequests,
   updateNotificationSettings,
   updateProfile,
   uploadAvatar
@@ -326,7 +398,8 @@ const tabs = [
   { key: 'basic', label: '基本资料', icon: UserOutlined },
   { key: 'security', label: '安全设置', icon: SafetyOutlined },
   { key: 'binding', label: '账号绑定', icon: LinkOutlined },
-  { key: 'notification', label: '通知设置', icon: BellOutlined }
+  { key: 'notification', label: '通知设置', icon: BellOutlined },
+  { key: 'permission', label: '权限申请', icon: KeyOutlined }
 ]
 
 const activeTab = ref('basic')
@@ -361,15 +434,28 @@ const saving = ref(false)
 const changingPassword = ref(false)
 const savingNotifications = ref(false)
 const loadingLoginRecords = ref(false)
+const loadingPermissionRequests = ref(false)
 const loginRecords = ref([])
+const permissionRequests = ref([])
 const avatarInputRef = ref(null)
 const passwordFormRef = ref(null)
+const applicationFormRef = ref(null)
+const applicationVisible = ref(false)
+const submittingApplication = ref(false)
 
 // 裁剪相关状态
 const cropperVisible = ref(false)
 const cropperSrc = ref('')
 const uploadingAvatar = ref(false)
 const avatarCropperRef = ref(null)
+const applicationForm = reactive({ reason: '' })
+const applicationRules = {
+  reason: [
+    { required: true, message: '请填写申请说明' },
+    { max: 500, message: '申请说明不能超过 500 个字符' }
+  ]
+}
+const hasPendingPermissionRequest = computed(() => permissionRequests.value.some((item) => item.status === 'pending'))
 
 const passwordRules = {
   oldPassword: [
@@ -419,6 +505,12 @@ function syncNotificationSettings(settings = {}) {
 
 function formatDate(value) {
   return value ? new Date(value).toLocaleString('zh-CN') : '-'
+}
+
+function getPermissionStatusMeta(status) {
+  if (status === 'approved') return { label: '已通过', color: 'green' }
+  if (status === 'rejected') return { label: '已驳回', color: 'red' }
+  return { label: '待审批', color: 'gold' }
 }
 
 /** 选择文件后，打开裁剪弹窗 */
@@ -535,6 +627,40 @@ async function handleChangePassword() {
   }
 }
 
+async function loadPermissionRequests() {
+  loadingPermissionRequests.value = true
+  try {
+    const result = await listMyPermissionRequests({ pageSize: 20 })
+    permissionRequests.value = result.items || []
+  } catch (error) {
+    permissionRequests.value = []
+    console.error('获取权限申请记录失败:', error)
+  } finally {
+    loadingPermissionRequests.value = false
+  }
+}
+
+async function submitPermissionApplication() {
+  try {
+    await applicationFormRef.value?.validate()
+  } catch {
+    return
+  }
+
+  submittingApplication.value = true
+  try {
+    await createMyPermissionRequest({ reason: applicationForm.reason })
+    message.success('权限申请已提交')
+    applicationVisible.value = false
+    applicationForm.reason = ''
+    await loadPermissionRequests()
+  } catch (error) {
+    message.error(error.message || '权限申请提交失败')
+  } finally {
+    submittingApplication.value = false
+  }
+}
+
 onMounted(async () => {
   loadingLoginRecords.value = true
   const [profileResult, notificationResult, recordResult] = await Promise.allSettled([
@@ -579,6 +705,8 @@ onMounted(async () => {
   } catch (error) {
     console.error('获取统计数据失败:', error)
   }
+
+  await loadPermissionRequests()
 })
 </script>
 
@@ -875,6 +1003,81 @@ onMounted(async () => {
   margin-top: 20px;
   display: flex;
   justify-content: flex-end;
+}
+
+.permission-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.permission-header .content-title {
+  margin-bottom: 8px;
+}
+
+.permission-header p {
+  margin: 0;
+  color: #8c8c8c;
+  font-size: 13px;
+}
+
+.role-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.role-summary > span {
+  color: #595959;
+  font-weight: 600;
+}
+
+.permission-request-list {
+  display: grid;
+  gap: 12px;
+}
+
+.permission-request-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.permission-request-item strong {
+  display: block;
+  font-size: 14px;
+}
+
+.permission-request-item p {
+  margin: 6px 0 0;
+  color: #595959;
+  line-height: 1.7;
+}
+
+.permission-request-item small {
+  display: block;
+  margin-top: 6px;
+  color: #cf1322;
+}
+
+.permission-request-meta {
+  flex: 0 0 auto;
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  color: #8c8c8c;
+  font-size: 12px;
 }
 
 /* ========== 头像裁剪弹窗 ========== */
