@@ -103,6 +103,42 @@
   - 浅色/深色主题一致性。
   - 普通用户/管理员权限差异。
 
+## 后端发布与文件放置规则
+
+- 后端发布包由 `scripts/package-release.ps1` 统一生成，输出到 `release/backend-release.zip`。
+- 后端发布采用白名单打包，不要直接压缩整个 `backend` 目录作为发布包。
+- 后端发布包默认包含：
+  - `backend/package.json`
+  - `backend/package-lock.json`
+  - `backend/ecosystem.config.cjs`
+  - `backend/src`
+  - `backend/tests`
+  - `backend/.env.example`
+  - `backend/README.md`
+  - `backend/vitest.config.js`
+- 后端发布包必须排除：
+  - `backend/.env`
+  - `backend/node_modules`
+  - `backend/uploads`
+  - `backend/logs`
+  - `backend/legacy-notes`
+- 新增后端业务代码时，优先放到 `backend/src` 下对应目录：`routes`、`services`、`models`、`validators`、`constants`、`middlewares`、`utils`、`scripts`。
+- 新增后端测试时放到 `backend/tests`。
+- 只要新增文件位于 `backend/src` 或 `backend/tests`，发布脚本会自动打进后端发布包。
+- 如果新增 `backend` 根目录下的运行必需目录，例如 `templates`、`public`、`views`、`migrations`、`prisma`、`openapi`，必须同步更新 `scripts/package-release.ps1`，把该目录加入发布白名单。
+- 服务器生产 `.env` 必须由服务器独立维护，本地 `.env` 不得进入发布包，也不得覆盖服务器 `.env`。
+- 线上上传文件属于运行数据，不能通过本地发布包覆盖。
+
+## 数据库发布与迁移规则
+
+- 数据库发布默认不是整库覆盖；普通发布只做 MongoDB 备份，不迁移、不恢复。
+- 发布前必须先判断 `backend/src/models`、`backend/src/services`、`backend/src/scripts`、`backend/src/validators`、`backend/src/constants` 是否存在数据结构、枚举、权限、关联关系变化。
+- 需要迁移数据库时，优先新增一次性脚本到 `backend/src/scripts`，脚本默认 dry-run，只有传入 `--apply` 才允许写库。
+- 迁移脚本必须先明确筛选范围、打印影响数量，并在发布前确认已有 `mongodump` 备份。
+- 只有在明确要用本地数据库替换线上数据库时，才允许使用 `mongorestore --drop` 整库覆盖。
+- 数据库回滚会丢失发布后新增数据，只有确认数据被改坏时才执行。
+- 数据库发布、迁移、验证和回滚流程以 `docs/03-部署发布/数据库发布与迁移流程.md` 为准。
+
 ## 通用表格组件规则
 
 - 涉及后台列表、控制台列表、分页数据表格、带筛选/操作列的数据展示时，优先使用 `frontend/src/components/BlogTable.vue`，不要在业务页面重复手写 `a-table + a-pagination` 的通用封装逻辑。

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { encryptAuthCredential } from '@/utils/credentialCrypto'
+import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
 
 const TOKEN_KEY = 'blog-access-token'
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
@@ -226,6 +226,13 @@ export function uploadAvatar(file) {
  * @param {Object} data - { oldPassword, newPassword }
  */
 export async function changePassword(data) {
+  if (!canEncryptCredentialInBrowser()) {
+    return http.put('/api/profile/password', {
+      oldPassword: data.oldPassword,
+      newPassword: data.newPassword
+    })
+  }
+
   const challenge = await getAuthChallenge('change-password')
   const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
     purpose: 'change-password',

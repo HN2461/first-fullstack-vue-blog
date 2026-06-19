@@ -2,7 +2,7 @@ import http from './http'
 import { toItemList, toPageResult } from './contracts'
 import { encryptAuthCredential } from '@/utils/credentialCrypto'
 
-async function collectAllPageItems(loader, params = {}, pageSize = 200) {
+async function collectAllPageItems(loader, params = {}, pageSize = 100) {
   const items = []
   let page = 1
   let total = 0

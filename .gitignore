@@ -4,9 +4,15 @@ dist/
 .env.local
 npm-debug.log*
 coverage/
+release/
+frontend/frontend-dist.zip
+backend-release.zip
+mongodb-dump.zip
 .DS_Store
 Thumbs.db
 uploads/*
 !uploads/.gitkeep
+backend/uploads/*
+!backend/uploads/.gitkeep
 backend/logs/
 backend/legacy-notes/

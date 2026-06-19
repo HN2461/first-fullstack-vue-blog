@@ -1,4 +1,9 @@
 const textEncoder = new TextEncoder()
+
+export function canEncryptCredentialInBrowser() {
+  return Boolean(window.crypto?.subtle?.importKey && window.crypto?.subtle?.encrypt)
+}
+
 function base64ToUint8Array(base64) {
   const binary = window.atob(base64)
   const bytes = new Uint8Array(binary.length)
@@ -20,6 +25,10 @@ function pemToArrayBuffer(pem) {
 }
 
 export async function encryptAuthCredential(publicKeyPem, payload) {
+  if (!canEncryptCredentialInBrowser()) {
+    throw new Error('当前访问环境不支持浏览器内密码加密，请使用 HTTPS 访问后重试')
+  }
+
   const cryptoKey = await window.crypto.subtle.importKey(
     'spki',
     pemToArrayBuffer(publicKeyPem),

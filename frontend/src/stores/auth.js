@@ -10,7 +10,7 @@ import {
   resetAccountPassword,
   setStoredToken
 } from '@/services/http'
-import { encryptAuthCredential } from '@/utils/credentialCrypto'
+import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
@@ -52,6 +52,19 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function register(form) {
+    if (!canEncryptCredentialInBrowser()) {
+      const result = await registerAccount({
+        username: form.username,
+        email: form.email,
+        password: form.password,
+        permissionRequestReason: form.permissionRequestReason || undefined
+      })
+      token.value = result.token || ''
+      user.value = result.user
+      setStoredToken(token.value)
+      return
+    }
+
     const challenge = await getAuthChallenge('register')
     const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
       purpose: 'register',
@@ -74,6 +87,17 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function login(form) {
+    if (!canEncryptCredentialInBrowser()) {
+      const result = await loginAccount({
+        email: form.email,
+        password: form.password
+      })
+      token.value = result.token || ''
+      user.value = result.user
+      setStoredToken(token.value)
+      return
+    }
+
     const challenge = await getAuthChallenge('login')
     const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
       purpose: 'login',
@@ -94,6 +118,15 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function resetPassword(form) {
+    if (!canEncryptCredentialInBrowser()) {
+      await resetAccountPassword({
+        email: form.email,
+        newPassword: form.newPassword,
+        confirmPassword: form.confirmPassword
+      })
+      return
+    }
+
     const challenge = await getAuthChallenge('reset-password')
     const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
       purpose: 'reset-password',
