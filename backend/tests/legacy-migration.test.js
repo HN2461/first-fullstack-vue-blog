@@ -6,7 +6,7 @@ import {
   analyzeLegacyNotes,
   buildLegacyArticleRecord,
   scanLegacyNotes
-} from '../src/services/legacyMigration.service.js'
+} from '#modules/content/services/legacyMigration.service.js'
 
 let tempDir = ''
 

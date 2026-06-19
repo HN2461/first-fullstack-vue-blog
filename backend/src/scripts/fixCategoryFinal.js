@@ -4,8 +4,8 @@
  */
 
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
-import { Category } from '../models/Category.js'
-import { Article } from '../models/Article.js'
+import { Category } from '#modules/content/models/Category.js'
+import { Article } from '#modules/content/models/Article.js'
 
 async function main() {
   await connectDatabase()

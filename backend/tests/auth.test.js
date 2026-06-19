@@ -7,8 +7,8 @@ import {
   loginUser,
   registerUser,
   resetPassword
-} from '../src/services/auth.service.js'
-import { User } from '../src/models/User.js'
+} from '#modules/auth/services/auth.service.js'
+import { User } from '#modules/user/models/User.js'
 import {
   clearTestDatabase,
   connectTestDatabase,

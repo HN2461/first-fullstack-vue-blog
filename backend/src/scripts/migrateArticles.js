@@ -14,17 +14,17 @@ import { fileURLToPath } from 'node:url'
 import { ARTICLE_STATUS } from '#constants/domain'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { Article } from '../models/Article.js'
-import { Category } from '../models/Category.js'
-import { Tag } from '../models/Tag.js'
-import { User } from '../models/User.js'
+import { Article } from '#modules/content/models/Article.js'
+import { Category } from '#modules/content/models/Category.js'
+import { Tag } from '#modules/content/models/Tag.js'
+import { User } from '#modules/user/models/User.js'
 import {
   analyzeLegacyNotes,
   buildLegacyArticleRecord,
   generateAsciiSlug,
   scanLegacyNotes,
   shortHash
-} from '../services/legacyMigration.service.js'
+} from '#modules/content/services/legacyMigration.service.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

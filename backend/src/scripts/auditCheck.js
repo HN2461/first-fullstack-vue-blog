@@ -8,7 +8,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { Article } from '../models/Article.js'
+import { Article } from '#modules/content/models/Article.js'
 
 const OLD_NOTES_DIR = process.env.OLD_NOTES_DIR || env.legacyNotesDir
 

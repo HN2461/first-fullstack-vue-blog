@@ -1,4 +1,4 @@
-import { fail } from '../utils/apiResponse.js'
+import { fail } from '#utils/apiResponse.js'
 
 export function notFoundHandler(req, res) {
   res.status(404).json(fail(`接口不存在：${req.method} ${req.originalUrl}`, 'NOT_FOUND'))

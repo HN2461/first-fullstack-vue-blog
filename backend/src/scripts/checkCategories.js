@@ -3,7 +3,7 @@
  */
 
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
-import { Category } from '../models/Category.js'
+import { Category } from '#modules/content/models/Category.js'
 
 async function main() {
   await connectDatabase()

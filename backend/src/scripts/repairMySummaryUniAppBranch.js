@@ -14,8 +14,8 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { Article } from '../models/Article.js'
-import { Category } from '../models/Category.js'
+import { Article } from '#modules/content/models/Article.js'
+import { Category } from '#modules/content/models/Category.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)

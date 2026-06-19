@@ -3,9 +3,9 @@ import fs from 'node:fs'
 import { USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
-import { Media } from '../src/models/Media.js'
-import { User } from '../src/models/User.js'
-import { createArticle } from '../src/services/article.service.js'
+import { Media } from '#modules/media/models/Media.js'
+import { User } from '#modules/user/models/User.js'
+import { createArticle } from '#modules/content/services/article.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import {
   clearTestDatabase,

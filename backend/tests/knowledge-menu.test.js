@@ -2,9 +2,9 @@ import request from 'supertest'
 import { ARTICLE_STATUS, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
-import { User } from '../src/models/User.js'
-import { createArticle } from '../src/services/article.service.js'
-import { createCategory } from '../src/services/category.service.js'
+import { User } from '#modules/user/models/User.js'
+import { createArticle } from '#modules/content/services/article.service.js'
+import { createCategory } from '#modules/content/services/category.service.js'
 import {
   clearTestDatabase,
   connectTestDatabase,

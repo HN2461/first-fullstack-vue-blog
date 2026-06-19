@@ -197,6 +197,14 @@ export function updateNotificationSettings(data) {
 }
 
 /**
+ * 保存当前用户工作台快捷功能排序
+ * @param {string[]} routes - 快捷功能路由路径
+ */
+export function updateQuickActions(routes) {
+  return http.put('/api/profile/quick-actions', { routes })
+}
+
+/**
  * 获取登录记录。当前后端仅返回待接入真实审计数据的空状态。
  */
 export function getLoginRecords() {
@@ -219,6 +227,13 @@ export function uploadAvatar(file) {
   const formData = new FormData()
   formData.append('avatar', file)
   return http.post('/api/profile/avatar', formData)
+}
+
+/**
+ * 删除当前头像
+ */
+export function deleteAvatar() {
+  return http.delete('/api/profile/avatar')
 }
 
 /**

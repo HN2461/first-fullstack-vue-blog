@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-import { env } from '../config/env.js'
+import { env } from '#config/env'
 
 const CHALLENGE_TTL_MS = 2 * 60 * 1000
 const MAX_CHALLENGES = 1000

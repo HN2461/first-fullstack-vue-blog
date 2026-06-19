@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 import { USER_ROLES, USER_STATUS } from '#constants/domain'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { User } from '../models/User.js'
+import { User } from '#modules/user/models/User.js'
 
 function assertAdminEnv() {
   const missing = []

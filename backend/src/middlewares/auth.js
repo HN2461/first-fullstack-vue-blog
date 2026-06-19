@@ -1,8 +1,8 @@
 import { USER_ROLES, USER_STATUS } from '#constants/domain'
-import { User } from '../models/User.js'
-import { hydrateUserPermissions } from '../services/rbac.service.js'
-import { getAuthCookieToken } from '../utils/authSecurity.js'
-import { verifyAccessToken } from '../utils/jwt.js'
+import { User } from '#modules/user/models/User.js'
+import { hydrateUserPermissions } from '#modules/rbac/services/rbac.service.js'
+import { getAuthCookieToken } from '#utils/authSecurity.js'
+import { verifyAccessToken } from '#utils/jwt.js'
 
 function authError(statusCode, code, message) {
   const error = new Error(message)

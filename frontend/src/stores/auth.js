@@ -12,6 +12,63 @@ import {
 } from '@/services/http'
 import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
 
+const MENU_CACHE_KEY = 'blog-auth-menu-cache'
+
+function readMenuCache() {
+  try {
+    return JSON.parse(localStorage.getItem(MENU_CACHE_KEY) || '{}') || {}
+  } catch {
+    return {}
+  }
+}
+
+function writeMenuCache(userInfo) {
+  if (!userInfo?.id || !userInfo?.permissions) return
+
+  const permissions = userInfo.permissions || {}
+  const hasMenus = Array.isArray(permissions.menus) && permissions.menus.length > 0
+  const hasPaths = Array.isArray(permissions.menuPaths) && permissions.menuPaths.length > 0
+  if (!hasMenus && !hasPaths) return
+
+  localStorage.setItem(MENU_CACHE_KEY, JSON.stringify({
+    userId: userInfo.id,
+    cachedAt: Date.now(),
+    permissions: {
+      menus: permissions.menus || [],
+      flatMenus: permissions.flatMenus || [],
+      menuPaths: permissions.menuPaths || []
+    }
+  }))
+}
+
+function clearMenuCache() {
+  localStorage.removeItem(MENU_CACHE_KEY)
+}
+
+function mergeCachedPermissions(userInfo) {
+  if (!userInfo?.id) return userInfo
+
+  const cache = readMenuCache()
+  if (cache.userId !== userInfo.id || !cache.permissions) {
+    return userInfo
+  }
+
+  const nextPermissions = userInfo.permissions || {}
+  const hasMenus = Array.isArray(nextPermissions.menus) && nextPermissions.menus.length > 0
+  const hasPaths = Array.isArray(nextPermissions.menuPaths) && nextPermissions.menuPaths.length > 0
+  if (hasMenus || hasPaths) {
+    return userInfo
+  }
+
+  return {
+    ...userInfo,
+    permissions: {
+      ...nextPermissions,
+      ...cache.permissions
+    }
+  }
+}
+
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
   const token = ref(getStoredToken())
@@ -43,12 +100,21 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function restoreSession() {
     try {
-      user.value = await getCurrentUser()
+      const currentUser = await getCurrentUser()
+      user.value = mergeCachedPermissions(currentUser)
+      writeMenuCache(user.value)
     } catch {
       clearSession()
     } finally {
       ready.value = true
     }
+  }
+
+  async function refreshCurrentUser() {
+    const currentUser = await getCurrentUser()
+    user.value = currentUser
+    writeMenuCache(currentUser)
+    return currentUser
   }
 
   async function register(form) {
@@ -61,6 +127,7 @@ export const useAuthStore = defineStore('auth', () => {
       })
       token.value = result.token || ''
       user.value = result.user
+      writeMenuCache(user.value)
       setStoredToken(token.value)
       return
     }
@@ -83,6 +150,7 @@ export const useAuthStore = defineStore('auth', () => {
     })
     token.value = ''
     user.value = result.user
+    writeMenuCache(user.value)
     setStoredToken('')
   }
 
@@ -94,6 +162,7 @@ export const useAuthStore = defineStore('auth', () => {
       })
       token.value = result.token || ''
       user.value = result.user
+      writeMenuCache(user.value)
       setStoredToken(token.value)
       return
     }
@@ -114,6 +183,7 @@ export const useAuthStore = defineStore('auth', () => {
     })
     token.value = ''
     user.value = result.user
+    writeMenuCache(user.value)
     setStoredToken('')
   }
 
@@ -149,6 +219,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = ''
     user.value = null
     setStoredToken('')
+    clearMenuCache()
   }
 
   async function logout() {
@@ -170,6 +241,7 @@ export const useAuthStore = defineStore('auth', () => {
     managementMenus,
     canAccessPath,
     restoreSession,
+    refreshCurrentUser,
     register,
     login,
     resetPassword,

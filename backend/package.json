@@ -5,7 +5,10 @@
   "type": "module",
   "imports": {
     "#config/*": "./src/config/*.js",
-    "#constants/*": "./src/constants/*.js"
+    "#constants/*": "./src/constants/*.js",
+    "#modules/*": "./src/modules/*",
+    "#utils/*": "./src/utils/*",
+    "#middlewares/*": "./src/middlewares/*"
   },
   "scripts": {
     "dev": "nodemon src/server.js",
@@ -17,7 +20,8 @@
     "migrate:dry-run": "node src/scripts/migrateArticles.js --dry-run",
     "migrate:audit": "node src/scripts/migrateArticles.js --audit",
     "migrate:repair": "node src/scripts/migrateArticles.js --repair-existing",
-    "fix:timestamps": "node src/scripts/fixArticleTimestamps.js"
+    "fix:timestamps": "node src/scripts/fixArticleTimestamps.js",
+    "update:frontend-paths": "node src/scripts/updateFrontendPathReferences.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

@@ -2,7 +2,7 @@ import request from 'supertest'
 import { USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
-import { User } from '../src/models/User.js'
+import { User } from '#modules/user/models/User.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import {
   clearTestDatabase,
