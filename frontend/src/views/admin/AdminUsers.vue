@@ -294,8 +294,8 @@ import {
   batchUpdateAdminUserStatus,
   createAdminUser,
   deleteAdminUser,
+  listAllRbacRoles,
   listAdminUsers,
-  listRbacRoles,
   updateAdminUserRoles,
   updateAdminUserStatus
 } from '@/services/admin'
@@ -640,7 +640,7 @@ function handleAction(key, record) {
 
 async function loadRoles() {
   try {
-    roles.value = await listRbacRoles()
+    roles.value = await listAllRbacRoles()
   } catch (error) {
     message.error(error.message || '角色列表加载失败')
   }

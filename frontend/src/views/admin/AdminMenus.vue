@@ -132,9 +132,18 @@
             <a-row :gutter="16">
               <a-col :xs="24" :lg="8">
                 <a-form-item label="菜单图标" name="icon">
-                  <a-select v-model:value="form.icon" show-search placeholder="选择图标">
-                    <a-select-option v-for="icon in iconOptions" :key="icon" :value="icon">{{ icon }}</a-select-option>
-                  </a-select>
+                  <div class="icon-select-trigger">
+                    <div class="icon-select-current">
+                      <span class="icon-select-preview">
+                        <component :is="selectedIconMeta.component" />
+                      </span>
+                      <div>
+                        <strong>{{ selectedIconMeta.label }}</strong>
+                        <span>{{ selectedIconMeta.name }}</span>
+                      </div>
+                    </div>
+                    <a-button @click="openIconPicker">选择图标</a-button>
+                  </div>
                 </a-form-item>
               </a-col>
               <a-col :xs="24" :lg="8">
@@ -180,31 +189,176 @@
         </div>
       </a-card>
     </div>
+
+    <a-modal
+      v-model:open="iconPickerVisible"
+      title="选择菜单图标"
+      :width="720"
+      :footer="null"
+      :destroy-on-close="true"
+      :body-style="{ maxHeight: '64vh', overflowY: 'auto' }"
+    >
+      <div class="icon-picker">
+        <a-input-search
+          v-model:value="iconKeyword"
+          allow-clear
+          placeholder="搜索图标名称或用途"
+        />
+
+        <div v-if="filteredIconOptions.length" class="icon-picker-grid">
+          <button
+            v-for="item in filteredIconOptions"
+            :key="item.name"
+            type="button"
+            class="icon-picker-option"
+            :class="{ active: form.icon === item.name }"
+            @click="selectIcon(item.name)"
+          >
+            <component :is="item.component" />
+            <strong>{{ item.label }}</strong>
+            <span>{{ item.name }}</span>
+          </button>
+        </div>
+        <a-empty v-else description="未找到匹配图标" />
+      </div>
+    </a-modal>
   </section>
 </template>
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons-vue'
+import {
+  ApiOutlined,
+  ApartmentOutlined,
+  AppstoreOutlined,
+  AuditOutlined,
+  BellOutlined,
+  BookOutlined,
+  CalendarOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloudOutlined,
+  CodeOutlined,
+  CommentOutlined,
+  ControlOutlined,
+  CustomerServiceOutlined,
+  DashboardOutlined,
+  DatabaseOutlined,
+  DeleteOutlined,
+  DesktopOutlined,
+  EditOutlined,
+  ExperimentOutlined,
+  EyeOutlined,
+  FileDoneOutlined,
+  FileSearchOutlined,
+  FileTextOutlined,
+  FilterOutlined,
+  FireOutlined,
+  FolderOutlined,
+  FormOutlined,
+  GlobalOutlined,
+  HddOutlined,
+  HeartOutlined,
+  HomeOutlined,
+  InboxOutlined,
+  KeyOutlined,
+  LayoutOutlined,
+  LinkOutlined,
+  LockOutlined,
+  MailOutlined,
+  MenuOutlined,
+  MessageOutlined,
+  MonitorOutlined,
+  NotificationOutlined,
+  PictureOutlined,
+  PlusOutlined,
+  ProfileOutlined,
+  ProjectOutlined,
+  QuestionCircleOutlined,
+  ReadOutlined,
+  ReloadOutlined,
+  RocketOutlined,
+  SafetyOutlined,
+  SaveOutlined,
+  SearchOutlined,
+  SettingOutlined,
+  ShareAltOutlined,
+  ShopOutlined,
+  StarOutlined,
+  SwapOutlined,
+  TableOutlined,
+  TagsOutlined,
+  TeamOutlined,
+  ToolOutlined,
+  UnorderedListOutlined,
+  UploadOutlined,
+  UserOutlined
+} from '@ant-design/icons-vue'
 import { createRbacMenu, deleteRbacMenu, listRbacMenus, reorderRbacMenus, updateRbacMenu } from '@/services/admin'
 
 const iconOptions = [
-  'DashboardOutlined',
-  'FileTextOutlined',
-  'FolderOutlined',
-  'SwapOutlined',
-  'TagsOutlined',
-  'PictureOutlined',
-  'AuditOutlined',
-  'UserOutlined',
-  'TeamOutlined',
-  'MenuOutlined',
-  'SafetyOutlined',
-  'BellOutlined',
-  'SettingOutlined',
-  'MonitorOutlined',
-  'DeleteOutlined'
+  { name: 'DashboardOutlined', label: '工作台', keywords: 'dashboard 控制台 首页', component: DashboardOutlined },
+  { name: 'HomeOutlined', label: '首页', keywords: 'home 首页 门户', component: HomeOutlined },
+  { name: 'AppstoreOutlined', label: '应用模块', keywords: 'appstore 应用 模块 九宫格', component: AppstoreOutlined },
+  { name: 'ControlOutlined', label: '控制台', keywords: 'control 控制台 管理 后台', component: ControlOutlined },
+  { name: 'BookOutlined', label: '知识库', keywords: 'book 知识库 文档 阅读', component: BookOutlined },
+  { name: 'ReadOutlined', label: '阅读', keywords: 'read 阅读 文章 学习', component: ReadOutlined },
+  { name: 'FileTextOutlined', label: '文章内容', keywords: 'file text 文章 内容 文档', component: FileTextOutlined },
+  { name: 'FileDoneOutlined', label: '已发布内容', keywords: 'file done 发布 完成 已发布', component: FileDoneOutlined },
+  { name: 'FileSearchOutlined', label: '内容检索', keywords: 'file search 检索 搜索 查询', component: FileSearchOutlined },
+  { name: 'FormOutlined', label: '表单配置', keywords: 'form 表单 编辑 配置', component: FormOutlined },
+  { name: 'ProfileOutlined', label: '档案资料', keywords: 'profile 档案 资料 简介', component: ProfileOutlined },
+  { name: 'FolderOutlined', label: '分类目录', keywords: 'folder 分类 目录 文件夹', component: FolderOutlined },
+  { name: 'ApartmentOutlined', label: '组织结构', keywords: 'apartment 组织 架构 层级', component: ApartmentOutlined },
+  { name: 'ProjectOutlined', label: '项目管理', keywords: 'project 项目 看板 任务', component: ProjectOutlined },
+  { name: 'SwapOutlined', label: '迁移转换', keywords: 'swap 迁移 转换 同步', component: SwapOutlined },
+  { name: 'TagsOutlined', label: '标签管理', keywords: 'tags 标签 标记', component: TagsOutlined },
+  { name: 'PictureOutlined', label: '媒体图片', keywords: 'picture 图片 媒体 素材', component: PictureOutlined },
+  { name: 'UploadOutlined', label: '上传导入', keywords: 'upload 上传 导入 文件', component: UploadOutlined },
+  { name: 'InboxOutlined', label: '收件归档', keywords: 'inbox 收件箱 归档 入库', component: InboxOutlined },
+  { name: 'AuditOutlined', label: '审核审批', keywords: 'audit 审核 审批 评论', component: AuditOutlined },
+  { name: 'UserOutlined', label: '用户', keywords: 'user 用户 个人', component: UserOutlined },
+  { name: 'TeamOutlined', label: '用户组', keywords: 'team 团队 用户组 成员', component: TeamOutlined },
+  { name: 'KeyOutlined', label: '密钥权限', keywords: 'key 密钥 权限 授权', component: KeyOutlined },
+  { name: 'LockOutlined', label: '锁定安全', keywords: 'lock 锁定 安全 密码', component: LockOutlined },
+  { name: 'MenuOutlined', label: '菜单', keywords: 'menu 菜单 导航', component: MenuOutlined },
+  { name: 'SafetyOutlined', label: '安全权限', keywords: 'safety 安全 权限 角色', component: SafetyOutlined },
+  { name: 'BellOutlined', label: '通知公告', keywords: 'bell 通知 公告 消息', component: BellOutlined },
+  { name: 'NotificationOutlined', label: '运营公告', keywords: 'notification 运营 公告 通知', component: NotificationOutlined },
+  { name: 'MessageOutlined', label: '消息会话', keywords: 'message 消息 会话 私信', component: MessageOutlined },
+  { name: 'MailOutlined', label: '邮件', keywords: 'mail 邮件 邮箱', component: MailOutlined },
+  { name: 'CommentOutlined', label: '评论互动', keywords: 'comment 评论 互动 留言', component: CommentOutlined },
+  { name: 'CustomerServiceOutlined', label: '客服支持', keywords: 'customer service 客服 支持 服务', component: CustomerServiceOutlined },
+  { name: 'SettingOutlined', label: '系统设置', keywords: 'setting 设置 配置 系统', component: SettingOutlined },
+  { name: 'ToolOutlined', label: '工具维护', keywords: 'tool 工具 维护 运维', component: ToolOutlined },
+  { name: 'MonitorOutlined', label: '系统监控', keywords: 'monitor 监控 状态 运维', component: MonitorOutlined },
+  { name: 'ApiOutlined', label: '接口服务', keywords: 'api 接口 服务 调用', component: ApiOutlined },
+  { name: 'DatabaseOutlined', label: '数据库', keywords: 'database 数据库 数据 存储', component: DatabaseOutlined },
+  { name: 'HddOutlined', label: '存储空间', keywords: 'hdd 存储 磁盘 空间', component: HddOutlined },
+  { name: 'CloudOutlined', label: '云服务', keywords: 'cloud 云 服务 部署', component: CloudOutlined },
+  { name: 'DesktopOutlined', label: '终端设备', keywords: 'desktop 终端 设备 客户端', component: DesktopOutlined },
+  { name: 'CodeOutlined', label: '代码开发', keywords: 'code 代码 开发 技术', component: CodeOutlined },
+  { name: 'ExperimentOutlined', label: '实验功能', keywords: 'experiment 实验 测试 功能', component: ExperimentOutlined },
+  { name: 'TableOutlined', label: '数据表格', keywords: 'table 表格 数据 列表', component: TableOutlined },
+  { name: 'UnorderedListOutlined', label: '列表', keywords: 'list 列表 清单', component: UnorderedListOutlined },
+  { name: 'FilterOutlined', label: '筛选过滤', keywords: 'filter 筛选 过滤 条件', component: FilterOutlined },
+  { name: 'SearchOutlined', label: '搜索', keywords: 'search 搜索 查询 检索', component: SearchOutlined },
+  { name: 'EyeOutlined', label: '查看预览', keywords: 'eye 查看 预览 可见', component: EyeOutlined },
+  { name: 'CheckCircleOutlined', label: '完成通过', keywords: 'check circle 完成 通过 成功', component: CheckCircleOutlined },
+  { name: 'ClockCircleOutlined', label: '时间计划', keywords: 'clock 时间 计划 定时', component: ClockCircleOutlined },
+  { name: 'CalendarOutlined', label: '日程日历', keywords: 'calendar 日程 日历 日期', component: CalendarOutlined },
+  { name: 'GlobalOutlined', label: '全局门户', keywords: 'global 全局 门户 国际化', component: GlobalOutlined },
+  { name: 'LinkOutlined', label: '链接', keywords: 'link 链接 外链 绑定', component: LinkOutlined },
+  { name: 'ShareAltOutlined', label: '分享分发', keywords: 'share 分享 分发 转发', component: ShareAltOutlined },
+  { name: 'RocketOutlined', label: '发布上线', keywords: 'rocket 发布 上线 启动', component: RocketOutlined },
+  { name: 'ShopOutlined', label: '站点商城', keywords: 'shop 商城 商品 店铺', component: ShopOutlined },
+  { name: 'StarOutlined', label: '收藏精选', keywords: 'star 收藏 精选 推荐', component: StarOutlined },
+  { name: 'HeartOutlined', label: '喜欢关注', keywords: 'heart 喜欢 关注 互动', component: HeartOutlined },
+  { name: 'FireOutlined', label: '热门趋势', keywords: 'fire 热门 趋势 热点', component: FireOutlined },
+  { name: 'LayoutOutlined', label: '页面布局', keywords: 'layout 页面 布局 模板', component: LayoutOutlined },
+  { name: 'QuestionCircleOutlined', label: '帮助说明', keywords: 'question help 帮助 说明 问题', component: QuestionCircleOutlined },
+  { name: 'DeleteOutlined', label: '回收站', keywords: 'delete 删除 回收站 垃圾箱', component: DeleteOutlined }
 ]
 
 const loading = ref(false)
@@ -215,6 +369,8 @@ const expandedMenuKeys = ref([])
 const selectedMenuId = ref('')
 const isCreating = ref(false)
 const formRef = ref(null)
+const iconPickerVisible = ref(false)
+const iconKeyword = ref('')
 
 const form = reactive({
   name: '',
@@ -229,7 +385,10 @@ const form = reactive({
 })
 
 const rules = {
-  name: [{ required: true, message: '请输入菜单名称' }],
+  name: [
+    { required: true, message: '请输入菜单名称' },
+    { min: 2, max: 40, message: '菜单名称需为 2-40 个字符' }
+  ],
   code: [
     { required: true, message: '请输入菜单编码' },
     { pattern: /^[a-z][a-z0-9.-]{1,79}$/, message: '仅支持小写字母、数字、点号和连字符' }
@@ -241,6 +400,21 @@ const rules = {
 }
 
 const selectedMenu = computed(() => flatMenus.value.find((menu) => menu.id === selectedMenuId.value))
+const selectedIconMeta = computed(() => {
+  const selected = iconOptions.find((item) => item.name === form.icon)
+  return selected || iconOptions.find((item) => item.name === 'MenuOutlined')
+})
+const filteredIconOptions = computed(() => {
+  const keyword = iconKeyword.value.trim().toLowerCase()
+  if (!keyword) {
+    return iconOptions
+  }
+
+  return iconOptions.filter((item) => {
+    const searchableText = `${item.name} ${item.label} ${item.keywords}`.toLowerCase()
+    return searchableText.includes(keyword)
+  })
+})
 const parentOptions = computed(() => removeNodeFromTree(menuTree.value, selectedMenuId.value))
 const parentCascaderOptions = computed(() => mapCascaderOptions(parentOptions.value))
 const parentPathValue = computed({
@@ -334,6 +508,16 @@ function openCreate(parentId = null) {
   selectedMenuId.value = ''
   isCreating.value = true
   resetForm(null, parentId)
+}
+
+function openIconPicker() {
+  iconKeyword.value = ''
+  iconPickerVisible.value = true
+}
+
+function selectIcon(iconName) {
+  form.icon = iconName
+  iconPickerVisible.value = false
 }
 
 function selectMenu(id) {
@@ -682,6 +866,136 @@ onMounted(loadMenus)
 }
 
 .menu-form :deep(.ant-segmented-item-selected) {
+  color: var(--console-primary-strong);
+}
+
+.icon-select-trigger {
+  min-height: 40px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.icon-select-current {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 11px;
+  border: 1px solid var(--console-border);
+  border-radius: 6px;
+  background: var(--console-surface-muted);
+}
+
+.icon-select-preview {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
+  font-size: 16px;
+}
+
+.icon-select-current div {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.icon-select-current strong,
+.icon-select-current span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-select-current strong {
+  color: var(--console-text);
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.icon-select-current span {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.icon-select-trigger :deep(.ant-btn) {
+  height: auto;
+  min-height: 40px;
+  flex: 0 0 auto;
+}
+
+.icon-picker {
+  display: grid;
+  gap: 14px;
+}
+
+.icon-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
+  gap: 10px;
+}
+
+.icon-picker-option {
+  min-width: 0;
+  height: 104px;
+  display: grid;
+  grid-template-rows: 28px 20px 18px;
+  align-content: center;
+  justify-items: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  color: var(--console-text);
+  background: var(--console-surface-muted);
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+}
+
+.icon-picker-option:hover {
+  border-color: var(--console-border-strong);
+  background: var(--console-surface-hover);
+}
+
+.icon-picker-option.active {
+  border-color: var(--console-primary-strong);
+  color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
+}
+
+.icon-picker-option :deep(.anticon) {
+  font-size: 24px;
+}
+
+.icon-picker-option strong,
+.icon-picker-option span {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.icon-picker-option strong {
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.icon-picker-option span {
+  color: var(--console-text-secondary);
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.icon-picker-option.active span {
   color: var(--console-primary-strong);
 }
 

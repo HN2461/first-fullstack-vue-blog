@@ -187,6 +187,127 @@ describe('rbac account and permission flows', () => {
     expect(response.body.code).toBe('MENU_PERMISSION_REQUIRED')
   })
 
+  it('lets role managers load permission menu tree without menu management access', async () => {
+    const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
+    const roleManagerRole = await Role.create({
+      name: '角色管理员',
+      code: 'role-manager',
+      menuIds: [rolesMenu._id],
+      status: 'active'
+    })
+    const roleManager = await User.create({
+      username: 'role-manager',
+      email: 'role-manager@example.com',
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.ADMIN,
+      roles: [roleManagerRole._id]
+    })
+    const token = signAccessToken(roleManager)
+
+    await request(app)
+      .get('/api/rbac/roles')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    const permissionMenusResponse = await request(app)
+      .get('/api/rbac/roles/permission-menus')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(permissionMenusResponse.body.data.tree.length).toBeGreaterThan(0)
+
+    const menusResponse = await request(app)
+      .get('/api/rbac/menus')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(403)
+
+    expect(menusResponse.body.code).toBe('MENU_PERMISSION_REQUIRED')
+  })
+
+  it('paginates and filters roles with user counts', async () => {
+    const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
+    const operatorRole = await Role.create({
+      name: '内容运营',
+      code: 'content-operator',
+      menuIds: [rolesMenu._id],
+      status: 'active',
+      sortOrder: 50
+    })
+    await Role.create({
+      name: '停用角色',
+      code: 'disabled-role',
+      menuIds: [],
+      status: 'disabled',
+      sortOrder: 60
+    })
+    await User.create({
+      username: 'operator',
+      email: 'operator@example.com',
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.ADMIN,
+      roles: [operatorRole._id]
+    })
+
+    const response = await request(app)
+      .get('/api/rbac/roles')
+      .query({
+        page: 1,
+        pageSize: 10,
+        keyword: 'content',
+        status: 'active',
+        type: 'custom'
+      })
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .expect(200)
+
+    expect(response.body.data.total).toBe(1)
+    expect(response.body.data.items[0]).toMatchObject({
+      code: 'content-operator',
+      userCount: 1
+    })
+  })
+
+  it('adds ancestor menus when assigning only a child menu to a role', async () => {
+    const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
+    const governanceRoot = await Menu.findOne({ code: 'governance.root' })
+
+    const response = await request(app)
+      .post('/api/rbac/roles')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({
+        name: '授权测试角色',
+        code: 'permission-test',
+        menuIds: [rolesMenu._id.toString()],
+        status: 'active'
+      })
+      .expect(201)
+
+    expect(response.body.data.menuIds).toContain(rolesMenu._id.toString())
+    expect(response.body.data.menuIds).toContain(governanceRoot._id.toString())
+  })
+
+  it('prevents disabled roles from being approved through permission requests', async () => {
+    const adminBaseRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.ADMIN_BASE })
+    adminBaseRole.status = 'disabled'
+    await adminBaseRole.save()
+
+    const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
+      username: 'disabled-applicant',
+      email: 'disabled-applicant@example.com'
+    })
+    const token = signAccessToken(user)
+
+    const createResponse = await request(app)
+      .post('/api/profile/permission-requests')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        reason: '申请参与内容运营'
+      })
+      .expect(400)
+
+    expect(createResponse.body.code).toBe('TARGET_ROLE_DISABLED')
+  })
+
   it('creates an unread system notification when permission request is reviewed', async () => {
     const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
       username: 'applicant',

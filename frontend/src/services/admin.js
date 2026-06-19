@@ -245,8 +245,12 @@ export async function batchResetAdminUserPasswords(userIds, newPassword) {
   })
 }
 
-export function listRbacRoles() {
-  return http.get('/api/rbac/roles')
+export async function listRbacRoles(params = {}) {
+  return toPageResult(await http.get('/api/rbac/roles', { params }), params.pageSize || 10)
+}
+
+export async function listAllRbacRoles(params = {}) {
+  return collectAllPageItems(listRbacRoles, params)
 }
 
 export function createRbacRole(data) {
@@ -267,6 +271,10 @@ export function batchDeleteRbacRoles(ids) {
 
 export function batchUpdateRbacRoleMenus(ids, menuIds) {
   return http.post('/api/rbac/roles/batch/menus', { ids, menuIds })
+}
+
+export function listRbacRolePermissionMenus() {
+  return http.get('/api/rbac/roles/permission-menus')
 }
 
 export function listRbacMenus() {

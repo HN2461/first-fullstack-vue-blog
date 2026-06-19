@@ -9,6 +9,7 @@ import {
   deleteMenu,
   deleteRole,
   hydrateUserPermissions,
+  listPermissionMenus,
   listMenus,
   listPermissionRequests,
   listRoles,
@@ -31,6 +32,7 @@ import {
   roleMenuSchema,
   roleBatchDeleteSchema,
   roleBatchMenuSchema,
+  roleQuerySchema,
   roleSchema,
   roleUpdateSchema
 } from '../validators/rbac.validator.js'
@@ -54,7 +56,8 @@ const canAccessMenus = requireMenuAccess('/console/manage/menus')
 const canAccessApprovals = requireMenuAccess('/console/manage/approvals')
 
 rbacRouter.get('/roles', canAccessRoles, asyncHandler(async (req, res) => {
-  res.json(ok(await listRoles()))
+  const input = parseBody(roleQuerySchema, req.query)
+  res.json(ok(await listRoles(input)))
 }))
 
 rbacRouter.post('/roles', canAccessRoles, requireSuperAdmin, asyncHandler(async (req, res) => {
@@ -84,6 +87,10 @@ rbacRouter.patch('/roles/:id/menus', canAccessRoles, requireSuperAdmin, asyncHan
 
 rbacRouter.delete('/roles/:id', canAccessRoles, requireSuperAdmin, asyncHandler(async (req, res) => {
   res.json(ok(await deleteRole(req.params.id), '角色已删除'))
+}))
+
+rbacRouter.get('/roles/permission-menus', canAccessRoles, asyncHandler(async (req, res) => {
+  res.json(ok(await listPermissionMenus()))
 }))
 
 rbacRouter.get('/menus', canAccessMenus, asyncHandler(async (req, res) => {

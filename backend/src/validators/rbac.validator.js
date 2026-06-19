@@ -34,6 +34,14 @@ export const roleBatchDeleteSchema = z.object({
   ids: z.array(z.string().regex(objectIdPattern, '角色 id 不正确')).min(1, '请选择要删除的角色')
 }).strict('存在不支持的批量角色删除字段')
 
+export const roleQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).optional(),
+  pageSize: z.coerce.number().int().min(1).max(100).optional(),
+  keyword: z.string().trim().max(60, '搜索关键词不能超过 60 个字符').optional(),
+  status: z.enum(['all', 'active', 'disabled']).optional(),
+  type: z.enum(['all', 'builtin', 'custom']).optional()
+})
+
 export const menuSchema = z.object({
   name: z.string().trim().min(2, '菜单名称至少需要 2 个字符').max(40, '菜单名称不能超过 40 个字符'),
   code: z.string().trim().toLowerCase().regex(menuCodePattern, '菜单编码只能包含小写字母、数字、点号和连字符'),

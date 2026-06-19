@@ -34,6 +34,10 @@ function createHttpError(statusCode, code, message) {
   return error
 }
 
+function escapeRegExp(value = '') {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 function assertEditableRole(role, options = {}) {
   if (!role) {
     throw createHttpError(404, 'ROLE_NOT_FOUND', '角色不存在')
@@ -58,6 +62,41 @@ async function assertMenuIdsExist(menuIds = []) {
   }
 
   return ids
+}
+
+async function normalizeRoleMenuIds(menuIds = []) {
+  const ids = await assertMenuIdsExist(menuIds)
+  if (!ids.length) return []
+
+  const menus = await Menu.find({ _id: { $in: ids } })
+  const menuMap = new Map(menus.map((menu) => [menu._id.toString(), menu]))
+  const normalizedIds = new Set(ids.map((id) => id.toString()))
+
+  // 只保存子菜单会让控制台侧栏丢失父级层级，因此授权时同步补齐所有祖先菜单。
+  for (const menu of menus) {
+    let parentId = menu.parentId?.toString()
+    while (parentId && !normalizedIds.has(parentId)) {
+      const parent = menuMap.get(parentId) || await Menu.findById(parentId)
+      if (!parent) break
+      menuMap.set(parent._id.toString(), parent)
+      normalizedIds.add(parent._id.toString())
+      parentId = parent.parentId?.toString()
+    }
+  }
+
+  return [...normalizedIds]
+}
+
+async function assertBatchEditableRoles(ids = [], options = {}) {
+  const uniqueIds = [...new Set(ids.map((id) => id.toString()))]
+  const roles = await Role.find({ _id: { $in: uniqueIds } })
+  const roleMap = new Map(roles.map((role) => [role._id.toString(), role]))
+
+  for (const id of uniqueIds) {
+    assertEditableRole(roleMap.get(id), options)
+  }
+
+  return uniqueIds.map((id) => roleMap.get(id))
 }
 
 async function assertValidParent(menuId, parentId) {
@@ -162,8 +201,10 @@ export async function ensureRbacSeed() {
         menuIds: [],
         isBuiltin: true,
         isSuperAdmin: false,
-        status: 'active',
         sortOrder: 10
+      },
+      $setOnInsert: {
+        status: 'active'
       }
     },
     { upsert: true, new: true }
@@ -178,8 +219,10 @@ export async function ensureRbacSeed() {
         menuIds: adminMenuIds,
         isBuiltin: true,
         isSuperAdmin: false,
-        status: 'active',
         sortOrder: 20
+      },
+      $setOnInsert: {
+        status: 'active'
       }
     },
     { upsert: true, new: true }
@@ -255,10 +298,59 @@ export async function hydrateUserPermissions(user) {
   return freshUser.toSafeJSON({ roles, permissions })
 }
 
-export async function listRoles() {
+export async function listRoles(options = {}) {
   await ensureRbacSeed()
-  const roles = await Role.find().sort({ sortOrder: 1, createdAt: 1 })
-  return roles.map((role) => role.toSafeJSON())
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 10))
+  const query = {}
+
+  if (options.keyword) {
+    const regex = new RegExp(escapeRegExp(options.keyword.trim()), 'i')
+    query.$or = [
+      { name: regex },
+      { code: regex },
+      { description: regex }
+    ]
+  }
+
+  if (options.status && options.status !== 'all') {
+    query.status = options.status
+  }
+
+  if (options.type === 'builtin') {
+    query.isBuiltin = true
+  } else if (options.type === 'custom') {
+    query.isBuiltin = false
+  }
+
+  const skip = (page - 1) * pageSize
+  const [roles, total] = await Promise.all([
+    Role.find(query)
+      .sort({ sortOrder: 1, createdAt: 1 })
+      .skip(skip)
+      .limit(pageSize),
+    Role.countDocuments(query)
+  ])
+  const roleIds = roles.map((role) => role._id)
+  const userCounts = roleIds.length
+    ? await User.aggregate([
+        { $match: { roles: { $in: roleIds } } },
+        { $unwind: '$roles' },
+        { $match: { roles: { $in: roleIds } } },
+        { $group: { _id: '$roles', count: { $sum: 1 } } }
+      ])
+    : []
+  const countMap = new Map(userCounts.map((item) => [item._id.toString(), item.count]))
+
+  return {
+    items: roles.map((role) => ({
+      ...role.toSafeJSON(),
+      userCount: countMap.get(role._id.toString()) || 0
+    })),
+    total,
+    page,
+    pageSize
+  }
 }
 
 export async function createRole(input) {
@@ -268,7 +360,7 @@ export async function createRole(input) {
     throw createHttpError(409, 'ROLE_CODE_EXISTS', '角色编码已存在')
   }
 
-  const menuIds = await assertMenuIdsExist(input.menuIds)
+  const menuIds = await normalizeRoleMenuIds(input.menuIds)
   const role = await Role.create({
     name: input.name,
     code: input.code,
@@ -304,7 +396,7 @@ export async function updateRole(id, input) {
   if (input.status !== undefined) role.status = input.status
   if (input.sortOrder !== undefined) role.sortOrder = input.sortOrder
   if (input.menuIds !== undefined) {
-    role.menuIds = await assertMenuIdsExist(input.menuIds)
+    role.menuIds = await normalizeRoleMenuIds(input.menuIds)
   }
 
   await role.save()
@@ -316,18 +408,15 @@ export async function updateRoleMenus(id, input) {
 }
 
 export async function batchUpdateRoleMenus(ids, input) {
-  const menuIds = await assertMenuIdsExist(input.menuIds)
-  let updatedCount = 0
+  const menuIds = await normalizeRoleMenuIds(input.menuIds)
+  const roles = await assertBatchEditableRoles(ids)
+  const roleIds = roles.map((role) => role._id)
+  const result = await Role.updateMany(
+    { _id: { $in: roleIds } },
+    { $set: { menuIds } }
+  )
 
-  for (const id of ids) {
-    const role = await Role.findById(id)
-    assertEditableRole(role)
-    role.menuIds = menuIds
-    await role.save()
-    updatedCount += 1
-  }
-
-  return { updatedCount }
+  return { updatedCount: result.modifiedCount || 0 }
 }
 
 export async function deleteRole(id) {
@@ -345,16 +434,28 @@ export async function deleteRole(id) {
 }
 
 export async function batchDeleteRoles(ids) {
-  let deletedCount = 0
-  for (const id of ids) {
-    const result = await deleteRole(id)
-    deletedCount += result.deletedCount || 0
+  const roles = await assertBatchEditableRoles(ids, { delete: true })
+  const roleIds = roles.map((role) => role._id)
+  const used = await User.findOne({ roles: { $in: roleIds } }).select('_id')
+  if (used) {
+    throw createHttpError(409, 'ROLE_IN_USE', '选中的角色中存在已被用户使用的角色，不能批量删除')
   }
 
-  return { deletedCount }
+  const result = await Role.deleteMany({ _id: { $in: roleIds } })
+  return { deletedCount: result.deletedCount || 0 }
 }
 
 export async function listMenus() {
+  await ensureRbacSeed()
+  const menus = await Menu.find().sort({ sortOrder: 1, createdAt: 1 })
+  const items = menus.map((menu) => menu.toSafeJSON())
+  return {
+    items,
+    tree: buildTree(items)
+  }
+}
+
+export async function listPermissionMenus() {
   await ensureRbacSeed()
   const menus = await Menu.find().sort({ sortOrder: 1, createdAt: 1 })
   const items = menus.map((menu) => menu.toSafeJSON())
@@ -483,6 +584,10 @@ export async function createPermissionRequest(user, input) {
     throw createHttpError(400, 'INVALID_TARGET_ROLE', '申请的目标角色不正确')
   }
 
+  if (targetRole.status !== 'active') {
+    throw createHttpError(400, 'TARGET_ROLE_DISABLED', '申请的目标角色已禁用')
+  }
+
   const existing = await PermissionRequest.findOne({
     user: user._id,
     targetRole: targetRole._id,
@@ -537,6 +642,13 @@ export async function reviewPermissionRequest(id, reviewer, input) {
 
   if (request.status !== PERMISSION_REQUEST_STATUS.PENDING) {
     throw createHttpError(400, 'PERMISSION_REQUEST_REVIEWED', '该申请已处理')
+  }
+
+  if (input.action === 'approve') {
+    const targetRole = await Role.findById(request.targetRole)
+    if (!targetRole || targetRole.status !== 'active' || targetRole.isSuperAdmin) {
+      throw createHttpError(400, 'TARGET_ROLE_DISABLED', '目标角色不可用，无法通过申请')
+    }
   }
 
   request.status = input.action === 'approve'

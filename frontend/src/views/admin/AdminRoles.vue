@@ -5,14 +5,16 @@
         <h1>角色管理</h1>
       </div>
       <div class="enterprise-page-toolbar">
-        <a-button @click="tableRef?.refresh?.()">
+        <a-button @click="refreshRoles">
           <template #icon><ReloadOutlined /></template>
           刷新
         </a-button>
-        <a-button type="primary" @click="openCreate">
-          <template #icon><PlusOutlined /></template>
-          新增角色
-        </a-button>
+        <a-tooltip :title="authStore.isSuperAdmin ? '新增角色' : '仅超级管理员可新增角色'">
+          <a-button type="primary" :disabled="!authStore.isSuperAdmin" @click="openCreate">
+            <template #icon><PlusOutlined /></template>
+            新增角色
+          </a-button>
+        </a-tooltip>
       </div>
     </header>
 
@@ -31,12 +33,12 @@
     >
       <template #toolbar>
         <BatchActionBar :count="selectedRoleIds.length" @clear="clearSelection">
-          <a-button size="small" @click="openBatchPermission">
+          <a-button size="small" :disabled="!authStore.isSuperAdmin" @click="openBatchPermission">
             <template #icon><SafetyOutlined /></template>
             批量调整菜单权限
           </a-button>
           <a-popconfirm title="确认批量删除选中角色？" ok-text="删除" cancel-text="取消" @confirm="removeSelectedRoles">
-            <a-button size="small" danger>
+            <a-button size="small" danger :disabled="!authStore.isSuperAdmin">
               <template #icon><DeleteOutlined /></template>
               批量删除
             </a-button>
@@ -85,7 +87,7 @@
         <template v-else-if="column.key === 'action'">
           <a-space size="small">
             <a-tooltip title="编辑角色">
-              <a-button type="text" size="small" :disabled="record.isSuperAdmin" @click="openEdit(record)">
+              <a-button type="text" size="small" :disabled="!authStore.isSuperAdmin || record.isSuperAdmin" @click="openEdit(record)">
                 <template #icon><EditOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -93,14 +95,14 @@
               title="确认删除该角色？"
               ok-text="删除"
               cancel-text="取消"
-              :disabled="record.isBuiltin"
+              :disabled="!canDeleteRole(record)"
               @confirm="removeRole(record)"
             >
-              <a-tooltip title="删除角色">
-                <a-button type="text" size="small" danger :disabled="record.isBuiltin">
-                  <template #icon><DeleteOutlined /></template>
-                </a-button>
-              </a-tooltip>
+            <a-tooltip :title="getDeleteTooltip(record)">
+              <a-button type="text" size="small" danger :disabled="!canDeleteRole(record)">
+                <template #icon><DeleteOutlined /></template>
+              </a-button>
+            </a-tooltip>
             </a-popconfirm>
           </a-space>
         </template>
@@ -208,17 +210,18 @@ import { message } from 'ant-design-vue'
 import { DeleteOutlined, EditOutlined, PlusOutlined, ReloadOutlined, SafetyOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import BatchActionBar from '@/components/BatchActionBar.vue'
+import { useAuthStore } from '@/stores/auth'
 import {
   batchDeleteRbacRoles,
   batchUpdateRbacRoleMenus,
   createRbacRole,
   deleteRbacRole,
-  listRbacMenus,
+  listRbacRolePermissionMenus,
   listRbacRoles,
   updateRbacRole
 } from '@/services/admin'
 
-const roles = ref([])
+const authStore = useAuthStore()
 const permissionTree = ref([])
 const loading = ref(false)
 const saving = ref(false)
@@ -250,7 +253,10 @@ const filterParams = computed(() => ({
 }))
 
 const rules = {
-  name: [{ required: true, message: '请输入角色名称' }],
+  name: [
+    { required: true, message: '请输入角色名称' },
+    { min: 2, max: 40, message: '角色名称需为 2-40 个字符' }
+  ],
   code: [
     { required: true, message: '请输入角色编码' },
     { pattern: /^[a-z][a-z0-9-]{1,59}$/, message: '仅支持小写字母、数字和连字符' }
@@ -262,6 +268,7 @@ const columns = [
   { title: '角色', key: 'name', width: 240 },
   { title: '类型', key: 'builtin', width: 140, align: 'center' },
   { title: '菜单权限', key: 'menus', width: 120, align: 'center' },
+  { title: '使用人数', dataIndex: 'userCount', key: 'userCount', width: 110, align: 'center' },
   { title: '状态', key: 'status', width: 100, align: 'center' },
   { title: '说明', dataIndex: 'description', key: 'description', ellipsis: true },
   { title: '操作', key: 'action', width: 120, align: 'center', fixed: 'right' }
@@ -293,55 +300,45 @@ function resetForm(record = null) {
 }
 
 function openCreate() {
+  if (!authStore.isSuperAdmin) {
+    message.warning('仅超级管理员可新增角色')
+    return
+  }
   resetForm()
   formVisible.value = true
 }
 
 function openEdit(record) {
+  if (!authStore.isSuperAdmin) {
+    message.warning('仅超级管理员可编辑角色')
+    return
+  }
   resetForm(record)
   formVisible.value = true
 }
 
-function filterRoles(items = []) {
-  const keyword = debouncedKeyword.value.trim().toLowerCase()
-  return items.filter((role) => {
-    const matchedKeyword = !keyword ||
-      role.name?.toLowerCase().includes(keyword) ||
-      role.code?.toLowerCase().includes(keyword) ||
-      role.description?.toLowerCase().includes(keyword)
-    const matchedStatus = filterStatus.value === 'all' || role.status === filterStatus.value
-    const matchedType = filterType.value === 'all' ||
-      (filterType.value === 'builtin' ? role.isBuiltin : !role.isBuiltin)
-
-    return matchedKeyword && matchedStatus && matchedType
-  })
-}
-
 async function loadRoleTable(params = {}) {
-  if (!roles.value.length || !permissionTree.value.length) {
-    await loadRoles()
+  if (!permissionTree.value.length) {
+    await loadPermissionTree()
   }
-  const page = Number(params.page) || 1
-  const pageSize = Number(params.pageSize) || 10
-  const filtered = filterRoles(roles.value)
-  const start = (page - 1) * pageSize
-  return {
-    items: filtered.slice(start, start + pageSize),
-    total: filtered.length
-  }
+  return listRbacRoles(params)
 }
 
-async function loadRoles() {
+async function loadPermissionTree() {
   loading.value = true
   try {
-    const [roleItems, menuResult] = await Promise.all([listRbacRoles(), listRbacMenus()])
-    roles.value = roleItems || []
+    const menuResult = await listRbacRolePermissionMenus()
     permissionTree.value = menuResult.tree || []
   } catch (error) {
-    message.error(error.message || '角色列表加载失败')
+    message.error(getRoleErrorMessage(error, '菜单权限加载失败'))
   } finally {
     loading.value = false
   }
+}
+
+async function refreshRoles() {
+  await loadPermissionTree()
+  await tableRef.value?.refresh?.()
 }
 
 let searchTimer = null
@@ -367,15 +364,18 @@ async function submitRole() {
   saving.value = true
   try {
     const payload = {
-      name: form.name,
-      code: form.code,
-      description: form.description,
+      name: form.name.trim(),
+      code: form.code.trim().toLowerCase(),
+      description: form.description.trim(),
       menuIds: form.menuIds,
       status: form.status,
       sortOrder: form.sortOrder
     }
 
     if (editingRole.value) {
+      if (editingRole.value.isBuiltin) {
+        delete payload.code
+      }
       await updateRbacRole(editingRole.value.id, payload)
       message.success('角色已更新')
     } else {
@@ -384,27 +384,33 @@ async function submitRole() {
     }
 
     formVisible.value = false
-    await loadRoles()
     tableRef.value?.refresh?.()
   } catch (error) {
-    message.error(error.message || '保存失败')
+    message.error(getRoleErrorMessage(error, '保存失败'))
   } finally {
     saving.value = false
   }
 }
 
 async function removeRole(record) {
+  if (!authStore.isSuperAdmin) {
+    message.warning('仅超级管理员可删除角色')
+    return
+  }
   try {
     await deleteRbacRole(record.id)
     message.success('角色已删除')
-    await loadRoles()
     tableRef.value?.refresh?.()
   } catch (error) {
-    message.error(error.message || '删除失败')
+    message.error(getRoleErrorMessage(error, '删除失败'))
   }
 }
 
 function openBatchPermission() {
+  if (!authStore.isSuperAdmin) {
+    message.warning('仅超级管理员可调整菜单权限')
+    return
+  }
   if (!selectedRoleIds.value.length) {
     message.warning('请先选择自定义角色')
     return
@@ -420,16 +426,19 @@ async function submitBatchPermission() {
     message.success('角色菜单权限已批量更新')
     permissionVisible.value = false
     clearSelection()
-    await loadRoles()
     tableRef.value?.refresh?.()
   } catch (error) {
-    message.error(error.message || '批量授权失败')
+    message.error(getRoleErrorMessage(error, '批量授权失败'))
   } finally {
     savingPermission.value = false
   }
 }
 
 async function removeSelectedRoles() {
+  if (!authStore.isSuperAdmin) {
+    message.warning('仅超级管理员可批量删除角色')
+    return
+  }
   if (!selectedRoleIds.value.length) {
     message.warning('请先选择自定义角色')
     return
@@ -438,14 +447,40 @@ async function removeSelectedRoles() {
     await batchDeleteRbacRoles(selectedRoleIds.value)
     message.success('角色已批量删除')
     clearSelection()
-    await loadRoles()
     tableRef.value?.refresh?.()
   } catch (error) {
-    message.error(error.message || '批量删除失败')
+    message.error(getRoleErrorMessage(error, '批量删除失败'))
   }
 }
 
-onMounted(loadRoles)
+function canDeleteRole(record) {
+  return authStore.isSuperAdmin && !record.isBuiltin && Number(record.userCount || 0) === 0
+}
+
+function getDeleteTooltip(record) {
+  if (!authStore.isSuperAdmin) return '仅超级管理员可删除角色'
+  if (record.isBuiltin) return '内置角色不可删除'
+  if (Number(record.userCount || 0) > 0) return '已有用户使用，不能删除'
+  return '删除角色'
+}
+
+function getRoleErrorMessage(error, fallback) {
+  const messages = {
+    MENU_PERMISSION_REQUIRED: '缺少角色管理所需权限，无法加载授权菜单',
+    SUPER_ADMIN_REQUIRED: '仅超级管理员可执行该操作',
+    ROLE_CODE_EXISTS: '角色编码已存在，请更换后重试',
+    ROLE_IN_USE: '该角色已被用户使用，请先在用户管理中移除角色',
+    SUPER_ROLE_PROTECTED: '超级管理员角色受保护，不允许修改',
+    BUILTIN_ROLE_PROTECTED: '内置角色不允许删除',
+    BUILTIN_ROLE_CODE_PROTECTED: '内置角色编码不允许修改',
+    MENU_NOT_FOUND: '包含不存在的菜单权限，请刷新后重试',
+    TARGET_ROLE_DISABLED: '目标角色已禁用，无法继续操作'
+  }
+
+  return messages[error?.code] || error?.message || fallback
+}
+
+onMounted(loadPermissionTree)
 </script>
 
 <style scoped>
