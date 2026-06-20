@@ -13,5 +13,6 @@ const appStore = useAppStore()
 
 onMounted(() => {
   appStore.applyTheme()
+  appStore.initResponsive()
 })
 </script>

@@ -3,6 +3,7 @@ import { User } from '#modules/user/models/User.js'
 import { hydrateUserPermissions } from '#modules/rbac/services/rbac.service.js'
 import { getAuthCookieToken } from '#utils/authSecurity.js'
 import { verifyAccessToken } from '#utils/jwt.js'
+import { isRoutePathMatched } from '#utils/routeMatch.js'
 
 function authError(statusCode, code, message) {
   const error = new Error(message)
@@ -97,7 +98,7 @@ export function requireMenuAccess(routePath) {
     ;(async () => {
       const safeUser = req.rbacUser || await hydrateUserPermissions(req.user)
       const hasAccess = safeUser?.isSuperAdmin ||
-        safeUser?.permissions?.menuPaths?.some((path) => routePath === path || routePath.startsWith(`${path}/`))
+        safeUser?.permissions?.menuPaths?.some((path) => isRoutePathMatched(routePath, path))
 
       if (!hasAccess) {
         throw authError(403, 'MENU_PERMISSION_REQUIRED', '没有该菜单的访问权限')

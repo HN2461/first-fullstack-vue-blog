@@ -217,4 +217,21 @@ onUnmounted(() => {
   font-size: 14px;
   transition: all 0.2s;
 }
+
+@media (max-width: 767px) {
+  .auth-settings {
+    top: 12px;
+    right: 12px;
+  }
+
+  .setting-btn,
+  .layout-menu-item {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .layout-menu-item {
+    padding: 10px 12px;
+  }
+}
 </style>

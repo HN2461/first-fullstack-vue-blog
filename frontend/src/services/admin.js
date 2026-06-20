@@ -57,6 +57,24 @@ export function batchDeleteAdminArticles(ids) {
   return http.post('/api/admin/articles/batch/delete', { ids })
 }
 
+export function downloadArticleImportTemplate() {
+  return http.get('/api/admin/articles/import/template', {
+    responseType: 'blob'
+  })
+}
+
+export function previewArticleImport(files) {
+  const formData = new FormData()
+  files.forEach((file) => {
+    formData.append('files', file)
+  })
+  return http.post('/api/admin/articles/import/preview', formData)
+}
+
+export function commitArticleImport(payload) {
+  return http.post('/api/admin/articles/import/commit', payload)
+}
+
 // 回收站相关
 export async function listTrashArticles(params = {}) {
   return toPageResult(await http.get('/api/admin/articles/trash/list', { params }), params.pageSize || 20)

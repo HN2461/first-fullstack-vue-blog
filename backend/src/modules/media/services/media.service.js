@@ -3,6 +3,7 @@ import path from 'node:path'
 import { env } from '#config/env'
 import { Media } from '#modules/media/models/Media.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
+import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { ensureDefaultMediaCategory } from './mediaCategory.service.js'
 
 function normalizeMediaCategory(value) {
@@ -168,19 +169,18 @@ export async function listMediaCategories() {
 export function getUploadSubdir() {
   const date = new Date()
   return path.join(
-    env.rootDir,
-    env.uploadDir,
+    resolveUploadRoot(),
     String(date.getFullYear()),
     String(date.getMonth() + 1).padStart(2, '0')
   )
 }
 
 function getUploadsRoot() {
-  return path.resolve(env.rootDir, env.uploadDir)
+  return resolveUploadRoot()
 }
 
 function getLegacyUploadsRoot() {
-  return path.resolve(env.rootDir, '..', env.uploadDir)
+  return resolveLegacyUploadRoot()
 }
 
 function getAllowedUploadRoots() {

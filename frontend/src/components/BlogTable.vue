@@ -47,7 +47,7 @@
     <div
       ref="bodyRef"
       class="blog-table__body"
-      :class="{ 'blog-table__body--stretch': isStretchLayout }"
+      :class="bodyClass"
       :style="bodyStyle"
     >
       <a-table
@@ -281,6 +281,11 @@ const rootClass = computed(() => ({
   'blog-table--striped': props.striped
 }))
 
+const bodyClass = computed(() => ({
+  'blog-table__body--stretch': isStretchLayout.value,
+  'blog-table__body--fixed-scroll': Boolean(effectiveScroll.value?.y)
+}))
+
 // ──── 数据加载 ────
 
 async function loadData() {
@@ -301,9 +306,11 @@ async function loadData() {
     total.value = normalized.total
 
     emit('data-change', { items: tableData.value, total: total.value, raw: normalized.raw })
+    scheduleCalcLayout()
   } catch (error) {
     tableData.value = []
     total.value = 0
+    scheduleCalcLayout()
     throw error
   } finally {
     loading.value = false
@@ -389,6 +396,8 @@ const effectiveRowSelection = computed(() => {
 const autoRootHeight = ref(0)
 const autoScrollY = ref(0)
 const stretchScrollY = ref(0)
+let tableResizeObserver = null
+let layoutFrameId = 0
 
 const showSizeChanger = computed(() => props.pageSizes.length > 0)
 const showQuickJumper = computed(() => total.value > currentPageSize.value)
@@ -421,6 +430,17 @@ function calcLayout() {
   if (isStretchLayout.value) {
     calcStretchScrollY()
   }
+}
+
+function scheduleCalcLayout() {
+  if (layoutFrameId) {
+    cancelAnimationFrame(layoutFrameId)
+  }
+
+  layoutFrameId = requestAnimationFrame(() => {
+    layoutFrameId = 0
+    nextTick(calcLayout)
+  })
 }
 
 function getBodyReservedHeight() {
@@ -475,6 +495,9 @@ const bodyStyle = computed(() => {
   style.flex = '1 1 0'
   style.minHeight = 0
   style.overflow = 'hidden'
+  if (effectiveScroll.value?.y) {
+    style['--blog-table-scroll-y'] = `${effectiveScroll.value.y}px`
+  }
   if (props.bare) {
     style.borderRadius = '0'
   }
@@ -529,9 +552,7 @@ watch(
 
 watch(
   () => [showFooter.value, total.value, props.height],
-  () => nextTick(() => {
-    calcLayout()
-  })
+  scheduleCalcLayout
 )
 
 // 列定义变化时同步列设置
@@ -551,8 +572,17 @@ watch(
 // ──── 生命周期 ────
 
 onMounted(() => {
-  nextTick(calcLayout)
-  window.addEventListener('resize', calcLayout)
+  nextTick(scheduleCalcLayout)
+  window.addEventListener('resize', scheduleCalcLayout)
+  if (typeof ResizeObserver !== 'undefined') {
+    tableResizeObserver = new ResizeObserver(scheduleCalcLayout)
+    if (rootRef.value) {
+      tableResizeObserver.observe(rootRef.value)
+    }
+    if (bodyRef.value) {
+      tableResizeObserver.observe(bodyRef.value)
+    }
+  }
 
   if (props.autoLoad && props.apiFn) {
     loadData()
@@ -560,7 +590,13 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', calcLayout)
+  window.removeEventListener('resize', scheduleCalcLayout)
+  tableResizeObserver?.disconnect()
+  tableResizeObserver = null
+  if (layoutFrameId) {
+    cancelAnimationFrame(layoutFrameId)
+    layoutFrameId = 0
+  }
 })
 
 defineExpose({
@@ -669,6 +705,11 @@ defineExpose({
 
 .blog-table__body :deep(.ant-table-body) {
   scrollbar-width: thin;
+}
+
+.blog-table__body--fixed-scroll :deep(.ant-table-body) {
+  height: var(--blog-table-scroll-y);
+  max-height: var(--blog-table-scroll-y) !important;
 }
 
 .blog-table__body :deep(.ant-table-placeholder) {

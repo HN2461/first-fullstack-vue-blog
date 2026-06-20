@@ -211,6 +211,158 @@ describe('content admin routes', () => {
     expect(archiveResponse.body.data.status).toBe(ARTICLE_STATUS.ARCHIVED)
   })
 
+  it('previews and imports markdown articles with front matter', async () => {
+    const app = createApp()
+
+    const categoryResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '前端',
+        slug: 'frontend'
+      })
+      .expect(201)
+
+    const tagResponse = await request(app)
+      .post('/api/admin/tags')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'Vue',
+        slug: 'vue'
+      })
+      .expect(201)
+
+    const markdown = `---
+title: Vue 导入测试
+slug: vue-import-test
+summary: 用于验证 Markdown 导入流程。
+category: 前端
+tags:
+  - Vue
+status: draft
+---
+
+# Vue 导入测试
+
+这里是导入正文。`
+
+    const previewResponse = await request(app)
+      .post('/api/admin/articles/import/preview')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('files', Buffer.from(markdown, 'utf8'), 'vue-import-test.md')
+      .expect(200)
+
+    expect(previewResponse.body.data.items[0]).toMatchObject({
+      title: 'Vue 导入测试',
+      slug: 'vue-import-test',
+      categoryId: categoryResponse.body.data.id,
+      tagIds: [tagResponse.body.data.id],
+      importStatus: 'ready',
+      canImport: true
+    })
+
+    const commitResponse = await request(app)
+      .post('/api/admin/articles/import/commit')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        items: previewResponse.body.data.items,
+        options: { duplicateStrategy: 'skip' }
+      })
+      .expect(201)
+
+    expect(commitResponse.body.data).toMatchObject({
+      successCount: 1,
+      skippedCount: 0,
+      failedCount: 0
+    })
+
+    const articleResponse = await request(app)
+      .get(`/api/admin/articles/${commitResponse.body.data.items[0].articleId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(articleResponse.body.data).toMatchObject({
+      status: ARTICLE_STATUS.DRAFT,
+      sourcePath: 'vue-import-test.md',
+      category: expect.objectContaining({ id: categoryResponse.body.data.id })
+    })
+    expect(articleResponse.body.data.sourceHash).toBeTruthy()
+    expect(articleResponse.body.data.importedAt).toBeTruthy()
+  })
+
+  it('detects fallback titles, duplicate slugs, invalid files, and missing dictionaries', async () => {
+    const app = createApp()
+
+    await createArticle({
+      title: '已存在文章',
+      slug: 'existing-article',
+      contentMarkdown: '# 已存在文章'
+    }, admin)
+
+    const fallbackMarkdown = '# 自动标题\n\n正文内容'
+    const duplicateMarkdown = `---
+title: 重复文章
+slug: existing-article
+---
+
+# 重复文章
+
+正文内容`
+    const missingDictionaryMarkdown = `---
+title: 字典缺失
+slug: missing-dictionary
+category: 不存在分类
+tags:
+  - 不存在标签
+---
+
+# 字典缺失
+
+正文内容`
+
+    const previewResponse = await request(app)
+      .post('/api/admin/articles/import/preview')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('files', Buffer.from(fallbackMarkdown, 'utf8'), 'fallback-title.md')
+      .attach('files', Buffer.from(duplicateMarkdown, 'utf8'), 'duplicate.md')
+      .attach('files', Buffer.from(missingDictionaryMarkdown, 'utf8'), 'missing.md')
+      .attach('files', Buffer.from('plain text', 'utf8'), 'plain.txt')
+      .expect(200)
+
+    const rows = previewResponse.body.data.items
+    expect(rows.find((item) => item.fileName === 'fallback-title.md')).toMatchObject({
+      title: '自动标题',
+      importStatus: 'ready',
+      canImport: true
+    })
+    expect(rows.find((item) => item.fileName === 'duplicate.md')).toMatchObject({
+      slug: 'existing-article',
+      importStatus: 'duplicate',
+      canImport: false
+    })
+    expect(rows.find((item) => item.fileName === 'missing.md')).toMatchObject({
+      importStatus: 'warning',
+      canImport: false
+    })
+    expect(rows.find((item) => item.fileName === 'plain.txt')).toMatchObject({
+      importStatus: 'error',
+      canImport: false
+    })
+  })
+
+  it('downloads the markdown import template', async () => {
+    const app = createApp()
+
+    const response = await request(app)
+      .get('/api/admin/articles/import/template')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(response.headers['content-type']).toContain('text/markdown')
+    expect(response.text).toContain('给 AI 的要求')
+    expect(response.text).toContain('Front Matter')
+  })
+
   it('supports the migration config category and article move workflow', async () => {
     const app = createApp()
 

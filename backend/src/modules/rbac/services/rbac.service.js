@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import { BUILTIN_ROLE_CODES, MENU_OPEN_MODES, MENU_TYPES, PERMISSION_REQUEST_STATUS, USER_ROLES, USER_STATUS } from '#constants/domain'
-import { Menu } from '#modules/rbac/models/Menu.js'
+import { Menu, MENU_PARENT_TYPES } from '#modules/rbac/models/Menu.js'
 import { PermissionRequest } from '#modules/rbac/models/PermissionRequest.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
@@ -8,24 +8,47 @@ import { env } from '#config/env'
 import { createSystemNotification } from '#modules/notification/services/notification.service.js'
 
 const DEFAULT_MENUS = [
-  { code: 'console.dashboard', name: '管理工作台', icon: 'DashboardOutlined', routePath: '/console', sortOrder: 10 },
-  { code: 'content.root', name: '内容资产', icon: 'FileTextOutlined', routePath: '/console/manage/articles', sortOrder: 20 },
-  { code: 'content.articles', name: '文章管理', icon: 'FileTextOutlined', routePath: '/console/manage/articles', parentCode: 'content.root', sortOrder: 21 },
-  { code: 'content.categories', name: '分类体系', icon: 'FolderOutlined', routePath: '/console/manage/categories', parentCode: 'content.root', sortOrder: 22 },
-  { code: 'content.migration', name: '迁移配置', icon: 'SwapOutlined', routePath: '/console/manage/migration', parentCode: 'content.root', sortOrder: 23 },
-  { code: 'content.tags', name: '标签体系', icon: 'TagsOutlined', routePath: '/console/manage/tags', parentCode: 'content.root', sortOrder: 24 },
-  { code: 'content.media', name: '媒体资产', icon: 'PictureOutlined', routePath: '/console/manage/media', parentCode: 'content.root', sortOrder: 25 },
-  { code: 'governance.root', name: '运营治理', icon: 'SettingOutlined', routePath: '/console/manage/comments', sortOrder: 30 },
-  { code: 'governance.comments', name: '评论审核', icon: 'AuditOutlined', routePath: '/console/manage/comments', parentCode: 'governance.root', sortOrder: 31 },
-  { code: 'governance.users', name: '用户管理', icon: 'UserOutlined', routePath: '/console/manage/users', parentCode: 'governance.root', sortOrder: 32 },
-  { code: 'governance.roles', name: '角色管理', icon: 'TeamOutlined', routePath: '/console/manage/roles', parentCode: 'governance.root', sortOrder: 33 },
-  { code: 'governance.menus', name: '菜单管理', icon: 'MenuOutlined', routePath: '/console/manage/menus', parentCode: 'governance.root', sortOrder: 34 },
-  { code: 'governance.approvals', name: '权限审批', icon: 'SafetyOutlined', routePath: '/console/manage/approvals', parentCode: 'governance.root', sortOrder: 35 },
-  { code: 'governance.notifications', name: '公告管理', icon: 'BellOutlined', routePath: '/console/manage/notifications', parentCode: 'governance.root', sortOrder: 36 },
-  { code: 'governance.settings', name: '系统设置', icon: 'SettingOutlined', routePath: '/console/manage/settings', parentCode: 'governance.root', sortOrder: 37 },
-  { code: 'governance.monitor', name: '服务监控', icon: 'MonitorOutlined', routePath: '/console/manage/monitor', parentCode: 'governance.root', sortOrder: 38 },
-  { code: 'governance.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/manage/trash', parentCode: 'governance.root', sortOrder: 39 }
+  { code: 'management.root', name: '后台管理', icon: 'ControlOutlined', routePath: '/console', routeKey: 'admin.dashboard', parentType: MENU_PARENT_TYPES.ROOT, sortOrder: 20 },
+  { code: 'console.dashboard', name: '管理工作台', icon: 'DashboardOutlined', routePath: '/console', routeKey: 'admin.dashboard', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
+  { code: 'content.group', name: '内容管理', icon: 'FolderOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
+  { code: 'content.articles', name: '文章管理', icon: 'FileTextOutlined', routePath: '/console/manage/articles', routeKey: 'admin.article.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
+  { code: 'content.articleImport', name: '文章导入', icon: 'ImportOutlined', routePath: '/console/manage/articles/import', routeKey: 'admin.article.import', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15 },
+  { code: 'content.categories', name: '分类体系', icon: 'FolderOutlined', routePath: '/console/manage/categories', routeKey: 'admin.category.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
+  { code: 'content.tags', name: '标签体系', icon: 'TagsOutlined', routePath: '/console/manage/tags', routeKey: 'admin.tag.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 },
+  { code: 'content.media', name: '媒体资产', icon: 'PictureOutlined', routePath: '/console/manage/media', routeKey: 'admin.media.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40 },
+  { code: 'content.migration', name: '迁移配置', icon: 'SwapOutlined', routePath: '/console/manage/migration', routeKey: 'admin.migration', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50 },
+  { code: 'operation.group', name: '互动运营', icon: 'BellOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 },
+  { code: 'governance.comments', name: '评论审核', icon: 'AuditOutlined', routePath: '/console/manage/comments', routeKey: 'admin.comment.list', parentCode: 'operation.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
+  { code: 'governance.notifications', name: '公告管理', icon: 'BellOutlined', routePath: '/console/manage/notifications', routeKey: 'admin.notification.list', parentCode: 'operation.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
+  { code: 'access.group', name: '权限治理', icon: 'SafetyOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40 },
+  { code: 'governance.users', name: '用户管理', icon: 'UserOutlined', routePath: '/console/manage/users', routeKey: 'admin.user.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
+  { code: 'governance.roles', name: '角色管理', icon: 'TeamOutlined', routePath: '/console/manage/roles', routeKey: 'admin.role.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
+  { code: 'governance.menus', name: '菜单管理', icon: 'MenuOutlined', routePath: '/console/manage/menus', routeKey: 'admin.menu.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 },
+  { code: 'governance.approvals', name: '权限审批', icon: 'SafetyOutlined', routePath: '/console/manage/approvals', routeKey: 'admin.approval.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40 },
+  { code: 'system.group', name: '系统运维', icon: 'ToolOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50 },
+  { code: 'governance.settings', name: '系统设置', icon: 'SettingOutlined', routePath: '/console/manage/settings', routeKey: 'admin.setting.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
+  { code: 'governance.monitor', name: '服务监控', icon: 'MonitorOutlined', routePath: '/console/manage/monitor', routeKey: 'admin.monitor.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
+  { code: 'governance.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/manage/trash', routeKey: 'admin.trash.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 }
 ]
+
+export const BUILTIN_KNOWLEDGE_MENU = Object.freeze({
+  id: 'knowledge',
+  name: '知识库',
+  code: 'knowledge.root',
+  icon: 'BookOutlined',
+  routePath: '/console/articles',
+  openMode: MENU_OPEN_MODES.CURRENT,
+  hidden: false,
+  enabled: true,
+  parentType: MENU_PARENT_TYPES.ROOT,
+  parent_type: MENU_PARENT_TYPES.ROOT,
+  parentId: null,
+  parent_id: '0',
+  level: 1,
+  sortOrder: 10,
+  type: MENU_TYPES.SYSTEM,
+  source: 'knowledge'
+})
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -62,6 +85,27 @@ async function assertMenuIdsExist(menuIds = []) {
   }
 
   return ids
+}
+
+async function collectMenuTree(menuId) {
+  const root = await Menu.findById(menuId)
+  if (!root) {
+    throw createHttpError(404, 'MENU_NOT_FOUND', '菜单不存在')
+  }
+
+  const items = [root]
+  const queue = [root._id]
+
+  while (queue.length > 0) {
+    const parentId = queue.shift()
+    const children = await Menu.find({ parentId }).sort({ sortOrder: 1, createdAt: 1 })
+    for (const child of children) {
+      items.push(child)
+      queue.push(child._id)
+    }
+  }
+
+  return items
 }
 
 async function normalizeRoleMenuIds(menuIds = []) {
@@ -111,16 +155,22 @@ async function assertValidParent(menuId, parentId) {
     throw createHttpError(400, 'MENU_PARENT_NOT_FOUND', '上级菜单不存在')
   }
 
-  let cursor = parent
-  while (cursor?.parentId) {
-    const ancestorId = cursor.parentId.toString()
-    if (menuId && ancestorId === menuId.toString()) {
-      throw createHttpError(400, 'MENU_PARENT_DESCENDANT', '上级菜单不能选择自身的下级')
+  if (menuId) {
+    let pointer = parent
+    while (pointer?.parentId) {
+      const ancestorId = pointer.parentId.toString()
+      if (ancestorId === menuId.toString()) {
+        throw createHttpError(400, 'MENU_PARENT_CYCLE', '上级菜单不能选择自己的下级菜单')
+      }
+      pointer = await Menu.findById(pointer.parentId)
     }
-    cursor = await Menu.findById(cursor.parentId)
   }
 
-  return parent._id
+  return parent
+}
+
+function resolveMenuLevel(parent) {
+  return parent ? (parent.level || 1) + 1 : 1
 }
 
 function buildTree(items) {
@@ -130,7 +180,7 @@ function buildTree(items) {
       id: item.id || item._id?.toString?.(),
       children: []
     }))
-    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
+    .sort(compareMenuSort)
   const map = new Map(normalized.map((item) => [item.id, item]))
   const roots = []
 
@@ -146,7 +196,22 @@ function buildTree(items) {
   return roots
 }
 
-export async function ensureRbacSeed() {
+function buildMenuGroups(items) {
+  return buildTree(items)
+}
+
+function sortMenus(items = []) {
+  return [...items].sort(compareMenuSort)
+}
+
+function compareMenuSort(left, right) {
+  const itemSort = (left.sortOrder || 0) - (right.sortOrder || 0)
+  const createdSort = new Date(left.createdAt || 0) - new Date(right.createdAt || 0)
+  return itemSort || createdSort || String(left.name || '').localeCompare(String(right.name || ''), 'zh-Hans-CN')
+}
+
+export async function ensureRbacSeed(options = {}) {
+  const forceBuiltinSync = options.forceBuiltinSync === true
   const codeToMenu = new Map()
 
   for (const menuInput of DEFAULT_MENUS) {
@@ -156,22 +221,59 @@ export async function ensureRbacSeed() {
 
     let menu = await Menu.findOne({ code: menuInput.code })
     if (!menu) {
-      menu = await Menu.create({
-        name: menuInput.name,
-        code: menuInput.code,
-        icon: menuInput.icon,
-        routePath: menuInput.routePath,
-        openMode: MENU_OPEN_MODES.CURRENT,
-        hidden: false,
-        enabled: true,
+        menu = await Menu.create({
+          name: menuInput.name,
+          code: menuInput.code,
+          icon: menuInput.icon,
+          routePath: menuInput.routePath || '',
+          routeKey: menuInput.routeKey || '',
+          activeMenuCode: menuInput.activeMenuCode || '',
+          openMode: MENU_OPEN_MODES.CURRENT,
+          hidden: !!menuInput.hidden,
+          enabled: true,
+        parentType: menuInput.parentType || (parent ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT),
         parentId: parent?._id || null,
+        level: resolveMenuLevel(parent),
         sortOrder: menuInput.sortOrder,
         type: MENU_TYPES.CUSTOM
       })
+    } else {
+      const patch = {}
+      if (forceBuiltinSync) {
+        patch.name = menuInput.name
+        patch.icon = menuInput.icon
+        patch.routePath = menuInput.routePath || ''
+        patch.routeKey = menuInput.routeKey || ''
+        patch.activeMenuCode = menuInput.activeMenuCode || ''
+        patch.hidden = !!menuInput.hidden
+        patch.enabled = true
+        patch.sortOrder = menuInput.sortOrder
+        patch.parentType = menuInput.parentType || (parent ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT)
+        patch.parentId = patch.parentType === MENU_PARENT_TYPES.ROOT ? null : (parent?._id || null)
+        patch.level = resolveMenuLevel(patch.parentId ? parent : null)
+      } else {
+        if (!menu.parentType) patch.parentType = menuInput.parentType || (parent ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT)
+        if (!menu.routeKey && menuInput.routeKey) patch.routeKey = menuInput.routeKey
+        if (!menu.activeMenuCode && menuInput.activeMenuCode) patch.activeMenuCode = menuInput.activeMenuCode
+        if (menu.hidden === undefined) patch.hidden = !!menuInput.hidden
+        if (menu.enabled === undefined) patch.enabled = true
+        if (!menu.parentId && menu.parentType !== MENU_PARENT_TYPES.ROOT && parent) {
+          patch.parentId = parent._id
+          patch.level = resolveMenuLevel(parent)
+        }
+        if (!menu.level) patch.level = menu.parentId ? 2 : 1
+      }
+
+      if (Object.keys(patch).length > 0) {
+        await Menu.updateOne({ _id: menu._id }, { $set: patch })
+        Object.assign(menu, patch)
+      }
     }
 
     codeToMenu.set(menu.code, menu)
   }
+
+  await Menu.deleteMany({ code: { $in: ['content.root', 'governance.root'] } })
 
   const allMenus = await Menu.find({ enabled: true })
   const adminMenuIds = allMenus.map((menu) => menu._id)
@@ -280,19 +382,22 @@ export async function hydrateUserPermissions(user) {
 
   const isSuperAdmin = roles.some((role) => role.isSuperAdmin) || freshUser.role === USER_ROLES.SUPER_ADMIN
   const menus = isSuperAdmin
-    ? await Menu.find({ enabled: true }).sort({ sortOrder: 1 })
+    ? await Menu.find({ enabled: true }).sort({ sortOrder: 1, createdAt: 1 })
     : await Menu.find({
         enabled: true,
         _id: {
           $in: roles.flatMap((role) => role.menuIds || [])
         }
-      }).sort({ sortOrder: 1 })
+      }).sort({ sortOrder: 1, createdAt: 1 })
 
-  const safeMenus = menus.map((menu) => menu.toSafeJSON())
+  const safeMenus = sortMenus(menus.map((menu) => menu.toSafeJSON()))
+  const groupedMenus = buildMenuGroups(safeMenus)
   const permissions = {
-    menus: buildTree(safeMenus),
+    menus: groupedMenus,
+    menuGroups: groupedMenus,
+    rootMenus: groupedMenus,
     flatMenus: safeMenus,
-    menuPaths: safeMenus.map((menu) => menu.routePath)
+    menuPaths: safeMenus.map((menu) => menu.routePath).filter(Boolean)
   }
 
   return freshUser.toSafeJSON({ roles, permissions })
@@ -448,20 +553,42 @@ export async function batchDeleteRoles(ids) {
 export async function listMenus() {
   await ensureRbacSeed()
   const menus = await Menu.find().sort({ sortOrder: 1, createdAt: 1 })
-  const items = menus.map((menu) => menu.toSafeJSON())
+  const items = sortMenus(menus.map((menu) => menu.toSafeJSON()))
+  const groups = buildMenuGroups(items)
   return {
     items,
-    tree: buildTree(items)
+    tree: groups,
+    groups,
+    roots: groups
   }
 }
 
 export async function listPermissionMenus() {
   await ensureRbacSeed()
   const menus = await Menu.find().sort({ sortOrder: 1, createdAt: 1 })
-  const items = menus.map((menu) => menu.toSafeJSON())
+  const items = sortMenus(menus.map((menu) => menu.toSafeJSON()))
+  const groups = buildMenuGroups(items)
   return {
     items,
-    tree: buildTree(items)
+    tree: groups,
+    groups,
+    roots: groups
+  }
+}
+
+export async function listRootMenus() {
+  await ensureRbacSeed()
+  const roots = await Menu.find({
+    parentType: MENU_PARENT_TYPES.ROOT,
+    enabled: true,
+    hidden: { $ne: true }
+  }).sort({ sortOrder: 1, createdAt: 1 })
+
+  return {
+    items: [
+      BUILTIN_KNOWLEDGE_MENU,
+      ...roots.map((menu) => menu.toSafeJSON())
+    ]
   }
 }
 
@@ -472,16 +599,25 @@ export async function createMenu(input) {
     throw createHttpError(409, 'MENU_CODE_EXISTS', '菜单编码已存在')
   }
 
-  const parentId = await assertValidParent(null, input.parentId)
+  const parentId = input.parentId || null
+  const parent = parentId ? await assertValidParent(null, parentId) : null
+  const parentType = parent ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT
+  if (input.parentType === MENU_PARENT_TYPES.CHILD && !parent) {
+    throw createHttpError(400, 'MENU_PARENT_REQUIRED', '创建菜单必须选择上级菜单')
+  }
   const menu = await Menu.create({
     name: input.name,
     code: input.code,
     icon: input.icon || '',
     routePath: input.routePath,
+    routeKey: input.routeKey || '',
+    activeMenuCode: input.activeMenuCode || '',
     openMode: input.openMode,
     hidden: !!input.hidden,
     enabled: input.enabled !== false,
-    parentId,
+    parentType,
+    parentId: parent?._id || null,
+    level: resolveMenuLevel(parent),
     sortOrder: input.sortOrder,
     type: input.type
   })
@@ -507,13 +643,25 @@ export async function updateMenu(id, input) {
   if (input.name !== undefined) menu.name = input.name
   if (input.icon !== undefined) menu.icon = input.icon
   if (input.routePath !== undefined) menu.routePath = input.routePath
+  if (input.routeKey !== undefined) menu.routeKey = input.routeKey || ''
+  if (input.activeMenuCode !== undefined) menu.activeMenuCode = input.activeMenuCode || ''
   if (input.openMode !== undefined) menu.openMode = input.openMode
   if (input.hidden !== undefined) menu.hidden = input.hidden
   if (input.enabled !== undefined) menu.enabled = input.enabled
   if (input.sortOrder !== undefined) menu.sortOrder = input.sortOrder
   if (input.type !== undefined) menu.type = input.type
-  if (input.parentId !== undefined) {
-    menu.parentId = await assertValidParent(menu._id, input.parentId)
+  if (input.parentId !== undefined || input.parentType !== undefined) {
+    const nextParentId = input.parentId || null
+    if (!nextParentId) {
+      menu.parentType = MENU_PARENT_TYPES.ROOT
+      menu.parentId = null
+      menu.level = 1
+    } else {
+      const parent = await assertValidParent(menu._id, nextParentId)
+      menu.parentType = MENU_PARENT_TYPES.CHILD
+      menu.parentId = parent._id
+      menu.level = resolveMenuLevel(parent)
+    }
   }
 
   await menu.save()
@@ -534,43 +682,82 @@ export async function reorderMenus(input) {
     throw createHttpError(404, 'MENU_NOT_FOUND', '存在不存在的菜单')
   }
 
+  const menuMap = new Map(menus.map((menu) => [menu._id.toString(), menu]))
+  const itemMap = new Map(items.map((item) => [item.id, item]))
+  const parentMap = new Map()
+  const parentDocMap = new Map()
+
   for (const item of items) {
-    await assertValidParent(item.id, item.parentId)
+    const nextParentId = item.parentId && item.parentId !== '0' ? item.parentId : null
+    if (!nextParentId) {
+      parentMap.set(item.id, null)
+      continue
+    }
+
+    const parent = await assertValidParent(item.id, nextParentId)
+    parentMap.set(item.id, parent._id)
+    parentDocMap.set(parent._id.toString(), parent)
   }
 
-  const operations = items.map((item) => ({
-    updateOne: {
-      filter: { _id: item.id },
-      update: {
-        $set: {
-          parentId: item.parentId || null,
-          sortOrder: item.sortOrder
+  function resolveBatchLevel(menuId, visited = new Set()) {
+    if (visited.has(menuId)) {
+      throw createHttpError(400, 'MENU_PARENT_CYCLE', '菜单层级存在循环引用')
+    }
+
+    visited.add(menuId)
+    const nextParentId = parentMap.get(menuId)?.toString?.() || null
+    if (!nextParentId) return 1
+    if (itemMap.has(nextParentId)) {
+      return resolveBatchLevel(nextParentId, visited) + 1
+    }
+
+    const parent = menuMap.get(nextParentId) || parentDocMap.get(nextParentId)
+    return (parent?.level || 1) + 1
+  }
+
+  const operations = items.map((item) => {
+    const parentId = parentMap.get(item.id) || null
+    const parentType = parentId ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT
+    return {
+      updateOne: {
+        filter: { _id: item.id },
+        update: {
+          $set: {
+            parentType,
+            parentId,
+            level: resolveBatchLevel(item.id),
+            sortOrder: item.sortOrder
+          }
         }
       }
     }
-  }))
+  })
 
   if (operations.length) {
     await Menu.bulkWrite(operations)
   }
 
-  return { updatedCount: operations.length }
+  return {
+    updatedCount: operations.length,
+    ...await listMenus()
+  }
 }
 
 export async function deleteMenu(id) {
   await ensureRbacSeed()
-  const menu = await Menu.findById(id)
-  if (!menu) {
-    throw createHttpError(404, 'MENU_NOT_FOUND', '菜单不存在')
+  const tree = await collectMenuTree(id)
+  const root = tree[0]
+  if (root.code === 'management.root') {
+    throw createHttpError(403, 'BUILTIN_MENU_PROTECTED', '内置后台管理一级菜单不允许删除')
   }
 
-  const hasChildren = await Menu.exists({ parentId: menu._id })
-  if (hasChildren) {
-    throw createHttpError(409, 'MENU_HAS_CHILDREN', '请先删除或调整下级菜单')
-  }
-
-  await Role.updateMany({}, { $pull: { menuIds: menu._id } })
-  await Menu.deleteOne({ _id: menu._id })
+  const ids = tree.map((item) => item._id)
+  const routePaths = tree.map((item) => item.routePath).filter(Boolean)
+  await Promise.all([
+    Role.updateMany({}, { $pull: { menuIds: { $in: ids } } }),
+    User.updateMany({}, { $pull: { quickActions: { $in: routePaths } } }),
+    Menu.deleteMany({ _id: { $in: ids } })
+  ])
   return { deletedCount: 1 }
 }
 

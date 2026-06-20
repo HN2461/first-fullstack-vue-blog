@@ -6,6 +6,7 @@ const objectIdPattern = /^[a-f\d]{24}$/i
 
 const roleCodePattern = /^[a-z][a-z0-9-]{1,59}$/
 const menuCodePattern = /^[a-z][a-z0-9.-]{1,79}$/
+const routeKeyPattern = /^[a-z][a-z0-9._-]{1,119}$/
 const routePathPattern = /^\/[A-Za-z0-9_./:-]*$/
 
 export const roleSchema = z.object({
@@ -42,27 +43,70 @@ export const roleQuerySchema = z.object({
   type: z.enum(['all', 'builtin', 'custom']).optional()
 })
 
-export const menuSchema = z.object({
+const menuBaseSchema = z.object({
   name: z.string().trim().min(2, '菜单名称至少需要 2 个字符').max(40, '菜单名称不能超过 40 个字符'),
   code: z.string().trim().toLowerCase().regex(menuCodePattern, '菜单编码只能包含小写字母、数字、点号和连字符'),
   icon: z.string().trim().max(60, '图标名称不能超过 60 个字符').optional().default(''),
-  routePath: z.string().trim().regex(routePathPattern, '路由路径格式不正确'),
+  routePath: z.union([
+    z.literal(''),
+    z.string().trim().regex(routePathPattern, '路由路径格式不正确')
+  ]).optional().default(''),
+  routeKey: z.union([
+    z.literal(''),
+    z.string().trim().toLowerCase().regex(routeKeyPattern, '页面标识只能包含小写字母、数字、点号、下划线和连字符')
+  ]).optional().default(''),
+  activeMenuCode: z.union([
+    z.literal(''),
+    z.string().trim().toLowerCase().regex(menuCodePattern, '高亮菜单编码格式不正确')
+  ]).optional().default(''),
   openMode: z.enum(['current', 'blank']).optional().default('current'),
   hidden: z.boolean().optional().default(false),
   enabled: z.boolean().optional().default(true),
+  parentType: z.enum(['root', 'child']).optional(),
+  parent_type: z.enum(['root', 'child']).optional(),
   parentId: z.string().regex(objectIdPattern, '父级菜单 id 不正确').nullable().optional().default(null),
+  parent_id: z.union([
+    z.literal('0'),
+    z.string().regex(objectIdPattern, '父级菜单 id 不正确')
+  ]).nullable().optional(),
   sortOrder: z.coerce.number().int().min(0).max(9999).optional().default(0),
   type: z.enum(['system', 'custom']).optional().default('custom')
 }).strict('存在不支持的菜单字段')
 
-export const menuUpdateSchema = menuSchema.partial().extend({
+function normalizeMenuPayload(data, options = {}) {
+  const hasParentField =
+    data.parentType !== undefined ||
+    data.parent_type !== undefined ||
+    data.parentId !== undefined ||
+    data.parent_id !== undefined
+
+  if (options.partial && !hasParentField) {
+    return data
+  }
+
+  const parentType = data.parentType || data.parent_type || (data.parentId || (data.parent_id && data.parent_id !== '0') ? 'child' : 'root')
+  const parentId = data.parentId ?? (data.parent_id && data.parent_id !== '0' ? data.parent_id : null)
+
+  return {
+    ...data,
+    parentType,
+    parentId: parentType === 'root' ? null : parentId
+  }
+}
+
+export const menuSchema = menuBaseSchema.transform((data) => normalizeMenuPayload(data))
+
+export const menuUpdateSchema = menuBaseSchema.partial().extend({
   code: z.string().trim().toLowerCase().regex(menuCodePattern, '菜单编码只能包含小写字母、数字、点号和连字符').optional()
-}).strict('存在不支持的菜单字段')
+}).strict('存在不支持的菜单字段').transform((data) => normalizeMenuPayload(data, { partial: true }))
 
 export const menuReorderSchema = z.object({
   items: z.array(z.object({
     id: z.string().regex(objectIdPattern, '菜单 id 不正确'),
-    parentId: z.string().regex(objectIdPattern, '父级菜单 id 不正确').nullable(),
+    parentId: z.union([
+      z.literal('0'),
+      z.string().regex(objectIdPattern, '父级菜单 id 不正确')
+    ]).nullable().optional().default(null),
     sortOrder: z.coerce.number().int().min(0).max(9999)
   }).strict('存在不支持的菜单排序字段')).min(1, '请提供至少一个菜单排序项')
 }).strict('存在不支持的菜单重排字段')

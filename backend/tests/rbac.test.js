@@ -269,7 +269,7 @@ describe('rbac account and permission flows', () => {
 
   it('adds ancestor menus when assigning only a child menu to a role', async () => {
     const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
-    const governanceRoot = await Menu.findOne({ code: 'governance.root' })
+    const managementRoot = await Menu.findOne({ code: 'management.root' })
 
     const response = await request(app)
       .post('/api/rbac/roles')
@@ -283,7 +283,7 @@ describe('rbac account and permission flows', () => {
       .expect(201)
 
     expect(response.body.data.menuIds).toContain(rolesMenu._id.toString())
-    expect(response.body.data.menuIds).toContain(governanceRoot._id.toString())
+    expect(response.body.data.menuIds).toContain(managementRoot._id.toString())
   })
 
   it('prevents disabled roles from being approved through permission requests', async () => {
@@ -366,16 +366,17 @@ describe('rbac account and permission flows', () => {
   })
 
   it('persists menu reorder after subsequent menu queries', async () => {
-    const dashboard = await Menu.findOne({ code: 'console.dashboard' })
-    const governanceRoot = await Menu.findOne({ code: 'governance.root' })
+    const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
+    const menusMenu = await Menu.findOne({ code: 'governance.menus' })
+    const managementRoot = await Menu.findOne({ code: 'management.root' })
 
     await request(app)
       .post('/api/rbac/menus/reorder')
       .set('Authorization', `Bearer ${superAdminToken}`)
       .send({
         items: [
-          { id: dashboard.id, parentId: null, sortOrder: 40 },
-          { id: governanceRoot.id, parentId: null, sortOrder: 10 }
+          { id: rolesMenu.id, parentId: managementRoot.id, sortOrder: 30 },
+          { id: menusMenu.id, parentId: managementRoot.id, sortOrder: 10 }
         ]
       })
       .expect(200)
@@ -385,8 +386,34 @@ describe('rbac account and permission flows', () => {
       .set('Authorization', `Bearer ${superAdminToken}`)
       .expect(200)
 
-    const rootMenus = response.body.data.tree.filter((item) => !item.parentId)
-    expect(rootMenus[0].code).toBe('governance.root')
-    expect(rootMenus.at(-1).code).toBe('console.dashboard')
+    const managementMenu = response.body.data.tree.find((item) => item.code === 'management.root')
+    const menuIndex = managementMenu.children.findIndex((item) => item.code === 'governance.menus')
+    const roleIndex = managementMenu.children.findIndex((item) => item.code === 'governance.roles')
+    expect(menuIndex).toBeGreaterThanOrEqual(0)
+    expect(roleIndex).toBeGreaterThan(menuIndex)
+  })
+
+  it('allows child menus to be promoted or nested under another menu', async () => {
+    const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
+    const menusMenu = await Menu.findOne({ code: 'governance.menus' })
+
+    await request(app)
+      .post('/api/rbac/menus/reorder')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({
+        items: [
+          { id: rolesMenu.id, parentId: null, sortOrder: 30 },
+          { id: menusMenu.id, parentId: rolesMenu.id, sortOrder: 10 }
+        ]
+      })
+      .expect(200)
+
+    const promoted = await Menu.findById(rolesMenu.id)
+    const nested = await Menu.findById(menusMenu.id)
+    expect(promoted.parentType).toBe('root')
+    expect(promoted.parentId).toBeNull()
+    expect(promoted.level).toBe(1)
+    expect(nested.parentId.toString()).toBe(rolesMenu.id)
+    expect(nested.level).toBe(2)
   })
 })

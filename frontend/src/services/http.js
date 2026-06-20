@@ -49,6 +49,10 @@ http.interceptors.response.use(
   (response) => {
     const payload = response.data
 
+    if (typeof Blob !== 'undefined' && payload instanceof Blob) {
+      return payload
+    }
+
     // 后端统一返回 { success, message, data }
     if (payload && payload.success === false) {
       const error = new Error(payload.message || '请求失败')

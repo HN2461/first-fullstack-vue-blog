@@ -12,6 +12,7 @@ import {
   listPermissionMenus,
   listMenus,
   listPermissionRequests,
+  listRootMenus,
   listRoles,
   reorderMenus,
   reviewPermissionRequest,
@@ -95,6 +96,10 @@ rbacRouter.get('/roles/permission-menus', canAccessRoles, asyncHandler(async (re
 
 rbacRouter.get('/menus', canAccessMenus, asyncHandler(async (req, res) => {
   res.json(ok(await listMenus()))
+}))
+
+rbacRouter.get('/menus/roots', canAccessMenus, asyncHandler(async (req, res) => {
+  res.json(ok(await listRootMenus()))
 }))
 
 rbacRouter.post('/menus', canAccessMenus, requireSuperAdmin, asyncHandler(async (req, res) => {

@@ -13,6 +13,16 @@
           <span>最近刷新</span>
           <strong>{{ formatDateTime(overview.generatedAt) }}</strong>
         </div>
+        <div class="monitor-refresh-control">
+          <span>自动刷新</span>
+          <a-switch v-model:checked="autoRefresh" size="small" />
+        </div>
+        <a-select
+          v-model:value="refreshIntervalMs"
+          class="monitor-refresh-select"
+          :disabled="!autoRefresh"
+          :options="refreshIntervalOptions"
+        />
         <a-button @click="showGlossary = true">
           <template #icon><QuestionCircleOutlined /></template>
           指标说明
@@ -176,6 +186,41 @@
       <article class="monitor-card">
         <header class="monitor-card__header">
           <div>
+            <span class="monitor-card__eyebrow">文件与存储</span>
+            <h3>上传目录健康</h3>
+          </div>
+          <a-tag :color="statusColor(overview.storage.uploads?.status)">
+            {{ storageStatusText(overview.storage.uploads?.status) }}
+          </a-tag>
+        </header>
+
+        <div class="detail-list">
+          <div class="detail-row">
+            <span>目录</span>
+            <strong>{{ overview.storage.uploads?.pathLabel || 'uploads' }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>是否存在</span>
+            <strong>{{ overview.storage.uploads?.exists ? '是' : '否' }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>是否可写</span>
+            <strong>{{ overview.storage.uploads?.writable ? '是' : '否' }}</strong>
+          </div>
+          <div class="detail-row">
+            <span>目录大小</span>
+            <strong>{{ formatBytes(overview.storage.uploads?.size) }}</strong>
+          </div>
+          <div class="detail-row detail-row--message">
+            <span>状态说明</span>
+            <strong>{{ overview.storage.uploads?.message || '-' }}</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="monitor-card">
+        <header class="monitor-card__header">
+          <div>
             <span class="monitor-card__eyebrow">近期请求</span>
             <h3>{{ requestWindowLabel }}</h3>
           </div>
@@ -248,38 +293,113 @@
           <a-tag :color="alertsTagColor">{{ alertsTagText }}</a-tag>
         </header>
 
-        <div v-if="alerts.length > 0" class="alert-list">
-          <div class="alert-item" v-for="alert in alerts" :key="`${alert.level}-${alert.title}`">
-            <div :class="['alert-item__dot', `alert-item__dot--${alert.level}`]" />
-            <div class="alert-item__body">
-              <strong>{{ alert.title }}</strong>
-              <p>{{ alert.description }}</p>
-            </div>
+        <a-table
+          size="small"
+          row-key="key"
+          class="monitor-inner-table"
+          :columns="alertColumns"
+          :data-source="alertRows"
+          :pagination="false"
+          :scroll="{ y: TABLE_SCROLL_Y }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'level'">
+              <a-tag :color="alertLevelColor(record.level)">{{ alertLevelText(record.level) }}</a-tag>
+            </template>
+            <template v-else-if="column.key === 'content'">
+              <div class="table-main-cell">
+                <strong>{{ record.title }}</strong>
+                <span>{{ record.description }}</span>
+              </div>
+            </template>
+            <template v-else-if="column.key === 'suggestion'">
+              <span class="table-muted-text">{{ record.suggestion || '-' }}</span>
+            </template>
+          </template>
+          <template #emptyText>
+            <a-empty description="当前没有风险告警" :image-style="{ height: '56px' }" />
+          </template>
+        </a-table>
+      </article>
+
+      <article class="monitor-card monitor-card--wide">
+        <header class="monitor-card__header">
+          <div>
+            <span class="monitor-card__eyebrow">慢请求观察</span>
+            <h3>最近慢请求明细</h3>
           </div>
-        </div>
-        <a-empty v-else description="当前没有风险告警" :image-style="{ height: '56px' }" />
+          <a-tag color="orange">阈值 {{ formatMs(overview.requests.slowRequestThresholdMs) }}</a-tag>
+        </header>
+
+        <a-table
+          size="small"
+          row-key="rowKey"
+          class="monitor-inner-table"
+          :columns="slowRequestColumns"
+          :data-source="slowRequestRows"
+          :pagination="false"
+          :scroll="{ x: 760, y: TABLE_SCROLL_Y }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'statusCode'">
+              <a-tag :color="statusCodeColor(record.statusCode)">{{ record.statusCode }}</a-tag>
+            </template>
+            <template v-else-if="column.key === 'path'">
+              <code class="table-path">{{ record.path }}</code>
+            </template>
+            <template v-else-if="column.key === 'durationMs'">
+              <strong class="is-warning">{{ formatMs(record.durationMs) }}</strong>
+            </template>
+            <template v-else-if="column.key === 'timestamp'">
+              {{ formatDateTime(record.timestamp) }}
+            </template>
+          </template>
+          <template #emptyText>
+            <a-empty description="最近没有慢请求" :image-style="{ height: '56px' }" />
+          </template>
+        </a-table>
       </article>
 
       <article class="monitor-card monitor-card--wide">
         <header class="monitor-card__header">
           <div>
             <span class="monitor-card__eyebrow">错误观察</span>
-            <h3>最近 5xx 请求摘要</h3>
+            <h3>最近 5xx 请求详情</h3>
           </div>
         </header>
 
-        <div v-if="recentErrors.length > 0" class="log-list">
-          <div class="log-item" v-for="item in recentErrors" :key="`${item.timestamp}-${item.path}`">
-            <div class="log-item__meta">
-              <a-tag color="red">{{ item.statusCode }}</a-tag>
-              <span>{{ item.method }}</span>
-              <span>{{ formatMs(item.durationMs) }}</span>
-              <span>{{ formatDateTime(item.timestamp) }}</span>
-            </div>
-            <code class="log-item__path">{{ item.path }}</code>
-          </div>
-        </div>
-        <a-empty v-else description="最近没有 5xx 错误请求" :image-style="{ height: '56px' }" />
+        <a-table
+          size="small"
+          row-key="rowKey"
+          class="monitor-inner-table"
+          :columns="errorColumns"
+          :data-source="errorRows"
+          :pagination="false"
+          :scroll="{ x: 980, y: TABLE_SCROLL_Y }"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'statusCode'">
+              <a-tag color="red">{{ record.statusCode }}</a-tag>
+            </template>
+            <template v-else-if="column.key === 'path'">
+              <code class="table-path">{{ record.path }}</code>
+            </template>
+            <template v-else-if="column.key === 'durationMs'">
+              {{ formatMs(record.durationMs) }}
+            </template>
+            <template v-else-if="column.key === 'timestamp'">
+              {{ formatDateTime(record.timestamp) }}
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <a-button type="link" size="small" @click="copyTroubleshootingInfo(record)">
+                复制排查信息
+              </a-button>
+            </template>
+          </template>
+          <template #emptyText>
+            <a-empty description="最近没有 5xx 错误请求" :image-style="{ height: '56px' }" />
+          </template>
+        </a-table>
       </article>
     </section>
 
@@ -309,7 +429,8 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { message } from 'ant-design-vue'
 import {
   ApiOutlined,
   ClockCircleOutlined,
@@ -321,10 +442,18 @@ import {
 import { getAdminMonitorOverview } from '@/services/admin'
 
 const REFRESH_INTERVAL_MS = 10000
+const TABLE_SCROLL_Y = 260
+const refreshIntervalOptions = [
+  { label: '10 秒', value: 10000 },
+  { label: '30 秒', value: 30000 },
+  { label: '60 秒', value: 60000 }
+]
 
 const loading = ref(false)
 const errorMessage = ref('')
 const showGlossary = ref(false)
+const autoRefresh = ref(true)
+const refreshIntervalMs = ref(REFRESH_INTERVAL_MS)
 const overview = ref({
   generatedAt: '',
   system: {
@@ -372,13 +501,25 @@ const overview = ref({
   },
   requests: {
     windowMinutes: 5,
+    slowRequestThresholdMs: 1000,
     totalRequests: 0,
     status4xx: 0,
     status5xx: 0,
     slowRequests: 0,
     avgResponseMs: 0,
     lastErrorAt: null,
-    recentErrors: []
+    recentErrors: [],
+    recentSlowRequests: []
+  },
+  storage: {
+    uploads: {
+      status: 'down',
+      exists: false,
+      writable: false,
+      size: 0,
+      pathLabel: 'uploads',
+      message: ''
+    }
   },
   alerts: []
 })
@@ -390,7 +531,7 @@ const metricHelp = {
   loadAverage: 'Load Average 是 1/5/15 分钟平均负载。在 Linux/macOS 上更有参考价值；Node 官方文档说明 Windows 上该值固定为 [0, 0, 0]。',
   systemMemory: '系统内存来自 totalmem/freemem，表示整台服务器的总内存、已用内存和剩余可用内存。',
   diskUsage: '磁盘占用表示当前部署所在磁盘分区的已用/总量，用来判断日志、上传文件、备份是否快把盘打满。',
-  nodeMemory: 'Node 进程内存里，heapUsed 是 V8 已使用堆内存，heapTotal 是当前申请到的堆容量，RSS 是进程实际驻留在物理内存中的总量。',
+  nodeMemory: '这是后端 Node.js 程序自己的内存，不是整台服务器内存。heapUsed 是 JS 代码实际使用的堆内存，所以几十 MB 很常见；RSS 才是进程实际驻留内存。',
   totalRequests: '统计窗口内进入后端的全部请求数量，包括成功、客户端错误和服务端错误。',
   status4xx: '4xx 是客户端侧错误，如未登录、参数错误、找不到资源。多了说明前端请求、权限或调用方式需要检查。',
   status5xx: '5xx 是服务端错误，通常意味着后端异常、数据库异常或未处理错误，应优先关注。',
@@ -441,7 +582,7 @@ const glossaryGroups = [
       {
         label: 'Node 进程内存',
         short: '当前博客后端自己的内存占用',
-        description: 'heapUsed 关注 JS 堆里实际用了多少；heapTotal 是 V8 目前申请到多少；RSS 则是进程整个实际占用内存。排查内存泄漏时，RSS 和 heapUsed 都要看。'
+        description: '它只统计当前 Node.js 后端进程，不代表整台服务器内存。页面主值显示 heapUsed，也就是 JS 堆里实际用了多少；几十 MB 属于常见正常值。RSS 是进程整体驻留内存，排查内存泄漏时两个值都要看。'
       },
       {
         label: '磁盘占用',
@@ -479,6 +620,42 @@ const glossaryGroups = [
 
 const alerts = computed(() => overview.value.alerts || [])
 const recentErrors = computed(() => overview.value.requests?.recentErrors || [])
+const recentSlowRequests = computed(() => overview.value.requests?.recentSlowRequests || [])
+const alertColumns = [
+  { title: '级别', key: 'level', width: 86 },
+  { title: '告警内容', key: 'content', width: 280 },
+  { title: '建议处理', key: 'suggestion' }
+]
+const slowRequestColumns = [
+  { title: '状态', key: 'statusCode', width: 76 },
+  { title: '方法', dataIndex: 'method', key: 'method', width: 72 },
+  { title: '接口路径', key: 'path', width: 360 },
+  { title: '耗时', key: 'durationMs', width: 100 },
+  { title: '时间', key: 'timestamp', width: 180 }
+]
+const errorColumns = [
+  { title: '状态', key: 'statusCode', width: 76 },
+  { title: '方法', dataIndex: 'method', key: 'method', width: 72 },
+  { title: '接口路径', key: 'path', width: 320 },
+  { title: '请求 ID', dataIndex: 'requestId', key: 'requestId', width: 180 },
+  { title: 'IP', dataIndex: 'ip', key: 'ip', width: 130 },
+  { title: '用户', dataIndex: 'userId', key: 'userId', width: 180 },
+  { title: '耗时', key: 'durationMs', width: 90 },
+  { title: '时间', key: 'timestamp', width: 180 },
+  { title: '操作', key: 'action', width: 110, fixed: 'right' }
+]
+const alertRows = computed(() => alerts.value.map((item, index) => ({
+  ...item,
+  key: `${item.level}-${item.title}-${index}`
+})))
+const slowRequestRows = computed(() => recentSlowRequests.value.map((item, index) => ({
+  ...item,
+  rowKey: item.requestId || `${item.timestamp}-${item.path}-${index}`
+})))
+const errorRows = computed(() => recentErrors.value.map((item, index) => ({
+  ...item,
+  rowKey: item.requestId || `${item.timestamp}-${item.path}-${index}`
+})))
 const requestWindowLabel = computed(() => `最近 ${overview.value.requests?.windowMinutes || 5} 分钟`)
 const nodeHeapPercent = computed(() => {
   const used = Number(overview.value.system.nodeProcess?.heapUsed) || 0
@@ -554,6 +731,37 @@ function statusText(status) {
     degraded: '状态降级',
     down: '连接异常'
   }[status] || '未知状态'
+}
+
+function storageStatusText(status) {
+  return {
+    up: '可用',
+    degraded: '需关注',
+    down: '异常'
+  }[status] || '未知'
+}
+
+function statusCodeColor(statusCode) {
+  const code = Number(statusCode)
+  if (code >= 500) return 'red'
+  if (code >= 400) return 'orange'
+  return 'green'
+}
+
+function alertLevelColor(level) {
+  return {
+    error: 'red',
+    warning: 'orange',
+    info: 'blue'
+  }[level] || 'default'
+}
+
+function alertLevelText(level) {
+  return {
+    error: '严重',
+    warning: '警告',
+    info: '提示'
+  }[level] || '未知'
 }
 
 function dbReadyText(database) {
@@ -633,16 +841,55 @@ async function loadOverview() {
   }
 }
 
+function startAutoRefresh() {
+  stopAutoRefresh()
+
+  if (autoRefresh.value) {
+    timerId = window.setInterval(loadOverview, refreshIntervalMs.value)
+  }
+}
+
+function stopAutoRefresh() {
+  if (timerId) {
+    window.clearInterval(timerId)
+    timerId = null
+  }
+}
+
+function buildTroubleshootingText(item) {
+  return [
+    `请求 ID：${item.requestId || '-'}`,
+    `状态码：${item.statusCode || '-'}`,
+    `方法：${item.method || '-'}`,
+    `路径：${item.path || '-'}`,
+    `耗时：${formatMs(item.durationMs)}`,
+    `时间：${formatDateTime(item.timestamp)}`,
+    `IP：${item.ip || '-'}`,
+    `用户：${item.userId || '-'}`
+  ].join('\n')
+}
+
+async function copyTroubleshootingInfo(item) {
+  const text = buildTroubleshootingText(item)
+
+  try {
+    await navigator.clipboard.writeText(text)
+    message.success('排查信息已复制')
+  } catch {
+    message.error('复制失败，请手动选择信息')
+  }
+}
+
 onMounted(async () => {
   await loadOverview()
-  timerId = window.setInterval(loadOverview, REFRESH_INTERVAL_MS)
+  startAutoRefresh()
 })
 
 onBeforeUnmount(() => {
-  if (timerId) {
-    window.clearInterval(timerId)
-  }
+  stopAutoRefresh()
 })
+
+watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 </script>
 
 <style scoped>
@@ -658,7 +905,7 @@ onBeforeUnmount(() => {
   padding: 24px 28px;
   margin-bottom: 20px;
   border: 1px solid rgba(22, 119, 255, 0.14);
-  border-radius: 10px;
+  border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(22, 119, 255, 0.08), rgba(19, 194, 194, 0.08)),
     linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 251, 255, 0.98));
@@ -691,6 +938,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
+  flex-wrap: wrap;
 }
 
 .monitor-hero__stamp {
@@ -713,6 +961,23 @@ onBeforeUnmount(() => {
   color: #1f1f1f;
 }
 
+.monitor-refresh-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #e8edf3;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.78);
+  color: #5f6b7a;
+  font-size: 13px;
+}
+
+.monitor-refresh-select {
+  width: 92px;
+}
+
 .monitor-alert {
   margin-bottom: 16px;
 }
@@ -727,7 +992,7 @@ onBeforeUnmount(() => {
 .monitor-kpi,
 .monitor-card {
   border: 1px solid #eef1f5;
-  border-radius: 10px;
+  border-radius: 8px;
   background: #fff;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
 }
@@ -742,7 +1007,7 @@ onBeforeUnmount(() => {
 .monitor-kpi__icon {
   width: 44px;
   height: 44px;
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -794,7 +1059,7 @@ onBeforeUnmount(() => {
 
 .monitor-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -803,7 +1068,7 @@ onBeforeUnmount(() => {
 }
 
 .monitor-card--wide {
-  grid-column: span 2;
+  grid-column: span 3;
 }
 
 .monitor-card__header {
@@ -828,14 +1093,13 @@ onBeforeUnmount(() => {
 
 .resource-panel {
   padding: 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(180deg, #fbfcfe 0%, #ffffff 100%);
   border: 1px solid #eff3f8;
 }
 
 .resource-panel__top,
-.detail-row,
-.log-item__meta {
+.detail-row {
   display: flex;
   justify-content: space-between;
   gap: 10px;
@@ -888,7 +1152,7 @@ onBeforeUnmount(() => {
 
 .request-metric {
   padding: 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid #eef1f5;
   background: #fafcff;
 }
@@ -908,75 +1172,61 @@ onBeforeUnmount(() => {
   color: #cf1322;
 }
 
-.alert-list,
-.log-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.alert-item,
-.log-item {
-  padding: 14px 16px;
-  border: 1px solid #eef1f5;
-  border-radius: 10px;
-  background: #fcfdff;
-}
-
-.alert-item {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-}
-
-.alert-item__dot {
-  width: 10px;
-  height: 10px;
-  margin-top: 6px;
-  border-radius: 999px;
-  flex-shrink: 0;
-}
-
-.alert-item__dot--warning {
-  background: #faad14;
-}
-
-.alert-item__dot--error {
-  background: #f5222d;
-}
-
-.alert-item__dot--info {
-  background: #1677ff;
-}
-
-.alert-item__body strong {
+.table-main-cell strong {
   display: block;
   margin-bottom: 4px;
   color: #1f1f1f;
 }
 
-.alert-item__body p {
+.table-main-cell span,
+.table-muted-text {
   margin: 0;
   color: #5f6b7a;
   line-height: 1.6;
 }
 
-.log-item__meta {
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-  font-size: 12px;
-  color: #7a869a;
+.monitor-inner-table {
+  border: 1px solid #eef1f5;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.log-item__path {
-  display: block;
+.monitor-inner-table :deep(.ant-table) {
+  background: transparent;
+}
+
+.monitor-inner-table :deep(.ant-table-thead > tr > th) {
+  background: #f7f9fc;
+  color: #5f6b7a;
+  font-weight: 600;
+}
+
+.monitor-inner-table :deep(.ant-table-cell) {
+  vertical-align: top;
+}
+
+.table-path {
+  display: inline-block;
+  max-width: 100%;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 6px;
   background: #f6f8fb;
   color: #334155;
-  white-space: pre-wrap;
+  white-space: normal;
   word-break: break-all;
+  line-height: 1.5;
+}
+
+.is-warning {
+  color: #d46b08;
+}
+
+.detail-row--message {
+  align-items: flex-start;
+}
+
+.detail-row--message strong {
+  max-width: 60%;
 }
 
 .glossary-grid {
@@ -988,7 +1238,7 @@ onBeforeUnmount(() => {
 .glossary-card {
   padding: 16px;
   border: 1px solid #eef1f5;
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(180deg, #fbfcfe 0%, #ffffff 100%);
 }
 
@@ -1042,11 +1292,11 @@ onBeforeUnmount(() => {
   }
 
   .monitor-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .monitor-card--wide {
-    grid-column: auto;
+    grid-column: span 2;
   }
 }
 
@@ -1059,6 +1309,14 @@ onBeforeUnmount(() => {
 
   .resource-grid {
     grid-template-columns: 1fr;
+  }
+
+  .monitor-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .monitor-card--wide {
+    grid-column: auto;
   }
 }
 
@@ -1075,5 +1333,87 @@ onBeforeUnmount(() => {
     padding-left: 16px;
     padding-right: 16px;
   }
+}
+
+:global(.dark-theme) .monitor-hero {
+  border-color: rgba(91, 143, 249, 0.22);
+  background:
+    linear-gradient(135deg, rgba(91, 143, 249, 0.14), rgba(19, 194, 194, 0.08)),
+    linear-gradient(180deg, rgba(22, 31, 48, 0.95), rgba(17, 24, 39, 0.98));
+}
+
+:global(.dark-theme) .monitor-hero h1,
+:global(.dark-theme) .monitor-hero__stamp strong,
+:global(.dark-theme) .monitor-kpi__value,
+:global(.dark-theme) .monitor-card__header h3,
+:global(.dark-theme) .resource-panel__top strong,
+:global(.dark-theme) .detail-row strong,
+:global(.dark-theme) .request-metric strong,
+:global(.dark-theme) .table-main-cell strong,
+:global(.dark-theme) .glossary-card h3,
+:global(.dark-theme) .glossary-item__title strong {
+  color: #f8fafc;
+}
+
+:global(.dark-theme) .monitor-hero__desc,
+:global(.dark-theme) .monitor-kpi__label,
+:global(.dark-theme) .monitor-kpi__meta,
+:global(.dark-theme) .resource-panel__meta,
+:global(.dark-theme) .detail-row span,
+:global(.dark-theme) .request-metric span,
+:global(.dark-theme) .table-main-cell span,
+:global(.dark-theme) .table-muted-text,
+:global(.dark-theme) .glossary-item__title span,
+:global(.dark-theme) .glossary-item p {
+  color: #94a3b8;
+}
+
+:global(.dark-theme) .monitor-hero__stamp,
+:global(.dark-theme) .monitor-refresh-control,
+:global(.dark-theme) .monitor-kpi,
+:global(.dark-theme) .monitor-card,
+:global(.dark-theme) .resource-panel,
+:global(.dark-theme) .request-metric,
+:global(.dark-theme) .monitor-inner-table,
+:global(.dark-theme) .glossary-card {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: #111827;
+  box-shadow: none;
+}
+
+:global(.dark-theme) .detail-row,
+:global(.dark-theme) .glossary-item {
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+:global(.dark-theme) .monitor-inner-table :deep(.ant-table),
+:global(.dark-theme) .monitor-inner-table :deep(.ant-table-container),
+:global(.dark-theme) .monitor-inner-table :deep(.ant-table-body),
+:global(.dark-theme) .monitor-inner-table :deep(.ant-table-content) {
+  background: #111827;
+}
+
+:global(.dark-theme) .monitor-inner-table :deep(.ant-table-thead > tr > th) {
+  background: #0f172a;
+  color: #cbd5e1;
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+:global(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr > td) {
+  color: #cbd5e1;
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+:global(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
+  background: rgba(30, 41, 59, 0.88);
+}
+
+:global(.dark-theme) .table-path {
+  background: #0f172a;
+  color: #cbd5e1;
+}
+
+:global(.dark-theme) .is-warning {
+  color: #fbbf24;
 }
 </style>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { buildDocumentTitle } from '@/utils/siteProfile'
+import { isKnownConsolePath } from '@/utils/consoleRoutes'
 
 const HomePage = () => import('@/views/public/HomePage/index.vue')
 const ArticleListPage = () => import('@/views/public/ArticleListPage/index.vue')
@@ -11,6 +12,7 @@ const RegisterPage = () => import('@/views/auth/RegisterPage/index.vue')
 const PublicLayout = () => import('@/views/public/PublicLayout/index.vue')
 const ConsoleLayout = () => import('@/views/console/ConsoleLayout/index.vue')
 const AdminArticles = () => import('@/views/admin/AdminArticles/index.vue')
+const AdminArticleImport = () => import('@/views/admin/AdminArticleImport/index.vue')
 const AdminArticleEditor = () => import('@/views/admin/AdminArticleEditor/index.vue')
 const AdminCategories = () => import('@/views/admin/AdminCategories/index.vue')
 const AdminMigration = () => import('@/views/admin/AdminMigration/index.vue')
@@ -28,6 +30,7 @@ const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
 const AdminTrash = () => import('@/views/admin/AdminTrash/index.vue')
 const MemoPage = () => import('@/views/console/MemoPage/index.vue')
 const ProfilePage = () => import('@/views/console/ProfilePage/index.vue')
+const UnavailablePage = () => import('@/views/console/UnavailablePage/index.vue')
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -55,24 +58,6 @@ export const router = createRouter({
       name: 'Register',
       component: RegisterPage,
       meta: { title: '注册' }
-    },
-    {
-      path: '/console/write',
-      name: 'AdminWriter',
-      component: AdminArticleEditor,
-      meta: { title: '新建文章', requiresAdmin: true }
-    },
-    {
-      path: '/console/manage/articles/new',
-      name: 'AdminArticleNew',
-      component: AdminArticleEditor,
-      meta: { title: '新建文章', requiresAdmin: true }
-    },
-    {
-      path: '/console/manage/articles/:id',
-      name: 'AdminArticleEdit',
-      component: AdminArticleEditor,
-      meta: { title: '编辑文章', requiresAdmin: true }
     },
     {
       path: '/console',
@@ -129,6 +114,36 @@ export const router = createRouter({
           name: 'ConsoleProfile',
           component: ProfilePage,
           meta: { title: '个人信息', requiresAuth: true }
+        },
+        {
+          path: 'unavailable',
+          name: 'ConsoleUnavailable',
+          component: UnavailablePage,
+          meta: { title: '页面暂未开发', requiresAuth: true, pendingPage: true }
+        },
+        {
+          path: 'manage/articles/import',
+          name: 'AdminArticleImport',
+          component: AdminArticleImport,
+          meta: { title: '文章导入', requiresAdmin: true }
+        },
+        {
+          path: 'write',
+          name: 'AdminWriter',
+          component: AdminArticleEditor,
+          meta: { title: '新建文章', requiresAdmin: true }
+        },
+        {
+          path: 'manage/articles/new',
+          name: 'AdminArticleNew',
+          component: AdminArticleEditor,
+          meta: { title: '新建文章', requiresAdmin: true }
+        },
+        {
+          path: 'manage/articles/:id([a-f\\d]{24})',
+          name: 'AdminArticleEdit',
+          component: AdminArticleEditor,
+          meta: { title: '编辑文章', requiresAdmin: true }
         },
         {
           path: 'manage/articles',
@@ -223,6 +238,12 @@ export const router = createRouter({
     {
       path: '/admin/:pathMatch(.*)*',
       redirect: (to) => `/console/manage/${to.params.pathMatch || ''}`
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: UnavailablePage,
+      meta: { title: '当前页面不存在' }
     }
   ],
   scrollBehavior() {
@@ -272,6 +293,23 @@ function getConsoleTargetForLegacyPath(to) {
   return null
 }
 
+function flattenMenus(items = []) {
+  return items.flatMap((item) => [
+    item,
+    ...flattenMenus(item.children || [])
+  ])
+}
+
+function findPendingMenuTarget(path, authStore) {
+  if (!authStore.isLoggedIn || !path.startsWith('/console')) return null
+  if (isKnownConsolePath(path)) return null
+
+  return flattenMenus(authStore.rootMenus || []).find((menu) => {
+    if (!menu.routePath || menu.routePath === '/console') return false
+    return path === menu.routePath || path.startsWith(`${menu.routePath}/`)
+  }) || null
+}
+
 router.beforeEach(async (to) => {
   const authStore = useAuthStore()
 
@@ -291,10 +329,6 @@ router.beforeEach(async (to) => {
     }
   }
 
-  if (!to.matched.length) {
-    return authStore.isLoggedIn ? { name: 'ConsoleArticles' } : { name: 'Login' }
-  }
-
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return {
       name: 'Login',
@@ -302,13 +336,21 @@ router.beforeEach(async (to) => {
     }
   }
 
+  const pendingMenuTarget = findPendingMenuTarget(to.path, authStore)
+  if (pendingMenuTarget && to.name !== 'ConsoleUnavailable') {
+    return {
+      name: 'ConsoleUnavailable',
+      query: { from: to.fullPath, menu: pendingMenuTarget.code || pendingMenuTarget.id || '' }
+    }
+  }
+
   if (to.path === '/console' && authStore.isLoggedIn && !authStore.canAccessPath('/console')) {
-    return { name: 'ConsoleArticles' }
+    return { name: 'ConsoleUnavailable' }
   }
 
   if (to.meta.requiresAdmin && !authStore.canAccessPath(to.path)) {
     return authStore.isLoggedIn
-      ? { name: 'ConsoleArticles' }
+      ? { name: 'ConsoleUnavailable' }
       : {
           name: 'Login',
           query: { redirect: to.fullPath }

@@ -311,6 +311,7 @@ onUpdated(setupInteractions)
 
 .markdown-body :deep(p) {
   margin: 0 0 18px;
+  overflow-wrap: anywhere;
 }
 
 .markdown-body :deep(a) {
@@ -618,6 +619,20 @@ onUpdated(setupInteractions)
   border: 1px solid color-mix(in srgb, var(--primary-color) 14%, transparent);
   border-radius: 8px;
   transition: transform 0.2s;
+}
+
+.markdown-body :deep(video),
+.markdown-body :deep(iframe) {
+  max-width: 100%;
+}
+
+.markdown-body :deep(video) {
+  height: auto;
+}
+
+.markdown-body :deep(iframe) {
+  width: 100%;
+  aspect-ratio: 16 / 9;
 }
 
 .markdown-body :deep(img:hover) {

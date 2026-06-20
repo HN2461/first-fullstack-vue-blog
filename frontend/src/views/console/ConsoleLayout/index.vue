@@ -1,6 +1,12 @@
 <template>
   <a-layout class="enterprise-admin-shell">
     <a-layout-header class="enterprise-topnav">
+      <a-tooltip v-if="appStore.isMobile" title="打开菜单">
+        <button class="enterprise-mobile-menu-button" type="button" aria-label="打开控制台菜单" @click="mobileMenuOpen = true">
+          <MenuOutlined />
+        </button>
+      </a-tooltip>
+
       <button class="enterprise-topnav-brand" type="button" @click="router.push('/console/articles')">
         <img class="enterprise-brand-icon" src="/favicon.svg" alt="" aria-hidden="true">
         <div>
@@ -16,17 +22,30 @@
         :selected-keys="[primarySection]"
         @click="handlePrimaryClick"
       >
-        <a-menu-item key="knowledge">
-          <template #icon><BookOutlined /></template>
-          知识库
-        </a-menu-item>
-        <a-menu-item v-if="authStore.isAdmin" key="management">
-          <template #icon><ControlOutlined /></template>
-          后台管理
+        <a-menu-item v-for="menu in availableRootMenus" :key="menu.id">
+          <template #icon>
+            <component :is="iconMap[menu.icon] || MenuOutlined" />
+          </template>
+          {{ menu.name }}
         </a-menu-item>
       </a-menu>
 
       <div class="enterprise-topnav-actions">
+        <a-dropdown v-if="appStore.isMobile" trigger="click">
+          <a-button class="enterprise-icon-action enterprise-root-switch" @click.prevent>
+            <template #icon><SwapOutlined /></template>
+          </a-button>
+          <template #overlay>
+            <a-menu class="enterprise-root-switch-menu" :selected-keys="[primarySection]" @click="handlePrimaryClick">
+              <a-menu-item v-for="menu in availableRootMenus" :key="menu.id">
+                <template #icon>
+                  <component :is="iconMap[menu.icon] || MenuOutlined" />
+                </template>
+                {{ menu.name }}
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
         <a-tooltip title="门户首页">
           <a-button class="enterprise-icon-action" @click="router.push('/')">
             <template #icon><HomeOutlined /></template>
@@ -154,50 +173,43 @@
           @openChange="handleMenuOpenChange"
           @click="handleSecondaryClick"
         >
-          <template v-if="primarySection === 'knowledge'">
-            <a-menu-item key="/console/articles">
-              <template #icon><FileTextOutlined /></template>
-              全部文章
-            </a-menu-item>
-            <a-menu-item key="/console/memos">
-              <template #icon><BulbOutlined /></template>
-              备忘录
-            </a-menu-item>
-            <template v-for="category in categoryTree" :key="`category-node:${category.slug}`">
-              <ConsoleCategoryMenu :category="category" />
-            </template>
-            <a-sub-menu v-if="uncategorizedArticles.length > 0" key="category:__uncategorized">
-              <template #icon><FolderOutlined /></template>
-              <template #title>默认分类</template>
-              <a-menu-item
-                v-for="article in uncategorizedArticles"
-                :key="`/console/articles/${article.slug}`"
-              >
-                {{ article.title }}
-              </a-menu-item>
-            </a-sub-menu>
-            <a-menu-item v-if="knowledgeMenuLoading && !hasKnowledgeMenuData" key="knowledge-menu-loading" disabled>
-              正在同步目录...
-            </a-menu-item>
-            <a-menu-item v-else-if="knowledgeMenuError && !hasKnowledgeMenuData" key="knowledge-menu-error" disabled>
-              目录加载失败
-            </a-menu-item>
-            <a-menu-item v-else-if="knowledgeMenuLoaded && categoryTree.length === 0" key="/console/articles" disabled>
-              暂无分类
-            </a-menu-item>
-          </template>
-
-          <template v-else>
-            <template v-for="menu in visibleManagementMenus" :key="menu.id">
-              <ConsoleDynamicMenu :menu="menu" />
-            </template>
-            <a-menu-item v-if="visibleManagementMenus.length === 0" key="management-empty" disabled>
-              暂无可访问后台菜单
-            </a-menu-item>
-          </template>
+          <ConsoleMenuContent />
         </a-menu>
 
       </a-layout-sider>
+
+      <a-drawer
+        v-model:open="mobileMenuOpen"
+        class="enterprise-mobile-drawer"
+        placement="left"
+        width="300"
+        :title="sectionTitle"
+      >
+        <div class="enterprise-mobile-root-tabs" role="tablist" aria-label="一级菜单切换">
+          <button
+            v-for="menu in availableRootMenus"
+            :key="`mobile-root-${menu.id}`"
+            type="button"
+            :class="{ active: primarySection === menu.id }"
+            @click="switchRootMenu(menu.id)"
+          >
+            <component :is="iconMap[menu.icon] || MenuOutlined" />
+            <span>{{ menu.name }}</span>
+          </button>
+        </div>
+
+        <a-menu
+          :open-keys="openKeys"
+          :class="['enterprise-menu', `enterprise-menu--${primarySection}`]"
+          mode="inline"
+          :theme="menuTheme"
+          :selected-keys="selectedKeys"
+          @openChange="handleMenuOpenChange"
+          @click="handleMobileSecondaryClick"
+        >
+          <ConsoleMenuContent />
+        </a-menu>
+      </a-drawer>
 
       <a-layout class="enterprise-main-layout">
         <a-layout-content :class="['enterprise-content', { 'enterprise-content--immersive': isImmersiveRoute }]">
@@ -252,6 +264,7 @@ import {
   HeartOutlined,
   HomeOutlined,
   InboxOutlined,
+  ImportOutlined,
   KeyOutlined,
   LayoutOutlined,
   LinkOutlined,
@@ -295,6 +308,9 @@ import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
 import { getKnowledgeMenu, listPublicArticles } from '@/services/public'
+import { isKnowledgeConsolePath, isKnownConsoleRoutePath } from '@/utils/consoleRoutes'
+import { openMenuRoute } from '@/utils/menuNavigation'
+import { isRoutePathMatched } from '@/utils/routeMatch'
 
 const KNOWLEDGE_MENU_CACHE_TTL = 60 * 1000
 const knowledgeMenuCache = {
@@ -312,7 +328,9 @@ const categories = ref([])
 const articles = ref([])
 const siderCollapsed = ref(false)
 const siderFullLabels = ref(false)
+const mobileMenuOpen = ref(false)
 const openKeys = ref([])
+const clickedMenuKey = ref('')
 const knowledgeMenuLoaded = ref(knowledgeMenuCache.loadedAt > 0)
 const knowledgeMenuLoading = ref(false)
 const knowledgeMenuError = ref('')
@@ -358,6 +376,7 @@ const iconMap = {
   HeartOutlined,
   HomeOutlined,
   InboxOutlined,
+  ImportOutlined,
   KeyOutlined,
   LayoutOutlined,
   LinkOutlined,
@@ -388,19 +407,48 @@ const iconMap = {
   UploadOutlined,
   UserOutlined
 }
-const isWriterRoute = computed(() => route.path === '/console/write' || route.path.includes('/console/manage/articles/'))
+const isWriterRoute = computed(() => route.path === '/console/write' || route.path.startsWith('/console/manage/articles/'))
 const isArticleDetailRoute = computed(() => route.path.includes('/console/articles/'))
 const isImmersiveRoute = computed(() => isWriterRoute.value || isArticleDetailRoute.value)
+const availableRootMenus = computed(() => {
+  return (authStore.rootMenus || []).filter((menu) => menu.enabled !== false && !menu.hidden)
+})
+const unavailableMenu = computed(() => {
+  if (route.name !== 'ConsoleUnavailable') return null
+  const queryMenuKey = String(route.query.menu || clickedMenuKey.value || '')
+  return findMenuByIdentity(availableRootMenus.value, queryMenuKey)
+})
 const primarySection = computed(() => {
-  if (route.path.includes('/console/manage') || route.path === '/console') {
-    return authStore.isAdmin ? 'management' : 'knowledge'
+  if (unavailableMenu.value) {
+    return findRootMenuIdByChild(availableRootMenus.value, unavailableMenu.value.id) || unavailableMenu.value.id
   }
 
-  return 'knowledge'
+  if (isKnowledgeConsolePath(route.path)) {
+    return 'knowledge'
+  }
+
+  const routeRoot = availableRootMenus.value.find((root) => {
+    if (root.id === 'knowledge') return false
+    const rootRouteMatched = root.routePath && route.path === root.routePath
+    const childRouteMatched = flattenRenderableMenus(root.children || [])
+      .some((item) => isRouteMatched(route.path, item.routePath))
+    return rootRouteMatched || childRouteMatched
+  })
+
+  return routeRoot?.id || availableRootMenus.value.find((menu) => menu.id !== 'knowledge')?.id || 'knowledge'
+})
+const currentRootMenu = computed(() => {
+  return availableRootMenus.value.find((menu) => menu.id === primarySection.value) || availableRootMenus.value[0]
+})
+const currentRootChildren = computed(() => {
+  return (currentRootMenu.value?.children || []).filter((menu) => menu.enabled !== false && !menu.hidden)
 })
 const selectedKeys = computed(() => {
-  if (primarySection.value === 'management') {
-    const matched = findManagementRouteState(visibleManagementMenus.value, route.path)
+  if (primarySection.value !== 'knowledge') {
+    if (unavailableMenu.value) {
+      return [resolveActiveMenuKey(unavailableMenu.value)]
+    }
+    const matched = findManagementRouteState(currentRootChildren.value, route.path)
     return [matched?.selectedKey || route.path]
   }
 
@@ -417,16 +465,13 @@ const userRoleLabel = computed(() => {
   if (authStore.user?.isSuperAdmin || authStore.user?.role === 'super_admin') return '超级管理员'
   return authStore.isAdmin ? '管理员' : '普通用户'
 })
-const sectionTitle = computed(() => (primarySection.value === 'management' ? '后台管理' : '文章分类'))
+const sectionTitle = computed(() => currentRootMenu.value?.name || '控制台')
 const uncategorizedArticles = computed(() => {
   return articles.value
     .filter((article) => !article.category?.id || article.category?.isSystem || article.category?.slug === 'uncategorized')
     .sort((left, right) => new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt))
 })
 const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)
-const visibleManagementMenus = computed(() => {
-  return (authStore.managementMenus || []).filter((menu) => menu.enabled !== false && !menu.hidden)
-})
 const effectiveOpenKeys = computed(() => (siderCollapsed.value ? [] : openKeys.value))
 const ConsoleDynamicMenu = defineComponent({
   name: 'ConsoleDynamicMenu',
@@ -459,7 +504,7 @@ const ConsoleDynamicMenu = defineComponent({
 
       return h(
         AMenuItem,
-        { key: props.menu.routePath },
+        { key: nodeKey },
         {
           icon: () => h(iconComponent),
           default: () => props.menu.name
@@ -494,6 +539,70 @@ const ConsoleCategoryMenu = defineComponent({
         ]
       }
     )
+  }
+})
+const ConsoleMenuContent = defineComponent({
+  name: 'ConsoleMenuContent',
+  setup() {
+    return () => {
+      if (primarySection.value !== 'knowledge') {
+        const nodes = currentRootChildren.value
+        if (!nodes.length) {
+          return h(AMenuItem, { key: `empty:${primarySection.value}`, disabled: true }, () => '暂无菜单')
+        }
+
+        return nodes.map((menu) => h(ConsoleDynamicMenu, {
+          key: getManagementMenuKey(menu),
+          menu
+        }))
+      }
+
+      const nodes = [
+        h(AMenuItem, { key: '/console/articles' }, {
+          icon: () => h(FileTextOutlined),
+          default: () => '全部文章'
+        }),
+        h(AMenuItem, { key: '/console/memos' }, {
+          icon: () => h(BulbOutlined),
+          default: () => '备忘录'
+        })
+      ]
+
+      if (knowledgeMenuLoading.value && !hasKnowledgeMenuData.value) {
+        nodes.push(h(AMenuItem, { key: 'loading:knowledge', disabled: true }, () => '目录加载中'))
+        return nodes
+      }
+
+      if (knowledgeMenuError.value && !hasKnowledgeMenuData.value) {
+        nodes.push(h(AMenuItem, { key: 'error:knowledge', disabled: true }, () => knowledgeMenuError.value))
+        return nodes
+      }
+
+      nodes.push(...categoryTree.value.map((category) => h(ConsoleCategoryMenu, {
+        key: `category-node:${category.slug}`,
+        category
+      })))
+
+      if (uncategorizedArticles.value.length) {
+        nodes.push(h(
+          ASubMenu,
+          { key: 'category:__uncategorized' },
+          {
+            icon: () => h(InboxOutlined),
+            title: () => '未分类',
+            default: () => uncategorizedArticles.value.map((article) => h(AMenuItem, {
+              key: `/console/articles/${article.slug}`
+            }, () => article.title))
+          }
+        ))
+      }
+
+      if (!hasKnowledgeMenuData.value && knowledgeMenuLoaded.value) {
+        nodes.push(h(AMenuItem, { key: 'empty:knowledge', disabled: true }, () => '暂无文章目录'))
+      }
+
+      return nodes
+    }
   }
 })
 const categoryTree = computed(() => {
@@ -537,17 +646,34 @@ const categoryTree = computed(() => {
 })
 
 function handlePrimaryClick({ key }) {
-  if (key === 'knowledge') {
-    router.push('/console/articles')
-    return
-  }
-
-  router.push('/console')
+  switchRootMenu(key)
 }
 
 function handleSecondaryClick({ key }) {
-  if (!key || String(key).includes(':') || key === route.path) return
+  if (!key || String(key).startsWith('empty:') || String(key).startsWith('loading:') || String(key).startsWith('error:')) return
+
+  if (primarySection.value !== 'knowledge') {
+    const menu = findMenuByIdentity(currentRootChildren.value, key)
+    if (!menu) return
+    clickedMenuKey.value = getManagementMenuKey(menu)
+    const targetPath = menu.routePath || ''
+    if (targetPath && isKnownConsoleRoutePath(targetPath)) {
+      openMenuRoute(router, menu, targetPath)
+      return
+    }
+    router.push({ name: 'ConsoleUnavailable', query: { menu: menu.code || menu.id || clickedMenuKey.value } })
+    return
+  }
+
+  if (String(key).includes(':') || key === route.path) return
   router.push(key)
+}
+
+function handleMobileSecondaryClick(payload) {
+  handleSecondaryClick(payload)
+  if (!String(payload.key || '').includes(':')) {
+    mobileMenuOpen.value = false
+  }
 }
 
 async function handleProfileAction({ key }) {
@@ -597,6 +723,30 @@ async function refreshMenus() {
   openKeys.value = resolveOpenKeys(route.path)
 }
 
+function switchRootMenu(rootId) {
+  const root = availableRootMenus.value.find((menu) => menu.id === rootId)
+  if (!root) return
+
+  if (root.id === 'knowledge') {
+    router.push(root.routePath || '/console/articles')
+    return
+  }
+
+  const target = findFirstMenuRoute(root.children || [])
+  if (target) {
+    const targetMenu = flattenRenderableMenus(root.children || []).find((item) => item.routePath === target)
+    openMenuRoute(router, targetMenu, target)
+    return
+  }
+
+  if (isKnownConsoleRoutePath(root.routePath)) {
+    openMenuRoute(router, root, root.routePath)
+    return
+  }
+
+  router.push({ name: 'ConsoleUnavailable', query: { menu: root.code || root.id || '' } })
+}
+
 function handleMenuOpenChange(nextKeys) {
   if (siderCollapsed.value) return
   openKeys.value = [...nextKeys]
@@ -604,6 +754,45 @@ function handleMenuOpenChange(nextKeys) {
 
 function getManagementMenuKey(menu) {
   return menu?.id || menu?.code || menu?.routePath
+}
+
+function resolveActiveMenuKey(menu) {
+  if (!menu) return ''
+  if (menu.activeMenuCode) {
+    const activeMenu = findMenuByIdentity(availableRootMenus.value, menu.activeMenuCode)
+    if (activeMenu) {
+      return getManagementMenuKey(activeMenu)
+    }
+  }
+  return getManagementMenuKey(menu)
+}
+
+function compareMenuOrder(left, right) {
+  return (left.sortOrder || 0) - (right.sortOrder || 0) || String(left.name || '').localeCompare(String(right.name || ''), 'zh-Hans-CN')
+}
+
+function isRouteMatched(path, routePath) {
+  return !!routePath && isRoutePathMatched(path, routePath)
+}
+
+function flattenRenderableMenus(items = []) {
+  const result = []
+  for (const item of items) {
+    if (item.enabled === false || item.hidden) continue
+    result.push(item)
+    result.push(...flattenRenderableMenus(item.children || []))
+  }
+  return result
+}
+
+function findFirstMenuRoute(items = []) {
+  for (const item of items) {
+    if (item.enabled === false || item.hidden) continue
+    if (isKnownConsoleRoutePath(item.routePath)) return item.routePath
+    const nested = findFirstMenuRoute(item.children || [])
+    if (nested) return nested
+  }
+  return ''
 }
 
 function findManagementRouteState(items = [], path, ancestors = []) {
@@ -622,10 +811,10 @@ function findManagementRouteState(items = [], path, ancestors = []) {
 
     const routePath = item.routePath || ''
     const isLeaf = children.length === 0
-    const isMatchedLeaf = isLeaf && routePath && (path === routePath || path.startsWith(`${routePath}/`))
+    const isMatchedLeaf = isLeaf && isRouteMatched(path, routePath)
     if (isMatchedLeaf) {
       const candidate = {
-        selectedKey: routePath,
+        selectedKey: resolveActiveMenuKey(item),
         openKeys: ancestors,
         matchLength: routePath.length
       }
@@ -639,8 +828,16 @@ function findManagementRouteState(items = [], path, ancestors = []) {
 }
 
 function resolveOpenKeys(path) {
-  if (primarySection.value === 'management') {
-    return findManagementRouteState(visibleManagementMenus.value, path)?.openKeys || []
+  if (primarySection.value !== 'knowledge') {
+    if (unavailableMenu.value) {
+      return resolveManagementMenuOpenKeys(currentRootChildren.value, getManagementMenuKey(unavailableMenu.value))
+    }
+
+    const matched = findManagementRouteState(currentRootChildren.value, path)
+    if (matched) {
+      return matched.openKeys
+    }
+    return []
   }
 
   if (path.includes('/console/categories/')) {
@@ -653,6 +850,48 @@ function resolveOpenKeys(path) {
     if (!article) return []
     if (!article.category?.slug || article.category?.isSystem || article.category?.slug === 'uncategorized') return ['category:__uncategorized']
     return resolveCategoryOpenKeys(article.category.slug)
+  }
+
+  return []
+}
+
+function findMenuByIdentity(items = [], identity = '') {
+  if (!identity) return null
+  const target = String(identity)
+
+  for (const item of items) {
+    const candidates = [item.id, item.code, item.routePath, getManagementMenuKey(item)]
+      .filter(Boolean)
+      .map(String)
+    if (candidates.includes(target)) {
+      return item
+    }
+    const child = findMenuByIdentity(item.children || [], target)
+    if (child) return child
+  }
+
+  return null
+}
+
+function findRootMenuIdByChild(roots = [], childId = '') {
+  for (const root of roots) {
+    if (root.id === childId) return root.id
+    if (findMenuByIdentity(root.children || [], childId)) return root.id
+  }
+  return ''
+}
+
+function resolveManagementMenuOpenKeys(items = [], targetKey = '', ancestors = []) {
+  for (const item of items) {
+    const itemKey = getManagementMenuKey(item)
+    const children = (item.children || []).filter((child) => child.enabled !== false && !child.hidden)
+    if (itemKey === targetKey) {
+      return [...ancestors]
+    }
+    const matched = resolveManagementMenuOpenKeys(children, targetKey, [...ancestors, itemKey])
+    if (matched.length) {
+      return matched
+    }
   }
 
   return []
@@ -735,7 +974,10 @@ async function loadKnowledgeMenu({ force = false } = {}) {
   }
 }
 
-watch(() => route.path, (path) => {
+watch(() => [route.path, route.query.menu], ([path]) => {
+  if (route.name !== 'ConsoleUnavailable') {
+    clickedMenuKey.value = ''
+  }
   if (!siderCollapsed.value) {
     openKeys.value = resolveOpenKeys(path)
   }
@@ -757,8 +999,18 @@ watch(() => authStore.isAdmin, () => {
 
 onMounted(() => {
   siteStore.loadProfile()
+  if (appStore.isMobile) {
+    siderCollapsed.value = true
+  }
   if (primarySection.value === 'knowledge' && !knowledgeMenuLoaded.value) {
     loadKnowledgeMenu()
   }
 })
+
+watch(() => appStore.isMobile, (isMobile) => {
+  if (isMobile) {
+    siderCollapsed.value = true
+    mobileMenuOpen.value = false
+  }
+}, { immediate: true })
 </script>

@@ -47,6 +47,8 @@
 
 html {
   min-width: 320px;
+  max-width: 100%;
+  overflow-x: hidden;
   color: var(--text-primary);
   background: var(--bg-secondary);
 }
@@ -54,6 +56,8 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
   font-family: 'Aptos', 'Segoe UI Variable Text', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
   color: var(--text-primary);
@@ -149,6 +153,9 @@ body.ant-scrolling-effect {
 }
 
 .app-shell {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
 }
 
@@ -1098,11 +1105,17 @@ body.ant-scrolling-effect {
 }
 
 .public-site {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
   background: #f5f7fb;
 }
 
 .public-header {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: 72px;
   display: flex;
   align-items: center;
@@ -1153,6 +1166,9 @@ body.ant-scrolling-effect {
 }
 
 .public-main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   padding: 0 48px 56px;
 }
 
@@ -1314,6 +1330,10 @@ body.ant-scrolling-effect {
 }
 
 @media (max-width: 760px) {
+  body {
+    overflow-x: hidden;
+  }
+
   .app-header,
   .app-main {
     padding-left: 16px;
@@ -1378,6 +1398,34 @@ body.ant-scrolling-effect {
   .hero-panel h1,
   .article-detail-head h1 {
     font-size: 30px;
+  }
+
+  .public-header {
+    height: 60px;
+    padding: 0 14px;
+  }
+
+  .public-brand {
+    min-width: 0;
+  }
+
+  .public-brand strong {
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .public-brand small {
+    display: none;
+  }
+
+  .public-console-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 12px;
+    white-space: nowrap;
   }
 }
 

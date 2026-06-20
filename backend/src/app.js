@@ -7,6 +7,7 @@ import { API_PREFIX } from '#config/routes'
 import { env } from './config/env.js'
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js'
 import { requestMetricsMiddleware } from './middlewares/requestMetrics.js'
+import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { adminRouter } from '#modules/admin/routes/admin.routes.js'
 import { authRouter } from '#modules/auth/routes/auth.routes.js'
 import captchaRouter from '#modules/auth/routes/captcha.routes.js'
@@ -27,7 +28,7 @@ export function createApp() {
   }))
   app.use(express.json({ limit: '1mb' }))
   app.use(express.urlencoded({ extended: true }))
-  app.use('/uploads', express.static(path.join(env.rootDir, env.uploadDir)))
+  app.use('/uploads', express.static(resolveUploadRoot()))
   app.use('/legacy-notes', express.static(env.legacyNotesDir))
   app.use(requestMetricsMiddleware)
 

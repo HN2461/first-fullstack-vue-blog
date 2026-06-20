@@ -76,6 +76,10 @@ function slugifyArticleTitle(title) {
   return `article-${timestamp}`
 }
 
+export function buildArticleSlug(title) {
+  return slugifyArticleTitle(title)
+}
+
 async function assertUniqueSlug(slug, excludeId = null) {
   const query = { slug }
 
@@ -154,6 +158,10 @@ export async function createArticle(input, user) {
     isRecommended: !!input.isRecommended,
     wordCount,
     readingMinutes: calculateReadingMinutes(wordCount),
+    source: input.source || 'manual',
+    sourcePath: input.sourcePath || '',
+    sourceHash: input.sourceHash || '',
+    importedAt: input.importedAt || null,
     createdBy: user._id,
     updatedBy: user._id,
     publishedAt: input.status === ARTICLE_STATUS.PUBLISHED ? new Date() : null

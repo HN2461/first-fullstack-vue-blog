@@ -807,3 +807,210 @@ body:has(.enterprise-admin-shell) {
     overflow-x: auto;
   }
 }
+
+@media (max-width: 767px) {
+  :root {
+    --console-header-height: 56px;
+    --console-content-padding: 10px;
+    --console-page-gap: 10px;
+  }
+
+  body:has(.enterprise-admin-shell) {
+    overflow: hidden;
+  }
+
+  .enterprise-admin-shell {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .ant-layout-header.enterprise-topnav {
+    grid-template-columns: 48px minmax(0, 1fr) auto;
+    gap: 0;
+    padding: 0 6px 0 0;
+  }
+
+  .enterprise-mobile-menu-button {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    border: 0;
+    border-radius: 8px;
+    color: var(--console-menu-text);
+    background: transparent;
+  }
+
+  .enterprise-mobile-menu-button:hover,
+  .enterprise-mobile-menu-button:focus {
+    color: var(--console-primary-strong);
+    background: var(--console-surface-hover);
+  }
+
+  .enterprise-topnav-brand {
+    height: var(--console-header-height);
+    border-right: 0;
+    padding: 0 8px;
+  }
+
+  .enterprise-brand-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .enterprise-topnav-brand strong {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .enterprise-topnav-brand small,
+  .enterprise-primary-menu,
+  .enterprise-profile-button span:not(.enterprise-avatar),
+  .enterprise-profile-button .anticon-down,
+  .enterprise-topnav-actions .enterprise-icon-action:nth-child(1),
+  .enterprise-topnav-actions .enterprise-icon-action:nth-child(3) {
+    display: none;
+  }
+
+  .enterprise-topnav-actions {
+    gap: 0;
+    padding-right: 0;
+  }
+
+  .enterprise-topnav-actions .ant-btn.enterprise-icon-action,
+  .enterprise-profile-button {
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
+    padding: 0;
+  }
+
+  .enterprise-profile-button {
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  .ant-layout-sider.enterprise-sider {
+    display: none;
+  }
+
+  .enterprise-console-body,
+  .enterprise-main-layout,
+  .enterprise-content {
+    height: calc(100vh - var(--console-header-height));
+    min-height: calc(100vh - var(--console-header-height));
+  }
+
+  .enterprise-content {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .enterprise-page-header {
+    display: grid;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .enterprise-page-toolbar {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .enterprise-page-toolbar .ant-btn,
+  .enterprise-page-header .ant-btn {
+    min-height: 44px;
+  }
+
+  .enterprise-page .ant-card-body {
+    padding: 12px;
+  }
+
+  .enterprise-filter-card .ant-row,
+  .enterprise-page .ant-form .ant-row {
+    row-gap: 10px;
+  }
+
+  .enterprise-table-card,
+  .enterprise-page .ant-table-wrapper,
+  .enterprise-page .ant-table-content {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .enterprise-page .ant-table {
+    min-width: 720px;
+  }
+
+  .enterprise-page .ant-table-pagination {
+    margin: 12px;
+  }
+
+  .enterprise-page .ant-table-cell {
+    white-space: nowrap;
+  }
+
+  .enterprise-mobile-drawer .ant-drawer-body {
+    padding: 0;
+    background: var(--console-surface);
+  }
+
+  .enterprise-mobile-root-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 10px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--console-border);
+    background: var(--console-surface);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .enterprise-mobile-root-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .enterprise-mobile-root-tabs button {
+    min-width: max-content;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid var(--console-border);
+    border-radius: 8px;
+    padding: 0 12px;
+    color: var(--console-menu-text);
+    background: var(--console-surface-muted);
+  }
+
+  .enterprise-mobile-root-tabs button.active {
+    color: var(--console-primary-strong);
+    border-color: var(--console-primary-strong);
+    background: var(--console-primary-soft);
+    font-weight: 650;
+  }
+
+  .enterprise-mobile-drawer .enterprise-menu {
+    height: calc(100vh - 56px - 65px);
+    padding: 8px 10px 18px;
+  }
+
+  .console-article-row {
+    min-height: 0;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px;
+  }
+
+  .console-article-row h3 {
+    font-size: 17px;
+  }
+
+  .console-article-row p {
+    max-width: 100%;
+  }
+}

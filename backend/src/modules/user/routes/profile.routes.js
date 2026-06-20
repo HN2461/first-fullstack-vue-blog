@@ -10,6 +10,7 @@ import multer, { MulterError } from 'multer'
 import path from 'path'
 import fs from 'node:fs'
 import { env } from '#config/env'
+import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { createPermissionRequest, hydrateUserPermissions, listPermissionRequests } from '#modules/rbac/services/rbac.service.js'
 import { decryptCredential } from '#utils/authSecurity.js'
 import { notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema } from '#modules/user/validators/profile.validator.js'
@@ -18,7 +19,7 @@ import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/
 const router = Router()
 
 // 头像和媒体文件使用同一个上传根目录，避免部署时出现两套上传路径。
-const avatarDir = path.join(env.rootDir, env.uploadDir, 'avatars')
+const avatarDir = path.join(resolveUploadRoot(), 'avatars')
 fs.mkdirSync(avatarDir, { recursive: true })
 
 // 配置文件上传
@@ -189,9 +190,13 @@ router.put('/notifications', requireAuth, asyncHandler(async (req, res) => {
 router.put('/quick-actions', requireAuth, asyncHandler(async (req, res) => {
   const input = parseBody(quickActionsSchema, req.body)
   const safeUser = await hydrateUserPermissions(req.user)
-  const allowedPaths = new Set((safeUser.permissions?.flatMenus || [])
-    .map((menu) => menu.routePath)
-    .filter((routePath) => routePath && routePath !== '/console'))
+  const allowedPaths = new Set([
+    '/console/articles',
+    '/console/memos',
+    ...((safeUser.permissions?.flatMenus || [])
+      .map((menu) => menu.routePath)
+      .filter((routePath) => routePath && routePath !== '/console'))
+  ])
   const routes = [...new Set(input.routes)].filter((routePath) => allowedPaths.has(routePath))
 
   const user = await User.findByIdAndUpdate(

@@ -21,7 +21,9 @@
     "migrate:audit": "node src/scripts/migrateArticles.js --audit",
     "migrate:repair": "node src/scripts/migrateArticles.js --repair-existing",
     "fix:timestamps": "node src/scripts/fixArticleTimestamps.js",
-    "update:frontend-paths": "node src/scripts/updateFrontendPathReferences.js"
+    "update:frontend-paths": "node src/scripts/updateFrontendPathReferences.js",
+    "menu:tree:dry-run": "node src/scripts/migrateMenuTree.js",
+    "menu:tree:apply": "node src/scripts/migrateMenuTree.js --apply"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

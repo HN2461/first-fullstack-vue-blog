@@ -13,6 +13,7 @@ import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, 
 import { getSettings, updateSettings } from '#modules/settings/services/setting.service.js'
 import { getAdminStats } from '#modules/dashboard/services/stats.service.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
+import { buildArticleImportTemplate, commitMarkdownArticleImport, previewMarkdownArticleImport } from '#modules/content/services/articleImport.service.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
 import { decryptCredential } from '#utils/authSecurity.js'
@@ -42,6 +43,14 @@ const upload = multer({
   storage,
   limits: {
     fileSize: ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB * 1024 * 1024
+  }
+})
+
+const articleImportUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 1024 * 1024,
+    files: 20
   }
 })
 
@@ -88,6 +97,7 @@ function createUploadValidationError(message, code) {
 adminRouter.use(requireAuth, requireAdmin)
 
 const canAccessArticles = requireMenuAccess('/console/manage/articles')
+const canAccessArticleImport = requireMenuAccess('/console/manage/articles/import')
 const canAccessCategories = requireMenuAccess('/console/manage/categories')
 const canAccessComments = requireMenuAccess('/console/manage/comments')
 const canAccessMedia = requireMenuAccess('/console/manage/media')
@@ -99,7 +109,15 @@ const canAccessTrash = requireMenuAccess('/console/manage/trash')
 const canAccessUsers = requireMenuAccess('/console/manage/users')
 
 adminRouter.use('/articles/trash', canAccessTrash)
-adminRouter.use('/articles', canAccessArticles)
+adminRouter.use('/articles/import', canAccessArticleImport)
+adminRouter.use('/articles', (req, res, next) => {
+  if (req.path.startsWith('/import')) {
+    next()
+    return
+  }
+
+  canAccessArticles(req, res, next)
+})
 adminRouter.use('/categories', canAccessCategories)
 adminRouter.use('/comments', canAccessComments)
 adminRouter.use('/media/trash', canAccessTrash)
@@ -211,6 +229,46 @@ adminRouter.delete('/tags/:id', asyncHandler(async (req, res) => {
 
 adminRouter.get('/articles', asyncHandler(async (req, res) => {
   res.json(ok(await listArticles(req.query)))
+}))
+
+adminRouter.get('/articles/import/template', asyncHandler(async (req, res) => {
+  const template = buildArticleImportTemplate()
+  res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
+  res.setHeader('Content-Disposition', 'attachment; filename="knowledge-article-ai-template.md"')
+  res.send(template)
+}))
+
+adminRouter.post('/articles/import/preview', (req, res, next) => {
+  articleImportUpload.fields([
+    { name: 'files', maxCount: 20 },
+    { name: 'file', maxCount: 1 }
+  ])(req, res, async (error) => {
+    if (error) {
+      if (error instanceof MulterError) {
+        error.statusCode = 400
+        error.code = error.code || 'IMPORT_UPLOAD_ERROR'
+        if (error.code === 'LIMIT_FILE_SIZE') {
+          error.message = '单个 Markdown 文件不能超过 1MB'
+        } else if (error.code === 'LIMIT_FILE_COUNT' || error.code === 'LIMIT_UNEXPECTED_FILE') {
+          error.message = '单次最多导入 20 个 Markdown 文件'
+        }
+      }
+      next(error)
+      return
+    }
+
+    try {
+      const result = await previewMarkdownArticleImport(getUploadedFiles(req))
+      res.json(ok(result, 'Markdown 解析完成'))
+    } catch (handlerError) {
+      next(handlerError)
+    }
+  })
+})
+
+adminRouter.post('/articles/import/commit', asyncHandler(async (req, res) => {
+  const result = await commitMarkdownArticleImport(req.body, req.user)
+  res.status(201).json(ok(result, `已导入 ${result.successCount} 篇文章`))
 }))
 
 adminRouter.post('/articles', asyncHandler(async (req, res) => {
