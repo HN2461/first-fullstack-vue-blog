@@ -59,6 +59,7 @@ const menuBaseSchema = z.object({
     z.literal(''),
     z.string().trim().toLowerCase().regex(menuCodePattern, '高亮菜单编码格式不正确')
   ]).optional().default(''),
+  directoryAutoExpandWhenNested: z.boolean().optional().default(true),
   openMode: z.enum(['current', 'blank']).optional().default('current'),
   hidden: z.boolean().optional().default(false),
   enabled: z.boolean().optional().default(true),

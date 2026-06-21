@@ -71,7 +71,7 @@ export function requireAdmin(req, res, next) {
     const safeUser = await hydrateUserPermissions(req.user)
     const hasAdminAccess = safeUser?.isSuperAdmin || safeUser?.permissions?.menuPaths?.some((path) => path.startsWith('/console/manage') || path === '/console')
 
-    if (!hasAdminAccess && req.user?.role !== USER_ROLES.ADMIN && req.user?.role !== USER_ROLES.SUPER_ADMIN) {
+    if (!hasAdminAccess) {
       throw authError(403, 'FORBIDDEN', '没有后台访问权限')
     }
 
@@ -99,6 +99,33 @@ export function requireMenuAccess(routePath) {
       const safeUser = req.rbacUser || await hydrateUserPermissions(req.user)
       const hasAccess = safeUser?.isSuperAdmin ||
         safeUser?.permissions?.menuPaths?.some((path) => isRoutePathMatched(routePath, path))
+
+      if (!hasAccess) {
+        throw authError(403, 'MENU_PERMISSION_REQUIRED', '没有该菜单的访问权限')
+      }
+
+      req.rbacUser = safeUser
+      next()
+    })().catch(next)
+  }
+}
+
+/**
+ * 校验用户至少拥有给定菜单路径中的任意一个。
+ * 用于一个后台页面复用多个底层接口的场景，避免入口菜单可见但页面数据接口被误拦截。
+ *
+ * @param {string[]} routePaths - 允许访问当前接口的菜单路由集合。
+ * @returns {Function} Express 中间件，未命中任意菜单权限时抛出 MENU_PERMISSION_REQUIRED。
+ */
+export function requireAnyMenuAccess(routePaths = []) {
+  return function anyMenuAccessMiddleware(req, res, next) {
+    ;(async () => {
+      const safeUser = req.rbacUser || await hydrateUserPermissions(req.user)
+      const allowedPaths = Array.isArray(routePaths) ? routePaths.filter(Boolean) : []
+      const hasAccess = safeUser?.isSuperAdmin ||
+        safeUser?.permissions?.menuPaths?.some((path) => (
+          allowedPaths.some((routePath) => isRoutePathMatched(routePath, path))
+        ))
 
       if (!hasAccess) {
         throw authError(403, 'MENU_PERMISSION_REQUIRED', '没有该菜单的访问权限')

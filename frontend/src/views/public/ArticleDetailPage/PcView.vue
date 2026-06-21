@@ -352,13 +352,15 @@ const article = ref({
 })
 
 const inConsole = computed(() => route.path.startsWith('/console'))
+const inDirectoryConsole = computed(() => route.path.startsWith('/console/article-directory'))
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
 const actionBarVisible = computed(() => !isImmersiveReading.value && showFooterActions.value)
 const authorInitial = computed(() => (article.value.author?.username || '知').slice(0, 1).toUpperCase())
 const categoryPath = computed(() => {
   const slug = article.value.category?.slug
-  if (!slug) return inConsole.value ? '/console/articles' : '/articles'
+  if (!slug) return inDirectoryConsole.value ? '/console/article-directory' : (inConsole.value ? '/console/articles' : '/articles')
+  if (inDirectoryConsole.value) return `/console/article-directory/categories/${slug}`
   return inConsole.value ? `/console/categories/${slug}` : `/categories/${slug}`
 })
 const legacyAssetBase = computed(() => {
@@ -368,6 +370,7 @@ const legacyAssetBase = computed(() => {
 })
 
 function tagPath(slug) {
+  if (inDirectoryConsole.value) return `/console/article-directory/tags/${slug}`
   return inConsole.value ? `/console/tags/${slug}` : `/tags/${slug}`
 }
 

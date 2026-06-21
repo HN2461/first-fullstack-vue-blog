@@ -41,6 +41,7 @@
 
       <div v-else class="writer-studio__editor-shell">
         <MdEditor
+          :key="`${editorId}-${viewMode}-${editorRenderKey}`"
           :id="editorId"
           v-model="form.contentMarkdown"
           :class="['writer-studio__editor', { 'writer-studio__editor--compare': viewMode === 'compare' }]"
@@ -95,6 +96,7 @@
                   show-search
                   allow-clear
                   placeholder="选择分类"
+                  :loading="optionLoading"
                   :options="categoryOptions"
                   :filter-option="filterSelectOption"
                 />
@@ -119,6 +121,7 @@
                 option-filter-prop="label"
                 allow-clear
                 placeholder="选择标签"
+                :loading="optionLoading"
                 :options="tagOptions"
                 :max-tag-count="4"
                 :filter-option="filterSelectOption"
@@ -347,10 +350,9 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, defineAsyncComponent, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
-import { MdEditor, MdPreview } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import 'md-editor-v3/lib/preview.css'
 import {
@@ -369,10 +371,14 @@ import { useUnsavedChanges } from '@/composables/useAdminUi'
 
 const route = useRoute()
 const router = useRouter()
+const MdEditor = defineAsyncComponent(() => import('md-editor-v3').then((module) => module.MdEditor))
+const MdPreview = defineAsyncComponent(() => import('md-editor-v3').then((module) => module.MdPreview))
 const articleId = computed(() => route.params.id)
 const loading = ref(false)
 const saving = ref(false)
 const publishing = ref(false)
+const optionLoading = ref(false)
+const optionsLoaded = ref(false)
 const publishModalVisible = ref(false)
 const resourcePickerVisible = ref(false)
 const categoryModalVisible = ref(false)
@@ -393,6 +399,7 @@ const resourceTotal = ref(0)
 const ARTICLE_COVER_CATEGORY = '文章封面'
 const editorId = 'knowledge-writer-editor'
 const viewMode = ref('edit')
+const editorRenderKey = ref(0)
 const viewModeOptions = [
   { label: '编辑', value: 'edit' },
   { label: '对比', value: 'compare' },
@@ -434,6 +441,12 @@ const publishForm = reactive({
   cover: '',
   isRecommended: false,
   resources: []
+})
+
+watch(viewMode, async (mode) => {
+  if (mode !== 'compare') return
+  await nextTick()
+  editorRenderKey.value += 1
 })
 const categoryDraft = reactive({
   name: '',
@@ -544,12 +557,30 @@ function applyArticleToForm(article) {
 }
 
 async function loadOptions() {
-  const [categoryList, tagList] = await Promise.all([
-    listAllAdminCategories(),
-    listAllAdminTags()
-  ])
-  categories.value = categoryList
-  tags.value = tagList
+  if (optionsLoaded.value || optionLoading.value) {
+    return
+  }
+
+  optionLoading.value = true
+  try {
+    const [categoryList, tagList] = await Promise.all([
+      listAllAdminCategories(),
+      listAllAdminTags()
+    ])
+    categories.value = categoryList
+    tags.value = tagList
+    optionsLoaded.value = true
+  } finally {
+    optionLoading.value = false
+  }
+}
+
+async function ensureOptionsLoaded() {
+  try {
+    await loadOptions()
+  } catch (error) {
+    message.error(error.message || '分类标签加载失败')
+  }
 }
 
 async function loadArticle() {
@@ -633,6 +664,7 @@ function openPublishModal() {
   }
 
   publishModalVisible.value = true
+  ensureOptionsLoaded()
 }
 
 function closePublishModal() {
@@ -663,6 +695,7 @@ async function handleCreateCategory() {
       sortOrder: 0,
       status: 'active'
     })
+    optionsLoaded.value = false
     await loadOptions()
     publishForm.category = created.id
     categoryModalVisible.value = false
@@ -736,6 +769,7 @@ async function handleCreateTag() {
       status: 'active'
     }
     const created = await createAdminTag(payload)
+    optionsLoaded.value = false
     await loadOptions()
     publishForm.tags = [...new Set([...publishForm.tags, created.id])]
     tagModalVisible.value = false
@@ -893,7 +927,6 @@ async function handleUploadImg(files, callback) {
 onMounted(async () => {
   loading.value = true
   try {
-    await loadOptions()
     await loadArticle()
     markClean({
       title: form.title.trim(),

@@ -56,24 +56,10 @@
             <template #icon><SearchOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-tooltip v-if="authStore.isAdmin" title="新建内容">
-          <a-dropdown :trigger="['click', 'hover']">
-            <a-button class="enterprise-icon-action" @click.prevent>
-              <template #icon><SquarePen :size="16" /></template>
-            </a-button>
-            <template #overlay>
-              <a-menu class="enterprise-create-menu" @click="handleCreateAction">
-                <a-menu-item key="article">
-                  <template #icon><FileTextOutlined /></template>
-                  新建文章
-                </a-menu-item>
-                <a-menu-item key="media">
-                  <template #icon><PictureOutlined /></template>
-                  上传媒体资产
-                </a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
+        <a-tooltip v-if="createActions.length" title="新建内容">
+          <a-button class="enterprise-icon-action" @click="createModalVisible = true">
+            <template #icon><SquarePen :size="16" /></template>
+          </a-button>
         </a-tooltip>
         <NotificationBell />
         <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
@@ -221,10 +207,37 @@
     </a-layout>
   </a-layout>
   <AnnouncementPopup />
+
+  <a-modal
+    v-model:open="createModalVisible"
+    title="新建内容"
+    centered
+    :footer="null"
+    width="420px"
+    wrap-class-name="enterprise-create-modal"
+  >
+    <div class="enterprise-create-panel">
+      <button
+        v-for="item in createActions"
+        :key="item.key"
+        class="enterprise-create-option"
+        type="button"
+        @click="handleCreateAction(item.key)"
+      >
+        <span class="enterprise-create-option__icon">
+          <component :is="item.icon" />
+        </span>
+        <span>
+          <strong>{{ item.label }}</strong>
+          <small>{{ item.description }}</small>
+        </span>
+      </button>
+    </div>
+  </a-modal>
 </template>
 
 <script setup>
-import { computed, defineComponent, h, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, h, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   AimOutlined,
@@ -302,7 +315,7 @@ import {
 } from '@ant-design/icons-vue'
 import NotificationBell from '@/components/NotificationBell.vue'
 import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
-import { Menu } from 'ant-design-vue'
+import { Menu, message } from 'ant-design-vue'
 import { Moon, SquarePen, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
@@ -313,6 +326,7 @@ import { openMenuRoute } from '@/utils/menuNavigation'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 
 const KNOWLEDGE_MENU_CACHE_TTL = 60 * 1000
+const ARTICLE_DIRECTORY_PATH = '/console/article-directory'
 const knowledgeMenuCache = {
   categories: [],
   articles: [],
@@ -329,8 +343,10 @@ const articles = ref([])
 const siderCollapsed = ref(false)
 const siderFullLabels = ref(false)
 const mobileMenuOpen = ref(false)
+const createModalVisible = ref(false)
 const openKeys = ref([])
 const clickedMenuKey = ref('')
+const preferredRootId = ref('')
 const knowledgeMenuLoaded = ref(knowledgeMenuCache.loadedAt > 0)
 const knowledgeMenuLoading = ref(false)
 const knowledgeMenuError = ref('')
@@ -408,7 +424,7 @@ const iconMap = {
   UserOutlined
 }
 const isWriterRoute = computed(() => route.path === '/console/write' || route.path.startsWith('/console/manage/articles/'))
-const isArticleDetailRoute = computed(() => route.path.includes('/console/articles/'))
+const isArticleDetailRoute = computed(() => isArticleContentPath(route.path))
 const isImmersiveRoute = computed(() => isWriterRoute.value || isArticleDetailRoute.value)
 const availableRootMenus = computed(() => {
   return (authStore.rootMenus || []).filter((menu) => menu.enabled !== false && !menu.hidden)
@@ -423,39 +439,53 @@ const primarySection = computed(() => {
     return findRootMenuIdByChild(availableRootMenus.value, unavailableMenu.value.id) || unavailableMenu.value.id
   }
 
-  if (isKnowledgeConsolePath(route.path)) {
-    return 'knowledge'
+  const preferredRoot = availableRootMenus.value.find((root) => root.id === preferredRootId.value)
+  if (preferredRoot && canRootHandlePath(preferredRoot, route.path)) {
+    return preferredRoot.id
   }
 
   const routeRoot = availableRootMenus.value.find((root) => {
-    if (root.id === 'knowledge') return false
-    const rootRouteMatched = root.routePath && route.path === root.routePath
-    const childRouteMatched = flattenRenderableMenus(root.children || [])
-      .some((item) => isRouteMatched(route.path, item.routePath))
-    return rootRouteMatched || childRouteMatched
+    return isRootRouteMatched(root, route.path)
   })
 
-  return routeRoot?.id || availableRootMenus.value.find((menu) => menu.id !== 'knowledge')?.id || 'knowledge'
+  if (routeRoot) return routeRoot.id
+
+  if (isKnowledgeConsolePath(route.path)) {
+    return findKnowledgeDirectoryRootMenuId() || findKnowledgeRootMenuId() || availableRootMenus.value[0]?.id || ''
+  }
+
+  return routeRoot?.id || availableRootMenus.value[0]?.id || ''
 })
 const currentRootMenu = computed(() => {
   return availableRootMenus.value.find((menu) => menu.id === primarySection.value) || availableRootMenus.value[0]
 })
 const currentRootChildren = computed(() => {
-  return (currentRootMenu.value?.children || []).filter((menu) => menu.enabled !== false && !menu.hidden)
-})
-const selectedKeys = computed(() => {
-  if (primarySection.value !== 'knowledge') {
-    if (unavailableMenu.value) {
-      return [resolveActiveMenuKey(unavailableMenu.value)]
-    }
-    const matched = findManagementRouteState(currentRootChildren.value, route.path)
-    return [matched?.selectedKey || route.path]
+  if (isKnowledgeDirectoryMenu(currentRootMenu.value)) {
+    return [currentRootMenu.value]
   }
 
-  if (route.path === '/console/manage/articles') return ['/console/manage/articles']
-  if (route.path.includes('/console/articles/')) return [route.path]
-  if (route.path.includes('/console/categories/')) return [route.path]
-  if (route.path.includes('/console/tags/')) return [route.path]
+  return (currentRootMenu.value?.children || []).filter((menu) => menu.enabled !== false && !menu.hidden)
+})
+const currentRootHasKnowledgeDirectory = computed(() => {
+  return hasKnowledgeDirectoryMount(currentRootMenu.value)
+})
+const hasAnyKnowledgeDirectory = computed(() => {
+  return availableRootMenus.value.some(hasKnowledgeDirectoryMount)
+})
+const selectedKeys = computed(() => {
+  if (unavailableMenu.value) {
+    return [resolveActiveMenuKey(unavailableMenu.value)]
+  }
+
+  if (shouldPreferKnowledgeDirectoryState(route.path)) {
+    return [route.path]
+  }
+
+  const matched = findManagementRouteState(currentRootChildren.value, route.path)
+  if (matched?.selectedKey) return [matched.selectedKey]
+  if (isArticleContentPath(route.path)) return [route.path]
+  if (isArticleCategoryPath(route.path)) return [route.path]
+  if (isArticleTagPath(route.path)) return [route.path]
   return [route.path]
 })
 const userInitial = computed(() => {
@@ -473,6 +503,28 @@ const uncategorizedArticles = computed(() => {
 })
 const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)
 const effectiveOpenKeys = computed(() => (siderCollapsed.value ? [] : openKeys.value))
+const createActions = computed(() => {
+  const actions = []
+  if (authStore.canAccessPath('/console/manage/articles/new')) {
+    actions.push({
+      key: 'article',
+      label: '新建文章',
+      description: '进入文章编辑器创建知识库内容',
+      routePath: '/console/manage/articles/new',
+      icon: FileTextOutlined
+    })
+  }
+  if (authStore.canAccessPath('/console/manage/media')) {
+    actions.push({
+      key: 'media',
+      label: '上传媒体资产',
+      description: '进入媒体库上传图片、文档或附件',
+      routePath: '/console/manage/media',
+      icon: PictureOutlined
+    })
+  }
+  return actions
+})
 const ConsoleDynamicMenu = defineComponent({
   name: 'ConsoleDynamicMenu',
   props: {
@@ -482,37 +534,50 @@ const ConsoleDynamicMenu = defineComponent({
     }
   },
   setup(props) {
-    return () => {
-      const iconComponent = iconMap[props.menu.icon] || MenuOutlined
-      const children = (props.menu.children || []).filter((item) => item.enabled !== false && !item.hidden)
-      const nodeKey = getManagementMenuKey(props.menu)
-
-      if (children.length > 0) {
-        return h(
-          ASubMenu,
-          { key: nodeKey },
-          {
-            icon: () => h(iconComponent),
-            title: () => props.menu.name,
-            default: () => children.map((child) => h(ConsoleDynamicMenu, {
-              key: getManagementMenuKey(child),
-              menu: child
-            }))
-          }
-        )
-      }
-
-      return h(
-        AMenuItem,
-        { key: nodeKey },
-        {
-          icon: () => h(iconComponent),
-          default: () => props.menu.name
-        }
-      )
-    }
+    return () => renderDynamicMenuNodes(props.menu)
   }
 })
+
+function renderDynamicMenuNodes(menu) {
+  const iconComponent = iconMap[menu.icon] || MenuOutlined
+  const children = (menu.children || []).filter((item) => item.enabled !== false && !item.hidden)
+  const nodeKey = getManagementMenuKey(menu)
+
+  if (isKnowledgeDirectoryMenu(menu)) {
+    if (shouldRenderKnowledgeDirectoryInline(menu)) {
+      return renderKnowledgeDirectoryContentNodes()
+    }
+
+    return [h(ConsoleArticleDirectoryMenu, {
+      key: nodeKey,
+      menu,
+      nodeKey,
+      inline: false
+    })]
+  }
+
+  if (children.length > 0) {
+    return [h(
+      ASubMenu,
+      { key: nodeKey },
+      {
+        icon: () => h(iconComponent),
+        title: () => menu.name,
+        default: () => children.flatMap((child) => renderDynamicMenuNodes(child))
+      }
+    )]
+  }
+
+  return [h(
+    AMenuItem,
+    { key: nodeKey },
+    {
+      icon: () => h(iconComponent),
+      default: () => menu.name
+    }
+  )]
+}
+
 const ConsoleCategoryMenu = defineComponent({
   name: 'ConsoleCategoryMenu',
   props: {
@@ -534,74 +599,95 @@ const ConsoleCategoryMenu = defineComponent({
             category: child
           })),
           ...props.category.articles.map((article) => h(AMenuItem, {
-            key: `/console/articles/${article.slug}`
+            key: `${ARTICLE_DIRECTORY_PATH}/articles/${article.slug}`
           }, () => article.title))
         ]
       }
     )
   }
 })
+const ConsoleArticleDirectoryMenu = defineComponent({
+  name: 'ConsoleArticleDirectoryMenu',
+  props: {
+    menu: {
+      type: Object,
+      required: true
+    },
+    nodeKey: {
+      type: String,
+      required: true
+    },
+    inline: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
+    return () => {
+      const nodes = renderKnowledgeDirectoryContentNodes()
+
+      if (props.inline) {
+        return nodes
+      }
+
+      return h(
+        ASubMenu,
+        { key: props.nodeKey },
+        {
+          icon: () => h(iconMap[props.menu.icon] || FolderOutlined),
+          title: () => props.menu.name,
+          default: () => nodes
+        }
+      )
+    }
+  }
+})
+
+function renderKnowledgeDirectoryContentNodes() {
+  const nodes = []
+
+  if (knowledgeMenuLoading.value && !hasKnowledgeMenuData.value) {
+    nodes.push(h(AMenuItem, { key: 'loading:knowledge', disabled: true }, () => '目录加载中'))
+  } else if (knowledgeMenuError.value && !hasKnowledgeMenuData.value) {
+    nodes.push(h(AMenuItem, { key: 'error:knowledge', disabled: true }, () => knowledgeMenuError.value))
+  } else {
+    nodes.push(...categoryTree.value.map((category) => h(ConsoleCategoryMenu, {
+      key: `category-node:${category.slug}`,
+      category
+    })))
+
+    if (uncategorizedArticles.value.length) {
+      nodes.push(h(
+        ASubMenu,
+        { key: 'category:__uncategorized' },
+        {
+          icon: () => h(InboxOutlined),
+          title: () => '未分类',
+          default: () => uncategorizedArticles.value.map((article) => h(AMenuItem, {
+            key: `${ARTICLE_DIRECTORY_PATH}/articles/${article.slug}`
+          }, () => article.title))
+        }
+      ))
+    }
+
+    if (!hasKnowledgeMenuData.value && knowledgeMenuLoaded.value) {
+      nodes.push(h(AMenuItem, { key: 'empty:knowledge', disabled: true }, () => '暂无文章目录'))
+    }
+  }
+
+  return nodes
+}
+
 const ConsoleMenuContent = defineComponent({
   name: 'ConsoleMenuContent',
   setup() {
     return () => {
-      if (primarySection.value !== 'knowledge') {
-        const nodes = currentRootChildren.value
-        if (!nodes.length) {
-          return h(AMenuItem, { key: `empty:${primarySection.value}`, disabled: true }, () => '暂无菜单')
-        }
-
-        return nodes.map((menu) => h(ConsoleDynamicMenu, {
-          key: getManagementMenuKey(menu),
-          menu
-        }))
+      const nodes = currentRootChildren.value
+      if (!nodes.length) {
+        return h(AMenuItem, { key: `empty:${primarySection.value}`, disabled: true }, () => '暂无菜单')
       }
 
-      const nodes = [
-        h(AMenuItem, { key: '/console/articles' }, {
-          icon: () => h(FileTextOutlined),
-          default: () => '全部文章'
-        }),
-        h(AMenuItem, { key: '/console/memos' }, {
-          icon: () => h(BulbOutlined),
-          default: () => '备忘录'
-        })
-      ]
-
-      if (knowledgeMenuLoading.value && !hasKnowledgeMenuData.value) {
-        nodes.push(h(AMenuItem, { key: 'loading:knowledge', disabled: true }, () => '目录加载中'))
-        return nodes
-      }
-
-      if (knowledgeMenuError.value && !hasKnowledgeMenuData.value) {
-        nodes.push(h(AMenuItem, { key: 'error:knowledge', disabled: true }, () => knowledgeMenuError.value))
-        return nodes
-      }
-
-      nodes.push(...categoryTree.value.map((category) => h(ConsoleCategoryMenu, {
-        key: `category-node:${category.slug}`,
-        category
-      })))
-
-      if (uncategorizedArticles.value.length) {
-        nodes.push(h(
-          ASubMenu,
-          { key: 'category:__uncategorized' },
-          {
-            icon: () => h(InboxOutlined),
-            title: () => '未分类',
-            default: () => uncategorizedArticles.value.map((article) => h(AMenuItem, {
-              key: `/console/articles/${article.slug}`
-            }, () => article.title))
-          }
-        ))
-      }
-
-      if (!hasKnowledgeMenuData.value && knowledgeMenuLoaded.value) {
-        nodes.push(h(AMenuItem, { key: 'empty:knowledge', disabled: true }, () => '暂无文章目录'))
-      }
-
-      return nodes
+      return nodes.flatMap((menu) => renderDynamicMenuNodes(menu))
     }
   }
 })
@@ -652,9 +738,10 @@ function handlePrimaryClick({ key }) {
 function handleSecondaryClick({ key }) {
   if (!key || String(key).startsWith('empty:') || String(key).startsWith('loading:') || String(key).startsWith('error:')) return
 
-  if (primarySection.value !== 'knowledge') {
-    const menu = findMenuByIdentity(currentRootChildren.value, key)
-    if (!menu) return
+  if (String(key).includes(':') || key === route.path) return
+
+  const menu = findMenuByIdentity(currentRootChildren.value, key)
+  if (menu) {
     clickedMenuKey.value = getManagementMenuKey(menu)
     const targetPath = menu.routePath || ''
     if (targetPath && isKnownConsoleRoutePath(targetPath)) {
@@ -665,7 +752,6 @@ function handleSecondaryClick({ key }) {
     return
   }
 
-  if (String(key).includes(':') || key === route.path) return
   router.push(key)
 }
 
@@ -686,14 +772,11 @@ async function handleProfileAction({ key }) {
   router.push('/')
 }
 
-function handleCreateAction({ key }) {
-  if (key === 'article') {
-    router.push('/console/manage/articles/new')
-    return
-  }
-
-  if (key === 'media') {
-    router.push('/console/manage/media')
+function handleCreateAction(key) {
+  const action = createActions.value.find((item) => item.key === key)
+  if (action) {
+    createModalVisible.value = false
+    router.push(action.routePath)
   }
 }
 
@@ -714,21 +797,27 @@ function handleSiderAction({ key }) {
 }
 
 async function refreshMenus() {
-  if (primarySection.value === 'knowledge') {
-    await loadKnowledgeMenu({ force: true })
-    return
+  try {
+    await authStore.refreshCurrentUser()
+    await nextTick()
+    if (hasAnyKnowledgeDirectory.value) {
+      await loadKnowledgeMenu({ force: true })
+    }
+    openKeys.value = resolveOpenKeys(route.path)
+    message.success('菜单已刷新')
+  } catch (error) {
+    message.error(error.message || '菜单刷新失败')
   }
-
-  await authStore.refreshCurrentUser()
-  openKeys.value = resolveOpenKeys(route.path)
 }
 
 function switchRootMenu(rootId) {
   const root = availableRootMenus.value.find((menu) => menu.id === rootId)
   if (!root) return
 
-  if (root.id === 'knowledge') {
-    router.push(root.routePath || '/console/articles')
+  preferredRootId.value = root.id
+
+  if (isKnowledgeDirectoryMenu(root)) {
+    openKnowledgeDirectoryEntry()
     return
   }
 
@@ -741,6 +830,11 @@ function switchRootMenu(rootId) {
 
   if (isKnownConsoleRoutePath(root.routePath)) {
     openMenuRoute(router, root, root.routePath)
+    return
+  }
+
+  if (hasKnowledgeDirectoryMount(root)) {
+    openKnowledgeDirectoryEntry()
     return
   }
 
@@ -773,6 +867,65 @@ function compareMenuOrder(left, right) {
 
 function isRouteMatched(path, routePath) {
   return !!routePath && isRoutePathMatched(path, routePath)
+}
+
+function isKnowledgeRootMenu(menu) {
+  return menu?.code === 'knowledge.root'
+}
+
+function isKnowledgeDirectoryMenu(menu) {
+  return menu?.code === 'knowledge.directory'
+}
+
+function hasKnowledgeDirectoryMount(menu) {
+  if (!menu || menu.enabled === false || menu.hidden) return false
+  return isKnowledgeDirectoryMenu(menu) || flattenRenderableMenus(menu.children || []).some(isKnowledgeDirectoryMenu)
+}
+
+function isRootRouteMatched(root, path) {
+  const rootRouteMatched = root.routePath && path === root.routePath
+  const childRouteMatched = flattenRenderableMenus(root.children || [])
+    .some((item) => isRouteMatched(path, item.routePath))
+  return rootRouteMatched || childRouteMatched
+}
+
+function canRootHandlePath(root, path) {
+  if (isRootRouteMatched(root, path)) return true
+  return isKnowledgeConsolePath(path) && (isKnowledgeRootMenu(root) || hasKnowledgeDirectoryMount(root))
+}
+
+function isKnowledgeDirectoryContentPath(path) {
+  return path === ARTICLE_DIRECTORY_PATH ||
+    path.startsWith(`${ARTICLE_DIRECTORY_PATH}/articles/`) ||
+    path.startsWith(`${ARTICLE_DIRECTORY_PATH}/categories/`) ||
+    path.startsWith(`${ARTICLE_DIRECTORY_PATH}/tags/`)
+}
+
+function shouldPreferKnowledgeDirectoryState(path) {
+  return currentRootHasKnowledgeDirectory.value && isKnowledgeDirectoryContentPath(path)
+}
+
+function openKnowledgeDirectoryEntry() {
+  if (route.path === ARTICLE_DIRECTORY_PATH) {
+    openKeys.value = resolveOpenKeys(route.path)
+    return
+  }
+
+  router.push(ARTICLE_DIRECTORY_PATH)
+}
+
+function findKnowledgeRootMenu() {
+  return findMenuByIdentity(availableRootMenus.value, 'knowledge.root')
+}
+
+function findKnowledgeRootMenuId() {
+  const knowledgeMenu = findKnowledgeRootMenu()
+  return knowledgeMenu ? findRootMenuIdByChild(availableRootMenus.value, knowledgeMenu.id) || knowledgeMenu.id : ''
+}
+
+function findKnowledgeDirectoryRootMenuId() {
+  const directory = findMenuByIdentity(availableRootMenus.value, 'knowledge.directory')
+  return directory ? findRootMenuIdByChild(availableRootMenus.value, directory.id) || directory.id : ''
 }
 
 function flattenRenderableMenus(items = []) {
@@ -828,28 +981,25 @@ function findManagementRouteState(items = [], path, ancestors = []) {
 }
 
 function resolveOpenKeys(path) {
-  if (primarySection.value !== 'knowledge') {
-    if (unavailableMenu.value) {
-      return resolveManagementMenuOpenKeys(currentRootChildren.value, getManagementMenuKey(unavailableMenu.value))
-    }
-
-    const matched = findManagementRouteState(currentRootChildren.value, path)
-    if (matched) {
-      return matched.openKeys
-    }
-    return []
+  if (unavailableMenu.value) {
+    return resolveManagementMenuOpenKeys(currentRootChildren.value, getManagementMenuKey(unavailableMenu.value))
   }
 
-  if (path.includes('/console/categories/')) {
-    const slug = path.split('/').at(-1)
-    return resolveCategoryOpenKeys(slug)
+  if (shouldPreferKnowledgeDirectoryState(path)) {
+    const directoryOpenKeys = resolveKnowledgeDirectoryOpenKeys(path)
+    if (directoryOpenKeys.length) {
+      return directoryOpenKeys
+    }
   }
 
-  if (path.includes('/console/articles/')) {
-    const article = articles.value.find((item) => `/console/articles/${item.slug}` === path)
-    if (!article) return []
-    if (!article.category?.slug || article.category?.isSystem || article.category?.slug === 'uncategorized') return ['category:__uncategorized']
-    return resolveCategoryOpenKeys(article.category.slug)
+  const matched = findManagementRouteState(currentRootChildren.value, path)
+  if (matched) {
+    return mergeOpenKeys(matched.openKeys, resolveAutoKnowledgeDirectoryOpenKeys())
+  }
+
+  const directoryOpenKeys = resolveKnowledgeDirectoryOpenKeys(path)
+  if (directoryOpenKeys.length) {
+    return directoryOpenKeys
   }
 
   return []
@@ -895,6 +1045,85 @@ function resolveManagementMenuOpenKeys(items = [], targetKey = '', ancestors = [
   }
 
   return []
+}
+
+function findKnowledgeDirectoryKey(items = []) {
+  return resolveKnowledgeDirectoryMenuOpenChain(items).at(-1) || ''
+}
+
+function resolveKnowledgeDirectoryOpenKeys(path) {
+  const directoryOpenChain = resolveKnowledgeDirectoryMenuOpenChain(currentRootChildren.value)
+  const directoryKey = directoryOpenChain.at(-1)
+  if (!directoryKey) return []
+  const renderedInline = shouldRenderKnowledgeDirectoryInline()
+  const visibleDirectoryChain = renderedInline ? directoryOpenChain.slice(0, -1) : directoryOpenChain
+
+  if (path === ARTICLE_DIRECTORY_PATH) {
+    return visibleDirectoryChain
+  }
+
+  if (isArticleCategoryPath(path)) {
+    const slug = path.split('/').at(-1)
+    return mergeOpenKeys(visibleDirectoryChain, resolveCategoryOpenKeys(slug))
+  }
+
+  if (isArticleContentPath(path)) {
+    const article = articles.value.find((item) => {
+      return `/console/articles/${item.slug}` === path || `${ARTICLE_DIRECTORY_PATH}/articles/${item.slug}` === path
+    })
+    if (!article) return visibleDirectoryChain
+    if (!article.category?.slug || article.category?.isSystem || article.category?.slug === 'uncategorized') {
+      return mergeOpenKeys(visibleDirectoryChain, ['category:__uncategorized'])
+    }
+    return mergeOpenKeys(visibleDirectoryChain, resolveCategoryOpenKeys(article.category.slug))
+  }
+
+  return []
+}
+
+function isArticleContentPath(path) {
+  return path.startsWith('/console/articles/') || path.startsWith(`${ARTICLE_DIRECTORY_PATH}/articles/`)
+}
+
+function isArticleCategoryPath(path) {
+  return path.startsWith('/console/categories/') || path.startsWith(`${ARTICLE_DIRECTORY_PATH}/categories/`)
+}
+
+function isArticleTagPath(path) {
+  return path.startsWith('/console/tags/') || path.startsWith(`${ARTICLE_DIRECTORY_PATH}/tags/`)
+}
+
+function findKnowledgeDirectoryMenu(items = []) {
+  return flattenRenderableMenus(items).find(isKnowledgeDirectoryMenu) || null
+}
+
+function resolveKnowledgeDirectoryMenuOpenChain(items = [], ancestors = []) {
+  for (const item of items) {
+    if (item.enabled === false || item.hidden) continue
+    const itemKey = getManagementMenuKey(item)
+    if (isKnowledgeDirectoryMenu(item)) {
+      return [...ancestors, itemKey]
+    }
+    const children = (item.children || []).filter((child) => child.enabled !== false && !child.hidden)
+    const matched = resolveKnowledgeDirectoryMenuOpenChain(children, [...ancestors, itemKey])
+    if (matched.length) return matched
+  }
+  return []
+}
+
+function shouldRenderKnowledgeDirectoryInline(menu = null) {
+  if (isKnowledgeDirectoryMenu(currentRootMenu.value)) return true
+  const directory = menu && isKnowledgeDirectoryMenu(menu) ? menu : findKnowledgeDirectoryMenu(currentRootChildren.value)
+  return directory?.directoryAutoExpandWhenNested !== false
+}
+
+function resolveAutoKnowledgeDirectoryOpenKeys() {
+  if (!currentRootHasKnowledgeDirectory.value || !shouldRenderKnowledgeDirectoryInline()) return []
+  return resolveKnowledgeDirectoryMenuOpenChain(currentRootChildren.value).slice(0, -1)
+}
+
+function mergeOpenKeys(...groups) {
+  return [...new Set(groups.flat().filter(Boolean))]
 }
 
 function resolveCategoryOpenKeys(slug) {
@@ -978,13 +1207,16 @@ watch(() => [route.path, route.query.menu], ([path]) => {
   if (route.name !== 'ConsoleUnavailable') {
     clickedMenuKey.value = ''
   }
-  if (!siderCollapsed.value) {
-    openKeys.value = resolveOpenKeys(path)
+
+  const preferredRoot = availableRootMenus.value.find((root) => root.id === preferredRootId.value)
+  if (preferredRoot && !canRootHandlePath(preferredRoot, path)) {
+    preferredRootId.value = ''
   }
+  openKeys.value = resolveOpenKeys(path)
 })
 
-watch(primarySection, async (section) => {
-  if (section !== 'knowledge' || knowledgeMenuLoaded.value) {
+watch(currentRootHasKnowledgeDirectory, async (hasDirectory) => {
+  if (!hasDirectory || knowledgeMenuLoaded.value) {
     return
   }
 
@@ -1002,7 +1234,7 @@ onMounted(() => {
   if (appStore.isMobile) {
     siderCollapsed.value = true
   }
-  if (primarySection.value === 'knowledge' && !knowledgeMenuLoaded.value) {
+  if (currentRootHasKnowledgeDirectory.value && !knowledgeMenuLoaded.value) {
     loadKnowledgeMenu()
   }
 })

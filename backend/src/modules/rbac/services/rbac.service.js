@@ -8,6 +8,14 @@ import { env } from '#config/env'
 import { createSystemNotification } from '#modules/notification/services/notification.service.js'
 
 const DEFAULT_MENUS = [
+  { code: 'knowledge.root', name: '知识库', icon: 'BookOutlined', routePath: '', routeKey: 'knowledge.root', parentType: MENU_PARENT_TYPES.ROOT, sortOrder: 10, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.articles', name: '全部文章', icon: 'FileTextOutlined', routePath: '/console/articles', routeKey: 'knowledge.article.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.directory', name: '文章目录', icon: 'FolderOutlined', routePath: '/console/article-directory', routeKey: 'knowledge.article.directory', directoryAutoExpandWhenNested: true, parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.memos', name: '备忘录', icon: 'BulbOutlined', routePath: '/console/memos', routeKey: 'knowledge.memo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.search', name: '全文检索', icon: 'SearchOutlined', routePath: '/console/search', routeKey: 'knowledge.search', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30, hidden: true, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.profile', name: '个人信息', icon: 'UserOutlined', routePath: '/console/profile', routeKey: 'knowledge.profile', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40, hidden: true, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.categories', name: '分类文章', icon: 'FolderOutlined', routePath: '/console/categories', routeKey: 'knowledge.category.articles', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50, hidden: true, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.tags', name: '标签文章', icon: 'TagsOutlined', routePath: '/console/tags', routeKey: 'knowledge.tag.articles', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 60, hidden: true, type: MENU_TYPES.SYSTEM },
   { code: 'management.root', name: '后台管理', icon: 'ControlOutlined', routePath: '/console', routeKey: 'admin.dashboard', parentType: MENU_PARENT_TYPES.ROOT, sortOrder: 20 },
   { code: 'console.dashboard', name: '管理工作台', icon: 'DashboardOutlined', routePath: '/console', routeKey: 'admin.dashboard', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
   { code: 'content.group', name: '内容管理', icon: 'FolderOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
@@ -28,27 +36,9 @@ const DEFAULT_MENUS = [
   { code: 'system.group', name: '系统运维', icon: 'ToolOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50 },
   { code: 'governance.settings', name: '系统设置', icon: 'SettingOutlined', routePath: '/console/manage/settings', routeKey: 'admin.setting.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
   { code: 'governance.monitor', name: '服务监控', icon: 'MonitorOutlined', routePath: '/console/manage/monitor', routeKey: 'admin.monitor.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
+  { code: 'governance.projectTimeline', name: '项目记录台账', icon: 'ClockCircleOutlined', routePath: '/console/manage/project-timeline', routeKey: 'admin.project.timeline', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 25 },
   { code: 'governance.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/manage/trash', routeKey: 'admin.trash.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 }
 ]
-
-export const BUILTIN_KNOWLEDGE_MENU = Object.freeze({
-  id: 'knowledge',
-  name: '知识库',
-  code: 'knowledge.root',
-  icon: 'BookOutlined',
-  routePath: '/console/articles',
-  openMode: MENU_OPEN_MODES.CURRENT,
-  hidden: false,
-  enabled: true,
-  parentType: MENU_PARENT_TYPES.ROOT,
-  parent_type: MENU_PARENT_TYPES.ROOT,
-  parentId: null,
-  parent_id: '0',
-  level: 1,
-  sortOrder: 10,
-  type: MENU_TYPES.SYSTEM,
-  source: 'knowledge'
-})
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -155,6 +145,10 @@ async function assertValidParent(menuId, parentId) {
     throw createHttpError(400, 'MENU_PARENT_NOT_FOUND', '上级菜单不存在')
   }
 
+  if (parent.code === 'knowledge.directory') {
+    throw createHttpError(400, 'MENU_PARENT_NOT_CONTAINER', '文章目录是系统内置模块，不能作为其他菜单的上级菜单')
+  }
+
   if (menuId) {
     let pointer = parent
     while (pointer?.parentId) {
@@ -204,6 +198,16 @@ function sortMenus(items = []) {
   return [...items].sort(compareMenuSort)
 }
 
+function assertSystemMenuSafeUpdate(menu, input) {
+  if (menu.type !== MENU_TYPES.SYSTEM) return
+
+  const immutableFields = ['code', 'routePath', 'routeKey', 'type']
+  const hasImmutableChange = immutableFields.some((field) => input[field] !== undefined && input[field] !== menu[field])
+  if (hasImmutableChange) {
+    throw createHttpError(403, 'SYSTEM_MENU_FIELD_PROTECTED', '系统菜单不允许修改编码、路由和类型')
+  }
+}
+
 function compareMenuSort(left, right) {
   const itemSort = (left.sortOrder || 0) - (right.sortOrder || 0)
   const createdSort = new Date(left.createdAt || 0) - new Date(right.createdAt || 0)
@@ -221,21 +225,22 @@ export async function ensureRbacSeed(options = {}) {
 
     let menu = await Menu.findOne({ code: menuInput.code })
     if (!menu) {
-        menu = await Menu.create({
-          name: menuInput.name,
-          code: menuInput.code,
-          icon: menuInput.icon,
-          routePath: menuInput.routePath || '',
-          routeKey: menuInput.routeKey || '',
-          activeMenuCode: menuInput.activeMenuCode || '',
-          openMode: MENU_OPEN_MODES.CURRENT,
-          hidden: !!menuInput.hidden,
-          enabled: true,
+      menu = await Menu.create({
+        name: menuInput.name,
+        code: menuInput.code,
+        icon: menuInput.icon,
+        routePath: menuInput.routePath || '',
+        routeKey: menuInput.routeKey || '',
+        activeMenuCode: menuInput.activeMenuCode || '',
+        directoryAutoExpandWhenNested: menuInput.directoryAutoExpandWhenNested !== false,
+        openMode: MENU_OPEN_MODES.CURRENT,
+        hidden: !!menuInput.hidden,
+        enabled: true,
         parentType: menuInput.parentType || (parent ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT),
         parentId: parent?._id || null,
         level: resolveMenuLevel(parent),
         sortOrder: menuInput.sortOrder,
-        type: MENU_TYPES.CUSTOM
+        type: menuInput.type || MENU_TYPES.CUSTOM
       })
     } else {
       const patch = {}
@@ -245,8 +250,10 @@ export async function ensureRbacSeed(options = {}) {
         patch.routePath = menuInput.routePath || ''
         patch.routeKey = menuInput.routeKey || ''
         patch.activeMenuCode = menuInput.activeMenuCode || ''
+        patch.directoryAutoExpandWhenNested = menuInput.directoryAutoExpandWhenNested !== false
         patch.hidden = !!menuInput.hidden
         patch.enabled = true
+        patch.type = menuInput.type || MENU_TYPES.CUSTOM
         patch.sortOrder = menuInput.sortOrder
         patch.parentType = menuInput.parentType || (parent ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT)
         patch.parentId = patch.parentType === MENU_PARENT_TYPES.ROOT ? null : (parent?._id || null)
@@ -255,6 +262,9 @@ export async function ensureRbacSeed(options = {}) {
         if (!menu.parentType) patch.parentType = menuInput.parentType || (parent ? MENU_PARENT_TYPES.CHILD : MENU_PARENT_TYPES.ROOT)
         if (!menu.routeKey && menuInput.routeKey) patch.routeKey = menuInput.routeKey
         if (!menu.activeMenuCode && menuInput.activeMenuCode) patch.activeMenuCode = menuInput.activeMenuCode
+        if (menu.directoryAutoExpandWhenNested === undefined) {
+          patch.directoryAutoExpandWhenNested = menuInput.directoryAutoExpandWhenNested !== false
+        }
         if (menu.hidden === undefined) patch.hidden = !!menuInput.hidden
         if (menu.enabled === undefined) patch.enabled = true
         if (!menu.parentId && menu.parentType !== MENU_PARENT_TYPES.ROOT && parent) {
@@ -277,6 +287,9 @@ export async function ensureRbacSeed(options = {}) {
 
   const allMenus = await Menu.find({ enabled: true })
   const adminMenuIds = allMenus.map((menu) => menu._id)
+  const knowledgeMenuIds = allMenus
+    .filter((menu) => menu.code?.startsWith('knowledge.'))
+    .map((menu) => menu._id)
 
   const superRole = await Role.findOneAndUpdate(
     { code: BUILTIN_ROLE_CODES.SUPER_ADMIN },
@@ -300,7 +313,7 @@ export async function ensureRbacSeed(options = {}) {
       $set: {
         name: '访客角色',
         description: '仅可访问知识库阅读能力，无后台管理菜单权限。',
-        menuIds: [],
+        menuIds: knowledgeMenuIds,
         isBuiltin: true,
         isSuperAdmin: false,
         sortOrder: 10
@@ -585,10 +598,7 @@ export async function listRootMenus() {
   }).sort({ sortOrder: 1, createdAt: 1 })
 
   return {
-    items: [
-      BUILTIN_KNOWLEDGE_MENU,
-      ...roots.map((menu) => menu.toSafeJSON())
-    ]
+    items: roots.map((menu) => menu.toSafeJSON())
   }
 }
 
@@ -612,6 +622,7 @@ export async function createMenu(input) {
     routePath: input.routePath,
     routeKey: input.routeKey || '',
     activeMenuCode: input.activeMenuCode || '',
+    directoryAutoExpandWhenNested: input.directoryAutoExpandWhenNested !== false,
     openMode: input.openMode,
     hidden: !!input.hidden,
     enabled: input.enabled !== false,
@@ -631,6 +642,7 @@ export async function updateMenu(id, input) {
   if (!menu) {
     throw createHttpError(404, 'MENU_NOT_FOUND', '菜单不存在')
   }
+  assertSystemMenuSafeUpdate(menu, input)
 
   if (input.code && input.code !== menu.code) {
     const existing = await Menu.exists({ code: input.code, _id: { $ne: menu._id } })
@@ -645,6 +657,9 @@ export async function updateMenu(id, input) {
   if (input.routePath !== undefined) menu.routePath = input.routePath
   if (input.routeKey !== undefined) menu.routeKey = input.routeKey || ''
   if (input.activeMenuCode !== undefined) menu.activeMenuCode = input.activeMenuCode || ''
+  if (input.directoryAutoExpandWhenNested !== undefined && menu.code === 'knowledge.directory') {
+    menu.directoryAutoExpandWhenNested = input.directoryAutoExpandWhenNested
+  }
   if (input.openMode !== undefined) menu.openMode = input.openMode
   if (input.hidden !== undefined) menu.hidden = input.hidden
   if (input.enabled !== undefined) menu.enabled = input.enabled
@@ -747,8 +762,8 @@ export async function deleteMenu(id) {
   await ensureRbacSeed()
   const tree = await collectMenuTree(id)
   const root = tree[0]
-  if (root.code === 'management.root') {
-    throw createHttpError(403, 'BUILTIN_MENU_PROTECTED', '内置后台管理一级菜单不允许删除')
+  if (root.type === MENU_TYPES.SYSTEM || root.code === 'management.root') {
+    throw createHttpError(403, 'BUILTIN_MENU_PROTECTED', '系统内置菜单不允许删除')
   }
 
   const ids = tree.map((item) => item._id)

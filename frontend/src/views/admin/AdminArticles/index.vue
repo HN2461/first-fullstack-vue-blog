@@ -10,7 +10,7 @@
       :page-sizes="['10', '20', '50']"
       :show-column-setting="true"
       :height="'100%'"
-      :scroll="{ x: 960 }"
+      :scroll="{ x: 1120 }"
       row-selection
       @selection-change="handleSelectionChange"
     >
@@ -49,14 +49,16 @@
           <a-select-option value="draft">草稿</a-select-option>
           <a-select-option value="archived">已下架</a-select-option>
         </a-select>
-        <a-select
-          v-model:value="filterCategory"
+        <a-cascader
+          v-model:value="filterCategoryPath"
+          :options="categoryTreeOptions"
+          :loading="categoryLoading"
           placeholder="分类筛选"
-          style="width: 140px"
+          style="width: 220px"
           allow-clear
-        >
-          <a-select-option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</a-select-option>
-        </a-select>
+          change-on-select
+          show-search
+        />
         <a-button @click="resetFilters">重置</a-button>
       </template>
 
@@ -97,6 +99,13 @@
             <span class="time-ago" :title="record.status === 'published' ? '发布时间' : '最近更新时间'">
               {{ record.status === 'published' ? '已发布' : '待发布' }}
             </span>
+          </div>
+        </template>
+
+        <template v-else-if="column.key === 'updatedAt'">
+          <div class="time-cell">
+            <span>{{ formatDate(record.updatedAt) }}</span>
+            <span class="time-ago">最近编辑</span>
           </div>
         </template>
 
@@ -153,6 +162,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import {
   CheckCircleOutlined,
   DownOutlined,
@@ -165,32 +175,47 @@ import BlogTable from '@/components/BlogTable.vue'
 import BatchActionBar from '@/components/BatchActionBar.vue'
 import {
   listAdminArticles,
-  batchDeleteAdminArticles,
-  batchUpdateAdminArticleStatus,
-  deleteAdminArticle,
-  publishAdminArticle,
-  updateAdminArticleStatus,
   listAllAdminCategories
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
+import { useAdminArticleActions } from './useAdminArticleActions'
+import './styles.css'
 
 const tableRef = ref(null)
+const router = useRouter()
 const categories = ref([])
 const searchKeyword = ref('')
 const debouncedKeyword = ref('')
 const filterStatus = ref('all')
-const filterCategory = ref(undefined)
+const filterCategoryPath = ref([])
 const categoryLoading = ref(false)
-const actionLoadingKey = ref('')
 const selectedArticleIds = ref([])
 const { runAction, confirmAction } = useAdminActions()
+const {
+  handleAction,
+  handleBatchDelete,
+  handleBatchStatus,
+  openReader
+} = useAdminArticleActions({
+  selectedArticleIds,
+  tableRef,
+  router,
+  clearSelection,
+  runAction,
+  confirmAction
+})
 
 // 筛选参数：变化时 BlogTable 自动重新加载
 const filterParams = computed(() => ({
   status: filterStatus.value === 'all' ? undefined : filterStatus.value,
-  category: filterCategory.value,
+  category: selectedCategoryId.value,
   keyword: debouncedKeyword.value || undefined
 }))
+const selectedCategoryId = computed(() => {
+  const path = Array.isArray(filterCategoryPath.value) ? filterCategoryPath.value : []
+  return path.length ? path[path.length - 1] : undefined
+})
+const categoryTreeOptions = computed(() => buildCategoryOptions(categories.value))
 
 const columns = [
   {
@@ -208,6 +233,11 @@ const columns = [
   {
     title: '发布时间',
     key: 'publishedAt',
+    width: 156
+  },
+  {
+    title: '最近编辑',
+    key: 'updatedAt',
     width: 156
   },
   {
@@ -289,6 +319,44 @@ function formatTagSummary(tags = []) {
   return `${names.slice(0, 2).join(' / ')} 等 ${names.length} 个标签`
 }
 
+function buildCategoryOptions(items = []) {
+  const nodeMap = new Map()
+  const roots = []
+
+  items.forEach((item) => {
+    nodeMap.set(item.id, {
+      value: item.id,
+      label: item.name,
+      children: []
+    })
+  })
+
+  items.forEach((item) => {
+    const node = nodeMap.get(item.id)
+    const parentId = item.parent || null
+    const parent = parentId ? nodeMap.get(parentId) : null
+
+    if (parent) {
+      parent.children.push(node)
+      return
+    }
+
+    roots.push(node)
+  })
+
+  const cleanup = (nodes = []) => nodes.map((node) => {
+    const next = { ...node }
+    if (next.children.length) {
+      next.children = cleanup(next.children)
+    } else {
+      delete next.children
+    }
+    return next
+  })
+
+  return cleanup(roots)
+}
+
 async function fetchArticles(params) {
   const result = await listAdminArticles(params)
   return { items: result.items || [], total: result.total || 0 }
@@ -325,7 +393,7 @@ function resetFilters() {
   searchKeyword.value = ''
   debouncedKeyword.value = ''
   filterStatus.value = 'all'
-  filterCategory.value = undefined
+  filterCategoryPath.value = []
   clearSelection()
 }
 
@@ -338,268 +406,8 @@ function clearSelection() {
   tableRef.value?.clearSelection?.()
 }
 
-function handleBatchStatus(status) {
-  if (selectedArticleIds.value.length === 0) return
-
-  const labelMap = {
-    published: '发布',
-    archived: '下架',
-    draft: '转为草稿'
-  }
-
-  confirmAction({
-    title: `确认批量${labelMap[status] || '更新状态'}`,
-    content: `将 ${selectedArticleIds.value.length} 篇文章${labelMap[status] || '更新状态'}，不会修改文章正文内容。`,
-    okText: '确认',
-    async onOk() {
-      await runAction(() => batchUpdateAdminArticleStatus(selectedArticleIds.value, status), {
-        successMessage: '文章状态已批量更新',
-        errorMessage: '批量更新失败',
-        onSuccess: () => {
-          clearSelection()
-          tableRef.value?.refresh()
-        }
-      })
-    }
-  }).catch(() => {})
-}
-
-function handleBatchDelete() {
-  if (selectedArticleIds.value.length === 0) return
-
-  confirmAction({
-    title: '确认批量删除',
-    content: `将 ${selectedArticleIds.value.length} 篇文章移入回收站，不会删除或改写文章正文。`,
-    okText: '确认删除',
-    okType: 'danger',
-    async onOk() {
-      await runAction(() => batchDeleteAdminArticles(selectedArticleIds.value), {
-        successMessage: '文章已批量移入回收站',
-        errorMessage: '批量删除失败',
-        onSuccess: () => {
-          clearSelection()
-          tableRef.value?.refresh()
-        }
-      })
-    }
-  }).catch(() => {})
-}
-
-function openReader(record) {
-  if (record.slug) {
-    window.open(`/articles/${record.slug}`, '_blank', 'noopener')
-    return
-  }
-
-  if (record.id) {
-    window.open(`/console/manage/articles/${record.id}`, '_blank', 'noopener')
-  }
-}
-
-// 操作处理
-async function handleAction(key, record) {
-  if (actionLoadingKey.value) {
-    return
-  }
-
-  switch (key) {
-    case 'publish':
-      await handlePublish(record.id)
-      break
-    case 'archive':
-      await handleArchive(record.id)
-      break
-    case 'draft':
-      await handleToDraft(record.id)
-      break
-    case 'delete':
-      handleDelete(record)
-      break
-  }
-}
-
-async function handlePublish(id) {
-  actionLoadingKey.value = `publish:${id}`
-  try {
-    await runAction(() => publishAdminArticle(id), {
-      successMessage: '文章已发布',
-      errorMessage: '发布失败',
-      onSuccess: () => tableRef.value?.refresh()
-    })
-  } finally {
-    actionLoadingKey.value = ''
-  }
-}
-
-async function handleArchive(id) {
-  actionLoadingKey.value = `archive:${id}`
-  try {
-    await runAction(() => updateAdminArticleStatus(id, 'archived'), {
-      successMessage: '文章已下架',
-      errorMessage: '下架失败',
-      onSuccess: () => tableRef.value?.refresh()
-    })
-  } finally {
-    actionLoadingKey.value = ''
-  }
-}
-
-async function handleToDraft(id) {
-  actionLoadingKey.value = `draft:${id}`
-  try {
-    await runAction(() => updateAdminArticleStatus(id, 'draft'), {
-      successMessage: '已转为草稿',
-      errorMessage: '转草稿失败',
-      onSuccess: () => tableRef.value?.refresh()
-    })
-  } finally {
-    actionLoadingKey.value = ''
-  }
-}
-
-function handleDelete(record) {
-  confirmAction({
-    title: '确认删除',
-    content: `确定要删除文章「${record.title}」吗？删除后将进入删除流程且前台不可再访问。`,
-    okText: '确认删除',
-    okType: 'danger',
-    async onOk() {
-      actionLoadingKey.value = `delete:${record.id}`
-      try {
-        await runAction(() => deleteAdminArticle(record.id), {
-          successMessage: '文章已删除',
-          errorMessage: '删除失败',
-          onSuccess: () => tableRef.value?.refresh()
-        })
-      } finally {
-        actionLoadingKey.value = ''
-      }
-    }
-  }).catch(() => {})
-}
-
 // 初始化
 onMounted(() => {
   loadCategories()
 })
 </script>
-
-<style scoped>
-.articles-page {
-  max-width: 1400px;
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
-}
-
-.article-cover-cell {
-  width: 72px;
-  height: 48px;
-  overflow: hidden;
-  border-radius: 6px;
-  background: #f5f7fa;
-  flex-shrink: 0;
-}
-
-.article-cover-image {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.article-cover-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #bfbfbf;
-  font-size: 12px;
-}
-
-.article-title-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.article-title {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  text-align: left;
-  font-weight: 500;
-  color: #1a1a1a;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.article-title:hover {
-  color: #1677ff;
-}
-
-.article-summary {
-  font-size: 12px;
-  color: #8c8c8c;
-  line-height: 1.4;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  word-break: break-all;
-}
-
-.article-meta-line {
-  display: flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  gap: 8px;
-  font-size: 12px;
-  color: #8c8c8c;
-  overflow: hidden;
-}
-
-.article-meta-line span:not(:first-child) {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  min-width: 0;
-}
-
-.metric-cell {
-  display: inline-flex;
-  min-width: 36px;
-  justify-content: center;
-  font-size: 13px;
-  color: #525252;
-}
-
-.time-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.time-cell span:first-child {
-  font-size: 13px;
-  color: #333;
-}
-
-.time-ago {
-  font-size: 11px;
-  color: #bfbfbf;
-}
-
-/* 辅助样式 */
-.text-muted {
-  color: #bfbfbf;
-  font-size: 13px;
-}
-
-@media (max-width: 1200px) {
-  .articles-page {
-    max-width: 100%;
-  }
-}
-</style>

@@ -1,12 +1,25 @@
 <template>
   <div class="trash-page">
-    <!-- 页面头部 -->
-    <div class="page-header">
-      <div class="header-left">
-        <h2>回收站</h2>
-        <span class="header-tip">回收站中的文章不会在前台显示，可恢复或彻底删除。</span>
-      </div>
-      <div class="header-right">
+    <BlogTable
+      ref="tableRef"
+      :api-fn="loadTrash"
+      :columns="columns"
+      :auto-load="true"
+      :page-size="10"
+      :page-sizes="['10', '20', '50']"
+      row-selection
+      @selection-change="handleSelectionChange"
+    >
+      <template #toolbar>
+        <a-tooltip title="回收站中的文章不会在前台显示，可恢复或彻底删除。">
+          <a-button shape="circle">
+            <template #icon><QuestionCircleOutlined /></template>
+          </a-button>
+        </a-tooltip>
+        <BatchActionBar :count="selectedTrashIds.length" @clear="clearSelection">
+          <a-button size="small" @click="handleBatchRestore">批量恢复</a-button>
+          <a-button size="small" danger @click="confirmBatchPermanentDelete">批量彻底删除</a-button>
+        </BatchActionBar>
         <a-button
           v-if="tableRef?.getData()?.length > 0"
           danger
@@ -15,18 +28,8 @@
           <template #icon><DeleteOutlined /></template>
           清空回收站
         </a-button>
-      </div>
-    </div>
+      </template>
 
-    <!-- 文章表格 -->
-    <BlogTable
-      ref="tableRef"
-      :api-fn="loadTrash"
-      :columns="columns"
-      :auto-load="true"
-      :page-size="10"
-      :page-sizes="['10', '20', '50']"
-    >
       <template #bodyCell="{ column, record }">
         <!-- 标题列 -->
         <template v-if="column.key === 'title'">
@@ -72,14 +75,24 @@
 import { ref } from 'vue'
 import {
   UndoOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  QuestionCircleOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
-import { listTrashArticles, restoreArticle, permanentDeleteArticle, emptyTrash } from '@/services/admin'
+import BatchActionBar from '@/components/BatchActionBar.vue'
+import {
+  batchPermanentDeleteArticles,
+  batchRestoreArticles,
+  listTrashArticles,
+  restoreArticle,
+  permanentDeleteArticle,
+  emptyTrash
+} from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
 const actionLoadingKey = ref('')
+const selectedTrashIds = ref([])
 const { runAction, confirmAction } = useAdminActions()
 
 const columns = [
@@ -146,6 +159,15 @@ async function loadTrash(params) {
   return await listTrashArticles(params)
 }
 
+function handleSelectionChange(keys) {
+  selectedTrashIds.value = keys || []
+}
+
+function clearSelection() {
+  selectedTrashIds.value = []
+  tableRef.value?.clearSelection?.()
+}
+
 // 恢复文章
 async function handleRestore(record) {
   actionLoadingKey.value = `restore:${record.id}`
@@ -178,6 +200,49 @@ function confirmPermanentDelete(record) {
       } finally {
         actionLoadingKey.value = ''
       }
+    }
+  }).catch(() => {})
+}
+
+function handleBatchRestore() {
+  if (selectedTrashIds.value.length === 0) return
+
+  confirmAction({
+    title: '批量恢复文章',
+    content: `确定恢复选中的 ${selectedTrashIds.value.length} 篇文章吗？`,
+    okText: '恢复',
+    async onOk() {
+      const ids = [...selectedTrashIds.value]
+      await runAction(() => batchRestoreArticles(ids), {
+        successMessage: '文章已批量恢复',
+        errorMessage: '批量恢复失败',
+        onSuccess: () => {
+          clearSelection()
+          tableRef.value?.refresh()
+        }
+      })
+    }
+  }).catch(() => {})
+}
+
+function confirmBatchPermanentDelete() {
+  if (selectedTrashIds.value.length === 0) return
+
+  confirmAction({
+    title: '批量彻底删除',
+    content: `确定彻底删除选中的 ${selectedTrashIds.value.length} 篇文章吗？此操作不可恢复。`,
+    okText: '彻底删除',
+    okType: 'danger',
+    async onOk() {
+      const ids = [...selectedTrashIds.value]
+      await runAction(() => batchPermanentDeleteArticles(ids), {
+        successMessage: '文章已批量彻底删除',
+        errorMessage: '批量彻底删除失败',
+        onSuccess: () => {
+          clearSelection()
+          tableRef.value?.refresh()
+        }
+      })
     }
   }).catch(() => {})
 }
@@ -215,31 +280,6 @@ function confirmEmptyTrash() {
   width: 100%;
   height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
   overflow: hidden;
-}
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0;
-}
-
-.header-left h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0 0 4px;
-  color: #1a1a1a;
-}
-
-.header-tip {
-  display: inline-flex;
-  color: var(--console-primary-strong, #1677ff);
-  font-size: 13px;
-}
-
-.header-right {
-  display: flex;
-  gap: 10px;
 }
 
 .article-title-cell {

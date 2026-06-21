@@ -7,7 +7,7 @@
         {{ siteStore.siteDescription }}
       </p>
       <a-space>
-        <a-button type="primary" size="large" @click="$router.push('/login')">进入知识库系统</a-button>
+        <a-button type="primary" size="large" @click="$router.push(knowledgeEntryPath)">进入知识库系统</a-button>
       </a-space>
     </div>
     <div class="portal-overview-card">
@@ -84,13 +84,16 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { getPublicHome } from '@/services/public'
 import { useSiteStore } from '@/stores/site'
+import { useAuthStore } from '@/stores/auth'
 
 const loading = ref(false)
 const errorMessage = ref('')
 const siteStore = useSiteStore()
+const authStore = useAuthStore()
+const knowledgeEntryPath = computed(() => (authStore.isLoggedIn ? '/console' : '/login?redirect=/console'))
 const home = ref({
   stats: {
     articleCount: 0,

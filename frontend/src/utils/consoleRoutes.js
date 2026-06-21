@@ -1,6 +1,7 @@
 const EXACT_CONSOLE_ROUTE_PATHS = new Set([
   '/console',
   '/console/articles',
+  '/console/article-directory',
   '/console/search',
   '/console/memos',
   '/console/profile',
@@ -20,11 +21,15 @@ const EXACT_CONSOLE_ROUTE_PATHS = new Set([
   '/console/manage/notifications',
   '/console/manage/settings',
   '/console/manage/monitor',
+  '/console/manage/project-timeline',
   '/console/manage/trash'
 ])
 
 const PREFIX_CONSOLE_ROUTE_PATHS = [
   '/console/articles/',
+  '/console/article-directory/articles/',
+  '/console/article-directory/categories/',
+  '/console/article-directory/tags/',
   '/console/categories/',
   '/console/tags/',
   '/console/manage/articles/'
@@ -32,10 +37,14 @@ const PREFIX_CONSOLE_ROUTE_PATHS = [
 
 export function isKnowledgeConsolePath(path = '') {
   return path === '/console/articles' ||
+    path === '/console/article-directory' ||
     path === '/console/memos' ||
     path === '/console/search' ||
     path === '/console/profile' ||
     path.startsWith('/console/articles/') ||
+    path.startsWith('/console/article-directory/articles/') ||
+    path.startsWith('/console/article-directory/categories/') ||
+    path.startsWith('/console/article-directory/tags/') ||
     path.startsWith('/console/categories/') ||
     path.startsWith('/console/tags/')
 }

@@ -159,6 +159,11 @@ const DEFAULT_MENU_STRUCTURE = Object.freeze({
     sortOrder: 20,
     routePath: '/console/manage/monitor'
   },
+  'governance.projectTimeline': {
+    parentCode: 'system.group',
+    sortOrder: 25,
+    routePath: '/console/manage/project-timeline'
+  },
   'governance.trash': {
     parentCode: 'system.group',
     sortOrder: 30,

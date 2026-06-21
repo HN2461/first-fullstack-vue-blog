@@ -14,18 +14,6 @@ import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/cr
 import { isRoutePathMatched } from '@/utils/routeMatch'
 
 const MENU_CACHE_KEY = 'blog-auth-menu-cache'
-const KNOWLEDGE_ROOT_MENU = Object.freeze({
-  id: 'knowledge',
-  name: '知识库',
-  code: 'knowledge.root',
-  icon: 'BookOutlined',
-  routePath: '/console/articles',
-  parentType: 'root',
-  parentId: null,
-  sortOrder: 10,
-  source: 'knowledge',
-  children: []
-})
 
 function readMenuCache() {
   try {
@@ -99,35 +87,30 @@ export const useAuthStore = defineStore('auth', () => {
       []
   })
   const rootMenus = computed(() => {
-    const dynamicRoots = (managementMenus.value || [])
+    return (managementMenus.value || [])
       .filter((menu) => menu.enabled !== false && !menu.hidden)
       .map((menu) => ({
         ...menu,
-        source: menu.source || 'rbac',
+        source: menu.source || (menu.id === 'knowledge' || menu.code === 'knowledge.root' ? 'knowledge' : 'rbac'),
         children: (menu.children || []).filter((child) => child.enabled !== false && !child.hidden)
       }))
-
-    return [
-      {
-        ...KNOWLEDGE_ROOT_MENU,
-        children: [
-          { id: 'knowledge.articles', name: '全部文章', code: 'knowledge.articles', icon: 'FileTextOutlined', routePath: '/console/articles', source: 'knowledge' },
-          { id: 'knowledge.memos', name: '备忘录', code: 'knowledge.memos', icon: 'BulbOutlined', routePath: '/console/memos', source: 'knowledge' }
-        ]
-      },
-      ...dynamicRoots
-    ]
   })
   const isAdmin = computed(() => {
     return isSuperAdmin.value ||
-      user.value?.role === 'admin' ||
       menuPaths.value.some((path) => path === '/console' || path.startsWith('/console/manage'))
   })
 
   function canAccessPath(path) {
     if (!path) return false
     if (isSuperAdmin.value) return true
-    if (path === '/console/articles' || path === '/console/memos' || path === '/console/search' || path.startsWith('/console/articles/') || path.startsWith('/console/categories/') || path.startsWith('/console/tags/') || path === '/console/profile') {
+    if (menuPaths.value.some((menuPath) => isRoutePathMatched(path, menuPath))) {
+      return true
+    }
+    if (path.startsWith('/console/articles/') ||
+      path.startsWith('/console/article-directory/') ||
+      path.startsWith('/console/categories/') ||
+      path.startsWith('/console/tags/')
+    ) {
       return isLoggedIn.value
     }
 
@@ -135,7 +118,7 @@ export const useAuthStore = defineStore('auth', () => {
       return menuPaths.value.includes('/console') || isAdmin.value
     }
 
-    return menuPaths.value.some((menuPath) => isRoutePathMatched(path, menuPath))
+    return false
   }
 
   async function restoreSession() {

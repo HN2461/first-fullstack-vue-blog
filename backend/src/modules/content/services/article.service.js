@@ -126,6 +126,34 @@ async function resolveCreateSlug(input) {
   return ensureUniqueGeneratedSlug(slugifyArticleTitle(input.title))
 }
 
+async function collectCategoryBranchIds(categoryId) {
+  const categories = await Category.find({}, '_id parent').lean()
+  const childMap = new Map()
+
+  for (const category of categories) {
+    const parentId = category.parent ? String(category.parent) : null
+    if (!childMap.has(parentId)) {
+      childMap.set(parentId, [])
+    }
+    childMap.get(parentId).push(String(category._id))
+  }
+
+  const resolved = new Set([String(categoryId)])
+  const queue = [String(categoryId)]
+
+  while (queue.length > 0) {
+    const current = queue.shift()
+    const children = childMap.get(current) || []
+    for (const childId of children) {
+      if (resolved.has(childId)) continue
+      resolved.add(childId)
+      queue.push(childId)
+    }
+  }
+
+  return Array.from(resolved)
+}
+
 async function resolveUpdateSlug(input, article) {
   const requestedSlug = String(input.slug || '').trim().toLowerCase()
 
@@ -288,7 +316,7 @@ export async function listArticles(options = {}) {
   }
 
   if (category) {
-    query.category = category
+    query.category = { $in: await collectCategoryBranchIds(category) }
   }
 
   if (keyword) {
@@ -301,15 +329,13 @@ export async function listArticles(options = {}) {
   // 计算分页
   const skip = (page - 1) * pageSize
 
-  // 并行查询总数和列表
-  // 排序：优先按 publishedAt（写作/发布时间）倒序，让迁移来的文章按原始写作顺序排列
-  // updatedAt 作为兜底排序，保证同一天发布的文章也有确定顺序
+  // 管理后台按最近修改排序，确保导入、编辑、状态变更后的文章优先露出。
   const [total, articles] = await Promise.all([
     Article.countDocuments(query),
     Article.find(query)
       .populate('category')
       .populate('tags')
-      .sort({ publishedAt: -1, createdAt: -1, updatedAt: -1 })
+      .sort({ updatedAt: -1, createdAt: -1 })
       .skip(skip)
       .limit(pageSize)
   ])

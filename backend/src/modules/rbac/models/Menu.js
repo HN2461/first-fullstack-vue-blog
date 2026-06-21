@@ -46,6 +46,10 @@ const menuSchema = new mongoose.Schema(
       trim: true,
       maxlength: 80
     },
+    directoryAutoExpandWhenNested: {
+      type: Boolean,
+      default: true
+    },
     openMode: {
       type: String,
       enum: Object.values(MENU_OPEN_MODES),
@@ -99,6 +103,7 @@ menuSchema.methods.toSafeJSON = function toSafeJSON() {
     routePath: this.routePath,
     routeKey: this.routeKey,
     activeMenuCode: this.activeMenuCode,
+    directoryAutoExpandWhenNested: this.directoryAutoExpandWhenNested !== false,
     openMode: this.openMode,
     hidden: this.hidden,
     enabled: this.enabled,

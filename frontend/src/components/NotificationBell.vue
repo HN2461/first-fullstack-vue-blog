@@ -5,7 +5,12 @@
     overlay-class-name="announce-bell-dropdown"
     placement="bottomRight"
   >
-    <a-badge :count="notificationStore.unreadCount" :overflow-count="99" size="small">
+    <a-badge
+      :count="notificationStore.unreadCount"
+      :overflow-count="99"
+      size="small"
+      class="announce-bell-badge"
+    >
       <a-button class="enterprise-icon-action announce-bell-btn" type="text">
         <template #icon><BellOutlined /></template>
       </a-button>
@@ -59,7 +64,7 @@
             </div>
           </template>
         </div>
-        <div v-if="announcementList.length > 0" class="announce-bell-footer">
+        <div v-if="announcementList.length > 0 && canManageNotifications" class="announce-bell-footer">
           <a-button type="link" size="small" block @click="handleViewAll">
             查看全部公告
           </a-button>
@@ -92,7 +97,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { BellOutlined, LinkOutlined } from '@ant-design/icons-vue'
 import { useNotificationStore } from '@/stores/notification'
@@ -108,6 +113,7 @@ const loading = ref(false)
 const announcementList = ref([])
 const detailVisible = ref(false)
 const detailData = ref(null)
+const canManageNotifications = computed(() => authStore.canAccessPath('/console/manage/notifications'))
 
 let pollTimer = null
 
@@ -168,6 +174,7 @@ function handleItemClick(item) {
     notificationStore.markRead(item.id)
     item.isRead = true
   }
+  dropdownVisible.value = false
   detailData.value = item
   detailVisible.value = true
 }
@@ -230,6 +237,26 @@ onUnmounted(() => {
 .announce-bell-btn {
   border: 0 !important;
   box-shadow: none !important;
+}
+
+.announce-bell-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.announce-bell-badge :deep(.ant-badge-count) {
+  top: 5px;
+  right: 5px;
+  transform: translate(50%, -50%);
+  min-width: 16px;
+  height: 16px;
+  padding: 0 5px;
+  border-radius: 8px;
+  font-size: 11px;
+  line-height: 16px;
+  box-shadow: none;
 }
 
 .announce-bell-panel {

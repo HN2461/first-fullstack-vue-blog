@@ -160,14 +160,37 @@
           <a-textarea v-model:value="form.description" :rows="3" :maxlength="240" show-count />
         </a-form-item>
         <a-form-item label="菜单权限" name="menuIds">
-          <div class="permission-panel">
-            <a-tree
-              v-model:checkedKeys="form.menuIds"
-              checkable
-              default-expand-all
-              :tree-data="permissionTree"
-              :field-names="{ title: 'name', key: 'id', children: 'children' }"
-            />
+          <div class="permission-picker">
+            <div class="permission-picker-toolbar">
+              <a-input-search v-model:value="permissionKeyword" placeholder="搜索菜单名称或编码" allow-clear />
+              <a-space size="small">
+                <a-button size="small" @click="expandAllPermissionMenus">展开</a-button>
+                <a-button size="small" @click="collapseAllPermissionMenus">收起</a-button>
+              </a-space>
+            </div>
+            <div class="permission-picker-summary">
+              已选 {{ form.menuIds.length }} 项，系统菜单用于控制内置入口是否展示
+            </div>
+            <div class="permission-panel">
+              <a-tree
+                v-model:checkedKeys="form.menuIds"
+                v-model:expandedKeys="permissionExpandedKeys"
+                checkable
+                block-node
+                :auto-expand-parent="permissionAutoExpandParent"
+                :tree-data="filteredPermissionTree"
+                :field-names="{ title: 'name', key: 'id', children: 'children' }"
+                @expand="handlePermissionExpand"
+              >
+                <template #title="node">
+                  <div class="permission-tree-node">
+                    <span class="permission-tree-title">{{ node.name }}</span>
+                    <a-tag v-if="node.type === 'system'" color="blue" :bordered="false">系统</a-tag>
+                    <small v-if="node.routePath">{{ node.routePath }}</small>
+                  </div>
+                </template>
+              </a-tree>
+            </div>
           </div>
         </a-form-item>
       </a-form>
@@ -191,14 +214,37 @@
         description="该操作会用当前勾选结果替换选中角色原有菜单权限。"
         class="permission-alert"
       />
-      <div class="permission-panel permission-panel--modal">
+      <div class="permission-picker">
+        <div class="permission-picker-toolbar">
+          <a-input-search v-model:value="permissionKeyword" placeholder="搜索菜单名称或编码" allow-clear />
+          <a-space size="small">
+            <a-button size="small" @click="expandAllPermissionMenus">展开</a-button>
+            <a-button size="small" @click="collapseAllPermissionMenus">收起</a-button>
+          </a-space>
+        </div>
+        <div class="permission-picker-summary">
+          已选 {{ permissionForm.menuIds.length }} 项，将覆盖选中角色原有权限
+        </div>
+        <div class="permission-panel permission-panel--modal">
         <a-tree
           v-model:checkedKeys="permissionForm.menuIds"
+          v-model:expandedKeys="permissionExpandedKeys"
           checkable
-          default-expand-all
-          :tree-data="permissionTree"
+          block-node
+          :auto-expand-parent="permissionAutoExpandParent"
+          :tree-data="filteredPermissionTree"
           :field-names="{ title: 'name', key: 'id', children: 'children' }"
-        />
+          @expand="handlePermissionExpand"
+        >
+          <template #title="node">
+            <div class="permission-tree-node">
+              <span class="permission-tree-title">{{ node.name }}</span>
+              <a-tag v-if="node.type === 'system'" color="blue" :bordered="false">系统</a-tag>
+              <small v-if="node.routePath">{{ node.routePath }}</small>
+            </div>
+          </template>
+        </a-tree>
+        </div>
       </div>
     </a-modal>
   </section>
@@ -236,6 +282,9 @@ const searchKeyword = ref('')
 const debouncedKeyword = ref('')
 const filterStatus = ref('all')
 const filterType = ref('all')
+const permissionKeyword = ref('')
+const permissionExpandedKeys = ref([])
+const permissionAutoExpandParent = ref(true)
 
 const form = reactive({
   name: '',
@@ -283,6 +332,47 @@ const rowSelection = computed(() => ({
     selectedRoleIds.value = keys
   }
 }))
+const permissionFlatMenus = computed(() => flattenMenus(permissionTree.value))
+const filteredPermissionTree = computed(() => {
+  const keyword = permissionKeyword.value.trim().toLowerCase()
+  if (!keyword) return permissionTree.value
+
+  const matchNode = (node) => {
+    const haystack = `${node.name || ''} ${node.code || ''} ${node.routePath || ''}`.toLowerCase()
+    const children = (node.children || []).map(matchNode).filter(Boolean)
+    if (haystack.includes(keyword) || children.length) {
+      return {
+        ...node,
+        children
+      }
+    }
+    return null
+  }
+
+  return permissionTree.value.map(matchNode).filter(Boolean)
+})
+
+function flattenMenus(items = []) {
+  return items.flatMap((item) => [
+    item,
+    ...flattenMenus(item.children || [])
+  ])
+}
+
+function expandAllPermissionMenus() {
+  permissionExpandedKeys.value = permissionFlatMenus.value.map((item) => item.id)
+  permissionAutoExpandParent.value = true
+}
+
+function collapseAllPermissionMenus() {
+  permissionExpandedKeys.value = []
+  permissionAutoExpandParent.value = false
+}
+
+function handlePermissionExpand(keys) {
+  permissionExpandedKeys.value = keys
+  permissionAutoExpandParent.value = false
+}
 
 function clearSelection() {
   selectedRoleIds.value = []
@@ -329,6 +419,9 @@ async function loadPermissionTree() {
   try {
     const menuResult = await listRbacRolePermissionMenus()
     permissionTree.value = menuResult.tree || []
+    if (!permissionExpandedKeys.value.length) {
+      expandAllPermissionMenus()
+    }
   } catch (error) {
     message.error(getRoleErrorMessage(error, '菜单权限加载失败'))
   } finally {
@@ -505,21 +598,75 @@ onMounted(loadPermissionTree)
 }
 
 .permission-panel {
-  max-height: 300px;
+  max-height: 340px;
   overflow: auto;
-  padding: 10px 12px;
+  padding: 8px;
   border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: var(--console-surface-muted);
+  background: var(--console-surface);
   scrollbar-width: thin;
 }
 
 .permission-panel--modal {
-  max-height: 360px;
+  max-height: 430px;
 }
 
 .permission-alert {
   margin-bottom: 14px;
+}
+
+.permission-picker {
+  display: grid;
+  gap: 10px;
+}
+
+.permission-picker-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.permission-picker-summary {
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: var(--console-surface-muted);
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.permission-tree-node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.permission-tree-title {
+  font-weight: 600;
+  color: var(--console-text-primary);
+}
+
+.permission-tree-node small {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--console-text-secondary);
+}
+
+.permission-panel :deep(.ant-tree-node-content-wrapper) {
+  min-width: 0;
+  border-radius: 6px;
+}
+
+.permission-panel :deep(.ant-tree-node-content-wrapper:hover) {
+  background: color-mix(in srgb, var(--console-primary, #1677ff) 6%, transparent);
+}
+
+.permission-panel :deep(.ant-tree-checkbox) {
+  margin-block-start: 5px;
 }
 
 @media (max-width: 900px) {

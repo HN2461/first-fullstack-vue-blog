@@ -30,6 +30,8 @@
 - 顶部导航为一级主菜单。
 - 普通用户仅展示「知识库」主类目。
 - 管理员额外展示「后台管理」主类目。
+- 控制台菜单显示、挂载位置、角色可见性必须以后端数据库菜单和 RBAC 权限为准；前端只保留必要静态路由、路由组件映射和路径识别兜底，不允许把业务菜单可见性写死在前端。
+- 知识库文章目录属于系统内置模块菜单，只允许控制显示和挂载位置，不允许承载普通业务菜单。
 - 右上角操作区使用图标按钮，配 tooltip，不使用冗余文字按钮。
 - 用户信息区使用成熟企业系统样式：头像、用户名、角色、下拉菜单。
 - 左侧侧边栏为当前一级菜单下的二级/三级菜单。
@@ -51,7 +53,9 @@
 设计要求：
 
 - 使用 Ant Design Vue 组件作为基础工作台语言。
-- 页面主体优先使用「页面标题区 + 筛选/工具条 + 表格/表单/列表工作区」结构。
+- 页面主体优先使用「筛选/工具条 + 表格/表单/列表工作区」结构；除非明确要求，不要额外增加突兀的页面头部标题、状态文字、说明段落或宣传式描述。
+- 必要说明优先放在工具栏、字段标签或操作按钮附近的说明图标中，通过 tooltip / popover 展示，不要直接占用页面头部空间。
+- 所有选择器默认必须支持搜索筛选；使用 Ant Design Vue `a-select` / 级联选择 / 树选择等组件时，应开启 `show-search`、`option-filter-prop` 或等价过滤能力，除非选项极少且用户明确不需要。
 - 卡片圆角保持 8px 或以下。
 - 避免夸张渐变、大装饰图形、大面积英雄区、过度留白。
 - 后台页面应信息密度适中，适合长期管理使用。
@@ -69,16 +73,28 @@
 - `/login`：企业风登录页。
 - `/register`：企业风注册页。
 - `/console/articles`：登录后知识库文章列表。
+- `/console/article-directory`：知识库文章目录系统模块。
+- `/console/article-directory/articles/:slug`：文章目录下文章详情。
 - `/console/search`：控制台全文检索。
 - `/console/articles/:slug`：控制台文章详情。
+- `/console/memos`：个人备忘录。
 - `/console/profile`：个人信息。
 - `/console`：管理员工作台。
 - `/console/manage/articles`：文章管理。
+- `/console/manage/articles/import`：文章导入。
+- `/console/manage/categories`：分类管理。
+- `/console/manage/tags`：标签管理。
 - `/console/manage/comments`：评论审核。
 - `/console/manage/users`：用户管理。
 - `/console/manage/media`：媒体资产。
+- `/console/manage/menus`：菜单管理。
+- `/console/manage/roles`：角色管理。
+- `/console/manage/approvals`：权限审批。
 - `/console/manage/notifications`：公告管理。
 - `/console/manage/settings`：系统设置。
+- `/console/manage/monitor`：服务监控。
+- `/console/manage/project-timeline`：项目记录台账。
+- `/console/manage/trash`：回收站。
 
 ## 权限与流程
 
@@ -91,10 +107,22 @@
 
 - 所有源码和配置文件使用 UTF-8 无 BOM。
 - 保持中文可读，禁止乱码。
+- 完成明确功能、问题修复或重要版本调整后，必须维护当天项目记录文件：
+  - 文件路径：`backend/src/data/projectTimeline/daily/YYYY-MM-DD.json`。
+  - 当天文件只记录当天协作完成的功能点，不混入其他日期。
+  - 项目记录不是碎片流水账；同一功能类、同一问题链路或同一协作主题应尽量合并成一条记录。
+  - 需要表达多个动作时，在同一条记录的 `detail` 中使用 `1.`、`2.`、`3.` 分点说明，不要拆成多条相近消息。
+  - 若已有对应记录，优先补充完善 `detail`；只有确实属于不同功能类或不同协作主题时才新增一项。
+  - 文件格式以 `docs/02-开发指南/项目记录台账导入格式.md` 为准，便于后续在后台页面直接导入线上项目记录台账。
 - Vue / JS 代码风格：
   - 2 空格缩进。
   - 单引号。
   - 不使用分号。
+- 代码拆分硬约束：
+  - Vue 单文件组件上限 400 行；超过 350 行必须优先拆分，不允许继续叠加新业务。
+  - JS / TS 工具文件上限 300 行；超过 250 行必须优先拆分。
+  - 弹窗、树形、表格、专属业务逻辑、公共选择器必须抽离为独立组件或工具函数。
+  - 超大文件禁止继续叠加新业务，避免迭代时覆盖或丢失原有交互逻辑。
 - 不要随意重构无关模块。
 - 不要回退用户已经确认过的整体控制台骨架。
 - 若要修改控制台布局，必须先确认是否会影响：
@@ -135,6 +163,8 @@
 - 发布前必须先判断 `backend/src/models`、`backend/src/services`、`backend/src/scripts`、`backend/src/validators`、`backend/src/constants` 是否存在数据结构、枚举、权限、关联关系变化。
 - 需要迁移数据库时，优先新增一次性脚本到 `backend/src/scripts`，脚本默认 dry-run，只有传入 `--apply` 才允许写库。
 - 迁移脚本必须先明确筛选范围、打印影响数量，并在发布前确认已有 `mongodump` 备份。
+- 项目记录台账不通过整库迁移同步日常协作记录；日常记录优先维护 `backend/src/data/projectTimeline/daily/YYYY-MM-DD.json`，部署后在后台“项目记录台账”页面使用“导入记录”按钮导入线上数据库。
+- 每日项目记录 JSON 导入必须保持幂等，依赖 `source + date + records[].id` 去重；同一文件重复导入不得生成重复记录。
 - 只有在明确要用本地数据库替换线上数据库时，才允许使用 `mongorestore --drop` 整库覆盖。
 - 数据库回滚会丢失发布后新增数据，只有确认数据被改坏时才执行。
 - 数据库发布、迁移、验证和回滚流程以 `docs/03-部署发布/数据库发布与迁移流程.md` 为准。
@@ -164,7 +194,9 @@ pwsh -File scripts\check-encoding.ps1
 
 ```text
 http://127.0.0.1:5173/console/articles
+http://127.0.0.1:5173/console/article-directory
 http://127.0.0.1:5173/console/manage/comments
+http://127.0.0.1:5173/console/manage/project-timeline
 http://127.0.0.1:5173/login
 http://127.0.0.1:5173/register
 ```

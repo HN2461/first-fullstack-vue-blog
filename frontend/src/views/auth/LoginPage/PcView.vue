@@ -332,6 +332,11 @@ async function handleSubmit() {
 }
 
 onMounted(() => {
+  if (authStore.isLoggedIn) {
+    router.replace(route.query.redirect || '/console')
+    return
+  }
+
   const rememberedEmail = localStorage.getItem('blog-remembered-email')
   if (rememberedEmail) {
     form.email = rememberedEmail

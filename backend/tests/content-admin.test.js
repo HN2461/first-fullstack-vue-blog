@@ -4,10 +4,13 @@ import { ARTICLE_STATUS, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { Category } from '#modules/content/models/Category.js'
+import { Menu } from '#modules/rbac/models/Menu.js'
+import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
 import { createArticle, publishArticle } from '#modules/content/services/article.service.js'
 import { createCategory, listCategories } from '#modules/content/services/category.service.js'
 import { createTag, listTags } from '#modules/content/services/tag.service.js'
+import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import {
   clearTestDatabase,
@@ -477,6 +480,136 @@ tags:
       .expect(200)
 
     expect(targetArticlesResponse.body.data.total).toBe(2)
+  })
+
+  it('allows the migration config menu to use category tree and article-category move APIs', async () => {
+    const app = createApp()
+    await ensureRbacSeed()
+
+    const menuCodes = ['management.root', 'content.group', 'content.migration']
+    const migrationMenus = await Menu.find({ code: { $in: menuCodes } })
+    const migrationRole = await Role.create({
+      name: '迁移配置专员',
+      code: `migration-only-${Date.now()}`,
+      menuIds: migrationMenus.map((menu) => menu._id),
+      status: 'active'
+    })
+    const migrationUser = await User.create({
+      username: 'migration-only',
+      email: `migration-only-${Date.now()}@example.com`,
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.ADMIN,
+      roles: [migrationRole._id]
+    })
+    const migrationToken = signAccessToken(migrationUser)
+
+    const sourceResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${migrationToken}`)
+      .send({
+        name: '迁移来源',
+        slug: 'migration-source'
+      })
+      .expect(201)
+
+    const targetResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${migrationToken}`)
+      .send({
+        name: '迁移目标',
+        slug: 'migration-target'
+      })
+      .expect(201)
+
+    const sourceArticle = await createArticle({
+      title: '迁移配置权限验证',
+      slug: 'migration-menu-permission',
+      category: sourceResponse.body.data.id
+    }, admin)
+
+    await request(app)
+      .get('/api/admin/categories/tree')
+      .set('Authorization', `Bearer ${migrationToken}`)
+      .expect(200)
+
+    const branchArticlesResponse = await request(app)
+      .get(`/api/admin/categories/${sourceResponse.body.data.id}/articles`)
+      .set('Authorization', `Bearer ${migrationToken}`)
+      .expect(200)
+
+    expect(branchArticlesResponse.body.data.total).toBe(1)
+
+    await request(app)
+      .post(`/api/admin/articles/${sourceArticle.id}/category`)
+      .set('Authorization', `Bearer ${migrationToken}`)
+      .send({ targetCategoryId: targetResponse.body.data.id })
+      .expect(200)
+
+    await request(app)
+      .get('/api/admin/articles')
+      .set('Authorization', `Bearer ${migrationToken}`)
+      .expect(403)
+  })
+
+  it('lists admin articles by latest update and filters category branches', async () => {
+    const app = createApp()
+
+    const parentResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '工程体系',
+        slug: 'engineering-system'
+      })
+      .expect(201)
+
+    const childResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '构建工具',
+        slug: 'build-tools',
+        parent: parentResponse.body.data.id
+      })
+      .expect(201)
+
+    const olderArticle = await createArticle({
+      title: '旧文章后编辑',
+      slug: 'older-edited-later',
+      summary: '旧文章后编辑',
+      contentMarkdown: '旧文章后编辑',
+      category: childResponse.body.data.id
+    }, admin)
+
+    await new Promise((resolve) => setTimeout(resolve, 10))
+
+    const newerArticle = await createArticle({
+      title: '新文章未编辑',
+      slug: 'newer-not-edited',
+      summary: '新文章未编辑',
+      contentMarkdown: '新文章未编辑',
+      category: childResponse.body.data.id
+    }, admin)
+
+    await new Promise((resolve) => setTimeout(resolve, 10))
+
+    await request(app)
+      .patch(`/api/admin/articles/${olderArticle.id}/status`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ status: ARTICLE_STATUS.ARCHIVED })
+      .expect(200)
+
+    const response = await request(app)
+      .get('/api/admin/articles')
+      .query({ category: parentResponse.body.data.id, page: 1, pageSize: 10 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(response.body.data.total).toBe(2)
+    expect(response.body.data.items.map((item) => item.id)).toEqual([
+      olderArticle.id,
+      newerArticle.id
+    ])
   })
 
   it('keeps category sort order when moving without a sortOrder payload', async () => {

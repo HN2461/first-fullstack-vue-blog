@@ -5,7 +5,7 @@
       <h1>{{ siteStore.siteTitle }}</h1>
       <p>{{ siteStore.siteDescription }}</p>
       <div class="mobile-home__actions">
-        <a-button type="primary" size="large" block @click="router.push('/login')">进入知识库系统</a-button>
+        <a-button type="primary" size="large" block @click="router.push(knowledgeEntryPath)">进入知识库系统</a-button>
         <a-button size="large" block @click="filterVisible = true">分类与统计</a-button>
       </div>
     </section>
@@ -97,9 +97,11 @@ import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getPublicHome } from '@/services/public'
 import { useSiteStore } from '@/stores/site'
+import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const siteStore = useSiteStore()
+const authStore = useAuthStore()
 const loading = ref(false)
 const errorMessage = ref('')
 const filterVisible = ref(false)
@@ -119,6 +121,7 @@ const visibleRecentArticles = computed(() => {
   const start = (currentPage.value - 1) * pageSize
   return home.value.recentArticles.slice(start, start + pageSize)
 })
+const knowledgeEntryPath = computed(() => (authStore.isLoggedIn ? '/console' : '/login?redirect=/console'))
 
 async function loadHome() {
   loading.value = true

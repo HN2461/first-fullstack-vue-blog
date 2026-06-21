@@ -437,6 +437,20 @@ export function batchDeleteAnnouncements(ids) {
   return http.post('/api/admin/announcements/batch-delete', { ids })
 }
 
+export async function listProjectTimelineRecords(params = {}) {
+  return toPageResult(await http.get('/api/admin/project-timeline', { params }), params.pageSize || 20)
+}
+
+export function createProjectTimelineRecord(data) {
+  return http.post('/api/admin/project-timeline', data)
+}
+
+export function importProjectTimelineRecords(file) {
+  const formData = new FormData()
+  formData.append('file', file)
+  return http.post('/api/admin/project-timeline/import', formData)
+}
+
 // 设置相关
 export function getAdminSettings() {
   return http.get('/api/admin/settings')

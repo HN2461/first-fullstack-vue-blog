@@ -63,14 +63,15 @@
               @rightClick="handleRightClick"
             >
               <template #title="{ id }">
-                <div class="menu-tree-node" @click.stop="handleNodeClick(id)">
+                <div :class="['menu-tree-node', { 'menu-tree-node--module': isArticleDirectoryMenu(id) }]" @click.stop="handleNodeClick(id)">
                   <div class="menu-tree-node-main">
                     <strong>{{ getMenuName(id) }}</strong>
+                    <span v-if="isArticleDirectoryMenu(id)" class="menu-tree-module-flag">系统模块</span>
                     <span v-if="isHiddenMenu(id)" class="menu-tree-hidden-flag">隐藏</span>
                   </div>
                   <div class="menu-tree-actions" @click.stop>
-                    <a-tooltip title="新增子菜单">
-                      <a-button class="menu-tree-action-btn" type="text" size="small" @click="openCreate(id)">
+                    <a-tooltip :title="isArticleDirectoryMenu(id) ? '文章目录只可移动挂载位置，不能承载子菜单' : '新增子菜单'">
+                      <a-button class="menu-tree-action-btn" type="text" size="small" :disabled="isArticleDirectoryMenu(id)" @click="openCreate(id)">
                         <template #icon><PlusOutlined /></template>
                       </a-button>
                     </a-tooltip>
@@ -94,7 +95,7 @@
                   <div class="menu-help-item"><strong>菜单编码</strong><span>系统内部识别和权限绑定使用，通常保持唯一且稳定。</span></div>
                   <div class="menu-help-item"><strong>路由路径</strong><span>填写页面路由；留空表示该节点只做分组容器，只展开不跳转。</span></div>
                   <div class="menu-help-item"><strong>排序</strong><span>数值越小越靠前，同级节点按这个顺序展示。</span></div>
-                  <div class="menu-help-item"><strong>图标</strong><span>用于控制台导航显示，填写 Ant Design 图标名称。</span></div>
+                  <div class="menu-help-item"><strong>图标</strong><span>用于控制台导航显示，点击控件后在弹窗中选择。</span></div>
                   <div class="menu-help-item"><strong>打开方式</strong><span>决定点击菜单后在当前页打开，还是新标签页打开。</span></div>
                   <div class="menu-help-item"><strong>适用范围</strong><span>仅对左侧菜单、一级菜单切换和工作台快捷入口生效；业务页里的“编辑/阅读”等按钮按各自业务规则执行。</span></div>
                   <div class="menu-help-item"><strong>启用 / 隐藏</strong><span>启用控制是否生效，隐藏控制是否在导航中展示。</span></div>
@@ -108,7 +109,7 @@
         </template>
         <template #extra>
           <a-space>
-            <a-button v-if="selectedMenuId" danger @click="confirmDelete(selectedMenuId)">
+            <a-button v-if="selectedMenuId" danger :disabled="selectedMenuIsSystem" @click="confirmDelete(selectedMenuId)">
               <template #icon><DeleteOutlined /></template>
               删除
             </a-button>
@@ -144,19 +145,19 @@
               </a-col>
               <a-col :xs="24" :lg="12">
                 <a-form-item label="菜单编码" name="code">
-                  <a-input v-model:value="form.code" maxlength="80" />
+                  <a-input v-model:value="form.code" maxlength="80" :disabled="selectedMenuIsSystem" />
                 </a-form-item>
               </a-col>
             </a-row>
             <a-row :gutter="16">
               <a-col :xs="24" :lg="12">
                 <a-form-item label="路由路径" name="routePath">
-                  <a-input v-model:value="form.routePath" placeholder="/console/manage/articles" />
+                  <a-input v-model:value="form.routePath" placeholder="/console/manage/articles" :disabled="selectedMenuIsSystem" />
                 </a-form-item>
               </a-col>
               <a-col :xs="24" :lg="12">
                 <a-form-item label="页面标识" name="routeKey">
-                  <a-input v-model:value="form.routeKey" placeholder="admin.article.list" />
+                  <a-input v-model:value="form.routeKey" placeholder="admin.article.list" :disabled="selectedMenuIsSystem" />
                 </a-form-item>
               </a-col>
             </a-row>
@@ -175,7 +176,7 @@
             <a-row :gutter="16">
               <a-col :xs="24" :lg="8">
                 <a-form-item label="图标" name="icon">
-                  <a-input v-model:value="form.icon" placeholder="MenuOutlined" />
+                  <IconPicker v-model:value="form.icon" />
                 </a-form-item>
               </a-col>
               <a-col :xs="24" :lg="16">
@@ -194,6 +195,30 @@
                 <span class="switch-label">隐藏菜单</span>
               </a-col>
             </a-row>
+            <div v-if="selectedMenuIsArticleDirectory" class="system-module-config">
+              <div class="system-module-config__head">
+                <span class="system-module-config__badge">系统内置模块</span>
+                <strong>文章目录展示配置</strong>
+              </div>
+              <div class="system-module-config__body">
+                <div>
+                  <span class="system-module-config__label">非一级挂载时自动全展开</span>
+                  <p>
+                    文章目录挂载在任意普通父菜单下时，直接展示内部分类与文章；关闭后需要先点击文章目录节点展开。
+                  </p>
+                </div>
+                <a-switch
+                  :checked="effectiveDirectoryAutoExpand"
+                  :disabled="articleDirectoryIsRoot"
+                  checked-children="开启"
+                  un-checked-children="关闭"
+                  @change="handleDirectoryAutoExpandChange"
+                />
+              </div>
+              <div v-if="articleDirectoryIsRoot" class="system-module-config__tip">
+                当前文章目录为一级菜单，侧边栏会强制永久全展开，此配置自动失效。
+              </div>
+            </div>
           </a-form>
         </div>
       </a-card>
@@ -206,6 +231,7 @@ import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons-vue'
 import { createRbacMenu, deleteRbacMenu, listRbacMenus, reorderRbacMenus, updateRbacMenu } from '@/services/admin'
+import IconPicker from '@/components/IconPicker.vue'
 
 const loading = ref(false)
 const saving = ref(false)
@@ -224,6 +250,7 @@ const form = reactive({
   routePath: '',
   routeKey: '',
   activeMenuCode: '',
+  directoryAutoExpandWhenNested: true,
   openMode: 'current',
   hidden: false,
   enabled: true,
@@ -241,6 +268,11 @@ const parentOptions = computed(() => {
   const excludedIds = new Set(excludeId ? collectDescendantIds(excludeId) : [])
   return menuTree.value.map((item) => cloneForSelect(item, excludedIds)).filter(Boolean)
 })
+const selectedMenu = computed(() => flatMenus.value.find((item) => item.id === selectedMenuId.value) || null)
+const selectedMenuIsSystem = computed(() => !!selectedMenu.value && selectedMenu.value.type === 'system')
+const selectedMenuIsArticleDirectory = computed(() => isArticleDirectoryRecord(selectedMenu.value))
+const articleDirectoryIsRoot = computed(() => selectedMenuIsArticleDirectory.value && !form.parentId)
+const effectiveDirectoryAutoExpand = computed(() => articleDirectoryIsRoot.value || form.directoryAutoExpandWhenNested)
 
 function collectDescendantIds(targetId) {
   const record = flatMenus.value.find((item) => item.id === targetId)
@@ -262,9 +294,12 @@ function cloneForSelect(item, excludedIds) {
   if (excludedIds.has(item.id)) {
     return null
   }
+  const isDirectory = isArticleDirectoryRecord(item)
   return {
     id: item.id,
-    name: item.name,
+    name: isDirectory ? `${item.name}（系统模块，不可作为父级）` : item.name,
+    disabled: isDirectory,
+    selectable: !isDirectory,
     children: (item.children || [])
       .map((child) => cloneForSelect(child, excludedIds))
       .filter(Boolean)
@@ -290,6 +325,7 @@ function resetForm(record = null) {
   form.routePath = record?.routePath || ''
   form.routeKey = record?.routeKey || ''
   form.activeMenuCode = record?.activeMenuCode || ''
+  form.directoryAutoExpandWhenNested = record?.directoryAutoExpandWhenNested !== false
   form.openMode = record?.openMode || 'current'
   form.hidden = !!record?.hidden
   form.enabled = record?.enabled !== false
@@ -305,6 +341,19 @@ function isHiddenMenu(id) {
   return !!flatMenus.value.find((item) => item.id === id)?.hidden
 }
 
+function isArticleDirectoryRecord(record) {
+  return record?.code === 'knowledge.directory'
+}
+
+function isArticleDirectoryMenu(id) {
+  return isArticleDirectoryRecord(flatMenus.value.find((item) => item.id === id))
+}
+
+function handleDirectoryAutoExpandChange(checked) {
+  if (articleDirectoryIsRoot.value) return
+  form.directoryAutoExpandWhenNested = checked
+}
+
 watch(selectedMenuId, () => {
   saveExpandedKeys()
 })
@@ -318,6 +367,11 @@ function selectMenu(id) {
 }
 
 function openCreate(parentId = null) {
+  if (parentId && isArticleDirectoryMenu(parentId)) {
+    message.warning('文章目录是系统内置模块，不能新增子菜单')
+    return
+  }
+
   selectedMenuId.value = ''
   isCreating.value = true
   resetForm({ parentId })
@@ -353,6 +407,7 @@ function allowDrop(info) {
   const dragId = info.dragNode?.key
   const targetId = info.node?.key
   if (!dragId || !targetId || dragId === targetId) return false
+  if (!info.dropToGap && isArticleDirectoryMenu(targetId)) return false
   return true
 }
 
@@ -386,6 +441,10 @@ function insertNode(items, node, targetMeta, dropToGap, dropPosition) {
   if (!targetMeta) return false
 
   if (!dropToGap) {
+    if (isArticleDirectoryRecord(targetMeta.item)) {
+      return false
+    }
+
     targetMeta.item.children = targetMeta.item.children || []
     targetMeta.item.children.push({
       ...node,
@@ -489,6 +548,11 @@ async function submitMenu() {
     return
   }
 
+  if (form.parentId && isArticleDirectoryMenu(form.parentId)) {
+    message.warning('文章目录是系统内置模块，不能作为上级菜单')
+    return
+  }
+
   saving.value = true
   try {
     const payload = {
@@ -498,6 +562,7 @@ async function submitMenu() {
       routePath: form.routePath || '',
       routeKey: form.routeKey || '',
       activeMenuCode: form.activeMenuCode || '',
+      directoryAutoExpandWhenNested: selectedMenuIsArticleDirectory.value ? form.directoryAutoExpandWhenNested : true,
       openMode: form.openMode,
       hidden: form.hidden,
       enabled: form.enabled,
@@ -524,6 +589,12 @@ async function submitMenu() {
 }
 
 function confirmDelete(id) {
+  const record = flatMenus.value.find((item) => item.id === id)
+  if (record?.type === 'system') {
+    message.warning('系统内置菜单不允许删除，可通过隐藏或移动位置控制展示')
+    return
+  }
+
   Modal.confirm({
     title: '确认删除菜单',
     content: '删除后会同步移除子菜单及权限引用。',
@@ -647,6 +718,13 @@ watch(expandedKeys, () => {
   min-height: 32px;
 }
 
+.menu-tree-node--module {
+  padding: 0 6px;
+  border: 1px dashed color-mix(in srgb, var(--console-border, #d9d9d9) 82%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--console-text-secondary, #8c8c8c) 7%, transparent);
+}
+
 .menu-tree-node-main {
   display: flex;
   align-items: center;
@@ -669,6 +747,17 @@ watch(expandedKeys, () => {
   border-radius: 999px;
   background: color-mix(in srgb, #faad14 18%, transparent);
   color: #ad6800;
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.menu-tree-module-flag {
+  flex: 0 0 auto;
+  padding: 1px 6px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--console-primary, #1677ff) 24%, transparent);
+  background: color-mix(in srgb, var(--console-primary, #1677ff) 9%, transparent);
+  color: color-mix(in srgb, var(--console-primary, #1677ff) 88%, var(--console-text-primary));
   font-size: 11px;
   line-height: 18px;
 }
@@ -727,6 +816,64 @@ watch(expandedKeys, () => {
 .switch-label {
   margin-left: 8px;
   color: var(--console-text-secondary);
+}
+
+.system-module-config {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--console-primary, #1677ff) 24%, var(--console-border, #d9d9d9));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--console-primary, #1677ff) 6%, var(--console-card-bg, #fff));
+}
+
+.system-module-config__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.system-module-config__head strong {
+  font-size: 14px;
+  color: var(--console-text-primary);
+}
+
+.system-module-config__badge {
+  flex: 0 0 auto;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--console-primary, #1677ff) 28%, transparent);
+  background: color-mix(in srgb, var(--console-primary, #1677ff) 10%, transparent);
+  color: color-mix(in srgb, var(--console-primary, #1677ff) 88%, var(--console-text-primary));
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.system-module-config__body {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.system-module-config__label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+  color: var(--console-text-primary);
+}
+
+.system-module-config__body p,
+.system-module-config__tip {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--console-text-secondary);
+}
+
+.system-module-config__tip {
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--console-border, #d9d9d9) 86%, transparent);
 }
 
 @media (max-width: 1100px) {

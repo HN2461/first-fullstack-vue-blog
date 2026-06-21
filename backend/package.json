@@ -23,7 +23,11 @@
     "fix:timestamps": "node src/scripts/fixArticleTimestamps.js",
     "update:frontend-paths": "node src/scripts/updateFrontendPathReferences.js",
     "menu:tree:dry-run": "node src/scripts/migrateMenuTree.js",
-    "menu:tree:apply": "node src/scripts/migrateMenuTree.js --apply"
+    "menu:tree:apply": "node src/scripts/migrateMenuTree.js --apply",
+    "menu:knowledge-routes:dry-run": "node src/scripts/migrateKnowledgeMenuRoutes.js",
+    "menu:knowledge-routes:apply": "node src/scripts/migrateKnowledgeMenuRoutes.js --apply",
+    "timeline:seed": "node src/scripts/seedProjectTimeline.js",
+    "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

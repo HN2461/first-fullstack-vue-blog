@@ -153,12 +153,23 @@
       width="680px"
       :mask-closable="false"
       centered
-      :ok-text="editingId ? '保存修改' : '发布公告'"
-      cancel-text="取消"
       class="announce-form-modal"
-      @ok="handleFormSubmit"
       @cancel="closeFormModal"
     >
+      <template #footer>
+        <a-button @click="closeFormModal">取消</a-button>
+        <a-button :loading="submitting" @click="handleFormSubmit()">
+          {{ editingId ? '保存修改' : '发布公告' }}
+        </a-button>
+        <a-button
+          v-if="editingId"
+          type="primary"
+          :loading="repushing"
+          @click="handleFormSubmit({ repush: true })"
+        >
+          保存并重新推送
+        </a-button>
+      </template>
       <a-form layout="vertical" class="announce-form">
         <a-form-item label="公告标题" required>
           <a-input
@@ -306,6 +317,7 @@ const filterParams = computed(() => ({
 const formModalVisible = ref(false)
 const editingId = ref(null)
 const submitting = ref(false)
+const repushing = ref(false)
 const form = reactive({
   title: '',
   content: '',
@@ -323,7 +335,7 @@ const { isDirty: formDirty, markClean: markFormClean, pauseTracking: pauseFormTr
     isActive: form.isActive,
     autoPopup: form.autoPopup
   }),
-  enabled: () => formModalVisible.value && !submitting.value,
+  enabled: () => formModalVisible.value && !submitting.value && !repushing.value,
   title: '关闭公告编辑？',
   content: '公告表单还有未保存修改，关闭后将丢失当前输入。',
   okText: '仍然关闭'
@@ -435,7 +447,7 @@ function closeFormModal() {
 }
 
 // 提交表单
-async function handleFormSubmit() {
+async function handleFormSubmit({ repush = false } = {}) {
   if (!form.title.trim()) {
     warn('请输入公告标题')
     return
@@ -445,14 +457,19 @@ async function handleFormSubmit() {
     return
   }
 
-  submitting.value = true
+  submitting.value = !repush
+  repushing.value = repush
   try {
+    const payload = repush
+      ? { ...form, isActive: true, repush: true }
+      : form
+
     await runAction(() => (
       editingId.value
-        ? updateAdminAnnouncement(editingId.value, form)
-        : createAdminAnnouncement(form)
+        ? updateAdminAnnouncement(editingId.value, payload)
+        : createAdminAnnouncement(payload)
     ), {
-      successMessage: editingId.value ? '公告已更新' : '公告已发布',
+      successMessage: repush ? '公告已保存并重新推送' : (editingId.value ? '公告已更新' : '公告已发布'),
       errorMessage: '操作失败'
     })
     markFormClean()
@@ -461,6 +478,7 @@ async function handleFormSubmit() {
     tableRef.value?.refresh()
   } finally {
     submitting.value = false
+    repushing.value = false
   }
 }
 

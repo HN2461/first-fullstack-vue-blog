@@ -195,7 +195,7 @@ const dropdownItems = computed(() => {
 })
 
 function articlePath(slug) {
-  return inConsole.value ? `/console/articles/${slug}` : `/articles/${slug}`
+  return inConsole.value ? `/console/article-directory/articles/${slug}` : `/articles/${slug}`
 }
 
 function formatDate(value) {

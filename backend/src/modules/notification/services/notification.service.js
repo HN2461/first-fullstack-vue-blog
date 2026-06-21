@@ -96,6 +96,12 @@ export async function updateAnnouncement(id, input) {
   if (input.link !== undefined) notification.link = input.link
   if (input.isActive !== undefined) notification.isActive = input.isActive
   if (input.autoPopup !== undefined) notification.autoPopup = input.autoPopup
+  if (input.repush === true) {
+    // 重新推送只重置阅读状态；是否弹窗仍严格听公告的 autoPopup 开关。
+    notification.readBy = []
+    notification.viewCount = 0
+    notification.isActive = true
+  }
 
   await notification.save()
   return notification.toSafeJSON()

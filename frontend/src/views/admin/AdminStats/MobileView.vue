@@ -20,7 +20,7 @@
           <p>{{ todayFormatted }}</p>
         </div>
         <div class="welcome-actions">
-          <a-button type="primary" :loading="loading" @click="$router.push('/console/manage/articles/new')">
+          <a-button v-if="canCreateArticle" type="primary" :loading="loading" @click="$router.push('/console/manage/articles/new')">
             <template #icon><PlusOutlined /></template>
             新建文章
           </a-button>
@@ -112,7 +112,7 @@
         <div class="content-card">
           <div class="card-header">
             <h3>最近发布</h3>
-            <a-button type="link" size="small" @click="$router.push('/console/manage/articles')">全部</a-button>
+            <a-button v-if="canManageArticles" type="link" size="small" @click="$router.push('/console/manage/articles')">全部</a-button>
           </div>
           <a-skeleton v-if="loading && !hasLoaded" active :paragraph="{ rows: 5 }" />
           <div v-else class="recent-list">
@@ -200,7 +200,7 @@
         <div class="content-card">
           <div class="card-header">
             <h3>系统公告</h3>
-            <a-button type="link" size="small" @click="$router.push('/console/manage/notifications')">管理</a-button>
+            <a-button v-if="canManageNotifications" type="link" size="small" @click="$router.push('/console/manage/notifications')">管理</a-button>
           </div>
           <a-skeleton v-if="loading && !hasLoaded" active :paragraph="{ rows: 3 }" />
           <div v-else class="notice-list">
@@ -428,13 +428,18 @@ const statCards = computed(() => [
   { label: '媒体', value: stats.value.mediaCount || 0, icon: PictureOutlined, iconBg: '#e6fffb', iconColor: '#13c2c2', trend: null }
 ])
 
-const totalPending = computed(() => (stats.value.draftCount || 0) + (stats.value.pendingCommentCount || 0))
+const canCreateArticle = computed(() => authStore.canAccessPath('/console/manage/articles/new'))
+const canManageArticles = computed(() => authStore.canAccessPath('/console/manage/articles'))
+const canManageComments = computed(() => authStore.canAccessPath('/console/manage/comments'))
+const canManageMedia = computed(() => authStore.canAccessPath('/console/manage/media'))
+const canManageNotifications = computed(() => authStore.canAccessPath('/console/manage/notifications'))
 
 const todoItems = computed(() => [
-  { label: '草稿文章', desc: '待发布确认', count: stats.value.draftCount || 0, icon: EditOutlined, color: '#faad14', route: '/console/manage/articles' },
-  { label: '待审评论', desc: '待审核公开', count: stats.value.pendingCommentCount || 0, icon: CommentOutlined, color: '#f5222d', route: '/console/manage/comments' },
-  { label: '媒体文件', desc: '已上传文件', count: stats.value.mediaCount || 0, icon: PictureOutlined, color: '#1890ff', route: '/console/manage/media' }
-])
+  { label: '草稿文章', desc: '待发布确认', count: stats.value.draftCount || 0, icon: EditOutlined, color: '#faad14', route: '/console/manage/articles', visible: canManageArticles.value },
+  { label: '待审评论', desc: '待审核公开', count: stats.value.pendingCommentCount || 0, icon: CommentOutlined, color: '#f5222d', route: '/console/manage/comments', visible: canManageComments.value },
+  { label: '媒体文件', desc: '已上传文件', count: stats.value.mediaCount || 0, icon: PictureOutlined, color: '#1890ff', route: '/console/manage/media', visible: canManageMedia.value }
+].filter((item) => item.visible))
+const totalPending = computed(() => todoItems.value.reduce((sum, item) => sum + Number(item.count || 0), 0))
 
 const rootMenuCards = computed(() => {
   return (authStore.rootMenus || [])
@@ -525,10 +530,11 @@ function flattenRootMenus(roots = []) {
 }
 
 function openRootMenu(item) {
-  const target = item.id === 'knowledge'
+  const isKnowledgeRoot = item.code === 'knowledge.root'
+  const target = isKnowledgeRoot
     ? item.routePath || '/console/articles'
     : flattenMenus(item.children || []).find((menu) => menu.routePath)?.routePath || item.routePath || '/console'
-  const targetMenu = item.id === 'knowledge'
+  const targetMenu = isKnowledgeRoot
     ? { routePath: target, openMode: 'current' }
     : flattenMenus(item.children || []).find((menu) => menu.routePath === target) || item
   openMenuRoute(router, targetMenu, target)
@@ -766,10 +772,10 @@ async function loadData() {
 
   try {
     const [s, a, n, st] = await Promise.all([
-      getAdminStats(),
-      listRecentAdminArticles(5),
-      listRecentAdminAnnouncements(5),
-      getAdminSettings()
+      authStore.canAccessPath('/console') ? getAdminStats() : Promise.resolve({}),
+      canManageArticles.value ? listRecentAdminArticles(5) : Promise.resolve([]),
+      canManageNotifications.value ? listRecentAdminAnnouncements(5) : Promise.resolve([]),
+      authStore.canAccessPath('/console/manage/settings') ? getAdminSettings() : Promise.resolve({})
     ])
     stats.value = s || {}
     recentArticles.value = a || []

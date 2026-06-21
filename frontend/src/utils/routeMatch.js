@@ -26,5 +26,9 @@ export function isRoutePathMatched(path = '', routePath = '') {
   const regex = buildRoutePathRegex(normalizedRoutePath)
   if (!regex || !normalizedPath) return false
 
+  if (normalizedRoutePath === '/console') {
+    return regex.test(normalizedPath)
+  }
+
   return regex.test(normalizedPath) || normalizedPath.startsWith(`${normalizedRoutePath}/`)
 }

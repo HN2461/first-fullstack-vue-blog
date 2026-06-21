@@ -213,12 +213,14 @@ const article = ref({
 })
 
 const inConsole = computed(() => route.path.startsWith('/console'))
+const inDirectoryConsole = computed(() => route.path.startsWith('/console/article-directory'))
 const backLabel = computed(() => (inConsole.value ? '返回知识库文章列表' : '返回首页'))
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
 const categoryPath = computed(() => {
   const slug = article.value.category?.slug
-  if (!slug) return inConsole.value ? '/console/articles' : '/articles'
+  if (!slug) return inDirectoryConsole.value ? '/console/article-directory' : (inConsole.value ? '/console/articles' : '/articles')
+  if (inDirectoryConsole.value) return `/console/article-directory/categories/${slug}`
   return inConsole.value ? `/console/categories/${slug}` : `/categories/${slug}`
 })
 const legacyAssetBase = computed(() => {
@@ -228,6 +230,7 @@ const legacyAssetBase = computed(() => {
 })
 
 function tagPath(slug) {
+  if (inDirectoryConsole.value) return `/console/article-directory/tags/${slug}`
   return inConsole.value ? `/console/tags/${slug}` : `/tags/${slug}`
 }
 
@@ -242,7 +245,7 @@ function formatMetric(value = 0) {
 }
 
 function goBack() {
-  const fallback = inConsole.value ? '/console/articles' : '/'
+  const fallback = inDirectoryConsole.value ? '/console/article-directory' : (inConsole.value ? '/console/articles' : '/')
   if (window.history.length > 1) {
     router.back()
     return

@@ -26,6 +26,7 @@ const AdminStats = () => import('@/views/admin/AdminStats/index.vue')
 const AdminMonitor = () => import('@/views/admin/AdminMonitor/index.vue')
 const AdminMedia = () => import('@/views/admin/AdminMedia/index.vue')
 const AdminNotifications = () => import('@/views/admin/AdminNotifications/index.vue')
+const AdminProjectTimeline = () => import('@/views/admin/AdminProjectTimeline/index.vue')
 const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
 const AdminTrash = () => import('@/views/admin/AdminTrash/index.vue')
 const MemoPage = () => import('@/views/console/MemoPage/index.vue')
@@ -82,8 +83,32 @@ export const router = createRouter({
         {
           path: 'articles/:slug',
           name: 'ConsoleArticleDetail',
+          redirect: (to) => `/console/article-directory/articles/${to.params.slug}`,
+          meta: { title: '文章详情', requiresAuth: true }
+        },
+        {
+          path: 'article-directory',
+          name: 'ConsoleArticleDirectory',
+          component: ArticleListPage,
+          meta: { title: '文章目录', requiresAuth: true }
+        },
+        {
+          path: 'article-directory/articles/:slug',
+          name: 'ConsoleDirectoryArticleDetail',
           component: ArticleDetailPage,
           meta: { title: '文章详情', requiresAuth: true }
+        },
+        {
+          path: 'article-directory/categories/:category',
+          name: 'ConsoleDirectoryCategoryArticles',
+          component: ArticleListPage,
+          meta: { title: '分类文章', requiresAuth: true }
+        },
+        {
+          path: 'article-directory/tags/:tag',
+          name: 'ConsoleDirectoryTagArticles',
+          component: ArticleListPage,
+          meta: { title: '标签文章', requiresAuth: true }
         },
         {
           path: 'categories/:category',
@@ -224,6 +249,12 @@ export const router = createRouter({
           meta: { title: '服务监控', requiresAdmin: true }
         },
         {
+          path: 'manage/project-timeline',
+          name: 'AdminProjectTimeline',
+          component: AdminProjectTimeline,
+          meta: { title: '项目记录台账', requiresAdmin: true }
+        },
+        {
           path: 'manage/trash',
           name: 'AdminTrash',
           component: AdminTrash,
@@ -334,6 +365,10 @@ router.beforeEach(async (to) => {
       name: 'Login',
       query: { redirect: to.fullPath }
     }
+  }
+
+  if (to.path === '/console' && authStore.isLoggedIn && !authStore.isAdmin) {
+    return { name: 'ConsoleArticles' }
   }
 
   const pendingMenuTarget = findPendingMenuTarget(to.path, authStore)

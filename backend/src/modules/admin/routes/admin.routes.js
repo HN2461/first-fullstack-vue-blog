@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import multer from 'multer'
 import { Router } from 'express'
 import { MulterError } from 'multer'
-import { requireAdmin, requireAuth, requireMenuAccess, requireSuperAdmin } from '#middlewares/auth.js'
+import { requireAdmin, requireAnyMenuAccess, requireAuth, requireMenuAccess, requireSuperAdmin } from '#middlewares/auth.js'
 import { batchDeleteArticles, batchPermanentDeleteArticles, batchRestoreArticles, batchUpdateArticleStatus, createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle, updateArticleStatus } from '#modules/content/services/article.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
 import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
@@ -10,6 +10,7 @@ import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMe
 import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, restoreMedia } from '#modules/media/services/media.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
+import { createProjectTimelineRecord, importProjectTimelineRecords, listProjectTimelineRecords } from '#modules/projectTimeline/services/projectTimeline.service.js'
 import { getSettings, updateSettings } from '#modules/settings/services/setting.service.js'
 import { getAdminStats } from '#modules/dashboard/services/stats.service.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
@@ -21,6 +22,7 @@ import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
 import { articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
 import { userBatchResetPasswordSchema, userCreateSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
+import { projectTimelineCreateSchema, projectTimelineImportSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
 
 export const adminRouter = Router()
 
@@ -51,6 +53,14 @@ const articleImportUpload = multer({
   limits: {
     fileSize: 1024 * 1024,
     files: 20
+  }
+})
+
+const projectTimelineImportUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 512 * 1024,
+    files: 1
   }
 })
 
@@ -99,10 +109,13 @@ adminRouter.use(requireAuth, requireAdmin)
 const canAccessArticles = requireMenuAccess('/console/manage/articles')
 const canAccessArticleImport = requireMenuAccess('/console/manage/articles/import')
 const canAccessCategories = requireMenuAccess('/console/manage/categories')
+const canAccessCategoryMigration = requireAnyMenuAccess(['/console/manage/categories', '/console/manage/migration'])
 const canAccessComments = requireMenuAccess('/console/manage/comments')
 const canAccessMedia = requireMenuAccess('/console/manage/media')
+const canAccessArticleCategoryMigration = requireAnyMenuAccess(['/console/manage/articles', '/console/manage/migration'])
 const canAccessMonitor = requireMenuAccess('/console/manage/monitor')
 const canAccessNotifications = requireMenuAccess('/console/manage/notifications')
+const canAccessProjectTimeline = requireMenuAccess('/console/manage/project-timeline')
 const canAccessSettings = requireMenuAccess('/console/manage/settings')
 const canAccessTags = requireMenuAccess('/console/manage/tags')
 const canAccessTrash = requireMenuAccess('/console/manage/trash')
@@ -116,61 +129,66 @@ adminRouter.use('/articles', (req, res, next) => {
     return
   }
 
+  if (req.path === '/category/batch' || /^\/[^/]+\/category$/.test(req.path)) {
+    next()
+    return
+  }
+
   canAccessArticles(req, res, next)
 })
-adminRouter.use('/categories', canAccessCategories)
 adminRouter.use('/comments', canAccessComments)
 adminRouter.use('/media/trash', canAccessTrash)
 adminRouter.use('/media', canAccessMedia)
 adminRouter.use('/monitor', canAccessMonitor)
 adminRouter.use('/announcements', canAccessNotifications)
+adminRouter.use('/project-timeline', canAccessProjectTimeline)
 adminRouter.use('/settings', canAccessSettings)
 adminRouter.use('/stats', requireMenuAccess('/console'))
 adminRouter.use('/tags', canAccessTags)
 adminRouter.use('/users', canAccessUsers)
 
-adminRouter.get('/categories', asyncHandler(async (req, res) => {
+adminRouter.get('/categories', canAccessCategories, asyncHandler(async (req, res) => {
   res.json(ok(await listCategories(req.query)))
 }))
 
-adminRouter.get('/categories/tree', asyncHandler(async (req, res) => {
+adminRouter.get('/categories/tree', canAccessCategoryMigration, asyncHandler(async (req, res) => {
   res.json(ok(await listCategoryTree(req.query)))
 }))
 
-adminRouter.post('/categories', asyncHandler(async (req, res) => {
+adminRouter.post('/categories', canAccessCategoryMigration, asyncHandler(async (req, res) => {
   const input = parseBody(categorySchema, req.body)
   const category = await createCategory(input)
   res.status(201).json(ok(category, '分类已创建'))
 }))
 
-adminRouter.post('/categories/batch/status', asyncHandler(async (req, res) => {
+adminRouter.post('/categories/batch/status', canAccessCategories, asyncHandler(async (req, res) => {
   const input = parseBody(statusBatchSchema, req.body)
   const result = await batchUpdateCategoryStatus(input.ids, input.status)
   res.json(ok(result, `已更新 ${result.updatedCount} 个分类`))
 }))
 
-adminRouter.post('/categories/batch/delete', asyncHandler(async (req, res) => {
+adminRouter.post('/categories/batch/delete', canAccessCategories, asyncHandler(async (req, res) => {
   const input = parseBody(idBatchSchema, req.body)
   const result = await batchDeleteCategories(input.ids)
   res.json(ok(result, `已删除 ${result.deletedCount} 个分类`))
 }))
 
-adminRouter.get('/categories/:id/articles', asyncHandler(async (req, res) => {
+adminRouter.get('/categories/:id/articles', canAccessCategoryMigration, asyncHandler(async (req, res) => {
   res.json(ok(await listCategoryArticles(req.params.id, req.query)))
 }))
 
-adminRouter.patch('/categories/:id', asyncHandler(async (req, res) => {
+adminRouter.patch('/categories/:id', canAccessCategoryMigration, asyncHandler(async (req, res) => {
   const input = parseBody(categoryUpdateSchema, req.body)
   const category = await updateCategory(req.params.id, input)
   res.json(ok(category, '分类已更新'))
 }))
 
-adminRouter.delete('/categories/:id', asyncHandler(async (req, res) => {
+adminRouter.delete('/categories/:id', canAccessCategoryMigration, asyncHandler(async (req, res) => {
   const result = await deleteCategory(req.params.id)
   res.json(ok(result, '分类已删除'))
 }))
 
-adminRouter.post('/categories/:id/move', asyncHandler(async (req, res) => {
+adminRouter.post('/categories/:id/move', canAccessCategoryMigration, asyncHandler(async (req, res) => {
   const input = parseBody(categoryMoveSchema, req.body)
   const category = await moveCategoryBranch(req.params.id, input.targetParentId)
   if (input.sortOrder !== undefined) {
@@ -183,13 +201,13 @@ adminRouter.post('/categories/:id/move', asyncHandler(async (req, res) => {
   res.json(ok(category, '分类位置已更新'))
 }))
 
-adminRouter.post('/articles/:id/category', asyncHandler(async (req, res) => {
+adminRouter.post('/articles/:id/category', canAccessArticleCategoryMigration, asyncHandler(async (req, res) => {
   const input = parseBody(articleCategoryMoveSchema, req.body)
   const article = await moveArticleCategory(req.params.id, input.targetCategoryId)
   res.json(ok(article, '文章分类已更新'))
 }))
 
-adminRouter.post('/articles/category/batch', asyncHandler(async (req, res) => {
+adminRouter.post('/articles/category/batch', canAccessArticleCategoryMigration, asyncHandler(async (req, res) => {
   const input = parseBody(articleCategoryBatchMoveSchema, req.body)
   const result = await moveArticlesCategory(input.articleIds, input.targetCategoryId)
   res.json(ok(result, `已迁移 ${result.movedCount} 篇文章`))
@@ -197,6 +215,39 @@ adminRouter.post('/articles/category/batch', asyncHandler(async (req, res) => {
 
 adminRouter.get('/tags', asyncHandler(async (req, res) => {
   res.json(ok(await listTags(req.query)))
+}))
+
+adminRouter.get('/project-timeline', asyncHandler(async (req, res) => {
+  res.json(ok(await listProjectTimelineRecords(req.query)))
+}))
+
+adminRouter.post('/project-timeline', asyncHandler(async (req, res) => {
+  const input = parseBody(projectTimelineCreateSchema, req.body)
+  const record = await createProjectTimelineRecord(input, req.user)
+  res.status(201).json(ok(record, '项目记录已新增'))
+}))
+
+adminRouter.post('/project-timeline/import', projectTimelineImportUpload.single('file'), asyncHandler(async (req, res) => {
+  if (!req.file?.buffer) {
+    const error = new Error('请上传项目记录 JSON 文件')
+    error.statusCode = 400
+    error.code = 'PROJECT_TIMELINE_IMPORT_FILE_REQUIRED'
+    throw error
+  }
+
+  let payload
+  try {
+    payload = JSON.parse(req.file.buffer.toString('utf8'))
+  } catch {
+    const error = new Error('项目记录文件不是有效 JSON')
+    error.statusCode = 400
+    error.code = 'PROJECT_TIMELINE_IMPORT_JSON_INVALID'
+    throw error
+  }
+
+  const input = parseBody(projectTimelineImportSchema, payload)
+  const result = await importProjectTimelineRecords(input, req.user)
+  res.json(ok(result, `导入完成：新增 ${result.inserted} 条，已存在 ${result.duplicated} 条`))
 }))
 
 adminRouter.post('/tags', asyncHandler(async (req, res) => {

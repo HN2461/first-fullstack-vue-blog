@@ -258,8 +258,65 @@ body:has(.enterprise-admin-shell) {
   line-height: 16px;
 }
 
-.enterprise-create-menu {
-  min-width: 176px;
+.enterprise-create-modal .ant-modal-body {
+  padding-top: 12px;
+}
+
+.enterprise-create-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.enterprise-create-option {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  color: var(--console-text);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.enterprise-create-option:hover {
+  border-color: var(--console-primary);
+  background: var(--console-surface-muted);
+}
+
+.enterprise-create-option__icon {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: var(--console-primary);
+  background: color-mix(in srgb, var(--console-primary) 10%, transparent);
+}
+
+.enterprise-create-option strong,
+.enterprise-create-option small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.enterprise-create-option strong {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.enterprise-create-option small {
+  margin-top: 2px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .enterprise-avatar,
