@@ -120,6 +120,32 @@ P
 1. Python 支持负数下标，比如 `text[-1]`。
 2. JS 普通 `text[-1]` 不是取最后一个字符，现代 JS 可用 `text.at(-1)`。
 
+### Python 负数下标详解
+
+Python 可以用负数从后往前数：
+
+```text
+P    y    t    h    o    n
+0    1    2    3    4    5
+-6   -5   -4   -3   -2   -1
+```
+
+```python
+text = "Python"
+print(text[-1])   # n（最后一个字符）
+print(text[-2])   # o（倒数第二个）
+print(text[-6])   # P（和 text[0] 一样）
+```
+
+这在实际开发中特别方便，比如取文件扩展名：
+
+```python
+filename = "article.md"
+print(filename[-3:])  # .md
+```
+
+JS 没有这么方便的负数下标。`text[-1]` 在 JS 里返回 `undefined`，不是最后一个字符。现代 JS 可以用 `text.at(-1)`。
+
 ## 三、定义字符串
 
 Python 可以用单引号：
@@ -177,18 +203,8 @@ const name = `小明`
 高频踩坑：
 
 ```python
-name = "小明'
+name = "小明'  # 左右引号不匹配，报错
 ```
-
-左右引号不匹配会报错。
-
-JS 里：
-
-```js
-const name = '小明"
-```
-
-也会报错。
 
 ## 四、空字符串不是 None / null
 
@@ -198,7 +214,7 @@ Python 空字符串：
 text = ""
 ```
 
-它表示“有一个字符串，只是内容为空”。
+它表示"有一个字符串，只是内容为空"。
 
 Python 空值：
 
@@ -206,34 +222,22 @@ Python 空值：
 value = None
 ```
 
-表示“没有值”。
+表示"没有值"。
 
 对照：
 
 | 写法 | 含义 |
 | --- | --- |
-| `""` | 空字符串 |
+| `""` | 空字符串（有值，但内容为空） |
 | `None` | 没有值 |
 
 JS：
-
-```js
-const text = ''
-const value = null
-let unknown
-```
 
 | 写法 | 含义 |
 | --- | --- |
 | `''` | 空字符串 |
 | `null` | 主动设置为空 |
 | `undefined` | 未定义或未赋值 |
-
-相同点：
-
-1. 空字符串和空值不是一回事。
-2. 表单输入里经常出现空字符串。
-3. 数据库字段里经常出现空值。
 
 高频踩坑：
 
@@ -242,23 +246,26 @@ Python：
 ```python
 nickname = ""
 
-if nickname is None:
+if nickname is None:       # False！空字符串不是 None
     print("没有昵称")
-```
 
-不会进入，因为它是空字符串，不是 `None`。
+if nickname == "":         # True！这才是判断空字符串
+    print("昵称为空")
+```
 
 JS：
 
 ```js
 const nickname = ''
 
-if (nickname === null) {
+if (nickname === null) {   // false！空字符串不是 null
   console.log('没有昵称')
 }
-```
 
-也不会进入。
+if (nickname === '') {     // true！这才是判断空字符串
+  console.log('昵称为空')
+}
+```
 
 ## 五、多行字符串
 
@@ -309,7 +316,7 @@ WHERE status = 'published'
 
 核心区别：
 
-1. Python 用三引号。
+1. Python 用三引号 `"""` 或 `'''`。
 2. JS 用反引号模板字符串。
 3. Python 三引号也常用于 docstring。
 4. JS 模板字符串还常用于 `${}` 插值。
@@ -340,7 +347,7 @@ print(text)
 | 写法 | 含义 |
 | --- | --- |
 | `\n` | 换行 |
-| `\t` | 制表符 |
+| `\t` | 制表符（Tab） |
 | `\"` | 双引号 |
 | `\'` | 单引号 |
 | `\\` | 反斜杠本身 |
@@ -352,17 +359,26 @@ text = "第一行\n第二行"
 print(text)
 ```
 
+输出：
+
+```text
+第一行
+第二行
+```
+
 Windows 路径：
 
 ```python
 path = "C:\\code\\python"
 ```
 
-也可以用原始字符串：
+也可以用原始字符串（raw string），前面加 `r`：
 
 ```python
 path = r"C:\code\python"
 ```
+
+`r""` 的意思就是"这个字符串里的反斜杠不要转义，原样保留"。在写正则表达式和 Windows 路径时特别有用。
 
 JS 对照：
 
@@ -370,6 +386,8 @@ JS 对照：
 const text = "他说：\"你好\""
 const path = 'C:\\code\\js'
 ```
+
+JS 没有原始字符串的写法。
 
 相同点：
 
@@ -386,17 +404,13 @@ Python：
 path = "C:\new\test"
 ```
 
-这里 `\n` 可能被当成换行，`\t` 可能被当成 Tab。
+这里 `\n` 会被当成换行，`\t` 会被当成 Tab。
 
 更稳：
 
 ```python
 path = r"C:\new\test"
-```
-
-或：
-
-```python
+# 或
 path = "C:\\new\\test"
 ```
 
@@ -440,19 +454,13 @@ JS 对照：
 
 ```js
 const text = 'Python'
-console.log(text.length)
+console.log(text.length)  // 6
 ```
-
-相同点：
-
-1. 都能获取字符串长度。
-2. 都常用于表单校验。
-3. 都可以判断标题、昵称、密码是否过长。
 
 核心区别：
 
-1. Python 用 `len(text)`。
-2. JS 用 `text.length`。
+1. Python 用 `len(text)`——这是内置函数。
+2. JS 用 `text.length`——这是属性。
 3. Python 没有 `text.length`。
 4. JS 没有内置 `len(text)`。
 
@@ -460,10 +468,14 @@ console.log(text.length)
 
 ```python
 text = "Python"
-print(text.length)
+print(text.length)  # AttributeError! Python 没有 .length
 ```
 
-这是 JS 写法，Python 不支持。
+正确：
+
+```python
+print(len(text))
+```
 
 ## 八、索引：取某个字符
 
@@ -471,33 +483,18 @@ Python：
 
 ```python
 text = "Python"
-print(text[0])
-print(text[1])
-print(text[-1])
-```
-
-输出：
-
-```text
-P
-y
-n
-```
-
-负数下标从后往前：
-
-```text
-P    y    t    h    o    n
--6   -5   -4   -3   -2   -1
+print(text[0])   # P
+print(text[1])   # y
+print(text[-1])  # n
 ```
 
 JS：
 
 ```js
 const text = 'Python'
-console.log(text[0])
-console.log(text[1])
-console.log(text.at(-1))
+console.log(text[0])      // P
+console.log(text[1])      // y
+console.log(text.at(-1))  // n（现代 JS）
 ```
 
 相同点：
@@ -510,46 +507,90 @@ console.log(text.at(-1))
 
 1. Python 原生支持 `text[-1]`。
 2. JS 的 `text[-1]` 不等价，现代 JS 用 `text.at(-1)`。
-3. Python 越界索引会报错。
+3. Python 越界索引会报错 `IndexError`。
 4. JS 越界通常得到 `undefined`。
+
+### 越界对比
+
+Python：
+
+```python
+text = "Python"
+print(text[10])  # IndexError: string index out of range
+```
+
+JS：
+
+```js
+const text = 'Python'
+console.log(text[10])  // undefined（不会报错）
+```
+
+Python 更严格：越界直接报错，让你立刻知道出了问题。JS 静默返回 `undefined`，可能导致后续逻辑出问题但不报错。
 
 ## 九、切片：取一段内容
 
-Python 切片格式：
+切片是 Python 的特色功能，非常好用。
+
+### 基本格式
 
 ```python
 字符串[开始位置:结束位置]
 ```
 
-包含开始，不包含结束。
+**包含开始，不包含结束。**
 
 ```python
 text = "Python"
 
-print(text[0:2])
-print(text[:3])
-print(text[3:])
-print(text[-3:])
+print(text[0:2])   # Py（取下标 0 和 1，不包含 2）
+print(text[:3])    # Pyt（省略开始，默认从 0 开始）
+print(text[3:])    # hon（省略结束，默认到末尾）
+print(text[-3:])   # hon（从倒数第 3 个到末尾）
 ```
 
-输出：
+### 切片图解
 
 ```text
-Py
-Pyt
-hon
-hon
+P    y    t    h    o    n
+0    1    2    3    4    5
+                         6（结束位置可以到长度）
 ```
+
+```python
+text[0:2]   → P, y     → "Py"
+text[:3]    → P, y, t  → "Pyt"
+text[3:]    → h, o, n  → "hon"
+text[2:5]   → t, h, o  → "tho"
+text[-3:]   → h, o, n  → "hon"
+text[-5:-2] → y, t, h  → "yth"
+```
+
+### 带步长的切片
+
+```python
+字符串[开始:结束:步长]
+```
+
+```python
+text = "Python"
+
+print(text[::2])    # Pto（每隔 1 个取 1 个）
+print(text[1::2])   # yhn（从下标 1 开始，每隔 1 个取 1 个）
+print(text[::-1])   # nohtyP（反转字符串）
+```
+
+步长为负数时，方向反转。`[::-1]` 是反转字符串的经典写法。
 
 JS 对照：
 
 ```js
 const text = 'Python'
 
-console.log(text.slice(0, 2))
-console.log(text.slice(0, 3))
-console.log(text.slice(3))
-console.log(text.slice(-3))
+console.log(text.slice(0, 2))   // Py
+console.log(text.slice(0, 3))   // Pyt
+console.log(text.slice(3))      // hon
+console.log(text.slice(-3))     // hon
 ```
 
 相同点：
@@ -561,27 +602,23 @@ console.log(text.slice(-3))
 
 核心区别：
 
-1. Python 用 `text[0:3]`。
-2. JS 用 `text.slice(0, 3)`。
-3. Python 可以省略开始或结束。
-4. JS 通过参数省略实现类似效果。
+1. Python 用 `text[0:3]`——方括号切片语法。
+2. JS 用 `text.slice(0, 3)`——方法调用。
+3. Python 支持步长 `text[::2]`、反转 `text[::-1]`。
+4. JS 没有内置步长和反转切片，反转需要 `text.split('').reverse().join('')`。
 
 高频踩坑：
 
-`text[0:2]` 只取下标 0 和 1，不包含下标 2。
-
-JS `slice(0, 2)` 也一样。
+`text[0:2]` 只取下标 0 和 1，不包含下标 2。这个"包含开始、不包含结束"的规则在 Python 和 JS 的 `slice()` 里都一样。
 
 ## 十、字符串不可变
 
-Python 字符串是不可变的。
+Python 字符串是不可变的。你不能修改字符串中的某个字符。
 
 ```python
 text = "Python"
-text[0] = "J"
+text[0] = "J"  # TypeError: 'str' object does not support item assignment
 ```
-
-会报错。
 
 如果想得到 `"Jython"`：
 
@@ -592,20 +629,26 @@ new_text = "J" + text[1:]
 print(new_text)
 ```
 
+输出：
+
+```text
+Jython
+```
+
 JS 字符串也不可变：
 
 ```js
 const text = 'Python'
 const newText = 'J' + text.slice(1)
 
-console.log(newText)
+console.log(newText)  // Jython
 ```
 
 相同点：
 
 1. 字符串本身都不可变。
 2. 修改效果通常通过创建新字符串实现。
-3. 字符串方法通常返回新字符串。
+3. 字符串方法通常返回新字符串，不会修改原字符串。
 
 高频踩坑：
 
@@ -614,19 +657,14 @@ Python：
 ```python
 title = "python"
 title.upper()
-print(title)
+print(title)    # 仍然是 python！
 ```
 
-仍然输出：
-
-```text
-python
-```
-
-正确：
+`upper()` 返回新字符串，不会修改原字符串。正确写法：
 
 ```python
 title = title.upper()
+print(title)    # PYTHON
 ```
 
 JS 同理：
@@ -634,10 +672,14 @@ JS 同理：
 ```js
 let title = 'python'
 title.toUpperCase()
-console.log(title)
+console.log(title)  // 仍然是 python
 ```
 
-也不会修改原字符串。
+正确：
+
+```js
+title = title.toUpperCase()
+```
 
 ## 十一、字符串拼接和格式化
 
@@ -652,10 +694,8 @@ print("你好，" + name)
 
 ```python
 age = 18
-print("年龄：" + age)
+print("年龄：" + age)  # TypeError!
 ```
-
-会报错。
 
 要写：
 
@@ -681,12 +721,6 @@ const age = 18
 console.log(`姓名：${name}，年龄：${age}`)
 ```
 
-相同点：
-
-1. 都能把变量嵌入字符串。
-2. 都能写表达式。
-3. 都比一堆 `+` 拼接清晰。
-
 核心区别：
 
 1. Python 用 `f"你好，{name}"`。
@@ -696,7 +730,45 @@ console.log(`姓名：${name}，年龄：${age}`)
 5. Python 字符串拼数字要显式 `str()`。
 6. JS 会自动转换，但容易隐藏 bug。
 
-## 十二、去空格 strip / trim
+## 十二、字符串方法对照总表
+
+这是整篇最核心的对照表，建议收藏：
+
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 获取长度 | `len(text)` | `text.length` |
+| 取某个字符 | `text[0]` | `text[0]` |
+| 取最后一个 | `text[-1]` | `text.at(-1)` |
+| 截取子串 | `text[0:3]` | `text.slice(0, 3)` |
+| 反转字符串 | `text[::-1]` | `text.split('').reverse().join('')` |
+| 去两端空格 | `text.strip()` | `text.trim()` |
+| 去左边空格 | `text.lstrip()` | `text.trimStart()` |
+| 去右边空格 | `text.rstrip()` | `text.trimEnd()` |
+| 转大写 | `text.upper()` | `text.toUpperCase()` |
+| 转小写 | `text.lower()` | `text.toLowerCase()` |
+| 判断包含 | `"key" in text` | `text.includes('key')` |
+| 查找位置 | `text.find("key")` | `text.indexOf('key')` |
+| 替换 | `text.replace("a", "b")` | `text.replace('a', 'b')` |
+| 替换全部 | `text.replace("a", "b")`（默认全替换） | `text.replaceAll('a', 'b')` |
+| 分割 | `text.split(",")` | `text.split(',')` |
+| 合并 | `",".join(list)` | `array.join(',')` |
+| 判断开头 | `text.startswith("abc")` | `text.startsWith('abc')` |
+| 判断结尾 | `text.endswith(".md")` | `text.endsWith('.md')` |
+| 判断纯数字 | `text.isdigit()` | `/^\d+$/.test(text)` |
+| 判断纯字母 | `text.isalpha()` | `/^[a-zA-Z]+$/.test(text)` |
+| 重复字符串 | `"ha" * 3` → `"hahaha"` | `'ha'.repeat(3)` → `'hahaha'` |
+
+### 方法名风格差异
+
+观察上面的对照表，你会发现一个规律：
+
+**Python 字符串方法名用小写+下划线**：`startswith()`、`endswith()`、`isalpha()`、`isdigit()`
+
+**JS 字符串方法名用小驼峰**：`startsWith()`、`endsWith()`、`toUpperCase()`、`toLowerCase()`
+
+这个差异和变量命名风格一致：Python 喜欢蛇形，JS 喜欢驼峰。
+
+## 十三、去空格 strip / trim
 
 Python：
 
@@ -732,17 +804,20 @@ const username = '  xiaoming  '
 const cleanUsername = username.trim()
 ```
 
-只去左边：
+只去左边/右边：
 
 ```js
-text.trimStart()
+text.trimStart()  // 或 trimLeft()
+text.trimEnd()    // 或 trimRight()
 ```
 
-只去右边：
+对照：
 
-```js
-text.trimEnd()
-```
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 去两端空格 | `strip()` | `trim()` |
+| 去左边空格 | `lstrip()` | `trimStart()` |
+| 去右边空格 | `rstrip()` | `trimEnd()` |
 
 企业场景：
 
@@ -754,15 +829,11 @@ text.trimEnd()
 
 高频踩坑：
 
-Python：
-
 ```python
 title = "  Python  "
 title.strip()
-print(title)
+print(title)  # 仍然是 "  Python  "，原字符串不变
 ```
-
-原字符串不变。
 
 正确：
 
@@ -770,124 +841,95 @@ print(title)
 title = title.strip()
 ```
 
-JS `trim()` 也是一样。
-
-## 十三、大小写转换
+## 十四、大小写转换
 
 Python：
 
 ```python
 text = "python"
 
-print(text.upper())
-print(text.lower())
-print(text.title())
-print(text.capitalize())
+print(text.upper())        # PYTHON
+print(text.lower())        # python
+print(text.title())        # Python（每个单词首字母大写）
+print(text.capitalize())   # Python（只有第一个字母大写）
 ```
 
-常见方法：
-
-| 方法 | 作用 |
-| --- | --- |
-| `upper()` | 转大写 |
-| `lower()` | 转小写 |
-| `title()` | 每个单词首字母大写 |
-| `capitalize()` | 首字母大写，其余小写 |
+| 方法 | 作用 | 示例 |
+| --- | --- | --- |
+| `upper()` | 转大写 | `"python".upper()` → `"PYTHON"` |
+| `lower()` | 转小写 | `"PYTHON".lower()` → `"python"` |
+| `title()` | 每个单词首字母大写 | `"hello world".title()` → `"Hello World"` |
+| `capitalize()` | 首字母大写，其余小写 | `"hello WORLD".capitalize()` → `"Hello world"` |
 
 JS：
 
 ```js
 const text = 'python'
 
-console.log(text.toUpperCase())
-console.log(text.toLowerCase())
+console.log(text.toUpperCase())  // PYTHON
+console.log(text.toLowerCase())  // python
 ```
 
-相同点：
-
-1. 都能转大写。
-2. 都能转小写。
-3. 都常用于输入标准化。
-4. 都返回新字符串。
+JS 没有内置的 `title()` 和 `capitalize()`，需要自己写。
 
 核心区别：
 
 1. Python 是 `upper()` / `lower()`。
 2. JS 是 `toUpperCase()` / `toLowerCase()`。
-3. Python 有 `title()`。
-4. JS 没有完全同款内置标题化方法。
+3. Python 有 `title()` 和 `capitalize()`。
+4. JS 没有完全同款内置方法。
 
 企业场景：
 
 ```python
 email = "USER@EXAMPLE.COM"
-email = email.lower()
+email = email.lower()  # 标准化邮箱，统一小写
 ```
 
-JS：
-
-```js
-let email = 'USER@EXAMPLE.COM'
-email = email.toLowerCase()
-```
-
-## 十四、查找字符串
+## 十五、查找字符串
 
 Python 判断包含用 `in`：
 
 ```python
 title = "Python 零基础入门"
 
-print("Python" in title)
-print("Java" in title)
-```
-
-输出：
-
-```text
-True
-False
+print("Python" in title)   # True
+print("Java" in title)     # False
 ```
 
 查找位置用 `find()`：
 
 ```python
-print(title.find("零基础"))
-print(title.find("Java"))
+print(title.find("零基础"))  # 7（找到位置）
+print(title.find("Java"))    # -1（找不到返回 -1）
 ```
-
-找不到返回 `-1`。
 
 JS：
 
 ```js
 const title = 'Python 零基础入门'
 
-console.log(title.includes('Python'))
-console.log(title.includes('Java'))
-console.log(title.indexOf('零基础'))
-console.log(title.indexOf('Java'))
+console.log(title.includes('Python'))   // true
+console.log(title.includes('Java'))     // false
+console.log(title.indexOf('零基础'))     // 7
+console.log(title.indexOf('Java'))      // -1
 ```
 
-相同点：
+对照：
 
-1. 都能判断是否包含关键词。
-2. 都能查找关键词位置。
-3. 找不到位置时都可以返回 `-1`。
-4. 都常用于搜索、过滤、校验。
-
-核心区别：
-
-1. Python 判断包含常用 `"关键词" in text`。
-2. JS 判断包含常用 `text.includes('关键词')`。
-3. Python 找位置用 `find()`。
-4. JS 找位置用 `indexOf()`。
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 判断是否包含 | `"key" in text` | `text.includes('key')` |
+| 查找位置 | `text.find("key")` | `text.indexOf('key')` |
+| 找不到返回 | `-1` | `-1` |
 
 高频踩坑：
 
-Python 没有 JS 字符串的 `includes()`。
+Python 没有 JS 字符串的 `includes()` 方法。不要在 Python 里写 `text.includes("key")`。
 
-## 十五、替换字符串 replace
+反过来，JS 没有 Python 的 `in` 关键字做字符串包含判断。`"key" in text` 在 JS 里不是判断字符串包含，而是判断对象属性。
+
+## 十六、替换字符串 replace
 
 Python：
 
@@ -904,63 +946,35 @@ print(new_text)
 我喜欢 Python
 ```
 
-Python `replace()` 默认替换全部：
+**Python `replace()` 默认替换全部匹配：**
 
 ```python
-print("aaa".replace("a", "b"))
+print("aaa".replace("a", "b"))     # bbb（全部替换）
+print("aaa".replace("a", "b", 1))  # baa（只替换第一个）
 ```
 
-输出：
-
-```text
-bbb
-```
-
-限制替换次数：
-
-```python
-print("aaa".replace("a", "b", 1))
-```
-
-输出：
-
-```text
-baa
-```
-
-JS：
+**JS `replace()` 默认只替换第一个匹配：**
 
 ```js
-const text = '我喜欢 Java'
-console.log(text.replace('Java', 'Python'))
+console.log('aaa'.replace('a', 'b'))       // baa（只替换第一个）
+console.log('aaa'.replaceAll('a', 'b'))    // bbb（全部替换）
 ```
 
-JS `replace()` 默认只替换第一个：
+**这是一个非常重要的区别！**
 
-```js
-console.log('aaa'.replace('a', 'b'))
-```
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 默认行为 | 替换**全部** | 只替换**第一个** |
+| 全部替换 | `text.replace("a", "b")` | `text.replaceAll("a", "b")` |
+| 只替换第一个 | `text.replace("a", "b", 1)` | `text.replace("a", "b")` |
 
-输出：
+高频踩坑：
 
-```text
-baa
-```
+从 JS 转 Python 时，如果你习惯 `replace` 只替换第一个，在 Python 里会发现它替换了全部——这可能不是你要的效果。
 
-全部替换：
+反过来，Python 转 JS 时，如果你以为 `replace` 替换全部，结果它只替换了第一个。
 
-```js
-console.log('aaa'.replaceAll('a', 'b'))
-```
-
-核心区别：
-
-1. Python `replace()` 默认替换全部。
-2. JS `replace()` 默认只替换第一个。
-3. JS 全部替换可用 `replaceAll()` 或正则。
-4. Python 限制次数用第三个参数。
-
-## 十六、分割 split 与合并 join
+## 十七、分割 split 与合并 join
 
 Python 分割：
 
@@ -990,21 +1004,21 @@ print(text.split())
 ['Python', 'JS', 'Vue']
 ```
 
+这个特性在清理输入时特别方便——不管中间有多少空格、Tab、换行，都会被当作分隔符。
+
 JS：
 
 ```js
 const tags = 'Python,JS,Vue'
-console.log(tags.split(','))
+console.log(tags.split(','))  // ['Python', 'JS', 'Vue']
 ```
 
 JS `split()` 不传参数时，不会按空白分割：
 
 ```js
 const text = 'Python   JS   Vue'
-console.log(text.split())
+console.log(text.split())  // ['Python   JS   Vue']（整个字符串作为一个元素）
 ```
-
-结果是包含原字符串的数组。
 
 如果要按多个空白分割：
 
@@ -1021,45 +1035,68 @@ text = ",".join(tags)
 print(text)
 ```
 
+输出：
+
+```text
+Python,JS,Vue
+```
+
 JS 合并：
 
 ```js
 const tags = ['Python', 'JS', 'Vue']
 const text = tags.join(',')
+
+console.log(text)  // Python,JS,Vue
 ```
 
-核心区别：
+**join 的方向差异是最容易混的：**
 
-1. Python 是 `"分隔符".join(list)`。
-2. JS 是 `array.join('分隔符')`。
-3. Python `join()` 要求列表元素必须都是字符串。
-4. JS 会把数组元素转成字符串。
+| 语言 | 写法 | 记忆方式 |
+| --- | --- | --- |
+| Python | `"分隔符".join(list)` | 分隔符是主动方，把列表"拉"到一起 |
+| JS | `array.join("分隔符")` | 数组是主动方，用分隔符"粘"起来 |
 
 高频踩坑：
 
 Python：
 
 ```python
-tags.join(",")
+tags = ["Python", "JS", "Vue"]
+tags.join(",")  # AttributeError! 列表没有 join 方法
 ```
-
-这是 JS 思路，Python 错。
 
 正确：
 
 ```python
-",".join(tags)
+",".join(tags)  # 分隔符调用 join，列表做参数
 ```
 
-## 十七、判断开头和结尾
+另外一个坑：Python 的 `join()` 要求列表元素必须都是字符串：
+
+```python
+nums = [1, 2, 3]
+",".join(nums)  # TypeError! 数字不能直接 join
+```
+
+正确：
+
+```python
+nums = [1, 2, 3]
+",".join(str(n) for n in nums)  # '1,2,3'
+```
+
+JS 不会报这个错，它会自动把数组元素转成字符串。
+
+## 十八、判断开头和结尾
 
 Python：
 
 ```python
 filename = "article.md"
 
-print(filename.startswith("article"))
-print(filename.endswith(".md"))
+print(filename.startswith("article"))  # True
+print(filename.endswith(".md"))        # True
 ```
 
 JS：
@@ -1067,93 +1104,100 @@ JS：
 ```js
 const filename = 'article.md'
 
-console.log(filename.startsWith('article'))
-console.log(filename.endsWith('.md'))
+console.log(filename.startsWith('article'))  // true
+console.log(filename.endsWith('.md'))        // true
 ```
 
-相同点：
+注意方法名差异：
 
-1. 都能判断开头。
-2. 都能判断结尾。
-3. 都常用于文件、路径、URL 处理。
-4. 都返回布尔值。
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 判断开头 | `startswith()` | `startsWith()` |
+| 判断结尾 | `endswith()` | `endsWith()` |
 
-核心区别：
-
-1. Python 方法名是 `startswith()`、`endswith()`。
-2. JS 方法名是 `startsWith()`、`endsWith()`。
-3. Python 全小写。
-4. JS 驼峰。
+Python 全小写，JS 驼峰。
 
 企业场景：
 
 ```python
 filename = "avatar.png"
 
-if filename.endswith(".png"):
-    print("这是 PNG 图片")
+if filename.endswith((".png", ".jpg", ".jpeg")):
+    print("这是图片文件")
 ```
 
-JS：
+注意 `endswith()` 和 `startswith()` 可以接受元组，匹配任意一个即可。
 
-```js
-if (filename.endsWith('.png')) {
-  console.log('这是 PNG 图片')
-}
-```
-
-## 十八、判断字符串内容
+## 十九、判断字符串内容
 
 Python 判断是否全是数字字符：
 
 ```python
 text = "123"
-print(text.isdigit())
+print(text.isdigit())   # True
+print("12a".isdigit())  # False
 ```
 
 判断是否全是字母：
 
 ```python
 text = "abc"
-print(text.isalpha())
+print(text.isalpha())   # True
+print("ab1".isalpha())  # False
 ```
 
-注意：`isdigit()` 是字符串方法。
+判断是否全是数字或字母：
+
+```python
+text = "abc123"
+print(text.isalnum())   # True
+print("ab 1".isalnum()) # False（有空格）
+```
+
+**注意：这些都是字符串方法，不是数字方法。**
 
 ```python
 value = 123
-print(value.isdigit())
+value.isdigit()  # AttributeError! 数字没有 isdigit 方法
 ```
-
-会报错。
 
 JS 常用正则：
 
 ```js
 const text = '123'
-console.log(/^\d+$/.test(text))
+console.log(/^\d+$/.test(text))         // 判断纯数字
+console.log(/^[a-zA-Z]+$/.test('abc'))  // 判断纯字母
 ```
 
-判断字母：
+对照：
+
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 判断纯数字 | `text.isdigit()` | `/^\d+$/.test(text)` |
+| 判断纯字母 | `text.isalpha()` | `/^[a-zA-Z]+$/.test(text)` |
+| 判断数字或字母 | `text.isalnum()` | `/^[a-zA-Z0-9]+$/.test(text)` |
+
+Python 的方法更直观，JS 的正则更灵活但更难读。
+
+## 二十、重复字符串
+
+Python 用 `*`：
+
+```python
+print("ha" * 3)    # hahaha
+print("-" * 20)    # --------------------
+```
+
+JS 用 `.repeat()`：
 
 ```js
-console.log(/^[a-zA-Z]+$/.test('abc'))
+console.log('ha'.repeat(3))     // hahaha
+console.log('-'.repeat(20))    // --------------------
 ```
 
-相同点：
+这个在企业项目里其实挺常用，比如生成分隔线、填充字符、生成测试数据。
 
-1. 都能做字符串格式校验。
-2. 都常用于页码、验证码、输入内容判断。
-3. 都需要注意边界情况。
-
-核心区别：
-
-1. Python 有 `isdigit()`、`isalpha()`。
-2. JS 常用正则。
-3. Python 方法更直观。
-4. JS 正则更灵活但更难读。
-
-## 十九、企业项目实战：清理文章标题和标签
+## 二十一、企业项目实战：清理文章标题和标签
 
 需求：
 
@@ -1170,6 +1214,7 @@ Python：
 raw_title = "  Python 字符串 str  "
 raw_tags = " Python, JS, Vue,  "
 
+# 清理标题
 title = raw_title.strip()
 
 if title == "":
@@ -1179,6 +1224,7 @@ elif len(title) > 50:
 else:
     print(f"文章标题：{title}")
 
+# 清理标签
 tag_parts = raw_tags.split(",")
 clean_tags = []
 
@@ -1198,6 +1244,7 @@ JS：
 const rawTitle = '  Python 字符串 str  '
 const rawTags = ' Python, JS, Vue,  '
 
+// 清理标题
 const title = rawTitle.trim()
 
 if (title === '') {
@@ -1208,6 +1255,7 @@ if (title === '') {
   console.log(`文章标题：${title}`)
 }
 
+// 清理标签
 const tagParts = rawTags.split(',')
 const cleanTags = []
 
@@ -1225,7 +1273,24 @@ console.log('标签字符串：' + cleanTags.join(','))
 
 这段代码很贴近真实项目，因为后台文章管理、导入文章、保存标签，经常要做这种字符串清洗。
 
-## 二十、本篇练习
+## 二十二、容易和 JS 混淆的地方汇总
+
+| 容易混的点 | Python | JS | 怎么记 |
+| --- | --- | --- | --- |
+| 获取长度 | `len(text)` | `text.length` | Python 是函数，JS 是属性 |
+| 取最后一个 | `text[-1]` | `text.at(-1)` | Python 原生支持负数下标 |
+| 截取子串 | `text[0:3]` | `text.slice(0, 3)` | Python 切片语法，JS 方法调用 |
+| 去空格 | `strip()` | `trim()` | strip=剥除，trim=修剪 |
+| 转大写 | `upper()` | `toUpperCase()` | Python 简短，JS 驼峰 |
+| 判断包含 | `"key" in text` | `text.includes('key')` | Python 用关键字 in |
+| 查找位置 | `find()` | `indexOf()` | 方法名不同 |
+| 替换默认行为 | 替换**全部** | 只替换**第一个** | 最容易出 bug 的差异！ |
+| 合并字符串 | `"分隔符".join(list)` | `array.join('分隔符')` | 方向完全相反 |
+| 判断开头 | `startswith()` | `startsWith()` | Python 全小写，JS 驼峰 |
+| 重复字符串 | `"ha" * 3` | `'ha'.repeat(3)` | Python 用乘法，JS 用方法 |
+| 判断纯数字 | `text.isdigit()` | 正则 | Python 有专门方法 |
+
+## 二十三、本篇练习
 
 练习一：清理用户名。
 
@@ -1301,33 +1366,49 @@ if (title.includes(keyword)) {
 }
 ```
 
+练习四：找错误。
+
+Python：
+
+```python
+tags = ["Python", "JS"]
+tags.join(",")    # 错误！列表没有 join 方法
+```
+
+正确：
+
+```python
+",".join(tags)
+```
+
+Python：
+
+```python
+text = "aaa"
+text.replace("a", "b")  # 如果只想替换第一个，这样写不对
+```
+
+Python `replace()` 默认替换全部，如果想只替换第一个：
+
+```python
+text.replace("a", "b", 1)  # 第三个参数限制替换次数
+```
+
 ## 本篇小结
 
-1. Python 字符串类型叫 `str`。
-2. JS 字符串类型叫 `string`。
-3. Python 和 JS 都可以用单引号、双引号定义字符串。
-4. JS 还有模板字符串反引号。
-5. Python 多行字符串用三引号。
-6. JS 多行字符串常用模板字符串。
-7. Python 和 JS 都支持转义字符。
-8. Python 获取长度用 `len(text)`。
-9. JS 获取长度用 `text.length`。
-10. Python 和 JS 字符串下标都从 0 开始。
-11. Python 支持 `text[-1]`。
-12. JS 可用 `text.at(-1)`。
-13. Python 切片用 `text[start:end]`。
-14. JS 切片用 `text.slice(start, end)`。
-15. Python 和 JS 字符串都不可变。
-16. Python 推荐 f-string。
-17. JS 推荐模板字符串。
-18. Python 去空格用 `strip()`。
-19. JS 去空格用 `trim()`。
-20. Python 判断包含用 `in`。
-21. JS 判断包含用 `includes()`。
-22. Python `replace()` 默认替换全部。
-23. JS `replace()` 默认只替换第一个，全部替换用 `replaceAll()`。
-24. Python `split()` 不传参数会按空白智能分割。
-25. JS `split()` 不传参数不会按空白分割。
-26. Python 合并字符串用 `"分隔符".join(list)`。
-27. JS 合并字符串用 `array.join('分隔符')`。
-28. 企业项目中，字符串常用于用户输入、文章标题、标签、搜索关键词、接口路径、文件路径和日志内容。
+1. Python 字符串类型叫 `str`，JS 叫 `string`。
+2. Python 和 JS 都可以用单引号、双引号定义字符串。JS 还有模板字符串。
+3. Python 多行字符串用三引号，JS 常用模板字符串。
+4. Python 获取长度用 `len(text)`，JS 用 `text.length`。
+5. Python 支持 `text[-1]` 取最后一个字符，JS 用 `text.at(-1)`。
+6. Python 切片用 `text[start:end]`，JS 用 `text.slice(start, end)`。
+7. Python 切片支持步长 `text[::2]` 和反转 `text[::-1]`。
+8. Python 和 JS 字符串都不可变，方法返回新字符串。
+9. Python 推荐 f-string，JS 推荐模板字符串。
+10. Python 去空格用 `strip()`，JS 用 `trim()`。
+11. Python 判断包含用 `in`，JS 用 `includes()`。
+12. Python `replace()` 默认替换全部，JS `replace()` 默认只替换第一个。
+13. Python 合并用 `"分隔符".join(list)`，JS 用 `array.join('分隔符')`——方向相反。
+14. Python `startswith()` / `endswith()` 全小写，JS `startsWith()` / `endsWith()` 驼峰。
+15. Python 有 `isdigit()`、`isalpha()` 等方法，JS 常用正则。
+16. 企业项目中，字符串常用于输入清理、校验、搜索、替换和格式化。

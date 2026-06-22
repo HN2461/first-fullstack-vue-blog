@@ -1,7 +1,7 @@
 ---
 title: Python 零基础入门 14：小练习 记账本
 slug: python-zero-mini-project-account-book
-summary: 用前面学过的变量、输入、类型转换、条件判断、循环、列表、字典和文件写入，完成一个适合零基础的新手记账本练习。
+summary: 用前面学过的变量、输入、类型转换、条件判断、循环、列表、字典和文件写入，完成一个适合零基础的新手记账本练习，全程对照 JavaScript。
 category:
 tags: []
 status: draft
@@ -21,6 +21,8 @@ cover:
 - 列表
 - 字典
 - 文件写入
+
+前端 JS 里，类似的功能会怎么做？用 Vue 组件 + 表单 + API 请求。Python 命令行版更简单直接，但核心逻辑（数据结构、输入校验、持久化）是一样的。
 
 ## 目标效果
 
@@ -45,6 +47,8 @@ cover:
 
 先用字典表示一条消费。
 
+Python：
+
 ```python
 record = {
     "name": "早餐",
@@ -54,18 +58,22 @@ record = {
 print(record)
 ```
 
-运行结果：
+JS 对照：
 
-```text
-{'name': '早餐', 'amount': 8.0}
+```js
+const record = {
+  name: '早餐',
+  amount: 8.0
+}
+
+console.log(record)
 ```
 
-这里：
-
-- `name` 表示消费名称
-- `amount` 表示金额
+区别：Python 键需要引号，JS 可以省略。
 
 ## 第二步：用列表保存多条记录
+
+Python：
 
 ```python
 records = []
@@ -76,15 +84,22 @@ records.append({"name": "地铁", "amount": 4.0})
 print(records)
 ```
 
-运行结果：
+JS 对照：
 
-```text
-[{'name': '早餐', 'amount': 8.0}, {'name': '地铁', 'amount': 4.0}]
+```js
+const records = []
+
+records.push({ name: '早餐', amount: 8.0 })
+records.push({ name: '地铁', amount: 4.0 })
+
+console.log(records)
 ```
 
-列表负责保存多条记录，字典负责保存一条记录的详细信息。
+列表（数组）+ 字典（对象）是最常见的数据结构组合，Python 和 JS 都一样。
 
 ## 第三步：循环输入
+
+Python：
 
 ```python
 records = []
@@ -101,11 +116,27 @@ while True:
 print(records)
 ```
 
-这里的 `while True` 表示一直循环。
+`while True` 表示一直循环。当用户输入 `q` 时，执行 `break`，结束循环。
 
-当用户输入 `q` 时，执行 `break`，结束循环。
+JS 对照（浏览器环境）：
+
+```js
+const records = []
+
+while (true) {
+  const name = prompt('请输入消费名称，输入 q 结束：')
+  if (name === 'q') break
+
+  const amount = parseFloat(prompt('请输入金额：'))
+  records.push({ name, amount })
+}
+
+console.log(records)
+```
 
 ## 第四步：计算总支出
+
+Python：
 
 ```python
 records = [
@@ -118,44 +149,46 @@ total = 0
 for record in records:
     total += record["amount"]
 
-print(total)
+print(total)   # 12.0
 ```
 
-运行结果：
+JS 对照：
 
-```text
-12.0
+```js
+const total = records.reduce((sum, r) => sum + r.amount, 0)
+console.log(total)  // 12
 ```
+
+或用循环：
+
+```js
+let total = 0
+for (const record of records) {
+  total += record.amount
+}
+```
+
+Python 访问字典用 `record["amount"]`，JS 用 `record.amount` 或 `record["amount"]`。
 
 ## 第五步：保存到文件
 
-```python
-records = [
-    {"name": "早餐", "amount": 8.0},
-    {"name": "地铁", "amount": 4.0}
-]
+Python：
 
+```python
 with open("account_book.txt", "w", encoding="utf-8") as file:
     for record in records:
         file.write(f"{record['name']}：{record['amount']} 元\n")
 ```
 
-文件内容：
+JS 对照（Node.js）：
 
-```text
-早餐：8.0 元
-地铁：4.0 元
+```js
+const fs = require('fs')
+const content = records.map(r => `${r.name}：${r.amount} 元`).join('\n')
+fs.writeFileSync('account_book.txt', content, 'utf-8')
 ```
 
 ## 完整代码
-
-复制下面代码保存为：
-
-```text
-account_book.py
-```
-
-完整代码：
 
 ```python
 records = []
@@ -187,19 +220,6 @@ print(f"总支出：{total} 元")
 print("记录已保存到 account_book.txt")
 ```
 
-运行示例：
-
-```text
-请输入消费名称，输入 q 结束：早餐
-请输入金额：8
-请输入消费名称，输入 q 结束：地铁
-请输入金额：4
-请输入消费名称，输入 q 结束：q
-本次共记录 2 条
-总支出：12.0 元
-记录已保存到 account_book.txt
-```
-
 生成的 `account_book.txt`：
 
 ```text
@@ -218,7 +238,7 @@ print("记录已保存到 account_book.txt")
 - 支持收入和支出两种类型。
 - 每次运行时不覆盖旧记录，而是追加记录。
 - 按日期统计总支出。
-- 使用表格文件保存数据。
+- 使用 JSON 文件保存数据。
 
 ## 工作化改造：让小练习更像真实代码
 
@@ -228,7 +248,7 @@ print("记录已保存到 account_book.txt")
 
 - 用函数拆分不同职责。
 - 用户输入要校验。
-- 数据不要只保存成普通文本，可以保存成 JSON。
+- 数据保存成 JSON，方便读取。
 - 程序运行结果要清楚告诉用户。
 
 下面是一个升级版记账本，仍然放在一个文件里，但已经开始接近工作代码的组织方式。
@@ -241,6 +261,7 @@ DATA_FILE = Path("account_book.json")
 
 
 def load_records():
+    """从文件加载记录"""
     if not DATA_FILE.exists():
         return []
 
@@ -249,11 +270,13 @@ def load_records():
 
 
 def save_records(records):
+    """保存记录到文件"""
     with open(DATA_FILE, "w", encoding="utf-8") as file:
         json.dump(records, file, ensure_ascii=False, indent=2)
 
 
 def input_amount():
+    """输入并校验金额"""
     while True:
         amount_text = input("请输入金额：")
 
@@ -271,6 +294,7 @@ def input_amount():
 
 
 def add_record(records):
+    """添加一条记录"""
     name = input("请输入消费名称：").strip()
 
     if not name:
@@ -287,6 +311,7 @@ def add_record(records):
 
 
 def show_summary(records):
+    """展示汇总"""
     if not records:
         print("暂无记录")
         return
@@ -302,6 +327,7 @@ def show_summary(records):
 
 
 def main():
+    """主程序"""
     records = load_records()
 
     while True:
@@ -326,26 +352,6 @@ def main():
 main()
 ```
 
-运行示例：
-
-```text
-1. 添加消费
-2. 查看汇总
-q. 退出
-请选择操作：1
-请输入消费名称：早餐
-请输入金额：8
-记录已保存
-
-1. 添加消费
-2. 查看汇总
-q. 退出
-请选择操作：2
-消费明细：
-- 早餐：8.0 元
-总支出：8.0 元
-```
-
 生成的 `account_book.json` 类似：
 
 ```json
@@ -355,6 +361,45 @@ q. 退出
     "amount": 8.0
   }
 ]
+```
+
+### JS 对照版思路
+
+如果用 JS (Node.js) 写同样的记账本：
+
+```js
+const fs = require('fs')
+const path = require('path')
+const readline = require('readline')
+
+const DATA_FILE = path.join(__dirname, 'account_book.json')
+
+function loadRecords() {
+  if (!fs.existsSync(DATA_FILE)) return []
+  return JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'))
+}
+
+function saveRecords(records) {
+  fs.writeFileSync(DATA_FILE, JSON.stringify(records, null, 2), 'utf-8')
+}
+
+function addRecord(records, name, amount) {
+  records.push({ name, amount })
+  saveRecords(records)
+}
+
+function showSummary(records) {
+  if (!records.length) { console.log('暂无记录'); return }
+  let total = 0
+  console.log('消费明细：')
+  records.forEach(r => {
+    console.log(`- ${r.name}：${r.amount} 元`)
+    total += r.amount
+  })
+  console.log(`总支出：${total} 元`)
+}
+
+// 主程序省略（Node.js 命令行输入比 Python 复杂，需要 readline 模块）
 ```
 
 ## 为什么这个版本更接近工作
@@ -368,9 +413,9 @@ q. 退出
 - `show_summary()` 只负责展示汇总。
 - `main()` 负责组织程序流程。
 
-这叫职责拆分。
+这叫**职责拆分**。Python 和 JS 的工作代码都应该这样做。
 
-工作中判断一个新手代码是否靠谱，不只看能不能运行，还会看：
+工作中判断代码是否靠谱，不只看能不能运行，还会看：
 
 - 出错时有没有处理。
 - 函数命名是否清楚。
@@ -378,23 +423,13 @@ q. 退出
 - 数据保存格式是否方便后续读取。
 - 后续加功能时会不会很难改。
 
-## 可以作为简历项目吗
-
-这个练习本身比较小，不适合夸大成正式项目。
-
-但可以作为“Python 基础练习项目”来表达：
-
-```text
-我做过一个命令行记账本练习，支持添加消费、查看汇总、JSON 文件持久化。
-项目中使用函数拆分输入、校验、保存和汇总逻辑，使用 try except 处理金额输入错误，使用 pathlib 和 json 标准库管理本地数据。
-通过这个练习，我理解了 Python 基础语法如何组合成一个可运行的小工具。
-```
-
 ## 本篇小结
 
-- 小程序通常是把多个基础知识组合起来。
-- 列表适合保存多条记录。
-- 字典适合保存一条记录的多个字段。
-- 循环适合反复输入。
-- 文件写入可以把运行结果保存下来。
-- 想接近真实工作，需要继续练习函数拆分、输入校验、数据持久化和错误处理。
+1. 小程序通常是把多个基础知识组合起来。
+2. 列表适合保存多条记录，字典适合保存一条记录的多个字段。
+3. `while True` + `break` 适合反复输入。
+4. `input()` 得到字符串，需要 `float()` 转换。
+5. `with open()` + `write()` 保存文件。
+6. 想接近真实工作，需要函数拆分、输入校验、JSON 持久化。
+7. Python 用 `append()` 添加元素，JS 用 `push()`。
+8. Python 用 `record["amount"]` 访问字典，JS 用 `record.amount`。
