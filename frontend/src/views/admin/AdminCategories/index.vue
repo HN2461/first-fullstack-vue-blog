@@ -658,9 +658,9 @@ function handleDelete(record) {
   height: 20px;
   line-height: 18px;
   border-radius: 4px;
-  border: 1px solid #ffd666;
-  background: #fffbe6;
-  color: #d48806;
+  border: 1px solid color-mix(in srgb, #faad14 50%, var(--console-border));
+  background: color-mix(in srgb, #faad14 16%, var(--console-surface));
+  color: color-mix(in srgb, #faad14 82%, var(--console-text));
 }
 
 /* ── 操作按钮 ── */

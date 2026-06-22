@@ -8,6 +8,7 @@
       :params="tableParams"
       :page-size="10"
       :page-sizes="['10', '20', '50']"
+      row-key="key"
       :row-selection="rowSelection"
       :scroll="{ x: 1180 }"
       :show-column-setting="true"
@@ -33,12 +34,12 @@
           导出模板
         </a-button>
         <a-button
-          :disabled="selectedRowKeys.length === 0"
+          :disabled="selectedImportItems.length === 0"
           :loading="commitLoading"
           @click="handleCommit"
         >
           <template #icon><ImportOutlined /></template>
-          确认导入 {{ selectedRowKeys.length }} 篇
+          确认导入 {{ selectedImportItems.length }} 篇
         </a-button>
         <a-button :disabled="!previewRows.length || previewLoading || commitLoading" @click="clearPreview">
           <template #icon><ClearOutlined /></template>
@@ -212,6 +213,11 @@ const summary = computed(() => ({
   errorCount: previewRows.value.filter((item) => item.importStatus === 'error').length
 }))
 
+const selectedImportItems = computed(() => {
+  const selectedKeys = new Set(selectedRowKeys.value)
+  return previewRows.value.filter((item) => item.canImport && selectedKeys.has(item.key))
+})
+
 const previewMessageText = computed(() => {
   const item = currentPreview.value
   if (!item) return ''
@@ -253,7 +259,8 @@ async function loadPreviewRows(params = {}) {
 }
 
 function handleSelectionChange(keys) {
-  selectedRowKeys.value = keys || []
+  const importableKeys = new Set(previewRows.value.filter((item) => item.canImport).map((item) => item.key))
+  selectedRowKeys.value = (keys || []).filter((key) => importableKeys.has(key))
 }
 
 async function handleDownloadTemplate() {
@@ -333,8 +340,7 @@ function clearPreview() {
 }
 
 async function handleCommit() {
-  const selectedKeys = new Set(selectedRowKeys.value)
-  const items = previewRows.value.filter((item) => selectedKeys.has(item.key))
+  const items = selectedImportItems.value
 
   if (!items.length) return
 

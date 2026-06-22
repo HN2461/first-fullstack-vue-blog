@@ -707,6 +707,18 @@ defineExpose({
   scrollbar-width: thin;
 }
 
+.blog-table__body :deep(.ant-table),
+.blog-table__body :deep(.ant-table-container),
+.blog-table__body :deep(.ant-table-content),
+.blog-table__body :deep(.ant-table-body),
+.blog-table__body :deep(.ant-table-tbody > tr > td),
+.blog-table__body :deep(.ant-table-cell-fix-left),
+.blog-table__body :deep(.ant-table-cell-fix-right) {
+  color: var(--console-text, #101828);
+  background: var(--console-surface, #fff);
+  border-color: var(--console-border, #f0f0f0);
+}
+
 .blog-table__body--fixed-scroll :deep(.ant-table-body) {
   height: var(--blog-table-scroll-y);
   max-height: var(--blog-table-scroll-y) !important;
@@ -714,6 +726,8 @@ defineExpose({
 
 .blog-table__body :deep(.ant-table-placeholder) {
   height: 100%;
+  color: var(--console-text-secondary, #8c8c8c);
+  background: var(--console-surface, #fff);
 }
 
 .blog-table__body :deep(.ant-table-thead > tr > th) {
@@ -728,6 +742,10 @@ defineExpose({
   padding: 10px 14px;
   vertical-align: middle;
   transition: background 0.2s ease;
+}
+
+.blog-table__body :deep(.ant-table-tbody > tr.ant-table-row-selected > td) {
+  background: color-mix(in srgb, var(--console-primary, #1677ff) 12%, var(--console-surface, #fff));
 }
 
 .blog-table__body :deep(.ant-table-tbody > tr:hover > td) {
@@ -749,7 +767,7 @@ defineExpose({
 
 .blog-table--column-border .blog-table__body :deep(.ant-table-cell-fix-left-last::after),
 .blog-table--column-border .blog-table__body :deep(.ant-table-cell-fix-right-first::after) {
-  box-shadow: inset 10px 0 8px -8px rgba(15, 23, 42, 0.14);
+  box-shadow: inset 10px 0 8px -8px color-mix(in srgb, var(--console-bg, #0f172a) 46%, transparent);
 }
 
 .blog-table--bordered {
@@ -816,7 +834,8 @@ defineExpose({
   justify-content: space-between;
   padding-bottom: 8px;
   margin-bottom: 8px;
-  border-bottom: 1px solid #f0f0f0;
+  color: var(--console-text, #101828);
+  border-bottom: 1px solid var(--console-border, #f0f0f0);
   font-weight: 500;
   font-size: 13px;
 }
@@ -832,6 +851,7 @@ defineExpose({
 
 .blog-table__column-setting-item :deep(.ant-checkbox-wrapper) {
   font-size: 13px;
+  color: var(--console-text, #101828);
 }
 
 @media (max-width: 768px) {

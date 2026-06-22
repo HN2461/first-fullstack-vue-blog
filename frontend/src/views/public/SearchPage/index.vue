@@ -9,7 +9,8 @@
         allow-clear
         @focus="handleInputFocus"
         @input="onInputChange"
-        @pressEnter="submitSearch"
+        @keydown="handleSearchKeydown"
+        @pressEnter="submitSearch({ applyActive: true })"
       >
         <template #prefix>
           <SearchOutlined />
@@ -26,10 +27,11 @@
         </div>
 
         <button
-          v-for="item in dropdownItems"
+          v-for="(item, index) in dropdownItems"
           :key="item.slug || item.title || item"
           type="button"
-          class="csdn-search__dropdown-item"
+          :class="['csdn-search__dropdown-item', { 'is-active': index === activeDropdownIndex }]"
+          :aria-selected="index === activeDropdownIndex"
           @mousedown.prevent="applyDropdownItem(item)"
         >
           <SearchOutlined />
@@ -167,6 +169,7 @@ const searchInputRef = ref(null)
 const searchInputWrapperRef = ref(null)
 const suggestions = ref([])
 const showDropdown = ref(false)
+const activeDropdownIndex = ref(-1)
 let suggestTimeout = null
 
 const HISTORY_KEY = 'blog-search-history'
@@ -193,6 +196,10 @@ const dropdownItems = computed(() => {
   if (query.value) return suggestions.value
   return searchHistory.value
 })
+
+function resetDropdownIndex() {
+  activeDropdownIndex.value = dropdownItems.value.length > 0 ? 0 : -1
+}
 
 function articlePath(slug) {
   return inConsole.value ? `/console/article-directory/articles/${slug}` : `/articles/${slug}`
@@ -263,12 +270,21 @@ async function runSearch({ resetPage = false } = {}) {
   }
 }
 
-function submitSearch() {
+function submitSearch({ applyActive = false } = {}) {
+  if (applyActive && showDropdown.value && activeDropdownIndex.value >= 0) {
+    const item = dropdownItems.value[activeDropdownIndex.value]
+    if (item) {
+      applyDropdownItem(item)
+      return
+    }
+  }
+
   runSearch({ resetPage: true })
 }
 
 function handleInputFocus() {
   showDropdown.value = dropdownItems.value.length > 0
+  resetDropdownIndex()
 }
 
 function onInputChange() {
@@ -277,6 +293,7 @@ function onInputChange() {
   if (!query.value) {
     suggestions.value = []
     showDropdown.value = searchHistory.value.length > 0
+    resetDropdownIndex()
     return
   }
 
@@ -285,11 +302,48 @@ function onInputChange() {
       const response = await getSearchSuggestions({ q: query.value })
       suggestions.value = response.items || []
       showDropdown.value = suggestions.value.length > 0
+      resetDropdownIndex()
     } catch {
       suggestions.value = []
       showDropdown.value = false
+      activeDropdownIndex.value = -1
     }
   }, 180)
+}
+
+function handleSearchKeydown(event) {
+  if (event.key === 'Escape' && showDropdown.value) {
+    event.preventDefault()
+    showDropdown.value = false
+    activeDropdownIndex.value = -1
+    return
+  }
+
+  if (!['ArrowDown', 'ArrowUp'].includes(event.key)) {
+    return
+  }
+
+  if (!dropdownItems.value.length) {
+    return
+  }
+
+  event.preventDefault()
+
+  if (!showDropdown.value) {
+    showDropdown.value = true
+    resetDropdownIndex()
+    return
+  }
+
+  const lastIndex = dropdownItems.value.length - 1
+  const offset = event.key === 'ArrowDown' ? 1 : -1
+  const current = activeDropdownIndex.value < 0 ? (offset > 0 ? -1 : 0) : activeDropdownIndex.value
+  activeDropdownIndex.value = (current + offset + dropdownItems.value.length) % dropdownItems.value.length
+
+  nextTick(() => {
+    const activeEl = searchInputWrapperRef.value?.querySelector('.csdn-search__dropdown-item.is-active')
+    activeEl?.scrollIntoView?.({ block: 'nearest' })
+  })
 }
 
 function applyDropdownItem(item) {
@@ -299,6 +353,7 @@ function applyDropdownItem(item) {
     query.value = item.title
   }
   showDropdown.value = false
+  activeDropdownIndex.value = -1
   submitSearch()
 }
 
@@ -319,6 +374,7 @@ function toggleTag(slug) {
 function onDocumentClick(event) {
   if (!searchInputWrapperRef.value?.contains(event.target)) {
     showDropdown.value = false
+    activeDropdownIndex.value = -1
   }
 }
 
@@ -342,6 +398,7 @@ function clearHistory() {
   searchHistory.value = []
   localStorage.removeItem(HISTORY_KEY)
   showDropdown.value = false
+  activeDropdownIndex.value = -1
 }
 
 watch([activeCategory, activeTag], () => {
@@ -460,6 +517,30 @@ onUnmounted(() => {
 
 .csdn-search__dropdown-item:hover {
   background: color-mix(in srgb, var(--primary-color) 6%, transparent);
+}
+
+.csdn-search__dropdown-item.is-active {
+  color: var(--primary-color);
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+
+.enterprise-page .csdn-search__dropdown {
+  border-color: var(--console-border);
+  background: var(--console-surface);
+}
+
+.enterprise-page .csdn-search__dropdown-item {
+  color: var(--console-text);
+}
+
+.enterprise-page .csdn-search__dropdown-item:hover,
+.enterprise-page .csdn-search__dropdown-item.is-active {
+  color: var(--console-primary-strong);
+  background: var(--console-surface-hover);
+}
+
+.enterprise-page .csdn-search__dropdown-item small {
+  color: var(--console-text-secondary);
 }
 
 .csdn-search__dropdown-item span {

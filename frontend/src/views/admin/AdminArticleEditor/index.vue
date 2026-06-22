@@ -1474,6 +1474,62 @@ onMounted(async () => {
   border-radius: 4px;
 }
 
+:deep(.dark-theme) .writer-studio__preview-board,
+:deep(.dark-theme) .writer-studio__editor,
+:deep(.dark-theme) .writer-studio__editor :deep(.md-editor),
+:deep(.dark-theme) .writer-studio__editor :deep(.md-editor-toolbar),
+:deep(.dark-theme) .writer-studio__editor :deep(.md-editor-toolbar-wrapper),
+:deep(.dark-theme) .writer-studio__editor :deep(.md-editor-input-wrapper),
+:deep(.dark-theme) .writer-studio__editor :deep(.md-editor-input),
+:deep(.dark-theme) .writer-studio__editor :deep(.md-editor-preview-wrapper),
+:deep(.dark-theme) .writer-studio__editor :deep(.md-editor-preview),
+:deep(.dark-theme) .writer-studio__editor :deep(.cm-editor),
+:deep(.dark-theme) .resource-picker-row,
+:deep(.dark-theme) .resource-preview__image {
+  color: var(--console-text);
+  border-color: var(--console-border);
+  background: var(--console-surface);
+}
+
+:deep(.dark-theme) .writer-studio__preview-header,
+:deep(.dark-theme) .writer-studio__editor--compare :deep(.md-editor-preview-wrapper),
+:deep(.dark-theme) .publish-resource-item,
+:deep(.dark-theme) .resource-preview__image {
+  border-color: var(--console-border);
+}
+
+:deep(.dark-theme) .writer-studio__preview-header h1,
+:deep(.dark-theme) .writer-studio__editor :deep(.cm-content),
+:deep(.dark-theme) .writer-studio__preview-content :deep(.md-editor-preview),
+:deep(.dark-theme) .publish-resource-item__meta strong,
+:deep(.dark-theme) .resource-picker-row__meta strong {
+  color: var(--console-text);
+}
+
+:deep(.dark-theme) .cover-upload-tip,
+:deep(.dark-theme) .publish-resource-toolbar__tip,
+:deep(.dark-theme) .publish-resource-empty,
+:deep(.dark-theme) .media-picker__status,
+:deep(.dark-theme) .resource-picker-row__sub {
+  color: var(--console-text-secondary);
+}
+
+:deep(.dark-theme) .cover-preview,
+:deep(.dark-theme) .publish-resource-empty,
+:deep(.dark-theme) .publish-resource-item,
+:deep(.dark-theme) .media-picker__status,
+:deep(.dark-theme) .resource-picker-row__icon,
+:deep(.dark-theme) .resource-preview__image,
+:deep(.dark-theme) .color-picker-input {
+  border-color: var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+:deep(.dark-theme) .resource-picker-row:hover {
+  border-color: var(--console-primary-strong);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
 @media (max-width: 960px) {
   .writer-studio {
     min-height: 100vh;

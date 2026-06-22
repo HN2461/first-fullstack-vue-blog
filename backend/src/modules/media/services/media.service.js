@@ -199,26 +199,60 @@ function isPathInside(parent, target) {
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative))
 }
 
-async function removeStoredFile(storagePath) {
-  const allowedUploadRoots = getAllowedUploadRoots()
-  const targetPath = path.resolve(storagePath)
-
-  if (!allowedUploadRoots.some((uploadsRoot) => isPathInside(uploadsRoot, targetPath))) {
-    const error = new Error('媒体文件存储路径不安全，已阻止物理删除')
-    error.statusCode = 400
-    error.code = 'MEDIA_STORAGE_PATH_UNSAFE'
-    throw error
-  }
-
-  try {
-    await fs.unlink(targetPath)
-    return true
-  } catch (error) {
-    if (error.code === 'ENOENT') {
-      return false
+function collectCandidateStoragePaths(storagePath, fileUrl = '') {
+  const candidates = []
+  const addCandidate = (value) => {
+    const normalized = String(value || '').trim()
+    if (!normalized) {
+      return
     }
-    throw error
+
+    const resolved = path.resolve(normalized)
+    if (!candidates.includes(resolved)) {
+      candidates.push(resolved)
+    }
   }
+
+  addCandidate(storagePath)
+
+  const normalizedUrl = String(fileUrl || '').trim()
+  if (normalizedUrl.startsWith('/uploads/')) {
+    const relativeUploadPath = normalizedUrl.replace(/^\/+/, '').replace(/\//g, path.sep)
+    for (const uploadsRoot of getAllowedUploadRoots()) {
+      addCandidate(path.join(uploadsRoot, relativeUploadPath.replace(new RegExp(`^uploads\\${path.sep}?`), '')))
+    }
+  }
+
+  return candidates
+}
+
+async function removeStoredFile(storagePath, fileUrl = '') {
+  const allowedUploadRoots = getAllowedUploadRoots()
+  const candidates = collectCandidateStoragePaths(storagePath, fileUrl)
+  let sawUnsafePath = false
+
+  for (const targetPath of candidates) {
+    if (!allowedUploadRoots.some((uploadsRoot) => isPathInside(uploadsRoot, targetPath))) {
+      sawUnsafePath = true
+      continue
+    }
+
+    try {
+      await fs.unlink(targetPath)
+      return true
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        continue
+      }
+      throw error
+    }
+  }
+
+  if (sawUnsafePath && candidates.length > 0) {
+    return false
+  }
+
+  return false
 }
 
 export async function deleteMedia(id, user) {
@@ -296,7 +330,7 @@ export async function permanentDeleteMedia(id) {
     throw error
   }
 
-  const fileRemoved = await removeStoredFile(media.storagePath)
+  const fileRemoved = await removeStoredFile(media.storagePath, media.url)
 
   await Media.findByIdAndDelete(id)
   return { id, deleted: true, mode: 'permanent', fileRemoved }
@@ -328,7 +362,7 @@ export async function emptyMediaTrash() {
   let removedFileCount = 0
 
   for (const media of mediaList) {
-    if (await removeStoredFile(media.storagePath)) {
+    if (await removeStoredFile(media.storagePath, media.url)) {
       removedFileCount += 1
     }
   }

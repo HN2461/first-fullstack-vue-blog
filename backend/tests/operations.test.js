@@ -329,4 +329,37 @@ describe('operations routes', () => {
     expect(fs.existsSync(media.storagePath)).toBe(false)
     expect(await Media.findById(media.id)).toBeNull()
   })
+
+  it('permanently deletes trash media even when legacy storagePath is invalid', async () => {
+    const uploadResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('files', Buffer.from('legacy path file'), {
+        filename: 'legacy-delete.txt',
+        contentType: 'text/plain'
+      })
+      .expect(201)
+
+    const media = uploadResponse.body.data
+    expect(fs.existsSync(media.storagePath)).toBe(true)
+
+    await Media.findByIdAndUpdate(media.id, {
+      deletedAt: new Date(),
+      storagePath: 'C:/Users/HN246/Desktop/legacy/backend/uploads/2026/06/legacy-delete.txt'
+    })
+
+    const permanentDeleteResponse = await request(app)
+      .delete(`/api/admin/media/${media.id}/permanent`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(permanentDeleteResponse.body.data).toMatchObject({
+      id: media.id,
+      deleted: true,
+      mode: 'permanent',
+      fileRemoved: true
+    })
+    expect(fs.existsSync(media.storagePath)).toBe(false)
+    expect(await Media.findById(media.id)).toBeNull()
+  })
 })

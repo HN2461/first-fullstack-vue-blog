@@ -32,6 +32,46 @@ function calculateReadingMinutes(wordCount) {
   return Math.max(1, Math.ceil(wordCount / 400))
 }
 
+export function getPublishBlockers(article) {
+  const blockers = []
+
+  if (!String(article.title || '').trim()) {
+    blockers.push('发布前请填写文章标题')
+  }
+
+  if (!String(article.contentMarkdown || '').trim()) {
+    blockers.push('发布前请填写正文内容')
+  }
+
+  if (!String(article.summary || '').trim()) {
+    blockers.push('发布前请填写文章摘要')
+  }
+
+  if (!article.category) {
+    blockers.push('发布前请选择所属分类')
+  }
+
+  return blockers
+}
+
+function assertArticlePublishable(article) {
+  const blockers = getPublishBlockers(article)
+
+  if (blockers.length === 0) {
+    return
+  }
+
+  const message = blockers[0]
+  const codeMap = {
+    发布前请填写文章标题: 'ARTICLE_TITLE_REQUIRED',
+    发布前请填写正文内容: 'ARTICLE_CONTENT_REQUIRED',
+    发布前请填写文章摘要: 'ARTICLE_SUMMARY_REQUIRED',
+    发布前请选择所属分类: 'ARTICLE_CATEGORY_REQUIRED'
+  }
+
+  throw createHttpError(400, codeMap[message] || 'ARTICLE_PUBLISH_INVALID', message)
+}
+
 function normalizeResources(resources = []) {
   return Array.isArray(resources)
     ? resources
@@ -270,7 +310,11 @@ export async function batchUpdateArticleStatus(ids, status, user) {
 
   let updatedCount = 0
   for (const id of ids) {
-    await updateArticleStatus(id, status, user)
+    if (status === ARTICLE_STATUS.PUBLISHED) {
+      await publishArticle(id, user)
+    } else {
+      await updateArticleStatus(id, status, user)
+    }
     updatedCount += 1
   }
 
@@ -284,21 +328,7 @@ export async function publishArticle(id, user) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
-  if (!String(article.title || '').trim()) {
-    throw createHttpError(400, 'ARTICLE_TITLE_REQUIRED', '发布前请填写文章标题')
-  }
-
-  if (!String(article.contentMarkdown || '').trim()) {
-    throw createHttpError(400, 'ARTICLE_CONTENT_REQUIRED', '发布前请填写正文内容')
-  }
-
-  if (!String(article.summary || '').trim()) {
-    throw createHttpError(400, 'ARTICLE_SUMMARY_REQUIRED', '发布前请填写文章摘要')
-  }
-
-  if (!article.category) {
-    throw createHttpError(400, 'ARTICLE_CATEGORY_REQUIRED', '发布前请选择所属分类')
-  }
+  assertArticlePublishable(article)
 
   return updateArticleStatus(id, ARTICLE_STATUS.PUBLISHED, user)
 }

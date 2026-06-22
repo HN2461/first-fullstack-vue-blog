@@ -16,6 +16,7 @@
     >
       <template #toolbar>
         <BatchActionBar :count="selectedArticleIds.length" @clear="clearSelection">
+          <a-button size="small" type="primary" @click="openBatchMetaDrawer">批量设置</a-button>
           <a-dropdown>
             <a-button size="small">
               批量状态 <DownOutlined />
@@ -157,6 +158,20 @@
         </template>
       </template>
     </BlogTable>
+
+    <ArticleBatchMetaDrawer
+      v-model:open="batchMetaVisible"
+      :selected-count="selectedArticleIds.length"
+      :category-options="categoryTreeOptions"
+      :tag-options="tagOptions"
+      :cover-media-items="coverMediaItems"
+      :cover-media-loading="coverMediaLoading"
+      :submitting="batchMetaSubmitting"
+      :result="batchMetaResult"
+      @submit="handleBatchMetaSubmit"
+      @clear-result="clearBatchMetaResult"
+      @load-cover-media="loadCoverMedia"
+    />
   </div>
 </template>
 
@@ -173,12 +188,22 @@ import {
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import BatchActionBar from '@/components/BatchActionBar.vue'
+import ArticleBatchMetaDrawer from './ArticleBatchMetaDrawer.vue'
 import {
   listAdminArticles,
   listAllAdminCategories
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAdminArticleActions } from './useAdminArticleActions'
+import { useArticleBatchMeta } from './useArticleBatchMeta'
+import {
+  buildCategoryOptions,
+  formatArticleTime,
+  formatDate,
+  formatMetric,
+  formatTagSummary,
+  getStatusLabel
+} from './articleListUtils'
 import './styles.css'
 
 const tableRef = ref(null)
@@ -203,6 +228,23 @@ const {
   clearSelection,
   runAction,
   confirmAction
+})
+const {
+  batchMetaResult,
+  batchMetaSubmitting,
+  batchMetaVisible,
+  clearBatchMetaResult,
+  coverMediaItems,
+  coverMediaLoading,
+  handleBatchMetaSubmit,
+  loadCoverMedia,
+  loadTags,
+  openBatchMetaDrawer,
+  tagOptions
+} = useArticleBatchMeta({
+  selectedArticleIds,
+  tableRef,
+  runAction
 })
 
 // 筛选参数：变化时 BlogTable 自动重新加载
@@ -272,91 +314,6 @@ const columns = [
   }
 ]
 
-// 状态相关
-function getStatusLabel(status) {
-  const map = { published: '已发布', draft: '草稿', archived: '已下架' }
-  return map[status] || '草稿'
-}
-
-function getStatusBadge(status) {
-  const map = { published: 'success', draft: 'warning', archived: 'default' }
-  return map[status] || 'warning'
-}
-
-// 时间格式化
-function formatDate(dateStr) {
-  if (!dateStr) return '-'
-  return new Date(dateStr).toLocaleString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
-
-function formatArticleTime(record) {
-  if (record.publishedAt) {
-    return formatDate(record.publishedAt)
-  }
-  return formatDate(record.updatedAt)
-}
-
-function formatMetric(value) {
-  return Number(value) || 0
-}
-
-function formatTagSummary(tags = []) {
-  if (!tags.length) {
-    return ''
-  }
-
-  const names = tags.map((tag) => tag.name).filter(Boolean)
-  if (names.length <= 2) {
-    return names.join(' / ')
-  }
-
-  return `${names.slice(0, 2).join(' / ')} 等 ${names.length} 个标签`
-}
-
-function buildCategoryOptions(items = []) {
-  const nodeMap = new Map()
-  const roots = []
-
-  items.forEach((item) => {
-    nodeMap.set(item.id, {
-      value: item.id,
-      label: item.name,
-      children: []
-    })
-  })
-
-  items.forEach((item) => {
-    const node = nodeMap.get(item.id)
-    const parentId = item.parent || null
-    const parent = parentId ? nodeMap.get(parentId) : null
-
-    if (parent) {
-      parent.children.push(node)
-      return
-    }
-
-    roots.push(node)
-  })
-
-  const cleanup = (nodes = []) => nodes.map((node) => {
-    const next = { ...node }
-    if (next.children.length) {
-      next.children = cleanup(next.children)
-    } else {
-      delete next.children
-    }
-    return next
-  })
-
-  return cleanup(roots)
-}
-
 async function fetchArticles(params) {
   const result = await listAdminArticles(params)
   return { items: result.items || [], total: result.total || 0 }
@@ -409,5 +366,6 @@ function clearSelection() {
 // 初始化
 onMounted(() => {
   loadCategories()
+  loadTags()
 })
 </script>

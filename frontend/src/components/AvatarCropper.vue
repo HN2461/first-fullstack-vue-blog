@@ -165,6 +165,21 @@ defineExpose({ getCropFile, getCropBlob, getCropData })
   text-align: center;
 }
 
+:deep(.dark-theme) .avatar-cropper__edit,
+:deep(.dark-theme) .avatar-cropper__preview,
+:deep(.dark-theme) .avatar-cropper__preview__circle {
+  border-color: var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+:deep(.dark-theme) .avatar-cropper__preview h4 {
+  color: var(--console-text);
+}
+
+:deep(.dark-theme) .avatar-cropper__preview__tip {
+  color: var(--console-text-secondary);
+}
+
 @media (max-width: 640px) {
   .avatar-cropper {
     flex-direction: column;

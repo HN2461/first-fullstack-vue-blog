@@ -240,7 +240,10 @@
     >
       <div class="media-trash">
         <div class="media-trash__toolbar">
-          <span>普通删除的资源会保留在回收站，彻底删除后会同步移除服务器磁盘文件。</span>
+          <span>
+            普通删除的资源会保留在回收站，彻底删除后会同步移除服务器磁盘文件。
+            <b v-if="selectedTrashKeys.length">已选择 {{ selectedTrashKeys.length }} 个</b>
+          </span>
           <a-space>
             <a-button
               size="small"
@@ -582,7 +585,7 @@ const trashModalVisible = ref(false)
 const trashLoading = ref(false)
 const trashItems = ref([])
 const trashPage = ref(1)
-const trashPageSize = 10
+const trashPageSize = ref(10)
 const trashTotal = ref(0)
 const selectedMediaKeys = ref([])
 const selectedTrashKeys = ref([])
@@ -659,10 +662,12 @@ const trashColumns = [
 
 const trashPagination = computed(() => ({
   current: trashPage.value,
-  pageSize: trashPageSize,
+  pageSize: trashPageSize.value,
   total: trashTotal.value,
-  showSizeChanger: false,
-  size: 'small'
+  showSizeChanger: true,
+  pageSizeOptions: ['10', '20', '50'],
+  size: 'small',
+  showTotal: (total) => `共 ${total} 个回收站资源`
 }))
 
 const mediaRowSelection = computed(() => ({
@@ -1084,6 +1089,7 @@ function handleBatchDelete() {
 async function openTrashModal() {
   trashModalVisible.value = true
   trashPage.value = 1
+  selectedTrashKeys.value = []
   await loadTrashMediaList()
 }
 
@@ -1092,7 +1098,7 @@ async function loadTrashMediaList() {
   try {
     const result = await runAction(() => listTrashMedia({
       page: trashPage.value,
-      pageSize: trashPageSize
+      pageSize: trashPageSize.value
     }), {
       errorMessage: '回收站加载失败'
     })
@@ -1106,6 +1112,8 @@ async function loadTrashMediaList() {
 
 function handleTrashTableChange(pagination) {
   trashPage.value = pagination.current || 1
+  trashPageSize.value = pagination.pageSize || trashPageSize.value
+  selectedTrashKeys.value = []
   loadTrashMediaList()
 }
 
@@ -1119,6 +1127,7 @@ function handleRestoreTrash(record) {
         successMessage: '媒体文件已恢复',
         errorMessage: '恢复失败',
         onSuccess: async () => {
+          selectedTrashKeys.value = selectedTrashKeys.value.filter((id) => id !== record.id)
           await loadCategories()
           await loadTrashMediaList()
           tableRef.value?.refresh()
@@ -1139,6 +1148,7 @@ function handlePermanentDelete(record) {
         successMessage: '媒体文件已彻底删除',
         errorMessage: '彻底删除失败',
         onSuccess: async () => {
+          selectedTrashKeys.value = selectedTrashKeys.value.filter((id) => id !== record.id)
           await loadCategories()
           await loadTrashMediaList()
           tableRef.value?.refresh()
@@ -1162,6 +1172,7 @@ function handleBatchRestoreTrash() {
         errorMessage: '批量恢复失败',
         onSuccess: async () => {
           selectedTrashKeys.value = []
+          trashPage.value = 1
           await loadCategories()
           await loadTrashMediaList()
           tableRef.value?.refresh()
@@ -1186,6 +1197,7 @@ function handleBatchPermanentDelete() {
         errorMessage: '批量彻底删除失败',
         onSuccess: async () => {
           selectedTrashKeys.value = []
+          trashPage.value = 1
           await loadCategories()
           await loadTrashMediaList()
           tableRef.value?.refresh()
@@ -1207,6 +1219,7 @@ function handleEmptyTrash() {
         errorMessage: '清空回收站失败',
         onSuccess: async () => {
           trashPage.value = 1
+          selectedTrashKeys.value = []
           await loadCategories()
           await loadTrashMediaList()
           tableRef.value?.refresh()
@@ -1595,9 +1608,22 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 16px;
   color: #64748b;
   font-size: 13px;
+}
+
+.media-trash__toolbar > span {
+  min-width: 240px;
+  flex: 1;
+  line-height: 1.6;
+}
+
+.media-trash__toolbar b {
+  margin-left: 8px;
+  color: #2563eb;
+  font-weight: 600;
 }
 
 .media-trash-file {
@@ -1707,6 +1733,101 @@ onMounted(async () => {
 /* ===== 媒体预览弹窗 ===== */
 .media-preview {
   min-height: 200px;
+}
+
+:deep(.dark-theme) .media-cloud__toolbar,
+:deep(.dark-theme) .media-cloud__filters,
+:deep(.dark-theme) .media-cloud__actions,
+:deep(.dark-theme) .media-batch-bar,
+:deep(.dark-theme) .media-trash__toolbar {
+  color: var(--console-text-secondary);
+}
+
+:deep(.dark-theme) .media-type-chip {
+  color: var(--console-menu-text);
+  border-color: var(--console-border);
+  background: var(--console-surface);
+}
+
+:deep(.dark-theme) .media-type-chip:hover {
+  color: var(--console-primary-strong);
+  border-color: var(--console-primary-strong);
+  background: var(--console-surface-hover);
+}
+
+:deep(.dark-theme) .media-type-chip.is-active {
+  color: var(--console-primary-strong);
+  border-color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
+}
+
+:deep(.dark-theme) .media-file__thumb,
+:deep(.dark-theme) .media-category-label,
+:deep(.dark-theme) .media-cloud__file-chip,
+:deep(.dark-theme) .media-category-item {
+  color: var(--console-menu-text);
+  border-color: var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+:deep(.dark-theme) .media-category-item:hover {
+  border-color: var(--console-border-strong);
+  background: var(--console-surface-hover);
+}
+
+:deep(.dark-theme) .media-file__name,
+:deep(.dark-theme) .media-cloud__title,
+:deep(.dark-theme) .media-cloud__file-chip strong,
+:deep(.dark-theme) .media-trash-file strong,
+:deep(.dark-theme) .media-category-item strong,
+:deep(.dark-theme) .media-preview__toolbar-text strong,
+:deep(.dark-theme) .media-preview__audio h3,
+:deep(.dark-theme) .media-preview__file-card h3 {
+  color: var(--console-text);
+}
+
+:deep(.dark-theme) .media-file__url,
+:deep(.dark-theme) .media-size,
+:deep(.dark-theme) .media-time,
+:deep(.dark-theme) .media-cloud__file-chip span,
+:deep(.dark-theme) .media-trash-file span,
+:deep(.dark-theme) .media-category-item span,
+:deep(.dark-theme) .media-category-panel__empty,
+:deep(.dark-theme) .media-preview__toolbar-text,
+:deep(.dark-theme) .media-preview__file-card p,
+:deep(.dark-theme) .media-preview__file-meta {
+  color: var(--console-text-secondary) !important;
+}
+
+:deep(.dark-theme) .media-file__thumb.is-image,
+:deep(.dark-theme) .media-file__thumb.is-code,
+:deep(.dark-theme) .media-file__thumb.is-document,
+:deep(.dark-theme) .media-file__thumb.is-archive {
+  border-color: var(--console-border);
+  background: color-mix(in srgb, var(--console-primary) 10%, var(--console-surface-muted));
+}
+
+:deep(.dark-theme) .media-action-btn--view:hover,
+:deep(.dark-theme) .media-action-btn--delete:hover {
+  background: var(--console-surface-hover) !important;
+}
+
+:deep(.dark-theme) .media-category-panel__form {
+  border-bottom-color: var(--console-border);
+}
+
+:deep(.dark-theme) .media-preview__toolbar,
+:deep(.dark-theme) .media-preview__file-icon {
+  border-color: var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+:deep(.dark-theme) .media-preview__audio-icon {
+  background: color-mix(in srgb, var(--console-primary) 14%, var(--console-surface-muted));
+}
+
+:deep(.dark-theme) .media-trash__toolbar b {
+  color: var(--console-primary-strong);
 }
 
 .media-preview__toolbar {

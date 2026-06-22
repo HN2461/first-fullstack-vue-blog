@@ -293,6 +293,249 @@ status: draft
     expect(articleResponse.body.data.importedAt).toBeTruthy()
   })
 
+  it('batch updates article metadata and only publishes valid articles', async () => {
+    const app = createApp()
+
+    const categoryResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '批量整理',
+        slug: 'batch-organize'
+      })
+      .expect(201)
+
+    const tagResponse = await request(app)
+      .post('/api/admin/tags')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: '批量标签',
+        slug: 'batch-tag'
+      })
+      .expect(201)
+
+    const validArticle = await createArticle({
+      title: '可发布文章',
+      slug: 'batch-valid-article',
+      summary: '这是一篇可发布文章。',
+      contentMarkdown: '# 可发布文章\n\n正文内容。'
+    }, admin)
+
+    const invalidArticle = await createArticle({
+      title: '缺摘要文章',
+      slug: 'batch-invalid-article',
+      contentMarkdown: '# 缺摘要文章\n\n正文内容。'
+    }, admin)
+
+    const batchResponse = await request(app)
+      .post('/api/admin/articles/batch/meta')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        ids: [validArticle.id, invalidArticle.id],
+        category: {
+          enabled: true,
+          mode: 'fillEmpty',
+          value: categoryResponse.body.data.id
+        },
+        tags: {
+          enabled: true,
+          mode: 'append',
+          value: [tagResponse.body.data.id]
+        },
+        cover: {
+          enabled: true,
+          mode: 'fillEmpty',
+          value: '/uploads/covers/batch.png'
+        },
+        status: {
+          enabled: true,
+          value: ARTICLE_STATUS.PUBLISHED
+        }
+      })
+      .expect(200)
+
+    expect(batchResponse.body.data).toMatchObject({
+      total: 2,
+      updatedCount: 2,
+      publishedCount: 1,
+      skippedCount: 0
+    })
+
+    const invalidResult = batchResponse.body.data.items.find((item) => item.id === invalidArticle.id)
+    expect(invalidResult.published).toBe(false)
+    expect(invalidResult.messages).toContain('发布前请填写文章摘要')
+
+    const validDetail = await request(app)
+      .get(`/api/admin/articles/${validArticle.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(validDetail.body.data).toMatchObject({
+      status: ARTICLE_STATUS.PUBLISHED,
+      cover: '/uploads/covers/batch.png',
+      category: expect.objectContaining({ id: categoryResponse.body.data.id })
+    })
+    expect(validDetail.body.data.tags.map((tag) => tag.id)).toContain(tagResponse.body.data.id)
+
+    const invalidDetail = await request(app)
+      .get(`/api/admin/articles/${invalidArticle.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(invalidDetail.body.data).toMatchObject({
+      status: ARTICLE_STATUS.DRAFT,
+      cover: '/uploads/covers/batch.png',
+      category: expect.objectContaining({ id: categoryResponse.body.data.id })
+    })
+    expect(invalidDetail.body.data.tags.map((tag) => tag.id)).toContain(tagResponse.body.data.id)
+
+    const tagsResponse = await request(app)
+      .get('/api/admin/tags')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    const batchTag = tagsResponse.body.data.items.find((item) => item.id === tagResponse.body.data.id)
+    expect(batchTag.articleCount).toBe(2)
+
+    const clearCategoryResponse = await request(app)
+      .post('/api/admin/articles/batch/meta')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        ids: [validArticle.id],
+        category: {
+          enabled: true,
+          mode: 'clear'
+        }
+      })
+      .expect(200)
+
+    expect(clearCategoryResponse.body.data).toMatchObject({
+      total: 1,
+      updatedCount: 0,
+      skippedCount: 1
+    })
+    expect(clearCategoryResponse.body.data.items[0].messages).toContain('发布前请选择所属分类')
+
+    const protectedDetail = await request(app)
+      .get(`/api/admin/articles/${validArticle.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(protectedDetail.body.data.category.id).toBe(categoryResponse.body.data.id)
+  })
+
+  it('keeps existing values when batch meta uses fill-empty mode', async () => {
+    const app = createApp()
+
+    const originalCategory = await createCategory({
+      name: '原分类',
+      slug: 'original-category'
+    })
+    const targetCategory = await createCategory({
+      name: '目标分类',
+      slug: 'target-category'
+    })
+
+    const originalTag = await createTag({
+      name: '原标签',
+      slug: 'original-tag'
+    })
+    const replaceTag = await createTag({
+      name: '替换标签',
+      slug: 'replace-tag'
+    })
+
+    const articleWithMeta = await createArticle({
+      title: '已有元信息文章',
+      slug: 'article-with-meta',
+      summary: '已有摘要',
+      contentMarkdown: '# 已有元信息文章\n\n正文内容。',
+      category: originalCategory.id,
+      tags: [originalTag.id],
+      cover: '/uploads/covers/original.png'
+    }, admin)
+
+    const articleWithoutMeta = await createArticle({
+      title: '待补空文章',
+      slug: 'article-without-meta',
+      summary: '待补空摘要',
+      contentMarkdown: '# 待补空文章\n\n正文内容。'
+    }, admin)
+
+    const fillEmptyResponse = await request(app)
+      .post('/api/admin/articles/batch/meta')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        ids: [articleWithMeta.id, articleWithoutMeta.id],
+        category: {
+          enabled: true,
+          mode: 'fillEmpty',
+          value: targetCategory.id
+        },
+        cover: {
+          enabled: true,
+          mode: 'fillEmpty',
+          value: '/uploads/covers/from-media.png'
+        }
+      })
+      .expect(200)
+
+    expect(fillEmptyResponse.body.data).toMatchObject({
+      total: 2,
+      updatedCount: 1,
+      skippedCount: 0
+    })
+
+    const withMetaDetail = await request(app)
+      .get(`/api/admin/articles/${articleWithMeta.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(withMetaDetail.body.data).toMatchObject({
+      cover: '/uploads/covers/original.png',
+      category: expect.objectContaining({ id: originalCategory.id })
+    })
+
+    const withoutMetaDetail = await request(app)
+      .get(`/api/admin/articles/${articleWithoutMeta.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(withoutMetaDetail.body.data).toMatchObject({
+      cover: '/uploads/covers/from-media.png',
+      category: expect.objectContaining({ id: targetCategory.id })
+    })
+
+    const replaceResponse = await request(app)
+      .post('/api/admin/articles/batch/meta')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        ids: [articleWithMeta.id],
+        tags: {
+          enabled: true,
+          mode: 'replace',
+          value: [replaceTag.id]
+        }
+      })
+      .expect(200)
+
+    expect(replaceResponse.body.data.updatedCount).toBe(1)
+
+    const replacedDetail = await request(app)
+      .get(`/api/admin/articles/${articleWithMeta.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    expect(replacedDetail.body.data.tags.map((tag) => tag.id)).toEqual([replaceTag.id])
+
+    const categoriesResponse = await request(app)
+      .get('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    const originalCategoryAfter = categoriesResponse.body.data.items.find((item) => item.id === originalCategory.id)
+    const targetCategoryAfter = categoriesResponse.body.data.items.find((item) => item.id === targetCategory.id)
+    expect(originalCategoryAfter.articleCount).toBe(1)
+    expect(targetCategoryAfter.articleCount).toBe(1)
+  })
+
   it('detects fallback titles, duplicate slugs, invalid files, and missing dictionaries', async () => {
     const app = createApp()
 

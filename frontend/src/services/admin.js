@@ -45,6 +45,10 @@ export function batchUpdateAdminArticleStatus(ids, status) {
   return http.post('/api/admin/articles/batch/status', { ids, status })
 }
 
+export function batchUpdateAdminArticleMeta(payload) {
+  return http.post('/api/admin/articles/batch/meta', payload)
+}
+
 export function publishAdminArticle(id) {
   return http.post(`/api/admin/articles/${id}/publish`)
 }

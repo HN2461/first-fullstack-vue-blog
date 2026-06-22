@@ -1246,6 +1246,74 @@ onMounted(async () => {
   line-height: 1.6;
 }
 
+:deep(.dark-theme) .sidebar-card,
+:deep(.dark-theme) .main-card {
+  color: var(--console-text);
+  border-color: var(--console-border);
+  background: var(--console-surface);
+}
+
+:deep(.dark-theme) .avatar-section {
+  background: linear-gradient(135deg, rgba(138, 180, 255, 0.14), rgba(21, 31, 46, 0.96));
+}
+
+:deep(.dark-theme) .stats-section,
+:deep(.dark-theme) .content-title,
+:deep(.dark-theme) .profile-avatar-panel,
+:deep(.dark-theme) .role-summary,
+:deep(.dark-theme) .permission-request-item {
+  border-color: var(--console-border);
+}
+
+:deep(.dark-theme) .tab-item,
+:deep(.dark-theme) .user-email,
+:deep(.dark-theme) .stat-label,
+:deep(.dark-theme) .record-desc,
+:deep(.dark-theme) .binding-desc,
+:deep(.dark-theme) .setting-desc,
+:deep(.dark-theme) .permission-header p,
+:deep(.dark-theme) .permission-request-meta,
+:deep(.dark-theme) .avatar-cropper-modal__tip p {
+  color: var(--console-text-secondary);
+}
+
+:deep(.dark-theme) .user-name,
+:deep(.dark-theme) .stat-num,
+:deep(.dark-theme) .content-title,
+:deep(.dark-theme) .profile-avatar-panel__body strong,
+:deep(.dark-theme) .record-title,
+:deep(.dark-theme) .binding-name,
+:deep(.dark-theme) .setting-title,
+:deep(.dark-theme) .permission-request-item strong {
+  color: var(--console-text);
+}
+
+:deep(.dark-theme) .tab-item:hover,
+:deep(.dark-theme) .record-loading,
+:deep(.dark-theme) .record-item,
+:deep(.dark-theme) .binding-item,
+:deep(.dark-theme) .setting-item,
+:deep(.dark-theme) .profile-avatar-panel,
+:deep(.dark-theme) .role-summary,
+:deep(.dark-theme) .permission-request-item,
+:deep(.dark-theme) .avatar-cropper-modal__tip {
+  background: var(--console-surface-muted);
+}
+
+:deep(.dark-theme) .tab-item.active {
+  color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
+}
+
+:deep(.dark-theme) .tab-arrow {
+  color: var(--console-text-secondary);
+}
+
+:deep(.dark-theme) .permission-request-item p,
+:deep(.dark-theme) .role-summary > span {
+  color: var(--console-menu-text);
+}
+
 /* 响应式 */
 @media (max-width: 768px) {
   .profile-page {

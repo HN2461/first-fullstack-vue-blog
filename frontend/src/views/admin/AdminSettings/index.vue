@@ -389,9 +389,9 @@ onUnmounted(() => {
 }
 
 .settings-alert--error {
-  color: #cf1322;
-  background: #fff2f0;
-  border-color: #ffccc7;
+  color: #ff7875;
+  background: color-mix(in srgb, #ff4d4f 12%, var(--console-surface));
+  border-color: color-mix(in srgb, #ff4d4f 42%, var(--console-border));
 }
 
 .settings-alert--saving {

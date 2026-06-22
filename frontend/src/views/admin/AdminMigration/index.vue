@@ -1289,7 +1289,7 @@ onMounted(() => {
 
 .mg-category-tree :deep(.ant-tree-node-content-wrapper.ant-tree-node-selected) .mg-tree-arts {
   color: var(--console-primary-strong);
-  background: #fff;
+  background: var(--console-surface);
   border-color: color-mix(in srgb, var(--console-primary-strong) 38%, var(--console-border));
 }
 

@@ -71,10 +71,13 @@
             <div class="memo-item-title-row">
               <a-tag class="memo-type-tag" :color="getTypeMeta(memo.type).color">{{ getTypeMeta(memo.type).label }}</a-tag>
               <h2>{{ memo.title }}</h2>
+              <a-tag v-if="memo.isPinned" color="blue" :bordered="false">置顶</a-tag>
               <a-tag v-if="memo.status === 'completed'" color="success">已完成</a-tag>
               <a-tag v-else-if="memo.status === 'archived'">已归档</a-tag>
             </div>
-            <p>{{ memo.content }}</p>
+            <button type="button" class="memo-item-preview" @click="openDetailModal(memo)">
+              {{ memo.content }}
+            </button>
             <div class="memo-item-meta">
               <span>{{ formatTime(memo.updatedAt) }}</span>
               <span v-if="memo.dueAt">计划：{{ formatDate(memo.dueAt) }}</span>
@@ -82,6 +85,11 @@
             </div>
           </div>
           <div class="memo-item-actions">
+            <a-tooltip title="查看详情">
+              <a-button class="memo-icon-button" @click="openDetailModal(memo)">
+                <template #icon><EyeOutlined /></template>
+              </a-button>
+            </a-tooltip>
             <a-tooltip :title="memo.isPinned ? '取消置顶' : '置顶'">
               <a-button class="memo-icon-button" :class="{ active: memo.isPinned }" @click="togglePinned(memo)">
                 <template #icon><PushpinOutlined /></template>
@@ -212,6 +220,48 @@
         </a-form>
       </div>
     </a-modal>
+
+    <a-modal
+      v-model:open="detailVisible"
+      :title="detailMemo?.title || '备忘详情'"
+      :width="760"
+      :footer="null"
+      class="memo-detail-modal"
+      destroy-on-close
+    >
+      <div v-if="detailMemo" class="memo-detail">
+        <div class="memo-detail__header">
+          <a-tag :color="getTypeMeta(detailMemo.type).color">{{ getTypeMeta(detailMemo.type).label }}</a-tag>
+          <a-tag :color="getPriorityMeta(detailMemo.priority).color">{{ getPriorityMeta(detailMemo.priority).label }}</a-tag>
+          <a-tag v-if="detailMemo.status === 'completed'" color="success">已完成</a-tag>
+          <a-tag v-else-if="detailMemo.status === 'archived'">已归档</a-tag>
+          <a-tag v-if="detailMemo.isPinned" color="blue" :bordered="false">置顶</a-tag>
+        </div>
+        <div class="memo-detail__content">{{ detailMemo.content }}</div>
+        <div class="memo-detail__meta">
+          <span>更新：{{ formatTime(detailMemo.updatedAt) }}</span>
+          <span v-if="detailMemo.createdAt">创建：{{ formatTime(detailMemo.createdAt) }}</span>
+          <span v-if="detailMemo.dueAt">计划：{{ formatDate(detailMemo.dueAt) }}</span>
+        </div>
+        <div v-if="detailMemo.tags?.length" class="memo-detail__tags">
+          <a-tag v-for="tag in detailMemo.tags" :key="tag" class="memo-mini-tag">{{ tag }}</a-tag>
+        </div>
+        <div class="memo-detail__actions">
+          <a-button @click="openEditFromDetail">
+            <template #icon><EditOutlined /></template>
+            编辑
+          </a-button>
+          <a-button @click="togglePinned(detailMemo)">
+            <template #icon><PushpinOutlined /></template>
+            {{ detailMemo.isPinned ? '取消置顶' : '置顶' }}
+          </a-button>
+          <a-button @click="toggleCompleted(detailMemo)">
+            <template #icon><CheckOutlined /></template>
+            {{ detailMemo.status === 'completed' ? '重新打开' : '标记完成' }}
+          </a-button>
+        </div>
+      </div>
+    </a-modal>
   </section>
 </template>
 
@@ -222,6 +272,7 @@ import {
   CheckOutlined,
   DeleteOutlined,
   EditOutlined,
+  EyeOutlined,
   InboxOutlined,
   PlusOutlined,
   PushpinOutlined,
@@ -264,6 +315,8 @@ const errorMessage = ref('')
 const memos = ref([])
 const createVisible = ref(false)
 const editVisible = ref(false)
+const detailVisible = ref(false)
+const detailMemo = ref(null)
 const editingId = ref('')
 let filterTimer = null
 
@@ -308,6 +361,15 @@ const editForm = reactive({
 
 function getTypeMeta(type) {
   return typeOptions.find((item) => item.value === type) || typeOptions[0]
+}
+
+function getPriorityMeta(priority) {
+  const map = {
+    low: { label: '低优先级', color: 'default' },
+    medium: { label: '中优先级', color: 'processing' },
+    high: { label: '高优先级', color: 'warning' }
+  }
+  return map[priority] || map.medium
 }
 
 function parseTags(text) {
@@ -460,6 +522,21 @@ function openEditModal(memo) {
   editVisible.value = true
 }
 
+function openDetailModal(memo) {
+  detailMemo.value = memo
+  detailVisible.value = true
+}
+
+function closeDetailModal() {
+  detailVisible.value = false
+  detailMemo.value = null
+}
+
+function openEditFromDetail() {
+  if (!detailMemo.value) return
+  openEditModal(detailMemo.value)
+}
+
 function closeEditModal() {
   editVisible.value = false
   editingId.value = ''
@@ -476,6 +553,7 @@ async function submitEditMemo() {
     await updateMemo(editingId.value, buildPayload(editForm))
     message.success('备忘录已更新')
     closeEditModal()
+    closeDetailModal()
     await refreshMemos()
   } catch (error) {
     message.error(error.message || '更新失败')
@@ -676,7 +754,7 @@ onMounted(() => {
 }
 
 .memo-item--done .memo-item-main h2,
-.memo-item--done .memo-item-main p {
+.memo-item--done .memo-item-preview {
   opacity: 0.72;
 }
 
@@ -718,15 +796,26 @@ onMounted(() => {
   white-space: nowrap;
 }
 
-.memo-item p {
+.memo-item-preview {
   display: -webkit-box;
+  width: 100%;
   overflow: hidden;
+  border: 0;
+  padding: 0;
   margin: 8px 0 0;
   color: var(--console-text-secondary);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
   line-height: 1.7;
+  text-align: left;
   white-space: pre-wrap;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+.memo-item-preview:hover {
+  color: var(--console-text);
 }
 
 .memo-item-meta {
@@ -753,7 +842,8 @@ onMounted(() => {
 }
 
 .memo-item-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 32px);
   align-items: flex-start;
   gap: 4px;
 }
@@ -782,6 +872,54 @@ onMounted(() => {
   gap: 0 12px;
 }
 
+.memo-detail {
+  display: grid;
+  gap: 14px;
+}
+
+.memo-detail__header,
+.memo-detail__tags,
+.memo-detail__actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.memo-detail__content {
+  max-height: min(52vh, 520px);
+  overflow-y: auto;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  color: var(--console-text);
+  background: var(--console-surface-muted);
+  font-size: 14px;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.memo-detail__meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.memo-detail__actions {
+  justify-content: flex-end;
+  border-top: 1px solid var(--console-border);
+  padding-top: 12px;
+}
+
+.memo-detail-modal :deep(.ant-modal-body) {
+  max-height: 76vh;
+  overflow: hidden;
+}
+
 @media (max-width: 1200px) {
   .memo-page-head {
     grid-template-columns: 1fr;
@@ -802,6 +940,44 @@ onMounted(() => {
 
   .memo-toolbar {
     grid-template-columns: minmax(220px, 1fr) 220px 150px 150px 40px;
+  }
+}
+
+@media (max-width: 900px) {
+  .memo-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .memo-search {
+    grid-column: 1 / -1;
+  }
+
+  .memo-item {
+    grid-template-columns: 5px minmax(0, 1fr);
+  }
+
+  .memo-item-actions {
+    grid-column: 2;
+    grid-template-columns: repeat(6, 32px);
+  }
+}
+
+@media (max-width: 640px) {
+  .memo-page-head {
+    padding: 14px;
+  }
+
+  .memo-stats,
+  .memo-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .memo-item-actions {
+    grid-template-columns: repeat(3, 32px);
+  }
+
+  .memo-modal-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

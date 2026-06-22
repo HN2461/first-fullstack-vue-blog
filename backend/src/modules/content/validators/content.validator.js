@@ -99,6 +99,68 @@ export const articleStatusBatchSchema = idBatchSchema.extend({
   status: z.enum(Object.values(ARTICLE_STATUS))
 })
 
+const batchCategoryMetaSchema = z.object({
+  enabled: z.boolean().optional().default(false),
+  mode: z.enum(['overwrite', 'fillEmpty', 'clear']).optional().default('overwrite'),
+  value: z.string().regex(objectIdPattern, '分类 id 不正确').nullable().optional().default(null)
+}).superRefine((value, ctx) => {
+  if (value.enabled && value.mode !== 'clear' && !value.value) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: '请选择目标分类',
+      path: ['value']
+    })
+  }
+})
+
+const batchTagsMetaSchema = z.object({
+  enabled: z.boolean().optional().default(false),
+  mode: z.enum(['append', 'replace', 'remove', 'clear']).optional().default('append'),
+  value: z.array(z.string().regex(objectIdPattern, '标签 id 不正确')).optional().default([])
+}).superRefine((value, ctx) => {
+  if (value.enabled && value.mode !== 'clear' && value.value.length === 0) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: '请选择目标标签',
+      path: ['value']
+    })
+  }
+})
+
+const batchCoverMetaSchema = z.object({
+  enabled: z.boolean().optional().default(false),
+  mode: z.enum(['overwrite', 'fillEmpty', 'clear']).optional().default('overwrite'),
+  value: z.string().trim().optional().default('')
+}).superRefine((value, ctx) => {
+  if (value.enabled && value.mode !== 'clear' && !value.value) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: '请填写封面地址',
+      path: ['value']
+    })
+  }
+})
+
+const batchArticleStatusMetaSchema = z.object({
+  enabled: z.boolean().optional().default(false),
+  value: z.enum(Object.values(ARTICLE_STATUS)).optional().default(ARTICLE_STATUS.DRAFT)
+})
+
+export const articleBatchMetaSchema = idBatchSchema.extend({
+  category: batchCategoryMetaSchema.optional().default({ enabled: false }),
+  tags: batchTagsMetaSchema.optional().default({ enabled: false }),
+  cover: batchCoverMetaSchema.optional().default({ enabled: false }),
+  status: batchArticleStatusMetaSchema.optional().default({ enabled: false })
+}).superRefine((value, ctx) => {
+  if (!value.category.enabled && !value.tags.enabled && !value.cover.enabled && !value.status.enabled) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: '请选择至少一个批量设置项',
+      path: ['category']
+    })
+  }
+})
+
 export const statusBatchSchema = idBatchSchema.extend({
   status: z.string().trim().min(1, '状态不能为空')
 })

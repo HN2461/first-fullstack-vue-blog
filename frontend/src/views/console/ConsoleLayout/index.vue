@@ -136,10 +136,6 @@
                   </template>
                   <span>{{ siderFullLabels ? '恢复单行名称' : '展开完整名称' }}</span>
                 </a-menu-item>
-                <a-menu-item key="reset-current">
-                  <template #icon><AimOutlined /></template>
-                  定位当前菜单
-                </a-menu-item>
                 <a-menu-item key="refresh-menu">
                   <template #icon><SyncOutlined /></template>
                   刷新菜单
@@ -240,7 +236,6 @@
 import { computed, defineComponent, h, nextTick, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  AimOutlined,
   ApiOutlined,
   ApartmentOutlined,
   AppstoreOutlined,
@@ -783,11 +778,6 @@ function handleCreateAction(key) {
 function handleSiderAction({ key }) {
   if (key === 'toggle-labels') {
     siderFullLabels.value = !siderFullLabels.value
-    return
-  }
-
-  if (key === 'reset-current') {
-    openKeys.value = resolveOpenKeys(route.path)
     return
   }
 

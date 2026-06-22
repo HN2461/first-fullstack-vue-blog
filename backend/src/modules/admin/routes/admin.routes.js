@@ -4,6 +4,7 @@ import { Router } from 'express'
 import { MulterError } from 'multer'
 import { requireAdmin, requireAnyMenuAccess, requireAuth, requireMenuAccess, requireSuperAdmin } from '#middlewares/auth.js'
 import { batchDeleteArticles, batchPermanentDeleteArticles, batchRestoreArticles, batchUpdateArticleStatus, createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle, updateArticleStatus } from '#modules/content/services/article.service.js'
+import { batchUpdateArticleMeta } from '#modules/content/services/articleBatch.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
 import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
@@ -19,7 +20,7 @@ import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
 import { decryptCredential } from '#utils/authSecurity.js'
 import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
-import { articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
+import { articleBatchMetaSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
 import { userBatchResetPasswordSchema, userCreateSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineImportSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
@@ -347,6 +348,12 @@ adminRouter.post('/articles/batch/status', asyncHandler(async (req, res) => {
   const input = parseBody(articleStatusBatchSchema, req.body)
   const result = await batchUpdateArticleStatus(input.ids, input.status, req.user)
   res.json(ok(result, `已更新 ${result.updatedCount} 篇文章`))
+}))
+
+adminRouter.post('/articles/batch/meta', asyncHandler(async (req, res) => {
+  const input = parseBody(articleBatchMetaSchema, req.body)
+  const result = await batchUpdateArticleMeta(input.ids, input, req.user)
+  res.json(ok(result, `已处理 ${result.updatedCount} 篇文章`))
 }))
 
 adminRouter.post('/articles/batch/delete', asyncHandler(async (req, res) => {

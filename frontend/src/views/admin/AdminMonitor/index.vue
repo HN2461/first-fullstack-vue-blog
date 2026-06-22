@@ -1335,85 +1335,85 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   }
 }
 
-:global(.dark-theme) .monitor-hero {
+:deep(.dark-theme) .monitor-hero {
   border-color: rgba(91, 143, 249, 0.22);
   background:
     linear-gradient(135deg, rgba(91, 143, 249, 0.14), rgba(19, 194, 194, 0.08)),
     linear-gradient(180deg, rgba(22, 31, 48, 0.95), rgba(17, 24, 39, 0.98));
 }
 
-:global(.dark-theme) .monitor-hero h1,
-:global(.dark-theme) .monitor-hero__stamp strong,
-:global(.dark-theme) .monitor-kpi__value,
-:global(.dark-theme) .monitor-card__header h3,
-:global(.dark-theme) .resource-panel__top strong,
-:global(.dark-theme) .detail-row strong,
-:global(.dark-theme) .request-metric strong,
-:global(.dark-theme) .table-main-cell strong,
-:global(.dark-theme) .glossary-card h3,
-:global(.dark-theme) .glossary-item__title strong {
+:deep(.dark-theme) .monitor-hero h1,
+:deep(.dark-theme) .monitor-hero__stamp strong,
+:deep(.dark-theme) .monitor-kpi__value,
+:deep(.dark-theme) .monitor-card__header h3,
+:deep(.dark-theme) .resource-panel__top strong,
+:deep(.dark-theme) .detail-row strong,
+:deep(.dark-theme) .request-metric strong,
+:deep(.dark-theme) .table-main-cell strong,
+:deep(.dark-theme) .glossary-card h3,
+:deep(.dark-theme) .glossary-item__title strong {
   color: #f8fafc;
 }
 
-:global(.dark-theme) .monitor-hero__desc,
-:global(.dark-theme) .monitor-kpi__label,
-:global(.dark-theme) .monitor-kpi__meta,
-:global(.dark-theme) .resource-panel__meta,
-:global(.dark-theme) .detail-row span,
-:global(.dark-theme) .request-metric span,
-:global(.dark-theme) .table-main-cell span,
-:global(.dark-theme) .table-muted-text,
-:global(.dark-theme) .glossary-item__title span,
-:global(.dark-theme) .glossary-item p {
+:deep(.dark-theme) .monitor-hero__desc,
+:deep(.dark-theme) .monitor-kpi__label,
+:deep(.dark-theme) .monitor-kpi__meta,
+:deep(.dark-theme) .resource-panel__meta,
+:deep(.dark-theme) .detail-row span,
+:deep(.dark-theme) .request-metric span,
+:deep(.dark-theme) .table-main-cell span,
+:deep(.dark-theme) .table-muted-text,
+:deep(.dark-theme) .glossary-item__title span,
+:deep(.dark-theme) .glossary-item p {
   color: #94a3b8;
 }
 
-:global(.dark-theme) .monitor-hero__stamp,
-:global(.dark-theme) .monitor-refresh-control,
-:global(.dark-theme) .monitor-kpi,
-:global(.dark-theme) .monitor-card,
-:global(.dark-theme) .resource-panel,
-:global(.dark-theme) .request-metric,
-:global(.dark-theme) .monitor-inner-table,
-:global(.dark-theme) .glossary-card {
+:deep(.dark-theme) .monitor-hero__stamp,
+:deep(.dark-theme) .monitor-refresh-control,
+:deep(.dark-theme) .monitor-kpi,
+:deep(.dark-theme) .monitor-card,
+:deep(.dark-theme) .resource-panel,
+:deep(.dark-theme) .request-metric,
+:deep(.dark-theme) .monitor-inner-table,
+:deep(.dark-theme) .glossary-card {
   border-color: rgba(148, 163, 184, 0.18);
   background: #111827;
   box-shadow: none;
 }
 
-:global(.dark-theme) .detail-row,
-:global(.dark-theme) .glossary-item {
+:deep(.dark-theme) .detail-row,
+:deep(.dark-theme) .glossary-item {
   border-color: rgba(148, 163, 184, 0.14);
 }
 
-:global(.dark-theme) .monitor-inner-table :deep(.ant-table),
-:global(.dark-theme) .monitor-inner-table :deep(.ant-table-container),
-:global(.dark-theme) .monitor-inner-table :deep(.ant-table-body),
-:global(.dark-theme) .monitor-inner-table :deep(.ant-table-content) {
+:deep(.dark-theme) .monitor-inner-table :deep(.ant-table),
+:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-container),
+:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-body),
+:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-content) {
   background: #111827;
 }
 
-:global(.dark-theme) .monitor-inner-table :deep(.ant-table-thead > tr > th) {
+:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-thead > tr > th) {
   background: #0f172a;
   color: #cbd5e1;
   border-color: rgba(148, 163, 184, 0.14);
 }
 
-:global(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr > td) {
+:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr > td) {
   color: #cbd5e1;
   border-color: rgba(148, 163, 184, 0.14);
 }
 
-:global(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
+:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
   background: rgba(30, 41, 59, 0.88);
 }
 
-:global(.dark-theme) .table-path {
+:deep(.dark-theme) .table-path {
   background: #0f172a;
   color: #cbd5e1;
 }
 
-:global(.dark-theme) .is-warning {
+:deep(.dark-theme) .is-warning {
   color: #fbbf24;
 }
 </style>
