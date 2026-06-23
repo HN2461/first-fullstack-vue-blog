@@ -108,6 +108,7 @@
             </div>
             <div class="user-detail">
               <span class="user-name">{{ record.username }}</span>
+              <span v-if="record.remarkName" class="user-remark">{{ record.remarkName }}</span>
               <span class="user-email">{{ record.email }}</span>
             </div>
           </div>
@@ -151,6 +152,7 @@
             </a-button>
             <template #overlay>
               <a-menu @click="({ key }) => handleAction(key, record)">
+                <a-menu-item key="remark">设置备注</a-menu-item>
                 <a-menu-item key="roles">修改角色</a-menu-item>
                 <a-menu-item key="reset-password">重置密码</a-menu-item>
                 <a-menu-divider />
@@ -206,12 +208,35 @@
             </a-form-item>
           </a-col>
         </a-row>
+        <a-form-item label="用户备注" name="remarkName">
+          <a-input v-model:value="createUserForm.remarkName" placeholder="例如：老客户、同事、测试账号" :maxlength="60" allow-clear />
+        </a-form-item>
         <a-form-item label="绑定角色" name="roleIds">
           <a-select v-model:value="createUserForm.roleIds" mode="multiple" placeholder="不选择时默认绑定访客角色">
             <a-select-option v-for="role in assignableRoles" :key="role.id" :value="role.id">
               {{ role.name }}
             </a-select-option>
           </a-select>
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:open="remarkVisible"
+      title="设置用户备注"
+      ok-text="保存备注"
+      cancel-text="取消"
+      :confirm-loading="savingRemark"
+      :destroy-on-close="true"
+      :body-style="{ maxHeight: '64vh', overflowY: 'auto' }"
+      @ok="submitRemark"
+    >
+      <a-form layout="vertical">
+        <a-form-item label="目标用户">
+          <a-input :value="remarkRecord?.email || ''" disabled />
+        </a-form-item>
+        <a-form-item label="用户备注">
+          <a-input v-model:value="remarkForm.remarkName" placeholder="仅后台用户管理可见" :maxlength="60" allow-clear />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -296,6 +321,7 @@ import {
   deleteAdminUser,
   listAllRbacRoles,
   listAdminUsers,
+  updateAdminUserRemark,
   updateAdminUserRoles,
   updateAdminUserStatus
 } from '@/services/admin'
@@ -317,15 +343,20 @@ const roleRecord = ref(null)
 const resetPasswordVisible = ref(false)
 const resettingPassword = ref(false)
 const resetRecord = ref(null)
+const remarkVisible = ref(false)
+const savingRemark = ref(false)
+const remarkRecord = ref(null)
 const createUserFormRef = ref(null)
 const { runAction, confirmAction } = useAdminActions()
 
 const roleForm = reactive({ roleIds: [] })
+const remarkForm = reactive({ remarkName: '' })
 const resetPasswordForm = reactive({ newPassword: '' })
 const createUserForm = reactive({
   username: '',
   email: '',
   password: '',
+  remarkName: '',
   roleIds: [],
   status: 'active'
 })
@@ -492,6 +523,7 @@ function openCreateUser() {
   createUserForm.username = ''
   createUserForm.email = ''
   createUserForm.password = ''
+  createUserForm.remarkName = ''
   createUserForm.roleIds = []
   createUserForm.status = 'active'
   createUserVisible.value = true
@@ -514,6 +546,28 @@ async function submitCreateUser() {
     message.error(error.message || '用户创建失败')
   } finally {
     creatingUser.value = false
+  }
+}
+
+function openRemarkModal(record) {
+  remarkRecord.value = record
+  remarkForm.remarkName = record?.remarkName || ''
+  remarkVisible.value = true
+}
+
+async function submitRemark() {
+  if (!remarkRecord.value) return
+
+  savingRemark.value = true
+  try {
+    await updateAdminUserRemark(remarkRecord.value.id, remarkForm.remarkName.trim())
+    message.success('用户备注已更新')
+    remarkVisible.value = false
+    tableRef.value?.refresh()
+  } catch (error) {
+    message.error(error.message || '用户备注保存失败')
+  } finally {
+    savingRemark.value = false
   }
 }
 
@@ -627,6 +681,10 @@ function handleAction(key, record) {
     openRoleModal(record)
     return
   }
+  if (key === 'remark') {
+    openRemarkModal(record)
+    return
+  }
   if (key === 'reset-password') {
     openResetPasswordModal(record)
     return
@@ -711,10 +769,15 @@ onMounted(loadRoles)
 }
 
 .user-email,
+.user-remark,
 .time-text {
   font-size: 12px;
   color: var(--console-text-secondary);
   white-space: nowrap;
+}
+
+.user-remark {
+  color: var(--console-primary);
 }
 
 .action-more-btn {

@@ -30,6 +30,12 @@ const userSchema = new mongoose.Schema(
       default: '',
       maxlength: 240
     },
+    remarkName: {
+      type: String,
+      default: '',
+      trim: true,
+      maxlength: 60
+    },
     website: {
       type: String,
       default: '',
@@ -130,6 +136,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     email: this.email,
     avatar: this.avatar,
     bio: this.bio,
+    remarkName: this.remarkName || '',
     website: this.website,
     location: this.location,
     notificationSettings: {

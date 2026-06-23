@@ -68,6 +68,7 @@
         <template v-if="column.key === 'name'">
           <div class="rbac-title-cell">
             <strong>{{ record.name }}</strong>
+            <span v-if="record.remarkName">{{ record.remarkName }}</span>
             <small>{{ record.code }}</small>
           </div>
         </template>
@@ -156,6 +157,9 @@
             </a-form-item>
           </a-col>
         </a-row>
+        <a-form-item label="备注名" name="remarkName">
+          <a-input v-model:value="form.remarkName" placeholder="例如：外包内容运营、只读审核员" :maxlength="60" allow-clear />
+        </a-form-item>
         <a-form-item label="角色说明" name="description">
           <a-textarea v-model:value="form.description" :rows="3" :maxlength="240" show-count />
         </a-form-item>
@@ -290,6 +294,7 @@ const form = reactive({
   name: '',
   code: '',
   description: '',
+  remarkName: '',
   menuIds: [],
   status: 'active',
   sortOrder: 0
@@ -314,7 +319,7 @@ const rules = {
 }
 
 const columns = [
-  { title: '角色', key: 'name', width: 240 },
+  { title: '角色', key: 'name', width: 260 },
   { title: '类型', key: 'builtin', width: 140, align: 'center' },
   { title: '菜单权限', key: 'menus', width: 120, align: 'center' },
   { title: '使用人数', dataIndex: 'userCount', key: 'userCount', width: 110, align: 'center' },
@@ -384,6 +389,7 @@ function resetForm(record = null) {
   form.name = record?.name || ''
   form.code = record?.code || ''
   form.description = record?.description || ''
+  form.remarkName = record?.remarkName || ''
   form.menuIds = [...(record?.menuIds || [])]
   form.status = record?.status || 'active'
   form.sortOrder = record?.sortOrder || 0
@@ -460,6 +466,7 @@ async function submitRole() {
       name: form.name.trim(),
       code: form.code.trim().toLowerCase(),
       description: form.description.trim(),
+      remarkName: form.remarkName.trim(),
       menuIds: form.menuIds,
       status: form.status,
       sortOrder: form.sortOrder
@@ -595,6 +602,11 @@ onMounted(loadPermissionTree)
 
 .rbac-title-cell small {
   color: var(--console-text-secondary);
+}
+
+.rbac-title-cell span {
+  color: var(--console-text-secondary);
+  font-size: 12px;
 }
 
 .permission-panel {

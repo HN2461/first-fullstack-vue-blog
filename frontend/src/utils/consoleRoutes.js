@@ -4,6 +4,11 @@ const EXACT_CONSOLE_ROUTE_PATHS = new Set([
   '/console/article-directory',
   '/console/search',
   '/console/memos',
+  '/console/ledger',
+  '/console/ledger/overview',
+  '/console/ledger/entries',
+  '/console/ledger/daily',
+  '/console/ledger/moments',
   '/console/profile',
   '/console/manage/articles',
   '/console/write',
@@ -27,6 +32,7 @@ const EXACT_CONSOLE_ROUTE_PATHS = new Set([
 
 const PREFIX_CONSOLE_ROUTE_PATHS = [
   '/console/articles/',
+  '/console/ledger/',
   '/console/article-directory/articles/',
   '/console/article-directory/categories/',
   '/console/article-directory/tags/',
@@ -39,6 +45,8 @@ export function isKnowledgeConsolePath(path = '') {
   return path === '/console/articles' ||
     path === '/console/article-directory' ||
     path === '/console/memos' ||
+    path === '/console/ledger' ||
+    path.startsWith('/console/ledger/') ||
     path === '/console/search' ||
     path === '/console/profile' ||
     path.startsWith('/console/articles/') ||
@@ -55,5 +63,6 @@ export function isKnownConsolePath(path = '') {
 }
 
 export function isKnownConsoleRoutePath(routePath = '') {
-  return EXACT_CONSOLE_ROUTE_PATHS.has(routePath)
+  return EXACT_CONSOLE_ROUTE_PATHS.has(routePath) ||
+    PREFIX_CONSOLE_ROUTE_PATHS.some((prefix) => routePath.startsWith(prefix))
 }

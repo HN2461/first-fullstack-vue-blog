@@ -13,6 +13,7 @@ export const roleSchema = z.object({
   name: z.string().trim().min(2, '角色名称至少需要 2 个字符').max(40, '角色名称不能超过 40 个字符'),
   code: z.string().trim().toLowerCase().regex(roleCodePattern, '角色编码只能包含小写字母、数字和连字符'),
   description: z.string().trim().max(240, '角色说明不能超过 240 个字符').optional().default(''),
+  remarkName: z.string().trim().max(60, '备注名不能超过 60 个字符').optional().default(''),
   menuIds: z.array(z.string().regex(objectIdPattern, '菜单 id 不正确')).optional().default([]),
   status: z.enum(['active', 'disabled']).optional().default('active'),
   sortOrder: z.coerce.number().int().min(0).max(9999).optional().default(0)
@@ -125,9 +126,14 @@ export const userCreateSchema = z.object({
   username: z.string().trim().min(2, '用户名至少需要 2 个字符').max(32, '用户名不能超过 32 个字符'),
   email: z.string().trim().email('邮箱格式不正确'),
   password: z.string().min(8, '密码至少需要 8 个字符').max(72, '密码不能超过 72 个字符'),
+  remarkName: z.string().trim().max(60, '用户备注名不能超过 60 个字符').optional().default(''),
   roleIds: z.array(z.string().regex(objectIdPattern, '角色 id 不正确')).default([]),
   status: z.enum(['active', 'muted', 'disabled']).optional().default('active')
 }).strict('存在不支持的用户创建字段')
+
+export const userRemarkSchema = z.object({
+  remarkName: z.string().trim().max(60, '用户备注名不能超过 60 个字符').default('')
+}).strict('存在不支持的用户备注字段')
 
 export const permissionRequestSchema = z.object({
   targetRoleId: z.string().regex(objectIdPattern, '目标角色 id 不正确').optional(),

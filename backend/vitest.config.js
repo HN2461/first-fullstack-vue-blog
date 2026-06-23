@@ -4,6 +4,8 @@ export default defineConfig({
   test: {
     environment: 'node',
     globals: true,
-    include: ['tests/**/*.test.js']
+    include: ['tests/**/*.test.js'],
+    testTimeout: 15000,
+    hookTimeout: 30000
   }
 })

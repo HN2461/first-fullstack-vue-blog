@@ -13,6 +13,7 @@ import { authRouter } from '#modules/auth/routes/auth.routes.js'
 import captchaRouter from '#modules/auth/routes/captcha.routes.js'
 import { healthRouter } from '#modules/health/routes/health.routes.js'
 import { interactionRouter } from '#modules/interaction/routes/interaction.routes.js'
+import { ledgerRouter } from '#modules/ledger/routes/ledger.routes.js'
 import { memoRouter } from '#modules/memo/routes/memo.routes.js'
 import profileRouter from '#modules/user/routes/profile.routes.js'
 import { publicRouter } from '#modules/public/routes/public.routes.js'
@@ -39,6 +40,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/admin`, adminRouter)
   app.use(`${API_PREFIX}/auth`, authRouter)
   app.use(`${API_PREFIX}/captcha`, captchaRouter)
+  app.use(`${API_PREFIX}/ledger`, ledgerRouter)
   app.use(`${API_PREFIX}/memos`, memoRouter)
   app.use(`${API_PREFIX}/profile`, profileRouter)
   app.use(`${API_PREFIX}/public`, publicRouter)

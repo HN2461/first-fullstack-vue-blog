@@ -236,6 +236,7 @@ export async function createAdminUser(input) {
     username: input.username.trim(),
     email,
     passwordHash: await bcrypt.hash(input.password, 12),
+    remarkName: input.remarkName || '',
     roles: roleIds,
     status: input.status || USER_STATUS.ACTIVE
   })
@@ -258,6 +259,17 @@ export async function updateUserRoles(userId, roleIds) {
   user.roles = ids
   await user.save()
   await user.populate('roles')
+  return user.toSafeJSON({ roles: user.roles })
+}
+
+export async function updateUserRemark(userId, remarkName = '') {
+  const user = await User.findById(userId).populate('roles')
+  if (!user) {
+    throw createHttpError(404, 'USER_NOT_FOUND', '用户不存在')
+  }
+
+  user.remarkName = String(remarkName || '').trim()
+  await user.save()
   return user.toSafeJSON({ roles: user.roles })
 }
 
@@ -351,6 +363,7 @@ export async function listUsers(options = {}) {
     query.$or = [
       { username: regex },
       { email: regex },
+      { remarkName: regex },
       { bio: regex },
       { location: regex },
       { website: regex }

@@ -252,6 +252,7 @@ import {
   CustomerServiceOutlined,
   AuditOutlined,
   BellOutlined,
+  BarChartOutlined,
   DashboardOutlined,
   DatabaseOutlined,
   DeleteOutlined,
@@ -306,7 +307,8 @@ import {
   ToolOutlined,
   UnorderedListOutlined,
   UploadOutlined,
-  UserOutlined
+  UserOutlined,
+  WalletOutlined
 } from '@ant-design/icons-vue'
 import NotificationBell from '@/components/NotificationBell.vue'
 import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
@@ -359,6 +361,7 @@ const iconMap = {
   ApartmentOutlined,
   AppstoreOutlined,
   AuditOutlined,
+  BarChartOutlined,
   BellOutlined,
   BookOutlined,
   CalendarOutlined,
@@ -416,7 +419,8 @@ const iconMap = {
   ToolOutlined,
   UnorderedListOutlined,
   UploadOutlined,
-  UserOutlined
+  UserOutlined,
+  WalletOutlined
 }
 const isWriterRoute = computed(() => route.path === '/console/write' || route.path.startsWith('/console/manage/articles/'))
 const isArticleDetailRoute = computed(() => isArticleContentPath(route.path))
@@ -741,6 +745,12 @@ function handleSecondaryClick({ key }) {
     const targetPath = menu.routePath || ''
     if (targetPath && isKnownConsoleRoutePath(targetPath)) {
       openMenuRoute(router, menu, targetPath)
+      return
+    }
+    const childTarget = findFirstMenuRoute(menu.children || [])
+    if (childTarget) {
+      const targetMenu = flattenRenderableMenus(menu.children || []).find((item) => item.routePath === childTarget)
+      openMenuRoute(router, targetMenu, childTarget)
       return
     }
     router.push({ name: 'ConsoleUnavailable', query: { menu: menu.code || menu.id || clickedMenuKey.value } })

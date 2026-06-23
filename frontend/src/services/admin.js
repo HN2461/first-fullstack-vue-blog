@@ -214,6 +214,7 @@ export async function createAdminUser(data) {
   return http.post('/api/admin/users', {
     username: data.username,
     email: data.email,
+    remarkName: data.remarkName || '',
     roleIds: data.roleIds || [],
     status: data.status || 'active',
     credential: {
@@ -225,6 +226,10 @@ export async function createAdminUser(data) {
 
 export function updateAdminUserStatus(id, status) {
   return http.patch(`/api/admin/users/${id}/status`, { status })
+}
+
+export function updateAdminUserRemark(id, remarkName) {
+  return http.patch(`/api/admin/users/${id}/remark`, { remarkName })
 }
 
 export function batchUpdateAdminUserStatus(ids, status) {

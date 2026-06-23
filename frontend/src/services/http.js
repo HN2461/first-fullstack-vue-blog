@@ -219,6 +219,10 @@ export function listMyPermissionRequests(params = {}) {
   return http.get('/api/profile/permission-requests', { params })
 }
 
+export function listMyPermissionRequestRoles() {
+  return http.get('/api/profile/permission-request-roles')
+}
+
 export function createMyPermissionRequest(data) {
   return http.post('/api/profile/permission-requests', data)
 }

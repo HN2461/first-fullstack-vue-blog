@@ -12,11 +12,12 @@ import {
 } from './helpers/testDatabase.js'
 
 async function createUser(role = USER_ROLES.USER, status = USER_STATUS.ACTIVE) {
+  const effectiveRole = role === USER_ROLES.ADMIN ? USER_ROLES.SUPER_ADMIN : role
   return User.create({
     username: `${role}-${status}`,
     email: `${role}-${status}-${Date.now()}-${Math.random()}@example.com`,
     passwordHash: 'hashed-password',
-    role,
+    role: effectiveRole,
     status
   })
 }

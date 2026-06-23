@@ -15,6 +15,7 @@
     "ant-design-vue": "^4.2.6",
     "axios": "^1.17.0",
     "cropperjs": "^1.6.2",
+    "echarts": "^6.1.0",
     "highlight.js": "^11.11.1",
     "lucide-vue-next": "^0.468.0",
     "markdown-it": "^14.1.0",
@@ -24,6 +25,7 @@
     "pinia": "^2.3.1",
     "vite": "^5.4.20",
     "vue": "^3.5.21",
+    "vue-echarts": "^8.0.1",
     "vue-router": "^4.5.1"
   },
   "devDependencies": {

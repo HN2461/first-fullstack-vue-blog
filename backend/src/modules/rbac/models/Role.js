@@ -23,6 +23,12 @@ const roleSchema = new mongoose.Schema(
       trim: true,
       maxlength: 240
     },
+    remarkName: {
+      type: String,
+      default: '',
+      trim: true,
+      maxlength: 60
+    },
     menuIds: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Menu'
@@ -56,6 +62,7 @@ roleSchema.methods.toSafeJSON = function toSafeJSON() {
     name: this.name,
     code: this.code,
     description: this.description,
+    remarkName: this.remarkName || '',
     menuIds: (this.menuIds || []).map((id) => id.toString()),
     isBuiltin: this.isBuiltin,
     isSuperAdmin: this.isSuperAdmin,

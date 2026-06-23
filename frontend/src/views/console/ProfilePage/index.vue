@@ -311,9 +311,9 @@
           <div class="permission-header">
             <div>
               <h3 class="content-title">权限申请</h3>
-              <p>提交后台管理权限申请后，由超级管理员统一审批。</p>
+              <p>选择需要申请的角色并提交说明后，由超级管理员统一审批。</p>
             </div>
-            <a-button type="primary" :disabled="hasPendingPermissionRequest" @click="applicationVisible = true">
+            <a-button type="primary" :disabled="hasPendingPermissionRequest" @click="openPermissionApplication">
               提交申请
             </a-button>
           </div>
@@ -366,6 +366,16 @@
     @ok="submitPermissionApplication"
   >
     <a-form ref="applicationFormRef" :model="applicationForm" :rules="applicationRules" layout="vertical">
+      <a-form-item label="申请角色" name="targetRoleId">
+        <a-select
+          v-model:value="applicationForm.targetRoleId"
+          :loading="loadingApplicationRoles"
+          :options="applicationRoleOptions"
+          show-search
+          option-filter-prop="label"
+          placeholder="请选择要申请的角色"
+        />
+      </a-form-item>
       <a-form-item label="申请说明" name="reason">
         <a-textarea
           v-model:value="applicationForm.reason"
@@ -419,6 +429,7 @@ import {
   getNotificationSettings,
   getProfile,
   getUserStats,
+  listMyPermissionRequestRoles,
   listMyPermissionRequests,
   updateNotificationSettings,
   updateProfile,
@@ -492,8 +503,10 @@ const changingPassword = ref(false)
 const savingNotifications = ref(false)
 const loadingLoginRecords = ref(false)
 const loadingPermissionRequests = ref(false)
+const loadingApplicationRoles = ref(false)
 const loginRecords = ref([])
 const permissionRequests = ref([])
+const applicationRoles = ref([])
 const avatarInputRef = ref(null)
 const passwordFormRef = ref(null)
 const applicationFormRef = ref(null)
@@ -507,14 +520,21 @@ const uploadingAvatar = ref(false)
 const deletingAvatar = ref(false)
 const avatarPreviewVisible = ref(false)
 const avatarCropperRef = ref(null)
-const applicationForm = reactive({ reason: '' })
+const applicationForm = reactive({ targetRoleId: undefined, reason: '' })
 const applicationRules = {
+  targetRoleId: [
+    { required: true, message: '请选择申请角色' }
+  ],
   reason: [
     { required: true, message: '请填写申请说明' },
     { max: 500, message: '申请说明不能超过 500 个字符' }
   ]
 }
 const hasPendingPermissionRequest = computed(() => permissionRequests.value.some((item) => item.status === 'pending'))
+const applicationRoleOptions = computed(() => applicationRoles.value.map((role) => ({
+  label: role.remarkName ? `${role.name}（${role.remarkName}）` : role.name,
+  value: role.id
+})))
 
 const passwordRules = {
   oldPassword: [
@@ -717,6 +737,28 @@ async function loadPermissionRequests() {
   }
 }
 
+async function loadApplicationRoles() {
+  loadingApplicationRoles.value = true
+  try {
+    applicationRoles.value = await listMyPermissionRequestRoles()
+    if (!applicationForm.targetRoleId && applicationRoles.value.length === 1) {
+      applicationForm.targetRoleId = applicationRoles.value[0].id
+    }
+  } catch (error) {
+    applicationRoles.value = []
+    message.error(error.message || '可申请角色加载失败')
+  } finally {
+    loadingApplicationRoles.value = false
+  }
+}
+
+async function openPermissionApplication() {
+  applicationVisible.value = true
+  if (!applicationRoles.value.length) {
+    await loadApplicationRoles()
+  }
+}
+
 async function submitPermissionApplication() {
   try {
     await applicationFormRef.value?.validate()
@@ -726,9 +768,13 @@ async function submitPermissionApplication() {
 
   submittingApplication.value = true
   try {
-    await createMyPermissionRequest({ reason: applicationForm.reason })
+    await createMyPermissionRequest({
+      targetRoleId: applicationForm.targetRoleId,
+      reason: applicationForm.reason
+    })
     message.success('权限申请已提交')
     applicationVisible.value = false
+    applicationForm.targetRoleId = undefined
     applicationForm.reason = ''
     await loadPermissionRequests()
   } catch (error) {

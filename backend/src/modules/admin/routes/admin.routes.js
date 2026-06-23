@@ -6,7 +6,7 @@ import { requireAdmin, requireAnyMenuAccess, requireAuth, requireMenuAccess, req
 import { batchDeleteArticles, batchPermanentDeleteArticles, batchRestoreArticles, batchUpdateArticleStatus, createArticle, deleteArticle, emptyTrash, getArticleById, listArticles, listDeletedArticles, permanentDeleteArticle, publishArticle, restoreArticle, updateArticle, updateArticleStatus } from '#modules/content/services/article.service.js'
 import { batchUpdateArticleMeta } from '#modules/content/services/articleBatch.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
-import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
+import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
 import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, restoreMedia } from '#modules/media/services/media.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
@@ -21,7 +21,7 @@ import { asyncHandler } from '#utils/asyncHandler.js'
 import { decryptCredential } from '#utils/authSecurity.js'
 import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
 import { articleBatchMetaSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
-import { userBatchResetPasswordSchema, userCreateSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
+import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineImportSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
 
@@ -462,6 +462,12 @@ adminRouter.post('/users/batch/delete', requireSuperAdmin, asyncHandler(async (r
 adminRouter.patch('/users/:id/status', asyncHandler(async (req, res) => {
   const user = await updateUserStatus(req.params.id, req.body.status)
   res.json(ok(user, '用户状态已更新'))
+}))
+
+adminRouter.patch('/users/:id/remark', asyncHandler(async (req, res) => {
+  const input = parseBody(userRemarkSchema, req.body)
+  const user = await updateUserRemark(req.params.id, input.remarkName)
+  res.json(ok(user, '用户备注已更新'))
 }))
 
 adminRouter.patch('/users/:id/roles', requireSuperAdmin, asyncHandler(async (req, res) => {

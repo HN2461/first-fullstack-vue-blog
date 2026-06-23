@@ -12,6 +12,13 @@ const DEFAULT_MENUS = [
   { code: 'knowledge.articles', name: '全部文章', icon: 'FileTextOutlined', routePath: '/console/articles', routeKey: 'knowledge.article.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.directory', name: '文章目录', icon: 'FolderOutlined', routePath: '/console/article-directory', routeKey: 'knowledge.article.directory', directoryAutoExpandWhenNested: true, parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.memos', name: '备忘录', icon: 'BulbOutlined', routePath: '/console/memos', routeKey: 'knowledge.memo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.ledger', name: '账本', icon: 'WalletOutlined', routePath: '', routeKey: 'knowledge.ledger', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 25, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.ledger.overview', name: '汇总图表', icon: 'BarChartOutlined', routePath: '/console/ledger/overview', routeKey: 'knowledge.ledger.overview', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.ledger.entries', name: '流水明细', icon: 'TableOutlined', routePath: '/console/ledger/entries', routeKey: 'knowledge.ledger.entries', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.ledger.daily', name: '日表格', icon: 'CalendarOutlined', routePath: '/console/ledger/daily', routeKey: 'knowledge.ledger.daily', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.ledger.moments', name: '重要记录', icon: 'StarOutlined', routePath: '/console/ledger/moments', routeKey: 'knowledge.ledger.moments', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.ledger.categories', name: '分类字段', icon: 'TagsOutlined', routePath: '', routeKey: 'knowledge.ledger.categories', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 90, hidden: true, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.ledger.imports', name: '导入记录', icon: 'ImportOutlined', routePath: '', routeKey: 'knowledge.ledger.imports', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 100, hidden: true, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.search', name: '全文检索', icon: 'SearchOutlined', routePath: '/console/search', routeKey: 'knowledge.search', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30, hidden: true, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.profile', name: '个人信息', icon: 'UserOutlined', routePath: '/console/profile', routeKey: 'knowledge.profile', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40, hidden: true, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.categories', name: '分类文章', icon: 'FolderOutlined', routePath: '/console/categories', routeKey: 'knowledge.category.articles', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50, hidden: true, type: MENU_TYPES.SYSTEM },
@@ -49,6 +56,10 @@ function createHttpError(statusCode, code, message) {
 
 function escapeRegExp(value = '') {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+function normalizeRoleId(role) {
+  return (role?._id || role)?.toString()
 }
 
 function assertEditableRole(role, options = {}) {
@@ -274,6 +285,14 @@ export async function ensureRbacSeed(options = {}) {
         if (!menu.level) patch.level = menu.parentId ? 2 : 1
       }
 
+      if (menuInput.code === 'knowledge.ledger') {
+        patch.routePath = ''
+      }
+      if (['knowledge.ledger.categories', 'knowledge.ledger.imports'].includes(menuInput.code)) {
+        patch.routePath = ''
+        patch.hidden = true
+      }
+
       if (Object.keys(patch).length > 0) {
         await Menu.updateOne({ _id: menu._id }, { $set: patch })
         Object.assign(menu, patch)
@@ -286,9 +305,27 @@ export async function ensureRbacSeed(options = {}) {
   await Menu.deleteMany({ code: { $in: ['content.root', 'governance.root'] } })
 
   const allMenus = await Menu.find({ enabled: true })
+  const ledgerMenu = allMenus.find((menu) => menu.code === 'knowledge.ledger')
+  const ledgerChildMenuIds = allMenus
+    .filter((menu) => menu.code?.startsWith('knowledge.ledger.'))
+    .map((menu) => menu._id)
+  if (ledgerMenu && ledgerChildMenuIds.length) {
+    await Role.updateMany(
+      {
+        $and: [
+          { menuIds: ledgerMenu._id },
+          { menuIds: { $nin: ledgerChildMenuIds } }
+        ]
+      },
+      { $addToSet: { menuIds: { $each: ledgerChildMenuIds } } }
+    )
+  }
   const adminMenuIds = allMenus.map((menu) => menu._id)
   const knowledgeMenuIds = allMenus
     .filter((menu) => menu.code?.startsWith('knowledge.'))
+    .map((menu) => menu._id)
+  const adminBaseMenuIds = allMenus
+    .filter((menu) => menu.code?.startsWith('knowledge.') || ['management.root', 'console.dashboard'].includes(menu.code))
     .map((menu) => menu._id)
 
   const superRole = await Role.findOneAndUpdate(
@@ -297,6 +334,7 @@ export async function ensureRbacSeed(options = {}) {
       $set: {
         name: '超级管理员',
         description: '系统唯一全局配置与权限审批主体，拥有全部菜单与操作权限。',
+        remarkName: '',
         menuIds: adminMenuIds,
         isBuiltin: true,
         isSuperAdmin: true,
@@ -313,12 +351,13 @@ export async function ensureRbacSeed(options = {}) {
       $set: {
         name: '访客角色',
         description: '仅可访问知识库阅读能力，无后台管理菜单权限。',
-        menuIds: knowledgeMenuIds,
+        remarkName: '',
         isBuiltin: true,
         isSuperAdmin: false,
         sortOrder: 10
       },
       $setOnInsert: {
+        menuIds: knowledgeMenuIds,
         status: 'active'
       }
     },
@@ -330,13 +369,14 @@ export async function ensureRbacSeed(options = {}) {
     {
       $set: {
         name: '管理员基础角色',
-        description: '默认开放基础管理菜单，可由超级管理员按需调整。',
-        menuIds: adminMenuIds,
+        description: '默认仅开放知识库与管理工作台入口，具体后台业务菜单必须由超级管理员显式分配。',
+        remarkName: '',
         isBuiltin: true,
         isSuperAdmin: false,
         sortOrder: 20
       },
       $setOnInsert: {
+        menuIds: adminBaseMenuIds,
         status: 'active'
       }
     },
@@ -427,7 +467,8 @@ export async function listRoles(options = {}) {
     query.$or = [
       { name: regex },
       { code: regex },
-      { description: regex }
+      { description: regex },
+      { remarkName: regex }
     ]
   }
 
@@ -483,6 +524,7 @@ export async function createRole(input) {
     name: input.name,
     code: input.code,
     description: input.description || '',
+    remarkName: input.remarkName || '',
     menuIds,
     isBuiltin: false,
     isSuperAdmin: false,
@@ -511,6 +553,7 @@ export async function updateRole(id, input) {
 
   if (input.name !== undefined) role.name = input.name
   if (input.description !== undefined) role.description = input.description
+  if (input.remarkName !== undefined) role.remarkName = input.remarkName
   if (input.status !== undefined) role.status = input.status
   if (input.sortOrder !== undefined) role.sortOrder = input.sortOrder
   if (input.menuIds !== undefined) {
@@ -790,6 +833,11 @@ export async function createPermissionRequest(user, input) {
     throw createHttpError(400, 'TARGET_ROLE_DISABLED', '申请的目标角色已禁用')
   }
 
+  const ownedRoleIds = new Set((user.roles || []).map(normalizeRoleId).filter(Boolean))
+  if (ownedRoleIds.has(targetRole._id.toString())) {
+    throw createHttpError(409, 'ROLE_ALREADY_ASSIGNED', '你已拥有该角色，无需重复申请')
+  }
+
   const existing = await PermissionRequest.findOne({
     user: user._id,
     targetRole: targetRole._id,
@@ -834,6 +882,18 @@ export async function listPermissionRequests(options = {}) {
     page,
     pageSize
   }
+}
+
+export async function listPermissionRequestRoles(user) {
+  await ensureRbacSeed()
+  const ownedRoleIds = new Set((user.roles || []).map(normalizeRoleId).filter(Boolean))
+  const roles = await Role.find({
+    status: 'active',
+    isSuperAdmin: false,
+    _id: { $nin: Array.from(ownedRoleIds) }
+  }).sort({ sortOrder: 1, createdAt: 1 })
+
+  return roles.map((role) => role.toSafeJSON())
 }
 
 export async function reviewPermissionRequest(id, reviewer, input) {

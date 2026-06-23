@@ -11,7 +11,12 @@ import path from 'path'
 import fs from 'node:fs'
 import { env } from '#config/env'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
-import { createPermissionRequest, hydrateUserPermissions, listPermissionRequests } from '#modules/rbac/services/rbac.service.js'
+import {
+  createPermissionRequest,
+  hydrateUserPermissions,
+  listPermissionRequestRoles,
+  listPermissionRequests
+} from '#modules/rbac/services/rbac.service.js'
 import { decryptCredential } from '#utils/authSecurity.js'
 import { notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema } from '#modules/user/validators/profile.validator.js'
 import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/rbac/validators/rbac.validator.js'
@@ -226,6 +231,10 @@ router.get('/permission-requests', requireAuth, asyncHandler(async (req, res) =>
     ...input,
     userId: req.user._id.toString()
   })))
+}))
+
+router.get('/permission-request-roles', requireAuth, asyncHandler(async (req, res) => {
+  res.json(ok(await listPermissionRequestRoles(req.user)))
 }))
 
 router.post('/permission-requests', requireAuth, asyncHandler(async (req, res) => {

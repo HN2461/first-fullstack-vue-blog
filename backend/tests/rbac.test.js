@@ -108,10 +108,19 @@ describe('rbac account and permission flows', () => {
   })
 
   it('blocks non-super admins from creating users', async () => {
-    const admin = await createUserWithRole(BUILTIN_ROLE_CODES.ADMIN_BASE, {
+    const usersMenu = await Menu.findOne({ code: 'governance.users' })
+    const userManagerRole = await Role.create({
+      name: '用户管理员',
+      code: 'user-manager-no-super',
+      menuIds: [usersMenu._id],
+      status: 'active'
+    })
+    const admin = await User.create({
       username: 'base-admin',
       email: 'base-admin@example.com',
-      legacyRole: USER_ROLES.ADMIN
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.ADMIN,
+      roles: [userManagerRole._id]
     })
     const adminToken = signAccessToken(admin)
     const challengeResponse = await request(app)
@@ -163,6 +172,80 @@ describe('rbac account and permission flows', () => {
     })
   })
 
+  it('lets a user choose the target role when submitting a permission request', async () => {
+    const commentsMenu = await Menu.findOne({ code: 'governance.comments' })
+    const commentAuditorRole = await Role.create({
+      name: '评论审核员',
+      code: 'comment-auditor',
+      remarkName: '只处理评论',
+      menuIds: [commentsMenu._id],
+      status: 'active',
+      sortOrder: 80
+    })
+    const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
+      username: 'role-applicant',
+      email: 'role-applicant@example.com'
+    })
+    const token = signAccessToken(user)
+
+    const rolesResponse = await request(app)
+      .get('/api/profile/permission-request-roles')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(rolesResponse.body.data.some((role) => role.code === BUILTIN_ROLE_CODES.VISITOR)).toBe(false)
+    expect(rolesResponse.body.data).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        id: commentAuditorRole._id.toString(),
+        name: '评论审核员',
+        remarkName: '只处理评论'
+      })
+    ]))
+
+    await request(app)
+      .post('/api/profile/permission-requests')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        targetRoleId: commentAuditorRole._id.toString(),
+        reason: '申请处理评论审核'
+      })
+      .expect(201)
+
+    const response = await request(app)
+      .get('/api/profile/permission-requests')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(response.body.data.items[0]).toMatchObject({
+      reason: '申请处理评论审核',
+      targetRole: {
+        id: commentAuditorRole._id.toString(),
+        name: '评论审核员',
+        remarkName: '只处理评论'
+      }
+    })
+  })
+
+  it('rejects permission requests for roles the user already has', async () => {
+    const visitorRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR })
+    const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
+      username: 'existing-role-user',
+      email: 'existing-role-user@example.com'
+    })
+    const token = signAccessToken(user)
+
+    const response = await request(app)
+      .post('/api/profile/permission-requests')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        targetRoleId: visitorRole._id.toString(),
+        reason: '重复申请已有角色'
+      })
+      .expect(409)
+
+    expect(response.body.code).toBe('ROLE_ALREADY_ASSIGNED')
+  })
+
   it('includes backend-controlled knowledge menus for ordinary users', async () => {
     const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
       username: 'knowledge-reader',
@@ -181,8 +264,11 @@ describe('rbac account and permission flows', () => {
     expect(knowledgeRoot).toBeTruthy()
     expect(knowledgeRoot.children.map((menu) => menu.name)).toContain('全部文章')
     expect(knowledgeRoot.children.map((menu) => menu.name)).toContain('文章目录')
+    expect(knowledgeRoot.children.map((menu) => menu.name)).toContain('账本')
     expect(knowledgeRoot.children.map((menu) => menu.routePath)).toContain('/console/articles')
     expect(knowledgeRoot.children.map((menu) => menu.routePath)).toContain('/console/article-directory')
+    expect(response.body.data.permissions.menuPaths).toContain('/console/ledger/overview')
+    expect(response.body.data.permissions.menuPaths).toContain('/console/ledger/entries')
     expect(response.body.data.permissions.menuPaths).toContain('/console/articles')
     expect(response.body.data.permissions.menuPaths).toContain('/console/article-directory')
     expect(response.body.data.permissions.menuPaths).toContain('/console/profile')
@@ -203,6 +289,10 @@ describe('rbac account and permission flows', () => {
     const permissionFlatMenus = permissionMenusResponse.body.data.items
     const knowledgeArticleMenu = flatMenus.find((menu) => menu.code === 'knowledge.articles')
     const knowledgeDirectoryMenu = flatMenus.find((menu) => menu.code === 'knowledge.directory')
+    const ledgerMenu = flatMenus.find((menu) => menu.code === 'knowledge.ledger')
+    const ledgerOverviewMenu = flatMenus.find((menu) => menu.code === 'knowledge.ledger.overview')
+    const ledgerMomentsMenu = flatMenus.find((menu) => menu.code === 'knowledge.ledger.moments')
+    const ledgerCategoriesMenu = flatMenus.find((menu) => menu.code === 'knowledge.ledger.categories')
 
     expect(knowledgeArticleMenu).toMatchObject({
       name: '全部文章',
@@ -215,8 +305,29 @@ describe('rbac account and permission flows', () => {
       routePath: '/console/article-directory',
       directoryAutoExpandWhenNested: true
     })
+    expect(ledgerMenu).toMatchObject({
+      name: '账本',
+      type: 'system',
+      routePath: ''
+    })
+    expect(ledgerOverviewMenu).toMatchObject({
+      name: '汇总图表',
+      type: 'system',
+      routePath: '/console/ledger/overview'
+    })
+    expect(ledgerMomentsMenu).toMatchObject({
+      name: '重要记录',
+      type: 'system',
+      routePath: '/console/ledger/moments'
+    })
+    expect(ledgerCategoriesMenu).toMatchObject({
+      hidden: true,
+      routePath: ''
+    })
     expect(permissionFlatMenus.some((menu) => menu.code === 'knowledge.articles')).toBe(true)
     expect(permissionFlatMenus.some((menu) => menu.code === 'knowledge.directory')).toBe(true)
+    expect(permissionFlatMenus.some((menu) => menu.code === 'knowledge.ledger.entries')).toBe(true)
+    expect(permissionFlatMenus.some((menu) => menu.code === 'knowledge.ledger.moments')).toBe(true)
   })
 
   it('seeds project timeline menu under system operations', async () => {
@@ -567,6 +678,7 @@ describe('rbac account and permission flows', () => {
     const operatorRole = await Role.create({
       name: '内容运营',
       code: 'content-operator',
+      remarkName: '外包运营组',
       menuIds: [rolesMenu._id],
       status: 'active',
       sortOrder: 50
@@ -591,7 +703,7 @@ describe('rbac account and permission flows', () => {
       .query({
         page: 1,
         pageSize: 10,
-        keyword: 'content',
+        keyword: '外包',
         status: 'active',
         type: 'custom'
       })
@@ -601,8 +713,76 @@ describe('rbac account and permission flows', () => {
     expect(response.body.data.total).toBe(1)
     expect(response.body.data.items[0]).toMatchObject({
       code: 'content-operator',
+      remarkName: '外包运营组',
       userCount: 1
     })
+  })
+
+  it('keeps admin base approval scoped to dashboard instead of all admin menus', async () => {
+    const adminBaseRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.ADMIN_BASE })
+    const mediaMenu = await Menu.findOne({ code: 'content.media' })
+    const usersMenu = await Menu.findOne({ code: 'governance.users' })
+
+    expect(adminBaseRole.menuIds.map((id) => id.toString())).not.toContain(mediaMenu._id.toString())
+    expect(adminBaseRole.menuIds.map((id) => id.toString())).not.toContain(usersMenu._id.toString())
+
+    const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
+      username: 'scoped-applicant',
+      email: 'scoped-applicant@example.com'
+    })
+    const token = signAccessToken(user)
+    const createResponse = await request(app)
+      .post('/api/profile/permission-requests')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        reason: '申请查看管理工作台'
+      })
+      .expect(201)
+
+    await request(app)
+      .post(`/api/rbac/permission-requests/${createResponse.body.data.id}/review`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({ action: 'approve' })
+      .expect(200)
+
+    const meResponse = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(meResponse.body.data.permissions.menuPaths).toContain('/console')
+    expect(meResponse.body.data.permissions.menuPaths).not.toContain('/console/manage/media')
+    expect(meResponse.body.data.permissions.menuPaths).not.toContain('/console/manage/users')
+
+    const mediaResponse = await request(app)
+      .get('/api/admin/media')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(403)
+
+    expect(mediaResponse.body.code).toBe('MENU_PERMISSION_REQUIRED')
+  })
+
+  it('keeps manually configured builtin role menus after rbac seed sync', async () => {
+    const visitorRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR })
+    const articlesMenu = await Menu.findOne({ code: 'knowledge.articles' })
+    const directoryMenu = await Menu.findOne({ code: 'knowledge.directory' })
+
+    await request(app)
+      .patch(`/api/rbac/roles/${visitorRole._id}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({
+        menuIds: [articlesMenu._id.toString()],
+        status: 'active'
+      })
+      .expect(200)
+
+    await ensureRbacSeed()
+
+    const updatedRole = await Role.findById(visitorRole._id)
+    const menuIds = updatedRole.menuIds.map((id) => id.toString())
+
+    expect(menuIds).toContain(articlesMenu._id.toString())
+    expect(menuIds).not.toContain(directoryMenu._id.toString())
   })
 
   it('adds ancestor menus when assigning only a child menu to a role', async () => {

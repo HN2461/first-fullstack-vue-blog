@@ -18,7 +18,7 @@ async function createAdmin() {
     username: 'admin',
     email: `ops-admin-${Date.now()}-${Math.random()}@example.com`,
     passwordHash: 'hashed-password',
-    role: USER_ROLES.ADMIN
+    role: USER_ROLES.SUPER_ADMIN
   })
 }
 
@@ -151,6 +151,38 @@ describe('operations routes', () => {
       items: [],
       total: 0,
       source: 'pending_integration'
+    })
+  })
+
+  it('lets admins set backend-only remarks for ordinary users', async () => {
+    const user = await User.create({
+      username: 'ordinary-reader',
+      email: 'ordinary-reader@example.com',
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.USER
+    })
+
+    const remarkResponse = await request(app)
+      .patch(`/api/admin/users/${user._id}/remark`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ remarkName: '同事测试账号' })
+      .expect(200)
+
+    expect(remarkResponse.body.data).toMatchObject({
+      id: user._id.toString(),
+      remarkName: '同事测试账号'
+    })
+
+    const usersResponse = await request(app)
+      .get('/api/admin/users')
+      .query({ keyword: '同事' })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(usersResponse.body.data.total).toBe(1)
+    expect(usersResponse.body.data.items[0]).toMatchObject({
+      email: 'ordinary-reader@example.com',
+      remarkName: '同事测试账号'
     })
   })
 

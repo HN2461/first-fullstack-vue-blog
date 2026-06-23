@@ -11,6 +11,7 @@ import {
   hydrateUserPermissions,
   listPermissionMenus,
   listMenus,
+  listPermissionRequestRoles,
   listPermissionRequests,
   listRootMenus,
   listRoles,
@@ -48,6 +49,10 @@ rbacRouter.post('/permission-requests', requireAuth, asyncHandler(async (req, re
   const input = parseBody(permissionRequestSchema, req.body)
   const request = await createPermissionRequest(req.user, input)
   res.status(201).json(ok(request, '权限申请已提交'))
+}))
+
+rbacRouter.get('/permission-request-roles', requireAuth, asyncHandler(async (req, res) => {
+  res.json(ok(await listPermissionRequestRoles(req.user)))
 }))
 
 rbacRouter.use(requireAuth, requireAdmin)

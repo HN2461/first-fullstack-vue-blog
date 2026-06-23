@@ -306,7 +306,8 @@ import {
   TeamOutlined, CommentOutlined, PictureOutlined,
   TagOutlined, FolderOutlined, BellOutlined, ToolOutlined, ApiOutlined,
   DashboardOutlined, SafetyOutlined, MenuOutlined, DeleteOutlined, SwapOutlined,
-  MonitorOutlined, SettingOutlined, SearchOutlined, BulbOutlined, ControlOutlined
+  MonitorOutlined, SettingOutlined, SearchOutlined, BulbOutlined, ControlOutlined,
+  WalletOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import { updateQuickActions } from '@/services/http'
@@ -365,6 +366,7 @@ const quickIconMap = {
   BulbOutlined,
   BookOutlined,
   ControlOutlined,
+  WalletOutlined,
   DeleteOutlined,
   UserOutlined: TeamOutlined
 }

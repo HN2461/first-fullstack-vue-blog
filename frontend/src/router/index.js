@@ -30,6 +30,11 @@ const AdminProjectTimeline = () => import('@/views/admin/AdminProjectTimeline/in
 const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
 const AdminTrash = () => import('@/views/admin/AdminTrash/index.vue')
 const MemoPage = () => import('@/views/console/MemoPage/index.vue')
+const LedgerPage = () => import('@/views/console/LedgerPage/index.vue')
+const LedgerOverviewPage = () => import('@/views/console/LedgerPage/LedgerOverviewPage.vue')
+const LedgerEntriesPage = () => import('@/views/console/LedgerPage/LedgerEntriesPage.vue')
+const LedgerDailyPage = () => import('@/views/console/LedgerPage/LedgerDailyPage.vue')
+const LedgerMomentsPage = () => import('@/views/console/LedgerPage/LedgerMomentsPage.vue')
 const ProfilePage = () => import('@/views/console/ProfilePage/index.vue')
 const UnavailablePage = () => import('@/views/console/UnavailablePage/index.vue')
 
@@ -133,6 +138,41 @@ export const router = createRouter({
           name: 'ConsoleMemos',
           component: MemoPage,
           meta: { title: '备忘录', requiresAuth: true }
+        },
+        {
+          path: 'ledger',
+          component: LedgerPage,
+          meta: { title: '账本', requiresAuth: true },
+          children: [
+            {
+              path: '',
+              redirect: { name: 'ConsoleLedgerOverview' }
+            },
+            {
+              path: 'overview',
+              name: 'ConsoleLedgerOverview',
+              component: LedgerOverviewPage,
+              meta: { title: '账本汇总', requiresAuth: true, requiresMenuAccess: true }
+            },
+            {
+              path: 'entries',
+              name: 'ConsoleLedgerEntries',
+              component: LedgerEntriesPage,
+              meta: { title: '账本明细', requiresAuth: true, requiresMenuAccess: true }
+            },
+            {
+              path: 'daily',
+              name: 'ConsoleLedgerDaily',
+              component: LedgerDailyPage,
+              meta: { title: '账本日表格', requiresAuth: true, requiresMenuAccess: true }
+            },
+            {
+              path: 'moments',
+              name: 'ConsoleLedgerMoments',
+              component: LedgerMomentsPage,
+              meta: { title: '账本重要记录', requiresAuth: true, requiresMenuAccess: true }
+            }
+          ]
         },
         {
           path: 'profile',
@@ -365,6 +405,15 @@ router.beforeEach(async (to) => {
       name: 'Login',
       query: { redirect: to.fullPath }
     }
+  }
+
+  if (to.meta.requiresMenuAccess && !authStore.canAccessPath(to.path)) {
+    return authStore.isLoggedIn
+      ? { name: 'ConsoleUnavailable' }
+      : {
+          name: 'Login',
+          query: { redirect: to.fullPath }
+        }
   }
 
   if (to.path === '/console' && authStore.isLoggedIn && !authStore.isAdmin) {
