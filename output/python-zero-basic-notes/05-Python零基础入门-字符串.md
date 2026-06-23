@@ -730,6 +730,126 @@ console.log(`姓名：${name}，年龄：${age}`)
 5. Python 字符串拼数字要显式 `str()`。
 6. JS 会自动转换，但容易隐藏 bug。
 
+### format() 方法
+
+f-string 是 Python 3.6+ 才引入的。在此之前，Python 用 `format()` 方法做格式化。很多企业项目老代码和日志模板仍然用 `format()`。
+
+```python
+# 位置参数
+text = "我叫{}，今年{}岁".format("小明", 18)
+print(text)    # 我叫小明，今年18岁
+
+# 编号参数（可以重复使用）
+text = "{0}说：你好，{1}。{0}又说了：再见，{1}。".format("小明", "小红")
+print(text)    # 小明说：你好，小红。小明又说了：再见，小红。
+
+# 关键字参数
+text = "我叫{name}，今年{age}岁".format(name="小明", age=18)
+print(text)    # 我叫小明，今年18岁
+```
+
+JS 对照：JS 没有类似的 `format()` 方法，通常用模板字符串。
+
+f-string vs format 选择：
+
+| 场景 | 推荐 | 原因 |
+| --- | --- | --- |
+| 日常代码 | f-string | 更简洁 |
+| 日志模板 | `format()` | 模板可以单独定义 |
+| 国际化 i18n | `format()` | 翻译文件里放占位符 |
+| 老项目兼容 | `format()` | Python 3.6 以下不支持 f-string |
+
+### f-string 高级用法
+
+f-string 不仅仅是简单插值，还支持格式化：
+
+```python
+price = 19.9
+
+# 保留小数位数
+print(f"价格：{price:.2f}")          # 价格：19.90
+
+# 千分位分隔
+big_num = 1234567
+print(f"人数：{big_num:,}")          # 人数：1,234,567
+
+# 百分比
+ratio = 0.856
+print(f"通过率：{ratio:.1%}")         # 通过率：85.6%
+
+# 对齐（左/右/居中）
+name = "小明"
+print(f"[{name:<10}]")               # [小明      ]（左对齐，宽度10）
+print(f"[{name:>10}]")               # [      小明]（右对齐）
+print(f"[{name:^10}]")               # [   小明   ]（居中对齐）
+
+# 日期格式化
+from datetime import datetime
+now = datetime.now()
+print(f"今天是 {now:%Y-%m-%d %H:%M}")  # 今天是 2026-06-22 10:30
+
+# 表达式
+print(f"2的10次方 = {2**10}")         # 2的10次方 = 1024
+print(f"{'小明'.upper()}")             # 小明→但中文无大写，英文有效
+```
+
+JS 对照：JS 模板字符串没有内置格式化能力，需要手动处理：
+
+```js
+const price = 19.9
+console.log(`价格：${price.toFixed(2)}`)    // 价格：19.90
+
+const bigNum = 1234567
+console.log(`人数：${bigNum.toLocaleString()}`)  // 人数：1,234,567
+
+const ratio = 0.856
+console.log(`通过率：${(ratio * 100).toFixed(1)}%`)  // 通过率：85.6%
+
+const name = '小明'
+console.log(`[${name.padEnd(10)}]`)   // [小明      ]
+```
+
+Python f-string 的格式化语法比 JS 模板字符串强大得多，不需要额外函数调用。
+
+### 字符串 count() 和 index() 方法
+
+前面对照表里只列了 `find()`，这里补充几个常用方法：
+
+```python
+text = "Python 是最好的语言，Python 很简单"
+
+# count()：统计子串出现次数
+print(text.count("Python"))     # 2
+
+# index()：查找位置，找不到报错 ValueError
+print(text.index("Python"))     # 0（第一次出现的位置）
+
+# rfind()：从右边查找
+print(text.rfind("Python"))     # 13（最后一次出现的位置）
+
+# rindex()：从右边查找，找不到报错
+print(text.rindex("Python"))    # 13
+```
+
+find vs index 区别：
+
+| 方法 | 找到时 | 找不到时 |
+| --- | --- | --- |
+| `find()` | 返回位置 | 返回 `-1` |
+| `index()` | 返回位置 | 报错 `ValueError` |
+| `rfind()` | 返回最后位置 | 返回 `-1` |
+| `rindex()` | 返回最后位置 | 报错 `ValueError` |
+
+企业项目推荐用 `find()`，因为不报错更安全。如果你确定子串一定存在，用 `index()` 更明确。
+
+JS 对照：
+
+```js
+const text = 'Python 是最好的语言，Python 很简单'
+console.log(text.indexOf('Python'))     // 0
+console.log(text.lastIndexOf('Python')) // 13
+```
+
 ## 十二、字符串方法对照总表
 
 这是整篇最核心的对照表，建议收藏：

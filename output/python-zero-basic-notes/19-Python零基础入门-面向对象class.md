@@ -1,5 +1,5 @@
 ---
-title: Python 零基础入门 17：面向对象 class
+title: Python 零基础入门 19：面向对象 class
 slug: python-zero-object-oriented-programming
 summary: 用小白能理解的方式解释类、对象、属性、方法、self、构造方法和继承，全程对照 JavaScript class。
 category:
@@ -8,7 +8,7 @@ status: draft
 cover:
 ---
 
-# Python 零基础入门 17：面向对象 class
+# Python 零基础入门 19：面向对象 class
 
 面向对象是很多新手听起来最害怕的概念。
 

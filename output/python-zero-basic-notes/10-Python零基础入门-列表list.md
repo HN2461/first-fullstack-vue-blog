@@ -409,7 +409,298 @@ const doubledEvens = nums.filter(n => n % 2 === 0).map(n => n * 2)
 
 列表推导式是 Python 最常用的特性之一，建议熟练掌握。
 
-## 十、列表和 JS 数组的核心差异
+## 十、浅拷贝与深拷贝
+
+### 列表赋值不是复制
+
+```python
+a = [1, 2, 3]
+b = a           # b 和 a 指向同一个列表！
+
+b[0] = 99
+print(a)        # [99, 2, 3] —— a 也被改了！
+```
+
+`b = a` 不是复制列表，而是让 `b` 也指向同一个列表。修改 `b` 会影响 `a`。
+
+JS 一样：
+
+```js
+const a = [1, 2, 3]
+const b = a        // 同一个数组
+b[0] = 99
+console.log(a)     // [99, 2, 3]
+```
+
+### 浅拷贝
+
+创建一个新列表，但里面的元素仍然是原来的引用：
+
+```python
+import copy
+
+a = [1, 2, 3]
+b = a.copy()              # 方法 1：list.copy()
+c = list(a)               # 方法 2：list() 构造
+d = a[:]                  # 方法 3：切片
+e = copy.copy(a)          # 方法 4：copy 模块
+
+b[0] = 99
+print(a)    # [1, 2, 3] —— a 没变，说明确实复制了
+```
+
+JS 对照：
+
+```js
+const a = [1, 2, 3]
+const b = [...a]          // 展开运算符
+const c = a.slice()       // slice()
+const d = Array.from(a)   // Array.from()
+```
+
+### 浅拷贝的问题：嵌套列表
+
+```python
+a = [[1, 2], [3, 4]]
+b = a.copy()              # 浅拷贝
+
+b[0][0] = 99
+print(a)    # [[99, 2], [3, 4]] —— a 也被改了！
+```
+
+浅拷贝只复制了第一层。嵌套的列表仍然是共享的。
+
+理解方式：
+
+```text
+浅拷贝后：
+a → [  指针1,   指针2  ]
+b → [  指针1,   指针2  ]    ← 外层列表不同，但内部指针相同
+         ↓        ↓
+      [1, 2]   [3, 4]       ← 内层列表是共享的
+```
+
+### 深拷贝
+
+完全复制所有层级：
+
+```python
+import copy
+
+a = [[1, 2], [3, 4]]
+b = copy.deepcopy(a)      # 深拷贝
+
+b[0][0] = 99
+print(a)    # [[1, 2], [3, 4]] —— a 没变
+print(b)    # [[99, 2], [3, 4]]
+```
+
+JS 对照：JS 没有内置深拷贝，常用方式：
+
+```js
+const a = [[1, 2], [3, 4]]
+
+// 方法 1：JSON（有限制，不支持函数/undefined/循环引用）
+const b = JSON.parse(JSON.stringify(a))
+
+// 方法 2：structuredClone（现代浏览器/Node.js 17+）
+const c = structuredClone(a)
+```
+
+### 拷贝对照表
+
+| 类型 | Python | JS | 嵌套安全 |
+| --- | --- | --- | --- |
+| 赋值 | `b = a` | `const b = a` | ❌ |
+| 浅拷贝 | `a.copy()` / `a[:]` | `[...a]` / `a.slice()` | ❌ |
+| 深拷贝 | `copy.deepcopy(a)` | `structuredClone(a)` | ✅ |
+
+**企业项目中，嵌套数据结构（如列表里放字典）修改前一定要确认是否需要深拷贝。**
+
+## 十一、排序进阶：key 参数
+
+基础排序只能排数字和字符串。实际项目里更常见的是按对象的某个字段排序。
+
+在讲排序之前，先认识一个新语法：**lambda（匿名函数）**。
+
+### 什么是 lambda
+
+`lambda` 就是"一次性小函数"，不需要用 `def` 定义，直接写在表达式里。
+
+```python
+# 普通函数
+def get_views(article):
+    return article["views"]
+
+# 等价的 lambda 写法
+get_views = lambda article: article["views"]
+```
+
+格式：
+
+```text
+lambda 参数: 返回值
+```
+
+你可以这样理解：
+
+```text
+lambda article: article["views"]
+       ↑ 参数      ↑ 返回值
+     输入什么    从输入里取什么
+```
+
+几个简单例子：
+
+```python
+# 取绝对值
+f = lambda x: abs(x)
+print(f(-5))         # 5
+
+# 取字典的某个键
+get_name = lambda user: user["name"]
+print(get_name({"name": "小明", "age": 18}))   # 小明
+
+# 两个参数相加
+add = lambda a, b: a + b
+print(add(3, 5))     # 8
+```
+
+**lambda 只能写单个表达式，不能写多行代码。** 如果逻辑复杂，还是用 `def` 定义普通函数。
+
+JS 对照：Python 的 lambda 等价于 JS 的箭头函数（单表达式版本）：
+
+```js
+// Python lambda
+// lambda article: article["views"]
+
+// JS 箭头函数
+const getViews = (article) => article.views
+const add = (a, b) => a + b
+```
+
+对照：
+
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 匿名函数 | `lambda x: x + 1` | `(x) => x + 1` |
+| 多参数 | `lambda a, b: a + b` | `(a, b) => a + b` |
+| 多行逻辑 | ❌ 不行，用 `def` | ✅ 可以用 `{}` |
+| 常见用途 | `sort(key=...)`、`map()`、`filter()` | `sort()`、`map()`、`filter()` |
+
+### key 参数怎么用
+
+`sort()` 的 `key` 参数接受一个函数，这个函数对每个元素执行一次，返回一个"比较值"，Python 按这个值排序。
+
+```text
+原列表：   [   文章A,    文章B,    文章C   ]
+key 函数：  ↓         ↓         ↓
+比较值：   [   128,      256,      64     ]
+排序结果：  文章C(64) → 文章A(128) → 文章B(256)   ← 按比较值从小到大
+```
+
+**不需要自己写比较逻辑，只需要告诉 Python "拿什么来比"。**
+
+### 按字段排序
+
+```python
+articles = [
+    {"title": "Python 入门", "views": 128},
+    {"title": "JS 基础", "views": 256},
+    {"title": "Vue 实战", "views": 64},
+]
+
+# 按浏览量排序
+articles.sort(key=lambda article: article["views"])
+print("按浏览量升序：")
+for a in articles:
+    print(f"  {a['title']}: {a['views']}")
+```
+
+输出：
+
+```text
+按浏览量升序：
+  Vue 实战: 64
+  Python 入门: 128
+  JS 基础: 256
+```
+
+### 降序
+
+```python
+# 方法 1：reverse=True
+articles.sort(key=lambda a: a["views"], reverse=True)
+
+# 方法 2：取负数（只适用于数字）
+articles.sort(key=lambda a: -a["views"])
+```
+
+### 按多个字段排序
+
+```python
+articles = [
+    {"title": "Python 入门", "views": 128, "status": "draft"},
+    {"title": "JS 基础", "views": 256, "status": "published"},
+    {"title": "Vue 实战", "views": 64, "status": "published"},
+    {"title": "CSS 技巧", "views": 128, "status": "draft"},
+]
+
+# 先按状态，再按浏览量降序
+articles.sort(key=lambda a: (a["status"], -a["views"]))
+
+for a in articles:
+    print(f"[{a['status']}] {a['title']}: {a['views']}")
+```
+
+输出：
+
+```text
+[draft] Python 入门: 128
+[draft] CSS 技巧: 128
+[published] JS 基础: 256
+[published] Vue 实战: 64
+```
+
+### 不区分大小写排序
+
+```python
+names = ["alice", "Bob", "charlie", "Alice"]
+
+# 默认排序：大写排在小写前面
+names.sort()
+print(names)   # ['Alice', 'Bob', 'alice', 'charlie']
+
+# 不区分大小写
+names.sort(key=str.lower)
+print(names)   # ['alice', 'Alice', 'Bob', 'charlie']
+```
+
+JS 对照：
+
+```js
+const articles = [
+  { title: 'Python 入门', views: 128 },
+  { title: 'JS 基础', views: 256 },
+  { title: 'Vue 实战', views: 64 },
+]
+
+// 按浏览量排序
+articles.sort((a, b) => a.views - b.views)
+
+// 降序
+articles.sort((a, b) => b.views - a.views)
+
+// 按多字段
+articles.sort((a, b) => {
+  if (a.status !== b.status) return a.status.localeCompare(b.status)
+  return b.views - a.views
+})
+```
+
+Python 的 `key=lambda` 比 JS 的 `(a, b) => a - b` 更直观——你只需要告诉 Python"用什么来比较"，不需要自己写比较逻辑。
+
+## 十二、列表和 JS 数组的核心差异
 
 | 差异 | Python 列表 | JS 数组 |
 | --- | --- | --- |

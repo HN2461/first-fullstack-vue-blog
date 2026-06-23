@@ -1,5 +1,5 @@
 ---
-title: Python 零基础入门 12：函数 function
+title: Python 零基础入门 14：函数 function
 slug: python-zero-functions
 summary: 解释函数为什么存在，讲解 def、参数、返回值、默认参数、关键字参数、作用域，全程对照 JavaScript。
 category:
@@ -8,7 +8,7 @@ status: draft
 cover:
 ---
 
-# Python 零基础入门 12：函数 function
+# Python 零基础入门 14：函数 function
 
 函数可以理解成：**给一段代码起名字，之后需要时直接调用。**
 
@@ -529,7 +529,190 @@ queryArticles({ status: 'draft', page: 2 })
 
 注意 Python 的关键字参数比 JS 的对象解构更简洁。
 
-## 十四、本篇练习
+## 十三、类型提示基础
+
+Python 是动态类型语言，变量不需要声明类型。但企业项目中，大型代码库没有类型信息很难维护。Python 3.5+ 引入了**类型提示（Type Hints）**，可以在函数签名中标注参数和返回值的类型。
+
+### 基本类型提示
+
+```python
+def greet(name: str) -> str:
+    return f"你好，{name}"
+
+def add(a: int, b: int) -> int:
+    return a + b
+
+def is_adult(age: int) -> bool:
+    return age >= 18
+```
+
+类型提示只是"提示"，Python 运行时**不会强制检查类型**：
+
+```python
+def add(a: int, b: int) -> int:
+    return a + b
+
+result = add("hello", " world")   # 不会报错！返回 "hello world"
+```
+
+类型提示的作用是让 IDE 和工具（如 mypy）帮你检查，而不是让 Python 运行时强制执行。
+
+### 复杂类型提示
+
+```python
+from typing import Optional, List, Dict, Union
+
+# Optional：可以是 None
+def find_user(user_id: int) -> Optional[str]:
+    if user_id == 1:
+        return "小明"
+    return None
+
+# List：列表类型
+def get_scores() -> List[int]:
+    return [90, 85, 78]
+
+# Dict：字典类型
+def get_config() -> Dict[str, str]:
+    return {"host": "localhost", "port": "3306"}
+
+# Union：多种类型之一
+def process(value: Union[str, int]) -> str:
+    return str(value)
+```
+
+Python 3.10+ 简化写法：
+
+```python
+# Optional[str] 等价于 str | None
+def find_user(user_id: int) -> str | None:
+    ...
+
+# List[int] 可以写 list[int]（3.9+）
+def get_scores() -> list[int]:
+    return [90, 85, 78]
+
+# Union[str, int] 等价于 str | int
+def process(value: str | int) -> str:
+    return str(value)
+```
+
+### 企业项目示例
+
+```python
+from typing import Optional
+
+def query_article(
+    article_id: int,
+    status: str = "published",
+    include_draft: bool = False,
+) -> Optional[dict]:
+    """
+    查询文章
+
+    Args:
+        article_id: 文章ID
+        status: 文章状态
+        include_draft: 是否包含草稿
+
+    Returns:
+        文章字典，找不到返回 None
+    """
+    # 模拟查询
+    if article_id == 1:
+        return {"id": 1, "title": "Python 入门", "status": status}
+    return None
+```
+
+JS 对照（TypeScript）：
+
+```typescript
+function queryArticle(
+  articleId: number,
+  status: string = 'published',
+  includeDraft: boolean = false,
+): Record<string, any> | null {
+  if (articleId === 1) {
+    return { id: 1, title: 'Python 入门', status }
+  }
+  return null
+}
+```
+
+对照：
+
+| 功能 | Python | TypeScript |
+| --- | --- | --- |
+| 参数类型 | `name: str` | `name: string` |
+| 返回类型 | `-> str` | `: string` |
+| 可选类型 | `Optional[str]` / `str \| None` | `string \| null` |
+| 列表类型 | `List[int]` / `list[int]` | `number[]` |
+| 字典类型 | `Dict[str, int]` | `Record<string, number>` |
+| 运行时检查 | ❌ 不强制 | ❌ 编译时擦除 |
+
+类型提示不是必须的，但企业项目**强烈推荐**使用。它让代码自文档化，IDE 提示更友好。
+
+## 十四、参数解包
+
+函数调用时，可以用 `*` 和 `**` 把列表/字典解包成参数。
+
+### * 解包列表/元组
+
+```python
+def add(a, b, c):
+    return a + b + c
+
+nums = [1, 2, 3]
+result = add(*nums)     # 等价于 add(1, 2, 3)
+
+print(result)           # 6
+```
+
+### ** 解包字典
+
+```python
+def create_user(name, age, city):
+    return f"{name}，{age}岁，{city}"
+
+info = {"name": "小明", "age": 18, "city": "北京"}
+result = create_user(**info)   # 等价于 create_user(name="小明", age=18, city="北京")
+
+print(result)   # 小明，18岁，北京
+```
+
+### 配置合并
+
+```python
+def connect_db(host, port, user, password, database):
+    print(f"连接 {host}:{port}/{database}")
+
+# 默认配置
+default = {"host": "localhost", "port": 3306, "user": "root"}
+# 用户配置覆盖
+user_config = {"password": "123456", "database": "blog", "port": 5432}
+
+# 合并后解包
+merged = {**default, **user_config}
+connect_db(**merged)
+# 连接 localhost:5432/blog
+```
+
+JS 对照：
+
+```js
+function connectDb({ host, port, user, password, database }) {
+  console.log(`连接 ${host}:${port}/${database}`)
+}
+
+const defaultConfig = { host: 'localhost', port: 3306, user: 'root' }
+const userConfig = { password: '123456', database: 'blog', port: 5432 }
+
+connectDb({ ...defaultConfig, ...userConfig })
+```
+
+Python 的 `**` 解包和 JS 的 `...` 展开运算符功能类似，但 Python 的 `**` 只能用于字典到关键字参数的映射。
+
+## 十五、本篇练习
 
 练习一：计算总价函数。
 

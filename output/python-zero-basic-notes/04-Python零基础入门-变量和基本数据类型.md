@@ -238,6 +238,122 @@ JS 也支持类似写法，但不常用：
 let x = 1, y = 2, z = 3
 ```
 
+### 解构赋值
+
+Python 支持把序列（列表、元组、字符串）里的值一次性赋给多个变量，这叫**解构赋值**。
+
+```python
+# 列表解构
+user = ["小明", 18, "北京"]
+name, age, city = user
+
+print(name)    # 小明
+print(age)     # 18
+print(city)    # 北京
+```
+
+```python
+# 元组解构
+point = (3, 4)
+x, y = point
+
+print(x)    # 3
+print(y)    # 4
+```
+
+```python
+# 字符串解构
+a, b, c = "ABC"
+print(a)    # A
+print(b)    # B
+print(c)    # C
+```
+
+**高频踩坑：变量数量必须和值数量一致**
+
+```python
+user = ["小明", 18, "北京"]
+name, age = user    # ValueError! 变量太少
+name, age, city, email = user  # ValueError! 变量太多
+```
+
+### * 收集剩余元素
+
+如果只想取前面几个，剩余的可以用 `*` 收集：
+
+```python
+scores = [90, 85, 78, 92, 88]
+first, second, *rest = scores
+
+print(first)    # 90
+print(second)   # 85
+print(rest)     # [78, 92, 88]（注意：rest 是列表）
+```
+
+`*` 只能出现一次，但可以放在不同位置：
+
+```python
+scores = [90, 85, 78, 92, 88]
+
+first, *middle, last = scores
+print(first)    # 90
+print(middle)   # [85, 78, 92]
+print(last)     # 88
+```
+
+### _ 忽略不需要的值
+
+```python
+user = ["小明", 18, "北京"]
+name, _, city = user    # 中间的年龄不关心
+
+print(name)    # 小明
+print(city)    # 北京
+```
+
+`_` 是 Python 社区约定用来表示"不关心的值"的变量名。
+
+### 交换变量
+
+Python 用解构赋值交换变量，不需要临时变量：
+
+```python
+a, b = 1, 2
+a, b = b, a    # 交换！
+
+print(a)   # 2
+print(b)   # 1
+```
+
+JS 对照（解构赋值）：
+
+```js
+// JS 用数组解构
+const user = ['小明', 18, '北京']
+const [name, age, city] = user
+
+// 收集剩余
+const [first, second, ...rest] = [90, 85, 78, 92, 88]
+
+// 忽略值
+const [a, , c] = [1, 2, 3]   // 用空位跳过
+
+// 交换
+let x = 1, y = 2;
+[x, y] = [y, x]
+```
+
+对照：
+
+| 功能 | Python | JS |
+| --- | --- | --- |
+| 列表解构 | `a, b, c = [1, 2, 3]` | `const [a, b, c] = [1, 2, 3]` |
+| 收集剩余 | `*rest` | `...rest` |
+| 忽略值 | `_` | 空位 `[, c]` |
+| 交换变量 | `a, b = b, a` | `[a, b] = [b, a]` |
+
+解构赋值在后面学列表、元组、字典、函数时都会反复用到，这里先建立基本概念。
+
 JS 对照：
 
 ```js

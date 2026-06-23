@@ -1,5 +1,5 @@
 ---
-title: Python 零基础入门 15：异常处理 try except
+title: Python 零基础入门 17：异常处理 try except
 slug: python-zero-exception-handling
 summary: 讲解程序为什么会报错，如何使用 try except 捕获异常，如何处理输入错误、文件不存在等常见问题，全程对照 JavaScript。
 category:
@@ -8,7 +8,7 @@ status: draft
 cover:
 ---
 
-# Python 零基础入门 15：异常处理 try except
+# Python 零基础入门 17：异常处理 try except
 
 程序运行时，可能会遇到各种问题。
 

@@ -1,5 +1,5 @@
 ---
-title: Python 零基础入门 13：文件读写
+title: Python 零基础入门 15：文件读写
 slug: python-zero-file-read-write
 summary: 介绍如何用 Python 写入文本文件、读取文本文件、追加内容、读写 JSON，以及为什么推荐使用 with 和 UTF-8 编码，全程对照 JavaScript。
 category:
@@ -8,7 +8,7 @@ status: draft
 cover:
 ---
 
-# Python 零基础入门 13：文件读写
+# Python 零基础入门 15：文件读写
 
 前面的数据运行结束后就没了。如果想把内容保存下来，可以写入文件。
 

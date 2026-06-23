@@ -1,5 +1,5 @@
 ---
-title: Python 零基础入门 18：常用标准库
+title: Python 零基础入门 20：常用标准库
 slug: python-zero-standard-library
 summary: 介绍 datetime、pathlib、json、random、os、logging、csv 等常用标准库，通过贴近日常工作的例子说明，全程对照 JavaScript。
 category:
@@ -8,7 +8,7 @@ status: draft
 cover:
 ---
 
-# Python 零基础入门 18：常用标准库
+# Python 零基础入门 20：常用标准库
 
 标准库是 Python 自带的工具箱。不需要额外安装，直接 `import` 就能用。
 

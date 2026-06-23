@@ -1,5 +1,5 @@
 ---
-title: Python 零基础入门 16：模块、包、pip 和虚拟环境
+title: Python 零基础入门 18：模块、包、pip 和虚拟环境
 slug: python-zero-modules-pip-venv
 summary: 讲解模块和包是什么，如何 import，如何使用 pip 安装第三方库，为什么企业项目常用虚拟环境，全程对照 JavaScript。
 category:
@@ -8,7 +8,7 @@ status: draft
 cover:
 ---
 
-# Python 零基础入门 16：模块、包、pip 和虚拟环境
+# Python 零基础入门 18：模块、包、pip 和虚拟环境
 
 写小脚本时，一个文件就够了。
 

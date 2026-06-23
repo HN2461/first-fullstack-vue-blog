@@ -1,5 +1,5 @@
 ---
-title: Python 零基础入门 11：字典 dict
+title: Python 零基础入门 13：字典 dict
 slug: python-zero-dictionaries
 summary: 用个人信息示例解释字典的键值对结构，讲解读取、修改、添加、删除、循环字典以及字典和列表的组合，全程对照 JavaScript 对象。
 category:
@@ -8,7 +8,7 @@ status: draft
 cover:
 ---
 
-# Python 零基础入门 11：字典 dict
+# Python 零基础入门 13：字典 dict
 
 字典用于保存"名称和值"的对应关系。
 
@@ -343,6 +343,125 @@ const userConfig = { port: 5432, debug: true }
 
 const merged = { ...defaultConfig, ...userConfig }
 ```
+
+### setdefault()：安全获取并设置默认值
+
+`setdefault()` 在键存在时返回值，不存在时设置默认值并返回：
+
+```python
+article = {"title": "Python 入门"}
+
+# 键不存在：设置默认值并返回
+tags = article.setdefault("tags", [])
+print(tags)           # []
+print(article)        # {'title': 'Python 入门', 'tags': []}
+
+# 键已存在：返回已有值，不修改
+title = article.setdefault("title", "无标题")
+print(title)          # Python 入门（不会改成"无标题"）
+```
+
+`setdefault()` 和 `get()` 的区别：
+
+| 方法 | 键存在时 | 键不存在时 |
+| --- | --- | --- |
+| `get(key, default)` | 返回值 | 返回默认值，**不修改字典** |
+| `setdefault(key, default)` | 返回值 | 设置默认值并返回，**会修改字典** |
+
+企业场景——分组数据：
+
+```python
+# 按分类分组文章
+articles = [
+    {"title": "Python 入门", "category": "Python"},
+    {"title": "JS 基础", "category": "JS"},
+    {"title": "Python 进阶", "category": "Python"},
+    {"title": "Vue 实战", "category": "Vue"},
+]
+
+# 用 setdefault 分组
+grouped = {}
+for article in articles:
+    category = article["category"]
+    grouped.setdefault(category, []).append(article["title"])
+
+print(grouped)
+# {'Python': ['Python 入门', 'Python 进阶'], 'JS': ['JS 基础'], 'Vue': ['Vue 实战']}
+```
+
+如果不用 `setdefault`，每次都要判断键是否存在：
+
+```python
+# 不用 setdefault 的写法（更啰嗦）
+grouped = {}
+for article in articles:
+    category = article["category"]
+    if category not in grouped:
+        grouped[category] = []
+    grouped[category].append(article["title"])
+```
+
+### defaultdict：自动初始化默认值
+
+`collections.defaultdict` 可以自动为不存在的键创建默认值，比 `setdefault` 更优雅：
+
+```python
+from collections import defaultdict
+
+# 创建一个 value 默认为列表的字典
+grouped = defaultdict(list)
+
+for article in articles:
+    grouped[article["category"]].append(article["title"])
+
+print(dict(grouped))
+# {'Python': ['Python 入门', 'Python 进阶'], 'JS': ['JS 基础'], 'Vue': ['Vue 实战']}
+```
+
+`defaultdict(list)` 表示：访问不存在的键时，自动创建一个空列表作为值。
+
+常用默认工厂：
+
+| 工厂 | 默认值 | 用途 |
+| --- | --- | --- |
+| `defaultdict(list)` | `[]` | 分组数据 |
+| `defaultdict(int)` | `0` | 计数统计 |
+| `defaultdict(str)` | `""` | 字符串拼接 |
+
+计数统计示例：
+
+```python
+from collections import defaultdict
+
+words = ["Python", "JS", "Python", "Vue", "JS", "Python"]
+counts = defaultdict(int)
+
+for word in words:
+    counts[word] += 1    # 不需要判断键是否存在
+
+print(dict(counts))    # {'Python': 3, 'JS': 2, 'Vue': 1}
+```
+
+JS 对照：JS 没有原生 `defaultdict`，通常需要手动判断：
+
+```js
+const counts = {}
+words.forEach(word => {
+  counts[word] = (counts[word] || 0) + 1
+})
+```
+
+或者用 `Map` + 空值处理：
+
+```js
+const grouped = new Map()
+articles.forEach(a => {
+  if (!grouped.has(a.category)) grouped.set(a.category, [])
+  grouped.get(a.category).push(a.title)
+})
+```
+
+Python 的 `defaultdict` 比手动判断简洁得多。
 
 ## 十、字典推导式
 
