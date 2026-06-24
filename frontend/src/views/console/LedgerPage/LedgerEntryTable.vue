@@ -81,6 +81,9 @@
           {{ formatMoney(record.amount) }}
         </strong>
       </template>
+      <template v-else-if="column.key === 'note'">
+        <span class="ledger-note-cell">{{ record.note || '-' }}</span>
+      </template>
       <template v-else-if="column.key === 'dailyNote'">
         <span class="ledger-muted ledger-note-cell">{{ record.dailyNote || '-' }}</span>
       </template>
@@ -91,10 +94,10 @@
         </a-space>
       </template>
       <template v-else-if="column.key === 'source'">
-        <span class="ledger-muted">{{ record.source === 'excel_import' ? 'Excel导入' : '手动' }}</span>
+        <span class="ledger-muted ledger-ellipsis-cell">{{ record.source === 'excel_import' ? 'Excel导入' : '手动' }}</span>
       </template>
       <template v-else-if="column.key === 'updatedAt'">
-        <span class="ledger-muted ledger-cell-center">{{ formatTime(record.updatedAt) }}</span>
+        <span class="ledger-muted ledger-cell-center ledger-ellipsis-cell">{{ formatTime(record.updatedAt) }}</span>
       </template>
       <template v-else-if="column.key === 'action'">
         <a-space size="small">
@@ -142,10 +145,10 @@ const filters = reactive({
 })
 
 const columns = [
-  { title: '日期', dataIndex: 'occurredAt', key: 'occurredAt', width: 140, align: 'center', sorter: true },
-  { title: '类型', key: 'type', width: 90, align: 'center' },
-  { title: '分类', key: 'category', width: 140, align: 'center' },
-  { title: '金额', dataIndex: 'amount', key: 'amount', width: 130, align: 'center', sorter: true },
+  { title: '日期', dataIndex: 'occurredAt', key: 'occurredAt', width: 140, align: 'center', fixed: 'left' },
+  { title: '类型', key: 'type', width: 90, align: 'center', fixed: 'left' },
+  { title: '分类', key: 'category', width: 140, align: 'center', fixed: 'left' },
+  { title: '金额', dataIndex: 'amount', key: 'amount', width: 130, align: 'center' },
   { title: '单笔备注', dataIndex: 'note', key: 'note', width: 200, align: 'center' },
   { title: '标签', key: 'tags', width: 160, align: 'center' },
   { title: '当日备注', key: 'dailyNote', width: 240, align: 'center' },
@@ -168,8 +171,6 @@ const categoryOptions = computed(() => [
   }))
 ])
 
-const sortState = reactive({ field: '', order: '' })
-
 const params = computed(() => ({
   bookId: props.bookId || undefined,
   from: props.range?.[0] || undefined,
@@ -177,23 +178,14 @@ const params = computed(() => ({
   type: filters.type || undefined,
   categoryId: filters.categoryId || undefined,
   keyword: filters.keyword.trim() || undefined,
-  tags: filters.tags?.length ? filters.tags : undefined,
-  sortField: sortState.field || undefined,
-  sortOrder: sortState.order || undefined
+  tags: filters.tags?.length ? filters.tags : undefined
 }))
 
 function loadEntries(query) {
   return listLedgerEntries(query)
 }
 
-function handleTableChange(pagination, filters, sorter) {
-  const field = sorter?.field || sorter?.columnKey
-  if (['occurredAt', 'amount'].includes(field)) {
-    sortState.field = field
-  } else {
-    sortState.field = ''
-  }
-  sortState.order = sorter.order === 'ascend' ? 'asc' : sorter.order === 'descend' ? 'desc' : ''
+function handleTableChange() {
   reload()
 }
 
@@ -269,7 +261,16 @@ defineExpose({ reload, refresh, clearSelection })
 
 .ledger-note-cell {
   display: inline-block;
-  max-width: 250px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.ledger-ellipsis-cell {
+  display: inline-block;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

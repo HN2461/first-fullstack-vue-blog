@@ -66,7 +66,7 @@
         <template v-else-if="column.key === 'title'">
           <div class="ledger-moment-title">
             <a-tag v-if="record.pinned" color="gold" :bordered="false">置顶</a-tag>
-            <strong>{{ record.title }}</strong>
+            <strong class="ledger-moment-title__text">{{ record.title }}</strong>
           </div>
         </template>
         <template v-else-if="column.key === 'tags'">
@@ -223,9 +223,9 @@ const scopeOptions = [
 ]
 
 const columns = [
-  { title: '日期', key: 'occurredAt', width: 130, align: 'center' },
-  { title: '范围', key: 'scope', width: 100, align: 'center' },
-  { title: '标题', key: 'title', width: 220, align: 'left' },
+  { title: '日期', key: 'occurredAt', width: 130, align: 'center', fixed: 'left' },
+  { title: '范围', key: 'scope', width: 100, align: 'center', fixed: 'left' },
+  { title: '标题', key: 'title', width: 220, align: 'left', fixed: 'left' },
   { title: '金额', key: 'amount', width: 130, align: 'center' },
   { title: '相关分类', key: 'category', width: 160, align: 'center' },
   { title: '心情', dataIndex: 'mood', key: 'mood', width: 130, align: 'center' },
@@ -386,10 +386,13 @@ watch(viewMode, (mode) => {
   justify-content: flex-start;
   gap: 6px;
   max-width: 200px;
+  min-width: 0;
 }
 
-.ledger-moment-title strong,
+.ledger-moment-title__text,
 .ledger-moment-content {
+  display: inline-block;
+  max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

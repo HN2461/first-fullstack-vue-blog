@@ -34,8 +34,9 @@
         </template>
         <template v-else-if="column.key?.startsWith('category:')">
           <a-tooltip v-if="getCategoryNote(record, column.categoryId)" :title="getCategoryNote(record, column.categoryId)">
-            <span :class="amountClass(column.categoryType)">
+            <span :class="[amountClass(column.categoryType), 'ledger-amount-with-note']">
               {{ formatOptionalMoney(record.categoryAmounts?.[column.categoryId]) }}
+              <span class="ledger-note-indicator" />
             </span>
           </a-tooltip>
           <span v-else :class="amountClass(column.categoryType)">
@@ -104,7 +105,7 @@ const cardPageSize = ref(31)
 
 const visibleCategories = computed(() => props.categories.filter((item) => !item.archived))
 const columns = computed(() => [
-  { title: '日期', key: 'date', width: 130, align: 'center' },
+  { title: '日期', key: 'date', width: 130, align: 'center', fixed: 'left' },
   ...visibleCategories.value.map((item) => ({
     title: item.name,
     key: `category:${item.id}`,
@@ -137,11 +138,12 @@ async function loadDaily() {
     return { items: [], total: 0, page: 1, pageSize: 50 }
   }
   const result = await getLedgerDaily(params.value)
+  const items = [...(result.items || [])].sort((a, b) => new Date(b.date) - new Date(a.date))
   return {
-    items: result.items || [],
-    total: result.items?.length || 0,
+    items,
+    total: items.length,
     page: 1,
-    pageSize: result.items?.length || 50
+    pageSize: items.length || 50
   }
 }
 
@@ -151,7 +153,7 @@ async function loadCardData() {
     return
   }
   const result = await getLedgerDaily(params.value)
-  allCardItems.value = result.items || []
+  allCardItems.value = [...(result.items || [])].sort((a, b) => new Date(b.date) - new Date(a.date))
   cardPage.value = 1
 }
 
@@ -245,5 +247,22 @@ watch(viewMode, (mode) => {
 
 .amount-expense {
   color: var(--color-error, #dc2626);
+}
+
+.ledger-amount-with-note {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+
+.ledger-note-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.8;
+  flex-shrink: 0;
 }
 </style>

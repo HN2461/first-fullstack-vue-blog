@@ -21,8 +21,10 @@
             :key="cat.id"
             class="ledger-day-cat-tag"
             :style="{ borderColor: cat.color, color: cat.color }"
+            :title="cat.note || ''"
           >
             {{ cat.name }} {{ formatMoney(cat.amount) }}
+            <span v-if="cat.note" class="ledger-day-cat-tag__marker" />
           </span>
         </div>
 
@@ -169,6 +171,16 @@ watch(() => props.items, () => {
   border-radius: 4px;
   font-size: 12px;
   background: transparent;
+  gap: 4px;
+}
+
+.ledger-day-cat-tag__marker {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.8;
+  flex-shrink: 0;
 }
 
 .ledger-day-card__note {

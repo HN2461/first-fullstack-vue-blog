@@ -1,9 +1,9 @@
-$ErrorActionPreference = 'Stop'
-
 param(
   [switch]$SkipChecks,
   [switch]$SkipPackage
 )
+
+$ErrorActionPreference = 'Stop'
 
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
 $localConfig = Join-Path $PSScriptRoot 'deploy.local.ps1'
