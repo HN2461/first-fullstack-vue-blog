@@ -184,7 +184,7 @@ finally:
 
 Invoke-Step -Title '公网健康检查' -Action {
   $health = Invoke-WebRequest -Uri "http://$($env:DEPLOY_HOST)/api/health" -UseBasicParsing -TimeoutSec 20
-  $home = Invoke-WebRequest -Uri "http://$($env:DEPLOY_HOST)/" -UseBasicParsing -TimeoutSec 20
+  $homeResponse = Invoke-WebRequest -Uri "http://$($env:DEPLOY_HOST)/" -UseBasicParsing -TimeoutSec 20
   Write-Host $health.Content
-  Write-Host "HOME_STATUS=$($home.StatusCode)"
+  Write-Host "HOME_STATUS=$($homeResponse.StatusCode)"
 }
