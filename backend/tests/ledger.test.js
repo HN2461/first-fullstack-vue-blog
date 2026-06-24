@@ -220,6 +220,13 @@ describe('ledger routes', () => {
       })
       .expect(201)
 
+    const sortedByAmountResponse = await request(app)
+      .get('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, sortField: 'amount', sortOrder: 'asc' })
+      .expect(200)
+    expect(sortedByAmountResponse.body.data.items.map((item) => item.amount)).toEqual([10, 100])
+
     const response = await request(app)
       .get('/api/ledger/summary')
       .set('Authorization', `Bearer ${token}`)
@@ -234,9 +241,27 @@ describe('ledger routes', () => {
       maxDailyExpense: 10
     })
     expect(response.body.data.byCategory[0]).toMatchObject({ name: '早餐', amount: 10 })
+    expect(response.body.data.byIncomeCategory[0]).toMatchObject({ name: '工资', amount: 100 })
     expect(response.body.data.byDay[0]).toMatchObject({ date: '2026-06-01', expense: 10, income: 100 })
     expect(response.body.data.byMonth[0]).toMatchObject({ month: '2026-06', balance: 90 })
     expect(response.body.data.calendar[0]).toEqual(['2026-06-01', 10])
+
+    const incomeResponse = await request(app)
+      .get('/api/ledger/summary')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, type: 'income' })
+      .expect(200)
+    expect(incomeResponse.body.data.overview).toMatchObject({ income: 100, expense: 0, balance: 100 })
+    expect(incomeResponse.body.data.byIncomeCategory[0]).toMatchObject({ name: '工资', amount: 100 })
+
+    const breakfastResponse = await request(app)
+      .get('/api/ledger/summary')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, categoryId: breakfast.id })
+      .expect(200)
+    expect(breakfastResponse.body.data.overview).toMatchObject({ income: 0, expense: 10, balance: -10 })
+    expect(breakfastResponse.body.data.byCategory).toHaveLength(1)
+    expect(breakfastResponse.body.data.byCategory[0]).toMatchObject({ name: '早餐', amount: 10 })
 
     const yearResponse = await request(app)
       .get('/api/ledger/summary')
@@ -252,6 +277,24 @@ describe('ledger routes', () => {
       .expect(200)
     expect(dailyResponse.body.data.items[0].dailyNote).toBe('当天总结')
     expect(dailyResponse.body.data.items[0].categoryAmounts[breakfast.id]).toBe(10)
+
+    const dailyIncomeResponse = await request(app)
+      .get('/api/ledger/daily')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, type: 'income', categoryId: salary.id })
+      .expect(200)
+    expect(dailyIncomeResponse.body.data.items[0].expense).toBe(0)
+    expect(dailyIncomeResponse.body.data.items[0].income).toBe(100)
+    expect(dailyIncomeResponse.body.data.items[0].categoryAmounts[salary.id]).toBe(100)
+    expect(dailyIncomeResponse.body.data.items[0].categoryAmounts[breakfast.id]).toBeUndefined()
+
+    const insightResponse = await request(app)
+      .get('/api/ledger/insights')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, categoryId: breakfast.id, from: '2026-06-01', to: '2026-06-30' })
+      .expect(200)
+    expect(insightResponse.body.data.totalExpense).toBe(10)
+    expect(insightResponse.body.data.mealExpense).toBe(10)
   })
 
   it('batch updates only owned ledger entries', async () => {
@@ -330,6 +373,12 @@ describe('ledger routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
     const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const breakfast = categoriesResponse.body.data.find((item) => item.name === '早餐')
 
     const created = await request(app)
       .post('/api/ledger/moments')
@@ -340,9 +389,11 @@ describe('ledger routes', () => {
         scope: 'month',
         occurredAt: '2026-06-01',
         amount: 1888,
+        categoryId: breakfast.id,
+        categoryText: '家庭事项',
         mood: '值得记住',
         content: '这笔钱很有意义，之后想回头看看。',
-        tags: ['生活', '纪念'],
+        tags: ['生活', ' ', '纪念', '生活'],
         pinned: true
       })
       .expect(201)
@@ -351,6 +402,8 @@ describe('ledger routes', () => {
       title: '第一次大额支出',
       scope: 'month',
       amount: 1888,
+      categoryText: '家庭事项',
+      tags: ['生活', '纪念'],
       pinned: true
     })
 
@@ -362,11 +415,32 @@ describe('ledger routes', () => {
 
     expect(listResponse.body.data.items).toHaveLength(1)
 
+    const categoryListResponse = await request(app)
+      .get('/api/ledger/moments')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, categoryId: breakfast.id })
+      .expect(200)
+
+    expect(categoryListResponse.body.data.items).toHaveLength(1)
+    expect(categoryListResponse.body.data.items[0].category).toMatchObject({ name: '早餐' })
+
     await request(app)
       .patch(`/api/ledger/moments/${created.body.data.id}`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ title: '六月大额支出' })
+      .send({ title: '六月大额支出', categoryId: null, categoryText: '阶段目标' })
       .expect(200)
+
+    const updatedListResponse = await request(app)
+      .get('/api/ledger/moments')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, keyword: '阶段目标' })
+      .expect(200)
+
+    expect(updatedListResponse.body.data.items[0]).toMatchObject({
+      title: '六月大额支出',
+      categoryId: null,
+      categoryText: '阶段目标'
+    })
 
     const other = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
       username: 'other-moment-user',

@@ -42,6 +42,12 @@ const ledgerMomentSchema = new mongoose.Schema(
       ref: 'LedgerCategory',
       default: null
     },
+    categoryText: {
+      type: String,
+      default: '',
+      trim: true,
+      maxlength: 40
+    },
     entryId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'LedgerEntry',
@@ -91,6 +97,7 @@ ledgerMomentSchema.methods.toSafeJSON = function toSafeJSON() {
     occurredAt: this.occurredAt,
     amount: this.amount,
     categoryId: category?.id || this.categoryId?.toString?.() || null,
+    categoryText: this.categoryText || '',
     category,
     entryId: this.entryId?.toString?.() || null,
     mood: this.mood,

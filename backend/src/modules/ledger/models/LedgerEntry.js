@@ -56,6 +56,14 @@ const ledgerEntrySchema = new mongoose.Schema(
       trim: true,
       maxlength: 1000
     },
+    tags: {
+      type: [String],
+      default: [],
+      validate: {
+        validator(v) { return v.length <= 12 },
+        message: '最多 12 个标签'
+      }
+    },
     source: {
       type: String,
       enum: LEDGER_ENTRY_SOURCES,
@@ -103,6 +111,7 @@ ledgerEntrySchema.methods.toSafeJSON = function toSafeJSON() {
     amount: this.amount,
     note: this.note,
     dailyNote: this.dailyNote,
+    tags: this.tags || [],
     source: this.source,
     sourceKey: this.sourceKey,
     importBatchId: this.importBatchId?.toString?.() || null,

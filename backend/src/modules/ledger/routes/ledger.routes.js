@@ -23,6 +23,7 @@ import {
 } from '#modules/ledger/services/ledgerEntry.service.js'
 import {
   getLedgerDailyMatrix,
+  getLedgerInsights,
   getLedgerSummary
 } from '#modules/ledger/services/ledgerSummary.service.js'
 import {
@@ -48,6 +49,7 @@ import {
   ledgerEntryUpdateSchema,
   ledgerImportPreviewSchema,
   ledgerImportQuerySchema,
+  ledgerInsightsQuerySchema,
   ledgerMomentCreateSchema,
   ledgerMomentQuerySchema,
   ledgerMomentUpdateSchema,
@@ -150,6 +152,11 @@ ledgerRouter.delete('/entries/:id', canAccessLedgerEntries, asyncHandler(async (
 ledgerRouter.get('/summary', canAccessLedgerOverview, asyncHandler(async (req, res) => {
   const input = parseBody(ledgerSummaryQuerySchema, req.query)
   res.json(ok(await getLedgerSummary(req.user._id, input)))
+}))
+
+ledgerRouter.get('/insights', canAccessLedgerOverview, asyncHandler(async (req, res) => {
+  const input = parseBody(ledgerInsightsQuerySchema, req.query)
+  res.json(ok(await getLedgerInsights(req.user._id, input)))
 }))
 
 ledgerRouter.get('/daily', canAccessLedgerDaily, asyncHandler(async (req, res) => {

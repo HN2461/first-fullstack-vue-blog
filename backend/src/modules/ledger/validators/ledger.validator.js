@@ -44,7 +44,8 @@ export const ledgerEntryCreateSchema = z.object({
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确'),
   amount: z.coerce.number().positive('金额必须大于 0').max(999999999, '金额过大'),
   note: z.string().trim().max(500, '备注不能超过 500 个字符').optional().default(''),
-  dailyNote: z.string().trim().max(1000, '当日备注不能超过 1000 个字符').optional().default('')
+  dailyNote: z.string().trim().max(1000, '当日备注不能超过 1000 个字符').optional().default(''),
+  tags: z.array(z.string().trim().max(24, '标签不能超过 24 个字符')).max(12, '最多 12 个标签').optional().default([])
 }).strict('存在不支持的流水字段')
 
 export const ledgerEntryUpdateSchema = ledgerEntryCreateSchema
@@ -59,6 +60,7 @@ export const ledgerEntryQuerySchema = z.object({
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
   keyword: z.string().trim().max(80).optional(),
+  tags: z.array(z.string().trim().max(24)).max(12).optional(),
   sortField: z.enum(['occurredAt', 'amount', 'updatedAt']).optional(),
   sortOrder: z.enum(['asc', 'desc']).optional(),
   page: z.coerce.number().int().min(1).optional(),
@@ -72,7 +74,8 @@ export const ledgerEntryBatchUpdateSchema = z.object({
     type: z.enum(LEDGER_ENTRY_TYPES).optional(),
     categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
     note: z.string().trim().max(500, '备注不能超过 500 个字符').optional(),
-    dailyNote: z.string().trim().max(1000, '当日备注不能超过 1000 个字符').optional()
+    dailyNote: z.string().trim().max(1000, '当日备注不能超过 1000 个字符').optional(),
+    tags: z.array(z.string().trim().max(24, '标签不能超过 24 个字符')).max(12, '最多 12 个标签').optional()
   }).strict('存在不支持的批量修改字段')
     .refine((value) => Object.keys(value).length > 0, '请填写要修改的内容')
 }).strict('存在不支持的批量修改字段')
@@ -81,13 +84,25 @@ export const ledgerSummaryQuerySchema = z.object({
   bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
+  type: z.enum(LEDGER_ENTRY_TYPES).optional(),
+  categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
   groupBy: z.enum(['day', 'month', 'year', 'all']).optional().default('month')
+})
+
+export const ledgerInsightsQuerySchema = z.object({
+  bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
+  from: z.coerce.date().optional(),
+  to: z.coerce.date().optional(),
+  type: z.enum(LEDGER_ENTRY_TYPES).optional(),
+  categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional()
 })
 
 export const ledgerDailyQuerySchema = z.object({
   bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
   from: z.coerce.date().optional(),
-  to: z.coerce.date().optional()
+  to: z.coerce.date().optional(),
+  type: z.enum(LEDGER_ENTRY_TYPES).optional(),
+  categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional()
 })
 
 export const ledgerImportPreviewSchema = z.object({
@@ -107,6 +122,7 @@ export const ledgerMomentCreateSchema = z.object({
   occurredAt: z.coerce.date({ invalid_type_error: '记录日期不正确' }),
   amount: z.coerce.number().min(0, '金额不能小于 0').max(999999999, '金额过大').optional().default(0),
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').nullable().optional(),
+  categoryText: z.string().trim().max(40, '自定义分类不能超过 40 个字符').optional().default(''),
   entryId: z.string().regex(objectIdPattern, '流水 id 不正确').nullable().optional(),
   mood: z.string().trim().max(40, '心情不能超过 40 个字符').optional().default(''),
   content: z.string().trim().max(2000, '记录内容不能超过 2000 个字符').optional().default(''),
@@ -122,6 +138,7 @@ export const ledgerMomentUpdateSchema = ledgerMomentCreateSchema
 export const ledgerMomentQuerySchema = z.object({
   bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
   scope: z.enum(LEDGER_MOMENT_SCOPES).optional(),
+  categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   keyword: z.string().trim().max(80).optional(),

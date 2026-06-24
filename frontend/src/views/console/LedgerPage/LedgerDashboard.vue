@@ -2,80 +2,80 @@
   <section class="ledger-dashboard">
     <a-skeleton v-if="loading" active :paragraph="{ rows: 8 }" />
     <template v-else>
-      <!-- 核心指标卡 -->
       <div class="ledger-metrics">
-        <div class="ledger-metric ledger-metric--income">
+        <div v-for="item in metricCards" :key="item.key" :class="['ledger-metric', `ledger-metric--${item.tone}`]">
           <div class="ledger-metric__icon">
-            <TrendingUp :size="18" />
+            <component :is="item.icon" :size="20" />
           </div>
           <div class="ledger-metric__body">
-            <span>收入</span>
-            <strong>{{ formatMoney(overview.income) }}</strong>
-          </div>
-        </div>
-        <div class="ledger-metric ledger-metric--expense">
-          <div class="ledger-metric__icon">
-            <TrendingDown :size="18" />
-          </div>
-          <div class="ledger-metric__body">
-            <span>支出</span>
-            <strong>{{ formatMoney(overview.expense) }}</strong>
-          </div>
-        </div>
-        <div class="ledger-metric" :class="overview.balance >= 0 ? 'ledger-metric--positive' : 'ledger-metric--negative'">
-          <div class="ledger-metric__icon">
-            <Wallet :size="18" />
-          </div>
-          <div class="ledger-metric__body">
-            <span>结余</span>
-            <strong>{{ formatMoney(overview.balance) }}</strong>
+            <span class="ledger-metric__label">{{ item.label }}</span>
+            <strong class="ledger-metric__value">{{ formatMoney(item.value) }}</strong>
+            <div v-if="prev" class="ledger-metric__change" :class="changeClass(item.rate, item.key === 'expense')">
+              <span>{{ changeArrow(item.rate) }}</span>
+              <span>{{ Math.abs(item.rate) }}% vs 上期</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 次要统计行 -->
       <div class="ledger-stats">
-        <span class="ledger-stat">
-          <small>日均支出</small>
-          <em>{{ formatMoney(overview.averageDailyExpense) }}</em>
-        </span>
-        <span class="ledger-stat">
-          <small>最大单日</small>
-          <em>{{ formatMoney(overview.maxDailyExpense) }}</em>
-        </span>
-        <span class="ledger-stat">
-          <small>支出笔数</small>
-          <em>{{ expenseCount }}</em>
-        </span>
-        <span class="ledger-stat">
-          <small>收入笔数</small>
-          <em>{{ incomeCount }}</em>
-        </span>
+        <div v-for="item in statCards" :key="item.label" class="ledger-stat-card">
+          <span class="ledger-stat-card__label">{{ item.label }}</span>
+          <span class="ledger-stat-card__value">{{ item.value }}</span>
+        </div>
       </div>
 
-      <!-- 趋势图 -->
       <div class="ledger-chart ledger-chart--wide">
         <div class="ledger-chart__head">
-          <span>{{ trendTitle }}</span>
+          <div class="ledger-chart__title">
+            <span>{{ trendTitle }}</span>
+          </div>
+          <div class="ledger-chart__controls">
+            <a-tooltip title="切换趋势图展示的收支指标">
+              <a-radio-group v-model:value="trendMetric" size="small">
+                <a-radio-button value="all">收支</a-radio-button>
+                <a-radio-button value="expense">支出</a-radio-button>
+                <a-radio-button value="income">收入</a-radio-button>
+                <a-radio-button value="balance">结余</a-radio-button>
+              </a-radio-group>
+            </a-tooltip>
+            <a-tooltip title="切换趋势图的图形样式">
+              <a-radio-group v-model:value="trendView" size="small">
+                <a-radio-button value="line">折线</a-radio-button>
+                <a-radio-button value="bar">柱状</a-radio-button>
+              </a-radio-group>
+            </a-tooltip>
+          </div>
         </div>
         <VChart class="ledger-chart__canvas" :option="trendOption" autoresize />
       </div>
 
-      <!-- 分类占比 + 每日支出 -->
       <div class="ledger-chart-row">
         <div class="ledger-chart">
           <div class="ledger-chart__head">
-            <span>支出分类</span>
-            <small class="ledger-chart__sub">TOP {{ categoryRows.length }}</small>
+            <div class="ledger-chart__title">
+              <span>分类构成</span>
+              <small>TOP {{ categoryRows.length }}</small>
+            </div>
+            <div class="ledger-chart__controls">
+              <a-tooltip title="切换支出或收入分类构成">
+                <a-radio-group v-model:value="categoryType" size="small">
+                  <a-radio-button value="expense">支出</a-radio-button>
+                  <a-radio-button value="income">收入</a-radio-button>
+                </a-radio-group>
+              </a-tooltip>
+              <a-tooltip title="切换分类占比或排行视图">
+                <a-radio-group v-model:value="categoryView" size="small">
+                  <a-radio-button value="pie">环形</a-radio-button>
+                  <a-radio-button value="bar">排行</a-radio-button>
+                </a-radio-group>
+              </a-tooltip>
+            </div>
           </div>
-          <VChart class="ledger-chart__canvas" :option="categoryOption" autoresize />
-          <!-- 分类排行列表 -->
+          <VChart v-if="categoryChartOption" class="ledger-chart__canvas" :option="categoryChartOption" autoresize />
+          <div v-else class="ledger-chart__empty">暂无分类数据</div>
           <div class="ledger-category-list">
-            <div
-              v-for="item in categoryRows"
-              :key="item.name"
-              class="ledger-category-rank"
-            >
+            <div v-for="item in categoryRows" :key="item.categoryId || item.name" class="ledger-category-rank">
               <span class="ledger-category-dot" :style="{ background: item.color }" />
               <span class="ledger-category-name">{{ item.name }}</span>
               <span class="ledger-category-bar-wrap">
@@ -89,39 +89,29 @@
 
         <div class="ledger-chart">
           <div class="ledger-chart__head">
-            <span>每日支出</span>
-            <small class="ledger-chart__sub">{{ dailyRows.length }} 天</small>
+            <div class="ledger-chart__title">
+              <span>每日走势</span>
+              <small>{{ dailyRows.length }} 天</small>
+            </div>
+            <div class="ledger-chart__controls">
+              <a-tooltip title="切换每日走势统计指标">
+                <a-radio-group v-model:value="dailyMetric" size="small">
+                  <a-radio-button value="expense">支出</a-radio-button>
+                  <a-radio-button value="income">收入</a-radio-button>
+                  <a-radio-button value="balance">结余</a-radio-button>
+                </a-radio-group>
+              </a-tooltip>
+              <a-tooltip title="切换每日走势的图形样式">
+                <a-radio-group v-model:value="dailyView" size="small">
+                  <a-radio-button value="bar">柱状</a-radio-button>
+                  <a-radio-button value="line">折线</a-radio-button>
+                </a-radio-group>
+              </a-tooltip>
+            </div>
           </div>
           <VChart class="ledger-chart__canvas" :option="dailyOption" autoresize />
         </div>
       </div>
-
-      <!-- 更多图表（折叠） -->
-      <a-collapse v-model:activeKey="extraChartsOpen" :bordered="false" class="ledger-extra-collapse">
-        <a-collapse-panel key="extra" :show-arrow="false">
-          <template #header>
-            <span class="ledger-extra-toggle">
-              <ChevronDown :size="14" :class="{ 'is-open': extraChartsOpen.includes('extra') }" />
-              更多图表
-            </span>
-          </template>
-          <div class="ledger-chart-row">
-            <div class="ledger-chart">
-              <div class="ledger-chart__head">
-                <span>餐饮趋势</span>
-              </div>
-              <VChart class="ledger-chart__canvas" :option="mealOption" autoresize />
-            </div>
-            <div class="ledger-chart">
-              <div class="ledger-chart__head">
-                <span>年度支出热力</span>
-                <small class="ledger-chart__sub">{{ calendarYear }}</small>
-              </div>
-              <VChart class="ledger-chart__canvas ledger-chart__canvas--calendar" :option="calendarOption" autoresize />
-            </div>
-          </div>
-        </a-collapse-panel>
-      </a-collapse>
     </template>
   </section>
 </template>
@@ -130,31 +120,20 @@
 import { computed, ref } from 'vue'
 import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
-import { BarChart, HeatmapChart, LineChart, PieChart } from 'echarts/charts'
-import { CalendarComponent, GridComponent, LegendComponent, TooltipComponent, VisualMapComponent } from 'echarts/components'
+import { BarChart, LineChart, PieChart } from 'echarts/charts'
+import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components'
 import VChart from 'vue-echarts'
-import { ChevronDown, TrendingDown, TrendingUp, Wallet } from 'lucide-vue-next'
+import { TrendingDown, TrendingUp, Wallet } from 'lucide-vue-next'
 import {
-  buildCalendarOption,
+  buildCategoryBarOption,
   buildCategoryOption,
   buildDailyOption,
-  buildMealOption,
-  buildTrendOption,
-  formatMoney
-} from './ledgerChartOptions'
+  buildIncomeCategoryOption,
+  buildTrendOption
+} from './ledgerChartBuilders'
+import { formatMoney } from './ledgerChartOptions'
 
-use([
-  CanvasRenderer,
-  BarChart,
-  HeatmapChart,
-  LineChart,
-  PieChart,
-  CalendarComponent,
-  GridComponent,
-  LegendComponent,
-  TooltipComponent,
-  VisualMapComponent
-])
+use([CanvasRenderer, BarChart, LineChart, PieChart, GridComponent, LegendComponent, TooltipComponent])
 
 const props = defineProps({
   summary: { type: Object, default: () => ({}) },
@@ -162,82 +141,93 @@ const props = defineProps({
   loading: { type: Boolean, default: false }
 })
 
-const extraChartsOpen = ref([])
+const trendMetric = ref('all')
+const trendView = ref('line')
+const categoryType = ref('expense')
+const categoryView = ref('pie')
+const dailyMetric = ref('expense')
+const dailyView = ref('bar')
 
 const overview = computed(() => props.summary.overview || {})
-const trendOption = computed(() => buildTrendOption(props.summary))
-const categoryOption = computed(() => buildCategoryOption(props.summary))
-const dailyOption = computed(() => buildDailyOption(props.summary))
-const mealOption = computed(() => buildMealOption(props.summary))
-const calendarOption = computed(() => buildCalendarOption(props.summary))
-const calendarYear = computed(() => {
-  const dates = props.summary.calendar || []
-  return dates[0]?.[0]?.slice(0, 4) || String(new Date().getFullYear())
-})
-
-const categoryRows = computed(() => {
-  const rows = props.summary.byCategory || []
-  const total = rows.reduce((s, r) => s + r.amount, 0) || 1
-  return rows.slice(0, 8).map((r) => ({
-    ...r,
-    percent: Math.round((r.amount / total) * 100)
-  }))
-})
-
+const prev = computed(() => props.summary.previousPeriod || null)
 const dailyRows = computed(() => props.summary.byDay || [])
 
-const expenseCount = computed(() => {
-  const days = props.summary.byDay || []
-  return days.reduce((s, d) => s + (d.expense > 0 ? 1 : 0), 0)
-})
+const metricCards = computed(() => [
+  { key: 'income', label: '收入', value: overview.value.income, rate: prev.value?.changeRate?.income || 0, tone: 'income', icon: TrendingUp },
+  { key: 'expense', label: '支出', value: overview.value.expense, rate: prev.value?.changeRate?.expense || 0, tone: 'expense', icon: TrendingDown },
+  { key: 'balance', label: '结余', value: overview.value.balance, rate: prev.value?.changeRate?.balance || 0, tone: overview.value.balance >= 0 ? 'positive' : 'negative', icon: Wallet }
+])
 
-const incomeCount = computed(() => {
-  const days = props.summary.byDay || []
-  return days.reduce((s, d) => s + (d.income > 0 ? 1 : 0), 0)
-})
+const statCards = computed(() => [
+  { label: '日均支出', value: formatMoney(overview.value.averageDailyExpense) },
+  { label: '最大单日', value: formatMoney(overview.value.maxDailyExpense) },
+  { label: '支出天数', value: dailyRows.value.reduce((s, d) => s + (d.expense > 0 ? 1 : 0), 0) },
+  { label: '收入天数', value: dailyRows.value.reduce((s, d) => s + (d.income > 0 ? 1 : 0), 0) }
+])
 
-const trendTitle = computed(() => {
-  const map = {
-    day: '每日收支趋势',
-    month: '月度收支趋势',
-    year: '年度收支趋势',
-    all: '总收支概览'
-  }
-  return map[props.groupBy] || '收支趋势'
+const trendOption = computed(() => buildTrendOption(props.summary, { metricMode: trendMetric.value, view: trendView.value }))
+const dailyOption = computed(() => buildDailyOption(props.summary, { metric: dailyMetric.value, view: dailyView.value }))
+const currentCategorySource = computed(() => categoryType.value === 'income' ? props.summary.byIncomeCategory || [] : props.summary.byCategory || [])
+const categoryRows = computed(() => {
+  const total = currentCategorySource.value.reduce((s, r) => s + r.amount, 0) || 1
+  return currentCategorySource.value.slice(0, 8).map((r) => ({ ...r, percent: Math.round((r.amount / total) * 100) }))
 })
+const categoryChartOption = computed(() => {
+  if (categoryView.value === 'bar') return buildCategoryBarOption(categoryRows.value, categoryType.value === 'income' ? '收入分类' : '支出分类')
+  return categoryType.value === 'income' ? buildIncomeCategoryOption(props.summary) : buildCategoryOption(props.summary)
+})
+const trendTitle = computed(() => ({ day: '每日收支趋势', month: '月度收支趋势', year: '年度收支趋势', all: '总收支概览' }[props.groupBy] || '收支趋势'))
+
+function changeArrow(rate) {
+  return rate > 0 ? '↑' : rate < 0 ? '↓' : '→'
+}
+
+function changeClass(rate, invertForExpense = false) {
+  if (rate === 0) return 'change-neutral'
+  const positive = rate > 0
+  if (invertForExpense) return positive ? 'change-bad' : 'change-good'
+  return positive ? 'change-good' : 'change-bad'
+}
 </script>
 
 <style scoped>
 .ledger-dashboard { display: grid; gap: 12px; }
 .ledger-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-
-.ledger-metric { display: flex; align-items: center; gap: 12px; border: 1px solid var(--console-border); border-radius: 8px; padding: 14px 16px; background: var(--console-surface); }
-.ledger-metric__icon { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 8px; flex-shrink: 0; }
-
+.ledger-metric { display: flex; align-items: center; gap: 14px; border: 1px solid var(--console-border); border-radius: 8px; padding: 16px 18px; background: var(--console-surface); }
+.ledger-metric__icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 8px; flex-shrink: 0; }
 .ledger-metric--income .ledger-metric__icon { background: color-mix(in srgb, #22c55e 12%, transparent); color: #22c55e; }
 .ledger-metric--expense .ledger-metric__icon { background: color-mix(in srgb, #ef4444 12%, transparent); color: #ef4444; }
 .ledger-metric--positive .ledger-metric__icon { background: color-mix(in srgb, #3b82f6 12%, transparent); color: #3b82f6; }
 .ledger-metric--negative .ledger-metric__icon { background: color-mix(in srgb, #ef4444 12%, transparent); color: #ef4444; }
-.ledger-metric__body { display: grid; gap: 2px; min-width: 0; }
-.ledger-metric__body span { color: var(--console-text-secondary); font-size: 12px; }
-.ledger-metric__body strong { font-size: 20px; line-height: 26px; letter-spacing: -0.3px; }
-.ledger-metric--income .ledger-metric__body strong, .ledger-metric--positive .ledger-metric__body strong { color: inherit; }
-.ledger-metric--expense .ledger-metric__body strong, .ledger-metric--negative .ledger-metric__body strong { color: inherit; }
-
-/* ── 次要统计 ── */
-.ledger-stats { display: flex; gap: 16px; flex-wrap: wrap; padding: 0 2px; }
-.ledger-stat { display: inline-flex; align-items: baseline; gap: 6px; }
-.ledger-stat small { color: var(--console-text-secondary); font-size: 12px; }
-.ledger-stat em { font-style: normal; font-size: 13px; font-weight: 600; color: var(--console-text); }
-
+.ledger-metric__body { display: grid; gap: 3px; min-width: 0; }
+.ledger-metric__label { color: var(--console-text-secondary); font-size: 12px; line-height: 1; }
+.ledger-metric__value { font-size: 22px; line-height: 28px; font-weight: 700; color: var(--console-text); }
+.ledger-metric--income .ledger-metric__value { color: #16a34a; }
+.ledger-metric--expense .ledger-metric__value,
+.ledger-metric--negative .ledger-metric__value { color: #dc2626; }
+.ledger-metric--positive .ledger-metric__value { color: #2563eb; }
+.ledger-metric__change { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; line-height: 1; margin-top: 2px; }
+.change-good { color: #22c55e; }
+.change-bad { color: #ef4444; }
+.change-neutral { color: var(--console-text-secondary); }
+.ledger-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.ledger-stat-card { display: flex; flex-direction: column; gap: 4px; padding: 10px 14px; border: 1px solid var(--console-border); border-radius: 8px; background: var(--console-surface); }
+.ledger-stat-card__label { color: var(--console-text-secondary); font-size: 11px; line-height: 1; }
+.ledger-stat-card__value { font-size: 14px; font-weight: 600; color: var(--console-text); line-height: 1.2; }
 .ledger-chart { min-width: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); border: 1px solid var(--console-border); border-radius: 8px; background: var(--console-surface); padding: 14px; }
 .ledger-chart--wide { min-height: 260px; }
-.ledger-chart__head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
-.ledger-chart__head span { color: var(--console-text); font-weight: 650; font-size: 14px; }
-.ledger-chart__sub { color: var(--console-text-secondary); font-size: 12px; font-weight: 400; }
+.ledger-chart__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+.ledger-chart__title { display: flex; align-items: baseline; gap: 8px; min-width: 0; padding-top: 2px; }
+.ledger-chart__title span { color: var(--console-text); font-weight: 650; font-size: 14px; line-height: 24px; white-space: nowrap; }
+.ledger-chart__title small { color: var(--console-text-secondary); font-size: 12px; line-height: 24px; white-space: nowrap; }
+.ledger-chart__controls { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; min-width: 0; }
+.ledger-chart__controls :deep(.ant-radio-group) { display: inline-flex; flex-wrap: nowrap; padding: 2px; border: 1px solid var(--console-border); border-radius: 6px; background: color-mix(in srgb, var(--console-surface) 84%, var(--console-border)); }
+.ledger-chart__controls :deep(.ant-radio-button-wrapper) { border: none; background: transparent; font-size: 12px; }
+.ledger-chart__controls :deep(.ant-radio-button-wrapper::before) { display: none; }
+.ledger-chart__controls :deep(.ant-radio-button-wrapper-checked) { border-radius: 4px; background: var(--console-surface); box-shadow: 0 1px 2px color-mix(in srgb, #000 8%, transparent); }
 .ledger-chart__canvas { min-height: 220px; }
+.ledger-chart__empty { display: grid; place-items: center; min-height: 220px; color: var(--console-text-secondary); font-size: 13px; }
 .ledger-chart-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
-
 .ledger-category-list { display: grid; gap: 8px; padding-top: 10px; border-top: 1px solid var(--console-border); margin-top: 10px; }
 .ledger-category-rank { display: grid; grid-template-columns: 10px 72px 1fr auto auto; align-items: center; gap: 8px; font-size: 12px; }
 .ledger-category-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
@@ -246,62 +236,14 @@ const trendTitle = computed(() => {
 .ledger-category-bar { display: block; height: 100%; border-radius: 3px; transition: width 0.4s ease; }
 .ledger-category-amount { color: var(--console-text); font-weight: 500; text-align: right; min-width: 60px; }
 .ledger-category-percent { color: var(--console-text-secondary); text-align: right; min-width: 32px; }
-
-/* ── 更多图表折叠 ── */
-.ledger-extra-collapse {
-  background: transparent;
-  border: none;
+@media (max-width: 1100px) { .ledger-chart-row { grid-template-columns: 1fr; } }
+@media (max-width: 760px) {
+  .ledger-chart__head { flex-direction: column; }
+  .ledger-chart__controls { justify-content: flex-start; }
 }
-
-.ledger-extra-collapse :deep(.ant-collapse-item) {
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.ledger-extra-collapse :deep(.ant-collapse-header) {
-  background: var(--console-surface);
-  padding: 10px 14px;
-  font-size: 13px;
-  color: var(--console-text-secondary);
-}
-
-.ledger-extra-collapse :deep(.ant-collapse-content) {
-  background: transparent;
-  border: none;
-}
-
-.ledger-extra-collapse :deep(.ant-collapse-content-box) {
-  padding: 12px 0 0;
-}
-
-.ledger-extra-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  user-select: none;
-}
-
-.ledger-extra-toggle svg {
-  transition: transform 0.2s ease;
-}
-
-.ledger-extra-toggle .is-open {
-  transform: rotate(180deg);
-}
-
-.ledger-chart__canvas--calendar {
-  min-height: 160px;
-}
-
-/* ── 响应式 ── */
-@media (max-width: 1100px) {
-  .ledger-chart-row { grid-template-columns: 1fr; }
-}
-
 @media (max-width: 640px) {
   .ledger-metrics { grid-template-columns: 1fr; }
-  .ledger-stats { gap: 10px; }
+  .ledger-stats { grid-template-columns: repeat(2, 1fr); }
   .ledger-category-rank { grid-template-columns: 10px 56px 1fr auto; }
   .ledger-category-percent { display: none; }
 }

@@ -66,6 +66,17 @@
           <a-checkbox v-model:checked="enabled.dailyNote">统一当日备注</a-checkbox>
           <a-textarea v-model:value="form.dailyNote" :disabled="!enabled.dailyNote" :maxlength="1000" show-count />
         </a-form-item>
+        <a-form-item>
+          <a-checkbox v-model:checked="enabled.tags">统一标签</a-checkbox>
+          <a-select
+            v-model:value="form.tags"
+            mode="tags"
+            :token-separators="[',', ' ']"
+            :disabled="!enabled.tags"
+            placeholder="输入后回车添加标签"
+            :max-tag-count="8"
+          />
+        </a-form-item>
       </a-form>
     </a-modal>
   </section>
@@ -95,14 +106,16 @@ const enabled = reactive({
   occurredAt: false,
   typeCategory: false,
   note: false,
-  dailyNote: false
+  dailyNote: false,
+  tags: false
 })
 const form = reactive({
   occurredAt: '',
   type: 'expense',
   categoryId: undefined,
   note: '',
-  dailyNote: ''
+  dailyNote: '',
+  tags: []
 })
 
 const typeOptions = [
@@ -128,6 +141,7 @@ function buildPatch() {
   }
   if (enabled.note) patch.note = form.note
   if (enabled.dailyNote) patch.dailyNote = form.dailyNote
+  if (enabled.tags) patch.tags = form.tags
   return patch
 }
 

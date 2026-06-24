@@ -15,27 +15,37 @@
       </a-form-item>
       <div class="ledger-moment-modal__grid">
         <a-form-item label="记录范围">
-          <a-select v-model:value="form.scope" :options="scopeOptions" />
+          <a-select v-model:value="form.scope" :options="scopeOptions" @change="handleScopeChange" />
         </a-form-item>
-        <a-form-item label="日期">
-          <a-input v-model:value="form.occurredAt" type="date" />
+        <a-form-item :label="dateLabel">
+          <a-input v-model:value="form.occurredAt" :type="dateInputType" />
         </a-form-item>
       </div>
       <div class="ledger-moment-modal__grid">
         <a-form-item label="相关金额">
           <a-input-number v-model:value="form.amount" :min="0" :precision="2" class="ledger-moment-modal__full" />
         </a-form-item>
-        <a-form-item label="相关分类">
+        <a-form-item label="账本分类">
           <a-select
             v-model:value="form.categoryId"
             :options="categoryOptions"
             show-search
             allow-clear
             option-filter-prop="label"
-            placeholder="可选"
+            placeholder="可选，选择后会优先展示账本分类"
+            @change="handleCategoryChange"
           />
         </a-form-item>
       </div>
+      <a-form-item label="自定义分类">
+        <a-input
+          v-model:value="form.categoryText"
+          :maxlength="40"
+          allow-clear
+          placeholder="不属于账本分类时填写，例如：家庭事项、阶段目标"
+          @change="handleCategoryTextInput"
+        />
+      </a-form-item>
       <a-form-item label="心情/关键词">
         <a-input v-model:value="form.mood" placeholder="例如：值得纪念、压力大、开心" />
       </a-form-item>
@@ -43,8 +53,11 @@
         <a-select
           v-model:value="form.tags"
           mode="tags"
+          :options="tagOptions"
+          :token-separators="[',', '，']"
           :max-tag-count="6"
           placeholder="输入后回车"
+          @change="handleTagsChange"
         />
       </a-form-item>
       <a-form-item label="记录内容">
@@ -87,6 +100,7 @@ const form = reactive({
   occurredAt: '',
   amount: 0,
   categoryId: undefined,
+  categoryText: '',
   mood: '',
   tags: [],
   content: '',
@@ -103,6 +117,17 @@ const categoryOptions = computed(() => props.categories.map((item) => ({
   label: `${item.type === 'income' ? '收入' : '支出'} / ${item.name}`,
   value: item.id
 })))
+const tagOptions = computed(() => form.tags.map((tag) => ({ label: tag, value: tag })))
+const dateInputType = computed(() => {
+  if (form.scope === 'year') return 'number'
+  if (form.scope === 'month') return 'month'
+  return 'date'
+})
+const dateLabel = computed(() => {
+  if (form.scope === 'year') return '年份'
+  if (form.scope === 'month') return '月份'
+  return '日期'
+})
 
 function formatDate(value) {
   if (!value) return ''
@@ -111,12 +136,56 @@ function formatDate(value) {
   return date.toISOString().slice(0, 10)
 }
 
+function normalizeTags(tags = []) {
+  const seen = new Set()
+  return tags
+    .map((item) => String(item || '').trim())
+    .filter(Boolean)
+    .filter((item) => {
+      const key = item.toLowerCase()
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+    .slice(0, 12)
+}
+
+function normalizeDateValue(value, scope) {
+  if (!value) return ''
+  if (scope === 'year') return String(value).slice(0, 4)
+  if (scope === 'month') return String(value).slice(0, 7)
+  return String(value).slice(0, 10)
+}
+
+function toSubmitDate(value, scope) {
+  if (scope === 'year') return `${String(value).slice(0, 4)}-01-01`
+  if (scope === 'month') return `${String(value).slice(0, 7)}-01`
+  return value
+}
+
+function handleScopeChange() {
+  form.occurredAt = normalizeDateValue(form.occurredAt || new Date().toISOString().slice(0, 10), form.scope)
+}
+
+function handleCategoryChange(value) {
+  if (value) form.categoryText = ''
+}
+
+function handleCategoryTextInput() {
+  if (form.categoryText.trim()) form.categoryId = undefined
+}
+
+function handleTagsChange(value) {
+  form.tags = normalizeTags(value)
+}
+
 function resetForm() {
   form.title = ''
   form.scope = 'day'
   form.occurredAt = new Date().toISOString().slice(0, 10)
   form.amount = 0
   form.categoryId = undefined
+  form.categoryText = ''
   form.mood = ''
   form.tags = []
   form.content = ''
@@ -129,7 +198,11 @@ async function submit() {
     return
   }
   if (!form.occurredAt) {
-    message.warning('请选择日期')
+    message.warning(`请选择${dateLabel.value}`)
+    return
+  }
+  if (form.scope === 'year' && !/^\d{4}$/.test(String(form.occurredAt))) {
+    message.warning('请填写正确年份')
     return
   }
 
@@ -139,11 +212,12 @@ async function submit() {
       bookId: props.bookId,
       title: form.title,
       scope: form.scope,
-      occurredAt: form.occurredAt,
+      occurredAt: toSubmitDate(form.occurredAt, form.scope),
       amount: form.amount || 0,
       categoryId: form.categoryId || null,
+      categoryText: form.categoryText.trim(),
       mood: form.mood,
-      tags: form.tags,
+      tags: normalizeTags(form.tags),
       content: form.content,
       pinned: form.pinned
     }
@@ -170,11 +244,12 @@ watch(
     if (props.moment) {
       form.title = props.moment.title || ''
       form.scope = props.moment.scope || 'day'
-      form.occurredAt = formatDate(props.moment.occurredAt)
+      form.occurredAt = normalizeDateValue(formatDate(props.moment.occurredAt), form.scope)
       form.amount = props.moment.amount || 0
       form.categoryId = props.moment.categoryId || undefined
+      form.categoryText = props.moment.categoryText || ''
       form.mood = props.moment.mood || ''
-      form.tags = [...(props.moment.tags || [])]
+      form.tags = normalizeTags(props.moment.tags || [])
       form.content = props.moment.content || ''
       form.pinned = Boolean(props.moment.pinned)
     }

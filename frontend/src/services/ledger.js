@@ -49,6 +49,10 @@ export function getLedgerSummary(params = {}) {
   return http.get('/api/ledger/summary', { params })
 }
 
+export function getLedgerInsights(params = {}) {
+  return http.get('/api/ledger/insights', { params })
+}
+
 export function getLedgerDaily(params = {}) {
   return http.get('/api/ledger/daily', { params })
 }

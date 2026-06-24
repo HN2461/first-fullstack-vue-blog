@@ -1,52 +1,24 @@
 <template>
   <section class="ledger-page">
-    <div class="ledger-toolbar">
-      <a-space wrap>
-        <a-select
-          v-model:value="selectedBookId"
-          class="ledger-book-select"
-          :options="bookOptions"
-          show-search
-          option-filter-prop="label"
-          @change="reloadAll"
-        />
-        <a-range-picker v-model:value="dateRangeValue" class="ledger-range" @change="reloadAll" />
-      </a-space>
-      <a-space size="small" wrap>
-        <a-tooltip title="刷新">
-          <a-button @click="reloadAll">
-            <template #icon><RefreshCw :size="16" /></template>
-          </a-button>
-        </a-tooltip>
-        <a-dropdown :trigger="['click']">
-          <a-button>
-            <template #icon><MoreHorizontal :size="16" /></template>
-          </a-button>
-          <template #overlay>
-            <a-menu @click="handleMenuAction">
-              <a-menu-item key="categories">
-                <AppstoreOutlined /> 分类管理
-              </a-menu-item>
-              <a-menu-item key="newCategory">
-                <TagsOutlined /> 新增分类
-              </a-menu-item>
-              <a-menu-divider />
-              <a-menu-item key="importRecords">
-                <HistoryOutlined /> 导入记录
-              </a-menu-item>
-              <a-menu-item key="importExcel">
-                <UploadOutlined /> 导入 Excel
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
-      </a-space>
-    </div>
+    <LedgerPageToolbar
+      v-if="isOverviewRoute"
+      :book-id="selectedBookId"
+      :book-options="bookOptions"
+      :period="activePeriod"
+      :range="queryRange"
+      :period-options="periodOptions"
+      @update:book-id="handleBookChange"
+      @update:period="selectPeriod"
+      @update:range="handleCustomRangeChange"
+      @reload="reloadAll"
+      @action="handleMenuAction"
+    />
 
     <RouterView
       :book-id="selectedBookId"
       :categories="categories"
-      :range="queryRange"
+      :range="contentRange"
+      :period="activePeriod"
       :refresh-key="refreshKey"
       @edit-entry="openEntryModal"
       @delete-entry="confirmDeleteEntry"
@@ -92,51 +64,149 @@
     >
       <LedgerImportTable :book-id="selectedBookId" :refresh-key="refreshKey" />
     </a-modal>
+
+    <a-modal
+      v-model:open="exportModalOpen"
+      title="导出图表"
+      :width="520"
+      :confirm-loading="exporting"
+      ok-text="导出"
+      cancel-text="取消"
+      :body-style="{ maxHeight: '64vh', overflowY: 'auto' }"
+      @ok="exportAnalysis"
+    >
+      <a-form layout="vertical">
+        <a-form-item label="导出范围">
+          <a-radio-group v-model:value="exportForm.scope">
+            <a-radio value="current">当前图表范围</a-radio>
+            <a-radio value="custom">自定义时间范围</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item v-if="exportForm.scope === 'custom'" label="时间范围">
+          <a-range-picker
+            v-model:value="exportForm.range"
+            class="ledger-export-range"
+            format="YYYY-MM-DD"
+            value-format="YYYY-MM-DD"
+          />
+        </a-form-item>
+        <a-form-item label="导出格式">
+          <a-radio-group v-model:value="exportForm.format">
+            <a-radio value="json">JSON</a-radio>
+            <a-radio value="csv">CSV</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-alert
+          type="info"
+          show-icon
+          message="导出会包含核心指标、趋势数据、分类排行、每日走势和生活洞察。"
+        />
+      </a-form>
+    </a-modal>
   </section>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
-import { AppstoreOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from '@ant-design/icons-vue'
-import { MoreHorizontal, RefreshCw } from 'lucide-vue-next'
 import LedgerCategoryDrawer from './LedgerCategoryDrawer.vue'
 import LedgerCategoryModal from './LedgerCategoryModal.vue'
 import LedgerEntryModal from './LedgerEntryModal.vue'
 import LedgerImportModal from './LedgerImportModal.vue'
 import LedgerImportTable from './LedgerImportTable.vue'
+import LedgerPageToolbar from './LedgerPageToolbar.vue'
 import {
   deleteLedgerEntry,
+  getLedgerInsights,
+  getLedgerSummary,
   listLedgerBooks,
   listLedgerCategories
 } from '@/services/ledger'
 
 const loading = ref(false)
+const route = useRoute()
 const books = ref([])
 const categories = ref([])
 const selectedBookId = ref('')
-const dateRangeValue = ref([])
+const activePeriod = ref('thisMonth')
+const customRange = ref([])
 const refreshKey = ref(0)
 const entryModalOpen = ref(false)
 const categoryModalOpen = ref(false)
 const importModalOpen = ref(false)
 const importRecordsOpen = ref(false)
+const exportModalOpen = ref(false)
+const exporting = ref(false)
 const categoryDrawerOpen = ref(false)
 const currentEntry = ref(null)
 const currentCategory = ref(null)
+const exportForm = reactive({
+  scope: 'current',
+  range: [],
+  format: 'json'
+})
+
+const periodOptions = [
+  { label: '本月', value: 'thisMonth', tip: '查看本月账本汇总' },
+  { label: '上月', value: 'lastMonth', tip: '查看上月账本汇总' },
+  { label: '本季', value: 'thisQuarter', tip: '查看本季度账本汇总' },
+  { label: '本年', value: 'thisYear', tip: '查看本年账本汇总' },
+  { label: '自定义', value: 'custom', tip: '选择自定义日期区间' },
+  { label: '全部', value: 'all', tip: '查看全部账本数据' }
+]
 
 const bookOptions = computed(() => books.value.map((book) => ({
   label: book.name,
   value: book.id
 })))
+const isOverviewRoute = computed(() => route.name === 'ConsoleLedgerOverview')
+const contentRange = computed(() => isOverviewRoute.value ? queryRange.value : [])
 
+/** 根据快速时间段计算日期范围 */
 const queryRange = computed(() => {
-  const [from, to] = dateRangeValue.value || []
-  return [
-    from ? from.format?.('YYYY-MM-DD') || from : '',
-    to ? to.format?.('YYYY-MM-DD') || to : ''
-  ]
+  const now = new Date()
+  const pad = (n) => String(n).padStart(2, '0')
+  const fmt = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+
+  switch (activePeriod.value) {
+    case 'thisMonth':
+      return [fmt(new Date(now.getFullYear(), now.getMonth(), 1)), fmt(new Date(now.getFullYear(), now.getMonth() + 1, 0))]
+    case 'lastMonth':
+      return [fmt(new Date(now.getFullYear(), now.getMonth() - 1, 1)), fmt(new Date(now.getFullYear(), now.getMonth(), 0))]
+    case 'thisQuarter': {
+      const qStart = Math.floor(now.getMonth() / 3) * 3
+      return [fmt(new Date(now.getFullYear(), qStart, 1)), fmt(now)]
+    }
+    case 'thisYear':
+      return [fmt(new Date(now.getFullYear(), 0, 1)), fmt(new Date(now.getFullYear(), 11, 31))]
+    case 'custom':
+      return customRange.value?.length === 2 ? customRange.value : ['', '']
+    case 'all':
+      return ['', '']
+    default:
+      return ['', '']
+  }
 })
+
+function selectPeriod(value) {
+  const previousRange = queryRange.value
+  activePeriod.value = value
+  if (value === 'custom' && customRange.value.length !== 2) {
+    customRange.value = [previousRange[0] || '', previousRange[1] || ''].filter(Boolean)
+  }
+  reloadAll()
+}
+
+function handleBookChange(value) {
+  selectedBookId.value = value
+  reloadAll()
+}
+
+function handleCustomRangeChange(value) {
+  customRange.value = value?.length === 2 ? value : []
+  reloadAll()
+}
 
 async function loadBooks() {
   books.value = await listLedgerBooks()
@@ -180,11 +250,74 @@ function openCategoryModal(category = null) {
   categoryModalOpen.value = true
 }
 
-function handleMenuAction({ key }) {
+function handleMenuAction(key) {
   if (key === 'categories') categoryDrawerOpen.value = true
   else if (key === 'newCategory') openCategoryModal()
   else if (key === 'importRecords') importRecordsOpen.value = true
   else if (key === 'importExcel') importModalOpen.value = true
+  else if (key === 'exportAnalysis') {
+    exportForm.scope = 'current'
+    exportForm.range = [...queryRange.value].filter(Boolean)
+    exportModalOpen.value = true
+  }
+}
+
+function downloadFile(content, fileName, type) {
+  const blob = new Blob([content], { type })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = fileName
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
+function toCsvRows(summary, insights) {
+  const rows = [
+    ['模块', '名称', '值'],
+    ['核心指标', '收入', summary.overview?.income || 0],
+    ['核心指标', '支出', summary.overview?.expense || 0],
+    ['核心指标', '结余', summary.overview?.balance || 0],
+    ...((summary.byCategory || []).map((item) => ['支出分类', item.name, item.amount])),
+    ...((summary.byIncomeCategory || []).map((item) => ['收入分类', item.name, item.amount])),
+    ...((summary.trend || []).map((item) => ['趋势', item.label, `收入:${item.income};支出:${item.expense};结余:${item.balance}`])),
+    ...((insights.insights || []).map((item) => ['生活洞察', item.icon, item.text]))
+  ]
+  return rows.map((row) => row.map((cell) => `"${String(cell ?? '').replace(/"/g, '""')}"`).join(',')).join('\n')
+}
+
+async function exportAnalysis() {
+  const range = exportForm.scope === 'custom' ? exportForm.range : queryRange.value
+  if (exportForm.scope === 'custom' && range.length !== 2) {
+    message.warning('请选择导出时间范围')
+    return
+  }
+  exporting.value = true
+  try {
+    const [from, to] = range || []
+    const params = {
+      bookId: selectedBookId.value,
+      from: from || undefined,
+      to: to || undefined,
+      groupBy: from && to && new Date(to) - new Date(from) <= 31 * 86400000 ? 'day' : 'month'
+    }
+    const [summary, insights] = await Promise.all([
+      getLedgerSummary(params),
+      getLedgerInsights(params)
+    ])
+    const stamp = new Date().toISOString().slice(0, 10)
+    if (exportForm.format === 'csv') {
+      downloadFile(`${String.fromCharCode(0xfeff)}${toCsvRows(summary, insights)}`, `ledger-analysis-${stamp}.csv`, 'text/csv;charset=utf-8')
+    } else {
+      downloadFile(JSON.stringify({ range: { from: from || '', to: to || '' }, summary, insights }, null, 2), `ledger-analysis-${stamp}.json`, 'application/json;charset=utf-8')
+    }
+    exportModalOpen.value = false
+    message.success('图表数据已导出')
+  } catch (error) {
+    message.error(error.message || '导出失败')
+  } finally {
+    exporting.value = false
+  }
 }
 
 function confirmDeleteEntry(entry) {
@@ -231,18 +364,7 @@ onMounted(async () => {
   min-width: 0;
 }
 
-.ledger-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 1px solid var(--console-border);
-  border-left: 3px solid var(--console-primary, #1677ff);
-  border-radius: 8px;
-  padding: 10px 14px;
-  background: var(--console-surface);
-}
-
+/* ── 全局覆盖 ── */
 .ledger-page :deep(.ant-table-selection-column) {
   width: 48px !important;
   min-width: 48px !important;
@@ -266,23 +388,7 @@ onMounted(async () => {
   background-color: color-mix(in srgb, var(--console-text-secondary, #667085) 38%, transparent);
 }
 
-.ledger-book-select {
-  width: 180px;
-}
-
-.ledger-range {
-  width: 260px;
-}
-
-@media (max-width: 900px) {
-  .ledger-toolbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .ledger-book-select,
-  .ledger-range {
-    width: 100%;
-  }
+.ledger-export-range {
+  width: 100%;
 }
 </style>

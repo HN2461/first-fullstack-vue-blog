@@ -38,6 +38,16 @@
       <a-form-item label="当日备注" name="dailyNote">
         <a-textarea v-model:value="form.dailyNote" :maxlength="1000" show-count :auto-size="{ minRows: 2, maxRows: 5 }" />
       </a-form-item>
+      <a-form-item label="标签" name="tags">
+        <a-select
+          v-model:value="form.tags"
+          mode="tags"
+          :token-separators="[',', ' ']"
+          placeholder="输入后回车添加标签"
+          :max-tag-count="8"
+          :options="[]"
+        />
+      </a-form-item>
     </a-form>
   </a-modal>
 </template>
@@ -64,7 +74,8 @@ const form = reactive({
   categoryId: undefined,
   amount: null,
   note: '',
-  dailyNote: ''
+  dailyNote: '',
+  tags: []
 })
 
 const typeOptions = [
@@ -98,6 +109,7 @@ function resetForm() {
   form.amount = null
   form.note = ''
   form.dailyNote = ''
+  form.tags = []
 }
 
 watch(
@@ -111,6 +123,7 @@ watch(
       form.amount = props.entry.amount
       form.note = props.entry.note || ''
       form.dailyNote = props.entry.dailyNote || ''
+      form.tags = [...(props.entry.tags || [])]
       return
     }
     resetForm()
@@ -132,7 +145,8 @@ async function submit() {
       categoryId: form.categoryId,
       amount: form.amount,
       note: form.note,
-      dailyNote: form.dailyNote
+      dailyNote: form.dailyNote,
+      tags: form.tags
     }
     if (props.entry?.id) {
       await updateLedgerEntry(props.entry.id, payload)

@@ -72,6 +72,7 @@ function buildMomentQuery(userId, options = {}) {
   const query = { userId }
   if (options.bookId) query.bookId = toObjectId(options.bookId, 'LEDGER_BOOK_NOT_FOUND', '账本不存在')
   if (options.scope) query.scope = options.scope
+  if (options.categoryId) query.categoryId = toObjectId(options.categoryId, 'LEDGER_CATEGORY_NOT_FOUND', '分类不存在')
 
   const from = options.from ? startOfDay(options.from) : null
   const to = options.to ? endOfDay(options.to) : null
@@ -86,6 +87,7 @@ function buildMomentQuery(userId, options = {}) {
     query.$or = [
       { title: { $regex: keyword, $options: 'i' } },
       { content: { $regex: keyword, $options: 'i' } },
+      { categoryText: { $regex: keyword, $options: 'i' } },
       { mood: { $regex: keyword, $options: 'i' } },
       { tags: { $regex: keyword, $options: 'i' } }
     ]
@@ -148,6 +150,7 @@ export async function createLedgerMoment(userId, input) {
     bookId: book._id,
     occurredAt: startOfDay(input.occurredAt),
     categoryId: category?._id || null,
+    categoryText: input.categoryText || '',
     entryId: input.entryId || null,
     tags: normalizeTags(input.tags || [])
   })
@@ -169,6 +172,7 @@ export async function updateLedgerMoment(userId, id, input) {
   if (input.occurredAt !== undefined) moment.occurredAt = startOfDay(input.occurredAt)
   if (input.amount !== undefined) moment.amount = input.amount
   if (input.categoryId !== undefined) moment.categoryId = input.categoryId || null
+  if (input.categoryText !== undefined) moment.categoryText = input.categoryText
   if (input.entryId !== undefined) moment.entryId = input.entryId || null
   if (input.mood !== undefined) moment.mood = input.mood
   if (input.content !== undefined) moment.content = input.content

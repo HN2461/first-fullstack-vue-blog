@@ -1,6 +1,12 @@
 <template>
   <section class="ledger-overview-page">
-    <LedgerDashboard :summary="summary" :group-by="groupBy" :loading="loading" />
+    <LedgerDashboard
+      :summary="summary"
+      :group-by="groupBy"
+      :loading="loading"
+      @update:group-by="handleGroupByChange"
+    />
+    <LedgerInsights :data="insights" />
   </section>
 </template>
 
@@ -8,25 +14,24 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import LedgerDashboard from './LedgerDashboard.vue'
-import { getLedgerSummary } from '@/services/ledger'
+import LedgerInsights from './LedgerInsights.vue'
+import { getLedgerInsights, getLedgerSummary } from '@/services/ledger'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
   range: { type: Array, default: () => [] },
+  period: { type: String, default: 'thisMonth' },
   refreshKey: { type: Number, default: 0 }
 })
 
 const loading = ref(false)
 const summary = ref({})
+const insights = ref({})
+const manualGroupBy = ref(null)
 
-/**
- * 根据日期跨度自动推断 groupBy：
- * - 32 天以内 → 按日
- * - 3 个月以内 → 按月
- * - 超过 3 个月 → 按月
- * - 无范围（全部）→ 按年
- */
+/** 根据时间段自动推断 groupBy，也可手动覆盖 */
 const groupBy = computed(() => {
+  if (manualGroupBy.value) return manualGroupBy.value
   const [from, to] = props.range || []
   if (!from && !to) return 'year'
   if (!from || !to) return 'month'
@@ -36,26 +41,42 @@ const groupBy = computed(() => {
   return 'year'
 })
 
+function handleGroupByChange(value) {
+  manualGroupBy.value = value
+  loadSummary()
+}
+
 async function loadSummary() {
   if (!props.bookId) {
     summary.value = {}
+    insights.value = {}
     return
   }
   loading.value = true
   try {
     const [from, to] = props.range || []
-    summary.value = await getLedgerSummary({
+    const params = {
       bookId: props.bookId,
       from: from || undefined,
-      to: to || undefined,
-      groupBy: groupBy.value
-    })
+      to: to || undefined
+    }
+    const [summaryData, insightsData] = await Promise.all([
+      getLedgerSummary({ ...params, groupBy: groupBy.value }),
+      getLedgerInsights(params)
+    ])
+    summary.value = summaryData
+    insights.value = insightsData
   } catch (error) {
     message.error(error.message || '汇总数据加载失败')
   } finally {
     loading.value = false
   }
 }
+
+// 时间段变化时重置手动 groupBy
+watch(() => props.period, () => {
+  manualGroupBy.value = null
+})
 
 watch(
   () => [props.bookId, props.range?.[0], props.range?.[1], props.refreshKey],
@@ -68,5 +89,7 @@ onMounted(loadSummary)
 <style scoped>
 .ledger-overview-page {
   min-width: 0;
+  display: grid;
+  gap: 12px;
 }
 </style>

@@ -10,6 +10,7 @@ backend-release.zip
 mongodb-dump.zip
 .DS_Store
 Thumbs.db
+scripts/deploy.local.ps1
 uploads/*
 !uploads/.gitkeep
 backend/uploads/*

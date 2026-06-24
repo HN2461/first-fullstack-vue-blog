@@ -106,5 +106,9 @@ export function buildEntryQuery(userId, options = {}) {
     ]
   }
 
+  if (options.tags && options.tags.length) {
+    query.tags = { $in: options.tags }
+  }
+
   return query
 }

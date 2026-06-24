@@ -6,8 +6,8 @@
     :params="params"
     :page-size="20"
     :page-sizes="['20', '50', '100']"
-    :scroll="{ x: 1280 }"
-    :height="'520px'"
+    :scroll="{ x: 1440 }"
+    height="auto"
     show-column-setting
     striped
     column-border
@@ -31,6 +31,16 @@
           :options="categoryOptions"
           show-search
           option-filter-prop="label"
+          @change="reload"
+        />
+        <a-select
+          v-model:value="filters.tags"
+          class="ledger-filter-tags"
+          mode="tags"
+          :token-separators="[',', ' ']"
+          placeholder="按标签筛选"
+          allow-clear
+          :max-tag-count="1"
           @change="reload"
         />
         <a-input-search
@@ -67,12 +77,18 @@
         </a-tag>
       </template>
       <template v-else-if="column.key === 'amount'">
-        <strong :class="record.type === 'income' ? 'amount-income' : 'amount-expense'">
+        <strong :class="['ledger-cell-center', record.type === 'income' ? 'amount-income' : 'amount-expense']">
           {{ formatMoney(record.amount) }}
         </strong>
       </template>
       <template v-else-if="column.key === 'dailyNote'">
         <span class="ledger-muted ledger-note-cell">{{ record.dailyNote || '-' }}</span>
+      </template>
+      <template v-else-if="column.key === 'tags'">
+        <a-space wrap size="small">
+          <a-tag v-for="tag in record.tags || []" :key="tag" :bordered="false" size="small">{{ tag }}</a-tag>
+          <span v-if="!record.tags?.length" class="ledger-muted">-</span>
+        </a-space>
       </template>
       <template v-else-if="column.key === 'source'">
         <span class="ledger-muted">{{ record.source === 'excel_import' ? 'Excel导入' : '手动' }}</span>
@@ -121,16 +137,18 @@ let keywordTimer = null
 const filters = reactive({
   type: '',
   categoryId: '',
-  keyword: ''
+  keyword: '',
+  tags: []
 })
 
 const columns = [
-  { title: '日期', key: 'occurredAt', width: 140, align: 'center', sorter: true },
+  { title: '日期', dataIndex: 'occurredAt', key: 'occurredAt', width: 140, align: 'center', sorter: true },
   { title: '类型', key: 'type', width: 90, align: 'center' },
   { title: '分类', key: 'category', width: 140, align: 'center' },
-  { title: '金额', key: 'amount', width: 130, align: 'right', sorter: true },
-  { title: '单笔备注', dataIndex: 'note', key: 'note', width: 240, align: 'center' },
-  { title: '当日备注', key: 'dailyNote', width: 280, align: 'center' },
+  { title: '金额', dataIndex: 'amount', key: 'amount', width: 130, align: 'center', sorter: true },
+  { title: '单笔备注', dataIndex: 'note', key: 'note', width: 200, align: 'center' },
+  { title: '标签', key: 'tags', width: 160, align: 'center' },
+  { title: '当日备注', key: 'dailyNote', width: 240, align: 'center' },
   { title: '来源', key: 'source', width: 110, align: 'center' },
   { title: '更新时间', key: 'updatedAt', width: 180, align: 'center' },
   { title: '操作', key: 'action', width: 120, align: 'center' }
@@ -159,6 +177,7 @@ const params = computed(() => ({
   type: filters.type || undefined,
   categoryId: filters.categoryId || undefined,
   keyword: filters.keyword.trim() || undefined,
+  tags: filters.tags?.length ? filters.tags : undefined,
   sortField: sortState.field || undefined,
   sortOrder: sortState.order || undefined
 }))
@@ -168,10 +187,9 @@ function loadEntries(query) {
 }
 
 function handleTableChange(pagination, filters, sorter) {
-  if (sorter.field === 'occurredAt') {
-    sortState.field = 'occurredAt'
-  } else if (sorter.field === 'amount') {
-    sortState.field = 'amount'
+  const field = sorter?.field || sorter?.columnKey
+  if (['occurredAt', 'amount'].includes(field)) {
+    sortState.field = field
   } else {
     sortState.field = ''
   }
@@ -216,6 +234,10 @@ defineExpose({ reload, refresh, clearSelection })
 <style scoped>
 .ledger-filter {
   width: 140px;
+}
+
+.ledger-filter-tags {
+  width: 180px;
 }
 
 .ledger-search {

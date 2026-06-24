@@ -1,6 +1,7 @@
 <template>
   <section class="ledger-daily-page">
     <BlogTable
+      v-if="viewMode === 'matrix'"
       ref="tableRef"
       :api-fn="loadDaily"
       :columns="columns"
@@ -8,24 +9,25 @@
       :page-size="50"
       :page-sizes="['31', '50', '100']"
       :scroll="{ x: tableWidth }"
-      height="620px"
+      height="auto"
       show-column-setting
       striped
       column-border
     >
       <template #toolbar>
-        <a-space wrap size="small">
-          <a-tag color="blue" :bordered="false">按天查看</a-tag>
-          <span class="ledger-daily-range-label">{{ rangeLabel }}</span>
-        </a-space>
-        <span class="ledger-daily-spacer" />
-        <a-tooltip title="分类金额列保留原 Excel 习惯，单元格备注会在悬浮时展示">
-          <a-button size="small">
-            <template #icon><Info :size="14" /></template>
-          </a-button>
+        <span class="ledger-table-title">日表格</span>
+        <span class="ledger-toolbar-spacer" />
+        <a-tooltip title="切换日表格展示方式">
+          <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
+            <a-radio-button value="matrix">
+              <TableOutlined />
+            </a-radio-button>
+            <a-radio-button value="cards">
+              <AppstoreOutlined />
+            </a-radio-button>
+          </a-radio-group>
         </a-tooltip>
       </template>
-
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'date'">
           <strong class="ledger-daily-date">{{ record.date }}</strong>
@@ -50,16 +52,40 @@
         </template>
       </template>
     </BlogTable>
+
+    <section v-else class="ledger-daily-card-panel">
+      <div class="ledger-daily-card-panel__head">
+        <span class="ledger-table-title">日表格</span>
+        <span class="ledger-toolbar-spacer" />
+        <a-tooltip title="切换日表格展示方式">
+          <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
+            <a-radio-button value="matrix">
+              <TableOutlined />
+            </a-radio-button>
+            <a-radio-button value="cards">
+              <AppstoreOutlined />
+            </a-radio-button>
+          </a-radio-group>
+        </a-tooltip>
+      </div>
+      <LedgerDailyCards
+        :items="cardItems"
+        :categories="categories"
+        :total="cardTotal"
+        :page-size="cardPageSize"
+        @page-change="handleCardPageChange"
+      />
+    </section>
   </section>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { Info } from 'lucide-vue-next'
+import { AppstoreOutlined, TableOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { getLedgerDaily } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
-import { formatDate } from './ledgerUtils'
+import LedgerDailyCards from './LedgerDailyCards.vue'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -69,14 +95,12 @@ const props = defineProps({
 })
 
 const tableRef = ref(null)
+const viewMode = ref('matrix')
 
-const rangeLabel = computed(() => {
-  const [from, to] = props.range || []
-  if (!from && !to) return '全部时间'
-  if (from && to) return `${from} ~ ${to}`
-  if (from) return `${from} 起`
-  return `截至 ${to}`
-})
+// 卡片视图分页状态
+const allCardItems = ref([])
+const cardPage = ref(1)
+const cardPageSize = ref(31)
 
 const visibleCategories = computed(() => props.categories.filter((item) => !item.archived))
 const columns = computed(() => [
@@ -101,6 +125,13 @@ const params = computed(() => ({
   to: props.range?.[1] || undefined
 }))
 
+// 卡片分页数据
+const cardTotal = computed(() => allCardItems.value.length)
+const cardItems = computed(() => {
+  const start = (cardPage.value - 1) * cardPageSize.value
+  return allCardItems.value.slice(start, start + cardPageSize.value)
+})
+
 async function loadDaily() {
   if (!props.bookId) {
     return { items: [], total: 0, page: 1, pageSize: 50 }
@@ -112,6 +143,20 @@ async function loadDaily() {
     page: 1,
     pageSize: result.items?.length || 50
   }
+}
+
+async function loadCardData() {
+  if (!props.bookId) {
+    allCardItems.value = []
+    return
+  }
+  const result = await getLedgerDaily(params.value)
+  allCardItems.value = result.items || []
+  cardPage.value = 1
+}
+
+function handleCardPageChange(page) {
+  cardPage.value = page
 }
 
 function formatOptionalMoney(value) {
@@ -130,8 +175,18 @@ function getCategoryNote(record, categoryId) {
 
 watch(
   () => [props.bookId, props.range?.[0], props.range?.[1], props.refreshKey],
-  () => tableRef.value?.reload?.()
+  () => {
+    if (viewMode.value === 'matrix') {
+      tableRef.value?.reload?.()
+    } else {
+      loadCardData()
+    }
+  }
 )
+
+watch(viewMode, (mode) => {
+  if (mode === 'cards') loadCardData()
+})
 </script>
 
 <style scoped>
@@ -139,18 +194,32 @@ watch(
   min-width: 0;
 }
 
-.ledger-daily-range-label {
-  color: var(--console-text-secondary);
-  font-size: 12px;
+.ledger-table-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--console-text);
+  white-space: nowrap;
 }
 
-.ledger-daily-spacer {
+.ledger-toolbar-spacer {
   flex: 1;
 }
 
-.ledger-daily-note {
-  color: var(--console-text-secondary);
-  font-size: 12px;
+.ledger-daily-card-panel {
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  padding: 10px;
+}
+
+.ledger-daily-card-panel__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .ledger-daily-date {
@@ -166,6 +235,8 @@ watch(
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+  color: var(--console-text-secondary);
+  font-size: 12px;
 }
 
 .amount-income {
