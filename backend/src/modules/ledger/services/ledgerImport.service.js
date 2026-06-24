@@ -259,7 +259,8 @@ export async function commitLedgerImport(userId, id) {
   if (operations.length) {
     const result = await LedgerEntry.bulkWrite(operations, { ordered: false })
     inserted = result.upsertedCount || 0
-    updated = (result.modifiedCount || 0) + (result.matchedCount || 0) - inserted
+    // bulkWrite 的 matchedCount 才代表“命中了多少条已有流水”，这比 modifiedCount 更符合导入统计语义。
+    updated = result.matchedCount || 0
   }
 
   batch.status = 'committed'

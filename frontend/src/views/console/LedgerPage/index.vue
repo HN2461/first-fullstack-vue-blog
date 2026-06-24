@@ -11,11 +11,35 @@
           @change="reloadAll"
         />
         <a-range-picker v-model:value="dateRangeValue" class="ledger-range" @change="reloadAll" />
+      </a-space>
+      <a-space size="small" wrap>
         <a-tooltip title="刷新">
           <a-button @click="reloadAll">
             <template #icon><RefreshCw :size="16" /></template>
           </a-button>
         </a-tooltip>
+        <a-dropdown :trigger="['click']">
+          <a-button>
+            <template #icon><MoreHorizontal :size="16" /></template>
+          </a-button>
+          <template #overlay>
+            <a-menu @click="handleMenuAction">
+              <a-menu-item key="categories">
+                <AppstoreOutlined /> 分类管理
+              </a-menu-item>
+              <a-menu-item key="newCategory">
+                <TagsOutlined /> 新增分类
+              </a-menu-item>
+              <a-menu-divider />
+              <a-menu-item key="importRecords">
+                <HistoryOutlined /> 导入记录
+              </a-menu-item>
+              <a-menu-item key="importExcel">
+                <UploadOutlined /> 导入 Excel
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </a-space>
     </div>
 
@@ -27,9 +51,6 @@
       @edit-entry="openEntryModal"
       @delete-entry="confirmDeleteEntry"
       @edit-category="openCategoryModal"
-      @open-categories="categoryDrawerOpen = true"
-      @open-category-modal="openCategoryModal"
-      @open-import="importModalOpen = true"
       @open-entry-modal="openEntryModal"
       @reload="reloadAll"
     />
@@ -60,17 +81,30 @@
       :categories="categories"
       @edit="openCategoryModal"
     />
+
+    <a-modal
+      v-model:open="importRecordsOpen"
+      title="导入记录"
+      :footer="null"
+      width="920px"
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
+      destroy-on-close
+    >
+      <LedgerImportTable :book-id="selectedBookId" :refresh-key="refreshKey" />
+    </a-modal>
   </section>
 </template>
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { RefreshCw } from 'lucide-vue-next'
+import { AppstoreOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { MoreHorizontal, RefreshCw } from 'lucide-vue-next'
 import LedgerCategoryDrawer from './LedgerCategoryDrawer.vue'
 import LedgerCategoryModal from './LedgerCategoryModal.vue'
 import LedgerEntryModal from './LedgerEntryModal.vue'
 import LedgerImportModal from './LedgerImportModal.vue'
+import LedgerImportTable from './LedgerImportTable.vue'
 import {
   deleteLedgerEntry,
   listLedgerBooks,
@@ -86,6 +120,7 @@ const refreshKey = ref(0)
 const entryModalOpen = ref(false)
 const categoryModalOpen = ref(false)
 const importModalOpen = ref(false)
+const importRecordsOpen = ref(false)
 const categoryDrawerOpen = ref(false)
 const currentEntry = ref(null)
 const currentCategory = ref(null)
@@ -143,6 +178,13 @@ function openEntryModal(entry = null) {
 function openCategoryModal(category = null) {
   currentCategory.value = category
   categoryModalOpen.value = true
+}
+
+function handleMenuAction({ key }) {
+  if (key === 'categories') categoryDrawerOpen.value = true
+  else if (key === 'newCategory') openCategoryModal()
+  else if (key === 'importRecords') importRecordsOpen.value = true
+  else if (key === 'importExcel') importModalOpen.value = true
 }
 
 function confirmDeleteEntry(entry) {
