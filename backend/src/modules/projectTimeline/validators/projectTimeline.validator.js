@@ -4,6 +4,43 @@ import {
   PROJECT_TIMELINE_SOURCES
 } from '#modules/projectTimeline/models/ProjectTimelineRecord.js'
 
+// 常见分类名近义词 → 标准分类的自动映射，导入时遇到会自动纠正
+const CATEGORY_ALIASES = {
+  '功能新增': '功能更新',
+  '新功能': '功能更新',
+  '新增功能': '功能更新',
+  '功能优化': '功能更新',
+  'bug修复': '问题修复',
+  'bug': '问题修复',
+  '修复': '问题修复',
+  '部署': '部署发布',
+  '发布': '部署发布',
+  '上线': '部署发布',
+  '搭建': '项目搭建',
+  '初始化': '项目搭建',
+  '公告': '系统公告',
+  '通知': '系统公告',
+  '上新': '内容上新',
+  '内容更新': '内容上新',
+  '版本': '版本调整',
+  '版本变更': '版本调整',
+  '手动': '手动记录',
+  '其他': '手动记录',
+  '杂项': '手动记录'
+}
+
+function normalizeCategory(value) {
+  if (!value || typeof value !== 'string') return value
+  const trimmed = value.trim()
+  // 精确匹配则直接返回
+  if (PROJECT_TIMELINE_CATEGORIES.includes(trimmed)) return trimmed
+  // 尝试别名映射
+  const mapped = CATEGORY_ALIASES[trimmed]
+  if (mapped) return mapped
+  // 未匹配则原样返回，让 Zod 报错
+  return trimmed
+}
+
 export const projectTimelineCreateSchema = z.object({
   title: z.string().trim().min(1, '事件标题不能为空').max(160, '事件标题不能超过 160 个字符'),
   detail: z.string().trim().min(1, '事件详情不能为空').max(12000, '事件详情不能超过 12000 个字符'),
@@ -18,7 +55,8 @@ const projectTimelineImportRecordSchema = z.object({
   title: z.string().trim().min(1, '事件标题不能为空').max(160, '事件标题不能超过 160 个字符'),
   detail: z.string().trim().min(1, '事件详情不能为空').max(12000, '事件详情不能超过 12000 个字符'),
   occurredAt: z.string().trim().optional().default(''),
-  category: z.enum(PROJECT_TIMELINE_CATEGORIES).optional().default('功能更新')
+  // 导入时自动纠正近似分类名（如"功能新增"→"功能更新"），降低导入失败率
+  category: z.preprocess(normalizeCategory, z.enum(PROJECT_TIMELINE_CATEGORIES).optional().default('功能更新'))
 })
 
 export const projectTimelineImportSchema = z.object({

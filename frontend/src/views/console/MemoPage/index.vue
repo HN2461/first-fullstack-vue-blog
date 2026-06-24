@@ -1,34 +1,47 @@
 <template>
   <section class="memo-page">
-    <header class="memo-page-head">
-      <div>
-        <p class="enterprise-page-kicker">MEMO FLOW</p>
-        <h1>备忘录</h1>
-        <p>把临时灵感、待落地计划和研究线索先稳稳接住，再按优先级慢慢整理。</p>
-      </div>
-      <div class="memo-head-side">
-        <div class="memo-stats" aria-label="备忘录统计">
-          <div>
-            <span>{{ stats.open }}</span>
-            <small>待推进</small>
-          </div>
-          <div>
-            <span>{{ stats.pinned }}</span>
-            <small>已置顶</small>
-          </div>
-          <div>
-            <span>{{ stats.dueSoon }}</span>
-            <small>近期待办</small>
-          </div>
+    <!-- 指标卡片 -->
+    <div class="memo-metrics">
+      <div class="memo-metric">
+        <div class="memo-metric__icon memo-metric__icon--blue">
+          <ClockCircleOutlined />
         </div>
-        <a-button type="primary" @click="openCreateModal">
-          <template #icon><PlusOutlined /></template>
-          新增备忘
-        </a-button>
+        <div class="memo-metric__body">
+          <span class="memo-metric__label">待推进</span>
+          <strong class="memo-metric__value">{{ stats.open }}</strong>
+        </div>
       </div>
-    </header>
+      <div class="memo-metric">
+        <div class="memo-metric__icon memo-metric__icon--purple">
+          <PushpinOutlined />
+        </div>
+        <div class="memo-metric__body">
+          <span class="memo-metric__label">已置顶</span>
+          <strong class="memo-metric__value">{{ stats.pinned }}</strong>
+        </div>
+      </div>
+      <div class="memo-metric">
+        <div class="memo-metric__icon memo-metric__icon--amber">
+          <AlertOutlined />
+        </div>
+        <div class="memo-metric__body">
+          <span class="memo-metric__label">近期待办</span>
+          <strong class="memo-metric__value">{{ stats.dueSoon }}</strong>
+        </div>
+      </div>
+      <div class="memo-metric">
+        <div class="memo-metric__icon memo-metric__icon--green">
+          <CheckCircleOutlined />
+        </div>
+        <div class="memo-metric__body">
+          <span class="memo-metric__label">已完成</span>
+          <strong class="memo-metric__value">{{ stats.completed }}</strong>
+        </div>
+      </div>
+    </div>
 
-    <section class="memo-toolbar">
+    <!-- 工具栏 -->
+    <div class="memo-toolbar">
       <a-input-search
         v-model:value="filters.keyword"
         class="memo-search"
@@ -42,88 +55,127 @@
         v-model:value="filters.type"
         class="memo-filter-select"
         :options="typeFilterOptions"
+        placeholder="类型"
+        allow-clear
         @change="refreshMemos"
       />
       <a-select
         v-model:value="filters.priority"
         class="memo-filter-select"
         :options="priorityFilterOptions"
+        placeholder="优先级"
+        allow-clear
         @change="refreshMemos"
       />
       <a-tooltip title="刷新">
-        <a-button class="memo-icon-button" @click="refreshMemos">
+        <a-button class="memo-icon-btn" @click="refreshMemos">
           <template #icon><ReloadOutlined /></template>
         </a-button>
       </a-tooltip>
-    </section>
+      <a-button type="primary" @click="openCreateModal">
+        <template #icon><PlusOutlined /></template>
+        新增备忘
+      </a-button>
+    </div>
 
     <a-alert v-if="errorMessage" class="memo-alert" type="error" show-icon :message="errorMessage" />
 
+    <!-- 备忘列表 -->
     <a-spin :spinning="loading">
       <div v-if="memos.length > 0" class="memo-list">
         <article
           v-for="memo in memos"
           :key="memo.id"
-          :class="['memo-item', `memo-item--${memo.priority}`, { 'memo-item--done': memo.status === 'completed' }]"
+          :class="[
+            'memo-card',
+            `memo-card--${memo.priority}`,
+            { 'memo-card--done': memo.status === 'completed', 'memo-card--archived': memo.status === 'archived' }
+          ]"
         >
-          <div class="memo-item-marker" aria-hidden="true"></div>
-          <div class="memo-item-main">
-            <div class="memo-item-title-row">
-              <a-tag class="memo-type-tag" :color="getTypeMeta(memo.type).color">{{ getTypeMeta(memo.type).label }}</a-tag>
-              <h2>{{ memo.title }}</h2>
-              <a-tag v-if="memo.isPinned" color="blue" :bordered="false">置顶</a-tag>
-              <a-tag v-if="memo.status === 'completed'" color="success">已完成</a-tag>
-              <a-tag v-else-if="memo.status === 'archived'">已归档</a-tag>
+          <div class="memo-card__marker" aria-hidden="true"></div>
+          <div class="memo-card__body">
+            <div class="memo-card__head">
+              <div class="memo-card__title-row">
+                <a-tag class="memo-card__type" :color="getTypeMeta(memo.type).color" :bordered="false">
+                  {{ getTypeMeta(memo.type).label }}
+                </a-tag>
+                <h3 class="memo-card__title">{{ memo.title }}</h3>
+              </div>
+              <div class="memo-card__badges">
+                <span v-if="memo.isPinned" class="memo-badge memo-badge--pinned">
+                  <PushpinOutlined /> 置顶
+                </span>
+                <span v-if="memo.status === 'completed'" class="memo-badge memo-badge--done">
+                  <CheckCircleOutlined /> 已完成
+                </span>
+                <span v-else-if="memo.status === 'archived'" class="memo-badge memo-badge--archived">
+                  <InboxOutlined /> 已归档
+                </span>
+                <span v-if="memo.dueAt && memo.status === 'open'" class="memo-badge memo-badge--due">
+                  <CalendarOutlined /> {{ formatDate(memo.dueAt) }}
+                </span>
+              </div>
             </div>
-            <button type="button" class="memo-item-preview" @click="openDetailModal(memo)">
+            <button type="button" class="memo-card__preview" @click="openDetailModal(memo)">
               {{ memo.content }}
             </button>
-            <div class="memo-item-meta">
-              <span>{{ formatTime(memo.updatedAt) }}</span>
-              <span v-if="memo.dueAt">计划：{{ formatDate(memo.dueAt) }}</span>
-              <a-tag v-for="tag in memo.tags" :key="tag" class="memo-mini-tag">{{ tag }}</a-tag>
+            <div class="memo-card__foot">
+              <div class="memo-card__meta">
+                <span class="memo-card__time">
+                  <ClockCircleOutlined /> {{ formatTime(memo.updatedAt) }}
+                </span>
+                <a-tag v-for="tag in memo.tags" :key="tag" class="memo-card__tag" :bordered="false">{{ tag }}</a-tag>
+              </div>
+              <div class="memo-card__actions">
+                <a-tooltip title="查看详情">
+                  <a-button size="small" @click="openDetailModal(memo)">
+                    <template #icon><EyeOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip :title="memo.isPinned ? '取消置顶' : '置顶'">
+                  <a-button size="small" :class="{ 'memo-icon-btn--active': memo.isPinned }" @click="togglePinned(memo)">
+                    <template #icon><PushpinOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip :title="memo.status === 'completed' ? '重新打开' : '标记完成'">
+                  <a-button size="small" @click="toggleCompleted(memo)">
+                    <template #icon><CheckOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip :title="memo.status === 'archived' ? '取消归档' : '归档'">
+                  <a-button size="small" @click="toggleArchive(memo)">
+                    <template #icon><InboxOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip title="编辑">
+                  <a-button size="small" @click="openEditModal(memo)">
+                    <template #icon><EditOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip title="删除">
+                  <a-button size="small" danger @click="confirmDelete(memo)">
+                    <template #icon><DeleteOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+              </div>
             </div>
-          </div>
-          <div class="memo-item-actions">
-            <a-tooltip title="查看详情">
-              <a-button class="memo-icon-button" @click="openDetailModal(memo)">
-                <template #icon><EyeOutlined /></template>
-              </a-button>
-            </a-tooltip>
-            <a-tooltip :title="memo.isPinned ? '取消置顶' : '置顶'">
-              <a-button class="memo-icon-button" :class="{ active: memo.isPinned }" @click="togglePinned(memo)">
-                <template #icon><PushpinOutlined /></template>
-              </a-button>
-            </a-tooltip>
-            <a-tooltip :title="memo.status === 'completed' ? '重新打开' : '标记完成'">
-              <a-button class="memo-icon-button" @click="toggleCompleted(memo)">
-                <template #icon><CheckOutlined /></template>
-              </a-button>
-            </a-tooltip>
-            <a-tooltip title="归档">
-              <a-button class="memo-icon-button" :disabled="memo.status === 'archived'" @click="archiveMemo(memo)">
-                <template #icon><InboxOutlined /></template>
-              </a-button>
-            </a-tooltip>
-            <a-tooltip title="编辑">
-              <a-button class="memo-icon-button" @click="openEditModal(memo)">
-                <template #icon><EditOutlined /></template>
-              </a-button>
-            </a-tooltip>
-            <a-tooltip title="删除">
-              <a-button class="memo-icon-button memo-icon-button--danger" @click="confirmDelete(memo)">
-                <template #icon><DeleteOutlined /></template>
-              </a-button>
-            </a-tooltip>
           </div>
         </article>
       </div>
 
-      <a-empty v-else class="memo-empty" description="暂无备忘">
-        <a-button type="primary" @click="openCreateModal">立即记录</a-button>
-      </a-empty>
+      <!-- 空状态 -->
+      <div v-else class="memo-empty">
+        <InboxOutlined class="memo-empty__icon" />
+        <p class="memo-empty__text">暂无备忘录</p>
+        <p class="memo-empty__hint">记录灵感、计划、待办事项，让想法不丢失</p>
+        <a-button type="primary" @click="openCreateModal">
+          <template #icon><PlusOutlined /></template>
+          新建备忘
+        </a-button>
+      </div>
     </a-spin>
 
+    <!-- 分页 -->
     <div v-if="pagination.total > pagination.pageSize" class="memo-pagination">
       <a-pagination
         v-model:current="pagination.page"
@@ -134,6 +186,7 @@
       />
     </div>
 
+    <!-- 新增弹窗 -->
     <a-modal
       v-model:open="createVisible"
       title="新增备忘"
@@ -148,15 +201,15 @@
       <div class="memo-modal-body">
         <a-form layout="vertical">
           <a-form-item label="标题">
-            <a-input v-model:value.trim="createForm.title" :maxlength="80" placeholder="可选标题" />
+            <a-input v-model:value.trim="createForm.title" :maxlength="80" placeholder="给备忘起个名字（可选）" />
           </a-form-item>
           <a-form-item label="内容" required>
             <a-textarea
               v-model:value="createForm.content"
-              :auto-size="{ minRows: 5, maxRows: 10 }"
+              :auto-size="{ minRows: 6, maxRows: 12 }"
               :maxlength="5000"
               show-count
-              placeholder="记录一个灵感、问题、计划或稍后要处理的线索"
+              placeholder="记录灵感、问题、计划或待处理的线索..."
               @keydown.ctrl.enter.prevent="submitCreateMemo"
               @keydown.meta.enter.prevent="submitCreateMemo"
             />
@@ -172,7 +225,7 @@
               <a-input v-model:value.trim="createForm.dueAt" type="date" />
             </a-form-item>
             <a-form-item label="标签">
-              <a-input v-model:value="createForm.tagsText" placeholder="标签，用逗号分隔" :maxlength="120" />
+              <a-input v-model:value="createForm.tagsText" placeholder="多个标签用逗号分隔" :maxlength="120" />
             </a-form-item>
           </div>
           <a-checkbox v-model:checked="createForm.isPinned">置顶这条备忘</a-checkbox>
@@ -180,6 +233,7 @@
       </div>
     </a-modal>
 
+    <!-- 编辑弹窗 -->
     <a-modal
       v-model:open="editVisible"
       title="编辑备忘"
@@ -194,10 +248,10 @@
       <div class="memo-modal-body">
         <a-form layout="vertical">
           <a-form-item label="标题">
-            <a-input v-model:value.trim="editForm.title" :maxlength="80" placeholder="可选标题" />
+            <a-input v-model:value.trim="editForm.title" :maxlength="80" placeholder="给备忘起个名字（可选）" />
           </a-form-item>
           <a-form-item label="内容" required>
-            <a-textarea v-model:value="editForm.content" :auto-size="{ minRows: 5, maxRows: 10 }" :maxlength="5000" show-count />
+            <a-textarea v-model:value="editForm.content" :auto-size="{ minRows: 6, maxRows: 12 }" :maxlength="5000" show-count />
           </a-form-item>
           <div class="memo-modal-grid">
             <a-form-item label="类型">
@@ -214,24 +268,27 @@
             </a-form-item>
           </div>
           <a-form-item label="标签">
-            <a-input v-model:value="editForm.tagsText" placeholder="标签，用逗号分隔" :maxlength="120" />
+            <a-input v-model:value="editForm.tagsText" placeholder="多个标签用逗号分隔" :maxlength="120" />
           </a-form-item>
           <a-checkbox v-model:checked="editForm.isPinned">置顶这条备忘</a-checkbox>
         </a-form>
       </div>
     </a-modal>
 
+    <!-- 详情弹窗 -->
     <a-modal
       v-model:open="detailVisible"
       :title="detailMemo?.title || '备忘详情'"
-      :width="760"
+      :width="720"
       :footer="null"
       class="memo-detail-modal"
       destroy-on-close
     >
       <div v-if="detailMemo" class="memo-detail">
-        <div class="memo-detail__header">
-          <a-tag :color="getTypeMeta(detailMemo.type).color">{{ getTypeMeta(detailMemo.type).label }}</a-tag>
+        <div class="memo-detail__badges">
+          <a-tag :color="getTypeMeta(detailMemo.type).color" :bordered="false">
+            {{ getTypeMeta(detailMemo.type).label }}
+          </a-tag>
           <a-tag :color="getPriorityMeta(detailMemo.priority).color">{{ getPriorityMeta(detailMemo.priority).label }}</a-tag>
           <a-tag v-if="detailMemo.status === 'completed'" color="success">已完成</a-tag>
           <a-tag v-else-if="detailMemo.status === 'archived'">已归档</a-tag>
@@ -239,14 +296,14 @@
         </div>
         <div class="memo-detail__content">{{ detailMemo.content }}</div>
         <div class="memo-detail__meta">
-          <span>更新：{{ formatTime(detailMemo.updatedAt) }}</span>
-          <span v-if="detailMemo.createdAt">创建：{{ formatTime(detailMemo.createdAt) }}</span>
-          <span v-if="detailMemo.dueAt">计划：{{ formatDate(detailMemo.dueAt) }}</span>
+          <span><ClockCircleOutlined /> 更新于 {{ formatTime(detailMemo.updatedAt) }}</span>
+          <span v-if="detailMemo.createdAt"><FormOutlined /> 创建于 {{ formatTime(detailMemo.createdAt) }}</span>
+          <span v-if="detailMemo.dueAt"><CalendarOutlined /> 计划 {{ formatDate(detailMemo.dueAt) }}</span>
         </div>
         <div v-if="detailMemo.tags?.length" class="memo-detail__tags">
-          <a-tag v-for="tag in detailMemo.tags" :key="tag" class="memo-mini-tag">{{ tag }}</a-tag>
+          <a-tag v-for="tag in detailMemo.tags" :key="tag" :bordered="false">{{ tag }}</a-tag>
         </div>
-        <div class="memo-detail__actions">
+        <div class="memo-detail__footer">
           <a-button @click="openEditFromDetail">
             <template #icon><EditOutlined /></template>
             编辑
@@ -259,6 +316,10 @@
             <template #icon><CheckOutlined /></template>
             {{ detailMemo.status === 'completed' ? '重新打开' : '标记完成' }}
           </a-button>
+          <a-button @click="toggleArchive(detailMemo)">
+            <template #icon><InboxOutlined /></template>
+            {{ detailMemo.status === 'archived' ? '取消归档' : '归档' }}
+          </a-button>
         </div>
       </div>
     </a-modal>
@@ -269,10 +330,15 @@
 import { onMounted, reactive, ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import {
+  AlertOutlined,
+  CalendarOutlined,
+  CheckCircleOutlined,
   CheckOutlined,
+  ClockCircleOutlined,
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
+  FormOutlined,
   InboxOutlined,
   PlusOutlined,
   PushpinOutlined,
@@ -581,8 +647,12 @@ function toggleCompleted(memo) {
   patchMemo(memo, { status }, status === 'completed' ? '已标记完成' : '已重新打开')
 }
 
-function archiveMemo(memo) {
-  patchMemo(memo, { status: 'archived', isPinned: false }, '已归档')
+function toggleArchive(memo) {
+  if (memo.status === 'archived') {
+    patchMemo(memo, { status: 'open' }, '已取消归档')
+  } else {
+    patchMemo(memo, { status: 'archived', isPinned: false }, '已归档')
+  }
 }
 
 function confirmDelete(memo) {
@@ -614,72 +684,102 @@ onMounted(() => {
   width: 100%;
   min-width: 0;
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
-.memo-page-head,
-.memo-toolbar {
+/* ── 指标卡片 ── */
+.memo-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.memo-metric {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.memo-page-head {
+.memo-metric:hover {
+  border-color: var(--console-border-strong);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.memo-metric__icon {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.memo-metric__icon--blue {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+}
+
+.memo-metric__icon--purple {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8b5cf6;
+}
+
+.memo-metric__icon--amber {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.memo-metric__icon--green {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.memo-metric__body {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 16px 18px;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
-.memo-page-head h1 {
-  margin: 0;
-  color: var(--console-text);
-  font-size: 20px;
-  line-height: 28px;
-}
-
-.memo-page-head p:last-child {
-  max-width: 760px;
-  margin: 4px 0 0;
+.memo-metric__label {
   color: var(--console-text-secondary);
-  line-height: 1.65;
+  font-size: 13px;
+  line-height: 20px;
 }
 
-.memo-head-side {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.memo-stats {
-  flex: 0 0 auto;
-  display: grid;
-  grid-template-columns: repeat(3, 86px);
-  gap: 8px;
-}
-
-.memo-stats div {
-  min-height: 58px;
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  border: 1px solid var(--console-border);
-  border-radius: 6px;
-  background: var(--console-surface-muted);
-}
-
-.memo-stats span {
+.memo-metric__value {
   color: var(--console-text);
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
-  line-height: 24px;
+  line-height: 1.2;
 }
 
-.memo-stats small {
-  color: var(--console-text-secondary);
-  font-size: 12px;
+/* ── 工具栏 ── */
+.memo-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  flex-wrap: wrap;
+}
+
+.memo-search {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.memo-filter-select {
+  width: 130px;
+  flex-shrink: 0;
 }
 
 .memo-toolbar :deep(.ant-input),
@@ -688,178 +788,264 @@ onMounted(() => {
   border-radius: 6px;
 }
 
-.memo-select,
-.memo-filter-select {
-  width: 100%;
-}
-
-.memo-toolbar {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) max-content 150px 150px 40px;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-}
-
-.memo-search {
-  min-width: 0;
-}
-
-.memo-icon-button {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.memo-toolbar :deep(.ant-segmented) {
   border-radius: 6px;
-  color: var(--console-menu-text);
 }
 
-.memo-icon-button.active,
-.memo-icon-button:hover {
-  color: var(--console-primary-strong);
-  border-color: var(--console-primary-strong);
-}
-
-.memo-icon-button--danger:hover {
-  color: #ff4d4f;
-  border-color: #ff4d4f;
+.memo-icon-btn--active {
+  color: var(--console-primary) !important;
+  border-color: var(--console-primary) !important;
 }
 
 .memo-alert {
   border-radius: 8px;
 }
 
+/* ── 备忘卡片列表 ── */
 .memo-list {
   display: grid;
-  gap: 10px;
-}
-
-.memo-item {
-  position: relative;
-  min-height: 112px;
-  display: grid;
-  grid-template-columns: 5px minmax(0, 1fr) max-content;
-  gap: 14px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  padding: 14px 14px 14px 0;
-  background: var(--console-surface);
-  transition: border-color 0.2s, background 0.2s;
-}
-
-.memo-item:hover {
-  border-color: var(--console-border-strong);
-  background: var(--console-surface-hover);
-}
-
-.memo-item--done .memo-item-main h2,
-.memo-item--done .memo-item-preview {
-  opacity: 0.72;
-}
-
-.memo-item-marker {
-  width: 5px;
-  height: 100%;
-  border-radius: 0 999px 999px 0;
-  background: #52c41a;
-}
-
-.memo-item--medium .memo-item-marker {
-  background: #1677ff;
-}
-
-.memo-item--high .memo-item-marker {
-  background: #fa8c16;
-}
-
-.memo-item-main {
-  min-width: 0;
-}
-
-.memo-item-title-row {
-  min-width: 0;
-  display: flex;
-  align-items: center;
   gap: 8px;
 }
 
-.memo-item h2 {
-  min-width: 0;
+.memo-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5px 1fr;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
   overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.memo-card:hover {
+  border-color: var(--console-border-strong);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.memo-card--done {
+  opacity: 0.7;
+}
+
+.memo-card--archived {
+  opacity: 0.55;
+}
+
+.memo-card__marker {
+  width: 5px;
+  min-height: 100%;
+  background: #52c41a;
+}
+
+.memo-card--medium .memo-card__marker {
+  background: #1677ff;
+}
+
+.memo-card--high .memo-card__marker {
+  background: #fa8c16;
+}
+
+.memo-card__body {
+  min-width: 0;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.memo-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.memo-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.memo-card__type {
+  flex-shrink: 0;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.memo-card__title {
+  min-width: 0;
   margin: 0;
   color: var(--console-text);
-  font-size: 16px;
-  font-weight: 650;
-  line-height: 24px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 22px;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.memo-item-preview {
+.memo-card--done .memo-card__title {
+  text-decoration: line-through;
+  text-decoration-color: var(--console-text-secondary);
+}
+
+.memo-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.memo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 20px;
+  white-space: nowrap;
+}
+
+.memo-badge--pinned {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.memo-badge--done {
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.memo-badge--archived {
+  color: var(--console-text-secondary);
+  background: var(--console-surface-muted);
+}
+
+.memo-badge--due {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.memo-card__preview {
   display: -webkit-box;
   width: 100%;
+  max-height: 44px;
   overflow: hidden;
   border: 0;
   padding: 0;
-  margin: 8px 0 0;
+  margin: 0;
   color: var(--console-text-secondary);
   background: transparent;
   cursor: pointer;
   font: inherit;
-  line-height: 1.7;
+  font-size: 13px;
+  line-height: 1.6;
   text-align: left;
-  white-space: pre-wrap;
+  word-break: break-all;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  transition: color 0.15s;
 }
 
-.memo-item-preview:hover {
+.memo-card__preview:hover {
   color: var(--console-text);
 }
 
-.memo-item-meta {
+.memo-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.memo-card__meta {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 10px;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.memo-card__time {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: var(--console-text-secondary);
   font-size: 12px;
+  white-space: nowrap;
 }
 
-.memo-type-tag,
-.memo-mini-tag {
-  flex: 0 0 auto;
+.memo-card__tag {
+  flex-shrink: 0;
   margin-inline-end: 0;
   border-radius: 4px;
-}
-
-.memo-mini-tag {
+  font-size: 12px;
   color: var(--console-text-secondary);
   background: var(--console-surface-muted);
-  border-color: var(--console-border);
 }
 
-.memo-item-actions {
-  display: grid;
-  grid-template-columns: repeat(3, 32px);
-  align-items: flex-start;
+.memo-card__actions {
+  display: flex;
+  align-items: center;
   gap: 4px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
 }
 
+.memo-card:hover .memo-card__actions {
+  opacity: 1;
+}
+
+/* ── 空状态 ── */
 .memo-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 80px 20px;
   border: 1px solid var(--console-border);
   border-radius: 8px;
-  padding: 56px 0;
   background: var(--console-surface);
 }
 
+.memo-empty__icon {
+  font-size: 48px;
+  color: var(--console-text-secondary);
+  opacity: 0.3;
+}
+
+.memo-empty__text {
+  margin: 0;
+  color: var(--console-text);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.memo-empty__hint {
+  margin: 0;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+}
+
+/* ── 分页 ── */
 .memo-pagination {
   display: flex;
   justify-content: flex-end;
 }
 
+/* ── 弹窗表单 ── */
 .memo-modal-body {
   max-height: min(68vh, 640px);
   overflow-y: auto;
@@ -872,14 +1058,13 @@ onMounted(() => {
   gap: 0 12px;
 }
 
+/* ── 详情弹窗 ── */
 .memo-detail {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
-.memo-detail__header,
-.memo-detail__tags,
-.memo-detail__actions {
+.memo-detail__badges {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -887,11 +1072,11 @@ onMounted(() => {
 }
 
 .memo-detail__content {
-  max-height: min(52vh, 520px);
+  max-height: min(48vh, 480px);
   overflow-y: auto;
   border: 1px solid var(--console-border);
   border-radius: 8px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   color: var(--console-text);
   background: var(--console-surface-muted);
   font-size: 14px;
@@ -904,15 +1089,31 @@ onMounted(() => {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 16px;
   color: var(--console-text-secondary);
-  font-size: 12px;
+  font-size: 13px;
 }
 
-.memo-detail__actions {
+.memo-detail__meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.memo-detail__tags {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.memo-detail__footer {
+  display: flex;
+  align-items: center;
   justify-content: flex-end;
+  gap: 8px;
+  padding-top: 14px;
   border-top: 1px solid var(--console-border);
-  padding-top: 12px;
 }
 
 .memo-detail-modal :deep(.ant-modal-body) {
@@ -920,64 +1121,60 @@ onMounted(() => {
   overflow: hidden;
 }
 
+/* ── 响应式 ── */
 @media (max-width: 1200px) {
-  .memo-page-head {
-    grid-template-columns: 1fr;
-  }
-
-  .memo-page-head {
-    display: grid;
-  }
-
-  .memo-head-side {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .memo-stats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .memo-toolbar {
-    grid-template-columns: minmax(220px, 1fr) 220px 150px 150px 40px;
+  .memo-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 900px) {
   .memo-toolbar {
-    grid-template-columns: 1fr 1fr;
+    flex-wrap: wrap;
   }
 
   .memo-search {
-    grid-column: 1 / -1;
+    width: 100%;
+    flex: 1 1 100%;
   }
 
-  .memo-item {
-    grid-template-columns: 5px minmax(0, 1fr);
+  .memo-filter-select {
+    flex: 1;
+    min-width: 0;
   }
 
-  .memo-item-actions {
-    grid-column: 2;
-    grid-template-columns: repeat(6, 32px);
+  .memo-card__actions {
+    opacity: 1;
   }
 }
 
 @media (max-width: 640px) {
-  .memo-page-head {
-    padding: 14px;
+  .memo-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
-  .memo-stats,
-  .memo-toolbar {
-    grid-template-columns: 1fr;
+  .memo-metric {
+    padding: 12px 14px;
+    gap: 10px;
   }
 
-  .memo-item-actions {
-    grid-template-columns: repeat(3, 32px);
+  .memo-metric__icon {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .memo-metric__value {
+    font-size: 20px;
   }
 
   .memo-modal-grid {
     grid-template-columns: 1fr;
+  }
+
+  .memo-detail__footer {
+    flex-wrap: wrap;
   }
 }
 </style>
