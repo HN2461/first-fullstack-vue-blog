@@ -40,7 +40,7 @@ cover:
 6. 字符串（含 format() 和 f-string 高级用法）
 7. 数字和简单计算
 8. input 输入和类型转换
-9. 条件判断 if-else
+9. 条件判断 if-else 和 match
 10. 循环 for 和 while
 11. 列表 list（含浅拷贝深拷贝、排序 key 参数）
 12. 元组 tuple（含元组解包、命名元组）

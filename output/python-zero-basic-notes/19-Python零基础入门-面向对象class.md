@@ -395,7 +395,198 @@ console.log(User.totalCount)  // 2
 
 Python 的类属性不需要 `static` 关键字，直接定义就行。JS 需要加 `static`。
 
-## 九、class 语法对照总表
+## 九、静态方法和类方法
+
+### @staticmethod：不需要 self 的方法
+
+有些方法和实例无关，只是逻辑上属于这个类。用 `@staticmethod` 定义：
+
+```python
+class MathUtils:
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+    @staticmethod
+    def is_positive(n):
+        return n > 0
+
+# 不需要创建实例就能调用
+print(MathUtils.add(3, 5))         # 8
+print(MathUtils.is_positive(-1))   # False
+```
+
+静态方法不需要 `self` 参数，因为它不访问实例属性。
+
+JS 对照：
+
+```js
+class MathUtils {
+  static add(a, b) {
+    return a + b
+  }
+  static isPositive(n) {
+    return n > 0
+  }
+}
+
+console.log(MathUtils.add(3, 5))    // 8
+```
+
+Python 用 `@staticmethod` 装饰器，JS 用 `static` 关键字。
+
+### @classmethod：操作类本身的方法
+
+类方法的第一个参数是 `cls`（类本身），不是 `self`（实例）。常用于**替代构造方法**：
+
+```python
+class Article:
+    def __init__(self, title, status="draft"):
+        self.title = title
+        self.status = status
+
+    @classmethod
+    def from_dict(cls, data):
+        """从字典创建文章对象"""
+        return cls(data["title"], data.get("status", "draft"))
+
+# 普通创建
+a1 = Article("Python 入门")
+
+# 从字典创建（替代构造方法）
+data = {"title": "JS 基础", "status": "published"}
+a2 = Article.from_dict(data)
+
+print(a2.title)    # JS 基础
+print(a2.status)   # published
+```
+
+`cls` 就是类本身，`cls(...)` 等价于 `Article(...)`。好处是子类继承时 `cls` 会自动变成子类。
+
+JS 对照：JS 没有原生的类方法，通常用 `static` 方法模拟：
+
+```js
+class Article {
+  constructor(title, status = 'draft') {
+    this.title = title
+    this.status = status
+  }
+
+  static fromDict(data) {
+    return new Article(data.title, data.status ?? 'draft')
+  }
+}
+
+const a2 = Article.fromDict({ title: 'JS 基础', status: 'published' })
+```
+
+### 三种方法对照
+
+| 类型 | 第一个参数 | 访问实例 | 访问类 | 用途 |
+| --- | --- | --- | --- | --- |
+| 实例方法 | `self` | ✅ | ✅ | 最常用，操作实例数据 |
+| 类方法 | `cls` | ❌ | ✅ | 替代构造、工厂方法 |
+| 静态方法 | 无 | ❌ | ❌ | 工具函数，逻辑上属于类 |
+
+```python
+class Demo:
+    count = 0
+
+    def __init__(self):
+        Demo.count += 1
+
+    def instance_method(self):
+        # 可以访问 self 和 Demo
+        return f"实例方法：{self}，总数={Demo.count}"
+
+    @classmethod
+    def class_method(cls):
+        # 只能访问 cls（类），不能访问 self
+        return f"类方法：总数={cls.count}"
+
+    @staticmethod
+    def static_method():
+        # 不能访问 self 也不能访问 cls
+        return "静态方法：纯工具函数"
+```
+
+## 十、常用魔术方法
+
+Python 类里以双下划线开头和结尾的方法叫**魔术方法（dunder method）**，它们在特定场景下自动被调用。
+
+前面已经学过 `__init__`（构造）和 `__str__`（打印）。以下是企业项目中最常见的几个：
+
+### `__repr__`：开发者调试用的字符串
+
+```python
+class Article:
+    def __init__(self, title, status="draft"):
+        self.title = title
+        self.status = status
+
+    def __str__(self):
+        return f"《{self.title}》- {self.status}"
+
+    def __repr__(self):
+        return f"Article(title='{self.title}', status='{self.status}')"
+
+a = Article("Python 入门")
+
+print(a)          # 《Python 入门》- draft（__str__）
+print(repr(a))    # Article(title='Python 入门', status='draft')（__repr__）
+```
+
+`__str__` 给用户看，`__repr__` 给开发者看（调试时更详细）。
+
+### `__len__`：支持 `len()` 函数
+
+```python
+class Article:
+    def __init__(self, title, tags=None):
+        self.title = title
+        self.tags = tags or []
+
+    def __len__(self):
+        return len(self.tags)
+
+a = Article("Python 入门", ["Python", "入门", "基础"])
+print(len(a))    # 3
+```
+
+### `__eq__`：支持 `==` 比较
+
+```python
+class Article:
+    def __init__(self, title, status):
+        self.title = title
+        self.status = status
+
+    def __eq__(self, other):
+        return self.title == other.title and self.status == other.status
+
+a1 = Article("Python 入门", "draft")
+a2 = Article("Python 入门", "draft")
+
+print(a1 == a2)    # True（默认是 False，因为是不同对象）
+```
+
+### 常用魔术方法对照
+
+| 魔术方法 | 触发场景 | JS 对应 |
+| --- | --- | --- |
+| `__init__` | 创建对象时 | `constructor` |
+| `__str__` | `print(obj)` / `str(obj)` | `toString()` |
+| `__repr__` | `repr(obj)` / 调试显示 | 无直接对应 |
+| `__len__` | `len(obj)` | `obj.length`（属性） |
+| `__eq__` | `obj1 == obj2` | 需手动实现 |
+| `__lt__` | `obj1 < obj2` | 需手动实现 |
+| `__contains__` | `x in obj` | `obj.has(x)` / `obj.includes(x)` |
+| `__getitem__` | `obj[key]` | 原生支持 |
+| `__setitem__` | `obj[key] = value` | 原生支持 |
+
+企业项目中最常用的是 `__init__`、`__str__`、`__repr__` 和 `__eq__`，其他了解即可。
+
+## 十一、class 语法对照总表
 
 | 功能 | Python | JS |
 | --- | --- | --- |
@@ -410,7 +601,7 @@ Python 的类属性不需要 `static` 关键字，直接定义就行。JS 需要
 | 打印对象 | `__str__` | `toString()` |
 | 多态 | 自然支持 | 自然支持 |
 
-## 十、容易和 JS 混淆的地方汇总
+## 十二、容易和 JS 混淆的地方汇总
 
 | 容易混的点 | Python | JS | 怎么记 |
 | --- | --- | --- | --- |
@@ -423,7 +614,7 @@ Python 的类属性不需要 `static` 关键字，直接定义就行。JS 需要
 | 属性命名 | 蛇形 `view_count` | 驼峰 `viewCount` | 风格差异 |
 | 打印对象 | `__str__` | `toString()` | Python 双下划线 |
 
-## 十一、企业项目实战：文章类
+## 十三、企业项目实战：文章类
 
 ```python
 class Article:
@@ -478,7 +669,7 @@ print(article)
 # [published] Python 零基础入门：字符串 | 浏览: 2 | 标签: python, 字符串
 ```
 
-## 十二、本篇练习
+## 十四、本篇练习
 
 练习一：商品类。
 

@@ -529,7 +529,7 @@ queryArticles({ status: 'draft', page: 2 })
 
 注意 Python 的关键字参数比 JS 的对象解构更简洁。
 
-## 十三、类型提示基础
+## 十四、类型提示基础
 
 Python 是动态类型语言，变量不需要声明类型。但企业项目中，大型代码库没有类型信息很难维护。Python 3.5+ 引入了**类型提示（Type Hints）**，可以在函数签名中标注参数和返回值的类型。
 
@@ -652,67 +652,146 @@ function queryArticle(
 
 类型提示不是必须的，但企业项目**强烈推荐**使用。它让代码自文档化，IDE 提示更友好。
 
-## 十四、参数解包
+## 十五、`*` 和 `**` 完整讲解
 
-函数调用时，可以用 `*` 和 `**` 把列表/字典解包成参数。
+`*` 和 `**` 在 Python 里有三种角色，很多初学者容易混。这里一次讲清。
 
-### * 解包列表/元组
+### 角色一：解包输出（最常用）
+
+把容器里的元素拆开，当成独立值使用。
 
 ```python
+# 列表解包
+nums = [1, 2, 3]
+print(nums)     # [1, 2, 3]（整体输出，带括号）
+print(*nums)    # 1 2 3（拆开输出，不带括号）
+
+# 元组同理
+t = (10, 20)
+print(*t)       # 10 20
+
+# 字符串同理
+s = "abc"
+print(*s)       # a b c
+
+# 集合、range 也可以
+print(*{5, 3, 1})       # 1 3 5（集合无序）
+print(*range(3))         # 0 1 2
+
+# 字典解包取的是 key
+d = {"x": 1, "y": 2}
+print(*d)       # x y（只取 key，不是值）
+```
+
+**注意：`**` 字典解包不能直接用于 `print()`：**
+
+```python
+d = {"x": 1, "y": 2}
+print(**d)    # TypeError! ** 不能单独丢进 print
+```
+
+`**` 只能用在函数传参和字典合并。
+
+### 角色二：收集参数（定义函数时）
+
+```python
+# *args：收集多余的位置参数，打包成元组
+def func(a, *args):
+    print(f"a = {a}, args = {args}")
+
+func(10, 20, 30, 40)
+# a = 10, args = (20, 30, 40)
+
+# **kwargs：收集多余的关键字参数，打包成字典
+def func2(a, **kwargs):
+    print(f"a = {a}, kwargs = {kwargs}")
+
+func2(10, name="张三", age=20)
+# a = 10, kwargs = {'name': '张三', 'age': 20}
+```
+
+### 角色三：解包传参和合并（调用函数时）
+
+```python
+# * 解包列表传给函数
 def add(a, b, c):
     return a + b + c
 
 nums = [1, 2, 3]
 result = add(*nums)     # 等价于 add(1, 2, 3)
-
 print(result)           # 6
-```
 
-### ** 解包字典
-
-```python
+# ** 解包字典传给函数
 def create_user(name, age, city):
     return f"{name}，{age}岁，{city}"
 
 info = {"name": "小明", "age": 18, "city": "北京"}
 result = create_user(**info)   # 等价于 create_user(name="小明", age=18, city="北京")
-
 print(result)   # 小明，18岁，北京
 ```
 
-### 配置合并
+### 合并容器
 
 ```python
+# 合并列表
+a = [1, 2]
+b = [3, 4]
+c = [*a, *b]        # [1, 2, 3, 4]
+
+# 合并字典
+d1 = {"a": 1}
+d2 = {**d1, "b": 2}
+print(d2)           # {'a': 1, 'b': 2}
+
+# 函数参数合并配置
 def connect_db(host, port, user, password, database):
     print(f"连接 {host}:{port}/{database}")
 
-# 默认配置
 default = {"host": "localhost", "port": 3306, "user": "root"}
-# 用户配置覆盖
 user_config = {"password": "123456", "database": "blog", "port": 5432}
 
-# 合并后解包
 merged = {**default, **user_config}
 connect_db(**merged)
 # 连接 localhost:5432/blog
 ```
 
+### `*` 和 `**` 三种角色对照表
+
+| 角色 | `*` | `**` |
+| --- | --- | --- |
+| 解包输出 | `print(*list)` 拆开打印 | ❌ 不能用于 print |
+| 收集参数 | `*args` 收集位置参数→元组 | `**kwargs` 收集关键字参数→字典 |
+| 解包传参 | `func(*list)` 拆开传参 | `func(**dict)` 拆成 key=value |
+| 合并容器 | `[*a, *b]` 合并列表 | `{**d1, **d2}` 合并字典 |
+| 操作对象 | 可迭代对象（列表/元组/字符串/集合/range/字典key） | 仅字典 |
+
+### 极简口诀
+
+```text
+*  ：管可迭代对象，拆单个值
+** ：只管字典，拆键值对
+```
+
 JS 对照：
 
 ```js
-function connectDb({ host, port, user, password, database }) {
-  console.log(`连接 ${host}:${port}/${database}`)
-}
+// * 解包 ≈ JS 展开运算符
+const nums = [1, 2, 3]
+console.log(...nums)     // 1 2 3
 
-const defaultConfig = { host: 'localhost', port: 3306, user: 'root' }
-const userConfig = { password: '123456', database: 'blog', port: 5432 }
+// ** 解包 ≈ JS 对象展开
+const d1 = { a: 1 }
+const d2 = { ...d1, b: 2 }
 
-connectDb({ ...defaultConfig, ...userConfig })
+// 函数解包传参
+function add(a, b, c) { return a + b + c }
+add(...nums)   // 6
+
+// 合并数组
+const c = [...a, ...b]
 ```
 
-Python 的 `**` 解包和 JS 的 `...` 展开运算符功能类似，但 Python 的 `**` 只能用于字典到关键字参数的映射。
-
-## 十五、本篇练习
+## 十六、本篇练习
 
 练习一：计算总价函数。
 

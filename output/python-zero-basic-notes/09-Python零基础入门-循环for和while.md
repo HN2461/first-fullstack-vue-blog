@@ -211,6 +211,70 @@ for (const [index, tag] of tags.entries()) {
 }
 ```
 
+### 同时遍历多个列表：zip()
+
+`zip()` 可以同时遍历多个列表，把对应位置的元素打包在一起：
+
+```python
+names = ["小明", "小红", "小刚"]
+scores = [85, 92, 78]
+
+for name, score in zip(names, scores):
+    print(f"{name}：{score}分")
+```
+
+输出：
+
+```text
+小明：85分
+小红：92分
+小刚：78分
+```
+
+`zip()` 以最短的列表为准——如果两个列表长度不同，多出来的元素会被忽略：
+
+```python
+a = [1, 2, 3, 4, 5]
+b = ["x", "y", "z"]
+
+for num, letter in zip(a, b):
+    print(f"{num} - {letter}")
+# 只输出 3 组，4 和 5 被忽略
+```
+
+`zip()` 也支持三个或更多列表：
+
+```python
+names = ["小明", "小红"]
+scores = [85, 92]
+cities = ["北京", "上海"]
+
+for name, score, city in zip(names, scores, cities):
+    print(f"{name}，{score}分，{city}")
+```
+
+配合 `dict()` 还可以快速创建字典：
+
+```python
+keys = ["name", "age", "city"]
+values = ["小明", 18, "北京"]
+
+user = dict(zip(keys, values))
+print(user)   # {'name': '小明', 'age': 18, 'city': '北京'}
+```
+
+JS 对照：
+
+```js
+const names = ['小明', '小红', '小刚']
+const scores = [85, 92, 78]
+
+// JS 没有内置 zip，需要手动实现
+names.forEach((name, i) => {
+  console.log(`${name}：${scores[i]}分`)
+})
+```
+
 ## 四、遍历字符串
 
 字符串也可以被循环：

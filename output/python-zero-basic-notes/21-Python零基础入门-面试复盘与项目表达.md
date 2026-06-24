@@ -50,6 +50,10 @@ cover:
 | 逻辑运算 | `and` / `or` / `not` | `&&` / `\|\|` / `!` |
 | 自增 | `i += 1` | `i++` |
 | 三元表达式 | `A if X else B` | `X ? A : B` |
+| 多值匹配 | `match/case` (3.10+) | `switch/case` |
+| 解构赋值 | `a, b = [1, 2]` | `const [a, b] = [1, 2]` |
+| 收集剩余 | `*rest` | `...rest` |
+| 类型提示 | `def f(x: int) -> str:` | TypeScript `x: number` |
 
 ### 数据类型差异
 
@@ -85,6 +89,8 @@ cover:
 | 映射 | 列表推导式 | `map()` |
 | 过滤 | 列表推导式 | `filter()` |
 | 去重 | `list(set(x))` | `[...new Set(x)]` |
+| 不可变序列 | 元组 `tuple` | 无原生类型 |
+| 集合运算 | `&` 交集 `\|` 并集 `-` 差集 | 无运算符，需手动 filter |
 | 字典访问 | `dict["key"]` | `obj.key` 或 `obj["key"]` |
 | 键不存在 | 报错 KeyError | 返回 undefined |
 | 点号访问 | 不支持 | 支持 |
@@ -107,6 +113,9 @@ cover:
 | 创建对象 | `User()` | `new User()` |
 | 构造方法 | `__init__` | `constructor` |
 | 继承 | `class Dog(Animal):` | `class Dog extends Animal` |
+| 静态方法 | `@staticmethod` | `static` 关键字 |
+| 类方法 | `@classmethod` | 无原生 |
+| 魔术方法 | `__str__`、`__repr__`、`__eq__` | `toString()` |
 
 ### 工具链差异
 

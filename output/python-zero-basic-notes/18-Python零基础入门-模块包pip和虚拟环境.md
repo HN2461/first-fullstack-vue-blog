@@ -163,6 +163,64 @@ from tools import math_tools
 from tools.string_tools import clean_tag
 ```
 
+### `if __name__ == '__main__'`：模块入口
+
+这是 Python 项目里非常常见的写法，也是面试常考点。
+
+当你直接运行一个 `.py` 文件时，Python 会把特殊变量 `__name__` 设为 `'__main__'`。但如果这个文件是被其他文件 `import` 的，`__name__` 就是模块名而不是 `'__main__'`。
+
+```python
+# calculator.py
+
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+# 只有直接运行时才执行测试代码
+if __name__ == "__main__":
+    print(add(3, 5))       # 8
+    print(subtract(10, 4)) # 6
+```
+
+```bash
+# 直接运行 → __name__ 是 '__main__'，会执行测试代码
+python calculator.py
+# 输出：8 和 6
+```
+
+```python
+# 在其他文件中导入 → __name__ 是 'calculator'，不会执行测试代码
+from calculator import add
+
+result = add(1, 2)   # 只导入函数，不会打印测试结果
+```
+
+**为什么要这样写？**
+
+| 场景 | 不写 `if __name__` | 写了 `if __name__` |
+| --- | --- | --- |
+| 直接运行文件 | ✅ 正常 | ✅ 正常 |
+| 被其他文件导入 | ❌ 测试代码也会执行 | ✅ 测试代码不执行 |
+
+企业项目中，每个模块的测试代码、示例用法、启动入口都应放在 `if __name__ == "__main__":` 里面。
+
+JS 对照：JS 没有这个机制，但 Node.js 有类似的检测方式：
+
+```js
+// Node.js 中检测是否直接运行
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  // 直接运行时执行
+  console.log(add(3, 5))
+}
+```
+
+Python 的 `if __name__ == "__main__"` 更简洁、更通用。
+
 JS 对照：
 
 ```js

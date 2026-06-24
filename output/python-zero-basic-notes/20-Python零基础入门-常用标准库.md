@@ -333,7 +333,56 @@ logger.error('这里发生了错误')
 
 Python 内置 `logging` 就够用，JS 需要第三方库。
 
-## 七、标准库对照总表
+## 七、csv：读写 CSV 文件
+
+CSV（逗号分隔值）是后端数据处理最常见的文件格式之一。Python 标准库 `csv` 可以直接读写。
+
+```python
+import csv
+
+# 写入 CSV
+users = [
+    ["姓名", "年龄", "城市"],
+    ["小明", 18, "北京"],
+    ["小红", 22, "上海"],
+]
+
+with open("users.csv", "w", newline="", encoding="utf-8") as file:
+    writer = csv.writer(file)
+    writer.writerows(users)
+```
+
+```python
+# 读取 CSV
+with open("users.csv", "r", encoding="utf-8") as file:
+    reader = csv.reader(file)
+    for row in reader:
+        print(row)
+```
+
+输出：
+
+```text
+['姓名', '年龄', '城市']
+['小明', '18', '北京']
+['小红', '22', '上海']
+```
+
+注意：CSV 读取的值都是字符串，数字需要手动转换。
+
+JS 对照（Node.js）：
+
+```js
+// JS 没有内置 CSV 模块，需要第三方库如 csv-parse
+import { parse } from 'csv-parse/sync'
+import { readFileSync } from 'fs'
+
+const records = parse(readFileSync('users.csv'), { columns: true })
+```
+
+Python 的 `csv` 模块更简洁，且是标准库不需要安装。
+
+## 八、标准库对照总表
 
 | Python 标准库 | 用途 | JS 对照 |
 | --- | --- | --- |
@@ -349,7 +398,7 @@ Python 内置 `logging` 就够用，JS 需要第三方库。
 | `collections` | 高级数据结构 | 无内置 |
 | `itertools` | 迭代器工具 | 无内置 |
 
-## 八、容易和 JS 混淆的地方汇总
+## 九、容易和 JS 混淆的地方汇总
 
 | 容易混的点 | Python | JS | 怎么记 |
 | --- | --- | --- | --- |
@@ -362,7 +411,7 @@ Python 内置 `logging` 就够用，JS 需要第三方库。
 | 日志 | `logging` 内置 | 需要 winston | Python 内置更方便 |
 | 中文 JSON | `ensure_ascii=False` | 默认支持 | Python 要手动关 |
 
-## 九、本篇练习
+## 十、本篇练习
 
 练习一：生成带时间戳的文件名。
 

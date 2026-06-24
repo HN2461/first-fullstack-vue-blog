@@ -1,14 +1,14 @@
 ---
-title: Python 零基础入门 08：条件判断 if else
-slug: python-zero-if-else
-summary: 介绍条件判断的基本写法，讲解 if、elif、else、比较运算符、逻辑运算符、缩进规则，全程对照 JavaScript。
+title: Python 零基础入门 08：条件判断 if else 和 match
+slug: python-zero-if-else-match
+summary: 介绍条件判断的基本写法，讲解 if、elif、else、比较运算符、逻辑运算符、缩进规则、三元表达式、match 语句，全程对照 JavaScript。
 category:
 tags: []
 status: draft
 cover:
 ---
 
-# Python 零基础入门 08：条件判断 if else
+# Python 零基础入门 08：条件判断 if else 和 match
 
 条件判断就是：**如果满足某个条件，就做一件事；否则做另一件事。**
 
@@ -457,7 +457,242 @@ const status = 'draft'
 const statusText = status === 'published' ? '已发布' : '草稿'
 ```
 
-## 九、pass 语句
+## 九、match 语句（类似 JS 的 switch）
+
+JS 里如果条件分支很多，常用 `switch`：
+
+```js
+const status = 'draft'
+
+switch (status) {
+  case 'published':
+    console.log('已发布')
+    break
+  case 'draft':
+    console.log('草稿')
+    break
+  case 'archived':
+    console.log('已归档')
+    break
+  default:
+    console.log('未知状态')
+}
+```
+
+**Python 3.10 之前没有 switch！** 只能用 `if/elif/else` 模拟。
+
+Python 3.10+ 引入了 `match` 语句，功能类似但写法完全不同：
+
+```python
+status = "draft"
+
+match status:
+    case "published":
+        print("已发布")
+    case "draft":
+        print("草稿")
+    case "archived":
+        print("已归档")
+    case _:
+        print("未知状态")   # _ 表示默认情况（其他所有值）
+```
+
+### match 和 JS switch 的核心区别
+
+| 对比 | Python `match` | JS `switch` |
+| --- | --- | --- |
+| 需要 `break` 吗 | **不需要**，不会穿透 | **需要**，否则会穿透 |
+| 默认匹配 | `case _:` | `default:` |
+| 多值匹配 | `case "a" \| "b":` | 利用穿透 `case "a": case "b":` |
+| 附加条件 | `case x if x > 0:` | ❌ 不支持 |
+| 支持模式匹配 | ✅ 可以解构、类型匹配 | ❌ 只能精确匹配值 |
+| 版本要求 | **Python 3.10+** | 所有版本 |
+
+### 不需要 break！
+
+这是最大的区别。JS 的 `switch` 忘了写 `break` 会"穿透"到下一个 case——这是 JS 最常见的 bug 之一：
+
+```js
+// JS：忘了 break 会穿透！
+switch (status) {
+  case 'draft':
+    console.log('草稿')
+    // 没有 break → 继续执行下面的代码！
+  case 'published':
+    console.log('已发布')   // draft 也会打印这行！
+    break
+}
+```
+
+Python 的 `match` **永远不会穿透**，每个 case 独立执行。
+
+### 多值匹配（`|` 或逻辑）
+
+用 `|` 匹配多个值，相当于 JS 里省略 break 的穿透写法，但 Python 更清晰：
+
+```python
+fruit = "苹果"
+
+match fruit:
+    case "苹果" | "香蕉" | "橙子":
+        print("水果")
+    case "白菜" | "萝卜":
+        print("蔬菜")
+    case _:
+        print("其他")
+# 输出：水果
+```
+
+JS 对照——JS 只能利用穿透特性：
+
+```js
+switch (fruit) {
+  case '苹果':
+  case '香蕉':
+  case '橙子':
+    console.log('水果')
+    break
+  case '白菜':
+  case '萝卜':
+    console.log('蔬菜')
+    break
+  default:
+    console.log('其他')
+}
+```
+
+Python 的 `|` 一个 case 搞定，JS 要写多行 case 并利用穿透——而穿透恰好又是 JS 最容易出 bug 的特性。
+
+### 守卫条件（`if` 附加判断）
+
+在 case 后面加 `if` 条件，匹配值的基础上再额外判断：
+
+```python
+age = 18
+
+match age:
+    case x if x < 18:
+        print("未成年")
+    case x if x >= 18 and x < 60:
+        print("成年")
+    case x if x >= 60:
+        print("老年")
+# 输出：成年
+```
+
+```python
+# 企业场景：根据文章状态和角色决定操作
+status = "draft"
+role = "admin"
+
+match status:
+    case "published":
+        print("所有人可见")
+    case "draft" if role == "admin" or role == "author":
+        print("草稿，管理员和作者可见")
+    case "draft":
+        print("草稿，无权查看")
+    case _:
+        print("未知状态")
+# 输出：草稿，管理员和作者可见
+```
+
+守卫条件让 match 可以处理比单纯值匹配更复杂的逻辑，比 `if/elif` 更整洁。
+
+### 模式匹配（match 的独有能力）
+
+`match` 不只是"等于某个值"，还支持更强大的**模式匹配**：
+
+```python
+# 匹配元组解包
+point = (3, 4)
+
+match point:
+    case (0, 0):
+        print("原点")
+    case (x, 0):
+        print(f"X 轴上，x={x}")
+    case (0, y):
+        print(f"Y 轴上，y={y}")
+    case (x, y):
+        print(f"普通点 ({x}, {y})")
+
+# 匹配字典结构
+user = {"name": "小明", "role": "admin"}
+
+match user:
+    case {"role": "admin", **rest}:
+        print(f"管理员：{rest.get('name', '?')}")
+    case {"role": "editor"}:
+        print("编辑者")
+    case _:
+        print("普通用户")
+
+# 匹配列表长度
+items = [1, 2, 3]
+
+match items:
+    case []:
+        print("空列表")
+    case [x]:
+        print(f"只有一个元素：{x}")
+    case [x, y]:
+        print(f"两个元素：{x}, {y}")
+    case [*rest]:
+        print(f"多个元素：{rest}")
+```
+
+JS 的 `switch` 完全做不到这些——它只能做值的精确匹配。
+
+### 企业项目中的使用建议
+
+```python
+# 处理 API 返回的状态码
+def handle_status(code: int) -> str:
+    match code:
+        case 200:
+            return "成功"
+        case 400:
+            return "请求参数错误"
+        case 401:
+            return "未登录"
+        case 403:
+            return "无权限"
+        case 404:
+            return "资源不存在"
+        case 500:
+            return "服务器错误"
+        case _:
+            return f"未知状态码：{code}"
+```
+
+等价的 JS 写法：
+
+```js
+function handleStatus(code) {
+  switch (code) {
+    case 200: return '成功'
+    case 400: return '请求参数错误'
+    case 401: return '未登录'
+    case 403: return '无权限'
+    case 404: return '资源不存在'
+    case 500: return '服务器错误'
+    default: return `未知状态码：${code}`
+  }
+}
+```
+
+### if/elif vs match 怎么选
+
+| 场景 | 推荐 | 原因 |
+| --- | --- | --- |
+| 条件是范围比较（`>=`, `<`, `in`） | `if/elif` | match 不支持范围 |
+| 条件是精确值匹配 | 都可以 | match 更清晰 |
+| 分支很多（5 个以上） | `match` | 结构更整齐 |
+| 需要解构数据 | `match` | 独有能力 |
+| Python 版本 < 3.10 | `if/elif` | match 不可用 |
+
+## 十、pass 语句
 
 Python 要求 `if` 后面必须有代码块。如果暂时不写内容，需要用 `pass` 占位：
 
@@ -480,7 +715,7 @@ if (role === 'admin') {
 
 `pass` 在定义空函数、空类时也常用，后面会遇到。
 
-## 十、条件判断语法对照总表
+## 十一、条件判断语法对照总表
 
 | 功能 | Python | JS |
 | --- | --- | --- |
@@ -495,10 +730,11 @@ if (role === 'admin') {
 | 不等于 | `!=` | `!=` 或 `!==` |
 | 同一对象 | `is` | `===`（近似） |
 | 三元表达式 | `A if X else B` | `X ? A : B` |
+| 多值匹配 | `match/case` (3.10+) | `switch/case` |
 | 空占位 | `pass` | `{}` |
 | 冒号 | `if x:` 必须有 | 没有 |
 
-## 十一、容易和 JS 混淆的地方汇总
+## 十二、容易和 JS 混淆的地方汇总
 
 | 容易混的点 | Python | JS | 怎么记 |
 | --- | --- | --- | --- |
@@ -511,8 +747,9 @@ if (role === 'admin') {
 | 三元表达式顺序 | `A if X else B` | `X ? A : B` | Python 先结果后条件 |
 | 等值判断 | `==` 严格 | `===` 才严格 | Python 默认严格 |
 | 空代码块 | `pass` | `{}` | Python 需要 pass |
+| 多值匹配 | `match/case` | `switch/case` | match 不需要 break |
 
-## 十二、企业项目实战：文章状态判断
+## 十三、企业项目实战：文章状态判断
 
 ```python
 # 文章状态判断
@@ -553,7 +790,7 @@ if (status === 'published') {
 }
 ```
 
-## 十三、本篇练习
+## 十四、本篇练习
 
 练习一：成绩判断。
 
@@ -649,3 +886,7 @@ else:
 6. Python 三元表达式：`A if X else B`，JS 是 `X ? A : B`。
 7. Python 空代码块用 `pass`，JS 用空 `{}`。
 8. Python 支持链式比较：`60 <= score <= 90`，JS 不支持。
+9. **Python 3.10+ 的 `match/case` 类似 JS 的 `switch/case`，但不需要 `break`，还支持模式匹配。**
+10. 多值精确匹配优先用 `match`，范围比较用 `if/elif`。
+11. `case "a" | "b"` 多值匹配，比 JS 穿透写法更清晰。
+12. `case x if x > 0` 守卫条件，在匹配基础上加额外判断。
