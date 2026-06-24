@@ -59,6 +59,8 @@ export const ledgerEntryQuerySchema = z.object({
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
   keyword: z.string().trim().max(80).optional(),
+  sortField: z.enum(['occurredAt', 'amount', 'updatedAt']).optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
   page: z.coerce.number().int().min(1).optional(),
   pageSize: z.coerce.number().int().min(1).max(100).optional()
 })

@@ -1,29 +1,5 @@
 <template>
   <section class="ledger-moments-page">
-    <div class="ledger-moments-toolbar">
-      <a-space wrap>
-        <a-select
-          v-model:value="filters.scope"
-          class="ledger-moment-filter"
-          :options="scopeOptions"
-          show-search
-          option-filter-prop="label"
-          @change="reload"
-        />
-        <a-input-search
-          v-model:value="filters.keyword"
-          class="ledger-moment-search"
-          allow-clear
-          placeholder="搜索标题、内容、标签"
-          @search="reload"
-        />
-      </a-space>
-      <a-button type="primary" @click="openModal()">
-        <template #icon><PlusOutlined /></template>
-        新增记录
-      </a-button>
-    </div>
-
     <BlogTable
       ref="tableRef"
       :api-fn="loadMoments"
@@ -37,6 +13,30 @@
       column-border
       show-column-setting
     >
+      <template #toolbar>
+        <a-space wrap>
+          <a-select
+            v-model:value="filters.scope"
+            class="ledger-moment-filter"
+            :options="scopeOptions"
+            show-search
+            option-filter-prop="label"
+            @change="reload"
+          />
+          <a-input-search
+            v-model:value="filters.keyword"
+            class="ledger-moment-search"
+            allow-clear
+            placeholder="搜索标题、内容、标签"
+            @search="reload"
+          />
+        </a-space>
+        <span class="ledger-toolbar-spacer" />
+        <a-button type="primary" size="small" @click="openModal()">
+          <template #icon><PlusOutlined /></template>
+          新增记录
+        </a-button>
+      </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'occurredAt'">
           <strong>{{ formatDate(record.occurredAt) }}</strong>
@@ -96,6 +96,7 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons-vu
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteLedgerMoment, listLedgerMoments } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
+import { formatDate } from './ledgerUtils'
 import LedgerMomentModal from './LedgerMomentModal.vue'
 
 const props = defineProps({
@@ -136,13 +137,6 @@ const params = computed(() => ({
   scope: filters.scope || undefined,
   keyword: filters.keyword.trim() || undefined
 }))
-
-function formatDate(value) {
-  if (!value) return '-'
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return '-'
-  return date.toLocaleDateString('zh-CN')
-}
 
 function scopeLabel(scope) {
   return scopeOptions.find((item) => item.value === scope)?.label || '某一天'
@@ -188,20 +182,11 @@ watch(
 
 <style scoped>
 .ledger-moments-page {
-  display: grid;
-  gap: 12px;
   min-width: 0;
 }
 
-.ledger-moments-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: var(--console-surface);
+.ledger-toolbar-spacer {
+  flex: 1;
 }
 
 .ledger-moment-filter {
@@ -238,15 +223,10 @@ watch(
 }
 
 .amount-expense {
-  color: #dc2626;
+  color: var(--color-error, #dc2626);
 }
 
 @media (max-width: 800px) {
-  .ledger-moments-toolbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
   .ledger-moment-filter,
   .ledger-moment-search {
     width: 100%;

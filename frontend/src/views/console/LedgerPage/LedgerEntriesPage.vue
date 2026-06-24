@@ -1,12 +1,5 @@
 <template>
   <section class="ledger-entries-page">
-    <div class="ledger-entries-actions">
-      <a-button type="primary" @click="$emit('open-entry-modal')">
-        <template #icon><PlusOutlined /></template>
-        新增流水
-      </a-button>
-    </div>
-
     <LedgerEntryTable
       ref="tableRef"
       :book-id="bookId"
@@ -16,7 +9,14 @@
       @edit="$emit('edit-entry', $event)"
       @delete="$emit('delete-entry', $event)"
       @batch-edit="openBatchModal"
-    />
+    >
+      <template #extra>
+        <a-button type="primary" size="small" @click="$emit('open-entry-modal')">
+          <template #icon><PlusOutlined /></template>
+          新增流水
+        </a-button>
+      </template>
+    </LedgerEntryTable>
 
     <a-modal
       v-model:open="batchModalOpen"
@@ -73,7 +73,7 @@
 
 <script setup>
 import { computed, reactive, ref } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import LedgerEntryTable from './LedgerEntryTable.vue'
 import { batchUpdateLedgerEntries } from '@/services/ledger'
@@ -146,36 +146,33 @@ async function submitBatch() {
     return
   }
 
-  submitting.value = true
-  try {
-    await batchUpdateLedgerEntries({ ids: selectedKeys.value, patch })
-    message.success('批量修改完成')
-    batchModalOpen.value = false
-    tableRef.value?.clearSelection?.()
-    tableRef.value?.reload?.()
-    emit('reload')
-  } catch (error) {
-    message.error(error.message || '批量修改失败')
-  } finally {
-    submitting.value = false
-  }
+  Modal.confirm({
+    title: '批量修改确认',
+    content: `确定对已选择的 ${selectedKeys.value.length} 条流水执行批量修改吗？`,
+    okText: '确定修改',
+    cancelText: '取消',
+    async onOk() {
+      submitting.value = true
+      try {
+        await batchUpdateLedgerEntries({ ids: selectedKeys.value, patch })
+        message.success('批量修改完成')
+        batchModalOpen.value = false
+        tableRef.value?.clearSelection?.()
+        tableRef.value?.reload?.()
+        emit('reload')
+      } catch (error) {
+        message.error(error.message || '批量修改失败')
+      } finally {
+        submitting.value = false
+      }
+    }
+  })
 }
 </script>
 
 <style scoped>
 .ledger-entries-page {
-  display: grid;
-  gap: 12px;
   min-width: 0;
-}
-
-.ledger-entries-actions {
-  display: flex;
-  justify-content: flex-end;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: var(--console-surface);
 }
 
 .ledger-batch-alert {

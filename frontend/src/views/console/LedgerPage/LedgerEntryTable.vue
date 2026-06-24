@@ -13,6 +13,7 @@
     column-border
     :row-selection="{ columnWidth: 48 }"
     @selection-change="handleSelectionChange"
+    @change="handleTableChange"
   >
     <template #toolbar>
       <a-space wrap>
@@ -47,6 +48,8 @@
           批量修改
         </a-button>
       </a-space>
+      <span class="ledger-toolbar-spacer" />
+      <slot name="extra" />
     </template>
 
     <template #bodyCell="{ column, record }">
@@ -96,11 +99,12 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onUnmounted, reactive, ref, watch } from 'vue'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listLedgerEntries } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
+import { formatDate, formatTime } from './ledgerUtils'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -121,10 +125,10 @@ const filters = reactive({
 })
 
 const columns = [
-  { title: '日期', key: 'occurredAt', width: 140, align: 'center' },
+  { title: '日期', key: 'occurredAt', width: 140, align: 'center', sorter: true },
   { title: '类型', key: 'type', width: 90, align: 'center' },
   { title: '分类', key: 'category', width: 140, align: 'center' },
-  { title: '金额', key: 'amount', width: 130, align: 'right' },
+  { title: '金额', key: 'amount', width: 130, align: 'right', sorter: true },
   { title: '单笔备注', dataIndex: 'note', key: 'note', width: 240, align: 'center' },
   { title: '当日备注', key: 'dailyNote', width: 280, align: 'center' },
   { title: '来源', key: 'source', width: 110, align: 'center' },
@@ -146,37 +150,33 @@ const categoryOptions = computed(() => [
   }))
 ])
 
+const sortState = reactive({ field: '', order: '' })
+
 const params = computed(() => ({
   bookId: props.bookId || undefined,
   from: props.range?.[0] || undefined,
   to: props.range?.[1] || undefined,
   type: filters.type || undefined,
   categoryId: filters.categoryId || undefined,
-  keyword: filters.keyword.trim() || undefined
+  keyword: filters.keyword.trim() || undefined,
+  sortField: sortState.field || undefined,
+  sortOrder: sortState.order || undefined
 }))
-
-function formatDate(value) {
-  if (!value) return '-'
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return '-'
-  return date.toLocaleDateString('zh-CN')
-}
-
-function formatTime(value) {
-  if (!value) return '-'
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return '-'
-  return date.toLocaleString('zh-CN', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
-}
 
 function loadEntries(query) {
   return listLedgerEntries(query)
+}
+
+function handleTableChange(pagination, filters, sorter) {
+  if (sorter.field === 'occurredAt') {
+    sortState.field = 'occurredAt'
+  } else if (sorter.field === 'amount') {
+    sortState.field = 'amount'
+  } else {
+    sortState.field = ''
+  }
+  sortState.order = sorter.order === 'ascend' ? 'asc' : sorter.order === 'descend' ? 'desc' : ''
+  reload()
 }
 
 function reload() {
@@ -201,6 +201,10 @@ function handleKeywordInput() {
   keywordTimer = setTimeout(reload, 300)
 }
 
+onUnmounted(() => {
+  clearTimeout(keywordTimer)
+})
+
 watch(
   () => props.refreshKey,
   () => reload()
@@ -218,12 +222,16 @@ defineExpose({ reload, refresh, clearSelection })
   width: 220px;
 }
 
+.ledger-toolbar-spacer {
+  flex: 1;
+}
+
 .amount-income {
-  color: #16a34a;
+  color: var(--color-success, #16a34a);
 }
 
 .amount-expense {
-  color: #dc2626;
+  color: var(--color-error, #dc2626);
 }
 
 .ledger-muted {

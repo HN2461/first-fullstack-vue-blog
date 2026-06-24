@@ -13,7 +13,7 @@
         <a-range-picker v-model:value="dateRangeValue" class="ledger-range" @change="reloadAll" />
         <a-tooltip title="刷新">
           <a-button @click="reloadAll">
-            <template #icon><ReloadOutlined /></template>
+            <template #icon><RefreshCw :size="16" /></template>
           </a-button>
         </a-tooltip>
       </a-space>
@@ -66,9 +66,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import {
-  ReloadOutlined,
-} from '@ant-design/icons-vue'
+import { RefreshCw } from 'lucide-vue-next'
 import LedgerCategoryDrawer from './LedgerCategoryDrawer.vue'
 import LedgerCategoryModal from './LedgerCategoryModal.vue'
 import LedgerEntryModal from './LedgerEntryModal.vue'
@@ -148,19 +146,24 @@ function openCategoryModal(category = null) {
 }
 
 function confirmDeleteEntry(entry) {
+  let loading = false
   Modal.confirm({
     title: '删除流水',
     content: `确定删除「${entry.category?.name || entry.categoryNameSnapshot} ${entry.amount}」吗？`,
     okText: '删除',
     okType: 'danger',
     cancelText: '取消',
+    okButtonProps: { loading },
     async onOk() {
+      loading = true
       try {
         await deleteLedgerEntry(entry.id)
         message.success('流水已删除')
         await reloadAll()
       } catch (error) {
         message.error(error.message || '删除失败')
+      } finally {
+        loading = false
       }
     }
   })
@@ -192,8 +195,9 @@ onMounted(async () => {
   justify-content: space-between;
   gap: 12px;
   border: 1px solid var(--console-border);
+  border-left: 3px solid var(--console-primary, #1677ff);
   border-radius: 8px;
-  padding: 12px 14px;
+  padding: 10px 14px;
   background: var(--console-surface);
 }
 

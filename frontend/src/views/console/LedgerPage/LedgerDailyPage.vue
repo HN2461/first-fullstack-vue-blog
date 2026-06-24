@@ -14,10 +14,16 @@
       column-border
     >
       <template #toolbar>
-        <a-space wrap>
+        <a-space wrap size="small">
           <a-tag color="blue" :bordered="false">按天查看</a-tag>
-          <span class="ledger-daily-tip">分类金额列保留原 Excel 习惯，单元格备注会在悬浮时展示。</span>
+          <span class="ledger-daily-range-label">{{ rangeLabel }}</span>
         </a-space>
+        <span class="ledger-daily-spacer" />
+        <a-tooltip title="分类金额列保留原 Excel 习惯，单元格备注会在悬浮时展示">
+          <a-button size="small">
+            <template #icon><Info :size="14" /></template>
+          </a-button>
+        </a-tooltip>
       </template>
 
       <template #bodyCell="{ column, record }">
@@ -49,9 +55,11 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
+import { Info } from 'lucide-vue-next'
 import BlogTable from '@/components/BlogTable.vue'
 import { getLedgerDaily } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
+import { formatDate } from './ledgerUtils'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -61,6 +69,14 @@ const props = defineProps({
 })
 
 const tableRef = ref(null)
+
+const rangeLabel = computed(() => {
+  const [from, to] = props.range || []
+  if (!from && !to) return '全部时间'
+  if (from && to) return `${from} ~ ${to}`
+  if (from) return `${from} 起`
+  return `截至 ${to}`
+})
 
 const visibleCategories = computed(() => props.categories.filter((item) => !item.archived))
 const columns = computed(() => [
@@ -123,7 +139,15 @@ watch(
   min-width: 0;
 }
 
-.ledger-daily-tip,
+.ledger-daily-range-label {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.ledger-daily-spacer {
+  flex: 1;
+}
+
 .ledger-daily-note {
   color: var(--console-text-secondary);
   font-size: 12px;
@@ -145,10 +169,10 @@ watch(
 }
 
 .amount-income {
-  color: #16a34a;
+  color: var(--color-success, #16a34a);
 }
 
 .amount-expense {
-  color: #dc2626;
+  color: var(--color-error, #dc2626);
 }
 </style>

@@ -1,47 +1,44 @@
 <template>
   <section class="ledger-overview-page">
-    <div class="ledger-overview-panel">
-      <div class="ledger-overview-controls">
-        <a-segmented v-model:value="quickRange" :options="quickRangeOptions" @change="applyQuickRange" />
-        <a-range-picker v-model:value="localRange" class="ledger-overview-range" @change="handleRangeChange" />
-        <a-select
-          v-model:value="groupBy"
-          class="ledger-overview-select"
-          :options="groupOptions"
-          show-search
-          option-filter-prop="label"
-          @change="loadSummary"
-        />
-      </div>
-      <a-space wrap>
+    <!-- 控制栏：内嵌于页面顶部，无独立边框，和仪表盘融为一体 -->
+    <div class="ledger-overview-controls">
+      <a-segmented v-model:value="quickRange" :options="quickRangeOptions" @change="applyQuickRange" />
+      <a-select
+        v-model:value="groupBy"
+        class="ledger-overview-select"
+        :options="groupOptions"
+        show-search
+        option-filter-prop="label"
+        @change="loadSummary"
+      />
+      <span class="ledger-overview-spacer" />
+      <a-space size="small" wrap>
         <a-tooltip title="管理支出和收入分类">
-          <a-button @click="$emit('open-categories')">
+          <a-button size="small" @click="$emit('open-categories')">
             <template #icon><AppstoreOutlined /></template>
             分类
           </a-button>
         </a-tooltip>
         <a-tooltip title="新增自定义分类字段">
-          <a-button @click="$emit('open-category-modal')">
+          <a-button size="small" @click="$emit('open-category-modal')">
             <template #icon><TagsOutlined /></template>
             新增分类
           </a-button>
         </a-tooltip>
         <a-tooltip title="查看历史导入批次">
-          <a-button @click="importsOpen = true">
+          <a-button size="small" @click="importsOpen = true">
             <template #icon><HistoryOutlined /></template>
             导入记录
           </a-button>
         </a-tooltip>
-        <a-button type="primary" @click="$emit('open-import')">
+        <a-button size="small" type="primary" @click="$emit('open-import')">
           <template #icon><UploadOutlined /></template>
           导入 Excel
         </a-button>
       </a-space>
     </div>
 
-    <a-spin :spinning="loading">
-      <LedgerDashboard :summary="summary" :group-by="groupBy" />
-    </a-spin>
+    <LedgerDashboard :summary="summary" :group-by="groupBy" :loading="loading" />
 
     <a-modal
       v-model:open="importsOpen"
@@ -63,6 +60,7 @@ import { AppstoreOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from 
 import LedgerDashboard from './LedgerDashboard.vue'
 import LedgerImportTable from './LedgerImportTable.vue'
 import { getLedgerSummary } from '@/services/ledger'
+import { QUICK_RANGE_OPTIONS, getQuickRangeDates } from './ledgerUtils'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -79,12 +77,7 @@ const groupBy = ref('month')
 const quickRange = ref('year')
 const localRange = ref([])
 
-const quickRangeOptions = [
-  { label: '本月', value: 'month' },
-  { label: '本年', value: 'year' },
-  { label: '全部', value: 'all' },
-  { label: '自定义', value: 'custom' }
-]
+const quickRangeOptions = QUICK_RANGE_OPTIONS
 
 const groupOptions = [
   { label: '按日看趋势', value: 'day' },
@@ -101,39 +94,17 @@ function formatRangeValue(range = localRange.value) {
   ]
 }
 
-function padDatePart(value) {
-  return String(value).padStart(2, '0')
-}
-
-function formatInputDate(date) {
-  return `${date.getFullYear()}-${padDatePart(date.getMonth() + 1)}-${padDatePart(date.getDate())}`
-}
-
-function getMonthRange() {
-  const now = new Date()
-  return [
-    formatInputDate(new Date(now.getFullYear(), now.getMonth(), 1)),
-    formatInputDate(new Date(now.getFullYear(), now.getMonth() + 1, 0))
-  ]
-}
-
-function getYearRange() {
-  const now = new Date()
-  return [
-    formatInputDate(new Date(now.getFullYear(), 0, 1)),
-    formatInputDate(new Date(now.getFullYear(), 11, 31))
-  ]
-}
-
 function applyQuickRange() {
-  if (quickRange.value === 'month') {
-    localRange.value = getMonthRange()
+  const dates = getQuickRangeDates(quickRange.value)
+  if (dates) {
+    localRange.value = dates
+  }
+  // 根据范围自动选择合适的分组
+  if (quickRange.value === 'week' || quickRange.value === 'month' || quickRange.value === 'last30') {
     groupBy.value = 'day'
-  } else if (quickRange.value === 'year') {
-    localRange.value = getYearRange()
+  } else if (quickRange.value === 'year' || quickRange.value === 'last3m') {
     groupBy.value = 'month'
   } else if (quickRange.value === 'all') {
-    localRange.value = []
     groupBy.value = 'year'
   }
   loadSummary()
@@ -192,27 +163,17 @@ onMounted(() => {
   min-width: 0;
 }
 
-.ledger-overview-panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  padding: 10px 12px;
-  background: var(--console-surface);
-}
-
 .ledger-overview-controls {
   display: flex;
   align-items: center;
   gap: 8px;
   min-width: 0;
   flex-wrap: wrap;
+  padding: 0 2px;
 }
 
-.ledger-overview-range {
-  width: 260px;
+.ledger-overview-spacer {
+  flex: 1;
 }
 
 .ledger-overview-select {
@@ -220,12 +181,10 @@ onMounted(() => {
 }
 
 @media (max-width: 900px) {
-  .ledger-overview-panel {
-    align-items: stretch;
-    flex-direction: column;
+  .ledger-overview-controls {
+    gap: 6px;
   }
 
-  .ledger-overview-range,
   .ledger-overview-select {
     width: 100%;
   }

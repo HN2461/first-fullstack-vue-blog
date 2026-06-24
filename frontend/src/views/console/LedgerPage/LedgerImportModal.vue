@@ -73,6 +73,7 @@ import { message } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import { commitLedgerImport, previewLedgerImport } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
+import { formatDate } from './ledgerUtils'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -120,13 +121,6 @@ function removeFile() {
 
 function close() {
   emit('update:open', false)
-}
-
-function formatDate(value) {
-  if (!value) return '-'
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return '-'
-  return date.toLocaleDateString('zh-CN')
 }
 
 async function handleOk() {

@@ -20,7 +20,18 @@
           <a-select v-model:value="form.type" :options="typeOptions" />
         </a-form-item>
         <a-form-item label="颜色" name="color">
-          <a-input v-model:value="form.color" type="color" />
+          <div class="ledger-color-picker">
+            <button
+              v-for="c in colorPresets"
+              :key="c"
+              type="button"
+              class="ledger-color-swatch"
+              :class="{ 'is-active': form.color === c }"
+              :style="{ backgroundColor: c }"
+              @click="form.color = c"
+            />
+            <a-input v-model:value="form.color" class="ledger-color-input" size="small" :maxlength="7" placeholder="#hex" />
+          </div>
         </a-form-item>
       </div>
       <a-form-item label="别名">
@@ -37,6 +48,7 @@
 import { reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { createLedgerCategory, updateLedgerCategory } from '@/services/ledger'
+import { COLOR_PRESETS } from './ledgerUtils'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -55,6 +67,8 @@ const form = reactive({
   aliasText: '',
   archived: false
 })
+
+const colorPresets = COLOR_PRESETS
 
 const typeOptions = [
   { label: '支出', value: 'expense' },
@@ -132,5 +146,34 @@ async function submit() {
   display: grid;
   grid-template-columns: 1fr 92px;
   gap: 12px;
+}
+
+.ledger-color-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.ledger-color-swatch {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.ledger-color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.ledger-color-swatch.is-active {
+  border-color: var(--console-text, #101828);
+  box-shadow: 0 0 0 2px var(--console-surface, #fff);
+}
+
+.ledger-color-input {
+  width: 80px;
 }
 </style>

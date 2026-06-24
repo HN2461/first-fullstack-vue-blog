@@ -1,5 +1,12 @@
 <template>
   <section class="ledger-categories-page">
+    <div class="ledger-categories-search">
+      <a-input-search
+        v-model:value="keyword"
+        allow-clear
+        placeholder="搜索分类名称或别名"
+      />
+    </div>
     <div class="ledger-category-groups">
       <div v-for="group in groups" :key="group.type" class="ledger-category-group">
         <div class="ledger-category-group__head">
@@ -29,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { EditOutlined } from '@ant-design/icons-vue'
 
 const props = defineProps({
@@ -38,13 +45,33 @@ const props = defineProps({
 
 defineEmits(['edit-category'])
 
+const keyword = ref('')
+
+function filterCategories(items) {
+  const q = keyword.value.trim().toLowerCase()
+  if (!q) return items
+  return items.filter((item) => {
+    const nameMatch = item.name.toLowerCase().includes(q)
+    const aliasMatch = (item.aliases || []).some((a) => a.toLowerCase().includes(q))
+    return nameMatch || aliasMatch
+  })
+}
+
 const groups = computed(() => [
-  { type: 'expense', label: '支出分类', items: props.categories.filter((item) => item.type === 'expense') },
-  { type: 'income', label: '收入分类', items: props.categories.filter((item) => item.type === 'income') }
+  { type: 'expense', label: '支出分类', items: filterCategories(props.categories.filter((item) => item.type === 'expense')) },
+  { type: 'income', label: '收入分类', items: filterCategories(props.categories.filter((item) => item.type === 'income')) }
 ])
 </script>
 
 <style scoped>
+.ledger-categories-search {
+  margin-bottom: 12px;
+}
+
+.ledger-categories-search :deep(.ant-input-search) {
+  max-width: 320px;
+}
+
 .ledger-category-groups {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

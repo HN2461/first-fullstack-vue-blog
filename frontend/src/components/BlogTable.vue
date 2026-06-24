@@ -711,12 +711,31 @@ defineExpose({
 .blog-table__body :deep(.ant-table-container),
 .blog-table__body :deep(.ant-table-content),
 .blog-table__body :deep(.ant-table-body),
-.blog-table__body :deep(.ant-table-tbody > tr > td),
-.blog-table__body :deep(.ant-table-cell-fix-left),
-.blog-table__body :deep(.ant-table-cell-fix-right) {
+.blog-table__body :deep(.ant-table-tbody > tr > td) {
   color: var(--console-text, #101828);
   background: var(--console-surface, #fff);
   border-color: var(--console-border, #f0f0f0);
+}
+
+/* 固定列：body 单元格 */
+.blog-table__body :deep(.ant-table-tbody > tr > td.ant-table-cell-fix-left),
+.blog-table__body :deep(.ant-table-tbody > tr > td.ant-table-cell-fix-right) {
+  background: var(--console-surface, #fff);
+  border-color: var(--console-border, #f0f0f0);
+}
+
+/* 固定列：表头单元格 — 必须和普通 th 背景一致，否则滚动时视觉错位 */
+.blog-table__body :deep(.ant-table-thead > tr > th.ant-table-cell-fix-left),
+.blog-table__body :deep(.ant-table-thead > tr > th.ant-table-cell-fix-right) {
+  background: var(--console-surface-muted, #fafafa);
+  border-color: var(--console-border, #f0f0f0);
+  z-index: 3;
+}
+
+/* 修复 th ::after 伪元素底边对齐 */
+.blog-table__body :deep(.ant-table-thead > tr > th.ant-table-cell-fix-left-last::after),
+.blog-table__body :deep(.ant-table-thead > tr > th.ant-table-cell-fix-right-first::after) {
+  bottom: 0;
 }
 
 .blog-table__body--fixed-scroll :deep(.ant-table-body) {
@@ -768,6 +787,22 @@ defineExpose({
 .blog-table--column-border .blog-table__body :deep(.ant-table-cell-fix-left-last::after),
 .blog-table--column-border .blog-table__body :deep(.ant-table-cell-fix-right-first::after) {
   box-shadow: inset 10px 0 8px -8px color-mix(in srgb, var(--console-bg, #0f172a) 46%, transparent);
+}
+
+/* 固定列选中行/悬浮行背景同步 */
+.blog-table__body :deep(.ant-table-tbody > tr.ant-table-row-selected > td.ant-table-cell-fix-left),
+.blog-table__body :deep(.ant-table-tbody > tr.ant-table-row-selected > td.ant-table-cell-fix-right) {
+  background: color-mix(in srgb, var(--console-primary, #1677ff) 12%, var(--console-surface, #fff));
+}
+
+.blog-table__body :deep(.ant-table-tbody > tr:hover > td.ant-table-cell-fix-left),
+.blog-table__body :deep(.ant-table-tbody > tr:hover > td.ant-table-cell-fix-right) {
+  background: var(--console-surface-hover, #f5f7fa);
+}
+
+.blog-table--striped .blog-table__body :deep(.blog-table-row--striped > td.ant-table-cell-fix-left),
+.blog-table--striped .blog-table__body :deep(.blog-table-row--striped > td.ant-table-cell-fix-right) {
+  background: color-mix(in srgb, var(--console-surface-muted, #fafafa) 72%, transparent);
 }
 
 .blog-table--bordered {

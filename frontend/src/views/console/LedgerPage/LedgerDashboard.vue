@@ -1,34 +1,37 @@
 <template>
   <section class="ledger-dashboard">
-    <div class="ledger-metrics">
-      <div v-for="item in metrics" :key="item.key" class="ledger-metric">
-        <span>{{ item.label }}</span>
-        <strong :class="item.className">{{ item.value }}</strong>
+    <a-skeleton v-if="loading" active :paragraph="{ rows: 8 }" />
+    <template v-else>
+      <div class="ledger-metrics">
+        <div v-for="item in metrics" :key="item.key" class="ledger-metric">
+          <span>{{ item.label }}</span>
+          <strong :class="item.className">{{ item.value }}</strong>
+        </div>
       </div>
-    </div>
 
-    <div class="ledger-charts">
-      <div class="ledger-chart ledger-chart--wide">
-        <div class="ledger-chart__head">{{ trendTitle }}</div>
-        <VChart class="ledger-chart__canvas" :option="trendOption" autoresize />
+      <div class="ledger-charts">
+        <div class="ledger-chart ledger-chart--wide">
+          <div class="ledger-chart__head">{{ trendTitle }}</div>
+          <VChart class="ledger-chart__canvas" :option="trendOption" autoresize />
+        </div>
+        <div class="ledger-chart">
+          <div class="ledger-chart__head">支出分类占比</div>
+          <VChart class="ledger-chart__canvas" :option="categoryOption" autoresize />
+        </div>
+        <div class="ledger-chart">
+          <div class="ledger-chart__head">每日支出</div>
+          <VChart class="ledger-chart__canvas" :option="dailyOption" autoresize />
+        </div>
+        <div class="ledger-chart">
+          <div class="ledger-chart__head">餐饮趋势</div>
+          <VChart class="ledger-chart__canvas" :option="mealOption" autoresize />
+        </div>
+        <div class="ledger-chart ledger-chart--wide">
+          <div class="ledger-chart__head">年度支出热力</div>
+          <VChart class="ledger-chart__canvas" :option="calendarOption" autoresize />
+        </div>
       </div>
-      <div class="ledger-chart">
-        <div class="ledger-chart__head">支出分类占比</div>
-        <VChart class="ledger-chart__canvas" :option="categoryOption" autoresize />
-      </div>
-      <div class="ledger-chart">
-        <div class="ledger-chart__head">每日支出</div>
-        <VChart class="ledger-chart__canvas" :option="dailyOption" autoresize />
-      </div>
-      <div class="ledger-chart">
-        <div class="ledger-chart__head">餐饮趋势</div>
-        <VChart class="ledger-chart__canvas" :option="mealOption" autoresize />
-      </div>
-      <div class="ledger-chart ledger-chart--wide">
-        <div class="ledger-chart__head">年度支出热力</div>
-        <VChart class="ledger-chart__canvas" :option="calendarOption" autoresize />
-      </div>
-    </div>
+    </template>
   </section>
 </template>
 
@@ -63,7 +66,8 @@ use([
 
 const props = defineProps({
   summary: { type: Object, default: () => ({}) },
-  groupBy: { type: String, default: 'month' }
+  groupBy: { type: String, default: 'month' },
+  loading: { type: Boolean, default: false }
 })
 
 const overview = computed(() => props.summary.overview || {})
@@ -130,11 +134,11 @@ const trendTitle = computed(() => {
 }
 
 .ledger-metric .is-income {
-  color: #16a34a;
+  color: var(--color-success, #16a34a);
 }
 
 .ledger-metric .is-expense {
-  color: #dc2626;
+  color: var(--color-error, #dc2626);
 }
 
 .ledger-charts {
