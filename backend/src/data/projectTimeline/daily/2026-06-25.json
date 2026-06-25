@@ -30,6 +30,13 @@
       "detail": "1. 将项目记录台账分类从固定枚举调整为推荐分类加自定义分类，导入 JSON 时仍保留常见别名纠正，但未命中推荐分类时不再报类型错误。2. 列表接口返回已有分类集合，新增记录支持直接输入自定义分类，筛选下拉自动合并推荐分类和数据库现有分类。3. 重做台账记录分类标签色板，使用稳定的本地颜色映射和自定义分类兜底色，替代原先 Ant Design 预设色的模糊对比效果。4. 同步更新导入格式文档和后端测试，明确 category 可自定义且最长 40 个字符。",
       "occurredAt": "2026-06-25T20:20:00+08:00",
       "category": "体验优化"
+    },
+    {
+      "id": "domain-https-nginx-config",
+      "title": "配置 haonan.online 域名 HTTPS 访问",
+      "detail": "1. 核对阿里云 Nginx 证书包，确认 haonan.online.pem 与 haonan.online.key 可用于 haonan.online 和 www.haonan.online 两个域名。2. 将证书上传到服务器 /etc/nginx/ssl/haonan.online，并备份原 Nginx 配置为 /etc/nginx/conf.d/personal-blog.conf.bak-20260625-215414。3. 更新 /etc/nginx/conf.d/personal-blog.conf，增加 443 SSL 服务、HTTP 到 HTTPS 的 301 跳转、前端静态资源与 /api、/uploads 反向代理配置。4. 通过 nginx -t、服务器本机 curl 和公网访问验证，确认 https://haonan.online、https://www.haonan.online 以及 /api/health 均返回 200，http://haonan.online 正常跳转到 HTTPS。",
+      "occurredAt": "2026-06-25T21:55:00+08:00",
+      "category": "部署发布"
     }
   ]
 }
