@@ -161,6 +161,7 @@
       cancel-text="取消"
       centered
       width="520px"
+      :body-style="{ maxHeight: '70vh', overflowY: 'auto' }"
       @ok="uploadFile"
       @cancel="resetUploadDraft"
     >
@@ -208,6 +209,7 @@
       cancel-text="取消"
       centered
       width="420px"
+      :body-style="{ maxHeight: '70vh', overflowY: 'auto' }"
       @ok="saveUploadSettings"
     >
       <a-form layout="vertical">
@@ -230,84 +232,10 @@
       </a-form>
     </a-modal>
 
-    <a-modal
+    <MediaTrashModal
       v-model:open="trashModalVisible"
-      title="媒体回收站"
-      :footer="null"
-      width="760px"
-      centered
-      @cancel="trashPage = 1"
-    >
-      <div class="media-trash">
-        <div class="media-trash__toolbar">
-          <span>
-            普通删除的资源会保留在回收站，彻底删除后会同步移除服务器磁盘文件。
-            <b v-if="selectedTrashKeys.length">已选择 {{ selectedTrashKeys.length }} 个</b>
-          </span>
-          <a-space>
-            <a-button
-              size="small"
-              :disabled="selectedTrashKeys.length === 0"
-              @click="handleBatchRestoreTrash"
-            >
-              <template #icon><ReloadOutlined /></template>
-              批量恢复
-            </a-button>
-            <a-button
-              size="small"
-              danger
-              :disabled="selectedTrashKeys.length === 0"
-              @click="handleBatchPermanentDelete"
-            >
-              <template #icon><DeleteOutlined /></template>
-              批量彻底删除
-            </a-button>
-            <a-button size="small" @click="loadTrashMediaList">
-              <template #icon><ReloadOutlined /></template>
-              刷新
-            </a-button>
-            <a-button size="small" danger :disabled="trashTotal === 0" @click="handleEmptyTrash">
-              <template #icon><DeleteOutlined /></template>
-              清空回收站
-            </a-button>
-          </a-space>
-        </div>
-        <a-table
-          :columns="trashColumns"
-          :data-source="trashItems"
-          :loading="trashLoading"
-          :pagination="trashPagination"
-          :row-selection="trashRowSelection"
-          row-key="id"
-          size="small"
-          @change="handleTrashTableChange"
-        >
-          <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'asset'">
-              <div class="media-trash-file">
-                <strong :title="record.originalName">{{ record.originalName }}</strong>
-                <span>{{ record.category || '未分类' }} · {{ formatFileSize(record.size) }}</span>
-              </div>
-            </template>
-            <template v-else-if="column.key === 'deletedAt'">
-              <span class="media-time">{{ formatDate(record.deletedAt) }}</span>
-            </template>
-            <template v-else-if="column.key === 'action'">
-              <a-space size="small">
-                <a-button type="link" size="small" @click="handleRestoreTrash(record)">
-                  <template #icon><ReloadOutlined /></template>
-                  恢复
-                </a-button>
-                <a-button type="link" size="small" danger @click="handlePermanentDelete(record)">
-                  <template #icon><DeleteOutlined /></template>
-                  彻底删除
-                </a-button>
-              </a-space>
-            </template>
-          </template>
-        </a-table>
-      </div>
-    </a-modal>
+      @changed="handleTrashChanged"
+    />
 
     <!-- 媒体预览弹窗 -->
     <a-modal
@@ -317,6 +245,7 @@
       :width="previewModalWidth"
       centered
       :destroy-on-close="true"
+      :body-style="{ maxHeight: '78vh', overflowY: 'auto' }"
       @cancel="closePreview"
     >
       <div class="media-preview">
@@ -460,6 +389,7 @@
       :footer="null"
       width="560px"
       centered
+      :body-style="{ maxHeight: '72vh', overflow: 'hidden', paddingBottom: '16px' }"
     >
       <div class="media-category-panel">
         <!-- 固定表单区 -->
@@ -528,7 +458,6 @@ import {
   DeleteOutlined,
   SettingOutlined,
   RestOutlined,
-  ReloadOutlined,
   CustomerServiceOutlined,
   FileZipOutlined,
   FileUnknownOutlined,
@@ -537,20 +466,15 @@ import {
   DownloadOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import MediaTrashModal from './MediaTrashModal.vue'
 import {
   createAdminMediaCategory,
   deleteAdminMedia,
   deleteAdminMediaCategory,
-  emptyMediaTrash,
   getAdminSettings,
   listAdminMedia,
   listAdminMediaCategories,
-  listTrashMedia,
   batchDeleteAdminMedia,
-  batchPermanentDeleteAdminMedia,
-  batchRestoreAdminMedia,
-  permanentDeleteAdminMedia,
-  restoreAdminMedia,
   updateAdminMediaCategory,
   updateAdminSettings,
   uploadAdminMedia
@@ -582,13 +506,7 @@ const settingsDraft = ref({
   mediaMaxFileSizeMB: 20
 })
 const trashModalVisible = ref(false)
-const trashLoading = ref(false)
-const trashItems = ref([])
-const trashPage = ref(1)
-const trashPageSize = ref(10)
-const trashTotal = ref(0)
 const selectedMediaKeys = ref([])
-const selectedTrashKeys = ref([])
 const categoryDraft = ref({
   name: '',
   description: ''
@@ -641,47 +559,11 @@ const columns = [
   { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
 ]
 
-const trashColumns = [
-  {
-    title: '文件',
-    key: 'asset'
-  },
-  {
-    title: '删除时间',
-    key: 'deletedAt',
-    width: 180,
-    align: 'center'
-  },
-  {
-    title: '操作',
-    key: 'action',
-    width: 180,
-    align: 'center'
-  }
-]
-
-const trashPagination = computed(() => ({
-  current: trashPage.value,
-  pageSize: trashPageSize.value,
-  total: trashTotal.value,
-  showSizeChanger: true,
-  pageSizeOptions: ['10', '20', '50'],
-  size: 'small',
-  showTotal: (total) => `共 ${total} 个回收站资源`
-}))
-
 const mediaRowSelection = computed(() => ({
   fixed: true,
   selectedRowKeys: selectedMediaKeys.value,
   onChange: (keys) => {
     selectedMediaKeys.value = keys
-  }
-}))
-
-const trashRowSelection = computed(() => ({
-  selectedRowKeys: selectedTrashKeys.value,
-  onChange: (keys) => {
-    selectedTrashKeys.value = keys
   }
 }))
 
@@ -1047,9 +929,6 @@ function handleDelete(record) {
           errorMessage: '删除失败',
           onSuccess: async () => {
             await loadCategories()
-            if (trashModalVisible.value) {
-              await loadTrashMediaList()
-            }
             tableRef.value?.refresh()
           }
         })
@@ -1076,9 +955,6 @@ function handleBatchDelete() {
         onSuccess: async () => {
           clearMediaSelection()
           await loadCategories()
-          if (trashModalVisible.value) {
-            await loadTrashMediaList()
-          }
           tableRef.value?.refresh()
         }
       })
@@ -1086,147 +962,13 @@ function handleBatchDelete() {
   }).catch(() => {})
 }
 
-async function openTrashModal() {
+function openTrashModal() {
   trashModalVisible.value = true
-  trashPage.value = 1
-  selectedTrashKeys.value = []
-  await loadTrashMediaList()
 }
 
-async function loadTrashMediaList() {
-  trashLoading.value = true
-  try {
-    const result = await runAction(() => listTrashMedia({
-      page: trashPage.value,
-      pageSize: trashPageSize.value
-    }), {
-      errorMessage: '回收站加载失败'
-    })
-    trashItems.value = result.items || []
-    trashTotal.value = result.total || 0
-    selectedTrashKeys.value = selectedTrashKeys.value.filter((id) => trashItems.value.some((item) => item.id === id))
-  } finally {
-    trashLoading.value = false
-  }
-}
-
-function handleTrashTableChange(pagination) {
-  trashPage.value = pagination.current || 1
-  trashPageSize.value = pagination.pageSize || trashPageSize.value
-  selectedTrashKeys.value = []
-  loadTrashMediaList()
-}
-
-function handleRestoreTrash(record) {
-  confirmAction({
-    title: '恢复媒体文件',
-    content: `确认恢复「${record.originalName}」到媒体库？`,
-    okText: '恢复',
-    async onOk() {
-      await runAction(() => restoreAdminMedia(record.id), {
-        successMessage: '媒体文件已恢复',
-        errorMessage: '恢复失败',
-        onSuccess: async () => {
-          selectedTrashKeys.value = selectedTrashKeys.value.filter((id) => id !== record.id)
-          await loadCategories()
-          await loadTrashMediaList()
-          tableRef.value?.refresh()
-        }
-      })
-    }
-  }).catch(() => {})
-}
-
-function handlePermanentDelete(record) {
-  confirmAction({
-    title: '彻底删除媒体文件',
-    content: `彻底删除「${record.originalName}」会同步删除数据库记录和服务器磁盘文件，无法恢复。`,
-    okText: '彻底删除',
-    okType: 'danger',
-    async onOk() {
-      await runAction(() => permanentDeleteAdminMedia(record.id), {
-        successMessage: '媒体文件已彻底删除',
-        errorMessage: '彻底删除失败',
-        onSuccess: async () => {
-          selectedTrashKeys.value = selectedTrashKeys.value.filter((id) => id !== record.id)
-          await loadCategories()
-          await loadTrashMediaList()
-          tableRef.value?.refresh()
-        }
-      })
-    }
-  }).catch(() => {})
-}
-
-function handleBatchRestoreTrash() {
-  const ids = [...selectedTrashKeys.value]
-  if (!ids.length) return
-
-  confirmAction({
-    title: '批量恢复媒体文件',
-    content: `确认恢复选中的 ${ids.length} 个媒体文件到媒体库？`,
-    okText: '批量恢复',
-    async onOk() {
-      await runAction(() => batchRestoreAdminMedia(ids), {
-        successMessage: `已恢复 ${ids.length} 个媒体文件`,
-        errorMessage: '批量恢复失败',
-        onSuccess: async () => {
-          selectedTrashKeys.value = []
-          trashPage.value = 1
-          await loadCategories()
-          await loadTrashMediaList()
-          tableRef.value?.refresh()
-        }
-      })
-    }
-  }).catch(() => {})
-}
-
-function handleBatchPermanentDelete() {
-  const ids = [...selectedTrashKeys.value]
-  if (!ids.length) return
-
-  confirmAction({
-    title: '批量彻底删除媒体文件',
-    content: `彻底删除选中的 ${ids.length} 个媒体文件会同步删除数据库记录和服务器磁盘文件，无法恢复。`,
-    okText: '批量彻底删除',
-    okType: 'danger',
-    async onOk() {
-      await runAction(() => batchPermanentDeleteAdminMedia(ids), {
-        successMessage: `已彻底删除 ${ids.length} 个媒体文件`,
-        errorMessage: '批量彻底删除失败',
-        onSuccess: async () => {
-          selectedTrashKeys.value = []
-          trashPage.value = 1
-          await loadCategories()
-          await loadTrashMediaList()
-          tableRef.value?.refresh()
-        }
-      })
-    }
-  }).catch(() => {})
-}
-
-function handleEmptyTrash() {
-  confirmAction({
-    title: '清空媒体回收站',
-    content: '清空后会批量删除回收站内媒体的数据库记录和服务器磁盘文件，无法恢复。',
-    okText: '清空回收站',
-    okType: 'danger',
-    async onOk() {
-      await runAction(() => emptyMediaTrash(), {
-        successMessage: '媒体回收站已清空',
-        errorMessage: '清空回收站失败',
-        onSuccess: async () => {
-          trashPage.value = 1
-          selectedTrashKeys.value = []
-          await loadCategories()
-          await loadTrashMediaList()
-          tableRef.value?.refresh()
-        }
-      })
-    }
-  }).catch(() => {})
+async function handleTrashChanged() {
+  await loadCategories()
+  tableRef.value?.refresh()
 }
 
 function resetCategoryDraft() {
@@ -1598,55 +1340,6 @@ onMounted(async () => {
   white-space: nowrap;
 }
 
-.media-trash {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.media-trash__toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
-  color: #64748b;
-  font-size: 13px;
-}
-
-.media-trash__toolbar > span {
-  min-width: 240px;
-  flex: 1;
-  line-height: 1.6;
-}
-
-.media-trash__toolbar b {
-  margin-left: 8px;
-  color: #2563eb;
-  font-weight: 600;
-}
-
-.media-trash-file {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.media-trash-file strong {
-  overflow: hidden;
-  color: #1e293b;
-  font-size: 13px;
-  font-weight: 500;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.media-trash-file span {
-  color: #94a3b8;
-  font-size: 12px;
-}
-
 /* ===== 表格区域深度样式覆盖 ===== */
 
 .media-category-panel {
@@ -1738,8 +1431,7 @@ onMounted(async () => {
 :deep(.dark-theme) .media-cloud__toolbar,
 :deep(.dark-theme) .media-cloud__filters,
 :deep(.dark-theme) .media-cloud__actions,
-:deep(.dark-theme) .media-batch-bar,
-:deep(.dark-theme) .media-trash__toolbar {
+:deep(.dark-theme) .media-batch-bar {
   color: var(--console-text-secondary);
 }
 
@@ -1778,7 +1470,6 @@ onMounted(async () => {
 :deep(.dark-theme) .media-file__name,
 :deep(.dark-theme) .media-cloud__title,
 :deep(.dark-theme) .media-cloud__file-chip strong,
-:deep(.dark-theme) .media-trash-file strong,
 :deep(.dark-theme) .media-category-item strong,
 :deep(.dark-theme) .media-preview__toolbar-text strong,
 :deep(.dark-theme) .media-preview__audio h3,
@@ -1790,7 +1481,6 @@ onMounted(async () => {
 :deep(.dark-theme) .media-size,
 :deep(.dark-theme) .media-time,
 :deep(.dark-theme) .media-cloud__file-chip span,
-:deep(.dark-theme) .media-trash-file span,
 :deep(.dark-theme) .media-category-item span,
 :deep(.dark-theme) .media-category-panel__empty,
 :deep(.dark-theme) .media-preview__toolbar-text,
@@ -1824,10 +1514,6 @@ onMounted(async () => {
 
 :deep(.dark-theme) .media-preview__audio-icon {
   background: color-mix(in srgb, var(--console-primary) 14%, var(--console-surface-muted));
-}
-
-:deep(.dark-theme) .media-trash__toolbar b {
-  color: var(--console-primary-strong);
 }
 
 .media-preview__toolbar {
@@ -2050,11 +1736,6 @@ onMounted(async () => {
   }
 
   .media-preview__toolbar {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .media-trash__toolbar {
     align-items: flex-start;
     flex-direction: column;
   }

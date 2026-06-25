@@ -6,15 +6,28 @@
       :loading="loading"
       @update:group-by="handleGroupByChange"
     />
-    <LedgerInsights :data="insights" />
+    <LedgerInsights
+      :data="insights"
+      :loading="loading"
+      :book-id="bookId"
+      @select-weekday="handleWeekdaySelect"
+    />
+    <WeekdayDetailModal
+      v-model:open="weekdayModalOpen"
+      :book-id="bookId"
+      :weekday="weekdayModalData.weekday"
+      :from="weekdayModalData.from"
+      :to="weekdayModalData.to"
+    />
   </section>
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import LedgerDashboard from './LedgerDashboard.vue'
 import LedgerInsights from './LedgerInsights.vue'
+import WeekdayDetailModal from './WeekdayDetailModal.vue'
 import { getLedgerInsights, getLedgerSummary } from '@/services/ledger'
 
 const props = defineProps({
@@ -28,6 +41,9 @@ const loading = ref(false)
 const summary = ref({})
 const insights = ref({})
 const manualGroupBy = ref(null)
+
+const weekdayModalOpen = ref(false)
+const weekdayModalData = reactive({ weekday: '', from: '', to: '' })
 
 /** 根据时间段自动推断 groupBy，也可手动覆盖 */
 const groupBy = computed(() => {
@@ -44,6 +60,13 @@ const groupBy = computed(() => {
 function handleGroupByChange(value) {
   manualGroupBy.value = value
   loadSummary()
+}
+
+function handleWeekdaySelect({ weekday, from, to }) {
+  weekdayModalData.weekday = weekday
+  weekdayModalData.from = from
+  weekdayModalData.to = to
+  weekdayModalOpen.value = true
 }
 
 async function loadSummary() {

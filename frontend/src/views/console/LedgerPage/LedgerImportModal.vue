@@ -38,13 +38,16 @@
         message="部分行无法导入"
         :description="previewResult.errors.slice(0, 5).map((item) => `${item.sheetName || ''} 第${item.row || '-'}行：${item.message}`).join('；')"
       />
-      <a-table
+      <BlogTable
         size="small"
         :columns="columns"
-        :data-source="previewResult.previewItems || []"
-        :pagination="{ pageSize: 8, size: 'small' }"
+        :api-fn="loadPreviewItems"
+        :page-size="8"
+        :page-sizes="['8', '15', '30']"
+        :auto-load="Boolean(previewResult)"
         row-key="sourceKey"
         :scroll="{ x: 720 }"
+        height="360px"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
@@ -62,7 +65,7 @@
             {{ formatMoney(record.amount) }}
           </template>
         </template>
-      </a-table>
+      </BlogTable>
     </div>
   </a-modal>
 </template>
@@ -71,6 +74,7 @@
 import { ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
+import BlogTable from '@/components/BlogTable.vue'
 import { commitLedgerImport, previewLedgerImport } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import { formatDate } from './ledgerUtils'
@@ -97,6 +101,20 @@ const columns = [
   { title: '当日备注', dataIndex: 'dailyNote', key: 'dailyNote', width: 220 },
   { title: '工作表', dataIndex: 'sheetName', key: 'sheetName', width: 160 }
 ]
+
+function loadPreviewItems(params = {}) {
+  const page = Number(params.page) || 1
+  const pageSize = Number(params.pageSize) || 8
+  const items = previewResult.value?.previewItems || []
+  const start = (page - 1) * pageSize
+
+  return {
+    items: items.slice(start, start + pageSize),
+    total: items.length,
+    page,
+    pageSize
+  }
+}
 
 watch(
   () => props.open,

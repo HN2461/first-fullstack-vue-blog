@@ -297,6 +297,66 @@ describe('ledger routes', () => {
     expect(insightResponse.body.data.mealExpense).toBe(10)
   })
 
+  it('calculates ledger life insights by range days and expense categories', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const breakfast = categoriesResponse.body.data.find((item) => item.name === '早餐')
+    const lunch = categoriesResponse.body.data.find((item) => item.name === '午餐')
+    const misc = categoriesResponse.body.data.find((item) => item.name === '杂费')
+    const salary = categoriesResponse.body.data.find((item) => item.name === '工资')
+
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-06-01', type: 'expense', categoryId: breakfast.id, amount: 10 })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-06-02', type: 'expense', categoryId: lunch.id, amount: 20 })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-06-08', type: 'expense', categoryId: misc.id, amount: 70, note: '大额杂费' })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-06-08', type: 'income', categoryId: salary.id, amount: 1000 })
+      .expect(201)
+
+    const response = await request(app)
+      .get('/api/ledger/insights')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, from: '2026-06-01', to: '2026-06-14' })
+      .expect(200)
+
+    expect(response.body.data.totalExpense).toBe(100)
+    expect(response.body.data.dailyAvg).toBe(33)
+    expect(response.body.data.mealExpense).toBe(30)
+    expect(response.body.data.mealDays).toBe(2)
+    expect(response.body.data.mealRatio).toBe(30)
+    expect(response.body.data.maxDay).toMatchObject({ date: '2026-06-08', expense: 70 })
+    expect(response.body.data.largestEntry).toMatchObject({ date: '2026-06-08', amount: 70, categoryName: '杂费' })
+    expect(response.body.data.topCategories.map((item) => item.name)).toEqual(['杂费', '午餐', '早餐'])
+    expect(response.body.data.weekdayStats.find((item) => item.name === '周一')).toMatchObject({
+      expense: 80,
+      count: 2,
+      daysInRange: 2,
+      avg: 40
+    })
+    expect(response.body.data.insights.map((item) => item.type)).toEqual(expect.arrayContaining(['dailyAvg', 'topCategories', 'meal', 'largestEntry']))
+  })
+
   it('batch updates only owned ledger entries', async () => {
     const booksResponse = await request(app)
       .get('/api/ledger/books')

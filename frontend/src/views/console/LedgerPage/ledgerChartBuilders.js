@@ -149,3 +149,39 @@ export function buildDailyOption(summary = {}, options = {}) {
     }]
   }
 }
+
+/**
+ * 构建星期消费分布柱状图配置
+ * @param {Array} weekdayStats - [{ name, expense, avg, daysInRange }]
+ */
+export function buildWeekdayBarOption(weekdayStats = []) {
+  const color = '#1677ff'
+  return {
+    tooltip: {
+      trigger: 'axis',
+      ...baseTooltip(),
+      formatter(params) {
+        const p = params[0]
+        const stat = weekdayStats[p.dataIndex]
+        return `<div style="font-size:12px;color:${axisTextColor()};margin-bottom:2px;">${p.name}</div>` +
+          `日均消费　<strong>${formatMoney(p.value)}</strong><br>` +
+          `<span style="font-size:11px;color:${axisTextColor()}">共 ${stat?.count || 0} 笔，${stat?.daysInRange || 0} 天</span>`
+      }
+    },
+    grid: { top: 8, right: 12, bottom: 24, left: 44 },
+    xAxis: categoryAxis(weekdayStats.map((s) => s.name)),
+    yAxis: valueAxis(),
+    series: [{
+      name: '日均消费',
+      type: 'bar',
+      barMaxWidth: 28,
+      barWidth: '40%',
+      data: weekdayStats.map((s) => s.avg),
+      color: {
+        type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [{ offset: 0, color }, { offset: 1, color: `${color}40` }]
+      },
+      itemStyle: { borderRadius: [3, 3, 0, 0] }
+    }]
+  }
+}

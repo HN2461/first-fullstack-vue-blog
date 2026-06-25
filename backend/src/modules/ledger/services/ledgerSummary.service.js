@@ -190,6 +190,18 @@ export async function getLedgerSummary(userId, options = {}) {
 
 /**
  * 生活洞察：基于消费数据生成多维度分析
+ *
+ * 维度：
+ * 1. 星期消费规律（按星期几分组，用范围内实际天数算日均）
+ * 2. 工作日 vs 周末（按有记录的天数算日均）
+ * 3. 最近 7 天 vs 前 7 天环比
+ * 4. 餐饮分析（用有餐饮记录的天数算日均）
+ * 5. 消费最高日
+ * 6. Top 3 消费分类
+ * 7. 单笔最大消费
+ * 8. 日均消费
+ * 9. 记账连续性（最长连续记账天数）
+ * 10. 消费波动（日支出标准差）
  */
 export async function getLedgerInsights(userId, options = {}) {
   const book = options.bookId ? await findOwnedBook(options.bookId, userId) : await ensureDefaultBook(userId)
@@ -210,56 +222,78 @@ export async function getLedgerInsights(userId, options = {}) {
     buildEntryQuery(userId, { ...options, bookId: bookId.toString(), from, to })
   ).populate('categoryId')
 
-  if (!entries.length) {
-    return { from, to, insights: [], weekdayStats: [], recentComparison: null }
+  const empty = {
+    from, to, insights: [], weekdayStats: [], recentComparison: null,
+    topCategories: [], largestEntry: null, dailyAvg: 0, longestStreak: 0, expenseStdDev: 0
   }
+  if (!entries.length) return empty
 
-  // 按星期几分组统计
+  const moneyText = (value) => Number(value || 0).toFixed(2).replace(/\.00$/, '')
+
+  // ─── 基础数据 ────────────────────────────────────────────
+  const expenseEntries = entries.filter((e) => e.type === 'expense')
+  const totalExpense = expenseEntries.reduce((s, e) => s + (Number(e.amount) || 0), 0)
+  if (!expenseEntries.length) return { ...empty, totalExpense: 0 }
+
+  // 有消费记录的天数集合（用于日均等计算）
+  const expenseDaySet = new Set()
+  for (const e of expenseEntries) expenseDaySet.add(formatDay(e.occurredAt))
+
+  // ─── 1. 星期消费规律 ──────────────────────────────────────
+  // 修复：用范围内该星期几实际出现的天数算日均，而非笔数
   const weekdayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
   const weekdayMap = new Map()
   for (const name of weekdayNames) weekdayMap.set(name, { expense: 0, count: 0 })
-  for (const entry of entries) {
-    if (entry.type !== 'expense') continue
+  for (const entry of expenseEntries) {
     const day = new Date(entry.occurredAt).getDay()
     const stat = weekdayMap.get(weekdayNames[day])
     stat.expense += Number(entry.amount) || 0
     stat.count += 1
   }
-  const weekdayStats = weekdayNames.map((name) => {
+  // 计算 from~to 范围内每个星期几出现的天数
+  const weekdayDaysCount = [0, 0, 0, 0, 0, 0, 0]
+  const fromDate = new Date(from)
+  const toDate = new Date(to)
+  for (let d = new Date(fromDate); d <= toDate; d.setDate(d.getDate() + 1)) {
+    weekdayDaysCount[d.getDay()]++
+  }
+  const weekdayStats = weekdayNames.map((name, idx) => {
     const stat = weekdayMap.get(name)
-    return { name, expense: stat.expense, count: stat.count, avg: stat.count ? Math.round(stat.expense / stat.count) : 0 }
+    const daysInRange = weekdayDaysCount[idx] || 1
+    return {
+      name,
+      expense: stat.expense,
+      count: stat.count,
+      daysInRange,
+      avg: Math.round(stat.expense / daysInRange)
+    }
   })
 
-  // 工作日 vs 周末
-  let workdayExpense = 0, workdayCount = 0, weekendExpense = 0, weekendCount = 0
-  for (const entry of entries) {
-    if (entry.type !== 'expense') continue
+  // ─── 2. 工作日 vs 周末 ────────────────────────────────────
+  let workdayExpense = 0, weekendExpense = 0
+  for (const entry of expenseEntries) {
     const day = new Date(entry.occurredAt).getDay()
     const amount = Number(entry.amount) || 0
-    if (day >= 1 && day <= 5) { workdayExpense += amount; workdayCount++ }
-    else { weekendExpense += amount; weekendCount++ }
+    if (day >= 1 && day <= 5) workdayExpense += amount
+    else weekendExpense += amount
   }
-  // 按天数算日均
-  const daySet = new Set()
   const workdayDays = new Set()
   const weekendDays = new Set()
   for (const entry of entries) {
-    const d = entry.occurredAt.toISOString().slice(0, 10)
-    daySet.add(d)
+    const d = formatDay(entry.occurredAt)
     const day = new Date(entry.occurredAt).getDay()
     if (day >= 1 && day <= 5) workdayDays.add(d)
     else weekendDays.add(d)
   }
 
-  // 最近 7 天 vs 前 7 天
+  // ─── 3. 最近 7 天 vs 前 7 天 ─────────────────────────────
   const msPerDay = 86400000
   const endDate = new Date(to)
   const recent7Start = new Date(endDate.getTime() - 6 * msPerDay)
   const prev7End = new Date(recent7Start.getTime() - msPerDay)
   const prev7Start = new Date(prev7End.getTime() - 6 * msPerDay)
   let recent7Expense = 0, prev7Expense = 0
-  for (const entry of entries) {
-    if (entry.type !== 'expense') continue
+  for (const entry of expenseEntries) {
     const d = new Date(entry.occurredAt)
     const amount = Number(entry.amount) || 0
     if (d >= recent7Start && d <= endDate) recent7Expense += amount
@@ -271,22 +305,24 @@ export async function getLedgerInsights(userId, options = {}) {
     changeRate: prev7Expense ? Math.round(((recent7Expense - prev7Expense) / prev7Expense) * 100) : (recent7Expense > 0 ? 100 : 0)
   }
 
-  // 餐饮分析
+  // ─── 4. 餐饮分析 ──────────────────────────────────────────
+  // 修复：用有餐饮记录的天数算日均
   const mealCategories = new Set(['早餐', '午餐', '晚餐'])
   let mealExpense = 0
-  for (const entry of entries) {
-    if (entry.type !== 'expense') continue
+  const mealDaySet = new Set()
+  for (const entry of expenseEntries) {
     const name = entry.categoryId?.name || entry.categoryNameSnapshot
-    if (mealCategories.has(name)) mealExpense += Number(entry.amount) || 0
+    if (mealCategories.has(name)) {
+      mealExpense += Number(entry.amount) || 0
+      mealDaySet.add(formatDay(entry.occurredAt))
+    }
   }
-  const totalExpense = entries.filter((e) => e.type === 'expense').reduce((s, e) => s + (Number(e.amount) || 0), 0)
-  const mealDays = workdayDays.size + weekendDays.size || 1
+  const mealDays = mealDaySet.size || 1
 
-  // 消费最高的一天
+  // ─── 5. 消费最高日 ────────────────────────────────────────
   const dailyMap = new Map()
-  for (const entry of entries) {
-    if (entry.type !== 'expense') continue
-    const d = entry.occurredAt.toISOString().slice(0, 10)
+  for (const entry of expenseEntries) {
+    const d = formatDay(entry.occurredAt)
     dailyMap.set(d, (dailyMap.get(d) || 0) + (Number(entry.amount) || 0))
   }
   let maxDay = { date: '', expense: 0 }
@@ -294,46 +330,149 @@ export async function getLedgerInsights(userId, options = {}) {
     if (expense > maxDay.expense) maxDay = { date, expense }
   }
 
-  // 生成文本洞察
+  // ─── 6. Top 3 消费分类 ────────────────────────────────────
+  const categoryMap = new Map()
+  for (const entry of expenseEntries) {
+    const name = entry.categoryId?.name || entry.categoryNameSnapshot || '未分类'
+    categoryMap.set(name, (categoryMap.get(name) || 0) + (Number(entry.amount) || 0))
+  }
+  const topCategories = [...categoryMap.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([name, amount]) => ({ name, amount, percent: Math.round((amount / (totalExpense || 1)) * 100) }))
+
+  // ─── 7. 单笔最大消费 ──────────────────────────────────────
+  let largestEntry = null
+  for (const entry of expenseEntries) {
+    const amount = Number(entry.amount) || 0
+    if (!largestEntry || amount > largestEntry.amount) {
+      largestEntry = {
+        date: formatDay(entry.occurredAt),
+        amount,
+        categoryName: entry.categoryId?.name || entry.categoryNameSnapshot || '未分类',
+        note: entry.note || ''
+      }
+    }
+  }
+
+  // ─── 8. 日均消费 ──────────────────────────────────────────
+  const dailyAvg = expenseDaySet.size ? Math.round(totalExpense / expenseDaySet.size) : 0
+
+  // ─── 9. 记账连续性 ────────────────────────────────────────
+  // 找最长连续记账天数（包含所有类型记录）
+  const allDaySet = new Set()
+  for (const entry of entries) allDaySet.add(formatDay(entry.occurredAt))
+  const sortedDays = [...allDaySet].sort()
+  let longestStreak = 0, currentStreak = 0, prevDay = null
+  for (const day of sortedDays) {
+    if (prevDay) {
+      const diff = (new Date(day) - new Date(prevDay)) / msPerDay
+      currentStreak = diff === 1 ? currentStreak + 1 : 1
+    } else {
+      currentStreak = 1
+    }
+    if (currentStreak > longestStreak) longestStreak = currentStreak
+    prevDay = day
+  }
+
+  // ─── 10. 消费波动（日支出标准差）──────────────────────────
+  const dailyValues = [...dailyMap.values()]
+  const dailyMean = dailyValues.length ? totalExpense / dailyValues.length : 0
+  const variance = dailyValues.length
+    ? dailyValues.reduce((s, v) => s + (v - dailyMean) ** 2, 0) / dailyValues.length
+    : 0
+  const expenseStdDev = Math.round(Math.sqrt(variance) * 100) / 100
+
+  // ─── 生成文本洞察 ─────────────────────────────────────────
+  // priority: 1=趋势/异常 2=核心统计 3=辅助信息
   const insights = []
-  const moneyText = (value) => Number(value || 0).toFixed(2).replace(/\.00$/, '')
-  // 消费规律
+
+  // 消费趋势（priority 1）
+  if (prev7Expense > 0) {
+    const dir = recent7Expense > prev7Expense ? '↑' : recent7Expense < prev7Expense ? '↓' : '→'
+    const pct = Math.abs(recentComparison.changeRate)
+    insights.push({
+      icon: '📈',
+      text: `最近 7 天消费 ${dir}${pct}%（¥${moneyText(recent7Expense)} vs 前 7 天 ¥${moneyText(prev7Expense)}）`,
+      priority: 1,
+      type: 'trend',
+      recent7: recent7Expense,
+      previous7: prev7Expense,
+      changeRate: recentComparison.changeRate
+    })
+  }
+
+  // 日均消费（priority 1）
+  if (dailyAvg > 0) {
+    insights.push({ icon: '📆', text: `日均消费 ¥${moneyText(dailyAvg)}`, priority: 1, type: 'dailyAvg', value: dailyAvg })
+  }
+
+  // Top 3 分类（priority 2）
+  if (topCategories.length) {
+    const text = topCategories.map((c) => `${c.name} ¥${moneyText(c.amount)}`).join('，')
+    insights.push({ icon: '🏷️', text: `消费 Top 3：${text}`, priority: 2, type: 'topCategories', topCategories })
+  }
+
+  // 消费规律 - 星期（priority 2）
   const busiestWeekday = weekdayStats.reduce((max, item) => item.avg > max.avg ? item : max, weekdayStats[0])
   if (busiestWeekday.avg > 0) {
-    insights.push({ icon: '📅', text: `你在${busiestWeekday.name}消费最多，日均 ¥${moneyText(busiestWeekday.avg)}` })
+    insights.push({ icon: '📅', text: `你在${busiestWeekday.name}消费最多，日均 ¥${moneyText(busiestWeekday.avg)}`, priority: 2, type: 'weekday' })
   }
-  // 工作日 vs 周末
+
+  // 工作日 vs 周末（priority 2）
   const workdayAvg = workdayDays.size ? Math.round(workdayExpense / workdayDays.size) : 0
   const weekendAvg = weekendDays.size ? Math.round(weekendExpense / weekendDays.size) : 0
   if (workdayAvg && weekendAvg) {
     const higher = weekendAvg > workdayAvg ? '周末' : '工作日'
     const diff = Math.abs(weekendAvg - workdayAvg)
-    insights.push({ icon: '📊', text: `${higher}消费更高，日均多花 ¥${moneyText(diff)}（工作日 ¥${moneyText(workdayAvg)}，周末 ¥${moneyText(weekendAvg)}）` })
+    insights.push({ icon: '📊', text: `${higher}消费更高，日均多花 ¥${moneyText(diff)}（工作日 ¥${moneyText(workdayAvg)}，周末 ¥${moneyText(weekendAvg)}）`, priority: 2, type: 'workdayWeekend' })
   }
-  // 餐饮分析
+
+  // 餐饮分析（priority 2）
   if (mealExpense > 0) {
-    insights.push({ icon: '🍜', text: `餐饮支出 ¥${moneyText(mealExpense)}，日均 ¥${moneyText(mealExpense / mealDays)}，占总支出 ${Math.round((mealExpense / (totalExpense || 1)) * 100)}%` })
+    insights.push({ icon: '🍜', text: `餐饮支出 ¥${moneyText(mealExpense)}，日均 ¥${moneyText(mealExpense / mealDays)}，占总支出 ${Math.round((mealExpense / (totalExpense || 1)) * 100)}%`, priority: 2, type: 'meal' })
   }
-  // 消费趋势
-  if (prev7Expense > 0) {
-    const dir = recent7Expense > prev7Expense ? '↑' : recent7Expense < prev7Expense ? '↓' : '→'
-    const pct = Math.abs(recentComparison.changeRate)
-    insights.push({ icon: '📈', text: `最近 7 天消费 ${dir}${pct}%（¥${moneyText(recent7Expense)} vs 前 7 天 ¥${moneyText(prev7Expense)}）` })
-  }
-  // 消费最高日
+
+  // 消费最高日（priority 3）
   if (maxDay.date) {
-    insights.push({ icon: '🔥', text: `${maxDay.date} 消费最高，共 ¥${moneyText(maxDay.expense)}` })
+    insights.push({ icon: '🔥', text: `${maxDay.date} 消费最高，共 ¥${moneyText(maxDay.expense)}`, priority: 3, type: 'maxDay' })
   }
+
+  // 单笔最大消费（priority 3）
+  if (largestEntry) {
+    const noteText = largestEntry.note ? ` — ${largestEntry.note}` : ''
+    insights.push({ icon: '💎', text: `单笔最大：${largestEntry.date} ${largestEntry.categoryName} ¥${moneyText(largestEntry.amount)}${noteText}`, priority: 3, type: 'largestEntry', largestEntry })
+  }
+
+  // 记账连续性（priority 3）
+  if (longestStreak > 1) {
+    insights.push({ icon: '🔥', text: `最长连续记账 ${longestStreak} 天`, priority: 3, type: 'streak' })
+  }
+
+  // 消费波动（priority 3）
+  if (dailyValues.length >= 3) {
+    const level = expenseStdDev <= dailyMean * 0.3 ? '较稳定' : expenseStdDev <= dailyMean * 0.6 ? '有波动' : '波动较大'
+    insights.push({ icon: '📊', text: `日消费波动 ¥${moneyText(expenseStdDev)}（${level}）`, priority: 3, type: 'volatility', stdDev: expenseStdDev })
+  }
+
+  // 按 priority 排序
+  insights.sort((a, b) => a.priority - b.priority)
 
   return {
     from,
     to,
     totalExpense,
     mealExpense,
+    mealDays,
     mealRatio: totalExpense ? Math.round((mealExpense / totalExpense) * 100) : 0,
     weekdayStats,
     recentComparison,
     maxDay,
+    topCategories,
+    largestEntry,
+    dailyAvg,
+    longestStreak,
+    expenseStdDev,
     insights
   }
 }
