@@ -117,7 +117,7 @@ const columns = computed(() => [
   { title: '支出合计', key: 'expense', width: 120, align: 'center' },
   { title: '收入合计', key: 'income', width: 120, align: 'center' },
   { title: '结余', key: 'balance', width: 120, align: 'center' },
-  { title: '当日备注', key: 'dailyNote', width: 340, align: 'center' }
+  { title: '当日备注', key: 'dailyNote', width: 340, align: 'center', fixed: 'right' }
 ])
 const tableWidth = computed(() => Math.max(1200, 600 + visibleCategories.value.length * 110))
 const params = computed(() => ({

@@ -224,14 +224,14 @@ const scopeOptions = [
 
 const columns = [
   { title: '日期', key: 'occurredAt', width: 130, align: 'center', fixed: 'left' },
-  { title: '范围', key: 'scope', width: 100, align: 'center', fixed: 'left' },
-  { title: '标题', key: 'title', width: 220, align: 'left', fixed: 'left' },
+  { title: '范围', key: 'scope', width: 100, align: 'center' },
+  { title: '标题', key: 'title', width: 220, align: 'left' },
   { title: '金额', key: 'amount', width: 130, align: 'center' },
   { title: '相关分类', key: 'category', width: 160, align: 'center' },
   { title: '心情', dataIndex: 'mood', key: 'mood', width: 130, align: 'center' },
   { title: '标签', key: 'tags', width: 180, align: 'center' },
   { title: '内容', key: 'content', width: 320, align: 'center' },
-  { title: '操作', key: 'action', width: 150, align: 'center' }
+  { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
 ]
 
 const params = computed(() => ({

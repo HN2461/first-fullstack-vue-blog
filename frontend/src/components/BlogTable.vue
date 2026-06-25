@@ -398,6 +398,7 @@ const autoScrollY = ref(0)
 const stretchScrollY = ref(0)
 let tableResizeObserver = null
 let layoutFrameId = 0
+let fixedColumnFrameId = 0
 
 const showSizeChanger = computed(() => props.pageSizes.length > 0)
 const showQuickJumper = computed(() => total.value > currentPageSize.value)
@@ -474,6 +475,62 @@ function syncScrollbarGutter() {
     headerScrollbarCol.style.minWidth = width
     headerScrollbarCol.style.maxWidth = width
   }
+
+  syncRightFixedHeaderOffsets(root, scrollbarWidth)
+  scheduleRightFixedHeaderSync(root, scrollbarWidth)
+}
+
+function syncRightFixedHeaderOffsets(root, scrollbarWidth) {
+  const scrollbarCell = root.querySelector('.ant-table-thead .ant-table-cell-scrollbar')
+  const dataRow = Array.from(root.querySelectorAll('.ant-table-tbody tr'))
+    .find((row) => !row.classList.contains('ant-table-measure-row') && row.querySelector('td.ant-table-cell'))
+  if (!scrollbarCell || !dataRow) return
+
+  const visualScrollbarWidth = scrollbarCell.getBoundingClientRect().width
+  const delta = visualScrollbarWidth - scrollbarWidth
+  const headers = Array.from(root.querySelectorAll('.ant-table-thead > tr > th'))
+  const cells = Array.from(dataRow.querySelectorAll('td'))
+  const rightFixedHeaders = headers.filter((cell) => (
+    cell.classList.contains('ant-table-cell-fix-right') && !cell.classList.contains('ant-table-cell-scrollbar')
+  ))
+
+  rightFixedHeaders.forEach((cell) => {
+    if (!cell.dataset.blogTableOriginalRight) {
+      cell.dataset.blogTableOriginalRight = cell.style.right || window.getComputedStyle(cell).right || '0px'
+    }
+
+    const originalRight = Number.parseFloat(cell.dataset.blogTableOriginalRight)
+    if (!Number.isFinite(originalRight)) return
+
+    // Ant Design Vue sometimes reserves a wider header scrollbar gutter than the body actually has.
+    // Fixed-right header cells must use the body gutter, otherwise the operation column splits by a few pixels.
+    const expectedRight = Math.max(0, originalRight - delta)
+    cell.style.setProperty('right', `${expectedRight}px`, 'important')
+
+    const columnIndex = headers.indexOf(cell)
+    const bodyCell = cells[columnIndex]
+    if (!bodyCell) return
+
+    const headerRect = cell.getBoundingClientRect()
+    const bodyRect = bodyCell.getBoundingClientRect()
+    const visualDelta = headerRect.left - bodyRect.left
+    if (Math.abs(visualDelta) > 0.5) {
+      cell.style.setProperty('right', `${Math.max(0, expectedRight + visualDelta)}px`, 'important')
+    }
+  })
+}
+
+function scheduleRightFixedHeaderSync(root, scrollbarWidth) {
+  if (fixedColumnFrameId) {
+    cancelAnimationFrame(fixedColumnFrameId)
+  }
+
+  fixedColumnFrameId = requestAnimationFrame(() => {
+    fixedColumnFrameId = requestAnimationFrame(() => {
+      fixedColumnFrameId = 0
+      syncRightFixedHeaderOffsets(root, scrollbarWidth)
+    })
+  })
 }
 
 function getBodyReservedHeight() {
@@ -634,6 +691,10 @@ onUnmounted(() => {
   if (layoutFrameId) {
     cancelAnimationFrame(layoutFrameId)
     layoutFrameId = 0
+  }
+  if (fixedColumnFrameId) {
+    cancelAnimationFrame(fixedColumnFrameId)
+    fixedColumnFrameId = 0
   }
 })
 

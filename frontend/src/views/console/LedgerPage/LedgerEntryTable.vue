@@ -51,6 +51,15 @@
           @search="reload"
           @change="handleKeywordInput"
         />
+        <a-tooltip :title="amountSortTooltip">
+          <a-button class="ledger-sort-button" @click="toggleAmountSort">
+            <template #icon>
+              <SortDescendingOutlined v-if="filters.sortField === 'amount' && filters.sortOrder === 'desc'" />
+              <SortAscendingOutlined v-else />
+            </template>
+            金额
+          </a-button>
+        </a-tooltip>
         <a-button
           :disabled="!selectedKeys.length"
           @click="$emit('batch-edit', selectedKeys)"
@@ -119,7 +128,7 @@
 
 <script setup>
 import { computed, onUnmounted, reactive, ref, watch } from 'vue'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons-vue'
+import { DeleteOutlined, EditOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listLedgerEntries } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
@@ -141,20 +150,22 @@ const filters = reactive({
   type: '',
   categoryId: '',
   keyword: '',
-  tags: []
+  tags: [],
+  sortField: '',
+  sortOrder: ''
 })
 
 const columns = [
   { title: '日期', dataIndex: 'occurredAt', key: 'occurredAt', width: 140, align: 'center', fixed: 'left' },
-  { title: '类型', key: 'type', width: 90, align: 'center', fixed: 'left' },
-  { title: '分类', key: 'category', width: 140, align: 'center', fixed: 'left' },
+  { title: '类型', key: 'type', width: 90, align: 'center' },
+  { title: '分类', key: 'category', width: 140, align: 'center' },
   { title: '金额', dataIndex: 'amount', key: 'amount', width: 130, align: 'center' },
   { title: '单笔备注', dataIndex: 'note', key: 'note', width: 200, align: 'center' },
   { title: '标签', key: 'tags', width: 160, align: 'center' },
   { title: '当日备注', key: 'dailyNote', width: 240, align: 'center' },
   { title: '来源', key: 'source', width: 110, align: 'center' },
   { title: '更新时间', key: 'updatedAt', width: 180, align: 'center' },
-  { title: '操作', key: 'action', width: 120, align: 'center' }
+  { title: '操作', key: 'action', width: 120, align: 'center', fixed: 'right' }
 ]
 
 const typeOptions = [
@@ -178,16 +189,21 @@ const params = computed(() => ({
   type: filters.type || undefined,
   categoryId: filters.categoryId || undefined,
   keyword: filters.keyword.trim() || undefined,
-  tags: filters.tags?.length ? filters.tags : undefined
+  tags: filters.tags?.length ? filters.tags : undefined,
+  sortField: filters.sortField || undefined,
+  sortOrder: filters.sortOrder || undefined
 }))
+
+const amountSortTooltip = computed(() => {
+  if (filters.sortField !== 'amount') return '按金额升序'
+  return filters.sortOrder === 'asc' ? '按金额降序' : '恢复默认日期排序'
+})
 
 function loadEntries(query) {
   return listLedgerEntries(query)
 }
 
-function handleTableChange() {
-  reload()
-}
+function handleTableChange() {}
 
 function reload() {
   tableRef.value?.reload?.()
@@ -209,6 +225,19 @@ function handleSelectionChange(keys) {
 function handleKeywordInput() {
   clearTimeout(keywordTimer)
   keywordTimer = setTimeout(reload, 300)
+}
+
+function toggleAmountSort() {
+  if (filters.sortField !== 'amount') {
+    filters.sortField = 'amount'
+    filters.sortOrder = 'asc'
+  } else if (filters.sortOrder === 'asc') {
+    filters.sortOrder = 'desc'
+  } else {
+    filters.sortField = ''
+    filters.sortOrder = ''
+  }
+  reload()
 }
 
 onUnmounted(() => {
