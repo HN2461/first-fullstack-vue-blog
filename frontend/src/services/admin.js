@@ -447,7 +447,11 @@ export function batchDeleteAnnouncements(ids) {
 }
 
 export async function listProjectTimelineRecords(params = {}) {
-  return toPageResult(await http.get('/api/admin/project-timeline', { params }), params.pageSize || 20)
+  const result = await http.get('/api/admin/project-timeline', { params })
+  return {
+    ...toPageResult(result, params.pageSize || 20),
+    categories: Array.isArray(result?.categories) ? result.categories : []
+  }
 }
 
 export function createProjectTimelineRecord(data) {

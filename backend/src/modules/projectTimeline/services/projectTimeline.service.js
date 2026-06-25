@@ -1,4 +1,7 @@
-import { ProjectTimelineRecord } from '#modules/projectTimeline/models/ProjectTimelineRecord.js'
+import {
+  PROJECT_TIMELINE_CATEGORIES,
+  ProjectTimelineRecord
+} from '#modules/projectTimeline/models/ProjectTimelineRecord.js'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -35,19 +38,25 @@ export async function listProjectTimelineRecords(options = {}) {
     ]
   }
 
-  const [items, total] = await Promise.all([
+  const [items, total, existingCategories] = await Promise.all([
     ProjectTimelineRecord.find(query)
       .sort({ occurredAt: -1, createdAt: -1 })
       .skip(skip)
       .limit(pageSize),
-    ProjectTimelineRecord.countDocuments(query)
+    ProjectTimelineRecord.countDocuments(query),
+    ProjectTimelineRecord.distinct('category')
   ])
+  const categories = [...new Set([
+    ...PROJECT_TIMELINE_CATEGORIES,
+    ...existingCategories.filter(Boolean)
+  ])].sort((first, second) => first.localeCompare(second, 'zh-CN'))
 
   return {
     items: items.map((item) => item.toSafeJSON()),
     total,
     page,
-    pageSize
+    pageSize,
+    categories
   }
 }
 

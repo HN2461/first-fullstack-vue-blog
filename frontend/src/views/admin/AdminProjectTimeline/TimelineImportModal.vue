@@ -27,7 +27,7 @@
 
     <div class="timeline-import-format">
       <span>格式</span>
-      <code>{"date":"2026-06-21","records":[{"id":"unique-id","title":"标题","detail":"详情"}]}</code>
+      <code>{"date":"2026-06-21","records":[{"id":"unique-id","title":"标题","detail":"详情","category":"自定义分类"}]}</code>
     </div>
   </a-modal>
 </template>

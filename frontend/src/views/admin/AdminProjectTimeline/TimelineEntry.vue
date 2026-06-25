@@ -5,7 +5,10 @@
         <time class="timeline-entry__time">{{ formatDateTime(record.occurredAt) }}</time>
         <h3>{{ record.title }}</h3>
       </div>
-      <a-tag :color="categoryColor">{{ record.category || '手动记录' }}</a-tag>
+      <span class="timeline-entry__category" :style="categoryStyle">
+        <span class="timeline-entry__category-dot" />
+        {{ record.category || '手动记录' }}
+      </span>
     </header>
     <p class="timeline-entry__detail">{{ record.detail }}</p>
     <footer class="timeline-entry__meta">
@@ -17,6 +20,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { getCategoryTone } from './timelineMeta'
 
 const props = defineProps({
   record: {
@@ -24,17 +28,6 @@ const props = defineProps({
     required: true
   }
 })
-
-const colorMap = {
-  内容上新: 'green',
-  功能更新: 'blue',
-  问题修复: 'orange',
-  系统公告: 'red',
-  部署发布: 'cyan',
-  项目搭建: 'geekblue',
-  版本调整: 'purple',
-  手动记录: 'default'
-}
 
 const sourceMap = {
   legacy_daily: '旧站今日消息',
@@ -45,7 +38,15 @@ const sourceMap = {
   manual: '手动新增'
 }
 
-const categoryColor = computed(() => colorMap[props.record.category] || 'default')
+const categoryStyle = computed(() => {
+  const tone = getCategoryTone(props.record.category || '手动记录')
+  return {
+    '--timeline-category-text': tone.text,
+    '--timeline-category-bg': tone.bg,
+    '--timeline-category-border': tone.border,
+    '--timeline-category-dot': tone.dot
+  }
+})
 const sourceText = computed(() => sourceMap[props.record.source] || '项目记录')
 
 function formatDateTime(value) {

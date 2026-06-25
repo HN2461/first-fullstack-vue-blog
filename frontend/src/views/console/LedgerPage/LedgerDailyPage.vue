@@ -36,7 +36,6 @@
           <a-tooltip v-if="getCategoryNote(record, column.categoryId)" :title="getCategoryNote(record, column.categoryId)">
             <span :class="[amountClass(column.categoryType), 'ledger-amount-with-note']">
               {{ formatOptionalMoney(record.categoryAmounts?.[column.categoryId]) }}
-              <span class="ledger-note-indicator" />
             </span>
           </a-tooltip>
           <span v-else :class="amountClass(column.categoryType)">
@@ -254,15 +253,21 @@ watch(viewMode, (mode) => {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  padding-right: 10px;
+  padding-top: 4px;
   font-weight: 600;
 }
 
-.ledger-note-indicator {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: currentColor;
-  opacity: 0.8;
-  flex-shrink: 0;
+.ledger-amount-with-note::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 8px solid var(--color-error, #dc2626);
+  border-left: 8px solid transparent;
+  opacity: 0.82;
+  pointer-events: none;
 }
 </style>

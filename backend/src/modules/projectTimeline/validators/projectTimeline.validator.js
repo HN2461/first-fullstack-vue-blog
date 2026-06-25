@@ -37,15 +37,26 @@ function normalizeCategory(value) {
   // 尝试别名映射
   const mapped = CATEGORY_ALIASES[trimmed]
   if (mapped) return mapped
-  // 未匹配则原样返回，让 Zod 报错
+  // 未匹配的分类视为自定义分类，保留原值。
   return trimmed
 }
+
+function normalizeOptionalString(value) {
+  if (typeof value !== 'string') return value
+  const trimmed = value.trim()
+  return trimmed || undefined
+}
+
+const projectTimelineCategorySchema = z.preprocess(
+  (value) => normalizeOptionalString(normalizeCategory(value)),
+  z.string().min(1, '记录分类不能为空').max(40, '记录分类不能超过 40 个字符').optional()
+)
 
 export const projectTimelineCreateSchema = z.object({
   title: z.string().trim().min(1, '事件标题不能为空').max(160, '事件标题不能超过 160 个字符'),
   detail: z.string().trim().min(1, '事件详情不能为空').max(12000, '事件详情不能超过 12000 个字符'),
   occurredAt: z.string().trim().min(1, '请选择记录时间'),
-  category: z.enum(PROJECT_TIMELINE_CATEGORIES).optional().default('手动记录'),
+  category: projectTimelineCategorySchema.default('手动记录'),
   source: z.enum(PROJECT_TIMELINE_SOURCES).optional().default('manual'),
   legacyId: z.string().trim().optional().default('')
 })
@@ -55,8 +66,8 @@ const projectTimelineImportRecordSchema = z.object({
   title: z.string().trim().min(1, '事件标题不能为空').max(160, '事件标题不能超过 160 个字符'),
   detail: z.string().trim().min(1, '事件详情不能为空').max(12000, '事件详情不能超过 12000 个字符'),
   occurredAt: z.string().trim().optional().default(''),
-  // 导入时自动纠正近似分类名（如"功能新增"→"功能更新"），降低导入失败率
-  category: z.preprocess(normalizeCategory, z.enum(PROJECT_TIMELINE_CATEGORIES).optional().default('功能更新'))
+  // 导入时自动纠正近似分类名；未命中推荐分类时保留为自定义分类，避免台账导入被枚举卡死。
+  category: projectTimelineCategorySchema.default('功能更新')
 })
 
 export const projectTimelineImportSchema = z.object({

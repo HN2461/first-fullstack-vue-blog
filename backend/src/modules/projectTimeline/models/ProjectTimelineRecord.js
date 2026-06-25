@@ -40,7 +40,8 @@ const projectTimelineRecordSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      enum: PROJECT_TIMELINE_CATEGORIES,
+      trim: true,
+      maxlength: 40,
       default: '手动记录'
     },
     source: {

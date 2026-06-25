@@ -393,9 +393,12 @@ const effectiveRowSelection = computed(() => {
 
 // ──── 样式计算 ────
 
-const autoRootHeight = ref(0)
-const autoScrollY = ref(0)
-const stretchScrollY = ref(0)
+// 首屏先给一个保守的滚动高度，避免表格在首次数据渲染时先把页面撑开，
+// 等 ResizeObserver / nextTick 计算完成后再收敛到真实高度。
+// 这里不能用视口兜底值，因为控制台内容区本身是独立滚动容器，视口值会让高度在滚动时抖动。
+const autoRootHeight = ref(320)
+const autoScrollY = ref(240)
+const stretchScrollY = ref(240)
 let tableResizeObserver = null
 let layoutFrameId = 0
 let fixedColumnFrameId = 0
@@ -410,10 +413,13 @@ const showFooter = computed(() => !props.bare && (showPagination.value || showFo
 function calcScrollY() {
   if (!rootRef.value) return
   const rect = rootRef.value.getBoundingClientRect()
-  const viewportH = window.innerHeight
-  const topOffset = rect.top
+  const container = rootRef.value.closest('.enterprise-content') || rootRef.value.parentElement
+  const containerRect = container?.getBoundingClientRect?.()
   const bottomGap = 16
-  autoRootHeight.value = Math.max(viewportH - topOffset - bottomGap, 320)
+  const availableHeight = containerRect
+    ? containerRect.bottom - rect.top - bottomGap
+    : window.innerHeight - rect.top - bottomGap
+  autoRootHeight.value = Math.max(availableHeight, 320)
   autoScrollY.value = Math.max(autoRootHeight.value - getBodyReservedHeight() - getTableHeaderHeight(), 200)
 }
 
@@ -568,7 +574,7 @@ const effectiveScroll = computed(() => {
 const rootStyle = computed(() => {
   const style = {}
   if (props.height === 'auto') {
-    style.height = autoRootHeight.value ? `${autoRootHeight.value}px` : 'calc(100vh - 16px)'
+    style.height = `${autoRootHeight.value}px`
   } else if (props.height) {
     style.height = typeof props.height === 'number' ? `${props.height}px` : props.height
   }

@@ -425,7 +425,7 @@ describe('rbac account and permission flows', () => {
           title: '导入测试记录',
           detail: '通过页面上传每日协作记录文件导入。',
           occurredAt: '2026-06-21T19:20:00+08:00',
-          category: '功能更新'
+          category: '体验优化'
         }
       ]
     }), 'utf8')
@@ -456,6 +456,12 @@ describe('rbac account and permission flows', () => {
     expect(firstResponse.body.data).toMatchObject({ inserted: 1, duplicated: 0, total: 1 })
     expect(secondResponse.body.data).toMatchObject({ inserted: 0, duplicated: 1, total: 1 })
     expect(importedCount).toBe(1)
+
+    const importedRecord = await ProjectTimelineRecord.findOne({
+      source: 'collaboration_daily',
+      legacyId: '2026-06-21-daily-import-test'
+    })
+    expect(importedRecord.category).toBe('体验优化')
   })
 
   it('builds project timeline seed records from allowed legacy notifications and keeps apply idempotent', async () => {

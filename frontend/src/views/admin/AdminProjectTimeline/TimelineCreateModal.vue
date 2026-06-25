@@ -30,7 +30,12 @@
       </a-form-item>
 
       <a-form-item label="记录分类">
-        <a-select v-model:value="form.category" :options="categoryOptions" />
+        <a-auto-complete
+          v-model:value="form.category"
+          :options="categoryOptions"
+          :filter-option="filterCategoryOption"
+          placeholder="选择或输入分类"
+        />
       </a-form-item>
 
       <a-form-item label="事件详情" required>
@@ -47,8 +52,9 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue'
+import { computed, reactive, watch } from 'vue'
 import { message } from 'ant-design-vue'
+import { buildCategoryOptions } from './timelineMeta'
 
 const props = defineProps({
   open: {
@@ -58,21 +64,16 @@ const props = defineProps({
   submitting: {
     type: Boolean,
     default: false
+  },
+  categories: {
+    type: Array,
+    default: () => []
   }
 })
 
 const emit = defineEmits(['update:open', 'submit'])
 
-const categoryOptions = [
-  '内容上新',
-  '功能更新',
-  '问题修复',
-  '系统公告',
-  '部署发布',
-  '项目搭建',
-  '版本调整',
-  '手动记录'
-].map((value) => ({ label: value, value }))
+const categoryOptions = computed(() => buildCategoryOptions(props.categories))
 
 const form = reactive({
   occurredAt: '',
@@ -93,6 +94,10 @@ function resetForm() {
   form.category = '手动记录'
 }
 
+function filterCategoryOption(input, option) {
+  return String(option?.label || '').toLowerCase().includes(String(input || '').toLowerCase())
+}
+
 function handleCancel() {
   emit('update:open', false)
 }
@@ -110,6 +115,10 @@ function handleSubmit() {
     message.warning('请输入事件详情')
     return
   }
+  if (form.category.trim().length > 40) {
+    message.warning('记录分类不能超过 40 个字符')
+    return
+  }
 
   const occurredAt = new Date(form.occurredAt)
   if (Number.isNaN(occurredAt.getTime())) {
@@ -120,7 +129,7 @@ function handleSubmit() {
   emit('submit', {
     title: form.title.trim(),
     detail: form.detail.trim(),
-    category: form.category,
+    category: form.category.trim() || '手动记录',
     occurredAt: occurredAt.toISOString()
   })
 }

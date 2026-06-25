@@ -85,6 +85,7 @@
     <TimelineCreateModal
       v-model:open="createModalVisible"
       :submitting="submitting"
+      :categories="knownCategories"
       @submit="handleCreate"
     />
 
@@ -97,13 +98,14 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, QuestionCircleOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { createProjectTimelineRecord, importProjectTimelineRecords, listProjectTimelineRecords } from '@/services/admin'
 import TimelineCreateModal from './TimelineCreateModal.vue'
 import TimelineImportModal from './TimelineImportModal.vue'
 import TimelineEntry from './TimelineEntry.vue'
+import { buildCategoryOptions } from './timelineMeta'
 import './styles.css'
 
 const records = ref([])
@@ -119,17 +121,9 @@ const createModalVisible = ref(false)
 const importModalVisible = ref(false)
 const filterCategory = ref(undefined)
 const keyword = ref('')
+const knownCategories = ref([])
 
-const categoryOptions = [
-  '内容上新',
-  '功能更新',
-  '问题修复',
-  '系统公告',
-  '部署发布',
-  '项目搭建',
-  '版本调整',
-  '手动记录'
-].map((value) => ({ label: value, value }))
+const categoryOptions = computed(() => buildCategoryOptions(knownCategories.value))
 
 async function loadRecords(nextPage = page.value) {
   page.value = nextPage
@@ -145,6 +139,7 @@ async function loadRecords(nextPage = page.value) {
     })
     records.value = result.items || []
     total.value = result.total || 0
+    knownCategories.value = result.categories || []
   } catch (error) {
     errorMessage.value = error.message || '项目记录加载失败'
   } finally {
