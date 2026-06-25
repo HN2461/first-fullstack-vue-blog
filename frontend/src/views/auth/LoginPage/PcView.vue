@@ -72,7 +72,7 @@
       </div>
 
       <div class="left-footer">
-        <p>© 2026 Knowledge OS</p>
+        <SiteBeianLinks tone="auth" show-copyright />
       </div>
     </div>
 
@@ -203,6 +203,7 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import SlideCaptcha from '@/components/SlideCaptcha.vue'
 import AuthSettings from '@/components/AuthSettings.vue'
+import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 
 const route = useRoute()
 const router = useRouter()

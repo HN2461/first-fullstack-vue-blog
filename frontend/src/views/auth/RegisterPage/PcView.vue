@@ -75,7 +75,7 @@
       </div>
 
       <div class="left-footer">
-        <p>© 2026 Knowledge OS</p>
+        <SiteBeianLinks tone="auth" show-copyright />
       </div>
     </div>
 
@@ -159,6 +159,7 @@ import {
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import AuthSettings from '@/components/AuthSettings.vue'
+import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 
 const router = useRouter()
 const authStore = useAuthStore()

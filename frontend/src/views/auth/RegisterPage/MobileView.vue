@@ -67,6 +67,8 @@
         <router-link to="/login">{{ lang === 'zh' ? '立即登录' : 'Sign In' }}</router-link>
         <router-link to="/">{{ lang === 'zh' ? '返回首页' : 'Back to Home' }}</router-link>
       </div>
+
+      <SiteBeianLinks tone="auth-card" show-copyright />
     </section>
   </main>
 </template>
@@ -77,6 +79,7 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons-vue'
 import AuthSettings from '@/components/AuthSettings.vue'
+import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()

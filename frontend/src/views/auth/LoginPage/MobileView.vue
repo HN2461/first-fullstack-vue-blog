@@ -54,6 +54,8 @@
         <router-link to="/register">{{ lang === 'zh' ? '立即注册' : 'Sign Up' }}</router-link>
         <router-link to="/">{{ lang === 'zh' ? '返回首页' : 'Back to Home' }}</router-link>
       </div>
+
+      <SiteBeianLinks tone="auth-card" show-copyright />
     </section>
 
     <a-modal
@@ -107,6 +109,7 @@ import { message } from 'ant-design-vue'
 import { LockOutlined, MailOutlined } from '@ant-design/icons-vue'
 import AuthSettings from '@/components/AuthSettings.vue'
 import SlideCaptcha from '@/components/SlideCaptcha.vue'
+import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
