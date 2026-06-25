@@ -257,6 +257,32 @@ describe('operations routes', () => {
     expect(response.body.data.kind).toBe('attachment')
   })
 
+  it('renames media display name while keeping stored file path stable', async () => {
+    const uploadResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('files', Buffer.from('rename me'), {
+        filename: 'untitled.txt',
+        contentType: 'text/plain'
+      })
+      .expect(201)
+
+    const media = uploadResponse.body.data
+    const renameResponse = await request(app)
+      .patch(`/api/admin/media/${media.id}/name`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ originalName: '课程资料' })
+      .expect(200)
+
+    expect(renameResponse.body.data.originalName).toBe('课程资料.txt')
+    expect(renameResponse.body.data.storagePath).toBe(media.storagePath)
+
+    const stored = await Media.findById(media.id)
+    expect(stored.originalName).toBe('课程资料.txt')
+    expect(stored.storagePath).toBe(media.storagePath)
+    expect(fs.existsSync(media.storagePath)).toBe(true)
+  })
+
   it('enforces configurable media upload limits', async () => {
     await request(app)
       .patch('/api/admin/settings')

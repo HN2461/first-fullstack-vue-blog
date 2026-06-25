@@ -143,6 +143,12 @@
                   查看
                 </a-button>
               </a-tooltip>
+              <a-tooltip title="重命名">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--rename" @click="handleRename(record)">
+                  <template #icon><EditOutlined /></template>
+                  重命名
+                </a-button>
+              </a-tooltip>
               <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete" @click="handleDelete(record)">
                 <template #icon><DeleteOutlined /></template>
                 删除
@@ -235,6 +241,13 @@
     <MediaTrashModal
       v-model:open="trashModalVisible"
       @changed="handleTrashChanged"
+    />
+
+    <MediaRenameModal
+      v-model:open="renameModalVisible"
+      :record="renameRecord"
+      :submitting="renameSubmitting"
+      @submit="submitRename"
     />
 
     <!-- 媒体预览弹窗 -->
@@ -455,6 +468,7 @@ import { computed, onMounted, ref } from 'vue'
 import {
   InboxOutlined,
   EyeOutlined,
+  EditOutlined,
   DeleteOutlined,
   SettingOutlined,
   RestOutlined,
@@ -467,6 +481,7 @@ import {
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import MediaTrashModal from './MediaTrashModal.vue'
+import MediaRenameModal from './MediaRenameModal.vue'
 import {
   createAdminMediaCategory,
   deleteAdminMedia,
@@ -475,6 +490,7 @@ import {
   listAdminMedia,
   listAdminMediaCategories,
   batchDeleteAdminMedia,
+  renameAdminMedia,
   updateAdminMediaCategory,
   updateAdminSettings,
   uploadAdminMedia
@@ -497,6 +513,9 @@ const editingCategoryId = ref('')
 const actionLoadingKey = ref('')
 const settingsModalVisible = ref(false)
 const settingsSaving = ref(false)
+const renameModalVisible = ref(false)
+const renameSubmitting = ref(false)
+const renameRecord = ref(null)
 const uploadRules = ref({
   maxFiles: 5,
   maxFileSizeMB: 20
@@ -556,7 +575,7 @@ const columns = [
   { title: '大小', key: 'size', width: 95, align: 'right' },
   { title: '分类', key: 'category', width: 120, align: 'center' },
   { title: '上传时间', key: 'createdAt', width: 170, align: 'center' },
-  { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
+  { title: '操作', key: 'action', width: 210, align: 'center', fixed: 'right' }
 ]
 
 const mediaRowSelection = computed(() => ({
@@ -939,6 +958,37 @@ function handleDelete(record) {
   }).catch(() => {})
 }
 
+function handleRename(record) {
+  renameRecord.value = record
+  renameModalVisible.value = true
+}
+
+async function submitRename(nextName) {
+  if (!renameRecord.value) return
+
+  const value = String(nextName || '').trim()
+  if (!value) {
+    errorMessage.value = '请输入资源名称'
+    return
+  }
+
+  renameSubmitting.value = true
+  try {
+    await runAction(() => renameAdminMedia(renameRecord.value.id, { originalName: value }), {
+      successMessage: '资源名称已更新',
+      errorMessage: '资源重命名失败',
+      onSuccess: async () => {
+        renameModalVisible.value = false
+        renameRecord.value = null
+        await loadCategories()
+        tableRef.value?.refresh()
+      }
+    })
+  } finally {
+    renameSubmitting.value = false
+  }
+}
+
 function handleBatchDelete() {
   const ids = [...selectedMediaKeys.value]
   if (!ids.length) return
@@ -1292,9 +1342,18 @@ onMounted(async () => {
   color: #3b82f6 !important;
 }
 
+.media-action-btn--rename {
+  color: #7c3aed !important;
+}
+
 .media-action-btn--view:hover {
   background: #eff6ff !important;
   color: #2563eb !important;
+}
+
+.media-action-btn--rename:hover {
+  background: #f5f3ff !important;
+  color: #6d28d9 !important;
 }
 
 .media-action-btn--delete:hover {

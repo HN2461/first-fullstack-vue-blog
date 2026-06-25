@@ -446,6 +446,10 @@ export function batchDeleteAnnouncements(ids) {
   return http.post('/api/admin/announcements/batch-delete', { ids })
 }
 
+export function renameAdminMedia(id, data) {
+  return http.patch(`/api/admin/media/${id}/name`, data)
+}
+
 export async function listProjectTimelineRecords(params = {}) {
   const result = await http.get('/api/admin/project-timeline', { params })
   return {

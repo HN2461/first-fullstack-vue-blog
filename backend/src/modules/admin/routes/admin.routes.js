@@ -8,7 +8,7 @@ import { batchUpdateArticleMeta } from '#modules/content/services/articleBatch.s
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
 import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
-import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
 import { createProjectTimelineRecord, importProjectTimelineRecords, listProjectTimelineRecords } from '#modules/projectTimeline/services/projectTimeline.service.js'
@@ -24,6 +24,7 @@ import { articleBatchMetaSchema, articleCategoryBatchMoveSchema, articleCategory
 import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineImportSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
+import { mediaRenameSchema } from '#modules/media/validators/media.validator.js'
 
 export const adminRouter = Router()
 
@@ -588,6 +589,12 @@ adminRouter.post('/media/:id/restore', asyncHandler(async (req, res) => {
 
 adminRouter.delete('/media/:id/permanent', asyncHandler(async (req, res) => {
   res.json(ok(await permanentDeleteMedia(req.params.id), '媒体文件已彻底删除'))
+}))
+
+adminRouter.patch('/media/:id/name', asyncHandler(async (req, res) => {
+  const input = parseBody(mediaRenameSchema, req.body)
+  const media = await renameMedia(req.params.id, input.originalName)
+  res.json(ok(media, '资源名称已更新'))
 }))
 
 adminRouter.delete('/media/trash/empty', asyncHandler(async (req, res) => {

@@ -11,6 +11,24 @@ function normalizeMediaCategory(value) {
   return category || '默认素材'
 }
 
+function normalizeRenamedOriginalName(value, fallbackName = '') {
+  const nextName = String(value || '').trim().replace(/\s+/g, ' ')
+  if (!nextName) {
+    const error = new Error('资源名称不能为空')
+    error.statusCode = 400
+    error.code = 'MEDIA_RENAME_NAME_REQUIRED'
+    throw error
+  }
+
+  const nextExt = path.extname(nextName)
+  if (nextExt) {
+    return nextName
+  }
+
+  const fallbackExt = path.extname(String(fallbackName || '').trim())
+  return fallbackExt ? `${nextName}${fallbackExt}` : nextName
+}
+
 function inferFileClass(file) {
   if (file.mimetype.startsWith('image/')) {
     return 'image'
@@ -134,6 +152,21 @@ export async function listMedia(options = {}) {
     page,
     pageSize
   }
+}
+
+export async function renameMedia(id, originalName) {
+  const media = await Media.findOne({ _id: id, deletedAt: null })
+  if (!media) {
+    const error = new Error('媒体文件不存在')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+
+  media.originalName = normalizeRenamedOriginalName(originalName, media.originalName)
+  await media.save()
+
+  return media.toSafeJSON()
 }
 
 export async function listMediaCategories() {
