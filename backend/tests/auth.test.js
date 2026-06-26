@@ -399,4 +399,60 @@ describe('auth routes', () => {
       shouldShowBirthEffect: false
     })
   })
+
+  it('updates profile entrance effect settings and rejects invalid triggers', async () => {
+    const app = createApp()
+    await registerUser({
+      username: 'effect-user',
+      email: 'effect@example.com',
+      password: 'password123'
+    })
+    const user = await User.findOne({ email: 'effect@example.com' })
+    const token = signAccessToken(user)
+
+    const profileResponse = await request(app)
+      .put('/api/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        entranceEffect: {
+          enabled: true,
+          effectKey: 'starlight',
+          duration: 4.5,
+          triggerPages: ['home', 'consoleHome']
+        }
+      })
+      .expect(200)
+
+    expect(profileResponse.body.data.entranceEffect).toMatchObject({
+      enabled: true,
+      effectKey: 'starlight',
+      duration: 4.5,
+      triggerPages: ['home', 'consoleHome']
+    })
+
+    const meResponse = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(meResponse.body.data.entranceEffect).toMatchObject({
+      enabled: true,
+      effectKey: 'starlight'
+    })
+
+    const invalidResponse = await request(app)
+      .put('/api/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        entranceEffect: {
+          enabled: true,
+          effectKey: 'starlight',
+          duration: 4,
+          triggerPages: ['consoleHome', 'unknown']
+        }
+      })
+      .expect(400)
+
+    expect(invalidResponse.body.code).toBe('VALIDATION_ERROR')
+  })
 })

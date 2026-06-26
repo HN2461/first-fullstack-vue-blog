@@ -5,6 +5,14 @@ const optionalBirthday = z.union([
   z.literal(''),
   z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式应为 YYYY-MM-DD')
 ]).optional()
+const entranceEffectSchema = z.object({
+  enabled: z.boolean({ invalid_type_error: '页面动效总开关必须是布尔值' }).optional(),
+  effectKey: z.string().trim().min(1, '请选择页面动效').max(80, '页面动效标识不能超过 80 个字符').optional(),
+  duration: z.number({ invalid_type_error: '页面动效时长必须是数字' }).min(2, '页面动效时长不能少于 2 秒').max(8, '页面动效时长不能超过 8 秒').optional(),
+  triggerPages: z.array(z.enum(['login', 'register', 'home', 'consoleHome'], {
+    errorMap: () => ({ message: '页面动效触发页面不支持' })
+  })).max(4, '页面动效触发页面数量不正确').optional()
+}).strict('存在不支持的页面动效字段')
 
 export const profileUpdateSchema = z.object({
   username: z.string().trim().min(2, '昵称长度需在 2-32 个字符之间').max(32, '昵称长度需在 2-32 个字符之间').optional(),
@@ -15,7 +23,8 @@ export const profileUpdateSchema = z.object({
   ]).optional(),
   location: optionalText(60, '所在地不能超过 60 个字符'),
   birthday: optionalBirthday,
-  closeBirthEffect: z.boolean({ invalid_type_error: '生日特效开关必须是布尔值' }).optional()
+  closeBirthEffect: z.boolean({ invalid_type_error: '生日特效开关必须是布尔值' }).optional(),
+  entranceEffect: entranceEffectSchema.optional()
 }).strict('存在不支持的个人资料字段')
 
 export const festivalEffectActionSchema = z.object({

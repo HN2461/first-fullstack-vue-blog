@@ -11,6 +11,7 @@ import {
   setStoredToken
 } from '@/services/http'
 import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
+import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 
 const MENU_CACHE_KEY = 'blog-auth-menu-cache'
@@ -126,6 +127,7 @@ export const useAuthStore = defineStore('auth', () => {
       const currentUser = await getCurrentUser()
       user.value = mergeCachedPermissions(currentUser)
       writeMenuCache(user.value)
+      cacheEntranceEffectConfig(user.value?.entranceEffect)
     } catch {
       clearSession()
     } finally {
@@ -137,6 +139,7 @@ export const useAuthStore = defineStore('auth', () => {
     const currentUser = await getCurrentUser()
     user.value = currentUser
     writeMenuCache(currentUser)
+    cacheEntranceEffectConfig(currentUser?.entranceEffect)
     return currentUser
   }
 
@@ -151,6 +154,7 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = result.token || ''
       user.value = result.user
       writeMenuCache(user.value)
+      cacheEntranceEffectConfig(user.value?.entranceEffect)
       setStoredToken(token.value)
       return
     }
@@ -174,6 +178,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = ''
     user.value = result.user
     writeMenuCache(user.value)
+    cacheEntranceEffectConfig(user.value?.entranceEffect)
     setStoredToken('')
   }
 
@@ -186,6 +191,7 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = result.token || ''
       user.value = result.user
       writeMenuCache(user.value)
+      cacheEntranceEffectConfig(user.value?.entranceEffect)
       setStoredToken(token.value)
       return
     }
@@ -207,6 +213,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = ''
     user.value = result.user
     writeMenuCache(user.value)
+    cacheEntranceEffectConfig(user.value?.entranceEffect)
     setStoredToken('')
   }
 

@@ -62,6 +62,31 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    entranceEffect: {
+      enabled: {
+        type: Boolean,
+        default: false
+      },
+      effectKey: {
+        type: String,
+        default: 'fade-soft',
+        trim: true,
+        maxlength: 80
+      },
+      duration: {
+        type: Number,
+        default: 4,
+        min: 2,
+        max: 8
+      },
+      triggerPages: {
+        type: [{
+          type: String,
+          enum: ['login', 'register', 'home', 'consoleHome']
+        }],
+        default: ['consoleHome']
+      }
+    },
     notificationSettings: {
       email: {
         type: Boolean,
@@ -156,6 +181,14 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     birthday: this.birthday || '',
     closeBirthEffect: !!this.closeBirthEffect,
     lastBirthEffectDate: this.lastBirthEffectDate || '',
+    entranceEffect: {
+      enabled: !!this.entranceEffect?.enabled,
+      effectKey: this.entranceEffect?.effectKey || 'fade-soft',
+      duration: this.entranceEffect?.duration || 4,
+      triggerPages: Array.isArray(this.entranceEffect?.triggerPages)
+        ? this.entranceEffect.triggerPages
+        : ['consoleHome']
+    },
     notificationSettings: {
       email: this.notificationSettings?.email ?? true,
       site: this.notificationSettings?.site ?? true,

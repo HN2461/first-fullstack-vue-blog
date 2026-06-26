@@ -167,27 +167,6 @@ export function getFestivalPreview(key, serverDateKey) {
   return schedule.find((festival) => festival.key === key) || null
 }
 
-export function getFestivalPreviewByKey(key, serverDateKey) {
-  if (key === 'birthday') {
-    return buildBirthdayFestival(serverDateKey)
-  }
-
-  const today = parseDateKey(serverDateKey)
-  const festival = [
-    ...buildYearFestivals(today.getFullYear()),
-    ...buildYearFestivals(today.getFullYear() + 1)
-  ].find((item) => item.key === key || item.effect === key)
-
-  if (!festival) return null
-
-  return {
-    ...festival,
-    date: serverDateKey,
-    daysUntil: 0,
-    source: `${festival.source}预览`
-  }
-}
-
 export function getTodayKeyFromServer(serverTime) {
   if (!serverTime) return formatDateKey(new Date())
   return formatDateKey(new Date(serverTime))

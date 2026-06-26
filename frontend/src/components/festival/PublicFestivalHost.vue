@@ -37,8 +37,6 @@ import {
   getActiveFestival,
   getDeviceType,
   getEffectStorageKey,
-  getFestivalPreviewByKey,
-  getPreviewFestivalFallback,
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
 import { playFestivalConfetti } from '@/utils/festival/confettiPlayer'
@@ -55,11 +53,10 @@ let initialized = false
 
 const isConsoleRoute = computed(() => route.path.startsWith('/console'))
 const device = computed(() => getDeviceType(appStore.isMobile))
-const previewKey = computed(() => normalizePreviewKey(route.query.festivalPreview))
 const festivalEnabledKey = computed(() => getEffectStorageKey(device.value, 'public', 'enabled'))
 const celebrationKey = computed(() => getEffectStorageKey(device.value, 'public', `${serverDate.value}:celebration`))
 const atmosphereVisible = computed(() => {
-  return Boolean(!isConsoleRoute.value && activeFestival.value && (previewKey.value || isFestivalEnabled()) && closedKey.value !== activeFestival.value.key)
+  return Boolean(!isConsoleRoute.value && activeFestival.value && isFestivalEnabled() && closedKey.value !== activeFestival.value.key)
 })
 const celebrationStyle = computed(() => ({
   '--festival-accent': celebrationFestival.value?.accent || '#2563eb',
@@ -71,17 +68,7 @@ function isFestivalEnabled() {
   return localStorage.getItem(festivalEnabledKey.value) !== 'off'
 }
 
-function normalizePreviewKey(value) {
-  if (Array.isArray(value)) return value[0] || ''
-  return typeof value === 'string' ? value.trim() : ''
-}
-
 function closeFestivalForDevice() {
-  if (previewKey.value) {
-    closedKey.value = activeFestival.value?.key || ''
-    message.success('已关闭本次预览')
-    return
-  }
   localStorage.setItem(festivalEnabledKey.value, 'off')
   closedKey.value = activeFestival.value?.key || ''
   message.success(appStore.isMobile ? '已关闭移动端节日氛围' : '已关闭 PC 端节日氛围')
@@ -95,12 +82,10 @@ function hasShownCelebration(key) {
   return localStorage.getItem(celebrationKey.value) === key
 }
 
-function openCelebration(festival, autoMark = true) {
+function openCelebration(festival) {
   celebrationFestival.value = festival
   celebrationOpen.value = true
-  if (autoMark) {
-    markCelebrationShown(festival.key)
-  }
+  markCelebrationShown(festival.key)
 }
 
 async function handleCelebrationVisibleChange(visible) {
@@ -112,15 +97,6 @@ async function loadFestivalState() {
   const state = await getPublicFestivalEffectState()
   serverDate.value = state.serverDate || getTodayKeyFromServer(state.serverTime)
   activeFestival.value = getActiveFestival(serverDate.value)
-
-  if (previewKey.value) {
-    const previewFestival = getFestivalPreviewByKey(previewKey.value, serverDate.value)
-      || getPreviewFestivalFallback(serverDate.value)
-    closedKey.value = ''
-    activeFestival.value = previewFestival
-    openCelebration(previewFestival, false)
-    return
-  }
 
   if (activeFestival.value?.daysUntil === 0 && isFestivalEnabled() && !hasShownCelebration(activeFestival.value.key)) {
     openCelebration(activeFestival.value)
@@ -162,11 +138,6 @@ watch(() => route.path, () => {
     return
   }
   init()
-})
-
-watch(previewKey, () => {
-  if (isConsoleRoute.value) return
-  loadFestivalState()
 })
 
 watch(rootFestivalClass, (nextClass, previousClass) => {
