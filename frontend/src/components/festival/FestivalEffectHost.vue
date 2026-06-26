@@ -42,6 +42,7 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import FestivalAtmosphere from './FestivalAtmosphere.vue'
 import FestivalCountdownPanel from './FestivalCountdownPanel.vue'
@@ -53,6 +54,7 @@ import {
   getActiveFestival,
   getDeviceType,
   getEffectStorageKey,
+  getFestivalPreviewByKey,
   getFestivalSchedule,
   getLunarSummary,
   getPreviewFestivalFallback,
@@ -62,6 +64,7 @@ import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/con
 
 const appStore = useAppStore()
 const authStore = useAuthStore()
+const route = useRoute()
 const serverDate = ref('')
 const activeFestival = ref(null)
 const schedule = ref([])
@@ -75,10 +78,11 @@ let initialized = false
 
 const device = computed(() => getDeviceType(appStore.isMobile))
 const userId = computed(() => authStore.user?.id || 'guest')
+const previewKey = computed(() => normalizePreviewKey(route.query.festivalPreview))
 const festivalEnabledKey = computed(() => getEffectStorageKey(device.value, userId.value, 'enabled'))
 const celebrationKey = computed(() => getEffectStorageKey(device.value, userId.value, `${serverDate.value}:celebration`))
 const atmosphereVisible = computed(() => {
-  return Boolean(activeFestival.value && isFestivalEnabled() && closedKey.value !== activeFestival.value.key)
+  return Boolean(activeFestival.value && (previewKey.value || isFestivalEnabled()) && closedKey.value !== activeFestival.value.key)
 })
 const celebrationStyle = computed(() => ({
   '--festival-accent': celebrationFestival.value?.accent || '#2563eb',
@@ -90,7 +94,17 @@ function isFestivalEnabled() {
   return localStorage.getItem(festivalEnabledKey.value) !== 'off'
 }
 
+function normalizePreviewKey(value) {
+  if (Array.isArray(value)) return value[0] || ''
+  return typeof value === 'string' ? value.trim() : ''
+}
+
 function closeFestivalForDevice() {
+  if (previewKey.value) {
+    closedKey.value = activeFestival.value?.key || ''
+    message.success('已关闭本次预览')
+    return
+  }
   localStorage.setItem(festivalEnabledKey.value, 'off')
   closedKey.value = activeFestival.value?.key || ''
   message.success(appStore.isMobile ? '已关闭移动端节日氛围' : '已关闭 PC 端节日氛围')
@@ -144,6 +158,15 @@ async function loadFestivalState() {
   schedule.value = getFestivalSchedule(serverDate.value, 10)
   lunarSummary.value = getLunarSummary(serverDate.value)
 
+  if (previewKey.value) {
+    const previewFestival = getFestivalPreviewByKey(previewKey.value, serverDate.value)
+      || getPreviewFestivalFallback(serverDate.value)
+    closedKey.value = ''
+    activeFestival.value = previewFestival
+    openCelebration(previewFestival, false)
+    return
+  }
+
   if (state.shouldShowBirthEffect) {
     const birthdayFestival = buildBirthdayFestival(serverDate.value)
     if (!hasShownCelebration(birthdayFestival.key)) {
@@ -190,6 +213,11 @@ watch(() => authStore.ready, init, { immediate: true })
 watch(() => authStore.user?.id, () => {
   initialized = false
   init()
+})
+
+watch(previewKey, () => {
+  if (!authStore.ready || !authStore.isLoggedIn) return
+  loadFestivalState()
 })
 
 watch(rootFestivalClass, (nextClass, previousClass) => {
