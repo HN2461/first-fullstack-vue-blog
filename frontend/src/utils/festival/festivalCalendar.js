@@ -53,12 +53,6 @@ function parseDateKey(dateKey) {
   return new Date(year, month - 1, day)
 }
 
-function addDays(date, days) {
-  const next = new Date(date)
-  next.setDate(next.getDate() + days)
-  return next
-}
-
 function diffDays(leftDateKey, rightDateKey) {
   const left = parseDateKey(leftDateKey)
   const right = parseDateKey(rightDateKey)
@@ -158,15 +152,6 @@ export function getLunarSummary(serverDateKey) {
   }
 }
 
-export function getFestivalPreview(key, serverDateKey) {
-  const schedule = [
-    getActiveFestival(serverDateKey),
-    ...getFestivalSchedule(serverDateKey, 30),
-    ...buildYearFestivals(parseDateKey(serverDateKey).getFullYear())
-  ].filter(Boolean)
-  return schedule.find((festival) => festival.key === key) || null
-}
-
 export function getTodayKeyFromServer(serverTime) {
   if (!serverTime) return formatDateKey(new Date())
   return formatDateKey(new Date(serverTime))
@@ -192,23 +177,6 @@ export function getParticleItems(festival, isMobile) {
   }))
 }
 
-export function getPreviewFestivalFallback(serverDateKey) {
-  return {
-    key: 'preview',
-    name: '节日预览',
-    text: '轻量氛围预览',
-    date: serverDateKey,
-    daysUntil: 0,
-    source: '预览',
-    accent: '#2563eb',
-    tint: '#eff6ff',
-    particle: ['✨', '🎉'],
-    icons: ['✨', '🎉'],
-    effect: 'new-year',
-    level: 'normal'
-  }
-}
-
 export function buildBirthdayFestival(serverDateKey) {
   return {
     key: 'birthday',
@@ -224,8 +192,4 @@ export function buildBirthdayFestival(serverDateKey) {
     effect: 'birthday',
     level: 'major'
   }
-}
-
-export function getPreviewDateOffset(serverDateKey, offset) {
-  return formatDateKey(addDays(parseDateKey(serverDateKey), offset))
 }

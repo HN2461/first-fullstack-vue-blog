@@ -454,5 +454,20 @@ describe('auth routes', () => {
       .expect(400)
 
     expect(invalidResponse.body.code).toBe('VALIDATION_ERROR')
+
+    const invalidEffectResponse = await request(app)
+      .put('/api/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        entranceEffect: {
+          enabled: true,
+          effectKey: 'not-exists',
+          duration: 4,
+          triggerPages: ['consoleHome']
+        }
+      })
+      .expect(400)
+
+    expect(invalidEffectResponse.body.code).toBe('VALIDATION_ERROR')
   })
 })

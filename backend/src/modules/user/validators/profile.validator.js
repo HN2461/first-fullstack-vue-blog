@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { ENTRANCE_EFFECT_KEYS, ENTRANCE_TRIGGER_PAGES } from '#modules/user/constants/entranceEffects.js'
 
 const optionalText = (max, message) => z.string().trim().max(max, message).optional()
 const optionalBirthday = z.union([
@@ -7,9 +8,11 @@ const optionalBirthday = z.union([
 ]).optional()
 const entranceEffectSchema = z.object({
   enabled: z.boolean({ invalid_type_error: '页面动效总开关必须是布尔值' }).optional(),
-  effectKey: z.string().trim().min(1, '请选择页面动效').max(80, '页面动效标识不能超过 80 个字符').optional(),
+  effectKey: z.enum(ENTRANCE_EFFECT_KEYS, {
+    errorMap: () => ({ message: '页面动效不支持' })
+  }).optional(),
   duration: z.number({ invalid_type_error: '页面动效时长必须是数字' }).min(2, '页面动效时长不能少于 2 秒').max(8, '页面动效时长不能超过 8 秒').optional(),
-  triggerPages: z.array(z.enum(['login', 'register', 'home', 'consoleHome'], {
+  triggerPages: z.array(z.enum(ENTRANCE_TRIGGER_PAGES, {
     errorMap: () => ({ message: '页面动效触发页面不支持' })
   })).max(4, '页面动效触发页面数量不正确').optional()
 }).strict('存在不支持的页面动效字段')

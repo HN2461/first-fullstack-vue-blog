@@ -21,11 +21,6 @@
             <strong>节日倒计时</strong>
             <span>{{ lunarSummary || '近 10 个节日' }}</span>
           </div>
-          <a-tooltip title="预览最近节日氛围">
-            <button type="button" @click="$emit('preview', schedule[0])">
-              <EyeOutlined />
-            </button>
-          </a-tooltip>
         </header>
 
         <div class="festival-countdown__list">
@@ -34,7 +29,7 @@
             :key="`${item.key}-${item.date}`"
             class="festival-countdown__item"
             type="button"
-            @click="$emit('preview', item)"
+            @click="$emit('select', item)"
           >
             <span class="festival-countdown__icon">{{ item.icons?.[0] || '✨' }}</span>
             <span class="festival-countdown__body">
@@ -53,14 +48,14 @@
 
 <script setup>
 import { ref } from 'vue'
-import { CalendarOutlined, EyeOutlined } from '@ant-design/icons-vue'
+import { CalendarOutlined } from '@ant-design/icons-vue'
 
 defineProps({
   schedule: { type: Array, default: () => [] },
   lunarSummary: { type: String, default: '' }
 })
 
-defineEmits(['preview'])
+defineEmits(['select'])
 
 const open = ref(false)
 </script>

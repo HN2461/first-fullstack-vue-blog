@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { USER_ROLES, USER_STATUS } from '#constants/domain'
+import { ENTRANCE_EFFECT_KEYS, ENTRANCE_TRIGGER_PAGES } from '#modules/user/constants/entranceEffects.js'
 
 const userSchema = new mongoose.Schema(
   {
@@ -69,6 +70,7 @@ const userSchema = new mongoose.Schema(
       },
       effectKey: {
         type: String,
+        enum: ENTRANCE_EFFECT_KEYS,
         default: 'fade-soft',
         trim: true,
         maxlength: 80
@@ -82,7 +84,7 @@ const userSchema = new mongoose.Schema(
       triggerPages: {
         type: [{
           type: String,
-          enum: ['login', 'register', 'home', 'consoleHome']
+          enum: ENTRANCE_TRIGGER_PAGES
         }],
         default: ['consoleHome']
       }

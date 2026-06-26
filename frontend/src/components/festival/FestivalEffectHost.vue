@@ -11,7 +11,7 @@
       v-if="schedule.length"
       :schedule="schedule"
       :lunar-summary="lunarSummary"
-      @preview="previewFestival"
+      @select="openScheduleFestival"
     />
   </Teleport>
 
@@ -55,7 +55,6 @@ import {
   getEffectStorageKey,
   getFestivalSchedule,
   getLunarSummary,
-  getPreviewFestivalFallback,
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
 import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/confettiPlayer'
@@ -105,7 +104,8 @@ function hasShownCelebration(key) {
 }
 
 function openCelebration(festival, autoMark = true) {
-  celebrationFestival.value = festival || getPreviewFestivalFallback(serverDate.value)
+  if (!festival) return
+  celebrationFestival.value = festival
   celebrationOpen.value = true
   if (autoMark) {
     markCelebrationShown(celebrationFestival.value.key)
@@ -121,8 +121,8 @@ async function handleCelebrationVisibleChange(visible) {
   await playFestivalConfetti(celebrationFestival.value, { isMobile: appStore.isMobile })
 }
 
-function previewFestival(item) {
-  openCelebration(item || schedule.value[0] || activeFestival.value || getPreviewFestivalFallback(serverDate.value), false)
+function openScheduleFestival(item) {
+  openCelebration(item, false)
 }
 
 async function closeBirthdayForever() {
