@@ -103,4 +103,11 @@ defineExpose({ reload, refresh })
   color: var(--console-text-secondary);
   font-size: 12px;
 }
+
+@media (max-width: 760px) {
+  .ledger-import-table__stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 </style>

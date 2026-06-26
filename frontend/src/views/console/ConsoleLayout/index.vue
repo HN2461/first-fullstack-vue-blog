@@ -522,6 +522,15 @@ const createActions = computed(() => {
       icon: PictureOutlined
     })
   }
+  if (authStore.canAccessPath('/console/memos')) {
+    actions.push({
+      key: 'memo',
+      label: '新建备忘录',
+      description: '记录临时想法、待办事项和工作线索',
+      routePath: '/console/memos?create=1',
+      icon: FormOutlined
+    })
+  }
   return actions
 })
 const ConsoleDynamicMenu = defineComponent({

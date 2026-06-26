@@ -220,6 +220,28 @@ function handleRangeChange(value) {
     flex-direction: column;
   }
 
+  .ledger-toolbar__left {
+    width: 100%;
+  }
+
+  .ledger-toolbar__book {
+    width: 100%;
+  }
+
+  .ledger-toolbar__book-select {
+    width: 100%;
+  }
+
+  .ledger-toolbar__divider {
+    display: none;
+  }
+
+  .ledger-toolbar__periods {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 2px;
+  }
+
   .ledger-toolbar__right {
     justify-content: flex-end;
   }

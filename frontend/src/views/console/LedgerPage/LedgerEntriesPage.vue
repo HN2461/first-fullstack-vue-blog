@@ -199,4 +199,10 @@ async function submitBatch() {
   gap: 8px;
   margin-top: 8px;
 }
+
+@media (max-width: 640px) {
+  .ledger-batch-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

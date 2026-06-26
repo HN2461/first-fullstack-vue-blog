@@ -991,6 +991,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 
 .monitor-kpi,
 .monitor-card {
+  min-width: 0;
   border: 1px solid #eef1f5;
   border-radius: 8px;
   background: #fff;
@@ -1065,6 +1066,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 
 .monitor-card {
   padding: 20px;
+  overflow: hidden;
 }
 
 .monitor-card--wide {
@@ -1092,6 +1094,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 }
 
 .resource-panel {
+  min-width: 0;
   padding: 16px;
   border-radius: 8px;
   background: linear-gradient(180deg, #fbfcfe 0%, #ffffff 100%);
@@ -1104,6 +1107,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   justify-content: space-between;
   gap: 10px;
   align-items: center;
+  min-width: 0;
 }
 
 .resource-panel__top {
@@ -1121,6 +1125,13 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   gap: 10px;
   margin-top: 10px;
   font-size: 12px;
+  min-width: 0;
+}
+
+.resource-panel__meta span,
+.detail-row strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .detail-list {
@@ -1151,6 +1162,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 }
 
 .request-metric {
+  min-width: 0;
   padding: 16px;
   border-radius: 8px;
   border: 1px solid #eef1f5;
@@ -1186,6 +1198,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 }
 
 .monitor-inner-table {
+  max-width: 100%;
   border: 1px solid #eef1f5;
   border-radius: 8px;
   overflow: hidden;
@@ -1332,6 +1345,34 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   .monitor-hero {
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .monitor-hero__actions,
+  .monitor-refresh-select,
+  .monitor-hero__actions :deep(.ant-btn) {
+    width: 100%;
+  }
+
+  .monitor-hero__stamp,
+  .monitor-refresh-control {
+    width: 100%;
+  }
+
+  .monitor-card__header,
+  .resource-panel__top,
+  .resource-panel__meta,
+  .detail-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .detail-row strong {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .monitor-inner-table {
+    overflow-x: auto;
   }
 }
 

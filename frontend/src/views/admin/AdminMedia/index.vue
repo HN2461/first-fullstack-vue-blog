@@ -1743,7 +1743,8 @@ onMounted(async () => {
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
   .media-cloud {
-    height: calc(100vh - 64px);
+    height: auto;
+    min-height: 0;
   }
 
   .media-cloud__topbar {
@@ -1759,6 +1760,19 @@ onMounted(async () => {
     order: 3;
     flex-basis: 100%;
     flex-wrap: wrap;
+  }
+
+  .media-cloud__actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .media-cloud__actions :deep(.ant-btn) {
+    flex: 1 1 calc(50% - 4px);
+  }
+
+  .media-cloud__body {
+    overflow: visible;
   }
 
   .media-cloud__filters :deep(.ant-input-search),
@@ -1811,6 +1825,10 @@ onMounted(async () => {
 
   .media-cloud__actions {
     gap: 6px;
+  }
+
+  .media-cloud__actions :deep(.ant-btn) {
+    flex-basis: 100%;
   }
 
   .media-type-chip {

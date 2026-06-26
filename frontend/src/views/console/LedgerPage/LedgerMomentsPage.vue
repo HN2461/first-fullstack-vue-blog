@@ -429,9 +429,18 @@ watch(viewMode, (mode) => {
 }
 
 @media (max-width: 800px) {
+  .ledger-moment-panel__head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
   .ledger-moment-filter,
   .ledger-moment-search {
     width: 100%;
+  }
+
+  .ledger-toolbar-spacer {
+    display: none;
   }
 }
 </style>

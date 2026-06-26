@@ -305,4 +305,24 @@ defineExpose({ reload, refresh, clearSelection })
   white-space: nowrap;
   vertical-align: middle;
 }
+
+@media (max-width: 760px) {
+  .ledger-filter,
+  .ledger-filter-tags,
+  .ledger-search {
+    width: 100%;
+  }
+
+  .ledger-sort-button {
+    flex: 1;
+  }
+
+  :deep(.ant-space) {
+    width: 100%;
+  }
+
+  :deep(.ant-space-item) {
+    min-width: 0;
+  }
+}
 </style>

@@ -270,4 +270,15 @@ watch(viewMode, (mode) => {
   opacity: 0.82;
   pointer-events: none;
 }
+
+@media (max-width: 760px) {
+  .ledger-daily-card-panel__head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .ledger-toolbar-spacer {
+    display: none;
+  }
+}
 </style>

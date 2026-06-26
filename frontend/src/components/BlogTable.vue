@@ -53,7 +53,7 @@
       <a-table
         ref="tableRef"
         :row-key="rowKey"
-        :columns="visibleColumns"
+        :columns="effectiveColumns"
         :data-source="tableData"
         :loading="loading"
         :pagination="false"
@@ -266,7 +266,19 @@ const visibleColumns = computed(() => {
   })
 })
 
-const hasFixedColumn = computed(() => visibleColumns.value.some((col) => Boolean(col.fixed)))
+const effectiveColumns = computed(() => {
+  if (!isMobileFluidLayout.value) return visibleColumns.value
+
+  // 移动端空间有限，固定列会遮挡横向滚动内容；窄屏统一退回普通列，让用户自然左右滑动查看。
+  return visibleColumns.value.map((col) => {
+    if (!col.fixed) return col
+    const { fixed: _fixed, ...rest } = col
+    return rest
+  })
+})
+
+const hasConfiguredFixedColumn = computed(() => visibleColumns.value.some((col) => Boolean(col.fixed)))
+const hasFixedColumn = computed(() => effectiveColumns.value.some((col) => Boolean(col.fixed)))
 
 const tableSlots = computed(() => {
   return Object.fromEntries(
@@ -275,14 +287,14 @@ const tableSlots = computed(() => {
 })
 
 const rootClass = computed(() => ({
-  'blog-table--stretch': isStretchLayout.value,
+  'blog-table--stretch': isStretchLayout.value && !isMobileFluidLayout.value,
   'blog-table--bordered': props.bordered,
   'blog-table--column-border': props.columnBorder,
   'blog-table--striped': props.striped
 }))
 
 const bodyClass = computed(() => ({
-  'blog-table__body--stretch': isStretchLayout.value,
+  'blog-table__body--stretch': isStretchLayout.value && !isMobileFluidLayout.value,
   'blog-table__body--fixed-scroll': Boolean(effectiveScroll.value?.y)
 }))
 
@@ -399,6 +411,7 @@ const effectiveRowSelection = computed(() => {
 const autoRootHeight = ref(320)
 const autoScrollY = ref(240)
 const stretchScrollY = ref(240)
+const isNarrowViewport = ref(false)
 let tableResizeObserver = null
 let layoutFrameId = 0
 let fixedColumnFrameId = 0
@@ -429,6 +442,11 @@ function calcStretchScrollY() {
 }
 
 function calcLayout() {
+  if (isMobileFluidLayout.value) {
+    syncScrollbarGutter()
+    return
+  }
+
   if (props.height === 'auto') {
     calcScrollY()
     syncScrollbarGutter()
@@ -554,12 +572,16 @@ function getTableHeaderHeight() {
 const effectiveScroll = computed(() => {
   const scroll = { ...(props.scroll || {}) }
 
-  if (!scroll.x && hasFixedColumn.value) {
+  if (!scroll.x && (hasFixedColumn.value || (isMobileFluidLayout.value && hasConfiguredFixedColumn.value))) {
     // 固定列依赖横向滚动容器，兜底避免使用方忘记配置 scroll.x 后固定列失效。
     scroll.x = 'max-content'
   }
 
-  if (!scroll.y) {
+  if (isMobileFluidLayout.value) {
+    delete scroll.y
+  }
+
+  if (!scroll.y && !isMobileFluidLayout.value) {
     if (props.height === 'auto') {
       scroll.y = autoScrollY.value || undefined
     } else if (isStretchLayout.value) {
@@ -573,7 +595,9 @@ const effectiveScroll = computed(() => {
 
 const rootStyle = computed(() => {
   const style = {}
-  if (props.height === 'auto') {
+  if (isMobileFluidLayout.value) {
+    style.height = 'auto'
+  } else if (props.height === 'auto') {
     style.height = `${autoRootHeight.value}px`
   } else if (props.height) {
     style.height = typeof props.height === 'number' ? `${props.height}px` : props.height
@@ -588,9 +612,15 @@ const rootStyle = computed(() => {
 
 const bodyStyle = computed(() => {
   const style = {}
-  style.flex = '1 1 0'
-  style.minHeight = 0
-  style.overflow = 'hidden'
+  if (isMobileFluidLayout.value) {
+    style.flex = '0 0 auto'
+    style.minHeight = '0'
+    style.overflow = 'visible'
+  } else {
+    style.flex = '1 1 0'
+    style.minHeight = 0
+    style.overflow = 'hidden'
+  }
   if (effectiveScroll.value?.y) {
     style['--blog-table-scroll-y'] = `${effectiveScroll.value.y}px`
   }
@@ -601,6 +631,11 @@ const bodyStyle = computed(() => {
 })
 
 const isStretchLayout = computed(() => props.height && props.height !== 'auto')
+const isMobileFluidLayout = computed(() => isNarrowViewport.value)
+
+function updateViewportState() {
+  isNarrowViewport.value = window.innerWidth <= 900
+}
 
 function mergedRowClassName(record, index) {
   const attrRowClassName = attrs.rowClassName
@@ -652,7 +687,7 @@ watch(
 )
 
 watch(
-  () => [effectiveScroll.value?.x, effectiveScroll.value?.y, visibleColumns.value.length, tableData.value.length],
+  () => [effectiveScroll.value?.x, effectiveScroll.value?.y, effectiveColumns.value.length, tableData.value.length],
   scheduleCalcLayout
 )
 
@@ -673,8 +708,9 @@ watch(
 // ──── 生命周期 ────
 
 onMounted(() => {
+  updateViewportState()
   nextTick(scheduleCalcLayout)
-  window.addEventListener('resize', scheduleCalcLayout)
+  window.addEventListener('resize', handleWindowResize)
   if (typeof ResizeObserver !== 'undefined') {
     tableResizeObserver = new ResizeObserver(scheduleCalcLayout)
     if (rootRef.value) {
@@ -691,7 +727,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', scheduleCalcLayout)
+  window.removeEventListener('resize', handleWindowResize)
   tableResizeObserver?.disconnect()
   tableResizeObserver = null
   if (layoutFrameId) {
@@ -703,6 +739,11 @@ onUnmounted(() => {
     fixedColumnFrameId = 0
   }
 })
+
+function handleWindowResize() {
+  updateViewportState()
+  scheduleCalcLayout()
+}
 
 defineExpose({
   reload,
@@ -1045,7 +1086,39 @@ defineExpose({
   color: var(--console-text, #101828);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .blog-table {
+    min-height: 0;
+  }
+
+  .blog-table__body {
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .blog-table__body :deep(.ant-table-wrapper),
+  .blog-table__body :deep(.ant-spin-nested-loading),
+  .blog-table__body :deep(.ant-spin-container),
+  .blog-table__body :deep(.ant-table),
+  .blog-table__body :deep(.ant-table-content),
+  .blog-table__body :deep(.ant-table-container) {
+    height: auto;
+    min-height: 0;
+  }
+
+  .blog-table__body--fixed-scroll :deep(.ant-table-body) {
+    height: auto;
+    max-height: none !important;
+  }
+
+  .blog-table__body :deep(.ant-table-body) {
+    overflow-y: visible !important;
+  }
+
+  .blog-table__body :deep(.ant-table-cell) {
+    contain: none;
+  }
+
   .blog-table__footer {
     grid-template-columns: 1fr;
     justify-items: stretch;

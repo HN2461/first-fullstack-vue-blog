@@ -12,10 +12,11 @@
     <a
       v-if="policeBeianNumber"
       class="site-beian-links__link site-beian-links__police"
-      href="https://beian.mps.gov.cn/#/query/webSearch"
+      href="https://beian.mps.gov.cn/#/query/webSearch?code=34122202000573"
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noreferrer"
     >
+      <img class="site-beian-links__police-icon" :src="policeBeianIcon" alt="" aria-hidden="true">
       {{ policeBeianNumber }}
     </a>
   </div>
@@ -34,8 +35,8 @@ defineProps({
 })
 
 const icpBeianNumber = '皖ICP备2026019318号-1'
-// 公安联网备案审核通过后，再填写公安备案号并按平台给出的链接/图标补充展示。
-const policeBeianNumber = ''
+const policeBeianNumber = '皖公网安备34122202000573号'
+const policeBeianIcon = '/beian-police.png'
 </script>
 
 <style scoped>
@@ -56,12 +57,22 @@ const policeBeianNumber = ''
 }
 
 .site-beian-links__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: inherit;
   text-decoration: none;
 }
 
 .site-beian-links__link:hover {
   color: #1668dc;
+}
+
+.site-beian-links__police-icon {
+  width: 18px;
+  height: 20px;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .site-beian-links--auth {

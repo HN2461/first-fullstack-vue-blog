@@ -327,7 +327,8 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import {
   AlertOutlined,
@@ -346,6 +347,8 @@ import {
 } from '@ant-design/icons-vue'
 import { createMemo, deleteMemo, getMemoStats, listMemos, updateMemo } from '@/services/memo'
 
+const route = useRoute()
+const router = useRouter()
 const typeOptions = [
   { label: '灵感', value: 'idea', color: 'blue' },
   { label: '计划', value: 'plan', color: 'cyan' },
@@ -676,7 +679,21 @@ function confirmDelete(memo) {
 
 onMounted(() => {
   refreshMemos(1)
+  if (route.query.create === '1') {
+    openCreateModal()
+    router.replace({ path: route.path, query: { ...route.query, create: undefined } })
+  }
 })
+
+watch(
+  () => route.query.create,
+  (value) => {
+    if (value === '1') {
+      openCreateModal()
+      router.replace({ path: route.path, query: { ...route.query, create: undefined } })
+    }
+  }
+)
 </script>
 
 <style scoped>
@@ -1139,8 +1156,13 @@ onMounted(() => {
   }
 
   .memo-filter-select {
-    flex: 1;
+    flex: 1 1 calc(50% - 5px);
     min-width: 0;
+  }
+
+  .memo-toolbar :deep(.ant-segmented) {
+    width: 100%;
+    overflow-x: auto;
   }
 
   .memo-card__actions {
@@ -1169,12 +1191,41 @@ onMounted(() => {
     font-size: 20px;
   }
 
+  .memo-toolbar > .ant-btn-primary {
+    width: 100%;
+  }
+
+  .memo-card__head,
+  .memo-card__foot {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .memo-card__badges,
+  .memo-card__actions {
+    width: 100%;
+  }
+
+  .memo-card__actions {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .memo-card__actions :deep(.ant-btn) {
+    width: 100%;
+  }
+
   .memo-modal-grid {
     grid-template-columns: 1fr;
   }
 
   .memo-detail__footer {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .memo-detail__footer :deep(.ant-btn) {
+    width: 100%;
   }
 }
 </style>

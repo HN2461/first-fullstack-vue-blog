@@ -225,7 +225,7 @@ function changeClass(rate, invertForExpense = false) {
 .ledger-chart__controls :deep(.ant-radio-button-wrapper) { border: none; background: transparent; font-size: 12px; }
 .ledger-chart__controls :deep(.ant-radio-button-wrapper::before) { display: none; }
 .ledger-chart__controls :deep(.ant-radio-button-wrapper-checked) { border-radius: 4px; background: var(--console-surface); box-shadow: 0 1px 2px color-mix(in srgb, #000 8%, transparent); }
-.ledger-chart__canvas { min-height: 220px; }
+.ledger-chart__canvas { min-height: 220px; min-width: 0; width: 100%; }
 .ledger-chart__empty { display: grid; place-items: center; min-height: 220px; color: var(--console-text-secondary); font-size: 13px; }
 .ledger-chart-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
 .ledger-category-list { display: grid; gap: 8px; padding-top: 10px; border-top: 1px solid var(--console-border); margin-top: 10px; }
@@ -240,11 +240,15 @@ function changeClass(rate, invertForExpense = false) {
 @media (max-width: 760px) {
   .ledger-chart__head { flex-direction: column; }
   .ledger-chart__controls { justify-content: flex-start; }
+  .ledger-chart { overflow: hidden; }
+  .ledger-chart__controls :deep(.ant-radio-group) { max-width: 100%; overflow-x: auto; }
 }
 @media (max-width: 640px) {
   .ledger-metrics { grid-template-columns: 1fr; }
   .ledger-stats { grid-template-columns: repeat(2, 1fr); }
   .ledger-category-rank { grid-template-columns: 10px 56px 1fr auto; }
   .ledger-category-percent { display: none; }
+  .ledger-metric { padding: 14px; }
+  .ledger-chart { padding: 12px; }
 }
 </style>

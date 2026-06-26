@@ -391,4 +391,14 @@ onMounted(async () => {
 .ledger-export-range {
   width: 100%;
 }
+
+@media (max-width: 640px) {
+  .ledger-page {
+    gap: 10px;
+  }
+
+  .ledger-page :deep(.ant-modal) {
+    max-width: calc(100vw - 16px);
+  }
+}
 </style>
