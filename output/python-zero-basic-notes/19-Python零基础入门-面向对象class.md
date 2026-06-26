@@ -1,7 +1,7 @@
 ---
 title: Python 零基础入门 19：面向对象 class
 slug: python-zero-object-oriented-programming
-summary: 用小白能理解的方式解释类、对象、属性、方法、self、构造方法和继承，全程对照 JavaScript class。
+summary: 用小白能理解的方式解释类、对象、属性、方法、self、构造方法、继承、多继承、property、dataclass 和组合，全程对照 JavaScript class。
 category:
 tags: []
 status: draft
@@ -273,7 +273,152 @@ class Article {
 
 **命名差异：Python 属性蛇形 `view_count`，JS 驼峰 `viewCount`。**
 
-## 七、继承
+## 七、属性封装：下划线与 `__name`
+
+Python 没有 `private` / `public` 关键字。属性默认全部公开，但有两套约定来表示"不想被外部直接访问"。
+
+### 单下划线 `_name`：约定私有
+
+```python
+class User:
+    def __init__(self, name):
+        self._name = name    # 约定为私有，但外部仍可访问
+
+user = User("小明")
+print(user._name)   # 小明（技术上能访问，但约定上不应该）
+```
+
+单下划线只是**约定**，告诉其他开发者"这是内部实现，别直接用"。Python 不会阻止访问。
+
+JS 对照：JS 的 `#privateField`（ES2022）是真正的私有，外部访问会报错。Python 的 `_name` 更像是一种"君子协定"。
+
+### 双下划线 `__name`：名称改写（name mangling）
+
+```python
+class User:
+    def __init__(self, name):
+        self.__name = name    # 双下划线，触发名称改写
+
+    def get_name(self):
+        return self.__name
+
+user = User("小明")
+# print(user.__name)          # AttributeError！外部无法直接访问
+print(user.get_name())        # 小明（通过方法访问）
+print(user._User__name)       # 小明（技术上能访问，但不应该）
+```
+
+双下划线开头的属性会被 Python 自动改名（`__name` → `_User__name`），外部无法用原名访问。这是"名称改写"机制，主要目的是**避免子类意外覆盖父类的属性**。
+
+| 写法 | 含义 | 外部能访问吗 | 类比 JS |
+| --- | --- | --- | --- |
+| `name` | 公开 | 能 | 普通属性 |
+| `_name` | 约定私有 | 能（但不建议） | 无直接对应 |
+| `__name` | 名称改写 | 不能用原名 | `#name`（但机制不同） |
+
+企业项目中，一般用单下划线 `_name` 表示私有就够了，双下划线 `__name` 较少使用（除非确实需要防止子类冲突）。
+
+## 八、@property：属性化方法
+
+`@property` 可以把方法变成"属性"来访问——读取时像属性，但背后可以加逻辑。
+
+### 计算属性
+
+```python
+class Article:
+    def __init__(self, title, views, likes):
+        self.title = title
+        self.views = views
+        self.likes = likes
+
+    @property
+    def engagement_rate(self):
+        """互动率 = 点赞 / 浏览，自动计算"""
+        if self.views == 0:
+            return 0
+        return round(self.likes / self.views, 2)
+
+article = Article("Python 入门", 100, 30)
+print(article.engagement_rate)   # 0.3（注意：不加括号！）
+```
+
+加了 `@property` 后，`engagement_rate` 像属性一样用 `article.engagement_rate` 访问，不用写 `()`。
+
+JS 对照（getter）：
+
+```js
+class Article {
+  constructor(title, views, likes) {
+    this.title = title
+    this.views = views
+    this.likes = likes
+  }
+
+  get engagementRate() {
+    if (this.views === 0) return 0
+    return Math.round((this.likes / this.views) * 100) / 100
+  }
+}
+
+const article = new Article('Python 入门', 100, 30)
+console.log(article.engagementRate)  // 0.3
+```
+
+### getter + setter：数据校验
+
+```python
+class User:
+    def __init__(self, name):
+        self.name = name     # 赋值时自动走 setter
+
+    @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if not value or not value.strip():
+            raise ValueError("名字不能为空")
+        self._name = value.strip()
+
+user = User("小明")
+print(user.name)        # 小明（走 getter）
+user.name = "  小红  "  # 走 setter，自动去空格
+print(user.name)        # 小红
+# user.name = ""        # ValueError: 名字不能为空
+```
+
+注意 `__init__` 里写 `self.name = name` 会自动触发 setter，所以校验逻辑只写一处就行。
+
+JS 对照（getter + setter）：
+
+```js
+class User {
+  #name = ''
+
+  constructor(name) {
+    this.name = name
+  }
+
+  get name() {
+    return this.#name
+  }
+
+  set name(value) {
+    if (!value || !value.trim()) throw new Error('名字不能为空')
+    this.#name = value.trim()
+  }
+}
+```
+
+**什么时候用 `@property`？**
+
+- 计算属性（如互动率、总价）
+- 需要校验的属性（如年龄不能为负）
+- 只读属性（只写 getter 不写 setter）
+- 想把方法伪装成属性，让调用更自然
+
+## 九、继承
 
 继承可以理解成：一个类拥有另一个类已有的能力，并可以扩展自己的能力。
 
@@ -320,6 +465,59 @@ dog.bark()
 | 继承语法 | `class Dog(Animal):` | `class Dog extends Animal {` |
 | 调用父类方法 | `super().method()` | `super.method()` |
 
+### super() 调用父类构造方法
+
+子类需要自己的 `__init__` 时，必须手动调用父类的 `__init__`，否则父类的初始化不会执行：
+
+```python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def eat(self):
+        print(f"{self.name} 正在吃东西")
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)    # 调用父类构造，初始化 name
+        self.breed = breed        # 子类自己的属性
+
+    def bark(self):
+        print(f"{self.name} 汪汪")
+
+dog = Dog("旺财", "金毛")
+dog.eat()     # 旺财 正在吃东西（继承自父类）
+dog.bark()    # 旺财 汪汪（自己的）
+print(dog.breed)  # 金毛
+```
+
+**忘记写 `super().__init__()` 是新手最常见的继承错误**——父类的属性不会被初始化，后面用到 `self.name` 会报 `AttributeError`。
+
+JS 对照：
+
+```js
+class Animal {
+  constructor(name) {
+    this.name = name
+  }
+
+  eat() {
+    console.log(`${this.name} 正在吃东西`)
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name)       // 必须在 this 之前调用
+    this.breed = breed
+  }
+
+  bark() {
+    console.log(`${this.name} 汪汪`)
+  }
+}
+```
+
 ### 重写父类方法
 
 ```python
@@ -349,7 +547,155 @@ for animal in animals:
 
 这就是**多态**——同样的方法调用，不同对象有不同的行为。Python 和 JS 都支持。
 
-## 八、类属性 vs 实例属性
+## 十、多继承
+
+Python 支持**多继承**——一个类可以同时继承多个父类。JS 不支持（只能单继承 + mixin）。
+
+```python
+class Flyable:
+    def fly(self):
+        print("飞行中")
+
+class Swimmable:
+    def swim(self):
+        print("游泳中")
+
+class Duck(Flyable, Swimmable):
+    pass
+
+duck = Duck()
+duck.fly()    # 飞行中
+duck.swim()   # 游泳中
+```
+
+### MRO：方法解析顺序
+
+当多个父类有同名方法时，Python 按什么顺序找？这由 **MRO（Method Resolution Order，方法解析顺序）** 决定，使用 C3 线性化算法。
+
+```python
+class A:
+    def greet(self):
+        print("A")
+
+class B(A):
+    def greet(self):
+        print("B")
+
+class C(A):
+    def greet(self):
+        print("C")
+
+class D(B, C):
+    pass
+
+d = D()
+d.greet()    # B（按 MRO 顺序，B 在 C 前面）
+
+# 查看 MRO 顺序
+print(D.__mro__)
+# (<class 'D'>, <class 'B'>, <class 'C'>, <class 'A'>, <class 'object'>)
+```
+
+MRO 规则简单理解：**子类永远在父类前面，多个父类按声明顺序排**。
+
+### 菱形继承与 super()
+
+当继承结构形成菱形（D → B → A，D → C → A）时，用 `super()` 可以保证 A 的 `__init__` 只被调用一次：
+
+```text
+    A
+   / \
+  B   C
+   \ /
+    D
+```
+
+```python
+class A:
+    def __init__(self):
+        print("A.__init__")
+
+class B(A):
+    def __init__(self):
+        print("B.__init__")
+        super().__init__()
+
+class C(A):
+    def __init__(self):
+        print("C.__init__")
+        super().__init__()
+
+class D(B, C):
+    def __init__(self):
+        print("D.__init__")
+        super().__init__()
+
+D()
+# D.__init__
+# B.__init__
+# C.__init__
+# A.__init__（只调用一次！）
+```
+
+如果用 `A.__init__(self)` 直接调用，A 会被调用两次。`super()` 按 MRO 链传递，每个类只调用一次。
+
+> 多继承很强大但也容易混乱。企业项目中，建议优先用单继承 + 组合，多继承主要用于混入（Mixin）模式。
+
+## 十一、组合 vs 继承
+
+继承表达"是一个"（is-a）关系，组合表达"有一个"（has-a）关系。
+
+```python
+# 继承：Dog "是一个" Animal
+class Animal:
+    def eat(self):
+        print("吃东西")
+
+class Dog(Animal):
+    def bark(self):
+        print("汪汪")
+
+# 组合：Car "有一个" Engine
+class Engine:
+    def start(self):
+        print("引擎启动")
+
+class Car:
+    def __init__(self):
+        self.engine = Engine()    # 组合：Car 拥有 Engine
+
+    def drive(self):
+        self.engine.start()       # 委托给组件
+        print("行驶中")
+
+car = Car()
+car.drive()
+# 引擎启动
+# 行驶中
+```
+
+**什么时候用组合？**
+
+- 功能可插拔、可替换（如换不同的引擎）
+- "拥有"而非"是"的关系
+- 想避免继承链过深
+
+**什么时候用继承？**
+
+- 明确的"是一个"关系（Dog 是 Animal）
+- 需要多态（同一接口不同实现）
+- 框架强制要求（如 Django View）
+
+| 对比 | 继承 | 组合 |
+| --- | --- | --- |
+| 关系 | is-a（是一个） | has-a（有一个） |
+| 耦合 | 紧密（子类依赖父类实现） | 松散（通过接口交互） |
+| 灵活性 | 编译时确定 | 运行时可替换 |
+| 适用 | 明确分类关系 | 功能拼装、策略切换 |
+
+JS 对照：JS 同样推崇"组合优于继承"，用 mixin / 高阶函数实现组合。
+
+## 十二、类属性 vs 实例属性
 
 ```python
 class User:
@@ -395,7 +741,18 @@ console.log(User.totalCount)  // 2
 
 Python 的类属性不需要 `static` 关键字，直接定义就行。JS 需要加 `static`。
 
-## 九、静态方法和类方法
+**常见坑**：通过实例修改类属性
+
+```python
+user1.total_count = 100    # 这不会改类属性！而是给 user1 创建了一个实例属性
+print(User.total_count)    # 2（类属性没变）
+print(user1.total_count)   # 100（实例属性遮蔽了类属性）
+print(user2.total_count)   # 2（user2 仍读类属性）
+```
+
+修改类属性要用 `User.total_count = 100`，不要用 `self.total_count`。
+
+## 十三、静态方法和类方法
 
 ### @staticmethod：不需要 self 的方法
 
@@ -484,33 +841,67 @@ const a2 = Article.fromDict({ title: 'JS 基础', status: 'published' })
 
 | 类型 | 第一个参数 | 访问实例 | 访问类 | 用途 |
 | --- | --- | --- | --- | --- |
-| 实例方法 | `self` | ✅ | ✅ | 最常用，操作实例数据 |
-| 类方法 | `cls` | ❌ | ✅ | 替代构造、工厂方法 |
-| 静态方法 | 无 | ❌ | ❌ | 工具函数，逻辑上属于类 |
+| 实例方法 | `self` | 能 | 能 | 最常用，操作实例数据 |
+| 类方法 | `cls` | 不能 | 能 | 替代构造、工厂方法 |
+| 静态方法 | 无 | 不能 | 不能 | 工具函数，逻辑上属于类 |
+
+## 十四、类型判断：isinstance 与鸭子类型
+
+### isinstance()：判断对象类型
 
 ```python
-class Demo:
-    count = 0
+class Animal:
+    pass
 
-    def __init__(self):
-        Demo.count += 1
+class Dog(Animal):
+    pass
 
-    def instance_method(self):
-        # 可以访问 self 和 Demo
-        return f"实例方法：{self}，总数={Demo.count}"
+dog = Dog()
 
-    @classmethod
-    def class_method(cls):
-        # 只能访问 cls（类），不能访问 self
-        return f"类方法：总数={cls.count}"
-
-    @staticmethod
-    def static_method():
-        # 不能访问 self 也不能访问 cls
-        return "静态方法：纯工具函数"
+print(isinstance(dog, Dog))     # True
+print(isinstance(dog, Animal))  # True（考虑继承关系）
+print(type(dog) is Dog)         # True
+print(type(dog) is Animal)      # False（type 不考虑继承）
 ```
 
-## 十、常用魔术方法
+`isinstance` 考虑继承关系（Dog 也是 Animal），`type()` 不考虑。推荐用 `isinstance`。
+
+JS 对照：
+
+```js
+console.log(dog instanceof Dog)     // true
+console.log(dog instanceof Animal)  // true
+```
+
+### 鸭子类型
+
+Python 有个核心理念叫**鸭子类型**（Duck Typing）：
+
+> "如果它走起来像鸭子，叫起来像鸭子，那它就是鸭子。"
+
+意思是不关心对象的具体类型，只关心它有没有需要的方法：
+
+```python
+def make_sound(animal):
+    animal.speak()    # 不关心 animal 是什么类型，只要有 speak 方法
+
+class Dog:
+    def speak(self):
+        print("汪汪")
+
+class Cat:
+    def speak(self):
+        print("喵喵")
+
+make_sound(Dog())   # 汪汪
+make_sound(Cat())   # 喵喵
+```
+
+JS 也是鸭子类型——你传什么对象进来都行，只要有对应的方法。
+
+企业 Python 中，优先用鸭子类型（直接调用方法），只在必要时用 `isinstance` 做类型检查。
+
+## 十五、常用魔术方法
 
 Python 类里以双下划线开头和结尾的方法叫**魔术方法（dunder method）**，它们在特定场景下自动被调用。
 
@@ -586,7 +977,131 @@ print(a1 == a2)    # True（默认是 False，因为是不同对象）
 
 企业项目中最常用的是 `__init__`、`__str__`、`__repr__` 和 `__eq__`，其他了解即可。
 
-## 十一、class 语法对照总表
+## 十六、@dataclass：现代数据类
+
+Python 3.7+ 提供了 `@dataclass` 装饰器，自动生成 `__init__`、`__repr__`、`__eq__` 等方法，大幅减少样板代码。
+
+### 手写 vs dataclass
+
+```python
+# 传统写法：手写一堆样板
+class Article:
+    def __init__(self, title, status="draft", views=0):
+        self.title = title
+        self.status = status
+        self.views = views
+
+    def __repr__(self):
+        return f"Article(title={self.title!r}, status={self.status!r}, views={self.views})"
+
+    def __eq__(self, other):
+        return self.title == other.title and self.status == other.status
+```
+
+```python
+# dataclass 写法：一行搞定
+from dataclasses import dataclass
+
+@dataclass
+class Article:
+    title: str
+    status: str = "draft"
+    views: int = 0
+
+article = Article("Python 入门")
+print(article)
+# Article(title='Python 入门', status='draft', views=0)
+
+a1 = Article("Python 入门")
+a2 = Article("Python 入门")
+print(a1 == a2)   # True（自动生成 __eq__）
+```
+
+`@dataclass` 自动生成了 `__init__`、`__repr__`、`__eq__`，你只需要声明字段。
+
+### 可变默认值用 `field`
+
+```python
+from dataclasses import dataclass, field
+
+@dataclass
+class Article:
+    title: str
+    tags: list = field(default_factory=list)    # 不能直接写 tags: list = []
+
+article = Article("Python 入门")
+article.tags.append("基础")
+print(article.tags)   # ['基础']
+```
+
+> Python 中可变默认值（列表、字典）不能直接写 `= []`，要用 `field(default_factory=list)`，否则所有实例会共享同一个列表。
+
+JS 对照：JS 的 class 字段语法更简洁，天然隔离：
+
+```js
+class Article {
+  title
+  status = 'draft'
+  views = 0
+  tags = []    // 每个实例独立，不存在共享问题
+
+  constructor(title) {
+    this.title = title
+  }
+}
+```
+
+### frozen：不可变数据类
+
+```python
+@dataclass(frozen=True)
+class Point:
+    x: float
+    y: float
+
+p = Point(1.0, 2.0)
+# p.x = 3.0    # FrozenInstanceError！不可修改
+```
+
+类似 JS 的 `Object.freeze()`。
+
+**什么时候用 dataclass？**
+
+- 主要用来存储数据的类（DTO、模型、配置）
+- 需要自动生成 `__init__` / `__repr__` / `__eq__`
+- 数据类的属性较多，手写太冗长
+
+**什么时候不用？**
+
+- 类有大量复杂业务逻辑（用普通 class 更灵活）
+- 需要在 `__init__` 里做复杂操作
+
+## 十七、__slots__：限制属性
+
+默认情况下，Python 对象可以随意添加任意属性（存在 `__dict__` 里）。`__slots__` 可以限制允许的属性，同时节省内存：
+
+```python
+class Article:
+    __slots__ = ["title", "status", "views"]    # 只允许这三个属性
+
+    def __init__(self, title):
+        self.title = title
+        self.status = "draft"
+        self.views = 0
+
+article = Article("Python 入门")
+# article.author = "小明"    # AttributeError！不在 __slots__ 里
+```
+
+| 对比 | 不用 `__slots__` | 用 `__slots__` |
+| --- | --- | --- |
+| 能否动态加属性 | 能 | 不能 |
+| 内存占用 | 较大（有 `__dict__`） | 较小 |
+| 灵活性 | 高 | 低 |
+
+企业项目中，当需要创建大量对象（如百万级数据行）时，`__slots__` 能显著节省内存。日常开发了解即可。
+
+## 十八、class 语法对照总表
 
 | 功能 | Python | JS |
 | --- | --- | --- |
@@ -595,13 +1110,20 @@ print(a1 == a2)    # True（默认是 False，因为是不同对象）
 | 当前对象 | `self` | `this` |
 | 创建对象 | `User()` | `new User()` |
 | 定义方法 | `def method(self):` | `method() {` |
-| 继承 | `class Dog(Animal):` | `class Dog extends Animal {` |
+| 单继承 | `class Dog(Animal):` | `class Dog extends Animal {` |
+| 多继承 | `class D(B, C):` | 不支持 |
 | 调用父类 | `super().__init__()` | `super()` |
 | 类属性 | 直接定义 | `static` |
+| 计算属性 | `@property` | `get xxx()` |
+| 私有约定 | `_name` / `__name` | `#name` |
+| 静态方法 | `@staticmethod` | `static` |
+| 类方法 | `@classmethod`（`cls`） | `static`（模拟） |
 | 打印对象 | `__str__` | `toString()` |
 | 多态 | 自然支持 | 自然支持 |
+| 数据类 | `@dataclass` | class 字段语法 |
+| 不可变对象 | `@dataclass(frozen=True)` | `Object.freeze()` |
 
-## 十二、容易和 JS 混淆的地方汇总
+## 十九、容易和 JS 混淆的地方汇总
 
 | 容易混的点 | Python | JS | 怎么记 |
 | --- | --- | --- | --- |
@@ -610,24 +1132,30 @@ print(a1 == a2)    # True（默认是 False，因为是不同对象）
 | 构造方法 | `__init__` | `constructor` | Python 双下划线 |
 | 方法第一个参数 | 必须写 `self` | 不需要 | Python 最容易忘的 |
 | 继承 | `class Dog(Animal):` | `class Dog extends Animal` | Python 用括号 |
+| 多继承 | `class D(B, C):` | 不支持 | Python 独有 |
+| 调用父类构造 | `super().__init__()` | `super()` | Python 要写方法名 |
 | 类属性 | 直接定义 | `static` | Python 不需要 static |
+| 私有属性 | `_name` / `__name` | `#name` | Python 用下划线约定 |
+| 计算属性 | `@property` | `get xxx()` | Python 用装饰器 |
 | 属性命名 | 蛇形 `view_count` | 驼峰 `viewCount` | 风格差异 |
 | 打印对象 | `__str__` | `toString()` | Python 双下划线 |
+| 类型判断 | `isinstance(obj, Cls)` | `obj instanceof Cls` | 函数 vs 运算符 |
+| 数据类 | `@dataclass` | class 字段 | Python 用装饰器 |
 
-## 十三、企业项目实战：文章类
+## 二十、企业项目实战：文章类
 
 ```python
-class Article:
-    """文章类"""
-    total_count = 0    # 类属性：文章总数
+from dataclasses import dataclass, field
 
-    def __init__(self, title, status="draft", category=None):
-        self.title = title
-        self.status = status
-        self.category = category
-        self.tags = []
-        self.view_count = 0
-        Article.total_count += 1
+
+@dataclass
+class Article:
+    """文章数据类"""
+    title: str
+    status: str = "draft"
+    category: str = ""
+    tags: list = field(default_factory=list)
+    view_count: int = 0
 
     def publish(self):
         """发布文章"""
@@ -646,6 +1174,16 @@ class Article:
     def add_view(self):
         """增加浏览"""
         self.view_count += 1
+
+    @property
+    def is_published(self):
+        """是否已发布（计算属性）"""
+        return self.status == "published"
+
+    @property
+    def engagement_rate(self):
+        """标签密度 = 标签数 / (浏览数+1)"""
+        return round(len(self.tags) / (self.view_count + 1), 2)
 
     def summary(self):
         """摘要信息"""
@@ -667,9 +1205,14 @@ article.add_view()
 
 print(article)
 # [published] Python 零基础入门：字符串 | 浏览: 2 | 标签: python, 字符串
+
+print(article.is_published)      # True（@property，不加括号）
+print(article.engagement_rate)   # 0.67（自动计算）
 ```
 
-## 十四、本篇练习
+这个实战综合运用了 `@dataclass`、`@property`、方法定义和魔术方法，体现了现代 Python 类的典型写法。
+
+## 二十一、本篇练习
 
 练习一：商品类。
 
@@ -680,15 +1223,37 @@ class Product:
         self.price = price
         self.count = count
 
+    @property
     def total_price(self):
+        """总价（计算属性）"""
         return self.price * self.count
 
 product = Product("键盘", 199, 2)
 print(f"商品：{product.name}")
-print(f"总价：{product.total_price()} 元")
+print(f"总价：{product.total_price} 元")   # 不加括号！
 ```
 
-练习二：找错误。
+练习二：用 dataclass 重写。
+
+```python
+from dataclasses import dataclass
+
+@dataclass
+class Product:
+    name: str
+    price: float
+    count: int
+
+    @property
+    def total_price(self):
+        return self.price * self.count
+
+product = Product("键盘", 199, 2)
+print(product)                     # 自动生成 __repr__
+print(f"总价：{product.total_price} 元")
+```
+
+练习三：找错误。
 
 ```python
 # 错误 1：忘写 self
@@ -723,6 +1288,40 @@ class User:
         self.name = name  # 属性需要 self.
 ```
 
+```python
+# 错误 4：继承时忘记调用 super().__init__()
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+class Dog(Animal):
+    def __init__(self, breed):
+        self.breed = breed    # 忘了 super().__init__(name)！
+
+dog = Dog("金毛")
+# print(dog.name)    # AttributeError! name 没被初始化
+
+# 正确
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)    # 先初始化父类
+        self.breed = breed
+```
+
+```python
+# 错误 5：可变默认值
+class Article:
+    def __init__(self, title, tags=[]):    # 危险！所有实例共享同一个列表
+        self.title = title
+        self.tags = tags
+
+# 正确
+class Article:
+    def __init__(self, title, tags=None):
+        self.title = title
+        self.tags = tags or []    # 每次创建新列表
+```
+
 ## 本篇小结
 
 1. Python `class` ≈ JS `class`，逻辑一样，语法细节不同。
@@ -730,6 +1329,13 @@ class User:
 3. Python 构造方法 `__init__`，JS `constructor`。
 4. Python 创建对象不需要 `new`，JS 需要。
 5. Python 继承 `class Dog(Animal):`，JS `class Dog extends Animal`。
-6. Python 类属性直接定义，JS 需要 `static`。
-7. `__str__` 控制 `print(对象)` 的输出，JS 用 `toString()`。
-8. 属性命名 Python 蛇形 `view_count`，JS 驼峰 `viewCount`。
+6. 继承时子类 `__init__` 必须调用 `super().__init__()`，否则父类属性不初始化。
+7. Python 支持**多继承**，JS 不支持；多继承按 MRO 顺序解析方法。
+8. Python 类属性直接定义，JS 需要 `static`。
+9. `_name` 是约定私有，`__name` 触发名称改写；JS 用 `#name` 真正私有。
+10. `@property` 把方法变属性，做计算属性和数据校验；JS 用 `get` / `set`。
+11. `@dataclass` 自动生成样板代码，适合数据类；类似 JS class 字段语法。
+12. 优先用组合而非继承（has-a vs is-a），避免继承链过深。
+13. 鸭子类型：不关心类型，只关心有没有方法；`isinstance` 考虑继承，`type()` 不考虑。
+14. `__str__` 控制 `print(对象)` 的输出，JS 用 `toString()`。
+15. 属性命名 Python 蛇形 `view_count`，JS 驼峰 `viewCount`。
