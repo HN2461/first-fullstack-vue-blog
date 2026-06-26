@@ -4,6 +4,10 @@ export function getPublicSiteProfile() {
   return http.get('/api/public/site/profile')
 }
 
+export function getPublicFestivalEffectState() {
+  return http.get('/api/public/festival-effect')
+}
+
 export function getPublicHome() {
   return http.get('/api/public/home')
 }

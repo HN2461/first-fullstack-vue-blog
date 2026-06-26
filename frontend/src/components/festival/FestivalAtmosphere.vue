@@ -122,9 +122,8 @@ const festivalStyle = computed(() => ({
 
 @media (max-width: 760px) {
   .festival-ribbon {
-    top: auto;
+    top: 56px;
     right: 12px;
-    bottom: 12px;
     left: 12px;
     justify-content: center;
     max-width: none;

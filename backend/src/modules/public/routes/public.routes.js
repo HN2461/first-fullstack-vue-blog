@@ -22,6 +22,14 @@ publicRouter.get('/site/profile', asyncHandler(async (req, res) => {
   res.json(ok(await getSettings()))
 }))
 
+publicRouter.get('/festival-effect', asyncHandler(async (req, res) => {
+  const now = new Date()
+  res.json(ok({
+    serverTime: now.toISOString(),
+    serverDate: now.toISOString().slice(0, 10)
+  }))
+}))
+
 publicRouter.use(optionalAuth)
 
 publicRouter.get('/announcements', asyncHandler(async (req, res) => {

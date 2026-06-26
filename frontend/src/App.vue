@@ -1,6 +1,7 @@
 <template>
   <a-config-provider :locale="zhCN" :theme="antThemeConfig">
     <router-view />
+    <PublicFestivalHost />
   </a-config-provider>
 </template>
 
@@ -9,6 +10,7 @@ import { computed, onMounted } from 'vue'
 import { theme as antTheme } from 'ant-design-vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import { useAppStore } from '@/stores/app'
+import PublicFestivalHost from '@/components/festival/PublicFestivalHost.vue'
 import '@/styles/festival.css'
 
 const appStore = useAppStore()

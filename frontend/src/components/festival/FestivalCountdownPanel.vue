@@ -10,7 +10,6 @@
       type="button"
       aria-label="节日倒计时"
       title="节日倒计时"
-      @mouseenter="open = true"
     >
       <CalendarOutlined />
     </button>
