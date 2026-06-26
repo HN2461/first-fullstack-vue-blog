@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { requireAuth } from '#middlewares/auth.js'
+import { requireAuth, requireMenuAccess } from '#middlewares/auth.js'
 import { createMemo, deleteMemo, getMemoStats, listMemos, updateMemo } from '#modules/memo/services/memo.service.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
@@ -8,6 +8,7 @@ import { memoCreateSchema, memoUpdateSchema, parseBody } from '#modules/memo/val
 export const memoRouter = Router()
 
 memoRouter.use(requireAuth)
+memoRouter.use(requireMenuAccess('/console/memos'))
 
 memoRouter.get('/', asyncHandler(async (req, res) => {
   res.json(ok(await listMemos(req.user._id, req.query)))

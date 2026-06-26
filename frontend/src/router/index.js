@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { buildDocumentTitle } from '@/utils/siteProfile'
-import { isKnownConsolePath } from '@/utils/consoleRoutes'
 
 const HomePage = () => import('@/views/public/HomePage/index.vue')
 const ArticleListPage = () => import('@/views/public/ArticleListPage/index.vue')
@@ -137,7 +136,7 @@ export const router = createRouter({
           path: 'memos',
           name: 'ConsoleMemos',
           component: MemoPage,
-          meta: { title: '备忘录', requiresAuth: true }
+          meta: { title: '备忘录', requiresAuth: true, requiresMenuAccess: true }
         },
         {
           path: 'ledger',
@@ -373,12 +372,17 @@ function flattenMenus(items = []) {
 
 function findPendingMenuTarget(path, authStore) {
   if (!authStore.isLoggedIn || !path.startsWith('/console')) return null
-  if (isKnownConsolePath(path)) return null
+  if (isImplementedConsolePath(path)) return null
 
   return flattenMenus(authStore.rootMenus || []).find((menu) => {
     if (!menu.routePath || menu.routePath === '/console') return false
     return path === menu.routePath || path.startsWith(`${menu.routePath}/`)
   }) || null
+}
+
+function isImplementedConsolePath(path) {
+  const matched = router.resolve(path).matched
+  return matched.some((record) => record.name && record.name !== 'NotFound' && record.name !== 'ConsoleUnavailable')
 }
 
 router.beforeEach(async (to) => {

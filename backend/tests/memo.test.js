@@ -1,8 +1,10 @@
 import request from 'supertest'
-import { USER_ROLES } from '#constants/domain'
+import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { User } from '#modules/user/models/User.js'
+import { Role } from '#modules/rbac/models/Role.js'
+import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import {
   clearTestDatabase,
@@ -11,11 +13,13 @@ import {
 } from './helpers/testDatabase.js'
 
 async function createUser(email) {
+  const visitorRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR })
   return User.create({
     username: email.split('@')[0],
     email,
     passwordHash: 'hashed-password',
-    role: USER_ROLES.USER
+    role: USER_ROLES.USER,
+    roles: visitorRole ? [visitorRole._id] : []
   })
 }
 
@@ -33,6 +37,7 @@ describe('memo routes', () => {
   beforeEach(async () => {
     await clearTestDatabase()
     app = createApp()
+    await ensureRbacSeed()
     user = await createUser('memo-user@example.com')
     otherUser = await createUser('other-user@example.com')
     token = signAccessToken(user)
@@ -175,5 +180,18 @@ describe('memo routes', () => {
       .expect(200)
 
     expect(listResponse.body.data.total).toBe(0)
+  })
+
+  it('requires memo menu permission', async () => {
+    const visitorRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR }).populate('menuIds')
+    visitorRole.menuIds = visitorRole.menuIds
+      .filter((menu) => menu.routePath !== '/console/memos')
+      .map((menu) => menu._id)
+    await visitorRole.save()
+
+    await request(app)
+      .get('/api/memos')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(403)
   })
 })

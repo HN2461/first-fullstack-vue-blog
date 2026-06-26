@@ -318,7 +318,7 @@ import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
 import { getKnowledgeMenu, listPublicArticles } from '@/services/public'
-import { isKnowledgeConsolePath, isKnownConsoleRoutePath } from '@/utils/consoleRoutes'
+import { isKnowledgeConsolePath } from '@/utils/consoleRoutes'
 import { openMenuRoute } from '@/utils/menuNavigation'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 
@@ -752,7 +752,7 @@ function handleSecondaryClick({ key }) {
   if (menu) {
     clickedMenuKey.value = getManagementMenuKey(menu)
     const targetPath = menu.routePath || ''
-    if (targetPath && isKnownConsoleRoutePath(targetPath)) {
+    if (targetPath && isImplementedConsoleRoutePath(targetPath)) {
       openMenuRoute(router, menu, targetPath)
       return
     }
@@ -837,7 +837,7 @@ function switchRootMenu(rootId) {
     return
   }
 
-  if (isKnownConsoleRoutePath(root.routePath)) {
+  if (isImplementedConsoleRoutePath(root.routePath)) {
     openMenuRoute(router, root, root.routePath)
     return
   }
@@ -950,11 +950,17 @@ function flattenRenderableMenus(items = []) {
 function findFirstMenuRoute(items = []) {
   for (const item of items) {
     if (item.enabled === false || item.hidden) continue
-    if (isKnownConsoleRoutePath(item.routePath)) return item.routePath
+    if (isImplementedConsoleRoutePath(item.routePath)) return item.routePath
     const nested = findFirstMenuRoute(item.children || [])
     if (nested) return nested
   }
   return ''
+}
+
+function isImplementedConsoleRoutePath(routePath = '') {
+  if (!routePath) return false
+  const matched = router.resolve(routePath).matched
+  return matched.some((record) => record.name && record.name !== 'NotFound' && record.name !== 'ConsoleUnavailable')
 }
 
 function findManagementRouteState(items = [], path, ancestors = []) {
