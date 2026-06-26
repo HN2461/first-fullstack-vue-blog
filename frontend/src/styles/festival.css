@@ -1,0 +1,28 @@
+html[class*="festival-"] .enterprise-topnav {
+  border-bottom-color: color-mix(in srgb, var(--console-primary, #1668dc) 18%, var(--console-border));
+}
+
+html.festival-spring,
+html.festival-lantern,
+html.festival-national {
+  --festival-nav-accent: #dc2626;
+}
+
+html.festival-duanwu,
+html.festival-labor,
+html.festival-qingming {
+  --festival-nav-accent: #15803d;
+}
+
+html.festival-mid-autumn,
+html.festival-chongyang {
+  --festival-nav-accent: #b45309;
+}
+
+html.festival-christmas {
+  --festival-nav-accent: #0f766e;
+}
+
+html[class*="festival-"] .enterprise-topnav-brand strong {
+  color: var(--festival-nav-accent, var(--console-primary, #1668dc));
+}

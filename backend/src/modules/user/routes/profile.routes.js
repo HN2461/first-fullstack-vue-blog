@@ -18,7 +18,7 @@ import {
   listPermissionRequests
 } from '#modules/rbac/services/rbac.service.js'
 import { decryptCredential } from '#utils/authSecurity.js'
-import { notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema } from '#modules/user/validators/profile.validator.js'
+import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema } from '#modules/user/validators/profile.validator.js'
 import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/rbac/validators/rbac.validator.js'
 
 const router = Router()
@@ -121,6 +121,48 @@ router.put('/', requireAuth, asyncHandler(async (req, res) => {
   )
 
   res.json(ok(await hydrateUserPermissions(user), '个人信息更新成功'))
+}))
+
+/**
+ * GET /api/profile/festival-effect
+ * 返回节日特效所需的可信服务器日期和当前用户生日配置。
+ */
+router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
+  const now = new Date()
+  const today = now.toISOString().slice(0, 10)
+  const safeUser = req.user.toSafeJSON()
+  const birthMonthDay = safeUser.birthday ? safeUser.birthday.slice(5) : ''
+  const isBirthdayToday = Boolean(birthMonthDay && birthMonthDay === today.slice(5))
+
+  res.json(ok({
+    serverTime: now.toISOString(),
+    serverDate: today,
+    birthday: safeUser.birthday,
+    closeBirthEffect: safeUser.closeBirthEffect,
+    lastBirthEffectDate: safeUser.lastBirthEffectDate,
+    isBirthdayToday,
+    shouldShowBirthEffect: isBirthdayToday && !safeUser.closeBirthEffect && safeUser.lastBirthEffectDate !== today
+  }))
+}))
+
+/**
+ * PUT /api/profile/festival-effect
+ * 记录生日弹窗已触发或永久关闭，使用服务器日期避免重复骚扰。
+ */
+router.put('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
+  const input = parseBody(festivalEffectActionSchema, req.body)
+  const today = new Date().toISOString().slice(0, 10)
+  const updates = input.action === 'close-birth-effect'
+    ? { closeBirthEffect: true, lastBirthEffectDate: today }
+    : { lastBirthEffectDate: today }
+
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { $set: updates },
+    { new: true }
+  )
+
+  res.json(ok(await hydrateUserPermissions(user), '节日特效状态已保存'))
 }))
 
 /**

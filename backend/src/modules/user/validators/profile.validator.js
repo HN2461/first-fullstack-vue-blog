@@ -1,6 +1,10 @@
 import { z } from 'zod'
 
 const optionalText = (max, message) => z.string().trim().max(max, message).optional()
+const optionalBirthday = z.union([
+  z.literal(''),
+  z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式应为 YYYY-MM-DD')
+]).optional()
 
 export const profileUpdateSchema = z.object({
   username: z.string().trim().min(2, '昵称长度需在 2-32 个字符之间').max(32, '昵称长度需在 2-32 个字符之间').optional(),
@@ -9,8 +13,16 @@ export const profileUpdateSchema = z.object({
     z.literal(''),
     z.string().trim().url('个人网站地址格式不正确').max(120, '个人网站不能超过 120 个字符')
   ]).optional(),
-  location: optionalText(60, '所在地不能超过 60 个字符')
+  location: optionalText(60, '所在地不能超过 60 个字符'),
+  birthday: optionalBirthday,
+  closeBirthEffect: z.boolean({ invalid_type_error: '生日特效开关必须是布尔值' }).optional()
 }).strict('存在不支持的个人资料字段')
+
+export const festivalEffectActionSchema = z.object({
+  action: z.enum(['birth-shown', 'close-birth-effect'], {
+    errorMap: () => ({ message: '不支持的节日特效操作' })
+  })
+}).strict('存在不支持的节日特效字段')
 
 export const passwordUpdateSchema = z.object({
   oldPassword: z.string().min(1, '请输入原密码'),

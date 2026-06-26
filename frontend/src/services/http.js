@@ -178,10 +178,18 @@ export function getProfile() {
 
 /**
  * 更新个人信息
- * @param {Object} data - { username?, bio?, website?, location? }
+ * @param {Object} data - { username?, bio?, website?, location?, birthday?, closeBirthEffect? }
  */
 export function updateProfile(data) {
   return http.put('/api/profile', data)
+}
+
+export function getFestivalEffectState() {
+  return http.get('/api/profile/festival-effect')
+}
+
+export function updateFestivalEffectState(action) {
+  return http.put('/api/profile/festival-effect', { action })
 }
 
 /**

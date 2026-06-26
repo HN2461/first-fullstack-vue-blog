@@ -176,6 +176,24 @@
                 </a-form-item>
               </a-col>
             </a-row>
+            <a-row :gutter="24">
+              <a-col :span="12">
+                <a-form-item label="生日" name="birthday">
+                  <a-input
+                    v-model:value="profileForm.birthday"
+                    type="date"
+                    placeholder="YYYY-MM-DD"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <a-form-item label="生日动画">
+                  <a-checkbox v-model:checked="profileForm.closeBirthEffect">
+                    不再提醒生日动画
+                  </a-checkbox>
+                </a-form-item>
+              </a-col>
+            </a-row>
             <a-form-item>
               <a-button type="primary" html-type="submit" :loading="saving">
                 保存修改
@@ -476,7 +494,9 @@ const profileForm = reactive({
   username: '',
   bio: '',
   website: '',
-  location: ''
+  location: '',
+  birthday: '',
+  closeBirthEffect: false
 })
 
 const passwordForm = reactive({
@@ -578,6 +598,8 @@ function syncProfileForm(user = {}) {
   profileForm.bio = user.bio || ''
   profileForm.website = user.website || ''
   profileForm.location = user.location || ''
+  profileForm.birthday = user.birthday || ''
+  profileForm.closeBirthEffect = Boolean(user.closeBirthEffect)
 }
 
 function syncNotificationSettings(settings = {}) {
@@ -658,7 +680,9 @@ async function handleSaveProfile() {
       username: profileForm.username,
       bio: profileForm.bio,
       website: profileForm.website,
-      location: profileForm.location
+      location: profileForm.location,
+      birthday: profileForm.birthday,
+      closeBirthEffect: profileForm.closeBirthEffect
     })
     authStore.user = { ...authStore.user, ...result }
     syncProfileForm(result)

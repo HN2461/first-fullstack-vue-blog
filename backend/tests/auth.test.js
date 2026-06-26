@@ -14,6 +14,7 @@ import {
   connectTestDatabase,
   disconnectTestDatabase
 } from './helpers/testDatabase.js'
+import { signAccessToken } from '../src/utils/jwt.js'
 
 function encryptCredential(challenge, purpose, payload) {
   const encrypted = crypto.publicEncrypt(
@@ -341,5 +342,61 @@ describe('auth routes', () => {
       .expect(200)
 
     expect(loginResponse.body.data.user.email).toBe('reader@example.com')
+  })
+
+  it('updates profile birthday and tracks birthday effect state with server date', async () => {
+    const app = createApp()
+    await registerUser({
+      username: 'birthday-user',
+      email: 'birthday@example.com',
+      password: 'password123'
+    })
+    const user = await User.findOne({ email: 'birthday@example.com' })
+    const token = signAccessToken(user)
+    const today = new Date().toISOString().slice(0, 10)
+    const birthday = `1996-${today.slice(5)}`
+
+    const profileResponse = await request(app)
+      .put('/api/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        username: 'birthday-user',
+        birthday,
+        closeBirthEffect: false
+      })
+      .expect(200)
+
+    expect(profileResponse.body.data).toMatchObject({
+      birthday,
+      closeBirthEffect: false
+    })
+
+    const stateResponse = await request(app)
+      .get('/api/profile/festival-effect')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(stateResponse.body.data).toMatchObject({
+      serverDate: today,
+      birthday,
+      isBirthdayToday: true,
+      shouldShowBirthEffect: true
+    })
+
+    await request(app)
+      .put('/api/profile/festival-effect')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ action: 'birth-shown' })
+      .expect(200)
+
+    const secondStateResponse = await request(app)
+      .get('/api/profile/festival-effect')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(secondStateResponse.body.data).toMatchObject({
+      lastBirthEffectDate: today,
+      shouldShowBirthEffect: false
+    })
   })
 })

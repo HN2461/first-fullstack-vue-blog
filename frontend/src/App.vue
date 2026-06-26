@@ -9,6 +9,7 @@ import { computed, onMounted } from 'vue'
 import { theme as antTheme } from 'ant-design-vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import { useAppStore } from '@/stores/app'
+import '@/styles/festival.css'
 
 const appStore = useAppStore()
 const antThemeConfig = computed(() => ({

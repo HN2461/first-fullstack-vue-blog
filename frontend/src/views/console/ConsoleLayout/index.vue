@@ -56,6 +56,7 @@
             <template #icon><SearchOutlined /></template>
           </a-button>
         </a-tooltip>
+        <span id="festival-countdown-action" class="enterprise-topnav-action-slot"></span>
         <a-tooltip v-if="createActions.length" title="新建内容">
           <a-button class="enterprise-icon-action" @click="createModalVisible = true">
             <template #icon><SquarePen :size="16" /></template>
@@ -203,6 +204,7 @@
     </a-layout>
   </a-layout>
   <AnnouncementPopup />
+  <FestivalEffectHost />
 
   <a-modal
     v-model:open="createModalVisible"
@@ -312,6 +314,7 @@ import {
 } from '@ant-design/icons-vue'
 import NotificationBell from '@/components/NotificationBell.vue'
 import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
+import FestivalEffectHost from '@/components/festival/FestivalEffectHost.vue'
 import { Menu, message } from 'ant-design-vue'
 import { Moon, SquarePen, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'

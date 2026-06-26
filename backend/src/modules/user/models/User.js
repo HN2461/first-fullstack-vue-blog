@@ -48,6 +48,20 @@ const userSchema = new mongoose.Schema(
       trim: true,
       maxlength: 60
     },
+    birthday: {
+      type: String,
+      default: '',
+      trim: true,
+      match: /^\d{4}-\d{2}-\d{2}$/
+    },
+    closeBirthEffect: {
+      type: Boolean,
+      default: false
+    },
+    lastBirthEffectDate: {
+      type: String,
+      default: ''
+    },
     notificationSettings: {
       email: {
         type: Boolean,
@@ -139,6 +153,9 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     remarkName: this.remarkName || '',
     website: this.website,
     location: this.location,
+    birthday: this.birthday || '',
+    closeBirthEffect: !!this.closeBirthEffect,
+    lastBirthEffectDate: this.lastBirthEffectDate || '',
     notificationSettings: {
       email: this.notificationSettings?.email ?? true,
       site: this.notificationSettings?.site ?? true,
