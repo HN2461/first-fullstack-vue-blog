@@ -66,6 +66,10 @@
         >
           批量修改
         </a-button>
+        <a-button @click="$emit('export')">
+          <template #icon><DownloadOutlined /></template>
+          导出
+        </a-button>
       </a-space>
       <span class="ledger-toolbar-spacer" />
       <slot name="extra" />
@@ -128,7 +132,7 @@
 
 <script setup>
 import { computed, onUnmounted, reactive, ref, watch } from 'vue'
-import { DeleteOutlined, EditOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons-vue'
+import { DeleteOutlined, DownloadOutlined, EditOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listLedgerEntries } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
@@ -141,7 +145,7 @@ const props = defineProps({
   refreshKey: { type: Number, default: 0 }
 })
 
-defineEmits(['edit', 'delete', 'batch-edit'])
+defineEmits(['edit', 'delete', 'batch-edit', 'export'])
 
 const tableRef = ref(null)
 const selectedKeys = ref([])
@@ -218,6 +222,14 @@ function clearSelection() {
   tableRef.value?.clearSelection?.()
 }
 
+function getSelectedKeys() {
+  return [...selectedKeys.value]
+}
+
+function getExportParams() {
+  return { ...params.value }
+}
+
 function handleSelectionChange(keys) {
   selectedKeys.value = keys
 }
@@ -249,7 +261,7 @@ watch(
   () => reload()
 )
 
-defineExpose({ reload, refresh, clearSelection })
+defineExpose({ reload, refresh, clearSelection, getSelectedKeys, getExportParams })
 </script>
 
 <style scoped>

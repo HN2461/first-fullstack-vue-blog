@@ -9,6 +9,7 @@
       @edit="$emit('edit-entry', $event)"
       @delete="$emit('delete-entry', $event)"
       @batch-edit="openBatchModal"
+      @export="openExportModal"
     >
       <template #extra>
         <a-button type="primary" size="small" @click="$emit('open-entry-modal')">
@@ -79,6 +80,14 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <LedgerExportModal
+      v-model:open="exportModalOpen"
+      v-model:exporting="exporting"
+      :params="exportParams"
+      :book-name="bookName"
+      :selected-keys="exportSelectedKeys"
+    />
   </section>
 </template>
 
@@ -87,10 +96,12 @@ import { computed, reactive, ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { PlusOutlined } from '@ant-design/icons-vue'
 import LedgerEntryTable from './LedgerEntryTable.vue'
+import LedgerExportModal from './export/LedgerExportModal.vue'
 import { batchUpdateLedgerEntries } from '@/services/ledger'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
+  bookName: { type: String, default: '' },
   categories: { type: Array, default: () => [] },
   range: { type: Array, default: () => [] },
   refreshKey: { type: Number, default: 0 }
@@ -100,8 +111,12 @@ const emit = defineEmits(['edit-entry', 'delete-entry', 'reload', 'open-entry-mo
 
 const tableRef = ref(null)
 const batchModalOpen = ref(false)
+const exportModalOpen = ref(false)
+const exporting = ref(false)
 const submitting = ref(false)
 const selectedKeys = ref([])
+const exportSelectedKeys = ref([])
+const exportParams = ref({})
 const enabled = reactive({
   occurredAt: false,
   typeCategory: false,
@@ -130,6 +145,12 @@ const batchCategoryOptions = computed(() => props.categories
 function openBatchModal(keys) {
   selectedKeys.value = keys
   batchModalOpen.value = true
+}
+
+function openExportModal() {
+  exportSelectedKeys.value = tableRef.value?.getSelectedKeys?.() || []
+  exportParams.value = tableRef.value?.getExportParams?.() || {}
+  exportModalOpen.value = true
 }
 
 function buildPatch() {

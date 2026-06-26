@@ -16,6 +16,7 @@
     "axios": "^1.17.0",
     "cropperjs": "^1.6.2",
     "echarts": "^6.1.0",
+    "exceljs": "^4.4.0",
     "highlight.js": "^11.11.1",
     "lucide-vue-next": "^0.468.0",
     "markdown-it": "^14.1.0",

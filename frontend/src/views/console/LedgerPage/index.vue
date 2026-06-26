@@ -16,6 +16,7 @@
 
     <RouterView
       :book-id="selectedBookId"
+      :book-name="selectedBookName"
       :categories="categories"
       :range="contentRange"
       :period="activePeriod"
@@ -160,6 +161,7 @@ const bookOptions = computed(() => books.value.map((book) => ({
   label: book.name,
   value: book.id
 })))
+const selectedBookName = computed(() => bookOptions.value.find((item) => item.value === selectedBookId.value)?.label || '')
 const isOverviewRoute = computed(() => route.name === 'ConsoleLedgerOverview')
 const contentRange = computed(() => isOverviewRoute.value ? queryRange.value : [])
 
