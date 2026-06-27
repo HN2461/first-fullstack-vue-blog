@@ -16,7 +16,8 @@
       accept=".json,application/json"
       :before-upload="handleBeforeUpload"
       :file-list="fileList"
-      :max-count="1"
+      :multiple="true"
+      :max-count="30"
       @remove="handleRemove"
     >
       <a-button>
@@ -24,6 +25,10 @@
         选择 JSON 文件
       </a-button>
     </a-upload>
+
+    <div v-if="fileList.length" class="timeline-import-summary">
+      已选择 {{ fileList.length }} 个文件，单次最多导入 30 个。
+    </div>
 
     <div class="timeline-import-format">
       <span>格式</span>
@@ -50,7 +55,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:open', 'submit'])
 
-const selectedFile = ref(null)
+const selectedFiles = ref([])
 const fileList = ref([])
 
 function handleBeforeUpload(file) {
@@ -59,14 +64,23 @@ function handleBeforeUpload(file) {
     return false
   }
 
-  selectedFile.value = file
-  fileList.value = [file]
+  if (selectedFiles.value.length >= 30) {
+    message.warning('单次最多导入 30 个 JSON 文件')
+    return false
+  }
+
+  selectedFiles.value = [...selectedFiles.value, file]
+  fileList.value = selectedFiles.value.map((item) => ({
+    uid: item.uid,
+    name: item.name,
+    status: 'done'
+  }))
   return false
 }
 
-function handleRemove() {
-  selectedFile.value = null
-  fileList.value = []
+function handleRemove(file) {
+  selectedFiles.value = selectedFiles.value.filter((item) => item.uid !== file.uid)
+  fileList.value = fileList.value.filter((item) => item.uid !== file.uid)
 }
 
 function handleCancel() {
@@ -74,17 +88,17 @@ function handleCancel() {
 }
 
 function handleSubmit() {
-  if (!selectedFile.value) {
+  if (!selectedFiles.value.length) {
     message.warning('请先选择项目记录 JSON 文件')
     return
   }
 
-  emit('submit', selectedFile.value)
+  emit('submit', selectedFiles.value)
 }
 
 watch(() => props.open, (visible) => {
   if (!visible) {
-    selectedFile.value = null
+    selectedFiles.value = []
     fileList.value = []
   }
 })

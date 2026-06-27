@@ -1,0 +1,313 @@
+.festival-countdown__trigger {
+  position: relative;
+}
+
+.festival-countdown__trigger::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--festival-countdown-accent, #1677ff);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--festival-countdown-accent, #1677ff) 18%, transparent);
+}
+
+.festival-countdown__panel {
+  display: flex;
+  flex-direction: column;
+  width: min(390px, calc(100vw - 28px));
+  max-height: min(620px, calc(100vh - 120px));
+  overflow: hidden;
+  background: var(--console-surface);
+}
+
+.festival-countdown__hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--console-border);
+  background:
+    radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--festival-countdown-accent) 18%, transparent), transparent 38%),
+    linear-gradient(135deg, color-mix(in srgb, var(--festival-countdown-tint) 76%, var(--console-surface)), var(--console-surface));
+}
+
+.festival-countdown__hero-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.festival-countdown__eyebrow {
+  color: var(--festival-countdown-accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.festival-countdown__hero-main strong {
+  color: var(--console-text);
+  overflow: hidden;
+  font-size: 18px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.festival-countdown__hero-main small {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.festival-countdown__atmosphere {
+  display: inline-grid;
+  place-items: center;
+  min-width: 68px;
+  height: 30px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--festival-countdown-accent) 28%, var(--console-border));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--festival-countdown-accent) 10%, transparent);
+  color: var(--festival-countdown-accent);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.festival-countdown__focus {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid var(--console-border);
+}
+
+.festival-countdown__orbit {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--festival-countdown-accent) 12%, var(--console-surface));
+  color: var(--festival-countdown-accent);
+  font-size: 28px;
+}
+
+.festival-countdown__orbit::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px dashed color-mix(in srgb, var(--festival-countdown-accent) 45%, transparent);
+  border-radius: inherit;
+  animation: festivalCountdownSpin 12s linear infinite;
+}
+
+.festival-countdown__focus-copy {
+  display: grid;
+  align-content: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.festival-countdown__focus-copy strong {
+  color: var(--console-text);
+  font-size: 16px;
+}
+
+.festival-countdown__focus-copy span {
+  color: var(--console-text-secondary);
+  overflow: hidden;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.festival-countdown__progress {
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--festival-countdown-accent) 10%, var(--console-border));
+}
+
+.festival-countdown__progress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--festival-countdown-accent), color-mix(in srgb, var(--festival-countdown-accent) 58%, #fff));
+}
+
+.festival-countdown__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px 14px 4px;
+}
+
+.festival-countdown__stats span {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 8px 6px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface-muted);
+}
+
+.festival-countdown__stats strong {
+  color: var(--festival-countdown-accent);
+  font-size: 16px;
+}
+
+.festival-countdown__stats small {
+  color: var(--console-text-secondary);
+  font-size: 11px;
+}
+
+.festival-countdown__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 14px 4px;
+}
+
+.festival-countdown__view-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 10px 14px 0;
+}
+
+.festival-countdown__view-tabs button {
+  height: 30px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface-muted);
+  color: var(--console-text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.festival-countdown__view-tabs button.active,
+.festival-countdown__view-tabs button:hover {
+  border-color: color-mix(in srgb, var(--festival-countdown-accent) 42%, var(--console-border));
+  background: color-mix(in srgb, var(--festival-countdown-accent) 10%, transparent);
+  color: var(--festival-countdown-accent);
+}
+
+.festival-countdown__major-note {
+  margin: 8px 14px 0;
+  color: var(--console-text-secondary);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.festival-countdown__filters button {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--console-text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.festival-countdown__filters button.active,
+.festival-countdown__filters button:hover {
+  border-color: color-mix(in srgb, var(--festival-countdown-accent) 42%, var(--console-border));
+  background: color-mix(in srgb, var(--festival-countdown-accent) 10%, transparent);
+  color: var(--festival-countdown-accent);
+}
+
+.festival-countdown__list {
+  display: grid;
+  gap: 4px;
+  min-height: 150px;
+  padding: 8px 10px 30px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.festival-countdown__item {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--console-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.festival-countdown__item:hover {
+  background: color-mix(in srgb, var(--festival-countdown-accent) 8%, var(--console-surface-hover));
+}
+
+.festival-countdown__item:last-child {
+  margin-bottom: 10px;
+}
+
+.festival-countdown__icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--festival-countdown-accent) 9%, transparent);
+  font-size: 18px;
+}
+
+.festival-countdown__body {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.festival-countdown__body strong,
+.festival-countdown__body small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.festival-countdown__body strong {
+  font-size: 13px;
+}
+
+.festival-countdown__body small {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.festival-countdown__days {
+  color: var(--festival-countdown-accent);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@keyframes festivalCountdownSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.festival-countdown-popover .ant-popover-inner {
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  box-shadow: 0 18px 42px rgba(16, 24, 40, 0.18);
+}
+
+.festival-countdown-popover .ant-popover-inner-content {
+  padding: 0;
+}

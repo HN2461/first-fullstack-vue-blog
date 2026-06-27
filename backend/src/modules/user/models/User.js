@@ -55,6 +55,11 @@ const userSchema = new mongoose.Schema(
       trim: true,
       match: /^\d{4}-\d{2}-\d{2}$/
     },
+    birthdayCalendar: {
+      type: String,
+      enum: ['solar', 'lunar', 'both'],
+      default: 'solar'
+    },
     closeBirthEffect: {
       type: Boolean,
       default: false
@@ -185,6 +190,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     website: this.website,
     location: this.location,
     birthday: this.birthday || '',
+    birthdayCalendar: this.birthdayCalendar || 'solar',
     closeBirthEffect: !!this.closeBirthEffect,
     closeSiteEntranceEffect: !!this.closeSiteEntranceEffect,
     lastBirthEffectDate: this.lastBirthEffectDate || '',

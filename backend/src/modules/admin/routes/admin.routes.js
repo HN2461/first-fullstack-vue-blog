@@ -11,7 +11,7 @@ import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMe
 import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
-import { createProjectTimelineRecord, importProjectTimelineRecords, listProjectTimelineRecords } from '#modules/projectTimeline/services/projectTimeline.service.js'
+import { createProjectTimelineRecord, exportProjectTimelineRecords, importProjectTimelinePayloads, importProjectTimelineRecords, listProjectTimelineRecords, updateProjectTimelineRecord } from '#modules/projectTimeline/services/projectTimeline.service.js'
 import { getSettings, updateSettings } from '#modules/settings/services/setting.service.js'
 import { getAdminStats } from '#modules/dashboard/services/stats.service.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
@@ -23,7 +23,7 @@ import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
 import { articleBatchMetaSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
 import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
-import { projectTimelineCreateSchema, projectTimelineImportSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
+import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
 import { mediaRenameSchema } from '#modules/media/validators/media.validator.js'
 
 export const adminRouter = Router()
@@ -62,7 +62,7 @@ const projectTimelineImportUpload = multer({
   storage: multer.memoryStorage(),
   limits: {
     fileSize: 512 * 1024,
-    files: 1
+    files: 30
   }
 })
 
@@ -229,6 +229,21 @@ adminRouter.post('/project-timeline', asyncHandler(async (req, res) => {
   res.status(201).json(ok(record, '项目记录已新增'))
 }))
 
+adminRouter.patch('/project-timeline/:id', asyncHandler(async (req, res) => {
+  const input = parseBody(projectTimelineUpdateSchema, req.body)
+  const record = await updateProjectTimelineRecord(req.params.id, input)
+  res.json(ok(record, '项目记录已更新'))
+}))
+
+adminRouter.get('/project-timeline/export', asyncHandler(async (req, res) => {
+  const input = parseBody(projectTimelineExportQuerySchema, req.query)
+  const payload = await exportProjectTimelineRecords(input)
+  const filename = `project-timeline-${payload.date}.json`
+  res.setHeader('Content-Type', 'application/json; charset=utf-8')
+  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
+  res.send(JSON.stringify(payload, null, 2))
+}))
+
 adminRouter.post('/project-timeline/import', projectTimelineImportUpload.single('file'), asyncHandler(async (req, res) => {
   if (!req.file?.buffer) {
     const error = new Error('请上传项目记录 JSON 文件')
@@ -250,6 +265,35 @@ adminRouter.post('/project-timeline/import', projectTimelineImportUpload.single(
   const input = parseBody(projectTimelineImportSchema, payload)
   const result = await importProjectTimelineRecords(input, req.user)
   res.json(ok(result, `导入完成：新增 ${result.inserted} 条，已存在 ${result.duplicated} 条`))
+}))
+
+adminRouter.post('/project-timeline/import-batch', projectTimelineImportUpload.array('files', 30), asyncHandler(async (req, res) => {
+  if (!req.files?.length) {
+    const error = new Error('请上传项目记录 JSON 文件')
+    error.statusCode = 400
+    error.code = 'PROJECT_TIMELINE_IMPORT_FILE_REQUIRED'
+    throw error
+  }
+
+  const imports = req.files.map((file) => {
+    let payload
+    try {
+      payload = JSON.parse(file.buffer.toString('utf8'))
+    } catch {
+      const error = new Error(`${file.originalname} 不是有效 JSON`)
+      error.statusCode = 400
+      error.code = 'PROJECT_TIMELINE_IMPORT_JSON_INVALID'
+      throw error
+    }
+
+    return {
+      filename: file.originalname,
+      input: parseBody(projectTimelineImportSchema, payload)
+    }
+  })
+
+  const result = await importProjectTimelinePayloads(imports, req.user)
+  res.json(ok(result, `批量导入完成：新增 ${result.inserted} 条，已存在 ${result.duplicated} 条`))
 }))
 
 adminRouter.post('/tags', asyncHandler(async (req, res) => {

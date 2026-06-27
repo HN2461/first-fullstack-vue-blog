@@ -462,10 +462,29 @@ export function createProjectTimelineRecord(data) {
   return http.post('/api/admin/project-timeline', data)
 }
 
+export function updateProjectTimelineRecord(id, data) {
+  return http.patch(`/api/admin/project-timeline/${id}`, data)
+}
+
 export function importProjectTimelineRecords(file) {
   const formData = new FormData()
   formData.append('file', file)
   return http.post('/api/admin/project-timeline/import', formData)
+}
+
+export function importProjectTimelineRecordFiles(files = []) {
+  const formData = new FormData()
+  files.forEach((file) => {
+    formData.append('files', file)
+  })
+  return http.post('/api/admin/project-timeline/import-batch', formData)
+}
+
+export function exportProjectTimelineRecords(params = {}) {
+  return http.get('/api/admin/project-timeline/export', {
+    params,
+    responseType: 'blob'
+  })
 }
 
 // 设置相关

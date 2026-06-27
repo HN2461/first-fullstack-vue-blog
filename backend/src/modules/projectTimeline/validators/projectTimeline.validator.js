@@ -61,11 +61,22 @@ export const projectTimelineCreateSchema = z.object({
   legacyId: z.string().trim().optional().default('')
 })
 
+export const projectTimelineUpdateSchema = projectTimelineCreateSchema.pick({
+  title: true,
+  detail: true,
+  occurredAt: true,
+  category: true
+}).partial().refine((value) => Object.keys(value).length > 0, {
+  message: '请至少填写一个要更新的字段'
+})
+
 const projectTimelineImportRecordSchema = z.object({
   id: z.string().trim().min(1, '记录 id 不能为空').max(120, '记录 id 不能超过 120 个字符'),
+  legacyId: z.string().trim().min(1, '去重 id 不能为空').max(160, '去重 id 不能超过 160 个字符').optional(),
   title: z.string().trim().min(1, '事件标题不能为空').max(160, '事件标题不能超过 160 个字符'),
   detail: z.string().trim().min(1, '事件详情不能为空').max(12000, '事件详情不能超过 12000 个字符'),
   occurredAt: z.string().trim().optional().default(''),
+  source: z.enum(PROJECT_TIMELINE_SOURCES).optional(),
   // 导入时自动纠正近似分类名；未命中推荐分类时保留为自定义分类，避免台账导入被枚举卡死。
   category: projectTimelineCategorySchema.default('功能更新')
 })
@@ -76,3 +87,11 @@ export const projectTimelineImportSchema = z.object({
   source: z.enum(PROJECT_TIMELINE_SOURCES).optional().default('collaboration_daily'),
   records: z.array(projectTimelineImportRecordSchema).min(1, '导入记录不能为空').max(100, '单个文件最多导入 100 条记录')
 })
+
+export const projectTimelineExportQuerySchema = z.object({
+  category: projectTimelineCategorySchema.optional(),
+  source: z.enum(PROJECT_TIMELINE_SOURCES).optional(),
+  keyword: z.string().trim().max(80, '搜索关键词不能超过 80 个字符').optional(),
+  dateFrom: z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/, '开始日期格式应为 YYYY-MM-DD').optional(),
+  dateTo: z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/, '结束日期格式应为 YYYY-MM-DD').optional()
+}).strict('存在不支持的导出筛选字段')

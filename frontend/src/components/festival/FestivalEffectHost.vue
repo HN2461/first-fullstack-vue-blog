@@ -8,10 +8,14 @@
 
   <Teleport v-if="countdownTargetReady" to="#festival-countdown-action">
     <FestivalCountdownPanel
-      v-if="schedule.length"
+      v-if="schedule.length || history.length"
       :schedule="schedule"
+      :history="history"
       :lunar-summary="lunarSummary"
+      :active-festival="activeFestival"
+      :atmosphere-visible="atmosphereVisible"
       @select="openScheduleFestival"
+      @toggle-atmosphere="toggleFestivalForDevice"
     />
   </Teleport>
 
@@ -32,7 +36,7 @@
       <span>{{ celebrationFestival.source }} · {{ celebrationFestival.date }}</span>
       <div class="festival-celebration__actions">
         <a-button @click="celebrationOpen = false">关闭本次</a-button>
-        <a-button v-if="celebrationFestival.key === 'birthday'" danger @click="closeBirthdayForever">
+        <a-button v-if="celebrationFestival.type === 'birthday'" danger @click="closeBirthdayForever">
           不再提醒生日动画
         </a-button>
       </div>
@@ -49,10 +53,10 @@ import { getFestivalEffectState, updateFestivalEffectState } from '@/services/ht
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import {
-  buildBirthdayFestival,
   getActiveFestival,
   getDeviceType,
   getEffectStorageKey,
+  getFestivalHistory,
   getFestivalSchedule,
   getLunarSummary,
   getTodayKeyFromServer
@@ -64,6 +68,7 @@ const authStore = useAuthStore()
 const serverDate = ref('')
 const activeFestival = ref(null)
 const schedule = ref([])
+const history = ref([])
 const lunarSummary = ref('')
 const celebrationOpen = ref(false)
 const celebrationFestival = ref(null)
@@ -95,6 +100,21 @@ function closeFestivalForDevice() {
   message.success(appStore.isMobile ? '已关闭移动端节日氛围' : '已关闭 PC 端节日氛围')
 }
 
+function openFestivalForDevice() {
+  localStorage.removeItem(festivalEnabledKey.value)
+  closedKey.value = ''
+  message.success(appStore.isMobile ? '已打开移动端节日氛围' : '已打开 PC 端节日氛围')
+}
+
+function toggleFestivalForDevice() {
+  if (!activeFestival.value) return
+  if (atmosphereVisible.value) {
+    closeFestivalForDevice()
+    return
+  }
+  openFestivalForDevice()
+}
+
 function markCelebrationShown(key) {
   localStorage.setItem(celebrationKey.value, key)
 }
@@ -114,7 +134,7 @@ function openCelebration(festival, autoMark = true) {
 
 async function handleCelebrationVisibleChange(visible) {
   if (!visible || !celebrationFestival.value) return
-  if (celebrationFestival.value.key === 'birthday') {
+  if (celebrationFestival.value.type === 'birthday') {
     await playBirthdayConfetti(appStore.isMobile)
     return
   }
@@ -140,12 +160,17 @@ async function loadFestivalState() {
   if (!authStore.isLoggedIn) return
   const state = await getFestivalEffectState()
   serverDate.value = state.serverDate || getTodayKeyFromServer(state.serverTime)
+  const birthdayOptions = {
+    birthday: state.birthday,
+    birthdayCalendar: state.birthdayCalendar || 'solar'
+  }
   activeFestival.value = getActiveFestival(serverDate.value)
-  schedule.value = getFestivalSchedule(serverDate.value, 10)
+  schedule.value = getFestivalSchedule(serverDate.value, 12, birthdayOptions)
+  history.value = getFestivalHistory(serverDate.value, 8, birthdayOptions)
   lunarSummary.value = getLunarSummary(serverDate.value)
 
-  if (state.shouldShowBirthEffect) {
-    const birthdayFestival = buildBirthdayFestival(serverDate.value)
+  const birthdayFestival = schedule.value.find((item) => item.type === 'birthday' && item.daysUntil === 0)
+  if (birthdayFestival && !state.closeBirthEffect && state.lastBirthEffectDate !== serverDate.value) {
     if (!hasShownCelebration(birthdayFestival.key)) {
       openCelebration(birthdayFestival)
       await updateFestivalEffectState('birth-shown')

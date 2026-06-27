@@ -464,6 +464,142 @@ describe('rbac account and permission flows', () => {
     expect(importedRecord.category).toBe('体验优化')
   })
 
+  it('updates project timeline record title, detail, category and time', async () => {
+    const createResponse = await request(app)
+      .post('/api/admin/project-timeline')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({
+        title: '待编辑节点',
+        detail: '原始详情',
+        occurredAt: '2026-06-20T10:00:00.000Z',
+        category: '功能更新'
+      })
+      .expect(201)
+
+    const updateResponse = await request(app)
+      .patch(`/api/admin/project-timeline/${createResponse.body.data.id}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({
+        title: '已编辑节点',
+        detail: '1. 调整标题。2. 调整详情。',
+        occurredAt: '2026-06-22T10:30:00.000Z',
+        category: '体验优化'
+      })
+      .expect(200)
+
+    expect(updateResponse.body.data).toMatchObject({
+      title: '已编辑节点',
+      detail: '1. 调整标题。2. 调整详情。',
+      category: '体验优化'
+    })
+    expect(new Date(updateResponse.body.data.occurredAt).toISOString()).toBe('2026-06-22T10:30:00.000Z')
+  })
+
+  it('imports multiple project timeline JSON files and keeps duplicated records out', async () => {
+    const firstPayload = Buffer.from(JSON.stringify({
+      schemaVersion: 1,
+      date: '2026-06-22',
+      source: 'collaboration_daily',
+      records: [
+        {
+          id: 'batch-1',
+          title: '批量导入一',
+          detail: '第一天补录。',
+          occurredAt: '2026-06-22T10:00:00+08:00',
+          category: '功能更新'
+        }
+      ]
+    }), 'utf8')
+    const secondPayload = Buffer.from(JSON.stringify({
+      schemaVersion: 1,
+      date: '2026-06-23',
+      source: 'collaboration_daily',
+      records: [
+        {
+          id: 'batch-2',
+          title: '批量导入二',
+          detail: '第二天补录。',
+          occurredAt: '2026-06-23T10:00:00+08:00',
+          category: '问题修复'
+        }
+      ]
+    }), 'utf8')
+
+    const firstResponse = await request(app)
+      .post('/api/admin/project-timeline/import-batch')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .attach('files', firstPayload, {
+        filename: '2026-06-22.json',
+        contentType: 'application/json'
+      })
+      .attach('files', secondPayload, {
+        filename: '2026-06-23.json',
+        contentType: 'application/json'
+      })
+      .expect(200)
+
+    const secondResponse = await request(app)
+      .post('/api/admin/project-timeline/import-batch')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .attach('files', firstPayload, {
+        filename: '2026-06-22.json',
+        contentType: 'application/json'
+      })
+      .attach('files', secondPayload, {
+        filename: '2026-06-23.json',
+        contentType: 'application/json'
+      })
+      .expect(200)
+
+    expect(firstResponse.body.data).toMatchObject({ inserted: 2, duplicated: 0, total: 2 })
+    expect(secondResponse.body.data).toMatchObject({ inserted: 0, duplicated: 2, total: 2 })
+    expect(firstResponse.body.data.files).toHaveLength(2)
+    expect(await ProjectTimelineRecord.countDocuments({ source: 'collaboration_daily' })).toBe(2)
+  })
+
+  it('exports project timeline records with stable dedupe keys for re-import', async () => {
+    const createResponse = await request(app)
+      .post('/api/admin/project-timeline')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({
+        title: '可导出节点',
+        detail: '导出后再次导入不应重复。',
+        occurredAt: '2026-06-24T10:00:00.000Z',
+        category: '部署发布'
+      })
+      .expect(201)
+
+    const exportResponse = await request(app)
+      .get('/api/admin/project-timeline/export')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .expect(200)
+
+    expect(exportResponse.body).toMatchObject({
+      schemaVersion: 1,
+      source: 'current_project'
+    })
+    expect(exportResponse.body.records).toHaveLength(1)
+    expect(exportResponse.body.records[0]).toMatchObject({
+      id: createResponse.body.data.id,
+      legacyId: `record-${createResponse.body.data.id}`,
+      source: 'manual',
+      title: '可导出节点'
+    })
+
+    const payload = Buffer.from(JSON.stringify(exportResponse.body), 'utf8')
+    const importResponse = await request(app)
+      .post('/api/admin/project-timeline/import')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .attach('file', payload, {
+        filename: 'project-timeline-export.json',
+        contentType: 'application/json'
+      })
+      .expect(200)
+
+    expect(importResponse.body.data).toMatchObject({ inserted: 0, duplicated: 1, total: 1 })
+    expect(await ProjectTimelineRecord.countDocuments()).toBe(1)
+  })
+
   it('builds project timeline seed records from allowed legacy notifications and keeps apply idempotent', async () => {
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'timeline-seed-'))
     const tempFile = path.join(tempDir, 'notifications.json')

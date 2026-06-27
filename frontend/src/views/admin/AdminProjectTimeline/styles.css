@@ -78,7 +78,7 @@
 }
 
 .timeline-entry {
-  padding: 12px 14px;
+  padding: 14px 16px;
   border: 1px solid var(--console-border, #e5e7eb);
   border-radius: 8px;
   background: var(--console-surface-muted, #fafafa);
@@ -101,7 +101,15 @@
 .timeline-entry h3 {
   margin: 0;
   font-size: 15px;
+  line-height: 1.45;
   color: var(--console-text, #101828);
+}
+
+.timeline-entry__actions {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .timeline-entry__category {
@@ -134,12 +142,56 @@
   color: color-mix(in srgb, var(--timeline-category-dot) 68%, #ffffff 32%);
 }
 
+.timeline-entry__edit {
+  color: var(--console-text-secondary, #667085);
+}
+
 .timeline-entry__detail {
-  margin: 10px 0 0;
-  white-space: pre-wrap;
+  margin: 12px 0 0;
   word-break: break-word;
   line-height: 1.75;
   color: var(--console-text, #101828);
+}
+
+.timeline-entry__detail p {
+  margin: 0;
+}
+
+.timeline-entry__detail p + p {
+  margin-top: 8px;
+}
+
+.timeline-entry__detail-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline-entry__detail-list li {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in srgb, var(--console-border, #e5e7eb) 82%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--console-surface, #fff) 78%, transparent);
+}
+
+.timeline-entry__detail-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--console-primary-soft, #eef4ff);
+  color: var(--console-primary, #2563eb);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .timeline-entry__meta {
@@ -171,6 +223,12 @@
   font-size: 12px;
 }
 
+.timeline-import-summary {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--console-text-secondary, #667085);
+}
+
 .timeline-import-format span {
   display: block;
   margin-bottom: 6px;
@@ -196,5 +254,22 @@
 
   .project-timeline-total {
     margin-left: 0;
+  }
+
+  .project-timeline-toolbar .ant-btn {
+    width: 100%;
+  }
+
+  .project-timeline-help-button.ant-btn {
+    width: 32px;
+  }
+
+  .timeline-entry__head {
+    flex-direction: column;
+  }
+
+  .timeline-entry__actions {
+    width: 100%;
+    justify-content: space-between;
   }
 }

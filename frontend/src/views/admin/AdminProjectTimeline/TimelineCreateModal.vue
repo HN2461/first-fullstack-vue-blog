@@ -1,12 +1,12 @@
 <template>
   <a-modal
     :open="open"
-    title="新增项目记录"
+    :title="modalTitle"
     width="620px"
     centered
     :confirm-loading="submitting"
     :mask-closable="false"
-    ok-text="保存记录"
+    :ok-text="okText"
     cancel-text="取消"
     class="timeline-create-modal"
     @ok="handleSubmit"
@@ -68,12 +68,23 @@ const props = defineProps({
   categories: {
     type: Array,
     default: () => []
+  },
+  mode: {
+    type: String,
+    default: 'create'
+  },
+  record: {
+    type: Object,
+    default: null
   }
 })
 
 const emit = defineEmits(['update:open', 'submit'])
 
 const categoryOptions = computed(() => buildCategoryOptions(props.categories))
+const isEditMode = computed(() => props.mode === 'edit')
+const modalTitle = computed(() => isEditMode.value ? '编辑项目记录' : '新增项目记录')
+const okText = computed(() => isEditMode.value ? '保存修改' : '保存记录')
 
 const form = reactive({
   occurredAt: '',
@@ -83,11 +94,21 @@ const form = reactive({
 })
 
 function formatLocalInput(date = new Date()) {
+  const safeDate = Number.isNaN(date.getTime()) ? new Date() : date
   const pad = (value) => String(value).padStart(2, '0')
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
+  return `${safeDate.getFullYear()}-${pad(safeDate.getMonth() + 1)}-${pad(safeDate.getDate())}T${pad(safeDate.getHours())}:${pad(safeDate.getMinutes())}`
 }
 
 function resetForm() {
+  const record = props.record
+  if (isEditMode.value && record) {
+    form.occurredAt = formatLocalInput(record.occurredAt ? new Date(record.occurredAt) : new Date())
+    form.title = record.title || ''
+    form.detail = record.detail || ''
+    form.category = record.category || '手动记录'
+    return
+  }
+
   form.occurredAt = formatLocalInput()
   form.title = ''
   form.detail = ''
@@ -136,6 +157,12 @@ function handleSubmit() {
 
 watch(() => props.open, (visible) => {
   if (visible) {
+    resetForm()
+  }
+})
+
+watch(() => props.record, () => {
+  if (props.open) {
     resetForm()
   }
 })

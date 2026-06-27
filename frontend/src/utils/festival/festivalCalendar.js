@@ -2,6 +2,8 @@ import chineseDays from 'chinese-days'
 
 const { getLunarDate, getSolarDateFromLunar, getSolarTerms } = chineseDays
 
+export const MAJOR_FESTIVAL_LABEL = '元旦、春节、中秋、国庆和生日'
+
 const SOLAR_FESTIVALS = [
   { key: 'new-year', name: '元旦', type: 'solar', month: 1, day: 1, text: '新年快乐', effect: 'new-year', level: 'major', icons: ['🎆', '✨'] },
   { key: 'valentine', name: '情人节', type: 'solar', month: 2, day: 14, text: '愿今天有温柔相伴', effect: 'love', level: 'normal', icons: ['💗', '🌹'] },
@@ -102,21 +104,78 @@ function buildYearFestivals(year) {
   return [...solar, ...lunar, ...terms]
 }
 
-export function getFestivalSchedule(serverDateKey, count = 10) {
+function buildSolarBirthday(birthday, year) {
+  if (!birthday) return null
+  const [, month, day] = birthday.split('-')
+  return normalizeFestival({
+    key: 'birthday-solar',
+    name: '阳历生日',
+    type: 'birthday',
+    text: '愿今天被认真庆祝',
+    effect: 'birthday',
+    level: 'major',
+    icons: ['🎂', '✨']
+  }, `${year}-${month}-${day}`, '个人生日')
+}
+
+function buildLunarBirthday(birthday, year) {
+  if (!birthday) return null
+  try {
+    const lunar = getLunarDate(birthday)
+    const result = getSolarDateFromLunar(`${year}-${pad(lunar.lunarMon)}-${pad(lunar.lunarDay)}`)
+    if (!result?.date) return null
+    return normalizeFestival({
+      key: 'birthday-lunar',
+      name: '农历生日',
+      type: 'birthday',
+      text: `农历${lunar.lunarMonCN}${lunar.lunarDayCN}，愿这一岁更闪亮`,
+      effect: 'birthday',
+      level: 'major',
+      icons: ['🎂', '🌙']
+    }, result.date, '个人生日')
+  } catch {
+    return null
+  }
+}
+
+function buildBirthdayFestivals(year, birthday = '', birthdayCalendar = 'solar') {
+  if (!birthday) return []
+  const items = []
+  if (birthdayCalendar === 'solar' || birthdayCalendar === 'both') {
+    items.push(buildSolarBirthday(birthday, year))
+  }
+  if (birthdayCalendar === 'lunar' || birthdayCalendar === 'both') {
+    items.push(buildLunarBirthday(birthday, year))
+  }
+  return items.filter(Boolean)
+}
+
+function buildCalendarItems(serverDateKey, options = {}) {
   const today = parseDateKey(serverDateKey)
   const year = today.getFullYear()
-  const dates = [
+  return [
     ...buildYearFestivals(year),
-    ...buildYearFestivals(year + 1)
-  ]
+    ...buildBirthdayFestivals(year, options.birthday, options.birthdayCalendar)
+  ].map((festival) => ({
+    ...festival,
+    daysUntil: diffDays(festival.date, serverDateKey),
+    absDays: Math.abs(diffDays(festival.date, serverDateKey))
+  }))
+}
+
+export function getFestivalSchedule(serverDateKey, count = 10, options = {}) {
+  const dates = buildCalendarItems(serverDateKey, options)
 
   return dates
-    .map((festival) => ({
-      ...festival,
-      daysUntil: diffDays(festival.date, serverDateKey)
-    }))
     .filter((festival) => festival.daysUntil >= 0)
     .sort((left, right) => left.daysUntil - right.daysUntil || left.date.localeCompare(right.date))
+    .slice(0, count)
+}
+
+export function getFestivalHistory(serverDateKey, count = 6, options = {}) {
+  return buildCalendarItems(serverDateKey, options)
+    .filter((festival) => festival.daysUntil < 0)
+    .sort((left, right) => right.daysUntil - left.daysUntil || right.date.localeCompare(left.date))
     .slice(0, count)
 }
 

@@ -26,6 +26,9 @@ export const profileUpdateSchema = z.object({
   ]).optional(),
   location: optionalText(60, '所在地不能超过 60 个字符'),
   birthday: optionalBirthday,
+  birthdayCalendar: z.enum(['solar', 'lunar', 'both'], {
+    errorMap: () => ({ message: '生日历法不支持' })
+  }).optional(),
   closeBirthEffect: z.boolean({ invalid_type_error: '生日特效开关必须是布尔值' }).optional(),
   closeSiteEntranceEffect: z.boolean({ invalid_type_error: '网站入场欢迎屏蔽开关必须是布尔值' }).optional(),
   entranceEffect: entranceEffectSchema.optional()

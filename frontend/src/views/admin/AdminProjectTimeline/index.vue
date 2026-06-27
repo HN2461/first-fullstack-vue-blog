@@ -39,9 +39,13 @@
           <template #icon><ReloadOutlined /></template>
           刷新
         </a-button>
+        <a-button :loading="exporting" @click="handleExport">
+          <template #icon><DownloadOutlined /></template>
+          导出记录
+        </a-button>
         <a-button @click="importModalVisible = true">
           <template #icon><UploadOutlined /></template>
-          导入记录
+          批量导入
         </a-button>
         <a-button type="primary" @click="createModalVisible = true">
           <template #icon><PlusOutlined /></template>
@@ -61,7 +65,7 @@
 
       <a-timeline v-else class="project-timeline-list">
         <a-timeline-item v-for="record in records" :key="record.id">
-          <TimelineEntry :record="record" />
+          <TimelineEntry :record="record" @edit="handleEdit" />
         </a-timeline-item>
       </a-timeline>
 
@@ -89,6 +93,15 @@
       @submit="handleCreate"
     />
 
+    <TimelineCreateModal
+      v-model:open="editModalVisible"
+      mode="edit"
+      :record="editingRecord"
+      :submitting="updating"
+      :categories="knownCategories"
+      @submit="handleUpdate"
+    />
+
     <TimelineImportModal
       v-model:open="importModalVisible"
       :submitting="importing"
@@ -100,8 +113,14 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { PlusOutlined, QuestionCircleOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons-vue'
-import { createProjectTimelineRecord, importProjectTimelineRecords, listProjectTimelineRecords } from '@/services/admin'
+import { DownloadOutlined, PlusOutlined, QuestionCircleOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import {
+  createProjectTimelineRecord,
+  exportProjectTimelineRecords,
+  importProjectTimelineRecordFiles,
+  listProjectTimelineRecords,
+  updateProjectTimelineRecord
+} from '@/services/admin'
 import TimelineCreateModal from './TimelineCreateModal.vue'
 import TimelineImportModal from './TimelineImportModal.vue'
 import TimelineEntry from './TimelineEntry.vue'
@@ -116,9 +135,13 @@ const pageSizeOptions = ['10', '20', '50', '100']
 const loading = ref(false)
 const submitting = ref(false)
 const importing = ref(false)
+const exporting = ref(false)
+const updating = ref(false)
 const errorMessage = ref('')
 const createModalVisible = ref(false)
 const importModalVisible = ref(false)
+const editModalVisible = ref(false)
+const editingRecord = ref(null)
 const filterCategory = ref(undefined)
 const keyword = ref('')
 const knownCategories = ref([])
@@ -183,11 +206,33 @@ async function handleCreate(payload) {
   }
 }
 
-async function handleImport(file) {
+function handleEdit(record) {
+  editingRecord.value = record
+  editModalVisible.value = true
+}
+
+async function handleUpdate(payload) {
+  if (!editingRecord.value?.id) return
+
+  updating.value = true
+  try {
+    await updateProjectTimelineRecord(editingRecord.value.id, payload)
+    message.success('项目记录已更新')
+    editModalVisible.value = false
+    editingRecord.value = null
+    await loadRecords(page.value)
+  } catch (error) {
+    message.error(error.message || '更新项目记录失败')
+  } finally {
+    updating.value = false
+  }
+}
+
+async function handleImport(files) {
   importing.value = true
   try {
-    const result = await importProjectTimelineRecords(file)
-    message.success(`导入完成：新增 ${result.inserted || 0} 条，已存在 ${result.duplicated || 0} 条`)
+    const result = await importProjectTimelineRecordFiles(files)
+    message.success(`导入完成：新增 ${result.inserted || 0} 条，已存在 ${result.duplicated || 0} 条，处理 ${result.total || 0} 条`)
     importModalVisible.value = false
     page.value = 1
     await loadRecords(1)
@@ -195,6 +240,39 @@ async function handleImport(file) {
     message.error(error.message || '导入项目记录失败')
   } finally {
     importing.value = false
+  }
+}
+
+function downloadBlob(blob, filename) {
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  window.URL.revokeObjectURL(url)
+}
+
+function formatDownloadDate() {
+  const date = new Date()
+  const pad = (value) => String(value).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+async function handleExport() {
+  exporting.value = true
+  try {
+    const blob = await exportProjectTimelineRecords({
+      category: filterCategory.value || undefined,
+      keyword: keyword.value.trim() || undefined
+    })
+    downloadBlob(blob, `project-timeline-${formatDownloadDate()}.json`)
+    message.success('项目记录已导出')
+  } catch (error) {
+    message.error(error.message || '导出项目记录失败')
+  } finally {
+    exporting.value = false
   }
 }
 

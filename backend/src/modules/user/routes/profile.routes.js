@@ -138,6 +138,7 @@ router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
     serverTime: now.toISOString(),
     serverDate: today,
     birthday: safeUser.birthday,
+    birthdayCalendar: safeUser.birthdayCalendar,
     closeBirthEffect: safeUser.closeBirthEffect,
     lastBirthEffectDate: safeUser.lastBirthEffectDate,
     isBirthdayToday,

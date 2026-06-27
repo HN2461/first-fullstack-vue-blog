@@ -362,12 +362,14 @@ describe('auth routes', () => {
       .send({
         username: 'birthday-user',
         birthday,
+        birthdayCalendar: 'both',
         closeBirthEffect: false
       })
       .expect(200)
 
     expect(profileResponse.body.data).toMatchObject({
       birthday,
+      birthdayCalendar: 'both',
       closeBirthEffect: false
     })
 
@@ -379,6 +381,7 @@ describe('auth routes', () => {
     expect(stateResponse.body.data).toMatchObject({
       serverDate: today,
       birthday,
+      birthdayCalendar: 'both',
       isBirthdayToday: true,
       shouldShowBirthEffect: true
     })

@@ -176,24 +176,11 @@
                 </a-form-item>
               </a-col>
             </a-row>
-            <a-row :gutter="24">
-              <a-col :span="12">
-                <a-form-item label="生日" name="birthday">
-                  <a-input
-                    v-model:value="profileForm.birthday"
-                    type="date"
-                    placeholder="YYYY-MM-DD"
-                  />
-                </a-form-item>
-              </a-col>
-              <a-col :span="12">
-                <a-form-item label="生日动画">
-                  <a-checkbox v-model:checked="profileForm.closeBirthEffect">
-                    不再提醒生日动画
-                  </a-checkbox>
-                </a-form-item>
-              </a-col>
-            </a-row>
+            <BirthdayPreference
+              v-model:birthday="profileForm.birthday"
+              v-model:birthday-calendar="profileForm.birthdayCalendar"
+              v-model:close-birth-effect="profileForm.closeBirthEffect"
+            />
             <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
             <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
             <a-form-item>
@@ -458,6 +445,7 @@ import {
 import AvatarCropper from '@/components/AvatarCropper.vue'
 import EntranceEffectSettings from './components/EntranceEffectSettings.vue'
 import SiteEntrancePreference from './components/SiteEntrancePreference.vue'
+import BirthdayPreference from './components/BirthdayPreference.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 
@@ -502,6 +490,7 @@ const profileForm = reactive({
   website: '',
   location: '',
   birthday: '',
+  birthdayCalendar: 'solar',
   closeBirthEffect: false,
   closeSiteEntranceEffect: false,
   entranceEffect: { ...DEFAULT_ENTRANCE_EFFECT }
@@ -607,6 +596,7 @@ function syncProfileForm(user = {}) {
   profileForm.website = user.website || ''
   profileForm.location = user.location || ''
   profileForm.birthday = user.birthday || ''
+  profileForm.birthdayCalendar = user.birthdayCalendar || 'solar'
   profileForm.closeBirthEffect = Boolean(user.closeBirthEffect)
   profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
   profileForm.entranceEffect = normalizeEntranceEffectConfig(user.entranceEffect)
@@ -692,6 +682,7 @@ async function handleSaveProfile() {
       website: profileForm.website,
       location: profileForm.location,
       birthday: profileForm.birthday,
+      birthdayCalendar: profileForm.birthdayCalendar,
       closeBirthEffect: profileForm.closeBirthEffect,
       closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
       entranceEffect: normalizeEntranceEffectConfig(profileForm.entranceEffect)
