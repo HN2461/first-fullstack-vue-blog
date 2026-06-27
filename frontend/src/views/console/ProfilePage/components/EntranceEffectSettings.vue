@@ -32,13 +32,17 @@
         type="button"
         class="entrance-effect-card"
         :class="{ active: model.effectKey === effect.key }"
-        :style="{ '--effect-tone': effect.tone }"
+        :style="{ '--effect-tone': effect.tone, '--effect-accent': effect.accent }"
         @click="updateField('effectKey', effect.key)"
       >
-        <span class="entrance-effect-card__preview">
-          <i></i>
-          <i></i>
-          <i></i>
+        <span
+          class="entrance-effect-card__preview"
+          :class="`entrance-effect-card__preview--${effect.preview}`"
+        >
+          <i
+            v-for="item in 4"
+            :key="item"
+          ></i>
         </span>
         <span>{{ effect.name }}</span>
       </button>
@@ -89,6 +93,7 @@ import {
   ENTRANCE_TRIGGER_OPTIONS,
   normalizeEntranceEffectConfig
 } from '@/utils/entranceEffects/effectCatalog'
+import './EntranceEffectSettings.css'
 
 const props = defineProps({
   value: {
@@ -133,166 +138,3 @@ watch(() => model.value.effectKey, (effectKey) => {
   }
 }, { immediate: true })
 </script>
-
-<style scoped>
-.entrance-settings {
-  display: grid;
-  gap: 16px;
-  padding: 16px;
-  margin-bottom: 24px;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  background: #fafafa;
-}
-
-.entrance-settings__head,
-.entrance-settings__tools {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.entrance-settings__head > div {
-  display: grid;
-  gap: 4px;
-}
-
-.entrance-settings__head strong {
-  color: #262626;
-  font-size: 14px;
-}
-
-.entrance-settings__head span {
-  color: #8c8c8c;
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.entrance-settings__tools {
-  align-items: flex-start;
-}
-
-.entrance-settings__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
-  gap: 10px;
-}
-
-.entrance-effect-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 8px 10px;
-  border: 1px solid #e8e8e8;
-  border-radius: 8px;
-  color: #434343;
-  background: #fff;
-  cursor: pointer;
-  text-align: left;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-}
-
-.entrance-effect-card:hover,
-.entrance-effect-card.active {
-  border-color: var(--effect-tone);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
-}
-
-.entrance-effect-card.active {
-  color: #1677ff;
-  font-weight: 600;
-}
-
-.entrance-effect-card__preview {
-  position: relative;
-  flex: 0 0 28px;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  overflow: hidden;
-  background: color-mix(in srgb, var(--effect-tone) 22%, #f8fafc);
-}
-
-.entrance-effect-card__preview i {
-  position: absolute;
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--effect-tone);
-}
-
-.entrance-effect-card__preview i:nth-child(1) {
-  left: 6px;
-  top: 6px;
-}
-
-.entrance-effect-card__preview i:nth-child(2) {
-  right: 5px;
-  top: 11px;
-  opacity: 0.72;
-}
-
-.entrance-effect-card__preview i:nth-child(3) {
-  left: 12px;
-  bottom: 5px;
-  opacity: 0.5;
-}
-
-.entrance-settings__form {
-  margin-top: 2px;
-}
-
-.entrance-duration {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.entrance-duration__slider {
-  flex: 1;
-  min-width: 110px;
-}
-
-.dark-theme .entrance-settings,
-:global(.dark-theme) .entrance-settings {
-  border-color: var(--console-border);
-  background: var(--console-surface-muted);
-}
-
-.dark-theme .entrance-settings__head strong,
-.dark-theme .entrance-effect-card,
-:global(.dark-theme) .entrance-settings__head strong,
-:global(.dark-theme) .entrance-effect-card {
-  color: var(--console-text);
-}
-
-.dark-theme .entrance-settings__head span,
-:global(.dark-theme) .entrance-settings__head span {
-  color: var(--console-text-secondary);
-}
-
-.dark-theme .entrance-effect-card,
-:global(.dark-theme) .entrance-effect-card {
-  border-color: var(--console-border);
-  background: var(--console-surface);
-}
-
-@media (max-width: 768px) {
-  .entrance-settings__head,
-  .entrance-settings__tools {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .entrance-settings__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .entrance-duration {
-    align-items: stretch;
-    flex-direction: column;
-  }
-}
-</style>
