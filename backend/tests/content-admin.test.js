@@ -610,6 +610,109 @@ tags:
     expect(response.text).toContain('Front Matter')
   })
 
+  it('exports published articles as markdown zip with import-friendly front matter', async () => {
+    const app = createApp()
+    const category = await createCategory({
+      name: '导出分类',
+      slug: 'export-category'
+    })
+    const tag = await createTag({
+      name: '导出标签',
+      slug: 'export-tag'
+    })
+    const article = await createArticle({
+      title: '导出文章',
+      slug: 'export-article',
+      summary: '用于验证 Markdown 导出',
+      contentMarkdown: '# 导出文章\n\n正文内容。',
+      category: category.id,
+      tags: [tag.id],
+      status: ARTICLE_STATUS.PUBLISHED
+    }, admin)
+
+    const response = await request(app)
+      .get('/api/admin/articles/export/markdown')
+      .query({ scope: 'published' })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .buffer(true)
+      .parse((res, callback) => {
+        const chunks = []
+        res.on('data', (chunk) => chunks.push(chunk))
+        res.on('end', () => callback(null, Buffer.concat(chunks)))
+      })
+      .expect(200)
+
+    expect(response.headers['content-type']).toContain('application/zip')
+    expect(response.headers['content-disposition']).toContain('articles-markdown')
+    const text = response.body.toString('utf8')
+    expect(text).toContain('README.md')
+    expect(text).toContain('001-export-article.md')
+    expect(text).toContain('title: "导出文章"')
+    expect(text).toContain('slug: "export-article-revision-')
+    expect(text).toContain(`originalId: "${article.id}"`)
+    expect(text).toContain('originalSlug: "export-article"')
+    expect(text).toContain('# 导出文章')
+  })
+
+  it('exports all descendant category articles with category folders', async () => {
+    const app = createApp()
+    const parentResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'AI 文档',
+        slug: 'ai-docs'
+      })
+      .expect(201)
+    const childResponse = await request(app)
+      .post('/api/admin/categories')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        name: 'CatPaw',
+        slug: 'catpaw',
+        parent: parentResponse.body.data.id
+      })
+      .expect(201)
+
+    await createArticle({
+      title: '父分类文章',
+      slug: 'parent-export-article',
+      summary: '父分类文章摘要',
+      contentMarkdown: '# 父分类文章\n\n正文内容。',
+      category: parentResponse.body.data.id,
+      status: ARTICLE_STATUS.PUBLISHED
+    }, admin)
+    await createArticle({
+      title: '子分类文章',
+      slug: 'child-export-article',
+      summary: '子分类文章摘要',
+      contentMarkdown: '# 子分类文章\n\n真正的子分类正文。',
+      category: childResponse.body.data.id,
+      status: ARTICLE_STATUS.PUBLISHED
+    }, admin)
+
+    const response = await request(app)
+      .get('/api/admin/articles/export/markdown')
+      .query({ scope: 'published', categoryId: parentResponse.body.data.id })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .buffer(true)
+      .parse((res, callback) => {
+        const chunks = []
+        res.on('data', (chunk) => chunks.push(chunk))
+        res.on('end', () => callback(null, Buffer.concat(chunks)))
+      })
+      .expect(200)
+
+    const text = response.body.toString('utf8')
+    expect(text).toContain('AI-文档/')
+    expect(text).toContain('parent-export-article.md')
+    expect(text).toContain('AI-文档/CatPaw/')
+    expect(text).toContain('child-export-article.md')
+    expect(text).toContain('# 父分类文章')
+    expect(text).toContain('# 子分类文章')
+    expect(text).toContain('真正的子分类正文')
+  })
+
   it('supports the migration config category and article move workflow', async () => {
     const app = createApp()
 

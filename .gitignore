@@ -17,3 +17,4 @@ backend/uploads/*
 !backend/uploads/.gitkeep
 backend/logs/
 backend/legacy-notes/
+backend/tests/.tmp/

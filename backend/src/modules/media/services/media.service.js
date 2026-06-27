@@ -5,6 +5,7 @@ import { Media } from '#modules/media/models/Media.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { ensureDefaultMediaCategory } from './mediaCategory.service.js'
+import { attachMediaReferenceSummaries, findMediaReferences, getMediaReferenceDetail } from './mediaReference.service.js'
 
 function normalizeMediaCategory(value) {
   const category = String(value || '').trim()
@@ -92,7 +93,7 @@ export async function createMediaFromFiles(files, user, metadata = {}) {
 
 export async function listMedia(options = {}) {
   await ensureDefaultMediaCategory()
-  const { kind, fileClass, keyword } = options
+  const { kind, fileClass, keyword, usageStatus } = options
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const query = options.deleted === 'true' || options.scope === 'trash'
@@ -136,6 +137,20 @@ export async function listMedia(options = {}) {
     ]
   }
 
+  if (usageStatus === 'referenced' || usageStatus === 'unreferenced') {
+    const candidates = await Media.find(query).sort({ createdAt: -1 })
+    const enrichedCandidates = await attachMediaReferenceSummaries(candidates)
+    const filtered = enrichedCandidates.filter((item) => item.usage?.usageStatus === usageStatus)
+    const skip = (page - 1) * pageSize
+
+    return {
+      items: filtered.slice(skip, skip + pageSize),
+      total: filtered.length,
+      page,
+      pageSize
+    }
+  }
+
   const skip = (page - 1) * pageSize
 
   const [media, total] = await Promise.all([
@@ -146,11 +161,47 @@ export async function listMedia(options = {}) {
     Media.countDocuments(query)
   ])
 
+  const items = await attachMediaReferenceSummaries(media)
+
   return {
-    items: media.map((item) => item.toSafeJSON()),
+    items,
     total,
     page,
     pageSize
+  }
+}
+
+export async function getMediaReferences(id) {
+  const media = await Media.findOne({ _id: id })
+  if (!media) {
+    const error = new Error('媒体文件不存在')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+
+  return getMediaReferenceDetail(media)
+}
+
+export async function getMediaDeleteRisk(ids = []) {
+  const mediaList = await Media.find({ _id: { $in: ids }, deletedAt: null })
+  const items = []
+
+  for (const media of mediaList) {
+    const references = await findMediaReferences(media)
+    items.push({
+      media: media.toSafeJSON(),
+      referenceCount: references.length,
+      usageStatus: references.length > 0 ? 'referenced' : 'unreferenced',
+      references: references.slice(0, 5)
+    })
+  }
+
+  return {
+    items,
+    total: items.length,
+    referencedCount: items.filter((item) => item.referenceCount > 0).length,
+    unreferencedCount: items.filter((item) => item.referenceCount === 0).length
   }
 }
 

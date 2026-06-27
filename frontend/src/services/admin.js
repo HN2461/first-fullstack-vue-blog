@@ -79,6 +79,13 @@ export function commitArticleImport(payload) {
   return http.post('/api/admin/articles/import/commit', payload)
 }
 
+export function exportArticlesMarkdown(params = {}) {
+  return http.get('/api/admin/articles/export/markdown', {
+    params,
+    responseType: 'blob'
+  })
+}
+
 // 回收站相关
 export async function listTrashArticles(params = {}) {
   return toPageResult(await http.get('/api/admin/articles/trash/list', { params }), params.pageSize || 20)
@@ -344,6 +351,28 @@ export function getAdminMonitorOverview() {
 // 媒体相关
 export async function listAdminMedia(params = {}) {
   return toPageResult(await http.get('/api/admin/media', { params }), params.pageSize || 20)
+}
+
+export function getAdminMediaReferences(id) {
+  return http.get(`/api/admin/media/${id}/references`)
+}
+
+export function getAdminMediaDeleteRisk(ids = []) {
+  return http.get('/api/admin/media/delete-risk', {
+    params: { ids: ids.join(',') }
+  })
+}
+
+export async function listUnregisteredAdminMedia(params = {}) {
+  return http.get('/api/admin/media/unregistered', { params })
+}
+
+export function registerUntrackedAdminMedia(data) {
+  return http.post('/api/admin/media/register-untracked', data)
+}
+
+export function clearSuspectedUntrackedAdminMedia(params = {}) {
+  return http.delete('/api/admin/media/unregistered/suspected-tests', { params })
 }
 
 export function batchDeleteAdminMedia(ids) {

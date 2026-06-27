@@ -141,6 +141,11 @@
                   <template #icon><SyncOutlined /></template>
                   刷新菜单
                 </a-menu-item>
+                <a-menu-divider v-if="canExportArticles" />
+                <a-menu-item v-if="canExportArticles" key="export-articles">
+                  <template #icon><DownloadOutlined /></template>
+                  导出文章
+                </a-menu-item>
               </a-menu>
             </template>
           </a-dropdown>
@@ -232,6 +237,11 @@
       </button>
     </div>
   </a-modal>
+
+  <ArticleExportModal
+    v-model:open="articleExportModalVisible"
+    :category-options="articleExportCategoryOptions"
+  />
 </template>
 
 <script setup>
@@ -259,6 +269,7 @@ import {
   DatabaseOutlined,
   DeleteOutlined,
   DesktopOutlined,
+  DownloadOutlined,
   DownOutlined,
   ExperimentOutlined,
   ExpandOutlined,
@@ -315,6 +326,7 @@ import {
 import NotificationBell from '@/components/NotificationBell.vue'
 import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
 import FestivalEffectHost from '@/components/festival/FestivalEffectHost.vue'
+import ArticleExportModal from './ArticleExportModal.vue'
 import { Menu, message } from 'ant-design-vue'
 import { Moon, SquarePen, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'
@@ -344,6 +356,7 @@ const siderCollapsed = ref(false)
 const siderFullLabels = ref(false)
 const mobileMenuOpen = ref(false)
 const createModalVisible = ref(false)
+const articleExportModalVisible = ref(false)
 const openKeys = ref([])
 const clickedMenuKey = ref('')
 const preferredRootId = ref('')
@@ -505,6 +518,17 @@ const uncategorizedArticles = computed(() => {
 })
 const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)
 const effectiveOpenKeys = computed(() => (siderCollapsed.value ? [] : openKeys.value))
+const canExportArticles = computed(() => authStore.isAdmin && hasAnyKnowledgeDirectory.value)
+const articleExportCategoryOptions = computed(() => {
+  const buildNodes = (items = []) => items.map((item) => ({
+    title: item.name,
+    value: item.id,
+    key: item.id,
+    children: buildNodes(item.children || [])
+  }))
+
+  return buildNodes(categoryTree.value)
+})
 const createActions = computed(() => {
   const actions = []
   if (authStore.canAccessPath('/console/manage/articles/new')) {
@@ -800,6 +824,11 @@ function handleCreateAction(key) {
 function handleSiderAction({ key }) {
   if (key === 'toggle-labels') {
     siderFullLabels.value = !siderFullLabels.value
+    return
+  }
+
+  if (key === 'export-articles') {
+    articleExportModalVisible.value = true
     return
   }
 

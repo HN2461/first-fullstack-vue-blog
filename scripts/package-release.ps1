@@ -64,10 +64,12 @@ Copy-OptionalItem -Source (Join-Path $backendDir '.env.example') -Destination $b
 Copy-OptionalItem -Source (Join-Path $backendDir 'README.md') -Destination $backendStageDir
 Copy-OptionalItem -Source (Join-Path $backendDir 'vitest.config.js') -Destination $backendStageDir
 Copy-OptionalItem -Source (Join-Path $backendDir 'tests') -Destination (Join-Path $backendStageDir 'tests')
+Remove-Item -LiteralPath (Join-Path $backendStageDir 'tests\.tmp') -Recurse -Force -ErrorAction SilentlyContinue
 
 Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir '.env') -Name '.env'
 Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'node_modules') -Name 'node_modules'
 Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'uploads') -Name 'uploads'
+Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'tests\.tmp') -Name 'tests/.tmp'
 
 Write-Host '正在打包后端发布包...'
 Compress-Archive -Path (Join-Path $backendStageDir '*') -DestinationPath $backendZip -Force

@@ -99,6 +99,13 @@ export const articleStatusBatchSchema = idBatchSchema.extend({
   status: z.enum(Object.values(ARTICLE_STATUS))
 })
 
+export const articleExportSchema = z.object({
+  scope: z.enum(['published', 'draft', 'archived', 'all']).optional().default('published'),
+  slugStrategy: z.enum(['revision', 'keep']).optional().default('revision'),
+  categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
+  keyword: z.string().trim().max(120, '搜索关键词不能超过 120 个字符').optional()
+})
+
 const batchCategoryMetaSchema = z.object({
   enabled: z.boolean().optional().default(false),
   mode: z.enum(['overwrite', 'fillEmpty', 'clear']).optional().default('overwrite'),

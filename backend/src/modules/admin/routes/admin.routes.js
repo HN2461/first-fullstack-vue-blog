@@ -8,7 +8,8 @@ import { batchUpdateArticleMeta } from '#modules/content/services/articleBatch.s
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
 import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories as listMediaCategoryEntities, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
-import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { clearSuspectedUntrackedMedia, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
 import { createProjectTimelineRecord, exportProjectTimelineRecords, importProjectTimelinePayloads, importProjectTimelineRecords, listProjectTimelineRecords, updateProjectTimelineRecord } from '#modules/projectTimeline/services/projectTimeline.service.js'
@@ -16,15 +17,16 @@ import { getSettings, updateSettings } from '#modules/settings/services/setting.
 import { getAdminStats } from '#modules/dashboard/services/stats.service.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
 import { buildArticleImportTemplate, commitMarkdownArticleImport, previewMarkdownArticleImport } from '#modules/content/services/articleImport.service.js'
+import { buildArticleExportHeaders, exportArticlesAsMarkdownZip } from '#modules/content/services/articleExport.service.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
 import { decryptCredential } from '#utils/authSecurity.js'
 import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
-import { articleBatchMetaSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
+import { articleBatchMetaSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleExportSchema, articleSchema, articleStatusBatchSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
 import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
-import { mediaRenameSchema } from '#modules/media/validators/media.validator.js'
+import { mediaRegisterUntrackedSchema, mediaRenameSchema } from '#modules/media/validators/media.validator.js'
 
 export const adminRouter = Router()
 
@@ -368,6 +370,14 @@ adminRouter.post('/articles/import/commit', asyncHandler(async (req, res) => {
   res.status(201).json(ok(result, `已导入 ${result.successCount} 篇文章`))
 }))
 
+adminRouter.get('/articles/export/markdown', asyncHandler(async (req, res) => {
+  const input = parseBody(articleExportSchema, req.query)
+  const result = await exportArticlesAsMarkdownZip(input)
+  const headers = buildArticleExportHeaders(result.filename)
+  Object.entries(headers).forEach(([key, value]) => res.setHeader(key, value))
+  res.send(result.buffer)
+}))
+
 adminRouter.post('/articles', asyncHandler(async (req, res) => {
   const input = parseBody(articleSchema, req.body)
   const article = await createArticle(input, req.user)
@@ -544,6 +554,33 @@ adminRouter.get('/media/trash', asyncHandler(async (req, res) => {
 
 adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
   res.json(ok(await listMediaCategoryEntities()))
+}))
+
+adminRouter.get('/media/delete-risk', asyncHandler(async (req, res) => {
+  const ids = String(req.query.ids || '')
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean)
+  res.json(ok(await getMediaDeleteRisk(ids)))
+}))
+
+adminRouter.get('/media/unregistered', asyncHandler(async (req, res) => {
+  res.json(ok(await listUnregisteredMediaFiles(req.query)))
+}))
+
+adminRouter.post('/media/register-untracked', asyncHandler(async (req, res) => {
+  const input = parseBody(mediaRegisterUntrackedSchema, req.body)
+  const result = await registerUntrackedMedia(input, req.user)
+  res.status(201).json(ok(result, `已登记 ${result.createdCount} 个未纳管资源`))
+}))
+
+adminRouter.delete('/media/unregistered/suspected-tests', asyncHandler(async (req, res) => {
+  const result = await clearSuspectedUntrackedMedia(req.query)
+  res.json(ok(result, `已清理 ${result.deletedCount} 个疑似测试资源`))
+}))
+
+adminRouter.get('/media/:id/references', asyncHandler(async (req, res) => {
+  res.json(ok(await getMediaReferences(req.params.id)))
 }))
 
 adminRouter.post('/media/categories', asyncHandler(async (req, res) => {

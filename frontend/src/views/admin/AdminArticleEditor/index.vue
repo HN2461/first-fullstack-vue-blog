@@ -486,6 +486,8 @@ const fileClassOptions = [
   { label: '其他', value: 'other' }
 ]
 
+const ARTICLE_CONTENT_TEMP_CATEGORY = '文章正文临时图片'
+
 function handleTitleInput() {
   return form.title
 }
@@ -909,7 +911,7 @@ async function handleUploadImg(files, callback) {
   try {
     const uploaded = await Promise.all(
       files.map(async (file) => {
-        const media = await uploadAdminMedia(file)
+        const media = await uploadAdminMedia(file, { category: ARTICLE_CONTENT_TEMP_CATEGORY })
         return {
           url: media.url,
           alt: media.originalName || file.name,

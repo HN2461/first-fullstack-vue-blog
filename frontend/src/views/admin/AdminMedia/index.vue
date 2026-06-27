@@ -30,8 +30,20 @@
           size="middle"
           :options="fileClassOptions"
         />
+        <a-select
+          v-model:value="filterUsageStatus"
+          allow-clear
+          placeholder="引用状态"
+          style="width: 130px"
+          size="middle"
+          :options="usageStatusOptions"
+        />
       </div>
       <div class="media-cloud__actions">
+        <a-button size="middle" @click="inventoryModalVisible = true">
+          <template #icon><SearchOutlined /></template>
+          扫描资源
+        </a-button>
         <a-button size="middle" @click="openUploadSettings">
           <template #icon><SettingOutlined /></template>
           上传限制
@@ -48,23 +60,43 @@
       </div>
     </div>
 
-    <!-- 类型快捷筛选条 -->
-    <div class="media-cloud__type-filter">
-      <button
-        v-for="item in summaryCards"
-        :key="item.key"
-        class="media-type-chip"
-        :class="{ 'is-active': filterFileClass === item.value }"
-        @click="toggleFileClassFilter(item.value)"
-      >
-        {{ item.label }}
-        <b>{{ item.count }}</b>
-      </button>
+    <!-- 列表工具条：固定筛选与批量操作，避免勾选时页面跳动 -->
+    <div class="media-cloud__list-toolbar">
+      <div class="media-cloud__type-filter">
+        <button
+          v-for="item in summaryCards"
+          :key="item.key"
+          class="media-type-chip"
+          :class="{ 'is-active': filterFileClass === item.value }"
+          @click="toggleFileClassFilter(item.value)"
+        >
+          {{ item.label }}
+          <b>{{ item.count }}</b>
+        </button>
+      </div>
+      <div class="media-batch-actions">
+        <span class="media-batch-actions__count">已选择 {{ selectedMediaKeys.length }} 个</span>
+        <a-button
+          size="small"
+          :disabled="selectedMediaKeys.length === 0"
+          @click="clearMediaSelection"
+        >
+          取消选择
+        </a-button>
+        <a-button
+          size="small"
+          danger
+          :disabled="selectedMediaKeys.length === 0"
+          @click="handleBatchDelete"
+        >
+          <template #icon><DeleteOutlined /></template>
+          批量移入回收站
+        </a-button>
+      </div>
     </div>
 
     <!-- 表格主体 -->
     <div class="media-cloud__body">
-
       <BlogTable
         ref="tableRef"
         :api-fn="loadMedia"
@@ -78,19 +110,6 @@
         height="auto"
         @selection-change="handleMediaSelectionChange"
       >
-        <template #toolbar>
-          <div v-if="selectedMediaKeys.length > 0" class="media-batch-bar">
-            <span>已选择 {{ selectedMediaKeys.length }} 个资源</span>
-            <a-space>
-              <a-button size="small" @click="clearMediaSelection">取消选择</a-button>
-              <a-button size="small" danger @click="handleBatchDelete">
-                <template #icon><DeleteOutlined /></template>
-                批量移入回收站
-              </a-button>
-            </a-space>
-          </div>
-        </template>
-
         <template #bodyCell="{ column, record }">
           <!-- 文件信息：缩略图 + 文件名 -->
           <template v-if="column.key === 'asset'">
@@ -129,6 +148,21 @@
             <span class="media-category-label">{{ record.category || '未分类' }}</span>
           </template>
 
+          <!-- 引用状态 -->
+          <template v-else-if="column.key === 'usage'">
+            <a-button
+              type="link"
+              size="small"
+              class="media-usage-link"
+              @click="openReferenceModal(record)"
+            >
+              <a-badge
+                :status="record.usage?.referenceCount > 0 ? 'success' : 'warning'"
+                :text="`${record.usage?.usageStatusLabel || '待扫描'} · ${record.usage?.referenceCount || 0}`"
+              />
+            </a-button>
+          </template>
+
           <!-- 上传时间 -->
           <template v-else-if="column.key === 'createdAt'">
             <span class="media-time">{{ formatDate(record.createdAt) }}</span>
@@ -140,19 +174,23 @@
               <a-tooltip title="预览">
                 <a-button type="text" size="small" class="media-action-btn media-action-btn--view" @click="handleView(record)">
                   <template #icon><EyeOutlined /></template>
-                  查看
                 </a-button>
               </a-tooltip>
               <a-tooltip title="重命名">
                 <a-button type="text" size="small" class="media-action-btn media-action-btn--rename" @click="handleRename(record)">
                   <template #icon><EditOutlined /></template>
-                  重命名
                 </a-button>
               </a-tooltip>
-              <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete" @click="handleDelete(record)">
-                <template #icon><DeleteOutlined /></template>
-                删除
-              </a-button>
+              <a-tooltip title="查看引用">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--refs" @click="openReferenceModal(record)">
+                  <template #icon><LinkOutlined /></template>
+                </a-button>
+              </a-tooltip>
+              <a-tooltip title="移入回收站">
+                <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete" @click="handleDelete(record)">
+                  <template #icon><DeleteOutlined /></template>
+                </a-button>
+              </a-tooltip>
             </a-space>
           </template>
         </template>
@@ -248,6 +286,16 @@
       :record="renameRecord"
       :submitting="renameSubmitting"
       @submit="submitRename"
+    />
+
+    <MediaReferenceModal
+      v-model:open="referenceModalVisible"
+      :record="referenceRecord"
+    />
+
+    <MediaInventoryModal
+      v-model:open="inventoryModalVisible"
+      @changed="handleInventoryChanged"
     />
 
     <!-- 媒体预览弹窗 -->
@@ -470,8 +518,10 @@ import {
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,
+  LinkOutlined,
   SettingOutlined,
   RestOutlined,
+  SearchOutlined,
   CustomerServiceOutlined,
   FileZipOutlined,
   FileUnknownOutlined,
@@ -482,10 +532,13 @@ import {
 import BlogTable from '@/components/BlogTable.vue'
 import MediaTrashModal from './MediaTrashModal.vue'
 import MediaRenameModal from './MediaRenameModal.vue'
+import MediaReferenceModal from './MediaReferenceModal.vue'
+import MediaInventoryModal from './MediaInventoryModal.vue'
 import {
   createAdminMediaCategory,
   deleteAdminMedia,
   deleteAdminMediaCategory,
+  getAdminMediaDeleteRisk,
   getAdminSettings,
   listAdminMedia,
   listAdminMediaCategories,
@@ -506,6 +559,7 @@ const categories = ref([])
 const keyword = ref('')
 const filterCategory = ref(undefined)
 const filterFileClass = ref(undefined)
+const filterUsageStatus = ref(undefined)
 const uploadModalVisible = ref(false)
 const categoryModalVisible = ref(false)
 const categorySubmitting = ref(false)
@@ -516,6 +570,9 @@ const settingsSaving = ref(false)
 const renameModalVisible = ref(false)
 const renameSubmitting = ref(false)
 const renameRecord = ref(null)
+const referenceModalVisible = ref(false)
+const referenceRecord = ref(null)
+const inventoryModalVisible = ref(false)
 const uploadRules = ref({
   maxFiles: 5,
   maxFileSizeMB: 20
@@ -540,6 +597,11 @@ const fileClassOptions = [
   { label: '其他', value: 'other' }
 ]
 
+const usageStatusOptions = [
+  { label: '已引用', value: 'referenced' },
+  { label: '疑似未引用', value: 'unreferenced' }
+]
+
 const categoryOptions = computed(() => {
   const baseOptions = categories.value.map((item) => ({
     label: `${item.name}${item.count ? ` (${item.count})` : ''}`,
@@ -561,7 +623,8 @@ const filterCategoryOptions = computed(() => categories.value.map((item) => ({
 const tableParams = computed(() => ({
   keyword: keyword.value || undefined,
   category: filterCategory.value || undefined,
-  fileClass: filterFileClass.value || undefined
+  fileClass: filterFileClass.value || undefined,
+  usageStatus: filterUsageStatus.value || undefined
 }))
 
 const columns = [
@@ -574,8 +637,9 @@ const columns = [
   { title: '类型', key: 'fileClass', width: 90, align: 'center' },
   { title: '大小', key: 'size', width: 95, align: 'right' },
   { title: '分类', key: 'category', width: 120, align: 'center' },
+  { title: '引用状态', key: 'usage', width: 140, align: 'center' },
   { title: '上传时间', key: 'createdAt', width: 170, align: 'center' },
-  { title: '操作', key: 'action', width: 210, align: 'center', fixed: 'right' }
+  { title: '操作', key: 'action', width: 168, align: 'center', fixed: 'right' }
 ]
 
 const mediaRowSelection = computed(() => ({
@@ -641,6 +705,11 @@ function refreshTable() {
   tableRef.value?.refresh()
 }
 
+async function handleInventoryChanged() {
+  await loadCategories()
+  refreshTable()
+}
+
 function handleMediaSelectionChange(keys) {
   selectedMediaKeys.value = keys
 }
@@ -686,7 +755,13 @@ function getFileClassColor(fileClass) {
 
 async function loadMedia(params) {
   const result = await listAdminMedia(params)
-  const statsSource = await listAdminMedia({ page: 1, pageSize: 200, keyword: keyword.value || undefined, category: filterCategory.value || undefined })
+  const statsSource = await listAdminMedia({
+    page: 1,
+    pageSize: 200,
+    keyword: keyword.value || undefined,
+    category: filterCategory.value || undefined,
+    usageStatus: filterUsageStatus.value || undefined
+  })
   mediaStats.value = statsSource.items.reduce((acc, item) => {
     const key = item.fileClass || 'other'
     acc[key] = (acc[key] || 0) + 1
@@ -935,9 +1010,9 @@ function retryOfficeViewer() {
 }
 
 function handleDelete(record) {
-  confirmAction({
+  confirmMediaDelete([record.id], {
     title: '移入回收站',
-    content: `文件「${record.originalName}」会从媒体库列表移除，数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`,
+    getContent: (risk) => buildDeleteRiskContent(risk, `文件「${record.originalName}」会从媒体库列表移除，数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`),
     okText: '移入回收站',
     okType: 'danger',
     async onOk() {
@@ -993,9 +1068,9 @@ function handleBatchDelete() {
   const ids = [...selectedMediaKeys.value]
   if (!ids.length) return
 
-  confirmAction({
+  confirmMediaDelete(ids, {
     title: '批量移入回收站',
-    content: `确认将选中的 ${ids.length} 个媒体资源移入回收站？数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`,
+    getContent: (risk) => buildDeleteRiskContent(risk, `确认将选中的 ${ids.length} 个媒体资源移入回收站？数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`),
     okText: '批量移入回收站',
     okType: 'danger',
     async onOk() {
@@ -1010,6 +1085,42 @@ function handleBatchDelete() {
       })
     }
   }).catch(() => {})
+}
+
+async function confirmMediaDelete(ids, options) {
+  let risk = null
+  try {
+    risk = await getAdminMediaDeleteRisk(ids)
+  } catch {
+    risk = null
+  }
+
+  return confirmAction({
+    title: options.title,
+    content: options.getContent?.(risk) || options.content,
+    okText: options.okText,
+    okType: options.okType,
+    onOk: options.onOk
+  })
+}
+
+function buildDeleteRiskContent(risk, fallback) {
+  if (!risk || risk.referencedCount === 0) {
+    return fallback
+  }
+
+  const samples = risk.items
+    .filter((item) => item.referenceCount > 0)
+    .slice(0, 3)
+    .map((item) => `「${item.media.originalName}」${item.referenceCount} 处引用`)
+    .join('；')
+
+  return `${fallback}\n\n检测到 ${risk.referencedCount} 个资源仍被文章、用户头像或系统设置引用：${samples}。删除后相关页面可能出现图片或附件失效，请确认后再继续。`
+}
+
+function openReferenceModal(record) {
+  referenceRecord.value = record
+  referenceModalVisible.value = true
 }
 
 function openTrashModal() {
@@ -1143,13 +1254,23 @@ onMounted(async () => {
   flex-shrink: 0;
 }
 
-/* ===== 类型快捷筛选条：极简 chip 风格 ===== */
+/* ===== 列表工具条：筛选与批量操作固定同一行 ===== */
+.media-cloud__list-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 6px 4px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
 .media-cloud__type-filter {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 4px;
-  flex-shrink: 0;
+  min-width: 0;
   overflow-x: auto;
 }
 
@@ -1187,21 +1308,28 @@ onMounted(async () => {
   font-variant-numeric: tabular-nums;
 }
 
+.media-batch-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.media-batch-actions__count {
+  min-width: 86px;
+  color: #64748b;
+  font-size: 13px;
+  text-align: right;
+  white-space: nowrap;
+}
+
 /* ===== 表格主体：占据剩余全部空间 ===== */
 .media-cloud__body {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0; /* 关键：允许 flex 子元素收缩 */
   overflow: hidden; /* 强制裁剪，防止内容撑开 */
-}
-
-.media-batch-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 12px;
-  color: #475569;
-  font-size: 13px;
 }
 
 /* ===== 表格行：文件信息 ===== */
@@ -1323,6 +1451,17 @@ onMounted(async () => {
   display: inline-block;
 }
 
+.media-usage-link {
+  height: auto !important;
+  padding: 0 !important;
+  white-space: nowrap;
+}
+
+.media-usage-link :deep(.ant-badge-status-text) {
+  color: #475569;
+  font-size: 12px;
+}
+
 /* ===== 时间 ===== */
 .media-time {
   font-size: 13px;
@@ -1333,6 +1472,10 @@ onMounted(async () => {
 
 /* ===== 操作按钮 ===== */
 .media-action-btn {
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  padding: 0 !important;
   font-size: 13px !important;
   border-radius: 6px !important;
   transition: all 0.15s ease !important;
@@ -1346,6 +1489,10 @@ onMounted(async () => {
   color: #7c3aed !important;
 }
 
+.media-action-btn--refs {
+  color: #0f766e !important;
+}
+
 .media-action-btn--view:hover {
   background: #eff6ff !important;
   color: #2563eb !important;
@@ -1354,6 +1501,11 @@ onMounted(async () => {
 .media-action-btn--rename:hover {
   background: #f5f3ff !important;
   color: #6d28d9 !important;
+}
+
+.media-action-btn--refs:hover {
+  color: #0d9488 !important;
+  background: #ecfdf5 !important;
 }
 
 .media-action-btn--delete:hover {
@@ -1489,8 +1641,15 @@ onMounted(async () => {
 
 :deep(.dark-theme) .media-cloud__toolbar,
 :deep(.dark-theme) .media-cloud__filters,
-:deep(.dark-theme) .media-cloud__actions,
-:deep(.dark-theme) .media-batch-bar {
+:deep(.dark-theme) .media-cloud__actions {
+  color: var(--console-text-secondary);
+}
+
+:deep(.dark-theme) .media-cloud__list-toolbar {
+  border-color: var(--console-border);
+}
+
+:deep(.dark-theme) .media-batch-actions__count {
   color: var(--console-text-secondary);
 }
 
@@ -1539,6 +1698,7 @@ onMounted(async () => {
 :deep(.dark-theme) .media-file__url,
 :deep(.dark-theme) .media-size,
 :deep(.dark-theme) .media-time,
+:deep(.dark-theme) .media-usage-link :deep(.ant-badge-status-text),
 :deep(.dark-theme) .media-cloud__file-chip span,
 :deep(.dark-theme) .media-category-item span,
 :deep(.dark-theme) .media-category-panel__empty,

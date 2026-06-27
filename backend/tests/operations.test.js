@@ -1,5 +1,6 @@
 import request from 'supertest'
 import fs from 'node:fs'
+import path from 'node:path'
 import { USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
@@ -7,6 +8,7 @@ import { Media } from '#modules/media/models/Media.js'
 import { User } from '#modules/user/models/User.js'
 import { createArticle } from '#modules/content/services/article.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
+import { resolveUploadRoot } from '../src/utils/uploadPath.js'
 import {
   clearTestDatabase,
   connectTestDatabase,
@@ -289,6 +291,160 @@ describe('operations routes', () => {
 
     expect(response.body.data.originalName).toBe('hello.txt')
     expect(response.body.data.kind).toBe('attachment')
+  })
+
+  it('reports media references and delete risks for article assets', async () => {
+    const uploadResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('file', Buffer.from('image-content'), {
+        filename: 'article-image.png',
+        contentType: 'image/png'
+      })
+      .expect(201)
+
+    const media = uploadResponse.body.data
+    await createArticle({
+      title: '引用媒体文章',
+      slug: 'media-reference-post',
+      contentMarkdown: `正文图片：![示例](${media.url})`,
+      cover: media.url,
+      resources: [{
+        mediaId: media.id,
+        name: media.originalName,
+        url: media.url,
+        kind: 'image',
+        fileSize: media.size,
+        mimeType: media.mimeType
+      }],
+      status: 'published'
+    }, admin)
+
+    const listResponse = await request(app)
+      .get('/api/admin/media')
+      .query({ usageStatus: 'referenced' })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(listResponse.body.data.items[0].usage).toMatchObject({
+      usageStatus: 'referenced',
+      referenceCount: 3
+    })
+
+    const referencesResponse = await request(app)
+      .get(`/api/admin/media/${media.id}/references`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(referencesResponse.body.data.references.map((item) => item.type)).toEqual(
+      expect.arrayContaining(['articleContent', 'articleCover', 'articleResource'])
+    )
+
+    const riskResponse = await request(app)
+      .get('/api/admin/media/delete-risk')
+      .query({ ids: media.id })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(riskResponse.body.data.referencedCount).toBe(1)
+    expect(riskResponse.body.data.items[0].referenceCount).toBe(3)
+  })
+
+  it('scans and registers uploaded files that are missing media records', async () => {
+    const uploadRoot = resolveUploadRoot()
+    const uniqueName = `${Date.now()}-${Math.random().toString(16).slice(2)}-untracked.png`
+    const relativePath = `inventory-test/${uniqueName}`
+    const targetPath = path.join(uploadRoot, relativePath)
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true })
+    fs.writeFileSync(targetPath, Buffer.from('untracked-image'))
+
+    const scanResponse = await request(app)
+      .get('/api/admin/media/unregistered')
+      .query({ keyword: uniqueName, pageSize: 10 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(scanResponse.body.data.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          relativePath: relativePath.replace(/\\/g, '/'),
+          kind: 'image',
+          registered: false
+        })
+      ])
+    )
+
+    const registerResponse = await request(app)
+      .post('/api/admin/media/register-untracked')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        items: [{ relativePath }],
+        category: '历史未登记资源'
+      })
+      .expect(201)
+
+    expect(registerResponse.body.data).toMatchObject({
+      createdCount: 1,
+      skippedCount: 0
+    })
+    expect(registerResponse.body.data.items[0]).toMatchObject({
+      url: `/uploads/${relativePath.replace(/\\/g, '/')}`,
+      category: '历史未登记资源',
+      fileClass: 'image'
+    })
+
+    const afterRegisterResponse = await request(app)
+      .get('/api/admin/media/unregistered')
+      .query({ keyword: uniqueName, pageSize: 10 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(afterRegisterResponse.body.data.items).toHaveLength(0)
+    fs.rmSync(targetPath, { force: true })
+  })
+
+  it('clears only suspected test files from unregistered uploads', async () => {
+    const uploadRoot = resolveUploadRoot()
+    const testRelativePath = `2026/06/${Date.now()}-hello.txt`
+    const normalRelativePath = `manual/${Date.now()}-important-note.txt`
+    const testPath = path.join(uploadRoot, testRelativePath)
+    const normalPath = path.join(uploadRoot, normalRelativePath)
+    fs.mkdirSync(path.dirname(testPath), { recursive: true })
+    fs.mkdirSync(path.dirname(normalPath), { recursive: true })
+    fs.writeFileSync(testPath, Buffer.from('hello'))
+    fs.writeFileSync(normalPath, Buffer.from('keep me'))
+
+    const scanResponse = await request(app)
+      .get('/api/admin/media/unregistered')
+      .query({ suspectOnly: true, pageSize: 20 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(scanResponse.body.data.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          relativePath: testRelativePath.replace(/\\/g, '/'),
+          suspectedTest: true
+        })
+      ])
+    )
+    expect(scanResponse.body.data.items).not.toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          relativePath: normalRelativePath.replace(/\\/g, '/')
+        })
+      ])
+    )
+
+    const clearResponse = await request(app)
+      .delete('/api/admin/media/unregistered/suspected-tests')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(clearResponse.body.data.deletedCount).toBeGreaterThanOrEqual(1)
+    expect(fs.existsSync(testPath)).toBe(false)
+    expect(fs.existsSync(normalPath)).toBe(true)
+    fs.rmSync(normalPath, { force: true })
   })
 
   it('renames media display name while keeping stored file path stable', async () => {

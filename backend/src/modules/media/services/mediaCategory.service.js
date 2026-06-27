@@ -11,6 +11,21 @@ export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
     name: '文章封面',
     description: '文章封面专用资源分类',
     sortOrder: 1
+  },
+  {
+    name: '文章正文图片',
+    description: '文章正文中已保存引用的图片资源',
+    sortOrder: 2
+  },
+  {
+    name: '文章正文临时图片',
+    description: '编辑器粘贴或插入但尚未绑定文章的正文图片',
+    sortOrder: 3
+  },
+  {
+    name: '历史未登记资源',
+    description: '服务器上传目录中扫描登记的历史资源',
+    sortOrder: 4
   }
 ])
 
