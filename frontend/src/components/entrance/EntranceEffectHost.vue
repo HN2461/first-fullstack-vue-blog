@@ -30,6 +30,11 @@ import {
   normalizeSiteEntranceEffectConfig,
   renderSiteEntranceTitle
 } from '@/utils/entranceEffects/siteEntranceEffect'
+import {
+  buildEntranceAutoPlayKey,
+  hasEntranceAutoPlayed,
+  markEntranceAutoPlayed
+} from '@/utils/entranceEffects/entranceAutoPlaySession'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -42,7 +47,6 @@ let disposeTimer = null
 let leavingTimer = null
 let siteDisposeTimer = null
 let siteLeavingTimer = null
-let lastAutoPlayKey = ''
 
 const userConfig = computed(() => {
   const config = authStore.user?.entranceEffect || readEntranceEffectCache()
@@ -62,6 +66,10 @@ function getTriggerPage(path) {
   if (path === '/') return 'home'
   if (path === '/console') return 'consoleHome'
   return ''
+}
+
+function getSessionUserId() {
+  return authStore.user?.id || 'guest'
 }
 
 function stopTimers() {
@@ -133,10 +141,10 @@ function tryAutoPlay() {
 
   const personalConfig = userConfig.value
   if (personalConfig?.enabled && personalConfig.triggerPages.includes(triggerPage)) {
-    const playKey = `personal:${route.fullPath}:${personalConfig.effectKey}:${personalConfig.duration}:${personalConfig.triggerPages.join(',')}`
-    if (playKey === lastAutoPlayKey) return
+    const playKey = buildEntranceAutoPlayKey('personal', triggerPage, getSessionUserId())
+    if (hasEntranceAutoPlayed(playKey)) return
 
-    lastAutoPlayKey = playKey
+    markEntranceAutoPlayed(playKey)
     playEffect(personalConfig)
     return
   }
@@ -144,10 +152,10 @@ function tryAutoPlay() {
   const config = siteConfig.value
   if (authStore.user?.closeSiteEntranceEffect || !config?.enabled || !config.triggerPages.includes(triggerPage)) return
 
-  const playKey = `site:${route.fullPath}:${config.effectKey}:${config.duration}:${config.titleTemplate}:${config.subtitle}:${config.triggerPages.join(',')}`
-  if (playKey === lastAutoPlayKey) return
+  const playKey = buildEntranceAutoPlayKey('site', triggerPage, getSessionUserId())
+  if (hasEntranceAutoPlayed(playKey)) return
 
-  lastAutoPlayKey = playKey
+  markEntranceAutoPlayed(playKey)
   playSiteWelcome(config)
 }
 

@@ -11,6 +11,7 @@ import {
   setStoredToken
 } from '@/services/http'
 import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
+import { clearEntranceAutoPlaySession } from '@/utils/entranceEffects/entranceAutoPlaySession'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 
@@ -245,18 +246,21 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  function clearSession() {
+  function clearSession(options = {}) {
     token.value = ''
     user.value = null
     setStoredToken('')
     clearMenuCache()
+    if (options.clearEntranceAutoPlay) {
+      clearEntranceAutoPlaySession()
+    }
   }
 
   async function logout() {
     try {
       await logoutAccount()
     } finally {
-      clearSession()
+      clearSession({ clearEntranceAutoPlay: true })
     }
   }
 
