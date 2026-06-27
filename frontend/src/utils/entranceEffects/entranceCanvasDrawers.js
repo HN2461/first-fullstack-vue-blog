@@ -1,4 +1,6 @@
 import { drawStar, easeOutCubic, entranceAlpha, random, TAU, withAlpha } from './entranceCanvasUtils'
+import { drawColorBurst, drawShockwave, drawWaterRipples } from './entranceCanvasKineticDrawers'
+import { drawFalling } from './entranceCanvasFallingDrawers'
 
 export function drawScene(scene, progress, now) {
   const { ctx, width, height, options } = scene
@@ -8,8 +10,10 @@ export function drawScene(scene, progress, now) {
   if (alpha <= 0) return
 
   if (options.effectKey === 'starlight') drawStarlight(scene, alpha, now)
-  if (['firework-bloom', 'particle-burst', 'color-burst'].includes(options.effectKey)) drawBursts(scene, alpha, progress)
-  if (options.effectKey === 'ripple' || options.effectKey === 'shockwave') drawRipples(scene, alpha)
+  if (['firework-bloom', 'particle-burst'].includes(options.effectKey)) drawBursts(scene, alpha, progress)
+  if (options.effectKey === 'color-burst') drawColorBurst(scene, alpha, progress)
+  if (options.effectKey === 'ripple') drawWaterRipples(scene, alpha, now)
+  if (options.effectKey === 'shockwave') drawShockwave(scene, alpha, now)
   if (options.effectKey === 'light-sweep' || options.effectKey === 'shadow-sweep') drawSweeps(scene, alpha)
   if (options.effectKey === 'meteor-night') drawMeteors(scene, alpha)
   if (options.effectKey === 'shatter') drawShards(scene, alpha, progress)
@@ -99,42 +103,33 @@ function drawBursts(scene, alpha, progress) {
   ctx.globalAlpha = 1
 }
 
-function drawRipples(scene, alpha) {
-  const { ctx, width, height, items, options } = scene
-  const wash = ctx.createLinearGradient(0, 0, width, height)
-  wash.addColorStop(0, `rgba(4, 24, 28, ${0.2 * alpha})`)
-  wash.addColorStop(0.5, withAlpha(options.tone, 0.12 * alpha))
-  wash.addColorStop(1, `rgba(3, 10, 18, ${0.16 * alpha})`)
-  ctx.fillStyle = wash
-  ctx.fillRect(0, 0, width, height)
-  items.forEach((item) => {
-    item.r += item.speed
-    if (item.r > Math.max(width, height) * 0.9) item.r = 0
-    const opacity = alpha * Math.max(0, 1 - item.r / (Math.max(width, height) * 0.9))
-    ctx.strokeStyle = withAlpha(item.r % 2 > 1 ? options.tone : options.accent, opacity)
-    ctx.lineWidth = 1.2 + opacity * 7
-    ctx.beginPath()
-    ctx.arc(item.x, item.y, item.r, 0, TAU)
-    ctx.stroke()
-  })
-}
-
 function drawSweeps(scene, alpha) {
   const { ctx, width, height, items, options } = scene
-  ctx.fillStyle = `rgba(8, 8, 10, ${0.12 * alpha})`
+  const isShadow = options.effectKey === 'shadow-sweep'
+  if (isShadow) {
+    const daylight = ctx.createLinearGradient(0, 0, width, height)
+    daylight.addColorStop(0, `rgba(255, 250, 205, ${0.18 * alpha})`)
+    daylight.addColorStop(0.48, `rgba(224, 251, 252, ${0.12 * alpha})`)
+    daylight.addColorStop(1, `rgba(255, 255, 255, ${0.04 * alpha})`)
+    ctx.fillStyle = daylight
+  } else {
+    ctx.fillStyle = `rgba(8, 8, 10, ${0.12 * alpha})`
+  }
   ctx.fillRect(0, 0, width, height)
   items.forEach((beam) => {
     beam.x += beam.speed
     if (beam.x > width * 1.25) beam.x = -width * 0.5
     const gradient = ctx.createLinearGradient(beam.x, beam.y, beam.x + beam.width, beam.y)
     gradient.addColorStop(0, 'rgba(255,255,255,0)')
-    gradient.addColorStop(0.5, withAlpha(options.accent, alpha * beam.alpha))
+    gradient.addColorStop(0.32, isShadow ? `rgba(255,255,255,${alpha * beam.alpha * 0.45})` : withAlpha(options.accent, alpha * beam.alpha))
+    gradient.addColorStop(0.55, isShadow ? withAlpha(options.accent, alpha * beam.alpha) : withAlpha(options.accent, alpha * beam.alpha))
     gradient.addColorStop(1, 'rgba(255,255,255,0)')
     ctx.save()
     ctx.translate(beam.x, beam.y)
     ctx.rotate(beam.angle)
     ctx.fillStyle = gradient
-    ctx.fillRect(0, -height * 0.45, beam.width, height * 0.9)
+    ctx.filter = isShadow ? 'blur(6px)' : 'blur(0)'
+    ctx.fillRect(0, -height * (isShadow ? 0.6 : 0.45), beam.width, height * (isShadow ? 1.2 : 0.9))
     ctx.restore()
   })
 }
@@ -142,11 +137,26 @@ function drawSweeps(scene, alpha) {
 function drawMeteors(scene, alpha) {
   const { ctx, width, height, items, options } = scene
   const sky = ctx.createLinearGradient(0, 0, 0, height)
-  sky.addColorStop(0, `rgba(3, 8, 20, ${0.8 * alpha})`)
-  sky.addColorStop(0.55, withAlpha(options.tone, 0.14 * alpha))
-  sky.addColorStop(1, `rgba(3, 8, 20, ${0.06 * alpha})`)
+  sky.addColorStop(0, `rgba(4, 9, 26, ${0.62 * alpha})`)
+  sky.addColorStop(0.46, `rgba(15, 30, 58, ${0.38 * alpha})`)
+  sky.addColorStop(1, `rgba(43, 55, 72, ${0.16 * alpha})`)
   ctx.fillStyle = sky
   ctx.fillRect(0, 0, width, height)
+
+  const moon = ctx.createRadialGradient(width * 0.78, height * 0.18, 0, width * 0.78, height * 0.18, Math.min(width, height) * 0.16)
+  moon.addColorStop(0, `rgba(255, 248, 213, ${0.42 * alpha})`)
+  moon.addColorStop(0.34, `rgba(255, 248, 213, ${0.12 * alpha})`)
+  moon.addColorStop(1, 'rgba(255,255,255,0)')
+  ctx.fillStyle = moon
+  ctx.fillRect(0, 0, width, height)
+
+  ctx.globalAlpha = alpha * 0.42
+  items.slice(0, 48).forEach((star, index) => {
+    const x = (index * 73) % width
+    const y = (index * 41) % Math.max(1, height * 0.56)
+    drawStar(ctx, x, y, 0.55 + (index % 3) * 0.28, index % 4 ? '#dbeafe' : options.accent)
+  })
+  ctx.globalAlpha = 1
 
   items.forEach((meteor) => {
     meteor.wait -= 1
@@ -162,7 +172,7 @@ function drawMeteors(scene, alpha) {
     gradient.addColorStop(0, withAlpha(options.accent, alpha))
     gradient.addColorStop(1, 'rgba(255,255,255,0)')
     ctx.strokeStyle = gradient
-    ctx.lineWidth = 1.6 + Math.min(3, meteor.length / 100)
+    ctx.lineWidth = meteor.size + Math.min(3, meteor.length / 100)
     ctx.beginPath()
     ctx.moveTo(meteor.x, meteor.y)
     ctx.lineTo(meteor.x + meteor.length, meteor.y - meteor.length * 0.58)
@@ -204,48 +214,16 @@ function drawShards(scene, alpha, progress) {
 
 function drawGlitch(scene, alpha, now) {
   const { ctx, width, height, items, options } = scene
-  ctx.fillStyle = `rgba(0, 0, 0, ${0.2 * alpha})`
+  const wash = ctx.createLinearGradient(0, 0, width, height)
+  wash.addColorStop(0, `rgba(209, 250, 229, ${0.14 * alpha})`)
+  wash.addColorStop(0.52, `rgba(255, 246, 143, ${0.12 * alpha})`)
+  wash.addColorStop(1, `rgba(224, 242, 254, ${0.12 * alpha})`)
+  ctx.fillStyle = wash
   ctx.fillRect(0, 0, width, height)
   items.forEach((bar, index) => {
     const jitter = Math.sin(now * 0.04 + index) * bar.shift
-    ctx.fillStyle = withAlpha(index % 2 ? options.tone : options.accent, alpha * bar.alpha)
+    ctx.fillStyle = withAlpha(index % 2 ? options.tone : options.accent, alpha * (bar.alpha + 0.08))
     ctx.fillRect(jitter, bar.y, width, bar.height)
-  })
-}
-
-function drawFalling(scene, alpha) {
-  const { ctx, width, height, items, options } = scene
-  const isSnow = items[0]?.kind === 'snow'
-  const backdrop = ctx.createLinearGradient(0, 0, 0, height)
-  backdrop.addColorStop(0, isSnow ? `rgba(205, 230, 255, ${0.12 * alpha})` : withAlpha(options.accent, 0.13 * alpha))
-  backdrop.addColorStop(1, 'rgba(255,255,255,0)')
-  ctx.fillStyle = backdrop
-  ctx.fillRect(0, 0, width, height)
-  items.forEach((item) => {
-    item.y += item.speed
-    item.x += Math.sin(item.y * 0.018 + item.phase) * item.sway
-    item.angle += item.spin
-    if (item.y > height + 40) {
-      item.y = -40
-      item.x = random(width)
-    }
-    ctx.save()
-    ctx.globalAlpha = alpha * item.alpha
-    ctx.translate(item.x, item.y)
-    ctx.rotate(item.angle)
-    ctx.fillStyle = item.kind === 'snow' ? 'rgba(255,255,255,0.95)' : withAlpha(options.tone, 0.9)
-    ctx.shadowColor = item.kind === 'snow' ? '#e0f2fe' : options.accent
-    ctx.shadowBlur = item.size * 1.4
-    if (item.kind === 'snow') {
-      ctx.beginPath()
-      ctx.arc(0, 0, item.size, 0, TAU)
-      ctx.fill()
-    } else {
-      ctx.beginPath()
-      ctx.ellipse(0, 0, item.size * 0.55, item.size, 0, 0, TAU)
-      ctx.fill()
-    }
-    ctx.restore()
   })
 }
 
