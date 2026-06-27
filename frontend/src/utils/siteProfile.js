@@ -1,12 +1,22 @@
 const SITE_PROFILE_STORAGE_KEY = 'blog-site-profile'
 
+const defaultSiteEntranceEffect = {
+  enabled: false,
+  effectKey: 'confetti-fireworks',
+  titleTemplate: '欢迎 {username} 进入',
+  subtitle: '今晚的知识库已点亮',
+  duration: 4,
+  triggerPages: ['consoleHome']
+}
+
 export const defaultSiteProfile = {
   siteTitle: '个人全栈博客系统',
   siteDescription: '一个由 Vue、Express 和 MongoDB 驱动的个人技术博客。',
   authorName: 'Haonan',
   commentEnabled: true,
   defaultTheme: 'light',
-  systemVersion: 'v1.0.0'
+  systemVersion: 'v1.0.0',
+  siteEntranceEffect: { ...defaultSiteEntranceEffect }
 }
 
 export function getCachedSiteProfile() {

@@ -419,7 +419,8 @@ describe('auth routes', () => {
           effectKey: 'starlight',
           duration: 4.5,
           triggerPages: ['home', 'consoleHome']
-        }
+        },
+        closeSiteEntranceEffect: true
       })
       .expect(200)
 
@@ -429,6 +430,7 @@ describe('auth routes', () => {
       duration: 4.5,
       triggerPages: ['home', 'consoleHome']
     })
+    expect(profileResponse.body.data.closeSiteEntranceEffect).toBe(true)
 
     const meResponse = await request(app)
       .get('/api/auth/me')
@@ -439,6 +441,7 @@ describe('auth routes', () => {
       enabled: true,
       effectKey: 'starlight'
     })
+    expect(meResponse.body.data.closeSiteEntranceEffect).toBe(true)
 
     const invalidResponse = await request(app)
       .put('/api/profile')

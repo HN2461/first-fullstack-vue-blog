@@ -48,7 +48,15 @@ describe('operations routes', () => {
       .set('Authorization', `Bearer ${adminToken}`)
       .send({
         siteTitle: '测试博客',
-        authorName: '主人'
+        authorName: '主人',
+        siteEntranceEffect: {
+          enabled: true,
+          effectKey: 'cyber-broadcast',
+          titleTemplate: '欢迎 {username} 回到 {siteTitle}',
+          subtitle: '今晚的控制台已经准备好',
+          duration: 4.5,
+          triggerPages: ['home', 'consoleHome']
+        }
       })
       .expect(200)
 
@@ -58,6 +66,32 @@ describe('operations routes', () => {
 
     expect(response.body.data.siteTitle).toBe('测试博客')
     expect(response.body.data.authorName).toBe('主人')
+    expect(response.body.data.siteEntranceEffect).toMatchObject({
+      enabled: true,
+      effectKey: 'cyber-broadcast',
+      titleTemplate: '欢迎 {username} 回到 {siteTitle}',
+      subtitle: '今晚的控制台已经准备好',
+      duration: 4.5,
+      triggerPages: ['home', 'consoleHome']
+    })
+  })
+
+  it('rejects unsupported site entrance effect settings', async () => {
+    const response = await request(app)
+      .patch('/api/admin/settings')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        siteEntranceEffect: {
+          enabled: true,
+          effectKey: 'random-balls',
+          titleTemplate: '欢迎进入',
+          duration: 4,
+          triggerPages: ['consoleHome']
+        }
+      })
+      .expect(400)
+
+    expect(response.body.code).toBe('VALIDATION_ERROR')
   })
 
   it('blocks new comments when comment setting is disabled', async () => {

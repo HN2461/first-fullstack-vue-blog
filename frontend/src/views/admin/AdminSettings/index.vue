@@ -131,6 +131,16 @@
                 </a-radio-button>
               </a-radio-group>
             </div>
+
+            <div class="form-item">
+              <div class="field-header">
+                <label>网站入场欢迎</label>
+                <a-tooltip title="站点级欢迎由管理员配置，用户开启个人页面动效时会自动优先展示个人效果。">
+                  <QuestionCircleOutlined class="field-help" />
+                </a-tooltip>
+              </div>
+              <SiteEntranceEffectSettings v-model:value="form.siteEntranceEffect" />
+            </div>
           </a-form>
         </div>
       </div>
@@ -203,6 +213,11 @@ import { getAdminSettings, updateAdminSettings } from '@/services/admin'
 import { setCachedSiteProfile } from '@/utils/siteProfile'
 import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 import { useSiteStore } from '@/stores/site'
+import SiteEntranceEffectSettings from './components/SiteEntranceEffectSettings.vue'
+import {
+  DEFAULT_SITE_ENTRANCE_EFFECT,
+  normalizeSiteEntranceEffectConfig
+} from '@/utils/entranceEffects/siteEntranceEffect'
 
 const defaultForm = {
   siteTitle: '',
@@ -210,7 +225,8 @@ const defaultForm = {
   authorName: '',
   commentEnabled: true,
   defaultTheme: 'light',
-  systemVersion: ''
+  systemVersion: '',
+  siteEntranceEffect: { ...DEFAULT_SITE_ENTRANCE_EFFECT }
 }
 
 const settingHelp = {
@@ -226,7 +242,8 @@ function normalizeSettings(settings = {}) {
   return {
     ...defaultForm,
     ...settings,
-    commentEnabled: settings.commentEnabled !== false
+    commentEnabled: settings.commentEnabled !== false,
+    siteEntranceEffect: normalizeSiteEntranceEffectConfig(settings.siteEntranceEffect)
   }
 }
 

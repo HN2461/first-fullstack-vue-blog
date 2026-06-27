@@ -59,6 +59,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    closeSiteEntranceEffect: {
+      type: Boolean,
+      default: false
+    },
     lastBirthEffectDate: {
       type: String,
       default: ''
@@ -182,6 +186,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     location: this.location,
     birthday: this.birthday || '',
     closeBirthEffect: !!this.closeBirthEffect,
+    closeSiteEntranceEffect: !!this.closeSiteEntranceEffect,
     lastBirthEffectDate: this.lastBirthEffectDate || '',
     entranceEffect: {
       enabled: !!this.entranceEffect?.enabled,

@@ -109,7 +109,7 @@ router.get('/stats', requireAuth, asyncHandler(async (req, res) => {
 
 /**
  * PUT /api/profile
- * 更新个人信息（昵称、简介、个人网站、所在地）
+ * 更新个人信息、个人入场动效和网站欢迎屏蔽偏好。
  */
 router.put('/', requireAuth, asyncHandler(async (req, res) => {
   const updates = parseBody(profileUpdateSchema, req.body)

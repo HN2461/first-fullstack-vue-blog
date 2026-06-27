@@ -195,6 +195,7 @@
               </a-col>
             </a-row>
             <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
+            <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
             <a-form-item>
               <a-button type="primary" html-type="submit" :loading="saving">
                 保存修改
@@ -456,6 +457,7 @@ import {
 } from '@/services/http'
 import AvatarCropper from '@/components/AvatarCropper.vue'
 import EntranceEffectSettings from './components/EntranceEffectSettings.vue'
+import SiteEntrancePreference from './components/SiteEntrancePreference.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 
@@ -501,6 +503,7 @@ const profileForm = reactive({
   location: '',
   birthday: '',
   closeBirthEffect: false,
+  closeSiteEntranceEffect: false,
   entranceEffect: { ...DEFAULT_ENTRANCE_EFFECT }
 })
 
@@ -605,6 +608,7 @@ function syncProfileForm(user = {}) {
   profileForm.location = user.location || ''
   profileForm.birthday = user.birthday || ''
   profileForm.closeBirthEffect = Boolean(user.closeBirthEffect)
+  profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
   profileForm.entranceEffect = normalizeEntranceEffectConfig(user.entranceEffect)
 }
 
@@ -689,6 +693,7 @@ async function handleSaveProfile() {
       location: profileForm.location,
       birthday: profileForm.birthday,
       closeBirthEffect: profileForm.closeBirthEffect,
+      closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
       entranceEffect: normalizeEntranceEffectConfig(profileForm.entranceEffect)
     })
     authStore.user = { ...authStore.user, ...result }

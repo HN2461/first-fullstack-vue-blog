@@ -1,4 +1,24 @@
 import { z } from 'zod'
+import {
+  SITE_ENTRANCE_EFFECT_KEYS,
+  SITE_ENTRANCE_TRIGGER_PAGES
+} from '#modules/settings/constants/siteEntranceEffects.js'
+
+const siteEntranceEffectSchema = z.object({
+  enabled: z.boolean({ invalid_type_error: '网站入场欢迎开关必须是布尔值' }).optional(),
+  effectKey: z.enum(SITE_ENTRANCE_EFFECT_KEYS, {
+    errorMap: () => ({ message: '网站入场欢迎样式不支持' })
+  }).optional(),
+  titleTemplate: z.string().trim().min(1, '网站入场欢迎语不能为空').max(80, '网站入场欢迎语不能超过 80 个字符').optional(),
+  subtitle: z.string().trim().max(120, '网站入场欢迎副标题不能超过 120 个字符').optional(),
+  duration: z.number({ invalid_type_error: '网站入场欢迎时长必须是数字' })
+    .min(2, '网站入场欢迎时长不能少于 2 秒')
+    .max(8, '网站入场欢迎时长不能超过 8 秒')
+    .optional(),
+  triggerPages: z.array(z.enum(SITE_ENTRANCE_TRIGGER_PAGES, {
+    errorMap: () => ({ message: '网站入场欢迎触发页面不支持' })
+  })).max(4, '网站入场欢迎触发页面数量不正确').optional()
+}).strict('存在不支持的网站入场欢迎字段')
 
 export const settingSchema = z.object({
   siteTitle: z.string().trim().min(1, '站点标题不能为空').max(60, '站点标题不能超过 60 个字符').optional(),
@@ -18,5 +38,6 @@ export const settingSchema = z.object({
     .int('单文件上传最大容量必须是整数')
     .min(1, '单文件上传最大容量不能小于 1MB')
     .max(200, '单文件上传最大容量不能超过 200MB')
-    .optional()
+    .optional(),
+  siteEntranceEffect: siteEntranceEffectSchema.optional()
 }).strict('存在不支持的设置项')
