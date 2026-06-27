@@ -6,6 +6,12 @@
       :style="effectStyle"
       aria-hidden="true"
     >
+      <canvas
+        v-if="usesCanvas"
+        ref="canvasRef"
+        class="entrance-effect__canvas"
+      ></canvas>
+
       <template v-if="effectFamily === 'minimal'">
         <div class="entrance-effect__veil"></div>
         <div
@@ -72,8 +78,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { getEntranceEffectMeta } from '@/utils/entranceEffects/effectCatalog'
+import { createEntranceCanvasScene } from '@/utils/entranceEffects/entranceCanvasScenes'
 import {
   createAmbientItems,
   createImpactItems,
@@ -101,15 +108,40 @@ const props = defineProps({
 
 const meta = computed(() => getEntranceEffectMeta(props.effectKey))
 const effectFamily = computed(() => getEntranceEffectFamily(props.effectKey))
+const canvasRef = ref(null)
+let scene = null
 const effectStyle = computed(() => ({
   '--entrance-duration': `${props.duration}s`,
   '--entrance-tone': meta.value.tone,
   '--entrance-accent': meta.value.accent || '#f7d774'
 }))
+const usesCanvas = computed(() => effectFamily.value !== 'minimal' && props.effectKey !== 'curtain' && props.effectKey !== 'flash-open')
 
 const minimalLines = computed(() => createMinimalLines(props.effectKey))
 const particles = computed(() => createParticleItems(props.effectKey))
 const ambientElements = computed(() => createAmbientItems(props.effectKey))
 const impactPieces = computed(() => createImpactItems(props.effectKey))
 const softElements = computed(() => createSoftItems(props.effectKey))
+
+function stopScene() {
+  scene?.stop()
+  scene = null
+}
+
+watch(() => [props.effectKey, props.duration, usesCanvas.value], async () => {
+  stopScene()
+  if (!usesCanvas.value) return
+  await nextTick()
+  if (!canvasRef.value) return
+  scene = createEntranceCanvasScene(canvasRef.value, {
+    effectKey: props.effectKey,
+    duration: props.duration,
+    tone: meta.value.tone,
+    accent: meta.value.accent || '#f7d774'
+  })
+}, { immediate: true })
+
+onBeforeUnmount(() => {
+  stopScene()
+})
 </script>
