@@ -17,99 +17,101 @@
 
     <template #content>
       <section class="festival-countdown__panel" :style="panelStyle">
-        <header class="festival-countdown__hero">
-          <div class="festival-countdown__hero-main">
-            <span class="festival-countdown__eyebrow">{{ lunarSummary || '今日节令' }}</span>
-            <strong>{{ nextFestival?.name || '节日倒计时' }}</strong>
-            <small>{{ nextFestivalSummary }}</small>
-          </div>
-          <button
-            v-if="activeFestival"
-            class="festival-countdown__atmosphere"
-            type="button"
-            @click="$emit('toggle-atmosphere')"
-          >
-            {{ atmosphereVisible ? '关闭氛围' : '打开氛围' }}
-          </button>
-        </header>
+        <div class="festival-countdown__scroll">
+          <header class="festival-countdown__hero">
+            <div class="festival-countdown__hero-main">
+              <span class="festival-countdown__eyebrow">{{ lunarSummary || '今日节令' }}</span>
+              <strong>{{ nextFestival?.name || '节日倒计时' }}</strong>
+              <small>{{ nextFestivalSummary }}</small>
+            </div>
+            <button
+              v-if="activeFestival"
+              class="festival-countdown__atmosphere"
+              type="button"
+              @click="$emit('toggle-atmosphere')"
+            >
+              {{ atmosphereVisible ? '关闭氛围' : '打开氛围' }}
+            </button>
+          </header>
 
-        <div v-if="nextFestival" class="festival-countdown__focus">
-          <div class="festival-countdown__orbit" aria-hidden="true">
-            <span>{{ nextFestival.icons?.[0] || '✨' }}</span>
-          </div>
-          <div class="festival-countdown__focus-copy">
-            <strong>{{ nextFestival.daysUntil === 0 ? '就是今天' : `还有 ${nextFestival.daysUntil} 天` }}</strong>
-            <span>{{ nextFestival.text }} · {{ formatFriendlyDate(nextFestival.date) }}</span>
-            <div class="festival-countdown__progress" aria-hidden="true">
-              <i :style="{ width: `${progressPercent}%` }"></i>
+          <div v-if="nextFestival" class="festival-countdown__focus">
+            <div class="festival-countdown__orbit" aria-hidden="true">
+              <span>{{ nextFestival.icons?.[0] || '✨' }}</span>
+            </div>
+            <div class="festival-countdown__focus-copy">
+              <strong>{{ nextFestival.daysUntil === 0 ? '就是今天' : `还有 ${nextFestival.daysUntil} 天` }}</strong>
+              <span>{{ nextFestival.text }} · {{ formatFriendlyDate(nextFestival.date) }}</span>
+              <div class="festival-countdown__progress" aria-hidden="true">
+                <i :style="{ width: `${progressPercent}%` }"></i>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="festival-countdown__stats">
-          <span>
-            <strong>{{ todayCount }}</strong>
-            <small>今日</small>
-          </span>
-          <span>
-            <strong>{{ monthCount }}</strong>
-            <small>30 天内</small>
-          </span>
-          <span :title="majorFestivalLabel">
-            <strong>{{ majorCount }}</strong>
-            <small>重点节日</small>
-          </span>
-        </div>
-
-        <div class="festival-countdown__view-tabs" role="tablist" aria-label="倒计时视图">
-          <button
-            type="button"
-            :class="{ active: activeView === 'upcoming' }"
-            @click="activeView = 'upcoming'"
-          >
-            即将到来
-          </button>
-          <button
-            type="button"
-            :class="{ active: activeView === 'history' }"
-            @click="activeView = 'history'"
-          >
-            已度过
-          </button>
-        </div>
-
-        <p class="festival-countdown__major-note">重点节日：{{ majorFestivalLabel }}</p>
-
-        <div class="festival-countdown__filters" role="tablist" aria-label="节日类型筛选">
-          <button
-            v-for="filter in filters"
-            :key="filter.key"
-            type="button"
-            :class="{ active: activeFilter === filter.key }"
-            @click="activeFilter = filter.key"
-          >
-            {{ filter.label }}
-          </button>
-        </div>
-
-        <div class="festival-countdown__list">
-          <button
-            v-for="item in visibleItems"
-            :key="`${item.key}-${item.date}`"
-            class="festival-countdown__item"
-            type="button"
-            @click="$emit('select', item)"
-          >
-            <span class="festival-countdown__icon">{{ item.icons?.[0] || '✨' }}</span>
-            <span class="festival-countdown__body">
-              <strong>{{ item.name }}</strong>
-              <small>{{ item.source }} · {{ formatFriendlyDate(item.date) }} · {{ item.text }}</small>
+          <div class="festival-countdown__stats">
+            <span>
+              <strong>{{ todayCount }}</strong>
+              <small>今日</small>
             </span>
-            <span class="festival-countdown__days">
-              {{ formatDistance(item) }}
+            <span>
+              <strong>{{ monthCount }}</strong>
+              <small>30 天内</small>
             </span>
-          </button>
-          <a-empty v-if="!visibleItems.length" description="暂无匹配节日" :image-style="{ height: '42px' }" />
+            <span :title="majorFestivalLabel">
+              <strong>{{ majorCount }}</strong>
+              <small>重点节日</small>
+            </span>
+          </div>
+
+          <div class="festival-countdown__view-tabs" role="tablist" aria-label="倒计时视图">
+            <button
+              type="button"
+              :class="{ active: activeView === 'upcoming' }"
+              @click="activeView = 'upcoming'"
+            >
+              即将到来
+            </button>
+            <button
+              type="button"
+              :class="{ active: activeView === 'history' }"
+              @click="activeView = 'history'"
+            >
+              已度过
+            </button>
+          </div>
+
+          <p class="festival-countdown__major-note">重点节日：{{ majorFestivalLabel }}</p>
+
+          <div class="festival-countdown__filters" role="tablist" aria-label="节日类型筛选">
+            <button
+              v-for="filter in filters"
+              :key="filter.key"
+              type="button"
+              :class="{ active: activeFilter === filter.key }"
+              @click="activeFilter = filter.key"
+            >
+              {{ filter.label }}
+            </button>
+          </div>
+
+          <div class="festival-countdown__list">
+            <button
+              v-for="item in visibleItems"
+              :key="`${item.key}-${item.date}`"
+              class="festival-countdown__item"
+              type="button"
+              @click="$emit('select', item)"
+            >
+              <span class="festival-countdown__icon">{{ item.icons?.[0] || '✨' }}</span>
+              <span class="festival-countdown__body">
+                <strong>{{ item.name }}</strong>
+                <small>{{ item.source }} · {{ formatFriendlyDate(item.date) }} · {{ item.text }}</small>
+              </span>
+              <span class="festival-countdown__days">
+                {{ formatDistance(item) }}
+              </span>
+            </button>
+            <a-empty v-if="!visibleItems.length" description="暂无匹配节日" :image-style="{ height: '42px' }" />
+          </div>
         </div>
       </section>
     </template>

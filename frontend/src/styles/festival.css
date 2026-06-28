@@ -26,3 +26,32 @@ html.festival-christmas {
 html[class*="festival-"] .enterprise-topnav-brand strong {
   color: var(--festival-nav-accent, var(--console-primary, #1668dc));
 }
+
+.festival-countdown-host {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.festival-countdown-host__trigger {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.festival-countdown-host__sheet {
+  position: sticky;
+  top: 72px;
+  z-index: 18;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.festival-countdown-host__sheet .festival-countdown__panel {
+  margin-left: auto;
+}
+
+@media (max-width: 760px) {
+  .festival-countdown-host__sheet {
+    top: 60px;
+  }
+}

@@ -96,6 +96,33 @@ describe('operations routes', () => {
     expect(response.body.code).toBe('VALIDATION_ERROR')
   })
 
+  it('blocks non-super-admin accounts from reading or updating system settings', async () => {
+    const manager = await User.create({
+      username: 'manager',
+      email: `manager-${Date.now()}@example.com`,
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.ADMIN
+    })
+    const managerToken = signAccessToken(manager)
+
+    const readResponse = await request(app)
+      .get('/api/admin/settings')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .expect(403)
+
+    expect(readResponse.body.code).toBe('SUPER_ADMIN_REQUIRED')
+
+    const writeResponse = await request(app)
+      .patch('/api/admin/settings')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .send({
+        siteTitle: '不会生效'
+      })
+      .expect(403)
+
+    expect(writeResponse.body.code).toBe('SUPER_ADMIN_REQUIRED')
+  })
+
   it('blocks new comments when comment setting is disabled', async () => {
     const article = await createArticle({
       title: '关闭评论文章',

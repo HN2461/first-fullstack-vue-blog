@@ -476,4 +476,39 @@ describe('auth routes', () => {
 
     expect(invalidEffectResponse.body.code).toBe('VALIDATION_ERROR')
   })
+
+  it('keeps site entrance preference disabled by default and persists user choice', async () => {
+    const app = createApp()
+    await registerUser({
+      username: 'site-effect-user',
+      email: 'site-effect@example.com',
+      password: 'password123'
+    })
+    const user = await User.findOne({ email: 'site-effect@example.com' })
+    const token = signAccessToken(user)
+
+    const meResponse = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(meResponse.body.data.closeSiteEntranceEffect).toBe(false)
+
+    const profileResponse = await request(app)
+      .put('/api/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        closeSiteEntranceEffect: true
+      })
+      .expect(200)
+
+    expect(profileResponse.body.data.closeSiteEntranceEffect).toBe(true)
+
+    const updatedMeResponse = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(updatedMeResponse.body.data.closeSiteEntranceEffect).toBe(true)
+  })
 })

@@ -146,7 +146,7 @@ adminRouter.use('/media', canAccessMedia)
 adminRouter.use('/monitor', canAccessMonitor)
 adminRouter.use('/announcements', canAccessNotifications)
 adminRouter.use('/project-timeline', canAccessProjectTimeline)
-adminRouter.use('/settings', canAccessSettings)
+adminRouter.use('/settings', requireSuperAdmin)
 adminRouter.use('/stats', requireMenuAccess('/console'))
 adminRouter.use('/tags', canAccessTags)
 adminRouter.use('/users', canAccessUsers)
@@ -734,11 +734,11 @@ adminRouter.delete('/announcements/:id', asyncHandler(async (req, res) => {
   res.json(ok(result, '公告已删除'))
 }))
 
-adminRouter.get('/settings', asyncHandler(async (req, res) => {
+adminRouter.get('/settings', requireSuperAdmin, asyncHandler(async (req, res) => {
   res.json(ok(await getSettings()))
 }))
 
-adminRouter.patch('/settings', asyncHandler(async (req, res) => {
+adminRouter.patch('/settings', requireSuperAdmin, asyncHandler(async (req, res) => {
   const input = parseBody(settingSchema, req.body)
   res.json(ok(await updateSettings(input, req.user), '设置已保存'))
 }))

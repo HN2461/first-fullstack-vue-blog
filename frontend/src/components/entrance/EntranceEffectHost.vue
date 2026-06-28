@@ -32,8 +32,9 @@ import {
 } from '@/utils/entranceEffects/siteEntranceEffect'
 import {
   buildEntranceAutoPlayKey,
+  buildEntranceConfigPlayKey,
   hasEntranceAutoPlayed,
-  markEntranceAutoPlayed
+  markEntranceAutoPlayed,
 } from '@/utils/entranceEffects/entranceAutoPlaySession'
 
 const route = useRoute()
@@ -53,6 +54,7 @@ const userConfig = computed(() => {
   return config ? normalizeEntranceEffectConfig(config) : null
 })
 const siteConfig = computed(() => normalizeSiteEntranceEffectConfig(siteStore.profile?.siteEntranceEffect))
+const siteConfigSignature = computed(() => JSON.stringify(siteConfig.value || {}))
 const displayName = computed(() => (
   authStore.user?.remarkName ||
   authStore.user?.username ||
@@ -136,6 +138,8 @@ function playSiteWelcome(config, source = 'auto') {
 }
 
 function tryAutoPlay() {
+  if (!authStore.ready || !siteStore.ready) return
+
   const triggerPage = getTriggerPage(route.path)
   if (!triggerPage) return
 
@@ -152,7 +156,7 @@ function tryAutoPlay() {
   const config = siteConfig.value
   if (authStore.user?.closeSiteEntranceEffect || !config?.enabled || !config.triggerPages.includes(triggerPage)) return
 
-  const playKey = buildEntranceAutoPlayKey('site', triggerPage, getSessionUserId())
+  const playKey = buildEntranceConfigPlayKey('site', triggerPage, getSessionUserId(), siteConfigSignature.value)
   if (hasEntranceAutoPlayed(playKey)) return
 
   markEntranceAutoPlayed(playKey)
@@ -180,10 +184,12 @@ function handleSitePreview(event) {
 onMounted(() => {
   window.addEventListener('entrance-effect-preview', handlePreview)
   window.addEventListener('site-entrance-preview', handleSitePreview)
-  siteStore.loadProfile().finally(() => {
+  Promise.all([
+    authStore.ready ? Promise.resolve() : authStore.restoreSession(),
+    siteStore.loadProfile()
+  ]).finally(() => {
     tryAutoPlay()
   })
-  tryAutoPlay()
 })
 
 onBeforeUnmount(() => {
@@ -199,7 +205,8 @@ watch(() => [
   authStore.user?.entranceEffect,
   authStore.user?.closeSiteEntranceEffect,
   siteStore.ready,
-  siteStore.profile?.siteEntranceEffect
+  siteStore.profile?.siteEntranceEffect,
+  siteConfigSignature.value
 ], () => {
   tryAutoPlay()
 }, { deep: true })

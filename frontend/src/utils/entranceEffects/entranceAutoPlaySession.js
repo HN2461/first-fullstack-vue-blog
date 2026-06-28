@@ -1,5 +1,6 @@
 const ENTRANCE_AUTO_PLAY_SESSION_KEY = 'blog-entrance-auto-play-session-v1'
 const memoryPlayedKeys = new Set()
+const SEEN_CONFIG_KEYS = new Map()
 
 function readStoredKeys() {
   try {
@@ -21,6 +22,10 @@ export function buildEntranceAutoPlayKey(source, triggerPage, userId = 'guest') 
   return `${source}:${userId || 'guest'}:${triggerPage}`
 }
 
+export function buildEntranceConfigPlayKey(source, triggerPage, userId = 'guest', configSignature = '') {
+  return `${source}:${userId || 'guest'}:${triggerPage}:${configSignature || 'default'}`
+}
+
 export function hasEntranceAutoPlayed(key) {
   if (memoryPlayedKeys.has(key)) return true
 
@@ -39,8 +44,17 @@ export function markEntranceAutoPlayed(key) {
   writePlayedKeys(keys)
 }
 
+export function hasEntranceConfigChanged(playKey, configSignature) {
+  return SEEN_CONFIG_KEYS.get(playKey) !== configSignature
+}
+
+export function markEntranceConfigPlayed(playKey, configSignature) {
+  SEEN_CONFIG_KEYS.set(playKey, configSignature)
+}
+
 export function clearEntranceAutoPlaySession() {
   memoryPlayedKeys.clear()
+  SEEN_CONFIG_KEYS.clear()
   try {
     sessionStorage.removeItem(ENTRANCE_AUTO_PLAY_SESSION_KEY)
   } catch {
