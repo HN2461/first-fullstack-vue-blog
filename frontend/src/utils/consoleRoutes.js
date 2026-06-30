@@ -2,6 +2,7 @@
 export function isKnowledgeConsolePath(path = '') {
   return path === '/console/articles' ||
     path === '/console/article-directory' ||
+    path === '/console/discussions' ||
     path === '/console/search' ||
     path === '/console/profile' ||
     path.startsWith('/console/articles/') ||

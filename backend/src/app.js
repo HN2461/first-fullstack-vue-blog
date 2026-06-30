@@ -15,6 +15,7 @@ import { healthRouter } from '#modules/health/routes/health.routes.js'
 import { interactionRouter } from '#modules/interaction/routes/interaction.routes.js'
 import { ledgerRouter } from '#modules/ledger/routes/ledger.routes.js'
 import { memoRouter } from '#modules/memo/routes/memo.routes.js'
+import { discussionRouter } from '#modules/discussion/routes/discussion.routes.js'
 import profileRouter from '#modules/user/routes/profile.routes.js'
 import { publicRouter } from '#modules/public/routes/public.routes.js'
 import { rbacRouter } from '#modules/rbac/routes/rbac.routes.js'
@@ -42,6 +43,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/captcha`, captchaRouter)
   app.use(`${API_PREFIX}/ledger`, ledgerRouter)
   app.use(`${API_PREFIX}/memos`, memoRouter)
+  app.use(`${API_PREFIX}/discussions`, discussionRouter)
   app.use(`${API_PREFIX}/profile`, profileRouter)
   app.use(`${API_PREFIX}/public`, publicRouter)
   app.use(`${API_PREFIX}/rbac`, rbacRouter)

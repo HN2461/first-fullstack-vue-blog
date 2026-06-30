@@ -6,7 +6,7 @@
     placement="bottomRight"
   >
     <a-badge
-      :count="notificationStore.unreadCount"
+      :count="totalBadgeCount"
       :overflow-count="99"
       size="small"
       class="announce-bell-badge"
@@ -16,20 +16,35 @@
       </a-button>
     </a-badge>
     <template #overlay>
-      <AnnouncementDropdownPanel
-        :announcements="announcementList"
-        :loading="loading"
-        :has-unread="notificationStore.hasUnread"
-        :can-manage="canManageNotifications"
-        :get-level-text="getLevelText"
-        :get-level-color="getLevelColor"
-        :format-time-ago="formatTimeAgo"
-        :get-snippet="getSnippet"
-        @select="handleItemClick"
-        @mark-all-read="handleMarkAllRead"
-        @view-all="handleViewAll"
-        @manage="handleManageAnnouncements"
-      />
+      <div class="notify-dropdown-panel">
+        <a-tabs v-model:active-key="activeTab" size="small">
+          <a-tab-pane key="announcements" tab="公告" />
+          <a-tab-pane key="messages" tab="消息" />
+        </a-tabs>
+        <AnnouncementDropdownPanel
+          v-if="activeTab === 'announcements'"
+          :announcements="announcementList"
+          :loading="loading"
+          :has-unread="notificationStore.hasUnread"
+          :can-manage="canManageNotifications"
+          :get-level-text="getLevelText"
+          :get-level-color="getLevelColor"
+          :format-time-ago="formatTimeAgo"
+          :get-snippet="getSnippet"
+          @select="handleItemClick"
+          @mark-all-read="handleMarkAllRead"
+          @view-all="handleViewAll"
+          @manage="handleManageAnnouncements"
+        />
+        <MessageDropdownPanel
+          v-if="activeTab === 'messages'"
+          :messages="discussionMessages"
+          :format-time-ago="formatTimeAgo"
+          @select="handleDiscussionMessageClick"
+          @clear="clearDiscussionMessages"
+          @view-discussions="handleViewDiscussions"
+        />
+      </div>
     </template>
   </a-dropdown>
 
@@ -61,15 +76,19 @@ import { BellOutlined } from '@ant-design/icons-vue'
 import { useNotificationStore } from '@/stores/notification'
 import { useAuthStore } from '@/stores/auth'
 import { listPublicAnnouncements } from '@/services/public'
+import { useDiscussionNotifications } from '@/composables/useDiscussionNotifications'
 import AnnouncementDetailModal from '@/components/announcement/AnnouncementDetailModal.vue'
 import AnnouncementDropdownPanel from '@/components/announcement/AnnouncementDropdownPanel.vue'
 import AnnouncementTimelineModal from '@/components/announcement/AnnouncementTimelineModal.vue'
+import MessageDropdownPanel from '@/components/notification/MessageDropdownPanel.vue'
 
 const router = useRouter()
 const notificationStore = useNotificationStore()
 const authStore = useAuthStore()
+const discussionNotification = useDiscussionNotifications()
 
 const dropdownVisible = ref(false)
+const activeTab = ref('announcements')
 const loading = ref(false)
 const announcementList = ref([])
 const detailVisible = ref(false)
@@ -78,6 +97,8 @@ const timelineVisible = ref(false)
 const timelineLoading = ref(false)
 const timelineList = ref([])
 const canManageNotifications = computed(() => authStore.canAccessPath('/console/manage/notifications'))
+const discussionMessages = computed(() => discussionNotification.messages.value)
+const totalBadgeCount = computed(() => notificationStore.unreadCount + discussionNotification.unreadCount.value)
 
 let pollTimer = null
 
@@ -186,6 +207,20 @@ function handleManageAnnouncements() {
   router.push('/console/manage/notifications')
 }
 
+function handleDiscussionMessageClick(item) {
+  dropdownVisible.value = false
+  discussionNotification.openMessage(item)
+}
+
+function handleViewDiscussions() {
+  dropdownVisible.value = false
+  discussionNotification.openDiscussions()
+}
+
+function clearDiscussionMessages() {
+  discussionNotification.clearMessages()
+}
+
 // 下拉面板展开时刷新列表
 watch(dropdownVisible, (visible) => {
   if (visible && authStore.isLoggedIn) {
@@ -254,5 +289,39 @@ onUnmounted(() => {
   font-size: 11px;
   line-height: 16px;
   box-shadow: none;
+}
+
+.notify-dropdown-panel {
+  width: 380px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--console-surface, #fff);
+}
+
+.notify-dropdown-panel :deep(.ant-tabs-nav) {
+  margin: 0;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--console-border, #e5e7eb);
+}
+
+.notify-dropdown-panel :deep(.ant-tabs-tab) {
+  padding: 10px 0;
+}
+
+.notify-dropdown-panel :deep(.announce-panel),
+.notify-dropdown-panel :deep(.message-panel) {
+  width: 100%;
+  border-radius: 0;
+}
+
+.notify-dropdown-panel :deep(.announce-panel-header),
+.notify-dropdown-panel :deep(.message-panel-header) {
+  padding-top: 10px;
+}
+
+@media (max-width: 640px) {
+  .notify-dropdown-panel {
+    width: min(92vw, 380px);
+  }
 }
 </style>
