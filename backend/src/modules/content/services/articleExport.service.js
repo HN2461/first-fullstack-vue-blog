@@ -135,11 +135,11 @@ async function buildCategoryPathMap() {
   return pathMap
 }
 
-function buildArticleEntryName(article, index, categoryPathMap) {
+function buildArticleEntryName(article, categoryPathMap) {
   const articleCategoryId = article.category?._id?.toString?.() || article.category?.toString?.() || ''
   const categoryPath = categoryPathMap.get(articleCategoryId) || []
   const folderPath = categoryPath.map((name) => sanitizePathSegment(name)).join('/')
-  const baseName = sanitizeFilename(`${String(index + 1).padStart(3, '0')}-${article.slug}`)
+  const baseName = sanitizeFilename(article.title, article.slug)
   return folderPath ? `${folderPath}/${baseName}.md` : `${baseName}.md`
 }
 
@@ -190,8 +190,8 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
   }
 
   const usedNames = new Set()
-  const entries = articles.map((article, index) => {
-    const entryName = buildArticleEntryName(article, index, categoryPathMap)
+  const entries = articles.map((article) => {
+    const entryName = buildArticleEntryName(article, categoryPathMap)
     const extensionIndex = entryName.lastIndexOf('.md')
     const baseName = extensionIndex >= 0 ? entryName.slice(0, extensionIndex) : entryName
     let fileName = entryName

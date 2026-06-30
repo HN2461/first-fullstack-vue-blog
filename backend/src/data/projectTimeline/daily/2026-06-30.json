@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-06-30",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "article-export-filename-use-title",
+      "title": "优化文章导出 Markdown 文件名为文章标题",
+      "detail": "1. 将文章导出 ZIP 内的 Markdown 文件名从「序号前缀 + 英文 slug」改为直接使用文章标题，方便在本地按标题辨认导出文件。2. 去掉原来的 000- 序号前缀，重名时仍通过 -2、-3 后缀去重。3. 导入逻辑只读 Front Matter 的 slug 字段，文件名变更不影响导入去重和草稿创建流程。",
+      "occurredAt": "2026-06-30T11:00:00+08:00",
+      "category": "问题修复"
+    }
+  ]
+}
