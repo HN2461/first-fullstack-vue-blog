@@ -3,6 +3,7 @@ import { ARTICLE_STATUS, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { User } from '#modules/user/models/User.js'
+import { Article } from '#modules/content/models/Article.js'
 import { createArticle } from '#modules/content/services/article.service.js'
 import { createCategory } from '#modules/content/services/category.service.js'
 import { createTag } from '#modules/content/services/tag.service.js'
@@ -95,6 +96,20 @@ describe('public reader routes', () => {
 
     expect(response.body.data.title).toBe('已发布文章')
     expect(response.body.data.contentMarkdown).toContain('Express reader content')
+  })
+
+  it('increments views without changing article update time', async () => {
+    const app = createApp()
+    const beforeRead = await Article.findOne({ slug: 'published-post' }).lean()
+
+    await request(app)
+      .get('/api/public/articles/published-post')
+      .expect(200)
+
+    const afterRead = await Article.findOne({ slug: 'published-post' }).lean()
+
+    expect(afterRead.viewCount).toBe((beforeRead.viewCount || 0) + 1)
+    expect(afterRead.updatedAt.toISOString()).toBe(beforeRead.updatedAt.toISOString())
   })
 
   it('does not expose draft article detail', async () => {

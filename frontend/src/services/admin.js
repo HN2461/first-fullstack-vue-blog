@@ -444,7 +444,13 @@ export async function listAdminAnnouncements(params = {}) {
 }
 
 export async function listRecentAdminArticles(limit = 5, params = {}) {
-  return toItemList(await listAdminArticles({ pageSize: limit, ...params }))
+  return toItemList(await listAdminArticles({
+    status: 'published',
+    sortField: 'publishedAt',
+    sortOrder: 'desc',
+    pageSize: limit,
+    ...params
+  }))
 }
 
 export async function listRecentAdminAnnouncements(limit = 5, params = {}) {

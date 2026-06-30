@@ -147,8 +147,13 @@ export async function getPublicArticleBySlug(slug, currentUserId = null) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
+  // 阅读只属于浏览统计，不能刷新文章 updatedAt，否则后台“最近发布/最近修改”会被阅读行为误导。
+  await Article.updateOne(
+    { _id: article._id },
+    { $inc: { viewCount: 1 } },
+    { timestamps: false }
+  )
   article.viewCount += 1
-  await article.save()
 
   const payload = article.toSafeJSON()
 

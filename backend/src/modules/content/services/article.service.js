@@ -337,6 +337,9 @@ export async function listArticles(options = {}) {
   const { status, category, keyword } = options
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 10))
+  const allowedSortFields = new Set(['updatedAt', 'publishedAt', 'createdAt'])
+  const sortField = allowedSortFields.has(options.sortField) ? options.sortField : 'updatedAt'
+  const sortOrder = options.sortOrder === 'asc' ? 1 : -1
 
   // 构建查询条件
   const query = { deletedAt: null }
@@ -359,13 +362,21 @@ export async function listArticles(options = {}) {
   // 计算分页
   const skip = (page - 1) * pageSize
 
-  // 管理后台按最近修改排序，确保导入、编辑、状态变更后的文章优先露出。
+  // 默认仍按最近修改排序；工作台“最近发布”等场景可显式按发布时间查询。
+  const sort = { [sortField]: sortOrder }
+  if (sortField !== 'updatedAt') {
+    sort.updatedAt = -1
+  }
+  if (sortField !== 'createdAt') {
+    sort.createdAt = -1
+  }
+
   const [total, articles] = await Promise.all([
     Article.countDocuments(query),
     Article.find(query)
       .populate('category')
       .populate('tags')
-      .sort({ updatedAt: -1, createdAt: -1 })
+      .sort(sort)
       .skip(skip)
       .limit(pageSize)
   ])

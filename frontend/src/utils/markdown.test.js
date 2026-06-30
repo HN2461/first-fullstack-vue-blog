@@ -87,4 +87,24 @@ describe('markdown rendering', () => {
     expect(html).toContain('code-block__language">Batch')
     expect(html).toContain('language-dos')
   })
+
+  it('removes executable html while keeping safe legacy formatting', () => {
+    const html = renderMarkdown([
+      '<meta http-equiv="refresh" content="1;url=https://www.jd.com/" />',
+      '<script>window.location.href = "https://www.jd.com/"</script>',
+      '<iframe src="https://www.jd.com/"></iframe>',
+      '<font style="color:#FF0000;" onclick="location.href=\'https://www.jd.com/\'">红色重点</font>',
+      '<a href="javascript:location.href=\'https://www.jd.com/\'">危险链接</a>',
+      '<a href="https://www.jd.com/">普通链接</a>'
+    ].join('\n'))
+
+    expect(html).not.toContain('http-equiv')
+    expect(html).not.toContain('<meta')
+    expect(html).not.toContain('<script')
+    expect(html).not.toContain('<iframe')
+    expect(html).not.toContain('onclick')
+    expect(html).not.toContain('javascript:')
+    expect(html).toContain('<font style="color:#FF0000;">红色重点</font>')
+    expect(html).toContain('href="https://www.jd.com/"')
+  })
 })

@@ -9,6 +9,20 @@
       "detail": "1. 将文章导出 ZIP 内的 Markdown 文件名从「序号前缀 + 英文 slug」改为直接使用文章标题，方便在本地按标题辨认导出文件。2. 去掉原来的 000- 序号前缀，重名时仍通过 -2、-3 后缀去重。3. 导入逻辑只读 Front Matter 的 slug 字段，文件名变更不影响导入去重和草稿创建流程。",
       "occurredAt": "2026-06-30T11:00:00+08:00",
       "category": "问题修复"
+    },
+    {
+      "id": "admin-dashboard-recent-published-time",
+      "title": "修复管理工作台最近发布被阅读行为误导的问题",
+      "detail": "1. 将公开文章详情阅读计数改为原子递增，并禁用时间戳刷新，避免单纯阅读文章时更新文章 updatedAt。2. 管理工作台“最近发布”改为只查询已发布文章，并显式按 publishedAt 倒序展示发布时间，不再用最近更新时间冒充发布时间。3. 后端文章列表保留默认按最近修改排序，同时新增受控排序参数，供工作台等场景按发布时间取数；补充测试覆盖阅读不改更新时间和发布时间排序。",
+      "occurredAt": "2026-06-30T15:20:00+08:00",
+      "category": "问题修复"
+    },
+    {
+      "id": "markdown-render-sanitize-html",
+      "title": "修复文章 Markdown 原始 HTML 导致页面跳转的问题",
+      "detail": "1. 排查 html+css 笔记正文中未包裹代码块的 meta refresh 示例，确认浏览器会在 MarkdownRenderer 的 v-html 渲染后执行跳转。2. 在 Markdown 统一渲染出口增加安全清理，移除 meta、script、iframe、object、embed、form 等可执行或嵌入标签，并剔除 on* 事件属性、srcdoc、http-equiv 和 javascript/vbscript 协议链接。3. 保留 font style、普通链接、图片、表格和代码块等笔记常用展示能力，并新增前端回归测试覆盖 meta refresh、脚本、iframe 与安全格式保留。",
+      "occurredAt": "2026-06-30T15:45:00+08:00",
+      "category": "问题修复"
     }
   ]
 }

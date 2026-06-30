@@ -30,6 +30,29 @@ const md = new MarkdownIt({
 })
 
 const escapeHtml = (value) => md.utils.escapeHtml(String(value ?? ''))
+const unsafeTagNames = [
+  'script',
+  'style',
+  'iframe',
+  'object',
+  'embed',
+  'form',
+  'input',
+  'button',
+  'textarea',
+  'select',
+  'option',
+  'link',
+  'base',
+  'meta',
+  'frame',
+  'frameset',
+  'svg',
+  'math'
+]
+const unsafeTagPattern = unsafeTagNames.join('|')
+const dangerousUrlPattern = /^(?:javascript|vbscript|data\s*:\s*text\/html)/i
+const unsafeStylePattern = /(?:expression\s*\(|url\s*\(\s*['"]?\s*(?:javascript|vbscript|data\s*:\s*text\/html)|@import|behavior\s*:|-moz-binding\s*:)/i
 
 export const slugifyHeading = (value) => {
   return String(value)
@@ -244,7 +267,7 @@ md.renderer.rules.image = (tokens, index, options, env, self) => {
 }
 
 export function renderMarkdown(content, env = {}) {
-  return md.render(stripEmbeddedTocMarkers(content), env)
+  return sanitizeRenderedHtml(md.render(stripEmbeddedTocMarkers(content), env))
 }
 
 export function extractTOC(content) {
@@ -275,4 +298,60 @@ export default md
 
 function stripEmbeddedTocMarkers(content = '') {
   return String(content || '').replace(/^\s*(?:\[toc\]|\[\[toc\]\]|@\[toc\]\([^)]*\))\s*$/gim, '')
+}
+
+function sanitizeRenderedHtml(html = '') {
+  return sanitizeHtmlAttributes(stripUnsafeHtmlTags(html))
+}
+
+function stripUnsafeHtmlTags(html = '') {
+  return String(html || '')
+    .replace(new RegExp(`<\\s*(${unsafeTagPattern})\\b[^>]*>[\\s\\S]*?<\\s*\\/\\s*\\1\\s*>`, 'gi'), '')
+    .replace(new RegExp(`<\\s*\\/?\\s*(?:${unsafeTagPattern})\\b[^>]*\\/?>`, 'gi'), '')
+}
+
+function sanitizeHtmlAttributes(html = '') {
+  return String(html || '').replace(/<([a-z][\w:-]*)(\s[^<>]*?)?>/gi, (match, tagName, rawAttributes = '') => {
+    if (!rawAttributes) {
+      return match
+    }
+
+    const attributes = []
+    const attrRegex = /\s+([^\s"'<>/=]+)(?:\s*=\s*("([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g
+    let attrMatch
+
+    while ((attrMatch = attrRegex.exec(rawAttributes)) !== null) {
+      const name = String(attrMatch[1] || '').toLowerCase()
+      const value = attrMatch[3] ?? attrMatch[4] ?? attrMatch[5] ?? ''
+      const hasValue = attrMatch[2] !== undefined
+
+      if (isUnsafeAttribute(name, value)) {
+        continue
+      }
+
+      attributes.push(hasValue ? ` ${name}="${escapeHtml(value)}"` : ` ${name}`)
+    }
+
+    return `<${tagName}${attributes.join('')}>`
+  })
+}
+
+function isUnsafeAttribute(name, value) {
+  if (!name) {
+    return true
+  }
+
+  if (name.startsWith('on') || ['srcdoc', 'http-equiv'].includes(name)) {
+    return true
+  }
+
+  if (['href', 'src', 'xlink:href', 'formaction'].includes(name) && dangerousUrlPattern.test(String(value || '').trim())) {
+    return true
+  }
+
+  if (name === 'style' && unsafeStylePattern.test(String(value || ''))) {
+    return true
+  }
+
+  return false
 }

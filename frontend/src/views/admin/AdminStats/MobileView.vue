@@ -123,7 +123,7 @@
                   <a-tag size="small" :color="item.status === 'published' ? 'green' : 'gold'">
                     {{ item.status === 'published' ? '已发布' : '草稿' }}
                   </a-tag>
-                  <span>{{ formatDate(item.updatedAt) }}</span>
+                  <span>{{ formatDate(item.publishedAt || item.createdAt) }}</span>
                 </span>
               </div>
             </div>

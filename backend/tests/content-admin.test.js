@@ -959,6 +959,51 @@ tags:
     ])
   })
 
+  it('supports listing recently published articles by publish time', async () => {
+    const app = createApp()
+
+    const firstPublished = await createArticle({
+      title: '先发布文章',
+      slug: 'first-published',
+      summary: '先发布文章摘要',
+      contentMarkdown: '# 先发布文章',
+      status: ARTICLE_STATUS.PUBLISHED
+    }, admin)
+
+    await new Promise((resolve) => setTimeout(resolve, 10))
+
+    const laterPublished = await createArticle({
+      title: '后发布文章',
+      slug: 'later-published',
+      summary: '后发布文章摘要',
+      contentMarkdown: '# 后发布文章',
+      status: ARTICLE_STATUS.PUBLISHED
+    }, admin)
+
+    await new Promise((resolve) => setTimeout(resolve, 10))
+
+    await request(app)
+      .patch(`/api/admin/articles/${firstPublished.id}/status`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ status: ARTICLE_STATUS.ARCHIVED })
+      .expect(200)
+
+    const response = await request(app)
+      .get('/api/admin/articles')
+      .query({
+        status: ARTICLE_STATUS.PUBLISHED,
+        sortField: 'publishedAt',
+        sortOrder: 'desc',
+        page: 1,
+        pageSize: 10
+      })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(response.body.data.items.map((item) => item.id)).toEqual([laterPublished.id])
+    expect(response.body.data.items[0].publishedAt).toBeTruthy()
+  })
+
   it('keeps category sort order when moving without a sortOrder payload', async () => {
     const app = createApp()
 
