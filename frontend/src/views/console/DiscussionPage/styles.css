@@ -19,8 +19,42 @@
 .discussion-page__main {
   min-height: 0;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   overflow: hidden;
+}
+
+.discussion-page .discussion-connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--console-border);
+  background: var(--console-danger-soft, #fff1f0);
+  color: var(--console-danger, #cf1322);
+  font-size: 12px;
+}
+
+.discussion-page .discussion-connection-status--warning {
+  background: var(--console-warning-soft, #fff7e6);
+  color: var(--console-warning, #ad6800);
+}
+
+.discussion-page .discussion-connection-status__dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.discussion-page .discussion-connection-status__text {
+  min-width: 0;
+  flex: 1;
+}
+
+.discussion-page .discussion-connection-status .ant-btn {
+  height: 22px;
+  padding-inline: 4px;
 }
 
 .discussion-page__empty {

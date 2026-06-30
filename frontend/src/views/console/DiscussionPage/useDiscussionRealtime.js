@@ -1,11 +1,14 @@
 import { onBeforeUnmount } from 'vue'
 import {
   joinDiscussionRoom,
+  reconnectDiscussionSocket,
+  subscribeDiscussionSocketStatus,
   subscribeDiscussionSocket
 } from '@/services/discussionSocket'
 
 export function useDiscussionRealtime(options) {
   let unsubscribeSocket = null
+  let unsubscribeStatus = null
 
   async function handleSocketMessageCreated(payload = {}) {
     const isOwnMessage = payload.message?.senderId === options.currentUserId()
@@ -70,13 +73,19 @@ export function useDiscussionRealtime(options) {
     if (threadId) {
       joinDiscussionRoom(threadId)
     }
+
+    unsubscribeStatus = subscribeDiscussionSocketStatus((status) => {
+      options.setSocketStatus?.(status)
+    })
   }
 
   onBeforeUnmount(() => {
     unsubscribeSocket?.()
+    unsubscribeStatus?.()
   })
 
   return {
-    setupSocket
+    setupSocket,
+    reconnectSocket: reconnectDiscussionSocket
   }
 }

@@ -105,3 +105,11 @@ export function emitDiscussionUserEvent(userId, event, payload) {
   if (!ioInstance || !userId) return
   ioInstance.of('/discussions').to(`user:${userId}`).emit(event, payload)
 }
+
+export function joinDiscussionUsersToThread(threadId, userIds = []) {
+  if (!ioInstance || !threadId || !userIds.length) return
+  const namespace = ioInstance.of('/discussions')
+  userIds.forEach((userId) => {
+    namespace.in(`user:${userId}`).socketsJoin(`discussion:${threadId}`)
+  })
+}

@@ -18,8 +18,16 @@
     <template #overlay>
       <div class="notify-dropdown-panel">
         <a-tabs v-model:active-key="activeTab" size="small">
-          <a-tab-pane key="announcements" tab="公告" />
-          <a-tab-pane key="messages" tab="消息" />
+          <a-tab-pane key="announcements">
+            <template #tab>
+              <NotificationTabLabel label="公告" :count="notificationStore.unreadCount" />
+            </template>
+          </a-tab-pane>
+          <a-tab-pane key="messages">
+            <template #tab>
+              <NotificationTabLabel label="消息" :count="discussionNotification.unreadCount.value" />
+            </template>
+          </a-tab-pane>
         </a-tabs>
         <AnnouncementDropdownPanel
           v-if="activeTab === 'announcements'"
@@ -81,6 +89,7 @@ import AnnouncementDetailModal from '@/components/announcement/AnnouncementDetai
 import AnnouncementDropdownPanel from '@/components/announcement/AnnouncementDropdownPanel.vue'
 import AnnouncementTimelineModal from '@/components/announcement/AnnouncementTimelineModal.vue'
 import MessageDropdownPanel from '@/components/notification/MessageDropdownPanel.vue'
+import NotificationTabLabel from '@/components/notification/NotificationTabLabel.vue'
 
 const router = useRouter()
 const notificationStore = useNotificationStore()

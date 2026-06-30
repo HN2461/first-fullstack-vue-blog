@@ -1,6 +1,7 @@
 <template>
   <a-config-provider :locale="zhCN" :theme="antThemeConfig">
     <router-view />
+    <DiscussionRealtimeBridge />
     <EntranceEffectHost />
     <PublicFestivalHost />
   </a-config-provider>
@@ -12,6 +13,7 @@ import { theme as antTheme } from 'ant-design-vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import { useAppStore } from '@/stores/app'
 import EntranceEffectHost from '@/components/entrance/EntranceEffectHost.vue'
+import DiscussionRealtimeBridge from '@/components/notification/DiscussionRealtimeBridge.vue'
 import PublicFestivalHost from '@/components/festival/PublicFestivalHost.vue'
 import '@/styles/festival.css'
 

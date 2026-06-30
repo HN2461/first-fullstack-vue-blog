@@ -10,6 +10,10 @@
 
     <div class="discussion-page__main">
       <template v-if="activeThread">
+        <DiscussionConnectionStatus
+          :status="socketStatus"
+          @reconnect="reconnectSocket"
+        />
         <DiscussionMessagePanel
           :thread="activeThread"
           :messages="messages"
@@ -83,6 +87,7 @@ import {
   joinDiscussionRoom
 } from '@/services/discussionSocket'
 import DiscussionComposer from './components/DiscussionComposer.vue'
+import DiscussionConnectionStatus from './components/DiscussionConnectionStatus.vue'
 import DiscussionCreateModal from './components/DiscussionCreateModal.vue'
 import DiscussionList from './components/DiscussionList.vue'
 import DiscussionMembers from './components/DiscussionMembers.vue'
@@ -106,6 +111,15 @@ const submitting = ref(false)
 const createSubmitting = ref(false)
 const createVisible = ref(false)
 const composerRef = ref(null)
+const socketStatus = ref({
+  connected: false,
+  connecting: false,
+  reconnecting: false,
+  manualReconnectRequired: false,
+  lastError: '',
+  lastReason: '',
+  reconnectAttempt: 0
+})
 let userSearchTimer = null
 const { startTitleFlash } = useTitleFlash()
 
@@ -143,7 +157,7 @@ const {
   }
 )
 
-const { setupSocket } = useDiscussionRealtime({
+const { setupSocket, reconnectSocket } = useDiscussionRealtime({
   activeThreadId: () => activeThreadId.value,
   currentUserId: () => authStore.user?.id,
   isStorageOpen: () => moreDrawerOpen.value,
@@ -154,7 +168,10 @@ const { setupSocket } = useDiscussionRealtime({
   loadThreads: () => loadThreads({ silent: true }),
   loadStorage,
   markRead: markDiscussionRead,
-  startTitleFlash
+  startTitleFlash,
+  setSocketStatus: (status) => {
+    socketStatus.value = status
+  }
 })
 
 async function loadConfig() {

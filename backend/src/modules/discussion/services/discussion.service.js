@@ -8,7 +8,7 @@ import { DiscussionThread } from '#modules/discussion/models/DiscussionThread.js
 import { cleanupUserDiscussionMessages, updateThreadLastMessage } from '#modules/discussion/services/discussionCleanup.service.js'
 import { assertThreadMember, getThreadMembers } from '#modules/discussion/services/discussionMember.service.js'
 export { listDiscussionThreads } from '#modules/discussion/services/discussionThreadList.service.js'
-import { emitDiscussionEvent, emitDiscussionUserEvent } from '#modules/discussion/realtime/discussionSocket.js'
+import { emitDiscussionEvent, emitDiscussionUserEvent, joinDiscussionUsersToThread } from '#modules/discussion/realtime/discussionSocket.js'
 import { User } from '#modules/user/models/User.js'
 
 export function getDiscussionConfig() {
@@ -63,6 +63,7 @@ export async function createDiscussionThread(input, currentUser) {
   })))
 
   const safeThread = await getDiscussionThread(thread._id, currentUserId)
+  joinDiscussionUsersToThread(thread._id, memberIds)
   emitDiscussionEvent(thread._id, 'discussion:thread-created', { threadId: thread._id.toString() })
   memberIds.forEach((userId) => {
     emitDiscussionUserEvent(userId, 'discussion:thread-created', { threadId: thread._id.toString() })
