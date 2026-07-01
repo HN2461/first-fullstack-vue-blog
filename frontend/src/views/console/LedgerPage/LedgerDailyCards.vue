@@ -21,15 +21,22 @@
             :key="cat.id"
             class="ledger-day-cat-tag"
             :style="{ borderColor: cat.color, color: cat.color }"
-            :title="cat.note || ''"
           >
-            {{ cat.name }} {{ formatMoney(cat.amount) }}
+            <LedgerTextTooltip
+              v-if="cat.note"
+              :text="`${cat.name} ${formatMoney(cat.amount)}`"
+              :tooltip-text="cat.note"
+              text-class="ledger-day-cat-tag__text"
+            />
+            <span v-else class="ledger-day-cat-tag__text">{{ cat.name }} {{ formatMoney(cat.amount) }}</span>
             <span v-if="cat.note" class="ledger-day-cat-tag__marker" />
           </span>
         </div>
 
         <!-- 当日备注 -->
-        <p v-if="day.dailyNote" class="ledger-day-card__note">{{ day.dailyNote }}</p>
+        <p v-if="day.dailyNote" class="ledger-day-card__note">
+          <LedgerTextTooltip :text="day.dailyNote" text-class="ledger-day-card__note-text" />
+        </p>
       </div>
     </div>
 
@@ -50,6 +57,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { formatMoney } from './ledgerChartOptions'
+import LedgerTextTooltip from './LedgerTextTooltip.vue'
 
 const props = defineProps({
   items: { type: Array, default: () => [] },
@@ -183,13 +191,20 @@ watch(() => props.items, () => {
   flex-shrink: 0;
 }
 
+.ledger-day-cat-tag__text {
+  display: inline-block;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
 .ledger-day-card__note {
   margin: 6px 0 0;
   font-size: 12px;
   color: var(--console-text-secondary);
   line-height: 1.5;
-  white-space: pre-wrap;
-  word-break: break-word;
 }
 
 .ledger-cards-pagination {

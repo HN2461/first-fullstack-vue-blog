@@ -33,12 +33,13 @@
           <strong class="ledger-daily-date">{{ record.date }}</strong>
         </template>
         <template v-else-if="column.key?.startsWith('category:')">
-          <a-tooltip v-if="getCategoryNote(record, column.categoryId)" :title="getCategoryNote(record, column.categoryId)">
-            <span :class="[amountClass(column.categoryType), 'ledger-amount-with-note']">
-              {{ formatOptionalMoney(record.categoryAmounts?.[column.categoryId]) }}
-            </span>
-          </a-tooltip>
-          <span v-else :class="amountClass(column.categoryType)">
+          <LedgerTextTooltip
+            v-if="getCategoryNote(record, column.categoryId)"
+            :text="formatOptionalMoney(record.categoryAmounts?.[column.categoryId])"
+            :tooltip-text="getCategoryNote(record, column.categoryId)"
+            :text-class="['ledger-category-amount', amountClass(column.categoryType)]"
+          />
+          <span v-else :class="['ledger-category-amount', amountClass(column.categoryType)]">
             {{ formatOptionalMoney(record.categoryAmounts?.[column.categoryId]) }}
           </span>
         </template>
@@ -48,7 +49,7 @@
           </strong>
         </template>
         <template v-else-if="column.key === 'dailyNote'">
-          <span class="ledger-daily-note">{{ record.dailyNote || '-' }}</span>
+          <LedgerTextTooltip :text="record.dailyNote || ''" text-class="ledger-daily-note" muted-class="ledger-daily-note" />
         </template>
       </template>
     </BlogTable>
@@ -86,6 +87,7 @@ import BlogTable from '@/components/BlogTable.vue'
 import { getLedgerDaily } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import LedgerDailyCards from './LedgerDailyCards.vue'
+import LedgerTextTooltip from './LedgerTextTooltip.vue'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -111,7 +113,10 @@ const columns = computed(() => [
     categoryId: item.id,
     categoryType: item.type,
     width: 110,
-    align: 'center'
+    align: 'center',
+    customCell: (record) => ({
+      class: getCategoryNote(record, item.id) ? 'ledger-category-note-cell' : ''
+    })
   })),
   { title: '支出合计', key: 'expense', width: 120, align: 'center' },
   { title: '收入合计', key: 'income', width: 120, align: 'center' },
@@ -240,6 +245,12 @@ watch(viewMode, (mode) => {
   font-size: 12px;
 }
 
+.ledger-category-amount {
+  display: inline-block;
+  max-width: 100%;
+  font-weight: 600;
+}
+
 .amount-income {
   color: var(--color-success, #16a34a);
 }
@@ -248,27 +259,22 @@ watch(viewMode, (mode) => {
   color: var(--color-error, #dc2626);
 }
 
-.ledger-amount-with-note {
+:deep(.ledger-category-note-cell) {
   position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding-right: 10px;
-  padding-top: 4px;
-  font-weight: 600;
 }
 
-.ledger-amount-with-note::after {
+:deep(.ledger-category-note-cell)::after {
   content: '';
   position: absolute;
-  top: -1px;
+  top: 0;
   right: 0;
   width: 0;
   height: 0;
-  border-top: 8px solid var(--color-error, #dc2626);
-  border-left: 8px solid transparent;
-  opacity: 0.82;
+  border-top: 9px solid var(--color-warning, #f59e0b);
+  border-left: 9px solid transparent;
+  opacity: 0.9;
   pointer-events: none;
+  z-index: 1;
 }
 
 @media (max-width: 760px) {

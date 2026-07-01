@@ -13,7 +13,6 @@
     column-border
     :row-selection="{ columnWidth: 48 }"
     @selection-change="handleSelectionChange"
-    @change="handleTableChange"
   >
     <template #toolbar>
       <a-space wrap>
@@ -95,10 +94,10 @@
         </strong>
       </template>
       <template v-else-if="column.key === 'note'">
-        <span class="ledger-note-cell">{{ record.note || '-' }}</span>
+        <LedgerTextTooltip :text="record.note || ''" text-class="ledger-note-cell" />
       </template>
       <template v-else-if="column.key === 'dailyNote'">
-        <span class="ledger-muted ledger-note-cell">{{ record.dailyNote || '-' }}</span>
+        <LedgerTextTooltip :text="record.dailyNote || ''" text-class="ledger-note-cell ledger-muted" muted-class="ledger-muted" />
       </template>
       <template v-else-if="column.key === 'tags'">
         <a-space wrap size="small">
@@ -137,6 +136,7 @@ import BlogTable from '@/components/BlogTable.vue'
 import { listLedgerEntries } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import { formatDate, formatTime } from './ledgerUtils'
+import LedgerTextTooltip from './LedgerTextTooltip.vue'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -206,8 +206,6 @@ const amountSortTooltip = computed(() => {
 function loadEntries(query) {
   return listLedgerEntries(query)
 }
-
-function handleTableChange() {}
 
 function reload() {
   tableRef.value?.reload?.()
