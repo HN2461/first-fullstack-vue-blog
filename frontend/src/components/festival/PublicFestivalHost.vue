@@ -55,8 +55,14 @@ const isConsoleRoute = computed(() => route.path.startsWith('/console'))
 const device = computed(() => getDeviceType(appStore.isMobile))
 const festivalEnabledKey = computed(() => getEffectStorageKey(device.value, 'public', 'enabled'))
 const celebrationKey = computed(() => getEffectStorageKey(device.value, 'public', `${serverDate.value}:celebration`))
+const celebrationQuietKey = computed(() => getEffectStorageKey(device.value, 'public', 'celebration-quiet-until'))
 const atmosphereVisible = computed(() => {
-  return Boolean(!isConsoleRoute.value && activeFestival.value && isFestivalEnabled() && closedKey.value !== activeFestival.value.key)
+  return Boolean(
+    !isConsoleRoute.value &&
+    activeFestival.value?.level === 'major' &&
+    isFestivalEnabled() &&
+    closedKey.value !== activeFestival.value.key
+  )
 })
 const celebrationStyle = computed(() => ({
   '--festival-accent': celebrationFestival.value?.accent || '#2563eb',
@@ -82,10 +88,24 @@ function hasShownCelebration(key) {
   return localStorage.getItem(celebrationKey.value) === key
 }
 
+function addDays(dateKey, days) {
+  const [year, month, day] = String(dateKey || '').split('-').map(Number)
+  const date = new Date(Date.UTC(year, month - 1, day))
+  date.setUTCDate(date.getUTCDate() + days)
+  return date.toISOString().slice(0, 10)
+}
+
+function isCelebrationAllowed(festival) {
+  if (!festival || festival.level !== 'major') return false
+  const quietUntil = localStorage.getItem(celebrationQuietKey.value)
+  return !quietUntil || quietUntil <= serverDate.value
+}
+
 function openCelebration(festival) {
   celebrationFestival.value = festival
   celebrationOpen.value = true
   markCelebrationShown(festival.key)
+  localStorage.setItem(celebrationQuietKey.value, addDays(serverDate.value, 14))
 }
 
 async function handleCelebrationVisibleChange(visible) {
@@ -98,7 +118,12 @@ async function loadFestivalState() {
   serverDate.value = state.serverDate || getTodayKeyFromServer(state.serverTime)
   activeFestival.value = getActiveFestival(serverDate.value)
 
-  if (activeFestival.value?.daysUntil === 0 && isFestivalEnabled() && !hasShownCelebration(activeFestival.value.key)) {
+  if (
+    activeFestival.value?.daysUntil === 0 &&
+    isFestivalEnabled() &&
+    isCelebrationAllowed(activeFestival.value) &&
+    !hasShownCelebration(activeFestival.value.key)
+  ) {
     openCelebration(activeFestival.value)
   }
 }

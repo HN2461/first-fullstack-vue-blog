@@ -28,6 +28,7 @@
           class="bookmark-row"
           draggable="true"
           @dragstart="$emit('drag-start', bookmark.id)"
+          @dragend="$emit('drag-end')"
           @dragover.prevent
           @drop="$emit('drop', bookmark.id)"
         >
@@ -135,12 +136,13 @@ defineProps({
   hasPartialSelected: { type: Boolean, default: false }
 })
 
-defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop', 'toggle-select', 'toggle-all', 'move-selected'])
+defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drag-end', 'drop', 'toggle-select', 'toggle-all', 'move-selected'])
 </script>
 
 <style scoped>
 .bookmark-list-panel {
   min-width: 0;
+  height: fit-content;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);

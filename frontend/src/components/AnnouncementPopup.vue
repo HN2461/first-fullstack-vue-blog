@@ -6,7 +6,7 @@
     width="520px"
     centered
     class="announce-popup-modal"
-    :mask-closable="false"
+    :mask-closable="true"
     @cancel="handleClose"
   >
     <template v-if="currentAnnouncement">
@@ -42,6 +42,8 @@ const currentAnnouncement = ref(null)
 const queue = ref([])
 
 let pollTimer = null
+let firstCheckTimer = null
+const POPUP_POLL_INTERVAL = 600000
 
 const levelMap = {
   info: { text: '提示', color: 'blue' },
@@ -67,12 +69,36 @@ function formatDate(dateStr) {
   })
 }
 
+function getTodayKey() {
+  const date = new Date()
+  const pad = (value) => String(value).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+function getShownStorageKey() {
+  return `announcement-popup-shown:${authStore.user?.id || 'guest'}:${getTodayKey()}`
+}
+
+function getShownIds() {
+  try {
+    return JSON.parse(localStorage.getItem(getShownStorageKey()) || '[]')
+  } catch {
+    return []
+  }
+}
+
+function markShown(id) {
+  const ids = [...new Set([...getShownIds(), id])].slice(-80)
+  localStorage.setItem(getShownStorageKey(), JSON.stringify(ids))
+}
+
 async function checkPopupAnnouncements() {
-  if (!authStore.isLoggedIn) return
+  if (!authStore.isLoggedIn || visible.value) return
 
   try {
     await notificationStore.fetchPopupAnnouncements()
-    const popups = notificationStore.popupAnnouncements
+    const shownIds = new Set(getShownIds())
+    const popups = notificationStore.popupAnnouncements.filter((item) => !shownIds.has(item.id))
 
     if (popups.length > 0) {
       queue.value = [...popups]
@@ -91,6 +117,7 @@ function showNext() {
   }
 
   currentAnnouncement.value = queue.value.shift()
+  markShown(currentAnnouncement.value.id)
   visible.value = true
 }
 
@@ -108,14 +135,14 @@ async function handleClose() {
 }
 
 onMounted(() => {
-  // 首次加载延迟检查
-  setTimeout(checkPopupAnnouncements, 2000)
+  // 公告属于正式通知，但自动弹出仍应低打扰；当天已弹过的公告由通知中心承接后续查看。
+  firstCheckTimer = setTimeout(checkPopupAnnouncements, 5000)
 
-  // 每120秒检查弹窗公告
-  pollTimer = setInterval(checkPopupAnnouncements, 120000)
+  pollTimer = setInterval(checkPopupAnnouncements, POPUP_POLL_INTERVAL)
 })
 
 onUnmounted(() => {
+  if (firstCheckTimer) clearTimeout(firstCheckTimer)
   if (pollTimer) clearInterval(pollTimer)
 })
 </script>

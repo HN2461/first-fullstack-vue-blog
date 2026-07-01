@@ -42,6 +42,7 @@
         @remove="confirmDeleteBookmark"
         @page-change="refreshBookmarks"
         @drag-start="handleBookmarkDragStart"
+        @drag-end="clearBookmarkDragging"
         @drop="dropBookmark"
         @toggle-select="toggleBookmarkSelection"
         @toggle-all="toggleAllVisibleBookmarks"
@@ -329,6 +330,11 @@ function handleBookmarkDragLeave() {
   bookmarkDropTargetKey.value = ''
 }
 
+function clearBookmarkDragging() {
+  draggingBookmarkId.value = ''
+  bookmarkDropTargetKey.value = ''
+}
+
 async function moveBookmarkIds(ids, folderId) {
   if (!ids.length) return
   await moveBookmarks({ ids, folderId })
@@ -347,8 +353,7 @@ async function moveDraggingBookmarkToFolder(folderId) {
   } catch (error) {
     message.error(error.message || '移动失败')
   } finally {
-    draggingBookmarkId.value = ''
-    bookmarkDropTargetKey.value = ''
+    clearBookmarkDragging()
   }
 }
 
@@ -377,7 +382,7 @@ async function dropBookmark(targetId) {
   if (!draggingBookmarkId.value || draggingBookmarkId.value === targetId) return
   if (filters.keyword.trim() || selectedKey.value === 'all') {
     message.info('请进入具体文件夹后再拖拽排序')
-    draggingBookmarkId.value = ''
+    clearBookmarkDragging()
     return
   }
 
@@ -396,7 +401,7 @@ async function dropBookmark(targetId) {
   } catch (error) {
     message.error(error.message || '排序失败')
   } finally {
-    draggingBookmarkId.value = ''
+    clearBookmarkDragging()
   }
 }
 
@@ -454,7 +459,7 @@ onMounted(async () => {
 
 .bookmark-workspace {
   display: grid;
-  grid-template-columns: minmax(300px, 23%) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
   gap: 14px;
   align-items: start;
 }

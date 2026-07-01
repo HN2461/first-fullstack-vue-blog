@@ -94,7 +94,7 @@ const celebrationStyle = computed(() => ({
 const rootFestivalClass = computed(() => activeFestival.value ? `festival-${activeFestival.value.effect}` : '')
 
 function isFestivalEnabled() {
-  return localStorage.getItem(festivalEnabledKey.value) !== 'off'
+  return localStorage.getItem(festivalEnabledKey.value) === 'on'
 }
 
 function closeFestivalForDevice() {
@@ -104,7 +104,7 @@ function closeFestivalForDevice() {
 }
 
 function openFestivalForDevice() {
-  localStorage.removeItem(festivalEnabledKey.value)
+  localStorage.setItem(festivalEnabledKey.value, 'on')
   closedKey.value = ''
   message.success(appStore.isMobile ? '已打开移动端节日氛围' : '已打开 PC 端节日氛围')
 }
@@ -182,9 +182,7 @@ async function loadFestivalState() {
     return
   }
 
-  if (activeFestival.value?.daysUntil === 0 && isFestivalEnabled() && !hasShownCelebration(activeFestival.value.key)) {
-    openCelebration(activeFestival.value)
-  }
+  // 控制台是工作台环境，普通节日祝福保留在顶部日历中，由用户主动打开，避免登录后反复弹窗打断操作。
 }
 
 function applyFestivalClass(nextClass, previousClass = '') {

@@ -126,6 +126,8 @@ function handleDrop(info) {
 .bookmark-folders {
   min-width: 0;
   height: fit-content;
+  position: sticky;
+  top: 12px;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
@@ -224,5 +226,11 @@ function handleDrop(info) {
 .bookmark-folder-node__actions button:hover {
   color: var(--console-primary-strong);
   background: var(--console-surface-hover);
+}
+
+@media (max-width: 980px) {
+  .bookmark-folders {
+    position: static;
+  }
 }
 </style>
