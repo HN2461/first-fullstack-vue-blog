@@ -2,8 +2,10 @@
 title: Python 零基础入门 10：列表 list
 slug: python-zero-lists
 summary: 讲解列表的概念、创建列表、读取元素、添加删除元素、切片、列表方法、列表推导式，全程对照 JavaScript 数组。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

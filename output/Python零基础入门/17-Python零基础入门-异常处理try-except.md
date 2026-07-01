@@ -2,8 +2,10 @@
 title: Python 零基础入门 17：异常处理 try except
 slug: python-zero-exception-handling
 summary: 讲解程序为什么会报错，如何使用 try except 捕获异常，自定义异常类，异常链 raise from，断言 assert，异常层次结构，以及 logging 记录错误，全程对照 JavaScript。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

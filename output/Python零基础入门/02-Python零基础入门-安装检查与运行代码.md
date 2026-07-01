@@ -2,8 +2,10 @@
 title: Python 零基础入门 02：安装检查与运行代码
 slug: python-zero-install-and-run
 summary: 面向已有前端 JS 基础的学习者，讲清楚 Python 解释器、命令行、py 文件运行、PATH、VS Code 运行配置，并对照 Node.js、npm、浏览器控制台和前端项目运行方式。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

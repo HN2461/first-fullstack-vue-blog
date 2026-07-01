@@ -2,8 +2,10 @@
 title: Python 零基础入门 01：Python 是什么
 slug: python-zero-what-is-python
 summary: 用小白能理解的方式解释 Python 是什么、它能做什么、为什么适合入门，并把 Python 与前端 JavaScript 的定位、运行环境、输出方式和常见用途放在一起对比。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

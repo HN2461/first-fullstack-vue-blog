@@ -2,8 +2,10 @@
 title: Python 零基础入门 14：函数 function
 slug: python-zero-functions
 summary: 解释函数为什么存在，讲解 def、参数、返回值、默认参数、关键字参数、作用域，全程对照 JavaScript。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

@@ -2,8 +2,10 @@
 title: Python 零基础入门 08：条件判断 if else 和 match
 slug: python-zero-if-else-match
 summary: 介绍条件判断的基本写法，讲解 if、elif、else、比较运算符、逻辑运算符、缩进规则、三元表达式、match 语句，全程对照 JavaScript。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

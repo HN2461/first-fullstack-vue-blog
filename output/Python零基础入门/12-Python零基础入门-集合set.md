@@ -2,8 +2,10 @@
 title: Python 零基础入门 12：集合 set
 slug: python-zero-sets
 summary: 讲解集合是什么、集合的创建、去重、交集并集差集运算、集合推导式、frozenset，全程对照 JavaScript 的 Set 对象。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

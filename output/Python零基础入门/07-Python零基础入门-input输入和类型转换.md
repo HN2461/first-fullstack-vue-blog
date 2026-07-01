@@ -2,8 +2,10 @@
 title: Python 零基础入门 07：input 输入和类型转换
 slug: python-zero-input-and-convert
 summary: 讲解 input 如何接收用户输入，为什么 input 得到的是字符串，以及如何使用 int、float、str 做类型转换，全程对照 JavaScript。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

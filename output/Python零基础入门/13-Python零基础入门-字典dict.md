@@ -2,8 +2,10 @@
 title: Python 零基础入门 13：字典 dict
 slug: python-zero-dictionaries
 summary: 用个人信息示例解释字典的键值对结构，讲解读取、修改、添加、删除、循环字典以及字典和列表的组合，全程对照 JavaScript 对象。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---

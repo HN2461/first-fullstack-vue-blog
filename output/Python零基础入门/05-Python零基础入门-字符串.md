@@ -2,8 +2,10 @@
 title: Python 零基础入门 05：字符串
 slug: python-zero-string
 summary: 详细讲解 Python 字符串 str 的定义、引号、转义、多行字符串、长度、索引、切片、不可变、拼接、格式化、清洗、查找、替换、分割、合并，并全程对照 JavaScript 字符串。
-category:
-tags: []
+category: Python入门
+tags:
+  - Python
+  - 零基础入门
 status: draft
 cover:
 ---
