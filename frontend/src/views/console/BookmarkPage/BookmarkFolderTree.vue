@@ -19,11 +19,14 @@
     </button>
     <button
       type="button"
-      :class="['bookmark-folder-static', { active: selectedKey === 'root' }]"
-      @click="$emit('select', 'root')"
+      :class="['bookmark-folder-static', { active: selectedKey === 'toolbar', 'is-drop-target': dropTargetKey === 'toolbar' }]"
+      @click="$emit('select', 'toolbar')"
+      @dragover.prevent="$emit('bookmark-drag-over', 'toolbar')"
+      @dragleave="$emit('bookmark-drag-leave')"
+      @drop="handleBookmarkDrop($event, null)"
     >
       <FolderOpenOutlined />
-      <span>根目录</span>
+      <span>书签栏</span>
     </button>
 
     <a-tree
@@ -38,7 +41,12 @@
       @drop="handleDrop"
     >
       <template #title="{ name, id }">
-        <div class="bookmark-folder-node">
+        <div
+          :class="['bookmark-folder-node', { 'is-drop-target': dropTargetKey === id }]"
+          @dragover.prevent="$emit('bookmark-drag-over', id)"
+          @dragleave="$emit('bookmark-drag-leave')"
+          @drop="handleBookmarkDrop($event, id)"
+        >
           <span class="bookmark-folder-node__name">{{ name }}</span>
           <span class="bookmark-folder-node__actions">
             <a-tooltip title="编辑文件夹">
@@ -70,23 +78,46 @@ import {
 
 const props = defineProps({
   treeData: { type: Array, default: () => [] },
-  selectedKey: { type: String, default: 'all' }
+  selectedKey: { type: String, default: 'all' },
+  dropTargetKey: { type: String, default: '' },
+  bookmarkDragging: { type: Boolean, default: false }
 })
 
-const emit = defineEmits(['select', 'add', 'edit', 'remove', 'move'])
-const selectedFolderKeys = computed(() => ['all', 'root'].includes(props.selectedKey) ? [] : [props.selectedKey])
+const emit = defineEmits([
+  'select',
+  'add',
+  'edit',
+  'remove',
+  'move',
+  'bookmark-drag-over',
+  'bookmark-drag-leave',
+  'bookmark-drop'
+])
+const selectedFolderKeys = computed(() => ['all', 'toolbar'].includes(props.selectedKey) ? [] : [props.selectedKey])
 
 function handleSelect(keys) {
   if (keys?.[0]) emit('select', keys[0])
+}
+
+function handleBookmarkDrop(event, folderId) {
+  if (!props.bookmarkDragging) return
+  event.preventDefault()
+  event.stopPropagation()
+  emit('bookmark-drop', folderId)
 }
 
 function handleDrop(info) {
   const draggedId = info.dragNode?.id || info.dragNode?.key
   const targetId = info.node?.id || info.node?.key
   if (!draggedId || !targetId || draggedId === targetId) return
+  const targetIndex = Number(String(info.node?.pos || '').split('-').pop())
+  const relativeDropPosition = Number.isFinite(targetIndex) ? info.dropPosition - targetIndex : info.dropPosition
   emit('move', {
     id: draggedId,
-    parentId: info.dropToGap ? (info.node?.parentId || null) : targetId
+    parentId: info.dropToGap ? (info.node?.parentId || null) : targetId,
+    targetId,
+    dropPosition: relativeDropPosition,
+    dropToGap: info.dropToGap === true
   })
 }
 </script>
@@ -94,6 +125,7 @@ function handleDrop(info) {
 <style scoped>
 .bookmark-folders {
   min-width: 0;
+  height: fit-content;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
@@ -131,7 +163,8 @@ function handleDrop(info) {
 }
 
 .bookmark-folder-static:hover,
-.bookmark-folder-static.active {
+.bookmark-folder-static.active,
+.bookmark-folder-static.is-drop-target {
   color: var(--console-primary-strong);
   background: var(--console-primary-soft);
 }
@@ -144,11 +177,18 @@ function handleDrop(info) {
 }
 
 .bookmark-folder-node {
+  min-height: 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   min-width: 0;
+}
+
+.bookmark-folder-node.is-drop-target {
+  border-radius: 6px;
+  color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
 }
 
 .bookmark-folder-node__name {

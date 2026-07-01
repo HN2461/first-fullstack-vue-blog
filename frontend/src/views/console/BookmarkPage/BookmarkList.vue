@@ -1,8 +1,23 @@
 <template>
   <div class="bookmark-list-panel">
     <div class="bookmark-list-panel__head">
-      <span>{{ title }}</span>
-      <small>{{ total }} 条</small>
+      <div class="bookmark-list-panel__title">
+        <span>{{ title }}</span>
+        <small>{{ total }} 条</small>
+      </div>
+      <div class="bookmark-list-panel__tools">
+        <a-checkbox
+          :checked="allSelected"
+          :indeterminate="hasPartialSelected"
+          @change="$emit('toggle-all', $event.target.checked)"
+        >
+          全选
+        </a-checkbox>
+        <a-button size="small" :disabled="!selectedCount" @click="$emit('move-selected')">
+          <template #icon><SwapOutlined /></template>
+          移动
+        </a-button>
+      </div>
     </div>
 
     <a-spin :spinning="loading">
@@ -16,7 +31,13 @@
           @dragover.prevent
           @drop="$emit('drop', bookmark.id)"
         >
-          <span class="bookmark-row__drag"><DragOutlined /></span>
+          <div class="bookmark-row__select">
+            <a-checkbox
+              :checked="selectedIds.includes(bookmark.id)"
+              @change="$emit('toggle-select', bookmark.id, $event.target.checked)"
+            />
+            <span class="bookmark-row__drag"><DragOutlined /></span>
+          </div>
           <div class="bookmark-row__main">
             <a-popover overlay-class-name="bookmark-preview-popover" placement="topLeft">
               <template #content>
@@ -96,6 +117,7 @@ import {
   EditOutlined,
   ExportOutlined,
   FileTextOutlined,
+  SwapOutlined,
   TagsOutlined
 } from '@ant-design/icons-vue'
 import { formatTime } from './bookmarkUtils'
@@ -106,10 +128,14 @@ defineProps({
   title: { type: String, default: '全部书签' },
   total: { type: Number, default: 0 },
   page: { type: Number, default: 1 },
-  pageSize: { type: Number, default: 20 }
+  pageSize: { type: Number, default: 20 },
+  selectedIds: { type: Array, default: () => [] },
+  selectedCount: { type: Number, default: 0 },
+  allSelected: { type: Boolean, default: false },
+  hasPartialSelected: { type: Boolean, default: false }
 })
 
-defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop'])
+defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop', 'toggle-select', 'toggle-all', 'move-selected'])
 </script>
 
 <style scoped>
@@ -130,13 +156,26 @@ defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop'])
   padding: 0 14px;
 }
 
-.bookmark-list-panel__head span {
+.bookmark-list-panel__title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bookmark-list-panel__title span {
   color: var(--console-text);
   font-weight: 650;
 }
 
-.bookmark-list-panel__head small {
+.bookmark-list-panel__title small {
   color: var(--console-text-secondary);
+}
+
+.bookmark-list-panel__tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .bookmark-list {
@@ -145,7 +184,7 @@ defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop'])
 
 .bookmark-row {
   display: grid;
-  grid-template-columns: 28px minmax(220px, 1.4fr) minmax(220px, 1fr) max-content;
+  grid-template-columns: 48px minmax(220px, 1.4fr) minmax(220px, 1fr) max-content;
   gap: 12px;
   align-items: center;
   min-height: 68px;
@@ -156,6 +195,12 @@ defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop'])
 
 .bookmark-row:hover {
   background: var(--console-surface-hover);
+}
+
+.bookmark-row__select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .bookmark-row__drag {
@@ -261,7 +306,7 @@ defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop'])
 
 @media (max-width: 1080px) {
   .bookmark-row {
-    grid-template-columns: 24px minmax(0, 1fr) max-content;
+    grid-template-columns: 44px minmax(0, 1fr) max-content;
   }
 
   .bookmark-row__meta {
@@ -276,7 +321,7 @@ defineEmits(['edit', 'remove', 'page-change', 'drag-start', 'drop'])
 
 @media (max-width: 680px) {
   .bookmark-row {
-    grid-template-columns: 20px minmax(0, 1fr);
+    grid-template-columns: 42px minmax(0, 1fr);
   }
 
   .bookmark-row__actions {

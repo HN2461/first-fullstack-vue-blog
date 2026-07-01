@@ -22,7 +22,7 @@
           option-filter-prop="label"
           :options="folderOptions"
           allow-clear
-          placeholder="根目录"
+          placeholder="书签栏"
         />
       </a-form-item>
     </a-form>
@@ -41,7 +41,7 @@
           option-filter-prop="label"
           :options="folderOptions"
           allow-clear
-          placeholder="根目录"
+          placeholder="书签栏"
         />
       </a-form-item>
       <a-form-item label="标签">

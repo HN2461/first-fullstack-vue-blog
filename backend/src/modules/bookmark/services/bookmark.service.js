@@ -28,6 +28,18 @@ function normalizeTags(tags = []) {
     .slice(0, 12)
 }
 
+function isBrowserToolbarFolder(title, parentId) {
+  if (parentId) return false
+  return [
+    '书签栏',
+    '收藏夹栏',
+    '书签工具栏',
+    'bookmarks bar',
+    'favorites bar',
+    'bookmarks toolbar'
+  ].includes(String(title || '').trim().toLowerCase())
+}
+
 function assertObjectId(id, message = '数据不存在') {
   if (!mongoose.Types.ObjectId.isValid(id)) {
     throw createError(404, 'BOOKMARK_NOT_FOUND', message)
@@ -127,7 +139,7 @@ async function assertNotDescendantFolder(userId, folderId, nextParentId) {
 async function walkImportNode(userId, node, parentId, stats, source) {
   if (node.type === 'folder') {
     let nextParentId = parentId
-    if (node.title !== 'root') {
+    if (node.title !== 'root' && !isBrowserToolbarFolder(node.title, parentId)) {
       const folder = await createOrFindFolder(userId, node.title, parentId, source)
       nextParentId = folder._id
       stats.folders += 1
@@ -201,6 +213,9 @@ export async function updateBookmarkFolder(userId, id, input) {
     await assertFolder(userId, input.parentId)
     await assertNotDescendantFolder(userId, folder._id, input.parentId)
     folder.parentId = input.parentId || null
+    if (input.sortOrder === undefined) {
+      folder.sortOrder = await getNextSortOrder(BookmarkFolder, userId, 'parentId', input.parentId)
+    }
   }
   if (input.name !== undefined) folder.name = input.name
   if (input.sortOrder !== undefined) folder.sortOrder = input.sortOrder
@@ -305,6 +320,27 @@ export async function reorderBookmarks(userId, input) {
   if (count !== ids.length) throw createError(400, 'BOOKMARK_REORDER_INVALID', '只能排序同一文件夹下的书签')
   await Promise.all(ids.map((id, index) => Bookmark.updateOne({ _id: id, userId }, { $set: { sortOrder: (index + 1) * 10 } })))
   return { updated: ids.length }
+}
+
+export async function moveBookmarks(userId, input) {
+  await assertFolder(userId, input.folderId)
+  const ids = [...new Set(input.ids)]
+  const bookmarks = await Bookmark.find({ userId, _id: { $in: ids } })
+  if (bookmarks.length !== ids.length) throw createError(404, 'BOOKMARK_NOT_FOUND', '包含不存在的书签')
+
+  const nextFolderId = input.folderId || null
+  const baseSortOrder = await getNextSortOrder(Bookmark, userId, 'folderId', nextFolderId)
+  await Promise.all(ids.map((id, index) => Bookmark.updateOne(
+    { _id: id, userId },
+    {
+      $set: {
+        folderId: nextFolderId,
+        sortOrder: baseSortOrder + index * 10
+      }
+    }
+  )))
+
+  return { updated: ids.length, folderId: nextFolderId?.toString?.() || null }
 }
 
 export async function importBookmarksFromHtml(userId, file) {

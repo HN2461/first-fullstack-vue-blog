@@ -15,11 +15,16 @@
       <BookmarkFolderTree
         :tree-data="folderTree"
         :selected-key="selectedKey"
+        :drop-target-key="bookmarkDropTargetKey"
+        :bookmark-dragging="!!draggingBookmarkId"
         @select="selectFolder"
         @add="openFolderModal()"
         @edit="openFolderModalById"
         @remove="confirmDeleteFolderById"
         @move="moveFolder"
+        @bookmark-drag-over="handleBookmarkDragOver"
+        @bookmark-drag-leave="handleBookmarkDragLeave"
+        @bookmark-drop="moveDraggingBookmarkToFolder"
       />
 
       <BookmarkList
@@ -29,11 +34,18 @@
         :total="pagination.total"
         :page="pagination.page"
         :page-size="pagination.pageSize"
+        :selected-ids="selectedBookmarkIds"
+        :selected-count="selectedBookmarkIds.length"
+        :all-selected="allVisibleSelected"
+        :has-partial-selected="hasPartialVisibleSelected"
         @edit="openBookmarkModal"
         @remove="confirmDeleteBookmark"
         @page-change="refreshBookmarks"
-        @drag-start="draggingBookmarkId = $event"
+        @drag-start="handleBookmarkDragStart"
         @drop="dropBookmark"
+        @toggle-select="toggleBookmarkSelection"
+        @toggle-all="toggleAllVisibleBookmarks"
+        @move-selected="openMoveModal"
       />
     </div>
 
@@ -52,6 +64,14 @@
       :submitting="submitting"
       @submit="submitImport"
     />
+
+    <BookmarkMoveModal
+      v-model:open="moveModalOpen"
+      :folders="flatFolders"
+      :count="selectedBookmarkIds.length"
+      :submitting="submitting"
+      @submit="moveSelectedBookmarks"
+    />
   </section>
 </template>
 
@@ -62,6 +82,7 @@ import BookmarkEditModal from './BookmarkEditModal.vue'
 import BookmarkFolderTree from './BookmarkFolderTree.vue'
 import BookmarkImportModal from './BookmarkImportModal.vue'
 import BookmarkList from './BookmarkList.vue'
+import BookmarkMoveModal from './BookmarkMoveModal.vue'
 import BookmarkToolbar from './BookmarkToolbar.vue'
 import { buildFolderTree, downloadBlob, flattenFolders } from './bookmarkUtils'
 import {
@@ -75,6 +96,8 @@ import {
   importBookmarkJson,
   listBookmarkFolders,
   listBookmarks,
+  moveBookmarks,
+  reorderBookmarkFolders,
   reorderBookmarks,
   updateBookmark,
   updateBookmarkFolder
@@ -87,10 +110,13 @@ const bookmarks = ref([])
 const selectedKey = ref('all')
 const editModalOpen = ref(false)
 const importModalOpen = ref(false)
+const moveModalOpen = ref(false)
 const editMode = ref('bookmark')
 const importType = ref('html')
 const editingItem = ref(null)
 const draggingBookmarkId = ref('')
+const bookmarkDropTargetKey = ref('')
+const selectedBookmarkIds = ref([])
 let keywordTimer = null
 
 const filters = reactive({
@@ -107,9 +133,16 @@ const flatFolders = computed(() => flattenFolders(folderTree.value))
 const selectedFolder = computed(() => flatFolders.value.find((folder) => folder.id === selectedKey.value))
 const listTitle = computed(() => {
   if (filters.keyword.trim()) return '搜索结果'
-  if (selectedKey.value === 'root') return '根目录书签'
+  if (selectedKey.value === 'toolbar') return '书签栏'
   if (selectedKey.value === 'all') return '全部书签'
   return selectedFolder.value?.name || '书签'
+})
+const visibleBookmarkIds = computed(() => bookmarks.value.map((bookmark) => bookmark.id))
+const allVisibleSelected = computed(() => {
+  return visibleBookmarkIds.value.length > 0 && visibleBookmarkIds.value.every((id) => selectedBookmarkIds.value.includes(id))
+})
+const hasPartialVisibleSelected = computed(() => {
+  return visibleBookmarkIds.value.some((id) => selectedBookmarkIds.value.includes(id)) && !allVisibleSelected.value
 })
 
 async function loadFolders() {
@@ -125,7 +158,7 @@ function buildBookmarkParams(page = pagination.page) {
   }
 
   if (!keyword) {
-    if (selectedKey.value === 'root') params.folderId = ''
+    if (selectedKey.value === 'toolbar') params.folderId = ''
     else if (selectedKey.value !== 'all') params.folderId = selectedKey.value
   }
 
@@ -137,6 +170,7 @@ async function refreshBookmarks(page = pagination.page) {
   try {
     const result = await listBookmarks(buildBookmarkParams(page))
     bookmarks.value = result.items
+    selectedBookmarkIds.value = selectedBookmarkIds.value.filter((id) => result.items.some((item) => item.id === id))
     pagination.total = result.total
     pagination.page = result.page
     pagination.pageSize = result.pageSize
@@ -159,6 +193,7 @@ function handleKeywordInput() {
 
 function selectFolder(key) {
   selectedKey.value = key
+  selectedBookmarkIds.value = []
   pagination.page = 1
   refreshBookmarks(1)
 }
@@ -177,7 +212,7 @@ function openFolderModalById(id) {
 function openBookmarkModal(bookmark = null) {
   editMode.value = 'bookmark'
   editingItem.value = bookmark || {
-    folderId: selectedKey.value && !['all', 'root'].includes(selectedKey.value) ? selectedKey.value : null
+    folderId: selectedKey.value && !['all', 'toolbar'].includes(selectedKey.value) ? selectedKey.value : null
   }
   editModalOpen.value = true
 }
@@ -238,13 +273,103 @@ function confirmDeleteFolderById(id) {
   })
 }
 
-async function moveFolder({ id, parentId }) {
+function getSiblingFolderIds(parentId) {
+  return flatFolders.value
+    .filter((folder) => (folder.parentId || null) === (parentId || null))
+    .sort((left, right) => (left.sortOrder || 0) - (right.sortOrder || 0))
+    .map((folder) => folder.id)
+}
+
+async function moveFolder({ id, parentId, targetId, dropPosition, dropToGap }) {
   try {
     await updateBookmarkFolder(id, { parentId })
+    const siblingIds = getSiblingFolderIds(parentId).filter((folderId) => folderId !== id)
+    if (dropToGap && targetId) {
+      const targetIndex = siblingIds.indexOf(targetId)
+      const insertIndex = dropPosition < 0 ? targetIndex : targetIndex + 1
+      siblingIds.splice(Math.max(0, insertIndex), 0, id)
+    } else {
+      siblingIds.push(id)
+    }
+    await reorderBookmarkFolders({ parentId, ids: siblingIds })
     message.success('文件夹位置已更新')
     await loadFolders()
   } catch (error) {
     message.error(error.message || '移动失败')
+  }
+}
+
+function toggleBookmarkSelection(id, checked) {
+  if (checked) {
+    selectedBookmarkIds.value = [...new Set([...selectedBookmarkIds.value, id])]
+    return
+  }
+  selectedBookmarkIds.value = selectedBookmarkIds.value.filter((item) => item !== id)
+}
+
+function toggleAllVisibleBookmarks(checked) {
+  if (checked) {
+    selectedBookmarkIds.value = [...new Set([...selectedBookmarkIds.value, ...visibleBookmarkIds.value])]
+    return
+  }
+  selectedBookmarkIds.value = selectedBookmarkIds.value.filter((id) => !visibleBookmarkIds.value.includes(id))
+}
+
+function handleBookmarkDragStart(id) {
+  draggingBookmarkId.value = id
+  if (!selectedBookmarkIds.value.includes(id)) selectedBookmarkIds.value = [id]
+}
+
+function handleBookmarkDragOver(folderId) {
+  if (!draggingBookmarkId.value) return
+  bookmarkDropTargetKey.value = folderId || 'toolbar'
+}
+
+function handleBookmarkDragLeave() {
+  bookmarkDropTargetKey.value = ''
+}
+
+async function moveBookmarkIds(ids, folderId) {
+  if (!ids.length) return
+  await moveBookmarks({ ids, folderId })
+  selectedBookmarkIds.value = []
+  await reloadAll()
+}
+
+async function moveDraggingBookmarkToFolder(folderId) {
+  if (!draggingBookmarkId.value) return
+  try {
+    const ids = selectedBookmarkIds.value.includes(draggingBookmarkId.value)
+      ? selectedBookmarkIds.value
+      : [draggingBookmarkId.value]
+    await moveBookmarkIds(ids, folderId)
+    message.success(folderId ? '书签已移动到目标文件夹' : '书签已移动到书签栏')
+  } catch (error) {
+    message.error(error.message || '移动失败')
+  } finally {
+    draggingBookmarkId.value = ''
+    bookmarkDropTargetKey.value = ''
+  }
+}
+
+function openMoveModal() {
+  if (!selectedBookmarkIds.value.length) {
+    message.info('请选择要移动的书签')
+    return
+  }
+  moveModalOpen.value = true
+}
+
+async function moveSelectedBookmarks(folderId) {
+  submitting.value = true
+  try {
+    await moveBookmarkIds(selectedBookmarkIds.value, folderId)
+    message.success('书签已移动')
+    moveModalOpen.value = false
+  } catch (error) {
+    message.error(error.message || '移动失败')
+  } finally {
+    submitting.value = false
   }
 }
 
@@ -264,7 +389,7 @@ async function dropBookmark(targetId) {
 
   try {
     await reorderBookmarks({
-      folderId: selectedKey.value === 'root' ? null : selectedKey.value,
+      folderId: selectedKey.value === 'toolbar' ? null : selectedKey.value,
       ids
     })
     await refreshBookmarks()
@@ -329,8 +454,8 @@ onMounted(async () => {
 
 .bookmark-workspace {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: minmax(300px, 23%) minmax(0, 1fr);
+  gap: 14px;
   align-items: start;
 }
 

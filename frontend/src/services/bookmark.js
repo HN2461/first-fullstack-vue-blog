@@ -41,6 +41,10 @@ export function reorderBookmarks(data) {
   return http.patch('/api/bookmarks/bookmarks/reorder', data)
 }
 
+export function moveBookmarks(data) {
+  return http.patch('/api/bookmarks/bookmarks/move', data)
+}
+
 export function importBookmarkHtml(file) {
   const formData = new FormData()
   formData.append('file', file)

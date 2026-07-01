@@ -42,6 +42,11 @@ export const bookmarkReorderSchema = z.object({
   ids: z.array(z.string().regex(objectIdPattern, '书签 id 不正确')).min(1, '请选择要排序的书签').max(200, '单次最多排序 200 条')
 }).strict('存在不支持的排序字段')
 
+export const bookmarkMoveSchema = z.object({
+  folderId: optionalFolderIdSchema,
+  ids: z.array(z.string().regex(objectIdPattern, '书签 id 不正确')).min(1, '请选择要移动的书签').max(200, '单次最多移动 200 条')
+}).strict('存在不支持的移动字段')
+
 export const bookmarkFolderReorderSchema = z.object({
   parentId: optionalFolderIdSchema,
   ids: z.array(z.string().regex(objectIdPattern, '文件夹 id 不正确')).min(1, '请选择要排序的文件夹').max(200, '单次最多排序 200 个文件夹')

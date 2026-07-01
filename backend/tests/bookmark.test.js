@@ -3,6 +3,7 @@ import { beforeAll, beforeEach, afterAll, describe, expect, it } from 'vitest'
 import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { createApp } from '../src/app.js'
 import { Bookmark } from '#modules/bookmark/models/Bookmark.js'
+import { BookmarkFolder } from '#modules/bookmark/models/BookmarkFolder.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
@@ -93,6 +94,31 @@ describe('bookmark routes', () => {
     ])
   })
 
+  it('treats browser toolbar folders as system bookmark bar during import', async () => {
+    const toolbarHtml = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+    <DT><H3 ADD_DATE="1782900000">书签栏</H3>
+    <DL><p>
+        <DT><A HREF="https://example.com/toolbar" ADD_DATE="1782900010">工具栏书签</A>
+    </DL><p>
+</DL><p>`
+
+    await request(app)
+      .post('/api/bookmarks/imports/html')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('file', Buffer.from(toolbarHtml, 'utf8'), 'bookmarks.html')
+      .expect(200)
+
+    const duplicatedToolbar = await BookmarkFolder.findOne({ userId: user._id, parentId: null, name: '书签栏' })
+    expect(duplicatedToolbar).toBeNull()
+
+    const rootBookmark = await Bookmark.findOne({ userId: user._id, url: 'https://example.com/toolbar' })
+    expect(rootBookmark.folderId).toBeNull()
+  })
+
   it('supports manual CRUD drag sorting and export formats', async () => {
     const folderResponse = await request(app)
       .post('/api/bookmarks/folders')
@@ -139,6 +165,48 @@ describe('bookmark routes', () => {
       .expect(200)
     expect(jsonResponse.body.source).toBe('bookmark_backup')
     expect(jsonResponse.body.bookmarks).toHaveLength(2)
+  })
+
+  it('moves bookmarks between folders and persists folder drag placement', async () => {
+    const firstFolder = await request(app)
+      .post('/api/bookmarks/folders')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '待整理' })
+      .expect(201)
+    const secondFolder = await request(app)
+      .post('/api/bookmarks/folders')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '技术文档' })
+      .expect(201)
+    const nestedFolder = await request(app)
+      .post('/api/bookmarks/folders')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '前端', parentId: secondFolder.body.data.id })
+      .expect(201)
+
+    const bookmark = await request(app)
+      .post('/api/bookmarks/bookmarks')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ folderId: firstFolder.body.data.id, title: 'MDN', url: 'https://developer.mozilla.org' })
+      .expect(201)
+
+    await request(app)
+      .patch('/api/bookmarks/bookmarks/move')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ folderId: secondFolder.body.data.id, ids: [bookmark.body.data.id] })
+      .expect(200)
+
+    const moved = await Bookmark.findById(bookmark.body.data.id)
+    expect(moved.folderId.toString()).toBe(secondFolder.body.data.id)
+
+    await request(app)
+      .patch(`/api/bookmarks/folders/${nestedFolder.body.data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ parentId: null })
+      .expect(200)
+
+    const rootFolders = await BookmarkFolder.find({ userId: user._id, parentId: null }).sort({ sortOrder: 1, createdAt: 1 })
+    expect(rootFolders.map((folder) => folder.name)).toEqual(['待整理', '技术文档', '前端'])
   })
 
   it('blocks bookmark APIs when the role lacks bookmark menu permission', async () => {

@@ -14,6 +14,7 @@ import {
   importBookmarksFromJson,
   listBookmarkFolders,
   listBookmarks,
+  moveBookmarks,
   reorderBookmarkFolders,
   reorderBookmarks,
   updateBookmark,
@@ -24,6 +25,7 @@ import {
   bookmarkFolderCreateSchema,
   bookmarkFolderReorderSchema,
   bookmarkFolderUpdateSchema,
+  bookmarkMoveSchema,
   bookmarkQuerySchema,
   bookmarkReorderSchema,
   bookmarkUpdateSchema,
@@ -97,6 +99,11 @@ bookmarkRouter.post('/bookmarks', asyncHandler(async (req, res) => {
 bookmarkRouter.patch('/bookmarks/reorder', asyncHandler(async (req, res) => {
   const input = parseBody(bookmarkReorderSchema, req.body)
   res.json(ok(await reorderBookmarks(req.user._id, input), '书签排序已更新'))
+}))
+
+bookmarkRouter.patch('/bookmarks/move', asyncHandler(async (req, res) => {
+  const input = parseBody(bookmarkMoveSchema, req.body)
+  res.json(ok(await moveBookmarks(req.user._id, input), '书签已移动'))
 }))
 
 bookmarkRouter.patch('/bookmarks/:id', asyncHandler(async (req, res) => {
