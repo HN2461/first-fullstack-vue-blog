@@ -30,6 +30,7 @@ const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
 const AdminTrash = () => import('@/views/admin/AdminTrash/index.vue')
 const MemoPage = () => import('@/views/console/MemoPage/index.vue')
 const DiscussionPage = () => import('@/views/console/DiscussionPage/index.vue')
+const BookmarkPage = () => import('@/views/console/BookmarkPage/index.vue')
 const LedgerPage = () => import('@/views/console/LedgerPage/index.vue')
 const LedgerOverviewPage = () => import('@/views/console/LedgerPage/LedgerOverviewPage.vue')
 const LedgerEntriesPage = () => import('@/views/console/LedgerPage/LedgerEntriesPage.vue')
@@ -144,6 +145,12 @@ export const router = createRouter({
           name: 'ConsoleDiscussions',
           component: DiscussionPage,
           meta: { title: '项目讨论', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'bookmarks',
+          name: 'ConsoleBookmarks',
+          component: BookmarkPage,
+          meta: { title: '书签中转站', requiresAuth: true, requiresMenuAccess: true }
         },
         {
           path: 'ledger',

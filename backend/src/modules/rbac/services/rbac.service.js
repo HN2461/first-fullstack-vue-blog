@@ -13,6 +13,7 @@ const DEFAULT_MENUS = [
   { code: 'knowledge.directory', name: '文章目录', icon: 'FolderOutlined', routePath: '/console/article-directory', routeKey: 'knowledge.article.directory', directoryAutoExpandWhenNested: true, parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.memos', name: '备忘录', icon: 'BulbOutlined', routePath: '/console/memos', routeKey: 'knowledge.memo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
   { code: 'collaboration.discussions', name: '项目讨论', icon: 'MessageOutlined', routePath: '/console/discussions', routeKey: 'collaboration.discussion.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 22, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.bookmarks', name: '书签中转站', icon: 'LinkOutlined', routePath: '/console/bookmarks', routeKey: 'knowledge.bookmarks', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 24, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.ledger', name: '账本', icon: 'WalletOutlined', routePath: '', routeKey: 'knowledge.ledger', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 25, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.ledger.overview', name: '汇总图表', icon: 'BarChartOutlined', routePath: '/console/ledger/overview', routeKey: 'knowledge.ledger.overview', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.ledger.entries', name: '流水明细', icon: 'TableOutlined', routePath: '/console/ledger/entries', routeKey: 'knowledge.ledger.entries', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
@@ -306,6 +307,19 @@ export async function ensureRbacSeed(options = {}) {
   await Menu.deleteMany({ code: { $in: ['content.root', 'governance.root'] } })
 
   const allMenus = await Menu.find({ enabled: true })
+  const knowledgeRootMenu = allMenus.find((menu) => menu.code === 'knowledge.root')
+  const bookmarkMenu = allMenus.find((menu) => menu.code === 'knowledge.bookmarks')
+  if (knowledgeRootMenu && bookmarkMenu) {
+    await Role.updateMany(
+      {
+        $and: [
+          { menuIds: knowledgeRootMenu._id },
+          { menuIds: { $ne: bookmarkMenu._id } }
+        ]
+      },
+      { $addToSet: { menuIds: bookmarkMenu._id } }
+    )
+  }
   const ledgerMenu = allMenus.find((menu) => menu.code === 'knowledge.ledger')
   const ledgerChildMenuIds = allMenus
     .filter((menu) => menu.code?.startsWith('knowledge.ledger.'))

@@ -10,6 +10,7 @@ import { requestMetricsMiddleware } from './middlewares/requestMetrics.js'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { adminRouter } from '#modules/admin/routes/admin.routes.js'
 import { authRouter } from '#modules/auth/routes/auth.routes.js'
+import { bookmarkRouter } from '#modules/bookmark/routes/bookmark.routes.js'
 import captchaRouter from '#modules/auth/routes/captcha.routes.js'
 import { healthRouter } from '#modules/health/routes/health.routes.js'
 import { interactionRouter } from '#modules/interaction/routes/interaction.routes.js'
@@ -40,6 +41,7 @@ export function createApp() {
 
   app.use(`${API_PREFIX}/admin`, adminRouter)
   app.use(`${API_PREFIX}/auth`, authRouter)
+  app.use(`${API_PREFIX}/bookmarks`, bookmarkRouter)
   app.use(`${API_PREFIX}/captcha`, captchaRouter)
   app.use(`${API_PREFIX}/ledger`, ledgerRouter)
   app.use(`${API_PREFIX}/memos`, memoRouter)
