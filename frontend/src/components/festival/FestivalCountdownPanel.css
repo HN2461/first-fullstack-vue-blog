@@ -61,13 +61,21 @@
   min-width: 0;
 }
 
+.festival-countdown__hero-next {
+  display: grid;
+  justify-items: end;
+  gap: 2px;
+  min-width: 98px;
+}
+
 .festival-countdown__eyebrow {
   color: var(--festival-countdown-accent);
   font-size: 12px;
   font-weight: 700;
 }
 
-.festival-countdown__hero-main strong {
+.festival-countdown__hero-main strong,
+.festival-countdown__hero-next strong {
   color: var(--console-text);
   overflow: hidden;
   font-size: 18px;
@@ -76,9 +84,22 @@
   white-space: nowrap;
 }
 
-.festival-countdown__hero-main small {
+.festival-countdown__hero-main small,
+.festival-countdown__hero-next small {
   color: var(--console-text-secondary);
   font-size: 12px;
+}
+
+.festival-countdown__hero-next strong {
+  max-width: 130px;
+  font-size: 15px;
+}
+
+.festival-countdown__hero-next small {
+  max-width: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .festival-countdown__atmosphere {

@@ -113,14 +113,16 @@ discussionRouter.post('/:threadId/messages', asyncHandler(async (req, res) => {
   res.status(201).json(ok(await createDiscussionMessage(req.params.threadId, input, req.user._id), '讨论内容已发送'))
 }))
 
-discussionRouter.post('/:threadId/attachments', handleAttachmentUpload, asyncHandler(async (req, res) => {
+discussionRouter.post('/:threadId/attachments', asyncHandler(async (req, res, next) => {
+  await getDiscussionThread(req.params.threadId, req.user._id)
+  next()
+}), handleAttachmentUpload, asyncHandler(async (req, res) => {
   if (!req.file) {
     const error = new Error('请选择要上传的文件')
     error.statusCode = 400
     error.code = 'DISCUSSION_ATTACHMENT_REQUIRED'
     throw error
   }
-  await getDiscussionThread(req.params.threadId, req.user._id)
   res.status(201).json(ok(buildAttachmentFromFile(req.file), '附件已上传'))
 }))
 

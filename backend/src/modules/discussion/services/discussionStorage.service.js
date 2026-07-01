@@ -1,10 +1,9 @@
-import fs from 'node:fs/promises'
 import { DiscussionMember } from '#modules/discussion/models/DiscussionMember.js'
 import { DiscussionMessage } from '#modules/discussion/models/DiscussionMessage.js'
 import { createSystemNotification } from '#modules/notification/services/notification.service.js'
 import { assertObjectId, createDiscussionError } from '#modules/discussion/services/discussionHelpers.js'
 import { assertThreadMember } from '#modules/discussion/services/discussionMember.service.js'
-import { updateThreadLastMessage } from '#modules/discussion/services/discussionCleanup.service.js'
+import { removeDiscussionAttachmentFiles, updateThreadLastMessage } from '#modules/discussion/services/discussionCleanup.service.js'
 import { emitDiscussionEvent, emitDiscussionUserEvent } from '#modules/discussion/realtime/discussionSocket.js'
 
 function getMessageTextBytes(message) {
@@ -34,24 +33,6 @@ function buildStorageSummary(messages = []) {
     ...totals,
     totalBytes: totals.textBytes + totals.attachmentBytes
   }
-}
-
-async function removeAttachmentFiles(messages = []) {
-  let deletedFileCount = 0
-  for (const message of messages) {
-    for (const attachment of message.attachments || []) {
-      if (!attachment.storagePath) continue
-      try {
-        await fs.unlink(attachment.storagePath)
-        deletedFileCount += 1
-      } catch (error) {
-        if (error.code !== 'ENOENT') {
-          throw error
-        }
-      }
-    }
-  }
-  return deletedFileCount
 }
 
 export async function getDiscussionThreadStorage(threadId, currentUser, safeUser = null) {
@@ -91,7 +72,7 @@ export async function purgeDiscussionThread(threadId, currentUser) {
   const messages = await DiscussionMessage.find({ threadId }).select('attachments')
   const memberIds = await DiscussionMember.distinct('userId', { threadId })
   const storage = buildStorageSummary(messages)
-  const deletedFileCount = await removeAttachmentFiles(messages)
+  const deletedFileCount = await removeDiscussionAttachmentFiles(messages)
   const result = await DiscussionMessage.deleteMany({ threadId })
   await updateThreadLastMessage(threadId)
 
@@ -132,7 +113,7 @@ export async function purgeAllDiscussionMessages(currentUser) {
 
   const threadIds = [...new Set(messages.map((message) => message.threadId?.toString()).filter(Boolean))]
   const storage = buildStorageSummary(messages)
-  const deletedFileCount = await removeAttachmentFiles(messages)
+  const deletedFileCount = await removeDiscussionAttachmentFiles(messages)
   const result = await DiscussionMessage.deleteMany({})
 
   await Promise.all(threadIds.map((threadId) => updateThreadLastMessage(threadId)))

@@ -1,16 +1,5 @@
 <template>
   <div class="announce-panel">
-    <div class="announce-panel-header">
-      <strong>公告通知</strong>
-      <a-button
-        v-if="hasUnread"
-        type="link"
-        size="small"
-        @click="$emit('mark-all-read')"
-      >
-        全部已读
-      </a-button>
-    </div>
     <div class="announce-panel-body">
       <template v-if="loading">
         <div class="announce-panel-loading">
@@ -18,7 +7,11 @@
         </div>
       </template>
       <template v-else-if="announcements.length === 0">
-        <a-empty description="暂无公告" :image-style="{ height: '40px' }" />
+        <div class="announce-panel-empty">
+          <BellOutlined />
+          <strong>暂无公告</strong>
+          <span>系统公告和重要通知会在这里显示。</span>
+        </div>
       </template>
       <template v-else>
         <div
@@ -48,10 +41,17 @@
       </template>
     </div>
     <div v-if="announcements.length > 0" class="announce-panel-footer">
-      <a-button type="link" size="small" block @click="$emit('view-all')">
+      <a-button
+        v-if="hasUnread"
+        size="small"
+        @click="$emit('mark-all-read')"
+      >
+        全部已读
+      </a-button>
+      <a-button size="small" @click="$emit('view-all')">
         查看全部公告
       </a-button>
-      <a-button v-if="canManage" type="link" size="small" block @click="$emit('manage')">
+      <a-button v-if="canManage" type="primary" size="small" @click="$emit('manage')">
         管理公告
       </a-button>
     </div>
@@ -59,6 +59,8 @@
 </template>
 
 <script setup>
+import { BellOutlined } from '@ant-design/icons-vue'
+
 defineEmits(['select', 'mark-all-read', 'view-all', 'manage'])
 
 defineProps({
@@ -109,30 +111,54 @@ defineProps({
   overflow: hidden;
 }
 
-.announce-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px 10px;
-  border-bottom: 1px solid var(--console-border, #e5e7eb);
-}
-
-.announce-panel-header strong {
-  font-size: 15px;
-  font-weight: 600;
-}
-
 .announce-panel-body {
   flex: 1;
   overflow-y: auto;
-  max-height: 340px;
-  padding: 4px 0;
+  max-height: 356px;
+  padding: 6px 0;
 }
 
 .announce-panel-loading {
   display: flex;
   justify-content: center;
   padding: 40px 0;
+}
+
+.announce-panel-empty {
+  display: flex;
+  min-height: 220px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  padding: 28px 24px;
+  color: var(--console-text-secondary, #667085);
+  text-align: center;
+}
+
+.announce-panel-empty .anticon {
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--console-border, #e5e7eb);
+  border-radius: 8px;
+  background: var(--console-surface-muted, #f8fafc);
+  color: var(--console-primary, #1668dc);
+  font-size: 18px;
+}
+
+.announce-panel-empty strong {
+  color: var(--console-text, #101828);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.announce-panel-empty span {
+  max-width: 240px;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .announce-panel-item {
@@ -214,16 +240,14 @@ defineProps({
 .announce-panel-footer {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 8px 12px;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 10px 12px;
   border-top: 1px solid var(--console-border, #e5e7eb);
-  text-align: center;
 }
 
 .announce-panel-footer :deep(.ant-btn) {
   width: auto;
-  min-width: 104px;
   padding-inline: 8px;
 }
 

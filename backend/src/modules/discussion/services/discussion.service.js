@@ -5,7 +5,7 @@ import { assertObjectId, buildDirectKey, buildMessagePreview, createDiscussionEr
 import { DiscussionMember } from '#modules/discussion/models/DiscussionMember.js'
 import { DiscussionMessage } from '#modules/discussion/models/DiscussionMessage.js'
 import { DiscussionThread } from '#modules/discussion/models/DiscussionThread.js'
-import { cleanupUserDiscussionMessages, updateThreadLastMessage } from '#modules/discussion/services/discussionCleanup.service.js'
+import { cleanupUserDiscussionMessages, removeDiscussionAttachmentFiles, updateThreadLastMessage } from '#modules/discussion/services/discussionCleanup.service.js'
 import { assertThreadMember, getThreadMembers } from '#modules/discussion/services/discussionMember.service.js'
 export { listDiscussionThreads } from '#modules/discussion/services/discussionThreadList.service.js'
 import { emitDiscussionEvent, emitDiscussionUserEvent, joinDiscussionUsersToThread } from '#modules/discussion/realtime/discussionSocket.js'
@@ -171,6 +171,7 @@ export async function deleteDiscussionMessage(threadId, messageId, currentUser) 
   }
 
   await DiscussionMessage.deleteOne({ _id: message._id })
+  await removeDiscussionAttachmentFiles([message])
   await updateThreadLastMessage(threadId)
   emitDiscussionEvent(threadId, 'discussion:message-deleted', {
     threadId: String(threadId),
@@ -217,11 +218,13 @@ export async function revokeDiscussionMessage(threadId, messageId, currentUserId
     throw createDiscussionError(400, 'DISCUSSION_MESSAGE_REVOKE_EXPIRED', '撤销时限已过')
   }
 
+  const attachmentsToRemove = [...(message.attachments || [])]
   message.revokedAt = new Date()
   message.revokedBy = currentUserId
   message.content = ''
   message.attachments = []
   await message.save()
+  await removeDiscussionAttachmentFiles([{ attachments: attachmentsToRemove }])
   await updateThreadLastMessage(threadId)
   await message.populate('senderId', 'username email avatar')
   const safeMessage = message.toSafeJSON()

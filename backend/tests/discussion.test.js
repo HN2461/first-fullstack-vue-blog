@@ -1,4 +1,6 @@
 import request from 'supertest'
+import fs from 'node:fs/promises'
+import path from 'node:path'
 import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
@@ -9,6 +11,7 @@ import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
+import { resolveUploadRoot } from '../src/utils/uploadPath.js'
 import {
   clearTestDatabase,
   connectTestDatabase,
@@ -78,6 +81,14 @@ describe('discussion routes', () => {
   afterAll(async () => {
     await disconnectTestDatabase()
   })
+
+  async function createTempDiscussionFile(filename, content = 'discussion attachment') {
+    const dir = path.resolve('tests/.tmp/discussion')
+    await fs.mkdir(dir, { recursive: true })
+    const filePath = path.join(dir, filename)
+    await fs.writeFile(filePath, content, 'utf8')
+    return filePath
+  }
 
   it('does not grant discussion menu to visitor role by default', async () => {
     const visitorRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR }).populate('menuIds')
@@ -308,6 +319,28 @@ describe('discussion routes', () => {
     expect(storageResponse.body.data.global).toBeUndefined()
   })
 
+  it('checks thread membership before storing uploaded attachments', async () => {
+    const threadResponse = await request(app)
+      .post('/api/discussions')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        type: 'direct',
+        memberIds: [otherUser._id.toString()]
+      })
+      .expect(201)
+
+    const uploadResponse = await request(app)
+      .post(`/api/discussions/${threadResponse.body.data.id}/attachments`)
+      .set('Authorization', `Bearer ${outsiderToken}`)
+      .attach('file', Buffer.from('blocked upload'), 'blocked.txt')
+      .expect(403)
+
+    expect(uploadResponse.body.code).toBe('DISCUSSION_MEMBER_REQUIRED')
+    const uploadRoot = resolveUploadRoot()
+    const uploadedFiles = await fs.readdir(uploadRoot, { recursive: true }).catch(() => [])
+    expect(uploadedFiles.some((item) => String(item).includes('blocked.txt'))).toBe(false)
+  })
+
   it('revokes own recent messages for all members and rejects non-sender', async () => {
     const threadResponse = await request(app)
       .post('/api/discussions')
@@ -362,6 +395,67 @@ describe('discussion routes', () => {
       attachments: []
     })
     expect(otherListResponse.body.data.items[0].revokedAt).toBeTruthy()
+  })
+
+  it('removes attachment files when messages are deleted or revoked', async () => {
+    const threadResponse = await request(app)
+      .post('/api/discussions')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        type: 'direct',
+        memberIds: [otherUser._id.toString()]
+      })
+      .expect(201)
+
+    const threadId = threadResponse.body.data.id
+    const deleteFilePath = await createTempDiscussionFile('delete-target.txt')
+    const revokeFilePath = await createTempDiscussionFile('revoke-target.txt')
+
+    const deleteMessageResponse = await request(app)
+      .post(`/api/discussions/${threadId}/messages`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        content: '删除时清理附件',
+        attachment: {
+          filename: 'delete-target.txt',
+          originalName: 'delete-target.txt',
+          mimeType: 'text/plain',
+          size: 12,
+          url: '/uploads/discussions/delete-target.txt',
+          storagePath: deleteFilePath
+        }
+      })
+      .expect(201)
+
+    await request(app)
+      .delete(`/api/discussions/${threadId}/messages/${deleteMessageResponse.body.data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    await expect(fs.access(deleteFilePath)).rejects.toThrow()
+
+    const revokeMessageResponse = await request(app)
+      .post(`/api/discussions/${threadId}/messages`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        content: '撤销时清理附件',
+        attachment: {
+          filename: 'revoke-target.txt',
+          originalName: 'revoke-target.txt',
+          mimeType: 'text/plain',
+          size: 12,
+          url: '/uploads/discussions/revoke-target.txt',
+          storagePath: revokeFilePath
+        }
+      })
+      .expect(201)
+
+    await request(app)
+      .post(`/api/discussions/${threadId}/messages/${revokeMessageResponse.body.data.id}/revoke`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    await expect(fs.access(revokeFilePath)).rejects.toThrow()
   })
 
   it('rejects revoking messages after the short window expires', async () => {

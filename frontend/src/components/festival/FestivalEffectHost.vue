@@ -11,6 +11,7 @@
       v-if="schedule.length || history.length"
       :schedule="schedule"
       :history="history"
+      :solar-summary="solarSummary"
       :lunar-summary="lunarSummary"
       :active-festival="activeFestival"
       :atmosphere-visible="atmosphereVisible"
@@ -59,6 +60,7 @@ import {
   getFestivalHistory,
   getFestivalSchedule,
   getLunarSummary,
+  getSolarSummary,
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
 import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/confettiPlayer'
@@ -70,6 +72,7 @@ const activeFestival = ref(null)
 const schedule = ref([])
 const history = ref([])
 const lunarSummary = ref('')
+const solarSummary = ref('')
 const celebrationOpen = ref(false)
 const celebrationFestival = ref(null)
 const closedKey = ref('')
@@ -167,6 +170,7 @@ async function loadFestivalState() {
   activeFestival.value = getActiveFestival(serverDate.value)
   schedule.value = getFestivalSchedule(serverDate.value, 12, birthdayOptions)
   history.value = getFestivalHistory(serverDate.value, 8, birthdayOptions)
+  solarSummary.value = getSolarSummary(serverDate.value)
   lunarSummary.value = getLunarSummary(serverDate.value)
 
   const birthdayFestival = schedule.value.find((item) => item.type === 'birthday' && item.daysUntil === 0)

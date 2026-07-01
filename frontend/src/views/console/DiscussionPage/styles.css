@@ -230,16 +230,38 @@
   grid-row: 1;
 }
 
-.discussion-page .discussion-message.mine .discussion-message__content {
+.discussion-page .discussion-message.mine .discussion-message__stack {
   grid-column: 1;
   grid-row: 1;
   justify-self: end;
+  align-items: flex-end;
+}
+
+.discussion-page .discussion-message.mine .discussion-message__content {
   background: rgba(22, 119, 255, 0.08);
+}
+
+.discussion-page .discussion-message__stack {
+  min-width: 0;
+  max-width: min(640px, 72%);
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+}
+
+.discussion-page .discussion-message__sender {
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .discussion-page .discussion-message__content {
   position: relative;
-  max-width: min(640px, 72%);
+  max-width: 100%;
   min-width: 0;
   display: grid;
   gap: 8px;
@@ -253,13 +275,9 @@
 .discussion-page .discussion-message__meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: flex-end;
   color: var(--console-text-secondary);
   font-size: 12px;
-}
-
-.discussion-page .discussion-message__meta strong {
-  color: var(--console-text);
 }
 
 .discussion-page .discussion-message__meta .ant-btn {
@@ -320,11 +338,12 @@
 
 .discussion-page .discussion-attachment img {
   display: block;
-  width: min(320px, 100%);
+  max-width: min(360px, 100%);
   max-height: 240px;
   object-fit: contain;
   border-radius: 6px;
   background: var(--console-surface);
+  image-rendering: auto;
 }
 
 .discussion-page .discussion-attachment.image {
@@ -508,26 +527,159 @@
 }
 
 .discussion-attachment-modal .ant-modal-body {
-  max-height: min(72vh, 680px);
-  overflow-y: auto;
+  padding: 24px;
 }
 
 .discussion-attachment-preview {
+  min-height: 200px;
   display: grid;
-  justify-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-.discussion-attachment-preview > img {
-  max-width: 100%;
-  max-height: 56vh;
-  object-fit: contain;
+.discussion-attachment-preview__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface-muted);
 }
 
+.discussion-attachment-preview__toolbar-text {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+}
+
+.discussion-attachment-preview__toolbar-text strong {
+  color: var(--console-text);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.discussion-attachment-preview__toolbar-text span {
+  white-space: nowrap;
+}
+
+.discussion-attachment-preview__image {
+  display: flex;
+  min-height: 240px;
+  max-height: calc(78vh - 78px);
+  overflow: auto;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface-muted);
+}
+
+.discussion-attachment-preview__image img {
+  border-radius: 8px;
+  background: var(--console-surface);
+}
+
+.discussion-attachment-preview__image--actual {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 12px;
+}
+
+.discussion-attachment-preview__image--actual img {
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+  flex: 0 0 auto;
+}
+
+.discussion-attachment-preview__image--fit {
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+}
+
+.discussion-attachment-preview__image--fit img {
+  max-width: 100%;
+  max-height: calc(78vh - 104px);
+  object-fit: contain;
+}
+
+.discussion-attachment-preview__video {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: calc(78vh - 78px);
+  overflow: hidden;
+}
+
+.discussion-attachment-preview__player {
+  width: 100%;
+  max-height: calc(78vh - 96px);
+  border-radius: 8px;
+  outline: none;
+}
+
+.discussion-attachment-preview__audio {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 32px 20px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface-muted);
+}
+
+.discussion-attachment-preview__audio .anticon {
+  font-size: 32px;
+  color: var(--console-text-secondary);
+}
+
+.discussion-attachment-preview__audio strong {
+  max-width: 100%;
+  color: var(--console-text);
+  word-break: break-all;
+}
+
+.discussion-attachment-preview__frame {
+  height: min(68vh, 720px);
+  overflow: hidden;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface-muted);
+}
+
+.discussion-attachment-preview__frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.discussion-attachment-preview__text {
+  max-height: calc(78vh - 78px);
+  overflow: auto;
+  border-radius: 8px;
+  background: #1e293b;
+}
+
+.discussion-attachment-preview__text pre {
+  min-height: 240px;
+  margin: 0;
+  padding: 18px;
+  overflow-x: auto;
+  color: #e2e8f0;
+  font-family: 'SF Mono', Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .discussion-attachment-preview__file {
   width: min(420px, 100%);
+  justify-self: center;
   display: grid;
   justify-items: center;
   gap: 8px;
@@ -535,11 +687,26 @@
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface-muted);
+  text-align: center;
 }
 
 .discussion-attachment-preview__file .anticon {
   font-size: 28px;
   color: var(--console-text-secondary);
+}
+
+.discussion-attachment-preview__file strong {
+  max-width: 100%;
+  color: var(--console-text);
+  word-break: break-all;
+}
+
+.discussion-attachment-preview__file span,
+.discussion-attachment-preview__file small,
+.discussion-attachment-preview__file p {
+  margin: 0;
+  color: var(--console-text-secondary);
+  word-break: break-word;
 }
 
 @media (max-width: 1180px) {
@@ -565,7 +732,22 @@
     height: 46vh;
   }
 
-  .discussion-page .discussion-message__content {
+  .discussion-page .discussion-message__stack {
     max-width: min(100%, 560px);
+  }
+
+  .discussion-attachment-preview__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .discussion-attachment-preview__image {
+    max-height: calc(78vh - 124px);
+  }
+
+  .discussion-attachment-preview__frame,
+  .discussion-attachment-preview__text,
+  .discussion-attachment-preview__video {
+    max-height: calc(78vh - 124px);
   }
 }

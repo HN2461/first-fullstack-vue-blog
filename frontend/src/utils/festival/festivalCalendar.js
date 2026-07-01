@@ -1,46 +1,15 @@
 import chineseDays from 'chinese-days'
+import {
+  EFFECT_META,
+  LUNAR_FESTIVAL_META,
+  MAJOR_FESTIVAL_LABEL,
+  SOLAR_FESTIVALS
+} from './festivalCatalog'
+import { DEFAULT_SOLAR_TERM_META, SOLAR_TERM_META } from './solarTermCatalog'
 
-const { getLunarDate, getSolarDateFromLunar, getSolarTerms } = chineseDays
+const { getLunarDate, getSolarDateFromLunar, getSolarTerms, getLunarFestivals } = chineseDays
 
-export const MAJOR_FESTIVAL_LABEL = '元旦、春节、中秋、国庆和生日'
-
-const SOLAR_FESTIVALS = [
-  { key: 'new-year', name: '元旦', type: 'solar', month: 1, day: 1, text: '新年快乐', effect: 'new-year', level: 'major', icons: ['🎆', '✨'] },
-  { key: 'valentine', name: '情人节', type: 'solar', month: 2, day: 14, text: '愿今天有温柔相伴', effect: 'love', level: 'normal', icons: ['💗', '🌹'] },
-  { key: 'labor', name: '劳动节', type: 'solar', month: 5, day: 1, text: '劳动节快乐', effect: 'labor', level: 'normal', icons: ['🌿', '✨'] },
-  { key: 'national-day', name: '国庆节', type: 'solar', month: 10, day: 1, text: '山河锦绣，国泰民安', effect: 'national', level: 'major', icons: ['🇨🇳', '🎉'] },
-  { key: 'christmas', name: '圣诞节', type: 'solar', month: 12, day: 25, text: '愿冬夜有暖意', effect: 'christmas', level: 'normal', icons: ['🎄', '❄️'] }
-]
-
-const LUNAR_FESTIVALS = [
-  { key: 'spring-festival', name: '春节', type: 'lunar', month: 1, day: 1, text: '新春快乐，万事顺遂', effect: 'spring', level: 'major', icons: ['🏮', '🧧'] },
-  { key: 'lantern', name: '元宵节', type: 'lunar', month: 1, day: 15, text: '灯火团圆，元宵喜乐', effect: 'lantern', level: 'normal', icons: ['🏮', '✨'] },
-  { key: 'dragon-boat', name: '端午节', type: 'lunar', month: 5, day: 5, text: '端午安康', effect: 'duanwu', level: 'normal', icons: ['🥟', '🌿'] },
-  { key: 'qixi', name: '七夕', type: 'lunar', month: 7, day: 7, text: '愿星河有约', effect: 'qixi', level: 'normal', icons: ['✨', '💫'] },
-  { key: 'mid-autumn', name: '中秋节', type: 'lunar', month: 8, day: 15, text: '月满人团圆', effect: 'mid-autumn', level: 'major', icons: ['🥮', '🌕'] },
-  { key: 'double-ninth', name: '重阳节', type: 'lunar', month: 9, day: 9, text: '岁岁重阳，久久安康', effect: 'chongyang', level: 'normal', icons: ['🍂', '🌼'] }
-]
-
-const SOLAR_TERM_EFFECT = {
-  pure_brightness: { key: 'qingming', name: '清明', text: '清明时节，心怀清朗', effect: 'qingming', level: 'normal', icons: ['🌿', '☔'] },
-  the_winter_solstice: { key: 'winter-solstice', name: '冬至', text: '冬至安康', effect: 'winter', level: 'normal', icons: ['❄️', '🥟'] }
-}
-
-const EFFECT_META = {
-  spring: { accent: '#c2410c', tint: '#fff1f2', particle: ['🏮', '🧧', '✨'] },
-  lantern: { accent: '#dc2626', tint: '#fff1f2', particle: ['🏮', '✨'] },
-  duanwu: { accent: '#15803d', tint: '#f0fdf4', particle: ['🥟', '🌿'] },
-  'mid-autumn': { accent: '#b45309', tint: '#fffbeb', particle: ['🥮', '🌕', '✨'] },
-  national: { accent: '#dc2626', tint: '#fff1f2', particle: ['🇨🇳', '🎉', '✨'] },
-  christmas: { accent: '#0f766e', tint: '#ecfdf5', particle: ['🎄', '❄️'] },
-  love: { accent: '#db2777', tint: '#fdf2f8', particle: ['💗', '🌹'] },
-  qixi: { accent: '#7c3aed', tint: '#f5f3ff', particle: ['✨', '💫'] },
-  qingming: { accent: '#4d7c0f', tint: '#f7fee7', particle: ['🌿', '☔'] },
-  winter: { accent: '#0369a1', tint: '#eff6ff', particle: ['❄️', '🥟'] },
-  labor: { accent: '#047857', tint: '#ecfdf5', particle: ['🌿', '✨'] },
-  chongyang: { accent: '#b45309', tint: '#fffbeb', particle: ['🍂', '🌼'] },
-  'new-year': { accent: '#2563eb', tint: '#eff6ff', particle: ['🎆', '✨'] }
-}
+export { MAJOR_FESTIVAL_LABEL }
 
 function pad(value) {
   return String(value).padStart(2, '0')
@@ -70,12 +39,50 @@ function lunarDate(year, month, day) {
   return result?.date || ''
 }
 
+function stableIndex(seed, length) {
+  if (!length) return 0
+  let hash = 0
+  for (const char of seed) {
+    hash = (hash * 31 + char.charCodeAt(0)) % 1000003
+  }
+  return hash % length
+}
+
+function normalizeFestivalKey(value) {
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^\u4e00-\u9fa5a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'festival'
+}
+
+function resolveLunarFestivalMeta(name) {
+  const exact = LUNAR_FESTIVAL_META[name]
+  if (exact) return exact
+
+  const partialKey = Object.keys(LUNAR_FESTIVAL_META).find((key) => name.includes(key) || key.includes(name))
+  if (partialKey) return LUNAR_FESTIVAL_META[partialKey]
+
+  return {
+    key: `lunar-${normalizeFestivalKey(name)}`,
+    name,
+    effect: 'lunar-folk',
+    level: 'normal',
+    icons: ['🌙', '✨'],
+    greetings: [`${name}，愿今日顺遂安宁。`, `今日${name}，愿心有所安，事有所成。`]
+  }
+}
+
 function normalizeFestival(festival, date, source = festival.type) {
   const meta = EFFECT_META[festival.effect] || EFFECT_META['new-year']
+  const greetings = festival.greetings || [festival.text || `${festival.name}快乐`]
+  const text = greetings[stableIndex(`${festival.key}:${date}`, greetings.length)]
   return {
     ...festival,
     date,
     source,
+    text,
+    greetings,
     accent: meta.accent,
     tint: meta.tint,
     particle: meta.particle,
@@ -89,19 +96,36 @@ function buildYearFestivals(year) {
     solarDate(year, festival.month, festival.day),
     '公历节日'
   ))
-  const lunar = LUNAR_FESTIVALS.map((festival) => normalizeFestival(
-    festival,
-    lunarDate(year, festival.month, festival.day),
-    '农历传统节日'
-  )).filter((festival) => festival.date)
+  const lunar = getLunarFestivals(`${year}-01-01`, `${year}-12-31`)
+    .flatMap((day) => {
+      return day.name
+        .map(resolveLunarFestivalMeta)
+        .map((festival) => normalizeFestival({
+          ...festival,
+          type: 'lunar'
+        }, day.date, '农历传统节日'))
+    })
   const terms = getSolarTerms(`${year}-01-01`, `${year}-12-31`)
-    .filter((term) => SOLAR_TERM_EFFECT[term.term])
     .map((term) => normalizeFestival({
-      ...SOLAR_TERM_EFFECT[term.term],
+      ...DEFAULT_SOLAR_TERM_META,
+      ...(SOLAR_TERM_META[term.term] || {}),
+      key: SOLAR_TERM_META[term.term]?.key || `solar-term-${term.term}`,
+      name: term.name,
       type: 'solar-term'
     }, term.date, '二十四节气'))
 
-  return [...solar, ...lunar, ...terms]
+  return dedupeFestivals([...solar, ...lunar, ...terms])
+}
+
+function dedupeFestivals(items) {
+  const map = new Map()
+  for (const item of items) {
+    const key = `${item.date}:${item.key}`
+    if (!map.has(key)) {
+      map.set(key, item)
+    }
+  }
+  return [...map.values()]
 }
 
 function buildSolarBirthday(birthday, year) {
@@ -111,7 +135,7 @@ function buildSolarBirthday(birthday, year) {
     key: 'birthday-solar',
     name: '阳历生日',
     type: 'birthday',
-    text: '愿今天被认真庆祝',
+    greetings: ['愿今天被认真庆祝。', '生日快乐，愿这一岁更闪亮。'],
     effect: 'birthday',
     level: 'major',
     icons: ['🎂', '✨']
@@ -128,7 +152,7 @@ function buildLunarBirthday(birthday, year) {
       key: 'birthday-lunar',
       name: '农历生日',
       type: 'birthday',
-      text: `农历${lunar.lunarMonCN}${lunar.lunarDayCN}，愿这一岁更闪亮`,
+      greetings: [`农历${lunar.lunarMonCN}${lunar.lunarDayCN}，愿这一岁更闪亮。`, '生日快乐，愿今天被温柔记得。'],
       effect: 'birthday',
       level: 'major',
       icons: ['🎂', '🌙']
@@ -205,10 +229,17 @@ export function getActiveFestival(serverDateKey) {
 export function getLunarSummary(serverDateKey) {
   try {
     const lunar = getLunarDate(serverDateKey)
-    return `${lunar.lunarYearCN}${lunar.lunarMonCN}${lunar.lunarDayCN}`
+    return `农历${lunar.lunarMonCN}${lunar.lunarDayCN}`
   } catch {
     return ''
   }
+}
+
+export function getSolarSummary(serverDateKey) {
+  const date = parseDateKey(serverDateKey)
+  if (Number.isNaN(date.getTime())) return ''
+  const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
+  return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日 ${weekdays[date.getDay()]}`
 }
 
 export function getTodayKeyFromServer(serverTime) {
@@ -226,13 +257,14 @@ export function getDeviceType(isMobile) {
 
 export function getParticleItems(festival, isMobile) {
   const items = festival?.particle || ['✨']
-  const amount = isMobile ? 8 : 18
+  const amount = isMobile ? 0 : 10
+  const lanes = ['3%', '7%', '11%', '15%', '85%', '89%', '93%', '97%']
   return Array.from({ length: amount }, (_, index) => ({
     id: `${festival?.key || 'festival'}-${index}`,
     text: items[index % items.length],
-    left: `${Math.round((index + 1) * 100 / (amount + 1))}%`,
+    left: lanes[index % lanes.length],
     delay: `${(index % 6) * 0.8}s`,
-    duration: `${isMobile ? 9 + (index % 3) : 11 + (index % 5)}s`
+    duration: `${12 + (index % 5)}s`
   }))
 }
 

@@ -323,11 +323,6 @@ onUnmounted(() => {
   border-radius: 0;
 }
 
-.notify-dropdown-panel :deep(.announce-panel-header),
-.notify-dropdown-panel :deep(.message-panel-header) {
-  padding-top: 10px;
-}
-
 @media (max-width: 640px) {
   .notify-dropdown-panel {
     width: min(92vw, 380px);

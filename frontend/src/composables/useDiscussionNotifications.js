@@ -1,5 +1,5 @@
 import { computed, onUnmounted, ref, watch } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {
   disconnectDiscussionSocket,
   reconnectDiscussionSocket,
@@ -14,6 +14,7 @@ let unsubscribeSocket = null
 let subscriberCount = 0
 let activeAuthStore = null
 let activeTitleFlash = null
+let activeRoute = null
 let stopAuthWatch = null
 
 function getSnippet(text, maxLength = 80) {
@@ -34,10 +35,15 @@ function getMessagePreview(messageData = {}) {
 function pushMessage(payload = {}) {
   const messageData = payload.message || {}
   if (!messageData.id || messageData.senderId === activeAuthStore?.user?.id) return
+  const threadId = payload.threadId || messageData.threadId
+  const isViewingThread = activeRoute?.path === '/console/discussions' &&
+    String(activeRoute?.query?.threadId || '') === String(threadId || '') &&
+    document.visibilityState === 'visible'
+  if (isViewingThread) return
 
   const nextItem = {
     id: messageData.id,
-    threadId: payload.threadId || messageData.threadId,
+    threadId,
     title: messageData.senderName || messageData.senderEmail || '项目讨论',
     content: getMessagePreview(messageData),
     createdAt: messageData.createdAt || new Date().toISOString()
@@ -86,10 +92,12 @@ function clearMessages() {
 
 export function useDiscussionNotifications() {
   const router = useRouter()
+  const route = useRoute()
   const authStore = useAuthStore()
   const { startTitleFlash } = useTitleFlash()
   activeAuthStore = authStore
   activeTitleFlash = startTitleFlash
+  activeRoute = route
   subscriberCount += 1
 
   if (!stopAuthWatch) {

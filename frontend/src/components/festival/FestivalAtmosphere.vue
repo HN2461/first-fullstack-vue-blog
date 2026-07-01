@@ -1,15 +1,19 @@
 <template>
   <div v-if="visible" class="festival-atmosphere" :style="festivalStyle">
-    <div class="festival-ribbon">
-      <span class="festival-ribbon__icon">{{ activeFestival.icons?.[0] || '✨' }}</span>
-      <span class="festival-ribbon__text">{{ activeFestival.text }}</span>
-      <span class="festival-ribbon__meta">{{ activeFestival.name }}</span>
-      <a-tooltip title="关闭本端节日氛围">
-        <button class="festival-ribbon__close" type="button" aria-label="关闭节日氛围" @click="$emit('close')">
-          ×
-        </button>
-      </a-tooltip>
-    </div>
+    <a-tooltip placement="bottomRight">
+      <template #title>
+        <span>{{ activeFestival.text }}</span>
+      </template>
+      <div class="festival-ribbon">
+        <span class="festival-ribbon__icon">{{ activeFestival.icons?.[0] || '✨' }}</span>
+        <span class="festival-ribbon__meta">{{ activeFestival.name }}</span>
+        <a-tooltip title="关闭本端节日氛围">
+          <button class="festival-ribbon__close" type="button" aria-label="关闭节日氛围" @click="$emit('close')">
+            ×
+          </button>
+        </a-tooltip>
+      </div>
+    </a-tooltip>
 
     <div v-if="!isMobile" class="festival-particles" aria-hidden="true">
       <span
@@ -53,43 +57,47 @@ const festivalStyle = computed(() => ({
 .festival-ribbon {
   pointer-events: auto;
   position: fixed;
-  top: 64px;
-  left: 50%;
+  top: 72px;
+  right: 20px;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  max-width: min(560px, calc(100vw - 32px));
-  padding: 7px 10px;
+  gap: 6px;
+  max-width: min(240px, calc(100vw - 32px));
+  min-height: 30px;
+  padding: 5px 7px 5px 9px;
   border: 1px solid color-mix(in srgb, var(--festival-accent) 28%, transparent);
   border-radius: 8px;
-  background: color-mix(in srgb, var(--festival-tint) 88%, var(--console-surface));
-  box-shadow: 0 10px 28px rgba(16, 24, 40, 0.12);
+  background: color-mix(in srgb, var(--festival-tint) 80%, var(--console-surface));
+  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.1);
   color: var(--console-text);
-  transform: translateX(-50%);
+  opacity: 0.92;
+  transition: opacity 0.2s ease, box-shadow 0.2s ease;
+}
+
+.festival-ribbon:hover {
+  box-shadow: 0 10px 24px rgba(16, 24, 40, 0.14);
+  opacity: 1;
 }
 
 .festival-ribbon__icon {
-  font-size: 16px;
+  flex: 0 0 auto;
+  font-size: 14px;
+  line-height: 1;
 }
 
-.festival-ribbon__text {
+.festival-ribbon__meta {
   overflow: hidden;
-  color: var(--festival-accent);
-  font-size: 13px;
-  font-weight: 700;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 18px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.festival-ribbon__meta {
-  color: var(--console-text-secondary);
-  font-size: 12px;
-  white-space: nowrap;
-}
-
 .festival-ribbon__close {
-  width: 20px;
-  height: 20px;
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
   border: 0;
   border-radius: 6px;
   background: transparent;
@@ -105,8 +113,8 @@ const festivalStyle = computed(() => ({
 .festival-particles span {
   position: absolute;
   top: -32px;
-  font-size: 18px;
-  opacity: 0.82;
+  font-size: 15px;
+  opacity: 0.32;
   animation: festivalFall linear infinite;
 }
 
@@ -122,16 +130,13 @@ const festivalStyle = computed(() => ({
 
 @media (max-width: 760px) {
   .festival-ribbon {
-    top: 56px;
+    top: 58px;
     right: 12px;
-    left: 12px;
-    justify-content: center;
-    max-width: none;
-    transform: none;
+    max-width: 168px;
   }
 
   .festival-ribbon__meta {
-    display: none;
+    max-width: 108px;
   }
 }
 </style>

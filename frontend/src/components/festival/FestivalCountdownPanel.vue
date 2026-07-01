@@ -20,7 +20,11 @@
         <div class="festival-countdown__scroll">
           <header class="festival-countdown__hero">
             <div class="festival-countdown__hero-main">
-              <span class="festival-countdown__eyebrow">{{ lunarSummary || '今日节令' }}</span>
+              <span class="festival-countdown__eyebrow">今日</span>
+              <strong>{{ solarSummary || '公历日期' }}</strong>
+              <small>{{ lunarSummary || '农历日期' }}</small>
+            </div>
+            <div class="festival-countdown__hero-next">
               <strong>{{ nextFestival?.name || '节日倒计时' }}</strong>
               <small>{{ nextFestivalSummary }}</small>
             </div>
@@ -121,11 +125,13 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { CalendarOutlined } from '@ant-design/icons-vue'
+import { MAJOR_FESTIVAL_LABEL } from '@/utils/festival/festivalCalendar'
 import './FestivalCountdownPanel.css'
 
 const props = defineProps({
   schedule: { type: Array, default: () => [] },
   history: { type: Array, default: () => [] },
+  solarSummary: { type: String, default: '' },
   lunarSummary: { type: String, default: '' },
   activeFestival: { type: Object, default: null },
   atmosphereVisible: { type: Boolean, default: false }
@@ -136,7 +142,7 @@ defineEmits(['select', 'toggle-atmosphere'])
 const open = ref(false)
 const activeFilter = ref('all')
 const activeView = ref('upcoming')
-const majorFestivalLabel = '元旦、春节、中秋、国庆、生日'
+const majorFestivalLabel = MAJOR_FESTIVAL_LABEL
 const filters = [
   { key: 'all', label: '全部' },
   { key: 'lunar', label: '传统' },
