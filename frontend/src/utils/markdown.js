@@ -8,6 +8,7 @@ import nginx from 'highlight.js/lib/languages/nginx'
 import properties from 'highlight.js/lib/languages/properties'
 import powershell from 'highlight.js/lib/languages/powershell'
 import {
+  CODE_BLOCK_COLLAPSE_BUFFER_LINES,
   buildCodeLineNumbers,
   CODE_BLOCK_COLLAPSE_LINES,
   countCodeLines,
@@ -166,29 +167,25 @@ function renderCodeBlock(code, info = '') {
   const languageLabel = escapeHtml(getCodeLanguageLabel(effectiveLanguage || language))
   const isCollapsible = lineCount > CODE_BLOCK_COLLAPSE_LINES
   const collapsibleClasses = isCollapsible ? ' is-collapsible is-collapsed' : ''
+  const visibleLines = CODE_BLOCK_COLLAPSE_LINES + CODE_BLOCK_COLLAPSE_BUFFER_LINES
   const toggleButton = isCollapsible
-    ? `
-      <div class="code-block__collapse">
-        <button type="button" class="code-block__toggle" aria-expanded="false">展开</button>
-      </div>
-    `
+    ? '<span class="code-block__toggle" role="button" tabindex="0" aria-expanded="false">展开</span>'
     : ''
 
   return `
-    <div class="code-block${collapsibleClasses}" data-line-count="${lineCount}" style="--code-visible-lines: ${CODE_BLOCK_COLLAPSE_LINES};">
+    <div class="code-block${collapsibleClasses}" data-line-count="${lineCount}" style="--code-visible-lines: ${visibleLines};">
       <div class="code-block__header">
         <div class="code-block__meta">
           <span class="code-block__language">${languageLabel}</span>
           <span class="code-block__line-count">共 ${lineCount} 行</span>
         </div>
-        <div class="code-block__actions"></div>
+        <div class="code-block__actions">${toggleButton}</div>
       </div>
       <div class="code-block__content">
         <div class="code-block__gutter" aria-hidden="true">${lineNumbers}</div>
         <div class="code-block__viewport">
           <pre class="hljs code-block__pre"><code class="code-block__code${languageClass}">${highlighted.html}</code></pre>
         </div>
-        ${toggleButton}
       </div>
     </div>
   `

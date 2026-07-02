@@ -17,39 +17,47 @@
       @selection-change="handleSelectionChange"
     >
       <template #toolbar>
-        <a-upload
-          accept=".md,.markdown,text/markdown,text/plain"
-          :multiple="true"
-          :show-upload-list="false"
-          :before-upload="handleBeforeUpload"
-          :disabled="previewLoading || commitLoading"
-        >
-          <a-button type="primary" :loading="previewLoading">
-            <template #icon><UploadOutlined /></template>
-            上传 Markdown
-          </a-button>
-        </a-upload>
-        <a-button :loading="templateLoading" @click="handleDownloadTemplate">
-          <template #icon><DownloadOutlined /></template>
-          导出模板
-        </a-button>
-        <a-button
-          :disabled="selectedImportItems.length === 0"
-          :loading="commitLoading"
-          @click="handleCommit"
-        >
-          <template #icon><ImportOutlined /></template>
-          确认导入 {{ selectedImportItems.length }} 篇
-        </a-button>
-        <a-button :disabled="!previewRows.length || previewLoading || commitLoading" @click="clearPreview">
-          <template #icon><ClearOutlined /></template>
-          清空
-        </a-button>
-        <a-tag :bordered="false">共 {{ previewRows.length }}</a-tag>
-        <a-tag color="green" :bordered="false">可导入 {{ summary.readyCount }}</a-tag>
-        <a-tag color="orange" :bordered="false">需确认 {{ summary.warningCount }}</a-tag>
-        <a-tag color="red" :bordered="false">重复 {{ summary.duplicateCount }}</a-tag>
-        <a-tag color="red" :bordered="false">错误 {{ summary.errorCount }}</a-tag>
+        <div class="article-import-toolbar">
+          <div class="article-import-toolbar__actions">
+            <a-upload
+              accept=".md,.markdown,text/markdown,text/plain"
+              :multiple="true"
+              :show-upload-list="false"
+              :before-upload="handleBeforeUpload"
+              :disabled="previewLoading || commitLoading"
+            >
+              <a-button type="primary" :loading="previewLoading">
+                <template #icon><UploadOutlined /></template>
+                上传 Markdown
+              </a-button>
+            </a-upload>
+            <a-button :loading="templateLoading" @click="handleDownloadTemplate">
+              <template #icon><DownloadOutlined /></template>
+              导出模板
+            </a-button>
+            <a-button
+              type="primary"
+              :disabled="selectedImportItems.length === 0"
+              :loading="commitLoading"
+              @click="handleCommit"
+            >
+              <template #icon><ImportOutlined /></template>
+              确认导入 {{ selectedImportItems.length }} 篇
+            </a-button>
+            <a-button :disabled="!previewRows.length || previewLoading || commitLoading" @click="clearPreview">
+              <template #icon><ClearOutlined /></template>
+              清空
+            </a-button>
+          </div>
+          <div class="article-import-toolbar__summary">
+            <a-tag :bordered="false">共 {{ previewRows.length }}</a-tag>
+            <a-tag color="green" :bordered="false">可导入 {{ summary.importableCount }}</a-tag>
+            <a-tag color="blue" :bordered="false">可直接 {{ summary.readyCount }}</a-tag>
+            <a-tag color="orange" :bordered="false">需确认 {{ summary.warningCount }}</a-tag>
+            <a-tag color="red" :bordered="false">重复 {{ summary.duplicateCount }}</a-tag>
+            <a-tag color="red" :bordered="false">错误 {{ summary.errorCount }}</a-tag>
+          </div>
+        </div>
       </template>
 
       <template #bodyCell="{ column, record }">
@@ -173,6 +181,7 @@
 </template>
 
 <script setup>
+import './index.css'
 import { computed, ref } from 'vue'
 import {
   ClearOutlined,
@@ -180,7 +189,7 @@ import {
   ImportOutlined,
   UploadOutlined
 } from '@ant-design/icons-vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 import {
@@ -188,6 +197,7 @@ import {
   downloadArticleImportTemplate,
   previewArticleImport
 } from '@/services/admin'
+import { mergePreviewRows, resolvePreviewRowKey } from './importPreviewRows'
 
 const tableRef = ref(null)
 const previewRows = ref([])
@@ -207,6 +217,7 @@ const tableParams = computed(() => ({
 }))
 
 const summary = computed(() => ({
+  importableCount: previewRows.value.filter((item) => item.canImport).length,
   readyCount: previewRows.value.filter((item) => item.importStatus === 'ready').length,
   warningCount: previewRows.value.filter((item) => item.importStatus === 'warning').length,
   duplicateCount: previewRows.value.filter((item) => item.importStatus === 'duplicate').length,
@@ -304,13 +315,14 @@ async function handleBeforeUpload(_file, fileList) {
   previewLoading.value = true
   try {
     const result = await previewArticleImport(markdownFiles)
-    previewRows.value = (result.items || []).map((item) => ({
-      ...item,
-      key: item.key || `${item.fileName}:${item.slug || item.sourceHash}`
-    }))
+    const beforeCount = previewRows.value.length
+    previewRows.value = mergePreviewRows(previewRows.value, result.items || [])
     selectedRowKeys.value = previewRows.value.filter((item) => item.canImport).map((item) => item.key)
     refreshTable()
-    message.success(`已解析 ${previewRows.value.length} 个 Markdown 文件`)
+    message.success(`已追加解析 ${markdownFiles.length} 个 Markdown 文件，当前预览共 ${previewRows.value.length} 篇`)
+    if (beforeCount > 0 && previewRows.value.length === beforeCount) {
+      message.info('本次上传文件已在当前预览列表中，已刷新识别结果')
+    }
   } catch (error) {
     message.error(error.message || 'Markdown 解析失败')
   } finally {
@@ -344,6 +356,22 @@ async function handleCommit() {
 
   if (!items.length) return
 
+  const warningCount = items.filter((item) => item.importStatus === 'warning').length
+  if (warningCount > 0) {
+    Modal.confirm({
+      title: '确认导入待确认文章',
+      content: `已选择 ${warningCount} 篇存在分类或标签缺失的文章。继续导入后，这些文章会先作为草稿保存，未匹配的分类会留空，未匹配的标签不会自动创建。`,
+      okText: '确认导入',
+      cancelText: '返回检查',
+      onOk: () => commitSelectedItems(items)
+    })
+    return
+  }
+
+  await commitSelectedItems(items)
+}
+
+async function commitSelectedItems(items) {
   commitLoading.value = true
   try {
     const result = await commitArticleImport({
@@ -369,9 +397,9 @@ async function handleCommit() {
     const finishedKeys = new Set(
       (result.items || [])
         .filter((item) => item.status === 'success' || item.status === 'skipped')
-        .map((item) => `${item.fileName}:${item.slug || item.sourceHash}`)
+        .map((item) => resolvePreviewRowKey(item))
     )
-    previewRows.value = previewRows.value.filter((item) => !finishedKeys.has(`${item.fileName}:${item.slug || item.sourceHash}`))
+    previewRows.value = previewRows.value.filter((item) => !finishedKeys.has(resolvePreviewRowKey(item)))
     selectedRowKeys.value = selectedRowKeys.value.filter((key) => {
       const row = previewRows.value.find((item) => item.key === key)
       return row?.canImport
@@ -412,171 +440,3 @@ function getResultLabel(status) {
   return map[status] || status
 }
 </script>
-
-<style scoped>
-.article-import-page {
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
-  max-width: 1400px;
-}
-
-.title-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.title-cell strong {
-  color: var(--console-text);
-  font-size: 13px;
-  font-weight: 650;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.title-cell span,
-.muted-text {
-  color: var(--console-text-secondary);
-  font-size: 12px;
-}
-
-.slug-code,
-.preview-meta code {
-  color: var(--console-text);
-  background: var(--console-surface-muted);
-  border: 1px solid var(--console-border);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 12px;
-}
-
-.tag-cell {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.message-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.message-error {
-  color: #cf1322;
-}
-
-.message-warning {
-  color: #d48806;
-}
-
-.preview-layout {
-  display: grid;
-  grid-template-columns: 280px minmax(0, 1fr);
-  gap: 16px;
-  max-height: 70vh;
-  min-height: 520px;
-}
-
-.preview-meta {
-  padding: 12px;
-  overflow-y: auto;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface-muted);
-}
-
-.preview-meta-item + .preview-meta-item {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--console-border);
-}
-
-.preview-meta-item span {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--console-text-secondary);
-  font-size: 12px;
-}
-
-.preview-meta-item strong,
-.preview-meta-item p {
-  margin: 0;
-  color: var(--console-text);
-  font-size: 13px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-.preview-content {
-  min-width: 0;
-  padding: 16px 18px;
-  overflow-y: auto;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface);
-}
-
-.result-content {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.result-list {
-  max-height: 420px;
-  overflow-y: auto;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-}
-
-.result-item {
-  display: grid;
-  grid-template-columns: 64px minmax(160px, 1fr) minmax(160px, 1fr);
-  gap: 8px;
-  align-items: center;
-  padding: 10px 12px;
-  border-bottom: 1px solid var(--console-border);
-}
-
-.result-item:last-child {
-  border-bottom: 0;
-}
-
-.result-item strong {
-  color: var(--console-text);
-  font-size: 13px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.result-item span:last-child {
-  color: var(--console-text-secondary);
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.article-preview-modal :deep(.ant-modal-body),
-.import-result-modal :deep(.ant-modal-body) {
-  max-height: 76vh;
-  overflow: hidden;
-}
-
-@media (max-width: 900px) {
-  .preview-layout {
-    grid-template-columns: 1fr;
-    min-height: 0;
-  }
-
-  .preview-meta,
-  .preview-content {
-    max-height: 34vh;
-  }
-}
-</style>

@@ -1,4 +1,5 @@
 export const CODE_BLOCK_COLLAPSE_LINES = 10
+export const CODE_BLOCK_COLLAPSE_BUFFER_LINES = 1
 
 const LANGUAGE_LABELS = {
   javascript: 'JavaScript',

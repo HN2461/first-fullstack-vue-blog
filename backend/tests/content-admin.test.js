@@ -589,11 +589,40 @@ tags:
     })
     expect(rows.find((item) => item.fileName === 'missing.md')).toMatchObject({
       importStatus: 'warning',
-      canImport: false
+      canImport: true
     })
     expect(rows.find((item) => item.fileName === 'plain.txt')).toMatchObject({
       importStatus: 'error',
       canImport: false
+    })
+
+    const warningRow = rows.find((item) => item.fileName === 'missing.md')
+    const warningCommitResponse = await request(app)
+      .post('/api/admin/articles/import/commit')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        items: [warningRow],
+        options: { duplicateStrategy: 'skip' }
+      })
+      .expect(201)
+
+    expect(warningCommitResponse.body.data).toMatchObject({
+      successCount: 1,
+      skippedCount: 0,
+      failedCount: 0
+    })
+
+    const warningArticleResponse = await request(app)
+      .get(`/api/admin/articles/${warningCommitResponse.body.data.items[0].articleId}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(warningArticleResponse.body.data).toMatchObject({
+      title: '字典缺失',
+      slug: 'missing-dictionary',
+      status: ARTICLE_STATUS.DRAFT,
+      category: null,
+      tags: []
     })
   })
 

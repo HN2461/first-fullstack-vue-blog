@@ -16,7 +16,7 @@ import { createProjectTimelineRecord, exportProjectTimelineRecords, importProjec
 import { getSettings, updateSettings } from '#modules/settings/services/setting.service.js'
 import { getAdminStats } from '#modules/dashboard/services/stats.service.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
-import { buildArticleImportTemplate, commitMarkdownArticleImport, previewMarkdownArticleImport } from '#modules/content/services/articleImport.service.js'
+import { MAX_IMPORT_FILES, buildArticleImportTemplate, commitMarkdownArticleImport, previewMarkdownArticleImport } from '#modules/content/services/articleImport.service.js'
 import { buildArticleExportHeaders, exportArticlesAsMarkdownZip } from '#modules/content/services/articleExport.service.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
@@ -56,7 +56,7 @@ const articleImportUpload = multer({
   storage: multer.memoryStorage(),
   limits: {
     fileSize: 1024 * 1024,
-    files: 20
+    files: MAX_IMPORT_FILES
   }
 })
 
@@ -339,7 +339,7 @@ adminRouter.get('/articles/import/template', asyncHandler(async (req, res) => {
 
 adminRouter.post('/articles/import/preview', (req, res, next) => {
   articleImportUpload.fields([
-    { name: 'files', maxCount: 20 },
+    { name: 'files', maxCount: MAX_IMPORT_FILES },
     { name: 'file', maxCount: 1 }
   ])(req, res, async (error) => {
     if (error) {
@@ -349,7 +349,7 @@ adminRouter.post('/articles/import/preview', (req, res, next) => {
         if (error.code === 'LIMIT_FILE_SIZE') {
           error.message = '单个 Markdown 文件不能超过 1MB'
         } else if (error.code === 'LIMIT_FILE_COUNT' || error.code === 'LIMIT_UNEXPECTED_FILE') {
-          error.message = '单次最多导入 20 个 Markdown 文件'
+          error.message = `单次最多导入 ${MAX_IMPORT_FILES} 个 Markdown 文件`
         }
       }
       next(error)

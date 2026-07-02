@@ -9,7 +9,7 @@ import { buildArticleSlug, createArticle } from './article.service.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-const MAX_IMPORT_FILES = 20
+export const MAX_IMPORT_FILES = 100
 const MAX_MARKDOWN_FILE_SIZE = 1024 * 1024
 
 function createHttpError(statusCode, code, message) {
@@ -218,7 +218,7 @@ function buildPreviewStatus(item, duplicate) {
     return {
       importStatus: 'warning',
       importStatusLabel: '需要确认',
-      canImport: false
+      canImport: true
     }
   }
 
@@ -416,14 +416,16 @@ export async function commitMarkdownArticleImport(input = {}, user) {
     const title = normalizeText(item.title)
     const slug = normalizeSlug(item.slug)
     const contentMarkdown = normalizeText(item.contentMarkdown)
+    const sourceHash = normalizeText(item.sourceHash)
 
     try {
-      if (!item.canImport || item.importStatus !== 'ready') {
+      if (!item.canImport || !['ready', 'warning'].includes(item.importStatus)) {
         skippedCount += 1
         resultItems.push({
           fileName,
           title,
           slug,
+          sourceHash,
           status: 'skipped',
           reason: '该文章预览状态不可导入'
         })
@@ -441,6 +443,7 @@ export async function commitMarkdownArticleImport(input = {}, user) {
           fileName,
           title,
           slug,
+          sourceHash,
           status: 'skipped',
           reason: 'slug 已存在'
         })
@@ -458,7 +461,7 @@ export async function commitMarkdownArticleImport(input = {}, user) {
         status: ARTICLE_STATUS.DRAFT,
         source: 'manual',
         sourcePath: fileName,
-        sourceHash: normalizeText(item.sourceHash) || createHash(contentMarkdown),
+        sourceHash: sourceHash || createHash(contentMarkdown),
         importedAt: new Date()
       }, user)
 
@@ -467,6 +470,7 @@ export async function commitMarkdownArticleImport(input = {}, user) {
         fileName,
         title,
         slug,
+        sourceHash,
         status: 'success',
         reason: '',
         articleId: article.id
@@ -477,6 +481,7 @@ export async function commitMarkdownArticleImport(input = {}, user) {
         fileName,
         title,
         slug,
+        sourceHash,
         status: 'failed',
         reason: error.message || '导入失败'
       })
