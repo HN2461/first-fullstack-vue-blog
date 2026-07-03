@@ -109,6 +109,10 @@ const articleSchema = new mongoose.Schema(
       type: Number,
       default: 1
     },
+    sortOrder: {
+      type: Number,
+      default: 0
+    },
     source: {
       type: String,
       enum: ['manual', 'legacy-notes'],
@@ -166,6 +170,7 @@ articleSchema.index(
     name: 'article_text_index'
   }
 )
+articleSchema.index({ category: 1, sortOrder: 1, publishedAt: -1, createdAt: -1 })
 
 articleSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
   const includeContent = options.includeContent !== false
@@ -215,6 +220,7 @@ articleSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     commentCount: this.commentCount,
     wordCount: this.wordCount,
     readingMinutes: this.readingMinutes,
+    sortOrder: this.sortOrder || 0,
     source: this.source,
     sourcePath: this.sourcePath,
     sourceHash: this.sourceHash,

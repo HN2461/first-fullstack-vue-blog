@@ -1,6 +1,7 @@
 import { ARTICLE_STATUS } from '#constants/domain'
 import { Category } from '#modules/content/models/Category.js'
 import { Article } from '#modules/content/models/Article.js'
+import { getNextArticleSortOrder, normalizeArticleSortOrder } from './articleOrder.service.js'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -213,6 +214,7 @@ export async function createArticle(input, user) {
   const slug = await resolveCreateSlug(input)
 
   const wordCount = calculateWordCount(input.contentMarkdown)
+  const categoryId = input.category || null
   const article = await Article.create({
     title: input.title.trim(),
     slug,
@@ -220,12 +222,15 @@ export async function createArticle(input, user) {
     contentMarkdown: input.contentMarkdown || '',
     cover: input.cover || '',
     resources: normalizeResources(input.resources),
-    category: input.category || null,
+    category: categoryId,
     tags: input.tags || [],
     status: input.status || ARTICLE_STATUS.DRAFT,
     isRecommended: !!input.isRecommended,
     wordCount,
     readingMinutes: calculateReadingMinutes(wordCount),
+    sortOrder: input.sortOrder !== undefined
+      ? normalizeArticleSortOrder(input.sortOrder)
+      : await getNextArticleSortOrder(categoryId),
     source: input.source || 'manual',
     sourcePath: input.sourcePath || '',
     sourceHash: input.sourceHash || '',
@@ -265,6 +270,11 @@ export async function updateArticle(id, input, user) {
   article.isRecommended = !!input.isRecommended
   article.wordCount = wordCount
   article.readingMinutes = calculateReadingMinutes(wordCount)
+  if (input.sortOrder !== undefined) {
+    article.sortOrder = normalizeArticleSortOrder(input.sortOrder)
+  } else if (previousCategoryId !== nextCategoryId) {
+    article.sortOrder = await getNextArticleSortOrder(nextCategoryId)
+  }
   article.updatedBy = user._id
 
   await article.save()
@@ -337,7 +347,7 @@ export async function listArticles(options = {}) {
   const { status, category, keyword } = options
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 10))
-  const allowedSortFields = new Set(['updatedAt', 'publishedAt', 'createdAt'])
+  const allowedSortFields = new Set(['updatedAt', 'publishedAt', 'createdAt', 'sortOrder'])
   const sortField = allowedSortFields.has(options.sortField) ? options.sortField : 'updatedAt'
   const sortOrder = options.sortOrder === 'asc' ? 1 : -1
 

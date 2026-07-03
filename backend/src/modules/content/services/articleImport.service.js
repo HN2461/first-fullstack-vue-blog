@@ -62,6 +62,21 @@ function getTitleFromFilename(filename) {
   return normalizeText(parsed.name).replace(/[-_]+/g, ' ')
 }
 
+function resolveImportSortOrder(fileName, data = {}) {
+  const rawOrder = data.sortOrder ?? data.directoryOrder
+  const explicitOrder = Number(rawOrder)
+  if (Number.isFinite(explicitOrder)) {
+    return Math.max(0, Math.trunc(explicitOrder))
+  }
+
+  const prefix = path.parse(fileName || '').name.match(/^\s*(\d+)(?:[.\-_\s]|$)/)
+  if (!prefix) {
+    return undefined
+  }
+
+  return Math.max(0, Number.parseInt(prefix[1], 10) * 10)
+}
+
 function buildSummary(markdown) {
   const plainText = stripMarkdown(markdown)
   return plainText.slice(0, 300)
@@ -148,6 +163,7 @@ function parseMarkdownContent(fileName, rawMarkdown, lookupMaps) {
   const summary = normalizeText(data.summary) || buildSummary(contentMarkdown)
   const categoryResult = resolveCategory(data.category, lookupMaps.categoryMap)
   const tagResult = resolveTags(data.tags, lookupMaps.tagMap)
+  const sortOrder = resolveImportSortOrder(fileName, data)
 
   const errors = []
   const warnings = []
@@ -191,6 +207,7 @@ function parseMarkdownContent(fileName, rawMarkdown, lookupMaps) {
     tagIds: tagResult.resolved.map((tag) => tag.id),
     missingTags: tagResult.missing,
     status: ARTICLE_STATUS.DRAFT,
+    sortOrder,
     sourceHash: createHash(rawMarkdown),
     errors,
     warnings
@@ -250,6 +267,7 @@ async function buildPreviewItems(files) {
         tagIds: [],
         missingTags: [],
         status: ARTICLE_STATUS.DRAFT,
+        sortOrder: undefined,
         sourceHash: createHash(rawMarkdown),
         errors: ['仅支持 .md 或 .markdown 文件'],
         warnings: []
@@ -321,6 +339,7 @@ tags:
   - Vue
   - 响应式
 status: draft
+sortOrder: 10
 cover:
 ---
 
@@ -341,6 +360,7 @@ cover:
 - category：分类名称，应匹配知识库已有分类。
 - tags：标签名称列表，应匹配知识库已有标签。
 - status：固定使用 draft。
+- sortOrder：目录内排序，可留空；数字越小越靠前，也可用 01-文章名.md 这种文件名前缀自动识别。
 - cover：封面图片地址，可留空。
 
 ## 背景
@@ -459,6 +479,7 @@ export async function commitMarkdownArticleImport(input = {}, user) {
         category: item.categoryId || null,
         tags: Array.isArray(item.tagIds) ? item.tagIds : [],
         status: ARTICLE_STATUS.DRAFT,
+        sortOrder: item.sortOrder,
         source: 'manual',
         sourcePath: fileName,
         sourceHash: sourceHash || createHash(contentMarkdown),

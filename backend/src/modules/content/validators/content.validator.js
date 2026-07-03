@@ -74,7 +74,8 @@ export const articleSchema = z.object({
   category: z.string().regex(objectIdPattern, '分类 id 不正确').nullable().optional().default(null),
   tags: z.array(z.string().regex(objectIdPattern, '标签 id 不正确')).optional().default([]),
   status: z.enum(Object.values(ARTICLE_STATUS)).optional().default(ARTICLE_STATUS.DRAFT),
-  isRecommended: z.boolean().optional().default(false)
+  isRecommended: z.boolean().optional().default(false),
+  sortOrder: z.number().int().min(0).max(999999).optional()
 })
 
 export const categoryMoveSchema = z.object({
@@ -89,6 +90,14 @@ export const articleCategoryMoveSchema = z.object({
 export const articleCategoryBatchMoveSchema = z.object({
   articleIds: z.array(z.string().regex(objectIdPattern, '文章 id 不正确')).min(1, '请选择要迁移的文章'),
   targetCategoryId: z.string().regex(objectIdPattern, '目标分类 id 不正确')
+})
+
+export const articleReorderSchema = z.object({
+  categoryId: z.string().regex(objectIdPattern, '分类 id 不正确'),
+  items: z.array(z.object({
+    id: z.string().regex(objectIdPattern, '文章 id 不正确'),
+    sortOrder: z.number().int().min(0).max(999999)
+  })).min(1, '请选择要排序的文章')
 })
 
 export const idBatchSchema = z.object({

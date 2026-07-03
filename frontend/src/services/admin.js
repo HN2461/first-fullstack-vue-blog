@@ -156,6 +156,10 @@ export function moveAdminArticlesCategory(articleIds, targetCategoryId) {
   return http.post('/api/admin/articles/category/batch', { articleIds, targetCategoryId })
 }
 
+export function reorderAdminCategoryArticles(categoryId, items) {
+  return http.post('/api/admin/articles/reorder', { categoryId, items })
+}
+
 export function deleteAdminCategory(id) {
   return http.delete(`/api/admin/categories/${id}`)
 }

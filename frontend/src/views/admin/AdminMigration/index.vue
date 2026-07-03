@@ -129,6 +129,14 @@
                 查看该分类文章
               </a-button>
               <a-button
+                class="mg-btn mg-btn-ghost"
+                :disabled="!currentCategory"
+                @click="openArticleOrderModal"
+              >
+                <template #icon><OrderedListOutlined /></template>
+                编排顺序
+              </a-button>
+              <a-button
                 type="primary"
                 class="mg-btn mg-btn-primary"
                 :disabled="!currentCategory || isLockedCategory"
@@ -301,6 +309,10 @@
             <a-tag :bordered="false">{{ record.category?.name || DEFAULT_CATEGORY_LABEL }}</a-tag>
           </template>
 
+          <template v-else-if="column.key === 'sortOrder'">
+            <span class="mg-order-cell">{{ record.sortOrder || 0 }}</span>
+          </template>
+
           <template v-else-if="column.key === 'publishedAt'">
             <span class="mg-time-cell">{{ formatDate(record.publishedAt || record.createdAt) }}</span>
           </template>
@@ -314,6 +326,12 @@
         </template>
       </BlogTable>
     </a-modal>
+
+    <CategoryArticleOrderModal
+      v-model:open="articleOrderModalVisible"
+      :category="currentCategory"
+      @saved="handleArticleOrderSaved"
+    />
 
     <!-- ══════ 新增分类弹窗 ══════ -->
     <a-modal
@@ -418,6 +436,7 @@ import {
   FolderOutlined,
   InboxOutlined,
   InfoCircleOutlined,
+  OrderedListOutlined,
   PlusOutlined,
   ReloadOutlined,
   SaveOutlined,
@@ -426,6 +445,7 @@ import {
   UndoOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import CategoryArticleOrderModal from './CategoryArticleOrderModal.vue'
 import {
   createAdminCategory,
   deleteAdminCategory,
@@ -456,6 +476,7 @@ const editFormRef = ref(null)
 const createFormRef = ref(null)
 const createModalVisible = ref(false)
 const categoryArticlesModalVisible = ref(false)
+const articleOrderModalVisible = ref(false)
 const moveArticleModalVisible = ref(false)
 const moveMode = ref('single')
 const movingArticleRecord = ref(null)
@@ -488,6 +509,7 @@ const createForm = reactive({
 const articleColumns = [
   { title: '标题', key: 'title', ellipsis: true },
   { title: '当前分类', key: 'category', width: 160 },
+  { title: '目录序', key: 'sortOrder', width: 90, align: 'center' },
   { title: '发布时间', key: 'publishedAt', width: 160 },
   { title: '操作', key: 'action', width: 100, align: 'center' }
 ]
@@ -896,6 +918,21 @@ function openCategoryArticlesModal() {
 
   categoryArticlesModalVisible.value = true
   clearArticleSelection()
+}
+
+function openArticleOrderModal() {
+  if (!selectedCategoryId.value) {
+    return
+  }
+
+  articleOrderModalVisible.value = true
+}
+
+async function handleArticleOrderSaved() {
+  if (categoryArticlesModalVisible.value) {
+    articleTableRef.value?.refresh?.()
+  }
+  await reloadAll()
 }
 
 function closeCategoryArticlesModal() {
@@ -1546,6 +1583,13 @@ onMounted(() => {
 .mg-time-cell {
   font-size: 13px;
   color: var(--console-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.mg-order-cell {
+  color: var(--console-primary-strong);
+  font-size: 13px;
+  font-weight: 650;
   font-variant-numeric: tabular-nums;
 }
 

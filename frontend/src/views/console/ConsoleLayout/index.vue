@@ -514,7 +514,7 @@ const sectionTitle = computed(() => currentRootMenu.value?.name || '控制台')
 const uncategorizedArticles = computed(() => {
   return articles.value
     .filter((article) => !article.category?.id || article.category?.isSystem || article.category?.slug === 'uncategorized')
-    .sort((left, right) => new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt))
+    .sort(compareDirectoryArticles)
 })
 const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)
 const effectiveOpenKeys = computed(() => (siderCollapsed.value ? [] : openKeys.value))
@@ -757,9 +757,7 @@ const categoryTree = computed(() => {
       .map((item) => ({
         ...item,
         children: sortTree(item.children),
-        articles: item.articles.sort((left, right) => {
-          return new Date(right.publishedAt || right.createdAt) - new Date(left.publishedAt || left.createdAt)
-        })
+        articles: item.articles.sort(compareDirectoryArticles)
       }))
   }
 
@@ -768,6 +766,17 @@ const categoryTree = computed(() => {
 
 function handlePrimaryClick({ key }) {
   switchRootMenu(key)
+}
+
+function compareDirectoryArticles(left, right) {
+  const sortDiff = Number(left.sortOrder || 0) - Number(right.sortOrder || 0)
+  if (sortDiff) return sortDiff
+
+  const leftTime = new Date(left.publishedAt || left.createdAt || 0).getTime()
+  const rightTime = new Date(right.publishedAt || right.createdAt || 0).getTime()
+  if (rightTime !== leftTime) return rightTime - leftTime
+
+  return String(left.title || '').localeCompare(String(right.title || ''), 'zh-Hans-CN')
 }
 
 function handleSecondaryClick({ key }) {

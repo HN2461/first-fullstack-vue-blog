@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 import { Category } from '#modules/content/models/Category.js'
 import { Article } from '#modules/content/models/Article.js'
 import { adjustCategoryArticleCount } from './article.service.js'
+import { getDirectoryArticleSort, getNextArticleSortOrder } from './articleOrder.service.js'
 
 export const SYSTEM_UNCATEGORIZED_CATEGORY = Object.freeze({
   name: '默认分类',
@@ -425,7 +426,7 @@ export async function listCategoryArticles(categoryId, options = {}) {
       .populate('category')
       .populate('tags')
       .populate('createdBy', 'username avatar role')
-      .sort({ publishedAt: -1, createdAt: -1 })
+      .sort(getDirectoryArticleSort())
       .skip(skip)
       .limit(pageSize),
     Article.countDocuments(query)
@@ -451,7 +452,11 @@ export async function moveArticleCategory(articleId, targetCategoryId) {
   }
 
   const previousCategoryId = article.category ? article.category.toString() : null
-  article.category = targetCategory._id
+  const nextCategoryId = targetCategory._id.toString()
+  if (previousCategoryId !== nextCategoryId) {
+    article.category = targetCategory._id
+    article.sortOrder = await getNextArticleSortOrder(targetCategory._id)
+  }
   await article.save()
 
   if (previousCategoryId && previousCategoryId !== String(targetCategory._id)) {
@@ -488,6 +493,7 @@ export async function moveArticlesCategory(articleIds, targetCategoryId) {
     }
 
     article.category = targetCategory._id
+    article.sortOrder = await getNextArticleSortOrder(targetCategory._id)
     await article.save()
 
     if (previousCategoryId) {

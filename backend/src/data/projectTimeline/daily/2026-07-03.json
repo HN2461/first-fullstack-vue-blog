@@ -16,6 +16,13 @@
       "detail": "1. 为 output/Docker/Docker学习笔记-纯小白版.md 补充网站导入用 Front Matter，包括标题、slug、摘要、分类、标签和草稿状态。\n2. 将原对话整理稿重排为概念认知、安装验证、Nginx 上手、容器进入、核心命令、端口映射、数据挂载、环境变量、Dockerfile、Docker Compose、排错和练习路线。\n3. 调整示例命令为更贴近 Windows PowerShell 的写法，并为 docker system prune -a、docker compose down -v、数据目录删除等高风险操作补充明确提醒。",
       "occurredAt": "2026-07-03T17:12:00+08:00",
       "category": "内容上新"
+    },
+    {
+      "id": "article-directory-sort-order",
+      "title": "新增文章目录顺序编排能力",
+      "detail": "1. 为文章模型新增 sortOrder 目录排序字段，并让文章目录、分类文章列表和知识库目录接口优先按目录序展示，避免批量发布后只按发布时间导致文档顺序混乱。\n2. 新增文章重排接口和迁移配置页“编排顺序”弹窗，支持当前分类直接文章置顶、上移、下移、置底并统一保存，同时迁移文章到新分类时自动追加到末尾。\n3. 扩展 Markdown 导入识别 sortOrder / directoryOrder 和文件名前缀顺序，新增 backfillArticleSortOrder dry-run 回填脚本，用于发布前按现有发布时间顺序初始化历史文章目录序。",
+      "occurredAt": "2026-07-03T18:40:00+08:00",
+      "category": "功能更新"
     }
   ]
 }

@@ -3,6 +3,7 @@ import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Reaction } from '#modules/interaction/models/Reaction.js'
 import { Tag } from '#modules/content/models/Tag.js'
+import { getDirectoryArticleSort } from '#modules/content/services/articleOrder.service.js'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -92,7 +93,9 @@ export async function listPublicArticles(rawQuery = {}) {
     ? { viewCount: -1, publishedAt: -1, createdAt: -1 }
     : rawQuery.sort === 'recommended'
       ? { isRecommended: -1, publishedAt: -1, createdAt: -1 }
-      : { publishedAt: -1, createdAt: -1 }
+      : rawQuery.sort === 'directory' || rawQuery.category
+        ? getDirectoryArticleSort()
+        : { publishedAt: -1, createdAt: -1 }
 
   if (categoryIds === '__missing__' || tagId === '__missing__') {
     return {
@@ -232,7 +235,7 @@ export async function getKnowledgeMenuData() {
       deletedAt: null
     })
       .populate('category')
-      .sort({ publishedAt: -1, createdAt: -1 })
+      .sort(getDirectoryArticleSort())
       .limit(500)
   ])
 
