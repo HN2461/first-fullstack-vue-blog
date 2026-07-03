@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-03",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "docker-desktop-cn-record",
+      "title": "沉淀 Docker Desktop 汉化网站笔记",
+      "detail": "1. 在 output/Docker 下新增适合网站导入的 Docker Desktop 汉化教程，按版本确认、下载校验、文件备份、管理员权限替换、验证和回滚组织内容。\n2. 将本机 Docker Desktop 4.80.0 汉化实操结果作为示例补充到笔记中，避免文档只绑定当前电脑环境。\n3. 清理部署发布文档中的临时记录入口，保持项目文档和网站笔记分层。",
+      "occurredAt": "2026-07-03T16:58:00+08:00",
+      "category": "手动记录"
+    },
+    {
+      "id": "docker-beginner-note-optimize",
+      "title": "优化 Docker 纯小白学习笔记",
+      "detail": "1. 为 output/Docker/Docker学习笔记-纯小白版.md 补充网站导入用 Front Matter，包括标题、slug、摘要、分类、标签和草稿状态。\n2. 将原对话整理稿重排为概念认知、安装验证、Nginx 上手、容器进入、核心命令、端口映射、数据挂载、环境变量、Dockerfile、Docker Compose、排错和练习路线。\n3. 调整示例命令为更贴近 Windows PowerShell 的写法，并为 docker system prune -a、docker compose down -v、数据目录删除等高风险操作补充明确提醒。",
+      "occurredAt": "2026-07-03T17:12:00+08:00",
+      "category": "内容上新"
+    }
+  ]
+}
