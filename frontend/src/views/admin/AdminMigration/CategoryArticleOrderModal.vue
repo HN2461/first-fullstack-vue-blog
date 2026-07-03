@@ -33,8 +33,27 @@
           <div
             v-for="(article, index) in articles"
             :key="article.id"
-            class="article-order-row"
+            :class="[
+              'article-order-row',
+              {
+                'is-dragging': draggingArticleId === article.id,
+                'is-drop-before': dragOverArticleId === article.id && dragOverPlacement === 'before',
+                'is-drop-after': dragOverArticleId === article.id && dragOverPlacement === 'after'
+              }
+            ]"
+            @dragover.prevent="handleDragOver($event, index)"
+            @dragleave="handleDragLeave(article.id)"
+            @drop.prevent="handleDrop(index)"
           >
+            <span
+              class="article-order-row__handle"
+              title="拖拽调整顺序"
+              draggable="true"
+              @dragstart="handleDragStart($event, index)"
+              @dragend="clearDraggingState"
+            >
+              <MenuOutlined />
+            </span>
             <span class="article-order-row__index">{{ index + 1 }}</span>
             <div class="article-order-row__main">
               <strong>{{ article.title }}</strong>
@@ -76,6 +95,7 @@ import { message } from 'ant-design-vue'
 import {
   ArrowDownOutlined,
   ArrowUpOutlined,
+  MenuOutlined,
   ReloadOutlined,
   SaveOutlined,
   VerticalAlignBottomOutlined,
@@ -100,6 +120,10 @@ const loading = ref(false)
 const saving = ref(false)
 const dirty = ref(false)
 const articles = ref([])
+const draggingIndex = ref(-1)
+const draggingArticleId = ref('')
+const dragOverArticleId = ref('')
+const dragOverPlacement = ref('')
 
 const modalOpen = computed({
   get: () => props.open,
@@ -156,14 +180,74 @@ function moveArticle(fromIndex, toIndex) {
     return
   }
 
+  applyArticleOrderMove(fromIndex, toIndex)
+}
+
+function applyArticleOrderMove(fromIndex, toIndex) {
+  if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0 || fromIndex >= articles.value.length) {
+    return
+  }
+
+  const boundedToIndex = Math.min(toIndex, articles.value.length - 1)
   const next = [...articles.value]
   const [item] = next.splice(fromIndex, 1)
-  next.splice(toIndex, 0, item)
+  next.splice(boundedToIndex, 0, item)
   articles.value = next.map((article, index) => ({
     ...article,
     sortOrder: (index + 1) * 10
   }))
   dirty.value = true
+}
+
+function handleDragStart(event, index) {
+  draggingIndex.value = index
+  draggingArticleId.value = articles.value[index]?.id || ''
+  event.dataTransfer.effectAllowed = 'move'
+  event.dataTransfer.setData('text/plain', draggingArticleId.value)
+}
+
+function handleDragOver(event, index) {
+  if (draggingIndex.value < 0 || draggingIndex.value === index) {
+    dragOverArticleId.value = ''
+    dragOverPlacement.value = ''
+    return
+  }
+
+  const target = event.currentTarget
+  const rect = target.getBoundingClientRect()
+  const placement = event.clientY < rect.top + rect.height / 2 ? 'before' : 'after'
+  dragOverArticleId.value = articles.value[index]?.id || ''
+  dragOverPlacement.value = placement
+}
+
+function handleDragLeave(articleId) {
+  if (dragOverArticleId.value !== articleId) {
+    return
+  }
+
+  dragOverArticleId.value = ''
+  dragOverPlacement.value = ''
+}
+
+function handleDrop(index) {
+  if (draggingIndex.value < 0 || draggingIndex.value === index) {
+    clearDraggingState()
+    return
+  }
+
+  let targetIndex = dragOverPlacement.value === 'after' ? index + 1 : index
+  if (draggingIndex.value < targetIndex) {
+    targetIndex -= 1
+  }
+  applyArticleOrderMove(draggingIndex.value, targetIndex)
+  clearDraggingState()
+}
+
+function clearDraggingState() {
+  draggingIndex.value = -1
+  draggingArticleId.value = ''
+  dragOverArticleId.value = ''
+  dragOverPlacement.value = ''
 }
 
 async function saveOrder() {
@@ -231,7 +315,7 @@ watch(() => props.open, (open) => {
 
 .article-order-row {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr) 64px auto;
+  grid-template-columns: 28px 42px minmax(0, 1fr) 64px auto;
   align-items: center;
   gap: 12px;
   min-height: 66px;
@@ -239,6 +323,58 @@ watch(() => props.open, (open) => {
   border: 1px solid var(--console-border);
   border-radius: 6px;
   background: var(--console-surface);
+  position: relative;
+  transition: border-color 0.16s ease, background-color 0.16s ease, opacity 0.16s ease;
+}
+
+.article-order-row::before,
+.article-order-row::after {
+  position: absolute;
+  right: 10px;
+  left: 10px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--console-primary-strong);
+  opacity: 0;
+  content: '';
+}
+
+.article-order-row::before {
+  top: -5px;
+}
+
+.article-order-row::after {
+  bottom: -5px;
+}
+
+.article-order-row.is-dragging {
+  opacity: 0.48;
+  border-style: dashed;
+}
+
+.article-order-row.is-drop-before::before,
+.article-order-row.is-drop-after::after {
+  opacity: 1;
+}
+
+.article-order-row__handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 32px;
+  color: var(--console-text-secondary);
+  cursor: grab;
+  user-select: none;
+  transition: color 0.16s ease;
+}
+
+.article-order-row__handle:hover {
+  color: var(--console-primary-strong);
+}
+
+.article-order-row__handle:active {
+  cursor: grabbing;
 }
 
 .article-order-row__index {
@@ -292,12 +428,12 @@ watch(() => props.open, (open) => {
 
 @media (max-width: 720px) {
   .article-order-row {
-    grid-template-columns: 36px minmax(0, 1fr);
+    grid-template-columns: 28px 36px minmax(0, 1fr);
   }
 
   .article-order-row__order,
   .article-order-row__actions {
-    grid-column: 2;
+    grid-column: 3;
   }
 
   .article-order-row__actions {

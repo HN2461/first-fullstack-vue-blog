@@ -20,7 +20,7 @@
     {
       "id": "article-directory-sort-order",
       "title": "新增文章目录顺序编排能力",
-      "detail": "1. 为文章模型新增 sortOrder 目录排序字段，并让文章目录、分类文章列表和知识库目录接口优先按目录序展示，避免批量发布后只按发布时间导致文档顺序混乱。\n2. 新增文章重排接口和迁移配置页“编排顺序”弹窗，支持当前分类直接文章置顶、上移、下移、置底并统一保存，同时迁移文章到新分类时自动追加到末尾。\n3. 扩展 Markdown 导入识别 sortOrder / directoryOrder 和文件名前缀顺序，新增 backfillArticleSortOrder dry-run 回填脚本，用于发布前按现有发布时间顺序初始化历史文章目录序。\n4. 已部署到正式服务器，发布备份目录为 /www/personal-blog/backups/release-20260703-175157；线上执行 article-sort dry-run 与 apply，已为 433 篇文章初始化目录序，并通过公网 /api/health 与知识库目录接口验证。",
+      "detail": "1. 为文章模型新增 sortOrder 目录排序字段，并让文章目录、分类文章列表和知识库目录接口优先按目录序展示，避免批量发布后只按发布时间导致文档顺序混乱。\n2. 新增文章重排接口和迁移配置页“编排顺序”弹窗，支持当前分类直接文章置顶、上移、下移、置底并统一保存，同时迁移文章到新分类时自动追加到末尾。\n3. 扩展 Markdown 导入识别 sortOrder / directoryOrder 和文件名前缀顺序，新增 backfillArticleSortOrder dry-run 回填脚本，用于发布前按现有发布时间顺序初始化历史文章目录序。\n4. 已部署到正式服务器，发布备份目录为 /www/personal-blog/backups/release-20260703-175157；线上执行 article-sort dry-run 与 apply，已为 433 篇文章初始化目录序，并通过公网 /api/health 与知识库目录接口验证。\n5. 在文章顺序编排弹窗补充拖拽排序交互，保留置顶、上移、下移、置底按钮，拖拽后自动重算 sortOrder 并沿用统一保存入口。",
       "occurredAt": "2026-07-03T18:40:00+08:00",
       "category": "功能更新"
     }
