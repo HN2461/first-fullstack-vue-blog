@@ -1,0 +1,145 @@
+.resume-workspace {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.resume-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  flex-wrap: wrap;
+}
+
+.resume-toolbar__search {
+  width: 260px;
+}
+
+.resume-toolbar__select {
+  width: 150px;
+}
+
+.resume-text-muted {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.resume-action-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.resume-title-cell {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.resume-title-cell strong {
+  color: var(--console-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resume-modal-body,
+.resume-drawer-body {
+  max-height: min(68vh, 640px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.resume-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 12px;
+}
+
+.resume-panel {
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  overflow: hidden;
+}
+
+.resume-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--console-border);
+}
+
+.resume-panel__head strong {
+  color: var(--console-text);
+}
+
+.resume-panel__body {
+  padding: 14px;
+}
+
+.resume-card-list {
+  display: grid;
+  gap: 10px;
+}
+
+.resume-item-card {
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  padding: 12px;
+}
+
+.resume-item-card[draggable="true"] {
+  cursor: grab;
+}
+
+.resume-item-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.resume-item-card__head strong {
+  color: var(--console-text);
+  font-size: 13px;
+}
+
+.resume-preview {
+  max-height: 180px;
+  overflow: auto;
+  border: 1px solid var(--console-border);
+  border-radius: 6px;
+  padding: 10px;
+  color: var(--console-text-secondary);
+  background: var(--console-surface-muted);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+@media (max-width: 900px) {
+  .resume-toolbar__search,
+  .resume-toolbar__select {
+    width: 100%;
+  }
+
+  .resume-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-action-row {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+}

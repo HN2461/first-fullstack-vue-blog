@@ -20,6 +20,12 @@ import { discussionRouter } from '#modules/discussion/routes/discussion.routes.j
 import profileRouter from '#modules/user/routes/profile.routes.js'
 import { publicRouter } from '#modules/public/routes/public.routes.js'
 import { rbacRouter } from '#modules/rbac/routes/rbac.routes.js'
+import {
+  resumeExportRouter,
+  resumeInterviewRouter,
+  resumeRouter,
+  resumeTemplateRouter
+} from '#modules/resume/routes/resume.routes.js'
 
 export function createApp() {
   const app = express()
@@ -45,6 +51,10 @@ export function createApp() {
   app.use(`${API_PREFIX}/captcha`, captchaRouter)
   app.use(`${API_PREFIX}/ledger`, ledgerRouter)
   app.use(`${API_PREFIX}/memos`, memoRouter)
+  app.use(`${API_PREFIX}/resumes`, resumeRouter)
+  app.use(`${API_PREFIX}/resume-interviews`, resumeInterviewRouter)
+  app.use(`${API_PREFIX}/resume-templates`, resumeTemplateRouter)
+  app.use(`${API_PREFIX}/resume-exports`, resumeExportRouter)
   app.use(`${API_PREFIX}/discussions`, discussionRouter)
   app.use(`${API_PREFIX}/profile`, profileRouter)
   app.use(`${API_PREFIX}/public`, publicRouter)

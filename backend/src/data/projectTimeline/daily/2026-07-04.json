@@ -37,6 +37,13 @@
       "detail": "1. 阅读 output/AI技术笔记 与 output/Docker 下 3 篇草稿，并结合 OpenAI 官方文档、Docker 官方文档和 DockerDesktop-CN Release 信息核对技术表述。\n2. 更新 AI 技术知识体系文章中的 Agent 定义、RAG 向量化时机、OpenAI Responses API / SDK v1+ 示例、developer 角色、token 估算、结构化输出、流式输出、模型窗口和成本计算方式，避免沿用过时模型与固定价格口径。\n3. 为 Docker Desktop 汉化教程补充 Windows x86 包名与系统架构选择说明、停止 Docker 相关进程前的确认提示；为 Docker 小白笔记补充 PowerShell 5.1 写入 UTF-8 BOM 的注意事项。",
       "occurredAt": "2026-07-04T16:11:53+08:00",
       "category": "内容维护"
+    },
+    {
+      "id": "resume-module-rbac-and-editor",
+      "title": "新增动态简历模块与面试问答库",
+      "detail": "1. 新增独立顶部一级菜单“简历模块”，下挂简历列表、简历编辑、面试问答库、简历模板和导出记录，入口显示和接口访问均沿用后端 RBAC 菜单权限，默认仅超级管理员拥有。\n2. 新增后端简历业务域，支持按当前用户隔离的结构化简历、多模板选择、面试问答素材、简历条目双向关联和 Markdown/PDF/Word 导出记录下载。\n3. 新增控制台简历列表、编辑器、问答库、模板和导出记录页面，编辑器支持条目增删、拖拽排序、项目亮点/工作成果绑定问答和直接落库自动保存。\n4. 补充简历模块后端测试，覆盖菜单 seed、权限拦截、用户数据隔离、条目稳定 ID、问答反查和三种格式导出。\n5. 已按增量发布流程部署到正式服务器，发布前完成 MongoDB 与前后端文件备份，发布备份目录为 /www/personal-blog/backups/release-20260704-174056，线上健康检查、PM2 状态和简历菜单 seed 均验证通过。",
+      "occurredAt": "2026-07-04T17:50:00+08:00",
+      "category": "功能更新"
     }
   ]
 }
