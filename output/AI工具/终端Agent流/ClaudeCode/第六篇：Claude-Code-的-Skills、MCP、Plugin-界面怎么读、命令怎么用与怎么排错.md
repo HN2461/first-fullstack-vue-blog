@@ -1,7 +1,7 @@
 ---
 title: "第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错"
 slug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb-revision-20260704"
-summary: "基于 2026-05-30 Claude Code 官方 Skills、MCP、Plugins、Commands 与 Debug 文档重写，专门解决“装了很多 skill、MCP、plugin，但终端里全是英文，看不懂也不会调用”的程序员实战问题，按 `/mcp`、`/skills`、`/plugin` 与斜杠命令列表逐屏拆解。"
+summary: "基于 2026-07-04 Claude Code 官方 Skills、MCP、Plugins、Commands 与 Debug 文档复核更新，专门解决“装了很多 skill、MCP、plugin，但终端里全是英文，看不懂也不会调用”的程序员实战问题，按 `/mcp`、`/skills`、`/plugin` 与斜杠命令列表逐屏拆解。"
 category: "ClaudeCode"
 tags:
   - "Claude Code"
@@ -548,7 +548,7 @@ flowchart TD
 ```mermaid
 flowchart LR
   A["/ 命令列表"] --> B["内置命令<br/>/mcp /plugin /skills /background"]
-  A --> C["官方 Skill / Workflow<br/>/batch /loop /simplify /verify"]
+  A --> C["官方 bundled skill<br/>/batch /debug /loop /run /simplify /verify"]
   A --> D["Plugin 带来的能力<br/>/superpowers:brainstorming"]
   A --> E["MCP 暴露的 prompt<br/>/mcp__github__list_prs"]
 ```
@@ -570,6 +570,9 @@ flowchart LR
 - `/permissions`
 - `/doctor`
 - `/init`
+- `/model`
+- `/context`
+- `/memory`
 
 这类命令的特点是：
 
@@ -578,13 +581,8 @@ flowchart LR
 
 ### 第二类：Claude 官方自带的 skill 或 workflow
 
-官方命令文档里明确区分了两类特殊命令：
-
-- `Skill`
-- `Workflow`
-
-意思是有些看起来像命令的东西，本质上也是一种技能或工作流封装。  
-比如某些 review、research、run、verify 类能力，就属于这一路。
+官方命令文档里会把一批命令标成 `Skill`。  
+意思是有些看起来像命令的东西，本质上是官方内置的 prompt-based skill，不是硬编码管理功能。比如 review、debug、run、verify、batch 这类能力，就属于这一路。
 
 所以你看到一个命令，不要默认它全都是“硬编码内置功能”。
 
@@ -649,7 +647,7 @@ flowchart LR
 
 ## 四点五、主人截图里这些命令哪些是官方的
 
-这一段我专门去对了 2026-05-30 的 Claude Code 官方文档，主要看的就是：
+这一段我专门去对了 2026-07-04 的 Claude Code 官方文档，主要看的就是：
 
 - `commands`
 - `sub-agents`
@@ -677,7 +675,6 @@ flowchart LR
 下面这些，官方命令总表里都能直接对上：
 
 - `/add-dir <path>`
-- `/agents`
 - `/background [prompt]`
 - `/effort [level|auto]`
 - `/export [filename]`
@@ -705,34 +702,14 @@ flowchart LR
 
 ### `/agents`
 
-这是官方内置命令，不是第三方插件命令。
+这是官方内置命令，不是第三方插件命令，但它的行为已经变过一次。
 
-官方 `sub-agents` 和 `agents` 文档把它说得很明确：
+按 2026-07-04 官方命令页，Claude Code `v2.1.198` 起 `/agents` 不再打开旧版交互式 subagent 管理界面，而是提示你直接让 Claude 创建、管理 subagents，或者手动编辑：
 
-- `/agents` 打开的是当前会话里的 subagent 管理界面
+- `.claude/agents/`
+- `~/.claude/agents/`
 
-而且这个界面分两栏：
-
-- `Running`：当前这一局里正在跑的 subagent
-- `Library`：当前可用的 subagent 库
-
-`Library` 那一栏官方文档明确写了会包含：
-
-- built-in
-- user
-- project
-- plugin
-
-所以你截图里看到的：
-
-- `Built-in (always available)`
-
-正确读法就是：
-
-- 这是 Claude Code 自带、始终可用的 subagent
-- 不是你后来装插件才出现的
-
-也就是说，如果你在这栏里看到 `claude`、`general-purpose`、`Plan` 这一类名字，不要先入为主地理解成“某个插件搞出来的”。
+所以如果你在旧截图里看到 `Running`、`Library`、`Built-in (always available)` 这类栏位，可以按下面的旧界面含义理解；但复习当前版本时，不要再把它当成一定会出现的新版界面。
 
 ### `/background [prompt]`
 
@@ -822,10 +799,35 @@ flowchart LR
 
 ### 第二类：这些也是官方，但它们属于 bundled skill
 
-下面这两个，官方命令页明确标成了 `Skill`，所以它们不是“第三方插件技能”，但也不完全等同于硬编码内置命令：
+下面这些，官方命令页明确标成了 `Skill`，所以它们不是“第三方插件技能”，但也不完全等同于硬编码内置命令：
 
+- `/batch <instruction>`
+- `/code-review [focus]`
+- `/debug [issue]`
 - `/loop [interval] [prompt]`
+- `/run <command> [--fix]`
 - `/simplify [target]`
+- `/verify [target]`
+
+### `/batch <instruction>`
+
+这是官方 bundled skill。  
+它适合大规模、可拆分的代码库任务：先让 Claude 研究并拆任务，你确认计划后，它会用隔离 worktree 和后台 subagent 并行推进。
+
+### `/debug [issue]`
+
+这是官方 bundled skill。  
+它用于系统化排错，会先理解症状、复现路径和调用链，再给出假设、检查顺序和修复建议。它不是 `claude --debug` 这种启动调试日志，两者不要混。
+
+### `/run <command> [--fix]`
+
+这是官方 bundled skill。  
+它会运行 shell 命令、分析输出；带 `--fix` 时，会尝试修复命令暴露的问题。
+
+### `/verify [target]`
+
+这是官方 bundled skill。  
+它的重点是验证功能、测试、日志、行为是否满足预期，适合收尾前跑一遍“到底有没有真完成”。
 
 ### `/loop [interval] [prompt]`
 
@@ -863,7 +865,7 @@ flowchart LR
 
 还有一个非常关键的官方更新点：
 
-- 从 `v2.1.154` 开始，`/simplify` 不再以“找 correctness bug”为主
+- 当前官方文档明确把 `/simplify` 定位为清理和简化，不再把它当 correctness bug review
 - 如果你要查 bug，应该用 `/code-review`
 
 所以程序员阅读它时，脑子里要分开：

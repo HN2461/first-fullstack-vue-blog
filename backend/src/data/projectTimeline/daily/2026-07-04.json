@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-04",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "yaml-json-toml-beginner-article",
+      "title": "新增 YAML、JSON、TOML 配置文件入门科普文章",
+      "detail": "1. 在 output 下按归档规则新建“开发基础”分类目录，并新增面向开发初学者的 YAML、JSON、TOML 配置文件科普文章。\n2. 文章围绕配置文件是什么、三种格式的语法特性、优缺点、适用场景和 Vue、Node.js、Docker Compose、GitHub Actions、Codex、Rust、Python 等项目案例展开，帮助初学者建立实际项目识别能力。\n3. 为文章补充网站导入用 Front Matter，包括标题、slug、摘要、分类、标签和草稿状态。",
+      "occurredAt": "2026-07-04T15:08:53+08:00",
+      "category": "内容上新"
+    },
+    {
+      "id": "codex-agent-series-freshness-update",
+      "title": "校准 Codex 终端 Agent 系列文章时效性",
+      "detail": "1. 逐篇排查 output/AI工具/终端Agent流/Codex 下 7 篇 Codex 系列文章，并按 OpenAI Codex 当前官方文档更新配置、profile、slash commands、CLI 参数、MCP timeout、三端联动和多线路接入表述。\n2. 修正 profile 官方写法为 $CODEX_HOME 下独立 profile-name.config.toml，补充项目级 .codex/config.toml 不能覆盖 provider、认证、通知、profile 选择等本机字段的边界。\n3. 将第三方线路模型名、服务商域名、套餐和认证方式统一降级为当前样例，补充发布前必须按服务商后台重新核对的时效提示，避免复习时把旧资料当固定结论。",
+      "occurredAt": "2026-07-04T15:42:00+08:00",
+      "category": "内容维护"
+    },
+    {
+      "id": "ai-rules-mechanism-freshness-update",
+      "title": "复核 AI 工具规则机制层文章时效性",
+      "detail": "1. 逐篇排查 output/AI工具/规则机制层 下 MCP、Rules、Plugin、Skill 四组文章，并按 2026-07-04 检索到的官方资料更新复核日期、工具支持矩阵、参考链接和版本提醒。\n2. 补充 MCP 当前正式规范与 draft 演进方向的区别，修正 Devin Desktop / Windsurf 规则路径口径、GitHub Copilot 指令支持矩阵、Gemini CLI 版本表述，以及 Claude Code / Codex plugins 和 skills 官方文档入口。\n3. 将两篇文件名中的 2026-05 复核标记调整为 2026-07 复核标记，并同步修正 AGENTS.md 中 500 行限制的适用范围，明确 Markdown 文章和教程不受源码文件行数硬限制约束。\n4. 将 MCP 目录文章统一改为 00-07 数字前缀顺序，更新导航页、相对链接和正文标题，避免“第一篇/第一组”混排导致复习顺序混乱。",
+      "occurredAt": "2026-07-04T16:25:00+08:00",
+      "category": "内容维护"
+    },
+    {
+      "id": "claude-code-agent-series-freshness-update",
+      "title": "校准 Claude Code 终端 Agent 系列文章时效性",
+      "detail": "1. 逐篇排查 output/AI工具/终端Agent流/ClaudeCode 下 6 篇 Claude Code 系列文章，并按 2026-07-04 官方文档和 npm 包信息更新安装、权限模式、memory、skills、MCP、plugins、并行任务和中转接入口径。\n2. 修正 npm 安装要求为 Node.js 22+，补充原生安装器、自动更新、Manual/default、dontAsk、auto、bypassPermissions 的当前边界，并更新 bundled skills、/agents 行为变化、/batch、/debug、/run、/verify 等命令说明。\n3. 更新模型与 Gateway 配置内容，补充 Sonnet 5、Opus 4.8、Fable、ANTHROPIC_DEFAULT_FABLE_MODEL、auto memory、.claude/rules 路径作用域等时效性信息，避免后续复习沿用 2026-05 旧口径。",
+      "occurredAt": "2026-07-04T17:05:00+08:00",
+      "category": "内容维护"
+    }
+  ]
+}

@@ -17,8 +17,8 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第六篇：Codex 命令与配置文件速查
 
-> 更新时间：2026-05-14（已按官方当前文档校准）  
-> 定位：工具底座（全系列命令与配置文件统一说明）。  
+> 更新时间：2026-07-04（已按官方当前文档校准）
+> 定位：工具底座（全系列命令与配置文件统一说明）。
 > 使用方式：读任何一篇时，遇到“这条命令是干嘛的”就回查本篇。
 > 小白读完目标：你应该能分清“命令层 / 配置层 / 项目规则层”，并且看到一个命令或字段名时，知道它属于哪一层。
 
@@ -45,17 +45,17 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 | 文件 | 作用 | 什么时候会生效 | 新手建议 |
 |---|---|---|---|
 | `~/.codex/config.toml` | 用户级默认配置（模型、权限、MCP 等） | 大多数场景 | 先把默认值写在这里 |
-| `<repo>/.codex/config.toml` | 项目级覆盖配置 | 在该仓库内运行时 | 只放项目特有差异 |
+| `<repo>/.codex/config.toml` | 项目级覆盖配置 | 在受信任仓库内运行时 | 只放项目特有差异，不能放 provider、认证、通知、profile 选择等本机字段 |
 | `~/.codex/auth.json` | 登录凭据（或 keyring） | 需要鉴权时 | 视为密码文件，绝不提交仓库 |
 | `~/.codex/AGENTS.md` | 全局协作习惯 | 所有项目 | 只放通用规则 |
 | `<repo>/AGENTS.md` | 项目规则（测试、格式、流程） | 当前项目 | 团队统一维护 |
-| `~/.codex/rules/*.rules` | 命令级策略（allow/prompt/forbidden） | 启用 rules 时 | 先从少量高风险命令开始 |
+| `~/.codex/<profile>.config.toml` | profile 场景配置 | `codex --profile <profile>` 时 | 给审计、日常开发、CI 分别维护独立文件 |
 
 生效优先级（高 -> 低）：
 
 1. 命令行参数（如 `--model`、`--sandbox`）
-2. `--profile <name>`
-3. 项目 `.codex/config.toml`
+2. 项目 `.codex/config.toml`
+3. `--profile <name>`
 4. 用户 `~/.codex/config.toml`
 5. 系统级配置
 6. 内置默认值
@@ -76,8 +76,8 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 | `codex login --with-api-key` | 用 API key 登录 | 自动化/脚本场景 | key 需安全保存 |
 | `codex login status` | 查看登录状态 | 鉴权报错时 | 先排查它最快 |
 | `codex --model <name>` | 临时切模型 | 单次任务 | 不改动配置文件 |
-| `codex --profile <name>` | 用指定 profile 运行 | 场景切换（开发/审计） | profile 来自 `config.toml` |
-| `codex --full-auto` | 旧资料常见兼容写法 | 看到老教程时用于对照理解 | 当前更建议直接显式写 `--sandbox workspace-write --ask-for-approval on-request` |
+| `codex --profile <name>` | 用指定 profile 运行 | 场景切换（开发/审计） | profile 来自 `~/.codex/<name>.config.toml` |
+| `codex --full-auto` | 旧资料常见兼容写法 | 看到老教程时用于对照理解 | 当前等价于 `--ask-for-approval on-failure --sandbox workspace-write`，新手日常仍建议显式配置 |
 | `codex --yolo` | 跳过审批与沙箱 | 隔离环境专项任务 | 风险高，日常不建议 |
 | `codex exec "..."` | 非交互执行单任务 | CI/批处理 | 默认只读沙箱 |
 | `codex exec --json "..."` | 输出机器可读事件流 | 脚本集成 | 便于日志与自动解析 |
@@ -106,6 +106,11 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 | `/personality` | 切换回复风格 | 团队协作偏好调整 |
 | `/fast` | 查看或切换 fast 模式 | 节奏控制 |
 | `/feedback` | 反馈问题并附日志 | 诊断异常 |
+| `/apps` | 查看或连接外部应用能力 | App/连接器相关排障 |
+| `/hooks` | 查看 hooks 状态 | 命令前后自动化治理 |
+| `/memories` | 管理长期记忆 | 需要检查可复用偏好时 |
+| `/statusline` | 配置状态栏 | 定制 CLI 底部状态展示 |
+| `/title` | 生成或修改会话标题 | 长线程整理 |
 
 提示：不同端（CLI/插件/App）可用命令略有差异，先用 `/status` 或帮助文档确认。
 
@@ -115,14 +120,14 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 
 | 字段 | 作用 | 新手默认建议 | 专业补充 |
 |---|---|---|---|
-| `model` | 默认模型 | `gpt-5.5` | 与 provider 可用模型保持一致；`gpt-5.3-codex` 仍可用，但不要机械照抄旧资料里的 `gpt-5.4` |
+| `model` | 默认模型 | `gpt-5.5` | 与 provider 可用模型保持一致；具体 Codex 专用模型名以官方模型页和当前账号列表为准 |
 | `model_provider` | 选择后端提供方 | `openai` | 与 `[model_providers.<id>]` 名称必须一致 |
 | `[model_providers.<id>].base_url` | API 地址 | 官方默认地址或服务商地址 | 路线切换最常错字段 |
 | `approval_policy` | 是否弹确认 | `on-request` | 自动化可用 `never`，但要配安全边界 |
 | `sandbox_mode` | 技术权限范围 | `workspace-write` | `danger-full-access` 仅隔离环境用 |
 | `web_search` | 联网搜索策略 | `cached` | 对时效高任务可用 `live` |
 | `model_reasoning_effort` | 思考深度 | `medium` | 越高通常越慢、成本越高 |
-| `[profiles.<name>]` | 场景配置集 | `dev_safe` + `audit` 两套 | 团队强烈建议标准化 |
+| `~/.codex/<profile>.config.toml` | 场景配置文件 | `dev_safe` + `audit` 两套 | 用 `codex --profile <name>` 加载 |
 | `[history].persistence` | 历史保存策略 | `save-all` | 合规敏感场景可设 `none` |
 | `cli_auth_credentials_store` | 凭据存储策略 | `auto` | 安全优先选 `keyring` |
 | `[mcp_servers.<id>].required` | 工具失败是否中断任务 | 默认 `false` | 核心工具可设 `true` |
@@ -143,7 +148,11 @@ web_search = "cached"
 [history]
 persistence = "save-all"
 
-[profiles.audit]
+```
+
+审计 profile 建议另存为 `~/.codex/audit.config.toml`：
+
+```toml
 model = "gpt-5.5"
 approval_policy = "never"
 sandbox_mode = "read-only"

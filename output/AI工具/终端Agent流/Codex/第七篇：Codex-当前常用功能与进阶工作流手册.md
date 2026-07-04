@@ -18,11 +18,11 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第七篇：Codex 当前常用功能与进阶工作流手册
 
-> 更新时间：2026-05-31  
-> 定位：主线大总手册。专门解决“我知道 Codex 大概能做什么，但开发时到底该用哪个入口、哪些旧说法该删、哪些进阶能力该什么时候补”的问题。  
-> 适合谁看：主人已经开始真正把 Codex 用进日常开发，希望文档既能查功能，也能防止自己继续按旧认知误用。  
-> 本篇原则：把原本分散在“当前常用功能”“官方进阶补充”“最近更新差异”里的重复内容合成一篇，主线只保留真正值得长期查的东西。  
-> 前置建议：第三篇先读配置总手册，第五篇看三端联动；官方进阶、桌面端和 IDE 新能力统一在本篇维护。  
+> 更新时间：2026-07-04（已按 OpenAI Codex 当前官方文档校准）
+> 定位：主线大总手册。专门解决“我知道 Codex 大概能做什么，但开发时到底该用哪个入口、哪些旧说法该删、哪些进阶能力该什么时候补”的问题。
+> 适合谁看：主人已经开始真正把 Codex 用进日常开发，希望文档既能查功能，也能防止自己继续按旧认知误用。
+> 本篇原则：把原本分散在“当前常用功能”“官方进阶补充”“最近更新差异”里的重复内容合成一篇，主线只保留真正值得长期查的东西。
+> 前置建议：第三篇先读配置总手册，第五篇看三端联动；官方进阶、桌面端和 IDE 新能力统一在本篇维护。
 > 小白读完目标：你应该能知道今天开发时最常用的功能分别从 CLI、IDE、App 的哪个入口进入，也能知道 `codex exec`、MCP 治理、profile、Windows / WSL、最近产品升级这些内容该怎么放进长期工作流。
 
 章节导航（点击跳转）：
@@ -56,8 +56,8 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 
 1. 大多数 Codex 任务，先从 `gpt-5.5` 开始
 2. 轻量任务或子代理场景，可以考虑 `gpt-5.4-mini`
-3. 如果你明确需要专门的复杂软件工程编码模型，可以再对照 `gpt-5.3-codex`
-4. `gpt-5.3-codex-spark` 属于研究预览里的近实时编码迭代模型，不该再写成通用默认答案
+3. 如果你明确需要专门的复杂软件工程编码模型，可以再对照官方 Codex 模型页里的 `gpt-5-codex` 系列说明
+4. 研究预览或历史线路样例里的具体模型名，不该再写成通用默认答案
 
 这几项给主人开发时分别怎么理解：
 
@@ -82,15 +82,15 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 3. 跑轻量分析或低风险改动
 4. 给子代理或批量小任务用
 
-### 1.3 `gpt-5.3-codex`
+### 1.3 `gpt-5-codex` 系列
 
 它不是“过时不能提”，但已经不该写成你文档里的统一默认入口。
 
 今天更准确的定位是：
 
 1. 它仍然是复杂软件工程场景里很强的专门编码模型
-2. 它的编码能力现在也已经服务于更上层的 GPT-5.4 体系
-3. 它可以保留在“可选模型说明”里，但不该继续写成“多数人默认先填它”
+2. 具体可选模型名以官方模型页和当前账号可见列表为准
+3. 它可以保留在“可选模型说明”里，但不该继续写成“多数人默认先填某个历史编号”
 
 ### 1.4 第三方线路该怎么写模型，才不会过时
 
@@ -489,12 +489,12 @@ sandbox_mode = 'read-only'
 
 ## 5. 官方进阶能力：这部分已经并入本篇
 
-原来拆出去的“官方资料补充与进阶实践”，现在并入这里。  
+原来拆出去的“官方资料补充与进阶实践”，现在并入这里。
 以后主人不用再额外点一篇去看 `codex exec`、MCP 治理、`AGENTS.md` 进阶和 profile 策略。
 
 ### 5.1 `codex exec`
 
-`codex exec` 仍然是 Codex 最值得保留的进阶能力之一。  
+`codex exec` 仍然是 Codex 最值得保留的进阶能力之一。
 它不是“没有聊天界面的 codex”，而是更适合脚本化、流水线化、可重复执行任务的入口。
 
 高频用法：
@@ -515,7 +515,7 @@ codex exec resume --last "continue from previous run"
 
 ### 5.2 MCP 治理
 
-MCP 的“怎么连上”，第一篇、第六篇、第二篇已经够用了。  
+MCP 的“怎么连上”，第一篇、第六篇、第二篇已经够用了。
 这里保留更偏工程治理的一层。
 
 主人以后给团队或长期项目接 MCP，重点看这 4 个问题：
@@ -530,12 +530,12 @@ MCP 的“怎么连上”，第一篇、第六篇、第二篇已经够用了。
 1. `required = true`
 2. `enabled_tools`
 3. `disabled_tools`
-4. `startup_timeout_sec`
-5. `tool_timeout_sec`
+4. `startup_timeout_ms`
+5. `tool_timeout_ms`
 
 ### 5.3 `AGENTS.md` 进阶
 
-`AGENTS.md` 不只是“写点规则”。  
+`AGENTS.md` 不只是“写点规则”。
 当项目规模变大后，它更像长期协作规范的分层入口。
 
 比较稳的分层思路：
@@ -559,27 +559,36 @@ Profile 的价值不是“字段更高级”，而是把不同工作模式固定
 2. `audit`：只读审查
 3. `ci`：自动化或批处理
 
-一个够实用的最小例子：
+官方当前 profile 是独立文件，而不是主 `config.toml` 里的 `[profiles.<name>]` 表。一个够实用的最小例子是分别创建这些文件：
+
+`~/.codex/safe.config.toml`
 
 ```toml
-[profiles.safe]
 approval_policy = 'on-request'
 sandbox_mode = 'workspace-write'
+```
 
-[profiles.audit]
-approval_policy = 'never'
-sandbox_mode = 'read-only'
+`~/.codex/audit.config.toml`
 
-[profiles.ci]
+```toml
 approval_policy = 'never'
 sandbox_mode = 'read-only'
 ```
+
+`~/.codex/ci.config.toml`
+
+```toml
+approval_policy = 'never'
+sandbox_mode = 'read-only'
+```
+
+调用时用 `codex --profile safe`、`codex --profile audit` 或 `codex exec --profile ci "..."`。
 
 ---
 
 ## 6. 最近产品口径更新：这部分也并进本篇
 
-原来拆出去的“近期待补全更新总表”，现在也并入这里。  
+原来拆出去的“近期待补全更新总表”，现在也并入这里。
 以后主人只要读这一节，就能知道哪些旧认知该升级。
 
 ### 6.1 还没过时的部分
@@ -588,7 +597,7 @@ sandbox_mode = 'read-only'
 
 1. Codex 的底层核心仍然是认证、配置层级、审批策略、沙箱、`AGENTS.md`、MCP、非交互执行
 2. `approval_policy` 和 `sandbox_mode` 依旧是最重要的安全边界
-3. 项目级 `.codex/config.toml`、用户级 `~/.codex/config.toml`、`--profile`、命令行覆盖之间的优先级思路没有变
+3. 命令行、项目级 `.codex/config.toml`、profile 文件、用户级 `~/.codex/config.toml` 之间仍然要按优先级排查，但 profile 的官方写法已从表结构转为独立文件
 4. `codex exec` 仍然是自动化、批处理、CI 场景的关键入口
 5. IDE 和 App 仍然高度复用同一套 Codex 能力，而不是三套完全不同的产品
 
@@ -666,15 +675,15 @@ sandbox_mode = 'read-only'
 
 为了避免以后内容再打架，主人可以这样记：
 
-1. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)  
+1. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)
    负责配置心智模型。
-2. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)  
+2. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)
    负责三端联动与排障。
-3. [第四篇：Codex 多线路接入与迁移总手册](#/note/AI工具/02_终端Agent流/Codex/04_Codex多线路接入与迁移总手册)  
+3. [第四篇：Codex 多线路接入与迁移总手册](#/note/AI工具/02_终端Agent流/Codex/04_Codex多线路接入与迁移总手册)
    负责官方、Packy、yunyi、rpcod 等线路选择与迁移。
-4. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)  
+4. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)
    负责命令、配置文件和 slash command 速查。
-5. **第七篇（本篇）**  
+5. **第七篇（本篇）**
    负责当前常用功能、官方进阶能力和最近该升级的产品认知。
 
 专题已经收束为 9 篇主文，不再保留“已并入”的历史跳转页。

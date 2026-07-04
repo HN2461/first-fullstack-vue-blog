@@ -17,7 +17,7 @@ exportedAt: "2026-07-04T07:00:23.240Z"
 ---
 # 第二篇：AGENTS.md 开放标准完全指南
 
-> 资料来源：OpenAI / agentsmd 官方仓库、GitHub Copilot / Cursor / Windsurf / Kiro / Gemini CLI 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-05-22。
+> 资料来源：OpenAI / agentsmd 官方仓库、GitHub Copilot / Cursor / Devin Desktop（原 Windsurf）/ Kiro / Gemini CLI 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
 
 [[toc]]
 
@@ -146,11 +146,12 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
 
 从开放标准的角度看，`AGENTS.md` 很适合放在不同目录里实现**作用域隔离**。  
 
-但到 2026-05-22 为止，**并不是所有工具都把这件事实现得一模一样**。更准确的理解是：
+但到 2026-07-04 为止，**并不是所有工具都把这件事实现得一模一样**。更准确的理解是：
 
-- 对 Codex、Windsurf、GitHub Copilot 这类工具来说，子目录 `AGENTS.md` 已经是主线能力之一
+- 对 Codex、GitHub Copilot 这类工具来说，子目录 `AGENTS.md` 已经是主线能力之一
 - 对 Cursor 来说，当前官方文档仍把 `AGENTS.md` 定位为**项目根目录的简单替代方案**；复杂分层更适合 `.cursor/rules/`
 - 对 Kiro 来说，`AGENTS.md` 能读，但复杂 inclusion / fileMatch 仍建议交给 Steering
+- 对 Devin Desktop / Windsurf 来说，旧资料里的 `.windsurf/rules/` 需要按当前 Devin 文档复核，新写规则优先查 `.devin/rules/` 等当前路径
 
 ```
 project/
@@ -254,13 +255,15 @@ Cursor 同时支持 `AGENTS.md` 和 `.cursor/rules/` 目录，但两者定位不
 
 如果你需要路径作用域、手动触发、按描述让模型判断是否加载，优先用 `.cursor/rules/`，不要硬把这些需求塞进单个 `AGENTS.md`。
 
-### 4.4 Windsurf（支持）
+### 4.4 Devin Desktop / Windsurf（支持，但路径要按新文档复核）
 
-Windsurf 将 `AGENTS.md` 纳入与 `.windsurf/rules/` 相同的规则引擎处理：
+Windsurf 品牌和文档在 2026 年已经逐步进入 Devin Desktop / Devin Docs 口径。旧资料里常见 `.windsurf/rules/`、`.windsurfrules`、`~/.codeium/windsurf/...` 等路径，复习时要知道它们来自 Windsurf 阶段；新建配置前应以当前 Devin 文档和本机版本为准。
 
-- 根目录的 `AGENTS.md` = `always_on`（始终激活）
-- 子目录的 `AGENTS.md` = `glob`（处理该目录文件时激活）
-- 同时支持 `agents.md`（小写）
+更稳妥的记法：
+
+- 长期项目规则：优先查当前 Devin Desktop 的 rules 文档，新资料常见 `.devin/rules/*.md`
+- 跨工具共享规则：仍可把 `AGENTS.md` 当作公共规范入口，但不要把旧 Windsurf 的激活细节默认套到所有新版本
+- 历史迁移：看到 `.windsurf/rules/` 时先判断它是旧项目兼容路径，还是当前产品仍明确支持的路径
 
 ### 4.5 Kiro（原生支持）
 

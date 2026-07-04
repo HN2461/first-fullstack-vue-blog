@@ -1,5 +1,5 @@
 ---
-title: "第二组：MCP 架构与安全边界问题"
+title: "05：MCP 架构与安全边界问题"
 slug: "ai-mcp-ede3e0c8-revision-20260704"
 summary: "围绕 Host、Client、Server、能力原语以及安全治理边界展开，适合二面或追问环节使用。"
 category: "MCP"
@@ -14,9 +14,11 @@ originalId: "6a2d291d8a2b1c68f2cabfbc"
 originalSlug: "ai-mcp-ede3e0c8"
 exportedAt: "2026-07-04T07:00:23.240Z"
 ---
-# 第二组：MCP 架构与安全边界问题
+# 05：MCP 架构与安全边界问题
 
-复核日期：2026-05-24
+复核日期：2026-07-04
+
+> 时效说明：本文的 host / client / server、tools / resources / prompts、安全治理等基础回答仍按 MCP 当前正式规范复习。官方 draft 中的协议状态、授权和弃用策略变化属于进阶趋势；讲架构时可以补充“协议层可能减少会话状态依赖，但应用层仍然可能有自己的业务状态”。
 
 ## 第一题：MCP 架构里的 Host、Client、Server 分别是什么
 

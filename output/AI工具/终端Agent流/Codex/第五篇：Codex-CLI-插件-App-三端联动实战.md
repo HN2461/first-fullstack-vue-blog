@@ -17,10 +17,10 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第五篇：Codex CLI / 插件 / App 三端联动实战
 
-> 更新时间：2026-03-08  
-> 定位：主线 03（三端统一与联动排障）。  
-> 前置：第三篇（先懂配置原理和字段，再做联动最稳）。  
-> 下一篇建议：第六篇（命令与配置速查）。  
+> 更新时间：2026-07-04（已按 OpenAI Codex 当前官方文档校准）
+> 定位：主线 03（三端统一与联动排障）。
+> 前置：第三篇（先懂配置原理和字段，再做联动最稳）。
+> 下一篇建议：第六篇（命令与配置速查）。
 > 本篇不展开：字段字典和命令全集（看第三篇、第六篇）。
 > 命令/配置看不懂时：回查第六篇《命令与配置文件速查》。
 > 如果主人要查“Worktrees / Handoff / Review pane / IDE 云任务 / Windows-native 到底在今天怎么用”，请优先再看第七篇；本篇负责讲三端关系，不再承担所有常用功能的细讲。
@@ -84,7 +84,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 
 ## 1.3 `AGENTS.md`（长期指令）
 
-作用：告诉 Codex 这个仓库的规则、代码风格、测试要求、交付格式。  
+作用：告诉 Codex 这个仓库的规则、代码风格、测试要求、交付格式。
 这是你“用得越久越省事”的关键文件。
 
 ---
@@ -94,8 +94,8 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 按官方优先级（高 -> 低）：
 
 1. CLI 参数（如 `-c`、`--model`、`--sandbox`）
-2. `--profile <name>`
-3. 项目 `.codex/config.toml`
+2. 项目 `.codex/config.toml`（仅信任项目加载；不能覆盖 provider、认证、通知、profile 选择等本机字段）
+3. `--profile <name>` 加载的 `$CODEX_HOME/profile-name.config.toml`
 4. 用户 `~/.codex/config.toml`
 5. 系统级配置
 6. 内置默认值
@@ -172,7 +172,7 @@ persistence = "save-all"
 1. `--model/-m`：临时切模型
 2. `--sandbox/-s`：`read-only | workspace-write | danger-full-access`
 3. `--ask-for-approval/-a`：`untrusted | on-request | never`
-4. `--full-auto`：旧资料常见快捷写法，当前更建议显式写 `--sandbox workspace-write --ask-for-approval on-request`
+4. `--full-auto`：旧资料常见快捷写法，当前等价于 `--ask-for-approval on-failure --sandbox workspace-write`
 5. `--yolo`：危险模式（跳过审批与沙箱）
 6. `-c key=value`：临时覆盖配置
 7. `--profile/-p`：加载 profile
@@ -211,8 +211,8 @@ persistence = "save-all"
 
 ## 4.1 一句话原则
 
-插件本质上调用的是 Codex CLI。  
-所以先把 CLI 跑通，再装插件，成功率最高。
+IDE 扩展会复用 Codex CLI、`~/.codex/config.toml` 和项目规则，但它已经不是“只包了一层 CLI 的聊天壳”。
+正确顺序仍然是先把 CLI 跑通，再在 IDE 里使用 Agent、Chat、Cloud delegation 等入口，成功率最高。
 
 ## 4.2 官方插件设置项（重点）
 
@@ -334,13 +334,11 @@ OpenAI 官方文档给出的主要设置包括：
 
 ```toml
 disable_response_storage = true
-model = "gpt-5.2"
+model = "gpt-5.5"
 model_provider = "packycode"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "high"
 model_verbosity = "high"
-
-[features]
-web_search_request = true
+web_search = "cached"
 
 [model_providers.packycode]
 base_url = "https://www.packyapi.com/v1"
@@ -352,11 +350,11 @@ wire_api = "responses"
 逐字段解释：
 
 1. `disable_response_storage = true`：减少响应持久化，偏隐私场景。
-2. `model = "gpt-5.2"`：默认模型名，具体可用性取决于服务商。
+2. `model = "gpt-5.5"`：当前示例模型名，具体可用性取决于服务商后台。
 3. `model_provider = "packycode"`：默认 provider 指向 `packycode`。
-4. `model_reasoning_effort = "xhigh"`：高强度推理，质量高但更慢。
+4. `model_reasoning_effort = "high"`：高强度推理，质量高但更慢；`xhigh` 是否可用取决于模型。
 5. `model_verbosity = "high"`：输出更详细。
-6. `[features] web_search_request = true`：开启网络搜索请求能力。
+6. `web_search = "cached"`：默认使用缓存搜索；需要最新资料时再按当前环境切 live。
 7. `[model_providers.packycode]`：定义该 provider 连接参数。
 8. `base_url`：Packy 线路地址（普通版）。
 9. `requires_openai_auth = true`：需要 OpenAI 认证链路兼容。
@@ -412,7 +410,7 @@ wire_api = "responses"
 3. `model_provider` 与 `[model_providers.<id>]` 是否一致
 4. `base_url` 是否写对（普通/包月常混）
 5. key 是否在正确位置（环境变量或 `auth.json`）
-6. 是否被项目 `.codex/config.toml` 或 `--profile` 覆盖
+6. 是否被项目 `.codex/config.toml` 或 profile 文件覆盖
 7. 插件/App 是否继承了同一份配置目录
 8. MCP 是否 `required=true` 导致启动即失败
 9. Windows 是否需要切换 WSL agent 并重启

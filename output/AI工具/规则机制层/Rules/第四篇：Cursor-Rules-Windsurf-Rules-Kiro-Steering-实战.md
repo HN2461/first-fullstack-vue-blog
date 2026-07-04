@@ -1,11 +1,11 @@
 ---
-title: "第四篇：Cursor Rules / Windsurf Rules / Kiro Steering 实战"
+title: "第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战"
 slug: "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74-revision-20260704"
-summary: "深度对比 Cursor、Windsurf、Kiro 三大工具的规则文档系统，包括 Cursor MDC 四种规则类型、Windsurf 四种激活模式与字符限制、Kiro Steering 四种 inclusion 模式与全局/团队 Steering，附完整实战配置示例。"
+summary: "深度对比 Cursor、Devin Desktop / Windsurf、Kiro 三大工具的规则文档系统，包括 Cursor MDC 四种规则类型、Windsurf 到 Devin 的规则路径变化、Kiro Steering 四种 inclusion 模式与全局/团队 Steering，附完整实战配置示例。"
 category: "Rules"
 tags:
   - "Cursor Rules"
-  - "Windsurf Rules"
+  - "Devin / Windsurf Rules"
   - "Kiro Steering"
   - "MDC格式"
   - "AI规则文档"
@@ -15,9 +15,9 @@ originalId: "6a2d291d8a2b1c68f2cac002"
 originalSlug: "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74"
 exportedAt: "2026-07-04T07:00:23.240Z"
 ---
-# 第四篇：Cursor Rules / Windsurf Rules / Kiro Steering 实战
+# 第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战
 
-> 资料来源：Cursor 官方文档、Windsurf 官方文档、Kiro 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-05-22。
+> 资料来源：Cursor 官方文档、Devin / Windsurf 官方文档、Kiro 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
 
 [[toc]]
 
@@ -34,7 +34,7 @@ Cursor 是最早普及"项目级 AI 规则"概念的工具之一，规则系统�
 | 第一代 | `.cursorrules`（项目根目录，单文件） | **仍可用，但已是 legacy / deprecated** |
 | 第二代 | `.cursor/rules/*.mdc`（目录，多文件） | 当前官方推荐 |
 
-> **按 2026-05-22 官方文档的稳妥说法**：`.cursorrules` 还在兼容范围内，但已经被明确标为 legacy，官方建议迁移到 `.cursor/rules/`。如果你正在新建规则，不要再围绕 `.cursorrules` 设计。
+> **按 2026-07-04 官方文档的稳妥说法**：`.cursorrules` 还在兼容范围内，但已经被明确标为 legacy，官方建议迁移到 `.cursor/rules/`。如果你正在新建规则，不要再围绕 `.cursorrules` 设计。
 
 同时，Cursor 也支持读取 `AGENTS.md`，但当前定位是：**把它当成放在项目根目录、全局生效、单文件的简单替代方案**，不是 `.cursor/rules/` 的完整替身。
 
@@ -215,11 +215,13 @@ alwaysApply: false
 
 ---
 
-## 二、Windsurf Rules
+## 二、Devin Desktop / Windsurf Rules
 
 ### 2.1 规则系统架构
 
-Windsurf 的上下文管理系统包含四个层次：
+2026 年复习 Windsurf 规则时，最容易过时的是路径名。Windsurf 相关产品和文档已经逐步进入 Devin Desktop / Devin Docs 口径，因此旧教程里的 `.windsurf/rules/`、`.windsurfrules`、`~/.codeium/windsurf/...` 不能再无脑照抄到新环境。
+
+更稳妥的理解是：Devin Desktop / Windsurf 的上下文管理仍然围绕 rules、AGENTS.md、memories / knowledge、workflows 这几类能力，但具体路径和 UI 名称要以当前版本为准。
 
 | 机制 | 激活方式 | 适合场景 |
 |------|---------|---------|
@@ -232,17 +234,18 @@ Windsurf 的上下文管理系统包含四个层次：
 
 | 作用域 | 路径 | 说明 |
 |--------|------|------|
-| **全局** | `~/.codeium/windsurf/memories/global_rules.md` | 单文件，所有工作区生效，始终开启，限 6000 字符 |
-| **工作区** | `.windsurf/rules/*.md` | 每个规则一个文件，各有激活模式，限 12000 字符/文件 |
+| **全局** | 以当前 Devin / Windsurf 设置界面和文档为准 | 旧资料常见 `~/.codeium/windsurf/memories/global_rules.md` |
+| **工作区** | `.devin/rules/*.md`（新资料优先复核） | 旧资料常见 `.windsurf/rules/*.md` |
 | **AGENTS.md** | 工作区任意目录 | 与规则引擎相同处理 |
 | **系统级（企业）** | 系统目录（IT 部署） | 只读，用户不可修改 |
 
-**旧格式 `.windsurfrules`**（仍可用）：
+**历史路径提醒**：
 
 ```
-~/.codeium/windsurf/memories/global_rules.md  # 全局
-.windsurfrules                          # 工作区根目录（旧格式，仍支持）
-.windsurf/rules/*.md                    # 工作区（新格式，推荐）
+~/.codeium/windsurf/memories/global_rules.md  # Windsurf 阶段常见全局规则路径
+.windsurfrules                                # Windsurf 阶段旧格式
+.windsurf/rules/*.md                          # Windsurf 阶段常见工作区规则
+.devin/rules/*.md                             # Devin Desktop 新资料中更应优先复核的路径
 ```
 
 ### 2.3 四种激活模式
@@ -316,9 +319,8 @@ Windsurf 对规则文件有**字符限制**：
 ### 2.5 全局规则配置
 
 ```bash
-# 创建全局规则文件
-mkdir -p ~/.codeium/windsurf/memories
-nano ~/.codeium/windsurf/memories/global_rules.md
+# 新建全局规则前先查看当前 Devin / Windsurf 设置页或官方文档；
+# 旧 Windsurf 环境中可能仍能看到 ~/.codeium/windsurf/memories。
 ```
 
 ```markdown
@@ -354,7 +356,7 @@ Cascade 会列出已加载的规则。如果描述不准确，说明文件有语
 Windsurf 的 Memories 与 Claude Code 的 Auto Memory 类似：
 
 - Cascade 在对话中自动生成并存储记忆
-- 存储在 `~/.codeium/windsurf/memories/`（工作区关联）
+- 旧 Windsurf 环境里常见存储路径是 `~/.codeium/windsurf/memories/`（工作区关联）；新版本以当前 Devin / Windsurf 文档为准
 - 不提交到 git，不跨工作区共享
 - 可以主动要求：`"记住：我们的 API 测试需要本地 Redis"`
 
@@ -522,24 +524,24 @@ project/
 
 ## 四、三工具横向对比
 
-| 维度 | Cursor Rules | Windsurf Rules | Kiro Steering |
+| 维度 | Cursor Rules | Devin / Windsurf Rules | Kiro Steering |
 |------|-------------|----------------|---------------|
 | 文件格式 | `.mdc`（MDC，YAML frontmatter） | `.md`（Markdown + frontmatter） | `.md`（Markdown + frontmatter） |
-| 存放位置 | `.cursor/rules/` | `.windsurf/rules/` | `.kiro/steering/` |
+| 存放位置 | `.cursor/rules/` | 新资料优先复核 `.devin/rules/`，旧项目常见 `.windsurf/rules/` | `.kiro/steering/` |
 | 激活模式数量 | 4 种 | 4 种 | 4 种 |
 | 路径作用域 | `globs` 数组 | `globs` 字段 | `fileMatchPattern`（支持数组） |
-| 全局个人配置 | Cursor 设置界面 | `~/.codeium/windsurf/memories/global_rules.md` | `~/.kiro/steering/` |
+| 全局个人配置 | Cursor 设置界面 | 以 Devin / Windsurf 当前设置为准；旧资料常见 `~/.codeium/windsurf/memories/global_rules.md` | `~/.kiro/steering/` |
 | 团队统一配置 | ❌ | 系统级（企业 IT 部署） | ✅（MDM/GP 推送到 `~/.kiro/steering/`） |
 | Token/字符限制 | 无明确限制（建议单文件 < 100 行） | 6000（全局）/ 12000（工作区） | 无明确限制 |
 | 自动记忆 | ❌ | ✅（Memories） | ❌ |
 | AGENTS.md 支持 | ✅，但当前主线是**根目录单文件的简单替代方案** | ✅（根目录=always，子目录=glob） | ✅ 原生支持（始终包含） |
 | 一键生成 | ❌ | ❌ | ✅（Generate Steering Docs） |
-| .cursorrules 兼容 | ⚠️ 仍兼容，但已 deprecated | `.windsurfrules` 仍支持 | 不适用 |
+| .cursorrules 兼容 | ⚠️ 仍兼容，但已 deprecated | `.windsurfrules` 属历史路径，是否继续支持以当前版本为准 | 不适用 |
 
 ---
 
 > 参考资料：
-> - [Cursor Rules 官方文档 - cursor.com](https://docs.cursor.com/context/rules)
+> - [Cursor Rules 官方文档 - cursor.com](https://cursor.com/docs/rules)
 > - [Cursor MDC 完整技术指南 - morphllm.com](https://www.morphllm.com/cursor-mdc-rules)
 > - [Windsurf Cascade Memories 官方文档 - windsurf.com](https://docs.windsurf.com/windsurf/cascade/memories)
 > - [Windsurf AGENTS.md 官方文档 - windsurf.com](https://docs.windsurf.com/windsurf/cascade/agents-md)

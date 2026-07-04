@@ -1,5 +1,5 @@
 ---
-title: "第一组：MCP 概念与主流度问题"
+title: "04：MCP 概念与主流度问题"
 slug: "ai-mcp-83743b3f-revision-20260704"
 summary: "聚焦 MCP 是什么、为什么火、与插件和 function calling 的区别，适合作为第一轮面试的高频基础题库。"
 category: "MCP"
@@ -14,9 +14,11 @@ originalId: "6a2d291d8a2b1c68f2cabfb0"
 originalSlug: "ai-mcp-83743b3f"
 exportedAt: "2026-07-04T07:00:23.240Z"
 ---
-# 第一组：MCP 概念与主流度问题
+# 04：MCP 概念与主流度问题
 
-复核日期：2026-05-24
+复核日期：2026-07-04
+
+> 时效说明：当前稳定回答仍以 MCP `2025-11-25` 正式规范为主；官方 draft 入口可作为观察下一版规范方向的材料。面试时可以把 draft 作为“发展趋势”补充，但不要把 draft 能力说成所有宿主已经默认支持。
 
 ## 第一题：你理解的 MCP 是什么
 

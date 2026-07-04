@@ -1,7 +1,7 @@
 ---
 title: "第一篇：AI 工具规则文档是什么，为什么需要它"
 slug: "ai-rules-ai-e659b444-revision-20260704"
-summary: "从\"AI 每次都忘了你的项目规范\"这个痛点出发，解释规则文档的本质、解决的核心问题，并横向对比 Claude Code、Codex、Cursor、Windsurf、Kiro、Gemini CLI、GitHub Copilot 七大工具的规则文件名、存放位置与加载方式。"
+summary: "从\"AI 每次都忘了你的项目规范\"这个痛点出发，解释规则文档的本质、解决的核心问题，并横向对比 Claude Code、Codex、Cursor、Devin / Windsurf、Kiro、Gemini CLI、GitHub Copilot 七大工具的规则文件名、存放位置与加载方式。"
 category: "Rules"
 tags:
   - "AGENTS.md"
@@ -17,7 +17,7 @@ exportedAt: "2026-07-04T07:00:23.240Z"
 ---
 # 第一篇：AI 工具规则文档是什么，为什么需要它
 
-> 资料来源：Anthropic 官方文档、OpenAI / agentsmd 官方仓库、Cursor / Windsurf / Kiro / GitHub Copilot / Gemini CLI 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-05-22。
+> 资料来源：Anthropic 官方文档、OpenAI / agentsmd 官方仓库、Cursor / Devin Desktop（原 Windsurf）/ Kiro / GitHub Copilot / Gemini CLI 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
 
 [[toc]]
 
@@ -114,7 +114,7 @@ AI 工具的每次会话都是独立的，没有跨会话的持久记忆（除�
 | Claude Code | `CLAUDE.md` | 项目根目录 / `.claude/` | `~/.claude/CLAUDE.md` |
 | OpenAI Codex | `AGENTS.md` | 项目根目录 | `~/.codex/AGENTS.md` |
 | Cursor | `.cursor/rules/*.mdc`（也支持根目录 `AGENTS.md`） | `.cursor/rules/` / 项目根目录 | 全局规则设置 |
-| Windsurf | `.windsurf/rules/*.md` | `.windsurf/rules/` 目录 | `~/.codeium/windsurf/memories/global_rules.md` |
+| Devin Desktop / Windsurf | `.devin/rules/*.md`（旧资料常见 `.windsurf/rules/*.md`） | `.devin/rules/` 目录 | 以 Devin / Windsurf 当前设置和文档为准 |
 | Kiro | Steering 文件（也支持 `AGENTS.md`） | `.kiro/steering/*.md` / 工作区根目录 | 用户级 Steering |
 | Gemini CLI | `GEMINI.md` | 项目根目录 | `~/.gemini/GEMINI.md` |
 | GitHub Copilot | `.github/copilot-instructions.md` / `.github/instructions/*.instructions.md` / `AGENTS.md` | `.github/` / 仓库任意目录 | 以 IDE 设置为主 |
@@ -125,7 +125,7 @@ AI 工具的每次会话都是独立的，没有跨会话的持久记忆（除�
 
 但有一个非常重要的现实点：**文件名虽然统一了，各工具的加载范围、目录层级支持、与各自原生规则系统的关系并不完全一样。**
 
-截至 **2026 年 5 月 22 日**，本系列涉及工具里，官方文档可明确确认的支持情况大致如下：
+截至 **2026 年 7 月 4 日**，本系列涉及工具里，官方文档可明确确认的支持情况大致如下：
 
 | 工具 | 支持情况 |
 |------|---------|

@@ -1,7 +1,7 @@
 ---
 title: "Agent Skills 团队协作与社区资源"
 slug: "ai-skill-agentskills-4a94dc23-revision-20260704"
-summary: "按 2026-05-24 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。"
+summary: "按 2026-07-04 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。"
 category: "Skill"
 tags:
   - "Agent Skills"
@@ -24,7 +24,7 @@ exportedAt: "2026-07-04T07:00:23.239Z"
 
 很多团队共享失败，不是因为 skill 写得不好，而是因为一开始就选错了载体。
 
-到 2026-05-24 这次复核为止，更实用的划分是：
+到 2026-07-04 这次复核为止，更实用的划分是：
 
 | 目标 | 更推荐的载体 |
 | ---- | ------------ |
@@ -278,9 +278,9 @@ Claude Code 当前更稳的官方口径已经是 skills，因此团队协作时�
 - [OpenAI Skills 仓库](https://github.com/openai/skills)
 - [Kiro Agent Skills 文档](https://kiro.dev/docs/cli/skills/)
 - [Cursor 2.4 更新说明](https://cursor.com/changelog/2-4)
-- [Cursor Rules 文档](https://docs.cursor.com/context/rules-for-ai)
-- [Claude Code Skills 文档](https://docs.anthropic.com/en/docs/claude-code/skills)
-- [Claude Code Slash Commands 文档](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+- [Cursor Rules 文档](https://cursor.com/docs/rules)
+- [Cursor Skills 文档](https://cursor.com/docs/skills)
+- [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
 
 这些资源的价值在于：
 

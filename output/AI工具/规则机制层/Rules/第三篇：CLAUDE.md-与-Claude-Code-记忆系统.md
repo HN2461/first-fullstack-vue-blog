@@ -17,7 +17,7 @@ exportedAt: "2026-07-04T07:00:23.240Z"
 ---
 # 第三篇：CLAUDE.md 与 Claude Code 记忆系统
 
-> 资料来源：Anthropic Claude Code 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-05-22。
+> 资料来源：Anthropic Claude Code 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
 
 [[toc]]
 

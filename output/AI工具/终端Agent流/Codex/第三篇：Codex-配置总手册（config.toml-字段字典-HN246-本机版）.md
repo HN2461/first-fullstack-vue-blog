@@ -17,10 +17,10 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）
 
-> 更新时间：2026-06-04  
-> 定位：配置总手册。以后所有 `config.toml`、provider、模型、审批、沙箱、MCP、Desktop、本机路径、CCSwitch 快照污染和 HN246 本机替换版配置，都统一在这一篇维护。  
-> 前置：第一篇跑通 CLI；第二篇看懂终端英文状态。  
-> 下一篇建议：第四篇（多线路接入与迁移）。  
+> 更新时间：2026-07-04（已按 OpenAI Codex 当前官方文档校准）
+> 定位：配置总手册。以后所有 `config.toml`、provider、模型、审批、沙箱、MCP、Desktop、本机路径、CCSwitch 快照污染和 HN246 本机替换版配置，都统一在这一篇维护。
+> 前置：第一篇跑通 CLI；第二篇看懂终端英文状态。
+> 下一篇建议：第四篇（多线路接入与迁移）。
 > 小白读完目标：你应该能说清 Codex 配置为什么会生效或失效，能看懂每个高频字段，能安全整理 HN246 本机配置，并能用 `/status`、`/debug-config`、`/mcp` 验证结果。
 
 [[toc]]
@@ -29,7 +29,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 
 ## 1. 为什么配置内容必须合成一篇
 
-主人这次指出的问题很关键：  
+主人这次指出的问题很关键：
 如果“配置心智”“字段字典”“本机配置实战”拆成三篇，读者会反复看到同一批内容：
 
 1. `config.toml` 放在哪里
@@ -39,7 +39,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 5. HN246 本机路径怎么替换
 6. CCSwitch 同步后为什么会残留旧机器路径
 
-所以现在统一成这一篇。  
+所以现在统一成这一篇。
 以后维护规则也很简单：
 
 1. 凡是 `config.toml` 字段解释，写这里
@@ -52,7 +52,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 
 ## 2. Codex 配置先分 5 层
 
-不要一上来背字段。  
+不要一上来背字段。
 先把 Codex 配置拆成 5 层：
 
 | 层级 | 负责什么 | 常见文件 / 命令 |
@@ -92,8 +92,8 @@ C:\Users\HN246\.codex\config.toml
 
 1. 用户级配置影响大多数项目
 2. 项目级配置只影响当前仓库
-3. 项目级配置可能覆盖用户级配置
-4. 不信任项目可能跳过项目级 `.codex` 配置
+3. 项目级配置能覆盖普通项目行为字段，但不能覆盖本机 provider、认证、通知、profile 选择、遥测等机器本地字段
+4. 不信任项目会跳过项目级 `.codex` 配置、hooks 和 rules
 
 ---
 
@@ -102,8 +102,8 @@ C:\Users\HN246\.codex\config.toml
 同一个字段最终谁说了算，通常按这个顺序：
 
 1. CLI flags / `--config`
-2. `--profile <name>`
-3. 项目 `.codex/config.toml`
+2. 项目 `.codex/config.toml`（从项目根到当前目录，越近越优先；仅信任项目加载）
+3. `--profile <name>` 选中的 `$CODEX_HOME/profile-name.config.toml`
 4. 用户 `~/.codex/config.toml`
 5. 系统级配置
 6. 内置默认值
@@ -112,7 +112,7 @@ C:\Users\HN246\.codex\config.toml
 
 1. 改了用户配置，但项目 `.codex/config.toml` 覆盖了
 2. 当前会话没重启，仍然用旧状态
-3. 用了 `--profile`，profile 覆盖了默认字段
+3. 用了 `--profile`，但实际 profile 文件不是你以为的那一份
 4. CCSwitch 写入的是另一份配置或旧机器路径
 
 验证配置来源，优先用：
@@ -136,7 +136,7 @@ C:\Users\HN246\.codex\config.toml
 这次本机配置的核心结论：
 
 1. 默认 provider：`my_codex`
-2. 默认模型示例：`gpt-5.5`
+2. 默认模型示例：`gpt-5.5`（官方当前建议大多数 Codex 任务从它开始；第三方网关仍以后台真实开放模型为准）
 3. 默认权限：`on-request + workspace-write`
 4. 默认推理：`medium`
 5. 默认长上下文：`1050000 / 900000`
@@ -150,7 +150,7 @@ C:\Users\HN246\.codex\config.toml
 
 ## 6. HN246 脱敏版完整模板
 
-下面是可公开展示的脱敏版。  
+下面是可公开展示的脱敏版。
 真正写到本机时，认证字段以主人当前能跑通的私有配置为准。
 
 ```toml
@@ -298,7 +298,7 @@ model_provider = "my_codex"
 [model_providers.my_codex]
 ```
 
-只改 `base_url` 不够。  
+只改 `base_url` 不够。
 切线路时至少一起查：
 
 1. `model_provider`
@@ -361,7 +361,7 @@ sandbox_mode = "workspace-write"
 network_access = true
 ```
 
-`true` 方便查文档、启动 MCP、下载 npm 包。  
+`true` 方便查文档、启动 MCP、下载 npm 包。
 高安全项目可以设为 `false`。
 
 ### 7.7 `model_reasoning_effort`
@@ -377,7 +377,8 @@ model_reasoning_effort = "medium"
 1. `low`：更快
 2. `medium`：日常推荐
 3. `high`：复杂排错 / 重构
-4. `xhigh`：更深，成本更高
+4. `minimal`：支持模型上的最小推理档，适合极轻任务
+5. `xhigh`：更深，且是否可用取决于模型
 
 ### 7.8 上下文窗口
 
@@ -418,7 +419,7 @@ disable_response_storage = true
 model_verbosity = "high"
 ```
 
-中文配置解释、长文档维护时可以用 `high`。  
+中文配置解释、长文档维护时可以用 `high`。
 只想要结果时可改 `medium`。
 
 ---
@@ -451,7 +452,7 @@ requires_openai_auth = false
 env_key = "OPENAI_API_KEY"
 ```
 
-但 HN246 当前模板沿用了可用配置。  
+但 HN246 当前模板沿用了可用配置。
 如果当前能跑，不要为了“看起来标准”贸然改认证方式。
 
 ---
@@ -611,7 +612,7 @@ Select-String -Path "$env:USERPROFILE\.codex\config.toml" -Pattern "Administrato
 
 ### 13.4 替换后重启 Codex
 
-旧会话可能保留旧配置状态。  
+旧会话可能保留旧配置状态。
 改完 `config.toml` 后，建议新开 Codex 会话验证。
 
 ---
@@ -648,7 +649,7 @@ codex
 
 1. 是否读取 HN246 用户级 config
 2. 是否被项目 `.codex/config.toml` 覆盖
-3. 是否被 profile 覆盖
+3. 是否加载了预期的 profile 文件
 
 ### 14.4 看 MCP
 
@@ -714,31 +715,42 @@ npx -y chrome-devtools-mcp@latest --no-usage-statistics
 
 ---
 
-## 16. 推荐 profiles
+## 16. 推荐 profile 文件
 
-可以把常用场景写成 profiles：
+官方当前写法是把 profile 做成独立文件，放在 `$CODEX_HOME` 目录旁边，而不是继续写成主 `config.toml` 里的 `[profiles.<name>]` 表：
+
+1. `C:\Users\HN246\.codex\dev_safe.config.toml`
+2. `C:\Users\HN246\.codex\readonly_audit.config.toml`
+3. `C:\Users\HN246\.codex\deep_refactor.config.toml`
+
+`dev_safe.config.toml` 示例：
 
 ```toml
-[profiles.dev_safe]
 model = "gpt-5.5"
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 model_reasoning_effort = "medium"
+```
 
-[profiles.readonly_audit]
+`readonly_audit.config.toml` 示例：
+
+```toml
 model = "gpt-5.5"
 approval_policy = "never"
 sandbox_mode = "read-only"
 web_search = "disabled"
+```
 
-[profiles.deep_refactor]
+`deep_refactor.config.toml` 示例：
+
+```toml
 model = "gpt-5.5"
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 model_reasoning_effort = "high"
 ```
 
-调用：
+调用方式：
 
 ```powershell
 codex --profile dev_safe

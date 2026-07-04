@@ -19,7 +19,7 @@ exportedAt: "2026-07-04T07:00:23.240Z"
 ---
 # 第二篇：Codex Plugin 体系详解与实战
 
-> 资料来源：OpenAI Academy、OpenAI Codex 官方产品页、`openai/plugins` 官方仓库、本机 `~/.codex/plugins/` 与 `~/.codex/config.toml` 实装。2026-05-24 按官方口径与本机行为重校。
+> 资料来源：OpenAI Academy、OpenAI Codex 官方文档、OpenAI Codex 官方产品页、`openai/plugins` 官方仓库、本机 `~/.codex/plugins/` 与 `~/.codex/config.toml` 实装。2026-07-04 按官方口径与本机行为重校。
 
 [[toc]]
 
@@ -222,7 +222,7 @@ interface:
 
 ```toml
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-05-24T13:52:43Z"
+last_updated = "2026-07-04T13:52:43Z"
 source_type = "local"
 source = '\\?\C:\Users\HN246\.cache\codex-runtimes\codex-primary-runtime\plugins\openai-primary-runtime'
 
