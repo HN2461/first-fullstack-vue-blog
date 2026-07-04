@@ -104,6 +104,8 @@ Windows x86 环境下载：
 https://github.com/asxez/DockerDesktop-CN/releases/download/4.80.0/app-Windows-x86.zip
 ```
 
+这里的 `Windows-x86` 是第三方项目 Release 里的包名，实际使用时以项目 Releases 中与你系统架构对应的文件为准。普通 64 位 Windows 电脑通常选择 Windows x86 包；ARM 设备则应选择 Windows arm 包。
+
 如果你的 Docker Desktop 是其他版本，就把上面的 `4.80.0` 换成你自己的版本号，并确认 Releases 中确实存在对应文件。
 
 ## 三、下载并校验汉化包
@@ -265,6 +267,8 @@ Get-Process | Where-Object {
 ```
 
 这一步只是关闭 Docker Desktop 相关进程，不会删除镜像、容器和数据卷。
+
+如果电脑上还有其他名称中包含 Docker 的辅助工具，执行前可以先只运行 `Get-Process | Where-Object { $_.ProcessName -like '*Docker*' -or $_.ProcessName -like 'com.docker*' }` 看一眼进程列表，确认没有误关无关程序。
 
 ### 7.3 替换目标文件
 

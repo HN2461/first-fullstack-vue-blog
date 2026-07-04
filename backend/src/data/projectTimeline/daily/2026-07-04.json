@@ -30,6 +30,13 @@
       "detail": "1. 逐篇排查 output/AI工具/终端Agent流/ClaudeCode 下 6 篇 Claude Code 系列文章，并按 2026-07-04 官方文档和 npm 包信息更新安装、权限模式、memory、skills、MCP、plugins、并行任务和中转接入口径。\n2. 修正 npm 安装要求为 Node.js 22+，补充原生安装器、自动更新、Manual/default、dontAsk、auto、bypassPermissions 的当前边界，并更新 bundled skills、/agents 行为变化、/batch、/debug、/run、/verify 等命令说明。\n3. 更新模型与 Gateway 配置内容，补充 Sonnet 5、Opus 4.8、Fable、ANTHROPIC_DEFAULT_FABLE_MODEL、auto memory、.claude/rules 路径作用域等时效性信息，避免后续复习沿用 2026-05 旧口径。",
       "occurredAt": "2026-07-04T17:05:00+08:00",
       "category": "内容维护"
+    },
+    {
+      "id": "ai-docker-notes-fact-check-update",
+      "title": "复核并完善 AI 与 Docker 入门笔记",
+      "detail": "1. 阅读 output/AI技术笔记 与 output/Docker 下 3 篇草稿，并结合 OpenAI 官方文档、Docker 官方文档和 DockerDesktop-CN Release 信息核对技术表述。\n2. 更新 AI 技术知识体系文章中的 Agent 定义、RAG 向量化时机、OpenAI Responses API / SDK v1+ 示例、developer 角色、token 估算、结构化输出、流式输出、模型窗口和成本计算方式，避免沿用过时模型与固定价格口径。\n3. 为 Docker Desktop 汉化教程补充 Windows x86 包名与系统架构选择说明、停止 Docker 相关进程前的确认提示；为 Docker 小白笔记补充 PowerShell 5.1 写入 UTF-8 BOM 的注意事项。",
+      "occurredAt": "2026-07-04T16:11:53+08:00",
+      "category": "内容维护"
     }
   ]
 }

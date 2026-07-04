@@ -424,6 +424,8 @@ New-Item -ItemType Directory -Force -Path C:\docker-data\html
 Set-Content -Path C:\docker-data\html\index.html -Value '<h1>Hello Docker</h1>' -Encoding utf8
 ```
 
+如果你使用的是 Windows PowerShell 5.1，`-Encoding utf8` 可能会写出带 BOM 的 UTF-8 文件。这个 HTML 示例通常不受影响；如果是项目源码或配置文件，建议使用 PowerShell 7 的 `-Encoding utf8NoBOM`，或用编辑器确认保存为 UTF-8 无 BOM。
+
 再运行 Nginx：
 
 ```powershell
