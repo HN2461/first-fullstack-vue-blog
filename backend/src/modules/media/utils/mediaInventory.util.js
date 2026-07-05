@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
+import { inferMediaFileClass } from '#modules/media/constants/mediaUpload.constants.js'
 
 const MIME_BY_EXT = Object.freeze({
   '.jpg': 'image/jpeg',
@@ -30,16 +31,23 @@ const MIME_BY_EXT = Object.freeze({
   '.zip': 'application/zip',
   '.rar': 'application/vnd.rar',
   '.7z': 'application/x-7z-compressed',
+  '.exe': 'application/vnd.microsoft.portable-executable',
+  '.msi': 'application/x-msi',
+  '.dmg': 'application/x-apple-diskimage',
+  '.pkg': 'application/octet-stream',
+  '.deb': 'application/vnd.debian.binary-package',
+  '.rpm': 'application/x-rpm',
+  '.apk': 'application/vnd.android.package-archive',
+  '.appimage': 'application/octet-stream',
   '.mp4': 'video/mp4',
   '.webm': 'video/webm',
   '.mov': 'video/quicktime',
   '.mp3': 'audio/mpeg',
-  '.wav': 'audio/wav'
+  '.wav': 'audio/wav',
+  '.m4a': 'audio/mp4',
+  '.ogg': 'audio/ogg'
 })
 
-const CODE_EXTENSIONS = new Set(['.js', '.jsx', '.ts', '.tsx', '.vue', '.java', '.py', '.go', '.rb', '.php', '.sql', '.json', '.yml', '.yaml', '.xml', '.html', '.css', '.scss', '.less', '.md', '.txt', '.sh', '.ps1', '.bat', '.c', '.cpp', '.h', '.hpp', '.cs', '.kt', '.swift', '.rs'])
-const DOCUMENT_EXTENSIONS = new Set(['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.csv'])
-const ARCHIVE_EXTENSIONS = new Set(['.zip', '.rar', '.7z', '.tar', '.gz'])
 const TEST_UPLOAD_BASENAMES = new Set([
   'hello.txt',
   'article-image.png',
@@ -59,15 +67,7 @@ export function inferMimeType(filename) {
 }
 
 export function inferFileClass(filename, mimeType = '') {
-  if (mimeType.startsWith('image/')) {
-    return 'image'
-  }
-
-  const ext = path.extname(filename || '').toLowerCase()
-  if (CODE_EXTENSIONS.has(ext)) return 'code'
-  if (DOCUMENT_EXTENSIONS.has(ext)) return 'document'
-  if (ARCHIVE_EXTENSIONS.has(ext)) return 'archive'
-  return 'other'
+  return inferMediaFileClass(filename, mimeType)
 }
 
 export function getDisplayName(filename) {
@@ -93,6 +93,36 @@ export function getTestUploadReason(relativePath, filename) {
 
 export function buildUrlFromRelativePath(relativePath) {
   return `/uploads/${String(relativePath || '').replace(/\\/g, '/')}`
+}
+
+export function inferInventorySource(relativePath) {
+  const normalizedPath = String(relativePath || '').replace(/\\/g, '/')
+  if (normalizedPath.startsWith('avatars/')) {
+    return {
+      type: 'avatar',
+      label: '用户头像目录',
+      description: '来自个人资料头像上传目录，需优先确认是否仍被用户账号使用。'
+    }
+  }
+  if (normalizedPath.startsWith('media/')) {
+    return {
+      type: 'media',
+      label: '媒体上传目录',
+      description: '来自后台媒体资产上传目录，通常应登记进媒体库后再统一管理。'
+    }
+  }
+  if (normalizedPath.startsWith('inventory-test/')) {
+    return {
+      type: 'test',
+      label: '测试目录',
+      description: '来自测试扫描目录，确认无引用后可清理。'
+    }
+  }
+  return {
+    type: 'upload',
+    label: '上传目录',
+    description: '位于上传根目录下，需结合引用状态判断是否可清理。'
+  }
 }
 
 export function normalizeDiskPath(value) {

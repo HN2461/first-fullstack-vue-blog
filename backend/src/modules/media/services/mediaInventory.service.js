@@ -3,7 +3,8 @@ import path from 'node:path'
 import { Media } from '#modules/media/models/Media.js'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { ensureDefaultMediaCategory } from './mediaCategory.service.js'
-import { buildUrlFromRelativePath, getDisplayName, getTestUploadReason, inferFileClass, inferMimeType, isPathInside, normalizeDiskPath } from '../utils/mediaInventory.util.js'
+import { findMediaReferences, summarizeMediaReferences } from './mediaReference.service.js'
+import { buildUrlFromRelativePath, getDisplayName, getTestUploadReason, inferFileClass, inferInventorySource, inferMimeType, isPathInside, normalizeDiskPath } from '../utils/mediaInventory.util.js'
 
 const DEFAULT_UNTRACKED_CATEGORY = '历史未登记资源'
 
@@ -56,6 +57,28 @@ async function walkFiles(rootDir, currentDir = rootDir, items = []) {
   return items
 }
 
+async function attachInventoryUsages(files = []) {
+  return Promise.all(files.map(async (item) => {
+    const references = await findMediaReferences({ url: item.url })
+    const usage = summarizeMediaReferences(references)
+    const source = inferInventorySource(item.relativePath)
+    const protectedReason = references.length > 0
+      ? `仍被 ${references.length} 处业务引用`
+      : source.type === 'avatar'
+        ? '头像目录资源需确认账号引用后再处理'
+        : ''
+
+    return {
+      ...item,
+      source,
+      usage,
+      references: references.slice(0, 5),
+      protected: Boolean(protectedReason),
+      protectedReason
+    }
+  }))
+}
+
 async function getRegisteredPathSet(uploadRoot) {
   const mediaList = await Media.find().select('storagePath url')
   const registeredPaths = new Set()
@@ -82,7 +105,7 @@ async function scanUnregisteredMediaFiles(options = {}) {
   const fileClass = String(options.fileClass || '').trim()
   const suspectOnly = options.suspectOnly === true || options.suspectOnly === 'true'
 
-  return allFiles
+  const files = allFiles
     .filter((item) => !registeredPaths.has(normalizeDiskPath(item.storagePath)))
     .filter((item) => !suspectOnly || item.suspectedTest)
     .filter((item) => !fileClass || item.fileClass === fileClass)
@@ -94,6 +117,8 @@ async function scanUnregisteredMediaFiles(options = {}) {
         .some((value) => String(value || '').toLowerCase().includes(keyword))
     })
     .sort((left, right) => new Date(right.mtime).getTime() - new Date(left.mtime).getTime())
+
+  return attachInventoryUsages(files)
 }
 
 export async function listUnregisteredMediaFiles(options = {}) {
@@ -161,6 +186,17 @@ async function createMediaFromDiskFile(item, user, category) {
 
   const filename = path.basename(targetPath)
   const mimeType = inferMimeType(filename)
+  const source = inferInventorySource(relativePath)
+  if (source.type === 'avatar') {
+    return {
+      media: null,
+      skipped: true,
+      reason: 'avatar_resource',
+      relativePath,
+      message: '用户头像目录资源不登记为普通媒体资产'
+    }
+  }
+
   const media = await Media.create({
     filename,
     originalName: getDisplayName(filename),
@@ -194,10 +230,15 @@ export async function registerUntrackedMedia(input = {}, user) {
   }
 
   return {
-    items: results.map((item) => item.media),
+    items: results.filter((item) => item.media).map((item) => item.media),
     total: results.length,
     createdCount: results.filter((item) => !item.skipped).length,
-    skippedCount: results.filter((item) => item.skipped).length
+    skippedCount: results.filter((item) => item.skipped).length,
+    skipped: results.filter((item) => item.skipped).map((item) => ({
+      relativePath: item.relativePath || item.media?.url || '',
+      reason: item.reason || 'skipped',
+      message: item.message || ''
+    }))
   }
 }
 
@@ -209,6 +250,15 @@ export async function clearSuspectedUntrackedMedia(options = {}) {
   const skipped = []
 
   for (const file of files) {
+    if (file.protected || file.usage?.referenceCount > 0) {
+      skippedCount += 1
+      skipped.push({
+        relativePath: file.relativePath,
+        reason: file.protectedReason || '资源仍被业务引用'
+      })
+      continue
+    }
+
     const { targetPath } = resolveUnregisteredFilePath(file.relativePath)
     try {
       await fs.unlink(targetPath)

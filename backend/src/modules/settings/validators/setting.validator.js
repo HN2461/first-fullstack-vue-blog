@@ -3,6 +3,7 @@ import {
   SITE_ENTRANCE_EFFECT_KEYS,
   SITE_ENTRANCE_TRIGGER_PAGES
 } from '#modules/settings/constants/siteEntranceEffects.js'
+import { MEDIA_ALLOWED_EXTENSION_VALUES } from '#modules/media/constants/mediaUpload.constants.js'
 
 const siteEntranceEffectSchema = z.object({
   enabled: z.boolean({ invalid_type_error: '网站入场欢迎开关必须是布尔值' }).optional(),
@@ -38,6 +39,12 @@ export const settingSchema = z.object({
     .int('单文件上传最大容量必须是整数')
     .min(1, '单文件上传最大容量不能小于 1MB')
     .max(200, '单文件上传最大容量不能超过 200MB')
+    .optional(),
+  mediaAllowedExtensions: z.array(z.enum(MEDIA_ALLOWED_EXTENSION_VALUES, {
+    errorMap: () => ({ message: '存在不支持的资源扩展名' })
+  }))
+    .min(1, '至少选择 1 个允许上传的扩展名')
+    .max(MEDIA_ALLOWED_EXTENSION_VALUES.length, '允许上传的扩展名数量不正确')
     .optional(),
   siteEntranceEffect: siteEntranceEffectSchema.optional()
 }).strict('存在不支持的设置项')

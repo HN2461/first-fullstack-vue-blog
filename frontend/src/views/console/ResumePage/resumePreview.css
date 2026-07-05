@@ -1,0 +1,208 @@
+.resume-preview-shell {
+  max-height: calc(100vh - 116px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.resume-preview-sheet {
+  --resume-accent: var(--console-primary);
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px 34px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  color: var(--console-text);
+  background: var(--console-surface);
+}
+
+.resume-preview-sheet.is-classic {
+  --resume-accent: #1677ff;
+}
+
+.resume-preview-sheet.is-compact {
+  --resume-accent: #0f766e;
+  max-width: 720px;
+  padding: 24px 30px;
+}
+
+.resume-preview-sheet.is-executive {
+  --resume-accent: #7c3aed;
+}
+
+.resume-preview-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 2px solid var(--resume-accent);
+}
+
+.resume-preview-sheet.is-executive .resume-preview-header {
+  margin: -28px -34px 18px;
+  padding: 24px 34px;
+  color: #fff;
+  background: var(--resume-accent);
+}
+
+.resume-preview-header h2 {
+  margin: 0;
+  color: var(--console-text);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.resume-preview-sheet.is-compact .resume-preview-header h2 {
+  font-size: 24px;
+}
+
+.resume-preview-sheet.is-executive .resume-preview-header h2,
+.resume-preview-sheet.is-executive .resume-preview-header p,
+.resume-preview-sheet.is-executive .resume-preview-contact {
+  color: #fff;
+}
+
+.resume-preview-header p {
+  margin: 6px 0 0;
+  color: var(--console-text-secondary);
+}
+
+.resume-preview-contact {
+  display: grid;
+  gap: 4px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  text-align: right;
+}
+
+.resume-preview-section {
+  padding-top: 18px;
+}
+
+.resume-preview-sheet.is-compact .resume-preview-section {
+  padding-top: 14px;
+}
+
+.resume-preview-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.resume-preview-section__head h3 {
+  margin: 0;
+  color: var(--resume-accent);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.resume-preview-text {
+  margin: 0;
+  color: var(--console-text);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.resume-preview-skill-list {
+  display: grid;
+  gap: 6px;
+}
+
+.resume-preview-skill {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(120px, 0.32fr) minmax(0, 1fr);
+  gap: 8px 14px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--console-border);
+  background: transparent;
+}
+
+.resume-preview-skill strong {
+  color: var(--console-text);
+}
+
+.resume-preview-skill span {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.resume-preview-skill p {
+  grid-column: 2;
+  margin: 0;
+  color: var(--console-text-secondary);
+  line-height: 1.6;
+}
+
+.resume-preview-timeline {
+  display: grid;
+  gap: 6px;
+  padding: 10px 0;
+  border-top: 1px dashed var(--console-border);
+}
+
+.resume-preview-timeline:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.resume-preview-timeline__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.resume-preview-timeline__head strong {
+  display: block;
+  color: var(--console-text);
+}
+
+.resume-preview-timeline__head span,
+.resume-preview-timeline__head time {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.resume-preview-bullets {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--console-text);
+  line-height: 1.75;
+}
+
+.resume-preview-bullets li + li {
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .resume-preview-sheet {
+    padding: 20px 18px;
+  }
+
+  .resume-preview-sheet.is-executive .resume-preview-header {
+    margin: -20px -18px 16px;
+    padding: 20px 18px;
+  }
+
+  .resume-preview-header,
+  .resume-preview-skill {
+    grid-template-columns: 1fr;
+  }
+
+  .resume-preview-skill p {
+    grid-column: auto;
+  }
+
+  .resume-preview-contact {
+    text-align: left;
+  }
+
+  .resume-preview-timeline__head {
+    display: grid;
+    gap: 4px;
+  }
+}

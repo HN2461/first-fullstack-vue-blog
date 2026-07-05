@@ -131,6 +131,14 @@ export const interviewQuerySchema = z.object({
   highlightId: z.string().trim().max(80).optional()
 }).passthrough()
 
+export const materialQuerySchema = z.object({
+  page: z.coerce.number().int().min(1).optional(),
+  pageSize: z.coerce.number().int().min(1).max(100).optional(),
+  keyword: z.string().trim().max(80).optional(),
+  category: z.string().trim().max(80).optional(),
+  tag: z.string().trim().max(24).optional()
+}).passthrough()
+
 export const exportCreateSchema = z.object({
   resumeId: z.string().trim().min(1, '请选择简历'),
   format: z.enum(RESUME_EXPORT_FORMATS, { invalid_type_error: '导出格式不正确' }),

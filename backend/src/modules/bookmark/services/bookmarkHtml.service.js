@@ -43,6 +43,16 @@ function parseUnixDate(value) {
   return Number.isNaN(date.getTime()) ? null : date
 }
 
+function normalizeNetscapeEntryContent(token, tagName) {
+  const openTagPattern = new RegExp(`^<DT>\\s*<${tagName}\\b[^>]*>`, 'i')
+  const closeTagPattern = new RegExp(`</${tagName}>`, 'i')
+  const structuralTagPattern = /<(?:DT|DD|DL)\b|<\/DL>/i
+  const content = String(token || '')
+    .replace(openTagPattern, '')
+    .replace(closeTagPattern, '')
+  return content.split(structuralTagPattern)[0] || ''
+}
+
 function createNode(type, input = {}) {
   return {
     type,
@@ -57,7 +67,7 @@ function createNode(type, input = {}) {
 export function parseBookmarksHtml(html = '') {
   const root = createNode('folder', { title: 'root' })
   const stack = [root]
-  const tokenRegex = /<DT>\s*<H3\b[^>]*>[\s\S]*?<\/H3>|<DT>\s*<A\b[^>]*>[\s\S]*?<\/A>|<DL\b[^>]*>|<\/DL>/gi
+  const tokenRegex = /<DT>\s*<H3\b[^>]*>[\s\S]*?(?:<\/H3>|(?=\s*(?:<DT>|<DL\b|<\/DL>)))|<DT>\s*<A\b[^>]*>[\s\S]*?(?:<\/A>|(?=\s*(?:<DT>|<DL\b|<\/DL>)))|<DL\b[^>]*>|<\/DL>/gi
   let pendingFolder = null
   let rootDlSeen = false
   let count = 0
@@ -84,7 +94,7 @@ export function parseBookmarksHtml(html = '') {
 
     if (/^<DT>\s*<H3/i.test(token)) {
       const openTag = token.match(/<H3\b[^>]*>/i)?.[0] || ''
-      const content = token.replace(/^<DT>\s*<H3\b[^>]*>/i, '').replace(/<\/H3>$/i, '')
+      const content = normalizeNetscapeEntryContent(token, 'H3')
       const attrs = parseAttributes(openTag)
       const folder = createNode('folder', {
         title: stripTags(content) || '未命名文件夹',
@@ -97,7 +107,7 @@ export function parseBookmarksHtml(html = '') {
 
     if (/^<DT>\s*<A/i.test(token)) {
       const openTag = token.match(/<A\b[^>]*>/i)?.[0] || ''
-      const content = token.replace(/^<DT>\s*<A\b[^>]*>/i, '').replace(/<\/A>$/i, '')
+      const content = normalizeNetscapeEntryContent(token, 'A')
       const attrs = parseAttributes(openTag)
       const url = String(attrs.HREF || '').trim()
       if (!url) continue

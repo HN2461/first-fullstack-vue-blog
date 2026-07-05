@@ -119,6 +119,42 @@ describe('bookmark routes', () => {
     expect(rootBookmark.folderId).toBeNull()
   })
 
+  it('imports Netscape bookmark HTML entries without explicit closing tags', async () => {
+    const looseHtml = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+    <DT><H3 ADD_DATE="1782900000">开发资料
+    <DL><p>
+        <DT><A HREF="https://developer.mozilla.org" ADD_DATE="1782900010">MDN Web Docs
+        <DT><A HREF="https://vite.dev" ADD_DATE="1782900020">Vite
+        <DD>构建工具文档
+    </DL><p>
+    <DT><A HREF="https://vuejs.org" ADD_DATE="1782900030">Vue
+</DL><p>`
+
+    const response = await request(app)
+      .post('/api/bookmarks/imports/html')
+      .set('Authorization', `Bearer ${token}`)
+      .attach('file', Buffer.from(looseHtml, 'utf8'), 'bookmarks.html')
+      .expect(200)
+
+    expect(response.body.data).toMatchObject({ inserted: 3, updated: 0 })
+
+    const folder = await BookmarkFolder.findOne({ userId: user._id, name: '开发资料' })
+    expect(folder).toBeTruthy()
+
+    const nestedBookmarks = await Bookmark.find({ userId: user._id, folderId: folder._id }).sort({ url: 1 })
+    expect(nestedBookmarks.map((item) => item.url)).toEqual([
+      'https://developer.mozilla.org',
+      'https://vite.dev'
+    ])
+
+    const rootBookmark = await Bookmark.findOne({ userId: user._id, url: 'https://vuejs.org' })
+    expect(rootBookmark.folderId).toBeNull()
+  })
+
   it('supports manual CRUD drag sorting and export formats', async () => {
     const folderResponse = await request(app)
       .post('/api/bookmarks/folders')

@@ -1,5 +1,6 @@
 import { Setting } from '#modules/settings/models/Setting.js'
 import { DEFAULT_SITE_ENTRANCE_EFFECT } from '#modules/settings/constants/siteEntranceEffects.js'
+import { DEFAULT_MEDIA_ALLOWED_EXTENSIONS } from '#modules/media/constants/mediaUpload.constants.js'
 
 const DEFAULT_SETTINGS = {
   siteTitle: '个人全栈博客系统',
@@ -10,6 +11,7 @@ const DEFAULT_SETTINGS = {
   systemVersion: 'v1.0.0',
   mediaMaxFilesPerUpload: 5,
   mediaMaxFileSizeMB: 20,
+  mediaAllowedExtensions: [...DEFAULT_MEDIA_ALLOWED_EXTENSIONS],
   siteEntranceEffect: { ...DEFAULT_SITE_ENTRANCE_EFFECT }
 }
 

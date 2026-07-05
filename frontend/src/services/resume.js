@@ -53,6 +53,14 @@ export function removeResumeInterviewLink(id, data) {
   return http.delete(`/api/resume-interviews/${id}/links`, { data })
 }
 
+export async function listResumeMaterials(params = {}) {
+  return toPageResult(await http.get('/api/resume-materials', { params }), params.pageSize || 10)
+}
+
+export function getResumeMaterial(id) {
+  return http.get(`/api/resume-materials/${id}`)
+}
+
 export function listResumeTemplates() {
   return http.get('/api/resume-templates')
 }

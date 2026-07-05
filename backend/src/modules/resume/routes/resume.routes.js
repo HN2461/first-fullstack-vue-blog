@@ -21,6 +21,7 @@ import {
 } from '#modules/resume/services/resumeInterview.service.js'
 import { getResumeTemplate, listResumeTemplates } from '#modules/resume/services/resumeTemplate.service.js'
 import { createResumeExport, getResumeExportFile, listResumeExports } from '#modules/resume/services/resumeExport.service.js'
+import { getResumeMaterial, listResumeMaterials } from '#modules/resume/services/resumeMaterial.service.js'
 import {
   exportCreateSchema,
   exportQuerySchema,
@@ -28,6 +29,7 @@ import {
   interviewLinkSchema,
   interviewQuerySchema,
   interviewUpdateSchema,
+  materialQuerySchema,
   parseBody,
   resumeCreateSchema,
   resumeQuerySchema,
@@ -36,6 +38,7 @@ import {
 
 export const resumeRouter = Router()
 export const resumeInterviewRouter = Router()
+export const resumeMaterialRouter = Router()
 export const resumeTemplateRouter = Router()
 export const resumeExportRouter = Router()
 
@@ -103,6 +106,18 @@ resumeInterviewRouter.delete('/:id/links', asyncHandler(async (req, res) => {
 
 resumeInterviewRouter.delete('/:id', asyncHandler(async (req, res) => {
   res.json(ok(await deleteInterview(req.params.id, req.user._id), '面试问答已删除'))
+}))
+
+resumeMaterialRouter.use(requireAuth)
+resumeMaterialRouter.use(requireMenuAccess('/console/resume-interviews'))
+
+resumeMaterialRouter.get('/', asyncHandler(async (req, res) => {
+  const input = parseBody(materialQuerySchema, req.query)
+  res.json(ok(await listResumeMaterials(req.user._id, input)))
+}))
+
+resumeMaterialRouter.get('/:id', asyncHandler(async (req, res) => {
+  res.json(ok(await getResumeMaterial(req.params.id, req.user._id)))
 }))
 
 resumeTemplateRouter.use(requireAuth)

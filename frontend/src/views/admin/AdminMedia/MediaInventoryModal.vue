@@ -77,9 +77,18 @@
                   <a-tag v-if="record.suspectedTest" :bordered="false" color="red">
                     疑似测试
                   </a-tag>
+                  <a-tag :bordered="false" :color="getSourceColor(record.source?.type)">
+                    {{ record.source?.label || '上传目录' }}
+                  </a-tag>
+                  <a-tag v-if="record.usage?.referenceCount > 0" :bordered="false" color="green">
+                    引用 {{ record.usage.referenceCount }}
+                  </a-tag>
+                  <a-tag v-if="record.protected" :bordered="false" color="orange">
+                    受保护
+                  </a-tag>
                 </div>
                 <span :title="record.relativePath">{{ record.relativePath }}</span>
-                <em v-if="record.suspectedTestReason">{{ record.suspectedTestReason }}</em>
+                <em v-if="getInventoryNote(record)">{{ getInventoryNote(record) }}</em>
               </div>
             </div>
           </template>
@@ -185,6 +194,10 @@ const pagination = computed(() => ({
 const rowSelection = computed(() => ({
   selectedRowKeys: selectedRowKeys.value,
   preserveSelectedRowKeys: true,
+  getCheckboxProps: (record) => ({
+    disabled: record.protected,
+    title: record.protectedReason || '该资源暂不建议批量处理'
+  }),
   onChange: (keys) => {
     selectedRowKeys.value = keys
   }
@@ -328,6 +341,16 @@ function getFileClassColor(value) {
     other: 'default'
   }
   return map[value] || 'default'
+}
+
+function getSourceColor(value) {
+  return ({ avatar: 'purple', media: 'blue', test: 'red', upload: 'default' })[value] || 'default'
+}
+
+function getInventoryNote(record) {
+  if (record.protectedReason) return record.protectedReason
+  if (record.references?.length) return record.references.map((item) => `${item.typeLabel}：${item.ownerTitle || item.ownerSubtitle}`).join('；')
+  return record.suspectedTestReason || record.source?.description || ''
 }
 </script>
 

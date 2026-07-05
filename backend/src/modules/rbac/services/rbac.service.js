@@ -27,10 +27,9 @@ const DEFAULT_MENUS = [
   { code: 'knowledge.tags', name: '标签文章', icon: 'TagsOutlined', routePath: '/console/tags', routeKey: 'knowledge.tag.articles', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 60, hidden: true, type: MENU_TYPES.SYSTEM },
   { code: 'resume.root', name: '简历模块', icon: 'ProfileOutlined', routePath: '', routeKey: 'resume.root', parentType: MENU_PARENT_TYPES.ROOT, sortOrder: 15, type: MENU_TYPES.SYSTEM },
   { code: 'resume.list', name: '简历列表', icon: 'FileDoneOutlined', routePath: '/console/resumes', routeKey: 'resume.list', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
-  { code: 'resume.editor', name: '简历编辑', icon: 'FormOutlined', routePath: '/console/resumes/editor', routeKey: 'resume.editor', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
-  { code: 'resume.interviews', name: '面试问答库', icon: 'QuestionCircleOutlined', routePath: '/console/resume-interviews', routeKey: 'resume.interviews', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30, type: MENU_TYPES.SYSTEM },
-  { code: 'resume.templates', name: '简历模板', icon: 'LayoutOutlined', routePath: '/console/resume-templates', routeKey: 'resume.templates', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40, type: MENU_TYPES.SYSTEM },
-  { code: 'resume.exports', name: '导出记录', icon: 'DownloadOutlined', routePath: '/console/resume-exports', routeKey: 'resume.exports', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50, type: MENU_TYPES.SYSTEM },
+  { code: 'resume.interviews', name: '面试问答库', icon: 'QuestionCircleOutlined', routePath: '/console/resume-interviews', routeKey: 'resume.interviews', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
+  { code: 'resume.templates', name: '简历模板', icon: 'LayoutOutlined', routePath: '/console/resume-templates', routeKey: 'resume.templates', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30, type: MENU_TYPES.SYSTEM },
+  { code: 'resume.exports', name: '导出记录', icon: 'DownloadOutlined', routePath: '/console/resume-exports', routeKey: 'resume.exports', parentCode: 'resume.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40, type: MENU_TYPES.SYSTEM },
   { code: 'management.root', name: '后台管理', icon: 'ControlOutlined', routePath: '/console', routeKey: 'admin.dashboard', parentType: MENU_PARENT_TYPES.ROOT, sortOrder: 20 },
   { code: 'console.dashboard', name: '管理工作台', icon: 'DashboardOutlined', routePath: '/console', routeKey: 'admin.dashboard', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
   { code: 'content.group', name: '内容管理', icon: 'FolderOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
@@ -54,6 +53,7 @@ const DEFAULT_MENUS = [
   { code: 'governance.projectTimeline', name: '项目记录台账', icon: 'ClockCircleOutlined', routePath: '/console/manage/project-timeline', routeKey: 'admin.project.timeline', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 25 },
   { code: 'governance.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/manage/trash', routeKey: 'admin.trash.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 }
 ]
+const RETIRED_SYSTEM_MENU_CODES = ['resume.editor']
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -311,6 +311,10 @@ export async function ensureRbacSeed(options = {}) {
   }
 
   await Menu.deleteMany({ code: { $in: ['content.root', 'governance.root'] } })
+  await Menu.updateMany(
+    { code: { $in: RETIRED_SYSTEM_MENU_CODES }, type: MENU_TYPES.SYSTEM },
+    { $set: { enabled: false, hidden: true } }
+  )
 
   const allMenus = await Menu.find({ enabled: true })
   const knowledgeRootMenu = allMenus.find((menu) => menu.code === 'knowledge.root')

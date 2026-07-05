@@ -40,7 +40,7 @@
         />
       </div>
       <div class="media-cloud__actions">
-        <a-button size="middle" @click="inventoryModalVisible = true">
+        <a-button v-if="authStore.isSuperAdmin" size="middle" @click="inventoryModalVisible = true">
           <template #icon><SearchOutlined /></template>
           扫描资源
         </a-button>
@@ -226,7 +226,7 @@
             multiple
             :before-upload="beforeUpload"
             :show-upload-list="false"
-            accept="image/*,.pdf,.txt,.md,.zip,.rar,.7z,.json,.js,.ts,.vue,.java,.py,.sql,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv"
+            :accept="uploadAccept"
           >
             <p class="ant-upload-drag-icon"><InboxOutlined /></p>
             <p class="ant-upload-text">拖拽文件到这里，或点击选择本地资源</p>
@@ -245,36 +245,12 @@
       </div>
     </a-modal>
 
-    <a-modal
+    <MediaUploadSettingsModal
       v-model:open="settingsModalVisible"
-      title="上传限制"
-      :confirm-loading="settingsSaving"
-      ok-text="保存限制"
-      cancel-text="取消"
-      centered
-      width="420px"
-      :body-style="{ maxHeight: '70vh', overflowY: 'auto' }"
-      @ok="saveUploadSettings"
-    >
-      <a-form layout="vertical">
-        <a-form-item label="单次最大上传文件数量">
-          <a-input-number
-            v-model:value="settingsDraft.mediaMaxFilesPerUpload"
-            :min="1"
-            :max="20"
-            style="width: 100%"
-          />
-        </a-form-item>
-        <a-form-item label="单文件上传最大容量（MB）">
-          <a-input-number
-            v-model:value="settingsDraft.mediaMaxFileSizeMB"
-            :min="1"
-            :max="200"
-            style="width: 100%"
-          />
-        </a-form-item>
-      </a-form>
-    </a-modal>
+      :value="settingsDraft"
+      :submitting="settingsSaving"
+      @submit="saveUploadSettings"
+    />
 
     <MediaTrashModal
       v-model:open="trashModalVisible"
@@ -534,6 +510,14 @@ import MediaTrashModal from './MediaTrashModal.vue'
 import MediaRenameModal from './MediaRenameModal.vue'
 import MediaReferenceModal from './MediaReferenceModal.vue'
 import MediaInventoryModal from './MediaInventoryModal.vue'
+import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
+import {
+  DEFAULT_MEDIA_ALLOWED_EXTENSIONS,
+  buildMediaUploadAccept,
+  getMediaFileExtension,
+  isMediaFileExtensionAllowed,
+  normalizeAllowedMediaExtensions
+} from './mediaUploadConfig'
 import {
   createAdminMediaCategory,
   deleteAdminMedia,
@@ -549,6 +533,7 @@ import {
   uploadAdminMedia
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
+import { useAuthStore } from '@/stores/auth'
 
 const tableRef = ref(null)
 const files = ref([])
@@ -575,11 +560,13 @@ const referenceRecord = ref(null)
 const inventoryModalVisible = ref(false)
 const uploadRules = ref({
   maxFiles: 5,
-  maxFileSizeMB: 20
+  maxFileSizeMB: 20,
+  allowedExtensions: [...DEFAULT_MEDIA_ALLOWED_EXTENSIONS]
 })
 const settingsDraft = ref({
   mediaMaxFilesPerUpload: 5,
-  mediaMaxFileSizeMB: 20
+  mediaMaxFileSizeMB: 20,
+  mediaAllowedExtensions: [...DEFAULT_MEDIA_ALLOWED_EXTENSIONS]
 })
 const trashModalVisible = ref(false)
 const selectedMediaKeys = ref([])
@@ -588,12 +575,13 @@ const categoryDraft = ref({
   description: ''
 })
 const { runAction, confirmAction } = useAdminActions()
+const authStore = useAuthStore()
 
 const fileClassOptions = [
   { label: '图片', value: 'image' },
   { label: '代码', value: 'code' },
   { label: '文档', value: 'document' },
-  { label: '压缩包', value: 'archive' },
+  { label: '压缩包/安装包', value: 'archive' },
   { label: '其他', value: 'other' }
 ]
 
@@ -626,6 +614,7 @@ const tableParams = computed(() => ({
   fileClass: filterFileClass.value || undefined,
   usageStatus: filterUsageStatus.value || undefined
 }))
+const uploadAccept = computed(() => buildMediaUploadAccept(uploadRules.value.allowedExtensions))
 
 const columns = [
   {
@@ -684,6 +673,11 @@ function beforeUpload(nextFile) {
 
   if ((nextFile.size || 0) > uploadRules.value.maxFileSizeMB * 1024 * 1024) {
     errorMessage.value = `单文件大小不能超过 ${uploadRules.value.maxFileSizeMB}MB`
+    return false
+  }
+
+  if (!isMediaFileExtensionAllowed(nextFile.name, uploadRules.value.allowedExtensions)) {
+    errorMessage.value = `当前上传限制不支持 ${getMediaFileExtension(nextFile.name) || '无扩展名'} 文件`
     return false
   }
 
@@ -778,28 +772,32 @@ async function loadUploadRules() {
   const settings = await getAdminSettings()
   uploadRules.value = {
     maxFiles: Number(settings.mediaMaxFilesPerUpload) || 5,
-    maxFileSizeMB: Number(settings.mediaMaxFileSizeMB) || 20
+    maxFileSizeMB: Number(settings.mediaMaxFileSizeMB) || 20,
+    allowedExtensions: normalizeAllowedMediaExtensions(settings.mediaAllowedExtensions)
   }
   settingsDraft.value = {
     mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
-    mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB
+    mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB,
+    mediaAllowedExtensions: uploadRules.value.allowedExtensions
   }
 }
 
 function openUploadSettings() {
   settingsDraft.value = {
     mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
-    mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB
+    mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB,
+    mediaAllowedExtensions: uploadRules.value.allowedExtensions
   }
   settingsModalVisible.value = true
 }
 
-async function saveUploadSettings() {
+async function saveUploadSettings(payload) {
   settingsSaving.value = true
   try {
     const nextSettings = await runAction(() => updateAdminSettings({
-      mediaMaxFilesPerUpload: Number(settingsDraft.value.mediaMaxFilesPerUpload),
-      mediaMaxFileSizeMB: Number(settingsDraft.value.mediaMaxFileSizeMB)
+      mediaMaxFilesPerUpload: Number(payload.mediaMaxFilesPerUpload),
+      mediaMaxFileSizeMB: Number(payload.mediaMaxFileSizeMB),
+      mediaAllowedExtensions: normalizeAllowedMediaExtensions(payload.mediaAllowedExtensions)
     }), {
       successMessage: '上传限制已保存',
       errorMessage: '上传限制保存失败'
@@ -807,7 +805,13 @@ async function saveUploadSettings() {
 
     uploadRules.value = {
       maxFiles: Number(nextSettings.mediaMaxFilesPerUpload) || 5,
-      maxFileSizeMB: Number(nextSettings.mediaMaxFileSizeMB) || 20
+      maxFileSizeMB: Number(nextSettings.mediaMaxFileSizeMB) || 20,
+      allowedExtensions: normalizeAllowedMediaExtensions(nextSettings.mediaAllowedExtensions)
+    }
+    settingsDraft.value = {
+      mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
+      mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB,
+      mediaAllowedExtensions: uploadRules.value.allowedExtensions
     }
     settingsModalVisible.value = false
     resetUploadDraft()

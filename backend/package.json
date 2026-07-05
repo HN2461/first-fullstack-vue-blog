@@ -29,7 +29,9 @@
     "menu:knowledge-routes:dry-run": "node src/scripts/migrateKnowledgeMenuRoutes.js",
     "menu:knowledge-routes:apply": "node src/scripts/migrateKnowledgeMenuRoutes.js --apply",
     "timeline:seed": "node src/scripts/seedProjectTimeline.js",
-    "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply"
+    "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply",
+    "resume:import-materials": "node src/scripts/importResumeMaterials.js",
+    "resume:import-materials:apply": "node src/scripts/importResumeMaterials.js --apply"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

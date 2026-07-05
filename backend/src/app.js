@@ -23,6 +23,7 @@ import { rbacRouter } from '#modules/rbac/routes/rbac.routes.js'
 import {
   resumeExportRouter,
   resumeInterviewRouter,
+  resumeMaterialRouter,
   resumeRouter,
   resumeTemplateRouter
 } from '#modules/resume/routes/resume.routes.js'
@@ -53,6 +54,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/memos`, memoRouter)
   app.use(`${API_PREFIX}/resumes`, resumeRouter)
   app.use(`${API_PREFIX}/resume-interviews`, resumeInterviewRouter)
+  app.use(`${API_PREFIX}/resume-materials`, resumeMaterialRouter)
   app.use(`${API_PREFIX}/resume-templates`, resumeTemplateRouter)
   app.use(`${API_PREFIX}/resume-exports`, resumeExportRouter)
   app.use(`${API_PREFIX}/discussions`, discussionRouter)

@@ -1,7 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { env } from '#config/env'
+import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
+import { inferMediaFileClass } from '#modules/media/constants/mediaUpload.constants.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { ensureDefaultMediaCategory } from './mediaCategory.service.js'
@@ -10,6 +11,18 @@ import { attachMediaReferenceSummaries, findMediaReferences, getMediaReferenceDe
 function normalizeMediaCategory(value) {
   const category = String(value || '').trim()
   return category || '默认素材'
+}
+
+function canManageAllMedia(actor) {
+  return actor?.role === USER_ROLES.SUPER_ADMIN || actor?.isSuperAdmin === true
+}
+
+function getMediaAccessQuery(actor) {
+  if (!actor || canManageAllMedia(actor)) {
+    return {}
+  }
+
+  return { uploader: actor._id || actor.id }
 }
 
 function normalizeRenamedOriginalName(value, fallbackName = '') {
@@ -30,31 +43,6 @@ function normalizeRenamedOriginalName(value, fallbackName = '') {
   return fallbackExt ? `${nextName}${fallbackExt}` : nextName
 }
 
-function inferFileClass(file) {
-  if (file.mimetype.startsWith('image/')) {
-    return 'image'
-  }
-
-  const ext = path.extname(file.originalname || '').toLowerCase()
-  const codeExtensions = new Set(['.js', '.jsx', '.ts', '.tsx', '.vue', '.java', '.py', '.go', '.rb', '.php', '.sql', '.json', '.yml', '.yaml', '.xml', '.html', '.css', '.scss', '.less', '.md', '.txt', '.sh', '.ps1', '.bat', '.c', '.cpp', '.h', '.hpp', '.cs', '.kt', '.swift', '.rs'])
-  const documentExtensions = new Set(['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.csv'])
-  const archiveExtensions = new Set(['.zip', '.rar', '.7z', '.tar', '.gz'])
-
-  if (codeExtensions.has(ext)) {
-    return 'code'
-  }
-
-  if (documentExtensions.has(ext)) {
-    return 'document'
-  }
-
-  if (archiveExtensions.has(ext)) {
-    return 'archive'
-  }
-
-  return 'other'
-}
-
 export async function createMediaFromFile(file, user, metadata = {}) {
   await ensureDefaultMediaCategory()
   const kind = file.mimetype.startsWith('image/') ? 'image' : 'attachment'
@@ -71,7 +59,7 @@ export async function createMediaFromFile(file, user, metadata = {}) {
     storagePath: normalizedPath,
     kind,
     category: normalizeMediaCategory(metadata.category),
-    fileClass: inferFileClass(file),
+    fileClass: inferMediaFileClass(file.originalname, file.mimetype),
     uploader: user._id
   })
 
@@ -99,6 +87,7 @@ export async function listMedia(options = {}) {
   const query = options.deleted === 'true' || options.scope === 'trash'
     ? { deletedAt: { $exists: true, $ne: null } }
     : { deletedAt: null }
+  Object.assign(query, getMediaAccessQuery(options.actor))
 
   if (kind) {
     query.kind = kind
@@ -138,7 +127,7 @@ export async function listMedia(options = {}) {
   }
 
   if (usageStatus === 'referenced' || usageStatus === 'unreferenced') {
-    const candidates = await Media.find(query).sort({ createdAt: -1 })
+    const candidates = await Media.find(query).populate('uploader', 'username email role').sort({ createdAt: -1 })
     const enrichedCandidates = await attachMediaReferenceSummaries(candidates)
     const filtered = enrichedCandidates.filter((item) => item.usage?.usageStatus === usageStatus)
     const skip = (page - 1) * pageSize
@@ -155,6 +144,7 @@ export async function listMedia(options = {}) {
 
   const [media, total] = await Promise.all([
     Media.find(query)
+      .populate('uploader', 'username email role')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(pageSize),
@@ -171,8 +161,8 @@ export async function listMedia(options = {}) {
   }
 }
 
-export async function getMediaReferences(id) {
-  const media = await Media.findOne({ _id: id })
+export async function getMediaReferences(id, actor = null) {
+  const media = await Media.findOne({ _id: id, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('媒体文件不存在')
     error.statusCode = 404
@@ -183,8 +173,9 @@ export async function getMediaReferences(id) {
   return getMediaReferenceDetail(media)
 }
 
-export async function getMediaDeleteRisk(ids = []) {
-  const mediaList = await Media.find({ _id: { $in: ids }, deletedAt: null })
+export async function getMediaDeleteRisk(ids = [], actor = null) {
+  const mediaList = await Media.find({ _id: { $in: ids }, deletedAt: null, ...getMediaAccessQuery(actor) })
+    .populate('uploader', 'username email role')
   const items = []
 
   for (const media of mediaList) {
@@ -205,8 +196,8 @@ export async function getMediaDeleteRisk(ids = []) {
   }
 }
 
-export async function renameMedia(id, originalName) {
-  const media = await Media.findOne({ _id: id, deletedAt: null })
+export async function renameMedia(id, originalName, actor = null) {
+  const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('媒体文件不存在')
     error.statusCode = 404
@@ -220,13 +211,15 @@ export async function renameMedia(id, originalName) {
   return media.toSafeJSON()
 }
 
-export async function listMediaCategories() {
+export async function listMediaCategories(options = {}) {
   await ensureDefaultMediaCategory()
+  const match = {
+    deletedAt: null,
+    ...getMediaAccessQuery(options.actor)
+  }
   const rows = await Media.aggregate([
     {
-      $match: {
-        deletedAt: null
-      }
+      $match: match
     },
     {
       $group: {
@@ -340,7 +333,7 @@ async function removeStoredFile(storagePath, fileUrl = '') {
 }
 
 export async function deleteMedia(id, user) {
-  const media = await Media.findOne({ _id: id, deletedAt: null })
+  const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(user) })
   if (!media) {
     const error = new Error('媒体文件不存在')
     error.statusCode = 404
@@ -372,8 +365,8 @@ export async function batchDeleteMedia(ids, user) {
   return { deletedCount }
 }
 
-export async function restoreMedia(id) {
-  const media = await Media.findOne({ _id: id, deletedAt: { $exists: true, $ne: null } })
+export async function restoreMedia(id, actor = null) {
+  const media = await Media.findOne({ _id: id, deletedAt: { $exists: true, $ne: null }, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('回收站中未找到该媒体文件')
     error.statusCode = 404
@@ -388,7 +381,7 @@ export async function restoreMedia(id) {
   return media.toSafeJSON()
 }
 
-export async function batchRestoreMedia(ids) {
+export async function batchRestoreMedia(ids, actor = null) {
   if (!Array.isArray(ids) || ids.length === 0) {
     const error = new Error('请选择要恢复的媒体文件')
     error.statusCode = 400
@@ -398,15 +391,15 @@ export async function batchRestoreMedia(ids) {
 
   let restoredCount = 0
   for (const id of ids) {
-    await restoreMedia(id)
+    await restoreMedia(id, actor)
     restoredCount += 1
   }
 
   return { restoredCount }
 }
 
-export async function permanentDeleteMedia(id) {
-  const media = await Media.findById(id)
+export async function permanentDeleteMedia(id, actor = null) {
+  const media = await Media.findOne({ _id: id, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('媒体文件不存在')
     error.statusCode = 404
@@ -420,7 +413,7 @@ export async function permanentDeleteMedia(id) {
   return { id, deleted: true, mode: 'permanent', fileRemoved }
 }
 
-export async function batchPermanentDeleteMedia(ids) {
+export async function batchPermanentDeleteMedia(ids, actor = null) {
   if (!Array.isArray(ids) || ids.length === 0) {
     const error = new Error('请选择要彻底删除的媒体文件')
     error.statusCode = 400
@@ -431,7 +424,7 @@ export async function batchPermanentDeleteMedia(ids) {
   let deletedCount = 0
   let removedFileCount = 0
   for (const id of ids) {
-    const result = await permanentDeleteMedia(id)
+    const result = await permanentDeleteMedia(id, actor)
     deletedCount += 1
     if (result.fileRemoved) {
       removedFileCount += 1
@@ -441,8 +434,8 @@ export async function batchPermanentDeleteMedia(ids) {
   return { deletedCount, removedFileCount }
 }
 
-export async function emptyMediaTrash() {
-  const mediaList = await Media.find({ deletedAt: { $exists: true, $ne: null } })
+export async function emptyMediaTrash(actor = null) {
+  const mediaList = await Media.find({ deletedAt: { $exists: true, $ne: null }, ...getMediaAccessQuery(actor) })
   let removedFileCount = 0
 
   for (const media of mediaList) {

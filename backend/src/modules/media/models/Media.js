@@ -68,6 +68,16 @@ const mediaSchema = new mongoose.Schema(
 )
 
 mediaSchema.methods.toSafeJSON = function toSafeJSON() {
+  const uploaderValue = this.uploader
+  const uploader = uploaderValue && typeof uploaderValue === 'object' && uploaderValue._id
+    ? {
+        id: uploaderValue._id.toString(),
+        username: uploaderValue.username || '',
+        email: uploaderValue.email || '',
+        role: uploaderValue.role || ''
+      }
+    : uploaderValue?.toString?.()
+
   return {
     id: this._id.toString(),
     filename: this.filename,
@@ -79,7 +89,7 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
     kind: this.kind,
     category: this.category || '未分类',
     fileClass: this.fileClass || 'other',
-    uploader: this.uploader?.toString?.(),
+    uploader,
     article: this.article?.toString?.() || null,
     deletedAt: this.deletedAt || null,
     deletedBy: this.deletedBy?.toString?.() || null,

@@ -44,10 +44,10 @@
 
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'title'">
-          <div class="resume-title-cell">
+          <button type="button" class="resume-title-cell is-clickable" @click="previewResume(record)">
             <strong>{{ record.title }}</strong>
             <span class="resume-text-muted">{{ record.sections?.profile?.name || '未填写姓名' }} / {{ record.targetRole || '未设置岗位' }}</span>
-          </div>
+          </button>
         </template>
         <template v-else-if="column.key === 'status'">
           <a-tag :color="getOptionMeta(statusOptions, record.status).color">
@@ -59,6 +59,11 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <div class="resume-action-row">
+            <a-tooltip title="预览">
+              <a-button size="small" @click="previewResume(record)">
+                <template #icon><EyeOutlined /></template>
+              </a-button>
+            </a-tooltip>
             <a-tooltip title="编辑">
               <a-button size="small" @click="goEditor(record.id)">
                 <template #icon><EditOutlined /></template>
@@ -119,6 +124,12 @@
         </a-form>
       </div>
     </a-modal>
+
+    <ResumePreviewDrawer
+      v-model:open="previewVisible"
+      :resume="previewRecord"
+      @edit-section="goPreviewEditor"
+    />
   </section>
 </template>
 
@@ -131,6 +142,7 @@ import {
   DeleteOutlined,
   DownloadOutlined,
   EditOutlined,
+  EyeOutlined,
   PlusOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
@@ -140,17 +152,21 @@ import {
   deleteResume,
   downloadResumeExport,
   duplicateResume,
+  getResume,
   listResumes,
   listResumeTemplates
 } from '@/services/resume'
 import { createEmptySections, downloadBlob, formatTime, getOptionMeta, statusOptions } from './resumeHelpers'
+import ResumePreviewDrawer from './ResumePreviewDrawer.vue'
 import './resumePage.css'
 
 const router = useRouter()
 const tableRef = ref(null)
 const createVisible = ref(false)
+const previewVisible = ref(false)
 const submitting = ref(false)
 const templateOptions = ref([])
+const previewRecord = ref({})
 let filterTimer = null
 
 const filters = reactive({
@@ -187,6 +203,22 @@ function handleFilterInput() {
 
 function goEditor(id) {
   router.push({ path: '/console/resumes/editor', query: { id } })
+}
+
+function goPreviewEditor(sectionKey) {
+  router.push({
+    path: '/console/resumes/editor',
+    query: { id: previewRecord.value.id, section: sectionKey }
+  })
+}
+
+async function previewResume(record) {
+  try {
+    previewRecord.value = await getResume(record.id)
+    previewVisible.value = true
+  } catch (error) {
+    message.error(error.message || '加载预览失败')
+  }
 }
 
 function openCreate() {

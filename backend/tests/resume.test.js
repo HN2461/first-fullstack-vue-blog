@@ -5,6 +5,7 @@ import { createApp } from '../src/app.js'
 import { Menu } from '#modules/rbac/models/Menu.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
+import { ResumeMaterial } from '#modules/resume/models/ResumeMaterial.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import {
@@ -98,12 +99,14 @@ describe('resume module', () => {
   it('seeds resume menus for super admin only by default', async () => {
     const resumeRoot = await Menu.findOne({ code: 'resume.root' })
     const resumeList = await Menu.findOne({ code: 'resume.list' })
+    const resumeEditor = await Menu.findOne({ code: 'resume.editor' })
     const superRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.SUPER_ADMIN })
     const visitorRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR })
     const adminBaseRole = await Role.findOne({ code: BUILTIN_ROLE_CODES.ADMIN_BASE })
 
     expect(resumeRoot).toMatchObject({ name: '简历模块', parentType: 'root' })
     expect(resumeList).toMatchObject({ routePath: '/console/resumes' })
+    expect(resumeEditor).toBeNull()
     expect(superRole.menuIds.map(String)).toContain(resumeRoot._id.toString())
     expect(superRole.menuIds.map(String)).toContain(resumeList._id.toString())
     expect(visitorRole.menuIds.map(String)).not.toContain(resumeRoot._id.toString())
@@ -243,6 +246,60 @@ describe('resume module', () => {
 
     await request(app)
       .get(`/api/resume-interviews/${interviewResponse.body.data.id}`)
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(404)
+  })
+
+  it('lists imported resume materials and keeps detail isolated by owner', async () => {
+    const material = await ResumeMaterial.create({
+      ownerId: user._id,
+      sourceKey: 'test-material-1',
+      title: '面试问答参考',
+      category: '面试准备',
+      format: 'markdown',
+      relativePath: 'resume/05-面试准备/面试问答参考.md',
+      content: '你如何介绍项目？\n先说业务背景，再说职责和结果。',
+      excerpt: '你如何介绍项目？',
+      tags: ['resume', '面试准备'],
+      checksum: 'checksum-1',
+      fileSize: 42
+    })
+    await ResumeMaterial.create({
+      ownerId: otherUser._id,
+      sourceKey: 'test-material-2',
+      title: '其他人的资料',
+      category: '面试准备',
+      format: 'markdown',
+      relativePath: 'other.md',
+      content: '不可见',
+      excerpt: '不可见',
+      tags: ['private'],
+      checksum: 'checksum-2',
+      fileSize: 12
+    })
+
+    const listResponse = await request(app)
+      .get('/api/resume-materials')
+      .query({ keyword: '项目' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(listResponse.body.data.total).toBe(1)
+    expect(listResponse.body.data.items[0]).toMatchObject({
+      title: '面试问答参考',
+      category: '面试准备'
+    })
+    expect(listResponse.body.data.items[0].content).toBeUndefined()
+
+    const detailResponse = await request(app)
+      .get(`/api/resume-materials/${material._id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(detailResponse.body.data.content).toContain('先说业务背景')
+
+    await request(app)
+      .get(`/api/resume-materials/${material._id}`)
       .set('Authorization', `Bearer ${otherToken}`)
       .expect(404)
   })
