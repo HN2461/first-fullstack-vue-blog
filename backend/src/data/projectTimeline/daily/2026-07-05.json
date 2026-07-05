@@ -34,7 +34,7 @@
     {
       "id": "python-learning-folder-structure-and-application-notes",
       "title": "整理 Python 学习资料目录并补充应用实例文章",
-      "detail": "1. 将 output/Python零基础入门 下已有 22 篇基础文章迁移到 output/Python/01-知识目录，避免基础概念和应用实例混放。\n2. 新增 output/Python 总目录说明，明确知识目录、应用实例、工具链与工程化三类内容的后续收纳规则。\n3. 在网络爬虫与数据分析方向新增基础概念、请求网页与 robots.txt、lxml 解析 HTML 并保存 CSV、pandas 统计 CSV 四篇入门文章，覆盖网络机器人、君子协议、requests 请求、lxml/XPath 解析等当前学习重点。\n4. 在 Web 入门方向新增 Flask 最小接口、FastAPI 最小接口、Flask/FastAPI/Django 选型路线三篇文章，便于后续继续补充完善。",
+      "detail": "1. 将 output/Python零基础入门 下已有 22 篇基础文章迁移到 output/Python/01-知识目录，避免基础概念和应用实例混放。\n2. 新增 output/Python 总目录说明，明确知识目录、应用实例、工具链与工程化三类内容的后续收纳规则。\n3. 在知识目录新增 csv 模块基础文章，整理 reader、writer、DictReader、DictWriter、newline=''、UTF-8 编码和爬虫结果保存写法。\n4. 在网络爬虫与数据分析方向新增基础概念、请求网页与 robots.txt、lxml 解析 HTML 并保存 CSV、pandas 统计 CSV四篇入门文章，覆盖网络机器人、君子协议、requests 请求、lxml/XPath 解析等当前学习重点。\n5. 在 Web 入门方向新增 Flask 最小接口、FastAPI 最小接口、Flask/FastAPI/Django 选型路线三篇文章，便于后续继续补充完善。",
       "occurredAt": "2026-07-05T00:00:00+08:00",
       "category": "内容上新"
     },
