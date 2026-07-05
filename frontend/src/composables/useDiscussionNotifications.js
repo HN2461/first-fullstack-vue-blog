@@ -90,6 +90,11 @@ function clearMessages() {
   messages.value = []
 }
 
+export function clearDiscussionMessagesByThread(threadId) {
+  if (!threadId) return
+  messages.value = messages.value.filter((item) => String(item.threadId || '') !== String(threadId))
+}
+
 export function useDiscussionNotifications() {
   const router = useRouter()
   const route = useRoute()
@@ -114,6 +119,7 @@ export function useDiscussionNotifications() {
   }
 
   function openMessage(item) {
+    clearDiscussionMessagesByThread(item?.threadId)
     router.push({
       path: '/console/discussions',
       query: item?.threadId ? { threadId: item.threadId } : {}
@@ -136,6 +142,7 @@ export function useDiscussionNotifications() {
     messages,
     unreadCount,
     clearMessages,
+    clearDiscussionMessagesByThread,
     openMessage,
     openDiscussions,
     setupSocket

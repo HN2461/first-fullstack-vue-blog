@@ -9,9 +9,12 @@
       :count="totalBadgeCount"
       :overflow-count="99"
       size="small"
-      class="announce-bell-badge"
+      :class="['announce-bell-badge', { 'announce-bell-badge--active': totalBadgeCount > 0 }]"
     >
-      <a-button class="enterprise-icon-action announce-bell-btn" type="text">
+      <a-button
+        :class="['enterprise-icon-action announce-bell-btn', { 'announce-bell-btn--active': totalBadgeCount > 0 }]"
+        type="text"
+      >
         <template #icon><BellOutlined /></template>
       </a-button>
     </a-badge>
@@ -280,11 +283,29 @@ onUnmounted(() => {
   box-shadow: none !important;
 }
 
+.announce-bell-btn--active :deep(.anticon) {
+  color: var(--console-primary, #1668dc);
+  transform-origin: 50% 8%;
+  animation: announce-bell-swing 1.6s ease-in-out infinite;
+}
+
 .announce-bell-badge {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
+}
+
+.announce-bell-badge--active::after {
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--console-primary, #1668dc);
+  border-radius: 8px;
+  animation: announce-bell-pulse 1.6s ease-out infinite;
+  content: '';
+  opacity: 0;
+  pointer-events: none;
 }
 
 .announce-bell-badge :deep(.ant-badge-count) {
@@ -298,6 +319,43 @@ onUnmounted(() => {
   font-size: 11px;
   line-height: 16px;
   box-shadow: none;
+}
+
+@keyframes announce-bell-swing {
+  0%, 42%, 100% {
+    transform: rotate(0deg);
+  }
+
+  8% {
+    transform: rotate(12deg);
+  }
+
+  18% {
+    transform: rotate(-10deg);
+  }
+
+  28% {
+    transform: rotate(7deg);
+  }
+}
+
+@keyframes announce-bell-pulse {
+  0% {
+    opacity: 0.34;
+    transform: scale(0.82);
+  }
+
+  70%, 100% {
+    opacity: 0;
+    transform: scale(1.16);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announce-bell-btn--active :deep(.anticon),
+  .announce-bell-badge--active::after {
+    animation: none;
+  }
 }
 
 .notify-dropdown-panel {

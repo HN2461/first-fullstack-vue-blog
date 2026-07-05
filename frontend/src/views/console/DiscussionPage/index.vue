@@ -96,6 +96,7 @@ import DiscussionMoreDrawer from './components/DiscussionMoreDrawer.vue'
 import { useDiscussionStorageActions } from './useDiscussionStorageActions'
 import { useDiscussionRealtime } from './useDiscussionRealtime'
 import { useTitleFlash } from '@/composables/useTitleFlash'
+import { clearDiscussionMessagesByThread } from '@/composables/useDiscussionNotifications'
 
 const route = useRoute()
 const router = useRouter()
@@ -199,11 +200,13 @@ async function loadThreads(options = {}) {
 
 async function loadMessages() {
   if (!activeThreadId.value) return
+  const threadId = activeThreadId.value
   messageLoading.value = true
   try {
-    const result = await listDiscussionMessages(activeThreadId.value)
+    const result = await listDiscussionMessages(threadId)
     messages.value = result?.items || []
-    await markDiscussionRead(activeThreadId.value)
+    await markDiscussionRead(threadId)
+    clearDiscussionMessagesByThread(threadId)
     await loadThreads({ silent: true })
   } catch (error) {
     message.error(error.message || '讨论内容加载失败')
@@ -234,6 +237,7 @@ async function sendMessage(payload) {
     upsertMessage(sentMessage)
     composerRef.value?.resetAfterSent(payload)
     await markDiscussionRead(activeThreadId.value)
+    clearDiscussionMessagesByThread(activeThreadId.value)
     await loadThreads({ silent: true })
     if (moreDrawerOpen.value) await loadStorage()
   } catch (error) {
