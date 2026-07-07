@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-07",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "python-crawler-csv-pandas-tutorial-refine",
+      "title": "优化 Python 爬虫、CSV 与 pandas 入门教程",
+      "detail": "1. 重写 csv 模块教程，补充 CSV 基础概念、运行目录、writer/reader 与 DictWriter/DictReader 对比、newline 与 UTF-8 说明、追加写入、常见错误、练习参考答案，并增加 csv 模块能力地图、分隔符 delimiter、quotechar、quoting、Sniffer、字段 schema、分批写入、写入前校验、去重幂等、临时文件替换和 Excel 兼容等企业常见用法。2. 将 requests 请求教程重构为模块体系讲解，覆盖 HTTP 请求组成、GET/POST/PUT/PATCH/DELETE/HEAD/OPTIONS、params/data/json、headers、cookies、Session、Response 对象、状态码、timeout、异常、重定向、robots.txt、统一请求函数、有限重试、HTTPAdapter/Retry、分页、stream 下载、文件上传、认证、代理证书和敏感日志边界。3. 将 lxml/XPath 教程重构为完整 XPath 解析体系，覆盖 etree.HTML、xpath 返回值、文本/属性提取、直接文本与 string、属性筛选、class 多值、contains/starts-with/normalize-space、多条件、索引、父子兄弟节点、列表循环、相对 XPath、first_text/first_attr helper、urljoin、CSV 保存、requests + XPath 模板、列表页/详情页拆分、样本 HTML 保存、浏览器调试、原始字段保留和结构变化统计。4. 新增正则表达式清洗爬虫文本教程，覆盖 re 模块能力地图、search/match/fullmatch/findall/finditer/sub/split/compile、flags、分组、命名分组、贪婪与非贪婪、字段清洗函数、CSV 保存、pandas 批量清洗，以及企业开发中的字段规则、集中正则规则、原始数据保留、校验、日志、测试、去重幂等、金额精度和敏感信息脱敏边界。5. 优化 pandas 统计 CSV 教程，补充 pandas 能力地图、DataFrame 直觉解释、结构检查、loc/query 筛选、缺失值处理、数字类型转换、value_counts、分组聚合、排序导出、常见错误、完整练习脚本，以及 read_csv 常用参数、数据质量报告、drop_duplicates 去重、merge 合并字典表、chunksize 分块处理、明细/汇总/异常文件导出和 pandas 不替代长期数据库的工程边界，并调整文档编号与篇章衔接。6. 按最终审核标准检查文章标题、slug、summary、前后篇衔接、代码块语法、省略号示意、旧编号残留、乱码和项目记录 JSON，确保学习路线为请求网页、解析 HTML、正则清洗、保存 CSV、pandas 统计。",
+      "occurredAt": "2026-07-07T22:48:07+08:00",
+      "category": "内容优化"
+    }
+  ]
+}
