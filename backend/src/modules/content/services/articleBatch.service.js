@@ -269,3 +269,106 @@ export async function batchUpdateArticleMeta(ids, input, user) {
     items
   }
 }
+
+export async function listArticleTitlePreview(ids) {
+  if (!Array.isArray(ids) || ids.length === 0) {
+    throw createHttpError(400, 'ARTICLE_IDS_REQUIRED', '请选择要操作的文章')
+  }
+
+  const articles = await Article.find({
+    _id: { $in: ids },
+    deletedAt: null
+  }).select('title slug status').lean()
+
+  const articleMap = new Map(articles.map((article) => [String(article._id), article]))
+  const items = ids.map((id) => {
+    const article = articleMap.get(String(id))
+
+    if (!article) {
+      return {
+        id: String(id),
+        title: '',
+        slug: '',
+        status: '',
+        available: false,
+        messages: ['文章不存在或已删除']
+      }
+    }
+
+    return {
+      id: String(article._id),
+      title: article.title || '',
+      slug: article.slug || '',
+      status: article.status || '',
+      available: true,
+      messages: []
+    }
+  })
+
+  return {
+    total: ids.length,
+    items
+  }
+}
+
+export async function batchUpdateArticleTitles(items, user) {
+  if (!Array.isArray(items) || items.length === 0) {
+    throw createHttpError(400, 'ARTICLE_TITLES_REQUIRED', '请选择要修改标题的文章')
+  }
+
+  const ids = items.map((item) => item.id)
+  const articles = await Article.find({
+    _id: { $in: ids },
+    deletedAt: null
+  })
+
+  const articleMap = new Map(articles.map((article) => [String(article._id), article]))
+  const results = []
+  let updatedCount = 0
+  let unchangedCount = 0
+  let skippedCount = 0
+
+  for (const item of items) {
+    const id = String(item.id)
+    const nextTitle = String(item.title || '').trim()
+    const article = articleMap.get(id)
+    const itemResult = {
+      id,
+      oldTitle: article?.title || '',
+      newTitle: nextTitle,
+      slug: article?.slug || '',
+      status: 'skipped',
+      messages: []
+    }
+
+    if (!article) {
+      itemResult.messages.push('文章不存在或已删除')
+      skippedCount += 1
+      results.push(itemResult)
+      continue
+    }
+
+    if (article.title === nextTitle) {
+      itemResult.status = 'unchanged'
+      unchangedCount += 1
+      results.push(itemResult)
+      continue
+    }
+
+    article.title = nextTitle
+    article.updatedBy = user._id
+    await article.save()
+
+    itemResult.status = 'updated'
+    updatedCount += 1
+    results.push(itemResult)
+  }
+
+  return {
+    total: items.length,
+    updatedCount,
+    unchangedCount,
+    skippedCount,
+    items: results
+  }
+}

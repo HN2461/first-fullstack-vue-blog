@@ -49,6 +49,14 @@ export function batchUpdateAdminArticleMeta(payload) {
   return http.post('/api/admin/articles/batch/meta', payload)
 }
 
+export function previewAdminArticleTitles(ids) {
+  return http.post('/api/admin/articles/batch/title-preview', { ids })
+}
+
+export function batchUpdateAdminArticleTitles(items) {
+  return http.post('/api/admin/articles/batch/titles', { items })
+}
+
 export function publishAdminArticle(id) {
   return http.post(`/api/admin/articles/${id}/publish`)
 }

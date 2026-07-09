@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-09",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "python-matplotlib-visualization-tutorial",
+      "title": "新增 Python matplotlib 数据可视化入门教程",
+      "detail": "1. 在网络爬虫与数据分析系列中新增 matplotlib 数据可视化教程，衔接 requests、XPath、正则清洗、CSV 保存和 pandas 统计后的图表输出环节。2. 文档系统覆盖 pyplot、Figure/Axes 面向对象写法、折线图、柱状图、散点图、直方图、饼图、箱线图、标题坐标轴、图例、网格、样式、中文字体、savefig 保存、子图、pandas 联动、时间趋势图、批量出图和服务器无界面出图。3. 补充企业开发中的绘图规范，包括先明确图表问题、数据处理和画图函数分离、统一图表配置、保留图表对应数据、批量关闭 Figure、大数据先聚合再画图以及常见错误排查。",
+      "occurredAt": "2026-07-09T21:44:57+08:00",
+      "category": "内容优化"
+    },
+    {
+      "id": "windows-freeze-rescue-shortcuts-note",
+      "title": "新增 Windows 电脑卡死救急与常用快捷键笔记",
+      "detail": "1. 在系统与文件分类新增 Windows 卡死救急快捷键笔记，围绕屏幕卡死、黑屏、软件无响应等真实场景整理处理顺序。2. 结合 Microsoft Support 与 Chrome 官方帮助资料，梳理 Win + Ctrl + Shift + B、Ctrl + Shift + Esc、Ctrl + Alt + Delete、Win + Tab、Win + R 等救急快捷键，并补充窗口管理、复制粘贴、浏览器和视频场景的日常快捷键。3. 对 Ctrl + Alt + Delete、显示驱动重置、强制关机等常见误区做了边界说明，避免把救急快捷键误解为万能修复手段。",
+      "occurredAt": "2026-07-09T21:55:00+08:00",
+      "category": "内容上新"
+    },
+    {
+      "id": "admin-article-batch-title-edit",
+      "title": "新增文章批量改标题能力",
+      "detail": "1. 在后台文章管理页新增批量改标题弹窗，支持勾选多篇文章后逐篇编辑新标题，并提供查找替换和移除开头前缀能力，方便处理导入文章重复前缀。2. 新增管理员文章标题预览和批量标题更新接口，按传入顺序返回结果，只修改 title 与 updatedBy，不改 slug、正文、状态和发布时间，避免已发布链接变化。3. 整理文章批量操作入口，移除工具栏独立批量状态下拉，保留批量设置抽屉中的状态项，支持整理分类、标签、封面后顺手发布。",
+      "occurredAt": "2026-07-09T22:25:28+08:00",
+      "category": "功能更新"
+    }
+  ]
+}

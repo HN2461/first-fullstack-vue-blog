@@ -345,6 +345,176 @@
   white-space: nowrap;
 }
 
+.batch-title-modal-wrap .ant-modal-body {
+  max-height: min(78vh, 760px);
+  overflow: hidden;
+}
+
+.batch-title {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 480px;
+  max-height: calc(78vh - 86px);
+  overflow: hidden;
+}
+
+.batch-title-tools {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+.batch-title-tools__row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1fr) minmax(120px, 1fr) auto;
+  gap: 8px;
+  min-width: 0;
+}
+
+.batch-title-tools__row:nth-child(2) {
+  grid-template-columns: minmax(180px, 1fr) auto auto;
+}
+
+.batch-title__result {
+  border-radius: 8px;
+}
+
+.batch-title .ant-spin-nested-loading,
+.batch-title .ant-spin-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.batch-title-empty {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+  border: 1px dashed var(--console-border, #e5e7eb);
+  border-radius: 8px;
+  color: var(--console-text-secondary, #8c8c8c);
+}
+
+.batch-title-table {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 360px;
+  overflow: auto;
+  border: 1px solid var(--console-border, #e5e7eb);
+  border-radius: 8px;
+  background: var(--console-surface, #fff);
+}
+
+.batch-title-table__head,
+.batch-title-row {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(320px, 1.4fr) 136px;
+  gap: 12px;
+  align-items: center;
+}
+
+.batch-title-table__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--console-border, #e5e7eb);
+  background: var(--console-surface-muted, #f8fafc);
+  color: var(--console-text-secondary, #6b7280);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.batch-title-row {
+  padding: 12px;
+  border-bottom: 1px solid var(--console-border, #eef0f3);
+}
+
+.batch-title-row:last-child {
+  border-bottom: 0;
+}
+
+.batch-title-row.is-changed {
+  background: rgba(22, 119, 255, 0.04);
+}
+
+.batch-title-row.is-disabled {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.batch-title-row.is-error {
+  background: rgba(220, 38, 38, 0.04);
+}
+
+.batch-title-row__article {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+
+.batch-title-row__index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--console-surface-muted, #f1f5f9);
+  color: var(--console-text-secondary, #64748b);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.batch-title-row__article div,
+.batch-title-row__editor,
+.batch-title-row__status {
+  min-width: 0;
+}
+
+.batch-title-row__article div > strong,
+.batch-title-row__article div > span,
+.batch-title-row__error {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.batch-title-row__article div > strong {
+  color: var(--console-text, #1f2937);
+  font-size: 13px;
+}
+
+.batch-title-row__article div > span,
+.batch-title-row__error {
+  margin-top: 3px;
+  color: var(--console-text-secondary, #6b7280);
+  font-size: 12px;
+}
+
+.batch-title-row__error {
+  color: #dc2626;
+}
+
+.batch-title-row__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.batch-title__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .dark-theme .batch-meta {
   background: var(--console-bg);
 }
@@ -365,6 +535,34 @@
   border-color: var(--console-border);
 }
 
+.dark-theme .batch-title-table,
+.dark-theme .batch-title-empty {
+  background: var(--console-surface);
+  border-color: var(--console-border);
+}
+
+.dark-theme .batch-title-table__head,
+.dark-theme .batch-title-row__index {
+  background: var(--console-surface-muted);
+}
+
+.dark-theme .batch-title-row,
+.dark-theme .batch-title-table__head {
+  border-color: var(--console-border);
+}
+
+.dark-theme .batch-title-row.is-changed {
+  background: rgba(62, 121, 247, 0.12);
+}
+
+.dark-theme .batch-title-row.is-disabled {
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.dark-theme .batch-title-row.is-error {
+  background: rgba(248, 113, 113, 0.1);
+}
+
 @media (max-width: 1200px) {
   .articles-page {
     max-width: 100%;
@@ -378,5 +576,25 @@
 
   .batch-meta-cover-control {
     grid-template-columns: 1fr;
+  }
+
+  .batch-title {
+    max-height: none;
+  }
+
+  .batch-title-tools,
+  .batch-title-tools__row,
+  .batch-title-tools__row:nth-child(2),
+  .batch-title-table__head,
+  .batch-title-row {
+    grid-template-columns: 1fr;
+  }
+
+  .batch-title-table__head {
+    display: none;
+  }
+
+  .batch-title-table {
+    max-height: 56vh;
   }
 }

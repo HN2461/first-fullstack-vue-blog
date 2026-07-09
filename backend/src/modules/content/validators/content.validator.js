@@ -177,6 +177,30 @@ export const articleBatchMetaSchema = idBatchSchema.extend({
   }
 })
 
+export const articleTitlePreviewSchema = idBatchSchema
+
+export const articleBatchTitleSchema = z.object({
+  items: z.array(z.object({
+    id: z.string().regex(objectIdPattern, '文章 id 不正确'),
+    title: z.string().trim().min(1, '文章标题不能为空').max(120, '文章标题不能超过 120 个字符')
+  })).min(1, '请选择要修改标题的文章')
+}).superRefine((value, ctx) => {
+  const seenIds = new Set()
+
+  value.items.forEach((item, index) => {
+    if (seenIds.has(item.id)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: '同一篇文章不能重复提交',
+        path: ['items', index, 'id']
+      })
+      return
+    }
+
+    seenIds.add(item.id)
+  })
+})
+
 export const statusBatchSchema = idBatchSchema.extend({
   status: z.string().trim().min(1, '状态不能为空')
 })

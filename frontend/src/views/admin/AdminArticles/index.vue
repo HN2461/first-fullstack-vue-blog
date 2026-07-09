@@ -17,18 +17,7 @@
       <template #toolbar>
         <BatchActionBar :count="selectedArticleIds.length" @clear="clearSelection">
           <a-button size="small" type="primary" @click="openBatchMetaDrawer">批量设置</a-button>
-          <a-dropdown>
-            <a-button size="small">
-              批量状态 <DownOutlined />
-            </a-button>
-            <template #overlay>
-              <a-menu @click="({ key }) => handleBatchStatus(key)">
-                <a-menu-item key="published">发布</a-menu-item>
-                <a-menu-item key="archived">下架</a-menu-item>
-                <a-menu-item key="draft">草稿</a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
+          <a-button size="small" @click="openBatchTitleModal">批量改标题</a-button>
           <a-button size="small" danger @click="handleBatchDelete">批量删除</a-button>
         </BatchActionBar>
         <a-input-search
@@ -172,6 +161,20 @@
       @clear-result="clearBatchMetaResult"
       @load-cover-media="loadCoverMedia"
     />
+
+    <ArticleBatchTitleModal
+      v-model:open="batchTitleVisible"
+      :selected-count="selectedArticleIds.length"
+      :loading="batchTitleLoading"
+      :submitting="batchTitleSubmitting"
+      :rows="batchTitleRows"
+      :result="batchTitleResult"
+      @submit="handleBatchTitleSubmit"
+      @replace-titles="replaceBatchTitles"
+      @remove-prefix="removeBatchTitlePrefix"
+      @reset-titles="resetBatchTitles"
+      @update-title="updateBatchTitle"
+    />
   </div>
 </template>
 
@@ -180,7 +183,6 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   CheckCircleOutlined,
-  DownOutlined,
   MoreOutlined,
   MinusCircleOutlined,
   EditOutlined,
@@ -189,6 +191,7 @@ import {
 import BlogTable from '@/components/BlogTable.vue'
 import BatchActionBar from '@/components/BatchActionBar.vue'
 import ArticleBatchMetaDrawer from './ArticleBatchMetaDrawer.vue'
+import ArticleBatchTitleModal from './ArticleBatchTitleModal.vue'
 import {
   listAdminArticles,
   listAllAdminCategories
@@ -196,6 +199,7 @@ import {
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAdminArticleActions } from './useAdminArticleActions'
 import { useArticleBatchMeta } from './useArticleBatchMeta'
+import { useArticleBatchTitles } from './useArticleBatchTitles'
 import {
   buildCategoryOptions,
   formatArticleTime,
@@ -219,7 +223,6 @@ const { runAction, confirmAction } = useAdminActions()
 const {
   handleAction,
   handleBatchDelete,
-  handleBatchStatus,
   openReader
 } = useAdminArticleActions({
   selectedArticleIds,
@@ -242,6 +245,23 @@ const {
   openBatchMetaDrawer,
   tagOptions
 } = useArticleBatchMeta({
+  selectedArticleIds,
+  tableRef,
+  runAction
+})
+const {
+  batchTitleLoading,
+  batchTitleResult,
+  batchTitleRows,
+  batchTitleSubmitting,
+  batchTitleVisible,
+  handleBatchTitleSubmit,
+  openBatchTitleModal,
+  removeBatchTitlePrefix,
+  replaceBatchTitles,
+  resetBatchTitles,
+  updateBatchTitle
+} = useArticleBatchTitles({
   selectedArticleIds,
   tableRef,
   runAction

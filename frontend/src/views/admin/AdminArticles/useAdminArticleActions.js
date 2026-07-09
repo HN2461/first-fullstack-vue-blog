@@ -1,8 +1,6 @@
 import { ref } from 'vue'
-import { message } from 'ant-design-vue'
 import {
   batchDeleteAdminArticles,
-  batchUpdateAdminArticleMeta,
   deleteAdminArticle,
   publishAdminArticle,
   updateAdminArticleStatus
@@ -13,41 +11,6 @@ export function useAdminArticleActions({ selectedArticleIds, tableRef, router, c
 
   function refreshTable() {
     tableRef.value?.refresh()
-  }
-
-  function handleBatchStatus(status) {
-    if (selectedArticleIds.value.length === 0) return
-
-    const labelMap = {
-      published: '发布',
-      archived: '下架',
-      draft: '转为草稿'
-    }
-
-    confirmAction({
-      title: `确认批量${labelMap[status] || '更新状态'}`,
-      content: `将 ${selectedArticleIds.value.length} 篇文章${labelMap[status] || '更新状态'}，不会修改文章正文内容。`,
-      okText: '确认',
-      async onOk() {
-        await runAction(() => batchUpdateAdminArticleMeta({
-          ids: selectedArticleIds.value,
-          status: {
-            enabled: true,
-            value: status
-          }
-        }), {
-          successMessage: '文章状态批量处理已执行',
-          errorMessage: '批量更新失败',
-          onSuccess: (result) => {
-            if (result?.skippedCount > 0) {
-              message.warning(`有 ${result.skippedCount} 篇文章未通过处理，请在“批量设置”中查看逐篇结果。`)
-            }
-            clearSelection()
-            refreshTable()
-          }
-        })
-      }
-    }).catch(() => {})
   }
 
   function handleBatchDelete() {
@@ -166,7 +129,6 @@ export function useAdminArticleActions({ selectedArticleIds, tableRef, router, c
   return {
     handleAction,
     handleBatchDelete,
-    handleBatchStatus,
     openReader
   }
 }
