@@ -8,6 +8,8 @@ release/
 frontend/frontend-dist.zip
 backend-release.zip
 mongodb-dump.zip
+backups/
+mongodb-dump/
 .DS_Store
 Thumbs.db
 scripts/deploy.local.ps1
