@@ -8,6 +8,12 @@ const bookmarkFolderSchema = new mongoose.Schema(
       required: true,
       index: true
     },
+    workspaceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'BookmarkWorkspace',
+      required: true,
+      index: true
+    },
     name: {
       type: String,
       required: true,
@@ -36,13 +42,14 @@ const bookmarkFolderSchema = new mongoose.Schema(
   }
 )
 
-bookmarkFolderSchema.index({ userId: 1, parentId: 1, sortOrder: 1 })
-bookmarkFolderSchema.index({ userId: 1, parentId: 1, name: 1 })
+bookmarkFolderSchema.index({ userId: 1, workspaceId: 1, parentId: 1, sortOrder: 1 })
+bookmarkFolderSchema.index({ userId: 1, workspaceId: 1, parentId: 1, name: 1 })
 
 bookmarkFolderSchema.methods.toSafeJSON = function toSafeJSON() {
   return {
     id: this._id.toString(),
     userId: this.userId?.toString?.(),
+    workspaceId: this.workspaceId?.toString?.(),
     name: this.name,
     parentId: this.parentId?.toString?.() || null,
     sortOrder: this.sortOrder || 0,

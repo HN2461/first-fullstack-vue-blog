@@ -31,7 +31,9 @@
     "timeline:seed": "node src/scripts/seedProjectTimeline.js",
     "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply",
     "resume:import-materials": "node src/scripts/importResumeMaterials.js",
-    "resume:import-materials:apply": "node src/scripts/importResumeMaterials.js --apply"
+    "resume:import-materials:apply": "node src/scripts/importResumeMaterials.js --apply",
+    "bookmark:reset": "node src/scripts/resetBookmarkData.js",
+    "bookmark:reset:apply": "node src/scripts/resetBookmarkData.js --apply"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

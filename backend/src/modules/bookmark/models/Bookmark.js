@@ -10,6 +10,12 @@ const bookmarkSchema = new mongoose.Schema(
       required: true,
       index: true
     },
+    workspaceId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'BookmarkWorkspace',
+      required: true,
+      index: true
+    },
     folderId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'BookmarkFolder',
@@ -26,6 +32,16 @@ const bookmarkSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      maxlength: 2048
+    },
+    urlKey: {
+      type: String,
+      required: true,
+      maxlength: 2048
+    },
+    similarityKey: {
+      type: String,
+      default: '',
       maxlength: 2048
     },
     tags: {
@@ -72,17 +88,20 @@ const bookmarkSchema = new mongoose.Schema(
   }
 )
 
-bookmarkSchema.index({ userId: 1, url: 1 }, { unique: true })
-bookmarkSchema.index({ userId: 1, folderId: 1, sortOrder: 1 })
+bookmarkSchema.index({ userId: 1, workspaceId: 1, urlKey: 1 }, { unique: true })
+bookmarkSchema.index({ userId: 1, workspaceId: 1, folderId: 1, sortOrder: 1 })
+bookmarkSchema.index({ userId: 1, workspaceId: 1, similarityKey: 1 })
 bookmarkSchema.index({ title: 'text', url: 'text', note: 'text', tags: 'text' }, { name: 'bookmark_text_index' })
 
 bookmarkSchema.methods.toSafeJSON = function toSafeJSON() {
   return {
     id: this._id.toString(),
     userId: this.userId?.toString?.(),
+    workspaceId: this.workspaceId?.toString?.(),
     folderId: this.folderId?.toString?.() || null,
     title: this.title,
     url: this.url,
+    urlKey: this.urlKey,
     tags: this.tags || [],
     note: this.note || '',
     icon: this.icon || '',

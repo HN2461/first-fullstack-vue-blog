@@ -42,7 +42,8 @@
       <template #overlay>
         <a-menu @click="$emit('export', $event.key)">
           <a-menu-item key="html">浏览器 HTML</a-menu-item>
-          <a-menu-item key="json">JSON 备份</a-menu-item>
+          <a-menu-item key="json">当前书签库 JSON</a-menu-item>
+          <a-menu-item key="json-all">全部书签库 JSON</a-menu-item>
         </a-menu>
       </template>
     </a-dropdown>

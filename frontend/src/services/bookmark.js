@@ -1,66 +1,105 @@
 import http from './http'
 import { toPageResult } from './contracts'
 
-export function listBookmarkFolders() {
-  return http.get('/api/bookmarks/folders')
+const workspaceBase = (workspaceId) => `/api/bookmarks/workspaces/${workspaceId}`
+
+export function listBookmarkWorkspaces() {
+  return http.get('/api/bookmarks/workspaces')
 }
 
-export function createBookmarkFolder(data) {
-  return http.post('/api/bookmarks/folders', data)
+export function createBookmarkWorkspace(data) {
+  return http.post('/api/bookmarks/workspaces', data)
 }
 
-export function updateBookmarkFolder(id, data) {
-  return http.patch(`/api/bookmarks/folders/${id}`, data)
+export function updateBookmarkWorkspace(workspaceId, data) {
+  return http.patch(`${workspaceBase(workspaceId)}`, data)
 }
 
-export function deleteBookmarkFolder(id) {
-  return http.delete(`/api/bookmarks/folders/${id}`)
+export function clearBookmarkWorkspace(workspaceId) {
+  return http.delete(`${workspaceBase(workspaceId)}/content`)
 }
 
-export function reorderBookmarkFolders(data) {
-  return http.patch('/api/bookmarks/folders/reorder', data)
+export function deleteBookmarkWorkspace(workspaceId) {
+  return http.delete(workspaceBase(workspaceId))
 }
 
-export async function listBookmarks(params = {}) {
-  return toPageResult(await http.get('/api/bookmarks/bookmarks', { params }), params.pageSize || 20)
+export function listBookmarkFolders(workspaceId) {
+  return http.get(`${workspaceBase(workspaceId)}/folders`)
 }
 
-export function createBookmark(data) {
-  return http.post('/api/bookmarks/bookmarks', data)
+export function createBookmarkFolder(workspaceId, data) {
+  return http.post(`${workspaceBase(workspaceId)}/folders`, data)
 }
 
-export function updateBookmark(id, data) {
-  return http.patch(`/api/bookmarks/bookmarks/${id}`, data)
+export function updateBookmarkFolder(workspaceId, id, data) {
+  return http.patch(`${workspaceBase(workspaceId)}/folders/${id}`, data)
 }
 
-export function deleteBookmark(id) {
-  return http.delete(`/api/bookmarks/bookmarks/${id}`)
+export function deleteBookmarkFolder(workspaceId, id) {
+  return http.delete(`${workspaceBase(workspaceId)}/folders/${id}`)
 }
 
-export function reorderBookmarks(data) {
-  return http.patch('/api/bookmarks/bookmarks/reorder', data)
+export function reorderBookmarkFolders(workspaceId, data) {
+  return http.patch(`${workspaceBase(workspaceId)}/folders/reorder`, data)
 }
 
-export function moveBookmarks(data) {
-  return http.patch('/api/bookmarks/bookmarks/move', data)
+export async function listBookmarks(workspaceId, params = {}) {
+  const result = await http.get(`${workspaceBase(workspaceId)}/bookmarks`, { params })
+  return toPageResult(result, params.pageSize || 20)
 }
 
-export function importBookmarkHtml(file) {
+export function createBookmark(workspaceId, data) {
+  return http.post(`${workspaceBase(workspaceId)}/bookmarks`, data)
+}
+
+export function updateBookmark(workspaceId, id, data) {
+  return http.patch(`${workspaceBase(workspaceId)}/bookmarks/${id}`, data)
+}
+
+export function deleteBookmark(workspaceId, id) {
+  return http.delete(`${workspaceBase(workspaceId)}/bookmarks/${id}`)
+}
+
+export function reorderBookmarks(workspaceId, data) {
+  return http.patch(`${workspaceBase(workspaceId)}/bookmarks/reorder`, data)
+}
+
+export function moveBookmarks(workspaceId, data) {
+  return http.patch(`${workspaceBase(workspaceId)}/bookmarks/move`, data)
+}
+
+function importBookmarks(workspaceId, type, file, mode) {
   const formData = new FormData()
   formData.append('file', file)
-  return http.post('/api/bookmarks/imports/html', formData)
+  formData.append('mode', mode)
+  return http.post(`${workspaceBase(workspaceId)}/imports/${type}`, formData)
 }
 
-export function importBookmarkJson(file) {
-  const formData = new FormData()
-  formData.append('file', file)
-  return http.post('/api/bookmarks/imports/json', formData)
+export function importBookmarkHtml(workspaceId, file, mode = 'merge') {
+  return importBookmarks(workspaceId, 'html', file, mode)
 }
 
-export function exportBookmarkHtml() {
-  return http.get('/api/bookmarks/exports/html', { responseType: 'blob' })
+export function importBookmarkJson(workspaceId, file, mode = 'merge') {
+  return importBookmarks(workspaceId, 'json', file, mode)
 }
 
-export function exportBookmarkJson() {
-  return http.get('/api/bookmarks/exports/json', { responseType: 'blob' })
+export function exportBookmarkHtml(workspaceId) {
+  return http.get(`${workspaceBase(workspaceId)}/exports/html`, { responseType: 'blob' })
+}
+
+export function exportBookmarkJson(workspaceId) {
+  return http.get(`${workspaceBase(workspaceId)}/exports/json`, { responseType: 'blob' })
+}
+
+export function exportAllBookmarkJson() {
+  return http.get('/api/bookmarks/exports/json/all', { responseType: 'blob' })
+}
+
+export async function compareBookmarkWorkspaces(params = {}) {
+  const result = await http.get('/api/bookmarks/comparisons', { params })
+  return { ...result, ...toPageResult(result, params.pageSize || 20) }
+}
+
+export function copyComparisonBookmarks(data) {
+  return http.post('/api/bookmarks/comparisons/copy', data)
 }

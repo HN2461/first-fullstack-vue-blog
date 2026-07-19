@@ -1,6 +1,7 @@
 param(
   [switch]$SkipChecks,
-  [switch]$SkipPackage
+  [switch]$SkipPackage,
+  [switch]$ResetBookmarkData
 )
 
 $ErrorActionPreference = 'Stop'
@@ -63,6 +64,7 @@ if (-not $SkipPackage) {
 $frontendZip = Join-Path $root 'release\frontend-dist.zip'
 $backendZip = Join-Path $root 'release\backend-release.zip'
 $env:DEPLOY_PROJECT_ROOT = $root.Path
+$env:DEPLOY_RESET_BOOKMARK_DATA = $(if ($ResetBookmarkData) { '1' } else { '0' })
 
 if (-not (Test-Path -LiteralPath $frontendZip) -or -not (Test-Path -LiteralPath $backendZip)) {
   throw '未找到发布包，请先执行 scripts/package-release.ps1。'
@@ -79,6 +81,7 @@ host = os.environ['DEPLOY_HOST']
 user = os.environ['DEPLOY_USER']
 password = os.environ['DEPLOY_PASSWORD']
 root = os.environ['DEPLOY_PROJECT_ROOT']
+reset_bookmark_data = os.environ.get('DEPLOY_RESET_BOOKMARK_DATA') == '1'
 
 local_files = [
     (os.path.join(root, 'release', 'frontend-dist.zip'), '/www/personal-blog/backups/frontend-dist.zip'),
@@ -91,23 +94,23 @@ RELEASE_DIR=/www/personal-blog/backups/release-$(date +%Y%m%d-%H%M%S)
 mkdir -p "$RELEASE_DIR"
 echo "RELEASE_DIR=$RELEASE_DIR"
 
-echo "[1/9] MongoDB backup"
+echo "[1/10] MongoDB backup"
 mongodump --uri="mongodb://127.0.0.1:27017/personal_fullstack_blog" --out="$RELEASE_DIR/mongodb-before"
 test -d "$RELEASE_DIR/mongodb-before/personal_fullstack_blog"
 
-echo "[2/9] File backups"
+echo "[2/10] File backups"
 cp -a /www/personal-blog/frontend "$RELEASE_DIR/frontend-before"
 cp -a /www/personal-blog/backend "$RELEASE_DIR/backend-before"
 cp -a /www/personal-blog/uploads "$RELEASE_DIR/uploads-before"
 test -f /www/personal-blog/backend/.env
 cp /www/personal-blog/backend/.env "$RELEASE_DIR/backend.env.before-release"
 
-echo "[3/9] Publish frontend"
+echo "[3/10] Publish frontend"
 rm -rf /www/personal-blog/frontend/*
 unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
 test -f /www/personal-blog/frontend/index.html
 
-echo "[4/9] Publish backend"
+echo "[4/10] Publish backend"
 OLD_BACKEND=/www/personal-blog/backend_old_$(date +%Y%m%d_%H%M%S)
 mv /www/personal-blog/backend "$OLD_BACKEND"
 mkdir -p /www/personal-blog/backend
@@ -118,28 +121,34 @@ test -f /www/personal-blog/backend/package.json
 
 echo "OLD_BACKEND=$OLD_BACKEND"
 
-echo "[5/9] Install backend dependencies"
+echo "[5/10] Install backend dependencies"
 cd /www/personal-blog/backend
 npm install --omit=dev
 
-echo "[6/9] Restart PM2"
+echo "[6/10] Optional bookmark data reset"
+__BOOKMARK_RESET_STEP__
+
+echo "[7/10] Restart PM2"
 pm2 restart personal-blog-api --update-env
 
-echo "[7/9] PM2 status"
+echo "[8/10] PM2 status"
 pm2 jlist | node -e "let s=''; process.stdin.on('data',d=>s+=d); process.stdin.on('end',()=>{const apps=JSON.parse(s); const app=apps.find(a=>a.name==='personal-blog-api'); if(!app){console.error('PM2 app missing'); process.exit(2)} console.log(JSON.stringify({name:app.name,status:app.pm2_env.status,restarts:app.pm2_env.restart_time,pid:app.pid}, null, 2)); if(app.pm2_env.status!=='online') process.exit(3)})"
 
-echo "[8/9] Local health"
+echo "[9/10] Local health"
 for i in 1 2 3 4 5; do
   if curl -fsS http://127.0.0.1:3001/api/health; then echo; break; fi
   sleep 2
   if [ "$i" = "5" ]; then exit 4; fi
 done
 
-echo "[9/9] Save PM2 and sizes"
+echo "[10/10] Save PM2 and sizes"
 pm2 save
 ls -lh /www/personal-blog/frontend/index.html /www/personal-blog/backend/package.json /www/personal-blog/backups/frontend-dist.zip /www/personal-blog/backups/backend-release.zip
 echo "DONE_RELEASE_DIR=$RELEASE_DIR"
 """
+
+bookmark_reset_step = 'npm run bookmark:reset:apply' if reset_bookmark_data else "echo 'Bookmark reset skipped'"
+script = script.replace('__BOOKMARK_RESET_STEP__', bookmark_reset_step)
 
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())

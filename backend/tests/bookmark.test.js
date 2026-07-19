@@ -1,9 +1,10 @@
 import request from 'supertest'
-import { beforeAll, beforeEach, afterAll, describe, expect, it } from 'vitest'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { createApp } from '../src/app.js'
 import { Bookmark } from '#modules/bookmark/models/Bookmark.js'
 import { BookmarkFolder } from '#modules/bookmark/models/BookmarkFolder.js'
+import { BookmarkWorkspace } from '#modules/bookmark/models/BookmarkWorkspace.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
@@ -26,22 +27,21 @@ async function createUserWithRole(roleCode, overrides = {}) {
   })
 }
 
-function buildBookmarkHtml(title = '旧名称') {
+function buildBookmarkHtml({ folder = '工具', title = '示例', includeExtra = true } = {}) {
   return `<!DOCTYPE NETSCAPE-Bookmark-file-1>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 <TITLE>Bookmarks</TITLE>
 <H1>Bookmarks</H1>
 <DL><p>
-    <DT><H3 ADD_DATE="1782900000">工具</H3>
+    <DT><H3 ADD_DATE="1782900000">${folder}</H3>
     <DL><p>
         <DT><A HREF="https://example.com/a" ADD_DATE="1782900010">${title}</A>
-        <DT><A HREF="https://example.com/b" ADD_DATE="1782900020">同名</A>
+        ${includeExtra ? '<DT><A HREF="https://example.com/b" ADD_DATE="1782900020">仅当前库</A>' : ''}
     </DL><p>
-    <DT><A HREF="https://example.com/c" ADD_DATE="1782900030">同名</A>
 </DL><p>`
 }
 
-describe('bookmark routes', () => {
+describe('bookmark workspace routes', () => {
   let app
   let user
   let token
@@ -65,184 +65,170 @@ describe('bookmark routes', () => {
     await disconnectTestDatabase()
   })
 
-  it('imports browser bookmark HTML and merges by URL only', async () => {
-    const first = await request(app)
-      .post('/api/bookmarks/imports/html')
-      .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from(buildBookmarkHtml(), 'utf8'), 'bookmarks.html')
-      .expect(200)
-
-    expect(first.body.data).toMatchObject({ inserted: 3, updated: 0 })
-    expect(await Bookmark.countDocuments({ userId: user._id })).toBe(3)
-
-    const second = await request(app)
-      .post('/api/bookmarks/imports/html')
-      .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from(buildBookmarkHtml('新名称'), 'utf8'), 'bookmarks.html')
-      .expect(200)
-
-    expect(second.body.data).toMatchObject({ inserted: 0, updated: 3 })
-    expect(await Bookmark.countDocuments({ userId: user._id })).toBe(3)
-
-    const updated = await Bookmark.findOne({ userId: user._id, url: 'https://example.com/a' })
-    expect(updated.title).toBe('新名称')
-
-    const sameNameBookmarks = await Bookmark.find({ userId: user._id, title: '同名' })
-    expect(sameNameBookmarks.map((item) => item.url).sort()).toEqual([
-      'https://example.com/b',
-      'https://example.com/c'
-    ])
-  })
-
-  it('treats browser toolbar folders as system bookmark bar during import', async () => {
-    const toolbarHtml = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-<TITLE>Bookmarks</TITLE>
-<H1>Bookmarks</H1>
-<DL><p>
-    <DT><H3 ADD_DATE="1782900000">书签栏</H3>
-    <DL><p>
-        <DT><A HREF="https://example.com/toolbar" ADD_DATE="1782900010">工具栏书签</A>
-    </DL><p>
-</DL><p>`
-
-    await request(app)
-      .post('/api/bookmarks/imports/html')
-      .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from(toolbarHtml, 'utf8'), 'bookmarks.html')
-      .expect(200)
-
-    const duplicatedToolbar = await BookmarkFolder.findOne({ userId: user._id, parentId: null, name: '书签栏' })
-    expect(duplicatedToolbar).toBeNull()
-
-    const rootBookmark = await Bookmark.findOne({ userId: user._id, url: 'https://example.com/toolbar' })
-    expect(rootBookmark.folderId).toBeNull()
-  })
-
-  it('imports Netscape bookmark HTML entries without explicit closing tags', async () => {
-    const looseHtml = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-<TITLE>Bookmarks</TITLE>
-<H1>Bookmarks</H1>
-<DL><p>
-    <DT><H3 ADD_DATE="1782900000">开发资料
-    <DL><p>
-        <DT><A HREF="https://developer.mozilla.org" ADD_DATE="1782900010">MDN Web Docs
-        <DT><A HREF="https://vite.dev" ADD_DATE="1782900020">Vite
-        <DD>构建工具文档
-    </DL><p>
-    <DT><A HREF="https://vuejs.org" ADD_DATE="1782900030">Vue
-</DL><p>`
-
+  async function createWorkspace(name, browserType, isPrimary = false) {
     const response = await request(app)
-      .post('/api/bookmarks/imports/html')
+      .post('/api/bookmarks/workspaces')
       .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from(looseHtml, 'utf8'), 'bookmarks.html')
+      .send({ name, browserType, isPrimary })
+      .expect(201)
+    return response.body.data
+  }
+
+  async function importHtml(workspaceId, html, mode = 'merge') {
+    return request(app)
+      .post(`/api/bookmarks/workspaces/${workspaceId}/imports/html`)
+      .set('Authorization', `Bearer ${token}`)
+      .field('mode', mode)
+      .attach('file', Buffer.from(html, 'utf8'), 'bookmarks.html')
       .expect(200)
+  }
 
-    expect(response.body.data).toMatchObject({ inserted: 3, updated: 0 })
+  it('keeps browser workspaces isolated and deduplicates URLs only inside each workspace', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    const edge = await createWorkspace('Edge', 'edge')
 
-    const folder = await BookmarkFolder.findOne({ userId: user._id, name: '开发资料' })
-    expect(folder).toBeTruthy()
+    await importHtml(chrome.id, buildBookmarkHtml({ folder: '开发', title: 'Chrome 名称' }))
+    await importHtml(edge.id, buildBookmarkHtml({ folder: '工作', title: 'Edge 名称', includeExtra: false }))
 
-    const nestedBookmarks = await Bookmark.find({ userId: user._id, folderId: folder._id }).sort({ url: 1 })
-    expect(nestedBookmarks.map((item) => item.url)).toEqual([
-      'https://developer.mozilla.org',
-      'https://vite.dev'
-    ])
+    expect(await Bookmark.countDocuments({ userId: user._id })).toBe(3)
+    const chromeBookmark = await Bookmark.findOne({ workspaceId: chrome.id, urlKey: 'https://example.com/a' })
+    const edgeBookmark = await Bookmark.findOne({ workspaceId: edge.id, urlKey: 'https://example.com/a' })
+    expect(chromeBookmark.title).toBe('Chrome 名称')
+    expect(edgeBookmark.title).toBe('Edge 名称')
+    expect(chromeBookmark.folderId.toString()).not.toBe(edgeBookmark.folderId.toString())
 
-    const rootBookmark = await Bookmark.findOne({ userId: user._id, url: 'https://vuejs.org' })
-    expect(rootBookmark.folderId).toBeNull()
+    const workspaces = await request(app)
+      .get('/api/bookmarks/workspaces')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(workspaces.body.data).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: chrome.id, isPrimary: true, bookmarkCount: 2, folderCount: 1 }),
+      expect.objectContaining({ id: edge.id, isPrimary: false, bookmarkCount: 1, folderCount: 1 })
+    ]))
   })
 
-  it('supports manual CRUD drag sorting and export formats', async () => {
-    const folderResponse = await request(app)
-      .post('/api/bookmarks/folders')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ name: '资料夹' })
-      .expect(201)
-    const folderId = folderResponse.body.data.id
+  it('replaces auxiliary workspace snapshots without affecting the primary workspace', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    const edge = await createWorkspace('Edge', 'edge')
+    await importHtml(chrome.id, buildBookmarkHtml())
+    await importHtml(edge.id, buildBookmarkHtml())
 
-    const first = await request(app)
-      .post('/api/bookmarks/bookmarks')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ folderId, title: 'Vue', url: 'https://vuejs.org', tags: ['前端'], note: '框架文档' })
-      .expect(201)
-    const second = await request(app)
-      .post('/api/bookmarks/bookmarks')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ folderId, title: 'Vite', url: 'https://vite.dev' })
-      .expect(201)
-
-    await request(app)
-      .patch('/api/bookmarks/bookmarks/reorder')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ folderId, ids: [second.body.data.id, first.body.data.id] })
-      .expect(200)
-
-    const listResponse = await request(app)
-      .get('/api/bookmarks/bookmarks')
-      .set('Authorization', `Bearer ${token}`)
-      .query({ folderId, keyword: 'vue' })
-      .expect(200)
-    expect(listResponse.body.data.items).toHaveLength(1)
-    expect(listResponse.body.data.items[0]).toMatchObject({ title: 'Vue', note: '框架文档' })
-
-    const htmlResponse = await request(app)
-      .get('/api/bookmarks/exports/html')
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200)
-    expect(htmlResponse.text).toContain('NETSCAPE-Bookmark-file-1')
-    expect(htmlResponse.text).toContain('https://vuejs.org')
-
-    const jsonResponse = await request(app)
-      .get('/api/bookmarks/exports/json')
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200)
-    expect(jsonResponse.body.source).toBe('bookmark_backup')
-    expect(jsonResponse.body.bookmarks).toHaveLength(2)
+    const replaced = await importHtml(edge.id, buildBookmarkHtml({ includeExtra: false }), 'replace')
+    expect(replaced.body.data).toMatchObject({ inserted: 1, updated: 0 })
+    expect(await Bookmark.countDocuments({ workspaceId: edge.id })).toBe(1)
+    expect(await Bookmark.countDocuments({ workspaceId: chrome.id })).toBe(2)
+    expect(await BookmarkFolder.countDocuments({ workspaceId: edge.id })).toBe(1)
   })
 
-  it('moves bookmarks between folders and persists folder drag placement', async () => {
-    const firstFolder = await request(app)
-      .post('/api/bookmarks/folders')
+  it('compares primary and auxiliary workspaces and copies selected missing URLs to a primary folder', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    const edge = await createWorkspace('Edge', 'edge')
+    await importHtml(chrome.id, buildBookmarkHtml({ folder: 'Chrome 分类', includeExtra: false }))
+    await importHtml(edge.id, buildBookmarkHtml({ folder: 'Edge 分类' }))
+
+    const edgeOnly = await Bookmark.findOne({ workspaceId: edge.id, urlKey: 'https://example.com/b' })
+    const targetFolder = await request(app)
+      .post(`/api/bookmarks/workspaces/${chrome.id}/folders`)
       .set('Authorization', `Bearer ${token}`)
       .send({ name: '待整理' })
       .expect(201)
-    const secondFolder = await request(app)
-      .post('/api/bookmarks/folders')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ name: '技术文档' })
-      .expect(201)
-    const nestedFolder = await request(app)
-      .post('/api/bookmarks/folders')
-      .set('Authorization', `Bearer ${token}`)
-      .send({ name: '前端', parentId: secondFolder.body.data.id })
-      .expect(201)
 
+    const comparison = await request(app)
+      .get('/api/bookmarks/comparisons')
+      .set('Authorization', `Bearer ${token}`)
+      .query({
+        primaryWorkspaceId: chrome.id,
+        secondaryWorkspaceId: edge.id,
+        status: 'secondary_only'
+      })
+      .expect(200)
+    expect(comparison.body.data.stats).toMatchObject({ common: 1, secondaryOnly: 1, folderDiff: 1 })
+    expect(comparison.body.data.items).toHaveLength(1)
+    expect(comparison.body.data.items[0].secondary.id).toBe(edgeOnly.id)
+
+    const copied = await request(app)
+      .post('/api/bookmarks/comparisons/copy')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        sourceWorkspaceId: edge.id,
+        targetWorkspaceId: chrome.id,
+        targetFolderId: targetFolder.body.data.id,
+        bookmarkIds: [edgeOnly.id]
+      })
+      .expect(200)
+    expect(copied.body.data).toEqual({ inserted: 1, skipped: 0 })
+
+    const inserted = await Bookmark.findOne({ workspaceId: chrome.id, urlKey: edgeOnly.urlKey })
+    expect(inserted.folderId.toString()).toBe(targetFolder.body.data.id)
+    expect(await Bookmark.countDocuments({ workspaceId: edge.id })).toBe(2)
+  })
+
+  it('supports scoped CRUD, toolbar import compatibility and workspace exports', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    const toolbarHtml = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+  <DT><H3>书签栏
+  <DL><p>
+    <DT><A HREF="https://developer.mozilla.org">MDN
+    <DT><A HREF="https://vite.dev">Vite
+  </DL><p>
+</DL><p>`
+    await importHtml(chrome.id, toolbarHtml)
+    expect(await BookmarkFolder.findOne({ workspaceId: chrome.id, name: '书签栏' })).toBeNull()
+    expect(await Bookmark.countDocuments({ workspaceId: chrome.id, folderId: null })).toBe(2)
+
+    const folder = await request(app)
+      .post(`/api/bookmarks/workspaces/${chrome.id}/folders`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '资料夹' })
+      .expect(201)
     const bookmark = await request(app)
-      .post('/api/bookmarks/bookmarks')
+      .post(`/api/bookmarks/workspaces/${chrome.id}/bookmarks`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ folderId: firstFolder.body.data.id, title: 'MDN', url: 'https://developer.mozilla.org' })
+      .send({ folderId: folder.body.data.id, title: 'Vue', url: 'https://vuejs.org', tags: ['前端'] })
       .expect(201)
 
     await request(app)
-      .patch('/api/bookmarks/bookmarks/move')
+      .patch(`/api/bookmarks/workspaces/${chrome.id}/bookmarks/move`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ folderId: secondFolder.body.data.id, ids: [bookmark.body.data.id] })
+      .send({ folderId: null, ids: [bookmark.body.data.id] })
       .expect(200)
 
-    const moved = await Bookmark.findById(bookmark.body.data.id)
-    expect(moved.folderId.toString()).toBe(secondFolder.body.data.id)
+    const htmlResponse = await request(app)
+      .get(`/api/bookmarks/workspaces/${chrome.id}/exports/html`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(htmlResponse.text).toContain('https://vuejs.org')
+
+    const jsonResponse = await request(app)
+      .get(`/api/bookmarks/workspaces/${chrome.id}/exports/json`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(jsonResponse.body).toMatchObject({ schemaVersion: 2, source: 'bookmark_workspace_backup' })
+    expect(jsonResponse.body.workspace.name).toBe('Chrome 主库')
+  })
+
+  it('clears and deletes only the selected workspace and promotes another primary workspace', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    const edge = await createWorkspace('Edge', 'edge')
+    await importHtml(chrome.id, buildBookmarkHtml())
+    await importHtml(edge.id, buildBookmarkHtml())
 
     await request(app)
-      .patch(`/api/bookmarks/folders/${nestedFolder.body.data.id}`)
+      .delete(`/api/bookmarks/workspaces/${edge.id}/content`)
       .set('Authorization', `Bearer ${token}`)
-      .send({ parentId: null })
       .expect(200)
+    expect(await Bookmark.countDocuments({ workspaceId: edge.id })).toBe(0)
+    expect(await Bookmark.countDocuments({ workspaceId: chrome.id })).toBe(2)
 
-    const rootFolders = await BookmarkFolder.find({ userId: user._id, parentId: null }).sort({ sortOrder: 1, createdAt: 1 })
-    expect(rootFolders.map((folder) => folder.name)).toEqual(['待整理', '技术文档', '前端'])
+    await request(app)
+      .delete(`/api/bookmarks/workspaces/${chrome.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const promoted = await BookmarkWorkspace.findById(edge.id)
+    expect(promoted.isPrimary).toBe(true)
   })
 
   it('blocks bookmark APIs when the role lacks bookmark menu permission', async () => {
@@ -253,7 +239,7 @@ describe('bookmark routes', () => {
     await role.save()
 
     await request(app)
-      .get('/api/bookmarks/folders')
+      .get('/api/bookmarks/workspaces')
       .set('Authorization', `Bearer ${token}`)
       .expect(403)
   })
