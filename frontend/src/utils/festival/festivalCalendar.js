@@ -190,17 +190,17 @@ function buildCalendarItems(serverDateKey, options = {}) {
 export function getFestivalSchedule(serverDateKey, count = 10, options = {}) {
   const dates = buildCalendarItems(serverDateKey, options)
 
-  return dates
+  const result = dates
     .filter((festival) => festival.daysUntil >= 0)
     .sort((left, right) => left.daysUntil - right.daysUntil || left.date.localeCompare(right.date))
-    .slice(0, count)
+  return Number.isFinite(count) ? result.slice(0, count) : result
 }
 
 export function getFestivalHistory(serverDateKey, count = 6, options = {}) {
-  return buildCalendarItems(serverDateKey, options)
+  const result = buildCalendarItems(serverDateKey, options)
     .filter((festival) => festival.daysUntil < 0)
     .sort((left, right) => right.daysUntil - left.daysUntil || right.date.localeCompare(left.date))
-    .slice(0, count)
+  return Number.isFinite(count) ? result.slice(0, count) : result
 }
 
 export function getActiveFestival(serverDateKey) {

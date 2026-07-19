@@ -202,8 +202,9 @@ async function loadFestivalState() {
   }
   activeFestival.value = getActiveFestival(serverDate.value)
   festivalEnabled.value = isFestivalEnabled()
-  schedule.value = getFestivalSchedule(serverDate.value, 12, birthdayOptions)
-  history.value = getFestivalHistory(serverDate.value, 8, birthdayOptions)
+  // 先保留当前年度完整数据，再由弹框内部滚动展示，避免生日等较晚节日被前置截断。
+  schedule.value = getFestivalSchedule(serverDate.value, Number.POSITIVE_INFINITY, birthdayOptions)
+  history.value = getFestivalHistory(serverDate.value, Number.POSITIVE_INFINITY, birthdayOptions)
   solarSummary.value = getSolarSummary(serverDate.value)
   lunarSummary.value = getLunarSummary(serverDate.value)
 
