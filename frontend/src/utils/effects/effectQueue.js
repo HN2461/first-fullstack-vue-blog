@@ -12,6 +12,7 @@ function notify() {
 export const EFFECT_PRIORITIES = Object.freeze({
   manual: 1000,
   birthday: 100,
+  personalEntrance: 80,
   siteWelcome: 70,
   majorFestival: 40
 })

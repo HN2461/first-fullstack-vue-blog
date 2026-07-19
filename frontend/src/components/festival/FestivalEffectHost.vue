@@ -14,7 +14,7 @@
       :solar-summary="solarSummary"
       :lunar-summary="lunarSummary"
       :active-festival="activeFestival"
-      :atmosphere-visible="atmosphereVisible"
+      :atmosphere-enabled="festivalEnabled"
       @select="openScheduleFestival"
       @toggle-atmosphere="toggleFestivalForDevice"
     />
@@ -77,6 +77,7 @@ const solarSummary = ref('')
 const celebrationOpen = ref(false)
 const celebrationFestival = ref(null)
 const blockingEffectActive = ref(false)
+const festivalEnabled = ref(false)
 const closedKey = ref('')
 const appliedFestivalClass = ref('')
 const countdownTargetReady = ref(false)
@@ -89,8 +90,9 @@ const festivalEnabledKey = computed(() => getEffectStorageKey(device.value, user
 const celebrationKey = computed(() => getEffectStorageKey(device.value, userId.value, `${serverDate.value}:celebration`))
 const atmosphereVisible = computed(() => {
   return Boolean(
-    activeFestival.value?.level === 'major' &&
-    isFestivalEnabled() &&
+    // 普通节日/节气也支持由用户在倒计时面板手动打开；重点节日只影响自动庆祝弹窗。
+    activeFestival.value &&
+    festivalEnabled.value &&
     closedKey.value !== activeFestival.value.key &&
     !celebrationOpen.value &&
     !blockingEffectActive.value
@@ -108,19 +110,21 @@ function isFestivalEnabled() {
 
 function closeFestivalForDevice() {
   localStorage.setItem(festivalEnabledKey.value, 'off')
+  festivalEnabled.value = false
   closedKey.value = activeFestival.value?.key || ''
   message.success(appStore.isMobile ? '已关闭移动端节日氛围' : '已关闭 PC 端节日氛围')
 }
 
 function openFestivalForDevice() {
   localStorage.setItem(festivalEnabledKey.value, 'on')
+  festivalEnabled.value = true
   closedKey.value = ''
   message.success(appStore.isMobile ? '已打开移动端节日氛围' : '已打开 PC 端节日氛围')
 }
 
 function toggleFestivalForDevice() {
   if (!activeFestival.value) return
-  if (atmosphereVisible.value) {
+  if (festivalEnabled.value) {
     closeFestivalForDevice()
     return
   }
@@ -197,6 +201,7 @@ async function loadFestivalState() {
     birthdayCalendar: state.birthdayCalendar || 'solar'
   }
   activeFestival.value = getActiveFestival(serverDate.value)
+  festivalEnabled.value = isFestivalEnabled()
   schedule.value = getFestivalSchedule(serverDate.value, 12, birthdayOptions)
   history.value = getFestivalHistory(serverDate.value, 8, birthdayOptions)
   solarSummary.value = getSolarSummary(serverDate.value)
@@ -246,6 +251,11 @@ watch(() => authStore.ready, init, { immediate: true })
 watch(() => authStore.user?.id, () => {
   initialized = false
   init()
+})
+
+watch(device, () => {
+  festivalEnabled.value = isFestivalEnabled()
+  closedKey.value = ''
 })
 
 watch(celebrationOpen, (visible) => {

@@ -181,6 +181,7 @@
               v-model:birthday-calendar="profileForm.birthdayCalendar"
               v-model:close-birth-effect="profileForm.closeBirthEffect"
             />
+            <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
             <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
             <a-form-item>
               <a-button type="primary" html-type="submit" :loading="saving">
@@ -442,8 +443,11 @@ import {
   uploadAvatar
 } from '@/services/http'
 import AvatarCropper from '@/components/AvatarCropper.vue'
+import EntranceEffectSettings from './components/EntranceEffectSettings.vue'
 import SiteEntrancePreference from './components/SiteEntrancePreference.vue'
 import BirthdayPreference from './components/BirthdayPreference.vue'
+import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
+import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 
 const authStore = useAuthStore()
 
@@ -488,7 +492,8 @@ const profileForm = reactive({
   birthday: '',
   birthdayCalendar: 'solar',
   closeBirthEffect: false,
-  closeSiteEntranceEffect: false
+  closeSiteEntranceEffect: false,
+  entranceEffect: { ...DEFAULT_ENTRANCE_EFFECT }
 })
 
 const passwordForm = reactive({
@@ -594,6 +599,7 @@ function syncProfileForm(user = {}) {
   profileForm.birthdayCalendar = user.birthdayCalendar || 'solar'
   profileForm.closeBirthEffect = Boolean(user.closeBirthEffect)
   profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
+  profileForm.entranceEffect = normalizeEntranceEffectConfig(user.entranceEffect)
 }
 
 function syncNotificationSettings(settings = {}) {
@@ -679,8 +685,10 @@ async function handleSaveProfile() {
       birthdayCalendar: profileForm.birthdayCalendar,
       closeBirthEffect: profileForm.closeBirthEffect,
       closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
+      entranceEffect: normalizeEntranceEffectConfig(profileForm.entranceEffect)
     })
     authStore.user = { ...authStore.user, ...result }
+    cacheEntranceEffectConfig(result.entranceEffect)
     syncProfileForm(result)
     message.success('个人资料更新成功')
   } catch (error) {

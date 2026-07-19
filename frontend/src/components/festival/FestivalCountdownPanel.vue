@@ -34,7 +34,7 @@
               type="button"
               @click="$emit('toggle-atmosphere')"
             >
-              {{ atmosphereVisible ? '关闭氛围' : '打开氛围' }}
+              {{ atmosphereEnabled ? '关闭氛围' : '打开氛围' }}
             </button>
           </header>
 
@@ -134,7 +134,7 @@ const props = defineProps({
   solarSummary: { type: String, default: '' },
   lunarSummary: { type: String, default: '' },
   activeFestival: { type: Object, default: null },
-  atmosphereVisible: { type: Boolean, default: false }
+  atmosphereEnabled: { type: Boolean, default: false }
 })
 
 defineEmits(['select', 'toggle-atmosphere'])
