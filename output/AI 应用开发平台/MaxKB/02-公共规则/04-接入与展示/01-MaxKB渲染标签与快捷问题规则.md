@@ -1,6 +1,8 @@
 # 01-MaxKB渲染标签与快捷问题规则
 
-> 文档状态（2026-07-09）：根据 FIT2CLOUD 社区帖《MaxKB 中的特殊标签》和通用智能体交互经验整理。本文用于优化候选项、下一步引导、图表和 HTML 展示，不记录某个项目或某个智能体的完整链路。
+> 文档状态（2026-07-19）：根据 FIT2CLOUD 社区帖《MaxKB 中的特殊标签》、当前环境实测和 MaxKB 官方更新日志整理。本文用于优化候选项、下一步引导、图表和 HTML 展示，不记录某个项目或某个智能体的完整链路。
+>
+> 安全基线：官方 v2.8.0 曾修复 `html_rander` 的存储型 XSS 和 `echarts_rander` 的代码注入问题。使用前必须确认目标环境版本和安全修复状态；正式环境只允许固定模板和经过转义、允许列表校验的变量内容。
 
 ## 1. 适用范围
 
@@ -13,6 +15,16 @@
 ```
 
 这些标签适合用于提升对话体验，但不能替代真实业务状态、表单校验或正式提交逻辑。
+
+统一安全规则：
+
+```text
+1. 不让模型自由生成 script、事件处理器、任意 URL 或完整 HTML 页面。
+2. 用户输入、知识库内容和工具返回进入 HTML 前必须转义。
+3. jump/sendMessage 等能力只使用允许列表中的动作和地址。
+4. token、内网地址、文件内部 ID、隐私字段不进入 HTML 或图表配置。
+5. 更换 MaxKB 版本、发布入口或嵌入容器后重新回归。
+```
 
 ## 2. quick_question 快捷问题
 
@@ -377,4 +389,6 @@
 ```text
 FIT2CLOUD 社区帖：https://bbs.fit2cloud.com/t/topic/11172
 主题：MaxKB 中的特殊标签 quick_question、echarts_rander、html_rander
+MaxKB 官方 v2.8.0 更新日志：https://maxkb.cn/docs/v2/changelog/#v280
+MaxKB 官方 v2.10.2-lts 更新日志：https://maxkb.cn/docs/v2/changelog/#v2102-lts
 ```

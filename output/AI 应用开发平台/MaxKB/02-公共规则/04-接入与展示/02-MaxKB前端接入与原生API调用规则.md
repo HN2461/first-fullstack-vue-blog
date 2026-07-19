@@ -1,10 +1,12 @@
 # MaxKB 前端接入与原生 API 调用规则
 
-> 文档状态（2026-07-03）：本文记录前端接入 MaxKB 发布网址和原生 API 的通用规则。本文不记录单个项目的真实页面路径、真实配置键或真实登录凭证字段。
+> 文档状态（2026-07-19）：本文记录前端接入 MaxKB 发布网址和原生 API 的通用规则。当前 API 口径按 MaxKB v2.10.4 官方文档和当前环境实测整理；目标版本不同时必须从智能体“概览”重新复制 API 文档、Base URL 和 API Key。
+>
+> 官方依据：[智能体概览](https://maxkb.cn/docs/v2/user_manual/app/app-view/)、[通过 API Key 进行对话](https://maxkb.cn/docs/v2/user_manual/chat_to_API/)
 
 ## 1. 当前结论
 
-正式上线优先使用 PC 后台配置的 MaxKB 发布网址，不再把用户导向手搓的原生聊天页。
+需要快速上线且接受官方聊天界面时，优先使用公司后台配置的 MaxKB 发布网址。需要自定义 UI、统一身份和审计时，使用服务端中转调用 MaxKB API；不要把长期 API Key 放在浏览器或小程序前端。
 
 通用接入口径：
 
@@ -51,7 +53,7 @@ https://chat.xxx.cn/chat/应用ID
 
 ## 3. 原生 API 调用边界
 
-原生 API 直连适合做测试和后续自定义 UI 研究，不适合作为正式生产链路直接暴露。
+浏览器或小程序原生 API 直连适合测试和自定义 UI 研究，不适合作为正式生产链路直接暴露。生产自定义 UI 应由业务后端中转或使用公司批准的短期凭证机制。
 
 原因：
 
@@ -129,7 +131,7 @@ const applyProfileQuestions = (prologue) => {
 
 注意：
 
-1. API Key 应使用 MaxKB `API Key` 弹窗里创建的 `agent-xxx`，不是公开访问链接或 `application-xxx`。
+1. API Key 应使用目标智能体 `API Key` 弹窗里创建的当前有效 Key；不要仅凭历史前缀判断凭证类型，应以目标环境概览和 Swagger 为准。
 2. 请求头必须是 `Authorization: Bearer {apiKey}`，只传裸 `agent-xxx` 或传错 `application-xxx` 都可能返回 `401`。
 3. 如果项目通过统一请求封装切换 MaxKB 域名，可以保留一个仅用于识别分支的查询标记，例如 `?chatKey`；该标记不是 MaxKB 必需参数。
 
@@ -303,6 +305,8 @@ userTicket
 ```
 
 这些参数不要让大模型自由推断。环境态参数优先在 MaxKB 接口传参默认值中固定配置，用户态参数由前端 URL 参数、后端中转或原生 API 的 `form_data` 动态传入。
+
+安全说明：发布 URL 和 `form_data` 只是参数传入通道，不自动证明参数可信。租户、用户和资源权限必须由业务后端重新校验；长期 token、服务密钥和 API Key 不应出现在公开 URL、浏览器历史、Referer 或前端日志中。
 
 通常建议把 `businessBaseUrl/agentBaseUrl/tenantId/serviceSecret` 这类环境态参数放到 MaxKB 接口传参默认值里；把 `userTicket/accessToken/sessionToken` 这类用户态参数默认值留空，由前端、后端中转或原生 API `form_data` 按当前登录用户动态传入。
 
