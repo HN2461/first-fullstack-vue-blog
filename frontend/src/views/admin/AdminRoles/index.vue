@@ -177,14 +177,16 @@
             </div>
             <div class="permission-panel">
               <a-tree
-                v-model:checkedKeys="form.menuIds"
-                v-model:expandedKeys="permissionExpandedKeys"
+                 :checked-keys="getPermissionTreeCheckedKeys(form.menuIds)"
+                 check-strictly
+                 v-model:expandedKeys="permissionExpandedKeys"
                 checkable
                 block-node
                 :auto-expand-parent="permissionAutoExpandParent"
                 :tree-data="filteredPermissionTree"
                 :field-names="{ title: 'name', key: 'id', children: 'children' }"
-                @expand="handlePermissionExpand"
+                 @expand="handlePermissionExpand"
+                 @check="(keys, info) => handlePermissionCheck('form', keys, info)"
               >
                 <template #title="node">
                   <div class="permission-tree-node">
@@ -231,14 +233,16 @@
         </div>
         <div class="permission-panel permission-panel--modal">
         <a-tree
-          v-model:checkedKeys="permissionForm.menuIds"
+          :checked-keys="getPermissionTreeCheckedKeys(permissionForm.menuIds)"
+          check-strictly
           v-model:expandedKeys="permissionExpandedKeys"
           checkable
           block-node
           :auto-expand-parent="permissionAutoExpandParent"
           :tree-data="filteredPermissionTree"
           :field-names="{ title: 'name', key: 'id', children: 'children' }"
-          @expand="handlePermissionExpand"
+           @expand="handlePermissionExpand"
+           @check="(keys, info) => handlePermissionCheck('batch', keys, info)"
         >
           <template #title="node">
             <div class="permission-tree-node">
@@ -377,6 +381,78 @@ function collapseAllPermissionMenus() {
 function handlePermissionExpand(keys) {
   permissionExpandedKeys.value = keys
   permissionAutoExpandParent.value = false
+}
+
+function getPermissionTreeCheckedKeys(menuIds = []) {
+  const checked = new Set(menuIds)
+  const visualChecked = new Set(menuIds)
+  const halfChecked = []
+
+  for (const id of menuIds) {
+    getMenuDescendantIds(findMenuNode(id)).forEach((descendantId) => visualChecked.add(descendantId))
+  }
+
+  function visit(node) {
+    const children = node.children || []
+    if (!children.length) return visualChecked.has(node.id)
+
+    const states = children.map(visit)
+    const selectedChildren = states.filter(Boolean).length
+    if (selectedChildren > 0 && selectedChildren < children.length && !visualChecked.has(node.id)) {
+      halfChecked.push(node.id)
+    }
+    return visualChecked.has(node.id) || selectedChildren > 0
+  }
+
+  permissionTree.value.forEach(visit)
+  return { checked: [...visualChecked], halfChecked }
+}
+
+function getMenuDescendantIds(node) {
+  return flattenMenus(node?.children || []).map((item) => item.id)
+}
+
+function findMenuNode(id, nodes = permissionTree.value) {
+  for (const node of nodes) {
+    if (node.id === id) return node
+    const match = findMenuNode(id, node.children || [])
+    if (match) return match
+  }
+  return null
+}
+
+function handlePermissionCheck(target, keys, info) {
+  const currentIds = target === 'form' ? form.menuIds : permissionForm.menuIds
+  const next = new Set(currentIds)
+  const node = findMenuNode(info?.node?.id)
+  if (!node) return
+  const descendants = getMenuDescendantIds(node)
+
+  if (info?.checked) {
+    next.add(node.id)
+    descendants.forEach((id) => next.add(id))
+  } else {
+    next.delete(node.id)
+    descendants.forEach((id) => next.delete(id))
+    // An ancestor is only a full grant while every descendant remains selected.
+    // Removing one child therefore converts each ancestor to a visual half-check.
+    getMenuAncestorIds(node.id).forEach((id) => next.delete(id))
+  }
+
+  if (target === 'form') form.menuIds = [...next]
+  else permissionForm.menuIds = [...next]
+}
+
+function getMenuAncestorIds(id, nodes = permissionTree.value, ancestors = []) {
+  for (const node of nodes) {
+    if ((node.children || []).some((child) => child.id === id)) {
+      ancestors.push(node.id)
+      return getMenuAncestorIds(node.id, permissionTree.value, ancestors)
+    }
+    const result = getMenuAncestorIds(id, node.children || [], ancestors)
+    if (result.length) return result
+  }
+  return ancestors
 }
 
 function clearSelection() {

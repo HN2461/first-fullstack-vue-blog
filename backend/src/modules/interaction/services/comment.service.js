@@ -216,6 +216,9 @@ async function assertRoleIdsExist(roleIds = []) {
   if (roles.some((role) => role.code === BUILTIN_ROLE_CODES.SUPER_ADMIN || role.isSuperAdmin)) {
     throw createHttpError(403, 'SUPER_ROLE_PROTECTED', '不能通过用户管理分配超级管理员角色')
   }
+  if (roles.some((role) => role.status !== 'active')) {
+    throw createHttpError(400, 'TARGET_ROLE_DISABLED', '不能分配已停用的角色')
+  }
   return ids
 }
 

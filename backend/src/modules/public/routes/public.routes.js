@@ -7,6 +7,7 @@ import { getSettings } from '#modules/settings/services/setting.service.js'
 import { optionalAuth, requireAuth } from '#middlewares/auth.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
+import { getBusinessDate } from '#utils/businessDate.js'
 
 export const publicRouter = Router()
 
@@ -26,7 +27,7 @@ publicRouter.get('/festival-effect', asyncHandler(async (req, res) => {
   const now = new Date()
   res.json(ok({
     serverTime: now.toISOString(),
-    serverDate: now.toISOString().slice(0, 10)
+    serverDate: getBusinessDate(now)
   }))
 }))
 

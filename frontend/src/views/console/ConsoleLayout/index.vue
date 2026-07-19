@@ -156,7 +156,6 @@
           :class="['enterprise-menu', `enterprise-menu--${primarySection}`]"
           mode="inline"
           :theme="menuTheme"
-          :inline-collapsed="siderCollapsed"
           :selected-keys="selectedKeys"
           @openChange="handleMenuOpenChange"
           @click="handleSecondaryClick"

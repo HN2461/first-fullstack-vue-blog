@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
+import { getBusinessDate } from '#utils/businessDate.js'
 import { requireAuth } from '#middlewares/auth.js'
 import { User } from '#modules/user/models/User.js'
 import { Article } from '#modules/content/models/Article.js'
@@ -20,6 +21,7 @@ import {
 import { decryptCredential } from '#utils/authSecurity.js'
 import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema } from '#modules/user/validators/profile.validator.js'
 import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/rbac/validators/rbac.validator.js'
+import { isBirthdayOnDate } from '#modules/user/utils/birthday.js'
 
 const router = Router()
 
@@ -129,10 +131,9 @@ router.put('/', requireAuth, asyncHandler(async (req, res) => {
  */
 router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
   const now = new Date()
-  const today = now.toISOString().slice(0, 10)
+  const today = getBusinessDate(now)
   const safeUser = req.user.toSafeJSON()
-  const birthMonthDay = safeUser.birthday ? safeUser.birthday.slice(5) : ''
-  const isBirthdayToday = Boolean(birthMonthDay && birthMonthDay === today.slice(5))
+  const isBirthdayToday = isBirthdayOnDate(safeUser.birthday, safeUser.birthdayCalendar, today)
 
   res.json(ok({
     serverTime: now.toISOString(),
@@ -152,7 +153,7 @@ router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
  */
 router.put('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
   const input = parseBody(festivalEffectActionSchema, req.body)
-  const today = new Date().toISOString().slice(0, 10)
+  const today = getBusinessDate()
   const updates = input.action === 'close-birth-effect'
     ? { closeBirthEffect: true, lastBirthEffectDate: today }
     : { lastBirthEffectDate: today }

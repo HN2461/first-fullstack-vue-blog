@@ -1,10 +1,13 @@
 import { z } from 'zod'
 import { ENTRANCE_EFFECT_KEYS, ENTRANCE_TRIGGER_PAGES } from '#modules/user/constants/entranceEffects.js'
+import { isValidPastOrTodayDate } from '#utils/businessDate.js'
 
 const optionalText = (max, message) => z.string().trim().max(max, message).optional()
 const optionalBirthday = z.union([
   z.literal(''),
-  z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式应为 YYYY-MM-DD')
+  z.string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式应为 YYYY-MM-DD')
+    .refine((value) => isValidPastOrTodayDate(value), '生日必须是真实日期且不能晚于今天')
 ]).optional()
 const entranceEffectSchema = z.object({
   enabled: z.boolean({ invalid_type_error: '页面动效总开关必须是布尔值' }).optional(),

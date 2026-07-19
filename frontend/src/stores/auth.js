@@ -12,7 +12,6 @@ import {
 } from '@/services/http'
 import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
 import { clearEntranceAutoPlaySession } from '@/utils/entranceEffects/entranceAutoPlaySession'
-import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 
 const MENU_CACHE_KEY = 'blog-auth-menu-cache'
@@ -29,10 +28,6 @@ function writeMenuCache(userInfo) {
   if (!userInfo?.id || !userInfo?.permissions) return
 
   const permissions = userInfo.permissions || {}
-  const hasMenus = Array.isArray(permissions.menus) && permissions.menus.length > 0
-  const hasPaths = Array.isArray(permissions.menuPaths) && permissions.menuPaths.length > 0
-  if (!hasMenus && !hasPaths) return
-
   localStorage.setItem(MENU_CACHE_KEY, JSON.stringify({
     userId: userInfo.id,
     cachedAt: Date.now(),
@@ -58,10 +53,7 @@ function mergeCachedPermissions(userInfo) {
     return userInfo
   }
 
-  const nextPermissions = userInfo.permissions || {}
-  const hasMenus = Array.isArray(nextPermissions.menus) && nextPermissions.menus.length > 0
-  const hasPaths = Array.isArray(nextPermissions.menuPaths) && nextPermissions.menuPaths.length > 0
-  if (hasMenus || hasPaths) {
+  if (userInfo.permissions) {
     return userInfo
   }
 
@@ -128,7 +120,6 @@ export const useAuthStore = defineStore('auth', () => {
       const currentUser = await getCurrentUser()
       user.value = mergeCachedPermissions(currentUser)
       writeMenuCache(user.value)
-      cacheEntranceEffectConfig(user.value?.entranceEffect)
     } catch {
       clearSession()
     } finally {
@@ -140,7 +131,6 @@ export const useAuthStore = defineStore('auth', () => {
     const currentUser = await getCurrentUser()
     user.value = currentUser
     writeMenuCache(currentUser)
-    cacheEntranceEffectConfig(currentUser?.entranceEffect)
     return currentUser
   }
 
@@ -155,7 +145,6 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = result.token || ''
       user.value = result.user
       writeMenuCache(user.value)
-      cacheEntranceEffectConfig(user.value?.entranceEffect)
       setStoredToken(token.value)
       return
     }
@@ -179,7 +168,6 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = ''
     user.value = result.user
     writeMenuCache(user.value)
-    cacheEntranceEffectConfig(user.value?.entranceEffect)
     setStoredToken('')
   }
 
@@ -192,7 +180,6 @@ export const useAuthStore = defineStore('auth', () => {
       token.value = result.token || ''
       user.value = result.user
       writeMenuCache(user.value)
-      cacheEntranceEffectConfig(user.value?.entranceEffect)
       setStoredToken(token.value)
       return
     }
@@ -214,7 +201,6 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = ''
     user.value = result.user
     writeMenuCache(user.value)
-    cacheEntranceEffectConfig(user.value?.entranceEffect)
     setStoredToken('')
   }
 

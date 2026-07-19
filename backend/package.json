@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "chinese-days": "^1.5.9",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",

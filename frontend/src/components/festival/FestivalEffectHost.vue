@@ -64,6 +64,7 @@ import {
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
 import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/confettiPlayer'
+import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
 const appStore = useAppStore()
 const authStore = useAuthStore()
@@ -75,17 +76,25 @@ const lunarSummary = ref('')
 const solarSummary = ref('')
 const celebrationOpen = ref(false)
 const celebrationFestival = ref(null)
+const blockingEffectActive = ref(false)
 const closedKey = ref('')
 const appliedFestivalClass = ref('')
 const countdownTargetReady = ref(false)
 let initialized = false
+let activeCelebrationFinish = null
 
 const device = computed(() => getDeviceType(appStore.isMobile))
 const userId = computed(() => authStore.user?.id || 'guest')
 const festivalEnabledKey = computed(() => getEffectStorageKey(device.value, userId.value, 'enabled'))
 const celebrationKey = computed(() => getEffectStorageKey(device.value, userId.value, `${serverDate.value}:celebration`))
 const atmosphereVisible = computed(() => {
-  return Boolean(activeFestival.value && isFestivalEnabled() && closedKey.value !== activeFestival.value.key)
+  return Boolean(
+    activeFestival.value?.level === 'major' &&
+    isFestivalEnabled() &&
+    closedKey.value !== activeFestival.value.key &&
+    !celebrationOpen.value &&
+    !blockingEffectActive.value
+  )
 })
 const celebrationStyle = computed(() => ({
   '--festival-accent': celebrationFestival.value?.accent || '#2563eb',
@@ -128,11 +137,31 @@ function hasShownCelebration(key) {
 
 function openCelebration(festival, autoMark = true) {
   if (!festival) return
-  celebrationFestival.value = festival
-  celebrationOpen.value = true
-  if (autoMark) {
-    markCelebrationShown(celebrationFestival.value.key)
-  }
+  enqueueEffect({
+    id: `${festival.type === 'birthday' ? 'birthday' : 'festival'}:${festival.key}:${festival.date}`,
+    priority: festival.type === 'birthday' ? EFFECT_PRIORITIES.birthday : EFFECT_PRIORITIES.majorFestival,
+    start: (finish) => {
+      let cancelled = false
+      activeCelebrationFinish = finish
+      celebrationFestival.value = festival
+      celebrationOpen.value = true
+      if (autoMark) markCelebrationShown(festival.key)
+
+      const closeTimer = window.setTimeout(() => {
+        if (cancelled) return
+        celebrationOpen.value = false
+        finish()
+      }, festival.type === 'birthday' ? 6500 : 5000)
+
+      return () => {
+        cancelled = true
+        window.clearTimeout(closeTimer)
+        celebrationOpen.value = false
+        celebrationFestival.value = null
+        activeCelebrationFinish = null
+      }
+    }
+  })
 }
 
 async function handleCelebrationVisibleChange(visible) {
@@ -219,6 +248,27 @@ watch(() => authStore.user?.id, () => {
   init()
 })
 
+watch(celebrationOpen, (visible) => {
+  if (visible) return
+  const finish = activeCelebrationFinish
+  activeCelebrationFinish = null
+  finish?.()
+})
+
+watch(() => [
+  authStore.user?.birthday,
+  authStore.user?.birthdayCalendar,
+  authStore.user?.closeBirthEffect
+], () => {
+  if (!authStore.ready || !authStore.isLoggedIn) return
+  initialized = false
+  init()
+})
+
+function handleEffectQueueChange(event) {
+  blockingEffectActive.value = Boolean(event.detail?.activeType)
+}
+
 watch(rootFestivalClass, (nextClass, previousClass) => {
   applyFestivalClass(nextClass, previousClass)
 })
@@ -228,11 +278,13 @@ watch(atmosphereVisible, () => {
 })
 
 onMounted(init)
+onMounted(() => window.addEventListener('effect-queue-change', handleEffectQueueChange))
 onMounted(() => {
   countdownTargetReady.value = Boolean(document.querySelector('#festival-countdown-action'))
 })
 
 onUnmounted(() => {
+  window.removeEventListener('effect-queue-change', handleEffectQueueChange)
   applyFestivalClass('', rootFestivalClass.value)
 })
 </script>

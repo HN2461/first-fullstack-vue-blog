@@ -1,11 +1,4 @@
 <template>
-  <EntranceEffectPlayer
-    v-if="currentEffect"
-    :key="currentEffect.playId"
-    :effect-key="currentEffect.effectKey"
-    :duration="currentEffect.duration"
-    :leaving="leaving"
-  />
   <SiteEntranceWelcome
     v-if="currentSiteWelcome"
     :key="currentSiteWelcome.playId"
@@ -22,37 +15,27 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
-import EntranceEffectPlayer from './EntranceEffectPlayer.vue'
 import SiteEntranceWelcome from './SiteEntranceWelcome.vue'
-import { normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
-import { readEntranceEffectCache } from '@/utils/entranceEffects/entranceEffectStorage'
 import {
   normalizeSiteEntranceEffectConfig,
   renderSiteEntranceTitle
 } from '@/utils/entranceEffects/siteEntranceEffect'
 import {
-  buildEntranceAutoPlayKey,
   buildEntranceConfigPlayKey,
   hasEntranceAutoPlayed,
   markEntranceAutoPlayed,
 } from '@/utils/entranceEffects/entranceAutoPlaySession'
+import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
 const route = useRoute()
 const authStore = useAuthStore()
 const siteStore = useSiteStore()
-const currentEffect = ref(null)
 const currentSiteWelcome = ref(null)
-const leaving = ref(false)
 const siteLeaving = ref(false)
-let disposeTimer = null
-let leavingTimer = null
 let siteDisposeTimer = null
 let siteLeavingTimer = null
+let siteFinish = null
 
-const userConfig = computed(() => {
-  const config = authStore.user?.entranceEffect || readEntranceEffectCache()
-  return config ? normalizeEntranceEffectConfig(config) : null
-})
 const siteConfig = computed(() => normalizeSiteEntranceEffectConfig(siteStore.profile?.siteEntranceEffect))
 const siteConfigSignature = computed(() => JSON.stringify(siteConfig.value || {}))
 const displayName = computed(() => (
@@ -74,49 +57,25 @@ function getSessionUserId() {
   return authStore.user?.id || 'guest'
 }
 
-function stopTimers() {
-  window.clearTimeout(disposeTimer)
-  window.clearTimeout(leavingTimer)
-  disposeTimer = null
-  leavingTimer = null
-}
-
-function stopSiteTimers() {
+function stopSiteTimers({ finish = true } = {}) {
   window.clearTimeout(siteDisposeTimer)
   window.clearTimeout(siteLeavingTimer)
   siteDisposeTimer = null
   siteLeavingTimer = null
+  if (finish) siteFinish?.()
+  siteFinish = null
 }
 
-function playEffect(config, source = 'auto') {
-  const normalized = normalizeEntranceEffectConfig(config)
-  stopTimers()
-  leaving.value = false
-  currentEffect.value = null
-
-  nextTick(() => {
-    currentEffect.value = {
-      playId: `${Date.now()}-${source}`,
-      effectKey: normalized.effectKey,
-      duration: normalized.duration
-    }
-    leavingTimer = window.setTimeout(() => {
-      leaving.value = true
-    }, Math.max(1000, normalized.duration * 1000 - 520))
-    disposeTimer = window.setTimeout(() => {
-      currentEffect.value = null
-      leaving.value = false
-    }, normalized.duration * 1000 + 120)
-  })
-}
-
-function playSiteWelcome(config, source = 'auto') {
+function playSiteWelcome(config, source = 'auto', onFinish = null) {
   const normalized = normalizeSiteEntranceEffectConfig(config)
   stopSiteTimers()
+  let cancelled = false
+  siteFinish = onFinish
   siteLeaving.value = false
   currentSiteWelcome.value = null
 
   nextTick(() => {
+    if (cancelled) return
     currentSiteWelcome.value = {
       playId: `${Date.now()}-${source}`,
       effectKey: normalized.effectKey,
@@ -133,8 +92,17 @@ function playSiteWelcome(config, source = 'auto') {
     siteDisposeTimer = window.setTimeout(() => {
       currentSiteWelcome.value = null
       siteLeaving.value = false
+      siteFinish?.()
+      siteFinish = null
     }, normalized.duration * 1000 + 120)
   })
+
+  return () => {
+    cancelled = true
+    stopSiteTimers({ finish: false })
+    currentSiteWelcome.value = null
+    siteLeaving.value = false
+  }
 }
 
 function tryAutoPlay() {
@@ -143,16 +111,6 @@ function tryAutoPlay() {
   const triggerPage = getTriggerPage(route.path)
   if (!triggerPage) return
 
-  const personalConfig = userConfig.value
-  if (personalConfig?.enabled && personalConfig.triggerPages.includes(triggerPage)) {
-    const playKey = buildEntranceAutoPlayKey('personal', triggerPage, getSessionUserId())
-    if (hasEntranceAutoPlayed(playKey)) return
-
-    markEntranceAutoPlayed(playKey)
-    playEffect(personalConfig)
-    return
-  }
-
   const config = siteConfig.value
   if (authStore.user?.closeSiteEntranceEffect || !config?.enabled || !config.triggerPages.includes(triggerPage)) return
 
@@ -160,16 +118,11 @@ function tryAutoPlay() {
   if (hasEntranceAutoPlayed(playKey)) return
 
   markEntranceAutoPlayed(playKey)
-  playSiteWelcome(config)
-}
-
-function handlePreview(event) {
-  const config = normalizeEntranceEffectConfig({
-    ...userConfig.value,
-    ...event.detail,
-    enabled: true
+  enqueueEffect({
+    id: `site-welcome:${triggerPage}`,
+    priority: EFFECT_PRIORITIES.siteWelcome,
+    start: (finish) => playSiteWelcome(config, 'auto', finish)
   })
-  playEffect(config, 'preview')
 }
 
 function handleSitePreview(event) {
@@ -178,11 +131,14 @@ function handleSitePreview(event) {
     ...event.detail,
     enabled: true
   })
-  playSiteWelcome(config, 'preview')
+  enqueueEffect({
+    id: 'site-welcome:preview',
+    priority: EFFECT_PRIORITIES.manual,
+    start: (finish) => playSiteWelcome(config, 'preview', finish)
+  })
 }
 
 onMounted(() => {
-  window.addEventListener('entrance-effect-preview', handlePreview)
   window.addEventListener('site-entrance-preview', handleSitePreview)
   Promise.all([
     authStore.ready ? Promise.resolve() : authStore.restoreSession(),
@@ -193,16 +149,13 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('entrance-effect-preview', handlePreview)
   window.removeEventListener('site-entrance-preview', handleSitePreview)
-  stopTimers()
   stopSiteTimers()
 })
 
 watch(() => [
   route.fullPath,
   authStore.ready,
-  authStore.user?.entranceEffect,
   authStore.user?.closeSiteEntranceEffect,
   siteStore.ready,
   siteStore.profile?.siteEntranceEffect,

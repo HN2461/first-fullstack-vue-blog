@@ -14,6 +14,7 @@ const DEFAULT_MENUS = [
   { code: 'knowledge.memos', name: '备忘录', icon: 'BulbOutlined', routePath: '/console/memos', routeKey: 'knowledge.memo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
   { code: 'collaboration.discussions', name: '项目讨论', icon: 'MessageOutlined', routePath: '/console/discussions', routeKey: 'collaboration.discussion.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 22, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.bookmarks', name: '书签中转站', icon: 'LinkOutlined', routePath: '/console/bookmarks', routeKey: 'knowledge.bookmarks', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 24, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.logRelay', name: '日志中转', icon: 'ApiOutlined', routePath: '/console/log-relay', routeKey: 'knowledge.log-relay', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 26, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.ledger', name: '账本', icon: 'WalletOutlined', routePath: '', routeKey: 'knowledge.ledger', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 25, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.ledger.overview', name: '汇总图表', icon: 'BarChartOutlined', routePath: '/console/ledger/overview', routeKey: 'knowledge.ledger.overview', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.ledger.entries', name: '流水明细', icon: 'TableOutlined', routePath: '/console/ledger/entries', routeKey: 'knowledge.ledger.entries', parentCode: 'knowledge.ledger', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
@@ -85,7 +86,7 @@ function assertEditableRole(role, options = {}) {
 }
 
 async function assertMenuIdsExist(menuIds = []) {
-  const ids = [...new Set(menuIds)]
+  const ids = [...new Set(menuIds.map((id) => id?.toString()).filter(Boolean))]
   if (!ids.length) return []
 
   const count = await Menu.countDocuments({ _id: { $in: ids } })
@@ -118,26 +119,54 @@ async function collectMenuTree(menuId) {
 }
 
 async function normalizeRoleMenuIds(menuIds = []) {
+  // Persist only explicit grants. Ancestors are derived while hydrating
+  // permissions so a child grant can render as a half-checked parent.
+  return assertMenuIdsExist(menuIds)
+}
+
+async function expandRoleMenuIds(menuIds = []) {
   const ids = await assertMenuIdsExist(menuIds)
   if (!ids.length) return []
 
   const menus = await Menu.find({ _id: { $in: ids } })
   const menuMap = new Map(menus.map((menu) => [menu._id.toString(), menu]))
-  const normalizedIds = new Set(ids.map((id) => id.toString()))
+  const expandedIds = new Set(ids.map((id) => id.toString()))
 
-  // 只保存子菜单会让控制台侧栏丢失父级层级，因此授权时同步补齐所有祖先菜单。
   for (const menu of menus) {
     let parentId = menu.parentId?.toString()
-    while (parentId && !normalizedIds.has(parentId)) {
+    while (parentId && !expandedIds.has(parentId)) {
       const parent = menuMap.get(parentId) || await Menu.findById(parentId)
       if (!parent) break
       menuMap.set(parent._id.toString(), parent)
-      normalizedIds.add(parent._id.toString())
+      expandedIds.add(parent._id.toString())
       parentId = parent.parentId?.toString()
     }
   }
 
-  return [...normalizedIds]
+  return [...expandedIds]
+}
+
+function compactRoleMenuIds(menuIds = [], menus = []) {
+  const selected = new Set(menuIds.map((id) => id.toString()))
+  const menuMap = new Map(menus.map((menu) => [menu._id.toString(), menu]))
+  const descendantsById = new Map()
+
+  for (const menu of menus) {
+    let parentId = menu.parentId?.toString()
+    while (parentId) {
+      if (!descendantsById.has(parentId)) descendantsById.set(parentId, [])
+      descendantsById.get(parentId).push(menu._id.toString())
+      parentId = menuMap.get(parentId)?.parentId?.toString()
+    }
+  }
+
+  return [...selected].filter((id) => {
+    const descendants = descendantsById.get(id) || []
+    if (!descendants.length) return true
+    // A parent is an explicit full selection only when every descendant is
+    // selected. Otherwise it was added implicitly for navigation hierarchy.
+    return descendants.every((descendantId) => selected.has(descendantId))
+  })
 }
 
 async function assertBatchEditableRoles(ids = [], options = {}) {
@@ -330,6 +359,18 @@ export async function ensureRbacSeed(options = {}) {
       { $addToSet: { menuIds: bookmarkMenu._id } }
     )
   }
+  const logRelayMenu = allMenus.find((menu) => menu.code === 'knowledge.logRelay')
+  if (knowledgeRootMenu && logRelayMenu) {
+    await Role.updateMany(
+      {
+        $and: [
+          { menuIds: knowledgeRootMenu._id },
+          { menuIds: { $ne: logRelayMenu._id } }
+        ]
+      },
+      { $addToSet: { menuIds: logRelayMenu._id } }
+    )
+  }
   const ledgerMenu = allMenus.find((menu) => menu.code === 'knowledge.ledger')
   const ledgerChildMenuIds = allMenus
     .filter((menu) => menu.code?.startsWith('knowledge.ledger.'))
@@ -459,12 +500,15 @@ export async function hydrateUserPermissions(user) {
   }
 
   const isSuperAdmin = roles.some((role) => role.isSuperAdmin) || freshUser.role === USER_ROLES.SUPER_ADMIN
+  const selectedMenuIds = isSuperAdmin
+    ? []
+    : await expandRoleMenuIds(roles.flatMap((role) => role.menuIds || []))
   const menus = isSuperAdmin
     ? await Menu.find({ enabled: true }).sort({ sortOrder: 1, createdAt: 1 })
     : await Menu.find({
         enabled: true,
         _id: {
-          $in: roles.flatMap((role) => role.menuIds || [])
+          $in: selectedMenuIds
         }
       }).sort({ sortOrder: 1, createdAt: 1 })
 
@@ -508,12 +552,13 @@ export async function listRoles(options = {}) {
   }
 
   const skip = (page - 1) * pageSize
-  const [roles, total] = await Promise.all([
+  const [roles, total, menus] = await Promise.all([
     Role.find(query)
       .sort({ sortOrder: 1, createdAt: 1 })
       .skip(skip)
       .limit(pageSize),
-    Role.countDocuments(query)
+    Role.countDocuments(query),
+    Menu.find().select('_id parentId').lean()
   ])
   const roleIds = roles.map((role) => role._id)
   const userCounts = roleIds.length
@@ -529,6 +574,7 @@ export async function listRoles(options = {}) {
   return {
     items: roles.map((role) => ({
       ...role.toSafeJSON(),
+      menuIds: compactRoleMenuIds(role.menuIds || [], menus),
       userCount: countMap.get(role._id.toString()) || 0
     })),
     total,

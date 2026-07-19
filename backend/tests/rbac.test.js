@@ -927,7 +927,7 @@ describe('rbac account and permission flows', () => {
     expect(menuIds).not.toContain(directoryMenu._id.toString())
   })
 
-  it('adds ancestor menus when assigning only a child menu to a role', async () => {
+  it('persists only explicit menu grants while exposing inherited ancestors for permissions', async () => {
     const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
     const managementRoot = await Menu.findOne({ code: 'management.root' })
 
@@ -942,8 +942,23 @@ describe('rbac account and permission flows', () => {
       })
       .expect(201)
 
-    expect(response.body.data.menuIds).toContain(rolesMenu._id.toString())
-    expect(response.body.data.menuIds).toContain(managementRoot._id.toString())
+    expect(response.body.data.menuIds).toEqual([rolesMenu._id.toString()])
+
+    const role = await Role.findById(response.body.data.id)
+    const user = await User.create({
+      username: 'permission-test-user',
+      email: 'permission-test-user@example.com',
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.ADMIN,
+      roles: [role._id]
+    })
+    const meResponse = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${signAccessToken(user)}`)
+      .expect(200)
+
+    expect(meResponse.body.data.permissions.flatMenus.map((menu) => menu.id)).toContain(rolesMenu._id.toString())
+    expect(meResponse.body.data.permissions.flatMenus.map((menu) => menu.id)).toContain(managementRoot._id.toString())
   })
 
   it('does not let inherited console root permission unlock unrelated admin menus', async () => {
@@ -968,7 +983,7 @@ describe('rbac account and permission flows', () => {
     })
     const token = signAccessToken(limitedAdmin)
 
-    expect(createRoleResponse.body.data.menuIds.length).toBeGreaterThan(1)
+    expect(createRoleResponse.body.data.menuIds).toEqual([commentsMenu._id.toString()])
 
     await request(app)
       .get('/api/admin/comments')
@@ -1003,6 +1018,27 @@ describe('rbac account and permission flows', () => {
       .expect(400)
 
     expect(createResponse.body.code).toBe('TARGET_ROLE_DISABLED')
+  })
+
+  it('prevents administrators from assigning disabled roles to users', async () => {
+    const disabledRole = await Role.create({
+      name: '停用分配角色',
+      code: 'disabled-assignment-role',
+      menuIds: [],
+      status: 'disabled'
+    })
+    const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
+      username: 'role-assignment-user',
+      email: 'role-assignment-user@example.com'
+    })
+
+    const response = await request(app)
+      .patch(`/api/admin/users/${user._id}/roles`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({ roleIds: [disabledRole._id.toString()] })
+      .expect(400)
+
+    expect(response.body.code).toBe('TARGET_ROLE_DISABLED')
   })
 
   it('creates an unread system notification when permission request is reviewed', async () => {

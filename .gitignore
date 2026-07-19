@@ -20,3 +20,4 @@ backend/uploads/*
 backend/logs/
 backend/legacy-notes/
 backend/tests/.tmp/
+.playwright-cli/

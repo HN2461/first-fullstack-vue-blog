@@ -15,6 +15,8 @@ import {
   disconnectTestDatabase
 } from './helpers/testDatabase.js'
 import { signAccessToken } from '../src/utils/jwt.js'
+import { getBusinessDate } from '../src/utils/businessDate.js'
+import { isBirthdayOnDate } from '#modules/user/utils/birthday.js'
 
 function encryptCredential(challenge, purpose, payload) {
   const encrypted = crypto.publicEncrypt(
@@ -353,7 +355,7 @@ describe('auth routes', () => {
     })
     const user = await User.findOne({ email: 'birthday@example.com' })
     const token = signAccessToken(user)
-    const today = new Date().toISOString().slice(0, 10)
+    const today = getBusinessDate()
     const birthday = `1996-${today.slice(5)}`
 
     const profileResponse = await request(app)
@@ -401,6 +403,34 @@ describe('auth routes', () => {
       lastBirthEffectDate: today,
       shouldShowBirthEffect: false
     })
+  })
+
+  it('rejects invalid and future profile birthdays', async () => {
+    const app = createApp()
+    await registerUser({
+      username: 'birthday-validation-user',
+      email: 'birthday-validation@example.com',
+      password: 'password123'
+    })
+    const user = await User.findOne({ email: 'birthday-validation@example.com' })
+    const token = signAccessToken(user)
+
+    for (const birthday of ['1990-02-30', '2099-02-03']) {
+      const response = await request(app)
+        .put('/api/profile')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ birthday })
+        .expect(400)
+
+      expect(response.body.code).toBe('VALIDATION_ERROR')
+    }
+  })
+
+  it('calculates recurring lunar and solar birthdays from one birth date', () => {
+    expect(isBirthdayOnDate('1996-07-18', 'lunar', '2026-07-17')).toBe(true)
+    expect(isBirthdayOnDate('1996-07-18', 'lunar', '2026-07-18')).toBe(false)
+    expect(isBirthdayOnDate('1996-07-18', 'solar', '2026-07-18')).toBe(true)
+    expect(isBirthdayOnDate('1996-07-18', 'both', '2026-07-17')).toBe(true)
   })
 
   it('updates profile entrance effect settings and rejects invalid triggers', async () => {

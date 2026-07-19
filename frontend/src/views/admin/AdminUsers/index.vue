@@ -375,7 +375,7 @@ const createUserRules = {
   ]
 }
 
-const assignableRoles = computed(() => roles.value.filter((role) => !role.isSuperAdmin))
+const assignableRoles = computed(() => roles.value.filter((role) => !role.isSuperAdmin && role.status === 'active'))
 const filterParams = computed(() => ({
   keyword: debouncedKeyword.value || undefined,
   role: filterRole.value === 'all' ? undefined : filterRole.value,

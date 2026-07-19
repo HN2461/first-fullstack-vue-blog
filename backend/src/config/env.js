@@ -17,6 +17,7 @@ export const env = Object.freeze({
   rootDir,
   nodeEnv: process.env.NODE_ENV || 'development',
   port: readNumber('SERVER_PORT', 3001),
+  businessTimeZone: process.env.APP_TIME_ZONE || 'Asia/Shanghai',
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://127.0.0.1:5173',
   mongodbUri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/personal_fullstack_blog',
   jwtSecret: process.env.JWT_SECRET || 'development-only-secret',

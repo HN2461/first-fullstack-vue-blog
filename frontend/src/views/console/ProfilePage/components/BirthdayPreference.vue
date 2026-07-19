@@ -1,10 +1,11 @@
 <template>
   <section class="birthday-preference">
     <div class="birthday-preference__date">
-      <a-form-item label="生日" name="birthday">
+      <a-form-item label="出生日期" name="birthday">
         <a-input
           :value="birthday"
           type="date"
+          :max="maxBirthday"
           placeholder="YYYY-MM-DD"
           @update:value="emit('update:birthday', $event)"
         />
@@ -52,6 +53,13 @@ const calendarOptions = [
   { label: '农历', value: 'lunar' },
   { label: '都过', value: 'both' }
 ]
+
+const today = new Date()
+const maxBirthday = [
+  today.getFullYear(),
+  String(today.getMonth() + 1).padStart(2, '0'),
+  String(today.getDate()).padStart(2, '0')
+].join('-')
 </script>
 
 <style scoped>

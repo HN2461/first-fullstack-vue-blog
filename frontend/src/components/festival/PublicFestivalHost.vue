@@ -40,6 +40,7 @@ import {
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
 import { playFestivalConfetti } from '@/utils/festival/confettiPlayer'
+import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
 const appStore = useAppStore()
 const route = useRoute()
@@ -47,9 +48,11 @@ const serverDate = ref('')
 const activeFestival = ref(null)
 const celebrationOpen = ref(false)
 const celebrationFestival = ref(null)
+const blockingEffectActive = ref(false)
 const closedKey = ref('')
 const appliedFestivalClass = ref('')
 let initialized = false
+let activeCelebrationFinish = null
 
 const isConsoleRoute = computed(() => route.path.startsWith('/console'))
 const device = computed(() => getDeviceType(appStore.isMobile))
@@ -61,7 +64,9 @@ const atmosphereVisible = computed(() => {
     !isConsoleRoute.value &&
     activeFestival.value?.level === 'major' &&
     isFestivalEnabled() &&
-    closedKey.value !== activeFestival.value.key
+    closedKey.value !== activeFestival.value.key &&
+    !celebrationOpen.value &&
+    !blockingEffectActive.value
   )
 })
 const celebrationStyle = computed(() => ({
@@ -102,10 +107,32 @@ function isCelebrationAllowed(festival) {
 }
 
 function openCelebration(festival) {
-  celebrationFestival.value = festival
-  celebrationOpen.value = true
-  markCelebrationShown(festival.key)
-  localStorage.setItem(celebrationQuietKey.value, addDays(serverDate.value, 14))
+  enqueueEffect({
+    id: `public-festival:${festival.key}:${festival.date}`,
+    priority: EFFECT_PRIORITIES.majorFestival,
+    start: (finish) => {
+      let cancelled = false
+      activeCelebrationFinish = finish
+      celebrationFestival.value = festival
+      celebrationOpen.value = true
+      markCelebrationShown(festival.key)
+      localStorage.setItem(celebrationQuietKey.value, addDays(serverDate.value, 14))
+
+      const closeTimer = window.setTimeout(() => {
+        if (cancelled) return
+        celebrationOpen.value = false
+        finish()
+      }, 5000)
+
+      return () => {
+        cancelled = true
+        window.clearTimeout(closeTimer)
+        celebrationOpen.value = false
+        celebrationFestival.value = null
+        activeCelebrationFinish = null
+      }
+    }
+  })
 }
 
 async function handleCelebrationVisibleChange(visible) {
@@ -165,6 +192,17 @@ watch(() => route.path, () => {
   init()
 })
 
+watch(celebrationOpen, (visible) => {
+  if (visible) return
+  const finish = activeCelebrationFinish
+  activeCelebrationFinish = null
+  finish?.()
+})
+
+function handleEffectQueueChange(event) {
+  blockingEffectActive.value = Boolean(event.detail?.activeType)
+}
+
 watch(rootFestivalClass, (nextClass, previousClass) => {
   applyFestivalClass(nextClass, previousClass)
 })
@@ -174,8 +212,11 @@ watch(atmosphereVisible, () => {
 })
 
 onMounted(init)
+onMounted(() => window.addEventListener('effect-queue-change', handleEffectQueueChange))
 
 onUnmounted(() => {
+  window.removeEventListener('effect-queue-change', handleEffectQueueChange)
+  celebrationOpen.value = false
   applyFestivalClass('', rootFestivalClass.value)
 })
 </script>

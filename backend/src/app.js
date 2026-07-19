@@ -16,6 +16,7 @@ import { healthRouter } from '#modules/health/routes/health.routes.js'
 import { interactionRouter } from '#modules/interaction/routes/interaction.routes.js'
 import { ledgerRouter } from '#modules/ledger/routes/ledger.routes.js'
 import { memoRouter } from '#modules/memo/routes/memo.routes.js'
+import { logRelayRouter } from '#modules/logRelay/routes/logRelay.routes.js'
 import { discussionRouter } from '#modules/discussion/routes/discussion.routes.js'
 import profileRouter from '#modules/user/routes/profile.routes.js'
 import { publicRouter } from '#modules/public/routes/public.routes.js'
@@ -52,6 +53,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/captcha`, captchaRouter)
   app.use(`${API_PREFIX}/ledger`, ledgerRouter)
   app.use(`${API_PREFIX}/memos`, memoRouter)
+  app.use(`${API_PREFIX}/log-relay`, logRelayRouter)
   app.use(`${API_PREFIX}/resumes`, resumeRouter)
   app.use(`${API_PREFIX}/resume-interviews`, resumeInterviewRouter)
   app.use(`${API_PREFIX}/resume-materials`, resumeMaterialRouter)

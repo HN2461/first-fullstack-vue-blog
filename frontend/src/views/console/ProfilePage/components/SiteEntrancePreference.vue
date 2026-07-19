@@ -2,7 +2,7 @@
   <div class="site-entrance-preference">
     <div>
       <strong>网站入场欢迎</strong>
-      <span>关闭屏蔽后，会接收管理员设置的网站欢迎；你的自定义页面动效仍按个人设置优先播放。</span>
+      <span>关闭屏蔽后，会接收管理员设置的网站欢迎；生日提醒和重大节日氛围按系统优先级依次展示。</span>
     </div>
     <a-switch
       :checked="value"
