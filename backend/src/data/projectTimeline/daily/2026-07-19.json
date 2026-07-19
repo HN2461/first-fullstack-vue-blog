@@ -23,6 +23,13 @@
       "detail": "1. 深度审阅 MaxKB 既有变量、逐节点、工程治理、渲染和 API 接入文档，新增根目录入口与六篇实战指南，覆盖环境接手、能力拆分、状态机编排、知识库与 RAG、工具/API 安全、调试发布回滚和官方资料索引。\n2. 以 MaxKB v2.10.4-lts 官方文档、更新日志和 GitHub 发布说明为基线，补充版本、版本类型、公司服务器权限与管理员协作边界，明确 .mk 不包含模型和知识库绑定、生产 API Key 不进入前端、工具依赖安装交由管理员等关键规则。\n3. 修正和标注用户输入、接口传参保留字段、开始节点文件输出、AI 异常输出、循环默认次数官方冲突、内部附件下载路径、HTML/ECharts 历史安全风险等版本敏感结论，避免后续项目直接照搬当前环境内部实现。",
       "occurredAt": "2026-07-19T21:30:00+08:00",
       "category": "内容优化"
+    },
+    {
+      "id": "fastapi-company-project-development-guide",
+      "title": "补充 FastAPI 公司项目开发手册",
+      "detail": "1. 基于 FastAPI 官方大型应用、依赖注入、OAuth2/JWT、测试和部署文档，以及 Pydantic Settings、SQLAlchemy 2.0、Alembic、pytest 官方资料，新增 FastAPI 公司项目开发手册。2. 手册覆盖项目初始化、目录分层、环境配置、异步数据库 Session、ORM 与 Schema、Repository/Service/路由职责、分页、统一错误、认证授权、迁移、测试、日志、请求 ID、安全、部署回滚和需求交付工作流。3. 更新 Python 总目录的 Web 入门路线，明确从最小接口过渡到完整公司项目的阅读顺序，并保留官方资料链接和版本边界说明。",
+      "occurredAt": "2026-07-19T22:30:00+08:00",
+      "category": "内容优化"
     }
   ]
 }

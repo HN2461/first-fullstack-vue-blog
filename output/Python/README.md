@@ -43,7 +43,7 @@ cover:
 当前先分两类：
 
 - 网络爬虫与数据分析：请求网页、解析 HTML、保存 CSV、用 pandas 做统计。
-- Web 入门：用 Flask / FastAPI 做接口，理解后端项目怎么接收请求、返回数据。
+- Web 入门：用 Flask / FastAPI 做接口，理解后端项目怎么接收请求、返回数据，并逐步过渡到公司项目开发。
 
 这部分不是为了追求大项目，而是为了把基础知识接到真实场景里。比如：
 
@@ -84,5 +84,13 @@ cover:
 - `01-Python网络爬虫入门-请求网页与robots.txt.md`
 - `02-Python网络爬虫入门-lxml解析HTML并保存CSV.md`
 - `01-Python-Web入门-Flask最小接口.md`
+- `04-Python-Web入门-FastAPI公司项目开发手册.md`
+
+FastAPI 学习建议按以下顺序阅读：
+
+1. `02-应用实例/Web入门/01-Python-Web入门-Flask最小接口.md`：先理解路由、请求和响应。
+2. `02-应用实例/Web入门/02-Python-Web入门-FastAPI最小接口.md`：掌握类型校验和自动文档。
+3. `02-应用实例/Web入门/04-Python-Web入门-FastAPI公司项目开发手册.md`：按项目骨架练习配置、数据库、认证、测试和部署。
+4. `02-应用实例/Web入门/03-Python-Web入门-Flask-FastAPI-Django怎么选.md`：根据业务场景补充框架选型判断。
 
 这样后续补文章时可以直接追加，不会破坏已经学过的基础主线。
