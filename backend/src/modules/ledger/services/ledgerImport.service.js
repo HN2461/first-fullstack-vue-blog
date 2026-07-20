@@ -61,11 +61,72 @@ async function getExistingEntryKeySet(userId, bookId) {
   }))
 }
 
+function getSheetMonthKey(sheetName) {
+  const matched = sheetName.match(/(\d{4})年(\d{1,2})月份收支明细/)
+  if (!matched) return null
+  const year = Number(matched[1])
+  const monthIndex = Number(matched[2]) - 1
+  return `${year}-${String(monthIndex + 1).padStart(2, '0')}`
+}
+
+// 只把 Excel 明确覆盖的月份和分类作为同步边界，避免清空单元格时误删手工流水或表外分类。
+async function findDeletePreviewItems(userId, bookId, scopes, activeSourceKeys) {
+  const validScopes = scopes.filter((scope) => scope.dates.length && scope.categories.length)
+  if (!validScopes.length) return []
+
+  const entries = await LedgerEntry.find({
+    userId,
+    bookId,
+    source: 'excel_import',
+    $or: validScopes.map((scope) => ({
+      occurredAt: { $in: scope.dates },
+      $or: scope.categories.map((category) => ({
+        type: category.type,
+        categoryId: category.categoryId
+      }))
+    }))
+  }).lean()
+
+  const scopeNameMap = new Map()
+  for (const scope of validScopes) {
+    for (const category of scope.categories) {
+      scopeNameMap.set(`${scope.monthKey}:${category.type}:${category.categoryId}`, scope.sheetName)
+    }
+  }
+
+  return entries
+    .filter((entry) => {
+      const sourceKey = `${formatDay(entry.occurredAt)}:${entry.type}:${entry.categoryId.toString()}`
+      return !activeSourceKeys.has(sourceKey)
+    })
+    .map((entry) => {
+      const categoryId = entry.categoryId.toString()
+      const sourceKey = `${formatDay(entry.occurredAt)}:${entry.type}:${categoryId}`
+      const monthKey = formatDay(entry.occurredAt).slice(0, 7)
+      return {
+        action: 'delete',
+        entryId: entry._id.toString(),
+        sheetName: scopeNameMap.get(`${monthKey}:${entry.type}:${categoryId}`) || '',
+        rowNumber: null,
+        sourceKey,
+        occurredAt: entry.occurredAt,
+        type: entry.type,
+        categoryId,
+        categoryName: entry.categoryNameSnapshot,
+        amount: entry.amount,
+        note: entry.note || '',
+        dailyNote: entry.dailyNote || '',
+        raw: entry.raw || null
+      }
+    })
+}
+
 async function parseYuqueWorkbook(buffer, userId, bookId) {
   const workbook = XLSX.read(buffer, { type: 'buffer', cellDates: true })
   const categoryMap = await getCategoryMap(userId, bookId)
   const existingEntryKeys = await getExistingEntryKeySet(userId, bookId)
   const previewItems = []
+  const syncScopes = []
   const errors = []
   let skipped = 0
   let sheetCount = 0
@@ -94,6 +155,8 @@ async function parseYuqueWorkbook(buffer, userId, bookId) {
     }
 
     sheetCount += 1
+    const monthKey = getSheetMonthKey(sheetName)
+    const coveredDates = new Map()
     const headers = rows[headerRowIndex].map((item) => String(item || '').trim())
     const columns = headers.map((header, index) => ({
       header,
@@ -111,6 +174,7 @@ async function parseYuqueWorkbook(buffer, userId, bookId) {
         }
         continue
       }
+      coveredDates.set(formatDay(occurredAt), occurredAt)
 
       const dailyNote = noteIndex >= 0 ? String(row[noteIndex] || '').trim() : ''
       for (const column of columns) {
@@ -156,7 +220,25 @@ async function parseYuqueWorkbook(buffer, userId, bookId) {
         })
       }
     }
+
+    if (monthKey) {
+      syncScopes.push({
+        sheetName,
+        monthKey,
+        dates: [...coveredDates.values()],
+        categories: columns
+          .filter((column) => column.category)
+          .map((column) => ({
+            type: column.type,
+            categoryId: column.category._id.toString()
+          }))
+      })
+    }
   }
+
+  const activeSourceKeys = new Set(previewItems.map((item) => item.sourceKey))
+  const deleteItems = await findDeletePreviewItems(userId, bookId, syncScopes, activeSourceKeys)
+  previewItems.push(...deleteItems)
 
   return { previewItems, errors, skipped, sheetCount }
 }
@@ -175,6 +257,7 @@ export async function previewLedgerImport(userId, input, file) {
   const parsed = await parseYuqueWorkbook(file.buffer, userId, book._id)
   const inserted = parsed.previewItems.filter((item) => item.action === 'insert').length
   const updated = parsed.previewItems.filter((item) => item.action === 'update').length
+  const deleted = parsed.previewItems.filter((item) => item.action === 'delete').length
   const batch = await LedgerImportBatch.create({
     userId,
     bookId: book._id,
@@ -185,6 +268,7 @@ export async function previewLedgerImport(userId, input, file) {
     stats: {
       inserted,
       updated,
+      deleted,
       skipped: parsed.skipped,
       errors: parsed.errors.length,
       sheets: parsed.sheetCount,
@@ -208,7 +292,9 @@ export async function commitLedgerImport(userId, id) {
   }
 
   await findOwnedBook(batch.bookId, userId)
-  const categoryIds = [...new Set((batch.previewItems || []).map((item) => item.categoryId?.toString()).filter(Boolean))]
+  const upsertItems = (batch.previewItems || []).filter((item) => item.action !== 'delete')
+  const deleteItems = (batch.previewItems || []).filter((item) => item.action === 'delete')
+  const categoryIds = [...new Set(upsertItems.map((item) => item.categoryId?.toString()).filter(Boolean))]
   const categories = await LedgerCategory.find({
     _id: { $in: categoryIds },
     userId,
@@ -221,7 +307,7 @@ export async function commitLedgerImport(userId, id) {
 
   const operations = []
 
-  for (const item of batch.previewItems || []) {
+  for (const item of upsertItems) {
     const category = categoryMap.get(item.categoryId?.toString())
     const occurredAt = startOfDay(item.occurredAt)
     const payload = {
@@ -256,6 +342,7 @@ export async function commitLedgerImport(userId, id) {
 
   let inserted = 0
   let updated = 0
+  let deleted = 0
   if (operations.length) {
     const result = await LedgerEntry.bulkWrite(operations, { ordered: false })
     inserted = result.upsertedCount || 0
@@ -263,9 +350,25 @@ export async function commitLedgerImport(userId, id) {
     updated = result.matchedCount || 0
   }
 
+  if (deleteItems.length) {
+    const deleteIds = deleteItems.map((item) => toObjectId(
+      item.entryId,
+      'LEDGER_IMPORT_DELETE_ENTRY_INVALID',
+      '待删除的导入流水不存在'
+    ))
+    const result = await LedgerEntry.deleteMany({
+      _id: { $in: deleteIds },
+      userId,
+      bookId: batch.bookId,
+      source: 'excel_import'
+    })
+    deleted = result.deletedCount || 0
+  }
+
   batch.status = 'committed'
   batch.stats.inserted = inserted
   batch.stats.updated = updated
+  batch.stats.deleted = deleted
   batch.committedAt = new Date()
   await batch.save()
 

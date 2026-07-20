@@ -42,6 +42,7 @@ const ledgerImportBatchSchema = new mongoose.Schema(
     stats: {
       inserted: { type: Number, default: 0 },
       updated: { type: Number, default: 0 },
+      deleted: { type: Number, default: 0 },
       skipped: { type: Number, default: 0 },
       errors: { type: Number, default: 0 },
       sheets: { type: Number, default: 0 },

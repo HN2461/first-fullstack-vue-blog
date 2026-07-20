@@ -3,6 +3,7 @@
     <LedgerDashboard
       :summary="summary"
       :group-by="groupBy"
+      :range="range"
       :loading="loading"
       @update:group-by="handleGroupByChange"
     />

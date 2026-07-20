@@ -4,7 +4,7 @@
     title="导入 Excel 账本"
     :width="760"
     :confirm-loading="submitting"
-    :ok-text="previewResult ? '确认合并' : '解析预览'"
+    :ok-text="previewResult ? '确认同步' : '解析预览'"
     cancel-text="取消"
     :destroy-on-close="true"
     :body-style="{ maxHeight: '70vh', overflowY: 'auto' }"
@@ -28,9 +28,17 @@
       <div class="ledger-import-stats">
         <div><span>{{ previewResult.stats?.inserted || 0 }}</span><small>新增</small></div>
         <div><span>{{ previewResult.stats?.updated || 0 }}</span><small>更新</small></div>
+        <div class="ledger-import-stats__delete"><span>{{ previewResult.stats?.deleted || 0 }}</span><small>删除</small></div>
         <div><span>{{ previewResult.stats?.skipped || 0 }}</span><small>跳过</small></div>
         <div><span>{{ previewResult.stats?.errors || 0 }}</span><small>错误</small></div>
       </div>
+      <a-alert
+        v-if="previewResult.stats?.deleted"
+        type="warning"
+        show-icon
+        message="本次同步包含删除"
+        description="只会删除当前 Excel 覆盖范围内已经清空的 Excel 导入流水，手工录入的流水不会删除。请核对下方红色删除明细后再确认同步。"
+      />
       <a-alert
         v-if="previewResult.errors?.length"
         type="warning"
@@ -51,8 +59,8 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
-            <a-tag :color="record.action === 'insert' ? 'green' : 'blue'" :bordered="false">
-              {{ record.action === 'insert' ? '新增' : '更新' }}
+            <a-tag :color="actionMeta[record.action]?.color" :bordered="false">
+              {{ actionMeta[record.action]?.label || record.action }}
             </a-tag>
           </template>
           <template v-else-if="column.key === 'occurredAt'">
@@ -90,6 +98,12 @@ const submitting = ref(false)
 const selectedFile = ref(null)
 const fileList = ref([])
 const previewResult = ref(null)
+
+const actionMeta = {
+  insert: { label: '新增', color: 'green' },
+  update: { label: '更新', color: 'blue' },
+  delete: { label: '删除', color: 'red' }
+}
 
 const columns = [
   { title: '动作', key: 'action', width: 80, fixed: 'left' },
@@ -160,7 +174,7 @@ async function handleOk() {
     }
 
     await commitLedgerImport(previewResult.value.id)
-    message.success('账本导入已合并')
+    message.success('账本已按 Excel 同步')
     close()
     emit('imported')
   } catch (error) {
@@ -179,7 +193,7 @@ async function handleOk() {
 
 .ledger-import-stats {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
@@ -201,5 +215,15 @@ async function handleOk() {
 
 .ledger-import-stats small {
   color: var(--console-text-secondary);
+}
+
+.ledger-import-stats__delete span {
+  color: #dc2626;
+}
+
+@media (max-width: 640px) {
+  .ledger-import-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 </style>

@@ -172,7 +172,7 @@ ledgerRouter.post('/imports/preview', canAccessLedgerImports, handleImportUpload
 }))
 
 ledgerRouter.post('/imports/:id/commit', canAccessLedgerImports, asyncHandler(async (req, res) => {
-  res.json(ok(await commitLedgerImport(req.user._id, req.params.id), '账本导入已合并'))
+  res.json(ok(await commitLedgerImport(req.user._id, req.params.id), '账本已按 Excel 同步'))
 }))
 
 ledgerRouter.get('/moments', canAccessLedgerMoments, asyncHandler(async (req, res) => {

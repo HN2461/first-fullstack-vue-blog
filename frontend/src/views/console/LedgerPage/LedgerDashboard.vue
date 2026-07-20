@@ -8,7 +8,23 @@
             <component :is="item.icon" :size="20" />
           </div>
           <div class="ledger-metric__body">
-            <span class="ledger-metric__label">{{ item.label }}</span>
+            <span class="ledger-metric__label">
+              <span>{{ item.label }}</span>
+              <a-popover v-if="item.comparison" trigger="click" placement="bottomLeft" :title="`${item.label}对比说明`">
+                <template #content>
+                  <div class="ledger-comparison-help">
+                    <div><span>本期</span><strong>{{ item.comparison.detail.currentRangeText }}</strong></div>
+                    <div><span>上期</span><strong>{{ item.comparison.detail.previousRangeText }}</strong></div>
+                    <div><span>本期金额</span><strong>{{ formatMoney(item.comparison.detail.currentValue) }}</strong></div>
+                    <div><span>上期金额</span><strong>{{ formatMoney(item.comparison.detail.previous) }}</strong></div>
+                    <p>{{ item.comparison.detail.formula }}</p>
+                  </div>
+                </template>
+                <button type="button" class="ledger-metric__help" :aria-label="`查看${item.label}对比方式`">
+                  <QuestionCircleOutlined />
+                </button>
+              </a-popover>
+            </span>
             <strong class="ledger-metric__value">{{ formatMoney(item.value) }}</strong>
             <a-tooltip v-if="item.comparison" :title="item.comparison.tip">
               <div class="ledger-metric__change" :class="item.comparison.className">
@@ -125,6 +141,7 @@ import { CanvasRenderer } from 'echarts/renderers'
 import { BarChart, LineChart, PieChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components'
 import VChart from 'vue-echarts'
+import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import { TrendingDown, TrendingUp, Wallet } from 'lucide-vue-next'
 import {
   buildCategoryBarOption,
@@ -141,6 +158,7 @@ use([CanvasRenderer, BarChart, LineChart, PieChart, GridComponent, LegendCompone
 const props = defineProps({
   summary: { type: Object, default: () => ({}) },
   groupBy: { type: String, default: 'month' },
+  range: { type: Array, default: () => [] },
   loading: { type: Boolean, default: false }
 })
 
@@ -156,9 +174,9 @@ const prev = computed(() => props.summary.previousPeriod || null)
 const dailyRows = computed(() => props.summary.byDay || [])
 
 const metricCards = computed(() => [
-  { key: 'income', label: '收入', value: overview.value.income, comparison: buildMetricComparison('income', '收入', overview.value.income, prev.value), tone: 'income', icon: TrendingUp },
-  { key: 'expense', label: '支出', value: overview.value.expense, comparison: buildMetricComparison('expense', '支出', overview.value.expense, prev.value), tone: 'expense', icon: TrendingDown },
-  { key: 'balance', label: '结余', value: overview.value.balance, comparison: buildMetricComparison('balance', '结余', overview.value.balance, prev.value), tone: overview.value.balance >= 0 ? 'positive' : 'negative', icon: Wallet }
+  { key: 'income', label: '收入', value: overview.value.income, comparison: buildMetricComparison('income', '收入', overview.value.income, prev.value, props.range), tone: 'income', icon: TrendingUp },
+  { key: 'expense', label: '支出', value: overview.value.expense, comparison: buildMetricComparison('expense', '支出', overview.value.expense, prev.value, props.range), tone: 'expense', icon: TrendingDown },
+  { key: 'balance', label: '结余', value: overview.value.balance, comparison: buildMetricComparison('balance', '结余', overview.value.balance, prev.value, props.range), tone: overview.value.balance >= 0 ? 'positive' : 'negative', icon: Wallet }
 ])
 
 const statCards = computed(() => [
@@ -193,7 +211,14 @@ const trendTitle = computed(() => ({ day: '每日收支趋势', month: '月度�
 .ledger-metric--positive .ledger-metric__icon { background: color-mix(in srgb, #3b82f6 12%, transparent); color: #3b82f6; }
 .ledger-metric--negative .ledger-metric__icon { background: color-mix(in srgb, #ef4444 12%, transparent); color: #ef4444; }
 .ledger-metric__body { display: grid; gap: 3px; min-width: 0; }
-.ledger-metric__label { color: var(--console-text-secondary); font-size: 12px; line-height: 1; }
+.ledger-metric__label { display: inline-flex; align-items: center; gap: 5px; color: var(--console-text-secondary); font-size: 12px; line-height: 24px; }
+.ledger-metric__help { width: 24px; height: 24px; display: inline-grid; place-items: center; border: 0; padding: 0; color: var(--console-text-secondary); background: transparent; cursor: pointer; }
+.ledger-metric__help:hover { color: var(--console-primary); }
+.ledger-comparison-help { width: min(340px, 72vw); display: grid; gap: 8px; }
+.ledger-comparison-help div { display: grid; grid-template-columns: 68px minmax(0, 1fr); gap: 10px; font-size: 12px; }
+.ledger-comparison-help span { color: var(--console-text-secondary); }
+.ledger-comparison-help strong { color: var(--console-text); font-weight: 600; }
+.ledger-comparison-help p { margin: 2px 0 0; padding-top: 8px; border-top: 1px solid var(--console-border); color: var(--console-text-secondary); font-size: 12px; line-height: 1.6; }
 .ledger-metric__value { font-size: 22px; line-height: 28px; font-weight: 700; color: var(--console-text); }
 .ledger-metric--income .ledger-metric__value { color: #16a34a; }
 .ledger-metric--expense .ledger-metric__value,

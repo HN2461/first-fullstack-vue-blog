@@ -57,4 +57,23 @@ describe('ledger metric comparison', () => {
       className: 'change-good'
     })
   })
+
+  it('explains the exact current and previous date ranges', () => {
+    const result = buildMetricComparison('expense', '支出', 150, {
+      from: '2026-06-01',
+      to: '2026-06-20',
+      expense: 200,
+      changeRate: { expense: -25 },
+      changeAmount: { expense: -50 }
+    }, ['2026-07-01', '2026-07-20'])
+
+    expect(result.detail).toMatchObject({
+      currentRangeText: '2026-07-01 至 2026-07-20',
+      previousRangeText: '2026-06-01 至 2026-06-20',
+      currentValue: 150,
+      previous: 200
+    })
+    expect(result.detail.formula).toContain('÷')
+    expect(result.tip).toContain('2026-06-01 至 2026-06-20')
+  })
 })

@@ -21,6 +21,7 @@
         <div class="ledger-import-table__stats">
           <span>新增 {{ record.stats?.inserted || 0 }}</span>
           <span>更新 {{ record.stats?.updated || 0 }}</span>
+          <span class="ledger-import-table__deleted">删除 {{ record.stats?.deleted || 0 }}</span>
           <span>跳过 {{ record.stats?.skipped || 0 }}</span>
           <span>错误 {{ record.stats?.errors || 0 }}</span>
         </div>
@@ -53,7 +54,7 @@ const columns = [
   { title: '状态', key: 'status', width: 100, align: 'center' },
   { title: '识别统计', key: 'stats', width: 280 },
   { title: '模板', dataIndex: 'templateType', key: 'templateType', width: 180 },
-  { title: '合并时间', key: 'committedAt', width: 170 },
+  { title: '同步时间', key: 'committedAt', width: 170 },
   { title: '创建时间', key: 'createdAt', width: 170 }
 ]
 
@@ -64,7 +65,7 @@ const params = computed(() => ({
 function statusMeta(status) {
   const map = {
     previewed: { label: '已预览', color: 'blue' },
-    committed: { label: '已合并', color: 'green' },
+    committed: { label: '已同步', color: 'green' },
     failed: { label: '失败', color: 'red' }
   }
   return map[status] || { label: '未知', color: 'default' }
@@ -102,6 +103,10 @@ defineExpose({ reload, refresh })
 .ledger-import-table__muted {
   color: var(--console-text-secondary);
   font-size: 12px;
+}
+
+.ledger-import-table__deleted {
+  color: #dc2626;
 }
 
 @media (max-width: 760px) {

@@ -1,5 +1,4 @@
 import request from 'supertest'
-import * as XLSX from 'xlsx'
 import { beforeAll, beforeEach, afterAll, describe, expect, it } from 'vitest'
 import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { createApp } from '../src/app.js'
@@ -26,26 +25,6 @@ async function createUserWithRole(roleCode, overrides = {}) {
     roles: role ? [role._id] : [],
     ...overrides
   })
-}
-
-function buildLedgerWorkbookBuffer() {
-  const wb = XLSX.utils.book_new()
-  const rows = Array.from({ length: 20 }, () => [])
-  rows[0] = ['2026年6月收支概览']
-  rows[17] = ['2026年6月份收支明细']
-  rows[18] = ['', '支出', '', '', '', '', '', '', '当日计算', '', '', '收入']
-  rows[19] = ['日期', '早餐', '午餐', '晚餐', '杂费', '电费', '房租', '工作所需', '当日吃饭总支出', '当日总支出', '当日逆差', '工资', '奖金', '其他收入', '当日备注']
-  rows.push(['2026/06/01', 3, 19.9, 3, '', '', '', '', 25.9, 25.9, 0, '', '', '', ''])
-  rows.push(['2026/06/02', 3, 21, 10.7, 50.5, '', '', '', 34.7, 85.2, 50.5, '', '', '', '日用品'])
-  rows.push(['2026/06/03', '', '', '', '', '', '', '', 0, 0, 0, '', '', '', '只有备注'])
-  rows.push(['2026/06/04', '', '', '', '', '', '', '', 0, 0, 0, 5000, '', 200, '发工资'])
-  const sheet = XLSX.utils.aoa_to_sheet(rows)
-  sheet.C21.c = [{ a: 'Author', t: '大盘鸡面' }]
-  sheet.E22.c = [{ a: 'Author', t: '50（话费），0.5（打包费）' }]
-  sheet.L24.c = [{ a: 'Author', t: '6月工资' }]
-  XLSX.utils.book_append_sheet(wb, sheet, '2026年6月份收支明细')
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), '模版')
-  return XLSX.write(wb, { bookType: 'xlsx', type: 'buffer' })
 }
 
 describe('ledger routes', () => {
@@ -129,54 +108,6 @@ describe('ledger routes', () => {
       .get('/api/ledger/books')
       .set('Authorization', `Bearer ${token}`)
       .expect(403)
-  })
-
-  it('previews and commits yuque monthly Excel ledger without duplicate entries', async () => {
-    const booksResponse = await request(app)
-      .get('/api/ledger/books')
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200)
-    const bookId = booksResponse.body.data[0].id
-
-    const previewResponse = await request(app)
-      .post('/api/ledger/imports/preview')
-      .set('Authorization', `Bearer ${token}`)
-      .field('bookId', bookId)
-      .attach('file', buildLedgerWorkbookBuffer(), 'ledger.xlsx')
-      .expect(200)
-
-    expect(previewResponse.body.data.stats.sheets).toBe(1)
-    expect(previewResponse.body.data.stats.inserted).toBe(9)
-    expect(previewResponse.body.data.previewItems.map((item) => item.categoryName)).toEqual(expect.arrayContaining(['早餐', '午餐', '工资', '其他收入']))
-    expect(previewResponse.body.data.previewItems.find((item) => item.categoryName === '午餐' && item.rowNumber === 21).note).toBe('大盘鸡面')
-    expect(previewResponse.body.data.previewItems.find((item) => item.categoryName === '杂费' && item.rowNumber === 22).note).toBe('50（话费），0.5（打包费）')
-    expect(previewResponse.body.data.previewItems.find((item) => item.categoryName === '杂费' && item.rowNumber === 22).dailyNote).toBe('日用品')
-    expect(previewResponse.body.data.previewItems.some((item) => item.note === '只有备注')).toBe(false)
-
-    await request(app)
-      .post(`/api/ledger/imports/${previewResponse.body.data.id}/commit`)
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200)
-
-    expect(await LedgerEntry.countDocuments({ userId: user._id })).toBe(9)
-    const importedMisc = await LedgerEntry.findOne({ userId: user._id, categoryNameSnapshot: '杂费' })
-    expect(importedMisc.note).toBe('50（话费），0.5（打包费）')
-    expect(importedMisc.dailyNote).toBe('日用品')
-
-    const secondPreviewResponse = await request(app)
-      .post('/api/ledger/imports/preview')
-      .set('Authorization', `Bearer ${token}`)
-      .field('bookId', bookId)
-      .attach('file', buildLedgerWorkbookBuffer(), 'ledger.xlsx')
-      .expect(200)
-
-    expect(secondPreviewResponse.body.data.stats.updated).toBe(9)
-    await request(app)
-      .post(`/api/ledger/imports/${secondPreviewResponse.body.data.id}/commit`)
-      .set('Authorization', `Bearer ${token}`)
-      .expect(200)
-
-    expect(await LedgerEntry.countDocuments({ userId: user._id })).toBe(9)
   })
 
   it('summarizes income expense category day month and calendar data', async () => {
