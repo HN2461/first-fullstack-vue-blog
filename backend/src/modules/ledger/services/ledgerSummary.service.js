@@ -1,66 +1,7 @@
-import { LedgerCategory } from '#modules/ledger/models/LedgerCategory.js'
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { buildEntryQuery, formatDay, formatMonth, formatYear, formatTrendKey } from './ledger.utils.js'
 import { ensureDefaultBook, findOwnedBook } from './ledgerBook.service.js'
-
-export async function getLedgerDailyMatrix(userId, options = {}) {
-  const book = options.bookId ? await findOwnedBook(options.bookId, userId) : await ensureDefaultBook(userId)
-  const [categories, entries] = await Promise.all([
-    LedgerCategory.find({ userId, bookId: book._id }).sort({ type: 1, sortOrder: 1, createdAt: 1 }),
-    LedgerEntry.find(buildEntryQuery(userId, { ...options, bookId: book._id.toString() }))
-      .populate('categoryId')
-      .sort({ occurredAt: 1, type: 1 })
-  ])
-
-  const dayMap = new Map()
-  for (const entry of entries) {
-    const dayKey = formatDay(entry.occurredAt)
-    const categoryId = entry.categoryId?._id?.toString?.() || entry.categoryId?.toString?.()
-    const day = dayMap.get(dayKey) || {
-      date: dayKey,
-      expense: 0,
-      income: 0,
-      balance: 0,
-      dailyNote: '',
-      categoryAmounts: {},
-      categoryNotes: {},
-      entries: []
-    }
-    const amount = Number(entry.amount) || 0
-    if (entry.type === 'income') day.income += amount
-    if (entry.type === 'expense') day.expense += amount
-    day.balance = day.income - day.expense
-    day.categoryAmounts[categoryId] = (day.categoryAmounts[categoryId] || 0) + amount
-    if (entry.note) day.categoryNotes[categoryId] = entry.note
-    if (!day.dailyNote && entry.dailyNote) day.dailyNote = entry.dailyNote
-    day.entries.push(entry.toSafeJSON())
-    dayMap.set(dayKey, day)
-  }
-
-  return {
-    book: book.toSafeJSON(),
-    categories: categories.map((category) => category.toSafeJSON()),
-    items: Array.from(dayMap.values())
-  }
-}
-
-/**
- * 根据当前日期范围计算上一个同等时间段
- * 用于环比（与上个周期对比）
- */
-function computePreviousRange(from, to) {
-  if (!from && !to) return { prevFrom: null, prevTo: null }
-  const msPerDay = 86400000
-  const start = from ? new Date(from) : null
-  const end = to ? new Date(to) : new Date()
-  if (!start) return { prevFrom: null, prevTo: null }
-  const days = Math.max(1, Math.ceil((end - start) / msPerDay) + 1)
-  const prevTo = new Date(start.getTime() - msPerDay)
-  const prevFrom = new Date(prevTo.getTime() - (days - 1) * msPerDay)
-  const pad = (n) => String(n).padStart(2, '0')
-  const fmt = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
-  return { prevFrom: fmt(prevFrom), prevTo: fmt(prevTo) }
-}
+import { buildPeriodComparison, computePreviousRange } from './ledgerComparison.js'
 
 export async function getLedgerSummary(userId, options = {}) {
   const book = options.bookId ? await findOwnedBook(options.bookId, userId) : await ensureDefaultBook(userId)
@@ -141,12 +82,12 @@ export async function getLedgerSummary(userId, options = {}) {
   const expenseCategories = allCategories.filter((item) => item.type === 'expense')
   const incomeCategories = allCategories.filter((item) => item.type === 'income')
 
-  // 环比数据：计算上一个同等时间段的收支
+  // 快捷周期使用自然上期，自定义范围使用相邻等长区间，避免账期错位。
   let previousPeriod = null
-  const { prevFrom, prevTo } = computePreviousRange(options.from, options.to)
+  const { prevFrom, prevTo } = computePreviousRange(options.from, options.to, options.period)
   if (prevFrom && prevTo) {
     const prevEntries = await LedgerEntry.find(
-      buildEntryQuery(userId, { bookId: book._id.toString(), from: prevFrom, to: prevTo })
+      buildEntryQuery(userId, { ...options, bookId: book._id.toString(), from: prevFrom, to: prevTo })
     )
     let prevIncome = 0
     let prevExpense = 0
@@ -156,19 +97,18 @@ export async function getLedgerSummary(userId, options = {}) {
       else prevExpense += amount
     }
     const prevBalance = prevIncome - prevExpense
-    const rate = (curr, prev) => {
-      if (!prev) return curr > 0 ? 100 : 0
-      return Math.round(((curr - prev) / prev) * 100)
-    }
+    const comparison = buildPeriodComparison(overview, {
+      income: prevIncome,
+      expense: prevExpense,
+      balance: prevBalance
+    })
     previousPeriod = {
+      from: prevFrom,
+      to: prevTo,
       income: prevIncome,
       expense: prevExpense,
       balance: prevBalance,
-      changeRate: {
-        income: rate(overview.income, prevIncome),
-        expense: rate(overview.expense, prevExpense),
-        balance: rate(overview.balance, prevBalance)
-      }
+      ...comparison
     }
   }
 

@@ -83,6 +83,15 @@ describe('bookmark workspace routes', () => {
       .expect(200)
   }
 
+  async function importJson(workspaceId, payload, mode = 'merge', expectedStatus = 200) {
+    return request(app)
+      .post(`/api/bookmarks/workspaces/${workspaceId}/imports/json`)
+      .set('Authorization', `Bearer ${token}`)
+      .field('mode', mode)
+      .attach('file', Buffer.from(JSON.stringify(payload), 'utf8'), 'bookmarks.json')
+      .expect(expectedStatus)
+  }
+
   it('keeps browser workspaces isolated and deduplicates URLs only inside each workspace', async () => {
     const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
     const edge = await createWorkspace('Edge', 'edge')
@@ -208,6 +217,74 @@ describe('bookmark workspace routes', () => {
       .expect(200)
     expect(jsonResponse.body).toMatchObject({ schemaVersion: 2, source: 'bookmark_workspace_backup' })
     expect(jsonResponse.body.workspace.name).toBe('Chrome 主库')
+  })
+
+  it('restores unordered JSON folders with hierarchy and sort order intact', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    const payload = {
+      schemaVersion: 2,
+      source: 'bookmark_workspace_backup',
+      workspace: {
+        folders: [
+          { id: 'child', name: '子目录', parentId: 'parent', sortOrder: 30 },
+          { id: 'parent', name: '父目录', parentId: null, sortOrder: 20 }
+        ],
+        bookmarks: [
+          { id: 'bookmark', title: '层级书签', url: 'https://example.com/nested', folderId: 'child', sortOrder: 40 }
+        ]
+      }
+    }
+
+    await importJson(chrome.id, payload, 'replace')
+
+    const parent = await BookmarkFolder.findOne({ workspaceId: chrome.id, name: '父目录' })
+    const child = await BookmarkFolder.findOne({ workspaceId: chrome.id, name: '子目录' })
+    const bookmark = await Bookmark.findOne({ workspaceId: chrome.id, urlKey: 'https://example.com/nested' })
+    expect(parent.sortOrder).toBe(20)
+    expect(child.parentId.toString()).toBe(parent.id)
+    expect(child.sortOrder).toBe(30)
+    expect(bookmark.folderId.toString()).toBe(child.id)
+    expect(bookmark.sortOrder).toBe(40)
+  })
+
+  it('keeps current data when a replacement JSON backup is invalid or contains all workspaces', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    await importHtml(chrome.id, buildBookmarkHtml())
+
+    await importJson(chrome.id, {
+      schemaVersion: 2,
+      source: 'bookmark_workspace_backup',
+      workspace: {
+        folders: [],
+        bookmarks: [{ title: '错误日期', url: 'https://example.com/invalid-date', addDate: 'not-a-date' }]
+      }
+    }, 'replace', 400)
+    expect(await Bookmark.countDocuments({ workspaceId: chrome.id })).toBe(2)
+
+    const response = await importJson(chrome.id, {
+      schemaVersion: 2,
+      source: 'bookmark_workspace_backup_all',
+      workspaces: [{ folders: [], bookmarks: [] }]
+    }, 'replace', 400)
+    expect(response.body.code).toBe('BOOKMARK_JSON_ALL_UNSUPPORTED')
+    expect(await Bookmark.countDocuments({ workspaceId: chrome.id })).toBe(2)
+  })
+
+  it('rolls back existing data when replacement import fails after clearing', async () => {
+    const chrome = await createWorkspace('Chrome 主库', 'chrome', true)
+    await importHtml(chrome.id, buildBookmarkHtml())
+    const invalidHtml = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<DL><p><DT><A HREF="https://example.com/too-long">${'超'.repeat(241)}</A></DL><p>`
+
+    await request(app)
+      .post(`/api/bookmarks/workspaces/${chrome.id}/imports/html`)
+      .set('Authorization', `Bearer ${token}`)
+      .field('mode', 'replace')
+      .attach('file', Buffer.from(invalidHtml, 'utf8'), 'invalid-bookmarks.html')
+      .expect(500)
+
+    expect(await Bookmark.countDocuments({ workspaceId: chrome.id })).toBe(2)
+    expect(await BookmarkFolder.countDocuments({ workspaceId: chrome.id })).toBe(1)
   })
 
   it('clears and deletes only the selected workspace and promotes another primary workspace', async () => {

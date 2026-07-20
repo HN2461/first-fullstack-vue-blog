@@ -10,10 +10,12 @@
           <div class="ledger-metric__body">
             <span class="ledger-metric__label">{{ item.label }}</span>
             <strong class="ledger-metric__value">{{ formatMoney(item.value) }}</strong>
-            <div v-if="prev" class="ledger-metric__change" :class="changeClass(item.rate, item.key === 'expense')">
-              <span>{{ changeArrow(item.rate) }}</span>
-              <span>{{ Math.abs(item.rate) }}% vs 上期</span>
-            </div>
+            <a-tooltip v-if="item.comparison" :title="item.comparison.tip">
+              <div class="ledger-metric__change" :class="item.comparison.className">
+                <span>{{ item.comparison.arrow }}</span>
+                <span>{{ item.comparison.text }}</span>
+              </div>
+            </a-tooltip>
           </div>
         </div>
       </div>
@@ -132,6 +134,7 @@ import {
   buildTrendOption
 } from './ledgerChartBuilders'
 import { formatMoney } from './ledgerChartOptions'
+import { buildMetricComparison } from './ledgerMetricComparison'
 
 use([CanvasRenderer, BarChart, LineChart, PieChart, GridComponent, LegendComponent, TooltipComponent])
 
@@ -153,9 +156,9 @@ const prev = computed(() => props.summary.previousPeriod || null)
 const dailyRows = computed(() => props.summary.byDay || [])
 
 const metricCards = computed(() => [
-  { key: 'income', label: '收入', value: overview.value.income, rate: prev.value?.changeRate?.income || 0, tone: 'income', icon: TrendingUp },
-  { key: 'expense', label: '支出', value: overview.value.expense, rate: prev.value?.changeRate?.expense || 0, tone: 'expense', icon: TrendingDown },
-  { key: 'balance', label: '结余', value: overview.value.balance, rate: prev.value?.changeRate?.balance || 0, tone: overview.value.balance >= 0 ? 'positive' : 'negative', icon: Wallet }
+  { key: 'income', label: '收入', value: overview.value.income, comparison: buildMetricComparison('income', '收入', overview.value.income, prev.value), tone: 'income', icon: TrendingUp },
+  { key: 'expense', label: '支出', value: overview.value.expense, comparison: buildMetricComparison('expense', '支出', overview.value.expense, prev.value), tone: 'expense', icon: TrendingDown },
+  { key: 'balance', label: '结余', value: overview.value.balance, comparison: buildMetricComparison('balance', '结余', overview.value.balance, prev.value), tone: overview.value.balance >= 0 ? 'positive' : 'negative', icon: Wallet }
 ])
 
 const statCards = computed(() => [
@@ -178,16 +181,6 @@ const categoryChartOption = computed(() => {
 })
 const trendTitle = computed(() => ({ day: '每日收支趋势', month: '月度收支趋势', year: '年度收支趋势', all: '总收支概览' }[props.groupBy] || '收支趋势'))
 
-function changeArrow(rate) {
-  return rate > 0 ? '↑' : rate < 0 ? '↓' : '→'
-}
-
-function changeClass(rate, invertForExpense = false) {
-  if (rate === 0) return 'change-neutral'
-  const positive = rate > 0
-  if (invertForExpense) return positive ? 'change-bad' : 'change-good'
-  return positive ? 'change-good' : 'change-bad'
-}
 </script>
 
 <style scoped>

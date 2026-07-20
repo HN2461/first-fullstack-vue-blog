@@ -21,11 +21,8 @@ import {
   listLedgerEntries,
   updateLedgerEntry
 } from '#modules/ledger/services/ledgerEntry.service.js'
-import {
-  getLedgerDailyMatrix,
-  getLedgerInsights,
-  getLedgerSummary
-} from '#modules/ledger/services/ledgerSummary.service.js'
+import { getLedgerDailyMatrix } from '#modules/ledger/services/ledgerDaily.service.js'
+import { getLedgerInsights, getLedgerSummary } from '#modules/ledger/services/ledgerSummary.service.js'
 import {
   commitLedgerImport,
   listLedgerImports,

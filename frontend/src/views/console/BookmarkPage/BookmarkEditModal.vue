@@ -62,7 +62,7 @@
 <script setup>
 import { computed, reactive, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { parseTags } from './bookmarkUtils'
+import { collectFolderBranchIds, parseTags } from './bookmarkUtils'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -78,8 +78,9 @@ const folderForm = reactive({ name: '', parentId: null })
 const bookmarkForm = reactive({ title: '', url: '', folderId: null, tagsText: '', note: '' })
 const folderTitle = computed(() => props.item?.id ? '编辑文件夹' : '新建文件夹')
 const bookmarkTitle = computed(() => props.item?.id ? '编辑书签' : '新增书签')
+const unavailableParentIds = computed(() => new Set(collectFolderBranchIds(props.item)))
 const folderOptions = computed(() => props.folders
-  .filter((folder) => folder.id !== props.item?.id)
+  .filter((folder) => !unavailableParentIds.value.has(folder.id))
   .map((folder) => ({
     label: `${'　'.repeat(folder.level || 0)}${folder.name}`,
     value: folder.id

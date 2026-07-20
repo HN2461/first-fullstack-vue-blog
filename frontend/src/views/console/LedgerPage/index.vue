@@ -173,7 +173,7 @@ const queryRange = computed(() => {
 
   switch (activePeriod.value) {
     case 'thisMonth':
-      return [fmt(new Date(now.getFullYear(), now.getMonth(), 1)), fmt(new Date(now.getFullYear(), now.getMonth() + 1, 0))]
+      return [fmt(new Date(now.getFullYear(), now.getMonth(), 1)), fmt(now)]
     case 'lastMonth':
       return [fmt(new Date(now.getFullYear(), now.getMonth() - 1, 1)), fmt(new Date(now.getFullYear(), now.getMonth(), 0))]
     case 'thisQuarter': {
@@ -181,7 +181,7 @@ const queryRange = computed(() => {
       return [fmt(new Date(now.getFullYear(), qStart, 1)), fmt(now)]
     }
     case 'thisYear':
-      return [fmt(new Date(now.getFullYear(), 0, 1)), fmt(new Date(now.getFullYear(), 11, 31))]
+      return [fmt(new Date(now.getFullYear(), 0, 1)), fmt(now)]
     case 'custom':
       return customRange.value?.length === 2 ? customRange.value : ['', '']
     case 'all':

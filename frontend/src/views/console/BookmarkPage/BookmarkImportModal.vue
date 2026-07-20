@@ -39,7 +39,7 @@
       <p class="ant-upload-drag-icon"><UploadOutlined /></p>
       <p class="ant-upload-text">拖拽文件到这里，或点击选择</p>
       <p class="ant-upload-hint">
-        {{ type === 'json' ? '用于恢复系统导出的 JSON 备份' : '支持 Chrome / Edge / Firefox 导出的 HTML 书签文件' }}
+        {{ type === 'json' ? '用于恢复当前书签库 JSON；全部书签库备份不能导入到单个书签库' : '支持 Chrome / Edge / Firefox 导出的 HTML 书签文件' }}
       </p>
     </a-upload-dragger>
 

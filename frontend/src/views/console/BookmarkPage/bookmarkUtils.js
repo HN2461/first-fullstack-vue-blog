@@ -32,6 +32,11 @@ export function flattenFolders(folders = [], level = 0) {
   ])
 }
 
+export function collectFolderBranchIds(folder) {
+  if (!folder) return []
+  return [folder.id, ...flattenFolders(folder.children || []).map((item) => item.id)]
+}
+
 export function parseTags(text = '') {
   const seen = new Set()
   return String(text || '')

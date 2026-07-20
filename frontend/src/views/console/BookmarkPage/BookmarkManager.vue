@@ -70,14 +70,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import BookmarkEditModal from './BookmarkEditModal.vue'
 import BookmarkFolderTree from './BookmarkFolderTree.vue'
 import BookmarkList from './BookmarkList.vue'
 import BookmarkMoveModal from './BookmarkMoveModal.vue'
 import BookmarkToolbar from './BookmarkToolbar.vue'
-import { buildFolderTree, flattenFolders } from './bookmarkUtils'
+import { buildFolderTree, collectFolderBranchIds, flattenFolders } from './bookmarkUtils'
 import {
   createBookmark,
   createBookmarkFolder,
@@ -107,6 +107,8 @@ const draggingBookmarkId = ref('')
 const bookmarkDropTargetKey = ref('')
 const selectedBookmarkIds = ref([])
 let keywordTimer = null
+let folderRequestId = 0
+let bookmarkRequestId = 0
 const filters = reactive({ keyword: '' })
 const pagination = reactive({ page: 1, pageSize: 20, total: 0 })
 
@@ -125,8 +127,11 @@ const allVisibleSelected = computed(() => visibleBookmarkIds.value.length > 0
 const hasPartialVisibleSelected = computed(() => visibleBookmarkIds.value.some((id) => selectedBookmarkIds.value.includes(id))
   && !allVisibleSelected.value)
 
-async function loadFolders() {
-  folders.value = await listBookmarkFolders(props.workspaceId)
+async function loadFolders(workspaceId = props.workspaceId) {
+  const requestId = ++folderRequestId
+  const result = await listBookmarkFolders(workspaceId)
+  if (requestId !== folderRequestId || workspaceId !== props.workspaceId) return
+  folders.value = result
 }
 
 function buildBookmarkParams(page = pagination.page) {
@@ -139,23 +144,38 @@ function buildBookmarkParams(page = pagination.page) {
   return params
 }
 
-async function refreshBookmarks(page = pagination.page) {
+async function refreshBookmarks(page = pagination.page, workspaceId = props.workspaceId) {
+  const requestId = ++bookmarkRequestId
   loading.value = true
   try {
-    const result = await listBookmarks(props.workspaceId, buildBookmarkParams(page))
+    const result = await listBookmarks(workspaceId, buildBookmarkParams(page))
+    if (requestId !== bookmarkRequestId || workspaceId !== props.workspaceId) return
+    const lastPage = Math.max(1, Math.ceil(result.total / result.pageSize))
+    if (result.page > lastPage) {
+      await refreshBookmarks(lastPage, workspaceId)
+      return
+    }
     bookmarks.value = result.items
     selectedBookmarkIds.value = selectedBookmarkIds.value.filter((id) => result.items.some((item) => item.id === id))
     Object.assign(pagination, { total: result.total, page: result.page, pageSize: result.pageSize })
   } catch (error) {
-    message.error(error.message || '书签加载失败')
+    if (requestId === bookmarkRequestId && workspaceId === props.workspaceId) {
+      message.error(error.message || '书签加载失败')
+    }
   } finally {
-    loading.value = false
+    if (requestId === bookmarkRequestId) loading.value = false
   }
 }
 
-async function reloadAll() {
-  await loadFolders()
-  await refreshBookmarks(pagination.page)
+async function reloadAll(workspaceId = props.workspaceId) {
+  try {
+    await Promise.all([
+      loadFolders(workspaceId),
+      refreshBookmarks(pagination.page, workspaceId)
+    ])
+  } catch (error) {
+    if (workspaceId === props.workspaceId) message.error(error.message || '书签目录加载失败')
+  }
 }
 
 function handleKeywordInput() {
@@ -241,7 +261,7 @@ function confirmDeleteFolderById(id) {
     async onOk() {
       await deleteBookmarkFolder(props.workspaceId, folder.id)
       message.success('文件夹已删除')
-      if (selectedKey.value === folder.id) selectedKey.value = 'all'
+      if (collectFolderBranchIds(folder).includes(selectedKey.value)) selectedKey.value = 'all'
       await reloadAll()
       emit('changed')
     }
@@ -369,15 +389,26 @@ async function dropBookmark(targetId) {
 }
 
 async function initializeWorkspace() {
+  const workspaceId = props.workspaceId
+  clearTimeout(keywordTimer)
+  folderRequestId += 1
+  bookmarkRequestId += 1
   selectedKey.value = 'all'
   selectedBookmarkIds.value = []
   filters.keyword = ''
   pagination.page = 1
-  await reloadAll()
+  editModalOpen.value = false
+  moveModalOpen.value = false
+  clearBookmarkDragging()
+  await reloadAll(workspaceId)
 }
 
-watch(() => props.workspaceId, initializeWorkspace)
-onMounted(initializeWorkspace)
+watch(() => props.workspaceId, initializeWorkspace, { immediate: true })
+onBeforeUnmount(() => {
+  clearTimeout(keywordTimer)
+  folderRequestId += 1
+  bookmarkRequestId += 1
+})
 defineExpose({ reloadAll })
 </script>
 

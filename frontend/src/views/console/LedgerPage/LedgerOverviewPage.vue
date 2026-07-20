@@ -84,7 +84,7 @@ async function loadSummary() {
       to: to || undefined
     }
     const [summaryData, insightsData] = await Promise.all([
-      getLedgerSummary({ ...params, groupBy: groupBy.value }),
+      getLedgerSummary({ ...params, groupBy: groupBy.value, period: props.period }),
       getLedgerInsights(params)
     ])
     summary.value = summaryData
@@ -102,7 +102,7 @@ watch(() => props.period, () => {
 })
 
 watch(
-  () => [props.bookId, props.range?.[0], props.range?.[1], props.refreshKey],
+  () => [props.bookId, props.range?.[0], props.range?.[1], props.period, props.refreshKey],
   loadSummary
 )
 

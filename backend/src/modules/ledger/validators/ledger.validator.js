@@ -86,7 +86,8 @@ export const ledgerSummaryQuerySchema = z.object({
   to: z.coerce.date().optional(),
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
-  groupBy: z.enum(['day', 'month', 'year', 'all']).optional().default('month')
+  groupBy: z.enum(['day', 'month', 'year', 'all']).optional().default('month'),
+  period: z.enum(['thisMonth', 'lastMonth', 'thisQuarter', 'thisYear', 'custom', 'all']).optional().default('custom')
 })
 
 export const ledgerInsightsQuerySchema = z.object({
