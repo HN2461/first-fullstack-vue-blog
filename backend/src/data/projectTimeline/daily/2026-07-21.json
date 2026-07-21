@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-21",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "resume-export-pagination-and-templates",
+      "title": "修复简历多页导出与模板样式",
+      "detail": "1. 重构简历导出内容为统一语义块，保证 Markdown、PDF 和 Word 的章节顺序与内容一致，并补充项目起止时间等导出信息。\n2. 修复 PDF 仅导出前 42 行的问题，新增按真实行宽换行、自动多页排版、中文字体描述、ASCII 半角字宽和页码，长简历不再静默截断或越界。\n3. 让经典投递、紧凑工程和资深管理模板真正作用于 PDF 与 Word 的颜色、字号、边距和标题布局；Word 同时使用真实段落样式、分级列表和页脚页码。\n4. 新增长 PDF 末尾内容完整性、多页数量和三套 Word 模板差异测试，并完成三套 PDF 共 9 页的逐页渲染检查。",
+      "occurredAt": "2026-07-21T21:08:34+08:00",
+      "category": "问题修复"
+    }
+  ]
+}

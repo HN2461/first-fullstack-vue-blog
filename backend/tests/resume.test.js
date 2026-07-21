@@ -69,6 +69,22 @@ function resumePayload(title = '前端工程师投递版') {
   }
 }
 
+function toUtf16BeHex(value) {
+  const littleEndian = Buffer.from(value, 'utf16le')
+  const bigEndian = Buffer.alloc(littleEndian.length)
+  for (let index = 0; index < littleEndian.length; index += 2) {
+    bigEndian[index] = littleEndian[index + 1]
+    bigEndian[index + 1] = littleEndian[index]
+  }
+  return bigEndian.toString('hex').toUpperCase()
+}
+
+function parseBinary(response, callback) {
+  const chunks = []
+  response.on('data', (chunk) => chunks.push(Buffer.from(chunk)))
+  response.on('end', () => callback(null, Buffer.concat(chunks)))
+}
+
 describe('resume module', () => {
   let app
   let resumeRole
@@ -324,10 +340,76 @@ describe('resume module', () => {
       const downloadResponse = await request(app)
         .get(`/api/resume-exports/${exportResponse.body.data.id}/download`)
         .set('Authorization', `Bearer ${token}`)
+        .buffer(true)
+        .parse(parseBinary)
         .expect(200)
 
       expect(downloadResponse.headers['content-disposition']).toContain('filename*=')
       expect(Number(downloadResponse.headers['content-length'])).toBeGreaterThan(0)
     }
+  })
+
+  it('keeps long PDF resume content complete across multiple pages', async () => {
+    const payload = resumePayload('长篇项目简历')
+    payload.sections.projects[0].highlights = Array.from({ length: 40 }, (_, index) => ({
+      id: `long-highlight-${index + 1}`,
+      content: `${index === 39 ? 'TAIL-CONTENT-40 ' : ''}第 ${index + 1} 条项目亮点，完整说明业务背景、个人职责、技术方案、协作过程与最终交付结果。`.repeat(2),
+      sortOrder: (index + 1) * 10
+    }))
+
+    const resumeResponse = await request(app)
+      .post('/api/resumes')
+      .set('Authorization', `Bearer ${token}`)
+      .send(payload)
+      .expect(201)
+
+    const exportResponse = await request(app)
+      .post('/api/resume-exports')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ resumeId: resumeResponse.body.data.id, format: 'pdf', templateKey: 'executive' })
+      .expect(201)
+
+    const downloadResponse = await request(app)
+      .get(`/api/resume-exports/${exportResponse.body.data.id}/download`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    const pdfSource = downloadResponse.body.toString('latin1')
+    const pageCount = Number(pdfSource.match(/\/Count (\d+)/)?.[1] || 0)
+    expect(pageCount).toBeGreaterThan(1)
+    expect(pdfSource).toContain(toUtf16BeHex('TAIL-CONTENT-40'))
+    expect(pdfSource).toContain('0.486 0.227 0.929 rg')
+  })
+
+  it('applies the selected template to Word export styles', async () => {
+    const resumeResponse = await request(app)
+      .post('/api/resumes')
+      .set('Authorization', `Bearer ${token}`)
+      .send(resumePayload())
+      .expect(201)
+
+    const buffers = {}
+    for (const templateKey of ['classic', 'compact', 'executive']) {
+      const exportResponse = await request(app)
+        .post('/api/resume-exports')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ resumeId: resumeResponse.body.data.id, format: 'word', templateKey })
+        .expect(201)
+
+      expect(exportResponse.body.data.templateKey).toBe(templateKey)
+      const downloadResponse = await request(app)
+        .get(`/api/resume-exports/${exportResponse.body.data.id}/download`)
+        .set('Authorization', `Bearer ${token}`)
+        .buffer(true)
+        .parse(parseBinary)
+        .expect(200)
+      buffers[templateKey] = downloadResponse.body
+    }
+
+    expect(buffers.classic.toString('utf8')).toContain('1677FF')
+    expect(buffers.compact.toString('utf8')).toContain('0F766E')
+    expect(buffers.executive.toString('utf8')).toContain('7C3AED')
+    expect(buffers.classic.equals(buffers.compact)).toBe(false)
+    expect(buffers.compact.equals(buffers.executive)).toBe(false)
   })
 })
