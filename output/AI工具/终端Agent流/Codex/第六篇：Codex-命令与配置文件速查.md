@@ -17,7 +17,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第六篇：Codex 命令与配置文件速查
 
-> 更新时间：2026-07-04（已按官方当前文档校准）
+> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列命令与模型目录复核）
 > 定位：工具底座（全系列命令与配置文件统一说明）。
 > 使用方式：读任何一篇时，遇到“这条命令是干嘛的”就回查本篇。
 > 小白读完目标：你应该能分清“命令层 / 配置层 / 项目规则层”，并且看到一个命令或字段名时，知道它属于哪一层。
@@ -77,15 +77,26 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 | `codex login status` | 查看登录状态 | 鉴权报错时 | 先排查它最快 |
 | `codex --model <name>` | 临时切模型 | 单次任务 | 不改动配置文件 |
 | `codex --profile <name>` | 用指定 profile 运行 | 场景切换（开发/审计） | profile 来自 `~/.codex/<name>.config.toml` |
-| `codex --full-auto` | 旧资料常见兼容写法 | 看到老教程时用于对照理解 | 当前等价于 `--ask-for-approval on-failure --sandbox workspace-write`，新手日常仍建议显式配置 |
-| `codex --yolo` | 跳过审批与沙箱 | 隔离环境专项任务 | 风险高，日常不建议 |
+| `codex update` | 更新 Codex CLI | 版本升级 | 当前版本提供的内置升级入口 |
+| `codex doctor --summary` | 综合诊断安装、认证、配置、MCP、网络和状态库 | CLI 异常时 | 比直接重装更适合作为第一检查入口 |
+| `codex --strict-config` | 拒绝未知配置字段 | 升级后检查旧配置 | 适合发现拼错、移除或尚未支持的字段 |
+| `codex --yolo` | 旧版隐藏危险别名 | 阅读历史资料 | 当前仍可能被接受，但新文档应使用正式的危险绕过参数说明 |
 | `codex exec "..."` | 非交互执行单任务 | CI/批处理 | 默认只读沙箱 |
 | `codex exec --json "..."` | 输出机器可读事件流 | 脚本集成 | 便于日志与自动解析 |
+| `codex exec --ephemeral "..."` | 非交互执行且不保存会话文件 | 临时检查 | 适合不需要恢复的短任务 |
 | `codex exec resume --last "..."` | 续跑上次 exec 任务 | 中断恢复 | 依赖历史记录 |
 | `codex resume` | 恢复交互会话 | 上次会话继续 | 适合长任务 |
+| `codex fork --last` | 从最近会话分叉 | 并行尝试另一种方案 | 不破坏原线程上下文 |
+| `codex archive|unarchive|delete` | 归档、恢复或删除保存的会话 | 会话整理 | `delete` 不可恢复，先确认目标 |
+| `codex review --uncommitted` | 非交互审查当前改动 | 提交前检查 | 也支持 `--base`、`--commit` |
 | `codex mcp add ...` | 添加 MCP 服务 | 接外部工具 | 推荐先本地测试 |
 | `codex mcp list` | 查看 MCP 状态 | MCP 排错 | 看是否启动成功 |
+| `codex plugin list` | 查看插件市场与安装状态 | 管理插件 | 区分 marketplace、plugin、skill 和 MCP |
+| `codex app <path>` | 在桌面 App 打开工作区 | 图形化工作流 | 桌面 App 未安装时会进入安装流程 |
+| `codex cloud ...` | 提交、查看、比较和应用云端任务 | 云端委派 | 当前仍带实验边界，以 `--help` 为准 |
 | `codex features list` | 查看功能开关 | 诊断功能状态 | 和版本关联较大 |
+
+旧资料里的 `--full-auto` 已被当前 CLI 移除，并且当前审批策略也没有 `on-failure`。日常开发请明确写 `--ask-for-approval on-request --sandbox workspace-write`。
 
 ---
 
@@ -120,12 +131,12 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 
 | 字段 | 作用 | 新手默认建议 | 专业补充 |
 |---|---|---|---|
-| `model` | 默认模型 | `gpt-5.5` | 与 provider 可用模型保持一致；具体 Codex 专用模型名以官方模型页和当前账号列表为准 |
+| `model` | 默认模型 | `gpt-5.6-terra` | Terra 适合日常平衡任务；最难任务用 Sol，轻任务评估 Luna；第三方 provider 以后台列表为准 |
 | `model_provider` | 选择后端提供方 | `openai` | 与 `[model_providers.<id>]` 名称必须一致 |
 | `[model_providers.<id>].base_url` | API 地址 | 官方默认地址或服务商地址 | 路线切换最常错字段 |
 | `approval_policy` | 是否弹确认 | `on-request` | 自动化可用 `never`，但要配安全边界 |
 | `sandbox_mode` | 技术权限范围 | `workspace-write` | `danger-full-access` 仅隔离环境用 |
-| `web_search` | 联网搜索策略 | `cached` | 对时效高任务可用 `live` |
+| `web_search` | 联网搜索策略 | 默认不在通用模板写死 | 需要最新资料时优先使用 `codex --search`；旧 cached 路径已进入 deprecated 阶段 |
 | `model_reasoning_effort` | 思考深度 | `medium` | 越高通常越慢、成本越高 |
 | `~/.codex/<profile>.config.toml` | 场景配置文件 | `dev_safe` + `audit` 两套 | 用 `codex --profile <name>` 加载 |
 | `[history].persistence` | 历史保存策略 | `save-all` | 合规敏感场景可设 `none` |
@@ -139,11 +150,10 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 
 ```toml
 model_provider = "openai"
-model = "gpt-5.5"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
-web_search = "cached"
 
 [history]
 persistence = "save-all"
@@ -153,10 +163,10 @@ persistence = "save-all"
 审计 profile 建议另存为 `~/.codex/audit.config.toml`：
 
 ```toml
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 approval_policy = "never"
 sandbox_mode = "read-only"
-web_search = "disabled"
+model_reasoning_effort = "medium"
 ```
 
 这套模板能覆盖两类日常：
@@ -176,6 +186,8 @@ web_search = "disabled"
 | 只想快速让它改代码 | `codex --sandbox workspace-write --ask-for-approval on-request`（先在测试仓库） |
 | 需要脚本化跑批 | `codex exec --json "..."` |
 | 要接外部工具 | `codex mcp add ...` + `codex mcp list` |
+| 要安装或排查插件 | `codex plugin list` + `/plugins` + `/skills` |
+| 要从终端打开桌面 App | `codex app <项目路径>` |
 | 团队统一规范 | 仓库根维护 `AGENTS.md` + profiles |
 | 高风险操作前收紧权限 | `sandbox_mode = "read-only"` 或 `approval_policy = "on-request"` |
 
@@ -188,3 +200,4 @@ web_search = "disabled"
 3. `AGENTS.md` 是“团队规则”
 4. `auth.json` 或系统凭据库中的登录缓存都属于“敏感凭据”
 5. 看不懂时，先回到“优先级链”判断谁覆盖了谁
+6. 桌面 App 的完整功能和 Windows 工作流统一看第八篇，不再把 App 当成 CLI 的附属说明

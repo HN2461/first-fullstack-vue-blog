@@ -17,8 +17,9 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第一篇：Codex CLI 第一日开发实战
 
+> 更新时间：2026-07-26（按本机当前 Codex CLI 与 App 能力复核）
 > 这篇只解决 4 件事：怎么确认装对、怎么进仓库、怎么看第一屏、怎么完成第一轮真实开发。
-> 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查。
+> 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查；桌面 App 高频使用请直接看第八篇。
 
 [[toc]]
 
@@ -48,6 +49,18 @@ Codex CLI 对程序员来说，不是“聊天工具”，而是一个会读仓�
 ```bash
 npm i -g @openai/codex@latest
 codex --version
+```
+
+当前版本也提供内置升级入口：
+
+```bash
+codex update
+```
+
+如果安装、认证、配置、MCP 或本地状态异常，先运行：
+
+```bash
+codex doctor --summary
 ```
 
 Windows 下再查一次路径：
@@ -370,6 +383,8 @@ flowchart LR
    当命令和字段速查表用。
 4. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)
    解决 CLI、VS Code 插件、桌面 App 之间怎么联动。
+5. 第八篇：Codex 桌面 App 当前功能与 Windows 实战
+   解决 ChatGPT desktop app 中 Codex 的多文件夹项目、Voice、Local / Worktree、PR Chat、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows 工作流。
 
 第三方线路、rpcod、Packy、yunyi 这些不要放在第一天主线里硬背。
 等你真的要切线路时，直接去看第四篇这篇合并后的线路总手册就够了。

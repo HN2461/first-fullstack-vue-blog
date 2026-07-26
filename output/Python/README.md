@@ -83,14 +83,20 @@ cover:
 - `00-Python网络爬虫入门-基础概念.md`
 - `01-Python网络爬虫入门-请求网页与robots.txt.md`
 - `02-Python网络爬虫入门-lxml解析HTML并保存CSV.md`
-- `01-Python-Web入门-Flask最小接口.md`
-- `04-Python-Web入门-FastAPI公司项目开发手册.md`
+- `FastAPI从0到1/00-FastAPI从0到1-学习路线与开发环境.md`
+- `FastAPI从0到1/13-FastAPI从0到1-企业知识库API综合实战.md`
 
-FastAPI 学习建议按以下顺序阅读：
+FastAPI 系统学习入口：
 
-1. `02-应用实例/Web入门/01-Python-Web入门-Flask最小接口.md`：先理解路由、请求和响应。
-2. `02-应用实例/Web入门/02-Python-Web入门-FastAPI最小接口.md`：掌握类型校验和自动文档。
-3. `02-应用实例/Web入门/04-Python-Web入门-FastAPI公司项目开发手册.md`：按项目骨架练习配置、数据库、认证、测试和部署。
-4. `02-应用实例/Web入门/03-Python-Web入门-Flask-FastAPI-Django怎么选.md`：根据业务场景补充框架选型判断。
+- `02-应用实例/Web入门/FastAPI从0到1/README.md`
 
-这样后续补文章时可以直接追加，不会破坏已经学过的基础主线。
+这套专题面向已经学完 Python 基础、准备系统深耕 FastAPI 的学习者，共 15 篇，按以下阶段推进：
+
+1. HTTP、ASGI、路由、请求参数、Pydantic 与 OpenAPI。
+2. 依赖注入、中间件、生命周期、配置和工程目录。
+3. SQLAlchemy、Alembic、CRUD、事务、关联、分页和并发控制。
+4. JWT、刷新令牌、RBAC、对象级权限和安全基线。
+5. 文件、HTTPX、Redis、缓存、限流、幂等、异步与任务队列。
+6. pytest、日志监控、性能、Docker、CI/CD、发布回滚和企业综合实战。
+
+`Web入门` 目录只保留这一套 FastAPI 系统专题，学习时直接进入专题总目录并按 `00–14` 的编号顺序阅读，不再维护重复的框架速览文章。

@@ -9,6 +9,41 @@
       "detail": "1. 修复前端编辑重要记录时误把 bookId 提交到更新接口，导致线上返回“存在不支持的重要记录字段”的问题。2. 后端更新接口兼容旧前端携带当前 bookId 的请求，并校验重要记录所属账本不可被修改，降低前后端分批发布或浏览器缓存带来的线上风险。3. 新增重要记录接口回归测试，覆盖旧 payload 兼容和跨账本修改拒绝场景。",
       "occurredAt": "2026-07-26T19:59:04+08:00",
       "category": "问题修复"
+    },
+    {
+      "id": "codex-docs-app-refresh-20260726",
+      "title": "更新 Codex 系列并新增桌面 App 专题",
+      "detail": "1. 按当前 Codex CLI、GPT-5.6 模型体系和官方配置口径更新七篇既有教程，修正旧命令、旧审批参数、搜索配置与模型角色说明。2. 新增桌面 App 集中手册，依据官方 Changelog 和实时文档补齐 Codex 并入 ChatGPT desktop app、多文件夹项目、Voice、直接编辑、PR Chat、Browser Developer mode、Windows/macOS Computer Use、Scheduled tasks、Plugins、Goals、Memories、Remote GA、Record & Replay 与 Windows-native / WSL 边界。3. 压缩第五篇和第七篇的 App 重复内容，统一跳转到第八篇维护，避免高频版本更新造成多篇口径不一致。",
+      "occurredAt": "2026-07-26T22:30:00+08:00",
+      "category": "版本调整"
+    },
+    {
+      "id": "fastapi-zero-to-enterprise-notes",
+      "title": "重建 FastAPI 从零到企业开发学习专题",
+      "detail": "1. 在 Python Web 入门目录新增 FastAPI 从 0 到 1 专题，以 15 篇连续笔记覆盖 HTTP/ASGI、路由参数、Pydantic v2、响应异常、依赖与生命周期、SQLAlchemy、Alembic、CRUD 和事务、JWT/RBAC、文件与 Redis、异步并发、pytest、可观测性、性能安全、Docker 发布及企业知识库 API 综合实战。2. 在数据库和权限主线中补充并发唯一约束、关联预加载、游标分页、对象级授权、刷新令牌、幂等、限流、缓存一致性、任务队列、迁移兼容和回滚等高频企业边界。3. 删除 Web 入门目录原有的 Flask 最小接口、FastAPI 最小接口、框架选型和旧公司项目手册，统一只保留新专题入口，避免多套文档造成学习选择混乱。",
+      "occurredAt": "2026-07-26T22:22:53+08:00",
+      "category": "内容上新"
+    },
+    {
+      "id": "mysql-zero-to-enterprise-notes",
+      "title": "新增 MySQL 从零到企业开发学习专题",
+      "detail": "1. 在 output/MySQL 新增 16 章系统学习笔记，以 MySQL 8.x 为主线覆盖关系模型、数据类型、CRUD、多表查询、CTE 与窗口函数、企业表设计、索引与 EXPLAIN、事务与锁、性能排障、权限备份及迁移。2. 补充 Node.js mysql2 连接池、参数化查询、事务、类型映射、错误处理和订单幂等实战，突出唯一约束、库存并发、软删除、滚动迁移等企业高频边界。3. 提供可执行的订单案例 Schema、种子数据、查询/事务/执行计划实验，以及 36 道分阶段练习和参考答案，形成从学习到项目验收的完整路径。",
+      "occurredAt": "2026-07-26T22:31:00+08:00",
+      "category": "内容上新"
+    },
+    {
+      "id": "redis-zero-to-enterprise-notes",
+      "title": "新增 Redis 从零到企业开发学习专题",
+      "detail": "1. 在 output/Redis 新增 16 章系统学习笔记，覆盖 Key 与 TTL、五大数据结构、Pipeline 与 Lua、内存淘汰、大 Key/热 Key、缓存穿透/击穿/雪崩、MySQL 缓存一致性、会话、验证码、限流、排行榜和分布式锁。2. 补充 Pub/Sub、Stream 消费组、RDB/AOF、复制、Sentinel、Cluster、安全监控、线上排障及 Node.js ioredis 实战，明确 Redis 在缓存、协调和轻量消息场景中的能力与可靠性边界。3. 提供五组 CLI/Node.js 实验、36 道阶段练习与参考答案，并用知识库案例串联 MySQL 权威数据、Redis 派生数据、Outbox 失效重试、浏览数缓冲和故障降级。",
+      "occurredAt": "2026-07-26T23:01:35+08:00",
+      "category": "内容上新"
+    },
+    {
+      "id": "database-learning-docs-online-import-compat",
+      "title": "优化 MySQL 与 Redis 学习文档线上导入兼容",
+      "detail": "1. 为 MySQL 和 Redis 共 40 篇 Markdown 补齐符合文章导入模板的 Front Matter，统一使用唯一英文 slug、摘要、draft 状态和稳定 sortOrder，避免中文标题批量导入时产生时间戳 slug 冲突。2. 将章节间本地相对链接改为知识库 /console/articles/<slug> 路径，并新增两篇线上导入说明，明确分类设置、发布顺序及 SQL/Redis/JS 本地实验附件边界。3. 新增后端真实导入预览与前端真实 Markdown 渲染回归测试，覆盖重复 slug、元数据限制、H1、内部链接和渲染可读性。",
+      "occurredAt": "2026-07-26T23:14:44+08:00",
+      "category": "问题修复"
     }
   ]
 }

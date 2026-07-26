@@ -18,7 +18,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第四篇：Codex 多线路接入与迁移总手册
 
-> 更新时间：2026-07-04（已按 OpenAI Codex 当前官方文档校准）
+> 更新时间：2026-07-26（按本机当前 Codex CLI、GPT-5.6 模型目录与既有服务商样例复核）
 > 定位：线路总手册。专门解决“我要走哪条线路、配置该怎么落、切线路时最容易在哪翻车”这些问题。
 > 前置建议：先读第一篇、第三篇、第五篇。先把 CLI 主线、配置层级和三端差异搞清，再来看线路，判断会稳很多。
 > 精简说明：rpcod 线路补充内容已经合并到本篇，专题不再单独保留历史跳转页。
@@ -264,11 +264,10 @@ flowchart LR
 
 ```toml
 model_provider = 'openai'
-model = 'gpt-5.5'
+model = 'gpt-5.6-terra'
 model_reasoning_effort = 'medium'
 approval_policy = 'on-request'
 sandbox_mode = 'workspace-write'
-web_search = 'cached'
 ```
 
 这套适合：
@@ -276,6 +275,8 @@ web_search = 'cached'
 1. 第一次跑官方标准主线
 2. 先把 CLI、IDE、App 的心智跑顺
 3. 以 OpenAI Codex 模型页和当前账号可见模型为准，不把本文示例当永久默认
+
+需要最新网页资料时，临时使用 `codex --search`。不要再把旧版 `web_search = 'cached'` 当成所有环境的长期默认配置。
 
 ### 6.2 Packy 路线
 
@@ -345,7 +346,6 @@ approval_policy = 'on-request'
 sandbox_mode = 'workspace-write'
 file_opener = 'vscode'
 model_provider = 'codex'
-web_search = 'cached'
 
 [history]
 persistence = 'save-all'
@@ -555,6 +555,7 @@ codex
 4. 第五篇：CLI / 插件 / App 为什么会表现不一致
 5. 第六篇：命令、slash command、配置文件名速查
 6. 第七篇：今天真正常用的功能入口与进阶工作流
+7. 第八篇：桌面 App 的多文件夹项目、Voice、Local / Worktree、PR Chat、Browser、Scheduled tasks、Remote 与 Windows 实战
 
 rpcod 线路补充内容已经并到这里。
 以后除非主人特意要保留历史快照，否则不建议再把同类线路拆出很多独立长文。

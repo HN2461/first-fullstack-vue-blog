@@ -1,0 +1,44 @@
+# TTL、验证码、限流、排行榜和扩展类型实验。
+
+# 验证码仅作命令演示，真实项目保存哈希而不是明文。
+SET redis-learning:verification:email:demo 123456 NX EX 300
+TTL redis-learning:verification:email:demo
+GETDEL redis-learning:verification:email:demo
+
+# 固定窗口计数的非原子拆解演示；生产使用 03 文件中的 Lua。
+INCR redis-learning:rate-limit:demo:202607262300
+EXPIRE redis-learning:rate-limit:demo:202607262300 120 NX
+GET redis-learning:rate-limit:demo:202607262300
+
+# 日榜
+ZINCRBY redis-learning:rank:daily:2026-07-26 1 article:1
+ZINCRBY redis-learning:rank:daily:2026-07-26 5 article:2
+ZINCRBY redis-learning:rank:daily:2026-07-26 3 article:3
+ZREVRANGE redis-learning:rank:daily:2026-07-26 0 2 WITHSCORES
+EXPIRE redis-learning:rank:daily:2026-07-26 691200
+
+# Bitmap：用 0 到 30 表示当月日期偏移
+SETBIT redis-learning:signin:user:1:2026-07 0 1
+SETBIT redis-learning:signin:user:1:2026-07 1 1
+SETBIT redis-learning:signin:user:1:2026-07 25 1
+GETBIT redis-learning:signin:user:1:2026-07 25
+BITCOUNT redis-learning:signin:user:1:2026-07
+EXPIRE redis-learning:signin:user:1:2026-07 7776000
+
+# HyperLogLog：近似 UV
+PFADD redis-learning:uv:2026-07-26 user:1 user:2 user:3 user:1
+PFCOUNT redis-learning:uv:2026-07-26
+EXPIRE redis-learning:uv:2026-07-26 691200
+
+# Geo：附近门店
+GEOADD redis-learning:shops 121.4737 31.2304 shop:shanghai
+GEOADD redis-learning:shops 120.1551 30.2741 shop:hangzhou
+GEOSEARCH redis-learning:shops FROMLONLAT 121.48 31.22 BYRADIUS 200 km WITHDIST
+EXPIRE redis-learning:shops 300
+
+# 清理明确的短期实验 Key
+UNLINK redis-learning:rate-limit:demo:202607262300
+UNLINK redis-learning:rank:daily:2026-07-26
+UNLINK redis-learning:signin:user:1:2026-07
+UNLINK redis-learning:uv:2026-07-26 redis-learning:shops
+

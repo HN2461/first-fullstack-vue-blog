@@ -17,6 +17,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第二篇：Codex CLI 英文终端界面翻译与排错
 
+> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列界面与命令复核）
 > 这一篇不是再讲 Codex 是什么。
 > 它专门解决一个真实问题：终端里全是英文菜单、状态词、权限词、插件词和错误词，看着都认识，合起来却不知道下一步该怎么判断。
 
@@ -44,6 +45,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 4. `/plugins` 看“能力从哪里装进来”
 5. `/skills` 看“当前有哪些可复用工作套路”
 6. `/debug-config` 看“配置为什么没有按预期生效”
+7. `codex doctor` 看“CLI 还没进入会话时，安装、认证、MCP、网络和本地状态哪一层坏了”
 
 ---
 
@@ -412,14 +414,15 @@ flowchart TD
 
 排错顺序：
 
-1. `/status`
-2. `/debug-config`
-3. 看当前目录和权限
-4. 看 `~/.codex/config.toml`
-5. 看项目 `.codex/config.toml`
-6. 看登录状态和 provider
-7. 看 `/mcp`、`/plugins`、`/skills`
-8. 最后才考虑重装或升级
+1. CLI 无法正常进入会话时，先运行 `codex doctor --summary`
+2. 已经进入会话时看 `/status`
+3. 用 `/debug-config` 查覆盖链；启动时也可以加 `--strict-config` 检查未知字段
+4. 看当前目录和权限
+5. 看 `~/.codex/config.toml`
+6. 看项目 `.codex/config.toml`
+7. 看登录状态和 provider
+8. 看 `/mcp`、`/plugins`、`/skills`
+9. 最后才考虑重装或升级
 
 这一步很重要。
 “失败了”不是一个问题类型，它只是结果。关键词才告诉你该查哪一层。

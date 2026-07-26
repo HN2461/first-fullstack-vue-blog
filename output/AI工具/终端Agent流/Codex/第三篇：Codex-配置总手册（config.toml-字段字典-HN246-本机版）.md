@@ -17,7 +17,7 @@ exportedAt: "2026-07-04T07:00:23.238Z"
 ---
 # 第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）
 
-> 更新时间：2026-07-04（已按 OpenAI Codex 当前官方文档校准）
+> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列、模型目录与 App 配置复核）
 > 定位：配置总手册。以后所有 `config.toml`、provider、模型、审批、沙箱、MCP、Desktop、本机路径、CCSwitch 快照污染和 HN246 本机替换版配置，都统一在这一篇维护。
 > 前置：第一篇跑通 CLI；第二篇看懂终端英文状态。
 > 下一篇建议：第四篇（多线路接入与迁移）。
@@ -136,7 +136,7 @@ C:\Users\HN246\.codex\config.toml
 这次本机配置的核心结论：
 
 1. 默认 provider：`my_codex`
-2. 默认模型示例：`gpt-5.5`（官方当前建议大多数 Codex 任务从它开始；第三方网关仍以后台真实开放模型为准）
+2. 默认模型示例：日常平衡档使用 `gpt-5.6-terra`；最难的质量优先任务使用 `gpt-5.6-sol`；第三方网关仍以后台真实开放模型为准
 3. 默认权限：`on-request + workspace-write`
 4. 默认推理：`medium`
 5. 默认长上下文：`1050000 / 900000`
@@ -157,7 +157,7 @@ C:\Users\HN246\.codex\config.toml
 #:schema https://developers.openai.com/codex/config-schema.json
 
 model_provider = "my_codex"
-model = "gpt-5.5"
+model = "gpt-5.6-terra"
 
 approval_policy = "on-request"
 approvals_reviewer = "user"
@@ -275,7 +275,7 @@ sandbox = "elevated"
 默认模型名：
 
 ```toml
-model = "gpt-5.5"
+model = "gpt-5.6-terra"
 ```
 
 注意：
@@ -283,6 +283,8 @@ model = "gpt-5.5"
 1. 文章里的模型名只是模板示例
 2. 真正能不能用，看当前 provider / 网关是否开放
 3. 如果 `/status` 或模型列表看不到它，先查网关后台
+4. 当前常用角色是：`gpt-5.6-sol` 负责最难的质量优先任务，`gpt-5.6-terra` 负责日常平衡任务，`gpt-5.6-luna` 负责高吞吐轻任务
+5. 不要把所有旧模型机械替换成 Sol；原本为了速度或成本选择的轻量任务，应分别评估 Terra 或 Luna
 
 ### 7.2 `model_provider`
 
@@ -377,8 +379,11 @@ model_reasoning_effort = "medium"
 1. `low`：更快
 2. `medium`：日常推荐
 3. `high`：复杂排错 / 重构
-4. `minimal`：支持模型上的最小推理档，适合极轻任务
-5. `xhigh`：更深，且是否可用取决于模型
+4. `xhigh`：更深，且是否可用取决于模型
+5. `max`：GPT-5.6 系列的高强度档，只给确实需要的质量优先任务
+6. `ultra`：当前只在部分 GPT-5.6 CLI 模型上出现，并可能带来自动任务委派；必须以 `/model` 实际列表为准
+
+不同模型支持的档位不完全一致，CLI 与 API 的推理参数也不能混为一张表。配置前先看 `/model`，不要长期硬编码一套“所有模型通用”的档位说明。
 
 ### 7.8 上下文窗口
 
@@ -717,7 +722,7 @@ npx -y chrome-devtools-mcp@latest --no-usage-statistics
 
 ## 16. 推荐 profile 文件
 
-官方当前写法是把 profile 做成独立文件，放在 `$CODEX_HOME` 目录旁边，而不是继续写成主 `config.toml` 里的 `[profiles.<name>]` 表：
+官方当前写法是把 profile 做成独立文件，放在 `$CODEX_HOME` 目录下，而不是继续写成主 `config.toml` 里的 `[profiles.<name>]` 表：
 
 1. `C:\Users\HN246\.codex\dev_safe.config.toml`
 2. `C:\Users\HN246\.codex\readonly_audit.config.toml`
@@ -726,7 +731,7 @@ npx -y chrome-devtools-mcp@latest --no-usage-statistics
 `dev_safe.config.toml` 示例：
 
 ```toml
-model = "gpt-5.5"
+model = "gpt-5.6-terra"
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 model_reasoning_effort = "medium"
@@ -735,16 +740,16 @@ model_reasoning_effort = "medium"
 `readonly_audit.config.toml` 示例：
 
 ```toml
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 approval_policy = "never"
 sandbox_mode = "read-only"
-web_search = "disabled"
+model_reasoning_effort = "medium"
 ```
 
 `deep_refactor.config.toml` 示例：
 
 ```toml
-model = "gpt-5.5"
+model = "gpt-5.6-sol"
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
 model_reasoning_effort = "high"

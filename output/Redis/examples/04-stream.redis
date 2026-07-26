@@ -1,0 +1,28 @@
+# Redis Stream 消费组实验，需要两个 redis-cli 窗口观察阻塞读取。
+
+# 创建 Stream 并添加消息
+XADD redis-learning:stream:orders * type order.created orderId 1001
+XADD redis-learning:stream:orders * type order.paid orderId 1001
+XRANGE redis-learning:stream:orders - + COUNT 10
+
+# 创建消费组。重复执行会返回 BUSYGROUP，这是预期保护。
+XGROUP CREATE redis-learning:stream:orders order-workers 0 MKSTREAM
+
+# 在消费者窗口读取新消息
+XREADGROUP GROUP order-workers worker-1 COUNT 10 STREAMS redis-learning:stream:orders >
+
+# 把上一步返回的消息 ID 替换到下面命令中
+# XACK redis-learning:stream:orders order-workers <message-id>
+
+# 查看待确认和消费者信息
+XPENDING redis-learning:stream:orders order-workers
+XINFO GROUPS redis-learning:stream:orders
+XINFO CONSUMERS redis-learning:stream:orders order-workers
+
+# 阻塞等待 5 秒，仅用于实验
+XREADGROUP GROUP order-workers worker-1 COUNT 10 BLOCK 5000 STREAMS redis-learning:stream:orders >
+
+# 生产 Stream 必须设计裁剪、PEL 恢复、重试、死信和幂等。
+# 完成实验后只删除当前实验 Stream。
+UNLINK redis-learning:stream:orders
+
