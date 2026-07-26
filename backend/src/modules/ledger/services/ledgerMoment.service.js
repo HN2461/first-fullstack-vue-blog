@@ -160,6 +160,10 @@ export async function createLedgerMoment(userId, input) {
 
 export async function updateLedgerMoment(userId, id, input) {
   const moment = await findOwnedMoment(id, userId)
+  // 兼容旧前端编辑时携带当前 bookId 的请求，但不允许借此移动重要记录所属账本。
+  if (input.bookId !== undefined && String(input.bookId) !== moment.bookId.toString()) {
+    throw createError(400, 'LEDGER_MOMENT_BOOK_IMMUTABLE', '重要记录所属账本不支持修改')
+  }
   if (input.categoryId) {
     await findOwnedCategory(input.categoryId, userId, moment.bookId)
   }

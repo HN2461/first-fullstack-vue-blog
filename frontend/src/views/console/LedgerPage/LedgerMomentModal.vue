@@ -208,8 +208,7 @@ async function submit() {
 
   submitting.value = true
   try {
-    const payload = {
-      bookId: props.bookId,
+    const basePayload = {
       title: form.title,
       scope: form.scope,
       occurredAt: toSubmitDate(form.occurredAt, form.scope),
@@ -222,9 +221,12 @@ async function submit() {
       pinned: form.pinned
     }
     if (props.moment?.id) {
-      await updateLedgerMoment(props.moment.id, payload)
+      await updateLedgerMoment(props.moment.id, basePayload)
     } else {
-      await createLedgerMoment(payload)
+      await createLedgerMoment({
+        ...basePayload,
+        bookId: props.bookId
+      })
     }
     message.success('重要记录已保存')
     visible.value = false

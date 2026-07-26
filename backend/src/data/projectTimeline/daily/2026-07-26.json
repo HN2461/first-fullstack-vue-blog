@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-26",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "ledger-moment-edit-payload-compat",
+      "title": "修复账本重要记录编辑保存失败",
+      "detail": "1. 修复前端编辑重要记录时误把 bookId 提交到更新接口，导致线上返回“存在不支持的重要记录字段”的问题。2. 后端更新接口兼容旧前端携带当前 bookId 的请求，并校验重要记录所属账本不可被修改，降低前后端分批发布或浏览器缓存带来的线上风险。3. 新增重要记录接口回归测试，覆盖旧 payload 兼容和跨账本修改拒绝场景。",
+      "occurredAt": "2026-07-26T19:59:04+08:00",
+      "category": "问题修复"
+    }
+  ]
+}

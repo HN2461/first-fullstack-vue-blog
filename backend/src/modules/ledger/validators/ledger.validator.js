@@ -132,7 +132,6 @@ export const ledgerMomentCreateSchema = z.object({
 }).strict('存在不支持的重要记录字段')
 
 export const ledgerMomentUpdateSchema = ledgerMomentCreateSchema
-  .omit({ bookId: true })
   .partial()
   .strict('存在不支持的重要记录字段')
 
