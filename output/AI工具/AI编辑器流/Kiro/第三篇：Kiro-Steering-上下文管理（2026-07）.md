@@ -1,7 +1,7 @@
 ---
-title: "第三篇：Kiro Steering 上下文管理（2026-04）"
+title: "第三篇：Kiro Steering 上下文管理（2026-07）"
 slug: "ai-ai-kiro-kiro-steering-51bf9cad-revision-20260704"
-summary: "详解 Kiro 的 Steering 机制：通过 .kiro/steering/ 目录下的 Markdown 文件向 Agent 注入持久知识，涵盖三种作用域、四种 inclusion 模式、三个基础文件，以及与 AGENTS.md 标准的对比。"
+summary: "详解 Kiro Steering 的工作区与全局作用域、always/fileMatch/manual 三种 inclusion 模式、基础文件、文件引用，以及 Kiro 对 AGENTS.md 的原生支持。"
 category: "Kiro"
 tags:
   - "Kiro"
@@ -14,9 +14,9 @@ originalId: "6a2d291d8a2b1c68f2cabec8"
 originalSlug: "ai-ai-kiro-kiro-steering-51bf9cad"
 exportedAt: "2026-07-04T07:00:23.241Z"
 ---
-# 第三篇：Kiro Steering 上下文管理（2026-04）
+# 第三篇：Kiro Steering 上下文管理（2026-07）
 
-> 本篇内容基于 Kiro 官方文档（https://kiro.dev/docs/steering/）整理，资料快照时间：2026-04。
+> 本篇内容基于 Kiro 官方 Steering 文档整理，资料核对时间：2026-07-27。旧版资料常见的 `auto` inclusion 和独立 Team 作用域不在当前官方配置模型中，本文已按现行行为修正。
 
 [[toc]]
 
@@ -42,9 +42,9 @@ Steering 的核心价值可以从以下几个维度理解：
 
 ---
 
-## 三种作用域
+## 两种配置作用域与团队分发
 
-Kiro 的 Steering 文件支持三种不同的作用域，分别对应不同的使用场景和共享范围。理解这三种作用域，是合理组织 Steering 体系的基础。
+Kiro Steering 的配置位置分为工作区和全局两级。团队可以集中分发全局文件，但这是一种部署方式，并不是位于两者之间的第三种配置作用域。
 
 ### Workspace（工作区）作用域
 
@@ -70,9 +70,9 @@ Kiro 的 Steering 文件支持三种不同的作用域，分别对应不同的�
 
 全局 Steering 特别适合那些在所有项目中都适用的个人规范，例如"始终为函数添加 JSDoc 注释"、"优先使用函数式编程风格"、"错误处理必须包含日志记录"等。
 
-### Team（团队）作用域
+### 团队统一分发
 
-团队作用域是一种介于工作区和全局之间的共享机制，允许在多个项目之间共享同一套 Steering 配置，而无需在每个项目中重复维护。团队 Steering 通常通过组织级别的配置或共享目录来实现。
+需要让一套规范覆盖团队成员的所有项目时，管理员可以通过 MDM、Group Policy 或内部同步工具，把统一文件下发到每台设备的 `~/.kiro/steering/`。项目特有的规则仍应进入仓库内的 `.kiro/steering/`。
 
 团队 Steering 适合以下场景：
 
@@ -80,11 +80,11 @@ Kiro 的 Steering 文件支持三种不同的作用域，分别对应不同的�
 - 公司级别的编码标准，需要在所有项目中强制执行
 - 跨项目共享的业务领域知识（如公司的 API 设计规范、数据安全要求等）
 
-### 三种作用域的优先级
+### 冲突优先级
 
-当三种作用域的 Steering 文件存在内容冲突时，Kiro 遵循以下优先级规则：
+当两个作用域的 Steering 文件存在内容冲突时，Kiro 遵循以下优先级规则：
 
-**工作区 > 团队 > 全局**
+**工作区 > 全局**
 
 工作区的设置最具体，优先级最高；全局设置最通用，优先级最低。这种设计确保了项目特定的规范能够覆盖通用规范，符合"具体优先于通用"的直觉。
 
@@ -92,7 +92,7 @@ Kiro 的 Steering 文件支持三种不同的作用域，分别对应不同的�
 
 ## 三个基础 Steering 文件
 
-Kiro 在初始化项目时，会自动在 `.kiro/steering/` 目录下创建三个基础 Steering 文件。这三个文件覆盖了 AI 理解一个项目所需的最核心知识，是 Steering 体系的起点。
+Kiro 可以按需生成三个基础 Steering 文件。打开 Kiro 面板的 Steering 区域，选择 **Generate Steering Docs**，或点击 `+` 后选择 Foundation steering files。它们不会因为打开任意项目就无条件自动创建。
 
 ### product.md — 产品背景文件
 
@@ -138,9 +138,9 @@ structure.md 能有效防止 AI 将新代码放错位置。当 AI 需要创建�
 
 ---
 
-## 四种 inclusion 模式详解
+## 三种 inclusion 模式详解
 
-Steering 文件通过 frontmatter 中的 `inclusion` 字段控制注入行为。Kiro 提供四种 inclusion 模式，分别适用于不同的使用场景。
+Steering 文件通过 frontmatter 中的 `inclusion` 字段控制注入行为。当前官方文档列出 `always`、`fileMatch`、`manual` 三种模式。frontmatter 必须是文件第一段内容，前面不能有空行或说明文字。
 
 ### always — 始终注入
 
@@ -193,8 +193,8 @@ fileMatchPattern: "src/api/**/*.ts"
 # 匹配测试文件
 fileMatchPattern: "**/__tests__/**/*.js"
 
-# 匹配多种扩展名（需要分别配置多个 Steering 文件，或使用 glob 花括号语法）
-fileMatchPattern: "src/**/*.{ts,tsx}"
+# 匹配多种模式（当前版本支持数组）
+fileMatchPattern: ["**/*.ts", "**/*.tsx", "**/tsconfig.*.json"]
 ```
 
 ### manual — 手动引用注入
@@ -216,34 +216,15 @@ inclusion: manual
 
 `manual` 模式的优点是按需加载，不占用常规上下文空间。当你需要 AI 参考某份 manual 模式的 Steering 文件时，在对话中使用文件引用语法即可（详见下一节）。
 
-### auto — 智能自动注入
-
-`auto` 模式是最智能的模式：Kiro 会根据当前任务的上下文，自动判断该 Steering 文件是否与当前任务相关，并决定是否注入。
-
-```yaml
----
-inclusion: auto
----
-```
-
-适用场景：
-
-- 内容较为通用但并非每次都需要的规范
-- 难以用文件路径模式精确描述适用范围的知识
-- 希望让 AI 自主判断是否需要参考的背景资料
-
-`auto` 模式依赖 Kiro 的语义理解能力，适合那些"有时候有用，有时候不需要"的 Steering 文件。相比 `always` 模式，它能减少不必要的上下文占用；相比 `manual` 模式，它不需要用户手动引用，更加便捷。
-
-### 四种模式的选择建议
+### 三种模式的选择建议
 
 | 模式      | 注入时机           | 适用内容                 | 上下文占用 |
 | --------- | ------------------ | ------------------------ | ---------- |
 | always    | 始终注入           | 核心规范、必须遵守的约定 | 固定占用   |
 | fileMatch | 文件路径匹配时注入 | 特定技术领域的规范       | 按需占用   |
 | manual    | 显式引用时注入     | 不常用的参考文档         | 手动控制   |
-| auto      | AI 判断相关时注入  | 通用但非必须的背景知识   | 智能控制   |
 
-实践建议：核心规范用 `always`，领域规范用 `fileMatch`，参考文档用 `manual`，其余用 `auto`。
+实践建议：核心规范用 `always`，能被文件路径清楚划分的领域规范用 `fileMatch`，长参考文档和低频流程用 `manual`。不要继续使用旧资料中的 `inclusion: auto`；当前官方 IDE Steering 文档没有列出该模式。
 
 ---
 
@@ -319,8 +300,8 @@ inclusion: auto
 | -------- | ----------------------------- | ------------------------------- |
 | 文件数量 | 多文件，按主题分散            | 通常单文件，集中管理            |
 | 存放位置 | `.kiro/steering/` 目录        | 项目根目录（或子目录）          |
-| 注入控制 | 四种 inclusion 模式，精细控制 | 全量加载，无选择性注入          |
-| 作用域   | 工作区 / 全局 / 团队三级      | 通常只有项目级                  |
+| 注入控制 | 三种 inclusion 模式，精细控制 | 始终加载，无选择性注入          |
+| 作用域   | 工作区 / 全局两级             | Kiro 支持工作区根目录与全局目录 |
 | 文件引用 | 支持 `#[[file:path]]` 语法    | 不支持动态文件引用              |
 | 工具支持 | Kiro 专属                     | Claude Code、Codex 等多工具支持 |
 | 版本控制 | 纳入项目 Git 仓库             | 纳入项目 Git 仓库               |
@@ -328,7 +309,7 @@ inclusion: auto
 
 ### Kiro 对 AGENTS.md 的支持
 
-Kiro 同时支持 `AGENTS.md` 文件。如果项目根目录存在 `AGENTS.md`，Kiro 会将其作为一个 `always` 模式的 Steering 文件处理，自动注入到所有 Agent 会话中。
+Kiro 同时支持 `AGENTS.md` 文件。工作区根目录的 `AGENTS.md` 会对该项目生效；也可以把 `AGENTS.md` 放进 `~/.kiro/steering/` 作为全局规则。Kiro 会将它们作为始终加载的 Steering 指令处理，`AGENTS.md` 不支持 inclusion 模式。
 
 这意味着：
 
@@ -338,7 +319,7 @@ Kiro 同时支持 `AGENTS.md` 文件。如果项目根目录存在 `AGENTS.md`�
 
 ### 选择建议
 
-如果你的项目只使用 Kiro，建议充分利用 Steering 的多文件、多模式特性，将知识按主题分散到不同的 Steering 文件中，通过 `fileMatch` 和 `auto` 模式实现精准注入。
+如果你的项目只使用 Kiro，建议充分利用 Steering 的多文件、多模式特性，将知识按主题分散到不同文件中，通过 `fileMatch` 和 `manual` 减少不必要的上下文占用。
 
 如果你的项目需要同时支持多个 AI 工具，可以考虑以下策略：
 
@@ -358,7 +339,7 @@ Kiro 同时支持 `AGENTS.md` 文件。如果项目根目录存在 `AGENTS.md`�
 
 Kiro 的作用域优先级从高到低依次为：
 
-**工作区（Workspace）> 团队（Team）> 全局（Global）**
+**工作区（Workspace）> 全局（Global）**
 
 当工作区的 Steering 文件与全局 Steering 文件包含相互矛盾的规范时，工作区的规范生效。这符合"具体优先于通用"的直觉：项目特定的规范应该覆盖个人通用规范。
 

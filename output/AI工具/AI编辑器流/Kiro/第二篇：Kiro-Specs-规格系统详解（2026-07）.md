@@ -1,7 +1,7 @@
 ---
-title: "第二篇：Kiro Specs 规格系统详解（2026-04）"
+title: "第二篇：Kiro Specs 规格系统详解（2026-07）"
 slug: "ai-ai-kiro-kiro-specs-c09713f2-revision-20260704"
-summary: "深入解析 Kiro 的 Specs 系统：requirements、design、tasks 三层文档结构，Feature Spec 与 Bugfix Spec 两种类型，Requirements-First 与 Design-First 两种工作流，以及任务执行与状态追踪机制。"
+summary: "深入解析 Kiro 最新 Specs 系统：Feature、Bugfix 与 Quick Spec，Requirements-First 和 Design-First 工作流，需求一致性分析、属性测试，以及按依赖图并行执行任务。"
 category: "Kiro"
 tags:
   - "Kiro"
@@ -15,9 +15,9 @@ originalId: "6a2d291d8a2b1c68f2cabed2"
 originalSlug: "ai-ai-kiro-kiro-specs-c09713f2"
 exportedAt: "2026-07-04T07:00:23.241Z"
 ---
-# 第二篇：Kiro Specs 规格系统详解（2026-04）
+# 第二篇：Kiro Specs 规格系统详解（2026-07）
 
-> 本篇内容基于 Kiro 官方文档（https://kiro.dev/docs/specs/）整理，资料快照时间：2026-04。
+> 本篇内容基于 Kiro 官方 Specs 文档整理，资料核对时间：2026-07-27。2026 年 7 月新增的 Quick Spec、Analyze Requirements 与并行任务执行已纳入本文。
 
 [[toc]]
 
@@ -160,7 +160,7 @@ EARS 格式的核心是用结构化的句式描述系统行为，常见模式包
 
 ## Feature Spec vs Bugfix Spec
 
-Kiro 支持两种类型的 Spec，分别针对新功能开发和缺陷修复两种不同场景。
+Kiro 的标准入口分为 Feature Spec、Bugfix Spec 和 Quick Spec。Quick Spec 生成的产物与 Feature Spec 相同，但省略逐阶段审批门槛。
 
 ### Feature Spec（功能规格）
 
@@ -177,14 +177,14 @@ Feature Spec 的核心价值在于"先想清楚再动手"。通过需求文档�
 
 ### Bugfix Spec（缺陷修复规格）
 
-Bugfix Spec 用于修复已知的缺陷。与 Feature Spec 不同，它的文档结构更加精简，核心是准确描述 Bug 的触发条件、根本原因和修复方案。
+Bugfix Spec 用于修复已知缺陷。它同样经过分析、设计、任务三个阶段，但第一份产物是 `bugfix.md`，不是 `requirements.md`。重点是准确描述缺陷，并显式约束哪些现有行为必须保持不变。
 
 Bugfix Spec 通常包含：
 
-- **Bug 描述**：复现步骤、预期行为、实际行为
-- **根本原因分析**：通过代码审查或日志分析定位问题根源
-- **修复方案**：描述如何修复，以及修复后的验证方式
-- **任务列表**：修复步骤的拆解
+- **Current Behavior**：在什么条件下产生了什么错误行为
+- **Expected Behavior**：相同条件下系统应当如何表现
+- **Unchanged Behavior**：修复后必须继续成立的行为，用于防止回归
+- **设计与任务**：在 `design.md` 中记录根因和修复方案，在 `tasks.md` 中生成实现与验证步骤
 
 Bugfix Spec 的一个重要特性是支持**属性测试（Property-Based Testing）**工作流。Kiro 鼓励在修复 Bug 之前先编写一个能够复现该 Bug 的测试，确认测试失败（证明 Bug 存在），然后修复代码，最终确认测试通过（证明 Bug 已修复）。这种"先写测试再修复"的方式能有效防止 Bug 复发。
 
@@ -193,7 +193,7 @@ Bugfix Spec 的一个重要特性是支持**属性测试（Property-Based Testin
 | 维度     | Feature Spec               | Bugfix Spec               |
 | -------- | -------------------------- | ------------------------- |
 | 适用场景 | 新功能开发、重构           | 缺陷修复                  |
-| 文档结构 | 完整三层（需求/设计/任务） | 精简（Bug描述/原因/修复） |
+| 文档结构 | `requirements.md` / `design.md` / `tasks.md` | `bugfix.md` / `design.md` / `tasks.md` |
 | 规划深度 | 深度规划，充分设计         | 快速定位，精准修复        |
 | 测试策略 | 验收测试                   | 复现测试 + 回归测试       |
 | 典型周期 | 数天到数周                 | 数小时到数天              |
@@ -221,6 +221,8 @@ Requirements-First（需求优先）是 Kiro 推荐的标准工作流，适合�
 - 验收标准是否足够具体，可以被测试？
 
 这一步不要急于跳过。需求文档的质量直接决定后续设计和实现的质量。
+
+对于复杂、合规敏感或由 Quick Spec 自动生成的需求，可以在聊天区或编辑器的 Continue 下拉菜单中选择 **Analyze Requirements**。Kiro 会跨越整份需求集查找逻辑矛盾、歧义、冲突约束、未声明假设和缺失边界，并以澄清问题流式返回。分析可能需要数分钟；回答后 Kiro 会同步更新 `requirements.md`，手动编辑需求后也可以重新运行分析。
 
 **第三步：生成 design.md**
 
@@ -280,7 +282,21 @@ Design-First（设计优先）工作流适合另一种场景：你已经有了�
 
 ---
 
-## 任务执行与状态追踪
+## Quick Spec：一次生成完整规格
+
+Quick Spec 适合需求已经比较清楚、希望减少阶段确认的功能。它不是 Vibe 模式的别名，而是一个仍然会落盘完整 Spec 产物的快捷流程：
+
+1. 在 Kiro 面板的 Specs 区域点击 `+`，或在聊天中选择 Spec
+2. 在 Feature Specs、Bugfix Specs 之外选择 **Quick Spec**
+3. 一次回答范围、约束、边界情况等澄清问题
+4. Kiro 连续生成 `requirements.md`、`design.md` 和 `tasks.md`，中间不设置批准门槛
+5. 到达任务列表后审查、编辑或开始实现
+
+Quick Spec 的优势来自“把澄清前置”，而不是跳过规格。若需求涉及金融、医疗、合规或陌生架构，标准 Feature Spec 的阶段审查通常更稳妥。产物生成后仍可直接编辑，或在 Spec 会话中用 **Sync Files** 重新同步任务。
+
+---
+
+## 任务执行、并行调度与状态追踪
 
 任务执行是 Spec 工作流的最后一个阶段，也是 AI 真正"动手"的阶段。Kiro 提供了精细的任务状态追踪机制，确保整个执行过程透明可控。
 
@@ -296,7 +312,7 @@ Kiro 使用 Markdown 复选框语法追踪任务状态，共有三种状态：
 
 ### 任务执行的最佳实践
 
-**一次只执行一个任务**：Kiro 默认每次只执行一个任务，执行完毕后等待你的确认。这种方式让你有机会在每个步骤后审查代码变更，及时发现问题。
+**关键任务可单独执行**：对数据库迁移、权限或外部 API 这类高风险步骤，逐项执行并在每步后验证，更容易定位问题。
 
 **任务粒度要适中**：任务不应该太大（一个任务涉及多个文件的大量修改），也不应该太小（一个任务只改一行代码）。理想的任务粒度是：一次 Agent 会话可以完成，且完成后有明确的可验证结果。
 
@@ -304,13 +320,17 @@ Kiro 使用 Markdown 复选框语法追踪任务状态，共有三种状态：
 
 **任务失败时的处理**：如果某个任务执行失败（如测试不通过、编译报错），Kiro 会保持任务状态为 `[-]`（进行中），并在对话中说明失败原因。你可以选择让 Kiro 重试、手动修复，或者调整任务描述后重新执行。
 
-### 任务执行的交互模式
+### Run all Tasks 的依赖图并行执行
 
-Kiro 支持两种任务执行模式：
+当前版本的 **Run all Tasks** 不再只是顺序连续执行。Kiro 会分析 `tasks.md` 中的依赖关系，生成依赖图，并按 wave 调度：
 
-**手动模式**：每次只执行一个任务，执行完毕后等待用户确认再继续。适合需要仔细审查每个步骤的场景。
+- Wave 1：所有没有前置依赖的任务并行运行
+- Wave 2：等待 Wave 1 满足依赖后，再并行运行下一组任务
+- 后续 wave：依次推进，直到全部任务完成
 
-**自动模式**：连续执行多个任务，直到遇到需要用户决策的情况才暂停。适合对 Spec 内容已经充分审查、希望快速推进的场景。
+不同 wave 串行，同一 wave 内并行。为让依赖判断更可靠，任务描述应明确写出“依赖任务 X”“在模型完成后生成接口”等关系；可能写同一批文件或共享数据库状态的任务不应强行并行。
+
+是否需要逐次审批文件变更，由聊天的 Autopilot/Supervised 模式和统一权限规则共同决定，不应再把它简单描述为 Spec 的“手动/自动任务模式”。
 
 ---
 
@@ -331,8 +351,8 @@ Kiro 的所有 Spec 文件都存储在项目根目录的 `.kiro/specs/` 目录�
     │   ├── requirements.md
     │   ├── design.md
     │   └── tasks.md
-    └── todo-list/
-        ├── requirements.md
+    └── login-timeout-bug/
+        ├── bugfix.md
         ├── design.md
         └── tasks.md
 ```
@@ -471,6 +491,8 @@ Kiro 的 AI 能力再强，也无法弥补需求文档的缺陷。如果 require
 - Kiro 官网：[https://kiro.dev](https://kiro.dev)
 - Kiro Specs 官方文档：[https://kiro.dev/docs/specs/](https://kiro.dev/docs/specs/)
 - Kiro 快速上手指南：[https://kiro.dev/docs/getting-started/](https://kiro.dev/docs/getting-started/)
-- EARS 需求格式说明：[https://kiro.dev/docs/specs/requirements/](https://kiro.dev/docs/specs/requirements/)
-- Kiro Bugfix 工作流：[https://kiro.dev/docs/specs/bugfix/](https://kiro.dev/docs/specs/bugfix/)
-- Kiro Design-First 工作流：[https://kiro.dev/docs/specs/design-first/](https://kiro.dev/docs/specs/design-first/)
+- Kiro Quick Spec：[https://kiro.dev/docs/specs/quick-spec/](https://kiro.dev/docs/specs/quick-spec/)
+- 需求一致性分析：[https://kiro.dev/docs/specs/analyze-requirements/](https://kiro.dev/docs/specs/analyze-requirements/)
+- Kiro Bugfix Specs：[https://kiro.dev/docs/specs/bugfix-specs/](https://kiro.dev/docs/specs/bugfix-specs/)
+- Kiro Design-First 工作流：[https://kiro.dev/docs/specs/feature-specs/tech-design-first/](https://kiro.dev/docs/specs/feature-specs/tech-design-first/)
+- Specs 与属性测试：[https://kiro.dev/docs/specs/correctness/](https://kiro.dev/docs/specs/correctness/)

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-27",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "kiro-ide-1-0-article-refresh",
+      "title": "更新 Kiro IDE 1.0 系列教程",
+      "detail": "1. 依据 Kiro 官方文档、Sitemap、Changelog 与更新日志，将六篇 Kiro 教程统一更新到 2026 年 7 月资料口径并同步文件名。2. 补充 IDE 1.0 统一权限、Autopilot/Supervised、Quick Spec、需求一致性分析、任务依赖图并行执行、Powers、子代理、自定义 Agent、多模型与 CLI v3 等近期能力。3. 重写 Hooks 和 MCP 专题，迁移到 v1 Hook schema 与当前触发器/返回码，修正 MCP settings 路径、配置合并、OAuth/PKCE、环境变量审批、工具权限和 Server Directory，删除易误导的旧配置示例。",
+      "occurredAt": "2026-07-27T21:19:03+08:00",
+      "category": "版本调整"
+    }
+  ]
+}

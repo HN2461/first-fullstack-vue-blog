@@ -1,0 +1,278 @@
+---
+title: "第五篇：Kiro MCP 集成与工具扩展（2026-07）"
+slug: "ai-ai-kiro-kiro-mcp-d2d54239-revision-20260704"
+summary: "详解 Kiro 当前 MCP 集成：正确配置路径、本地与远程服务器、OAuth/PKCE、环境变量审批、配置合并、工具权限、prompts/resources，以及 MCP、Powers 和内置 Web 工具的选择。"
+category: "Kiro"
+tags:
+  - "Kiro"
+  - "MCP"
+  - "Model Context Protocol"
+  - "工具扩展"
+status: "draft"
+cover: ""
+originalId: "6a2d291d8a2b1c68f2cabed8"
+originalSlug: "ai-ai-kiro-kiro-mcp-d2d54239"
+exportedAt: "2026-07-04T07:00:23.241Z"
+---
+# 第五篇：Kiro MCP 集成与工具扩展（2026-07）
+
+> 本文基于 Kiro 官方 MCP 文档与 2026 年 7 月 Changelog 整理，资料核对时间：2026-07-27。旧版常见的 `.kiro/mcp.json` 路径和“同名配置完全覆盖”说法均已修正。
+
+[[toc]]
+
+---
+
+## MCP 是什么
+
+Model Context Protocol（MCP）是一套开放协议，让 Agent 以统一方式连接第三方工具和数据源。一个 MCP 服务器可以向 Kiro 暴露：
+
+- **Tools**：可由 Agent 调用的操作，例如搜索仓库、查询数据库、创建 Issue
+- **Prompts**：由用户选择的可复用提示模板，可带参数
+- **Resources**：可读取的结构化或非结构化上下文
+- **Resource templates**：需要参数才能定位内容的资源模板
+- **Elicitation**：工具执行过程中向用户请求补充输入
+
+MCP 的价值不只是“让 AI 调 API”，更重要的是统一能力发现、参数描述、授权和调用结果，让 Kiro 不必为每个外部系统实现专用插件。
+
+---
+
+## 配置文件位置与合并规则
+
+Kiro IDE 当前使用两个位置：
+
+| 级别 | 路径 | 适用场景 |
+| --- | --- | --- |
+| 工作区 | `.kiro/settings/mcp.json` | 当前仓库专用、可由团队评审的服务器 |
+| 用户 | `~/.kiro/settings/mcp.json` | 个人跨项目复用的服务器 |
+
+若两份文件同时存在，Kiro 会**合并配置**，工作区设置优先。不要再使用旧资料中的 `.kiro/mcp.json` 或 `~/.kiro/mcp.json` 路径。
+
+推荐通过命令面板打开，避免写错位置：
+
+- `Kiro: Open workspace MCP config (JSON)`
+- `Kiro: Open user MCP config (JSON)`
+
+也可从 Kiro 面板点击 Open MCP Config。
+
+---
+
+## 完整配置结构
+
+```json
+{
+  "mcpServers": {
+    "local-server": {
+      "command": "npx",
+      "args": ["-y", "your-local-mcp-package"],
+      "env": {
+        "API_KEY": "${LOCAL_MCP_API_KEY}"
+      },
+      "disabled": false,
+      "autoApprove": ["read_only_tool"],
+      "disabledTools": ["destructive_tool"]
+    },
+    "remote-server": {
+      "url": "https://example.com/mcp",
+      "headers": {
+        "X-Workspace": "example"
+      },
+      "oauth": {
+        "clientId": "public-client-id",
+        "redirectUri": "127.0.0.1:8080"
+      },
+      "oauthScopes": ["read"],
+      "disabled": false,
+      "autoApprove": [],
+      "disabledTools": []
+    }
+  }
+}
+```
+
+本地服务器和远程服务器的核心区别：
+
+- 本地服务器用 `command` + `args` 启动子进程
+- 远程服务器用 `url` 连接 HTTPS 端点；localhost 开发时可以使用 HTTP
+- `command` 与 `url` 不应在同一服务器项中混用
+
+### 通用字段
+
+| 字段 | 说明 |
+| --- | --- |
+| `env` | 传给本地进程或服务器连接的环境变量 |
+| `disabled` | 暂时停用整个服务器，默认 `false` |
+| `autoApprove` | 无需逐次确认的工具名；`"*"` 代表全部，风险很高 |
+| `disabledTools` | 不向 Agent 暴露的工具名，用于减少风险和工具噪声 |
+
+### 远程认证字段
+
+| 字段 | 说明 |
+| --- | --- |
+| `headers` | 连接时附带的请求头；避免直接硬编码长期密钥 |
+| `oauth.clientId` | 服务不支持 Dynamic Client Registration 时使用的公开客户端 ID |
+| `oauth.redirectUri` | 本地 OAuth 回调监听的主机和端口；省略时使用随机可用端口 |
+| `oauthScopes` | 顶层数组，声明申请的 OAuth scopes，不放在 `oauth` 对象内部 |
+
+---
+
+## OAuth 与远程服务器
+
+Kiro 会为需要登录的远程 MCP 自动处理浏览器 OAuth。支持 Dynamic Client Registration（DCR）的服务器通常只需配置 `url`，连接时 Kiro 会打开授权页。
+
+不支持 DCR 的服务需要先在提供商处注册公开 OAuth 客户端，再填写 `oauth.clientId` 和必要的 `oauthScopes`：
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "url": "https://api.github.com/mcp",
+      "oauth": {
+        "clientId": "your-public-client-id"
+      },
+      "oauthScopes": ["repo", "user"],
+      "autoApprove": [],
+      "disabledTools": []
+    }
+  }
+}
+```
+
+只支持 PKCE 且不带 client secret 的公开客户端。要求 `client_secret` 的机密客户端不能按这种方式配置；不要把 secret 写进可提交的 JSON。
+
+2026 年 7 月的 IDE/CLI 更新还改进了延迟认证和 OAuth 兼容性：只有在真正使用需要认证的 MCP 时再触发登录，CLI 也扩展了认证服务器与自定义客户端注册支持。
+
+---
+
+## 环境变量与凭证安全
+
+`${VARIABLE_NAME}` 会在 Kiro 启动服务器或建立连接时展开：
+
+```json
+{
+  "mcpServers": {
+    "internal-docs": {
+      "command": "internal-docs-mcp",
+      "args": [],
+      "env": {
+        "INTERNAL_DOCS_TOKEN": "${INTERNAL_DOCS_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+Kiro 只展开用户明确批准的环境变量。新增未批准变量时，IDE 会弹出安全提示；也可在设置中搜索 **Mcp Approved Env Vars** 管理白名单。这能避免第三方 MCP 任意读取系统环境变量。
+
+实践规则：
+
+- 工作区配置可以提交，但不得包含 token、密码或数据库连接串
+- 环境变量只批准服务器确实需要的名称
+- 用户级配置文件包含个人连接信息时应限制文件权限
+- 服务器不再使用后，先停用，再撤销外部服务中的 token/OAuth grant
+- 定期查看 `Kiro - MCP Logs`，确认没有异常工具或连接行为
+
+---
+
+## 工具发现、启停与审批
+
+Kiro 面板的 MCP servers 标签页会显示服务器连接状态和工具列表。右键服务器可以重新连接、停用、批量启停工具或打开日志；单个工具也能在面板中临时禁用。
+
+Agent 会根据自然语言自动选择工具，也可以显式指定服务器和工具：
+
+```text
+#[aws-docs] search_documentation 查找 Lambda Function URL 的最新安全建议
+```
+
+默认情况下，MCP 工具调用需要用户批准。`autoApprove` 只应放入来源可信、只读、参数边界明确且高频使用的工具。例如，允许文档搜索通常比自动批准数据库写入安全得多。
+
+`disabledTools` 同时解决两类问题：
+
+- 阻止删除、强制推送、生产写入等危险能力
+- 减少工具数量，降低 Agent 选错工具和占用上下文的概率
+
+---
+
+## Prompts、Resources 与 Elicitation
+
+当前 Kiro 不只消费 MCP Tools。
+
+### MCP Prompts
+
+输入 `#` 打开上下文菜单，可以选择服务器暴露的 Prompt。无参数 Prompt 会直接解析到聊天上下文；带参数 Prompt 会先显示内联表单。Prompts 必须由用户主动选择，Kiro 不会在未选择时擅自发送给服务器。
+
+### Resources 与 Resource Templates
+
+服务器可以暴露文档、数据库元数据或其他资源。固定资源可直接读取；resource template 通过参数生成具体 URI，适合“按仓库和文件名取内容”这类场景。相比把所有材料塞进一个工具返回值，资源接口更利于结构化发现和按需读取。
+
+### Elicitation
+
+某些工具执行到中途需要补充选择、确认或字段值时，可以通过 elicitation 向用户请求输入。遇到涉及写操作或外部系统变更的 elicitation，应重新核对范围，不要因为前一次批准就自动接受后续扩大权限。
+
+---
+
+## Server Directory 与一键安装
+
+Kiro 官方提供 [MCP Server Directory](https://kiro.dev/docs/mcp/servers/)，可直接浏览 GitHub、GitLab、PostgreSQL、MongoDB、Playwright、Chrome DevTools、Context7、AWS Documentation 等服务器，并通过 **Add to Kiro** 一键安装。
+
+第三方服务器仍然是第三方代码。一键安装减少的是配置步骤，不是安全审查。安装前要确认：
+
+1. 发布者与源代码地址是否可信
+2. 本地服务器会执行什么二进制或包管理命令
+3. 远程服务器把数据发送到哪里
+4. 默认暴露哪些写入或删除工具
+5. 许可证、数据保留和组织合规要求是否可接受
+
+不要继续照抄已归档包的旧教程。以 Server Directory 当前指向的官方实现和安装方式为准。
+
+---
+
+## MCP、Powers 与内置工具怎么选
+
+| 需求 | 优先方案 |
+| --- | --- |
+| 搜索网页、读取 URL | Kiro 内置 Web 工具，通常不需要再装旧版 fetch MCP |
+| 连接单个稳定外部系统 | 直接配置 MCP |
+| 某技术同时需要知识、流程和大量 MCP 工具 | 安装对应 Power |
+| 只需要项目规则，不需要外部调用 | Steering |
+| 希望事件发生后自动调用能力 | Hooks + Permissions，必要时再调用 MCP |
+
+Powers 会把 `POWER.md`、MCP 配置以及可选 Steering/Hooks 打包，并根据对话关键词动态激活。若一个服务器暴露几十个工具，而你只在少数任务中使用，Power 比让全部工具常驻上下文更合适。
+
+---
+
+## 故障排查
+
+### 服务器无法启动
+
+先在终端直接运行 `command` 和 `args`，确认运行时已安装、PATH 正确、包名没有弃用。然后查看 Kiro MCP Logs，而不是反复重启 IDE。
+
+### 环境变量为空
+
+确认变量在启动 Kiro 的进程环境中存在，并已加入 **Mcp Approved Env Vars**。从桌面图标启动的应用不一定继承终端会话中的临时变量。
+
+### OAuth 不断重登
+
+检查服务器的 metadata、redirect URI、scope 和客户端类型。只使用公开 PKCE 客户端，不要填写 confidential client secret。更新到较新的 IDE/CLI 后再复测 OAuth 兼容问题。
+
+### Agent 不调用工具
+
+确认服务器已连接、工具未被 `disabledTools` 或面板禁用、权限没有拒绝调用，并在 Prompt 中明确目标。工具过多时先禁用无关项，或把集成改造成按需激活的 Power。
+
+### 同名配置结果不符合预期
+
+同时检查用户级和工作区文件。两级配置会合并，工作区优先；不要按“工作区文件完全替换用户文件”的旧理解排查。
+
+---
+
+## 参考资料
+
+- [Kiro MCP 总览](https://kiro.dev/docs/mcp/)
+- [MCP 配置与 OAuth](https://kiro.dev/docs/mcp/configuration/)
+- [MCP 使用方式](https://kiro.dev/docs/mcp/usage/)
+- [MCP 安全指南](https://kiro.dev/docs/mcp/security/)
+- [MCP Server Directory](https://kiro.dev/docs/mcp/servers/)
+- [Kiro Powers](https://kiro.dev/docs/powers/)
+- [CLI 2.12：Expanded MCP OAuth Support](https://kiro.dev/changelog/cli/2-12)
+- [IDE 1.0.116：Lazy MCP Auth](https://kiro.dev/changelog/ide/1-0-116)
+
+> 本文以 2026-07-27 官方资料为准。MCP 服务器实现和认证方式变化很快，配置第三方服务时应同时核对 Kiro 文档与该服务器自己的最新文档。
