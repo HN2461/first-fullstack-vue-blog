@@ -8,6 +8,7 @@ tags:
   - FastAPI
   - 开发环境
 status: draft
+sortOrder: 10
 cover:
 ---
 
@@ -181,4 +182,3 @@ python -m pip install ruff mypy pre-commit
 - 能确认命令正在使用项目虚拟环境。
 - 知道开发配置和生产配置不能混用。
 - 已决定用一个持续演进的业务项目承接练习。
-

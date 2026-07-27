@@ -1,5 +1,5 @@
 ---
-title: FastAPI 从 0 到 1 14：高频问题、面试与交付清单
+title: FastAPI 从 0 到 1 15：高频问题、面试与交付清单
 slug: fastapi-faq-interview-delivery-checklist
 summary: 汇总 FastAPI 企业开发高频概念、常见故障、面试表达、命令速查和上线前检查项。
 category: Python应用实例
@@ -10,10 +10,11 @@ tags:
   - 排障
   - 检查清单
 status: draft
+sortOrder: 160
 cover:
 ---
 
-# FastAPI 从 0 到 1 14：高频问题、面试与交付清单
+# FastAPI 从 0 到 1 15：高频问题、面试与交付清单
 
 ## 核心概念速答
 
@@ -283,4 +284,3 @@ docker compose down
 | 日志、监控、性能、安全、部署 |  |
 
 总分 16 分以上且综合项目可独立交付，说明已经具备进入企业 FastAPI 项目继续成长的基础。低分项回到对应章节完成练习，不要继续通过堆新框架掩盖核心能力缺口。
-

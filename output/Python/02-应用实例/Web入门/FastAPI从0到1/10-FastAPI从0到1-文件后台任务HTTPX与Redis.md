@@ -1,5 +1,5 @@
 ---
-title: FastAPI 从 0 到 1 09：文件、后台任务、HTTPX 与 Redis
+title: FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis
 slug: fastapi-files-background-httpx-redis
 summary: 处理文件上传下载、轻量后台任务、外部 HTTP 服务、缓存、限流、幂等和分布式短期状态。
 category: Python应用实例
@@ -10,10 +10,30 @@ tags:
   - HTTPX
   - 文件上传
 status: draft
+sortOrder: 110
 cover:
 ---
 
-# FastAPI 从 0 到 1 09：文件、后台任务、HTTPX 与 Redis
+# FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis
+
+本章是“按项目需要选用”的基础设施扩展，不是一口气全部安装的必做清单。第一次学习建议按下面顺序：
+
+1. 必学：UploadFile 的内存边界、文件名不可信、HTTPX 超时。
+2. 项目需要再做：对象存储、文章缓存、登录限流。
+3. 进阶：幂等键和分布式锁。
+
+本章代码都建立在第 06 到 09 章的项目结构上。出现 `router`、`settings`、`session`、`ArticleRead`、`ExternalServiceError` 等名字时，它们分别代表当前模块的 APIRouter、项目配置、请求级数据库 Session、响应 Schema 和项目领域异常。代码块若没有文件路径，均是解释一个机制的局部示例，不是可单独运行的完整文件。
+
+先明确选择原则：
+
+| 需求 | 第一选择 |
+| --- | --- |
+| 小头像、练习文件 | API 分块保存到受控本地目录 |
+| 生产图片/大文件 | 客户端通过预签名 URL 直传对象存储 |
+| 响应后写一条非关键日志 | BackgroundTasks |
+| 重要邮件、导出、转码 | 持久化任务队列 |
+| 调外部 API | 复用 HTTPX AsyncClient，并设置超时 |
+| 热点公开查询 | 测量后使用 Cache Aside |
 
 ## 文件上传基础
 
@@ -103,6 +123,18 @@ async def save_upload(file: UploadFile) -> tuple[str, int]:
     return stored_name, total
 ```
 
+关键代码拆解：
+
+- `Path(...).suffix.lower()` 只取扩展名，但扩展名仍不能证明真实类型。
+- `uuid4().hex` 由服务端生成存储名，避免信任客户端 filename。
+- `resolve()` 得到规范绝对路径，再用 `UPLOAD_DIR in target.parents` 防止写出上传目录。
+- `while chunk := await file.read(CHUNK_SIZE)` 表示每次最多读一个分块，读到空字节时结束。
+- 大小在读取过程中累计，超过上限立即抛错。
+- `except` 删除已经写了一部分的残留文件。
+- `finally` 无论成功失败都关闭 UploadFile。
+
+扩展名、客户端 MIME、magic bytes 和图片解码结果应组合验证，不能只选其中一项。
+
 同步磁盘写入在高并发大文件场景会阻塞；生产更常通过反向代理限制大小、预签名 URL 直传对象存储，或将耗时处理交给 worker。
 
 ## 对象存储
@@ -126,7 +158,7 @@ from fastapi import BackgroundTasks
 
 
 def write_audit_file(article_id: int) -> None:
-    ...
+    print(f'article {article_id} published')
 
 
 @router.post('/articles/{article_id}/publish')
@@ -178,6 +210,8 @@ async def lifespan(app: FastAPI):
     await app.state.http_client.aclose()
 ```
 
+`AsyncClient` 放在 lifespan 中创建一次，是为了复用 TCP 连接池。若在每个请求里 `httpx.AsyncClient()`，连接反复建立，性能和资源占用都会更差。`connect`、`read`、`write`、`pool` 是不同阶段的超时；只写一个模糊总超时不利于判断卡在哪里。
+
 调用：
 
 ```python
@@ -225,6 +259,8 @@ redis = Redis.from_url(
 )
 ```
 
+这只是创建客户端的局部片段。真实项目应在 lifespan 中创建并挂到 `app.state`，关闭阶段执行 `await redis.aclose()`；业务路由通过依赖获得客户端。不要在每个模块各自创建一套连接池。
+
 在 lifespan 关闭连接。Redis 常用于：
 
 - 短时缓存。
@@ -254,12 +290,16 @@ async def get_article_cached(article_id: int) -> ArticleRead:
     return result
 ```
 
+执行顺序是“先缓存、未命中再数据库、最后回填缓存”。`ArticleRead.model_validate_json` 把缓存 JSON 重新验证为 Schema，避免业务层到处传不受约束的字典。
+
 更新时先提交数据库，再删除缓存：
 
 ```python
 await session.commit()
 await redis.delete(f'article:v1:{article.id}')
 ```
+
+先提交数据库再删除缓存，是因为数据库才是事实来源。若事务最终回滚却先删缓存，虽然不会永久错误，但会制造无意义回源；若先写缓存再提交数据库，则可能把未成功的数据暴露出去。删除缓存失败仍需要日志、指标和补偿策略。
 
 还要考虑：
 
@@ -284,6 +324,8 @@ async def check_rate_limit(key: str, limit: int, window_seconds: int):
     if current > limit:
         raise RateLimitError('请求过于频繁')
 ```
+
+这是帮助理解流程的简化示例，不是生产实现。`INCR` 和首次 `EXPIRE` 之间进程崩溃可能留下无过期 key；生产使用 Lua 脚本、Redis 事务或成熟网关保证原子性。
 
 生产需用 Lua 脚本保证原子性，或采用成熟网关/库实现滑动窗口、令牌桶。限流维度可能是 IP、用户、API key、租户和接口组合。
 
@@ -336,4 +378,3 @@ Redis 锁不是修复数据库竞态的首选。唯一性优先用数据库约�
 - 外部请求配置超时并只安全重试。
 - 缓存 key 包含版本和数据范围，更新后有失效策略。
 - 幂等和分布式锁的正确性有持久化或原子操作保证。
-

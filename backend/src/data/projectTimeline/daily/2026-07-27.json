@@ -11,6 +11,13 @@
       "category": "版本调整"
     },
     {
+      "id": "fastapi-zero-to-one-beginner-rewrite",
+      "title": "重构 FastAPI 从 0 到 1 小白实战教程",
+      "detail": "1. 深度审查原 16 篇教程，修复内容偏复习提纲、代码上下文缺失、未定义名称较多、综合实战只有清单而无法跟做的问题。2. 新增 Python 代码阅读前置章，重写 HTTP、路由、Pydantic、异常、项目分层、SQLAlchemy、CRUD、JWT、pytest 和综合实战主线，补齐完整文件、逐段解释、预期结果、常见错误、动手练习和验收标准。3. 将综合实战落为作者提交审核、审核员通过或驳回、状态机、审核记录、事务和测试的完整纵向链，并明确区分可运行代码、局部示例与生产扩展。4. 按线上文章导入规则为 17 篇 Markdown 补齐 sortOrder，校验 Front Matter、唯一 slug、摘要长度、文件大小、代码围栏、UTF-8 无 BOM和中文可读性；配套最小文章 API 已通过真实 Uvicorn 请求验证。5. 取消不连续的 00A 命名，将教程文件重构为 00 至 15 连续编号，并同步 Front Matter 标题、正文 H1、总目录阶段表和全部跨章引用，slug 与线上排序保持稳定。",
+      "occurredAt": "2026-07-27T21:59:20+08:00",
+      "category": "内容上新"
+    },
+    {
       "id": "python-zero-foundation-knowledge-completion",
       "title": "补齐 Python 零基础知识体系缺口",
       "detail": "1. 审查 Python 零基础知识目录全部文章，修正总学习路线未收录 csv 与 logging 专题、阶段复盘位置说明、列表章节重复编号、数字类型表述和 decimal 悬空承诺。2. 新增可迭代对象与生成器、函数进阶与装饰器、Unicode 与 bytes、pytest 测试调试、正则与命令行及安全随机数和时区五篇专题，补齐原有示例已使用但未系统解释的核心机制。3. 修正 random 生成验证码容易形成的不安全工程习惯，明确普通随机与 secrets 安全随机的使用边界。4. 校验全部知识目录文章的 Front Matter slug 唯一性、Markdown 代码围栏、章节编号和 UTF-8 无 BOM。",

@@ -1,5 +1,5 @@
 ---
-title: FastAPI 从 0 到 1 12：日志、监控、性能、安全与部署
+title: FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署
 slug: fastapi-observability-performance-security-deployment
 summary: 建立生产级日志、指标、追踪、性能诊断、安全基线、Docker 镜像、代理配置、发布与回滚流程。
 category: Python应用实例
@@ -10,10 +10,28 @@ tags:
   - Docker
   - 部署
 status: draft
+sortOrder: 140
 cover:
 ---
 
-# FastAPI 从 0 到 1 12：日志、监控、性能、安全与部署
+# FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署
+
+这一章不是要求小白第一天搭建完整云平台，而是把项目从“我的电脑能跑”推进到“别人能按文档重复启动、出现故障能定位”。
+
+第一次交付先完成最小闭环：
+
+```text
+固定依赖版本
+  -> 测试通过
+  -> Alembic 从空库升级成功
+  -> 构建非 root Docker 镜像
+  -> 配置通过环境变量注入
+  -> /health 与 /ready 可用
+  -> 标准输出能按 request ID 找到错误
+  -> 有发布与回滚步骤
+```
+
+指标、分布式追踪、灰度平台和 PITR 是生产环境的重要能力，但要按团队基础设施接入。本章没有文件路径的代码块属于局部示例，不能脱离前面项目直接运行。
 
 ## 生产可用的含义
 
@@ -107,6 +125,15 @@ async def ready(request: Request):
         raise HTTPException(status_code=503, detail='not ready')
     return {'status': 'ready'}
 ```
+
+两条接口不要混用：
+
+- `/health` 只回答进程能否响应，失败通常触发重启。
+- `/ready` 回答当前实例能否接新流量，失败时负载均衡应暂时摘除实例。
+- `include_in_schema=False` 表示不在业务 OpenAPI 中展示运维探针。
+- `app.state.ready` 应由 lifespan 在必要资源初始化成功后设置，关闭阶段恢复 false。
+
+这里只演示状态骨架。真实 readiness 若检查数据库，必须使用很短超时；不要串行检查所有第三方服务，否则一个非关键依赖故障会让整个 API 被摘流量。
 
 - liveness：进程是否卡死，失败会重启。
 - readiness：是否可接流量，失败会从负载均衡摘除。
@@ -233,6 +260,17 @@ EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
+Dockerfile 逐段含义：
+
+- `python:3.12-slim` 提供较小的 Python 运行环境。
+- 三个 ENV 关闭 pyc、让日志立即输出、避免 pip 缓存进入镜像。
+- 先复制 requirements 再安装，业务代码变化时可复用依赖缓存层。
+- 单独创建 `app` 系统用户，避免服务以 root 运行。
+- 复制 app、alembic 和配置后切换 `USER app`。
+- CMD 使用生产监听地址，不带开发用 `--reload`。
+
+真实项目还应锁定基础镜像 digest，确保依赖有锁文件，并在 `.dockerignore` 排除 `.env`、`.git`、`.venv`、缓存和本地上传目录。
+
 真实项目应锁定基础镜像 digest、使用构建缓存、根据依赖工具复制锁文件，并通过 `.dockerignore` 排除 `.env`、`.git`、测试缓存和本地上传。
 
 数据库迁移不应由每个 Web 副本启动时并发执行。使用部署前一次性 Job 或受控发布步骤。
@@ -273,6 +311,20 @@ services:
       retries: 10
 ```
 
+`depends_on: condition: service_healthy` 只帮助本地 Compose 按健康状态启动，不等于应用运行期间数据库永远可用，也不等于生产编排的就绪探针。API 仍要处理连接中断、超时和恢复。
+
+第一次验证镜像按下面顺序：
+
+```powershell
+docker compose build api
+docker compose run --rm api alembic upgrade head
+docker compose up -d api
+docker compose ps
+docker compose logs api
+```
+
+迁移使用一次性受控命令执行，不要让每个 API 副本启动时并发执行。
+
 开发密码只用于本地。生产使用独立托管服务或受控配置，不能复制 Compose 示例密码。
 
 ## 反向代理关注点
@@ -303,6 +355,8 @@ Nginx/网关通常负责：
 9. 完成发布记录
 10. 后续版本再执行 contract 清理
 ```
+
+对个人项目也不要省略验证。至少记录本次镜像/提交版本、迁移 revision、备份位置、核心接口验证结果和回滚命令。只有“知道上一版本是什么”，回滚才不是临时猜测。
 
 ## 回滚
 
@@ -341,4 +395,3 @@ Nginx/网关通常负责：
 - 连接池按所有实例和 worker 总量计算。
 - 迁移由受控单次任务执行。
 - 发布前有备份，发布后有指标验证，回滚考虑数据库兼容。
-

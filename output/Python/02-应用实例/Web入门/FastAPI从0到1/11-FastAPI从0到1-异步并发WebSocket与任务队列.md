@@ -1,5 +1,5 @@
 ---
-title: FastAPI 从 0 到 1 10：异步、并发、WebSocket 与任务队列
+title: FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列
 slug: fastapi-async-concurrency-websocket-task-queue
 summary: 理解事件循环、阻塞 I/O、并发控制、WebSocket 连接管理和持久化任务队列的适用边界。
 category: Python应用实例
@@ -10,10 +10,15 @@ tags:
   - WebSocket
   - 任务队列
 status: draft
+sortOrder: 120
 cover:
 ---
 
-# FastAPI 从 0 到 1 10：异步、并发、WebSocket 与任务队列
+# FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列
+
+这一章是进阶运行机制，不是普通 CRUD 项目的前置条件。第一次阅读的最低目标是：不在 `async def` 中塞同步阻塞调用，不并发共享 AsyncSession，知道重要后台任务不能只靠 Web 进程。
+
+本章代码块默认是局部机制示例。`fetch_profile`、`fetch_stats`、`sync_library_call` 等名字代表项目中已有的具体函数，教程不会假装它们可以脱离业务单独运行；真正需要接入时，应把它们替换为自己的 HTTPX、数据库或任务实现。
 
 ## 并发不是并行
 
@@ -25,13 +30,19 @@ cover:
 ## 异步路由正确示例
 
 ```python
+from fastapi import Request
+
+
 @router.get('/profiles/{user_id}')
-async def get_profile(user_id: int, client: HttpClientDep):
+async def get_profile(user_id: int, request: Request):
+    client = request.app.state.http_client
     response = await client.get(
         f'https://profiles.example.com/{user_id}'
     )
     return response.json()
 ```
+
+这里的 `http_client` 来自第 10 章 lifespan 中创建的共享 `httpx.AsyncClient`。`await client.get(...)` 等待网络响应时允许事件循环处理其他连接。真实代码还必须检查状态码、验证响应 Schema，并转换超时异常。
 
 错误示例：
 
@@ -55,6 +66,8 @@ from starlette.concurrency import run_in_threadpool
 
 result = await run_in_threadpool(sync_library_call, argument)
 ```
+
+`sync_library_call` 和 `argument` 是占位名称，分别表示“无法替换的同步库函数”和传给它的参数。例如旧 SDK 只有同步 I/O API 时才这样包裹，不要把普通计算机械丢进线程池。
 
 线程池适合阻塞 I/O，不适合无限量提交，也不能消除 CPU 密集计算受 GIL 和资源竞争的影响。必须设置并发上限和超时。
 
@@ -100,6 +113,8 @@ async def load_dashboard(user_id: int):
     }
 ```
 
+TaskGroup 中任一任务发生未处理异常，会取消同组其他任务，并在退出上下文时抛出异常组。只有 profile、stats、notices 互不依赖时才并发；若后一步需要前一步结果，就必须按顺序 await。
+
 只有相互独立的 I/O 才适合并发。不能用同一个 AsyncSession 同时发多个查询；每个并发任务需要独立 Session，或在同一任务串行执行数据库操作。
 
 ## 并发上限
@@ -113,6 +128,8 @@ async def limited_fetch(url: str):
         return await fetch(url)
 ```
 
+Semaphore 像 10 个并发许可证。进入代码块占一个，结束后归还。它限制的是当前进程内并发，多个 worker 各有自己的 Semaphore，不能替代全局第三方配额控制。
+
 没有上限的 `gather` 可能瞬间占满连接池、文件描述符或外部服务配额。并发上限应与数据库池、HTTP 连接池、第三方限额一起设计。
 
 ## 超时和取消
@@ -121,6 +138,8 @@ async def limited_fetch(url: str):
 async with asyncio.timeout(5):
     result = await slow_operation()
 ```
+
+超时触发后，当前等待会被取消。被调用代码必须在 `finally` 或上下文管理器中释放连接、文件和锁，不能吞掉取消异常后继续做不可控工作。
 
 被取消的协程应及时释放资源，不要吞掉 `CancelledError`。数据库事务、临时文件、锁都要在 `finally` 或上下文管理器中清理。
 
@@ -181,6 +200,14 @@ class ConnectionManager:
         if not sockets:
             self.connections.pop(user_id, None)
 ```
+
+这个管理器只维护当前 Python 进程内的集合：
+
+- `dict` 的键是用户 ID。
+- `set` 允许同一用户多个页面或设备连接。
+- 断开时必须移除 WebSocket，集合为空再删除用户键。
+
+它不是多实例方案，也没有离线消息、心跳、慢消费者队列和认证。把它当成理解连接生命周期的最小骨架。
 
 内存连接表只知道当前进程的连接。多 worker、多实例广播需要 Redis Pub/Sub、消息中间件或专用实时服务。Pub/Sub 不持久化，离线通知仍应保存数据库。
 
@@ -255,4 +282,3 @@ payload 不要无限膨胀或保存敏感明文；大型输入放对象存储，
 - 高并发 fan-out 有上限、超时和取消清理。
 - 关键任务使用持久化队列并按重复投递设计。
 - WebSocket 多实例广播和离线消息分别处理。
-
