@@ -9,6 +9,13 @@
       "detail": "1. 依据 Kiro 官方文档、Sitemap、Changelog 与更新日志，将六篇 Kiro 教程统一更新到 2026 年 7 月资料口径并同步文件名。2. 补充 IDE 1.0 统一权限、Autopilot/Supervised、Quick Spec、需求一致性分析、任务依赖图并行执行、Powers、子代理、自定义 Agent、多模型与 CLI v3 等近期能力。3. 重写 Hooks 和 MCP 专题，迁移到 v1 Hook schema 与当前触发器/返回码，修正 MCP settings 路径、配置合并、OAuth/PKCE、环境变量审批、工具权限和 Server Directory，删除易误导的旧配置示例。",
       "occurredAt": "2026-07-27T21:19:03+08:00",
       "category": "版本调整"
+    },
+    {
+      "id": "python-zero-foundation-knowledge-completion",
+      "title": "补齐 Python 零基础知识体系缺口",
+      "detail": "1. 审查 Python 零基础知识目录全部文章，修正总学习路线未收录 csv 与 logging 专题、阶段复盘位置说明、列表章节重复编号、数字类型表述和 decimal 悬空承诺。2. 新增可迭代对象与生成器、函数进阶与装饰器、Unicode 与 bytes、pytest 测试调试、正则与命令行及安全随机数和时区五篇专题，补齐原有示例已使用但未系统解释的核心机制。3. 修正 random 生成验证码容易形成的不安全工程习惯，明确普通随机与 secrets 安全随机的使用边界。4. 校验全部知识目录文章的 Front Matter slug 唯一性、Markdown 代码围栏、章节编号和 UTF-8 无 BOM。",
+      "occurredAt": "2026-07-27T22:11:45+08:00",
+      "category": "内容上新"
     }
   ]
 }

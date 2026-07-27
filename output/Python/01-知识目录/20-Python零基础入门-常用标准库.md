@@ -240,6 +240,8 @@ const shuffled = [...names].sort(() => Math.random() - 0.5)
 
 Python 的 `random` 模块比 JS 的 `Math.random()` 功能丰富得多。
 
+> `random` 适合抽样、模拟、打乱顺序和普通练习，不适合生成真实验证码、密码、重置链接或访问令牌。安全场景应使用标准库 `secrets`，本系列后续专题会给出完整示例。
+
 ## 五、os：读取环境变量
 
 ```python
@@ -434,7 +436,9 @@ file_path.write_text('{"status": "ok"}', encoding="utf-8")
 print(f"文件已保存：{file_path}")
 ```
 
-练习二：随机生成验证码。
+练习二：随机生成练习代码。
+
+下面示例只用于熟悉 `random.choice()`，不能用于真实登录验证码或安全令牌：
 
 ```python
 import random
@@ -445,7 +449,7 @@ def generate_code(length=6):
     return "".join(random.choice(chars) for _ in range(length))
 
 code = generate_code()
-print(f"验证码：{code}")
+print(f"练习代码：{code}")
 ```
 
 ## 本篇小结
