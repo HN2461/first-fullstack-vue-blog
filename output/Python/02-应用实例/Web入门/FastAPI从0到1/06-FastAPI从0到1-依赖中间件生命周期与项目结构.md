@@ -727,6 +727,64 @@ Router 中出现大量权限判断、事务提交和状态流转时，应移到 
 
 共享 HTTPX Client、Redis Client 等应在 lifespan 创建并复用连接池。数据库 Session 则必须按请求或用例创建，二者不要混淆。
 
+## Express 对照：Router、Service、Repository 与生命周期
+
+Express 没有 `Depends`，通常用中间件把认证结果、校验结果或请求上下文挂到 `req`，再由 Router 调用 Service。对应目录可以保持和 FastAPI 相同的职责边界：
+
+```text
+src/
+├─ app.js
+├─ server.js
+└─ modules/articles/
+   ├─ article.routes.js
+   ├─ article.service.js
+   ├─ article.repository.js
+   └─ article.schemas.js
+```
+
+```js
+// article.routes.js
+import { Router } from 'express'
+import * as articleService from './article.service.js'
+
+export const articleRouter = Router()
+
+articleRouter.get('/', async (req, res) => {
+  const result = await articleService.list({ keyword: req.query.keyword })
+  res.json(result)
+})
+
+// app.js
+export function createApp() {
+  const app = express()
+  app.use(express.json())
+  app.use(requestContextMiddleware)
+  app.use('/articles', articleRouter)
+  app.use(notFoundHandler)
+  app.use(errorHandler)
+  return app
+}
+
+// server.js
+async function bootstrap() {
+  await connectDatabase()
+  const app = createApp()
+  const server = app.listen(env.port)
+
+  async function shutdown() {
+    server.close(async () => {
+      await mongoose.disconnect()
+      process.exit(0)
+    })
+  }
+
+  process.on('SIGTERM', shutdown)
+  process.on('SIGINT', shutdown)
+}
+```
+
+FastAPI 的请求级依赖更适合提供 Session 和当前用户；Express 的 Mongoose Model 通常使用全局连接池，不需要每个请求创建 Session。只有事务操作才显式创建 `mongoose.startSession()`，并在 `finally` 中结束。
+
 ## 本章动手改
 
 1. 增加 `app/routers/system.py`，把 `/health` 从 `main.py` 拆出去。

@@ -150,6 +150,21 @@ python -m pip install ruff mypy pre-commit
 
 不要把开发便利直接带到生产。例如 `--reload`、默认密钥、宽松 CORS、公开文档和调试错误都不适合直接上线。
 
+## Express 对照：两套技术栈的学习地图
+
+你现有 Node + Express 项目已经覆盖了不少同类能力，可以把本教程的阶段映射为：
+
+| FastAPI 学习阶段 | 你项目中的 Express 复习点 |
+| --- | --- |
+| HTTP、路由、参数 | `express.Router`、`req.params`、`req.query`、`express.json` |
+| Pydantic 与响应模型 | Zod Schema、输入校验、响应 DTO |
+| Depends 与中间件 | 认证、权限、request context、错误中间件 |
+| SQLAlchemy 与事务 | Mongoose Model、`ClientSession`、索引和迁移脚本 |
+| pytest + HTTPX | Vitest、Supertest、MongoDB Memory Server |
+| lifespan 与部署 | `server.js` bootstrap、SIGTERM、Docker、PM2 |
+
+建议每学完一个 FastAPI 功能，立刻在现有 Express 项目中找一个真实模块完成“同契约复刻”：例如用 Zod 为文章创建接口补输入/输出 Schema，用 Supertest 为同一接口补 422 和 409 测试。这样复习的是工程边界，不是机械背两个框架的 API 名字。
+
 ## 学习中的常见误区
 
 ### 只记装饰器

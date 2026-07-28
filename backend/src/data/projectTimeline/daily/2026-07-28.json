@@ -9,6 +9,20 @@
       "detail": "1. 移除文章导出接口原有的 200 篇截断，按线上查询条件导出全部未删除文章，支持已发布、草稿、已下架和全部范围。2. 改用数据库游标逐篇读取并通过流式 ZIP 响应下载，避免全量文章和压缩包同时堆积在后端内存中；前端导出请求取消 30 秒固定超时。3. 在导出包增加 manifest.json，记录实际导出数量、文章 ID、原 slug、状态、分类路径和文件名，并补充 sortOrder、originalStatus 等备份参考字段。4. 新增超过 200 篇文章的回归测试，原有文章导出、分类筛选、前端构建均验证通过。5. 已按增量发布流程部署到正式服务器，发布前完成 MongoDB 与前后端/上传目录备份，备份目录为 /www/personal-blog/backups/release-20260728-224307；线上 Article 共 448 篇（446 篇已发布、2 篇草稿），部署后 PM2、内网健康、公网健康和线上导出服务预检查均通过。",
       "occurredAt": "2026-07-28T22:30:00+08:00",
       "category": "功能更新"
+    },
+    {
+      "id": "mysql-tutorial-beginner-mongodb-improvements",
+      "title": "完善 MySQL 教程的新手路线与 MongoDB 对照",
+      "detail": "1. 新增 MongoDB 到 MySQL 的迁移对照导读，并在 CRUD、SELECT、JOIN、聚合、建模、索引、事务、性能、备份、Node.js 和订单案例章节补充逐章对照，明确语义相近但不可机械翻译的边界。2. 将总目录改为入门必修、项目开发、生产进阶和复习查阅四层，补充小白学习提示与 6～8 周的实践节奏建议。3. 新增 sql/00_reset.sql，并将练习入口改为先重置、建表、初始化，修正 seed 脚本的静默 INSERT IGNORE 误导；补充期初库存流水，使 stock_after 有明确数据基线。4. 统一 learning_app 使用 127.0.0.1 连接并说明本地实验库授予全部权限仅为学习便利；Node.js 事务示例增加教学边界、事务启动保护和商品不存在检查。5. 完成 UTF-8 无 BOM、Front Matter slug 唯一性、代码文件行数和项目编码检查。",
+      "occurredAt": "2026-07-28T23:09:07+08:00",
+      "category": "内容上新"
+    },
+    {
+      "id": "fastapi-tutorial-express-comparison-review",
+      "title": "深度评审 FastAPI 教程并补充 Express 对照",
+      "detail": "1. 按零基础可读性、FastAPI 核心闭环、数据库与业务工程、安全质量和企业级独立交付五个维度完成教程评估，新增学习成效评估章节，明确当前教程适合建立项目实战基础，但仍需最终可运行企业版源码、CI/CD、恢复和故障演练才能支撑独立生产交付。2. 按现有 Node.js 20、Express 5、ESM、Mongoose、Zod、JWT、multer、Socket.IO、Vitest 和 Supertest 技术栈，为 00–15 章补充对等实现和验收说明，覆盖路由、校验、异常、分层、持久化、事务并发、RBAC、上传队列、测试与部署。3. 修正三处把 PostgreSQL 接入误指向第 6 章的章节引用，并完成 Markdown 结构、JavaScript 代码块语法、Python 源码编译和 UTF-8 无 BOM 检查。",
+      "occurredAt": "2026-07-28T23:22:00+08:00",
+      "category": "内容上新"
     }
   ]
 }

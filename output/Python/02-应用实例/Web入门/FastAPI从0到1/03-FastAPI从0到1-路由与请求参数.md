@@ -618,6 +618,52 @@ FastAPI 的常见判断规则：
 
 客户端会对 URL 进行百分号编码，服务端会解码。正常使用浏览器或 `Invoke-RestMethod` 即可，不要手工拼复杂编码。
 
+## Express 对照：Path、Query 和 JSON Body
+
+Express 不会根据函数签名猜测参数来源，需要从 `req.params`、`req.query` 和 `req.body` 读取；请求体解析还要先挂载 `express.json()`。下面是与本章文章接口对等的可运行片段：
+
+```js
+import express from 'express'
+import { z } from 'zod'
+
+const app = express()
+app.use(express.json())
+
+const articleCreateSchema = z.object({
+  title: z.string().trim().min(1).max(100),
+  content: z.string().min(1).max(10_000),
+  summary: z.string().max(200).nullable().optional()
+})
+
+app.get('/articles', (req, res) => {
+  const keyword = typeof req.query.keyword === 'string'
+    ? req.query.keyword
+    : undefined
+  res.json({ items: [], total: 0, keyword })
+})
+
+app.get('/articles/:articleId', (req, res) => {
+  const articleId = Number(req.params.articleId)
+  if (!Number.isInteger(articleId) || articleId <= 0) {
+    return res.status(422).json({ code: 'VALIDATION_ERROR' })
+  }
+  return res.json({ id: articleId })
+})
+
+app.post('/articles', (req, res) => {
+  const result = articleCreateSchema.safeParse(req.body)
+  if (!result.success) {
+    return res.status(422).json({
+      code: 'VALIDATION_ERROR',
+      details: result.error.flatten()
+    })
+  }
+  return res.status(201).json({ id: 1, ...result.data })
+})
+```
+
+这段对照特别适合复习你项目中的 Zod 校验边界：FastAPI 在进入函数前完成校验，Express 需要你显式调用 `safeParse`，否则错误数据会直接进入业务层。无论框架如何，`201`、`404` 和 `422` 的业务语义应保持一致。
+
 ## 本章动手改
 
 1. 给列表增加 `limit` 查询参数，范围 1 到 100，默认 20。

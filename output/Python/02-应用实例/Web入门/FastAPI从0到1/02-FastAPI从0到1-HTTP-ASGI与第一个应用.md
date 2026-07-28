@@ -461,6 +461,51 @@ uvicorn main:app --reload --port 8001
 
 检查启动命令是否带 `--reload`，保存的是不是当前运行目录里的 `main.py`，终端是否因为语法错误导致重载失败。
 
+## Express 对照：从空目录启动同一个接口
+
+在 Node.js 20+、Express 5 的 ESM 项目中，等价的完整 `src/app.js` 可以写成：
+
+```js
+import express from 'express'
+
+export function createApp() {
+  const app = express()
+  app.use(express.json())
+
+  app.get('/health', (req, res) => {
+    res.json({ status: 'ok' })
+  })
+
+  app.get('/hello/:name', (req, res) => {
+    res.json({ message: `你好，${req.params.name}` })
+  })
+
+  return app
+}
+```
+
+启动文件 `src/server.js`：
+
+```js
+import { createApp } from './app.js'
+
+const app = createApp()
+app.listen(8000, '127.0.0.1', () => {
+  console.log('Express running on http://127.0.0.1:8000')
+})
+```
+
+运行前安装并设置 ESM：
+
+```powershell
+npm init -y
+npm install express
+npm pkg set type=module
+node src/server.js
+```
+
+FastAPI 的 `uvicorn app.main:app` 同时承担“加载应用”和“启动服务器”；Express 通常由自己的 `server.js` 显式调用 `listen`。这一区别会在后面的应用工厂、测试和优雅关闭章节反复出现。
+
 ## 本章动手改
 
 不要直接看答案，自己完成：

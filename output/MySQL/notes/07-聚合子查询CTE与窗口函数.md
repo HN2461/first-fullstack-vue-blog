@@ -307,7 +307,22 @@ FROM daily_sales;
 
 不要一开始就写 100 行 SQL，再通过反复加 DISTINCT 猜结果。
 
-## 14. 本章自检
+## 14. MongoDB 对照：Aggregation Pipeline 到 SQL（P1）
+
+| MongoDB 阶段 | SQL 对应思路 |
+| --- | --- |
+| `$match` | WHERE，尽量提前缩小数据范围 |
+| `$project` | SELECT 列和表达式 |
+| `$lookup` | JOIN |
+| `$unwind` | 一对多结果展开，SQL JOIN 通常天然返回多行 |
+| `$group` | GROUP BY + 聚合函数 |
+| `$sort` / `$skip` / `$limit` | ORDER BY / OFFSET / LIMIT |
+| `$setWindowFields` | 窗口函数 `OVER (PARTITION BY ... ORDER BY ...)` |
+| 多段可复用 pipeline | CTE 或派生表 |
+
+MongoDB Pipeline 按阶段阅读；复杂 SQL 也应先拆成基础集合，再逐步 JOIN、聚合和排名。CTE 主要提升可读性，不保证比子查询更快，这和把 pipeline 拆得更清楚但仍需看 `explain()` 的道理相同。
+
+## 15. 本章自检
 
 - [ ] 能写条件聚合和分组过滤。
 - [ ] 理解 GROUP BY 与窗口函数是否保留明细行的差异。

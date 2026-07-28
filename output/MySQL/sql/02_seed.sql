@@ -1,9 +1,10 @@
 -- MySQL 8.x 学习库：示例数据
--- 使用固定主键和 INSERT IGNORE，便于第一次执行及重复实验。
+-- 使用固定主键写入示例数据。若实验数据被修改，请先执行 00_reset.sql、01_schema.sql，
+-- 再执行本脚本恢复完整基线；不要把 INSERT IGNORE 当作数据重置机制。
 
 USE mysql_learning;
 
-INSERT IGNORE INTO users (
+INSERT INTO users (
   id,
   email,
   username,
@@ -21,7 +22,7 @@ INSERT IGNORE INTO users (
   (4, 'david@example.com', 'David', '$2b$learning_hash_4', 'active',
     NULL, '2026-07-01 12:00:00.000');
 
-INSERT IGNORE INTO categories (
+INSERT INTO categories (
   id,
   parent_id,
   name,
@@ -34,7 +35,7 @@ INSERT IGNORE INTO categories (
   (4, 3, '数据库', 'database-books', 10),
   (5, 1, '显示设备', 'display-devices', 20);
 
-INSERT IGNORE INTO products (
+INSERT INTO products (
   id,
   category_id,
   product_code,
@@ -60,7 +61,7 @@ INSERT IGNORE INTO products (
   (5, 2, 'KB-002', '入门薄膜键盘', 99.00, 0, 'off_sale',
     NULL, '2026-06-16 09:00:00.000');
 
-INSERT IGNORE INTO orders (
+INSERT INTO orders (
   id,
   order_no,
   user_id,
@@ -95,7 +96,7 @@ INSERT IGNORE INTO orders (
     '2026-07-20 08:05:00.000', '2026-07-21 09:00:00.000',
     NULL, NULL, '2026-07-20 08:00:00.000');
 
-INSERT IGNORE INTO order_items (
+INSERT INTO order_items (
   id,
   order_id,
   product_id,
@@ -115,7 +116,7 @@ INSERT IGNORE INTO order_items (
   (6, 5, 1, '机械键盘', 399.00, 1, 399.00, '2026-07-20 08:00:00.000'),
   (7, 5, 2, '无线鼠标', 129.00, 1, 129.00, '2026-07-20 08:00:00.000');
 
-INSERT IGNORE INTO stock_movements (
+INSERT INTO stock_movements (
   id,
   product_id,
   order_id,
@@ -125,6 +126,10 @@ INSERT IGNORE INTO stock_movements (
   remark,
   created_at
 ) VALUES
+  (10, 1, NULL, 'manual_adjust', 52, 52, '实验数据期初库存', '2026-06-11 09:00:00.000'),
+  (11, 2, NULL, 'manual_adjust', 104, 104, '实验数据期初库存', '2026-06-11 09:00:00.000'),
+  (12, 3, NULL, 'manual_adjust', 202, 202, '实验数据期初库存', '2026-06-11 09:00:00.000'),
+  (13, 4, NULL, 'manual_adjust', 21, 21, '实验数据期初库存', '2026-06-11 09:00:00.000'),
   (1, 1, 1, 'order_deduct', -1, 51, '订单扣减', '2026-07-01 10:00:00.000'),
   (2, 2, 1, 'order_deduct', -2, 102, '订单扣减', '2026-07-01 10:00:00.000'),
   (3, 3, 2, 'order_deduct', -2, 200, '订单扣减', '2026-07-05 14:00:00.000'),

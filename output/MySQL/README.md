@@ -11,7 +11,7 @@ cover:
 
 # MySQL 0 到 1：企业后端开发系统学习笔记
 
-这套笔记面向已经接触过 Node.js、MongoDB，但刚开始学习关系型数据库的后端开发者。目标不是背完 MySQL 手册，而是建立一套能用于真实项目的知识体系：能设计表、写可靠 SQL、正确使用事务和索引、定位慢查询，并在 Node.js 服务中安全访问 MySQL。
+这套笔记主要面向已经接触过 Node.js、MongoDB，但刚开始学习关系型数据库的后端开发者。完全没有数据库经验的读者也可以学习，但应先按“入门必修”路线完成基础练习，不要一开始通读事务、锁和运维章节。目标不是背完 MySQL 手册，而是建立一套能用于真实项目的知识体系：能设计表、写可靠 SQL、正确使用事务和索引、定位慢查询，并在 Node.js 服务中安全访问 MySQL。
 
 企业项目通常还会使用 Redis 承担缓存、会话、限流、排行榜和分布式协调。完成 MySQL 主线后，可继续学习配套的 [Redis 0 到 1 企业后端专题](/console/articles/redis-zero-to-enterprise)，重点理解 MySQL 作为权威数据源、Redis 作为高性能派生数据和协作组件时的一致性边界。
 
@@ -40,6 +40,17 @@ cover:
 核心投入建议：P0 约占 70%，P1 约占 25%，P2 约占 5%。存储引擎源码、复制协议细节、复杂存储过程、冷门函数等内容不应成为入门阶段的重点。
 
 ## 推荐学习顺序
+
+### 学习分层
+
+| 层级 | 对应内容 | 完成标准 |
+| --- | --- | --- |
+| 入门必修 | 01～06 | 能连接数据库，理解表和关系，独立完成单表及多表 CRUD |
+| 项目开发 | 07～10、13～14 | 能做统计查询、表设计、索引、事务和 Node.js 数据访问 |
+| 生产进阶 | 11～12 | 能看懂慢查询、备份恢复和迁移流程，知道哪些操作应交给 DBA |
+| 复习查阅 | 15～16、exercises | 用于验收、面试准备和日常查询，不替代前面的动手练习 |
+
+MongoDB 用户建议同步阅读 [MongoDB 到 MySQL 迁移对照](/console/articles/mysql-00-mongodb-to-mysql)，每章遇到“MongoDB 对照”小节时先回忆原有写法，再运行 MySQL 示例。两种数据库的语义可以对比，但不能把操作名称机械一一翻译。
 
 ### 第一阶段：能操作数据库（第 1 周）
 
@@ -81,17 +92,19 @@ cover:
 
 本地实验脚本按顺序执行：
 
-1. `sql/01_schema.sql`：创建实验数据库、表、约束和索引。
-2. `sql/02_seed.sql`：写入可重复使用的示例数据。
-3. `sql/03_query_labs.sql`：核心查询实验。
-4. `sql/04_transaction_labs.sql`：事务与锁实验。
-5. `sql/05_explain_labs.sql`：索引与执行计划实验。
+1. `sql/00_reset.sql`：删除并重建本地学习库，仅用于实验环境恢复初始状态。
+2. `sql/01_schema.sql`：创建实验数据库、表、约束和索引。
+3. `sql/02_seed.sql`：写入带有明确期初库存的示例数据。
+4. `sql/03_query_labs.sql`：核心查询实验。
+5. `sql/04_transaction_labs.sql`：事务与锁实验。
+6. `sql/05_explain_labs.sql`：索引与执行计划实验。
 
 这些 `.sql` 文件是本地可执行附件，文章导入页面只选择 `.md` 文件。核心 SQL 已在各章正文和练习答案中提供，线上阅读不依赖本地附件。
 
 在 MySQL 命令行中可这样导入：
 
 ```sql
+SOURCE C:/Users/HN246/Desktop/个人全栈博客系统/output/MySQL/sql/00_reset.sql;
 SOURCE C:/Users/HN246/Desktop/个人全栈博客系统/output/MySQL/sql/01_schema.sql;
 SOURCE C:/Users/HN246/Desktop/个人全栈博客系统/output/MySQL/sql/02_seed.sql;
 ```
@@ -99,8 +112,12 @@ SOURCE C:/Users/HN246/Desktop/个人全栈博客系统/output/MySQL/sql/02_seed.
 路径包含中文或空格时，部分客户端的 `SOURCE` 兼容性可能不好。遇到问题可在 MySQL Workbench 中打开 SQL 文件执行，或在 PowerShell 使用：
 
 ```powershell
-Get-Content -Raw -Encoding utf8 .\sql\01_schema.sql | mysql -u root -p
+Get-Content -Raw -Encoding utf8 .\sql\00_reset.sql | mysql --default-character-set=utf8mb4 -u root -p
+Get-Content -Raw -Encoding utf8 .\sql\01_schema.sql | mysql --default-character-set=utf8mb4 -u root -p
+Get-Content -Raw -Encoding utf8 .\sql\02_seed.sql | mysql --default-character-set=utf8mb4 -u root -p
 ```
+
+`00_reset.sql` 会删除 `mysql_learning` 及其中的全部实验数据，只能对本地学习库执行。第一次学习或实验数据被改乱后再执行；日常只查询时不要重复执行。
 
 ## 练习与答案
 

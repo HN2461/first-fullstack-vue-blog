@@ -228,7 +228,7 @@ async def load_data():
 2. `await` 只能直接写在异步函数中。
 3. 只有调用异步数据库、异步 HTTP 客户端等可等待操作时，异步才真正有价值。
 
-入门配套项目暂时使用普通 `def`，因为内存字典没有网络等待。第 6 章使用异步数据库后，再切换成 `async def` 和 `await`。不要为了看起来高级，把所有函数机械改成异步。
+入门配套项目暂时使用普通 `def`，因为内存字典没有网络等待。第 07 章使用异步数据库后，再切换成 `async def` 和 `await`。不要为了看起来高级，把所有函数机械改成异步。
 
 ## `if value is None` 为什么常见
 
@@ -354,6 +354,33 @@ changes = payload.model_dump(exclude_unset=True)
 这里的答案是：`payload` 是 Pydantic 更新模型；`model_dump` 把模型转成字典；`exclude_unset=True` 排除客户端没有传的字段；最终字典用于只修改明确提交的字段。
 
 遇到长代码不要整块硬记，先找输入、处理和输出。
+
+## Express 对照：同一段代码在 Node.js 中怎样读
+
+FastAPI 的 Python 语法不需要逐字翻译成 JavaScript，但可以先建立下面这组映射：
+
+| FastAPI / Python | Express / JavaScript | 关键差异 |
+| --- | --- | --- |
+| `def` / `async def` | 普通函数 / `async function` | Express 5 会自动把异步路由的 rejected Promise 交给错误处理中间件 |
+| 类型注解 | JSDoc 或 TypeScript 类型 | JavaScript 类型不会在运行时自动校验 |
+| `@app.get(...)` | `app.get(...)` | Python 装饰器是在导入时登记路由，Express 直接调用方法登记 |
+| `yield` 依赖 | `try/finally` 包裹资源 | 两边都要保证请求结束时释放资源 |
+
+例如，下面两段代码表达的是同一个“返回健康状态”的接口：
+
+```python
+@app.get('/health')
+def health_check() -> dict[str, str]:
+    return {'status': 'ok'}
+```
+
+```js
+app.get('/health', (req, res) => {
+  res.json({ status: 'ok' })
+})
+```
+
+Python 的 `-> dict[str, str]` 主要帮助阅读器和 FastAPI 生成契约；Express 不会因为函数返回了对象就自动发送响应，必须显式调用 `res.json`。这也是从 FastAPI 转回 Express 时最容易漏掉的边界。
 
 ## 本章动手练习
 

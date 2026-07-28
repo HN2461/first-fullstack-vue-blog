@@ -362,6 +362,43 @@ Redis 锁不是修复数据库竞态的首选。唯一性优先用数据库约�
 
 不能简单 `SET lock 1` 后 `DEL lock`。
 
+## Express 对照：multer、fetch、Redis 与任务队列
+
+文件上传在 Express 中通常由 `multer` 解析。限制必须在文件写入前声明，不能等保存后才检查：
+
+```js
+import multer from 'multer'
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024, files: 1 },
+  fileFilter(req, file, callback) {
+    const allowed = new Set(['image/jpeg', 'image/png', 'image/webp'])
+    callback(allowed.has(file.mimetype) ? null : new Error('文件类型不允许'), true)
+  }
+})
+
+router.post('/media', authenticate, upload.single('file'), async (req, res) => {
+  const media = await mediaService.store(req.file, req.user)
+  res.status(201).json(media)
+})
+```
+
+Node.js 20 已内置 `fetch`，但仍要设置超时并检查非 2xx：
+
+```js
+const response = await fetch(url, {
+  signal: AbortSignal.timeout(3000),
+  headers: { Accept: 'application/json' }
+})
+if (!response.ok) {
+  throw new ExternalServiceError(response.status)
+}
+const data = await response.json()
+```
+
+Redis 的 Cache Aside、限流、幂等键和分布式锁原则与 FastAPI 完全相同。重要任务不要用“响应后直接调用一个异步函数”代替队列；Express 进程重启同样会丢任务。需要可靠重试时使用 BullMQ 等队列，并把任务 ID、重试次数、幂等键和死信处理纳入设计。
+
 ## 本章练习
 
 1. 实现图片上传，限制 5 MB、扩展名和内容签名，服务端生成文件名。

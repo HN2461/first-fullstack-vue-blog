@@ -164,16 +164,18 @@ CREATE DATABASE mysql_learning
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_0900_ai_ci;
 
-CREATE USER 'learning_app'@'localhost'
+CREATE USER 'learning_app'@'127.0.0.1'
   IDENTIFIED BY 'ChangeMe_123456';
 
 GRANT ALL PRIVILEGES ON mysql_learning.*
-  TO 'learning_app'@'localhost';
+  TO 'learning_app'@'127.0.0.1';
 
-SHOW GRANTS FOR 'learning_app'@'localhost';
+SHOW GRANTS FOR 'learning_app'@'127.0.0.1';
 ```
 
-日常应用不要使用 root。root 权限过大，一次错误 SQL 可能影响所有数据库。
+本地学习账号固定使用 `127.0.0.1`，这样可以和第 13 章的 Node.js 连接配置保持一致。MySQL 账号由“用户名 + host”共同定义，`learning_app@localhost` 和 `learning_app@127.0.0.1` 不要混为一谈。
+
+这里授予实验库全部权限只是为了方便学习建表和回滚；生产应用账号仍应遵循第 12 章的最小权限原则，不能直接照搬 `GRANT ALL PRIVILEGES`。
 
 ## 8. SQL 基础书写规范
 

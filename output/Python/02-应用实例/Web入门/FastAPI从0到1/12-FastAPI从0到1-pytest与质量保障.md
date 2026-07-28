@@ -678,6 +678,44 @@ SQLite 与 PostgreSQL 的 Enum、锁、并发、JSON、全文检索和约束行�
 
 测试会变慢且偶发失败。等待可观察状态、事件或使用可控时钟。
 
+## Express 对照：Vitest、Supertest 与 MongoDB 测试隔离
+
+Express 的接口测试不需要真的监听端口。`createApp()` 返回应用对象后，Supertest 可以直接发送请求：
+
+```js
+import request from 'supertest'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { createApp } from '../src/app.js'
+import { Article } from '../src/modules/articles/article.model.js'
+
+const app = createApp()
+
+describe('articles api', () => {
+  beforeEach(async () => {
+    await Article.deleteMany({})
+  })
+
+  it('creates an article', async () => {
+    const response = await request(app)
+      .post('/api/articles')
+      .send({ title: '第一篇', content: '正文' })
+
+    expect(response.status).toBe(201)
+    expect(response.body.title).toBe('第一篇')
+  })
+
+  it('rejects an empty title', async () => {
+    const response = await request(app)
+      .post('/api/articles')
+      .send({ title: '', content: '正文' })
+
+    expect(response.status).toBe(422)
+  })
+})
+```
+
+开发库和测试库必须物理隔离。你当前栈可使用 `mongodb-memory-server` 做快速测试，但涉及事务、索引、文本搜索或真实副本集行为时，应补充容器化 MongoDB 集成测试。对应 FastAPI 章节中“不要用 SQLite 假装 PostgreSQL”的原则在这里同样成立。
+
 ## 本章动手改
 
 1. 完成用户 B 不能修改用户 A 文章的测试。

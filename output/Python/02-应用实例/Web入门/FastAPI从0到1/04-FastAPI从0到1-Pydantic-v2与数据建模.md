@@ -696,6 +696,44 @@ payload.model_dump(exclude_unset=True)
 
 `response_model` 与实际返回结构不一致。检查缺少的字段、类型以及日期格式。响应校验失败说明服务端代码违反了自己声明的契约，不是客户端 422。
 
+## Express 对照：用 Zod 区分输入模型和输出模型
+
+Pydantic 的 `ArticleCreate`、`ArticleUpdate` 和 `ArticleRead` 在 Express 中通常对应三份 Zod Schema。不要直接把 Mongoose 文档或 `req.body` 原样返回：输入和输出是两条不同的契约。
+
+```js
+import { z } from 'zod'
+
+export const articleCreateSchema = z.object({
+  title: z.string().trim().min(1).max(100),
+  content: z.string().min(1).max(10_000),
+  summary: z.string().max(200).nullable().optional()
+}).strict()
+
+export const articleUpdateSchema = articleCreateSchema.partial()
+
+export const articleReadSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  content: z.string(),
+  summary: z.string().nullable(),
+  createdAt: z.coerce.date()
+})
+
+export function parseArticleCreate(req, res, next) {
+  const result = articleCreateSchema.safeParse(req.body)
+  if (!result.success) {
+    return res.status(422).json({
+      code: 'VALIDATION_ERROR',
+      details: result.error.flatten()
+    })
+  }
+  req.validatedBody = result.data
+  return next()
+}
+```
+
+`partial()` 解决的是“字段可以不传”，而不是“字段一定允许传 `null`”；这和 Pydantic 中“未设置、可选、可空”三种状态的区分完全一样。Express 没有 `response_model`，可以在 Service 返回前调用 `articleReadSchema.parse(article)`，或在统一响应工具中集中执行输出校验。
+
 ## 本章动手改
 
 1. 给文章增加 `tags: list[str]`，默认空列表，最多 10 个。

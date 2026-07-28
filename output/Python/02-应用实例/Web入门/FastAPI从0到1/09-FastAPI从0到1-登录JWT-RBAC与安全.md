@@ -832,6 +832,58 @@ OAuth2PasswordRequestForm 需要表单，不是 JSON。在 `/docs` 使用对应�
 
 当前用户依赖必须每次确认用户状态，或使用有明确失效策略的短时缓存。只验证 JWT 签名不够。
 
+## Express 对照：JWT 中间件、RBAC 与对象权限
+
+FastAPI 用 `Depends(get_current_user)` 生成当前用户；Express 通常用认证中间件把结果挂到 `req.user`。下面示例使用你当前栈中的 `jsonwebtoken`：
+
+```js
+import jwt from 'jsonwebtoken'
+
+export async function authenticate(req, res, next) {
+  const authorization = req.get('Authorization') ?? ''
+  const [scheme, token] = authorization.split(' ')
+  if (scheme !== 'Bearer' || !token) {
+    return res.status(401).json({ code: 'UNAUTHENTICATED' })
+  }
+
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY, {
+      algorithms: ['HS256'],
+      issuer: 'knowledge-api',
+      audience: 'knowledge-web'
+    })
+    const user = await User.findById(payload.sub).lean()
+    if (!user || !user.isActive || user.tokenVersion !== payload.ver) {
+      return res.status(401).json({ code: 'TOKEN_INVALID' })
+    }
+    req.user = user
+    return next()
+  } catch {
+    return res.status(401).json({ code: 'TOKEN_INVALID' })
+  }
+}
+
+export function requirePermission(permission) {
+  return (req, res, next) => {
+    if (!req.user.permissions.includes(permission)) {
+      return res.status(403).json({ code: 'FORBIDDEN' })
+    }
+    return next()
+  }
+}
+```
+
+对象权限不要只在 Router 中比较一次 ID，最好把数据范围写进查询：
+
+```js
+const article = await Article.findOne({
+  _id: req.params.id,
+  authorId: req.user._id
+})
+```
+
+这样普通用户无法先查到别人的文章再绕过后续判断。管理员需要更大数据范围时，由 Service 根据权限构造不同 filter，而不是接受客户端传入任意 `authorId`。
+
 ## 本章动手改
 
 1. 给 users.email 唯一约束显式命名，只转换该约束的注册冲突。

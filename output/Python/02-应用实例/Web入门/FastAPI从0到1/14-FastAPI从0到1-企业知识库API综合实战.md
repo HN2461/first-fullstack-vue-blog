@@ -799,6 +799,59 @@ RolePermission(role_id, permission_id)
 
 每次只增加一条可测试纵向链，不要同时生成所有空目录。
 
+## Express 对照：用 MongoDB 事务实现同一审核工作流
+
+FastAPI Service 中的状态机可以原样复用到 JavaScript，框架不应该改变业务规则。Express Router 只接收请求，Service 在事务中修改文章并写审核记录：
+
+```js
+router.post(
+  '/articles/:id/review',
+  authenticate,
+  requirePermission('article:review'),
+  async (req, res) => {
+    const result = await reviewService.review({
+      articleId: req.params.id,
+      reviewer: req.user,
+      action: req.body.action,
+      reason: req.body.reason
+    })
+    res.json(result)
+  }
+)
+```
+
+```js
+export async function review({ articleId, reviewer, action, reason }) {
+  const session = await mongoose.startSession()
+  try {
+    return await session.withTransaction(async () => {
+      const article = await Article.findOne({
+        _id: articleId,
+        status: 'pending_review'
+      }).session(session)
+
+      if (!article) throw new ArticleNotReviewableError(articleId)
+
+      article.status = nextStatus(article.status, action)
+      await article.save({ session })
+
+      await ReviewRecord.create([{
+        articleId: article._id,
+        reviewerId: reviewer._id,
+        action,
+        reason
+      }], { session })
+
+      return article.toObject()
+    })
+  } finally {
+    await session.endSession()
+  }
+}
+```
+
+`nextStatus` 应是无数据库依赖的纯函数，FastAPI 和 Express 两边使用同一张状态迁移表测试。通知邮件不要放在事务中发送；事务内写 Outbox 文档，提交后由队列 Worker 处理，才能避免“数据库回滚但邮件已发出”。
+
 ## 最终交付清单
 
 - 从空数据库能 `alembic upgrade head`。

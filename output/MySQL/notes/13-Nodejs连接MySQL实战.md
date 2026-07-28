@@ -187,12 +187,16 @@ export async function updateUsername(userId, username) {
 
 ## 8. 完整事务模板（P0）
 
+下面是教学版事务骨架，重点演示“同一连接 + 提交/回滚 + finally 释放”。调用前必须完成请求校验、合并重复商品 ID，并保证数量是正整数；不要把它未经补全直接复制为生产下单代码。
+
 ```js
 export async function createOrder(input) {
   const connection = await pool.getConnection()
+  let transactionStarted = false
 
   try {
     await connection.beginTransaction()
+    transactionStarted = true
 
     let totalAmountInCents = 0n
 
@@ -218,6 +222,10 @@ export async function createOrder(input) {
          WHERE id = ?`,
         [item.productId]
       )
+
+      if (!products[0]) {
+        throw new Error(`商品 ${item.productId} 不存在`)
+      }
 
       item.product = products[0]
       totalAmountInCents += decimalYuanToCents(item.product.price) * BigInt(item.quantity)
@@ -253,7 +261,9 @@ export async function createOrder(input) {
     await connection.commit()
     return String(orderResult.insertId)
   } catch (error) {
-    await connection.rollback()
+    if (transactionStarted) {
+      await connection.rollback()
+    }
     throw error
   } finally {
     connection.release()
@@ -331,7 +341,21 @@ ORM 提升 CRUD 和迁移效率，但必须：
 - 评估类型映射，尤其 BIGINT、DECIMAL、DATETIME 和 JSON。
 - 不让自动同步 Schema 直接修改生产数据库。
 
-## 14. 本章自检
+## 14. MongoDB 对照：Mongoose 到 mysql2（P0）
+
+MongoDB 项目中常见的 `Model.find()`、`Model.aggregate()` 和 `session.withTransaction()`，迁移到 MySQL 后可以先对应到：
+
+| MongoDB / Mongoose | MySQL / mysql2 |
+| --- | --- |
+| `Model.find(filter, projection)` | `connection.execute('SELECT ... WHERE ...', params)` |
+| `Model.aggregate(pipeline)` | 参数化 SQL、JOIN、CTE、GROUP BY 或窗口函数 |
+| `Model.updateOne(..., { $inc })` | 条件 UPDATE，并检查 `affectedRows` |
+| `session.withTransaction()` | `getConnection()`、begin、commit、rollback、release |
+| Schema 校验器 | 请求校验 + MySQL 类型/约束双重保护 |
+
+SQL 不应直接拼接成字符串来替代 MongoDB 查询对象。值继续使用 `?` 参数，列名、排序方向和表名只能来自后端白名单。ORM 可以后续使用，但先掌握 mysql2 能帮助你看懂生成 SQL 和事务连接。
+
+## 15. 本章自检
 
 - [ ] 能创建并复用 mysql2 连接池。
 - [ ] 所有值使用参数化查询，动态标识符使用白名单。

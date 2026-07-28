@@ -212,7 +212,16 @@ MySQL 8 已移除旧 Query Cache，不要学习依赖它的过时调优教程。
 - 新索引增加的存储和写入成本。
 - 其他查询是否发生计划回归。
 
-## 15. 本章自检
+## 15. MongoDB 对照：从 explain 到慢 SQL（P1）
+
+MongoDB 用户可以把排障思路迁移过来，但不要只寻找名称相同的字段：
+
+- MongoDB `executionStats` 关注实际扫描文档数、返回数和执行时间；MySQL 要看 `EXPLAIN ANALYZE` 的实际行数、循环次数和耗时。
+- MongoDB 的 N+1 常来自循环 `find` 或 `populate()`；MySQL 的 N+1 常来自循环 `SELECT`，可用 JOIN 或批量 `IN` 查询解决。
+- MongoDB 深分页的 `skip` 和 MySQL 的 OFFSET 都会随着偏移量增大而浪费扫描，Keyset/游标分页是共同的改进方向。
+- 两种数据库都不能把缓存当作错误查询和错误索引的替代品。
+
+## 16. 本章自检
 
 - [ ] 能识别 N+1、深分页和不必要大结果集。
 - [ ] 知道连接池太大也会导致问题。

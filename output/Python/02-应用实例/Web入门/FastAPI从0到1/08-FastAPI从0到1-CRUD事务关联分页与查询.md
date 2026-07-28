@@ -745,6 +745,48 @@ count 查询和 list 查询必须使用同一组 filters，否则分页总数错
 
 Repository 一旦自行提交，上层多个写操作无法组成完整事务。提交由 Service 控制。
 
+## Express 对照：Mongoose 分页、事务与并发冲突
+
+下面的列表查询与本章 SQLAlchemy 版本保持同一契约：筛选条件同时用于 `items` 和 `total`，排序字段固定白名单，并使用稳定的第二排序键。
+
+```js
+export async function listArticles({ keyword, page = 1, pageSize = 20 }) {
+  const filter = keyword
+    ? { title: { $regex: escapeRegExp(keyword), $options: 'i' } }
+    : {}
+
+  const [items, total] = await Promise.all([
+    Article.find(filter)
+      .sort({ createdAt: -1, _id: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .lean(),
+    Article.countDocuments(filter)
+  ])
+
+  return { items, total, page, pageSize }
+}
+```
+
+需要原子写入多份文档时显式开启事务：
+
+```js
+export async function createArticleWithAudit(payload) {
+  const session = await mongoose.startSession()
+  try {
+    return await session.withTransaction(async () => {
+      const article = await Article.create([payload], { session })
+      await AuditLog.create([{ action: 'ARTICLE_CREATED' }], { session })
+      return article[0]
+    })
+  } finally {
+    await session.endSession()
+  }
+}
+```
+
+启用 Mongoose `optimisticConcurrency` 后，保存过期文档会抛出 `VersionError`。Service 应把它转换成稳定的 409 冲突错误，而不是静默覆盖后来提交的数据。MongoDB 事务还要求副本集环境，单机开发实例不一定能直接验证，这一点要写进运行说明和测试环境配置。
+
 ## 本章动手改
 
 1. 增加 `sort_by` 和 `direction`，只允许白名单字段。

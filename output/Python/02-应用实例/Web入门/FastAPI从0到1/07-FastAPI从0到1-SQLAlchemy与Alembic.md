@@ -874,6 +874,49 @@ alembic upgrade head
 
 确认 Session 通过 `async with` 请求级关闭，没有存成全局对象，也没有在持有事务时等待无关外部 HTTP。
 
+## Express 对照：Mongoose 持久化与迁移边界
+
+你当前 Express 项目使用 MongoDB/Mongoose，因此没有 SQLAlchemy 的 Engine、关系表和 Alembic 迁移文件，但“连接、模型、索引、数据变更脚本”四个职责仍然存在。
+
+```js
+import mongoose from 'mongoose'
+
+export async function connectDatabase() {
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection
+  }
+  await mongoose.connect(process.env.MONGODB_URI)
+  return mongoose.connection
+}
+```
+
+```js
+import mongoose from 'mongoose'
+
+const articleSchema = new mongoose.Schema({
+  title: { type: String, required: true, trim: true, maxlength: 100 },
+  content: { type: String, required: true, maxlength: 10_000 },
+  summary: { type: String, default: null, maxlength: 200 },
+  slug: { type: String, required: true, unique: true, index: true }
+}, {
+  timestamps: true,
+  optimisticConcurrency: true
+})
+
+export const Article = mongoose.model('Article', articleSchema)
+```
+
+对照关系：
+
+| FastAPI + SQLAlchemy | Express + Mongoose |
+| --- | --- |
+| `AsyncEngine` | Mongoose 全局连接池 |
+| `AsyncSession` | 普通 Model 操作；事务时使用 ClientSession |
+| ORM Model + 列约束 | Schema + validator + MongoDB index |
+| Alembic migration | 版本化迁移脚本，默认 dry-run，显式 `--apply` |
+
+MongoDB 不要求每次加字段都执行 DDL，但生产数据仍需要迁移：回填新字段、建立索引、修复旧枚举、调整关联 ID 都必须用可审查、幂等、可统计影响范围的脚本完成。不能因为数据库是“无模式”就跳过迁移纪律。
+
 ## 本章动手改
 
 1. 给文章增加唯一 `slug` 字段，并在 Pydantic 创建模型中校验格式。

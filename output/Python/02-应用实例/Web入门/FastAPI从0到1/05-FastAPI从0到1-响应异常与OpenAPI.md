@@ -601,6 +601,51 @@ def download_report() -> FileResponse:
 
 `str(exc)` 可能含 SQL、路径和外部服务信息。未预期异常记录到内部日志，客户端只返回通用消息。
 
+## Express 对照：统一异常与接口文档
+
+Express 5 可以把异步路由抛出的异常自动转交给四参数错误处理中间件。领域异常仍应保持稳定 `code`，不要让前端解析自然语言 `message`。
+
+```js
+export class AppError extends Error {
+  constructor(message, { status = 400, code = 'APP_ERROR', details } = {}) {
+    super(message)
+    this.status = status
+    this.code = code
+    this.details = details
+  }
+}
+
+export class ArticleNotFoundError extends AppError {
+  constructor(articleId) {
+    super(`文章 ${articleId} 不存在`, {
+      status: 404,
+      code: 'ARTICLE_NOT_FOUND'
+    })
+  }
+}
+
+app.get('/articles/:id', async (req, res) => {
+  const article = await articleService.getById(req.params.id)
+  if (!article) throw new ArticleNotFoundError(req.params.id)
+  res.json(article)
+})
+
+app.use((error, req, res, next) => {
+  if (res.headersSent) return next(error)
+
+  const status = error.status ?? 500
+  res.status(status).json({
+    error: {
+      code: error.code ?? 'INTERNAL_SERVER_ERROR',
+      message: status === 500 ? '服务器内部错误' : error.message,
+      details: error.details
+    }
+  })
+})
+```
+
+FastAPI 会自动生成 OpenAPI；Express 本身不会。Express 项目通常用 `swagger-jsdoc`、`@asteasolutions/zod-to-openapi` 或独立 OpenAPI 文件维护契约。企业项目必须把“路由实际行为”和“文档声明”放进 CI 校验，否则文档很容易与代码漂移。
+
 ## 本章动手改
 
 1. 新增 `ConflictError`，状态码 409、代码 `RESOURCE_CONFLICT`。

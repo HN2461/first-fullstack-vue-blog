@@ -256,7 +256,21 @@ SELECT ...;
 7. 在接近生产的数据分布上对比。
 8. 观察写入成本和其他查询回归。
 
-## 15. 本章自检
+## 15. MongoDB 对照：compound index 与 EXPLAIN（P0）
+
+MongoDB 和 MySQL 都要求联合索引顺序贴合真实查询，但判断依据不完全相同：
+
+| MongoDB | MySQL |
+| --- | --- |
+| `{ tenantId: 1, status: 1, createdAt: -1 }` | `(tenant_id, status, created_at)` |
+| `explain('executionStats')` | `EXPLAIN` / `EXPLAIN ANALYZE` |
+| `IXSCAN` | `ref`、`range` 等访问类型 |
+| `COLLSCAN` | `ALL` 全表扫描 |
+| projection 覆盖查询 | 覆盖索引，Extra 常见 `Using index` |
+
+不要把“索引存在”或“执行计划显示使用索引”当作性能结论。两种数据库都需要结合实际参数、扫描行数、返回行数和耗时判断；MySQL 还要额外留意回表、排序临时表和 JOIN 顺序。
+
+## 16. 本章自检
 
 - [ ] 能解释聚簇索引、二级索引和回表。
 - [ ] 能用最左前缀判断联合索引支持哪些查询。

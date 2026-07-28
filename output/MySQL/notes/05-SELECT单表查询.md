@@ -297,7 +297,32 @@ SELECT @@SESSION.sql_mode;
 
 严格模式可以阻止非法日期、数据截断等问题被静默写入。`ONLY_FULL_GROUP_BY` 会要求 SELECT 中非聚合列符合分组语义，是保护正确性的机制，不建议为了让错误 SQL 运行而关闭。
 
-## 13. 本章自检
+## 13. MongoDB 对照：find 到 SELECT（P0）
+
+MongoDB 查询：
+
+```js
+db.products.find(
+  { status: 'on_sale', price: { $gte: 100, $lt: 500 } },
+  { name: 1, price: 1, stock: 1 }
+).sort({ price: -1, _id: -1 }).limit(20)
+```
+
+对应 SQL：
+
+```sql
+SELECT id, name, price, stock
+FROM products
+WHERE status = 'on_sale'
+  AND price >= 100
+  AND price < 500
+ORDER BY price DESC, id DESC
+LIMIT 20;
+```
+
+`find` 的过滤对象对应 WHERE，projection 对应 SELECT 列，`sort` 和 `limit` 对应 ORDER BY、LIMIT。MongoDB 的 `_id` 和 MySQL 主键都适合作为稳定排序的兜底列，但类型和生成策略不必相同。
+
+## 14. 本章自检
 
 - [ ] 能写过滤、排序、分页、去重和聚合查询。
 - [ ] 理解 WHERE 与 HAVING 的处理阶段。

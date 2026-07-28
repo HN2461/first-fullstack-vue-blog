@@ -379,6 +379,48 @@ Nginx/网关通常负责：
 - 备份加密、权限、异地保存。
 - 定期在隔离环境恢复并验证。
 
+## Express 对照：生产启动、结构化日志与优雅关闭
+
+Express 的生产入口应把数据库连接、HTTP Server 和关闭流程放在一起，避免测试导入 `app.js` 时就开始监听端口：
+
+```js
+import { createServer } from 'node:http'
+import mongoose from 'mongoose'
+import { createApp } from './app.js'
+import { connectDatabase } from './config/database.js'
+
+await connectDatabase()
+const server = createServer(createApp())
+server.listen(process.env.PORT ?? 3000)
+
+async function shutdown(signal) {
+  console.info(JSON.stringify({ level: 'info', event: 'shutdown', signal }))
+  server.close(async () => {
+    await mongoose.disconnect()
+    process.exit(0)
+  })
+}
+
+process.on('SIGTERM', () => shutdown('SIGTERM'))
+process.on('SIGINT', () => shutdown('SIGINT'))
+```
+
+生产日志应至少包含 `timestamp`、`level`、`requestId`、`method`、`path`、`status`、`durationMs` 和业务错误码；不要记录密码、完整 token、Cookie 和敏感正文。可使用 Pino 生成结构化日志，Prometheus Client 暴露指标，Helmet 设置常用安全响应头。
+
+Node 版本的 Dockerfile 同样要固定依赖并使用非 root 用户：
+
+```dockerfile
+FROM node:22-alpine
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+COPY src ./src
+USER node
+CMD ["node", "src/server.js"]
+```
+
+无论 FastAPI 还是 Express，迁移、健康检查、回滚、备份恢复和 Secret 管理才是交付能力，单独写出一个 Dockerfile 还不能称为“完成生产部署”。
+
 ## 本章练习
 
 1. 输出结构化访问日志并关联 request ID。

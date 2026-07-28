@@ -267,6 +267,45 @@ payload 不要无限膨胀或保存敏感明文；大型输入放对象存储，
 
 任务只有在结果持久化后才能确认消息，否则可能丢任务；同时要接受崩溃后的重复执行。
 
+## Express 对照：Promise、Socket.IO 与 BullMQ
+
+Node.js 的路由天然运行在事件循环上，但这不代表同步 CPU 计算不会阻塞。多个互不依赖的 I/O 可以并发等待：
+
+```js
+const [profile, stats] = await Promise.all([
+  fetchProfile(userId),
+  fetchStats(userId)
+])
+```
+
+并发数量仍应受控。不要对几万条记录直接 `Promise.all`；可以使用 `p-limit`、队列批次或数据库批量能力。
+
+你当前项目使用 Socket.IO，最小服务端可以这样挂到 HTTP Server，而不是直接挂到 Express `app`：
+
+```js
+import { createServer } from 'node:http'
+import { Server } from 'socket.io'
+
+const app = createApp()
+const httpServer = createServer(app)
+const io = new Server(httpServer, { cors: { origin: allowedOrigins } })
+
+io.use(async (socket, next) => {
+  try {
+    socket.user = await verifySocketToken(socket.handshake.auth.token)
+    next()
+  } catch (error) {
+    next(error)
+  }
+})
+
+io.on('connection', (socket) => {
+  socket.join(`user:${socket.user.id}`)
+})
+```
+
+多实例部署时，单进程房间信息不足，需要 Redis Adapter；可靠后台任务使用 BullMQ Worker，并在关闭进程时依次停止接收新请求、关闭 Socket.IO、等待 Worker、断开 Redis 和 MongoDB。
+
 ## 本章练习
 
 1. 找出项目中可能阻塞事件循环的同步调用并替换。

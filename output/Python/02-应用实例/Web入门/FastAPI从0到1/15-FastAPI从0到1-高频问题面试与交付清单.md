@@ -266,6 +266,21 @@ docker compose down
 
 这种表达能说明你理解工程边界，而不是只背过 FastAPI API。
 
+## Express 对照速查
+
+| FastAPI 概念 | Express 5 常见实现 | 验收重点 |
+| --- | --- | --- |
+| `APIRouter` | `express.Router()` | 路径前缀和业务模块边界清楚 |
+| Pydantic | Zod | 输入和输出都校验，PATCH 区分未传与 `null` |
+| `Depends` | 中间件 + `req` 上下文 | 认证、权限和数据范围不能漏挂 |
+| Exception Handler | 四参数错误中间件 | 统一状态码、错误码，不泄露堆栈 |
+| SQLAlchemy Session | Mongoose Model / ClientSession | 普通查询与事务会话边界分清 |
+| Alembic | 版本化迁移脚本 | 默认 dry-run，显式 `--apply`，可幂等 |
+| pytest + HTTPX | Vitest + Supertest | 不监听真实端口，测试库独立 |
+| lifespan | bootstrap + shutdown hooks | 连接只创建一次，关闭顺序可控 |
+
+真正掌握一个知识点的标准，不是能解释 FastAPI 写法，而是能在 Express 中实现同一 HTTP 契约，并说明为什么状态码、权限、事务和错误语义不能因为框架变化而变化。
+
 ## 最终能力自评
 
 每项按 0 到 2 分：0 不会，1 能参考完成，2 能独立设计并解释。
