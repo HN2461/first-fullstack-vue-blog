@@ -90,7 +90,8 @@ export function commitArticleImport(payload) {
 export function exportArticlesMarkdown(params = {}) {
   return http.get('/api/admin/articles/export/markdown', {
     params,
-    responseType: 'blob'
+    responseType: 'blob',
+    timeout: 0
   })
 }
 

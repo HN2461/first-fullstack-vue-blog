@@ -36,6 +36,7 @@
     "bookmark:reset:apply": "node src/scripts/resetBookmarkData.js --apply"
   },
   "dependencies": {
+    "archiver": "^7.0.1",
     "bcryptjs": "^2.4.3",
     "chinese-days": "^1.5.9",
     "cors": "^2.8.5",

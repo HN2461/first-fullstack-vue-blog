@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-28",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "article-export-unlimited-markdown",
+      "title": "升级线上文章全量 Markdown 导出",
+      "detail": "1. 移除文章导出接口原有的 200 篇截断，按线上查询条件导出全部未删除文章，支持已发布、草稿、已下架和全部范围。2. 改用数据库游标逐篇读取并通过流式 ZIP 响应下载，避免全量文章和压缩包同时堆积在后端内存中；前端导出请求取消 30 秒固定超时。3. 在导出包增加 manifest.json，记录实际导出数量、文章 ID、原 slug、状态、分类路径和文件名，并补充 sortOrder、originalStatus 等备份参考字段。4. 新增超过 200 篇文章的回归测试，原有文章导出、分类筛选、前端构建均验证通过。5. 已按增量发布流程部署到正式服务器，发布前完成 MongoDB 与前后端/上传目录备份，备份目录为 /www/personal-blog/backups/release-20260728-224307；线上 Article 共 448 篇（446 篇已发布、2 篇草稿），部署后 PM2、内网健康、公网健康和线上导出服务预检查均通过。",
+      "occurredAt": "2026-07-28T22:30:00+08:00",
+      "category": "功能更新"
+    }
+  ]
+}

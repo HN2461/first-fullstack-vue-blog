@@ -378,7 +378,8 @@ adminRouter.get('/articles/export/markdown', asyncHandler(async (req, res) => {
   const result = await exportArticlesAsMarkdownZip(input)
   const headers = buildArticleExportHeaders(result.filename)
   Object.entries(headers).forEach(([key, value]) => res.setHeader(key, value))
-  res.send(result.buffer)
+  res.setHeader('X-Article-Export-Total', String(result.total))
+  await result.writeTo(res)
 }))
 
 adminRouter.post('/articles', asyncHandler(async (req, res) => {
