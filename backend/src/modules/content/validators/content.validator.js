@@ -69,6 +69,7 @@ export const articleSchema = z.object({
   ),
   summary: z.string().trim().max(300, '文章摘要不能超过 300 个字符').optional().default(''),
   contentMarkdown: z.string().optional().default(''),
+  contentMode: z.enum(['markdown', 'document']).optional(),
   cover: z.string().trim().optional().default(''),
   resources: z.array(articleResourceSchema).optional().default([]),
   category: z.string().regex(objectIdPattern, '分类 id 不正确').nullable().optional().default(null),
@@ -76,6 +77,13 @@ export const articleSchema = z.object({
   status: z.enum(Object.values(ARTICLE_STATUS)).optional().default(ARTICLE_STATUS.DRAFT),
   isRecommended: z.boolean().optional().default(false),
   sortOrder: z.number().int().min(0).max(999999).optional()
+})
+
+export const documentArticleImportSchema = z.object({
+  title: z.string().trim().max(120, '文章标题不能超过 120 个字符').optional().default(''),
+  summary: z.string().trim().max(300, '文章摘要不能超过 300 个字符').optional().default(''),
+  category: z.string().regex(objectIdPattern, '分类 id 不正确').nullable().optional().default(null),
+  tags: z.array(z.string().regex(objectIdPattern, '标签 id 不正确')).optional().default([])
 })
 
 export const categoryMoveSchema = z.object({

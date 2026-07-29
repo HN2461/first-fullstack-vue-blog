@@ -24,6 +24,7 @@ export const env = Object.freeze({
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '2h',
   sessionCookieMaxAgeMs: readNumber('SESSION_COOKIE_MAX_AGE_MS', 2 * 60 * 60 * 1000),
   uploadDir: process.env.UPLOAD_DIR || 'uploads',
+  officeConverterPath: process.env.OFFICE_CONVERTER_PATH || '',
   legacyNotesDir: process.env.OLD_NOTES_DIR || path.resolve(rootDir, 'legacy-notes'),
   adminUsername: process.env.ADMIN_USERNAME || '',
   adminEmail: process.env.ADMIN_EMAIL || '',

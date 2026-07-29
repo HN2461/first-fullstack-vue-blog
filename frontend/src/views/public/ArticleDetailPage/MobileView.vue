@@ -13,7 +13,7 @@
           class="mobile-reader__icon-btn"
           type="text"
           :class="{ 'is-active': favoritedByCurrentUser }"
-          :disabled="!authStore.isLoggedIn"
+          :disabled="isAdminPreview || !authStore.isLoggedIn"
           aria-label="收藏文章"
           @click="toggleFavorite"
         >
@@ -60,8 +60,8 @@
         </div>
 
         <div class="mobile-reader__content">
-          <MarkdownRenderer
-            :content="article.contentMarkdown"
+          <ArticleContentRenderer
+            :article="article"
             :asset-base="legacyAssetBase"
           />
         </div>
@@ -79,6 +79,7 @@
       </a-drawer>
 
       <a-drawer
+        v-if="!isAdminPreview"
         v-model:open="commentDrawerVisible"
         placement="bottom"
         height="72vh"
@@ -120,7 +121,7 @@
         </div>
       </a-drawer>
 
-      <footer class="mobile-reader__actions" aria-label="文章操作">
+      <footer v-if="!isAdminPreview" class="mobile-reader__actions" aria-label="文章操作">
         <button type="button" :class="{ 'is-active is-like': likedByCurrentUser }" @click="toggleLike">
           <LikeOutlined />
           <span>{{ formatMetric(likeCount) }}</span>
@@ -129,7 +130,7 @@
           <MessageOutlined />
           <span>{{ formatMetric(article.commentCount) }}</span>
         </button>
-        <button type="button" :disabled="!article.resources?.length" @click="downloadPrimaryResource">
+        <button type="button" :disabled="!article.document?.originalUrl && !article.resources?.length" @click="downloadPrimaryResource">
           <DownloadOutlined />
           <span>下载</span>
         </button>
@@ -159,8 +160,9 @@ import {
   StarOutlined,
   UnorderedListOutlined
 } from '@ant-design/icons-vue'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
 import TableOfContents from '@/components/TableOfContents.vue'
+import { getAdminArticle } from '@/services/admin'
 import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
 import {
@@ -195,7 +197,9 @@ const favoritedByCurrentUser = ref(false)
 const article = ref({
   id: '',
   title: '',
+  contentMode: 'markdown',
   contentMarkdown: '',
+  document: null,
   resources: [],
   tags: [],
   category: null,
@@ -214,7 +218,8 @@ const article = ref({
 
 const inConsole = computed(() => route.path.startsWith('/console'))
 const inDirectoryConsole = computed(() => route.path.startsWith('/console/article-directory'))
-const backLabel = computed(() => (inConsole.value ? '返回知识库文章列表' : '返回首页'))
+const isAdminPreview = computed(() => route.meta.adminArticlePreview === true)
+const backLabel = computed(() => (isAdminPreview.value ? '返回文章管理' : (inConsole.value ? '返回知识库文章列表' : '返回首页')))
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
 const categoryPath = computed(() => {
@@ -245,7 +250,9 @@ function formatMetric(value = 0) {
 }
 
 function goBack() {
-  const fallback = inDirectoryConsole.value ? '/console/article-directory' : (inConsole.value ? '/console/articles' : '/')
+  const fallback = isAdminPreview.value
+    ? '/console/manage/articles'
+    : (inDirectoryConsole.value ? '/console/article-directory' : (inConsole.value ? '/console/articles' : '/'))
   if (window.history.length > 1) {
     router.back()
     return
@@ -254,7 +261,7 @@ function goBack() {
 }
 
 async function loadComments() {
-  if (!article.value.id) return
+  if (isAdminPreview.value || !article.value.id) return
   comments.value = await listComments(article.value.id)
 }
 
@@ -264,7 +271,9 @@ async function loadArticle() {
   tocVisible.value = false
 
   try {
-    const result = await getPublicArticle(route.params.slug)
+    const result = isAdminPreview.value
+      ? await getAdminArticle(route.params.id)
+      : await getPublicArticle(route.params.slug)
     article.value = result
     likeCount.value = Number(result.likeCount) || 0
     favoriteCount.value = Number(result.favoriteCount) || 0
@@ -272,7 +281,7 @@ async function loadArticle() {
     favoritedByCurrentUser.value = !!result.favoritedByCurrentUser
     await nextTick()
     window.scrollTo({ top: 0, behavior: 'auto' })
-    if (commentDrawerVisible.value) {
+    if (!isAdminPreview.value && commentDrawerVisible.value) {
       await loadComments()
     }
   } catch (error) {
@@ -315,12 +324,12 @@ async function toggleFavorite() {
 }
 
 function downloadPrimaryResource() {
-  const resource = article.value.resources?.[0]
-  if (!resource?.url) {
+  const url = article.value.document?.originalUrl || article.value.resources?.[0]?.url
+  if (!url) {
     message.info('当前文章没有可下载资源')
     return
   }
-  window.open(resource.url, '_blank', 'noopener,noreferrer')
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 async function openCommentDrawer() {
@@ -383,7 +392,7 @@ onMounted(() => {
   loadArticle()
 })
 
-watch(() => route.params.slug, loadArticle)
+watch(() => [route.params.slug, route.params.id], loadArticle)
 </script>
 
 <style scoped>

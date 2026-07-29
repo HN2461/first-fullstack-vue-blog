@@ -35,6 +35,10 @@
               <template #icon><DownloadOutlined /></template>
               导出模板
             </a-button>
+            <a-button @click="documentImportVisible = true">
+              <template #icon><FileWordOutlined /></template>
+              上传 Word
+            </a-button>
             <a-button
               type="primary"
               :disabled="selectedImportItems.length === 0"
@@ -177,6 +181,10 @@
         </div>
       </div>
     </a-modal>
+
+    <DocumentArticleImportModal
+      v-model:open="documentImportVisible"
+    />
   </section>
 </template>
 
@@ -186,12 +194,14 @@ import { computed, ref } from 'vue'
 import {
   ClearOutlined,
   DownloadOutlined,
+  FileWordOutlined,
   ImportOutlined,
   UploadOutlined
 } from '@ant-design/icons-vue'
 import { message, Modal } from 'ant-design-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+import DocumentArticleImportModal from './DocumentArticleImportModal.vue'
 import {
   commitArticleImport,
   downloadArticleImportTemplate,
@@ -211,6 +221,7 @@ const currentPreview = ref(null)
 const resultVisible = ref(false)
 const importResult = ref(null)
 const tableVersion = ref(0)
+const documentImportVisible = ref(false)
 
 const tableParams = computed(() => ({
   version: tableVersion.value

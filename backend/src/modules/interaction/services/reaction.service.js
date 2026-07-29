@@ -1,3 +1,4 @@
+import { ARTICLE_STATUS } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Reaction } from '#modules/interaction/models/Reaction.js'
 
@@ -40,9 +41,13 @@ async function buildArticleReactionPayload(article, userId) {
 }
 
 export async function addArticleReaction(articleId, user, type) {
-  const article = await Article.findById(articleId)
+  const article = await Article.findOne({
+    _id: articleId,
+    status: ARTICLE_STATUS.PUBLISHED,
+    deletedAt: null
+  })
 
-  if (!article || article.deletedAt) {
+  if (!article) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
@@ -61,16 +66,25 @@ export async function addArticleReaction(articleId, user, type) {
       type
     })
     article[getCounterName(type)] += 1
-    await article.save()
+    // 点赞和收藏属于互动统计，不应刷新文章的业务修改时间。
+    await Article.updateOne(
+      { _id: article._id },
+      { $inc: { [getCounterName(type)]: 1 } },
+      { timestamps: false }
+    )
   }
 
   return buildArticleReactionPayload(article, user._id)
 }
 
 export async function removeArticleReaction(articleId, user, type) {
-  const article = await Article.findById(articleId)
+  const article = await Article.findOne({
+    _id: articleId,
+    status: ARTICLE_STATUS.PUBLISHED,
+    deletedAt: null
+  })
 
-  if (!article || article.deletedAt) {
+  if (!article) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
@@ -83,7 +97,11 @@ export async function removeArticleReaction(articleId, user, type) {
 
   if (deleted && article[getCounterName(type)] > 0) {
     article[getCounterName(type)] -= 1
-    await article.save()
+    await Article.updateOne(
+      { _id: article._id, [getCounterName(type)]: { $gt: 0 } },
+      { $inc: { [getCounterName(type)]: -1 } },
+      { timestamps: false }
+    )
   }
 
   return buildArticleReactionPayload(article, user._id)

@@ -37,7 +37,8 @@ function createPublishedQuery(filters = {}) {
     query.$or = [
       { title: new RegExp(safeKeyword, 'i') },
       { summary: new RegExp(safeKeyword, 'i') },
-      { contentMarkdown: new RegExp(safeKeyword, 'i') }
+      { contentMarkdown: new RegExp(safeKeyword, 'i') },
+      { 'document.extractedText': new RegExp(safeKeyword, 'i') }
     ]
   }
 

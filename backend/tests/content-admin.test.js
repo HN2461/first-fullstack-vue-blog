@@ -3,6 +3,7 @@ import path from 'node:path'
 import { ARTICLE_STATUS, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
+import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Menu } from '#modules/rbac/models/Menu.js'
 import { Role } from '#modules/rbac/models/Role.js'
@@ -213,6 +214,28 @@ describe('content admin routes', () => {
       .expect(200)
 
     expect(archiveResponse.body.data.status).toBe(ARTICLE_STATUS.ARCHIVED)
+  })
+
+  it('does not let the generic status endpoint bypass publish validation', async () => {
+    const app = createApp()
+    const articleResponse = await request(app)
+      .post('/api/admin/articles')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({
+        title: '发布校验草稿',
+        contentMarkdown: '# 只有正文'
+      })
+      .expect(201)
+
+    const response = await request(app)
+      .patch(`/api/admin/articles/${articleResponse.body.data.id}/status`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ status: ARTICLE_STATUS.PUBLISHED })
+      .expect(400)
+
+    expect(response.body.code).toBe('ARTICLE_SUMMARY_REQUIRED')
+    const stored = await Article.findById(articleResponse.body.data.id).lean()
+    expect(stored.status).toBe(ARTICLE_STATUS.DRAFT)
   })
 
   it('previews and imports markdown articles with front matter', async () => {

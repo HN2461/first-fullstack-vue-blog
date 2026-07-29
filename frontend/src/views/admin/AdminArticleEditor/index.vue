@@ -588,6 +588,10 @@ async function ensureOptionsLoaded() {
 async function loadArticle() {
   if (!articleId.value) return
   const article = await getAdminArticle(articleId.value)
+  if (article.contentMode === 'document') {
+    await router.replace(`/console/manage/articles/${article.id}/read`)
+    return
+  }
   applyArticleToForm(article)
 }
 

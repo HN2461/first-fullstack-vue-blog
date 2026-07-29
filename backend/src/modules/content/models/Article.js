@@ -25,6 +25,67 @@ const articleSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    contentMode: {
+      type: String,
+      enum: ['markdown', 'document'],
+      default: 'markdown',
+      index: true
+    },
+    document: {
+      originalMediaId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Media',
+        default: null
+      },
+      originalName: {
+        type: String,
+        default: '',
+        trim: true
+      },
+      originalUrl: {
+        type: String,
+        default: '',
+        trim: true
+      },
+      mimeType: {
+        type: String,
+        default: '',
+        trim: true
+      },
+      previewMediaId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Media',
+        default: null
+      },
+      previewUrl: {
+        type: String,
+        default: '',
+        trim: true
+      },
+      previewMimeType: {
+        type: String,
+        default: '',
+        trim: true
+      },
+      extractedText: {
+        type: String,
+        default: ''
+      },
+      conversionStatus: {
+        type: String,
+        enum: ['pending', 'processing', 'ready', 'failed'],
+        default: 'pending'
+      },
+      conversionMessage: {
+        type: String,
+        default: '',
+        maxlength: 500
+      },
+      convertedAt: {
+        type: Date,
+        default: null
+      }
+    },
     cover: {
       type: String,
       default: ''
@@ -159,13 +220,15 @@ articleSchema.index(
   {
     title: 'text',
     summary: 'text',
-    contentMarkdown: 'text'
+    contentMarkdown: 'text',
+    'document.extractedText': 'text'
   },
   {
     weights: {
       title: 10,
       summary: 5,
-      contentMarkdown: 1
+      contentMarkdown: 1,
+      'document.extractedText': 1
     },
     name: 'article_text_index'
   }
@@ -200,6 +263,19 @@ articleSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
       mimeType: item.mimeType || ''
     }))
     : []
+  const document = this.contentMode === 'document'
+    ? {
+        originalMediaId: this.document?.originalMediaId?.toString?.() || this.document?.originalMediaId || null,
+        originalName: this.document?.originalName || '',
+        originalUrl: this.document?.originalUrl || '',
+        mimeType: this.document?.mimeType || '',
+        previewMediaId: this.document?.previewMediaId?.toString?.() || this.document?.previewMediaId || null,
+        previewUrl: this.document?.previewUrl || '',
+        previewMimeType: this.document?.previewMimeType || '',
+        conversionStatus: this.document?.conversionStatus || 'pending',
+        convertedAt: this.document?.convertedAt || null
+      }
+    : null
 
   return {
     id: this._id.toString(),
@@ -207,6 +283,8 @@ articleSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     slug: this.slug,
     summary: this.summary,
     cover: this.cover,
+    contentMode: this.contentMode || 'markdown',
+    ...(includeContent ? { document } : {}),
     ...(includeContent ? { contentMarkdown: this.contentMarkdown } : {}),
     ...(includeResources ? { resources } : {}),
     author,

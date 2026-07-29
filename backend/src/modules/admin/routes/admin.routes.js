@@ -19,12 +19,14 @@ import { getAdminStats } from '#modules/dashboard/services/stats.service.js'
 import { getMediaFileExtension, isMediaExtensionAllowed, normalizeAllowedMediaExtensions } from '#modules/media/constants/mediaUpload.constants.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
 import { MAX_IMPORT_FILES, buildArticleImportTemplate, commitMarkdownArticleImport, previewMarkdownArticleImport } from '#modules/content/services/articleImport.service.js'
+import { importDocumentArticle } from '#modules/content/services/documentArticleImport.service.js'
 import { buildArticleExportHeaders, exportArticlesAsMarkdownZip } from '#modules/content/services/articleExport.service.js'
+import { assertArticlePublishable } from '#modules/content/services/articleContent.service.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
 import { decryptCredential } from '#utils/authSecurity.js'
 import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
-import { articleBatchMetaSchema, articleBatchTitleSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleExportSchema, articleReorderSchema, articleSchema, articleStatusBatchSchema, articleTitlePreviewSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
+import { articleBatchMetaSchema, articleBatchTitleSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleExportSchema, articleReorderSchema, articleSchema, articleStatusBatchSchema, articleTitlePreviewSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, documentArticleImportSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
 import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
@@ -382,8 +384,58 @@ adminRouter.get('/articles/export/markdown', asyncHandler(async (req, res) => {
   await result.writeTo(res)
 }))
 
+adminRouter.post('/articles/import/document', (req, res, next) => {
+  upload.single('file')(req, res, async (error) => {
+    if (error) {
+      if (error instanceof MulterError && error.code === 'LIMIT_FILE_SIZE') {
+        error.statusCode = 400
+        error.message = `Word 文档不能超过 ${ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB}MB`
+      }
+      next(error)
+      return
+    }
+
+    try {
+      if (!req.file) {
+        throw createUploadValidationError('请选择要导入的 Word 文档', 'DOCUMENT_FILE_REQUIRED')
+      }
+
+      const rules = await getMediaUploadRules()
+      if (req.file.size > rules.maxFileSizeMB * 1024 * 1024) {
+        throw createUploadValidationError(`Word 文档不能超过 ${rules.maxFileSizeMB}MB`, 'DOCUMENT_FILE_SIZE_LIMIT')
+      }
+      if (!isMediaExtensionAllowed(req.file.originalname, rules.allowedExtensions)) {
+        throw createUploadValidationError('当前上传设置不允许 .docx 文件', 'DOCUMENT_EXTENSION_NOT_ALLOWED')
+      }
+
+      let tags = []
+      try {
+        tags = req.body.tags ? JSON.parse(req.body.tags) : []
+      } catch {
+        throw createUploadValidationError('标签参数格式不正确', 'DOCUMENT_TAGS_INVALID')
+      }
+
+      const input = parseBody(documentArticleImportSchema, {
+        title: req.body.title,
+        summary: req.body.summary,
+        category: req.body.category || null,
+        tags
+      })
+      const result = await importDocumentArticle(req.file, input, req.user)
+      res.status(201).json(ok(result, 'Word 文档已导入为文章草稿'))
+    } catch (handlerError) {
+      await cleanupUploadedFiles(req.file ? [req.file] : [])
+      next(handlerError)
+    }
+  })
+})
+
 adminRouter.post('/articles', asyncHandler(async (req, res) => {
   const input = parseBody(articleSchema, req.body)
+  if (input.status === 'published') {
+    // 新建接口也可能直接携带 published，必须与显式发布接口执行同一套完整性校验。
+    assertArticlePublishable(input)
+  }
   const article = await createArticle(input, req.user)
   res.status(201).json(ok(article, '文章已创建'))
 }))

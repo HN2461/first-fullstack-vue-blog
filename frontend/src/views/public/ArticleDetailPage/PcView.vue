@@ -113,8 +113,8 @@
             </header>
 
             <div class="doc-reader__content" :style="{ fontSize: `${fontSize}px` }">
-              <MarkdownRenderer
-                :content="article.contentMarkdown"
+              <ArticleContentRenderer
+                :article="article"
                 :asset-base="legacyAssetBase"
                 :code-wrap="isImmersiveReading"
               />
@@ -173,7 +173,7 @@
           <a-button
             type="text"
             class="doc-reader__action"
-            :disabled="!article.resources?.length"
+            :disabled="!article.document?.originalUrl && !article.resources?.length"
             @click="downloadPrimaryResource"
           >
             <template #icon><DownloadOutlined /></template>
@@ -292,9 +292,10 @@ import {
   StarOutlined
 } from '@ant-design/icons-vue'
 import { ListTree, X } from 'lucide-vue-next'
-import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
 import ReadingToolbar from '@/components/ReadingToolbar.vue'
 import TableOfContents from '@/components/TableOfContents.vue'
+import { getAdminArticle } from '@/services/admin'
 import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
 import {
@@ -334,7 +335,9 @@ const showFooterActions = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY)
 const article = ref({
   id: '',
   title: '',
+  contentMode: 'markdown',
   contentMarkdown: '',
+  document: null,
   resources: [],
   tags: [],
   category: null,
@@ -353,9 +356,10 @@ const article = ref({
 
 const inConsole = computed(() => route.path.startsWith('/console'))
 const inDirectoryConsole = computed(() => route.path.startsWith('/console/article-directory'))
+const isAdminPreview = computed(() => route.meta.adminArticlePreview === true)
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
-const actionBarVisible = computed(() => !isImmersiveReading.value && showFooterActions.value)
+const actionBarVisible = computed(() => !isAdminPreview.value && !isImmersiveReading.value && showFooterActions.value)
 const authorInitial = computed(() => (article.value.author?.username || '知').slice(0, 1).toUpperCase())
 const categoryPath = computed(() => {
   const slug = article.value.category?.slug
@@ -429,7 +433,7 @@ function handleFooterMoreAction({ key }) {
 }
 
 async function loadComments() {
-  if (!article.value.id) return
+  if (isAdminPreview.value || !article.value.id) return
   comments.value = await listComments(article.value.id)
 }
 
@@ -440,7 +444,9 @@ async function loadArticle() {
   isTocOpen.value = false
 
   try {
-    const result = await getPublicArticle(route.params.slug)
+    const result = isAdminPreview.value
+      ? await getAdminArticle(route.params.id)
+      : await getPublicArticle(route.params.slug)
     article.value = result
     likeCount.value = Number(result.likeCount) || 0
     favoriteCount.value = Number(result.favoriteCount) || 0
@@ -448,7 +454,7 @@ async function loadArticle() {
     favoritedByCurrentUser.value = !!result.favoritedByCurrentUser
     await nextTick()
     readerScrollRef.value?.scrollTo({ top: 0 })
-    if (commentDrawerVisible.value) {
+    if (!isAdminPreview.value && commentDrawerVisible.value) {
       await loadComments()
     }
   } catch (error) {
@@ -491,12 +497,12 @@ async function toggleFavorite() {
 }
 
 function downloadPrimaryResource() {
-  const resource = article.value.resources?.[0]
-  if (!resource?.url) {
+  const url = article.value.document?.originalUrl || article.value.resources?.[0]?.url
+  if (!url) {
     message.info('当前文章没有可下载资源')
     return
   }
-  window.open(resource.url, '_blank', 'noopener,noreferrer')
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 async function openCommentDrawer() {
@@ -570,7 +576,7 @@ onUnmounted(() => {
   document.body.classList.remove('reader-immersive-active')
 })
 
-watch(() => route.params.slug, loadArticle)
+watch(() => [route.params.slug, route.params.id], loadArticle)
 watch(isImmersiveReading, syncImmersiveBodyClass)
 </script>
 

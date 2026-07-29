@@ -35,13 +35,14 @@ export function useAdminArticleActions({ selectedArticleIds, tableRef, router, c
   }
 
   function openReader(record) {
-    if (record.slug) {
-      router.push(`/console/article-directory/articles/${record.slug}`)
+    if (record.id) {
+      // 后台预览通过管理接口读取，草稿和已下架文章也能安全检查，不暴露到公开接口。
+      router.push(`/console/manage/articles/${record.id}/read`)
       return
     }
 
-    if (record.id) {
-      router.push(`/console/manage/articles/${record.id}`)
+    if (record.slug) {
+      router.push(`/console/article-directory/articles/${record.slug}`)
     }
   }
 

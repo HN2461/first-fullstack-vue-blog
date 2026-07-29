@@ -6,7 +6,10 @@ export async function connectDatabase() {
     return mongoose.connection
   }
 
-  await mongoose.connect(env.mongodbUri)
+  await mongoose.connect(env.mongodbUri, {
+    // 生产索引变更必须通过显式迁移脚本执行，避免应用启动时隐式改库。
+    autoIndex: env.nodeEnv !== 'production'
+  })
   return mongoose.connection
 }
 

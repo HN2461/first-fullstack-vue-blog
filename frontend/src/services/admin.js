@@ -87,6 +87,16 @@ export function commitArticleImport(payload) {
   return http.post('/api/admin/articles/import/commit', payload)
 }
 
+export function importDocumentArticle(file, metadata = {}) {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('title', metadata.title || '')
+  formData.append('summary', metadata.summary || '')
+  formData.append('category', metadata.category || '')
+  formData.append('tags', JSON.stringify(metadata.tags || []))
+  return http.post('/api/admin/articles/import/document', formData, { timeout: 0 })
+}
+
 export function exportArticlesMarkdown(params = {}) {
   return http.get('/api/admin/articles/export/markdown', {
     params,

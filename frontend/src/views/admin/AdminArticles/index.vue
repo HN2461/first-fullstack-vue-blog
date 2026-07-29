@@ -70,7 +70,7 @@
             <button
               type="button"
               class="article-title"
-              @click="$router.push(`/console/manage/articles/${record.id}`)"
+              @click="openArticle(record)"
             >
               {{ record.title }}
             </button>
@@ -81,6 +81,12 @@
               <span v-if="record.tags?.length">{{ formatTagSummary(record.tags) }}</span>
             </div>
           </div>
+        </template>
+
+        <template v-else-if="column.key === 'contentMode'">
+          <a-tag :bordered="false" :color="record.contentMode === 'document' ? 'blue' : 'default'">
+            {{ record.contentMode === 'document' ? 'Word' : 'Markdown' }}
+          </a-tag>
         </template>
 
         <template v-else-if="column.key === 'publishedAt'">
@@ -117,10 +123,12 @@
 
         <template v-else-if="column.key === 'action'">
           <a-space size="small">
-            <a-button type="link" size="small" @click="$router.push(`/console/manage/articles/${record.id}`)">
-              编辑
+            <a-button type="link" size="small" @click="openArticle(record)">
+              {{ record.contentMode === 'document' ? '阅读' : '编辑' }}
             </a-button>
-            <a-button type="link" size="small" @click="openReader(record)">阅读</a-button>
+            <a-button v-if="record.contentMode !== 'document'" type="link" size="small" @click="openReader(record)">
+              阅读
+            </a-button>
             <a-dropdown>
               <a-button type="text" size="small">
                 <MoreOutlined />
@@ -293,6 +301,12 @@ const columns = [
     ellipsis: true
   },
   {
+    title: '类型',
+    key: 'contentMode',
+    width: 100,
+    align: 'center'
+  },
+  {
     title: '发布时间',
     key: 'publishedAt',
     width: 156
@@ -337,6 +351,14 @@ const columns = [
 async function fetchArticles(params) {
   const result = await listAdminArticles(params)
   return { items: result.items || [], total: result.total || 0 }
+}
+
+function openArticle(record) {
+  if (record.contentMode === 'document') {
+    openReader(record)
+    return
+  }
+  router.push(`/console/manage/articles/${record.id}`)
 }
 
 async function loadCategories() {

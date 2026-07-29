@@ -42,6 +42,8 @@ function getReferenceLabel(type) {
     articleContent: '文章正文',
     articleCover: '文章封面',
     articleResource: '文章关联资源',
+    articleDocument: '文章原始文档',
+    articleDocumentPreview: '文章阅读版',
     userAvatar: '用户头像',
     setting: '系统设置'
   }
@@ -91,7 +93,15 @@ function collectSettingReferences(setting, url) {
 }
 
 export function summarizeMediaReferences(references = []) {
-  const typeOrder = ['articleContent', 'articleCover', 'articleResource', 'userAvatar', 'setting']
+  const typeOrder = [
+    'articleContent',
+    'articleCover',
+    'articleResource',
+    'articleDocument',
+    'articleDocumentPreview',
+    'userAvatar',
+    'setting'
+  ]
   const countByType = Object.fromEntries(typeOrder.map((type) => [type, 0]))
 
   references.forEach((item) => {
@@ -127,9 +137,13 @@ export async function findMediaReferences(media) {
         { contentMarkdown: urlRegex },
         { cover: { $in: urlVariants } },
         { 'resources.url': { $in: urlVariants } },
-        media?._id ? { 'resources.mediaId': media._id } : null
+        media?._id ? { 'resources.mediaId': media._id } : null,
+        { 'document.originalUrl': { $in: urlVariants } },
+        { 'document.previewUrl': { $in: urlVariants } },
+        media?._id ? { 'document.originalMediaId': media._id } : null,
+        media?._id ? { 'document.previewMediaId': media._id } : null
       ].filter(Boolean)
-    }).select('title slug status contentMarkdown cover resources updatedAt').lean(),
+    }).select('title slug status contentMarkdown cover resources document updatedAt').lean(),
     User.find({ avatar: { $in: urlVariants } }).select('username email avatar status updatedAt').lean(),
     Setting.find({}).select('key value group updatedAt').lean()
   ])
@@ -151,6 +165,20 @@ export async function findMediaReferences(media) {
     )
     if (hasResourceUrl) {
       references.push(buildArticleReference(article, 'articleResource'))
+    }
+
+    if (
+      urlVariants.includes(normalizeUrl(article.document?.originalUrl)) ||
+      (media?._id && String(article.document?.originalMediaId || '') === media._id.toString())
+    ) {
+      references.push(buildArticleReference(article, 'articleDocument'))
+    }
+
+    if (
+      urlVariants.includes(normalizeUrl(article.document?.previewUrl)) ||
+      (media?._id && String(article.document?.previewMediaId || '') === media._id.toString())
+    ) {
+      references.push(buildArticleReference(article, 'articleDocumentPreview'))
     }
   })
 

@@ -235,6 +235,12 @@ export const router = createRouter({
           meta: { title: '新建文章', requiresAdmin: true }
         },
         {
+          path: 'manage/articles/:id([a-f\\d]{24})/read',
+          name: 'AdminArticlePreview',
+          component: ArticleDetailPage,
+          meta: { title: '文章预览', requiresAdmin: true, adminArticlePreview: true }
+        },
+        {
           path: 'manage/articles/:id([a-f\\d]{24})',
           name: 'AdminArticleEdit',
           component: AdminArticleEditor,

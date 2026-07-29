@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { BUILTIN_ROLE_CODES, COMMENT_STATUS, USER_STATUS } from '#constants/domain'
+import { ARTICLE_STATUS, BUILTIN_ROLE_CODES, COMMENT_STATUS, USER_STATUS } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Comment } from '#modules/interaction/models/Comment.js'
 import { PermissionRequest } from '#modules/rbac/models/PermissionRequest.js'
@@ -36,9 +36,13 @@ export async function createComment(input, user) {
     throw createHttpError(403, 'COMMENTS_DISABLED', '评论功能已关闭')
   }
 
-  const article = await Article.findById(input.articleId)
+  const article = await Article.findOne({
+    _id: input.articleId,
+    status: ARTICLE_STATUS.PUBLISHED,
+    deletedAt: null
+  })
 
-  if (!article || article.deletedAt) {
+  if (!article) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
   }
 
@@ -55,8 +59,12 @@ export async function createComment(input, user) {
   })
 
   if (status === COMMENT_STATUS.VISIBLE) {
-    article.commentCount += 1
-    await article.save()
+    // 评论数是互动统计，不应改变文章的最近编辑时间。
+    await Article.updateOne(
+      { _id: article._id },
+      { $inc: { commentCount: 1 } },
+      { timestamps: false }
+    )
   }
 
   await comment.populate('user')
@@ -64,6 +72,15 @@ export async function createComment(input, user) {
 }
 
 export async function listVisibleComments(articleId) {
+  const articleExists = await Article.exists({
+    _id: articleId,
+    status: ARTICLE_STATUS.PUBLISHED,
+    deletedAt: null
+  })
+  if (!articleExists) {
+    throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
+  }
+
   const comments = await Comment.find({
     article: articleId,
     status: COMMENT_STATUS.VISIBLE
@@ -123,11 +140,19 @@ export async function reviewComment(id, action, admin) {
   await comment.save()
 
   if (!wasVisible && comment.status === COMMENT_STATUS.VISIBLE) {
-    await Article.updateOne({ _id: comment.article }, { $inc: { commentCount: 1 } })
+    await Article.updateOne(
+      { _id: comment.article },
+      { $inc: { commentCount: 1 } },
+      { timestamps: false }
+    )
   }
 
   if (wasVisible && comment.status !== COMMENT_STATUS.VISIBLE) {
-    await Article.updateOne({ _id: comment.article }, { $inc: { commentCount: -1 } })
+    await Article.updateOne(
+      { _id: comment.article, commentCount: { $gt: 0 } },
+      { $inc: { commentCount: -1 } },
+      { timestamps: false }
+    )
   }
 
   await comment.populate('user')
@@ -155,6 +180,15 @@ export async function reportComment(id) {
     throw createHttpError(404, 'COMMENT_NOT_FOUND', '评论不存在')
   }
 
+  const articleExists = await Article.exists({
+    _id: comment.article,
+    status: ARTICLE_STATUS.PUBLISHED,
+    deletedAt: null
+  })
+  if (!articleExists) {
+    throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
+  }
+
   comment.reportCount += 1
 
   if (!comment.riskReasons.includes('reported')) {
@@ -163,7 +197,11 @@ export async function reportComment(id) {
 
   if (comment.status === COMMENT_STATUS.VISIBLE) {
     comment.status = COMMENT_STATUS.PENDING
-    await Article.updateOne({ _id: comment.article }, { $inc: { commentCount: -1 } })
+    await Article.updateOne(
+      { _id: comment.article, commentCount: { $gt: 0 } },
+      { $inc: { commentCount: -1 } },
+      { timestamps: false }
+    )
   }
 
   await comment.save()

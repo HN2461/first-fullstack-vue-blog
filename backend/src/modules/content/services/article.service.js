@@ -2,91 +2,23 @@ import { ARTICLE_STATUS } from '#constants/domain'
 import { Category } from '#modules/content/models/Category.js'
 import { Article } from '#modules/content/models/Article.js'
 import { getNextArticleSortOrder, normalizeArticleSortOrder } from './articleOrder.service.js'
+import {
+  assertArticlePublishable,
+  calculateReadingMinutes,
+  calculateWordCount,
+  getArticleContentText,
+  getPublishBlockers,
+  normalizeArticleDocument,
+  normalizeArticleResources
+} from './articleContent.service.js'
+
+export { getPublishBlockers } from './articleContent.service.js'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
   error.statusCode = statusCode
   error.code = code
   return error
-}
-
-function calculateWordCount(content) {
-  const cleaned = String(content || '')
-    .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/[#>*_\-[\]()`]/g, ' ')
-    .trim()
-
-  if (!cleaned) {
-    return 0
-  }
-
-  const chineseChars = cleaned.match(/[\u4e00-\u9fa5]/g)?.length || 0
-  const latinWords = cleaned
-    .replace(/[\u4e00-\u9fa5]/g, ' ')
-    .split(/\s+/)
-    .filter(Boolean).length
-
-  return chineseChars + latinWords
-}
-
-function calculateReadingMinutes(wordCount) {
-  return Math.max(1, Math.ceil(wordCount / 400))
-}
-
-export function getPublishBlockers(article) {
-  const blockers = []
-
-  if (!String(article.title || '').trim()) {
-    blockers.push('发布前请填写文章标题')
-  }
-
-  if (!String(article.contentMarkdown || '').trim()) {
-    blockers.push('发布前请填写正文内容')
-  }
-
-  if (!String(article.summary || '').trim()) {
-    blockers.push('发布前请填写文章摘要')
-  }
-
-  if (!article.category) {
-    blockers.push('发布前请选择所属分类')
-  }
-
-  return blockers
-}
-
-function assertArticlePublishable(article) {
-  const blockers = getPublishBlockers(article)
-
-  if (blockers.length === 0) {
-    return
-  }
-
-  const message = blockers[0]
-  const codeMap = {
-    发布前请填写文章标题: 'ARTICLE_TITLE_REQUIRED',
-    发布前请填写正文内容: 'ARTICLE_CONTENT_REQUIRED',
-    发布前请填写文章摘要: 'ARTICLE_SUMMARY_REQUIRED',
-    发布前请选择所属分类: 'ARTICLE_CATEGORY_REQUIRED'
-  }
-
-  throw createHttpError(400, codeMap[message] || 'ARTICLE_PUBLISH_INVALID', message)
-}
-
-function normalizeResources(resources = []) {
-  return Array.isArray(resources)
-    ? resources
-      .filter((item) => item && item.url && item.name)
-      .map((item) => ({
-        mediaId: item.mediaId || null,
-        name: item.name.trim(),
-        url: item.url.trim(),
-        kind: item.kind === 'image' ? 'image' : 'attachment',
-        description: item.description || '',
-        fileSize: Number(item.fileSize) || 0,
-        mimeType: item.mimeType || ''
-      }))
-    : []
 }
 
 export async function adjustCategoryArticleCount(categoryId, delta) {
@@ -212,16 +144,18 @@ async function resolveUpdateSlug(input, article) {
 
 export async function createArticle(input, user) {
   const slug = await resolveCreateSlug(input)
-
-  const wordCount = calculateWordCount(input.contentMarkdown)
+  const contentMode = input.contentMode === 'document' ? 'document' : 'markdown'
+  const wordCount = calculateWordCount(getArticleContentText({ ...input, contentMode }))
   const categoryId = input.category || null
   const article = await Article.create({
     title: input.title.trim(),
     slug,
     summary: input.summary || '',
+    contentMode,
     contentMarkdown: input.contentMarkdown || '',
+    document: contentMode === 'document' ? normalizeArticleDocument(input.document) : undefined,
     cover: input.cover || '',
-    resources: normalizeResources(input.resources),
+    resources: normalizeArticleResources(input.resources),
     category: categoryId,
     tags: input.tags || [],
     status: input.status || ARTICLE_STATUS.DRAFT,
@@ -258,13 +192,19 @@ export async function updateArticle(id, input, user) {
   const previousCategoryId = article.category ? article.category.toString() : null
   const nextCategoryId = input.category || null
 
-  const wordCount = calculateWordCount(input.contentMarkdown)
+  const contentMode = input.contentMode || article.contentMode || 'markdown'
+  const wordCount = calculateWordCount(contentMode === 'document'
+    ? article.document?.extractedText
+    : input.contentMarkdown)
   article.title = input.title.trim()
   article.slug = slug
   article.summary = input.summary || ''
-  article.contentMarkdown = input.contentMarkdown || ''
+  article.contentMode = contentMode
+  if (contentMode === 'markdown') {
+    article.contentMarkdown = input.contentMarkdown || ''
+  }
   article.cover = input.cover || ''
-  article.resources = normalizeResources(input.resources)
+  article.resources = normalizeArticleResources(input.resources)
   article.category = input.category || null
   article.tags = input.tags || []
   article.isRecommended = !!input.isRecommended
@@ -276,6 +216,11 @@ export async function updateArticle(id, input, user) {
     article.sortOrder = await getNextArticleSortOrder(nextCategoryId)
   }
   article.updatedBy = user._id
+
+  if (article.status === ARTICLE_STATUS.PUBLISHED) {
+    // 已发布文章保存修改后仍应保持可发布状态，避免公开内容被改成空正文或缺少必要元数据。
+    assertArticlePublishable(article)
+  }
 
   await article.save()
 
@@ -300,6 +245,11 @@ export async function updateArticleStatus(id, status, user) {
 
   if (!Object.values(ARTICLE_STATUS).includes(status)) {
     throw createHttpError(400, 'INVALID_ARTICLE_STATUS', '文章状态不正确')
+  }
+
+  if (status === ARTICLE_STATUS.PUBLISHED) {
+    // 所有发布入口都必须经过同一套完整性校验，避免通用状态接口绕过发布规则。
+    assertArticlePublishable(article)
   }
 
   article.status = status

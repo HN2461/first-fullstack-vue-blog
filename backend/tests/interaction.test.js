@@ -2,6 +2,7 @@ import request from 'supertest'
 import { COMMENT_STATUS, USER_ROLES, USER_STATUS } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
+import { Article } from '#modules/content/models/Article.js'
 import { User } from '#modules/user/models/User.js'
 import { createArticle } from '#modules/content/services/article.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
@@ -132,6 +133,7 @@ describe('interaction routes', () => {
   })
 
   it('adds and removes likes and favorites', async () => {
+    const beforeInteraction = await Article.findById(article.id).lean()
     const liked = await request(app)
       .post(`/api/articles/${article.id}/like`)
       .set('Authorization', `Bearer ${userToken}`)
@@ -152,6 +154,36 @@ describe('interaction routes', () => {
       .expect(200)
 
     expect(unliked.body.data.likeCount).toBe(0)
+
+    const afterInteraction = await Article.findById(article.id).lean()
+    expect(afterInteraction.updatedAt.toISOString()).toBe(beforeInteraction.updatedAt.toISOString())
+  })
+
+  it('does not expose draft articles through public interaction endpoints', async () => {
+    const draft = await createArticle({
+      title: '未发布互动草稿',
+      contentMarkdown: '# 草稿'
+    }, admin)
+
+    await request(app)
+      .post('/api/comments')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ articleId: draft.id, content: '不应写入草稿的评论' })
+      .expect(404)
+
+    await request(app)
+      .post(`/api/articles/${draft.id}/like`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect(404)
+
+    await request(app)
+      .post(`/api/articles/${draft.id}/favorite`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect(404)
+
+    await request(app)
+      .get(`/api/public/articles/${draft.id}/comments`)
+      .expect(404)
   })
 
   it('reports visible comments back to pending moderation', async () => {

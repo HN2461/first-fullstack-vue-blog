@@ -1,8 +1,10 @@
 import archiver from 'archiver'
+import fs from 'node:fs'
 import { once } from 'node:events'
 import { ARTICLE_STATUS } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
+import { Media } from '#modules/media/models/Media.js'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -165,6 +167,7 @@ function buildManifestArticle(article, fileName, categoryPathMap, options) {
     originalSlug: article.slug,
     exportedSlug: buildExportSlug(article, options.slugStrategy, options.exportedAt),
     title: article.title,
+    contentMode: article.contentMode || 'markdown',
     status: article.status,
     categoryPath,
     tags: normalizeArray(article.tags).map((tag) => tag?.name).filter(Boolean),
@@ -185,19 +188,37 @@ function buildExportReadme(input, total, exportedAt) {
   }
 
   return [
-    '# 文章 Markdown 导出说明',
+    '# 知识库文章导出说明',
     '',
     `- 导出时间：${exportedAt.toISOString()}`,
     `- 导出范围：${scopeLabels[input.scope || 'published']}`,
     `- 文章数量：${total}`,
     `- slug 策略：${input.slugStrategy === 'keep' ? '保留原 slug' : '追加 revision 日期'}`,
-    '- 每篇文章是一个 Markdown 文件，顶部 Front Matter 与现有文章导入页面兼容。',
+    '- Markdown 文章导出为带 Front Matter 的 .md 文件，与现有文章导入页面兼容。',
+    '- 文档型文章导出为独立目录，包含 metadata.json、原始 Word 和可用的 PDF 阅读版。',
     '- 文件会按文章分类路径放入对应目录；选择上级分类时，会导出该分类及其所有子分类文章。',
     '- manifest.json 记录本次实际导出的文章总数和逐篇清单，可用于核对全量导出是否完整。',
     '- originalId、originalSlug、originalStatus 和 exportedAt 仅用于人工参考，不参与自动覆盖更新。',
     '- 修改后可在“文章导入”页面重新导入，再手动调整分类、标签、目录迁移和旧文清理。',
     ''
   ].join('\n')
+}
+
+function buildDocumentEntryRoot(article, categoryPathMap) {
+  const markdownName = buildArticleEntryName(article, categoryPathMap)
+  return markdownName.replace(/\.md$/i, '-文档')
+}
+
+async function appendMediaEntry(archive, mediaId, entryName, exportedAt) {
+  if (!mediaId) return false
+  const media = await Media.findById(mediaId).lean()
+  if (!media?.storagePath || !fs.existsSync(media.storagePath)) return false
+  await appendArchiveEntry(archive, {
+    name: entryName,
+    data: fs.createReadStream(media.storagePath),
+    date: media.updatedAt || media.createdAt || exportedAt
+  })
+  return true
 }
 
 async function buildArticleQuery(input = {}) {
@@ -249,6 +270,7 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
     async writeTo(writable) {
       const archive = archiver('zip', { store: true })
       const usedNames = new Set()
+      const usedDocumentRoots = new Set()
       const manifestArticles = []
 
       archive.on('warning', (error) => {
@@ -261,7 +283,7 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
 
       try {
         const cursor = Article.find(query)
-          .select('_id title slug summary contentMarkdown cover category tags status sortOrder sourcePath publishedAt createdAt updatedAt')
+          .select('_id title slug summary contentMode contentMarkdown document cover category tags status sortOrder sourcePath publishedAt createdAt updatedAt')
           .populate('category', 'name')
           .populate('tags', 'name')
           .sort({ publishedAt: -1, updatedAt: -1, createdAt: -1 })
@@ -269,6 +291,53 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
           .cursor()
 
         for await (const article of cursor) {
+          if (article.contentMode === 'document') {
+            const baseEntryRoot = buildDocumentEntryRoot(article, categoryPathMap)
+            let entryRoot = baseEntryRoot
+            let suffix = 2
+            while (usedDocumentRoots.has(entryRoot)) {
+              entryRoot = `${baseEntryRoot}-${suffix}`
+              suffix += 1
+            }
+            usedDocumentRoots.add(entryRoot)
+            const originalName = sanitizeFilename(article.document?.originalName || 'document.docx')
+            const previewName = `${sanitizeFilename(article.title, article.slug)}-阅读版.pdf`
+            const metadataName = `${entryRoot}/metadata.json`
+            const metadata = {
+              formatVersion: 1,
+              contentMode: 'document',
+              originalId: article._id.toString(),
+              originalSlug: article.slug,
+              title: article.title,
+              summary: article.summary || '',
+              status: article.status,
+              originalName: article.document?.originalName || '',
+              exportedAt: exportedAt.toISOString()
+            }
+            await appendArchiveEntry(archive, {
+              name: metadataName,
+              data: `${JSON.stringify(metadata, null, 2)}\n`,
+              date: article.updatedAt || article.createdAt || exportedAt
+            })
+            await appendMediaEntry(
+              archive,
+              article.document?.originalMediaId,
+              `${entryRoot}/${originalName}`,
+              exportedAt
+            )
+            await appendMediaEntry(
+              archive,
+              article.document?.previewMediaId,
+              `${entryRoot}/${previewName}`,
+              exportedAt
+            )
+            manifestArticles.push(buildManifestArticle(article, metadataName, categoryPathMap, {
+              slugStrategy,
+              exportedAt
+            }))
+            continue
+          }
+
           const entryName = buildArticleEntryName(article, categoryPathMap)
           const extensionIndex = entryName.lastIndexOf('.md')
           const baseName = extensionIndex >= 0 ? entryName.slice(0, extensionIndex) : entryName
@@ -292,7 +361,7 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
         }
 
         const manifest = {
-          formatVersion: 1,
+          formatVersion: 2,
           exportedAt: exportedAt.toISOString(),
           scope: input.scope || 'published',
           slugStrategy,

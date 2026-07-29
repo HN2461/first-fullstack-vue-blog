@@ -172,7 +172,9 @@ function getRecencyBoost(article) {
 }
 
 function buildSearchContext(article) {
-  const plainContent = stripMarkdown(article.contentMarkdown || '')
+  const plainContent = article.contentMode === 'document'
+    ? normalizeTextContent(article.document?.extractedText || '')
+    : stripMarkdown(article.contentMarkdown || '')
   const tagNames = Array.isArray(article.tags)
     ? article.tags
       .map((tag) => tag?.name || '')
@@ -188,6 +190,10 @@ function buildSearchContext(article) {
     slug: normalizeSearchText(article.slug),
     plainContent
   }
+}
+
+function normalizeTextContent(raw = '') {
+  return String(raw || '').replace(/\s+/g, ' ').trim()
 }
 
 function evaluateArticle(article, context, query, terms, mode, textScores = new Map()) {
@@ -530,6 +536,7 @@ export async function searchArticles(rawQuery = {}) {
       { title: new RegExp(escapeRegExp(term), 'i') },
       { summary: new RegExp(escapeRegExp(term), 'i') },
       { contentMarkdown: new RegExp(escapeRegExp(term), 'i') },
+      { 'document.extractedText': new RegExp(escapeRegExp(term), 'i') },
       { slug: new RegExp(escapeRegExp(term), 'i') }
     ]
   }))
