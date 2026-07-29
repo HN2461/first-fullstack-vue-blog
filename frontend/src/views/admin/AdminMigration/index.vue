@@ -98,7 +98,7 @@
               <div class="mg-panel-icon-wrap">
                 <FolderOutlined />
               </div>
-              <div>
+              <div class="mg-panel-title-copy">
                 <strong class="mg-panel-title">当前分类</strong>
                 <span class="mg-panel-subtitle">{{ currentCategory ? currentCategory.name : '请从左侧选择一个分类' }}</span>
               </div>
@@ -1359,6 +1359,7 @@ onMounted(() => {
 /* ── 面板头部 ── */
 .mg-panel-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
@@ -1368,9 +1369,14 @@ onMounted(() => {
 }
 
 .mg-panel-title-group {
+  flex: 1 1 auto;
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 180px;
+}
+
+.mg-panel-title-copy {
   min-width: 0;
 }
 
@@ -1408,6 +1414,10 @@ onMounted(() => {
 
 .mg-panel-actions {
   flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 100%;
+  margin-left: auto;
 }
 
 /* ── 锁定提示 ── */
