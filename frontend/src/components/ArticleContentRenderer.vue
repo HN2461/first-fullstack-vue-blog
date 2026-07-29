@@ -130,9 +130,11 @@ async function renderDocx() {
     await renderAsync(buffer, docxContainer.value, undefined, {
       className: 'docx',
       inWrapper: true,
-      ignoreWidth: false,
-      ignoreHeight: false,
-      breakPages: true,
+      // docx-preview 只能按显式分页符拆页，长文会形成一个超高的伪纸张。
+      // 文档文章采用连续流式布局，由文章页承担唯一滚动，避免内外双滚动。
+      ignoreWidth: true,
+      ignoreHeight: true,
+      breakPages: false,
       useBase64URL: true
     })
   } catch (error) {
@@ -159,7 +161,9 @@ onBeforeUnmount(() => {
 <style scoped>
 .document-reader {
   width: 100%;
+  max-width: 920px;
   min-width: 0;
+  margin: 0 auto;
   color: var(--text-primary);
 }
 
@@ -249,13 +253,9 @@ onBeforeUnmount(() => {
 
 .document-reader__docx-shell {
   position: relative;
-  height: min(78vh, 920px);
-  min-height: 520px;
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 4px 16px rgb(15 23 42 / 8%);
-  background: color-mix(in srgb, var(--text-muted) 12%, var(--bg-secondary));
+  min-height: 320px;
+  overflow: visible;
+  background: #fff;
 }
 
 .document-reader__state {
@@ -269,36 +269,32 @@ onBeforeUnmount(() => {
 
 .document-reader__docx {
   width: 100%;
-  height: 100%;
-  overflow: auto;
-  overscroll-behavior: contain;
-  scrollbar-color: color-mix(in srgb, var(--primary-color) 38%, var(--border-color)) transparent;
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
-}
-
-.document-reader__docx::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-.document-reader__docx::-webkit-scrollbar-thumb {
-  border: 3px solid transparent;
-  border-radius: 999px;
-  background-clip: content-box;
-  background-color: color-mix(in srgb, var(--primary-color) 42%, var(--border-color));
+  min-width: 0;
+  overflow: visible;
 }
 
 .document-reader__docx :deep(.docx-wrapper) {
-  min-height: 100%;
-  padding: 28px 20px;
-  background: transparent;
+  display: block;
+  min-height: 0;
+  padding: 0;
+  color: #172033;
+  background: #fff;
 }
 
 .document-reader__docx :deep(.docx-wrapper > section.docx) {
-  margin: 0 auto 20px;
-  border: 1px solid #dfe3e8;
-  box-shadow: 0 8px 24px rgb(15 23 42 / 14%);
+  box-sizing: border-box;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: clamp(40px, 7vw, 72px) !important;
+  border: 0;
+  box-shadow: none;
+  background: #fff;
+}
+
+.document-reader__docx :deep(img) {
+  max-width: 100% !important;
+  height: auto !important;
 }
 
 @media (max-width: 720px) {
@@ -331,12 +327,36 @@ onBeforeUnmount(() => {
   }
 
   .document-reader__docx-shell {
-    height: 70vh;
-    min-height: 420px;
+    min-height: 240px;
   }
 
-  .document-reader__docx :deep(.docx-wrapper) {
-    padding: 12px 0;
+  .document-reader__docx :deep(.docx-wrapper > section.docx) {
+    padding: 24px 14px !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .document-reader__docx :deep(table) {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto !important;
+  }
+
+  .document-reader__docx :deep(td),
+  .document-reader__docx :deep(th) {
+    min-width: 0 !important;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .document-reader__docx :deep(div:has(> img)) {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  .document-reader__docx :deep(div:has(> img) > img) {
+    width: 100% !important;
   }
 }
 </style>
