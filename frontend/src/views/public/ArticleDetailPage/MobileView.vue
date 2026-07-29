@@ -121,7 +121,12 @@
         </div>
       </a-drawer>
 
-      <footer v-if="!isAdminPreview" class="mobile-reader__actions" aria-label="文章操作">
+      <footer
+        v-if="!isAdminPreview"
+        class="mobile-reader__actions"
+        :class="{ 'mobile-reader__actions--document': article.contentMode === 'document' }"
+        aria-label="文章操作"
+      >
         <button type="button" :class="{ 'is-active is-like': likedByCurrentUser }" @click="toggleLike">
           <LikeOutlined />
           <span>{{ formatMetric(likeCount) }}</span>
@@ -134,7 +139,7 @@
           <DownloadOutlined />
           <span>下载</span>
         </button>
-        <button type="button" @click="tocVisible = true">
+        <button v-if="article.contentMode !== 'document'" type="button" @click="tocVisible = true">
           <UnorderedListOutlined />
           <span>目录</span>
         </button>
@@ -600,6 +605,10 @@ watch(() => [route.params.slug, route.params.id], loadArticle)
   background: color-mix(in srgb, var(--bg-elevated) 96%, transparent);
   box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.1);
   backdrop-filter: blur(12px);
+}
+
+.mobile-reader__actions--document {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .mobile-reader__actions button {

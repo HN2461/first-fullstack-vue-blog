@@ -8,19 +8,33 @@
 
   <section v-else class="document-reader">
     <div class="document-reader__toolbar">
-      <a-tag :bordered="false" color="blue">
-        {{ article.document?.previewUrl ? 'PDF 阅读版' : 'DOCX 只读' }}
-      </a-tag>
-      <span>{{ article.document?.originalName || 'Word 文档' }}</span>
-      <a
+      <div class="document-reader__identity">
+        <span class="document-reader__file-icon" aria-hidden="true">
+          <FileText :size="18" />
+        </span>
+        <div class="document-reader__file-meta">
+          <div class="document-reader__file-heading">
+            <strong>Word 文档</strong>
+            <a-tag :bordered="false" color="blue">
+              {{ article.document?.previewUrl ? 'PDF 阅读版' : 'DOCX 只读' }}
+            </a-tag>
+          </div>
+          <span :title="article.document?.originalName || 'Word 文档'">
+            {{ article.document?.originalName || 'Word 文档' }}
+          </span>
+        </div>
+      </div>
+      <a-button
         v-if="article.document?.originalUrl"
+        class="document-reader__download"
+        type="text"
         :href="article.document.originalUrl"
         target="_blank"
-        rel="noopener noreferrer"
         download
       >
-        下载原始 Word
-      </a>
+        <template #icon><Download :size="16" /></template>
+        下载原件
+      </a-button>
     </div>
 
     <iframe
@@ -59,6 +73,7 @@
 
 <script setup>
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
+import { Download, FileText } from 'lucide-vue-next'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 
 const props = defineProps({
@@ -150,27 +165,73 @@ onBeforeUnmount(() => {
 
 .document-reader__toolbar {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
   align-items: center;
-  min-height: 42px;
-  margin-bottom: 12px;
-  padding: 7px 10px;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
-  background: var(--bg-secondary);
-  font-size: 13px;
+  background: color-mix(in srgb, var(--bg-elevated) 88%, var(--bg-secondary));
 }
 
-.document-reader__toolbar span {
-  flex: 1 1 200px;
+.document-reader__identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   min-width: 0;
+}
+
+.document-reader__file-icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 20%, var(--border-color));
+  border-radius: 6px;
+  color: var(--primary-color);
+  background: color-mix(in srgb, var(--primary-color) 8%, var(--bg-elevated));
+}
+
+.document-reader__file-meta {
+  min-width: 0;
+}
+
+.document-reader__file-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.document-reader__file-heading strong {
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.document-reader__file-heading :deep(.ant-tag) {
+  margin: 0;
+  font-size: 11px;
+  line-height: 19px;
+}
+
+.document-reader__file-meta > span {
+  display: block;
+  max-width: min(56vw, 680px);
   overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 18px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.document-reader__toolbar a {
+.document-reader__download {
+  flex: 0 0 auto;
   color: var(--primary-color);
   white-space: nowrap;
 }
@@ -182,15 +243,19 @@ onBeforeUnmount(() => {
   min-height: 620px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
+  box-shadow: 0 4px 16px rgb(15 23 42 / 8%);
   background: #fff;
 }
 
 .document-reader__docx-shell {
+  position: relative;
+  height: min(78vh, 920px);
   min-height: 520px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   overflow: hidden;
-  background: #d8dce2;
+  box-shadow: 0 4px 16px rgb(15 23 42 / 8%);
+  background: color-mix(in srgb, var(--text-muted) 12%, var(--bg-secondary));
 }
 
 .document-reader__state {
@@ -204,24 +269,60 @@ onBeforeUnmount(() => {
 
 .document-reader__docx {
   width: 100%;
-  max-height: 82vh;
+  height: 100%;
   overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-color: color-mix(in srgb, var(--primary-color) 38%, var(--border-color)) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.document-reader__docx::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.document-reader__docx::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-clip: content-box;
+  background-color: color-mix(in srgb, var(--primary-color) 42%, var(--border-color));
 }
 
 .document-reader__docx :deep(.docx-wrapper) {
   min-height: 100%;
-  padding: 20px 12px;
-  background: #d8dce2;
+  padding: 28px 20px;
+  background: transparent;
 }
 
 .document-reader__docx :deep(.docx-wrapper > section.docx) {
-  margin: 0 auto 16px;
-  box-shadow: 0 1px 5px rgb(0 0 0 / 18%);
+  margin: 0 auto 20px;
+  border: 1px solid #dfe3e8;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 14%);
 }
 
 @media (max-width: 720px) {
   .document-reader__toolbar {
-    align-items: flex-start;
+    gap: 8px;
+    min-height: 58px;
+    padding: 8px 10px;
+  }
+
+  .document-reader__file-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .document-reader__file-heading strong {
+    display: none;
+  }
+
+  .document-reader__file-meta > span {
+    max-width: 52vw;
+  }
+
+  .document-reader__download {
+    padding-inline: 8px;
   }
 
   .document-reader__pdf {
@@ -230,15 +331,12 @@ onBeforeUnmount(() => {
   }
 
   .document-reader__docx-shell {
+    height: 70vh;
     min-height: 420px;
   }
 
-  .document-reader__docx {
-    max-height: 74vh;
-  }
-
   .document-reader__docx :deep(.docx-wrapper) {
-    padding: 10px 0;
+    padding: 12px 0;
   }
 }
 </style>

@@ -4,6 +4,7 @@
       'doc-reader',
       {
         'doc-reader--console': inConsole,
+        'doc-reader--document': article.contentMode === 'document',
         'doc-reader--immersive': isImmersiveReading,
         'doc-reader--footer-hidden': !actionBarVisible
       }
@@ -216,6 +217,7 @@
       </footer>
 
       <ReadingToolbar
+        v-if="article.contentMode !== 'document'"
         :immersive-mode="isImmersiveReading"
         :footer-actions-visible="showFooterActions"
         :default-bottom="actionBarVisible ? 88 : 24"
@@ -654,6 +656,10 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
   max-width: min(100%, 92ch);
   min-width: 0;
   margin: 0 auto;
+}
+
+.doc-reader--document .doc-reader__article {
+  max-width: min(100%, 1100px);
 }
 
 .doc-reader__header {
