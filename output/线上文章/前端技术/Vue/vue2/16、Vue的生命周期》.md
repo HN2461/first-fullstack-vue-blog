@@ -1,0 +1,232 @@
+---
+title: ".16、Vue的生命周期》"
+slug: "vue-vue2-16-vue-975bfaf5"
+summary: ""
+category: "vue2"
+tags: []
+status: "draft"
+sortOrder: 110
+cover: ""
+originalId: "6a2d291e8a2b1c68f2cac2b2"
+originalSlug: "vue-vue2-16-vue-975bfaf5"
+originalStatus: "published"
+exportedAt: "2026-07-30T14:08:39.359Z"
+---
+# 2.16 Vue的生命周期
+## 一、生命周期概述
+所谓的生命周期是指：一个事物从出生到最终的死亡，整个经历的过程叫做生命周期。
+
+例如人的生命周期：
+
+1. **出生**：打疫苗  
+2. **3岁了**：上幼儿园  
+3. **6岁了**：上小学  
+4. **12岁了**：上初中  
+5. **……**  
+6. **58岁了**：退休  
+7. **……**  
+8. **临终**：遗嘱  
+9. **死亡**：火化
+
+可以看到，在这个生命线上有很多不同的时间节点，在不同的时间节点上去做不同的事儿。
+
+Vue的生命周期指的是：`vm`对象从创建到最终销毁的整个过程。
+
+例如：
+
+1. 虚拟DOM在内存中就绪时：去调用一个`a`函数  
+2. 虚拟DOM转换成真实DOM渲染到页面时：去调用一个`b`函数  
+3. Vue的`data`发生改变时：去调用一个`c`函数  
+4. **……**  
+5. Vue实例被销毁时：去调用一个`x`函数
+
+在生命线上的函数叫做**钩子函数**，这些函数是不需要程序员手动调用的，由Vue自动调用，程序员只需要按照自己的需求写上，到了那个时间点自动就会执行。
+
+---
+
+## 二、掌握Vue的生命周期有什么用
+研究Vue的生命周期主要是研究：在不同的时刻Vue做了哪些不同的事儿。
+
+例如：在`vm`被销毁之前，需要将绑定到元素上的自定义事件全部解绑，那么这个解绑的代码就需要找一个地方写一下，写到哪里呢？你可以写到`beforeDestroy()`这个函数中，这个函数会被Vue自动调用，而且是在`vm`对象销毁前被自动调用。
+
+像这种在不同时刻被自动调用的函数称为**钩子函数**。每一个钩子函数都有对应的调用时间节点。
+
+换句话说，研究Vue的生命周期主要研究的核心是：在哪个时刻调用了哪个钩子函数。
+
+---
+
+## 三、Vue生命周期的4个阶段8个钩子
+Vue的生命周期可以被划分为4个阶段：初始阶段、挂载阶段、更新阶段、销毁阶段。
+
+每个阶段会调用两个钩子函数。两个钩子函数名的特点：`beforeXxx()`、`xxxed()`。
+
+8个生命周期钩子函数分别是：
+
+### （一）初始阶段
+1. **beforeCreate()**：创建前  
+2. **created()**：创建后
+
+### （二）挂载阶段
+1. **beforeMount()**：挂载前  
+2. **mounted()**：挂载后
+
+### （三）更新阶段
+1. **beforeUpdate()**：更新前  
+2. **updated()**：更新后
+
+### （四）销毁阶段
+1. **beforeDestroy()**：销毁前  
+2. **destroyed()**：销毁后
+
+8个钩子函数写在哪里？直接写在Vue构造函数的`options`对象当中。
+
+---
+
+## 四、生命周期示例代码
+```html
+<body>
+  <div id="app">
+    <h1>{{msg}}</h1>
+    <h3>计数器：{{counter}}</h3>
+    <button @click="add">点我加1</button>
+    <h3 v-text="counter"></h3>
+    <button @click="destroy">点我销毁</button>
+  </div>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        msg: "Vue生命周期",
+        counter: 1,
+      },
+      methods: {
+        add() {
+          console.log("add....");
+          this.counter++;
+        },
+        destroy() {
+          // 销毁vm
+          this.$destroy();
+        },
+      },
+      watch: {
+        counter() {
+          console.log("counter被监视一次！");
+        },
+      },
+      beforeCreate() {
+        // 创建前
+        // 创建前指的是：数据代理和数据监测的创建前。
+        // 此时还无法访问data当中的数据。包括methods也是无法访问的。
+        console.log("beforeCreate", this.counter);
+        // 调用methods报错了，不存在。
+        // this.add()
+      },
+      created() {
+        // 创建后
+        // 创建后表示数据代理和数据监测创建完毕，可以访问data中的数据了。
+        console.log("created", this.counter);
+        // 可以访问methods了。
+        // this.add()
+      },
+      beforeMount() {
+        // 挂载前
+        console.log("beforeMount");
+        // debugger  //断点
+      },
+      mounted() {
+        // 挂载后
+        console.log("mounted");
+        // 创建真实dom元素
+        console.log(this.$el);
+        console.log(this.$el instanceof HTMLElement);
+      },
+      beforeUpdate() {
+        // 更新前
+        console.log("beforeUpdate");
+      },
+      updated() {
+        // 更新后
+        console.log("updated");
+      },
+      beforeDestroy() {
+        // 销毁前，解绑vue
+        console.log("beforeDestroy");
+        console.log(this);
+        this.counter = 1000;
+      },
+      destroyed() {
+        // 销毁后，vm依然存在，不过是vm身上的事件，监听解绑
+        console.log("destroyed");
+        console.log(this);
+      },
+    });
+  </script>
+</body>
+
+```
+
+---
+
+## 五、初始阶段做了什么事儿
+做了这么几件事：
+
+1. 创建Vue实例`vm`（此时Vue实例已经完成了创建，这是生命的起点）  
+2. 初始化事件对象和生命周期（接产大夫正在给他洗澡）  
+3. 调用`beforeCreate()`钩子函数（此时还无法通过`vm`去访问`data`对象的属性）  
+4. 初始化数据代理和数据监测  
+5. 调用`created()`钩子函数（此时数据代理和数据监测创建完毕，已经可以通过`vm`访问`data`对象的属性）  
+6. 编译模板语句生成虚拟DOM（此时虚拟DOM已经生成，但页面上还没有渲染）
+
+该阶段适合做什么？
+
++ **beforeCreate**：可以在此时加一些loading效果，自定义一些属性放到`this`身上，好比全局事件总线。  
++ **created**：结束loading效果。也可以在此时发送一些网络请求，获取数据。也可以在这里添加定时器。
+
+---
+
+## 六、挂载阶段做了什么事儿
+做了这么几件事：
+
+1. 调用`beforeMount()`钩子函数（此时页面还未渲染，真实DOM还未生成，此时操作数据，不会最终显示在页面中）  
+2. 给`vm`追加`$el`属性，用它来代替`el`，`$el`代表了真实的DOM元素（此时真实DOM生成，页面渲染完成）  
+3. 调用`mounted()`钩子函数
+
+该阶段适合做什么？
+
++ **mounted**：可以操作页面的DOM元素了。也有人喜欢在这个阶段请求数据。
+
+**面试题**：请求数据是在哪个钩子里，原因是什么？
+
+---
+
+## 七、更新阶段做了什么事儿
+1. `data`发生变化（这是该阶段开始的标志）  
+2. 调用`beforeUpdate()`钩子函数（此时只是内存中的数据发生变化，页面还未更新）  
+3. 虚拟DOM重新渲染和修补  
+4. 调用`updated()`钩子函数（此时页面已更新）
+
+该阶段适合做什么？
+
++ **beforeUpdate**：适合在更新之前访问现有的DOM，比如手动移除已添加的事件监听器。  
++ **updated**：页面更新后，如果想对数据做统一处理，可以在这里完成。
+
+---
+
+Vue官方的生命周期图：  
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://i-blog.csdnimg.cn/direct/b6f0d3dba6624714a25b705f93fbd803.png)  
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://i-blog.csdnimg.cn/direct/9283f9c2f292478e86d275d09dc91abd.png)
+
+## 八、销毁阶段做了什么事儿
+做了这么几件事：
+
+1. `vm.$destroy()`方法被调用（这是该阶段开始的标志）  
+2. 调用`beforeDestroy()`钩子函数（此时Vue实例还在。虽然`vm`上的监视器、`vm`上的子组件、`vm`上的自定义事件监听器还在，但是它们都已经不能用了。此时修改`data`也不会重新渲染页面了）  
+3. 卸载子组件和监视器、解绑自定义事件监听器  
+4. 调用`destroyed()`钩子函数（虽然`destroyed`翻译为已销毁，但此时Vue实例还在，空间并没有释放，只不过马上要释放了，这里的“已销毁”指的是`vm`对象上所有的东西都已经解绑完成了）
+
+该阶段适合做什么？
+
++ **beforeDestroy**：适合做销毁前的准备工作，和人临终前写遗嘱类似。例如：可以在这里清除定时器，解绑自定义事件，解除监听等。

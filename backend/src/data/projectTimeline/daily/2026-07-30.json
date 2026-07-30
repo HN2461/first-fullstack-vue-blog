@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-30",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "article-export-snapshot-local-sync",
+      "title": "按线上全量导出快照重建本地文章库",
+      "detail": "1. 新增默认 dry-run、显式 --apply 的文章快照同步脚本，校验 manifest、Markdown Front Matter、原始 ID、slug 和导出文件完整性，并在写库前以 EJSON 备份文章、分类、标签、评论、文章互动和关联媒体元数据。2. 使用 2026-07-30 线上全量导出的 450 篇文章重建本地 MongoDB，保留线上原始文章 ID 和 slug，恢复 448 篇已发布文章、2 篇草稿、完整分类路径、标签和目录排序；两篇 Word 文档同步原件、媒体记录和全文提取内容，导出包无 PDF 时使用 DOCX 只读模式。3. 清理旧本地文章、孤立评论和文章点赞收藏关系，不影响其他业务集合与独立媒体素材；重建后逐字段核验文章正文、分类、标签、状态和排序，450 篇均与导出快照一致。4. 生成 output 仓库对比报告，将 output/AI工具 映射为线上 AI相关/AI工具 的离线整理副本，最终识别 98 篇本地真正新增文章、3 篇以前导出但当前线上未匹配的文章、50 篇线上导出后又在本地修改的文章、35 篇建议调整目录分类的文章，以及 4 篇重复来源文件，并保留 JSON 完整明细和 Markdown 审阅清单。5. 将 output/Python 的 52 篇文章确定为 Python 分类权威源，新增专项替换脚本；27 篇线上已有文章保留原 ID、slug、发布状态和发布时间并更新正文，25 篇本地新增文章创建为草稿，补齐后端技术/Python/应用实例/Web入门/FastAPI从0到1 分类分支，不删除任何仍有本地源文件的线上文章。6. 在线上执行前创建完整 MongoDB 备份 /www/personal-blog/backups/python-articles-sync-20260730-215751/mongodb-before，并生成 Python 专项 EJSON 备份；替换后再次 dry-run 确认 52 篇全部 unchanged、27 篇已发布、25 篇草稿、更新新增删除均为 0，内网和公网健康检查通过。",
+      "occurredAt": "2026-07-30T21:35:00+08:00",
+      "category": "功能更新"
+    }
+  ]
+}
