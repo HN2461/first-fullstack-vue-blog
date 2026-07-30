@@ -19,7 +19,7 @@ originalSlug: "web-svg-xss-d4174758"
 originalStatus: "published"
 publishedAt: "2026-04-22T12:45:08.412Z"
 updatedAt: "2026-06-13T10:28:28.323Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # SVG文件上传为什么会引发XSS攻击？
 

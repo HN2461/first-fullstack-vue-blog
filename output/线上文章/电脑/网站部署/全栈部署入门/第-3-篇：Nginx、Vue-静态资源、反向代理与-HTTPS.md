@@ -21,7 +21,7 @@ originalSlug: "nginx-https-f134e6f0"
 originalStatus: "published"
 publishedAt: "2026-06-08T11:09:58.535Z"
 updatedAt: "2026-06-23T09:59:06.073Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS
 

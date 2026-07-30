@@ -21,7 +21,7 @@ originalSlug: "element-plus-elementplus-975655e4"
 originalStatus: "published"
 publishedAt: "2026-04-28T13:45:18.641Z"
 updatedAt: "2026-06-13T10:28:29.610Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 安装与引入：把 Element Plus 真正接进 Vue 3 项目
 

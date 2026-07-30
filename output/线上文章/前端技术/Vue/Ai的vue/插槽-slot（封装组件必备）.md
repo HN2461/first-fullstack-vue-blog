@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-slot-32fece73"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:12:19.630Z"
 updatedAt: "2026-06-19T06:25:06.498Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第14章 插槽 slot（封装组件必备）
 

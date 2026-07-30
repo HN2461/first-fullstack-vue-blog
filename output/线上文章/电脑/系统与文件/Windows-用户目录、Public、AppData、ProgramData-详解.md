@@ -21,7 +21,7 @@ originalSlug: "windows-public-appdata-programdata-d717719e"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.791Z"
 updatedAt: "2026-06-13T10:28:29.327Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Windows 用户目录、Public、AppData、ProgramData 详解
 

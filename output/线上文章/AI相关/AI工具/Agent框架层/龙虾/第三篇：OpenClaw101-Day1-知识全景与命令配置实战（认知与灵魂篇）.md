@@ -22,7 +22,7 @@ originalSlug: "ai-agent-openclaw101day1-2082ef14"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.051Z"
 updatedAt: "2026-06-13T10:28:27.137Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）
 

@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-5d3131e1"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:22:12.475Z"
 updatedAt: "2026-06-14T06:31:52.524Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## uni-app 工程结构、配置分层与文件职责边界
 

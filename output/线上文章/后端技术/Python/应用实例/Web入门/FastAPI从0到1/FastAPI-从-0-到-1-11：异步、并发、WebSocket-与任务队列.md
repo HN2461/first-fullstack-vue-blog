@@ -23,7 +23,7 @@ originalSlug: "fastapi-async-concurrency-websocket-task-queue"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.203Z"
 updatedAt: "2026-07-30T14:44:46.203Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列
 

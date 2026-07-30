@@ -21,7 +21,7 @@ originalSlug: "css-scss-sass-less-postcss-7d08d2e9"
 originalStatus: "published"
 publishedAt: "2026-04-28T12:24:31.194Z"
 updatedAt: "2026-06-13T10:28:27.360Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # SCSS 常见写法速通：先学会看懂别人代码
 

@@ -21,7 +21,7 @@ originalSlug: "websocket-stompclient-8bcbb8a6"
 originalStatus: "published"
 publishedAt: "2026-05-14T13:01:59.598Z"
 updatedAt: "2026-06-14T05:31:33.311Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # StompClient 封装实战：connect、订阅、心跳与回调分发
 

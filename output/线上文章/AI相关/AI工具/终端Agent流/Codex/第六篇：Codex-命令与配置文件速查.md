@@ -22,7 +22,7 @@ originalSlug: "ai-agent-codex-codex-9cf3fc01"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.294Z"
 updatedAt: "2026-07-30T14:24:30.403Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第六篇：Codex 命令与配置文件速查
 

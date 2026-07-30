@@ -20,7 +20,7 @@ originalSlug: "mongodb-ad14cd5a"
 originalStatus: "published"
 publishedAt: "2026-06-08T11:09:58.538Z"
 updatedAt: "2026-06-30T07:21:25.876Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第 5 篇：MongoDB 生产安全、连接与备份
 

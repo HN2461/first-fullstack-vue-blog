@@ -21,7 +21,7 @@ originalSlug: "vue-vue-mixins-plugins-scoped-5091c143"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:56:51.095Z"
 updatedAt: "2026-06-13T10:28:29.066Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 `mixins`（混入）、`plugins`（插件）、`scoped`（样式隔离）这三个核心特性的用法和差异，我会从**概念定义**、**Vue2/Vue3 用法对比**、**核心差异**三个维度，帮你理清它们的区别和适用场景。
 

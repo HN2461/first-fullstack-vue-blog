@@ -21,7 +21,7 @@ originalSlug: "windows-hosts-dns-a34c6e09"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.794Z"
 updatedAt: "2026-06-13T10:28:29.209Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Windows hosts、DNS缓存、网络类型与防火墙基础
 

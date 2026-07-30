@@ -22,7 +22,7 @@ originalSlug: "node-js-jwt-64903817"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:22:25.066Z"
 updatedAt: "2026-06-19T06:25:37.821Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 接口与会话控制详解第五篇：JWT 认证原理与实战
 

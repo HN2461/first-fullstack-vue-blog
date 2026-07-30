@@ -20,7 +20,7 @@ originalSlug: "windows-uac-9d17ce33"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.793Z"
 updatedAt: "2026-06-13T10:28:29.339Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Windows 管理员权限、UAC 与“以管理员身份运行”
 

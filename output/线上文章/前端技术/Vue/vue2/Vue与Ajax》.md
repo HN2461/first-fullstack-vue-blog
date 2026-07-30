@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-vue-ajax-907a7d1a"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:23.314Z"
 updatedAt: "2026-06-17T12:38:13.562Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 4.1 发送AJAX异步请求的方式	
 发送AJAX异步请求的常见方式包括：

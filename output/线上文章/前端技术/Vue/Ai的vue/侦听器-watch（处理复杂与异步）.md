@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-watch-79d389b8"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:06:52.652Z"
 updatedAt: "2026-06-13T10:28:27.957Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第10章 侦听器 watch（处理复杂/异步）
 

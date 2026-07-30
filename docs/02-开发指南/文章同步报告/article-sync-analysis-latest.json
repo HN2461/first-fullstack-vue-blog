@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-30T15:40:28.014Z",
+  "generatedAt": "2026-07-30T16:01:08.759Z",
   "export": {
-    "exportedAt": "2026-07-30T15:12:30.579Z",
+    "exportedAt": "2026-07-30T15:42:33.614Z",
     "total": 513
   },
   "repositoryCategoryAliases": [
@@ -659,6 +659,890 @@
   ],
   "onlineOnly": [
     {
+      "originalId": "6a6b691f4bf50146e9b95e6c",
+      "originalSlug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e6a",
+      "originalSlug": "maxkb-maxkb-api-abc235d7",
+      "title": "MaxKB 前端接入与原生 API 调用规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "接入与展示"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/MaxKB-前端接入与原生-API-调用规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e68",
+      "originalSlug": "maxkb-01-maxkb-affa7c4c",
+      "title": "01-MaxKB渲染标签与快捷问题规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "接入与展示"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/01-MaxKB渲染标签与快捷问题规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e66",
+      "originalSlug": "maxkb-maxkb-d984d85a",
+      "title": "MaxKB 导出包解析与半自动改包规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-导出包解析与半自动改包规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e64",
+      "originalSlug": "maxkb-maxkb-061d662d",
+      "title": "MaxKB 长链路文档拆分规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-长链路文档拆分规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e62",
+      "originalSlug": "maxkb-maxkb-d42ce38f",
+      "title": "MaxKB 功能智能体阶段演进规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-功能智能体阶段演进规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e60",
+      "originalSlug": "maxkb-17-a788c9f1",
+      "title": "17-工具页签与智能体节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/17-工具页签与智能体节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e5e",
+      "originalSlug": "maxkb-16-mcp-cbdce98b",
+      "title": "16-MCP调用与自定义工具节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/16-MCP调用与自定义工具节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e5c",
+      "originalSlug": "maxkb-15-a52cbc78",
+      "title": "15-变量聚合节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/15-变量聚合节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e5a",
+      "originalSlug": "maxkb-14-9115df18",
+      "title": "14-参数提取节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/14-参数提取节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e58",
+      "originalSlug": "maxkb-13-adde6b4f",
+      "title": "13-变量拆分节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/13-变量拆分节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e56",
+      "originalSlug": "maxkb-12-dd68373f",
+      "title": "12-变量赋值节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/12-变量赋值节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e54",
+      "originalSlug": "maxkb-11-dadf9c79",
+      "title": "11-循环节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/11-循环节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e52",
+      "originalSlug": "maxkb-10-bc727f7b",
+      "title": "10-指定回复节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/10-指定回复节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e50",
+      "originalSlug": "maxkb-09-95eb5588",
+      "title": "09-表单收集节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/09-表单收集节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e4e",
+      "originalSlug": "maxkb-08-d6705804",
+      "title": "08-知识库相关节点速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/08-知识库相关节点速查.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e4c",
+      "originalSlug": "maxkb-07-fd8035d1",
+      "title": "07-判断器节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/07-判断器节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e4a",
+      "originalSlug": "maxkb-06-daf63cdf",
+      "title": "06-问题优化节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/06-问题优化节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e48",
+      "originalSlug": "maxkb-05-ai-7faf066a",
+      "title": "05-AI能力低优先级节点速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/05-AI能力低优先级节点速查.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e46",
+      "originalSlug": "maxkb-04-9dac9da1",
+      "title": "04-意图识别节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/04-意图识别节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e44",
+      "originalSlug": "maxkb-03-ai-94d77b3d",
+      "title": "03-AI对话节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/03-AI对话节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e42",
+      "originalSlug": "maxkb-02-245bdaaf",
+      "title": "02-基本信息与开始节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/02-基本信息与开始节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e40",
+      "originalSlug": "maxkb-01-f396d281",
+      "title": "01-添加组件面板总览",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/01-添加组件面板总览.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e3e",
+      "originalSlug": "maxkb-00-17697ac6",
+      "title": "00-空白高级智能体创建说明",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-空白高级智能体创建说明.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e3c",
+      "originalSlug": "maxkb-00-ai-c676db58",
+      "title": "00-AI创建节点必读",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-AI创建节点必读.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e3a",
+      "originalSlug": "maxkb-02-bbb61e60",
+      "title": "02-跨环境参数配置清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "基础配置与变量"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/02-跨环境参数配置清单.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e38",
+      "originalSlug": "maxkb-01-4ac20739",
+      "title": "01-变量引用写法规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "基础配置与变量"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/01-变量引用写法规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e36",
+      "originalSlug": "maxkb-00-maxkb-6d42583b",
+      "title": "00-MaxKB 公共规则规范包使用说明",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/00-MaxKB-公共规则规范包使用说明.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e34",
+      "originalSlug": "maxkb-d439f0e3",
+      "title": "官方资料索引与现有文档审计",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/官方资料索引与现有文档审计.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e32",
+      "originalSlug": "maxkb-db4fbad4",
+      "title": "调试、测试、发布与回滚清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/调试、测试、发布与回滚清单.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e30",
+      "originalSlug": "maxkb-api-01efc881",
+      "title": "工具、API 接入与安全规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/工具、API-接入与安全规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e2e",
+      "originalSlug": "maxkb-rag-813a4abe",
+      "title": "知识库与 RAG 实战规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/知识库与-RAG-实战规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e2c",
+      "originalSlug": "maxkb-4bcf1a3f",
+      "title": "智能体编排与状态设计规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/智能体编排与状态设计规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e2a",
+      "originalSlug": "maxkb-e122b2b7",
+      "title": "从接手环境到发布的标准流程",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/从接手环境到发布的标准流程.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e28",
+      "originalSlug": "windows-basic-concepts-for-beginners",
+      "title": "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e26",
+      "originalSlug": "windows-freeze-rescue-shortcuts",
+      "title": "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-电脑卡死救急与常用快捷键：小白优先记这-4-类.md"
+    },
+    {
+      "originalId": "6a6b635eb46b52abc5dc2865",
+      "originalSlug": "python-learning-index",
+      "title": "Python 学习资料总目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python"
+      ],
+      "onlineFile": "后端技术/Python/Python-学习资料总目录.md"
+    },
+    {
+      "originalId": "6a6b635eb46b52abc5dc2863",
+      "originalSlug": "fastapi-zero-to-enterprise-index",
+      "title": "FastAPI 从 0 到 1：小白到项目实战学习总目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1：小白到项目实战学习总目录.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1b2",
+      "originalSlug": "fastapi-zero-to-one-learning-outcome-express-delivery",
+      "title": "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-16：学习成效评估与-Express-对照交付.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1b0",
+      "originalSlug": "fastapi-faq-interview-delivery-checklist",
+      "title": "FastAPI 从 0 到 1 15：高频问题、面试与交付清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-15：高频问题、面试与交付清单.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1ae",
+      "originalSlug": "fastapi-enterprise-knowledge-api-capstone",
+      "title": "FastAPI 从 0 到 1 14：企业知识库 API 综合实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-14：企业知识库-API-综合实战.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1ac",
+      "originalSlug": "fastapi-observability-performance-security-deployment",
+      "title": "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-13：日志、监控、性能、安全与部署.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1aa",
+      "originalSlug": "fastapi-pytest-quality-assurance",
+      "title": "FastAPI 从 0 到 1 12：pytest 与质量保障",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-12：pytest-与质量保障.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a8",
+      "originalSlug": "fastapi-async-concurrency-websocket-task-queue",
+      "title": "FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-11：异步、并发、WebSocket-与任务队列.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a6",
+      "originalSlug": "fastapi-files-background-httpx-redis",
+      "title": "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-10：文件、后台任务、HTTPX-与-Redis.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a4",
+      "originalSlug": "fastapi-authentication-jwt-rbac-security",
+      "title": "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-09：登录、JWT、RBAC-与安全.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a2",
+      "originalSlug": "fastapi-crud-transactions-relations-pagination",
+      "title": "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-08：CRUD、事务、关联、分页与查询.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a0",
+      "originalSlug": "fastapi-sqlalchemy-alembic",
+      "title": "FastAPI 从 0 到 1 07：SQLAlchemy 与 Alembic",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-07：SQLAlchemy-与-Alembic.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19e",
+      "originalSlug": "fastapi-dependencies-middleware-lifespan-structure",
+      "title": "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-06：依赖、中间件、生命周期与项目结构.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19c",
+      "originalSlug": "fastapi-response-errors-openapi",
+      "title": "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-05：响应、异常与-OpenAPI.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19a",
+      "originalSlug": "fastapi-pydantic-v2-data-modeling",
+      "title": "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-04：Pydantic-v2-与数据建模.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d198",
+      "originalSlug": "fastapi-routing-request-parameters",
+      "title": "FastAPI 从 0 到 1 03：路由与请求参数",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-03：路由与请求参数.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d196",
+      "originalSlug": "fastapi-http-asgi-first-application",
+      "title": "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-02：HTTP、ASGI-与第一个应用.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d194",
+      "originalSlug": "fastapi-python-reading-prerequisites",
+      "title": "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-01：读懂代码前必须会的-Python.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d192",
+      "originalSlug": "fastapi-zero-to-one-roadmap-environment",
+      "title": "FastAPI 从 0 到 1 00：学习路线与开发环境",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-00：学习路线与开发环境.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d190",
+      "originalSlug": "python-data-visualization-matplotlib-charts",
+      "title": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据可视化入门-05：用-matplotlib-绘制统计图.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d18d",
+      "originalSlug": "python-data-cleaning-regex-crawler-text",
+      "title": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据清洗入门-03：正则表达式清洗爬虫文本.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d188",
+      "originalSlug": "python-zero-regex-argparse-secrets-zoneinfo",
+      "title": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-28：正则、命令行参数、安全随机数与时区.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d186",
+      "originalSlug": "python-zero-pytest-debugging-code-quality",
+      "title": "Python 零基础入门 27：pytest 测试、调试与代码质量",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-27：pytest-测试、调试与代码质量.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d184",
+      "originalSlug": "python-zero-unicode-str-bytes",
+      "title": "Python 零基础入门 26：Unicode、str 与 bytes",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-26：Unicode、str-与-bytes.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d182",
+      "originalSlug": "python-zero-advanced-functions-closures-decorators",
+      "title": "Python 零基础入门 25：函数进阶、闭包与装饰器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-25：函数进阶、闭包与装饰器.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d180",
+      "originalSlug": "python-zero-iterable-iterator-generator",
+      "title": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-24：可迭代对象、迭代器与生成器.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d17e",
+      "originalSlug": "python-zero-logging-module",
+      "title": "Python 零基础入门 23：logging 日志模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-23：logging-日志模块.md"
+    },
+    {
       "originalId": "6a6aafe0c0726f33c296abf8",
       "originalSlug": "uni-app-android-apk-0-1",
       "title": "浩南技术教学资料-uni-app Android APK从0到1全流程实战手册",
@@ -669,6 +1553,16 @@
       "onlineFile": "安卓APK/浩南技术教学资料-uni-app-Android-APK从0到1全流程实战手册-文档/metadata.json"
     },
     {
+      "originalId": "6a58a6f8c48586f4dec3c348",
+      "originalSlug": "uniapp-jar",
+      "title": "uniapp 对接自定义 jar 包：从零到真机的完整实操指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "安卓APK"
+      ],
+      "onlineFile": "安卓APK/uniapp-对接自定义-jar-包：从零到真机的完整实操指南.md"
+    },
+    {
       "originalId": "6a6a16ddfca6c64076d4099c",
       "originalSlug": "article-20260729150605",
       "title": "电子班牌项目经历深度复盘与简历素材",
@@ -677,6 +1571,14 @@
         "安卓APK"
       ],
       "onlineFile": "安卓APK/电子班牌项目经历深度复盘与简历素材-文档/metadata.json"
+    },
+    {
+      "originalId": "6a560179c48586f4dec2eb99",
+      "originalSlug": "article-20260714092929",
+      "title": "测试",
+      "contentMode": "markdown",
+      "categoryPath": [],
+      "onlineFile": "测试.md"
     },
     {
       "originalId": "6a4a4564f9ac958d29178031",
@@ -3731,18 +4633,6 @@
       "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信H5微应用-从0到1开发指南.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac7c0",
-      "originalSlug": "id-corpid-agentid-appid-userid-openid-unionid-e704ba37",
-      "title": "企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "企业微信"
-      ],
-      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId.md"
-    },
-    {
       "originalId": "6a2d29208a2b1c68f2cac7be",
       "originalSlug": "0-1-f01367dd",
       "title": "企业微信开发从0到1_结合企业微信开放平台",
@@ -3753,6 +4643,18 @@
         "企业微信"
       ],
       "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信开发从0到1_结合企业微信开放平台.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c0",
+      "originalSlug": "id-corpid-agentid-appid-userid-openid-unionid-e704ba37",
+      "title": "企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac7b4",
@@ -3887,18 +4789,6 @@
       "onlineFile": "项目复用技术/第三方登录对接/钉钉/PC-项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac77c",
-      "originalSlug": "h5-h5-jsapi-d670249e",
-      "title": "钉钉H5微应用-JSAPI能力调用-前后端对接清单",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "钉钉"
-      ],
-      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉H5微应用-JSAPI能力调用-前后端对接清单.md"
-    },
-    {
       "originalId": "6a2d29208a2b1c68f2cac77a",
       "originalSlug": "h5-9277dde7",
       "title": "研究-钉钉微应用登录-项目实现核验结论（移动端仓库）",
@@ -3909,6 +4799,18 @@
         "钉钉"
       ],
       "onlineFile": "项目复用技术/第三方登录对接/钉钉/研究-钉钉微应用登录-项目实现核验结论（移动端仓库）.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac77c",
+      "originalSlug": "h5-h5-jsapi-d670249e",
+      "title": "钉钉H5微应用-JSAPI能力调用-前后端对接清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉H5微应用-JSAPI能力调用-前后端对接清单.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac778",
@@ -6020,908 +6922,6 @@
         "AI版CSS"
       ],
       "onlineFile": "前端技术/前端三剑客/AI版CSS/综合实战_从风格到产品.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e6c",
-      "originalSlug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
-      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e6a",
-      "originalSlug": "maxkb-maxkb-api-abc235d7",
-      "title": "MaxKB 前端接入与原生 API 调用规则",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "接入与展示"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/MaxKB-前端接入与原生-API-调用规则.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e68",
-      "originalSlug": "maxkb-01-maxkb-affa7c4c",
-      "title": "01-MaxKB渲染标签与快捷问题规则",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "接入与展示"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/01-MaxKB渲染标签与快捷问题规则.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e66",
-      "originalSlug": "maxkb-maxkb-d984d85a",
-      "title": "MaxKB 导出包解析与半自动改包规则",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "工程治理"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-导出包解析与半自动改包规则.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e64",
-      "originalSlug": "maxkb-maxkb-061d662d",
-      "title": "MaxKB 长链路文档拆分规则",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "工程治理"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-长链路文档拆分规则.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e62",
-      "originalSlug": "maxkb-maxkb-d42ce38f",
-      "title": "MaxKB 功能智能体阶段演进规则",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "工程治理"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-功能智能体阶段演进规则.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e60",
-      "originalSlug": "maxkb-17-a788c9f1",
-      "title": "17-工具页签与智能体节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/17-工具页签与智能体节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e5e",
-      "originalSlug": "maxkb-16-mcp-cbdce98b",
-      "title": "16-MCP调用与自定义工具节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/16-MCP调用与自定义工具节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e5c",
-      "originalSlug": "maxkb-15-a52cbc78",
-      "title": "15-变量聚合节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/15-变量聚合节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e5a",
-      "originalSlug": "maxkb-14-9115df18",
-      "title": "14-参数提取节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/14-参数提取节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e58",
-      "originalSlug": "maxkb-13-adde6b4f",
-      "title": "13-变量拆分节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/13-变量拆分节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e56",
-      "originalSlug": "maxkb-12-dd68373f",
-      "title": "12-变量赋值节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/12-变量赋值节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e54",
-      "originalSlug": "maxkb-11-dadf9c79",
-      "title": "11-循环节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/11-循环节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e52",
-      "originalSlug": "maxkb-10-bc727f7b",
-      "title": "10-指定回复节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/10-指定回复节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e50",
-      "originalSlug": "maxkb-09-95eb5588",
-      "title": "09-表单收集节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/09-表单收集节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e4e",
-      "originalSlug": "maxkb-08-d6705804",
-      "title": "08-知识库相关节点速查",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/08-知识库相关节点速查.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e4c",
-      "originalSlug": "maxkb-07-fd8035d1",
-      "title": "07-判断器节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/07-判断器节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e4a",
-      "originalSlug": "maxkb-06-daf63cdf",
-      "title": "06-问题优化节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/06-问题优化节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e48",
-      "originalSlug": "maxkb-05-ai-7faf066a",
-      "title": "05-AI能力低优先级节点速查",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/05-AI能力低优先级节点速查.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e46",
-      "originalSlug": "maxkb-04-9dac9da1",
-      "title": "04-意图识别节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/04-意图识别节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e44",
-      "originalSlug": "maxkb-03-ai-94d77b3d",
-      "title": "03-AI对话节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/03-AI对话节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e42",
-      "originalSlug": "maxkb-02-245bdaaf",
-      "title": "02-基本信息与开始节点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/02-基本信息与开始节点.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e40",
-      "originalSlug": "maxkb-01-f396d281",
-      "title": "01-添加组件面板总览",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/01-添加组件面板总览.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e3e",
-      "originalSlug": "maxkb-00-17697ac6",
-      "title": "00-空白高级智能体创建说明",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-空白高级智能体创建说明.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e3c",
-      "originalSlug": "maxkb-00-ai-c676db58",
-      "title": "00-AI创建节点必读",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-AI创建节点必读.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e3a",
-      "originalSlug": "maxkb-02-bbb61e60",
-      "title": "02-跨环境参数配置清单",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "基础配置与变量"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/02-跨环境参数配置清单.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e38",
-      "originalSlug": "maxkb-01-4ac20739",
-      "title": "01-变量引用写法规范",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "基础配置与变量"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/01-变量引用写法规范.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e36",
-      "originalSlug": "maxkb-00-maxkb-6d42583b",
-      "title": "00-MaxKB 公共规则规范包使用说明",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/00-MaxKB-公共规则规范包使用说明.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e34",
-      "originalSlug": "maxkb-d439f0e3",
-      "title": "官方资料索引与现有文档审计",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/官方资料索引与现有文档审计.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e32",
-      "originalSlug": "maxkb-db4fbad4",
-      "title": "调试、测试、发布与回滚清单",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/调试、测试、发布与回滚清单.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e30",
-      "originalSlug": "maxkb-api-01efc881",
-      "title": "工具、API 接入与安全规范",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/工具、API-接入与安全规范.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e2e",
-      "originalSlug": "maxkb-rag-813a4abe",
-      "title": "知识库与 RAG 实战规范",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/知识库与-RAG-实战规范.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e2c",
-      "originalSlug": "maxkb-4bcf1a3f",
-      "title": "智能体编排与状态设计规范",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/智能体编排与状态设计规范.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e2a",
-      "originalSlug": "maxkb-e122b2b7",
-      "title": "从接手环境到发布的标准流程",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
-      ],
-      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/从接手环境到发布的标准流程.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e28",
-      "originalSlug": "windows-basic-concepts-for-beginners",
-      "title": "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "电脑",
-        "系统与文件"
-      ],
-      "onlineFile": "电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md"
-    },
-    {
-      "originalId": "6a6b691f4bf50146e9b95e26",
-      "originalSlug": "windows-freeze-rescue-shortcuts",
-      "title": "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "电脑",
-        "系统与文件"
-      ],
-      "onlineFile": "电脑/系统与文件/Windows-电脑卡死救急与常用快捷键：小白优先记这-4-类.md"
-    },
-    {
-      "originalId": "6a6b635eb46b52abc5dc2865",
-      "originalSlug": "python-learning-index",
-      "title": "Python 学习资料总目录",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python"
-      ],
-      "onlineFile": "后端技术/Python/Python-学习资料总目录.md"
-    },
-    {
-      "originalId": "6a6b635eb46b52abc5dc2863",
-      "originalSlug": "fastapi-zero-to-enterprise-index",
-      "title": "FastAPI 从 0 到 1：小白到项目实战学习总目录",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1：小白到项目实战学习总目录.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1b2",
-      "originalSlug": "fastapi-zero-to-one-learning-outcome-express-delivery",
-      "title": "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-16：学习成效评估与-Express-对照交付.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1b0",
-      "originalSlug": "fastapi-faq-interview-delivery-checklist",
-      "title": "FastAPI 从 0 到 1 15：高频问题、面试与交付清单",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-15：高频问题、面试与交付清单.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1ae",
-      "originalSlug": "fastapi-enterprise-knowledge-api-capstone",
-      "title": "FastAPI 从 0 到 1 14：企业知识库 API 综合实战",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-14：企业知识库-API-综合实战.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1ac",
-      "originalSlug": "fastapi-observability-performance-security-deployment",
-      "title": "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-13：日志、监控、性能、安全与部署.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1aa",
-      "originalSlug": "fastapi-pytest-quality-assurance",
-      "title": "FastAPI 从 0 到 1 12：pytest 与质量保障",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-12：pytest-与质量保障.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1a8",
-      "originalSlug": "fastapi-async-concurrency-websocket-task-queue",
-      "title": "FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-11：异步、并发、WebSocket-与任务队列.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1a6",
-      "originalSlug": "fastapi-files-background-httpx-redis",
-      "title": "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-10：文件、后台任务、HTTPX-与-Redis.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1a4",
-      "originalSlug": "fastapi-authentication-jwt-rbac-security",
-      "title": "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-09：登录、JWT、RBAC-与安全.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1a2",
-      "originalSlug": "fastapi-crud-transactions-relations-pagination",
-      "title": "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-08：CRUD、事务、关联、分页与查询.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d1a0",
-      "originalSlug": "fastapi-sqlalchemy-alembic",
-      "title": "FastAPI 从 0 到 1 07：SQLAlchemy 与 Alembic",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-07：SQLAlchemy-与-Alembic.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d19e",
-      "originalSlug": "fastapi-dependencies-middleware-lifespan-structure",
-      "title": "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-06：依赖、中间件、生命周期与项目结构.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d19c",
-      "originalSlug": "fastapi-response-errors-openapi",
-      "title": "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-05：响应、异常与-OpenAPI.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d19a",
-      "originalSlug": "fastapi-pydantic-v2-data-modeling",
-      "title": "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-04：Pydantic-v2-与数据建模.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d198",
-      "originalSlug": "fastapi-routing-request-parameters",
-      "title": "FastAPI 从 0 到 1 03：路由与请求参数",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-03：路由与请求参数.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d196",
-      "originalSlug": "fastapi-http-asgi-first-application",
-      "title": "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-02：HTTP、ASGI-与第一个应用.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d194",
-      "originalSlug": "fastapi-python-reading-prerequisites",
-      "title": "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-01：读懂代码前必须会的-Python.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d192",
-      "originalSlug": "fastapi-zero-to-one-roadmap-environment",
-      "title": "FastAPI 从 0 到 1 00：学习路线与开发环境",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-00：学习路线与开发环境.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d190",
-      "originalSlug": "python-data-visualization-matplotlib-charts",
-      "title": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据可视化入门-05：用-matplotlib-绘制统计图.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d18d",
-      "originalSlug": "python-data-cleaning-regex-crawler-text",
-      "title": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据清洗入门-03：正则表达式清洗爬虫文本.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d188",
-      "originalSlug": "python-zero-regex-argparse-secrets-zoneinfo",
-      "title": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-28：正则、命令行参数、安全随机数与时区.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d186",
-      "originalSlug": "python-zero-pytest-debugging-code-quality",
-      "title": "Python 零基础入门 27：pytest 测试、调试与代码质量",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-27：pytest-测试、调试与代码质量.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d184",
-      "originalSlug": "python-zero-unicode-str-bytes",
-      "title": "Python 零基础入门 26：Unicode、str 与 bytes",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-26：Unicode、str-与-bytes.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d182",
-      "originalSlug": "python-zero-advanced-functions-closures-decorators",
-      "title": "Python 零基础入门 25：函数进阶、闭包与装饰器",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-25：函数进阶、闭包与装饰器.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d180",
-      "originalSlug": "python-zero-iterable-iterator-generator",
-      "title": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-24：可迭代对象、迭代器与生成器.md"
-    },
-    {
-      "originalId": "6a6b57a2fca6347974f5d17e",
-      "originalSlug": "python-zero-logging-module",
-      "title": "Python 零基础入门 23：logging 日志模块",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-23：logging-日志模块.md"
-    },
-    {
-      "originalId": "6a58a6f8c48586f4dec3c348",
-      "originalSlug": "uniapp-jar",
-      "title": "uniapp 对接自定义 jar 包：从零到真机的完整实操指南",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "安卓APK"
-      ],
-      "onlineFile": "安卓APK/uniapp-对接自定义-jar-包：从零到真机的完整实操指南.md"
-    },
-    {
-      "originalId": "6a560179c48586f4dec2eb99",
-      "originalSlug": "article-20260714092929",
-      "title": "测试",
-      "contentMode": "markdown",
-      "categoryPath": [],
-      "onlineFile": "测试.md"
     }
   ]
 }

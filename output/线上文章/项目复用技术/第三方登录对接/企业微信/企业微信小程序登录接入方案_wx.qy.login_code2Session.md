@@ -16,7 +16,7 @@ originalSlug: "wx-qy-login-code2session-56702606"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.469Z"
 updatedAt: "2026-06-13T14:03:18.898Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 企业微信小程序登录接入方案\_wx.qy.login_code2Session
 

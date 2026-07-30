@@ -20,7 +20,7 @@ originalSlug: "vue-vue-class-style-eb3555df"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:54:35.414Z"
 updatedAt: "2026-06-13T10:28:29.031Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 一：class绑定
 ### 1、绑定字符串

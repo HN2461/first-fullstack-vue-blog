@@ -22,7 +22,7 @@ originalSlug: "vue-vue-vue-router-b011bea3"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.709Z"
 updatedAt: "2026-06-13T14:09:43.234Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第10篇：Vue Router 超详细总笔记
 

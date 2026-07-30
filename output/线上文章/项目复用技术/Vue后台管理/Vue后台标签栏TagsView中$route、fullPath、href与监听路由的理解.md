@@ -20,7 +20,7 @@ originalSlug: "vue-vue-tagsview-route-fullpath-href-53186ab7"
 originalStatus: "published"
 publishedAt: "2026-05-21T11:42:25.935Z"
 updatedAt: "2026-06-13T10:28:30.025Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解
 

@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-pages-json-manifest-json-38b6eedd"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:57:01.119Z"
 updatedAt: "2026-06-13T10:28:27.819Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 微信小程序工程结构实战：pages.json、manifest.json、条件编译与开发者工具联调
 

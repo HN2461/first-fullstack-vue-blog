@@ -23,7 +23,7 @@ originalSlug: "maxkb-maxkb-api-abc235d7"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.554Z"
 updatedAt: "2026-07-30T15:09:19.554Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MaxKB 前端接入与原生 API 调用规则
 

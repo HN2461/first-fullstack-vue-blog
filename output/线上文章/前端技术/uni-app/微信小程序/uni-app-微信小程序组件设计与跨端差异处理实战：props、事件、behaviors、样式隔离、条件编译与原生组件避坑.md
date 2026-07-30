@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-props-behaviors-60418e36"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:53:14.832Z"
 updatedAt: "2026-06-17T12:38:35.241Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑
 

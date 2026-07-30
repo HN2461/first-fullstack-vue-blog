@@ -23,11 +23,32 @@ export function buildSnapshotDatabasePreview(snapshot, localArticles, localCateg
   const tagById = new Map(localTags.map((item) => [String(item._id), item.name]))
   const localById = new Map(localArticles.map((item) => [String(item._id), item]))
   const localBySlug = new Map(localArticles.map((item) => [item.slug, item]))
+  const localCategoryByPath = new Map(localCategories.map((item) => [
+    (categoryPathMap.get(String(item._id)) || []).join('/'),
+    item
+  ]))
   const matchedLocalIds = new Set()
   let createCount = 0
   let updateCount = 0
   let publishCount = 0
   let rekeyCount = 0
+  let categoryUpdateCount = 0
+
+  for (const category of snapshot.manifest.categories || []) {
+    const existing = localCategoryByPath.get((category.categoryPath || []).join('/'))
+    if (!existing) continue
+    const current = JSON.stringify({
+      description: existing.description || '',
+      sortOrder: Number(existing.sortOrder) || 0,
+      status: existing.status
+    })
+    const next = JSON.stringify({
+      description: category.description || '',
+      sortOrder: Number(category.sortOrder) || 0,
+      status: category.status
+    })
+    if (current !== next) categoryUpdateCount += 1
+  }
 
   for (const record of snapshot.records) {
     const existingById = localById.get(String(record.originalId))
@@ -71,6 +92,7 @@ export function buildSnapshotDatabasePreview(snapshot, localArticles, localCateg
     updateCount,
     removeCount: localArticles.filter((item) => !matchedLocalIds.has(String(item._id))).length,
     rekeyCount,
+    categoryUpdateCount,
     publishCount,
     finalPublishedCount: snapshot.records.filter((item) => publishAll || item.status === 'published').length
   }

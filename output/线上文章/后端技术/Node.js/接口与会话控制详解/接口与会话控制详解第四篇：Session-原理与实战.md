@@ -22,7 +22,7 @@ originalSlug: "node-js-session-9e7c15d4"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:20:35.663Z"
 updatedAt: "2026-06-19T06:25:27.653Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 接口与会话控制详解第四篇：Session 原理与实战
 

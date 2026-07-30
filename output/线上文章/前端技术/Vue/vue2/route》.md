@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-route-e54b9784"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:31.194Z"
 updatedAt: "2026-06-17T12:38:11.768Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 6.1 传统web应用vs单页面web应用
 ### 6.1.1、传统web应用

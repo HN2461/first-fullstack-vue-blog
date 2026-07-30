@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-ae457f1c"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:22:12.479Z"
 updatedAt: "2026-06-14T06:31:52.527Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## uni-app 性能优化、包体治理与稳定性维护
 

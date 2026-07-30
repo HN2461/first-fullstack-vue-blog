@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-66402eae"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.704Z"
 updatedAt: "2026-06-13T10:28:27.950Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 跨端开发通用方法：路由、请求、缓存、上传下载与条件编译
 

@@ -1,6 +1,6 @@
 {
   "formatVersion": 3,
-  "exportedAt": "2026-07-30T15:42:33.614Z",
+  "exportedAt": "2026-07-30T16:02:06.145Z",
   "scope": "all",
   "slugStrategy": "keep",
   "filters": {
@@ -20,20 +20,7 @@
       "status": "active",
       "isSystem": true,
       "createdAt": "2026-06-14T06:55:23.135Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "安卓APK",
-      "slug": "apk-ef101470",
-      "description": "",
-      "categoryPath": [
-        "安卓APK"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "AI相关",
@@ -42,243 +29,11 @@
       "categoryPath": [
         "AI相关"
       ],
-      "sortOrder": 10,
+      "sortOrder": 70,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "AI开发",
-      "slug": "ai-ai-22bb3341",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI开发"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Docker",
-      "slug": "ai-ai-docker-9b77e314",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "Docker"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "开发基础",
-      "slug": "ai-ai-819c44c4",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "开发基础"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "电脑",
-      "slug": "cat-eb27c-7db5720a",
-      "description": "",
-      "categoryPath": [
-        "电脑"
-      ],
-      "sortOrder": 1,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T09:55:43.608Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "电脑网络",
-      "slug": "legacy-f42421e0-f42421e0",
-      "description": "",
-      "categoryPath": [
-        "电脑",
-        "电脑网络"
-      ],
-      "sortOrder": 1,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.183Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "代理与VPN",
-      "slug": "vpn-24cbd7c3",
-      "description": "",
-      "categoryPath": [
-        "电脑",
-        "电脑网络",
-        "代理与VPN"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.186Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "后端技术",
-      "slug": "legacy-c45f70e4-c45f70e4",
-      "description": "",
-      "categoryPath": [
-        "后端技术"
-      ],
-      "sortOrder": 30,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Python",
-      "slug": "python-3e67f5b0",
-      "description": "",
-      "categoryPath": [
-        "后端技术",
-        "Python"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "应用实例",
-      "slug": "python-fda6397f",
-      "description": "",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "网络爬虫与数据分析",
-      "slug": "python-bfa34996",
-      "description": "",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "知识目录",
-      "slug": "python-c4820d37",
-      "description": "",
-      "categoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "网站部署",
-      "slug": "legacy-a5e6d27f-a5e6d27f",
-      "description": "",
-      "categoryPath": [
-        "电脑",
-        "网站部署"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.352Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "全栈部署入门",
-      "slug": "legacy-08b01290-08b01290",
-      "description": "",
-      "categoryPath": [
-        "电脑",
-        "网站部署",
-        "全栈部署入门"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.370Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Node.js",
-      "slug": "node-js-198b8094",
-      "description": "",
-      "categoryPath": [
-        "后端技术",
-        "Node.js"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "MongoDB详解",
-      "slug": "node-js-mongodb-a983e092",
-      "description": "",
-      "categoryPath": [
-        "后端技术",
-        "Node.js",
-        "MongoDB详解"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "接口与会话控制详解",
-      "slug": "node-js-ff93178f",
-      "description": "",
-      "categoryPath": [
-        "后端技术",
-        "Node.js",
-        "接口与会话控制详解"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "AI工具",
@@ -288,11 +43,11 @@
         "AI相关",
         "AI工具"
       ],
-      "sortOrder": 10,
+      "sortOrder": 20,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "终端Agent流",
@@ -303,11 +58,11 @@
         "AI工具",
         "终端Agent流"
       ],
-      "sortOrder": 0,
+      "sortOrder": 10,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "Codex",
@@ -319,969 +74,25 @@
         "终端Agent流",
         "Codex"
       ],
-      "sortOrder": 0,
+      "sortOrder": 10,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
-      "name": "常用缺易忘",
-      "slug": "cat-66e270ef-7db56d7c",
-      "description": "",
-      "categoryPath": [
-        "常用缺易忘"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T09:55:43.077Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "工具速查",
-      "slug": "legacy-0efd0e37-0efd0e37",
-      "description": "",
-      "categoryPath": [
-        "常用缺易忘",
-        "工具速查"
-      ],
-      "sortOrder": 1,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.341Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Git",
-      "slug": "git-05172bde",
-      "description": "",
-      "categoryPath": [
-        "常用缺易忘",
-        "工具速查",
-        "Git"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "辅助工具层",
-      "slug": "ai-ai-ad6a1f94",
+      "name": "AI开发",
+      "slug": "ai-ai-22bb3341",
       "description": "",
       "categoryPath": [
         "AI相关",
-        "AI工具",
-        "辅助工具层"
+        "AI开发"
       ],
       "sortOrder": 10,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "CCSwitch",
-      "slug": "ai-ai-ccswitch-4901a2c7",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "ClaudeCode",
-      "slug": "ai-ai-agent-claudecode-f3108d4a",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "规则机制层",
-      "slug": "ai-ai-ed4a5885",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Skill",
-      "slug": "ai-ai-skill-d8e3a75f",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "MCP",
-      "slug": "ai-ai-mcp-e67ff734",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Plugin",
-      "slug": "ai-ai-plugin-d6cdcc82",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Agent框架层",
-      "slug": "ai-ai-agent-c53dc6a5",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层"
-      ],
-      "sortOrder": 30,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "龙虾",
-      "slug": "ai-ai-agent-e9a7fb13",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Gemini",
-      "slug": "ai-ai-agent-gemini-c58bafdb",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Gemini"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "基础与计费",
-      "slug": "ai-ai-82d240ad",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "基础与计费"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Rules",
-      "slug": "ai-ai-rules-21d990f6",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "sortOrder": 30,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "AI编辑器流",
-      "slug": "ai-ai-ai-1eb7a4da",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流"
-      ],
-      "sortOrder": 40,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Windsurf",
-      "slug": "ai-ai-ai-windsurf-892f5180",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Kiro",
-      "slug": "ai-ai-ai-kiro-5d5ae1a5",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Cursor",
-      "slug": "ai-ai-ai-cursor-053900e1",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "CatPaw",
-      "slug": "ai-ai-ai-catpaw-3c205d41",
-      "description": "",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "sortOrder": 30,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "项目复用技术",
-      "slug": "cat-1ab8d541-3e72899f",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术"
-      ],
-      "sortOrder": 4,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T09:55:44.079Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "JS库",
-      "slug": "js-3796fce5",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "JS库"
-      ],
-      "sortOrder": 4,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.869Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Vue后台管理",
-      "slug": "vue-25f95717",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "Vue后台管理"
-      ],
-      "sortOrder": 6,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.014Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "第三方登录对接",
-      "slug": "legacy-3d21dbd7-3d21dbd7",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接"
-      ],
-      "sortOrder": 1,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.217Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "对比笔记",
-      "slug": "legacy-9867ab1d-9867ab1d",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "对比笔记"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.599Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "我的总结",
-      "slug": "cat-2e5d23cb-7db570a4",
-      "description": "",
-      "categoryPath": [
-        "我的总结"
-      ],
-      "sortOrder": 3,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T09:55:43.271Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "js",
-      "slug": "js-16cedf80",
-      "description": "",
-      "categoryPath": [
-        "我的总结",
-        "js"
-      ],
-      "sortOrder": 4,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-15T14:48:44.292Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "辅助资料",
-      "slug": "js-js-c4dd7d74",
-      "description": "",
-      "categoryPath": [
-        "我的总结",
-        "js",
-        "辅助资料"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.535Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "前端技术",
-      "slug": "legacy-dc84e25a-dc84e25a",
-      "description": "",
-      "categoryPath": [
-        "前端技术"
-      ],
-      "sortOrder": 70,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "uni-app",
-      "slug": "uni-app-fbcad5be",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "uni-app"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "微信小程序",
-      "slug": "uni-app-f4efd638",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "微信小程序"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "浏览器与网络",
-      "slug": "legacy-975e11c1-975e11c1",
-      "description": "",
-      "categoryPath": [
-        "常用缺易忘",
-        "浏览器与网络"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.435Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "WebSocket",
-      "slug": "websocket-63ae364b",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "WebSocket"
-      ],
-      "sortOrder": 7,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.030Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "面试",
-      "slug": "5cbee6-7db576b2",
-      "description": "",
-      "categoryPath": [
-        "面试"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T09:55:43.937Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "系统与文件",
-      "slug": "legacy-5c7bf425-5c7bf425",
-      "description": "",
-      "categoryPath": [
-        "电脑",
-        "系统与文件"
-      ],
-      "sortOrder": 3,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.253Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Vue",
-      "slug": "vue-361ce1d0",
-      "description": "",
-      "categoryPath": [
-        "我的总结",
-        "Vue"
-      ],
-      "sortOrder": 3,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.965Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "vue辅助",
-      "slug": "vue-vue-1d930777",
-      "description": "",
-      "categoryPath": [
-        "我的总结",
-        "Vue",
-        "vue辅助"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.976Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "通用基础",
-      "slug": "uni-app-fa44f350",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "通用基础"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "uni-app",
-      "slug": "uni-app-6e3e236e",
-      "description": "",
-      "categoryPath": [
-        "我的总结",
-        "uni-app"
-      ],
-      "sortOrder": 1,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-14T06:29:24.451Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "uni-app辅助",
-      "slug": "uni-app-uni-app-f35ee581",
-      "description": "",
-      "categoryPath": [
-        "我的总结",
-        "uni-app",
-        "uni-app辅助"
-      ],
-      "sortOrder": 1,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-14T06:31:52.508Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "vue随记",
-      "slug": "vue-vue-2b455570",
-      "description": "",
-      "categoryPath": [
-        "我的总结",
-        "Vue",
-        "vue随记"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.141Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "网络基础",
-      "slug": "legacy-ec9585c9-ec9585c9",
-      "description": "",
-      "categoryPath": [
-        "电脑",
-        "电脑网络",
-        "网络基础"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.200Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "组件库",
-      "slug": "legacy-a1f0cac1-a1f0cac1",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "组件库"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "uvui",
-      "slug": "uvui-cfc53a51",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "组件库",
-        "uvui"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "ECharts",
-      "slug": "echarts-1bd2bce0",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "组件库",
-        "ECharts"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "前端三剑客",
-      "slug": "legacy-d61d4cf7-d61d4cf7",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "AI版CSS",
-      "slug": "ai-css-b28cbb36",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客",
-        "AI版CSS"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "ElementPlus",
-      "slug": "elementplus-e96436b5",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "组件库",
-        "ElementPlus"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "AI版HTML",
-      "slug": "ai-html-72ffa992",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客",
-        "AI版HTML"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "企业微信",
-      "slug": "legacy-2e4cff2c-2e4cff2c",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "企业微信"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.493Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "钉钉",
-      "slug": "legacy-db969be9-db969be9",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "钉钉"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.250Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "概念速查",
-      "slug": "legacy-eef461a2-eef461a2",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "概念速查"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.220Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "网络请求",
-      "slug": "legacy-209a5bca-209a5bca",
-      "description": "",
-      "categoryPath": [
-        "常用缺易忘",
-        "网络请求"
-      ],
-      "sortOrder": 4,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.500Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "数据类型",
-      "slug": "legacy-829f63f4-829f63f4",
-      "description": "",
-      "categoryPath": [
-        "常用缺易忘",
-        "数据类型"
-      ],
-      "sortOrder": 3,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.381Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Web安全",
-      "slug": "web-7db56d2e",
-      "description": "",
-      "categoryPath": [
-        "Web安全"
-      ],
-      "sortOrder": 14,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T09:55:43.055Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "前端工程化与安全",
-      "slug": "legacy-11c84356-11c84356",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "前端工程化与安全"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.201Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "uni-app",
-      "slug": "uni-app-c3d11e60",
-      "description": "",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "sortOrder": 5,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.935Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "网络排障",
-      "slug": "legacy-2c92df1a-2c92df1a",
-      "description": "",
-      "categoryPath": [
-        "电脑",
-        "电脑网络",
-        "网络排障"
-      ],
-      "sortOrder": 2,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.242Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Vue",
-      "slug": "vue-66a67561",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "Vue"
-      ],
-      "sortOrder": 30,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "vue面试题",
-      "slug": "vue-vue-642bb68c",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "Vue",
-        "vue面试题"
-      ],
-      "sortOrder": 0,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "vue3",
-      "slug": "vue-vue3-8efcf7b0",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "Vue",
-        "vue3"
-      ],
-      "sortOrder": 10,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "vue2",
-      "slug": "vue-vue2-2995585e",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "Vue",
-        "vue2"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "Ai的vue",
-      "slug": "vue-ai-vue-58f2d762",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "Vue",
-        "Ai的vue"
-      ],
-      "sortOrder": 30,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "青鸟版三剑客",
-      "slug": "legacy-0f8be6b7-0f8be6b7",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客",
-        "青鸟版三剑客"
-      ],
-      "sortOrder": 20,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
-    },
-    {
-      "name": "AI版JS",
-      "slug": "ai-js-64da7523",
-      "description": "",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客",
-        "AI版JS"
-      ],
-      "sortOrder": 30,
-      "status": "active",
-      "isSystem": false,
-      "createdAt": "2026-07-30T13:32:14.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "AI应用开发平台",
@@ -1296,7 +107,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.279Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "MaxKB",
@@ -1308,11 +119,11 @@
         "AI应用开发平台",
         "MaxKB"
       ],
-      "sortOrder": 40,
+      "sortOrder": 10,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.285Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "公共规则",
@@ -1325,11 +136,11 @@
         "MaxKB",
         "公共规则"
       ],
-      "sortOrder": 50,
+      "sortOrder": 10,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.291Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "接入与展示",
@@ -1343,11 +154,11 @@
         "公共规则",
         "接入与展示"
       ],
-      "sortOrder": 60,
+      "sortOrder": 30,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.302Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "工程治理",
@@ -1361,11 +172,11 @@
         "公共规则",
         "工程治理"
       ],
-      "sortOrder": 60,
+      "sortOrder": 10,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.298Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "节点创建手册",
@@ -1379,11 +190,11 @@
         "公共规则",
         "节点创建手册"
       ],
-      "sortOrder": 60,
+      "sortOrder": 40,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.296Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "基础配置与变量",
@@ -1397,11 +208,11 @@
         "公共规则",
         "基础配置与变量"
       ],
-      "sortOrder": 60,
+      "sortOrder": 20,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.294Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "实战开发指南",
@@ -1414,11 +225,80 @@
         "MaxKB",
         "实战开发指南"
       ],
-      "sortOrder": 50,
+      "sortOrder": 20,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:09:19.289Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "电脑",
+      "slug": "cat-eb27c-7db5720a",
+      "description": "",
+      "categoryPath": [
+        "电脑"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T09:55:43.608Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "系统与文件",
+      "slug": "legacy-5c7bf425-5c7bf425",
+      "description": "",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.253Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "后端技术",
+      "slug": "legacy-c45f70e4-c45f70e4",
+      "description": "",
+      "categoryPath": [
+        "后端技术"
+      ],
+      "sortOrder": 90,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Python",
+      "slug": "python-3e67f5b0",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "Python"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "应用实例",
+      "slug": "python-fda6397f",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "Web入门",
@@ -1430,11 +310,11 @@
         "应用实例",
         "Web入门"
       ],
-      "sortOrder": 40,
+      "sortOrder": 20,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T13:54:41.760Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     },
     {
       "name": "FastAPI从0到1",
@@ -1447,11 +327,1131 @@
         "Web入门",
         "FastAPI从0到1"
       ],
-      "sortOrder": 50,
+      "sortOrder": 10,
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T13:54:41.766Z",
-      "updatedAt": "2026-07-30T15:39:49.140Z"
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "网络爬虫与数据分析",
+      "slug": "python-bfa34996",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "知识目录",
+      "slug": "python-c4820d37",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "安卓APK",
+      "slug": "apk-ef101470",
+      "description": "",
+      "categoryPath": [
+        "安卓APK"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Docker",
+      "slug": "ai-ai-docker-9b77e314",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "Docker"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "开发基础",
+      "slug": "ai-ai-819c44c4",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "开发基础"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "电脑网络",
+      "slug": "legacy-f42421e0-f42421e0",
+      "description": "",
+      "categoryPath": [
+        "电脑",
+        "电脑网络"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.183Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "代理与VPN",
+      "slug": "vpn-24cbd7c3",
+      "description": "",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.186Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "网站部署",
+      "slug": "legacy-a5e6d27f-a5e6d27f",
+      "description": "",
+      "categoryPath": [
+        "电脑",
+        "网站部署"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.352Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "全栈部署入门",
+      "slug": "legacy-08b01290-08b01290",
+      "description": "",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.370Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Node.js",
+      "slug": "node-js-198b8094",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "MongoDB详解",
+      "slug": "node-js-mongodb-a983e092",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "接口与会话控制详解",
+      "slug": "node-js-ff93178f",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "常用缺易忘",
+      "slug": "cat-66e270ef-7db56d7c",
+      "description": "",
+      "categoryPath": [
+        "常用缺易忘"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T09:55:43.077Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "工具速查",
+      "slug": "legacy-0efd0e37-0efd0e37",
+      "description": "",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:28.341Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Git",
+      "slug": "git-05172bde",
+      "description": "",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查",
+        "Git"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "辅助工具层",
+      "slug": "ai-ai-ad6a1f94",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "CCSwitch",
+      "slug": "ai-ai-ccswitch-4901a2c7",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "ClaudeCode",
+      "slug": "ai-ai-agent-claudecode-f3108d4a",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "规则机制层",
+      "slug": "ai-ai-ed4a5885",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Skill",
+      "slug": "ai-ai-skill-d8e3a75f",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "MCP",
+      "slug": "ai-ai-mcp-e67ff734",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Plugin",
+      "slug": "ai-ai-plugin-d6cdcc82",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Agent框架层",
+      "slug": "ai-ai-agent-c53dc6a5",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "龙虾",
+      "slug": "ai-ai-agent-e9a7fb13",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Gemini",
+      "slug": "ai-ai-agent-gemini-c58bafdb",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Gemini"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "基础与计费",
+      "slug": "ai-ai-82d240ad",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "基础与计费"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Rules",
+      "slug": "ai-ai-rules-21d990f6",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "AI编辑器流",
+      "slug": "ai-ai-ai-1eb7a4da",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流"
+      ],
+      "sortOrder": 50,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Windsurf",
+      "slug": "ai-ai-ai-windsurf-892f5180",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Kiro",
+      "slug": "ai-ai-ai-kiro-5d5ae1a5",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Cursor",
+      "slug": "ai-ai-ai-cursor-053900e1",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "CatPaw",
+      "slug": "ai-ai-ai-catpaw-3c205d41",
+      "description": "",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "项目复用技术",
+      "slug": "cat-1ab8d541-3e72899f",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术"
+      ],
+      "sortOrder": 60,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T09:55:44.079Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "JS库",
+      "slug": "js-3796fce5",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.869Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Vue后台管理",
+      "slug": "vue-25f95717",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "Vue后台管理"
+      ],
+      "sortOrder": 50,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.014Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "第三方登录对接",
+      "slug": "legacy-3d21dbd7-3d21dbd7",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.217Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "对比笔记",
+      "slug": "legacy-9867ab1d-9867ab1d",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "对比笔记"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.599Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "我的总结",
+      "slug": "cat-2e5d23cb-7db570a4",
+      "description": "",
+      "categoryPath": [
+        "我的总结"
+      ],
+      "sortOrder": 50,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T09:55:43.271Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "js",
+      "slug": "js-16cedf80",
+      "description": "",
+      "categoryPath": [
+        "我的总结",
+        "js"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-15T14:48:44.292Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "辅助资料",
+      "slug": "js-js-c4dd7d74",
+      "description": "",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:28.535Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "前端技术",
+      "slug": "legacy-dc84e25a-dc84e25a",
+      "description": "",
+      "categoryPath": [
+        "前端技术"
+      ],
+      "sortOrder": 100,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "uni-app",
+      "slug": "uni-app-fbcad5be",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "uni-app"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "微信小程序",
+      "slug": "uni-app-f4efd638",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "浏览器与网络",
+      "slug": "legacy-975e11c1-975e11c1",
+      "description": "",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:28.435Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "WebSocket",
+      "slug": "websocket-63ae364b",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "sortOrder": 60,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.030Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "面试",
+      "slug": "5cbee6-7db576b2",
+      "description": "",
+      "categoryPath": [
+        "面试"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T09:55:43.937Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Vue",
+      "slug": "vue-361ce1d0",
+      "description": "",
+      "categoryPath": [
+        "我的总结",
+        "Vue"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:28.965Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "vue辅助",
+      "slug": "vue-vue-1d930777",
+      "description": "",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:28.976Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "通用基础",
+      "slug": "uni-app-fa44f350",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "uni-app",
+      "slug": "uni-app-6e3e236e",
+      "description": "",
+      "categoryPath": [
+        "我的总结",
+        "uni-app"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-14T06:29:24.451Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "uni-app辅助",
+      "slug": "uni-app-uni-app-f35ee581",
+      "description": "",
+      "categoryPath": [
+        "我的总结",
+        "uni-app",
+        "uni-app辅助"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-14T06:31:52.508Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "vue随记",
+      "slug": "vue-vue-2b455570",
+      "description": "",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue随记"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.141Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "网络基础",
+      "slug": "legacy-ec9585c9-ec9585c9",
+      "description": "",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "网络基础"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.200Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "组件库",
+      "slug": "legacy-a1f0cac1-a1f0cac1",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "组件库"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "uvui",
+      "slug": "uvui-cfc53a51",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "ECharts",
+      "slug": "echarts-1bd2bce0",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "前端三剑客",
+      "slug": "legacy-d61d4cf7-d61d4cf7",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "AI版CSS",
+      "slug": "ai-css-b28cbb36",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "ElementPlus",
+      "slug": "elementplus-e96436b5",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "AI版HTML",
+      "slug": "ai-html-72ffa992",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "企业微信",
+      "slug": "legacy-2e4cff2c-2e4cff2c",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.493Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "钉钉",
+      "slug": "legacy-db969be9-db969be9",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.250Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "概念速查",
+      "slug": "legacy-eef461a2-eef461a2",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "概念速查"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.220Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "网络请求",
+      "slug": "legacy-209a5bca-209a5bca",
+      "description": "",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:28.500Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "数据类型",
+      "slug": "legacy-829f63f4-829f63f4",
+      "description": "",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:28.381Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Web安全",
+      "slug": "web-7db56d2e",
+      "description": "",
+      "categoryPath": [
+        "Web安全"
+      ],
+      "sortOrder": 80,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T09:55:43.055Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "前端工程化与安全",
+      "slug": "legacy-11c84356-11c84356",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "前端工程化与安全"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:30.201Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "uni-app",
+      "slug": "uni-app-c3d11e60",
+      "description": "",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.935Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "网络排障",
+      "slug": "legacy-2c92df1a-2c92df1a",
+      "description": "",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "网络排障"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-06-13T10:28:29.242Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Vue",
+      "slug": "vue-66a67561",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "Vue"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "vue面试题",
+      "slug": "vue-vue-642bb68c",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "sortOrder": 10,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "vue3",
+      "slug": "vue-vue3-8efcf7b0",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue3"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "vue2",
+      "slug": "vue-vue2-2995585e",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "Ai的vue",
+      "slug": "vue-ai-vue-58f2d762",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "青鸟版三剑客",
+      "slug": "legacy-0f8be6b7-0f8be6b7",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "青鸟版三剑客"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
+    },
+    {
+      "name": "AI版JS",
+      "slug": "ai-js-64da7523",
+      "description": "",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-07-30T13:32:14.760Z",
+      "updatedAt": "2026-07-30T16:01:09.274Z"
     }
   ],
   "articles": [

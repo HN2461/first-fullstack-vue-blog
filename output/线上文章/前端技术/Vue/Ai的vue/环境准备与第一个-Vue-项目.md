@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue-aa8054ba"
 originalStatus: "published"
 publishedAt: "2026-02-02T12:58:04.996Z"
 updatedAt: "2026-06-19T06:25:10.497Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第2章 环境准备与第一个 Vue 项目
 

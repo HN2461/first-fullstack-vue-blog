@@ -22,7 +22,7 @@ originalSlug: "window-api-3e74acb4"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.359Z"
 updatedAt: "2026-06-15T11:55:37.513Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # window 对象常用 API 速查
 

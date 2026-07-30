@@ -16,7 +16,7 @@ originalSlug: "javascriptes6-ess-08fde5e4"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.510Z"
 updatedAt: "2026-06-30T07:30:05.066Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 1、let 
 <font style="color:#000000;">let 关键字用来声明变量，使用let 声明的变量有几个特点：</font>

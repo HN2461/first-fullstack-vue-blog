@@ -21,7 +21,7 @@ originalSlug: "uv-ui-uvui-uv-ui-0ffe625b"
 originalStatus: "published"
 publishedAt: "2026-05-03T12:31:10.921Z"
 updatedAt: "2026-06-13T10:28:29.717Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第二篇：uv-ui 入门安装与小程序配置
 

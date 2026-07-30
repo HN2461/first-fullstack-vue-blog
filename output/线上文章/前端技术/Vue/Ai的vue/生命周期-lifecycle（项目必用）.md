@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-lifecycle-48e90c0f"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:07:47.549Z"
 updatedAt: "2026-06-13T10:28:27.965Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第11章 生命周期 lifecycle（项目必用）
 

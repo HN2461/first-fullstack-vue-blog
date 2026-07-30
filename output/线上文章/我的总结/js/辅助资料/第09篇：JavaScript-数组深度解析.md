@@ -21,7 +21,7 @@ originalSlug: "js-javascript-ceaa578b"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.663Z"
 updatedAt: "2026-06-13T14:09:43.228Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第09篇：JavaScript 数组深度解析
 ## 一、数组的本质理解

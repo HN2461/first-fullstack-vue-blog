@@ -21,7 +21,7 @@ originalSlug: "ai-mcp-83743b3f"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:18:00.563Z"
 updatedAt: "2026-07-30T14:24:30.185Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 04：MCP 概念与主流度问题
 

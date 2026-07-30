@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-f-fa05c4ac"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:22:00.012Z"
 updatedAt: "2026-06-26T08:11:11.393Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 附录F：常见报错与解决方案合集
 

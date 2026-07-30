@@ -23,7 +23,7 @@ originalSlug: "fastapi-crud-transactions-relations-pagination"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.197Z"
 updatedAt: "2026-07-30T14:44:46.197Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询
 

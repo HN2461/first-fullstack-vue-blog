@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-fbe72b64"
 originalStatus: "published"
 publishedAt: "2026-06-07T06:40:12.479Z"
 updatedAt: "2026-06-16T14:06:50.390Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MongoDB 详解第五篇：关联查询与聚合管道
 

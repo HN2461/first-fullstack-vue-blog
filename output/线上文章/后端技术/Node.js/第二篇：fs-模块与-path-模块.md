@@ -20,7 +20,7 @@ originalSlug: "node-js-fs-path-e956bb19"
 originalStatus: "published"
 publishedAt: "2026-04-18T13:01:07.819Z"
 updatedAt: "2026-06-19T06:25:50.981Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第二篇：fs 模块与 path 模块
 

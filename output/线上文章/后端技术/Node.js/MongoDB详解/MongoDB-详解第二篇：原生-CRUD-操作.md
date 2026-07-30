@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-mongodb-crud-85922e88"
 originalStatus: "published"
 publishedAt: "2026-06-06T11:39:25.707Z"
 updatedAt: "2026-06-13T10:28:27.591Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MongoDB 详解第二篇：原生 CRUD 操作
 

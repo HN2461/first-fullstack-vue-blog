@@ -1,12 +1,104 @@
 {
-  "generatedAt": "2026-07-30T15:39:35.577Z",
-  "mode": "dry-run",
+  "generatedAt": "2026-07-30T16:00:24.161Z",
+  "mode": "apply",
   "publishAll": true,
   "total": 513,
   "publishedCount": 513,
   "publishChangeCount": 0,
   "sortChangeCount": 0,
+  "categorySortChangeCount": 95,
   "sequenceCategories": [
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "total": 8,
+      "numberedCount": 8,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabf4c",
+        "6a2d291d8a2b1c68f2cabf50",
+        "6a2d291d8a2b1c68f2cabf5a",
+        "6a2d291d8a2b1c68f2cabf66",
+        "6a2d291d8a2b1c68f2cabf6e",
+        "6a2d291d8a2b1c68f2cabf78",
+        "6a2d291d8a2b1c68f2cabf80",
+        "6a6b691f4bf50146e9b95e6c"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "total": 19,
+      "numberedCount": 19,
+      "duplicateSequenceCount": 1,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e3c",
+        "6a6b691f4bf50146e9b95e3e",
+        "6a6b691f4bf50146e9b95e40",
+        "6a6b691f4bf50146e9b95e42",
+        "6a6b691f4bf50146e9b95e44",
+        "6a6b691f4bf50146e9b95e46",
+        "6a6b691f4bf50146e9b95e48",
+        "6a6b691f4bf50146e9b95e4a",
+        "6a6b691f4bf50146e9b95e4c",
+        "6a6b691f4bf50146e9b95e4e",
+        "6a6b691f4bf50146e9b95e50",
+        "6a6b691f4bf50146e9b95e52",
+        "6a6b691f4bf50146e9b95e54",
+        "6a6b691f4bf50146e9b95e56",
+        "6a6b691f4bf50146e9b95e58",
+        "6a6b691f4bf50146e9b95e5a",
+        "6a6b691f4bf50146e9b95e5c",
+        "6a6b691f4bf50146e9b95e5e",
+        "6a6b691f4bf50146e9b95e60"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e38",
+        "6a6b691f4bf50146e9b95e3a"
+      ]
+    },
+    {
+      "categoryPath": "后端技术/Python/应用实例/Web入门/FastAPI从0到1",
+      "total": 18,
+      "numberedCount": 18,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b635eb46b52abc5dc2863",
+        "6a6b57a2fca6347974f5d192",
+        "6a6b57a2fca6347974f5d194",
+        "6a6b57a2fca6347974f5d196",
+        "6a6b57a2fca6347974f5d198",
+        "6a6b57a2fca6347974f5d19a",
+        "6a6b57a2fca6347974f5d19c",
+        "6a6b57a2fca6347974f5d19e",
+        "6a6b57a2fca6347974f5d1a0",
+        "6a6b57a2fca6347974f5d1a2",
+        "6a6b57a2fca6347974f5d1a4",
+        "6a6b57a2fca6347974f5d1a6",
+        "6a6b57a2fca6347974f5d1a8",
+        "6a6b57a2fca6347974f5d1aa",
+        "6a6b57a2fca6347974f5d1ac",
+        "6a6b57a2fca6347974f5d1ae",
+        "6a6b57a2fca6347974f5d1b0",
+        "6a6b57a2fca6347974f5d1b2"
+      ]
+    },
     {
       "categoryPath": "后端技术/Python/应用实例/网络爬虫与数据分析",
       "total": 6,
@@ -134,25 +226,6 @@
         "6a2d291e8a2b1c68f2cac1f2",
         "6a2d291e8a2b1c68f2cac1da",
         "6a2d291e8a2b1c68f2cac1e6"
-      ]
-    },
-    {
-      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
-      "total": 8,
-      "numberedCount": 8,
-      "duplicateSequenceCount": 0,
-      "useSequence": true,
-      "reorderedCount": 0,
-      "changedCount": 0,
-      "articleIds": [
-        "6a2d291d8a2b1c68f2cabf4c",
-        "6a2d291d8a2b1c68f2cabf50",
-        "6a2d291d8a2b1c68f2cabf5a",
-        "6a2d291d8a2b1c68f2cabf66",
-        "6a2d291d8a2b1c68f2cabf6e",
-        "6a2d291d8a2b1c68f2cabf78",
-        "6a2d291d8a2b1c68f2cabf80",
-        "6a6b691f4bf50146e9b95e6c"
       ]
     },
     {
@@ -461,78 +534,6 @@
         "6a2d291f8a2b1c68f2cac5f0",
         "6a2d291f8a2b1c68f2cac5e2",
         "6a2d291f8a2b1c68f2cac5ea"
-      ]
-    },
-    {
-      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
-      "total": 19,
-      "numberedCount": 19,
-      "duplicateSequenceCount": 1,
-      "useSequence": true,
-      "reorderedCount": 0,
-      "changedCount": 0,
-      "articleIds": [
-        "6a6b691f4bf50146e9b95e3c",
-        "6a6b691f4bf50146e9b95e3e",
-        "6a6b691f4bf50146e9b95e40",
-        "6a6b691f4bf50146e9b95e42",
-        "6a6b691f4bf50146e9b95e44",
-        "6a6b691f4bf50146e9b95e46",
-        "6a6b691f4bf50146e9b95e48",
-        "6a6b691f4bf50146e9b95e4a",
-        "6a6b691f4bf50146e9b95e4c",
-        "6a6b691f4bf50146e9b95e4e",
-        "6a6b691f4bf50146e9b95e50",
-        "6a6b691f4bf50146e9b95e52",
-        "6a6b691f4bf50146e9b95e54",
-        "6a6b691f4bf50146e9b95e56",
-        "6a6b691f4bf50146e9b95e58",
-        "6a6b691f4bf50146e9b95e5a",
-        "6a6b691f4bf50146e9b95e5c",
-        "6a6b691f4bf50146e9b95e5e",
-        "6a6b691f4bf50146e9b95e60"
-      ]
-    },
-    {
-      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量",
-      "total": 2,
-      "numberedCount": 2,
-      "duplicateSequenceCount": 0,
-      "useSequence": true,
-      "reorderedCount": 0,
-      "changedCount": 0,
-      "articleIds": [
-        "6a6b691f4bf50146e9b95e38",
-        "6a6b691f4bf50146e9b95e3a"
-      ]
-    },
-    {
-      "categoryPath": "后端技术/Python/应用实例/Web入门/FastAPI从0到1",
-      "total": 18,
-      "numberedCount": 18,
-      "duplicateSequenceCount": 0,
-      "useSequence": true,
-      "reorderedCount": 0,
-      "changedCount": 0,
-      "articleIds": [
-        "6a6b635eb46b52abc5dc2863",
-        "6a6b57a2fca6347974f5d192",
-        "6a6b57a2fca6347974f5d194",
-        "6a6b57a2fca6347974f5d196",
-        "6a6b57a2fca6347974f5d198",
-        "6a6b57a2fca6347974f5d19a",
-        "6a6b57a2fca6347974f5d19c",
-        "6a6b57a2fca6347974f5d19e",
-        "6a6b57a2fca6347974f5d1a0",
-        "6a6b57a2fca6347974f5d1a2",
-        "6a6b57a2fca6347974f5d1a4",
-        "6a6b57a2fca6347974f5d1a6",
-        "6a6b57a2fca6347974f5d1a8",
-        "6a6b57a2fca6347974f5d1aa",
-        "6a6b57a2fca6347974f5d1ac",
-        "6a6b57a2fca6347974f5d1ae",
-        "6a6b57a2fca6347974f5d1b0",
-        "6a6b57a2fca6347974f5d1b2"
       ]
     }
   ],

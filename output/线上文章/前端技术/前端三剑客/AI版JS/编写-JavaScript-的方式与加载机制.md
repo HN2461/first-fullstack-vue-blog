@@ -16,7 +16,7 @@ originalSlug: "js-javascript-a73da56a"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.501Z"
 updatedAt: "2026-06-15T14:50:25.014Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第3章　编写 JavaScript 的方式与加载机制
 

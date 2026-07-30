@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-59f5c8d0"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:52:03.314Z"
 updatedAt: "2026-06-13T10:28:27.832Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 微信小程序常见能力接法实战：登录、用户信息、手机号、上传下载、订阅消息、分享与支付
 

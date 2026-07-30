@@ -20,7 +20,7 @@ originalSlug: "websocket-websocket-uni-app-8118619a"
 originalStatus: "published"
 publishedAt: "2026-04-29T14:07:07.239Z"
 updatedAt: "2026-06-13T10:28:30.040Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # WebSocket 零基础入门：它是什么、为什么用、浏览器与 uni-app 怎么写
 

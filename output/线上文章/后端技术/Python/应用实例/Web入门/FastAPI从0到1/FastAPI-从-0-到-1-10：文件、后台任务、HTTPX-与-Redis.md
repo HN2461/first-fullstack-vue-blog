@@ -23,7 +23,7 @@ originalSlug: "fastapi-files-background-httpx-redis"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.200Z"
 updatedAt: "2026-07-30T14:44:46.200Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis
 

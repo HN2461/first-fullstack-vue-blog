@@ -22,7 +22,7 @@ originalSlug: "maxkb-maxkb-d984d85a"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.541Z"
 updatedAt: "2026-07-30T15:09:19.541Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MaxKB 导出包解析与半自动改包规则
 

@@ -20,7 +20,7 @@ originalSlug: "id-corpid-agentid-miniappid-clientid-userid-unionid-openid-44a970
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.426Z"
 updatedAt: "2026-06-13T14:09:43.239Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId
 

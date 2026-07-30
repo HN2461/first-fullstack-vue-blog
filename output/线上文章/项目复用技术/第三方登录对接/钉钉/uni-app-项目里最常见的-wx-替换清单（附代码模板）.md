@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-wx-616a50b5"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.444Z"
 updatedAt: "2026-06-13T14:09:43.237Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 项目里最常见的 wx 替换清单（附代码模板）
 

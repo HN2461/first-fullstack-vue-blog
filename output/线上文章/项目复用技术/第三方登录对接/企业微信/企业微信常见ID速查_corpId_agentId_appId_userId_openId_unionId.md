@@ -16,7 +16,7 @@ originalSlug: "id-corpid-agentid-appid-userid-openid-unionid-e704ba37"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.454Z"
 updatedAt: "2026-06-13T14:03:18.894Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 企业微信常见ID速查\_corpId_agentId_appId_userId_openId_unionId
 

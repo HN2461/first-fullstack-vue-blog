@@ -22,7 +22,7 @@ originalSlug: "uni-app-uni-app-web-view-b6e991ff"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:55:17.904Z"
 updatedAt: "2026-06-13T10:28:27.891Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 微信小程序常用功能全景实战：页面交互、路由、请求、缓存、登录、上传、定位、分享、支付与 web-view 逐项细讲
 

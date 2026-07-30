@@ -21,7 +21,7 @@ originalSlug: "maxkb-00-maxkb-6d42583b"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.420Z"
 updatedAt: "2026-07-30T15:09:19.420Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 00-MaxKB 公共规则规范包使用说明
 

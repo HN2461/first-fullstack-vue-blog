@@ -21,7 +21,7 @@ originalSlug: "vue-vue-03-vue-name-5f5217ee"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:57:10.030Z"
 updatedAt: "2026-06-13T10:28:29.179Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Vue 3 中「name」相关属性全梳理笔记
 ## 核心总览

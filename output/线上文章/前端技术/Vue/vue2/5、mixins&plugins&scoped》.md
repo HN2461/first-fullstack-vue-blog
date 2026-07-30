@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-5-mixins-plugins-scoped-febd1092"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:08.964Z"
 updatedAt: "2026-06-17T12:38:14.168Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 3.5、mixins&plugins&scoped
 ## 3.5.1、mixins

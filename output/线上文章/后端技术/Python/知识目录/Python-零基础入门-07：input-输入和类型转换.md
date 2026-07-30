@@ -18,7 +18,7 @@ originalSlug: "python-zero-input-and-convert"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.533Z"
 updatedAt: "2026-07-30T14:44:46.128Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 07：input 输入和类型转换
 

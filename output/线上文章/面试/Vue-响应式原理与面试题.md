@@ -18,7 +18,7 @@ originalSlug: "legacy-c16e0589-c16e0589"
 originalStatus: "published"
 publishedAt: "2026-05-11T14:44:26.726Z"
 updatedAt: "2026-06-13T10:28:29.826Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ### 1. Vue 2 和 Vue 3 的响应式原理
 

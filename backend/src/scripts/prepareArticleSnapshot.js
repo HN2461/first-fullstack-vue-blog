@@ -9,7 +9,10 @@ import { createWriteStream } from 'node:fs'
 import { once } from 'node:events'
 import archiver from 'archiver'
 import { env } from '../config/env.js'
-import { buildNormalizedArticleOrder } from '#modules/content/services/articleSequenceOrder.service.js'
+import {
+  buildNormalizedArticleOrder,
+  buildNormalizedCategoryOrder
+} from '#modules/content/services/articleSequenceOrder.service.js'
 
 const args = new Set(process.argv.slice(2))
 const APPLY = args.has('--apply')
@@ -83,6 +86,7 @@ function rewriteDocumentMetadata(filePath, article) {
 
 function buildPlan(manifest) {
   const order = buildNormalizedArticleOrder(manifest.articles)
+  const categoryOrder = buildNormalizedCategoryOrder(manifest.categories || [])
   const now = new Date().toISOString()
   const articles = manifest.articles.map((article) => ({
     ...article,
@@ -94,10 +98,18 @@ function buildPlan(manifest) {
   }))
   return {
     articles,
+    categories: (manifest.categories || []).map((category) => ({
+      ...category,
+      sortOrder: categoryOrder.sortOrderByPath.get((category.categoryPath || []).join('/')) ?? category.sortOrder
+    })),
     order,
+    categoryOrder,
     publishedCount: articles.filter((item) => item.status === 'published').length,
     publishChangeCount: articles.filter((item, index) => item.status !== manifest.articles[index].status).length,
-    sortChangeCount: articles.filter((item, index) => item.sortOrder !== Number(manifest.articles[index].sortOrder || 0)).length
+    sortChangeCount: articles.filter((item, index) => item.sortOrder !== Number(manifest.articles[index].sortOrder || 0)).length,
+    categorySortChangeCount: (manifest.categories || []).filter((item) => {
+      return categoryOrder.sortOrderByPath.get((item.categoryPath || []).join('/')) !== Number(item.sortOrder || 0)
+    }).length
   }
 }
 
@@ -111,6 +123,7 @@ function writeReport(plan) {
     publishedCount: plan.publishedCount,
     publishChangeCount: plan.publishChangeCount,
     sortChangeCount: plan.sortChangeCount,
+    categorySortChangeCount: plan.categorySortChangeCount,
     sequenceCategories: plan.order.categoryPlans.filter((item) => item.useSequence),
     changedCategories: plan.order.categoryPlans.filter((item) => item.changedCount > 0)
   }
@@ -124,6 +137,7 @@ function writeReport(plan) {
     `- 整理后已发布：${report.publishedCount}`,
     `- 需转为已发布：${report.publishChangeCount}`,
     `- 需规范排序值：${report.sortChangeCount}`,
+    `- 需规范分类排序值：${report.categorySortChangeCount}`,
     `- 按明确章节号重排的分类：${report.sequenceCategories.length}`,
     '',
     '## 章节系列',
@@ -162,6 +176,7 @@ async function applyPlan(manifest, manifestPath, plan) {
     else rewriteMarkdown(filePath, article)
   }
   manifest.articles = manifest.articles.map((article) => byId.get(String(article.originalId)))
+  manifest.categories = plan.categories
   manifest.total = manifest.articles.length
   manifest.authorityPreparedAt = new Date().toISOString()
   fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
@@ -173,7 +188,7 @@ async function main() {
   const plan = buildPlan(manifest)
   const report = writeReport(plan)
   console.log(`模式: ${APPLY ? 'apply' : 'dry-run'}`)
-  console.log(`文章: ${plan.articles.length}，发布状态调整: ${plan.publishChangeCount}，排序值调整: ${plan.sortChangeCount}`)
+  console.log(`文章: ${plan.articles.length}，发布状态调整: ${plan.publishChangeCount}，文章排序调整: ${plan.sortChangeCount}，分类排序调整: ${plan.categorySortChangeCount}`)
   console.log(`章节排序分类: ${plan.order.categoryPlans.filter((item) => item.useSequence).length}`)
   console.log(`报告: ${report.markdownPath}`)
   if (!APPLY) {

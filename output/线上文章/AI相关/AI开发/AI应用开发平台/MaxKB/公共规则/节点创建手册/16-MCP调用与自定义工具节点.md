@@ -24,7 +24,7 @@ originalSlug: "maxkb-16-mcp-cbdce98b"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.522Z"
 updatedAt: "2026-07-30T15:09:19.522Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 16-MCP调用与自定义工具节点
 

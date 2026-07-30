@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-8c6d7ba1"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:22:12.473Z"
 updatedAt: "2026-06-14T06:31:52.522Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## uni-app 生命周期、页面时序与常见页面事件
 

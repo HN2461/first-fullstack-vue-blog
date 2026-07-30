@@ -18,7 +18,7 @@ originalSlug: "uniapp-9cf05b58"
 originalStatus: "published"
 publishedAt: "2026-05-10T14:48:13.144Z"
 updatedAt: "2026-06-13T10:28:29.757Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # UniApp 框架面试题
 

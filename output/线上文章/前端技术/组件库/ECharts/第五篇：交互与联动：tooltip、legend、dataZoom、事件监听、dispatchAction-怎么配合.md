@@ -22,7 +22,7 @@ originalSlug: "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a"
 originalStatus: "published"
 publishedAt: "2026-05-02T08:36:26.616Z"
 updatedAt: "2026-06-13T14:09:43.188Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction 怎么配合
 

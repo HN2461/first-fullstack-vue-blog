@@ -16,7 +16,7 @@ originalSlug: "html-html-67ef3a27"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.479Z"
 updatedAt: "2026-06-13T10:28:27.380Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第五篇《现代HTML实践——迈向专业前端》
 

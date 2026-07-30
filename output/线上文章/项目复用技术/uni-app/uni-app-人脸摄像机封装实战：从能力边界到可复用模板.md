@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-b0f67933"
 originalStatus: "published"
 publishedAt: "2026-04-16T12:41:50.147Z"
 updatedAt: "2026-06-13T10:28:29.949Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 人脸摄像机封装实战：从能力边界到可复用模板
 

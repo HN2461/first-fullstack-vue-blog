@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue2-d73035df"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:04:31.977Z"
 updatedAt: "2026-06-13T10:28:28.077Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第8章 Vue2 响应式原理（理解核心机制）
 

@@ -16,7 +16,7 @@ originalSlug: "vue-vue-vue2-979be5aa"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:29:24.443Z"
 updatedAt: "2026-06-17T12:36:16.649Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ### 1、vue功能是什么，跟传统开发有什么区别？
 #### vue功能是什么

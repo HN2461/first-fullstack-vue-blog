@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue-router-b20d1fed"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:12:20.217Z"
 updatedAt: "2026-06-13T10:28:27.991Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第16章 Vue Router 进阶（项目级能力）
 

@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-vue-axios-9ddbedd5"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:16.752Z"
 updatedAt: "2026-06-13T10:28:28.134Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 1、axios的基本使用
 ## 1.1、简介

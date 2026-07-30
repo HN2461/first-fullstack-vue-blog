@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-vue-2df26895"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:37.359Z"
 updatedAt: "2026-06-19T06:25:12.580Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 1、动画实现
 （1）、操作css的transition或animation

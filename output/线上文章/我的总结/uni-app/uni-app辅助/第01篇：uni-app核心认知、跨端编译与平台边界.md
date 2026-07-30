@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-5f27ae60"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:11:46.098Z"
 updatedAt: "2026-06-14T06:31:52.518Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## uni-app 核心认知、跨端编译与平台边界
 

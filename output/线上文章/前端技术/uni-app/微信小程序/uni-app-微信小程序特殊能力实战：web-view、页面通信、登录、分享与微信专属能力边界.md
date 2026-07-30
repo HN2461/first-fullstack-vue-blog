@@ -22,7 +22,7 @@ originalSlug: "uni-app-uni-app-web-view-0f6f8748"
 originalStatus: "published"
 publishedAt: "2026-05-09T13:39:13.192Z"
 updatedAt: "2026-06-13T10:28:27.878Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界
 

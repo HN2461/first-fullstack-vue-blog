@@ -16,7 +16,7 @@ originalSlug: "javascriptes6-js-dd445881"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.516Z"
 updatedAt: "2026-06-30T07:30:00.699Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 **《（一）js高级01-基础深入》**
 

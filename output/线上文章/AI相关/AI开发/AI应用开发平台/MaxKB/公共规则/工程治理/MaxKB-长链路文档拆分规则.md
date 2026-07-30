@@ -22,7 +22,7 @@ originalSlug: "maxkb-maxkb-061d662d"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.537Z"
 updatedAt: "2026-07-30T15:09:19.537Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MaxKB 长链路文档拆分规则
 

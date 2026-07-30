@@ -21,7 +21,7 @@ originalSlug: "node-js-apipost-ea2d5bde"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:15:10.765Z"
 updatedAt: "2026-06-21T12:56:13.338Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 接口与会话控制详解第二篇：Apipost 接口测试工具
 

@@ -16,7 +16,7 @@ originalSlug: "vue-vue3-pinia-356d4f75"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:28:53.385Z"
 updatedAt: "2026-06-17T13:23:50.827Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 4.1、什么是Pinia
 ### 4.1.1、简介

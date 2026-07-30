@@ -16,7 +16,7 @@ originalSlug: "vue-vue-vue3-ace64a20"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:29:28.860Z"
 updatedAt: "2026-06-13T10:28:28.304Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ### Vue3 相比 Vue2 的改进（通俗版）
 + **更快**：

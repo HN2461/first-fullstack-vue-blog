@@ -22,7 +22,7 @@ originalSlug: "ai-ai-windsurf-windsurf-4667d3b6"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.606Z"
 updatedAt: "2026-06-13T10:28:26.511Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第二篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）
 

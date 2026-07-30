@@ -16,7 +16,7 @@ originalSlug: "h5-h5-errcode60020-ip-ip-0be8e8e2"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.461Z"
 updatedAt: "2026-06-13T14:03:18.901Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 企业微信H5登录 errcode=60020 — 后端IP未加可信IP白名单
 

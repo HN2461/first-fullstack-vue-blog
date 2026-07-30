@@ -21,7 +21,7 @@ originalSlug: "websocket-websocket-de1a1d83"
 originalStatus: "published"
 publishedAt: "2026-04-16T13:25:08.650Z"
 updatedAt: "2026-06-13T10:28:30.143Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # WebSocket 接入检查清单：从协议确认到页面联调
 

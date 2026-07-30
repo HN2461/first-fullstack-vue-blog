@@ -16,7 +16,7 @@ originalSlug: "js-class-0867afc9"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.493Z"
 updatedAt: "2026-06-15T14:50:24.970Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第21章 Class与模块
 

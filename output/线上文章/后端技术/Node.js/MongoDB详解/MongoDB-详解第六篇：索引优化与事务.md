@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-5c500e8d"
 originalStatus: "published"
 publishedAt: "2026-06-07T06:13:44.590Z"
 updatedAt: "2026-06-13T10:28:27.615Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MongoDB 详解第六篇：索引优化与事务
 

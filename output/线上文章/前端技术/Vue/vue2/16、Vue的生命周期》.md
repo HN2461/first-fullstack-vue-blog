@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-16-vue-975bfaf5"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:26:32.708Z"
 updatedAt: "2026-06-13T10:28:28.189Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 2.16 Vue的生命周期
 ## 一、生命周期概述

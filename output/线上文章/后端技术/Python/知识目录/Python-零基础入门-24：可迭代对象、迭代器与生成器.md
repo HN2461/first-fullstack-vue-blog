@@ -20,7 +20,7 @@ originalSlug: "python-zero-iterable-iterator-generator"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.159Z"
 updatedAt: "2026-07-30T14:44:46.159Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 24：可迭代对象、迭代器与生成器
 

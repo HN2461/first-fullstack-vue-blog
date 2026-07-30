@@ -20,7 +20,7 @@ originalSlug: "python-zero-advanced-functions-closures-decorators"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.160Z"
 updatedAt: "2026-07-30T14:44:46.160Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 25：函数进阶、闭包与装饰器
 

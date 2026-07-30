@@ -21,7 +21,7 @@ originalSlug: "websocket-messageserviceadapter-3203465d"
 originalStatus: "published"
 publishedAt: "2026-04-16T12:41:50.142Z"
 updatedAt: "2026-06-13T10:28:30.129Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MessageServiceAdapter 与页面接入实战：统一入口、事件桥接与初始化时机
 

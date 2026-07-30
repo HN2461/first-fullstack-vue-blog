@@ -21,7 +21,7 @@ originalSlug: "maxkb-rag-813a4abe"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.395Z"
 updatedAt: "2026-07-30T15:09:19.395Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 知识库与 RAG 实战规范
 

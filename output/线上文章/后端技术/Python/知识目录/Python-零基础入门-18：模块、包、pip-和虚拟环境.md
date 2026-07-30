@@ -18,7 +18,7 @@ originalSlug: "python-zero-modules-pip-venv"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.500Z"
 updatedAt: "2026-07-30T14:44:46.148Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 18：模块、包、pip 和虚拟环境
 

@@ -16,7 +16,7 @@ originalSlug: "js-javascript-44c8511b"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.499Z"
 updatedAt: "2026-06-17T12:45:37.013Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第2章　JavaScript 的运行机制
 

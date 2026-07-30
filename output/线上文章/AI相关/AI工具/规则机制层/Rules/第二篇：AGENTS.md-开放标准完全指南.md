@@ -22,7 +22,7 @@ originalSlug: "ai-rules-agents-agents-md-908e49bb"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.676Z"
 updatedAt: "2026-07-30T14:24:30.258Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第二篇：AGENTS.md 开放标准完全指南
 

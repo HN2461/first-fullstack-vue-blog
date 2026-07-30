@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-v-model-c66bd182"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:03:47.571Z"
 updatedAt: "2026-06-19T06:25:09.350Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第7章 表单处理 v-model（表单全家桶）
 

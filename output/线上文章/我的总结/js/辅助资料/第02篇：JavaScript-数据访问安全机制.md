@@ -20,7 +20,7 @@ originalSlug: "js-js-f6bc0394"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.655Z"
 updatedAt: "2026-06-13T10:28:28.557Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第02篇：JavaScript 数据访问安全机制
 

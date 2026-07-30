@@ -436,6 +436,7 @@ async function main() {
   })
   console.log(`目标现状: 文章 ${localArticles.length}，分类 ${localCategories.length}，标签 ${localTags.length}，评论 ${localComments}，文章互动 ${localReactions}`)
   console.log(`变更预览: 新增 ${preview.createCount}，更新 ${preview.updateCount}，移除 ${preview.removeCount}，统一文章 ID ${preview.rekeyCount}，转为已发布 ${preview.publishCount}`)
+  console.log(`分类元数据更新: ${preview.categoryUpdateCount}`)
   console.log(`同步后: 文章 ${snapshot.records.length}，已发布 ${preview.finalPublishedCount}`)
   if (!APPLY) {
     console.log('dry-run 完成；确认后使用 --apply 执行全量重建')

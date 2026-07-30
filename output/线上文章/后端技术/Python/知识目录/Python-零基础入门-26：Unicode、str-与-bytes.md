@@ -20,7 +20,7 @@ originalSlug: "python-zero-unicode-str-bytes"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.162Z"
 updatedAt: "2026-07-30T14:44:46.162Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 26：Unicode、str 与 bytes
 

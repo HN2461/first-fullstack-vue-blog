@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-2a3920fc"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:22:12.477Z"
 updatedAt: "2026-06-14T06:31:52.525Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## uni-app 跨端开发方法与微信小程序常见能力接入
 

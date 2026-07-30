@@ -18,7 +18,7 @@ originalSlug: "python-zero-dictionaries"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.514Z"
 updatedAt: "2026-07-30T14:44:46.140Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 13：字典 dict
 

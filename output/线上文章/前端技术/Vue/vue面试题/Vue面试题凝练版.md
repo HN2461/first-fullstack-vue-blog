@@ -16,7 +16,7 @@ originalSlug: "vue-vue-vue-80f4d76c"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:29:33.808Z"
 updatedAt: "2026-06-13T10:28:28.309Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 #  Vue 面试题核心内容，供复习和面试时参考：
 ---

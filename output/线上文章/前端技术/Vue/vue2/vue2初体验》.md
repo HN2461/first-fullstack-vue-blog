@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-vue2-b45d61d5"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:24:34.209Z"
 updatedAt: "2026-06-13T10:28:28.141Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # **一、 Vue程序初体验 **
 先不去了解Vue框架的发展历史，Vue框架的特点，Vue的作者，这些对于我们开发来说，没有什么特别的作用，我们先学会基本使用，然后再去详细了解它的特点，就会发现，原来如此。

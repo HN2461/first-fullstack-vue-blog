@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue-vue-0208816f"
 originalStatus: "published"
 publishedAt: "2026-02-02T12:53:38.252Z"
 updatedAt: "2026-06-13T10:28:28.012Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第1章 Vue 是什么？为什么要学 Vue？
 

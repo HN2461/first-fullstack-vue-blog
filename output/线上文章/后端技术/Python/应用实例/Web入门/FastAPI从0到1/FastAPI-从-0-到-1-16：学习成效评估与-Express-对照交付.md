@@ -23,7 +23,7 @@ originalSlug: "fastapi-zero-to-one-learning-outcome-express-delivery"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.212Z"
 updatedAt: "2026-07-30T14:44:46.212Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付
 

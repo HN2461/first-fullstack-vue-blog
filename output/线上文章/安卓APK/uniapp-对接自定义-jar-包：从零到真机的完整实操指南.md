@@ -14,7 +14,7 @@ originalSlug: "uniapp-jar"
 originalStatus: "published"
 publishedAt: "2026-07-30T01:58:28.361Z"
 updatedAt: "2026-07-30T01:58:28.361Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 写在前面：先理解一个核心原理
 

@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue2-925ccc25"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:17:53.472Z"
 updatedAt: "2026-06-13T10:28:28.027Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第22章 Vue2 性能优化清单
 

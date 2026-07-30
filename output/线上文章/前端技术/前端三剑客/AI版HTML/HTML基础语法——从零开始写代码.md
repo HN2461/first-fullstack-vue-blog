@@ -16,7 +16,7 @@ originalSlug: "html-html-de7f4404"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.479Z"
 updatedAt: "2026-06-13T10:29:02.145Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第二篇：HTML基础语法——从零开始写代码
 

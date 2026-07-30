@@ -22,7 +22,7 @@ originalSlug: "python-data-cleaning-regex-crawler-text"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.174Z"
 updatedAt: "2026-07-30T14:44:46.174Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 数据清洗入门 03：正则表达式清洗爬虫文本
 

@@ -16,7 +16,7 @@ originalSlug: "h5-h5-jsapi-d82c6607"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.460Z"
 updatedAt: "2026-06-13T14:03:18.905Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 企业微信 H5 微应用 — 扫一扫 JSAPI 后端签名对接清单
 

@@ -21,7 +21,7 @@ originalSlug: "element-plus-elementplus-element-plus-vue3-pc-86202b18"
 originalStatus: "published"
 publishedAt: "2026-04-29T11:27:17.303Z"
 updatedAt: "2026-06-13T10:28:29.556Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 快速认识 Element Plus：为什么它是 Vue 3 里常见的 PC 端组件库
 

@@ -15,7 +15,7 @@ originalSlug: "http-8498fced"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.373Z"
 updatedAt: "2026-06-16T15:11:22.228Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # HTTP缓存机制详解
 

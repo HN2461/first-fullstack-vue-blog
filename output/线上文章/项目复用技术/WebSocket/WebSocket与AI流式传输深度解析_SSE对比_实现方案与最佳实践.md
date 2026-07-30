@@ -21,7 +21,7 @@ originalSlug: "websocket-websocket-ai-sse-a4e8c551"
 originalStatus: "published"
 publishedAt: "2026-05-11T12:52:42.846Z"
 updatedAt: "2026-06-30T07:40:30.660Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # WebSocket与AI流式传输深度解析
 

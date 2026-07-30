@@ -22,7 +22,7 @@ originalSlug: "python-crawler-request-and-robots"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:49:33.219Z"
 updatedAt: "2026-07-30T14:44:46.171Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 网络爬虫入门 01：requests 请求体系与 robots.txt
 

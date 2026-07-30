@@ -22,7 +22,7 @@ originalSlug: "ai-agent-openclaw-4d87088b"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.053Z"
 updatedAt: "2026-06-13T10:28:27.149Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）
 

@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue2-67e0094d"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:10:12.453Z"
 updatedAt: "2026-06-19T06:25:07.178Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第13章 组件通信大全（Vue2 必考）
 

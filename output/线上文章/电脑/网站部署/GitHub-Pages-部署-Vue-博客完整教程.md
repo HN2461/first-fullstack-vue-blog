@@ -20,7 +20,7 @@ originalSlug: "github-pages-vue-f7e9371a"
 originalStatus: "published"
 publishedAt: "2026-04-16T14:22:08.318Z"
 updatedAt: "2026-06-13T10:28:29.363Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # GitHub Pages 部署 Vue 博客完整教程
 

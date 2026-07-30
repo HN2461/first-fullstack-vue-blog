@@ -21,7 +21,7 @@ originalSlug: "vue-vue-vue2-vue3-61311af1"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.712Z"
 updatedAt: "2026-06-13T10:28:29.119Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Vue2 vs Vue3 核心写法差异：从 `this` 魔法到函数式组合
 

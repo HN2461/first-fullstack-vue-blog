@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.703Z"
 updatedAt: "2026-06-17T12:38:28.920Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static
 

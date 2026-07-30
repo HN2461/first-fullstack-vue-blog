@@ -18,7 +18,7 @@ originalSlug: "python-zero-file-read-write"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.508Z"
 updatedAt: "2026-07-30T14:44:46.143Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 15：文件读写
 

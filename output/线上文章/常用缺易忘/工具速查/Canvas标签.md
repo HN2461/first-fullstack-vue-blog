@@ -15,7 +15,7 @@ originalSlug: "canvas-7535da83"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.356Z"
 updatedAt: "2026-06-15T11:55:34.737Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # HTML5 Canvas 超详细入门笔记（通俗易懂版）
 

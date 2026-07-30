@@ -16,7 +16,7 @@ originalSlug: "h5-oauth-e33b6d35"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.462Z"
 updatedAt: "2026-06-13T14:03:18.901Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 企业微信 H5 OAuth 单可信域名跨域解决方案
 

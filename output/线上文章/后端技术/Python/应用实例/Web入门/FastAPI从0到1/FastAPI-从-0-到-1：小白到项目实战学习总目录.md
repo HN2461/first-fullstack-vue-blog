@@ -22,7 +22,7 @@ originalSlug: "fastapi-zero-to-enterprise-index"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.216Z"
 updatedAt: "2026-07-30T14:44:46.216Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1：小白到项目实战学习总目录
 

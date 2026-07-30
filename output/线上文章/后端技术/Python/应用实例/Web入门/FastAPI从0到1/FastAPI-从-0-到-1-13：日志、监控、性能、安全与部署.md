@@ -23,7 +23,7 @@ originalSlug: "fastapi-observability-performance-security-deployment"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.207Z"
 updatedAt: "2026-07-30T14:44:46.207Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署
 

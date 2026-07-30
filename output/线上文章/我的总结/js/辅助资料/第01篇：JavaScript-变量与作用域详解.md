@@ -22,7 +22,7 @@ originalSlug: "js-js-javascript-4f1a5c58"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.654Z"
 updatedAt: "2026-06-22T02:07:34.272Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第01篇：JavaScript 变量与作用域详解
 

@@ -22,7 +22,7 @@ originalSlug: "maxkb-01-maxkb-affa7c4c"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.548Z"
 updatedAt: "2026-07-30T15:09:19.548Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 01-MaxKB渲染标签与快捷问题规则
 

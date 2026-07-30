@@ -16,7 +16,7 @@ originalSlug: "js-express-71c1cdfd"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.500Z"
 updatedAt: "2026-06-15T14:50:25.010Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第30章 使用Express开发后端
 

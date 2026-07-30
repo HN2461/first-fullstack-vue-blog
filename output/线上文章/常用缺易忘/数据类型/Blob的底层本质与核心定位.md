@@ -15,7 +15,7 @@ originalSlug: "blob-2000f47d"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.362Z"
 updatedAt: "2026-06-13T10:28:28.383Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ### 一、Blob的底层本质与核心定位
 在前端生态中，Blob是**<font style="color:#DF2A3F;">浏览器提供的用于封装「不可变原始二进制数据」的内置对象</font>**，它的核心价值在于：

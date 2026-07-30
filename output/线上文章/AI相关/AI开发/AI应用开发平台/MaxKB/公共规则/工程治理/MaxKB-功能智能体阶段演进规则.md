@@ -23,7 +23,7 @@ originalSlug: "maxkb-maxkb-d42ce38f"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.534Z"
 updatedAt: "2026-07-30T15:09:19.534Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MaxKB 功能智能体阶段演进规则
 

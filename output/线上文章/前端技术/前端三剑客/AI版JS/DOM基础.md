@@ -16,7 +16,7 @@ originalSlug: "js-dom-cc9e923c"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.485Z"
 updatedAt: "2026-06-15T14:50:24.922Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第12章　DOM基础
 

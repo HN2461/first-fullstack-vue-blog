@@ -22,7 +22,7 @@ originalSlug: "fastapi-enterprise-knowledge-api-capstone"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.209Z"
 updatedAt: "2026-07-30T14:44:46.209Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1 14：企业知识库 API 综合实战
 

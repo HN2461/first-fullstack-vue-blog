@@ -22,7 +22,7 @@ originalSlug: "node-js-node-js-buffer-52d2c595"
 originalStatus: "published"
 publishedAt: "2026-06-05T11:32:01.047Z"
 updatedAt: "2026-06-19T06:25:52.916Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第一篇：Node.js 入门与 Buffer
 

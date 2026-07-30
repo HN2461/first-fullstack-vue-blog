@@ -16,7 +16,7 @@ originalSlug: "js-npm-217bcd42"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.498Z"
 updatedAt: "2026-06-15T14:50:24.997Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第28章 NPM与包管理
 

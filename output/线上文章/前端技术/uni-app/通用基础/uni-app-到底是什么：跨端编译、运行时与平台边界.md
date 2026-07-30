@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-85c68412"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.700Z"
 updatedAt: "2026-06-17T12:38:32.192Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 到底是什么：跨端编译、运行时与平台边界
 

@@ -20,7 +20,7 @@ originalSlug: "indexeddb-16dda85f"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.363Z"
 updatedAt: "2026-06-13T14:09:43.224Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # IndexedDB 什么时候该上
 

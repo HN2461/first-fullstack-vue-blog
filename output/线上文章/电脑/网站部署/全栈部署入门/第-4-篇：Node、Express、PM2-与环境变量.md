@@ -20,7 +20,7 @@ originalSlug: "node-express-pm2-b0b0327c"
 originalStatus: "published"
 publishedAt: "2026-06-08T11:09:58.537Z"
 updatedAt: "2026-06-23T10:18:06.282Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第 4 篇：Node、Express、PM2 与环境变量
 

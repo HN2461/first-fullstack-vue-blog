@@ -23,7 +23,7 @@ originalSlug: "fastapi-authentication-jwt-rbac-security"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.198Z"
 updatedAt: "2026-07-30T14:44:46.198Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全
 

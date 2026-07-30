@@ -21,7 +21,7 @@ originalSlug: "ai-mcp-c534a7cb"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:18:00.566Z"
 updatedAt: "2026-07-30T14:24:30.203Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 06：MCP 项目落地与收益评估问题
 

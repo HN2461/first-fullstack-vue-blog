@@ -22,7 +22,7 @@ originalSlug: "ai-rules-ai-e659b444"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.674Z"
 updatedAt: "2026-07-30T14:24:30.296Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第一篇：AI 工具规则文档是什么，为什么需要它
 

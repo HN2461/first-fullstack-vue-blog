@@ -20,7 +20,7 @@ originalSlug: "js-cropperjs-vue-103593b5"
 originalStatus: "published"
 publishedAt: "2026-05-21T13:15:16.022Z"
 updatedAt: "2026-06-13T10:28:29.893Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入
 

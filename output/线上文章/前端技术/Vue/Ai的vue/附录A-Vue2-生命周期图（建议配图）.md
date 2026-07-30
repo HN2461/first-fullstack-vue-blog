@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-a-vue2-e1001ab4"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:21:58.710Z"
 updatedAt: "2026-06-26T08:11:35.884Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 附录A：Vue2 生命周期图（建议配图）
 

@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-mongoose-crud-bcf8ad68"
 originalStatus: "published"
 publishedAt: "2026-06-07T06:14:19.366Z"
 updatedAt: "2026-06-13T10:28:27.628Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MongoDB 详解第四篇：Mongoose CRUD 与中间件
 

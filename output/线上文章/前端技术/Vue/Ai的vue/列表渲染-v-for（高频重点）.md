@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-v-for-7d30ba15"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:02:47.381Z"
 updatedAt: "2026-06-13T10:28:28.064Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第6章 列表渲染 v-for（高频重点）
 

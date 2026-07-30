@@ -24,7 +24,7 @@ originalSlug: "ai-plugin-codex-codexplugin-9b9edb10"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:22:01.415Z"
 updatedAt: "2026-07-30T14:24:30.218Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第二篇：Codex Plugin 体系详解与实战
 

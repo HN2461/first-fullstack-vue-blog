@@ -16,7 +16,7 @@ originalSlug: "pc-pc-44f7ba8c"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.438Z"
 updatedAt: "2026-06-13T14:03:18.889Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 钉钉账号绑定实现方案：PC 端扫码绑定
 

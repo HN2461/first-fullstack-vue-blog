@@ -22,7 +22,7 @@ originalSlug: "uni-app-uni-app-eventchannel-bc3b226b"
 originalStatus: "published"
 publishedAt: "2026-05-19T12:30:25.024Z"
 updatedAt: "2026-06-17T12:38:33.787Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 微信小程序页面通信之 eventChannel 详解
 

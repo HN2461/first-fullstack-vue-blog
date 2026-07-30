@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   buildNormalizedArticleOrder,
+  buildNormalizedCategoryOrder,
   extractArticleSequence
 } from '#modules/content/services/articleSequenceOrder.service.js'
 
@@ -55,5 +56,19 @@ describe('article sequence order', () => {
     expect(plan.categoryPlans[0].useSequence).toBe(false)
     expect(plan.sortOrderById.get('a-one')).toBe(10)
     expect(plan.sortOrderById.get('b-one')).toBe(30)
+  })
+
+  it('normalizes sibling category order while keeping the system category first', () => {
+    const categories = [
+      { name: '默认分类', categoryPath: ['默认分类'], sortOrder: -9999, isSystem: true },
+      { name: '电脑', categoryPath: ['电脑'], sortOrder: 1 },
+      { name: '常用缺易忘', categoryPath: ['常用缺易忘'], sortOrder: 0 },
+      { name: '安卓APK', categoryPath: ['安卓APK'], sortOrder: 0 }
+    ]
+    const plan = buildNormalizedCategoryOrder(categories)
+    expect(plan.sortOrderByPath.get('默认分类')).toBe(-9999)
+    expect(plan.sortOrderByPath.get('安卓APK')).toBe(10)
+    expect(plan.sortOrderByPath.get('常用缺易忘')).toBe(20)
+    expect(plan.sortOrderByPath.get('电脑')).toBe(30)
   })
 })

@@ -15,7 +15,7 @@ originalSlug: "dns-c31ae11a"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.370Z"
 updatedAt: "2026-06-13T10:28:28.437Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 ## 一、为什么需要DNS域名解析？
 互联网的通信依赖**IP地址**（IPv4如xxx.xxx.xxx.xxx，IPv6如8组十六进制数），所有设备（电脑、手机、服务器）必须通过IP地址才能互相定位和传输数据。但存在两个关键问题：

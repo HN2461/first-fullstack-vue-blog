@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-tabbar-a0f11cca"
 originalStatus: "published"
 publishedAt: "2026-04-16T12:41:50.147Z"
 updatedAt: "2026-06-13T10:28:29.994Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 自定义 tabBar 与角标同步封装实战：角色配置、安全区适配与全局刷新
 

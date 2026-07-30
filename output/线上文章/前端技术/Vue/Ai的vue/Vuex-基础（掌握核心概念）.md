@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vuex-7c0c8832"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:14:11.770Z"
 updatedAt: "2026-06-19T06:25:04.821Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第17章 Vuex 基础（掌握核心概念）
 

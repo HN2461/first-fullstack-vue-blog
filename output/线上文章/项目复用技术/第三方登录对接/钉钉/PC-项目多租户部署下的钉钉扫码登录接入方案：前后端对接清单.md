@@ -21,7 +21,7 @@ originalSlug: "pc-pc-f80d8c7b"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.435Z"
 updatedAt: "2026-06-13T14:03:18.889Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # PC 项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单
 

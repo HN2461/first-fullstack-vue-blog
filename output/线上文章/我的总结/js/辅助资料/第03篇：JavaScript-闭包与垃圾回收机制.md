@@ -20,7 +20,7 @@ originalSlug: "js-js-51b18143"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.656Z"
 updatedAt: "2026-06-13T10:28:28.567Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第03篇：JavaScript 闭包与垃圾回收机制
 

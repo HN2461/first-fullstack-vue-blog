@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue-cli-15ca9855"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:17:52.908Z"
 updatedAt: "2026-06-19T06:25:04.152Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第19章 Vue CLI 工程化体系
 

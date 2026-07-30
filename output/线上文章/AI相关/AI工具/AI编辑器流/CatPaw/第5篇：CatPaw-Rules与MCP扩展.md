@@ -22,7 +22,7 @@ originalSlug: "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.576Z"
 updatedAt: "2026-06-13T10:28:26.241Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第5篇：CatPaw Rules与MCP扩展
 

@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-5b84c227"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.443Z"
 updatedAt: "2026-06-13T14:09:43.237Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 现有 uni-app 项目改成钉钉小程序的实战改造清单
 

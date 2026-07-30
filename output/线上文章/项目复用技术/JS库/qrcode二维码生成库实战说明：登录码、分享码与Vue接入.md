@@ -20,7 +20,7 @@ originalSlug: "js-qrcode-vue-ff5f7ac7"
 originalStatus: "published"
 publishedAt: "2026-05-21T13:25:34.886Z"
 updatedAt: "2026-06-13T10:28:29.916Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # qrcode二维码生成库实战说明：登录码、分享码与Vue接入
 

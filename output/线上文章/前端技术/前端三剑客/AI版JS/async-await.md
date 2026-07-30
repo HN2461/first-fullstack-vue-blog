@@ -16,7 +16,7 @@ originalSlug: "js-async-await-b580531b"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.488Z"
 updatedAt: "2026-06-15T14:50:24.946Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第17章　async / await
 

@@ -16,7 +16,7 @@ originalSlug: "ai-knowledge-system-from-concepts-to-engineering"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:55:50.515Z"
 updatedAt: "2026-07-05T11:55:50.516Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # AI技术知识体系：从核心概念到工程化实战
 

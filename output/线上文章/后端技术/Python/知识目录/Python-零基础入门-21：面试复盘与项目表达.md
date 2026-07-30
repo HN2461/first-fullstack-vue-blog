@@ -18,7 +18,7 @@ originalSlug: "python-zero-interview-and-project-review"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.491Z"
 updatedAt: "2026-07-30T14:44:46.154Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 零基础入门 21：面试复盘与项目表达
 

@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-mongoose-schema-ce33c896"
 originalStatus: "published"
 publishedAt: "2026-06-06T11:39:25.707Z"
 updatedAt: "2026-06-13T10:28:27.579Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # MongoDB 详解第三篇：Mongoose 连接与 Schema 建模
 

@@ -20,7 +20,7 @@ originalSlug: "windows-freeze-rescue-shortcuts"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.346Z"
 updatedAt: "2026-07-30T15:09:19.346Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类
 

@@ -16,7 +16,7 @@ originalSlug: "vue-vue3-apis-94236b74"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:29:03.416Z"
 updatedAt: "2026-06-17T13:23:43.849Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 6、其他APIs
 ## 6.1.【shallowRef 与 shallowReactive 】

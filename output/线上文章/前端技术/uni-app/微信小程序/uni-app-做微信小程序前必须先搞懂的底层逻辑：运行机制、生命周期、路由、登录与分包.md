@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-d43ce8ad"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:50:43.295Z"
 updatedAt: "2026-06-13T10:28:27.809Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 做微信小程序前必须先搞懂的底层逻辑：运行机制、生命周期、路由、登录与分包
 

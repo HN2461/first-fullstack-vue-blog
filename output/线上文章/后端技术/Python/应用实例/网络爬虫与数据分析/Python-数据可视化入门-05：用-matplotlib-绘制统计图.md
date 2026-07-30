@@ -21,7 +21,7 @@ originalSlug: "python-data-visualization-matplotlib-charts"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.178Z"
 updatedAt: "2026-07-30T14:44:46.178Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 数据可视化入门 05：用 matplotlib 绘制统计图
 

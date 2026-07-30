@@ -20,7 +20,7 @@ originalSlug: "python-data-analysis-pandas-csv"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:49:33.207Z"
 updatedAt: "2026-07-30T14:44:46.176Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Python 数据分析入门 04：用 pandas 统计 CSV
 

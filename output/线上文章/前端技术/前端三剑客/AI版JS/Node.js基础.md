@@ -16,7 +16,7 @@ originalSlug: "js-node-js-ff8ab72b"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.499Z"
 updatedAt: "2026-06-15T14:50:25.000Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第29章 Node.js基础
 

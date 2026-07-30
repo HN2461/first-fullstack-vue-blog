@@ -21,7 +21,7 @@ originalSlug: "vue-vue-02-vue3-vite-b6a24a54"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:57:05.886Z"
 updatedAt: "2026-06-13T10:28:29.164Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Vue3 的 Vite 工程化详解（面向前端工程师）
 

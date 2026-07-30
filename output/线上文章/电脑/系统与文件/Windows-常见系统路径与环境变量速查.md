@@ -21,7 +21,7 @@ originalSlug: "windows-b0b9b49e"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.792Z"
 updatedAt: "2026-06-13T10:28:29.301Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Windows 常见系统路径与环境变量速查
 

@@ -20,7 +20,7 @@ originalSlug: "js-axios-61754a5a"
 originalStatus: "published"
 publishedAt: "2026-05-21T13:22:10.960Z"
 updatedAt: "2026-06-13T10:28:29.904Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Axios请求库实战说明：请求封装、拦截器与文件上传
 

@@ -16,7 +16,7 @@ originalSlug: "docker-learning-notes-for-beginners"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:56:11.345Z"
 updatedAt: "2026-07-05T11:56:11.345Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Docker 学习笔记：纯小白版
 

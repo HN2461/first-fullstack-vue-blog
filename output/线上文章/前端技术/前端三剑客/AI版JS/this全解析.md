@@ -16,7 +16,7 @@ originalSlug: "js-this-a359b1f0"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.494Z"
 updatedAt: "2026-06-17T12:38:54.883Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第24章 this全解析
 

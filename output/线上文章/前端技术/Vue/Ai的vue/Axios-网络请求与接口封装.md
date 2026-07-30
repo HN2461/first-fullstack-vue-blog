@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-axios-00b046d5"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:17:53.041Z"
 updatedAt: "2026-06-19T06:25:02.359Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第20章 Axios 网络请求与接口封装
 

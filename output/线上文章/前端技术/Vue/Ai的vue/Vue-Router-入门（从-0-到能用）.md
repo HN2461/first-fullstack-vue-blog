@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue-router-0-a8f63d97"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:12:19.938Z"
 updatedAt: "2026-06-19T06:25:05.450Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第15章 Vue Router 入门（从 0 到能用）
 

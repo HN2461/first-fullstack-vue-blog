@@ -21,7 +21,7 @@ originalSlug: "vue-vue-axios-4d3d1aab"
 originalStatus: "published"
 publishedAt: "2026-05-08T14:07:54.712Z"
 updatedAt: "2026-06-13T10:28:29.078Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Axios 实战完全指南与学习笔记
 > 本文档基于 Vue 开发场景，从入门原理到企业级封装，涵盖所有核心细节。

@@ -16,7 +16,7 @@ originalSlug: "h5-uni-app-h5-2048111a"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.429Z"
 updatedAt: "2026-06-21T12:56:34.891Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 编译 H5 接入钉钉微应用 - 适配要点与代码模板
 

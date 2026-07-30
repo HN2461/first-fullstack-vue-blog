@@ -16,7 +16,7 @@ originalSlug: "js-webpack-7e2ea348"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.496Z"
 updatedAt: "2026-06-17T12:38:50.562Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第26章 Webpack入门
 

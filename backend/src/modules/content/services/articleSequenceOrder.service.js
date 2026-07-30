@@ -135,3 +135,34 @@ export function buildNormalizedArticleOrder(records = []) {
 
   return { sortOrderById, categoryPlans }
 }
+
+export function buildNormalizedCategoryOrder(categories = []) {
+  const groups = new Map()
+  categories.forEach((category) => {
+    const categoryPath = category.categoryPath || []
+    const parentPath = categoryPath.slice(0, -1).join('/')
+    if (!groups.has(parentPath)) groups.set(parentPath, [])
+    groups.get(parentPath).push(category)
+  })
+
+  const sortOrderByPath = new Map()
+  const groupPlans = []
+  for (const [parentPath, items] of groups) {
+    const ordered = [...items].sort((left, right) => {
+      if (Boolean(left.isSystem) !== Boolean(right.isSystem)) return left.isSystem ? -1 : 1
+      const sortDiff = Number(left.sortOrder || 0) - Number(right.sortOrder || 0)
+      if (sortDiff) return sortDiff
+      return String(left.name || '').localeCompare(String(right.name || ''), 'zh-Hans-CN')
+    })
+    let regularIndex = 0
+    let changedCount = 0
+    ordered.forEach((category) => {
+      const key = (category.categoryPath || []).join('/')
+      const nextSortOrder = category.isSystem ? -9999 : (++regularIndex * 10)
+      sortOrderByPath.set(key, nextSortOrder)
+      if (Number(category.sortOrder || 0) !== nextSortOrder) changedCount += 1
+    })
+    groupPlans.push({ parentPath, total: ordered.length, changedCount })
+  }
+  return { sortOrderByPath, groupPlans }
+}

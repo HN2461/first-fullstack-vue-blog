@@ -21,7 +21,7 @@ originalSlug: "js-js-d03088d0"
 originalStatus: "published"
 publishedAt: "2026-05-10T11:51:43.091Z"
 updatedAt: "2026-06-22T02:08:44.095Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第24篇：JavaScript 对象系统与属性描述符
 

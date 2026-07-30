@@ -21,7 +21,7 @@ originalSlug: "node-js-npm-nvm-0ada380c"
 originalStatus: "published"
 publishedAt: "2026-06-05T11:32:01.047Z"
 updatedAt: "2026-06-13T10:28:27.772Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第五篇：npm 包管理与 nvm 版本管理
 

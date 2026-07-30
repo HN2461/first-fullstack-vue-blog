@@ -20,7 +20,7 @@ originalSlug: "js-javascript-9a9d6589"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.659Z"
 updatedAt: "2026-06-13T14:09:43.228Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 第06篇：JavaScript 原型链
 

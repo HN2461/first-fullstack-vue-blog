@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-setdata-9f031d07"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:52:36.831Z"
 updatedAt: "2026-06-13T10:28:27.843Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # uni-app 微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData 与真机排障
 

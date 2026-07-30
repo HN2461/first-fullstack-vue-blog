@@ -24,7 +24,7 @@ originalSlug: "ai-skill-agentskills-8ff13a14"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:29:34.177Z"
 updatedAt: "2026-07-30T14:24:30.323Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # Agent Skills 开放标准与各工具兼容性全解
 

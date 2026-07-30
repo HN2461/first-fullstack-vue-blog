@@ -20,7 +20,7 @@ originalSlug: "http-6bf1d13c"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.379Z"
 updatedAt: "2026-06-17T12:48:35.301Z"
-exportedAt: "2026-07-30T15:42:33.614Z"
+exportedAt: "2026-07-30T16:02:06.145Z"
 ---
 # 前端 HTTP 请求与接口联调手册
 
