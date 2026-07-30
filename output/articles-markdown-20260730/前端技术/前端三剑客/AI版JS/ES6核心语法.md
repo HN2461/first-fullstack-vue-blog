@@ -1,0 +1,1896 @@
+---
+title: "ES6核心语法"
+slug: "js-es6-9a72088d-revision-20260730"
+summary: ""
+category: "AI版JS"
+tags: []
+status: "draft"
+sortOrder: 210
+cover: ""
+originalId: "6a2d291e8a2b1c68f2cac0f4"
+originalSlug: "js-es6-9a72088d"
+originalStatus: "published"
+exportedAt: "2026-07-30T13:20:22.058Z"
+---
+# 第19章　ES6核心语法
+
+ES6（ECMAScript 2015）是JavaScript发展史上的重要里程碑，引入了众多现代语法特性。本章将深入学习let/const声明、解构赋值、展开语法、模板字符串等核心语法。
+
+## 19.1 let / const
+
+ES6引入的块级作用域声明方式。
+
+### 块级作用域和变量提升
+
+```javascript
+/**
+ * let/const块级作用域示例
+ */
+const BlockScopeExamples = {
+    /**
+     * var vs let 作用域对比
+     */
+    varVsLet() {
+        console.log('=== var vs let 作用域对比 ===');
+        
+        // var的函数作用域
+        function varExample() {
+            console.log('var示例:');
+            
+            if (true) {
+                var varVariable = 'var声明';
+                console.log('if块内访问var:', varVariable);
+            }
+            
+            console.log('if块外访问var:', varVariable); // 可以访问
+            
+            // var变量提升
+            console.log('变量提升 - varHoisted:', varHoisted); // undefined
+            var varHoisted = 'var提升的变量';
+        }
+        
+        // let的块级作用域
+        function letExample() {
+            console.log('let示例:');
+            
+            if (true) {
+                let letVariable = 'let声明';
+                console.log('if块内访问let:', letVariable);
+            }
+            
+            try {
+                console.log('if块外访问let:', letVariable); // 报错
+            } catch (error) {
+                console.log('let块外访问错误:', error.message);
+            }
+            
+            // let暂时性死区
+            try {
+                console.log('暂时性死区 - letHoisted:', letHoisted); // 报错
+                let letHoisted = 'let变量';
+            } catch (error) {
+                console.log('暂时性死区错误:', error.message);
+            }
+        }
+        
+        varExample();
+        letExample();
+    },
+    
+    /**
+     * 循环中的作用域问题
+     */
+    loopScopeIssues() {
+        console.log('=== 循环中的作用域问题 ===');
+        
+        // var在循环中的问题
+        console.log('var在循环中的问题:');
+        var varFunctions = [];
+        
+        for (var i = 0; i < 3; i++) {
+            varFunctions[i] = function() {
+                return i; // 所有函数都引用同一个i
+            };
+        }
+        
+        varFunctions.forEach((fn, index) => {
+            console.log(`varFunctions[${index}]():`, fn()); // 都是3
+        });
+        
+        // let解决循环作用域问题
+        console.log('let解决循环作用域问题:');
+        const letFunctions = [];
+        
+        for (let j = 0; j < 3; j++) {
+            letFunctions[j] = function() {
+                return j; // 每个函数都有自己的j
+            };
+        }
+        
+        letFunctions.forEach((fn, index) => {
+            console.log(`letFunctions[${index}]():`, fn()); // 分别是0, 1, 2
+        });
+        
+        // 使用IIFE解决var的问题（ES6之前的方案）
+        console.log('IIFE解决方案:');
+        const iifeFunctions = [];
+        
+        for (var k = 0; k < 3; k++) {
+            iifeFunctions[k] = (function(index) {
+                return function() {
+                    return index;
+                };
+            })(k);
+        }
+        
+        iifeFunctions.forEach((fn, index) => {
+            console.log(`iifeFunctions[${index}]():`, fn()); // 分别是0, 1, 2
+        });
+    },
+    
+    /**
+     * const常量声明
+     */
+    constDeclaration() {
+        console.log('=== const常量声明 ===');
+        
+        // const基本特性
+        const PI = 3.14159;
+        console.log('const常量:', PI);
+        
+        try {
+            PI = 3.14; // 尝试修改常量
+        } catch (error) {
+            console.log('修改const常量错误:', error.message);
+        }
+        
+        // const对象和数组的特殊性
+        const constObject = {
+            name: 'JavaScript',
+            version: 'ES6'
+        };
+        
+        const constArray = [1, 2, 3];
+        
+        // 可以修改对象属性和数组元素
+        constObject.name = 'TypeScript';
+        constArray.push(4);
+        
+        console.log('修改const对象属性:', constObject);
+        console.log('修改const数组元素:', constArray);
+        
+        // 不能重新赋值整个对象或数组
+        try {
+            constObject = {}; // 错误
+        } catch (error) {
+            console.log('重新赋值const对象错误:', error.message);
+        }
+        
+        // 冻结对象防止属性修改
+        const frozenObject = Object.freeze({
+            name: 'Frozen',
+            value: 42
+        });
+        
+        frozenObject.name = 'Changed'; // 静默失败
+        console.log('冻结对象:', frozenObject); // 属性未改变
+        
+        // 深度冻结
+        function deepFreeze(obj) {
+            Object.getOwnPropertyNames(obj).forEach(name => {
+                const value = obj[name];
+                if (value && typeof value === 'object') {
+                    deepFreeze(value);
+                }
+            });
+            return Object.freeze(obj);
+        }
+        
+        const deepFrozenObject = deepFreeze({
+            level1: {
+                level2: {
+                    value: 'deep'
+                }
+            }
+        });
+        
+        deepFrozenObject.level1.level2.value = 'changed';
+        console.log('深度冻结对象:', deepFrozenObject);
+    }
+};
+
+BlockScopeExamples.varVsLet();
+setTimeout(() => BlockScopeExamples.loopScopeIssues(), 1000);
+setTimeout(() => BlockScopeExamples.constDeclaration(), 2000);
+```
+
+### 最佳实践和使用场景
+
+```javascript
+/**
+ * let/const最佳实践示例
+ */
+const BestPractices = {
+    /**
+     * 声明选择原则
+     */
+    declarationPrinciples() {
+        console.log('=== 声明选择原则 ===');
+        
+        // 原则1: 优先使用const
+        const config = {
+            apiUrl: 'https://api.example.com',
+            timeout: 5000
+        };
+        
+        const users = ['Alice', 'Bob', 'Charlie'];
+        
+        console.log('优先使用const:', { config, users });
+        
+        // 原则2: 需要重新赋值时使用let
+        let currentUser = null;
+        let isLoading = false;
+        
+        function loginUser(username) {
+            isLoading = true;
+            
+            // 模拟异步登录
+            setTimeout(() => {
+                currentUser = { username, id: Date.now() };
+                isLoading = false;
+                console.log('用户登录:', { currentUser, isLoading });
+            }, 100);
+        }
+        
+        loginUser('alice');
+        
+        // 原则3: 避免使用var
+        console.log('避免使用var的原因:');
+        console.log('- 函数作用域容易产生意外');
+        console.log('- 变量提升令人困惑');
+        console.log('- 可以重复声明');
+    },
+    
+    /**
+     * 模块作用域管理
+     */
+    moduleScope() {
+        console.log('=== 模块作用域管理 ===');
+        
+        // 模块级常量
+        const MODULE_NAME = 'UserManager';
+        const API_VERSION = 'v1';
+        const MAX_RETRY_COUNT = 3;
+        
+        // 模块内部状态
+        let retryCount = 0;
+        let lastError = null;
+        
+        // 导出的API
+        const UserManager = {
+            getModuleInfo() {
+                return {
+                    name: MODULE_NAME,
+                    version: API_VERSION,
+                    maxRetries: MAX_RETRY_COUNT
+                };
+            },
+            
+            async fetchUser(id) {
+                try {
+                    retryCount = 0; // 重置重试次数
+                    
+                    // 模拟API调用
+                    if (Math.random() > 0.7) {
+                        throw new Error('网络错误');
+                    }
+                    
+                    return { id, name: `User${id}` };
+                    
+                } catch (error) {
+                    lastError = error;
+                    retryCount++;
+                    
+                    if (retryCount < MAX_RETRY_COUNT) {
+                        console.log(`重试第${retryCount}次`);
+                        return this.fetchUser(id);
+                    }
+                    
+                    throw new Error(`获取用户失败，已重试${MAX_RETRY_COUNT}次`);
+                }
+            },
+            
+            getStatus() {
+                return {
+                    retryCount,
+                    lastError: lastError?.message
+                };
+            }
+        };
+        
+        console.log('模块信息:', UserManager.getModuleInfo());
+        
+        // 测试模块API
+        UserManager.fetchUser(123).then(
+            user => console.log('获取用户成功:', user),
+            error => console.log('获取用户失败:', error.message)
+        ).finally(() => {
+            console.log('模块状态:', UserManager.getStatus());
+        });
+    },
+    
+    /**
+     * 块级作用域的实际应用
+     */
+    practicalBlockScope() {
+        console.log('=== 块级作用域实际应用 ===');
+        
+        // 应用1: 条件性功能初始化
+        const features = ['feature1', 'feature2', 'feature3'];
+        
+        features.forEach(feature => {
+            if (feature === 'feature2') {
+                const specialConfig = {
+                    endpoint: `/api/${feature}`,
+                    method: 'POST',
+                    headers: { 'X-Special': 'true' }
+                };
+                
+                console.log(`${feature}特殊配置:`, specialConfig);
+                // specialConfig只在这个if块中存在
+            }
+        });
+        
+        // 应用2: 临时变量作用域限制
+        function processData(data) {
+            const result = [];
+            
+            // 数据验证阶段
+            {
+                const validator = {
+                    isValid: (item) => item && typeof item === 'object',
+                    hasRequiredFields: (item) => 'id' in item && 'name' in item
+                };
+                
+                data = data.filter(item => 
+                    validator.isValid(item) && validator.hasRequiredFields(item)
+                );
+                
+                console.log(`验证后数据量: ${data.length}`);
+                // validator只在验证阶段存在
+            }
+            
+            // 数据处理阶段
+            {
+                const processor = {
+                    normalize: (item) => ({
+                        ...item,
+                        name: item.name.trim().toLowerCase(),
+                        processed: true
+                    }),
+                    addTimestamp: (item) => ({
+                        ...item,
+                        timestamp: Date.now()
+                    })
+                };
+                
+                data.forEach(item => {
+                    let processed = processor.normalize(item);
+                    processed = processor.addTimestamp(processed);
+                    result.push(processed);
+                });
+                
+                console.log('数据处理完成');
+                // processor只在处理阶段存在
+            }
+            
+            return result;
+        }
+        
+        const testData = [
+            { id: 1, name: '  Alice  ' },
+            { id: 2, name: 'Bob' },
+            { name: 'Charlie' }, // 缺少id
+            { id: 3, name: '  David  ' }
+        ];
+        
+        const processedData = processData(testData);
+        console.log('处理结果:', processedData);
+    }
+};
+
+setTimeout(() => BestPractices.declarationPrinciples(), 3000);
+setTimeout(() => BestPractices.moduleScope(), 4000);
+setTimeout(() => BestPractices.practicalBlockScope(), 5000);
+```
+
+---
+
+## 19.2 解构赋值
+
+ES6的强大语法特性，简化数据提取操作。
+
+### 数组解构
+
+```javascript
+/**
+ * 数组解构示例
+ */
+const ArrayDestructuring = {
+    /**
+     * 基础数组解构
+     */
+    basicArrayDestructuring() {
+        console.log('=== 基础数组解构 ===');
+        
+        // 基本解构赋值
+        const numbers = [1, 2, 3, 4, 5];
+        const [first, second, third] = numbers;
+        
+        console.log('基本解构:', { first, second, third });
+        
+        // 跳过元素
+        const [a, , c, , e] = numbers;
+        console.log('跳过元素:', { a, c, e });
+        
+        // 默认值
+        const [x = 10, y = 20, z = 30] = [1, 2];
+        console.log('默认值:', { x, y, z });
+        
+        // 变量交换
+        let left = 'left';
+        let right = 'right';
+        [left, right] = [right, left];
+        console.log('变量交换:', { left, right });
+        
+        // 剩余元素
+        const [head, ...tail] = numbers;
+        console.log('剩余元素:', { head, tail });
+    },
+    
+    /**
+     * 嵌套数组解构
+     */
+    nestedArrayDestructuring() {
+        console.log('=== 嵌套数组解构 ===');
+        
+        const nestedArray = [1, [2, 3], [4, [5, 6]]];
+        
+        // 嵌套解构
+        const [a, [b, c], [d, [e, f]]] = nestedArray;
+        console.log('嵌套解构:', { a, b, c, d, e, f });
+        
+        // 部分嵌套解构
+        const [first, [second], rest] = nestedArray;
+        console.log('部分嵌套:', { first, second, rest });
+        
+        // 矩阵解构
+        const matrix = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ];
+        
+        const [[r1c1, r1c2], [r2c1, r2c2], [r3c1]] = matrix;
+        console.log('矩阵解构:', { r1c1, r1c2, r2c1, r2c2, r3c1 });
+    },
+    
+    /**
+     * 函数参数解构
+     */
+    functionParameterDestructuring() {
+        console.log('=== 函数参数解构 ===');
+        
+        // 数组参数解构
+        function processCoordinates([x, y, z = 0]) {
+            return {
+                position: { x, y, z },
+                distance: Math.sqrt(x * x + y * y + z * z)
+            };
+        }
+        
+        const coord2D = [3, 4];
+        const coord3D = [1, 2, 3];
+        
+        console.log('2D坐标处理:', processCoordinates(coord2D));
+        console.log('3D坐标处理:', processCoordinates(coord3D));
+        
+        // 返回值解构
+        function getMinMax(numbers) {
+            return [Math.min(...numbers), Math.max(...numbers)];
+        }
+        
+        const [min, max] = getMinMax([3, 7, 1, 9, 2]);
+        console.log('最值解构:', { min, max });
+        
+        // 多返回值处理
+        function divideWithRemainder(dividend, divisor) {
+            return [Math.floor(dividend / divisor), dividend % divisor];
+        }
+        
+        const [quotient, remainder] = divideWithRemainder(17, 5);
+        console.log('除法结果:', { quotient, remainder });
+    }
+};
+
+ArrayDestructuring.basicArrayDestructuring();
+setTimeout(() => ArrayDestructuring.nestedArrayDestructuring(), 500);
+setTimeout(() => ArrayDestructuring.functionParameterDestructuring(), 1000);
+```
+
+### 对象解构
+
+```javascript
+/**
+ * 对象解构示例
+ */
+const ObjectDestructuring = {
+    /**
+     * 基础对象解构
+     */
+    basicObjectDestructuring() {
+        console.log('=== 基础对象解构 ===');
+        
+        const user = {
+            id: 1,
+            name: 'Alice',
+            email: 'alice@example.com',
+            age: 25
+        };
+        
+        // 基本解构
+        const { id, name, email } = user;
+        console.log('基本解构:', { id, name, email });
+        
+        // 重命名变量
+        const { id: userId, name: userName } = user;
+        console.log('重命名变量:', { userId, userName });
+        
+        // 默认值
+        const { age, country = 'Unknown' } = user;
+        console.log('默认值:', { age, country });
+        
+        // 剩余属性
+        const { id: extractedId, ...userInfo } = user;
+        console.log('剩余属性:', { extractedId, userInfo });
+    },
+    
+    /**
+     * 嵌套对象解构
+     */
+    nestedObjectDestructuring() {
+        console.log('=== 嵌套对象解构 ===');
+        
+        const userProfile = {
+            personal: {
+                name: 'Bob',
+                age: 30,
+                address: {
+                    street: '123 Main St',
+                    city: 'New York',
+                    zipCode: '10001'
+                }
+            },
+            professional: {
+                company: 'Tech Corp',
+                position: 'Developer',
+                skills: ['JavaScript', 'React', 'Node.js']
+            }
+        };
+        
+        // 嵌套解构
+        const {
+            personal: {
+                name,
+                address: { city, zipCode }
+            },
+            professional: {
+                company,
+                skills: [primarySkill, ...otherSkills]
+            }
+        } = userProfile;
+        
+        console.log('嵌套解构:', {
+            name, city, zipCode, company, primarySkill, otherSkills
+        });
+        
+        // 深层默认值
+        const config = {
+            database: {
+                host: 'localhost'
+                // port 缺失
+            }
+        };
+        
+        const {
+            database: {
+                host,
+                port = 3306,
+                name: dbName = 'default_db'
+            } = {}
+        } = config;
+        
+        console.log('深层默认值:', { host, port, dbName });
+    },
+    
+    /**
+     * 实际应用场景
+     */
+    practicalApplications() {
+        console.log('=== 实际应用场景 ===');
+        
+        // API响应处理
+        const apiResponse = {
+            status: 'success',
+            data: {
+                users: [
+                    { id: 1, name: 'Alice' },
+                    { id: 2, name: 'Bob' }
+                ],
+                pagination: {
+                    page: 1,
+                    total: 100,
+                    hasNext: true
+                }
+            },
+            meta: {
+                timestamp: Date.now(),
+                version: 'v1'
+            }
+        };
+        
+        // 提取需要的数据
+        const {
+            status,
+            data: { 
+                users, 
+                pagination: { page, hasNext } 
+            },
+            meta: { timestamp }
+        } = apiResponse;
+        
+        console.log('API数据提取:', {
+            status, users, page, hasNext, timestamp
+        });
+        
+        // 函数参数解构
+        function createUser({
+            name,
+            email,
+            age = 18,
+            role = 'user',
+            preferences = {}
+        }) {
+            return {
+                id: Date.now(),
+                name,
+                email,
+                age,
+                role,
+                preferences,
+                createdAt: new Date().toISOString()
+            };
+        }
+        
+        const newUser = createUser({
+            name: 'Charlie',
+            email: 'charlie@example.com',
+            age: 28
+        });
+        
+        console.log('用户创建:', newUser);
+        
+        // 配置对象处理
+        function initializeApp({
+            apiUrl = 'https://api.example.com',
+            timeout = 5000,
+            retries = 3,
+            theme = { primary: '#007bff', secondary: '#6c757d' },
+            features = { notifications: true, analytics: false }
+        } = {}) {
+            
+            const {
+                theme: { primary, secondary },
+                features: { notifications, analytics }
+            } = { theme, features };
+            
+            return {
+                config: { apiUrl, timeout, retries },
+                ui: { primaryColor: primary, secondaryColor: secondary },
+                settings: { enableNotifications: notifications, enableAnalytics: analytics }
+            };
+        }
+        
+        const appConfig = initializeApp({
+            apiUrl: 'https://custom-api.com',
+            theme: { primary: '#ff6b6b' },
+            features: { analytics: true }
+        });
+        
+        console.log('应用配置:', appConfig);
+    }
+};
+
+setTimeout(() => ObjectDestructuring.basicObjectDestructuring(), 1500);
+setTimeout(() => ObjectDestructuring.nestedObjectDestructuring(), 2000);
+setTimeout(() => ObjectDestructuring.practicalApplications(), 2500);
+```
+
+---
+
+## 19.3 展开语法
+
+扩展运算符的强大功能。
+
+### 数组展开
+
+```javascript
+/**
+ * 数组展开语法示例
+ */
+const ArraySpread = {
+    /**
+     * 基础数组展开
+     */
+    basicArraySpread() {
+        console.log('=== 基础数组展开 ===');
+        
+        const arr1 = [1, 2, 3];
+        const arr2 = [4, 5, 6];
+        
+        // 数组合并
+        const merged = [...arr1, ...arr2];
+        console.log('数组合并:', merged);
+        
+        // 在特定位置插入元素
+        const inserted = [...arr1, 'middle', ...arr2];
+        console.log('插入元素:', inserted);
+        
+        // 数组复制（浅拷贝）
+        const copied = [...arr1];
+        console.log('数组复制:', copied);
+        console.log('是否为同一数组:', copied === arr1); // false
+        
+        // 转换类数组对象
+        function argsToArray() {
+            return [...arguments];
+        }
+        
+        const argsArray = argsToArray(1, 2, 3, 4);
+        console.log('arguments转数组:', argsArray);
+        
+        // 字符串转数组
+        const charArray = [...'Hello'];
+        console.log('字符串展开:', charArray);
+        
+        // Set转数组
+        const set = new Set([1, 2, 3, 3, 4]);
+        const uniqueArray = [...set];
+        console.log('Set转数组去重:', uniqueArray);
+    },
+    
+    /**
+     * 数组操作应用
+     */
+    arrayOperations() {
+        console.log('=== 数组操作应用 ===');
+        
+        const numbers = [3, 7, 1, 9, 2, 8];
+        
+        // 数学运算
+        const max = Math.max(...numbers);
+        const min = Math.min(...numbers);
+        console.log('最大值:', max, '最小值:', min);
+        
+        // 数组添加元素（不改变原数组）
+        const original = [1, 2, 3];
+        const addToStart = [0, ...original];
+        const addToEnd = [...original, 4];
+        const addToMiddle = [...original.slice(0, 2), 2.5, ...original.slice(2)];
+        
+        console.log('原数组:', original);
+        console.log('开头添加:', addToStart);
+        console.log('结尾添加:', addToEnd);
+        console.log('中间添加:', addToMiddle);
+        
+        // 数组去重
+        function uniqueArray(arr) {
+            return [...new Set(arr)];
+        }
+        
+        const duplicates = [1, 2, 3, 2, 4, 3, 5];
+        console.log('去重前:', duplicates);
+        console.log('去重后:', uniqueArray(duplicates));
+        
+        // 数组扁平化（一级）
+        const nested = [[1, 2], [3, 4], [5, 6]];
+        const flattened = [].concat(...nested);
+        console.log('扁平化:', flattened);
+    },
+    
+    /**
+     * 函数参数展开
+     */
+    functionArguments() {
+        console.log('=== 函数参数展开 ===');
+        
+        // 函数调用时展开数组
+        function sum(a, b, c) {
+            return a + b + c;
+        }
+        
+        const values = [1, 2, 3];
+        console.log('传统方式:', sum.apply(null, values));
+        console.log('展开语法:', sum(...values));
+        
+        // 动态参数函数
+        function logAll(...args) {
+            console.log('所有参数:', args);
+            args.forEach((arg, index) => {
+                console.log(`参数${index + 1}:`, arg);
+            });
+        }
+        
+        logAll('hello', 42, true, { name: 'test' });
+        
+        // 组合剩余参数和展开语法
+        function processItems(first, second, ...rest) {
+            console.log('第一个:', first);
+            console.log('第二个:', second);
+            console.log('其余的:', rest);
+            
+            // 递归处理剩余项
+            if (rest.length > 0) {
+                processItems(...rest);
+            }
+        }
+        
+        processItems(1, 2, 3, 4, 5);
+    }
+};
+
+ArraySpread.basicArraySpread();
+setTimeout(() => ArraySpread.arrayOperations(), 1000);
+setTimeout(() => ArraySpread.functionArguments(), 2000);
+```
+
+### 对象展开
+
+```javascript
+/**
+ * 对象展开语法示例
+ */
+const ObjectSpread = {
+    /**
+     * 基础对象展开
+     */
+    basicObjectSpread() {
+        console.log('=== 基础对象展开 ===');
+        
+        const obj1 = { a: 1, b: 2 };
+        const obj2 = { c: 3, d: 4 };
+        
+        // 对象合并
+        const merged = { ...obj1, ...obj2 };
+        console.log('对象合并:', merged);
+        
+        // 对象复制（浅拷贝）
+        const copied = { ...obj1 };
+        console.log('对象复制:', copied);
+        console.log('是否为同一对象:', copied === obj1); // false
+        
+        // 属性覆盖
+        const base = { name: 'Alice', age: 25, city: 'New York' };
+        const updated = { ...base, age: 26, country: 'USA' };
+        console.log('属性覆盖:', updated);
+        
+        // 条件属性展开
+        const includeExtra = true;
+        const conditional = {
+            id: 1,
+            name: 'Bob',
+            ...(includeExtra && { extra: 'additional info' })
+        };
+        console.log('条件属性:', conditional);
+    },
+    
+    /**
+     * 实际应用场景
+     */
+    practicalApplications() {
+        console.log('=== 实际应用场景 ===');
+        
+        // 默认配置合并
+        function createConfig(userConfig = {}) {
+            const defaultConfig = {
+                host: 'localhost',
+                port: 3000,
+                protocol: 'http',
+                timeout: 5000,
+                retries: 3
+            };
+            
+            return { ...defaultConfig, ...userConfig };
+        }
+        
+        const config1 = createConfig();
+        const config2 = createConfig({ port: 8080, protocol: 'https' });
+        
+        console.log('默认配置:', config1);
+        console.log('自定义配置:', config2);
+        
+        // 状态更新（React风格）
+        const initialState = {
+            user: null,
+            isLoading: false,
+            error: null,
+            posts: []
+        };
+        
+        // 模拟状态更新
+        function updateState(state, action) {
+            switch (action.type) {
+                case 'SET_LOADING':
+                    return { ...state, isLoading: action.payload };
+                
+                case 'SET_USER':
+                    return { 
+                        ...state, 
+                        user: action.payload,
+                        isLoading: false,
+                        error: null 
+                    };
+                
+                case 'SET_ERROR':
+                    return { 
+                        ...state, 
+                        error: action.payload,
+                        isLoading: false 
+                    };
+                
+                case 'ADD_POST':
+                    return {
+                        ...state,
+                        posts: [...state.posts, action.payload]
+                    };
+                
+                default:
+                    return state;
+            }
+        }
+        
+        let state = initialState;
+        console.log('初始状态:', state);
+        
+        state = updateState(state, { type: 'SET_LOADING', payload: true });
+        console.log('设置加载中:', state);
+        
+        state = updateState(state, { 
+            type: 'SET_USER', 
+            payload: { id: 1, name: 'Alice' } 
+        });
+        console.log('设置用户:', state);
+        
+        state = updateState(state, { 
+            type: 'ADD_POST', 
+            payload: { id: 1, title: '第一篇文章' } 
+        });
+        console.log('添加文章:', state);
+        
+        // 表单数据处理
+        function processFormData(formData, updates) {
+            return {
+                ...formData,
+                ...updates,
+                updatedAt: new Date().toISOString()
+            };
+        }
+        
+        const originalForm = {
+            name: 'John',
+            email: 'john@example.com',
+            age: 30
+        };
+        
+        const updatedForm = processFormData(originalForm, {
+            age: 31,
+            phone: '+1234567890'
+        });
+        
+        console.log('表单更新:', updatedForm);
+    },
+    
+    /**
+     * 深度操作和注意事项
+     */
+    deepOperationsAndCaveats() {
+        console.log('=== 深度操作和注意事项 ===');
+        
+        // 浅拷贝的限制
+        const original = {
+            id: 1,
+            user: { name: 'Alice', age: 25 },
+            tags: ['tag1', 'tag2']
+        };
+        
+        const shallowCopy = { ...original };
+        
+        // 修改嵌套对象会影响原对象
+        shallowCopy.user.name = 'Bob';
+        shallowCopy.tags.push('tag3');
+        
+        console.log('原对象:', original); // user.name被改为Bob，tags也被修改
+        console.log('浅拷贝:', shallowCopy);
+        
+        // 深拷贝解决方案
+        function deepClone(obj) {
+            if (obj === null || typeof obj !== 'object') {
+                return obj;
+            }
+            
+            if (obj instanceof Date) {
+                return new Date(obj);
+            }
+            
+            if (Array.isArray(obj)) {
+                return obj.map(deepClone);
+            }
+            
+            const cloned = {};
+            for (const key in obj) {
+                if (obj.hasOwnProperty(key)) {
+                    cloned[key] = deepClone(obj[key]);
+                }
+            }
+            
+            return cloned;
+        }
+        
+        const deepCopy = deepClone({
+            id: 2,
+            user: { name: 'Charlie', age: 28 },
+            tags: ['javascript', 'es6']
+        });
+        
+        deepCopy.user.name = 'David';
+        deepCopy.tags.push('react');
+        
+        console.log('深拷贝测试:', deepCopy);
+        
+        // 嵌套展开的正确方式
+        const nestedUpdate = {
+            ...original,
+            user: {
+                ...original.user,
+                age: 26  // 只更新age，保留其他属性
+            },
+            tags: [...original.tags, 'newtag'] // 添加新标签
+        };
+        
+        console.log('正确的嵌套更新:', nestedUpdate);
+    }
+};
+
+setTimeout(() => ObjectSpread.basicObjectSpread(), 3000);
+setTimeout(() => ObjectSpread.practicalApplications(), 4000);
+setTimeout(() => ObjectSpread.deepOperationsAndCaveats(), 5000);
+```
+
+---
+
+## 19.4 模板字符串
+
+现代字符串处理方式。
+
+### 基础用法和插值
+
+```javascript
+/**
+ * 模板字符串基础用法示例
+ */
+const TemplateStrings = {
+    /**
+     * 基础语法和插值
+     */
+    basicSyntax() {
+        console.log('=== 基础语法和插值 ===');
+        
+        const name = 'Alice';
+        const age = 25;
+        const city = 'New York';
+        
+        // 基本插值
+        const greeting = `Hello, ${name}!`;
+        console.log('基本插值:', greeting);
+        
+        // 表达式计算
+        const info = `${name} is ${age} years old and will be ${age + 1} next year.`;
+        console.log('表达式计算:', info);
+        
+        // 多行字符串
+        const multiline = `
+            Name: ${name}
+            Age: ${age}
+            City: ${city}
+            Status: Active
+        `;
+        console.log('多行字符串:', multiline);
+        
+        // 嵌套模板字符串
+        const nested = `User: ${name} (${age > 18 ? 'Adult' : 'Minor'})`;
+        console.log('嵌套模板:', nested);
+        
+        // 函数调用
+        function formatDate(date) {
+            return date.toLocaleDateString();
+        }
+        
+        const today = new Date();
+        const dateInfo = `Today is ${formatDate(today)}`;
+        console.log('函数调用:', dateInfo);
+    },
+    
+    /**
+     * HTML模板生成
+     */
+    htmlTemplates() {
+        console.log('=== HTML模板生成 ===');
+        
+        const user = {
+            id: 1,
+            name: 'Bob',
+            email: 'bob@example.com',
+            avatar: 'https://example.com/avatar.jpg',
+            posts: [
+                { id: 1, title: '第一篇文章', date: '2023-01-01' },
+                { id: 2, title: '第二篇文章', date: '2023-01-02' }
+            ]
+        };
+        
+        // 用户卡片模板
+        const userCard = `
+            <div class="user-card">
+                <img src="${user.avatar}" alt="${user.name}">
+                <h3>${user.name}</h3>
+                <p>Email: ${user.email}</p>
+                <p>Posts: ${user.posts.length}</p>
+            </div>
+        `;
+        
+        console.log('用户卡片HTML:', userCard);
+        
+        // 列表模板
+        const postsList = `
+            <ul class="posts-list">
+                ${user.posts.map(post => `
+                    <li class="post-item">
+                        <h4>${post.title}</h4>
+                        <span class="date">${post.date}</span>
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+        
+        console.log('文章列表HTML:', postsList);
+        
+        // 条件渲染
+        const statusBadge = `
+            <span class="badge ${user.posts.length > 0 ? 'active' : 'inactive'}">
+                ${user.posts.length > 0 ? 'Active User' : 'New User'}
+            </span>
+        `;
+        
+        console.log('状态徽章:', statusBadge);
+    },
+    
+    /**
+     * CSS样式模板
+     */
+    cssTemplates() {
+        console.log('=== CSS样式模板 ===');
+        
+        const theme = {
+            primary: '#007bff',
+            secondary: '#6c757d',
+            success: '#28a745',
+            warning: '#ffc107',
+            danger: '#dc3545'
+        };
+        
+        const spacing = {
+            small: '8px',
+            medium: '16px',
+            large: '24px'
+        };
+        
+        // CSS变量生成
+        const cssVariables = `
+            :root {
+                ${Object.entries(theme).map(([key, value]) => 
+                    `--color-${key}: ${value};`
+                ).join('\n                ')}
+                
+                ${Object.entries(spacing).map(([key, value]) => 
+                    `--spacing-${key}: ${value};`
+                ).join('\n                ')}
+            }
+        `;
+        
+        console.log('CSS变量:', cssVariables);
+        
+        // 响应式样式
+        function generateBreakpoint(size, rules) {
+            return `
+                @media (min-width: ${size}) {
+                    ${rules}
+                }
+            `;
+        }
+        
+        const responsiveCSS = `
+            .container {
+                padding: var(--spacing-medium);
+                background: var(--color-primary);
+            }
+            
+            ${generateBreakpoint('768px', `
+                .container {
+                    padding: var(--spacing-large);
+                }
+            `)}
+        `;
+        
+        console.log('响应式CSS:', responsiveCSS);
+    }
+};
+
+TemplateStrings.basicSyntax();
+setTimeout(() => TemplateStrings.htmlTemplates(), 1000);
+setTimeout(() => TemplateStrings.cssTemplates(), 2000);
+```
+
+### 标签模板函数
+
+```javascript
+/**
+ * 标签模板函数示例
+ */
+const TaggedTemplates = {
+    /**
+     * 基础标签函数
+     */
+    basicTaggedTemplates() {
+        console.log('=== 基础标签函数 ===');
+        
+        // 简单标签函数
+        function highlight(strings, ...values) {
+            console.log('strings:', strings);
+            console.log('values:', values);
+            
+            return strings.reduce((result, string, index) => {
+                const value = values[index] ? `<mark>${values[index]}</mark>` : '';
+                return result + string + value;
+            }, '');
+        }
+        
+        const name = 'JavaScript';
+        const version = 'ES6';
+        const result = highlight`Learning ${name} with ${version}`;
+        console.log('高亮结果:', result);
+        
+        // 大写标签函数
+        function upper(strings, ...values) {
+            return strings.reduce((result, string, index) => {
+                const value = values[index] ? values[index].toString().toUpperCase() : '';
+                return result + string + value;
+            }, '');
+        }
+        
+        const upperResult = upper`Hello ${name}, welcome to ${version}!`;
+        console.log('大写结果:', upperResult);
+        
+        // 安全HTML标签函数
+        function safeHTML(strings, ...values) {
+            function escapeHTML(str) {
+                return str.toString()
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+            
+            return strings.reduce((result, string, index) => {
+                const value = values[index] ? escapeHTML(values[index]) : '';
+                return result + string + value;
+            }, '');
+        }
+        
+        const userInput = '<script>alert("XSS")</script>';
+        const safeResult = safeHTML`User input: ${userInput}`;
+        console.log('安全HTML:', safeResult);
+    },
+    
+    /**
+     * 实用标签函数
+     */
+    practicalTaggedTemplates() {
+        console.log('=== 实用标签函数 ===');
+        
+        // SQL查询构建器
+        function sql(strings, ...values) {
+            const query = strings.reduce((result, string, index) => {
+                const value = values[index];
+                if (typeof value === 'string') {
+                    return result + string + `'${value.replace(/'/g, "''")}'`;
+                } else if (typeof value === 'number') {
+                    return result + string + value;
+                } else if (Array.isArray(value)) {
+                    return result + string + value.map(v => 
+                        typeof v === 'string' ? `'${v}'` : v
+                    ).join(', ');
+                } else {
+                    return result + string + (value || 'NULL');
+                }
+            }, '');
+            
+            return {
+                query,
+                execute() {
+                    console.log('执行SQL:', query);
+                    return { success: true, query };
+                }
+            };
+        }
+        
+        const userId = 123;
+        const userName = "John's Data";
+        const tags = ['javascript', 'nodejs', 'react'];
+        
+        const queryBuilder = sql`
+            SELECT * FROM users 
+            WHERE id = ${userId} 
+            AND name = ${userName}
+            AND tags IN (${tags})
+        `;
+        
+        queryBuilder.execute();
+        
+        // 国际化标签函数
+        const translations = {
+            'en': {
+                'hello': 'Hello',
+                'welcome': 'Welcome',
+                'user': 'User'
+            },
+            'zh': {
+                'hello': '你好',
+                'welcome': '欢迎',
+                'user': '用户'
+            }
+        };
+        
+        let currentLang = 'en';
+        
+        function i18n(strings, ...keys) {
+            return strings.reduce((result, string, index) => {
+                const key = keys[index];
+                const translation = key ? (translations[currentLang][key] || key) : '';
+                return result + string + translation;
+            }, '');
+        }
+        
+        const greeting = i18n`${'hello'}, ${'welcome'} to our app!`;
+        console.log('英文:', greeting);
+        
+        currentLang = 'zh';
+        const greetingZh = i18n`${'hello'}, ${'welcome'} to our app!`;
+        console.log('中文:', greetingZh);
+        
+        // 样式化控制台输出
+        function styled(strings, ...values) {
+            const styles = [];
+            let output = strings.reduce((result, string, index) => {
+                const value = values[index];
+                if (value && value.style) {
+                    styles.push(value.style);
+                    return result + string + `%c${value.text}%c`;
+                } else {
+                    return result + string + (value || '');
+                }
+            }, '');
+            
+            // 为每个样式后添加重置样式
+            const allStyles = styles.reduce((acc, style) => {
+                acc.push(style, '');
+                return acc;
+            }, []);
+            
+            return [output, ...allStyles];
+        }
+        
+        const red = { text: 'ERROR', style: 'color: red; font-weight: bold' };
+        const blue = { text: 'INFO', style: 'color: blue; font-weight: bold' };
+        
+        const styledMessage = styled`[${red}] Failed to connect to ${blue} server`;
+        console.log(...styledMessage);
+    },
+    
+    /**
+     * 高级标签函数应用
+     */
+    advancedApplications() {
+        console.log('=== 高级标签函数应用 ===');
+        
+        // 模板缓存标签函数
+        const templateCache = new Map();
+        
+        function cached(strings, ...values) {
+            const key = strings.join('{{}}');
+            
+            if (!templateCache.has(key)) {
+                const template = strings.reduce((result, string, index) => {
+                    return result + string + (index < values.length ? `{{${index}}}` : '');
+                }, '');
+                templateCache.set(key, template);
+                console.log('缓存模板:', key);
+            }
+            
+            let output = templateCache.get(key);
+            values.forEach((value, index) => {
+                output = output.replace(`{{${index}}}`, value);
+            });
+            
+            return output;
+        }
+        
+        // 多次使用相同模板
+        const template1 = cached`Hello ${name}, today is ${'Monday'}`;
+        const template2 = cached`Hello ${'Bob'}, today is ${'Tuesday'}`;
+        
+        console.log('缓存结果1:', template1);
+        console.log('缓存结果2:', template2);
+        console.log('缓存大小:', templateCache.size);
+        
+        // GraphQL查询构建器
+        function graphql(strings, ...values) {
+            const query = strings.reduce((result, string, index) => {
+                const value = values[index];
+                if (value && value.fragment) {
+                    return result + string + value.fragment;
+                } else if (value && value.variable) {
+                    return result + string + `$${value.variable}`;
+                } else {
+                    return result + string + (value || '');
+                }
+            }, '');
+            
+            return {
+                query: query.trim(),
+                variables: values.filter(v => v && v.variable).reduce((vars, v) => {
+                    vars[v.variable] = v.value;
+                    return vars;
+                }, {}),
+                execute() {
+                    console.log('GraphQL查询:', this.query);
+                    console.log('查询变量:', this.variables);
+                    return Promise.resolve({ data: {} });
+                }
+            };
+        }
+        
+        const userIdVar = { variable: 'userId', value: 123 };
+        const userFragment = { fragment: 'name email createdAt' };
+        
+        const gqlQuery = graphql`
+            query GetUser(${userIdVar}: ID!) {
+                user(id: ${userIdVar}) {
+                    ${userFragment}
+                }
+            }
+        `;
+        
+        gqlQuery.execute();
+    }
+};
+
+setTimeout(() => TaggedTemplates.basicTaggedTemplates(), 3000);
+setTimeout(() => TaggedTemplates.practicalTaggedTemplates(), 4000);
+setTimeout(() => TaggedTemplates.advancedApplications(), 5000);
+```
+
+---
+
+## 19.5 数组与对象增强语法
+
+ES6对数组和对象的语法增强。
+
+### 简写语法
+
+```javascript
+/**
+ * ES6简写语法示例
+ */
+const ShorthandSyntax = {
+    /**
+     * 对象属性简写
+     */
+    objectShorthand() {
+        console.log('=== 对象属性简写 ===');
+        
+        const name = 'Alice';
+        const age = 25;
+        const city = 'New York';
+        
+        // ES5写法
+        const userES5 = {
+            name: name,
+            age: age,
+            city: city
+        };
+        
+        // ES6简写
+        const userES6 = { name, age, city };
+        
+        console.log('ES5对象:', userES5);
+        console.log('ES6简写:', userES6);
+        
+        // 方法简写
+        const calculator = {
+            // ES5写法
+            addES5: function(a, b) {
+                return a + b;
+            },
+            
+            // ES6简写
+            add(a, b) {
+                return a + b;
+            },
+            
+            // 箭头函数属性
+            multiply: (a, b) => a * b,
+            
+            // 计算属性名
+            ['subtract'](a, b) {
+                return a - b;
+            }
+        };
+        
+        console.log('计算器方法:');
+        console.log('加法:', calculator.add(5, 3));
+        console.log('乘法:', calculator.multiply(4, 6));
+        console.log('减法:', calculator.subtract(10, 3));
+    },
+    
+    /**
+     * 计算属性名
+     */
+    computedPropertyNames() {
+        console.log('=== 计算属性名 ===');
+        
+        const prefix = 'user';
+        const suffix = 'Info';
+        
+        const dynamicObj = {
+            [prefix + suffix]: 'dynamic property',
+            [`${prefix}Name`]: 'Alice',
+            [`${prefix}Age`]: 25,
+            [Symbol.iterator]: function* () {
+                yield this.userName;
+                yield this.userAge;
+            }
+        };
+        
+        console.log('动态属性对象:', dynamicObj);
+        console.log('迭代器结果:', [...dynamicObj]);
+        
+        // 动态方法名
+        function createAPI(resource) {
+            return {
+                [`get${resource}`]() {
+                    return `Getting ${resource}`;
+                },
+                [`create${resource}`](data) {
+                    return `Creating ${resource} with data: ${JSON.stringify(data)}`;
+                },
+                [`update${resource}`](id, data) {
+                    return `Updating ${resource} ${id} with: ${JSON.stringify(data)}`;
+                },
+                [`delete${resource}`](id) {
+                    return `Deleting ${resource} ${id}`;
+                }
+            };
+        }
+        
+        const userAPI = createAPI('User');
+        const productAPI = createAPI('Product');
+        
+        console.log('用户API:', userAPI.getUser());
+        console.log('产品API:', productAPI.createProduct({ name: 'iPhone' }));
+    },
+    
+    /**
+     * 增强的对象字面量
+     */
+    enhancedObjectLiterals() {
+        console.log('=== 增强的对象字面量 ===');
+        
+        // super关键字
+        const parent = {
+            greet() {
+                return 'Hello from parent';
+            }
+        };
+        
+        const child = {
+            __proto__: parent,
+            greet() {
+                return super.greet() + ' and child';
+            }
+        };
+        
+        console.log('super调用:', child.greet());
+        
+        // 混合使用各种语法
+        function createUserProfile(name, age, skills) {
+            const prefix = 'profile';
+            
+            return {
+                // 属性简写
+                name,
+                age,
+                skills,
+                
+                // 计算属性
+                [prefix + 'Id']: Math.random().toString(36).substr(2, 9),
+                [`${prefix}CreatedAt`]: new Date().toISOString(),
+                
+                // 方法简写
+                getInfo() {
+                    return `${this.name} (${this.age}) - ${this.skills.join(', ')}`;
+                },
+                
+                // 箭头函数属性
+                getSkillCount: () => skills.length,
+                
+                // getter/setter
+                get displayName() {
+                    return this.name.toUpperCase();
+                },
+                
+                set displayName(value) {
+                    this.name = value.toLowerCase();
+                },
+                
+                // 生成器方法
+                * skillIterator() {
+                    for (const skill of this.skills) {
+                        yield skill.toUpperCase();
+                    }
+                }
+            };
+        }
+        
+        const profile = createUserProfile('Bob', 30, ['JavaScript', 'React', 'Node.js']);
+        
+        console.log('用户资料:', profile.getInfo());
+        console.log('显示名称:', profile.displayName);
+        console.log('技能迭代:', [...profile.skillIterator()]);
+        
+        profile.displayName = 'BOBBY';
+        console.log('修改后名称:', profile.name);
+    }
+};
+
+ShorthandSyntax.objectShorthand();
+setTimeout(() => ShorthandSyntax.computedPropertyNames(), 1000);
+setTimeout(() => ShorthandSyntax.enhancedObjectLiterals(), 2000);
+```
+
+### 新增方法
+
+```javascript
+/**
+ * ES6新增方法示例
+ */
+const NewMethods = {
+    /**
+     * Object新增方法
+     */
+    objectNewMethods() {
+        console.log('=== Object新增方法 ===');
+        
+        // Object.assign() - 对象合并
+        const target = { a: 1, b: 2 };
+        const source1 = { b: 3, c: 4 };
+        const source2 = { c: 5, d: 6 };
+        
+        const merged = Object.assign({}, target, source1, source2);
+        console.log('Object.assign合并:', merged);
+        
+        // Object.is() - 更精确的相等比较
+        console.log('Object.is比较:');
+        console.log('Object.is(NaN, NaN):', Object.is(NaN, NaN)); // true
+        console.log('Object.is(+0, -0):', Object.is(+0, -0)); // false
+        console.log('Object.is(1, 1):', Object.is(1, 1)); // true
+        
+        // 与===的对比
+        console.log('NaN === NaN:', NaN === NaN); // false
+        console.log('+0 === -0:', +0 === -0); // true
+        
+        // Object.setPrototypeOf() / Object.getPrototypeOf()
+        const proto = { type: 'prototype' };
+        const obj = { name: 'object' };
+        
+        Object.setPrototypeOf(obj, proto);
+        console.log('原型设置后:', obj.type);
+        console.log('获取原型:', Object.getPrototypeOf(obj) === proto);
+        
+        // Object.keys() / Object.values() / Object.entries()
+        const sample = { x: 1, y: 2, z: 3 };
+        
+        console.log('Object.keys:', Object.keys(sample));
+        console.log('Object.values:', Object.values(sample));
+        console.log('Object.entries:', Object.entries(sample));
+        
+        // Object.fromEntries()
+        const entries = [['name', 'Alice'], ['age', 25], ['city', 'NYC']];
+        const fromEntries = Object.fromEntries(entries);
+        console.log('Object.fromEntries:', fromEntries);
+    },
+    
+    /**
+     * Array新增方法
+     */
+    arrayNewMethods() {
+        console.log('=== Array新增方法 ===');
+        
+        // Array.from() - 类数组转数组
+        const arrayLike = { 0: 'a', 1: 'b', 2: 'c', length: 3 };
+        const fromArrayLike = Array.from(arrayLike);
+        console.log('Array.from类数组:', fromArrayLike);
+        
+        // Array.from with mapping function
+        const numbers = Array.from({ length: 5 }, (_, index) => index * 2);
+        console.log('Array.from映射:', numbers);
+        
+        // Array.from string
+        const chars = Array.from('Hello');
+        console.log('Array.from字符串:', chars);
+        
+        // Array.of() - 创建数组
+        const ofArray1 = Array.of(7); // [7]
+        const ofArray2 = Array.of(1, 2, 3); // [1, 2, 3]
+        const constructor1 = Array(7); // [ <7 empty items> ]
+        const constructor2 = Array(1, 2, 3); // [1, 2, 3]
+        
+        console.log('Array.of(7):', ofArray1);
+        console.log('Array(7):', constructor1);
+        console.log('Array.of(1,2,3):', ofArray2);
+        
+        // find() / findIndex()
+        const users = [
+            { id: 1, name: 'Alice', active: true },
+            { id: 2, name: 'Bob', active: false },
+            { id: 3, name: 'Charlie', active: true }
+        ];
+        
+        const activeUser = users.find(user => user.active);
+        const inactiveUserIndex = users.findIndex(user => !user.active);
+        
+        console.log('find活跃用户:', activeUser);
+        console.log('findIndex非活跃用户:', inactiveUserIndex);
+        
+        // includes()
+        const fruits = ['apple', 'banana', 'orange'];
+        console.log('includes苹果:', fruits.includes('apple'));
+        console.log('includes葡萄:', fruits.includes('grape'));
+        
+        // flat() / flatMap()
+        const nested = [1, [2, 3], [4, [5, 6]]];
+        console.log('flat(1):', nested.flat(1));
+        console.log('flat(2):', nested.flat(2));
+        
+        const sentences = ['hello world', 'foo bar'];
+        const words = sentences.flatMap(sentence => sentence.split(' '));
+        console.log('flatMap分词:', words);
+    },
+    
+    /**
+     * String新增方法
+     */
+    stringNewMethods() {
+        console.log('=== String新增方法 ===');
+        
+        const str = 'Hello World';
+        
+        // startsWith() / endsWith() / includes()
+        console.log('startsWith "Hello":', str.startsWith('Hello'));
+        console.log('endsWith "World":', str.endsWith('World'));
+        console.log('includes "lo W":', str.includes('lo W'));
+        
+        // repeat()
+        const repeated = 'Hi! '.repeat(3);
+        console.log('repeat重复:', repeated);
+        
+        // padStart() / padEnd()
+        const num = '42';
+        console.log('padStart填充:', num.padStart(5, '0')); // "00042"
+        console.log('padEnd填充:', num.padEnd(5, '*')); // "42***"
+        
+        // trim family
+        const whitespace = '  hello world  ';
+        console.log('trim:', `"${whitespace.trim()}"`);
+        console.log('trimStart:', `"${whitespace.trimStart()}"`);
+        console.log('trimEnd:', `"${whitespace.trimEnd()}"`);
+        
+        // 实际应用：格式化输出
+        function formatTable(data) {
+            const maxWidth = Math.max(...data.map(item => item.toString().length));
+            
+            return data.map(item => 
+                item.toString().padStart(maxWidth, ' ')
+            ).join('\n');
+        }
+        
+        const tableData = [1, 12, 123, 1234];
+        console.log('格式化表格:\n' + formatTable(tableData));
+        
+        // 实际应用：生成固定长度ID
+        function generateId(prefix = 'ID', length = 8) {
+            const randomPart = Math.random().toString(36).substr(2);
+            return (prefix + randomPart).substr(0, length).padEnd(length, '0');
+        }
+        
+        console.log('生成ID示例:');
+        for (let i = 0; i < 3; i++) {
+            console.log(generateId('USER', 10));
+        }
+    }
+};
+
+setTimeout(() => NewMethods.objectNewMethods(), 3000);
+setTimeout(() => NewMethods.arrayNewMethods(), 4000);
+setTimeout(() => NewMethods.stringNewMethods(), 5000);
+```
+
+---
+
+**本章总结**
+
+第19章全面介绍了ES6核心语法特性：
+
+1. **let/const声明**：
+   - 块级作用域和暂时性死区
+   - 循环中的作用域问题解决
+   - 常量声明和最佳实践
+
+2. **解构赋值**：
+   - 数组解构的各种模式
+   - 对象解构和嵌套处理
+   - 函数参数解构应用
+
+3. **展开语法**：
+   - 数组展开操作和应用
+   - 对象展开和属性合并
+   - 函数参数展开和剩余参数
+
+4. **模板字符串**：
+   - 基础插值和多行字符串
+   - HTML/CSS模板生成
+   - 标签模板函数的强大功能
+
+5. **增强语法**：
+   - 对象属性和方法简写
+   - 计算属性名和动态对象
+   - ES6新增的实用方法
+
+**关键要点**：
+- ES6语法让JavaScript代码更简洁优雅
+- 解构和展开语法大大简化了数据操作
+- 模板字符串提供了强大的字符串处理能力
+- 新增方法丰富了数组、对象、字符串的操作
+
+**下一章预告**
+
+第20章将学习ES6新数据结构，包括Map、Set、WeakMap、WeakSet等新的集合类型，以及它们在实际开发中的典型应用场景。
