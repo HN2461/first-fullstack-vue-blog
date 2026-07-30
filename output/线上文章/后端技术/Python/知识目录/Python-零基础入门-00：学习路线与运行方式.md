@@ -3,16 +3,22 @@ title: "Python 零基础入门 00：学习路线与运行方式"
 slug: "python-zero-learning-guide"
 summary: "面向已经接触过前端 JavaScript、正在学习 Python 的读者，说明这套 Python 入门笔记怎么学、怎么运行代码，以及如何用 Python 和 JS 对照学习，避免两个语言概念混在一起。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 0
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a4a4304f9ac958d2917602a"
 originalSlug: "python-zero-learning-guide"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.623Z"
+updatedAt: "2026-07-30T14:44:46.107Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 00：学习路线与运行方式
 

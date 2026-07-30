@@ -3,6 +3,11 @@ title: "Agent Skills 高级用法与进阶技巧"
 slug: "ai-skill-agentskills-b37a5530"
 summary: "按 2026-07-04 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。"
 category: "Skill"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "Skill"
 tags:
   - "Agent Skills"
   - "SKILL.md"
@@ -11,13 +16,15 @@ tags:
   - "Kiro"
   - "进阶技巧"
   - "版本边界"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac01a"
 originalSlug: "ai-skill-agentskills-b37a5530"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T14:29:34.181Z"
+updatedAt: "2026-07-30T14:24:30.315Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Agent Skills 高级用法与进阶技巧
 

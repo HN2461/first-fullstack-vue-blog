@@ -3,14 +3,20 @@ title: "Webpack入门"
 slug: "js-webpack-7e2ea348"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 130
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac104"
 originalSlug: "js-webpack-7e2ea348"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.496Z"
+updatedAt: "2026-06-17T12:38:50.562Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第26章 Webpack入门
 

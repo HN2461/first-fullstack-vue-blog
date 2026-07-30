@@ -3,14 +3,20 @@ title: "延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 到底测�
 slug: "latency-test-methods-tcping-icmp-urltest-rtt-20260705"
 summary: "解释常见节点测速方式的测量对象、适用场景和误判来源，区分入口延迟、完整链路延迟、握手开销和真实使用体验。"
 category: "代理与VPN"
+categoryPath:
+  - "电脑"
+  - "电脑网络"
+  - "代理与VPN"
 tags: []
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a4a451af9ac958d29177b5b"
 originalSlug: "latency-test-methods-tcping-icmp-urltest-rtt-20260705"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:51:14.541Z"
+updatedAt: "2026-07-05T11:51:14.542Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ## 小白先看
 

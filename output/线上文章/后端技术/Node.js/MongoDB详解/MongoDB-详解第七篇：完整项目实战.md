@@ -3,6 +3,10 @@ title: "MongoDB 详解第七篇：完整项目实战"
 slug: "node-js-mongodb-f251a01d"
 summary: "用 Express + MongoDB + Mongoose 搭建一个真正适合练手和扩展的笔记 API 项目，把建模、鉴权、索引、分页、搜索和软删除组织成完整工程。"
 category: "MongoDB详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "MongoDB详解"
 tags:
   - "MongoDB"
   - "Mongoose"
@@ -11,13 +15,15 @@ tags:
   - "项目实战"
   - "分页搜索"
   - "软删除"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 70
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac136"
 originalSlug: "node-js-mongodb-f251a01d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-06T11:39:25.707Z"
+updatedAt: "2026-06-13T10:28:27.566Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # MongoDB 详解第七篇：完整项目实战
 

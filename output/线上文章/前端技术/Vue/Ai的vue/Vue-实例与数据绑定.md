@@ -3,14 +3,20 @@ title: "Vue 实例与数据绑定"
 slug: "vue-ai-vue-vue-f2943706"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 280
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac282"
 originalSlug: "vue-ai-vue-vue-f2943706"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T12:59:09.413Z"
+updatedAt: "2026-06-13T10:28:28.047Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第3章 Vue 实例与数据绑定
 

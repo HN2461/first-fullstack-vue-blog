@@ -3,19 +3,26 @@ title: "Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV"
 slug: "python-crawler-lxml-parse-html-save-csv"
 summary: "面向零基础系统学习 lxml 与 XPath 解析网页，覆盖 etree.HTML、xpath 返回值、文本和属性提取、属性筛选、层级定位、多条件、索引、相对 XPath、列表循环、空值安全、urljoin、CSV 保存、requests 实战模板、调试技巧和企业项目中的列表页/详情页拆分、字段 helper、原始数据保留、结构变化统计。"
 category: "网络爬虫与数据分析"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "网络爬虫与数据分析"
 tags:
   - "Python"
   - "lxml"
   - "XPath"
   - "CSV"
   - "网络爬虫"
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a4a44b5f9ac958d291774ef"
 originalSlug: "python-crawler-lxml-parse-html-save-csv"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:49:33.213Z"
+updatedAt: "2026-07-30T14:44:46.173Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV
 

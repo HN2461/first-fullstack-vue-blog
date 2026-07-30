@@ -3,19 +3,24 @@ title: "Windows 电脑基础概念入门：任务管理器、资源管理器、�
 slug: "windows-basic-concepts-for-beginners"
 summary: "用小白能听懂的方式解释 Windows 里的开始菜单、任务栏、资源管理器、任务管理器、设置、控制面板、运行、终端、服务、设备管理器等基础概念，帮助开发人员补齐电脑常识地图。"
 category: "系统与文件"
+categoryPath:
+  - "电脑"
+  - "系统与文件"
 tags:
   - "Windows"
   - "电脑基础"
   - "任务管理器"
   - "资源管理器"
   - "系统工具"
-status: "draft"
-sortOrder: 0
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e28"
 originalSlug: "windows-basic-concepts-for-beginners"
-originalStatus: "draft"
-exportedAt: "2026-07-30T15:12:30.579Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T15:09:19.365Z"
+updatedAt: "2026-07-30T15:09:19.365Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清
 

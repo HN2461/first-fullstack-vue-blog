@@ -3,6 +3,9 @@ title: "uni-app 自定义 tabBar 与角标同步封装实战：角色配置、�
 slug: "uni-app-uni-app-tabbar-a0f11cca"
 summary: "系统梳理 uni-app 里 tabBar 为什么容易越写越散，以及如何把角色化 tabBar 配置、角标同步、安全区适配、页面路径归一化和全局刷新机制整理成一套可直接复制使用的方案。"
 category: "uni-app"
+categoryPath:
+  - "项目复用技术"
+  - "uni-app"
 tags:
   - "uni-app"
   - "tabBar"
@@ -10,13 +13,15 @@ tags:
   - "安全区"
   - "全局状态"
   - "工具封装"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f4"
 originalSlug: "uni-app-uni-app-tabbar-a0f11cca"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-16T12:41:50.147Z"
+updatedAt: "2026-06-13T10:28:29.994Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 自定义 tabBar 与角标同步封装实战：角色配置、安全区适配与全局刷新
 

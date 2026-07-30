@@ -3,19 +3,27 @@ title: "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询"
 slug: "fastapi-crud-transactions-relations-pagination"
 summary: "在 PostgreSQL 文章项目中完成 slug 唯一约束、CRUD、分页筛选、事务和冲突处理，再理解关联加载、并发锁与批量操作。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "CRUD"
   - "事务"
   - "分页"
-status: "draft"
-sortOrder: 80
+status: "published"
+sortOrder: 100
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a2"
 originalSlug: "fastapi-crud-transactions-relations-pagination"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.197Z"
+updatedAt: "2026-07-30T14:44:46.197Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询
 

@@ -3,18 +3,24 @@ title: "第 2 篇：SSH 与 Linux 服务器基础"
 slug: "ssh-linux-8e509843"
 summary: "面向部署小白讲清 SSH 登录、密钥、服务器目录、常用 Linux 命令、端口、防火墙和日志查看，让读者能真正进入服务器并开始部署项目。"
 category: "全栈部署入门"
+categoryPath:
+  - "电脑"
+  - "网站部署"
+  - "全栈部署入门"
 tags:
   - "SSH"
   - "Linux"
   - "服务器"
   - "防火墙"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac598"
 originalSlug: "ssh-linux-8e509843"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-08T11:09:58.534Z"
+updatedAt: "2026-06-26T08:20:10.542Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第 2 篇：SSH 与 Linux 服务器基础
 

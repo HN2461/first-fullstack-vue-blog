@@ -3,18 +3,25 @@ title: "Python 网络爬虫入门 00：基础概念"
 slug: "python-crawler-basic-concepts"
 summary: "面向零基础梳理网络机器人、网络爬虫、URL、HTTP 请求与响应、robots.txt、HTML、静态页面、动态页面、解析、XPath、正则清洗、数据保存和数据分析的完整学习地图。"
 category: "网络爬虫与数据分析"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "网络爬虫与数据分析"
 tags:
   - "Python"
   - "网络爬虫"
   - "网络机器人"
   - "基础概念"
-status: "draft"
-sortOrder: 0
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a4a44b5f9ac958d291774e7"
 originalSlug: "python-crawler-basic-concepts"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:49:33.224Z"
+updatedAt: "2026-07-30T14:44:46.168Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 网络爬虫入门 00：基础概念
 

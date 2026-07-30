@@ -3,18 +3,24 @@ title: "Python 零基础入门 26：Unicode、str 与 bytes"
 slug: "python-zero-unicode-str-bytes"
 summary: "从字符与字节的区别出发，系统讲解 Unicode、UTF-8、str、bytes、encode、decode、文本与二进制文件、BOM、utf-8-sig、常见乱码成因及系统边界上的编码处理。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
   - "Unicode"
   - "编码"
-status: "draft"
-sortOrder: 260
+status: "published"
+sortOrder: 270
 cover: ""
 originalId: "6a6b57a2fca6347974f5d184"
 originalSlug: "python-zero-unicode-str-bytes"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.162Z"
+updatedAt: "2026-07-30T14:44:46.162Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 26：Unicode、str 与 bytes
 

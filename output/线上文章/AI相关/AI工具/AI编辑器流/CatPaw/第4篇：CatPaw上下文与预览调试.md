@@ -3,19 +3,26 @@ title: "第4篇：CatPaw上下文与预览调试"
 slug: "ai-ai-catpaw-catpaw-e217fd6c"
 summary: "围绕 CatPaw 公开手册中的上下文、索引、Docs、项目预览、页面元素编辑和 Browser Use 重新整理，重点讲清 AI 为什么会“懂项目”。"
 category: "CatPaw"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "CatPaw"
 tags:
   - "CatPaw"
   - "上下文"
   - "Codebase"
   - "Docs"
   - "Browser"
-status: "draft"
-sortOrder: 10
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe80"
 originalSlug: "ai-ai-catpaw-catpaw-e217fd6c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.578Z"
+updatedAt: "2026-06-25T14:48:53.406Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第4篇：CatPaw上下文与预览调试
 

@@ -3,14 +3,20 @@ title: "HTML 特别补充篇（番外）"
 slug: "html-html-0a6aa17c"
 summary: ""
 category: "AI版HTML"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版HTML"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0b8"
 originalSlug: "html-html-0a6aa17c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.476Z"
+updatedAt: "2026-06-13T10:28:27.363Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # HTML 特别补充篇（番外）
 

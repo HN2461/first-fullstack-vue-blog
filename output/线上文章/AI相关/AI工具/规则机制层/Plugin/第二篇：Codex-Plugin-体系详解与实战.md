@@ -3,6 +3,11 @@ title: "第二篇：Codex Plugin 体系详解与实战"
 slug: "ai-plugin-codex-codexplugin-9b9edb10"
 summary: "深入解析 Codex Plugin 的目录结构、manifest 形态、官方 `openai/plugins` 仓库、本机实装目录，以及 `codex plugin marketplace` 的配置与管理方式，帮助开发者更稳地理解 Codex 插件体系。"
 category: "Plugin"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "Plugin"
 tags:
   - "Plugin"
   - "Codex"
@@ -11,13 +16,15 @@ tags:
   - "plugin.json"
   - ".codex-plugin"
   - "技能包"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfd6"
 originalSlug: "ai-plugin-codex-codexplugin-9b9edb10"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T14:22:01.415Z"
+updatedAt: "2026-07-30T14:24:30.218Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：Codex Plugin 体系详解与实战
 

@@ -3,18 +3,24 @@ title: "Python 零基础入门 24：可迭代对象、迭代器与生成器"
 slug: "python-zero-iterable-iterator-generator"
 summary: "从 for 循环的执行机制出发，系统讲解可迭代对象、迭代器、iter、next、StopIteration、生成器函数、yield、生成器表达式、惰性计算和只能消费一次等核心概念。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
   - "迭代器"
   - "生成器"
-status: "draft"
-sortOrder: 240
+status: "published"
+sortOrder: 250
 cover: ""
 originalId: "6a6b57a2fca6347974f5d180"
 originalSlug: "python-zero-iterable-iterator-generator"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.159Z"
+updatedAt: "2026-07-30T14:44:46.159Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 24：可迭代对象、迭代器与生成器
 

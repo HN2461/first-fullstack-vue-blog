@@ -3,16 +3,22 @@ title: "Python 零基础入门 20：常用标准库"
 slug: "python-zero-standard-library"
 summary: "介绍 datetime、pathlib、json、random、os、logging、csv 等常用标准库，通过贴近日常工作的例子说明，全程对照 JavaScript。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 200
+status: "published"
+sortOrder: 210
 cover: ""
 originalId: "6a4a4304f9ac958d2917607a"
 originalSlug: "python-zero-standard-library"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.494Z"
+updatedAt: "2026-07-30T14:44:46.151Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 20：常用标准库
 

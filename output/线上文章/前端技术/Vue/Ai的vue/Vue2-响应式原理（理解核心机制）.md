@@ -3,14 +3,20 @@ title: "Vue2 响应式原理（理解核心机制）"
 slug: "vue-ai-vue-vue2-d73035df"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 230
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac28c"
 originalSlug: "vue-ai-vue-vue2-d73035df"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:04:31.977Z"
+updatedAt: "2026-06-13T10:28:28.077Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第8章 Vue2 响应式原理（理解核心机制）
 

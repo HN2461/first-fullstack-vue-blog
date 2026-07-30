@@ -1,0 +1,540 @@
+{
+  "generatedAt": "2026-07-30T15:39:35.577Z",
+  "mode": "dry-run",
+  "publishAll": true,
+  "total": 513,
+  "publishedCount": 513,
+  "publishChangeCount": 0,
+  "sortChangeCount": 0,
+  "sequenceCategories": [
+    {
+      "categoryPath": "后端技术/Python/应用实例/网络爬虫与数据分析",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a4a44b5f9ac958d291774e7",
+        "6a4a44b5f9ac958d291774eb",
+        "6a4a44b5f9ac958d291774ef",
+        "6a6b57a2fca6347974f5d18d",
+        "6a4a44b5f9ac958d291774f3",
+        "6a6b57a2fca6347974f5d190"
+      ]
+    },
+    {
+      "categoryPath": "后端技术/Python/知识目录",
+      "total": 29,
+      "numberedCount": 29,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a4a4304f9ac958d2917602a",
+        "6a4a4304f9ac958d2917602e",
+        "6a4a4304f9ac958d29176032",
+        "6a4a4304f9ac958d29176036",
+        "6a4a4304f9ac958d2917603a",
+        "6a4a4304f9ac958d2917603e",
+        "6a4a4304f9ac958d29176042",
+        "6a4a4304f9ac958d29176046",
+        "6a4a4304f9ac958d2917604a",
+        "6a4a4304f9ac958d2917604e",
+        "6a4a4304f9ac958d29176052",
+        "6a4a4304f9ac958d29176056",
+        "6a4a4304f9ac958d2917605a",
+        "6a4a4304f9ac958d2917605e",
+        "6a4a4304f9ac958d29176062",
+        "6a4a4304f9ac958d29176066",
+        "6a4a4304f9ac958d2917606a",
+        "6a4a4304f9ac958d2917606e",
+        "6a4a4304f9ac958d29176072",
+        "6a4a4304f9ac958d29176076",
+        "6a4a4304f9ac958d2917607a",
+        "6a4a4304f9ac958d2917607e",
+        "6a4a4304f9ac958d29176082",
+        "6a6b57a2fca6347974f5d17e",
+        "6a6b57a2fca6347974f5d180",
+        "6a6b57a2fca6347974f5d182",
+        "6a6b57a2fca6347974f5d184",
+        "6a6b57a2fca6347974f5d186",
+        "6a6b57a2fca6347974f5d188"
+      ]
+    },
+    {
+      "categoryPath": "电脑/网站部署/全栈部署入门",
+      "total": 7,
+      "numberedCount": 7,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac590",
+        "6a2d291f8a2b1c68f2cac598",
+        "6a2d291f8a2b1c68f2cac5a0",
+        "6a2d291f8a2b1c68f2cac5a4",
+        "6a2d291f8a2b1c68f2cac5ac",
+        "6a2d291f8a2b1c68f2cac5b4",
+        "6a2d291f8a2b1c68f2cac5b8"
+      ]
+    },
+    {
+      "categoryPath": "后端技术/Node.js/MongoDB详解",
+      "total": 7,
+      "numberedCount": 7,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac12a",
+        "6a2d291e8a2b1c68f2cac148",
+        "6a2d291e8a2b1c68f2cac13e",
+        "6a2d291e8a2b1c68f2cac164",
+        "6a2d291e8a2b1c68f2cac152",
+        "6a2d291e8a2b1c68f2cac15c",
+        "6a2d291e8a2b1c68f2cac136"
+      ]
+    },
+    {
+      "categoryPath": "后端技术/Node.js/接口与会话控制详解",
+      "total": 8,
+      "numberedCount": 8,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac16e",
+        "6a2d291e8a2b1c68f2cac188",
+        "6a2d291e8a2b1c68f2cac180",
+        "6a2d291e8a2b1c68f2cac1ac",
+        "6a2d291e8a2b1c68f2cac18e",
+        "6a2d291e8a2b1c68f2cac1a4",
+        "6a2d291e8a2b1c68f2cac176",
+        "6a2d291e8a2b1c68f2cac198"
+      ]
+    },
+    {
+      "categoryPath": "后端技术/Node.js",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac1ba",
+        "6a2d291e8a2b1c68f2cac1d0",
+        "6a2d291e8a2b1c68f2cac1c6",
+        "6a2d291e8a2b1c68f2cac1f2",
+        "6a2d291e8a2b1c68f2cac1da",
+        "6a2d291e8a2b1c68f2cac1e6"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "total": 8,
+      "numberedCount": 8,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabf4c",
+        "6a2d291d8a2b1c68f2cabf50",
+        "6a2d291d8a2b1c68f2cabf5a",
+        "6a2d291d8a2b1c68f2cabf66",
+        "6a2d291d8a2b1c68f2cabf6e",
+        "6a2d291d8a2b1c68f2cabf78",
+        "6a2d291d8a2b1c68f2cabf80",
+        "6a6b691f4bf50146e9b95e6c"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "total": 8,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 1,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cac05a",
+        "6a2d291d8a2b1c68f2cac050",
+        "6a2d291d8a2b1c68f2cac06a",
+        "6a2d291d8a2b1c68f2cac062",
+        "6a2d291d8a2b1c68f2cac078",
+        "6a2d291d8a2b1c68f2cac070",
+        "6a2d291d8a2b1c68f2cac04a",
+        "6a2d291d8a2b1c68f2cac048"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/ClaudeCode",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabf18",
+        "6a2d291d8a2b1c68f2cabf2a",
+        "6a2d291d8a2b1c68f2cabf22",
+        "6a2d291d8a2b1c68f2cabf46",
+        "6a2d291d8a2b1c68f2cabf36",
+        "6a2d291d8a2b1c68f2cabf3e"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "total": 8,
+      "numberedCount": 8,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabf90",
+        "6a2d291d8a2b1c68f2cabf96",
+        "6a2d291d8a2b1c68f2cabf9c",
+        "6a2d291d8a2b1c68f2cabfa6",
+        "6a2d291d8a2b1c68f2cabfb0",
+        "6a2d291d8a2b1c68f2cabfbc",
+        "6a2d291d8a2b1c68f2cabfb6",
+        "6a2d291d8a2b1c68f2cabfc6"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Plugin",
+      "total": 4,
+      "numberedCount": 4,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabfcc",
+        "6a2d291d8a2b1c68f2cabfd6",
+        "6a2d291d8a2b1c68f2cabfde",
+        "6a2d291d8a2b1c68f2cabfe4"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/Agent框架层/龙虾",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cac02e",
+        "6a2d291d8a2b1c68f2cac036",
+        "6a2d291d8a2b1c68f2cac034",
+        "6a2d291d8a2b1c68f2cac040",
+        "6a2d291d8a2b1c68f2cac03a",
+        "6a2d291d8a2b1c68f2cac03e"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/基础与计费",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cac084",
+        "6a2d291d8a2b1c68f2cac08c"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Rules",
+      "total": 5,
+      "numberedCount": 5,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabfe8",
+        "6a2d291d8a2b1c68f2cabff0",
+        "6a2d291d8a2b1c68f2cabff8",
+        "6a2d291d8a2b1c68f2cac002",
+        "6a2d291d8a2b1c68f2cac00c"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Windsurf",
+      "total": 5,
+      "numberedCount": 5,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabeee",
+        "6a2d291d8a2b1c68f2cabefc",
+        "6a2d291d8a2b1c68f2cabef6",
+        "6a2d291d8a2b1c68f2cabf0c",
+        "6a2d291d8a2b1c68f2cabf06"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Kiro",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabec0",
+        "6a2d291d8a2b1c68f2cabed2",
+        "6a2d291d8a2b1c68f2cabec8",
+        "6a2d291d8a2b1c68f2cabee8",
+        "6a2d291d8a2b1c68f2cabed8",
+        "6a2d291d8a2b1c68f2cabee0"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "total": 8,
+      "numberedCount": 8,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabe88",
+        "6a2d291d8a2b1c68f2cabe9c",
+        "6a2d291d8a2b1c68f2cabe96",
+        "6a2d291d8a2b1c68f2cabeba",
+        "6a2d291d8a2b1c68f2cabea4",
+        "6a2d291d8a2b1c68f2cabeb2",
+        "6a2d291d8a2b1c68f2cabe90",
+        "6a2d291d8a2b1c68f2cabeac"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/CatPaw",
+      "total": 5,
+      "numberedCount": 5,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cabe58",
+        "6a2d291d8a2b1c68f2cabe6c",
+        "6a2d291d8a2b1c68f2cabe62",
+        "6a2d291d8a2b1c68f2cabe80",
+        "6a2d291d8a2b1c68f2cabe76"
+      ]
+    },
+    {
+      "categoryPath": "我的总结/js/辅助资料",
+      "total": 27,
+      "numberedCount": 24,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac38c",
+        "6a2d291f8a2b1c68f2cac394",
+        "6a2d291f8a2b1c68f2cac39c",
+        "6a2d291f8a2b1c68f2cac3a4",
+        "6a2d291f8a2b1c68f2cac3ac",
+        "6a2d291f8a2b1c68f2cac3b6",
+        "6a2d291f8a2b1c68f2cac3be",
+        "6a2d291f8a2b1c68f2cac3c4",
+        "6a2d291f8a2b1c68f2cac3ce",
+        "6a2d291f8a2b1c68f2cac3d8",
+        "6a2d291f8a2b1c68f2cac3de",
+        "6a2d291f8a2b1c68f2cac3e0",
+        "6a2d291f8a2b1c68f2cac3ec",
+        "6a2d291f8a2b1c68f2cac3f6",
+        "6a2d291f8a2b1c68f2cac400",
+        "6a2d291f8a2b1c68f2cac406",
+        "6a2d291f8a2b1c68f2cac40c",
+        "6a2d291f8a2b1c68f2cac410",
+        "6a2d291f8a2b1c68f2cac416",
+        "6a2d291f8a2b1c68f2cac41e",
+        "6a2d291f8a2b1c68f2cac428",
+        "6a2d291f8a2b1c68f2cac43a",
+        "6a2d291f8a2b1c68f2cac442",
+        "6a2d291f8a2b1c68f2cac44a",
+        "6a2d291f8a2b1c68f2cac432",
+        "6a2d291f8a2b1c68f2cac44e",
+        "6a2d291f8a2b1c68f2cac456"
+      ]
+    },
+    {
+      "categoryPath": "我的总结/Vue/vue辅助",
+      "total": 13,
+      "numberedCount": 13,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac480",
+        "6a2d291f8a2b1c68f2cac48a",
+        "6a2d291f8a2b1c68f2cac492",
+        "6a2d291f8a2b1c68f2cac49e",
+        "6a2d291f8a2b1c68f2cac4a6",
+        "6a2d291f8a2b1c68f2cac4ae",
+        "6a2d291f8a2b1c68f2cac4b6",
+        "6a2d291f8a2b1c68f2cac4c0",
+        "6a2d291f8a2b1c68f2cac4c8",
+        "6a2d291f8a2b1c68f2cac4d2",
+        "6a2d291f8a2b1c68f2cac4dc",
+        "6a2d291f8a2b1c68f2cac4de",
+        "6a2d291f8a2b1c68f2cac4ee"
+      ]
+    },
+    {
+      "categoryPath": "我的总结/uni-app/uni-app辅助",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac460",
+        "6a2d291f8a2b1c68f2cac468",
+        "6a2d291f8a2b1c68f2cac46c",
+        "6a2d291f8a2b1c68f2cac46e",
+        "6a2d291f8a2b1c68f2cac472",
+        "6a2d291f8a2b1c68f2cac478"
+      ]
+    },
+    {
+      "categoryPath": "我的总结/Vue/vue随记",
+      "total": 3,
+      "numberedCount": 3,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac4f8",
+        "6a2d291f8a2b1c68f2cac500",
+        "6a2d291f8a2b1c68f2cac506"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/组件库/uvui",
+      "total": 3,
+      "numberedCount": 3,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac668",
+        "6a2d291f8a2b1c68f2cac66c",
+        "6a2d291f8a2b1c68f2cac66a"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/组件库/ECharts",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac5c4",
+        "6a2d291f8a2b1c68f2cac5d6",
+        "6a2d291f8a2b1c68f2cac5cc",
+        "6a2d291f8a2b1c68f2cac5f0",
+        "6a2d291f8a2b1c68f2cac5e2",
+        "6a2d291f8a2b1c68f2cac5ea"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "total": 19,
+      "numberedCount": 19,
+      "duplicateSequenceCount": 1,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e3c",
+        "6a6b691f4bf50146e9b95e3e",
+        "6a6b691f4bf50146e9b95e40",
+        "6a6b691f4bf50146e9b95e42",
+        "6a6b691f4bf50146e9b95e44",
+        "6a6b691f4bf50146e9b95e46",
+        "6a6b691f4bf50146e9b95e48",
+        "6a6b691f4bf50146e9b95e4a",
+        "6a6b691f4bf50146e9b95e4c",
+        "6a6b691f4bf50146e9b95e4e",
+        "6a6b691f4bf50146e9b95e50",
+        "6a6b691f4bf50146e9b95e52",
+        "6a6b691f4bf50146e9b95e54",
+        "6a6b691f4bf50146e9b95e56",
+        "6a6b691f4bf50146e9b95e58",
+        "6a6b691f4bf50146e9b95e5a",
+        "6a6b691f4bf50146e9b95e5c",
+        "6a6b691f4bf50146e9b95e5e",
+        "6a6b691f4bf50146e9b95e60"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e38",
+        "6a6b691f4bf50146e9b95e3a"
+      ]
+    },
+    {
+      "categoryPath": "后端技术/Python/应用实例/Web入门/FastAPI从0到1",
+      "total": 18,
+      "numberedCount": 18,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b635eb46b52abc5dc2863",
+        "6a6b57a2fca6347974f5d192",
+        "6a6b57a2fca6347974f5d194",
+        "6a6b57a2fca6347974f5d196",
+        "6a6b57a2fca6347974f5d198",
+        "6a6b57a2fca6347974f5d19a",
+        "6a6b57a2fca6347974f5d19c",
+        "6a6b57a2fca6347974f5d19e",
+        "6a6b57a2fca6347974f5d1a0",
+        "6a6b57a2fca6347974f5d1a2",
+        "6a6b57a2fca6347974f5d1a4",
+        "6a6b57a2fca6347974f5d1a6",
+        "6a6b57a2fca6347974f5d1a8",
+        "6a6b57a2fca6347974f5d1aa",
+        "6a6b57a2fca6347974f5d1ac",
+        "6a6b57a2fca6347974f5d1ae",
+        "6a6b57a2fca6347974f5d1b0",
+        "6a6b57a2fca6347974f5d1b2"
+      ]
+    }
+  ],
+  "changedCategories": []
+}

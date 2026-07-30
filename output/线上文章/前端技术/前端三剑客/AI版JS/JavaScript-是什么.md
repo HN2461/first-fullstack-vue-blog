@@ -3,14 +3,20 @@ title: "JavaScript 是什么"
 slug: "js-javascript-9e8b648d"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 200
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0f6"
 originalSlug: "js-javascript-9e8b648d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.491Z"
+updatedAt: "2026-06-15T14:50:24.961Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第1章　JavaScript 是什么
 

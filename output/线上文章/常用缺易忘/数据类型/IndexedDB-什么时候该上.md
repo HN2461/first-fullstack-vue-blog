@@ -3,19 +3,24 @@ title: "IndexedDB 什么时候该上"
 slug: "indexeddb-16dda85f"
 summary: "从实际业务出发判断 IndexedDB 什么时候值得上，什么时候继续用 localStorage 或 sessionStorage 就够了，并理解 IndexedDB 在容量、查询、事务、离线和工程复杂度上的取舍。"
 category: "数据类型"
+categoryPath:
+  - "常用缺易忘"
+  - "数据类型"
 tags:
   - "IndexedDB"
   - "浏览器存储"
   - "离线"
   - "localStorage"
   - "前端缓存"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac338"
 originalSlug: "indexeddb-16dda85f"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.363Z"
+updatedAt: "2026-06-13T14:09:43.224Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # IndexedDB 什么时候该上
 

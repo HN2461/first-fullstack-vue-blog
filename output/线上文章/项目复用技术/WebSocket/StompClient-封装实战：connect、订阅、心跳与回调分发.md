@@ -3,6 +3,9 @@ title: "StompClient 封装实战：connect、订阅、心跳与回调分发"
 slug: "websocket-stompclient-8bcbb8a6"
 summary: "这是 WebSocket 专题的第 3 篇，专门讲 StompClient 这一层该怎么封，包括 socket 建立、CONNECT 握手、STOMP 帧缓冲、heart-beat 协商、订阅表、回调分发和基础生命周期管理。"
 category: "WebSocket"
+categoryPath:
+  - "项目复用技术"
+  - "WebSocket"
 tags:
   - "uni-app"
   - "WebSocket"
@@ -10,13 +13,15 @@ tags:
   - "客户端封装"
   - "心跳"
   - "订阅"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac718"
 originalSlug: "websocket-stompclient-8bcbb8a6"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-14T13:01:59.598Z"
+updatedAt: "2026-06-14T05:31:33.311Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # StompClient 封装实战：connect、订阅、心跳与回调分发
 

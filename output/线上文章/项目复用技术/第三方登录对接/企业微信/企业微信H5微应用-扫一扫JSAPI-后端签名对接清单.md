@@ -3,14 +3,20 @@ title: "企业微信H5微应用-扫一扫JSAPI-后端签名对接清单"
 slug: "h5-h5-jsapi-d82c6607"
 summary: ""
 category: "企业微信"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "企业微信"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c8"
 originalSlug: "h5-h5-jsapi-d82c6607"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.460Z"
+updatedAt: "2026-06-13T14:03:18.905Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 企业微信 H5 微应用 — 扫一扫 JSAPI 后端签名对接清单
 

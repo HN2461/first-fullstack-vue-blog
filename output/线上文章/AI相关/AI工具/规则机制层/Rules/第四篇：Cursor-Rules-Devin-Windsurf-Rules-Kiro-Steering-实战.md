@@ -3,19 +3,26 @@ title: "第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战"
 slug: "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74"
 summary: "深度对比 Cursor、Devin Desktop / Windsurf、Kiro 三大工具的规则文档系统，包括 Cursor MDC 四种规则类型、Windsurf 到 Devin 的规则路径变化、Kiro Steering 四种 inclusion 模式与全局/团队 Steering，附完整实战配置示例。"
 category: "Rules"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "Rules"
 tags:
   - "Cursor Rules"
   - "Devin / Windsurf Rules"
   - "Kiro Steering"
   - "MDC格式"
   - "AI规则文档"
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac002"
 originalSlug: "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.680Z"
+updatedAt: "2026-07-30T14:24:30.276Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战
 

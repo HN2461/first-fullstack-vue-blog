@@ -3,19 +3,27 @@ title: "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全"
 slug: "fastapi-authentication-jwt-rbac-security"
 summary: "在现有文章项目中加入 User 表、Argon2 密码哈希、登录 JWT、当前用户依赖和文章归属，再理解 RBAC、令牌撤销与安全边界。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "JWT"
   - "RBAC"
   - "安全"
-status: "draft"
-sortOrder: 90
+status: "published"
+sortOrder: 110
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a4"
 originalSlug: "fastapi-authentication-jwt-rbac-security"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.198Z"
+updatedAt: "2026-07-30T14:44:46.198Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全
 

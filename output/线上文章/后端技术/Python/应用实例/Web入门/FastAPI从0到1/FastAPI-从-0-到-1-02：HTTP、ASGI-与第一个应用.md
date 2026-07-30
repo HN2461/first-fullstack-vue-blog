@@ -3,18 +3,26 @@ title: "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用"
 slug: "fastapi-http-asgi-first-application"
 summary: "从空目录创建并运行第一个 FastAPI 接口，逐行理解应用对象、路由装饰器、请求响应、Uvicorn 和 ASGI 的职责。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "HTTP"
   - "ASGI"
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a6b57a2fca6347974f5d196"
 originalSlug: "fastapi-http-asgi-first-application"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.186Z"
+updatedAt: "2026-07-30T14:44:46.186Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用
 

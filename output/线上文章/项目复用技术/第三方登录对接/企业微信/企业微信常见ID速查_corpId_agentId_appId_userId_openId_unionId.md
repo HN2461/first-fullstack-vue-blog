@@ -3,14 +3,20 @@ title: "企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId"
 slug: "id-corpid-agentid-appid-userid-openid-unionid-e704ba37"
 summary: ""
 category: "企业微信"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "企业微信"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 100
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c0"
 originalSlug: "id-corpid-agentid-appid-userid-openid-unionid-e704ba37"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.454Z"
+updatedAt: "2026-06-13T14:03:18.894Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 企业微信常见ID速查\_corpId_agentId_appId_userId_openId_unionId
 

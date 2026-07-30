@@ -3,19 +3,25 @@ title: "Windows hosts、DNS缓存、网络类型与防火墙基础"
 slug: "windows-hosts-dns-a34c6e09"
 summary: "结合微软官方资料整理 Windows 中 hosts 文件、DNS 缓存、公共与专用网络类型、Microsoft Defender Firewall 的基础作用和常见排障点。"
 category: "网络基础"
+categoryPath:
+  - "电脑"
+  - "电脑网络"
+  - "网络基础"
 tags:
   - "Windows"
   - "hosts"
   - "DNS缓存"
   - "防火墙"
   - "网络类型"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac51a"
 originalSlug: "windows-hosts-dns-a34c6e09"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-12T13:45:49.794Z"
+updatedAt: "2026-06-13T10:28:29.209Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Windows hosts、DNS缓存、网络类型与防火墙基础
 

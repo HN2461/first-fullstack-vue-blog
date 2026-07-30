@@ -3,17 +3,25 @@ title: "FastAPI 从 0 到 1 00：学习路线与开发环境"
 slug: "fastapi-zero-to-one-roadmap-environment"
 summary: "明确企业 FastAPI 开发所需能力，创建虚拟环境、管理依赖，并建立可持续练习方式。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "开发环境"
-status: "draft"
-sortOrder: 0
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a6b57a2fca6347974f5d192"
 originalSlug: "fastapi-zero-to-one-roadmap-environment"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.180Z"
+updatedAt: "2026-07-30T14:44:46.180Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 00：学习路线与开发环境
 

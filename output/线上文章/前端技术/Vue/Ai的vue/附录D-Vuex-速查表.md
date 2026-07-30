@@ -3,14 +3,20 @@ title: "附录D Vuex 速查表"
 slug: "vue-ai-vue-d-vuex-8579ca48"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac296"
 originalSlug: "vue-ai-vue-d-vuex-8579ca48"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:22:00.002Z"
+updatedAt: "2026-06-21T12:54:23.671Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 附录D：Vuex 速查表
 

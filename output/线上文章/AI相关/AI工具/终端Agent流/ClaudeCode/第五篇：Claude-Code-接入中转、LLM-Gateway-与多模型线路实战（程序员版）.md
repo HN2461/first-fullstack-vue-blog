@@ -3,6 +3,11 @@ title: "第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实
 slug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
 summary: "基于 2026-07-04 Claude Code 官方 Model Config、Settings 与第三方接入资料复核更新，面向程序员说明 Claude Code 如何接入中转、LLM Gateway 和多模型线路，重点讲清 Base URL、Key、模型映射、最小配置模板、验证顺序与高频排障。"
 category: "ClaudeCode"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "ClaudeCode"
 tags:
   - "Claude Code"
   - "中转"
@@ -10,13 +15,15 @@ tags:
   - "Base URL"
   - "ANTHROPIC_BASE_URL"
   - "模型映射"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf36"
 originalSlug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-30T08:58:26.824Z"
+updatedAt: "2026-07-30T14:24:30.378Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）
 

@@ -3,14 +3,20 @@ title: "企业微信JSSDK接入_wx.config_agentConfig_签名流程"
 slug: "h5-jssdk-wx-config-agentconfig-93be1c59"
 summary: ""
 category: "企业微信"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "企业微信"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c4"
 originalSlug: "h5-jssdk-wx-config-agentconfig-93be1c59"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.457Z"
+updatedAt: "2026-06-13T14:03:18.905Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 企业微信JSSDK接入*wx.config_agentConfig*签名流程
 

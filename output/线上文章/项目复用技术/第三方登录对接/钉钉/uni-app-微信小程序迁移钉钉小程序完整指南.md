@@ -3,19 +3,25 @@ title: "uni-app 微信小程序迁移钉钉小程序完整指南"
 slug: "uni-app-uni-app-81c6612d"
 summary: "面向已有 uni-app 微信小程序项目的迁移指南，覆盖路线选型、编译目标接入、代码改造、登录链路、联调发布完整流程。"
 category: "钉钉"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "钉钉"
 tags:
   - "uni-app"
   - "钉钉小程序"
   - "微信小程序"
   - "小程序迁移"
   - "跨端开发"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac798"
 originalSlug: "uni-app-uni-app-81c6612d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.441Z"
+updatedAt: "2026-06-13T14:09:43.237Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 微信小程序迁移钉钉小程序完整指南
 

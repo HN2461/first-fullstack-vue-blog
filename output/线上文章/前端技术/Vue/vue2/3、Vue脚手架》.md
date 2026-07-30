@@ -3,14 +3,20 @@ title: ".3、Vue脚手架》"
 slug: "vue-vue2-3-vue-25c1aa35"
 summary: ""
 category: "vue2"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "vue2"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2c6"
 originalSlug: "vue-vue2-3-vue-25c1aa35"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-03-27T13:26:52.874Z"
+updatedAt: "2026-06-13T10:28:28.242Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 3.3 Vue脚手架
 ## 3.3.1 确保npm能用（安装Node.js）

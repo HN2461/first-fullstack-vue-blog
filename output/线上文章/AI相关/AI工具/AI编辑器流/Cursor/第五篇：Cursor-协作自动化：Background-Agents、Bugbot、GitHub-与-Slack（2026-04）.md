@@ -3,18 +3,25 @@ title: "第五篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub
 slug: "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89"
 summary: "基于 Cursor 官方 Background Agents、GitHub、Bugbot 与 Slack 文档，整理异步 Agent、PR 审查和跨工具协作的最新主线，避免把同一条自动化链路拆成太多碎片文章。"
 category: "Cursor"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "Cursor"
 tags:
   - "Cursor"
   - "Background Agents"
   - "Bugbot"
   - "GitHub"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabea4"
 originalSlug: "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.583Z"
+updatedAt: "2026-06-13T10:28:26.344Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第五篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）
 

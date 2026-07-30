@@ -3,6 +3,9 @@ title: "第三篇：HTTP 协议与 http 模块"
 slug: "node-js-http-http-41474b0d"
 summary: "理解 HTTP 协议的请求响应结构、常见状态码、GET 与 POST 的区别，并用 Node.js 原生 http 模块从零搭建 Web 服务器。"
 category: "Node.js"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
 tags:
   - "Node.js"
   - "HTTP协议"
@@ -10,13 +13,15 @@ tags:
   - "Web服务器"
   - "GET请求"
   - "POST请求"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1c6"
 originalSlug: "node-js-http-http-41474b0d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-18T13:21:53.791Z"
+updatedAt: "2026-06-19T06:25:48.839Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第三篇：HTTP 协议与 http 模块
 

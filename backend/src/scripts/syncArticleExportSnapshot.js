@@ -1,5 +1,5 @@
 /**
- * 将后台全量导出的文章快照重建到本地数据库。
+ * 将本地权威文章快照重建到指定数据库。
  * 默认只生成差异报告和数据库变更预览；只有 --apply 才会备份并写库。
  */
 
@@ -10,6 +10,7 @@ import mongoose from 'mongoose'
 import mammoth from 'mammoth'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
+import { USER_ROLES } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
@@ -19,14 +20,20 @@ import { Comment } from '#modules/interaction/models/Comment.js'
 import { Reaction } from '#modules/interaction/models/Reaction.js'
 import { SYSTEM_UNCATEGORIZED_CATEGORY } from '#modules/content/services/category.service.js'
 import { calculateReadingMinutes, calculateWordCount, generateAsciiSlug } from '#modules/content/services/legacyMigration.service.js'
+import { buildSnapshotDatabasePreview } from '#modules/content/services/articleSnapshotDatabasePreview.service.js'
 import {
   analyzeArticleRepository,
   buildRepositoryAnalysisMarkdown,
   readArticleExportSnapshot
 } from '#modules/content/services/articleSnapshot.service.js'
 
-const args = new Set(process.argv.slice(2))
+const rawArgs = process.argv.slice(2)
+const args = new Set(rawArgs)
 const APPLY = args.has('--apply')
+const PUBLISH_ALL = args.has('--publish-all')
+const CLEAN_ORPHANS = args.has('--clean-orphans')
+const CONFIRM_PRODUCTION = args.has('--confirm-production-replace')
+const TARGET = rawArgs.find((item) => item.startsWith('--target='))?.slice('--target='.length) || 'local'
 const EXPORT_ROOT = path.resolve(process.env.ARTICLE_EXPORT_DIR || path.join(env.rootDir, '../output/线上文章'))
 const REPOSITORY_ROOT = path.resolve(process.env.ARTICLE_REPOSITORY_DIR || path.join(env.rootDir, '../output'))
 const REPORT_ROOT = path.resolve(
@@ -101,11 +108,16 @@ function buildCategoryDocuments(snapshot, localCategories) {
   const nextSlug = createSlugFactory([...retainedSlugs, SYSTEM_UNCATEGORIZED_CATEGORY.slug])
   const idByPath = new Map()
   const siblingOrder = new Map()
+  const snapshotCategoryByPath = new Map((snapshot.manifest.categories || []).map((item) => [
+    (item.categoryPath || []).join('/'),
+    item
+  ]))
   const now = new Date()
   const documents = paths.map((categoryPath) => {
     const key = categoryPath.join('/')
     const parentKey = categoryPath.slice(0, -1).join('/')
     const existing = localByPath.get(key)
+    const metadata = snapshotCategoryByPath.get(key)
     const siblingIndex = siblingOrder.get(parentKey) || 0
     siblingOrder.set(parentKey, siblingIndex + 1)
     const _id = existing?._id || new mongoose.Types.ObjectId()
@@ -114,10 +126,10 @@ function buildCategoryDocuments(snapshot, localCategories) {
       _id,
       name: categoryPath.at(-1),
       slug: existing?.slug || nextSlug(generateAsciiSlug(categoryPath, key, 70)),
-      description: existing?.description || '',
+      description: metadata?.description ?? existing?.description ?? '',
       parent: parentKey ? idByPath.get(parentKey) : null,
-      sortOrder: existing?.sortOrder ?? siblingIndex * 10,
-      status: 'active',
+      sortOrder: metadata?.sortOrder ?? existing?.sortOrder ?? siblingIndex * 10,
+      status: metadata?.status || existing?.status || 'active',
       isSystem: false,
       articleCount: 0,
       createdAt: existing?.createdAt || now,
@@ -211,24 +223,27 @@ async function buildDocumentPayload(record, adminUser, uploadRoot) {
   }
 }
 
-async function buildDatabaseDocuments(snapshot, localCategories, localTags, adminUser) {
+async function buildDatabaseDocuments(snapshot, localArticles, localCategories, localTags, adminUser) {
   const categories = buildCategoryDocuments(snapshot, localCategories)
   const tags = buildTagDocuments(snapshot, localTags)
   const uploadRoot = path.resolve(env.rootDir, env.uploadDir)
   const media = []
   const articles = []
+  const localById = new Map(localArticles.map((item) => [String(item._id), item]))
+  const localBySlug = new Map(localArticles.map((item) => [item.slug, item]))
 
   for (const record of snapshot.records) {
     const category = categories.idByPath.get((record.categoryPath || []).join('/')) || null
     const tagIds = (record.tags || []).map((name) => tags.idByName.get(name)).filter(Boolean)
     const isDocument = record.contentMode === 'document'
+    const existing = localById.get(String(record.originalId)) || localBySlug.get(record.originalSlug)
     const content = isDocument ? '' : record.contentMarkdown
     const documentPayload = isDocument
       ? await buildDocumentPayload({ ...record, manifestDate: snapshot.manifest.exportedAt }, adminUser, uploadRoot)
       : null
     if (documentPayload) media.push(documentPayload.media)
     const wordCount = calculateWordCount(isDocument ? documentPayload.articleDocument.extractedText : content)
-    const createdAt = new mongoose.Types.ObjectId(record.originalId).getTimestamp()
+    const createdAt = existing?.createdAt || new mongoose.Types.ObjectId(record.originalId).getTimestamp()
     articles.push({
       _id: new mongoose.Types.ObjectId(record.originalId),
       title: String(record.title || '').slice(0, 120),
@@ -238,15 +253,15 @@ async function buildDatabaseDocuments(snapshot, localCategories, localTags, admi
       contentMode: isDocument ? 'document' : 'markdown',
       document: documentPayload?.articleDocument,
       cover: String(record.data?.cover || ''),
-      resources: [],
+      resources: existing?.resources || [],
       category,
       tags: tagIds,
-      status: record.status,
-      isRecommended: false,
-      viewCount: 0,
-      likeCount: 0,
-      favoriteCount: 0,
-      commentCount: 0,
+      status: PUBLISH_ALL ? 'published' : record.status,
+      isRecommended: Boolean(existing?.isRecommended),
+      viewCount: Number(existing?.viewCount) || 0,
+      likeCount: Number(existing?.likeCount) || 0,
+      favoriteCount: Number(existing?.favoriteCount) || 0,
+      commentCount: Number(existing?.commentCount) || 0,
       wordCount,
       readingMinutes: calculateReadingMinutes(wordCount),
       sortOrder: Number(record.sortOrder) || 0,
@@ -254,9 +269,11 @@ async function buildDatabaseDocuments(snapshot, localCategories, localTags, admi
       sourcePath: record.sourcePath || '',
       sourceHash: crypto.createHash('sha256').update(content).digest('hex'),
       importedAt: new Date(snapshot.manifest.exportedAt),
-      publishedAt: record.publishedAt ? new Date(record.publishedAt) : null,
-      createdBy: adminUser._id,
-      updatedBy: adminUser._id,
+      publishedAt: record.publishedAt
+        ? new Date(record.publishedAt)
+        : (PUBLISH_ALL ? new Date(record.updatedAt || snapshot.manifest.exportedAt) : null),
+      createdBy: existing?.createdBy || adminUser._id,
+      updatedBy: existing?.updatedBy || adminUser._id,
       deletedAt: null,
       createdAt,
       updatedAt: new Date(record.updatedAt || snapshot.manifest.exportedAt)
@@ -286,7 +303,7 @@ async function createBackup(relatedMediaIds) {
       categories: await Category.find({}).lean(),
       tags: await Tag.find({}).lean(),
       comments: await Comment.find({}).lean(),
-      reactions: await Reaction.find({ targetType: 'article' }).lean(),
+      reactions: await Reaction.find({}).lean(),
       media: await Media.find({ _id: { $in: relatedMediaIds } }).lean()
     }
   }
@@ -294,14 +311,59 @@ async function createBackup(relatedMediaIds) {
   return backupPath
 }
 
-async function replaceLocalArticles(snapshot) {
+async function removeOrphanInteractions(articleIds) {
+  const orphanComments = await Comment.find({ article: { $nin: articleIds } }).select('_id').lean()
+  const orphanCommentIds = orphanComments.map((item) => item._id)
+  const [commentResult, articleReactionResult, commentReactionResult] = await Promise.all([
+    Comment.deleteMany({ _id: { $in: orphanCommentIds } }),
+    Reaction.deleteMany({ targetType: 'article', targetId: { $nin: articleIds } }),
+    Reaction.deleteMany({ targetType: 'comment', targetId: { $in: orphanCommentIds } })
+  ])
+  return {
+    comments: commentResult.deletedCount || 0,
+    articleReactions: articleReactionResult.deletedCount || 0,
+    commentReactions: commentReactionResult.deletedCount || 0
+  }
+}
+
+function buildArticleIdRemaps(snapshot, localArticles) {
+  const localIds = new Set(localArticles.map((item) => String(item._id)))
+  const localBySlug = new Map(localArticles.map((item) => [item.slug, item]))
+  return snapshot.records.flatMap((record) => {
+    if (localIds.has(String(record.originalId))) return []
+    const existing = localBySlug.get(record.originalSlug)
+    if (!existing) return []
+    return [{
+      from: existing._id,
+      to: new mongoose.Types.ObjectId(record.originalId),
+      slug: record.originalSlug
+    }]
+  })
+}
+
+async function remapArticleRelations(remaps) {
+  const summary = { comments: 0, reactions: 0, media: 0 }
+  for (const remap of remaps) {
+    const [comments, reactions, media] = await Promise.all([
+      Comment.updateMany({ article: remap.from }, { $set: { article: remap.to } }),
+      Reaction.updateMany({ targetType: 'article', targetId: remap.from }, { $set: { targetId: remap.to } }),
+      Media.updateMany({ article: remap.from }, { $set: { article: remap.to } })
+    ])
+    summary.comments += comments.modifiedCount || 0
+    summary.reactions += reactions.modifiedCount || 0
+    summary.media += media.modifiedCount || 0
+  }
+  return summary
+}
+
+async function replaceArticles(snapshot) {
   const [adminUser, localArticles, localCategories, localTags] = await Promise.all([
-    User.findOne({ role: { $in: ['super-admin', 'admin'] } }).sort({ createdAt: 1 }),
+    User.findOne({ role: { $in: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] } }).sort({ createdAt: 1 }),
     Article.find({}).lean(),
     Category.find({}).lean(),
     Tag.find({}).lean()
   ])
-  if (!adminUser) throw new Error('本地数据库没有管理员用户，无法设置文章创建人')
+  if (!adminUser) throw new Error('目标数据库没有管理员用户，无法设置文章创建人')
 
   const relatedMediaIds = [...new Set(localArticles.flatMap((item) => [
     item.document?.originalMediaId,
@@ -309,21 +371,34 @@ async function replaceLocalArticles(snapshot) {
     ...(item.resources || []).map((resource) => resource.mediaId)
   ]).filter(Boolean).map(String))].map((id) => new mongoose.Types.ObjectId(id))
   const backupPath = await createBackup(relatedMediaIds)
-  const documents = await buildDatabaseDocuments(snapshot, localCategories, localTags, adminUser)
-
-  await Promise.all([
-    Comment.deleteMany({}),
-    Reaction.deleteMany({ targetType: 'article' })
-  ])
+  const documents = await buildDatabaseDocuments(snapshot, localArticles, localCategories, localTags, adminUser)
+  const idRemaps = buildArticleIdRemaps(snapshot, localArticles)
+  const remappedRelations = await remapArticleRelations(idRemaps)
+  const articleIds = documents.articles.map((item) => item._id)
+  const cleanup = CLEAN_ORPHANS
+    ? await removeOrphanInteractions(articleIds)
+    : { comments: 0, articleReactions: 0, commentReactions: 0 }
   await Article.deleteMany({})
-  if (relatedMediaIds.length > 0) await Media.deleteMany({ _id: { $in: relatedMediaIds } })
+  const replacementMediaIds = documents.media.map((item) => item._id)
+  if (replacementMediaIds.length > 0) await Media.deleteMany({ _id: { $in: replacementMediaIds } })
   await Category.deleteMany({})
   await Tag.deleteMany({})
   await Category.insertMany(documents.categories)
   if (documents.tags.length > 0) await Tag.insertMany(documents.tags)
   if (documents.media.length > 0) await Media.insertMany(documents.media)
   await Article.insertMany(documents.articles)
-  return { backupPath, documents }
+  return { backupPath, documents, cleanup, idRemaps, remappedRelations }
+}
+
+function assertWriteTarget() {
+  if (!['local', 'production'].includes(TARGET)) throw new Error(`不支持的目标: ${TARGET}`)
+  if (!APPLY) return
+  if (env.nodeEnv === 'production' && TARGET !== 'production') {
+    throw new Error('生产环境写入必须显式传入 --target=production')
+  }
+  if (TARGET === 'production' && (env.nodeEnv !== 'production' || !CONFIRM_PRODUCTION)) {
+    throw new Error('生产覆盖必须在生产环境传入 --confirm-production-replace')
+  }
 }
 
 async function writeReport(snapshot) {
@@ -337,8 +412,9 @@ async function writeReport(snapshot) {
 }
 
 async function main() {
-  console.log(`模式: ${APPLY ? 'apply（重建本地文章）' : 'dry-run（只读）'}`)
-  console.log(`线上导出目录: ${EXPORT_ROOT}`)
+  assertWriteTarget()
+  console.log(`模式: ${APPLY ? `apply（重建 ${TARGET} 文章）` : 'dry-run（只读）'}`)
+  console.log(`本地权威快照: ${EXPORT_ROOT}`)
   const snapshot = readArticleExportSnapshot(EXPORT_ROOT)
   const reportResult = await writeReport(snapshot)
   console.log(`导出文章: ${snapshot.records.length}`)
@@ -349,20 +425,28 @@ async function main() {
 
   await connectDatabase()
   const [localArticles, localCategories, localTags, localComments, localReactions] = await Promise.all([
-    Article.countDocuments({}),
-    Category.countDocuments({}),
-    Tag.countDocuments({}),
+    Article.find({}).lean(),
+    Category.find({}).lean(),
+    Tag.find({}).lean(),
     Comment.countDocuments({}),
     Reaction.countDocuments({ targetType: 'article' })
   ])
-  console.log(`本地现状: 文章 ${localArticles}，分类 ${localCategories}，标签 ${localTags}，评论 ${localComments}，文章互动 ${localReactions}`)
+  const preview = buildSnapshotDatabasePreview(snapshot, localArticles, localCategories, localTags, {
+    publishAll: PUBLISH_ALL
+  })
+  console.log(`目标现状: 文章 ${localArticles.length}，分类 ${localCategories.length}，标签 ${localTags.length}，评论 ${localComments}，文章互动 ${localReactions}`)
+  console.log(`变更预览: 新增 ${preview.createCount}，更新 ${preview.updateCount}，移除 ${preview.removeCount}，统一文章 ID ${preview.rekeyCount}，转为已发布 ${preview.publishCount}`)
+  console.log(`同步后: 文章 ${snapshot.records.length}，已发布 ${preview.finalPublishedCount}`)
   if (!APPLY) {
     console.log('dry-run 完成；确认后使用 --apply 执行全量重建')
     return
   }
 
-  const result = await replaceLocalArticles(snapshot)
+  const result = await replaceArticles(snapshot)
   console.log(`重建完成: 文章 ${result.documents.articles.length}，分类 ${result.documents.categories.length}，标签 ${result.documents.tags.length}，文档媒体 ${result.documents.media.length}`)
+  console.log(`统一文章 ID: ${result.idRemaps.length}，迁移评论 ${result.remappedRelations.comments}，文章互动 ${result.remappedRelations.reactions}，媒体引用 ${result.remappedRelations.media}`)
+  console.log(`清理孤立引用: 评论 ${result.cleanup.comments}，文章互动 ${result.cleanup.articleReactions}，评论互动 ${result.cleanup.commentReactions}`)
+  if (!CLEAN_ORPHANS) console.log('孤立评论和互动已保留；只有显式 --clean-orphans 才会清理')
   console.log(`重建前备份: ${result.backupPath}`)
 }
 

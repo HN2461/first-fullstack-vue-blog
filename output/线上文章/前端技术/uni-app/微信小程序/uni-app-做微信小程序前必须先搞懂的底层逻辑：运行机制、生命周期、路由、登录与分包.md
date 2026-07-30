@@ -3,19 +3,25 @@ title: "uni-app 做微信小程序前必须先搞懂的底层逻辑：运行机�
 slug: "uni-app-uni-app-d43ce8ad"
 summary: "面向长期维护公司 uni-app 项目的开发者，从编译链路、宿主环境、页面生命周期、登录链路到分包与性能，先建立做微信小程序最重要的整体认知。"
 category: "微信小程序"
+categoryPath:
+  - "前端技术"
+  - "uni-app"
+  - "微信小程序"
 tags:
   - "uni-app"
   - "微信小程序"
   - "运行机制"
   - "生命周期"
   - "分包"
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac200"
 originalSlug: "uni-app-uni-app-d43ce8ad"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-03T13:50:43.295Z"
+updatedAt: "2026-06-13T10:28:27.809Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 做微信小程序前必须先搞懂的底层逻辑：运行机制、生命周期、路由、登录与分包
 

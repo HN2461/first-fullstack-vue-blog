@@ -3,6 +3,9 @@ title: "uni-app 语音输入与语音转文字封装实战：按住说话、上�
 slug: "uni-app-uni-app-h5-67daf64f"
 summary: "系统梳理 uni-app 中语音输入功能为什么容易写乱，以及如何把录音、权限、H5 兼容、语音转文字接口、自动发送和交互状态拆成可直接复制使用的模板。"
 category: "uni-app"
+categoryPath:
+  - "项目复用技术"
+  - "uni-app"
 tags:
   - "uni-app"
   - "微信小程序"
@@ -10,13 +13,15 @@ tags:
   - "录音"
   - "语音转文字"
   - "H5"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6e0"
 originalSlug: "uni-app-uni-app-h5-67daf64f"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-16T12:41:50.147Z"
+updatedAt: "2026-06-13T10:28:29.963Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 语音输入与语音转文字封装实战：按住说话、上滑取消、H5 兼容与自动发送
 

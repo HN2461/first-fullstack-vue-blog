@@ -3,14 +3,20 @@ title: "附录C Vue Router 速查表"
 slug: "vue-ai-vue-c-vue-router-8010183d"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac294"
 originalSlug: "vue-ai-vue-c-vue-router-8010183d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:21:58.978Z"
+updatedAt: "2026-06-19T06:24:52.005Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 附录C：Vue Router 速查表
 

@@ -3,14 +3,20 @@ title: "CSS核心_盒子_布局_视觉"
 slug: "css-css-74c20f0d"
 summary: ""
 category: "AI版CSS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版CSS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d30eeb480df92ce002e20"
 originalSlug: "css-css-74c20f0d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.349Z"
+updatedAt: "2026-06-13T10:29:02.028Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇 CSS 核心：盒子、布局、视觉
 

@@ -3,6 +3,9 @@ title: "前端里的各种\"帧\"——Frame 全解"
 slug: "frame-6e6d3264"
 summary: "前端学习中会反复遇到\"帧\"这个词，但它在不同场景含义完全不同。本文系统梳理前端开发中高频出现的各种\"帧\"，包括渲染帧、关键帧、动画帧、调用栈帧、视频帧、iframe、WebSocket 数据帧等，一次搞清楚。"
 category: "浏览器与网络"
+categoryPath:
+  - "常用缺易忘"
+  - "浏览器与网络"
 tags:
   - "帧"
   - "渲染"
@@ -11,13 +14,15 @@ tags:
   - "JavaScript"
   - "CSS"
   - "WebSocket"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac35c"
 originalSlug: "frame-6e6d3264"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-14T13:16:10.454Z"
+updatedAt: "2026-06-21T12:56:40.633Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 前端里的各种"帧"——Frame 全解
 

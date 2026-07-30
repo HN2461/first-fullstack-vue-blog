@@ -3,16 +3,22 @@ title: "Python 零基础入门 03：print 输出与注释"
 slug: "python-zero-print-and-comments"
 summary: "详细讲解 Python print 输出、多个值输出、换行控制、sep/end 参数、f-string 格式化，以及注释规范，并逐项对照 JavaScript 的 console.log、模板字符串和注释写法。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a4a4304f9ac958d29176036"
 originalSlug: "python-zero-print-and-comments"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.615Z"
+updatedAt: "2026-07-30T14:44:46.118Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 03：print 输出与注释
 

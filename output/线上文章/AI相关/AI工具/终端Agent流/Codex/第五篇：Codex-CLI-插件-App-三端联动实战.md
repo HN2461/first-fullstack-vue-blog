@@ -3,19 +3,26 @@ title: "第五篇：Codex CLI / 插件 / App 三端联动实战"
 slug: "ai-agent-codex-codex-cli-app-afad6d17"
 summary: "详细讲解 Codex CLI、插件和 App 三端共用配置、认证与规则的关系，帮助排查“CLI 能用但插件或 App 不同步”的典型问题。"
 category: "Codex"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "Codex"
 tags:
   - "Codex"
   - "CLI"
   - "插件"
   - "App"
   - "配置联动"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf6e"
 originalSlug: "ai-agent-codex-codex-cli-app-afad6d17"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-04T13:41:34.293Z"
+updatedAt: "2026-07-30T14:24:30.438Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第五篇：Codex CLI / 插件 / App 三端联动实战
 

@@ -3,17 +3,23 @@ title: "Python 零基础入门 22：csv 模块"
 slug: "python-zero-csv-module"
 summary: "面向零基础系统学习 Python 标准库 csv 模块，掌握 reader、writer、DictReader、DictWriter、newline、UTF-8、追加写入、分隔符、引号、Sniffer、字段 schema、校验、去重幂等、临时文件替换和爬虫结果保存模板。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
   - "csv"
-status: "draft"
-sortOrder: 220
+status: "published"
+sortOrder: 230
 cover: ""
 originalId: "6a4a4304f9ac958d29176082"
 originalSlug: "python-zero-csv-module"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.486Z"
+updatedAt: "2026-07-30T14:44:46.156Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 22：csv 模块
 

@@ -3,6 +3,10 @@ title: "接口与会话控制详解第五篇：JWT 认证原理与实战"
 slug: "node-js-jwt-64903817"
 summary: "深入理解 JWT 的三段结构和签名原理，掌握 jsonwebtoken 的生成与验证，实现鉴权中间件，以及 access token + refresh token 双 Token 刷新机制的完整实战。"
 category: "接口与会话控制详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "接口与会话控制详解"
 tags:
   - "Node.js"
   - "JWT"
@@ -10,13 +14,15 @@ tags:
   - "Token"
   - "无状态"
   - "前后端分离"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac18e"
 originalSlug: "node-js-jwt-64903817"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-21T13:22:25.066Z"
+updatedAt: "2026-06-19T06:25:37.821Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 接口与会话控制详解第五篇：JWT 认证原理与实战
 

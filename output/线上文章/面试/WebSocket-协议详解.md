@@ -3,18 +3,22 @@ title: "WebSocket 协议详解"
 slug: "websocket-a1cbc328"
 summary: "WebSocket 协议原理、特点、应用场景及 JavaScript 使用方法详解。"
 category: "面试"
+categoryPath:
+  - "面试"
 tags:
   - "WebSocket"
   - "网络协议"
   - "实时通信"
   - "前端"
-status: "draft"
+status: "published"
 sortOrder: 100
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac68a"
 originalSlug: "websocket-a1cbc328"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-10T14:38:27.761Z"
+updatedAt: "2026-06-17T12:38:43.410Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ### WebSocket 简介
 WebSocket 是一种网络传输协议，位于 OSI 模型的应用层。它允许在客户端和服务器之间建立持久连接，进行全双工通信，解决了传统 HTTP 协议无法实现服务器主动推送数据的问题。

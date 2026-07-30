@@ -3,14 +3,20 @@ title: "Class与模块"
 slug: "js-class-0867afc9"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 180
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0fa"
 originalSlug: "js-class-0867afc9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.493Z"
+updatedAt: "2026-06-15T14:50:24.970Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第21章 Class与模块
 

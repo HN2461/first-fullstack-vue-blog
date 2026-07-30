@@ -3,19 +3,24 @@ title: "uni-app 头像上传与圆形裁剪封装实战：选图、拖拽缩放�
 slug: "uni-app-uni-app-canvas-7159e2f3"
 summary: "从头像上传这条高频链路出发，系统整理 uni-app 中选图、进入裁剪页、单指拖拽、双指缩放、圆形裁剪框、Canvas 导出与上传回填的可复用封装方案。"
 category: "uni-app"
+categoryPath:
+  - "项目复用技术"
+  - "uni-app"
 tags:
   - "uni-app"
   - "头像上传"
   - "图片裁剪"
   - "Canvas"
   - "微信小程序"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f8"
 originalSlug: "uni-app-uni-app-canvas-7159e2f3"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-17T12:49:16.572Z"
+updatedAt: "2026-06-13T10:28:30.008Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas 导出一次讲透
 

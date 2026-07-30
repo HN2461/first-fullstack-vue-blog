@@ -3,18 +3,24 @@ title: "Python 零基础入门 27：pytest 测试、调试与代码质量"
 slug: "python-zero-pytest-debugging-code-quality"
 summary: "建立最小可用的 Python 工程验证流程，讲解 pytest 安装与运行、测试结构、异常断言、参数化、临时目录、fixture、traceback、breakpoint、日志调试和 Ruff 代码检查。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
   - "pytest"
   - "调试"
-status: "draft"
-sortOrder: 270
+status: "published"
+sortOrder: 280
 cover: ""
 originalId: "6a6b57a2fca6347974f5d186"
 originalSlug: "python-zero-pytest-debugging-code-quality"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.164Z"
+updatedAt: "2026-07-30T14:44:46.164Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 27：pytest 测试、调试与代码质量
 

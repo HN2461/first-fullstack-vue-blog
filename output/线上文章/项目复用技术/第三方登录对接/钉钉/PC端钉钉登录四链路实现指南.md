@@ -3,14 +3,20 @@ title: "PC端钉钉登录四链路实现指南"
 slug: "pc-pc-738e0cc4"
 summary: ""
 category: "钉钉"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "钉钉"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 100
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac78a"
 originalSlug: "pc-pc-738e0cc4"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.436Z"
+updatedAt: "2026-06-13T14:03:18.889Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # PC 端钉钉登录四链路实现指南
 

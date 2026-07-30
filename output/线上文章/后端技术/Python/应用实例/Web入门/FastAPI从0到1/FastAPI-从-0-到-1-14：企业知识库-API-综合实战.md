@@ -3,18 +3,26 @@ title: "FastAPI 从 0 到 1 14：企业知识库 API 综合实战"
 slug: "fastapi-enterprise-knowledge-api-capstone"
 summary: "基于前面完成的文章项目，实现作者提交审核、审核员通过或驳回、状态机、审核记录、权限依赖、数据库事务和自动化测试。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "企业实战"
   - "知识库"
-status: "draft"
-sortOrder: 140
+status: "published"
+sortOrder: 160
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1ae"
 originalSlug: "fastapi-enterprise-knowledge-api-capstone"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.209Z"
+updatedAt: "2026-07-30T14:44:46.209Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 14：企业知识库 API 综合实战
 

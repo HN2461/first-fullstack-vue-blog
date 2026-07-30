@@ -3,6 +3,11 @@ title: "第一篇：Claude Code 快速上手、npm 安装更新与终端工作�
 slug: "ai-agent-claudecode-claudecode-4c9d5bfe"
 summary: "基于 2026-07-04 Claude Code 官方 Setup、Interactive Mode、Commands、Permission Modes 与 How Claude Code Works 文档复核更新，聚焦程序员真正需要的安装更新、终端读屏、权限模式与第一轮最小工作流。"
 category: "ClaudeCode"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "ClaudeCode"
 tags:
   - "Claude Code"
   - "npm"
@@ -10,13 +15,15 @@ tags:
   - "CLI"
   - "权限模式"
   - "程序员上手"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf18"
 originalSlug: "ai-agent-claudecode-claudecode-4c9d5bfe"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-30T08:58:26.833Z"
+updatedAt: "2026-07-30T14:24:30.385Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）
 

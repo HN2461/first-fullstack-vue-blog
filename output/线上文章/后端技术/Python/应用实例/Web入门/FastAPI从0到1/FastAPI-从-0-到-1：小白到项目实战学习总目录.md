@@ -3,18 +3,26 @@ title: "FastAPI 从 0 到 1：小白到项目实战学习总目录"
 slug: "fastapi-zero-to-enterprise-index"
 summary: "面向掌握 Python 基础语法、但没有 Web 后端经验的学习者，从读懂第一行代码开始，逐步完成可运行、可测试、可部署的 FastAPI 项目。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "后端开发"
   - "学习路线"
-status: "draft"
-sortOrder: 0
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a6b635eb46b52abc5dc2863"
 originalSlug: "fastapi-zero-to-enterprise-index"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.216Z"
+updatedAt: "2026-07-30T14:44:46.216Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1：小白到项目实战学习总目录
 

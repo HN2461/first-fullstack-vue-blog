@@ -3,18 +3,24 @@ title: "Python 零基础入门 23：logging 日志模块"
 slug: "python-zero-logging-module"
 summary: "面向零基础系统学习 Python 标准库 logging，掌握日志级别、basicConfig、格式化、文件输出、异常记录、Logger、Handler、Formatter、日志轮转、多模块项目配置和常见问题排查。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
   - "logging"
   - "日志"
-status: "draft"
-sortOrder: 230
+status: "published"
+sortOrder: 240
 cover: ""
 originalId: "6a6b57a2fca6347974f5d17e"
 originalSlug: "python-zero-logging-module"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.157Z"
+updatedAt: "2026-07-30T14:44:46.157Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 23：logging 日志模块
 

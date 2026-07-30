@@ -3,19 +3,25 @@ title: "uni-app 到底是什么：跨端编译、运行时与平台边界"
 slug: "uni-app-uni-app-85c68412"
 summary: "从跨端编译、运行时宿主、通用能力边界到平台差异收口，先建立一套适用于 uni-app 多端项目的基础认知。"
 category: "通用基础"
+categoryPath:
+  - "前端技术"
+  - "uni-app"
+  - "通用基础"
 tags:
   - "uni-app"
   - "跨端开发"
   - "编译"
   - "运行时"
   - "平台差异"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac242"
 originalSlug: "uni-app-uni-app-85c68412"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-09T12:50:17.700Z"
+updatedAt: "2026-06-17T12:38:32.192Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 到底是什么：跨端编译、运行时与平台边界
 

@@ -3,19 +3,25 @@ title: "附录01：Vue2的Webpack工程化详解"
 slug: "vue-vue-01-vue2-webpack-ba0bd4ed"
 summary: "Vue2时代最主流的工程化方案是Webpack+vue-loader（通常由vue-cli脚手架封装）。它的核心目标是：把浏览器不直接理解的资源（.vue、scss/less、图片、字体、TS、现代JS语法等）通过loader/plugin/打包策略转成浏览器能高效加载的HTML+CSS+JS+静态资源。"
 category: "vue随记"
+categoryPath:
+  - "我的总结"
+  - "Vue"
+  - "vue随记"
 tags:
   - "Vue2"
   - "Webpack"
   - "工程化"
   - "vue-loader"
   - "构建工具"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4f8"
 originalSlug: "vue-vue-01-vue2-webpack-ba0bd4ed"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:57:01.545Z"
+updatedAt: "2026-06-13T10:28:29.149Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Vue2 的 Webpack 工程化详解（面向前端工程师）
 

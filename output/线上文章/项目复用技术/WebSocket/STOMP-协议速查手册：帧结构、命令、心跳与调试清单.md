@@ -3,6 +3,9 @@ title: "STOMP 协议速查手册：帧结构、命令、心跳与调试清单"
 slug: "websocket-stomp-abe9babf"
 summary: "这是 WebSocket 专题的第 10 篇，一份面向 STOMP 协议的快速参考手册，用类比和最小记忆量把帧结构、核心命令、心跳协商、常见错误和调试清单讲清楚，适合长时间没碰 STOMP 后快速回忆。"
 category: "WebSocket"
+categoryPath:
+  - "项目复用技术"
+  - "WebSocket"
 tags:
   - "STOMP"
   - "WebSocket"
@@ -10,13 +13,15 @@ tags:
   - "协议规范"
   - "心跳"
   - "帧结构"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac746"
 originalSlug: "websocket-stomp-abe9babf"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-14T13:07:41.593Z"
+updatedAt: "2026-06-14T05:48:27.902Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # STOMP 协议速查手册：帧结构、命令、心跳与调试清单
 

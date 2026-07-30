@@ -3,6 +3,10 @@ title: "MongoDB 详解第一篇：安装与基础概念"
 slug: "node-js-mongodb-mongodb-5f0dd1bc"
 summary: "从零理解 MongoDB 的文档模型、BSON、ObjectId、嵌入与引用思路，并按官方安装路径完成本地环境搭建，为后续 CRUD 和项目实战打基础。"
 category: "MongoDB详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "MongoDB详解"
 tags:
   - "MongoDB"
   - "NoSQL"
@@ -10,13 +14,15 @@ tags:
   - "mongosh"
   - "安装配置"
   - "数据建模"
-status: "draft"
-sortOrder: 70
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac12a"
 originalSlug: "node-js-mongodb-mongodb-5f0dd1bc"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-06T11:39:25.706Z"
+updatedAt: "2026-06-13T10:28:27.552Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # MongoDB 详解第一篇：安装与基础概念
 

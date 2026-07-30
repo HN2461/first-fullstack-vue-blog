@@ -3,14 +3,20 @@ title: "其他Apis》"
 slug: "vue-vue3-apis-94236b74"
 summary: ""
 category: "vue3"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "vue3"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2d8"
 originalSlug: "vue-vue3-apis-94236b74"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-03-27T13:29:03.416Z"
+updatedAt: "2026-06-17T13:23:43.849Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 6、其他APIs
 ## 6.1.【shallowRef 与 shallowReactive 】

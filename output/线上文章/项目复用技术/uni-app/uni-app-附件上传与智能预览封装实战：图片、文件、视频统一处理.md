@@ -3,6 +3,9 @@ title: "uni-app 附件上传与智能预览封装实战：图片、文件、视�
 slug: "uni-app-uni-app-7432a1ba"
 summary: "系统整理 uni-app 中附件上传、图片预览、文档打开、视频上传、文件大小格式化和文件图标映射这些高频能力，并沉淀成可直接复制使用的统一封装方案。"
 category: "uni-app"
+categoryPath:
+  - "项目复用技术"
+  - "uni-app"
 tags:
   - "uni-app"
   - "文件上传"
@@ -10,13 +13,15 @@ tags:
   - "图片上传"
   - "视频上传"
   - "工具封装"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ea"
 originalSlug: "uni-app-uni-app-7432a1ba"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-16T12:41:50.147Z"
+updatedAt: "2026-06-13T10:28:29.978Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 附件上传与智能预览封装实战：图片、文件、视频统一处理
 

@@ -3,19 +3,24 @@ title: "File、Blob、ArrayBuffer、Base64 区别"
 slug: "file-blob-arraybuffer-base64-537d7c38"
 summary: "一次理清 File、Blob、ArrayBuffer、Base64 各自代表什么、彼此怎么转换，以及上传、下载、预览、二进制处理时分别该优先用哪一种，避免把编码结果和数据类型混为一谈。"
 category: "数据类型"
+categoryPath:
+  - "常用缺易忘"
+  - "数据类型"
 tags:
   - "File"
   - "Blob"
   - "ArrayBuffer"
   - "Base64"
   - "二进制"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac32c"
 originalSlug: "file-blob-arraybuffer-base64-537d7c38"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.362Z"
+updatedAt: "2026-06-13T14:09:43.224Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # File、Blob、ArrayBuffer、Base64 区别
 

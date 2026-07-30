@@ -3,14 +3,20 @@ title: "组件通信大全（Vue2 必考）"
 slug: "vue-ai-vue-vue2-67e0094d"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 180
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac266"
 originalSlug: "vue-ai-vue-vue2-67e0094d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:10:12.453Z"
+updatedAt: "2026-06-19T06:25:07.178Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第13章 组件通信大全（Vue2 必考）
 

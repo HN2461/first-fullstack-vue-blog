@@ -3,6 +3,9 @@ title: "Windows 常见系统路径与环境变量速查"
 slug: "windows-b0b9b49e"
 summary: "基于微软官方文档整理 Windows 里最常见的系统路径和环境变量，覆盖 USERPROFILE、APPDATA、LOCALAPPDATA、ProgramData、PUBLIC、ProgramFiles 等常用定位方式。"
 category: "系统与文件"
+categoryPath:
+  - "电脑"
+  - "系统与文件"
 tags:
   - "Windows"
   - "环境变量"
@@ -10,13 +13,15 @@ tags:
   - "AppData"
   - "ProgramData"
   - "配置"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac55e"
 originalSlug: "windows-b0b9b49e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-12T13:45:49.792Z"
+updatedAt: "2026-06-13T10:28:29.301Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Windows 常见系统路径与环境变量速查
 

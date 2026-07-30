@@ -3,18 +3,24 @@ title: "第02篇：JavaScript 数据访问安全机制"
 slug: "js-js-f6bc0394"
 summary: "JavaScript可选链操作符（?.）和空值合并操作符（??）的使用方法、原理及与相关操作符的区别。"
 category: "辅助资料"
+categoryPath:
+  - "我的总结"
+  - "js"
+  - "辅助资料"
 tags:
   - "JavaScript"
   - "可选链操作符"
   - "空值合并操作符"
   - "数据访问"
-status: "draft"
-sortOrder: 260
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac394"
 originalSlug: "js-js-f6bc0394"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:25:33.655Z"
+updatedAt: "2026-06-13T10:28:28.557Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第02篇：JavaScript 数据访问安全机制
 

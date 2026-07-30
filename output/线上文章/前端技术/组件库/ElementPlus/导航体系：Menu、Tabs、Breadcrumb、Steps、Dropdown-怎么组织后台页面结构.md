@@ -3,6 +3,10 @@ title: "导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown 怎么组织�
 slug: "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38"
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解后台导航体系的五类核心组件：侧边菜单、标签页、面包屑、步骤条、下拉菜单，以及它们与 Vue Router 的联动方式。"
 category: "ElementPlus"
+categoryPath:
+  - "前端技术"
+  - "组件库"
+  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Menu"
@@ -10,13 +14,15 @@ tags:
   - "Breadcrumb"
   - "Steps"
   - "Dropdown"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac606"
 originalSlug: "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-29T11:27:17.307Z"
+updatedAt: "2026-06-13T10:28:29.569Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown 怎么组织后台页面结构
 

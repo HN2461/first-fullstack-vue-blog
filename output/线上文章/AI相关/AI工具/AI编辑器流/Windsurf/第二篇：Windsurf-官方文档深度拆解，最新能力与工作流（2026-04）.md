@@ -3,19 +3,26 @@ title: "第二篇：Windsurf 官方文档深度拆解，最新能力与工作流
 slug: "ai-ai-windsurf-windsurf-4667d3b6"
 summary: "基于 Windsurf 官方文档、官方定价页与官方 changelog 交叉核对到 2026-04-14，详细拆解当前版本的安装要求、Code/Plan/Ask 模式、Adaptive 与配额体系、Tab/Command、Fast Context、Rules/AGENTS.md/Skills/Workflows、MCP、Hooks、Previews 与 App Deploys。"
 category: "Windsurf"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "Windsurf"
 tags:
   - "Windsurf"
   - "官方文档"
   - "最新动态"
   - "Cascade"
   - "工作流"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabefc"
 originalSlug: "ai-ai-windsurf-windsurf-4667d3b6"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.606Z"
+updatedAt: "2026-06-13T10:28:26.511Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）
 

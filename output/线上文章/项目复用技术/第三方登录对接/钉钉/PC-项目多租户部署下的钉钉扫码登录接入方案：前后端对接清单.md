@@ -3,19 +3,25 @@ title: "PC 项目多租户部署下的钉钉扫码登录接入方案：前后端
 slug: "pc-pc-f80d8c7b"
 summary: "面向\"一套代码、多租户独立部署、按域名返回租户配置\"的 PC 项目，梳理钉钉第三方企业应用扫码登录的接入思路、配置项、接口约定与常见坑位。"
 category: "钉钉"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "钉钉"
 tags:
   - "钉钉扫码登录"
   - "第三方企业应用"
   - "PC 项目"
   - "多租户部署"
   - "前后端联调"
-status: "draft"
+status: "published"
 sortOrder: 110
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac786"
 originalSlug: "pc-pc-f80d8c7b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.435Z"
+updatedAt: "2026-06-13T14:03:18.889Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # PC 项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单
 

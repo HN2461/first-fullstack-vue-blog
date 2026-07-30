@@ -3,19 +3,27 @@ title: "FastAPI 从 0 到 1 12：pytest 与质量保障"
 slug: "fastapi-pytest-quality-assurance"
 summary: "从第一个 Pydantic 单元测试开始，使用独立 PostgreSQL 测试库、HTTPX 和依赖覆盖测试注册、登录、文章 CRUD 与异常路径。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "pytest"
   - "测试"
   - "CI"
-status: "draft"
-sortOrder: 120
+status: "published"
+sortOrder: 140
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1aa"
 originalSlug: "fastapi-pytest-quality-assurance"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.205Z"
+updatedAt: "2026-07-30T14:44:46.205Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 12：pytest 与质量保障
 

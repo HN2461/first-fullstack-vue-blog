@@ -3,14 +3,20 @@ title: "IP 类型与风控判断：家宽、机房、ISP、住宅代理到底怎
 slug: "ip-usage-type-residential-datacenter-risk-guide-20260705"
 summary: "整理 IP 使用类型、住宅代理、机房 IP、平台风控和常见营销话术的判断方法，避免把单一查询网站的标签当成绝对结论。"
 category: "代理与VPN"
+categoryPath:
+  - "电脑"
+  - "电脑网络"
+  - "代理与VPN"
 tags: []
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a4a451af9ac958d29177b5f"
 originalSlug: "ip-usage-type-residential-datacenter-risk-guide-20260705"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:51:14.532Z"
+updatedAt: "2026-07-05T11:51:14.533Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ## 小白先看
 

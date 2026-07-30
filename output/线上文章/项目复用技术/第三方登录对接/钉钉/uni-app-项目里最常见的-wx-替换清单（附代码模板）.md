@@ -3,19 +3,25 @@ title: "uni-app 项目里最常见的 wx 替换清单（附代码模板）"
 slug: "uni-app-uni-app-wx-616a50b5"
 summary: "面向真实项目整理 uni-app 中常见 wx 写法迁到钉钉小程序时的替换思路，区分哪些应改为 uni、哪些应改为 dd 或 dingtalk-jsapi，并附适配层代码模板。"
 category: "钉钉"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "钉钉"
 tags:
   - "uni-app"
   - "钉钉小程序"
   - "wx"
   - "条件编译"
   - "dingtalk-jsapi"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7a2"
 originalSlug: "uni-app-uni-app-wx-616a50b5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.444Z"
+updatedAt: "2026-06-13T14:09:43.237Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 项目里最常见的 wx 替换清单（附代码模板）
 

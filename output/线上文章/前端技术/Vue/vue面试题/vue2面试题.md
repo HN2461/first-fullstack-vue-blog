@@ -3,14 +3,20 @@ title: "vue2面试题"
 slug: "vue-vue-vue2-979be5aa"
 summary: ""
 category: "vue面试题"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "vue面试题"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2dc"
 originalSlug: "vue-vue-vue2-979be5aa"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-03-27T13:29:24.443Z"
+updatedAt: "2026-06-17T12:36:16.649Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ### 1、vue功能是什么，跟传统开发有什么区别？
 #### vue功能是什么

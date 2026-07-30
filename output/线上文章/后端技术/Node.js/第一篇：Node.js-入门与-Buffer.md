@@ -3,6 +3,9 @@ title: "第一篇：Node.js 入门与 Buffer"
 slug: "node-js-node-js-buffer-52d2c595"
 summary: "从前端视角深入理解 Node.js 的架构原理、事件循环机制、全局对象体系，以及 Buffer 二进制数据处理的完整用法，配合官方文档深度解析。"
 category: "Node.js"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
 tags:
   - "Node.js"
   - "Buffer"
@@ -11,13 +14,15 @@ tags:
   - "全局对象"
   - "事件循环"
   - "libuv"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1ba"
 originalSlug: "node-js-node-js-buffer-52d2c595"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-05T11:32:01.047Z"
+updatedAt: "2026-06-19T06:25:52.916Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇：Node.js 入门与 Buffer
 

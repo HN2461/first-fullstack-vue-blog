@@ -3,6 +3,9 @@ title: "STOMP 帧封装实战：命令拼装、拆帧、心跳与粘包处理"
 slug: "websocket-stomp-8044d9d1"
 summary: "这是 WebSocket 专题的第 2 篇，专门讲 STOMP 帧层应该怎么封，包括命令常量、帧拼装、CONNECT/SUBSCRIBE 帧构建、heart-beat 协商、单帧解析以及 WebSocket message 与 STOMP frame 边界不一致时的 remainder 处理。"
 category: "WebSocket"
+categoryPath:
+  - "项目复用技术"
+  - "WebSocket"
 tags:
   - "uni-app"
   - "STOMP"
@@ -10,13 +13,15 @@ tags:
   - "协议封装"
   - "粘包处理"
   - "心跳"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac712"
 originalSlug: "websocket-stomp-8044d9d1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-16T13:25:08.647Z"
+updatedAt: "2026-06-13T10:28:30.071Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # STOMP 帧封装实战：命令拼装、拆帧、心跳与粘包处理
 

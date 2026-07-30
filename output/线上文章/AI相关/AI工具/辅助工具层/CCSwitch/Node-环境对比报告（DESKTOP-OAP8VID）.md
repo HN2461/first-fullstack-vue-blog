@@ -3,19 +3,26 @@ title: "Node 环境对比报告（DESKTOP-OAP8VID）"
 slug: "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25"
 summary: "公司电脑环境下采集的 Node / npm / PATH / PowerShell / 加密初始化对比报告，用于和个人电脑样本交叉比对 Codex 终端中的异常表现。"
 category: "CCSwitch"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "辅助工具层"
+  - "CCSwitch"
 tags:
   - "Codex"
   - "Node.js"
   - "PowerShell"
   - "对比报告"
   - "故障排查"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac04a"
 originalSlug: "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T13:49:15.040Z"
+updatedAt: "2026-06-13T14:03:18.917Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Node 环境对比报告（DESKTOP-OAP8VID）
 

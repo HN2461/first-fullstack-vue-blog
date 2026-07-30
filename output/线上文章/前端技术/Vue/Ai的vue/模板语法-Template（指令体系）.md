@@ -3,14 +3,20 @@ title: "模板语法 Template（指令体系）"
 slug: "vue-ai-vue-template-2bebc61d"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 270
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac284"
 originalSlug: "vue-ai-vue-template-2bebc61d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:00:51.327Z"
+updatedAt: "2026-06-13T10:28:28.052Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第4章 模板语法 Template（指令体系）
 

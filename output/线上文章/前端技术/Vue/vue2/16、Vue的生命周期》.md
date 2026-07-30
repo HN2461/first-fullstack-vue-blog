@@ -3,14 +3,20 @@ title: ".16、Vue的生命周期》"
 slug: "vue-vue2-16-vue-975bfaf5"
 summary: ""
 category: "vue2"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "vue2"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 110
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2b2"
 originalSlug: "vue-vue2-16-vue-975bfaf5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-03-27T13:26:32.708Z"
+updatedAt: "2026-06-13T10:28:28.189Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 2.16 Vue的生命周期
 ## 一、生命周期概述

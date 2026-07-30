@@ -3,14 +3,20 @@ title: "附录F 常见报错与解决方案合集"
 slug: "vue-ai-vue-f-fa05c4ac"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac29a"
 originalSlug: "vue-ai-vue-f-fa05c4ac"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:22:00.012Z"
+updatedAt: "2026-06-26T08:11:11.393Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 附录F：常见报错与解决方案合集
 

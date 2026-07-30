@@ -3,6 +3,10 @@ title: "第一篇：快速认识 ECharts：安装、核心概念与常见图表"
 slug: "echarts-echarts-echarts-aca8614a"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方首页、Handbook、Releases 与安全/无障碍文档，系统讲清 ECharts 的定位、最新版本脉络、安装方式、option 思维、dataset、动态更新、交互、性能与 Vue 项目接入要点。"
 category: "ECharts"
+categoryPath:
+  - "前端技术"
+  - "组件库"
+  - "ECharts"
 tags:
   - "ECharts"
   - "数据可视化"
@@ -10,13 +14,15 @@ tags:
   - "Vue3"
   - "Canvas"
   - "SVG"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5c4"
 originalSlug: "echarts-echarts-echarts-aca8614a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-02T08:04:36.031Z"
+updatedAt: "2026-06-13T14:09:43.188Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇：快速认识 ECharts：安装、核心概念与常见图表
 

@@ -3,17 +3,25 @@ title: "00-MaxKB 公共规则规范包使用说明"
 slug: "maxkb-00-maxkb-6d42583b"
 summary: "本文整理 00-MaxKB 公共规则规范包使用说明，归纳 MaxKB 公共规则相关的配置方法、实践步骤、边界条件与常见注意事项。"
 category: "公共规则"
+categoryPath:
+  - "AI相关"
+  - "AI开发"
+  - "AI应用开发平台"
+  - "MaxKB"
+  - "公共规则"
 tags:
   - "MaxKB"
   - "AI应用开发"
   - "公共规则"
-status: "draft"
-sortOrder: 0
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e36"
 originalSlug: "maxkb-00-maxkb-6d42583b"
-originalStatus: "draft"
-exportedAt: "2026-07-30T15:12:30.579Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T15:09:19.420Z"
+updatedAt: "2026-07-30T15:09:19.420Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 00-MaxKB 公共规则规范包使用说明
 

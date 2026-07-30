@@ -3,6 +3,11 @@ title: "第四篇：Codex 多线路接入与迁移总手册"
 slug: "ai-agent-codex-codex-94189641"
 summary: "将官方、Packy、yunyi、rpcod 等线路统一收进一篇完整的线路选择与迁移总手册，集中解决多线路怎么选、怎么配、怎么迁移、怎么排错。"
 category: "Codex"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "Codex"
 tags:
   - "Codex"
   - "多线路"
@@ -10,13 +15,15 @@ tags:
   - "Packy"
   - "yunyi"
   - "rpcod"
-status: "draft"
-sortOrder: 10
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf66"
 originalSlug: "ai-agent-codex-codex-94189641"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-04T13:41:34.298Z"
+updatedAt: "2026-07-30T14:24:30.428Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第四篇：Codex 多线路接入与迁移总手册
 

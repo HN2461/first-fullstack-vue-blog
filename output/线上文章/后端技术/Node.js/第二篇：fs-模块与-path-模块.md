@@ -3,19 +3,24 @@ title: "第二篇：fs 模块与 path 模块"
 slug: "node-js-fs-path-e956bb19"
 summary: "深入掌握 Node.js 文件系统模块（fs）的同步/异步/Promise 三种写法，以及 path 模块的跨平台路径处理，是后端开发的必备基础。"
 category: "Node.js"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
 tags:
   - "Node.js"
   - "fs模块"
   - "path模块"
   - "文件操作"
   - "流式处理"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1d0"
 originalSlug: "node-js-fs-path-e956bb19"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-18T13:01:07.819Z"
+updatedAt: "2026-06-19T06:25:50.981Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：fs 模块与 path 模块
 

@@ -3,19 +3,26 @@ title: "第一篇：AI 工具规则文档是什么，为什么需要它"
 slug: "ai-rules-ai-e659b444"
 summary: "从\"AI 每次都忘了你的项目规范\"这个痛点出发，解释规则文档的本质、解决的核心问题，并横向对比 Claude Code、Codex、Cursor、Devin / Windsurf、Kiro、Gemini CLI、GitHub Copilot 七大工具的规则文件名、存放位置与加载方式。"
 category: "Rules"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "Rules"
 tags:
   - "AGENTS.md"
   - "CLAUDE.md"
   - "Rules"
   - "AI规则文档"
   - "上下文管理"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfe8"
 originalSlug: "ai-rules-ai-e659b444"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.674Z"
+updatedAt: "2026-07-30T14:24:30.296Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇：AI 工具规则文档是什么，为什么需要它
 

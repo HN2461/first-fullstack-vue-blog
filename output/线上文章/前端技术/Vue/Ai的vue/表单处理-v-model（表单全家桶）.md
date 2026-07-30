@@ -3,14 +3,20 @@ title: "表单处理 v-model（表单全家桶）"
 slug: "vue-ai-vue-v-model-c66bd182"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 240
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac28a"
 originalSlug: "vue-ai-vue-v-model-c66bd182"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:03:47.571Z"
+updatedAt: "2026-06-19T06:25:09.350Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第7章 表单处理 v-model（表单全家桶）
 

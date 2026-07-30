@@ -3,19 +3,26 @@ title: "Node 环境对比报告（LAPTOP-5AP3767K）"
 slug: "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4"
 summary: "个人电脑环境下采集的 Node / npm / PATH / PowerShell / 加密初始化对比报告，用于辅助定位 Codex 终端和外部终端表现不一致的问题。"
 category: "CCSwitch"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "辅助工具层"
+  - "CCSwitch"
 tags:
   - "Codex"
   - "Node.js"
   - "PowerShell"
   - "对比报告"
   - "故障排查"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac048"
 originalSlug: "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T13:49:15.039Z"
+updatedAt: "2026-06-13T14:03:18.914Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Node 环境对比报告（LAPTOP-5AP3767K）
 

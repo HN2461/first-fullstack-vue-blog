@@ -3,14 +3,20 @@ title: "从 Vue2 迁移到 Vue3（过渡指南）"
 slug: "vue-ai-vue-vue2-vue3-a7bca734"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac27e"
 originalSlug: "vue-ai-vue-vue2-vue3-a7bca734"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:17:53.475Z"
+updatedAt: "2026-06-16T15:00:03.500Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第24章 从 Vue2 迁移到 Vue3（过渡指南）
 

@@ -3,19 +3,24 @@ title: "前端 HTTP 请求与接口联调手册"
 slug: "http-6bf1d13c"
 summary: "把前端最常一起查的 HTTP 请求、状态码、缓存、下载、实时通信与请求治理收进一篇联调手册，避免再按单个术语碎片化翻找。"
 category: "网络请求"
+categoryPath:
+  - "常用缺易忘"
+  - "网络请求"
 tags:
   - "HTTP"
   - "接口联调"
   - "状态码"
   - "缓存"
   - "实时通信"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac372"
 originalSlug: "http-6bf1d13c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.379Z"
+updatedAt: "2026-06-17T12:48:35.301Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 前端 HTTP 请求与接口联调手册
 

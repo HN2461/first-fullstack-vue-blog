@@ -3,19 +3,26 @@ title: "01：MCP 是什么与开放标准核心认知"
 slug: "ai-mcp-mcp-067b747a"
 summary: "从零解释 MCP 的定义、组成、工作流程、价值边界与安全治理，建立“协议层认知”而不是“某个单一 MCP 工具教程”的视角。"
 category: "MCP"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "MCP"
 tags:
   - "MCP"
   - "Model Context Protocol"
   - "Agent"
   - "开放标准"
   - "面试"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf96"
 originalSlug: "ai-mcp-mcp-067b747a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T14:08:06.903Z"
+updatedAt: "2026-07-30T14:24:30.136Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 01：MCP 是什么与开放标准核心认知
 

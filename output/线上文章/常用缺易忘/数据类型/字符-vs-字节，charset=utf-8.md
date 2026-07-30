@@ -3,14 +3,19 @@ title: "字符 vs 字节，charset=utf-8"
 slug: "vs-charset-utf-8-8af21833"
 summary: ""
 category: "数据类型"
+categoryPath:
+  - "常用缺易忘"
+  - "数据类型"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33e"
 originalSlug: "vs-charset-utf-8-8af21833"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.368Z"
+updatedAt: "2026-06-13T10:28:28.425Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 字符 vs 字节：零基础讲明白（结合加密密钥场景）
 你完全不懂字符和字节的区别很正常——这是新手最容易卡壳的点，我不用任何专业术语，纯「生活化比喻+实际例子」讲透，还会结合你关心的「加密密钥」场景，让你知道这俩到底和密钥有啥关系。

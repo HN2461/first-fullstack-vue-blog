@@ -3,18 +3,23 @@ title: "uni-app目录（系统整理版）"
 slug: "uni-app-uni-app-4aaf2e1a"
 summary: "本页用于整理 uni-app 系统整理版笔记，按从底层认知到项目落地的顺序阅读，兼顾原理、代码、边界、常见坑和项目实践。"
 category: "uni-app"
+categoryPath:
+  - "我的总结"
+  - "uni-app"
 tags:
   - "uni-app"
   - "目录"
   - "系统整理"
   - "小程序"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac45c"
 originalSlug: "uni-app-uni-app-4aaf2e1a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-08T13:11:46.097Z"
+updatedAt: "2026-06-14T06:29:24.457Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ## uni-app 目录（系统整理版）
 本页仅作为目录使用，按 1 到 6 依次阅读。

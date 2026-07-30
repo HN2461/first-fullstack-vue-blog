@@ -3,19 +3,26 @@ title: "02：常用 MCP 分类与选型总览"
 slug: "ai-mcp-mcp-mcp-ce5df958"
 summary: "以“能力分类”而不是“单个工具”来组织常用 MCP 清单，帮助前端开发者在面试和项目中快速判断该接入哪一类 MCP server。"
 category: "MCP"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "MCP"
 tags:
   - "MCP"
   - "工具选型"
   - "前端工程"
   - "Agent"
   - "清单"
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf9c"
 originalSlug: "ai-mcp-mcp-mcp-ce5df958"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T14:31:35.923Z"
+updatedAt: "2026-07-30T14:24:30.158Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 02：常用 MCP 分类与选型总览
 

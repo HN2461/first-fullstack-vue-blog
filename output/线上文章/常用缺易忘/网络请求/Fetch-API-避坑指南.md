@@ -3,19 +3,24 @@ title: "Fetch API 避坑指南"
 slug: "fetch-api-d4229b6f"
 summary: "深度梳理 Fetch API 的核心用法与常见陷阱，涵盖两层错误判断、超时控制、请求取消、通用封装等实战技巧，避免上线踩坑。"
 category: "网络请求"
+categoryPath:
+  - "常用缺易忘"
+  - "网络请求"
 tags:
   - "Fetch API"
   - "网络请求"
   - "异步编程"
   - "错误处理"
   - "AbortController"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac36a"
 originalSlug: "fetch-api-d4229b6f"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.376Z"
+updatedAt: "2026-06-13T14:09:43.208Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Fetch API 避坑指南
 

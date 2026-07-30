@@ -3,19 +3,26 @@ title: "第5篇：CatPaw Rules与MCP扩展"
 slug: "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79"
 summary: "基于公开用户手册重新整理 CatPaw 的 Rules、索引兼容和 MCP 扩展能力，聚焦团队规范如何固化到 AI 工作流里。"
 category: "CatPaw"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "CatPaw"
 tags:
   - "CatPaw"
   - "Rules"
   - "MCP"
   - "AI 工作流"
   - "扩展"
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe76"
 originalSlug: "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.576Z"
+updatedAt: "2026-06-13T10:28:26.241Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第5篇：CatPaw Rules与MCP扩展
 

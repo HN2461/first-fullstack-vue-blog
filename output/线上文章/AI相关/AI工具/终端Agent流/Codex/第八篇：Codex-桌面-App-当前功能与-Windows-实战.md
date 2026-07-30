@@ -3,6 +3,11 @@ title: "第八篇：Codex 桌面 App 当前功能与 Windows 实战"
 slug: "ai-agent-codex-desktop-app-windows-workflow-20260726"
 summary: "面向高频使用 ChatGPT 桌面 App 中 Codex 的 Windows 开发者，集中说明版本检查、多文件夹项目、Local、Worktree、Git、PR Chat、Voice、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows-native / WSL 工作流。"
 category: "Codex"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "Codex"
 tags:
   - "Codex"
   - "桌面 App"
@@ -10,13 +15,15 @@ tags:
   - "Worktree"
   - "Scheduled tasks"
   - "Browser"
-status: "draft"
-sortOrder: 0
+status: "published"
+sortOrder: 80
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e6c"
 originalSlug: "ai-agent-codex-desktop-app-windows-workflow-20260726"
-originalStatus: "draft"
-exportedAt: "2026-07-30T15:12:30.579Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T15:09:19.559Z"
+updatedAt: "2026-07-30T15:09:19.559Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第八篇：Codex 桌面 App 当前功能与 Windows 实战
 

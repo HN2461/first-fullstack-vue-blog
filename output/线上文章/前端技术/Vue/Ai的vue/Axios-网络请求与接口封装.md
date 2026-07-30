@@ -3,14 +3,20 @@ title: "Axios 网络请求与接口封装"
 slug: "vue-ai-vue-axios-00b046d5"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 110
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac276"
 originalSlug: "vue-ai-vue-axios-00b046d5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:17:53.041Z"
+updatedAt: "2026-06-19T06:25:02.359Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第20章 Axios 网络请求与接口封装
 

@@ -3,14 +3,19 @@ title: "JSON 与 FormData"
 slug: "json-formdata-b830a9f9"
 summary: ""
 category: "数据类型"
+categoryPath:
+  - "常用缺易忘"
+  - "数据类型"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33a"
 originalSlug: "json-formdata-b830a9f9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.364Z"
+updatedAt: "2026-06-13T10:28:28.415Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ## 📖 第一部分：JSON 格式详解
 ### 一、JSON 是什么？

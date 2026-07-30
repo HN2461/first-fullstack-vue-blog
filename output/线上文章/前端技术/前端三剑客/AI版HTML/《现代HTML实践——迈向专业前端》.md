@@ -3,14 +3,20 @@ title: "《现代HTML实践——迈向专业前端》"
 slug: "html-html-67ef3a27"
 summary: ""
 category: "AI版HTML"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版HTML"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ce"
 originalSlug: "html-html-67ef3a27"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.479Z"
+updatedAt: "2026-06-13T10:28:27.380Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第五篇《现代HTML实践——迈向专业前端》
 

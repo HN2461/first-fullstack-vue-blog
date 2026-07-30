@@ -3,19 +3,25 @@ title: "第08篇：mixins_plugins_scoped"
 slug: "vue-vue-mixins-plugins-scoped-5091c143"
 summary: "mixins（混入）、plugins（插件）、scoped（样式隔离）这三个核心特性的用法和差异，我会从概念定义、Vue2/Vue3用法对比、核心差异三个维度，帮你理清它们的区别和适用场景。"
 category: "vue辅助"
+categoryPath:
+  - "我的总结"
+  - "Vue"
+  - "vue辅助"
 tags:
   - "Vue"
   - "mixins"
   - "plugins"
   - "scoped"
   - "代码复用"
-status: "draft"
-sortOrder: 120
+status: "published"
+sortOrder: 80
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4c0"
 originalSlug: "vue-vue-mixins-plugins-scoped-5091c143"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:56:51.095Z"
+updatedAt: "2026-06-13T10:28:29.066Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 `mixins`（混入）、`plugins`（插件）、`scoped`（样式隔离）这三个核心特性的用法和差异，我会从**概念定义**、**Vue2/Vue3 用法对比**、**核心差异**三个维度，帮你理清它们的区别和适用场景。
 

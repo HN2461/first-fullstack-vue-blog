@@ -3,6 +3,11 @@ title: "第七篇：Codex 当前常用功能与进阶工作流手册"
 slug: "ai-agent-codex-codex-1c9633e1"
 summary: "面向日常开发高频场景系统梳理 Codex 当前仍在主线中的常用功能、进阶工作流与最近该升级的认知，减少多篇重复查阅。"
 category: "Codex"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "Codex"
 tags:
   - "Codex"
   - "功能手册"
@@ -10,13 +15,15 @@ tags:
   - "IDE"
   - "CLI"
   - "OpenAI官方"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 70
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf80"
 originalSlug: "ai-agent-codex-codex-1c9633e1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-04T13:41:34.296Z"
+updatedAt: "2026-07-30T14:24:30.409Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第七篇：Codex 当前常用功能与进阶工作流手册
 

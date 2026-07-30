@@ -3,19 +3,26 @@ title: "第3篇：CatPaw AI助手使用指南"
 slug: "ai-ai-catpaw-catpaw-ai-87736891"
 summary: "按公开用户手册梳理 CatPaw 侧边栏 AI 助手的真实用法，重点讲清 Ask、Agent、自定义 Agent、工具列表和对话管理。"
 category: "CatPaw"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "CatPaw"
 tags:
   - "CatPaw"
   - "Ask"
   - "Agent"
   - "自定义 Agent"
   - "AI 助手"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe62"
 originalSlug: "ai-ai-catpaw-catpaw-ai-87736891"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.574Z"
+updatedAt: "2026-06-13T10:28:26.205Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第3篇：CatPaw AI助手使用指南
 

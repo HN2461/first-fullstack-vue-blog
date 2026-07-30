@@ -3,18 +3,24 @@ title: "第03篇：JavaScript 闭包与垃圾回收机制"
 slug: "js-js-51b18143"
 summary: "JavaScript闭包的形成机制、内存泄漏原因及垃圾回收原理，以及如何避免闭包导致的内存问题。"
 category: "辅助资料"
+categoryPath:
+  - "我的总结"
+  - "js"
+  - "辅助资料"
 tags:
   - "JavaScript"
   - "闭包"
   - "垃圾回收"
   - "内存管理"
-status: "draft"
-sortOrder: 250
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac39c"
 originalSlug: "js-js-51b18143"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:25:33.656Z"
+updatedAt: "2026-06-13T10:28:28.567Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第03篇：JavaScript 闭包与垃圾回收机制
 

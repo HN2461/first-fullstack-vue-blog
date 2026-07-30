@@ -3,14 +3,19 @@ title: "MIME媒体类型"
 slug: "mime-81d4ff42"
 summary: ""
 category: "数据类型"
+categoryPath:
+  - "常用缺易忘"
+  - "数据类型"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33c"
 originalSlug: "mime-81d4ff42"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.367Z"
+updatedAt: "2026-06-13T10:28:28.419Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # MIME媒体类型
 MIME（Multipurpose Internet Mail Extensions，多用途互联网邮件扩展）媒体类型，又称“内容类型（Content-Type）”，是一套用于标识互联网中数据格式与性质的标准。它最初为解决传统电子邮件仅能传输ASCII纯文本的局限而生，如今已成为HTTP协议、HTML、文件传输等场景中识别数据类型的核心机制，确保客户端（如浏览器、应用程序）与服务器能正确解析和处理各类数据。

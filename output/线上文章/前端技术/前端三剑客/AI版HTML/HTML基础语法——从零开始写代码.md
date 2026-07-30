@@ -3,14 +3,20 @@ title: "HTML基础语法——从零开始写代码"
 slug: "html-html-de7f4404"
 summary: ""
 category: "AI版HTML"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版HTML"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d30eeb480df92ce002e47"
 originalSlug: "html-html-de7f4404"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.479Z"
+updatedAt: "2026-06-13T10:29:02.145Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：HTML基础语法——从零开始写代码
 

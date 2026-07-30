@@ -3,19 +3,25 @@ title: "第02篇：uni-app生命周期、页面时序与常见页面事件"
 slug: "uni-app-uni-app-8c6d7ba1"
 summary: "从应用生命周期、页面生命周期到下拉刷新、触底加载、页面滚动等常见页面事件出发，系统梳理 uni-app 项目里最核心的时序认知与落点选择。"
 category: "uni-app辅助"
+categoryPath:
+  - "我的总结"
+  - "uni-app"
+  - "uni-app辅助"
 tags:
   - "uni-app"
   - "生命周期"
   - "页面时序"
   - "onLoad"
   - "onShow"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac468"
 originalSlug: "uni-app-uni-app-8c6d7ba1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-08T13:22:12.473Z"
+updatedAt: "2026-06-14T06:31:52.522Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ## uni-app 生命周期、页面时序与常见页面事件
 

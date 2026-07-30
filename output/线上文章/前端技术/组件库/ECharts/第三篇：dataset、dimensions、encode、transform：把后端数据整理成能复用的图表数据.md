@@ -3,6 +3,10 @@ title: "第三篇：dataset、dimensions、encode、transform：把后端数据�
 slug: "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方 Dataset、Data Transform、Dynamic Data 与 Import 文档，系统讲清 dataset、sourceHeader、seriesLayoutBy、dimensions、encode、多 dataset 与 filter/sort transform 的用法，帮助把后端接口数据整理成可复用的图表数据源。"
 category: "ECharts"
+categoryPath:
+  - "前端技术"
+  - "组件库"
+  - "ECharts"
 tags:
   - "ECharts"
   - "dataset"
@@ -10,13 +14,15 @@ tags:
   - "transform"
   - "数据可视化"
   - "Vue3"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5cc"
 originalSlug: "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-02T08:17:05.606Z"
+updatedAt: "2026-06-13T14:09:43.188Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据
 

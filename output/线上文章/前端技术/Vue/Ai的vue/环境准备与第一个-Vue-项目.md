@@ -3,14 +3,20 @@ title: "环境准备与第一个 Vue 项目"
 slug: "vue-ai-vue-vue-aa8054ba"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 290
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac280"
 originalSlug: "vue-ai-vue-vue-aa8054ba"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T12:58:04.996Z"
+updatedAt: "2026-06-19T06:25:10.497Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第2章 环境准备与第一个 Vue 项目
 

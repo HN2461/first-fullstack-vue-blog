@@ -3,6 +3,11 @@ title: "第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026
 slug: "ai-ccswitch-claudecode-mimotokenplan-736772f0"
 summary: "基于 2026-05-24 小米 MiMo 官方 Claude Code 与 Token Plan 文档复核，整理 tp/sk 区分、区域 Base URL、模型映射、Windows 配置路径、1M 长上下文启用方式、使用边界与 CC Switch 同步排查要点。"
 category: "CCSwitch"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "辅助工具层"
+  - "CCSwitch"
 tags:
   - "CC Switch"
   - "Claude Code"
@@ -10,13 +15,15 @@ tags:
   - "Token Plan"
   - "中转配置"
   - "Provider"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac062"
 originalSlug: "ai-ccswitch-claudecode-mimotokenplan-736772f0"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T14:10:38.110Z"
+updatedAt: "2026-06-13T10:28:27.274Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）
 

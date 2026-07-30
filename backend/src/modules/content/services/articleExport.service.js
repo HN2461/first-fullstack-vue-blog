@@ -52,6 +52,7 @@ function buildExportSlug(article, strategy, exportedAt = new Date()) {
 function buildFrontMatter(article, options = {}) {
   const exportedAt = options.exportedAt || new Date()
   const categoryName = article.category?.name || ''
+  const categoryPath = normalizeArray(options.categoryPath)
   const tags = normalizeArray(article.tags)
     .map((tag) => tag?.name)
     .filter(Boolean)
@@ -63,6 +64,11 @@ function buildFrontMatter(article, options = {}) {
     `category: ${escapeYamlString(categoryName)}`
   ]
 
+  lines.push('categoryPath:')
+  categoryPath.forEach((segment) => {
+    lines.push(`  - ${escapeYamlString(segment)}`)
+  })
+
   if (tags.length > 0) {
     lines.push('tags:')
     tags.forEach((tag) => {
@@ -72,12 +78,14 @@ function buildFrontMatter(article, options = {}) {
     lines.push('tags: []')
   }
 
-  lines.push(`status: ${escapeYamlString(ARTICLE_STATUS.DRAFT)}`)
+  lines.push(`status: ${escapeYamlString(article.status)}`)
   lines.push(`sortOrder: ${Number(article.sortOrder) || 0}`)
   lines.push(`cover: ${escapeYamlString(article.cover || '')}`)
   lines.push(`originalId: ${escapeYamlString(article._id.toString())}`)
   lines.push(`originalSlug: ${escapeYamlString(article.slug)}`)
   lines.push(`originalStatus: ${escapeYamlString(article.status)}`)
+  lines.push(`publishedAt: ${escapeYamlString(article.publishedAt?.toISOString?.() || article.publishedAt || '')}`)
+  lines.push(`updatedAt: ${escapeYamlString(article.updatedAt?.toISOString?.() || article.updatedAt || '')}`)
   lines.push(`exportedAt: ${escapeYamlString(exportedAt.toISOString())}`)
   lines.push('---')
   lines.push('')
@@ -118,8 +126,8 @@ async function collectCategoryBranchIds(categoryId) {
   return [...resolved]
 }
 
-async function buildCategoryPathMap() {
-  const categories = await Category.find({}, 'name parent sortOrder').lean()
+async function buildCategoryExportContext() {
+  const categories = await Category.find({}, 'name slug description parent sortOrder status isSystem createdAt updatedAt').lean()
   const categoryMap = new Map(categories.map((category) => [String(category._id), category]))
   const pathMap = new Map()
 
@@ -138,7 +146,20 @@ async function buildCategoryPathMap() {
   }
 
   categories.forEach((category) => resolvePath(category._id))
-  return pathMap
+  return {
+    pathMap,
+    manifestCategories: categories.map((category) => ({
+      name: category.name,
+      slug: category.slug,
+      description: category.description || '',
+      categoryPath: pathMap.get(String(category._id)) || [],
+      sortOrder: Number(category.sortOrder) || 0,
+      status: category.status,
+      isSystem: Boolean(category.isSystem),
+      createdAt: category.createdAt || null,
+      updatedAt: category.updatedAt || null
+    }))
+  }
 }
 
 function buildArticleEntryName(article, categoryPathMap) {
@@ -197,9 +218,10 @@ function buildExportReadme(input, total, exportedAt) {
     '- Markdown 文章导出为带 Front Matter 的 .md 文件，与现有文章导入页面兼容。',
     '- 文档型文章导出为独立目录，包含 metadata.json、原始 Word 和可用的 PDF 阅读版。',
     '- 文件会按文章分类路径放入对应目录；选择上级分类时，会导出该分类及其所有子分类文章。',
-    '- manifest.json 记录本次实际导出的文章总数和逐篇清单，可用于核对全量导出是否完整。',
+    '- manifest.json 记录分类元数据、文章总数和逐篇清单，可用于核对全量导出是否完整。',
+    '- status、categoryPath、tags 和 sortOrder 保留数据库真实值；本地权威快照同步时会读取这些字段。',
     '- originalId、originalSlug、originalStatus 和 exportedAt 仅用于人工参考，不参与自动覆盖更新。',
-    '- 修改后可在“文章导入”页面重新导入，再手动调整分类、标签、目录迁移和旧文清理。',
+    '- 后台“文章导入”仍只创建新草稿或跳过重复，不用于覆盖原文；覆盖必须使用默认 dry-run 的权威快照同步脚本。',
     ''
   ].join('\n')
 }
@@ -255,10 +277,11 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
   const query = await buildArticleQuery(input)
   const slugStrategy = input.slugStrategy === 'keep' ? 'keep' : 'revision'
   const exportedAt = new Date()
-  const [total, categoryPathMap] = await Promise.all([
+  const [total, categoryContext] = await Promise.all([
     Article.countDocuments(query),
-    buildCategoryPathMap()
+    buildCategoryExportContext()
   ])
+  const categoryPathMap = categoryContext.pathMap
 
   if (total === 0) {
     throw createHttpError(404, 'ARTICLE_EXPORT_EMPTY', '没有可导出的文章')
@@ -311,7 +334,13 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
               title: article.title,
               summary: article.summary || '',
               status: article.status,
+              categoryPath: categoryPathMap.get(article.category?._id?.toString?.() || '') || [],
+              tags: normalizeArray(article.tags).map((tag) => tag?.name).filter(Boolean),
+              sortOrder: Number(article.sortOrder) || 0,
+              cover: article.cover || '',
               originalName: article.document?.originalName || '',
+              publishedAt: article.publishedAt || null,
+              updatedAt: article.updatedAt || null,
               exportedAt: exportedAt.toISOString()
             }
             await appendArchiveEntry(archive, {
@@ -351,7 +380,11 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
 
           await appendArchiveEntry(archive, {
             name: fileName,
-            data: buildArticleMarkdown(article, { slugStrategy, exportedAt }),
+            data: buildArticleMarkdown(article, {
+              slugStrategy,
+              exportedAt,
+              categoryPath: categoryPathMap.get(article.category?._id?.toString?.() || '') || []
+            }),
             date: article.updatedAt || article.createdAt || exportedAt
           })
           manifestArticles.push(buildManifestArticle(article, fileName, categoryPathMap, {
@@ -361,7 +394,7 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
         }
 
         const manifest = {
-          formatVersion: 2,
+          formatVersion: 3,
           exportedAt: exportedAt.toISOString(),
           scope: input.scope || 'published',
           slugStrategy,
@@ -370,6 +403,7 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
             keyword: input.keyword || ''
           },
           total: manifestArticles.length,
+          categories: categoryContext.manifestCategories,
           articles: manifestArticles
         }
         await appendArchiveEntry(archive, {

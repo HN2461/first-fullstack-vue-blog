@@ -3,19 +3,25 @@ title: "接口与会话控制详解第二篇：Apipost 接口测试工具"
 slug: "node-js-apipost-ea2d5bde"
 summary: "从零掌握 Apipost 接口测试工具，包括安装配置、发送各类 HTTP 请求、设置请求头和 token、环境变量管理、接口文档生成，以及常见测试场景的完整操作流程。"
 category: "接口与会话控制详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "接口与会话控制详解"
 tags:
   - "Node.js"
   - "Apipost"
   - "接口测试"
   - "Postman"
   - "HTTP"
-status: "draft"
-sortOrder: 70
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac188"
 originalSlug: "node-js-apipost-ea2d5bde"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-21T13:15:10.765Z"
+updatedAt: "2026-06-21T12:56:13.338Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 接口与会话控制详解第二篇：Apipost 接口测试工具
 

@@ -3,14 +3,20 @@ title: "编写 JavaScript 的方式与加载机制"
 slug: "js-javascript-a73da56a"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac110"
 originalSlug: "js-javascript-a73da56a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.501Z"
+updatedAt: "2026-06-15T14:50:25.014Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第3章　编写 JavaScript 的方式与加载机制
 

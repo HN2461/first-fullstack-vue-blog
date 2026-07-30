@@ -3,19 +3,25 @@ title: "uni-app 微信小程序登录态缓存权限与稳定性治理实战：s
 slug: "uni-app-uni-app-session-key-token-8af791f8"
 summary: "面向长期维护公司 uni-app 项目的开发者，从 session_key、业务 token、本地存储、前后台恢复到隐私授权，梳理微信小程序最容易混乱的状态治理与稳定性问题。"
 category: "微信小程序"
+categoryPath:
+  - "前端技术"
+  - "uni-app"
+  - "微信小程序"
 tags:
   - "uni-app"
   - "微信小程序"
   - "登录态"
   - "本地缓存"
   - "隐私授权"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac222"
 originalSlug: "uni-app-uni-app-session-key-token-8af791f8"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-03T13:53:42.209Z"
+updatedAt: "2026-06-13T10:28:27.865Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权
 

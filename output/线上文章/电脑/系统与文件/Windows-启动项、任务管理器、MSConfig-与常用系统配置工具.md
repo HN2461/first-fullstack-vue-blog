@@ -3,19 +3,24 @@ title: "Windows 启动项、任务管理器、MSConfig 与常用系统配置工�
 slug: "windows-msconfig-3392836b"
 summary: "结合微软官方文档整理 Windows 启动项管理、任务管理器启动页、MSConfig 和干净启动的正确用法，帮你分清哪些工具适合日常管理，哪些更适合排障。"
 category: "系统与文件"
+categoryPath:
+  - "电脑"
+  - "系统与文件"
 tags:
   - "Windows"
   - "启动项"
   - "任务管理器"
   - "MSConfig"
   - "系统工具"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac556"
 originalSlug: "windows-msconfig-3392836b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-12T13:45:49.793Z"
+updatedAt: "2026-06-13T10:28:29.288Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Windows 启动项、任务管理器、MSConfig 与常用系统配置工具
 

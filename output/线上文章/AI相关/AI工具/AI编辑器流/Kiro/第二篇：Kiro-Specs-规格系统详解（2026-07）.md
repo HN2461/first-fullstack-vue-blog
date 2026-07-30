@@ -3,19 +3,26 @@ title: "第二篇：Kiro Specs 规格系统详解（2026-07）"
 slug: "ai-ai-kiro-kiro-specs-c09713f2"
 summary: "深入解析 Kiro 最新 Specs 系统：Feature、Bugfix 与 Quick Spec，Requirements-First 和 Design-First 工作流，需求一致性分析、属性测试，以及按依赖图并行执行任务。"
 category: "Kiro"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "Kiro"
 tags:
   - "Kiro"
   - "Specs"
   - "规格驱动开发"
   - "requirements"
   - "design"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabed2"
 originalSlug: "ai-ai-kiro-kiro-specs-c09713f2"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.590Z"
+updatedAt: "2026-07-30T14:24:30.454Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：Kiro Specs 规格系统详解（2026-07）
 

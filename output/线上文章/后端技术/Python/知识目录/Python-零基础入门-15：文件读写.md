@@ -3,16 +3,22 @@ title: "Python 零基础入门 15：文件读写"
 slug: "python-zero-file-read-write"
 summary: "介绍如何用 Python 读写文本与二进制文件、追加内容、读写 JSON、CSV，使用 with、pathlib、shutil、tempfile 管理文件与路径，处理编码与大文件，全程对照 JavaScript。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 150
+status: "published"
+sortOrder: 160
 cover: ""
 originalId: "6a4a4304f9ac958d29176066"
 originalSlug: "python-zero-file-read-write"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.508Z"
+updatedAt: "2026-07-30T14:44:46.143Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 15：文件读写
 

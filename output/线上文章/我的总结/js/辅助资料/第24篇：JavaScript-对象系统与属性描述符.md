@@ -3,19 +3,25 @@ title: "第24篇：JavaScript 对象系统与属性描述符"
 slug: "js-js-d03088d0"
 summary: "系统补齐对象创建、原型关联、属性描述符、可枚举性和冻结封印等高频对象题，避免只会讲原型链不会讲对象本身。"
 category: "辅助资料"
+categoryPath:
+  - "我的总结"
+  - "js"
+  - "辅助资料"
 tags:
   - "JavaScript"
   - "对象"
   - "属性描述符"
   - "Object.defineProperty"
   - "面试题"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 230
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac442"
 originalSlug: "js-js-d03088d0"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-10T11:51:43.091Z"
+updatedAt: "2026-06-22T02:08:44.095Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第24篇：JavaScript 对象系统与属性描述符
 

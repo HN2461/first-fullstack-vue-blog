@@ -3,19 +3,25 @@ title: "第15篇：Map 与 Set 事件订阅管理器"
 slug: "js-js-map-set-696642c1"
 summary: "从 ES6 Map/Set 基础概念到事件订阅管理器实战，详解如何使用 Map 和 Set 构建高效、可维护的事件系统。"
 category: "辅助资料"
+categoryPath:
+  - "我的总结"
+  - "js"
+  - "辅助资料"
 tags:
   - "JavaScript"
   - "Map"
   - "Set"
   - "事件订阅"
   - "设计模式"
-status: "draft"
-sortOrder: 130
+status: "published"
+sortOrder: 150
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac400"
 originalSlug: "js-js-map-set-696642c1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:25:33.669Z"
+updatedAt: "2026-06-13T10:28:28.718Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第15篇：Map 与 Set 事件订阅管理器
 

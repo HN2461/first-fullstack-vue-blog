@@ -3,6 +3,9 @@ title: "WebSocket 与 STOMP 总览：分层设计、概念边界与接入顺序"
 slug: "websocket-websocket-stomp-4e54084d"
 summary: "这是 WebSocket 专题的第 1 篇总览，系统梳理 WebSocket 与 STOMP 为什么容易写乱，以及如何把协议常量、帧构建、连接管理、自动重连、消息解析、订阅恢复和页面消费方式拆成一套可直接复用的方案；核心概念跨端通用，可用于 uni-app，也可用于 PC 端 Vue。"
 category: "WebSocket"
+categoryPath:
+  - "项目复用技术"
+  - "WebSocket"
 tags:
   - "WebSocket"
   - "STOMP"
@@ -10,13 +13,15 @@ tags:
   - "实时消息"
   - "工具封装"
   - "Vue"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac70a"
 originalSlug: "websocket-websocket-stomp-4e54084d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-16T13:25:08.649Z"
+updatedAt: "2026-06-13T10:28:30.054Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # WebSocket 与 STOMP 总览：分层设计、概念边界与接入顺序
 

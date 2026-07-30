@@ -3,19 +3,25 @@ title: "安装与引入：把 Element Plus 真正接进 Vue 3 项目"
 slug: "element-plus-elementplus-975655e4"
 summary: "基于 2026-04-28 查阅的 Element Plus 最新官方资料，详细整理安装、完整引入、自动按需导入、手动导入、Volar 支持和全局配置的实际用法。"
 category: "ElementPlus"
+categoryPath:
+  - "前端技术"
+  - "组件库"
+  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Vue3"
   - "Vite"
   - "按需导入"
   - "全局配置"
-status: "draft"
+status: "published"
 sortOrder: 100
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac624"
 originalSlug: "element-plus-elementplus-975655e4"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T13:45:18.641Z"
+updatedAt: "2026-06-13T10:28:29.610Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 安装与引入：把 Element Plus 真正接进 Vue 3 项目
 

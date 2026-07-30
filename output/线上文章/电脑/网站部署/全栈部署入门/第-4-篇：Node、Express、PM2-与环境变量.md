@@ -3,18 +3,24 @@ title: "第 4 篇：Node、Express、PM2 与环境变量"
 slug: "node-express-pm2-b0b0327c"
 summary: "讲清 Express 生产环境不能只靠 npm run dev，如何配置健康检查接口、环境变量、PM2 常驻运行、日志查看、开机自启和 Nginx 反向代理联调。"
 category: "全栈部署入门"
+categoryPath:
+  - "电脑"
+  - "网站部署"
+  - "全栈部署入门"
 tags:
   - "Node.js"
   - "Express"
   - "PM2"
   - "环境变量"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5a4"
 originalSlug: "node-express-pm2-b0b0327c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-08T11:09:58.537Z"
+updatedAt: "2026-06-23T10:18:06.282Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第 4 篇：Node、Express、PM2 与环境变量
 

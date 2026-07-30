@@ -3,16 +3,22 @@ title: "Python 零基础入门 21：面试复盘与项目表达"
 slug: "python-zero-interview-and-project-review"
 summary: "汇总 Python 基础面试高频问题，说明如何把记账本练习包装成项目表达，给出 Python vs JS 核心差异速查表，以及下一步学习路线。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 210
+status: "published"
+sortOrder: 220
 cover: ""
 originalId: "6a4a4304f9ac958d2917607e"
 originalSlug: "python-zero-interview-and-project-review"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.491Z"
+updatedAt: "2026-07-30T14:44:46.154Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 21：面试复盘与项目表达
 

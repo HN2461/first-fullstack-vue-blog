@@ -3,18 +3,26 @@ title: "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结�
 slug: "fastapi-dependencies-middleware-lifespan-structure"
 summary: "把单文件文章 API 拆成 Router、Service、Store 和应用入口，并在可运行项目中理解依赖注入、中间件、生命周期和配置边界。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "依赖注入"
   - "工程化"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 80
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19e"
 originalSlug: "fastapi-dependencies-middleware-lifespan-structure"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.194Z"
+updatedAt: "2026-07-30T14:44:46.194Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构
 

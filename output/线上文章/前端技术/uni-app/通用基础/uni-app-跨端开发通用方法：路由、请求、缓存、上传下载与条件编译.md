@@ -3,19 +3,25 @@ title: "uni-app 跨端开发通用方法：路由、请求、缓存、上传下�
 slug: "uni-app-uni-app-66402eae"
 summary: "从路由、请求、缓存、上传下载到条件编译与平台适配，梳理一套适用于 uni-app 多端项目的通用开发方法。"
 category: "通用基础"
+categoryPath:
+  - "前端技术"
+  - "uni-app"
+  - "通用基础"
 tags:
   - "uni-app"
   - "路由"
   - "条件编译"
   - "请求"
   - "缓存"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac25a"
 originalSlug: "uni-app-uni-app-66402eae"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-09T12:50:17.704Z"
+updatedAt: "2026-06-13T10:28:27.950Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # uni-app 跨端开发通用方法：路由、请求、缓存、上传下载与条件编译
 

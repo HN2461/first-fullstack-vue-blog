@@ -3,19 +3,25 @@ title: "表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配
 slug: "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，详细讲解 Form、Input、Select、DateTimePicker、Upload 这些表单核心组件在真实后台页面中的组合方式。"
 category: "ElementPlus"
+categoryPath:
+  - "前端技术"
+  - "组件库"
+  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Form"
   - "Input"
   - "Select"
   - "Upload"
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac65e"
 originalSlug: "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T13:45:18.642Z"
+updatedAt: "2026-06-13T10:28:29.680Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配合
 

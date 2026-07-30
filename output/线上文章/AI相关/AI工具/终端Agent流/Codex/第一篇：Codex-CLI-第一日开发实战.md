@@ -3,19 +3,26 @@ title: "第一篇：Codex CLI 第一日开发实战"
 slug: "ai-agent-codex-codex-cli-10e9408b"
 summary: "面向平时主要用 Codex 开发的程序员，按安装确认、进入真实仓库、看懂英文终端、完成第一轮小任务、再扩展到 VS Code 插件和桌面 App 的顺序重写 Codex 第一日上手路线。"
 category: "Codex"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "Codex"
 tags:
   - "Codex"
   - "CLI"
   - "程序员上手"
   - "终端界面"
   - "开发工作流"
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf4c"
 originalSlug: "ai-agent-codex-codex-cli-10e9408b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-04T13:41:34.297Z"
+updatedAt: "2026-07-30T14:24:30.446Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇：Codex CLI 第一日开发实战
 

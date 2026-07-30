@@ -3,14 +3,20 @@ title: ".13、Vue的常用指令与自定义指令》"
 slug: "vue-vue2-13-vue-78e23a80"
 summary: ""
 category: "vue2"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "vue2"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 130
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2ae"
 originalSlug: "vue-vue2-13-vue-78e23a80"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-03-27T13:26:16.961Z"
+updatedAt: "2026-06-13T10:28:28.177Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Vue的常用指令与自定义指令
 ## 2.13.1 v-text

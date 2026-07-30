@@ -3,19 +3,25 @@ title: "第06篇：uni-app高频问题补充问答"
 slug: "uni-app-uni-app-9a1496c3"
 summary: "作为系统整理版的补充问答，集中梳理 uni-app 学习和复习中最容易反复遇到的高频问题，帮助快速回看关键概念与边界。"
 category: "uni-app辅助"
+categoryPath:
+  - "我的总结"
+  - "uni-app"
+  - "uni-app辅助"
 tags:
   - "uni-app"
   - "高频问题"
   - "补充问答"
   - "微信小程序"
   - "条件编译"
-status: "draft"
-sortOrder: 10
+status: "published"
+sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac478"
 originalSlug: "uni-app-uni-app-9a1496c3"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-08T13:22:12.480Z"
+updatedAt: "2026-06-14T06:31:52.529Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ## uni-app 高频问题补充问答
 

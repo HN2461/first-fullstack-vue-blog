@@ -3,19 +3,26 @@ title: "07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）"
 slug: "ai-mcp-mcp-79fea32a"
 summary: "面向需要在 Windows 上快速复刻 Chrome DevTools MCP 的开发者，整理 Codex 环境下的配置、验证和排障步骤，并解释为什么这类资料应归在 MCP 分类而不是单一终端工具分类。"
 category: "MCP"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "MCP"
 tags:
   - "MCP"
   - "Chrome DevTools"
   - "Google"
   - "Codex"
   - "Windows"
-status: "draft"
-sortOrder: 70
+status: "published"
+sortOrder: 80
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfc6"
 originalSlug: "ai-mcp-mcp-79fea32a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T13:49:15.045Z"
+updatedAt: "2026-07-30T14:24:30.210Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）
 

@@ -3,18 +3,22 @@ title: "UniApp 框架面试题"
 slug: "uniapp-9cf05b58"
 summary: "UniApp 框架面试题，包括配置文件、打包发布、分包设置等核心知识点。"
 category: "面试"
+categoryPath:
+  - "面试"
 tags:
   - "UniApp"
   - "小程序"
   - "跨平台"
   - "移动开发"
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac680"
 originalSlug: "uniapp-9cf05b58"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-10T14:48:13.144Z"
+updatedAt: "2026-06-13T10:28:29.757Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # UniApp 框架面试题
 

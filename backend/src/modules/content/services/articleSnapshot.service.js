@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
+import { ARTICLE_STATUS } from '#constants/domain'
 
 const NAVIGATION_NAMES = new Set(['readme.md', 'index.md', '目录.md'])
 const REPOSITORY_CATEGORY_ALIASES = Object.freeze([
@@ -75,6 +76,34 @@ function findDocumentFile(metadataPath, metadata) {
   return path.join(directory, docx.name)
 }
 
+function normalizeCategoryPath(value, fallback = []) {
+  if (!Array.isArray(value)) return fallback
+  const normalized = value.map((item) => String(item || '').trim()).filter(Boolean)
+  return normalized.length > 0 ? normalized : fallback
+}
+
+function normalizeTags(value, fallback = []) {
+  if (!Array.isArray(value)) return fallback
+  return [...new Set(value.map((item) => String(item || '').trim()).filter(Boolean))]
+}
+
+function buildAuthoritativeRecord(item, metadata) {
+  const status = Object.values(ARTICLE_STATUS).includes(metadata.status)
+    ? metadata.status
+    : item.status
+  const sortOrder = Number(metadata.sortOrder)
+  return {
+    ...item,
+    title: String(metadata.title || item.title || '').trim(),
+    status,
+    categoryPath: normalizeCategoryPath(metadata.categoryPath, item.categoryPath || []),
+    tags: normalizeTags(metadata.tags, item.tags || []),
+    sortOrder: Number.isFinite(sortOrder) ? Math.max(0, Math.trunc(sortOrder)) : Number(item.sortOrder) || 0,
+    publishedAt: metadata.publishedAt || item.publishedAt || null,
+    updatedAt: metadata.updatedAt || item.updatedAt || null
+  }
+}
+
 export function readArticleExportSnapshot(exportRoot) {
   const manifestPath = path.join(exportRoot, 'manifest.json')
   if (!fs.existsSync(manifestPath)) {
@@ -105,7 +134,7 @@ export function readArticleExportSnapshot(exportRoot) {
         throw new Error(`文档元数据与 manifest 不一致: ${normalizePath(item.fileName)}`)
       }
       return {
-        ...item,
+        ...buildAuthoritativeRecord(item, metadata),
         metadata,
         sourceFile: findDocumentFile(fullPath, metadata)
       }
@@ -116,7 +145,7 @@ export function readArticleExportSnapshot(exportRoot) {
       throw new Error(`Markdown Front Matter 与 manifest 不一致: ${normalizePath(item.fileName)}`)
     }
     return {
-      ...item,
+      ...buildAuthoritativeRecord(item, markdown.data),
       ...markdown,
       bodyHash: contentHash(markdown.contentMarkdown),
       sourceFile: fullPath

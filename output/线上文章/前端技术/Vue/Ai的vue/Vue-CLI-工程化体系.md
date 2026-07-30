@@ -3,14 +3,20 @@ title: "Vue CLI 工程化体系"
 slug: "vue-ai-vue-vue-cli-15ca9855"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 120
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac272"
 originalSlug: "vue-ai-vue-vue-cli-15ca9855"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:17:52.908Z"
+updatedAt: "2026-06-19T06:25:04.152Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第19章 Vue CLI 工程化体系
 

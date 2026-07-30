@@ -1,0 +1,6304 @@
+{
+  "generatedAt": "2026-07-30T15:43:06.425Z",
+  "export": {
+    "exportedAt": "2026-07-30T15:42:33.614Z",
+    "total": 513
+  },
+  "repositoryCategoryAliases": [
+    {
+      "repositoryPrefix": [
+        "AI工具"
+      ],
+      "onlinePrefix": [
+        "AI相关",
+        "AI工具"
+      ]
+    }
+  ],
+  "summary": {
+    "repositoryMarkdown": 0,
+    "matched": 0,
+    "uniqueOnlineMatched": 0,
+    "duplicateRepositoryFiles": 0,
+    "sameContent": 0,
+    "locallyModified": 0,
+    "majorRefactor": 0,
+    "mediumRefactor": 0,
+    "closeRevision": 0,
+    "categoryUpdateRecommended": 0,
+    "repositoryOnly": 0,
+    "previousExportOnly": 0,
+    "localNew": 0,
+    "onlineOnly": 513
+  },
+  "matched": [],
+  "duplicateRepositoryMatches": [],
+  "repositoryOnly": [],
+  "onlineOnly": [
+    {
+      "originalId": "6a6b691f4bf50146e9b95e6c",
+      "originalSlug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e6a",
+      "originalSlug": "maxkb-maxkb-api-abc235d7",
+      "title": "MaxKB 前端接入与原生 API 调用规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "接入与展示"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/MaxKB-前端接入与原生-API-调用规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e68",
+      "originalSlug": "maxkb-01-maxkb-affa7c4c",
+      "title": "01-MaxKB渲染标签与快捷问题规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "接入与展示"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/01-MaxKB渲染标签与快捷问题规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e66",
+      "originalSlug": "maxkb-maxkb-d984d85a",
+      "title": "MaxKB 导出包解析与半自动改包规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-导出包解析与半自动改包规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e64",
+      "originalSlug": "maxkb-maxkb-061d662d",
+      "title": "MaxKB 长链路文档拆分规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-长链路文档拆分规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e62",
+      "originalSlug": "maxkb-maxkb-d42ce38f",
+      "title": "MaxKB 功能智能体阶段演进规则",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-功能智能体阶段演进规则.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e60",
+      "originalSlug": "maxkb-17-a788c9f1",
+      "title": "17-工具页签与智能体节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/17-工具页签与智能体节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e5e",
+      "originalSlug": "maxkb-16-mcp-cbdce98b",
+      "title": "16-MCP调用与自定义工具节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/16-MCP调用与自定义工具节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e5c",
+      "originalSlug": "maxkb-15-a52cbc78",
+      "title": "15-变量聚合节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/15-变量聚合节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e5a",
+      "originalSlug": "maxkb-14-9115df18",
+      "title": "14-参数提取节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/14-参数提取节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e58",
+      "originalSlug": "maxkb-13-adde6b4f",
+      "title": "13-变量拆分节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/13-变量拆分节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e56",
+      "originalSlug": "maxkb-12-dd68373f",
+      "title": "12-变量赋值节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/12-变量赋值节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e54",
+      "originalSlug": "maxkb-11-dadf9c79",
+      "title": "11-循环节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/11-循环节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e52",
+      "originalSlug": "maxkb-10-bc727f7b",
+      "title": "10-指定回复节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/10-指定回复节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e50",
+      "originalSlug": "maxkb-09-95eb5588",
+      "title": "09-表单收集节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/09-表单收集节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e4e",
+      "originalSlug": "maxkb-08-d6705804",
+      "title": "08-知识库相关节点速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/08-知识库相关节点速查.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e4c",
+      "originalSlug": "maxkb-07-fd8035d1",
+      "title": "07-判断器节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/07-判断器节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e4a",
+      "originalSlug": "maxkb-06-daf63cdf",
+      "title": "06-问题优化节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/06-问题优化节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e48",
+      "originalSlug": "maxkb-05-ai-7faf066a",
+      "title": "05-AI能力低优先级节点速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/05-AI能力低优先级节点速查.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e46",
+      "originalSlug": "maxkb-04-9dac9da1",
+      "title": "04-意图识别节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/04-意图识别节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e44",
+      "originalSlug": "maxkb-03-ai-94d77b3d",
+      "title": "03-AI对话节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/03-AI对话节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e42",
+      "originalSlug": "maxkb-02-245bdaaf",
+      "title": "02-基本信息与开始节点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/02-基本信息与开始节点.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e40",
+      "originalSlug": "maxkb-01-f396d281",
+      "title": "01-添加组件面板总览",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/01-添加组件面板总览.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e3e",
+      "originalSlug": "maxkb-00-17697ac6",
+      "title": "00-空白高级智能体创建说明",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-空白高级智能体创建说明.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e3c",
+      "originalSlug": "maxkb-00-ai-c676db58",
+      "title": "00-AI创建节点必读",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-AI创建节点必读.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e3a",
+      "originalSlug": "maxkb-02-bbb61e60",
+      "title": "02-跨环境参数配置清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "基础配置与变量"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/02-跨环境参数配置清单.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e38",
+      "originalSlug": "maxkb-01-4ac20739",
+      "title": "01-变量引用写法规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "基础配置与变量"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/01-变量引用写法规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e36",
+      "originalSlug": "maxkb-00-maxkb-6d42583b",
+      "title": "00-MaxKB 公共规则规范包使用说明",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/00-MaxKB-公共规则规范包使用说明.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e34",
+      "originalSlug": "maxkb-d439f0e3",
+      "title": "官方资料索引与现有文档审计",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/官方资料索引与现有文档审计.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e32",
+      "originalSlug": "maxkb-db4fbad4",
+      "title": "调试、测试、发布与回滚清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/调试、测试、发布与回滚清单.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e30",
+      "originalSlug": "maxkb-api-01efc881",
+      "title": "工具、API 接入与安全规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/工具、API-接入与安全规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e2e",
+      "originalSlug": "maxkb-rag-813a4abe",
+      "title": "知识库与 RAG 实战规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/知识库与-RAG-实战规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e2c",
+      "originalSlug": "maxkb-4bcf1a3f",
+      "title": "智能体编排与状态设计规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/智能体编排与状态设计规范.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e2a",
+      "originalSlug": "maxkb-e122b2b7",
+      "title": "从接手环境到发布的标准流程",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "onlineFile": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/从接手环境到发布的标准流程.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e28",
+      "originalSlug": "windows-basic-concepts-for-beginners",
+      "title": "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md"
+    },
+    {
+      "originalId": "6a6b691f4bf50146e9b95e26",
+      "originalSlug": "windows-freeze-rescue-shortcuts",
+      "title": "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-电脑卡死救急与常用快捷键：小白优先记这-4-类.md"
+    },
+    {
+      "originalId": "6a6b635eb46b52abc5dc2865",
+      "originalSlug": "python-learning-index",
+      "title": "Python 学习资料总目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python"
+      ],
+      "onlineFile": "后端技术/Python/Python-学习资料总目录.md"
+    },
+    {
+      "originalId": "6a6b635eb46b52abc5dc2863",
+      "originalSlug": "fastapi-zero-to-enterprise-index",
+      "title": "FastAPI 从 0 到 1：小白到项目实战学习总目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1：小白到项目实战学习总目录.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1b2",
+      "originalSlug": "fastapi-zero-to-one-learning-outcome-express-delivery",
+      "title": "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-16：学习成效评估与-Express-对照交付.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1b0",
+      "originalSlug": "fastapi-faq-interview-delivery-checklist",
+      "title": "FastAPI 从 0 到 1 15：高频问题、面试与交付清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-15：高频问题、面试与交付清单.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1ae",
+      "originalSlug": "fastapi-enterprise-knowledge-api-capstone",
+      "title": "FastAPI 从 0 到 1 14：企业知识库 API 综合实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-14：企业知识库-API-综合实战.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1ac",
+      "originalSlug": "fastapi-observability-performance-security-deployment",
+      "title": "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-13：日志、监控、性能、安全与部署.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1aa",
+      "originalSlug": "fastapi-pytest-quality-assurance",
+      "title": "FastAPI 从 0 到 1 12：pytest 与质量保障",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-12：pytest-与质量保障.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a8",
+      "originalSlug": "fastapi-async-concurrency-websocket-task-queue",
+      "title": "FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-11：异步、并发、WebSocket-与任务队列.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a6",
+      "originalSlug": "fastapi-files-background-httpx-redis",
+      "title": "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-10：文件、后台任务、HTTPX-与-Redis.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a4",
+      "originalSlug": "fastapi-authentication-jwt-rbac-security",
+      "title": "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-09：登录、JWT、RBAC-与安全.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a2",
+      "originalSlug": "fastapi-crud-transactions-relations-pagination",
+      "title": "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-08：CRUD、事务、关联、分页与查询.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a0",
+      "originalSlug": "fastapi-sqlalchemy-alembic",
+      "title": "FastAPI 从 0 到 1 07：SQLAlchemy 与 Alembic",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-07：SQLAlchemy-与-Alembic.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19e",
+      "originalSlug": "fastapi-dependencies-middleware-lifespan-structure",
+      "title": "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-06：依赖、中间件、生命周期与项目结构.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19c",
+      "originalSlug": "fastapi-response-errors-openapi",
+      "title": "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-05：响应、异常与-OpenAPI.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19a",
+      "originalSlug": "fastapi-pydantic-v2-data-modeling",
+      "title": "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-04：Pydantic-v2-与数据建模.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d198",
+      "originalSlug": "fastapi-routing-request-parameters",
+      "title": "FastAPI 从 0 到 1 03：路由与请求参数",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-03：路由与请求参数.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d196",
+      "originalSlug": "fastapi-http-asgi-first-application",
+      "title": "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-02：HTTP、ASGI-与第一个应用.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d194",
+      "originalSlug": "fastapi-python-reading-prerequisites",
+      "title": "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-01：读懂代码前必须会的-Python.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d192",
+      "originalSlug": "fastapi-zero-to-one-roadmap-environment",
+      "title": "FastAPI 从 0 到 1 00：学习路线与开发环境",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-00：学习路线与开发环境.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d190",
+      "originalSlug": "python-data-visualization-matplotlib-charts",
+      "title": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据可视化入门-05：用-matplotlib-绘制统计图.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d18d",
+      "originalSlug": "python-data-cleaning-regex-crawler-text",
+      "title": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据清洗入门-03：正则表达式清洗爬虫文本.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d188",
+      "originalSlug": "python-zero-regex-argparse-secrets-zoneinfo",
+      "title": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-28：正则、命令行参数、安全随机数与时区.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d186",
+      "originalSlug": "python-zero-pytest-debugging-code-quality",
+      "title": "Python 零基础入门 27：pytest 测试、调试与代码质量",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-27：pytest-测试、调试与代码质量.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d184",
+      "originalSlug": "python-zero-unicode-str-bytes",
+      "title": "Python 零基础入门 26：Unicode、str 与 bytes",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-26：Unicode、str-与-bytes.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d182",
+      "originalSlug": "python-zero-advanced-functions-closures-decorators",
+      "title": "Python 零基础入门 25：函数进阶、闭包与装饰器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-25：函数进阶、闭包与装饰器.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d180",
+      "originalSlug": "python-zero-iterable-iterator-generator",
+      "title": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-24：可迭代对象、迭代器与生成器.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d17e",
+      "originalSlug": "python-zero-logging-module",
+      "title": "Python 零基础入门 23：logging 日志模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-23：logging-日志模块.md"
+    },
+    {
+      "originalId": "6a6aafe0c0726f33c296abf8",
+      "originalSlug": "uni-app-android-apk-0-1",
+      "title": "浩南技术教学资料-uni-app Android APK从0到1全流程实战手册",
+      "contentMode": "document",
+      "categoryPath": [
+        "安卓APK"
+      ],
+      "onlineFile": "安卓APK/浩南技术教学资料-uni-app-Android-APK从0到1全流程实战手册-文档/metadata.json"
+    },
+    {
+      "originalId": "6a58a6f8c48586f4dec3c348",
+      "originalSlug": "uniapp-jar",
+      "title": "uniapp 对接自定义 jar 包：从零到真机的完整实操指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "安卓APK"
+      ],
+      "onlineFile": "安卓APK/uniapp-对接自定义-jar-包：从零到真机的完整实操指南.md"
+    },
+    {
+      "originalId": "6a6a16ddfca6c64076d4099c",
+      "originalSlug": "article-20260729150605",
+      "title": "电子班牌项目经历深度复盘与简历素材",
+      "contentMode": "document",
+      "categoryPath": [
+        "安卓APK"
+      ],
+      "onlineFile": "安卓APK/电子班牌项目经历深度复盘与简历素材-文档/metadata.json"
+    },
+    {
+      "originalId": "6a560179c48586f4dec2eb99",
+      "originalSlug": "article-20260714092929",
+      "title": "测试",
+      "contentMode": "markdown",
+      "categoryPath": [],
+      "onlineFile": "测试.md"
+    },
+    {
+      "originalId": "6a4a4564f9ac958d29178031",
+      "originalSlug": "docker-learning-notes-for-beginners",
+      "title": "Docker 学习笔记：纯小白版",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "Docker"
+      ],
+      "onlineFile": "AI相关/AI开发/Docker/Docker-学习笔记：纯小白版.md"
+    },
+    {
+      "originalId": "6a4a4564f9ac958d2917802c",
+      "originalSlug": "docker-desktop-cn-localization-guide",
+      "title": "Docker Desktop 汉化教程：以 DockerDesktop-CN 为例",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "Docker"
+      ],
+      "onlineFile": "AI相关/AI开发/Docker/Docker-Desktop-汉化教程：以-DockerDesktop-CN-为例.md"
+    },
+    {
+      "originalId": "6a4a4564f9ac958d29178027",
+      "originalSlug": "ai-knowledge-system-from-concepts-to-engineering",
+      "title": "AI技术知识体系：从核心概念到工程化实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "开发基础"
+      ],
+      "onlineFile": "AI相关/AI开发/开发基础/AI技术知识体系：从核心概念到工程化实战.md"
+    },
+    {
+      "originalId": "6a4a4564f9ac958d29178036",
+      "originalSlug": "yaml-json-toml-config-files-for-beginners",
+      "title": "YAML、JSON、TOML 配置文件入门：开发初学者看这一篇就够",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "开发基础"
+      ],
+      "onlineFile": "AI相关/AI开发/开发基础/YAML、JSON、TOML-配置文件入门：开发初学者看这一篇就够.md"
+    },
+    {
+      "originalId": "6a4a451af9ac958d29177b57",
+      "originalSlug": "proxy-mode-and-traffic-capture-guide-20260705",
+      "title": "代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "onlineFile": "电脑/电脑网络/代理与VPN/代理模式与流量接管方式：Rule、Global、Direct、System-Proxy、TUN-怎么选.md"
+    },
+    {
+      "originalId": "6a4a451af9ac958d29177b5b",
+      "originalSlug": "latency-test-methods-tcping-icmp-urltest-rtt-20260705",
+      "title": "延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 到底测的是什么",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "onlineFile": "电脑/电脑网络/代理与VPN/延迟测试与测速方法：TCPing、ICMP、URL-Test、RTT-到底测的是什么.md"
+    },
+    {
+      "originalId": "6a4a451af9ac958d29177b5f",
+      "originalSlug": "ip-usage-type-residential-datacenter-risk-guide-20260705",
+      "title": "IP 类型与风控判断：家宽、机房、ISP、住宅代理到底怎么分",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "onlineFile": "电脑/电脑网络/代理与VPN/IP-类型与风控判断：家宽、机房、ISP、住宅代理到底怎么分.md"
+    },
+    {
+      "originalId": "6a4a451af9ac958d29177b63",
+      "originalSlug": "network-routes-and-proxy-protocols-guide-20260705",
+      "title": "线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2 怎么理解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "onlineFile": "电脑/电脑网络/代理与VPN/线路与代理协议基础：直连、中转、专线、VLESS-Reality、Hysteria2-怎么理解.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774e7",
+      "originalSlug": "python-crawler-basic-concepts",
+      "title": "Python 网络爬虫入门 00：基础概念",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-00：基础概念.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774eb",
+      "originalSlug": "python-crawler-request-and-robots",
+      "title": "Python 网络爬虫入门 01：requests 请求体系与 robots.txt",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-01：requests-请求体系与-robots.txt.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774ef",
+      "originalSlug": "python-crawler-lxml-parse-html-save-csv",
+      "title": "Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-02：XPath-解析-HTML-并保存-CSV.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774f3",
+      "originalSlug": "python-data-analysis-pandas-csv",
+      "title": "Python 数据分析入门 04：用 pandas 统计 CSV",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据分析入门-04：用-pandas-统计-CSV.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917602a",
+      "originalSlug": "python-zero-learning-guide",
+      "title": "Python 零基础入门 00：学习路线与运行方式",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-00：学习路线与运行方式.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917602e",
+      "originalSlug": "python-zero-what-is-python",
+      "title": "Python 零基础入门 01：Python 是什么",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-01：Python-是什么.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176032",
+      "originalSlug": "python-zero-install-and-run",
+      "title": "Python 零基础入门 02：安装检查与运行代码",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-02：安装检查与运行代码.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176036",
+      "originalSlug": "python-zero-print-and-comments",
+      "title": "Python 零基础入门 03：print 输出与注释",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-03：print-输出与注释.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917603a",
+      "originalSlug": "python-zero-variables-and-types",
+      "title": "Python 零基础入门 04：变量和基本数据类型",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-04：变量和基本数据类型.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917603e",
+      "originalSlug": "python-zero-string",
+      "title": "Python 零基础入门 05：字符串",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-05：字符串.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176042",
+      "originalSlug": "python-zero-numbers-and-operators",
+      "title": "Python 零基础入门 06：数字和简单计算",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-06：数字和简单计算.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176046",
+      "originalSlug": "python-zero-input-and-convert",
+      "title": "Python 零基础入门 07：input 输入和类型转换",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-07：input-输入和类型转换.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917604a",
+      "originalSlug": "python-zero-if-else-match",
+      "title": "Python 零基础入门 08：条件判断 if else 和 match",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-08：条件判断-if-else-和-match.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917604e",
+      "originalSlug": "python-zero-loops",
+      "title": "Python 零基础入门 09：循环 for 和 while",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-09：循环-for-和-while.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176052",
+      "originalSlug": "python-zero-lists",
+      "title": "Python 零基础入门 10：列表 list",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-10：列表-list.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176056",
+      "originalSlug": "python-zero-tuples",
+      "title": "Python 零基础入门 11：元组 tuple",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-11：元组-tuple.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917605a",
+      "originalSlug": "python-zero-sets",
+      "title": "Python 零基础入门 12：集合 set",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-12：集合-set.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917605e",
+      "originalSlug": "python-zero-dictionaries",
+      "title": "Python 零基础入门 13：字典 dict",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-13：字典-dict.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176062",
+      "originalSlug": "python-zero-functions",
+      "title": "Python 零基础入门 14：函数 function",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-14：函数-function.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176066",
+      "originalSlug": "python-zero-file-read-write",
+      "title": "Python 零基础入门 15：文件读写",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-15：文件读写.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917606a",
+      "originalSlug": "python-zero-mini-project-account-book",
+      "title": "Python 零基础入门 16：小练习记账本",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-16：小练习记账本.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917606e",
+      "originalSlug": "python-zero-exception-handling",
+      "title": "Python 零基础入门 17：异常处理 try except",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-17：异常处理-try-except.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176072",
+      "originalSlug": "python-zero-modules-pip-venv",
+      "title": "Python 零基础入门 18：模块、包、pip 和虚拟环境",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-18：模块、包、pip-和虚拟环境.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176076",
+      "originalSlug": "python-zero-object-oriented-programming",
+      "title": "Python 零基础入门 19：面向对象 class",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-19：面向对象-class.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917607a",
+      "originalSlug": "python-zero-standard-library",
+      "title": "Python 零基础入门 20：常用标准库",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-20：常用标准库.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917607e",
+      "originalSlug": "python-zero-interview-and-project-review",
+      "title": "Python 零基础入门 21：面试复盘与项目表达",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-21：面试复盘与项目表达.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176082",
+      "originalSlug": "python-zero-csv-module",
+      "title": "Python 零基础入门 22：csv 模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-22：csv-模块.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5b8",
+      "originalSlug": "legacy-dee56a61-dee56a61",
+      "title": "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "onlineFile": "电脑/网站部署/全栈部署入门/第-7-篇：Vue-+-Express-+-MongoDB-从-0-到-1-完整上线实战.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5ac",
+      "originalSlug": "mongodb-ad14cd5a",
+      "title": "第 5 篇：MongoDB 生产安全、连接与备份",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "onlineFile": "电脑/网站部署/全栈部署入门/第-5-篇：MongoDB-生产安全、连接与备份.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5b4",
+      "originalSlug": "legacy-eedf0e1c-eedf0e1c",
+      "title": "第 6 篇：宝塔面板部署入门与避坑",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "onlineFile": "电脑/网站部署/全栈部署入门/第-6-篇：宝塔面板部署入门与避坑.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5a4",
+      "originalSlug": "node-express-pm2-b0b0327c",
+      "title": "第 4 篇：Node、Express、PM2 与环境变量",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "onlineFile": "电脑/网站部署/全栈部署入门/第-4-篇：Node、Express、PM2-与环境变量.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5a0",
+      "originalSlug": "nginx-https-f134e6f0",
+      "title": "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "onlineFile": "电脑/网站部署/全栈部署入门/第-3-篇：Nginx、Vue-静态资源、反向代理与-HTTPS.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac598",
+      "originalSlug": "ssh-linux-8e509843",
+      "title": "第 2 篇：SSH 与 Linux 服务器基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "onlineFile": "电脑/网站部署/全栈部署入门/第-2-篇：SSH-与-Linux-服务器基础.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac590",
+      "originalSlug": "legacy-ce762b29-ce762b29",
+      "title": "第 1 篇：部署学习路线和知识分类",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "onlineFile": "电脑/网站部署/全栈部署入门/第-1-篇：部署学习路线和知识分类.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac152",
+      "originalSlug": "node-js-mongodb-fbe72b64",
+      "title": "MongoDB 详解第五篇：关联查询与聚合管道",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "onlineFile": "后端技术/Node.js/MongoDB详解/MongoDB-详解第五篇：关联查询与聚合管道.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac164",
+      "originalSlug": "node-js-mongodb-mongoose-crud-bcf8ad68",
+      "title": "MongoDB 详解第四篇：Mongoose CRUD 与中间件",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "onlineFile": "后端技术/Node.js/MongoDB详解/MongoDB-详解第四篇：Mongoose-CRUD-与中间件.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac15c",
+      "originalSlug": "node-js-mongodb-5c500e8d",
+      "title": "MongoDB 详解第六篇：索引优化与事务",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "onlineFile": "后端技术/Node.js/MongoDB详解/MongoDB-详解第六篇：索引优化与事务.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac176",
+      "originalSlug": "node-js-1c62acb7",
+      "title": "接口与会话控制详解第七篇：完整认证系统实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第七篇：完整认证系统实战.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac198",
+      "originalSlug": "node-js-f44b312e",
+      "title": "接口与会话控制详解第八篇：前后端联调与常见问题排查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第八篇：前后端联调与常见问题排查.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac148",
+      "originalSlug": "node-js-mongodb-mongodb-crud-85922e88",
+      "title": "MongoDB 详解第二篇：原生 CRUD 操作",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "onlineFile": "后端技术/Node.js/MongoDB详解/MongoDB-详解第二篇：原生-CRUD-操作.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac13e",
+      "originalSlug": "node-js-mongodb-mongoose-schema-ce33c896",
+      "title": "MongoDB 详解第三篇：Mongoose 连接与 Schema 建模",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "onlineFile": "后端技术/Node.js/MongoDB详解/MongoDB-详解第三篇：Mongoose-连接与-Schema-建模.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac136",
+      "originalSlug": "node-js-mongodb-f251a01d",
+      "title": "MongoDB 详解第七篇：完整项目实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "onlineFile": "后端技术/Node.js/MongoDB详解/MongoDB-详解第七篇：完整项目实战.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac12a",
+      "originalSlug": "node-js-mongodb-mongodb-5f0dd1bc",
+      "title": "MongoDB 详解第一篇：安装与基础概念",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "MongoDB详解"
+      ],
+      "onlineFile": "后端技术/Node.js/MongoDB详解/MongoDB-详解第一篇：安装与基础概念.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1ba",
+      "originalSlug": "node-js-node-js-buffer-52d2c595",
+      "title": "第一篇：Node.js 入门与 Buffer",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "onlineFile": "后端技术/Node.js/第一篇：Node.js-入门与-Buffer.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1e6",
+      "originalSlug": "node-js-express-ba1a095d",
+      "title": "第六篇：Express 框架全解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "onlineFile": "后端技术/Node.js/第六篇：Express-框架全解.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1da",
+      "originalSlug": "node-js-npm-nvm-0ada380c",
+      "title": "第五篇：npm 包管理与 nvm 版本管理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "onlineFile": "后端技术/Node.js/第五篇：npm-包管理与-nvm-版本管理.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf66",
+      "originalSlug": "ai-agent-codex-codex-94189641",
+      "title": "第四篇：Codex 多线路接入与迁移总手册",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf4c",
+      "originalSlug": "ai-agent-codex-codex-cli-10e9408b",
+      "title": "第一篇：Codex CLI 第一日开发实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf80",
+      "originalSlug": "ai-agent-codex-codex-1c9633e1",
+      "title": "第七篇：Codex 当前常用功能与进阶工作流手册",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf78",
+      "originalSlug": "ai-agent-codex-codex-9cf3fc01",
+      "title": "第六篇：Codex 命令与配置文件速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf6e",
+      "originalSlug": "ai-agent-codex-codex-cli-app-afad6d17",
+      "title": "第五篇：Codex CLI / 插件 / App 三端联动实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf5a",
+      "originalSlug": "ai-agent-codex-codex-edeadb5e",
+      "title": "第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf50",
+      "originalSlug": "ai-agent-codex-codex-cli-64e9fd24",
+      "title": "第二篇：Codex CLI 英文终端界面翻译与排错",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac510",
+      "originalSlug": "vpn-0373b572",
+      "title": "代理网络问题处理指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "onlineFile": "电脑/电脑网络/代理与VPN/代理网络问题处理指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac308",
+      "originalSlug": "git-5aba4c87",
+      "title": "Git 命令速查与常见问题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查",
+        "Git"
+      ],
+      "onlineFile": "常用缺易忘/工具速查/Git/Git-命令速查与常见问题.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac070",
+      "originalSlug": "ai-ccswitch-ccswitch-2b997b92",
+      "title": "第五篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-05-30复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第五篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-05-30复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac078",
+      "originalSlug": "ai-ccswitch-ccswitch-0c54d5c6",
+      "title": "第四篇：CC Switch 跨电脑导出导入与云同步实战（2026-05-30复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第四篇：CC-Switch-跨电脑导出导入与云同步实战（2026-05-30复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac06a",
+      "originalSlug": "ai-ccswitch-ccswitch-4cff94a4",
+      "title": "第二篇：CC Switch 接入中转站与计费排查实战（2026-05复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第二篇：CC-Switch-接入中转站与计费排查实战（2026-05复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac05a",
+      "originalSlug": "ai-ccswitch-ccswitch-82653641",
+      "title": "第一篇：CC Switch 快速上手与核心概念（v3.16.0）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-快速上手与核心概念（v3.16.0）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac050",
+      "originalSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
+      "title": "第一篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-切换-Codex-Provider-后-Node-调用失败排查修复实录.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf3e",
+      "originalSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
+      "title": "第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf22",
+      "originalSlug": "ai-agent-claudecode-claudecode-8b6661f9",
+      "title": "第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf2a",
+      "originalSlug": "ai-agent-claudecode-claudecode-083e790a",
+      "title": "第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf18",
+      "originalSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
+      "title": "第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf36",
+      "originalSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
+      "title": "第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf46",
+      "originalSlug": "ai-agent-claudecode-claudecode-76aa3c89",
+      "title": "第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac020",
+      "originalSlug": "ai-skill-skills-8158d6e4",
+      "title": "补充篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfa6",
+      "originalSlug": "ai-mcp-mcp-mcp-d20641b2",
+      "title": "03：前端开发常用 MCP 清单与选型建议（2026-07复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/03：前端开发常用-MCP-清单与选型建议（2026-07复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac01e",
+      "originalSlug": "ai-skill-agentskills-a705fbb5",
+      "title": "Agent Skills 场景模板与案例库",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf9c",
+      "originalSlug": "ai-mcp-mcp-mcp-ce5df958",
+      "title": "02：常用 MCP 分类与选型总览",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/02：常用-MCP-分类与选型总览.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac024",
+      "originalSlug": "ai-skill-agentskills-4a94dc23",
+      "title": "Agent Skills 团队协作与社区资源",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac01a",
+      "originalSlug": "ai-skill-agentskills-b37a5530",
+      "title": "Agent Skills 高级用法与进阶技巧",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac014",
+      "originalSlug": "ai-skill-agentskills-8ff13a14",
+      "title": "Agent Skills 开放标准与各工具兼容性全解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfe4",
+      "originalSlug": "ai-plugin-plugin-a8202a00",
+      "title": "第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfde",
+      "originalSlug": "ai-plugin-claudecode-claudecodeplugin-ed613976",
+      "title": "第三篇：Claude Code Plugin 体系详解与实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfd6",
+      "originalSlug": "ai-plugin-codex-codexplugin-9b9edb10",
+      "title": "第二篇：Codex Plugin 体系详解与实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfcc",
+      "originalSlug": "ai-plugin-plugin-da2ad951",
+      "title": "第一篇：Plugin 插件是什么，为什么需要它",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfb6",
+      "originalSlug": "ai-mcp-c534a7cb",
+      "title": "06：MCP 项目落地与收益评估问题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/06：MCP-项目落地与收益评估问题.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfbc",
+      "originalSlug": "ai-mcp-ede3e0c8",
+      "title": "05：MCP 架构与安全边界问题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/05：MCP-架构与安全边界问题.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfb0",
+      "originalSlug": "ai-mcp-83743b3f",
+      "title": "04：MCP 概念与主流度问题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/04：MCP-概念与主流度问题.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac062",
+      "originalSlug": "ai-ccswitch-claudecode-mimotokenplan-736772f0",
+      "title": "第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第三篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf96",
+      "originalSlug": "ai-mcp-mcp-067b747a",
+      "title": "01：MCP 是什么与开放标准核心认知",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/01：MCP-是什么与开放标准核心认知.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac040",
+      "originalSlug": "ai-agent-openclaw101-7-7f46689a",
+      "title": "第四篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第四篇：OpenClaw101-全7天资料总研版（龙虾中文版可执行手册）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac03e",
+      "originalSlug": "ai-agent-aafa4c54",
+      "title": "第六篇：龙虾命令与配置文件一页速查图",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第六篇：龙虾命令与配置文件一页速查图.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac03a",
+      "originalSlug": "ai-agent-openclaw101-7-98f47885",
+      "title": "第五篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第五篇：OpenClaw101-全7天逐命令拆解（龙虾中文版超详细手册）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac036",
+      "originalSlug": "ai-agent-openclaw-4d87088b",
+      "title": "第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第二篇：OpenClaw-CN-0.1.7-命令配置与重启排障全手册（Windows）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac034",
+      "originalSlug": "ai-agent-openclaw101day1-2082ef14",
+      "title": "第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第三篇：OpenClaw101-Day1-知识全景与命令配置实战（认知与灵魂篇）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac02e",
+      "originalSlug": "ai-agent-openclaw-4d55dcf1",
+      "title": "第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第一篇：OpenClaw-本地部署实战（从安装到龙虾内容生产）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfc6",
+      "originalSlug": "ai-mcp-mcp-79fea32a",
+      "title": "07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/07：谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf88",
+      "originalSlug": "ai-agent-gemini-mcp-4c54d61a",
+      "title": "Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Gemini"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Gemini/Gemini-目录补充说明：谷歌-MCP-配置手册放在哪里看.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac04a",
+      "originalSlug": "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25",
+      "title": "Node 环境对比报告（DESKTOP-OAP8VID）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（DESKTOP-OAP8VID）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac048",
+      "originalSlug": "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4",
+      "title": "Node 环境对比报告（LAPTOP-5AP3767K）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（LAPTOP-5AP3767K）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac08c",
+      "originalSlug": "ai-7ef116e6",
+      "title": "第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "基础与计费"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/基础与计费/第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac084",
+      "originalSlug": "ai-token-ai-72feffb1",
+      "title": "第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "基础与计费"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/基础与计费/第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac00c",
+      "originalSlug": "ai-rules-gemini-copilot-geminicli-copilot-853f4742",
+      "title": "第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac002",
+      "originalSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
+      "title": "第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Devin-Windsurf-Rules-Kiro-Steering-实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabff8",
+      "originalSlug": "ai-rules-claude-claude-md-claudecode-ff6cd587",
+      "title": "第三篇：CLAUDE.md 与 Claude Code 记忆系统",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabff0",
+      "originalSlug": "ai-rules-agents-agents-md-908e49bb",
+      "title": "第二篇：AGENTS.md 开放标准完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfe8",
+      "originalSlug": "ai-rules-ai-e659b444",
+      "title": "第一篇：AI 工具规则文档是什么，为什么需要它",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf90",
+      "originalSlug": "ai-mcp-848a18d2",
+      "title": "MCP 学习导航与维护路线",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/MCP-学习导航与维护路线.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf0c",
+      "originalSlug": "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9",
+      "title": "第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第四篇：Windsurf-Rules、AGENTS.md、Skills、Workflows-项目治理实战（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf06",
+      "originalSlug": "ai-ai-windsurf-windsurf-2-0-devin-78b4664a",
+      "title": "第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第五篇：Windsurf-2.0-与-Devin-集成实战（2026-05）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabefc",
+      "originalSlug": "ai-ai-windsurf-windsurf-4667d3b6",
+      "title": "第二篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第二篇：Windsurf-官方文档深度拆解，最新能力与工作流（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabef6",
+      "originalSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
+      "title": "第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第三篇：Windsurf-Code-Plan-Ask-三种模式分工与切换策略（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeee",
+      "originalSlug": "ai-ai-windsurf-windsurf-d941c66c",
+      "title": "第一篇：Windsurf 快速上手与核心能力（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第一篇：Windsurf-快速上手与核心能力（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabee8",
+      "originalSlug": "ai-ai-kiro-kiro-hooks-4b92a74f",
+      "title": "第四篇：Kiro Hooks 自动化机制（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabed8",
+      "originalSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
+      "title": "第五篇：Kiro MCP 集成与工具扩展（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabee0",
+      "originalSlug": "ai-ai-kiro-kiro-bee7077a",
+      "title": "第六篇：Kiro 工作流实战与最佳实践（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabed2",
+      "originalSlug": "ai-ai-kiro-kiro-specs-c09713f2",
+      "title": "第二篇：Kiro Specs 规格系统详解（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabec8",
+      "originalSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
+      "title": "第三篇：Kiro Steering 上下文管理（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabec0",
+      "originalSlug": "ai-ai-kiro-kiro-4ba05074",
+      "title": "第一篇：Kiro 快速上手与核心概念（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeba",
+      "originalSlug": "ai-ai-cursor-cursor-terminalcli-git-84f595c7",
+      "title": "第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第四篇：Cursor-项目实战：Terminal、CLI-与-Git-工作流（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeb2",
+      "originalSlug": "ai-ai-cursor-cursor-mcp-shellmode-144315a1",
+      "title": "第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第六篇：Cursor-工具权限：MCP、Shell-Mode-与安全边界（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeac",
+      "originalSlug": "ai-ai-cursor-cursor-bc1e7a3a",
+      "title": "第八篇：Cursor 数据科学、远程环境与常见问题（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第八篇：Cursor-数据科学、远程环境与常见问题（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabea4",
+      "originalSlug": "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89",
+      "title": "第五篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第五篇：Cursor-协作自动化：Background-Agents、Bugbot、GitHub-与-Slack（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe9c",
+      "originalSlug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
+      "title": "第二篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第二篇：Cursor-核心交互：Agent、Ask、Tab-与-Inline-Edit（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe96",
+      "originalSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
+      "title": "第三篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第三篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe90",
+      "originalSlug": "ai-ai-cursor-cursor-4dfc49b1",
+      "title": "第七篇：Cursor 模型、隐私与团队企业治理（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第七篇：Cursor-模型、隐私与团队企业治理（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe88",
+      "originalSlug": "ai-ai-cursor-cursor-40faf5ca",
+      "title": "第一篇：Cursor 上手、迁移与索引配置（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第一篇：Cursor-上手、迁移与索引配置（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe80",
+      "originalSlug": "ai-ai-catpaw-catpaw-e217fd6c",
+      "title": "第4篇：CatPaw上下文与预览调试",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe76",
+      "originalSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
+      "title": "第5篇：CatPaw Rules与MCP扩展",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe6c",
+      "originalSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
+      "title": "第2篇：CatPaw核心功能详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe62",
+      "originalSlug": "ai-ai-catpaw-catpaw-ai-87736891",
+      "title": "第3篇：CatPaw AI助手使用指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe58",
+      "originalSlug": "ai-ai-catpaw-catpaw-2afcb185",
+      "title": "第1篇：CatPaw介绍与快速上手",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe4e",
+      "originalSlug": "ai-cd17bf62",
+      "title": "AI工具知识库总导航",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具"
+      ],
+      "onlineFile": "AI相关/AI工具/AI工具知识库总导航.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6ce",
+      "originalSlug": "js-cryptojs-aes-81b77601",
+      "title": "CryptoJS前端加密库实战说明：参数签名、摘要与AES处理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库"
+      ],
+      "onlineFile": "项目复用技术/JS库/CryptoJS前端加密库实战说明：参数签名、摘要与AES处理.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6c8",
+      "originalSlug": "js-qrcode-vue-ff5f7ac7",
+      "title": "qrcode二维码生成库实战说明：登录码、分享码与Vue接入",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库"
+      ],
+      "onlineFile": "项目复用技术/JS库/qrcode二维码生成库实战说明：登录码、分享码与Vue接入.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6c2",
+      "originalSlug": "js-axios-61754a5a",
+      "title": "Axios请求库实战说明：请求封装、拦截器与文件上传",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库"
+      ],
+      "onlineFile": "项目复用技术/JS库/Axios请求库实战说明：请求封装、拦截器与文件上传.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6c0",
+      "originalSlug": "js-cropperjs-vue-103593b5",
+      "title": "Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库"
+      ],
+      "onlineFile": "项目复用技术/JS库/Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6ba",
+      "originalSlug": "js-sortablejs-vue-0390c773",
+      "title": "SortableJS拖拽排序库实战说明：标签拖拽、列表重排与Vue接入",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库"
+      ],
+      "onlineFile": "项目复用技术/JS库/SortableJS拖拽排序库实战说明：标签拖拽、列表重排与Vue接入.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6fe",
+      "originalSlug": "vue-vue-tagsview-route-fullpath-href-53186ab7",
+      "title": "Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "Vue后台管理"
+      ],
+      "onlineFile": "项目复用技术/Vue后台管理/Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7e6",
+      "originalSlug": "legacy-a7fe5afb-a7fe5afb",
+      "title": "统一登录中心与子系统切换实战说明",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "对比笔记"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/对比笔记/统一登录中心与子系统切换实战说明.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac406",
+      "originalSlug": "js-js-f636b54f",
+      "title": "第16篇：前端模块导入与导出完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第16篇：前端模块导入与导出完全指南.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac236",
+      "originalSlug": "uni-app-uni-app-eventchannel-bc3b226b",
+      "title": "uni-app微信小程序页面通信之eventChannel详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app微信小程序页面通信之eventChannel详解.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6b2",
+      "originalSlug": "git-git-git-https-ssh-token-45a9f853",
+      "title": "Git账号密码到底是什么：Git、平台认证、HTTPS、SSH、Token 全解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查",
+        "Git"
+      ],
+      "onlineFile": "常用缺易忘/工具速查/Git/Git账号密码到底是什么：Git、平台认证、HTTPS、SSH、Token-全解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac35c",
+      "originalSlug": "frame-6e6d3264",
+      "title": "前端里的各种\"帧\"——Frame 全解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "onlineFile": "常用缺易忘/浏览器与网络/前端里的各种-帧-——Frame-全解.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac750",
+      "originalSlug": "websocket-websocket-1b7cd930",
+      "title": "WebSocket 性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/WebSocket-性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac746",
+      "originalSlug": "websocket-stomp-abe9babf",
+      "title": "STOMP 协议速查手册：帧结构、命令、心跳与调试清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/STOMP-协议速查手册：帧结构、命令、心跳与调试清单.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac718",
+      "originalSlug": "websocket-stompclient-8bcbb8a6",
+      "title": "StompClient 封装实战：connect、订阅、心跳与回调分发",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/StompClient-封装实战：connect、订阅、心跳与回调分发.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac678",
+      "originalSlug": "js-8a2a9c20",
+      "title": "JavaScript 基础面试题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/JavaScript-基础面试题.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac582",
+      "originalSlug": "legacy-5846ff96-5846ff96",
+      "title": "开发常用快捷键速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/开发常用快捷键速查.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac674",
+      "originalSlug": "html-css-adfc1aa8",
+      "title": "HTML CSS 面试题详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/HTML-CSS-面试题详解.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6ae",
+      "originalSlug": "git-git-vscode-bfad3a07",
+      "title": "Git分支追踪与VSCode发布提示-排障指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查",
+        "Git"
+      ],
+      "onlineFile": "常用缺易忘/工具速查/Git/Git分支追踪与VSCode发布提示-排障指南.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac696",
+      "originalSlug": "legacy-cfbd06b8-cfbd06b8",
+      "title": "前端面试知识点整理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/前端面试知识点整理.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6a2",
+      "originalSlug": "legacy-bb449f80-bb449f80",
+      "title": "前端面试题题库及答案",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/前端面试题题库及答案.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac68e",
+      "originalSlug": "35-9db8f3f8",
+      "title": "前端开发常见面试题详解 35问",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/前端开发常见面试题详解-35问.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac69a",
+      "originalSlug": "legacy-c16e0589-c16e0589",
+      "title": "Vue 响应式原理与面试题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/Vue-响应式原理与面试题.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac692",
+      "originalSlug": "legacy-a87b199b-a87b199b",
+      "title": "前端超级面试题汇总",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/前端超级面试题汇总.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac73e",
+      "originalSlug": "websocket-websocket-ai-sse-a4e8c551",
+      "title": "WebSocket与AI流式传输深度解析_SSE对比_实现方案与最佳实践",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/WebSocket与AI流式传输深度解析_SSE对比_实现方案与最佳实践.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac684",
+      "originalSlug": "vue-9af82b75",
+      "title": "Vue 面试题详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/Vue-面试题详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac680",
+      "originalSlug": "uniapp-9cf05b58",
+      "title": "UniApp 框架面试题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/UniApp-框架面试题.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac68a",
+      "originalSlug": "websocket-a1cbc328",
+      "title": "WebSocket 协议详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/WebSocket-协议详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac442",
+      "originalSlug": "js-js-d03088d0",
+      "title": "第24篇：JavaScript 对象系统与属性描述符",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第24篇：JavaScript-对象系统与属性描述符.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac44a",
+      "originalSlug": "js-js-0c45b118",
+      "title": "第25篇：JavaScript 高频手写题思路总纲",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第25篇：JavaScript-高频手写题思路总纲.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac43a",
+      "originalSlug": "js-js-8c9811b5",
+      "title": "第23篇：执行上下文、作用域链与调用栈",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第23篇：执行上下文、作用域链与调用栈.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac37e",
+      "originalSlug": "js-js-js-d7c0a532",
+      "title": "JavaScript 常识目录（建议阅读顺序）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js"
+      ],
+      "onlineFile": "我的总结/js/JavaScript-常识目录（建议阅读顺序）.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac47a",
+      "originalSlug": "vue-vue-1cec562a",
+      "title": "Vue目录（建议阅读顺序）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue"
+      ],
+      "onlineFile": "我的总结/Vue/Vue目录（建议阅读顺序）.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4ee",
+      "originalSlug": "vue-vue-dom-diff-05a2bbc3",
+      "title": "第13篇：虚拟DOM、Diff算法、编译优化与面试高频补充",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第13篇：虚拟DOM、Diff算法、编译优化与面试高频补充.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac22a",
+      "originalSlug": "uni-app-uni-app-web-view-0f6f8748",
+      "title": "uni-app 微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4de",
+      "originalSlug": "vue-vue-vue2-vue3-61311af1",
+      "title": "第12篇：Vue2 vs Vue3 核心写法差异",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第12篇：Vue2-vs-Vue3-核心写法差异.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4dc",
+      "originalSlug": "vue-vue-vue3-composition-api-4d51a7a6",
+      "title": "第11篇：Vue3_Composition_API核心笔记",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第11篇：Vue3_Composition_API核心笔记.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4d2",
+      "originalSlug": "vue-vue-vue-router-b011bea3",
+      "title": "第10篇：Vue Router 超详细总笔记",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第10篇：Vue-Router-超详细总笔记.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac49e",
+      "originalSlug": "vue-vue-vue2-a3062491",
+      "title": "第04篇：Vue2组件五大核心配置项",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第04篇：Vue2组件五大核心配置项.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac492",
+      "originalSlug": "vue-vue-vue-ebf8992e",
+      "title": "第03篇：Vue响应式原理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第03篇：Vue响应式原理.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac432",
+      "originalSlug": "javascript-js-fc6f3322",
+      "title": "绝对路径与相对路径详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/绝对路径与相对路径详解.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac25a",
+      "originalSlug": "uni-app-uni-app-66402eae",
+      "title": "uni-app 跨端开发通用方法：路由、请求、缓存、上传下载与条件编译",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "onlineFile": "前端技术/uni-app/通用基础/uni-app-跨端开发通用方法：路由、请求、缓存、上传下载与条件编译.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac254",
+      "originalSlug": "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2",
+      "title": "uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "onlineFile": "前端技术/uni-app/通用基础/uni-app-工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss-与-static.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac24c",
+      "originalSlug": "uni-app-uni-app-4049c58c",
+      "title": "uni-app 应用生命周期、页面生命周期与常见页面事件",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "onlineFile": "前端技术/uni-app/通用基础/uni-app-应用生命周期、页面生命周期与常见页面事件.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac242",
+      "originalSlug": "uni-app-uni-app-85c68412",
+      "title": "uni-app 到底是什么：跨端编译、运行时与平台边界",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "onlineFile": "前端技术/uni-app/通用基础/uni-app-到底是什么：跨端编译、运行时与平台边界.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4c8",
+      "originalSlug": "vue-vue-axios-4d3d1aab",
+      "title": "第09篇：Axios",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第09篇：Axios.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac478",
+      "originalSlug": "uni-app-uni-app-9a1496c3",
+      "title": "第06篇：uni-app高频问题补充问答",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "uni-app",
+        "uni-app辅助"
+      ],
+      "onlineFile": "我的总结/uni-app/uni-app辅助/第06篇：uni-app高频问题补充问答.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac472",
+      "originalSlug": "uni-app-uni-app-ae457f1c",
+      "title": "第05篇：uni-app性能优化、包体治理与稳定性维护",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "uni-app",
+        "uni-app辅助"
+      ],
+      "onlineFile": "我的总结/uni-app/uni-app辅助/第05篇：uni-app性能优化、包体治理与稳定性维护.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac46e",
+      "originalSlug": "uni-app-uni-app-2a3920fc",
+      "title": "第04篇：uni-app跨端开发方法与微信小程序常见能力接入",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "uni-app",
+        "uni-app辅助"
+      ],
+      "onlineFile": "我的总结/uni-app/uni-app辅助/第04篇：uni-app跨端开发方法与微信小程序常见能力接入.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac46c",
+      "originalSlug": "uni-app-uni-app-5d3131e1",
+      "title": "第03篇：uni-app工程结构、配置分层与文件职责边界",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "uni-app",
+        "uni-app辅助"
+      ],
+      "onlineFile": "我的总结/uni-app/uni-app辅助/第03篇：uni-app工程结构、配置分层与文件职责边界.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac468",
+      "originalSlug": "uni-app-uni-app-8c6d7ba1",
+      "title": "第02篇：uni-app生命周期、页面时序与常见页面事件",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "uni-app",
+        "uni-app辅助"
+      ],
+      "onlineFile": "我的总结/uni-app/uni-app辅助/第02篇：uni-app生命周期、页面时序与常见页面事件.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4b6",
+      "originalSlug": "vue-vue-9736eb78",
+      "title": "第07篇：组件通讯",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第07篇：组件通讯.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac460",
+      "originalSlug": "uni-app-uni-app-5f27ae60",
+      "title": "第01篇：uni-app核心认知、跨端编译与平台边界",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "uni-app",
+        "uni-app辅助"
+      ],
+      "onlineFile": "我的总结/uni-app/uni-app辅助/第01篇：uni-app核心认知、跨端编译与平台边界.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac45c",
+      "originalSlug": "uni-app-uni-app-4aaf2e1a",
+      "title": "uni-app目录（系统整理版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "uni-app"
+      ],
+      "onlineFile": "我的总结/uni-app/uni-app目录（系统整理版）.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4ae",
+      "originalSlug": "vue-vue-9d24253e",
+      "title": "第06篇：生命周期",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第06篇：生命周期.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac428",
+      "originalSlug": "js-js-for-ae3e60e0",
+      "title": "第21篇：for 家族完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第21篇：for-家族完全指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac48a",
+      "originalSlug": "vue-vue-vue-011d0d19",
+      "title": "第02篇：Vue指令与自定义指令",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第02篇：Vue指令与自定义指令.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac480",
+      "originalSlug": "vue-vue-31fab0ca",
+      "title": "第01篇：插值语法",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第01篇：插值语法.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac506",
+      "originalSlug": "vue-vue-03-vue-name-5f5217ee",
+      "title": "附录03：Vue的name属性",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue随记"
+      ],
+      "onlineFile": "我的总结/Vue/vue随记/附录03：Vue的name属性.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac500",
+      "originalSlug": "vue-vue-02-vue3-vite-b6a24a54",
+      "title": "附录02：Vue3的Vite工程化详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue随记"
+      ],
+      "onlineFile": "我的总结/Vue/vue随记/附录02：Vue3的Vite工程化详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4f8",
+      "originalSlug": "vue-vue-01-vue2-webpack-ba0bd4ed",
+      "title": "附录01：Vue2的Webpack工程化详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue随记"
+      ],
+      "onlineFile": "我的总结/Vue/vue随记/附录01：Vue2的Webpack工程化详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4c0",
+      "originalSlug": "vue-vue-mixins-plugins-scoped-5091c143",
+      "title": "第08篇：mixins_plugins_scoped",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第08篇：mixins_plugins_scoped.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4a6",
+      "originalSlug": "vue-vue-class-style-eb3555df",
+      "title": "第05篇：class与style绑定",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "Vue",
+        "vue辅助"
+      ],
+      "onlineFile": "我的总结/Vue/vue辅助/第05篇：class与style绑定.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac44e",
+      "originalSlug": "js-516c7d40",
+      "title": "字符串数组方法速背卡（开发+面试）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/字符串数组方法速背卡（开发+面试）.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac456",
+      "originalSlug": "js-js-e0da040f",
+      "title": "解构赋值完整指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/解构赋值完整指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac41e",
+      "originalSlug": "js-js-f451ed2d",
+      "title": "第20篇：数组创建方法对比指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第20篇：数组创建方法对比指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac416",
+      "originalSlug": "js-js-aa0b9079",
+      "title": "第19篇：前端深浅拷贝完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第19篇：前端深浅拷贝完全指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac410",
+      "originalSlug": "js-js-dom-cefe5122",
+      "title": "第18篇：DOM 文档对象模型基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第18篇：DOM-文档对象模型基础.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac40c",
+      "originalSlug": "js-js-promise-6cb6d394",
+      "title": "第17篇：Promise 完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第17篇：Promise-完全指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac400",
+      "originalSlug": "js-js-map-set-696642c1",
+      "title": "第15篇：Map 与 Set 事件订阅管理器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第15篇：Map-与-Set-事件订阅管理器.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3f6",
+      "originalSlug": "js-js-dom-0c6dbfa3",
+      "title": "第14篇：易混淆 DOM 事件对比指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第14篇：易混淆-DOM-事件对比指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3ec",
+      "originalSlug": "js-js-offset-client-scroll-29c45981",
+      "title": "第13篇：offset、client、scroll 坐标与尺寸详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第13篇：offset、client、scroll-坐标与尺寸详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3e0",
+      "originalSlug": "js-js-0a88db30",
+      "title": "第12篇：宏任务与微任务",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第12篇：宏任务与微任务.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3de",
+      "originalSlug": "js-js-32fdfd9a",
+      "title": "第11篇：JavaScript 包装类的详细机制",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第11篇：JavaScript-包装类的详细机制.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3d8",
+      "originalSlug": "js-b45cfac4",
+      "title": "第10篇：JavaScript 字符串详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第10篇：JavaScript-字符串详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3ce",
+      "originalSlug": "js-javascript-ceaa578b",
+      "title": "第09篇：JavaScript 数组深度解析",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第09篇：JavaScript-数组深度解析.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3c4",
+      "originalSlug": "js-8770c0f0",
+      "title": "第08篇：类型检测与原型链深度解析",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第08篇：类型检测与原型链深度解析.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3be",
+      "originalSlug": "js-js-es5-es6-class-ddcd40c8",
+      "title": "第07篇：ES5 构造函数与 ES6 Class 详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第07篇：ES5-构造函数与-ES6-Class-详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3b6",
+      "originalSlug": "js-javascript-9a9d6589",
+      "title": "第06篇：JavaScript 原型链",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第06篇：JavaScript-原型链.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3ac",
+      "originalSlug": "js-js-this-515c53fa",
+      "title": "第05篇：JavaScript this 指向规则详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第05篇：JavaScript-this-指向规则详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3a4",
+      "originalSlug": "js-js-arguments-c45f50a4",
+      "title": "第04篇：JavaScript arguments 对象详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第04篇：JavaScript-arguments-对象详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac39c",
+      "originalSlug": "js-js-51b18143",
+      "title": "第03篇：JavaScript 闭包与垃圾回收机制",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第03篇：JavaScript-闭包与垃圾回收机制.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac394",
+      "originalSlug": "js-js-f6bc0394",
+      "title": "第02篇：JavaScript 数据访问安全机制",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第02篇：JavaScript-数据访问安全机制.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac38c",
+      "originalSlug": "js-js-javascript-4f1a5c58",
+      "title": "第01篇：JavaScript 变量与作用域详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "我的总结",
+        "js",
+        "辅助资料"
+      ],
+      "onlineFile": "我的总结/js/辅助资料/第01篇：JavaScript-变量与作用域详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac52e",
+      "originalSlug": "legacy-ccf8bc9f-ccf8bc9f",
+      "title": "开发必懂网络基础概念",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "网络基础"
+      ],
+      "onlineFile": "电脑/电脑网络/网络基础/开发必懂网络基础概念.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac66a",
+      "originalSlug": "uv-ui-uvui-uv-ui-a5e9c7ec",
+      "title": "第三篇：uv-ui 请求封装与使用指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "onlineFile": "前端技术/组件库/uvui/第三篇：uv-ui-请求封装与使用指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac66c",
+      "originalSlug": "uv-ui-uvui-uv-ui-0ffe625b",
+      "title": "第二篇：uv-ui 入门安装与小程序配置",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "onlineFile": "前端技术/组件库/uvui/第二篇：uv-ui-入门安装与小程序配置.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac668",
+      "originalSlug": "uv-ui-uvui-uv-ui-4162c705",
+      "title": "第一篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目开发路线",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "onlineFile": "前端技术/组件库/uvui/第一篇：快速认识-uv-ui：安装、扩展配置、组件地图与项目开发路线.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5ea",
+      "originalSlug": "echarts-echarts-echarts-be0b5cbd",
+      "title": "第六篇：项目开发速查清单：从安装到上线排查的 ECharts 实战路线",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "onlineFile": "前端技术/组件库/ECharts/第六篇：项目开发速查清单：从安装到上线排查的-ECharts-实战路线.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5f0",
+      "originalSlug": "echarts-echarts-vue3-vite-echarts-03b8ae7e",
+      "title": "第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上项目的图表组件",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "onlineFile": "前端技术/组件库/ECharts/第四篇：Vue-3-+-Vite-项目落地：把-ECharts-封成能直接上项目的图表组件.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5d6",
+      "originalSlug": "echarts-echarts-274e66d8",
+      "title": "第二篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "onlineFile": "前端技术/组件库/ECharts/第二篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5e2",
+      "originalSlug": "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a",
+      "title": "第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction 怎么配合",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "onlineFile": "前端技术/组件库/ECharts/第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction-怎么配合.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5cc",
+      "originalSlug": "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd",
+      "title": "第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "onlineFile": "前端技术/组件库/ECharts/第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5c4",
+      "originalSlug": "echarts-echarts-echarts-aca8614a",
+      "title": "第一篇：快速认识 ECharts：安装、核心概念与常见图表",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "onlineFile": "前端技术/组件库/ECharts/第一篇：快速认识-ECharts：安装、核心概念与常见图表.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac09e",
+      "originalSlug": "css-fa549107",
+      "title": "第三篇 现代布局：从弹性到网格",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/第三篇-现代布局：从弹性到网格.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac704",
+      "originalSlug": "websocket-websocket-uni-app-8118619a",
+      "title": "WebSocket 零基础入门：它是什么、为什么用、浏览器与 uni-app 怎么写",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/WebSocket-零基础入门：它是什么、为什么用、浏览器与-uni-app-怎么写.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac610",
+      "originalSlug": "element-plus-elementplus-button-icon-container-space-text-ede7df67",
+      "title": "基础组件：Button、Icon、Container、Space、Text 怎么搭出像样的后台界面",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/基础组件：Button、Icon、Container、Space、Text-怎么搭出像样的后台界面.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0c8",
+      "originalSlug": "html-svg-1e942bf0",
+      "title": "SVG入门——看懂图标代码不再懵",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/SVG入门——看懂图标代码不再懵.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ba",
+      "originalSlug": "html-html-ff2d6917",
+      "title": "HTML 目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/HTML-目录.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac654",
+      "originalSlug": "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22",
+      "title": "反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert + 虚拟化组件",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert-+-虚拟化组件.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac63c",
+      "originalSlug": "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab",
+      "title": "表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac61e",
+      "originalSlug": "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f",
+      "title": "数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac606",
+      "originalSlug": "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38",
+      "title": "导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown 怎么组织后台页面结构",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown-怎么组织后台页面结构.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5fa",
+      "originalSlug": "element-plus-elementplus-element-plus-vue3-pc-86202b18",
+      "title": "快速认识 Element Plus：为什么它是 Vue 3 里常见的 PC 端组件库",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/快速认识-Element-Plus：为什么它是-Vue-3-里常见的-PC-端组件库.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac646",
+      "originalSlug": "element-plus-elementplus-configprovider-f9cb9b2c",
+      "title": "主题定制、国际化、暗黑模式、ConfigProvider：Element Plus 全局能力怎么管",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/主题定制、国际化、暗黑模式、ConfigProvider：Element-Plus-全局能力怎么管.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac62e",
+      "originalSlug": "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a",
+      "title": "中后台核心组件：Table、Pagination、Dialog、Drawer、Message 怎么配合",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/中后台核心组件：Table、Pagination、Dialog、Drawer、Message-怎么配合.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac65e",
+      "originalSlug": "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b",
+      "title": "表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配合",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/表单体系：Form、Input、Select、DateTimePicker、Upload-怎么配合.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac624",
+      "originalSlug": "element-plus-elementplus-975655e4",
+      "title": "安装与引入：把 Element Plus 真正接进 Vue 3 项目",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "onlineFile": "前端技术/组件库/ElementPlus/安装与引入：把-Element-Plus-真正接进-Vue-3-项目.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0b4",
+      "originalSlug": "css-scss-sass-less-postcss-7d08d2e9",
+      "title": "SCSS 常见写法速通：先学会看懂别人代码",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/SCSS-常见写法速通：先学会看懂别人代码.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7ea",
+      "originalSlug": "legacy-52ecb25c-52ecb25c",
+      "title": "钉钉与企业微信登录实现笔记",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "对比笔记"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/对比笔记/钉钉与企业微信登录实现笔记.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7d8",
+      "originalSlug": "wx-qy-login-code2session-56702606",
+      "title": "企业微信小程序登录接入方案_wx.qy.login_code2Session",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信小程序登录接入方案_wx.qy.login_code2Session.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7d4",
+      "originalSlug": "pc-pc-393c27b2",
+      "title": "企业微信账号绑定实现方案_PC端扫码绑定",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信账号绑定实现方案_PC端扫码绑定.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7d2",
+      "originalSlug": "pc-pc-ww-createwwloginpanel-55975a93",
+      "title": "企业微信网页授权登录_PC扫码登录_ww.createWWLoginPanel",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信网页授权登录_PC扫码登录_ww.createWWLoginPanel.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7ce",
+      "originalSlug": "h5-oauth-e33b6d35",
+      "title": "单可信域名跨域OAuth解决方案",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/单可信域名跨域OAuth解决方案.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7cc",
+      "originalSlug": "h5-h5-errcode60020-ip-ip-0be8e8e2",
+      "title": "企业微信H5登录-errcode60020-后端IP未加可信IP白名单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信H5登录-errcode60020-后端IP未加可信IP白名单.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c8",
+      "originalSlug": "h5-h5-jsapi-d82c6607",
+      "title": "企业微信H5微应用-扫一扫JSAPI-后端签名对接清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信H5微应用-扫一扫JSAPI-后端签名对接清单.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c6",
+      "originalSlug": "h5-uni-app-h5-a4b1be0e",
+      "title": "uni-app编译H5接入企业微信微应用-适配要点与代码模板",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/uni-app编译H5接入企业微信微应用-适配要点与代码模板.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c4",
+      "originalSlug": "h5-jssdk-wx-config-agentconfig-93be1c59",
+      "title": "企业微信JSSDK接入_wx.config_agentConfig_签名流程",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信JSSDK接入_wx.config_agentConfig_签名流程.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c2",
+      "originalSlug": "h5-h5-0-1-1d0e59cd",
+      "title": "企业微信H5微应用-从0到1开发指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信H5微应用-从0到1开发指南.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7be",
+      "originalSlug": "0-1-f01367dd",
+      "title": "企业微信开发从0到1_结合企业微信开放平台",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信开发从0到1_结合企业微信开放平台.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c0",
+      "originalSlug": "id-corpid-agentid-appid-userid-openid-unionid-e704ba37",
+      "title": "企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7b4",
+      "originalSlug": "ce1000-01-cannot-resolve-module-c9610025",
+      "title": "CE1000.01-cannot-resolve-module",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/CE1000.01-cannot-resolve-module.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7b0",
+      "originalSlug": "legacy-c6210297-c6210297",
+      "title": "钉钉小程序迁移过程记录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉小程序迁移过程记录.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7ae",
+      "originalSlug": "1-e6cc4f94",
+      "title": "阶段1-编译链路接入",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/阶段1-编译链路接入.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7a6",
+      "originalSlug": "uni-app-76afed62",
+      "title": "微信常见能力迁移到钉钉怎么处理（登录、手机号、支付、消息通知对照）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/微信常见能力迁移到钉钉怎么处理（登录、手机号、支付、消息通知对照）.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7a2",
+      "originalSlug": "uni-app-uni-app-wx-616a50b5",
+      "title": "uni-app 项目里最常见的 wx 替换清单（附代码模板）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/uni-app-项目里最常见的-wx-替换清单（附代码模板）.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac79e",
+      "originalSlug": "uni-app-uni-app-5b84c227",
+      "title": "现有 uni-app 项目改成钉钉小程序的实战改造清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/现有-uni-app-项目改成钉钉小程序的实战改造清单.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac798",
+      "originalSlug": "uni-app-uni-app-81c6612d",
+      "title": "uni-app 微信小程序迁移钉钉小程序完整指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/uni-app-微信小程序迁移钉钉小程序完整指南.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac794",
+      "originalSlug": "uni-app-0-1-a387b249",
+      "title": "钉钉小程序前端开发从0到1（结合钉钉开放平台）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉小程序前端开发从0到1（结合钉钉开放平台）.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac78c",
+      "originalSlug": "pc-pc-44f7ba8c",
+      "title": "钉钉账号绑定实现方案_PC端扫码绑定",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉账号绑定实现方案_PC端扫码绑定.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac78a",
+      "originalSlug": "pc-pc-738e0cc4",
+      "title": "PC端钉钉登录四链路实现指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/PC端钉钉登录四链路实现指南.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac786",
+      "originalSlug": "pc-pc-f80d8c7b",
+      "title": "PC 项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/PC-项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac77a",
+      "originalSlug": "h5-9277dde7",
+      "title": "研究-钉钉微应用登录-项目实现核验结论（移动端仓库）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/研究-钉钉微应用登录-项目实现核验结论（移动端仓库）.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac77c",
+      "originalSlug": "h5-h5-jsapi-d670249e",
+      "title": "钉钉H5微应用-JSAPI能力调用-前后端对接清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉H5微应用-JSAPI能力调用-前后端对接清单.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac778",
+      "originalSlug": "h5-h5-20768eaf",
+      "title": "研究-钉钉登录-H5微应用双链路实现梳理（移动端仓库）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/研究-钉钉登录-H5微应用双链路实现梳理（移动端仓库）.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac776",
+      "originalSlug": "h5-uni-app-h5-2048111a",
+      "title": "uni-app编译H5接入钉钉微应用-适配要点与代码模板",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/uni-app编译H5接入钉钉微应用-适配要点与代码模板.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac774",
+      "originalSlug": "h5-h5-0-1-9053e9e2",
+      "title": "钉钉H5微应用-从0到1开发指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉H5微应用-从0到1开发指南.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac76c",
+      "originalSlug": "id-corpid-agentid-miniappid-clientid-userid-unionid-openid-44a970d5",
+      "title": "钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/钉钉开发常见-ID-速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac760",
+      "originalSlug": "legacy-079f6d23-079f6d23",
+      "title": "第三方登录-术语与场景速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "概念速查"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/概念速查/第三方登录-术语与场景速查.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac378",
+      "originalSlug": "legacy-68f76f0c-68f76f0c",
+      "title": "前端认证、安全与文件上传协作手册",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "onlineFile": "常用缺易忘/网络请求/前端认证、安全与文件上传协作手册.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac372",
+      "originalSlug": "http-6bf1d13c",
+      "title": "前端 HTTP 请求与接口联调手册",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "onlineFile": "常用缺易忘/网络请求/前端-HTTP-请求与接口联调手册.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac36c",
+      "originalSlug": "fetch-axios-xhr-4b58d611",
+      "title": "Fetch、Axios、XHR 详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "onlineFile": "常用缺易忘/网络请求/Fetch、Axios、XHR-详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac36a",
+      "originalSlug": "fetch-api-d4229b6f",
+      "title": "Fetch API 避坑指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "onlineFile": "常用缺易忘/网络请求/Fetch-API-避坑指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac35e",
+      "originalSlug": "legacy-ffc99f19-ffc99f19",
+      "title": "浏览器渲染原理详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "onlineFile": "常用缺易忘/浏览器与网络/浏览器渲染原理详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac34a",
+      "originalSlug": "tcp-3213f070",
+      "title": "TCP三次握手详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "onlineFile": "常用缺易忘/浏览器与网络/TCP三次握手详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac34c",
+      "originalSlug": "url-a3801def",
+      "title": "从输入URL到页面显示全过程",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "onlineFile": "常用缺易忘/浏览器与网络/从输入URL到页面显示全过程.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac348",
+      "originalSlug": "http-8498fced",
+      "title": "HTTP缓存机制详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "onlineFile": "常用缺易忘/浏览器与网络/HTTP缓存机制详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac346",
+      "originalSlug": "http-d8f25f40",
+      "title": "HTTP协议详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "onlineFile": "常用缺易忘/浏览器与网络/HTTP协议详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac344",
+      "originalSlug": "dns-c31ae11a",
+      "title": "DNS域名解析详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "浏览器与网络"
+      ],
+      "onlineFile": "常用缺易忘/浏览器与网络/DNS域名解析详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac340",
+      "originalSlug": "3-c11c6248",
+      "title": "浏览器3大存储",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/浏览器3大存储.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac33e",
+      "originalSlug": "vs-charset-utf-8-8af21833",
+      "title": "字符 vs 字节，charset=utf-8",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/字符-vs-字节，charset=utf-8.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac33c",
+      "originalSlug": "mime-81d4ff42",
+      "title": "MIME媒体类型",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/MIME媒体类型.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac33a",
+      "originalSlug": "json-formdata-b830a9f9",
+      "title": "JSON 与 FormData",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/JSON-与-FormData.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac338",
+      "originalSlug": "indexeddb-16dda85f",
+      "title": "IndexedDB 什么时候该上",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/IndexedDB-什么时候该上.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac32c",
+      "originalSlug": "file-blob-arraybuffer-base64-537d7c38",
+      "title": "File、Blob、ArrayBuffer、Base64 区别",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/File、Blob、ArrayBuffer、Base64-区别.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac31e",
+      "originalSlug": "blob-2000f47d",
+      "title": "Blob的底层本质与核心定位",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/Blob的底层本质与核心定位.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac31a",
+      "originalSlug": "legacy-5c668a9b-5c668a9b",
+      "title": "时间戳完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "onlineFile": "常用缺易忘/工具速查/时间戳完全指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac318",
+      "originalSlug": "window-api-3e74acb4",
+      "title": "window 对象常用 API 速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "onlineFile": "常用缺易忘/工具速查/window-对象常用-API-速查.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac30a",
+      "originalSlug": "markdown-b1298425",
+      "title": "Markdown完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "onlineFile": "常用缺易忘/工具速查/Markdown完全指南.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac300",
+      "originalSlug": "canvas-7535da83",
+      "title": "Canvas标签",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "onlineFile": "常用缺易忘/工具速查/Canvas标签.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e34",
+      "originalSlug": "css-0d1a08ad",
+      "title": "强化视觉_字体_动画_变换",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/强化视觉_字体_动画_变换.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e2f",
+      "originalSlug": "css-css-2337b3f9",
+      "title": "CSS进阶_深入浏览器与工程化",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/CSS进阶_深入浏览器与工程化.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e25",
+      "originalSlug": "css-e1c9cdc1",
+      "title": "构建真实页面_组件_响应式_维护性",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/构建真实页面_组件_响应式_维护性.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e20",
+      "originalSlug": "css-css-74c20f0d",
+      "title": "CSS核心_盒子_布局_视觉",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/CSS核心_盒子_布局_视觉.md"
+    },
+    {
+      "originalId": "6a2d30edb480df92ce002e15",
+      "originalSlug": "css-css-a535f03e",
+      "title": "认识CSS_风格的起点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/认识CSS_风格的起点.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2fa",
+      "originalSlug": "web-053c73ce",
+      "title": "前端开发必知的常见网络安全攻击",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "Web安全"
+      ],
+      "onlineFile": "Web安全/前端开发必知的常见网络安全攻击.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2ee",
+      "originalSlug": "web-svg-xss-d4174758",
+      "title": "SVG文件上传为什么会引发XSS攻击？",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "Web安全"
+      ],
+      "onlineFile": "Web安全/SVG文件上传为什么会引发XSS攻击？.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1a4",
+      "originalSlug": "node-js-7fbfa4ae",
+      "title": "接口与会话控制详解第六篇：密码安全与接口防护",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第六篇：密码安全与接口防护.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac18e",
+      "originalSlug": "node-js-jwt-64903817",
+      "title": "接口与会话控制详解第五篇：JWT 认证原理与实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第五篇：JWT-认证原理与实战.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1ac",
+      "originalSlug": "node-js-session-9e7c15d4",
+      "title": "接口与会话控制详解第四篇：Session 原理与实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第四篇：Session-原理与实战.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac180",
+      "originalSlug": "node-js-cookie-1bb83e69",
+      "title": "接口与会话控制详解第三篇：Cookie 原理与实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第三篇：Cookie-原理与实战.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac188",
+      "originalSlug": "node-js-apipost-ea2d5bde",
+      "title": "接口与会话控制详解第二篇：Apipost 接口测试工具",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第二篇：Apipost-接口测试工具.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac16e",
+      "originalSlug": "node-js-restful-dd419ad9",
+      "title": "接口与会话控制详解第一篇：RESTful 接口设计规范",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js",
+        "接口与会话控制详解"
+      ],
+      "onlineFile": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第一篇：RESTful-接口设计规范.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac75a",
+      "originalSlug": "legacy-1d8222c8-1d8222c8",
+      "title": "前端代码混淆接入实施记录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "前端工程化与安全"
+      ],
+      "onlineFile": "项目复用技术/前端工程化与安全/前端代码混淆接入实施记录.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1c6",
+      "originalSlug": "node-js-http-http-41474b0d",
+      "title": "第三篇：HTTP 协议与 http 模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "onlineFile": "后端技术/Node.js/第三篇：HTTP-协议与-http-模块.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1d0",
+      "originalSlug": "node-js-fs-path-e956bb19",
+      "title": "第二篇：fs 模块与 path 模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "onlineFile": "后端技术/Node.js/第二篇：fs-模块与-path-模块.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1f2",
+      "originalSlug": "node-js-5de6ee42",
+      "title": "第四篇：Node.js 模块化系统详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "onlineFile": "后端技术/Node.js/第四篇：Node.js-模块化系统详解.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6f8",
+      "originalSlug": "uni-app-uni-app-canvas-7159e2f3",
+      "title": "uni-app 头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas 导出一次讲透",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/uni-app-头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas-导出一次讲透.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac58a",
+      "originalSlug": "github-pages-vue-f7e9371a",
+      "title": "GitHub Pages 部署 Vue 博客完整教程",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "网站部署"
+      ],
+      "onlineFile": "电脑/网站部署/GitHub-Pages-部署-Vue-博客完整教程.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac732",
+      "originalSlug": "websocket-websocket-de1a1d83",
+      "title": "WebSocket 接入检查清单：从协议确认到页面联调",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/WebSocket-接入检查清单：从协议确认到页面联调.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac70a",
+      "originalSlug": "websocket-websocket-stomp-4e54084d",
+      "title": "WebSocket 与 STOMP 总览：分层设计、概念边界与接入顺序",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/WebSocket-与-STOMP-总览：分层设计、概念边界与接入顺序.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac712",
+      "originalSlug": "websocket-stomp-8044d9d1",
+      "title": "STOMP 帧封装实战：命令拼装、拆帧、心跳与粘包处理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/STOMP-帧封装实战：命令拼装、拆帧、心跳与粘包处理.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac726",
+      "originalSlug": "websocket-5295e472",
+      "title": "消息解析与服务层封装实战：消息标准化、订阅分发与页面薄消费",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/消息解析与服务层封装实战：消息标准化、订阅分发与页面薄消费.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6f4",
+      "originalSlug": "uni-app-uni-app-tabbar-a0f11cca",
+      "title": "uni-app 自定义 tabBar 与角标同步封装实战：角色配置、安全区适配与全局刷新",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/uni-app-自定义-tabBar-与角标同步封装实战：角色配置、安全区适配与全局刷新.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6ea",
+      "originalSlug": "uni-app-uni-app-7432a1ba",
+      "title": "uni-app 附件上传与智能预览封装实战：图片、文件、视频统一处理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/uni-app-附件上传与智能预览封装实战：图片、文件、视频统一处理.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6e0",
+      "originalSlug": "uni-app-uni-app-h5-67daf64f",
+      "title": "uni-app 语音输入与语音转文字封装实战：按住说话、上滑取消、H5 兼容与自动发送",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/uni-app-语音输入与语音转文字封装实战：按住说话、上滑取消、H5-兼容与自动发送.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6d6",
+      "originalSlug": "uni-app-uni-app-b0f67933",
+      "title": "uni-app 人脸摄像机封装实战：从能力边界到可复用模板",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/uni-app-人脸摄像机封装实战：从能力边界到可复用模板.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac736",
+      "originalSlug": "websocket-websocket-uni-app-pcvue-dc468cc2",
+      "title": "WebSocket 跨运行时适配实战：uni-app 与 PC Vue 共用核心层",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/WebSocket-跨运行时适配实战：uni-app-与-PC-Vue-共用核心层.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac72c",
+      "originalSlug": "websocket-messageserviceadapter-3203465d",
+      "title": "MessageServiceAdapter 与页面接入实战：统一入口、事件桥接与初始化时机",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/MessageServiceAdapter-与页面接入实战：统一入口、事件桥接与初始化时机.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac71e",
+      "originalSlug": "websocket-ebe2285a",
+      "title": "连接管理与自动重连封装实战：状态机、退避策略与用户决策",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "WebSocket"
+      ],
+      "onlineFile": "项目复用技术/WebSocket/连接管理与自动重连封装实战：状态机、退避策略与用户决策.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac534",
+      "originalSlug": "wifi-09cbf6da",
+      "title": "电脑WIFI图标消失修复",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "网络排障"
+      ],
+      "onlineFile": "电脑/电脑网络/网络排障/电脑WIFI图标消失修复.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac51a",
+      "originalSlug": "windows-hosts-dns-a34c6e09",
+      "title": "Windows hosts、DNS缓存、网络类型与防火墙基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "网络基础"
+      ],
+      "onlineFile": "电脑/电脑网络/网络基础/Windows-hosts、DNS缓存、网络类型与防火墙基础.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac578",
+      "originalSlug": "windows-uac-9d17ce33",
+      "title": "Windows 管理员权限、UAC 与“以管理员身份运行”",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-管理员权限、UAC-与“以管理员身份运行”.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac556",
+      "originalSlug": "windows-msconfig-3392836b",
+      "title": "Windows 启动项、任务管理器、MSConfig 与常用系统配置工具",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-启动项、任务管理器、MSConfig-与常用系统配置工具.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac524",
+      "originalSlug": "windows-ip-dns-dhcp-fd5c357b",
+      "title": "Windows IP地址、DNS、网关、DHCP、私网公网速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "网络基础"
+      ],
+      "onlineFile": "电脑/电脑网络/网络基础/Windows-IP地址、DNS、网关、DHCP、私网公网速查.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac55e",
+      "originalSlug": "windows-b0b9b49e",
+      "title": "Windows 常见系统路径与环境变量速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-常见系统路径与环境变量速查.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac570",
+      "originalSlug": "windows-public-appdata-programdata-d717719e",
+      "title": "Windows 用户目录、Public、AppData、ProgramData 详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-用户目录、Public、AppData、ProgramData-详解.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac568",
+      "originalSlug": "windows-7c8d9756",
+      "title": "Windows 文件扩展名、隐藏文件与资源管理器显示设置",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-文件扩展名、隐藏文件与资源管理器显示设置.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac54c",
+      "originalSlug": "windows-c-storage-sense-windows-old-4fcfcbe9",
+      "title": "Windows C盘空间清理：Storage Sense、临时文件与 Windows.old",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-C盘空间清理：Storage-Sense、临时文件与-Windows.old.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac540",
+      "originalSlug": "windows-c-1552bf32",
+      "title": "Windows C盘常见系统文件夹说明：Program Files、ProgramData、Users 一次讲清",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/Windows-C盘常见系统文件夹说明：Program-Files、ProgramData、Users-一次讲清.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac208",
+      "originalSlug": "uni-app-uni-app-pages-json-manifest-json-38b6eedd",
+      "title": "uni-app 微信小程序工程结构实战：pages.json、manifest.json、条件编译与开发者工具联调",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-微信小程序工程结构实战：pages.json、manifest.json、条件编译与开发者工具联调.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac22e",
+      "originalSlug": "uni-app-uni-app-web-view-b6e991ff",
+      "title": "uni-app 微信小程序常用功能全景实战：页面交互、路由、请求、缓存、登录、上传、定位、分享、支付与 web-view 逐项细讲",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-微信小程序常用功能全景实战：页面交互、路由、请求、缓存、登录、上传、定位、分享、支付与-web-view-逐项细讲.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac222",
+      "originalSlug": "uni-app-uni-app-session-key-token-8af791f8",
+      "title": "uni-app 微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac21a",
+      "originalSlug": "uni-app-uni-app-props-behaviors-60418e36",
+      "title": "uni-app 微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac214",
+      "originalSlug": "uni-app-uni-app-setdata-9f031d07",
+      "title": "uni-app 微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData 与真机排障",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData-与真机排障.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac210",
+      "originalSlug": "uni-app-uni-app-59f5c8d0",
+      "title": "uni-app 微信小程序常见能力接法实战：登录、用户信息、手机号、上传下载、订阅消息、分享与支付",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-微信小程序常见能力接法实战：登录、用户信息、手机号、上传下载、订阅消息、分享与支付.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac200",
+      "originalSlug": "uni-app-uni-app-d43ce8ad",
+      "title": "uni-app 做微信小程序前必须先搞懂的底层逻辑：运行机制、生命周期、路由、登录与分包",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "onlineFile": "前端技术/uni-app/微信小程序/uni-app-做微信小程序前必须先搞懂的底层逻辑：运行机制、生命周期、路由、登录与分包.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2e2",
+      "originalSlug": "vue-vue-10dc3ed5",
+      "title": "面试题修改篇",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "onlineFile": "前端技术/Vue/vue面试题/面试题修改篇.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2e0",
+      "originalSlug": "vue-vue-vue-80f4d76c",
+      "title": "Vue面试题凝练版",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "onlineFile": "前端技术/Vue/vue面试题/Vue面试题凝练版.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2de",
+      "originalSlug": "vue-vue-vue3-ace64a20",
+      "title": "vue3面试题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "onlineFile": "前端技术/Vue/vue面试题/vue3面试题.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2dc",
+      "originalSlug": "vue-vue-vue2-979be5aa",
+      "title": "vue2面试题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "onlineFile": "前端技术/Vue/vue面试题/vue2面试题.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2d8",
+      "originalSlug": "vue-vue3-apis-94236b74",
+      "title": "其他Apis》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue3"
+      ],
+      "onlineFile": "前端技术/Vue/vue3/其他Apis》.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2d6",
+      "originalSlug": "vue-vue3-21013aa4",
+      "title": "路由》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue3"
+      ],
+      "onlineFile": "前端技术/Vue/vue3/路由》.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2d4",
+      "originalSlug": "vue-vue3-pinia-356d4f75",
+      "title": "Pinia》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue3"
+      ],
+      "onlineFile": "前端技术/Vue/vue3/Pinia》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2d2",
+      "originalSlug": "vue-vue3-9068316c",
+      "title": "组件通讯》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue3"
+      ],
+      "onlineFile": "前端技术/Vue/vue3/组件通讯》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2d0",
+      "originalSlug": "vue-vue3-vue3-b1c84be6",
+      "title": "Vue3基本语法》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue3"
+      ],
+      "onlineFile": "前端技术/Vue/vue3/Vue3基本语法》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ce",
+      "originalSlug": "vue-vue3-vue3-f1f1fd31",
+      "title": "vue3初相识》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue3"
+      ],
+      "onlineFile": "前端技术/Vue/vue3/vue3初相识》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2aa",
+      "originalSlug": "vue-vue2-vue-2df26895",
+      "title": "vue动画》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/vue动画》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a8",
+      "originalSlug": "vue-vue2-route-e54b9784",
+      "title": "route》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/route》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a6",
+      "originalSlug": "vue-vue2-vuex-4372322f",
+      "title": "Vuex的使用》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/Vuex的使用》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a4",
+      "originalSlug": "vue-vue2-vue-ajax-907a7d1a",
+      "title": "Vue与Ajax》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/Vue与Ajax》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a0",
+      "originalSlug": "vue-vue2-vue-axios-9ddbedd5",
+      "title": "Vue的axios的使用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/Vue的axios的使用.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ca",
+      "originalSlug": "vue-vue2-5-mixins-plugins-scoped-febd1092",
+      "title": ".5、mixins&plugins&scoped》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/5、mixins&plugins&scoped》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c8",
+      "originalSlug": "vue-vue2-4-9-10f3989f",
+      "title": ".4-9、组件通讯》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/4-9、组件通讯》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c6",
+      "originalSlug": "vue-vue2-3-vue-25c1aa35",
+      "title": ".3、Vue脚手架》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/3、Vue脚手架》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c4",
+      "originalSlug": "vue-vue2-2-7a115d2f",
+      "title": ".2、单文件组件》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/2、单文件组件》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c2",
+      "originalSlug": "vue-vue2-1-ac16c6da",
+      "title": ".1、组件的使用》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/1、组件的使用》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b2",
+      "originalSlug": "vue-vue2-16-vue-975bfaf5",
+      "title": ".16、Vue的生命周期》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/16、Vue的生命周期》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b0",
+      "originalSlug": "vue-vue2-14-7cc46132",
+      "title": ".14、添加响应式数据》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/14、添加响应式数据》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ae",
+      "originalSlug": "vue-vue2-13-vue-78e23a80",
+      "title": ".13、Vue的常用指令与自定义指令》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/13、Vue的常用指令与自定义指令》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ac",
+      "originalSlug": "vue-vue2-11-12-0c06a970",
+      "title": ".11-12、收集表单数据&过滤器》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/11-12、收集表单数据&过滤器》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c0",
+      "originalSlug": "vue-vue2-9-10-9d4c0a12",
+      "title": ".9-10、列表操作》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/9-10、列表操作》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2bc",
+      "originalSlug": "vue-vue2-6-class-style-d3586390",
+      "title": ".6、class与style绑定》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/6、class与style绑定》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2be",
+      "originalSlug": "vue-vue2-7-8-0cf0a63e",
+      "title": ".7-8、条件&循环渲染》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/7-8、条件&循环渲染》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ba",
+      "originalSlug": "vue-vue2-4-5-9daf53a4",
+      "title": ".4-5、计算&侦听属性》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/4-5、计算&侦听属性》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b8",
+      "originalSlug": "vue-vue2-3-eb141f48",
+      "title": ".3、事件处理》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/3、事件处理》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b6",
+      "originalSlug": "vue-vue2-2-mvvm-0f1dddb4",
+      "title": ".2、MVVM及数据代理》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/2、MVVM及数据代理》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b4",
+      "originalSlug": "vue-vue2-1-93bdf6b0",
+      "title": ".1、模版语法》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/1、模版语法》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a2",
+      "originalSlug": "vue-vue2-vue2-b45d61d5",
+      "title": "vue2初体验》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/vue2初体验》.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac29e",
+      "originalSlug": "vue-vue2-vue2-a0e09fcf",
+      "title": "vue2",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "onlineFile": "前端技术/Vue/vue2/vue2.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac29a",
+      "originalSlug": "vue-ai-vue-f-fa05c4ac",
+      "title": "附录F 常见报错与解决方案合集",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/附录F-常见报错与解决方案合集.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac298",
+      "originalSlug": "vue-ai-vue-e-72e17220",
+      "title": "附录E 项目目录规范与命名规范建议",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/附录E-项目目录规范与命名规范建议.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac296",
+      "originalSlug": "vue-ai-vue-d-vuex-8579ca48",
+      "title": "附录D Vuex 速查表",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/附录D-Vuex-速查表.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac292",
+      "originalSlug": "vue-ai-vue-b-vue-0374bedc",
+      "title": "附录B Vue 指令速查表",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/附录B-Vue-指令速查表.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac294",
+      "originalSlug": "vue-ai-vue-c-vue-router-8010183d",
+      "title": "附录C Vue Router 速查表",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/附录C-Vue-Router-速查表.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac290",
+      "originalSlug": "vue-ai-vue-a-vue2-e1001ab4",
+      "title": "附录A Vue2 生命周期图（建议配图）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/附录A-Vue2-生命周期图（建议配图）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac27c",
+      "originalSlug": "vue-ai-vue-b084ddd6",
+      "title": "常见问题与面试高频点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/常见问题与面试高频点.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac27e",
+      "originalSlug": "vue-ai-vue-vue2-vue3-a7bca734",
+      "title": "从 Vue2 迁移到 Vue3（过渡指南）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/从-Vue2-迁移到-Vue3（过渡指南）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac27a",
+      "originalSlug": "vue-ai-vue-vue2-925ccc25",
+      "title": "Vue2 性能优化清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vue2-性能优化清单.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac278",
+      "originalSlug": "vue-ai-vue-1eeeab1a",
+      "title": "实战 后台管理系统（推荐实战方向）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/实战-后台管理系统（推荐实战方向）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac276",
+      "originalSlug": "vue-ai-vue-axios-00b046d5",
+      "title": "Axios 网络请求与接口封装",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Axios-网络请求与接口封装.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac272",
+      "originalSlug": "vue-ai-vue-vue-cli-15ca9855",
+      "title": "Vue CLI 工程化体系",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vue-CLI-工程化体系.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac270",
+      "originalSlug": "vue-ai-vue-vuex-d65018ae",
+      "title": "Vuex 进阶（项目组织方式）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vuex-进阶（项目组织方式）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac26e",
+      "originalSlug": "vue-ai-vue-vuex-7c0c8832",
+      "title": "Vuex 基础（掌握核心概念）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vuex-基础（掌握核心概念）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac26c",
+      "originalSlug": "vue-ai-vue-vue-router-b20d1fed",
+      "title": "Vue Router 进阶（项目级能力）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vue-Router-进阶（项目级能力）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac26a",
+      "originalSlug": "vue-ai-vue-vue-router-0-a8f63d97",
+      "title": "Vue Router 入门（从 0 到能用）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vue-Router-入门（从-0-到能用）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac268",
+      "originalSlug": "vue-ai-vue-slot-32fece73",
+      "title": "插槽 slot（封装组件必备）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/插槽-slot（封装组件必备）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac266",
+      "originalSlug": "vue-ai-vue-vue2-67e0094d",
+      "title": "组件通信大全（Vue2 必考）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/组件通信大全（Vue2-必考）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac264",
+      "originalSlug": "vue-ai-vue-c20f0d85",
+      "title": "组件基础（从零写组件）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/组件基础（从零写组件）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac262",
+      "originalSlug": "vue-ai-vue-lifecycle-48e90c0f",
+      "title": "生命周期 lifecycle（项目必用）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/生命周期-lifecycle（项目必用）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac260",
+      "originalSlug": "vue-ai-vue-watch-79d389b8",
+      "title": "侦听器 watch（处理复杂与异步）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/侦听器-watch（处理复杂与异步）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac28e",
+      "originalSlug": "vue-ai-vue-computed-e0e31524",
+      "title": "计算属性 computed（推荐优先使用）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/计算属性-computed（推荐优先使用）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac28c",
+      "originalSlug": "vue-ai-vue-vue2-d73035df",
+      "title": "Vue2 响应式原理（理解核心机制）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vue2-响应式原理（理解核心机制）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac28a",
+      "originalSlug": "vue-ai-vue-v-model-c66bd182",
+      "title": "表单处理 v-model（表单全家桶）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/表单处理-v-model（表单全家桶）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac288",
+      "originalSlug": "vue-ai-vue-v-for-7d30ba15",
+      "title": "列表渲染 v-for（高频重点）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/列表渲染-v-for（高频重点）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac286",
+      "originalSlug": "vue-ai-vue-cafaf922",
+      "title": "条件渲染（控制页面显示）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/条件渲染（控制页面显示）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac284",
+      "originalSlug": "vue-ai-vue-template-2bebc61d",
+      "title": "模板语法 Template（指令体系）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/模板语法-Template（指令体系）.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac282",
+      "originalSlug": "vue-ai-vue-vue-f2943706",
+      "title": "Vue 实例与数据绑定",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vue-实例与数据绑定.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac280",
+      "originalSlug": "vue-ai-vue-vue-aa8054ba",
+      "title": "环境准备与第一个 Vue 项目",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/环境准备与第一个-Vue-项目.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac274",
+      "originalSlug": "vue-ai-vue-vue-vue-0208816f",
+      "title": "Vue 是什么 为什么要学 Vue",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "onlineFile": "前端技术/Vue/Ai的vue/Vue-是什么-为什么要学-Vue.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0dc",
+      "originalSlug": "javascriptes6-js-dd445881",
+      "title": "js高级",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "青鸟版三剑客"
+      ],
+      "onlineFile": "前端技术/前端三剑客/青鸟版三剑客/js高级.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0da",
+      "originalSlug": "javascriptes6-js-d939e278",
+      "title": "js",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "青鸟版三剑客"
+      ],
+      "onlineFile": "前端技术/前端三剑客/青鸟版三剑客/js.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0d8",
+      "originalSlug": "javascriptes6-html-css-ea679145",
+      "title": "html+css笔记",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "青鸟版三剑客"
+      ],
+      "onlineFile": "前端技术/前端三剑客/青鸟版三剑客/html+css笔记.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0d6",
+      "originalSlug": "javascriptes6-ess-08fde5e4",
+      "title": "ess",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "青鸟版三剑客"
+      ],
+      "onlineFile": "前端技术/前端三剑客/青鸟版三剑客/ess.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac11c",
+      "originalSlug": "js-ea69a97a",
+      "title": "对象与引用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/对象与引用.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac11a",
+      "originalSlug": "js-1529951f",
+      "title": "函数基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/函数基础.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac116",
+      "originalSlug": "js-2d98dd08",
+      "title": "运算符、表达式与逻辑",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/运算符、表达式与逻辑.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac118",
+      "originalSlug": "js-33cd1322",
+      "title": "流程控制",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/流程控制.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac114",
+      "originalSlug": "js-baafb9f8",
+      "title": "数据类型与类型系统",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/数据类型与类型系统.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac112",
+      "originalSlug": "js-30485a51",
+      "title": "变量与常量",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/变量与常量.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac110",
+      "originalSlug": "js-javascript-a73da56a",
+      "title": "编写 JavaScript 的方式与加载机制",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/编写-JavaScript-的方式与加载机制.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac10e",
+      "originalSlug": "js-express-71c1cdfd",
+      "title": "使用Express开发后端",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/使用Express开发后端.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac10c",
+      "originalSlug": "js-javascript-44c8511b",
+      "title": "JavaScript 的运行机制",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/JavaScript-的运行机制.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac10a",
+      "originalSlug": "js-node-js-ff8ab72b",
+      "title": "Node.js基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/Node.js基础.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac106",
+      "originalSlug": "js-vite-cb22aa81",
+      "title": "Vite：新时代构建工具",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/Vite：新时代构建工具.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac108",
+      "originalSlug": "js-npm-217bcd42",
+      "title": "NPM与包管理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/NPM与包管理.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac102",
+      "originalSlug": "js-141879fe",
+      "title": "深拷贝与浅拷贝",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/深拷贝与浅拷贝.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac104",
+      "originalSlug": "js-webpack-7e2ea348",
+      "title": "Webpack入门",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/Webpack入门.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac100",
+      "originalSlug": "js-this-a359b1f0",
+      "title": "this全解析",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/this全解析.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0fe",
+      "originalSlug": "js-01724ccd",
+      "title": "执行上下文与作用域链",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/执行上下文与作用域链.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0fc",
+      "originalSlug": "js-f6e109fa",
+      "title": "模块化体系",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/模块化体系.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0fa",
+      "originalSlug": "js-class-0867afc9",
+      "title": "Class与模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/Class与模块.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f8",
+      "originalSlug": "js-e2f984c3",
+      "title": "新数据结构",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/新数据结构.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f6",
+      "originalSlug": "js-javascript-9e8b648d",
+      "title": "JavaScript 是什么",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/JavaScript-是什么.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f4",
+      "originalSlug": "js-es6-9a72088d",
+      "title": "ES6核心语法",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/ES6核心语法.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f2",
+      "originalSlug": "js-339b4b0d",
+      "title": "网络请求与跨域",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/网络请求与跨域.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f0",
+      "originalSlug": "js-async-await-b580531b",
+      "title": "async await",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/async-await.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ee",
+      "originalSlug": "js-promise-30f7cae5",
+      "title": "Promise",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/Promise.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ec",
+      "originalSlug": "js-021185e9",
+      "title": "异步编程基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/异步编程基础.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ea",
+      "originalSlug": "js-bom-8c92d7da",
+      "title": "BOM：浏览器对象模型",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/BOM：浏览器对象模型.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e8",
+      "originalSlug": "js-710ba916",
+      "title": "事件与交互系统",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/事件与交互系统.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e6",
+      "originalSlug": "js-dom-cc9e923c",
+      "title": "DOM基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/DOM基础.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e4",
+      "originalSlug": "js-d13ebf9a",
+      "title": "数组与高阶方法",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/数组与高阶方法.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e2",
+      "originalSlug": "js-9c3f58ce",
+      "title": "原型与原型链",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/原型与原型链.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e0",
+      "originalSlug": "js-javascript-fcff5e89",
+      "title": "JavaScript 目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/JavaScript-目录.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e52",
+      "originalSlug": "html-429ff3aa",
+      "title": "表单与交互——连接用户与服务器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/表单与交互——连接用户与服务器.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e4d",
+      "originalSlug": "html-10ad01e8",
+      "title": "实战与未来——从学会到用好",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/实战与未来——从学会到用好.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e47",
+      "originalSlug": "html-html-de7f4404",
+      "title": "HTML基础语法——从零开始写代码",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/HTML基础语法——从零开始写代码.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ce",
+      "originalSlug": "html-html-67ef3a27",
+      "title": "《现代HTML实践——迈向专业前端》",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/《现代HTML实践——迈向专业前端》.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e42",
+      "originalSlug": "html-99fac695",
+      "title": "构建网页内容——让页面丰富起来",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/构建网页内容——让页面丰富起来.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e3c",
+      "originalSlug": "html-html-dfc1c5fd",
+      "title": "初识HTML——走进网页的世界",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/初识HTML——走进网页的世界.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0b8",
+      "originalSlug": "html-html-0a6aa17c",
+      "title": "HTML 特别补充篇（番外）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/HTML-特别补充篇（番外）.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e2a",
+      "originalSlug": "css-9b212abb",
+      "title": "番外篇_工具_技巧_速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/番外篇_工具_技巧_速查.md"
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e1a",
+      "originalSlug": "css-b949bd25",
+      "title": "综合实战_从风格到产品",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版CSS/综合实战_从风格到产品.md"
+    }
+  ]
+}

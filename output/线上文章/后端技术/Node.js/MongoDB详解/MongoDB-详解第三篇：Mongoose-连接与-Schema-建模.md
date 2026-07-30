@@ -3,6 +3,10 @@ title: "MongoDB 详解第三篇：Mongoose 连接与 Schema 建模"
 slug: "node-js-mongodb-mongoose-schema-ce33c896"
 summary: "从项目开发角度掌握 Mongoose 的连接、Schema、Model、字段类型、校验、默认值、枚举、索引、虚拟字段与 toJSON 输出控制，建立可维护的 MongoDB 数据模型。"
 category: "MongoDB详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "MongoDB详解"
 tags:
   - "MongoDB"
   - "Mongoose"
@@ -10,13 +14,15 @@ tags:
   - "数据建模"
   - "数据校验"
   - "索引"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac13e"
 originalSlug: "node-js-mongodb-mongoose-schema-ce33c896"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-06T11:39:25.707Z"
+updatedAt: "2026-06-13T10:28:27.579Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # MongoDB 详解第三篇：Mongoose 连接与 Schema 建模
 

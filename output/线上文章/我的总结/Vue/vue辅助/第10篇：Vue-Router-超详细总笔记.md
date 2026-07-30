@@ -3,6 +3,10 @@ title: "第10篇：Vue Router 超详细总笔记"
 slug: "vue-vue-vue-router-b011bea3"
 summary: "面向长期复习的一站式 Vue Router 总笔记，系统整理基础概念、Vue2/Vue3 差异、路由配置项、每种传参形式、导航方式、嵌套与命名视图、守卫、历史模式、动态添加路由、滚动行为、懒加载与高频踩坑。"
 category: "vue辅助"
+categoryPath:
+  - "我的总结"
+  - "Vue"
+  - "vue辅助"
 tags:
   - "Vue Router"
   - "Vue2"
@@ -10,13 +14,15 @@ tags:
   - "路由守卫"
   - "动态路由"
   - "传参"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 100
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4d2"
 originalSlug: "vue-vue-vue-router-b011bea3"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-09T12:50:17.709Z"
+updatedAt: "2026-06-13T14:09:43.234Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第10篇：Vue Router 超详细总笔记
 

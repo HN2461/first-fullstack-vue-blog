@@ -3,14 +3,20 @@ title: "this全解析"
 slug: "js-this-a359b1f0"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 150
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac100"
 originalSlug: "js-this-a359b1f0"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.494Z"
+updatedAt: "2026-06-17T12:38:54.883Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第24章 this全解析
 

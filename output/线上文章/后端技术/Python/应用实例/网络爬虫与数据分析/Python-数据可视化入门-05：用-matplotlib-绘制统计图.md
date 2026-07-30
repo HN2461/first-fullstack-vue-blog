@@ -3,18 +3,25 @@ title: "Python 数据可视化入门 05：用 matplotlib 绘制统计图"
 slug: "python-data-visualization-matplotlib-charts"
 summary: "面向零基础系统学习 matplotlib，把 pandas 统计结果画成折线图、柱状图、散点图、直方图、饼图和多子图，理解 pyplot 与 Figure/Axes 面向对象写法，掌握标题、坐标轴、图例、网格、中文字体、样式、保存图片、批量出图和企业开发中的常见图表规范。"
 category: "网络爬虫与数据分析"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "网络爬虫与数据分析"
 tags:
   - "Python"
   - "matplotlib"
   - "数据可视化"
   - "数据分析"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 60
 cover: ""
 originalId: "6a6b57a2fca6347974f5d190"
 originalSlug: "python-data-visualization-matplotlib-charts"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.178Z"
+updatedAt: "2026-07-30T14:44:46.178Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 数据可视化入门 05：用 matplotlib 绘制统计图
 

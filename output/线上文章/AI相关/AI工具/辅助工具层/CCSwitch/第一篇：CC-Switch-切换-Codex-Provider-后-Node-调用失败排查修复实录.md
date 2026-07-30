@@ -3,6 +3,11 @@ title: "第一篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查�
 slug: "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb"
 summary: "记录一次“症状爆在 Codex、根因落在 CC Switch provider 配置快照与 shell_environment_policy”的真实排查过程，重点说明为什么外部终端正常、只有 Codex 终端里的 Node / npm 崩溃，并附采集脚本与对比报告。"
 category: "CCSwitch"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "辅助工具层"
+  - "CCSwitch"
 tags:
   - "Node.js"
   - "Codex"
@@ -11,13 +16,15 @@ tags:
   - "Windows"
   - "环境配置"
   - "故障排查"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac050"
 originalSlug: "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-30T10:00:56.019Z"
+updatedAt: "2026-06-13T14:03:18.912Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录
 

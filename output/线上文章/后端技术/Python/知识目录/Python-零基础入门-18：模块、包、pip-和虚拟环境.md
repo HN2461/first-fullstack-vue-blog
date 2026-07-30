@@ -3,16 +3,22 @@ title: "Python 零基础入门 18：模块、包、pip 和虚拟环境"
 slug: "python-zero-modules-pip-venv"
 summary: "讲解模块和包是什么，如何 import，搜索路径与相对导入，模块缓存与循环导入，如何使用 pip 安装第三方库（版本指定与镜像源），为什么企业项目常用虚拟环境，以及 uv/poetry 等现代工具，全程对照 JavaScript。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 180
+status: "published"
+sortOrder: 190
 cover: ""
 originalId: "6a4a4304f9ac958d29176072"
 originalSlug: "python-zero-modules-pip-venv"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.500Z"
+updatedAt: "2026-07-30T14:44:46.148Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 18：模块、包、pip 和虚拟环境
 

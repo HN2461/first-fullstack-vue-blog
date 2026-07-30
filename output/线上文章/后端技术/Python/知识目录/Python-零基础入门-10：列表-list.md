@@ -3,16 +3,22 @@ title: "Python 零基础入门 10：列表 list"
 slug: "python-zero-lists"
 summary: "讲解列表的概念、创建列表、读取元素、添加删除元素、切片、列表方法、列表推导式，全程对照 JavaScript 数组。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 100
+status: "published"
+sortOrder: 110
 cover: ""
 originalId: "6a4a4304f9ac958d29176052"
 originalSlug: "python-zero-lists"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.523Z"
+updatedAt: "2026-07-30T14:44:46.134Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 10：列表 list
 

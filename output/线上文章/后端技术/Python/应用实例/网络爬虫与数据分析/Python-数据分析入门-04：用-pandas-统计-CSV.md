@@ -3,17 +3,24 @@ title: "Python 数据分析入门 04：用 pandas 统计 CSV"
 slug: "python-data-analysis-pandas-csv"
 summary: "面向零基础使用 pandas 读取清洗后的 CSV，理解 DataFrame，查看数据结构、处理缺失值、转换数字类型、筛选排序、按分类汇总、计算新指标，并补充 read_csv 常用参数、数据质量检查、去重、合并字典表、分块处理和结果导出等企业常见写法。"
 category: "网络爬虫与数据分析"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "网络爬虫与数据分析"
 tags:
   - "Python"
   - "pandas"
   - "数据分析"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 50
 cover: ""
 originalId: "6a4a44b5f9ac958d291774f3"
 originalSlug: "python-data-analysis-pandas-csv"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:49:33.207Z"
+updatedAt: "2026-07-30T14:44:46.176Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 数据分析入门 04：用 pandas 统计 CSV
 

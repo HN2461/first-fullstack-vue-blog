@@ -3,19 +3,26 @@ title: "第三篇：CLAUDE.md 与 Claude Code 记忆系统"
 slug: "ai-rules-claude-claude-md-claudecode-ff6cd587"
 summary: "深度解析 Claude Code 的完整记忆系统，包括 CLAUDE.md 四层文件层级、@import 语法、.claude/rules/ 路径作用域规则、Auto Memory 自动记忆机制，以及 /memory 命令的使用与调试技巧。"
 category: "Rules"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "Rules"
 tags:
   - "CLAUDE.md"
   - "Claude Code"
   - "Auto Memory"
   - "记忆系统"
   - ".claude/rules"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabff8"
 originalSlug: "ai-rules-claude-claude-md-claudecode-ff6cd587"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.678Z"
+updatedAt: "2026-07-30T14:24:30.272Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第三篇：CLAUDE.md 与 Claude Code 记忆系统
 

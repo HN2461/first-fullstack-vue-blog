@@ -3,18 +3,24 @@ title: "第04篇：JavaScript arguments 对象详解"
 slug: "js-js-arguments-c45f50a4"
 summary: "JavaScript arguments 对象的特性、使用方法和现代替代方案（rest parameters）。"
 category: "辅助资料"
+categoryPath:
+  - "我的总结"
+  - "js"
+  - "辅助资料"
 tags:
   - "JavaScript"
   - "arguments"
   - "函数参数"
   - "rest parameters"
-status: "draft"
-sortOrder: 240
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3a4"
 originalSlug: "js-js-arguments-c45f50a4"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:25:33.657Z"
+updatedAt: "2026-06-13T10:28:28.578Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第04篇：JavaScript arguments 对象详解
 

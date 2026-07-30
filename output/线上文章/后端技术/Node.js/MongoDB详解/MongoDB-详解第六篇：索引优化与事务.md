@@ -3,6 +3,10 @@ title: "MongoDB 详解第六篇：索引优化与事务"
 slug: "node-js-mongodb-5c500e8d"
 summary: "从项目性能与数据一致性角度掌握 MongoDB 索引和事务，重点讲 explain、复合索引、ESR 思路、TTL 索引以及事务的正确边界和 Node.js/Mongoose 写法。"
 category: "MongoDB详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "MongoDB详解"
 tags:
   - "MongoDB"
   - "索引"
@@ -10,13 +14,15 @@ tags:
   - "事务"
   - "复合索引"
   - "TTL"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac15c"
 originalSlug: "node-js-mongodb-5c500e8d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-07T06:13:44.590Z"
+updatedAt: "2026-06-13T10:28:27.615Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # MongoDB 详解第六篇：索引优化与事务
 

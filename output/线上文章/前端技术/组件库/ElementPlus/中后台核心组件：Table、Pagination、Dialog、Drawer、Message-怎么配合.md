@@ -3,19 +3,25 @@ title: "中后台核心组件：Table、Pagination、Dialog、Drawer、Message �
 slug: "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解表格、分页、对话框、抽屉、消息提示这些中后台最高频组件的组合方式和使用边界。"
 category: "ElementPlus"
+categoryPath:
+  - "前端技术"
+  - "组件库"
+  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Table"
   - "Pagination"
   - "Dialog"
   - "Drawer"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac62e"
 originalSlug: "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T13:45:18.643Z"
+updatedAt: "2026-06-13T10:28:29.622Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 中后台核心组件：Table、Pagination、Dialog、Drawer、Message 怎么配合
 

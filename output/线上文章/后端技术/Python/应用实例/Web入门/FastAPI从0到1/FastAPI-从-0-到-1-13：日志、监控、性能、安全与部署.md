@@ -3,19 +3,27 @@ title: "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署"
 slug: "fastapi-observability-performance-security-deployment"
 summary: "建立生产级日志、指标、追踪、性能诊断、安全基线、Docker 镜像、代理配置、发布与回滚流程。"
 category: "FastAPI从0到1"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "Web入门"
+  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "可观测性"
   - "Docker"
   - "部署"
-status: "draft"
-sortOrder: 130
+status: "published"
+sortOrder: 150
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1ac"
 originalSlug: "fastapi-observability-performance-security-deployment"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.207Z"
+updatedAt: "2026-07-30T14:44:46.207Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署
 

@@ -3,14 +3,20 @@ title: "列表渲染 v-for（高频重点）"
 slug: "vue-ai-vue-v-for-7d30ba15"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 250
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac288"
 originalSlug: "vue-ai-vue-v-for-7d30ba15"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:02:47.381Z"
+updatedAt: "2026-06-13T10:28:28.064Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第6章 列表渲染 v-for（高频重点）
 

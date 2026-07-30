@@ -3,19 +3,26 @@ title: "Python 网络爬虫入门 01：requests 请求体系与 robots.txt"
 slug: "python-crawler-request-and-robots"
 summary: "面向零基础系统学习 requests 请求体系，覆盖 GET、POST、PUT、PATCH、DELETE、HEAD、OPTIONS、params、data、json、headers、cookies、Session、Response、timeout、异常处理、重试、限流、stream 下载、文件上传、认证、robots.txt 和企业常见封装方式。"
 category: "网络爬虫与数据分析"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "网络爬虫与数据分析"
 tags:
   - "Python"
   - "网络爬虫"
   - "requests"
   - "HTTP"
   - "robots.txt"
-status: "draft"
-sortOrder: 10
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a4a44b5f9ac958d291774eb"
 originalSlug: "python-crawler-request-and-robots"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:49:33.219Z"
+updatedAt: "2026-07-30T14:44:46.171Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 网络爬虫入门 01：requests 请求体系与 robots.txt
 

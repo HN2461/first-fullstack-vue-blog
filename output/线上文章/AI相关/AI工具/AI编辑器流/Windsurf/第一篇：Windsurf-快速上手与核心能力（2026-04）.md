@@ -3,19 +3,26 @@ title: "第一篇：Windsurf 快速上手与核心能力（2026-04）"
 slug: "ai-ai-windsurf-windsurf-d941c66c"
 summary: "基于 Windsurf 官网、官方文档与官方 changelog 整理，系统介绍 Windsurf 的安装方式、Cascade/Tab/Command 三大入口、Memories 与 Rules、MCP、Workflows、Hooks、Previews/Deploys 以及适合人群，帮助中文开发者快速判断这款 AI IDE 是否值得投入。"
 category: "Windsurf"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "Windsurf"
 tags:
   - "Windsurf"
   - "AI IDE"
   - "Cascade"
   - "Tab"
   - "MCP"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabeee"
 originalSlug: "ai-ai-windsurf-windsurf-d941c66c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.605Z"
+updatedAt: "2026-06-13T10:28:26.484Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇：Windsurf 快速上手与核心能力（2026-04）
 

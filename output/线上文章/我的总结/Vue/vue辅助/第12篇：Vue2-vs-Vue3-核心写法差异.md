@@ -3,19 +3,25 @@ title: "第12篇：Vue2 vs Vue3 核心写法差异"
 slug: "vue-vue-vue2-vue3-61311af1"
 summary: "一篇详细的小白友好笔记，解释了Vue2 Options API和Vue3 Composition API的核心差异，重点说明了this的变化原因、setup()执行时机、以及从\"配置对象\"到\"函数式组合\"的思维转变。"
 category: "vue辅助"
+categoryPath:
+  - "我的总结"
+  - "Vue"
+  - "vue辅助"
 tags:
   - "Vue2"
   - "Vue3"
   - "Composition API"
   - "setup"
   - "this"
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 120
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4de"
 originalSlug: "vue-vue-vue2-vue3-61311af1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-09T12:50:17.712Z"
+updatedAt: "2026-06-13T10:28:29.119Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Vue2 vs Vue3 核心写法差异：从 `this` 魔法到函数式组合
 

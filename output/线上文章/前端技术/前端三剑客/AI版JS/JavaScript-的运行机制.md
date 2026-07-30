@@ -3,14 +3,20 @@ title: "JavaScript 的运行机制"
 slug: "js-javascript-44c8511b"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10c"
 originalSlug: "js-javascript-44c8511b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.499Z"
+updatedAt: "2026-06-17T12:45:37.013Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第2章　JavaScript 的运行机制
 

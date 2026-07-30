@@ -3,19 +3,25 @@ title: "第09篇：Axios"
 slug: "vue-vue-axios-4d3d1aab"
 summary: "本文档基于Vue开发场景，从入门原理到企业级封装，涵盖所有核心细节。Axios是一个基于Promise的HTTP网络请求库，可运行于浏览器端和Node.js服务端。"
 category: "vue辅助"
+categoryPath:
+  - "我的总结"
+  - "Vue"
+  - "vue辅助"
 tags:
   - "Vue"
   - "Axios"
   - "HTTP请求"
   - "Promise"
   - "拦截器"
-status: "draft"
-sortOrder: 70
+status: "published"
+sortOrder: 90
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4c8"
 originalSlug: "vue-vue-axios-4d3d1aab"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-08T14:07:54.712Z"
+updatedAt: "2026-06-13T10:28:29.078Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Axios 实战完全指南与学习笔记
 > 本文档基于 Vue 开发场景，从入门原理到企业级封装，涵盖所有核心细节。

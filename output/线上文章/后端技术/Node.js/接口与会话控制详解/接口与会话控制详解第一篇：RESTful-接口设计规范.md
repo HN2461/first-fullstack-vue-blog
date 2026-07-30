@@ -3,19 +3,25 @@ title: "接口与会话控制详解第一篇：RESTful 接口设计规范"
 slug: "node-js-restful-dd419ad9"
 summary: "从零理解 RESTful 接口设计风格，掌握 URL 命名规范、HTTP 方法语义、状态码正确用法，以及统一响应格式的封装，让你写出规范、易维护的后端接口。"
 category: "接口与会话控制详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "接口与会话控制详解"
 tags:
   - "Node.js"
   - "RESTful"
   - "HTTP"
   - "接口设计"
   - "状态码"
-status: "draft"
-sortOrder: 80
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac16e"
 originalSlug: "node-js-restful-dd419ad9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-21T13:13:27.802Z"
+updatedAt: "2026-06-13T10:28:27.642Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 接口与会话控制详解第一篇：RESTful 接口设计规范
 

@@ -3,19 +3,25 @@ title: "第三篇：uv-ui 请求封装与使用指南"
 slug: "uv-ui-uvui-uv-ui-a5e9c7ec"
 summary: "结合 uv-ui 官方 Http 文档、扩展配置和 uni-app 请求能力，整理一套适合微信小程序项目落地的请求封装、拦截器与上传下载方案。"
 category: "uvui"
+categoryPath:
+  - "前端技术"
+  - "组件库"
+  - "uvui"
 tags:
   - "uv-ui"
   - "uni-app"
   - "微信小程序"
   - "HTTP"
   - "请求封装"
-status: "draft"
-sortOrder: 10
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac66a"
 originalSlug: "uv-ui-uvui-uv-ui-a5e9c7ec"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-03T12:31:10.923Z"
+updatedAt: "2026-06-13T10:28:29.707Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第三篇：uv-ui 请求封装与使用指南
 

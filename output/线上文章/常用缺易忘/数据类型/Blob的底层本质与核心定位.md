@@ -3,14 +3,19 @@ title: "Blob的底层本质与核心定位"
 slug: "blob-2000f47d"
 summary: ""
 category: "数据类型"
+categoryPath:
+  - "常用缺易忘"
+  - "数据类型"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac31e"
 originalSlug: "blob-2000f47d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.362Z"
+updatedAt: "2026-06-13T10:28:28.383Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 ### 一、Blob的底层本质与核心定位
 在前端生态中，Blob是**<font style="color:#DF2A3F;">浏览器提供的用于封装「不可变原始二进制数据」的内置对象</font>**，它的核心价值在于：

@@ -3,6 +3,9 @@ title: "第四篇：Node.js 模块化系统详解"
 slug: "node-js-5de6ee42"
 summary: "深入理解 Node.js 的 CommonJS 模块规范，掌握 require/module.exports/exports 的工作原理，以及 ES6 模块化的 import/export 用法与两者的区别。"
 category: "Node.js"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
 tags:
   - "Node.js"
   - "CommonJS"
@@ -10,13 +13,15 @@ tags:
   - "require"
   - "import"
   - "模块化"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1f2"
 originalSlug: "node-js-5de6ee42"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-18T10:29:49.700Z"
+updatedAt: "2026-06-13T10:28:27.796Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第四篇：模块化系统详解
 

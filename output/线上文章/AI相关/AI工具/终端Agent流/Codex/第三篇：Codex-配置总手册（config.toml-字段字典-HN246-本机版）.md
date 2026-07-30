@@ -3,19 +3,26 @@ title: "第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 �
 slug: "ai-agent-codex-codex-edeadb5e"
 summary: "将 Codex 配置心智、字段字典、HN246 本机配置模板、CCSwitch 路径排查和替换验证流程合成一篇完整配置总手册，避免多篇重复讲 config.toml。"
 category: "Codex"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "Codex"
 tags:
   - "Codex"
   - "config.toml"
   - "CCSwitch"
   - "配置字段"
   - "Windows"
-status: "draft"
-sortOrder: 60
+status: "published"
+sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf5a"
 originalSlug: "ai-agent-codex-codex-edeadb5e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-06-04T13:38:33.777Z"
+updatedAt: "2026-07-30T14:24:30.420Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）
 

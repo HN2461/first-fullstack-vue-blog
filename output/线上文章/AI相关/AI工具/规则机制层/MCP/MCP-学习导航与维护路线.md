@@ -3,19 +3,26 @@ title: "MCP 学习导航与维护路线"
 slug: "ai-mcp-848a18d2"
 summary: "面向前端开发者的 MCP 导航页，采用“概念原理 + 常用清单 + 面试题库 + 实战复盘”双线结构，先建立协议认知，再沉淀常用 MCP 库与个人实践。"
 category: "MCP"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "规则机制层"
+  - "MCP"
 tags:
   - "MCP"
   - "协议标准"
   - "工具选型"
   - "Agent"
   - "学习路线"
-status: "draft"
-sortOrder: 80
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf90"
 originalSlug: "ai-mcp-848a18d2"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.660Z"
+updatedAt: "2026-07-30T14:24:30.118Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # MCP 学习导航与维护路线
 

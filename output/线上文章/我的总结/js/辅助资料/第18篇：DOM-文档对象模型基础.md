@@ -3,17 +3,23 @@ title: "第18篇：DOM 文档对象模型基础"
 slug: "js-js-dom-cefe5122"
 summary: "DOM（文档对象模型）基础概念介绍，包含DOM树结构、元素、节点等核心概念的理解。"
 category: "辅助资料"
+categoryPath:
+  - "我的总结"
+  - "js"
+  - "辅助资料"
 tags:
   - "JavaScript"
   - "DOM"
   - "文档对象模型"
-status: "draft"
-sortOrder: 110
+status: "published"
+sortOrder: 180
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac410"
 originalSlug: "js-js-dom-cefe5122"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:25:33.671Z"
+updatedAt: "2026-06-13T10:28:28.754Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第18篇：DOM 文档对象模型基础
 

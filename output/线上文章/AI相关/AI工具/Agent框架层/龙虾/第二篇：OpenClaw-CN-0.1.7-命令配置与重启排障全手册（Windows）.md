@@ -3,19 +3,26 @@ title: "第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Win
 slug: "ai-agent-openclaw-4d87088b"
 summary: "面向已经安装 OpenClaw-CN 但经常遇到重启后失效、命令不生效或网关不稳定的用户，系统整理 Windows 环境下的命令配置与排障流程。"
 category: "龙虾"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "Agent框架层"
+  - "龙虾"
 tags:
   - "OpenClaw"
   - "龙虾"
   - "Windows"
   - "故障排查"
   - "Agent框架"
-status: "draft"
-sortOrder: 40
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac036"
 originalSlug: "ai-agent-openclaw-4d87088b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T13:49:15.053Z"
+updatedAt: "2026-06-13T10:28:27.149Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）
 

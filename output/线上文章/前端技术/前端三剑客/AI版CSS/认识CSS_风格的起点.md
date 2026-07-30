@@ -3,14 +3,20 @@ title: "认识CSS_风格的起点"
 slug: "css-css-a535f03e"
 summary: ""
 category: "AI版CSS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版CSS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d30edb480df92ce002e15"
 originalSlug: "css-css-a535f03e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.343Z"
+updatedAt: "2026-06-13T10:29:01.986Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇 认识 CSS：风格的起点
 

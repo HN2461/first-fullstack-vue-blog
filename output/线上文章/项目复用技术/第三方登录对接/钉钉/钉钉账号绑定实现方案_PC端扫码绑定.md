@@ -3,14 +3,20 @@ title: "钉钉账号绑定实现方案_PC端扫码绑定"
 slug: "pc-pc-44f7ba8c"
 summary: ""
 category: "钉钉"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "钉钉"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac78c"
 originalSlug: "pc-pc-44f7ba8c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.438Z"
+updatedAt: "2026-06-13T14:03:18.889Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 钉钉账号绑定实现方案：PC 端扫码绑定
 

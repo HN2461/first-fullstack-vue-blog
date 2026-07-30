@@ -3,6 +3,10 @@ title: "接口与会话控制详解第四篇：Session 原理与实战"
 slug: "node-js-session-9e7c15d4"
 summary: "深入理解 Session 的工作原理，掌握 express-session 的完整配置，实现登录/退出/鉴权，以及生产环境中用 Redis 持久化 Session 的完整方案。"
 category: "接口与会话控制详解"
+categoryPath:
+  - "后端技术"
+  - "Node.js"
+  - "接口与会话控制详解"
 tags:
   - "Node.js"
   - "Session"
@@ -10,13 +14,15 @@ tags:
   - "express-session"
   - "Redis"
   - "会话控制"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1ac"
 originalSlug: "node-js-session-9e7c15d4"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-21T13:20:35.663Z"
+updatedAt: "2026-06-19T06:25:27.653Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 接口与会话控制详解第四篇：Session 原理与实战
 

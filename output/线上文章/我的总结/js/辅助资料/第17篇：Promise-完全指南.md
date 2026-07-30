@@ -3,18 +3,24 @@ title: "第17篇：Promise 完全指南"
 slug: "js-js-promise-6cb6d394"
 summary: "JavaScript Promise 完整指南，从基础概念到实战应用，包含 async/await 语法糖和常见陷阱。"
 category: "辅助资料"
+categoryPath:
+  - "我的总结"
+  - "js"
+  - "辅助资料"
 tags:
   - "JavaScript"
   - "Promise"
   - "异步编程"
   - "async/await"
-status: "draft"
-sortOrder: 120
+status: "published"
+sortOrder: 170
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac40c"
 originalSlug: "js-js-promise-6cb6d394"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-07T13:25:33.670Z"
+updatedAt: "2026-06-13T10:28:28.743Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第17篇：Promise 完全指南
 

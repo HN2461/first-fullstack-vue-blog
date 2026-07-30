@@ -3,14 +3,20 @@ title: "HTML 目录"
 slug: "html-html-ff2d6917"
 summary: ""
 category: "AI版HTML"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版HTML"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ba"
 originalSlug: "html-html-ff2d6917"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-29T11:27:17.345Z"
+updatedAt: "2026-06-13T10:28:27.366Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # HTML 完整教程目录
 

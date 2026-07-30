@@ -3,14 +3,20 @@ title: "Docker Desktop 汉化教程：以 DockerDesktop-CN 为例"
 slug: "docker-desktop-cn-localization-guide"
 summary: "记录 Windows 环境下使用 DockerDesktop-CN 对 Docker Desktop 进行汉化的完整流程，包含版本匹配、下载校验、文件备份、管理员权限替换、运行验证、回滚方式和升级维护注意事项。"
 category: "Docker"
+categoryPath:
+  - "AI相关"
+  - "AI开发"
+  - "Docker"
 tags: []
-status: "draft"
-sortOrder: 20
+status: "published"
+sortOrder: 10
 cover: ""
 originalId: "6a4a4564f9ac958d2917802c"
 originalSlug: "docker-desktop-cn-localization-guide"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:56:11.339Z"
+updatedAt: "2026-07-05T11:56:11.340Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Docker Desktop 汉化教程：以 DockerDesktop-CN 为例
 

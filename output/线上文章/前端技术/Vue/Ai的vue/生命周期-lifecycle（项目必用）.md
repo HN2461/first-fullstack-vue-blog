@@ -3,14 +3,20 @@ title: "生命周期 lifecycle（项目必用）"
 slug: "vue-ai-vue-lifecycle-48e90c0f"
 summary: ""
 category: "Ai的vue"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "Ai的vue"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 200
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac262"
 originalSlug: "vue-ai-vue-lifecycle-48e90c0f"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-02-02T13:07:47.549Z"
+updatedAt: "2026-06-13T10:28:27.965Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第11章 生命周期 lifecycle（项目必用）
 

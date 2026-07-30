@@ -3,19 +3,25 @@ title: "现有 uni-app 项目改成钉钉小程序的实战改造清单"
 slug: "uni-app-uni-app-5b84c227"
 summary: "面向真实项目的 uni-app 到钉钉小程序改造清单，结合 uni-app 与钉钉开放平台官方资料，按排查、接入、改造、联调、发布的顺序拆解前端落地步骤。"
 category: "钉钉"
+categoryPath:
+  - "项目复用技术"
+  - "第三方登录对接"
+  - "钉钉"
 tags:
   - "uni-app"
   - "钉钉小程序"
   - "项目迁移"
   - "条件编译"
   - "dingtalk-jsapi"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac79e"
 originalSlug: "uni-app-uni-app-5b84c227"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-04-28T11:18:24.443Z"
+updatedAt: "2026-06-13T14:09:43.237Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 现有 uni-app 项目改成钉钉小程序的实战改造清单
 

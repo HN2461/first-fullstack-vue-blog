@@ -3,14 +3,20 @@ title: "JavaScript 目录"
 slug: "js-javascript-fcff5e89"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 310
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0e0"
 originalSlug: "js-javascript-fcff5e89"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.482Z"
+updatedAt: "2026-06-15T14:50:32.135Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第一篇　JavaScript 世界观——理解一门语言的核心定位
 ## 第1章　JavaScript 是什么

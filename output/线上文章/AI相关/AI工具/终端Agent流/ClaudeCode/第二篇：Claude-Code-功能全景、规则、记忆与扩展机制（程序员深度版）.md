@@ -3,6 +3,11 @@ title: "第二篇：Claude Code 功能全景、规则、记忆与扩展机制（
 slug: "ai-agent-claudecode-claudecode-083e790a"
 summary: "基于 2026-07-04 Claude Code 官方 Memory、Skills、Hooks、Plugins、MCP 与 Settings 文档复核更新，重点解释程序员最容易混淆的规则层、权限层、记忆层与扩展层，并补清 CLAUDE.md、rules、auto memory、skills、hooks、MCP、plugin 的职责边界。"
 category: "ClaudeCode"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "终端Agent流"
+  - "ClaudeCode"
 tags:
   - "Claude Code"
   - "CLAUDE.md"
@@ -10,13 +15,15 @@ tags:
   - "Skills"
   - "MCP"
   - "Plugins"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf2a"
 originalSlug: "ai-agent-claudecode-claudecode-083e790a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-30T08:58:26.835Z"
+updatedAt: "2026-07-30T14:24:30.336Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）
 

@@ -3,18 +3,25 @@ title: "第二篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（20
 slug: "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620"
 summary: "基于 Cursor 官方 Quickstart、Modes、Tab、Inline Edit、Tabs 与 Checkpoints 文档，整理日常最高频的交互闭环，帮助把“会用功能”变成“会稳定推进任务”。"
 category: "Cursor"
+categoryPath:
+  - "AI相关"
+  - "AI工具"
+  - "AI编辑器流"
+  - "Cursor"
 tags:
   - "Cursor"
   - "Agent"
   - "Tab"
   - "Inline Edit"
-status: "draft"
-sortOrder: 50
+status: "published"
+sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe9c"
 originalSlug: "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-05-24T12:56:24.582Z"
+updatedAt: "2026-06-13T10:28:26.328Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第二篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）
 

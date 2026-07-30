@@ -3,19 +3,26 @@ title: "Python 数据清洗入门 03：正则表达式清洗爬虫文本"
 slug: "python-data-cleaning-regex-crawler-text"
 summary: "面向零基础学习 Python re 模块在爬虫数据清洗中的常见用法，掌握 search、findall、sub、split、compile、分组、命名分组、贪婪与非贪婪，并理解企业开发中的字段规则、原始数据保留、校验、日志、测试和性能边界。"
 category: "网络爬虫与数据分析"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "应用实例"
+  - "网络爬虫与数据分析"
 tags:
   - "Python"
   - "网络爬虫"
   - "正则表达式"
   - "数据清洗"
   - "re"
-status: "draft"
-sortOrder: 30
+status: "published"
+sortOrder: 40
 cover: ""
 originalId: "6a6b57a2fca6347974f5d18d"
 originalSlug: "python-data-cleaning-regex-crawler-text"
-originalStatus: "draft"
-exportedAt: "2026-07-30T14:46:52.260Z"
+originalStatus: "published"
+publishedAt: "2026-07-30T14:44:46.174Z"
+updatedAt: "2026-07-30T14:44:46.174Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 数据清洗入门 03：正则表达式清洗爬虫文本
 

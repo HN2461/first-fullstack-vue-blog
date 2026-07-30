@@ -3,16 +3,22 @@ title: "Python 零基础入门 09：循环 for 和 while"
 slug: "python-zero-loops"
 summary: "介绍循环的意义，讲解 for、range、while、break、continue 的基础用法，全程对照 JavaScript。"
 category: "知识目录"
+categoryPath:
+  - "后端技术"
+  - "Python"
+  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "draft"
-sortOrder: 90
+status: "published"
+sortOrder: 100
 cover: ""
 originalId: "6a4a4304f9ac958d2917604e"
 originalSlug: "python-zero-loops"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-07-05T11:47:18.525Z"
+updatedAt: "2026-07-30T14:44:46.132Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # Python 零基础入门 09：循环 for 和 while
 

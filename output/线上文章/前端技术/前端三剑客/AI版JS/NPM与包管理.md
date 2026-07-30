@@ -3,14 +3,20 @@ title: "NPM与包管理"
 slug: "js-npm-217bcd42"
 summary: ""
 category: "AI版JS"
+categoryPath:
+  - "前端技术"
+  - "前端三剑客"
+  - "AI版JS"
 tags: []
-status: "draft"
+status: "published"
 sortOrder: 110
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac108"
 originalSlug: "js-npm-217bcd42"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:46:52.260Z"
+publishedAt: "2026-01-25T13:23:07.498Z"
+updatedAt: "2026-06-15T14:50:24.997Z"
+exportedAt: "2026-07-30T15:42:33.614Z"
 ---
 # 第28章 NPM与包管理
 
