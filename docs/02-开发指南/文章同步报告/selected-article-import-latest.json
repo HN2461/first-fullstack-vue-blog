@@ -1,0 +1,829 @@
+{
+  "generatedAt": "2026-07-30T15:09:28.318Z",
+  "mode": "dry-run",
+  "outputRoot": "C:\\Users\\HN246\\Desktop\\个人全栈博客系统\\output",
+  "summary": {
+    "sourceFiles": 40,
+    "navigationSkipped": 4,
+    "sourceArticles": 36,
+    "unchanged": 36,
+    "update": 0,
+    "createDraft": 0,
+    "missingCategories": 0,
+    "missingTags": 0
+  },
+  "skippedNavigation": [
+    "AI应用开发平台/MaxKB/01-实战开发指南/README.md",
+    "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/README.md",
+    "AI应用开发平台/MaxKB/02-公共规则/README.md",
+    "AI应用开发平台/MaxKB/README.md"
+  ],
+  "items": [
+    {
+      "sourcePath": "电脑/系统与文件/Windows-电脑卡死救急与常用快捷键.md",
+      "title": "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类",
+      "slug": "windows-freeze-rescue-shortcuts",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "tags": [
+        "Windows",
+        "快捷键",
+        "任务管理器",
+        "电脑卡死",
+        "系统排障"
+      ],
+      "sortOrder": 0,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e26",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md",
+      "title": "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清",
+      "slug": "windows-basic-concepts-for-beginners",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "tags": [
+        "Windows",
+        "电脑基础",
+        "任务管理器",
+        "资源管理器",
+        "系统工具"
+      ],
+      "sortOrder": 0,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e28",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/01-从接手环境到发布的标准流程.md",
+      "title": "从接手环境到发布的标准流程",
+      "slug": "maxkb-e122b2b7",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "实战开发指南"
+      ],
+      "sortOrder": 10,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e2a",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/02-智能体编排与状态设计规范.md",
+      "title": "智能体编排与状态设计规范",
+      "slug": "maxkb-4bcf1a3f",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "实战开发指南",
+        "智能体"
+      ],
+      "sortOrder": 20,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e2c",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/03-知识库与RAG实战规范.md",
+      "title": "知识库与 RAG 实战规范",
+      "slug": "maxkb-rag-813a4abe",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "实战开发指南"
+      ],
+      "sortOrder": 30,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e2e",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/04-工具API接入与安全规范.md",
+      "title": "工具、API 接入与安全规范",
+      "slug": "maxkb-api-01efc881",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "实战开发指南",
+        "API与工具"
+      ],
+      "sortOrder": 40,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e30",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/05-调试测试发布与回滚清单.md",
+      "title": "调试、测试、发布与回滚清单",
+      "slug": "maxkb-db4fbad4",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "实战开发指南"
+      ],
+      "sortOrder": 50,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e32",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/06-官方资料索引与现有文档审计.md",
+      "title": "官方资料索引与现有文档审计",
+      "slug": "maxkb-d439f0e3",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "实战开发指南"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "实战开发指南"
+      ],
+      "sortOrder": 60,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e34",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/00-规范包使用说明.md",
+      "title": "00-MaxKB 公共规则规范包使用说明",
+      "slug": "maxkb-00-maxkb-6d42583b",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "公共规则"
+      ],
+      "sortOrder": 0,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e36",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/01-基础配置与变量/01-变量引用写法规范.md",
+      "title": "01-变量引用写法规范",
+      "slug": "maxkb-01-4ac20739",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "基础配置与变量"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "基础配置与变量"
+      ],
+      "sortOrder": 10,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e38",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/01-基础配置与变量/02-跨环境参数配置清单.md",
+      "title": "02-跨环境参数配置清单",
+      "slug": "maxkb-02-bbb61e60",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "基础配置与变量"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "基础配置与变量"
+      ],
+      "sortOrder": 20,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e3a",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/00-AI创建节点必读.md",
+      "title": "00-AI创建节点必读",
+      "slug": "maxkb-00-ai-c676db58",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 0,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e3c",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/00-空白高级智能体创建说明.md",
+      "title": "00-空白高级智能体创建说明",
+      "slug": "maxkb-00-17697ac6",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 0,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e3e",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/01-添加组件面板总览.md",
+      "title": "01-添加组件面板总览",
+      "slug": "maxkb-01-f396d281",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册"
+      ],
+      "sortOrder": 10,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e40",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/02-基本信息与开始节点.md",
+      "title": "02-基本信息与开始节点",
+      "slug": "maxkb-02-245bdaaf",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 20,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e42",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/03-AI对话节点.md",
+      "title": "03-AI对话节点",
+      "slug": "maxkb-03-ai-94d77b3d",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 30,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e44",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/04-意图识别节点.md",
+      "title": "04-意图识别节点",
+      "slug": "maxkb-04-9dac9da1",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 40,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e46",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/05-AI能力低优先级节点速查.md",
+      "title": "05-AI能力低优先级节点速查",
+      "slug": "maxkb-05-ai-7faf066a",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 50,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e48",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/06-问题优化节点.md",
+      "title": "06-问题优化节点",
+      "slug": "maxkb-06-daf63cdf",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 60,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e4a",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/07-判断器节点.md",
+      "title": "07-判断器节点",
+      "slug": "maxkb-07-fd8035d1",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 70,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e4c",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/08-知识库相关节点速查.md",
+      "title": "08-知识库相关节点速查",
+      "slug": "maxkb-08-d6705804",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 80,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e4e",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/09-表单收集节点.md",
+      "title": "09-表单收集节点",
+      "slug": "maxkb-09-95eb5588",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 90,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e50",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/10-指定回复节点.md",
+      "title": "10-指定回复节点",
+      "slug": "maxkb-10-bc727f7b",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 100,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e52",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/11-循环节点.md",
+      "title": "11-循环节点",
+      "slug": "maxkb-11-dadf9c79",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 110,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e54",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/12-变量赋值节点.md",
+      "title": "12-变量赋值节点",
+      "slug": "maxkb-12-dd68373f",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 120,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e56",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/13-变量拆分节点.md",
+      "title": "13-变量拆分节点",
+      "slug": "maxkb-13-adde6b4f",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 130,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e58",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/14-参数提取节点.md",
+      "title": "14-参数提取节点",
+      "slug": "maxkb-14-9115df18",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 140,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e5a",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/15-变量聚合节点.md",
+      "title": "15-变量聚合节点",
+      "slug": "maxkb-15-a52cbc78",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体"
+      ],
+      "sortOrder": 150,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e5c",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/16-MCP调用与自定义工具节点.md",
+      "title": "16-MCP调用与自定义工具节点",
+      "slug": "maxkb-16-mcp-cbdce98b",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体",
+        "API与工具"
+      ],
+      "sortOrder": 160,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e5e",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/17-工具页签与智能体节点.md",
+      "title": "17-工具页签与智能体节点",
+      "slug": "maxkb-17-a788c9f1",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "节点创建手册"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "节点创建手册",
+        "智能体",
+        "API与工具"
+      ],
+      "sortOrder": 170,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e60",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/01-功能智能体阶段演进规则.md",
+      "title": "MaxKB 功能智能体阶段演进规则",
+      "slug": "maxkb-maxkb-d42ce38f",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "工程治理",
+        "智能体"
+      ],
+      "sortOrder": 10,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e62",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/02-长链路文档拆分规则.md",
+      "title": "MaxKB 长链路文档拆分规则",
+      "slug": "maxkb-maxkb-061d662d",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "工程治理"
+      ],
+      "sortOrder": 20,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e64",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/03-MaxKB导出包解析与半自动改包规则.md",
+      "title": "MaxKB 导出包解析与半自动改包规则",
+      "slug": "maxkb-maxkb-d984d85a",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "工程治理"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "工程治理"
+      ],
+      "sortOrder": 30,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e66",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/04-接入与展示/01-MaxKB渲染标签与快捷问题规则.md",
+      "title": "01-MaxKB渲染标签与快捷问题规则",
+      "slug": "maxkb-01-maxkb-affa7c4c",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "接入与展示"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "接入与展示"
+      ],
+      "sortOrder": 10,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e68",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/04-接入与展示/02-MaxKB前端接入与原生API调用规则.md",
+      "title": "MaxKB 前端接入与原生 API 调用规则",
+      "slug": "maxkb-maxkb-api-abc235d7",
+      "categoryPath": [
+        "AI相关",
+        "AI开发",
+        "AI应用开发平台",
+        "MaxKB",
+        "公共规则",
+        "接入与展示"
+      ],
+      "tags": [
+        "MaxKB",
+        "AI应用开发",
+        "接入与展示",
+        "API与工具"
+      ],
+      "sortOrder": 20,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e6a",
+      "existingStatus": "draft"
+    },
+    {
+      "sourcePath": "AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
+      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
+      "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "tags": [
+        "Codex",
+        "桌面 App",
+        "Windows",
+        "Worktree",
+        "Scheduled tasks",
+        "Browser"
+      ],
+      "sortOrder": 0,
+      "action": "unchanged",
+      "existingId": "6a6b691f4bf50146e9b95e6c",
+      "existingStatus": "draft"
+    }
+  ]
+}
