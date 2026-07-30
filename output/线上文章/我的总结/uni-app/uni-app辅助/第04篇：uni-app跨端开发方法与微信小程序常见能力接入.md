@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac46e"
 originalSlug: "uni-app-uni-app-2a3920fc"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 ## uni-app 跨端开发方法与微信小程序常见能力接入
 

@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac164"
 originalSlug: "node-js-mongodb-mongoose-crud-bcf8ad68"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # MongoDB 详解第四篇：Mongoose CRUD 与中间件
 

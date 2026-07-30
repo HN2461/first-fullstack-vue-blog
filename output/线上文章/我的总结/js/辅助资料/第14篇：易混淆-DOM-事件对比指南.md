@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3f6"
 originalSlug: "js-js-dom-0c6dbfa3"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第14篇：易混淆 DOM 事件对比指南
 

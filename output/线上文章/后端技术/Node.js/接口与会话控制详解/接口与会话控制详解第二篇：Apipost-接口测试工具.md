@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac188"
 originalSlug: "node-js-apipost-ea2d5bde"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 接口与会话控制详解第二篇：Apipost 接口测试工具
 

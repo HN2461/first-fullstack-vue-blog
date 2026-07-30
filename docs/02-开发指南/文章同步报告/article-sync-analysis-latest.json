@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-30T14:11:44.270Z",
+  "generatedAt": "2026-07-30T14:32:25.004Z",
   "export": {
-    "exportedAt": "2026-07-30T14:08:39.359Z",
+    "exportedAt": "2026-07-30T14:30:35.933Z",
     "total": 475
   },
   "repositoryCategoryAliases": [
@@ -16,2524 +16,22 @@
     }
   ],
   "summary": {
-    "repositoryMarkdown": 206,
-    "matched": 132,
-    "uniqueOnlineMatched": 132,
+    "repositoryMarkdown": 131,
+    "matched": 56,
+    "uniqueOnlineMatched": 56,
     "duplicateRepositoryFiles": 0,
-    "sameContent": 92,
-    "locallyModified": 40,
-    "majorRefactor": 2,
-    "mediumRefactor": 5,
-    "closeRevision": 33,
+    "sameContent": 56,
+    "locallyModified": 0,
+    "majorRefactor": 0,
+    "mediumRefactor": 0,
+    "closeRevision": 0,
     "categoryUpdateRecommended": 56,
-    "repositoryOnly": 74,
-    "previousExportOnly": 1,
+    "repositoryOnly": 75,
+    "previousExportOnly": 2,
     "localNew": 73,
-    "onlineOnly": 343
+    "onlineOnly": 419
   },
   "matched": [
-    {
-      "repositoryPath": "AI工具/Agent框架层/龙虾/第一篇：OpenClaw-本地部署实战（从安装到龙虾内容生产）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "title": "第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）",
-      "slug": "ai-agent-openclaw-4d55dcf1",
-      "originalId": "6a2d291d8a2b1c68f2cac02e",
-      "originalSlug": "ai-agent-openclaw-4d55dcf1",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "龙虾",
-      "bodyHash": "a727ad791b5a8db3667d530be626e14665625fe2945d85b90d34b862dacde70e",
-      "onlineTitle": "第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）",
-      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第一篇：OpenClaw-本地部署实战（从安装到龙虾内容生产）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/Agent框架层/龙虾/第三篇：OpenClaw101-Day1-知识全景与命令配置实战（认知与灵魂篇）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "title": "第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）",
-      "slug": "ai-agent-openclaw101day1-2082ef14",
-      "originalId": "6a2d291d8a2b1c68f2cac034",
-      "originalSlug": "ai-agent-openclaw101day1-2082ef14",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "龙虾",
-      "bodyHash": "d4d30c45438cfeb75d688ecfbeedf8c2c2a8b967692abd839af43938f881d115",
-      "onlineTitle": "第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）",
-      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第三篇：OpenClaw101-Day1-知识全景与命令配置实战（认知与灵魂篇）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/Agent框架层/龙虾/第二篇：OpenClaw-CN-0.1.7-命令配置与重启排障全手册（Windows）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "title": "第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）",
-      "slug": "ai-agent-openclaw-4d87088b",
-      "originalId": "6a2d291d8a2b1c68f2cac036",
-      "originalSlug": "ai-agent-openclaw-4d87088b",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "龙虾",
-      "bodyHash": "ca874187e2f318777f7b2a2eec35b29ae60d9685805426f71a5b88a2465b0890",
-      "onlineTitle": "第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）",
-      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第二篇：OpenClaw-CN-0.1.7-命令配置与重启排障全手册（Windows）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/Agent框架层/龙虾/第五篇：OpenClaw101-全7天逐命令拆解（龙虾中文版超详细手册）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "title": "第五篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）",
-      "slug": "ai-agent-openclaw101-7-98f47885",
-      "originalId": "6a2d291d8a2b1c68f2cac03a",
-      "originalSlug": "ai-agent-openclaw101-7-98f47885",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "龙虾",
-      "bodyHash": "ce74b868bf0f8b47d761e8657048a6c53a88868fdd872847dd8360035df301e2",
-      "onlineTitle": "第五篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）",
-      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第五篇：OpenClaw101-全7天逐命令拆解（龙虾中文版超详细手册）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/Agent框架层/龙虾/第六篇：龙虾命令与配置文件一页速查图.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "title": "第六篇：龙虾命令与配置文件一页速查图",
-      "slug": "ai-agent-aafa4c54",
-      "originalId": "6a2d291d8a2b1c68f2cac03e",
-      "originalSlug": "ai-agent-aafa4c54",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "龙虾",
-      "bodyHash": "026333cefe0944c1a50c0e88cccc825ce1ee33ea45bcaea2a6d767b252e5f840",
-      "onlineTitle": "第六篇：龙虾命令与配置文件一页速查图",
-      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第六篇：龙虾命令与配置文件一页速查图.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/Agent框架层/龙虾/第四篇：OpenClaw101-全7天资料总研版（龙虾中文版可执行手册）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "title": "第四篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）",
-      "slug": "ai-agent-openclaw101-7-7f46689a",
-      "originalId": "6a2d291d8a2b1c68f2cac040",
-      "originalSlug": "ai-agent-openclaw101-7-7f46689a",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "龙虾",
-      "bodyHash": "543c6ad6cb8c70df75e382648dfc1fc6965e2cc7fe587f652d63518a05640f98",
-      "onlineTitle": "第四篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）",
-      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第四篇：OpenClaw101-全7天资料总研版（龙虾中文版可执行手册）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "Agent框架层",
-        "龙虾"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI工具知识库总导航.md",
-      "repositoryCategoryPath": [
-        "AI工具"
-      ],
-      "title": "AI工具知识库总导航",
-      "slug": "ai-cd17bf62",
-      "originalId": "6a2d291d8a2b1c68f2cabe4e",
-      "originalSlug": "ai-cd17bf62",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "AI工具",
-      "bodyHash": "baecc17ac676918c4909e541b5493d502abff5f15e1950d20e1c8cb1d066f587",
-      "onlineTitle": "AI工具知识库总导航",
-      "onlineFile": "AI相关/AI工具/AI工具知识库总导航.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "title": "第1篇：CatPaw介绍与快速上手",
-      "slug": "ai-ai-catpaw-catpaw-2afcb185",
-      "originalId": "6a2d291d8a2b1c68f2cabe58",
-      "originalSlug": "ai-ai-catpaw-catpaw-2afcb185",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "CatPaw",
-      "bodyHash": "a6e92bcfd61247cab3057b33099452c2438a2be4fdb7a0d22316c69949300b5b",
-      "onlineTitle": "第1篇：CatPaw介绍与快速上手",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "title": "第2篇：CatPaw核心功能详解",
-      "slug": "ai-ai-catpaw-catpaw-d8f5ee08",
-      "originalId": "6a2d291d8a2b1c68f2cabe6c",
-      "originalSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "CatPaw",
-      "bodyHash": "0e798cba8c3c3477bee10bf2768829d77dd776ab7eac4fddcf9e825d59acfb3c",
-      "onlineTitle": "第2篇：CatPaw核心功能详解",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "title": "第3篇：CatPaw AI助手使用指南",
-      "slug": "ai-ai-catpaw-catpaw-ai-87736891",
-      "originalId": "6a2d291d8a2b1c68f2cabe62",
-      "originalSlug": "ai-ai-catpaw-catpaw-ai-87736891",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "CatPaw",
-      "bodyHash": "a921928a6c2385798266eb593928a740bab389b807ea2b1839cce92d1c3d0d4b",
-      "onlineTitle": "第3篇：CatPaw AI助手使用指南",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "title": "第4篇：CatPaw上下文与预览调试",
-      "slug": "ai-ai-catpaw-catpaw-e217fd6c",
-      "originalId": "6a2d291d8a2b1c68f2cabe80",
-      "originalSlug": "ai-ai-catpaw-catpaw-e217fd6c",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "CatPaw",
-      "bodyHash": "1de3fd3c2f109105ab6400a41ac21a0e040df945c0e97c20c7fe157c8fa69145",
-      "onlineTitle": "第4篇：CatPaw上下文与预览调试",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "title": "第5篇：CatPaw Rules与MCP扩展",
-      "slug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
-      "originalId": "6a2d291d8a2b1c68f2cabe76",
-      "originalSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "CatPaw",
-      "bodyHash": "7c9dc248b742b392756255dc29fbb5bc89c5d91ca3338f64848cf9097d6cf372",
-      "onlineTitle": "第5篇：CatPaw Rules与MCP扩展",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "CatPaw"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第一篇：Cursor-上手、迁移与索引配置（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第一篇：Cursor 上手、迁移与索引配置（2026-04）",
-      "slug": "ai-ai-cursor-cursor-40faf5ca",
-      "originalId": "6a2d291d8a2b1c68f2cabe88",
-      "originalSlug": "ai-ai-cursor-cursor-40faf5ca",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "3bc73bb9bcb54cdd9d3f4bd8f93486a69b482266718fdb1e6bb90dc9eb647d3a",
-      "onlineTitle": "第一篇：Cursor 上手、迁移与索引配置（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第一篇：Cursor-上手、迁移与索引配置（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第七篇：Cursor-模型、隐私与团队企业治理（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第七篇：Cursor 模型、隐私与团队企业治理（2026-04）",
-      "slug": "ai-ai-cursor-cursor-4dfc49b1",
-      "originalId": "6a2d291d8a2b1c68f2cabe90",
-      "originalSlug": "ai-ai-cursor-cursor-4dfc49b1",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "d43026612493ec5934426603692c236a1d96021864c5cede79263e884c2f83b8",
-      "onlineTitle": "第七篇：Cursor 模型、隐私与团队企业治理（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第七篇：Cursor-模型、隐私与团队企业治理（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第三篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第三篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
-      "slug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
-      "originalId": "6a2d291d8a2b1c68f2cabe96",
-      "originalSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "7f641dbe2f58d24a4add0087dd7a40006bf68f52ea9a566551dc0f772fe97bb3",
-      "onlineTitle": "第三篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第三篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第二篇：Cursor-核心交互：Agent、Ask、Tab-与-Inline-Edit（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第二篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）",
-      "slug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
-      "originalId": "6a2d291d8a2b1c68f2cabe9c",
-      "originalSlug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "5f6c56e1a6d255893387ab46d4d4f8825a937842ec53f7d19632a9f612b0b5bc",
-      "onlineTitle": "第二篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第二篇：Cursor-核心交互：Agent、Ask、Tab-与-Inline-Edit（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第五篇：Cursor-协作自动化：Background-Agents、Bugbot、GitHub-与-Slack（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第五篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）",
-      "slug": "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89",
-      "originalId": "6a2d291d8a2b1c68f2cabea4",
-      "originalSlug": "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "74af41bdcc1b030de1d687b8687804afe7aa2ef2246e319401436975b49094fe",
-      "onlineTitle": "第五篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第五篇：Cursor-协作自动化：Background-Agents、Bugbot、GitHub-与-Slack（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第八篇：Cursor-数据科学、远程环境与常见问题（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第八篇：Cursor 数据科学、远程环境与常见问题（2026-04）",
-      "slug": "ai-ai-cursor-cursor-bc1e7a3a",
-      "originalId": "6a2d291d8a2b1c68f2cabeac",
-      "originalSlug": "ai-ai-cursor-cursor-bc1e7a3a",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "efac5572cfdd175935e1437e71a99fda28bf32902dc3899d2260634305f45462",
-      "onlineTitle": "第八篇：Cursor 数据科学、远程环境与常见问题（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第八篇：Cursor-数据科学、远程环境与常见问题（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第六篇：Cursor-工具权限：MCP、Shell-Mode-与安全边界（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）",
-      "slug": "ai-ai-cursor-cursor-mcp-shellmode-144315a1",
-      "originalId": "6a2d291d8a2b1c68f2cabeb2",
-      "originalSlug": "ai-ai-cursor-cursor-mcp-shellmode-144315a1",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "1eca6a50a9e1358498c93a1eee6f4a42e5ef497b687a7c537c1a7a2008831fe3",
-      "onlineTitle": "第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第六篇：Cursor-工具权限：MCP、Shell-Mode-与安全边界（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Cursor/第四篇：Cursor-项目实战：Terminal、CLI-与-Git-工作流（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "title": "第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）",
-      "slug": "ai-ai-cursor-cursor-terminalcli-git-84f595c7",
-      "originalId": "6a2d291d8a2b1c68f2cabeba",
-      "originalSlug": "ai-ai-cursor-cursor-terminalcli-git-84f595c7",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Cursor",
-      "bodyHash": "127c0fdf0e98eb152d023fd88f2eb1ad71307c193f59fcdc19ad19cad91fb1b1",
-      "onlineTitle": "第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第四篇：Cursor-项目实战：Terminal、CLI-与-Git-工作流（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "title": "第一篇：Kiro 快速上手与核心概念（2026-07）",
-      "slug": "ai-ai-kiro-kiro-4ba05074",
-      "originalId": "6a2d291d8a2b1c68f2cabec0",
-      "originalSlug": "ai-ai-kiro-kiro-4ba05074",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Kiro",
-      "bodyHash": "9286ea45daf2b2b82a26fc2091586c78342a2d9506019180a92e67c64143d81b",
-      "onlineTitle": "第一篇：Kiro 快速上手与核心概念（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.695,
-      "lengthRatio": 1.38,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "title": "第三篇：Kiro Steering 上下文管理（2026-07）",
-      "slug": "ai-ai-kiro-kiro-steering-51bf9cad",
-      "originalId": "6a2d291d8a2b1c68f2cabec8",
-      "originalSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Kiro",
-      "bodyHash": "fc813373c33018b2bb4923cabae2e8163019b0990ef4f1833ca9d07d968b877b",
-      "onlineTitle": "第三篇：Kiro Steering 上下文管理（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.914,
-      "lengthRatio": 0.99,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "title": "第二篇：Kiro Specs 规格系统详解（2026-07）",
-      "slug": "ai-ai-kiro-kiro-specs-c09713f2",
-      "originalId": "6a2d291d8a2b1c68f2cabed2",
-      "originalSlug": "ai-ai-kiro-kiro-specs-c09713f2",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Kiro",
-      "bodyHash": "b9dfcfac6c233fda3c13a5a7e97ced89ed034944899ba88fdf1f2fdc024f50a0",
-      "onlineTitle": "第二篇：Kiro Specs 规格系统详解（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.873,
-      "lengthRatio": 1.15,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "title": "第五篇：Kiro MCP 集成与工具扩展（2026-07）",
-      "slug": "ai-ai-kiro-kiro-mcp-d2d54239",
-      "originalId": "6a2d291d8a2b1c68f2cabed8",
-      "originalSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Kiro",
-      "bodyHash": "b60721391c7b15cdb40a31e3b2ff6739d35e53c0415cfa989d93bd4e294df8d8",
-      "onlineTitle": "第五篇：Kiro MCP 集成与工具扩展（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.046,
-      "lengthRatio": 0.58,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "title": "第六篇：Kiro 工作流实战与最佳实践（2026-07）",
-      "slug": "ai-ai-kiro-kiro-bee7077a",
-      "originalId": "6a2d291d8a2b1c68f2cabee0",
-      "originalSlug": "ai-ai-kiro-kiro-bee7077a",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Kiro",
-      "bodyHash": "eb8b9a12e327ecd315112d806fb15e8fc50356f124c0667ff288fe7e7a695fec",
-      "onlineTitle": "第六篇：Kiro 工作流实战与最佳实践（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.029,
-      "lengthRatio": 0.63,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Windsurf/第一篇：Windsurf-快速上手与核心能力（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "title": "第一篇：Windsurf 快速上手与核心能力（2026-04）",
-      "slug": "ai-ai-windsurf-windsurf-d941c66c",
-      "originalId": "6a2d291d8a2b1c68f2cabeee",
-      "originalSlug": "ai-ai-windsurf-windsurf-d941c66c",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Windsurf",
-      "bodyHash": "3014c761e8fa28c7c9d7247b53af6194428c87d9fba093f0c2c3d20e68c3a12d",
-      "onlineTitle": "第一篇：Windsurf 快速上手与核心能力（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第一篇：Windsurf-快速上手与核心能力（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Windsurf/第三篇：Windsurf-Code-Plan-Ask-三种模式分工与切换策略（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "title": "第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）",
-      "slug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
-      "originalId": "6a2d291d8a2b1c68f2cabef6",
-      "originalSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Windsurf",
-      "bodyHash": "df6c051190f39db90f9a8d6b9a0f8ac2ba040b0d6ead30610c660e9479f96225",
-      "onlineTitle": "第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第三篇：Windsurf-Code-Plan-Ask-三种模式分工与切换策略（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Windsurf/第二篇：Windsurf-官方文档深度拆解，最新能力与工作流（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "title": "第二篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）",
-      "slug": "ai-ai-windsurf-windsurf-4667d3b6",
-      "originalId": "6a2d291d8a2b1c68f2cabefc",
-      "originalSlug": "ai-ai-windsurf-windsurf-4667d3b6",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Windsurf",
-      "bodyHash": "4a0fff56d099ec24295b9a0a122387e06d02e3c3d17ed890bbbaa8b75b96e1b8",
-      "onlineTitle": "第二篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第二篇：Windsurf-官方文档深度拆解，最新能力与工作流（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Windsurf/第五篇：Windsurf-2.0-与-Devin-集成实战（2026-05）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "title": "第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）",
-      "slug": "ai-ai-windsurf-windsurf-2-0-devin-78b4664a",
-      "originalId": "6a2d291d8a2b1c68f2cabf06",
-      "originalSlug": "ai-ai-windsurf-windsurf-2-0-devin-78b4664a",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Windsurf",
-      "bodyHash": "7e5655a2a4e1b272cb5f80b82184c2894cc594c5d89b4503996175b8fb9beeec",
-      "onlineTitle": "第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第五篇：Windsurf-2.0-与-Devin-集成实战（2026-05）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/AI编辑器流/Windsurf/第四篇：Windsurf-Rules、AGENTS.md、Skills、Workflows-项目治理实战（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "title": "第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）",
-      "slug": "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9",
-      "originalId": "6a2d291d8a2b1c68f2cabf0c",
-      "originalSlug": "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Windsurf",
-      "bodyHash": "b7db436a0a434a132c809c396d678f4ceb0f145dce28392a780728837a6bbd95",
-      "onlineTitle": "第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）",
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第四篇：Windsurf-Rules、AGENTS.md、Skills、Workflows-项目治理实战（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Windsurf"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "title": "第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）",
-      "slug": "ai-agent-claudecode-claudecode-4c9d5bfe",
-      "originalId": "6a2d291d8a2b1c68f2cabf18",
-      "originalSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "ClaudeCode",
-      "bodyHash": "042eadb99b49c03447443ea23bba123b968f6dcf3a7e95023f3bf56814ea9b1b",
-      "onlineTitle": "第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）",
-      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.834,
-      "lengthRatio": 1.22,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "title": "第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）",
-      "slug": "ai-agent-claudecode-claudecode-8b6661f9",
-      "originalId": "6a2d291d8a2b1c68f2cabf22",
-      "originalSlug": "ai-agent-claudecode-claudecode-8b6661f9",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "ClaudeCode",
-      "bodyHash": "060b5ec0b3c76ac64a0f6933b501a08ad36953828b781c39005fc2b67ecd1fe8",
-      "onlineTitle": "第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）",
-      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.937,
-      "lengthRatio": 1.12,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "title": "第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
-      "slug": "ai-agent-claudecode-claudecode-083e790a",
-      "originalId": "6a2d291d8a2b1c68f2cabf2a",
-      "originalSlug": "ai-agent-claudecode-claudecode-083e790a",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "ClaudeCode",
-      "bodyHash": "812d48998746e7ab2206a360f858145480dd8bf1614fc9d4efc5a73357a2c729",
-      "onlineTitle": "第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
-      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.909,
-      "lengthRatio": 1.13,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "title": "第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）",
-      "slug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
-      "originalId": "6a2d291d8a2b1c68f2cabf36",
-      "originalSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "ClaudeCode",
-      "bodyHash": "c52d6e9f150d1cacc834a5f9b4e6098931d75478896e8ba16db2cfe4da2bbf3d",
-      "onlineTitle": "第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）",
-      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.943,
-      "lengthRatio": 1.12,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "title": "第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
-      "slug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
-      "originalId": "6a2d291d8a2b1c68f2cabf3e",
-      "originalSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "ClaudeCode",
-      "bodyHash": "7bb37e8fa6cf07a15dad719d7dab7c3e2c283f9f251cd30884b0ba7063c061e7",
-      "onlineTitle": "第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
-      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.955,
-      "lengthRatio": 1.03,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "title": "第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）",
-      "slug": "ai-agent-claudecode-claudecode-76aa3c89",
-      "originalId": "6a2d291d8a2b1c68f2cabf46",
-      "originalSlug": "ai-agent-claudecode-claudecode-76aa3c89",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "ClaudeCode",
-      "bodyHash": "1d85933beee7d356a5bdd2f15429596ace2312c8fd0a1ab980ba165995c56386",
-      "onlineTitle": "第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）",
-      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "ClaudeCode"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.936,
-      "lengthRatio": 1.1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第一篇：Codex CLI 第一日开发实战",
-      "slug": "ai-agent-codex-codex-cli-10e9408b",
-      "originalId": "6a2d291d8a2b1c68f2cabf4c",
-      "originalSlug": "ai-agent-codex-codex-cli-10e9408b",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "43f0c930354128dc4175feba8bf23fe540d0efaa3522df2bf1aa52069f4d376c",
-      "onlineTitle": "第一篇：Codex CLI 第一日开发实战",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.945,
-      "lengthRatio": 1.07,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第七篇：Codex 当前常用功能与进阶工作流手册",
-      "slug": "ai-agent-codex-codex-1c9633e1",
-      "originalId": "6a2d291d8a2b1c68f2cabf80",
-      "originalSlug": "ai-agent-codex-codex-1c9633e1",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "d751f874778e310a021ca4c07944444d97f9960a86f6941afb4628e69eb1fa94",
-      "onlineTitle": "第七篇：Codex 当前常用功能与进阶工作流手册",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.665,
-      "lengthRatio": 0.95,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）",
-      "slug": "ai-agent-codex-codex-edeadb5e",
-      "originalId": "6a2d291d8a2b1c68f2cabf5a",
-      "originalSlug": "ai-agent-codex-codex-edeadb5e",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "eaa5f74632514789f3ce4781c1ef1dfeab03e07545add036405adf96f15c5235",
-      "onlineTitle": "第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.92,
-      "lengthRatio": 1.08,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第二篇：Codex CLI 英文终端界面翻译与排错",
-      "slug": "ai-agent-codex-codex-cli-64e9fd24",
-      "originalId": "6a2d291d8a2b1c68f2cabf50",
-      "originalSlug": "ai-agent-codex-codex-cli-64e9fd24",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "362004885038efcc938df59e4a694b60fd0908bfc014cef1823a79c7acaea8f0",
-      "onlineTitle": "第二篇：Codex CLI 英文终端界面翻译与排错",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.952,
-      "lengthRatio": 1.03,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第五篇：Codex CLI / 插件 / App 三端联动实战",
-      "slug": "ai-agent-codex-codex-cli-app-afad6d17",
-      "originalId": "6a2d291d8a2b1c68f2cabf6e",
-      "originalSlug": "ai-agent-codex-codex-cli-app-afad6d17",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "a2c1693bd7ff1cf5475302f83195027a4d743c5781d2201e9cf2a8bdf7770b7d",
-      "onlineTitle": "第五篇：Codex CLI / 插件 / App 三端联动实战",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.708,
-      "lengthRatio": 1.12,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第六篇：Codex 命令与配置文件速查",
-      "slug": "ai-agent-codex-codex-9cf3fc01",
-      "originalId": "6a2d291d8a2b1c68f2cabf78",
-      "originalSlug": "ai-agent-codex-codex-9cf3fc01",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "12d7695717ef3b365b1f2696131098c0fa00af19d49eadaaedb4e93919f09da4",
-      "onlineTitle": "第六篇：Codex 命令与配置文件速查",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.74,
-      "lengthRatio": 1.3,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第四篇：Codex 多线路接入与迁移总手册",
-      "slug": "ai-agent-codex-codex-94189641",
-      "originalId": "6a2d291d8a2b1c68f2cabf66",
-      "originalSlug": "ai-agent-codex-codex-94189641",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "25e72dbe2de210a089e8eff3d588b6d9c9f9c05937c4a51d33c652b9a896aa64",
-      "onlineTitle": "第四篇：Codex 多线路接入与迁移总手册",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.952,
-      "lengthRatio": 1.07,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Gemini/Gemini-目录补充说明：谷歌-MCP-配置手册放在哪里看.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Gemini"
-      ],
-      "title": "Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看",
-      "slug": "ai-agent-gemini-mcp-4c54d61a",
-      "originalId": "6a2d291d8a2b1c68f2cabf88",
-      "originalSlug": "ai-agent-gemini-mcp-4c54d61a",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Gemini",
-      "bodyHash": "5fee1a61babc906aa98ecbb5e495053293d8fb938292e60890df70e558410a6a",
-      "onlineTitle": "Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看",
-      "onlineFile": "AI相关/AI工具/终端Agent流/Gemini/Gemini-目录补充说明：谷歌-MCP-配置手册放在哪里看.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Gemini"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Gemini"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/00-MCP-学习导航与维护路线.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "MCP 学习导航与维护路线",
-      "slug": "ai-mcp-848a18d2",
-      "originalId": "6a2d291d8a2b1c68f2cabf90",
-      "originalSlug": "ai-mcp-848a18d2",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "c5b5e19d2530025c6817be3a3bc002c08e9b3610510e7cf87eda33ef2ed8448f",
-      "onlineTitle": "MCP 学习导航与维护路线",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/MCP-学习导航与维护路线.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.613,
-      "lengthRatio": 1.67,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/01-MCP-是什么与开放标准核心认知.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "01：MCP 是什么与开放标准核心认知",
-      "slug": "ai-mcp-mcp-067b747a",
-      "originalId": "6a2d291d8a2b1c68f2cabf96",
-      "originalSlug": "ai-mcp-mcp-067b747a",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "2dd419dd45c7797a1adb0a02e0bcc8dc9d8884fe157315ac89ad571f80deb560",
-      "onlineTitle": "第一篇：MCP 是什么与开放标准核心认知",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/第一篇：MCP-是什么与开放标准核心认知.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.84,
-      "lengthRatio": 1.32,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/02-常用-MCP-分类与选型总览.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "02：常用 MCP 分类与选型总览",
-      "slug": "ai-mcp-mcp-mcp-ce5df958",
-      "originalId": "6a2d291d8a2b1c68f2cabf9c",
-      "originalSlug": "ai-mcp-mcp-mcp-ce5df958",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "822d2c529f45c84e0d4ce81e4f08ec245779ec9cd1cd9dd505e5c81df931dd41",
-      "onlineTitle": "第一篇：常用 MCP 分类与选型总览",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/第一篇：常用-MCP-分类与选型总览.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.907,
-      "lengthRatio": 1.13,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/03-前端开发常用-MCP-清单与选型建议（2026-07复核）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "03：前端开发常用 MCP 清单与选型建议（2026-07复核）",
-      "slug": "ai-mcp-mcp-mcp-d20641b2",
-      "originalId": "6a2d291d8a2b1c68f2cabfa6",
-      "originalSlug": "ai-mcp-mcp-mcp-d20641b2",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "15ed1da8aec6d342ef0af86d01ac4294b5ddc6340fee470ffc46c50475e1aa04",
-      "onlineTitle": "第二篇：前端开发常用 MCP 清单与选型建议（2026-05复核）",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/第二篇：前端开发常用-MCP-清单与选型建议（2026-05复核）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.978,
-      "lengthRatio": 1.04,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/04-MCP-概念与主流度问题.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "04：MCP 概念与主流度问题",
-      "slug": "ai-mcp-83743b3f",
-      "originalId": "6a2d291d8a2b1c68f2cabfb0",
-      "originalSlug": "ai-mcp-83743b3f",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "10588ebb0b69d4368617b8bdf5f8535e444ceda21dae45c99c7c15354ad14fee",
-      "onlineTitle": "第一组：MCP 概念与主流度问题",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/第一组：MCP-概念与主流度问题.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.969,
-      "lengthRatio": 1.05,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/05-MCP-架构与安全边界问题.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "05：MCP 架构与安全边界问题",
-      "slug": "ai-mcp-ede3e0c8",
-      "originalId": "6a2d291d8a2b1c68f2cabfbc",
-      "originalSlug": "ai-mcp-ede3e0c8",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "1f91de29dc11f7fbfd0d41f5c756f640b4b771d74058f7fc5d2754295c1f48e1",
-      "onlineTitle": "第二组：MCP 架构与安全边界问题",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/第二组：MCP-架构与安全边界问题.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.962,
-      "lengthRatio": 1.07,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/06-MCP-项目落地与收益评估问题.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "06：MCP 项目落地与收益评估问题",
-      "slug": "ai-mcp-c534a7cb",
-      "originalId": "6a2d291d8a2b1c68f2cabfb6",
-      "originalSlug": "ai-mcp-c534a7cb",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "dada76c2537d35a085c26e2c46f2ba6105f30f7de52cda0e97f8883cf9cd851e",
-      "onlineTitle": "第三组：MCP 项目落地与收益评估问题",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/第三组：MCP-项目落地与收益评估问题.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.965,
-      "lengthRatio": 1.06,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/MCP/07-谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "title": "07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
-      "slug": "ai-mcp-mcp-79fea32a",
-      "originalId": "6a2d291d8a2b1c68f2cabfc6",
-      "originalSlug": "ai-mcp-mcp-79fea32a",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "MCP",
-      "bodyHash": "ca481702ae1634bbe2b7903485a3aef15110b91c2a185eafdc91242c2da845b2",
-      "onlineTitle": "谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
-      "onlineFile": "AI相关/AI工具/规则机制层/MCP/谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "MCP"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.975,
-      "lengthRatio": 1.04,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "title": "第一篇：Plugin 插件是什么，为什么需要它",
-      "slug": "ai-plugin-plugin-da2ad951",
-      "originalId": "6a2d291d8a2b1c68f2cabfcc",
-      "originalSlug": "ai-plugin-plugin-da2ad951",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Plugin",
-      "bodyHash": "f66a6a7d0976d9540eaf84fa3154f23975161b8a85346d02341ad1a28e35010d",
-      "onlineTitle": "第一篇：Plugin 插件是什么，为什么需要它",
-      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.97,
-      "lengthRatio": 1.01,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "title": "第三篇：Claude Code Plugin 体系详解与实战",
-      "slug": "ai-plugin-claudecode-claudecodeplugin-ed613976",
-      "originalId": "6a2d291d8a2b1c68f2cabfde",
-      "originalSlug": "ai-plugin-claudecode-claudecodeplugin-ed613976",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Plugin",
-      "bodyHash": "549122073788d61c6ef7d5d2f8397efe5034a8d5798964c28c0db098b7c6f5d1",
-      "onlineTitle": "第三篇：Claude Code Plugin 体系详解与实战",
-      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.982,
-      "lengthRatio": 0.99,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "title": "第二篇：Codex Plugin 体系详解与实战",
-      "slug": "ai-plugin-codex-codexplugin-9b9edb10",
-      "originalId": "6a2d291d8a2b1c68f2cabfd6",
-      "originalSlug": "ai-plugin-codex-codexplugin-9b9edb10",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Plugin",
-      "bodyHash": "815a4793aaab60ee56696d310063fcd915e13e618bdbe05a9bfb77170eef7ada",
-      "onlineTitle": "第二篇：Codex Plugin 体系详解与实战",
-      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.996,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "title": "第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地",
-      "slug": "ai-plugin-plugin-a8202a00",
-      "originalId": "6a2d291d8a2b1c68f2cabfe4",
-      "originalSlug": "ai-plugin-plugin-a8202a00",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "Plugin",
-      "bodyHash": "4ff654e919c354bec611d878ebbcbb2a34b409d30dc328255cb959ff2ffdf7e4",
-      "onlineTitle": "第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地",
-      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Plugin"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.974,
-      "lengthRatio": 1.01,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "title": "第一篇：AI 工具规则文档是什么，为什么需要它",
-      "slug": "ai-rules-ai-e659b444",
-      "originalId": "6a2d291d8a2b1c68f2cabfe8",
-      "originalSlug": "ai-rules-ai-e659b444",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Rules",
-      "bodyHash": "69ca4cc19b7ca6cff5722d30a6262dfe184c9c5d91e48dd22c97854aa6f12658",
-      "onlineTitle": "第一篇：AI 工具规则文档是什么，为什么需要它",
-      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.966,
-      "lengthRatio": 1.01,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "title": "第三篇：CLAUDE.md 与 Claude Code 记忆系统",
-      "slug": "ai-rules-claude-claude-md-claudecode-ff6cd587",
-      "originalId": "6a2d291d8a2b1c68f2cabff8",
-      "originalSlug": "ai-rules-claude-claude-md-claudecode-ff6cd587",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Rules",
-      "bodyHash": "d51dd219d5df4dc763f6995e582d9442f881de7d2c889fc81a76214a4104b38c",
-      "onlineTitle": "第三篇：CLAUDE.md 与 Claude Code 记忆系统",
-      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.998,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "title": "第二篇：AGENTS.md 开放标准完全指南",
-      "slug": "ai-rules-agents-agents-md-908e49bb",
-      "originalId": "6a2d291d8a2b1c68f2cabff0",
-      "originalSlug": "ai-rules-agents-agents-md-908e49bb",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Rules",
-      "bodyHash": "6d414936f7b105bd919b302f47935ab2c6186213eadd8aedf84feff1263ec3b4",
-      "onlineTitle": "第二篇：AGENTS.md 开放标准完全指南",
-      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.953,
-      "lengthRatio": 1.05,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "title": "第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件",
-      "slug": "ai-rules-gemini-copilot-geminicli-copilot-853f4742",
-      "originalId": "6a2d291d8a2b1c68f2cac00c",
-      "originalSlug": "ai-rules-gemini-copilot-geminicli-copilot-853f4742",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Rules",
-      "bodyHash": "d880045a2417509fb770a9c2aed4488c0990104583fef90177d7aece2fb08ca2",
-      "onlineTitle": "第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件",
-      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.958,
-      "lengthRatio": 1.01,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "title": "第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战",
-      "slug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
-      "originalId": "6a2d291d8a2b1c68f2cac002",
-      "originalSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "Rules",
-      "bodyHash": "0ad9c49093dc8288db7c20ae351a5e98050b9495ad1a9aa5e315be1902572347",
-      "onlineTitle": "第四篇：Cursor Rules / Windsurf Rules / Kiro Steering 实战",
-      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Rules"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.936,
-      "lengthRatio": 1.05,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "title": "Agent Skills 团队协作与社区资源",
-      "slug": "ai-skill-agentskills-4a94dc23",
-      "originalId": "6a2d291d8a2b1c68f2cac024",
-      "originalSlug": "ai-skill-agentskills-4a94dc23",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "Skill",
-      "bodyHash": "92928206515523aad8570c180ab2f525250f295488e0e255a1cccd2b1a6bde33",
-      "onlineTitle": "Agent Skills 团队协作与社区资源",
-      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.973,
-      "lengthRatio": 0.98,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "title": "Agent Skills 场景模板与案例库",
-      "slug": "ai-skill-agentskills-a705fbb5",
-      "originalId": "6a2d291d8a2b1c68f2cac01e",
-      "originalSlug": "ai-skill-agentskills-a705fbb5",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "Skill",
-      "bodyHash": "2d47dc065ca69c520c7165d259787bef8fba955214163610b87c28990e4fb2f8",
-      "onlineTitle": "Agent Skills 场景模板与案例库",
-      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.98,
-      "lengthRatio": 0.99,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "title": "Agent Skills 开放标准与各工具兼容性全解",
-      "slug": "ai-skill-agentskills-8ff13a14",
-      "originalId": "6a2d291d8a2b1c68f2cac014",
-      "originalSlug": "ai-skill-agentskills-8ff13a14",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "Skill",
-      "bodyHash": "333cc384d3d0a2d40d7f0bf70b76fa7a006a99921abda87e8bca481f07b25818",
-      "onlineTitle": "Agent Skills 开放标准与各工具兼容性全解",
-      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.975,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "title": "Agent Skills 高级用法与进阶技巧",
-      "slug": "ai-skill-agentskills-b37a5530",
-      "originalId": "6a2d291d8a2b1c68f2cac01a",
-      "originalSlug": "ai-skill-agentskills-b37a5530",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "Skill",
-      "bodyHash": "4a098fd81914d4ac59b9c1da4eb088af1fb57a821aacabc208aca359ccb9a026",
-      "onlineTitle": "Agent Skills 高级用法与进阶技巧",
-      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.984,
-      "lengthRatio": 0.99,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "title": "补充篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）",
-      "slug": "ai-skill-skills-8158d6e4",
-      "originalId": "6a2d291d8a2b1c68f2cac020",
-      "originalSlug": "ai-skill-skills-8158d6e4",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "Skill",
-      "bodyHash": "e1b62a52c57a2ec4e0f2b74791896230a7a4ac04d2d3cc8a18afb13f5a734524",
-      "onlineTitle": "补充篇：前端开发常用 Skills 清单与落地顺序（2026-05复核）",
-      "onlineFile": "AI相关/AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-05复核）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "规则机制层",
-        "Skill"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "locally-modified",
-      "contentSimilarity": 0.951,
-      "lengthRatio": 1.05,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/Node-环境对比报告（DESKTOP-OAP8VID）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "Node 环境对比报告（DESKTOP-OAP8VID）",
-      "slug": "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25",
-      "originalId": "6a2d291d8a2b1c68f2cac04a",
-      "originalSlug": "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "b3ca3fd22c3f3834630a19d979ff2003f420f9102d7fb6dfdba9090feed44c33",
-      "onlineTitle": "Node 环境对比报告（DESKTOP-OAP8VID）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（DESKTOP-OAP8VID）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/Node-环境对比报告（LAPTOP-5AP3767K）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "Node 环境对比报告（LAPTOP-5AP3767K）",
-      "slug": "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4",
-      "originalId": "6a2d291d8a2b1c68f2cac048",
-      "originalSlug": "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "3c0b6a72df71d91f93af3ae15f4e48c06ef31637d814f8a5fa9d43b89e3ca1e6",
-      "onlineTitle": "Node 环境对比报告（LAPTOP-5AP3767K）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（LAPTOP-5AP3767K）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-切换-Codex-Provider-后-Node-调用失败排查修复实录.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "第一篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
-      "slug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
-      "originalId": "6a2d291d8a2b1c68f2cac050",
-      "originalSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "b1ddd3291ab89be63a05da11ca789fdbd672a3885206c3db1e755a80bdabf075",
-      "onlineTitle": "第一篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-切换-Codex-Provider-后-Node-调用失败排查修复实录.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-快速上手与核心概念（v3.16.0）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "第一篇：CC Switch 快速上手与核心概念（v3.16.0）",
-      "slug": "ai-ccswitch-ccswitch-82653641",
-      "originalId": "6a2d291d8a2b1c68f2cac05a",
-      "originalSlug": "ai-ccswitch-ccswitch-82653641",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "5ada2f4752b0d46ceaa9126073ea3583faff2afff81ba4981a64e1b1f77ae95d",
-      "onlineTitle": "第一篇：CC Switch 快速上手与核心概念（v3.16.0）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-快速上手与核心概念（v3.16.0）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/第三篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
-      "slug": "ai-ccswitch-claudecode-mimotokenplan-736772f0",
-      "originalId": "6a2d291d8a2b1c68f2cac062",
-      "originalSlug": "ai-ccswitch-claudecode-mimotokenplan-736772f0",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "be0d60efa856ad82ad2fd3c91e853210170e87e5ceddcad2c996845f2d4de5eb",
-      "onlineTitle": "第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第三篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/第二篇：CC-Switch-接入中转站与计费排查实战（2026-05复核）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "第二篇：CC Switch 接入中转站与计费排查实战（2026-05复核）",
-      "slug": "ai-ccswitch-ccswitch-4cff94a4",
-      "originalId": "6a2d291d8a2b1c68f2cac06a",
-      "originalSlug": "ai-ccswitch-ccswitch-4cff94a4",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "c24b7ad12fd9779c6600d2da95800951f6fc266872bf13ba615f21871f3936fd",
-      "onlineTitle": "第二篇：CC Switch 接入中转站与计费排查实战（2026-05复核）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第二篇：CC-Switch-接入中转站与计费排查实战（2026-05复核）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/第五篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-05-30复核）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "第五篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-05-30复核）",
-      "slug": "ai-ccswitch-ccswitch-2b997b92",
-      "originalId": "6a2d291d8a2b1c68f2cac070",
-      "originalSlug": "ai-ccswitch-ccswitch-2b997b92",
-      "exportedAt": "2026-07-04T07:00:23.238Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "614d3a4eec793028bb274f68ca3af1db2cc96f11f2b40ba96ce3e261bb7a7749",
-      "onlineTitle": "第五篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-05-30复核）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第五篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-05-30复核）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/CCSwitch/第四篇：CC-Switch-跨电脑导出导入与云同步实战（2026-05-30复核）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "title": "第四篇：CC Switch 跨电脑导出导入与云同步实战（2026-05-30复核）",
-      "slug": "ai-ccswitch-ccswitch-0c54d5c6",
-      "originalId": "6a2d291d8a2b1c68f2cac078",
-      "originalSlug": "ai-ccswitch-ccswitch-0c54d5c6",
-      "exportedAt": "2026-07-04T07:00:23.239Z",
-      "frontMatterCategory": "CCSwitch",
-      "bodyHash": "69f03e0dd1ac2d26cdac4bd9bdb747dfac9450af95281f3b280e76ae75780462",
-      "onlineTitle": "第四篇：CC Switch 跨电脑导出导入与云同步实战（2026-05-30复核）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第四篇：CC-Switch-跨电脑导出导入与云同步实战（2026-05-30复核）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "CCSwitch"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/基础与计费/第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "基础与计费"
-      ],
-      "title": "第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）",
-      "slug": "ai-token-ai-72feffb1",
-      "originalId": "6a2d291d8a2b1c68f2cac084",
-      "originalSlug": "ai-token-ai-72feffb1",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "基础与计费",
-      "bodyHash": "8f9428aa19c0c3fefe558613c127077a5a9303118cbc77e42c23abf3fb8f36dd",
-      "onlineTitle": "第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/基础与计费/第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "基础与计费"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "基础与计费"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
-    {
-      "repositoryPath": "AI工具/辅助工具层/基础与计费/第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "基础与计费"
-      ],
-      "title": "第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）",
-      "slug": "ai-7ef116e6",
-      "originalId": "6a2d291d8a2b1c68f2cac08c",
-      "originalSlug": "ai-7ef116e6",
-      "exportedAt": "2026-07-04T07:00:23.240Z",
-      "frontMatterCategory": "基础与计费",
-      "bodyHash": "b99abd75712578152a800495a8db6f6d9bdac4a496eef8dd7b4983df46e5ae30",
-      "onlineTitle": "第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）",
-      "onlineFile": "AI相关/AI工具/辅助工具层/基础与计费/第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）.md",
-      "onlineCategoryPath": [
-        "AI相关",
-        "AI工具",
-        "辅助工具层",
-        "基础与计费"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "AI工具",
-        "辅助工具层",
-        "基础与计费"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "same"
-    },
     {
       "repositoryPath": "AI技术笔记/AI技术知识体系-从核心概念到工程化实战.md",
       "repositoryCategoryPath": [
@@ -4390,38 +1888,6 @@
   "duplicateRepositoryMatches": [],
   "repositoryOnly": [
     {
-      "repositoryPath": "AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "title": "第四篇：Kiro Hooks 自动化机制（2026-07）",
-      "slug": "ai-ai-kiro-kiro-hooks-a4ec7a90",
-      "originalId": "6a2d291d8a2b1c68f2cabec4",
-      "originalSlug": "ai-ai-kiro-kiro-hooks-a4ec7a90",
-      "exportedAt": "2026-07-04T07:00:23.241Z",
-      "frontMatterCategory": "Kiro",
-      "bodyHash": "fa4bdc7153108900b72d4095f88994e7783c08e6fc290598259eb314588a73cb",
-      "originStatus": "previous-export"
-    },
-    {
-      "repositoryPath": "AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
-      "repositoryCategoryPath": [
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
-      "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "Codex",
-      "bodyHash": "b0431c7d639ac83043757fd441ffe69d6c735ffc9ef4207bd10a0a3a328aea4d",
-      "originStatus": "local-new"
-    },
-    {
       "repositoryPath": "未导入线上/AI 应用开发平台/MaxKB/01-实战开发指南/01-从接手环境到发布的标准流程.md",
       "repositoryCategoryPath": [
         "未导入线上",
@@ -5006,6 +2472,23 @@
       "exportedAt": "",
       "frontMatterCategory": "",
       "bodyHash": "a960b1af8c32e54b12cdeee996bea9c7a0cde8df28c521ed96250a68c0445182",
+      "originStatus": "local-new"
+    },
+    {
+      "repositoryPath": "未导入线上/AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
+      "repositoryCategoryPath": [
+        "未导入线上",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
+      "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+      "originalId": "",
+      "originalSlug": "",
+      "exportedAt": "",
+      "frontMatterCategory": "Codex",
+      "bodyHash": "b0431c7d639ac83043757fd441ffe69d6c735ffc9ef4207bd10a0a3a328aea4d",
       "originStatus": "local-new"
     },
     {
@@ -5629,6 +3112,38 @@
       "frontMatterCategory": "",
       "bodyHash": "cc70071e085093c9063917698e885592afd3551768d1a002692217285782f6a2",
       "originStatus": "local-new"
+    },
+    {
+      "repositoryPath": "未导入线上/电脑/系统与文件/Windows-电脑卡死救急与常用快捷键.md",
+      "repositoryCategoryPath": [
+        "未导入线上",
+        "电脑",
+        "系统与文件"
+      ],
+      "title": "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类",
+      "slug": "windows-freeze-rescue-shortcuts",
+      "originalId": "",
+      "originalSlug": "windows-freeze-rescue-shortcuts",
+      "exportedAt": "2026-07-09T21:55:00+08:00",
+      "frontMatterCategory": "系统与文件",
+      "bodyHash": "8537e42cdda65d3c9ced835db43133a7cdf335cdf6afe12474ea9959b0f4f2b1",
+      "originStatus": "previous-export"
+    },
+    {
+      "repositoryPath": "未导入线上/电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md",
+      "repositoryCategoryPath": [
+        "未导入线上",
+        "电脑",
+        "系统与文件"
+      ],
+      "title": "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清",
+      "slug": "windows-basic-concepts-for-beginners",
+      "originalId": "",
+      "originalSlug": "windows-basic-concepts-for-beginners",
+      "exportedAt": "2026-07-09T22:36:00+08:00",
+      "frontMatterCategory": "系统与文件",
+      "bodyHash": "37b62d8c09deff3da9d794aa4d320c95a0aab0b81b7d1fc3a6332129543cf3ab",
+      "originStatus": "previous-export"
     }
   ],
   "onlineOnly": [
@@ -5926,6 +3441,97 @@
       "onlineFile": "后端技术/Node.js/第五篇：npm-包管理与-nvm-版本管理.md"
     },
     {
+      "originalId": "6a2d291d8a2b1c68f2cabf66",
+      "originalSlug": "ai-agent-codex-codex-94189641",
+      "title": "第四篇：Codex 多线路接入与迁移总手册",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf4c",
+      "originalSlug": "ai-agent-codex-codex-cli-10e9408b",
+      "title": "第一篇：Codex CLI 第一日开发实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf80",
+      "originalSlug": "ai-agent-codex-codex-1c9633e1",
+      "title": "第七篇：Codex 当前常用功能与进阶工作流手册",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf78",
+      "originalSlug": "ai-agent-codex-codex-9cf3fc01",
+      "title": "第六篇：Codex 命令与配置文件速查",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf6e",
+      "originalSlug": "ai-agent-codex-codex-cli-app-afad6d17",
+      "title": "第五篇：Codex CLI / 插件 / App 三端联动实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf5a",
+      "originalSlug": "ai-agent-codex-codex-edeadb5e",
+      "title": "第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf50",
+      "originalSlug": "ai-agent-codex-codex-cli-64e9fd24",
+      "title": "第二篇：Codex CLI 英文终端界面翻译与排错",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md"
+    },
+    {
       "originalId": "6a2d291f8a2b1c68f2cac510",
       "originalSlug": "vpn-0373b572",
       "title": "代理网络问题处理指南",
@@ -5950,9 +3556,659 @@
       "onlineFile": "常用缺易忘/工具速查/Git/Git-命令速查与常见问题.md"
     },
     {
+      "originalId": "6a2d291d8a2b1c68f2cac070",
+      "originalSlug": "ai-ccswitch-ccswitch-2b997b92",
+      "title": "第五篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-05-30复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第五篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-05-30复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac078",
+      "originalSlug": "ai-ccswitch-ccswitch-0c54d5c6",
+      "title": "第四篇：CC Switch 跨电脑导出导入与云同步实战（2026-05-30复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第四篇：CC-Switch-跨电脑导出导入与云同步实战（2026-05-30复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac06a",
+      "originalSlug": "ai-ccswitch-ccswitch-4cff94a4",
+      "title": "第二篇：CC Switch 接入中转站与计费排查实战（2026-05复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第二篇：CC-Switch-接入中转站与计费排查实战（2026-05复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac05a",
+      "originalSlug": "ai-ccswitch-ccswitch-82653641",
+      "title": "第一篇：CC Switch 快速上手与核心概念（v3.16.0）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-快速上手与核心概念（v3.16.0）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac050",
+      "originalSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
+      "title": "第一篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-切换-Codex-Provider-后-Node-调用失败排查修复实录.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf3e",
+      "originalSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
+      "title": "第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf22",
+      "originalSlug": "ai-agent-claudecode-claudecode-8b6661f9",
+      "title": "第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf2a",
+      "originalSlug": "ai-agent-claudecode-claudecode-083e790a",
+      "title": "第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf18",
+      "originalSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
+      "title": "第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf36",
+      "originalSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
+      "title": "第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf46",
+      "originalSlug": "ai-agent-claudecode-claudecode-76aa3c89",
+      "title": "第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "ClaudeCode"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac020",
+      "originalSlug": "ai-skill-skills-8158d6e4",
+      "title": "补充篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfa6",
+      "originalSlug": "ai-mcp-mcp-mcp-d20641b2",
+      "title": "03：前端开发常用 MCP 清单与选型建议（2026-07复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/03：前端开发常用-MCP-清单与选型建议（2026-07复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac01e",
+      "originalSlug": "ai-skill-agentskills-a705fbb5",
+      "title": "Agent Skills 场景模板与案例库",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf9c",
+      "originalSlug": "ai-mcp-mcp-mcp-ce5df958",
+      "title": "02：常用 MCP 分类与选型总览",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/02：常用-MCP-分类与选型总览.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac024",
+      "originalSlug": "ai-skill-agentskills-4a94dc23",
+      "title": "Agent Skills 团队协作与社区资源",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac01a",
+      "originalSlug": "ai-skill-agentskills-b37a5530",
+      "title": "Agent Skills 高级用法与进阶技巧",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac014",
+      "originalSlug": "ai-skill-agentskills-8ff13a14",
+      "title": "Agent Skills 开放标准与各工具兼容性全解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Skill"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfe4",
+      "originalSlug": "ai-plugin-plugin-a8202a00",
+      "title": "第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfde",
+      "originalSlug": "ai-plugin-claudecode-claudecodeplugin-ed613976",
+      "title": "第三篇：Claude Code Plugin 体系详解与实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfd6",
+      "originalSlug": "ai-plugin-codex-codexplugin-9b9edb10",
+      "title": "第二篇：Codex Plugin 体系详解与实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfcc",
+      "originalSlug": "ai-plugin-plugin-da2ad951",
+      "title": "第一篇：Plugin 插件是什么，为什么需要它",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Plugin"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfb6",
+      "originalSlug": "ai-mcp-c534a7cb",
+      "title": "06：MCP 项目落地与收益评估问题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/06：MCP-项目落地与收益评估问题.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfbc",
+      "originalSlug": "ai-mcp-ede3e0c8",
+      "title": "05：MCP 架构与安全边界问题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/05：MCP-架构与安全边界问题.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfb0",
+      "originalSlug": "ai-mcp-83743b3f",
+      "title": "04：MCP 概念与主流度问题",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/04：MCP-概念与主流度问题.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac062",
+      "originalSlug": "ai-ccswitch-claudecode-mimotokenplan-736772f0",
+      "title": "第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/第三篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf96",
+      "originalSlug": "ai-mcp-mcp-067b747a",
+      "title": "01：MCP 是什么与开放标准核心认知",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/01：MCP-是什么与开放标准核心认知.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac040",
+      "originalSlug": "ai-agent-openclaw101-7-7f46689a",
+      "title": "第四篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第四篇：OpenClaw101-全7天资料总研版（龙虾中文版可执行手册）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac03e",
+      "originalSlug": "ai-agent-aafa4c54",
+      "title": "第六篇：龙虾命令与配置文件一页速查图",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第六篇：龙虾命令与配置文件一页速查图.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac03a",
+      "originalSlug": "ai-agent-openclaw101-7-98f47885",
+      "title": "第五篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第五篇：OpenClaw101-全7天逐命令拆解（龙虾中文版超详细手册）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac036",
+      "originalSlug": "ai-agent-openclaw-4d87088b",
+      "title": "第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第二篇：OpenClaw-CN-0.1.7-命令配置与重启排障全手册（Windows）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac034",
+      "originalSlug": "ai-agent-openclaw101day1-2082ef14",
+      "title": "第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第三篇：OpenClaw101-Day1-知识全景与命令配置实战（认知与灵魂篇）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac02e",
+      "originalSlug": "ai-agent-openclaw-4d55dcf1",
+      "title": "第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "Agent框架层",
+        "龙虾"
+      ],
+      "onlineFile": "AI相关/AI工具/Agent框架层/龙虾/第一篇：OpenClaw-本地部署实战（从安装到龙虾内容生产）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfc6",
+      "originalSlug": "ai-mcp-mcp-79fea32a",
+      "title": "07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/07：谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf88",
+      "originalSlug": "ai-agent-gemini-mcp-4c54d61a",
+      "title": "Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Gemini"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Gemini/Gemini-目录补充说明：谷歌-MCP-配置手册放在哪里看.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac04a",
+      "originalSlug": "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25",
+      "title": "Node 环境对比报告（DESKTOP-OAP8VID）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（DESKTOP-OAP8VID）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac048",
+      "originalSlug": "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4",
+      "title": "Node 环境对比报告（LAPTOP-5AP3767K）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "CCSwitch"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（LAPTOP-5AP3767K）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac08c",
+      "originalSlug": "ai-7ef116e6",
+      "title": "第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "基础与计费"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/基础与计费/第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac084",
+      "originalSlug": "ai-token-ai-72feffb1",
+      "title": "第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "辅助工具层",
+        "基础与计费"
+      ],
+      "onlineFile": "AI相关/AI工具/辅助工具层/基础与计费/第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac00c",
+      "originalSlug": "ai-rules-gemini-copilot-geminicli-copilot-853f4742",
+      "title": "第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac002",
+      "originalSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
+      "title": "第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Devin-Windsurf-Rules-Kiro-Steering-实战.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabff8",
+      "originalSlug": "ai-rules-claude-claude-md-claudecode-ff6cd587",
+      "title": "第三篇：CLAUDE.md 与 Claude Code 记忆系统",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabff0",
+      "originalSlug": "ai-rules-agents-agents-md-908e49bb",
+      "title": "第二篇：AGENTS.md 开放标准完全指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabfe8",
+      "originalSlug": "ai-rules-ai-e659b444",
+      "title": "第一篇：AI 工具规则文档是什么，为什么需要它",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "Rules"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf90",
+      "originalSlug": "ai-mcp-848a18d2",
+      "title": "MCP 学习导航与维护路线",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "规则机制层",
+        "MCP"
+      ],
+      "onlineFile": "AI相关/AI工具/规则机制层/MCP/MCP-学习导航与维护路线.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf0c",
+      "originalSlug": "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9",
+      "title": "第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第四篇：Windsurf-Rules、AGENTS.md、Skills、Workflows-项目治理实战（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabf06",
+      "originalSlug": "ai-ai-windsurf-windsurf-2-0-devin-78b4664a",
+      "title": "第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第五篇：Windsurf-2.0-与-Devin-集成实战（2026-05）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabefc",
+      "originalSlug": "ai-ai-windsurf-windsurf-4667d3b6",
+      "title": "第二篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第二篇：Windsurf-官方文档深度拆解，最新能力与工作流（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabef6",
+      "originalSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
+      "title": "第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第三篇：Windsurf-Code-Plan-Ask-三种模式分工与切换策略（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeee",
+      "originalSlug": "ai-ai-windsurf-windsurf-d941c66c",
+      "title": "第一篇：Windsurf 快速上手与核心能力（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Windsurf"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Windsurf/第一篇：Windsurf-快速上手与核心能力（2026-04）.md"
+    },
+    {
       "originalId": "6a2d291d8a2b1c68f2cabee8",
       "originalSlug": "ai-ai-kiro-kiro-hooks-4b92a74f",
-      "title": "第四篇：Kiro Hooks 自动化机制（2026-04）",
+      "title": "第四篇：Kiro Hooks 自动化机制（2026-07）",
       "contentMode": "markdown",
       "categoryPath": [
         "AI相关",
@@ -5960,7 +4216,252 @@
         "AI编辑器流",
         "Kiro"
       ],
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-04）.md"
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabed8",
+      "originalSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
+      "title": "第五篇：Kiro MCP 集成与工具扩展（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabee0",
+      "originalSlug": "ai-ai-kiro-kiro-bee7077a",
+      "title": "第六篇：Kiro 工作流实战与最佳实践（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabed2",
+      "originalSlug": "ai-ai-kiro-kiro-specs-c09713f2",
+      "title": "第二篇：Kiro Specs 规格系统详解（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabec8",
+      "originalSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
+      "title": "第三篇：Kiro Steering 上下文管理（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabec0",
+      "originalSlug": "ai-ai-kiro-kiro-4ba05074",
+      "title": "第一篇：Kiro 快速上手与核心概念（2026-07）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeba",
+      "originalSlug": "ai-ai-cursor-cursor-terminalcli-git-84f595c7",
+      "title": "第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第四篇：Cursor-项目实战：Terminal、CLI-与-Git-工作流（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeb2",
+      "originalSlug": "ai-ai-cursor-cursor-mcp-shellmode-144315a1",
+      "title": "第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第六篇：Cursor-工具权限：MCP、Shell-Mode-与安全边界（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabeac",
+      "originalSlug": "ai-ai-cursor-cursor-bc1e7a3a",
+      "title": "第八篇：Cursor 数据科学、远程环境与常见问题（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第八篇：Cursor-数据科学、远程环境与常见问题（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabea4",
+      "originalSlug": "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89",
+      "title": "第五篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第五篇：Cursor-协作自动化：Background-Agents、Bugbot、GitHub-与-Slack（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe9c",
+      "originalSlug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
+      "title": "第二篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第二篇：Cursor-核心交互：Agent、Ask、Tab-与-Inline-Edit（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe96",
+      "originalSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
+      "title": "第三篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第三篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe90",
+      "originalSlug": "ai-ai-cursor-cursor-4dfc49b1",
+      "title": "第七篇：Cursor 模型、隐私与团队企业治理（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第七篇：Cursor-模型、隐私与团队企业治理（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe88",
+      "originalSlug": "ai-ai-cursor-cursor-40faf5ca",
+      "title": "第一篇：Cursor 上手、迁移与索引配置（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第一篇：Cursor-上手、迁移与索引配置（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe80",
+      "originalSlug": "ai-ai-catpaw-catpaw-e217fd6c",
+      "title": "第4篇：CatPaw上下文与预览调试",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe76",
+      "originalSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
+      "title": "第5篇：CatPaw Rules与MCP扩展",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe6c",
+      "originalSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
+      "title": "第2篇：CatPaw核心功能详解",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe62",
+      "originalSlug": "ai-ai-catpaw-catpaw-ai-87736891",
+      "title": "第3篇：CatPaw AI助手使用指南",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe58",
+      "originalSlug": "ai-ai-catpaw-catpaw-2afcb185",
+      "title": "第1篇：CatPaw介绍与快速上手",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "CatPaw"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe4e",
+      "originalSlug": "ai-cd17bf62",
+      "title": "AI工具知识库总导航",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具"
+      ],
+      "onlineFile": "AI相关/AI工具/AI工具知识库总导航.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6ce",

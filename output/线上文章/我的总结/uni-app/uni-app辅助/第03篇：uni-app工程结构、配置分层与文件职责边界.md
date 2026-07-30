@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac46c"
 originalSlug: "uni-app-uni-app-5d3131e1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 ## uni-app 工程结构、配置分层与文件职责边界
 

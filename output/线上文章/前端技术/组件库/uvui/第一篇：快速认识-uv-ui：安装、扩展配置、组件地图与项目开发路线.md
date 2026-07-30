@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac668"
 originalSlug: "uv-ui-uvui-uv-ui-4162c705"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第一篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目开发路线
 

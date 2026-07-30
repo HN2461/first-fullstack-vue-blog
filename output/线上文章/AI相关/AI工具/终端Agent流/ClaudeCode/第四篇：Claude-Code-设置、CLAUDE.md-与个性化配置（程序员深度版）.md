@@ -1,7 +1,7 @@
 ---
 title: "第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-76aa3c89"
-summary: "基于 2026-05-30 Claude Code 官方 Settings、Model Config、Permission Modes、Sandboxing、Statusline 与 Keybindings 文档重写，重点说明程序员最需要掌握的配置层级、CLAUDE.md 写法、模式选择、模型与 effort 理解以及常见误配排查。"
+summary: "基于 2026-07-04 Claude Code 官方 Settings、Model Config、Permission Modes、Sandboxing、Statusline 与 Keybindings 文档复核更新，重点说明程序员最需要掌握的配置层级、CLAUDE.md 写法、模式选择、模型与 effort 理解以及常见误配排查。"
 category: "ClaudeCode"
 tags:
   - "Claude Code"
@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf46"
 originalSlug: "ai-agent-claudecode-claudecode-76aa3c89"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）
 
@@ -174,12 +174,14 @@ Claude Code 的配置，最怕的不是少，而是乱。
 
 从程序员角度，权限模式要按风险和确定性来选，而不是按“想不想少点确认弹窗”来选。
 
-### 适合 `default` 的场景
+### 适合 `default` / Manual 的场景
 
 - 第一次接手仓库
 - 先分析、不急着动手
 - 需求还在澄清中
 - 你还在观察 Claude 的行为风格
+
+`default` 是配置值，CLI 界面里现在更常见的显示名是 `Manual`，新版也接受 `manual` 作为别名。
 
 ### 适合 `acceptEdits` 的场景
 
@@ -201,7 +203,13 @@ Claude Code 的配置，最怕的不是少，而是乱。
 - 验证路径清楚
 - 你已经比较了解 Claude 在这个项目里的行为
 
-### 为什么不建议新手一上来就 `dontAsk` / `bypassPermissions`
+当前官方把 `auto` 定义为带后台安全检查的自动模式。它能减少大量权限确认，但可能受组织设置、模型、provider 和环境限制；不要把“我这里没有 auto”直接理解成安装坏了。
+
+### 适合 `dontAsk` 的场景
+
+`dontAsk` 只允许预先批准过的工具自动运行，更像 CI、脚本化和严控 allowlist 的模式。它不会进入 `Shift+Tab` 循环，需要显式指定。
+
+### 为什么不建议新手一上来就 `bypassPermissions`
 
 因为程序员真正想要的是“减少无意义确认”，不是“失去可控边界”。  
 前者靠规则和上下文也能做到很多，后者则会直接放大误操作风险。
@@ -236,7 +244,13 @@ Claude Code 的配置，最怕的不是少，而是乱。
 ### 模型
 
 模型决定的是底层能力特征。  
-按官方当前 `model config` 文档，`default` 别名会因不同计划或平台而映射到不同模型族。
+按官方当前 `model config` 文档，`default` 别名会因不同计划或平台而映射到不同模型族。当前官方命令里常见的模型别名包括：
+
+- `best`：系统自动选择最合适模型
+- `opus`：Claude Opus 4.8 级别能力
+- `sonnet`：Claude Sonnet 5 级别能力
+- `haiku`：轻量、低延迟任务
+- `fable`：适合文档、写作、清晰沟通类任务
 
 对程序员来说，最实用的理解是：
 
@@ -255,6 +269,8 @@ Claude Code 的配置，最怕的不是少，而是乱。
 - 复杂重构
 - 方案比较
 - 很容易因为想漏边界而返工的任务
+
+当前官方常见档位包括 `low`、`medium`、`high`、`xhigh`、`max`、`ultracode`。`auto` 不是“最高档”，而是恢复模型默认判断。
 
 ### 上下文
 
@@ -379,10 +395,11 @@ skill 的名字、description、任务定位如果太模糊，就会直接影响
 
 1. 建一个简洁但高质量的 `CLAUDE.md`
 2. 把共享规则和个人偏好拆开
-3. 默认模式保持在 `default` 或 `acceptEdits`
+3. 默认模式保持在 `default` / Manual 或 `acceptEdits`
 4. 复杂任务时再切 `plan` 和更高 `effort`
 5. 装扩展后先检查 `/skills`、`/mcp`、`/plugin`
-6. 遇到长会话混乱时优先处理上下文
+6. 用 `/memory` 定期审计 auto memory
+7. 遇到长会话混乱时优先处理上下文
 
 这个顺序的核心优点是：
 

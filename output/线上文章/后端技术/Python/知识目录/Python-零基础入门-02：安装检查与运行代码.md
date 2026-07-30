@@ -12,7 +12,7 @@ cover: ""
 originalId: "6a4a4304f9ac958d29176032"
 originalSlug: "python-zero-install-and-run"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Python 零基础入门 02：安装检查与运行代码
 

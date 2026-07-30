@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac732"
 originalSlug: "websocket-websocket-de1a1d83"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # WebSocket 接入检查清单：从协议确认到页面联调
 

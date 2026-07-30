@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5ac"
 originalSlug: "mongodb-ad14cd5a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第 5 篇：MongoDB 生产安全、连接与备份
 

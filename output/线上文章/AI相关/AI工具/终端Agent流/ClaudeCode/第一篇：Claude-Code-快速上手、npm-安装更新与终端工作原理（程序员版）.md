@@ -1,7 +1,7 @@
 ---
 title: "第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）"
 slug: "ai-agent-claudecode-claudecode-4c9d5bfe"
-summary: "基于 2026-05-30 Claude Code 官方 Getting Started、Installation、Interactive Mode、Commands、Permission Modes 与 How Claude Code Works 文档重写，聚焦程序员真正需要的 npm 安装更新、终端读屏、权限模式与第一轮最小工作流。"
+summary: "基于 2026-07-04 Claude Code 官方 Setup、Interactive Mode、Commands、Permission Modes 与 How Claude Code Works 文档复核更新，聚焦程序员真正需要的安装更新、终端读屏、权限模式与第一轮最小工作流。"
 category: "ClaudeCode"
 tags:
   - "Claude Code"
@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf18"
 originalSlug: "ai-agent-claudecode-claudecode-4c9d5bfe"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）
 
@@ -42,7 +42,13 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 ## 1. 程序员最常用的主线：`npm` 安装与更新
 
 如果面向程序员写 Claude Code，`npm` 不能只是顺带一提。  
-按 2026-05-30 我复核的官方文档，`npm` 现在仍然是官方支持的常用安装方式之一。
+按 2026-07-04 我复核的官方文档，Claude Code 现在更推荐优先使用官方原生安装器、Homebrew 或 WinGet；`npm` 仍然是官方支持的全局安装方式之一，尤其适合已经习惯 Node/npm 工具链的程序员。
+
+如果你是第一次安装，先记住这条最新主线：
+
+- 原生安装器：自动后台更新，官方当前推荐优先使用
+- Homebrew / WinGet / Linux 包管理器：由包管理器负责升级
+- npm：仍可用，但要注意 Node 版本和 optional dependencies
 
 ### 安装
 
@@ -50,12 +56,23 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 npm install -g @anthropic-ai/claude-code
 ```
 
-官方当前要求是 `Node.js 18+`。  
-另外有个关键点要知道：虽然你是通过 npm 安装，但拉下来的不是“纯 JS 小脚本”，而是对应平台的 Claude Code 二进制。
+官方当前 npm 包从 `v2.1.198` 起要求 `Node.js 22+`。  
+如果你的 Node 版本更旧，npm 可能只给 `EBADENGINE` 警告而不是直接失败，因为 npm 包最终下载的是对应平台的原生 Claude Code 二进制，`claude` 运行时并不靠 Node 执行。
+
+另外有两个关键点要知道：
+
+- npm 必须允许安装 optional dependencies，否则平台二进制可能缺失
+- 不要用 `sudo npm install -g`，权限问题和安全风险都更高
 
 ### 更新
 
-如果你走的是 npm 线路，最稳的更新命令是：
+如果你走的是原生安装器，Claude Code 会自动后台更新；如果想立刻更新，可以用：
+
+```bash
+claude update
+```
+
+如果你走的是 npm 线路，最稳的更新命令仍然是：
 
 ```bash
 npm install -g @anthropic-ai/claude-code@latest
@@ -74,6 +91,7 @@ npm update -g @anthropic-ai/claude-code
 1. 不要混用多种安装渠道
 2. 更新异常先看 `claude doctor`
 3. 如果版本不对，先查 PATH 里到底哪一份 `claude` 在生效
+4. npm 线路遇到二进制缺失，先查 optional dependencies 是否被禁用
 
 ---
 
@@ -207,9 +225,10 @@ flowchart TD
 
 前期不用把所有模式都记全，先知道这 4 个就够：
 
-### `default`
+### `default` / Manual
 
-最稳，适合第一次进项目和先分析后改动。
+最稳，适合第一次进项目和先分析后改动。  
+官方配置值仍然叫 `default`，但在 CLI、IDE 插件和帮助信息里现在通常显示为 `Manual`。新版 CLI 也接受 `manual` 作为别名。
 
 ### `acceptEdits`
 
@@ -222,7 +241,11 @@ flowchart TD
 ### `auto`
 
 更偏效率推进，但不是每个人都会看到。  
-如果主人平时没见过 `auto`，大概率是你的账号或运行场景本来就不显示它。
+官方当前把它定义成带后台安全检查的自动模式，适合方向明确、验证路径清楚、你愿意减少权限弹窗的长任务。它受账号、组织设置、模型和 provider 限制影响；如果主人平时没见过 `auto`，大概率是当前环境本来就不满足显示条件。
+
+### `dontAsk`
+
+只允许预先批准过的工具自动执行，更适合 CI、脚本化和锁得很紧的环境。普通交互开发第一天不用急着碰它。
 
 再补一个非常实用的官方快捷键：
 
@@ -230,12 +253,17 @@ flowchart TD
 
 按 Claude Code 官方 `permission-modes` 和 `interactive-mode` 文档，CLI 里可以直接用 `Shift+Tab` 在：
 
-- `default`
+- `default` / Manual
 - `acceptEdits`
 - `plan`
-- 以及你启用过的 `auto`、`bypassPermissions`
+- 以及当前环境启用过的 `bypassPermissions`、`auto`
 
 这些模式之间切换。
+
+注意两个最新边界：
+
+- `dontAsk` 不进入 `Shift+Tab` 循环，需要显式用 `--permission-mode dontAsk`
+- `bypassPermissions` 只适合隔离容器或虚拟机，不适合日常真实仓库
 
 ---
 
@@ -248,6 +276,9 @@ flowchart TD
 - `/resume`：恢复会话
 - `/compact`：压缩上下文
 - `/doctor`：排查安装和环境问题
+- `/debug`：诊断运行时或配置问题
+- `/model`：切模型，当前官方别名包括 `sonnet`、`opus`、`haiku`、`fable`、`best` 等
+- `/effort`：切推理投入，当前常见档位包括 `low`、`medium`、`high`、`xhigh`、`max`、`ultracode`
 - `/skills`：看当前能发现的 skills / commands
 - `/mcp`：看当前 MCP 状态
 
@@ -327,8 +358,8 @@ flowchart TD
 
 ## 9. 读完这篇后，主人马上该做什么
 
-1. 先用 `npm install -g @anthropic-ai/claude-code` 跑通安装
-2. 记住更新命令是 `npm install -g @anthropic-ai/claude-code@latest`
+1. 新用户优先考虑官方原生安装器；如果走 npm，先确认 Node.js 22+
+2. 记住原生安装可用 `claude update`，npm 更新用 `npm install -g @anthropic-ai/claude-code@latest`
 3. 用 `where.exe claude` 或 `which claude` 看当前生效路径
 4. 进一个真实仓库运行 `claude`
 5. 先解释、再小改、再验证，做完第一轮最小任务

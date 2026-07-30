@@ -16,15 +16,15 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf80"
 originalSlug: "ai-agent-codex-codex-1c9633e1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第七篇：Codex 当前常用功能与进阶工作流手册
 
-> 更新时间：2026-05-31  
-> 定位：主线大总手册。专门解决“我知道 Codex 大概能做什么，但开发时到底该用哪个入口、哪些旧说法该删、哪些进阶能力该什么时候补”的问题。  
-> 适合谁看：主人已经开始真正把 Codex 用进日常开发，希望文档既能查功能，也能防止自己继续按旧认知误用。  
-> 本篇原则：把原本分散在“当前常用功能”“官方进阶补充”“最近更新差异”里的重复内容合成一篇，主线只保留真正值得长期查的东西。  
-> 前置建议：第三篇先读配置总手册，第五篇看三端联动；官方进阶、桌面端和 IDE 新能力统一在本篇维护。  
+> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列、Windows App 26.721.4979.0 与模型目录复核）
+> 定位：主线大总手册。专门解决“我知道 Codex 大概能做什么，但开发时到底该用哪个入口、哪些旧说法该删、哪些进阶能力该什么时候补”的问题。
+> 适合谁看：主人已经开始真正把 Codex 用进日常开发，希望文档既能查功能，也能防止自己继续按旧认知误用。
+> 本篇原则：把原本分散在“当前常用功能”“官方进阶补充”“最近更新差异”里的重复内容合成一篇，主线只保留真正值得长期查的东西。
+> 前置建议：第三篇先读配置总手册，第五篇看三端联动；官方进阶、桌面端和 IDE 新能力统一在本篇维护。
 > 小白读完目标：你应该能知道今天开发时最常用的功能分别从 CLI、IDE、App 的哪个入口进入，也能知道 `codex exec`、MCP 治理、profile、Windows / WSL、最近产品升级这些内容该怎么放进长期工作流。
 
 章节导航（点击跳转）：
@@ -50,51 +50,35 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 
 ---
 
-## 1. 模型：先分清“默认本地示例”和“专门编码模型”
+## 1. 模型：GPT-5.6 要按任务角色选，不再固定一个默认名
 
-这是现在最容易写乱的一块。
+当前 Codex CLI 模型目录已经进入 GPT-5.6 分层：
 
-按 OpenAI 官方当前 Codex 模型页，更稳妥的使用顺序是：
+| 模型 | 定位 | 适合场景 |
+|---|---|---|
+| `gpt-5.6-sol` | 最新旗舰 Agent 编码模型 | 最难的重构、复杂排错、研究和质量优先任务 |
+| `gpt-5.6-terra` | 日常平衡档 | 常规读仓库、改代码、补测试、写文档和多数桌面 App 任务 |
+| `gpt-5.6-luna` | 快速轻量档 | 高吞吐整理、分类、简单检查和严格延迟任务 |
+| `gpt-5.5` | 上一代旗舰 | 既有配置、第三方 provider 或兼容场景 |
 
-1. 大多数 Codex 任务，先从 `gpt-5.5` 开始
-2. 轻量任务或子代理场景，可以考虑 `gpt-5.4-mini`
-3. 如果你明确需要专门的复杂软件工程编码模型，可以再对照 `gpt-5.3-codex`
-4. `gpt-5.3-codex-spark` 属于研究预览里的近实时编码迭代模型，不该再写成通用默认答案
+更稳妥的选择顺序是：
 
-这几项给主人开发时分别怎么理解：
+1. 日常任务先评估 `gpt-5.6-terra`
+2. 任务很难、失败代价高或质量优先时切 `gpt-5.6-sol`
+3. 任务简单、量大、延迟敏感时评估 `gpt-5.6-luna`
+4. 既有第三方线路不要只因为名字旧就机械升级，先看后台是否真实支持 GPT-5.6
 
-### 1.1 `gpt-5.5`
+### 1.1 推理强度也要跟模型一起看
 
-适合作为今天文档里的默认本地示例模型。
+当前 CLI 中，Sol 和 Terra 可见 `low / medium / high / xhigh / max / ultra`，Luna 可见到 `max`，旧模型通常只到 `xhigh`。不同版本和账号仍可能不同，所以：
 
-推荐用法：
+1. 以当前 `/model` 列表为准
+2. 日常任务从模型默认档或 `medium` 起步
+3. Sol 当前默认可以从较低 effort 开始，难任务再逐级提高
+4. `max` 和 `ultra` 不是长期默认；只有代表性任务证明质量收益时才使用
+5. CLI 档位和 API 的 `reasoning.effort` 不能直接混写
 
-1. 初次接项目、要读代码、改代码、跑工具、做较复杂分析时，优先用它起步
-2. 如果你是从桌面 App、IDE 扩展或 CLI 本地线程进入，大多数情况下先让文档默认示例写成它最稳
-3. 如果你走的是第三方网关，只有在后台真实开放时才填它，不要盲目照抄
-
-### 1.2 `gpt-5.4-mini`
-
-适合更快、更便宜的轻量场景。
-
-典型场景：
-
-1. 快速整理 TODO
-2. 做子任务拆分
-3. 跑轻量分析或低风险改动
-4. 给子代理或批量小任务用
-
-### 1.3 `gpt-5.3-codex`
-
-它不是“过时不能提”，但已经不该写成你文档里的统一默认入口。
-
-今天更准确的定位是：
-
-1. 它仍然是复杂软件工程场景里很强的专门编码模型
-2. 它的编码能力现在也已经服务于更上层的 GPT-5.4 体系
-3. 它可以保留在“可选模型说明”里，但不该继续写成“多数人默认先填它”
-
-### 1.4 第三方线路该怎么写模型，才不会过时
+### 1.2 第三方线路该怎么写模型，才不会过时
 
 任何第三方线路都建议统一用这句模板：
 
@@ -104,187 +88,24 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 
 ---
 
-## 2. App：当前最常用的工作流能力，不再只是聊天窗口
-
-现在主人如果主要用桌面 App，最常用的能力点建议按下面顺序掌握。
-
-### 2.1 `Worktrees`
-
-这是桌面端最值得优先学会的能力之一。
-
-它解决的问题不是“怎么切分支”，而是：
-
-1. 同一仓库的不同任务，如何隔离上下文和改动
-2. 长任务、并行任务、试验任务，如何不互相污染
-3. 同一个项目，如何让不同线程始终回到自己的那套背景环境
-
-主人开发时的正确用法：
-
-1. 一个需求一个 worktree
-2. 需要并行推进两个方向时，不要在同一个工作目录硬切来切去
-3. 需要暂时把线程切回本地或交给云端时，优先沿用原 worktree，而不是重新开一个陌生环境
-
-该删掉的旧描述：
-
-1. “一个项目通常就只开一个目录配一个会话”
-2. “多线程主要靠聊天记录区分”
-
-### 2.2 `Handoff`
-
-官方把 handoff 放在 `Worktrees` 工作流里讲，说明它不是边角功能。
-
-主人可以把它理解成：
-
-1. 线程不是被锁死在一个执行环境里
-2. 同一条任务链可以在 Local、Worktree、Cloud 之间流转
-3. 回切时，Codex 会尽量回到原来的关联环境，而不是把上下文拆散
-
-适合的场景：
-
-1. 本地先梳理问题，再交给云端长跑
-2. 云端先出一个版本，再回本地精修与验证
-3. 临时把 worktree 任务切回 Local 处理特殊验证
-
-### 2.3 `Local environments`
-
-这不是简单的“在本地开个 shell”，而是把项目环境准备做成可重复、可复用的定义。
-
-官方示例里明确提到 setup script，比如：
-
-```bash
-npm install
-npm run build
-```
-
-主人开发时怎么用最值：
-
-1. 把新项目第一次必跑的依赖安装和初始构建写进 setup
-2. 平台有差异时，给 macOS、Windows、Linux 分别定义
-3. 高频命令尽量做成 action，减少每次手敲
-
-该删掉的旧描述：
-
-1. “环境准备靠你自己记住一串命令就行”
-2. “Codex 只负责聊天，环境还是纯手工”
-
-### 2.4 `Automations`
-
-Automations 说明桌面 App 已经不只是一次性会话工具。
-
-官方当前文档里，至少要分清两类：
-
-1. 常规自动化：按计划跑固定任务，例如巡检、报表、错误归类
-2. Thread automations：贴着同一条线程反复唤醒，保留上下文，适合持续跟进同一件事
-
-主人开发时最实用的用法：
-
-1. 定时检查最近代码变更并输出摘要
-2. 周期性跑日志/遥测问题归类
-3. 对某个长任务做“隔一段时间自动继续 / 自动跟进”
-
-### 2.5 `Built-in Git`
-
-桌面 App 当前已经有明确的 Git 工作流，不该再写成“最后还是要切回外部终端看 diff”。
-
-官方明确提到：
-
-1. diff pane 能直接看本地项目或 worktree 的 Git diff
-2. 可以加 inline comments 让 Codex 精准修正
-3. 可以直接在 App 内 stage / revert 特定文件、特定 hunk，甚至 commit、push、create PR
-
-主人开发时建议这样用：
-
-1. 改完先在 review / diff 面板看结果
-2. 不满意就局部 revert，不要整批推翻
-3. 需要和 Codex 对某一段改动继续对话时，用 inline comments 比一句泛泛的“这里不对”更有效
-
-### 2.6 `Review pane`
-
-这是现在文档里非常值得单独保留的能力。
-
-它不仅是“看 diff”，还承担下面这些用途：
-
-1. 承接 `/review` 的代码审查结果
-2. 承接 PR review comments
-3. 让你在同一个面板里处理 diff、评论和 Git 操作
-
-官方当前流程强调：
-
-1. 如果有 GitHub 权限，并且项目当前就在 PR 分支上，App 可以直接读 PR 上下文和 reviewer feedback
-2. `gh auth login` 配好后，review pane 能更完整地加载 PR 细节
-3. 你可以直接在 review pane 里边看评论边让 Codex 修
-
-### 2.7 `Integrated terminal`
-
-这也是高频必会功能。
-
-官方明确说明：
-
-1. 每条线程都带一个内置终端
-2. 终端范围绑定当前项目或当前 worktree
-3. Codex 可以读取当前终端输出，所以它能根据失败的构建、开发服务器状态继续协作
-
-主人最常用的几种用法：
-
-1. `git status`
-2. `git pull --rebase`
-3. `npm test` / `pnpm test`
-4. `npm run lint`
-5. 看开发服务器是否真的跑起来
-
-这块该删掉的旧描述：
-
-1. “App 主要看聊天，命令验证还是得来回切终端”
-
-### 2.8 `In-app browser`
-
-它的价值不是替代你日常浏览器，而是把“预览 / 评论 / 反馈”拉回同一条开发线程里。
-
-官方当前边界也写得很清楚：
-
-1. 适合看本地开发服务器、文件预览和不需要登录的公开页面
-2. 不支持认证流程、登录态、你常用浏览器的 cookie、扩展和既有标签页
-3. 可以对页面具体区域加评论，再让 Codex 按这些评论改
-
-所以正确写法是：
-
-1. 它适合开发迭代
-2. 它不是拿来跑复杂登录流程的主浏览器
-
-### 2.9 `Computer use`
-
-这条一定要写准确。
-
-官方当前页面明确说明：
-
-1. 它可以让 Codex 通过看、点、输来操作 macOS app
-2. 适合测试桌面 App、浏览器流程、模拟器流程、GUI-only bug 复现
-3. 因为会影响项目工作区之外的系统状态，所以任务要收窄、权限提示要认真看
-4. 启动时不在欧洲经济区、英国、瑞士开放
-
-该删掉的旧描述：
-
-1. “Computer use 就是桌面版默认什么都能点”
-2. “Windows / macOS 都等价支持”
-
-### 2.10 Windows-native 与 WSL agent
-
-这块现在已经不能简单写成“推荐 WSL，原生 Windows 凑合”。
-
-官方当前口径更准确的是：
-
-1. App 支持 Windows-native agent，用 PowerShell + native Windows sandbox 跑
-2. 也支持切到 WSL agent
-3. agent 和 integrated terminal 是可以独立配置的
-4. WSL1 现在已经不再支持
-5. 如果你的 CLI 跑在 WSL，它默认不会自动和 Windows 共享同一个 `~/.codex`
-
-主人开发时的实际决策：
-
-1. 项目与工具链都在 Windows 文件系统里，就优先 Windows-native
-2. 项目主要活在 WSL2，依赖 Linux 工具链，就切到 WSL agent
-3. 切换后记得重启 App
-4. 排障时别忘了先确认是不是两边 `CODEX_HOME` / `.codex` 不一致
+## 2. App：这里只保留能力地图，细节统一放到第八篇
+
+从桌面版 `26.707` 起，Codex 已并入 macOS 和 Windows 的 ChatGPT desktop app。App 的更新频率明显高于普通教程的维护频率，因此本篇只回答“该去哪里做”，不再重复具体按钮和平台边界。
+
+| 需求 | App 入口或能力 | 主要作用 |
+|---|---|---|
+| 同时管理多个相关目录 | 多文件夹项目 | primary folder 决定 Git 与配置自动发现，secondary folders 参与搜索、读写 |
+| 并行处理仓库任务 | Local / Worktree / Cloud | 本地连续修改、隔离并行、云端委派各自分工 |
+| 在环境之间继续同一任务 | Handoff / Remote | Local 与 Worktree、匹配的本地与远程 host 有明确迁移流程 |
+| 检查与修正改动 | Git / Review / PR Chat | 查看 diff、inline comment、stage、commit、push，并处理 GitHub PR 反馈 |
+| 直接处理产物 | Markdown / code 编辑与 annotations | 选中文本后让 Codex 定点修改，不必只在对话里描述 |
+| 验证网页和桌面 UI | Browser / Developer mode / Computer Use | 浏览器预览、CDP 调试、Windows/macOS 桌面操作 |
+| 安排持续工作 | Scheduled tasks / Goals | 定时运行或让长线程持续追踪明确目标 |
+| 扩展外部能力 | Plugins / Skills / MCP | 安装工作流、连接器、工具与生命周期能力 |
+| 跨设备继续工作 | Remote | 手机或其他受支持设备连接 Mac/Windows host |
+| 口头协调多个线程 | ChatGPT Voice | 在 Chat、Work、Codex 中启动、检查和 steer 任务 |
+
+当前 App 的版本检查、账号与灰度边界、工作流步骤、Computer Use 的 Windows 前台限制，以及 Remote、Voice、Record & Replay 的平台差异，全部集中在[第八篇：Codex 桌面 App 当前功能与 Windows 实战](#/note/AI工具/02_终端Agent流/Codex/08_Codex桌面App当前功能与Windows实战)。后续 App 更新也只维护第八篇，避免同一事实散落在多篇文章里。
 
 ---
 
@@ -453,10 +274,10 @@ approval_policy = 'never'
 sandbox_mode = 'read-only'
 ```
 
-该保留但降级的旧写法：
+历史参数说明：
 
-1. `--full-auto`：还能作为旧资料兼容概念理解，但文档里不建议再当主入口写法
-2. `--yolo`：依然存在高风险别名语义，但不该出现在日常默认配置里
+1. 当前 CLI 已移除 `--full-auto`，新文档必须使用显式的审批和沙箱参数
+2. `--yolo` 仍可能作为隐藏高风险别名被接受，但正式说明应使用 `--dangerously-bypass-approvals-and-sandbox`
 
 ### 4.5 `AGENTS.md`
 
@@ -487,16 +308,34 @@ sandbox_mode = 'read-only'
 1. 同一个人切换“日常开发 / 审计 / 自动化”时，不用每次重写一堆参数
 2. 团队能把几套常用权限模板固定下来
 
+### 4.8 `Plugins` 与 Marketplace
+
+当前 CLI 已提供正式的 `codex plugin` 命令，桌面 App 安装包也包含插件和 skills 运行资源。排查扩展能力时要按层看：
+
+1. `codex plugin list` 看市场、安装和启用状态
+2. `/plugins` 看当前会话里插件来源
+3. `/skills` 看插件或本地目录带进来的工作流
+4. `/mcp` 看插件附带或单独配置的实时工具
+
+### 4.9 多 Agent、Goals 与 Hooks
+
+当前功能目录已把 `multi_agent`、`goals` 和 `hooks` 标为稳定能力，但具体 UI、账号开放和默认开关仍可能变化：
+
+1. 多 Agent 适合真正可以并行的独立子任务，不能为了“看起来高级”重复派工
+2. Goals 适合长线程持续追踪完成目标
+3. Hooks 适合在工具调用、命令或文件编辑前后做机械治理
+4. 这三类能力都要和审批、沙箱、项目规则一起设计
+
 ---
 
 ## 5. 官方进阶能力：这部分已经并入本篇
 
-原来拆出去的“官方资料补充与进阶实践”，现在并入这里。  
+原来拆出去的“官方资料补充与进阶实践”，现在并入这里。
 以后主人不用再额外点一篇去看 `codex exec`、MCP 治理、`AGENTS.md` 进阶和 profile 策略。
 
 ### 5.1 `codex exec`
 
-`codex exec` 仍然是 Codex 最值得保留的进阶能力之一。  
+`codex exec` 仍然是 Codex 最值得保留的进阶能力之一。
 它不是“没有聊天界面的 codex”，而是更适合脚本化、流水线化、可重复执行任务的入口。
 
 高频用法：
@@ -517,7 +356,7 @@ codex exec resume --last "continue from previous run"
 
 ### 5.2 MCP 治理
 
-MCP 的“怎么连上”，第一篇、第六篇、第二篇已经够用了。  
+MCP 的“怎么连上”，第一篇、第六篇、第二篇已经够用了。
 这里保留更偏工程治理的一层。
 
 主人以后给团队或长期项目接 MCP，重点看这 4 个问题：
@@ -532,12 +371,12 @@ MCP 的“怎么连上”，第一篇、第六篇、第二篇已经够用了。
 1. `required = true`
 2. `enabled_tools`
 3. `disabled_tools`
-4. `startup_timeout_sec`
-5. `tool_timeout_sec`
+4. `startup_timeout_ms`
+5. `tool_timeout_ms`
 
 ### 5.3 `AGENTS.md` 进阶
 
-`AGENTS.md` 不只是“写点规则”。  
+`AGENTS.md` 不只是“写点规则”。
 当项目规模变大后，它更像长期协作规范的分层入口。
 
 比较稳的分层思路：
@@ -561,27 +400,36 @@ Profile 的价值不是“字段更高级”，而是把不同工作模式固定
 2. `audit`：只读审查
 3. `ci`：自动化或批处理
 
-一个够实用的最小例子：
+官方当前 profile 是独立文件，而不是主 `config.toml` 里的 `[profiles.<name>]` 表。一个够实用的最小例子是分别创建这些文件：
+
+`~/.codex/safe.config.toml`
 
 ```toml
-[profiles.safe]
 approval_policy = 'on-request'
 sandbox_mode = 'workspace-write'
+```
 
-[profiles.audit]
-approval_policy = 'never'
-sandbox_mode = 'read-only'
+`~/.codex/audit.config.toml`
 
-[profiles.ci]
+```toml
 approval_policy = 'never'
 sandbox_mode = 'read-only'
 ```
+
+`~/.codex/ci.config.toml`
+
+```toml
+approval_policy = 'never'
+sandbox_mode = 'read-only'
+```
+
+调用时用 `codex --profile safe`、`codex --profile audit` 或 `codex exec --profile ci "..."`。
 
 ---
 
 ## 6. 最近产品口径更新：这部分也并进本篇
 
-原来拆出去的“近期待补全更新总表”，现在也并入这里。  
+原来拆出去的“近期待补全更新总表”，现在也并入这里。
 以后主人只要读这一节，就能知道哪些旧认知该升级。
 
 ### 6.1 还没过时的部分
@@ -590,7 +438,7 @@ sandbox_mode = 'read-only'
 
 1. Codex 的底层核心仍然是认证、配置层级、审批策略、沙箱、`AGENTS.md`、MCP、非交互执行
 2. `approval_policy` 和 `sandbox_mode` 依旧是最重要的安全边界
-3. 项目级 `.codex/config.toml`、用户级 `~/.codex/config.toml`、`--profile`、命令行覆盖之间的优先级思路没有变
+3. 命令行、项目级 `.codex/config.toml`、profile 文件、用户级 `~/.codex/config.toml` 之间仍然要按优先级排查，但 profile 的官方写法已从表结构转为独立文件
 4. `codex exec` 仍然是自动化、批处理、CI 场景的关键入口
 5. IDE 和 App 仍然高度复用同一套 Codex 能力，而不是三套完全不同的产品
 
@@ -606,13 +454,15 @@ sandbox_mode = 'read-only'
 
 ### 6.3 今天最值得补齐的更新主题
 
-如果你只记一张清单，就记这 5 组：
+如果你只记一张清单，就记这 7 组：
 
-1. 桌面版新增并独立成体系的能力：`Worktrees`、`Handoff`、`Local environments`、`Automations`
-2. 桌面版工作流增强：Built-in Git、Integrated terminal、In-app browser
+1. 桌面版新增并独立成体系的能力：多文件夹项目、`Worktrees`、`Handoff`、`Local environments`、Scheduled tasks
+2. 桌面版工作流增强：Voice、Built-in Git、PR Chat、Integrated terminal、Browser、Computer Use
 3. IDE 扩展增强：Cloud delegation、图片拖拽、图像生成
 4. Windows 专题增强：原生 Windows 页面、原生沙箱说明、WSL 切换与 `CODEX_HOME` 边界
 5. 模型口径更新：默认本地示例应优先对齐官方当前模型页，不再把历史模型名写成长期固定答案
+6. 扩展体系更新：插件 Marketplace、插件共享、skills 与 MCP 的职责边界
+7. Agent 工作流更新：多 Agent、Goals、Hooks、会话 fork / archive，以及 Remote 产品 GA 与 CLI 实验命令的边界
 
 ---
 
@@ -655,12 +505,12 @@ sandbox_mode = 'read-only'
 
 1. 先看模型与权限：确认当前线路可用模型、`approval_policy`、`sandbox_mode`
 2. 如果主要在 IDE 里做，先用 `Agent` 模式进入本地任务
-3. 要长跑或大改造时，用 `Cloud delegation` / `Handoff`
+3. 要长跑或大改造时用 `Cloud delegation`；要迁移既有 chat 时按 App 的 `Handoff` / `Remote` 流程处理
 4. 桌面 App 里要并行任务，就开 `Worktrees`
 5. 高频命令和环境准备，写进 `Local environments`
 6. 改完先过 `Review pane` / diff，再决定 stage、commit、push
-7. 页面与前端可视化问题，优先用 IDE 图片拖拽、图像生成、In-app browser
-8. 需要自动化重复工作时，再上 `Automations`
+7. 页面与前端可视化问题，优先用 IDE 图片拖拽、图像生成或 App 的 Browser
+8. 需要自动化重复工作时，再上 Scheduled tasks
 
 ---
 
@@ -668,18 +518,20 @@ sandbox_mode = 'read-only'
 
 为了避免以后内容再打架，主人可以这样记：
 
-1. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)  
+1. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)
    负责配置心智模型。
-2. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)  
+2. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)
    负责三端联动与排障。
-3. [第四篇：Codex 多线路接入与迁移总手册](#/note/AI工具/02_终端Agent流/Codex/04_Codex多线路接入与迁移总手册)  
+3. [第四篇：Codex 多线路接入与迁移总手册](#/note/AI工具/02_终端Agent流/Codex/04_Codex多线路接入与迁移总手册)
    负责官方、Packy、yunyi、rpcod 等线路选择与迁移。
-4. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)  
+4. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)
    负责命令、配置文件和 slash command 速查。
-5. **第七篇（本篇）**  
+5. **第七篇（本篇）**
    负责当前常用功能、官方进阶能力和最近该升级的产品认知。
+6. **第八篇：Codex 桌面 App 当前功能与 Windows 实战**
+   负责 App 版本检查、多文件夹项目、Voice、Local / Worktree / Cloud、Git / PR Chat、Browser / Computer Use、Scheduled tasks、Remote、插件与 Windows-native / WSL 实战。
 
-专题已经收束为 9 篇主文，不再保留“已并入”的历史跳转页。
+专题当前收束为 8 篇主文，不再保留“已并入”的历史跳转页。
 
 ---
 
@@ -690,10 +542,14 @@ sandbox_mode = 'read-only'
 - App Review：<https://developers.openai.com/codex/app/review>
 - App Worktrees：<https://developers.openai.com/codex/app/worktrees>
 - App Local Environments：<https://developers.openai.com/codex/app/local-environments>
-- App Automations：<https://developers.openai.com/codex/app/automations>
-- App In-app Browser：<https://developers.openai.com/codex/app/in-app-browser>
-- App Computer Use：<https://developers.openai.com/codex/app/computer-use>
+- App Scheduled tasks：<https://developers.openai.com/codex/app/automations>
+- App Browser：<https://learn.chatgpt.com/docs/browser?surface=app>
+- App Computer Use：<https://learn.chatgpt.com/docs/computer-use>
+- App Voice：<https://learn.chatgpt.com/docs/features/voice>
+- App Remote：<https://learn.chatgpt.com/docs/remote-connections>
 - App Windows：<https://developers.openai.com/codex/app/windows>
+- Codex Changelog：<https://learn.chatgpt.com/docs/changelog>
+- Codex Plugins：<https://developers.openai.com/codex/plugins>
 - IDE 功能：<https://developers.openai.com/codex/ide/features>
 - IDE 设置：<https://developers.openai.com/codex/ide/settings>
 - CLI 概览：<https://developers.openai.com/codex/cli>

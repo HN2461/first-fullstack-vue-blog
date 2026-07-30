@@ -1,0 +1,796 @@
+{
+  "generatedAt": "2026-07-30T14:29:08.404Z",
+  "mode": "dry-run",
+  "sourceRoot": "C:\\Users\\HN246\\Desktop\\个人全栈博客系统\\output\\AI工具",
+  "summary": {
+    "sourceArticles": 78,
+    "matchedArticles": 77,
+    "unchanged": 77,
+    "update": 0,
+    "localOnly": 1,
+    "unmatchedDatabase": 0,
+    "identityOverrides": 1,
+    "missingCategories": 0,
+    "missingTags": 0
+  },
+  "items": [
+    {
+      "sourcePath": "辅助工具层/基础与计费/第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）.md",
+      "sourceSlug": "ai-7ef116e6",
+      "targetSlug": "ai-7ef116e6",
+      "existingId": "6a2d291d8a2b1c68f2cac08c",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/基础与计费/第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）.md",
+      "sourceSlug": "ai-token-ai-72feffb1",
+      "targetSlug": "ai-token-ai-72feffb1",
+      "existingId": "6a2d291d8a2b1c68f2cac084",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/第二篇：CC-Switch-接入中转站与计费排查实战（2026-05复核）.md",
+      "sourceSlug": "ai-ccswitch-ccswitch-4cff94a4",
+      "targetSlug": "ai-ccswitch-ccswitch-4cff94a4",
+      "existingId": "6a2d291d8a2b1c68f2cac06a",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/第三篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md",
+      "sourceSlug": "ai-ccswitch-claudecode-mimotokenplan-736772f0",
+      "targetSlug": "ai-ccswitch-claudecode-mimotokenplan-736772f0",
+      "existingId": "6a2d291d8a2b1c68f2cac062",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/第四篇：CC-Switch-跨电脑导出导入与云同步实战（2026-05-30复核）.md",
+      "sourceSlug": "ai-ccswitch-ccswitch-0c54d5c6",
+      "targetSlug": "ai-ccswitch-ccswitch-0c54d5c6",
+      "existingId": "6a2d291d8a2b1c68f2cac078",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/第五篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-05-30复核）.md",
+      "sourceSlug": "ai-ccswitch-ccswitch-2b997b92",
+      "targetSlug": "ai-ccswitch-ccswitch-2b997b92",
+      "existingId": "6a2d291d8a2b1c68f2cac070",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/第一篇：CC-Switch-快速上手与核心概念（v3.16.0）.md",
+      "sourceSlug": "ai-ccswitch-ccswitch-82653641",
+      "targetSlug": "ai-ccswitch-ccswitch-82653641",
+      "existingId": "6a2d291d8a2b1c68f2cac05a",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/第一篇：CC-Switch-切换-Codex-Provider-后-Node-调用失败排查修复实录.md",
+      "sourceSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
+      "targetSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
+      "existingId": "6a2d291d8a2b1c68f2cac050",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/Node-环境对比报告（DESKTOP-OAP8VID）.md",
+      "sourceSlug": "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25",
+      "targetSlug": "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25",
+      "existingId": "6a2d291d8a2b1c68f2cac04a",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "辅助工具层/CCSwitch/Node-环境对比报告（LAPTOP-5AP3767K）.md",
+      "sourceSlug": "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4",
+      "targetSlug": "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4",
+      "existingId": "6a2d291d8a2b1c68f2cac048",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/00-MCP-学习导航与维护路线.md",
+      "sourceSlug": "ai-mcp-848a18d2",
+      "targetSlug": "ai-mcp-848a18d2",
+      "existingId": "6a2d291d8a2b1c68f2cabf90",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/01-MCP-是什么与开放标准核心认知.md",
+      "sourceSlug": "ai-mcp-mcp-067b747a",
+      "targetSlug": "ai-mcp-mcp-067b747a",
+      "existingId": "6a2d291d8a2b1c68f2cabf96",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/02-常用-MCP-分类与选型总览.md",
+      "sourceSlug": "ai-mcp-mcp-mcp-ce5df958",
+      "targetSlug": "ai-mcp-mcp-mcp-ce5df958",
+      "existingId": "6a2d291d8a2b1c68f2cabf9c",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/03-前端开发常用-MCP-清单与选型建议（2026-07复核）.md",
+      "sourceSlug": "ai-mcp-mcp-mcp-d20641b2",
+      "targetSlug": "ai-mcp-mcp-mcp-d20641b2",
+      "existingId": "6a2d291d8a2b1c68f2cabfa6",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/04-MCP-概念与主流度问题.md",
+      "sourceSlug": "ai-mcp-83743b3f",
+      "targetSlug": "ai-mcp-83743b3f",
+      "existingId": "6a2d291d8a2b1c68f2cabfb0",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/05-MCP-架构与安全边界问题.md",
+      "sourceSlug": "ai-mcp-ede3e0c8",
+      "targetSlug": "ai-mcp-ede3e0c8",
+      "existingId": "6a2d291d8a2b1c68f2cabfbc",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/06-MCP-项目落地与收益评估问题.md",
+      "sourceSlug": "ai-mcp-c534a7cb",
+      "targetSlug": "ai-mcp-c534a7cb",
+      "existingId": "6a2d291d8a2b1c68f2cabfb6",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/MCP/07-谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md",
+      "sourceSlug": "ai-mcp-mcp-79fea32a",
+      "targetSlug": "ai-mcp-mcp-79fea32a",
+      "existingId": "6a2d291d8a2b1c68f2cabfc6",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md",
+      "sourceSlug": "ai-plugin-codex-codexplugin-9b9edb10",
+      "targetSlug": "ai-plugin-codex-codexplugin-9b9edb10",
+      "existingId": "6a2d291d8a2b1c68f2cabfd6",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md",
+      "sourceSlug": "ai-plugin-claudecode-claudecodeplugin-ed613976",
+      "targetSlug": "ai-plugin-claudecode-claudecodeplugin-ed613976",
+      "existingId": "6a2d291d8a2b1c68f2cabfde",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md",
+      "sourceSlug": "ai-plugin-plugin-a8202a00",
+      "targetSlug": "ai-plugin-plugin-a8202a00",
+      "existingId": "6a2d291d8a2b1c68f2cabfe4",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md",
+      "sourceSlug": "ai-plugin-plugin-da2ad951",
+      "targetSlug": "ai-plugin-plugin-da2ad951",
+      "existingId": "6a2d291d8a2b1c68f2cabfcc",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md",
+      "sourceSlug": "ai-rules-agents-agents-md-908e49bb",
+      "targetSlug": "ai-rules-agents-agents-md-908e49bb",
+      "existingId": "6a2d291d8a2b1c68f2cabff0",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md",
+      "sourceSlug": "ai-rules-claude-claude-md-claudecode-ff6cd587",
+      "targetSlug": "ai-rules-claude-claude-md-claudecode-ff6cd587",
+      "existingId": "6a2d291d8a2b1c68f2cabff8",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md",
+      "sourceSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
+      "targetSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
+      "existingId": "6a2d291d8a2b1c68f2cac002",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md",
+      "sourceSlug": "ai-rules-gemini-copilot-geminicli-copilot-853f4742",
+      "targetSlug": "ai-rules-gemini-copilot-geminicli-copilot-853f4742",
+      "existingId": "6a2d291d8a2b1c68f2cac00c",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md",
+      "sourceSlug": "ai-rules-ai-e659b444",
+      "targetSlug": "ai-rules-ai-e659b444",
+      "existingId": "6a2d291d8a2b1c68f2cabfe8",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md",
+      "sourceSlug": "ai-skill-skills-8158d6e4",
+      "targetSlug": "ai-skill-skills-8158d6e4",
+      "existingId": "6a2d291d8a2b1c68f2cac020",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Skill/Agent-Skills-场景模板与案例库.md",
+      "sourceSlug": "ai-skill-agentskills-a705fbb5",
+      "targetSlug": "ai-skill-agentskills-a705fbb5",
+      "existingId": "6a2d291d8a2b1c68f2cac01e",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md",
+      "sourceSlug": "ai-skill-agentskills-b37a5530",
+      "targetSlug": "ai-skill-agentskills-b37a5530",
+      "existingId": "6a2d291d8a2b1c68f2cac01a",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md",
+      "sourceSlug": "ai-skill-agentskills-8ff13a14",
+      "targetSlug": "ai-skill-agentskills-8ff13a14",
+      "existingId": "6a2d291d8a2b1c68f2cac014",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "规则机制层/Skill/Agent-Skills-团队协作与社区资源.md",
+      "sourceSlug": "ai-skill-agentskills-4a94dc23",
+      "targetSlug": "ai-skill-agentskills-4a94dc23",
+      "existingId": "6a2d291d8a2b1c68f2cac024",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md",
+      "sourceSlug": "ai-agent-claudecode-claudecode-083e790a",
+      "targetSlug": "ai-agent-claudecode-claudecode-083e790a",
+      "existingId": "6a2d291d8a2b1c68f2cabf2a",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md",
+      "sourceSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
+      "targetSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
+      "existingId": "6a2d291d8a2b1c68f2cabf3e",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md",
+      "sourceSlug": "ai-agent-claudecode-claudecode-8b6661f9",
+      "targetSlug": "ai-agent-claudecode-claudecode-8b6661f9",
+      "existingId": "6a2d291d8a2b1c68f2cabf22",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md",
+      "sourceSlug": "ai-agent-claudecode-claudecode-76aa3c89",
+      "targetSlug": "ai-agent-claudecode-claudecode-76aa3c89",
+      "existingId": "6a2d291d8a2b1c68f2cabf46",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md",
+      "sourceSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
+      "targetSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
+      "existingId": "6a2d291d8a2b1c68f2cabf36",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md",
+      "sourceSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
+      "targetSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
+      "existingId": "6a2d291d8a2b1c68f2cabf18",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md",
+      "sourceSlug": "ai-agent-codex-codex-cli-64e9fd24",
+      "targetSlug": "ai-agent-codex-codex-cli-64e9fd24",
+      "existingId": "6a2d291d8a2b1c68f2cabf50",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md",
+      "sourceSlug": "ai-agent-codex-codex-9cf3fc01",
+      "targetSlug": "ai-agent-codex-codex-9cf3fc01",
+      "existingId": "6a2d291d8a2b1c68f2cabf78",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md",
+      "sourceSlug": "ai-agent-codex-codex-1c9633e1",
+      "targetSlug": "ai-agent-codex-codex-1c9633e1",
+      "existingId": "6a2d291d8a2b1c68f2cabf80",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
+      "sourceSlug": "ai-agent-codex-codex-edeadb5e",
+      "targetSlug": "ai-agent-codex-codex-edeadb5e",
+      "existingId": "6a2d291d8a2b1c68f2cabf5a",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md",
+      "sourceSlug": "ai-agent-codex-codex-94189641",
+      "targetSlug": "ai-agent-codex-codex-94189641",
+      "existingId": "6a2d291d8a2b1c68f2cabf66",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
+      "sourceSlug": "ai-agent-codex-codex-cli-app-afad6d17",
+      "targetSlug": "ai-agent-codex-codex-cli-app-afad6d17",
+      "existingId": "6a2d291d8a2b1c68f2cabf6e",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md",
+      "sourceSlug": "ai-agent-codex-codex-cli-10e9408b",
+      "targetSlug": "ai-agent-codex-codex-cli-10e9408b",
+      "existingId": "6a2d291d8a2b1c68f2cabf4c",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "终端Agent流/Gemini/Gemini-目录补充说明：谷歌-MCP-配置手册放在哪里看.md",
+      "sourceSlug": "ai-agent-gemini-mcp-4c54d61a",
+      "targetSlug": "ai-agent-gemini-mcp-4c54d61a",
+      "existingId": "6a2d291d8a2b1c68f2cabf88",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "Agent框架层/龙虾/第二篇：OpenClaw-CN-0.1.7-命令配置与重启排障全手册（Windows）.md",
+      "sourceSlug": "ai-agent-openclaw-4d87088b",
+      "targetSlug": "ai-agent-openclaw-4d87088b",
+      "existingId": "6a2d291d8a2b1c68f2cac036",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "Agent框架层/龙虾/第六篇：龙虾命令与配置文件一页速查图.md",
+      "sourceSlug": "ai-agent-aafa4c54",
+      "targetSlug": "ai-agent-aafa4c54",
+      "existingId": "6a2d291d8a2b1c68f2cac03e",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "Agent框架层/龙虾/第三篇：OpenClaw101-Day1-知识全景与命令配置实战（认知与灵魂篇）.md",
+      "sourceSlug": "ai-agent-openclaw101day1-2082ef14",
+      "targetSlug": "ai-agent-openclaw101day1-2082ef14",
+      "existingId": "6a2d291d8a2b1c68f2cac034",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "Agent框架层/龙虾/第四篇：OpenClaw101-全7天资料总研版（龙虾中文版可执行手册）.md",
+      "sourceSlug": "ai-agent-openclaw101-7-7f46689a",
+      "targetSlug": "ai-agent-openclaw101-7-7f46689a",
+      "existingId": "6a2d291d8a2b1c68f2cac040",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "Agent框架层/龙虾/第五篇：OpenClaw101-全7天逐命令拆解（龙虾中文版超详细手册）.md",
+      "sourceSlug": "ai-agent-openclaw101-7-98f47885",
+      "targetSlug": "ai-agent-openclaw101-7-98f47885",
+      "existingId": "6a2d291d8a2b1c68f2cac03a",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "Agent框架层/龙虾/第一篇：OpenClaw-本地部署实战（从安装到龙虾内容生产）.md",
+      "sourceSlug": "ai-agent-openclaw-4d55dcf1",
+      "targetSlug": "ai-agent-openclaw-4d55dcf1",
+      "existingId": "6a2d291d8a2b1c68f2cac02e",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md",
+      "sourceSlug": "ai-ai-catpaw-catpaw-2afcb185",
+      "targetSlug": "ai-ai-catpaw-catpaw-2afcb185",
+      "existingId": "6a2d291d8a2b1c68f2cabe58",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md",
+      "sourceSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
+      "targetSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
+      "existingId": "6a2d291d8a2b1c68f2cabe6c",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md",
+      "sourceSlug": "ai-ai-catpaw-catpaw-ai-87736891",
+      "targetSlug": "ai-ai-catpaw-catpaw-ai-87736891",
+      "existingId": "6a2d291d8a2b1c68f2cabe62",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md",
+      "sourceSlug": "ai-ai-catpaw-catpaw-e217fd6c",
+      "targetSlug": "ai-ai-catpaw-catpaw-e217fd6c",
+      "existingId": "6a2d291d8a2b1c68f2cabe80",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md",
+      "sourceSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
+      "targetSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
+      "existingId": "6a2d291d8a2b1c68f2cabe76",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第八篇：Cursor-数据科学、远程环境与常见问题（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-bc1e7a3a",
+      "targetSlug": "ai-ai-cursor-cursor-bc1e7a3a",
+      "existingId": "6a2d291d8a2b1c68f2cabeac",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第二篇：Cursor-核心交互：Agent、Ask、Tab-与-Inline-Edit（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
+      "targetSlug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
+      "existingId": "6a2d291d8a2b1c68f2cabe9c",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第六篇：Cursor-工具权限：MCP、Shell-Mode-与安全边界（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-mcp-shellmode-144315a1",
+      "targetSlug": "ai-ai-cursor-cursor-mcp-shellmode-144315a1",
+      "existingId": "6a2d291d8a2b1c68f2cabeb2",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第七篇：Cursor-模型、隐私与团队企业治理（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-4dfc49b1",
+      "targetSlug": "ai-ai-cursor-cursor-4dfc49b1",
+      "existingId": "6a2d291d8a2b1c68f2cabe90",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第三篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
+      "targetSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
+      "existingId": "6a2d291d8a2b1c68f2cabe96",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第四篇：Cursor-项目实战：Terminal、CLI-与-Git-工作流（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-terminalcli-git-84f595c7",
+      "targetSlug": "ai-ai-cursor-cursor-terminalcli-git-84f595c7",
+      "existingId": "6a2d291d8a2b1c68f2cabeba",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第五篇：Cursor-协作自动化：Background-Agents、Bugbot、GitHub-与-Slack（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89",
+      "targetSlug": "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89",
+      "existingId": "6a2d291d8a2b1c68f2cabea4",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Cursor/第一篇：Cursor-上手、迁移与索引配置（2026-04）.md",
+      "sourceSlug": "ai-ai-cursor-cursor-40faf5ca",
+      "targetSlug": "ai-ai-cursor-cursor-40faf5ca",
+      "existingId": "6a2d291d8a2b1c68f2cabe88",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md",
+      "sourceSlug": "ai-ai-kiro-kiro-specs-c09713f2",
+      "targetSlug": "ai-ai-kiro-kiro-specs-c09713f2",
+      "existingId": "6a2d291d8a2b1c68f2cabed2",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md",
+      "sourceSlug": "ai-ai-kiro-kiro-bee7077a",
+      "targetSlug": "ai-ai-kiro-kiro-bee7077a",
+      "existingId": "6a2d291d8a2b1c68f2cabee0",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md",
+      "sourceSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
+      "targetSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
+      "existingId": "6a2d291d8a2b1c68f2cabec8",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md",
+      "sourceSlug": "ai-ai-kiro-kiro-hooks-a4ec7a90",
+      "targetSlug": "ai-ai-kiro-kiro-hooks-4b92a74f",
+      "existingId": "6a2d291d8a2b1c68f2cabee8",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": "本地 Kiro Hooks 来自已替换的早期线上文章，更新到当前第四篇并保留当前地址"
+    },
+    {
+      "sourcePath": "AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md",
+      "sourceSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
+      "targetSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
+      "existingId": "6a2d291d8a2b1c68f2cabed8",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md",
+      "sourceSlug": "ai-ai-kiro-kiro-4ba05074",
+      "targetSlug": "ai-ai-kiro-kiro-4ba05074",
+      "existingId": "6a2d291d8a2b1c68f2cabec0",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Windsurf/第二篇：Windsurf-官方文档深度拆解，最新能力与工作流（2026-04）.md",
+      "sourceSlug": "ai-ai-windsurf-windsurf-4667d3b6",
+      "targetSlug": "ai-ai-windsurf-windsurf-4667d3b6",
+      "existingId": "6a2d291d8a2b1c68f2cabefc",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Windsurf/第三篇：Windsurf-Code-Plan-Ask-三种模式分工与切换策略（2026-04）.md",
+      "sourceSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
+      "targetSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
+      "existingId": "6a2d291d8a2b1c68f2cabef6",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Windsurf/第四篇：Windsurf-Rules、AGENTS.md、Skills、Workflows-项目治理实战（2026-04）.md",
+      "sourceSlug": "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9",
+      "targetSlug": "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9",
+      "existingId": "6a2d291d8a2b1c68f2cabf0c",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Windsurf/第五篇：Windsurf-2.0-与-Devin-集成实战（2026-05）.md",
+      "sourceSlug": "ai-ai-windsurf-windsurf-2-0-devin-78b4664a",
+      "targetSlug": "ai-ai-windsurf-windsurf-2-0-devin-78b4664a",
+      "existingId": "6a2d291d8a2b1c68f2cabf06",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI编辑器流/Windsurf/第一篇：Windsurf-快速上手与核心能力（2026-04）.md",
+      "sourceSlug": "ai-ai-windsurf-windsurf-d941c66c",
+      "targetSlug": "ai-ai-windsurf-windsurf-d941c66c",
+      "existingId": "6a2d291d8a2b1c68f2cabeee",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    },
+    {
+      "sourcePath": "AI工具知识库总导航.md",
+      "sourceSlug": "ai-cd17bf62",
+      "targetSlug": "ai-cd17bf62",
+      "existingId": "6a2d291d8a2b1c68f2cabe4e",
+      "existingStatus": "published",
+      "action": "unchanged",
+      "changedFields": [],
+      "identityOverrideReason": ""
+    }
+  ],
+  "localOnly": [
+    {
+      "sourcePath": "终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
+      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
+      "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726"
+    }
+  ],
+  "unmatchedDatabase": []
+}

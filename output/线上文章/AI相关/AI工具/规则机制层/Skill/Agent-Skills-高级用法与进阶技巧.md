@@ -1,7 +1,7 @@
 ---
 title: "Agent Skills 高级用法与进阶技巧"
 slug: "ai-skill-agentskills-b37a5530"
-summary: "按 2026-05-24 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。"
+summary: "按 2026-07-04 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。"
 category: "Skill"
 tags:
   - "Agent Skills"
@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac01a"
 originalSlug: "ai-skill-agentskills-b37a5530"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Agent Skills 高级用法与进阶技巧
 
@@ -365,6 +365,6 @@ description: Audit release readiness by checking recent changes, risky areas, te
 ## 参考资料
 
 - [Kiro Agent Skills 文档](https://kiro.dev/docs/cli/skills/)
-- [Claude Code Skills 文档](https://docs.anthropic.com/en/docs/claude-code/skills)
-- [Claude Code Slash Commands 文档](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+- [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
+- [OpenAI Codex Skills 文档](https://developers.openai.com/codex/skills)
 - [OpenAI Skills 仓库](https://github.com/openai/skills)

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac222"
 originalSlug: "uni-app-uni-app-session-key-token-8af791f8"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # uni-app 微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权
 

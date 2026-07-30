@@ -15,17 +15,17 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf6e"
 originalSlug: "ai-agent-codex-codex-cli-app-afad6d17"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第五篇：Codex CLI / 插件 / App 三端联动实战
 
-> 更新时间：2026-03-08  
-> 定位：主线 03（三端统一与联动排障）。  
-> 前置：第三篇（先懂配置原理和字段，再做联动最稳）。  
-> 下一篇建议：第六篇（命令与配置速查）。  
+> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列与 Windows App 26.721.4979.0 复核）
+> 定位：主线 03（三端统一与联动排障）。
+> 前置：第三篇（先懂配置原理和字段，再做联动最稳）。
+> 下一篇建议：第六篇（命令与配置速查）。
 > 本篇不展开：字段字典和命令全集（看第三篇、第六篇）。
 > 命令/配置看不懂时：回查第六篇《命令与配置文件速查》。
-> 如果主人要查“Worktrees / Handoff / Review pane / IDE 云任务 / Windows-native 到底在今天怎么用”，请优先再看第七篇；本篇负责讲三端关系，不再承担所有常用功能的细讲。
+> 如果主人要查“多文件夹项目 / Worktrees / PR Chat / Browser / Scheduled tasks / Remote / Windows-native 到底在今天怎么用”，请直接看第八篇桌面 App 专题；本篇负责三端关系和联动排障。
 > 小白读完目标：你应该能解释为什么 CLI、IDE 扩展、App 会共用一部分能力、又表现得不完全一样，并能排查“CLI 能用但插件或 App 不同步”的高频问题。
 
 章节导航（点击跳转）：
@@ -86,7 +86,7 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 
 ## 1.3 `AGENTS.md`（长期指令）
 
-作用：告诉 Codex 这个仓库的规则、代码风格、测试要求、交付格式。  
+作用：告诉 Codex 这个仓库的规则、代码风格、测试要求、交付格式。
 这是你“用得越久越省事”的关键文件。
 
 ---
@@ -96,8 +96,8 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 按官方优先级（高 -> 低）：
 
 1. CLI 参数（如 `-c`、`--model`、`--sandbox`）
-2. `--profile <name>`
-3. 项目 `.codex/config.toml`
+2. 项目 `.codex/config.toml`（仅信任项目加载；不能覆盖 provider、认证、通知、profile 选择等本机字段）
+3. `--profile <name>` 加载的 `$CODEX_HOME/profile-name.config.toml`
 4. 用户 `~/.codex/config.toml`
 5. 系统级配置
 6. 内置默认值
@@ -149,11 +149,10 @@ codex login status
 
 ```toml
 model_provider = "openai"
-model = "gpt-5.5"
+model = "gpt-5.6-terra"
 model_reasoning_effort = "medium"
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
-web_search = "cached"
 
 [history]
 persistence = "save-all"
@@ -162,25 +161,29 @@ persistence = "save-all"
 逐字段解释：
 
 1. `model_provider = "openai"`：默认走官方 OpenAI 提供方。
-2. `model = "gpt-5.5"`：默认模型先对齐官方当前推荐的本地默认示例。
+2. `model = "gpt-5.6-terra"`：日常开发使用平衡档；最难的质量优先任务再切 `gpt-5.6-sol`。
 3. `model_reasoning_effort = "medium"`：推理强度中档，平衡速度与质量。
 4. `approval_policy = "on-request"`：风险动作需人工确认。
 5. `sandbox_mode = "workspace-write"`：只允许改当前工作区。
-6. `web_search = "cached"`：默认使用缓存搜索。
-7. `[history] persistence = "save-all"`：保存历史会话，便于后续恢复与审计。
+6. `[history] persistence = "save-all"`：保存历史会话，便于后续恢复与审计。
+7. 需要最新网页资料时临时使用 `codex --search`，不再把旧版 cached 搜索写进所有默认模板。
 
 ## 3.4 CLI 关键参数（按使用频率）
 
 1. `--model/-m`：临时切模型
 2. `--sandbox/-s`：`read-only | workspace-write | danger-full-access`
 3. `--ask-for-approval/-a`：`untrusted | on-request | never`
-4. `--full-auto`：旧资料常见快捷写法，当前更建议显式写 `--sandbox workspace-write --ask-for-approval on-request`
-5. `--yolo`：危险模式（跳过审批与沙箱）
-6. `-c key=value`：临时覆盖配置
-7. `--profile/-p`：加载 profile
-8. `--cd/-C`：指定工作目录
-9. `--add-dir`：增加可写目录
-10. `--search`：临时使用 live web search
+4. `-c key=value`：临时覆盖配置
+5. `--profile/-p`：加载 profile
+6. `--cd/-C`：指定工作目录
+7. `--add-dir`：增加可写目录
+8. `--search`：临时使用 live web search
+9. `--strict-config`：遇到未知配置字段时直接报错，适合升级后排查旧配置
+10. `--ephemeral`：不把本次非交互会话保存到本地历史
+11. `--ignore-user-config`：诊断用户配置污染时临时跳过 `config.toml`
+12. `--dangerously-bypass-approvals-and-sandbox`：正式的完全绕过参数，只能用于外部已经隔离的环境
+
+旧资料里的 `--full-auto` 已被当前 CLI 移除。`--yolo` 仍可能作为隐藏兼容别名被接受，但不应继续作为教程主入口。
 
 ## 3.5 CLI 核心命令（必须熟）
 
@@ -190,7 +193,15 @@ persistence = "save-all"
 4. `codex exec resume --last "..."`：续跑上次任务
 5. `codex resume`：恢复交互会话
 6. `codex mcp ...`：管理 MCP 服务
-7. `codex features list|enable|disable`：功能开关
+7. `codex doctor --summary`：综合检查安装、认证、配置、MCP、网络和本地状态
+8. `codex update`：更新 CLI
+9. `codex plugin ...`：查看市场、安装和移除插件
+10. `codex review`：非交互代码审查
+11. `codex fork`：从历史会话分叉新线程
+12. `codex archive|unarchive|delete`：管理已保存会话
+13. `codex app <path>`：从终端打开指定工作区的桌面 App
+14. `codex cloud ...`：提交、查看和应用云端任务
+15. `codex features list|enable|disable`：功能开关
 
 ## 3.6 CLI slash commands（高频）
 
@@ -213,8 +224,8 @@ persistence = "save-all"
 
 ## 4.1 一句话原则
 
-插件本质上调用的是 Codex CLI。  
-所以先把 CLI 跑通，再装插件，成功率最高。
+IDE 扩展会复用 Codex CLI、`~/.codex/config.toml` 和项目规则，但它已经不是“只包了一层 CLI 的聊天壳”。
+正确顺序仍然是先把 CLI 跑通，再在 IDE 里使用 Agent、Chat、Cloud delegation 等入口，成功率最高。
 
 ## 4.2 官方插件设置项（重点）
 
@@ -256,75 +267,38 @@ OpenAI 官方文档给出的主要设置包括：
 
 ---
 
-## 5. App 端（桌面客户端）
+## 5. App 端：这里只讲三端联动边界
 
-## 5.1 三种运行模式
+从桌面版 `26.707` 起，Codex 已并入 macOS 和 Windows 的 ChatGPT desktop app。桌面 App 的版本更新、Voice、多文件夹项目、Local / Worktree / Cloud、Git / PR Chat、Browser、Computer Use、Scheduled tasks、Remote 和 Windows / WSL 实战，统一看[第八篇：Codex 桌面 App 当前功能与 Windows 实战](#/note/AI工具/02_终端Agent流/Codex/08_Codex桌面App当前功能与Windows实战)，本篇不重复维护。
 
-1. `Local`：直接改当前项目
-2. `Worktree`：隔离改动，适合并行任务
-3. `Cloud`：远端环境执行
+## 5.1 哪些内容可以共用
 
-## 5.2 App 设置页你需要懂什么
+1. 同一项目里的 `AGENTS.md`、项目 `.codex/config.toml`、skills 和 MCP 配置，仍然是跨入口协作的基础
+2. Windows-native App 与 Windows CLI 默认都从 `%USERPROFILE%\.codex` 读取本机 Codex 状态
+3. Git 仓库、分支、工作树和磁盘文件是共同事实，任何入口修改后都应重新检查 `git status`
+4. 插件安装后通常要新开 chat 或 CLI session，新的 skill、connector 和 MCP 工具才会完整进入上下文
 
-官方设置分组可理解为：
+多文件夹项目要额外注意：新 chat、Git 操作，以及 `AGENTS.md`、skills、`config.toml` 的自动发现都以 **primary folder** 为准；secondary folders 可以搜索、读取和编辑，但不会替代主目录的配置根。
 
-1. `General`：打开文件方式、输出显示、防休眠
-2. `Appearance`：主题/字体
-3. `Notifications`：通知策略
-4. `Agent configuration`：审批/沙箱等核心行为
-5. `Git`：分支命名、push 策略、commit/PR 生成提示
-6. `Integrations & MCP`：MCP 连接（与 CLI/插件共享）
-7. `Personalization`：`friendly | pragmatic | none`
-8. `Archived threads`：归档会话管理
+## 5.2 哪些内容不能假设同步
 
-## 5.3 App 常用快捷键（官方）
+1. App 内置的 Codex 版本和系统里单独安装的 CLI 版本可以不同
+2. Windows App 与 WSL CLI 默认使用不同的 home 和 `CODEX_HOME`
+3. ChatGPT 登录、API key、第三方 provider、connector OAuth 是不同认证层
+4. App 专属的 Worktree、Review、Browser、Computer Use、Remote 和 Scheduled 状态不会变成 CLI 里的同名界面状态
+5. 账号套餐、工作区策略、管理员要求和灰度发布会让不同入口出现不同能力
 
-1. `Cmd+Shift+P` / `Cmd+K`：命令菜单
-2. `Cmd+,`：设置
-3. `Cmd+N`：新线程
-4. `Cmd+J`：终端开关
-5. `Ctrl+L`：清终端
-6. `Ctrl+M`：语音输入
+## 5.3 App 联动异常的最短排障路线
 
-## 5.4 App slash commands（官方）
+```powershell
+codex --version
+codex doctor --summary
+codex login status
+codex plugin list
+codex mcp list
+```
 
-1. `/status`
-2. `/review`
-3. `/plan`
-4. `/mcp`
-5. `/feedback`
-
-## 5.5 Worktree 关键行为（官方高频坑）
-
-1. Worktree 仅 Git 项目可用
-2. 默认是 `detached HEAD`
-3. 同一分支不能同时在多个 checkout 被检出
-4. Handoff 用于 Local 与 Worktree 间安全迁移
-5. 默认会保留最近一定数量 worktree（官方文档示例是 15）
-
-## 5.6 Local environments（很多人忽略）
-
-用途：
-
-1. 新建 worktree 时自动跑 setup（如 `npm install && npm run build`）
-2. 定义项目 Action 按钮（Run/Test/Lint）
-3. 支持按平台写不同脚本
-
-## 5.7 Automations（要懂安全边界）
-
-1. 自动化在本地 App 跑，App 必须开着
-2. Git 项目在后台 worktree 执行
-3. 非 Git 项目直接在项目目录执行
-4. 默认沿用你的 sandbox/approval 设置
-5. 高频任务要清理旧 worktree，避免磁盘堆积
-
-## 5.8 Windows 官方要点
-
-1. 安装：Microsoft Store 或 `winget install Codex -s msstore`
-2. 默认 agent：Windows-native（PowerShell）
-3. 可切 WSL agent，但切换后要重启 App
-4. 集成终端可选 PowerShell / CMD / Git Bash / WSL
-5. 如果 CLI 跑在 WSL，默认不会自动和 Windows App 共用 `~/.codex`，需要显式同步或设置 `CODEX_HOME`
+再依次确认 App 版本、当前账号/工作区、primary folder、Windows-native 或 WSL、`CODEX_HOME`、当前 Git checkout，以及是否需要重启 App 或新开 chat。若只是 App 某个按钮或工作流变化，直接到第八篇按 App 专用排障顺序处理。
 
 ---
 
@@ -336,13 +310,10 @@ OpenAI 官方文档给出的主要设置包括：
 
 ```toml
 disable_response_storage = true
-model = "gpt-5.2"
+model = "gpt-5.5"
 model_provider = "packycode"
-model_reasoning_effort = "xhigh"
+model_reasoning_effort = "high"
 model_verbosity = "high"
-
-[features]
-web_search_request = true
 
 [model_providers.packycode]
 base_url = "https://www.packyapi.com/v1"
@@ -354,15 +325,15 @@ wire_api = "responses"
 逐字段解释：
 
 1. `disable_response_storage = true`：减少响应持久化，偏隐私场景。
-2. `model = "gpt-5.2"`：默认模型名，具体可用性取决于服务商。
+2. `model = "gpt-5.5"`：当前示例模型名，具体可用性取决于服务商后台。
 3. `model_provider = "packycode"`：默认 provider 指向 `packycode`。
-4. `model_reasoning_effort = "xhigh"`：高强度推理，质量高但更慢。
+4. `model_reasoning_effort = "high"`：高强度推理，质量高但更慢；`xhigh` 是否可用取决于模型。
 5. `model_verbosity = "high"`：输出更详细。
-6. `[features] web_search_request = true`：开启网络搜索请求能力。
-7. `[model_providers.packycode]`：定义该 provider 连接参数。
-8. `base_url`：Packy 线路地址（普通版）。
-9. `requires_openai_auth = true`：需要 OpenAI 认证链路兼容。
-10. `wire_api = "responses"`：使用 responses 协议。
+6. `[model_providers.packycode]`：定义该 provider 连接参数。
+7. `base_url`：Packy 线路地址（普通版）。
+8. `requires_openai_auth = true`：需要 OpenAI 认证链路兼容。
+9. `wire_api = "responses"`：使用 responses 协议。
+10. 网页搜索属于 Codex 客户端能力，需要最新资料时优先通过当前版本的 `--search` 或 App 对应入口启用。
 
 包月线路差异：只改 `base_url` 为 `https://codex-api.packycode.com/v1`。
 
@@ -414,7 +385,7 @@ wire_api = "responses"
 3. `model_provider` 与 `[model_providers.<id>]` 是否一致
 4. `base_url` 是否写对（普通/包月常混）
 5. key 是否在正确位置（环境变量或 `auth.json`）
-6. 是否被项目 `.codex/config.toml` 或 `--profile` 覆盖
+6. 是否被项目 `.codex/config.toml` 或 profile 文件覆盖
 7. 插件/App 是否继承了同一份配置目录
 8. MCP 是否 `required=true` 导致启动即失败
 9. Windows 是否需要切换 WSL agent 并重启
@@ -427,10 +398,10 @@ wire_api = "responses"
 看完你应该能回答这些问题：
 
 1. 三端为什么共享配置，冲突时先查哪里？
-2. CLI 的 `--full-auto` 与 `--yolo` 区别是什么？
+2. 为什么新文档应使用显式审批/沙箱参数，而不继续照抄已移除的 `--full-auto`？
 3. 插件里哪些设置是“插件自身”，哪些要去 `config.toml` 改？
-4. App 的 Local/Worktree/Cloud 何时选哪一个？
-5. Worktree 为什么会出现“同分支不能同时 checkout”？
+4. 为什么 App 内置 Codex 和系统 CLI 的版本、登录与功能不能假设完全同步？
+5. 为什么 App 的具体工作流统一到第八篇维护？
 6. 第三方线路切换时，最容易写错哪三个字段？
 
 如果你 6 个都能答出来，说明你已经不是“会抄配置”，而是“会排障会迁移”。
@@ -475,8 +446,12 @@ wire_api = "responses"
 11. <https://developers.openai.com/codex/app/worktrees>
 12. <https://developers.openai.com/codex/app/local-environments>
 13. <https://developers.openai.com/codex/app/automations>
-14. <https://developers.openai.com/codex/config-basic>
-15. <https://developers.openai.com/codex/config-reference>
+14. <https://developers.openai.com/codex/app/review>
+15. <https://learn.chatgpt.com/docs/browser?surface=app>
+16. <https://developers.openai.com/codex/app/computer-use>
+17. <https://developers.openai.com/codex/changelog>
+18. <https://developers.openai.com/codex/config-basic>
+19. <https://developers.openai.com/codex/config-reference>
 
 ### 第三方/社区
 

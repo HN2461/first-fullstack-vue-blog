@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac736"
 originalSlug: "websocket-websocket-uni-app-pcvue-dc468cc2"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # WebSocket 跨运行时适配实战：uni-app 与 PC Vue 共用核心层
 

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac556"
 originalSlug: "windows-msconfig-3392836b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Windows 启动项、任务管理器、MSConfig 与常用系统配置工具
 

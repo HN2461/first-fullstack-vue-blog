@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac02e"
 originalSlug: "ai-agent-openclaw-4d55dcf1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）
 

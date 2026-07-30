@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ae"
 originalSlug: "git-git-vscode-bfad3a07"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Git分支追踪与VSCode发布提示-排障指南
 

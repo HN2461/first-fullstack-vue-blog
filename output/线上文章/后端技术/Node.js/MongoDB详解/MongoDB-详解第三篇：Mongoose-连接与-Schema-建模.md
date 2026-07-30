@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac13e"
 originalSlug: "node-js-mongodb-mongoose-schema-ce33c896"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # MongoDB 详解第三篇：Mongoose 连接与 Schema 建模
 

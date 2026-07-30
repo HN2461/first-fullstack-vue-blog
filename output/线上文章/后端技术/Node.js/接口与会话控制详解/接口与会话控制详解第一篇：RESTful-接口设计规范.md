@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac16e"
 originalSlug: "node-js-restful-dd419ad9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 接口与会话控制详解第一篇：RESTful 接口设计规范
 

@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac288"
 originalSlug: "vue-ai-vue-v-for-7d30ba15"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第6章 列表渲染 v-for（高频重点）
 

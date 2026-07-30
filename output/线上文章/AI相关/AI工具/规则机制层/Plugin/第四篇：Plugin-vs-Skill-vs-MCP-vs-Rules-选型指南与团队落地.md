@@ -18,11 +18,11 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfe4"
 originalSlug: "ai-plugin-plugin-a8202a00"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地
 
-> 资料来源：本系列前三篇、OpenAI Codex 官方资料、Claude Code 官方插件文档。2026-05-24 按最新官方口径重整选型建议。
+> 资料来源：本系列前三篇、OpenAI Codex 官方资料、Claude Code 官方插件文档。2026-07-04 按最新官方口径重整选型建议。
 
 [[toc]]
 
@@ -125,14 +125,14 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 | 任务流程 | Rules / Prompt 体系 / 约定化模板 |
 | 多能力组合 | 没有独立 Plugin 体系，组合 Rules + MCP + VS Code 扩展 |
 
-### 3.4 Windsurf 选型速查
+### 3.4 Devin Desktop / Windsurf 选型速查
 
 | 需求 | 推荐 |
 | --- | --- |
 | 项目规范 | Rules |
 | 连接外部服务 | MCP |
 | 任务流程 | Skills / Workflows |
-| 多能力组合 | 没有独立 Plugin 体系，组合 Rules + Skills + MCP |
+| 多能力组合 | 没有独立 Plugin 体系，组合 Rules + Skills + MCP；规则路径按当前 Devin / Windsurf 文档复核 |
 
 ### 3.5 Kiro 选型速查
 
@@ -178,7 +178,7 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 
 ## 五、没有独立 Plugin 体系时的替代方案
 
-Cursor、Windsurf、Kiro 当前没有像 Codex / Claude Code 那样成熟的独立 Plugin 体系，但不代表没法落地。
+Cursor、Devin Desktop / Windsurf、Kiro 当前没有像 Codex / Claude Code 那样成熟的独立 Plugin 体系，但不代表没法落地。
 
 ### 5.1 替代方案 1：Rules + MCP
 
@@ -352,7 +352,7 @@ my-project/
 ## 十、参考资料
 
 - [OpenAI Academy: Codex Plugins and Skills](https://openai.com/academy/codex-plugins-and-skills/)
+- [OpenAI Codex 官方文档：Plugins](https://developers.openai.com/codex/plugins)
 - [OpenAI Plugins 官方仓库](https://github.com/openai/plugins)
-- [Claude Code: Discover plugins](https://code.claude.com/docs/en/discover-plugins)
-- [Claude Code: Plugins reference](https://code.claude.com/docs/en/plugins-reference)
+- [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)
 - [AI 工具 Plugin 插件体系系列目录](../目录.md)

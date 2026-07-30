@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a6"
 originalSlug: "vue-vue2-vuex-4372322f"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 ## 5.1 、vuex概述	
 ### 1. vuex是实现数据<font style="color:rgb(255, 0, 0);">集中式状态（数据）管理</font>的插件。

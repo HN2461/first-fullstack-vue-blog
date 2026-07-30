@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac39c"
 originalSlug: "js-js-51b18143"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第03篇：JavaScript 闭包与垃圾回收机制
 

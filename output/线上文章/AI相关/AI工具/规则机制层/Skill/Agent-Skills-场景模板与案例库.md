@@ -1,7 +1,7 @@
 ---
 title: "Agent Skills 场景模板与案例库"
 slug: "ai-skill-agentskills-a705fbb5"
-summary: "按 2026-05-24 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。"
+summary: "按 2026-07-04 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。"
 category: "Skill"
 tags:
   - "Agent Skills"
@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac01e"
 originalSlug: "ai-skill-agentskills-a705fbb5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Agent Skills 场景模板与案例库
 
@@ -399,13 +399,13 @@ description: Review code and configuration for auth mistakes, secret exposure, u
 
 如果主人想看**更贴近前端开发**的 skills 清单，而不是继续看抽象模板，可以直接接着看：
 
-- [补充篇：前端开发常用 Skills 清单与选型建议（2026-05复核）](补充篇_前端开发常用Skills清单与选型建议_2026-05.md)
+- [补充篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）](补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md)
 
 ## 参考资料
 
 - [Kiro Agent Skills 文档](https://kiro.dev/docs/cli/skills/)
 - [Cursor 2.4 更新说明](https://cursor.com/changelog/2-4)
-- [Cursor Rules 文档](https://docs.cursor.com/context/rules-for-ai)
-- [Claude Code Skills 文档](https://docs.anthropic.com/en/docs/claude-code/skills)
-- [Claude Code Slash Commands 文档](https://docs.anthropic.com/en/docs/claude-code/slash-commands)
+- [Cursor Rules 文档](https://cursor.com/docs/rules)
+- [Cursor Skills 文档](https://cursor.com/docs/skills)
+- [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
 - [OpenAI Skills 仓库](https://github.com/openai/skills)

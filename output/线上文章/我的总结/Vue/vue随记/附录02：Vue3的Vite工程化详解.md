@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac500"
 originalSlug: "vue-vue-02-vue3-vite-b6a24a54"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Vue3 的 Vite 工程化详解（面向前端工程师）
 

@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac236"
 originalSlug: "uni-app-uni-app-eventchannel-bc3b226b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # uni-app 微信小程序页面通信之 eventChannel 详解
 

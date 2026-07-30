@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c6"
 originalSlug: "h5-uni-app-h5-a4b1be0e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # uni-app 编译 H5 接入企业微信微应用（深度复刻版）
 

@@ -10,9 +10,10 @@ import {
 } from './helpers/testDatabase.js'
 
 const repositoryRoot = fileURLToPath(new URL('../..', import.meta.url))
+const offlineArticleRoot = path.join(repositoryRoot, 'output', '未导入线上')
 const learningRoots = [
-  path.join(repositoryRoot, 'output', 'MySQL'),
-  path.join(repositoryRoot, 'output', 'Redis')
+  path.join(offlineArticleRoot, 'MySQL'),
+  path.join(offlineArticleRoot, 'Redis')
 ]
 
 function collectMarkdownFiles(root) {
@@ -64,4 +65,3 @@ describe('database learning markdown import compatibility', () => {
     expect(preview.items.every((item) => item.summary.length <= 300)).toBe(true)
   })
 })
-

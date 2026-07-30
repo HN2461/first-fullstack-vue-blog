@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac344"
 originalSlug: "dns-c31ae11a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 ## 一、为什么需要DNS域名解析？
 互联网的通信依赖**IP地址**（IPv4如xxx.xxx.xxx.xxx，IPv6如8组十六进制数），所有设备（电脑、手机、服务器）必须通过IP地址才能互相定位和传输数据。但存在两个关键问题：

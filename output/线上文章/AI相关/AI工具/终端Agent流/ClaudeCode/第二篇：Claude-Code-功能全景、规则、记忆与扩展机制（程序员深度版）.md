@@ -1,7 +1,7 @@
 ---
 title: "第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-083e790a"
-summary: "基于 2026-05-30 Claude Code 官方 Memory、Skills、Hooks、Plugins、MCP 与 Settings 文档重写，重点解释程序员最容易混淆的规则层、权限层、记忆层与扩展层，并补清 CLAUDE.md、rules、skills、hooks、MCP、plugin 的职责边界。"
+summary: "基于 2026-07-04 Claude Code 官方 Memory、Skills、Hooks、Plugins、MCP 与 Settings 文档复核更新，重点解释程序员最容易混淆的规则层、权限层、记忆层与扩展层，并补清 CLAUDE.md、rules、auto memory、skills、hooks、MCP、plugin 的职责边界。"
 category: "ClaudeCode"
 tags:
   - "Claude Code"
@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf2a"
 originalSlug: "ai-agent-claudecode-claudecode-083e790a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）
 
@@ -38,9 +38,9 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 
 如果继续细分，大致可以对应成这样：
 
-- `CLAUDE.md` / rules / skills / subagents：偏规则层
+- `CLAUDE.md` / `.claude/rules/` / skills / subagents：偏规则层
 - settings / permission modes / sandbox：偏权限层
-- memory / `CLAUDE.local.md` / 会话恢复：偏记忆层
+- auto memory / `CLAUDE.local.md` / `/memory` / 会话恢复：偏记忆层
 - hooks / MCP / plugins / IDE integrations：偏扩展层
 
 这 4 层一定要分开理解。  
@@ -96,7 +96,7 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 ### 那已有 `AGENTS.md` 怎么办
 
 你当前仓库就有很完整的 `AGENTS.md`。  
-按官方当前 `memory` 文档，Claude Code 主要看的是 `CLAUDE.md`。  
+按官方当前 `memory` 文档，Claude Code 读的是 `CLAUDE.md` 系列文件，不会直接把 `AGENTS.md` 当作主规则入口。  
 所以最实用的做法是：
 
 ```md
@@ -140,15 +140,16 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 - `20-backend.md`
 - `30-docs.md`
 
-这样做的意义是把规则按关注点拆开，而不是把所有内容继续堆进一个超长的 `CLAUDE.md`。
+这样做的意义是把规则按关注点拆开，而不是把所有内容继续堆进一个超长的 `CLAUDE.md`。  
+官方当前特别强调：普通 `CLAUDE.md` 和无路径 frontmatter 的 rules 会在启动时进入上下文；带路径范围的 rules 只在 Claude 处理匹配文件时加载，更适合大仓库减少噪音。
 
 ### 最稳的演进顺序
 
 我更推荐主人按这个顺序演进：
 
 1. 先只有一个 `CLAUDE.md`
-2. 规则变多后，再拆 `.claude/rules/*.md`
-3. 个人偏好再考虑 `CLAUDE.local.md`
+2. 个人、本机、临时内容放进 `CLAUDE.local.md`，并加入 `.gitignore`
+3. 规则变多后，再拆 `.claude/rules/*.md`
 
 不要第一天就同时铺开三四套规则体系。
 
@@ -195,7 +196,12 @@ Claude 可能会尽量遵守，但这不等于底层被硬性拦住。
 很多人第一次看到记忆，会本能地想“那我把所有经验都存进去”。  
 这通常是错的。
 
-从工程协作角度，值得进入长期记忆的内容通常有这几类：
+从工程协作角度，长期信息现在要分两种看：
+
+- 你明确写的规则：`CLAUDE.md`、`CLAUDE.local.md`、`.claude/rules/`
+- Claude 自动积累的经验：auto memory
+
+值得进入长期记忆的内容通常有这几类：
 
 - 长期稳定的项目约定
 - 团队反复强调的工作方式
@@ -208,6 +214,17 @@ Claude 可能会尽量遵守，但这不等于底层被硬性拦住。
 - 一次性需求背景
 - 某个短期分支的特殊做法
 - 很快会过时的状态信息
+
+### 当前官方 auto memory 的关键边界
+
+按 2026-07-04 官方文档，auto memory 默认开启，Claude 会把它认为后续有用的构建命令、调试经验、架构笔记和偏好记录到本机目录。它不是团队共享规则，也不是硬约束。
+
+几个边界一定要记住：
+
+- auto memory 按仓库维度沉淀，并在同一 git 仓库的 worktree 间共享
+- 启动时只加载索引文件的前 200 行或 25KB，详细主题文件按需读取
+- 可以用 `/memory` 查看、编辑、关闭 auto memory
+- 如果想让规则对团队稳定生效，优先写 `CLAUDE.md` 或 rules，不要只靠 auto memory
 
 ### 为什么记忆会让系统越用越乱
 
@@ -224,8 +241,8 @@ Claude 可能会尽量遵守，但这不等于底层被硬性拦住。
 这是你这次最关心的一块之一。  
 因为你已经装了很多 skill 和插件，但不知道怎么调用。
 
-按官方当前 `skills` 文档，Claude Code 现在已经把很多过去单独讲的 custom commands 能力并入了 skills 体系。  
-旧的 `.claude/commands/*.md` 仍然能工作，但新内容官方更推荐使用 skill 目录结构，因为它更适合携带 supporting files。
+按官方当前 `skills` 文档，Claude Code 已经把 custom commands 能力并入了 skills 体系。  
+旧的 `.claude/commands/*.md` 仍然能工作，并且会像同名 skill 一样创建斜杠命令；新内容更推荐使用 `.claude/skills/<name>/SKILL.md` 目录结构，因为它更适合携带 supporting files、frontmatter、调用控制和动态上下文。
 
 ### Skill 的本质
 
@@ -272,7 +289,8 @@ Skill 不是“换一个更酷的 prompt”。
 最直接的做法通常有两种：
 
 1. 用 `/skills` 先查看当前可发现的 skill / command
-2. 在 prompt 里明确点名 skill 的任务意图
+2. 如果有直接入口，使用 `/skill-name` 调用
+3. 在 prompt 里明确点名 skill 的任务意图
 
 例如你装了前端设计类 skill，直接说：
 
@@ -282,6 +300,8 @@ Skill 不是“换一个更酷的 prompt”。
 ```
 
 如果 skill 是通过命令暴露的入口，例如 `/deploy` 这类，那就直接执行相应 slash command。
+
+官方当前还内置了一批 bundled skills，例如 `/code-review`、`/batch`、`/debug`、`/loop`、`/run`、`/verify`、`/claude-api`。它们出现在命令列表里，但本质是 prompt-based skill，不是硬编码管理命令。
 
 ### 为什么你装了很多 skill 却感觉调用不到
 
@@ -418,7 +438,7 @@ project-root/
 
 - `CLAUDE.md` 先解决总规则
 - `settings.json` 先解决边界
-- `rules/` 解决分类规则
+- `rules/` 解决分类、路径范围和大仓库规则加载
 - `skills/` 只放你真正高频复用的流程
 
 至于 hooks、plugin、复杂 MCP 编排，应该在主线稳定后再慢慢引入。
@@ -499,7 +519,7 @@ Plugin 只是容器或分发方式，不代表其中每项能力都会自动命�
 2. 高频重复流程才做 skill，不要什么都 skill 化
 3. 需要外部能力再接 MCP，不要为了“高级”而乱接
 4. 安装了扩展后先看 `/skills`、`/mcp`、`/plugin` 是否真被发现
-5. 记忆只沉淀长期稳定的信息，不要把临时需求长期化
+5. 用 `/memory` 定期审计 auto memory，不要让临时需求长期化
 
 ---
 

@@ -17,11 +17,11 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfde"
 originalSlug: "ai-plugin-claudecode-claudecodeplugin-ed613976"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第三篇：Claude Code Plugin 体系详解与实战
 
-> 资料来源：Claude Code 官方《Discover plugins》《Plugins reference》、Anthropic 官方 marketplace 仓库。2026-05-24 按官方文档重新校对命令、Marketplace 与 manifest 规则。
+> 资料来源：Claude Code 官方《Create plugins》文档与 Anthropic 官方 / 社区 marketplace 仓库。2026-07-04 按官方文档重新校对命令、Marketplace 与 manifest 规则。
 
 [[toc]]
 
@@ -369,8 +369,8 @@ Claude Code 官方文档对安装源的说明比很多二手文章要细：
 
 ## 十、参考资料
 
-- [Claude Code: Discover plugins](https://code.claude.com/docs/en/discover-plugins)
-- [Claude Code: Plugins reference](https://code.claude.com/docs/en/plugins-reference)
+- [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)
+- [Claude Code: Skills](https://code.claude.com/docs/en/skills)
 - [Anthropic 官方 marketplace：claude-plugins-official](https://github.com/anthropics/claude-plugins-official)
 - [Anthropic 社区 marketplace：claude-plugins-community](https://github.com/anthropics/claude-plugins-community)
 - [Anthropic Claude Code 仓库中的 demo plugins](https://github.com/anthropics/claude-code/tree/main/plugins)

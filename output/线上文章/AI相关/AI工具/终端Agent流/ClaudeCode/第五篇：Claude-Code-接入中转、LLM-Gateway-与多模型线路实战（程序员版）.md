@@ -1,7 +1,7 @@
 ---
 title: "第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）"
 slug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
-summary: "基于 2026-05-30 Claude Code 官方模型配置与第三方接入资料重写，面向程序员说明 Claude Code 如何接入中转、LLM Gateway 和多模型线路，重点讲清 Base URL、Key、模型映射、最小配置模板、验证顺序与高频排障。"
+summary: "基于 2026-07-04 Claude Code 官方 Model Config、Settings 与第三方接入资料复核更新，面向程序员说明 Claude Code 如何接入中转、LLM Gateway 和多模型线路，重点讲清 Base URL、Key、模型映射、最小配置模板、验证顺序与高频排障。"
 category: "ClaudeCode"
 tags:
   - "Claude Code"
@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf36"
 originalSlug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）
 
@@ -57,6 +57,7 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
 - `ANTHROPIC_DEFAULT_SONNET_MODEL`
 - `ANTHROPIC_DEFAULT_OPUS_MODEL`
 - `ANTHROPIC_DEFAULT_HAIKU_MODEL`
+- `ANTHROPIC_DEFAULT_FABLE_MODEL`
 
 你可以这样记：
 
@@ -71,6 +72,8 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
 - 返回值不符合预期
 
 这时候根因往往不是线路没通，而是模型映射没配。
+
+按 2026-07-04 官方 `model-config` 文档，Claude Code 当前模型别名不只 Sonnet / Opus / Haiku，还包括 `fable` 和 `best`。其中 `fable` 偏文档、写作、清晰沟通类任务；如果你的第三方网关支持这类映射，建议一起配齐。`best` 是自动选择别名，通常不直接映射成某个固定环境变量。
 
 ---
 
@@ -103,6 +106,7 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
 - Sonnet 指向谁
 - Opus 指向谁
 - Haiku 指向谁
+- Fable 指向谁
 
 ### 第四类：通过 CC Switch 等工具统一管理
 
@@ -128,14 +132,15 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
     "ANTHROPIC_MODEL": "你的真实模型名",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "你的真实模型名",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "你的真实模型名",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "你的真实模型名"
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "你的真实模型名",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "你的真实模型名"
   }
 }
 ```
 
 ### 什么时候适合先全都指向同一个模型
 
-如果这条线路只提供一个主模型，或者你当前只是想先验证“这条线路到底通不通”，最稳的做法就是先把 4 个模型字段都统一指过去。
+如果这条线路只提供一个主模型，或者你当前只是想先验证“这条线路到底通不通”，最稳的做法就是先把 `ANTHROPIC_MODEL` 和 4 个默认模型映射字段都统一指过去。
 
 例如：
 
@@ -147,7 +152,8 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
     "ANTHROPIC_MODEL": "my-main-model",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "my-main-model",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "my-main-model",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "my-main-model"
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "my-main-model",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "my-main-model"
   }
 }
 ```
@@ -156,7 +162,7 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
 
 ---
 
-## 4. 最小模板二：分开映射 Sonnet / Opus / Haiku
+## 4. 最小模板二：分开映射 Sonnet / Opus / Haiku / Fable
 
 如果你接的是多模型 Gateway，这种模板更接近真实生产用法：
 
@@ -168,7 +174,8 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
     "ANTHROPIC_MODEL": "sonnet-like-model",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "sonnet-like-model",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "opus-like-model",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "haiku-like-model"
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "haiku-like-model",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "writing-like-model"
   }
 }
 ```
@@ -180,6 +187,8 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
 - 你清楚这几个模型各自支持什么上下文和计费策略
 
 但前提是你真的知道服务商给你的模型名是“真实模型名”，不是营销名。
+
+这里千万不要直接把官方别名当真实模型名照抄给第三方线路。第三方 Gateway 可能要求 `claude-sonnet-5-20260229`、`glm-xxx`、`mimo-xxx` 这类服务商自己的模型 ID；每次发布或复习配置前，都要以服务商后台当前文档为准。
 
 ---
 

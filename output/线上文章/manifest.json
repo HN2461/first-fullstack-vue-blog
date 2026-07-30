@@ -1,6 +1,6 @@
 {
   "formatVersion": 2,
-  "exportedAt": "2026-07-30T14:08:39.359Z",
+  "exportedAt": "2026-07-30T14:30:35.933Z",
   "scope": "all",
   "slugStrategy": "keep",
   "filters": {
@@ -1312,9 +1312,9 @@
         "rpcod"
       ],
       "sortOrder": 10,
-      "sourcePath": "AI工具/02_终端Agent流/Codex/04_Codex多线路接入与迁移总手册.md",
+      "sourcePath": "AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md",
       "publishedAt": "2026-06-04T13:41:34.298Z",
-      "updatedAt": "2026-06-13T10:28:26.684Z",
+      "updatedAt": "2026-07-30T14:24:30.428Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md"
     },
     {
@@ -1338,9 +1338,9 @@
         "开发工作流"
       ],
       "sortOrder": 20,
-      "sourcePath": "AI工具/02_终端Agent流/Codex/01_Codex_CLI第一日开发实战.md",
+      "sourcePath": "AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md",
       "publishedAt": "2026-06-04T13:41:34.297Z",
-      "updatedAt": "2026-06-13T10:28:26.644Z",
+      "updatedAt": "2026-07-30T14:24:30.446Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md"
     },
     {
@@ -1365,9 +1365,9 @@
         "OpenAI官方"
       ],
       "sortOrder": 30,
-      "sourcePath": "AI工具/02_终端Agent流/Codex/07_Codex当前常用功能与进阶工作流手册.md",
+      "sourcePath": "AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md",
       "publishedAt": "2026-06-04T13:41:34.296Z",
-      "updatedAt": "2026-06-13T10:28:26.724Z",
+      "updatedAt": "2026-07-30T14:24:30.409Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md"
     },
     {
@@ -1391,9 +1391,9 @@
         "速查"
       ],
       "sortOrder": 40,
-      "sourcePath": "AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查.md",
+      "sourcePath": "AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md",
       "publishedAt": "2026-06-04T13:41:34.294Z",
-      "updatedAt": "2026-06-13T10:28:26.710Z",
+      "updatedAt": "2026-07-30T14:24:30.403Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md"
     },
     {
@@ -1417,9 +1417,9 @@
         "配置联动"
       ],
       "sortOrder": 50,
-      "sourcePath": "AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战.md",
+      "sourcePath": "AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
       "publishedAt": "2026-06-04T13:41:34.293Z",
-      "updatedAt": "2026-06-13T10:28:26.697Z",
+      "updatedAt": "2026-07-30T14:24:30.438Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md"
     },
     {
@@ -1443,9 +1443,9 @@
         "Windows"
       ],
       "sortOrder": 60,
-      "sourcePath": "AI工具/02_终端Agent流/Codex/03_Codex配置总手册.md",
+      "sourcePath": "AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
       "publishedAt": "2026-06-04T13:38:33.777Z",
-      "updatedAt": "2026-06-13T10:28:26.668Z",
+      "updatedAt": "2026-07-30T14:24:30.420Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md"
     },
     {
@@ -1469,9 +1469,9 @@
         "排错"
       ],
       "sortOrder": 70,
-      "sourcePath": "AI工具/02_终端Agent流/Codex/02_Codex_CLI英文终端界面翻译与排错.md",
+      "sourcePath": "AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md",
       "publishedAt": "2026-06-04T13:38:33.774Z",
-      "updatedAt": "2026-06-13T10:28:26.656Z",
+      "updatedAt": "2026-07-30T14:24:30.392Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md"
     },
     {
@@ -1681,9 +1681,9 @@
         "英文提示"
       ],
       "sortOrder": 10,
-      "sourcePath": "AI工具/02_终端Agent流/ClaudeCode/第六篇_ClaudeCode的Skills_MCP_Plugin怎么安装调用与排错_2026-05.md",
+      "sourcePath": "AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md",
       "publishedAt": "2026-05-30T09:36:22.756Z",
-      "updatedAt": "2026-06-13T10:28:26.614Z",
+      "updatedAt": "2026-07-30T14:24:30.345Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md"
     },
     {
@@ -1708,9 +1708,9 @@
         "Verify"
       ],
       "sortOrder": 20,
-      "sourcePath": "AI工具/02_终端Agent流/ClaudeCode/第三篇_ClaudeCode常见工作流与最佳实践_2026-03.md",
+      "sourcePath": "AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.838Z",
-      "updatedAt": "2026-06-13T10:28:26.572Z",
+      "updatedAt": "2026-07-30T14:24:30.362Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md"
     },
     {
@@ -1735,9 +1735,9 @@
         "Plugins"
       ],
       "sortOrder": 30,
-      "sourcePath": "AI工具/02_终端Agent流/ClaudeCode/第二篇_ClaudeCode功能全景与记忆机制_2026-03.md",
+      "sourcePath": "AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.835Z",
-      "updatedAt": "2026-06-13T10:28:26.586Z",
+      "updatedAt": "2026-07-30T14:24:30.336Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md"
     },
     {
@@ -1762,9 +1762,9 @@
         "程序员上手"
       ],
       "sortOrder": 40,
-      "sourcePath": "AI工具/02_终端Agent流/ClaudeCode/第一篇_ClaudeCode快速上手与工作原理_2026-03.md",
+      "sourcePath": "AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md",
       "publishedAt": "2026-05-30T08:58:26.833Z",
-      "updatedAt": "2026-06-13T10:28:26.558Z",
+      "updatedAt": "2026-07-30T14:24:30.385Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md"
     },
     {
@@ -1789,9 +1789,9 @@
         "模型映射"
       ],
       "sortOrder": 50,
-      "sourcePath": "AI工具/02_终端Agent流/ClaudeCode/第五篇_ClaudeCode接入中转_LLMGateway与多模型线路实战_2026-03.md",
+      "sourcePath": "AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md",
       "publishedAt": "2026-05-30T08:58:26.824Z",
-      "updatedAt": "2026-06-13T10:28:26.600Z",
+      "updatedAt": "2026-07-30T14:24:30.378Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md"
     },
     {
@@ -1816,16 +1816,16 @@
         "配置作用域"
       ],
       "sortOrder": 60,
-      "sourcePath": "AI工具/02_终端Agent流/ClaudeCode/第四篇_ClaudeCode设置与个性化_2026-03.md",
+      "sourcePath": "AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.821Z",
-      "updatedAt": "2026-06-13T10:28:26.628Z",
+      "updatedAt": "2026-07-30T14:24:30.370Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac020",
       "originalSlug": "ai-skill-skills-8158d6e4",
       "exportedSlug": "ai-skill-skills-8158d6e4",
-      "title": "补充篇：前端开发常用 Skills 清单与落地顺序（2026-05复核）",
+      "title": "补充篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1843,16 +1843,16 @@
         "Claude Code"
       ],
       "sortOrder": 10,
-      "sourcePath": "AI工具/03_规则机制层/Skill/03_场景模板与案例库/补充篇_前端开发常用Skills清单与选型建议_2026-05.md",
+      "sourcePath": "AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md",
       "publishedAt": "2026-05-27T12:51:31.734Z",
-      "updatedAt": "2026-06-13T14:03:18.955Z",
-      "fileName": "AI相关/AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-05复核）.md"
+      "updatedAt": "2026-07-30T14:24:30.304Z",
+      "fileName": "AI相关/AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfa6",
       "originalSlug": "ai-mcp-mcp-mcp-d20641b2",
       "exportedSlug": "ai-mcp-mcp-mcp-d20641b2",
-      "title": "第二篇：前端开发常用 MCP 清单与选型建议（2026-05复核）",
+      "title": "03：前端开发常用 MCP 清单与选型建议（2026-07复核）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1869,10 +1869,10 @@
         "组件开发"
       ],
       "sortOrder": 10,
-      "sourcePath": "AI工具/03_规则机制层/MCP/02_常用MCP清单/第二篇_前端开发常用搜索资料MCP推荐_2026-05.md",
+      "sourcePath": "AI工具/规则机制层/MCP/03-前端开发常用-MCP-清单与选型建议（2026-07复核）.md",
       "publishedAt": "2026-05-27T12:51:31.733Z",
-      "updatedAt": "2026-06-13T14:03:18.919Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第二篇：前端开发常用-MCP-清单与选型建议（2026-05复核）.md"
+      "updatedAt": "2026-07-30T14:24:30.171Z",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/03：前端开发常用-MCP-清单与选型建议（2026-07复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac01e",
@@ -1897,16 +1897,16 @@
         "Claude Code"
       ],
       "sortOrder": 20,
-      "sourcePath": "AI工具/03_规则机制层/Skill/03_场景模板与案例库/第三篇_AgentSkills场景模板与案例库.md",
+      "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md",
       "publishedAt": "2026-05-24T15:07:50.715Z",
-      "updatedAt": "2026-06-13T14:03:18.955Z",
+      "updatedAt": "2026-07-30T14:24:30.310Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabf9c",
       "originalSlug": "ai-mcp-mcp-mcp-ce5df958",
       "exportedSlug": "ai-mcp-mcp-mcp-ce5df958",
-      "title": "第一篇：常用 MCP 分类与选型总览",
+      "title": "02：常用 MCP 分类与选型总览",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1923,10 +1923,10 @@
         "清单"
       ],
       "sortOrder": 20,
-      "sourcePath": "AI工具/03_规则机制层/MCP/02_常用MCP清单/第一篇_常用MCP分类与选型总览.md",
+      "sourcePath": "AI工具/规则机制层/MCP/02-常用-MCP-分类与选型总览.md",
       "publishedAt": "2026-05-24T14:31:35.923Z",
-      "updatedAt": "2026-06-13T14:03:18.919Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第一篇：常用-MCP-分类与选型总览.md"
+      "updatedAt": "2026-07-30T14:24:30.158Z",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/02：常用-MCP-分类与选型总览.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac024",
@@ -1952,9 +1952,9 @@
         "Claude Code"
       ],
       "sortOrder": 30,
-      "sourcePath": "AI工具/03_规则机制层/Skill/04_团队协作与社区资源/第四篇_AgentSkills团队协作与社区资源.md",
+      "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md",
       "publishedAt": "2026-05-24T14:29:34.184Z",
-      "updatedAt": "2026-06-13T14:03:18.964Z",
+      "updatedAt": "2026-07-30T14:24:30.329Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md"
     },
     {
@@ -1980,9 +1980,9 @@
         "版本边界"
       ],
       "sortOrder": 40,
-      "sourcePath": "AI工具/03_规则机制层/Skill/02_高级用法与进阶技巧/第二篇_AgentSkills高级用法与进阶技巧.md",
+      "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md",
       "publishedAt": "2026-05-24T14:29:34.181Z",
-      "updatedAt": "2026-06-13T14:03:18.961Z",
+      "updatedAt": "2026-07-30T14:24:30.315Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md"
     },
     {
@@ -2008,9 +2008,9 @@
         "兼容性"
       ],
       "sortOrder": 50,
-      "sourcePath": "AI工具/03_规则机制层/Skill/01_概念与原理/第一篇_AgentSkills开放标准与各工具兼容性全解.md",
+      "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md",
       "publishedAt": "2026-05-24T14:29:34.177Z",
-      "updatedAt": "2026-06-13T14:03:18.958Z",
+      "updatedAt": "2026-07-30T14:24:30.323Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md"
     },
     {
@@ -2037,9 +2037,9 @@
         "Claude Code"
       ],
       "sortOrder": 10,
-      "sourcePath": "AI工具/03_规则机制层/Plugin/04_选型指南与团队落地/第四篇_Plugin选型指南与团队落地_2026-05.md",
+      "sourcePath": "AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md",
       "publishedAt": "2026-05-24T14:25:23.674Z",
-      "updatedAt": "2026-06-13T14:03:18.931Z",
+      "updatedAt": "2026-07-30T14:24:30.239Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md"
     },
     {
@@ -2065,9 +2065,9 @@
         "Slash Commands"
       ],
       "sortOrder": 20,
-      "sourcePath": "AI工具/03_规则机制层/Plugin/03_ClaudeCode插件体系/第三篇_ClaudeCodePlugin体系详解与实战_2026-05.md",
+      "sourcePath": "AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md",
       "publishedAt": "2026-05-24T14:23:33.381Z",
-      "updatedAt": "2026-06-13T14:03:18.934Z",
+      "updatedAt": "2026-07-30T14:24:30.231Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md"
     },
     {
@@ -2093,9 +2093,9 @@
         "技能包"
       ],
       "sortOrder": 30,
-      "sourcePath": "AI工具/03_规则机制层/Plugin/02_Codex插件体系/第二篇_CodexPlugin体系详解与实战_2026-05.md",
+      "sourcePath": "AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md",
       "publishedAt": "2026-05-24T14:22:01.415Z",
-      "updatedAt": "2026-06-13T14:03:18.937Z",
+      "updatedAt": "2026-07-30T14:24:30.218Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md"
     },
     {
@@ -2121,16 +2121,16 @@
         "扩展机制"
       ],
       "sortOrder": 40,
-      "sourcePath": "AI工具/03_规则机制层/Plugin/01_概念与原理/第一篇_Plugin插件是什么与为什么_2026-05.md",
+      "sourcePath": "AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md",
       "publishedAt": "2026-05-24T14:18:17.434Z",
-      "updatedAt": "2026-06-13T14:03:18.928Z",
+      "updatedAt": "2026-07-30T14:24:30.248Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfb6",
       "originalSlug": "ai-mcp-c534a7cb",
       "exportedSlug": "ai-mcp-c534a7cb",
-      "title": "第三组：MCP 项目落地与收益评估问题",
+      "title": "06：MCP 项目落地与收益评估问题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2146,16 +2146,16 @@
         "收益评估"
       ],
       "sortOrder": 30,
-      "sourcePath": "AI工具/03_规则机制层/MCP/03_面试题库与回答模板/第三组_项目落地与收益评估问题.md",
+      "sourcePath": "AI工具/规则机制层/MCP/06-MCP-项目落地与收益评估问题.md",
       "publishedAt": "2026-05-24T14:18:00.566Z",
-      "updatedAt": "2026-06-13T14:03:18.925Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第三组：MCP-项目落地与收益评估问题.md"
+      "updatedAt": "2026-07-30T14:24:30.203Z",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/06：MCP-项目落地与收益评估问题.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfbc",
       "originalSlug": "ai-mcp-ede3e0c8",
       "exportedSlug": "ai-mcp-ede3e0c8",
-      "title": "第二组：MCP 架构与安全边界问题",
+      "title": "05：MCP 架构与安全边界问题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2171,16 +2171,16 @@
         "安全治理"
       ],
       "sortOrder": 40,
-      "sourcePath": "AI工具/03_规则机制层/MCP/03_面试题库与回答模板/第二组_架构与安全边界问题.md",
+      "sourcePath": "AI工具/规则机制层/MCP/05-MCP-架构与安全边界问题.md",
       "publishedAt": "2026-05-24T14:18:00.565Z",
-      "updatedAt": "2026-06-13T14:03:18.925Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第二组：MCP-架构与安全边界问题.md"
+      "updatedAt": "2026-07-30T14:24:30.194Z",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/05：MCP-架构与安全边界问题.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfb0",
       "originalSlug": "ai-mcp-83743b3f",
       "exportedSlug": "ai-mcp-83743b3f",
-      "title": "第一组：MCP 概念与主流度问题",
+      "title": "04：MCP 概念与主流度问题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2196,10 +2196,10 @@
         "回答模板"
       ],
       "sortOrder": 50,
-      "sourcePath": "AI工具/03_规则机制层/MCP/03_面试题库与回答模板/第一组_概念与主流度问题.md",
+      "sourcePath": "AI工具/规则机制层/MCP/04-MCP-概念与主流度问题.md",
       "publishedAt": "2026-05-24T14:18:00.563Z",
-      "updatedAt": "2026-06-13T14:03:18.925Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第一组：MCP-概念与主流度问题.md"
+      "updatedAt": "2026-07-30T14:24:30.185Z",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/04：MCP-概念与主流度问题.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac062",
@@ -2232,7 +2232,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabf96",
       "originalSlug": "ai-mcp-mcp-067b747a",
       "exportedSlug": "ai-mcp-mcp-067b747a",
-      "title": "第一篇：MCP 是什么与开放标准核心认知",
+      "title": "01：MCP 是什么与开放标准核心认知",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2249,10 +2249,10 @@
         "面试"
       ],
       "sortOrder": 60,
-      "sourcePath": "AI工具/03_规则机制层/MCP/01_概念与原理/第一篇_MCP是什么与开放标准核心认知.md",
+      "sourcePath": "AI工具/规则机制层/MCP/01-MCP-是什么与开放标准核心认知.md",
       "publishedAt": "2026-05-24T14:08:06.903Z",
-      "updatedAt": "2026-06-13T14:03:18.922Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第一篇：MCP-是什么与开放标准核心认知.md"
+      "updatedAt": "2026-07-30T14:24:30.136Z",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/01：MCP-是什么与开放标准核心认知.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac040",
@@ -2410,7 +2410,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabfc6",
       "originalSlug": "ai-mcp-mcp-79fea32a",
       "exportedSlug": "ai-mcp-mcp-79fea32a",
-      "title": "谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
+      "title": "07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2427,10 +2427,10 @@
         "Windows"
       ],
       "sortOrder": 70,
-      "sourcePath": "AI工具/03_规则机制层/MCP/谷歌MCP_配置手册.md",
+      "sourcePath": "AI工具/规则机制层/MCP/07-谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md",
       "publishedAt": "2026-05-24T13:49:15.045Z",
-      "updatedAt": "2026-06-13T10:28:26.860Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md"
+      "updatedAt": "2026-07-30T14:24:30.210Z",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/07：谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabf88",
@@ -2584,16 +2584,16 @@
         "AI规则文档"
       ],
       "sortOrder": 10,
-      "sourcePath": "AI工具/03_规则机制层/Rules/05_Gemini与Copilot/第五篇_GeminiCLI与Copilot规则文档_2026-04.md",
+      "sourcePath": "AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md",
       "publishedAt": "2026-05-24T12:56:24.681Z",
-      "updatedAt": "2026-06-13T14:03:18.953Z",
+      "updatedAt": "2026-07-30T14:24:30.288Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac002",
       "originalSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
       "exportedSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
-      "title": "第四篇：Cursor Rules / Windsurf Rules / Kiro Steering 实战",
+      "title": "第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2604,16 +2604,16 @@
       ],
       "tags": [
         "Cursor Rules",
-        "Windsurf Rules",
+        "Devin / Windsurf Rules",
         "Kiro Steering",
         "MDC格式",
         "AI规则文档"
       ],
       "sortOrder": 20,
-      "sourcePath": "AI工具/03_规则机制层/Rules/04_Cursor_Windsurf_Kiro实战/第四篇_Cursor_Windsurf_Kiro规则文档实战_2026-04.md",
+      "sourcePath": "AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md",
       "publishedAt": "2026-05-24T12:56:24.680Z",
-      "updatedAt": "2026-06-13T14:03:18.950Z",
-      "fileName": "AI相关/AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md"
+      "updatedAt": "2026-07-30T14:24:30.276Z",
+      "fileName": "AI相关/AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Devin-Windsurf-Rules-Kiro-Steering-实战.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabff8",
@@ -2636,9 +2636,9 @@
         ".claude/rules"
       ],
       "sortOrder": 30,
-      "sourcePath": "AI工具/03_规则机制层/Rules/03_CLAUDE记忆系统/第三篇_CLAUDE_md与ClaudeCode记忆系统_2026-04.md",
+      "sourcePath": "AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md",
       "publishedAt": "2026-05-24T12:56:24.678Z",
-      "updatedAt": "2026-06-13T14:03:18.947Z",
+      "updatedAt": "2026-07-30T14:24:30.272Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md"
     },
     {
@@ -2662,9 +2662,9 @@
         "Linux基金会"
       ],
       "sortOrder": 40,
-      "sourcePath": "AI工具/03_规则机制层/Rules/02_AGENTS开放标准/第二篇_AGENTS_md开放标准完全指南_2026-04.md",
+      "sourcePath": "AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md",
       "publishedAt": "2026-05-24T12:56:24.676Z",
-      "updatedAt": "2026-06-13T14:03:18.942Z",
+      "updatedAt": "2026-07-30T14:24:30.258Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md"
     },
     {
@@ -2688,9 +2688,9 @@
         "上下文管理"
       ],
       "sortOrder": 50,
-      "sourcePath": "AI工具/03_规则机制层/Rules/01_概念与原理/第一篇_AI工具规则文档是什么与为什么_2026-04.md",
+      "sourcePath": "AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md",
       "publishedAt": "2026-05-24T12:56:24.674Z",
-      "updatedAt": "2026-06-13T14:03:18.939Z",
+      "updatedAt": "2026-07-30T14:24:30.296Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md"
     },
     {
@@ -2714,9 +2714,9 @@
         "学习路线"
       ],
       "sortOrder": 80,
-      "sourcePath": "AI工具/03_规则机制层/MCP/00_导航与学习路线.md",
+      "sourcePath": "AI工具/规则机制层/MCP/00-MCP-学习导航与维护路线.md",
       "publishedAt": "2026-05-24T12:56:24.660Z",
-      "updatedAt": "2026-06-13T10:28:26.755Z",
+      "updatedAt": "2026-07-30T14:24:30.118Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/MCP-学习导航与维护路线.md"
     },
     {
@@ -2853,7 +2853,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabee8",
       "originalSlug": "ai-ai-kiro-kiro-hooks-4b92a74f",
       "exportedSlug": "ai-ai-kiro-kiro-hooks-4b92a74f",
-      "title": "第四篇：Kiro Hooks 自动化机制（2026-04）",
+      "title": "第四篇：Kiro Hooks 自动化机制（2026-07）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2866,44 +2866,19 @@
         "Kiro",
         "Hooks",
         "自动化",
-        "事件驱动"
+        "Agent Hooks"
       ],
       "sortOrder": 10,
-      "sourcePath": "AI工具/01_AI编辑器流/Kiro/第四篇_Kiro_Hooks自动化机制_2026-04.md",
+      "sourcePath": "AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md",
       "publishedAt": "2026-05-24T12:56:24.593Z",
-      "updatedAt": "2026-06-13T10:28:26.468Z",
-      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-04）.md"
-    },
-    {
-      "originalId": "6a2d291d8a2b1c68f2cabee0",
-      "originalSlug": "ai-ai-kiro-kiro-bee7077a",
-      "exportedSlug": "ai-ai-kiro-kiro-bee7077a",
-      "title": "第六篇：Kiro 工作流实战与最佳实践（2026-04）",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Kiro"
-      ],
-      "tags": [
-        "Kiro",
-        "工作流",
-        "最佳实践",
-        "对比分析"
-      ],
-      "sortOrder": 20,
-      "sourcePath": "AI工具/01_AI编辑器流/Kiro/第六篇_Kiro工作流实战与最佳实践_2026-04.md",
-      "publishedAt": "2026-05-24T12:56:24.592Z",
-      "updatedAt": "2026-06-13T10:28:26.457Z",
-      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-04）.md"
+      "updatedAt": "2026-07-30T14:24:30.485Z",
+      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabed8",
       "originalSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
       "exportedSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
-      "title": "第五篇：Kiro MCP 集成与工具扩展（2026-04）",
+      "title": "第五篇：Kiro MCP 集成与工具扩展（2026-07）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2919,16 +2894,41 @@
         "工具扩展"
       ],
       "sortOrder": 30,
-      "sourcePath": "AI工具/01_AI编辑器流/Kiro/第五篇_Kiro_MCP集成与工具扩展_2026-04.md",
+      "sourcePath": "AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md",
       "publishedAt": "2026-05-24T12:56:24.592Z",
-      "updatedAt": "2026-06-13T10:28:26.444Z",
-      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-04）.md"
+      "updatedAt": "2026-07-30T14:24:30.491Z",
+      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabee0",
+      "originalSlug": "ai-ai-kiro-kiro-bee7077a",
+      "exportedSlug": "ai-ai-kiro-kiro-bee7077a",
+      "title": "第六篇：Kiro 工作流实战与最佳实践（2026-07）",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Kiro"
+      ],
+      "tags": [
+        "Kiro",
+        "工作流",
+        "最佳实践",
+        "Spec驱动开发"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md",
+      "publishedAt": "2026-05-24T12:56:24.592Z",
+      "updatedAt": "2026-07-30T14:24:30.464Z",
+      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabed2",
       "originalSlug": "ai-ai-kiro-kiro-specs-c09713f2",
       "exportedSlug": "ai-ai-kiro-kiro-specs-c09713f2",
-      "title": "第二篇：Kiro Specs 规格系统详解（2026-04）",
+      "title": "第二篇：Kiro Specs 规格系统详解（2026-07）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2945,16 +2945,16 @@
         "design"
       ],
       "sortOrder": 40,
-      "sourcePath": "AI工具/01_AI编辑器流/Kiro/第二篇_Kiro_Specs规格系统详解_2026-04.md",
+      "sourcePath": "AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md",
       "publishedAt": "2026-05-24T12:56:24.590Z",
-      "updatedAt": "2026-06-13T10:28:26.431Z",
-      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-04）.md"
+      "updatedAt": "2026-07-30T14:24:30.454Z",
+      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabec8",
       "originalSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
       "exportedSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
-      "title": "第三篇：Kiro Steering 上下文管理（2026-04）",
+      "title": "第三篇：Kiro Steering 上下文管理（2026-07）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2970,16 +2970,16 @@
         "AGENTS.md"
       ],
       "sortOrder": 50,
-      "sourcePath": "AI工具/01_AI编辑器流/Kiro/第三篇_Kiro_Steering上下文管理_2026-04.md",
+      "sourcePath": "AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md",
       "publishedAt": "2026-05-24T12:56:24.589Z",
-      "updatedAt": "2026-06-13T10:28:26.417Z",
-      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-04）.md"
+      "updatedAt": "2026-07-30T14:24:30.473Z",
+      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabec0",
       "originalSlug": "ai-ai-kiro-kiro-4ba05074",
       "exportedSlug": "ai-ai-kiro-kiro-4ba05074",
-      "title": "第一篇：Kiro 快速上手与核心概念（2026-04）",
+      "title": "第一篇：Kiro 快速上手与核心概念（2026-07）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2995,10 +2995,10 @@
         "Spec驱动开发"
       ],
       "sortOrder": 60,
-      "sourcePath": "AI工具/01_AI编辑器流/Kiro/第一篇_Kiro快速上手与核心概念_2026-04.md",
+      "sourcePath": "AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md",
       "publishedAt": "2026-05-24T12:56:24.588Z",
-      "updatedAt": "2026-06-13T10:28:26.401Z",
-      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-04）.md"
+      "updatedAt": "2026-07-30T14:24:30.499Z",
+      "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabeba",

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac65e"
 originalSlug: "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配合
 

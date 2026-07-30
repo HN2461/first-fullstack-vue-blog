@@ -1,73 +1,31 @@
 # 文章快照与 output 仓库对比报告
 
-- 生成时间：2026-07-30T14:11:44.270Z
-- 线上导出时间：2026-07-30T14:08:39.359Z
+- 生成时间：2026-07-30T14:32:25.004Z
+- 线上导出时间：2026-07-30T14:30:35.933Z
 - 线上文章：475 篇
-- output 可识别正文：206 篇
-- 与线上匹配：132 篇
-- 匹配到的唯一线上文章：132 篇
+- output 可识别正文：131 篇
+- 与线上匹配：56 篇
+- 匹配到的唯一线上文章：56 篇
 - 仓库重复来源文件：0 篇
-- 本地正文有修改：40 篇
-- 接近重写（相似度低于 50%）：2 篇
-- 中等调整（相似度 50%–80%）：5 篇
-- 轻量增补（相似度不低于 80%）：33 篇
+- 本地正文有修改：0 篇
+- 接近重写（相似度低于 50%）：0 篇
+- 中等调整（相似度 50%–80%）：0 篇
+- 轻量增补（相似度不低于 80%）：0 篇
 - 建议按线上分类调整：56 篇
-- 仅在 output：74 篇
-- 以前导出但当前线上未匹配：1 篇
+- 仅在 output：75 篇
+- 以前导出但当前线上未匹配：2 篇
 - 本地真正新增：73 篇
-- 仅在线上：343 篇
+- 仅在线上：419 篇
 
 ## 本地修改过的线上文章
 
 | output 文件 | 相似度 | 长度比例 | 线上分类 |
 | --- | ---: | ---: | --- |
-| AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md | 69.5% | 138% | AI相关 / AI工具 / AI编辑器流 / Kiro |
-| AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md | 91.4% | 99% | AI相关 / AI工具 / AI编辑器流 / Kiro |
-| AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md | 87.3% | 115% | AI相关 / AI工具 / AI编辑器流 / Kiro |
-| AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md | 4.6% | 58% | AI相关 / AI工具 / AI编辑器流 / Kiro |
-| AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md | 2.9% | 63% | AI相关 / AI工具 / AI编辑器流 / Kiro |
-| AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md | 83.4% | 122% | AI相关 / AI工具 / 终端Agent流 / ClaudeCode |
-| AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md | 93.7% | 112% | AI相关 / AI工具 / 终端Agent流 / ClaudeCode |
-| AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md | 90.9% | 113% | AI相关 / AI工具 / 终端Agent流 / ClaudeCode |
-| AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md | 94.3% | 112% | AI相关 / AI工具 / 终端Agent流 / ClaudeCode |
-| AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md | 95.5% | 103% | AI相关 / AI工具 / 终端Agent流 / ClaudeCode |
-| AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md | 93.6% | 110% | AI相关 / AI工具 / 终端Agent流 / ClaudeCode |
-| AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md | 94.5% | 107% | AI相关 / AI工具 / 终端Agent流 / Codex |
-| AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md | 66.5% | 95% | AI相关 / AI工具 / 终端Agent流 / Codex |
-| AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md | 92.0% | 108% | AI相关 / AI工具 / 终端Agent流 / Codex |
-| AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md | 95.2% | 103% | AI相关 / AI工具 / 终端Agent流 / Codex |
-| AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md | 70.8% | 112% | AI相关 / AI工具 / 终端Agent流 / Codex |
-| AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md | 74.0% | 130% | AI相关 / AI工具 / 终端Agent流 / Codex |
-| AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md | 95.2% | 107% | AI相关 / AI工具 / 终端Agent流 / Codex |
-| AI工具/规则机制层/MCP/00-MCP-学习导航与维护路线.md | 61.3% | 167% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/MCP/01-MCP-是什么与开放标准核心认知.md | 84.0% | 132% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/MCP/02-常用-MCP-分类与选型总览.md | 90.7% | 113% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/MCP/03-前端开发常用-MCP-清单与选型建议（2026-07复核）.md | 97.8% | 104% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/MCP/04-MCP-概念与主流度问题.md | 96.9% | 105% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/MCP/05-MCP-架构与安全边界问题.md | 96.2% | 107% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/MCP/06-MCP-项目落地与收益评估问题.md | 96.5% | 106% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/MCP/07-谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md | 97.5% | 104% | AI相关 / AI工具 / 规则机制层 / MCP |
-| AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md | 97.0% | 101% | AI相关 / AI工具 / 规则机制层 / Plugin |
-| AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md | 98.2% | 99% | AI相关 / AI工具 / 规则机制层 / Plugin |
-| AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md | 99.6% | 100% | AI相关 / AI工具 / 规则机制层 / Plugin |
-| AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md | 97.4% | 101% | AI相关 / AI工具 / 规则机制层 / Plugin |
-| AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md | 96.6% | 101% | AI相关 / AI工具 / 规则机制层 / Rules |
-| AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md | 99.8% | 100% | AI相关 / AI工具 / 规则机制层 / Rules |
-| AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md | 95.3% | 105% | AI相关 / AI工具 / 规则机制层 / Rules |
-| AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md | 95.8% | 101% | AI相关 / AI工具 / 规则机制层 / Rules |
-| AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md | 93.6% | 105% | AI相关 / AI工具 / 规则机制层 / Rules |
-| AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md | 97.3% | 98% | AI相关 / AI工具 / 规则机制层 / Skill |
-| AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md | 98.0% | 99% | AI相关 / AI工具 / 规则机制层 / Skill |
-| AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md | 97.5% | 100% | AI相关 / AI工具 / 规则机制层 / Skill |
-| AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md | 98.4% | 99% | AI相关 / AI工具 / 规则机制层 / Skill |
-| AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md | 95.1% | 105% | AI相关 / AI工具 / 规则机制层 / Skill |
 
 ## output 新增、线上未匹配文章
 
 | output 文件 | 来源判断 | Front Matter 分类 |
 | --- | --- | --- |
-| AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md | 以前线上导出 | Kiro |
-| AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md | 本地新增 | Codex |
 | 未导入线上/AI 应用开发平台/MaxKB/01-实战开发指南/01-从接手环境到发布的标准流程.md | 本地新增 | 未填写 |
 | 未导入线上/AI 应用开发平台/MaxKB/01-实战开发指南/02-智能体编排与状态设计规范.md | 本地新增 | 未填写 |
 | 未导入线上/AI 应用开发平台/MaxKB/01-实战开发指南/03-知识库与RAG实战规范.md | 本地新增 | 未填写 |
@@ -101,6 +59,7 @@
 | 未导入线上/AI 应用开发平台/MaxKB/02-公共规则/03-工程治理/03-MaxKB导出包解析与半自动改包规则.md | 本地新增 | 未填写 |
 | 未导入线上/AI 应用开发平台/MaxKB/02-公共规则/04-接入与展示/01-MaxKB渲染标签与快捷问题规则.md | 本地新增 | 未填写 |
 | 未导入线上/AI 应用开发平台/MaxKB/02-公共规则/04-接入与展示/02-MaxKB前端接入与原生API调用规则.md | 本地新增 | 未填写 |
+| 未导入线上/AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md | 本地新增 | Codex |
 | 未导入线上/MySQL/00-线上导入说明.md | 本地新增 | 未填写 |
 | 未导入线上/MySQL/exercises/01-阶段练习.md | 本地新增 | 未填写 |
 | 未导入线上/MySQL/exercises/02-参考答案.md | 本地新增 | 未填写 |
@@ -140,6 +99,8 @@
 | 未导入线上/Redis/notes/14-Nodejs使用ioredis实战.md | 本地新增 | 未填写 |
 | 未导入线上/Redis/notes/15-MySQL与Redis企业案例.md | 本地新增 | 未填写 |
 | 未导入线上/Redis/notes/16-高频面试题与命令速查.md | 本地新增 | 未填写 |
+| 未导入线上/电脑/系统与文件/Windows-电脑卡死救急与常用快捷键.md | 以前线上导出 | 系统与文件 |
+| 未导入线上/电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md | 以前线上导出 | 系统与文件 |
 
 ## 仓库重复来源文件
 

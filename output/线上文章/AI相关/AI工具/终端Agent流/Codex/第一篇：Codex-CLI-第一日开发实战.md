@@ -15,12 +15,13 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf4c"
 originalSlug: "ai-agent-codex-codex-cli-10e9408b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第一篇：Codex CLI 第一日开发实战
 
-> 这篇只解决 4 件事：怎么确认装对、怎么进仓库、怎么看第一屏、怎么完成第一轮真实开发。  
-> 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查。
+> 更新时间：2026-07-26（按本机当前 Codex CLI 与 App 能力复核）
+> 这篇只解决 4 件事：怎么确认装对、怎么进仓库、怎么看第一屏、怎么完成第一轮真实开发。
+> 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查；桌面 App 高频使用请直接看第八篇。
 
 [[toc]]
 
@@ -38,7 +39,7 @@ Codex CLI 对程序员来说，不是“聊天工具”，而是一个会读仓�
 4. 先让它读项目，再做一个小改动
 5. 改完看 `/diff`、跑测试、再决定是否继续放权
 
-后面遇到字段再查字段，遇到线路再查线路。  
+后面遇到字段再查字段，遇到线路再查线路。
 这比第一天就研究一整套 `config.toml` 稳得多。
 
 ---
@@ -50,6 +51,18 @@ Codex CLI 对程序员来说，不是“聊天工具”，而是一个会读仓�
 ```bash
 npm i -g @openai/codex@latest
 codex --version
+```
+
+当前版本也提供内置升级入口：
+
+```bash
+codex update
+```
+
+如果安装、认证、配置、MCP 或本地状态异常，先运行：
+
+```bash
+codex doctor --summary
 ```
 
 Windows 下再查一次路径：
@@ -64,7 +77,7 @@ macOS / Linux / WSL：
 which codex
 ```
 
-这一步很程序员，也很必要。  
+这一步很程序员，也很必要。
 因为后面很多“配置不生效”，根因不是配置错，而是 PATH 里跑的根本不是你以为的那一份 CLI。
 
 如果你是在本博客仓库里执行 Node / npm / Vite 脚本，还要先跑一次项目预检：
@@ -73,7 +86,7 @@ which codex
 pwsh -File scripts/checkNodeRuntime.ps1
 ```
 
-它是为了先排除当前代理终端里的 Node 加密提供程序异常。  
+它是为了先排除当前代理终端里的 Node 加密提供程序异常。
 如果预检失败，不要重复敲 `npm`，先按仓库 `AGENTS.md` 里的运行时排障规则处理。
 
 ---
@@ -95,7 +108,7 @@ codex
 你会做什么？
 ```
 
-那样学不到 Codex 的核心能力。  
+那样学不到 Codex 的核心能力。
 Codex 的手感来自“读项目 -> 定位文件 -> 修改 -> 验证”这条链。
 
 ---
@@ -112,7 +125,7 @@ flowchart LR
   A --> E["输入框与快捷提示<br/>输入 / 看命令，输入任务让它行动"]
 ```
 
-不要把欢迎语当正文读。  
+不要把欢迎语当正文读。
 真正影响第一轮任务的只有这些：
 
 1. 模型是不是你想用的
@@ -120,14 +133,14 @@ flowchart LR
 3. 权限是不是足够但不过度
 4. 你准备输入的是开发任务，不是普通闲聊
 
-第一天养成一个习惯：  
+第一天养成一个习惯：
 每次启动 Codex，先扫模型、目录和权限，再输入任务。
 
 ---
 
 ## 4. 第一句 prompt：先读，不改
 
-第一轮不要让它直接“大改项目”。  
+第一轮不要让它直接“大改项目”。
 先用这句：
 
 ```text
@@ -145,14 +158,14 @@ flowchart LR
 2. 它有没有抓到项目结构
 3. 它有没有乱猜入口文件
 
-如果它第一轮就把项目说偏了，后面不要急着让它改。  
+如果它第一轮就把项目说偏了，后面不要急着让它改。
 先纠正上下文。
 
 ---
 
 ## 5. 模型和推理强度：按任务切，不要背死
 
-Codex 里用 `/model` 可以切模型；部分模型也会暴露推理强度选择。  
+Codex 里用 `/model` 可以切模型；部分模型也会暴露推理强度选择。
 官方 slash commands 文档里，`/model` 的定位就是选择当前模型，以及在可用时选择 reasoning effort。
 
 把它理解成这张文字图就够：
@@ -168,7 +181,7 @@ flowchart TD
   E --> F
 ```
 
-不要把某个模型名写死成永远答案。  
+不要把某个模型名写死成永远答案。
 官方模型列表、账号能力、第三方网关开放模型都会变，落地前看当前 CLI 的 `/model`、`/status` 和服务商后台。
 
 ---
@@ -196,15 +209,15 @@ sandbox_mode = 'workspace-write'
 1. Codex 可以改当前工作区
 2. 真要做敏感命令、高风险动作、越界访问时先问你
 
-如果只是让 Codex 看项目、解释代码、做 review，用只读就够。  
-如果已经明确要它改文件，用工作区写权限。  
+如果只是让 Codex 看项目、解释代码、做 review，用只读就够。
+如果已经明确要它改文件，用工作区写权限。
 如果涉及删除、移动、安装依赖、跨目录访问、联网或全局替换，先停一下，看清提示再确认。
 
 ---
 
 ## 7. 第一天最该会的 slash 命令
 
-先不要背完整命令表。  
+先不要背完整命令表。
 第一天最常用的是下面这些：
 
 | 命令 | 什么时候用 |
@@ -217,9 +230,9 @@ sandbox_mode = 'workspace-write'
 | `/mcp` | 看外部工具有没有连上 |
 | `/plugins` | 看插件和插件来源 |
 | `/skills` | 看当前可用的工作套路 |
-| `/experimental` | 看实验能力，别默认全开 |
 | `/debug-config` | 配置和策略不符合预期时看层级诊断 |
 | `/compact` | 长会话压缩上下文 |
+| `/plan` | 大任务先整理方案 |
 
 把命令按用途分，会比硬背轻松很多：
 
@@ -229,11 +242,12 @@ flowchart LR
   A --> C["控本轮<br/>/model /permissions /compact"]
   A --> D["看改动<br/>/diff /review"]
   A --> E["查扩展<br/>/mcp /plugins /skills"]
-  A --> F["试新能力<br/>/experimental"]
+  A --> F["规划与线程<br/>/plan /new /resume"]
 ```
 
-看到陌生命令时，不要猜来源。  
+看到陌生命令时，不要猜来源。
 先去 `/status`、`/plugins`、`/skills`、`/mcp` 反查它属于哪一层。
+如果某个 slash command 在你的版本里不存在，以当前 `/` 菜单为准，不要按旧截图硬找。
 
 ---
 
@@ -271,14 +285,14 @@ flowchart LR
 请展示这次改动的 diff，并告诉我应该运行哪条测试或构建命令验证。
 ```
 
-这套节奏比“帮我优化整个项目”稳定得多。  
+这套节奏比“帮我优化整个项目”稳定得多。
 程序员用 Codex，关键不是把任务一次性丢大，而是让边界清楚、验证闭环清楚。
 
 ---
 
 ## 9. `/status` 和错误提示：排错先定位层级
 
-官方文档里 `/status` 用来确认当前模型、审批策略、可写目录和上下文容量。  
+官方文档里 `/status` 用来确认当前模型、审批策略、可写目录和上下文容量。
 所以你觉得 Codex “不对劲”时，第一反应不是重装，而是先看 `/status`。
 
 ```mermaid
@@ -363,16 +377,18 @@ flowchart LR
 
 如果主人刚跑通第一轮任务，下一步按这个顺序：
 
-1. [第二篇：Codex CLI 英文终端界面翻译与排错](#/note/AI工具/02_终端Agent流/Codex/02_Codex_CLI英文终端界面翻译与排错)  
+1. [第二篇：Codex CLI 英文终端界面翻译与排错](#/note/AI工具/02_终端Agent流/Codex/02_Codex_CLI英文终端界面翻译与排错)
    解决“终端里这些英文、菜单、插件、skills、错误提示到底怎么看”。
-2. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)  
+2. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)
    解决“为什么配置会覆盖、为什么改了不生效”。
-3. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)  
+3. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)
    当命令和字段速查表用。
-4. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)  
+4. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)
    解决 CLI、VS Code 插件、桌面 App 之间怎么联动。
+5. 第八篇：Codex 桌面 App 当前功能与 Windows 实战
+   解决 ChatGPT desktop app 中 Codex 的多文件夹项目、Voice、Local / Worktree、PR Chat、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows 工作流。
 
-第三方线路、rpcod、Packy、yunyi 这些不要放在第一天主线里硬背。  
+第三方线路、rpcod、Packy、yunyi 这些不要放在第一天主线里硬背。
 等你真的要切线路时，直接去看第四篇这篇合并后的线路总手册就够了。
 
 ---

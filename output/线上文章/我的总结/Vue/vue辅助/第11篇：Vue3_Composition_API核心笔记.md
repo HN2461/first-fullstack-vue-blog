@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4dc"
 originalSlug: "vue-vue-vue3-composition-api-4d51a7a6"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 ## 一、setup 函数
 ### 1.1 基本使用

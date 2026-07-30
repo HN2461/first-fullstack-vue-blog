@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac62e"
 originalSlug: "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 中后台核心组件：Table、Pagination、Dialog、Drawer、Message 怎么配合
 

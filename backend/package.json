@@ -30,6 +30,8 @@
     "article-repository:export": "node src/scripts/exportArticleRepository.js",
     "python-articles:dry-run": "node src/scripts/replacePythonArticles.js",
     "python-articles:apply": "node src/scripts/replacePythonArticles.js --apply",
+    "ai-tool-articles:dry-run": "node src/scripts/replaceAiToolArticles.js",
+    "ai-tool-articles:apply": "node src/scripts/replaceAiToolArticles.js --apply",
     "update:frontend-paths": "node src/scripts/updateFrontendPathReferences.js",
     "menu:tree:dry-run": "node src/scripts/migrateMenuTree.js",
     "menu:tree:apply": "node src/scripts/migrateMenuTree.js --apply",

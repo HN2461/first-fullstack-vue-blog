@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2b2"
 originalSlug: "vue-vue2-16-vue-975bfaf5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 2.16 Vue的生命周期
 ## 一、生命周期概述

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac66c"
 originalSlug: "uv-ui-uvui-uv-ui-0ffe625b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第二篇：uv-ui 入门安装与小程序配置
 

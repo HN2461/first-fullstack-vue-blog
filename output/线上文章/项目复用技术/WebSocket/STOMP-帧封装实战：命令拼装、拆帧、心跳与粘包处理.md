@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac712"
 originalSlug: "websocket-stomp-8044d9d1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # STOMP 帧封装实战：命令拼装、拆帧、心跳与粘包处理
 

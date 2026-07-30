@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f8"
 originalSlug: "uni-app-uni-app-canvas-7159e2f3"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # uni-app 头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas 导出一次讲透
 

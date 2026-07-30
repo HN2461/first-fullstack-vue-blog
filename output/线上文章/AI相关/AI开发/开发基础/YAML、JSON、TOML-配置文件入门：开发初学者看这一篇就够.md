@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a4a4564f9ac958d29178036"
 originalSlug: "yaml-json-toml-config-files-for-beginners"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # YAML、JSON、TOML 配置文件入门：开发初学者看这一篇就够
 

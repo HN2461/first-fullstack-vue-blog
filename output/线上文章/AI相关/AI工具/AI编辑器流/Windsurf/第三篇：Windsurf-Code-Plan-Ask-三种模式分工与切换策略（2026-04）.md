@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabef6"
 originalSlug: "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）
 

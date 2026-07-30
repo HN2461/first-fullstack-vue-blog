@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac73e"
 originalSlug: "websocket-websocket-ai-sse-a4e8c551"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # WebSocket与AI流式传输深度解析
 

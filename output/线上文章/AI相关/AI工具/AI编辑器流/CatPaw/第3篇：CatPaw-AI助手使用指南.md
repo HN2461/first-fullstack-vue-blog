@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe62"
 originalSlug: "ai-ai-catpaw-catpaw-ai-87736891"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第3篇：CatPaw AI助手使用指南
 

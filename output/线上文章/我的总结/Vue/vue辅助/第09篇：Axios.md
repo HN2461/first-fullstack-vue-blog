@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4c8"
 originalSlug: "vue-vue-axios-4d3d1aab"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Axios 实战完全指南与学习笔记
 > 本文档基于 Vue 开发场景，从入门原理到企业级封装，涵盖所有核心细节。

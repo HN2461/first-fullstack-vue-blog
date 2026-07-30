@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac22a"
 originalSlug: "uni-app-uni-app-web-view-0f6f8748"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # uni-app 微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界
 

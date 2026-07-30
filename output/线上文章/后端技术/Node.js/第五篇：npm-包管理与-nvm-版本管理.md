@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1da"
 originalSlug: "node-js-npm-nvm-0ada380c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第五篇：npm 包管理与 nvm 版本管理
 

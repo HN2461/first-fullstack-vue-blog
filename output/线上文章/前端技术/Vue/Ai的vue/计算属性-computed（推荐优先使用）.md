@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac28e"
 originalSlug: "vue-ai-vue-computed-e0e31524"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第9章 计算属性 computed（推荐优先使用）
 

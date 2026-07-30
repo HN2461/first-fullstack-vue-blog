@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a4a4564f9ac958d2917802c"
 originalSlug: "docker-desktop-cn-localization-guide"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Docker Desktop 汉化教程：以 DockerDesktop-CN 为例
 

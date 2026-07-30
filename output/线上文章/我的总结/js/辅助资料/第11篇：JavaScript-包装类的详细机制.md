@@ -13,7 +13,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3de"
 originalSlug: "js-js-32fdfd9a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第11篇：JavaScript 包装类的详细机制
 

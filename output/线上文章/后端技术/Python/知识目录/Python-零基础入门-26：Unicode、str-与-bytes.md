@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d184"
 originalSlug: "python-zero-unicode-str-bytes"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Python 零基础入门 26：Unicode、str 与 bytes
 

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabeee"
 originalSlug: "ai-ai-windsurf-windsurf-d941c66c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第一篇：Windsurf 快速上手与核心能力（2026-04）
 

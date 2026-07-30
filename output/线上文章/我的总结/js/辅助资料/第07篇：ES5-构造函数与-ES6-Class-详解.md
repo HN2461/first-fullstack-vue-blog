@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3be"
 originalSlug: "js-js-es5-es6-class-ddcd40c8"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第07篇：ES5 构造函数与 ES6 Class 详解
 

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac036"
 originalSlug: "ai-agent-openclaw-4d87088b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）
 

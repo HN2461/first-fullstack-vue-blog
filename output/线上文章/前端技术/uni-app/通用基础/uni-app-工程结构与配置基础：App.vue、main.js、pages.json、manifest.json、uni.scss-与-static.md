@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac254"
 originalSlug: "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static
 

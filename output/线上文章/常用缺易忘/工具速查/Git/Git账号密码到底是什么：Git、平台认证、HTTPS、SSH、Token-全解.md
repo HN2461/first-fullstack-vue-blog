@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6b2"
 originalSlug: "git-git-git-https-ssh-token-45a9f853"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Git账号密码到底是什么：Git、平台认证、HTTPS、SSH、Token 全解
 

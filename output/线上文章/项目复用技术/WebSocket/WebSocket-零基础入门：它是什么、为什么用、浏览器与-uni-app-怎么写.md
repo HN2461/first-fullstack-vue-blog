@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac704"
 originalSlug: "websocket-websocket-uni-app-8118619a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # WebSocket 零基础入门：它是什么、为什么用、浏览器与 uni-app 怎么写
 

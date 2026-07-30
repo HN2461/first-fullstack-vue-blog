@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0d6"
 originalSlug: "javascriptes6-ess-08fde5e4"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 ## 1、let 
 <font style="color:#000000;">let 关键字用来声明变量，使用let 声明的变量有几个特点：</font>

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d18d"
 originalSlug: "python-data-cleaning-regex-crawler-text"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Python 数据清洗入门 03：正则表达式清洗爬虫文本
 

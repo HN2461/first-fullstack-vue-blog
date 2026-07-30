@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac7ce"
 originalSlug: "h5-oauth-e33b6d35"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 企业微信 H5 OAuth 单可信域名跨域解决方案
 

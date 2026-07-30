@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2ae"
 originalSlug: "vue-vue2-13-vue-78e23a80"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Vue的常用指令与自定义指令
 ## 2.13.1 v-text

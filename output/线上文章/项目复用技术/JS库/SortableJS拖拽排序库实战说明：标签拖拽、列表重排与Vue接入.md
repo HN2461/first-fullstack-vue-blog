@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ba"
 originalSlug: "js-sortablejs-vue-0390c773"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # SortableJS拖拽排序库实战说明：标签拖拽、列表重排与Vue接入
 

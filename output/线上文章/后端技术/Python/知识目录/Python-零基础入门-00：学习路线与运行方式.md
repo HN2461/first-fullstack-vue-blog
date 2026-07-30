@@ -12,7 +12,7 @@ cover: ""
 originalId: "6a4a4304f9ac958d2917602a"
 originalSlug: "python-zero-learning-guide"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Python 零基础入门 00：学习路线与运行方式
 

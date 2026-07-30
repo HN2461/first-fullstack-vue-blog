@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac27e"
 originalSlug: "vue-ai-vue-vue2-vue3-a7bca734"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第24章 从 Vue2 迁移到 Vue3（过渡指南）
 

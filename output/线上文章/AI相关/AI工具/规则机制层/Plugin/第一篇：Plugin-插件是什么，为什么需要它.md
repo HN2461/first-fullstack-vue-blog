@@ -17,11 +17,11 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfcc"
 originalSlug: "ai-plugin-plugin-da2ad951"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第一篇：Plugin 插件是什么，为什么需要它
 
-> 资料来源：OpenAI Codex 官方产品页与 Academy、`openai/plugins` 官方仓库、Claude Code 官方插件文档与官方 marketplace 说明。2026-05-24 按官方口径重校。
+> 资料来源：OpenAI Codex 官方产品页、Codex 官方文档 / Academy、`openai/plugins` 官方仓库、Claude Code 官方插件文档与官方 marketplace 说明。2026-07-04 按官方口径重校。
 
 [[toc]]
 
@@ -231,14 +231,14 @@ Plugin 可以包含 MCP，但 Plugin 不是 MCP 的替代品。
 
 ## 八、哪些工具真正有独立 Plugin 体系
 
-截至 2026-05-24，更稳妥的结论是：
+截至 2026-07-04，更稳妥的结论是：
 
 | 工具 | 独立 Plugin 体系 | 更稳妥的说明 |
 | --- | --- | --- |
 | **OpenAI Codex** | ✅ | 官方支持 Codex Plugins，存在 `.codex-plugin/plugin.json`、官方 `openai/plugins` 仓库与 marketplace 配置能力 |
 | **Claude Code** | ✅ | 官方支持 `/plugin` 命令、官方 / 社区 marketplace、scope 与 manifest 体系 |
 | **Cursor** | ⚠️ 没有独立 Plugin 体系 | 更依赖 Rules、MCP、VS Code 扩展生态 |
-| **Windsurf** | ⚠️ 没有独立 Plugin 体系 | 更依赖 Rules、Skills、MCP 与工作流能力 |
+| **Devin Desktop / Windsurf** | ⚠️ 没有独立 Plugin 体系 | 更依赖 Rules、Skills、MCP 与工作流能力；旧 Windsurf 路径需按当前 Devin 文档复核 |
 | **Kiro** | ⚠️ 没有独立 Plugin 体系 | 更依赖 steering、skills、hooks、MCP |
 
 这一组表述故意没有把过多工具一口气下结论，是因为"某工具今天有没有独立 plugin marketplace"这类事实很容易过期，写窄一点反而更稳。
@@ -276,7 +276,7 @@ Plugin 可以包含 MCP，但 Plugin 不是 MCP 的替代品。
 ## 参考资料
 
 - [OpenAI Academy: Codex Plugins and Skills](https://openai.com/academy/codex-plugins-and-skills/)
+- [OpenAI Codex 官方文档：Plugins](https://developers.openai.com/codex/plugins)
 - [OpenAI: Codex for almost everything](https://openai.com/index/codex-for-almost-everything/)
 - [OpenAI Plugins 官方仓库](https://github.com/openai/plugins)
-- [Claude Code: Discover plugins](https://code.claude.com/docs/en/discover-plugins)
-- [Claude Code: Plugins reference](https://code.claude.com/docs/en/plugins-reference)
+- [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)

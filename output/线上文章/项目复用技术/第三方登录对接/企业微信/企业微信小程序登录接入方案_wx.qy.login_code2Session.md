@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac7d8"
 originalSlug: "wx-qy-login-code2session-56702606"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 企业微信小程序登录接入方案\_wx.qy.login_code2Session
 

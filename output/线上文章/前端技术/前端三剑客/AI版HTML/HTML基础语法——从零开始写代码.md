@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d30eeb480df92ce002e47"
 originalSlug: "html-html-de7f4404"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第二篇：HTML基础语法——从零开始写代码
 

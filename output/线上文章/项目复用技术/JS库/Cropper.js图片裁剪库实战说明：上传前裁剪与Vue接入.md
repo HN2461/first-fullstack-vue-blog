@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6c0"
 originalSlug: "js-cropperjs-vue-103593b5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入
 

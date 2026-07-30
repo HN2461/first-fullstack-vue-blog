@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac654"
 originalSlug: "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert + 虚拟化组件
 

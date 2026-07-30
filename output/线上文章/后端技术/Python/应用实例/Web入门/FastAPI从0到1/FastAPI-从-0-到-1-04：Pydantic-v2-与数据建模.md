@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d19a"
 originalSlug: "fastapi-pydantic-v2-data-modeling"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # FastAPI 从 0 到 1 04：Pydantic v2 与数据建模
 

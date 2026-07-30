@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac136"
 originalSlug: "node-js-mongodb-f251a01d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # MongoDB 详解第七篇：完整项目实战
 

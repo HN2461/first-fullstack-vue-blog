@@ -15,11 +15,11 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac00c"
 originalSlug: "ai-rules-gemini-copilot-geminicli-copilot-853f4742"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件
 
-> 资料来源：Gemini CLI 官方 GitHub 文档、GitHub Copilot 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-05-22。
+> 资料来源：Gemini CLI 官方 GitHub 文档、GitHub Copilot 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
 
 [[toc]]
 
@@ -29,7 +29,7 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 
 ### 1.1 Gemini CLI 简介
 
-Gemini CLI 是 Google 推出的开源终端 AI Agent，直接在命令行中运行，底层使用 Gemini 模型。**截至 2026 年 5 月 22 日，公开 release 页面里最近的稳定版是 `v0.41.2`（2026-05-06），同时还有 preview / nightly 渠道持续更快迭代。**
+Gemini CLI 是 Google 推出的开源终端 AI Agent，直接在命令行中运行，底层使用 Gemini 模型。版本迭代很快，复习规则机制时不要死记某个旧 release 号；需要安装或排障时，以 `google-gemini/gemini-cli` 官方仓库的最新 README、配置文档和 release 页面为准。
 
 Gemini CLI 的规则文件叫 `GEMINI.md`，有一个独特的**三层加载机制**，与其他工具的"向上遍历"不同。
 
@@ -317,11 +317,11 @@ project/
 
 | 维度 | Claude Code | Codex | Cursor | Windsurf | Gemini CLI | Copilot |
 |------|------------|-------|--------|----------|-----------|---------|
-| 主规则文件 | `CLAUDE.md` | `AGENTS.md` | `.cursor/rules/*.mdc` | `.windsurf/rules/*.md` | `GEMINI.md` | `copilot-instructions.md` |
-| 全局个人配置 | `~/.claude/CLAUDE.md` | `~/.codex/AGENTS.md` | 设置界面 | `~/.codeium/windsurf/memories/global_rules.md` | `~/.gemini/GEMINI.md` | IDE 设置 / 本地全局指令文件 |
+| 主规则文件 | `CLAUDE.md` | `AGENTS.md` | `.cursor/rules/*.mdc` | `.devin/rules/*.md`（旧资料常见 `.windsurf/rules/*.md`） | `GEMINI.md` | `copilot-instructions.md` |
+| 全局个人配置 | `~/.claude/CLAUDE.md` | `~/.codex/AGENTS.md` | 设置界面 | 以 Devin / Windsurf 当前设置为准 | `~/.gemini/GEMINI.md` | IDE 设置 / 本地全局指令文件 |
 | 路径作用域 | `.claude/rules/` paths | 子目录文件 | `globs` 数组 | `globs` 字段 | JIT 自动加载 | `applyTo` frontmatter |
 | 自动记忆 | ✅ Auto Memory | ❌ | ❌ | ✅ Memories | ❌ | ❌ |
-| AGENTS.md 支持 | 间接（@import） | ✅ 原生 | ✅，但当前主线是根目录单文件 | ✅（根目录=always，子目录=glob） | 可配置 | ✅（Agent 指令类型；仓库任意目录可放，但 VS Code 子目录默认需开启） |
+| AGENTS.md 支持 | 间接（@import） | ✅ 原生 | ✅，但当前主线是根目录单文件 | ✅，具体加载细节按当前 Devin / Windsurf 版本复核 | 可配置 | ✅（Agent 指令类型；仓库任意目录可放，但 VS Code 子目录默认需开启） |
 | 额外支持的跨工具文件 | — | — | — | — | — | `CLAUDE.md`、`GEMINI.md`（根目录） |
 | 文件格式 | Markdown + @import | 纯 Markdown | MDC（YAML frontmatter） | Markdown + frontmatter | Markdown + @import | Markdown + frontmatter |
 | 上下文查看命令 | `/memory` | 无 | 无 | 询问 Cascade | `/memory show` | 查看 References 列表 |
@@ -352,9 +352,9 @@ project/
 │   └── rules/
 │       └── *.mdc                         # Cursor 路径规则
 │
-└── .windsurf/
+└── .devin/
     └── rules/
-        └── *.md                          # Windsurf 路径规则
+        └── *.md                          # Devin / Windsurf 路径规则，旧项目可能仍是 .windsurf/rules
 ```
 
 **AGENTS.md 写什么（所有工具共享）：**

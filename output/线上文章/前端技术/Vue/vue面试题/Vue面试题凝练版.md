@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2e0"
 originalSlug: "vue-vue-vue-80f4d76c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 #  Vue 面试题核心内容，供复习和面试时参考：
 ---

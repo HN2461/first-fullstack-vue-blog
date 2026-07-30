@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5cc"
 originalSlug: "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据
 

@@ -12,7 +12,7 @@ cover: ""
 originalId: "6a4a4304f9ac958d29176046"
 originalSlug: "python-zero-input-and-convert"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # Python 零基础入门 07：input 输入和类型转换
 

@@ -15,11 +15,11 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabff8"
 originalSlug: "ai-rules-claude-claude-md-claudecode-ff6cd587"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第三篇：CLAUDE.md 与 Claude Code 记忆系统
 
-> 资料来源：Anthropic Claude Code 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-05-22。
+> 资料来源：Anthropic Claude Code 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
 
 [[toc]]
 

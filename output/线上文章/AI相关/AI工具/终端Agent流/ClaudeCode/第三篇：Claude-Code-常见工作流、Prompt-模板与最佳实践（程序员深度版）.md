@@ -1,7 +1,7 @@
 ---
 title: "第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-8b6661f9"
-summary: "基于 2026-05-30 Claude Code 官方 Common Workflows、Best Practices、Commands 与 Interactive Mode 文档重写，重点补齐程序员最常见的看仓库、修 bug、做重构、补测试、改文档、并行任务与会话管理工作流，并提供可直接复用的 prompt 模板。"
+summary: "基于 2026-07-04 Claude Code 官方 Common Workflows、Best Practices、Commands 与 Interactive Mode 文档复核更新，重点补齐程序员最常见的看仓库、修 bug、做重构、补测试、改文档、并行任务与会话管理工作流，并提供可直接复用的 prompt 模板。"
 category: "ClaudeCode"
 tags:
   - "Claude Code"
@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf22"
 originalSlug: "ai-agent-claudecode-claudecode-8b6661f9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:08:39.359Z"
+exportedAt: "2026-07-30T14:30:35.933Z"
 ---
 # 第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）
 
@@ -147,6 +147,7 @@ exportedAt: "2026-07-30T14:08:39.359Z"
 - `/status`：确认当前模式和状态
 - `plan mode`：如果你明确不想它立即动手
 - subagent：如果仓库很大，想让研究在独立上下文里完成
+- `/batch`：如果是大规模跨代码库任务，可以让 Claude 先拆分成多个独立单元，再按 worktree 并行推进
 
 ---
 
@@ -339,6 +340,8 @@ Claude 补测试时，最容易出现的低质量结果是：
 
 这样主上下文只收结论，不收所有中间读取噪音。
 
+注意一个当前命令变化：从 Claude Code `v2.1.198` 起，`/agents` 不再打开旧版交互管理界面，而是提示你直接让 Claude 创建、管理 subagents，或者手动编辑 `.claude/agents/`、`~/.claude/agents/`。如果你看到旧教程里说 `/agents` 会弹出配置界面，要先看自己的版本。
+
 ### Worktree 适合什么
 
 当你想并行推进多个真实改动任务，又不想改动互相打架时，worktree 非常有用。
@@ -350,6 +353,8 @@ Claude 补测试时，最容易出现的低质量结果是：
 
 两边在不同工作树里，不会互相污染。
 
+如果任务足够大，也可以直接考虑 `/batch <instruction>`。它是官方 bundled skill，会先研究代码库、拆成多个独立单元，得到你确认后再用隔离 worktree 和后台 subagent 并行实现。
+
 ### 后台任务适合什么
 
 适合：
@@ -359,6 +364,13 @@ Claude 补测试时，最容易出现的低质量结果是：
 - 你不想当前交互被阻塞的操作
 
 程序员应把这些能力理解成“并行工程组织手段”，不是炫技功能。
+
+当前更完整的并行入口可以这样记：
+
+- `/fork`：把一个侧线任务交给后台 subagent，完成后结果回到当前会话
+- `/background`：把整个会话转后台，用 `claude agents` 观察
+- `/tasks`：看当前会话里的后台任务
+- `/batch`：面向大规模改造的官方并行工作流
 
 ---
 
@@ -377,6 +389,8 @@ Claude 补测试时，最容易出现的低质量结果是：
 - 任务主线没变
 - 但会话太长、上下文太臃肿
 - 想减少噪音继续推进
+
+如果只是想知道当前上下文到底被什么占满，先用 `/context` 看分布，再决定要不要 `/compact`，会比盲目压缩更稳。
 
 ### 适合直接重开
 
