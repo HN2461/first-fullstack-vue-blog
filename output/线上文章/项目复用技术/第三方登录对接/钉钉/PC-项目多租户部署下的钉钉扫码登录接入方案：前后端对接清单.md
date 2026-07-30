@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac786"
 originalSlug: "pc-pc-f80d8c7b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # PC 项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单
 

@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac12a"
 originalSlug: "node-js-mongodb-mongodb-5f0dd1bc"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # MongoDB 详解第一篇：安装与基础概念
 

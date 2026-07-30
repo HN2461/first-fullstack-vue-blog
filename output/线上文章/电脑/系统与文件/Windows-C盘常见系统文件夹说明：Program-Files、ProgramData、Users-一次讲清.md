@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac540"
 originalSlug: "windows-c-1552bf32"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Windows C盘常见系统文件夹说明：Program Files、ProgramData、Users 一次讲清
 

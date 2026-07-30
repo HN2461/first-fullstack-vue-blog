@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac69a"
 originalSlug: "legacy-c16e0589-c16e0589"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 ### 1. Vue 2 和 Vue 3 的响应式原理
 

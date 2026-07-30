@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d188"
 originalSlug: "python-zero-regex-argparse-secrets-zoneinfo"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 零基础入门 28：正则、命令行参数、安全随机数与时区
 

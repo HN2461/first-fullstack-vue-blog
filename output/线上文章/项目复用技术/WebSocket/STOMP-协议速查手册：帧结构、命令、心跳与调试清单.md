@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac746"
 originalSlug: "websocket-stomp-abe9babf"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # STOMP 协议速查手册：帧结构、命令、心跳与调试清单
 

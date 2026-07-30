@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac18e"
 originalSlug: "node-js-jwt-64903817"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 接口与会话控制详解第五篇：JWT 认证原理与实战
 

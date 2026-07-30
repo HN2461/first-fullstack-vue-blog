@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c8"
 originalSlug: "h5-h5-jsapi-d82c6607"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 企业微信 H5 微应用 — 扫一扫 JSAPI 后端签名对接清单
 

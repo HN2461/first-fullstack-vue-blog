@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac72c"
 originalSlug: "websocket-messageserviceadapter-3203465d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # MessageServiceAdapter 与页面接入实战：统一入口、事件桥接与初始化时机
 

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf06"
 originalSlug: "ai-ai-windsurf-windsurf-2-0-devin-78b4664a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）
 

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac034"
 originalSlug: "ai-agent-openclaw101day1-2082ef14"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）
 

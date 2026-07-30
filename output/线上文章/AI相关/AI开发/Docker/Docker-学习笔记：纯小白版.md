@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a4a4564f9ac958d29178031"
 originalSlug: "docker-learning-notes-for-beginners"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Docker 学习笔记：纯小白版
 

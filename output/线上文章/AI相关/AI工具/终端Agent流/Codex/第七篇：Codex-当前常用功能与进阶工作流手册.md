@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf80"
 originalSlug: "ai-agent-codex-codex-1c9633e1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第七篇：Codex 当前常用功能与进阶工作流手册
 

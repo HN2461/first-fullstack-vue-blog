@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a4a44b5f9ac958d291774eb"
 originalSlug: "python-crawler-request-and-robots"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 网络爬虫入门 01：requests 请求体系与 robots.txt
 

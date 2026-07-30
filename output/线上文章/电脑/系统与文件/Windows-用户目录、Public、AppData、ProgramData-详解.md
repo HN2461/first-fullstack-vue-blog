@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac570"
 originalSlug: "windows-public-appdata-programdata-d717719e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Windows 用户目录、Public、AppData、ProgramData 详解
 

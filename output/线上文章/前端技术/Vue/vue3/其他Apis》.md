@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2d8"
 originalSlug: "vue-vue3-apis-94236b74"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 6、其他APIs
 ## 6.1.【shallowRef 与 shallowReactive 】

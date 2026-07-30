@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac106"
 originalSlug: "js-vite-cb22aa81"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第27章 Vite：新时代构建工具
 

@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2d0"
 originalSlug: "vue-vue3-vue3-b1c84be6"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 ## 2.1、setup的使用
 ### 2.1.1、基本使用

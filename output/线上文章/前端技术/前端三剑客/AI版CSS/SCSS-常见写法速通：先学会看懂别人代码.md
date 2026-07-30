@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0b4"
 originalSlug: "css-scss-sass-less-postcss-7d08d2e9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # SCSS 常见写法速通：先学会看懂别人代码
 

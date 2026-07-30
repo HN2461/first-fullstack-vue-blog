@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c4"
 originalSlug: "h5-jssdk-wx-config-agentconfig-93be1c59"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 企业微信JSSDK接入*wx.config_agentConfig*签名流程
 

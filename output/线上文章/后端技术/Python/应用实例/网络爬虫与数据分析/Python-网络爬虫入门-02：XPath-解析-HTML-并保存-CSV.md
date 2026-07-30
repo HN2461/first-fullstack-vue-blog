@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a4a44b5f9ac958d291774ef"
 originalSlug: "python-crawler-lxml-parse-html-save-csv"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV
 

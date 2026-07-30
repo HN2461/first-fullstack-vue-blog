@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac266"
 originalSlug: "vue-ai-vue-vue2-67e0094d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第13章 组件通信大全（Vue2 必考）
 

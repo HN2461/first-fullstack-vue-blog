@@ -1,21 +1,21 @@
 # 文章快照与 output 仓库对比报告
 
-- 生成时间：2026-07-30T14:32:25.004Z
-- 线上导出时间：2026-07-30T14:30:35.933Z
-- 线上文章：475 篇
-- output 可识别正文：131 篇
-- 与线上匹配：56 篇
-- 匹配到的唯一线上文章：56 篇
+- 生成时间：2026-07-30T14:48:07.182Z
+- 线上导出时间：2026-07-30T14:46:52.260Z
+- 线上文章：477 篇
+- output 可识别正文：79 篇
+- 与线上匹配：4 篇
+- 匹配到的唯一线上文章：4 篇
 - 仓库重复来源文件：0 篇
 - 本地正文有修改：0 篇
 - 接近重写（相似度低于 50%）：0 篇
 - 中等调整（相似度 50%–80%）：0 篇
 - 轻量增补（相似度不低于 80%）：0 篇
-- 建议按线上分类调整：56 篇
+- 建议按线上分类调整：4 篇
 - 仅在 output：75 篇
 - 以前导出但当前线上未匹配：2 篇
 - 本地真正新增：73 篇
-- 仅在线上：419 篇
+- 仅在线上：473 篇
 
 ## 本地修改过的线上文章
 
@@ -111,58 +111,6 @@
 | AI技术笔记/AI技术知识体系-从核心概念到工程化实战.md | AI相关 / AI开发 / 开发基础 |
 | Docker/Docker Desktop 汉化教程：以 DockerDesktop-CN 为例.md | AI相关 / AI开发 / Docker |
 | Docker/Docker学习笔记-纯小白版.md | AI相关 / AI开发 / Docker |
-| Python/01-知识目录/00-Python零基础入门-学习路线与运行方式.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/01-Python零基础入门-Python是什么.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/02-Python零基础入门-安装检查与运行代码.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/03-Python零基础入门-print输出与注释.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/04-Python零基础入门-变量和基本数据类型.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/05-Python零基础入门-字符串.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/06-Python零基础入门-数字和简单计算.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/07-Python零基础入门-input输入和类型转换.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/08-Python零基础入门-条件判断if-else和match.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/09-Python零基础入门-循环for和while.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/10-Python零基础入门-列表list.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/11-Python零基础入门-元组tuple.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/12-Python零基础入门-集合set.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/13-Python零基础入门-字典dict.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/14-Python零基础入门-函数function.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/15-Python零基础入门-文件读写.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/16-Python零基础入门-小练习记账本.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/17-Python零基础入门-异常处理try-except.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/18-Python零基础入门-模块包pip和虚拟环境.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/19-Python零基础入门-面向对象class.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/20-Python零基础入门-常用标准库.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/21-Python零基础入门-面试复盘与项目表达.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/22-Python零基础入门-csv模块.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/23-Python零基础入门-logging日志模块.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/24-Python零基础入门-可迭代对象迭代器与生成器.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/25-Python零基础入门-函数进阶闭包与装饰器.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/26-Python零基础入门-Unicode-str与bytes.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/27-Python零基础入门-pytest测试调试与代码质量.md | 后端技术 / Python / 知识目录 |
-| Python/01-知识目录/28-Python零基础入门-正则命令行安全随机数与时区.md | 后端技术 / Python / 知识目录 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/00-FastAPI从0到1-学习路线与开发环境.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/01-FastAPI从0到1-读懂代码前必须会的Python.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/02-FastAPI从0到1-HTTP-ASGI与第一个应用.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/03-FastAPI从0到1-路由与请求参数.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/04-FastAPI从0到1-Pydantic-v2与数据建模.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/05-FastAPI从0到1-响应异常与OpenAPI.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/06-FastAPI从0到1-依赖中间件生命周期与项目结构.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/07-FastAPI从0到1-SQLAlchemy与Alembic.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/08-FastAPI从0到1-CRUD事务关联分页与查询.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/09-FastAPI从0到1-登录JWT-RBAC与安全.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/10-FastAPI从0到1-文件后台任务HTTPX与Redis.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/11-FastAPI从0到1-异步并发WebSocket与任务队列.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/12-FastAPI从0到1-pytest与质量保障.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/13-FastAPI从0到1-日志监控性能安全与部署.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/14-FastAPI从0到1-企业知识库API综合实战.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/15-FastAPI从0到1-高频问题面试与交付清单.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/Web入门/FastAPI从0到1/16-FastAPI从0到1-学习成效评估与Express对照交付.md | 后端技术 / Python / 应用实例 / Web入门 / FastAPI从0到1 |
-| Python/02-应用实例/网络爬虫与数据分析/00-Python网络爬虫入门-基础概念.md | 后端技术 / Python / 应用实例 / 网络爬虫与数据分析 |
-| Python/02-应用实例/网络爬虫与数据分析/01-Python网络爬虫入门-请求网页与robots.txt.md | 后端技术 / Python / 应用实例 / 网络爬虫与数据分析 |
-| Python/02-应用实例/网络爬虫与数据分析/02-Python网络爬虫入门-lxml解析HTML并保存CSV.md | 后端技术 / Python / 应用实例 / 网络爬虫与数据分析 |
-| Python/02-应用实例/网络爬虫与数据分析/03-Python数据清洗入门-正则表达式清洗爬虫文本.md | 后端技术 / Python / 应用实例 / 网络爬虫与数据分析 |
-| Python/02-应用实例/网络爬虫与数据分析/04-Python数据分析入门-用pandas统计CSV.md | 后端技术 / Python / 应用实例 / 网络爬虫与数据分析 |
-| Python/02-应用实例/网络爬虫与数据分析/05-Python数据可视化入门-用matplotlib绘制统计图.md | 后端技术 / Python / 应用实例 / 网络爬虫与数据分析 |
 | 开发基础/YAML-JSON-TOML-配置文件入门.md | AI相关 / AI开发 / 开发基础 |
 
 > 完整明细请查看同名 JSON 文件；Markdown 表格每组最多展示 200 条。

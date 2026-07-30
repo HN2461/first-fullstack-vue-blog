@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac002"
 originalSlug: "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战
 

@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ce"
 originalSlug: "html-html-67ef3a27"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第五篇《现代HTML实践——迈向专业前端》
 

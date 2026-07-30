@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac25a"
 originalSlug: "uni-app-uni-app-66402eae"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # uni-app 跨端开发通用方法：路由、请求、缓存、上传下载与条件编译
 

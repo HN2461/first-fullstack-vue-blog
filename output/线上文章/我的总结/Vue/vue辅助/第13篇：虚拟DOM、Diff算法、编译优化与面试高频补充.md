@@ -19,7 +19,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4ee"
 originalSlug: "vue-vue-dom-diff-05a2bbc3"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第13篇：虚拟DOM、Diff、编译优化与面试高频补充
 

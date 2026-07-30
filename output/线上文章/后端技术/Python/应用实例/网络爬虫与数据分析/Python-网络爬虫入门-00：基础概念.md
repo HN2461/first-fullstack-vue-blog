@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a4a44b5f9ac958d291774e7"
 originalSlug: "python-crawler-basic-concepts"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 网络爬虫入门 00：基础概念
 

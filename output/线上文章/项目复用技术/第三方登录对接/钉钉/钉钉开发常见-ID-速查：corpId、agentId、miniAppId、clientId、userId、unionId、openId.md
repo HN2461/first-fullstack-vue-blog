@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac76c"
 originalSlug: "id-corpid-agentid-miniappid-clientid-userid-unionid-openid-44a970d5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId
 

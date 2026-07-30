@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac15c"
 originalSlug: "node-js-mongodb-5c500e8d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # MongoDB 详解第六篇：索引优化与事务
 

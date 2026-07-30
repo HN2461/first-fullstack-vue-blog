@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabec8"
 originalSlug: "ai-ai-kiro-kiro-steering-51bf9cad"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第三篇：Kiro Steering 上下文管理（2026-07）
 

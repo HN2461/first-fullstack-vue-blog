@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac214"
 originalSlug: "uni-app-uni-app-setdata-9f031d07"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # uni-app 微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData 与真机排障
 

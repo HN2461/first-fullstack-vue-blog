@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac61e"
 originalSlug: "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty
 

@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac280"
 originalSlug: "vue-ai-vue-vue-aa8054ba"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第2章 环境准备与第一个 Vue 项目
 

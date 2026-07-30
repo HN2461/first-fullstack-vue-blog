@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a0"
 originalSlug: "vue-vue2-vue-axios-9ddbedd5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 1、axios的基本使用
 ## 1.1、简介

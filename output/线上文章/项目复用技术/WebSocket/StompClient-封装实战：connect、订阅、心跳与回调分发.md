@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac718"
 originalSlug: "websocket-stompclient-8bcbb8a6"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # StompClient 封装实战：connect、订阅、心跳与回调分发
 

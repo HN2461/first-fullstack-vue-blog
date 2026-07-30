@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6c2"
 originalSlug: "js-axios-61754a5a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Axios请求库实战说明：请求封装、拦截器与文件上传
 

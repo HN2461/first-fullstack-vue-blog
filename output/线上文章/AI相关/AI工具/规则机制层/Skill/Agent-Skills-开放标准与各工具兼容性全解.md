@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac014"
 originalSlug: "ai-skill-agentskills-8ff13a14"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Agent Skills 开放标准与各工具兼容性全解
 

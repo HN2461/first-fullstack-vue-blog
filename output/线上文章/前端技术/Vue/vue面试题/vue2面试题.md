@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2dc"
 originalSlug: "vue-vue-vue2-979be5aa"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 ### 1、vue功能是什么，跟传统开发有什么区别？
 #### vue功能是什么

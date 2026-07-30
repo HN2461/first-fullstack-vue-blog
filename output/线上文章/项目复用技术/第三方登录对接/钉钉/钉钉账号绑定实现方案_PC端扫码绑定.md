@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac78c"
 originalSlug: "pc-pc-44f7ba8c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 钉钉账号绑定实现方案：PC 端扫码绑定
 

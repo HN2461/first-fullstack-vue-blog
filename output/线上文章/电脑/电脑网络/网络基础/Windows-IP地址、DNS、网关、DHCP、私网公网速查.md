@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac524"
 originalSlug: "windows-ip-dns-dhcp-fd5c357b"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Windows IP地址、DNS、网关、DHCP、私网公网速查
 

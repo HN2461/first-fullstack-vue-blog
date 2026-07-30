@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d186"
 originalSlug: "python-zero-pytest-debugging-code-quality"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 零基础入门 27：pytest 测试、调试与代码质量
 

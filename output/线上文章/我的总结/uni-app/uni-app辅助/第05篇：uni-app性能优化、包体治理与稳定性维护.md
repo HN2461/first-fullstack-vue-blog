@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac472"
 originalSlug: "uni-app-uni-app-ae457f1c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 ## uni-app 性能优化、包体治理与稳定性维护
 

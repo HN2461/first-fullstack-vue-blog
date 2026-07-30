@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac7d4"
 originalSlug: "pc-pc-393c27b2"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 企业微信账号绑定实现方案\_PC端扫码绑定
 

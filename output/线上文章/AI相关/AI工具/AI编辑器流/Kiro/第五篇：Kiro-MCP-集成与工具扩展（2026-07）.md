@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabed8"
 originalSlug: "ai-ai-kiro-kiro-mcp-d2d54239"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第五篇：Kiro MCP 集成与工具扩展（2026-07）
 

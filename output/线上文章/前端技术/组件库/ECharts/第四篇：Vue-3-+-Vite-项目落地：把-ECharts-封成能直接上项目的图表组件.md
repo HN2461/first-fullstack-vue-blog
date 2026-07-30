@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5f0"
 originalSlug: "echarts-echarts-vue3-vite-echarts-03b8ae7e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上项目的图表组件
 

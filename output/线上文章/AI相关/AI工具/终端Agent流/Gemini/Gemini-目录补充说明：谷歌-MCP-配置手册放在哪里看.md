@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf88"
 originalSlug: "ai-agent-gemini-mcp-4c54d61a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看
 

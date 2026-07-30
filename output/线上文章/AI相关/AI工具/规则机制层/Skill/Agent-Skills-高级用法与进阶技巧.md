@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac01a"
 originalSlug: "ai-skill-agentskills-b37a5530"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Agent Skills 高级用法与进阶技巧
 

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac51a"
 originalSlug: "windows-hosts-dns-a34c6e09"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Windows hosts、DNS缓存、网络类型与防火墙基础
 

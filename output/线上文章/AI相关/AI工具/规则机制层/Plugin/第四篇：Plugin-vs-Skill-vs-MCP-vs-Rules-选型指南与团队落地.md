@@ -18,7 +18,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfe4"
 originalSlug: "ai-plugin-plugin-a8202a00"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地
 

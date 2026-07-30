@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac7a2"
 originalSlug: "uni-app-uni-app-wx-616a50b5"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # uni-app 项目里最常见的 wx 替换清单（附代码模板）
 

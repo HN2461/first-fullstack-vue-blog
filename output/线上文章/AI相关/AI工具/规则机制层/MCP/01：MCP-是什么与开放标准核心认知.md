@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf96"
 originalSlug: "ai-mcp-mcp-067b747a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 01：MCP 是什么与开放标准核心认知
 

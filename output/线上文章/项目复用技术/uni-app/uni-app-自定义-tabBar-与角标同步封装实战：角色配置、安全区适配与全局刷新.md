@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f4"
 originalSlug: "uni-app-uni-app-tabbar-a0f11cca"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # uni-app 自定义 tabBar 与角标同步封装实战：角色配置、安全区适配与全局刷新
 

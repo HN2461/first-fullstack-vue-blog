@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac00c"
 originalSlug: "ai-rules-gemini-copilot-geminicli-copilot-853f4742"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件
 

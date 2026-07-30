@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac290"
 originalSlug: "vue-ai-vue-a-vue2-e1001ab4"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 附录A：Vue2 生命周期图（建议配图）
 

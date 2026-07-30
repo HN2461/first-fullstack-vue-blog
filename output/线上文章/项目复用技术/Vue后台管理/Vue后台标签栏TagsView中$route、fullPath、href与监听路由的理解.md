@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6fe"
 originalSlug: "vue-vue-tagsview-route-fullpath-href-53186ab7"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解
 

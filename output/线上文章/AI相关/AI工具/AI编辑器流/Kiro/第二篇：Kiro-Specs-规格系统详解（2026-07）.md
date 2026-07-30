@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabed2"
 originalSlug: "ai-ai-kiro-kiro-specs-c09713f2"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第二篇：Kiro Specs 规格系统详解（2026-07）
 

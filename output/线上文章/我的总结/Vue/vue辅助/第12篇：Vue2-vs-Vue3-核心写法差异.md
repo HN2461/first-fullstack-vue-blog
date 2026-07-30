@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4de"
 originalSlug: "vue-vue-vue2-vue3-61311af1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Vue2 vs Vue3 核心写法差异：从 `this` 魔法到函数式组合
 

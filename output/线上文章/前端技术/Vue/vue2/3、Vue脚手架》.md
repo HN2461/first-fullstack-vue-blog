@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2c6"
 originalSlug: "vue-vue2-3-vue-25c1aa35"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 3.3 Vue脚手架
 ## 3.3.1 确保npm能用（安装Node.js）

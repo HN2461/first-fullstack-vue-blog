@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac55e"
 originalSlug: "windows-b0b9b49e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Windows 常见系统路径与环境变量速查
 

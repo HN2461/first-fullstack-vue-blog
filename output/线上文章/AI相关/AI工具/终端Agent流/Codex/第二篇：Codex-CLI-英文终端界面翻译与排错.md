@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf50"
 originalSlug: "ai-agent-codex-codex-cli-64e9fd24"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第二篇：Codex CLI 英文终端界面翻译与排错
 

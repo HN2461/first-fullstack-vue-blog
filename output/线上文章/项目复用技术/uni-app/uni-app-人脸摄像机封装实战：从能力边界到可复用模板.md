@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6d6"
 originalSlug: "uni-app-uni-app-b0f67933"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # uni-app 人脸摄像机封装实战：从能力边界到可复用模板
 

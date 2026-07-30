@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac646"
 originalSlug: "element-plus-elementplus-configprovider-f9cb9b2c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 主题定制、国际化、暗黑模式、ConfigProvider：Element Plus 全局能力怎么管
 

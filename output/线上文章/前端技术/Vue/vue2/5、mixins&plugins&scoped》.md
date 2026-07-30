@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2ca"
 originalSlug: "vue-vue2-5-mixins-plugins-scoped-febd1092"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 3.5、mixins&plugins&scoped
 ## 3.5.1、mixins

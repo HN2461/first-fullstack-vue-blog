@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabeba"
 originalSlug: "ai-ai-cursor-cursor-terminalcli-git-84f595c7"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）
 

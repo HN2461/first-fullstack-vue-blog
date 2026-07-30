@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26e"
 originalSlug: "vue-ai-vue-vuex-7c0c8832"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第17章 Vuex 基础（掌握核心概念）
 

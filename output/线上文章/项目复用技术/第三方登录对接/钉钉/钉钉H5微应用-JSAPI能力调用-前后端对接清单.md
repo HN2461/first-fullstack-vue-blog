@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac77c"
 originalSlug: "h5-h5-jsapi-d670249e"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 钉钉 H5 微应用 — JSAPI 能力调用前后端对接清单
 

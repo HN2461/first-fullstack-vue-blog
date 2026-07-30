@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d196"
 originalSlug: "fastapi-http-asgi-first-application"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用
 

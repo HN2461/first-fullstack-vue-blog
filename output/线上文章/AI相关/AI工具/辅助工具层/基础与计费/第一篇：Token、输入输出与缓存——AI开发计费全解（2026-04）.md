@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cac084"
 originalSlug: "ai-token-ai-72feffb1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）
 

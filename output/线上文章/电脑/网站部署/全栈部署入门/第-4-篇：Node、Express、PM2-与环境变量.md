@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5a4"
 originalSlug: "node-express-pm2-b0b0327c"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第 4 篇：Node、Express、PM2 与环境变量
 

@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5c4"
 originalSlug: "echarts-echarts-echarts-aca8614a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第一篇：快速认识 ECharts：安装、核心概念与常见图表
 

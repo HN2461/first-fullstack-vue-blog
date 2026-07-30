@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabeb2"
 originalSlug: "ai-ai-cursor-cursor-mcp-shellmode-144315a1"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）
 

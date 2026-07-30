@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d190"
 originalSlug: "python-data-visualization-matplotlib-charts"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 数据可视化入门 05：用 matplotlib 绘制统计图
 

@@ -13,7 +13,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d194"
 originalSlug: "fastapi-python-reading-prerequisites"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # FastAPI 从 0 到 1 01：读懂代码前必须会的 Python
 

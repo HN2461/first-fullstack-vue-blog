@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac70a"
 originalSlug: "websocket-websocket-stomp-4e54084d"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # WebSocket 与 STOMP 总览：分层设计、概念边界与接入顺序
 

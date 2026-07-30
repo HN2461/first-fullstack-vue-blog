@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf0c"
 originalSlug: "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）
 

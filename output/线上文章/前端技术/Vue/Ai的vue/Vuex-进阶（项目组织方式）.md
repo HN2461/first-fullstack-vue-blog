@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac270"
 originalSlug: "vue-ai-vue-vuex-d65018ae"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第18章 Vuex 进阶（项目组织方式）
 

@@ -12,7 +12,7 @@ cover: ""
 originalId: "6a4a4304f9ac958d29176066"
 originalSlug: "python-zero-file-read-write"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 零基础入门 15：文件读写
 

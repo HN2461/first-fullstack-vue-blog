@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac260"
 originalSlug: "vue-ai-vue-watch-79d389b8"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第10章 侦听器 watch（处理复杂/异步）
 

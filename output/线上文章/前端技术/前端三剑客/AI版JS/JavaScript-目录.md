@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0e0"
 originalSlug: "js-javascript-fcff5e89"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第一篇　JavaScript 世界观——理解一门语言的核心定位
 ## 第1章　JavaScript 是什么

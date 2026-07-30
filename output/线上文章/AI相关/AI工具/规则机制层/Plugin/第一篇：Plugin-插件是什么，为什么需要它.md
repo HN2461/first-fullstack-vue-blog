@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfcc"
 originalSlug: "ai-plugin-plugin-da2ad951"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第一篇：Plugin 插件是什么，为什么需要它
 

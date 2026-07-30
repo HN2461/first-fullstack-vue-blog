@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf9c"
 originalSlug: "ai-mcp-mcp-mcp-ce5df958"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 02：常用 MCP 分类与选型总览
 

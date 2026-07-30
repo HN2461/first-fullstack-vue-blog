@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac68a"
 originalSlug: "websocket-a1cbc328"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 ### WebSocket 简介
 WebSocket 是一种网络传输协议，位于 OSI 模型的应用层。它允许在客户端和服务器之间建立持久连接，进行全双工通信，解决了传统 HTTP 协议无法实现服务器主动推送数据的问题。

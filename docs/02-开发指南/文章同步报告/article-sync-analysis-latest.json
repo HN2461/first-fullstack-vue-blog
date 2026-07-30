@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-07-30T14:32:25.004Z",
+  "generatedAt": "2026-07-30T14:48:07.182Z",
   "export": {
-    "exportedAt": "2026-07-30T14:30:35.933Z",
-    "total": 475
+    "exportedAt": "2026-07-30T14:46:52.260Z",
+    "total": 477
   },
   "repositoryCategoryAliases": [
     {
@@ -16,20 +16,20 @@
     }
   ],
   "summary": {
-    "repositoryMarkdown": 131,
-    "matched": 56,
-    "uniqueOnlineMatched": 56,
+    "repositoryMarkdown": 79,
+    "matched": 4,
+    "uniqueOnlineMatched": 4,
     "duplicateRepositoryFiles": 0,
-    "sameContent": 56,
+    "sameContent": 4,
     "locallyModified": 0,
     "majorRefactor": 0,
     "mediumRefactor": 0,
     "closeRevision": 0,
-    "categoryUpdateRecommended": 56,
+    "categoryUpdateRecommended": 4,
     "repositoryOnly": 75,
     "previousExportOnly": 2,
     "localNew": 73,
-    "onlineOnly": 419
+    "onlineOnly": 473
   },
   "matched": [
     {
@@ -115,1738 +115,6 @@
         "AI相关",
         "AI开发",
         "Docker"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/00-Python零基础入门-学习路线与运行方式.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 00：学习路线与运行方式",
-      "slug": "python-zero-learning-guide",
-      "originalId": "6a4a4304f9ac958d2917602a",
-      "originalSlug": "python-zero-learning-guide",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "97e01cac5849abd301ef47e3a03c8fd8f78cf26032805e797e8ae8ae10672177",
-      "onlineTitle": "Python 零基础入门 00：学习路线与运行方式",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-00：学习路线与运行方式.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/01-Python零基础入门-Python是什么.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 01：Python 是什么",
-      "slug": "python-zero-what-is-python",
-      "originalId": "6a4a4304f9ac958d2917602e",
-      "originalSlug": "python-zero-what-is-python",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "cf6d457da9ccd44c60d6d34190185ce10dfdf8356bc39d3a213892f70d568a2b",
-      "onlineTitle": "Python 零基础入门 01：Python 是什么",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-01：Python-是什么.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/02-Python零基础入门-安装检查与运行代码.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 02：安装检查与运行代码",
-      "slug": "python-zero-install-and-run",
-      "originalId": "6a4a4304f9ac958d29176032",
-      "originalSlug": "python-zero-install-and-run",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "223fdf98a5c435a08944c3e6b82f1cbc102b513a44fee8ee84d19e01411e7c1f",
-      "onlineTitle": "Python 零基础入门 02：安装检查与运行代码",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-02：安装检查与运行代码.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/03-Python零基础入门-print输出与注释.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 03：print 输出与注释",
-      "slug": "python-zero-print-and-comments",
-      "originalId": "6a4a4304f9ac958d29176036",
-      "originalSlug": "python-zero-print-and-comments",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "37a8a85ad07a69a91683d9503490dc7f23d43c1789a1374f105931a5984a3ee2",
-      "onlineTitle": "Python 零基础入门 03：print 输出与注释",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-03：print-输出与注释.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/04-Python零基础入门-变量和基本数据类型.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 04：变量和基本数据类型",
-      "slug": "python-zero-variables-and-types",
-      "originalId": "6a4a4304f9ac958d2917603a",
-      "originalSlug": "python-zero-variables-and-types",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "a50a978f87a15d88659ebe1a8547b79631465ea6832fe2f959f63ee4038bbe02",
-      "onlineTitle": "Python 零基础入门 04：变量和基本数据类型",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-04：变量和基本数据类型.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/05-Python零基础入门-字符串.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 05：字符串",
-      "slug": "python-zero-string",
-      "originalId": "6a4a4304f9ac958d2917603e",
-      "originalSlug": "python-zero-string",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "17b3219e83d798ce2e4a093201a093cf996dfe57b5b78d692418113d7f64ebf6",
-      "onlineTitle": "Python 零基础入门 05：字符串",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-05：字符串.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/06-Python零基础入门-数字和简单计算.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 06：数字和简单计算",
-      "slug": "python-zero-numbers-and-operators",
-      "originalId": "6a4a4304f9ac958d29176042",
-      "originalSlug": "python-zero-numbers-and-operators",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "645f319f662250a546862ef4fedc9f813e8001a5a0d8d08b2653cb2a295d3ccc",
-      "onlineTitle": "Python 零基础入门 06：数字和简单计算",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-06：数字和简单计算.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/07-Python零基础入门-input输入和类型转换.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 07：input 输入和类型转换",
-      "slug": "python-zero-input-and-convert",
-      "originalId": "6a4a4304f9ac958d29176046",
-      "originalSlug": "python-zero-input-and-convert",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "8ee1d6af8a899f948d729684c1d36e69e890a21b668ec1d897d2e3a4f8be5cec",
-      "onlineTitle": "Python 零基础入门 07：input 输入和类型转换",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-07：input-输入和类型转换.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/08-Python零基础入门-条件判断if-else和match.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 08：条件判断 if else 和 match",
-      "slug": "python-zero-if-else-match",
-      "originalId": "6a4a4304f9ac958d2917604a",
-      "originalSlug": "python-zero-if-else-match",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "55da5ba681c15fd7290adb0334c201362495e92af544929fb951447fd8dbbcc3",
-      "onlineTitle": "Python 零基础入门 08：条件判断 if else 和 match",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-08：条件判断-if-else-和-match.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/09-Python零基础入门-循环for和while.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 09：循环 for 和 while",
-      "slug": "python-zero-loops",
-      "originalId": "6a4a4304f9ac958d2917604e",
-      "originalSlug": "python-zero-loops",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "c9a45f9f9d99ab5fdb12826ac59082d820601ef1ffae1c47668a5f96f7342263",
-      "onlineTitle": "Python 零基础入门 09：循环 for 和 while",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-09：循环-for-和-while.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/10-Python零基础入门-列表list.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 10：列表 list",
-      "slug": "python-zero-lists",
-      "originalId": "6a4a4304f9ac958d29176052",
-      "originalSlug": "python-zero-lists",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "67f86bceeb37feed7010fea6be5497d7bce129cb41e854896ae07caa3b361361",
-      "onlineTitle": "Python 零基础入门 10：列表 list",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-10：列表-list.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/11-Python零基础入门-元组tuple.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 11：元组 tuple",
-      "slug": "python-zero-tuples",
-      "originalId": "6a4a4304f9ac958d29176056",
-      "originalSlug": "python-zero-tuples",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "0368a1ea60bd3b51251cace83c0c0180a01346b68994d3cad7a270209d5e87f6",
-      "onlineTitle": "Python 零基础入门 11：元组 tuple",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-11：元组-tuple.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/12-Python零基础入门-集合set.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 12：集合 set",
-      "slug": "python-zero-sets",
-      "originalId": "6a4a4304f9ac958d2917605a",
-      "originalSlug": "python-zero-sets",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "dcdeb43c25ff1eb5401b1fac7cf74d6cad5688ae08215362f14e1304d1c2ab80",
-      "onlineTitle": "Python 零基础入门 12：集合 set",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-12：集合-set.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/13-Python零基础入门-字典dict.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 13：字典 dict",
-      "slug": "python-zero-dictionaries",
-      "originalId": "6a4a4304f9ac958d2917605e",
-      "originalSlug": "python-zero-dictionaries",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "7c57dd9defd49a655651df542a152c03168b0ea76b905788eee049a93098483e",
-      "onlineTitle": "Python 零基础入门 13：字典 dict",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-13：字典-dict.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/14-Python零基础入门-函数function.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 14：函数 function",
-      "slug": "python-zero-functions",
-      "originalId": "6a4a4304f9ac958d29176062",
-      "originalSlug": "python-zero-functions",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "5f29a8f3ba83c3a5681efdc5034506160506f5552bd9dc280952abc8eea073b7",
-      "onlineTitle": "Python 零基础入门 14：函数 function",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-14：函数-function.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/15-Python零基础入门-文件读写.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 15：文件读写",
-      "slug": "python-zero-file-read-write",
-      "originalId": "6a4a4304f9ac958d29176066",
-      "originalSlug": "python-zero-file-read-write",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "b4fd8b1db6acc8261c6b5c0cbc550e4fc931cee131d214b184e4ee19fb8f15f4",
-      "onlineTitle": "Python 零基础入门 15：文件读写",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-15：文件读写.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/16-Python零基础入门-小练习记账本.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 16：小练习记账本",
-      "slug": "python-zero-mini-project-account-book",
-      "originalId": "6a4a4304f9ac958d2917606a",
-      "originalSlug": "python-zero-mini-project-account-book",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "35b7df5fdb5808761f482bd7c6e7a5565b204dff20ff7919bd22b607cdc6273a",
-      "onlineTitle": "Python 零基础入门 16：小练习记账本",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-16：小练习记账本.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/17-Python零基础入门-异常处理try-except.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 17：异常处理 try except",
-      "slug": "python-zero-exception-handling",
-      "originalId": "6a4a4304f9ac958d2917606e",
-      "originalSlug": "python-zero-exception-handling",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "33440112232a404610e7861ee26304e53d167bc6731d96c4382bb725e1387daf",
-      "onlineTitle": "Python 零基础入门 17：异常处理 try except",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-17：异常处理-try-except.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/18-Python零基础入门-模块包pip和虚拟环境.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 18：模块、包、pip 和虚拟环境",
-      "slug": "python-zero-modules-pip-venv",
-      "originalId": "6a4a4304f9ac958d29176072",
-      "originalSlug": "python-zero-modules-pip-venv",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "ad4245dc89d3910c77d3bed614b0f92d17c127c0d5aeabcd0512d10879b1a53b",
-      "onlineTitle": "Python 零基础入门 18：模块、包、pip 和虚拟环境",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-18：模块、包、pip-和虚拟环境.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/19-Python零基础入门-面向对象class.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 19：面向对象 class",
-      "slug": "python-zero-object-oriented-programming",
-      "originalId": "6a4a4304f9ac958d29176076",
-      "originalSlug": "python-zero-object-oriented-programming",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "667dd15424a19f2765fb2c2cedafdc57b23ff0534d5b29a19521911f4f5778d5",
-      "onlineTitle": "Python 零基础入门 19：面向对象 class",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-19：面向对象-class.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/20-Python零基础入门-常用标准库.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 20：常用标准库",
-      "slug": "python-zero-standard-library",
-      "originalId": "6a4a4304f9ac958d2917607a",
-      "originalSlug": "python-zero-standard-library",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "af25ae9b23e30341bfdc9010135e506b057602c8f9140a27c50df67e411aa97f",
-      "onlineTitle": "Python 零基础入门 20：常用标准库",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-20：常用标准库.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/21-Python零基础入门-面试复盘与项目表达.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 21：面试复盘与项目表达",
-      "slug": "python-zero-interview-and-project-review",
-      "originalId": "6a4a4304f9ac958d2917607e",
-      "originalSlug": "python-zero-interview-and-project-review",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "4caaf2f2290a043d6878473ac1c47c26bf83e8371be58b517bca8ea929781147",
-      "onlineTitle": "Python 零基础入门 21：面试复盘与项目表达",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-21：面试复盘与项目表达.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/22-Python零基础入门-csv模块.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 22：csv 模块",
-      "slug": "python-zero-csv-module",
-      "originalId": "6a4a4304f9ac958d29176082",
-      "originalSlug": "python-zero-csv-module",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "f78a52f42df52f51745e53f85f0d6c41cbd3b0bc50697e66c077d90fd256ff62",
-      "onlineTitle": "Python 零基础入门 22：csv 模块",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-22：csv-模块.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/23-Python零基础入门-logging日志模块.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 23：logging 日志模块",
-      "slug": "python-zero-logging-module",
-      "originalId": "6a6b57a2fca6347974f5d17e",
-      "originalSlug": "python-zero-logging-module",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "b6783381457b7b32b48b187815730c324bdd2c74b727b1622d1335464ee757b3",
-      "onlineTitle": "Python 零基础入门 23：logging 日志模块",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-23：logging-日志模块.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/24-Python零基础入门-可迭代对象迭代器与生成器.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
-      "slug": "python-zero-iterable-iterator-generator",
-      "originalId": "6a6b57a2fca6347974f5d180",
-      "originalSlug": "python-zero-iterable-iterator-generator",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "32353e97adecad17c9cc7b80749c0e5a53a7ded87dcdcd6a09d1f63c541fb8b9",
-      "onlineTitle": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-24：可迭代对象、迭代器与生成器.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/25-Python零基础入门-函数进阶闭包与装饰器.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 25：函数进阶、闭包与装饰器",
-      "slug": "python-zero-advanced-functions-closures-decorators",
-      "originalId": "6a6b57a2fca6347974f5d182",
-      "originalSlug": "python-zero-advanced-functions-closures-decorators",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "568c0cefb8b9cc7c6409c3274259b9bf3e93243a89b77aa2af2ff18921ff9256",
-      "onlineTitle": "Python 零基础入门 25：函数进阶、闭包与装饰器",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-25：函数进阶、闭包与装饰器.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/26-Python零基础入门-Unicode-str与bytes.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 26：Unicode、str 与 bytes",
-      "slug": "python-zero-unicode-str-bytes",
-      "originalId": "6a6b57a2fca6347974f5d184",
-      "originalSlug": "python-zero-unicode-str-bytes",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "7608c13dca9e4ac79134cfd85d82f64b9c78de9cf00b57d2a3dde84a15aa8e50",
-      "onlineTitle": "Python 零基础入门 26：Unicode、str 与 bytes",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-26：Unicode、str-与-bytes.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/27-Python零基础入门-pytest测试调试与代码质量.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 27：pytest 测试、调试与代码质量",
-      "slug": "python-zero-pytest-debugging-code-quality",
-      "originalId": "6a6b57a2fca6347974f5d186",
-      "originalSlug": "python-zero-pytest-debugging-code-quality",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "b0d00175499ee87ce33b0fad530633e00de545c13d6f5ac41a1529a8c526f37d",
-      "onlineTitle": "Python 零基础入门 27：pytest 测试、调试与代码质量",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-27：pytest-测试、调试与代码质量.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/01-知识目录/28-Python零基础入门-正则命令行安全随机数与时区.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "01-知识目录"
-      ],
-      "title": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
-      "slug": "python-zero-regex-argparse-secrets-zoneinfo",
-      "originalId": "6a6b57a2fca6347974f5d188",
-      "originalSlug": "python-zero-regex-argparse-secrets-zoneinfo",
-      "exportedAt": "",
-      "frontMatterCategory": "Python入门",
-      "bodyHash": "7987f314bb37632d3d4bbca0464a8a0ad6f433875bd27c1bdd93f6499ff3e258",
-      "onlineTitle": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
-      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-28：正则、命令行参数、安全随机数与时区.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "知识目录"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/00-FastAPI从0到1-学习路线与开发环境.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 00：学习路线与开发环境",
-      "slug": "fastapi-zero-to-one-roadmap-environment",
-      "originalId": "6a6b57a2fca6347974f5d192",
-      "originalSlug": "fastapi-zero-to-one-roadmap-environment",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "ec722733a96ea7ebb4db71cc64ab335cb06592094938db1ed2c89016cb58e160",
-      "onlineTitle": "FastAPI 从 0 到 1 00：学习路线与开发环境",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-00：学习路线与开发环境.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/01-FastAPI从0到1-读懂代码前必须会的Python.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python",
-      "slug": "fastapi-python-reading-prerequisites",
-      "originalId": "6a6b57a2fca6347974f5d194",
-      "originalSlug": "fastapi-python-reading-prerequisites",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "b418ea578b502af0d6ed63e0b7b15d5a6f35db6114e24052650b02b39654dd7d",
-      "onlineTitle": "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-01：读懂代码前必须会的-Python.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/02-FastAPI从0到1-HTTP-ASGI与第一个应用.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用",
-      "slug": "fastapi-http-asgi-first-application",
-      "originalId": "6a6b57a2fca6347974f5d196",
-      "originalSlug": "fastapi-http-asgi-first-application",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "a31f207df6fe85f8711132880cf88a89680147420b317af2dafc2b5e3cd008f5",
-      "onlineTitle": "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-02：HTTP、ASGI-与第一个应用.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/03-FastAPI从0到1-路由与请求参数.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 03：路由与请求参数",
-      "slug": "fastapi-routing-request-parameters",
-      "originalId": "6a6b57a2fca6347974f5d198",
-      "originalSlug": "fastapi-routing-request-parameters",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "ea784515186b197bccd67715e90e66ac762260f3af06d9c2da125eca6c285b18",
-      "onlineTitle": "FastAPI 从 0 到 1 03：路由与请求参数",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-03：路由与请求参数.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/04-FastAPI从0到1-Pydantic-v2与数据建模.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模",
-      "slug": "fastapi-pydantic-v2-data-modeling",
-      "originalId": "6a6b57a2fca6347974f5d19a",
-      "originalSlug": "fastapi-pydantic-v2-data-modeling",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "33694c192776494d6fe4bc3108740ebc48127c863110c17a698edc58a5b4b52e",
-      "onlineTitle": "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-04：Pydantic-v2-与数据建模.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/05-FastAPI从0到1-响应异常与OpenAPI.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI",
-      "slug": "fastapi-response-errors-openapi",
-      "originalId": "6a6b57a2fca6347974f5d19c",
-      "originalSlug": "fastapi-response-errors-openapi",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "ef0b05872609cd33b2ebe3442c1cc8e309b4e2bfcb35f8180e09accd3ad111c2",
-      "onlineTitle": "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-05：响应、异常与-OpenAPI.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/06-FastAPI从0到1-依赖中间件生命周期与项目结构.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构",
-      "slug": "fastapi-dependencies-middleware-lifespan-structure",
-      "originalId": "6a6b57a2fca6347974f5d19e",
-      "originalSlug": "fastapi-dependencies-middleware-lifespan-structure",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "7cf66d8b397f745294b7be752d372deec47838153171a5247d3855572a629d33",
-      "onlineTitle": "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-06：依赖、中间件、生命周期与项目结构.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/07-FastAPI从0到1-SQLAlchemy与Alembic.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 07：SQLAlchemy 与 Alembic",
-      "slug": "fastapi-sqlalchemy-alembic",
-      "originalId": "6a6b57a2fca6347974f5d1a0",
-      "originalSlug": "fastapi-sqlalchemy-alembic",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "11f0225bcb8236f55cc95e5a8d065a9dd05db3e19b1c05231d37729cbeef0928",
-      "onlineTitle": "FastAPI 从 0 到 1 07：SQLAlchemy 与 Alembic",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-07：SQLAlchemy-与-Alembic.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/08-FastAPI从0到1-CRUD事务关联分页与查询.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询",
-      "slug": "fastapi-crud-transactions-relations-pagination",
-      "originalId": "6a6b57a2fca6347974f5d1a2",
-      "originalSlug": "fastapi-crud-transactions-relations-pagination",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "1508fa594c919391a68b4d8550e6eb495868cd929b7b5ba26f9387e3c3998880",
-      "onlineTitle": "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-08：CRUD、事务、关联、分页与查询.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/09-FastAPI从0到1-登录JWT-RBAC与安全.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全",
-      "slug": "fastapi-authentication-jwt-rbac-security",
-      "originalId": "6a6b57a2fca6347974f5d1a4",
-      "originalSlug": "fastapi-authentication-jwt-rbac-security",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "968a902933166e081cf895f2a7bc2efa2eb6abbff8e7d33174b3ac6cfa3d64a2",
-      "onlineTitle": "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-09：登录、JWT、RBAC-与安全.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/10-FastAPI从0到1-文件后台任务HTTPX与Redis.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis",
-      "slug": "fastapi-files-background-httpx-redis",
-      "originalId": "6a6b57a2fca6347974f5d1a6",
-      "originalSlug": "fastapi-files-background-httpx-redis",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "851c485921cce6b8d2fa89a381d50654779da65c4fd8bc03f8e117f62de0929d",
-      "onlineTitle": "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-10：文件、后台任务、HTTPX-与-Redis.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/11-FastAPI从0到1-异步并发WebSocket与任务队列.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列",
-      "slug": "fastapi-async-concurrency-websocket-task-queue",
-      "originalId": "6a6b57a2fca6347974f5d1a8",
-      "originalSlug": "fastapi-async-concurrency-websocket-task-queue",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "0d26a72856c81d424f03afcfceeaec30fa2ec7259b0318dabd39ec68dc5d1d40",
-      "onlineTitle": "FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-11：异步、并发、WebSocket-与任务队列.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/12-FastAPI从0到1-pytest与质量保障.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 12：pytest 与质量保障",
-      "slug": "fastapi-pytest-quality-assurance",
-      "originalId": "6a6b57a2fca6347974f5d1aa",
-      "originalSlug": "fastapi-pytest-quality-assurance",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "2c762ff05549715133ac6c7ddce04c7a87a74109cc9981f47a5e66e4f88acaba",
-      "onlineTitle": "FastAPI 从 0 到 1 12：pytest 与质量保障",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-12：pytest-与质量保障.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/13-FastAPI从0到1-日志监控性能安全与部署.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署",
-      "slug": "fastapi-observability-performance-security-deployment",
-      "originalId": "6a6b57a2fca6347974f5d1ac",
-      "originalSlug": "fastapi-observability-performance-security-deployment",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "ea670cb7d2b265743ab5d01bafcf47751d56d03fa377e83fe27ce5e215d68ba4",
-      "onlineTitle": "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-13：日志、监控、性能、安全与部署.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/14-FastAPI从0到1-企业知识库API综合实战.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 14：企业知识库 API 综合实战",
-      "slug": "fastapi-enterprise-knowledge-api-capstone",
-      "originalId": "6a6b57a2fca6347974f5d1ae",
-      "originalSlug": "fastapi-enterprise-knowledge-api-capstone",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "8e3d44bd6b3bea35bd508b3e71f99172f5d59eb487aa62e6b97a63e5774e63fb",
-      "onlineTitle": "FastAPI 从 0 到 1 14：企业知识库 API 综合实战",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-14：企业知识库-API-综合实战.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/15-FastAPI从0到1-高频问题面试与交付清单.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 15：高频问题、面试与交付清单",
-      "slug": "fastapi-faq-interview-delivery-checklist",
-      "originalId": "6a6b57a2fca6347974f5d1b0",
-      "originalSlug": "fastapi-faq-interview-delivery-checklist",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "2a28ddbdc39da454da9c2df64bf9837ac73ece70b60f1a1108573590307ff86f",
-      "onlineTitle": "FastAPI 从 0 到 1 15：高频问题、面试与交付清单",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-15：高频问题、面试与交付清单.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/Web入门/FastAPI从0到1/16-FastAPI从0到1-学习成效评估与Express对照交付.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "title": "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付",
-      "slug": "fastapi-zero-to-one-learning-outcome-express-delivery",
-      "originalId": "6a6b57a2fca6347974f5d1b2",
-      "originalSlug": "fastapi-zero-to-one-learning-outcome-express-delivery",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "6948b10d0571f0278b38cc944cda131d908d77e276e837dbb51a050d93ff2b1c",
-      "onlineTitle": "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付",
-      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-16：学习成效评估与-Express-对照交付.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "Web入门",
-        "FastAPI从0到1"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/网络爬虫与数据分析/00-Python网络爬虫入门-基础概念.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "title": "Python 网络爬虫入门 00：基础概念",
-      "slug": "python-crawler-basic-concepts",
-      "originalId": "6a4a44b5f9ac958d291774e7",
-      "originalSlug": "python-crawler-basic-concepts",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "d3891f8247c2eab6935fef692d26d7cfd21d438f5c77ecd3960ccf828673ca7f",
-      "onlineTitle": "Python 网络爬虫入门 00：基础概念",
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-00：基础概念.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/网络爬虫与数据分析/01-Python网络爬虫入门-请求网页与robots.txt.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "title": "Python 网络爬虫入门 01：requests 请求体系与 robots.txt",
-      "slug": "python-crawler-request-and-robots",
-      "originalId": "6a4a44b5f9ac958d291774eb",
-      "originalSlug": "python-crawler-request-and-robots",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "639f731fae4ea1f4371049f3ad186210f30d2116aa626886ea37648306a4786d",
-      "onlineTitle": "Python 网络爬虫入门 01：requests 请求体系与 robots.txt",
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-01：requests-请求体系与-robots.txt.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/网络爬虫与数据分析/02-Python网络爬虫入门-lxml解析HTML并保存CSV.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "title": "Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV",
-      "slug": "python-crawler-lxml-parse-html-save-csv",
-      "originalId": "6a4a44b5f9ac958d291774ef",
-      "originalSlug": "python-crawler-lxml-parse-html-save-csv",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "691569061d4bcab0d55a00d5648e660b82935b0d2bec2b1a8b321c7ca76b3291",
-      "onlineTitle": "Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV",
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-02：XPath-解析-HTML-并保存-CSV.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/网络爬虫与数据分析/03-Python数据清洗入门-正则表达式清洗爬虫文本.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "title": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
-      "slug": "python-data-cleaning-regex-crawler-text",
-      "originalId": "6a6b57a2fca6347974f5d18d",
-      "originalSlug": "python-data-cleaning-regex-crawler-text",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "fc6ad2df707d0afcaffb28d35cad09699d4ae281002a82fc83274d69b764ab86",
-      "onlineTitle": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据清洗入门-03：正则表达式清洗爬虫文本.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/网络爬虫与数据分析/04-Python数据分析入门-用pandas统计CSV.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "title": "Python 数据分析入门 04：用 pandas 统计 CSV",
-      "slug": "python-data-analysis-pandas-csv",
-      "originalId": "6a4a44b5f9ac958d291774f3",
-      "originalSlug": "python-data-analysis-pandas-csv",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "4f2c26ac0d280eeb8c5a78106c02a4debb268c45135ba74450adff108db981cd",
-      "onlineTitle": "Python 数据分析入门 04：用 pandas 统计 CSV",
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据分析入门-04：用-pandas-统计-CSV.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "matchMethod": "slug",
-      "contentStatus": "same",
-      "contentSimilarity": 1,
-      "lengthRatio": 1,
-      "categoryStatus": "update-recommended"
-    },
-    {
-      "repositoryPath": "Python/02-应用实例/网络爬虫与数据分析/05-Python数据可视化入门-用matplotlib绘制统计图.md",
-      "repositoryCategoryPath": [
-        "Python",
-        "02-应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "title": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
-      "slug": "python-data-visualization-matplotlib-charts",
-      "originalId": "6a6b57a2fca6347974f5d190",
-      "originalSlug": "python-data-visualization-matplotlib-charts",
-      "exportedAt": "",
-      "frontMatterCategory": "Python应用实例",
-      "bodyHash": "0d35a5301f3974c7e9b9749547e73497b7e72f53b81e65a005a54927d86c0937",
-      "onlineTitle": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
-      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据可视化入门-05：用-matplotlib-绘制统计图.md",
-      "onlineCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
-      ],
-      "expectedRepositoryCategoryPath": [
-        "后端技术",
-        "Python",
-        "应用实例",
-        "网络爬虫与数据分析"
       ],
       "matchMethod": "slug",
       "contentStatus": "same",
@@ -3214,6 +1482,334 @@
         "代理与VPN"
       ],
       "onlineFile": "电脑/电脑网络/代理与VPN/线路与代理协议基础：直连、中转、专线、VLESS-Reality、Hysteria2-怎么理解.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774e7",
+      "originalSlug": "python-crawler-basic-concepts",
+      "title": "Python 网络爬虫入门 00：基础概念",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-00：基础概念.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774eb",
+      "originalSlug": "python-crawler-request-and-robots",
+      "title": "Python 网络爬虫入门 01：requests 请求体系与 robots.txt",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-01：requests-请求体系与-robots.txt.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774ef",
+      "originalSlug": "python-crawler-lxml-parse-html-save-csv",
+      "title": "Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-02：XPath-解析-HTML-并保存-CSV.md"
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774f3",
+      "originalSlug": "python-data-analysis-pandas-csv",
+      "title": "Python 数据分析入门 04：用 pandas 统计 CSV",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据分析入门-04：用-pandas-统计-CSV.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917602a",
+      "originalSlug": "python-zero-learning-guide",
+      "title": "Python 零基础入门 00：学习路线与运行方式",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-00：学习路线与运行方式.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917602e",
+      "originalSlug": "python-zero-what-is-python",
+      "title": "Python 零基础入门 01：Python 是什么",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-01：Python-是什么.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176032",
+      "originalSlug": "python-zero-install-and-run",
+      "title": "Python 零基础入门 02：安装检查与运行代码",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-02：安装检查与运行代码.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176036",
+      "originalSlug": "python-zero-print-and-comments",
+      "title": "Python 零基础入门 03：print 输出与注释",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-03：print-输出与注释.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917603a",
+      "originalSlug": "python-zero-variables-and-types",
+      "title": "Python 零基础入门 04：变量和基本数据类型",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-04：变量和基本数据类型.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917603e",
+      "originalSlug": "python-zero-string",
+      "title": "Python 零基础入门 05：字符串",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-05：字符串.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176042",
+      "originalSlug": "python-zero-numbers-and-operators",
+      "title": "Python 零基础入门 06：数字和简单计算",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-06：数字和简单计算.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176046",
+      "originalSlug": "python-zero-input-and-convert",
+      "title": "Python 零基础入门 07：input 输入和类型转换",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-07：input-输入和类型转换.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917604a",
+      "originalSlug": "python-zero-if-else-match",
+      "title": "Python 零基础入门 08：条件判断 if else 和 match",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-08：条件判断-if-else-和-match.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917604e",
+      "originalSlug": "python-zero-loops",
+      "title": "Python 零基础入门 09：循环 for 和 while",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-09：循环-for-和-while.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176052",
+      "originalSlug": "python-zero-lists",
+      "title": "Python 零基础入门 10：列表 list",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-10：列表-list.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176056",
+      "originalSlug": "python-zero-tuples",
+      "title": "Python 零基础入门 11：元组 tuple",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-11：元组-tuple.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917605a",
+      "originalSlug": "python-zero-sets",
+      "title": "Python 零基础入门 12：集合 set",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-12：集合-set.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917605e",
+      "originalSlug": "python-zero-dictionaries",
+      "title": "Python 零基础入门 13：字典 dict",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-13：字典-dict.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176062",
+      "originalSlug": "python-zero-functions",
+      "title": "Python 零基础入门 14：函数 function",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-14：函数-function.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176066",
+      "originalSlug": "python-zero-file-read-write",
+      "title": "Python 零基础入门 15：文件读写",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-15：文件读写.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917606a",
+      "originalSlug": "python-zero-mini-project-account-book",
+      "title": "Python 零基础入门 16：小练习记账本",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-16：小练习记账本.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917606e",
+      "originalSlug": "python-zero-exception-handling",
+      "title": "Python 零基础入门 17：异常处理 try except",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-17：异常处理-try-except.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176072",
+      "originalSlug": "python-zero-modules-pip-venv",
+      "title": "Python 零基础入门 18：模块、包、pip 和虚拟环境",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-18：模块、包、pip-和虚拟环境.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176076",
+      "originalSlug": "python-zero-object-oriented-programming",
+      "title": "Python 零基础入门 19：面向对象 class",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-19：面向对象-class.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917607a",
+      "originalSlug": "python-zero-standard-library",
+      "title": "Python 零基础入门 20：常用标准库",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-20：常用标准库.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917607e",
+      "originalSlug": "python-zero-interview-and-project-review",
+      "title": "Python 零基础入门 21：面试复盘与项目表达",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-21：面试复盘与项目表达.md"
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176082",
+      "originalSlug": "python-zero-csv-module",
+      "title": "Python 零基础入门 22：csv 模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-22：csv-模块.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5b8",
@@ -8133,6 +6729,367 @@
         "AI版CSS"
       ],
       "onlineFile": "前端技术/前端三剑客/AI版CSS/综合实战_从风格到产品.md"
+    },
+    {
+      "originalId": "6a6b635eb46b52abc5dc2865",
+      "originalSlug": "python-learning-index",
+      "title": "Python 学习资料总目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python"
+      ],
+      "onlineFile": "后端技术/Python/Python-学习资料总目录.md"
+    },
+    {
+      "originalId": "6a6b635eb46b52abc5dc2863",
+      "originalSlug": "fastapi-zero-to-enterprise-index",
+      "title": "FastAPI 从 0 到 1：小白到项目实战学习总目录",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1：小白到项目实战学习总目录.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1b2",
+      "originalSlug": "fastapi-zero-to-one-learning-outcome-express-delivery",
+      "title": "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-16：学习成效评估与-Express-对照交付.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1b0",
+      "originalSlug": "fastapi-faq-interview-delivery-checklist",
+      "title": "FastAPI 从 0 到 1 15：高频问题、面试与交付清单",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-15：高频问题、面试与交付清单.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1ae",
+      "originalSlug": "fastapi-enterprise-knowledge-api-capstone",
+      "title": "FastAPI 从 0 到 1 14：企业知识库 API 综合实战",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-14：企业知识库-API-综合实战.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1ac",
+      "originalSlug": "fastapi-observability-performance-security-deployment",
+      "title": "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-13：日志、监控、性能、安全与部署.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1aa",
+      "originalSlug": "fastapi-pytest-quality-assurance",
+      "title": "FastAPI 从 0 到 1 12：pytest 与质量保障",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-12：pytest-与质量保障.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a8",
+      "originalSlug": "fastapi-async-concurrency-websocket-task-queue",
+      "title": "FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-11：异步、并发、WebSocket-与任务队列.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a6",
+      "originalSlug": "fastapi-files-background-httpx-redis",
+      "title": "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-10：文件、后台任务、HTTPX-与-Redis.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a4",
+      "originalSlug": "fastapi-authentication-jwt-rbac-security",
+      "title": "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-09：登录、JWT、RBAC-与安全.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a2",
+      "originalSlug": "fastapi-crud-transactions-relations-pagination",
+      "title": "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-08：CRUD、事务、关联、分页与查询.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d1a0",
+      "originalSlug": "fastapi-sqlalchemy-alembic",
+      "title": "FastAPI 从 0 到 1 07：SQLAlchemy 与 Alembic",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-07：SQLAlchemy-与-Alembic.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19e",
+      "originalSlug": "fastapi-dependencies-middleware-lifespan-structure",
+      "title": "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-06：依赖、中间件、生命周期与项目结构.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19c",
+      "originalSlug": "fastapi-response-errors-openapi",
+      "title": "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-05：响应、异常与-OpenAPI.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d19a",
+      "originalSlug": "fastapi-pydantic-v2-data-modeling",
+      "title": "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-04：Pydantic-v2-与数据建模.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d198",
+      "originalSlug": "fastapi-routing-request-parameters",
+      "title": "FastAPI 从 0 到 1 03：路由与请求参数",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-03：路由与请求参数.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d196",
+      "originalSlug": "fastapi-http-asgi-first-application",
+      "title": "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-02：HTTP、ASGI-与第一个应用.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d194",
+      "originalSlug": "fastapi-python-reading-prerequisites",
+      "title": "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-01：读懂代码前必须会的-Python.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d192",
+      "originalSlug": "fastapi-zero-to-one-roadmap-environment",
+      "title": "FastAPI 从 0 到 1 00：学习路线与开发环境",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "Web入门",
+        "FastAPI从0到1"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/Web入门/FastAPI从0到1/FastAPI-从-0-到-1-00：学习路线与开发环境.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d190",
+      "originalSlug": "python-data-visualization-matplotlib-charts",
+      "title": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据可视化入门-05：用-matplotlib-绘制统计图.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d18d",
+      "originalSlug": "python-data-cleaning-regex-crawler-text",
+      "title": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "onlineFile": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据清洗入门-03：正则表达式清洗爬虫文本.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d188",
+      "originalSlug": "python-zero-regex-argparse-secrets-zoneinfo",
+      "title": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-28：正则、命令行参数、安全随机数与时区.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d186",
+      "originalSlug": "python-zero-pytest-debugging-code-quality",
+      "title": "Python 零基础入门 27：pytest 测试、调试与代码质量",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-27：pytest-测试、调试与代码质量.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d184",
+      "originalSlug": "python-zero-unicode-str-bytes",
+      "title": "Python 零基础入门 26：Unicode、str 与 bytes",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-26：Unicode、str-与-bytes.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d182",
+      "originalSlug": "python-zero-advanced-functions-closures-decorators",
+      "title": "Python 零基础入门 25：函数进阶、闭包与装饰器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-25：函数进阶、闭包与装饰器.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d180",
+      "originalSlug": "python-zero-iterable-iterator-generator",
+      "title": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-24：可迭代对象、迭代器与生成器.md"
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d17e",
+      "originalSlug": "python-zero-logging-module",
+      "title": "Python 零基础入门 23：logging 日志模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "onlineFile": "后端技术/Python/知识目录/Python-零基础入门-23：logging-日志模块.md"
     },
     {
       "originalId": "6a58a6f8c48586f4dec3c348",

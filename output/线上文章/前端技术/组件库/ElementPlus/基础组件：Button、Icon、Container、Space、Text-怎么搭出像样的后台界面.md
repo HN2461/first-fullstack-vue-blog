@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac610"
 originalSlug: "element-plus-elementplus-button-icon-container-space-text-ede7df67"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 基础组件：Button、Icon、Container、Space、Text 怎么搭出像样的后台界面
 

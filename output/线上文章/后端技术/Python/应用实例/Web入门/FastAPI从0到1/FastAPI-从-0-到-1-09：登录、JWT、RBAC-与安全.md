@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d1a4"
 originalSlug: "fastapi-authentication-jwt-rbac-security"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全
 

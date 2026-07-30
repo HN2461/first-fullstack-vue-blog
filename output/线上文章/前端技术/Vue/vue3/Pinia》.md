@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2d4"
 originalSlug: "vue-vue3-pinia-356d4f75"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 ## 4.1、什么是Pinia
 ### 4.1.1、简介

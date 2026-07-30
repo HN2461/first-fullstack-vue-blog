@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfc6"
 originalSlug: "ai-mcp-mcp-79fea32a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）
 

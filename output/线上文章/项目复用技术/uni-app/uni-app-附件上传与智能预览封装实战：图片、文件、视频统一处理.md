@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ea"
 originalSlug: "uni-app-uni-app-7432a1ba"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # uni-app 附件上传与智能预览封装实战：图片、文件、视频统一处理
 

@@ -15,7 +15,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac21a"
 originalSlug: "uni-app-uni-app-props-behaviors-60418e36"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # uni-app 微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑
 

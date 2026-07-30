@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac394"
 originalSlug: "js-js-f6bc0394"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第02篇：JavaScript 数据访问安全机制
 

@@ -10,6 +10,7 @@ import matter from 'gray-matter'
 import mongoose from 'mongoose'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
+import { USER_ROLES } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
@@ -27,34 +28,30 @@ const SOURCE_ROOT = path.resolve(process.env.PYTHON_ARTICLE_ROOT || path.join(en
 const REPORT_PATH = process.env.PYTHON_SYNC_REPORT || (
   env.nodeEnv === 'production'
     ? ''
-    : path.join(env.rootDir, '../output/python-article-replacement-analysis-20260730.json')
+    : path.join(env.rootDir, '../docs/02-开发指南/文章同步报告/python-article-replacement-latest.json')
 )
 const CATEGORY_PREFIX = ['后端技术', 'Python']
 const NAVIGATION_NAMES = new Set(['readme.md', 'index.md', '目录.md'])
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-
 function normalizePath(value) {
   return String(value || '').replace(/\\/g, '/')
 }
-
 function cleanDirectoryName(value) {
   return String(value || '')
     .replace(/^(?:第)?\d+[篇章节._\-、\s]+/u, '')
     .trim()
 }
-
 function scanMarkdown(currentDir = SOURCE_ROOT, result = []) {
   for (const entry of fs.readdirSync(currentDir, { withFileTypes: true })) {
     const fullPath = path.join(currentDir, entry.name)
     if (entry.isDirectory()) {
       scanMarkdown(fullPath, result)
-    } else if (/\.md$/i.test(entry.name) && !NAVIGATION_NAMES.has(entry.name.toLowerCase())) {
+    } else if (/\.md$/i.test(entry.name)) {
       result.push(fullPath)
     }
   }
   return result
 }
-
 function normalizeTags(value) {
   if (Array.isArray(value)) {
     return [...new Set(value.map((item) => String(item || '').trim()).filter(Boolean))]
@@ -64,7 +61,6 @@ function normalizeTags(value) {
     .map((item) => item.trim())
     .filter(Boolean)
 }
-
 function stableSlug(data) {
   return String(data.originalSlug || data.slug || '')
     .trim()
@@ -93,6 +89,8 @@ function parseSourceArticles() {
     }
 
     const data = parsed.data || {}
+    const isNavigationFile = NAVIGATION_NAMES.has(path.basename(fullPath).toLowerCase())
+    if (isNavigationFile && (!data.title || !stableSlug(data))) continue
     const title = String(data.title || '').trim()
     const slug = stableSlug(data)
     const summary = String(data.summary || '').trim()
@@ -414,7 +412,7 @@ async function main() {
   const [categories, allArticles, adminUser] = await Promise.all([
     Category.find({}),
     Article.find({ deletedAt: null }),
-    User.findOne({ role: { $in: ['super-admin', 'admin'] } }).sort({ createdAt: 1 })
+    User.findOne({ role: { $in: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] } }).sort({ createdAt: 1 })
   ])
   const categoryMaps = buildCategoryPathMaps(categories)
   const pythonRoot = categoryMaps.byPath.get(CATEGORY_PREFIX.join('/'))

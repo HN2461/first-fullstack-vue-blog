@@ -12,7 +12,7 @@ cover: ""
 originalId: "6a4a4304f9ac958d29176036"
 originalSlug: "python-zero-print-and-comments"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Python 零基础入门 03：print 输出与注释
 

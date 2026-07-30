@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf46"
 originalSlug: "ai-agent-claudecode-claudecode-76aa3c89"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）
 

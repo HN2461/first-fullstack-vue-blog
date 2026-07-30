@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a4"
 originalSlug: "vue-vue2-vue-ajax-907a7d1a"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 ## 4.1 发送AJAX异步请求的方式	
 发送AJAX异步请求的常见方式包括：

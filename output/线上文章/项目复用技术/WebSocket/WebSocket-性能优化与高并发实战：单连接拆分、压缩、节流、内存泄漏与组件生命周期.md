@@ -17,7 +17,7 @@ cover: ""
 originalId: "6a2d29208a2b1c68f2cac750"
 originalSlug: "websocket-websocket-1b7cd930"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # WebSocket 性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期
 

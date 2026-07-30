@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3ec"
 originalSlug: "js-js-offset-client-scroll-29c45981"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 第13篇：offset、client、scroll 坐标与尺寸详解
 > 适合场景  

@@ -16,7 +16,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac54c"
 originalSlug: "windows-c-storage-sense-windows-old-4fcfcbe9"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # Windows C盘空间清理：Storage Sense、临时文件与 Windows.old
 

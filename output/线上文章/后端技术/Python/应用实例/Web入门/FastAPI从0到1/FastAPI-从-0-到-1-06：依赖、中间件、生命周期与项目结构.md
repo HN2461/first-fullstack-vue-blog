@@ -14,7 +14,7 @@ cover: ""
 originalId: "6a6b57a2fca6347974f5d19e"
 originalSlug: "fastapi-dependencies-middleware-lifespan-structure"
 originalStatus: "draft"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构
 

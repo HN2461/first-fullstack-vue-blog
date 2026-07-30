@@ -10,7 +10,7 @@ cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33e"
 originalSlug: "vs-charset-utf-8-8af21833"
 originalStatus: "published"
-exportedAt: "2026-07-30T14:30:35.933Z"
+exportedAt: "2026-07-30T14:46:52.260Z"
 ---
 # 字符 vs 字节：零基础讲明白（结合加密密钥场景）
 你完全不懂字符和字节的区别很正常——这是新手最容易卡壳的点，我不用任何专业术语，纯「生活化比喻+实际例子」讲透，还会结合你关心的「加密密钥」场景，让你知道这俩到底和密钥有啥关系。
