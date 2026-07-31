@@ -1,7 +1,7 @@
 ---
-title: "Windows 用户目录、Public、AppData、ProgramData 详解"
+title: "第 7 篇：Windows 用户目录体系：Users、Public、AppData、ProgramData"
 slug: "windows-public-appdata-programdata-d717719e"
-summary: "结合微软官方文档系统梳理 Windows 的用户目录体系，重点解释 Users、Public、AppData、ProgramData 的边界、典型用途和清理时最容易踩的坑。"
+summary: "Windows 用户目录体系说明，重点区分 Users、Public、AppData、ProgramData 的职责、典型用途、配置存放位置和清理风险。"
 category: "系统与文件"
 tags:
   - "Windows"
@@ -18,7 +18,7 @@ originalSlug: "windows-public-appdata-programdata-d717719e"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows 用户目录、Public、AppData、ProgramData 详解
+# 第 7 篇：Windows 用户目录体系：Users、Public、AppData、ProgramData
 
 > 资料来源：Microsoft Learn、Microsoft Support，整理时间：2026-04-12。  
 > 适用范围：默认安装方式的 Windows 10 / Windows 11。

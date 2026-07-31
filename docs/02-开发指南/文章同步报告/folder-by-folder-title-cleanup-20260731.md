@@ -287,6 +287,70 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/proxy-vpn-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/proxy-vpn-folder-before-semantic-cleanup-20260731-1825`。
 
+### 电脑 / 电脑网络 / 网络基础
+
+- 处理 3 篇 Windows 与开发网络基础文章。原顺序基本可用，但本地文件名缺少阅读序号，标题对文章范围的提示不够统一。
+- 已整理为：开发必懂网络基础概念、Windows IP/DNS/网关/DHCP/私网公网速查、Windows hosts/DNS 缓存/网络类型/防火墙基础。
+- 将 `sortOrder` 调整为 10、20、30，使线上目录按开发通用概念、Windows 网络配置、Windows 网络排障基础展示；本地文件名采用 `第 01 篇` 到 `第 03 篇`。
+- 按见名知意要求保留关键内容范围，例如 IP、127.0.0.1、localhost、端口、DNS，IP、DNS、网关、DHCP、私网公网，hosts、DNS 缓存、网络类型、防火墙。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `电脑 / 电脑网络 / 网络基础` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/windows-network-basics-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/windows-network-basics-folder-before-semantic-cleanup-20260731-1835`。
+
+### 电脑 / 电脑网络 / 网络排障
+
+- 处理 1 篇 Windows 网络排障文章。原标题 `电脑WIFI图标消失修复` 信息量不足，本地文件名也缺少阅读序号。
+- 已整理为：Windows WiFi 图标消失修复：WLAN AutoConfig、网络重置、开机自启。
+- 保持 `sortOrder` 为 10；本地文件名采用 `第 01 篇`，并保留 WLAN AutoConfig、网络重置、开机自启等关键排障范围。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `电脑 / 电脑网络 / 网络排障` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/windows-network-troubleshooting-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/windows-network-troubleshooting-folder-before-semantic-cleanup-20260731-1845`。
+
+### 电脑网络整理状态
+
+- `电脑 / 电脑网络` 下已完成本地文章层整理：`代理与VPN`、`网络基础`、`网络排障`。
+- 共涉及 9 篇电脑网络文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 分类路径暂不改名，避免把分类树变更与文章内容整理混在一起。
+
+### 电脑 / 网站部署
+
+- 处理 1 篇直接归属于 `电脑 / 网站部署` 的 GitHub Pages 部署文章。原标题已有基础质量，本次按见名知意要求补充阅读序号和关键范围。
+- 已整理为：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署。
+- 保持 `sortOrder` 为 10；本地文件名采用 `第 01 篇`，并保留 Vite base、Hash 路由、GitHub Actions 自动部署等关键部署范围。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `电脑 / 网站部署` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 电脑 / 网站部署 / 全栈部署入门
+
+- 处理 7 篇全栈部署入门文章。原文件名使用 `第-1-篇` 一类连字符格式，阅读顺序可用但本地文件名和标题缺少关键范围。
+- 已整理为：部署学习路线、SSH 与 Linux 服务器基础、Nginx/Vue 静态资源/反向代理/HTTPS、Node/Express/PM2 与环境变量、MongoDB 生产安全与备份、宝塔面板部署入门、Vue + Express + MongoDB 完整上线实战。
+- 保持 `sortOrder` 为 10 到 70 的正向部署学习顺序；本地文件名采用 `第 01 篇` 到 `第 07 篇`。
+- 按见名知意要求保留关键内容范围，例如 SSH、Linux、Nginx、PM2、MongoDB、安全、登录、密钥、端口、防火墙、刷新 404、证书、502、生产运行、日志、开机自启、认证、连接字符串、mongodump、宝塔、反向代理、SSL、HTTPS。
+- 说明：Nginx 文章标题和 H1 保留 `/api`，但 Windows 文件名不能包含 `/`，因此本地文件名中使用 `api`。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `电脑 / 网站部署 / 全栈部署入门` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/website-deployment-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/website-deployment-folder-before-semantic-cleanup-20260731-1855`。
+
+### 电脑部署整理状态
+
+- `电脑 / 网站部署` 下已完成本地文章层整理：直接部署文章、`全栈部署入门`。
+- 共涉及 8 篇部署文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 分类路径暂不改名，避免把分类树变更与文章整理混在一起。
+
+### 电脑 / 系统与文件
+
+- 处理 10 篇 Windows 系统与文件基础文章。原排序基本可用，主要问题是本地文件名没有统一阅读序号，部分文件名仍带有导出阶段的连字符残留。
+- 已整理为：电脑卡死救急与常用快捷键、Windows 电脑基础概念入门、开发常用快捷键速查、管理员权限与 UAC、启动项与系统配置工具、常见系统路径与环境变量、用户目录体系、文件显示设置、C 盘空间清理、C 盘系统文件夹说明。
+- 保持 `sortOrder` 为 10 到 100 的基础阅读顺序；本地文件名采用 `第 01 篇` 到 `第 10 篇`。
+- 按见名知意要求保留关键内容范围，例如任务管理器、黑屏恢复、窗口操作、复制保存、开始菜单、任务栏、资源管理器、设置、终端、VS Code、Cursor、AI 编程工具、UAC、MSConfig、服务、干净启动、USERPROFILE、APPDATA、ProgramData、ProgramFiles、Users、Public、扩展名、隐藏文件、默认应用、Storage Sense、Windows.old、System32。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `电脑 / 系统与文件` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/windows-system-files-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/windows-system-files-folder-before-semantic-cleanup-20260731-1910`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

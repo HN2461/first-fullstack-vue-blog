@@ -1,14 +1,9 @@
 ---
-title: "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS"
+title: "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、/api、证书、502 排查"
 slug: "nginx-https-f134e6f0"
-summary: "从小白角度讲清 Vue 打包、Nginx 静态站点、前端路由刷新、/api 反向代理、HTTPS 证书和常见 404/502 排查。"
+summary: "从 Vue 打包、Nginx 静态站点、前端路由刷新 404、/api 反向代理、HTTPS 证书到 404/502 排查，梳理前端上线入口。"
 category: "全栈部署入门"
-tags:
-  - "Nginx"
-  - "HTTPS"
-  - "反向代理"
-  - "Vue"
-  - "Vite"
+tags: ["Nginx","Vue","静态资源","反向代理","HTTPS","404","502"]
 status: "draft"
 sortOrder: 30
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "nginx-https-f134e6f0"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS
+# 第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、/api、证书、502 排查
 
 资料核对时间：2026-06-08。
 

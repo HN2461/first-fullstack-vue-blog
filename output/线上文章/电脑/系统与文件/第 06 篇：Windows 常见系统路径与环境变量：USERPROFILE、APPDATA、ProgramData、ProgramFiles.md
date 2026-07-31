@@ -1,15 +1,16 @@
 ---
-title: "Windows 常见系统路径与环境变量速查"
+title: "第 6 篇：Windows 常见系统路径与环境变量：USERPROFILE、APPDATA、ProgramData、ProgramFiles"
 slug: "windows-b0b9b49e"
-summary: "基于微软官方文档整理 Windows 里最常见的系统路径和环境变量，覆盖 USERPROFILE、APPDATA、LOCALAPPDATA、ProgramData、PUBLIC、ProgramFiles 等常用定位方式。"
+summary: "Windows 常见系统路径和环境变量速查，覆盖 USERPROFILE、APPDATA、LOCALAPPDATA、ProgramData、PUBLIC、ProgramFiles 和路径定位方法。"
 category: "系统与文件"
 tags:
   - "Windows"
   - "环境变量"
   - "系统路径"
+  - "USERPROFILE"
   - "AppData"
   - "ProgramData"
-  - "配置"
+  - "ProgramFiles"
 status: "draft"
 sortOrder: 60
 cover: ""
@@ -18,7 +19,7 @@ originalSlug: "windows-b0b9b49e"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows 常见系统路径与环境变量速查
+# 第 6 篇：Windows 常见系统路径与环境变量：USERPROFILE、APPDATA、ProgramData、ProgramFiles
 
 > 资料来源：Microsoft Learn，整理时间：2026-04-12。  
 > 适用范围：需要找配置目录、写脚本、看教程、改环境路径的 Windows 场景。

@@ -1,12 +1,13 @@
 ---
-title: "Windows 管理员权限、UAC 与“以管理员身份运行”"
+title: "第 4 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界"
 slug: "windows-uac-9d17ce33"
-summary: "结合微软官方文档整理 Windows 里的管理员权限、UAC 提示和“以管理员身份运行”之间的关系，帮你判断什么时候该提权，什么时候不该乱开。"
+summary: "Windows 管理员权限与 UAC 入门，说明标准权限、管理员账户、UAC 提示、以管理员身份运行、提权场景和安全边界。"
 category: "系统与文件"
 tags:
   - "Windows"
   - "管理员权限"
   - "UAC"
+  - "提权运行"
   - "安全"
   - "系统设置"
 status: "draft"
@@ -17,7 +18,7 @@ originalSlug: "windows-uac-9d17ce33"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows 管理员权限、UAC 与“以管理员身份运行”
+# 第 4 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界
 
 > 资料来源：Microsoft Learn、Microsoft Support，整理时间：2026-04-12。  
 > 适用范围：Windows 10 / Windows 11。

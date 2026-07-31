@@ -1,7 +1,7 @@
 ---
-title: "Windows 文件扩展名、隐藏文件与资源管理器显示设置"
+title: "第 8 篇：Windows 文件显示设置：扩展名、隐藏文件、资源管理器、默认应用"
 slug: "windows-7c8d9756"
-summary: "基于微软官方说明整理 Windows 里最常用的文件显示设置，重点解释文件扩展名、隐藏文件、This PC 入口和按扩展名修改默认打开方式的正确路径。"
+summary: "Windows 文件显示设置速查，说明文件扩展名、隐藏文件、资源管理器 This PC 入口和按扩展名修改默认打开方式的常用路径。"
 category: "系统与文件"
 tags:
   - "Windows"
@@ -17,7 +17,7 @@ originalSlug: "windows-7c8d9756"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows 文件扩展名、隐藏文件与资源管理器显示设置
+# 第 8 篇：Windows 文件显示设置：扩展名、隐藏文件、资源管理器、默认应用
 
 > 资料来源：Microsoft Support，整理时间：2026-04-12。  
 > 适用范围：Windows 10 / Windows 11 的资源管理器常用设置。

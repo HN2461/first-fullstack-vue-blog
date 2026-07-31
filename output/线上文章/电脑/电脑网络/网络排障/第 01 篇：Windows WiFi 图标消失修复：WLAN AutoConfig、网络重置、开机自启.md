@@ -1,13 +1,9 @@
 ---
-title: "电脑WIFI图标消失修复"
+title: "第 1 篇：Windows WiFi 图标消失修复：WLAN AutoConfig、网络重置、开机自启"
 slug: "wifi-09cbf6da"
-summary: "WLAN AutoConfig 开机不自动启动导致 WiFi 图标消失的完整修复流程，覆盖依赖服务、注册表、网络栈与开机兜底方案。"
+summary: "Windows 笔记本 WiFi 图标消失排障笔记，覆盖 WLAN AutoConfig 服务、依赖服务、网络栈重置、注册表修复和开机自启兜底方案。"
 category: "网络排障"
-tags:
-  - "Windows"
-  - "WiFi"
-  - "WLAN AutoConfig"
-  - "网络故障排查"
+tags: ["Windows","WiFi","WLAN AutoConfig","网络重置","开机自启","网络故障排查"]
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -16,7 +12,7 @@ originalSlug: "wifi-09cbf6da"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows笔记本WiFi图标消失/WLAN服务无法自启
+# 第 1 篇：Windows WiFi 图标消失修复：WLAN AutoConfig、网络重置、开机自启
 
 ## 笔记前言
 

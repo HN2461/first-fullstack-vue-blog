@@ -1,14 +1,9 @@
 ---
-title: "第 1 篇：部署学习路线和知识分类"
+title: "第 1 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全"
 slug: "legacy-ce762b29-ce762b29"
-summary: "用小白能理解的方式，把全栈项目部署要学的 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和后续 Docker 分类讲清楚。"
+summary: "全栈项目部署学习路线，按 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和 Docker 等方向梳理前后端分离项目上线要学的内容。"
 category: "全栈部署入门"
-tags:
-  - "部署"
-  - "学习路线"
-  - "前后端分离"
-  - "Vue"
-  - "Express"
+tags: ["部署","学习路线","SSH","Linux","Nginx","PM2","MongoDB"]
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "legacy-ce762b29-ce762b29"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第 1 篇：部署学习路线和知识分类
+# 第 1 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全
 
 资料核对时间：2026-06-08。
 

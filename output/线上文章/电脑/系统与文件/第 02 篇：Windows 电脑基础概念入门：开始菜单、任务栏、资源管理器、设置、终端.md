@@ -1,14 +1,15 @@
 ---
-title: "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清"
+title: "第 2 篇：Windows 电脑基础概念入门：开始菜单、任务栏、资源管理器、设置、终端"
 slug: "windows-basic-concepts-for-beginners"
-summary: "用小白能听懂的方式解释 Windows 里的开始菜单、任务栏、资源管理器、任务管理器、设置、控制面板、运行、终端、服务、设备管理器等基础概念，帮助开发人员补齐电脑常识地图。"
+summary: "Windows 电脑基础概念入门，解释开始菜单、任务栏、桌面、资源管理器、任务管理器、设置、控制面板、运行、终端、服务和设备管理器。"
 category: "系统与文件"
 tags:
   - "Windows"
   - "电脑基础"
   - "任务管理器"
   - "资源管理器"
-  - "系统工具"
+  - "系统设置"
+  - "终端"
 status: "draft"
 sortOrder: 20
 cover: ""
@@ -17,7 +18,7 @@ originalSlug: "windows-basic-concepts-for-beginners"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清
+# 第 2 篇：Windows 电脑基础概念入门：开始菜单、任务栏、资源管理器、设置、终端
 
 很多开发人员天天写代码、跑项目、开终端、改配置，但电脑一旦卡死、网络断了、软件打不开，还是会突然变成小白。
 

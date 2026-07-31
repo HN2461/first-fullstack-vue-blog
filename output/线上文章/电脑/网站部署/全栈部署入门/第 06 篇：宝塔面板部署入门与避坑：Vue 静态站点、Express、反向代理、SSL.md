@@ -1,14 +1,9 @@
 ---
-title: "第 6 篇：宝塔面板部署入门与避坑"
+title: "第 6 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL"
 slug: "legacy-eedf0e1c-eedf0e1c"
-summary: "讲清宝塔面板适合新手快速部署什么、不能替代什么，以及如何用宝塔部署 Vue 静态站点、Express 接口、反向代理和 SSL。"
+summary: "宝塔面板部署入门，讲清宝塔适合新手快速部署什么、不能替代什么，以及如何部署 Vue 静态站点、Express 接口、反向代理和 SSL。"
 category: "全栈部署入门"
-tags:
-  - "宝塔"
-  - "面板部署"
-  - "Nginx"
-  - "PM2"
-  - "SSL"
+tags: ["宝塔","面板部署","Vue","Express","反向代理","SSL"]
 status: "draft"
 sortOrder: 60
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "legacy-eedf0e1c-eedf0e1c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第 6 篇：宝塔面板部署入门与避坑
+# 第 6 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL
 
 资料核对时间：2026-06-08。
 

@@ -998,7 +998,7 @@
       "originalId": "6a2d291f8a2b1c68f2cac534",
       "originalSlug": "wifi-09cbf6da",
       "exportedSlug": "wifi-09cbf6da",
-      "title": "电脑WIFI图标消失修复",
+      "title": "第 1 篇：Windows WiFi 图标消失修复：WLAN AutoConfig、网络重置、开机自启",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1010,22 +1010,24 @@
         "Windows",
         "WiFi",
         "WLAN AutoConfig",
+        "网络重置",
+        "开机自启",
         "网络故障排查"
       ],
       "sortOrder": 10,
       "sourcePath": "电脑/电脑网络/网络排障/电脑WIFI图标消失修复.md",
       "publishedAt": "2026-04-12T13:45:49.794Z",
       "updatedAt": "2026-06-13T10:28:29.249Z",
-      "fileName": "电脑/电脑网络/网络排障/电脑WIFI图标消失修复.md",
-      "summary": "WLAN AutoConfig 开机不自动启动导致 WiFi 图标消失的完整修复流程，覆盖依赖服务、注册表、网络栈与开机兜底方案。",
+      "fileName": "电脑/电脑网络/网络排障/第 01 篇：Windows WiFi 图标消失修复：WLAN AutoConfig、网络重置、开机自启.md",
+      "summary": "Windows 笔记本 WiFi 图标消失排障笔记，覆盖 WLAN AutoConfig 服务、依赖服务、网络栈重置、注册表修复和开机自启兜底方案。",
       "cover": "",
-      "contentHash": "51212ec703382a6efb8622601aca2610ee63fd412af35edcd757de673baf9ab5"
+      "contentHash": "3e80840cbc0cdec3f750047b4a4afda05a5305e494dff36df1c154a5619df07e"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac58a",
       "originalSlug": "github-pages-vue-f7e9371a",
       "exportedSlug": "github-pages-vue-f7e9371a",
-      "title": "GitHub Pages 部署 Vue 博客完整教程",
+      "title": "第 1 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1036,23 +1038,24 @@
         "GitHub Pages",
         "Vue3",
         "Vite",
-        "博客部署",
-        "Hash 路由"
+        "Hash 路由",
+        "GitHub Actions",
+        "博客部署"
       ],
       "sortOrder": 10,
       "sourcePath": "电脑/网站部署/01-GitHub Pages部署Vue博客完整教程.md",
       "publishedAt": "2026-04-16T14:22:08.318Z",
       "updatedAt": "2026-06-13T10:28:29.363Z",
-      "fileName": "电脑/网站部署/GitHub-Pages-部署-Vue-博客完整教程.md",
-      "summary": "作为“网站部署”系列的第 1 篇，面向初学者梳理 Vue 博客部署到 GitHub Pages 的完整流程，覆盖打包、base 路径、Hash 路由、手动部署、GitHub Actions 自动部署与常见问题排查。",
+      "fileName": "电脑/网站部署/第 01 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署.md",
+      "summary": "Vue 博客部署到 GitHub Pages 的完整流程，覆盖 Vite base 路径、Vue Router Hash 模式、dist 手动部署、GitHub Actions 自动部署与常见问题排查。",
       "cover": "",
-      "contentHash": "fa27f5d27c22efc22e84fc1f57ce2f3f025cd9e5670cd39487bc5fb9a77a2623"
+      "contentHash": "7306747eb0716a4475e68deef3dc50c9744950d305b2a8912cdfe2e48589f45d"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac590",
       "originalSlug": "legacy-ce762b29-ce762b29",
       "exportedSlug": "legacy-ce762b29-ce762b29",
-      "title": "第 1 篇：部署学习路线和知识分类",
+      "title": "第 1 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1063,24 +1066,26 @@
       "tags": [
         "部署",
         "学习路线",
-        "前后端分离",
-        "Vue",
-        "Express"
+        "SSH",
+        "Linux",
+        "Nginx",
+        "PM2",
+        "MongoDB"
       ],
       "sortOrder": 10,
       "sourcePath": "电脑/网站部署/全栈部署入门/01-部署学习路线和知识分类.md",
       "publishedAt": "2026-06-08T11:09:58.533Z",
       "updatedAt": "2026-06-23T10:01:09.030Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-1-篇：部署学习路线和知识分类.md",
-      "summary": "用小白能理解的方式，把全栈项目部署要学的 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和后续 Docker 分类讲清楚。",
+      "fileName": "电脑/网站部署/全栈部署入门/第 01 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全.md",
+      "summary": "全栈项目部署学习路线，按 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和 Docker 等方向梳理前后端分离项目上线要学的内容。",
       "cover": "",
-      "contentHash": "707a4e2405fb484390ebce20f716114decfcd428c7ddfef127070ae13d268ec1"
+      "contentHash": "cc55d2bfb03117076af486df92f08d32dc54f7ab7958c2fd3d507ef6fca1394b"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac598",
       "originalSlug": "ssh-linux-8e509843",
       "exportedSlug": "ssh-linux-8e509843",
-      "title": "第 2 篇：SSH 与 Linux 服务器基础",
+      "title": "第 2 篇：SSH 与 Linux 服务器基础：登录、密钥、目录、端口、防火墙、日志",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1092,22 +1097,25 @@
         "SSH",
         "Linux",
         "服务器",
-        "防火墙"
+        "密钥登录",
+        "端口",
+        "防火墙",
+        "日志"
       ],
       "sortOrder": 20,
       "sourcePath": "电脑/网站部署/全栈部署入门/02-SSH与Linux服务器基础.md",
       "publishedAt": "2026-06-08T11:09:58.534Z",
       "updatedAt": "2026-06-26T08:20:10.542Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-2-篇：SSH-与-Linux-服务器基础.md",
-      "summary": "面向部署小白讲清 SSH 登录、密钥、服务器目录、常用 Linux 命令、端口、防火墙和日志查看，让读者能真正进入服务器并开始部署项目。",
+      "fileName": "电脑/网站部署/全栈部署入门/第 02 篇：SSH 与 Linux 服务器基础：登录、密钥、目录、端口、防火墙、日志.md",
+      "summary": "部署小白入门 SSH 与 Linux 服务器，讲清 SSH 登录、密钥登录、服务器目录、常用 Linux 命令、端口、防火墙和日志查看。",
       "cover": "",
-      "contentHash": "77d54d6e9b4a56e94dec9b45e9a285a5910e86b1135587d6a1cb758810dd3f97"
+      "contentHash": "aa8b9a1f1889d0c9773314f34ef32d3da2bee3a883770addc19462241230071d"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5a0",
       "originalSlug": "nginx-https-f134e6f0",
       "exportedSlug": "nginx-https-f134e6f0",
-      "title": "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS",
+      "title": "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、/api、证书、502 排查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1117,25 +1125,27 @@
       ],
       "tags": [
         "Nginx",
-        "HTTPS",
-        "反向代理",
         "Vue",
-        "Vite"
+        "静态资源",
+        "反向代理",
+        "HTTPS",
+        "404",
+        "502"
       ],
       "sortOrder": 30,
       "sourcePath": "电脑/网站部署/全栈部署入门/03-Nginx与HTTPS入门.md",
       "publishedAt": "2026-06-08T11:09:58.535Z",
       "updatedAt": "2026-06-23T09:59:06.073Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-3-篇：Nginx、Vue-静态资源、反向代理与-HTTPS.md",
-      "summary": "从小白角度讲清 Vue 打包、Nginx 静态站点、前端路由刷新、/api 反向代理、HTTPS 证书和常见 404/502 排查。",
+      "fileName": "电脑/网站部署/全栈部署入门/第 03 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、api、证书、502 排查.md",
+      "summary": "从 Vue 打包、Nginx 静态站点、前端路由刷新 404、/api 反向代理、HTTPS 证书到 404/502 排查，梳理前端上线入口。",
       "cover": "",
-      "contentHash": "7037ba8385198e9f182ea827e71c60510a4ab062e8ca787c0b2176250b9df82d"
+      "contentHash": "58524657d17917930c1c27cfc81085f1ac4abebd673d633301ff390b1ba71c8a"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5a4",
       "originalSlug": "node-express-pm2-b0b0327c",
       "exportedSlug": "node-express-pm2-b0b0327c",
-      "title": "第 4 篇：Node、Express、PM2 与环境变量",
+      "title": "第 4 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1147,22 +1157,25 @@
         "Node.js",
         "Express",
         "PM2",
-        "环境变量"
+        "环境变量",
+        "日志",
+        "开机自启",
+        "Nginx"
       ],
       "sortOrder": 40,
       "sourcePath": "电脑/网站部署/全栈部署入门/04-Node-Express-PM2生产运行.md",
       "publishedAt": "2026-06-08T11:09:58.537Z",
       "updatedAt": "2026-06-23T10:18:06.282Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-4-篇：Node、Express、PM2-与环境变量.md",
-      "summary": "讲清 Express 生产环境不能只靠 npm run dev，如何配置健康检查接口、环境变量、PM2 常驻运行、日志查看、开机自启和 Nginx 反向代理联调。",
+      "fileName": "电脑/网站部署/全栈部署入门/第 04 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调.md",
+      "summary": "Express 生产运行入门，讲清为什么不能只靠 npm run dev，如何配置健康检查、环境变量、PM2 常驻运行、日志、开机自启和 Nginx 反向代理联调。",
       "cover": "",
-      "contentHash": "5a36dd38f0434313c116a3b10e935d18ae5340b0d02a9dcd6a8b75fc21f4585c"
+      "contentHash": "a25f955ea13fe95e3dd711f358577fcfaf7884487c5d45a75692d7cdada286ea"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5ac",
       "originalSlug": "mongodb-ad14cd5a",
       "exportedSlug": "mongodb-ad14cd5a",
-      "title": "第 5 篇：MongoDB 生产安全、连接与备份",
+      "title": "第 5 篇：MongoDB 生产安全、连接与备份：认证、专用用户、连接字符串、mongodump",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1173,23 +1186,25 @@
       "tags": [
         "MongoDB",
         "数据库安全",
-        "备份",
-        "mongodump"
+        "认证",
+        "连接字符串",
+        "mongodump",
+        "备份"
       ],
       "sortOrder": 50,
       "sourcePath": "电脑/网站部署/全栈部署入门/05-MongoDB生产安全与备份.md",
       "publishedAt": "2026-06-08T11:09:58.538Z",
       "updatedAt": "2026-06-30T07:21:25.876Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-5-篇：MongoDB-生产安全、连接与备份.md",
-      "summary": "用小白能理解的方式讲清 MongoDB 上线时为什么要开认证、建专用用户、限制网络暴露、配置连接字符串和定期备份。",
+      "fileName": "电脑/网站部署/全栈部署入门/第 05 篇：MongoDB 生产安全、连接与备份：认证、专用用户、连接字符串、mongodump.md",
+      "summary": "MongoDB 上线安全笔记，讲清认证、专用用户、网络暴露限制、连接字符串、mongodump 备份和生产数据库常见安全边界。",
       "cover": "",
-      "contentHash": "f2b69a3de7bc2efe63b9aa8a6fc3147669da2752d8560f3a122319e85beb4c9a"
+      "contentHash": "5b2e50d16ee20342269c0d070b871e47733c0087a3e07621f0b3eb1d1b602085"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5b4",
       "originalSlug": "legacy-eedf0e1c-eedf0e1c",
       "exportedSlug": "legacy-eedf0e1c-eedf0e1c",
-      "title": "第 6 篇：宝塔面板部署入门与避坑",
+      "title": "第 6 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1200,24 +1215,25 @@
       "tags": [
         "宝塔",
         "面板部署",
-        "Nginx",
-        "PM2",
+        "Vue",
+        "Express",
+        "反向代理",
         "SSL"
       ],
       "sortOrder": 60,
       "sourcePath": "电脑/网站部署/全栈部署入门/06-宝塔面板部署入门.md",
       "publishedAt": "2026-06-08T11:09:58.538Z",
       "updatedAt": "2026-06-23T09:59:03.624Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-6-篇：宝塔面板部署入门与避坑.md",
-      "summary": "讲清宝塔面板适合新手快速部署什么、不能替代什么，以及如何用宝塔部署 Vue 静态站点、Express 接口、反向代理和 SSL。",
+      "fileName": "电脑/网站部署/全栈部署入门/第 06 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL.md",
+      "summary": "宝塔面板部署入门，讲清宝塔适合新手快速部署什么、不能替代什么，以及如何部署 Vue 静态站点、Express 接口、反向代理和 SSL。",
       "cover": "",
-      "contentHash": "780ce4e7aef96335c4fe1ae0f3c901e652a5867ea1b950121f477c75feeddb8a"
+      "contentHash": "c9e786eb19463205c3c639212d015c98ebb791d0226678bae00096a9f8a3d411"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5b8",
       "originalSlug": "legacy-dee56a61-dee56a61",
       "exportedSlug": "legacy-dee56a61-dee56a61",
-      "title": "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战",
+      "title": "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1230,23 +1246,25 @@
         "Vue",
         "Express",
         "MongoDB",
+        "PM2",
         "Nginx",
-        "HTTPS"
+        "HTTPS",
+        "防火墙"
       ],
       "sortOrder": 70,
       "sourcePath": "电脑/网站部署/全栈部署入门/07-完整上线检查清单.md",
       "publishedAt": "2026-06-08T11:18:52.813Z",
       "updatedAt": "2026-06-30T07:20:51.433Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-7-篇：Vue-+-Express-+-MongoDB-从-0-到-1-完整上线实战.md",
-      "summary": "面向零基础小白的 Vue + Node + Express + MongoDB 前后端分离项目完整部署实战，从本地打包、服务器购买登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙到故障排查一步步跑通。",
+      "fileName": "电脑/网站部署/全栈部署入门/第 07 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙.md",
+      "summary": "Vue + Express + MongoDB 前后端分离项目完整上线实战，覆盖服务器登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙和故障排查。",
       "cover": "",
-      "contentHash": "b4aeaa57bfa09de790a9f66112cb9307697253d375adc403efa0dff86c76fa63"
+      "contentHash": "dbe2497d70f6009f760354fd0cb3c4471db9d3ab73a8f088a37e367001a51d10"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e26",
       "originalSlug": "windows-freeze-rescue-shortcuts",
       "exportedSlug": "windows-freeze-rescue-shortcuts",
-      "title": "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类",
+      "title": "第 1 篇：Windows 电脑卡死救急与常用快捷键：任务管理器、黑屏恢复、窗口操作、复制保存",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1258,22 +1276,23 @@
         "快捷键",
         "任务管理器",
         "电脑卡死",
-        "系统排障"
+        "黑屏恢复",
+        "窗口操作"
       ],
       "sortOrder": 10,
       "sourcePath": "电脑/系统与文件/Windows-电脑卡死救急与常用快捷键.md",
       "publishedAt": "2026-07-30T15:09:19.346Z",
       "updatedAt": "2026-07-30T15:09:19.346Z",
-      "fileName": "电脑/系统与文件/Windows-电脑卡死救急与常用快捷键：小白优先记这-4-类.md",
-      "summary": "整理 Windows 电脑屏幕卡死、黑屏、软件无响应时最先该按的救急快捷键，并补充窗口管理、复制粘贴、浏览器和视频场景的常用快捷键。",
+      "fileName": "电脑/系统与文件/第 01 篇：Windows 电脑卡死救急与常用快捷键：任务管理器、黑屏恢复、窗口操作、复制保存.md",
+      "summary": "Windows 电脑卡死、黑屏和软件无响应时的救急快捷键速查，覆盖任务管理器、锁屏/重启、窗口管理、复制保存、浏览器和视频场景。",
       "cover": "",
-      "contentHash": "8537e42cdda65d3c9ced835db43133a7cdf335cdf6afe12474ea9959b0f4f2b1"
+      "contentHash": "910dcef472e8d58c3b9d43f332cba47d1490d2c0273af1e13a3d63a6489fca9b"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e28",
       "originalSlug": "windows-basic-concepts-for-beginners",
       "exportedSlug": "windows-basic-concepts-for-beginners",
-      "title": "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清",
+      "title": "第 2 篇：Windows 电脑基础概念入门：开始菜单、任务栏、资源管理器、设置、终端",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1285,22 +1304,23 @@
         "电脑基础",
         "任务管理器",
         "资源管理器",
-        "系统工具"
+        "系统设置",
+        "终端"
       ],
       "sortOrder": 20,
       "sourcePath": "电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md",
       "publishedAt": "2026-07-30T15:09:19.365Z",
       "updatedAt": "2026-07-30T15:09:19.365Z",
-      "fileName": "电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md",
-      "summary": "用小白能听懂的方式解释 Windows 里的开始菜单、任务栏、资源管理器、任务管理器、设置、控制面板、运行、终端、服务、设备管理器等基础概念，帮助开发人员补齐电脑常识地图。",
+      "fileName": "电脑/系统与文件/第 02 篇：Windows 电脑基础概念入门：开始菜单、任务栏、资源管理器、设置、终端.md",
+      "summary": "Windows 电脑基础概念入门，解释开始菜单、任务栏、桌面、资源管理器、任务管理器、设置、控制面板、运行、终端、服务和设备管理器。",
       "cover": "",
-      "contentHash": "37b62d8c09deff3da9d794aa4d320c95a0aab0b81b7d1fc3a6332129543cf3ab"
+      "contentHash": "69f61d0aea697946190c42fd370990ed53f7a6dcbd1500ba202188fef6848756"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac582",
       "originalSlug": "legacy-5846ff96-5846ff96",
       "exportedSlug": "legacy-5846ff96-5846ff96",
-      "title": "开发常用快捷键速查",
+      "title": "第 3 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1309,23 +1329,26 @@
       ],
       "tags": [
         "快捷键",
-        "效率",
-        "开发工具"
+        "Windows",
+        "浏览器",
+        "VS Code",
+        "Cursor",
+        "AI 编程工具"
       ],
       "sortOrder": 30,
       "sourcePath": "电脑/系统与文件/开发常用快捷键速查.md",
       "publishedAt": "2026-05-12T14:26:21.409Z",
       "updatedAt": "2026-06-13T14:09:43.217Z",
-      "fileName": "电脑/系统与文件/开发常用快捷键速查.md",
-      "summary": "开发人员常用的 Windows、浏览器、代码编辑器与 AI 编程工具快捷键速查表，覆盖 VS Code、Cursor、Windsurf、Kiro、Codex、Claude Code 等高频场景。",
+      "fileName": "电脑/系统与文件/第 03 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具.md",
+      "summary": "开发人员常用快捷键速查，覆盖 Windows 系统、Chrome 浏览器、通用代码编辑器、VS Code、Cursor、Windsurf、Kiro、Codex 和 Claude Code。",
       "cover": "",
-      "contentHash": "082af62527aa630ce7ae212d40766d8f1040846210a3471d0886d75310c330a6"
+      "contentHash": "4861b6d12f90e97a5e15d5f3623e11e46f49e67975cbc63bc32f295426ecf598"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac578",
       "originalSlug": "windows-uac-9d17ce33",
       "exportedSlug": "windows-uac-9d17ce33",
-      "title": "Windows 管理员权限、UAC 与“以管理员身份运行”",
+      "title": "第 4 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1336,6 +1359,7 @@
         "Windows",
         "管理员权限",
         "UAC",
+        "提权运行",
         "安全",
         "系统设置"
       ],
@@ -1343,16 +1367,16 @@
       "sourcePath": "电脑/系统与文件/Windows 管理员权限、UAC 与以管理员身份运行.md",
       "publishedAt": "2026-04-12T13:45:49.793Z",
       "updatedAt": "2026-06-13T10:28:29.339Z",
-      "fileName": "电脑/系统与文件/Windows-管理员权限、UAC-与“以管理员身份运行”.md",
-      "summary": "结合微软官方文档整理 Windows 里的管理员权限、UAC 提示和“以管理员身份运行”之间的关系，帮你判断什么时候该提权，什么时候不该乱开。",
+      "fileName": "电脑/系统与文件/第 04 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界.md",
+      "summary": "Windows 管理员权限与 UAC 入门，说明标准权限、管理员账户、UAC 提示、以管理员身份运行、提权场景和安全边界。",
       "cover": "",
-      "contentHash": "0a391b1a829b39ad693021736952f877739c11bc9b86cf0b079b699e5dafb76e"
+      "contentHash": "10d86942567222ff1a3af6f7408cb49121f0df8c6cdc96525cdc2ca35323f6fc"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac556",
       "originalSlug": "windows-msconfig-3392836b",
       "exportedSlug": "windows-msconfig-3392836b",
-      "title": "Windows 启动项、任务管理器、MSConfig 与常用系统配置工具",
+      "title": "第 5 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1364,22 +1388,23 @@
         "启动项",
         "任务管理器",
         "MSConfig",
-        "系统工具"
+        "服务",
+        "干净启动"
       ],
       "sortOrder": 50,
       "sourcePath": "电脑/系统与文件/Windows 启动项、任务管理器、MSConfig 与常用系统配置工具.md",
       "publishedAt": "2026-04-12T13:45:49.793Z",
       "updatedAt": "2026-06-13T10:28:29.288Z",
-      "fileName": "电脑/系统与文件/Windows-启动项、任务管理器、MSConfig-与常用系统配置工具.md",
-      "summary": "结合微软官方文档整理 Windows 启动项管理、任务管理器启动页、MSConfig 和干净启动的正确用法，帮你分清哪些工具适合日常管理，哪些更适合排障。",
+      "fileName": "电脑/系统与文件/第 05 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动.md",
+      "summary": "Windows 启动项和系统配置工具速查，覆盖任务管理器启动页、设置应用、MSConfig、服务、干净启动和常见排障边界。",
       "cover": "",
-      "contentHash": "ecd30aca23365d8e1b05d5e4d088a78ebe508e4ebf9724fa383a73683b133384"
+      "contentHash": "d00bbc45c12de5af20ec9a0824c1e0686b6f63756dae0767c5f253f57d96a9cd"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac55e",
       "originalSlug": "windows-b0b9b49e",
       "exportedSlug": "windows-b0b9b49e",
-      "title": "Windows 常见系统路径与环境变量速查",
+      "title": "第 6 篇：Windows 常见系统路径与环境变量：USERPROFILE、APPDATA、ProgramData、ProgramFiles",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1390,24 +1415,25 @@
         "Windows",
         "环境变量",
         "系统路径",
+        "USERPROFILE",
         "AppData",
         "ProgramData",
-        "配置"
+        "ProgramFiles"
       ],
       "sortOrder": 60,
       "sourcePath": "电脑/系统与文件/Windows 常见系统路径与环境变量速查.md",
       "publishedAt": "2026-04-12T13:45:49.792Z",
       "updatedAt": "2026-06-13T10:28:29.301Z",
-      "fileName": "电脑/系统与文件/Windows-常见系统路径与环境变量速查.md",
-      "summary": "基于微软官方文档整理 Windows 里最常见的系统路径和环境变量，覆盖 USERPROFILE、APPDATA、LOCALAPPDATA、ProgramData、PUBLIC、ProgramFiles 等常用定位方式。",
+      "fileName": "电脑/系统与文件/第 06 篇：Windows 常见系统路径与环境变量：USERPROFILE、APPDATA、ProgramData、ProgramFiles.md",
+      "summary": "Windows 常见系统路径和环境变量速查，覆盖 USERPROFILE、APPDATA、LOCALAPPDATA、ProgramData、PUBLIC、ProgramFiles 和路径定位方法。",
       "cover": "",
-      "contentHash": "a9028c86a3bc4fa8032384bb256b279a3be82943268c24e7203112bc2c87a031"
+      "contentHash": "f2721e881c2fdc9e2f26c7d6009231af80ad2e539844b0a71f0ed1a14add00ae"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac570",
       "originalSlug": "windows-public-appdata-programdata-d717719e",
       "exportedSlug": "windows-public-appdata-programdata-d717719e",
-      "title": "Windows 用户目录、Public、AppData、ProgramData 详解",
+      "title": "第 7 篇：Windows 用户目录体系：Users、Public、AppData、ProgramData",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1426,16 +1452,16 @@
       "sourcePath": "电脑/系统与文件/Windows 用户目录、Public、AppData、ProgramData 详解.md",
       "publishedAt": "2026-04-12T13:45:49.791Z",
       "updatedAt": "2026-06-13T10:28:29.327Z",
-      "fileName": "电脑/系统与文件/Windows-用户目录、Public、AppData、ProgramData-详解.md",
-      "summary": "结合微软官方文档系统梳理 Windows 的用户目录体系，重点解释 Users、Public、AppData、ProgramData 的边界、典型用途和清理时最容易踩的坑。",
+      "fileName": "电脑/系统与文件/第 07 篇：Windows 用户目录体系：Users、Public、AppData、ProgramData.md",
+      "summary": "Windows 用户目录体系说明，重点区分 Users、Public、AppData、ProgramData 的职责、典型用途、配置存放位置和清理风险。",
       "cover": "",
-      "contentHash": "d4cd5ecbfa9e3ecda3dbee5bc1f44b41822ba3b6aea226247ab004f377df0ff3"
+      "contentHash": "49a70095c1dee5767757d3a86a6b64027cd60c5708217db4b0e598c2d43ea273"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac568",
       "originalSlug": "windows-7c8d9756",
       "exportedSlug": "windows-7c8d9756",
-      "title": "Windows 文件扩展名、隐藏文件与资源管理器显示设置",
+      "title": "第 8 篇：Windows 文件显示设置：扩展名、隐藏文件、资源管理器、默认应用",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1453,16 +1479,16 @@
       "sourcePath": "电脑/系统与文件/Windows 文件扩展名、隐藏文件与资源管理器显示设置.md",
       "publishedAt": "2026-04-12T13:45:49.791Z",
       "updatedAt": "2026-06-13T10:28:29.313Z",
-      "fileName": "电脑/系统与文件/Windows-文件扩展名、隐藏文件与资源管理器显示设置.md",
-      "summary": "基于微软官方说明整理 Windows 里最常用的文件显示设置，重点解释文件扩展名、隐藏文件、This PC 入口和按扩展名修改默认打开方式的正确路径。",
+      "fileName": "电脑/系统与文件/第 08 篇：Windows 文件显示设置：扩展名、隐藏文件、资源管理器、默认应用.md",
+      "summary": "Windows 文件显示设置速查，说明文件扩展名、隐藏文件、资源管理器 This PC 入口和按扩展名修改默认打开方式的常用路径。",
       "cover": "",
-      "contentHash": "eb35d193de6e5435a9f1b6b2aa64debafc2262baf25e465364a056feef0890a6"
+      "contentHash": "cd9906befc3fc35969f9f0974daf849fa0eb3c561b0f942f92ac154d46803752"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac54c",
       "originalSlug": "windows-c-storage-sense-windows-old-4fcfcbe9",
       "exportedSlug": "windows-c-storage-sense-windows-old-4fcfcbe9",
-      "title": "Windows C盘空间清理：Storage Sense、临时文件与 Windows.old",
+      "title": "第 9 篇：Windows C 盘空间清理：Storage Sense、临时文件、Windows.old",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1481,16 +1507,16 @@
       "sourcePath": "电脑/系统与文件/Windows C盘空间清理：Storage Sense、临时文件与 Windows.old.md",
       "publishedAt": "2026-04-12T13:45:49.791Z",
       "updatedAt": "2026-06-13T10:28:29.276Z",
-      "fileName": "电脑/系统与文件/Windows-C盘空间清理：Storage-Sense、临时文件与-Windows.old.md",
-      "summary": "基于微软官方支持文档整理 Windows 的 C 盘清理路径，重点说明 Storage Sense、Temporary files、Cleanup recommendations、Windows.old 和哪些目录不建议手动乱删。",
+      "fileName": "电脑/系统与文件/第 09 篇：Windows C 盘空间清理：Storage Sense、临时文件、Windows.old.md",
+      "summary": "Windows C 盘空间清理手册，覆盖 Storage Sense、Temporary files、Cleanup recommendations、Windows.old 和不建议手动乱删的目录。",
       "cover": "",
-      "contentHash": "dce6c3854eeab71f554db7041c1c46712eaf49ccf6f2180097ec3f8285153bdc"
+      "contentHash": "699bca44d40b6eb2df89500266190fe8eb195aaf81fc677a76ff9ff5689e341f"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac540",
       "originalSlug": "windows-c-1552bf32",
       "exportedSlug": "windows-c-1552bf32",
-      "title": "Windows C盘常见系统文件夹说明：Program Files、ProgramData、Users 一次讲清",
+      "title": "第 10 篇：Windows C 盘系统文件夹说明：Program Files、ProgramData、Users、System32",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1502,17 +1528,18 @@
         "C盘",
         "Program Files",
         "ProgramData",
-        "AppData",
+        "Users",
+        "System32",
         "系统目录"
       ],
       "sortOrder": 100,
       "sourcePath": "电脑/系统与文件/Windows C盘常见系统文件夹说明.md",
       "publishedAt": "2026-04-12T13:45:49.789Z",
       "updatedAt": "2026-06-13T10:28:29.263Z",
-      "fileName": "电脑/系统与文件/Windows-C盘常见系统文件夹说明：Program-Files、ProgramData、Users-一次讲清.md",
-      "summary": "结合微软官方文档梳理 Windows C 盘最常见的系统文件夹，重点解释 Program Files、Program Files (x86)、ProgramData、Users、AppData、System32 与 SysWOW64 的职责和区别。",
+      "fileName": "电脑/系统与文件/第 10 篇：Windows C 盘系统文件夹说明：Program Files、ProgramData、Users、System32.md",
+      "summary": "Windows C 盘常见系统文件夹说明，梳理 Program Files、Program Files (x86)、ProgramData、Users、AppData、System32 与 SysWOW64 的职责。",
       "cover": "",
-      "contentHash": "8e3544e3d02b6d6fc97a0c4267704d29207da8fe9d6f4891c47f7d89040b57f6"
+      "contentHash": "d2da7a1855eb4eb6688548478aa00df1c733de22dcdf476e354ae6e919d2c8b5"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1ba",
@@ -15510,5 +15537,6 @@
       "createdAt": "2026-07-30T15:12:00.970Z",
       "updatedAt": "2026-07-30T16:04:54.764Z"
     }
-  ]
+  ],
+  "generatedAt": "2026-07-31T08:58:29.784Z"
 }

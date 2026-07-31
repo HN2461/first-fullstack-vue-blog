@@ -1,14 +1,15 @@
 ---
-title: "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类"
+title: "第 1 篇：Windows 电脑卡死救急与常用快捷键：任务管理器、黑屏恢复、窗口操作、复制保存"
 slug: "windows-freeze-rescue-shortcuts"
-summary: "整理 Windows 电脑屏幕卡死、黑屏、软件无响应时最先该按的救急快捷键，并补充窗口管理、复制粘贴、浏览器和视频场景的常用快捷键。"
+summary: "Windows 电脑卡死、黑屏和软件无响应时的救急快捷键速查，覆盖任务管理器、锁屏/重启、窗口管理、复制保存、浏览器和视频场景。"
 category: "系统与文件"
 tags:
   - "Windows"
   - "快捷键"
   - "任务管理器"
   - "电脑卡死"
-  - "系统排障"
+  - "黑屏恢复"
+  - "窗口操作"
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -17,7 +18,7 @@ originalSlug: "windows-freeze-rescue-shortcuts"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类
+# 第 1 篇：Windows 电脑卡死救急与常用快捷键：任务管理器、黑屏恢复、窗口操作、复制保存
 
 > 资料来源：Microsoft Support、Google Chrome Help，整理时间：2026-07-09。  
 > 适用范围：Windows 10 / Windows 11，浏览器快捷键以 Chrome / Edge 这类主流浏览器为主。

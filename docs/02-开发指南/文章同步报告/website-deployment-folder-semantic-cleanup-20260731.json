@@ -1,0 +1,314 @@
+{
+  "generatedAt": "2026-07-31T08:53:27.807Z",
+  "scope": "output/线上文章/电脑/网站部署",
+  "changedCount": 8,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac58a",
+      "originalSlug": "github-pages-vue-f7e9371a",
+      "categoryPath": [
+        "电脑",
+        "网站部署"
+      ],
+      "sourcePath": "电脑/网站部署/01-GitHub Pages部署Vue博客完整教程.md",
+      "old": {
+        "title": "GitHub Pages 部署 Vue 博客完整教程",
+        "summary": "作为“网站部署”系列的第 1 篇，面向初学者梳理 Vue 博客部署到 GitHub Pages 的完整流程，覆盖打包、base 路径、Hash 路由、手动部署、GitHub Actions 自动部署与常见问题排查。",
+        "sortOrder": 10,
+        "tags": [
+          "GitHub Pages",
+          "Vue3",
+          "Vite",
+          "博客部署",
+          "Hash 路由"
+        ],
+        "fileName": "电脑/网站部署/GitHub-Pages-部署-Vue-博客完整教程.md"
+      },
+      "next": {
+        "title": "第 1 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署",
+        "summary": "Vue 博客部署到 GitHub Pages 的完整流程，覆盖 Vite base 路径、Vue Router Hash 模式、dist 手动部署、GitHub Actions 自动部署与常见问题排查。",
+        "sortOrder": 10,
+        "tags": [
+          "GitHub Pages",
+          "Vue3",
+          "Vite",
+          "Hash 路由",
+          "GitHub Actions",
+          "博客部署"
+        ],
+        "fileName": "电脑/网站部署/第 01 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac590",
+      "originalSlug": "legacy-ce762b29-ce762b29",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sourcePath": "电脑/网站部署/全栈部署入门/01-部署学习路线和知识分类.md",
+      "old": {
+        "title": "第 1 篇：部署学习路线和知识分类",
+        "summary": "用小白能理解的方式，把全栈项目部署要学的 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和后续 Docker 分类讲清楚。",
+        "sortOrder": 10,
+        "tags": [
+          "部署",
+          "学习路线",
+          "前后端分离",
+          "Vue",
+          "Express"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第-1-篇：部署学习路线和知识分类.md"
+      },
+      "next": {
+        "title": "第 1 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全",
+        "summary": "全栈项目部署学习路线，按 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和 Docker 等方向梳理前后端分离项目上线要学的内容。",
+        "sortOrder": 10,
+        "tags": [
+          "部署",
+          "学习路线",
+          "SSH",
+          "Linux",
+          "Nginx",
+          "PM2",
+          "MongoDB"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第 01 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac598",
+      "originalSlug": "ssh-linux-8e509843",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sourcePath": "电脑/网站部署/全栈部署入门/02-SSH与Linux服务器基础.md",
+      "old": {
+        "title": "第 2 篇：SSH 与 Linux 服务器基础",
+        "summary": "面向部署小白讲清 SSH 登录、密钥、服务器目录、常用 Linux 命令、端口、防火墙和日志查看，让读者能真正进入服务器并开始部署项目。",
+        "sortOrder": 20,
+        "tags": [
+          "SSH",
+          "Linux",
+          "服务器",
+          "防火墙"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第-2-篇：SSH-与-Linux-服务器基础.md"
+      },
+      "next": {
+        "title": "第 2 篇：SSH 与 Linux 服务器基础：登录、密钥、目录、端口、防火墙、日志",
+        "summary": "部署小白入门 SSH 与 Linux 服务器，讲清 SSH 登录、密钥登录、服务器目录、常用 Linux 命令、端口、防火墙和日志查看。",
+        "sortOrder": 20,
+        "tags": [
+          "SSH",
+          "Linux",
+          "服务器",
+          "密钥登录",
+          "端口",
+          "防火墙",
+          "日志"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第 02 篇：SSH 与 Linux 服务器基础：登录、密钥、目录、端口、防火墙、日志.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5a0",
+      "originalSlug": "nginx-https-f134e6f0",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sourcePath": "电脑/网站部署/全栈部署入门/03-Nginx与HTTPS入门.md",
+      "old": {
+        "title": "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS",
+        "summary": "从小白角度讲清 Vue 打包、Nginx 静态站点、前端路由刷新、/api 反向代理、HTTPS 证书和常见 404/502 排查。",
+        "sortOrder": 30,
+        "tags": [
+          "Nginx",
+          "HTTPS",
+          "反向代理",
+          "Vue",
+          "Vite"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第-3-篇：Nginx、Vue-静态资源、反向代理与-HTTPS.md"
+      },
+      "next": {
+        "title": "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、/api、证书、502 排查",
+        "summary": "从 Vue 打包、Nginx 静态站点、前端路由刷新 404、/api 反向代理、HTTPS 证书到 404/502 排查，梳理前端上线入口。",
+        "sortOrder": 30,
+        "tags": [
+          "Nginx",
+          "Vue",
+          "静态资源",
+          "反向代理",
+          "HTTPS",
+          "404",
+          "502"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第 03 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、api、证书、502 排查.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5a4",
+      "originalSlug": "node-express-pm2-b0b0327c",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sourcePath": "电脑/网站部署/全栈部署入门/04-Node-Express-PM2生产运行.md",
+      "old": {
+        "title": "第 4 篇：Node、Express、PM2 与环境变量",
+        "summary": "讲清 Express 生产环境不能只靠 npm run dev，如何配置健康检查接口、环境变量、PM2 常驻运行、日志查看、开机自启和 Nginx 反向代理联调。",
+        "sortOrder": 40,
+        "tags": [
+          "Node.js",
+          "Express",
+          "PM2",
+          "环境变量"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第-4-篇：Node、Express、PM2-与环境变量.md"
+      },
+      "next": {
+        "title": "第 4 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调",
+        "summary": "Express 生产运行入门，讲清为什么不能只靠 npm run dev，如何配置健康检查、环境变量、PM2 常驻运行、日志、开机自启和 Nginx 反向代理联调。",
+        "sortOrder": 40,
+        "tags": [
+          "Node.js",
+          "Express",
+          "PM2",
+          "环境变量",
+          "日志",
+          "开机自启",
+          "Nginx"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第 04 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5ac",
+      "originalSlug": "mongodb-ad14cd5a",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sourcePath": "电脑/网站部署/全栈部署入门/05-MongoDB生产安全与备份.md",
+      "old": {
+        "title": "第 5 篇：MongoDB 生产安全、连接与备份",
+        "summary": "用小白能理解的方式讲清 MongoDB 上线时为什么要开认证、建专用用户、限制网络暴露、配置连接字符串和定期备份。",
+        "sortOrder": 50,
+        "tags": [
+          "MongoDB",
+          "数据库安全",
+          "备份",
+          "mongodump"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第-5-篇：MongoDB-生产安全、连接与备份.md"
+      },
+      "next": {
+        "title": "第 5 篇：MongoDB 生产安全、连接与备份：认证、专用用户、连接字符串、mongodump",
+        "summary": "MongoDB 上线安全笔记，讲清认证、专用用户、网络暴露限制、连接字符串、mongodump 备份和生产数据库常见安全边界。",
+        "sortOrder": 50,
+        "tags": [
+          "MongoDB",
+          "数据库安全",
+          "认证",
+          "连接字符串",
+          "mongodump",
+          "备份"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第 05 篇：MongoDB 生产安全、连接与备份：认证、专用用户、连接字符串、mongodump.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5b4",
+      "originalSlug": "legacy-eedf0e1c-eedf0e1c",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sourcePath": "电脑/网站部署/全栈部署入门/06-宝塔面板部署入门.md",
+      "old": {
+        "title": "第 6 篇：宝塔面板部署入门与避坑",
+        "summary": "讲清宝塔面板适合新手快速部署什么、不能替代什么，以及如何用宝塔部署 Vue 静态站点、Express 接口、反向代理和 SSL。",
+        "sortOrder": 60,
+        "tags": [
+          "宝塔",
+          "面板部署",
+          "Nginx",
+          "PM2",
+          "SSL"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第-6-篇：宝塔面板部署入门与避坑.md"
+      },
+      "next": {
+        "title": "第 6 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL",
+        "summary": "宝塔面板部署入门，讲清宝塔适合新手快速部署什么、不能替代什么，以及如何部署 Vue 静态站点、Express 接口、反向代理和 SSL。",
+        "sortOrder": 60,
+        "tags": [
+          "宝塔",
+          "面板部署",
+          "Vue",
+          "Express",
+          "反向代理",
+          "SSL"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第 06 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5b8",
+      "originalSlug": "legacy-dee56a61-dee56a61",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "sourcePath": "电脑/网站部署/全栈部署入门/07-完整上线检查清单.md",
+      "old": {
+        "title": "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战",
+        "summary": "面向零基础小白的 Vue + Node + Express + MongoDB 前后端分离项目完整部署实战，从本地打包、服务器购买登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙到故障排查一步步跑通。",
+        "sortOrder": 70,
+        "tags": [
+          "上线实战",
+          "Vue",
+          "Express",
+          "MongoDB",
+          "Nginx",
+          "HTTPS"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第-7-篇：Vue-+-Express-+-MongoDB-从-0-到-1-完整上线实战.md"
+      },
+      "next": {
+        "title": "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙",
+        "summary": "Vue + Express + MongoDB 前后端分离项目完整上线实战，覆盖服务器登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙和故障排查。",
+        "sortOrder": 70,
+        "tags": [
+          "上线实战",
+          "Vue",
+          "Express",
+          "MongoDB",
+          "PM2",
+          "Nginx",
+          "HTTPS",
+          "防火墙"
+        ],
+        "fileName": "电脑/网站部署/全栈部署入门/第 07 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

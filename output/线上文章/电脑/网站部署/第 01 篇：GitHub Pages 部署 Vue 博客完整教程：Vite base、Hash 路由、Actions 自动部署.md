@@ -1,14 +1,9 @@
 ---
-title: "GitHub Pages 部署 Vue 博客完整教程"
+title: "第 1 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署"
 slug: "github-pages-vue-f7e9371a"
-summary: "作为“网站部署”系列的第 1 篇，面向初学者梳理 Vue 博客部署到 GitHub Pages 的完整流程，覆盖打包、base 路径、Hash 路由、手动部署、GitHub Actions 自动部署与常见问题排查。"
+summary: "Vue 博客部署到 GitHub Pages 的完整流程，覆盖 Vite base 路径、Vue Router Hash 模式、dist 手动部署、GitHub Actions 自动部署与常见问题排查。"
 category: "网站部署"
-tags:
-  - "GitHub Pages"
-  - "Vue3"
-  - "Vite"
-  - "博客部署"
-  - "Hash 路由"
+tags: ["GitHub Pages","Vue3","Vite","Hash 路由","GitHub Actions","博客部署"]
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "github-pages-vue-f7e9371a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# GitHub Pages 部署 Vue 博客完整教程
+# 第 1 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署
 
 > 这是 `电脑 / 网站部署` 目录下的第 1 篇。  
 > 当前博客先使用 GitHub Pages 做静态部署，后面可以继续沿着这个专题补自定义域名、HTTPS、服务器、Nginx、自动化发布等内容。

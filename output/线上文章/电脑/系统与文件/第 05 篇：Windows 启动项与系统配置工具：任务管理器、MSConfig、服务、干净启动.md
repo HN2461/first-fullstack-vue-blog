@@ -1,14 +1,15 @@
 ---
-title: "Windows 启动项、任务管理器、MSConfig 与常用系统配置工具"
+title: "第 5 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动"
 slug: "windows-msconfig-3392836b"
-summary: "结合微软官方文档整理 Windows 启动项管理、任务管理器启动页、MSConfig 和干净启动的正确用法，帮你分清哪些工具适合日常管理，哪些更适合排障。"
+summary: "Windows 启动项和系统配置工具速查，覆盖任务管理器启动页、设置应用、MSConfig、服务、干净启动和常见排障边界。"
 category: "系统与文件"
 tags:
   - "Windows"
   - "启动项"
   - "任务管理器"
   - "MSConfig"
-  - "系统工具"
+  - "服务"
+  - "干净启动"
 status: "draft"
 sortOrder: 50
 cover: ""
@@ -17,7 +18,7 @@ originalSlug: "windows-msconfig-3392836b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows 启动项、任务管理器、MSConfig 与常用系统配置工具
+# 第 5 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动
 
 > 资料来源：Microsoft Support，整理时间：2026-04-12。  
 > 适用范围：Windows 10 / Windows 11。

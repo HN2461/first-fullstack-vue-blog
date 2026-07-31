@@ -1,15 +1,9 @@
 ---
-title: "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战"
+title: "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙"
 slug: "legacy-dee56a61-dee56a61"
-summary: "面向零基础小白的 Vue + Node + Express + MongoDB 前后端分离项目完整部署实战，从本地打包、服务器购买登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙到故障排查一步步跑通。"
+summary: "Vue + Express + MongoDB 前后端分离项目完整上线实战，覆盖服务器登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙和故障排查。"
 category: "全栈部署入门"
-tags:
-  - "上线实战"
-  - "Vue"
-  - "Express"
-  - "MongoDB"
-  - "Nginx"
-  - "HTTPS"
+tags: ["上线实战","Vue","Express","MongoDB","PM2","Nginx","HTTPS","防火墙"]
 status: "draft"
 sortOrder: 70
 cover: ""
@@ -18,7 +12,7 @@ originalSlug: "legacy-dee56a61-dee56a61"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战
+# 第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙
 
 资料核对时间：2026-06-08。
 

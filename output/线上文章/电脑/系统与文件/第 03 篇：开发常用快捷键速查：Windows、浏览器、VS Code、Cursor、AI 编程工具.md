@@ -1,12 +1,15 @@
 ---
-title: "开发常用快捷键速查"
+title: "第 3 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具"
 slug: "legacy-5846ff96-5846ff96"
-summary: "开发人员常用的 Windows、浏览器、代码编辑器与 AI 编程工具快捷键速查表，覆盖 VS Code、Cursor、Windsurf、Kiro、Codex、Claude Code 等高频场景。"
+summary: "开发人员常用快捷键速查，覆盖 Windows 系统、Chrome 浏览器、通用代码编辑器、VS Code、Cursor、Windsurf、Kiro、Codex 和 Claude Code。"
 category: "系统与文件"
 tags:
   - "快捷键"
-  - "效率"
-  - "开发工具"
+  - "Windows"
+  - "浏览器"
+  - "VS Code"
+  - "Cursor"
+  - "AI 编程工具"
 status: "draft"
 sortOrder: 30
 cover: ""
@@ -15,7 +18,7 @@ originalSlug: "legacy-5846ff96-5846ff96"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 开发常用快捷键速查
+# 第 3 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具
 
 作为开发人员，熟练掌握快捷键能显著提升工作效率。本文整理了 Windows 系统、浏览器、代码编辑器和 AI 编程工具中最常用的快捷键，按场景分类便于速查。
 
