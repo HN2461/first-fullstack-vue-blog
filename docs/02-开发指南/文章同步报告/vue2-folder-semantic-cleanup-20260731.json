@@ -1,0 +1,674 @@
+{
+  "generatedAt": "2026-07-31T06:57:25.210Z",
+  "scope": "output/线上文章/前端技术/Vue/vue2",
+  "changedCount": 23,
+  "changes": [
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2aa",
+      "originalSlug": "vue-vue2-vue-2df26895",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": "vue动画》",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/vue动画》.md"
+      },
+      "next": {
+        "sortOrder": 220,
+        "title": "第 22 篇：Vue 2 动画与过渡",
+        "summary": "Vue 2 动画笔记，整理 transition、animation、过渡类名、appear 和 Animate.css。",
+        "tags": [
+          "Vue 2",
+          "动画",
+          "过渡",
+          "transition"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 22 篇：Vue 2 动画与过渡.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a8",
+      "originalSlug": "vue-vue2-route-e54b9784",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": "route》",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/route》.md"
+      },
+      "next": {
+        "sortOrder": 210,
+        "title": "第 21 篇：Vue Router 路由",
+        "summary": "Vue Router 笔记，整理 SPA、route/router、路由配置、路由传参和导航守卫。",
+        "tags": [
+          "Vue 2",
+          "Vue Router",
+          "路由",
+          "SPA"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 21 篇：Vue Router 路由.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a6",
+      "originalSlug": "vue-vue2-vuex-4372322f",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": "Vuex的使用》",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/Vuex的使用》.md"
+      },
+      "next": {
+        "sortOrder": 200,
+        "title": "第 20 篇：Vuex 状态管理",
+        "summary": "Vuex 状态管理笔记，整理 state、mutations、actions、getters、模块化和 Vuex 使用场景。",
+        "tags": [
+          "Vue 2",
+          "Vuex",
+          "状态管理",
+          "Store"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 20 篇：Vuex 状态管理.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a4",
+      "originalSlug": "vue-vue2-vue-ajax-907a7d1a",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": "Vue与Ajax》",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/Vue与Ajax》.md"
+      },
+      "next": {
+        "sortOrder": 180,
+        "title": "第 18 篇：Vue 与 Ajax",
+        "summary": "Vue 2 网络请求笔记，整理 Ajax、fetch、axios、跨域、代理服务器和请求封装。",
+        "tags": [
+          "Vue 2",
+          "Ajax",
+          "axios",
+          "跨域"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 18 篇：Vue 与 Ajax.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a0",
+      "originalSlug": "vue-vue2-vue-axios-9ddbedd5",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": "Vue的axios的使用",
+        "summary": "",
+        "sortOrder": 50,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/Vue的axios的使用.md"
+      },
+      "next": {
+        "sortOrder": 190,
+        "title": "第 19 篇：axios 基本使用",
+        "summary": "axios 独立笔记，整理 axios 安装、请求方式、json-server、拦截器和常见封装。",
+        "tags": [
+          "axios",
+          "Ajax",
+          "HTTP 请求",
+          "json-server"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 19 篇：axios 基本使用.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ca",
+      "originalSlug": "vue-vue2-5-mixins-plugins-scoped-febd1092",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".5、mixins&plugins&scoped》",
+        "summary": "",
+        "sortOrder": 60,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/5、mixins&plugins&scoped》.md"
+      },
+      "next": {
+        "sortOrder": 170,
+        "title": "第 17 篇：mixins、plugins 与 scoped",
+        "summary": "Vue 2 复用与样式隔离笔记，整理 mixins、plugins、scoped 样式和组件复用方式。",
+        "tags": [
+          "Vue 2",
+          "mixins",
+          "plugins",
+          "scoped"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 17 篇：mixins、plugins 与 scoped.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c8",
+      "originalSlug": "vue-vue2-4-9-10f3989f",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".4-9、组件通讯》",
+        "summary": "",
+        "sortOrder": 70,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/4-9、组件通讯》.md"
+      },
+      "next": {
+        "sortOrder": 160,
+        "title": "第 16 篇：Vue 2 组件通信",
+        "summary": "Vue 2 组件通信笔记，整理 props、自定义事件、全局事件总线、插槽和组件间传值方式。",
+        "tags": [
+          "Vue 2",
+          "组件通信",
+          "props",
+          "插槽"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 16 篇：Vue 2 组件通信.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c6",
+      "originalSlug": "vue-vue2-3-vue-25c1aa35",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".3、Vue脚手架》",
+        "summary": "",
+        "sortOrder": 80,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/3、Vue脚手架》.md"
+      },
+      "next": {
+        "sortOrder": 150,
+        "title": "第 15 篇：Vue CLI 脚手架",
+        "summary": "Vue 2 脚手架笔记，介绍 Vue CLI 安装、项目创建、目录结构和脚手架工程化。",
+        "tags": [
+          "Vue 2",
+          "Vue CLI",
+          "脚手架",
+          "工程化"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 15 篇：Vue CLI 脚手架.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c4",
+      "originalSlug": "vue-vue2-2-7a115d2f",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".2、单文件组件》",
+        "summary": "",
+        "sortOrder": 90,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/2、单文件组件》.md"
+      },
+      "next": {
+        "sortOrder": 140,
+        "title": "第 14 篇：Vue 2 单文件组件",
+        "summary": "Vue 2 单文件组件笔记，整理 .vue 文件结构、组件命名规范、export/import 和模块化。",
+        "tags": [
+          "Vue 2",
+          "单文件组件",
+          "Vue SFC",
+          "模块化"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 14 篇：Vue 2 单文件组件.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c2",
+      "originalSlug": "vue-vue2-1-ac16c6da",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".1、组件的使用》",
+        "summary": "",
+        "sortOrder": 100,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/1、组件的使用》.md"
+      },
+      "next": {
+        "sortOrder": 130,
+        "title": "第 13 篇：Vue 2 组件基础",
+        "summary": "Vue 2 组件基础笔记，介绍组件概念、组件创建、注册、使用和组件划分。",
+        "tags": [
+          "Vue 2",
+          "组件",
+          "组件化",
+          "Vue.extend"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 13 篇：Vue 2 组件基础.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b2",
+      "originalSlug": "vue-vue2-16-vue-975bfaf5",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".16、Vue的生命周期》",
+        "summary": "",
+        "sortOrder": 110,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/16、Vue的生命周期》.md"
+      },
+      "next": {
+        "sortOrder": 120,
+        "title": "第 12 篇：Vue 2 生命周期",
+        "summary": "Vue 2 生命周期笔记，梳理创建、挂载、更新、销毁阶段和常用生命周期钩子。",
+        "tags": [
+          "Vue 2",
+          "生命周期",
+          "生命周期钩子",
+          "组件状态"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 12 篇：Vue 2 生命周期.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b0",
+      "originalSlug": "vue-vue2-14-7cc46132",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".14、添加响应式数据》",
+        "summary": "",
+        "sortOrder": 120,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/14、添加响应式数据》.md"
+      },
+      "next": {
+        "sortOrder": 110,
+        "title": "第 11 篇：Vue 2 响应式数据",
+        "summary": "Vue 2 响应式笔记，整理对象和数组的响应式处理、Vue.set 与数据更新注意事项。",
+        "tags": [
+          "Vue 2",
+          "响应式",
+          "Vue.set",
+          "数据更新"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 11 篇：Vue 2 响应式数据.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ae",
+      "originalSlug": "vue-vue2-13-vue-78e23a80",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".13、Vue的常用指令与自定义指令》",
+        "summary": "",
+        "sortOrder": 130,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/13、Vue的常用指令与自定义指令》.md"
+      },
+      "next": {
+        "sortOrder": 100,
+        "title": "第 10 篇：常用指令与自定义指令",
+        "summary": "Vue 2 指令笔记，整理常用内置指令、自定义指令定义、钩子和使用场景。",
+        "tags": [
+          "Vue 2",
+          "Vue 指令",
+          "自定义指令",
+          "内置指令"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 10 篇：常用指令与自定义指令.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ac",
+      "originalSlug": "vue-vue2-11-12-0c06a970",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".11-12、收集表单数据&过滤器》",
+        "summary": "",
+        "sortOrder": 140,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/11-12、收集表单数据&过滤器》.md"
+      },
+      "next": {
+        "sortOrder": 90,
+        "title": "第 9 篇：表单数据收集与过滤器",
+        "summary": "Vue 2 表单与过滤器笔记，整理 v-model、表单控件绑定、过滤器定义和使用限制。",
+        "tags": [
+          "Vue 2",
+          "表单绑定",
+          "v-model",
+          "过滤器"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 9 篇：表单数据收集与过滤器.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2c0",
+      "originalSlug": "vue-vue2-9-10-9d4c0a12",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".9-10、列表操作》",
+        "summary": "",
+        "sortOrder": 150,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/9-10、列表操作》.md"
+      },
+      "next": {
+        "sortOrder": 80,
+        "title": "第 8 篇：列表过滤与列表排序",
+        "summary": "Vue 2 列表操作笔记，整理列表过滤、列表排序和响应式列表更新。",
+        "tags": [
+          "Vue 2",
+          "列表过滤",
+          "列表排序",
+          "响应式列表"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 8 篇：列表过滤与列表排序.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2bc",
+      "originalSlug": "vue-vue2-6-class-style-d3586390",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".6、class与style绑定》",
+        "summary": "",
+        "sortOrder": 160,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/6、class与style绑定》.md"
+      },
+      "next": {
+        "sortOrder": 60,
+        "title": "第 6 篇：class 与 style 绑定",
+        "summary": "Vue 2 样式绑定笔记，整理 class、style 的对象写法、数组写法和动态绑定方式。",
+        "tags": [
+          "Vue 2",
+          "class 绑定",
+          "style 绑定",
+          "样式绑定"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 6 篇：class 与 style 绑定.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2be",
+      "originalSlug": "vue-vue2-7-8-0cf0a63e",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".7-8、条件&循环渲染》",
+        "summary": "",
+        "sortOrder": 170,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/7-8、条件&循环渲染》.md"
+      },
+      "next": {
+        "sortOrder": 70,
+        "title": "第 7 篇：条件渲染与循环渲染",
+        "summary": "Vue 2 渲染语法笔记，整理 v-if、v-show、v-for、key 与列表渲染注意事项。",
+        "tags": [
+          "Vue 2",
+          "条件渲染",
+          "循环渲染",
+          "v-for"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 7 篇：条件渲染与循环渲染.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2ba",
+      "originalSlug": "vue-vue2-4-5-9daf53a4",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".4-5、计算&侦听属性》",
+        "summary": "",
+        "sortOrder": 180,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/4-5、计算&侦听属性》.md"
+      },
+      "next": {
+        "sortOrder": 50,
+        "title": "第 5 篇：计算属性与侦听属性",
+        "summary": "Vue 2 计算属性和侦听属性笔记，对比 computed 与 watch 的使用场景和写法。",
+        "tags": [
+          "Vue 2",
+          "计算属性",
+          "侦听属性",
+          "computed"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 5 篇：计算属性与侦听属性.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b8",
+      "originalSlug": "vue-vue2-3-eb141f48",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".3、事件处理》",
+        "summary": "",
+        "sortOrder": 190,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/3、事件处理》.md"
+      },
+      "next": {
+        "sortOrder": 40,
+        "title": "第 4 篇：Vue 2 事件处理",
+        "summary": "Vue 2 事件处理笔记，整理事件绑定、事件对象、事件修饰符和键盘事件。",
+        "tags": [
+          "Vue 2",
+          "事件处理",
+          "事件修饰符",
+          "键盘事件"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 4 篇：Vue 2 事件处理.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b6",
+      "originalSlug": "vue-vue2-2-mvvm-0f1dddb4",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".2、MVVM及数据代理》",
+        "summary": "",
+        "sortOrder": 200,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/2、MVVM及数据代理》.md"
+      },
+      "next": {
+        "sortOrder": 30,
+        "title": "第 3 篇：MVVM 与数据代理",
+        "summary": "Vue 2 核心原理入门，梳理 MVVM 分层思想、Object.defineProperty 与数据代理机制。",
+        "tags": [
+          "Vue 2",
+          "MVVM",
+          "数据代理",
+          "Object.defineProperty"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 3 篇：MVVM 与数据代理.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2b4",
+      "originalSlug": "vue-vue2-1-93bdf6b0",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": ".1、模版语法》",
+        "summary": "",
+        "sortOrder": 210,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/1、模版语法》.md"
+      },
+      "next": {
+        "sortOrder": 20,
+        "title": "第 2 篇：Vue 2 模板语法",
+        "summary": "Vue 2 模板语法笔记，整理插值语法、表达式使用和模板中的基础数据绑定。",
+        "tags": [
+          "Vue 2",
+          "模板语法",
+          "插值语法",
+          "数据绑定"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 2 篇：Vue 2 模板语法.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac2a2",
+      "originalSlug": "vue-vue2-vue2-b45d61d5",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": "vue2初体验》",
+        "summary": "",
+        "sortOrder": 220,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/vue2初体验》.md"
+      },
+      "next": {
+        "sortOrder": 10,
+        "title": "第 1 篇：Vue 2 初体验",
+        "summary": "Vue 2 入门笔记，介绍 Vue.js 文件引入、第一个 Vue 程序、data、template、el 配置与 Devtools。",
+        "tags": [
+          "Vue 2",
+          "Vue",
+          "入门",
+          "基础环境"
+        ],
+        "fileName": "前端技术/Vue/vue2/第 1 篇：Vue 2 初体验.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac29e",
+      "originalSlug": "vue-vue2-vue2-a0e09fcf",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue2"
+      ],
+      "old": {
+        "title": "vue2",
+        "summary": "",
+        "sortOrder": 230,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue2/vue2.md"
+      },
+      "next": {
+        "sortOrder": 230,
+        "title": "Vue 2 完整整理版",
+        "summary": "Vue 2 综合整理稿，汇总基础语法、组件、Ajax、Vuex、路由和动画等完整内容，适合作为备查。",
+        "tags": [
+          "Vue 2",
+          "完整整理",
+          "Vue",
+          "备查资料"
+        ],
+        "fileName": "前端技术/Vue/vue2/Vue 2 完整整理版.md"
+      },
+      "h1Inserted": true
+    }
+  ]
+}

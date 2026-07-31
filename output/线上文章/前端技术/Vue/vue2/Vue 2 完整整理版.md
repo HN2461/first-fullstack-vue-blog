@@ -1,9 +1,13 @@
 ---
-title: "vue2"
+title: "Vue 2 完整整理版"
 slug: "vue-vue2-vue2-a0e09fcf"
-summary: ""
+summary: "Vue 2 综合整理稿，汇总基础语法、组件、Ajax、Vuex、路由和动画等完整内容，适合作为备查。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "完整整理"
+  - "Vue"
+  - "备查资料"
 status: "draft"
 sortOrder: 230
 cover: ""
@@ -12,6 +16,8 @@ originalSlug: "vue-vue2-vue2-a0e09fcf"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# Vue 2 完整整理版
+
 # 一、 Vue程序初体验 
 先不去了解Vue框架的发展历史，Vue框架的特点，Vue的作者，这些对于我们开发来说，没有什么特别的作用，我们先学会基本使用，然后再去详细了解它的特点，就会发现，原来如此。
 

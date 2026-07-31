@@ -1,17 +1,23 @@
 ---
-title: ".6、class与style绑定》"
+title: "第 6 篇：class 与 style 绑定"
 slug: "vue-vue2-6-class-style-d3586390"
-summary: ""
+summary: "Vue 2 样式绑定笔记，整理 class、style 的对象写法、数组写法和动态绑定方式。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "class 绑定"
+  - "style 绑定"
+  - "样式绑定"
 status: "draft"
-sortOrder: 160
+sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2bc"
 originalSlug: "vue-vue2-6-class-style-d3586390"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 6 篇：class 与 style 绑定
+
 # 2.6、class与style绑定
 ## 2.6.1 class绑定
 ### 1、绑定字符串

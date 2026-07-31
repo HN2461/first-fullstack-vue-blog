@@ -1,17 +1,23 @@
 ---
-title: "route》"
+title: "第 21 篇：Vue Router 路由"
 slug: "vue-vue2-route-e54b9784"
-summary: ""
+summary: "Vue Router 笔记，整理 SPA、route/router、路由配置、路由传参和导航守卫。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "Vue Router"
+  - "路由"
+  - "SPA"
 status: "draft"
-sortOrder: 20
+sortOrder: 210
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a8"
 originalSlug: "vue-vue2-route-e54b9784"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 21 篇：Vue Router 路由
+
 ## 6.1 传统web应用vs单页面web应用
 ### 6.1.1、传统web应用
 传统web应用，又叫做多页面web应用：核心是一个web站点由多个HTML页面组成，点击时完成页面的切换，因为是切换到新的HTML页面上，所以当前页面会全部刷新。

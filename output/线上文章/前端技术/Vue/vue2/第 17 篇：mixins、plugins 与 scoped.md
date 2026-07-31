@@ -1,17 +1,23 @@
 ---
-title: ".5、mixins&plugins&scoped》"
+title: "第 17 篇：mixins、plugins 与 scoped"
 slug: "vue-vue2-5-mixins-plugins-scoped-febd1092"
-summary: ""
+summary: "Vue 2 复用与样式隔离笔记，整理 mixins、plugins、scoped 样式和组件复用方式。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "mixins"
+  - "plugins"
+  - "scoped"
 status: "draft"
-sortOrder: 60
+sortOrder: 170
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2ca"
 originalSlug: "vue-vue2-5-mixins-plugins-scoped-febd1092"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 17 篇：mixins、plugins 与 scoped
+
 # 3.5、mixins&plugins&scoped
 ## 3.5.1、mixins
 ### 3.5.1.1、需求：

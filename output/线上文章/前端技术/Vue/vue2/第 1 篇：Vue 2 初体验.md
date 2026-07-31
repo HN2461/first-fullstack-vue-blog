@@ -1,17 +1,23 @@
 ---
-title: "vue2初体验》"
+title: "第 1 篇：Vue 2 初体验"
 slug: "vue-vue2-vue2-b45d61d5"
-summary: ""
+summary: "Vue 2 入门笔记，介绍 Vue.js 文件引入、第一个 Vue 程序、data、template、el 配置与 Devtools。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "Vue"
+  - "入门"
+  - "基础环境"
 status: "draft"
-sortOrder: 220
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a2"
 originalSlug: "vue-vue2-vue2-b45d61d5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 1 篇：Vue 2 初体验
+
 # **一、 Vue程序初体验 **
 先不去了解Vue框架的发展历史，Vue框架的特点，Vue的作者，这些对于我们开发来说，没有什么特别的作用，我们先学会基本使用，然后再去详细了解它的特点，就会发现，原来如此。
 

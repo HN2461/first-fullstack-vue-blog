@@ -1,17 +1,23 @@
 ---
-title: "Vue的axios的使用"
+title: "第 19 篇：axios 基本使用"
 slug: "vue-vue2-vue-axios-9ddbedd5"
-summary: ""
+summary: "axios 独立笔记，整理 axios 安装、请求方式、json-server、拦截器和常见封装。"
 category: "vue2"
-tags: []
+tags:
+  - "axios"
+  - "Ajax"
+  - "HTTP 请求"
+  - "json-server"
 status: "draft"
-sortOrder: 50
+sortOrder: 190
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a0"
 originalSlug: "vue-vue2-vue-axios-9ddbedd5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 19 篇：axios 基本使用
+
 # 1、axios的基本使用
 ## 1.1、简介
 说到axios我们就不得不说下Ajax。在旧浏览器页面在向服务器请求数据时，因为返回的是整个页面的数据，页面都会强制刷新一下，这对于用户来讲并不是很友好。并且我们只是需要修改页面的部分数据，但是从服务器端发送的却是整个页面的数据，十分消耗网络资源。而我们只是需要修改页面的部分数据，也希望不刷新页面，因此异步网络请求就应运而生。

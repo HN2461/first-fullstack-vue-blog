@@ -1,17 +1,23 @@
 ---
-title: ".1、模版语法》"
+title: "第 2 篇：Vue 2 模板语法"
 slug: "vue-vue2-1-93bdf6b0"
-summary: ""
+summary: "Vue 2 模板语法笔记，整理插值语法、表达式使用和模板中的基础数据绑定。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "模板语法"
+  - "插值语法"
+  - "数据绑定"
 status: "draft"
-sortOrder: 210
+sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2b4"
 originalSlug: "vue-vue2-1-93bdf6b0"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 2 篇：Vue 2 模板语法
+
 # 2.1.1 插值语法
 ## 1. 代码示例
 ```html

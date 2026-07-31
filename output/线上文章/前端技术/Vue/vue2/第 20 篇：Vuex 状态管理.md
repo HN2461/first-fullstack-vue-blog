@@ -1,17 +1,23 @@
 ---
-title: "Vuex的使用》"
+title: "第 20 篇：Vuex 状态管理"
 slug: "vue-vue2-vuex-4372322f"
-summary: ""
+summary: "Vuex 状态管理笔记，整理 state、mutations、actions、getters、模块化和 Vuex 使用场景。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "Vuex"
+  - "状态管理"
+  - "Store"
 status: "draft"
-sortOrder: 30
+sortOrder: 200
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a6"
 originalSlug: "vue-vue2-vuex-4372322f"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 20 篇：Vuex 状态管理
+
 ## 5.1 、vuex概述	
 ### 1. vuex是实现数据<font style="color:rgb(255, 0, 0);">集中式状态（数据）管理</font>的插件。
 数据由vuex统一管理。其它组件都去使用vuex中的数据。只要有其中一个组件去修改了这个共享的数据，其它组件会同步更新。

@@ -1,17 +1,23 @@
 ---
-title: "Vue与Ajax》"
+title: "第 18 篇：Vue 与 Ajax"
 slug: "vue-vue2-vue-ajax-907a7d1a"
-summary: ""
+summary: "Vue 2 网络请求笔记，整理 Ajax、fetch、axios、跨域、代理服务器和请求封装。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "Ajax"
+  - "axios"
+  - "跨域"
 status: "draft"
-sortOrder: 40
+sortOrder: 180
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a4"
 originalSlug: "vue-vue2-vue-ajax-907a7d1a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 18 篇：Vue 与 Ajax
+
 ## 4.1 发送AJAX异步请求的方式	
 发送AJAX异步请求的常见方式包括：
 

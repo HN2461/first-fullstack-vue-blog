@@ -1,17 +1,23 @@
 ---
-title: ".3、事件处理》"
+title: "第 4 篇：Vue 2 事件处理"
 slug: "vue-vue2-3-eb141f48"
-summary: ""
+summary: "Vue 2 事件处理笔记，整理事件绑定、事件对象、事件修饰符和键盘事件。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "事件处理"
+  - "事件修饰符"
+  - "键盘事件"
 status: "draft"
-sortOrder: 190
+sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2b8"
 originalSlug: "vue-vue2-3-eb141f48"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 4 篇：Vue 2 事件处理
+
 # 2.3 事件处理
 ## 2.3.1 事件处理的核心语法
 ### 2.3.1.1 事件处理知识点

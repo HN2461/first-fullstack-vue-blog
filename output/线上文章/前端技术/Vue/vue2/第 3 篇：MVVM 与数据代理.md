@@ -1,17 +1,23 @@
 ---
-title: ".2、MVVM及数据代理》"
+title: "第 3 篇：MVVM 与数据代理"
 slug: "vue-vue2-2-mvvm-0f1dddb4"
-summary: ""
+summary: "Vue 2 核心原理入门，梳理 MVVM 分层思想、Object.defineProperty 与数据代理机制。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "MVVM"
+  - "数据代理"
+  - "Object.defineProperty"
 status: "draft"
-sortOrder: 200
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2b6"
 originalSlug: "vue-vue2-2-mvvm-0f1dddb4"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 3 篇：MVVM 与数据代理
+
 # 2.2.1 MVVM分层思想
 ## 1. MVVM是什么？
 + **M**：Model（模型/数据）  

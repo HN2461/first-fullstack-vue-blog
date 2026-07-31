@@ -1,17 +1,23 @@
 ---
-title: ".3、Vue脚手架》"
+title: "第 15 篇：Vue CLI 脚手架"
 slug: "vue-vue2-3-vue-25c1aa35"
-summary: ""
+summary: "Vue 2 脚手架笔记，介绍 Vue CLI 安装、项目创建、目录结构和脚手架工程化。"
 category: "vue2"
-tags: []
+tags:
+  - "Vue 2"
+  - "Vue CLI"
+  - "脚手架"
+  - "工程化"
 status: "draft"
-sortOrder: 80
+sortOrder: 150
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2c6"
 originalSlug: "vue-vue2-3-vue-25c1aa35"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 15 篇：Vue CLI 脚手架
+
 # 3.3 Vue脚手架
 ## 3.3.1 确保npm能用（安装Node.js）
 Node.js的下载地址: [https://nodejs.org/zh-cn/download/](https://nodejs.org/zh-cn/download/)
