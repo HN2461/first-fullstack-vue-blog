@@ -1,0 +1,1132 @@
+{
+  "generatedAt": "2026-07-31T10:14:45.510Z",
+  "scope": [
+    "AI相关/AI工具",
+    "AI相关/AI开发/AI应用开发平台/MaxKB"
+  ],
+  "changed": 111,
+  "skipped": [
+    "我的总结",
+    "安卓APK"
+  ],
+  "backup": [
+    "backups/ai-tools-before-semantic-cleanup-20260731-2230",
+    "backups/maxkb-before-semantic-cleanup-20260731-2230"
+  ],
+  "notes": [
+    "仅整理本地文章标题、首个 H1、本地文件名、sortOrder 与 manifest 指针。",
+    "未修改分类路径、标签体系、RBAC 菜单、线上数据库。"
+  ],
+  "changes": [
+    {
+      "categoryPath": "AI相关/AI工具",
+      "originalId": "6a2d291d8a2b1c68f2cabe4e",
+      "originalSlug": "ai-cd17bf62",
+      "oldTitle": "AI工具知识库总导航",
+      "newTitle": "总览：AI 工具知识库导航：编辑器流、终端 Agent、规则机制、辅助工具",
+      "oldFileName": "AI相关/AI工具/AI工具知识库总导航.md",
+      "newFileName": "AI相关/AI工具/总览：AI 工具知识库导航：编辑器流、终端 Agent、规则机制、辅助工具.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/基础与计费",
+      "originalId": "6a2d291d8a2b1c68f2cac084",
+      "originalSlug": "ai-token-ai-72feffb1",
+      "oldTitle": "第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）",
+      "newTitle": "第 01 篇：Token、输入输出与缓存——AI开发计费全解（2026-04）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/基础与计费/第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/基础与计费/第 01 篇：Token、输入输出与缓存——AI开发计费全解（2026-04）.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/基础与计费",
+      "originalId": "6a2d291d8a2b1c68f2cac08c",
+      "originalSlug": "ai-7ef116e6",
+      "oldTitle": "第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）",
+      "newTitle": "第 02 篇：中转站、官转与计费规则到底怎么回事（2026-04核对）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/基础与计费/第二篇：中转站、官转与计费规则到底怎么回事（2026-04核对）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/基础与计费/第 02 篇：中转站、官转与计费规则到底怎么回事（2026-04核对）.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac05a",
+      "originalSlug": "ai-ccswitch-ccswitch-82653641",
+      "oldTitle": "第一篇：CC Switch 快速上手与核心概念（v3.16.0）",
+      "newTitle": "第 01 篇：CC Switch 快速上手与核心概念（v3.16.0）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-快速上手与核心概念（v3.16.0）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 01 篇：CC Switch 快速上手与核心概念（v3.16.0）.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac050",
+      "originalSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
+      "oldTitle": "第一篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
+      "newTitle": "第 02 篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第一篇：CC-Switch-切换-Codex-Provider-后-Node-调用失败排查修复实录.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 02 篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac06a",
+      "originalSlug": "ai-ccswitch-ccswitch-4cff94a4",
+      "oldTitle": "第二篇：CC Switch 接入中转站与计费排查实战（2026-05复核）",
+      "newTitle": "第 03 篇：CC Switch 接入中转站与计费排查实战（2026-05复核）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第二篇：CC-Switch-接入中转站与计费排查实战（2026-05复核）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 03 篇：CC Switch 接入中转站与计费排查实战（2026-05复核）.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac062",
+      "originalSlug": "ai-ccswitch-claudecode-mimotokenplan-736772f0",
+      "oldTitle": "第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
+      "newTitle": "第 04 篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第三篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 04 篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac078",
+      "originalSlug": "ai-ccswitch-ccswitch-0c54d5c6",
+      "oldTitle": "第四篇：CC Switch 跨电脑导出导入与云同步实战（2026-05-30复核）",
+      "newTitle": "第 05 篇：CC Switch 跨电脑导出导入与云同步实战（2026-05-30复核）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第四篇：CC-Switch-跨电脑导出导入与云同步实战（2026-05-30复核）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 05 篇：CC Switch 跨电脑导出导入与云同步实战（2026-05-30复核）.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac070",
+      "originalSlug": "ai-ccswitch-ccswitch-2b997b92",
+      "oldTitle": "第五篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-05-30复核）",
+      "newTitle": "第 06 篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-05-30复核）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第五篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-05-30复核）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 06 篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-05-30复核）.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac04a",
+      "originalSlug": "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25",
+      "oldTitle": "Node 环境对比报告（DESKTOP-OAP8VID）",
+      "newTitle": "第 07 篇：Node 环境对比报告（DESKTOP-OAP8VID）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（DESKTOP-OAP8VID）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 07 篇：Node 环境对比报告（DESKTOP-OAP8VID）.md",
+      "sortOrder": 70
+    },
+    {
+      "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
+      "originalId": "6a2d291d8a2b1c68f2cac048",
+      "originalSlug": "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4",
+      "oldTitle": "Node 环境对比报告（LAPTOP-5AP3767K）",
+      "newTitle": "第 08 篇：Node 环境对比报告（LAPTOP-5AP3767K）",
+      "oldFileName": "AI相关/AI工具/辅助工具层/CCSwitch/Node-环境对比报告（LAPTOP-5AP3767K）.md",
+      "newFileName": "AI相关/AI工具/辅助工具层/CCSwitch/第 08 篇：Node 环境对比报告（LAPTOP-5AP3767K）.md",
+      "sortOrder": 80
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabf90",
+      "originalSlug": "ai-mcp-848a18d2",
+      "oldTitle": "MCP 学习导航与维护路线",
+      "newTitle": "第 00 篇：MCP 学习导航与维护路线",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/MCP-学习导航与维护路线.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 00 篇：MCP 学习导航与维护路线.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabf96",
+      "originalSlug": "ai-mcp-mcp-067b747a",
+      "oldTitle": "01：MCP 是什么与开放标准核心认知",
+      "newTitle": "第 02 篇：MCP 是什么与开放标准核心认知",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/01：MCP-是什么与开放标准核心认知.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 02 篇：MCP 是什么与开放标准核心认知.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabf9c",
+      "originalSlug": "ai-mcp-mcp-mcp-ce5df958",
+      "oldTitle": "02：常用 MCP 分类与选型总览",
+      "newTitle": "第 03 篇：常用 MCP 分类与选型总览",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/02：常用-MCP-分类与选型总览.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 03 篇：常用 MCP 分类与选型总览.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabfa6",
+      "originalSlug": "ai-mcp-mcp-mcp-d20641b2",
+      "oldTitle": "03：前端开发常用 MCP 清单与选型建议（2026-07复核）",
+      "newTitle": "第 04 篇：前端开发常用 MCP 清单与选型建议（2026-07复核）",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/03：前端开发常用-MCP-清单与选型建议（2026-07复核）.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 04 篇：前端开发常用 MCP 清单与选型建议（2026-07复核）.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabfb0",
+      "originalSlug": "ai-mcp-83743b3f",
+      "oldTitle": "04：MCP 概念与主流度问题",
+      "newTitle": "第 05 篇：MCP 概念与主流度问题",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/04：MCP-概念与主流度问题.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 05 篇：MCP 概念与主流度问题.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabfbc",
+      "originalSlug": "ai-mcp-ede3e0c8",
+      "oldTitle": "05：MCP 架构与安全边界问题",
+      "newTitle": "第 06 篇：MCP 架构与安全边界问题",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/05：MCP-架构与安全边界问题.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 06 篇：MCP 架构与安全边界问题.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabfb6",
+      "originalSlug": "ai-mcp-c534a7cb",
+      "oldTitle": "06：MCP 项目落地与收益评估问题",
+      "newTitle": "第 07 篇：MCP 项目落地与收益评估问题",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/06：MCP-项目落地与收益评估问题.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 07 篇：MCP 项目落地与收益评估问题.md",
+      "sortOrder": 70
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/MCP",
+      "originalId": "6a2d291d8a2b1c68f2cabfc6",
+      "originalSlug": "ai-mcp-mcp-79fea32a",
+      "oldTitle": "07：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
+      "newTitle": "第 08 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
+      "oldFileName": "AI相关/AI工具/规则机制层/MCP/07：谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md",
+      "newFileName": "AI相关/AI工具/规则机制层/MCP/第 08 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）.md",
+      "sortOrder": 80
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Plugin",
+      "originalId": "6a2d291d8a2b1c68f2cabfcc",
+      "originalSlug": "ai-plugin-plugin-da2ad951",
+      "oldTitle": "第一篇：Plugin 插件是什么，为什么需要它",
+      "newTitle": "第 01 篇：Plugin 插件是什么，为什么需要它",
+      "oldFileName": "AI相关/AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Plugin/第 01 篇：Plugin 插件是什么，为什么需要它.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Plugin",
+      "originalId": "6a2d291d8a2b1c68f2cabfd6",
+      "originalSlug": "ai-plugin-codex-codexplugin-9b9edb10",
+      "oldTitle": "第二篇：Codex Plugin 体系详解与实战",
+      "newTitle": "第 02 篇：Codex Plugin 体系详解与实战",
+      "oldFileName": "AI相关/AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Plugin/第 02 篇：Codex Plugin 体系详解与实战.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Plugin",
+      "originalId": "6a2d291d8a2b1c68f2cabfde",
+      "originalSlug": "ai-plugin-claudecode-claudecodeplugin-ed613976",
+      "oldTitle": "第三篇：Claude Code Plugin 体系详解与实战",
+      "newTitle": "第 03 篇：Claude Code Plugin 体系详解与实战",
+      "oldFileName": "AI相关/AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Plugin/第 03 篇：Claude Code Plugin 体系详解与实战.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Plugin",
+      "originalId": "6a2d291d8a2b1c68f2cabfe4",
+      "originalSlug": "ai-plugin-plugin-a8202a00",
+      "oldTitle": "第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地",
+      "newTitle": "第 04 篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地",
+      "oldFileName": "AI相关/AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Plugin/第 04 篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Rules",
+      "originalId": "6a2d291d8a2b1c68f2cabfe8",
+      "originalSlug": "ai-rules-ai-e659b444",
+      "oldTitle": "第一篇：AI 工具规则文档是什么，为什么需要它",
+      "newTitle": "第 01 篇：AI 工具规则文档是什么，为什么需要它",
+      "oldFileName": "AI相关/AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Rules/第 01 篇：AI 工具规则文档是什么，为什么需要它.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Rules",
+      "originalId": "6a2d291d8a2b1c68f2cabff0",
+      "originalSlug": "ai-rules-agents-agents-md-908e49bb",
+      "oldTitle": "第二篇：AGENTS.md 开放标准完全指南",
+      "newTitle": "第 02 篇：AGENTS.md 开放标准完全指南",
+      "oldFileName": "AI相关/AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Rules/第 02 篇：AGENTS.md 开放标准完全指南.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Rules",
+      "originalId": "6a2d291d8a2b1c68f2cabff8",
+      "originalSlug": "ai-rules-claude-claude-md-claudecode-ff6cd587",
+      "oldTitle": "第三篇：CLAUDE.md 与 Claude Code 记忆系统",
+      "newTitle": "第 03 篇：CLAUDE.md 与 Claude Code 记忆系统",
+      "oldFileName": "AI相关/AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Rules/第 03 篇：CLAUDE.md 与 Claude Code 记忆系统.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Rules",
+      "originalId": "6a2d291d8a2b1c68f2cac002",
+      "originalSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
+      "oldTitle": "第四篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战",
+      "newTitle": "第 04 篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战",
+      "oldFileName": "AI相关/AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Devin-Windsurf-Rules-Kiro-Steering-实战.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Rules/第 04 篇：Cursor Rules 、 Devin-Windsurf Rules 、 Kiro Steering 实战.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Rules",
+      "originalId": "6a2d291d8a2b1c68f2cac00c",
+      "originalSlug": "ai-rules-gemini-copilot-geminicli-copilot-853f4742",
+      "oldTitle": "第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件",
+      "newTitle": "第 05 篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件",
+      "oldFileName": "AI相关/AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Rules/第 05 篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Skill",
+      "originalId": "6a2d291d8a2b1c68f2cac014",
+      "originalSlug": "ai-skill-agentskills-8ff13a14",
+      "oldTitle": "Agent Skills 开放标准与各工具兼容性全解",
+      "newTitle": "第 01 篇：Agent Skills 开放标准与各工具兼容性全解",
+      "oldFileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Skill/第 01 篇：Agent Skills 开放标准与各工具兼容性全解.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Skill",
+      "originalId": "6a2d291d8a2b1c68f2cac01e",
+      "originalSlug": "ai-skill-agentskills-a705fbb5",
+      "oldTitle": "Agent Skills 场景模板与案例库",
+      "newTitle": "第 02 篇：Agent Skills 场景模板与案例库",
+      "oldFileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Skill/第 02 篇：Agent Skills 场景模板与案例库.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Skill",
+      "originalId": "6a2d291d8a2b1c68f2cac01a",
+      "originalSlug": "ai-skill-agentskills-b37a5530",
+      "oldTitle": "Agent Skills 高级用法与进阶技巧",
+      "newTitle": "第 03 篇：Agent Skills 高级用法与进阶技巧",
+      "oldFileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Skill/第 03 篇：Agent Skills 高级用法与进阶技巧.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Skill",
+      "originalId": "6a2d291d8a2b1c68f2cac024",
+      "originalSlug": "ai-skill-agentskills-4a94dc23",
+      "oldTitle": "Agent Skills 团队协作与社区资源",
+      "newTitle": "第 04 篇：Agent Skills 团队协作与社区资源",
+      "oldFileName": "AI相关/AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Skill/第 04 篇：Agent Skills 团队协作与社区资源.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Skill",
+      "originalId": "6a2d291d8a2b1c68f2cac020",
+      "originalSlug": "ai-skill-skills-8158d6e4",
+      "oldTitle": "补充篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）",
+      "newTitle": "第 05 篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）",
+      "oldFileName": "AI相关/AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md",
+      "newFileName": "AI相关/AI工具/规则机制层/Skill/第 05 篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/ClaudeCode",
+      "originalId": "6a2d291d8a2b1c68f2cabf18",
+      "originalSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
+      "oldTitle": "第一篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）",
+      "newTitle": "第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）",
+      "oldFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/ClaudeCode",
+      "originalId": "6a2d291d8a2b1c68f2cabf2a",
+      "originalSlug": "ai-agent-claudecode-claudecode-083e790a",
+      "oldTitle": "第二篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
+      "newTitle": "第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
+      "oldFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/ClaudeCode",
+      "originalId": "6a2d291d8a2b1c68f2cabf22",
+      "originalSlug": "ai-agent-claudecode-claudecode-8b6661f9",
+      "oldTitle": "第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）",
+      "newTitle": "第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）",
+      "oldFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/ClaudeCode",
+      "originalId": "6a2d291d8a2b1c68f2cabf46",
+      "originalSlug": "ai-agent-claudecode-claudecode-76aa3c89",
+      "oldTitle": "第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）",
+      "newTitle": "第 04 篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）",
+      "oldFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第 04 篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/ClaudeCode",
+      "originalId": "6a2d291d8a2b1c68f2cabf36",
+      "originalSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
+      "oldTitle": "第五篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）",
+      "newTitle": "第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）",
+      "oldFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/ClaudeCode",
+      "originalId": "6a2d291d8a2b1c68f2cabf3e",
+      "originalSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
+      "oldTitle": "第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
+      "newTitle": "第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
+      "oldFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a2d291d8a2b1c68f2cabf4c",
+      "originalSlug": "ai-agent-codex-codex-cli-10e9408b",
+      "oldTitle": "第一篇：Codex CLI 第一日开发实战",
+      "newTitle": "第 01 篇：Codex CLI 第一日开发实战",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 01 篇：Codex CLI 第一日开发实战.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a2d291d8a2b1c68f2cabf50",
+      "originalSlug": "ai-agent-codex-codex-cli-64e9fd24",
+      "oldTitle": "第二篇：Codex CLI 英文终端界面翻译与排错",
+      "newTitle": "第 02 篇：Codex CLI 英文终端界面翻译与排错",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 02 篇：Codex CLI 英文终端界面翻译与排错.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a2d291d8a2b1c68f2cabf5a",
+      "originalSlug": "ai-agent-codex-codex-edeadb5e",
+      "oldTitle": "第三篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）",
+      "newTitle": "第 03 篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 03 篇：Codex 配置总手册（config.toml 、 字段字典 、 HN246 本机版）.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a2d291d8a2b1c68f2cabf66",
+      "originalSlug": "ai-agent-codex-codex-94189641",
+      "oldTitle": "第四篇：Codex 多线路接入与迁移总手册",
+      "newTitle": "第 04 篇：Codex 多线路接入与迁移总手册",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 04 篇：Codex 多线路接入与迁移总手册.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a2d291d8a2b1c68f2cabf6e",
+      "originalSlug": "ai-agent-codex-codex-cli-app-afad6d17",
+      "oldTitle": "第五篇：Codex CLI / 插件 / App 三端联动实战",
+      "newTitle": "第 05 篇：Codex CLI / 插件 / App 三端联动实战",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 05 篇：Codex CLI 、 插件 、 App 三端联动实战.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a2d291d8a2b1c68f2cabf78",
+      "originalSlug": "ai-agent-codex-codex-9cf3fc01",
+      "oldTitle": "第六篇：Codex 命令与配置文件速查",
+      "newTitle": "第 06 篇：Codex 命令与配置文件速查",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 06 篇：Codex 命令与配置文件速查.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a2d291d8a2b1c68f2cabf80",
+      "originalSlug": "ai-agent-codex-codex-1c9633e1",
+      "oldTitle": "第七篇：Codex 当前常用功能与进阶工作流手册",
+      "newTitle": "第 07 篇：Codex 当前常用功能与进阶工作流手册",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 07 篇：Codex 当前常用功能与进阶工作流手册.md",
+      "sortOrder": 70
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
+      "originalId": "6a6b691f4bf50146e9b95e6c",
+      "originalSlug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+      "oldTitle": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
+      "newTitle": "第 08 篇：Codex 桌面 App 当前功能与 Windows 实战",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Codex/第 08 篇：Codex 桌面 App 当前功能与 Windows 实战.md",
+      "sortOrder": 80
+    },
+    {
+      "categoryPath": "AI相关/AI工具/终端Agent流/Gemini",
+      "originalId": "6a2d291d8a2b1c68f2cabf88",
+      "originalSlug": "ai-agent-gemini-mcp-4c54d61a",
+      "oldTitle": "Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看",
+      "newTitle": "索引：Gemini 与谷歌 MCP 配置手册位置说明",
+      "oldFileName": "AI相关/AI工具/终端Agent流/Gemini/Gemini-目录补充说明：谷歌-MCP-配置手册放在哪里看.md",
+      "newFileName": "AI相关/AI工具/终端Agent流/Gemini/索引：Gemini 与谷歌 MCP 配置手册位置说明.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/Agent框架层/龙虾",
+      "originalId": "6a2d291d8a2b1c68f2cac02e",
+      "originalSlug": "ai-agent-openclaw-4d55dcf1",
+      "oldTitle": "第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）",
+      "newTitle": "第 01 篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）",
+      "oldFileName": "AI相关/AI工具/Agent框架层/龙虾/第一篇：OpenClaw-本地部署实战（从安装到龙虾内容生产）.md",
+      "newFileName": "AI相关/AI工具/Agent框架层/龙虾/第 01 篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/Agent框架层/龙虾",
+      "originalId": "6a2d291d8a2b1c68f2cac036",
+      "originalSlug": "ai-agent-openclaw-4d87088b",
+      "oldTitle": "第二篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）",
+      "newTitle": "第 02 篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）",
+      "oldFileName": "AI相关/AI工具/Agent框架层/龙虾/第二篇：OpenClaw-CN-0.1.7-命令配置与重启排障全手册（Windows）.md",
+      "newFileName": "AI相关/AI工具/Agent框架层/龙虾/第 02 篇：OpenClaw-CN 0.1.7 命令配置与重启排障全手册（Windows）.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/Agent框架层/龙虾",
+      "originalId": "6a2d291d8a2b1c68f2cac034",
+      "originalSlug": "ai-agent-openclaw101day1-2082ef14",
+      "oldTitle": "第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）",
+      "newTitle": "第 03 篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）",
+      "oldFileName": "AI相关/AI工具/Agent框架层/龙虾/第三篇：OpenClaw101-Day1-知识全景与命令配置实战（认知与灵魂篇）.md",
+      "newFileName": "AI相关/AI工具/Agent框架层/龙虾/第 03 篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/Agent框架层/龙虾",
+      "originalId": "6a2d291d8a2b1c68f2cac040",
+      "originalSlug": "ai-agent-openclaw101-7-7f46689a",
+      "oldTitle": "第四篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）",
+      "newTitle": "第 04 篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）",
+      "oldFileName": "AI相关/AI工具/Agent框架层/龙虾/第四篇：OpenClaw101-全7天资料总研版（龙虾中文版可执行手册）.md",
+      "newFileName": "AI相关/AI工具/Agent框架层/龙虾/第 04 篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/Agent框架层/龙虾",
+      "originalId": "6a2d291d8a2b1c68f2cac03a",
+      "originalSlug": "ai-agent-openclaw101-7-98f47885",
+      "oldTitle": "第五篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）",
+      "newTitle": "第 05 篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）",
+      "oldFileName": "AI相关/AI工具/Agent框架层/龙虾/第五篇：OpenClaw101-全7天逐命令拆解（龙虾中文版超详细手册）.md",
+      "newFileName": "AI相关/AI工具/Agent框架层/龙虾/第 05 篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/Agent框架层/龙虾",
+      "originalId": "6a2d291d8a2b1c68f2cac03e",
+      "originalSlug": "ai-agent-aafa4c54",
+      "oldTitle": "第六篇：龙虾命令与配置文件一页速查图",
+      "newTitle": "第 06 篇：龙虾命令与配置文件一页速查图",
+      "oldFileName": "AI相关/AI工具/Agent框架层/龙虾/第六篇：龙虾命令与配置文件一页速查图.md",
+      "newFileName": "AI相关/AI工具/Agent框架层/龙虾/第 06 篇：龙虾命令与配置文件一页速查图.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/CatPaw",
+      "originalId": "6a2d291d8a2b1c68f2cabe58",
+      "originalSlug": "ai-ai-catpaw-catpaw-2afcb185",
+      "oldTitle": "第 1 篇：CatPaw 介绍与快速上手",
+      "newTitle": "第 01 篇：CatPaw 介绍与快速上手",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第 01 篇：CatPaw 介绍与快速上手.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/CatPaw",
+      "originalId": "6a2d291d8a2b1c68f2cabe6c",
+      "originalSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
+      "oldTitle": "第 2 篇：CatPaw 核心功能详解",
+      "newTitle": "第 02 篇：CatPaw 核心功能详解",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第 02 篇：CatPaw 核心功能详解.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/CatPaw",
+      "originalId": "6a2d291d8a2b1c68f2cabe62",
+      "originalSlug": "ai-ai-catpaw-catpaw-ai-87736891",
+      "oldTitle": "第 3 篇：CatPaw AI 助手使用指南",
+      "newTitle": "第 03 篇：CatPaw AI 助手使用指南",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第 03 篇：CatPaw AI 助手使用指南.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/CatPaw",
+      "originalId": "6a2d291d8a2b1c68f2cabe80",
+      "originalSlug": "ai-ai-catpaw-catpaw-e217fd6c",
+      "oldTitle": "第 4 篇：CatPaw 上下文与预览调试",
+      "newTitle": "第 04 篇：CatPaw 上下文与预览调试",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第 04 篇：CatPaw 上下文与预览调试.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/CatPaw",
+      "originalId": "6a2d291d8a2b1c68f2cabe76",
+      "originalSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
+      "oldTitle": "第 5 篇：CatPaw Rules 与 MCP 扩展",
+      "newTitle": "第 05 篇：CatPaw Rules 与 MCP 扩展",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/CatPaw/第 05 篇：CatPaw Rules 与 MCP 扩展.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabe88",
+      "originalSlug": "ai-ai-cursor-cursor-40faf5ca",
+      "oldTitle": "第一篇：Cursor 上手、迁移与索引配置（2026-04）",
+      "newTitle": "第 01 篇：Cursor 上手、迁移与索引配置（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第一篇：Cursor-上手、迁移与索引配置（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 01 篇：Cursor 上手、迁移与索引配置（2026-04）.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabe9c",
+      "originalSlug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
+      "oldTitle": "第二篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）",
+      "newTitle": "第 02 篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第二篇：Cursor-核心交互：Agent、Ask、Tab-与-Inline-Edit（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 02 篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabe96",
+      "originalSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
+      "oldTitle": "第三篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
+      "newTitle": "第 03 篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第三篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 03 篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabeba",
+      "originalSlug": "ai-ai-cursor-cursor-terminalcli-git-84f595c7",
+      "oldTitle": "第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）",
+      "newTitle": "第 04 篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第四篇：Cursor-项目实战：Terminal、CLI-与-Git-工作流（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 04 篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabea4",
+      "originalSlug": "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89",
+      "oldTitle": "第五篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）",
+      "newTitle": "第 05 篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第五篇：Cursor-协作自动化：Background-Agents、Bugbot、GitHub-与-Slack（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 05 篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabeb2",
+      "originalSlug": "ai-ai-cursor-cursor-mcp-shellmode-144315a1",
+      "oldTitle": "第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）",
+      "newTitle": "第 06 篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第六篇：Cursor-工具权限：MCP、Shell-Mode-与安全边界（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 06 篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabe90",
+      "originalSlug": "ai-ai-cursor-cursor-4dfc49b1",
+      "oldTitle": "第七篇：Cursor 模型、隐私与团队企业治理（2026-04）",
+      "newTitle": "第 07 篇：Cursor 模型、隐私与团队企业治理（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第七篇：Cursor-模型、隐私与团队企业治理（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 07 篇：Cursor 模型、隐私与团队企业治理（2026-04）.md",
+      "sortOrder": 70
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Cursor",
+      "originalId": "6a2d291d8a2b1c68f2cabeac",
+      "originalSlug": "ai-ai-cursor-cursor-bc1e7a3a",
+      "oldTitle": "第八篇：Cursor 数据科学、远程环境与常见问题（2026-04）",
+      "newTitle": "第 08 篇：Cursor 数据科学、远程环境与常见问题（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Cursor/第八篇：Cursor-数据科学、远程环境与常见问题（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Cursor/第 08 篇：Cursor 数据科学、远程环境与常见问题（2026-04）.md",
+      "sortOrder": 80
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Kiro",
+      "originalId": "6a2d291d8a2b1c68f2cabec0",
+      "originalSlug": "ai-ai-kiro-kiro-4ba05074",
+      "oldTitle": "第一篇：Kiro 快速上手与核心概念（2026-07）",
+      "newTitle": "第 01 篇：Kiro 快速上手与核心概念（2026-07）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Kiro/第一篇：Kiro-快速上手与核心概念（2026-07）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Kiro/第 01 篇：Kiro 快速上手与核心概念（2026-07）.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Kiro",
+      "originalId": "6a2d291d8a2b1c68f2cabed2",
+      "originalSlug": "ai-ai-kiro-kiro-specs-c09713f2",
+      "oldTitle": "第二篇：Kiro Specs 规格系统详解（2026-07）",
+      "newTitle": "第 02 篇：Kiro Specs 规格系统详解（2026-07）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Kiro/第 02 篇：Kiro Specs 规格系统详解（2026-07）.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Kiro",
+      "originalId": "6a2d291d8a2b1c68f2cabec8",
+      "originalSlug": "ai-ai-kiro-kiro-steering-51bf9cad",
+      "oldTitle": "第三篇：Kiro Steering 上下文管理（2026-07）",
+      "newTitle": "第 03 篇：Kiro Steering 上下文管理（2026-07）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Kiro/第三篇：Kiro-Steering-上下文管理（2026-07）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Kiro/第 03 篇：Kiro Steering 上下文管理（2026-07）.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Kiro",
+      "originalId": "6a2d291d8a2b1c68f2cabee8",
+      "originalSlug": "ai-ai-kiro-kiro-hooks-4b92a74f",
+      "oldTitle": "第四篇：Kiro Hooks 自动化机制（2026-07）",
+      "newTitle": "第 04 篇：Kiro Hooks 自动化机制（2026-07）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Kiro/第四篇：Kiro-Hooks-自动化机制（2026-07）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Kiro/第 04 篇：Kiro Hooks 自动化机制（2026-07）.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Kiro",
+      "originalId": "6a2d291d8a2b1c68f2cabed8",
+      "originalSlug": "ai-ai-kiro-kiro-mcp-d2d54239",
+      "oldTitle": "第五篇：Kiro MCP 集成与工具扩展（2026-07）",
+      "newTitle": "第 05 篇：Kiro MCP 集成与工具扩展（2026-07）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Kiro/第五篇：Kiro-MCP-集成与工具扩展（2026-07）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Kiro/第 05 篇：Kiro MCP 集成与工具扩展（2026-07）.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Kiro",
+      "originalId": "6a2d291d8a2b1c68f2cabee0",
+      "originalSlug": "ai-ai-kiro-kiro-bee7077a",
+      "oldTitle": "第六篇：Kiro 工作流实战与最佳实践（2026-07）",
+      "newTitle": "第 06 篇：Kiro 工作流实战与最佳实践（2026-07）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Kiro/第六篇：Kiro-工作流实战与最佳实践（2026-07）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Kiro/第 06 篇：Kiro 工作流实战与最佳实践（2026-07）.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Windsurf",
+      "originalId": "6a2d291d8a2b1c68f2cabeee",
+      "originalSlug": "ai-ai-windsurf-windsurf-d941c66c",
+      "oldTitle": "第一篇：Windsurf 快速上手与核心能力（2026-04）",
+      "newTitle": "第 01 篇：Windsurf 快速上手与核心能力（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第一篇：Windsurf-快速上手与核心能力（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第 01 篇：Windsurf 快速上手与核心能力（2026-04）.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Windsurf",
+      "originalId": "6a2d291d8a2b1c68f2cabefc",
+      "originalSlug": "ai-ai-windsurf-windsurf-4667d3b6",
+      "oldTitle": "第二篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）",
+      "newTitle": "第 02 篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第二篇：Windsurf-官方文档深度拆解，最新能力与工作流（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第 02 篇：Windsurf 官方文档深度拆解，最新能力与工作流（2026-04）.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Windsurf",
+      "originalId": "6a2d291d8a2b1c68f2cabef6",
+      "originalSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
+      "oldTitle": "第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）",
+      "newTitle": "第 03 篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第三篇：Windsurf-Code-Plan-Ask-三种模式分工与切换策略（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第 03 篇：Windsurf Code 、 Plan 、 Ask 三种模式分工与切换策略（2026-04）.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Windsurf",
+      "originalId": "6a2d291d8a2b1c68f2cabf0c",
+      "originalSlug": "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9",
+      "oldTitle": "第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）",
+      "newTitle": "第 04 篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第四篇：Windsurf-Rules、AGENTS.md、Skills、Workflows-项目治理实战（2026-04）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第 04 篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI工具/AI编辑器流/Windsurf",
+      "originalId": "6a2d291d8a2b1c68f2cabf06",
+      "originalSlug": "ai-ai-windsurf-windsurf-2-0-devin-78b4664a",
+      "oldTitle": "第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）",
+      "newTitle": "第 05 篇：Windsurf 2.0 与 Devin 集成实战（2026-05）",
+      "oldFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第五篇：Windsurf-2.0-与-Devin-集成实战（2026-05）.md",
+      "newFileName": "AI相关/AI工具/AI编辑器流/Windsurf/第 05 篇：Windsurf 2.0 与 Devin 集成实战（2026-05）.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则",
+      "originalId": "6a6b691f4bf50146e9b95e36",
+      "originalSlug": "maxkb-00-maxkb-6d42583b",
+      "oldTitle": "00：MaxKB 公共规则规范包使用说明",
+      "newTitle": "总览：MaxKB 公共规则规范包使用说明",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/00-MaxKB-公共规则规范包使用说明.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/总览：MaxKB 公共规则规范包使用说明.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理",
+      "originalId": "6a6b691f4bf50146e9b95e62",
+      "originalSlug": "maxkb-maxkb-d42ce38f",
+      "oldTitle": "MaxKB 功能智能体阶段演进规则",
+      "newTitle": "第 01 篇：MaxKB MaxKB 功能智能体阶段演进规则",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-功能智能体阶段演进规则.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 01 篇：MaxKB MaxKB 功能智能体阶段演进规则.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理",
+      "originalId": "6a6b691f4bf50146e9b95e64",
+      "originalSlug": "maxkb-maxkb-061d662d",
+      "oldTitle": "MaxKB 长链路文档拆分规则",
+      "newTitle": "第 02 篇：MaxKB MaxKB 长链路文档拆分规则",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-长链路文档拆分规则.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 02 篇：MaxKB MaxKB 长链路文档拆分规则.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理",
+      "originalId": "6a6b691f4bf50146e9b95e66",
+      "originalSlug": "maxkb-maxkb-d984d85a",
+      "oldTitle": "MaxKB 导出包解析与半自动改包规则",
+      "newTitle": "第 03 篇：MaxKB MaxKB 导出包解析与半自动改包规则",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/MaxKB-导出包解析与半自动改包规则.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 03 篇：MaxKB MaxKB 导出包解析与半自动改包规则.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量",
+      "originalId": "6a6b691f4bf50146e9b95e38",
+      "originalSlug": "maxkb-01-4ac20739",
+      "oldTitle": "01：变量引用写法规范",
+      "newTitle": "第 01 篇：MaxKB 变量引用写法规范",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/01-变量引用写法规范.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/第 01 篇：MaxKB 变量引用写法规范.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量",
+      "originalId": "6a6b691f4bf50146e9b95e3a",
+      "originalSlug": "maxkb-02-bbb61e60",
+      "oldTitle": "02：跨环境参数配置清单",
+      "newTitle": "第 02 篇：MaxKB 跨环境参数配置清单",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/02-跨环境参数配置清单.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/第 02 篇：MaxKB 跨环境参数配置清单.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示",
+      "originalId": "6a6b691f4bf50146e9b95e68",
+      "originalSlug": "maxkb-01-maxkb-affa7c4c",
+      "oldTitle": "01：MaxKB 渲染标签与快捷问题规则",
+      "newTitle": "第 01 篇：MaxKB MaxKB 渲染标签与快捷问题规则",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/01-MaxKB渲染标签与快捷问题规则.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/第 01 篇：MaxKB MaxKB 渲染标签与快捷问题规则.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示",
+      "originalId": "6a6b691f4bf50146e9b95e6a",
+      "originalSlug": "maxkb-maxkb-api-abc235d7",
+      "oldTitle": "MaxKB 前端接入与原生 API 调用规则",
+      "newTitle": "第 02 篇：MaxKB MaxKB 前端接入与原生 API 调用规则",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/MaxKB-前端接入与原生-API-调用规则.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/第 02 篇：MaxKB MaxKB 前端接入与原生 API 调用规则.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e3c",
+      "originalSlug": "maxkb-00-ai-c676db58",
+      "oldTitle": "00：AI 创建节点必读",
+      "newTitle": "第 00 篇：MaxKB AI 创建节点必读：节点规则、生成边界、验收要求",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-AI创建节点必读.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 00 篇：MaxKB AI 创建节点必读：节点规则、生成边界、验收要求.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e3e",
+      "originalSlug": "maxkb-00-17697ac6",
+      "oldTitle": "00：空白高级智能体创建说明",
+      "newTitle": "第 02 篇：MaxKB 空白高级智能体创建说明",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-空白高级智能体创建说明.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 02 篇：MaxKB 空白高级智能体创建说明.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e40",
+      "originalSlug": "maxkb-01-f396d281",
+      "oldTitle": "01：添加组件面板总览",
+      "newTitle": "第 03 篇：MaxKB 添加组件面板总览",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/01-添加组件面板总览.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 03 篇：MaxKB 添加组件面板总览.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e42",
+      "originalSlug": "maxkb-02-245bdaaf",
+      "oldTitle": "02：基本信息与开始节点",
+      "newTitle": "第 04 篇：MaxKB 基本信息与开始节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/02-基本信息与开始节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 04 篇：MaxKB 基本信息与开始节点.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e44",
+      "originalSlug": "maxkb-03-ai-94d77b3d",
+      "oldTitle": "03：AI 对话节点",
+      "newTitle": "第 05 篇：MaxKB AI 对话节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/03-AI对话节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 05 篇：MaxKB AI 对话节点.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e46",
+      "originalSlug": "maxkb-04-9dac9da1",
+      "oldTitle": "04：意图识别节点",
+      "newTitle": "第 06 篇：MaxKB 意图识别节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/04-意图识别节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 06 篇：MaxKB 意图识别节点.md",
+      "sortOrder": 60
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e48",
+      "originalSlug": "maxkb-05-ai-7faf066a",
+      "oldTitle": "05：AI 能力低优先级节点速查",
+      "newTitle": "第 07 篇：MaxKB AI 能力低优先级节点速查",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/05-AI能力低优先级节点速查.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 07 篇：MaxKB AI 能力低优先级节点速查.md",
+      "sortOrder": 70
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e4a",
+      "originalSlug": "maxkb-06-daf63cdf",
+      "oldTitle": "06：问题优化节点",
+      "newTitle": "第 08 篇：MaxKB 问题优化节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/06-问题优化节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 08 篇：MaxKB 问题优化节点.md",
+      "sortOrder": 80
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e4c",
+      "originalSlug": "maxkb-07-fd8035d1",
+      "oldTitle": "07：判断器节点",
+      "newTitle": "第 09 篇：MaxKB 判断器节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/07-判断器节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 09 篇：MaxKB 判断器节点.md",
+      "sortOrder": 90
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e4e",
+      "originalSlug": "maxkb-08-d6705804",
+      "oldTitle": "08：知识库相关节点速查",
+      "newTitle": "第 10 篇：MaxKB 知识库相关节点速查",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/08-知识库相关节点速查.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 10 篇：MaxKB 知识库相关节点速查.md",
+      "sortOrder": 100
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e50",
+      "originalSlug": "maxkb-09-95eb5588",
+      "oldTitle": "09：表单收集节点",
+      "newTitle": "第 11 篇：MaxKB 表单收集节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/09-表单收集节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 11 篇：MaxKB 表单收集节点.md",
+      "sortOrder": 110
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e52",
+      "originalSlug": "maxkb-10-bc727f7b",
+      "oldTitle": "10：指定回复节点",
+      "newTitle": "第 12 篇：MaxKB 指定回复节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/10-指定回复节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 12 篇：MaxKB 指定回复节点.md",
+      "sortOrder": 120
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e54",
+      "originalSlug": "maxkb-11-dadf9c79",
+      "oldTitle": "11：循环节点",
+      "newTitle": "第 13 篇：MaxKB 循环节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/11-循环节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 13 篇：MaxKB 循环节点.md",
+      "sortOrder": 130
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e56",
+      "originalSlug": "maxkb-12-dd68373f",
+      "oldTitle": "12：变量赋值节点",
+      "newTitle": "第 14 篇：MaxKB 变量赋值节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/12-变量赋值节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 14 篇：MaxKB 变量赋值节点.md",
+      "sortOrder": 140
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e58",
+      "originalSlug": "maxkb-13-adde6b4f",
+      "oldTitle": "13：变量拆分节点",
+      "newTitle": "第 15 篇：MaxKB 变量拆分节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/13-变量拆分节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 15 篇：MaxKB 变量拆分节点.md",
+      "sortOrder": 150
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e5a",
+      "originalSlug": "maxkb-14-9115df18",
+      "oldTitle": "14：参数提取节点",
+      "newTitle": "第 16 篇：MaxKB 参数提取节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/14-参数提取节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 16 篇：MaxKB 参数提取节点.md",
+      "sortOrder": 160
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e5c",
+      "originalSlug": "maxkb-15-a52cbc78",
+      "oldTitle": "15：变量聚合节点",
+      "newTitle": "第 17 篇：MaxKB 变量聚合节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/15-变量聚合节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 17 篇：MaxKB 变量聚合节点.md",
+      "sortOrder": 170
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e5e",
+      "originalSlug": "maxkb-16-mcp-cbdce98b",
+      "oldTitle": "16：MCP 调用与自定义工具节点",
+      "newTitle": "第 18 篇：MaxKB MCP 调用与自定义工具节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/16-MCP调用与自定义工具节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 18 篇：MaxKB MCP 调用与自定义工具节点.md",
+      "sortOrder": 180
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "originalId": "6a6b691f4bf50146e9b95e60",
+      "originalSlug": "maxkb-17-a788c9f1",
+      "oldTitle": "17：工具页签与智能体节点",
+      "newTitle": "第 19 篇：MaxKB 工具页签与智能体节点",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/17-工具页签与智能体节点.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 19 篇：MaxKB 工具页签与智能体节点.md",
+      "sortOrder": 190
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南",
+      "originalId": "6a6b691f4bf50146e9b95e2a",
+      "originalSlug": "maxkb-e122b2b7",
+      "oldTitle": "从接手环境到发布的标准流程",
+      "newTitle": "第 01 篇：MaxKB 从接手环境到发布的标准流程：环境接手、配置核验、发布链路",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/从接手环境到发布的标准流程.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/第 01 篇：MaxKB 从接手环境到发布的标准流程：环境接手、配置核验、发布链路.md",
+      "sortOrder": 10
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南",
+      "originalId": "6a6b691f4bf50146e9b95e2c",
+      "originalSlug": "maxkb-4bcf1a3f",
+      "oldTitle": "智能体编排与状态设计规范",
+      "newTitle": "第 02 篇：MaxKB 智能体编排与状态设计规范：节点结构、状态流转、异常边界",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/智能体编排与状态设计规范.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/第 02 篇：MaxKB 智能体编排与状态设计规范：节点结构、状态流转、异常边界.md",
+      "sortOrder": 20
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南",
+      "originalId": "6a6b691f4bf50146e9b95e2e",
+      "originalSlug": "maxkb-rag-813a4abe",
+      "oldTitle": "知识库与 RAG 实战规范",
+      "newTitle": "第 03 篇：MaxKB 知识库与 RAG 实战规范：文档切分、召回验证、回答质量",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/知识库与-RAG-实战规范.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/第 03 篇：MaxKB 知识库与 RAG 实战规范：文档切分、召回验证、回答质量.md",
+      "sortOrder": 30
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南",
+      "originalId": "6a6b691f4bf50146e9b95e30",
+      "originalSlug": "maxkb-api-01efc881",
+      "oldTitle": "工具、API 接入与安全规范",
+      "newTitle": "第 04 篇：MaxKB 工具、API 接入与安全规范：接口调用、鉴权配置、风险控制",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/工具、API-接入与安全规范.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/第 04 篇：MaxKB 工具、API 接入与安全规范：接口调用、鉴权配置、风险控制.md",
+      "sortOrder": 40
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南",
+      "originalId": "6a6b691f4bf50146e9b95e32",
+      "originalSlug": "maxkb-db4fbad4",
+      "oldTitle": "调试、测试、发布与回滚清单",
+      "newTitle": "第 05 篇：MaxKB 调试、测试、发布与回滚清单：联调验证、上线检查、故障恢复",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/调试、测试、发布与回滚清单.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/第 05 篇：MaxKB 调试、测试、发布与回滚清单：联调验证、上线检查、故障恢复.md",
+      "sortOrder": 50
+    },
+    {
+      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南",
+      "originalId": "6a6b691f4bf50146e9b95e34",
+      "originalSlug": "maxkb-d439f0e3",
+      "oldTitle": "官方资料索引与现有文档审计",
+      "newTitle": "第 06 篇：MaxKB 官方资料索引与现有文档审计：资料入口、版本核对、维护清单",
+      "oldFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/官方资料索引与现有文档审计.md",
+      "newFileName": "AI相关/AI开发/AI应用开发平台/MaxKB/实战开发指南/第 06 篇：MaxKB 官方资料索引与现有文档审计：资料入口、版本核对、维护清单.md",
+      "sortOrder": 60
+    }
+  ]
+}

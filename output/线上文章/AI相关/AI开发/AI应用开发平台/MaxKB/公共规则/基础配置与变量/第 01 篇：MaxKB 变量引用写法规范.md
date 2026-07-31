@@ -1,0 +1,393 @@
+---
+title: "第 01 篇：MaxKB 变量引用写法规范"
+slug: "maxkb-01-4ac20739"
+summary: "本文整理 01-变量引用写法规范，归纳 MaxKB 基础配置与变量相关的配置方法、实践步骤、边界条件与常见注意事项。"
+category: "基础配置与变量"
+tags:
+  - "MaxKB"
+  - "AI应用开发"
+  - "基础配置与变量"
+status: "draft"
+sortOrder: 10
+cover: ""
+originalId: "6a6b691f4bf50146e9b95e38"
+originalSlug: "maxkb-01-4ac20739"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+# 第 01 篇：MaxKB 变量引用写法规范
+> 文档状态（2026-06-29）：本文记录 MaxKB 高级编排中全局变量、会话变量、开始节点输出参数、普通节点输出参数和跨服务器导入时的接口传参写法。
+> 当前结论来自官方文档说明和空白高级智能体验证，后续配置 AI 对话、指定回复、工具入参时优先按本文复制变量。
+> 跨项目复用提醒：变量引用写法可跨项目复用；文中的环境参数字段和测试值属于示例，必须按目标项目字段映射后使用。
+
+## 1. 当前结论
+
+不要在提示词里直接裸写变量名：
+
+```text
+{{currentFormMetaJson}}
+```
+
+这种写法在空白高级智能体验证中不会稳定注入会话变量，表现为：
+
+```text
+当前流程表单元数据：
+
+用户当前输入：
+姓名张三...
+```
+
+正确方式是使用 MaxKB 开始节点或节点面板里的“复制变量”结果。
+
+MaxKB 变量选择器实操规则：
+
+```text
+1. 下拉选择变量时，界面优先展示“显示名称”，英文变量名通常显示在大括号里。
+2. 文档写绑定关系时，必须同时写清楚“选择器里看到的显示名称”和“括号里的变量名”。
+3. 不能只写 selectedTaskID、currentTaskMode 这类英文变量名，否则配置时还要反查中文显示名称。
+4. 最推荐写法：会话变量 > 是否正在选择任务 {isSelectingTask}。
+5. 如果是前置节点输出，推荐写法：拆分任务列表结果 > 任务列表 {taskItems}。
+```
+
+AI 提示词变量红线：
+
+```text
+“会话变量 > 当前任务查询模式 {currentTaskMode}”这种写法只用于文档说明和下拉选择器定位。
+不能把它直接包进 {{ }} 写到 AI 对话提示词里。
+
+错误示例：
+{{会话变量 > 当前任务查询模式 {currentTaskMode}}}
+{{拆分任务列表结果 > 任务列表 {taskItems}}}
+
+错误原因：
+外层模板已经使用 {{ }}，内部再出现 {currentTaskMode} 会导致模板解析报错：
+Exception: expected token 'end of print statement', got '{'
+
+正确示例：
+{{chat.currentTaskMode}}
+{{拆分任务列表结果.taskItems}}
+```
+
+当前实测可用写法示例：
+
+```text
+{{拆分任务列表结果.taskListCode}}
+{{拆分任务列表结果.taskItems}}
+{{拆分任务编号解析结果.selectTaskMessage}}
+{{global.history_context}}
+{{global.userTicket}}
+{{chat.isSelectingTask}}
+{{开始.question}}
+```
+
+记忆口诀：
+
+```text
+提示词里只写“来源.变量名”：
+global.xxx
+chat.xxx
+开始.xxx
+节点名称.xxx
+
+不要写“分组 > 显示名 {变量名}”。
+```
+
+常见写法：
+
+| 变量来源 | 写法示例 | 说明 |
+| --- | --- | --- |
+| 全局变量 | `{{global.time}}` | 当前时间等全局变量 |
+| 全局变量 | `{{global.userTicket}}` | 接口传参或全局上下文中的用户票据，按实际开始节点暴露结果为准 |
+| 全局变量 | `{{global.history_context}}` | 历史上下文，按当前 MaxKB 内置全局变量为准 |
+| 会话变量 | `{{chat.currentFormMetaJson}}` | 当前会话中保存的结构化状态 |
+| 会话变量 | `{{chat.isSelectingTask}}` | 当前是否处于候选任务选择状态 |
+| 开始节点输出参数 | `{{开始.question}}` | 用户当前输入 |
+| 普通节点输出参数 | `{{获取工作流流程目录.result}}` | 工具或节点的输出结果 |
+| 普通节点输出参数 | `{{拆分任务列表结果.taskListCode}}` | 变量拆分节点输出，按“节点名称.拆分变量名”引用 |
+| 普通节点输出参数 | `{{拆分任务编号解析结果.selectTaskMessage}}` | 变量拆分节点输出，按“节点名称.拆分变量名”引用 |
+| 判断器输出参数 | `{{判断器.branch_name}}` | 当前命中的分支名称 |
+| 指定回复输出参数 | `{{指定回复.answer}}` | 指定回复节点的内容 |
+| AI 对话输出参数 | `{{AI 对话2：整理表单字段.reasoning_content}}` | AI 节点的思考过程等输出参数 |
+
+文档表格建议统一使用下面格式：
+
+| 场景 | 应写清楚 |
+| --- | --- |
+| 判断器条件 | 选择器分组 + 显示名称 + `{变量名}` + 条件值 |
+| 工具入参绑定 | 工具参数 + 来源类型 + 选择器显示项 + `{变量名}` |
+| 变量赋值 | 目标变量显示项 + `{变量名}` + 值来源显示项 |
+| 指定回复引用 | 显示名称 + `{变量名}` 或直接给复制变量结果 |
+| AI 对话提示词 | 必须使用 `{{chat.xxx}}`、`{{开始.question}}`、`{{节点名称.输出变量名}}` 这类模板语法；不要使用选择器显示名 |
+
+示例：
+
+| 错误写法 | 推荐写法 |
+| --- | --- |
+| `isSelectingTask = true` | 选择 `会话变量 > 是否正在选择任务 {isSelectingTask}`，条件为等于 `true` |
+| `type` 绑定 `currentTaskMode` | `type` 选择 `会话变量 > 当前任务查询模式 {currentTaskMode}` |
+| `selectedTaskID = selectedTaskIDFromTool` | 目标选 `会话变量 > 当前选中任务 ID {selectedTaskID}`，值选 `拆分任务编号解析结果 > 选中任务 ID {selectedTaskIDFromTool}` |
+| AI 提示词写 `{{会话变量 > 当前任务查询模式 {currentTaskMode}}}` | 写 `{{chat.currentTaskMode}}`，或从 MaxKB 变量复制按钮复制真实模板 |
+
+## 2. 本次实测现象
+
+在 `口语化字段解析` 节点里，曾经使用：
+
+```text
+当前流程表单元数据：
+{{currentFormMetaJson}}
+
+用户当前输入：
+{{开始.question}}
+```
+
+执行时：
+
+```text
+是否进入字段填写
+判断结果：IF
+```
+
+说明会话变量 `currentFormMetaJson` 本身不为空。
+
+但 AI 对话提示词里：
+
+```text
+当前流程表单元数据：
+```
+
+后面为空，说明 `{{currentFormMetaJson}}` 没有被解析为会话变量。
+
+改成：
+
+```text
+当前流程表单元数据：
+{{chat.currentFormMetaJson}}
+
+用户当前输入：
+{{开始.question}}
+```
+
+后，表单元数据能注入到 AI 对话节点。
+
+## 3. 官方与资料依据
+
+MaxKB 官方高级智能体文档说明：
+
+```text
+AI 对话节点的提示词可以引用前置节点的参数输出，例如知识库检索结果、开始节点的问题变量。
+```
+
+第三方教程和实测截图也显示：
+
+```text
+{{开始.question}}
+{{AI 对话.answer}}
+```
+
+这类写法是按“节点名称.变量名称”引用输出参数。
+
+另有资料提醒：
+
+```text
+节点名称变更后，需要重新复制变量。
+```
+
+因此不要凭记忆手写变量，尤其是节点重命名后，必须重新从 MaxKB 面板复制。
+
+## 4. 变量来源说明
+
+### 4.1 全局变量
+
+开始节点中显示的“全局变量”使用：
+
+```text
+{{global.xxx}}
+```
+
+示例：
+
+```text
+{{global.time}}
+```
+
+### 4.2 会话变量
+
+开始节点中显示的“会话变量”使用：
+
+```text
+{{chat.xxx}}
+```
+
+示例：
+
+```text
+{{chat.selectedFlowDefineID}}
+{{chat.selectedFlowName}}
+{{chat.currentFormMetaJson}}
+{{chat.filledFieldsJson}}
+{{chat.missingRequiredFieldsJson}}
+{{chat.draftSessionID}}
+```
+
+业务办理类示例中常用的是：
+
+```text
+{{chat.currentFormMetaJson}}
+```
+
+它用于第三阶段字段填写时，把上一轮保存的表单元数据传给 `口语化字段解析`。
+
+### 4.3 开始节点输出参数
+
+开始节点输出参数使用：
+
+```text
+{{开始.xxx}}
+```
+
+示例：
+
+```text
+{{开始.question}}
+```
+
+表示用户本轮输入。
+
+### 4.4 普通节点输出参数
+
+普通节点输出参数使用：
+
+```text
+{{节点名称.输出变量名}}
+```
+
+示例：
+
+```text
+{{获取工作流流程目录.result}}
+{{获取流程表单元数据.result}}
+{{判断器.branch_name}}
+{{指定回复.answer}}
+```
+
+注意：
+
+- 节点名称必须和画布上的节点名称一致。
+- 节点名称改了以后，旧变量引用可能失效。
+- 最稳的方式是每次从节点面板点击复制变量，不要手打。
+
+## 5. 当前口语化字段解析推荐提示词片段
+
+`口语化字段解析` 的用户提示词中，表单元数据与用户输入应写成：
+
+```text
+当前时间上下文：
+{{获取当前时间上下文.result}}
+
+当前流程表单元数据：
+{{chat.currentFormMetaJson}}
+
+用户当前输入：
+{{开始.question}}
+```
+
+其中 `获取当前时间上下文` 是宏控件自动回填版新增的工具节点，用于提供 `current_date`、`weekday`、`relative_dates`、`this_week`、`next_week` 等时间参照。`口语化字段解析` 解析“今天、明天、这周三、下周五、上午八点半”等相对时间时，必须优先使用该工具结果，不要在提示词中写死当前日期。
+
+如果 MaxKB 变量选择器里显示的输出变量不是 `{{获取当前时间上下文.result}}`，应以变量选择器复制出的实际变量为准。
+
+不要写：
+
+```text
+当前流程表单元数据：
+{{currentFormMetaJson}}
+```
+
+## 6. 排查方式
+
+如果变量没有生效，按下面顺序检查：
+
+1. 在开始节点或左侧变量面板中按“显示名称”找到变量，确认括号里的英文变量名是否一致。
+2. 确认会话变量使用 `{{chat.xxx}}`。
+3. 确认全局变量使用 `{{global.xxx}}`。
+4. 确认开始节点输出参数使用 `{{开始.xxx}}`。
+5. 确认普通节点输出参数使用 `{{节点名称.xxx}}`。
+6. 如果节点被重命名，重新复制变量。
+7. 如果文档只写了英文变量名，先回到变量创建表查对应显示名称，再在 MaxKB 下拉里按显示名称选择。
+8. 如果变量内容是 dict/object，先确认提示词中是否能显示；能显示则可继续，不能显示再考虑增加“压缩变量”工具。
+
+## 7. 工具输入参数来源
+
+MaxKB 工具输入参数不只支持“引用参数”，也支持“自定义”。
+
+当前实测结论：
+
+```text
+1. 来源选择“引用参数”：用于绑定开始节点、全局变量、会话变量、前置节点输出。
+2. 来源选择“自定义”：用于填写固定字符串、固定地址、测试值或常量配置。
+3. 工具本身没有单独的“默认值”配置时，可在调用该工具的节点里把参数来源改为“自定义”并填写固定值。
+```
+
+通用示例场景：
+
+```text
+导入 MaxKB 附件到业务系统
+```
+
+该工具节点中：
+
+| 参数 | 推荐来源 | 示例 |
+| --- | --- | --- |
+| `attachmentList` | 引用参数 | `附件表单收集 -> 附件` |
+| `userTicket` | 引用参数 | `全局变量 -> userTicket` |
+| `businessBaseUrl` | 自定义或接口传参 | `https://api.example.com/api` |
+| `agentBaseUrl` | 自定义或接口传参 | `https://maxkb.example.com` |
+| `tenantId` | 自定义或接口传参 | `tenant-demo` |
+
+注意：
+
+```text
+1. 固定环境地址不要误认为必须创建会话变量。
+2. 测试智能体没有租户上下文时，可先用自定义 `tenantId=tenant-demo` 跑通链路。
+3. 正式版不建议长期写死租户标识，后续应由后端根据用户票据解析真实租户。
+4. 如果参数来源仍是“引用参数”，MaxKB 会要求从下拉变量中选择，不能直接输入固定字符串。
+```
+
+## 8. 跨服务器导入环境参数
+
+为了让 MaxKB 智能体导出后导入其他服务器时减少逐节点修改，建议把环境相关配置统一放到开始节点“接口传参”：
+
+| 接口传参 | 用途 | 是否必填 |
+| --- | --- | --- |
+| `businessBaseUrl` | 业务后端根地址，例如 `https://api.example.com/api` | 是 |
+| `agentBaseUrl` | 智能体服务根地址，用于附件下载或转存 | 是 |
+| `tenantId` / `schoolID` | 租户、组织或学校标识，按目标项目决定 | 按需 |
+| `serviceSecret` | 服务调用校验值，后端未启用时为空 | 否 |
+| `userTicket` | 当前用户票据，由前端或中转层进入 MaxKB 时传入 | 是 |
+
+工具节点统一绑定：
+
+| 工具入参 | 推荐绑定 |
+| --- | --- |
+| `baseUrl` | 全局变量 `businessBaseUrl` |
+| `businessBaseUrl` | 全局变量 `businessBaseUrl` |
+| `agentBaseUrl` | 全局变量 `agentBaseUrl` |
+| `tenantId` / `schoolID` | 全局变量中的当前租户字段 |
+| `serviceSecret` | 全局变量 `serviceSecret` |
+| `userTicket` | 全局变量 `userTicket` |
+
+当前规则：
+
+```text
+1. 业务后端地址、MaxKB 地址、学校 ID、内部密钥和用户票据走接口传参。
+2. 工具启动参数里的 baseUrl / serviceSecret 应逐步删除，改为工具输入参数绑定接口传参。
+3. flowDefineID、submitFields、selectedKeys、currentFormMetaJson 等流程态数据不要做成固定全局环境值。
+4. 具体清单见 `02-跨环境参数配置清单.md`。
+```
+
+## 9. 当前不要做
+
+- 不要继续使用裸变量 `{{currentFormMetaJson}}`。
+- 不要凭猜测写 `{{会话变量.currentFormMetaJson}}`。
+- 不要在节点重命名后沿用旧引用。
+- 不要把用户 token 或敏感值写入文档示例。
+- 不要把 `flowDefineID`、`submitFields`、`selectedKeys` 这类会话态数据写成接口传参默认值。
