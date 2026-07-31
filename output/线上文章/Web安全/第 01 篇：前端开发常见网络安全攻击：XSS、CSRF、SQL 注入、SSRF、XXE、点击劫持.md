@@ -1,17 +1,17 @@
 ---
-title: "前端开发必知的常见网络安全攻击"
+title: "第 1 篇：前端开发常见网络安全攻击：XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持"
 slug: "web-053c73ce"
-summary: "用生活化的比喻讲清楚前端开发中最常见的七种网络安全攻击：XSS、CSRF、SQL注入、SSRF、XXE、点击劫持、中间人攻击。每种攻击都配有攻击原理、真实场景、代码示例和防御方案。"
+summary: "前端开发常见网络安全攻击总览，覆盖 XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持和中间人攻击的原理、场景、代码示例与防御方案。"
 category: "Web安全"
 tags:
+  - "Web安全"
+  - "前端安全"
   - "XSS"
   - "CSRF"
   - "SQL注入"
   - "SSRF"
   - "XXE"
   - "点击劫持"
-  - "Web安全"
-  - "前端安全"
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -20,7 +20,7 @@ originalSlug: "web-053c73ce"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端开发必知的常见网络安全攻击
+# 第 1 篇：前端开发常见网络安全攻击：XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持
 
 > 安全不是后端的事，前端写的每一行代码都可能成为攻击入口。这篇文章用大白话讲清楚七种最常见的攻击，每种都配上生活化的比喻，让你真正理解"为什么这样会被攻击"。
 

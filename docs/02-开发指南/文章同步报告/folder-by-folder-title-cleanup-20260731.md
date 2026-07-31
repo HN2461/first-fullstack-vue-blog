@@ -528,6 +528,17 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/interview-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/interview-folder-before-semantic-cleanup-20260731-2130`。
 
+### Web安全
+
+- 处理 2 篇 Web 安全文章。原顺序合理，主要问题是本地文件名缺少统一阅读序号。
+- 已整理为：前端开发常见网络安全攻击、SVG 文件上传 XSS 攻击。
+- 保持 `sortOrder` 为 10、20，使线上目录先展示常见攻击总览，再展示 SVG 上传 XSS 专项；本地文件名采用 `第 01 篇` 到 `第 02 篇`。
+- 按见名知意要求保留关键内容范围，例如 XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持、XML、脚本执行、Stored XSS、防御方案。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `Web安全` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/web-security-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/web-security-folder-before-semantic-cleanup-20260731-2145`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

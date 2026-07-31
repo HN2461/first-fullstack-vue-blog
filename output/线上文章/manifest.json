@@ -14206,56 +14206,57 @@
       "originalId": "6a2d291f8a2b1c68f2cac2fa",
       "originalSlug": "web-053c73ce",
       "exportedSlug": "web-053c73ce",
-      "title": "前端开发必知的常见网络安全攻击",
+      "title": "第 1 篇：前端开发常见网络安全攻击：XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
         "Web安全"
       ],
       "tags": [
+        "Web安全",
+        "前端安全",
         "XSS",
         "CSRF",
         "SQL注入",
         "SSRF",
         "XXE",
-        "点击劫持",
-        "Web安全",
-        "前端安全"
+        "点击劫持"
       ],
       "sortOrder": 10,
       "sourcePath": "Web安全/前端开发必知的常见网络安全攻击.md",
       "publishedAt": "2026-04-22T12:52:23.733Z",
       "updatedAt": "2026-06-13T10:28:28.335Z",
-      "fileName": "Web安全/前端开发必知的常见网络安全攻击.md",
-      "summary": "用生活化的比喻讲清楚前端开发中最常见的七种网络安全攻击：XSS、CSRF、SQL注入、SSRF、XXE、点击劫持、中间人攻击。每种攻击都配有攻击原理、真实场景、代码示例和防御方案。",
+      "fileName": "Web安全/第 01 篇：前端开发常见网络安全攻击：XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持.md",
+      "summary": "前端开发常见网络安全攻击总览，覆盖 XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持和中间人攻击的原理、场景、代码示例与防御方案。",
       "cover": "",
-      "contentHash": "fd173d85adb6d3bcc99a7d445cfc608f83196d02b617939b12ccabe4a3312823"
+      "contentHash": "09d343439288c684af4330630cbc1deecb8e9e76dfe4f7f8cc3a6261ecccbcc8"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2ee",
       "originalSlug": "web-svg-xss-d4174758",
       "exportedSlug": "web-svg-xss-d4174758",
-      "title": "SVG文件上传为什么会引发XSS攻击？",
+      "title": "第 2 篇：SVG 文件上传 XSS 攻击：XML、脚本执行、Stored XSS、防御方案",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
         "Web安全"
       ],
       "tags": [
-        "XSS",
-        "SVG",
-        "文件上传安全",
         "Web安全",
-        "前端安全"
+        "前端安全",
+        "SVG",
+        "XSS",
+        "文件上传安全",
+        "Stored XSS"
       ],
       "sortOrder": 20,
       "sourcePath": "Web安全/SVG文件上传与XSS攻击详解.md",
       "publishedAt": "2026-04-22T12:45:08.412Z",
       "updatedAt": "2026-06-13T10:28:28.323Z",
-      "fileName": "Web安全/SVG文件上传为什么会引发XSS攻击？.md",
-      "summary": "很多人以为SVG只是图片，上传没什么风险。但SVG本质是XML，可以内嵌JavaScript，一旦被浏览器直接渲染就会触发脚本执行。本文从原理到攻击示例再到防御方案，完整讲清楚这个容易被忽视的安全漏洞。",
+      "fileName": "Web安全/第 02 篇：SVG 文件上传 XSS 攻击：XML、脚本执行、Stored XSS、防御方案.md",
+      "summary": "SVG 文件上传引发 XSS 的专项说明，讲清 SVG 的 XML 本质、内嵌脚本执行风险、直接访问 URL 的危险、Stored XSS 和上传防御方案。",
       "cover": "",
-      "contentHash": "a27a8600a3ed8879a015a88618e0b10753a90bb83da84d7c594cdea9c3a47166"
+      "contentHash": "a67b7567e69cbab125029734e82ef4b0e36481690fbfb73db6baf5960f46ea2f"
     }
   ],
   "categories": [
@@ -15687,5 +15688,5 @@
       "updatedAt": "2026-07-30T16:04:54.764Z"
     }
   ],
-  "generatedAt": "2026-07-31T09:47:04.424Z"
+  "generatedAt": "2026-07-31T09:49:43.500Z"
 }

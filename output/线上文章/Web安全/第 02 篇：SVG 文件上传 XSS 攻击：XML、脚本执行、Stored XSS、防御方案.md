@@ -1,14 +1,15 @@
 ---
-title: "SVG文件上传为什么会引发XSS攻击？"
+title: "第 2 篇：SVG 文件上传 XSS 攻击：XML、脚本执行、Stored XSS、防御方案"
 slug: "web-svg-xss-d4174758"
-summary: "很多人以为SVG只是图片，上传没什么风险。但SVG本质是XML，可以内嵌JavaScript，一旦被浏览器直接渲染就会触发脚本执行。本文从原理到攻击示例再到防御方案，完整讲清楚这个容易被忽视的安全漏洞。"
+summary: "SVG 文件上传引发 XSS 的专项说明，讲清 SVG 的 XML 本质、内嵌脚本执行风险、直接访问 URL 的危险、Stored XSS 和上传防御方案。"
 category: "Web安全"
 tags:
-  - "XSS"
-  - "SVG"
-  - "文件上传安全"
   - "Web安全"
   - "前端安全"
+  - "SVG"
+  - "XSS"
+  - "文件上传安全"
+  - "Stored XSS"
 status: "draft"
 sortOrder: 20
 cover: ""
@@ -17,7 +18,7 @@ originalSlug: "web-svg-xss-d4174758"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# SVG文件上传为什么会引发XSS攻击？
+# 第 2 篇：SVG 文件上传 XSS 攻击：XML、脚本执行、Stored XSS、防御方案
 
 ## 先说结论
 
