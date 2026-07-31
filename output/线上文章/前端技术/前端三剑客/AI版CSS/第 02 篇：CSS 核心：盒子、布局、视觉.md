@@ -1,18 +1,22 @@
 ---
-title: "CSS 核心：盒子、布局、视觉"
+title: "第 2 篇：CSS 核心：盒子、布局、视觉"
 slug: "css-css-74c20f0d"
-summary: ""
+summary: "CSS 核心知识笔记，系统整理盒模型、颜色单位、背景、显示模式、定位和视觉表现基础。"
 category: "AI版CSS"
-tags: []
+tags:
+  - "CSS"
+  - "盒模型"
+  - "布局"
+  - "视觉样式"
 status: "draft"
-sortOrder: 60
+sortOrder: 20
 cover: ""
 originalId: "6a2d30eeb480df92ce002e20"
 originalSlug: "css-css-74c20f0d"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第二篇 CSS 核心：盒子、布局、视觉
+# 第 2 篇：CSS 核心：盒子、布局、视觉
 
 > 目标：搞懂「盒模型」「视觉基础」「布局基础」这三个 CSS 的核心支柱。看完这一篇，你应该能读懂浏览器开发者工具的盒模型面板，知道一个元素到底占多大空间、为什么会“挤下去”，并且能写出不那么混乱的基础布局。
 

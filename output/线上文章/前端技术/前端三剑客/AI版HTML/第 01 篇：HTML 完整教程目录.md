@@ -1,11 +1,15 @@
 ---
-title: "HTML 目录"
+title: "HTML 完整教程目录"
 slug: "html-html-ff2d6917"
-summary: ""
+summary: "HTML 完整教程目录与学习路线，按章节列出 HTML 基础、内容结构、表单、多媒体、实战、SVG 和补充知识。"
 category: "AI版HTML"
-tags: []
+tags:
+  - "HTML"
+  - "学习路线"
+  - "教程目录"
+  - "前端基础"
 status: "draft"
-sortOrder: 20
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ba"
 originalSlug: "html-html-ff2d6917"

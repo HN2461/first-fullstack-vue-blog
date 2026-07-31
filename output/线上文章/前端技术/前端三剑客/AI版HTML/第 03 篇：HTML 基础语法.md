@@ -1,18 +1,22 @@
 ---
-title: "HTML基础语法——从零开始写代码"
+title: "第 2 篇：HTML 基础语法"
 slug: "html-html-de7f4404"
-summary: ""
+summary: "HTML 基础语法笔记，整理元素、标签、属性、空元素和从零编写 HTML 代码的基本方式。"
 category: "AI版HTML"
-tags: []
+tags:
+  - "HTML"
+  - "HTML 语法"
+  - "标签"
+  - "属性"
 status: "draft"
-sortOrder: 50
+sortOrder: 30
 cover: ""
 originalId: "6a2d30eeb480df92ce002e47"
 originalSlug: "html-html-de7f4404"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第二篇：HTML基础语法——从零开始写代码
+# 第 2 篇：HTML 基础语法
 
 ## 第3章 HTML的核心：元素与标签
 

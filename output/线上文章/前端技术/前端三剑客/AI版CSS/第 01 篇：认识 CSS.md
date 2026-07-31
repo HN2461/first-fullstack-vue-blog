@@ -1,18 +1,22 @@
 ---
-title: "认识 CSS：风格的起点"
+title: "第 1 篇：认识 CSS"
 slug: "css-css-a535f03e"
-summary: ""
+summary: "CSS 入门笔记，介绍 CSS 的作用、HTML 与 CSS 的关系、样式引入方式、浏览器渲染和基础选择器。"
 category: "AI版CSS"
-tags: []
+tags:
+  - "CSS"
+  - "CSS 入门"
+  - "选择器"
+  - "前端基础"
 status: "draft"
-sortOrder: 70
+sortOrder: 10
 cover: ""
 originalId: "6a2d30edb480df92ce002e15"
 originalSlug: "css-css-a535f03e"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第一篇 认识 CSS：风格的起点
+# 第 1 篇：认识 CSS
 
 > 目标：知道 CSS 是什么、能做什么、如何把 CSS 引入到页面，以及浏览器如何处理样式。看完即可开始为页面做基础的上色与排版。
 

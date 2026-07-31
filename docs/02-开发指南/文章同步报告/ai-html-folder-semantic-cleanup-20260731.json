@@ -1,0 +1,274 @@
+{
+  "generatedAt": "2026-07-31T07:23:46.503Z",
+  "scope": "output/线上文章/前端技术/前端三剑客/AI版HTML",
+  "changedCount": 9,
+  "changes": [
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0c8",
+      "originalSlug": "html-svg-1e942bf0",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "SVG入门——看懂图标代码不再懵",
+        "summary": "从零讲清楚 SVG 是什么、坐标系怎么理解、常用元素和属性是什么意思，重点拆解 path 的 d 属性命令，让你看到别人写的 SVG 代码不再一头雾水。",
+        "sortOrder": 10,
+        "tags": [
+          "SVG",
+          "图标",
+          "前端基础",
+          "HTML",
+          "矢量图形"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/SVG入门——看懂图标代码不再懵.md"
+      },
+      "next": {
+        "title": "第 7 篇：SVG 入门",
+        "summary": "SVG 入门笔记，讲解 SVG 基本结构、viewBox、坐标系、常用图形元素和 path 命令。",
+        "sortOrder": 80,
+        "tags": [
+          "SVG",
+          "HTML",
+          "图标",
+          "矢量图形"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 08 篇：SVG 入门.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ba",
+      "originalSlug": "html-html-ff2d6917",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "HTML 目录",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/HTML-目录.md"
+      },
+      "next": {
+        "title": "HTML 完整教程目录",
+        "summary": "HTML 完整教程目录与学习路线，按章节列出 HTML 基础、内容结构、表单、多媒体、实战、SVG 和补充知识。",
+        "sortOrder": 10,
+        "tags": [
+          "HTML",
+          "学习路线",
+          "教程目录",
+          "前端基础"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 01 篇：HTML 完整教程目录.md"
+      },
+      "h1Updated": false
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e52",
+      "originalSlug": "html-429ff3aa",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "表单与交互——连接用户与服务器",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/表单与交互——连接用户与服务器.md"
+      },
+      "next": {
+        "title": "第 4 篇：表单与交互",
+        "summary": "HTML 表单与交互笔记，整理 form、input、select、textarea、按钮、表单提交和基础交互能力。",
+        "sortOrder": 50,
+        "tags": [
+          "HTML",
+          "表单",
+          "交互",
+          "form"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 05 篇：表单与交互.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e4d",
+      "originalSlug": "html-10ad01e8",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "实战与未来——从学会到用好",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/实战与未来——从学会到用好.md"
+      },
+      "next": {
+        "title": "第 6 篇：HTML 实战与进阶方向",
+        "summary": "HTML 综合实战笔记，整理静态网站构建、页面结构复查、进阶元素和后续学习方向。",
+        "sortOrder": 70,
+        "tags": [
+          "HTML",
+          "项目实战",
+          "静态网站",
+          "进阶"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 07 篇：HTML 实战与进阶方向.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e47",
+      "originalSlug": "html-html-de7f4404",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "HTML基础语法——从零开始写代码",
+        "summary": "",
+        "sortOrder": 50,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/HTML基础语法——从零开始写代码.md"
+      },
+      "next": {
+        "title": "第 2 篇：HTML 基础语法",
+        "summary": "HTML 基础语法笔记，整理元素、标签、属性、空元素和从零编写 HTML 代码的基本方式。",
+        "sortOrder": 30,
+        "tags": [
+          "HTML",
+          "HTML 语法",
+          "标签",
+          "属性"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 03 篇：HTML 基础语法.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ce",
+      "originalSlug": "html-html-67ef3a27",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "《现代HTML实践——迈向专业前端》",
+        "summary": "",
+        "sortOrder": 60,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/《现代HTML实践——迈向专业前端》.md"
+      },
+      "next": {
+        "title": "第 5 篇：现代 HTML 实践",
+        "summary": "现代 HTML 实践笔记，整理表格、结构语义、可访问性和面向专业前端的 HTML 编写方式。",
+        "sortOrder": 60,
+        "tags": [
+          "HTML",
+          "现代 HTML",
+          "表格",
+          "可访问性"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 06 篇：现代 HTML 实践.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e42",
+      "originalSlug": "html-99fac695",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "构建网页内容——让页面丰富起来",
+        "summary": "",
+        "sortOrder": 70,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/构建网页内容——让页面丰富起来.md"
+      },
+      "next": {
+        "title": "第 3 篇：构建网页内容",
+        "summary": "HTML 内容结构笔记，整理标题、段落、文本语义、链接、列表、图片、多媒体和内容组织方式。",
+        "sortOrder": 40,
+        "tags": [
+          "HTML",
+          "语义化",
+          "网页内容",
+          "多媒体"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 04 篇：构建网页内容.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e3c",
+      "originalSlug": "html-html-dfc1c5fd",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "初识HTML——走进网页的世界",
+        "summary": "",
+        "sortOrder": 80,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/初识HTML——走进网页的世界.md"
+      },
+      "next": {
+        "title": "第 1 篇：初识 HTML",
+        "summary": "HTML 入门笔记，介绍网页、浏览器、前端三剑客、开发工具和第一个 HTML 页面。",
+        "sortOrder": 20,
+        "tags": [
+          "HTML",
+          "HTML 入门",
+          "网页基础",
+          "前端三剑客"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 02 篇：初识 HTML.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0b8",
+      "originalSlug": "html-html-0a6aa17c",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "old": {
+        "title": "HTML 特别补充篇（番外）",
+        "summary": "",
+        "sortOrder": 90,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版HTML/HTML-特别补充篇（番外）.md"
+      },
+      "next": {
+        "title": "番外篇：HTML 补充知识",
+        "summary": "HTML 补充知识笔记，整理实体、引用元素、语义标签、可访问性和日常容易遗漏的 HTML 细节。",
+        "sortOrder": 90,
+        "tags": [
+          "HTML",
+          "补充知识",
+          "语义化",
+          "可访问性"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版HTML/第 09 篇：HTML 补充知识.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

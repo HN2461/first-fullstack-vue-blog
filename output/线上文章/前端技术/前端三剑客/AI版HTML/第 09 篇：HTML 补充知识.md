@@ -1,9 +1,13 @@
 ---
-title: "HTML 特别补充篇（番外）"
+title: "番外篇：HTML 补充知识"
 slug: "html-html-0a6aa17c"
-summary: ""
+summary: "HTML 补充知识笔记，整理实体、引用元素、语义标签、可访问性和日常容易遗漏的 HTML 细节。"
 category: "AI版HTML"
-tags: []
+tags:
+  - "HTML"
+  - "补充知识"
+  - "语义化"
+  - "可访问性"
 status: "draft"
 sortOrder: 90
 cover: ""
@@ -12,7 +16,7 @@ originalSlug: "html-html-0a6aa17c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# HTML 特别补充篇（番外）
+# 番外篇：HTML 补充知识
 
 ## 一、番外篇目录
 

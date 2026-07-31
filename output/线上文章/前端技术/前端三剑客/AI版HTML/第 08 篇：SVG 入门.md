@@ -1,23 +1,22 @@
 ---
-title: "SVG入门——看懂图标代码不再懵"
+title: "第 7 篇：SVG 入门"
 slug: "html-svg-1e942bf0"
-summary: "从零讲清楚 SVG 是什么、坐标系怎么理解、常用元素和属性是什么意思，重点拆解 path 的 d 属性命令，让你看到别人写的 SVG 代码不再一头雾水。"
+summary: "SVG 入门笔记，讲解 SVG 基本结构、viewBox、坐标系、常用图形元素和 path 命令。"
 category: "AI版HTML"
 tags:
   - "SVG"
-  - "图标"
-  - "前端基础"
   - "HTML"
+  - "图标"
   - "矢量图形"
 status: "draft"
-sortOrder: 10
+sortOrder: 80
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0c8"
 originalSlug: "html-svg-1e942bf0"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# SVG 入门——看懂图标代码不再懵
+# 第 7 篇：SVG 入门
 
 > 参考资料：[MDN SVG 教程](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial)（Content was rephrased for compliance with licensing restrictions）
 

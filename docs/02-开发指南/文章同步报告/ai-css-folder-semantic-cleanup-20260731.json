@@ -1,0 +1,280 @@
+{
+  "generatedAt": "2026-07-31T07:28:19.872Z",
+  "scope": "output/线上文章/前端技术/前端三剑客/AI版CSS",
+  "changedCount": 9,
+  "changes": [
+    {
+      "originalId": "6a2d291d8a2b1c68f2cac09e",
+      "originalSlug": "css-fa549107",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "第三篇 现代布局：从弹性到网格",
+        "summary": "从 Flex 和 Grid 的区别讲起，用最适合小白理解的顺序讲清 Grid 的画格子、对齐、合并单元格、响应式、自适应列数和常见坑点，帮你真正把现代布局用起来。",
+        "sortOrder": 10,
+        "tags": [
+          "CSS",
+          "Flexbox",
+          "Grid",
+          "响应式布局",
+          "前端布局"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第三篇-现代布局：从弹性到网格.md"
+      },
+      "next": {
+        "title": "第 3 篇：现代布局：Flex 与 Grid",
+        "summary": "CSS 现代布局笔记，重点讲解 Flexbox 与 Grid 的区别、布局模型、响应式布局和常见实践。",
+        "sortOrder": 30,
+        "tags": [
+          "CSS",
+          "Flexbox",
+          "Grid",
+          "响应式布局"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 03 篇：现代布局：Flex 与 Grid.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0b4",
+      "originalSlug": "css-scss-sass-less-postcss-7d08d2e9",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "SCSS 常见写法速通：先学会看懂别人代码",
+        "summary": "面向刚开始接触 Vue 项目样式的读者，用最常见的变量、嵌套、&、mixin、@include、@use、@extend 等写法，帮你先看懂别人写的 SCSS 代码。",
+        "sortOrder": 20,
+        "tags": [
+          "SCSS",
+          "Sass",
+          "Vue",
+          "CSS工程化",
+          "样式预处理"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/SCSS-常见写法速通：先学会看懂别人代码.md"
+      },
+      "next": {
+        "title": "补充篇：SCSS 常见写法速通",
+        "summary": "SCSS 速通笔记，面向 Vue 项目样式阅读，整理变量、嵌套、父选择器、mixin、@include、@use 和 @extend。",
+        "sortOrder": 90,
+        "tags": [
+          "SCSS",
+          "Sass",
+          "CSS 工程化",
+          "Vue 样式"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 09 篇：SCSS 常见写法速通.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e34",
+      "originalSlug": "css-0d1a08ad",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "强化视觉：字体、动画、变换",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版CSS/强化视觉_字体_动画_变换.md"
+      },
+      "next": {
+        "title": "第 4 篇：强化视觉：字体、动画、变换",
+        "summary": "CSS 视觉强化笔记，整理字体、过渡、动画、transform、阴影和让页面更有表现力的样式能力。",
+        "sortOrder": 40,
+        "tags": [
+          "CSS",
+          "字体",
+          "动画",
+          "transform"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 04 篇：强化视觉：字体、动画、变换.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e2f",
+      "originalSlug": "css-css-2337b3f9",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "CSS 进阶：深入浏览器与工程化",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版CSS/CSS进阶_深入浏览器与工程化.md"
+      },
+      "next": {
+        "title": "第 6 篇：CSS 进阶：浏览器与工程化",
+        "summary": "CSS 进阶笔记，整理层叠、优先级、z-index、渲染性能、工程化和浏览器相关机制。",
+        "sortOrder": 60,
+        "tags": [
+          "CSS",
+          "层叠",
+          "优先级",
+          "CSS 工程化"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 06 篇：CSS 进阶：浏览器与工程化.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e25",
+      "originalSlug": "css-e1c9cdc1",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "构建真实页面：组件、响应式、维护性",
+        "summary": "",
+        "sortOrder": 50,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版CSS/构建真实页面_组件_响应式_维护性.md"
+      },
+      "next": {
+        "title": "第 5 篇：构建真实页面：组件、响应式、维护性",
+        "summary": "CSS 页面构建笔记，整理组件化样式、响应式适配、BEM、设计系统和可维护样式组织方式。",
+        "sortOrder": 50,
+        "tags": [
+          "CSS",
+          "组件化",
+          "响应式",
+          "BEM"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 05 篇：构建真实页面：组件、响应式、维护性.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e20",
+      "originalSlug": "css-css-74c20f0d",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "CSS 核心：盒子、布局、视觉",
+        "summary": "",
+        "sortOrder": 60,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版CSS/CSS核心_盒子_布局_视觉.md"
+      },
+      "next": {
+        "title": "第 2 篇：CSS 核心：盒子、布局、视觉",
+        "summary": "CSS 核心知识笔记，系统整理盒模型、颜色单位、背景、显示模式、定位和视觉表现基础。",
+        "sortOrder": 20,
+        "tags": [
+          "CSS",
+          "盒模型",
+          "布局",
+          "视觉样式"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 02 篇：CSS 核心：盒子、布局、视觉.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30edb480df92ce002e15",
+      "originalSlug": "css-css-a535f03e",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "认识 CSS：风格的起点",
+        "summary": "",
+        "sortOrder": 70,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版CSS/认识CSS_风格的起点.md"
+      },
+      "next": {
+        "title": "第 1 篇：认识 CSS",
+        "summary": "CSS 入门笔记，介绍 CSS 的作用、HTML 与 CSS 的关系、样式引入方式、浏览器渲染和基础选择器。",
+        "sortOrder": 10,
+        "tags": [
+          "CSS",
+          "CSS 入门",
+          "选择器",
+          "前端基础"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 01 篇：认识 CSS.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e2a",
+      "originalSlug": "css-9b212abb",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "番外篇：工具、技巧、速查",
+        "summary": "",
+        "sortOrder": 80,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版CSS/番外篇_工具_技巧_速查.md"
+      },
+      "next": {
+        "title": "第 8 篇：工具、技巧与速查",
+        "summary": "CSS 工具和技巧速查，整理现代 CSS 函数、选择器技巧、调试方式和常见实用写法。",
+        "sortOrder": 80,
+        "tags": [
+          "CSS",
+          "速查表",
+          "CSS 技巧",
+          "调试"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 08 篇：工具、技巧与速查.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d30eeb480df92ce002e1a",
+      "originalSlug": "css-b949bd25",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版CSS"
+      ],
+      "old": {
+        "title": "综合实战：从风格到产品",
+        "summary": "",
+        "sortOrder": 90,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版CSS/综合实战_从风格到产品.md"
+      },
+      "next": {
+        "title": "第 7 篇：综合实战：从风格到产品",
+        "summary": "CSS 综合实战笔记，整理网站视觉体系、CSS 架构、组件统一和从样式到产品的落地流程。",
+        "sortOrder": 70,
+        "tags": [
+          "CSS",
+          "项目实战",
+          "设计系统",
+          "CSS 架构"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版CSS/第 07 篇：综合实战：从风格到产品.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

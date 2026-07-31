@@ -1,18 +1,22 @@
 ---
-title: "CSS 进阶：深入浏览器与工程化"
+title: "第 6 篇：CSS 进阶：浏览器与工程化"
 slug: "css-css-2337b3f9"
-summary: ""
+summary: "CSS 进阶笔记，整理层叠、优先级、z-index、渲染性能、工程化和浏览器相关机制。"
 category: "AI版CSS"
-tags: []
+tags:
+  - "CSS"
+  - "层叠"
+  - "优先级"
+  - "CSS 工程化"
 status: "draft"
-sortOrder: 40
+sortOrder: 60
 cover: ""
 originalId: "6a2d30eeb480df92ce002e2f"
 originalSlug: "css-css-2337b3f9"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第六篇 CSS 进阶：深入浏览器与工程化
+# 第 6 篇：CSS 进阶：浏览器与工程化
 
 > 目标：从“能写页面”升级到“理解浏览器、写得稳、跑得快、好维护”。
 >

@@ -1,17 +1,23 @@
 ---
-title: "实战与未来——从学会到用好"
+title: "第 6 篇：HTML 实战与进阶方向"
 slug: "html-10ad01e8"
-summary: ""
+summary: "HTML 综合实战笔记，整理静态网站构建、页面结构复查、进阶元素和后续学习方向。"
 category: "AI版HTML"
-tags: []
+tags:
+  - "HTML"
+  - "项目实战"
+  - "静态网站"
+  - "进阶"
 status: "draft"
-sortOrder: 40
+sortOrder: 70
 cover: ""
 originalId: "6a2d30eeb480df92ce002e4d"
 originalSlug: "html-10ad01e8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 6 篇：HTML 实战与进阶方向
+
 第六篇：实战与未来——从学会到用好
 
 学完前面的知识，你已经能看懂大多数网页的基础结构，也能写出不少小型页面。接下来，就要把这些零散的知识拼装成一个真正的“作品”。只有在实战中碰到各种细节问题，你才能真正理解一门语言。

@@ -1,23 +1,22 @@
 ---
-title: "第三篇 现代布局：从弹性到网格"
+title: "第 3 篇：现代布局：Flex 与 Grid"
 slug: "css-fa549107"
-summary: "从 Flex 和 Grid 的区别讲起，用最适合小白理解的顺序讲清 Grid 的画格子、对齐、合并单元格、响应式、自适应列数和常见坑点，帮你真正把现代布局用起来。"
+summary: "CSS 现代布局笔记，重点讲解 Flexbox 与 Grid 的区别、布局模型、响应式布局和常见实践。"
 category: "AI版CSS"
 tags:
   - "CSS"
   - "Flexbox"
   - "Grid"
   - "响应式布局"
-  - "前端布局"
 status: "draft"
-sortOrder: 10
+sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac09e"
 originalSlug: "css-fa549107"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第三篇 现代布局：从弹性到网格
+# 第 3 篇：现代布局：Flex 与 Grid
 
 > 目标：掌握现代网页布局的两大主力——Flexbox 和 Grid。看完这一篇，你应该能：
 >

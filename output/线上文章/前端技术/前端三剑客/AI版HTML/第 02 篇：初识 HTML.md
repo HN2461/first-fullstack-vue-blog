@@ -1,18 +1,22 @@
 ---
-title: "初识HTML——走进网页的世界"
+title: "第 1 篇：初识 HTML"
 slug: "html-html-dfc1c5fd"
-summary: ""
+summary: "HTML 入门笔记，介绍网页、浏览器、前端三剑客、开发工具和第一个 HTML 页面。"
 category: "AI版HTML"
-tags: []
+tags:
+  - "HTML"
+  - "HTML 入门"
+  - "网页基础"
+  - "前端三剑客"
 status: "draft"
-sortOrder: 80
+sortOrder: 20
 cover: ""
 originalId: "6a2d30eeb480df92ce002e3c"
 originalSlug: "html-html-dfc1c5fd"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第一篇：初识HTML——走进网页的世界
+# 第 1 篇：初识 HTML
 
 ## 第1章 网页是什么：揭开网站的神秘面纱
 

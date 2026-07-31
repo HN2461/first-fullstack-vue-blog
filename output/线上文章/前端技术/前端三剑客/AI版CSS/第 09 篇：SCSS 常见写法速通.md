@@ -1,23 +1,22 @@
 ---
-title: "SCSS 常见写法速通：先学会看懂别人代码"
+title: "补充篇：SCSS 常见写法速通"
 slug: "css-scss-sass-less-postcss-7d08d2e9"
-summary: "面向刚开始接触 Vue 项目样式的读者，用最常见的变量、嵌套、&、mixin、@include、@use、@extend 等写法，帮你先看懂别人写的 SCSS 代码。"
+summary: "SCSS 速通笔记，面向 Vue 项目样式阅读，整理变量、嵌套、父选择器、mixin、@include、@use 和 @extend。"
 category: "AI版CSS"
 tags:
   - "SCSS"
   - "Sass"
-  - "Vue"
-  - "CSS工程化"
-  - "样式预处理"
+  - "CSS 工程化"
+  - "Vue 样式"
 status: "draft"
-sortOrder: 20
+sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0b4"
 originalSlug: "css-scss-sass-less-postcss-7d08d2e9"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# SCSS 常见写法速通：先学会看懂别人代码
+# 补充篇：SCSS 常见写法速通
 
 > 主人如果现在最常见到的是 `SCSS`，那我们就先学 `SCSS`。  
 > 这一篇不追求讲全工程化，只解决一个更实际的问题：

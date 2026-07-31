@@ -1,9 +1,13 @@
 ---
-title: "《现代HTML实践——迈向专业前端》"
+title: "第 5 篇：现代 HTML 实践"
 slug: "html-html-67ef3a27"
-summary: ""
+summary: "现代 HTML 实践笔记，整理表格、结构语义、可访问性和面向专业前端的 HTML 编写方式。"
 category: "AI版HTML"
-tags: []
+tags:
+  - "HTML"
+  - "现代 HTML"
+  - "表格"
+  - "可访问性"
 status: "draft"
 sortOrder: 60
 cover: ""
@@ -12,7 +16,7 @@ originalSlug: "html-html-67ef3a27"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第五篇《现代HTML实践——迈向专业前端》
+# 第 5 篇：现代 HTML 实践
 
 当我们掌握了HTML的基本语法与结构后，就要开始迈向更专业的方向。现代前端开发不仅要求页面“能用”，还要求“好用”“快”“对所有人友好”。
 
