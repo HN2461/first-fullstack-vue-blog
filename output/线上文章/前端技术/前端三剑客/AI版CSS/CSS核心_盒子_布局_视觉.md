@@ -1,5 +1,5 @@
 ---
-title: "CSS核心_盒子_布局_视觉"
+title: "CSS 核心：盒子、布局、视觉"
 slug: "css-css-74c20f0d"
 summary: ""
 category: "AI版CSS"

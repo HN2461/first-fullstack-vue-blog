@@ -16,9 +16,9 @@
 | 电脑 | 27 | 未发现机械可修问题；部署系列标题已符合 `第 N 篇：` |
 | 后端技术 | 75 | 未发现机械可修问题 |
 | 面试 | 10 | 未发现机械可修问题 |
-| 前端技术 | 148 | 未发现机械可修问题 |
+| 前端技术 | 148 | 修改 7 篇标题分隔符格式；保留 `session_key` 字段名 |
 | 我的总结 | 52 | 修改 43 篇标题格式 |
-| 项目复用技术 | 55 | 未发现机械可修问题 |
+| 项目复用技术 | 55 | 修改 8 篇标题分隔符格式 |
 | Web安全 | 2 | 未发现机械可修问题 |
 | 安卓APK | 3 | 按要求跳过 |
 
@@ -40,10 +40,26 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/my-summary-title-cleanup-20260731.json`。
 - 本地备份：`backups/my-summary-before-title-cleanup-20260731-1220`。
 
+### 项目复用技术
+
+- 修改 8 篇标题分隔符格式，将标题中的分隔性 `_` 统一为中文冒号、顿号或连接词。
+- 保留 `wx.qy.login`、`ww.createWWLoginPanel`、`corpId`、`agentId` 等技术标识原文，不做字段名破坏性替换。
+- 同步更新 Front Matter 与 `manifest.json` 的 `title` 与 `contentHash`。
+- 变更明细：`docs/02-开发指南/文章同步报告/reuse-frontend-title-cleanup-20260731.json`。
+- 本地备份：`backups/reuse-tech-before-title-cleanup-20260731-1430`。
+
+### 前端技术
+
+- 修改 7 篇 `AI版CSS` 标题分隔符格式，将标题中的分隔性 `_` 统一为中文冒号、顿号或空格。
+- 保留 `session_key` 等技术字段名原文，不作为标题异常处理。
+- 同步更新 Front Matter 与 `manifest.json` 的 `title` 与 `contentHash`。
+- 变更明细：`docs/02-开发指南/文章同步报告/reuse-frontend-title-cleanup-20260731.json`。
+- 本地备份：`backups/frontend-tech-before-title-cleanup-20260731-1430`。
+
 ## 验证结果
 
 - 权威快照读取通过：512 篇文章、96 个分类。
-- 除 `安卓APK` 外，机械标题异常检查结果为 0。
+- 除 `安卓APK` 外，剩余 1 个下划线候选为 `session_key` 技术字段名，已确认保留，不属于标题格式异常。
 - 编码检查通过：未发现 UTF-8 BOM。
 
 ## 后续事项

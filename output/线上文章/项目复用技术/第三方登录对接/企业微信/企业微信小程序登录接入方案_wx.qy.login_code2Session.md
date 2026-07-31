@@ -1,5 +1,5 @@
 ---
-title: "企业微信小程序登录接入方案_wx.qy.login_code2Session"
+title: "企业微信小程序登录接入方案：wx.qy.login 与 code2Session"
 slug: "wx-qy-login-code2session-56702606"
 summary: ""
 category: "企业微信"

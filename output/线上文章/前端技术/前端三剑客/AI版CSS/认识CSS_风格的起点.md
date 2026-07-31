@@ -1,5 +1,5 @@
 ---
-title: "认识CSS_风格的起点"
+title: "认识 CSS：风格的起点"
 slug: "css-css-a535f03e"
 summary: ""
 category: "AI版CSS"

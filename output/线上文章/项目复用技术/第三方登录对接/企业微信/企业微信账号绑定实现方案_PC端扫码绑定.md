@@ -1,5 +1,5 @@
 ---
-title: "企业微信账号绑定实现方案_PC端扫码绑定"
+title: "企业微信账号绑定实现方案：PC端扫码绑定"
 slug: "pc-pc-393c27b2"
 summary: ""
 category: "企业微信"

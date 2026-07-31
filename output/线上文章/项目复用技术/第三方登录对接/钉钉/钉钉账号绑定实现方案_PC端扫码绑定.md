@@ -1,5 +1,5 @@
 ---
-title: "钉钉账号绑定实现方案_PC端扫码绑定"
+title: "钉钉账号绑定实现方案：PC端扫码绑定"
 slug: "pc-pc-44f7ba8c"
 summary: ""
 category: "钉钉"

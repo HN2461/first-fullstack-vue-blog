@@ -1,5 +1,5 @@
 ---
-title: "企业微信JSSDK接入_wx.config_agentConfig_签名流程"
+title: "企业微信 JSSDK 接入：wx.config、agentConfig 与签名流程"
 slug: "h5-jssdk-wx-config-agentconfig-93be1c59"
 summary: ""
 category: "企业微信"

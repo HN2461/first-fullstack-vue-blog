@@ -1,5 +1,5 @@
 ---
-title: "企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId"
+title: "企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId"
 slug: "id-corpid-agentid-appid-userid-openid-unionid-e704ba37"
 summary: ""
 category: "企业微信"

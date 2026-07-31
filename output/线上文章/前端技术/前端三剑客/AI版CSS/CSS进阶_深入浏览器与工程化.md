@@ -1,5 +1,5 @@
 ---
-title: "CSS进阶_深入浏览器与工程化"
+title: "CSS 进阶：深入浏览器与工程化"
 slug: "css-css-2337b3f9"
 summary: ""
 category: "AI版CSS"
