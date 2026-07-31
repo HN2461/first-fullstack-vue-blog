@@ -1,5 +1,5 @@
 ---
-title: "第3篇：CatPaw AI助手使用指南"
+title: "第 3 篇：CatPaw AI 助手使用指南"
 slug: "ai-ai-catpaw-catpaw-ai-87736891"
 summary: "按公开用户手册梳理 CatPaw 侧边栏 AI 助手的真实用法，重点讲清 Ask、Agent、自定义 Agent、工具列表和对话管理。"
 category: "CatPaw"
@@ -17,8 +17,7 @@ originalSlug: "ai-ai-catpaw-catpaw-ai-87736891"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第3篇：CatPaw AI助手使用指南
-
+# 第 3 篇：CatPaw AI 助手使用指南
 CatPaw 的“AI 助手”公开文档里主要指的是侧边栏对话体系。  
 它不是单一模式，而是三套工作方式：
 

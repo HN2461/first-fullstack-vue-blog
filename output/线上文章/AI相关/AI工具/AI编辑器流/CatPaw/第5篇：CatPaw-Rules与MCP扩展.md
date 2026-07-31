@@ -1,5 +1,5 @@
 ---
-title: "第5篇：CatPaw Rules与MCP扩展"
+title: "第 5 篇：CatPaw Rules 与 MCP 扩展"
 slug: "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79"
 summary: "基于公开用户手册重新整理 CatPaw 的 Rules、索引兼容和 MCP 扩展能力，聚焦团队规范如何固化到 AI 工作流里。"
 category: "CatPaw"
@@ -17,8 +17,7 @@ originalSlug: "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第5篇：CatPaw Rules与MCP扩展
-
+# 第 5 篇：CatPaw Rules 与 MCP 扩展
 如果说 Ask / Agent 解决的是“AI 能不能帮我干活”，  
 那 Rules 和 MCP 解决的就是：
 

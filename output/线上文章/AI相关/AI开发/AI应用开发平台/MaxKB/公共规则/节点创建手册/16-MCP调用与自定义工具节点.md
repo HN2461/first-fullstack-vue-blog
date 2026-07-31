@@ -1,5 +1,5 @@
 ---
-title: "16-MCP调用与自定义工具节点"
+title: "16：MCP 调用与自定义工具节点"
 slug: "maxkb-16-mcp-cbdce98b"
 summary: "本文整理 16-MCP调用与自定义工具节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。"
 category: "节点创建手册"
@@ -17,8 +17,7 @@ originalSlug: "maxkb-16-mcp-cbdce98b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 16-MCP调用与自定义工具节点
-
+# 16：MCP 调用与自定义工具节点
 > 文档状态（2026-07-01）：根据空白高级智能体验证截图、MaxKB 官方文档和工具扩展通用实践，记录 MCP 调用、自定义工具两个扩展类节点的配置、定位和使用边界。
 
 ## 1. 节点定位

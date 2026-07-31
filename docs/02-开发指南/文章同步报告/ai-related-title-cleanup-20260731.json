@@ -1,0 +1,175 @@
+{
+  "generatedAt": "2026-07-31T06:07:13.166Z",
+  "rootCategory": "AI相关",
+  "changedCount": 28,
+  "changes": [
+    {
+      "slug": "maxkb-01-maxkb-affa7c4c",
+      "previousTitle": "01-MaxKB渲染标签与快捷问题规则",
+      "nextTitle": "01：MaxKB 渲染标签与快捷问题规则",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/01-MaxKB渲染标签与快捷问题规则.md"
+    },
+    {
+      "slug": "maxkb-17-a788c9f1",
+      "previousTitle": "17-工具页签与智能体节点",
+      "nextTitle": "17：工具页签与智能体节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/17-工具页签与智能体节点.md"
+    },
+    {
+      "slug": "maxkb-16-mcp-cbdce98b",
+      "previousTitle": "16-MCP调用与自定义工具节点",
+      "nextTitle": "16：MCP 调用与自定义工具节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/16-MCP调用与自定义工具节点.md"
+    },
+    {
+      "slug": "maxkb-15-a52cbc78",
+      "previousTitle": "15-变量聚合节点",
+      "nextTitle": "15：变量聚合节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/15-变量聚合节点.md"
+    },
+    {
+      "slug": "maxkb-14-9115df18",
+      "previousTitle": "14-参数提取节点",
+      "nextTitle": "14：参数提取节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/14-参数提取节点.md"
+    },
+    {
+      "slug": "maxkb-13-adde6b4f",
+      "previousTitle": "13-变量拆分节点",
+      "nextTitle": "13：变量拆分节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/13-变量拆分节点.md"
+    },
+    {
+      "slug": "maxkb-12-dd68373f",
+      "previousTitle": "12-变量赋值节点",
+      "nextTitle": "12：变量赋值节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/12-变量赋值节点.md"
+    },
+    {
+      "slug": "maxkb-11-dadf9c79",
+      "previousTitle": "11-循环节点",
+      "nextTitle": "11：循环节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/11-循环节点.md"
+    },
+    {
+      "slug": "maxkb-10-bc727f7b",
+      "previousTitle": "10-指定回复节点",
+      "nextTitle": "10：指定回复节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/10-指定回复节点.md"
+    },
+    {
+      "slug": "maxkb-09-95eb5588",
+      "previousTitle": "09-表单收集节点",
+      "nextTitle": "09：表单收集节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/09-表单收集节点.md"
+    },
+    {
+      "slug": "maxkb-08-d6705804",
+      "previousTitle": "08-知识库相关节点速查",
+      "nextTitle": "08：知识库相关节点速查",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/08-知识库相关节点速查.md"
+    },
+    {
+      "slug": "maxkb-07-fd8035d1",
+      "previousTitle": "07-判断器节点",
+      "nextTitle": "07：判断器节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/07-判断器节点.md"
+    },
+    {
+      "slug": "maxkb-06-daf63cdf",
+      "previousTitle": "06-问题优化节点",
+      "nextTitle": "06：问题优化节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/06-问题优化节点.md"
+    },
+    {
+      "slug": "maxkb-05-ai-7faf066a",
+      "previousTitle": "05-AI能力低优先级节点速查",
+      "nextTitle": "05：AI 能力低优先级节点速查",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/05-AI能力低优先级节点速查.md"
+    },
+    {
+      "slug": "maxkb-04-9dac9da1",
+      "previousTitle": "04-意图识别节点",
+      "nextTitle": "04：意图识别节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/04-意图识别节点.md"
+    },
+    {
+      "slug": "maxkb-03-ai-94d77b3d",
+      "previousTitle": "03-AI对话节点",
+      "nextTitle": "03：AI 对话节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/03-AI对话节点.md"
+    },
+    {
+      "slug": "maxkb-02-245bdaaf",
+      "previousTitle": "02-基本信息与开始节点",
+      "nextTitle": "02：基本信息与开始节点",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/02-基本信息与开始节点.md"
+    },
+    {
+      "slug": "maxkb-01-f396d281",
+      "previousTitle": "01-添加组件面板总览",
+      "nextTitle": "01：添加组件面板总览",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/01-添加组件面板总览.md"
+    },
+    {
+      "slug": "maxkb-00-17697ac6",
+      "previousTitle": "00-空白高级智能体创建说明",
+      "nextTitle": "00：空白高级智能体创建说明",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-空白高级智能体创建说明.md"
+    },
+    {
+      "slug": "maxkb-00-ai-c676db58",
+      "previousTitle": "00-AI创建节点必读",
+      "nextTitle": "00：AI 创建节点必读",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-AI创建节点必读.md"
+    },
+    {
+      "slug": "maxkb-02-bbb61e60",
+      "previousTitle": "02-跨环境参数配置清单",
+      "nextTitle": "02：跨环境参数配置清单",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/02-跨环境参数配置清单.md"
+    },
+    {
+      "slug": "maxkb-01-4ac20739",
+      "previousTitle": "01-变量引用写法规范",
+      "nextTitle": "01：变量引用写法规范",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/01-变量引用写法规范.md"
+    },
+    {
+      "slug": "maxkb-00-maxkb-6d42583b",
+      "previousTitle": "00-MaxKB 公共规则规范包使用说明",
+      "nextTitle": "00：MaxKB 公共规则规范包使用说明",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/00-MaxKB-公共规则规范包使用说明.md"
+    },
+    {
+      "slug": "ai-ai-catpaw-catpaw-e217fd6c",
+      "previousTitle": "第4篇：CatPaw上下文与预览调试",
+      "nextTitle": "第 4 篇：CatPaw 上下文与预览调试",
+      "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md"
+    },
+    {
+      "slug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
+      "previousTitle": "第5篇：CatPaw Rules与MCP扩展",
+      "nextTitle": "第 5 篇：CatPaw Rules 与 MCP 扩展",
+      "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md"
+    },
+    {
+      "slug": "ai-ai-catpaw-catpaw-d8f5ee08",
+      "previousTitle": "第2篇：CatPaw核心功能详解",
+      "nextTitle": "第 2 篇：CatPaw 核心功能详解",
+      "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md"
+    },
+    {
+      "slug": "ai-ai-catpaw-catpaw-ai-87736891",
+      "previousTitle": "第3篇：CatPaw AI助手使用指南",
+      "nextTitle": "第 3 篇：CatPaw AI 助手使用指南",
+      "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md"
+    },
+    {
+      "slug": "ai-ai-catpaw-catpaw-2afcb185",
+      "previousTitle": "第1篇：CatPaw介绍与快速上手",
+      "nextTitle": "第 1 篇：CatPaw 介绍与快速上手",
+      "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md"
+    }
+  ]
+}

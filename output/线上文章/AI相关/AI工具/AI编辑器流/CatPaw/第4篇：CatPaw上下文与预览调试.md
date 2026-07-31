@@ -1,5 +1,5 @@
 ---
-title: "第4篇：CatPaw上下文与预览调试"
+title: "第 4 篇：CatPaw 上下文与预览调试"
 slug: "ai-ai-catpaw-catpaw-e217fd6c"
 summary: "围绕 CatPaw 公开手册中的上下文、索引、Docs、项目预览、页面元素编辑和 Browser Use 重新整理，重点讲清 AI 为什么会“懂项目”。"
 category: "CatPaw"
@@ -17,8 +17,7 @@ originalSlug: "ai-ai-catpaw-catpaw-e217fd6c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第4篇：CatPaw上下文与预览调试
-
+# 第 4 篇：CatPaw 上下文与预览调试
 很多人觉得 AI 编程工具“不稳定”，核心原因往往不是模型太差，而是：
 
 - 上下文没给对

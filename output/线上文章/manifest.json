@@ -73,7 +73,7 @@
       "originalId": "6a6b691f4bf50146e9b95e68",
       "originalSlug": "maxkb-01-maxkb-affa7c4c",
       "exportedSlug": "maxkb-01-maxkb-affa7c4c",
-      "title": "01-MaxKB渲染标签与快捷问题规则",
+      "title": "01：MaxKB 渲染标签与快捷问题规则",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -96,7 +96,7 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/01-MaxKB渲染标签与快捷问题规则.md",
       "summary": "本文整理 01-MaxKB渲染标签与快捷问题规则，归纳 MaxKB 接入与展示相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "50cef4c066c50fb54f9909606f113b701446e78b634f76615ff74a355314e44a"
+      "contentHash": "0b53d3e0b1b55776279d7045186d8b5c58dcd2a87b189417463b79b5250b2e47"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e66",
@@ -190,7 +190,7 @@
       "originalId": "6a6b691f4bf50146e9b95e60",
       "originalSlug": "maxkb-17-a788c9f1",
       "exportedSlug": "maxkb-17-a788c9f1",
-      "title": "17-工具页签与智能体节点",
+      "title": "17：工具页签与智能体节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -215,13 +215,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/17-工具页签与智能体节点.md",
       "summary": "本文整理 17-工具页签与智能体节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "3854e3fabf73a3b0faaced646da7525bb55937ca0852a77ed7497772862e6def"
+      "contentHash": "d636225df0d0272a1be013d970c77f51eb4bb69f08283d21319ce318ec0f22dc"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e5e",
       "originalSlug": "maxkb-16-mcp-cbdce98b",
       "exportedSlug": "maxkb-16-mcp-cbdce98b",
-      "title": "16-MCP调用与自定义工具节点",
+      "title": "16：MCP 调用与自定义工具节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -246,13 +246,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/16-MCP调用与自定义工具节点.md",
       "summary": "本文整理 16-MCP调用与自定义工具节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "35bd53ccfff17067af18c5bb4d6fcd1283ab6f02e5027fab94091fed0419d2d7"
+      "contentHash": "11015e9e82c0d116ba626aee82e5b7e494e2ef0862879ee5e0e0af2116db5a18"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e5c",
       "originalSlug": "maxkb-15-a52cbc78",
       "exportedSlug": "maxkb-15-a52cbc78",
-      "title": "15-变量聚合节点",
+      "title": "15：变量聚合节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -276,13 +276,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/15-变量聚合节点.md",
       "summary": "本文整理 15-变量聚合节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "7eb5fa14b904c30710e72206b2dbf5d5ad68eccf686a397fc6fd79f4b6e2b15b"
+      "contentHash": "efdd74e87ce86db077788d6e01e24185150d5bec2998781765d27f9e6a3d8a2e"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e5a",
       "originalSlug": "maxkb-14-9115df18",
       "exportedSlug": "maxkb-14-9115df18",
-      "title": "14-参数提取节点",
+      "title": "14：参数提取节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -306,13 +306,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/14-参数提取节点.md",
       "summary": "本文整理 14-参数提取节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "bedb5abe683bdcb4b67814bb2999e41431db6c046dd2cb0b7e75f9e03d9aba8f"
+      "contentHash": "98bf55467339f9f425411a720c483b2a7626b7c3028956de27515f22b850e6d0"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e58",
       "originalSlug": "maxkb-13-adde6b4f",
       "exportedSlug": "maxkb-13-adde6b4f",
-      "title": "13-变量拆分节点",
+      "title": "13：变量拆分节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -336,13 +336,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/13-变量拆分节点.md",
       "summary": "本文整理 13-变量拆分节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "298740d25c799a5c24020aa613eb4ddd355a4cde498ed33d7a23a0e7034dd3a3"
+      "contentHash": "a22d062d103b62c2dd890fc69f4d1a31673d360e0bf22e48dc0ab600c751b657"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e56",
       "originalSlug": "maxkb-12-dd68373f",
       "exportedSlug": "maxkb-12-dd68373f",
-      "title": "12-变量赋值节点",
+      "title": "12：变量赋值节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -366,13 +366,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/12-变量赋值节点.md",
       "summary": "本文整理 12-变量赋值节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "e9c77583cd9c91fea84dcadc879e6fcd0d3a2ca4d9b694a0669c7ecb2162af8b"
+      "contentHash": "de60f4a36f203cb05cdd5c533cf3987639efa5f6232ae9a33939ddd78012bed8"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e54",
       "originalSlug": "maxkb-11-dadf9c79",
       "exportedSlug": "maxkb-11-dadf9c79",
-      "title": "11-循环节点",
+      "title": "11：循环节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -396,13 +396,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/11-循环节点.md",
       "summary": "本文整理 11-循环节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "ef78abe3a9a4013c2d34e0b48b46aa32be6299809549bad117e20150f3d3fe7b"
+      "contentHash": "6d4fd8b1d0495c5950f5de489955ebfbd72a4d89edd7e13283797859da2262bc"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e52",
       "originalSlug": "maxkb-10-bc727f7b",
       "exportedSlug": "maxkb-10-bc727f7b",
-      "title": "10-指定回复节点",
+      "title": "10：指定回复节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -426,13 +426,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/10-指定回复节点.md",
       "summary": "本文整理 10-指定回复节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "e2ece67d736c4e9a67d147d543cedfca266ba9969a5dfa3e26a8787a0782023e"
+      "contentHash": "f12b6c837b4420d8a6a477bfaf80533bd455ae2379f94b2e147c940d03d4fa9c"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e50",
       "originalSlug": "maxkb-09-95eb5588",
       "exportedSlug": "maxkb-09-95eb5588",
-      "title": "09-表单收集节点",
+      "title": "09：表单收集节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -456,13 +456,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/09-表单收集节点.md",
       "summary": "本文整理 09-表单收集节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "b5686bd509e691868de91da2c9fcea7138aee6de9a19d22a5807990179b09221"
+      "contentHash": "22726c7676194ca1429dd4c2c4532918bf38d222e726daa2c889b42931615fff"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e4e",
       "originalSlug": "maxkb-08-d6705804",
       "exportedSlug": "maxkb-08-d6705804",
-      "title": "08-知识库相关节点速查",
+      "title": "08：知识库相关节点速查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -486,13 +486,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/08-知识库相关节点速查.md",
       "summary": "本文整理 08-知识库相关节点速查，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "202e3035c8333963b324abf06a40c06e84bafdb721b02afd63b613020335bce0"
+      "contentHash": "9271cd636d9e4ee4d85631b77d19b21d9072287e48e5cfcf9ee4378941487876"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e4c",
       "originalSlug": "maxkb-07-fd8035d1",
       "exportedSlug": "maxkb-07-fd8035d1",
-      "title": "07-判断器节点",
+      "title": "07：判断器节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -516,13 +516,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/07-判断器节点.md",
       "summary": "本文整理 07-判断器节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "cb1b7f16fc422267801b8efd408b9b2469d6b4a2f56d504c014feb879d155e99"
+      "contentHash": "478e4fdb10ae770d0f20fd09ebb8a3735601c9f52e4682b0cce872e18836745e"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e4a",
       "originalSlug": "maxkb-06-daf63cdf",
       "exportedSlug": "maxkb-06-daf63cdf",
-      "title": "06-问题优化节点",
+      "title": "06：问题优化节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -546,13 +546,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/06-问题优化节点.md",
       "summary": "本文整理 06-问题优化节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "80309ae95a95d01a9b62df292eabeef31e1f51b3798c90b084e0b574ce05910b"
+      "contentHash": "fc2f9a16184e0c6452258a507c9fc183ad74ec618087d42c4fdf5b5186cefe66"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e48",
       "originalSlug": "maxkb-05-ai-7faf066a",
       "exportedSlug": "maxkb-05-ai-7faf066a",
-      "title": "05-AI能力低优先级节点速查",
+      "title": "05：AI 能力低优先级节点速查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -576,13 +576,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/05-AI能力低优先级节点速查.md",
       "summary": "本文整理 05-AI能力低优先级节点速查，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "8f5183fbc1afc94672593b07e83bd9738b2621f08f9d9bd31b5789b9cd1e64c0"
+      "contentHash": "442df4d07e05564c94f619621f06c304fc0dd25e70d552ea494029f0ce828f8c"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e46",
       "originalSlug": "maxkb-04-9dac9da1",
       "exportedSlug": "maxkb-04-9dac9da1",
-      "title": "04-意图识别节点",
+      "title": "04：意图识别节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -606,13 +606,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/04-意图识别节点.md",
       "summary": "本文整理 04-意图识别节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "9ab67f144661d4ebb387ff244e4c363f5fe688e791f1b7c319bb0cb16679b2e2"
+      "contentHash": "3be308d0774a59d31ec19d200635d06be294bd467d9e15777359c6caf8bc2112"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e44",
       "originalSlug": "maxkb-03-ai-94d77b3d",
       "exportedSlug": "maxkb-03-ai-94d77b3d",
-      "title": "03-AI对话节点",
+      "title": "03：AI 对话节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -636,13 +636,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/03-AI对话节点.md",
       "summary": "本文整理 03-AI对话节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "5c53b1a4cfd7118560730850d90542e93c93fa9e42bfc599b549d65852c517f8"
+      "contentHash": "014b1e2f1650c9aad1fb40beb6548c0d02f2ee472c4e1883a1872e58963a2ea4"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e42",
       "originalSlug": "maxkb-02-245bdaaf",
       "exportedSlug": "maxkb-02-245bdaaf",
-      "title": "02-基本信息与开始节点",
+      "title": "02：基本信息与开始节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -666,13 +666,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/02-基本信息与开始节点.md",
       "summary": "本文整理 02-基本信息与开始节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "1d27e41b5aa6626d2e2de96973d873febe9fa2b31d63fa85f0e97bf18ee97281"
+      "contentHash": "6f50dc117815e55e09cb9303cfa0f012d40e17bbbb478f269e3b397d12d39d16"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e40",
       "originalSlug": "maxkb-01-f396d281",
       "exportedSlug": "maxkb-01-f396d281",
-      "title": "01-添加组件面板总览",
+      "title": "01：添加组件面板总览",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -695,13 +695,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/01-添加组件面板总览.md",
       "summary": "本文整理 01-添加组件面板总览，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "3981c1afef6c27e87fbe2707e17247d9d1e52d0e12b5698351e1ac7c518f0765"
+      "contentHash": "f620980e58b6d71edf49119d757762a5088d391eccd73740b61a2530bff59ea0"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e3e",
       "originalSlug": "maxkb-00-17697ac6",
       "exportedSlug": "maxkb-00-17697ac6",
-      "title": "00-空白高级智能体创建说明",
+      "title": "00：空白高级智能体创建说明",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -725,13 +725,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-空白高级智能体创建说明.md",
       "summary": "本文整理 00-空白高级智能体创建说明，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "7d01a259680f91d6b59c5122be319e9ed1ada1ca5ea48f938e815243f392a651"
+      "contentHash": "47b212ed76b07a6e38b8662ad94c5b9f04e7d6f7743f5d415d2d22d4754b2cd1"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e3c",
       "originalSlug": "maxkb-00-ai-c676db58",
       "exportedSlug": "maxkb-00-ai-c676db58",
-      "title": "00-AI创建节点必读",
+      "title": "00：AI 创建节点必读",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -755,13 +755,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/00-AI创建节点必读.md",
       "summary": "本文整理 00-AI创建节点必读，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "1b8a448160927496d87541c12db0c707a5e8efaeb5c8ae6f713427c4754a1276"
+      "contentHash": "fd66a143b1412f523baec0a31c5b20a4b9bb6995235214af38f4a2aa8e962489"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e3a",
       "originalSlug": "maxkb-02-bbb61e60",
       "exportedSlug": "maxkb-02-bbb61e60",
-      "title": "02-跨环境参数配置清单",
+      "title": "02：跨环境参数配置清单",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -784,13 +784,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/02-跨环境参数配置清单.md",
       "summary": "本文整理 02-跨环境参数配置清单，归纳 MaxKB 基础配置与变量相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "6cdcaf5c799f487ea9c039af6cab3d8ec8f621cb1a20b6c3f4d78ad9888796b0"
+      "contentHash": "8758af81de0b2b903215fa5b39168be923297e40ba7cdf04beeded918b990263"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e38",
       "originalSlug": "maxkb-01-4ac20739",
       "exportedSlug": "maxkb-01-4ac20739",
-      "title": "01-变量引用写法规范",
+      "title": "01：变量引用写法规范",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -813,13 +813,13 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量/01-变量引用写法规范.md",
       "summary": "本文整理 01-变量引用写法规范，归纳 MaxKB 基础配置与变量相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "5a999f550d1c2827d7065f1a02bd39b27c017be113a184081aa2985788a0d6a9"
+      "contentHash": "a53baa25a8d8083f6a182336e5af7e6f842b980648d7b82aca38e0525b8740e2"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e36",
       "originalSlug": "maxkb-00-maxkb-6d42583b",
       "exportedSlug": "maxkb-00-maxkb-6d42583b",
-      "title": "00-MaxKB 公共规则规范包使用说明",
+      "title": "00：MaxKB 公共规则规范包使用说明",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -841,7 +841,7 @@
       "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/00-MaxKB-公共规则规范包使用说明.md",
       "summary": "本文整理 00-MaxKB 公共规则规范包使用说明，归纳 MaxKB 公共规则相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "0dfac93d87df54655d0b7fbc496c74d07c13b2ac56707cf2aae3ba023b14bfe6"
+      "contentHash": "70f753f4bcbbbb6acbe1259aadfe4170a8108da11aabb100261f96ee6dc4ba4d"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e34",
@@ -5423,7 +5423,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabe80",
       "originalSlug": "ai-ai-catpaw-catpaw-e217fd6c",
       "exportedSlug": "ai-ai-catpaw-catpaw-e217fd6c",
-      "title": "第4篇：CatPaw上下文与预览调试",
+      "title": "第 4 篇：CatPaw 上下文与预览调试",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5446,13 +5446,13 @@
       "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第4篇：CatPaw上下文与预览调试.md",
       "summary": "围绕 CatPaw 公开手册中的上下文、索引、Docs、项目预览、页面元素编辑和 Browser Use 重新整理，重点讲清 AI 为什么会“懂项目”。",
       "cover": "",
-      "contentHash": "1de3fd3c2f109105ab6400a41ac21a0e040df945c0e97c20c7fe157c8fa69145"
+      "contentHash": "8131c5d236ab3153bb8d2395e69248daeeba325cae6e5ef84e3611db0593a69e"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabe76",
       "originalSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
       "exportedSlug": "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79",
-      "title": "第5篇：CatPaw Rules与MCP扩展",
+      "title": "第 5 篇：CatPaw Rules 与 MCP 扩展",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5475,13 +5475,13 @@
       "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第5篇：CatPaw-Rules与MCP扩展.md",
       "summary": "基于公开用户手册重新整理 CatPaw 的 Rules、索引兼容和 MCP 扩展能力，聚焦团队规范如何固化到 AI 工作流里。",
       "cover": "",
-      "contentHash": "7c9dc248b742b392756255dc29fbb5bc89c5d91ca3338f64848cf9097d6cf372"
+      "contentHash": "e2b1e9ccb031498c43dfe8ae6b00901eec705f717577d1fd7450c2db0b7ecd1f"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabe6c",
       "originalSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
       "exportedSlug": "ai-ai-catpaw-catpaw-d8f5ee08",
-      "title": "第2篇：CatPaw核心功能详解",
+      "title": "第 2 篇：CatPaw 核心功能详解",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5504,13 +5504,13 @@
       "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第2篇：CatPaw核心功能详解.md",
       "summary": "按公开用户手册重新整理 CatPaw 的核心功能，重点讲清 Tab 补全、NextEdit、Inline Chat、Codebase 和项目预览这些真正公开可验证的能力。",
       "cover": "",
-      "contentHash": "0e798cba8c3c3477bee10bf2768829d77dd776ab7eac4fddcf9e825d59acfb3c"
+      "contentHash": "40f22026a40034a2f1bf52b68e83bb05ff94a8611f26f549e995034a6916dffc"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabe62",
       "originalSlug": "ai-ai-catpaw-catpaw-ai-87736891",
       "exportedSlug": "ai-ai-catpaw-catpaw-ai-87736891",
-      "title": "第3篇：CatPaw AI助手使用指南",
+      "title": "第 3 篇：CatPaw AI 助手使用指南",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5533,13 +5533,13 @@
       "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第3篇：CatPaw-AI助手使用指南.md",
       "summary": "按公开用户手册梳理 CatPaw 侧边栏 AI 助手的真实用法，重点讲清 Ask、Agent、自定义 Agent、工具列表和对话管理。",
       "cover": "",
-      "contentHash": "a921928a6c2385798266eb593928a740bab389b807ea2b1839cce92d1c3d0d4b"
+      "contentHash": "8c0c5cdbb0c276a5d1de6fcc52a065825440401c38894540e991648c658cb75b"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabe58",
       "originalSlug": "ai-ai-catpaw-catpaw-2afcb185",
       "exportedSlug": "ai-ai-catpaw-catpaw-2afcb185",
-      "title": "第1篇：CatPaw介绍与快速上手",
+      "title": "第 1 篇：CatPaw 介绍与快速上手",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5561,7 +5561,7 @@
       "fileName": "AI相关/AI工具/AI编辑器流/CatPaw/第1篇：CatPaw介绍与快速上手.md",
       "summary": "基于 CatPaw 官网、公开用户手册和美团技术团队公开文章整理的入门版说明，聚焦产品定位、安装登录、基础体验与公开可验证信息。",
       "cover": "",
-      "contentHash": "a6e92bcfd61247cab3057b33099452c2438a2be4fdb7a0d22316c69949300b5b"
+      "contentHash": "5ca49908a100945825f56d28a2beb2b4c9c77ed0ade88cbf38de5c9b78cb6abd"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabe4e",

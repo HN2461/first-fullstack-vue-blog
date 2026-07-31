@@ -1,5 +1,5 @@
 ---
-title: "01-MaxKB渲染标签与快捷问题规则"
+title: "01：MaxKB 渲染标签与快捷问题规则"
 slug: "maxkb-01-maxkb-affa7c4c"
 summary: "本文整理 01-MaxKB渲染标签与快捷问题规则，归纳 MaxKB 接入与展示相关的配置方法、实践步骤、边界条件与常见注意事项。"
 category: "接入与展示"
@@ -15,8 +15,7 @@ originalSlug: "maxkb-01-maxkb-affa7c4c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 01-MaxKB渲染标签与快捷问题规则
-
+# 01：MaxKB 渲染标签与快捷问题规则
 > 文档状态（2026-07-19）：根据 FIT2CLOUD 社区帖《MaxKB 中的特殊标签》、当前环境实测和 MaxKB 官方更新日志整理。本文用于优化候选项、下一步引导、图表和 HTML 展示，不记录某个项目或某个智能体的完整链路。
 >
 > 安全基线：官方 v2.8.0 曾修复 `html_rander` 的存储型 XSS 和 `echarts_rander` 的代码注入问题。使用前必须确认目标环境版本和安全修复状态；正式环境只允许固定模板和经过转义、允许列表校验的变量内容。

@@ -1,5 +1,5 @@
 ---
-title: "第2篇：CatPaw核心功能详解"
+title: "第 2 篇：CatPaw 核心功能详解"
 slug: "ai-ai-catpaw-catpaw-d8f5ee08"
 summary: "按公开用户手册重新整理 CatPaw 的核心功能，重点讲清 Tab 补全、NextEdit、Inline Chat、Codebase 和项目预览这些真正公开可验证的能力。"
 category: "CatPaw"
@@ -17,8 +17,7 @@ originalSlug: "ai-ai-catpaw-catpaw-d8f5ee08"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第2篇：CatPaw核心功能详解
-
+# 第 2 篇：CatPaw 核心功能详解
 如果只看公开资料，CatPaw 最应该记住的核心模块其实就 4 个：
 
 - `Tab`
