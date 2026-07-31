@@ -8,14 +8,13 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "企业实战"
   - "知识库"
 status: "published"
-sortOrder: 160
+sortOrder: 150
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1ae"
 originalSlug: "fastapi-enterprise-knowledge-api-capstone"

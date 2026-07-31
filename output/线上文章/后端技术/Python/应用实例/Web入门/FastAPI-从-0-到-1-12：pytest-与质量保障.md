@@ -8,7 +8,6 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
@@ -16,7 +15,7 @@ tags:
   - "测试"
   - "CI"
 status: "published"
-sortOrder: 140
+sortOrder: 130
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1aa"
 originalSlug: "fastapi-pytest-quality-assurance"

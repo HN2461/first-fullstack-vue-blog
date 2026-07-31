@@ -8,14 +8,13 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "后端开发"
   - "学习路线"
 status: "published"
-sortOrder: 10
+sortOrder: 180
 cover: ""
 originalId: "6a6b635eb46b52abc5dc2863"
 originalSlug: "fastapi-zero-to-enterprise-index"

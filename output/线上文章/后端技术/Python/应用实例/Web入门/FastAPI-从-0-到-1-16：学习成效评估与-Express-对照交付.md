@@ -8,7 +8,6 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
@@ -16,7 +15,7 @@ tags:
   - "学习评估"
   - "企业开发"
 status: "published"
-sortOrder: 180
+sortOrder: 170
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1b2"
 originalSlug: "fastapi-zero-to-one-learning-outcome-express-delivery"

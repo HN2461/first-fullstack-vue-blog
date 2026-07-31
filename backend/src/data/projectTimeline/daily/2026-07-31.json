@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-07-31",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "article-authority-incremental-publish-workflow",
+      "title": "补齐文章权威快照对比与增量发布流程",
+      "detail": "1. 新增本地权威快照与目标数据库的逐篇对比命令，按 originalId 与 originalSlug 校验正文 hash、标题、摘要、分类、标签、状态、排序和发布时间。2. 将文章维护升级为上次确认基线、本地 Markdown 与线上数据库的三方比较：本地正文类变化可受控推送，线上分类、标签、排序、状态等运营变化可受控回写，本地与线上同字段双改或缺少基线 hash 时阻断人工处理。3. 正文同步只接受显式 slug，默认 dry-run，不创建或删除文章、分类、标签；生产写入要求目标参数、二次确认和 updatedAt 并发保护。4. 导出 manifest 新增摘要、封面和 Markdown 正文 hash，后续导出可形成完整内容基线；线上新导入文章列为仅线上记录，必须经导出审阅后纳入本地。5. 更新文章维护流程，明确全量快照重建只用于收敛、恢复和迁移，后台运营操作不能再被本地全字段同步覆盖。",
+      "occurredAt": "2026-07-31T11:40:00+08:00",
+      "category": "功能更新"
+    }
+  ]
+}

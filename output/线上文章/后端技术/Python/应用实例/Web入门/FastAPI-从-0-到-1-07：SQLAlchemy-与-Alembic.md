@@ -8,7 +8,6 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
@@ -16,7 +15,7 @@ tags:
   - "Alembic"
   - "PostgreSQL"
 status: "published"
-sortOrder: 90
+sortOrder: 80
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a0"
 originalSlug: "fastapi-sqlalchemy-alembic"

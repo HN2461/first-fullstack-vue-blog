@@ -8,14 +8,13 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "OpenAPI"
   - "异常处理"
 status: "published"
-sortOrder: 70
+sortOrder: 60
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19c"
 originalSlug: "fastapi-response-errors-openapi"

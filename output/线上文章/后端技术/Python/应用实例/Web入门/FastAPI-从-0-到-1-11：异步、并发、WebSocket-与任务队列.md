@@ -8,7 +8,6 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
@@ -16,7 +15,7 @@ tags:
   - "WebSocket"
   - "任务队列"
 status: "published"
-sortOrder: 130
+sortOrder: 120
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a8"
 originalSlug: "fastapi-async-concurrency-websocket-task-queue"

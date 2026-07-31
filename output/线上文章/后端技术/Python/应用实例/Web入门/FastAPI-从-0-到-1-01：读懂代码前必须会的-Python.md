@@ -8,13 +8,12 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "前置知识"
 status: "published"
-sortOrder: 30
+sortOrder: 20
 cover: ""
 originalId: "6a6b57a2fca6347974f5d194"
 originalSlug: "fastapi-python-reading-prerequisites"

@@ -1,4 +1,5 @@
 import archiver from 'archiver'
+import crypto from 'node:crypto'
 import fs from 'node:fs'
 import { once } from 'node:events'
 import { ARTICLE_STATUS } from '#constants/domain'
@@ -188,6 +189,11 @@ function buildManifestArticle(article, fileName, categoryPathMap, options) {
     originalSlug: article.slug,
     exportedSlug: buildExportSlug(article, options.slugStrategy, options.exportedAt),
     title: article.title,
+    summary: article.summary || '',
+    cover: article.cover || '',
+    contentHash: article.contentMode === 'markdown'
+      ? crypto.createHash('sha256').update(String(article.contentMarkdown || '').trim()).digest('hex')
+      : null,
     contentMode: article.contentMode || 'markdown',
     status: article.status,
     categoryPath,

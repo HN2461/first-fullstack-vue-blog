@@ -8,7 +8,6 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
@@ -16,7 +15,7 @@ tags:
   - "HTTPX"
   - "文件上传"
 status: "published"
-sortOrder: 120
+sortOrder: 110
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a6"
 originalSlug: "fastapi-files-background-httpx-redis"

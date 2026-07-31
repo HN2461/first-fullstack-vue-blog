@@ -8,7 +8,6 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
@@ -16,7 +15,7 @@ tags:
   - "事务"
   - "分页"
 status: "published"
-sortOrder: 100
+sortOrder: 90
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a2"
 originalSlug: "fastapi-crud-transactions-relations-pagination"

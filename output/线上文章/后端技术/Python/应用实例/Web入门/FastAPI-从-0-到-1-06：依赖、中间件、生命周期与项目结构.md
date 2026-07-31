@@ -8,14 +8,13 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "依赖注入"
   - "工程化"
 status: "published"
-sortOrder: 80
+sortOrder: 70
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19e"
 originalSlug: "fastapi-dependencies-middleware-lifespan-structure"

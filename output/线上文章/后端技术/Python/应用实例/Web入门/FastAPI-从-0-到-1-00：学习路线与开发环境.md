@@ -8,13 +8,12 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "开发环境"
 status: "published"
-sortOrder: 20
+sortOrder: 10
 cover: ""
 originalId: "6a6b57a2fca6347974f5d192"
 originalSlug: "fastapi-zero-to-one-roadmap-environment"

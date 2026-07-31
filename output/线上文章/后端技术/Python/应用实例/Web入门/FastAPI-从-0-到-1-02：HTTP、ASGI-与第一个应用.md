@@ -8,14 +8,13 @@ categoryPath:
   - "Python"
   - "应用实例"
   - "Web入门"
-  - "FastAPI从0到1"
 tags:
   - "Python"
   - "FastAPI"
   - "HTTP"
   - "ASGI"
 status: "published"
-sortOrder: 40
+sortOrder: 30
 cover: ""
 originalId: "6a6b57a2fca6347974f5d196"
 originalSlug: "fastapi-http-asgi-first-application"
