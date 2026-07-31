@@ -3,25 +3,19 @@ title: "第25篇：JavaScript 高频手写题思路总纲"
 slug: "js-js-0c45b118"
 summary: "先建立 JavaScript 高频手写题的知识地图与拆题方法，再逐个补写 bind、new、防抖、节流、柯里化、并发控制等专题实现。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "手写题"
   - "防抖节流"
   - "bind"
   - "面试题"
-status: "published"
+status: "draft"
 sortOrder: 240
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac44a"
 originalSlug: "js-js-0c45b118"
 originalStatus: "published"
-publishedAt: "2026-05-10T11:51:43.091Z"
-updatedAt: "2026-06-13T10:28:28.848Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第25篇：JavaScript 高频手写题思路总纲
 

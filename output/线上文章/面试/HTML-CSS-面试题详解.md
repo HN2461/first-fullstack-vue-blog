@@ -3,22 +3,18 @@ title: "HTML CSS 面试题详解"
 slug: "html-css-adfc1aa8"
 summary: "HTML 和 CSS 基础面试题，包括浏览器内核、DOCTYPE、布局模式等核心概念。"
 category: "面试"
-categoryPath:
-  - "面试"
 tags:
   - "HTML"
   - "CSS"
   - "浏览器内核"
   - "布局"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac674"
 originalSlug: "html-css-adfc1aa8"
 originalStatus: "published"
-publishedAt: "2026-05-12T13:10:54.706Z"
-updatedAt: "2026-06-21T12:23:01.818Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # HTML CSS 面试题详解
 

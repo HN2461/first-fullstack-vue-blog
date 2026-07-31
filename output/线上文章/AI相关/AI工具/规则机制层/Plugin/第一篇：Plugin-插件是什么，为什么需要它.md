@@ -3,11 +3,6 @@ title: "第一篇：Plugin 插件是什么，为什么需要它"
 slug: "ai-plugin-plugin-da2ad951"
 summary: "从“功能分散、难以共享”的痛点出发，解释 Plugin 的本质、解决的核心问题，横向对比 Plugin 与 Skill、MCP、Rules 的区别，并速览主流 AI 编程工具的 Plugin 支持现状。"
 category: "Plugin"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Plugin"
 tags:
   - "Plugin"
   - "插件"
@@ -16,15 +11,13 @@ tags:
   - "Skill"
   - "MCP"
   - "扩展机制"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfcc"
 originalSlug: "ai-plugin-plugin-da2ad951"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:18:17.434Z"
-updatedAt: "2026-07-30T14:24:30.248Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第一篇：Plugin 插件是什么，为什么需要它
 

@@ -2,27 +2,20 @@
 title: "FastAPI 从 0 到 1 15：高频问题、面试与交付清单"
 slug: "fastapi-faq-interview-delivery-checklist"
 summary: "汇总 FastAPI 企业开发高频概念、常见故障、面试表达、命令速查和上线前检查项。"
-category: "FastAPI从0到1"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "应用实例"
-  - "Web入门"
+category: "Web入门"
 tags:
   - "Python"
   - "FastAPI"
   - "面试"
   - "排障"
   - "检查清单"
-status: "published"
+status: "draft"
 sortOrder: 160
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1b0"
 originalSlug: "fastapi-faq-interview-delivery-checklist"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.210Z"
-updatedAt: "2026-07-30T14:44:46.210Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # FastAPI 从 0 到 1 15：高频问题、面试与交付清单
 

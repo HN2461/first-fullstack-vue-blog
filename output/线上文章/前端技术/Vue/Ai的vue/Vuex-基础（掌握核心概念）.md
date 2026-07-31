@@ -3,20 +3,14 @@ title: "Vuex 基础（掌握核心概念）"
 slug: "vue-ai-vue-vuex-7c0c8832"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 140
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26e"
 originalSlug: "vue-ai-vue-vuex-7c0c8832"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:14:11.770Z"
-updatedAt: "2026-06-19T06:25:04.821Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第17章 Vuex 基础（掌握核心概念）
 

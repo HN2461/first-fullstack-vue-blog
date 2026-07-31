@@ -3,10 +3,6 @@ title: "Git账号密码到底是什么：Git、平台认证、HTTPS、SSH、Toke
 slug: "git-git-git-https-ssh-token-45a9f853"
 summary: "面向刚接触代码托管平台的开发者，系统讲清 Git 本身、GitHub/Gitee/公司代码平台账号、HTTPS 与 SSH、Token、提交署名之间的区别，解决“拉代码时到底在验证谁”的常见困惑。"
 category: "Git"
-categoryPath:
-  - "常用缺易忘"
-  - "工具速查"
-  - "Git"
 tags:
   - "Git"
   - "GitHub"
@@ -14,15 +10,13 @@ tags:
   - "SSH"
   - "Token"
   - "认证"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6b2"
 originalSlug: "git-git-git-https-ssh-token-45a9f853"
 originalStatus: "published"
-publishedAt: "2026-05-16T15:32:12.565Z"
-updatedAt: "2026-06-13T10:28:29.864Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Git账号密码到底是什么：Git、平台认证、HTTPS、SSH、Token 全解
 

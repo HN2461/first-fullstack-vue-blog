@@ -3,22 +3,16 @@ title: "Python 零基础入门 16：小练习记账本"
 slug: "python-zero-mini-project-account-book"
 summary: "用前面学过的变量、输入、类型转换、条件判断、循环、列表、字典和文件写入，完成一个适合零基础的新手记账本练习，全程对照 JavaScript。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 170
 cover: ""
 originalId: "6a4a4304f9ac958d2917606a"
 originalSlug: "python-zero-mini-project-account-book"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.505Z"
-updatedAt: "2026-07-30T14:44:46.145Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 16：小练习记账本
 

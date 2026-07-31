@@ -3,9 +3,6 @@ title: "MessageServiceAdapter 与页面接入实战：统一入口、事件桥�
 slug: "websocket-messageserviceadapter-3203465d"
 summary: "这是 WebSocket 专题的第 6 篇，专门讲为什么还需要 MessageServiceAdapter 这一层，以及如何把连接管理、消息服务、事件桥接、回调注册和页面层接入时机统一成一个稳定入口。"
 category: "WebSocket"
-categoryPath:
-  - "项目复用技术"
-  - "WebSocket"
 tags:
   - "WebSocket"
   - "STOMP"
@@ -13,15 +10,13 @@ tags:
   - "页面接入"
   - "实时消息"
   - "Vue"
-status: "published"
+status: "draft"
 sortOrder: 110
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac72c"
 originalSlug: "websocket-messageserviceadapter-3203465d"
 originalStatus: "published"
-publishedAt: "2026-04-16T12:41:50.142Z"
-updatedAt: "2026-06-13T10:28:30.129Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # MessageServiceAdapter 与页面接入实战：统一入口、事件桥接与初始化时机
 

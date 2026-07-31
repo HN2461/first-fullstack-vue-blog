@@ -3,26 +3,19 @@ title: "第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）"
 slug: "ai-ai-windsurf-windsurf-2-0-devin-78b4664a"
 summary: "基于 Windsurf 官方 2026-05 最新 changelog 与官方文档，深度拆解 Windsurf 2.0 重大更新、Devin 云代理集成、Adaptive 智能路由、Agent Command Center、Spaces 任务管理等革命性功能，以及它们如何改变 AI 编程工作流。"
 category: "Windsurf"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Windsurf"
 tags:
   - "Windsurf"
   - "Windsurf 2.0"
   - "Devin"
   - "Adaptive"
   - "Agent Command Center"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf06"
 originalSlug: "ai-ai-windsurf-windsurf-2-0-devin-78b4664a"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.607Z"
-updatedAt: "2026-06-13T10:28:26.525Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第五篇：Windsurf 2.0 与 Devin 集成实战（2026-05）
 

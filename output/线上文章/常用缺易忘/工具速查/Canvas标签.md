@@ -3,19 +3,14 @@ title: "Canvas标签"
 slug: "canvas-7535da83"
 summary: ""
 category: "工具速查"
-categoryPath:
-  - "常用缺易忘"
-  - "工具速查"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac300"
 originalSlug: "canvas-7535da83"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.356Z"
-updatedAt: "2026-06-15T11:55:34.737Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # HTML5 Canvas 超详细入门笔记（通俗易懂版）
 

@@ -3,11 +3,6 @@ title: "第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序�
 slug: "ai-agent-claudecode-claudecode-76aa3c89"
 summary: "基于 2026-07-04 Claude Code 官方 Settings、Model Config、Permission Modes、Sandboxing、Statusline 与 Keybindings 文档复核更新，重点说明程序员最需要掌握的配置层级、CLAUDE.md 写法、模式选择、模型与 effort 理解以及常见误配排查。"
 category: "ClaudeCode"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "终端Agent流"
-  - "ClaudeCode"
 tags:
   - "Claude Code"
   - "Settings"
@@ -15,15 +10,13 @@ tags:
   - "权限模式"
   - "Model Config"
   - "配置作用域"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf46"
 originalSlug: "ai-agent-claudecode-claudecode-76aa3c89"
 originalStatus: "published"
-publishedAt: "2026-05-30T08:58:26.821Z"
-updatedAt: "2026-07-30T14:24:30.370Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）
 

@@ -3,25 +3,18 @@ title: "第三篇：Cursor 上下文管理：Rules、Memories 与 Notepads（202
 slug: "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392"
 summary: "基于 Cursor 官方 Working with Context、Rules、Memories、@Link、@Past Chats、Notepads 与 Commands 文档，整理长期规则、项目记忆和临时上下文的分层治理方法。"
 category: "Cursor"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Cursor"
 tags:
   - "Cursor"
   - "Rules"
   - "Memories"
   - "Notepads"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe96"
 originalSlug: "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.582Z"
-updatedAt: "2026-06-13T10:28:26.309Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第三篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）
 

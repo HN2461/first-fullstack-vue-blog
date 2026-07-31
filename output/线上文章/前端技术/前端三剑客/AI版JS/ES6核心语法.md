@@ -3,20 +3,14 @@ title: "ES6核心语法"
 slug: "js-es6-9a72088d"
 summary: ""
 category: "AI版JS"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "AI版JS"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 210
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0f4"
 originalSlug: "js-es6-9a72088d"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.490Z"
-updatedAt: "2026-06-15T14:50:24.956Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第19章　ES6核心语法
 

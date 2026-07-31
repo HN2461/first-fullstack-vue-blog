@@ -3,11 +3,6 @@ title: "第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践�
 slug: "ai-agent-claudecode-claudecode-8b6661f9"
 summary: "基于 2026-07-04 Claude Code 官方 Common Workflows、Best Practices、Commands 与 Interactive Mode 文档复核更新，重点补齐程序员最常见的看仓库、修 bug、做重构、补测试、改文档、并行任务与会话管理工作流，并提供可直接复用的 prompt 模板。"
 category: "ClaudeCode"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "终端Agent流"
-  - "ClaudeCode"
 tags:
   - "Claude Code"
   - "工作流"
@@ -15,15 +10,13 @@ tags:
   - "Debug"
   - "Refactor"
   - "Verify"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf22"
 originalSlug: "ai-agent-claudecode-claudecode-8b6661f9"
 originalStatus: "published"
-publishedAt: "2026-05-30T08:58:26.838Z"
-updatedAt: "2026-07-30T14:24:30.362Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）
 

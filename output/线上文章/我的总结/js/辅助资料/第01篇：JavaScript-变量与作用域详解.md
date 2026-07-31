@@ -3,10 +3,6 @@ title: "第01篇：JavaScript 变量与作用域详解"
 slug: "js-js-javascript-4f1a5c58"
 summary: "JavaScript变量声明方式（var/let/const）的核心特性、作用域规则、提升机制及最佳实践。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "变量"
@@ -14,15 +10,13 @@ tags:
   - "var"
   - "let"
   - "const"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac38c"
 originalSlug: "js-js-javascript-4f1a5c58"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:25:33.654Z"
-updatedAt: "2026-06-22T02:07:34.272Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第01篇：JavaScript 变量与作用域详解
 

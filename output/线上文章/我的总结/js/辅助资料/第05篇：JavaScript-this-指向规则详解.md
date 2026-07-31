@@ -3,24 +3,18 @@ title: "第05篇：JavaScript this 指向规则详解"
 slug: "js-js-this-515c53fa"
 summary: "JavaScript this 指向的完整规则，包括普通函数调用、方法调用、构造函数调用和箭头函数特性。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "this"
   - "函数调用"
   - "箭头函数"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3ac"
 originalSlug: "js-js-this-515c53fa"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:25:33.658Z"
-updatedAt: "2026-06-13T10:28:28.590Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第05篇：JavaScript this 指向规则详解
 

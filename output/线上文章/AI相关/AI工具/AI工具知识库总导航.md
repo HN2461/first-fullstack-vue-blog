@@ -3,22 +3,17 @@ title: "AI工具知识库总导航"
 slug: "ai-cd17bf62"
 summary: "AI工具知识库的五层架构总导航，按\"主类按本质，子类按工具，文章按场景\"组织，帮助快速定位到所需内容。"
 category: "AI工具"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
 tags:
   - "导航"
   - "AI工具"
   - "知识库"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe4e"
 originalSlug: "ai-cd17bf62"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.569Z"
-updatedAt: "2026-06-13T10:28:26.148Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # AI工具知识库总导航
 

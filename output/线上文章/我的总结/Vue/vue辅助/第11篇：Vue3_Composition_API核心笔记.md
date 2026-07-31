@@ -3,25 +3,19 @@ title: "第11篇：Vue3_Composition_API核心笔记"
 slug: "vue-vue-vue3-composition-api-4d51a7a6"
 summary: "Vue3 Composition API 完整指南：setup、ref/reactive、computed、watch/watchEffect、生命周期、自定义 Hook 及常见易错点总结。"
 category: "vue辅助"
-categoryPath:
-  - "我的总结"
-  - "Vue"
-  - "vue辅助"
 tags:
   - "Vue3"
   - "Composition API"
   - "setup"
   - "ref"
   - "reactive"
-status: "published"
+status: "draft"
 sortOrder: 110
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4dc"
 originalSlug: "vue-vue-vue3-composition-api-4d51a7a6"
 originalStatus: "published"
-publishedAt: "2026-05-09T12:50:17.711Z"
-updatedAt: "2026-06-13T10:28:29.108Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 一、setup 函数
 ### 1.1 基本使用

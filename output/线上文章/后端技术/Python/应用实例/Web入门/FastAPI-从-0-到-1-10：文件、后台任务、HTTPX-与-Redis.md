@@ -2,27 +2,20 @@
 title: "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis"
 slug: "fastapi-files-background-httpx-redis"
 summary: "处理文件上传下载、轻量后台任务、外部 HTTP 服务、缓存、限流、幂等和分布式短期状态。"
-category: "FastAPI从0到1"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "应用实例"
-  - "Web入门"
+category: "Web入门"
 tags:
   - "Python"
   - "FastAPI"
   - "Redis"
   - "HTTPX"
   - "文件上传"
-status: "published"
+status: "draft"
 sortOrder: 110
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a6"
 originalSlug: "fastapi-files-background-httpx-redis"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.200Z"
-updatedAt: "2026-07-30T14:44:46.200Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis
 

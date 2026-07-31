@@ -3,20 +3,14 @@ title: "AI技术知识体系：从核心概念到工程化实战"
 slug: "ai-knowledge-system-from-concepts-to-engineering"
 summary: "系统整理 LLM、Agent、RAG、向量化等 AI 核心概念，以及 cURL、OpenAI 协议、Token 计费、错误处理、缓存监控等工程化实战知识，帮助开发者建立从\"是什么\"到\"怎么用\"的完整 AI 应用开发知识体系。"
 category: "开发基础"
-categoryPath:
-  - "AI相关"
-  - "AI开发"
-  - "开发基础"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a4a4564f9ac958d29178027"
 originalSlug: "ai-knowledge-system-from-concepts-to-engineering"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:55:50.515Z"
-updatedAt: "2026-07-05T11:55:50.516Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # AI技术知识体系：从核心概念到工程化实战
 

@@ -3,22 +3,16 @@ title: "Python 零基础入门 14：函数 function"
 slug: "python-zero-functions"
 summary: "解释函数为什么存在，讲解 def、参数、返回值、默认参数、关键字参数、作用域，全程对照 JavaScript。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 150
 cover: ""
 originalId: "6a4a4304f9ac958d29176062"
 originalSlug: "python-zero-functions"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.511Z"
-updatedAt: "2026-07-30T14:44:46.142Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 14：函数 function
 

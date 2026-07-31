@@ -3,20 +3,14 @@ title: "Vue面试题凝练版"
 slug: "vue-vue-vue-80f4d76c"
 summary: ""
 category: "vue面试题"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue面试题"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2e0"
 originalSlug: "vue-vue-vue-80f4d76c"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:29:33.808Z"
-updatedAt: "2026-06-13T10:28:28.309Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 #  Vue 面试题核心内容，供复习和面试时参考：
 ---

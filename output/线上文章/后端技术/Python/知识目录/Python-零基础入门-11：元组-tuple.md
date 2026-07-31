@@ -3,22 +3,16 @@ title: "Python 零基础入门 11：元组 tuple"
 slug: "python-zero-tuples"
 summary: "讲解元组是什么、元组和列表的区别、元组的创建和操作、元组不可变意味着什么、元组解包、命名元组，全程对照 JavaScript 中的 const 数组与 Object.freeze。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 120
 cover: ""
 originalId: "6a4a4304f9ac958d29176056"
 originalSlug: "python-zero-tuples"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.520Z"
-updatedAt: "2026-07-30T14:44:46.137Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 11：元组 tuple
 

@@ -3,26 +3,19 @@ title: "第2篇：CatPaw核心功能详解"
 slug: "ai-ai-catpaw-catpaw-d8f5ee08"
 summary: "按公开用户手册重新整理 CatPaw 的核心功能，重点讲清 Tab 补全、NextEdit、Inline Chat、Codebase 和项目预览这些真正公开可验证的能力。"
 category: "CatPaw"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "CatPaw"
 tags:
   - "CatPaw"
   - "代码补全"
   - "NextEdit"
   - "Inline Chat"
   - "项目预览"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe6c"
 originalSlug: "ai-ai-catpaw-catpaw-d8f5ee08"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.575Z"
-updatedAt: "2026-06-17T12:36:31.969Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第2篇：CatPaw核心功能详解
 

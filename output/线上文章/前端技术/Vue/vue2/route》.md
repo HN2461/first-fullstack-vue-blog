@@ -3,20 +3,14 @@ title: "route》"
 slug: "vue-vue2-route-e54b9784"
 summary: ""
 category: "vue2"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue2"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a8"
 originalSlug: "vue-vue2-route-e54b9784"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:27:31.194Z"
-updatedAt: "2026-06-17T12:38:11.768Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 6.1 传统web应用vs单页面web应用
 ### 6.1.1、传统web应用

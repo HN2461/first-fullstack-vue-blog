@@ -3,20 +3,14 @@ title: "企业微信网页授权登录_PC扫码登录_ww.createWWLoginPanel"
 slug: "pc-pc-ww-createwwloginpanel-55975a93"
 summary: ""
 category: "企业微信"
-categoryPath:
-  - "项目复用技术"
-  - "第三方登录对接"
-  - "企业微信"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7d2"
 originalSlug: "pc-pc-ww-createwwloginpanel-55975a93"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.464Z"
-updatedAt: "2026-06-13T14:03:18.908Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 企业微信网页授权登录\_PC扫码登录\_ww.createWWLoginPanel
 

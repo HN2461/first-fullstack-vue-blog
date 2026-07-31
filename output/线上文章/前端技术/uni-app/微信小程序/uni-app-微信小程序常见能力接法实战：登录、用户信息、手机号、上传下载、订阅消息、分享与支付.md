@@ -3,25 +3,19 @@ title: "uni-app 微信小程序常见能力接法实战：登录、用户信息�
 slug: "uni-app-uni-app-59f5c8d0"
 summary: "面向长期维护公司 uni-app 项目的开发者，梳理微信小程序里最常见的能力接法，讲清登录、头像昵称、手机号、上传下载、订阅消息、分享与支付的稳妥实践。"
 category: "微信小程序"
-categoryPath:
-  - "前端技术"
-  - "uni-app"
-  - "微信小程序"
 tags:
   - "uni-app"
   - "微信小程序"
   - "登录"
   - "订阅消息"
   - "支付"
-status: "published"
+status: "draft"
 sortOrder: 80
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac210"
 originalSlug: "uni-app-uni-app-59f5c8d0"
 originalStatus: "published"
-publishedAt: "2026-04-03T13:52:03.314Z"
-updatedAt: "2026-06-13T10:28:27.832Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # uni-app 微信小程序常见能力接法实战：登录、用户信息、手机号、上传下载、订阅消息、分享与支付
 

@@ -3,18 +3,14 @@ title: "uniapp 对接自定义 jar 包：从零到真机的完整实操指南"
 slug: "uniapp-jar"
 summary: ""
 category: "安卓APK"
-categoryPath:
-  - "安卓APK"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a58a6f8c48586f4dec3c348"
 originalSlug: "uniapp-jar"
 originalStatus: "published"
-publishedAt: "2026-07-30T01:58:28.361Z"
-updatedAt: "2026-07-30T01:58:28.361Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 写在前面：先理解一个核心原理
 

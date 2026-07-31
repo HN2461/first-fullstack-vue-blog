@@ -3,10 +3,6 @@ title: "MongoDB 详解第五篇：关联查询与聚合管道"
 slug: "node-js-mongodb-fbe72b64"
 summary: "从项目视角讲清楚什么时候用嵌入、什么时候用引用、什么时候用 populate，什么时候应该上聚合管道和 $lookup，帮助你把复杂查询和统计逻辑做对。"
 category: "MongoDB详解"
-categoryPath:
-  - "后端技术"
-  - "Node.js"
-  - "MongoDB详解"
 tags:
   - "MongoDB"
   - "Mongoose"
@@ -14,15 +10,13 @@ tags:
   - "聚合管道"
   - "lookup"
   - "group"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac152"
 originalSlug: "node-js-mongodb-fbe72b64"
 originalStatus: "published"
-publishedAt: "2026-06-07T06:40:12.479Z"
-updatedAt: "2026-06-16T14:06:50.390Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # MongoDB 详解第五篇：关联查询与聚合管道
 

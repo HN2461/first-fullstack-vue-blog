@@ -3,9 +3,6 @@ title: "uni-app 人脸摄像机封装实战：从能力边界到可复用模板"
 slug: "uni-app-uni-app-b0f67933"
 summary: "从 uni-app 和微信小程序的人脸识别能力边界讲起，系统梳理相机、权限、图片转换、识别流程与业务适配该如何拆分，并给出可直接复制使用的目录结构、工具函数、页面模板、接入顺序与排障方法。"
 category: "uni-app"
-categoryPath:
-  - "项目复用技术"
-  - "uni-app"
 tags:
   - "uni-app"
   - "微信小程序"
@@ -13,15 +10,13 @@ tags:
   - "摄像头"
   - "组合式函数"
   - "工程化"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6d6"
 originalSlug: "uni-app-uni-app-b0f67933"
 originalStatus: "published"
-publishedAt: "2026-04-16T12:41:50.147Z"
-updatedAt: "2026-06-13T10:28:29.949Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # uni-app 人脸摄像机封装实战：从能力边界到可复用模板
 

@@ -3,26 +3,17 @@ title: "01-MaxKB渲染标签与快捷问题规则"
 slug: "maxkb-01-maxkb-affa7c4c"
 summary: "本文整理 01-MaxKB渲染标签与快捷问题规则，归纳 MaxKB 接入与展示相关的配置方法、实践步骤、边界条件与常见注意事项。"
 category: "接入与展示"
-categoryPath:
-  - "AI相关"
-  - "AI开发"
-  - "AI应用开发平台"
-  - "MaxKB"
-  - "公共规则"
-  - "接入与展示"
 tags:
   - "MaxKB"
   - "AI应用开发"
   - "接入与展示"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e68"
 originalSlug: "maxkb-01-maxkb-affa7c4c"
 originalStatus: "published"
-publishedAt: "2026-07-30T15:09:19.548Z"
-updatedAt: "2026-07-30T15:09:19.548Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 01-MaxKB渲染标签与快捷问题规则
 

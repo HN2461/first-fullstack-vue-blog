@@ -3,25 +3,19 @@ title: "第10篇：JavaScript 字符串详解"
 slug: "js-b45cfac4"
 summary: "系统梳理 JavaScript 字符串的创建、查找、截取、替换、Unicode 处理与常见 API，重点纠正常见误区并补充官方参考资料。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "字符串"
   - "String"
   - "Unicode"
   - "正则表达式"
-status: "published"
+status: "draft"
 sortOrder: 100
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3d8"
 originalSlug: "js-b45cfac4"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:25:33.664Z"
-updatedAt: "2026-06-13T14:09:43.228Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第10篇：JavaScript 字符串详解
 

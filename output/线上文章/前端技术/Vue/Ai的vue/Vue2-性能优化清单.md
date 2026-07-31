@@ -3,20 +3,14 @@ title: "Vue2 性能优化清单"
 slug: "vue-ai-vue-vue2-925ccc25"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac27a"
 originalSlug: "vue-ai-vue-vue2-925ccc25"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:17:53.472Z"
-updatedAt: "2026-06-13T10:28:28.027Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第22章 Vue2 性能优化清单
 

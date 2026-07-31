@@ -3,20 +3,14 @@ title: ".5、mixins&plugins&scoped》"
 slug: "vue-vue2-5-mixins-plugins-scoped-febd1092"
 summary: ""
 category: "vue2"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue2"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2ca"
 originalSlug: "vue-vue2-5-mixins-plugins-scoped-febd1092"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:27:08.964Z"
-updatedAt: "2026-06-17T12:38:14.168Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 3.5、mixins&plugins&scoped
 ## 3.5.1、mixins

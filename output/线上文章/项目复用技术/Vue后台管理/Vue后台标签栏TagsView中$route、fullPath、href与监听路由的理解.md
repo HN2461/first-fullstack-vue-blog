@@ -3,24 +3,19 @@ title: "Vue后台标签栏TagsView中$route、fullPath、href与监听路由的�
 slug: "vue-vue-tagsview-route-fullpath-href-53186ab7"
 summary: "从后台管理项目的 tags.vue 源码出发，梳理 $route 监听、menu 补首页标签、fullPath 作为标签唯一标识、href 新窗口兜底等关键知识点，适合第一次系统接触 Vue Router 运行时路由对象时快速建立整体理解。"
 category: "Vue后台管理"
-categoryPath:
-  - "项目复用技术"
-  - "Vue后台管理"
 tags:
   - "Vue"
   - "Vue Router"
   - "TagsView"
   - "后台管理"
   - "路由"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6fe"
 originalSlug: "vue-vue-tagsview-route-fullpath-href-53186ab7"
 originalStatus: "published"
-publishedAt: "2026-05-21T11:42:25.935Z"
-updatedAt: "2026-06-13T10:28:30.025Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解
 

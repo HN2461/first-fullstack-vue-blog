@@ -3,11 +3,6 @@ title: "第一篇：Token、输入输出与缓存——AI开发计费全解（20
 slug: "ai-token-ai-72feffb1"
 summary: "面向 AI 代码开发新手，系统讲解 Token 是什么、输入输出如何计费、上下文窗口的限制、缓存如何大幅降低成本，以及中转站的作用与选择要点。基于 2026-04 最新定价数据。"
 category: "基础与计费"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "辅助工具层"
-  - "基础与计费"
 tags:
   - "Token"
   - "上下文窗口"
@@ -15,15 +10,13 @@ tags:
   - "AI API"
   - "中转站"
   - "计费"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac084"
 originalSlug: "ai-token-ai-72feffb1"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.768Z"
-updatedAt: "2026-06-13T10:28:27.327Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第一篇：Token、输入输出与缓存——AI开发计费全解（2026-04）
 

@@ -3,9 +3,6 @@ title: "第五篇：npm 包管理与 nvm 版本管理"
 slug: "node-js-npm-nvm-0ada380c"
 summary: "掌握 npm 核心命令、package.json 各字段含义、semver 版本规则、本地与全局包的区别，以及用 nvm 管理多个 Node.js 版本。"
 category: "Node.js"
-categoryPath:
-  - "后端技术"
-  - "Node.js"
 tags:
   - "Node.js"
   - "npm"
@@ -13,15 +10,13 @@ tags:
   - "package.json"
   - "包管理"
   - "版本管理"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1da"
 originalSlug: "node-js-npm-nvm-0ada380c"
 originalStatus: "published"
-publishedAt: "2026-06-05T11:32:01.047Z"
-updatedAt: "2026-06-13T10:28:27.772Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第五篇：npm 包管理与 nvm 版本管理
 

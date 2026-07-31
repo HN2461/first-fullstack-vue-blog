@@ -3,22 +3,16 @@ title: "Python 零基础入门 01：Python 是什么"
 slug: "python-zero-what-is-python"
 summary: "用小白能理解的方式解释 Python 是什么、它能做什么、为什么适合入门，并把 Python 与前端 JavaScript 的定位、运行环境、输出方式和常见用途放在一起对比。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a4a4304f9ac958d2917602e"
 originalSlug: "python-zero-what-is-python"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.621Z"
-updatedAt: "2026-07-30T14:44:46.113Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 01：Python 是什么
 

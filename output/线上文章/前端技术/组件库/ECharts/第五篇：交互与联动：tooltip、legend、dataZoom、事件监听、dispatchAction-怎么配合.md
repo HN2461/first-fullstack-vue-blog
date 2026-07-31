@@ -3,26 +3,20 @@ title: "第五篇：交互与联动：tooltip、legend、dataZoom、事件监听
 slug: "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方 Event and Action、Legend、Axis、Chart Size、Intelligent Pointer Snapping 与 Feature 文档，系统讲清 tooltip、legend、dataZoom、事件监听、dispatchAction、双轴和移动端指针优化，帮助前端快速做出真正能分析、能联动的后台图表。"
 category: "ECharts"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ECharts"
 tags:
   - "ECharts"
-  - "tooltip"
   - "legend"
   - "dataZoom"
   - "dispatchAction"
   - "图表联动"
-status: "published"
+  - "Tooltip"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5e2"
 originalSlug: "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a"
 originalStatus: "published"
-publishedAt: "2026-05-02T08:36:26.616Z"
-updatedAt: "2026-06-13T14:09:43.188Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction 怎么配合
 

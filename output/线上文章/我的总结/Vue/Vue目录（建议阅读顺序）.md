@@ -3,22 +3,17 @@ title: "Vue目录（建议阅读顺序）"
 slug: "vue-vue-1cec562a"
 summary: "本页仅作为目录使用，按1到13依次阅读。包含插值语法、指令、响应式原理、组件配置项、class与style绑定、生命周期、组件通讯、mixins/plugins/scoped、Axios、Router、Vue3 Composition API等核心内容。"
 category: "Vue"
-categoryPath:
-  - "我的总结"
-  - "Vue"
 tags:
   - "Vue"
   - "目录"
   - "学习路线"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac47a"
 originalSlug: "vue-vue-1cec562a"
 originalStatus: "published"
-publishedAt: "2026-05-10T11:49:15.106Z"
-updatedAt: "2026-06-13T10:28:28.970Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## Vue 目录（建议阅读顺序）
 本页仅作为目录使用，按 1 到 13 依次阅读。

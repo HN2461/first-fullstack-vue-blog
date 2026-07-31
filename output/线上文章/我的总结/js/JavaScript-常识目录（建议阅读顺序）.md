@@ -3,22 +3,17 @@ title: "JavaScript 常识目录（建议阅读顺序）"
 slug: "js-js-js-d7c0a532"
 summary: "按 1 到 25 的顺序整理 JavaScript 常识专题入口，方便从基础概念一路串到进阶专题与面试补强专题。"
 category: "js"
-categoryPath:
-  - "我的总结"
-  - "js"
 tags:
   - "JavaScript"
   - "目录"
   - "学习路线"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac37e"
 originalSlug: "js-js-js-d7c0a532"
 originalStatus: "published"
-publishedAt: "2026-05-10T11:51:43.087Z"
-updatedAt: "2026-06-15T14:49:06.040Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # JavaScript 常识目录（建议阅读顺序）
 

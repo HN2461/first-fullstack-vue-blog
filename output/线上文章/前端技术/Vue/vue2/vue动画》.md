@@ -3,20 +3,14 @@ title: "vue动画》"
 slug: "vue-vue2-vue-2df26895"
 summary: ""
 category: "vue2"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue2"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2aa"
 originalSlug: "vue-vue2-vue-2df26895"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:27:37.359Z"
-updatedAt: "2026-06-19T06:25:12.580Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 1、动画实现
 （1）、操作css的transition或animation

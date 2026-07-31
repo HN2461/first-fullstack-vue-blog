@@ -3,20 +3,14 @@ title: "html+css笔记"
 slug: "javascriptes6-html-css-ea679145"
 summary: ""
 category: "青鸟版三剑客"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "青鸟版三剑客"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0d8"
 originalSlug: "javascriptes6-html-css-ea679145"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.511Z"
-updatedAt: "2026-06-30T07:47:36.446Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 **网页架构**
 

@@ -1,5 +1,6 @@
 import crypto from 'node:crypto'
 import { Tag } from '#modules/content/models/Tag.js'
+import { Article } from '#modules/content/models/Article.js'
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -141,6 +142,12 @@ export async function deleteTag(id) {
     throw createHttpError(404, 'TAG_NOT_FOUND', '标签不存在')
   }
 
+  // 回收站文章仍可恢复，不能让恢复后的文章指向已删除标签。
+  const articleCount = await Article.countDocuments({ tags: tag._id })
+  if (articleCount > 0) {
+    throw createHttpError(409, 'TAG_IN_USE', `该标签仍被 ${articleCount} 篇文章使用，不能直接删除`)
+  }
+
   await Tag.findByIdAndDelete(id)
   return { id, deleted: true }
 }
@@ -148,6 +155,12 @@ export async function deleteTag(id) {
 export async function batchDeleteTags(ids) {
   if (!Array.isArray(ids) || ids.length === 0) {
     throw createHttpError(400, 'TAG_IDS_REQUIRED', '请选择要删除的标签')
+  }
+
+  // 批量删除同样要覆盖回收站文章，避免产生悬挂标签引用。
+  const articleCount = await Article.countDocuments({ tags: { $in: ids } })
+  if (articleCount > 0) {
+    throw createHttpError(409, 'TAG_IN_USE', `选中标签仍被 ${articleCount} 篇文章使用，不能直接删除`)
   }
 
   const result = await Tag.deleteMany({ _id: { $in: ids } })

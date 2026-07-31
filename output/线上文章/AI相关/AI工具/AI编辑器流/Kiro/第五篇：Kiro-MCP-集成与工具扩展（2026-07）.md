@@ -3,25 +3,18 @@ title: "第五篇：Kiro MCP 集成与工具扩展（2026-07）"
 slug: "ai-ai-kiro-kiro-mcp-d2d54239"
 summary: "详解 Kiro 当前 MCP 集成：正确配置路径、本地与远程服务器、OAuth/PKCE、环境变量审批、配置合并、工具权限、prompts/resources，以及 MCP、Powers 和内置 Web 工具的选择。"
 category: "Kiro"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Kiro"
 tags:
   - "Kiro"
   - "MCP"
   - "Model Context Protocol"
   - "工具扩展"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabed8"
 originalSlug: "ai-ai-kiro-kiro-mcp-d2d54239"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.592Z"
-updatedAt: "2026-07-30T14:24:30.491Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第五篇：Kiro MCP 集成与工具扩展（2026-07）
 

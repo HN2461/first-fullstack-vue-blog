@@ -3,20 +3,14 @@ title: "BOM：浏览器对象模型"
 slug: "js-bom-8c92d7da"
 summary: ""
 category: "AI版JS"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "AI版JS"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 260
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ea"
 originalSlug: "js-bom-8c92d7da"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.487Z"
-updatedAt: "2026-06-15T14:50:24.931Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第14章　BOM：浏览器对象模型
 

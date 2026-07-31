@@ -3,24 +3,19 @@ title: "Axios请求库实战说明：请求封装、拦截器与文件上传"
 slug: "js-axios-61754a5a"
 summary: "围绕 Axios 这类前端常用请求库，整理它适合解决什么问题、为什么项目里几乎都会封装一层、实例与拦截器怎么理解、文件上传怎么接，以及在 Vue 项目里最常见的使用方式和注意事项。"
 category: "JS库"
-categoryPath:
-  - "项目复用技术"
-  - "JS库"
 tags:
   - "JavaScript"
   - "JS库"
   - "Axios"
   - "Vue"
   - "HTTP请求"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6c2"
 originalSlug: "js-axios-61754a5a"
 originalStatus: "published"
-publishedAt: "2026-05-21T13:22:10.960Z"
-updatedAt: "2026-06-13T10:28:29.904Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Axios请求库实战说明：请求封装、拦截器与文件上传
 

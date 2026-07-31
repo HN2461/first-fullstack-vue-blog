@@ -3,10 +3,6 @@ title: "接口与会话控制详解第三篇：Cookie 原理与实战"
 slug: "node-js-cookie-1bb83e69"
 summary: "深入理解 Cookie 的工作原理，掌握在 Express 中设置、读取、删除 Cookie 的完整操作，以及 httpOnly、secure、sameSite、signed 等安全属性的作用和使用场景。"
 category: "接口与会话控制详解"
-categoryPath:
-  - "后端技术"
-  - "Node.js"
-  - "接口与会话控制详解"
 tags:
   - "Node.js"
   - "Cookie"
@@ -14,15 +10,13 @@ tags:
   - "会话控制"
   - "安全"
   - "cookie-parser"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac180"
 originalSlug: "node-js-cookie-1bb83e69"
 originalStatus: "published"
-publishedAt: "2026-04-21T13:17:09.322Z"
-updatedAt: "2026-06-13T10:28:27.666Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 接口与会话控制详解第三篇：Cookie 原理与实战
 

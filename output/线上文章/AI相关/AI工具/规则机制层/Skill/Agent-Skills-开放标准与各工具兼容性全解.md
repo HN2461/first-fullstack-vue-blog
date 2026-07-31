@@ -3,11 +3,6 @@ title: "Agent Skills 开放标准与各工具兼容性全解"
 slug: "ai-skill-agentskills-8ff13a14"
 summary: "按 2026-07-04 重新复核 Agent Skills 的通用层与工具差异，重点说明哪些属于可移植基础层、哪些是 Kiro / Codex / Cursor / Claude 当前官方支持的 skills 能力，以及哪些旧说法需要纠正。"
 category: "Skill"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Skill"
 tags:
   - "Agent Skills"
   - "SKILL.md"
@@ -16,15 +11,13 @@ tags:
   - "Cursor"
   - "Codex"
   - "兼容性"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac014"
 originalSlug: "ai-skill-agentskills-8ff13a14"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:29:34.177Z"
-updatedAt: "2026-07-30T14:24:30.323Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Agent Skills 开放标准与各工具兼容性全解
 

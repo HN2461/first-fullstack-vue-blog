@@ -3,20 +3,14 @@ title: "CSS进阶_深入浏览器与工程化"
 slug: "css-css-2337b3f9"
 summary: ""
 category: "AI版CSS"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "AI版CSS"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d30eeb480df92ce002e2f"
 originalSlug: "css-css-2337b3f9"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.352Z"
-updatedAt: "2026-06-13T10:29:02.077Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第六篇 CSS 进阶：深入浏览器与工程化
 

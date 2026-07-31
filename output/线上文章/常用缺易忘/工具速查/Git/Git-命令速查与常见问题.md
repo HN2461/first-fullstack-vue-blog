@@ -3,25 +3,19 @@ title: "Git 命令速查与常见问题"
 slug: "git-5aba4c87"
 summary: "从 VSCode 插件点按钮过渡到命令行操作的 Git 速查手册，涵盖日常命令、分支管理、撤销回退、以及国内连不上 GitHub 的解决方案。"
 category: "Git"
-categoryPath:
-  - "常用缺易忘"
-  - "工具速查"
-  - "Git"
 tags:
   - "Git"
   - "命令行"
   - "GitHub"
   - "版本控制"
   - "问题排查"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac308"
 originalSlug: "git-5aba4c87"
 originalStatus: "published"
-publishedAt: "2026-06-02T12:58:59.971Z"
-updatedAt: "2026-07-29T10:05:01.968Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Git 命令速查与常见问题
 

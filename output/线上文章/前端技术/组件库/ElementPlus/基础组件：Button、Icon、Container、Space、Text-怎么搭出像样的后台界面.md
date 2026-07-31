@@ -3,25 +3,19 @@ title: "基础组件：Button、Icon、Container、Space、Text 怎么搭出像�
 slug: "element-plus-elementplus-button-icon-container-space-text-ede7df67"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，系统整理 Button、Icon、Container、Space、Text 这些基础组件在后台页面里的常见用法和搭配思路。"
 category: "ElementPlus"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Button"
   - "Icon"
   - "Container"
   - "Space"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac610"
 originalSlug: "element-plus-elementplus-button-icon-container-space-text-ede7df67"
 originalStatus: "published"
-publishedAt: "2026-04-29T12:51:05.550Z"
-updatedAt: "2026-06-13T10:28:29.581Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 基础组件：Button、Icon、Container、Space、Text 怎么搭出像样的后台界面
 

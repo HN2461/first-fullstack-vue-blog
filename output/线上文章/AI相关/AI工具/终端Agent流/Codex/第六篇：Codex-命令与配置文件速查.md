@@ -3,26 +3,19 @@ title: "第六篇：Codex 命令与配置文件速查"
 slug: "ai-agent-codex-codex-9cf3fc01"
 summary: "统一说明 Codex 常用命令、config.toml、auth.json 与 AGENTS.md 的职责边界，适合作为整套 Codex 系列文章的底座速查文档。"
 category: "Codex"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "终端Agent流"
-  - "Codex"
 tags:
   - "Codex"
   - "命令"
   - "配置文件"
   - "AGENTS"
   - "速查"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf78"
 originalSlug: "ai-agent-codex-codex-9cf3fc01"
 originalStatus: "published"
-publishedAt: "2026-06-04T13:41:34.294Z"
-updatedAt: "2026-07-30T14:24:30.403Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第六篇：Codex 命令与配置文件速查
 

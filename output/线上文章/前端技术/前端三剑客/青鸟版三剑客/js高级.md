@@ -3,20 +3,14 @@ title: "js高级"
 slug: "javascriptes6-js-dd445881"
 summary: ""
 category: "青鸟版三剑客"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "青鸟版三剑客"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0dc"
 originalSlug: "javascriptes6-js-dd445881"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.516Z"
-updatedAt: "2026-06-30T07:30:00.699Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 **《（一）js高级01-基础深入》**
 

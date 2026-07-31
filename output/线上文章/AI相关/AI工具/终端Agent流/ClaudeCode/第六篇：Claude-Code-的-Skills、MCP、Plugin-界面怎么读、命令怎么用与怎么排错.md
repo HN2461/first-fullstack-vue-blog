@@ -3,11 +3,6 @@ title: "第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命�
 slug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
 summary: "基于 2026-07-04 Claude Code 官方 Skills、MCP、Plugins、Commands 与 Debug 文档复核更新，专门解决“装了很多 skill、MCP、plugin，但终端里全是英文，看不懂也不会调用”的程序员实战问题，按 `/mcp`、`/skills`、`/plugin` 与斜杠命令列表逐屏拆解。"
 category: "ClaudeCode"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "终端Agent流"
-  - "ClaudeCode"
 tags:
   - "Claude Code"
   - "Skills"
@@ -15,15 +10,13 @@ tags:
   - "Plugin"
   - "终端界面"
   - "英文提示"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf3e"
 originalSlug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
 originalStatus: "published"
-publishedAt: "2026-05-30T09:36:22.756Z"
-updatedAt: "2026-07-30T14:24:30.345Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第六篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错
 

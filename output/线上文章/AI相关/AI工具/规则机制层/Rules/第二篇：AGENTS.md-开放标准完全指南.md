@@ -3,26 +3,19 @@ title: "第二篇：AGENTS.md 开放标准完全指南"
 slug: "ai-rules-agents-agents-md-908e49bb"
 summary: "深度解析 AGENTS.md 开放标准的起源、格式规范、多级目录结构、各工具支持情况与优先级规则，附三套开箱即用的项目模板和高质量写作指南。"
 category: "Rules"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Rules"
 tags:
   - "AGENTS.md"
   - "OpenAI Codex"
   - "开放标准"
   - "AAIF"
   - "Linux基金会"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabff0"
 originalSlug: "ai-rules-agents-agents-md-908e49bb"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.676Z"
-updatedAt: "2026-07-30T14:24:30.258Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第二篇：AGENTS.md 开放标准完全指南
 

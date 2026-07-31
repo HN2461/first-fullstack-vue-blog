@@ -3,20 +3,14 @@ title: "YAML、JSON、TOML 配置文件入门：开发初学者看这一篇就�
 slug: "yaml-json-toml-config-files-for-beginners"
 summary: "面向开发初学者，用真实项目场景讲清 YAML、JSON、TOML 三类配置文件是什么、为什么常见、语法差异、适用场景、优缺点，以及在 Vue、Node.js、Docker、GitHub Actions、Codex 等项目中的实际用法。"
 category: "开发基础"
-categoryPath:
-  - "AI相关"
-  - "AI开发"
-  - "开发基础"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a4a4564f9ac958d29178036"
 originalSlug: "yaml-json-toml-config-files-for-beginners"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:55:50.508Z"
-updatedAt: "2026-07-05T11:55:50.509Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # YAML、JSON、TOML 配置文件入门：开发初学者看这一篇就够
 

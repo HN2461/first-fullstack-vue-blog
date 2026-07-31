@@ -3,20 +3,14 @@ title: "初识HTML——走进网页的世界"
 slug: "html-html-dfc1c5fd"
 summary: ""
 category: "AI版HTML"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "AI版HTML"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 80
 cover: ""
 originalId: "6a2d30eeb480df92ce002e3c"
 originalSlug: "html-html-dfc1c5fd"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.477Z"
-updatedAt: "2026-06-13T10:29:02.115Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第一篇：初识HTML——走进网页的世界
 

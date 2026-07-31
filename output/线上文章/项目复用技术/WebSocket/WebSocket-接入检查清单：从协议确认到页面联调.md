@@ -3,9 +3,6 @@ title: "WebSocket 接入检查清单：从协议确认到页面联调"
 slug: "websocket-websocket-de1a1d83"
 summary: "这是 WebSocket 专题的第 7 篇，用清单方式整理从后端协议确认、目录搭建、STOMP 帧联调、连接重连、消息解析、页面接入到验收的完整落地步骤，适合作为新项目接入 WebSocket 时的执行手册。"
 category: "WebSocket"
-categoryPath:
-  - "项目复用技术"
-  - "WebSocket"
 tags:
   - "WebSocket"
   - "STOMP"
@@ -13,15 +10,13 @@ tags:
   - "联调"
   - "实时消息"
   - "Vue"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac732"
 originalSlug: "websocket-websocket-de1a1d83"
 originalStatus: "published"
-publishedAt: "2026-04-16T13:25:08.650Z"
-updatedAt: "2026-06-13T10:28:30.143Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # WebSocket 接入检查清单：从协议确认到页面联调
 

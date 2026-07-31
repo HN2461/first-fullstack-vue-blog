@@ -33,6 +33,8 @@
     "article-authority:compare": "node src/scripts/compareArticleAuthority.js",
     "article-authority:sync": "node src/scripts/syncArticleAuthorityContent.js",
     "article-authority:pull": "node src/scripts/pullArticleAuthorityMetadata.js",
+    "tag-merge:dry-run": "node src/scripts/mergeDuplicateTags.js",
+    "tag-merge:apply": "node src/scripts/mergeDuplicateTags.js --apply",
     "python-articles:dry-run": "node src/scripts/replacePythonArticles.js",
     "python-articles:apply": "node src/scripts/replacePythonArticles.js --apply",
     "ai-tool-articles:dry-run": "node src/scripts/replaceAiToolArticles.js",

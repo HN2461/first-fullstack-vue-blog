@@ -3,24 +3,18 @@ title: "第05篇：class与style绑定"
 slug: "vue-vue-class-style-eb3555df"
 summary: "适用于样式的名字不确定需要动态指定、样式名字和个数不确定、样式名字和个数都确定但要动态决定用或不用的三种场景。"
 category: "vue辅助"
-categoryPath:
-  - "我的总结"
-  - "Vue"
-  - "vue辅助"
 tags:
   - "Vue"
   - "class绑定"
   - "style绑定"
   - "动态样式"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac4a6"
 originalSlug: "vue-vue-class-style-eb3555df"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:54:35.414Z"
-updatedAt: "2026-06-13T10:28:29.031Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 一：class绑定
 ### 1、绑定字符串

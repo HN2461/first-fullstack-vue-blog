@@ -3,20 +3,14 @@ title: "Pinia》"
 slug: "vue-vue3-pinia-356d4f75"
 summary: ""
 category: "vue3"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue3"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2d4"
 originalSlug: "vue-vue3-pinia-356d4f75"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:28:53.385Z"
-updatedAt: "2026-06-17T13:23:50.827Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 4.1、什么是Pinia
 ### 4.1.1、简介

@@ -3,25 +3,18 @@ title: "04：MCP 概念与主流度问题"
 slug: "ai-mcp-83743b3f"
 summary: "聚焦 MCP 是什么、为什么火、与插件和 function calling 的区别，适合作为第一轮面试的高频基础题库。"
 category: "MCP"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "MCP"
 tags:
   - "MCP"
   - "面试题"
   - "概念认知"
   - "回答模板"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfb0"
 originalSlug: "ai-mcp-83743b3f"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:18:00.563Z"
-updatedAt: "2026-07-30T14:24:30.185Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 04：MCP 概念与主流度问题
 

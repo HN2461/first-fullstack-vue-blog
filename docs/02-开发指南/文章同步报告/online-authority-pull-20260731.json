@@ -1,0 +1,45 @@
+{
+  "generatedAt": "2026-07-31T03:51:36.816Z",
+  "source": "production-pull",
+  "remoteSnapshot": {
+    "exportedAt": "2026-07-31T03:42:38.792Z",
+    "articleTotal": 512,
+    "categoryTotal": 96,
+    "articleTagNameTotal": 823
+  },
+  "remoteAudit": {
+    "articleTotal": 513,
+    "activeArticleTotal": 512,
+    "deletedArticleTotal": 1,
+    "categoryTotal": 96,
+    "tagTotal": 823,
+    "duplicateTagGroups": 0,
+    "orphanCategoryRefs": 0,
+    "orphanTagRefs": 0,
+    "deletedArticles": [
+      {
+        "id": "6a560179c48586f4dec2eb99",
+        "title": "测试",
+        "slug": "article-20260714092929",
+        "deletedAt": "2026-07-31T02:48:46.017Z"
+      }
+    ]
+  },
+  "localResult": {
+    "outputRoots": [
+      "未导入线上",
+      "线上文章"
+    ],
+    "backupPath": "backups/output-online-before-pull-20260731-1145",
+    "releaseArtifacts": [
+      "release/article-repository-online-20260731-1145.zip",
+      "release/content-audit-online-20260731-1140.json",
+      "release/categories-online-20260731.json"
+    ]
+  },
+  "taxonomyConclusion": {
+    "categoryPolicy": "保留 96 个分类。分类承担目录层级，父节点即使无直接文章也不能按 articleCount=0 自动删除。",
+    "tagPolicy": "保留 823 个标签。已清理规范化重复标签，剩余多为长尾技术知识点，不按单篇引用批量删除。",
+    "integrity": "线上当前无孤儿分类引用、无孤儿标签引用、无规范化重复标签组。"
+  }
+}

@@ -3,25 +3,19 @@ title: "主题定制、国际化、暗黑模式、ConfigProvider：Element Plus 
 slug: "element-plus-elementplus-configprovider-f9cb9b2c"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解 ConfigProvider、国际化、Day.js 本地化、CSS 变量主题、SCSS 主题与暗黑模式的实际用法。"
 category: "ElementPlus"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ElementPlus"
 tags:
   - "Element Plus"
   - "ConfigProvider"
   - "国际化"
   - "暗黑模式"
   - "主题定制"
-status: "published"
+status: "draft"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac646"
 originalSlug: "element-plus-elementplus-configprovider-f9cb9b2c"
 originalStatus: "published"
-publishedAt: "2026-04-28T13:45:18.644Z"
-updatedAt: "2026-06-13T10:28:29.649Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 主题定制、国际化、暗黑模式、ConfigProvider：Element Plus 全局能力怎么管
 

@@ -3,11 +3,6 @@ title: "第三篇：Claude Code Plugin 体系详解与实战"
 slug: "ai-plugin-claudecode-claudecodeplugin-ed613976"
 summary: "深入解析 Claude Code Plugin 的定位、scope、官方与社区 marketplace、manifest 规则、`/plugin` 命令族，以及前端开发者可以怎样把 Skills、Commands、Hooks、MCP 等能力打包成可安装插件。"
 category: "Plugin"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Plugin"
 tags:
   - "Plugin"
   - "Claude Code"
@@ -16,15 +11,13 @@ tags:
   - "Subagent"
   - "Hooks"
   - "Slash Commands"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfde"
 originalSlug: "ai-plugin-claudecode-claudecodeplugin-ed613976"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:23:33.381Z"
-updatedAt: "2026-07-30T14:24:30.231Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第三篇：Claude Code Plugin 体系详解与实战
 

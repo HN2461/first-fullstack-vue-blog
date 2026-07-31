@@ -3,26 +3,19 @@ title: "第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知�
 slug: "ai-agent-openclaw101day1-2082ef14"
 summary: "聚焦 OpenClaw101 Day1 的认知层与人格层配置，解释 SOUL、USER、AGENTS 等文件为什么会长期影响助手表现，适合作为龙虾体系的心智模型篇。"
 category: "龙虾"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "Agent框架层"
-  - "龙虾"
 tags:
   - "OpenClaw101"
   - "龙虾"
   - "AGENTS"
   - "SOUL"
   - "Agent框架"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac034"
 originalSlug: "ai-agent-openclaw101day1-2082ef14"
 originalStatus: "published"
-publishedAt: "2026-05-24T13:49:15.051Z"
-updatedAt: "2026-06-13T10:28:27.137Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第三篇：OpenClaw101 Day1 知识全景与命令配置实战（认知与灵魂篇）
 

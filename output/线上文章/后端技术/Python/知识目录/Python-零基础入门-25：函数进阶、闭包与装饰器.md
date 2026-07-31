@@ -3,24 +3,18 @@ title: "Python 零基础入门 25：函数进阶、闭包与装饰器"
 slug: "python-zero-advanced-functions-closures-decorators"
 summary: "补齐 Python 函数的高频工程知识，讲解参数绑定、可变默认参数、LEGB 作用域、nonlocal、闭包、函数作为对象、装饰器、functools.wraps、带参数装饰器和递归边界。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
   - "函数"
   - "装饰器"
-status: "published"
+status: "draft"
 sortOrder: 260
 cover: ""
 originalId: "6a6b57a2fca6347974f5d182"
 originalSlug: "python-zero-advanced-functions-closures-decorators"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.160Z"
-updatedAt: "2026-07-30T14:44:46.160Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 25：函数进阶、闭包与装饰器
 

@@ -3,20 +3,14 @@ title: "使用Express开发后端"
 slug: "js-express-71c1cdfd"
 summary: ""
 category: "AI版JS"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "AI版JS"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 80
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10e"
 originalSlug: "js-express-71c1cdfd"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.500Z"
-updatedAt: "2026-06-15T14:50:25.010Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第30章 使用Express开发后端
 

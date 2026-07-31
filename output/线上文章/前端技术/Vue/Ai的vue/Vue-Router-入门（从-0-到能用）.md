@@ -3,20 +3,14 @@ title: "Vue Router 入门（从 0 到能用）"
 slug: "vue-ai-vue-vue-router-0-a8f63d97"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 160
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26a"
 originalSlug: "vue-ai-vue-vue-router-0-a8f63d97"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:12:19.938Z"
-updatedAt: "2026-06-19T06:25:05.450Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第15章 Vue Router 入门（从 0 到能用）
 

@@ -3,26 +3,19 @@ title: "第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略
 slug: "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016"
 summary: "基于 Windsurf 官方模式文档与官方 changelog 截至 2026-04-14 的最新信息，详细讲清 Code、Plan、Ask 三种模式分别能做什么、适合什么任务、如何切换，以及它们与旧版 Code/Chat 表述、Command、Tab 之间的关系。"
 category: "Windsurf"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Windsurf"
 tags:
   - "Windsurf"
   - "Cascade"
   - "Code Mode"
   - "Plan Mode"
   - "Ask Mode"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabef6"
 originalSlug: "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.605Z"
-updatedAt: "2026-06-13T10:28:26.498Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第三篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）
 

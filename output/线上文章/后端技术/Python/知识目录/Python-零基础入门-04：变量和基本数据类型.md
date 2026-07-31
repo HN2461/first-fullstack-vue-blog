@@ -3,22 +3,16 @@ title: "Python 零基础入门 04：变量和基本数据类型"
 slug: "python-zero-variables-and-types"
 summary: "从最底层解释变量、赋值、命名规则、字符串、整数、小数、布尔值、None 和类型查看，并逐项对照 JavaScript 的 const/let、string、number、boolean、null、undefined 和 typeof。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a4a4304f9ac958d2917603a"
 originalSlug: "python-zero-variables-and-types"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.612Z"
-updatedAt: "2026-07-30T14:44:46.121Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 04：变量和基本数据类型
 

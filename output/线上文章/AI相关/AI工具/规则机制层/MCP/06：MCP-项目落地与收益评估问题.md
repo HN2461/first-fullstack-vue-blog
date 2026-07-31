@@ -3,25 +3,18 @@ title: "06：MCP 项目落地与收益评估问题"
 slug: "ai-mcp-c534a7cb"
 summary: "围绕如何选型、如何从 0 到 1 接入、怎样评估收益与推广顺序，适合项目经验和实战追问场景。"
 category: "MCP"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "MCP"
 tags:
   - "MCP"
   - "面试题"
   - "项目落地"
   - "收益评估"
-status: "published"
+status: "draft"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfb6"
 originalSlug: "ai-mcp-c534a7cb"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:18:00.566Z"
-updatedAt: "2026-07-30T14:24:30.203Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 06：MCP 项目落地与收益评估问题
 

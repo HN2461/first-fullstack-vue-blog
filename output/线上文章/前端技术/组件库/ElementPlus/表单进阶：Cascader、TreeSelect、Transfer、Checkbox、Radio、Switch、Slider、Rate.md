@@ -3,10 +3,6 @@ title: "表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Swi
 slug: "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab"
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解表单里的高级录入组件：级联选择、树形选择、穿梭框、多选组、单选组、开关、滑块、评分的用法与联动校验。"
 category: "ElementPlus"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Cascader"
@@ -15,15 +11,13 @@ tags:
   - "Checkbox"
   - "Radio"
   - "Switch"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac63c"
 originalSlug: "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab"
 originalStatus: "published"
-publishedAt: "2026-04-29T11:27:17.329Z"
-updatedAt: "2026-06-13T10:28:29.636Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate
 

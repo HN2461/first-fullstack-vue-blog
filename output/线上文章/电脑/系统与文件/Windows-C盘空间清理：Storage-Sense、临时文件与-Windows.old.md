@@ -3,9 +3,6 @@ title: "Windows C盘空间清理：Storage Sense、临时文件与 Windows.old"
 slug: "windows-c-storage-sense-windows-old-4fcfcbe9"
 summary: "基于微软官方支持文档整理 Windows 的 C 盘清理路径，重点说明 Storage Sense、Temporary files、Cleanup recommendations、Windows.old 和哪些目录不建议手动乱删。"
 category: "系统与文件"
-categoryPath:
-  - "电脑"
-  - "系统与文件"
 tags:
   - "Windows"
   - "C盘清理"
@@ -13,15 +10,13 @@ tags:
   - "临时文件"
   - "Windows.old"
   - "存储设置"
-status: "published"
+status: "draft"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac54c"
 originalSlug: "windows-c-storage-sense-windows-old-4fcfcbe9"
 originalStatus: "published"
-publishedAt: "2026-04-12T13:45:49.791Z"
-updatedAt: "2026-06-13T10:28:29.276Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Windows C盘空间清理：Storage Sense、临时文件与 Windows.old
 

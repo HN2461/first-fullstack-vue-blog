@@ -3,20 +3,14 @@ title: "Docker 学习笔记：纯小白版"
 slug: "docker-learning-notes-for-beginners"
 summary: "面向 Docker 零基础学习者，从为什么需要 Docker、镜像和容器是什么、如何运行第一个服务、端口映射、数据挂载、环境变量、Dockerfile、Docker Compose 到常见排错，建立一套可动手验证的入门知识框架。"
 category: "Docker"
-categoryPath:
-  - "AI相关"
-  - "AI开发"
-  - "Docker"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a4a4564f9ac958d29178031"
 originalSlug: "docker-learning-notes-for-beginners"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:56:11.345Z"
-updatedAt: "2026-07-05T11:56:11.345Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Docker 学习笔记：纯小白版
 

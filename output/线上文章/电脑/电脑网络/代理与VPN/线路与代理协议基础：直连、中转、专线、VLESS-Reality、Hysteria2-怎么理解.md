@@ -3,20 +3,14 @@ title: "线路与代理协议基础：直连、中转、专线、VLESS Reality�
 slug: "network-routes-and-proxy-protocols-guide-20260705"
 summary: "用网络路径和协议分层解释直连、中转、专线，以及常见代理协议的特点、适用场景和选型误区。"
 category: "代理与VPN"
-categoryPath:
-  - "电脑"
-  - "电脑网络"
-  - "代理与VPN"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a4a451af9ac958d29177b63"
 originalSlug: "network-routes-and-proxy-protocols-guide-20260705"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:51:14.526Z"
-updatedAt: "2026-07-05T11:51:14.527Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 小白先看
 

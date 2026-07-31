@@ -3,25 +3,18 @@ title: "Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看"
 slug: "ai-agent-gemini-mcp-4c54d61a"
 summary: "说明为什么“谷歌 MCP”相关实操手册应统一放在 MCP 分类下维护，并从 Gemini 目录给出导览入口，避免同一篇实操文在多个目录重复收录造成搜索与列表混乱。"
 category: "Gemini"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "终端Agent流"
-  - "Gemini"
 tags:
   - "Gemini"
   - "MCP"
   - "Chrome DevTools"
   - "导览"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf88"
 originalSlug: "ai-agent-gemini-mcp-4c54d61a"
 originalStatus: "published"
-publishedAt: "2026-05-24T13:49:15.043Z"
-updatedAt: "2026-06-13T10:28:26.739Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Gemini 目录补充说明：谷歌 MCP 配置手册放在哪里看
 

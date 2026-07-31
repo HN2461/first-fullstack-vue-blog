@@ -3,25 +3,19 @@ title: "第07篇：ES5 构造函数与 ES6 Class 详解"
 slug: "js-js-es5-es6-class-ddcd40c8"
 summary: "从原型、实例、静态成员与继承链的关系出发，系统讲清 ES5 构造函数和 ES6 Class 的底层逻辑与实际差异。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "构造函数"
   - "Class"
   - "原型链"
   - "继承"
-status: "published"
+status: "draft"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3be"
 originalSlug: "js-js-es5-es6-class-ddcd40c8"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:25:33.660Z"
-updatedAt: "2026-06-13T10:28:28.617Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第07篇：ES5 构造函数与 ES6 Class 详解
 

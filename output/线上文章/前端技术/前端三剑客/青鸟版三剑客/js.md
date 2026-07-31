@@ -3,20 +3,14 @@ title: "js"
 slug: "javascriptes6-js-d939e278"
 summary: ""
 category: "青鸟版三剑客"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "青鸟版三剑客"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0da"
 originalSlug: "javascriptes6-js-d939e278"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.515Z"
-updatedAt: "2026-06-30T07:30:02.782Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 一、计算机基础
 ### 1、编程语言

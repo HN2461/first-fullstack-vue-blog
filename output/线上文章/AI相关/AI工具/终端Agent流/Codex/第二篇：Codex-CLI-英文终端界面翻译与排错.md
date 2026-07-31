@@ -3,26 +3,19 @@ title: "第二篇：Codex CLI 英文终端界面翻译与排错"
 slug: "ai-agent-codex-codex-cli-64e9fd24"
 summary: "基于主人整理的 Codex CLI 终端界面线索，用文字图逐屏解释首页、模型选择、推理强度、权限、状态页、MCP、插件、skills、experimental 与错误提示，帮助把英文终端界面读成可操作的开发判断。"
 category: "Codex"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "终端Agent流"
-  - "Codex"
 tags:
   - "Codex"
   - "CLI"
   - "英文提示"
   - "终端界面"
   - "排错"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf50"
 originalSlug: "ai-agent-codex-codex-cli-64e9fd24"
 originalStatus: "published"
-publishedAt: "2026-06-04T13:38:33.774Z"
-updatedAt: "2026-07-30T14:24:30.392Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第二篇：Codex CLI 英文终端界面翻译与排错
 

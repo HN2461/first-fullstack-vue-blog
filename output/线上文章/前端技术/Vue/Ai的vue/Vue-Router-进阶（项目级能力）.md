@@ -3,20 +3,14 @@ title: "Vue Router 进阶（项目级能力）"
 slug: "vue-ai-vue-vue-router-b20d1fed"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 150
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26c"
 originalSlug: "vue-ai-vue-vue-router-b20d1fed"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:12:20.217Z"
-updatedAt: "2026-06-13T10:28:27.991Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第16章 Vue Router 进阶（项目级能力）
 

@@ -3,10 +3,6 @@ title: "反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、
 slug: "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22"
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，补全第五篇未覆盖的反馈组件：Tooltip、Popover、Popconfirm、Notification、Alert，以及虚拟化组件的适用场景与基础用法。"
 category: "ElementPlus"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Tooltip"
@@ -15,15 +11,13 @@ tags:
   - "Notification"
   - "Alert"
   - "VirtualizedTable"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac654"
 originalSlug: "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22"
 originalStatus: "published"
-publishedAt: "2026-04-29T11:27:17.337Z"
-updatedAt: "2026-06-13T10:28:29.666Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert + 虚拟化组件
 

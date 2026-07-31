@@ -3,25 +3,18 @@ title: "第1篇：CatPaw介绍与快速上手"
 slug: "ai-ai-catpaw-catpaw-2afcb185"
 summary: "基于 CatPaw 官网、公开用户手册和美团技术团队公开文章整理的入门版说明，聚焦产品定位、安装登录、基础体验与公开可验证信息。"
 category: "CatPaw"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "CatPaw"
 tags:
   - "CatPaw"
   - "美团"
   - "AI IDE"
   - "快速上手"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe58"
 originalSlug: "ai-ai-catpaw-catpaw-2afcb185"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.573Z"
-updatedAt: "2026-06-18T13:17:01.592Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第1篇：CatPaw介绍与快速上手
 

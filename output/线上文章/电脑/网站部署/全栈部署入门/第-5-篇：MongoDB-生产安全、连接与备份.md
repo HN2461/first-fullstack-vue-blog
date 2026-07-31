@@ -3,24 +3,18 @@ title: "第 5 篇：MongoDB 生产安全、连接与备份"
 slug: "mongodb-ad14cd5a"
 summary: "用小白能理解的方式讲清 MongoDB 上线时为什么要开认证、建专用用户、限制网络暴露、配置连接字符串和定期备份。"
 category: "全栈部署入门"
-categoryPath:
-  - "电脑"
-  - "网站部署"
-  - "全栈部署入门"
 tags:
   - "MongoDB"
   - "数据库安全"
   - "备份"
   - "mongodump"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5ac"
 originalSlug: "mongodb-ad14cd5a"
 originalStatus: "published"
-publishedAt: "2026-06-08T11:09:58.538Z"
-updatedAt: "2026-06-30T07:21:25.876Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第 5 篇：MongoDB 生产安全、连接与备份
 

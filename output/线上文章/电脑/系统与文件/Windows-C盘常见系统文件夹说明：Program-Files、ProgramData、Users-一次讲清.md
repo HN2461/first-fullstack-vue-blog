@@ -3,9 +3,6 @@ title: "Windows C盘常见系统文件夹说明：Program Files、ProgramData、
 slug: "windows-c-1552bf32"
 summary: "结合微软官方文档梳理 Windows C 盘最常见的系统文件夹，重点解释 Program Files、Program Files (x86)、ProgramData、Users、AppData、System32 与 SysWOW64 的职责和区别。"
 category: "系统与文件"
-categoryPath:
-  - "电脑"
-  - "系统与文件"
 tags:
   - "Windows"
   - "C盘"
@@ -13,15 +10,13 @@ tags:
   - "ProgramData"
   - "AppData"
   - "系统目录"
-status: "published"
+status: "draft"
 sortOrder: 100
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac540"
 originalSlug: "windows-c-1552bf32"
 originalStatus: "published"
-publishedAt: "2026-04-12T13:45:49.789Z"
-updatedAt: "2026-06-13T10:28:29.263Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Windows C盘常见系统文件夹说明：Program Files、ProgramData、Users 一次讲清
 

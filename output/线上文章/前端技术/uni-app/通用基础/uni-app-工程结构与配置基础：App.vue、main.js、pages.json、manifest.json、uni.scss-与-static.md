@@ -3,25 +3,19 @@ title: "uni-app 工程结构与配置基础：App.vue、main.js、pages.json、m
 slug: "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2"
 summary: "从 App.vue、main.js、pages.json、manifest.json 到 uni.scss、static 与组件目录，梳理 uni-app 项目最核心的工程结构和配置职责。"
 category: "通用基础"
-categoryPath:
-  - "前端技术"
-  - "uni-app"
-  - "通用基础"
 tags:
   - "uni-app"
   - "工程结构"
   - "pages.json"
   - "manifest.json"
   - "easycom"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac254"
 originalSlug: "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2"
 originalStatus: "published"
-publishedAt: "2026-05-09T12:50:17.703Z"
-updatedAt: "2026-06-17T12:38:28.920Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static
 

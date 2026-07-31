@@ -3,11 +3,6 @@ title: "Agent Skills 团队协作与社区资源"
 slug: "ai-skill-agentskills-4a94dc23"
 summary: "按 2026-07-04 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。"
 category: "Skill"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Skill"
 tags:
   - "Agent Skills"
   - "SKILL.md"
@@ -17,15 +12,13 @@ tags:
   - "Kiro"
   - "Cursor"
   - "Claude Code"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac024"
 originalSlug: "ai-skill-agentskills-4a94dc23"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:29:34.184Z"
-updatedAt: "2026-07-30T14:24:30.329Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Agent Skills 团队协作与社区资源
 

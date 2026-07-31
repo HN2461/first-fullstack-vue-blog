@@ -3,10 +3,6 @@ title: "第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上�
 slug: "echarts-echarts-vue3-vite-echarts-03b8ae7e"
 summary: "基于 2026-05-03 查阅的 Apache ECharts 官方 chart size、dynamic data、canvas vs svg、安全与 Aria 文档，以及 vue-echarts 官方 README 和 Releases，讲清 Vue 3 + Vite 项目里最稳的图表封装方式、按需引入、自动适配、主题、loading、事件、手动更新和常见坑。"
 category: "ECharts"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ECharts"
 tags:
   - "ECharts"
   - "Vue3"
@@ -14,15 +10,13 @@ tags:
   - "vue-echarts"
   - "图表组件"
   - "项目落地"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5f0"
 originalSlug: "echarts-echarts-vue3-vite-echarts-03b8ae7e"
 originalStatus: "published"
-publishedAt: "2026-05-03T11:53:30.954Z"
-updatedAt: "2026-06-13T14:09:43.188Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上项目的图表组件
 

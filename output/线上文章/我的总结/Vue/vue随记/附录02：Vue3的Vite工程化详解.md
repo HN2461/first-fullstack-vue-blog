@@ -3,25 +3,19 @@ title: "附录02：Vue3的Vite工程化详解"
 slug: "vue-vue-02-vue3-vite-b6a24a54"
 summary: "Vue3时代最主流的工程化选择是Vite。如果你之前长期写Vue2+Webpack，会明显感觉到：项目启动更快、热更新更\"秒\"、配置更少（但并不是没有\"工程化能力\"）。"
 category: "vue随记"
-categoryPath:
-  - "我的总结"
-  - "Vue"
-  - "vue随记"
 tags:
   - "Vue3"
   - "Vite"
   - "工程化"
   - "ESM"
   - "Rollup"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac500"
 originalSlug: "vue-vue-02-vue3-vite-b6a24a54"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:57:05.886Z"
-updatedAt: "2026-06-13T10:28:29.164Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Vue3 的 Vite 工程化详解（面向前端工程师）
 

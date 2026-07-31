@@ -3,26 +3,19 @@ title: "第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理
 slug: "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9"
 summary: "基于 Windsurf 官方文档与官方 changelog 截至 2026-04-14 的最新信息，系统讲清 Rules、AGENTS.md、Skills、Workflows 各自的职责、触发方式、目录结构、优先级和适用场景，帮助团队把 Windsurf 从“会写代码”真正用到“能沉淀规范和流程”。"
 category: "Windsurf"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Windsurf"
 tags:
   - "Windsurf"
   - "Rules"
   - "AGENTS.md"
   - "Skills"
   - "Workflows"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf0c"
 originalSlug: "ai-ai-windsurf-windsurf-rules-agents-skills-workflows-92fcb3b9"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.609Z"
-updatedAt: "2026-06-13T10:28:26.538Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第四篇：Windsurf Rules、AGENTS.md、Skills、Workflows 项目治理实战（2026-04）
 

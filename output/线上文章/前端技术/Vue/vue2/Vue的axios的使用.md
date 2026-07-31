@@ -3,20 +3,14 @@ title: "Vue的axios的使用"
 slug: "vue-vue2-vue-axios-9ddbedd5"
 summary: ""
 category: "vue2"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue2"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a0"
 originalSlug: "vue-vue2-vue-axios-9ddbedd5"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:27:16.752Z"
-updatedAt: "2026-06-13T10:28:28.134Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 1、axios的基本使用
 ## 1.1、简介

@@ -3,25 +3,19 @@ title: "第05篇：uni-app性能优化、包体治理与稳定性维护"
 slug: "uni-app-uni-app-ae457f1c"
 summary: "从包体、首屏、渲染、资源、登录态、本地缓存和权限状态几个方面系统整理 uni-app 项目的性能优化与稳定性维护思路。"
 category: "uni-app辅助"
-categoryPath:
-  - "我的总结"
-  - "uni-app"
-  - "uni-app辅助"
 tags:
   - "uni-app"
   - "性能优化"
   - "分包"
   - "登录态"
   - "稳定性"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac472"
 originalSlug: "uni-app-uni-app-ae457f1c"
 originalStatus: "published"
-publishedAt: "2026-05-08T13:22:12.479Z"
-updatedAt: "2026-06-14T06:31:52.527Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## uni-app 性能优化、包体治理与稳定性维护
 

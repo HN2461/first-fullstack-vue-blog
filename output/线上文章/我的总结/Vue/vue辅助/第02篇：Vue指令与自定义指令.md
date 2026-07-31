@@ -3,25 +3,19 @@ title: "第02篇：Vue指令与自定义指令"
 slug: "vue-vue-vue-011d0d19"
 summary: "Vue指令的本质是给DOM元素绑定特定的行为逻辑，让页面能根据数据动态改变DOM的状态。本文详解Vue核心指令与自定义指令的完整用法。"
 category: "vue辅助"
-categoryPath:
-  - "我的总结"
-  - "Vue"
-  - "vue辅助"
 tags:
   - "Vue"
   - "指令"
   - "自定义指令"
   - "v-bind"
   - "v-model"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac48a"
 originalSlug: "vue-vue-vue-011d0d19"
 originalStatus: "published"
-publishedAt: "2026-05-07T14:29:16.072Z"
-updatedAt: "2026-06-13T10:28:28.995Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ### 一、指令的核心定义
 Vue指令的本质是：**给DOM元素绑定特定的行为逻辑**，让页面能根据数据动态改变DOM的状态（比如显示/隐藏、绑定属性、循环渲染等）。<font style="color:#DF2A3F;">所有的指令都是以HTML标签的属性形式存在的。</font>  

@@ -3,10 +3,6 @@ title: "第13篇：offset、client、scroll 坐标与尺寸详解"
 slug: "js-js-offset-client-scroll-29c45981"
 summary: "JavaScript中事件对象坐标与元素属性的详细对比，涵盖client、offset、scroll三大系列API的使用方法和区别。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "DOM"
@@ -14,15 +10,13 @@ tags:
   - "offset"
   - "client"
   - "scroll"
-status: "published"
+status: "draft"
 sortOrder: 130
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3ec"
 originalSlug: "js-js-offset-client-scroll-29c45981"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:25:33.667Z"
-updatedAt: "2026-06-13T10:28:28.693Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第13篇：offset、client、scroll 坐标与尺寸详解
 > 适合场景  

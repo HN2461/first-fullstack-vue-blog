@@ -3,20 +3,14 @@ title: "async await"
 slug: "js-async-await-b580531b"
 summary: ""
 category: "AI版JS"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "AI版JS"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 230
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0f0"
 originalSlug: "js-async-await-b580531b"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.488Z"
-updatedAt: "2026-06-15T14:50:24.946Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第17章　async / await
 

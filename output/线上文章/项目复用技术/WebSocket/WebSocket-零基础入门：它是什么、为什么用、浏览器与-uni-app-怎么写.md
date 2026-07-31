@@ -3,24 +3,19 @@ title: "WebSocket 零基础入门：它是什么、为什么用、浏览器与 u
 slug: "websocket-websocket-uni-app-8118619a"
 summary: "这是给零基础读者准备的 WebSocket 前置知识文章，尽量站在协议无关的底层视角，从它是什么、握手怎么发生、和 HTTP/STOMP 的关系，到浏览器与 uni-app 的最小使用方式、心跳、重连、关闭码与换协议时的分析方法，帮助先补基础再看项目级封装。"
 category: "WebSocket"
-categoryPath:
-  - "项目复用技术"
-  - "WebSocket"
 tags:
   - "WebSocket"
   - "uni-app"
   - "浏览器"
   - "STOMP"
   - "实时通信"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac704"
 originalSlug: "websocket-websocket-uni-app-8118619a"
 originalStatus: "published"
-publishedAt: "2026-04-29T14:07:07.239Z"
-updatedAt: "2026-06-13T10:28:30.040Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # WebSocket 零基础入门：它是什么、为什么用、浏览器与 uni-app 怎么写
 

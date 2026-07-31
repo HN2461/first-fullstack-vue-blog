@@ -3,25 +3,19 @@ title: "第03篇：uni-app工程结构、配置分层与文件职责边界"
 slug: "uni-app-uni-app-5d3131e1"
 summary: "从 App.vue、main.js、pages.json、manifest.json、uni.scss、static 等核心文件出发，系统整理 uni-app 项目的工程结构、配置分层和常见职责边界问题。"
 category: "uni-app辅助"
-categoryPath:
-  - "我的总结"
-  - "uni-app"
-  - "uni-app辅助"
 tags:
   - "uni-app"
   - "工程结构"
   - "pages.json"
   - "manifest.json"
   - "uni.scss"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac46c"
 originalSlug: "uni-app-uni-app-5d3131e1"
 originalStatus: "published"
-publishedAt: "2026-05-08T13:22:12.475Z"
-updatedAt: "2026-06-14T06:31:52.524Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## uni-app 工程结构、配置分层与文件职责边界
 

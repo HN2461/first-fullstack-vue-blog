@@ -3,25 +3,19 @@ title: "uni-app 微信小程序组件设计与跨端差异处理实战：props�
 slug: "uni-app-uni-app-props-behaviors-60418e36"
 summary: "面向长期维护公司 uni-app 项目的开发者，从组件边界、props 和事件、behaviors、relations、纯数据字段、样式隔离到条件编译，梳理微信小程序组件层最常见的设计与避坑问题。"
 category: "微信小程序"
-categoryPath:
-  - "前端技术"
-  - "uni-app"
-  - "微信小程序"
 tags:
   - "uni-app"
   - "微信小程序"
   - "组件设计"
   - "条件编译"
   - "样式隔离"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac21a"
 originalSlug: "uni-app-uni-app-props-behaviors-60418e36"
 originalStatus: "published"
-publishedAt: "2026-04-03T13:53:14.832Z"
-updatedAt: "2026-06-17T12:38:35.241Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # uni-app 微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑
 

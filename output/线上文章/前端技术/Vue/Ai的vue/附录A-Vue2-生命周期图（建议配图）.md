@@ -3,20 +3,14 @@ title: "附录A Vue2 生命周期图（建议配图）"
 slug: "vue-ai-vue-a-vue2-e1001ab4"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac290"
 originalSlug: "vue-ai-vue-a-vue2-e1001ab4"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:21:58.710Z"
-updatedAt: "2026-06-26T08:11:35.884Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 附录A：Vue2 生命周期图（建议配图）
 

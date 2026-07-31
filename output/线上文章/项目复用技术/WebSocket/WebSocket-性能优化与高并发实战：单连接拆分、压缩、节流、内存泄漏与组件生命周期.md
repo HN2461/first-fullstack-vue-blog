@@ -3,9 +3,6 @@ title: "WebSocket 性能优化与高并发实战：单连接拆分、压缩、�
 slug: "websocket-websocket-1b7cd930"
 summary: "这是 WebSocket 专题的第 11 篇，专门讲 WebSocket 在真实项目中的性能优化，包括单连接 vs 多连接的拆分时机、消息压缩、二进制帧与文本帧的选择、大消息分片、前端消息队列与节流渲染、内存泄漏排查，以及 Vue/uni-app 组件频繁挂载卸载时的连接管理策略。"
 category: "WebSocket"
-categoryPath:
-  - "项目复用技术"
-  - "WebSocket"
 tags:
   - "WebSocket"
   - "性能优化"
@@ -14,15 +11,13 @@ tags:
   - "内存泄漏"
   - "permessage-deflate"
   - "Vue"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac750"
 originalSlug: "websocket-websocket-1b7cd930"
 originalStatus: "published"
-publishedAt: "2026-05-14T13:07:57.248Z"
-updatedAt: "2026-06-16T14:30:48.196Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # WebSocket 性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期
 

@@ -2,26 +2,19 @@
 title: "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI"
 slug: "fastapi-response-errors-openapi"
 summary: "在文章 API 中固定成功和失败响应，理解 response_model、201、204、404、422、领域异常、全局处理器和 OpenAPI 契约。"
-category: "FastAPI从0到1"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "应用实例"
-  - "Web入门"
+category: "Web入门"
 tags:
   - "Python"
   - "FastAPI"
   - "OpenAPI"
   - "异常处理"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19c"
 originalSlug: "fastapi-response-errors-openapi"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.192Z"
-updatedAt: "2026-07-30T14:44:46.192Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # FastAPI 从 0 到 1 05：响应、异常与 OpenAPI
 

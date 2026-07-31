@@ -3,25 +3,18 @@ title: "第四篇：Kiro Hooks 自动化机制（2026-07）"
 slug: "ai-ai-kiro-kiro-hooks-4b92a74f"
 summary: "按 Kiro IDE 1.0 讲解 Agent Hooks：v1 JSON schema、10 种当前触发器、Agent 与 Shell 两种动作、正则 matcher、阻断返回码、工作区与全局 Hook，以及安全可靠的配置方法。"
 category: "Kiro"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Kiro"
 tags:
   - "Kiro"
   - "Hooks"
   - "自动化"
   - "Agent Hooks"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabee8"
 originalSlug: "ai-ai-kiro-kiro-hooks-4b92a74f"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.593Z"
-updatedAt: "2026-07-30T14:24:30.485Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第四篇：Kiro Hooks 自动化机制（2026-07）
 

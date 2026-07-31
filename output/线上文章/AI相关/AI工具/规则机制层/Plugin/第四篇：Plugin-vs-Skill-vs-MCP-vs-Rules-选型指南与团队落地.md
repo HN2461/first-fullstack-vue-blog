@@ -3,11 +3,6 @@ title: "第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地"
 slug: "ai-plugin-plugin-a8202a00"
 summary: "通过对比矩阵、选型决策树和团队协作策略，帮助开发者在 Plugin、Skill、MCP、Rules 四大扩展机制中做出更稳妥的选择，并给出 Codex、Claude Code 与无独立 Plugin 体系工具的落地方案。"
 category: "Plugin"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Plugin"
 tags:
   - "Plugin"
   - "Skill"
@@ -17,15 +12,13 @@ tags:
   - "团队协作"
   - "Codex"
   - "Claude Code"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfe4"
 originalSlug: "ai-plugin-plugin-a8202a00"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:25:23.674Z"
-updatedAt: "2026-07-30T14:24:30.239Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第四篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地
 

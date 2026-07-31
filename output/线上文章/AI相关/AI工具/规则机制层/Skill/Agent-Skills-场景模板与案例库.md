@@ -3,11 +3,6 @@ title: "Agent Skills 场景模板与案例库"
 slug: "ai-skill-agentskills-a705fbb5"
 summary: "按 2026-07-04 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。"
 category: "Skill"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Skill"
 tags:
   - "Agent Skills"
   - "SKILL.md"
@@ -16,15 +11,13 @@ tags:
   - "Kiro"
   - "Cursor"
   - "Claude Code"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac01e"
 originalSlug: "ai-skill-agentskills-a705fbb5"
 originalStatus: "published"
-publishedAt: "2026-05-24T15:07:50.715Z"
-updatedAt: "2026-07-30T14:24:30.310Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Agent Skills 场景模板与案例库
 

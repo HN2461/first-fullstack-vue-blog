@@ -3,24 +3,18 @@ title: "Python 零基础入门 28：正则、命令行参数、安全随机数�
 slug: "python-zero-regex-argparse-secrets-zoneinfo"
 summary: "系统讲解常用标准库 re、argparse、secrets、datetime 与 zoneinfo，掌握文本匹配替换、正式命令行参数、安全令牌、时区感知时间及 UTC 存储原则。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
   - "标准库"
   - "安全"
-status: "published"
+status: "draft"
 sortOrder: 290
 cover: ""
 originalId: "6a6b57a2fca6347974f5d188"
 originalSlug: "python-zero-regex-argparse-secrets-zoneinfo"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.166Z"
-updatedAt: "2026-07-30T14:44:46.166Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 28：正则、命令行参数、安全随机数与时区
 

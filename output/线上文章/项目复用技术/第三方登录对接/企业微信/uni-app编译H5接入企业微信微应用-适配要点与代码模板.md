@@ -3,20 +3,14 @@ title: "uni-app编译H5接入企业微信微应用-适配要点与代码模板"
 slug: "h5-uni-app-h5-a4b1be0e"
 summary: ""
 category: "企业微信"
-categoryPath:
-  - "项目复用技术"
-  - "第三方登录对接"
-  - "企业微信"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 70
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c6"
 originalSlug: "h5-uni-app-h5-a4b1be0e"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.458Z"
-updatedAt: "2026-06-13T14:03:18.905Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # uni-app 编译 H5 接入企业微信微应用（深度复刻版）
 

@@ -3,25 +3,18 @@ title: "第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（202
 slug: "ai-ai-cursor-cursor-mcp-shellmode-144315a1"
 summary: "基于 Cursor 官方 Tools、MCP、Shell Mode 与 Permissions 文档，整理 Agent 能力边界、Auto-run、allowlist 和 CLI 权限配置，帮助在扩展能力时不把风险一起放大。"
 category: "Cursor"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Cursor"
 tags:
   - "Cursor"
   - "MCP"
   - "Shell Mode"
   - "Permissions"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabeb2"
 originalSlug: "ai-ai-cursor-cursor-mcp-shellmode-144315a1"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.585Z"
-updatedAt: "2026-06-13T10:28:26.370Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第六篇：Cursor 工具权限：MCP、Shell Mode 与安全边界（2026-04）
 

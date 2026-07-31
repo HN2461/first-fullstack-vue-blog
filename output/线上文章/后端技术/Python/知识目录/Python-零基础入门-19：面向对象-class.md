@@ -3,22 +3,16 @@ title: "Python 零基础入门 19：面向对象 class"
 slug: "python-zero-object-oriented-programming"
 summary: "用小白能理解的方式解释类、对象、属性、方法、self、构造方法、继承、多继承、property、dataclass 和组合，全程对照 JavaScript class。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 200
 cover: ""
 originalId: "6a4a4304f9ac958d29176076"
 originalSlug: "python-zero-object-oriented-programming"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.497Z"
-updatedAt: "2026-07-30T14:44:46.149Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 19：面向对象 class
 

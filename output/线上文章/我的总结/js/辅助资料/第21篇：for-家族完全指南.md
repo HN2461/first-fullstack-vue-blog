@@ -3,25 +3,19 @@ title: "第21篇：for 家族完全指南"
 slug: "js-js-for-ae3e60e0"
 summary: "一次讲清 JavaScript 里的 for、for...of、for...in、forEach、for await...of 的语法、场景、区别、陷阱和选择方法。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "for循环"
   - "for...of"
   - "for...in"
   - "遍历"
-status: "published"
+status: "draft"
 sortOrder: 210
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac428"
 originalSlug: "js-js-for-ae3e60e0"
 originalStatus: "published"
-publishedAt: "2026-05-07T14:34:30.018Z"
-updatedAt: "2026-06-22T09:16:12.251Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第21篇：for 家族完全指南
 

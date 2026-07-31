@@ -3,20 +3,14 @@ title: "Vuex的使用》"
 slug: "vue-vue2-vuex-4372322f"
 summary: ""
 category: "vue2"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue2"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a6"
 originalSlug: "vue-vue2-vuex-4372322f"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:27:25.702Z"
-updatedAt: "2026-06-21T12:35:40.592Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 5.1 、vuex概述	
 ### 1. vuex是实现数据<font style="color:rgb(255, 0, 0);">集中式状态（数据）管理</font>的插件。

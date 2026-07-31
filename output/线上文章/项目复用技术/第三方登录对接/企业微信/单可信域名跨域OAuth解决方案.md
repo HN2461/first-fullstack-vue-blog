@@ -3,20 +3,14 @@ title: "单可信域名跨域OAuth解决方案"
 slug: "h5-oauth-e33b6d35"
 summary: ""
 category: "企业微信"
-categoryPath:
-  - "项目复用技术"
-  - "第三方登录对接"
-  - "企业微信"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7ce"
 originalSlug: "h5-oauth-e33b6d35"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.462Z"
-updatedAt: "2026-06-13T14:03:18.901Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 企业微信 H5 OAuth 单可信域名跨域解决方案
 

@@ -3,22 +3,16 @@ title: "Python 零基础入门 06：数字和简单计算"
 slug: "python-zero-numbers-and-operators"
 summary: "介绍整数、小数、加减乘除、取余、整除、幂运算和赋值运算，帮助新手理解 Python 如何进行简单计算，全程对照 JavaScript。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 70
 cover: ""
 originalId: "6a4a4304f9ac958d29176042"
 originalSlug: "python-zero-numbers-and-operators"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.541Z"
-updatedAt: "2026-07-30T14:44:46.126Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 06：数字和简单计算
 

@@ -3,22 +3,16 @@ title: "Python 零基础入门 05：字符串"
 slug: "python-zero-string"
 summary: "详细讲解 Python 字符串 str 的定义、引号、转义、多行字符串、长度、索引、切片、不可变、拼接、格式化、清洗、查找、替换、分割、合并，并全程对照 JavaScript 字符串。"
 category: "知识目录"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "知识目录"
 tags:
   - "Python"
   - "零基础入门"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a4a4304f9ac958d2917603e"
 originalSlug: "python-zero-string"
 originalStatus: "published"
-publishedAt: "2026-07-05T11:47:18.594Z"
-updatedAt: "2026-07-30T14:44:46.124Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 零基础入门 05：字符串
 

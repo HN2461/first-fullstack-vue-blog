@@ -3,9 +3,6 @@ title: "WebSocket与AI流式传输深度解析_SSE对比_实现方案与最佳�
 slug: "websocket-websocket-ai-sse-a4e8c551"
 summary: "深度解析AI领域流式传输技术，对比SSE与WebSocket两大方案，讲解主流AI厂商的流式API实现，提供完整的代码示例与最佳实践。"
 category: "WebSocket"
-categoryPath:
-  - "项目复用技术"
-  - "WebSocket"
 tags:
   - "WebSocket"
   - "AI流式传输"
@@ -13,15 +10,13 @@ tags:
   - "Server-Sent Events"
   - "OpenAI"
   - "实时通信"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac73e"
 originalSlug: "websocket-websocket-ai-sse-a4e8c551"
 originalStatus: "published"
-publishedAt: "2026-05-11T12:52:42.846Z"
-updatedAt: "2026-06-30T07:40:30.660Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # WebSocket与AI流式传输深度解析
 

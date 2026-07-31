@@ -3,24 +3,19 @@ title: "GitHub Pages 部署 Vue 博客完整教程"
 slug: "github-pages-vue-f7e9371a"
 summary: "作为“网站部署”系列的第 1 篇，面向初学者梳理 Vue 博客部署到 GitHub Pages 的完整流程，覆盖打包、base 路径、Hash 路由、手动部署、GitHub Actions 自动部署与常见问题排查。"
 category: "网站部署"
-categoryPath:
-  - "电脑"
-  - "网站部署"
 tags:
   - "GitHub Pages"
   - "Vue3"
   - "Vite"
   - "博客部署"
   - "Hash 路由"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac58a"
 originalSlug: "github-pages-vue-f7e9371a"
 originalStatus: "published"
-publishedAt: "2026-04-16T14:22:08.318Z"
-updatedAt: "2026-06-13T10:28:29.363Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # GitHub Pages 部署 Vue 博客完整教程
 

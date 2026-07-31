@@ -3,25 +3,19 @@ title: "第01篇：uni-app核心认知、跨端编译与平台边界"
 slug: "uni-app-uni-app-5f27ae60"
 summary: "从跨端编译、运行宿主、通用能力边界到平台差异收口，系统梳理 uni-app 到底是什么、为什么能跨端、又为什么不可能完全无差异。"
 category: "uni-app辅助"
-categoryPath:
-  - "我的总结"
-  - "uni-app"
-  - "uni-app辅助"
 tags:
   - "uni-app"
   - "跨端"
   - "编译"
   - "运行时"
   - "微信小程序"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac460"
 originalSlug: "uni-app-uni-app-5f27ae60"
 originalStatus: "published"
-publishedAt: "2026-05-08T13:11:46.098Z"
-updatedAt: "2026-06-14T06:31:52.518Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## uni-app 核心认知、跨端编译与平台边界
 

@@ -3,25 +3,18 @@ title: "第三篇：Kiro Steering 上下文管理（2026-07）"
 slug: "ai-ai-kiro-kiro-steering-51bf9cad"
 summary: "详解 Kiro Steering 的工作区与全局作用域、always/fileMatch/manual 三种 inclusion 模式、基础文件、文件引用，以及 Kiro 对 AGENTS.md 的原生支持。"
 category: "Kiro"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Kiro"
 tags:
   - "Kiro"
   - "Steering"
   - "上下文管理"
   - "AGENTS.md"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabec8"
 originalSlug: "ai-ai-kiro-kiro-steering-51bf9cad"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.589Z"
-updatedAt: "2026-07-30T14:24:30.473Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第三篇：Kiro Steering 上下文管理（2026-07）
 

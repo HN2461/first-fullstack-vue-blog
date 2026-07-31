@@ -3,20 +3,14 @@ title: "钉钉H5微应用-JSAPI能力调用-前后端对接清单"
 slug: "h5-h5-jsapi-d670249e"
 summary: ""
 category: "钉钉"
-categoryPath:
-  - "项目复用技术"
-  - "第三方登录对接"
-  - "钉钉"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 120
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac77c"
 originalSlug: "h5-h5-jsapi-d670249e"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.431Z"
-updatedAt: "2026-06-13T14:03:18.885Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 钉钉 H5 微应用 — JSAPI 能力调用前后端对接清单
 

@@ -2,25 +2,18 @@
 title: "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python"
 slug: "fastapi-python-reading-prerequisites"
 summary: "用 FastAPI 将出现的真实代码，补齐导入、对象、装饰器、类型注解、异步、异常、上下文管理器和模块路径等前置知识。"
-category: "FastAPI从0到1"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "应用实例"
-  - "Web入门"
+category: "Web入门"
 tags:
   - "Python"
   - "FastAPI"
   - "前置知识"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a6b57a2fca6347974f5d194"
 originalSlug: "fastapi-python-reading-prerequisites"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.182Z"
-updatedAt: "2026-07-30T14:44:46.182Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # FastAPI 从 0 到 1 01：读懂代码前必须会的 Python
 

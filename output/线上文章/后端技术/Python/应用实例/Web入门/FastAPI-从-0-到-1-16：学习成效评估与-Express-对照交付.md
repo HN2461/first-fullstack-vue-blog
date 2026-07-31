@@ -2,27 +2,20 @@
 title: "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付"
 slug: "fastapi-zero-to-one-learning-outcome-express-delivery"
 summary: "诚实评估教程对零基础学习者和企业级开发能力的覆盖范围，并给出 Express 对照复刻、独立交付和补课验收路径。"
-category: "FastAPI从0到1"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "应用实例"
-  - "Web入门"
+category: "Web入门"
 tags:
   - "Python"
   - "FastAPI"
   - "Express"
   - "学习评估"
   - "企业开发"
-status: "published"
+status: "draft"
 sortOrder: 170
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1b2"
 originalSlug: "fastapi-zero-to-one-learning-outcome-express-delivery"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.212Z"
-updatedAt: "2026-07-30T14:44:46.212Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付
 

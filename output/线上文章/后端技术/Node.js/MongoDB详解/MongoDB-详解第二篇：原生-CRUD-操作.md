@@ -3,10 +3,6 @@ title: "MongoDB 详解第二篇：原生 CRUD 操作"
 slug: "node-js-mongodb-mongodb-crud-85922e88"
 summary: "通过 mongosh 和 MongoDB Node.js Driver 两条线掌握 MongoDB 原生 CRUD，覆盖过滤条件、投影、排序、分页、更新操作符与 findOneAndUpdate 等项目常用写法。"
 category: "MongoDB详解"
-categoryPath:
-  - "后端技术"
-  - "Node.js"
-  - "MongoDB详解"
 tags:
   - "MongoDB"
   - "CRUD"
@@ -14,15 +10,13 @@ tags:
   - "Node.js Driver"
   - "查询操作符"
   - "更新操作符"
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac148"
 originalSlug: "node-js-mongodb-mongodb-crud-85922e88"
 originalStatus: "published"
-publishedAt: "2026-06-06T11:39:25.707Z"
-updatedAt: "2026-06-13T10:28:27.591Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # MongoDB 详解第二篇：原生 CRUD 操作
 

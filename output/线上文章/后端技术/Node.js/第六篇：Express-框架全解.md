@@ -3,9 +3,6 @@ title: "第六篇：Express 框架全解"
 slug: "node-js-express-ba1a095d"
 summary: "深入掌握 Express 框架的路由系统、中间件机制、静态资源服务、ejs 模板引擎，以及 Express 5 新特性、错误处理最佳实践和生产级项目结构。"
 category: "Node.js"
-categoryPath:
-  - "后端技术"
-  - "Node.js"
 tags:
   - "Node.js"
   - "Express"
@@ -15,15 +12,13 @@ tags:
   - "ejs"
   - "静态资源"
   - "错误处理"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1e6"
 originalSlug: "node-js-express-ba1a095d"
 originalStatus: "published"
-publishedAt: "2026-06-05T11:32:01.047Z"
-updatedAt: "2026-06-13T10:28:27.785Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第六篇：Express 框架全解
 

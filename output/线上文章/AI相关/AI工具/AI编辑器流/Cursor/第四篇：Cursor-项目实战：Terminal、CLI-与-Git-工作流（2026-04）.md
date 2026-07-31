@@ -3,25 +3,18 @@ title: "第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（202
 slug: "ai-ai-cursor-cursor-terminalcli-git-84f595c7"
 summary: "基于 Cursor 官方 Terminal、Shell Commands、Cursor CLI、AI Commit Message 与 AI Merge Conflicts 文档，整理接手陌生仓库时最实用的本地执行闭环。"
 category: "Cursor"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "AI编辑器流"
-  - "Cursor"
 tags:
   - "Cursor"
   - "Terminal"
   - "CLI"
   - "Git"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabeba"
 originalSlug: "ai-ai-cursor-cursor-terminalcli-git-84f595c7"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.586Z"
-updatedAt: "2026-06-13T10:28:26.384Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第四篇：Cursor 项目实战：Terminal、CLI 与 Git 工作流（2026-04）
 

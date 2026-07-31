@@ -3,20 +3,14 @@ title: "企业微信账号绑定实现方案_PC端扫码绑定"
 slug: "pc-pc-393c27b2"
 summary: ""
 category: "企业微信"
-categoryPath:
-  - "项目复用技术"
-  - "第三方登录对接"
-  - "企业微信"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7d4"
 originalSlug: "pc-pc-393c27b2"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.465Z"
-updatedAt: "2026-06-13T14:03:18.908Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 企业微信账号绑定实现方案\_PC端扫码绑定
 

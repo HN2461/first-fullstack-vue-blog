@@ -3,25 +3,18 @@ title: "第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产
 slug: "ai-agent-openclaw-4d55dcf1"
 summary: "面向第一次接触 OpenClaw-CN 的读者，按安装、首次启动、健康检查与首轮内容产出的顺序整理本地部署实战，帮助先把环境跑通。"
 category: "龙虾"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "Agent框架层"
-  - "龙虾"
 tags:
   - "OpenClaw"
   - "龙虾"
   - "本地部署"
   - "Agent框架"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac02e"
 originalSlug: "ai-agent-openclaw-4d55dcf1"
 originalStatus: "published"
-publishedAt: "2026-05-24T13:49:15.050Z"
-updatedAt: "2026-06-13T10:28:27.126Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第一篇：OpenClaw 本地部署实战（从安装到龙虾内容生产）
 

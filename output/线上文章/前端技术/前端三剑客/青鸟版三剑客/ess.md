@@ -3,20 +3,14 @@ title: "ess"
 slug: "javascriptes6-ess-08fde5e4"
 summary: ""
 category: "青鸟版三剑客"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "青鸟版三剑客"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0d6"
 originalSlug: "javascriptes6-ess-08fde5e4"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.510Z"
-updatedAt: "2026-06-30T07:30:05.066Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 ## 1、let 
 <font style="color:#000000;">let 关键字用来声明变量，使用let 声明的变量有几个特点：</font>

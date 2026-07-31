@@ -3,20 +3,14 @@ title: "侦听器 watch（处理复杂与异步）"
 slug: "vue-ai-vue-watch-79d389b8"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 210
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac260"
 originalSlug: "vue-ai-vue-watch-79d389b8"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:06:52.652Z"
-updatedAt: "2026-06-13T10:28:27.957Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第10章 侦听器 watch（处理复杂/异步）
 

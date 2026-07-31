@@ -3,26 +3,19 @@ title: "第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件"
 slug: "ai-rules-gemini-copilot-geminicli-copilot-853f4742"
 summary: "详解 Gemini CLI 的 GEMINI.md 三层加载机制、JIT 即时上下文、/memory 命令族与模块化导入语法，以及 GitHub Copilot 的双格式指令系统（copilot-instructions.md 与 .github/instructions/）和 AGENTS.md 支持情况。"
 category: "Rules"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "Rules"
 tags:
   - "Gemini CLI"
   - "GEMINI.md"
   - "GitHub Copilot"
   - "copilot-instructions"
   - "AI规则文档"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac00c"
 originalSlug: "ai-rules-gemini-copilot-geminicli-copilot-853f4742"
 originalStatus: "published"
-publishedAt: "2026-05-24T12:56:24.681Z"
-updatedAt: "2026-07-30T14:24:30.288Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第五篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件
 

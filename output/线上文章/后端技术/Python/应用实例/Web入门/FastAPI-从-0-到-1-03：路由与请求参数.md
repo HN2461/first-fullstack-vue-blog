@@ -2,26 +2,19 @@
 title: "FastAPI 从 0 到 1 03：路由与请求参数"
 slug: "fastapi-routing-request-parameters"
 summary: "在同一个文章 API 中实现列表、详情和创建，重点理解 Path、Query、JSON Body 的来源、校验、调用方法和错误响应。"
-category: "FastAPI从0到1"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "应用实例"
-  - "Web入门"
+category: "Web入门"
 tags:
   - "Python"
   - "FastAPI"
   - "路由"
   - "参数校验"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a6b57a2fca6347974f5d198"
 originalSlug: "fastapi-routing-request-parameters"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.188Z"
-updatedAt: "2026-07-30T14:44:46.188Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # FastAPI 从 0 到 1 03：路由与请求参数
 

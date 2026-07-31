@@ -3,25 +3,19 @@ title: "uni-app 微信小程序工程结构实战：pages.json、manifest.json�
 slug: "uni-app-uni-app-pages-json-manifest-json-38b6eedd"
 summary: "从公司项目实战视角梳理 uni-app 做微信小程序时最关键的工程组织方式，讲清 pages.json、manifest.json、project.config.json 的职责边界和联调流程。"
 category: "微信小程序"
-categoryPath:
-  - "前端技术"
-  - "uni-app"
-  - "微信小程序"
 tags:
   - "uni-app"
   - "微信小程序"
   - "pages.json"
   - "条件编译"
   - "开发者工具"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac208"
 originalSlug: "uni-app-uni-app-pages-json-manifest-json-38b6eedd"
 originalStatus: "published"
-publishedAt: "2026-04-03T13:57:01.119Z"
-updatedAt: "2026-06-13T10:28:27.819Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # uni-app 微信小程序工程结构实战：pages.json、manifest.json、条件编译与开发者工具联调
 

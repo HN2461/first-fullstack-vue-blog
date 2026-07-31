@@ -3,10 +3,6 @@ title: "MongoDB 详解第四篇：Mongoose CRUD 与中间件"
 slug: "node-js-mongodb-mongoose-crud-bcf8ad68"
 summary: "从业务代码视角掌握 Mongoose 常用 CRUD、查询链、更新方式选择、lean 优化和文档/查询中间件，建立更安全、更可维护的项目写法。"
 category: "MongoDB详解"
-categoryPath:
-  - "后端技术"
-  - "Node.js"
-  - "MongoDB详解"
 tags:
   - "MongoDB"
   - "Mongoose"
@@ -14,15 +10,13 @@ tags:
   - "中间件"
   - "钩子"
   - "lean"
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac164"
 originalSlug: "node-js-mongodb-mongoose-crud-bcf8ad68"
 originalStatus: "published"
-publishedAt: "2026-06-07T06:14:19.366Z"
-updatedAt: "2026-06-13T10:28:27.628Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # MongoDB 详解第四篇：Mongoose CRUD 与中间件
 

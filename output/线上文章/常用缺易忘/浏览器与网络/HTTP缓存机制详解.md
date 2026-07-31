@@ -3,19 +3,14 @@ title: "HTTP缓存机制详解"
 slug: "http-8498fced"
 summary: ""
 category: "浏览器与网络"
-categoryPath:
-  - "常用缺易忘"
-  - "浏览器与网络"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac348"
 originalSlug: "http-8498fced"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.373Z"
-updatedAt: "2026-06-16T15:11:22.228Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # HTTP缓存机制详解
 

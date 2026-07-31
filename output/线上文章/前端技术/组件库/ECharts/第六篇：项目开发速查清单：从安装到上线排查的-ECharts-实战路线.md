@@ -3,10 +3,6 @@ title: "第六篇：项目开发速查清单：从安装到上线排查的 EChar
 slug: "echarts-echarts-echarts-be0b5cbd"
 summary: "基于 2026-05-03 核对的 Apache ECharts 官方 Handbook、Release 与 vue-echarts 官方资料，整理一套从安装、按需引入、Vue 封装、dataset、交互配置到上线排错的项目开发速查清单。"
 category: "ECharts"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ECharts"
 tags:
   - "ECharts"
   - "Vue3"
@@ -14,15 +10,13 @@ tags:
   - "图表封装"
   - "数据可视化"
   - "排错清单"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5ea"
 originalSlug: "echarts-echarts-echarts-be0b5cbd"
 originalStatus: "published"
-publishedAt: "2026-05-03T11:54:59.254Z"
-updatedAt: "2026-06-17T12:36:20.732Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第六篇：项目开发速查清单：从安装到上线排查的 ECharts 实战路线
 

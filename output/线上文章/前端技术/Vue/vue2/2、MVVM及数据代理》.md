@@ -3,20 +3,14 @@ title: ".2、MVVM及数据代理》"
 slug: "vue-vue2-2-mvvm-0f1dddb4"
 summary: ""
 category: "vue2"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "vue2"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 200
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2b6"
 originalSlug: "vue-vue2-2-mvvm-0f1dddb4"
 originalStatus: "published"
-publishedAt: "2026-03-27T13:24:55.325Z"
-updatedAt: "2026-06-13T10:28:28.200Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 2.2.1 MVVM分层思想
 ## 1. MVVM是什么？

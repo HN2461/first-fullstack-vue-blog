@@ -3,20 +3,14 @@ title: "插槽 slot（封装组件必备）"
 slug: "vue-ai-vue-slot-32fece73"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 170
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac268"
 originalSlug: "vue-ai-vue-slot-32fece73"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:12:19.630Z"
-updatedAt: "2026-06-19T06:25:06.498Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第14章 插槽 slot（封装组件必备）
 

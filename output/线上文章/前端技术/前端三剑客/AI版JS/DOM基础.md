@@ -3,20 +3,14 @@ title: "DOM基础"
 slug: "js-dom-cc9e923c"
 summary: ""
 category: "AI版JS"
-categoryPath:
-  - "前端技术"
-  - "前端三剑客"
-  - "AI版JS"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 280
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0e6"
 originalSlug: "js-dom-cc9e923c"
 originalStatus: "published"
-publishedAt: "2026-01-25T13:23:07.485Z"
-updatedAt: "2026-06-15T14:50:24.922Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第12章　DOM基础
 

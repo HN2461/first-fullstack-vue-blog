@@ -3,19 +3,14 @@ title: "TCP三次握手详解"
 slug: "tcp-3213f070"
 summary: ""
 category: "浏览器与网络"
-categoryPath:
-  - "常用缺易忘"
-  - "浏览器与网络"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac34a"
 originalSlug: "tcp-3213f070"
 originalStatus: "published"
-publishedAt: "2026-04-28T11:18:24.374Z"
-updatedAt: "2026-06-16T15:11:21.225Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # TCP三次握手详解
 

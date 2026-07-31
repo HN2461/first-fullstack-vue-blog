@@ -2,26 +2,19 @@
 title: "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模"
 slug: "fastapi-pydantic-v2-data-modeling"
 summary: "通过文章创建、局部更新和响应过滤，理解 Pydantic 模型、字段约束、必填与可选、exclude_unset 以及输入输出模型分离。"
-category: "FastAPI从0到1"
-categoryPath:
-  - "后端技术"
-  - "Python"
-  - "应用实例"
-  - "Web入门"
+category: "Web入门"
 tags:
   - "Python"
   - "FastAPI"
   - "Pydantic"
   - "数据校验"
-status: "published"
+status: "draft"
 sortOrder: 50
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19a"
 originalSlug: "fastapi-pydantic-v2-data-modeling"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.190Z"
-updatedAt: "2026-07-30T14:44:46.190Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # FastAPI 从 0 到 1 04：Pydantic v2 与数据建模
 

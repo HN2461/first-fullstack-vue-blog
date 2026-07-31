@@ -3,25 +3,18 @@ title: "05：MCP 架构与安全边界问题"
 slug: "ai-mcp-ede3e0c8"
 summary: "围绕 Host、Client、Server、能力原语以及安全治理边界展开，适合二面或追问环节使用。"
 category: "MCP"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "规则机制层"
-  - "MCP"
 tags:
   - "MCP"
   - "面试题"
   - "架构设计"
   - "安全治理"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfbc"
 originalSlug: "ai-mcp-ede3e0c8"
 originalStatus: "published"
-publishedAt: "2026-05-24T14:18:00.565Z"
-updatedAt: "2026-07-30T14:24:30.194Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 05：MCP 架构与安全边界问题
 

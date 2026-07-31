@@ -3,28 +3,19 @@ title: "16-MCP调用与自定义工具节点"
 slug: "maxkb-16-mcp-cbdce98b"
 summary: "本文整理 16-MCP调用与自定义工具节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。"
 category: "节点创建手册"
-categoryPath:
-  - "AI相关"
-  - "AI开发"
-  - "AI应用开发平台"
-  - "MaxKB"
-  - "公共规则"
-  - "节点创建手册"
 tags:
   - "MaxKB"
   - "AI应用开发"
   - "节点创建手册"
   - "智能体"
   - "API与工具"
-status: "published"
+status: "draft"
 sortOrder: 180
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e5e"
 originalSlug: "maxkb-16-mcp-cbdce98b"
 originalStatus: "published"
-publishedAt: "2026-07-30T15:09:19.522Z"
-updatedAt: "2026-07-30T15:09:19.522Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 16-MCP调用与自定义工具节点
 

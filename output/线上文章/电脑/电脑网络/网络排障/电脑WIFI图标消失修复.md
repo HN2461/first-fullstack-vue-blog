@@ -3,24 +3,18 @@ title: "电脑WIFI图标消失修复"
 slug: "wifi-09cbf6da"
 summary: "WLAN AutoConfig 开机不自动启动导致 WiFi 图标消失的完整修复流程，覆盖依赖服务、注册表、网络栈与开机兜底方案。"
 category: "网络排障"
-categoryPath:
-  - "电脑"
-  - "电脑网络"
-  - "网络排障"
 tags:
   - "Windows"
   - "WiFi"
   - "WLAN AutoConfig"
   - "网络故障排查"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac534"
 originalSlug: "wifi-09cbf6da"
 originalStatus: "published"
-publishedAt: "2026-04-12T13:45:49.794Z"
-updatedAt: "2026-06-13T10:28:29.249Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Windows笔记本WiFi图标消失/WLAN服务无法自启
 

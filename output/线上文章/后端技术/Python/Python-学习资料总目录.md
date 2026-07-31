@@ -3,21 +3,16 @@ title: "Python 学习资料总目录"
 slug: "python-learning-index"
 summary: "按知识目录、应用实例、工具链与工程化三类整理 Python 学习资料，区分基础概念、实战方向和后续项目能力。"
 category: "Python"
-categoryPath:
-  - "后端技术"
-  - "Python"
 tags:
   - "Python"
   - "学习路线"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a6b635eb46b52abc5dc2865"
 originalSlug: "python-learning-index"
 originalStatus: "published"
-publishedAt: "2026-07-30T14:44:46.264Z"
-updatedAt: "2026-07-30T14:44:46.264Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # Python 学习资料总目录
 

@@ -3,23 +3,17 @@ title: "第11篇：JavaScript 包装类的详细机制"
 slug: "js-js-32fdfd9a"
 summary: "JavaScript包装类（String、Number、Boolean）的详细机制和使用指南，包括自动装箱拆箱原理。"
 category: "辅助资料"
-categoryPath:
-  - "我的总结"
-  - "js"
-  - "辅助资料"
 tags:
   - "JavaScript"
   - "包装类"
   - "基本数据类型"
-status: "published"
+status: "draft"
 sortOrder: 110
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac3de"
 originalSlug: "js-js-32fdfd9a"
 originalStatus: "published"
-publishedAt: "2026-05-07T13:25:33.665Z"
-updatedAt: "2026-06-13T10:28:28.668Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第11篇：JavaScript 包装类的详细机制
 

@@ -3,20 +3,14 @@ title: "附录E 项目目录规范与命名规范建议"
 slug: "vue-ai-vue-e-72e17220"
 summary: ""
 category: "Ai的vue"
-categoryPath:
-  - "前端技术"
-  - "Vue"
-  - "Ai的vue"
 tags: []
-status: "published"
+status: "draft"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac298"
 originalSlug: "vue-ai-vue-e-72e17220"
 originalStatus: "published"
-publishedAt: "2026-02-02T13:22:00.011Z"
-updatedAt: "2026-06-21T12:31:40.797Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 附录E：项目目录规范与命名规范建议
 

@@ -3,25 +3,19 @@ title: "快速认识 Element Plus：为什么它是 Vue 3 里常见的 PC 端组
 slug: "element-plus-elementplus-element-plus-vue3-pc-86202b18"
 summary: "基于 2026-04-28 查阅的 Element Plus 最新官方资料，作为 Element Plus 专题第一篇，先讲清它为什么常用于 Vue 3 的 PC 端项目，以及接入、按需导入、主题定制、国际化与暗黑模式的核心用法。"
 category: "ElementPlus"
-categoryPath:
-  - "前端技术"
-  - "组件库"
-  - "ElementPlus"
 tags:
   - "Element Plus"
   - "Vue3"
   - "Vite"
   - "UI组件库"
   - "后台管理系统"
-status: "published"
+status: "draft"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5fa"
 originalSlug: "element-plus-elementplus-element-plus-vue3-pc-86202b18"
 originalStatus: "published"
-publishedAt: "2026-04-29T11:27:17.303Z"
-updatedAt: "2026-06-13T10:28:29.556Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 快速认识 Element Plus：为什么它是 Vue 3 里常见的 PC 端组件库
 

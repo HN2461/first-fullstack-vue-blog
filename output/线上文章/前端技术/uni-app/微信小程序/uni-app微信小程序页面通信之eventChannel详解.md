@@ -3,10 +3,6 @@ title: "uni-app微信小程序页面通信之eventChannel详解"
 slug: "uni-app-uni-app-eventchannel-bc3b226b"
 summary: "详细介绍uni.navigateTo中eventChannel的使用方法，包括基本用法、双向通信、实际应用场景和最佳实践。"
 category: "微信小程序"
-categoryPath:
-  - "前端技术"
-  - "uni-app"
-  - "微信小程序"
 tags:
   - "uni-app"
   - "微信小程序"
@@ -14,15 +10,13 @@ tags:
   - "eventChannel"
   - "路由跳转"
   - "数据传递"
-status: "published"
+status: "draft"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac236"
 originalSlug: "uni-app-uni-app-eventchannel-bc3b226b"
 originalStatus: "published"
-publishedAt: "2026-05-19T12:30:25.024Z"
-updatedAt: "2026-06-17T12:38:33.787Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # uni-app 微信小程序页面通信之 eventChannel 详解
 

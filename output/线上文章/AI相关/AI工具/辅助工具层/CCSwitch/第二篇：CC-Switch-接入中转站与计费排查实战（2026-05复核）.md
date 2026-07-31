@@ -3,27 +3,20 @@ title: "第二篇：CC Switch 接入中转站与计费排查实战（2026-05复�
 slug: "ai-ccswitch-ccswitch-4cff94a4"
 summary: "结合 CC Switch 官方仓库与 2026-05-30 时点的最新 Releases，面向同时在用 Codex、Claude、Gemini CLI 的开发者，讲清 Provider 怎么填、余额和用量怎么看、哪些异常是中转站问题而不是 CC Switch 问题，以及如何把中转站手册翻译成可执行配置。"
 category: "CCSwitch"
-categoryPath:
-  - "AI相关"
-  - "AI工具"
-  - "辅助工具层"
-  - "CCSwitch"
 tags:
-  - "CC Switch"
+  - "Codex"
+  - "CCSwitch"
   - "Provider"
   - "中转站"
   - "OpenRouter"
-  - "Codex"
   - "Claude"
-status: "published"
+status: "draft"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac06a"
 originalSlug: "ai-ccswitch-ccswitch-4cff94a4"
 originalStatus: "published"
-publishedAt: "2026-05-30T11:24:47.590Z"
-updatedAt: "2026-06-13T10:28:27.286Z"
-exportedAt: "2026-07-30T16:02:06.145Z"
+exportedAt: "2026-07-31T03:42:38.792Z"
 ---
 # 第二篇：CC Switch 接入中转站与计费排查实战（2026-05复核）
 
