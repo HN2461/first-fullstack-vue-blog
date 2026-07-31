@@ -1,23 +1,18 @@
 ---
-title: "uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static"
+title: "第 3 篇：uni-app 工程结构与配置基础"
 slug: "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2"
 summary: "从 App.vue、main.js、pages.json、manifest.json 到 uni.scss、static 与组件目录，梳理 uni-app 项目最核心的工程结构和配置职责。"
 category: "通用基础"
-tags:
-  - "uni-app"
-  - "工程结构"
-  - "pages.json"
-  - "manifest.json"
-  - "easycom"
+tags: ["uni-app","工程结构","pages.json","manifest.json","easycom"]
 status: "draft"
-sortOrder: 20
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac254"
 originalSlug: "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static
+# 第 3 篇：uni-app 工程结构与配置基础
 
 > 这是这一组 `uni-app 通用基础` 笔记的第 3 篇。  
 > 这一篇不讲某个平台的开发者工具，也不讲微信、钉钉的特殊配置，只讲 uni-app 项目里最基础、最该先分清楚的工程结构。  

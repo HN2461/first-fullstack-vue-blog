@@ -1,24 +1,18 @@
 ---
-title: "uni-app微信小程序页面通信之eventChannel详解"
+title: "第 8 篇：uni-app 微信小程序 eventChannel 页面通信"
 slug: "uni-app-uni-app-eventchannel-bc3b226b"
-summary: "详细介绍uni.navigateTo中eventChannel的使用方法，包括基本用法、双向通信、实际应用场景和最佳实践。"
+summary: "详细介绍 uni.navigateTo 中 eventChannel 的使用方法，包括基本用法、双向通信、实际应用场景和最佳实践。"
 category: "微信小程序"
-tags:
-  - "uni-app"
-  - "微信小程序"
-  - "页面通信"
-  - "eventChannel"
-  - "路由跳转"
-  - "数据传递"
+tags: ["uni-app","微信小程序","页面通信","eventChannel","路由跳转"]
 status: "draft"
-sortOrder: 10
+sortOrder: 80
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac236"
 originalSlug: "uni-app-uni-app-eventchannel-bc3b226b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 微信小程序页面通信之 eventChannel 详解
+# 第 8 篇：uni-app 微信小程序 eventChannel 页面通信
 
 本文档详细介绍 uni.navigateTo 中的 eventChannel 通信机制，这是 uni-app 2.8.9+ 版本引入的页面间事件通信通道功能。
 

@@ -1,14 +1,9 @@
 ---
-title: "uni-app 微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑"
+title: "第 6 篇：uni-app 微信小程序组件设计与跨端差异处理"
 slug: "uni-app-uni-app-props-behaviors-60418e36"
-summary: "面向长期维护公司 uni-app 项目的开发者，从组件边界、props 和事件、behaviors、relations、纯数据字段、样式隔离到条件编译，梳理微信小程序组件层最常见的设计与避坑问题。"
+summary: "从组件边界、props、事件、behaviors、样式隔离到条件编译，梳理微信小程序组件设计与避坑问题。"
 category: "微信小程序"
-tags:
-  - "uni-app"
-  - "微信小程序"
-  - "组件设计"
-  - "条件编译"
-  - "样式隔离"
+tags: ["uni-app","微信小程序","组件设计","条件编译","样式隔离"]
 status: "draft"
 sortOrder: 60
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "uni-app-uni-app-props-behaviors-60418e36"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑
+# 第 6 篇：uni-app 微信小程序组件设计与跨端差异处理
 
 > 这是这一组 `uni-app 微信小程序` 笔记的第 5 篇。  
 > 截至 `2026-03-31`，我继续对照 `uni-app` 官方文档和微信开放文档，把“组件到底该怎么拆、跨端差异到底该怎么收”这一层单独拆出来讲。  

@@ -1,24 +1,18 @@
 ---
-title: "uni-app 微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界"
+title: "第 7 篇：uni-app 微信小程序特殊能力与微信能力边界"
 slug: "uni-app-uni-app-web-view-0f6f8748"
-summary: "面向长期维护公司 uni-app 项目的开发者，专门梳理 web-view、页面通信、登录联动、分享落地和微信专属能力边界这些更贴近真实业务的特殊能力场景。"
+summary: "梳理 web-view、页面通信、登录联动、分享落地和微信专属能力边界等更贴近真实业务的特殊场景。"
 category: "微信小程序"
-tags:
-  - "uni-app"
-  - "微信小程序"
-  - "web-view"
-  - "登录"
-  - "分享"
-  - "页面通信"
+tags: ["uni-app","微信小程序","web-view","登录","分享","页面通信"]
 status: "draft"
-sortOrder: 20
+sortOrder: 70
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac22a"
 originalSlug: "uni-app-uni-app-web-view-0f6f8748"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界
+# 第 7 篇：uni-app 微信小程序特殊能力与微信能力边界
 
 > 这是这一组 `uni-app 微信小程序` 笔记的第 7 篇。  
 > 截至 `2026-04-02`，我把前面几篇里还没展开讲透的“特殊能力”单独拎成一篇。  

@@ -156,6 +156,27 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/qingniao-trio-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/qingniao-trio-folder-before-semantic-cleanup-20260731-1645`。
 
+### 前端技术 / uni-app / 通用基础
+
+- 处理 4 篇 uni-app 通用基础文章。文章摘要和标签已有基础质量，主要问题是原排序为 04、03、02、01，阅读顺序倒置。
+- 已整理为：uni-app 到底是什么、应用生命周期、工程结构与配置基础、跨端开发通用方法。
+- 将 `sortOrder` 调整为 10、20、30、40，使线上目录按基础认知、生命周期、工程配置、通用 API 方法展示；本地文件名采用 `第 01 篇` 到 `第 04 篇`，保证文件管理器阅读顺序一致。
+- 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留已有高质量摘要和标签，仅按新标题收敛展示名称。
+- 保持分类路径 `前端技术 / uni-app / 通用基础` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/uniapp-general-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/uniapp-general-folder-before-semantic-cleanup-20260731-1655`。
+
+### 前端技术 / uni-app / 微信小程序
+
+- 处理 9 篇 uni-app 微信小程序文章。原排序将 eventChannel、特殊能力放在前面，底层逻辑排到最后，不适合从基础到实战阅读。
+- 已整理为：底层逻辑、工程结构与联调、常用功能全景、常见能力接法、登录态缓存权限与稳定性治理、组件设计与跨端差异、特殊能力与微信能力边界、eventChannel 页面通信、性能优化与包体治理。
+- 将 `sortOrder` 调整为 10 到 90，使线上目录按基础认知、工程配置、功能总览、专项能力、治理与性能的顺序展示；本地文件名采用 `第 01 篇` 到 `第 09 篇`，并明显缩短旧长文件名。
+- 对 `08-常用功能全景` 和 `04-性能优化` 未机械按 sourcePath 排序：总览型文章提前到常见能力前，性能优化放到最后；历史 `sourcePath` 保留用于溯源。
+- 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`，摘要和标签按新标题做轻量收敛。
+- 保持分类路径 `前端技术 / uni-app / 微信小程序` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/uniapp-wechat-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/uniapp-wechat-folder-before-semantic-cleanup-20260731-1705`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

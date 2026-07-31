@@ -1,23 +1,18 @@
 ---
-title: "uni-app 应用生命周期、页面生命周期与常见页面事件"
+title: "第 2 篇：uni-app 应用生命周期、页面生命周期与常见页面事件"
 slug: "uni-app-uni-app-4049c58c"
 summary: "从 App.vue 的应用生命周期、页面生命周期到常见页面事件，建立一套适用于 uni-app 多端项目的时序认知。"
 category: "通用基础"
-tags:
-  - "uni-app"
-  - "应用生命周期"
-  - "页面生命周期"
-  - "页面事件"
-  - "App.vue"
+tags: ["uni-app","应用生命周期","页面生命周期","页面事件","App.vue"]
 status: "draft"
-sortOrder: 30
+sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac24c"
 originalSlug: "uni-app-uni-app-4049c58c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 应用生命周期、页面生命周期与常见页面事件
+# 第 2 篇：uni-app 应用生命周期、页面生命周期与常见页面事件
 
 > 这是这一组 `uni-app 通用基础` 笔记的第 2 篇。  
 > 这一篇先不讲微信、钉钉、支付宝的专属规则，而是先把所有 `uni-app` 项目都会用到的时序认知讲清楚。  

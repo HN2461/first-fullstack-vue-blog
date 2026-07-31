@@ -1,23 +1,18 @@
 ---
-title: "uni-app 微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData 与真机排障"
+title: "第 9 篇：uni-app 微信小程序性能优化与包体治理"
 slug: "uni-app-uni-app-setdata-9f031d07"
-summary: "面向长期维护公司 uni-app 项目的开发者，从包体治理、首屏渲染、长列表、图片、setData 到真机排障，梳理微信小程序最有实战价值的性能优化思路。"
+summary: "从包体治理、首屏渲染、长列表、图片、setData 到真机排障，梳理微信小程序性能优化思路。"
 category: "微信小程序"
-tags:
-  - "uni-app"
-  - "微信小程序"
-  - "性能优化"
-  - "分包"
-  - "setData"
+tags: ["uni-app","微信小程序","性能优化","分包","setData"]
 status: "draft"
-sortOrder: 70
+sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac214"
 originalSlug: "uni-app-uni-app-setdata-9f031d07"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData 与真机排障
+# 第 9 篇：uni-app 微信小程序性能优化与包体治理
 
 > 这是这一组 `uni-app 微信小程序` 笔记的第 4 篇。  
 > 截至 `2026-03-31`，我继续对照 `uni-app` 官方文档和微信开放文档，把“项目为什么会慢、该从哪里下手治理”这一层单独拆出来讲。  

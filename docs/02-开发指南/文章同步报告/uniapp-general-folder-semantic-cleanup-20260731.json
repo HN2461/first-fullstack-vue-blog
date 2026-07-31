@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-07-31T07:43:51.916Z",
+  "scope": "output/线上文章/前端技术/uni-app/通用基础",
+  "changedCount": 4,
+  "changes": [
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac242",
+      "originalSlug": "uni-app-uni-app-85c68412",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "sourcePath": "uni-app/通用基础/01-uni-app到底是什么_跨端编译运行时与平台边界.md",
+      "old": {
+        "title": "uni-app 到底是什么：跨端编译、运行时与平台边界",
+        "summary": "从跨端编译、运行时宿主、通用能力边界到平台差异收口，先建立一套适用于 uni-app 多端项目的基础认知。",
+        "sortOrder": 40,
+        "tags": [
+          "uni-app",
+          "跨端开发",
+          "编译",
+          "运行时",
+          "平台差异"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/uni-app-到底是什么：跨端编译、运行时与平台边界.md"
+      },
+      "next": {
+        "title": "第 1 篇：uni-app 到底是什么：跨端编译、运行时与平台边界",
+        "summary": "从跨端编译、运行时宿主、通用能力边界到平台差异收口，先建立一套适用于 uni-app 多端项目的基础认知。",
+        "sortOrder": 10,
+        "tags": [
+          "uni-app",
+          "跨端开发",
+          "编译",
+          "运行时",
+          "平台差异"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/第 01 篇：uni-app 到底是什么：跨端编译、运行时与平台边界.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac24c",
+      "originalSlug": "uni-app-uni-app-4049c58c",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "sourcePath": "uni-app/通用基础/02-uni-app应用生命周期页面生命周期与常见页面事件.md",
+      "old": {
+        "title": "uni-app 应用生命周期、页面生命周期与常见页面事件",
+        "summary": "从 App.vue 的应用生命周期、页面生命周期到常见页面事件，建立一套适用于 uni-app 多端项目的时序认知。",
+        "sortOrder": 30,
+        "tags": [
+          "uni-app",
+          "应用生命周期",
+          "页面生命周期",
+          "页面事件",
+          "App.vue"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/uni-app-应用生命周期、页面生命周期与常见页面事件.md"
+      },
+      "next": {
+        "title": "第 2 篇：uni-app 应用生命周期、页面生命周期与常见页面事件",
+        "summary": "从 App.vue 的应用生命周期、页面生命周期到常见页面事件，建立一套适用于 uni-app 多端项目的时序认知。",
+        "sortOrder": 20,
+        "tags": [
+          "uni-app",
+          "应用生命周期",
+          "页面生命周期",
+          "页面事件",
+          "App.vue"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/第 02 篇：uni-app 应用生命周期、页面生命周期与常见页面事件.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac254",
+      "originalSlug": "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "sourcePath": "uni-app/通用基础/03-uni-app工程结构与配置基础_App.vue_main.js_pages.json_manifest.json_uni.scss与static.md",
+      "old": {
+        "title": "uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static",
+        "summary": "从 App.vue、main.js、pages.json、manifest.json 到 uni.scss、static 与组件目录，梳理 uni-app 项目最核心的工程结构和配置职责。",
+        "sortOrder": 20,
+        "tags": [
+          "uni-app",
+          "工程结构",
+          "pages.json",
+          "manifest.json",
+          "easycom"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/uni-app-工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss-与-static.md"
+      },
+      "next": {
+        "title": "第 3 篇：uni-app 工程结构与配置基础",
+        "summary": "从 App.vue、main.js、pages.json、manifest.json 到 uni.scss、static 与组件目录，梳理 uni-app 项目最核心的工程结构和配置职责。",
+        "sortOrder": 30,
+        "tags": [
+          "uni-app",
+          "工程结构",
+          "pages.json",
+          "manifest.json",
+          "easycom"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/第 03 篇：uni-app 工程结构与配置基础.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac25a",
+      "originalSlug": "uni-app-uni-app-66402eae",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "sourcePath": "uni-app/通用基础/04-uni-app跨端开发通用方法_路由请求缓存上传下载与条件编译.md",
+      "old": {
+        "title": "uni-app 跨端开发通用方法：路由、请求、缓存、上传下载与条件编译",
+        "summary": "从路由、请求、缓存、上传下载到条件编译与平台适配，梳理一套适用于 uni-app 多端项目的通用开发方法。",
+        "sortOrder": 10,
+        "tags": [
+          "uni-app",
+          "路由",
+          "条件编译",
+          "请求",
+          "缓存"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/uni-app-跨端开发通用方法：路由、请求、缓存、上传下载与条件编译.md"
+      },
+      "next": {
+        "title": "第 4 篇：uni-app 跨端开发通用方法",
+        "summary": "从路由、请求、缓存、上传下载到条件编译与平台适配，梳理一套适用于 uni-app 多端项目的通用开发方法。",
+        "sortOrder": 40,
+        "tags": [
+          "uni-app",
+          "路由",
+          "条件编译",
+          "请求",
+          "缓存"
+        ],
+        "fileName": "前端技术/uni-app/通用基础/第 04 篇：uni-app 跨端开发通用方法.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

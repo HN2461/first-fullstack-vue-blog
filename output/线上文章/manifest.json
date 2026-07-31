@@ -5660,94 +5660,10 @@
       "contentHash": "4a399f6228919506ef566d68c23376f6e2b0a96a04bf2ce2d5a0907f8e1a8b22"
     },
     {
-      "originalId": "6a2d291e8a2b1c68f2cac25a",
-      "originalSlug": "uni-app-uni-app-66402eae",
-      "exportedSlug": "uni-app-uni-app-66402eae",
-      "title": "uni-app 跨端开发通用方法：路由、请求、缓存、上传下载与条件编译",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "通用基础"
-      ],
-      "tags": [
-        "uni-app",
-        "路由",
-        "条件编译",
-        "请求",
-        "缓存"
-      ],
-      "sortOrder": 10,
-      "sourcePath": "uni-app/通用基础/04-uni-app跨端开发通用方法_路由请求缓存上传下载与条件编译.md",
-      "publishedAt": "2026-05-09T12:50:17.704Z",
-      "updatedAt": "2026-06-13T10:28:27.950Z",
-      "fileName": "前端技术/uni-app/通用基础/uni-app-跨端开发通用方法：路由、请求、缓存、上传下载与条件编译.md",
-      "summary": "从路由、请求、缓存、上传下载到条件编译与平台适配，梳理一套适用于 uni-app 多端项目的通用开发方法。",
-      "cover": "",
-      "contentHash": "d6f82162befae3e7835e17a55ddfd710f519c2f2f9e5e72126a829b125699e59"
-    },
-    {
-      "originalId": "6a2d291e8a2b1c68f2cac254",
-      "originalSlug": "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2",
-      "exportedSlug": "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2",
-      "title": "uni-app 工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss 与 static",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "通用基础"
-      ],
-      "tags": [
-        "uni-app",
-        "工程结构",
-        "pages.json",
-        "manifest.json",
-        "easycom"
-      ],
-      "sortOrder": 20,
-      "sourcePath": "uni-app/通用基础/03-uni-app工程结构与配置基础_App.vue_main.js_pages.json_manifest.json_uni.scss与static.md",
-      "publishedAt": "2026-05-09T12:50:17.703Z",
-      "updatedAt": "2026-06-17T12:38:28.920Z",
-      "fileName": "前端技术/uni-app/通用基础/uni-app-工程结构与配置基础：App.vue、main.js、pages.json、manifest.json、uni.scss-与-static.md",
-      "summary": "从 App.vue、main.js、pages.json、manifest.json 到 uni.scss、static 与组件目录，梳理 uni-app 项目最核心的工程结构和配置职责。",
-      "cover": "",
-      "contentHash": "17aeda85f74ee8d000e76d7a81f9e3c522e4eef114fe6fde15ab64c1b9c81221"
-    },
-    {
-      "originalId": "6a2d291e8a2b1c68f2cac24c",
-      "originalSlug": "uni-app-uni-app-4049c58c",
-      "exportedSlug": "uni-app-uni-app-4049c58c",
-      "title": "uni-app 应用生命周期、页面生命周期与常见页面事件",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "通用基础"
-      ],
-      "tags": [
-        "uni-app",
-        "应用生命周期",
-        "页面生命周期",
-        "页面事件",
-        "App.vue"
-      ],
-      "sortOrder": 30,
-      "sourcePath": "uni-app/通用基础/02-uni-app应用生命周期页面生命周期与常见页面事件.md",
-      "publishedAt": "2026-05-09T12:50:17.702Z",
-      "updatedAt": "2026-06-17T12:38:29.736Z",
-      "fileName": "前端技术/uni-app/通用基础/uni-app-应用生命周期、页面生命周期与常见页面事件.md",
-      "summary": "从 App.vue 的应用生命周期、页面生命周期到常见页面事件，建立一套适用于 uni-app 多端项目的时序认知。",
-      "cover": "",
-      "contentHash": "dd10d8388047fe623ca44bf0180f7a8ff6d2179aa9fb565390294e8f33ba4f3c"
-    },
-    {
       "originalId": "6a2d291e8a2b1c68f2cac242",
       "originalSlug": "uni-app-uni-app-85c68412",
       "exportedSlug": "uni-app-uni-app-85c68412",
-      "title": "uni-app 到底是什么：跨端编译、运行时与平台边界",
+      "title": "第 1 篇：uni-app 到底是什么：跨端编译、运行时与平台边界",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5762,78 +5678,132 @@
         "运行时",
         "平台差异"
       ],
-      "sortOrder": 40,
+      "sortOrder": 10,
       "sourcePath": "uni-app/通用基础/01-uni-app到底是什么_跨端编译运行时与平台边界.md",
       "publishedAt": "2026-05-09T12:50:17.700Z",
       "updatedAt": "2026-06-17T12:38:32.192Z",
-      "fileName": "前端技术/uni-app/通用基础/uni-app-到底是什么：跨端编译、运行时与平台边界.md",
+      "fileName": "前端技术/uni-app/通用基础/第 01 篇：uni-app 到底是什么：跨端编译、运行时与平台边界.md",
       "summary": "从跨端编译、运行时宿主、通用能力边界到平台差异收口，先建立一套适用于 uni-app 多端项目的基础认知。",
       "cover": "",
-      "contentHash": "8549bfb29e1a047367a79711d56d8b1d32b9617e692da8e0cabb566b9326cdaf"
+      "contentHash": "4bdabbd877e77e6d54baa7d2e7d9873ed81cceed53cdfa30d3a66d097dd58692"
     },
     {
-      "originalId": "6a2d291e8a2b1c68f2cac236",
-      "originalSlug": "uni-app-uni-app-eventchannel-bc3b226b",
-      "exportedSlug": "uni-app-uni-app-eventchannel-bc3b226b",
-      "title": "uni-app微信小程序页面通信之eventChannel详解",
+      "originalId": "6a2d291e8a2b1c68f2cac24c",
+      "originalSlug": "uni-app-uni-app-4049c58c",
+      "exportedSlug": "uni-app-uni-app-4049c58c",
+      "title": "第 2 篇：uni-app 应用生命周期、页面生命周期与常见页面事件",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
         "前端技术",
         "uni-app",
-        "微信小程序"
+        "通用基础"
       ],
       "tags": [
         "uni-app",
-        "微信小程序",
-        "页面通信",
-        "eventChannel",
-        "路由跳转",
-        "数据传递"
-      ],
-      "sortOrder": 10,
-      "sourcePath": "uni-app/微信小程序/09-uni-app微信小程序页面通信之eventChannel详解.md",
-      "publishedAt": "2026-05-19T12:30:25.024Z",
-      "updatedAt": "2026-06-17T12:38:33.787Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app微信小程序页面通信之eventChannel详解.md",
-      "summary": "详细介绍uni.navigateTo中eventChannel的使用方法，包括基本用法、双向通信、实际应用场景和最佳实践。",
-      "cover": "",
-      "contentHash": "173602f213babf95806b85d3bf0275a8252c786aae4eb4395fefed5b49a35e37"
-    },
-    {
-      "originalId": "6a2d291e8a2b1c68f2cac22a",
-      "originalSlug": "uni-app-uni-app-web-view-0f6f8748",
-      "exportedSlug": "uni-app-uni-app-web-view-0f6f8748",
-      "title": "uni-app 微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "微信小程序"
-      ],
-      "tags": [
-        "uni-app",
-        "微信小程序",
-        "web-view",
-        "登录",
-        "分享",
-        "页面通信"
+        "应用生命周期",
+        "页面生命周期",
+        "页面事件",
+        "App.vue"
       ],
       "sortOrder": 20,
-      "sourcePath": "uni-app/微信小程序/07-uni-app微信小程序特殊能力实战_web-view页面通信登录分享与微信专属能力边界.md",
-      "publishedAt": "2026-05-09T13:39:13.192Z",
-      "updatedAt": "2026-06-13T10:28:27.878Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-微信小程序特殊能力实战：web-view、页面通信、登录、分享与微信专属能力边界.md",
-      "summary": "面向长期维护公司 uni-app 项目的开发者，专门梳理 web-view、页面通信、登录联动、分享落地和微信专属能力边界这些更贴近真实业务的特殊能力场景。",
+      "sourcePath": "uni-app/通用基础/02-uni-app应用生命周期页面生命周期与常见页面事件.md",
+      "publishedAt": "2026-05-09T12:50:17.702Z",
+      "updatedAt": "2026-06-17T12:38:29.736Z",
+      "fileName": "前端技术/uni-app/通用基础/第 02 篇：uni-app 应用生命周期、页面生命周期与常见页面事件.md",
+      "summary": "从 App.vue 的应用生命周期、页面生命周期到常见页面事件，建立一套适用于 uni-app 多端项目的时序认知。",
       "cover": "",
-      "contentHash": "27f168c76de6c9274d633e5f3211d63443e035477e6b5e8d512aa71e7c23884a"
+      "contentHash": "df33f2a53886688bcf12f0b1c85fd43c4e166c476557c11441b1b1d6e7ba1dd1"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac254",
+      "originalSlug": "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2",
+      "exportedSlug": "uni-app-uni-app-app-vue-main-js-pages-json-manifest-json-uni-scss-static-8b1b93f2",
+      "title": "第 3 篇：uni-app 工程结构与配置基础",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "tags": [
+        "uni-app",
+        "工程结构",
+        "pages.json",
+        "manifest.json",
+        "easycom"
+      ],
+      "sortOrder": 30,
+      "sourcePath": "uni-app/通用基础/03-uni-app工程结构与配置基础_App.vue_main.js_pages.json_manifest.json_uni.scss与static.md",
+      "publishedAt": "2026-05-09T12:50:17.703Z",
+      "updatedAt": "2026-06-17T12:38:28.920Z",
+      "fileName": "前端技术/uni-app/通用基础/第 03 篇：uni-app 工程结构与配置基础.md",
+      "summary": "从 App.vue、main.js、pages.json、manifest.json 到 uni.scss、static 与组件目录，梳理 uni-app 项目最核心的工程结构和配置职责。",
+      "cover": "",
+      "contentHash": "c2c52b4ebc31c077e4021d2687bde7e44da67e62a9cffc17c705b3622768de43"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac25a",
+      "originalSlug": "uni-app-uni-app-66402eae",
+      "exportedSlug": "uni-app-uni-app-66402eae",
+      "title": "第 4 篇：uni-app 跨端开发通用方法",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "通用基础"
+      ],
+      "tags": [
+        "uni-app",
+        "路由",
+        "条件编译",
+        "请求",
+        "缓存"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "uni-app/通用基础/04-uni-app跨端开发通用方法_路由请求缓存上传下载与条件编译.md",
+      "publishedAt": "2026-05-09T12:50:17.704Z",
+      "updatedAt": "2026-06-13T10:28:27.950Z",
+      "fileName": "前端技术/uni-app/通用基础/第 04 篇：uni-app 跨端开发通用方法.md",
+      "summary": "从路由、请求、缓存、上传下载到条件编译与平台适配，梳理一套适用于 uni-app 多端项目的通用开发方法。",
+      "cover": "",
+      "contentHash": "849ee2006d708036c1d39b1ed518b020042f0302878655c4654be772d94feb63"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac200",
+      "originalSlug": "uni-app-uni-app-d43ce8ad",
+      "exportedSlug": "uni-app-uni-app-d43ce8ad",
+      "title": "第 1 篇：uni-app 微信小程序底层逻辑",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "运行机制",
+        "生命周期",
+        "分包"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "uni-app/微信小程序/01-uni-app做微信小程序前必须先搞懂的底层逻辑_运行机制生命周期路由登录与分包.md",
+      "publishedAt": "2026-04-03T13:50:43.295Z",
+      "updatedAt": "2026-06-13T10:28:27.809Z",
+      "fileName": "前端技术/uni-app/微信小程序/第 01 篇：uni-app 微信小程序底层逻辑.md",
+      "summary": "从编译链路、宿主环境、页面生命周期、登录链路到分包与性能，建立 uni-app 开发微信小程序的整体认知。",
+      "cover": "",
+      "contentHash": "2a4a198797ed511fca74d01d0ccdc7fb8a6eb00f86de9e0e947124f96b551ef6"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac208",
       "originalSlug": "uni-app-uni-app-pages-json-manifest-json-38b6eedd",
       "exportedSlug": "uni-app-uni-app-pages-json-manifest-json-38b6eedd",
-      "title": "uni-app 微信小程序工程结构实战：pages.json、manifest.json、条件编译与开发者工具联调",
+      "title": "第 2 篇：uni-app 微信小程序工程结构与联调",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5848,20 +5818,20 @@
         "条件编译",
         "开发者工具"
       ],
-      "sortOrder": 30,
+      "sortOrder": 20,
       "sourcePath": "uni-app/微信小程序/02-uni-app微信小程序工程结构实战_pages.json_manifest.json_条件编译与开发者工具联调.md",
       "publishedAt": "2026-04-03T13:57:01.119Z",
       "updatedAt": "2026-06-13T10:28:27.819Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-微信小程序工程结构实战：pages.json、manifest.json、条件编译与开发者工具联调.md",
-      "summary": "从公司项目实战视角梳理 uni-app 做微信小程序时最关键的工程组织方式，讲清 pages.json、manifest.json、project.config.json 的职责边界和联调流程。",
+      "fileName": "前端技术/uni-app/微信小程序/第 02 篇：uni-app 微信小程序工程结构与联调.md",
+      "summary": "从 pages.json、manifest.json、project.config.json 到条件编译和开发者工具联调，梳理微信小程序工程配置边界。",
       "cover": "",
-      "contentHash": "8271f1edf1ac2e1d6cfb241bb56568025174836c3fb42f7d6e4ebae5a28674a1"
+      "contentHash": "289670c79a778557bcd8e453973f4ce0ef2f61f5c85a1002be3eba0ebee759da"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac22e",
       "originalSlug": "uni-app-uni-app-web-view-b6e991ff",
       "exportedSlug": "uni-app-uni-app-web-view-b6e991ff",
-      "title": "uni-app 微信小程序常用功能全景实战：页面交互、路由、请求、缓存、登录、上传、定位、分享、支付与 web-view 逐项细讲",
+      "title": "第 3 篇：uni-app 微信小程序常用功能全景实战",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5877,20 +5847,48 @@
         "分享",
         "支付"
       ],
-      "sortOrder": 40,
+      "sortOrder": 30,
       "sourcePath": "uni-app/微信小程序/08-uni-app微信小程序常用功能全景实战_页面交互路由请求缓存登录上传定位分享支付web-view逐项细讲.md",
       "publishedAt": "2026-04-03T13:55:17.904Z",
       "updatedAt": "2026-06-13T10:28:27.891Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-微信小程序常用功能全景实战：页面交互、路由、请求、缓存、登录、上传、定位、分享、支付与-web-view-逐项细讲.md",
-      "summary": "面向基础还不牢的新手，按真实业务顺序把 uni-app 做微信小程序时最常用的功能几乎都过一遍，讲清页面交互、跳转、请求、缓存、登录、手机号、上传下载、定位、扫码、分享、支付、web-view、订阅消息和权限处理。",
+      "fileName": "前端技术/uni-app/微信小程序/第 03 篇：uni-app 微信小程序常用功能全景实战.md",
+      "summary": "按真实业务顺序梳理页面交互、路由、请求、缓存、登录、上传、定位、分享、支付、web-view、订阅消息和权限处理。",
       "cover": "",
-      "contentHash": "fdcf5f37597c29e30c20e0c102279cc6e0130dac22114f87f4ed58144b15990f"
+      "contentHash": "1a1808e515f4d368fbc8bdecbf20072a2636966a0238565aee488d379f696eef"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac210",
+      "originalSlug": "uni-app-uni-app-59f5c8d0",
+      "exportedSlug": "uni-app-uni-app-59f5c8d0",
+      "title": "第 4 篇：uni-app 微信小程序常见能力接法实战",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "登录",
+        "订阅消息",
+        "支付"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "uni-app/微信小程序/03-uni-app微信小程序常见能力接法实战_登录用户信息手机号上传下载订阅消息分享与支付.md",
+      "publishedAt": "2026-04-03T13:52:03.314Z",
+      "updatedAt": "2026-06-13T10:28:27.832Z",
+      "fileName": "前端技术/uni-app/微信小程序/第 04 篇：uni-app 微信小程序常见能力接法实战.md",
+      "summary": "梳理微信小程序常见能力接法，讲清登录、头像昵称、手机号、上传下载、订阅消息、分享与支付的稳妥实践。",
+      "cover": "",
+      "contentHash": "af9a5b9106d46c1aa007393a398b916673a005aec99610226b8052b3d4094e85"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac222",
       "originalSlug": "uni-app-uni-app-session-key-token-8af791f8",
       "exportedSlug": "uni-app-uni-app-session-key-token-8af791f8",
-      "title": "uni-app 微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权",
+      "title": "第 5 篇：uni-app 微信小程序登录态、缓存、权限与稳定性治理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5909,16 +5907,16 @@
       "sourcePath": "uni-app/微信小程序/06-uni-app微信小程序登录态缓存权限与稳定性治理实战_session_key_token本地存储前后台恢复与隐私授权.md",
       "publishedAt": "2026-04-03T13:53:42.209Z",
       "updatedAt": "2026-06-13T10:28:27.865Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权.md",
-      "summary": "面向长期维护公司 uni-app 项目的开发者，从 session_key、业务 token、本地存储、前后台恢复到隐私授权，梳理微信小程序最容易混乱的状态治理与稳定性问题。",
+      "fileName": "前端技术/uni-app/微信小程序/第 05 篇：uni-app 微信小程序登录态、缓存、权限与稳定性治理.md",
+      "summary": "从 session_key、业务 token、本地存储、前后台恢复到隐私授权，梳理微信小程序状态治理与稳定性问题。",
       "cover": "",
-      "contentHash": "e2fe061c31921e7fed4d02bbf30f067c7199e1d738fc290b3020fd0c87187a6f"
+      "contentHash": "9915558ab8a1ddffd7e1ff5498fc37278fe4c593768b8d0e827ba0c12ffa6c55"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac21a",
       "originalSlug": "uni-app-uni-app-props-behaviors-60418e36",
       "exportedSlug": "uni-app-uni-app-props-behaviors-60418e36",
-      "title": "uni-app 微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑",
+      "title": "第 6 篇：uni-app 微信小程序组件设计与跨端差异处理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5937,16 +5935,73 @@
       "sourcePath": "uni-app/微信小程序/05-uni-app微信小程序组件设计与跨端差异处理实战_props事件behaviors样式隔离条件编译与原生组件避坑.md",
       "publishedAt": "2026-04-03T13:53:14.832Z",
       "updatedAt": "2026-06-17T12:38:35.241Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-微信小程序组件设计与跨端差异处理实战：props、事件、behaviors、样式隔离、条件编译与原生组件避坑.md",
-      "summary": "面向长期维护公司 uni-app 项目的开发者，从组件边界、props 和事件、behaviors、relations、纯数据字段、样式隔离到条件编译，梳理微信小程序组件层最常见的设计与避坑问题。",
+      "fileName": "前端技术/uni-app/微信小程序/第 06 篇：uni-app 微信小程序组件设计与跨端差异处理.md",
+      "summary": "从组件边界、props、事件、behaviors、样式隔离到条件编译，梳理微信小程序组件设计与避坑问题。",
       "cover": "",
-      "contentHash": "0ea2a026bc47be17a90beec660bc32e62a0bcc73c24a034d7306aa6fafed6766"
+      "contentHash": "390e21f4fcb074d2ce23e235f6f5e88b8ae43eba0c8d756f541890fc9d96dd96"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac22a",
+      "originalSlug": "uni-app-uni-app-web-view-0f6f8748",
+      "exportedSlug": "uni-app-uni-app-web-view-0f6f8748",
+      "title": "第 7 篇：uni-app 微信小程序特殊能力与微信能力边界",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "web-view",
+        "登录",
+        "分享",
+        "页面通信"
+      ],
+      "sortOrder": 70,
+      "sourcePath": "uni-app/微信小程序/07-uni-app微信小程序特殊能力实战_web-view页面通信登录分享与微信专属能力边界.md",
+      "publishedAt": "2026-05-09T13:39:13.192Z",
+      "updatedAt": "2026-06-13T10:28:27.878Z",
+      "fileName": "前端技术/uni-app/微信小程序/第 07 篇：uni-app 微信小程序特殊能力与微信能力边界.md",
+      "summary": "梳理 web-view、页面通信、登录联动、分享落地和微信专属能力边界等更贴近真实业务的特殊场景。",
+      "cover": "",
+      "contentHash": "44203506e98370d04d6e654cc89eebc6e29211bacae5d9165b06eafb688dad35"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac236",
+      "originalSlug": "uni-app-uni-app-eventchannel-bc3b226b",
+      "exportedSlug": "uni-app-uni-app-eventchannel-bc3b226b",
+      "title": "第 8 篇：uni-app 微信小程序 eventChannel 页面通信",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "uni-app",
+        "微信小程序"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "页面通信",
+        "eventChannel",
+        "路由跳转"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "uni-app/微信小程序/09-uni-app微信小程序页面通信之eventChannel详解.md",
+      "publishedAt": "2026-05-19T12:30:25.024Z",
+      "updatedAt": "2026-06-17T12:38:33.787Z",
+      "fileName": "前端技术/uni-app/微信小程序/第 08 篇：uni-app 微信小程序 eventChannel 页面通信.md",
+      "summary": "详细介绍 uni.navigateTo 中 eventChannel 的使用方法，包括基本用法、双向通信、实际应用场景和最佳实践。",
+      "cover": "",
+      "contentHash": "72d3e0484698326b6d24e37d93479d58eeec6ff46d40a848345acd495bc94519"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac214",
       "originalSlug": "uni-app-uni-app-setdata-9f031d07",
       "exportedSlug": "uni-app-uni-app-setdata-9f031d07",
-      "title": "uni-app 微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData 与真机排障",
+      "title": "第 9 篇：uni-app 微信小程序性能优化与包体治理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5961,70 +6016,14 @@
         "分包",
         "setData"
       ],
-      "sortOrder": 70,
+      "sortOrder": 90,
       "sourcePath": "uni-app/微信小程序/04-uni-app微信小程序性能优化与包体治理实战_首屏分包长列表图片setData与真机排障.md",
       "publishedAt": "2026-04-03T13:52:36.831Z",
       "updatedAt": "2026-06-13T10:28:27.843Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-微信小程序性能优化与包体治理实战：首屏、分包、长列表、图片、setData-与真机排障.md",
-      "summary": "面向长期维护公司 uni-app 项目的开发者，从包体治理、首屏渲染、长列表、图片、setData 到真机排障，梳理微信小程序最有实战价值的性能优化思路。",
+      "fileName": "前端技术/uni-app/微信小程序/第 09 篇：uni-app 微信小程序性能优化与包体治理.md",
+      "summary": "从包体治理、首屏渲染、长列表、图片、setData 到真机排障，梳理微信小程序性能优化思路。",
       "cover": "",
-      "contentHash": "534623bf0bcddc4df1c500c12e218d368f374a79dec97b50762314461af73906"
-    },
-    {
-      "originalId": "6a2d291e8a2b1c68f2cac210",
-      "originalSlug": "uni-app-uni-app-59f5c8d0",
-      "exportedSlug": "uni-app-uni-app-59f5c8d0",
-      "title": "uni-app 微信小程序常见能力接法实战：登录、用户信息、手机号、上传下载、订阅消息、分享与支付",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "微信小程序"
-      ],
-      "tags": [
-        "uni-app",
-        "微信小程序",
-        "登录",
-        "订阅消息",
-        "支付"
-      ],
-      "sortOrder": 80,
-      "sourcePath": "uni-app/微信小程序/03-uni-app微信小程序常见能力接法实战_登录用户信息手机号上传下载订阅消息分享与支付.md",
-      "publishedAt": "2026-04-03T13:52:03.314Z",
-      "updatedAt": "2026-06-13T10:28:27.832Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-微信小程序常见能力接法实战：登录、用户信息、手机号、上传下载、订阅消息、分享与支付.md",
-      "summary": "面向长期维护公司 uni-app 项目的开发者，梳理微信小程序里最常见的能力接法，讲清登录、头像昵称、手机号、上传下载、订阅消息、分享与支付的稳妥实践。",
-      "cover": "",
-      "contentHash": "d83d5a9f2dd79a9e92d42bd6e7c9ec1e01a50cf6aec6d2ec7c593236cc0a14e3"
-    },
-    {
-      "originalId": "6a2d291e8a2b1c68f2cac200",
-      "originalSlug": "uni-app-uni-app-d43ce8ad",
-      "exportedSlug": "uni-app-uni-app-d43ce8ad",
-      "title": "uni-app 做微信小程序前必须先搞懂的底层逻辑：运行机制、生命周期、路由、登录与分包",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "uni-app",
-        "微信小程序"
-      ],
-      "tags": [
-        "uni-app",
-        "微信小程序",
-        "运行机制",
-        "生命周期",
-        "分包"
-      ],
-      "sortOrder": 90,
-      "sourcePath": "uni-app/微信小程序/01-uni-app做微信小程序前必须先搞懂的底层逻辑_运行机制生命周期路由登录与分包.md",
-      "publishedAt": "2026-04-03T13:50:43.295Z",
-      "updatedAt": "2026-06-13T10:28:27.809Z",
-      "fileName": "前端技术/uni-app/微信小程序/uni-app-做微信小程序前必须先搞懂的底层逻辑：运行机制、生命周期、路由、登录与分包.md",
-      "summary": "面向长期维护公司 uni-app 项目的开发者，从编译链路、宿主环境、页面生命周期、登录链路到分包与性能，先建立做微信小程序最重要的整体认知。",
-      "cover": "",
-      "contentHash": "37ab01bdb0810df951f67c41769bf26338547584f983f0f189041efe092f08f8"
+      "contentHash": "2975abc4858ae19ed84528d53470fdcd8d65def91cce0bb4cf1e820491e5a08e"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac274",

@@ -1,14 +1,9 @@
 ---
-title: "uni-app 微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权"
+title: "第 5 篇：uni-app 微信小程序登录态、缓存、权限与稳定性治理"
 slug: "uni-app-uni-app-session-key-token-8af791f8"
-summary: "面向长期维护公司 uni-app 项目的开发者，从 session_key、业务 token、本地存储、前后台恢复到隐私授权，梳理微信小程序最容易混乱的状态治理与稳定性问题。"
+summary: "从 session_key、业务 token、本地存储、前后台恢复到隐私授权，梳理微信小程序状态治理与稳定性问题。"
 category: "微信小程序"
-tags:
-  - "uni-app"
-  - "微信小程序"
-  - "登录态"
-  - "本地缓存"
-  - "隐私授权"
+tags: ["uni-app","微信小程序","登录态","本地缓存","隐私授权"]
 status: "draft"
 sortOrder: 50
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "uni-app-uni-app-session-key-token-8af791f8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 微信小程序登录态缓存权限与稳定性治理实战：session_key、token、本地存储、前后台恢复与隐私授权
+# 第 5 篇：uni-app 微信小程序登录态、缓存、权限与稳定性治理
 
 > 这是这一组 `uni-app 微信小程序` 笔记的第 6 篇。  
 > 截至 `2026-03-31`，我继续对照 `uni-app` 和微信开放文档，把公司项目里最容易“越维护越乱”的一层单独拎出来讲。  

@@ -1,24 +1,18 @@
 ---
-title: "uni-app 微信小程序常用功能全景实战：页面交互、路由、请求、缓存、登录、上传、定位、分享、支付与 web-view 逐项细讲"
+title: "第 3 篇：uni-app 微信小程序常用功能全景实战"
 slug: "uni-app-uni-app-web-view-b6e991ff"
-summary: "面向基础还不牢的新手，按真实业务顺序把 uni-app 做微信小程序时最常用的功能几乎都过一遍，讲清页面交互、跳转、请求、缓存、登录、手机号、上传下载、定位、扫码、分享、支付、web-view、订阅消息和权限处理。"
+summary: "按真实业务顺序梳理页面交互、路由、请求、缓存、登录、上传、定位、分享、支付、web-view、订阅消息和权限处理。"
 category: "微信小程序"
-tags:
-  - "uni-app"
-  - "微信小程序"
-  - "能力接入"
-  - "登录"
-  - "分享"
-  - "支付"
+tags: ["uni-app","微信小程序","能力接入","登录","分享","支付"]
 status: "draft"
-sortOrder: 40
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac22e"
 originalSlug: "uni-app-uni-app-web-view-b6e991ff"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 微信小程序常用功能全景实战：页面交互、路由、请求、缓存、登录、上传、定位、分享、支付与 web-view 逐项细讲
+# 第 3 篇：uni-app 微信小程序常用功能全景实战
 
 > 这是这一组 `uni-app 微信小程序` 笔记的第 8 篇。  
 > 截至 `2026-04-02`，这一篇我不再只讲“大框架”，而是专门按新手真正会碰到的功能场景，一项一项掰开讲。  
