@@ -1,15 +1,9 @@
 ---
-title: "第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上项目的图表组件"
+title: "第 4 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件"
 slug: "echarts-echarts-vue3-vite-echarts-03b8ae7e"
 summary: "基于 2026-05-03 查阅的 Apache ECharts 官方 chart size、dynamic data、canvas vs svg、安全与 Aria 文档，以及 vue-echarts 官方 README 和 Releases，讲清 Vue 3 + Vite 项目里最稳的图表封装方式、按需引入、自动适配、主题、loading、事件、手动更新和常见坑。"
 category: "ECharts"
-tags:
-  - "ECharts"
-  - "Vue3"
-  - "Vite"
-  - "vue-echarts"
-  - "图表组件"
-  - "项目落地"
+tags: ["ECharts","Vue3","Vite","vue-echarts","图表组件","项目落地"]
 status: "draft"
 sortOrder: 40
 cover: ""
@@ -18,7 +12,7 @@ originalSlug: "echarts-echarts-vue3-vite-echarts-03b8ae7e"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上项目的图表组件
+# 第 4 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件
 
 > 主人前面三篇已经把“是什么、怎么选图、怎么组织数据”讲清了。  
 > 这一篇就直接落到项目里最常见的问题：**我现在要在 Vue 3 + Vite 里把图表真正做成一个稳定可复用的组件，该怎么写最顺？**

@@ -1,25 +1,18 @@
 ---
-title: "数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty"
+title: "第 9 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton"
 slug: "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f"
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解详情页、状态标记、加载态与空态相关的数据展示组件，覆盖 Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty。"
 category: "ElementPlus"
-tags:
-  - "Element Plus"
-  - "Descriptions"
-  - "Timeline"
-  - "Collapse"
-  - "Tag"
-  - "Badge"
-  - "Statistic"
+tags: ["Element Plus","Descriptions","Timeline","Collapse","Tag","Skeleton"]
 status: "draft"
-sortOrder: 40
+sortOrder: 90
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac61e"
 originalSlug: "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty
+# 第 9 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton
 
 > 主人第五篇讲了 Table、Pagination 这些列表页的主力组件。  
 > 但后台系统里还有大量"非列表"的展示场景：

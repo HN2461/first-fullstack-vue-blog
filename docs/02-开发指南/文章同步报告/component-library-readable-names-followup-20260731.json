@@ -1,0 +1,348 @@
+{
+  "generatedAt": "2026-07-31T08:01:02.301Z",
+  "scope": "output/线上文章/前端技术/组件库",
+  "changedCount": 17,
+  "reason": "按用户反馈补强本地文件名和线上标题的见名知意程度，保留排序不变。",
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5cc",
+      "originalSlug": "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第三篇_dataset_dimensions_encode_transform_把后端数据整理成能复用的图表数据.md",
+      "old": {
+        "title": "第 3 篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据",
+        "fileName": "前端技术/组件库/ECharts/第 03 篇：dataset、dimensions、encode、transform：图表数据整理.md",
+        "contentHash": "c2103137b148c1cbcd7cdd1222e976571d7d5205b7a3fff86c0ef6ef2dfab315"
+      },
+      "next": {
+        "title": "第 3 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据",
+        "fileName": "前端技术/组件库/ECharts/第 03 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据.md",
+        "contentHash": "ad965f5cd2646b2455e4bd51852e6d4322522f576e073de2f9a1d5e47a37dc2b"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5f0",
+      "originalSlug": "echarts-echarts-vue3-vite-echarts-03b8ae7e",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第四篇_Vue3_Vite_项目落地_把ECharts封成能直接上项目的图表组件.md",
+      "old": {
+        "title": "第 4 篇：Vue 3 + Vite 项目落地：封装 ECharts 图表组件",
+        "fileName": "前端技术/组件库/ECharts/第 04 篇：Vue 3 + Vite 项目落地：封装 ECharts 图表组件.md",
+        "contentHash": "fdc8901620eadfc4ef50b90a87ebe3d7108c21e9ca7625f6e096a3e3b685c880"
+      },
+      "next": {
+        "title": "第 4 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件",
+        "fileName": "前端技术/组件库/ECharts/第 04 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件.md",
+        "contentHash": "3f2866ed45cac853024729b2d3235bf3168d9dde9a41d8293bc447151ea82d22"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5e2",
+      "originalSlug": "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第五篇_交互与联动_tooltip_legend_dataZoom_dispatchAction怎么配合.md",
+      "old": {
+        "title": "第 5 篇：ECharts 交互与联动：tooltip、legend、dataZoom 与 dispatchAction",
+        "fileName": "前端技术/组件库/ECharts/第 05 篇：ECharts 交互与联动.md",
+        "contentHash": "d497e306ceb537032fee871603f7734e835a235a178bf2ab938ec9fd4e3a016d"
+      },
+      "next": {
+        "title": "第 5 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction",
+        "fileName": "前端技术/组件库/ECharts/第 05 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction.md",
+        "contentHash": "5cc4f1e093b4407c95c038d9a552710144bbf20722f6673457a8adc9858675d2"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5ea",
+      "originalSlug": "echarts-echarts-echarts-be0b5cbd",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第六篇_项目开发速查清单_从安装到上线排查的ECharts实战路线.md",
+      "old": {
+        "title": "第 6 篇：ECharts 项目开发速查清单",
+        "fileName": "前端技术/组件库/ECharts/第 06 篇：ECharts 项目开发速查清单.md",
+        "contentHash": "42346d7c693ee332cb2928cf098069b826b738f9d045677b60c05c7e94104e28"
+      },
+      "next": {
+        "title": "第 6 篇：ECharts 项目开发速查清单：安装、封装、上线排查",
+        "fileName": "前端技术/组件库/ECharts/第 06 篇：ECharts 项目开发速查清单：安装、封装、上线排查.md",
+        "contentHash": "2873867895ed6f2138ee458dc44dfd7f5ced464e3d1deffe5026310e99255683"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5fa",
+      "originalSlug": "element-plus-elementplus-element-plus-vue3-pc-86202b18",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第一篇_快速认识Element Plus_为什么它是Vue3里常见的PC端组件库.md",
+      "old": {
+        "title": "第 1 篇：快速认识 Element Plus",
+        "fileName": "前端技术/组件库/ElementPlus/第 01 篇：快速认识 Element Plus.md",
+        "contentHash": "73352139a07ae1b10755b161841378557daf7e6749bd1e946211e0438612499f"
+      },
+      "next": {
+        "title": "第 1 篇：快速认识 Element Plus：Vue 3 PC 端组件库定位与项目路线",
+        "fileName": "前端技术/组件库/ElementPlus/第 01 篇：快速认识 Element Plus：Vue 3 PC 端组件库定位与项目路线.md",
+        "contentHash": "a29ec5ae10df65b5003c78176b85efa812dffb0e68ad0459a2db70b6c61ed800"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac624",
+      "originalSlug": "element-plus-elementplus-975655e4",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第二篇_安装与引入_完整引入_按需导入_全局配置.md",
+      "old": {
+        "title": "第 2 篇：Element Plus 安装与引入",
+        "fileName": "前端技术/组件库/ElementPlus/第 02 篇：Element Plus 安装与引入.md",
+        "contentHash": "0dab8a3b9fc870d0bba0878b88cb9a7947ba1d8bbf0b45ea813427f303a244eb"
+      },
+      "next": {
+        "title": "第 2 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置",
+        "fileName": "前端技术/组件库/ElementPlus/第 02 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置.md",
+        "contentHash": "ec2056638d4007a4110686f7f198b1dc35f7fdacf6004c2e9152b02fac8e0850"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac610",
+      "originalSlug": "element-plus-elementplus-button-icon-container-space-text-ede7df67",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第三篇_基础组件_Button_Icon_Container_Space_Text.md",
+      "old": {
+        "title": "第 3 篇：Element Plus 基础组件",
+        "fileName": "前端技术/组件库/ElementPlus/第 03 篇：Element Plus 基础组件.md",
+        "contentHash": "736a523484d28343e771ea34e6ca0a4580ecc603e54603fd70e6a67471ddd21c"
+      },
+      "next": {
+        "title": "第 3 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text",
+        "fileName": "前端技术/组件库/ElementPlus/第 03 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text.md",
+        "contentHash": "b7e5aceb3a26e75d913b5dc0417e829b27bd32c607a045a62667179a3e58b535"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac65e",
+      "originalSlug": "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第四篇_表单体系_Form_Input_Select_DateTimePicker_Upload.md",
+      "old": {
+        "title": "第 4 篇：Element Plus 表单体系",
+        "fileName": "前端技术/组件库/ElementPlus/第 04 篇：Element Plus 表单体系.md",
+        "contentHash": "7ea7170338f1aeee5a64159222d732f230420449c8501da9a8edbb4268b68bf5"
+      },
+      "next": {
+        "title": "第 4 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload",
+        "fileName": "前端技术/组件库/ElementPlus/第 04 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload.md",
+        "contentHash": "73c62c039222ca668543d80d5fce7ba04d6dfffd536a38d145b65c04c44858cd"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac63c",
+      "originalSlug": "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第八篇_表单进阶_Cascader_TreeSelect_Transfer_Checkbox_Radio_Switch_Slider_Rate.md",
+      "old": {
+        "title": "第 5 篇：Element Plus 表单进阶组件",
+        "fileName": "前端技术/组件库/ElementPlus/第 05 篇：Element Plus 表单进阶组件.md",
+        "contentHash": "c761b3dbe8417f1e2919014cd9f8d270fad99684b00d5944b3da26089301115e"
+      },
+      "next": {
+        "title": "第 5 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio",
+        "fileName": "前端技术/组件库/ElementPlus/第 05 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio.md",
+        "contentHash": "a9bb82bc247d01c3363cb58989f7e6bba8c59645ebbf11f298b97d4ecd0fca47"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac62e",
+      "originalSlug": "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第五篇_中后台核心组件_Table_Pagination_Dialog_Drawer_Message.md",
+      "old": {
+        "title": "第 6 篇：Element Plus 中后台核心组件",
+        "fileName": "前端技术/组件库/ElementPlus/第 06 篇：Element Plus 中后台核心组件.md",
+        "contentHash": "4fe99bccbac89d917b1508d8c85f68d9f303035ed557ba69aeff5ef26515f21c"
+      },
+      "next": {
+        "title": "第 6 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message",
+        "fileName": "前端技术/组件库/ElementPlus/第 06 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message.md",
+        "contentHash": "377cb60d78357b7b03613369a247d54c0a46154b5efb2d5812de7190c6139dd8"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac606",
+      "originalSlug": "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第七篇_导航体系_Menu_Tabs_Breadcrumb_Steps_Dropdown.md",
+      "old": {
+        "title": "第 7 篇：Element Plus 导航体系",
+        "fileName": "前端技术/组件库/ElementPlus/第 07 篇：Element Plus 导航体系.md",
+        "contentHash": "ff9050ad0e7618d836ee27310a8063d5cca93cd5d0c05fe9a8dcd35860967bfb"
+      },
+      "next": {
+        "title": "第 7 篇：Element Plus 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown",
+        "fileName": "前端技术/组件库/ElementPlus/第 07 篇：Element Plus 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown.md",
+        "contentHash": "5d4aeb66393e8e1aed288968ddafb30533d4b79b921ca2733334900261c93eec"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac646",
+      "originalSlug": "element-plus-elementplus-configprovider-f9cb9b2c",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第六篇_主题定制_国际化_暗黑模式_ConfigProvider.md",
+      "old": {
+        "title": "第 8 篇：Element Plus 全局能力：主题、国际化、暗黑模式与 ConfigProvider",
+        "fileName": "前端技术/组件库/ElementPlus/第 08 篇：Element Plus 全局能力.md",
+        "contentHash": "661a5a54da5ab8edaff875af6f486e8e6b9f98572dd55640c0fcfb4053bd4c83"
+      },
+      "next": {
+        "title": "第 8 篇：Element Plus 全局能力：主题定制、国际化、暗黑模式、ConfigProvider",
+        "fileName": "前端技术/组件库/ElementPlus/第 08 篇：Element Plus 全局能力：主题定制、国际化、暗黑模式、ConfigProvider.md",
+        "contentHash": "c9c0963fb3b65eb1e99e4a8acc1e651e640706067ae6d43ca9e7d198ee630b09"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac61e",
+      "originalSlug": "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第九篇_数据展示扩展_Descriptions_Timeline_Collapse_Tag_Badge_Statistic_Skeleton_Result_Empty.md",
+      "old": {
+        "title": "第 9 篇：Element Plus 数据展示扩展组件",
+        "fileName": "前端技术/组件库/ElementPlus/第 09 篇：Element Plus 数据展示扩展组件.md",
+        "contentHash": "a17824cf530b99b8a929d56476f1ae3c30dd25cb9be0c65a988b436cc45f50cc"
+      },
+      "next": {
+        "title": "第 9 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton",
+        "fileName": "前端技术/组件库/ElementPlus/第 09 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton.md",
+        "contentHash": "c5f4f788fb5a0fb8cfeaff82a0a2cb6fdaa8b47bce9f69bf6ca156ae3a30a682"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac654",
+      "originalSlug": "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第十篇_反馈与浮层补全_Tooltip_Popover_Popconfirm_Notification_Alert_虚拟化组件.md",
+      "old": {
+        "title": "第 10 篇：Element Plus 反馈、浮层与虚拟化组件",
+        "fileName": "前端技术/组件库/ElementPlus/第 10 篇：Element Plus 反馈、浮层与虚拟化组件.md",
+        "contentHash": "519095423a208b07aa8109ff0a5c1b77b8af824942c9ae08741c748c3c5a4e15"
+      },
+      "next": {
+        "title": "第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification",
+        "fileName": "前端技术/组件库/ElementPlus/第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification.md",
+        "contentHash": "b7fe9fbe5a2208bbc0d9a8590e96fc0de032207eb389f515fb38be77c959f7fe"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac668",
+      "originalSlug": "uv-ui-uvui-uv-ui-4162c705",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "sourcePath": "组件库/uvui/第一篇_快速认识uv-ui_安装_扩展配置_组件地图与项目开发路线.md",
+      "old": {
+        "title": "第 1 篇：快速认识 uv-ui",
+        "fileName": "前端技术/组件库/uvui/第 01 篇：快速认识 uv-ui.md",
+        "contentHash": "05166e4e540429f98bf20e4f05a7bab6e367d0cd0a9aaa4c8c31096edfef46fa"
+      },
+      "next": {
+        "title": "第 1 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线",
+        "fileName": "前端技术/组件库/uvui/第 01 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线.md",
+        "contentHash": "621b4d8bd5b0bbe083e91fecfe28e562592126f46caae253c4b0213e8d54c965"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac66c",
+      "originalSlug": "uv-ui-uvui-uv-ui-0ffe625b",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "sourcePath": "组件库/uvui/第二篇_uv-ui入门安装与小程序配置.md",
+      "old": {
+        "title": "第 2 篇：uv-ui 入门安装与小程序配置",
+        "fileName": "前端技术/组件库/uvui/第 02 篇：uv-ui 入门安装与小程序配置.md",
+        "contentHash": "6afac25f07d5d1b5cf92cef31e9cfac3fa1964cac191e646a117f896bc352348"
+      },
+      "next": {
+        "title": "第 2 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置",
+        "fileName": "前端技术/组件库/uvui/第 02 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置.md",
+        "contentHash": "10016637ec68afe37b0bc9f4218ad65ab880e59ac9450c76a97d848b4e61ddbe"
+      }
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac66a",
+      "originalSlug": "uv-ui-uvui-uv-ui-a5e9c7ec",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "sourcePath": "组件库/uvui/第三篇_uv-ui请求封装与使用指南.md",
+      "old": {
+        "title": "第 3 篇：uv-ui 请求封装与使用指南",
+        "fileName": "前端技术/组件库/uvui/第 03 篇：uv-ui 请求封装与使用指南.md",
+        "contentHash": "58509dc5576c30f26ed8a97d5a39b278075d15b8f07f3fedf2f6079a85fca1f1"
+      },
+      "next": {
+        "title": "第 3 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载",
+        "fileName": "前端技术/组件库/uvui/第 03 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载.md",
+        "contentHash": "6a51895213a5b5ba6343d6b9e5c1084704e74035cc7f039102ffe4e03c46e842"
+      }
+    }
+  ]
+}

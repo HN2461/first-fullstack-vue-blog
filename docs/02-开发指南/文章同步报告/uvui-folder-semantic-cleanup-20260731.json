@@ -1,0 +1,124 @@
+{
+  "generatedAt": "2026-07-31T07:57:54.669Z",
+  "scope": "output/线上文章/前端技术/组件库/uvui",
+  "changedCount": 3,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac668",
+      "originalSlug": "uv-ui-uvui-uv-ui-4162c705",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "sourcePath": "组件库/uvui/第一篇_快速认识uv-ui_安装_扩展配置_组件地图与项目开发路线.md",
+      "old": {
+        "title": "第一篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目开发路线",
+        "summary": "基于 2026-05-03 查阅的 uv-ui 官方介绍、安装、扩展配置、Http、常见问题、更新日志、GitHub 与 npm 资料，系统讲清 uv-ui 的定位、公开版本状态、组件地图、项目起手顺序与多端开发中的关键坑位，帮助读完后能快速进入 uni-app 实战。",
+        "sortOrder": 10,
+        "tags": [
+          "uv-ui",
+          "uni-app",
+          "微信小程序",
+          "HBuilderX",
+          "easycom",
+          "请求封装"
+        ],
+        "fileName": "前端技术/组件库/uvui/第一篇：快速认识-uv-ui：安装、扩展配置、组件地图与项目开发路线.md"
+      },
+      "next": {
+        "title": "第 1 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线",
+        "summary": "基于 2026-05-03 查阅的 uv-ui 官方介绍、安装、扩展配置、Http、常见问题、更新日志、GitHub 与 npm 资料，系统讲清 uv-ui 的定位、公开版本状态、组件地图、项目起手顺序与多端开发中的关键坑位，帮助读完后能快速进入 uni-app 实战。",
+        "sortOrder": 10,
+        "tags": [
+          "uv-ui",
+          "uni-app",
+          "微信小程序",
+          "HBuilderX",
+          "easycom",
+          "请求封装"
+        ],
+        "fileName": "前端技术/组件库/uvui/第 01 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac66c",
+      "originalSlug": "uv-ui-uvui-uv-ui-0ffe625b",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "sourcePath": "组件库/uvui/第二篇_uv-ui入门安装与小程序配置.md",
+      "old": {
+        "title": "第二篇：uv-ui 入门安装与小程序配置",
+        "summary": "从安装方式、扩展配置、主题样式到微信小程序常见踩坑，梳理一份适合 uni-app 项目落地 uv-ui 的入门配置清单。",
+        "sortOrder": 20,
+        "tags": [
+          "uv-ui",
+          "uni-app",
+          "微信小程序",
+          "easycom",
+          "SCSS"
+        ],
+        "fileName": "前端技术/组件库/uvui/第二篇：uv-ui-入门安装与小程序配置.md"
+      },
+      "next": {
+        "title": "第 2 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置",
+        "summary": "从安装方式、扩展配置、主题样式到微信小程序常见踩坑，梳理一份适合 uni-app 项目落地 uv-ui 的入门配置清单。",
+        "sortOrder": 20,
+        "tags": [
+          "uv-ui",
+          "uni-app",
+          "微信小程序",
+          "easycom",
+          "SCSS"
+        ],
+        "fileName": "前端技术/组件库/uvui/第 02 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac66a",
+      "originalSlug": "uv-ui-uvui-uv-ui-a5e9c7ec",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "uvui"
+      ],
+      "sourcePath": "组件库/uvui/第三篇_uv-ui请求封装与使用指南.md",
+      "old": {
+        "title": "第三篇：uv-ui 请求封装与使用指南",
+        "summary": "结合 uv-ui 官方 Http 文档、扩展配置和 uni-app 请求能力，整理一套适合微信小程序项目落地的请求封装、拦截器与上传下载方案。",
+        "sortOrder": 30,
+        "tags": [
+          "uv-ui",
+          "uni-app",
+          "微信小程序",
+          "HTTP",
+          "请求封装"
+        ],
+        "fileName": "前端技术/组件库/uvui/第三篇：uv-ui-请求封装与使用指南.md"
+      },
+      "next": {
+        "title": "第 3 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载",
+        "summary": "结合 uv-ui 官方 Http 文档、扩展配置和 uni-app 请求能力，整理一套适合微信小程序项目落地的请求封装、拦截器与上传下载方案。",
+        "sortOrder": 30,
+        "tags": [
+          "uv-ui",
+          "uni-app",
+          "微信小程序",
+          "HTTP",
+          "请求封装"
+        ],
+        "fileName": "前端技术/组件库/uvui/第 03 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    }
+  ],
+  "readabilityAdjustedAt": "2026-07-31T08:01:02.300Z"
+}

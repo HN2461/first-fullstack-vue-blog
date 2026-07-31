@@ -1,0 +1,246 @@
+{
+  "generatedAt": "2026-07-31T07:51:47.072Z",
+  "scope": "output/线上文章/前端技术/组件库/ECharts",
+  "changedCount": 6,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5c4",
+      "originalSlug": "echarts-echarts-echarts-aca8614a",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第一篇_快速认识ECharts_安装_核心概念与常见图表.md",
+      "old": {
+        "title": "第一篇：快速认识 ECharts：安装、核心概念与常见图表",
+        "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方首页、Handbook、Releases 与安全/无障碍文档，系统讲清 ECharts 的定位、最新版本脉络、安装方式、option 思维、dataset、动态更新、交互、性能与 Vue 项目接入要点。",
+        "sortOrder": 10,
+        "tags": [
+          "ECharts",
+          "数据可视化",
+          "图表库",
+          "Vue3",
+          "Canvas",
+          "SVG"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第一篇：快速认识-ECharts：安装、核心概念与常见图表.md"
+      },
+      "next": {
+        "title": "第 1 篇：快速认识 ECharts：安装、核心概念与常见图表",
+        "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方首页、Handbook、Releases 与安全/无障碍文档，系统讲清 ECharts 的定位、最新版本脉络、安装方式、option 思维、dataset、动态更新、交互、性能与 Vue 项目接入要点。",
+        "sortOrder": 10,
+        "tags": [
+          "ECharts",
+          "数据可视化",
+          "图表库",
+          "Vue3",
+          "Canvas",
+          "SVG"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第 01 篇：快速认识 ECharts：安装、核心概念与常见图表.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5d6",
+      "originalSlug": "echarts-echarts-274e66d8",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第二篇_常见四类图表_折线图_柱状图_饼图_散点图怎么选.md",
+      "old": {
+        "title": "第二篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选",
+        "summary": "基于 2026-05-03 查阅的 Apache ECharts 官方 line、bar、pie、scatter、dataset 与交互资料，讲清四类最常用图表分别适合什么数据、最小配置、项目模板、组合场景和选图避坑。",
+        "sortOrder": 20,
+        "tags": [
+          "ECharts",
+          "折线图",
+          "柱状图",
+          "饼图",
+          "散点图",
+          "数据可视化"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第二篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选.md"
+      },
+      "next": {
+        "title": "第 2 篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选",
+        "summary": "基于 2026-05-03 查阅的 Apache ECharts 官方 line、bar、pie、scatter、dataset 与交互资料，讲清四类最常用图表分别适合什么数据、最小配置、项目模板、组合场景和选图避坑。",
+        "sortOrder": 20,
+        "tags": [
+          "ECharts",
+          "折线图",
+          "柱状图",
+          "饼图",
+          "散点图",
+          "数据可视化"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第 02 篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5cc",
+      "originalSlug": "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第三篇_dataset_dimensions_encode_transform_把后端数据整理成能复用的图表数据.md",
+      "old": {
+        "title": "第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据",
+        "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方 Dataset、Data Transform、Dynamic Data 与 Import 文档，系统讲清 dataset、sourceHeader、seriesLayoutBy、dimensions、encode、多 dataset 与 filter/sort transform 的用法，帮助把后端接口数据整理成可复用的图表数据源。",
+        "sortOrder": 30,
+        "tags": [
+          "ECharts",
+          "dataset",
+          "encode",
+          "transform",
+          "数据可视化",
+          "Vue3"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据.md"
+      },
+      "next": {
+        "title": "第 3 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据",
+        "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方 Dataset、Data Transform、Dynamic Data 与 Import 文档，系统讲清 dataset、sourceHeader、seriesLayoutBy、dimensions、encode、多 dataset 与 filter/sort transform 的用法，帮助把后端接口数据整理成可复用的图表数据源。",
+        "sortOrder": 30,
+        "tags": [
+          "ECharts",
+          "dataset",
+          "encode",
+          "transform",
+          "数据可视化",
+          "Vue3"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第 03 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5f0",
+      "originalSlug": "echarts-echarts-vue3-vite-echarts-03b8ae7e",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第四篇_Vue3_Vite_项目落地_把ECharts封成能直接上项目的图表组件.md",
+      "old": {
+        "title": "第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上项目的图表组件",
+        "summary": "基于 2026-05-03 查阅的 Apache ECharts 官方 chart size、dynamic data、canvas vs svg、安全与 Aria 文档，以及 vue-echarts 官方 README 和 Releases，讲清 Vue 3 + Vite 项目里最稳的图表封装方式、按需引入、自动适配、主题、loading、事件、手动更新和常见坑。",
+        "sortOrder": 40,
+        "tags": [
+          "ECharts",
+          "Vue3",
+          "Vite",
+          "vue-echarts",
+          "图表组件",
+          "项目落地"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第四篇：Vue-3-+-Vite-项目落地：把-ECharts-封成能直接上项目的图表组件.md"
+      },
+      "next": {
+        "title": "第 4 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件",
+        "summary": "基于 2026-05-03 查阅的 Apache ECharts 官方 chart size、dynamic data、canvas vs svg、安全与 Aria 文档，以及 vue-echarts 官方 README 和 Releases，讲清 Vue 3 + Vite 项目里最稳的图表封装方式、按需引入、自动适配、主题、loading、事件、手动更新和常见坑。",
+        "sortOrder": 40,
+        "tags": [
+          "ECharts",
+          "Vue3",
+          "Vite",
+          "vue-echarts",
+          "图表组件",
+          "项目落地"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第 04 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5e2",
+      "originalSlug": "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第五篇_交互与联动_tooltip_legend_dataZoom_dispatchAction怎么配合.md",
+      "old": {
+        "title": "第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction 怎么配合",
+        "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方 Event and Action、Legend、Axis、Chart Size、Intelligent Pointer Snapping 与 Feature 文档，系统讲清 tooltip、legend、dataZoom、事件监听、dispatchAction、双轴和移动端指针优化，帮助前端快速做出真正能分析、能联动的后台图表。",
+        "sortOrder": 50,
+        "tags": [
+          "ECharts",
+          "legend",
+          "dataZoom",
+          "dispatchAction",
+          "图表联动",
+          "Tooltip"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction-怎么配合.md"
+      },
+      "next": {
+        "title": "第 5 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction",
+        "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方 Event and Action、Legend、Axis、Chart Size、Intelligent Pointer Snapping 与 Feature 文档，系统讲清 tooltip、legend、dataZoom、事件监听、dispatchAction、双轴和移动端指针优化，帮助前端快速做出真正能分析、能联动的后台图表。",
+        "sortOrder": 50,
+        "tags": [
+          "ECharts",
+          "legend",
+          "dataZoom",
+          "dispatchAction",
+          "图表联动",
+          "Tooltip"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第 05 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5ea",
+      "originalSlug": "echarts-echarts-echarts-be0b5cbd",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ECharts"
+      ],
+      "sourcePath": "组件库/ECharts/第六篇_项目开发速查清单_从安装到上线排查的ECharts实战路线.md",
+      "old": {
+        "title": "第六篇：项目开发速查清单：从安装到上线排查的 ECharts 实战路线",
+        "summary": "基于 2026-05-03 核对的 Apache ECharts 官方 Handbook、Release 与 vue-echarts 官方资料，整理一套从安装、按需引入、Vue 封装、dataset、交互配置到上线排错的项目开发速查清单。",
+        "sortOrder": 60,
+        "tags": [
+          "ECharts",
+          "Vue3",
+          "项目开发",
+          "图表封装",
+          "数据可视化",
+          "排错清单"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第六篇：项目开发速查清单：从安装到上线排查的-ECharts-实战路线.md"
+      },
+      "next": {
+        "title": "第 6 篇：ECharts 项目开发速查清单：安装、封装、上线排查",
+        "summary": "基于 2026-05-03 核对的 Apache ECharts 官方 Handbook、Release 与 vue-echarts 官方资料，整理一套从安装、按需引入、Vue 封装、dataset、交互配置到上线排错的项目开发速查清单。",
+        "sortOrder": 60,
+        "tags": [
+          "ECharts",
+          "Vue3",
+          "项目开发",
+          "图表封装",
+          "数据可视化",
+          "排错清单"
+        ],
+        "fileName": "前端技术/组件库/ECharts/第 06 篇：ECharts 项目开发速查清单：安装、封装、上线排查.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    }
+  ],
+  "readabilityAdjustedAt": "2026-07-31T08:01:02.299Z"
+}

@@ -1,23 +1,18 @@
 ---
-title: "表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配合"
+title: "第 4 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload"
 slug: "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，详细讲解 Form、Input、Select、DateTimePicker、Upload 这些表单核心组件在真实后台页面中的组合方式。"
 category: "ElementPlus"
-tags:
-  - "input"
-  - "Element Plus"
-  - "Form"
-  - "Select"
-  - "Upload"
+tags: ["Element Plus","Form","Input","Select","Upload"]
 status: "draft"
-sortOrder: 90
+sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac65e"
 originalSlug: "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配合
+# 第 4 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload
 
 > 主人如果说 Button 是页面的动作层，  
 > 那 Form 相关组件就是后台系统最核心的业务输入层。

@@ -1,0 +1,399 @@
+{
+  "generatedAt": "2026-07-31T07:55:01.444Z",
+  "scope": "output/线上文章/前端技术/组件库/ElementPlus",
+  "changedCount": 10,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5fa",
+      "originalSlug": "element-plus-elementplus-element-plus-vue3-pc-86202b18",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第一篇_快速认识Element Plus_为什么它是Vue3里常见的PC端组件库.md",
+      "old": {
+        "title": "快速认识 Element Plus：为什么它是 Vue 3 里常见的 PC 端组件库",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，作为 Element Plus 专题第一篇，先讲清它为什么常用于 Vue 3 的 PC 端项目，以及接入、按需导入、主题定制、国际化与暗黑模式的核心用法。",
+        "sortOrder": 60,
+        "tags": [
+          "Element Plus",
+          "Vue3",
+          "Vite",
+          "UI组件库",
+          "后台管理系统"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/快速认识-Element-Plus：为什么它是-Vue-3-里常见的-PC-端组件库.md"
+      },
+      "next": {
+        "title": "第 1 篇：快速认识 Element Plus：Vue 3 PC 端组件库定位与项目路线",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，作为 Element Plus 专题第一篇，先讲清它为什么常用于 Vue 3 的 PC 端项目，以及接入、按需导入、主题定制、国际化与暗黑模式的核心用法。",
+        "sortOrder": 10,
+        "tags": [
+          "Element Plus",
+          "Vue3",
+          "Vite",
+          "UI 组件库",
+          "后台管理系统"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 01 篇：快速认识 Element Plus：Vue 3 PC 端组件库定位与项目路线.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac624",
+      "originalSlug": "element-plus-elementplus-975655e4",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第二篇_安装与引入_完整引入_按需导入_全局配置.md",
+      "old": {
+        "title": "安装与引入：把 Element Plus 真正接进 Vue 3 项目",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，详细整理安装、完整引入、自动按需导入、手动导入、Volar 支持和全局配置的实际用法。",
+        "sortOrder": 100,
+        "tags": [
+          "Element Plus",
+          "Vue3",
+          "Vite",
+          "按需导入",
+          "全局配置"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/安装与引入：把-Element-Plus-真正接进-Vue-3-项目.md"
+      },
+      "next": {
+        "title": "第 2 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，详细整理安装、完整引入、自动按需导入、手动导入、Volar 支持和全局配置的实际用法。",
+        "sortOrder": 20,
+        "tags": [
+          "Element Plus",
+          "Vue3",
+          "Vite",
+          "按需导入",
+          "全局配置"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 02 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac610",
+      "originalSlug": "element-plus-elementplus-button-icon-container-space-text-ede7df67",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第三篇_基础组件_Button_Icon_Container_Space_Text.md",
+      "old": {
+        "title": "基础组件：Button、Icon、Container、Space、Text 怎么搭出像样的后台界面",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统整理 Button、Icon、Container、Space、Text 这些基础组件在后台页面里的常见用法和搭配思路。",
+        "sortOrder": 10,
+        "tags": [
+          "Element Plus",
+          "Button",
+          "Icon",
+          "Container",
+          "Space"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/基础组件：Button、Icon、Container、Space、Text-怎么搭出像样的后台界面.md"
+      },
+      "next": {
+        "title": "第 3 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统整理 Button、Icon、Container、Space、Text 这些基础组件在后台页面里的常见用法和搭配思路。",
+        "sortOrder": 30,
+        "tags": [
+          "Element Plus",
+          "Button",
+          "Icon",
+          "Container",
+          "Space"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 03 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac65e",
+      "originalSlug": "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第四篇_表单体系_Form_Input_Select_DateTimePicker_Upload.md",
+      "old": {
+        "title": "表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配合",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，详细讲解 Form、Input、Select、DateTimePicker、Upload 这些表单核心组件在真实后台页面中的组合方式。",
+        "sortOrder": 90,
+        "tags": [
+          "input",
+          "Element Plus",
+          "Form",
+          "Select",
+          "Upload"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/表单体系：Form、Input、Select、DateTimePicker、Upload-怎么配合.md"
+      },
+      "next": {
+        "title": "第 4 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，详细讲解 Form、Input、Select、DateTimePicker、Upload 这些表单核心组件在真实后台页面中的组合方式。",
+        "sortOrder": 40,
+        "tags": [
+          "Element Plus",
+          "Form",
+          "Input",
+          "Select",
+          "Upload"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 04 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac63c",
+      "originalSlug": "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第八篇_表单进阶_Cascader_TreeSelect_Transfer_Checkbox_Radio_Switch_Slider_Rate.md",
+      "old": {
+        "title": "表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解表单里的高级录入组件：级联选择、树形选择、穿梭框、多选组、单选组、开关、滑块、评分的用法与联动校验。",
+        "sortOrder": 30,
+        "tags": [
+          "Element Plus",
+          "Cascader",
+          "TreeSelect",
+          "Transfer",
+          "Checkbox",
+          "Radio",
+          "Switch"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate.md"
+      },
+      "next": {
+        "title": "第 5 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解表单里的高级录入组件：级联选择、树形选择、穿梭框、多选组、单选组、开关、滑块、评分的用法与联动校验。",
+        "sortOrder": 50,
+        "tags": [
+          "Element Plus",
+          "Cascader",
+          "TreeSelect",
+          "Transfer",
+          "Checkbox",
+          "Radio"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 05 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac62e",
+      "originalSlug": "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第五篇_中后台核心组件_Table_Pagination_Dialog_Drawer_Message.md",
+      "old": {
+        "title": "中后台核心组件：Table、Pagination、Dialog、Drawer、Message 怎么配合",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解表格、分页、对话框、抽屉、消息提示这些中后台最高频组件的组合方式和使用边界。",
+        "sortOrder": 80,
+        "tags": [
+          "Element Plus",
+          "Table",
+          "Pagination",
+          "Dialog",
+          "Drawer"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/中后台核心组件：Table、Pagination、Dialog、Drawer、Message-怎么配合.md"
+      },
+      "next": {
+        "title": "第 6 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解表格、分页、对话框、抽屉、消息提示这些中后台最高频组件的组合方式和使用边界。",
+        "sortOrder": 60,
+        "tags": [
+          "Element Plus",
+          "Table",
+          "Pagination",
+          "Dialog",
+          "Drawer"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 06 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac606",
+      "originalSlug": "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第七篇_导航体系_Menu_Tabs_Breadcrumb_Steps_Dropdown.md",
+      "old": {
+        "title": "导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown 怎么组织后台页面结构",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解后台导航体系的五类核心组件：侧边菜单、标签页、面包屑、步骤条、下拉菜单，以及它们与 Vue Router 的联动方式。",
+        "sortOrder": 50,
+        "tags": [
+          "Element Plus",
+          "Menu",
+          "Tabs",
+          "Breadcrumb",
+          "Steps",
+          "Dropdown"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown-怎么组织后台页面结构.md"
+      },
+      "next": {
+        "title": "第 7 篇：Element Plus 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解后台导航体系的五类核心组件：侧边菜单、标签页、面包屑、步骤条、下拉菜单，以及它们与 Vue Router 的联动方式。",
+        "sortOrder": 70,
+        "tags": [
+          "Element Plus",
+          "Menu",
+          "Tabs",
+          "Breadcrumb",
+          "Steps",
+          "Dropdown"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 07 篇：Element Plus 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac646",
+      "originalSlug": "element-plus-elementplus-configprovider-f9cb9b2c",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第六篇_主题定制_国际化_暗黑模式_ConfigProvider.md",
+      "old": {
+        "title": "主题定制、国际化、暗黑模式、ConfigProvider：Element Plus 全局能力怎么管",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解 ConfigProvider、国际化、Day.js 本地化、CSS 变量主题、SCSS 主题与暗黑模式的实际用法。",
+        "sortOrder": 70,
+        "tags": [
+          "Element Plus",
+          "ConfigProvider",
+          "国际化",
+          "暗黑模式",
+          "主题定制"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/主题定制、国际化、暗黑模式、ConfigProvider：Element-Plus-全局能力怎么管.md"
+      },
+      "next": {
+        "title": "第 8 篇：Element Plus 全局能力：主题定制、国际化、暗黑模式、ConfigProvider",
+        "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解 ConfigProvider、国际化、Day.js 本地化、CSS 变量主题、SCSS 主题与暗黑模式的实际用法。",
+        "sortOrder": 80,
+        "tags": [
+          "Element Plus",
+          "ConfigProvider",
+          "国际化",
+          "暗黑模式",
+          "主题定制"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 08 篇：Element Plus 全局能力：主题定制、国际化、暗黑模式、ConfigProvider.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac61e",
+      "originalSlug": "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第九篇_数据展示扩展_Descriptions_Timeline_Collapse_Tag_Badge_Statistic_Skeleton_Result_Empty.md",
+      "old": {
+        "title": "数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解详情页、状态标记、加载态与空态相关的数据展示组件，覆盖 Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty。",
+        "sortOrder": 40,
+        "tags": [
+          "Element Plus",
+          "Descriptions",
+          "Timeline",
+          "Collapse",
+          "Tag",
+          "Badge",
+          "Statistic"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty.md"
+      },
+      "next": {
+        "title": "第 9 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解详情页、状态标记、加载态与空态相关的数据展示组件，覆盖 Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty。",
+        "sortOrder": 90,
+        "tags": [
+          "Element Plus",
+          "Descriptions",
+          "Timeline",
+          "Collapse",
+          "Tag",
+          "Skeleton"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 09 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac654",
+      "originalSlug": "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "sourcePath": "组件库/ElementPlus/第十篇_反馈与浮层补全_Tooltip_Popover_Popconfirm_Notification_Alert_虚拟化组件.md",
+      "old": {
+        "title": "反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert + 虚拟化组件",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，补全第五篇未覆盖的反馈组件：Tooltip、Popover、Popconfirm、Notification、Alert，以及虚拟化组件的适用场景与基础用法。",
+        "sortOrder": 20,
+        "tags": [
+          "Element Plus",
+          "Tooltip",
+          "Popover",
+          "Popconfirm",
+          "Notification",
+          "Alert",
+          "VirtualizedTable"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert-+-虚拟化组件.md"
+      },
+      "next": {
+        "title": "第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification",
+        "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，补全第五篇未覆盖的反馈组件：Tooltip、Popover、Popconfirm、Notification、Alert，以及虚拟化组件的适用场景与基础用法。",
+        "sortOrder": 100,
+        "tags": [
+          "Element Plus",
+          "Tooltip",
+          "Popover",
+          "Popconfirm",
+          "Notification",
+          "VirtualizedTable"
+        ],
+        "fileName": "前端技术/组件库/ElementPlus/第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification.md"
+      },
+      "h1Updated": true,
+      "readabilityAdjusted": true
+    }
+  ],
+  "readabilityAdjustedAt": "2026-07-31T08:01:02.300Z"
+}

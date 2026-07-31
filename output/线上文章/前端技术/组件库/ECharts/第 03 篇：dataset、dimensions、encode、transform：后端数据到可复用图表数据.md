@@ -1,15 +1,9 @@
 ---
-title: "第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据"
+title: "第 3 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据"
 slug: "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方 Dataset、Data Transform、Dynamic Data 与 Import 文档，系统讲清 dataset、sourceHeader、seriesLayoutBy、dimensions、encode、多 dataset 与 filter/sort transform 的用法，帮助把后端接口数据整理成可复用的图表数据源。"
 category: "ECharts"
-tags:
-  - "ECharts"
-  - "dataset"
-  - "encode"
-  - "transform"
-  - "数据可视化"
-  - "Vue3"
+tags: ["ECharts","dataset","encode","transform","数据可视化","Vue3"]
 status: "draft"
 sortOrder: 30
 cover: ""
@@ -18,7 +12,7 @@ originalSlug: "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据
+# 第 3 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据
 
 > 主人前两篇已经把“ECharts 是什么”和“常见图怎么选”理顺了。  
 > 接下来真正像项目的部分，其实是：**后端给你的数据，怎么整理成图表能长期复用的结构。**

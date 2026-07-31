@@ -5117,7 +5117,7 @@
       "originalId": "6a2d291f8a2b1c68f2cac5c4",
       "originalSlug": "echarts-echarts-echarts-aca8614a",
       "exportedSlug": "echarts-echarts-echarts-aca8614a",
-      "title": "第一篇：快速认识 ECharts：安装、核心概念与常见图表",
+      "title": "第 1 篇：快速认识 ECharts：安装、核心概念与常见图表",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5137,16 +5137,16 @@
       "sourcePath": "组件库/ECharts/第一篇_快速认识ECharts_安装_核心概念与常见图表.md",
       "publishedAt": "2026-05-02T08:04:36.031Z",
       "updatedAt": "2026-06-13T14:09:43.188Z",
-      "fileName": "前端技术/组件库/ECharts/第一篇：快速认识-ECharts：安装、核心概念与常见图表.md",
+      "fileName": "前端技术/组件库/ECharts/第 01 篇：快速认识 ECharts：安装、核心概念与常见图表.md",
       "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方首页、Handbook、Releases 与安全/无障碍文档，系统讲清 ECharts 的定位、最新版本脉络、安装方式、option 思维、dataset、动态更新、交互、性能与 Vue 项目接入要点。",
       "cover": "",
-      "contentHash": "0e8062d644b09e2d0d33184228540e70968c48c6d98043c848a72ba0cbd23e8b"
+      "contentHash": "8b89fc95735b283c1d9c263c0fee009b0372c90c5d8fbcbe5f429e4482aef516"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5d6",
       "originalSlug": "echarts-echarts-274e66d8",
       "exportedSlug": "echarts-echarts-274e66d8",
-      "title": "第二篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选",
+      "title": "第 2 篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5166,16 +5166,16 @@
       "sourcePath": "组件库/ECharts/第二篇_常见四类图表_折线图_柱状图_饼图_散点图怎么选.md",
       "publishedAt": "2026-05-03T11:53:04.297Z",
       "updatedAt": "2026-06-13T14:09:43.188Z",
-      "fileName": "前端技术/组件库/ECharts/第二篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选.md",
+      "fileName": "前端技术/组件库/ECharts/第 02 篇：常见四类图表：折线图、柱状图、饼图、散点图怎么选.md",
       "summary": "基于 2026-05-03 查阅的 Apache ECharts 官方 line、bar、pie、scatter、dataset 与交互资料，讲清四类最常用图表分别适合什么数据、最小配置、项目模板、组合场景和选图避坑。",
       "cover": "",
-      "contentHash": "4b1996e86f6874f0a2db8c42bad1ed720baf62ad134db580788b26f83b0c3118"
+      "contentHash": "eed07e8acab85a30ab94ba30bf0d5153ca2e01c47c0ba6d3c1be546510c64855"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5cc",
       "originalSlug": "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd",
       "exportedSlug": "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd",
-      "title": "第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据",
+      "title": "第 3 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5195,16 +5195,16 @@
       "sourcePath": "组件库/ECharts/第三篇_dataset_dimensions_encode_transform_把后端数据整理成能复用的图表数据.md",
       "publishedAt": "2026-05-02T08:17:05.606Z",
       "updatedAt": "2026-06-13T14:09:43.188Z",
-      "fileName": "前端技术/组件库/ECharts/第三篇：dataset、dimensions、encode、transform：把后端数据整理成能复用的图表数据.md",
+      "fileName": "前端技术/组件库/ECharts/第 03 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据.md",
       "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方 Dataset、Data Transform、Dynamic Data 与 Import 文档，系统讲清 dataset、sourceHeader、seriesLayoutBy、dimensions、encode、多 dataset 与 filter/sort transform 的用法，帮助把后端接口数据整理成可复用的图表数据源。",
       "cover": "",
-      "contentHash": "5029ec723aaf2d47d5302d3f7bb0c7f347099a951fb17f111d97d0af3e7a113a"
+      "contentHash": "ad965f5cd2646b2455e4bd51852e6d4322522f576e073de2f9a1d5e47a37dc2b"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5f0",
       "originalSlug": "echarts-echarts-vue3-vite-echarts-03b8ae7e",
       "exportedSlug": "echarts-echarts-vue3-vite-echarts-03b8ae7e",
-      "title": "第四篇：Vue 3 + Vite 项目落地：把 ECharts 封成能直接上项目的图表组件",
+      "title": "第 4 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5224,16 +5224,16 @@
       "sourcePath": "组件库/ECharts/第四篇_Vue3_Vite_项目落地_把ECharts封成能直接上项目的图表组件.md",
       "publishedAt": "2026-05-03T11:53:30.954Z",
       "updatedAt": "2026-06-13T14:09:43.188Z",
-      "fileName": "前端技术/组件库/ECharts/第四篇：Vue-3-+-Vite-项目落地：把-ECharts-封成能直接上项目的图表组件.md",
+      "fileName": "前端技术/组件库/ECharts/第 04 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件.md",
       "summary": "基于 2026-05-03 查阅的 Apache ECharts 官方 chart size、dynamic data、canvas vs svg、安全与 Aria 文档，以及 vue-echarts 官方 README 和 Releases，讲清 Vue 3 + Vite 项目里最稳的图表封装方式、按需引入、自动适配、主题、loading、事件、手动更新和常见坑。",
       "cover": "",
-      "contentHash": "d98d3e996dab664ab247f3dbd2c301784092f517bde9e4e39bfc68cede562ee1"
+      "contentHash": "3f2866ed45cac853024729b2d3235bf3168d9dde9a41d8293bc447151ea82d22"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5e2",
       "originalSlug": "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a",
       "exportedSlug": "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a",
-      "title": "第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction 怎么配合",
+      "title": "第 5 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5253,16 +5253,16 @@
       "sourcePath": "组件库/ECharts/第五篇_交互与联动_tooltip_legend_dataZoom_dispatchAction怎么配合.md",
       "publishedAt": "2026-05-02T08:36:26.616Z",
       "updatedAt": "2026-06-13T14:09:43.188Z",
-      "fileName": "前端技术/组件库/ECharts/第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction-怎么配合.md",
+      "fileName": "前端技术/组件库/ECharts/第 05 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction.md",
       "summary": "基于 2026-05-02 查阅的 Apache ECharts 官方 Event and Action、Legend、Axis、Chart Size、Intelligent Pointer Snapping 与 Feature 文档，系统讲清 tooltip、legend、dataZoom、事件监听、dispatchAction、双轴和移动端指针优化，帮助前端快速做出真正能分析、能联动的后台图表。",
       "cover": "",
-      "contentHash": "c53d5f64546577afecab5c8946e28a4a66bb7a634b84ce7ba042e143480f3a3a"
+      "contentHash": "5cc4f1e093b4407c95c038d9a552710144bbf20722f6673457a8adc9858675d2"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac5ea",
       "originalSlug": "echarts-echarts-echarts-be0b5cbd",
       "exportedSlug": "echarts-echarts-echarts-be0b5cbd",
-      "title": "第六篇：项目开发速查清单：从安装到上线排查的 ECharts 实战路线",
+      "title": "第 6 篇：ECharts 项目开发速查清单：安装、封装、上线排查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5282,16 +5282,72 @@
       "sourcePath": "组件库/ECharts/第六篇_项目开发速查清单_从安装到上线排查的ECharts实战路线.md",
       "publishedAt": "2026-05-03T11:54:59.254Z",
       "updatedAt": "2026-06-17T12:36:20.732Z",
-      "fileName": "前端技术/组件库/ECharts/第六篇：项目开发速查清单：从安装到上线排查的-ECharts-实战路线.md",
+      "fileName": "前端技术/组件库/ECharts/第 06 篇：ECharts 项目开发速查清单：安装、封装、上线排查.md",
       "summary": "基于 2026-05-03 核对的 Apache ECharts 官方 Handbook、Release 与 vue-echarts 官方资料，整理一套从安装、按需引入、Vue 封装、dataset、交互配置到上线排错的项目开发速查清单。",
       "cover": "",
-      "contentHash": "bebde755b60bc66663116ef2dd4f62a601e0f8cf6d780e838aa46a9d4d334aec"
+      "contentHash": "2873867895ed6f2138ee458dc44dfd7f5ced464e3d1deffe5026310e99255683"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac5fa",
+      "originalSlug": "element-plus-elementplus-element-plus-vue3-pc-86202b18",
+      "exportedSlug": "element-plus-elementplus-element-plus-vue3-pc-86202b18",
+      "title": "第 1 篇：快速认识 Element Plus：Vue 3 PC 端组件库定位与项目路线",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "tags": [
+        "Element Plus",
+        "Vue3",
+        "Vite",
+        "UI 组件库",
+        "后台管理系统"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "组件库/ElementPlus/第一篇_快速认识Element Plus_为什么它是Vue3里常见的PC端组件库.md",
+      "publishedAt": "2026-04-29T11:27:17.303Z",
+      "updatedAt": "2026-06-13T10:28:29.556Z",
+      "fileName": "前端技术/组件库/ElementPlus/第 01 篇：快速认识 Element Plus：Vue 3 PC 端组件库定位与项目路线.md",
+      "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，作为 Element Plus 专题第一篇，先讲清它为什么常用于 Vue 3 的 PC 端项目，以及接入、按需导入、主题定制、国际化与暗黑模式的核心用法。",
+      "cover": "",
+      "contentHash": "a29ec5ae10df65b5003c78176b85efa812dffb0e68ad0459a2db70b6c61ed800"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac624",
+      "originalSlug": "element-plus-elementplus-975655e4",
+      "exportedSlug": "element-plus-elementplus-975655e4",
+      "title": "第 2 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "ElementPlus"
+      ],
+      "tags": [
+        "Element Plus",
+        "Vue3",
+        "Vite",
+        "按需导入",
+        "全局配置"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "组件库/ElementPlus/第二篇_安装与引入_完整引入_按需导入_全局配置.md",
+      "publishedAt": "2026-04-28T13:45:18.641Z",
+      "updatedAt": "2026-06-13T10:28:29.610Z",
+      "fileName": "前端技术/组件库/ElementPlus/第 02 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置.md",
+      "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，详细整理安装、完整引入、自动按需导入、手动导入、Volar 支持和全局配置的实际用法。",
+      "cover": "",
+      "contentHash": "ec2056638d4007a4110686f7f198b1dc35f7fdacf6004c2e9152b02fac8e0850"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac610",
       "originalSlug": "element-plus-elementplus-button-icon-container-space-text-ede7df67",
       "exportedSlug": "element-plus-elementplus-button-icon-container-space-text-ede7df67",
-      "title": "基础组件：Button、Icon、Container、Space、Text 怎么搭出像样的后台界面",
+      "title": "第 3 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5306,20 +5362,20 @@
         "Container",
         "Space"
       ],
-      "sortOrder": 10,
+      "sortOrder": 30,
       "sourcePath": "组件库/ElementPlus/第三篇_基础组件_Button_Icon_Container_Space_Text.md",
       "publishedAt": "2026-04-29T12:51:05.550Z",
       "updatedAt": "2026-06-13T10:28:29.581Z",
-      "fileName": "前端技术/组件库/ElementPlus/基础组件：Button、Icon、Container、Space、Text-怎么搭出像样的后台界面.md",
+      "fileName": "前端技术/组件库/ElementPlus/第 03 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text.md",
       "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统整理 Button、Icon、Container、Space、Text 这些基础组件在后台页面里的常见用法和搭配思路。",
       "cover": "",
-      "contentHash": "018bda158d240e2a86877c75abb5045889aea042b775fc126a26740eaed56cd3"
+      "contentHash": "b7e5aceb3a26e75d913b5dc0417e829b27bd32c607a045a62667179a3e58b535"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac654",
-      "originalSlug": "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22",
-      "exportedSlug": "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22",
-      "title": "反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert + 虚拟化组件",
+      "originalId": "6a2d291f8a2b1c68f2cac65e",
+      "originalSlug": "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b",
+      "exportedSlug": "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b",
+      "title": "第 4 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5329,27 +5385,25 @@
       ],
       "tags": [
         "Element Plus",
-        "Tooltip",
-        "Popover",
-        "Popconfirm",
-        "Notification",
-        "Alert",
-        "VirtualizedTable"
+        "Form",
+        "Input",
+        "Select",
+        "Upload"
       ],
-      "sortOrder": 20,
-      "sourcePath": "组件库/ElementPlus/第十篇_反馈与浮层补全_Tooltip_Popover_Popconfirm_Notification_Alert_虚拟化组件.md",
-      "publishedAt": "2026-04-29T11:27:17.337Z",
-      "updatedAt": "2026-06-13T10:28:29.666Z",
-      "fileName": "前端技术/组件库/ElementPlus/反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert-+-虚拟化组件.md",
-      "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，补全第五篇未覆盖的反馈组件：Tooltip、Popover、Popconfirm、Notification、Alert，以及虚拟化组件的适用场景与基础用法。",
+      "sortOrder": 40,
+      "sourcePath": "组件库/ElementPlus/第四篇_表单体系_Form_Input_Select_DateTimePicker_Upload.md",
+      "publishedAt": "2026-04-28T13:45:18.642Z",
+      "updatedAt": "2026-06-13T10:28:29.680Z",
+      "fileName": "前端技术/组件库/ElementPlus/第 04 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload.md",
+      "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，详细讲解 Form、Input、Select、DateTimePicker、Upload 这些表单核心组件在真实后台页面中的组合方式。",
       "cover": "",
-      "contentHash": "efb77b397118e68daf0c526dd066aa9bba074d4269b5f75f170788578a5771c4"
+      "contentHash": "73c62c039222ca668543d80d5fce7ba04d6dfffd536a38d145b65c04c44858cd"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac63c",
       "originalSlug": "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab",
       "exportedSlug": "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab",
-      "title": "表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate",
+      "title": "第 5 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5363,23 +5417,22 @@
         "TreeSelect",
         "Transfer",
         "Checkbox",
-        "Radio",
-        "Switch"
+        "Radio"
       ],
-      "sortOrder": 30,
+      "sortOrder": 50,
       "sourcePath": "组件库/ElementPlus/第八篇_表单进阶_Cascader_TreeSelect_Transfer_Checkbox_Radio_Switch_Slider_Rate.md",
       "publishedAt": "2026-04-29T11:27:17.329Z",
       "updatedAt": "2026-06-13T10:28:29.636Z",
-      "fileName": "前端技术/组件库/ElementPlus/表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate.md",
+      "fileName": "前端技术/组件库/ElementPlus/第 05 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio.md",
       "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解表单里的高级录入组件：级联选择、树形选择、穿梭框、多选组、单选组、开关、滑块、评分的用法与联动校验。",
       "cover": "",
-      "contentHash": "be2f9d12aa784a5a9ddb8f87ff90959c65b1025c6fde3774e735950195bfbf1f"
+      "contentHash": "a9bb82bc247d01c3363cb58989f7e6bba8c59645ebbf11f298b97d4ecd0fca47"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac61e",
-      "originalSlug": "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f",
-      "exportedSlug": "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f",
-      "title": "数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty",
+      "originalId": "6a2d291f8a2b1c68f2cac62e",
+      "originalSlug": "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a",
+      "exportedSlug": "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a",
+      "title": "第 6 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5389,27 +5442,25 @@
       ],
       "tags": [
         "Element Plus",
-        "Descriptions",
-        "Timeline",
-        "Collapse",
-        "Tag",
-        "Badge",
-        "Statistic"
+        "Table",
+        "Pagination",
+        "Dialog",
+        "Drawer"
       ],
-      "sortOrder": 40,
-      "sourcePath": "组件库/ElementPlus/第九篇_数据展示扩展_Descriptions_Timeline_Collapse_Tag_Badge_Statistic_Skeleton_Result_Empty.md",
-      "publishedAt": "2026-04-29T11:27:17.321Z",
-      "updatedAt": "2026-06-13T10:28:29.597Z",
-      "fileName": "前端技术/组件库/ElementPlus/数据展示扩展：Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty.md",
-      "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解详情页、状态标记、加载态与空态相关的数据展示组件，覆盖 Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty。",
+      "sortOrder": 60,
+      "sourcePath": "组件库/ElementPlus/第五篇_中后台核心组件_Table_Pagination_Dialog_Drawer_Message.md",
+      "publishedAt": "2026-04-28T13:45:18.643Z",
+      "updatedAt": "2026-06-13T10:28:29.622Z",
+      "fileName": "前端技术/组件库/ElementPlus/第 06 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message.md",
+      "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解表格、分页、对话框、抽屉、消息提示这些中后台最高频组件的组合方式和使用边界。",
       "cover": "",
-      "contentHash": "92ff488448f404f7b00a26aae9b5bd10cc63141e44ff5789aec4f137594dee21"
+      "contentHash": "377cb60d78357b7b03613369a247d54c0a46154b5efb2d5812de7190c6139dd8"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac606",
       "originalSlug": "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38",
       "exportedSlug": "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38",
-      "title": "导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown 怎么组织后台页面结构",
+      "title": "第 7 篇：Element Plus 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5425,48 +5476,20 @@
         "Steps",
         "Dropdown"
       ],
-      "sortOrder": 50,
+      "sortOrder": 70,
       "sourcePath": "组件库/ElementPlus/第七篇_导航体系_Menu_Tabs_Breadcrumb_Steps_Dropdown.md",
       "publishedAt": "2026-04-29T11:27:17.307Z",
       "updatedAt": "2026-06-13T10:28:29.569Z",
-      "fileName": "前端技术/组件库/ElementPlus/导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown-怎么组织后台页面结构.md",
+      "fileName": "前端技术/组件库/ElementPlus/第 07 篇：Element Plus 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown.md",
       "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解后台导航体系的五类核心组件：侧边菜单、标签页、面包屑、步骤条、下拉菜单，以及它们与 Vue Router 的联动方式。",
       "cover": "",
-      "contentHash": "6914a9252e5159dec7e08e42d2f36b3ad7c99ea77faccea0b14c6c2b2dae481b"
-    },
-    {
-      "originalId": "6a2d291f8a2b1c68f2cac5fa",
-      "originalSlug": "element-plus-elementplus-element-plus-vue3-pc-86202b18",
-      "exportedSlug": "element-plus-elementplus-element-plus-vue3-pc-86202b18",
-      "title": "快速认识 Element Plus：为什么它是 Vue 3 里常见的 PC 端组件库",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "组件库",
-        "ElementPlus"
-      ],
-      "tags": [
-        "Element Plus",
-        "Vue3",
-        "Vite",
-        "UI组件库",
-        "后台管理系统"
-      ],
-      "sortOrder": 60,
-      "sourcePath": "组件库/ElementPlus/第一篇_快速认识Element Plus_为什么它是Vue3里常见的PC端组件库.md",
-      "publishedAt": "2026-04-29T11:27:17.303Z",
-      "updatedAt": "2026-06-13T10:28:29.556Z",
-      "fileName": "前端技术/组件库/ElementPlus/快速认识-Element-Plus：为什么它是-Vue-3-里常见的-PC-端组件库.md",
-      "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，作为 Element Plus 专题第一篇，先讲清它为什么常用于 Vue 3 的 PC 端项目，以及接入、按需导入、主题定制、国际化与暗黑模式的核心用法。",
-      "cover": "",
-      "contentHash": "b38e55da49530892d831d6855ef1425a2d084ebff45f54360483d8cab21fc4b2"
+      "contentHash": "5d4aeb66393e8e1aed288968ddafb30533d4b79b921ca2733334900261c93eec"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac646",
       "originalSlug": "element-plus-elementplus-configprovider-f9cb9b2c",
       "exportedSlug": "element-plus-elementplus-configprovider-f9cb9b2c",
-      "title": "主题定制、国际化、暗黑模式、ConfigProvider：Element Plus 全局能力怎么管",
+      "title": "第 8 篇：Element Plus 全局能力：主题定制、国际化、暗黑模式、ConfigProvider",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5481,20 +5504,20 @@
         "暗黑模式",
         "主题定制"
       ],
-      "sortOrder": 70,
+      "sortOrder": 80,
       "sourcePath": "组件库/ElementPlus/第六篇_主题定制_国际化_暗黑模式_ConfigProvider.md",
       "publishedAt": "2026-04-28T13:45:18.644Z",
       "updatedAt": "2026-06-13T10:28:29.649Z",
-      "fileName": "前端技术/组件库/ElementPlus/主题定制、国际化、暗黑模式、ConfigProvider：Element-Plus-全局能力怎么管.md",
+      "fileName": "前端技术/组件库/ElementPlus/第 08 篇：Element Plus 全局能力：主题定制、国际化、暗黑模式、ConfigProvider.md",
       "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解 ConfigProvider、国际化、Day.js 本地化、CSS 变量主题、SCSS 主题与暗黑模式的实际用法。",
       "cover": "",
-      "contentHash": "4e9c46457e5508249d69650faca45c962aa7d30c91a3b92878a3cf5a6e24d86b"
+      "contentHash": "c9c0963fb3b65eb1e99e4a8acc1e651e640706067ae6d43ca9e7d198ee630b09"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac62e",
-      "originalSlug": "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a",
-      "exportedSlug": "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a",
-      "title": "中后台核心组件：Table、Pagination、Dialog、Drawer、Message 怎么配合",
+      "originalId": "6a2d291f8a2b1c68f2cac61e",
+      "originalSlug": "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f",
+      "exportedSlug": "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statistic-skele-314dd07f",
+      "title": "第 9 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5504,53 +5527,26 @@
       ],
       "tags": [
         "Element Plus",
-        "Table",
-        "Pagination",
-        "Dialog",
-        "Drawer"
-      ],
-      "sortOrder": 80,
-      "sourcePath": "组件库/ElementPlus/第五篇_中后台核心组件_Table_Pagination_Dialog_Drawer_Message.md",
-      "publishedAt": "2026-04-28T13:45:18.643Z",
-      "updatedAt": "2026-06-13T10:28:29.622Z",
-      "fileName": "前端技术/组件库/ElementPlus/中后台核心组件：Table、Pagination、Dialog、Drawer、Message-怎么配合.md",
-      "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解表格、分页、对话框、抽屉、消息提示这些中后台最高频组件的组合方式和使用边界。",
-      "cover": "",
-      "contentHash": "2716bbc3befb8ce98d8abac78073b7a1cfe90905bfd52852284df79db522d911"
-    },
-    {
-      "originalId": "6a2d291f8a2b1c68f2cac65e",
-      "originalSlug": "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b",
-      "exportedSlug": "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b",
-      "title": "表单体系：Form、Input、Select、DateTimePicker、Upload 怎么配合",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "组件库",
-        "ElementPlus"
-      ],
-      "tags": [
-        "input",
-        "Element Plus",
-        "Form",
-        "Select",
-        "Upload"
+        "Descriptions",
+        "Timeline",
+        "Collapse",
+        "Tag",
+        "Skeleton"
       ],
       "sortOrder": 90,
-      "sourcePath": "组件库/ElementPlus/第四篇_表单体系_Form_Input_Select_DateTimePicker_Upload.md",
-      "publishedAt": "2026-04-28T13:45:18.642Z",
-      "updatedAt": "2026-06-13T10:28:29.680Z",
-      "fileName": "前端技术/组件库/ElementPlus/表单体系：Form、Input、Select、DateTimePicker、Upload-怎么配合.md",
-      "summary": "基于 2026-04-28 查阅的 Element Plus 官方文档，详细讲解 Form、Input、Select、DateTimePicker、Upload 这些表单核心组件在真实后台页面中的组合方式。",
+      "sourcePath": "组件库/ElementPlus/第九篇_数据展示扩展_Descriptions_Timeline_Collapse_Tag_Badge_Statistic_Skeleton_Result_Empty.md",
+      "publishedAt": "2026-04-29T11:27:17.321Z",
+      "updatedAt": "2026-06-13T10:28:29.597Z",
+      "fileName": "前端技术/组件库/ElementPlus/第 09 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton.md",
+      "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解详情页、状态标记、加载态与空态相关的数据展示组件，覆盖 Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty。",
       "cover": "",
-      "contentHash": "7b1a5873aeda0e82e0a1b6487cf8689aaeed98d05af8d0d28785bd237013c38e"
+      "contentHash": "c5f4f788fb5a0fb8cfeaff82a0a2cb6fdaa8b47bce9f69bf6ca156ae3a30a682"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac624",
-      "originalSlug": "element-plus-elementplus-975655e4",
-      "exportedSlug": "element-plus-elementplus-975655e4",
-      "title": "安装与引入：把 Element Plus 真正接进 Vue 3 项目",
+      "originalId": "6a2d291f8a2b1c68f2cac654",
+      "originalSlug": "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22",
+      "exportedSlug": "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22",
+      "title": "第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5560,25 +5556,26 @@
       ],
       "tags": [
         "Element Plus",
-        "Vue3",
-        "Vite",
-        "按需导入",
-        "全局配置"
+        "Tooltip",
+        "Popover",
+        "Popconfirm",
+        "Notification",
+        "VirtualizedTable"
       ],
       "sortOrder": 100,
-      "sourcePath": "组件库/ElementPlus/第二篇_安装与引入_完整引入_按需导入_全局配置.md",
-      "publishedAt": "2026-04-28T13:45:18.641Z",
-      "updatedAt": "2026-06-13T10:28:29.610Z",
-      "fileName": "前端技术/组件库/ElementPlus/安装与引入：把-Element-Plus-真正接进-Vue-3-项目.md",
-      "summary": "基于 2026-04-28 查阅的 Element Plus 最新官方资料，详细整理安装、完整引入、自动按需导入、手动导入、Volar 支持和全局配置的实际用法。",
+      "sourcePath": "组件库/ElementPlus/第十篇_反馈与浮层补全_Tooltip_Popover_Popconfirm_Notification_Alert_虚拟化组件.md",
+      "publishedAt": "2026-04-29T11:27:17.337Z",
+      "updatedAt": "2026-06-13T10:28:29.666Z",
+      "fileName": "前端技术/组件库/ElementPlus/第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification.md",
+      "summary": "基于 2026-04-29 查阅的 Element Plus 官方文档，补全第五篇未覆盖的反馈组件：Tooltip、Popover、Popconfirm、Notification、Alert，以及虚拟化组件的适用场景与基础用法。",
       "cover": "",
-      "contentHash": "e540b619b2503f616b2f63aa60ba35f328d125271a419866db952310968384a8"
+      "contentHash": "b7fe9fbe5a2208bbc0d9a8590e96fc0de032207eb389f515fb38be77c959f7fe"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac668",
       "originalSlug": "uv-ui-uvui-uv-ui-4162c705",
       "exportedSlug": "uv-ui-uvui-uv-ui-4162c705",
-      "title": "第一篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目开发路线",
+      "title": "第 1 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5598,16 +5595,16 @@
       "sourcePath": "组件库/uvui/第一篇_快速认识uv-ui_安装_扩展配置_组件地图与项目开发路线.md",
       "publishedAt": "2026-05-03T12:31:10.920Z",
       "updatedAt": "2026-06-13T10:28:29.696Z",
-      "fileName": "前端技术/组件库/uvui/第一篇：快速认识-uv-ui：安装、扩展配置、组件地图与项目开发路线.md",
+      "fileName": "前端技术/组件库/uvui/第 01 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线.md",
       "summary": "基于 2026-05-03 查阅的 uv-ui 官方介绍、安装、扩展配置、Http、常见问题、更新日志、GitHub 与 npm 资料，系统讲清 uv-ui 的定位、公开版本状态、组件地图、项目起手顺序与多端开发中的关键坑位，帮助读完后能快速进入 uni-app 实战。",
       "cover": "",
-      "contentHash": "3126705173521e63a9050ea185f4e0f05047b5b822ff8ce6669ae9761e6ad26c"
+      "contentHash": "621b4d8bd5b0bbe083e91fecfe28e562592126f46caae253c4b0213e8d54c965"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac66c",
       "originalSlug": "uv-ui-uvui-uv-ui-0ffe625b",
       "exportedSlug": "uv-ui-uvui-uv-ui-0ffe625b",
-      "title": "第二篇：uv-ui 入门安装与小程序配置",
+      "title": "第 2 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5626,16 +5623,16 @@
       "sourcePath": "组件库/uvui/第二篇_uv-ui入门安装与小程序配置.md",
       "publishedAt": "2026-05-03T12:31:10.921Z",
       "updatedAt": "2026-06-13T10:28:29.717Z",
-      "fileName": "前端技术/组件库/uvui/第二篇：uv-ui-入门安装与小程序配置.md",
+      "fileName": "前端技术/组件库/uvui/第 02 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置.md",
       "summary": "从安装方式、扩展配置、主题样式到微信小程序常见踩坑，梳理一份适合 uni-app 项目落地 uv-ui 的入门配置清单。",
       "cover": "",
-      "contentHash": "a8c27fceb2b54842147172683b33cdf018d58a83442b1bca1c448d01fe9998e2"
+      "contentHash": "10016637ec68afe37b0bc9f4218ad65ab880e59ac9450c76a97d848b4e61ddbe"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac66a",
       "originalSlug": "uv-ui-uvui-uv-ui-a5e9c7ec",
       "exportedSlug": "uv-ui-uvui-uv-ui-a5e9c7ec",
-      "title": "第三篇：uv-ui 请求封装与使用指南",
+      "title": "第 3 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5654,10 +5651,10 @@
       "sourcePath": "组件库/uvui/第三篇_uv-ui请求封装与使用指南.md",
       "publishedAt": "2026-05-03T12:31:10.923Z",
       "updatedAt": "2026-06-13T10:28:29.707Z",
-      "fileName": "前端技术/组件库/uvui/第三篇：uv-ui-请求封装与使用指南.md",
+      "fileName": "前端技术/组件库/uvui/第 03 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载.md",
       "summary": "结合 uv-ui 官方 Http 文档、扩展配置和 uni-app 请求能力，整理一套适合微信小程序项目落地的请求封装、拦截器与上传下载方案。",
       "cover": "",
-      "contentHash": "4a399f6228919506ef566d68c23376f6e2b0a96a04bf2ce2d5a0907f8e1a8b22"
+      "contentHash": "6a51895213a5b5ba6343d6b9e5c1084704e74035cc7f039102ffe4e03c46e842"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac242",

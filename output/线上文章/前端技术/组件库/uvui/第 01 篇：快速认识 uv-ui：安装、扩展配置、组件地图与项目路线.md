@@ -1,15 +1,9 @@
 ---
-title: "第一篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目开发路线"
+title: "第 1 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线"
 slug: "uv-ui-uvui-uv-ui-4162c705"
 summary: "基于 2026-05-03 查阅的 uv-ui 官方介绍、安装、扩展配置、Http、常见问题、更新日志、GitHub 与 npm 资料，系统讲清 uv-ui 的定位、公开版本状态、组件地图、项目起手顺序与多端开发中的关键坑位，帮助读完后能快速进入 uni-app 实战。"
 category: "uvui"
-tags:
-  - "uv-ui"
-  - "uni-app"
-  - "微信小程序"
-  - "HBuilderX"
-  - "easycom"
-  - "请求封装"
+tags: ["uv-ui","uni-app","微信小程序","HBuilderX","easycom","请求封装"]
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -18,7 +12,7 @@ originalSlug: "uv-ui-uvui-uv-ui-4162c705"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第一篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目开发路线
+# 第 1 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线
 
 > 这篇不是为了背文档，而是为了让主人在真正做 `uni-app` 项目前，先把 `uv-ui` 的地图看清。
 >

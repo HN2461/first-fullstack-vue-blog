@@ -177,6 +177,47 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/uniapp-wechat-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/uniapp-wechat-folder-before-semantic-cleanup-20260731-1705`。
 
+### 前端技术 / 组件库 / ECharts
+
+- 处理 6 篇 ECharts 文章。内容顺序和摘要标签已有基础质量，主要问题是标题使用 `第一篇` 到 `第六篇`，本地文件名未使用两位序号。
+- 已整理为：快速认识 ECharts、常见四类图表、dataset/dimensions/encode/transform、Vue 3 + Vite 图表组件封装、交互与联动、项目开发速查清单。
+- 保持 `sortOrder` 为 10 到 60 的原正向顺序；本地文件名改为 `第 01 篇` 到 `第 06 篇`，同时保留关键内容范围，例如 `dataset、dimensions、encode、transform`、`tooltip、legend、dataZoom、dispatchAction`。
+- 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留原有带官方资料核对日期的摘要和已有标签。
+- 按用户反馈补强“见名知意”要求：不再将 `交互与联动`、`项目开发速查清单` 等文件名压缩到只剩主题，而是补回安装、封装、上线排查或具体交互组件信息。
+- 保持分类路径 `前端技术 / 组件库 / ECharts` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/echarts-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/echarts-folder-before-semantic-cleanup-20260731-1715`。
+
+### 前端技术 / 组件库 / ElementPlus
+
+- 处理 10 篇 Element Plus 文章。原排序为基础组件、反馈补全、表单进阶、数据展示、导航体系、快速认识、主题全局能力、中后台核心、表单体系、安装引入，第一篇和安装篇被排到中后段。
+- 已整理为：快速认识 Element Plus、安装与引入、基础组件、表单体系、表单进阶组件、中后台核心组件、导航体系、全局能力、数据展示扩展组件、反馈/浮层/虚拟化组件。
+- 将 `sortOrder` 调整为 10 到 100，使线上目录按认知、接入、基础组件、业务高频组件、全局能力和扩展组件的路径展示；本地文件名采用 `第 01 篇` 到 `第 10 篇`，并保留核心组件范围，例如 `Button、Icon、Container`、`Form、Input、Select`、`Table、Pagination、Dialog`。
+- 表单进阶未机械保留旧第八篇位置，而是放到表单体系后；主题和全局能力放到核心组件、导航之后，避免刚接入就进入全局配置细节。
+- 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留原有带官方资料核对日期的摘要，并收敛标签命名，例如 `input` 统一为 `Input`。
+- 按用户反馈补强“见名知意”要求：已将过短的 `基础组件`、`表单体系`、`中后台核心组件` 等标题和本地文件名补充为具体组件清单，避免只看文件名无法判断文章范围。
+- 保持分类路径 `前端技术 / 组件库 / ElementPlus` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/element-plus-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/element-plus-folder-before-semantic-cleanup-20260731-1725`。
+
+### 前端技术 / 组件库 / uvui
+
+- 处理 3 篇 uv-ui 文章。内容顺序和摘要标签已有基础质量，主要问题是标题使用 `第一篇` 到 `第三篇`，本地文件名未使用两位序号。
+- 已整理为：快速认识 uv-ui、uv-ui 入门安装与小程序配置、uv-ui 请求封装与使用指南。
+- 保持 `sortOrder` 为 10、20、30 的原正向顺序；本地文件名改为 `第 01 篇` 到 `第 03 篇`，并保留关键内容范围，例如安装、扩展配置、组件地图、easycom、SCSS、HTTP、拦截器、上传下载。
+- 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留原有带官方资料核对日期的摘要和已有标签。
+- 按用户反馈补强“见名知意”要求：不再将第一篇文件名压缩为 `快速认识 uv-ui`，已补回安装、扩展配置、组件地图和项目路线。
+- 保持分类路径 `前端技术 / 组件库 / uvui` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/uvui-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/uvui-folder-before-semantic-cleanup-20260731-1735`。
+
+### 组件库体系整理状态
+
+- `前端技术 / 组件库` 下 3 个子目录已完成本地文章层整理：`ECharts`、`ElementPlus`、`uvui`。
+- 共涉及 19 篇组件库文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 后续文章整理新增命名规则：标题和本地导出文件名必须在保持阅读序号的同时保留核心内容范围，不能为了缩短文件名牺牲见名知意。
+- 分类路径暂不改名，避免把分类树变更与文章内容整理混在一起；如后续要把 `uvui` 改成 `uv-ui`、`ElementPlus` 改成 `Element Plus`，应单独 dry-run 分类迁移。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

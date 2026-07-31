@@ -1,14 +1,9 @@
 ---
-title: "第三篇：uv-ui 请求封装与使用指南"
+title: "第 3 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载"
 slug: "uv-ui-uvui-uv-ui-a5e9c7ec"
 summary: "结合 uv-ui 官方 Http 文档、扩展配置和 uni-app 请求能力，整理一套适合微信小程序项目落地的请求封装、拦截器与上传下载方案。"
 category: "uvui"
-tags:
-  - "uv-ui"
-  - "uni-app"
-  - "微信小程序"
-  - "HTTP"
-  - "请求封装"
+tags: ["uv-ui","uni-app","微信小程序","HTTP","请求封装"]
 status: "draft"
 sortOrder: 30
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "uv-ui-uvui-uv-ui-a5e9c7ec"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第三篇：uv-ui 请求封装与使用指南
+# 第 3 篇：uv-ui 请求封装与使用指南：HTTP、拦截器、上传下载
 
 > 这篇不是把官方 API 原样搬过来，而是把 `uv-ui` 的 `http` 能力整理成一套适合微信小程序项目直接落地的写法。  
 > 重点是三件事：先把扩展配置接好、再把请求收口、最后把上传下载和常见坑补齐。

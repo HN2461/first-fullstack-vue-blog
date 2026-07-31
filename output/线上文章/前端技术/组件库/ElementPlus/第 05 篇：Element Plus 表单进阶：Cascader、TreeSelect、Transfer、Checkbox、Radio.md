@@ -1,25 +1,18 @@
 ---
-title: "表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate"
+title: "第 5 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio"
 slug: "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab"
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解表单里的高级录入组件：级联选择、树形选择、穿梭框、多选组、单选组、开关、滑块、评分的用法与联动校验。"
 category: "ElementPlus"
-tags:
-  - "Element Plus"
-  - "Cascader"
-  - "TreeSelect"
-  - "Transfer"
-  - "Checkbox"
-  - "Radio"
-  - "Switch"
+tags: ["Element Plus","Cascader","TreeSelect","Transfer","Checkbox","Radio"]
 status: "draft"
-sortOrder: 30
+sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac63c"
 originalSlug: "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-switch-slide-c87f0cab"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio、Switch、Slider、Rate
+# 第 5 篇：Element Plus 表单进阶：Cascader、TreeSelect、Transfer、Checkbox、Radio
 
 > 主人第四篇讲了表单体系的核心：Form、Input、Select、DateTimePicker、Upload。  
 > 但真实后台里，表单录入场景远不止这些。

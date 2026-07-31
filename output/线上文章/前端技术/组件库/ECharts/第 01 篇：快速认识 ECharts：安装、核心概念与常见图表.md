@@ -1,15 +1,9 @@
 ---
-title: "第一篇：快速认识 ECharts：安装、核心概念与常见图表"
+title: "第 1 篇：快速认识 ECharts：安装、核心概念与常见图表"
 slug: "echarts-echarts-echarts-aca8614a"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方首页、Handbook、Releases 与安全/无障碍文档，系统讲清 ECharts 的定位、最新版本脉络、安装方式、option 思维、dataset、动态更新、交互、性能与 Vue 项目接入要点。"
 category: "ECharts"
-tags:
-  - "ECharts"
-  - "数据可视化"
-  - "图表库"
-  - "Vue3"
-  - "Canvas"
-  - "SVG"
+tags: ["ECharts","数据可视化","图表库","Vue3","Canvas","SVG"]
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -18,7 +12,7 @@ originalSlug: "echarts-echarts-echarts-aca8614a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第一篇：快速认识 ECharts：安装、核心概念与常见图表
+# 第 1 篇：快速认识 ECharts：安装、核心概念与常见图表
 
 > 主人前面已经把 `Element Plus` 和 `uv-ui` 都收进“组件库”这条线了。  
 > 接下来再补 `ECharts`，刚好就是把“页面组件”和“数据图表”这两条前端高频能力拼完整。

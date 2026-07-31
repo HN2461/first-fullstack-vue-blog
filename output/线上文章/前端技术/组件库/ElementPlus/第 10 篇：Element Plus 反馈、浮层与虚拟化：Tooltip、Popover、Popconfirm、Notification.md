@@ -1,25 +1,18 @@
 ---
-title: "反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert + 虚拟化组件"
+title: "第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification"
 slug: "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22"
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，补全第五篇未覆盖的反馈组件：Tooltip、Popover、Popconfirm、Notification、Alert，以及虚拟化组件的适用场景与基础用法。"
 category: "ElementPlus"
-tags:
-  - "Element Plus"
-  - "Tooltip"
-  - "Popover"
-  - "Popconfirm"
-  - "Notification"
-  - "Alert"
-  - "VirtualizedTable"
+tags: ["Element Plus","Tooltip","Popover","Popconfirm","Notification","VirtualizedTable"]
 status: "draft"
-sortOrder: 20
+sortOrder: 100
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac654"
 originalSlug: "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2415c22"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 反馈与浮层补全：Tooltip、Popover、Popconfirm、Notification、Alert + 虚拟化组件
+# 第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification
 
 > 主人第五篇讲了 Dialog、Drawer、Message 这三类反馈组件。  
 > 但 Element Plus 的反馈体系还有另外几类没有覆盖：

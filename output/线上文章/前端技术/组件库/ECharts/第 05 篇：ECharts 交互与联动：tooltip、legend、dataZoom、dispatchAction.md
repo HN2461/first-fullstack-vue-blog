@@ -1,15 +1,9 @@
 ---
-title: "第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction 怎么配合"
+title: "第 5 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction"
 slug: "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方 Event and Action、Legend、Axis、Chart Size、Intelligent Pointer Snapping 与 Feature 文档，系统讲清 tooltip、legend、dataZoom、事件监听、dispatchAction、双轴和移动端指针优化，帮助前端快速做出真正能分析、能联动的后台图表。"
 category: "ECharts"
-tags:
-  - "ECharts"
-  - "legend"
-  - "dataZoom"
-  - "dispatchAction"
-  - "图表联动"
-  - "Tooltip"
+tags: ["ECharts","legend","dataZoom","dispatchAction","图表联动","Tooltip"]
 status: "draft"
 sortOrder: 50
 cover: ""
@@ -18,7 +12,7 @@ originalSlug: "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第五篇：交互与联动：tooltip、legend、dataZoom、事件监听、dispatchAction 怎么配合
+# 第 5 篇：ECharts 交互与联动：tooltip、legend、dataZoom、dispatchAction
 
 > 主人前面几篇已经把“图怎么选、数据怎么喂、组件怎么封”理顺了。  
 > 接下来真正让图表像项目成品的，往往不是再多加一种图，而是把 **交互和联动** 做顺。

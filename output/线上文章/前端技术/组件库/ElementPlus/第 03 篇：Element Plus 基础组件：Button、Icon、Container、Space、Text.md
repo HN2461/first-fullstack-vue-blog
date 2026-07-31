@@ -1,23 +1,18 @@
 ---
-title: "基础组件：Button、Icon、Container、Space、Text 怎么搭出像样的后台界面"
+title: "第 3 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text"
 slug: "element-plus-elementplus-button-icon-container-space-text-ede7df67"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，系统整理 Button、Icon、Container、Space、Text 这些基础组件在后台页面里的常见用法和搭配思路。"
 category: "ElementPlus"
-tags:
-  - "Element Plus"
-  - "Button"
-  - "Icon"
-  - "Container"
-  - "Space"
+tags: ["Element Plus","Button","Icon","Container","Space"]
 status: "draft"
-sortOrder: 10
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac610"
 originalSlug: "element-plus-elementplus-button-icon-container-space-text-ede7df67"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 基础组件：Button、Icon、Container、Space、Text 怎么搭出像样的后台界面
+# 第 3 篇：Element Plus 基础组件：Button、Icon、Container、Space、Text
 
 > 主人很多时候会有一个错觉：  
 > 学组件库是不是要先从最复杂的表格、表单开始？

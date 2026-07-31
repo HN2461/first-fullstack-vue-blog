@@ -1,23 +1,18 @@
 ---
-title: "安装与引入：把 Element Plus 真正接进 Vue 3 项目"
+title: "第 2 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置"
 slug: "element-plus-elementplus-975655e4"
 summary: "基于 2026-04-28 查阅的 Element Plus 最新官方资料，详细整理安装、完整引入、自动按需导入、手动导入、Volar 支持和全局配置的实际用法。"
 category: "ElementPlus"
-tags:
-  - "Element Plus"
-  - "Vue3"
-  - "Vite"
-  - "按需导入"
-  - "全局配置"
+tags: ["Element Plus","Vue3","Vite","按需导入","全局配置"]
 status: "draft"
-sortOrder: 100
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac624"
 originalSlug: "element-plus-elementplus-975655e4"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 安装与引入：把 Element Plus 真正接进 Vue 3 项目
+# 第 2 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置
 
 > 主人前一篇已经知道 `Element Plus` 是 Vue 3 常见的 PC 端组件库。  
 > 这一篇我们不再停留在“知道它是什么”，而是直接解决更实际的问题：

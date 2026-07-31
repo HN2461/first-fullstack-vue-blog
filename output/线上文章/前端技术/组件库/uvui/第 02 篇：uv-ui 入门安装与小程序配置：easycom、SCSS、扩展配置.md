@@ -1,14 +1,9 @@
 ---
-title: "第二篇：uv-ui 入门安装与小程序配置"
+title: "第 2 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置"
 slug: "uv-ui-uvui-uv-ui-0ffe625b"
 summary: "从安装方式、扩展配置、主题样式到微信小程序常见踩坑，梳理一份适合 uni-app 项目落地 uv-ui 的入门配置清单。"
 category: "uvui"
-tags:
-  - "uv-ui"
-  - "uni-app"
-  - "微信小程序"
-  - "easycom"
-  - "SCSS"
+tags: ["uv-ui","uni-app","微信小程序","easycom","SCSS"]
 status: "draft"
 sortOrder: 20
 cover: ""
@@ -17,7 +12,7 @@ originalSlug: "uv-ui-uvui-uv-ui-0ffe625b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第二篇：uv-ui 入门安装与小程序配置
+# 第 2 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置
 
 > 如果你的小程序项目已经决定用 `uv-ui`，最先要解决的不是“先学哪个组件”，而是“先把底座搭稳”。  
 > 这篇就按这个顺序来：先认识框架，再安装，再做扩展配置，最后把微信小程序里最容易踩的坑一次补齐。

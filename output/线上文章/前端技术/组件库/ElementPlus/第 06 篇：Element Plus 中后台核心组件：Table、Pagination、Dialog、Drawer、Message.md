@@ -1,23 +1,18 @@
 ---
-title: "中后台核心组件：Table、Pagination、Dialog、Drawer、Message 怎么配合"
+title: "第 6 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message"
 slug: "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解表格、分页、对话框、抽屉、消息提示这些中后台最高频组件的组合方式和使用边界。"
 category: "ElementPlus"
-tags:
-  - "Element Plus"
-  - "Table"
-  - "Pagination"
-  - "Dialog"
-  - "Drawer"
+tags: ["Element Plus","Table","Pagination","Dialog","Drawer"]
 status: "draft"
-sortOrder: 80
+sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac62e"
 originalSlug: "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 中后台核心组件：Table、Pagination、Dialog、Drawer、Message 怎么配合
+# 第 6 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message
 
 > 主人如果说前一篇表单体系解决的是“怎么输入”，  
 > 那这一篇解决的就是：
