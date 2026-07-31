@@ -1,22 +1,23 @@
 ---
-title: "UniApp 框架面试题"
+title: "第 5 篇：UniApp 框架面试题：配置文件、入口文件、页面管理、打包发布、分包"
 slug: "uniapp-9cf05b58"
-summary: "UniApp 框架面试题，包括配置文件、打包发布、分包设置等核心知识点。"
+summary: "UniApp 框架面试题，覆盖配置文件、入口文件、主组件、页面管理、微信小程序打包发布、代码上传审核和分包设置。"
 category: "面试"
 tags:
   - "uni-app"
   - "小程序"
   - "跨平台"
-  - "移动开发"
+  - "打包发布"
+  - "分包"
 status: "draft"
-sortOrder: 90
+sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac680"
 originalSlug: "uniapp-9cf05b58"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# UniApp 框架面试题
+# 第 5 篇：UniApp 框架面试题：配置文件、入口文件、页面管理、打包发布、分包
 
 ## uniapp的配置文件、入口文件、主组件、页面管理部分
 

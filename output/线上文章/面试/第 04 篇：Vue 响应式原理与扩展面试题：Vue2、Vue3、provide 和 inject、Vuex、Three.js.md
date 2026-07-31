@@ -1,21 +1,25 @@
 ---
-title: "Vue 响应式原理与面试题"
+title: "第 4 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide/inject、Vuex、Three.js"
 slug: "legacy-c16e0589-c16e0589"
-summary: "Vue 2/3 响应式原理对比、Three.js 特征、provide/inject 与 Vuex 区别等面试题详解。"
+summary: "Vue 2 与 Vue 3 响应式原理对比，以及 provide/inject、Vuex、Three.js 等扩展面试题整理。"
 category: "面试"
 tags:
   - "Vue2"
   - "Vue3"
   - "响应式原理"
+  - "provide/inject"
+  - "Vuex"
   - "Three.js"
 status: "draft"
-sortOrder: 60
+sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac69a"
 originalSlug: "legacy-c16e0589-c16e0589"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 4 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide/inject、Vuex、Three.js
+
 ### 1. Vue 2 和 Vue 3 的响应式原理
 
 - **Vue 2 的响应式原理**：  

@@ -1,22 +1,24 @@
 ---
-title: "前端面试题题库及答案"
+title: "第 9 篇：前端面试题题库及答案：Vuex、生命周期、响应式、组件通信、答案解析"
 slug: "legacy-bb449f80-bb449f80"
-summary: "前端面试题题库及答案详解，包含 Vuex、钩子函数等常见面试题的完整解答。"
+summary: "前端面试题题库及答案解析，覆盖 Vuex、生命周期、响应式原理、组件通信、路由和常见题目完整解答。"
 category: "面试"
 tags:
+  - "前端面试"
   - "Vuex"
-  - "钩子函数"
-  - "面试题库"
+  - "生命周期"
+  - "响应式原理"
+  - "组件通信"
   - "答案解析"
 status: "draft"
-sortOrder: 40
+sortOrder: 90
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6a2"
 originalSlug: "legacy-bb449f80-bb449f80"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端面试题题库及答案
+# 第 9 篇：前端面试题题库及答案：Vuex、生命周期、响应式、组件通信、答案解析
 
 > 说明：本篇按题号整理常见前端面试题，中间穿插公司来源。已统一标题层级，并去除了明显重复的问题，便于后续继续补充。
 

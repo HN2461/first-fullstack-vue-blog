@@ -1,22 +1,24 @@
 ---
-title: "HTML CSS 面试题详解"
+title: "第 1 篇：HTML CSS 面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型"
 slug: "html-css-adfc1aa8"
-summary: "HTML 和 CSS 基础面试题，包括浏览器内核、DOCTYPE、布局模式等核心概念。"
+summary: "HTML 和 CSS 基础面试题，覆盖浏览器内核、DOCTYPE、布局模式、语义化、盒模型、选择器和常见页面基础概念。"
 category: "面试"
 tags:
   - "HTML"
   - "CSS"
+  - "面试题"
   - "浏览器内核"
   - "布局"
+  - "盒模型"
 status: "draft"
-sortOrder: 20
+sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac674"
 originalSlug: "html-css-adfc1aa8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# HTML CSS 面试题详解
+# 第 1 篇：HTML CSS 面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型
 
 这篇文章主要整理 HTML 和 CSS 里非常常见的一批面试题。和单纯背答案不同，本文尽量用小白也能看懂的方式去讲：先说结论，再说为什么，最后补一点面试时容易被追问的细节。这样您不是死记硬背，而是真的能理解。
 

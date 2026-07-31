@@ -1,15 +1,17 @@
 ---
-title: "前端超级面试题汇总"
+title: "第 10 篇：前端超级面试题汇总：let/const/var、闭包、内存泄漏、综合问答"
 slug: "legacy-a87b199b-a87b199b"
-summary: "前端开发超级面试题汇总，包含 let/const/var、闭包、内存泄漏等核心面试题详解。"
+summary: "大型前端综合面试题汇总，覆盖 let/const/var、闭包、内存泄漏、项目经历和综合问答，适合作为最后集中复习资料。"
 category: "面试"
 tags:
-  - "前端"
+  - "前端面试"
   - "JavaScript"
   - "Vue"
-  - "面试题汇总"
+  - "闭包"
+  - "内存泄漏"
+  - "综合题库"
 status: "draft"
-sortOrder: 70
+sortOrder: 100
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac692"
 originalSlug: "legacy-a87b199b-a87b199b"
@@ -1053,7 +1055,7 @@ Bootstrap 是一个流行的前端 UI 框架，用于快速开发响应式和移
 
 强制刷新：`window.location.reload()`或`$router.go(0)`（SPA 场景）
 
-# 长瑞科技面试题
+# 第 10 篇：前端超级面试题汇总：let/const/var、闭包、内存泄漏、综合问答
 
 ### 5. 你对跨域是怎么看的？如何解决？
 1. 跨域：由于浏览器同源策略，不同源（协议、域名、端口不同）的请求被限制。  

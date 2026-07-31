@@ -1,24 +1,24 @@
 ---
-title: "前端面试知识点整理"
+title: "第 7 篇：前端面试知识点整理：Vue2、Vue3、Diff、ECharts、小程序、WebSocket、工程化"
 slug: "legacy-cfbd06b8-cfbd06b8"
-summary: "合并整理前端面试零碎知识与补充题库，涵盖 Vue2/Vue3、Vuex/Pinia、Diff、ECharts、小程序、WebSocket、Three.js、工程化与常见基础题。"
+summary: "前端面试零碎知识和补充题库整理，覆盖 Vue2/Vue3、Vuex/Pinia、Diff、ECharts、小程序、WebSocket、Three.js 和工程化。"
 category: "面试"
 tags:
+  - "前端面试"
   - "Vue2"
   - "Vue3"
-  - "小程序"
   - "ECharts"
+  - "小程序"
   - "WebSocket"
-  - "前端面试"
 status: "draft"
-sortOrder: 30
+sortOrder: 70
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac696"
 originalSlug: "legacy-cfbd06b8-cfbd06b8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端面试知识点整理
+# 第 7 篇：前端面试知识点整理：Vue2、Vue3、Diff、ECharts、小程序、WebSocket、工程化
 
 这篇笔记是把原来的《零碎知识》和《郭齐龙面试题》合并后的版本，尽量保留两篇里的所有有效内容，只对重复部分做合并整理，方便后续统一复习。
 

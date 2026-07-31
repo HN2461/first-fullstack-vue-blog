@@ -1,0 +1,362 @@
+{
+  "generatedAt": "2026-07-31T09:44:50.707Z",
+  "scope": "output/线上文章/面试",
+  "changedCount": 10,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac678",
+      "originalSlug": "js-8a2a9c20",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/js面试.md",
+      "old": {
+        "title": "JavaScript 基础面试题",
+        "summary": "JavaScript 基础面试题，包括数据类型、作用域、事件循环、类型转换、原型链、闭包、Promise 和 ES 新特性等核心概念。",
+        "sortOrder": 10,
+        "tags": [
+          "JavaScript",
+          "数据类型",
+          "作用域",
+          "异步"
+        ],
+        "fileName": "面试/JavaScript-基础面试题.md"
+      },
+      "next": {
+        "title": "第 2 篇：JavaScript 基础面试题：数据类型、作用域、事件循环、原型链、闭包、Promise",
+        "summary": "JavaScript 基础面试题，覆盖数据类型、作用域、事件循环、类型转换、原型链、闭包、Promise 和 ES 新特性。",
+        "tags": [
+          "JavaScript",
+          "面试题",
+          "数据类型",
+          "作用域",
+          "事件循环",
+          "Promise"
+        ],
+        "sortOrder": 20,
+        "fileName": "面试/第 02 篇：JavaScript 基础面试题：数据类型、作用域、事件循环、原型链、闭包、Promise.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac674",
+      "originalSlug": "html-css-adfc1aa8",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/html+css面试.md",
+      "old": {
+        "title": "HTML CSS 面试题详解",
+        "summary": "HTML 和 CSS 基础面试题，包括浏览器内核、DOCTYPE、布局模式等核心概念。",
+        "sortOrder": 20,
+        "tags": [
+          "HTML",
+          "CSS",
+          "浏览器内核",
+          "布局"
+        ],
+        "fileName": "面试/HTML-CSS-面试题详解.md"
+      },
+      "next": {
+        "title": "第 1 篇：HTML CSS 面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型",
+        "summary": "HTML 和 CSS 基础面试题，覆盖浏览器内核、DOCTYPE、布局模式、语义化、盒模型、选择器和常见页面基础概念。",
+        "tags": [
+          "HTML",
+          "CSS",
+          "面试题",
+          "浏览器内核",
+          "布局",
+          "盒模型"
+        ],
+        "sortOrder": 10,
+        "fileName": "面试/第 01 篇：HTML CSS 面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac696",
+      "originalSlug": "legacy-cfbd06b8-cfbd06b8",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/零碎知识.md",
+      "old": {
+        "title": "前端面试知识点整理",
+        "summary": "合并整理前端面试零碎知识与补充题库，涵盖 Vue2/Vue3、Vuex/Pinia、Diff、ECharts、小程序、WebSocket、Three.js、工程化与常见基础题。",
+        "sortOrder": 30,
+        "tags": [
+          "Vue2",
+          "Vue3",
+          "小程序",
+          "ECharts",
+          "WebSocket",
+          "前端面试"
+        ],
+        "fileName": "面试/前端面试知识点整理.md"
+      },
+      "next": {
+        "title": "第 7 篇：前端面试知识点整理：Vue2、Vue3、Diff、ECharts、小程序、WebSocket、工程化",
+        "summary": "前端面试零碎知识和补充题库整理，覆盖 Vue2/Vue3、Vuex/Pinia、Diff、ECharts、小程序、WebSocket、Three.js 和工程化。",
+        "tags": [
+          "前端面试",
+          "Vue2",
+          "Vue3",
+          "ECharts",
+          "小程序",
+          "WebSocket"
+        ],
+        "sortOrder": 70,
+        "fileName": "面试/第 07 篇：前端面试知识点整理：Vue2、Vue3、Diff、ECharts、小程序、WebSocket、工程化.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6a2",
+      "originalSlug": "legacy-bb449f80-bb449f80",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/面试题题库及答案.md",
+      "old": {
+        "title": "前端面试题题库及答案",
+        "summary": "前端面试题题库及答案详解，包含 Vuex、钩子函数等常见面试题的完整解答。",
+        "sortOrder": 40,
+        "tags": [
+          "Vuex",
+          "钩子函数",
+          "面试题库",
+          "答案解析"
+        ],
+        "fileName": "面试/前端面试题题库及答案.md"
+      },
+      "next": {
+        "title": "第 9 篇：前端面试题题库及答案：Vuex、生命周期、响应式、组件通信、答案解析",
+        "summary": "前端面试题题库及答案解析，覆盖 Vuex、生命周期、响应式原理、组件通信、路由和常见题目完整解答。",
+        "tags": [
+          "前端面试",
+          "Vuex",
+          "生命周期",
+          "响应式原理",
+          "组件通信",
+          "答案解析"
+        ],
+        "sortOrder": 90,
+        "fileName": "面试/第 09 篇：前端面试题题库及答案：Vuex、生命周期、响应式、组件通信、答案解析.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac68e",
+      "originalSlug": "35-9db8f3f8",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/前端开发常见面试题详解 (35问).md",
+      "old": {
+        "title": "前端开发常见面试题详解 35问",
+        "summary": "前端开发常见面试题详解，整理 35 道高频前端面试题，覆盖 JavaScript、CSS、Vue、状态管理与认证通信等核心知识点。",
+        "sortOrder": 50,
+        "tags": [
+          "前端",
+          "JavaScript",
+          "面试题",
+          "基础知识"
+        ],
+        "fileName": "面试/前端开发常见面试题详解-35问.md"
+      },
+      "next": {
+        "title": "第 8 篇：前端开发常见面试题 35 问：JavaScript、CSS、Vue、状态管理、认证通信",
+        "summary": "前端开发常见面试题 35 问，覆盖 JavaScript、CSS、Vue、状态管理、认证通信等高频基础知识点。",
+        "tags": [
+          "前端面试",
+          "JavaScript",
+          "CSS",
+          "Vue",
+          "状态管理",
+          "认证通信"
+        ],
+        "sortOrder": 80,
+        "fileName": "面试/第 08 篇：前端开发常见面试题 35 问：JavaScript、CSS、Vue、状态管理、认证通信.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac69a",
+      "originalSlug": "legacy-c16e0589-c16e0589",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/面试问题新.md",
+      "old": {
+        "title": "Vue 响应式原理与面试题",
+        "summary": "Vue 2/3 响应式原理对比、Three.js 特征、provide/inject 与 Vuex 区别等面试题详解。",
+        "sortOrder": 60,
+        "tags": [
+          "Vue2",
+          "Vue3",
+          "响应式原理",
+          "Three.js"
+        ],
+        "fileName": "面试/Vue-响应式原理与面试题.md"
+      },
+      "next": {
+        "title": "第 4 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide/inject、Vuex、Three.js",
+        "summary": "Vue 2 与 Vue 3 响应式原理对比，以及 provide/inject、Vuex、Three.js 等扩展面试题整理。",
+        "tags": [
+          "Vue2",
+          "Vue3",
+          "响应式原理",
+          "provide/inject",
+          "Vuex",
+          "Three.js"
+        ],
+        "sortOrder": 40,
+        "fileName": "面试/第 04 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide 和 inject、Vuex、Three.js.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac692",
+      "originalSlug": "legacy-a87b199b-a87b199b",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/超级面试.md",
+      "old": {
+        "title": "前端超级面试题汇总",
+        "summary": "前端开发超级面试题汇总，包含 let/const/var、闭包、内存泄漏等核心面试题详解。",
+        "sortOrder": 70,
+        "tags": [
+          "前端",
+          "JavaScript",
+          "Vue",
+          "面试题汇总"
+        ],
+        "fileName": "面试/前端超级面试题汇总.md"
+      },
+      "next": {
+        "title": "第 10 篇：前端超级面试题汇总：let/const/var、闭包、内存泄漏、综合问答",
+        "summary": "大型前端综合面试题汇总，覆盖 let/const/var、闭包、内存泄漏、项目经历和综合问答，适合作为最后集中复习资料。",
+        "tags": [
+          "前端面试",
+          "JavaScript",
+          "Vue",
+          "闭包",
+          "内存泄漏",
+          "综合题库"
+        ],
+        "sortOrder": 100,
+        "fileName": "面试/第 10 篇：前端超级面试题汇总：let、const、var、闭包、内存泄漏、综合问答.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac684",
+      "originalSlug": "vue-9af82b75",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/Vue面试.md",
+      "old": {
+        "title": "Vue 面试题详解",
+        "summary": "Vue 框架核心概念面试题，包括虚拟DOM、diff算法、MVVM原理等详细解析。",
+        "sortOrder": 80,
+        "tags": [
+          "Vue",
+          "前端框架",
+          "虚拟DOM",
+          "MVVM"
+        ],
+        "fileName": "面试/Vue-面试题详解.md"
+      },
+      "next": {
+        "title": "第 3 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3",
+        "summary": "Vue 框架核心面试题，覆盖虚拟 DOM、diff 算法、MVVM 原理、Vue2 与 Vue3 常见问题。",
+        "tags": [
+          "Vue",
+          "Vue2",
+          "Vue3",
+          "虚拟DOM",
+          "diff",
+          "MVVM"
+        ],
+        "sortOrder": 30,
+        "fileName": "面试/第 03 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac680",
+      "originalSlug": "uniapp-9cf05b58",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/uniapp.md",
+      "old": {
+        "title": "UniApp 框架面试题",
+        "summary": "UniApp 框架面试题，包括配置文件、打包发布、分包设置等核心知识点。",
+        "sortOrder": 90,
+        "tags": [
+          "uni-app",
+          "小程序",
+          "跨平台",
+          "移动开发"
+        ],
+        "fileName": "面试/UniApp-框架面试题.md"
+      },
+      "next": {
+        "title": "第 5 篇：UniApp 框架面试题：配置文件、入口文件、页面管理、打包发布、分包",
+        "summary": "UniApp 框架面试题，覆盖配置文件、入口文件、主组件、页面管理、微信小程序打包发布、代码上传审核和分包设置。",
+        "tags": [
+          "uni-app",
+          "小程序",
+          "跨平台",
+          "打包发布",
+          "分包"
+        ],
+        "sortOrder": 50,
+        "fileName": "面试/第 05 篇：UniApp 框架面试题：配置文件、入口文件、页面管理、打包发布、分包.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac68a",
+      "originalSlug": "websocket-a1cbc328",
+      "categoryPath": [
+        "面试"
+      ],
+      "sourcePath": "面试/WebSocket.md",
+      "old": {
+        "title": "WebSocket 协议详解",
+        "summary": "WebSocket 协议原理、特点、应用场景及 JavaScript 使用方法详解。",
+        "sortOrder": 100,
+        "tags": [
+          "WebSocket",
+          "网络协议",
+          "实时通信",
+          "前端"
+        ],
+        "fileName": "面试/WebSocket-协议详解.md"
+      },
+      "next": {
+        "title": "第 6 篇：WebSocket 协议面试题：协议原理、握手、实时通信、JavaScript 使用",
+        "summary": "WebSocket 协议面试题，覆盖协议原理、连接握手、特点、应用场景、实时通信和 JavaScript 基础用法。",
+        "tags": [
+          "WebSocket",
+          "网络协议",
+          "实时通信",
+          "JavaScript",
+          "面试题"
+        ],
+        "sortOrder": 60,
+        "fileName": "面试/第 06 篇：WebSocket 协议面试题：协议原理、握手、实时通信、JavaScript 使用.md"
+      },
+      "h1Updated": true
+    }
+  ],
+  "fileNameSeparatorFix": {
+    "fixed": 2,
+    "fixedAt": "2026-07-31T09:47:04.432Z",
+    "reason": "Windows 文件名不能包含 /，技术写法在文件名中改为中文连接形式。"
+  }
+}

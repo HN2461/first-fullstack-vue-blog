@@ -517,6 +517,17 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/ai-dev-basics-docker-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-dev-basics-docker-before-semantic-cleanup-20260731-2115`。
 
+### 面试
+
+- 处理 10 篇前端面试文章。原目录没有空摘要或空标签，但本地文件名缺少统一阅读序号，且 Vue、WebSocket 等部分文章缺少一级标题。
+- 已整理为：HTML CSS 面试题详解、JavaScript 基础面试题、Vue 面试题详解、Vue 响应式原理与扩展面试题、UniApp 框架面试题、WebSocket 协议面试题、前端面试知识点整理、前端开发常见面试题 35 问、前端面试题题库及答案、前端超级面试题汇总。
+- 将 `sortOrder` 调整为 10 到 100，使线上目录按 HTML/CSS、JavaScript、Vue、UniApp、WebSocket 专项，再到综合知识点、35 问、题库答案、大型汇总的复习路径展示；本地文件名采用 `第 01 篇` 到 `第 10 篇`。
+- 按见名知意要求保留关键内容范围，例如浏览器内核、DOCTYPE、布局、语义化、盒模型、数据类型、作用域、事件循环、原型链、闭包、Promise、虚拟 DOM、diff、MVVM、Vue2、Vue3、provide/inject、Vuex、Three.js、配置文件、打包发布、分包、协议握手、实时通信、ECharts、小程序、工程化、状态管理、认证通信、生命周期、组件通信、综合题库。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；对原本缺少 H1 的文章已补充同名 H1。
+- 保持分类路径 `面试` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/interview-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/interview-folder-before-semantic-cleanup-20260731-2130`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

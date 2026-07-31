@@ -1,21 +1,25 @@
 ---
-title: "Vue 面试题详解"
+title: "第 3 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3"
 slug: "vue-9af82b75"
-summary: "Vue 框架核心概念面试题，包括虚拟DOM、diff算法、MVVM原理等详细解析。"
+summary: "Vue 框架核心面试题，覆盖虚拟 DOM、diff 算法、MVVM 原理、Vue2 与 Vue3 常见问题。"
 category: "面试"
 tags:
   - "Vue"
-  - "前端框架"
+  - "Vue2"
+  - "Vue3"
   - "虚拟DOM"
+  - "diff"
   - "MVVM"
 status: "draft"
-sortOrder: 80
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac684"
 originalSlug: "vue-9af82b75"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 3 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3
+
 ## Vue2 面试题
 
 ### 1、vue功能是什么，跟传统开发有什么区别？

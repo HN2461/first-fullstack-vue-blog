@@ -1,22 +1,24 @@
 ---
-title: "JavaScript 基础面试题"
+title: "第 2 篇：JavaScript 基础面试题：数据类型、作用域、事件循环、原型链、闭包、Promise"
 slug: "js-8a2a9c20"
-summary: "JavaScript 基础面试题，包括数据类型、作用域、事件循环、类型转换、原型链、闭包、Promise 和 ES 新特性等核心概念。"
+summary: "JavaScript 基础面试题，覆盖数据类型、作用域、事件循环、类型转换、原型链、闭包、Promise 和 ES 新特性。"
 category: "面试"
 tags:
   - "JavaScript"
+  - "面试题"
   - "数据类型"
   - "作用域"
-  - "异步"
+  - "事件循环"
+  - "Promise"
 status: "draft"
-sortOrder: 10
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac678"
 originalSlug: "js-8a2a9c20"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# JavaScript 基础
+# 第 2 篇：JavaScript 基础面试题：数据类型、作用域、事件循环、原型链、闭包、Promise
 
 ## 1、JavaScript 数据类型有哪些
 

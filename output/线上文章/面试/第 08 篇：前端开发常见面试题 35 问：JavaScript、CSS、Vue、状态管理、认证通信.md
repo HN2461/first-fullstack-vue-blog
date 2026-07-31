@@ -1,22 +1,24 @@
 ---
-title: "前端开发常见面试题详解 35问"
+title: "第 8 篇：前端开发常见面试题 35 问：JavaScript、CSS、Vue、状态管理、认证通信"
 slug: "35-9db8f3f8"
-summary: "前端开发常见面试题详解，整理 35 道高频前端面试题，覆盖 JavaScript、CSS、Vue、状态管理与认证通信等核心知识点。"
+summary: "前端开发常见面试题 35 问，覆盖 JavaScript、CSS、Vue、状态管理、认证通信等高频基础知识点。"
 category: "面试"
 tags:
-  - "前端"
+  - "前端面试"
   - "JavaScript"
-  - "面试题"
-  - "基础知识"
+  - "CSS"
+  - "Vue"
+  - "状态管理"
+  - "认证通信"
 status: "draft"
-sortOrder: 50
+sortOrder: 80
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac68e"
 originalSlug: "35-9db8f3f8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端开发常见面试题详解 (35问)
+# 第 8 篇：前端开发常见面试题 35 问：JavaScript、CSS、Vue、状态管理、认证通信
 
 本文按知识域整理了 35 道高频前端面试题，并对重复表述做了合并。阅读时可按模块复习，也可针对薄弱点单独查阅。
 
