@@ -110,6 +110,39 @@ describe('ledger routes', () => {
       .expect(403)
   })
 
+  it('allows monthly-table permission to read monthly data without entry mutation access', async () => {
+    const role = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR }).populate('menuIds')
+    role.menuIds = role.menuIds
+      .filter((menu) => ['knowledge.root', 'knowledge.ledger', 'knowledge.ledger.monthly'].includes(menu.code))
+      .map((menu) => menu._id)
+    await role.save()
+
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const breakfast = categoriesResponse.body.data.find((item) => item.name === '早餐')
+
+    await request(app)
+      .get('/api/ledger/daily')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, from: '2026-07-01', to: '2026-07-31' })
+      .expect(200)
+
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-07-01', type: 'expense', categoryId: breakfast.id, amount: 10 })
+      .expect(403)
+  })
+
   it('summarizes income expense category day month and calendar data', async () => {
     const booksResponse = await request(app)
       .get('/api/ledger/books')

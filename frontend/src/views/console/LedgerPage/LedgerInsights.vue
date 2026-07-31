@@ -119,11 +119,11 @@
           </div>
         </div>
 
-        <!-- 餐饮占比 -->
+        <!-- 餐饮支出占比 -->
         <div v-if="data.mealExpense > 0" class="insight-section insight-section--half">
           <div class="section-head">
-            <a-tooltip title="早餐、午餐、晚餐三项支出的总和，以及占全部支出的比例。">
-              <span class="section-title">餐饮占比 <InfoCircleOutlined class="section-tip" /></span>
+            <a-tooltip title="餐饮总支出为早餐、午餐、晚餐三类支出的合计；占比按餐饮总支出除以全部支出计算；日均按有餐饮记录的天数计算。">
+              <span class="section-title">餐饮支出占比 <InfoCircleOutlined class="section-tip" /></span>
             </a-tooltip>
           </div>
           <div class="meal-row">
@@ -134,11 +134,22 @@
                   stroke-linecap="round" :stroke-dasharray="`${mealRatio} ${100 - mealRatio}`"
                   stroke-dashoffset="25" transform="rotate(-90 18 18)" />
               </svg>
-              <span class="meal-ring-text">{{ data.mealRatio }}%</span>
+              <span class="meal-ring-text">
+                <strong>{{ data.mealRatio }}%</strong>
+                <small>占总支出</small>
+              </span>
             </div>
             <div class="meal-detail">
-              <div class="meal-line"><span>餐饮总支出</span><strong>{{ fmt(data.mealExpense) }}</strong></div>
-              <div class="meal-line"><span>日均</span><strong>{{ fmt(data.mealExpense / mealDays) }}</strong></div>
+              <div class="meal-line meal-line--total">
+                <span>餐饮总支出</span>
+                <strong>{{ fmt(data.mealExpense) }}</strong>
+              </div>
+              <small class="meal-detail__scope">早餐 + 午餐 + 晚餐</small>
+              <div class="meal-line meal-line--average">
+                <span>有记录日均</span>
+                <strong>{{ fmt(data.mealExpense / mealDays) }}<em>/天</em></strong>
+              </div>
+              <small class="meal-detail__days">按 {{ mealDays }} 个有餐饮记录日计算</small>
             </div>
           </div>
         </div>
@@ -375,16 +386,24 @@ function onWeekdayClick(params) {
 
 /* 餐饮 */
 .meal-row { display: flex; align-items: center; gap: 20px; }
-.meal-ring { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
+.meal-ring { position: relative; width: 72px; height: 72px; flex-shrink: 0; }
 .meal-ring svg { width: 100%; height: 100%; }
 .meal-ring-text {
-  position: absolute; inset: 0; display: grid; place-items: center;
-  font-size: 13px; font-weight: 700; color: #f59e0b;
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1px; color: #f59e0b;
 }
-.meal-detail { display: grid; gap: 4px; flex: 1; }
-.meal-line { display: flex; justify-content: space-between; font-size: 12px; }
+.meal-ring-text strong { font-size: 14px; line-height: 1.2; }
+.meal-ring-text small { color: var(--console-text-secondary); font-size: 9px; line-height: 1.2; }
+.meal-detail { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; flex: 1; min-width: 0; }
+.meal-line { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 12px; }
 .meal-line span { color: var(--console-text-secondary); }
-.meal-line strong { color: var(--console-text); }
+.meal-line strong { color: var(--console-text); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.meal-line--total strong { font-size: 15px; }
+.meal-line--average { margin-top: 5px; }
+.meal-line--average strong { font-size: 13px; }
+.meal-line--average em { color: var(--console-text-secondary); font-size: 10px; font-style: normal; font-weight: 500; }
+.meal-detail__scope,
+.meal-detail__days { color: var(--console-text-secondary); font-size: 10px; line-height: 1.4; }
 
 @media (max-width: 760px) {
   .insight-bottom-row { grid-template-columns: 1fr; }

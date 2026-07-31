@@ -83,13 +83,14 @@ const canAccessLedger = requireAnyMenuAccess([
   '/console/ledger/overview',
   '/console/ledger/entries',
   '/console/ledger/daily',
+  '/console/ledger/monthly',
   '/console/ledger/moments'
 ])
 const canAccessLedgerOverview = requireAnyMenuAccess(['/console/ledger/overview'])
 const canAccessLedgerEntries = requireAnyMenuAccess(['/console/ledger/entries', '/console/ledger/daily'])
 const canAccessLedgerCategories = requireAnyMenuAccess(['/console/ledger/overview'])
 const canAccessLedgerImports = requireAnyMenuAccess(['/console/ledger/overview'])
-const canAccessLedgerDaily = requireAnyMenuAccess(['/console/ledger/daily'])
+const canAccessLedgerDaily = requireAnyMenuAccess(['/console/ledger/daily', '/console/ledger/monthly'])
 const canAccessLedgerMoments = requireAnyMenuAccess(['/console/ledger/moments'])
 
 ledgerRouter.use(requireAuth)

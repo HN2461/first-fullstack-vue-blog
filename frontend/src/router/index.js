@@ -41,6 +41,7 @@ const LedgerPage = () => import('@/views/console/LedgerPage/index.vue')
 const LedgerOverviewPage = () => import('@/views/console/LedgerPage/LedgerOverviewPage.vue')
 const LedgerEntriesPage = () => import('@/views/console/LedgerPage/LedgerEntriesPage.vue')
 const LedgerDailyPage = () => import('@/views/console/LedgerPage/LedgerDailyPage.vue')
+const LedgerMonthlyPage = () => import('@/views/console/LedgerPage/LedgerMonthlyPage.vue')
 const LedgerMomentsPage = () => import('@/views/console/LedgerPage/LedgerMomentsPage.vue')
 const ProfilePage = () => import('@/views/console/ProfilePage/index.vue')
 const UnavailablePage = () => import('@/views/console/UnavailablePage/index.vue')
@@ -195,6 +196,12 @@ export const router = createRouter({
               name: 'ConsoleLedgerDaily',
               component: LedgerDailyPage,
               meta: { title: '账本日表格', requiresAuth: true, requiresMenuAccess: true }
+            },
+            {
+              path: 'monthly',
+              name: 'ConsoleLedgerMonthly',
+              component: LedgerMonthlyPage,
+              meta: { title: '账本月表格', requiresAuth: true, requiresMenuAccess: true }
             },
             {
               path: 'moments',
