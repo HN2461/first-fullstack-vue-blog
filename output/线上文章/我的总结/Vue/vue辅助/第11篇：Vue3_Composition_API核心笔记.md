@@ -1,5 +1,5 @@
 ---
-title: "第11篇：Vue3_Composition_API核心笔记"
+title: "第 11 篇：Vue3 Composition API核心笔记"
 slug: "vue-vue-vue3-composition-api-4d51a7a6"
 summary: "Vue3 Composition API 完整指南：setup、ref/reactive、computed、watch/watchEffect、生命周期、自定义 Hook 及常见易错点总结。"
 category: "vue辅助"

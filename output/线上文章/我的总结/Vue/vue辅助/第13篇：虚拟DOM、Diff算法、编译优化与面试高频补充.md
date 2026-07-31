@@ -1,5 +1,5 @@
 ---
-title: "第13篇：虚拟DOM、Diff算法、编译优化与面试高频补充"
+title: "第 13 篇：虚拟DOM、Diff算法、编译优化与面试高频补充"
 slug: "vue-vue-dom-diff-05a2bbc3"
 summary: "补全前12篇之外的面试高频空白：虚拟DOM与VNode、Vue2双端Diff与Vue3快速Diff、key的本质作用、Vue3编译期优化（静态提升/PatchFlag/Block Tree/cacheHandlers）、nextTick原理、Vue性能优化清单、Teleport/Suspense/Fragment、MVVM与SPA概念。"
 category: "vue辅助"

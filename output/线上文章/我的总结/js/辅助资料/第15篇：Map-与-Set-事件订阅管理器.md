@@ -1,5 +1,5 @@
 ---
-title: "第15篇：Map 与 Set 事件订阅管理器"
+title: "第 15 篇：Map 与 Set 事件订阅管理器"
 slug: "js-js-map-set-696642c1"
 summary: "从 ES6 Map/Set 基础概念到事件订阅管理器实战，详解如何使用 Map 和 Set 构建高效、可维护的事件系统。"
 category: "辅助资料"
@@ -17,8 +17,7 @@ originalSlug: "js-js-map-set-696642c1"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第15篇：Map 与 Set 事件订阅管理器
-
+# 第 15 篇：Map 与 Set 事件订阅管理器
 目标：**一次复习，长期可用**。这篇笔记从 ES6 的 Map / Set 概念讲起，再过渡到事件订阅管理器（EventManager），由浅入深，避免以后复习时还要先翻 Map / Set 的资料。
 
 ---

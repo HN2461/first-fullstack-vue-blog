@@ -1,5 +1,5 @@
 ---
-title: "第04篇：JavaScript arguments 对象详解"
+title: "第 4 篇：JavaScript arguments 对象详解"
 slug: "js-js-arguments-c45f50a4"
 summary: "JavaScript arguments 对象的特性、使用方法和现代替代方案（rest parameters）。"
 category: "辅助资料"
@@ -16,8 +16,7 @@ originalSlug: "js-js-arguments-c45f50a4"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第04篇：JavaScript arguments 对象详解
-
+# 第 4 篇：JavaScript arguments 对象详解
 在调用函数时，浏览器每次都会传递两个隐含参数：
 
 1. 函数的上下文对象 `this`

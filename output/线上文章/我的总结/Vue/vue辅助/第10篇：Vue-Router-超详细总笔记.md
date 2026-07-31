@@ -1,5 +1,5 @@
 ---
-title: "第10篇：Vue Router 超详细总笔记"
+title: "第 10 篇：Vue Router 超详细总笔记"
 slug: "vue-vue-vue-router-b011bea3"
 summary: "面向长期复习的一站式 Vue Router 总笔记，系统整理基础概念、Vue2/Vue3 差异、路由配置项、每种传参形式、导航方式、嵌套与命名视图、守卫、历史模式、动态添加路由、滚动行为、懒加载与高频踩坑。"
 category: "vue辅助"
@@ -18,8 +18,7 @@ originalSlug: "vue-vue-vue-router-b011bea3"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第10篇：Vue Router 超详细总笔记
-
+# 第 10 篇：Vue Router 超详细总笔记
 > 这篇笔记的目标是：以后复习 Vue Router，只看这一篇就够。
 >
 > 所以它不是“只讲项目套路”的版本，也不是“只讲入门 demo”的版本，而是尽量把 Vue Router 的知识点按体系讲全。

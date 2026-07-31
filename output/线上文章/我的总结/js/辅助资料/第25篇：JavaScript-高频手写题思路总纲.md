@@ -1,5 +1,5 @@
 ---
-title: "第25篇：JavaScript 高频手写题思路总纲"
+title: "第 25 篇：JavaScript 高频手写题思路总纲"
 slug: "js-js-0c45b118"
 summary: "先建立 JavaScript 高频手写题的知识地图与拆题方法，再逐个补写 bind、new、防抖、节流、柯里化、并发控制等专题实现。"
 category: "辅助资料"
@@ -17,8 +17,7 @@ originalSlug: "js-js-0c45b118"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第25篇：JavaScript 高频手写题思路总纲
-
+# 第 25 篇：JavaScript 高频手写题思路总纲
 很多人面试不是不会写代码，而是一看到“手写题”就脑子空白。
 
 根本原因通常不是练得不够多，而是没有先把手写题按能力模型分组。

@@ -1,5 +1,5 @@
 ---
-title: "第21篇：for 家族完全指南"
+title: "第 21 篇：for 家族完全指南"
 slug: "js-js-for-ae3e60e0"
 summary: "一次讲清 JavaScript 里的 for、for...of、for...in、forEach、for await...of 的语法、场景、区别、陷阱和选择方法。"
 category: "辅助资料"
@@ -17,8 +17,7 @@ originalSlug: "js-js-for-ae3e60e0"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第21篇：for 家族完全指南
-
+# 第 21 篇：for 家族完全指南
 很多人不是不会写循环，而是还没先分清：**我现在到底要的是索引、值、键，还是异步结果？**  
 只要这个问题先想清楚，`for` 相关写法就会一下子顺很多。
 

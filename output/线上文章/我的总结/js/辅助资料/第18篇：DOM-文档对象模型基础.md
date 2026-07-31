@@ -1,5 +1,5 @@
 ---
-title: "第18篇：DOM 文档对象模型基础"
+title: "第 18 篇：DOM 文档对象模型基础"
 slug: "js-js-dom-cefe5122"
 summary: "DOM（文档对象模型）基础概念介绍，包含DOM树结构、元素、节点等核心概念的理解。"
 category: "辅助资料"
@@ -15,8 +15,7 @@ originalSlug: "js-js-dom-cefe5122"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第18篇：DOM 文档对象模型基础
-
+# 第 18 篇：DOM 文档对象模型基础
 **文档对象模型**（Document Object Model，简称DOM），它就是一系列**编程接口**，有了这些接口，就可以**改变页面内容，结构和样式**
 
 ## 一、DOM核心概念

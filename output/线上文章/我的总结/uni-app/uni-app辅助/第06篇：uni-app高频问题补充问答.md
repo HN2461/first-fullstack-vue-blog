@@ -1,5 +1,5 @@
 ---
-title: "第06篇：uni-app高频问题补充问答"
+title: "第 6 篇：uni-app高频问题补充问答"
 slug: "uni-app-uni-app-9a1496c3"
 summary: "作为系统整理版的补充问答，集中梳理 uni-app 学习和复习中最容易反复遇到的高频问题，帮助快速回看关键概念与边界。"
 category: "uni-app辅助"

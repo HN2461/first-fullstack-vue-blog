@@ -1,5 +1,5 @@
 ---
-title: "第05篇：class与style绑定"
+title: "第 5 篇：class与style绑定"
 slug: "vue-vue-class-style-eb3555df"
 summary: "适用于样式的名字不确定需要动态指定、样式名字和个数不确定、样式名字和个数都确定但要动态决定用或不用的三种场景。"
 category: "vue辅助"

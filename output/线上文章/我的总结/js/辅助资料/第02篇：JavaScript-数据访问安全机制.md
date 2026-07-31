@@ -1,5 +1,5 @@
 ---
-title: "第02篇：JavaScript 数据访问安全机制"
+title: "第 2 篇：JavaScript 数据访问安全机制"
 slug: "js-js-f6bc0394"
 summary: "JavaScript可选链操作符（?.）和空值合并操作符（??）的使用方法、原理及与相关操作符的区别。"
 category: "辅助资料"
@@ -16,8 +16,7 @@ originalSlug: "js-js-f6bc0394"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第02篇：JavaScript 数据访问安全机制
-
+# 第 2 篇：JavaScript 数据访问安全机制
 ### 一、可选链操作符（`?.`）
 精准定义：  
 可选链操作符（`?.`）允许你安全地访问嵌套对象的属性或调用其方法，而无需明确验证链中的每个引用是否有效。

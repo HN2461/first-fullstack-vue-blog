@@ -1,5 +1,5 @@
 ---
-title: "第17篇：Promise 完全指南"
+title: "第 17 篇：Promise 完全指南"
 slug: "js-js-promise-6cb6d394"
 summary: "JavaScript Promise 完整指南，从基础概念到实战应用，包含 async/await 语法糖和常见陷阱。"
 category: "辅助资料"
@@ -16,8 +16,7 @@ originalSlug: "js-js-promise-6cb6d394"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第17篇：Promise 完全指南
-
+# 第 17 篇：Promise 完全指南
 ## 1. Promise 概述
 ### 1.1 诞生背景
 + 前端异步操作（AJAX、定时器、文件读取）传统依赖**回调函数**，多层嵌套形成「回调地狱」：

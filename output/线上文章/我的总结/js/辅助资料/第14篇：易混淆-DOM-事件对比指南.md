@@ -1,5 +1,5 @@
 ---
-title: "第14篇：易混淆 DOM 事件对比指南"
+title: "第 14 篇：易混淆 DOM 事件对比指南"
 slug: "js-js-dom-0c6dbfa3"
 summary: "前端开发中易混淆的DOM事件详细对比，包含表单事件、鼠标事件、键盘事件等的触发时机和使用场景。"
 category: "辅助资料"
@@ -18,8 +18,7 @@ originalSlug: "js-js-dom-0c6dbfa3"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第14篇：易混淆 DOM 事件对比指南
-
+# 第 14 篇：易混淆 DOM 事件对比指南
 ## 一、表单交互类事件（以 input/change 为核心）
 ### 1. 基础输入事件：input /change（网页核心内容 + 实战补充）
 **核心区别**：触发时机与条件完全不同，适配 “实时响应” 与 “确认后响应” 两类需求

@@ -1,5 +1,5 @@
 ---
-title: "第24篇：JavaScript 对象系统与属性描述符"
+title: "第 24 篇：JavaScript 对象系统与属性描述符"
 slug: "js-js-d03088d0"
 summary: "系统补齐对象创建、原型关联、属性描述符、可枚举性和冻结封印等高频对象题，避免只会讲原型链不会讲对象本身。"
 category: "辅助资料"
@@ -17,8 +17,7 @@ originalSlug: "js-js-d03088d0"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第24篇：JavaScript 对象系统与属性描述符
-
+# 第 24 篇：JavaScript 对象系统与属性描述符
 很多人原型链能答，但一到对象本身就只会说“对象是键值对”。
 
 这在面试里很容易被继续追问：

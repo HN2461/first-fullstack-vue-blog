@@ -1,5 +1,5 @@
 ---
-title: "第11篇：JavaScript 包装类的详细机制"
+title: "第 11 篇：JavaScript 包装类的详细机制"
 slug: "js-js-32fdfd9a"
 summary: "JavaScript包装类（String、Number、Boolean）的详细机制和使用指南，包括自动装箱拆箱原理。"
 category: "辅助资料"
@@ -15,8 +15,7 @@ originalSlug: "js-js-32fdfd9a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第11篇：JavaScript 包装类的详细机制
-
+# 第 11 篇：JavaScript 包装类的详细机制
 在js中为我们提供了三个包装类，通过这三个包装类可以**基本数据类型转换为对象**
 
 String()可以将基本数据类型字符串转换为String对象

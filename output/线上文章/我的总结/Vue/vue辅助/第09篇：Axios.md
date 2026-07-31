@@ -1,5 +1,5 @@
 ---
-title: "第09篇：Axios"
+title: "第 9 篇：Axios"
 slug: "vue-vue-axios-4d3d1aab"
 summary: "本文档基于Vue开发场景，从入门原理到企业级封装，涵盖所有核心细节。Axios是一个基于Promise的HTTP网络请求库，可运行于浏览器端和Node.js服务端。"
 category: "vue辅助"

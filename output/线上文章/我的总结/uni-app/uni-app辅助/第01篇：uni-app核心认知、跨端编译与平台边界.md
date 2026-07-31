@@ -1,5 +1,5 @@
 ---
-title: "第01篇：uni-app核心认知、跨端编译与平台边界"
+title: "第 1 篇：uni-app核心认知、跨端编译与平台边界"
 slug: "uni-app-uni-app-5f27ae60"
 summary: "从跨端编译、运行宿主、通用能力边界到平台差异收口，系统梳理 uni-app 到底是什么、为什么能跨端、又为什么不可能完全无差异。"
 category: "uni-app辅助"

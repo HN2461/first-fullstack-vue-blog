@@ -1,5 +1,5 @@
 ---
-title: "第05篇：JavaScript this 指向规则详解"
+title: "第 5 篇：JavaScript this 指向规则详解"
 slug: "js-js-this-515c53fa"
 summary: "JavaScript this 指向的完整规则，包括普通函数调用、方法调用、构造函数调用和箭头函数特性。"
 category: "辅助资料"
@@ -16,8 +16,7 @@ originalSlug: "js-js-this-515c53fa"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第05篇：JavaScript this 指向规则详解
-
+# 第 5 篇：JavaScript this 指向规则详解
 你原来的 4 条结论抓住了主干，但有两处容易误导：
 
 1. `this` 不是“永远是 window”，而是取决于调用方式与是否严格模式。

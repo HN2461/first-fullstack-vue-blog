@@ -1,5 +1,5 @@
 ---
-title: "第06篇：JavaScript 原型链"
+title: "第 6 篇：JavaScript 原型链"
 slug: "js-javascript-9a9d6589"
 summary: "用小白视角讲透原型链：从三张图入手，理解 prototype、[[Prototype]]、__proto__、constructor、instanceof、new 和 class 的关系。"
 category: "辅助资料"
@@ -16,8 +16,7 @@ originalSlug: "js-javascript-9a9d6589"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第06篇：JavaScript 原型链
-
+# 第 6 篇：JavaScript 原型链
 这版目标很明确：
 
 1. 先看图，先有整体感

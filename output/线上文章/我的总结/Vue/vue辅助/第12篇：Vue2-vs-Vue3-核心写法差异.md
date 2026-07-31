@@ -1,5 +1,5 @@
 ---
-title: "第12篇：Vue2 vs Vue3 核心写法差异"
+title: "第 12 篇：Vue2 vs Vue3 核心写法差异"
 slug: "vue-vue-vue2-vue3-61311af1"
 summary: "一篇详细的小白友好笔记，解释了Vue2 Options API和Vue3 Composition API的核心差异，重点说明了this的变化原因、setup()执行时机、以及从\"配置对象\"到\"函数式组合\"的思维转变。"
 category: "vue辅助"

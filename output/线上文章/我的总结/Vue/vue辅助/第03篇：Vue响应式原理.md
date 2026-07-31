@@ -1,5 +1,5 @@
 ---
-title: "第03篇：Vue响应式原理"
+title: "第 3 篇：Vue响应式原理"
 slug: "vue-vue-vue-ebf8992e"
 summary: "简单来说，Vue2的响应式原理基于Object.defineProperty()，Vue3则使用Proxy+Reflect实现。本文详解Vue2/Vue3响应式原理的核心差异与实现机制。"
 category: "vue辅助"

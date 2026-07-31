@@ -1,5 +1,5 @@
 ---
-title: "第10篇：JavaScript 字符串详解"
+title: "第 10 篇：JavaScript 字符串详解"
 slug: "js-b45cfac4"
 summary: "系统梳理 JavaScript 字符串的创建、查找、截取、替换、Unicode 处理与常见 API，重点纠正常见误区并补充官方参考资料。"
 category: "辅助资料"
@@ -17,8 +17,7 @@ originalSlug: "js-b45cfac4"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第10篇：JavaScript 字符串详解
-
+# 第 10 篇：JavaScript 字符串详解
 这一篇先把字符串里最容易写错的点记住：
 
 - 字符串是不可变的

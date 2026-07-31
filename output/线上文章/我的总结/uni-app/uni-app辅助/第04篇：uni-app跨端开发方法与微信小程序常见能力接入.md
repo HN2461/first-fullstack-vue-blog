@@ -1,5 +1,5 @@
 ---
-title: "第04篇：uni-app跨端开发方法与微信小程序常见能力接入"
+title: "第 4 篇：uni-app跨端开发方法与微信小程序常见能力接入"
 slug: "uni-app-uni-app-2a3920fc"
 summary: "围绕 uni-app 在微信小程序场景下的真实开发方式，系统整理通用能力、平台协议能力、平台专属能力、条件编译和常见业务能力的接入方法与注意事项。"
 category: "uni-app辅助"

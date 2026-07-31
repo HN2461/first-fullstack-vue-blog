@@ -1,5 +1,5 @@
 ---
-title: "第09篇：JavaScript 数组深度解析"
+title: "第 9 篇：JavaScript 数组深度解析"
 slug: "js-javascript-ceaa578b"
 summary: "从数组本质、length、空位和常用方法等角度系统梳理 JavaScript 数组，并修正 splice、map、copyWithin 等常见误区。"
 category: "辅助资料"
@@ -17,7 +17,7 @@ originalSlug: "js-javascript-ceaa578b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第09篇：JavaScript 数组深度解析
+# 第 9 篇：JavaScript 数组深度解析
 ## 一、数组的本质理解
 ### 1.1 数组是特殊的对象
 ```javascript

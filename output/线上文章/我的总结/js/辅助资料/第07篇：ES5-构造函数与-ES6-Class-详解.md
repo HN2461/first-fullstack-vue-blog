@@ -1,5 +1,5 @@
 ---
-title: "第07篇：ES5 构造函数与 ES6 Class 详解"
+title: "第 7 篇：ES5 构造函数与 ES6 Class 详解"
 slug: "js-js-es5-es6-class-ddcd40c8"
 summary: "从原型、实例、静态成员与继承链的关系出发，系统讲清 ES5 构造函数和 ES6 Class 的底层逻辑与实际差异。"
 category: "辅助资料"
@@ -17,8 +17,7 @@ originalSlug: "js-js-es5-es6-class-ddcd40c8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第07篇：ES5 构造函数与 ES6 Class 详解
-
+# 第 7 篇：ES5 构造函数与 ES6 Class 详解
 ## 快速理解
 
 - 每个函数（包括构造函数）在被创建时，会自动获得一个显式原型属性 `prototype`，它是一个对象，里面默认有一个 `constructor` 属性指回函数自身。构造函数也是对象，所以也有隐式原型 `__proto__`：普通函数的 `__proto__` 指向 `Function.prototype`；在 `class extends` 继承中，子类构造函数的 `__proto__` 会直接指向父类构造函数本身，这样才能继承父类的静态属性和方法，因为静态成员是挂在构造函数自己身上，而不是放在构造函数的 `prototype` 上。  

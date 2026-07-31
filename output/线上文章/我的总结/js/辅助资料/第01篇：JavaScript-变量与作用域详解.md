@@ -1,5 +1,5 @@
 ---
-title: "第01篇：JavaScript 变量与作用域详解"
+title: "第 1 篇：JavaScript 变量与作用域详解"
 slug: "js-js-javascript-4f1a5c58"
 summary: "JavaScript变量声明方式（var/let/const）的核心特性、作用域规则、提升机制及最佳实践。"
 category: "辅助资料"
@@ -18,8 +18,7 @@ originalSlug: "js-js-javascript-4f1a5c58"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第01篇：JavaScript 变量与作用域详解
-
+# 第 1 篇：JavaScript 变量与作用域详解
 ## 一、变量声明方式核心特性
 
 ### 1. var（ES5）

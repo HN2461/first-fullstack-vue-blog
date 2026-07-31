@@ -1,5 +1,5 @@
 ---
-title: "第02篇：Vue指令与自定义指令"
+title: "第 2 篇：Vue指令与自定义指令"
 slug: "vue-vue-vue-011d0d19"
 summary: "Vue指令的本质是给DOM元素绑定特定的行为逻辑，让页面能根据数据动态改变DOM的状态。本文详解Vue核心指令与自定义指令的完整用法。"
 category: "vue辅助"

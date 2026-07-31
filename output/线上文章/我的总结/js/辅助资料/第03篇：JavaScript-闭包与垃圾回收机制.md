@@ -1,5 +1,5 @@
 ---
-title: "第03篇：JavaScript 闭包与垃圾回收机制"
+title: "第 3 篇：JavaScript 闭包与垃圾回收机制"
 slug: "js-js-51b18143"
 summary: "JavaScript闭包的形成机制、内存泄漏原因及垃圾回收原理，以及如何避免闭包导致的内存问题。"
 category: "辅助资料"
@@ -16,8 +16,7 @@ originalSlug: "js-js-51b18143"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第03篇：JavaScript 闭包与垃圾回收机制
-
+# 第 3 篇：JavaScript 闭包与垃圾回收机制
 ### 一、内存管理、垃圾回收与内存泄漏
 1. 垃圾回收机制  
 JavaScript 引擎通过自动垃圾回收机制管理内存，核心目标是识别并释放程序中不再使用的内存。
