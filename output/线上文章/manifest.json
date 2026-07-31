@@ -1545,7 +1545,7 @@
       "originalId": "6a2d291e8a2b1c68f2cac1ba",
       "originalSlug": "node-js-node-js-buffer-52d2c595",
       "exportedSlug": "node-js-node-js-buffer-52d2c595",
-      "title": "第一篇：Node.js 入门与 Buffer",
+      "title": "第 1 篇：Node.js 入门与 Buffer：运行环境、事件循环、全局对象、二进制数据",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1555,26 +1555,25 @@
       "tags": [
         "Node.js",
         "Buffer",
-        "后端开发",
         "运行环境",
-        "全局对象",
         "事件循环",
-        "libuv"
+        "全局对象",
+        "二进制数据"
       ],
       "sortOrder": 10,
       "sourcePath": "Node.js/第一篇_Node.js入门与Buffer_2026-04.md",
       "publishedAt": "2026-06-05T11:32:01.047Z",
       "updatedAt": "2026-06-19T06:25:52.916Z",
-      "fileName": "后端技术/Node.js/第一篇：Node.js-入门与-Buffer.md",
-      "summary": "从前端视角深入理解 Node.js 的架构原理、事件循环机制、全局对象体系，以及 Buffer 二进制数据处理的完整用法，配合官方文档深度解析。",
+      "fileName": "后端技术/Node.js/第 01 篇：Node.js 入门与 Buffer：运行环境、事件循环、全局对象、二进制数据.md",
+      "summary": "Node.js 入门基础，覆盖运行环境定位、架构原理、事件循环、全局对象体系和 Buffer 二进制数据处理。",
       "cover": "",
-      "contentHash": "2509d633ea67ad3b120cc0dfebe1b238f91a8282baf94f8e1436501660e56984"
+      "contentHash": "50dc414e5b1ada58bd43fea1069db9418e0f6a6a0fba6e3e6abb035ae3b50152"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1d0",
       "originalSlug": "node-js-fs-path-e956bb19",
       "exportedSlug": "node-js-fs-path-e956bb19",
-      "title": "第二篇：fs 模块与 path 模块",
+      "title": "第 2 篇：fs 与 path 模块：文件读写、目录操作、流式处理、跨平台路径",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1583,25 +1582,26 @@
       ],
       "tags": [
         "Node.js",
-        "fs模块",
-        "path模块",
-        "文件操作",
+        "fs",
+        "path",
+        "文件读写",
+        "目录操作",
         "流式处理"
       ],
       "sortOrder": 20,
       "sourcePath": "Node.js/第二篇_fs模块与path模块_2026-04.md",
       "publishedAt": "2026-04-18T13:01:07.819Z",
       "updatedAt": "2026-06-19T06:25:50.981Z",
-      "fileName": "后端技术/Node.js/第二篇：fs-模块与-path-模块.md",
-      "summary": "深入掌握 Node.js 文件系统模块（fs）的同步/异步/Promise 三种写法，以及 path 模块的跨平台路径处理，是后端开发的必备基础。",
+      "fileName": "后端技术/Node.js/第 02 篇：fs 与 path 模块：文件读写、目录操作、流式处理、跨平台路径.md",
+      "summary": "Node.js 文件与路径处理基础，覆盖 fs 同步、异步、Promise 写法，目录操作、流式处理和 path 跨平台路径处理。",
       "cover": "",
-      "contentHash": "d958d95880f97b891738d5c28df8261af18d81813d5e50fff397b3cb2369fd2c"
+      "contentHash": "7f68a15bcdc0f835fb548d5b0d5fad6a3f7a505f9ccf8dd79be8cb9f6e54bd09"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1c6",
       "originalSlug": "node-js-http-http-41474b0d",
       "exportedSlug": "node-js-http-http-41474b0d",
-      "title": "第三篇：HTTP 协议与 http 模块",
+      "title": "第 3 篇：HTTP 协议与 http 模块：请求响应、状态码、GET/POST、原生服务器",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1610,26 +1610,26 @@
       ],
       "tags": [
         "Node.js",
-        "HTTP协议",
+        "HTTP",
         "http模块",
-        "Web服务器",
-        "GET请求",
-        "POST请求"
+        "请求响应",
+        "状态码",
+        "Web服务器"
       ],
       "sortOrder": 30,
       "sourcePath": "Node.js/第三篇_HTTP协议与http模块_2026-04.md",
       "publishedAt": "2026-04-18T13:21:53.791Z",
       "updatedAt": "2026-06-19T06:25:48.839Z",
-      "fileName": "后端技术/Node.js/第三篇：HTTP-协议与-http-模块.md",
-      "summary": "理解 HTTP 协议的请求响应结构、常见状态码、GET 与 POST 的区别，并用 Node.js 原生 http 模块从零搭建 Web 服务器。",
+      "fileName": "后端技术/Node.js/第 03 篇：HTTP 协议与 http 模块：请求响应、状态码、GET、POST、原生服务器.md",
+      "summary": "Node.js 原生 HTTP 入门，讲清 HTTP 请求响应结构、常见状态码、GET/POST 参数处理和 http 模块搭建服务器。",
       "cover": "",
-      "contentHash": "57f2c09fc97f1d40eada01b58dc09daf964e97aefe1fd3dec478a51c73086050"
+      "contentHash": "c2f31bb71883c8c60e5a1c3bf0b224a4dcfcde53c0220cc24e2cf0e5939232a3"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1f2",
       "originalSlug": "node-js-5de6ee42",
       "exportedSlug": "node-js-5de6ee42",
-      "title": "第四篇：Node.js 模块化系统详解",
+      "title": "第 4 篇：Node.js 模块化系统：CommonJS、require、module.exports、ESM",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1639,25 +1639,25 @@
       "tags": [
         "Node.js",
         "CommonJS",
-        "ES6模块",
         "require",
-        "import",
+        "module.exports",
+        "ESM",
         "模块化"
       ],
       "sortOrder": 40,
       "sourcePath": "Node.js/第四篇_模块化系统详解_2026-04.md",
       "publishedAt": "2026-04-18T10:29:49.700Z",
       "updatedAt": "2026-06-13T10:28:27.796Z",
-      "fileName": "后端技术/Node.js/第四篇：Node.js-模块化系统详解.md",
-      "summary": "深入理解 Node.js 的 CommonJS 模块规范，掌握 require/module.exports/exports 的工作原理，以及 ES6 模块化的 import/export 用法与两者的区别。",
+      "fileName": "后端技术/Node.js/第 04 篇：Node.js 模块化系统：CommonJS、require、module.exports、ESM.md",
+      "summary": "Node.js 模块化系统详解，覆盖 CommonJS、require 加载机制、module.exports 与 exports 区别、ESM import/export 和两种规范差异。",
       "cover": "",
-      "contentHash": "616c9a0cba680fe0094c2db8991d9ffdf040e4462e5bf7e31f42a330e99079bb"
+      "contentHash": "ea59e59b04c03794d52180efd61186f4f683261ac205cc7daa6153fcc465a3a7"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1da",
       "originalSlug": "node-js-npm-nvm-0ada380c",
       "exportedSlug": "node-js-npm-nvm-0ada380c",
-      "title": "第五篇：npm 包管理与 nvm 版本管理",
+      "title": "第 5 篇：npm 包管理与 nvm 版本管理：package.json、semver、本地全局包、Node 版本",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1669,23 +1669,23 @@
         "npm",
         "nvm",
         "package.json",
-        "包管理",
+        "semver",
         "版本管理"
       ],
       "sortOrder": 50,
       "sourcePath": "Node.js/第五篇_npm包管理与nvm版本管理_2026-04.md",
       "publishedAt": "2026-06-05T11:32:01.047Z",
       "updatedAt": "2026-06-13T10:28:27.772Z",
-      "fileName": "后端技术/Node.js/第五篇：npm-包管理与-nvm-版本管理.md",
-      "summary": "掌握 npm 核心命令、package.json 各字段含义、semver 版本规则、本地与全局包的区别，以及用 nvm 管理多个 Node.js 版本。",
+      "fileName": "后端技术/Node.js/第 05 篇：npm 包管理与 nvm 版本管理：package.json、semver、本地全局包、Node 版本.md",
+      "summary": "Node.js 包与版本管理基础，覆盖 npm 核心命令、package.json 字段、semver 版本规则、本地包与全局包、nvm 多版本管理。",
       "cover": "",
-      "contentHash": "df93b40b2452d9f4b77a84900f6b27168700b00fe8376097d7dc9a9c3885ac78"
+      "contentHash": "47f808e19551ea7e3d652af160875753fed4a8885bfac6b70f48b6ae2fd70084"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1e6",
       "originalSlug": "node-js-express-ba1a095d",
       "exportedSlug": "node-js-express-ba1a095d",
-      "title": "第六篇：Express 框架全解",
+      "title": "第 6 篇：Express 框架全解：路由、中间件、静态资源、模板、错误处理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1695,10 +1695,8 @@
       "tags": [
         "Node.js",
         "Express",
-        "Express5",
         "路由",
         "中间件",
-        "ejs",
         "静态资源",
         "错误处理"
       ],
@@ -1706,16 +1704,16 @@
       "sourcePath": "Node.js/第六篇_Express框架全解_2026-04.md",
       "publishedAt": "2026-06-05T11:32:01.047Z",
       "updatedAt": "2026-06-13T10:28:27.785Z",
-      "fileName": "后端技术/Node.js/第六篇：Express-框架全解.md",
-      "summary": "深入掌握 Express 框架的路由系统、中间件机制、静态资源服务、ejs 模板引擎，以及 Express 5 新特性、错误处理最佳实践和生产级项目结构。",
+      "fileName": "后端技术/Node.js/第 06 篇：Express 框架全解：路由、中间件、静态资源、模板、错误处理.md",
+      "summary": "Express 框架系统笔记，覆盖路由系统、中间件机制、静态资源服务、ejs 模板、Express 5、错误处理和生产项目结构。",
       "cover": "",
-      "contentHash": "7cb3928acc8c368a1f9a60eddb2780504b5ab4d20755852f9f88c3ae707f752a"
+      "contentHash": "ea73e4b5f8ebe497f95bf2a9ee1c241e82b3a5f4e822302fb2c6a30710437237"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac16e",
       "originalSlug": "node-js-restful-dd419ad9",
       "exportedSlug": "node-js-restful-dd419ad9",
-      "title": "接口与会话控制详解第一篇：RESTful 接口设计规范",
+      "title": "第 1 篇：RESTful 接口设计规范：URL 命名、HTTP 方法、状态码、统一响应",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1726,24 +1724,25 @@
       "tags": [
         "Node.js",
         "RESTful",
-        "HTTP",
         "接口设计",
-        "状态码"
+        "HTTP方法",
+        "状态码",
+        "统一响应"
       ],
       "sortOrder": 10,
       "sourcePath": "Node.js/接口与会话控制详解/第一篇_RESTful接口设计规范.md",
       "publishedAt": "2026-04-21T13:13:27.802Z",
       "updatedAt": "2026-06-13T10:28:27.642Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第一篇：RESTful-接口设计规范.md",
-      "summary": "从零理解 RESTful 接口设计风格，掌握 URL 命名规范、HTTP 方法语义、状态码正确用法，以及统一响应格式的封装，让你写出规范、易维护的后端接口。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 01 篇：RESTful 接口设计规范：URL 命名、HTTP 方法、状态码、统一响应.md",
+      "summary": "RESTful 接口设计规范入门，覆盖 URL 资源命名、HTTP 方法语义、常见状态码、统一响应格式和接口可维护性。",
       "cover": "",
-      "contentHash": "380ecf06d6928b8b28d0940871f53a4a9f76532d236d03e1cb91730c28a52fb7"
+      "contentHash": "e6ed0c469cdb99297672b7a58d95a0a85b467da4e7756cb079a2730f8b04a0c1"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac188",
       "originalSlug": "node-js-apipost-ea2d5bde",
       "exportedSlug": "node-js-apipost-ea2d5bde",
-      "title": "接口与会话控制详解第二篇：Apipost 接口测试工具",
+      "title": "第 2 篇：Apipost 接口测试工具：请求发送、Header、Token、环境变量、文档生成",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1752,26 +1751,27 @@
         "接口与会话控制详解"
       ],
       "tags": [
-        "Node.js",
         "Apipost",
         "接口测试",
-        "Postman",
-        "HTTP"
+        "HTTP",
+        "Header",
+        "Token",
+        "环境变量"
       ],
       "sortOrder": 20,
       "sourcePath": "Node.js/接口与会话控制详解/第二篇_Apipost接口测试工具.md",
       "publishedAt": "2026-04-21T13:15:10.765Z",
       "updatedAt": "2026-06-21T12:56:13.338Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第二篇：Apipost-接口测试工具.md",
-      "summary": "从零掌握 Apipost 接口测试工具，包括安装配置、发送各类 HTTP 请求、设置请求头和 token、环境变量管理、接口文档生成，以及常见测试场景的完整操作流程。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 02 篇：Apipost 接口测试工具：请求发送、Header、Token、环境变量、文档生成.md",
+      "summary": "Apipost 接口测试工具使用指南，覆盖请求发送、请求头、Token、环境变量、接口文档生成和常见接口测试场景。",
       "cover": "",
-      "contentHash": "5f9b458f4f108a7a5bdca756c7c49256172bcd57a1e397b1b4e11fde6fbb7da8"
+      "contentHash": "d672496c194d5ad25691395aa4d333fe59646adb627512f883daa21f0e010faf"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac180",
       "originalSlug": "node-js-cookie-1bb83e69",
       "exportedSlug": "node-js-cookie-1bb83e69",
-      "title": "接口与会话控制详解第三篇：Cookie 原理与实战",
+      "title": "第 3 篇：Cookie 原理与实战：Express 读写删除、httpOnly、secure、sameSite、签名",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1782,25 +1782,25 @@
       "tags": [
         "Node.js",
         "Cookie",
-        "HTTP",
-        "会话控制",
-        "安全",
+        "Express",
+        "httpOnly",
+        "sameSite",
         "cookie-parser"
       ],
       "sortOrder": 30,
       "sourcePath": "Node.js/接口与会话控制详解/第三篇_Cookie原理与实战.md",
       "publishedAt": "2026-04-21T13:17:09.322Z",
       "updatedAt": "2026-06-13T10:28:27.666Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第三篇：Cookie-原理与实战.md",
-      "summary": "深入理解 Cookie 的工作原理，掌握在 Express 中设置、读取、删除 Cookie 的完整操作，以及 httpOnly、secure、sameSite、signed 等安全属性的作用和使用场景。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 03 篇：Cookie 原理与实战：Express 读写删除、httpOnly、secure、sameSite、签名.md",
+      "summary": "Cookie 原理与 Express 实战，覆盖 Cookie 设置、读取、删除、cookie-parser、httpOnly、secure、sameSite 和签名 Cookie。",
       "cover": "",
-      "contentHash": "39537d9661957a6bfc3b231fae2aefca58c0da47203e1c8fe3b071093a3dfba7"
+      "contentHash": "552909bbe9f89fae6ebbe076bcb94c8e864bdf6182df7ec2de05d5b3644d6461"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1ac",
       "originalSlug": "node-js-session-9e7c15d4",
       "exportedSlug": "node-js-session-9e7c15d4",
-      "title": "接口与会话控制详解第四篇：Session 原理与实战",
+      "title": "第 4 篇：Session 原理与实战：express-session、登录退出、Redis 存储、安全配置",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1811,25 +1811,25 @@
       "tags": [
         "Node.js",
         "Session",
-        "Cookie",
         "express-session",
         "Redis",
-        "会话控制"
+        "登录鉴权",
+        "会话安全"
       ],
       "sortOrder": 40,
       "sourcePath": "Node.js/接口与会话控制详解/第四篇_Session原理与实战.md",
       "publishedAt": "2026-04-21T13:20:35.663Z",
       "updatedAt": "2026-06-19T06:25:27.653Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第四篇：Session-原理与实战.md",
-      "summary": "深入理解 Session 的工作原理，掌握 express-session 的完整配置，实现登录/退出/鉴权，以及生产环境中用 Redis 持久化 Session 的完整方案。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 04 篇：Session 原理与实战：express-session、登录退出、Redis 存储、安全配置.md",
+      "summary": "Session 原理与 Express 实战，覆盖 express-session 配置、登录退出、鉴权、Session 存储方式、Redis 持久化和安全配置。",
       "cover": "",
-      "contentHash": "342e88b7bc34bafa2c67cf7edab59c592d4b791f930712c65657664da7b13abc"
+      "contentHash": "1a4c1af938f9ab182cea296669081e3c58fc82a0b607b637fb52de54ac639bae"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac18e",
       "originalSlug": "node-js-jwt-64903817",
       "exportedSlug": "node-js-jwt-64903817",
-      "title": "接口与会话控制详解第五篇：JWT 认证原理与实战",
+      "title": "第 5 篇：JWT 认证原理与实战：三段结构、签名验证、鉴权中间件、双 Token",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1840,25 +1840,25 @@
       "tags": [
         "Node.js",
         "JWT",
-        "认证",
         "Token",
-        "无状态",
-        "前后端分离"
+        "jsonwebtoken",
+        "鉴权中间件",
+        "双Token"
       ],
       "sortOrder": 50,
       "sourcePath": "Node.js/接口与会话控制详解/第五篇_JWT认证原理与实战.md",
       "publishedAt": "2026-04-21T13:22:25.066Z",
       "updatedAt": "2026-06-19T06:25:37.821Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第五篇：JWT-认证原理与实战.md",
-      "summary": "深入理解 JWT 的三段结构和签名原理，掌握 jsonwebtoken 的生成与验证，实现鉴权中间件，以及 access token + refresh token 双 Token 刷新机制的完整实战。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 05 篇：JWT 认证原理与实战：三段结构、签名验证、鉴权中间件、双 Token.md",
+      "summary": "JWT 认证原理与实战，覆盖 JWT 三段结构、签名验证、jsonwebtoken、鉴权中间件、登录接口和 access token + refresh token 机制。",
       "cover": "",
-      "contentHash": "817067997427f8ea317f8c4a140ad8a2a39cbd7073d990ab2b2bb517f9d032f0"
+      "contentHash": "411b609389403741c192200a9c9f1d4990c139eeeb224ba001ae03fabd2d9ab6"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac1a4",
       "originalSlug": "node-js-7fbfa4ae",
       "exportedSlug": "node-js-7fbfa4ae",
-      "title": "接口与会话控制详解第六篇：密码安全与接口防护",
+      "title": "第 6 篇：密码安全与接口防护：bcrypt、参数校验、限流、helmet、安全响应头",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1872,23 +1872,22 @@
         "密码安全",
         "参数校验",
         "限流",
-        "helmet",
-        "接口安全"
+        "helmet"
       ],
       "sortOrder": 60,
       "sourcePath": "Node.js/接口与会话控制详解/第六篇_密码安全与接口防护.md",
       "publishedAt": "2026-04-21T13:24:04.466Z",
       "updatedAt": "2026-06-19T06:25:46.272Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第六篇：密码安全与接口防护.md",
-      "summary": "掌握 bcrypt 密码哈希的原理与使用，用 express-validator 做参数校验，用 express-rate-limit 防止暴力攻击，用 helmet 设置安全响应头，构建安全的后端接口。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 06 篇：密码安全与接口防护：bcrypt、参数校验、限流、helmet、安全响应头.md",
+      "summary": "后端密码安全与接口防护实践，覆盖 bcrypt 密码哈希、express-validator 参数校验、express-rate-limit 限流、helmet 安全响应头和接口安全策略。",
       "cover": "",
-      "contentHash": "8ccdba4b8daa98c7a3f369b3c1b1a622cea3e97d8d7fbe8a9487f23aad6e9407"
+      "contentHash": "3a5404b13479e3aa2fb72e27eedb76d149a76ec0df96c3a0b6c6ccaae7f56c5f"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac176",
       "originalSlug": "node-js-1c62acb7",
       "exportedSlug": "node-js-1c62acb7",
-      "title": "接口与会话控制详解第七篇：完整认证系统实战",
+      "title": "第 7 篇：完整认证系统实战：注册登录、JWT 鉴权、角色权限、限流",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1900,25 +1899,24 @@
         "Node.js",
         "Express",
         "JWT",
-        "bcrypt",
-        "认证",
-        "权限控制",
+        "注册登录",
+        "角色权限",
         "项目实战"
       ],
       "sortOrder": 70,
       "sourcePath": "Node.js/接口与会话控制详解/第七篇_完整认证系统实战.md",
       "publishedAt": "2026-06-06T14:21:32.967Z",
       "updatedAt": "2026-06-19T06:25:43.301Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第七篇：完整认证系统实战.md",
-      "summary": "从零搭建一个完整的用户认证系统，包含注册、登录、JWT 鉴权、角色权限控制、参数校验、限流，把前面所有知识串起来，形成可直接使用的后端认证模板。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 07 篇：完整认证系统实战：注册登录、JWT 鉴权、角色权限、限流.md",
+      "summary": "Node.js 完整认证系统实战，串联注册、登录、JWT 鉴权、角色权限控制、参数校验、限流和可复用后端认证模板。",
       "cover": "",
-      "contentHash": "6fa85098d10d09e5fd21c2d9c318aa5b1df0c1fface10ab557eabf697a0d31db"
+      "contentHash": "51e0e479d064395d1a9a3c41fbfdbd4bc372a4b23fafa887a7b9ec658e25e893"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac198",
       "originalSlug": "node-js-f44b312e",
       "exportedSlug": "node-js-f44b312e",
-      "title": "接口与会话控制详解第八篇：前后端联调与常见问题排查",
+      "title": "第 8 篇：前后端联调与常见问题排查：CORS、Token 存储、Axios 拦截器、Refresh Token",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1928,26 +1926,26 @@
       ],
       "tags": [
         "Node.js",
-        "JWT",
         "前后端联调",
         "CORS",
-        "项目排错",
-        "Axios"
+        "Token存储",
+        "Axios",
+        "Refresh Token"
       ],
       "sortOrder": 80,
       "sourcePath": "Node.js/接口与会话控制详解/第八篇_前后端联调与常见问题排查.md",
       "publishedAt": "2026-06-06T14:21:32.965Z",
       "updatedAt": "2026-06-19T06:25:41.438Z",
-      "fileName": "后端技术/Node.js/接口与会话控制详解/接口与会话控制详解第八篇：前后端联调与常见问题排查.md",
-      "summary": "补齐认证系统从后端代码到前端项目联调的最后一公里，覆盖完整运行步骤、CORS 配置、token 存储取舍、axios 拦截器、refresh token 安全、常见报错排查和毕业练习。",
+      "fileName": "后端技术/Node.js/接口与会话控制详解/第 08 篇：前后端联调与常见问题排查：CORS、Token 存储、Axios 拦截器、Refresh Token.md",
+      "summary": "认证系统前后端联调与排障，覆盖后端运行、CORS、Token 存储、Axios 拦截器、Refresh Token 入库安全和常见报错。",
       "cover": "",
-      "contentHash": "d0a7d03b5b0d12ee2169936d6b119a6a30a1c783186301ed6e1f1636c58509ee"
+      "contentHash": "255a4ccc00c106521537289b2cf2f611c890f1ac3d5cb5c897051c2077b2c170"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac12a",
       "originalSlug": "node-js-mongodb-mongodb-5f0dd1bc",
       "exportedSlug": "node-js-mongodb-mongodb-5f0dd1bc",
-      "title": "MongoDB 详解第一篇：安装与基础概念",
+      "title": "第 1 篇：MongoDB 安装与基础概念：文档模型、BSON、ObjectId、mongosh",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1958,25 +1956,25 @@
       "tags": [
         "MongoDB",
         "NoSQL",
-        "数据库",
-        "mongosh",
-        "安装配置",
-        "数据建模"
+        "文档模型",
+        "BSON",
+        "ObjectId",
+        "mongosh"
       ],
       "sortOrder": 10,
       "sourcePath": "Node.js/MongoDB详解/第一篇_MongoDB安装与基础概念.md",
       "publishedAt": "2026-06-06T11:39:25.706Z",
       "updatedAt": "2026-06-13T10:28:27.552Z",
-      "fileName": "后端技术/Node.js/MongoDB详解/MongoDB-详解第一篇：安装与基础概念.md",
-      "summary": "从零理解 MongoDB 的文档模型、BSON、ObjectId、嵌入与引用思路，并按官方安装路径完成本地环境搭建，为后续 CRUD 和项目实战打基础。",
+      "fileName": "后端技术/Node.js/MongoDB详解/第 01 篇：MongoDB 安装与基础概念：文档模型、BSON、ObjectId、mongosh.md",
+      "summary": "MongoDB 安装与基础概念入门，覆盖文档模型、BSON、ObjectId、嵌入与引用、数据建模思路、mongosh 和本地环境安装。",
       "cover": "",
-      "contentHash": "81aaf49806e49696404aaba8812d70e694b91f4dad868b3479e98b5217713406"
+      "contentHash": "1cde8b5cf05222bcd44a5b8afc18792356cd22091e9fc18c034215db19b24acd"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac148",
       "originalSlug": "node-js-mongodb-mongodb-crud-85922e88",
       "exportedSlug": "node-js-mongodb-mongodb-crud-85922e88",
-      "title": "MongoDB 详解第二篇：原生 CRUD 操作",
+      "title": "第 2 篇：MongoDB 原生 CRUD：mongosh、Node.js Driver、过滤、分页、更新操作符",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1989,23 +1987,23 @@
         "CRUD",
         "mongosh",
         "Node.js Driver",
-        "查询操作符",
+        "过滤查询",
         "更新操作符"
       ],
       "sortOrder": 20,
       "sourcePath": "Node.js/MongoDB详解/第二篇_MongoDB原生CRUD操作.md",
       "publishedAt": "2026-06-06T11:39:25.707Z",
       "updatedAt": "2026-06-13T10:28:27.591Z",
-      "fileName": "后端技术/Node.js/MongoDB详解/MongoDB-详解第二篇：原生-CRUD-操作.md",
-      "summary": "通过 mongosh 和 MongoDB Node.js Driver 两条线掌握 MongoDB 原生 CRUD，覆盖过滤条件、投影、排序、分页、更新操作符与 findOneAndUpdate 等项目常用写法。",
+      "fileName": "后端技术/Node.js/MongoDB详解/第 02 篇：MongoDB 原生 CRUD：mongosh、Node.js Driver、过滤、分页、更新操作符.md",
+      "summary": "MongoDB 原生 CRUD 操作指南，覆盖 mongosh、Node.js Driver、过滤条件、投影、排序、分页、更新操作符和 findOneAndUpdate。",
       "cover": "",
-      "contentHash": "a7a8f0223b26ea869d21b9a640e4f27704610c750db94afdeafaa3c0e50c2946"
+      "contentHash": "3a3aef9edbfd02f77ce25191f75d4dc33cd1d07c24d785ec4b4e896ce0f061e7"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac13e",
       "originalSlug": "node-js-mongodb-mongoose-schema-ce33c896",
       "exportedSlug": "node-js-mongodb-mongoose-schema-ce33c896",
-      "title": "MongoDB 详解第三篇：Mongoose 连接与 Schema 建模",
+      "title": "第 3 篇：Mongoose 连接与 Schema 建模：Model、字段校验、默认值、索引",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2017,24 +2015,24 @@
         "MongoDB",
         "Mongoose",
         "Schema",
-        "数据建模",
-        "数据校验",
+        "Model",
+        "字段校验",
         "索引"
       ],
       "sortOrder": 30,
       "sourcePath": "Node.js/MongoDB详解/第三篇_Mongoose连接与Schema建模.md",
       "publishedAt": "2026-06-06T11:39:25.707Z",
       "updatedAt": "2026-06-13T10:28:27.579Z",
-      "fileName": "后端技术/Node.js/MongoDB详解/MongoDB-详解第三篇：Mongoose-连接与-Schema-建模.md",
-      "summary": "从项目开发角度掌握 Mongoose 的连接、Schema、Model、字段类型、校验、默认值、枚举、索引、虚拟字段与 toJSON 输出控制，建立可维护的 MongoDB 数据模型。",
+      "fileName": "后端技术/Node.js/MongoDB详解/第 03 篇：Mongoose 连接与 Schema 建模：Model、字段校验、默认值、索引.md",
+      "summary": "Mongoose 连接与 Schema 建模指南，覆盖数据库连接、Schema、Model、字段类型、校验、默认值、枚举、索引、虚拟字段和 toJSON 输出控制。",
       "cover": "",
-      "contentHash": "77900de48d1dc155b15f78ebe83daecca7c6e6162c9608e11a886c3dcca79745"
+      "contentHash": "078ecf912acfc2256861aaaf0936bae14f0a78125b2094d47c9d7358dd8f24b2"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac164",
       "originalSlug": "node-js-mongodb-mongoose-crud-bcf8ad68",
       "exportedSlug": "node-js-mongodb-mongoose-crud-bcf8ad68",
-      "title": "MongoDB 详解第四篇：Mongoose CRUD 与中间件",
+      "title": "第 4 篇：Mongoose CRUD 与中间件：查询链、更新选择、lean、文档钩子",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2046,24 +2044,24 @@
         "MongoDB",
         "Mongoose",
         "CRUD",
-        "中间件",
-        "钩子",
-        "lean"
+        "查询链",
+        "lean",
+        "中间件"
       ],
       "sortOrder": 40,
       "sourcePath": "Node.js/MongoDB详解/第四篇_Mongoose_CRUD与中间件.md",
       "publishedAt": "2026-06-07T06:14:19.366Z",
       "updatedAt": "2026-06-13T10:28:27.628Z",
-      "fileName": "后端技术/Node.js/MongoDB详解/MongoDB-详解第四篇：Mongoose-CRUD-与中间件.md",
-      "summary": "从业务代码视角掌握 Mongoose 常用 CRUD、查询链、更新方式选择、lean 优化和文档/查询中间件，建立更安全、更可维护的项目写法。",
+      "fileName": "后端技术/Node.js/MongoDB详解/第 04 篇：Mongoose CRUD 与中间件：查询链、更新选择、lean、文档钩子.md",
+      "summary": "Mongoose CRUD 与中间件实践，覆盖 create/save、批量写入、查询链、更新方法选择、lean 优化、文档中间件和查询中间件。",
       "cover": "",
-      "contentHash": "47a3c5af5486a45ae331fe8a35751ddffd65b7218d498887e84c4e9bf9f8a1f6"
+      "contentHash": "ad1279aa395c49cb28ce13ab3ece9a722e5f213b9a78ae6ee33b80d58dc8adba"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac152",
       "originalSlug": "node-js-mongodb-fbe72b64",
       "exportedSlug": "node-js-mongodb-fbe72b64",
-      "title": "MongoDB 详解第五篇：关联查询与聚合管道",
+      "title": "第 5 篇：MongoDB 关联查询与聚合管道：嵌入引用、populate、$lookup、$group",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2076,23 +2074,23 @@
         "Mongoose",
         "populate",
         "聚合管道",
-        "lookup",
-        "group"
+        "$lookup",
+        "$group"
       ],
       "sortOrder": 50,
       "sourcePath": "Node.js/MongoDB详解/第五篇_关联查询与聚合管道.md",
       "publishedAt": "2026-06-07T06:40:12.479Z",
       "updatedAt": "2026-06-16T14:06:50.390Z",
-      "fileName": "后端技术/Node.js/MongoDB详解/MongoDB-详解第五篇：关联查询与聚合管道.md",
-      "summary": "从项目视角讲清楚什么时候用嵌入、什么时候用引用、什么时候用 populate，什么时候应该上聚合管道和 $lookup，帮助你把复杂查询和统计逻辑做对。",
+      "fileName": "后端技术/Node.js/MongoDB详解/第 05 篇：MongoDB 关联查询与聚合管道：嵌入引用、populate、$lookup、$group.md",
+      "summary": "MongoDB 关联查询与聚合管道指南，讲清嵌入和引用的建模取舍、Mongoose populate、聚合管道、$lookup、$group 和统计查询。",
       "cover": "",
-      "contentHash": "d177ab060f5b3d96befe795490cad8481866ec13cef73b72852b84197cd710f1"
+      "contentHash": "a10a2f450531ea07f24ec8fb3109f2932dc4a8c2329b5d9b4b7569043adc2a97"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac15c",
       "originalSlug": "node-js-mongodb-5c500e8d",
       "exportedSlug": "node-js-mongodb-5c500e8d",
-      "title": "MongoDB 详解第六篇：索引优化与事务",
+      "title": "第 6 篇：MongoDB 索引优化与事务：explain、复合索引、ESR、TTL、Mongoose 事务",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2103,25 +2101,25 @@
       "tags": [
         "MongoDB",
         "索引",
-        "性能优化",
-        "事务",
+        "explain",
         "复合索引",
+        "事务",
         "TTL"
       ],
       "sortOrder": 60,
       "sourcePath": "Node.js/MongoDB详解/第六篇_索引优化与事务.md",
       "publishedAt": "2026-06-07T06:13:44.590Z",
       "updatedAt": "2026-06-13T10:28:27.615Z",
-      "fileName": "后端技术/Node.js/MongoDB详解/MongoDB-详解第六篇：索引优化与事务.md",
-      "summary": "从项目性能与数据一致性角度掌握 MongoDB 索引和事务，重点讲 explain、复合索引、ESR 思路、TTL 索引以及事务的正确边界和 Node.js/Mongoose 写法。",
+      "fileName": "后端技术/Node.js/MongoDB详解/第 06 篇：MongoDB 索引优化与事务：explain、复合索引、ESR、TTL、Mongoose 事务.md",
+      "summary": "MongoDB 索引优化与事务实践，覆盖 explain、常见索引类型、复合索引顺序、ESR 思路、TTL 索引、事务边界和 Node.js/Mongoose 写法。",
       "cover": "",
-      "contentHash": "c4908b2de01515ab36f58496e4adb701bbf8536cf5a000260725c32680526322"
+      "contentHash": "04802b0f48ee32be8b48784ef55d1f79af276b22ac510d828edcff26a599c097"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac136",
       "originalSlug": "node-js-mongodb-f251a01d",
       "exportedSlug": "node-js-mongodb-f251a01d",
-      "title": "MongoDB 详解第七篇：完整项目实战",
+      "title": "第 7 篇：Express + MongoDB 完整项目实战：建模、鉴权、分页搜索、软删除",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2134,7 +2132,6 @@
         "Mongoose",
         "Express",
         "JWT",
-        "项目实战",
         "分页搜索",
         "软删除"
       ],
@@ -2142,16 +2139,16 @@
       "sourcePath": "Node.js/MongoDB详解/第七篇_完整项目实战.md",
       "publishedAt": "2026-06-06T11:39:25.707Z",
       "updatedAt": "2026-06-13T10:28:27.566Z",
-      "fileName": "后端技术/Node.js/MongoDB详解/MongoDB-详解第七篇：完整项目实战.md",
-      "summary": "用 Express + MongoDB + Mongoose 搭建一个真正适合练手和扩展的笔记 API 项目，把建模、鉴权、索引、分页、搜索和软删除组织成完整工程。",
+      "fileName": "后端技术/Node.js/MongoDB详解/第 07 篇：Express + MongoDB 完整项目实战：建模、鉴权、分页搜索、软删除.md",
+      "summary": "Express + MongoDB + Mongoose 完整项目实战，覆盖项目结构、数据库连接、模型设计、JWT 鉴权、索引、分页搜索和软删除。",
       "cover": "",
-      "contentHash": "3527e3ec46f8ae655fb378bcbfe65d3619823630aed86939ebdeca915b73b5cb"
+      "contentHash": "be456a5e08df9598e875886a0626c246dfe003741d22760b78c3b1fcbbf3cec6"
     },
     {
       "originalId": "6a6b635eb46b52abc5dc2865",
       "originalSlug": "python-learning-index",
       "exportedSlug": "python-learning-index",
-      "title": "Python 学习资料总目录",
+      "title": "第 00 篇：Python 学习资料总目录：知识目录、应用实例、工具链、学习顺序",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2160,22 +2157,25 @@
       ],
       "tags": [
         "Python",
-        "学习路线"
+        "学习路线",
+        "总目录",
+        "知识目录",
+        "应用实例"
       ],
       "sortOrder": 10,
       "sourcePath": "Python/README.md",
       "publishedAt": "2026-07-30T14:44:46.264Z",
       "updatedAt": "2026-07-30T14:44:46.264Z",
-      "fileName": "后端技术/Python/Python-学习资料总目录.md",
-      "summary": "按知识目录、应用实例、工具链与工程化三类整理 Python 学习资料，区分基础概念、实战方向和后续项目能力。",
+      "fileName": "后端技术/Python/第 00 篇：Python 学习资料总目录：知识目录、应用实例、工具链、学习顺序.md",
+      "summary": "Python 学习资料总目录，按知识目录、应用实例、工具链与工程化三类整理，并说明推荐学习顺序和命名约定。",
       "cover": "",
-      "contentHash": "955e9dcc291920125b3dad68fae6c4e0674fe32e8c4598a97c7f837a0c644c6e"
+      "contentHash": "4d641b44a37a5313261f1c0631ca276a7ab80ad0efee6201460516120ad9531b"
     },
     {
       "originalId": "6a4a44b5f9ac958d291774e7",
       "originalSlug": "python-crawler-basic-concepts",
       "exportedSlug": "python-crawler-basic-concepts",
-      "title": "Python 网络爬虫入门 00：基础概念",
+      "title": "第 1 篇：Python 网络爬虫基础概念：URL、HTTP、robots.txt、HTML、解析、数据保存",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2187,23 +2187,25 @@
       "tags": [
         "Python",
         "网络爬虫",
-        "网络机器人",
-        "基础概念"
+        "基础概念",
+        "URL",
+        "HTTP",
+        "robots.txt"
       ],
       "sortOrder": 10,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/00-Python网络爬虫入门-基础概念.md",
       "publishedAt": "2026-07-05T11:49:33.224Z",
       "updatedAt": "2026-07-30T14:44:46.168Z",
-      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-00：基础概念.md",
-      "summary": "面向零基础梳理网络机器人、网络爬虫、URL、HTTP 请求与响应、robots.txt、HTML、静态页面、动态页面、解析、XPath、正则清洗、数据保存和数据分析的完整学习地图。",
+      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 01 篇：Python 网络爬虫基础概念：URL、HTTP、robots.txt、HTML、解析、数据保存.md",
+      "summary": "Python 网络爬虫基础概念入门，覆盖网络机器人、爬虫、URL、HTTP 请求响应、robots.txt、HTML、静态页面、动态页面、解析、保存和分析的完整学习地图。",
       "cover": "",
-      "contentHash": "d3891f8247c2eab6935fef692d26d7cfd21d438f5c77ecd3960ccf828673ca7f"
+      "contentHash": "6480f3c1060b404d499cefe5a4bb61ee8af60777bf7ed1bd0c45fb8b2e663cf6"
     },
     {
       "originalId": "6a4a44b5f9ac958d291774eb",
       "originalSlug": "python-crawler-request-and-robots",
       "exportedSlug": "python-crawler-request-and-robots",
-      "title": "Python 网络爬虫入门 01：requests 请求体系与 robots.txt",
+      "title": "第 2 篇：requests 请求体系与 robots.txt：方法、参数、Header、Session、异常处理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2214,25 +2216,26 @@
       ],
       "tags": [
         "Python",
-        "网络爬虫",
         "requests",
         "HTTP",
-        "robots.txt"
+        "Session",
+        "robots.txt",
+        "异常处理"
       ],
       "sortOrder": 20,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/01-Python网络爬虫入门-请求网页与robots.txt.md",
       "publishedAt": "2026-07-05T11:49:33.219Z",
       "updatedAt": "2026-07-30T14:44:46.171Z",
-      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-01：requests-请求体系与-robots.txt.md",
-      "summary": "面向零基础系统学习 requests 请求体系，覆盖 GET、POST、PUT、PATCH、DELETE、HEAD、OPTIONS、params、data、json、headers、cookies、Session、Response、timeout、异常处理、重试、限流、stream 下载、文件上传、认证、robots.txt 和企业常见封装方式。",
+      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 02 篇：requests 请求体系与 robots.txt：方法、参数、Header、Session、异常处理.md",
+      "summary": "Python requests 请求体系学习，覆盖 GET、POST、PUT、PATCH、DELETE、HEAD、OPTIONS、params、data、json、headers、cookies、Session、Response、timeout、异常处理、重试、限流、流式下载、上传、认证和 robots.txt。",
       "cover": "",
-      "contentHash": "639f731fae4ea1f4371049f3ad186210f30d2116aa626886ea37648306a4786d"
+      "contentHash": "8300844830c99f66f54be867f1a02df34b3729692f319b58f5fe35cc74fa5116"
     },
     {
       "originalId": "6a4a44b5f9ac958d291774ef",
       "originalSlug": "python-crawler-lxml-parse-html-save-csv",
       "exportedSlug": "python-crawler-lxml-parse-html-save-csv",
-      "title": "Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV",
+      "title": "第 3 篇：XPath 解析 HTML 并保存 CSV：lxml、文本提取、属性筛选、urljoin",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2246,22 +2249,23 @@
         "lxml",
         "XPath",
         "CSV",
+        "HTML解析",
         "网络爬虫"
       ],
       "sortOrder": 30,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/02-Python网络爬虫入门-lxml解析HTML并保存CSV.md",
       "publishedAt": "2026-07-05T11:49:33.213Z",
       "updatedAt": "2026-07-30T14:44:46.173Z",
-      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-02：XPath-解析-HTML-并保存-CSV.md",
-      "summary": "面向零基础系统学习 lxml 与 XPath 解析网页，覆盖 etree.HTML、xpath 返回值、文本和属性提取、属性筛选、层级定位、多条件、索引、相对 XPath、列表循环、空值安全、urljoin、CSV 保存、requests 实战模板、调试技巧和企业项目中的列表页/详情页拆分、字段 helper、原始数据保留、结构变化统计。",
+      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 03 篇：XPath 解析 HTML 并保存 CSV：lxml、文本提取、属性筛选、urljoin.md",
+      "summary": "Python 网络爬虫解析实战，覆盖 lxml、XPath、文本和属性提取、层级定位、多条件筛选、相对 XPath、列表循环、空值安全、urljoin 和 CSV 保存。",
       "cover": "",
-      "contentHash": "691569061d4bcab0d55a00d5648e660b82935b0d2bec2b1a8b321c7ca76b3291"
+      "contentHash": "cc1ebd9b34a3792647b9ada141d6ed3583556e589b0c084a6dc968cba10810cd"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d18d",
       "originalSlug": "python-data-cleaning-regex-crawler-text",
       "exportedSlug": "python-data-cleaning-regex-crawler-text",
-      "title": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
+      "title": "第 4 篇：正则表达式清洗爬虫文本：re、分组、命名分组、贪婪与非贪婪",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2272,25 +2276,25 @@
       ],
       "tags": [
         "Python",
-        "网络爬虫",
         "正则表达式",
         "数据清洗",
-        "re"
+        "re",
+        "爬虫文本"
       ],
       "sortOrder": 40,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/03-Python数据清洗入门-正则表达式清洗爬虫文本.md",
       "publishedAt": "2026-07-30T14:44:46.174Z",
       "updatedAt": "2026-07-30T14:44:46.174Z",
-      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据清洗入门-03：正则表达式清洗爬虫文本.md",
-      "summary": "面向零基础学习 Python re 模块在爬虫数据清洗中的常见用法，掌握 search、findall、sub、split、compile、分组、命名分组、贪婪与非贪婪，并理解企业开发中的字段规则、原始数据保留、校验、日志、测试和性能边界。",
+      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 04 篇：正则表达式清洗爬虫文本：re、分组、命名分组、贪婪与非贪婪.md",
+      "summary": "Python 正则表达式清洗爬虫文本实践，覆盖 search、findall、sub、split、compile、分组、命名分组、贪婪与非贪婪以及清洗边界。",
       "cover": "",
-      "contentHash": "fc6ad2df707d0afcaffb28d35cad09699d4ae281002a82fc83274d69b764ab86"
+      "contentHash": "f1df65d7132e500d54b6abf9b6177f0d69746e9d2693f3e3ee3225d3b998239b"
     },
     {
       "originalId": "6a4a44b5f9ac958d291774f3",
       "originalSlug": "python-data-analysis-pandas-csv",
       "exportedSlug": "python-data-analysis-pandas-csv",
-      "title": "Python 数据分析入门 04：用 pandas 统计 CSV",
+      "title": "第 5 篇：用 pandas 统计 CSV：读取、清洗、筛选、汇总、去重、导出",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2302,22 +2306,24 @@
       "tags": [
         "Python",
         "pandas",
-        "数据分析"
+        "数据分析",
+        "CSV",
+        "DataFrame"
       ],
       "sortOrder": 50,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/04-Python数据分析入门-用pandas统计CSV.md",
       "publishedAt": "2026-07-05T11:49:33.207Z",
       "updatedAt": "2026-07-30T14:44:46.176Z",
-      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据分析入门-04：用-pandas-统计-CSV.md",
-      "summary": "面向零基础使用 pandas 读取清洗后的 CSV，理解 DataFrame，查看数据结构、处理缺失值、转换数字类型、筛选排序、按分类汇总、计算新指标，并补充 read_csv 常用参数、数据质量检查、去重、合并字典表、分块处理和结果导出等企业常见写法。",
+      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 05 篇：用 pandas 统计 CSV：读取、清洗、筛选、汇总、去重、导出.md",
+      "summary": "Python 数据分析入门，使用 pandas 读取清洗后的 CSV，理解 DataFrame、缺失值处理、类型转换、筛选排序、分组汇总、合并字典表、分块处理和结果导出。",
       "cover": "",
-      "contentHash": "4f2c26ac0d280eeb8c5a78106c02a4debb268c45135ba74450adff108db981cd"
+      "contentHash": "59f7f0506c22439d67801bbe005f272f8adfde3c6a4c0194d158daacd04aef33"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d190",
       "originalSlug": "python-data-visualization-matplotlib-charts",
       "exportedSlug": "python-data-visualization-matplotlib-charts",
-      "title": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
+      "title": "第 6 篇：用 matplotlib 绘制统计图：折线图、柱状图、散点图、饼图、多子图",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2330,22 +2336,23 @@
         "Python",
         "matplotlib",
         "数据可视化",
+        "统计图",
         "数据分析"
       ],
       "sortOrder": 60,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/05-Python数据可视化入门-用matplotlib绘制统计图.md",
       "publishedAt": "2026-07-30T14:44:46.178Z",
       "updatedAt": "2026-07-30T14:44:46.178Z",
-      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据可视化入门-05：用-matplotlib-绘制统计图.md",
-      "summary": "面向零基础系统学习 matplotlib，把 pandas 统计结果画成折线图、柱状图、散点图、直方图、饼图和多子图，理解 pyplot 与 Figure/Axes 面向对象写法，掌握标题、坐标轴、图例、网格、中文字体、样式、保存图片、批量出图和企业开发中的常见图表规范。",
+      "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 06 篇：用 matplotlib 绘制统计图：折线图、柱状图、散点图、饼图、多子图.md",
+      "summary": "Python 数据可视化入门，使用 matplotlib 将 pandas 统计结果绘制成折线图、柱状图、散点图、直方图、饼图和多子图，掌握标题、坐标轴、图例、网格和中文字体。",
       "cover": "",
-      "contentHash": "0d35a5301f3974c7e9b9749547e73497b7e72f53b81e65a005a54927d86c0937"
+      "contentHash": "7d4dca12db4705f7255366740224f2db66c77033ec8269937bd851e79ad13632"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d192",
       "originalSlug": "fastapi-zero-to-one-roadmap-environment",
       "exportedSlug": "fastapi-zero-to-one-roadmap-environment",
-      "title": "FastAPI 从 0 到 1 00：学习路线与开发环境",
+      "title": "第 1 篇：FastAPI 学习路线与开发环境：后端能力地图、虚拟环境、依赖安装",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2357,22 +2364,24 @@
       "tags": [
         "Python",
         "FastAPI",
-        "开发环境"
+        "学习路线",
+        "开发环境",
+        "虚拟环境"
       ],
-      "sortOrder": 10,
+      "sortOrder": 20,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/00-FastAPI从0到1-学习路线与开发环境.md",
       "publishedAt": "2026-07-30T14:44:46.180Z",
       "updatedAt": "2026-07-31T02:54:42.991Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-00：学习路线与开发环境.md",
-      "summary": "明确企业 FastAPI 开发所需能力，创建虚拟环境、管理依赖，并建立可持续练习方式。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 01 篇：FastAPI 学习路线与开发环境：后端能力地图、虚拟环境、依赖安装.md",
+      "summary": "FastAPI 学习路线与开发环境，明确企业后端能力地图，创建虚拟环境、管理依赖，并建立可持续练习方式。",
       "cover": "",
-      "contentHash": "ec722733a96ea7ebb4db71cc64ab335cb06592094938db1ed2c89016cb58e160"
+      "contentHash": "03ba37da1265e58e23cda5c2c16f1b5e57a69be530e9474d769b971d9fa7b233"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d194",
       "originalSlug": "fastapi-python-reading-prerequisites",
       "exportedSlug": "fastapi-python-reading-prerequisites",
-      "title": "FastAPI 从 0 到 1 01：读懂代码前必须会的 Python",
+      "title": "第 2 篇：读懂 FastAPI 代码前必会 Python：import、类对象、装饰器、类型注解",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2384,22 +2393,24 @@
       "tags": [
         "Python",
         "FastAPI",
-        "前置知识"
+        "前置知识",
+        "装饰器",
+        "类型注解"
       ],
-      "sortOrder": 20,
+      "sortOrder": 30,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/01-FastAPI从0到1-读懂代码前必须会的Python.md",
       "publishedAt": "2026-07-30T14:44:46.182Z",
       "updatedAt": "2026-07-31T02:54:42.999Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-01：读懂代码前必须会的-Python.md",
-      "summary": "用 FastAPI 将出现的真实代码，补齐导入、对象、装饰器、类型注解、异步、异常、上下文管理器和模块路径等前置知识。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 02 篇：读懂 FastAPI 代码前必会 Python：import、类对象、装饰器、类型注解.md",
+      "summary": "读懂 FastAPI 代码前必须掌握的 Python 前置知识，覆盖 import、类与对象、装饰器、类型注解、异步、异常、上下文管理器和模块路径。",
       "cover": "",
-      "contentHash": "b418ea578b502af0d6ed63e0b7b15d5a6f35db6114e24052650b02b39654dd7d"
+      "contentHash": "5177e135b6e753a782af60351b71611e857121734ba9f5313638d1887c53d73b"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d196",
       "originalSlug": "fastapi-http-asgi-first-application",
       "exportedSlug": "fastapi-http-asgi-first-application",
-      "title": "FastAPI 从 0 到 1 02：HTTP、ASGI 与第一个应用",
+      "title": "第 3 篇：HTTP、ASGI 与第一个 FastAPI 应用：main.py、Uvicorn、接口访问、自动文档",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2412,22 +2423,23 @@
         "Python",
         "FastAPI",
         "HTTP",
-        "ASGI"
+        "ASGI",
+        "Uvicorn"
       ],
-      "sortOrder": 30,
+      "sortOrder": 40,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/02-FastAPI从0到1-HTTP-ASGI与第一个应用.md",
       "publishedAt": "2026-07-30T14:44:46.186Z",
       "updatedAt": "2026-07-31T02:54:43.009Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-02：HTTP、ASGI-与第一个应用.md",
-      "summary": "从空目录创建并运行第一个 FastAPI 接口，逐行理解应用对象、路由装饰器、请求响应、Uvicorn 和 ASGI 的职责。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 03 篇：HTTP、ASGI 与第一个 FastAPI 应用：main.py、Uvicorn、接口访问、自动文档.md",
+      "summary": "FastAPI 第一个应用实践，从空目录创建 main.py，理解应用对象、路由装饰器、HTTP 请求响应、Uvicorn、ASGI 和自动文档。",
       "cover": "",
-      "contentHash": "a31f207df6fe85f8711132880cf88a89680147420b317af2dafc2b5e3cd008f5"
+      "contentHash": "be716c44ff0a7ac3a889a71a46c1649dd5b24ed3778fac21f9a9c2c973368343"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d198",
       "originalSlug": "fastapi-routing-request-parameters",
       "exportedSlug": "fastapi-routing-request-parameters",
-      "title": "FastAPI 从 0 到 1 03：路由与请求参数",
+      "title": "第 4 篇：FastAPI 路由与请求参数：Path、Query、Body、Header、Cookie",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2440,22 +2452,24 @@
         "Python",
         "FastAPI",
         "路由",
+        "Path",
+        "Query",
         "参数校验"
       ],
-      "sortOrder": 40,
+      "sortOrder": 50,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/03-FastAPI从0到1-路由与请求参数.md",
       "publishedAt": "2026-07-30T14:44:46.188Z",
       "updatedAt": "2026-07-31T02:54:43.016Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-03：路由与请求参数.md",
-      "summary": "在同一个文章 API 中实现列表、详情和创建，重点理解 Path、Query、JSON Body 的来源、校验、调用方法和错误响应。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 04 篇：FastAPI 路由与请求参数：Path、Query、Body、Header、Cookie.md",
+      "summary": "FastAPI 路由与请求参数入门，在文章 API 中理解 Path、Query、JSON Body、Header、Cookie 的来源、校验、调用方法和错误响应。",
       "cover": "",
-      "contentHash": "ea784515186b197bccd67715e90e66ac762260f3af06d9c2da125eca6c285b18"
+      "contentHash": "513110d265c1c890222a7912870dee05a0841d39a7775d64543d437fc5e43244"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d19a",
       "originalSlug": "fastapi-pydantic-v2-data-modeling",
       "exportedSlug": "fastapi-pydantic-v2-data-modeling",
-      "title": "FastAPI 从 0 到 1 04：Pydantic v2 与数据建模",
+      "title": "第 5 篇：Pydantic v2 与数据建模：BaseModel、字段校验、可选字段、响应模型",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2467,23 +2481,24 @@
       "tags": [
         "Python",
         "FastAPI",
-        "Pydantic",
+        "Pydantic v2",
+        "BaseModel",
         "数据校验"
       ],
-      "sortOrder": 50,
+      "sortOrder": 60,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/04-FastAPI从0到1-Pydantic-v2与数据建模.md",
       "publishedAt": "2026-07-30T14:44:46.190Z",
       "updatedAt": "2026-07-31T02:54:43.024Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-04：Pydantic-v2-与数据建模.md",
-      "summary": "通过文章创建、局部更新和响应过滤，理解 Pydantic 模型、字段约束、必填与可选、exclude_unset 以及输入输出模型分离。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 05 篇：Pydantic v2 与数据建模：BaseModel、字段校验、可选字段、响应模型.md",
+      "summary": "FastAPI 中的 Pydantic v2 数据建模，覆盖 BaseModel、字段约束、必填与可选、exclude_unset、输入输出模型分离和响应过滤。",
       "cover": "",
-      "contentHash": "33694c192776494d6fe4bc3108740ebc48127c863110c17a698edc58a5b4b52e"
+      "contentHash": "2f473610d015c415014724c721f824af25c5de8534ca7502cfb9414b513509cc"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d19c",
       "originalSlug": "fastapi-response-errors-openapi",
       "exportedSlug": "fastapi-response-errors-openapi",
-      "title": "FastAPI 从 0 到 1 05：响应、异常与 OpenAPI",
+      "title": "第 6 篇：FastAPI 响应、异常与 OpenAPI：response_model、HTTPException、错误格式、接口契约",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2496,22 +2511,23 @@
         "Python",
         "FastAPI",
         "OpenAPI",
-        "异常处理"
+        "异常处理",
+        "response_model"
       ],
-      "sortOrder": 60,
+      "sortOrder": 70,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/05-FastAPI从0到1-响应异常与OpenAPI.md",
       "publishedAt": "2026-07-30T14:44:46.192Z",
       "updatedAt": "2026-07-31T02:54:43.030Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-05：响应、异常与-OpenAPI.md",
-      "summary": "在文章 API 中固定成功和失败响应，理解 response_model、201、204、404、422、领域异常、全局处理器和 OpenAPI 契约。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 06 篇：FastAPI 响应、异常与 OpenAPI：response_model、HTTPException、错误格式、接口契约.md",
+      "summary": "FastAPI 响应、异常与 OpenAPI 契约，覆盖 response_model、201、204、404、422、领域异常、全局处理器和接口文档。",
       "cover": "",
-      "contentHash": "ef0b05872609cd33b2ebe3442c1cc8e309b4e2bfcb35f8180e09accd3ad111c2"
+      "contentHash": "e4bbe9c7adbf3127f1fa1ea33c69e85fcf88d8be7a06afebf2a2af05ad1f83ae"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d19e",
       "originalSlug": "fastapi-dependencies-middleware-lifespan-structure",
       "exportedSlug": "fastapi-dependencies-middleware-lifespan-structure",
-      "title": "FastAPI 从 0 到 1 06：依赖、中间件、生命周期与项目结构",
+      "title": "第 7 篇：依赖、中间件、生命周期与项目结构：Depends、Middleware、lifespan、Router、Service",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2523,23 +2539,24 @@
       "tags": [
         "Python",
         "FastAPI",
-        "依赖注入",
-        "工程化"
+        "Depends",
+        "中间件",
+        "项目结构"
       ],
-      "sortOrder": 70,
+      "sortOrder": 80,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/06-FastAPI从0到1-依赖中间件生命周期与项目结构.md",
       "publishedAt": "2026-07-30T14:44:46.194Z",
       "updatedAt": "2026-07-31T02:54:43.038Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-06：依赖、中间件、生命周期与项目结构.md",
-      "summary": "把单文件文章 API 拆成 Router、Service、Store 和应用入口，并在可运行项目中理解依赖注入、中间件、生命周期和配置边界。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 07 篇：依赖、中间件、生命周期与项目结构：Depends、Middleware、lifespan、Router、Service.md",
+      "summary": "FastAPI 工程化结构入门，把单文件文章 API 拆成 Router、Service、Store 和应用入口，并理解依赖注入、中间件、生命周期和配置边界。",
       "cover": "",
-      "contentHash": "7cf66d8b397f745294b7be752d372deec47838153171a5247d3855572a629d33"
+      "contentHash": "b1b66f6bda620fbbd7dff0934d613bb086a517451f8d15fd23964061e0b6dc4f"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1a0",
       "originalSlug": "fastapi-sqlalchemy-alembic",
       "exportedSlug": "fastapi-sqlalchemy-alembic",
-      "title": "FastAPI 从 0 到 1 07：SQLAlchemy 与 Alembic",
+      "title": "第 8 篇：SQLAlchemy 与 Alembic：异步 Engine、Session、ORM Model、数据库迁移",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2555,20 +2572,20 @@
         "Alembic",
         "PostgreSQL"
       ],
-      "sortOrder": 80,
+      "sortOrder": 90,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/07-FastAPI从0到1-SQLAlchemy与Alembic.md",
       "publishedAt": "2026-07-30T14:44:46.195Z",
       "updatedAt": "2026-07-31T02:54:43.045Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-07：SQLAlchemy-与-Alembic.md",
-      "summary": "从内存存储升级到 PostgreSQL，完整搭建 Settings、异步 Engine、Session、Article ORM Model、Repository 和 Alembic 迁移。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 08 篇：SQLAlchemy 与 Alembic：异步 Engine、Session、ORM Model、数据库迁移.md",
+      "summary": "FastAPI 数据库接入实践，从内存存储升级到 PostgreSQL，搭建 Settings、异步 Engine、Session、Article ORM Model、Repository 和 Alembic 迁移。",
       "cover": "",
-      "contentHash": "11f0225bcb8236f55cc95e5a8d065a9dd05db3e19b1c05231d37729cbeef0928"
+      "contentHash": "3ab5c9c73dddd6cd7722d63cadf825eb3f6025dea3a80095a64fea1c75bb044d"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1a2",
       "originalSlug": "fastapi-crud-transactions-relations-pagination",
       "exportedSlug": "fastapi-crud-transactions-relations-pagination",
-      "title": "FastAPI 从 0 到 1 08：CRUD、事务、关联、分页与查询",
+      "title": "第 9 篇：CRUD、事务、关联、分页与查询：唯一约束、事务边界、关系查询、分页过滤",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2582,22 +2599,23 @@
         "FastAPI",
         "CRUD",
         "事务",
-        "分页"
+        "分页",
+        "关系查询"
       ],
-      "sortOrder": 90,
+      "sortOrder": 100,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/08-FastAPI从0到1-CRUD事务关联分页与查询.md",
       "publishedAt": "2026-07-30T14:44:46.197Z",
       "updatedAt": "2026-07-31T02:54:43.052Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-08：CRUD、事务、关联、分页与查询.md",
-      "summary": "在 PostgreSQL 文章项目中完成 slug 唯一约束、CRUD、分页筛选、事务和冲突处理，再理解关联加载、并发锁与批量操作。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 09 篇：CRUD、事务、关联、分页与查询：唯一约束、事务边界、关系查询、分页过滤.md",
+      "summary": "FastAPI 与 PostgreSQL CRUD 实战，覆盖 slug 唯一约束、增删改查、分页筛选、事务、冲突处理、关联加载、并发锁与批量操作。",
       "cover": "",
-      "contentHash": "1508fa594c919391a68b4d8550e6eb495868cd929b7b5ba26f9387e3c3998880"
+      "contentHash": "cd10e2f094d71eca74762e48e5704ce33a59a0d357245f885b410821cc967b0d"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1a4",
       "originalSlug": "fastapi-authentication-jwt-rbac-security",
       "exportedSlug": "fastapi-authentication-jwt-rbac-security",
-      "title": "FastAPI 从 0 到 1 09：登录、JWT、RBAC 与安全",
+      "title": "第 10 篇：登录、JWT、RBAC 与安全：密码哈希、OAuth2、Token、角色权限",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2611,22 +2629,23 @@
         "FastAPI",
         "JWT",
         "RBAC",
+        "OAuth2",
         "安全"
       ],
-      "sortOrder": 100,
+      "sortOrder": 110,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/09-FastAPI从0到1-登录JWT-RBAC与安全.md",
       "publishedAt": "2026-07-30T14:44:46.198Z",
       "updatedAt": "2026-07-31T02:54:43.058Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-09：登录、JWT、RBAC-与安全.md",
-      "summary": "在现有文章项目中加入 User 表、Argon2 密码哈希、登录 JWT、当前用户依赖和文章归属，再理解 RBAC、令牌撤销与安全边界。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 10 篇：登录、JWT、RBAC 与安全：密码哈希、OAuth2、Token、角色权限.md",
+      "summary": "FastAPI 登录鉴权与安全实践，覆盖 User 表、Argon2 密码哈希、登录 JWT、当前用户依赖、文章归属、RBAC、令牌撤销和安全边界。",
       "cover": "",
-      "contentHash": "968a902933166e081cf895f2a7bc2efa2eb6abbff8e7d33174b3ac6cfa3d64a2"
+      "contentHash": "3d01cf96c7ae44e3820b671132bf786a76c1ebd24d5e89a87a63f25d2e39248b"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1a6",
       "originalSlug": "fastapi-files-background-httpx-redis",
       "exportedSlug": "fastapi-files-background-httpx-redis",
-      "title": "FastAPI 从 0 到 1 10：文件、后台任务、HTTPX 与 Redis",
+      "title": "第 11 篇：文件、后台任务、HTTPX 与 Redis：UploadFile、BackgroundTasks、外部请求、缓存限流",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2638,24 +2657,25 @@
       "tags": [
         "Python",
         "FastAPI",
-        "Redis",
+        "UploadFile",
+        "BackgroundTasks",
         "HTTPX",
-        "文件上传"
+        "Redis"
       ],
-      "sortOrder": 110,
+      "sortOrder": 120,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/10-FastAPI从0到1-文件后台任务HTTPX与Redis.md",
       "publishedAt": "2026-07-30T14:44:46.200Z",
       "updatedAt": "2026-07-31T02:54:43.065Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-10：文件、后台任务、HTTPX-与-Redis.md",
-      "summary": "处理文件上传下载、轻量后台任务、外部 HTTP 服务、缓存、限流、幂等和分布式短期状态。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 11 篇：文件、后台任务、HTTPX 与 Redis：UploadFile、BackgroundTasks、外部请求、缓存限流.md",
+      "summary": "FastAPI 文件与异步周边能力实践，覆盖文件上传下载、BackgroundTasks、外部 HTTPX 请求、Redis 缓存、限流、幂等和分布式短期状态。",
       "cover": "",
-      "contentHash": "851c485921cce6b8d2fa89a381d50654779da65c4fd8bc03f8e117f62de0929d"
+      "contentHash": "57f13a2448837450f3412fe03f019cc1808405d441b6c9d31c6a07d540dcc090"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1a8",
       "originalSlug": "fastapi-async-concurrency-websocket-task-queue",
       "exportedSlug": "fastapi-async-concurrency-websocket-task-queue",
-      "title": "FastAPI 从 0 到 1 11：异步、并发、WebSocket 与任务队列",
+      "title": "第 12 篇：异步、并发、WebSocket 与任务队列：async、await、连接管理、后台队列",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2671,20 +2691,20 @@
         "WebSocket",
         "任务队列"
       ],
-      "sortOrder": 120,
+      "sortOrder": 130,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/11-FastAPI从0到1-异步并发WebSocket与任务队列.md",
       "publishedAt": "2026-07-30T14:44:46.203Z",
       "updatedAt": "2026-07-31T02:54:43.073Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-11：异步、并发、WebSocket-与任务队列.md",
-      "summary": "理解事件循环、阻塞 I/O、并发控制、WebSocket 连接管理和持久化任务队列的适用边界。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 12 篇：异步、并发、WebSocket 与任务队列：async、await、连接管理、后台队列.md",
+      "summary": "FastAPI 异步与实时能力入门，理解事件循环、阻塞 I/O、并发控制、WebSocket 连接管理和持久化任务队列适用边界。",
       "cover": "",
-      "contentHash": "0d26a72856c81d424f03afcfceeaec30fa2ec7259b0318dabd39ec68dc5d1d40"
+      "contentHash": "69b5ef2bbceeec31e9d76f1129c72bb793bb7f2a89de74e0d46095a8202f8a50"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1aa",
       "originalSlug": "fastapi-pytest-quality-assurance",
       "exportedSlug": "fastapi-pytest-quality-assurance",
-      "title": "FastAPI 从 0 到 1 12：pytest 与质量保障",
+      "title": "第 13 篇：pytest 与质量保障：测试客户端、fixture、依赖覆盖、CI",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2700,20 +2720,20 @@
         "测试",
         "CI"
       ],
-      "sortOrder": 130,
+      "sortOrder": 140,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/12-FastAPI从0到1-pytest与质量保障.md",
       "publishedAt": "2026-07-30T14:44:46.205Z",
       "updatedAt": "2026-07-31T02:54:43.081Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-12：pytest-与质量保障.md",
-      "summary": "从第一个 Pydantic 单元测试开始，使用独立 PostgreSQL 测试库、HTTPX 和依赖覆盖测试注册、登录、文章 CRUD 与异常路径。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 13 篇：pytest 与质量保障：测试客户端、fixture、依赖覆盖、CI.md",
+      "summary": "FastAPI 测试与质量保障，覆盖 Pydantic 单元测试、独立 PostgreSQL 测试库、HTTPX、依赖覆盖、注册登录、文章 CRUD、异常路径和 CI。",
       "cover": "",
-      "contentHash": "2c762ff05549715133ac6c7ddce04c7a87a74109cc9981f47a5e66e4f88acaba"
+      "contentHash": "0da1109f46f59f3781c7253cdf3c8bddc6e4c4ce7c7d5ef299f2a16db3146d46"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1ac",
       "originalSlug": "fastapi-observability-performance-security-deployment",
       "exportedSlug": "fastapi-observability-performance-security-deployment",
-      "title": "FastAPI 从 0 到 1 13：日志、监控、性能、安全与部署",
+      "title": "第 14 篇：日志、监控、性能、安全与部署：logging、指标追踪、Docker、发布回滚",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2725,24 +2745,25 @@
       "tags": [
         "Python",
         "FastAPI",
-        "可观测性",
+        "日志",
+        "监控",
         "Docker",
         "部署"
       ],
-      "sortOrder": 140,
+      "sortOrder": 150,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/13-FastAPI从0到1-日志监控性能安全与部署.md",
       "publishedAt": "2026-07-30T14:44:46.207Z",
       "updatedAt": "2026-07-31T02:54:43.087Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-13：日志、监控、性能、安全与部署.md",
-      "summary": "建立生产级日志、指标、追踪、性能诊断、安全基线、Docker 镜像、代理配置、发布与回滚流程。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 14 篇：日志、监控、性能、安全与部署：logging、指标追踪、Docker、发布回滚.md",
+      "summary": "FastAPI 生产化能力清单，覆盖日志、指标、追踪、性能诊断、安全基线、Docker 镜像、代理配置、发布和回滚流程。",
       "cover": "",
-      "contentHash": "ea670cb7d2b265743ab5d01bafcf47751d56d03fa377e83fe27ce5e215d68ba4"
+      "contentHash": "a14a0bdd4a257d398d2356fed747e4620a12c149c1030e0fc77fe3a7b23a68f4"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1ae",
       "originalSlug": "fastapi-enterprise-knowledge-api-capstone",
       "exportedSlug": "fastapi-enterprise-knowledge-api-capstone",
-      "title": "FastAPI 从 0 到 1 14：企业知识库 API 综合实战",
+      "title": "第 15 篇：企业知识库 API 综合实战：审核流、状态机、权限依赖、事务测试",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2755,22 +2776,23 @@
         "Python",
         "FastAPI",
         "企业实战",
-        "知识库"
+        "知识库",
+        "审核流"
       ],
-      "sortOrder": 150,
+      "sortOrder": 160,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/14-FastAPI从0到1-企业知识库API综合实战.md",
       "publishedAt": "2026-07-30T14:44:46.209Z",
       "updatedAt": "2026-07-31T02:54:43.096Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-14：企业知识库-API-综合实战.md",
-      "summary": "基于前面完成的文章项目，实现作者提交审核、审核员通过或驳回、状态机、审核记录、权限依赖、数据库事务和自动化测试。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 15 篇：企业知识库 API 综合实战：审核流、状态机、权限依赖、事务测试.md",
+      "summary": "FastAPI 企业知识库 API 综合实战，基于文章项目实现作者提交审核、审核员通过或驳回、状态机、审核记录、权限依赖、数据库事务和自动化测试。",
       "cover": "",
-      "contentHash": "8e3d44bd6b3bea35bd508b3e71f99172f5d59eb487aa62e6b97a63e5774e63fb"
+      "contentHash": "ec1941eb9d1fafcfd34211c98286ba8fa21961ddfc69f8ba7c36b3d417d749d2"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1b0",
       "originalSlug": "fastapi-faq-interview-delivery-checklist",
       "exportedSlug": "fastapi-faq-interview-delivery-checklist",
-      "title": "FastAPI 从 0 到 1 15：高频问题、面试与交付清单",
+      "title": "第 16 篇：高频问题、面试与交付清单：故障排查、命令速查、验收项、上线检查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2784,22 +2806,22 @@
         "FastAPI",
         "面试",
         "排障",
-        "检查清单"
+        "交付清单"
       ],
-      "sortOrder": 160,
+      "sortOrder": 170,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/15-FastAPI从0到1-高频问题面试与交付清单.md",
       "publishedAt": "2026-07-30T14:44:46.210Z",
       "updatedAt": "2026-07-31T02:54:43.103Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-15：高频问题、面试与交付清单.md",
-      "summary": "汇总 FastAPI 企业开发高频概念、常见故障、面试表达、命令速查和上线前检查项。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 16 篇：高频问题、面试与交付清单：故障排查、命令速查、验收项、上线检查.md",
+      "summary": "FastAPI 高频问题、面试与交付清单，汇总企业开发高频概念、常见故障、面试表达、命令速查和上线前检查项。",
       "cover": "",
-      "contentHash": "2a28ddbdc39da454da9c2df64bf9837ac73ece70b60f1a1108573590307ff86f"
+      "contentHash": "6be6bdb6506d0756a34cd142c9b34122b9de1cbe97dd11f081c6e85dbf97f90b"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d1b2",
       "originalSlug": "fastapi-zero-to-one-learning-outcome-express-delivery",
       "exportedSlug": "fastapi-zero-to-one-learning-outcome-express-delivery",
-      "title": "FastAPI 从 0 到 1 16：学习成效评估与 Express 对照交付",
+      "title": "第 17 篇：学习成效评估与 Express 对照交付：能力清单、技术对照、复刻练习、作品表达",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2813,22 +2835,22 @@
         "FastAPI",
         "Express",
         "学习评估",
-        "企业开发"
+        "作品交付"
       ],
-      "sortOrder": 170,
+      "sortOrder": 180,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/16-FastAPI从0到1-学习成效评估与Express对照交付.md",
       "publishedAt": "2026-07-30T14:44:46.212Z",
       "updatedAt": "2026-07-31T02:54:43.110Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1-16：学习成效评估与-Express-对照交付.md",
-      "summary": "诚实评估教程对零基础学习者和企业级开发能力的覆盖范围，并给出 Express 对照复刻、独立交付和补课验收路径。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 17 篇：学习成效评估与 Express 对照交付：能力清单、技术对照、复刻练习、作品表达.md",
+      "summary": "FastAPI 学习成效评估，说明教程能力覆盖范围，并给出 Express 对照复刻、独立交付、补课验收和作品表达路径。",
       "cover": "",
-      "contentHash": "6948b10d0571f0278b38cc944cda131d908d77e276e837dbb51a050d93ff2b1c"
+      "contentHash": "50e001cf0f24380920495fa7f35123f25805ce79a78b9139f38f76bf039bb348"
     },
     {
       "originalId": "6a6b635eb46b52abc5dc2863",
       "originalSlug": "fastapi-zero-to-enterprise-index",
       "exportedSlug": "fastapi-zero-to-enterprise-index",
-      "title": "FastAPI 从 0 到 1：小白到项目实战学习总目录",
+      "title": "第 00 篇：FastAPI 从 0 到 1 学习总目录：路线、章节、项目实战、交付清单",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2840,23 +2862,24 @@
       "tags": [
         "Python",
         "FastAPI",
-        "后端开发",
-        "学习路线"
+        "学习路线",
+        "总目录",
+        "项目实战"
       ],
-      "sortOrder": 180,
+      "sortOrder": 10,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/README.md",
       "publishedAt": "2026-07-30T14:44:46.216Z",
       "updatedAt": "2026-07-31T02:54:43.118Z",
-      "fileName": "后端技术/Python/应用实例/Web入门/FastAPI-从-0-到-1：小白到项目实战学习总目录.md",
-      "summary": "面向掌握 Python 基础语法、但没有 Web 后端经验的学习者，从读懂第一行代码开始，逐步完成可运行、可测试、可部署的 FastAPI 项目。",
+      "fileName": "后端技术/Python/应用实例/Web入门/第 00 篇：FastAPI 从 0 到 1 学习总目录：路线、章节、项目实战、交付清单.md",
+      "summary": "FastAPI 从 0 到 1 学习总目录，面向有 Python 基础但缺少 Web 后端经验的学习者，梳理学习路线、章节路径、项目实战和交付清单。",
       "cover": "",
-      "contentHash": "6da4ec83d654ddc8d9ffa87aea89a070b8834165a215f38cbd6101c81cde94f9"
+      "contentHash": "9b09d368909312fc6641e12e2810d6eecab4d50a45c9e9e9c7be11b620211987"
     },
     {
       "originalId": "6a4a4304f9ac958d2917602a",
       "originalSlug": "python-zero-learning-guide",
       "exportedSlug": "python-zero-learning-guide",
-      "title": "Python 零基础入门 00：学习路线与运行方式",
+      "title": "第 1 篇：Python 学习路线与运行方式：解释器、脚本、交互模式、VS Code",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2866,22 +2889,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "学习路线与运行方式",
+        "解释器",
+        "脚本",
+        "交互模式"
       ],
       "sortOrder": 10,
       "sourcePath": "Python/01-知识目录/00-Python零基础入门-学习路线与运行方式.md",
       "publishedAt": "2026-07-05T11:47:18.623Z",
       "updatedAt": "2026-07-30T14:44:46.107Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-00：学习路线与运行方式.md",
+      "fileName": "后端技术/Python/知识目录/第 01 篇：Python 学习路线与运行方式：解释器、脚本、交互模式、VS Code.md",
       "summary": "面向已经接触过前端 JavaScript、正在学习 Python 的读者，说明这套 Python 入门笔记怎么学、怎么运行代码，以及如何用 Python 和 JS 对照学习，避免两个语言概念混在一起。",
       "cover": "",
-      "contentHash": "97e01cac5849abd301ef47e3a03c8fd8f78cf26032805e797e8ae8ae10672177"
+      "contentHash": "ea2a39cf1e4cccdaa9d6874a908ffb14d10a3c7be32b388af801fe32166ef231"
     },
     {
       "originalId": "6a4a4304f9ac958d2917602e",
       "originalSlug": "python-zero-what-is-python",
       "exportedSlug": "python-zero-what-is-python",
-      "title": "Python 零基础入门 01：Python 是什么",
+      "title": "第 2 篇：Python 是什么：语言定位、解释器、应用场景、学习方法",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2891,22 +2917,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "是什么",
+        "语言定位",
+        "解释器",
+        "应用场景"
       ],
       "sortOrder": 20,
       "sourcePath": "Python/01-知识目录/01-Python零基础入门-Python是什么.md",
       "publishedAt": "2026-07-05T11:47:18.621Z",
       "updatedAt": "2026-07-30T14:44:46.113Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-01：Python-是什么.md",
+      "fileName": "后端技术/Python/知识目录/第 02 篇：Python 是什么：语言定位、解释器、应用场景、学习方法.md",
       "summary": "用小白能理解的方式解释 Python 是什么、它能做什么、为什么适合入门，并把 Python 与前端 JavaScript 的定位、运行环境、输出方式和常见用途放在一起对比。",
       "cover": "",
-      "contentHash": "cf6d457da9ccd44c60d6d34190185ce10dfdf8356bc39d3a213892f70d568a2b"
+      "contentHash": "aecd9043eccd325fa8fe8c5040dc1ece0eebf9aba0b090e68981c242e355bb18"
     },
     {
       "originalId": "6a4a4304f9ac958d29176032",
       "originalSlug": "python-zero-install-and-run",
       "exportedSlug": "python-zero-install-and-run",
-      "title": "Python 零基础入门 02：安装检查与运行代码",
+      "title": "第 3 篇：Python 安装检查与运行代码：Python、pip、终端、文件运行",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2916,22 +2945,24 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "安装检查与运行代码",
+        "pip",
+        "终端"
       ],
       "sortOrder": 30,
       "sourcePath": "Python/01-知识目录/02-Python零基础入门-安装检查与运行代码.md",
       "publishedAt": "2026-07-05T11:47:18.618Z",
       "updatedAt": "2026-07-30T14:44:46.115Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-02：安装检查与运行代码.md",
+      "fileName": "后端技术/Python/知识目录/第 03 篇：Python 安装检查与运行代码：Python、pip、终端、文件运行.md",
       "summary": "面向已有前端 JS 基础的学习者，讲清楚 Python 解释器、命令行、py 文件运行、PATH、VS Code 运行配置，并对照 Node.js、npm、浏览器控制台和前端项目运行方式。",
       "cover": "",
-      "contentHash": "223fdf98a5c435a08944c3e6b82f1cbc102b513a44fee8ee84d19e01411e7c1f"
+      "contentHash": "966bbebbac3c8dae2d497e0f18dd55c22cb208cb0c2dd8c07b4764f1d951aeb2"
     },
     {
       "originalId": "6a4a4304f9ac958d29176036",
       "originalSlug": "python-zero-print-and-comments",
       "exportedSlug": "python-zero-print-and-comments",
-      "title": "Python 零基础入门 03：print 输出与注释",
+      "title": "第 4 篇：print 输出与注释：print、sep/end、注释、调试输出",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2941,22 +2972,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "print",
+        "输出与注释",
+        "sep/end",
+        "注释"
       ],
       "sortOrder": 40,
       "sourcePath": "Python/01-知识目录/03-Python零基础入门-print输出与注释.md",
       "publishedAt": "2026-07-05T11:47:18.615Z",
       "updatedAt": "2026-07-30T14:44:46.118Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-03：print-输出与注释.md",
+      "fileName": "后端技术/Python/知识目录/第 04 篇：print 输出与注释：print、sep 和 end、注释、调试输出.md",
       "summary": "详细讲解 Python print 输出、多个值输出、换行控制、sep/end 参数、f-string 格式化，以及注释规范，并逐项对照 JavaScript 的 console.log、模板字符串和注释写法。",
       "cover": "",
-      "contentHash": "37a8a85ad07a69a91683d9503490dc7f23d43c1789a1374f105931a5984a3ee2"
+      "contentHash": "81f5c9cbd9e0099c952d4e6ff1dc6e8a49a0685c8e1b28be74ab8b84735197a4"
     },
     {
       "originalId": "6a4a4304f9ac958d2917603a",
       "originalSlug": "python-zero-variables-and-types",
       "exportedSlug": "python-zero-variables-and-types",
-      "title": "Python 零基础入门 04：变量和基本数据类型",
+      "title": "第 5 篇：变量和基本数据类型：命名、int、float、str、bool、None",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2966,22 +3000,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "变量和基本数据类型",
+        "命名",
+        "int",
+        "float"
       ],
       "sortOrder": 50,
       "sourcePath": "Python/01-知识目录/04-Python零基础入门-变量和基本数据类型.md",
       "publishedAt": "2026-07-05T11:47:18.612Z",
       "updatedAt": "2026-07-30T14:44:46.121Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-04：变量和基本数据类型.md",
+      "fileName": "后端技术/Python/知识目录/第 05 篇：变量和基本数据类型：命名、int、float、str、bool、None.md",
       "summary": "从最底层解释变量、赋值、命名规则、字符串、整数、小数、布尔值、None 和类型查看，并逐项对照 JavaScript 的 const/let、string、number、boolean、null、undefined 和 typeof。",
       "cover": "",
-      "contentHash": "a50a978f87a15d88659ebe1a8547b79631465ea6832fe2f959f63ee4038bbe02"
+      "contentHash": "e106904fba9b494ecd856e2cc5c747fd6ebcce8fcfe60f5838f505613b28e96a"
     },
     {
       "originalId": "6a4a4304f9ac958d2917603e",
       "originalSlug": "python-zero-string",
       "exportedSlug": "python-zero-string",
-      "title": "Python 零基础入门 05：字符串",
+      "title": "第 6 篇：字符串：索引切片、常用方法、格式化、f-string",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2991,22 +3028,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "字符串",
+        "索引切片",
+        "常用方法",
+        "格式化"
       ],
       "sortOrder": 60,
       "sourcePath": "Python/01-知识目录/05-Python零基础入门-字符串.md",
       "publishedAt": "2026-07-05T11:47:18.594Z",
       "updatedAt": "2026-07-30T14:44:46.124Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-05：字符串.md",
+      "fileName": "后端技术/Python/知识目录/第 06 篇：字符串：索引切片、常用方法、格式化、f-string.md",
       "summary": "详细讲解 Python 字符串 str 的定义、引号、转义、多行字符串、长度、索引、切片、不可变、拼接、格式化、清洗、查找、替换、分割、合并，并全程对照 JavaScript 字符串。",
       "cover": "",
-      "contentHash": "17b3219e83d798ce2e4a093201a093cf996dfe57b5b78d692418113d7f64ebf6"
+      "contentHash": "1f5a70cb1929e65a217c7fd300cfeee6b05fbc327f3a7b5cb393e73488e92088"
     },
     {
       "originalId": "6a4a4304f9ac958d29176042",
       "originalSlug": "python-zero-numbers-and-operators",
       "exportedSlug": "python-zero-numbers-and-operators",
-      "title": "Python 零基础入门 06：数字和简单计算",
+      "title": "第 7 篇：数字和简单计算：整数浮点、运算符、优先级、round",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3016,22 +3056,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "数字和简单计算",
+        "整数浮点",
+        "运算符",
+        "优先级"
       ],
       "sortOrder": 70,
       "sourcePath": "Python/01-知识目录/06-Python零基础入门-数字和简单计算.md",
       "publishedAt": "2026-07-05T11:47:18.541Z",
       "updatedAt": "2026-07-30T14:44:46.126Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-06：数字和简单计算.md",
+      "fileName": "后端技术/Python/知识目录/第 07 篇：数字和简单计算：整数浮点、运算符、优先级、round.md",
       "summary": "介绍整数、小数、加减乘除、取余、整除、幂运算和赋值运算，帮助新手理解 Python 如何进行简单计算，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "645f319f662250a546862ef4fedc9f813e8001a5a0d8d08b2653cb2a295d3ccc"
+      "contentHash": "e9ecf6a7b07bbfe148ee2e03d44e78fd54d2d3f48d6dd07d7e21f1b7bafa9d26"
     },
     {
       "originalId": "6a4a4304f9ac958d29176046",
       "originalSlug": "python-zero-input-and-convert",
       "exportedSlug": "python-zero-input-and-convert",
-      "title": "Python 零基础入门 07：input 输入和类型转换",
+      "title": "第 8 篇：input 输入和类型转换：input、int、float、str、异常输入",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3041,22 +3084,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "input",
+        "输入和类型转换",
+        "int",
+        "float"
       ],
       "sortOrder": 80,
       "sourcePath": "Python/01-知识目录/07-Python零基础入门-input输入和类型转换.md",
       "publishedAt": "2026-07-05T11:47:18.533Z",
       "updatedAt": "2026-07-30T14:44:46.128Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-07：input-输入和类型转换.md",
+      "fileName": "后端技术/Python/知识目录/第 08 篇：input 输入和类型转换：input、int、float、str、异常输入.md",
       "summary": "讲解 input 如何接收用户输入，为什么 input 得到的是字符串，以及如何使用 int、float、str 做类型转换，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "8ee1d6af8a899f948d729684c1d36e69e890a21b668ec1d897d2e3a4f8be5cec"
+      "contentHash": "613717e43045dcd191f3c487eee666ab4fbe6a0f363e85181215f5e2db50c4bc"
     },
     {
       "originalId": "6a4a4304f9ac958d2917604a",
       "originalSlug": "python-zero-if-else-match",
       "exportedSlug": "python-zero-if-else-match",
-      "title": "Python 零基础入门 08：条件判断 if else 和 match",
+      "title": "第 9 篇：条件判断 if else 和 match：比较运算、逻辑运算、分支、模式匹配",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3066,22 +3112,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "条件判断",
+        "if",
+        "比较运算",
+        "逻辑运算",
+        "分支"
       ],
       "sortOrder": 90,
       "sourcePath": "Python/01-知识目录/08-Python零基础入门-条件判断if-else和match.md",
       "publishedAt": "2026-07-05T11:47:18.528Z",
       "updatedAt": "2026-07-30T14:44:46.130Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-08：条件判断-if-else-和-match.md",
+      "fileName": "后端技术/Python/知识目录/第 09 篇：条件判断 if else 和 match：比较运算、逻辑运算、分支、模式匹配.md",
       "summary": "介绍条件判断的基本写法，讲解 if、elif、else、比较运算符、逻辑运算符、缩进规则、三元表达式、match 语句，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "55da5ba681c15fd7290adb0334c201362495e92af544929fb951447fd8dbbcc3"
+      "contentHash": "53822f96a40ae87379e16b690c699a616d34cb332934a77dd3805f154dd62cec"
     },
     {
       "originalId": "6a4a4304f9ac958d2917604e",
       "originalSlug": "python-zero-loops",
       "exportedSlug": "python-zero-loops",
-      "title": "Python 零基础入门 09：循环 for 和 while",
+      "title": "第 10 篇：循环 for 和 while：range、break、continue、嵌套循环",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3091,22 +3141,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "循环",
+        "for",
+        "range",
+        "break",
+        "continue"
       ],
       "sortOrder": 100,
       "sourcePath": "Python/01-知识目录/09-Python零基础入门-循环for和while.md",
       "publishedAt": "2026-07-05T11:47:18.525Z",
       "updatedAt": "2026-07-30T14:44:46.132Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-09：循环-for-和-while.md",
+      "fileName": "后端技术/Python/知识目录/第 10 篇：循环 for 和 while：range、break、continue、嵌套循环.md",
       "summary": "介绍循环的意义，讲解 for、range、while、break、continue 的基础用法，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "c9a45f9f9d99ab5fdb12826ac59082d820601ef1ffae1c47668a5f96f7342263"
+      "contentHash": "1eb63c29dc11196bdf2faa9c6df1474217d054203aa96360bf1218ca8fa26e4b"
     },
     {
       "originalId": "6a4a4304f9ac958d29176052",
       "originalSlug": "python-zero-lists",
       "exportedSlug": "python-zero-lists",
-      "title": "Python 零基础入门 10：列表 list",
+      "title": "第 11 篇：列表 list：增删改查、切片、排序、列表推导式",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3116,22 +3170,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "列表",
+        "list",
+        "增删改查",
+        "切片",
+        "排序"
       ],
       "sortOrder": 110,
       "sourcePath": "Python/01-知识目录/10-Python零基础入门-列表list.md",
       "publishedAt": "2026-07-05T11:47:18.523Z",
       "updatedAt": "2026-07-30T14:44:46.134Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-10：列表-list.md",
+      "fileName": "后端技术/Python/知识目录/第 11 篇：列表 list：增删改查、切片、排序、列表推导式.md",
       "summary": "讲解列表的概念、创建列表、读取元素、添加删除元素、切片、列表方法、列表推导式，全程对照 JavaScript 数组。",
       "cover": "",
-      "contentHash": "67f86bceeb37feed7010fea6be5497d7bce129cb41e854896ae07caa3b361361"
+      "contentHash": "cec08bdb083d46fe16354fdd8c56101e71d3eb8ad0f8f79069505a716e32e16b"
     },
     {
       "originalId": "6a4a4304f9ac958d29176056",
       "originalSlug": "python-zero-tuples",
       "exportedSlug": "python-zero-tuples",
-      "title": "Python 零基础入门 11：元组 tuple",
+      "title": "第 12 篇：元组 tuple：不可变序列、解包、返回多个值",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3141,22 +3199,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "元组",
+        "tuple",
+        "不可变序列",
+        "解包",
+        "返回多个值"
       ],
       "sortOrder": 120,
       "sourcePath": "Python/01-知识目录/11-Python零基础入门-元组tuple.md",
       "publishedAt": "2026-07-05T11:47:18.520Z",
       "updatedAt": "2026-07-30T14:44:46.137Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-11：元组-tuple.md",
+      "fileName": "后端技术/Python/知识目录/第 12 篇：元组 tuple：不可变序列、解包、返回多个值.md",
       "summary": "讲解元组是什么、元组和列表的区别、元组的创建和操作、元组不可变意味着什么、元组解包、命名元组，全程对照 JavaScript 中的 const 数组与 Object.freeze。",
       "cover": "",
-      "contentHash": "0368a1ea60bd3b51251cace83c0c0180a01346b68994d3cad7a270209d5e87f6"
+      "contentHash": "200035e489643f00213e28714ddac2f73d8fe4cb1544b9780040cef7b7cda86e"
     },
     {
       "originalId": "6a4a4304f9ac958d2917605a",
       "originalSlug": "python-zero-sets",
       "exportedSlug": "python-zero-sets",
-      "title": "Python 零基础入门 12：集合 set",
+      "title": "第 13 篇：集合 set：去重、交集并集差集、成员判断",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3166,22 +3228,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "集合",
+        "set",
+        "去重",
+        "交集并集差集",
+        "成员判断"
       ],
       "sortOrder": 130,
       "sourcePath": "Python/01-知识目录/12-Python零基础入门-集合set.md",
       "publishedAt": "2026-07-05T11:47:18.517Z",
       "updatedAt": "2026-07-30T14:44:46.139Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-12：集合-set.md",
+      "fileName": "后端技术/Python/知识目录/第 13 篇：集合 set：去重、交集并集差集、成员判断.md",
       "summary": "讲解集合是什么、集合的创建、去重、交集并集差集运算、集合推导式、frozenset，全程对照 JavaScript 的 Set 对象。",
       "cover": "",
-      "contentHash": "dcdeb43c25ff1eb5401b1fac7cf74d6cad5688ae08215362f14e1304d1c2ab80"
+      "contentHash": "9e9762b3a46e02f38af193033aa9c771d30daeed6bc1ffc36ebab4b2212a0b01"
     },
     {
       "originalId": "6a4a4304f9ac958d2917605e",
       "originalSlug": "python-zero-dictionaries",
       "exportedSlug": "python-zero-dictionaries",
-      "title": "Python 零基础入门 13：字典 dict",
+      "title": "第 14 篇：字典 dict：键值对、遍历、嵌套、get/update",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3191,22 +3257,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "字典",
+        "dict",
+        "键值对",
+        "遍历",
+        "嵌套"
       ],
       "sortOrder": 140,
       "sourcePath": "Python/01-知识目录/13-Python零基础入门-字典dict.md",
       "publishedAt": "2026-07-05T11:47:18.514Z",
       "updatedAt": "2026-07-30T14:44:46.140Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-13：字典-dict.md",
+      "fileName": "后端技术/Python/知识目录/第 14 篇：字典 dict：键值对、遍历、嵌套、get 和 update.md",
       "summary": "用个人信息示例解释字典的键值对结构，讲解读取、修改、添加、删除、循环字典以及字典和列表的组合，全程对照 JavaScript 对象。",
       "cover": "",
-      "contentHash": "7c57dd9defd49a655651df542a152c03168b0ea76b905788eee049a93098483e"
+      "contentHash": "3be6c15cdf6e1aabac0eb892c52653024abb73fe7fe22e7b7d01bd9c8984c36a"
     },
     {
       "originalId": "6a4a4304f9ac958d29176062",
       "originalSlug": "python-zero-functions",
       "exportedSlug": "python-zero-functions",
-      "title": "Python 零基础入门 14：函数 function",
+      "title": "第 15 篇：函数 function：参数、返回值、作用域、文档字符串",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3216,22 +3286,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "函数",
+        "function",
+        "参数",
+        "返回值",
+        "作用域"
       ],
       "sortOrder": 150,
       "sourcePath": "Python/01-知识目录/14-Python零基础入门-函数function.md",
       "publishedAt": "2026-07-05T11:47:18.511Z",
       "updatedAt": "2026-07-30T14:44:46.142Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-14：函数-function.md",
+      "fileName": "后端技术/Python/知识目录/第 15 篇：函数 function：参数、返回值、作用域、文档字符串.md",
       "summary": "解释函数为什么存在，讲解 def、参数、返回值、默认参数、关键字参数、作用域，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "5f29a8f3ba83c3a5681efdc5034506160506f5552bd9dc280952abc8eea073b7"
+      "contentHash": "c06e41a90e78895b3d08d3238a9dd7080ede936894d1ed447342a5650a0f1d5c"
     },
     {
       "originalId": "6a4a4304f9ac958d29176066",
       "originalSlug": "python-zero-file-read-write",
       "exportedSlug": "python-zero-file-read-write",
-      "title": "Python 零基础入门 15：文件读写",
+      "title": "第 16 篇：文件读写：open、with、编码、路径、读写模式",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3241,22 +3315,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "文件读写",
+        "open",
+        "with",
+        "编码"
       ],
       "sortOrder": 160,
       "sourcePath": "Python/01-知识目录/15-Python零基础入门-文件读写.md",
       "publishedAt": "2026-07-05T11:47:18.508Z",
       "updatedAt": "2026-07-30T14:44:46.143Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-15：文件读写.md",
+      "fileName": "后端技术/Python/知识目录/第 16 篇：文件读写：open、with、编码、路径、读写模式.md",
       "summary": "介绍如何用 Python 读写文本与二进制文件、追加内容、读写 JSON、CSV，使用 with、pathlib、shutil、tempfile 管理文件与路径，处理编码与大文件，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "b4fd8b1db6acc8261c6b5c0cbc550e4fc931cee131d214b184e4ee19fb8f15f4"
+      "contentHash": "016d00013e372e7dd227dac8005cf94b1e4f2926dc93ce95ec86701465daf9f4"
     },
     {
       "originalId": "6a4a4304f9ac958d2917606a",
       "originalSlug": "python-zero-mini-project-account-book",
       "exportedSlug": "python-zero-mini-project-account-book",
-      "title": "Python 零基础入门 16：小练习记账本",
+      "title": "第 17 篇：小练习记账本：数据结构、文件保存、增删查改",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3266,22 +3343,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "小练习记账本",
+        "数据结构",
+        "文件保存",
+        "增删查改"
       ],
       "sortOrder": 170,
       "sourcePath": "Python/01-知识目录/16-Python零基础入门-小练习记账本.md",
       "publishedAt": "2026-07-05T11:47:18.505Z",
       "updatedAt": "2026-07-30T14:44:46.145Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-16：小练习记账本.md",
+      "fileName": "后端技术/Python/知识目录/第 17 篇：小练习记账本：数据结构、文件保存、增删查改.md",
       "summary": "用前面学过的变量、输入、类型转换、条件判断、循环、列表、字典和文件写入，完成一个适合零基础的新手记账本练习，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "35b7df5fdb5808761f482bd7c6e7a5565b204dff20ff7919bd22b607cdc6273a"
+      "contentHash": "5797fe86a0819da667ee74bc2fb85f97e04574d4219f839b67c64497bcf93034"
     },
     {
       "originalId": "6a4a4304f9ac958d2917606e",
       "originalSlug": "python-zero-exception-handling",
       "exportedSlug": "python-zero-exception-handling",
-      "title": "Python 零基础入门 17：异常处理 try except",
+      "title": "第 18 篇：异常处理 try except：捕获异常、else/finally、自定义异常",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3291,22 +3371,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "异常处理",
+        "try",
+        "捕获异常",
+        "else/finally",
+        "自定义异常"
       ],
       "sortOrder": 180,
       "sourcePath": "Python/01-知识目录/17-Python零基础入门-异常处理try-except.md",
       "publishedAt": "2026-07-05T11:47:18.503Z",
       "updatedAt": "2026-07-30T14:44:46.146Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-17：异常处理-try-except.md",
+      "fileName": "后端技术/Python/知识目录/第 18 篇：异常处理 try except：捕获异常、else 和 finally、自定义异常.md",
       "summary": "讲解程序为什么会报错，如何使用 try except 捕获异常，自定义异常类，异常链 raise from，断言 assert，异常层次结构，以及 logging 记录错误，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "33440112232a404610e7861ee26304e53d167bc6731d96c4382bb725e1387daf"
+      "contentHash": "d4446b20c2ea46054e7e06a302dc869884196509a3023da5d7671bd8141bb622"
     },
     {
       "originalId": "6a4a4304f9ac958d29176072",
       "originalSlug": "python-zero-modules-pip-venv",
       "exportedSlug": "python-zero-modules-pip-venv",
-      "title": "Python 零基础入门 18：模块、包、pip 和虚拟环境",
+      "title": "第 19 篇：模块、包、pip 和虚拟环境：import、venv、requirements、包管理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3316,22 +3400,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "模块",
+        "包",
+        "import",
+        "venv",
+        "requirements"
       ],
       "sortOrder": 190,
       "sourcePath": "Python/01-知识目录/18-Python零基础入门-模块包pip和虚拟环境.md",
       "publishedAt": "2026-07-05T11:47:18.500Z",
       "updatedAt": "2026-07-30T14:44:46.148Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-18：模块、包、pip-和虚拟环境.md",
+      "fileName": "后端技术/Python/知识目录/第 19 篇：模块、包、pip 和虚拟环境：import、venv、requirements、包管理.md",
       "summary": "讲解模块和包是什么，如何 import，搜索路径与相对导入，模块缓存与循环导入，如何使用 pip 安装第三方库（版本指定与镜像源），为什么企业项目常用虚拟环境，以及 uv/poetry 等现代工具，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "ad4245dc89d3910c77d3bed614b0f92d17c127c0d5aeabcd0512d10879b1a53b"
+      "contentHash": "e1f03116e070b489ed4e0898e2bae52c55413ed0d2e98021e7c8d6ce790cccb5"
     },
     {
       "originalId": "6a4a4304f9ac958d29176076",
       "originalSlug": "python-zero-object-oriented-programming",
       "exportedSlug": "python-zero-object-oriented-programming",
-      "title": "Python 零基础入门 19：面向对象 class",
+      "title": "第 20 篇：面向对象 class：类对象、属性方法、继承、封装",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3341,22 +3429,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "面向对象",
+        "class",
+        "类对象",
+        "属性方法",
+        "继承"
       ],
       "sortOrder": 200,
       "sourcePath": "Python/01-知识目录/19-Python零基础入门-面向对象class.md",
       "publishedAt": "2026-07-05T11:47:18.497Z",
       "updatedAt": "2026-07-30T14:44:46.149Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-19：面向对象-class.md",
+      "fileName": "后端技术/Python/知识目录/第 20 篇：面向对象 class：类对象、属性方法、继承、封装.md",
       "summary": "用小白能理解的方式解释类、对象、属性、方法、self、构造方法、继承、多继承、property、dataclass 和组合，全程对照 JavaScript class。",
       "cover": "",
-      "contentHash": "667dd15424a19f2765fb2c2cedafdc57b23ff0534d5b29a19521911f4f5778d5"
+      "contentHash": "9e08f0dbab2c52f0998db10b73e85e06bbca85cd63195442420132f7abaac179"
     },
     {
       "originalId": "6a4a4304f9ac958d2917607a",
       "originalSlug": "python-zero-standard-library",
       "exportedSlug": "python-zero-standard-library",
-      "title": "Python 零基础入门 20：常用标准库",
+      "title": "第 21 篇：常用标准库：datetime、pathlib、json、random、os",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3366,22 +3458,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "常用标准库",
+        "datetime",
+        "pathlib",
+        "json"
       ],
       "sortOrder": 210,
       "sourcePath": "Python/01-知识目录/20-Python零基础入门-常用标准库.md",
       "publishedAt": "2026-07-05T11:47:18.494Z",
       "updatedAt": "2026-07-30T14:44:46.151Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-20：常用标准库.md",
+      "fileName": "后端技术/Python/知识目录/第 21 篇：常用标准库：datetime、pathlib、json、random、os.md",
       "summary": "介绍 datetime、pathlib、json、random、os、logging、csv 等常用标准库，通过贴近日常工作的例子说明，全程对照 JavaScript。",
       "cover": "",
-      "contentHash": "af25ae9b23e30341bfdc9010135e506b057602c8f9140a27c50df67e411aa97f"
+      "contentHash": "22ba434f8b6282df42b4ce64291b73dc46ef9e02ac9b271f5ef205d699560807"
     },
     {
       "originalId": "6a4a4304f9ac958d2917607e",
       "originalSlug": "python-zero-interview-and-project-review",
       "exportedSlug": "python-zero-interview-and-project-review",
-      "title": "Python 零基础入门 21：面试复盘与项目表达",
+      "title": "第 22 篇：面试复盘与项目表达：知识串联、项目讲解、简历表达",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3391,22 +3486,25 @@
       ],
       "tags": [
         "Python",
-        "零基础入门"
+        "面试复盘与项目表达",
+        "知识串联",
+        "项目讲解",
+        "简历表达"
       ],
       "sortOrder": 220,
       "sourcePath": "Python/01-知识目录/21-Python零基础入门-面试复盘与项目表达.md",
       "publishedAt": "2026-07-05T11:47:18.491Z",
       "updatedAt": "2026-07-30T14:44:46.154Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-21：面试复盘与项目表达.md",
+      "fileName": "后端技术/Python/知识目录/第 22 篇：面试复盘与项目表达：知识串联、项目讲解、简历表达.md",
       "summary": "汇总 Python 基础面试高频问题，说明如何把记账本练习包装成项目表达，给出 Python vs JS 核心差异速查表，以及下一步学习路线。",
       "cover": "",
-      "contentHash": "4caaf2f2290a043d6878473ac1c47c26bf83e8371be58b517bca8ea929781147"
+      "contentHash": "5c593c1558a29086bea5fee90a8430e06f6f801483bdeb41e588ac0c1947f7cb"
     },
     {
       "originalId": "6a4a4304f9ac958d29176082",
       "originalSlug": "python-zero-csv-module",
       "exportedSlug": "python-zero-csv-module",
-      "title": "Python 零基础入门 22：csv 模块",
+      "title": "第 23 篇：csv 模块：reader、DictReader、写入、编码",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3416,23 +3514,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门",
-        "CSV"
+        "csv",
+        "模块",
+        "reader",
+        "DictReader",
+        "写入"
       ],
       "sortOrder": 230,
       "sourcePath": "Python/01-知识目录/22-Python零基础入门-csv模块.md",
       "publishedAt": "2026-07-05T11:47:18.486Z",
       "updatedAt": "2026-07-30T14:44:46.156Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-22：csv-模块.md",
+      "fileName": "后端技术/Python/知识目录/第 23 篇：csv 模块：reader、DictReader、写入、编码.md",
       "summary": "面向零基础系统学习 Python 标准库 csv 模块，掌握 reader、writer、DictReader、DictWriter、newline、UTF-8、追加写入、分隔符、引号、Sniffer、字段 schema、校验、去重幂等、临时文件替换和爬虫结果保存模板。",
       "cover": "",
-      "contentHash": "f78a52f42df52f51745e53f85f0d6c41cbd3b0bc50697e66c077d90fd256ff62"
+      "contentHash": "879e2a8aa7a5a068f2c88890ca2d4129c7b8cfd9f7195a7c023087550e35e9d0"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d17e",
       "originalSlug": "python-zero-logging-module",
       "exportedSlug": "python-zero-logging-module",
-      "title": "Python 零基础入门 23：logging 日志模块",
+      "title": "第 24 篇：logging 日志模块：日志级别、格式化、文件输出、配置",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3442,24 +3543,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门",
         "logging",
-        "日志"
+        "日志模块",
+        "日志级别",
+        "格式化",
+        "文件输出"
       ],
       "sortOrder": 240,
       "sourcePath": "Python/01-知识目录/23-Python零基础入门-logging日志模块.md",
       "publishedAt": "2026-07-30T14:44:46.157Z",
       "updatedAt": "2026-07-30T14:44:46.157Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-23：logging-日志模块.md",
+      "fileName": "后端技术/Python/知识目录/第 24 篇：logging 日志模块：日志级别、格式化、文件输出、配置.md",
       "summary": "面向零基础系统学习 Python 标准库 logging，掌握日志级别、basicConfig、格式化、文件输出、异常记录、Logger、Handler、Formatter、日志轮转、多模块项目配置和常见问题排查。",
       "cover": "",
-      "contentHash": "b6783381457b7b32b48b187815730c324bdd2c74b727b1622d1335464ee757b3"
+      "contentHash": "1aa4f075253f44ad7791806da75fbc8f4a27305facbcb59a6f4e886c44a89ac1"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d180",
       "originalSlug": "python-zero-iterable-iterator-generator",
       "exportedSlug": "python-zero-iterable-iterator-generator",
-      "title": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
+      "title": "第 25 篇：可迭代对象、迭代器与生成器：iter、next、yield、惰性计算",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3469,24 +3572,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门",
-        "迭代器",
-        "生成器"
+        "可迭代对象",
+        "迭代器与生成器",
+        "iter",
+        "next",
+        "yield"
       ],
       "sortOrder": 250,
       "sourcePath": "Python/01-知识目录/24-Python零基础入门-可迭代对象迭代器与生成器.md",
       "publishedAt": "2026-07-30T14:44:46.159Z",
       "updatedAt": "2026-07-30T14:44:46.159Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-24：可迭代对象、迭代器与生成器.md",
+      "fileName": "后端技术/Python/知识目录/第 25 篇：可迭代对象、迭代器与生成器：iter、next、yield、惰性计算.md",
       "summary": "从 for 循环的执行机制出发，系统讲解可迭代对象、迭代器、iter、next、StopIteration、生成器函数、yield、生成器表达式、惰性计算和只能消费一次等核心概念。",
       "cover": "",
-      "contentHash": "32353e97adecad17c9cc7b80749c0e5a53a7ded87dcdcd6a09d1f63c541fb8b9"
+      "contentHash": "907437efb082e82456f0d3c9b14e59d45042a5b35a0dbc2990d5f089de32702d"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d182",
       "originalSlug": "python-zero-advanced-functions-closures-decorators",
       "exportedSlug": "python-zero-advanced-functions-closures-decorators",
-      "title": "Python 零基础入门 25：函数进阶、闭包与装饰器",
+      "title": "第 26 篇：函数进阶、闭包与装饰器：高阶函数、闭包、装饰器、参数透传",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3496,24 +3601,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门",
-        "函数",
+        "函数进阶",
+        "闭包与装饰器",
+        "高阶函数",
+        "闭包",
         "装饰器"
       ],
       "sortOrder": 260,
       "sourcePath": "Python/01-知识目录/25-Python零基础入门-函数进阶闭包与装饰器.md",
       "publishedAt": "2026-07-30T14:44:46.160Z",
       "updatedAt": "2026-07-30T14:44:46.160Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-25：函数进阶、闭包与装饰器.md",
+      "fileName": "后端技术/Python/知识目录/第 26 篇：函数进阶、闭包与装饰器：高阶函数、闭包、装饰器、参数透传.md",
       "summary": "补齐 Python 函数的高频工程知识，讲解参数绑定、可变默认参数、LEGB 作用域、nonlocal、闭包、函数作为对象、装饰器、functools.wraps、带参数装饰器和递归边界。",
       "cover": "",
-      "contentHash": "568c0cefb8b9cc7c6409c3274259b9bf3e93243a89b77aa2af2ff18921ff9256"
+      "contentHash": "e9c1ce3f4781334387f35c0a409ab95f94a6ad77b2906c8752930063217e379d"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d184",
       "originalSlug": "python-zero-unicode-str-bytes",
       "exportedSlug": "python-zero-unicode-str-bytes",
-      "title": "Python 零基础入门 26：Unicode、str 与 bytes",
+      "title": "第 27 篇：Unicode、str 与 bytes：编码解码、UTF-8、文件编码",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3523,24 +3630,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门",
         "Unicode",
-        "编码"
+        "str",
+        "编码解码",
+        "UTF-8",
+        "文件编码"
       ],
       "sortOrder": 270,
       "sourcePath": "Python/01-知识目录/26-Python零基础入门-Unicode-str与bytes.md",
       "publishedAt": "2026-07-30T14:44:46.162Z",
       "updatedAt": "2026-07-30T14:44:46.162Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-26：Unicode、str-与-bytes.md",
+      "fileName": "后端技术/Python/知识目录/第 27 篇：Unicode、str 与 bytes：编码解码、UTF-8、文件编码.md",
       "summary": "从字符与字节的区别出发，系统讲解 Unicode、UTF-8、str、bytes、encode、decode、文本与二进制文件、BOM、utf-8-sig、常见乱码成因及系统边界上的编码处理。",
       "cover": "",
-      "contentHash": "7608c13dca9e4ac79134cfd85d82f64b9c78de9cf00b57d2a3dde84a15aa8e50"
+      "contentHash": "0b7e2f63a110663a816413a438bf3502e35ba6be8460b217d595899c191b5454"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d186",
       "originalSlug": "python-zero-pytest-debugging-code-quality",
       "exportedSlug": "python-zero-pytest-debugging-code-quality",
-      "title": "Python 零基础入门 27：pytest 测试、调试与代码质量",
+      "title": "第 28 篇：pytest 测试、调试与代码质量：断言、fixture、pdb、格式化",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3550,24 +3659,26 @@
       ],
       "tags": [
         "Python",
-        "零基础入门",
         "pytest",
-        "调试"
+        "测试",
+        "断言",
+        "fixture",
+        "pdb"
       ],
       "sortOrder": 280,
       "sourcePath": "Python/01-知识目录/27-Python零基础入门-pytest测试调试与代码质量.md",
       "publishedAt": "2026-07-30T14:44:46.164Z",
       "updatedAt": "2026-07-30T14:44:46.164Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-27：pytest-测试、调试与代码质量.md",
+      "fileName": "后端技术/Python/知识目录/第 28 篇：pytest 测试、调试与代码质量：断言、fixture、pdb、格式化.md",
       "summary": "建立最小可用的 Python 工程验证流程，讲解 pytest 安装与运行、测试结构、异常断言、参数化、临时目录、fixture、traceback、breakpoint、日志调试和 Ruff 代码检查。",
       "cover": "",
-      "contentHash": "b0d00175499ee87ce33b0fad530633e00de545c13d6f5ac41a1529a8c526f37d"
+      "contentHash": "87dce246f0cce6d8e614c8267062c03dbfb8ba839e3c44739b8aa0f501a9f9a7"
     },
     {
       "originalId": "6a6b57a2fca6347974f5d188",
       "originalSlug": "python-zero-regex-argparse-secrets-zoneinfo",
       "exportedSlug": "python-zero-regex-argparse-secrets-zoneinfo",
-      "title": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
+      "title": "第 29 篇：正则、命令行参数、安全随机数与时区：re、argparse、secrets、zoneinfo",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3577,18 +3688,20 @@
       ],
       "tags": [
         "Python",
-        "零基础入门",
-        "标准库",
-        "安全"
+        "正则",
+        "命令行参数",
+        "re",
+        "argparse",
+        "secrets"
       ],
       "sortOrder": 290,
       "sourcePath": "Python/01-知识目录/28-Python零基础入门-正则命令行安全随机数与时区.md",
       "publishedAt": "2026-07-30T14:44:46.166Z",
       "updatedAt": "2026-07-30T14:44:46.166Z",
-      "fileName": "后端技术/Python/知识目录/Python-零基础入门-28：正则、命令行参数、安全随机数与时区.md",
+      "fileName": "后端技术/Python/知识目录/第 29 篇：正则、命令行参数、安全随机数与时区：re、argparse、secrets、zoneinfo.md",
       "summary": "系统讲解常用标准库 re、argparse、secrets、datetime 与 zoneinfo，掌握文本匹配替换、正式命令行参数、安全令牌、时区感知时间及 UTC 存储原则。",
       "cover": "",
-      "contentHash": "7987f314bb37632d3d4bbca0464a8a0ad6f433875bd27c1bdd93f6499ff3e258"
+      "contentHash": "d0f0572dcec744049fee241ef7de3dbe6dcfc0c920851a499ab06c54e7e96529"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac678",
@@ -15538,5 +15651,5 @@
       "updatedAt": "2026-07-30T16:04:54.764Z"
     }
   ],
-  "generatedAt": "2026-07-31T08:58:29.784Z"
+  "generatedAt": "2026-07-31T09:23:17.849Z"
 }

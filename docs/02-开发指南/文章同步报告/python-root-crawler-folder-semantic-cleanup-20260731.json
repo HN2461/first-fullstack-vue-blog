@@ -1,0 +1,267 @@
+{
+  "generatedAt": "2026-07-31T09:12:30.185Z",
+  "scope": "output/线上文章/后端技术/Python 与应用实例/网络爬虫与数据分析",
+  "changedCount": 7,
+  "changes": [
+    {
+      "originalId": "6a6b635eb46b52abc5dc2865",
+      "originalSlug": "python-learning-index",
+      "categoryPath": [
+        "后端技术",
+        "Python"
+      ],
+      "sourcePath": "Python/README.md",
+      "old": {
+        "title": "Python 学习资料总目录",
+        "summary": "按知识目录、应用实例、工具链与工程化三类整理 Python 学习资料，区分基础概念、实战方向和后续项目能力。",
+        "sortOrder": 10,
+        "tags": [
+          "Python",
+          "学习路线"
+        ],
+        "fileName": "后端技术/Python/Python-学习资料总目录.md"
+      },
+      "next": {
+        "title": "第 00 篇：Python 学习资料总目录：知识目录、应用实例、工具链、学习顺序",
+        "summary": "Python 学习资料总目录，按知识目录、应用实例、工具链与工程化三类整理，并说明推荐学习顺序和命名约定。",
+        "tags": [
+          "Python",
+          "学习路线",
+          "总目录",
+          "知识目录",
+          "应用实例"
+        ],
+        "sortOrder": 10,
+        "fileName": "后端技术/Python/第 00 篇：Python 学习资料总目录：知识目录、应用实例、工具链、学习顺序.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774e7",
+      "originalSlug": "python-crawler-basic-concepts",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/00-Python网络爬虫入门-基础概念.md",
+      "old": {
+        "title": "Python 网络爬虫入门 00：基础概念",
+        "summary": "面向零基础梳理网络机器人、网络爬虫、URL、HTTP 请求与响应、robots.txt、HTML、静态页面、动态页面、解析、XPath、正则清洗、数据保存和数据分析的完整学习地图。",
+        "sortOrder": 10,
+        "tags": [
+          "Python",
+          "网络爬虫",
+          "网络机器人",
+          "基础概念"
+        ],
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-00：基础概念.md"
+      },
+      "next": {
+        "title": "第 1 篇：Python 网络爬虫基础概念：URL、HTTP、robots.txt、HTML、解析、数据保存",
+        "summary": "Python 网络爬虫基础概念入门，覆盖网络机器人、爬虫、URL、HTTP 请求响应、robots.txt、HTML、静态页面、动态页面、解析、保存和分析的完整学习地图。",
+        "tags": [
+          "Python",
+          "网络爬虫",
+          "基础概念",
+          "URL",
+          "HTTP",
+          "robots.txt"
+        ],
+        "sortOrder": 10,
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 01 篇：Python 网络爬虫基础概念：URL、HTTP、robots.txt、HTML、解析、数据保存.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774eb",
+      "originalSlug": "python-crawler-request-and-robots",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/01-Python网络爬虫入门-请求网页与robots.txt.md",
+      "old": {
+        "title": "Python 网络爬虫入门 01：requests 请求体系与 robots.txt",
+        "summary": "面向零基础系统学习 requests 请求体系，覆盖 GET、POST、PUT、PATCH、DELETE、HEAD、OPTIONS、params、data、json、headers、cookies、Session、Response、timeout、异常处理、重试、限流、stream 下载、文件上传、认证、robots.txt 和企业常见封装方式。",
+        "sortOrder": 20,
+        "tags": [
+          "Python",
+          "网络爬虫",
+          "requests",
+          "HTTP",
+          "robots.txt"
+        ],
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-01：requests-请求体系与-robots.txt.md"
+      },
+      "next": {
+        "title": "第 2 篇：requests 请求体系与 robots.txt：方法、参数、Header、Session、异常处理",
+        "summary": "Python requests 请求体系学习，覆盖 GET、POST、PUT、PATCH、DELETE、HEAD、OPTIONS、params、data、json、headers、cookies、Session、Response、timeout、异常处理、重试、限流、流式下载、上传、认证和 robots.txt。",
+        "tags": [
+          "Python",
+          "requests",
+          "HTTP",
+          "Session",
+          "robots.txt",
+          "异常处理"
+        ],
+        "sortOrder": 20,
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 02 篇：requests 请求体系与 robots.txt：方法、参数、Header、Session、异常处理.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774ef",
+      "originalSlug": "python-crawler-lxml-parse-html-save-csv",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/02-Python网络爬虫入门-lxml解析HTML并保存CSV.md",
+      "old": {
+        "title": "Python 网络爬虫入门 02：XPath 解析 HTML 并保存 CSV",
+        "summary": "面向零基础系统学习 lxml 与 XPath 解析网页，覆盖 etree.HTML、xpath 返回值、文本和属性提取、属性筛选、层级定位、多条件、索引、相对 XPath、列表循环、空值安全、urljoin、CSV 保存、requests 实战模板、调试技巧和企业项目中的列表页/详情页拆分、字段 helper、原始数据保留、结构变化统计。",
+        "sortOrder": 30,
+        "tags": [
+          "Python",
+          "lxml",
+          "XPath",
+          "CSV",
+          "网络爬虫"
+        ],
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-网络爬虫入门-02：XPath-解析-HTML-并保存-CSV.md"
+      },
+      "next": {
+        "title": "第 3 篇：XPath 解析 HTML 并保存 CSV：lxml、文本提取、属性筛选、urljoin",
+        "summary": "Python 网络爬虫解析实战，覆盖 lxml、XPath、文本和属性提取、层级定位、多条件筛选、相对 XPath、列表循环、空值安全、urljoin 和 CSV 保存。",
+        "tags": [
+          "Python",
+          "lxml",
+          "XPath",
+          "CSV",
+          "HTML解析",
+          "网络爬虫"
+        ],
+        "sortOrder": 30,
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 03 篇：XPath 解析 HTML 并保存 CSV：lxml、文本提取、属性筛选、urljoin.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d18d",
+      "originalSlug": "python-data-cleaning-regex-crawler-text",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/03-Python数据清洗入门-正则表达式清洗爬虫文本.md",
+      "old": {
+        "title": "Python 数据清洗入门 03：正则表达式清洗爬虫文本",
+        "summary": "面向零基础学习 Python re 模块在爬虫数据清洗中的常见用法，掌握 search、findall、sub、split、compile、分组、命名分组、贪婪与非贪婪，并理解企业开发中的字段规则、原始数据保留、校验、日志、测试和性能边界。",
+        "sortOrder": 40,
+        "tags": [
+          "Python",
+          "网络爬虫",
+          "正则表达式",
+          "数据清洗",
+          "re"
+        ],
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据清洗入门-03：正则表达式清洗爬虫文本.md"
+      },
+      "next": {
+        "title": "第 4 篇：正则表达式清洗爬虫文本：re、分组、命名分组、贪婪与非贪婪",
+        "summary": "Python 正则表达式清洗爬虫文本实践，覆盖 search、findall、sub、split、compile、分组、命名分组、贪婪与非贪婪以及清洗边界。",
+        "tags": [
+          "Python",
+          "正则表达式",
+          "数据清洗",
+          "re",
+          "爬虫文本"
+        ],
+        "sortOrder": 40,
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 04 篇：正则表达式清洗爬虫文本：re、分组、命名分组、贪婪与非贪婪.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a44b5f9ac958d291774f3",
+      "originalSlug": "python-data-analysis-pandas-csv",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/04-Python数据分析入门-用pandas统计CSV.md",
+      "old": {
+        "title": "Python 数据分析入门 04：用 pandas 统计 CSV",
+        "summary": "面向零基础使用 pandas 读取清洗后的 CSV，理解 DataFrame，查看数据结构、处理缺失值、转换数字类型、筛选排序、按分类汇总、计算新指标，并补充 read_csv 常用参数、数据质量检查、去重、合并字典表、分块处理和结果导出等企业常见写法。",
+        "sortOrder": 50,
+        "tags": [
+          "Python",
+          "pandas",
+          "数据分析"
+        ],
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据分析入门-04：用-pandas-统计-CSV.md"
+      },
+      "next": {
+        "title": "第 5 篇：用 pandas 统计 CSV：读取、清洗、筛选、汇总、去重、导出",
+        "summary": "Python 数据分析入门，使用 pandas 读取清洗后的 CSV，理解 DataFrame、缺失值处理、类型转换、筛选排序、分组汇总、合并字典表、分块处理和结果导出。",
+        "tags": [
+          "Python",
+          "pandas",
+          "数据分析",
+          "CSV",
+          "DataFrame"
+        ],
+        "sortOrder": 50,
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 05 篇：用 pandas 统计 CSV：读取、清洗、筛选、汇总、去重、导出.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d190",
+      "originalSlug": "python-data-visualization-matplotlib-charts",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "应用实例",
+        "网络爬虫与数据分析"
+      ],
+      "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/05-Python数据可视化入门-用matplotlib绘制统计图.md",
+      "old": {
+        "title": "Python 数据可视化入门 05：用 matplotlib 绘制统计图",
+        "summary": "面向零基础系统学习 matplotlib，把 pandas 统计结果画成折线图、柱状图、散点图、直方图、饼图和多子图，理解 pyplot 与 Figure/Axes 面向对象写法，掌握标题、坐标轴、图例、网格、中文字体、样式、保存图片、批量出图和企业开发中的常见图表规范。",
+        "sortOrder": 60,
+        "tags": [
+          "Python",
+          "matplotlib",
+          "数据可视化",
+          "数据分析"
+        ],
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/Python-数据可视化入门-05：用-matplotlib-绘制统计图.md"
+      },
+      "next": {
+        "title": "第 6 篇：用 matplotlib 绘制统计图：折线图、柱状图、散点图、饼图、多子图",
+        "summary": "Python 数据可视化入门，使用 matplotlib 将 pandas 统计结果绘制成折线图、柱状图、散点图、直方图、饼图和多子图，掌握标题、坐标轴、图例、网格和中文字体。",
+        "tags": [
+          "Python",
+          "matplotlib",
+          "数据可视化",
+          "统计图",
+          "数据分析"
+        ],
+        "sortOrder": 60,
+        "fileName": "后端技术/Python/应用实例/网络爬虫与数据分析/第 06 篇：用 matplotlib 绘制统计图：折线图、柱状图、散点图、饼图、多子图.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

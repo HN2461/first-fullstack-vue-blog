@@ -351,6 +351,104 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/windows-system-files-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/windows-system-files-folder-before-semantic-cleanup-20260731-1910`。
 
+### 电脑整理状态
+
+- `电脑` 根目录下已完成本地文章层整理：`电脑网络`、`网站部署`、`系统与文件`。
+- 共涉及 27 篇电脑类文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 分类路径暂不改名，避免把分类树变更与文章整理混在一起。
+
+### 后端技术 / Node.js
+
+- 处理 6 篇直接归属于 `后端技术 / Node.js` 的 Node.js 基础文章。原顺序正确，主要问题是标题使用 `第一篇` 到 `第六篇`，本地文件名带导出连字符。
+- 已整理为：Node.js 入门与 Buffer、fs 与 path 模块、HTTP 协议与 http 模块、Node.js 模块化系统、npm 包管理与 nvm 版本管理、Express 框架全解。
+- 保持 `sortOrder` 为 10 到 60 的 Node.js 基础学习顺序；本地文件名采用 `第 01 篇` 到 `第 06 篇`。
+- 按见名知意要求保留关键内容范围，例如运行环境、事件循环、全局对象、二进制数据、文件读写、目录操作、流式处理、跨平台路径、请求响应、状态码、GET/POST、原生服务器、CommonJS、require、module.exports、ESM、package.json、semver、本地全局包、Node 版本、路由、中间件、静态资源、模板、错误处理。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `后端技术 / Node.js` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/nodejs-direct-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/nodejs-direct-folder-before-semantic-cleanup-20260731-1925`。
+
+### 后端技术 / Node.js / 接口与会话控制详解
+
+- 处理 8 篇接口与会话控制文章。原顺序正确，但标题重复携带专题目录名，文件名也混有导出连字符，列表阅读噪音较大。
+- 已整理为：RESTful 接口设计规范、Apipost 接口测试工具、Cookie 原理与实战、Session 原理与实战、JWT 认证原理与实战、密码安全与接口防护、完整认证系统实战、前后端联调与常见问题排查。
+- 保持 `sortOrder` 为 10 到 80 的接口与认证学习顺序；本地文件名采用 `第 01 篇` 到 `第 08 篇`。
+- 按见名知意要求保留关键内容范围，例如 URL 命名、HTTP 方法、状态码、统一响应、请求发送、Header、Token、环境变量、文档生成、Express 读写删除 Cookie、httpOnly、secure、sameSite、签名、express-session、Redis 存储、JWT 三段结构、签名验证、鉴权中间件、双 Token、bcrypt、参数校验、限流、helmet、安全响应头、注册登录、角色权限、CORS、Axios 拦截器、Refresh Token。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `后端技术 / Node.js / 接口与会话控制详解` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/nodejs-api-session-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/nodejs-api-session-folder-before-semantic-cleanup-20260731-1935`。
+
+### 后端技术 / Node.js / MongoDB详解
+
+- 处理 7 篇 MongoDB 系列文章。原顺序正确，但标题使用 `MongoDB 详解第一篇` 等格式，本地文件名带导出连字符。
+- 已整理为：MongoDB 安装与基础概念、MongoDB 原生 CRUD、Mongoose 连接与 Schema 建模、Mongoose CRUD 与中间件、MongoDB 关联查询与聚合管道、MongoDB 索引优化与事务、Express + MongoDB 完整项目实战。
+- 保持 `sortOrder` 为 10 到 70 的 MongoDB 学习顺序；本地文件名采用 `第 01 篇` 到 `第 07 篇`。
+- 按见名知意要求保留关键内容范围，例如文档模型、BSON、ObjectId、mongosh、Node.js Driver、过滤、分页、更新操作符、Model、字段校验、默认值、索引、查询链、lean、文档钩子、嵌入引用、populate、$lookup、$group、explain、复合索引、ESR、TTL、Mongoose 事务、建模、鉴权、分页搜索、软删除。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `后端技术 / Node.js / MongoDB详解` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/nodejs-mongodb-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/nodejs-mongodb-folder-before-semantic-cleanup-20260731-1945`。
+
+### Node.js 体系整理状态
+
+- `后端技术 / Node.js` 下已完成本地文章层整理：直接基础文章、`接口与会话控制详解`、`MongoDB详解`。
+- 共涉及 21 篇 Node.js 文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 分类路径暂不改名，避免把分类树变更与文章整理混在一起。
+
+### 后端技术 / Python
+
+- 处理 1 篇 Python 根目录总目录文章。原标题已经能看出是总目录，但标题和本地文件名缺少 `第 00 篇` 的统一形式。
+- 已整理为：Python 学习资料总目录：知识目录、应用实例、工具链、学习顺序。
+- 保持 `sortOrder` 为 10；本地文件名采用 `第 00 篇`，用于总目录和学习入口。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `后端技术 / Python` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 后端技术 / Python / 应用实例 / 网络爬虫与数据分析
+
+- 处理 6 篇 Python 网络爬虫与数据分析文章。原顺序已经是从基础概念到可视化的连续路径，主要问题是标题仍使用 `00` 到 `05` 的导出格式，文件名还带连字符残留。
+- 已整理为：网络爬虫基础概念、requests 请求体系与 robots.txt、XPath 解析 HTML 并保存 CSV、正则表达式清洗爬虫文本、用 pandas 统计 CSV、用 matplotlib 绘制统计图。
+- 保持 `sortOrder` 为 10 到 60 的正向学习顺序；本地文件名采用 `第 01 篇` 到 `第 06 篇`。
+- 按见名知意要求保留关键内容范围，例如 URL、HTTP、robots.txt、HTML、解析、数据保存、requests、Session、XPath、CSV、re、pandas、DataFrame、matplotlib、折线图、柱状图、散点图、饼图、多子图。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `后端技术 / Python / 应用实例 / 网络爬虫与数据分析` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/python-root-crawler-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/python-root-crawler-folder-before-semantic-cleanup-20260731-2000`。
+
+### 后端技术 / Python / 应用实例 / Web入门
+
+- 处理 18 篇 FastAPI 从 0 到 1 Web 入门文章。原章节 00 到 16 顺序基本正确，但学习总目录排在最后，标题和文件名仍保留导出阶段的连字符格式。
+- 已整理为：FastAPI 从 0 到 1 学习总目录、学习路线与开发环境、读懂代码前必会 Python、HTTP/ASGI 与第一个应用、路由与请求参数、Pydantic v2 与数据建模、响应异常与 OpenAPI、依赖中间件生命周期与项目结构、SQLAlchemy 与 Alembic、CRUD 事务关联分页与查询、登录 JWT RBAC 与安全、文件后台任务 HTTPX 与 Redis、异步并发 WebSocket 与任务队列、pytest 与质量保障、日志监控性能安全与部署、企业知识库 API 综合实战、高频问题面试与交付清单、学习成效评估与 Express 对照交付。
+- 将学习总目录调整为 `sortOrder: 10`，原章节顺延为 20 到 180，使线上目录先读总览，再进入第 1 篇到第 17 篇；本地文件名采用 `第 00 篇` 到 `第 17 篇`。
+- 按见名知意要求保留关键内容范围，例如路线、章节、项目实战、交付清单、虚拟环境、依赖安装、import、类对象、装饰器、类型注解、main.py、Uvicorn、Path、Query、Body、Pydantic v2、response_model、HTTPException、Depends、Middleware、lifespan、SQLAlchemy、Alembic、JWT、RBAC、UploadFile、BackgroundTasks、HTTPX、Redis、WebSocket、pytest、Docker、审核流、状态机、Express 对照。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `后端技术 / Python / 应用实例 / Web入门` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/python-fastapi-web-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/python-fastapi-web-folder-before-semantic-cleanup-20260731-2015`。
+
+### 后端技术 / Python / 知识目录
+
+- 处理 29 篇 Python 零基础入门文章。原顺序已经是从学习路线到正则、命令行参数、安全随机数与时区的完整基础主线，主要问题是标题和文件名仍使用 `00` 到 `28` 的导出格式。
+- 已整理为：Python 学习路线与运行方式、Python 是什么、安装检查与运行代码、print 输出与注释、变量和基本数据类型、字符串、数字和简单计算、input 输入和类型转换、条件判断、循环、列表、元组、集合、字典、函数、文件读写、记账本练习、异常处理、模块包 pip 与虚拟环境、面向对象、常用标准库、面试复盘与项目表达、csv 模块、logging 日志模块、可迭代对象/迭代器/生成器、函数进阶/闭包/装饰器、Unicode/str/bytes、pytest 测试调试与代码质量、正则/命令行参数/安全随机数/时区。
+- 保持 `sortOrder` 为 10 到 290 的正向学习顺序；本地文件名采用 `第 01 篇` 到 `第 29 篇`。
+- 按见名知意要求保留关键内容范围，例如解释器、脚本、交互模式、VS Code、Python、pip、终端、print、sep/end、int、float、str、bool、None、索引切片、f-string、input、if else、match、range、列表推导式、tuple、set、dict、open、with、try except、venv、requirements、class、datetime、pathlib、json、csv、logging、iter、next、yield、装饰器、UTF-8、pytest、fixture、argparse、secrets、zoneinfo。
+- 摘要已有基础质量，本批保留原摘要，只同步规范标题、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `后端技术 / Python / 知识目录` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/python-knowledge-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/python-knowledge-folder-before-semantic-cleanup-20260731-2030`。
+
+### Python 体系整理状态
+
+- `后端技术 / Python` 下已完成本地文章层整理：根目录总目录、`知识目录`、`应用实例 / Web入门`、`应用实例 / 网络爬虫与数据分析`。
+- 共涉及 54 篇 Python 文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 分类路径暂不改名，避免把分类树变更与文章整理混在一起。
+
+### 后端技术整理状态
+
+- `后端技术` 下已完成本地文章层整理：`Node.js`、`Python`。
+- 共涉及 75 篇后端技术文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 分类路径暂不改名，避免把分类树变更与文章整理混在一起。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

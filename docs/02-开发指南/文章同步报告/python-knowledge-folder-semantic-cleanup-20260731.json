@@ -1,0 +1,1022 @@
+{
+  "generatedAt": "2026-07-31T09:21:32.523Z",
+  "scope": "output/线上文章/后端技术/Python/知识目录",
+  "changedCount": 29,
+  "changes": [
+    {
+      "originalId": "6a4a4304f9ac958d2917602a",
+      "originalSlug": "python-zero-learning-guide",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/00-Python零基础入门-学习路线与运行方式.md",
+      "old": {
+        "title": "Python 零基础入门 00：学习路线与运行方式",
+        "summary": "面向已经接触过前端 JavaScript、正在学习 Python 的读者，说明这套 Python 入门笔记怎么学、怎么运行代码，以及如何用 Python 和 JS 对照学习，避免两个语言概念混在一起。",
+        "sortOrder": 10,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-00：学习路线与运行方式.md"
+      },
+      "next": {
+        "title": "第 1 篇：Python 学习路线与运行方式：解释器、脚本、交互模式、VS Code",
+        "tags": [
+          "Python",
+          "学习路线与运行方式",
+          "解释器",
+          "脚本",
+          "交互模式"
+        ],
+        "sortOrder": 10,
+        "fileName": "后端技术/Python/知识目录/第 01 篇：Python 学习路线与运行方式：解释器、脚本、交互模式、VS Code.md",
+        "summary": "面向已经接触过前端 JavaScript、正在学习 Python 的读者，说明这套 Python 入门笔记怎么学、怎么运行代码，以及如何用 Python 和 JS 对照学习，避免两个语言概念混在一起。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917602e",
+      "originalSlug": "python-zero-what-is-python",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/01-Python零基础入门-Python是什么.md",
+      "old": {
+        "title": "Python 零基础入门 01：Python 是什么",
+        "summary": "用小白能理解的方式解释 Python 是什么、它能做什么、为什么适合入门，并把 Python 与前端 JavaScript 的定位、运行环境、输出方式和常见用途放在一起对比。",
+        "sortOrder": 20,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-01：Python-是什么.md"
+      },
+      "next": {
+        "title": "第 2 篇：Python 是什么：语言定位、解释器、应用场景、学习方法",
+        "tags": [
+          "Python",
+          "是什么",
+          "语言定位",
+          "解释器",
+          "应用场景"
+        ],
+        "sortOrder": 20,
+        "fileName": "后端技术/Python/知识目录/第 02 篇：Python 是什么：语言定位、解释器、应用场景、学习方法.md",
+        "summary": "用小白能理解的方式解释 Python 是什么、它能做什么、为什么适合入门，并把 Python 与前端 JavaScript 的定位、运行环境、输出方式和常见用途放在一起对比。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176032",
+      "originalSlug": "python-zero-install-and-run",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/02-Python零基础入门-安装检查与运行代码.md",
+      "old": {
+        "title": "Python 零基础入门 02：安装检查与运行代码",
+        "summary": "面向已有前端 JS 基础的学习者，讲清楚 Python 解释器、命令行、py 文件运行、PATH、VS Code 运行配置，并对照 Node.js、npm、浏览器控制台和前端项目运行方式。",
+        "sortOrder": 30,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-02：安装检查与运行代码.md"
+      },
+      "next": {
+        "title": "第 3 篇：Python 安装检查与运行代码：Python、pip、终端、文件运行",
+        "tags": [
+          "Python",
+          "安装检查与运行代码",
+          "pip",
+          "终端"
+        ],
+        "sortOrder": 30,
+        "fileName": "后端技术/Python/知识目录/第 03 篇：Python 安装检查与运行代码：Python、pip、终端、文件运行.md",
+        "summary": "面向已有前端 JS 基础的学习者，讲清楚 Python 解释器、命令行、py 文件运行、PATH、VS Code 运行配置，并对照 Node.js、npm、浏览器控制台和前端项目运行方式。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176036",
+      "originalSlug": "python-zero-print-and-comments",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/03-Python零基础入门-print输出与注释.md",
+      "old": {
+        "title": "Python 零基础入门 03：print 输出与注释",
+        "summary": "详细讲解 Python print 输出、多个值输出、换行控制、sep/end 参数、f-string 格式化，以及注释规范，并逐项对照 JavaScript 的 console.log、模板字符串和注释写法。",
+        "sortOrder": 40,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-03：print-输出与注释.md"
+      },
+      "next": {
+        "title": "第 4 篇：print 输出与注释：print、sep/end、注释、调试输出",
+        "tags": [
+          "Python",
+          "print",
+          "输出与注释",
+          "sep/end",
+          "注释"
+        ],
+        "sortOrder": 40,
+        "fileName": "后端技术/Python/知识目录/第 04 篇：print 输出与注释：print、sep 和 end、注释、调试输出.md",
+        "summary": "详细讲解 Python print 输出、多个值输出、换行控制、sep/end 参数、f-string 格式化，以及注释规范，并逐项对照 JavaScript 的 console.log、模板字符串和注释写法。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917603a",
+      "originalSlug": "python-zero-variables-and-types",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/04-Python零基础入门-变量和基本数据类型.md",
+      "old": {
+        "title": "Python 零基础入门 04：变量和基本数据类型",
+        "summary": "从最底层解释变量、赋值、命名规则、字符串、整数、小数、布尔值、None 和类型查看，并逐项对照 JavaScript 的 const/let、string、number、boolean、null、undefined 和 typeof。",
+        "sortOrder": 50,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-04：变量和基本数据类型.md"
+      },
+      "next": {
+        "title": "第 5 篇：变量和基本数据类型：命名、int、float、str、bool、None",
+        "tags": [
+          "Python",
+          "变量和基本数据类型",
+          "命名",
+          "int",
+          "float"
+        ],
+        "sortOrder": 50,
+        "fileName": "后端技术/Python/知识目录/第 05 篇：变量和基本数据类型：命名、int、float、str、bool、None.md",
+        "summary": "从最底层解释变量、赋值、命名规则、字符串、整数、小数、布尔值、None 和类型查看，并逐项对照 JavaScript 的 const/let、string、number、boolean、null、undefined 和 typeof。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917603e",
+      "originalSlug": "python-zero-string",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/05-Python零基础入门-字符串.md",
+      "old": {
+        "title": "Python 零基础入门 05：字符串",
+        "summary": "详细讲解 Python 字符串 str 的定义、引号、转义、多行字符串、长度、索引、切片、不可变、拼接、格式化、清洗、查找、替换、分割、合并，并全程对照 JavaScript 字符串。",
+        "sortOrder": 60,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-05：字符串.md"
+      },
+      "next": {
+        "title": "第 6 篇：字符串：索引切片、常用方法、格式化、f-string",
+        "tags": [
+          "Python",
+          "字符串",
+          "索引切片",
+          "常用方法",
+          "格式化"
+        ],
+        "sortOrder": 60,
+        "fileName": "后端技术/Python/知识目录/第 06 篇：字符串：索引切片、常用方法、格式化、f-string.md",
+        "summary": "详细讲解 Python 字符串 str 的定义、引号、转义、多行字符串、长度、索引、切片、不可变、拼接、格式化、清洗、查找、替换、分割、合并，并全程对照 JavaScript 字符串。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176042",
+      "originalSlug": "python-zero-numbers-and-operators",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/06-Python零基础入门-数字和简单计算.md",
+      "old": {
+        "title": "Python 零基础入门 06：数字和简单计算",
+        "summary": "介绍整数、小数、加减乘除、取余、整除、幂运算和赋值运算，帮助新手理解 Python 如何进行简单计算，全程对照 JavaScript。",
+        "sortOrder": 70,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-06：数字和简单计算.md"
+      },
+      "next": {
+        "title": "第 7 篇：数字和简单计算：整数浮点、运算符、优先级、round",
+        "tags": [
+          "Python",
+          "数字和简单计算",
+          "整数浮点",
+          "运算符",
+          "优先级"
+        ],
+        "sortOrder": 70,
+        "fileName": "后端技术/Python/知识目录/第 07 篇：数字和简单计算：整数浮点、运算符、优先级、round.md",
+        "summary": "介绍整数、小数、加减乘除、取余、整除、幂运算和赋值运算，帮助新手理解 Python 如何进行简单计算，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176046",
+      "originalSlug": "python-zero-input-and-convert",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/07-Python零基础入门-input输入和类型转换.md",
+      "old": {
+        "title": "Python 零基础入门 07：input 输入和类型转换",
+        "summary": "讲解 input 如何接收用户输入，为什么 input 得到的是字符串，以及如何使用 int、float、str 做类型转换，全程对照 JavaScript。",
+        "sortOrder": 80,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-07：input-输入和类型转换.md"
+      },
+      "next": {
+        "title": "第 8 篇：input 输入和类型转换：input、int、float、str、异常输入",
+        "tags": [
+          "Python",
+          "input",
+          "输入和类型转换",
+          "int",
+          "float"
+        ],
+        "sortOrder": 80,
+        "fileName": "后端技术/Python/知识目录/第 08 篇：input 输入和类型转换：input、int、float、str、异常输入.md",
+        "summary": "讲解 input 如何接收用户输入，为什么 input 得到的是字符串，以及如何使用 int、float、str 做类型转换，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917604a",
+      "originalSlug": "python-zero-if-else-match",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/08-Python零基础入门-条件判断if-else和match.md",
+      "old": {
+        "title": "Python 零基础入门 08：条件判断 if else 和 match",
+        "summary": "介绍条件判断的基本写法，讲解 if、elif、else、比较运算符、逻辑运算符、缩进规则、三元表达式、match 语句，全程对照 JavaScript。",
+        "sortOrder": 90,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-08：条件判断-if-else-和-match.md"
+      },
+      "next": {
+        "title": "第 9 篇：条件判断 if else 和 match：比较运算、逻辑运算、分支、模式匹配",
+        "tags": [
+          "Python",
+          "条件判断",
+          "if",
+          "比较运算",
+          "逻辑运算",
+          "分支"
+        ],
+        "sortOrder": 90,
+        "fileName": "后端技术/Python/知识目录/第 09 篇：条件判断 if else 和 match：比较运算、逻辑运算、分支、模式匹配.md",
+        "summary": "介绍条件判断的基本写法，讲解 if、elif、else、比较运算符、逻辑运算符、缩进规则、三元表达式、match 语句，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917604e",
+      "originalSlug": "python-zero-loops",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/09-Python零基础入门-循环for和while.md",
+      "old": {
+        "title": "Python 零基础入门 09：循环 for 和 while",
+        "summary": "介绍循环的意义，讲解 for、range、while、break、continue 的基础用法，全程对照 JavaScript。",
+        "sortOrder": 100,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-09：循环-for-和-while.md"
+      },
+      "next": {
+        "title": "第 10 篇：循环 for 和 while：range、break、continue、嵌套循环",
+        "tags": [
+          "Python",
+          "循环",
+          "for",
+          "range",
+          "break",
+          "continue"
+        ],
+        "sortOrder": 100,
+        "fileName": "后端技术/Python/知识目录/第 10 篇：循环 for 和 while：range、break、continue、嵌套循环.md",
+        "summary": "介绍循环的意义，讲解 for、range、while、break、continue 的基础用法，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176052",
+      "originalSlug": "python-zero-lists",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/10-Python零基础入门-列表list.md",
+      "old": {
+        "title": "Python 零基础入门 10：列表 list",
+        "summary": "讲解列表的概念、创建列表、读取元素、添加删除元素、切片、列表方法、列表推导式，全程对照 JavaScript 数组。",
+        "sortOrder": 110,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-10：列表-list.md"
+      },
+      "next": {
+        "title": "第 11 篇：列表 list：增删改查、切片、排序、列表推导式",
+        "tags": [
+          "Python",
+          "列表",
+          "list",
+          "增删改查",
+          "切片",
+          "排序"
+        ],
+        "sortOrder": 110,
+        "fileName": "后端技术/Python/知识目录/第 11 篇：列表 list：增删改查、切片、排序、列表推导式.md",
+        "summary": "讲解列表的概念、创建列表、读取元素、添加删除元素、切片、列表方法、列表推导式，全程对照 JavaScript 数组。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176056",
+      "originalSlug": "python-zero-tuples",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/11-Python零基础入门-元组tuple.md",
+      "old": {
+        "title": "Python 零基础入门 11：元组 tuple",
+        "summary": "讲解元组是什么、元组和列表的区别、元组的创建和操作、元组不可变意味着什么、元组解包、命名元组，全程对照 JavaScript 中的 const 数组与 Object.freeze。",
+        "sortOrder": 120,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-11：元组-tuple.md"
+      },
+      "next": {
+        "title": "第 12 篇：元组 tuple：不可变序列、解包、返回多个值",
+        "tags": [
+          "Python",
+          "元组",
+          "tuple",
+          "不可变序列",
+          "解包",
+          "返回多个值"
+        ],
+        "sortOrder": 120,
+        "fileName": "后端技术/Python/知识目录/第 12 篇：元组 tuple：不可变序列、解包、返回多个值.md",
+        "summary": "讲解元组是什么、元组和列表的区别、元组的创建和操作、元组不可变意味着什么、元组解包、命名元组，全程对照 JavaScript 中的 const 数组与 Object.freeze。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917605a",
+      "originalSlug": "python-zero-sets",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/12-Python零基础入门-集合set.md",
+      "old": {
+        "title": "Python 零基础入门 12：集合 set",
+        "summary": "讲解集合是什么、集合的创建、去重、交集并集差集运算、集合推导式、frozenset，全程对照 JavaScript 的 Set 对象。",
+        "sortOrder": 130,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-12：集合-set.md"
+      },
+      "next": {
+        "title": "第 13 篇：集合 set：去重、交集并集差集、成员判断",
+        "tags": [
+          "Python",
+          "集合",
+          "set",
+          "去重",
+          "交集并集差集",
+          "成员判断"
+        ],
+        "sortOrder": 130,
+        "fileName": "后端技术/Python/知识目录/第 13 篇：集合 set：去重、交集并集差集、成员判断.md",
+        "summary": "讲解集合是什么、集合的创建、去重、交集并集差集运算、集合推导式、frozenset，全程对照 JavaScript 的 Set 对象。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917605e",
+      "originalSlug": "python-zero-dictionaries",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/13-Python零基础入门-字典dict.md",
+      "old": {
+        "title": "Python 零基础入门 13：字典 dict",
+        "summary": "用个人信息示例解释字典的键值对结构，讲解读取、修改、添加、删除、循环字典以及字典和列表的组合，全程对照 JavaScript 对象。",
+        "sortOrder": 140,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-13：字典-dict.md"
+      },
+      "next": {
+        "title": "第 14 篇：字典 dict：键值对、遍历、嵌套、get/update",
+        "tags": [
+          "Python",
+          "字典",
+          "dict",
+          "键值对",
+          "遍历",
+          "嵌套"
+        ],
+        "sortOrder": 140,
+        "fileName": "后端技术/Python/知识目录/第 14 篇：字典 dict：键值对、遍历、嵌套、get 和 update.md",
+        "summary": "用个人信息示例解释字典的键值对结构，讲解读取、修改、添加、删除、循环字典以及字典和列表的组合，全程对照 JavaScript 对象。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176062",
+      "originalSlug": "python-zero-functions",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/14-Python零基础入门-函数function.md",
+      "old": {
+        "title": "Python 零基础入门 14：函数 function",
+        "summary": "解释函数为什么存在，讲解 def、参数、返回值、默认参数、关键字参数、作用域，全程对照 JavaScript。",
+        "sortOrder": 150,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-14：函数-function.md"
+      },
+      "next": {
+        "title": "第 15 篇：函数 function：参数、返回值、作用域、文档字符串",
+        "tags": [
+          "Python",
+          "函数",
+          "function",
+          "参数",
+          "返回值",
+          "作用域"
+        ],
+        "sortOrder": 150,
+        "fileName": "后端技术/Python/知识目录/第 15 篇：函数 function：参数、返回值、作用域、文档字符串.md",
+        "summary": "解释函数为什么存在，讲解 def、参数、返回值、默认参数、关键字参数、作用域，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176066",
+      "originalSlug": "python-zero-file-read-write",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/15-Python零基础入门-文件读写.md",
+      "old": {
+        "title": "Python 零基础入门 15：文件读写",
+        "summary": "介绍如何用 Python 读写文本与二进制文件、追加内容、读写 JSON、CSV，使用 with、pathlib、shutil、tempfile 管理文件与路径，处理编码与大文件，全程对照 JavaScript。",
+        "sortOrder": 160,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-15：文件读写.md"
+      },
+      "next": {
+        "title": "第 16 篇：文件读写：open、with、编码、路径、读写模式",
+        "tags": [
+          "Python",
+          "文件读写",
+          "open",
+          "with",
+          "编码"
+        ],
+        "sortOrder": 160,
+        "fileName": "后端技术/Python/知识目录/第 16 篇：文件读写：open、with、编码、路径、读写模式.md",
+        "summary": "介绍如何用 Python 读写文本与二进制文件、追加内容、读写 JSON、CSV，使用 with、pathlib、shutil、tempfile 管理文件与路径，处理编码与大文件，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917606a",
+      "originalSlug": "python-zero-mini-project-account-book",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/16-Python零基础入门-小练习记账本.md",
+      "old": {
+        "title": "Python 零基础入门 16：小练习记账本",
+        "summary": "用前面学过的变量、输入、类型转换、条件判断、循环、列表、字典和文件写入，完成一个适合零基础的新手记账本练习，全程对照 JavaScript。",
+        "sortOrder": 170,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-16：小练习记账本.md"
+      },
+      "next": {
+        "title": "第 17 篇：小练习记账本：数据结构、文件保存、增删查改",
+        "tags": [
+          "Python",
+          "小练习记账本",
+          "数据结构",
+          "文件保存",
+          "增删查改"
+        ],
+        "sortOrder": 170,
+        "fileName": "后端技术/Python/知识目录/第 17 篇：小练习记账本：数据结构、文件保存、增删查改.md",
+        "summary": "用前面学过的变量、输入、类型转换、条件判断、循环、列表、字典和文件写入，完成一个适合零基础的新手记账本练习，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917606e",
+      "originalSlug": "python-zero-exception-handling",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/17-Python零基础入门-异常处理try-except.md",
+      "old": {
+        "title": "Python 零基础入门 17：异常处理 try except",
+        "summary": "讲解程序为什么会报错，如何使用 try except 捕获异常，自定义异常类，异常链 raise from，断言 assert，异常层次结构，以及 logging 记录错误，全程对照 JavaScript。",
+        "sortOrder": 180,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-17：异常处理-try-except.md"
+      },
+      "next": {
+        "title": "第 18 篇：异常处理 try except：捕获异常、else/finally、自定义异常",
+        "tags": [
+          "Python",
+          "异常处理",
+          "try",
+          "捕获异常",
+          "else/finally",
+          "自定义异常"
+        ],
+        "sortOrder": 180,
+        "fileName": "后端技术/Python/知识目录/第 18 篇：异常处理 try except：捕获异常、else 和 finally、自定义异常.md",
+        "summary": "讲解程序为什么会报错，如何使用 try except 捕获异常，自定义异常类，异常链 raise from，断言 assert，异常层次结构，以及 logging 记录错误，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176072",
+      "originalSlug": "python-zero-modules-pip-venv",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/18-Python零基础入门-模块包pip和虚拟环境.md",
+      "old": {
+        "title": "Python 零基础入门 18：模块、包、pip 和虚拟环境",
+        "summary": "讲解模块和包是什么，如何 import，搜索路径与相对导入，模块缓存与循环导入，如何使用 pip 安装第三方库（版本指定与镜像源），为什么企业项目常用虚拟环境，以及 uv/poetry 等现代工具，全程对照 JavaScript。",
+        "sortOrder": 190,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-18：模块、包、pip-和虚拟环境.md"
+      },
+      "next": {
+        "title": "第 19 篇：模块、包、pip 和虚拟环境：import、venv、requirements、包管理",
+        "tags": [
+          "Python",
+          "模块",
+          "包",
+          "import",
+          "venv",
+          "requirements"
+        ],
+        "sortOrder": 190,
+        "fileName": "后端技术/Python/知识目录/第 19 篇：模块、包、pip 和虚拟环境：import、venv、requirements、包管理.md",
+        "summary": "讲解模块和包是什么，如何 import，搜索路径与相对导入，模块缓存与循环导入，如何使用 pip 安装第三方库（版本指定与镜像源），为什么企业项目常用虚拟环境，以及 uv/poetry 等现代工具，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176076",
+      "originalSlug": "python-zero-object-oriented-programming",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/19-Python零基础入门-面向对象class.md",
+      "old": {
+        "title": "Python 零基础入门 19：面向对象 class",
+        "summary": "用小白能理解的方式解释类、对象、属性、方法、self、构造方法、继承、多继承、property、dataclass 和组合，全程对照 JavaScript class。",
+        "sortOrder": 200,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-19：面向对象-class.md"
+      },
+      "next": {
+        "title": "第 20 篇：面向对象 class：类对象、属性方法、继承、封装",
+        "tags": [
+          "Python",
+          "面向对象",
+          "class",
+          "类对象",
+          "属性方法",
+          "继承"
+        ],
+        "sortOrder": 200,
+        "fileName": "后端技术/Python/知识目录/第 20 篇：面向对象 class：类对象、属性方法、继承、封装.md",
+        "summary": "用小白能理解的方式解释类、对象、属性、方法、self、构造方法、继承、多继承、property、dataclass 和组合，全程对照 JavaScript class。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917607a",
+      "originalSlug": "python-zero-standard-library",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/20-Python零基础入门-常用标准库.md",
+      "old": {
+        "title": "Python 零基础入门 20：常用标准库",
+        "summary": "介绍 datetime、pathlib、json、random、os、logging、csv 等常用标准库，通过贴近日常工作的例子说明，全程对照 JavaScript。",
+        "sortOrder": 210,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-20：常用标准库.md"
+      },
+      "next": {
+        "title": "第 21 篇：常用标准库：datetime、pathlib、json、random、os",
+        "tags": [
+          "Python",
+          "常用标准库",
+          "datetime",
+          "pathlib",
+          "json"
+        ],
+        "sortOrder": 210,
+        "fileName": "后端技术/Python/知识目录/第 21 篇：常用标准库：datetime、pathlib、json、random、os.md",
+        "summary": "介绍 datetime、pathlib、json、random、os、logging、csv 等常用标准库，通过贴近日常工作的例子说明，全程对照 JavaScript。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d2917607e",
+      "originalSlug": "python-zero-interview-and-project-review",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/21-Python零基础入门-面试复盘与项目表达.md",
+      "old": {
+        "title": "Python 零基础入门 21：面试复盘与项目表达",
+        "summary": "汇总 Python 基础面试高频问题，说明如何把记账本练习包装成项目表达，给出 Python vs JS 核心差异速查表，以及下一步学习路线。",
+        "sortOrder": 220,
+        "tags": [
+          "Python",
+          "零基础入门"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-21：面试复盘与项目表达.md"
+      },
+      "next": {
+        "title": "第 22 篇：面试复盘与项目表达：知识串联、项目讲解、简历表达",
+        "tags": [
+          "Python",
+          "面试复盘与项目表达",
+          "知识串联",
+          "项目讲解",
+          "简历表达"
+        ],
+        "sortOrder": 220,
+        "fileName": "后端技术/Python/知识目录/第 22 篇：面试复盘与项目表达：知识串联、项目讲解、简历表达.md",
+        "summary": "汇总 Python 基础面试高频问题，说明如何把记账本练习包装成项目表达，给出 Python vs JS 核心差异速查表，以及下一步学习路线。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a4304f9ac958d29176082",
+      "originalSlug": "python-zero-csv-module",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/22-Python零基础入门-csv模块.md",
+      "old": {
+        "title": "Python 零基础入门 22：csv 模块",
+        "summary": "面向零基础系统学习 Python 标准库 csv 模块，掌握 reader、writer、DictReader、DictWriter、newline、UTF-8、追加写入、分隔符、引号、Sniffer、字段 schema、校验、去重幂等、临时文件替换和爬虫结果保存模板。",
+        "sortOrder": 230,
+        "tags": [
+          "Python",
+          "零基础入门",
+          "CSV"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-22：csv-模块.md"
+      },
+      "next": {
+        "title": "第 23 篇：csv 模块：reader、DictReader、写入、编码",
+        "tags": [
+          "Python",
+          "csv",
+          "模块",
+          "reader",
+          "DictReader",
+          "写入"
+        ],
+        "sortOrder": 230,
+        "fileName": "后端技术/Python/知识目录/第 23 篇：csv 模块：reader、DictReader、写入、编码.md",
+        "summary": "面向零基础系统学习 Python 标准库 csv 模块，掌握 reader、writer、DictReader、DictWriter、newline、UTF-8、追加写入、分隔符、引号、Sniffer、字段 schema、校验、去重幂等、临时文件替换和爬虫结果保存模板。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d17e",
+      "originalSlug": "python-zero-logging-module",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/23-Python零基础入门-logging日志模块.md",
+      "old": {
+        "title": "Python 零基础入门 23：logging 日志模块",
+        "summary": "面向零基础系统学习 Python 标准库 logging，掌握日志级别、basicConfig、格式化、文件输出、异常记录、Logger、Handler、Formatter、日志轮转、多模块项目配置和常见问题排查。",
+        "sortOrder": 240,
+        "tags": [
+          "Python",
+          "零基础入门",
+          "logging",
+          "日志"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-23：logging-日志模块.md"
+      },
+      "next": {
+        "title": "第 24 篇：logging 日志模块：日志级别、格式化、文件输出、配置",
+        "tags": [
+          "Python",
+          "logging",
+          "日志模块",
+          "日志级别",
+          "格式化",
+          "文件输出"
+        ],
+        "sortOrder": 240,
+        "fileName": "后端技术/Python/知识目录/第 24 篇：logging 日志模块：日志级别、格式化、文件输出、配置.md",
+        "summary": "面向零基础系统学习 Python 标准库 logging，掌握日志级别、basicConfig、格式化、文件输出、异常记录、Logger、Handler、Formatter、日志轮转、多模块项目配置和常见问题排查。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d180",
+      "originalSlug": "python-zero-iterable-iterator-generator",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/24-Python零基础入门-可迭代对象迭代器与生成器.md",
+      "old": {
+        "title": "Python 零基础入门 24：可迭代对象、迭代器与生成器",
+        "summary": "从 for 循环的执行机制出发，系统讲解可迭代对象、迭代器、iter、next、StopIteration、生成器函数、yield、生成器表达式、惰性计算和只能消费一次等核心概念。",
+        "sortOrder": 250,
+        "tags": [
+          "Python",
+          "零基础入门",
+          "迭代器",
+          "生成器"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-24：可迭代对象、迭代器与生成器.md"
+      },
+      "next": {
+        "title": "第 25 篇：可迭代对象、迭代器与生成器：iter、next、yield、惰性计算",
+        "tags": [
+          "Python",
+          "可迭代对象",
+          "迭代器与生成器",
+          "iter",
+          "next",
+          "yield"
+        ],
+        "sortOrder": 250,
+        "fileName": "后端技术/Python/知识目录/第 25 篇：可迭代对象、迭代器与生成器：iter、next、yield、惰性计算.md",
+        "summary": "从 for 循环的执行机制出发，系统讲解可迭代对象、迭代器、iter、next、StopIteration、生成器函数、yield、生成器表达式、惰性计算和只能消费一次等核心概念。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d182",
+      "originalSlug": "python-zero-advanced-functions-closures-decorators",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/25-Python零基础入门-函数进阶闭包与装饰器.md",
+      "old": {
+        "title": "Python 零基础入门 25：函数进阶、闭包与装饰器",
+        "summary": "补齐 Python 函数的高频工程知识，讲解参数绑定、可变默认参数、LEGB 作用域、nonlocal、闭包、函数作为对象、装饰器、functools.wraps、带参数装饰器和递归边界。",
+        "sortOrder": 260,
+        "tags": [
+          "Python",
+          "零基础入门",
+          "函数",
+          "装饰器"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-25：函数进阶、闭包与装饰器.md"
+      },
+      "next": {
+        "title": "第 26 篇：函数进阶、闭包与装饰器：高阶函数、闭包、装饰器、参数透传",
+        "tags": [
+          "Python",
+          "函数进阶",
+          "闭包与装饰器",
+          "高阶函数",
+          "闭包",
+          "装饰器"
+        ],
+        "sortOrder": 260,
+        "fileName": "后端技术/Python/知识目录/第 26 篇：函数进阶、闭包与装饰器：高阶函数、闭包、装饰器、参数透传.md",
+        "summary": "补齐 Python 函数的高频工程知识，讲解参数绑定、可变默认参数、LEGB 作用域、nonlocal、闭包、函数作为对象、装饰器、functools.wraps、带参数装饰器和递归边界。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d184",
+      "originalSlug": "python-zero-unicode-str-bytes",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/26-Python零基础入门-Unicode-str与bytes.md",
+      "old": {
+        "title": "Python 零基础入门 26：Unicode、str 与 bytes",
+        "summary": "从字符与字节的区别出发，系统讲解 Unicode、UTF-8、str、bytes、encode、decode、文本与二进制文件、BOM、utf-8-sig、常见乱码成因及系统边界上的编码处理。",
+        "sortOrder": 270,
+        "tags": [
+          "Python",
+          "零基础入门",
+          "Unicode",
+          "编码"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-26：Unicode、str-与-bytes.md"
+      },
+      "next": {
+        "title": "第 27 篇：Unicode、str 与 bytes：编码解码、UTF-8、文件编码",
+        "tags": [
+          "Python",
+          "Unicode",
+          "str",
+          "编码解码",
+          "UTF-8",
+          "文件编码"
+        ],
+        "sortOrder": 270,
+        "fileName": "后端技术/Python/知识目录/第 27 篇：Unicode、str 与 bytes：编码解码、UTF-8、文件编码.md",
+        "summary": "从字符与字节的区别出发，系统讲解 Unicode、UTF-8、str、bytes、encode、decode、文本与二进制文件、BOM、utf-8-sig、常见乱码成因及系统边界上的编码处理。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d186",
+      "originalSlug": "python-zero-pytest-debugging-code-quality",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/27-Python零基础入门-pytest测试调试与代码质量.md",
+      "old": {
+        "title": "Python 零基础入门 27：pytest 测试、调试与代码质量",
+        "summary": "建立最小可用的 Python 工程验证流程，讲解 pytest 安装与运行、测试结构、异常断言、参数化、临时目录、fixture、traceback、breakpoint、日志调试和 Ruff 代码检查。",
+        "sortOrder": 280,
+        "tags": [
+          "Python",
+          "零基础入门",
+          "pytest",
+          "调试"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-27：pytest-测试、调试与代码质量.md"
+      },
+      "next": {
+        "title": "第 28 篇：pytest 测试、调试与代码质量：断言、fixture、pdb、格式化",
+        "tags": [
+          "Python",
+          "pytest",
+          "测试",
+          "断言",
+          "fixture",
+          "pdb"
+        ],
+        "sortOrder": 280,
+        "fileName": "后端技术/Python/知识目录/第 28 篇：pytest 测试、调试与代码质量：断言、fixture、pdb、格式化.md",
+        "summary": "建立最小可用的 Python 工程验证流程，讲解 pytest 安装与运行、测试结构、异常断言、参数化、临时目录、fixture、traceback、breakpoint、日志调试和 Ruff 代码检查。"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a6b57a2fca6347974f5d188",
+      "originalSlug": "python-zero-regex-argparse-secrets-zoneinfo",
+      "categoryPath": [
+        "后端技术",
+        "Python",
+        "知识目录"
+      ],
+      "sourcePath": "Python/01-知识目录/28-Python零基础入门-正则命令行安全随机数与时区.md",
+      "old": {
+        "title": "Python 零基础入门 28：正则、命令行参数、安全随机数与时区",
+        "summary": "系统讲解常用标准库 re、argparse、secrets、datetime 与 zoneinfo，掌握文本匹配替换、正式命令行参数、安全令牌、时区感知时间及 UTC 存储原则。",
+        "sortOrder": 290,
+        "tags": [
+          "Python",
+          "零基础入门",
+          "标准库",
+          "安全"
+        ],
+        "fileName": "后端技术/Python/知识目录/Python-零基础入门-28：正则、命令行参数、安全随机数与时区.md"
+      },
+      "next": {
+        "title": "第 29 篇：正则、命令行参数、安全随机数与时区：re、argparse、secrets、zoneinfo",
+        "tags": [
+          "Python",
+          "正则",
+          "命令行参数",
+          "re",
+          "argparse",
+          "secrets"
+        ],
+        "sortOrder": 290,
+        "fileName": "后端技术/Python/知识目录/第 29 篇：正则、命令行参数、安全随机数与时区：re、argparse、secrets、zoneinfo.md",
+        "summary": "系统讲解常用标准库 re、argparse、secrets、datetime 与 zoneinfo，掌握文本匹配替换、正式命令行参数、安全令牌、时区感知时间及 UTC 存储原则。"
+      },
+      "h1Updated": true
+    }
+  ]
+}

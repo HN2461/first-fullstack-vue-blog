@@ -1,0 +1,237 @@
+{
+  "generatedAt": "2026-07-31T09:01:16.015Z",
+  "scope": "output/线上文章/后端技术/Node.js",
+  "changedCount": 6,
+  "changes": [
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1ba",
+      "originalSlug": "node-js-node-js-buffer-52d2c595",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "sourcePath": "Node.js/第一篇_Node.js入门与Buffer_2026-04.md",
+      "old": {
+        "title": "第一篇：Node.js 入门与 Buffer",
+        "summary": "从前端视角深入理解 Node.js 的架构原理、事件循环机制、全局对象体系，以及 Buffer 二进制数据处理的完整用法，配合官方文档深度解析。",
+        "sortOrder": 10,
+        "tags": [
+          "Node.js",
+          "Buffer",
+          "后端开发",
+          "运行环境",
+          "全局对象",
+          "事件循环",
+          "libuv"
+        ],
+        "fileName": "后端技术/Node.js/第一篇：Node.js-入门与-Buffer.md"
+      },
+      "next": {
+        "title": "第 1 篇：Node.js 入门与 Buffer：运行环境、事件循环、全局对象、二进制数据",
+        "summary": "Node.js 入门基础，覆盖运行环境定位、架构原理、事件循环、全局对象体系和 Buffer 二进制数据处理。",
+        "tags": [
+          "Node.js",
+          "Buffer",
+          "运行环境",
+          "事件循环",
+          "全局对象",
+          "二进制数据"
+        ],
+        "sortOrder": 10,
+        "fileName": "后端技术/Node.js/第 01 篇：Node.js 入门与 Buffer：运行环境、事件循环、全局对象、二进制数据.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1d0",
+      "originalSlug": "node-js-fs-path-e956bb19",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "sourcePath": "Node.js/第二篇_fs模块与path模块_2026-04.md",
+      "old": {
+        "title": "第二篇：fs 模块与 path 模块",
+        "summary": "深入掌握 Node.js 文件系统模块（fs）的同步/异步/Promise 三种写法，以及 path 模块的跨平台路径处理，是后端开发的必备基础。",
+        "sortOrder": 20,
+        "tags": [
+          "Node.js",
+          "fs模块",
+          "path模块",
+          "文件操作",
+          "流式处理"
+        ],
+        "fileName": "后端技术/Node.js/第二篇：fs-模块与-path-模块.md"
+      },
+      "next": {
+        "title": "第 2 篇：fs 与 path 模块：文件读写、目录操作、流式处理、跨平台路径",
+        "summary": "Node.js 文件与路径处理基础，覆盖 fs 同步、异步、Promise 写法，目录操作、流式处理和 path 跨平台路径处理。",
+        "tags": [
+          "Node.js",
+          "fs",
+          "path",
+          "文件读写",
+          "目录操作",
+          "流式处理"
+        ],
+        "sortOrder": 20,
+        "fileName": "后端技术/Node.js/第 02 篇：fs 与 path 模块：文件读写、目录操作、流式处理、跨平台路径.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1c6",
+      "originalSlug": "node-js-http-http-41474b0d",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "sourcePath": "Node.js/第三篇_HTTP协议与http模块_2026-04.md",
+      "old": {
+        "title": "第三篇：HTTP 协议与 http 模块",
+        "summary": "理解 HTTP 协议的请求响应结构、常见状态码、GET 与 POST 的区别，并用 Node.js 原生 http 模块从零搭建 Web 服务器。",
+        "sortOrder": 30,
+        "tags": [
+          "Node.js",
+          "HTTP协议",
+          "http模块",
+          "Web服务器",
+          "GET请求",
+          "POST请求"
+        ],
+        "fileName": "后端技术/Node.js/第三篇：HTTP-协议与-http-模块.md"
+      },
+      "next": {
+        "title": "第 3 篇：HTTP 协议与 http 模块：请求响应、状态码、GET/POST、原生服务器",
+        "summary": "Node.js 原生 HTTP 入门，讲清 HTTP 请求响应结构、常见状态码、GET/POST 参数处理和 http 模块搭建服务器。",
+        "tags": [
+          "Node.js",
+          "HTTP",
+          "http模块",
+          "请求响应",
+          "状态码",
+          "Web服务器"
+        ],
+        "sortOrder": 30,
+        "fileName": "后端技术/Node.js/第 03 篇：HTTP 协议与 http 模块：请求响应、状态码、GET、POST、原生服务器.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1f2",
+      "originalSlug": "node-js-5de6ee42",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "sourcePath": "Node.js/第四篇_模块化系统详解_2026-04.md",
+      "old": {
+        "title": "第四篇：Node.js 模块化系统详解",
+        "summary": "深入理解 Node.js 的 CommonJS 模块规范，掌握 require/module.exports/exports 的工作原理，以及 ES6 模块化的 import/export 用法与两者的区别。",
+        "sortOrder": 40,
+        "tags": [
+          "Node.js",
+          "CommonJS",
+          "ES6模块",
+          "require",
+          "import",
+          "模块化"
+        ],
+        "fileName": "后端技术/Node.js/第四篇：Node.js-模块化系统详解.md"
+      },
+      "next": {
+        "title": "第 4 篇：Node.js 模块化系统：CommonJS、require、module.exports、ESM",
+        "summary": "Node.js 模块化系统详解，覆盖 CommonJS、require 加载机制、module.exports 与 exports 区别、ESM import/export 和两种规范差异。",
+        "tags": [
+          "Node.js",
+          "CommonJS",
+          "require",
+          "module.exports",
+          "ESM",
+          "模块化"
+        ],
+        "sortOrder": 40,
+        "fileName": "后端技术/Node.js/第 04 篇：Node.js 模块化系统：CommonJS、require、module.exports、ESM.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1da",
+      "originalSlug": "node-js-npm-nvm-0ada380c",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "sourcePath": "Node.js/第五篇_npm包管理与nvm版本管理_2026-04.md",
+      "old": {
+        "title": "第五篇：npm 包管理与 nvm 版本管理",
+        "summary": "掌握 npm 核心命令、package.json 各字段含义、semver 版本规则、本地与全局包的区别，以及用 nvm 管理多个 Node.js 版本。",
+        "sortOrder": 50,
+        "tags": [
+          "Node.js",
+          "npm",
+          "nvm",
+          "package.json",
+          "包管理",
+          "版本管理"
+        ],
+        "fileName": "后端技术/Node.js/第五篇：npm-包管理与-nvm-版本管理.md"
+      },
+      "next": {
+        "title": "第 5 篇：npm 包管理与 nvm 版本管理：package.json、semver、本地全局包、Node 版本",
+        "summary": "Node.js 包与版本管理基础，覆盖 npm 核心命令、package.json 字段、semver 版本规则、本地包与全局包、nvm 多版本管理。",
+        "tags": [
+          "Node.js",
+          "npm",
+          "nvm",
+          "package.json",
+          "semver",
+          "版本管理"
+        ],
+        "sortOrder": 50,
+        "fileName": "后端技术/Node.js/第 05 篇：npm 包管理与 nvm 版本管理：package.json、semver、本地全局包、Node 版本.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac1e6",
+      "originalSlug": "node-js-express-ba1a095d",
+      "categoryPath": [
+        "后端技术",
+        "Node.js"
+      ],
+      "sourcePath": "Node.js/第六篇_Express框架全解_2026-04.md",
+      "old": {
+        "title": "第六篇：Express 框架全解",
+        "summary": "深入掌握 Express 框架的路由系统、中间件机制、静态资源服务、ejs 模板引擎，以及 Express 5 新特性、错误处理最佳实践和生产级项目结构。",
+        "sortOrder": 60,
+        "tags": [
+          "Node.js",
+          "Express",
+          "Express5",
+          "路由",
+          "中间件",
+          "ejs",
+          "静态资源",
+          "错误处理"
+        ],
+        "fileName": "后端技术/Node.js/第六篇：Express-框架全解.md"
+      },
+      "next": {
+        "title": "第 6 篇：Express 框架全解：路由、中间件、静态资源、模板、错误处理",
+        "summary": "Express 框架系统笔记，覆盖路由系统、中间件机制、静态资源服务、ejs 模板、Express 5、错误处理和生产项目结构。",
+        "tags": [
+          "Node.js",
+          "Express",
+          "路由",
+          "中间件",
+          "静态资源",
+          "错误处理"
+        ],
+        "sortOrder": 60,
+        "fileName": "后端技术/Node.js/第 06 篇：Express 框架全解：路由、中间件、静态资源、模板、错误处理.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}
