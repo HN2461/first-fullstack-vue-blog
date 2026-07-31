@@ -1,24 +1,23 @@
 ---
-title: "WebSocket 跨运行时适配实战：uni-app 与 PC Vue 共用核心层"
+title: "第 9 篇：WebSocket 跨运行时适配：uni-app、PC Vue、runtime adapter、服务挂载"
 slug: "websocket-websocket-uni-app-pcvue-dc468cc2"
-summary: "这是 WebSocket 专题的第 8 篇，专门讲核心层为什么可以跨端复用，以及如何把最底层 socket adapter 和服务挂载方式分别适配到 uni-app 与 PC Vue。"
+summary: "WebSocket 跨运行时适配实战，讲清核心层如何复用，以及 socket adapter 和服务挂载方式如何分别适配 uni-app 与 PC Vue。"
 category: "WebSocket"
 tags:
   - "WebSocket"
-  - "STOMP"
   - "uni-app"
   - "Vue"
   - "运行时适配"
   - "Adapter"
 status: "draft"
-sortOrder: 100
+sortOrder: 90
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac736"
 originalSlug: "websocket-websocket-uni-app-pcvue-dc468cc2"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# WebSocket 跨运行时适配实战：uni-app 与 PC Vue 共用核心层
+# 第 9 篇：WebSocket 跨运行时适配：uni-app、PC Vue、runtime adapter、服务挂载
 
 > 这是 `项目复用技术 / WebSocket` 专题的第 8 篇。  
 > 这一篇专门回答一个很关键的问题：

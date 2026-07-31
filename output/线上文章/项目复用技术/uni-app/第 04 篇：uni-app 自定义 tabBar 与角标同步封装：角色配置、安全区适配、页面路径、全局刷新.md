@@ -1,7 +1,7 @@
 ---
-title: "uni-app 自定义 tabBar 与角标同步封装实战：角色配置、安全区适配与全局刷新"
+title: "第 4 篇：uni-app 自定义 tabBar 与角标同步封装：角色配置、安全区适配、页面路径、全局刷新"
 slug: "uni-app-uni-app-tabbar-a0f11cca"
-summary: "系统梳理 uni-app 里 tabBar 为什么容易越写越散，以及如何把角色化 tabBar 配置、角标同步、安全区适配、页面路径归一化和全局刷新机制整理成一套可直接复制使用的方案。"
+summary: "uni-app 自定义 tabBar 与角标同步封装实战，覆盖角色化配置、角标同步、安全区适配、页面路径归一化和全局刷新机制。"
 category: "uni-app"
 tags:
   - "uni-app"
@@ -9,16 +9,15 @@ tags:
   - "角标"
   - "安全区"
   - "全局状态"
-  - "工具封装"
 status: "draft"
-sortOrder: 20
+sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f4"
 originalSlug: "uni-app-uni-app-tabbar-a0f11cca"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 自定义 tabBar 与角标同步封装实战：角色配置、安全区适配与全局刷新
+# 第 4 篇：uni-app 自定义 tabBar 与角标同步封装：角色配置、安全区适配、页面路径、全局刷新
 
 > 这是 `项目复用技术 / uni-app` 目录下的第 4 篇。  
 > 这一篇不讲某一个来源工具文件，也不讲某个具体 tabBar 页面，而是直接把这组能力整理成一套通用手册：

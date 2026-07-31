@@ -1,24 +1,23 @@
 ---
-title: "WebSocket 接入检查清单：从协议确认到页面联调"
+title: "第 8 篇：WebSocket 接入检查清单：协议确认、STOMP 联调、连接重连、页面验收"
 slug: "websocket-websocket-de1a1d83"
-summary: "这是 WebSocket 专题的第 7 篇，用清单方式整理从后端协议确认、目录搭建、STOMP 帧联调、连接重连、消息解析、页面接入到验收的完整落地步骤，适合作为新项目接入 WebSocket 时的执行手册。"
+summary: "WebSocket 新项目接入检查清单，覆盖后端协议确认、目录搭建、STOMP 帧联调、连接重连、消息解析、页面接入和验收步骤。"
 category: "WebSocket"
 tags:
   - "WebSocket"
   - "STOMP"
   - "接入清单"
   - "联调"
-  - "实时消息"
-  - "Vue"
+  - "页面验收"
 status: "draft"
-sortOrder: 60
+sortOrder: 80
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac732"
 originalSlug: "websocket-websocket-de1a1d83"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# WebSocket 接入检查清单：从协议确认到页面联调
+# 第 8 篇：WebSocket 接入检查清单：协议确认、STOMP 联调、连接重连、页面验收
 
 > 这是 `项目复用技术 / WebSocket` 专题的第 7 篇。  
 > 前面 6 篇分别讲了总览、STOMP 帧、客户端、连接管理、消息解析与适配器。  

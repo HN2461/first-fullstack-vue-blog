@@ -1,24 +1,23 @@
 ---
-title: "uni-app 语音输入与语音转文字封装实战：按住说话、上滑取消、H5 兼容与自动发送"
+title: "第 2 篇：uni-app 语音输入与语音转文字封装：按住说话、上滑取消、H5 兼容、自动发送"
 slug: "uni-app-uni-app-h5-67daf64f"
-summary: "系统梳理 uni-app 中语音输入功能为什么容易写乱，以及如何把录音、权限、H5 兼容、语音转文字接口、自动发送和交互状态拆成可直接复制使用的模板。"
+summary: "uni-app 语音输入与语音转文字封装实战，覆盖录音权限、H5 兼容、语音转文字接口、自动发送和交互状态拆分。"
 category: "uni-app"
 tags:
   - "uni-app"
-  - "微信小程序"
   - "语音输入"
-  - "录音"
   - "语音转文字"
+  - "录音权限"
   - "H5"
 status: "draft"
-sortOrder: 40
+sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6e0"
 originalSlug: "uni-app-uni-app-h5-67daf64f"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 语音输入与语音转文字封装实战：按住说话、上滑取消、H5 兼容与自动发送
+# 第 2 篇：uni-app 语音输入与语音转文字封装：按住说话、上滑取消、H5 兼容、自动发送
 
 > 这是 `项目复用技术 / uni-app` 目录下的第 2 篇。  
 > 这一篇专门讲 `语音输入` 这件事，不是只讲“怎么录音”，而是讲一条完整的可复用链路：

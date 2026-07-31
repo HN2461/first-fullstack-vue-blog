@@ -1,23 +1,23 @@
 ---
-title: "CryptoJS前端加密库实战说明：参数签名、摘要与AES处理"
+title: "第 5 篇：CryptoJS 前端加密库实战：MD5、SHA256、HMAC、AES、参数签名"
 slug: "js-cryptojs-aes-81b77601"
-summary: "围绕 CryptoJS 这类前端常见加密处理库，整理它适合解决什么问题、MD5、SHA256、HMAC、AES 在项目里分别常见于哪些场景、前端加密最容易出现的误区，以及为什么现在要同时关注原生 Web Crypto。"
+summary: "CryptoJS 前端加密库实战，梳理 MD5、SHA256、HMAC、AES、参数签名、摘要处理、前端加密误区和 Web Crypto 取舍。"
 category: "JS库"
 tags:
   - "JavaScript"
-  - "JS库"
   - "CryptoJS"
   - "前端安全"
   - "参数签名"
+  - "AES"
 status: "draft"
-sortOrder: 10
+sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ce"
 originalSlug: "js-cryptojs-aes-81b77601"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# CryptoJS前端加密库实战说明：参数签名、摘要与AES处理
+# 第 5 篇：CryptoJS 前端加密库实战：MD5、SHA256、HMAC、AES、参数签名
 
 ## 先说它到底是什么
 

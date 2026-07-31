@@ -1,23 +1,23 @@
 ---
-title: "qrcode二维码生成库实战说明：登录码、分享码与Vue接入"
+title: "第 4 篇：qrcode 二维码生成库实战：登录码、分享码、toCanvas、toDataURL、Vue 接入"
 slug: "js-qrcode-vue-ff5f7ac7"
-summary: "围绕 qrcode 这类前端常用二维码生成库，整理它适合解决什么问题、为什么项目里常直接借成熟库、toCanvas 与 toDataURL 怎么选、在 Vue 项目里怎么接，以及登录码、分享码、下载码等场景下最常见的注意事项。"
+summary: "qrcode 二维码生成库实战，覆盖登录码、分享码、下载码、toCanvas 与 toDataURL 选择、Vue 接入和常见注意事项。"
 category: "JS库"
 tags:
   - "JavaScript"
-  - "JS库"
   - "qrcode"
-  - "Vue"
   - "二维码"
+  - "Vue"
+  - "toCanvas"
 status: "draft"
-sortOrder: 20
+sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6c8"
 originalSlug: "js-qrcode-vue-ff5f7ac7"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# qrcode二维码生成库实战说明：登录码、分享码与Vue接入
+# 第 4 篇：qrcode 二维码生成库实战：登录码、分享码、toCanvas、toDataURL、Vue 接入
 
 ## 先说它到底是什么
 

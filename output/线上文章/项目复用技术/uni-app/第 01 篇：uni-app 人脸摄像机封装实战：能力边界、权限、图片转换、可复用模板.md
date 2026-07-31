@@ -1,24 +1,23 @@
 ---
-title: "uni-app 人脸摄像机封装实战：从能力边界到可复用模板"
+title: "第 1 篇：uni-app 人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板"
 slug: "uni-app-uni-app-b0f67933"
-summary: "从 uni-app 和微信小程序的人脸识别能力边界讲起，系统梳理相机、权限、图片转换、识别流程与业务适配该如何拆分，并给出可直接复制使用的目录结构、工具函数、页面模板、接入顺序与排障方法。"
+summary: "uni-app 人脸摄像机封装实战，从能力边界、相机权限、图片转换、识别流程和业务适配拆分可复用模板。"
 category: "uni-app"
 tags:
   - "uni-app"
   - "微信小程序"
   - "人脸识别"
   - "摄像头"
-  - "组合式函数"
-  - "工程化"
+  - "权限"
 status: "draft"
-sortOrder: 50
+sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6d6"
 originalSlug: "uni-app-uni-app-b0f67933"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 人脸摄像机封装实战：从能力边界到可复用模板
+# 第 1 篇：uni-app 人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板
 
 > 这是 `项目复用技术 / uni-app` 目录下的第 1 篇。  
 > 这类文章默认按“脱离业务背景、看完能直接用”的方式来写。  

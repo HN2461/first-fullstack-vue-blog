@@ -1,7 +1,7 @@
 ---
-title: "前端代码混淆接入实施记录"
+title: "第 1 篇：前端代码混淆接入实施记录：webpack-obfuscator、Vue CLI、Webpack 5、验证脚本"
 slug: "legacy-1d8222c8-1d8222c8"
-summary: "基于 Vue 3 + Vue CLI 5 + Webpack 5 项目的前端代码混淆完整接入指南，涵盖 webpack-obfuscator 工作原理、踩坑记录、多框架适配方案及验证脚本。"
+summary: "前端代码混淆接入实施记录，基于 Vue 3 + Vue CLI 5 + Webpack 5，覆盖 webpack-obfuscator 原理、配置、踩坑、多框架适配和验证脚本。"
 category: "前端工程化与安全"
 tags:
   - "前端安全"
@@ -17,7 +17,7 @@ originalSlug: "legacy-1d8222c8-1d8222c8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端代码混淆接入完全指南
+# 第 1 篇：前端代码混淆接入实施记录：webpack-obfuscator、Vue CLI、Webpack 5、验证脚本
 
 > 项目：智慧校园 PC 端（Vue 3 + Vue CLI 5 + Webpack 5）
 > 完成时间：2026-04-20

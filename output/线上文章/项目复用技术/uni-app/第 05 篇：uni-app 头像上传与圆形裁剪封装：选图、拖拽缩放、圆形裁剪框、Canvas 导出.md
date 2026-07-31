@@ -1,23 +1,23 @@
 ---
-title: "uni-app 头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas 导出一次讲透"
+title: "第 5 篇：uni-app 头像上传与圆形裁剪封装：选图、拖拽缩放、圆形裁剪框、Canvas 导出"
 slug: "uni-app-uni-app-canvas-7159e2f3"
-summary: "从头像上传这条高频链路出发，系统整理 uni-app 中选图、进入裁剪页、单指拖拽、双指缩放、圆形裁剪框、Canvas 导出与上传回填的可复用封装方案。"
+summary: "uni-app 头像上传与圆形裁剪封装实战，覆盖选图、裁剪页、单指拖拽、双指缩放、圆形裁剪框、Canvas 导出和上传回填。"
 category: "uni-app"
 tags:
   - "uni-app"
   - "头像上传"
   - "图片裁剪"
   - "Canvas"
-  - "微信小程序"
+  - "拖拽缩放"
 status: "draft"
-sortOrder: 10
+sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f8"
 originalSlug: "uni-app-uni-app-canvas-7159e2f3"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas 导出一次讲透
+# 第 5 篇：uni-app 头像上传与圆形裁剪封装：选图、拖拽缩放、圆形裁剪框、Canvas 导出
 
 > 这是 `项目复用技术 / uni-app` 目录下的第 5 篇。  
 > 这一篇专门解决一个几乎每个校园、小程序、会员中心、个人资料页都会碰到的问题：

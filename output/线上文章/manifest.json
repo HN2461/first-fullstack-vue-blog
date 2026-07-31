@@ -10171,7 +10171,7 @@
       "originalId": "6a2d29208a2b1c68f2cac75a",
       "originalSlug": "legacy-1d8222c8-1d8222c8",
       "exportedSlug": "legacy-1d8222c8-1d8222c8",
-      "title": "前端代码混淆接入实施记录",
+      "title": "第 1 篇：前端代码混淆接入实施记录：webpack-obfuscator、Vue CLI、Webpack 5、验证脚本",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10189,16 +10189,16 @@
       "sourcePath": "项目复用技术/前端工程化与安全/前端代码混淆接入实施记录.md",
       "publishedAt": "2026-04-20T13:38:03.261Z",
       "updatedAt": "2026-06-17T12:48:38.649Z",
-      "fileName": "项目复用技术/前端工程化与安全/前端代码混淆接入实施记录.md",
-      "summary": "基于 Vue 3 + Vue CLI 5 + Webpack 5 项目的前端代码混淆完整接入指南，涵盖 webpack-obfuscator 工作原理、踩坑记录、多框架适配方案及验证脚本。",
+      "fileName": "项目复用技术/前端工程化与安全/第 01 篇：前端代码混淆接入实施记录：webpack-obfuscator、Vue CLI、Webpack 5、验证脚本.md",
+      "summary": "前端代码混淆接入实施记录，基于 Vue 3 + Vue CLI 5 + Webpack 5，覆盖 webpack-obfuscator 原理、配置、踩坑、多框架适配和验证脚本。",
       "cover": "",
-      "contentHash": "6c2afe4ad58a68c7e00dc71be59a5654d72c52f13379da5713c07c44c8fae6a9"
+      "contentHash": "bd636afb827d3cd099ba4e41b712857e4712cec92794b978795caf07de69e6ea"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6ce",
       "originalSlug": "js-cryptojs-aes-81b77601",
       "exportedSlug": "js-cryptojs-aes-81b77601",
-      "title": "CryptoJS前端加密库实战说明：参数签名、摘要与AES处理",
+      "title": "第 5 篇：CryptoJS 前端加密库实战：MD5、SHA256、HMAC、AES、参数签名",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10207,25 +10207,25 @@
       ],
       "tags": [
         "JavaScript",
-        "JS库",
         "CryptoJS",
         "前端安全",
-        "参数签名"
+        "参数签名",
+        "AES"
       ],
-      "sortOrder": 10,
+      "sortOrder": 50,
       "sourcePath": "项目复用技术/JS库/05-CryptoJS前端加密库实战说明_参数签名摘要与AES处理.md",
       "publishedAt": "2026-05-21T13:28:44.993Z",
       "updatedAt": "2026-06-13T10:28:29.931Z",
-      "fileName": "项目复用技术/JS库/CryptoJS前端加密库实战说明：参数签名、摘要与AES处理.md",
-      "summary": "围绕 CryptoJS 这类前端常见加密处理库，整理它适合解决什么问题、MD5、SHA256、HMAC、AES 在项目里分别常见于哪些场景、前端加密最容易出现的误区，以及为什么现在要同时关注原生 Web Crypto。",
+      "fileName": "项目复用技术/JS库/第 05 篇：CryptoJS 前端加密库实战：MD5、SHA256、HMAC、AES、参数签名.md",
+      "summary": "CryptoJS 前端加密库实战，梳理 MD5、SHA256、HMAC、AES、参数签名、摘要处理、前端加密误区和 Web Crypto 取舍。",
       "cover": "",
-      "contentHash": "d576273309aed0ef4fad84360e4d1ce3093061365bc390b81f630cc01a612d5f"
+      "contentHash": "3885acfcc3ef984a11fbac738cf152b7b2eb4f5f80f155a074d389790084bd9b"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6c8",
       "originalSlug": "js-qrcode-vue-ff5f7ac7",
       "exportedSlug": "js-qrcode-vue-ff5f7ac7",
-      "title": "qrcode二维码生成库实战说明：登录码、分享码与Vue接入",
+      "title": "第 4 篇：qrcode 二维码生成库实战：登录码、分享码、toCanvas、toDataURL、Vue 接入",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10234,25 +10234,25 @@
       ],
       "tags": [
         "JavaScript",
-        "JS库",
         "qrcode",
+        "二维码",
         "Vue",
-        "二维码"
+        "toCanvas"
       ],
-      "sortOrder": 20,
+      "sortOrder": 40,
       "sourcePath": "项目复用技术/JS库/04-qrcode二维码生成库实战说明_登录码分享码与Vue接入.md",
       "publishedAt": "2026-05-21T13:25:34.886Z",
       "updatedAt": "2026-06-13T10:28:29.916Z",
-      "fileName": "项目复用技术/JS库/qrcode二维码生成库实战说明：登录码、分享码与Vue接入.md",
-      "summary": "围绕 qrcode 这类前端常用二维码生成库，整理它适合解决什么问题、为什么项目里常直接借成熟库、toCanvas 与 toDataURL 怎么选、在 Vue 项目里怎么接，以及登录码、分享码、下载码等场景下最常见的注意事项。",
+      "fileName": "项目复用技术/JS库/第 04 篇：qrcode 二维码生成库实战：登录码、分享码、toCanvas、toDataURL、Vue 接入.md",
+      "summary": "qrcode 二维码生成库实战，覆盖登录码、分享码、下载码、toCanvas 与 toDataURL 选择、Vue 接入和常见注意事项。",
       "cover": "",
-      "contentHash": "7bac4d7301b074a2376e4eec4efefbe0e5297e007bddca9a7a4704fb53c40993"
+      "contentHash": "a7fd672c7e22eb59b1888513f65608dd9e42d3be9268df5e66127288ebd4399d"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6c2",
       "originalSlug": "js-axios-61754a5a",
       "exportedSlug": "js-axios-61754a5a",
-      "title": "Axios请求库实战说明：请求封装、拦截器与文件上传",
+      "title": "第 3 篇：Axios 请求库实战：实例封装、拦截器、文件上传、Vue 接入",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10261,25 +10261,25 @@
       ],
       "tags": [
         "JavaScript",
-        "JS库",
         "Axios",
-        "Vue",
-        "HTTP请求"
+        "HTTP请求",
+        "拦截器",
+        "文件上传"
       ],
       "sortOrder": 30,
       "sourcePath": "项目复用技术/JS库/03-Axios请求库实战说明_请求封装拦截器与文件上传.md",
       "publishedAt": "2026-05-21T13:22:10.960Z",
       "updatedAt": "2026-06-13T10:28:29.904Z",
-      "fileName": "项目复用技术/JS库/Axios请求库实战说明：请求封装、拦截器与文件上传.md",
-      "summary": "围绕 Axios 这类前端常用请求库，整理它适合解决什么问题、为什么项目里几乎都会封装一层、实例与拦截器怎么理解、文件上传怎么接，以及在 Vue 项目里最常见的使用方式和注意事项。",
+      "fileName": "项目复用技术/JS库/第 03 篇：Axios 请求库实战：实例封装、拦截器、文件上传、Vue 接入.md",
+      "summary": "Axios 请求库实战，讲清请求封装、实例、拦截器、文件上传、错误处理以及 Vue 项目里的常见使用方式。",
       "cover": "",
-      "contentHash": "bba144aca78e25f2c486ae4cfa06b58227343a2801219792939988e378417658"
+      "contentHash": "c3bed631347744dc6b46ec91a9936f5895f8e7aab7924471391b30d31589c06c"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6c0",
       "originalSlug": "js-cropperjs-vue-103593b5",
       "exportedSlug": "js-cropperjs-vue-103593b5",
-      "title": "Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入",
+      "title": "第 2 篇：Cropper.js 图片裁剪库实战：上传前裁剪、1.x 与 2.x、Vue 接入",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10288,25 +10288,25 @@
       ],
       "tags": [
         "JavaScript",
-        "JS库",
         "Cropper.js",
         "Vue",
-        "图片裁剪"
+        "图片裁剪",
+        "文件上传"
       ],
-      "sortOrder": 40,
+      "sortOrder": 20,
       "sourcePath": "项目复用技术/JS库/02-CropperJS图片裁剪库实战说明_上传前裁剪与Vue接入.md",
       "publishedAt": "2026-05-21T13:15:16.022Z",
       "updatedAt": "2026-06-13T10:28:29.893Z",
-      "fileName": "项目复用技术/JS库/Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入.md",
-      "summary": "围绕 Cropper.js 这类成熟图片裁剪库，整理它适合解决什么问题、为什么算成熟方案、1.x 与 2.x 应该怎么区分、项目里的上传前裁剪流程，以及在 Vue 里最常见的接入方式和注意事项。",
+      "fileName": "项目复用技术/JS库/第 02 篇：Cropper.js 图片裁剪库实战：上传前裁剪、1.x 与 2.x、Vue 接入.md",
+      "summary": "Cropper.js 图片裁剪库实战，覆盖成熟方案选择、1.x 与 2.x 区分、上传前裁剪流程、Vue 接入方式和常见注意事项。",
       "cover": "",
-      "contentHash": "478cbc314502de26445e6428264e17e0d5270d4b0259b8cecf2410badfc5d712"
+      "contentHash": "508ee779db183ae32c5ad458dae8e5463a9ab688b0593b5743f218c69a77a02a"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6ba",
       "originalSlug": "js-sortablejs-vue-0390c773",
       "exportedSlug": "js-sortablejs-vue-0390c773",
-      "title": "SortableJS拖拽排序库实战说明：标签拖拽、列表重排与Vue接入",
+      "title": "第 1 篇：SortableJS 拖拽排序库实战：标签拖拽、列表重排、Vue 数据同步",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10315,25 +10315,25 @@
       ],
       "tags": [
         "JavaScript",
-        "JS库",
         "SortableJS",
         "Vue",
-        "拖拽排序"
+        "拖拽排序",
+        "列表重排"
       ],
-      "sortOrder": 50,
+      "sortOrder": 10,
       "sourcePath": "项目复用技术/JS库/01-SortableJS拖拽排序库实战说明_标签拖拽列表重排与Vue接入.md",
       "publishedAt": "2026-05-21T13:04:46.568Z",
       "updatedAt": "2026-06-13T10:28:29.880Z",
-      "fileName": "项目复用技术/JS库/SortableJS拖拽排序库实战说明：标签拖拽、列表重排与Vue接入.md",
-      "summary": "围绕 SortableJS 这类成熟拖拽排序库，整理它适合解决什么问题、为什么比自己手搓更稳、最小接入方式、常用配置项、Vue 项目里的数据同步方式，以及标签栏拖拽场景下最容易踩到的坑。",
+      "fileName": "项目复用技术/JS库/第 01 篇：SortableJS 拖拽排序库实战：标签拖拽、列表重排、Vue 数据同步.md",
+      "summary": "SortableJS 拖拽排序库实战，讲清适用场景、最小接入方式、常用配置、Vue 数据同步和标签栏拖拽常见坑。",
       "cover": "",
-      "contentHash": "3dd9a58042044abab291e17073760580da23bce76389800b98124e5691b8ba89"
+      "contentHash": "4bdb27b161e7c6b002de149736ae9bfa8009c2c9fe537702d819ac5c8634c30c"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6f8",
       "originalSlug": "uni-app-uni-app-canvas-7159e2f3",
       "exportedSlug": "uni-app-uni-app-canvas-7159e2f3",
-      "title": "uni-app 头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas 导出一次讲透",
+      "title": "第 5 篇：uni-app 头像上传与圆形裁剪封装：选图、拖拽缩放、圆形裁剪框、Canvas 导出",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10345,22 +10345,22 @@
         "头像上传",
         "图片裁剪",
         "Canvas",
-        "微信小程序"
+        "拖拽缩放"
       ],
-      "sortOrder": 10,
+      "sortOrder": 50,
       "sourcePath": "项目复用技术/uni-app/05-uni-app头像上传与圆形裁剪封装实战_选图拖拽缩放Canvas导出一次讲透.md",
       "publishedAt": "2026-04-17T12:49:16.572Z",
       "updatedAt": "2026-06-13T10:28:30.008Z",
-      "fileName": "项目复用技术/uni-app/uni-app-头像上传与圆形裁剪封装实战：选图、拖拽缩放、Canvas-导出一次讲透.md",
-      "summary": "从头像上传这条高频链路出发，系统整理 uni-app 中选图、进入裁剪页、单指拖拽、双指缩放、圆形裁剪框、Canvas 导出与上传回填的可复用封装方案。",
+      "fileName": "项目复用技术/uni-app/第 05 篇：uni-app 头像上传与圆形裁剪封装：选图、拖拽缩放、圆形裁剪框、Canvas 导出.md",
+      "summary": "uni-app 头像上传与圆形裁剪封装实战，覆盖选图、裁剪页、单指拖拽、双指缩放、圆形裁剪框、Canvas 导出和上传回填。",
       "cover": "",
-      "contentHash": "609d301db417a087bb454d1a83ea4f0b9c8c1e9cfb8fe5a1e89de68ff454ec7a"
+      "contentHash": "ccda22f0211f0349eb4434ac925c6709d70a4114b06f4708e2937e110da543c0"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6f4",
       "originalSlug": "uni-app-uni-app-tabbar-a0f11cca",
       "exportedSlug": "uni-app-uni-app-tabbar-a0f11cca",
-      "title": "uni-app 自定义 tabBar 与角标同步封装实战：角色配置、安全区适配与全局刷新",
+      "title": "第 4 篇：uni-app 自定义 tabBar 与角标同步封装：角色配置、安全区适配、页面路径、全局刷新",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10372,23 +10372,22 @@
         "tabBar",
         "角标",
         "安全区",
-        "全局状态",
-        "工具封装"
+        "全局状态"
       ],
-      "sortOrder": 20,
+      "sortOrder": 40,
       "sourcePath": "项目复用技术/uni-app/04-uni-app自定义tabBar与角标同步封装实战_角色配置安全区适配与全局刷新.md",
       "publishedAt": "2026-04-16T12:41:50.147Z",
       "updatedAt": "2026-06-13T10:28:29.994Z",
-      "fileName": "项目复用技术/uni-app/uni-app-自定义-tabBar-与角标同步封装实战：角色配置、安全区适配与全局刷新.md",
-      "summary": "系统梳理 uni-app 里 tabBar 为什么容易越写越散，以及如何把角色化 tabBar 配置、角标同步、安全区适配、页面路径归一化和全局刷新机制整理成一套可直接复制使用的方案。",
+      "fileName": "项目复用技术/uni-app/第 04 篇：uni-app 自定义 tabBar 与角标同步封装：角色配置、安全区适配、页面路径、全局刷新.md",
+      "summary": "uni-app 自定义 tabBar 与角标同步封装实战，覆盖角色化配置、角标同步、安全区适配、页面路径归一化和全局刷新机制。",
       "cover": "",
-      "contentHash": "a4e43e7a2382106e450039bb8d40e2ac5438a81abe2a7fb4277ac28eee47e0a9"
+      "contentHash": "5a469ab6a2c5e4b05c5294e323d78e8857140e790feaa407cea8bc981ed6f846"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6ea",
       "originalSlug": "uni-app-uni-app-7432a1ba",
       "exportedSlug": "uni-app-uni-app-7432a1ba",
-      "title": "uni-app 附件上传与智能预览封装实战：图片、文件、视频统一处理",
+      "title": "第 3 篇：uni-app 附件上传与智能预览封装：图片、文件、视频、图标映射、大小格式化",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10400,23 +10399,22 @@
         "文件上传",
         "附件预览",
         "图片上传",
-        "视频上传",
-        "工具封装"
+        "视频上传"
       ],
       "sortOrder": 30,
       "sourcePath": "项目复用技术/uni-app/03-uni-app附件上传与智能预览封装实战_图片文件视频统一处理.md",
       "publishedAt": "2026-04-16T12:41:50.147Z",
       "updatedAt": "2026-06-13T10:28:29.978Z",
-      "fileName": "项目复用技术/uni-app/uni-app-附件上传与智能预览封装实战：图片、文件、视频统一处理.md",
-      "summary": "系统整理 uni-app 中附件上传、图片预览、文档打开、视频上传、文件大小格式化和文件图标映射这些高频能力，并沉淀成可直接复制使用的统一封装方案。",
+      "fileName": "项目复用技术/uni-app/第 03 篇：uni-app 附件上传与智能预览封装：图片、文件、视频、图标映射、大小格式化.md",
+      "summary": "uni-app 附件上传与智能预览封装实战，覆盖图片预览、文档打开、视频上传、文件大小格式化和文件图标映射。",
       "cover": "",
-      "contentHash": "9042ef9abb95957ed0e4152827ad6cf68005d7d9ac501c7c07c6aeb69c031c5d"
+      "contentHash": "796ee1110810e8fcec25fbfeddc05eeebbd594afadf63fb4d707eb4918f6731c"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6e0",
       "originalSlug": "uni-app-uni-app-h5-67daf64f",
       "exportedSlug": "uni-app-uni-app-h5-67daf64f",
-      "title": "uni-app 语音输入与语音转文字封装实战：按住说话、上滑取消、H5 兼容与自动发送",
+      "title": "第 2 篇：uni-app 语音输入与语音转文字封装：按住说话、上滑取消、H5 兼容、自动发送",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10425,26 +10423,25 @@
       ],
       "tags": [
         "uni-app",
-        "微信小程序",
         "语音输入",
-        "录音",
         "语音转文字",
+        "录音权限",
         "H5"
       ],
-      "sortOrder": 40,
+      "sortOrder": 20,
       "sourcePath": "项目复用技术/uni-app/02-uni-app语音输入与语音转文字封装实战_按住说话上滑取消H5兼容与自动发送.md",
       "publishedAt": "2026-04-16T12:41:50.147Z",
       "updatedAt": "2026-06-13T10:28:29.963Z",
-      "fileName": "项目复用技术/uni-app/uni-app-语音输入与语音转文字封装实战：按住说话、上滑取消、H5-兼容与自动发送.md",
-      "summary": "系统梳理 uni-app 中语音输入功能为什么容易写乱，以及如何把录音、权限、H5 兼容、语音转文字接口、自动发送和交互状态拆成可直接复制使用的模板。",
+      "fileName": "项目复用技术/uni-app/第 02 篇：uni-app 语音输入与语音转文字封装：按住说话、上滑取消、H5 兼容、自动发送.md",
+      "summary": "uni-app 语音输入与语音转文字封装实战，覆盖录音权限、H5 兼容、语音转文字接口、自动发送和交互状态拆分。",
       "cover": "",
-      "contentHash": "27bf1ae1ddce8f0f7ad3ba434b9441bae21f74c26440c8745739636d820cb072"
+      "contentHash": "7deedf902da12880dc82dd3c42e1464d7b28cc528e0841613e11ba2eeb6723cc"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6d6",
       "originalSlug": "uni-app-uni-app-b0f67933",
       "exportedSlug": "uni-app-uni-app-b0f67933",
-      "title": "uni-app 人脸摄像机封装实战：从能力边界到可复用模板",
+      "title": "第 1 篇：uni-app 人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10456,23 +10453,22 @@
         "微信小程序",
         "人脸识别",
         "摄像头",
-        "组合式函数",
-        "工程化"
+        "权限"
       ],
-      "sortOrder": 50,
+      "sortOrder": 10,
       "sourcePath": "项目复用技术/uni-app/01-uni-app人脸摄像机封装实战_从能力边界到可复用模板.md",
       "publishedAt": "2026-04-16T12:41:50.147Z",
       "updatedAt": "2026-06-13T10:28:29.949Z",
-      "fileName": "项目复用技术/uni-app/uni-app-人脸摄像机封装实战：从能力边界到可复用模板.md",
-      "summary": "从 uni-app 和微信小程序的人脸识别能力边界讲起，系统梳理相机、权限、图片转换、识别流程与业务适配该如何拆分，并给出可直接复制使用的目录结构、工具函数、页面模板、接入顺序与排障方法。",
+      "fileName": "项目复用技术/uni-app/第 01 篇：uni-app 人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板.md",
+      "summary": "uni-app 人脸摄像机封装实战，从能力边界、相机权限、图片转换、识别流程和业务适配拆分可复用模板。",
       "cover": "",
-      "contentHash": "12a47c8ea1fb1863d8220211d29f5d344f5f5aa29cfa9f70c646a5f14b03fa01"
+      "contentHash": "4188cf91fb37cc4edbcca5e755595c0bda4cfbd5e05741add1a593be60e1b7a4"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6fe",
       "originalSlug": "vue-vue-tagsview-route-fullpath-href-53186ab7",
       "exportedSlug": "vue-vue-tagsview-route-fullpath-href-53186ab7",
-      "title": "Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解",
+      "title": "第 1 篇：Vue 后台 TagsView 路由标签理解：$route、fullPath、href、路由监听、首页标签",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10484,22 +10480,22 @@
         "Vue Router",
         "TagsView",
         "后台管理",
-        "路由"
+        "fullPath"
       ],
       "sortOrder": 10,
       "sourcePath": "项目复用技术/Vue后台管理/01-Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解.md",
       "publishedAt": "2026-05-21T11:42:25.935Z",
       "updatedAt": "2026-06-13T10:28:30.025Z",
-      "fileName": "项目复用技术/Vue后台管理/Vue后台标签栏TagsView中$route、fullPath、href与监听路由的理解.md",
-      "summary": "从后台管理项目的 tags.vue 源码出发，梳理 $route 监听、menu 补首页标签、fullPath 作为标签唯一标识、href 新窗口兜底等关键知识点，适合第一次系统接触 Vue Router 运行时路由对象时快速建立整体理解。",
+      "fileName": "项目复用技术/Vue后台管理/第 01 篇：Vue 后台 TagsView 路由标签理解：$route、fullPath、href、路由监听、首页标签.md",
+      "summary": "Vue 后台管理 TagsView 路由标签理解，结合源码梳理 $route 监听、首页标签补充、fullPath 唯一标识、href 新窗口兜底和 Vue Router 运行时对象。",
       "cover": "",
-      "contentHash": "3b42ee636154f43c060a6a8af5833253150fa445e7dacc2bda7e73aca04e0a3c"
+      "contentHash": "2ec2e038f9814c144b427477f8713adbf216576409273702086021084b872ffe"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac750",
       "originalSlug": "websocket-websocket-1b7cd930",
       "exportedSlug": "websocket-websocket-1b7cd930",
-      "title": "WebSocket 性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期",
+      "title": "第 12 篇：WebSocket 性能优化与高并发实战：连接拆分、压缩、节流、内存泄漏、组件生命周期",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10510,25 +10506,24 @@
         "WebSocket",
         "性能优化",
         "高并发",
-        "消息节流",
-        "内存泄漏",
-        "permessage-deflate",
-        "Vue"
+        "消息压缩",
+        "节流",
+        "内存泄漏"
       ],
-      "sortOrder": 10,
+      "sortOrder": 120,
       "sourcePath": "项目复用技术/WebSocket/11-WebSocket性能优化与高并发实战_单连接拆分_压缩_节流_内存泄漏与组件生命周期.md",
       "publishedAt": "2026-05-14T13:07:57.248Z",
       "updatedAt": "2026-06-16T14:30:48.196Z",
-      "fileName": "项目复用技术/WebSocket/WebSocket-性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期.md",
-      "summary": "这是 WebSocket 专题的第 11 篇，专门讲 WebSocket 在真实项目中的性能优化，包括单连接 vs 多连接的拆分时机、消息压缩、二进制帧与文本帧的选择、大消息分片、前端消息队列与节流渲染、内存泄漏排查，以及 Vue/uni-app 组件频繁挂载卸载时的连接管理策略。",
+      "fileName": "项目复用技术/WebSocket/第 12 篇：WebSocket 性能优化与高并发实战：连接拆分、压缩、节流、内存泄漏、组件生命周期.md",
+      "summary": "WebSocket 性能优化与高并发实践，覆盖单连接与多连接拆分、消息压缩、二进制帧、大消息分片、前端节流渲染、内存泄漏和组件生命周期管理。",
       "cover": "",
-      "contentHash": "d689f65d97201aaeac61eeebc004ee5b28eea38a300a08811044e4e33ebe1284"
+      "contentHash": "5805885105188ad5d8e47e473538f9095326bb2958b9bb430fbc81e0d883fc2d"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac746",
       "originalSlug": "websocket-stomp-abe9babf",
       "exportedSlug": "websocket-stomp-abe9babf",
-      "title": "STOMP 协议速查手册：帧结构、命令、心跳与调试清单",
+      "title": "第 11 篇：STOMP 协议速查手册：帧结构、核心命令、心跳、调试清单",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10539,24 +10534,24 @@
         "STOMP",
         "WebSocket",
         "速查手册",
-        "协议规范",
+        "帧结构",
         "心跳",
-        "帧结构"
+        "调试清单"
       ],
-      "sortOrder": 20,
+      "sortOrder": 110,
       "sourcePath": "项目复用技术/WebSocket/10-STOMP协议速查手册_帧结构命令心跳与调试清单.md",
       "publishedAt": "2026-05-14T13:07:41.593Z",
       "updatedAt": "2026-06-14T05:48:27.902Z",
-      "fileName": "项目复用技术/WebSocket/STOMP-协议速查手册：帧结构、命令、心跳与调试清单.md",
-      "summary": "这是 WebSocket 专题的第 10 篇，一份面向 STOMP 协议的快速参考手册，用类比和最小记忆量把帧结构、核心命令、心跳协商、常见错误和调试清单讲清楚，适合长时间没碰 STOMP 后快速回忆。",
+      "fileName": "项目复用技术/WebSocket/第 11 篇：STOMP 协议速查手册：帧结构、核心命令、心跳、调试清单.md",
+      "summary": "STOMP 协议速查手册，用最小记忆量梳理帧结构、核心命令、心跳协商、常见错误和调试清单。",
       "cover": "",
-      "contentHash": "7c7273d3e0c45f47a1d8c670d68d260e87866c8fb11187d39b38ca0944beae77"
+      "contentHash": "742a5bc1832309fc6f6df7eed233b0c70cfc58f00037fa5599d47422388732f3"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac718",
       "originalSlug": "websocket-stompclient-8bcbb8a6",
       "exportedSlug": "websocket-stompclient-8bcbb8a6",
-      "title": "StompClient 封装实战：connect、订阅、心跳与回调分发",
+      "title": "第 4 篇：StompClient 封装实战：connect、订阅表、心跳协商、回调分发",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10564,27 +10559,27 @@
         "WebSocket"
       ],
       "tags": [
-        "uni-app",
         "WebSocket",
         "STOMP",
-        "客户端封装",
+        "StompClient",
+        "订阅",
         "心跳",
-        "订阅"
+        "客户端封装"
       ],
-      "sortOrder": 30,
+      "sortOrder": 40,
       "sourcePath": "项目复用技术/WebSocket/03-StompClient封装实战_连接订阅心跳与回调分发.md",
       "publishedAt": "2026-05-14T13:01:59.598Z",
       "updatedAt": "2026-06-14T05:31:33.311Z",
-      "fileName": "项目复用技术/WebSocket/StompClient-封装实战：connect、订阅、心跳与回调分发.md",
-      "summary": "这是 WebSocket 专题的第 3 篇，专门讲 StompClient 这一层该怎么封，包括 socket 建立、CONNECT 握手、STOMP 帧缓冲、heart-beat 协商、订阅表、回调分发和基础生命周期管理。",
+      "fileName": "项目复用技术/WebSocket/第 04 篇：StompClient 封装实战：connect、订阅表、心跳协商、回调分发.md",
+      "summary": "StompClient 客户端封装实战，覆盖 socket 建立、CONNECT 握手、STOMP 帧缓冲、心跳协商、订阅表、回调分发和生命周期管理。",
       "cover": "",
-      "contentHash": "438f979b8c83e70fcefd202e90d03e8c4cc305d8173bd0342caa4b409533bd18"
+      "contentHash": "be97d43e4ec32e28eab90bcf489b517d3349341608590d0bb0a87dc201ed085d"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac73e",
       "originalSlug": "websocket-websocket-ai-sse-a4e8c551",
       "exportedSlug": "websocket-websocket-ai-sse-a4e8c551",
-      "title": "WebSocket与AI流式传输深度解析：SSE对比、实现方案与最佳实践",
+      "title": "第 10 篇：WebSocket 与 AI 流式传输：SSE 对比、流式 API、前端实现、最佳实践",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10595,24 +10590,23 @@
         "WebSocket",
         "AI流式传输",
         "SSE",
-        "Server-Sent Events",
-        "OpenAI",
+        "流式API",
         "实时通信"
       ],
-      "sortOrder": 40,
+      "sortOrder": 100,
       "sourcePath": "项目复用技术/WebSocket/09-WebSocket与AI流式传输深度解析_SSE对比_实现方案与最佳实践.md",
       "publishedAt": "2026-05-11T12:52:42.846Z",
       "updatedAt": "2026-06-30T07:40:30.660Z",
-      "fileName": "项目复用技术/WebSocket/WebSocket与AI流式传输深度解析_SSE对比_实现方案与最佳实践.md",
-      "summary": "深度解析AI领域流式传输技术，对比SSE与WebSocket两大方案，讲解主流AI厂商的流式API实现，提供完整的代码示例与最佳实践。",
+      "fileName": "项目复用技术/WebSocket/第 10 篇：WebSocket 与 AI 流式传输：SSE 对比、流式 API、前端实现、最佳实践.md",
+      "summary": "AI 流式传输方案解析，对比 SSE 与 WebSocket，梳理主流 AI 流式 API、前端实现方案、错误处理和项目最佳实践。",
       "cover": "",
-      "contentHash": "0cee2020ede969d0951086e9fd8009aeb553c1f322ac1973c83ef9c110008e78"
+      "contentHash": "ee45323a8bc7e7bd13b25394f915c6e2cd23edea628d312e04dd6741e5d78b76"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac704",
       "originalSlug": "websocket-websocket-uni-app-8118619a",
       "exportedSlug": "websocket-websocket-uni-app-8118619a",
-      "title": "WebSocket 零基础入门：它是什么、为什么用、浏览器与 uni-app 怎么写",
+      "title": "第 1 篇：WebSocket 零基础入门：协议概念、握手流程、浏览器、uni-app、心跳重连",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10621,25 +10615,26 @@
       ],
       "tags": [
         "WebSocket",
-        "uni-app",
+        "零基础",
         "浏览器",
-        "STOMP",
-        "实时通信"
+        "uni-app",
+        "心跳",
+        "自动重连"
       ],
-      "sortOrder": 50,
+      "sortOrder": 10,
       "sourcePath": "项目复用技术/WebSocket/00-WebSocket零基础入门_它是什么_为什么用_浏览器与uni-app怎么写.md",
       "publishedAt": "2026-04-29T14:07:07.239Z",
       "updatedAt": "2026-06-13T10:28:30.040Z",
-      "fileName": "项目复用技术/WebSocket/WebSocket-零基础入门：它是什么、为什么用、浏览器与-uni-app-怎么写.md",
-      "summary": "这是给零基础读者准备的 WebSocket 前置知识文章，尽量站在协议无关的底层视角，从它是什么、握手怎么发生、和 HTTP/STOMP 的关系，到浏览器与 uni-app 的最小使用方式、心跳、重连、关闭码与换协议时的分析方法，帮助先补基础再看项目级封装。",
+      "fileName": "项目复用技术/WebSocket/第 01 篇：WebSocket 零基础入门：协议概念、握手流程、浏览器、uni-app、心跳重连.md",
+      "summary": "WebSocket 零基础入门，讲清协议定位、握手流程、HTTP 与 STOMP 的关系、浏览器和 uni-app 最小用法、心跳、重连、关闭码和换协议分析方法。",
       "cover": "",
-      "contentHash": "191760120438d3fe90038a5ef74a93fdc90b7ac1a4282e02fd225303ba09bee9"
+      "contentHash": "9dd1e1f8ee6de22f9c21b15fba94dbed29335b487b3e8651afbbe932737988ca"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac732",
       "originalSlug": "websocket-websocket-de1a1d83",
       "exportedSlug": "websocket-websocket-de1a1d83",
-      "title": "WebSocket 接入检查清单：从协议确认到页面联调",
+      "title": "第 8 篇：WebSocket 接入检查清单：协议确认、STOMP 联调、连接重连、页面验收",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10651,23 +10646,22 @@
         "STOMP",
         "接入清单",
         "联调",
-        "实时消息",
-        "Vue"
+        "页面验收"
       ],
-      "sortOrder": 60,
+      "sortOrder": 80,
       "sourcePath": "项目复用技术/WebSocket/07-WebSocket接入检查清单_从协议确认到页面联调.md",
       "publishedAt": "2026-04-16T13:25:08.650Z",
       "updatedAt": "2026-06-13T10:28:30.143Z",
-      "fileName": "项目复用技术/WebSocket/WebSocket-接入检查清单：从协议确认到页面联调.md",
-      "summary": "这是 WebSocket 专题的第 7 篇，用清单方式整理从后端协议确认、目录搭建、STOMP 帧联调、连接重连、消息解析、页面接入到验收的完整落地步骤，适合作为新项目接入 WebSocket 时的执行手册。",
+      "fileName": "项目复用技术/WebSocket/第 08 篇：WebSocket 接入检查清单：协议确认、STOMP 联调、连接重连、页面验收.md",
+      "summary": "WebSocket 新项目接入检查清单，覆盖后端协议确认、目录搭建、STOMP 帧联调、连接重连、消息解析、页面接入和验收步骤。",
       "cover": "",
-      "contentHash": "736df0ba1a7284086ecf1dd1eff1f612b5af6e78be43b150b7e9531954e9402e"
+      "contentHash": "7038beb5f1462c7d09553a6b2c1093319753fb802868d337fc5978b12e19d55d"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac70a",
       "originalSlug": "websocket-websocket-stomp-4e54084d",
       "exportedSlug": "websocket-websocket-stomp-4e54084d",
-      "title": "WebSocket 与 STOMP 总览：分层设计、概念边界与接入顺序",
+      "title": "第 2 篇：WebSocket 与 STOMP 总览：分层设计、概念边界、接入顺序、跨端复用",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10677,25 +10671,25 @@
       "tags": [
         "WebSocket",
         "STOMP",
+        "分层设计",
         "自动重连",
         "实时消息",
-        "工具封装",
         "Vue"
       ],
-      "sortOrder": 70,
+      "sortOrder": 20,
       "sourcePath": "项目复用技术/WebSocket/01-WebSocket与STOMP总览_分层设计与接入顺序.md",
       "publishedAt": "2026-04-16T13:25:08.649Z",
       "updatedAt": "2026-06-13T10:28:30.054Z",
-      "fileName": "项目复用技术/WebSocket/WebSocket-与-STOMP-总览：分层设计、概念边界与接入顺序.md",
-      "summary": "这是 WebSocket 专题的第 1 篇总览，系统梳理 WebSocket 与 STOMP 为什么容易写乱，以及如何把协议常量、帧构建、连接管理、自动重连、消息解析、订阅恢复和页面消费方式拆成一套可直接复用的方案；核心概念跨端通用，可用于 uni-app，也可用于 PC 端 Vue。",
+      "fileName": "项目复用技术/WebSocket/第 02 篇：WebSocket 与 STOMP 总览：分层设计、概念边界、接入顺序、跨端复用.md",
+      "summary": "WebSocket 与 STOMP 专题总览，梳理协议常量、帧构建、连接管理、自动重连、消息解析、订阅恢复和页面消费的分层设计。",
       "cover": "",
-      "contentHash": "33bf1c14082d5d979334ddc0d74130bfe2a4842d095cea168fe8469401d6679c"
+      "contentHash": "016975d4697213da16b02bb4449b37fff3346e5c332ae3e670bfb657d8bc6364"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac712",
       "originalSlug": "websocket-stomp-8044d9d1",
       "exportedSlug": "websocket-stomp-8044d9d1",
-      "title": "STOMP 帧封装实战：命令拼装、拆帧、心跳与粘包处理",
+      "title": "第 3 篇：STOMP 帧封装实战：命令拼装、拆帧、心跳、粘包处理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10703,27 +10697,27 @@
         "WebSocket"
       ],
       "tags": [
-        "uni-app",
         "STOMP",
         "WebSocket",
         "协议封装",
-        "粘包处理",
-        "心跳"
+        "帧结构",
+        "心跳",
+        "粘包处理"
       ],
-      "sortOrder": 80,
+      "sortOrder": 30,
       "sourcePath": "项目复用技术/WebSocket/02-STOMP帧封装实战_命令拼装拆帧心跳与粘包处理.md",
       "publishedAt": "2026-04-16T13:25:08.647Z",
       "updatedAt": "2026-06-13T10:28:30.071Z",
-      "fileName": "项目复用技术/WebSocket/STOMP-帧封装实战：命令拼装、拆帧、心跳与粘包处理.md",
-      "summary": "这是 WebSocket 专题的第 2 篇，专门讲 STOMP 帧层应该怎么封，包括命令常量、帧拼装、CONNECT/SUBSCRIBE 帧构建、heart-beat 协商、单帧解析以及 WebSocket message 与 STOMP frame 边界不一致时的 remainder 处理。",
+      "fileName": "项目复用技术/WebSocket/第 03 篇：STOMP 帧封装实战：命令拼装、拆帧、心跳、粘包处理.md",
+      "summary": "STOMP 帧层封装实战，覆盖命令常量、帧拼装、CONNECT/SUBSCRIBE 构建、heart-beat 协商、单帧解析和 remainder 粘包处理。",
       "cover": "",
-      "contentHash": "00031e0b3b942a07bcc45f0b0067a52208aafd5ea149ae4d502786739f05a27c"
+      "contentHash": "cabdbed69a5ed6bb5779fdace8d6c97580233cee11a92b5f60f17e6424822651"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac726",
       "originalSlug": "websocket-5295e472",
       "exportedSlug": "websocket-5295e472",
-      "title": "消息解析与服务层封装实战：消息标准化、订阅分发与页面薄消费",
+      "title": "第 6 篇：消息解析与服务层封装：消息标准化、类型解析、订阅分发、页面薄消费",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10733,25 +10727,24 @@
       "tags": [
         "WebSocket",
         "消息解析",
-        "实时聊天",
         "服务层封装",
-        "STOMP",
-        "Vue"
+        "订阅分发",
+        "实时消息"
       ],
-      "sortOrder": 90,
+      "sortOrder": 60,
       "sourcePath": "项目复用技术/WebSocket/05-消息解析与服务层封装实战_消息标准化订阅分发与页面薄消费.md",
       "publishedAt": "2026-04-16T13:19:38.077Z",
       "updatedAt": "2026-06-13T10:28:30.115Z",
-      "fileName": "项目复用技术/WebSocket/消息解析与服务层封装实战：消息标准化、订阅分发与页面薄消费.md",
-      "summary": "这是 WebSocket 专题的第 5 篇，专门讲消息解析和服务层如何封，包括后端字段标准化、不同消息类型解析、订阅分发、消息回调注册，以及页面层如何只消费统一服务而不直接碰 socket 细节。",
+      "fileName": "项目复用技术/WebSocket/第 06 篇：消息解析与服务层封装：消息标准化、类型解析、订阅分发、页面薄消费.md",
+      "summary": "WebSocket 消息解析和服务层封装实战，覆盖后端字段标准化、消息类型解析、订阅分发、回调注册和页面层薄消费。",
       "cover": "",
-      "contentHash": "91adc25074e9d6a2eca45aa33fd83de28f2d17680e31a540f930bfc184ec9844"
+      "contentHash": "c4cc0514c29fd1d6b59009e92e4b32f0dc57f848d784a7aefaa4756cff5f1141"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac736",
       "originalSlug": "websocket-websocket-uni-app-pcvue-dc468cc2",
       "exportedSlug": "websocket-websocket-uni-app-pcvue-dc468cc2",
-      "title": "WebSocket 跨运行时适配实战：uni-app 与 PC Vue 共用核心层",
+      "title": "第 9 篇：WebSocket 跨运行时适配：uni-app、PC Vue、runtime adapter、服务挂载",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10760,26 +10753,25 @@
       ],
       "tags": [
         "WebSocket",
-        "STOMP",
         "uni-app",
         "Vue",
         "运行时适配",
         "Adapter"
       ],
-      "sortOrder": 100,
+      "sortOrder": 90,
       "sourcePath": "项目复用技术/WebSocket/08-WebSocket跨运行时适配实战_uni-app与PCVue共用核心层.md",
       "publishedAt": "2026-04-16T12:41:50.142Z",
       "updatedAt": "2026-06-13T10:28:30.156Z",
-      "fileName": "项目复用技术/WebSocket/WebSocket-跨运行时适配实战：uni-app-与-PC-Vue-共用核心层.md",
-      "summary": "这是 WebSocket 专题的第 8 篇，专门讲核心层为什么可以跨端复用，以及如何把最底层 socket adapter 和服务挂载方式分别适配到 uni-app 与 PC Vue。",
+      "fileName": "项目复用技术/WebSocket/第 09 篇：WebSocket 跨运行时适配：uni-app、PC Vue、runtime adapter、服务挂载.md",
+      "summary": "WebSocket 跨运行时适配实战，讲清核心层如何复用，以及 socket adapter 和服务挂载方式如何分别适配 uni-app 与 PC Vue。",
       "cover": "",
-      "contentHash": "8be17baa56956f9d41dbccfc14662745276a9636797a5dede5ef6e7e5f89aa60"
+      "contentHash": "020ea6162430807b81b617cf7f7a588e08cfca83cda8a6ce90690cfeb127b259"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac72c",
       "originalSlug": "websocket-messageserviceadapter-3203465d",
       "exportedSlug": "websocket-messageserviceadapter-3203465d",
-      "title": "MessageServiceAdapter 与页面接入实战：统一入口、事件桥接与初始化时机",
+      "title": "第 7 篇：MessageServiceAdapter 与页面接入：统一入口、事件桥接、回调注册、初始化时机",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10788,26 +10780,25 @@
       ],
       "tags": [
         "WebSocket",
-        "STOMP",
+        "MessageServiceAdapter",
         "Adapter",
         "页面接入",
-        "实时消息",
-        "Vue"
+        "事件桥接"
       ],
-      "sortOrder": 110,
+      "sortOrder": 70,
       "sourcePath": "项目复用技术/WebSocket/06-MessageServiceAdapter与页面接入实战_统一入口事件桥接与初始化时机.md",
       "publishedAt": "2026-04-16T12:41:50.142Z",
       "updatedAt": "2026-06-13T10:28:30.129Z",
-      "fileName": "项目复用技术/WebSocket/MessageServiceAdapter-与页面接入实战：统一入口、事件桥接与初始化时机.md",
-      "summary": "这是 WebSocket 专题的第 6 篇，专门讲为什么还需要 MessageServiceAdapter 这一层，以及如何把连接管理、消息服务、事件桥接、回调注册和页面层接入时机统一成一个稳定入口。",
+      "fileName": "项目复用技术/WebSocket/第 07 篇：MessageServiceAdapter 与页面接入：统一入口、事件桥接、回调注册、初始化时机.md",
+      "summary": "MessageServiceAdapter 与页面接入实战，讲清连接管理、消息服务、事件桥接、回调注册和页面接入时机如何统一成稳定入口。",
       "cover": "",
-      "contentHash": "979b106242295abd068fbffb669500bd62ccb2533243440997b454e8aa92082d"
+      "contentHash": "4015d7a4d6ad28e90e7ccfef12ecc8c6168a8bd3622f1f8db8c05244ed16ea3e"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac71e",
       "originalSlug": "websocket-ebe2285a",
       "exportedSlug": "websocket-ebe2285a",
-      "title": "连接管理与自动重连封装实战：状态机、退避策略与用户决策",
+      "title": "第 5 篇：连接管理与自动重连封装：状态机、指数退避、手动重连、暂停策略",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10815,21 +10806,20 @@
         "WebSocket"
       ],
       "tags": [
-        "uni-app",
         "WebSocket",
         "自动重连",
         "状态机",
         "指数退避",
-        "实时消息"
+        "连接管理"
       ],
-      "sortOrder": 120,
+      "sortOrder": 50,
       "sourcePath": "项目复用技术/WebSocket/04-连接管理与自动重连封装实战_状态机退避策略与用户决策.md",
       "publishedAt": "2026-04-16T12:41:50.142Z",
       "updatedAt": "2026-06-13T10:28:30.099Z",
-      "fileName": "项目复用技术/WebSocket/连接管理与自动重连封装实战：状态机、退避策略与用户决策.md",
-      "summary": "这是 WebSocket 专题的第 4 篇，专门讲连接管理层应该怎么封，包括连接参数保存、状态流转、指数退避重连、达到上限后的交互、手动重连和暂停自动重连。",
+      "fileName": "项目复用技术/WebSocket/第 05 篇：连接管理与自动重连封装：状态机、指数退避、手动重连、暂停策略.md",
+      "summary": "WebSocket 连接管理封装实战，覆盖连接参数保存、状态机、指数退避重连、达到上限后的用户决策、手动重连和暂停自动重连。",
       "cover": "",
-      "contentHash": "2b406c99bfda487a934bd3fe0d75d9cfb1b8fb788e8281caeaef15009af00c53"
+      "contentHash": "feb72aeff66aeed26a3d86de9f83af22dd917ff4d90f9d4061c6596f7efaf017"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabe4e",
@@ -15651,5 +15641,5 @@
       "updatedAt": "2026-07-30T16:04:54.764Z"
     }
   ],
-  "generatedAt": "2026-07-31T09:23:17.849Z"
+  "generatedAt": "2026-07-31T09:29:43.274Z"
 }

@@ -1,7 +1,7 @@
 ---
-title: "uni-app 附件上传与智能预览封装实战：图片、文件、视频统一处理"
+title: "第 3 篇：uni-app 附件上传与智能预览封装：图片、文件、视频、图标映射、大小格式化"
 slug: "uni-app-uni-app-7432a1ba"
-summary: "系统整理 uni-app 中附件上传、图片预览、文档打开、视频上传、文件大小格式化和文件图标映射这些高频能力，并沉淀成可直接复制使用的统一封装方案。"
+summary: "uni-app 附件上传与智能预览封装实战，覆盖图片预览、文档打开、视频上传、文件大小格式化和文件图标映射。"
 category: "uni-app"
 tags:
   - "uni-app"
@@ -9,7 +9,6 @@ tags:
   - "附件预览"
   - "图片上传"
   - "视频上传"
-  - "工具封装"
 status: "draft"
 sortOrder: 30
 cover: ""
@@ -18,7 +17,7 @@ originalSlug: "uni-app-uni-app-7432a1ba"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 附件上传与智能预览封装实战：图片、文件、视频统一处理
+# 第 3 篇：uni-app 附件上传与智能预览封装：图片、文件、视频、图标映射、大小格式化
 
 > 这是 `项目复用技术 / uni-app` 目录下的第 3 篇。  
 > 这一篇不讲某个来源文件，也不讲某个业务页面，而是直接把附件能力写成一套通用手册：

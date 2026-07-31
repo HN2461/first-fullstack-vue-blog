@@ -1,23 +1,23 @@
 ---
-title: "SortableJS拖拽排序库实战说明：标签拖拽、列表重排与Vue接入"
+title: "第 1 篇：SortableJS 拖拽排序库实战：标签拖拽、列表重排、Vue 数据同步"
 slug: "js-sortablejs-vue-0390c773"
-summary: "围绕 SortableJS 这类成熟拖拽排序库，整理它适合解决什么问题、为什么比自己手搓更稳、最小接入方式、常用配置项、Vue 项目里的数据同步方式，以及标签栏拖拽场景下最容易踩到的坑。"
+summary: "SortableJS 拖拽排序库实战，讲清适用场景、最小接入方式、常用配置、Vue 数据同步和标签栏拖拽常见坑。"
 category: "JS库"
 tags:
   - "JavaScript"
-  - "JS库"
   - "SortableJS"
   - "Vue"
   - "拖拽排序"
+  - "列表重排"
 status: "draft"
-sortOrder: 50
+sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ba"
 originalSlug: "js-sortablejs-vue-0390c773"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# SortableJS拖拽排序库实战说明：标签拖拽、列表重排与Vue接入
+# 第 1 篇：SortableJS 拖拽排序库实战：标签拖拽、列表重排、Vue 数据同步
 
 ## 先说为什么要研究这种库
 

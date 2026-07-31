@@ -1,23 +1,23 @@
 ---
-title: "Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入"
+title: "第 2 篇：Cropper.js 图片裁剪库实战：上传前裁剪、1.x 与 2.x、Vue 接入"
 slug: "js-cropperjs-vue-103593b5"
-summary: "围绕 Cropper.js 这类成熟图片裁剪库，整理它适合解决什么问题、为什么算成熟方案、1.x 与 2.x 应该怎么区分、项目里的上传前裁剪流程，以及在 Vue 里最常见的接入方式和注意事项。"
+summary: "Cropper.js 图片裁剪库实战，覆盖成熟方案选择、1.x 与 2.x 区分、上传前裁剪流程、Vue 接入方式和常见注意事项。"
 category: "JS库"
 tags:
   - "JavaScript"
-  - "JS库"
   - "Cropper.js"
   - "Vue"
   - "图片裁剪"
+  - "文件上传"
 status: "draft"
-sortOrder: 40
+sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6c0"
 originalSlug: "js-cropperjs-vue-103593b5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Cropper.js图片裁剪库实战说明：上传前裁剪与Vue接入
+# 第 2 篇：Cropper.js 图片裁剪库实战：上传前裁剪、1.x 与 2.x、Vue 接入
 
 ## 先说它到底是什么
 

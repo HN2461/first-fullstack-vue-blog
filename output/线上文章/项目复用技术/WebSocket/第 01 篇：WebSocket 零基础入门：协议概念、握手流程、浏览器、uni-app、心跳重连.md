@@ -1,23 +1,24 @@
 ---
-title: "WebSocket 零基础入门：它是什么、为什么用、浏览器与 uni-app 怎么写"
+title: "第 1 篇：WebSocket 零基础入门：协议概念、握手流程、浏览器、uni-app、心跳重连"
 slug: "websocket-websocket-uni-app-8118619a"
-summary: "这是给零基础读者准备的 WebSocket 前置知识文章，尽量站在协议无关的底层视角，从它是什么、握手怎么发生、和 HTTP/STOMP 的关系，到浏览器与 uni-app 的最小使用方式、心跳、重连、关闭码与换协议时的分析方法，帮助先补基础再看项目级封装。"
+summary: "WebSocket 零基础入门，讲清协议定位、握手流程、HTTP 与 STOMP 的关系、浏览器和 uni-app 最小用法、心跳、重连、关闭码和换协议分析方法。"
 category: "WebSocket"
 tags:
   - "WebSocket"
-  - "uni-app"
+  - "零基础"
   - "浏览器"
-  - "STOMP"
-  - "实时通信"
+  - "uni-app"
+  - "心跳"
+  - "自动重连"
 status: "draft"
-sortOrder: 50
+sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac704"
 originalSlug: "websocket-websocket-uni-app-8118619a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# WebSocket 零基础入门：它是什么、为什么用、浏览器与 uni-app 怎么写
+# 第 1 篇：WebSocket 零基础入门：协议概念、握手流程、浏览器、uni-app、心跳重连
 
 > 这篇是 `项目复用技术 / WebSocket` 专题的 `00 前置篇`。  
 > 如果主人直接看后面那几篇“封装实战”，大概率会看到一头雾水。  

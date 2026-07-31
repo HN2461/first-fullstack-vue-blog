@@ -449,6 +449,54 @@
 - 共涉及 75 篇后端技术文章，当前本地文件路径均存在，`manifest.json` 指向有效。
 - 分类路径暂不改名，避免把分类树变更与文章整理混在一起。
 
+### 项目复用技术 / WebSocket
+
+- 处理 12 篇 WebSocket 专题文章。原排序从性能优化、第 10 篇、StompClient 等中后段内容开始，零基础入门和总览排在后面，不符合学习顺序。
+- 已整理为：WebSocket 零基础入门、WebSocket 与 STOMP 总览、STOMP 帧封装、StompClient 封装、连接管理与自动重连、消息解析与服务层、MessageServiceAdapter 与页面接入、接入检查清单、跨运行时适配、WebSocket 与 AI 流式传输、STOMP 协议速查、性能优化与高并发实战。
+- 将 `sortOrder` 调整为 10 到 120，使线上目录按基础概念、分层封装、页面接入、跨端适配、专项扩展、速查与性能优化展示；本地文件名采用 `第 01 篇` 到 `第 12 篇`。
+- 按见名知意要求保留关键内容范围，例如协议概念、握手流程、浏览器、uni-app、心跳重连、分层设计、STOMP 帧、命令拼装、拆帧、粘包处理、StompClient、状态机、指数退避、消息标准化、订阅分发、事件桥接、页面验收、runtime adapter、SSE、AI 流式 API、帧结构、连接拆分、压缩、节流、内存泄漏、组件生命周期。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / WebSocket` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术 / JS库
+
+- 处理 5 篇 JS 库文章。原排序为 CryptoJS、qrcode、Axios、Cropper.js、SortableJS，与历史 sourcePath 的 01 到 05 相反。
+- 已整理为：SortableJS 拖拽排序库实战、Cropper.js 图片裁剪库实战、Axios 请求库实战、qrcode 二维码生成库实战、CryptoJS 前端加密库实战。
+- 将 `sortOrder` 调整为 10 到 50，使线上目录按拖拽交互、图片处理、请求封装、二维码生成、前端加密的复用能力顺序展示；本地文件名采用 `第 01 篇` 到 `第 05 篇`。
+- 按见名知意要求保留关键内容范围，例如标签拖拽、列表重排、Vue 数据同步、上传前裁剪、1.x 与 2.x、实例封装、拦截器、文件上传、登录码、分享码、toCanvas、toDataURL、MD5、SHA256、HMAC、AES、参数签名。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / JS库` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术 / uni-app
+
+- 处理 5 篇 uni-app 复用方案文章。原排序为头像上传、tabBar、附件、语音、人脸摄像机，整体与历史 sourcePath 的 01 到 05 相反。
+- 已整理为：人脸摄像机封装、语音输入与语音转文字封装、附件上传与智能预览封装、自定义 tabBar 与角标同步封装、头像上传与圆形裁剪封装。
+- 将 `sortOrder` 调整为 10 到 50，使线上目录按专项能力封装、附件能力、全局导航能力、头像裁剪链路展示；本地文件名采用 `第 01 篇` 到 `第 05 篇`。
+- 按见名知意要求保留关键内容范围，例如能力边界、权限、图片转换、可复用模板、按住说话、上滑取消、H5 兼容、自动发送、图片、文件、视频、图标映射、大小格式化、角色配置、安全区适配、页面路径、全局刷新、选图、拖拽缩放、圆形裁剪框、Canvas 导出。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / uni-app` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术 / Vue后台管理
+
+- 处理 1 篇 Vue 后台管理文章，将标题和本地文件名补充为统一阅读序号。
+- 已整理为：Vue 后台 TagsView 路由标签理解：`$route`、`fullPath`、`href`、路由监听、首页标签。
+- 保持 `sortOrder` 为 10；同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / Vue后台管理` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术 / 前端工程化与安全
+
+- 处理 1 篇前端工程化与安全文章，将标题和本地文件名补充为统一阅读序号。
+- 已整理为：前端代码混淆接入实施记录：webpack-obfuscator、Vue CLI、Webpack 5、验证脚本。
+- 保持 `sortOrder` 为 10；同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / 前端工程化与安全` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术阶段状态
+
+- 本批按最新要求跳过 `项目复用技术 / 第三方登录对接`，未修改该目录下任何文章。
+- 本批完成 `项目复用技术` 非第三方登录目录 24 篇文章整理，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 变更明细：`docs/02-开发指南/文章同步报告/reuse-tech-non-third-party-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/reuse-tech-non-third-party-before-semantic-cleanup-20260731-2100`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

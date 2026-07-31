@@ -1,25 +1,24 @@
 ---
-title: "WebSocket 性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期"
+title: "第 12 篇：WebSocket 性能优化与高并发实战：连接拆分、压缩、节流、内存泄漏、组件生命周期"
 slug: "websocket-websocket-1b7cd930"
-summary: "这是 WebSocket 专题的第 11 篇，专门讲 WebSocket 在真实项目中的性能优化，包括单连接 vs 多连接的拆分时机、消息压缩、二进制帧与文本帧的选择、大消息分片、前端消息队列与节流渲染、内存泄漏排查，以及 Vue/uni-app 组件频繁挂载卸载时的连接管理策略。"
+summary: "WebSocket 性能优化与高并发实践，覆盖单连接与多连接拆分、消息压缩、二进制帧、大消息分片、前端节流渲染、内存泄漏和组件生命周期管理。"
 category: "WebSocket"
 tags:
   - "WebSocket"
   - "性能优化"
   - "高并发"
-  - "消息节流"
+  - "消息压缩"
+  - "节流"
   - "内存泄漏"
-  - "permessage-deflate"
-  - "Vue"
 status: "draft"
-sortOrder: 10
+sortOrder: 120
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac750"
 originalSlug: "websocket-websocket-1b7cd930"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# WebSocket 性能优化与高并发实战：单连接拆分、压缩、节流、内存泄漏与组件生命周期
+# 第 12 篇：WebSocket 性能优化与高并发实战：连接拆分、压缩、节流、内存泄漏、组件生命周期
 
 > 这是 `项目复用技术 / WebSocket` 专题的第 11 篇。
 > 前面几篇已经把"怎么连、怎么拆帧、怎么重连、怎么标准化消息"讲完了。

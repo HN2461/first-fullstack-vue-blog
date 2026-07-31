@@ -1,24 +1,23 @@
 ---
-title: "MessageServiceAdapter 与页面接入实战：统一入口、事件桥接与初始化时机"
+title: "第 7 篇：MessageServiceAdapter 与页面接入：统一入口、事件桥接、回调注册、初始化时机"
 slug: "websocket-messageserviceadapter-3203465d"
-summary: "这是 WebSocket 专题的第 6 篇，专门讲为什么还需要 MessageServiceAdapter 这一层，以及如何把连接管理、消息服务、事件桥接、回调注册和页面层接入时机统一成一个稳定入口。"
+summary: "MessageServiceAdapter 与页面接入实战，讲清连接管理、消息服务、事件桥接、回调注册和页面接入时机如何统一成稳定入口。"
 category: "WebSocket"
 tags:
   - "WebSocket"
-  - "STOMP"
+  - "MessageServiceAdapter"
   - "Adapter"
   - "页面接入"
-  - "实时消息"
-  - "Vue"
+  - "事件桥接"
 status: "draft"
-sortOrder: 110
+sortOrder: 70
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac72c"
 originalSlug: "websocket-messageserviceadapter-3203465d"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# MessageServiceAdapter 与页面接入实战：统一入口、事件桥接与初始化时机
+# 第 7 篇：MessageServiceAdapter 与页面接入：统一入口、事件桥接、回调注册、初始化时机
 
 > 这是 `项目复用技术 / WebSocket` 专题的第 6 篇。  
 > 这一篇不再讲协议、也不再讲重连细节，而是讲最后真正让页面“好用”的这一层：
