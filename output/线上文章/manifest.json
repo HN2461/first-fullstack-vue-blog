@@ -911,7 +911,7 @@
       "originalId": "6a2d291f8a2b1c68f2cac52e",
       "originalSlug": "legacy-ccf8bc9f-ccf8bc9f",
       "exportedSlug": "legacy-ccf8bc9f-ccf8bc9f",
-      "title": "开发必懂网络基础概念",
+      "title": "第 1 篇：开发必懂网络基础概念：IP、127.0.0.1、localhost、端口、DNS",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -920,9 +920,10 @@
         "网络基础"
       ],
       "tags": [
-        "IP地址",
-        "端口",
+        "IP 地址",
+        "127.0.0.1",
         "localhost",
+        "端口",
         "DNS",
         "开发基础"
       ],
@@ -930,16 +931,45 @@
       "sourcePath": "电脑/电脑网络/网络基础/开发必懂网络基础概念.md",
       "publishedAt": "2026-05-07T12:40:02.064Z",
       "updatedAt": "2026-06-13T14:09:43.211Z",
-      "fileName": "电脑/电脑网络/网络基础/开发必懂网络基础概念.md",
-      "summary": "面向开发者的网络基础知识速查：127.0.0.1、localhost、端口、DNS 域名解析等核心概念详解，帮你理解\"为什么本地服务要这样访问\"。",
+      "fileName": "电脑/电脑网络/网络基础/第 01 篇：开发必懂网络基础概念：IP、127.0.0.1、localhost、端口、DNS.md",
+      "summary": "面向开发者的网络基础速查，讲清 IP 地址、127.0.0.1、localhost、端口、DNS 域名解析等核心概念，帮助理解本地服务访问方式。",
       "cover": "",
-      "contentHash": "25022d0c61657993a86ba6ef32f8c90840c470182fb18697cc9f9aa4e763ae2a"
+      "contentHash": "6eaa45c7315ac98d23de9926fbc6a8f98c9f2921ecb8872a113e3cd21b794c0d"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac524",
+      "originalSlug": "windows-ip-dns-dhcp-fd5c357b",
+      "exportedSlug": "windows-ip-dns-dhcp-fd5c357b",
+      "title": "第 2 篇：Windows IP、DNS、网关、DHCP、私网公网速查",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "网络基础"
+      ],
+      "tags": [
+        "Windows",
+        "IP 地址",
+        "DNS",
+        "网关",
+        "DHCP",
+        "私网公网"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "电脑/电脑网络/网络基础/Windows IP地址、DNS、网关、DHCP、私网公网速查.md",
+      "publishedAt": "2026-04-12T13:45:49.793Z",
+      "updatedAt": "2026-06-13T10:28:29.220Z",
+      "fileName": "电脑/电脑网络/网络基础/第 02 篇：Windows IP、DNS、网关、DHCP、私网公网速查.md",
+      "summary": "Windows 网络设置速查，整理 IP、DNS、网关、DHCP、子网掩码、私网公网等概念，帮助快速看懂本机网络属性和常见联网问题。",
+      "cover": "",
+      "contentHash": "68de143b483a8fd7b4d8bb1a2335496d65a28ffb8a68dbc0f28322cec7af7595"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac51a",
       "originalSlug": "windows-hosts-dns-a34c6e09",
       "exportedSlug": "windows-hosts-dns-a34c6e09",
-      "title": "Windows hosts、DNS缓存、网络类型与防火墙基础",
+      "title": "第 3 篇：Windows hosts、DNS 缓存、网络类型与防火墙基础",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -950,46 +980,19 @@
       "tags": [
         "Windows",
         "hosts",
-        "DNS缓存",
+        "DNS 缓存",
         "防火墙",
-        "网络类型"
+        "网络类型",
+        "网络排障"
       ],
-      "sortOrder": 20,
+      "sortOrder": 30,
       "sourcePath": "电脑/电脑网络/网络基础/Windows hosts、DNS缓存、网络类型与防火墙基础.md",
       "publishedAt": "2026-04-12T13:45:49.794Z",
       "updatedAt": "2026-06-13T10:28:29.209Z",
-      "fileName": "电脑/电脑网络/网络基础/Windows-hosts、DNS缓存、网络类型与防火墙基础.md",
-      "summary": "结合微软官方资料整理 Windows 中 hosts 文件、DNS 缓存、公共与专用网络类型、Microsoft Defender Firewall 的基础作用和常见排障点。",
+      "fileName": "电脑/电脑网络/网络基础/第 03 篇：Windows hosts、DNS 缓存、网络类型与防火墙基础.md",
+      "summary": "Windows 网络排障基础，整理 hosts 文件、DNS 缓存、公共/专用网络类型、Microsoft Defender Firewall 的作用和常见排障点。",
       "cover": "",
-      "contentHash": "bfb7a7f539985d559d96d3926543ff83a7ee9a815b78fcd5d82630bcafee2199"
-    },
-    {
-      "originalId": "6a2d291f8a2b1c68f2cac524",
-      "originalSlug": "windows-ip-dns-dhcp-fd5c357b",
-      "exportedSlug": "windows-ip-dns-dhcp-fd5c357b",
-      "title": "Windows IP地址、DNS、网关、DHCP、私网公网速查",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "电脑",
-        "电脑网络",
-        "网络基础"
-      ],
-      "tags": [
-        "Windows",
-        "网络",
-        "IP地址",
-        "DNS",
-        "DHCP"
-      ],
-      "sortOrder": 30,
-      "sourcePath": "电脑/电脑网络/网络基础/Windows IP地址、DNS、网关、DHCP、私网公网速查.md",
-      "publishedAt": "2026-04-12T13:45:49.793Z",
-      "updatedAt": "2026-06-13T10:28:29.220Z",
-      "fileName": "电脑/电脑网络/网络基础/Windows-IP地址、DNS、网关、DHCP、私网公网速查.md",
-      "summary": "结合微软官方网络设置文档整理 Windows 里最常见的 IP、DNS、网关、DHCP、私网公网概念，帮助快速看懂本机网络属性和常见联网问题。",
-      "cover": "",
-      "contentHash": "95ecc45449ac6fdd78b10da5b0110cc80d94ce9f133eb32059d27c78974e91ca"
+      "contentHash": "217231780a70f353ed9e635fdafd58b06c2ec443740a000b03c4d649171c7e0d"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac534",

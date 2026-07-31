@@ -1,23 +1,18 @@
 ---
-title: "Windows IP地址、DNS、网关、DHCP、私网公网速查"
+title: "第 2 篇：Windows IP、DNS、网关、DHCP、私网公网速查"
 slug: "windows-ip-dns-dhcp-fd5c357b"
-summary: "结合微软官方网络设置文档整理 Windows 里最常见的 IP、DNS、网关、DHCP、私网公网概念，帮助快速看懂本机网络属性和常见联网问题。"
+summary: "Windows 网络设置速查，整理 IP、DNS、网关、DHCP、子网掩码、私网公网等概念，帮助快速看懂本机网络属性和常见联网问题。"
 category: "网络基础"
-tags:
-  - "Windows"
-  - "网络"
-  - "IP地址"
-  - "DNS"
-  - "DHCP"
+tags: ["Windows","IP 地址","DNS","网关","DHCP","私网公网"]
 status: "draft"
-sortOrder: 30
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac524"
 originalSlug: "windows-ip-dns-dhcp-fd5c357b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Windows IP地址、DNS、网关、DHCP、私网公网速查
+# 第 2 篇：Windows IP、DNS、网关、DHCP、私网公网速查
 
 > 资料来源：Microsoft Support、Microsoft Learn，整理时间：2026-04-12。  
 > 适用范围：Windows 10 / Windows 11。
