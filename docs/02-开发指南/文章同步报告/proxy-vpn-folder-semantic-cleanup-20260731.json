@@ -1,0 +1,172 @@
+{
+  "generatedAt": "2026-07-31T08:32:17.983Z",
+  "scope": "output/线上文章/电脑/电脑网络/代理与VPN",
+  "changedCount": 5,
+  "changes": [
+    {
+      "originalId": "6a4a451af9ac958d29177b57",
+      "originalSlug": "proxy-mode-and-traffic-capture-guide-20260705",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "sourcePath": "01-代理模式与流量接管方式.md",
+      "old": {
+        "title": "代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选",
+        "summary": "从日常使用角度解释代理客户端中的规则、全局、直连模式，以及系统代理和 TUN 虚拟网卡的差异，帮助排查为什么有些应用没有走代理。",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "电脑/电脑网络/代理与VPN/代理模式与流量接管方式：Rule、Global、Direct、System-Proxy、TUN-怎么选.md"
+      },
+      "next": {
+        "title": "第 1 篇：代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选",
+        "summary": "从日常使用角度解释代理客户端中的规则、全局、直连模式，以及系统代理和 TUN 虚拟网卡的差异，帮助排查为什么有些应用没有走代理。",
+        "sortOrder": 10,
+        "tags": [
+          "代理",
+          "VPN",
+          "Rule",
+          "Global",
+          "System Proxy",
+          "TUN"
+        ],
+        "fileName": "电脑/电脑网络/代理与VPN/第 01 篇：代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a451af9ac958d29177b63",
+      "originalSlug": "network-routes-and-proxy-protocols-guide-20260705",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "sourcePath": "04-线路与代理协议基础.md",
+      "old": {
+        "title": "线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2 怎么理解",
+        "summary": "用网络路径和协议分层解释直连、中转、专线，以及常见代理协议的特点、适用场景和选型误区。",
+        "sortOrder": 50,
+        "tags": [],
+        "fileName": "电脑/电脑网络/代理与VPN/线路与代理协议基础：直连、中转、专线、VLESS-Reality、Hysteria2-怎么理解.md"
+      },
+      "next": {
+        "title": "第 2 篇：线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2",
+        "summary": "用网络路径和协议分层解释直连、中转、专线，以及 VLESS Reality、Hysteria2 等常见代理协议的特点、适用场景和选型误区。",
+        "sortOrder": 20,
+        "tags": [
+          "代理协议",
+          "直连",
+          "中转",
+          "专线",
+          "VLESS Reality",
+          "Hysteria2"
+        ],
+        "fileName": "电脑/电脑网络/代理与VPN/第 02 篇：线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a451af9ac958d29177b5b",
+      "originalSlug": "latency-test-methods-tcping-icmp-urltest-rtt-20260705",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "sourcePath": "02-延迟测试与测速方法.md",
+      "old": {
+        "title": "延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 到底测的是什么",
+        "summary": "解释常见节点测速方式的测量对象、适用场景和误判来源，区分入口延迟、完整链路延迟、握手开销和真实使用体验。",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "电脑/电脑网络/代理与VPN/延迟测试与测速方法：TCPing、ICMP、URL-Test、RTT-到底测的是什么.md"
+      },
+      "next": {
+        "title": "第 3 篇：延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 测的是什么",
+        "summary": "解释常见节点测速方式的测量对象、适用场景和误判来源，区分入口延迟、完整链路延迟、握手开销和真实使用体验。",
+        "sortOrder": 30,
+        "tags": [
+          "延迟测试",
+          "TCPing",
+          "ICMP",
+          "URL Test",
+          "RTT",
+          "测速"
+        ],
+        "fileName": "电脑/电脑网络/代理与VPN/第 03 篇：延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 测的是什么.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a4a451af9ac958d29177b5f",
+      "originalSlug": "ip-usage-type-residential-datacenter-risk-guide-20260705",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "sourcePath": "03-IP类型与风控判断.md",
+      "old": {
+        "title": "IP 类型与风控判断：家宽、机房、ISP、住宅代理到底怎么分",
+        "summary": "整理 IP 使用类型、住宅代理、机房 IP、平台风控和常见营销话术的判断方法，避免把单一查询网站的标签当成绝对结论。",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "电脑/电脑网络/代理与VPN/IP-类型与风控判断：家宽、机房、ISP、住宅代理到底怎么分.md"
+      },
+      "next": {
+        "title": "第 4 篇：IP 类型与风控判断：家宽、机房、ISP、住宅代理怎么分",
+        "summary": "整理 IP 使用类型、住宅代理、机房 IP、ISP、平台风控和常见营销话术的判断方法，避免把单一查询网站标签当成绝对结论。",
+        "sortOrder": 40,
+        "tags": [
+          "IP 类型",
+          "家宽",
+          "机房 IP",
+          "ISP",
+          "住宅代理",
+          "风控"
+        ],
+        "fileName": "电脑/电脑网络/代理与VPN/第 04 篇：IP 类型与风控判断：家宽、机房、ISP、住宅代理怎么分.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac510",
+      "originalSlug": "vpn-0373b572",
+      "categoryPath": [
+        "电脑",
+        "电脑网络",
+        "代理与VPN"
+      ],
+      "sourcePath": "电脑/电脑网络/代理与VPN/代理网络问题处理指南.md",
+      "old": {
+        "title": "代理网络问题处理指南",
+        "summary": "公司网络下网站需开 VPN 才能访问时的排查与修复流程，包含系统代理清理、网络栈重置与 IT 白名单沟通模板。",
+        "sortOrder": 20,
+        "tags": [
+          "Windows",
+          "代理",
+          "VPN",
+          "网络故障排查"
+        ],
+        "fileName": "电脑/电脑网络/代理与VPN/代理网络问题处理指南.md"
+      },
+      "next": {
+        "title": "第 5 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障",
+        "summary": "公司网络下网站需开 VPN 才能访问时的排查与修复流程，包含 Windows 系统代理清理、WinHTTP 代理、网络栈重置、DNS 刷新和 IT 白名单沟通。",
+        "sortOrder": 50,
+        "tags": [
+          "Windows",
+          "代理",
+          "VPN",
+          "WinHTTP",
+          "DNS",
+          "网络故障排查"
+        ],
+        "fileName": "电脑/电脑网络/代理与VPN/第 05 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

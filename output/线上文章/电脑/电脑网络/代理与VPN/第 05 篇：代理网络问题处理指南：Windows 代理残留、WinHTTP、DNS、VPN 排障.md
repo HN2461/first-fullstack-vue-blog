@@ -1,22 +1,18 @@
 ---
-title: "代理网络问题处理指南"
+title: "第 5 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障"
 slug: "vpn-0373b572"
-summary: "公司网络下网站需开 VPN 才能访问时的排查与修复流程，包含系统代理清理、网络栈重置与 IT 白名单沟通模板。"
+summary: "公司网络下网站需开 VPN 才能访问时的排查与修复流程，包含 Windows 系统代理清理、WinHTTP 代理、网络栈重置、DNS 刷新和 IT 白名单沟通。"
 category: "代理与VPN"
-tags:
-  - "Windows"
-  - "代理"
-  - "VPN"
-  - "网络故障排查"
+tags: ["Windows","代理","VPN","WinHTTP","DNS","网络故障排查"]
 status: "draft"
-sortOrder: 20
+sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac510"
 originalSlug: "vpn-0373b572"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 公司网访问受限（需开 VPN）排查与解决
+# 第 5 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障
 
 问题现象：
 - 微信/QQ 可用，但豆包/淘宝/GPT 等网站必须开 VPN 才能访问

@@ -1,9 +1,9 @@
 ---
-title: "延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 到底测的是什么"
+title: "第 3 篇：延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 测的是什么"
 slug: "latency-test-methods-tcping-icmp-urltest-rtt-20260705"
 summary: "解释常见节点测速方式的测量对象、适用场景和误判来源，区分入口延迟、完整链路延迟、握手开销和真实使用体验。"
 category: "代理与VPN"
-tags: []
+tags: ["延迟测试","TCPing","ICMP","URL Test","RTT","测速"]
 status: "draft"
 sortOrder: 30
 cover: ""
@@ -12,6 +12,8 @@ originalSlug: "latency-test-methods-tcping-icmp-urltest-rtt-20260705"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 3 篇：延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 测的是什么
+
 ## 小白先看
 
 节点测速不是“数字越小就一定越好”。更准确地说，不同测速方式测的是不同路段。

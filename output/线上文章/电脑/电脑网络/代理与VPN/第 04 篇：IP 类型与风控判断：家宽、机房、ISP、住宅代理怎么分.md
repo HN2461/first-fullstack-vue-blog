@@ -1,9 +1,9 @@
 ---
-title: "IP 类型与风控判断：家宽、机房、ISP、住宅代理到底怎么分"
+title: "第 4 篇：IP 类型与风控判断：家宽、机房、ISP、住宅代理怎么分"
 slug: "ip-usage-type-residential-datacenter-risk-guide-20260705"
-summary: "整理 IP 使用类型、住宅代理、机房 IP、平台风控和常见营销话术的判断方法，避免把单一查询网站的标签当成绝对结论。"
+summary: "整理 IP 使用类型、住宅代理、机房 IP、ISP、平台风控和常见营销话术的判断方法，避免把单一查询网站标签当成绝对结论。"
 category: "代理与VPN"
-tags: []
+tags: ["IP 类型","家宽","机房 IP","ISP","住宅代理","风控"]
 status: "draft"
 sortOrder: 40
 cover: ""
@@ -12,6 +12,8 @@ originalSlug: "ip-usage-type-residential-datacenter-risk-guide-20260705"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 4 篇：IP 类型与风控判断：家宽、机房、ISP、住宅代理怎么分
+
 ## 小白先看
 
 IP 可以先理解成你上网时对外显示的“门牌号”。网站看到你的请求时，会顺便看到这个门牌号大概来自哪里、像不像普通家庭网络、有没有被大量人滥用过。

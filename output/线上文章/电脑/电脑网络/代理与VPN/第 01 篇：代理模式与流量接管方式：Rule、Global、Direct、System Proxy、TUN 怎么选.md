@@ -1,9 +1,9 @@
 ---
-title: "代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选"
+title: "第 1 篇：代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选"
 slug: "proxy-mode-and-traffic-capture-guide-20260705"
 summary: "从日常使用角度解释代理客户端中的规则、全局、直连模式，以及系统代理和 TUN 虚拟网卡的差异，帮助排查为什么有些应用没有走代理。"
 category: "代理与VPN"
-tags: []
+tags: ["代理","VPN","Rule","Global","System Proxy","TUN"]
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -12,6 +12,8 @@ originalSlug: "proxy-mode-and-traffic-capture-guide-20260705"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 1 篇：代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选
+
 ## 小白先看
 
 可以先把代理客户端想成一个“上网导航软件”：

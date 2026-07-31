@@ -259,6 +259,34 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/data-types-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/data-types-folder-before-semantic-cleanup-20260731-1805`。
 
+### 常用缺易忘 / 网络请求
+
+- 处理 4 篇网络请求文章。原排序将认证、安全与文件上传放在第一，基础 HTTP 请求与请求工具对比放在后面，阅读路径不够自然。
+- 已整理为：前端 HTTP 请求与接口联调手册、Fetch/Axios/XHR 详解、Fetch API 避坑指南、前端认证安全与文件上传协作手册。
+- 将 `sortOrder` 调整为 10、20、30、40，使线上目录按 HTTP 联调心智、请求工具对比、Fetch 专项避坑、认证安全与上传协作展示；本地文件名采用 `第 01 篇` 到 `第 04 篇`。
+- 按见名知意要求保留关键内容范围，例如请求头、状态码、缓存、下载、实时通信，Fetch、Axios、XHR，response.ok、业务 code、超时、取消、通用封装，Token、Cookie、CORS、OAuth2、FormData。
+- 为缺少摘要和标签的 `Fetch、Axios、XHR 详解` 补齐摘要和检索标签，同步规范其他文章摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `常用缺易忘 / 网络请求` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/network-request-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/network-request-folder-before-semantic-cleanup-20260731-1815`。
+
+### 常用缺易忘整理状态
+
+- `常用缺易忘` 下已完成本地文章层整理：`工具速查`、`工具速查/Git`、`浏览器与网络`、`数据类型`、`网络请求`。
+- 共涉及 25 篇常用速查文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 分类路径暂不改名，避免把分类树变更与文章内容整理混在一起。
+
+### 电脑 / 电脑网络 / 代理与VPN
+
+- 处理 5 篇代理与 VPN 文章。原排序将代理网络排障放在第 2 位，基础线路和协议认知放在后面，不利于先理解概念再排障。
+- 已整理为：代理模式与流量接管方式、线路与代理协议基础、延迟测试与测速方法、IP 类型与风控判断、代理网络问题处理指南。
+- 将 `sortOrder` 调整为 10 到 50，使线上目录按代理模式、线路协议、测速方法、IP 风控、Windows/VPN 排障的路径展示；本地文件名采用 `第 01 篇` 到 `第 05 篇`。
+- 按见名知意要求保留关键内容范围，例如 Rule、Global、Direct、System Proxy、TUN，直连、中转、专线、VLESS Reality、Hysteria2，TCPing、ICMP、URL Test、RTT，家宽、机房、ISP、住宅代理，Windows 代理残留、WinHTTP、DNS、VPN 排障。
+- 为缺少标签的文章补齐检索标签，同步规范摘要、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `电脑 / 电脑网络 / 代理与VPN` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/proxy-vpn-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/proxy-vpn-folder-before-semantic-cleanup-20260731-1825`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

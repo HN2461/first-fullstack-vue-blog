@@ -1,17 +1,19 @@
 ---
-title: "线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2 怎么理解"
+title: "第 2 篇：线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2"
 slug: "network-routes-and-proxy-protocols-guide-20260705"
-summary: "用网络路径和协议分层解释直连、中转、专线，以及常见代理协议的特点、适用场景和选型误区。"
+summary: "用网络路径和协议分层解释直连、中转、专线，以及 VLESS Reality、Hysteria2 等常见代理协议的特点、适用场景和选型误区。"
 category: "代理与VPN"
-tags: []
+tags: ["代理协议","直连","中转","专线","VLESS Reality","Hysteria2"]
 status: "draft"
-sortOrder: 50
+sortOrder: 20
 cover: ""
 originalId: "6a4a451af9ac958d29177b63"
 originalSlug: "network-routes-and-proxy-protocols-guide-20260705"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 2 篇：线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2
+
 ## 小白先看
 
 理解代理节点时，先记住一句话：**线路是路，协议是车。**
