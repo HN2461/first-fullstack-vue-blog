@@ -34,7 +34,7 @@ export function buildSnapshotDatabasePreview(snapshot, localArticles, localCateg
   let rekeyCount = 0
   let categoryUpdateCount = 0
 
-  for (const category of snapshot.manifest.categories || []) {
+  for (const category of snapshot.manifest?.categories || []) {
     const existing = localCategoryByPath.get((category.categoryPath || []).join('/'))
     if (!existing) continue
     const current = JSON.stringify({

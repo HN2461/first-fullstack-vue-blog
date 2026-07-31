@@ -22,6 +22,12 @@ import { SYSTEM_UNCATEGORIZED_CATEGORY } from '#modules/content/services/categor
 import { calculateReadingMinutes, calculateWordCount, generateAsciiSlug } from '#modules/content/services/legacyMigration.service.js'
 import { buildSnapshotDatabasePreview } from '#modules/content/services/articleSnapshotDatabasePreview.service.js'
 import {
+  buildArticleIdRemaps,
+  createArticleSnapshotBackup,
+  remapArticleRelations,
+  removeOrphanArticleInteractions
+} from '#modules/content/services/articleSnapshotRelations.service.js'
+import {
   analyzeArticleRepository,
   buildRepositoryAnalysisMarkdown,
   readArticleExportSnapshot
@@ -291,71 +297,6 @@ async function buildDatabaseDocuments(snapshot, localArticles, localCategories, 
   return { articles, categories: categories.documents, tags: tags.documents, media }
 }
 
-async function createBackup(relatedMediaIds) {
-  const backupDir = path.join(env.rootDir, 'backups')
-  fs.mkdirSync(backupDir, { recursive: true })
-  const stamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const backupPath = path.join(backupDir, `article-snapshot-before-${stamp}.ejson`)
-  const data = {
-    createdAt: new Date(),
-    collections: {
-      articles: await Article.find({}).lean(),
-      categories: await Category.find({}).lean(),
-      tags: await Tag.find({}).lean(),
-      comments: await Comment.find({}).lean(),
-      reactions: await Reaction.find({}).lean(),
-      media: await Media.find({ _id: { $in: relatedMediaIds } }).lean()
-    }
-  }
-  fs.writeFileSync(backupPath, mongoose.mongo.BSON.EJSON.stringify(data, null, 2, { relaxed: false }), 'utf8')
-  return backupPath
-}
-
-async function removeOrphanInteractions(articleIds) {
-  const orphanComments = await Comment.find({ article: { $nin: articleIds } }).select('_id').lean()
-  const orphanCommentIds = orphanComments.map((item) => item._id)
-  const [commentResult, articleReactionResult, commentReactionResult] = await Promise.all([
-    Comment.deleteMany({ _id: { $in: orphanCommentIds } }),
-    Reaction.deleteMany({ targetType: 'article', targetId: { $nin: articleIds } }),
-    Reaction.deleteMany({ targetType: 'comment', targetId: { $in: orphanCommentIds } })
-  ])
-  return {
-    comments: commentResult.deletedCount || 0,
-    articleReactions: articleReactionResult.deletedCount || 0,
-    commentReactions: commentReactionResult.deletedCount || 0
-  }
-}
-
-function buildArticleIdRemaps(snapshot, localArticles) {
-  const localIds = new Set(localArticles.map((item) => String(item._id)))
-  const localBySlug = new Map(localArticles.map((item) => [item.slug, item]))
-  return snapshot.records.flatMap((record) => {
-    if (localIds.has(String(record.originalId))) return []
-    const existing = localBySlug.get(record.originalSlug)
-    if (!existing) return []
-    return [{
-      from: existing._id,
-      to: new mongoose.Types.ObjectId(record.originalId),
-      slug: record.originalSlug
-    }]
-  })
-}
-
-async function remapArticleRelations(remaps) {
-  const summary = { comments: 0, reactions: 0, media: 0 }
-  for (const remap of remaps) {
-    const [comments, reactions, media] = await Promise.all([
-      Comment.updateMany({ article: remap.from }, { $set: { article: remap.to } }),
-      Reaction.updateMany({ targetType: 'article', targetId: remap.from }, { $set: { targetId: remap.to } }),
-      Media.updateMany({ article: remap.from }, { $set: { article: remap.to } })
-    ])
-    summary.comments += comments.modifiedCount || 0
-    summary.reactions += reactions.modifiedCount || 0
-    summary.media += media.modifiedCount || 0
-  }
-  return summary
-}
-
 async function replaceArticles(snapshot) {
   const [adminUser, localArticles, localCategories, localTags] = await Promise.all([
     User.findOne({ role: { $in: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] } }).sort({ createdAt: 1 }),
@@ -370,13 +311,13 @@ async function replaceArticles(snapshot) {
     item.document?.previewMediaId,
     ...(item.resources || []).map((resource) => resource.mediaId)
   ]).filter(Boolean).map(String))].map((id) => new mongoose.Types.ObjectId(id))
-  const backupPath = await createBackup(relatedMediaIds)
+  const backupPath = await createArticleSnapshotBackup(relatedMediaIds)
   const documents = await buildDatabaseDocuments(snapshot, localArticles, localCategories, localTags, adminUser)
   const idRemaps = buildArticleIdRemaps(snapshot, localArticles)
   const remappedRelations = await remapArticleRelations(idRemaps)
   const articleIds = documents.articles.map((item) => item._id)
   const cleanup = CLEAN_ORPHANS
-    ? await removeOrphanInteractions(articleIds)
+    ? await removeOrphanArticleInteractions(articleIds)
     : { comments: 0, articleReactions: 0, commentReactions: 0 }
   await Article.deleteMany({})
   const replacementMediaIds = documents.media.map((item) => item._id)

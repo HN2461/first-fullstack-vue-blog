@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-07-30T16:00:24.161Z",
-  "mode": "apply",
+  "generatedAt": "2026-07-30T16:11:24.475Z",
+  "mode": "dry-run",
   "publishAll": true,
   "total": 513,
   "publishedCount": 513,
   "publishChangeCount": 0,
   "sortChangeCount": 0,
-  "categorySortChangeCount": 95,
+  "categorySortChangeCount": 0,
   "sequenceCategories": [
     {
       "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
