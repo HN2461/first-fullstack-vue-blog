@@ -1,18 +1,22 @@
 ---
-title: "环境准备与第一个 Vue 项目"
+title: "第 2 章：环境准备与第一个 Vue 项目"
 slug: "vue-ai-vue-vue-aa8054ba"
-summary: ""
+summary: "Vue 开发环境准备，覆盖 Node、脚手架、项目创建和第一个 Vue 项目运行。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "环境准备"
+  - "项目创建"
+  - "Node.js"
 status: "draft"
-sortOrder: 290
+sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac280"
 originalSlug: "vue-ai-vue-vue-aa8054ba"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第2章 环境准备与第一个 Vue 项目
+# 第 2 章：环境准备与第一个 Vue 项目
 
 > 目标：把 Vue2 的开发环境一次性搭好，并分别用两种方式跑起来：
 > 

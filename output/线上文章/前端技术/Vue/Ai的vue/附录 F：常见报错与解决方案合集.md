@@ -1,18 +1,22 @@
 ---
-title: "附录F 常见报错与解决方案合集"
+title: "附录 F：常见报错与解决方案合集"
 slug: "vue-ai-vue-f-fa05c4ac"
-summary: ""
+summary: "Vue 常见报错与解决方案附录，整理开发过程中的高频错误和排查方式。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "常见报错"
+  - "问题排查"
+  - "附录"
 status: "draft"
-sortOrder: 10
+sortOrder: 300
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac29a"
 originalSlug: "vue-ai-vue-f-fa05c4ac"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 附录F：常见报错与解决方案合集
+# 附录 F：常见报错与解决方案合集
 
 > 目标：把 Vue2 学习与项目中最常见的报错按“现象 → 原因 → 解决”整理。
 

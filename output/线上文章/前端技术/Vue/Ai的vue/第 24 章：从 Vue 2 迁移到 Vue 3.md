@@ -1,18 +1,22 @@
 ---
-title: "从 Vue2 迁移到 Vue3（过渡指南）"
+title: "第 24 章：从 Vue 2 迁移到 Vue 3"
 slug: "vue-ai-vue-vue2-vue3-a7bca734"
-summary: ""
+summary: "Vue 2 到 Vue 3 迁移指南，整理迁移思路、API 差异、兼容注意事项和过渡方案。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue 2"
+  - "Vue 3"
+  - "迁移指南"
+  - "Composition API"
 status: "draft"
-sortOrder: 70
+sortOrder: 240
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac27e"
 originalSlug: "vue-ai-vue-vue2-vue3-a7bca734"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第24章 从 Vue2 迁移到 Vue3（过渡指南）
+# 第 24 章：从 Vue 2 迁移到 Vue 3
 
 > 目标：建立 Vue3 的整体认知，并掌握从 Vue2 迁移到 Vue3 的主要变化点。
 

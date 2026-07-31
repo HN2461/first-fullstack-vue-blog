@@ -1,18 +1,22 @@
 ---
-title: "Vuex 进阶（项目组织方式）"
+title: "第 18 章：Vuex 进阶"
 slug: "vue-ai-vue-vuex-d65018ae"
-summary: ""
+summary: "Vuex 进阶笔记，整理模块化、项目组织方式、状态拆分和大型项目使用思路。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vuex"
+  - "状态管理"
+  - "模块化"
+  - "项目组织"
 status: "draft"
-sortOrder: 130
+sortOrder: 180
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac270"
 originalSlug: "vue-ai-vue-vuex-d65018ae"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第18章 Vuex 进阶（项目组织方式）
+# 第 18 章：Vuex 进阶
 
 > 目标：掌握 Vue2 项目里 Vuex 的组织与工程化实践。
 > 

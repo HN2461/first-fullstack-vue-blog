@@ -1,18 +1,22 @@
 ---
-title: "附录C Vue Router 速查表"
+title: "附录 C：Vue Router 速查表"
 slug: "vue-ai-vue-c-vue-router-8010183d"
-summary: ""
+summary: "Vue Router 速查表附录，整理常用路由配置、跳转和守卫相关用法。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue Router"
+  - "路由"
+  - "速查表"
+  - "附录"
 status: "draft"
-sortOrder: 40
+sortOrder: 270
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac294"
 originalSlug: "vue-ai-vue-c-vue-router-8010183d"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 附录C：Vue Router 速查表
+# 附录 C：Vue Router 速查表
 
 > 目标：把 Router 的常用 API 与概念做成速查。
 

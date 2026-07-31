@@ -1,18 +1,22 @@
 ---
-title: "附录E 项目目录规范与命名规范建议"
+title: "附录 E：项目目录规范与命名规范建议"
 slug: "vue-ai-vue-e-72e17220"
-summary: ""
+summary: "Vue 项目目录和命名规范附录，整理目录拆分、文件命名和项目组织建议。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "项目规范"
+  - "命名规范"
+  - "附录"
 status: "draft"
-sortOrder: 20
+sortOrder: 290
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac298"
 originalSlug: "vue-ai-vue-e-72e17220"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 附录E：项目目录规范与命名规范建议
+# 附录 E：项目目录规范与命名规范建议
 
 > 目标：给出一套“够用、易落地”的 Vue2 项目目录与命名建议，减少团队协作成本。
 

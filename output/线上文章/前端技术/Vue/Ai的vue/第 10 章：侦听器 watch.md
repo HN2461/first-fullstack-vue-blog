@@ -1,18 +1,22 @@
 ---
-title: "侦听器 watch（处理复杂与异步）"
+title: "第 10 章：侦听器 watch"
 slug: "vue-ai-vue-watch-79d389b8"
-summary: ""
+summary: "Vue 侦听器笔记，整理 watch 的复杂数据监听、异步处理和与 computed 的区别。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "watch"
+  - "侦听器"
+  - "异步处理"
 status: "draft"
-sortOrder: 210
+sortOrder: 100
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac260"
 originalSlug: "vue-ai-vue-watch-79d389b8"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第10章 侦听器 watch（处理复杂/异步）
+# 第 10 章：侦听器 watch
 
 > 目标：掌握 Vue2 的侦听器 `watch`，用于处理“数据变化后需要做事”的场景（尤其是异步与副作用）。
 > 

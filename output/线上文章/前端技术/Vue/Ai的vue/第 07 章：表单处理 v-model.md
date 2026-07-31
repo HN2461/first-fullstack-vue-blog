@@ -1,18 +1,22 @@
 ---
-title: "表单处理 v-model（表单全家桶）"
+title: "第 7 章：表单处理 v-model"
 slug: "vue-ai-vue-v-model-c66bd182"
-summary: ""
+summary: "Vue 表单处理笔记，覆盖 v-model、输入控件绑定、表单状态和常见表单场景。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "表单处理"
+  - "v-model"
+  - "表单绑定"
 status: "draft"
-sortOrder: 240
+sortOrder: 70
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac28a"
 originalSlug: "vue-ai-vue-v-model-c66bd182"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第7章 表单处理 v-model（表单全家桶）
+# 第 7 章：表单处理 v-model
 
 > 目标：掌握 Vue2 表单数据绑定的核心：`v-model`。
 > 

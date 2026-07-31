@@ -1,18 +1,22 @@
 ---
-title: "Vue Router 进阶（项目级能力）"
+title: "第 16 章：Vue Router 进阶"
 slug: "vue-ai-vue-vue-router-b20d1fed"
-summary: ""
+summary: "Vue Router 进阶笔记，整理嵌套路由、路由守卫、动态路由和项目级路由能力。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue Router"
+  - "路由守卫"
+  - "动态路由"
+  - "Vue"
 status: "draft"
-sortOrder: 150
+sortOrder: 160
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26c"
 originalSlug: "vue-ai-vue-vue-router-b20d1fed"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第16章 Vue Router 进阶（项目级能力）
+# 第 16 章：Vue Router 进阶
 
 > 目标：掌握项目里最常用的 Router 进阶能力。
 > 

@@ -1,18 +1,22 @@
 ---
-title: "Vuex 基础（掌握核心概念）"
+title: "第 17 章：Vuex 基础"
 slug: "vue-ai-vue-vuex-7c0c8832"
-summary: ""
+summary: "Vuex 基础笔记，整理 state、mutations、actions、getters 和核心状态管理概念。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vuex"
+  - "状态管理"
+  - "Vue"
+  - "Store"
 status: "draft"
-sortOrder: 140
+sortOrder: 170
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26e"
 originalSlug: "vue-ai-vue-vuex-7c0c8832"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第17章 Vuex 基础（掌握核心概念）
+# 第 17 章：Vuex 基础
 
 > 目标：理解为什么需要 Vuex，并掌握 Vuex 的核心概念与最常用的开发方式。
 > 

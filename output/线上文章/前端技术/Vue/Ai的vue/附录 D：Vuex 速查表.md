@@ -1,18 +1,22 @@
 ---
-title: "附录D Vuex 速查表"
+title: "附录 D：Vuex 速查表"
 slug: "vue-ai-vue-d-vuex-8579ca48"
-summary: ""
+summary: "Vuex 速查表附录，整理 Vuex 核心概念、API 和常见写法。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vuex"
+  - "状态管理"
+  - "速查表"
+  - "附录"
 status: "draft"
-sortOrder: 30
+sortOrder: 280
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac296"
 originalSlug: "vue-ai-vue-d-vuex-8579ca48"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 附录D：Vuex 速查表
+# 附录 D：Vuex 速查表
 
 > 目标：把 Vuex 的读写方式与核心概念快速整理。
 

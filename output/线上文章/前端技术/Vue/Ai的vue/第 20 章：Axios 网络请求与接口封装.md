@@ -1,18 +1,22 @@
 ---
-title: "Axios 网络请求与接口封装"
+title: "第 20 章：Axios 网络请求与接口封装"
 slug: "vue-ai-vue-axios-00b046d5"
-summary: ""
+summary: "Axios 网络请求笔记，整理请求封装、接口管理、拦截器和项目中的接口调用方式。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Axios"
+  - "HTTP 请求"
+  - "接口封装"
+  - "Vue"
 status: "draft"
-sortOrder: 110
+sortOrder: 200
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac276"
 originalSlug: "vue-ai-vue-axios-00b046d5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第20章 Axios 网络请求与接口封装
+# 第 20 章：Axios 网络请求与接口封装
 
 > 目标：掌握 Vue2 项目中最常见的网络请求方案：axios + 封装。
 

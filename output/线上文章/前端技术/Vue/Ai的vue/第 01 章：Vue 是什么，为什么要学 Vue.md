@@ -1,18 +1,22 @@
 ---
-title: "Vue 是什么 为什么要学 Vue"
+title: "第 1 章：Vue 是什么，为什么要学 Vue"
 slug: "vue-ai-vue-vue-vue-0208816f"
-summary: ""
+summary: "Vue 入门概览，解释 Vue 的定位、学习价值、适用场景和与传统开发方式的区别。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "Vue 入门"
+  - "前端框架"
+  - "学习路线"
 status: "draft"
-sortOrder: 300
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac274"
 originalSlug: "vue-ai-vue-vue-vue-0208816f"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第1章 Vue 是什么？为什么要学 Vue？
+# 第 1 章：Vue 是什么，为什么要学 Vue
 
 > 目标：建立对 Vue 的整体认知——知道它解决什么问题、核心思想是什么、适合用在什么场景，以及学习 Vue2 时需要顺带了解的生态（Router/Vuex/工程化）。
 

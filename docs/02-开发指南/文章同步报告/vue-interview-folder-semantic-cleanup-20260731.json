@@ -28,9 +28,11 @@
           "面试题库",
           "查漏补缺"
         ],
-        "fileName": "前端技术/Vue/vue面试题/第 4 篇：Vue 面试题修订完整版.md"
+        "fileName": "前端技术/Vue/vue面试题/第 04 篇：Vue 面试题修订完整版.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue面试题/第 04 篇：Vue 面试题修订完整版.md",
+      "fileName": "前端技术/Vue/vue面试题/第 04 篇：Vue 面试题修订完整版.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2e0",
@@ -57,9 +59,11 @@
           "前端面试",
           "核心复习"
         ],
-        "fileName": "前端技术/Vue/vue面试题/第 1 篇：Vue 面试题凝练版.md"
+        "fileName": "前端技术/Vue/vue面试题/第 01 篇：Vue 面试题凝练版.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue面试题/第 01 篇：Vue 面试题凝练版.md",
+      "fileName": "前端技术/Vue/vue面试题/第 01 篇：Vue 面试题凝练版.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2de",
@@ -86,9 +90,11 @@
           "Composition API",
           "前端面试"
         ],
-        "fileName": "前端技术/Vue/vue面试题/第 3 篇：Vue 3 面试题.md"
+        "fileName": "前端技术/Vue/vue面试题/第 03 篇：Vue 3 面试题.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue面试题/第 03 篇：Vue 3 面试题.md",
+      "fileName": "前端技术/Vue/vue面试题/第 03 篇：Vue 3 面试题.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2dc",
@@ -115,9 +121,12 @@
           "前端面试",
           "响应式"
         ],
-        "fileName": "前端技术/Vue/vue面试题/第 2 篇：Vue 2 面试题.md"
+        "fileName": "前端技术/Vue/vue面试题/第 02 篇：Vue 2 面试题.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue面试题/第 02 篇：Vue 2 面试题.md",
+      "fileName": "前端技术/Vue/vue面试题/第 02 篇：Vue 2 面试题.md"
     }
-  ]
+  ],
+  "fileNamePadded": true
 }

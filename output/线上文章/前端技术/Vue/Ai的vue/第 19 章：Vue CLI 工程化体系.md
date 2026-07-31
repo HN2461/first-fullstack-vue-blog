@@ -1,18 +1,22 @@
 ---
-title: "Vue CLI 工程化体系"
+title: "第 19 章：Vue CLI 工程化体系"
 slug: "vue-ai-vue-vue-cli-15ca9855"
-summary: ""
+summary: "Vue CLI 工程化笔记，整理项目脚手架、目录结构、构建配置和工程化开发流程。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue CLI"
+  - "工程化"
+  - "Vue"
+  - "构建工具"
 status: "draft"
-sortOrder: 120
+sortOrder: 190
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac272"
 originalSlug: "vue-ai-vue-vue-cli-15ca9855"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第19章 Vue CLI 工程化体系
+# 第 19 章：Vue CLI 工程化体系
 
 > 目标：从“能跑 Demo”过渡到“能写项目”。掌握 Vue CLI 创建、开发、构建、部署的完整链路。
 

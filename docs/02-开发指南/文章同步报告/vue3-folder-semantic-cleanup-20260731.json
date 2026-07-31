@@ -6,7 +6,7 @@
     {
       "originalId": "6a2d291f8a2b1c68f2cac2d8",
       "originalSlug": "vue-vue3-apis-94236b74",
-      "fileName": "前端技术/Vue/vue3/第 6 篇：Vue 3 其他 API.md",
+      "fileName": "前端技术/Vue/vue3/第 06 篇：Vue 3 其他 API.md",
       "categoryPath": [
         "前端技术",
         "Vue",
@@ -27,16 +27,18 @@
           "Composition API",
           "Vue API",
           "响应式"
-        ]
+        ],
+        "fileName": "前端技术/Vue/vue3/第 06 篇：Vue 3 其他 API.md"
       },
       "h1InsertedOrUpdated": false,
       "oldFileName": "前端技术/Vue/vue3/其他Apis》.md",
-      "newFileName": "前端技术/Vue/vue3/第 6 篇：Vue 3 其他 API.md"
+      "newFileName": "前端技术/Vue/vue3/第 6 篇：Vue 3 其他 API.md",
+      "finalFileName": "前端技术/Vue/vue3/第 06 篇：Vue 3 其他 API.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2d6",
       "originalSlug": "vue-vue3-21013aa4",
-      "fileName": "前端技术/Vue/vue3/第 5 篇：Vue Router 路由.md",
+      "fileName": "前端技术/Vue/vue3/第 05 篇：Vue Router 路由.md",
       "categoryPath": [
         "前端技术",
         "Vue",
@@ -57,16 +59,18 @@
           "Vue Router",
           "路由",
           "前端路由"
-        ]
+        ],
+        "fileName": "前端技术/Vue/vue3/第 05 篇：Vue Router 路由.md"
       },
       "h1InsertedOrUpdated": true,
       "oldFileName": "前端技术/Vue/vue3/路由》.md",
-      "newFileName": "前端技术/Vue/vue3/第 5 篇：Vue Router 路由.md"
+      "newFileName": "前端技术/Vue/vue3/第 5 篇：Vue Router 路由.md",
+      "finalFileName": "前端技术/Vue/vue3/第 05 篇：Vue Router 路由.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2d4",
       "originalSlug": "vue-vue3-pinia-356d4f75",
-      "fileName": "前端技术/Vue/vue3/第 4 篇：Pinia 状态管理.md",
+      "fileName": "前端技术/Vue/vue3/第 04 篇：Pinia 状态管理.md",
       "categoryPath": [
         "前端技术",
         "Vue",
@@ -87,16 +91,18 @@
           "Pinia",
           "状态管理",
           "Store"
-        ]
+        ],
+        "fileName": "前端技术/Vue/vue3/第 04 篇：Pinia 状态管理.md"
       },
       "h1InsertedOrUpdated": true,
       "oldFileName": "前端技术/Vue/vue3/Pinia》.md",
-      "newFileName": "前端技术/Vue/vue3/第 4 篇：Pinia 状态管理.md"
+      "newFileName": "前端技术/Vue/vue3/第 4 篇：Pinia 状态管理.md",
+      "finalFileName": "前端技术/Vue/vue3/第 04 篇：Pinia 状态管理.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2d2",
       "originalSlug": "vue-vue3-9068316c",
-      "fileName": "前端技术/Vue/vue3/第 3 篇：Vue 3 组件通信.md",
+      "fileName": "前端技术/Vue/vue3/第 03 篇：Vue 3 组件通信.md",
       "categoryPath": [
         "前端技术",
         "Vue",
@@ -117,16 +123,18 @@
           "组件通信",
           "props",
           "provide/inject"
-        ]
+        ],
+        "fileName": "前端技术/Vue/vue3/第 03 篇：Vue 3 组件通信.md"
       },
       "h1InsertedOrUpdated": true,
       "oldFileName": "前端技术/Vue/vue3/组件通讯》.md",
-      "newFileName": "前端技术/Vue/vue3/第 3 篇：Vue 3 组件通信.md"
+      "newFileName": "前端技术/Vue/vue3/第 3 篇：Vue 3 组件通信.md",
+      "finalFileName": "前端技术/Vue/vue3/第 03 篇：Vue 3 组件通信.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2d0",
       "originalSlug": "vue-vue3-vue3-b1c84be6",
-      "fileName": "前端技术/Vue/vue3/第 2 篇：Vue 3 基本语法.md",
+      "fileName": "前端技术/Vue/vue3/第 02 篇：Vue 3 基本语法.md",
       "categoryPath": [
         "前端技术",
         "Vue",
@@ -147,16 +155,18 @@
           "Composition API",
           "响应式",
           "setup"
-        ]
+        ],
+        "fileName": "前端技术/Vue/vue3/第 02 篇：Vue 3 基本语法.md"
       },
       "h1InsertedOrUpdated": true,
       "oldFileName": "前端技术/Vue/vue3/Vue3基本语法》.md",
-      "newFileName": "前端技术/Vue/vue3/第 2 篇：Vue 3 基本语法.md"
+      "newFileName": "前端技术/Vue/vue3/第 2 篇：Vue 3 基本语法.md",
+      "finalFileName": "前端技术/Vue/vue3/第 02 篇：Vue 3 基本语法.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2ce",
       "originalSlug": "vue-vue3-vue3-f1f1fd31",
-      "fileName": "前端技术/Vue/vue3/第 1 篇：Vue 3 初相识.md",
+      "fileName": "前端技术/Vue/vue3/第 01 篇：Vue 3 初相识.md",
       "categoryPath": [
         "前端技术",
         "Vue",
@@ -177,12 +187,15 @@
           "Vue",
           "前端框架",
           "项目创建"
-        ]
+        ],
+        "fileName": "前端技术/Vue/vue3/第 01 篇：Vue 3 初相识.md"
       },
       "h1InsertedOrUpdated": true,
       "oldFileName": "前端技术/Vue/vue3/vue3初相识》.md",
-      "newFileName": "前端技术/Vue/vue3/第 1 篇：Vue 3 初相识.md"
+      "newFileName": "前端技术/Vue/vue3/第 1 篇：Vue 3 初相识.md",
+      "finalFileName": "前端技术/Vue/vue3/第 01 篇：Vue 3 初相识.md"
     }
   ],
-  "fileRenamed": true
+  "fileRenamed": true,
+  "fileNamePadded": true
 }

@@ -1,18 +1,22 @@
 ---
-title: "Vue Router 入门（从 0 到能用）"
+title: "第 15 章：Vue Router 入门"
 slug: "vue-ai-vue-vue-router-0-a8f63d97"
-summary: ""
+summary: "Vue Router 入门笔记，覆盖路由安装、基础配置、页面跳转和从 0 到可用的实践步骤。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue Router"
+  - "Vue"
+  - "路由"
+  - "SPA"
 status: "draft"
-sortOrder: 160
+sortOrder: 150
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26a"
 originalSlug: "vue-ai-vue-vue-router-0-a8f63d97"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第15章 Vue Router 入门（从 0 到能用）
+# 第 15 章：Vue Router 入门
 
 > 目标：学会在 Vue2 项目中使用 Vue Router 完成页面切换，并掌握最常见的路由能力。
 > 

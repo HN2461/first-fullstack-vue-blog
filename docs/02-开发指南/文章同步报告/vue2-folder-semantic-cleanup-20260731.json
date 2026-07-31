@@ -30,7 +30,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 22 篇：Vue 2 动画与过渡.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 22 篇：Vue 2 动画与过渡.md",
+      "fileName": "前端技术/Vue/vue2/第 22 篇：Vue 2 动画与过渡.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2a8",
@@ -59,7 +61,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 21 篇：Vue Router 路由.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 21 篇：Vue Router 路由.md",
+      "fileName": "前端技术/Vue/vue2/第 21 篇：Vue Router 路由.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2a6",
@@ -88,7 +92,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 20 篇：Vuex 状态管理.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 20 篇：Vuex 状态管理.md",
+      "fileName": "前端技术/Vue/vue2/第 20 篇：Vuex 状态管理.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2a4",
@@ -117,7 +123,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 18 篇：Vue 与 Ajax.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 18 篇：Vue 与 Ajax.md",
+      "fileName": "前端技术/Vue/vue2/第 18 篇：Vue 与 Ajax.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2a0",
@@ -146,7 +154,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 19 篇：axios 基本使用.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 19 篇：axios 基本使用.md",
+      "fileName": "前端技术/Vue/vue2/第 19 篇：axios 基本使用.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2ca",
@@ -175,7 +185,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 17 篇：mixins、plugins 与 scoped.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 17 篇：mixins、plugins 与 scoped.md",
+      "fileName": "前端技术/Vue/vue2/第 17 篇：mixins、plugins 与 scoped.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2c8",
@@ -204,7 +216,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 16 篇：Vue 2 组件通信.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 16 篇：Vue 2 组件通信.md",
+      "fileName": "前端技术/Vue/vue2/第 16 篇：Vue 2 组件通信.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2c6",
@@ -233,7 +247,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 15 篇：Vue CLI 脚手架.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 15 篇：Vue CLI 脚手架.md",
+      "fileName": "前端技术/Vue/vue2/第 15 篇：Vue CLI 脚手架.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2c4",
@@ -262,7 +278,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 14 篇：Vue 2 单文件组件.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 14 篇：Vue 2 单文件组件.md",
+      "fileName": "前端技术/Vue/vue2/第 14 篇：Vue 2 单文件组件.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2c2",
@@ -291,7 +309,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 13 篇：Vue 2 组件基础.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 13 篇：Vue 2 组件基础.md",
+      "fileName": "前端技术/Vue/vue2/第 13 篇：Vue 2 组件基础.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2b2",
@@ -320,7 +340,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 12 篇：Vue 2 生命周期.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 12 篇：Vue 2 生命周期.md",
+      "fileName": "前端技术/Vue/vue2/第 12 篇：Vue 2 生命周期.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2b0",
@@ -349,7 +371,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 11 篇：Vue 2 响应式数据.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 11 篇：Vue 2 响应式数据.md",
+      "fileName": "前端技术/Vue/vue2/第 11 篇：Vue 2 响应式数据.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2ae",
@@ -378,7 +402,9 @@
         ],
         "fileName": "前端技术/Vue/vue2/第 10 篇：常用指令与自定义指令.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 10 篇：常用指令与自定义指令.md",
+      "fileName": "前端技术/Vue/vue2/第 10 篇：常用指令与自定义指令.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2ac",
@@ -405,9 +431,11 @@
           "v-model",
           "过滤器"
         ],
-        "fileName": "前端技术/Vue/vue2/第 9 篇：表单数据收集与过滤器.md"
+        "fileName": "前端技术/Vue/vue2/第 09 篇：表单数据收集与过滤器.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 09 篇：表单数据收集与过滤器.md",
+      "fileName": "前端技术/Vue/vue2/第 09 篇：表单数据收集与过滤器.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2c0",
@@ -434,9 +462,11 @@
           "列表排序",
           "响应式列表"
         ],
-        "fileName": "前端技术/Vue/vue2/第 8 篇：列表过滤与列表排序.md"
+        "fileName": "前端技术/Vue/vue2/第 08 篇：列表过滤与列表排序.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 08 篇：列表过滤与列表排序.md",
+      "fileName": "前端技术/Vue/vue2/第 08 篇：列表过滤与列表排序.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2bc",
@@ -463,9 +493,11 @@
           "style 绑定",
           "样式绑定"
         ],
-        "fileName": "前端技术/Vue/vue2/第 6 篇：class 与 style 绑定.md"
+        "fileName": "前端技术/Vue/vue2/第 06 篇：class 与 style 绑定.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 06 篇：class 与 style 绑定.md",
+      "fileName": "前端技术/Vue/vue2/第 06 篇：class 与 style 绑定.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2be",
@@ -492,9 +524,11 @@
           "循环渲染",
           "v-for"
         ],
-        "fileName": "前端技术/Vue/vue2/第 7 篇：条件渲染与循环渲染.md"
+        "fileName": "前端技术/Vue/vue2/第 07 篇：条件渲染与循环渲染.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 07 篇：条件渲染与循环渲染.md",
+      "fileName": "前端技术/Vue/vue2/第 07 篇：条件渲染与循环渲染.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2ba",
@@ -521,9 +555,11 @@
           "侦听属性",
           "computed"
         ],
-        "fileName": "前端技术/Vue/vue2/第 5 篇：计算属性与侦听属性.md"
+        "fileName": "前端技术/Vue/vue2/第 05 篇：计算属性与侦听属性.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 05 篇：计算属性与侦听属性.md",
+      "fileName": "前端技术/Vue/vue2/第 05 篇：计算属性与侦听属性.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2b8",
@@ -550,9 +586,11 @@
           "事件修饰符",
           "键盘事件"
         ],
-        "fileName": "前端技术/Vue/vue2/第 4 篇：Vue 2 事件处理.md"
+        "fileName": "前端技术/Vue/vue2/第 04 篇：Vue 2 事件处理.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 04 篇：Vue 2 事件处理.md",
+      "fileName": "前端技术/Vue/vue2/第 04 篇：Vue 2 事件处理.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2b6",
@@ -579,9 +617,11 @@
           "数据代理",
           "Object.defineProperty"
         ],
-        "fileName": "前端技术/Vue/vue2/第 3 篇：MVVM 与数据代理.md"
+        "fileName": "前端技术/Vue/vue2/第 03 篇：MVVM 与数据代理.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 03 篇：MVVM 与数据代理.md",
+      "fileName": "前端技术/Vue/vue2/第 03 篇：MVVM 与数据代理.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2b4",
@@ -608,9 +648,11 @@
           "插值语法",
           "数据绑定"
         ],
-        "fileName": "前端技术/Vue/vue2/第 2 篇：Vue 2 模板语法.md"
+        "fileName": "前端技术/Vue/vue2/第 02 篇：Vue 2 模板语法.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 02 篇：Vue 2 模板语法.md",
+      "fileName": "前端技术/Vue/vue2/第 02 篇：Vue 2 模板语法.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2a2",
@@ -637,9 +679,11 @@
           "入门",
           "基础环境"
         ],
-        "fileName": "前端技术/Vue/vue2/第 1 篇：Vue 2 初体验.md"
+        "fileName": "前端技术/Vue/vue2/第 01 篇：Vue 2 初体验.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/第 01 篇：Vue 2 初体验.md",
+      "fileName": "前端技术/Vue/vue2/第 01 篇：Vue 2 初体验.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac29e",
@@ -668,7 +712,10 @@
         ],
         "fileName": "前端技术/Vue/vue2/Vue 2 完整整理版.md"
       },
-      "h1Inserted": true
+      "h1Inserted": true,
+      "finalFileName": "前端技术/Vue/vue2/Vue 2 完整整理版.md",
+      "fileName": "前端技术/Vue/vue2/Vue 2 完整整理版.md"
     }
-  ]
+  ],
+  "fileNamePadded": true
 }

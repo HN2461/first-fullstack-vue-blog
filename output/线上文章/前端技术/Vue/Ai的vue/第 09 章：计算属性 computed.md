@@ -1,18 +1,22 @@
 ---
-title: "计算属性 computed（推荐优先使用）"
+title: "第 9 章：计算属性 computed"
 slug: "vue-ai-vue-computed-e0e31524"
-summary: ""
+summary: "Vue 计算属性笔记，整理 computed 的缓存机制、使用场景和与 methods 的区别。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "computed"
+  - "计算属性"
+  - "性能优化"
 status: "draft"
-sortOrder: 220
+sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac28e"
 originalSlug: "vue-ai-vue-computed-e0e31524"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第9章 计算属性 computed（推荐优先使用）
+# 第 9 章：计算属性 computed
 
 > 目标：掌握 Vue2 的计算属性 `computed`。
 > 

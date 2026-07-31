@@ -1,18 +1,22 @@
 ---
-title: "列表渲染 v-for（高频重点）"
+title: "第 6 章：列表渲染 v-for"
 slug: "vue-ai-vue-v-for-7d30ba15"
-summary: ""
+summary: "Vue 列表渲染笔记，整理 v-for、key、列表更新和高频注意事项。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "列表渲染"
+  - "v-for"
+  - "key"
 status: "draft"
-sortOrder: 250
+sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac288"
 originalSlug: "vue-ai-vue-v-for-7d30ba15"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第6章 列表渲染 v-for（高频重点）
+# 第 6 章：列表渲染 v-for
 
 > 目标：掌握 Vue2 中高频使用的列表渲染：
 > 

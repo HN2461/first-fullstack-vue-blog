@@ -1,18 +1,22 @@
 ---
-title: "附录B Vue 指令速查表"
+title: "附录 B：Vue 指令速查表"
 slug: "vue-ai-vue-b-vue-0374bedc"
-summary: ""
+summary: "Vue 指令速查表附录，整理常见内置指令及其使用场景。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "Vue 指令"
+  - "速查表"
+  - "附录"
 status: "draft"
-sortOrder: 50
+sortOrder: 260
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac292"
 originalSlug: "vue-ai-vue-b-vue-0374bedc"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 附录B：Vue 指令速查表
+# 附录 B：Vue 指令速查表
 
 > 目标：把 Vue2 高频指令按用途整理成速查表。
 

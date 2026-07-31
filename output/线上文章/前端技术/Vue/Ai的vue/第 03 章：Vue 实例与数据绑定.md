@@ -1,18 +1,22 @@
 ---
-title: "Vue 实例与数据绑定"
+title: "第 3 章：Vue 实例与数据绑定"
 slug: "vue-ai-vue-vue-f2943706"
-summary: ""
+summary: "Vue 实例和数据绑定基础，整理实例挂载、数据驱动视图和基础绑定方式。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "数据绑定"
+  - "Vue 实例"
+  - "响应式"
 status: "draft"
-sortOrder: 280
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac282"
 originalSlug: "vue-ai-vue-vue-f2943706"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第3章 Vue 实例与数据绑定
+# 第 3 章：Vue 实例与数据绑定
 
 > 目标：掌握 Vue2 的“起手式”——会写 `new Vue({})`，理解 `el/data/methods`，能完成最常见的数据绑定与事件交互，并避开初学者最容易踩的 `this` 相关坑。
 

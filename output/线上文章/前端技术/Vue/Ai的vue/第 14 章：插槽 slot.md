@@ -1,18 +1,22 @@
 ---
-title: "插槽 slot（封装组件必备）"
+title: "第 14 章：插槽 slot"
 slug: "vue-ai-vue-slot-32fece73"
-summary: ""
+summary: "Vue 插槽笔记，整理默认插槽、具名插槽、作用域插槽和组件封装场景。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue"
+  - "slot"
+  - "插槽"
+  - "组件封装"
 status: "draft"
-sortOrder: 170
+sortOrder: 140
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac268"
 originalSlug: "vue-ai-vue-slot-32fece73"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第14章 插槽 slot（封装组件必备）
+# 第 14 章：插槽 slot
 
 > 目标：掌握 Vue2 插槽体系，能用插槽封装“高复用组件”（如 Modal/Table/Card）。
 > 

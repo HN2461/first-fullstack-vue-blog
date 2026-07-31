@@ -1,18 +1,22 @@
 ---
-title: "附录A Vue2 生命周期图（建议配图）"
+title: "附录 A：Vue 2 生命周期图"
 slug: "vue-ai-vue-a-vue2-e1001ab4"
-summary: ""
+summary: "Vue 2 生命周期图附录，用于快速查阅生命周期阶段和钩子调用顺序。"
 category: "Ai的vue"
-tags: []
+tags:
+  - "Vue 2"
+  - "生命周期"
+  - "速查表"
+  - "附录"
 status: "draft"
-sortOrder: 60
+sortOrder: 250
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac290"
 originalSlug: "vue-ai-vue-a-vue2-e1001ab4"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 附录A：Vue2 生命周期图（建议配图）
+# 附录 A：Vue 2 生命周期图
 
 > 目标：用一张“可背可用”的生命周期流程图，帮助你在项目中快速判断：
 > 

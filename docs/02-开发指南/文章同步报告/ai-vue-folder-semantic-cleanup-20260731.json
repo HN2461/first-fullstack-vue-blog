@@ -1,0 +1,877 @@
+{
+  "generatedAt": "2026-07-31T07:17:50.776Z",
+  "scope": "output/线上文章/前端技术/Vue/Ai的vue",
+  "changedCount": 30,
+  "changes": [
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac29a",
+      "originalSlug": "vue-ai-vue-f-fa05c4ac",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "附录F 常见报错与解决方案合集",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/附录F-常见报错与解决方案合集.md"
+      },
+      "next": {
+        "title": "附录 F：常见报错与解决方案合集",
+        "summary": "Vue 常见报错与解决方案附录，整理开发过程中的高频错误和排查方式。",
+        "sortOrder": 300,
+        "tags": [
+          "Vue",
+          "常见报错",
+          "问题排查",
+          "附录"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/附录 F：常见报错与解决方案合集.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac298",
+      "originalSlug": "vue-ai-vue-e-72e17220",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "附录E 项目目录规范与命名规范建议",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/附录E-项目目录规范与命名规范建议.md"
+      },
+      "next": {
+        "title": "附录 E：项目目录规范与命名规范建议",
+        "summary": "Vue 项目目录和命名规范附录，整理目录拆分、文件命名和项目组织建议。",
+        "sortOrder": 290,
+        "tags": [
+          "Vue",
+          "项目规范",
+          "命名规范",
+          "附录"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/附录 E：项目目录规范与命名规范建议.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac296",
+      "originalSlug": "vue-ai-vue-d-vuex-8579ca48",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "附录D Vuex 速查表",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/附录D-Vuex-速查表.md"
+      },
+      "next": {
+        "title": "附录 D：Vuex 速查表",
+        "summary": "Vuex 速查表附录，整理 Vuex 核心概念、API 和常见写法。",
+        "sortOrder": 280,
+        "tags": [
+          "Vuex",
+          "状态管理",
+          "速查表",
+          "附录"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/附录 D：Vuex 速查表.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac292",
+      "originalSlug": "vue-ai-vue-b-vue-0374bedc",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "附录B Vue 指令速查表",
+        "summary": "",
+        "sortOrder": 50,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/附录B-Vue-指令速查表.md"
+      },
+      "next": {
+        "title": "附录 B：Vue 指令速查表",
+        "summary": "Vue 指令速查表附录，整理常见内置指令及其使用场景。",
+        "sortOrder": 260,
+        "tags": [
+          "Vue",
+          "Vue 指令",
+          "速查表",
+          "附录"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/附录 B：Vue 指令速查表.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac294",
+      "originalSlug": "vue-ai-vue-c-vue-router-8010183d",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "附录C Vue Router 速查表",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/附录C-Vue-Router-速查表.md"
+      },
+      "next": {
+        "title": "附录 C：Vue Router 速查表",
+        "summary": "Vue Router 速查表附录，整理常用路由配置、跳转和守卫相关用法。",
+        "sortOrder": 270,
+        "tags": [
+          "Vue Router",
+          "路由",
+          "速查表",
+          "附录"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/附录 C：Vue Router 速查表.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac290",
+      "originalSlug": "vue-ai-vue-a-vue2-e1001ab4",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "附录A Vue2 生命周期图（建议配图）",
+        "summary": "",
+        "sortOrder": 60,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/附录A-Vue2-生命周期图（建议配图）.md"
+      },
+      "next": {
+        "title": "附录 A：Vue 2 生命周期图",
+        "summary": "Vue 2 生命周期图附录，用于快速查阅生命周期阶段和钩子调用顺序。",
+        "sortOrder": 250,
+        "tags": [
+          "Vue 2",
+          "生命周期",
+          "速查表",
+          "附录"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/附录 A：Vue 2 生命周期图.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac27c",
+      "originalSlug": "vue-ai-vue-b084ddd6",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "常见问题与面试高频点",
+        "summary": "",
+        "sortOrder": 80,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/常见问题与面试高频点.md"
+      },
+      "next": {
+        "title": "第 23 章：常见问题与面试高频点",
+        "summary": "Vue 常见问题与面试高频点，适合作为课程学习后的复习和查漏补缺资料。",
+        "sortOrder": 230,
+        "tags": [
+          "Vue",
+          "面试高频",
+          "常见问题",
+          "复习"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 23 章：常见问题与面试高频点.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac27e",
+      "originalSlug": "vue-ai-vue-vue2-vue3-a7bca734",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "从 Vue2 迁移到 Vue3（过渡指南）",
+        "summary": "",
+        "sortOrder": 70,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/从-Vue2-迁移到-Vue3（过渡指南）.md"
+      },
+      "next": {
+        "title": "第 24 章：从 Vue 2 迁移到 Vue 3",
+        "summary": "Vue 2 到 Vue 3 迁移指南，整理迁移思路、API 差异、兼容注意事项和过渡方案。",
+        "sortOrder": 240,
+        "tags": [
+          "Vue 2",
+          "Vue 3",
+          "迁移指南",
+          "Composition API"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 24 章：从 Vue 2 迁移到 Vue 3.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac27a",
+      "originalSlug": "vue-ai-vue-vue2-925ccc25",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vue2 性能优化清单",
+        "summary": "",
+        "sortOrder": 90,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vue2-性能优化清单.md"
+      },
+      "next": {
+        "title": "第 22 章：Vue 2 性能优化清单",
+        "summary": "Vue 2 性能优化清单，整理组件渲染、列表、缓存、懒加载和项目优化要点。",
+        "sortOrder": 220,
+        "tags": [
+          "Vue 2",
+          "性能优化",
+          "优化清单",
+          "前端性能"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 22 章：Vue 2 性能优化清单.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac278",
+      "originalSlug": "vue-ai-vue-1eeeab1a",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "实战 后台管理系统（推荐实战方向）",
+        "summary": "",
+        "sortOrder": 100,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/实战-后台管理系统（推荐实战方向）.md"
+      },
+      "next": {
+        "title": "第 21 章：后台管理系统实战",
+        "summary": "Vue 后台管理系统实战方向，整理管理系统页面结构、模块拆分和推荐练习路径。",
+        "sortOrder": 210,
+        "tags": [
+          "Vue",
+          "后台管理系统",
+          "项目实战",
+          "前端工程"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 21 章：后台管理系统实战.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac276",
+      "originalSlug": "vue-ai-vue-axios-00b046d5",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Axios 网络请求与接口封装",
+        "summary": "",
+        "sortOrder": 110,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Axios-网络请求与接口封装.md"
+      },
+      "next": {
+        "title": "第 20 章：Axios 网络请求与接口封装",
+        "summary": "Axios 网络请求笔记，整理请求封装、接口管理、拦截器和项目中的接口调用方式。",
+        "sortOrder": 200,
+        "tags": [
+          "Axios",
+          "HTTP 请求",
+          "接口封装",
+          "Vue"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 20 章：Axios 网络请求与接口封装.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac272",
+      "originalSlug": "vue-ai-vue-vue-cli-15ca9855",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vue CLI 工程化体系",
+        "summary": "",
+        "sortOrder": 120,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vue-CLI-工程化体系.md"
+      },
+      "next": {
+        "title": "第 19 章：Vue CLI 工程化体系",
+        "summary": "Vue CLI 工程化笔记，整理项目脚手架、目录结构、构建配置和工程化开发流程。",
+        "sortOrder": 190,
+        "tags": [
+          "Vue CLI",
+          "工程化",
+          "Vue",
+          "构建工具"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 19 章：Vue CLI 工程化体系.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac270",
+      "originalSlug": "vue-ai-vue-vuex-d65018ae",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vuex 进阶（项目组织方式）",
+        "summary": "",
+        "sortOrder": 130,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vuex-进阶（项目组织方式）.md"
+      },
+      "next": {
+        "title": "第 18 章：Vuex 进阶",
+        "summary": "Vuex 进阶笔记，整理模块化、项目组织方式、状态拆分和大型项目使用思路。",
+        "sortOrder": 180,
+        "tags": [
+          "Vuex",
+          "状态管理",
+          "模块化",
+          "项目组织"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 18 章：Vuex 进阶.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac26e",
+      "originalSlug": "vue-ai-vue-vuex-7c0c8832",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vuex 基础（掌握核心概念）",
+        "summary": "",
+        "sortOrder": 140,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vuex-基础（掌握核心概念）.md"
+      },
+      "next": {
+        "title": "第 17 章：Vuex 基础",
+        "summary": "Vuex 基础笔记，整理 state、mutations、actions、getters 和核心状态管理概念。",
+        "sortOrder": 170,
+        "tags": [
+          "Vuex",
+          "状态管理",
+          "Vue",
+          "Store"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 17 章：Vuex 基础.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac26c",
+      "originalSlug": "vue-ai-vue-vue-router-b20d1fed",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vue Router 进阶（项目级能力）",
+        "summary": "",
+        "sortOrder": 150,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vue-Router-进阶（项目级能力）.md"
+      },
+      "next": {
+        "title": "第 16 章：Vue Router 进阶",
+        "summary": "Vue Router 进阶笔记，整理嵌套路由、路由守卫、动态路由和项目级路由能力。",
+        "sortOrder": 160,
+        "tags": [
+          "Vue Router",
+          "路由守卫",
+          "动态路由",
+          "Vue"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 16 章：Vue Router 进阶.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac26a",
+      "originalSlug": "vue-ai-vue-vue-router-0-a8f63d97",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vue Router 入门（从 0 到能用）",
+        "summary": "",
+        "sortOrder": 160,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vue-Router-入门（从-0-到能用）.md"
+      },
+      "next": {
+        "title": "第 15 章：Vue Router 入门",
+        "summary": "Vue Router 入门笔记，覆盖路由安装、基础配置、页面跳转和从 0 到可用的实践步骤。",
+        "sortOrder": 150,
+        "tags": [
+          "Vue Router",
+          "Vue",
+          "路由",
+          "SPA"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 15 章：Vue Router 入门.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac268",
+      "originalSlug": "vue-ai-vue-slot-32fece73",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "插槽 slot（封装组件必备）",
+        "summary": "",
+        "sortOrder": 170,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/插槽-slot（封装组件必备）.md"
+      },
+      "next": {
+        "title": "第 14 章：插槽 slot",
+        "summary": "Vue 插槽笔记，整理默认插槽、具名插槽、作用域插槽和组件封装场景。",
+        "sortOrder": 140,
+        "tags": [
+          "Vue",
+          "slot",
+          "插槽",
+          "组件封装"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 14 章：插槽 slot.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac266",
+      "originalSlug": "vue-ai-vue-vue2-67e0094d",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "组件通信大全（Vue2 必考）",
+        "summary": "",
+        "sortOrder": 180,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/组件通信大全（Vue2-必考）.md"
+      },
+      "next": {
+        "title": "第 13 章：组件通信大全",
+        "summary": "Vue 组件通信笔记，整理父子通信、事件、插槽、跨层级通信和常见面试点。",
+        "sortOrder": 130,
+        "tags": [
+          "Vue",
+          "组件通信",
+          "props",
+          "插槽"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 13 章：组件通信大全.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac264",
+      "originalSlug": "vue-ai-vue-c20f0d85",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "组件基础（从零写组件）",
+        "summary": "",
+        "sortOrder": 190,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/组件基础（从零写组件）.md"
+      },
+      "next": {
+        "title": "第 12 章：组件基础",
+        "summary": "Vue 组件基础笔记，介绍组件拆分、注册、使用和组件化开发思路。",
+        "sortOrder": 120,
+        "tags": [
+          "Vue",
+          "组件",
+          "组件化",
+          "前端工程"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 12 章：组件基础.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac262",
+      "originalSlug": "vue-ai-vue-lifecycle-48e90c0f",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "生命周期 lifecycle（项目必用）",
+        "summary": "",
+        "sortOrder": 200,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/生命周期-lifecycle（项目必用）.md"
+      },
+      "next": {
+        "title": "第 11 章：生命周期",
+        "summary": "Vue 生命周期笔记，整理创建、挂载、更新、销毁阶段和项目中的常见使用点。",
+        "sortOrder": 110,
+        "tags": [
+          "Vue",
+          "生命周期",
+          "生命周期钩子",
+          "组件状态"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 11 章：生命周期.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac260",
+      "originalSlug": "vue-ai-vue-watch-79d389b8",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "侦听器 watch（处理复杂与异步）",
+        "summary": "",
+        "sortOrder": 210,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/侦听器-watch（处理复杂与异步）.md"
+      },
+      "next": {
+        "title": "第 10 章：侦听器 watch",
+        "summary": "Vue 侦听器笔记，整理 watch 的复杂数据监听、异步处理和与 computed 的区别。",
+        "sortOrder": 100,
+        "tags": [
+          "Vue",
+          "watch",
+          "侦听器",
+          "异步处理"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 10 章：侦听器 watch.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac28e",
+      "originalSlug": "vue-ai-vue-computed-e0e31524",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "计算属性 computed（推荐优先使用）",
+        "summary": "",
+        "sortOrder": 220,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/计算属性-computed（推荐优先使用）.md"
+      },
+      "next": {
+        "title": "第 9 章：计算属性 computed",
+        "summary": "Vue 计算属性笔记，整理 computed 的缓存机制、使用场景和与 methods 的区别。",
+        "sortOrder": 90,
+        "tags": [
+          "Vue",
+          "computed",
+          "计算属性",
+          "性能优化"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 09 章：计算属性 computed.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac28c",
+      "originalSlug": "vue-ai-vue-vue2-d73035df",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vue2 响应式原理（理解核心机制）",
+        "summary": "",
+        "sortOrder": 230,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vue2-响应式原理（理解核心机制）.md"
+      },
+      "next": {
+        "title": "第 8 章：Vue 2 响应式原理",
+        "summary": "Vue 2 响应式原理笔记，解释 Object.defineProperty、依赖收集和视图更新机制。",
+        "sortOrder": 80,
+        "tags": [
+          "Vue 2",
+          "响应式原理",
+          "Object.defineProperty",
+          "依赖收集"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 08 章：Vue 2 响应式原理.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac28a",
+      "originalSlug": "vue-ai-vue-v-model-c66bd182",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "表单处理 v-model（表单全家桶）",
+        "summary": "",
+        "sortOrder": 240,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/表单处理-v-model（表单全家桶）.md"
+      },
+      "next": {
+        "title": "第 7 章：表单处理 v-model",
+        "summary": "Vue 表单处理笔记，覆盖 v-model、输入控件绑定、表单状态和常见表单场景。",
+        "sortOrder": 70,
+        "tags": [
+          "Vue",
+          "表单处理",
+          "v-model",
+          "表单绑定"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 07 章：表单处理 v-model.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac288",
+      "originalSlug": "vue-ai-vue-v-for-7d30ba15",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "列表渲染 v-for（高频重点）",
+        "summary": "",
+        "sortOrder": 250,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/列表渲染-v-for（高频重点）.md"
+      },
+      "next": {
+        "title": "第 6 章：列表渲染 v-for",
+        "summary": "Vue 列表渲染笔记，整理 v-for、key、列表更新和高频注意事项。",
+        "sortOrder": 60,
+        "tags": [
+          "Vue",
+          "列表渲染",
+          "v-for",
+          "key"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 06 章：列表渲染 v-for.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac286",
+      "originalSlug": "vue-ai-vue-cafaf922",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "条件渲染（控制页面显示）",
+        "summary": "",
+        "sortOrder": 260,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/条件渲染（控制页面显示）.md"
+      },
+      "next": {
+        "title": "第 5 章：条件渲染",
+        "summary": "Vue 条件渲染笔记，整理 v-if、v-else、v-show 的使用区别和适用场景。",
+        "sortOrder": 50,
+        "tags": [
+          "Vue",
+          "条件渲染",
+          "v-if",
+          "v-show"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 05 章：条件渲染.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac284",
+      "originalSlug": "vue-ai-vue-template-2bebc61d",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "模板语法 Template（指令体系）",
+        "summary": "",
+        "sortOrder": 270,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/模板语法-Template（指令体系）.md"
+      },
+      "next": {
+        "title": "第 4 章：模板语法与指令体系",
+        "summary": "Vue 模板语法和指令体系，覆盖插值、v-bind、v-on、v-if、v-for 等常用指令。",
+        "sortOrder": 40,
+        "tags": [
+          "Vue",
+          "模板语法",
+          "Vue 指令",
+          "数据绑定"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 04 章：模板语法与指令体系.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac282",
+      "originalSlug": "vue-ai-vue-vue-f2943706",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vue 实例与数据绑定",
+        "summary": "",
+        "sortOrder": 280,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vue-实例与数据绑定.md"
+      },
+      "next": {
+        "title": "第 3 章：Vue 实例与数据绑定",
+        "summary": "Vue 实例和数据绑定基础，整理实例挂载、数据驱动视图和基础绑定方式。",
+        "sortOrder": 30,
+        "tags": [
+          "Vue",
+          "数据绑定",
+          "Vue 实例",
+          "响应式"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 03 章：Vue 实例与数据绑定.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac280",
+      "originalSlug": "vue-ai-vue-vue-aa8054ba",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "环境准备与第一个 Vue 项目",
+        "summary": "",
+        "sortOrder": 290,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/环境准备与第一个-Vue-项目.md"
+      },
+      "next": {
+        "title": "第 2 章：环境准备与第一个 Vue 项目",
+        "summary": "Vue 开发环境准备，覆盖 Node、脚手架、项目创建和第一个 Vue 项目运行。",
+        "sortOrder": 20,
+        "tags": [
+          "Vue",
+          "环境准备",
+          "项目创建",
+          "Node.js"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 02 章：环境准备与第一个 Vue 项目.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac274",
+      "originalSlug": "vue-ai-vue-vue-vue-0208816f",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "Ai的vue"
+      ],
+      "old": {
+        "title": "Vue 是什么 为什么要学 Vue",
+        "summary": "",
+        "sortOrder": 300,
+        "tags": [],
+        "fileName": "前端技术/Vue/Ai的vue/Vue-是什么-为什么要学-Vue.md"
+      },
+      "next": {
+        "title": "第 1 章：Vue 是什么，为什么要学 Vue",
+        "summary": "Vue 入门概览，解释 Vue 的定位、学习价值、适用场景和与传统开发方式的区别。",
+        "sortOrder": 10,
+        "tags": [
+          "Vue",
+          "Vue 入门",
+          "前端框架",
+          "学习路线"
+        ],
+        "fileName": "前端技术/Vue/Ai的vue/第 01 章：Vue 是什么，为什么要学 Vue.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}
