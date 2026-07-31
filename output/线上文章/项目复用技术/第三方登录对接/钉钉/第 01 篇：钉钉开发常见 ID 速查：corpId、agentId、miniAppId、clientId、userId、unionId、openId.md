@@ -1,22 +1,24 @@
 ---
-title: "钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId"
+title: "第 1 篇：钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId"
 slug: "id-corpid-agentid-miniappid-clientid-userid-unionid-openid-44a970d5"
-summary: "梳理钉钉开发中最容易混淆的各种 ID，适用于 H5 微应用、PC 扫码登录、钉钉小程序等所有钉钉接入场景。"
+summary: "钉钉开发常见 ID 速查，梳理 H5 微应用、PC 扫码登录、钉钉小程序中 corpId、agentId、miniAppId、clientId、userId、unionId、openId 的职责。"
 category: "钉钉"
 tags:
   - "钉钉"
-  - "身份体系"
-  - "企业应用"
   - "ID速查"
+  - "corpId"
+  - "agentId"
+  - "clientId"
+  - "unionId"
 status: "draft"
-sortOrder: 170
+sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac76c"
 originalSlug: "id-corpid-agentid-miniappid-clientid-userid-unionid-openid-44a970d5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId
+# 第 1 篇：钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId
 
 > 适用场景：H5 微应用、PC 扫码登录、钉钉小程序、企业内部应用、第三方企业应用，所有钉钉接入场景通用。
 

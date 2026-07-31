@@ -1,0 +1,1051 @@
+{
+  "generatedAt": "2026-07-31T09:55:27.271Z",
+  "scope": "output/线上文章/项目复用技术/第三方登录对接",
+  "changedCount": 31,
+  "changes": [
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7b4",
+      "originalSlug": "ce1000-01-cannot-resolve-module-c9610025",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/02-改造过程/错误记录/CE1000.01-cannot-resolve-module.md",
+      "old": {
+        "title": "CE1000.01-cannot-resolve-module",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/CE1000.01-cannot-resolve-module.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 17 篇：CE1000.01 cannot resolve module 排障：编译报错、模块解析、影响文件、修复记录",
+        "summary": "CE1000.01 cannot resolve module 错误记录，说明出现阶段、错误信息、原因、影响文件和钉钉小程序编译链路修复方式。",
+        "tags": [
+          "钉钉小程序",
+          "CE1000.01",
+          "编译报错",
+          "模块解析",
+          "排障"
+        ],
+        "sortOrder": 170,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 17 篇：CE1000.01 cannot resolve module 排障：编译报错、模块解析、影响文件、修复记录.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7b0",
+      "originalSlug": "legacy-c6210297-c6210297",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/02-改造过程/钉钉小程序迁移过程记录.md",
+      "old": {
+        "title": "钉钉小程序迁移过程记录",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/钉钉小程序迁移过程记录.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 15 篇：钉钉小程序迁移过程记录：总索引、步骤记录、错误记录、维护约定",
+        "summary": "钉钉小程序迁移过程记录总索引，整理当前上下文、步骤记录、错误记录和迁移维护约定。",
+        "tags": [
+          "钉钉小程序",
+          "迁移过程",
+          "总索引",
+          "步骤记录",
+          "错误记录"
+        ],
+        "sortOrder": 150,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 15 篇：钉钉小程序迁移过程记录：总索引、步骤记录、错误记录、维护约定.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7ae",
+      "originalSlug": "1-e6cc4f94",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/02-改造过程/步骤记录/阶段1-编译链路接入.md",
+      "old": {
+        "title": "阶段1-编译链路接入",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/阶段1-编译链路接入.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 16 篇：钉钉小程序迁移阶段 1：编译链路、mp-dingtalk、package.json、CE1000.01",
+        "summary": "钉钉小程序迁移阶段 1 编译链路接入记录，覆盖 mp-dingtalk 编译脚本、package.json 修改、CE1000.01 修复和阶段结论。",
+        "tags": [
+          "钉钉小程序",
+          "编译链路",
+          "mp-dingtalk",
+          "package.json",
+          "CE1000.01"
+        ],
+        "sortOrder": 160,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 16 篇：钉钉小程序迁移阶段 1：编译链路、mp-dingtalk、package.json、CE1000.01.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7a6",
+      "originalSlug": "uni-app-76afed62",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/01-知识文档/05-微信常见能力迁移到钉钉怎么处理_登录手机号支付消息通知对照.md",
+      "old": {
+        "title": "微信常见能力迁移到钉钉怎么处理（登录、手机号、支付、消息通知对照）",
+        "summary": "按功能点对照微信小程序和钉钉小程序，重点梳理 wx.login、手机号、支付、订阅消息等常见能力迁移时的处理思路，并标明哪些有官方对应能力、哪些需要重设计。",
+        "sortOrder": 40,
+        "tags": [
+          "钉钉小程序",
+          "微信小程序",
+          "dingtalk-jsapi",
+          "项目迁移",
+          "消息通知"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/微信常见能力迁移到钉钉怎么处理（登录、手机号、支付、消息通知对照）.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 14 篇：微信能力迁移到钉钉处理对照：登录、手机号、支付、消息通知、能力重设计",
+        "summary": "微信常见能力迁移到钉钉的处理对照，覆盖登录、手机号、支付、订阅消息和通知能力，说明有无官方对应能力及重设计边界。",
+        "tags": [
+          "钉钉小程序",
+          "微信小程序",
+          "能力迁移",
+          "登录",
+          "手机号",
+          "支付"
+        ],
+        "sortOrder": 140,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 14 篇：微信能力迁移到钉钉处理对照：登录、手机号、支付、消息通知、能力重设计.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7a2",
+      "originalSlug": "uni-app-uni-app-wx-616a50b5",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/01-知识文档/04-uni-app项目里最常见的wx替换清单_附代码模板.md",
+      "old": {
+        "title": "uni-app 项目里最常见的 wx 替换清单（附代码模板）",
+        "summary": "面向真实项目整理 uni-app 中常见 wx 写法迁到钉钉小程序时的替换思路，区分哪些应改为 uni、哪些应改为 dd 或 dingtalk-jsapi，并附适配层代码模板。",
+        "sortOrder": 50,
+        "tags": [
+          "uni-app",
+          "钉钉小程序",
+          "wx",
+          "条件编译",
+          "dingtalk-jsapi"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/uni-app-项目里最常见的-wx-替换清单（附代码模板）.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 13 篇：uni-app 项目 wx 替换清单：uni、dd、dingtalk-jsapi、条件编译、适配层模板",
+        "summary": "uni-app 项目常见 wx 写法迁移钉钉清单，区分 uni、dd、dingtalk-jsapi 的替换边界，附条件编译和适配层代码模板。",
+        "tags": [
+          "uni-app",
+          "钉钉小程序",
+          "wx替换",
+          "条件编译",
+          "dingtalk-jsapi"
+        ],
+        "sortOrder": 130,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 13 篇：uni-app 项目 wx 替换清单：uni、dd、dingtalk-jsapi、条件编译、适配层模板.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac79e",
+      "originalSlug": "uni-app-uni-app-5b84c227",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/01-知识文档/03-现有uni-app项目改成钉钉小程序的实战改造清单.md",
+      "old": {
+        "title": "现有 uni-app 项目改成钉钉小程序的实战改造清单",
+        "summary": "面向真实项目的 uni-app 到钉钉小程序改造清单，结合 uni-app 与钉钉开放平台官方资料，按排查、接入、改造、联调、发布的顺序拆解前端落地步骤。",
+        "sortOrder": 60,
+        "tags": [
+          "uni-app",
+          "钉钉小程序",
+          "项目迁移",
+          "条件编译",
+          "dingtalk-jsapi"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/现有-uni-app-项目改成钉钉小程序的实战改造清单.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 12 篇：uni-app 项目改造钉钉小程序清单：排查、编译接入、代码改造、联调发布",
+        "summary": "现有 uni-app 项目改成钉钉小程序的实战改造清单，按排查、编译目标接入、代码改造、联调和发布拆解落地步骤。",
+        "tags": [
+          "uni-app",
+          "钉钉小程序",
+          "项目改造",
+          "条件编译",
+          "联调发布"
+        ],
+        "sortOrder": 120,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 12 篇：uni-app 项目改造钉钉小程序清单：排查、编译接入、代码改造、联调发布.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac798",
+      "originalSlug": "uni-app-uni-app-81c6612d",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/01-知识文档/02-uni-app微信小程序迁移钉钉小程序-完整指南.md",
+      "old": {
+        "title": "uni-app 微信小程序迁移钉钉小程序完整指南",
+        "summary": "面向已有 uni-app 微信小程序项目的迁移指南，覆盖路线选型、编译目标接入、代码改造、登录链路、联调发布完整流程。",
+        "sortOrder": 70,
+        "tags": [
+          "uni-app",
+          "钉钉小程序",
+          "微信小程序",
+          "小程序迁移",
+          "跨端开发"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/uni-app-微信小程序迁移钉钉小程序完整指南.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 11 篇：uni-app 微信小程序迁移钉钉小程序指南：路线选型、编译目标、适配层、登录链路、联调发布",
+        "summary": "uni-app 微信小程序迁移钉钉小程序完整指南，覆盖路线选型、编译目标接入、平台适配层、登录链路、联调和发布流程。",
+        "tags": [
+          "uni-app",
+          "钉钉小程序",
+          "微信小程序",
+          "项目迁移",
+          "适配层"
+        ],
+        "sortOrder": 110,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 11 篇：uni-app 微信小程序迁移钉钉小程序指南：路线选型、编译目标、适配层、登录链路、联调发布.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac794",
+      "originalSlug": "uni-app-0-1-a387b249",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/03-小程序/01-知识文档/01-钉钉小程序前端开发从0到1_结合钉钉开放平台.md",
+      "old": {
+        "title": "钉钉小程序前端开发从0到1（结合钉钉开放平台）",
+        "summary": "面向前端新手的钉钉小程序入门文档，结合钉钉开放平台官方资料，按“先理解、再创建、再写页面、再调 API、再上传发布”的顺序讲清开发流程。",
+        "sortOrder": 80,
+        "tags": [
+          "钉钉小程序",
+          "钉钉开放平台",
+          "前端开发",
+          "第三方企业应用",
+          "uni-app"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/钉钉小程序前端开发从0到1（结合钉钉开放平台）.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 10 篇：钉钉小程序前端开发从 0 到 1：开放平台、第三方企业应用、页面开发、上传发布",
+        "summary": "钉钉小程序前端开发入门，结合钉钉开放平台说明应用类型、项目创建、页面开发、API 调用、上传发布和第三方企业应用定位。",
+        "tags": [
+          "钉钉小程序",
+          "钉钉开放平台",
+          "前端开发",
+          "第三方企业应用",
+          "上传发布"
+        ],
+        "sortOrder": 100,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 10 篇：钉钉小程序前端开发从 0 到 1：开放平台、第三方企业应用、页面开发、上传发布.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac78c",
+      "originalSlug": "pc-pc-44f7ba8c",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/02-PC微应用/01-知识文档/03-钉钉账号绑定实现方案_PC端扫码绑定.md",
+      "old": {
+        "title": "钉钉账号绑定实现方案：PC端扫码绑定",
+        "summary": "",
+        "sortOrder": 90,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/钉钉账号绑定实现方案_PC端扫码绑定.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 9 篇：钉钉账号绑定方案：PC 扫码绑定、原地处理、绑定解绑、前后端流程",
+        "summary": "钉钉账号绑定实现方案，重点区分登录与绑定，说明 PC 端扫码绑定、原地处理、绑定解绑、前后端流程和关键实现。",
+        "tags": [
+          "钉钉",
+          "账号绑定",
+          "PC扫码",
+          "绑定解绑",
+          "前后端对接"
+        ],
+        "sortOrder": 90,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 09 篇：钉钉账号绑定方案：PC 扫码绑定、原地处理、绑定解绑、前后端流程.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac78a",
+      "originalSlug": "pc-pc-738e0cc4",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/02-PC微应用/01-知识文档/02-PC端钉钉登录四链路实现指南.md",
+      "old": {
+        "title": "PC端钉钉登录四链路实现指南",
+        "summary": "",
+        "sortOrder": 100,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/PC端钉钉登录四链路实现指南.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 8 篇：PC 端钉钉登录四链路实现指南：扫码登录、客户端免登、账号绑定、解绑",
+        "summary": "PC 端钉钉登录四链路实现指南，覆盖扫码登录、钉钉客户端内 H5 免登、账号绑定解绑和多链路前后端协作。",
+        "tags": [
+          "钉钉",
+          "PC登录",
+          "扫码登录",
+          "免登",
+          "账号绑定"
+        ],
+        "sortOrder": 80,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 08 篇：PC 端钉钉登录四链路实现指南：扫码登录、客户端免登、账号绑定、解绑.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac786",
+      "originalSlug": "pc-pc-f80d8c7b",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/02-PC微应用/01-知识文档/01-PC项目一套代码多学校部署下的钉钉扫码登录接入方案_前后端对接清单.md",
+      "old": {
+        "title": "PC 项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单",
+        "summary": "面向\"一套代码、多租户独立部署、按域名返回租户配置\"的 PC 项目，梳理钉钉第三方企业应用扫码登录的接入思路、配置项、接口约定与常见坑位。",
+        "sortOrder": 110,
+        "tags": [
+          "钉钉扫码登录",
+          "第三方企业应用",
+          "PC 项目",
+          "多租户部署",
+          "前后端联调"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/PC-项目多租户部署下的钉钉扫码登录接入方案：前后端对接清单.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 7 篇：PC 多租户钉钉扫码登录接入方案：一套代码、多学校部署、租户配置、前后端清单",
+        "summary": "PC 项目多租户部署下的钉钉扫码登录接入方案，覆盖一套代码多学校部署、按域名返回租户配置、第三方企业应用和前后端对接清单。",
+        "tags": [
+          "钉钉",
+          "PC扫码登录",
+          "多租户",
+          "第三方企业应用",
+          "前后端联调"
+        ],
+        "sortOrder": 70,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 07 篇：PC 多租户钉钉扫码登录接入方案：一套代码、多学校部署、租户配置、前后端清单.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac77c",
+      "originalSlug": "h5-h5-jsapi-d670249e",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/01-H5微应用/01-知识文档/05-钉钉H5微应用-JSAPI能力调用-前后端对接清单.md",
+      "old": {
+        "title": "钉钉H5微应用-JSAPI能力调用-前后端对接清单",
+        "summary": "",
+        "sortOrder": 120,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/钉钉H5微应用-JSAPI能力调用-前后端对接清单.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 6 篇：钉钉 H5 微应用 JSAPI 对接清单：能力调用、前后端协议、签名、常用 JSAPI",
+        "summary": "钉钉 H5 微应用 JSAPI 能力调用前后端对接清单，覆盖整体流程、前端调用方式、常用 JSAPI、后端协议和联调注意事项。",
+        "tags": [
+          "钉钉",
+          "H5微应用",
+          "JSAPI",
+          "前后端对接",
+          "签名"
+        ],
+        "sortOrder": 60,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 06 篇：钉钉 H5 微应用 JSAPI 对接清单：能力调用、前后端协议、签名、常用 JSAPI.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac77a",
+      "originalSlug": "h5-9277dde7",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/01-H5微应用/01-知识文档/04-研究-钉钉微应用登录-项目实现核验结论（移动端仓库）.md",
+      "old": {
+        "title": "研究-钉钉微应用登录-项目实现核验结论（移动端仓库）",
+        "summary": "",
+        "sortOrder": 130,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/研究-钉钉微应用登录-项目实现核验结论（移动端仓库）.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 5 篇：钉钉微应用登录项目核验结论：移动端仓库、官方依据、实现对照、风险点",
+        "summary": "钉钉微应用登录项目实现核验结论，结合官方依据和移动端仓库代码，对照 H5 微应用免登调用规则、实现状态和风险点。",
+        "tags": [
+          "钉钉",
+          "微应用登录",
+          "项目核验",
+          "官方依据",
+          "移动端仓库"
+        ],
+        "sortOrder": 50,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 05 篇：钉钉微应用登录项目核验结论：移动端仓库、官方依据、实现对照、风险点.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac778",
+      "originalSlug": "h5-h5-20768eaf",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/01-H5微应用/01-知识文档/03-研究-钉钉登录-H5微应用双链路实现梳理（移动端仓库）.md",
+      "old": {
+        "title": "研究-钉钉登录-H5微应用双链路实现梳理（移动端仓库）",
+        "summary": "",
+        "sortOrder": 140,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/研究-钉钉登录-H5微应用双链路实现梳理（移动端仓库）.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 4 篇：钉钉 H5 微应用双链路实现梳理：入口分流、移动端仓库、免登链路、项目对照",
+        "summary": "钉钉 H5 微应用双链路实现梳理，基于移动端仓库说明入口分流、免登链路、项目实现和前后端职责边界。",
+        "tags": [
+          "钉钉",
+          "H5微应用",
+          "免登",
+          "入口分流",
+          "项目核验"
+        ],
+        "sortOrder": 40,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 04 篇：钉钉 H5 微应用双链路实现梳理：入口分流、移动端仓库、免登链路、项目对照.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac776",
+      "originalSlug": "h5-uni-app-h5-2048111a",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/01-H5微应用/01-知识文档/02-uni-app编译H5接入钉钉微应用-适配要点与代码模板.md",
+      "old": {
+        "title": "uni-app编译H5接入钉钉微应用-适配要点与代码模板",
+        "summary": "",
+        "sortOrder": 150,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/uni-app编译H5接入钉钉微应用-适配要点与代码模板.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 3 篇：uni-app H5 接入钉钉微应用：dingtalk-jsapi、登录页改造、平台工具、代码模板",
+        "summary": "uni-app 编译 H5 接入钉钉微应用适配方案，覆盖 dingtalk-jsapi 引入、平台工具模块、登录页改造、API 差异和代码模板。",
+        "tags": [
+          "钉钉",
+          "uni-app",
+          "H5微应用",
+          "dingtalk-jsapi",
+          "代码模板"
+        ],
+        "sortOrder": 30,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 03 篇：uni-app H5 接入钉钉微应用：dingtalk-jsapi、登录页改造、平台工具、代码模板.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac774",
+      "originalSlug": "h5-h5-0-1-9053e9e2",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/01-H5微应用/01-知识文档/01-钉钉H5微应用-从0到1开发指南.md",
+      "old": {
+        "title": "钉钉H5微应用-从0到1开发指南",
+        "summary": "",
+        "sortOrder": 160,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/钉钉H5微应用-从0到1开发指南.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 2 篇：钉钉 H5 微应用开发指南：开放平台配置、uni-app H5、免登、发布流程",
+        "summary": "钉钉 H5 微应用从 0 到 1 开发指南，覆盖微应用概念、开放平台配置、uni-app H5 产物、免登流程、接口对接和发布流程。",
+        "tags": [
+          "钉钉",
+          "H5微应用",
+          "开放平台",
+          "免登",
+          "uni-app"
+        ],
+        "sortOrder": 20,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 02 篇：钉钉 H5 微应用开发指南：开放平台配置、uni-app H5、免登、发布流程.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac76c",
+      "originalSlug": "id-corpid-agentid-miniappid-clientid-userid-unionid-openid-44a970d5",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/00-通用知识/01-钉钉常见ID速查_corpId_agentId_miniAppId_clientId_userId_unionId_openId.md",
+      "old": {
+        "title": "钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId",
+        "summary": "梳理钉钉开发中最容易混淆的各种 ID，适用于 H5 微应用、PC 扫码登录、钉钉小程序等所有钉钉接入场景。",
+        "sortOrder": 170,
+        "tags": [
+          "钉钉",
+          "身份体系",
+          "企业应用",
+          "ID速查"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/钉钉/钉钉开发常见-ID-速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/钉钉",
+        "title": "第 1 篇：钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId",
+        "summary": "钉钉开发常见 ID 速查，梳理 H5 微应用、PC 扫码登录、钉钉小程序中 corpId、agentId、miniAppId、clientId、userId、unionId、openId 的职责。",
+        "tags": [
+          "钉钉",
+          "ID速查",
+          "corpId",
+          "agentId",
+          "clientId",
+          "unionId"
+        ],
+        "sortOrder": 10,
+        "fileName": "项目复用技术/第三方登录对接/钉钉/第 01 篇：钉钉开发常见 ID 速查：corpId、agentId、miniAppId、clientId、userId、unionId、openId.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7e6",
+      "originalSlug": "legacy-a7fe5afb-a7fe5afb",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "对比笔记"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/99-对比笔记/统一登录中心与子系统切换实战说明.md",
+      "old": {
+        "title": "统一登录中心与子系统切换实战说明",
+        "summary": "结合“一个登录页、多个子系统、登录后直接进入目标子系统”的真实场景，说明统一登录中心如何签发一次性票据、前后端如何配合完成单点登录，以及为什么不能直接把账号密码在站点之间来回传递。",
+        "sortOrder": 10,
+        "tags": [
+          "单点登录",
+          "SSO",
+          "OAuth2",
+          "OpenID Connect",
+          "子系统切换"
+        ],
+        "fileName": "项目复用技术/第三方登录对接/对比笔记/统一登录中心与子系统切换实战说明.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/对比笔记",
+        "title": "第 1 篇：统一登录中心与子系统切换实战：SSO、一次性票据、目标系统跳转、安全边界",
+        "summary": "统一登录中心与子系统切换实战说明，覆盖一个登录页、多个子系统、一次性票据、SSO 跳转、前后端配合和账号密码传递风险。",
+        "tags": [
+          "单点登录",
+          "SSO",
+          "OAuth2",
+          "一次性票据",
+          "子系统切换"
+        ],
+        "sortOrder": 10,
+        "fileName": "项目复用技术/第三方登录对接/对比笔记/第 01 篇：统一登录中心与子系统切换实战：SSO、一次性票据、目标系统跳转、安全边界.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7ea",
+      "originalSlug": "legacy-52ecb25c-52ecb25c",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "对比笔记"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/99-对比笔记/钉钉与企业微信登录实现笔记.md",
+      "old": {
+        "title": "钉钉与企业微信登录实现笔记",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/对比笔记/钉钉与企业微信登录实现笔记.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/对比笔记",
+        "title": "第 2 篇：钉钉与企业微信登录实现对比：H5、PC 扫码、小程序、账号绑定、流程差异",
+        "summary": "钉钉与企业微信登录实现对比笔记，梳理 H5 微应用、PC 扫码、小程序登录、账号绑定、ID 差异和前后端对接流程。",
+        "tags": [
+          "钉钉",
+          "企业微信",
+          "第三方登录",
+          "登录对比",
+          "账号绑定"
+        ],
+        "sortOrder": 20,
+        "fileName": "项目复用技术/第三方登录对接/对比笔记/第 02 篇：钉钉与企业微信登录实现对比：H5、PC 扫码、小程序、账号绑定、流程差异.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac760",
+      "originalSlug": "legacy-079f6d23-079f6d23",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "概念速查"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/00-概念速查/第三方登录-术语与场景速查.md",
+      "old": {
+        "title": "第三方登录-术语与场景速查",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/概念速查/第三方登录-术语与场景速查.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/概念速查",
+        "title": "第 1 篇：第三方登录术语与场景速查：OAuth2、微应用、扫码登录、账号绑定、SSO",
+        "summary": "第三方登录术语与场景速查，区分 OAuth2、企业微应用、PC 扫码登录、账号绑定、统一登录中心、SSO 和子系统切换等常见概念。",
+        "tags": [
+          "第三方登录",
+          "OAuth2",
+          "SSO",
+          "微应用",
+          "扫码登录",
+          "账号绑定"
+        ],
+        "sortOrder": 10,
+        "fileName": "项目复用技术/第三方登录对接/概念速查/第 01 篇：第三方登录术语与场景速查：OAuth2、微应用、扫码登录、账号绑定、SSO.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7d8",
+      "originalSlug": "wx-qy-login-code2session-56702606",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/03-小程序/01-知识文档/01-企业微信小程序登录接入方案_wx.qy.login_code2Session.md",
+      "old": {
+        "title": "企业微信小程序登录接入方案：wx.qy.login 与 code2Session",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信小程序登录接入方案_wx.qy.login_code2Session.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 11 篇：企业微信小程序登录接入方案：wx.qy.login、code2Session、登录态、普通微信差异",
+        "summary": "企业微信小程序登录接入方案，覆盖 wx.qy.login、code2Session、前端登录流程、后端接口、登录态维护和普通微信小程序登录差异。",
+        "tags": [
+          "企业微信",
+          "小程序登录",
+          "wx.qy.login",
+          "code2Session",
+          "登录态"
+        ],
+        "sortOrder": 110,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 11 篇：企业微信小程序登录接入方案：wx.qy.login、code2Session、登录态、普通微信差异.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7d4",
+      "originalSlug": "pc-pc-393c27b2",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/02-PC扫码登录/01-知识文档/02-企业微信账号绑定实现方案_PC端扫码绑定.md",
+      "old": {
+        "title": "企业微信账号绑定实现方案：PC端扫码绑定",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信账号绑定实现方案_PC端扫码绑定.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 10 篇：企业微信账号绑定方案：PC 扫码绑定、登录区别、绑定解绑、前后端流程",
+        "summary": "企业微信账号绑定实现方案，重点区分登录和绑定，说明 PC 端扫码绑定、绑定解绑、前后端流程和关键实现。",
+        "tags": [
+          "企业微信",
+          "账号绑定",
+          "PC扫码",
+          "绑定解绑",
+          "前后端对接"
+        ],
+        "sortOrder": 100,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 10 篇：企业微信账号绑定方案：PC 扫码绑定、登录区别、绑定解绑、前后端流程.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7d2",
+      "originalSlug": "pc-pc-ww-createwwloginpanel-55975a93",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/02-PC扫码登录/01-知识文档/01-企业微信网页授权登录_PC扫码登录_ww.createWWLoginPanel.md",
+      "old": {
+        "title": "企业微信网页授权登录：PC扫码登录与 ww.createWWLoginPanel",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信网页授权登录_PC扫码登录_ww.createWWLoginPanel.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 9 篇：企业微信 PC 扫码登录：网页授权、ww.createWWLoginPanel、回调、前后端对接",
+        "summary": "企业微信网页授权与 PC 扫码登录接入，覆盖 ww.createWWLoginPanel、登录方式、开发准备、回调处理和前后端对接。",
+        "tags": [
+          "企业微信",
+          "PC扫码登录",
+          "网页授权",
+          "ww.createWWLoginPanel",
+          "回调"
+        ],
+        "sortOrder": 90,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 09 篇：企业微信 PC 扫码登录：网页授权、ww.createWWLoginPanel、回调、前后端对接.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7ce",
+      "originalSlug": "h5-oauth-e33b6d35",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/01-H5微应用/02-排障记录/单可信域名跨域OAuth解决方案.md",
+      "old": {
+        "title": "单可信域名跨域OAuth解决方案",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/单可信域名跨域OAuth解决方案.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造",
+        "summary": "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。",
+        "tags": [
+          "企业微信",
+          "OAuth2",
+          "可信域名",
+          "跨域",
+          "授权回调"
+        ],
+        "sortOrder": 70,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 07 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7cc",
+      "originalSlug": "h5-h5-errcode60020-ip-ip-0be8e8e2",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/01-H5微应用/02-排障记录/企业微信H5登录-errcode60020-后端IP未加可信IP白名单.md",
+      "old": {
+        "title": "企业微信H5登录-errcode60020-后端IP未加可信IP白名单",
+        "summary": "",
+        "sortOrder": 50,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信H5登录-errcode60020-后端IP未加可信IP白名单.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 8 篇：企业微信 H5 登录 errcode 60020 排障：可信 IP 白名单、后端 IP、错误现象、解决步骤",
+        "summary": "企业微信 H5 登录 errcode 60020 排障记录，说明后端 IP 未加入可信 IP 白名单的现象、根因、解决步骤和注意事项。",
+        "tags": [
+          "企业微信",
+          "H5登录",
+          "errcode60020",
+          "可信IP",
+          "排障"
+        ],
+        "sortOrder": 80,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 08 篇：企业微信 H5 登录 errcode 60020 排障：可信 IP 白名单、后端 IP、错误现象、解决步骤.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c8",
+      "originalSlug": "h5-h5-jsapi-d82c6607",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/01-H5微应用/01-知识文档/企业微信H5微应用-扫一扫JSAPI-后端签名对接清单.md",
+      "old": {
+        "title": "企业微信H5微应用-扫一扫JSAPI-后端签名对接清单",
+        "summary": "",
+        "sortOrder": 60,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信H5微应用-扫一扫JSAPI-后端签名对接清单.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 5 篇：企业微信 H5 扫一扫 JSAPI 对接：后端签名、wx.scanQRCode、接口协议、联调清单",
+        "summary": "企业微信 H5 微应用扫一扫 JSAPI 对接清单，覆盖后端签名、接口协议、wx.scanQRCode 调用、前后端联调和常见失败点。",
+        "tags": [
+          "企业微信",
+          "H5微应用",
+          "JSAPI",
+          "扫一扫",
+          "后端签名"
+        ],
+        "sortOrder": 50,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 05 篇：企业微信 H5 扫一扫 JSAPI 对接：后端签名、wx.scanQRCode、接口协议、联调清单.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c6",
+      "originalSlug": "h5-uni-app-h5-a4b1be0e",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/01-H5微应用/01-知识文档/03-uni-app编译H5接入企业微信微应用-适配要点与代码模板.md",
+      "old": {
+        "title": "uni-app编译H5接入企业微信微应用-适配要点与代码模板",
+        "summary": "",
+        "sortOrder": 70,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/uni-app编译H5接入企业微信微应用-适配要点与代码模板.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 6 篇：uni-app H5 接入企业微信微应用：登录入口、企微环境、JSSDK、代码模板",
+        "summary": "uni-app 编译 H5 接入企业微信微应用的适配方案，覆盖登录入口、企微环境判断、JSSDK 接入、代码模板和真实项目链路拆解。",
+        "tags": [
+          "企业微信",
+          "uni-app",
+          "H5微应用",
+          "JSSDK",
+          "代码模板"
+        ],
+        "sortOrder": 60,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 06 篇：uni-app H5 接入企业微信微应用：登录入口、企微环境、JSSDK、代码模板.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c4",
+      "originalSlug": "h5-jssdk-wx-config-agentconfig-93be1c59",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/01-H5微应用/01-知识文档/02-企业微信JSSDK接入_wx.config_agentConfig_签名流程.md",
+      "old": {
+        "title": "企业微信 JSSDK 接入：wx.config、agentConfig 与签名流程",
+        "summary": "",
+        "sortOrder": 80,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信JSSDK接入_wx.config_agentConfig_签名流程.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 4 篇：企业微信 JSSDK 接入：wx.config、agentConfig、签名流程、前端初始化",
+        "summary": "企业微信 JSSDK 接入说明，覆盖 wx.config、agentConfig、SDK 引入、签名流程、前端初始化代码和常见权限配置差异。",
+        "tags": [
+          "企业微信",
+          "JSSDK",
+          "wx.config",
+          "agentConfig",
+          "签名流程"
+        ],
+        "sortOrder": 40,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 04 篇：企业微信 JSSDK 接入：wx.config、agentConfig、签名流程、前端初始化.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c2",
+      "originalSlug": "h5-h5-0-1-1d0e59cd",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/01-H5微应用/01-知识文档/01-企业微信H5微应用-从0到1开发指南.md",
+      "old": {
+        "title": "企业微信H5微应用-从0到1开发指南",
+        "summary": "",
+        "sortOrder": 90,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信H5微应用-从0到1开发指南.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 3 篇：企业微信 H5 微应用开发指南：后台配置、OAuth2、授权登录、后端接口",
+        "summary": "企业微信 H5 微应用从 0 到 1 开发指南，覆盖微应用概念、管理后台配置、OAuth2 授权登录流程、后端接口和前后端联调。",
+        "tags": [
+          "企业微信",
+          "H5微应用",
+          "OAuth2",
+          "授权登录",
+          "后端接口"
+        ],
+        "sortOrder": 30,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 03 篇：企业微信 H5 微应用开发指南：后台配置、OAuth2、授权登录、后端接口.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7c0",
+      "originalSlug": "id-corpid-agentid-appid-userid-openid-unionid-e704ba37",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/00-通用知识/02-企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId.md",
+      "old": {
+        "title": "企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId",
+        "summary": "",
+        "sortOrder": 100,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信常见ID速查_corpId_agentId_appId_userId_openId_unionId.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 2 篇：企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId",
+        "summary": "企业微信常见 ID 速查，解释 corpId、agentId、appId、userId、openId、unionId 的用途、获取位置、混淆场景和与钉钉 ID 的对照。",
+        "tags": [
+          "企业微信",
+          "ID速查",
+          "corpId",
+          "agentId",
+          "userId",
+          "unionId"
+        ],
+        "sortOrder": 20,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 02 篇：企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7be",
+      "originalSlug": "0-1-f01367dd",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/00-通用知识/01-企业微信开发从0到1_结合企业微信开放平台.md",
+      "old": {
+        "title": "企业微信开发从 0 到 1：结合企业微信开放平台",
+        "summary": "",
+        "sortOrder": 110,
+        "tags": [],
+        "fileName": "项目复用技术/第三方登录对接/企业微信/企业微信开发从0到1_结合企业微信开放平台.md"
+      },
+      "next": {
+        "category": "项目复用技术/第三方登录对接/企业微信",
+        "title": "第 1 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用",
+        "summary": "企业微信开发入门总览，结合企业微信开放平台梳理应用类型、核心概念、开发前准备、服务端接口调用和 H5/PC/小程序接入方向。",
+        "tags": [
+          "企业微信",
+          "开放平台",
+          "corpId",
+          "agentId",
+          "服务端接口",
+          "第三方登录"
+        ],
+        "sortOrder": 10,
+        "fileName": "项目复用技术/第三方登录对接/企业微信/第 01 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

@@ -1,18 +1,23 @@
 ---
-title: "uni-app编译H5接入企业微信微应用-适配要点与代码模板"
+title: "第 6 篇：uni-app H5 接入企业微信微应用：登录入口、企微环境、JSSDK、代码模板"
 slug: "h5-uni-app-h5-a4b1be0e"
-summary: ""
+summary: "uni-app 编译 H5 接入企业微信微应用的适配方案，覆盖登录入口、企微环境判断、JSSDK 接入、代码模板和真实项目链路拆解。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "uni-app"
+  - "H5微应用"
+  - "JSSDK"
+  - "代码模板"
 status: "draft"
-sortOrder: 70
+sortOrder: 60
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c6"
 originalSlug: "h5-uni-app-h5-a4b1be0e"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 编译 H5 接入企业微信微应用（深度复刻版）
+# 第 6 篇：uni-app H5 接入企业微信微应用：登录入口、企微环境、JSSDK、代码模板
 
 > 用途：个人私密知识库。  
 > 目标：未来离开当前公司、拿不到原仓库代码时，仅凭本文也能完整复刻“企业微信 H5 + App OAuth 登录链路”。  
@@ -258,7 +263,26 @@ nginx 实际策略：
 
 ```nginx
 location ~ ^/app/(.*)$ {
-  return 302 https://app.runlan.ltd/$1$is_args$args;
+  return 302 https://app.runlan.ltd/---
+title: "第 6 篇：uni-app H5 接入企业微信微应用：登录入口、企微环境、JSSDK、代码模板"
+slug: "h5-uni-app-h5-a4b1be0e"
+summary: "uni-app 编译 H5 接入企业微信微应用的适配方案，覆盖登录入口、企微环境判断、JSSDK 接入、代码模板和真实项目链路拆解。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "uni-app"
+  - "H5微应用"
+  - "JSSDK"
+  - "代码模板"
+status: "draft"
+sortOrder: 60
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7c6"
+originalSlug: "h5-uni-app-h5-a4b1be0e"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+$is_args$args;
 }
 ```
 

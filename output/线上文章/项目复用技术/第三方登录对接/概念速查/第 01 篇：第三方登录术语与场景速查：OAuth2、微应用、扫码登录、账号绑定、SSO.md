@@ -1,9 +1,15 @@
 ---
-title: "第三方登录-术语与场景速查"
+title: "第 1 篇：第三方登录术语与场景速查：OAuth2、微应用、扫码登录、账号绑定、SSO"
 slug: "legacy-079f6d23-079f6d23"
-summary: ""
+summary: "第三方登录术语与场景速查，区分 OAuth2、企业微应用、PC 扫码登录、账号绑定、统一登录中心、SSO 和子系统切换等常见概念。"
 category: "概念速查"
-tags: []
+tags:
+  - "第三方登录"
+  - "OAuth2"
+  - "SSO"
+  - "微应用"
+  - "扫码登录"
+  - "账号绑定"
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -12,7 +18,7 @@ originalSlug: "legacy-079f6d23-079f6d23"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第三方登录 — 术语与场景速查
+# 第 1 篇：第三方登录术语与场景速查：OAuth2、微应用、扫码登录、账号绑定、SSO
 
 > 阅读本目录其他文档前，先读这篇。把容易混淆的词一次说清楚。
 

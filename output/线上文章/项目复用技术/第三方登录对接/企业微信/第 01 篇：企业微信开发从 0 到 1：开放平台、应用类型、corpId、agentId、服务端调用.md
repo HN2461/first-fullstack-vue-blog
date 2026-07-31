@@ -1,18 +1,24 @@
 ---
-title: "企业微信开发从 0 到 1：结合企业微信开放平台"
+title: "第 1 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用"
 slug: "0-1-f01367dd"
-summary: ""
+summary: "企业微信开发入门总览，结合企业微信开放平台梳理应用类型、核心概念、开发前准备、服务端接口调用和 H5/PC/小程序接入方向。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "开放平台"
+  - "corpId"
+  - "agentId"
+  - "服务端接口"
+  - "第三方登录"
 status: "draft"
-sortOrder: 110
+sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7be"
 originalSlug: "0-1-f01367dd"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 企业微信开发从0到1\_结合企业微信开放平台
+# 第 1 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用
 
 > 官方文档入口：https://developer.work.weixin.qq.com/document/path/90664
 

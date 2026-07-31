@@ -1,18 +1,24 @@
 ---
-title: "企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId"
+title: "第 2 篇：企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId"
 slug: "id-corpid-agentid-appid-userid-openid-unionid-e704ba37"
-summary: ""
+summary: "企业微信常见 ID 速查，解释 corpId、agentId、appId、userId、openId、unionId 的用途、获取位置、混淆场景和与钉钉 ID 的对照。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "ID速查"
+  - "corpId"
+  - "agentId"
+  - "userId"
+  - "unionId"
 status: "draft"
-sortOrder: 100
+sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c0"
 originalSlug: "id-corpid-agentid-appid-userid-openid-unionid-e704ba37"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 企业微信常见ID速查\_corpId_agentId_appId_userId_openId_unionId
+# 第 2 篇：企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId
 
 > 参考钉钉文档：`docs/钉钉/01-知识文档/uni-app迁移钉钉时最容易搞混的各种id_corpId_agentId_miniAppId_clientId_userId_unionId_openid.md`
 

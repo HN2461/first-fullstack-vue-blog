@@ -1,18 +1,23 @@
 ---
-title: "阶段1-编译链路接入"
+title: "第 16 篇：钉钉小程序迁移阶段 1：编译链路、mp-dingtalk、package.json、CE1000.01"
 slug: "1-e6cc4f94"
-summary: ""
+summary: "钉钉小程序迁移阶段 1 编译链路接入记录，覆盖 mp-dingtalk 编译脚本、package.json 修改、CE1000.01 修复和阶段结论。"
 category: "钉钉"
-tags: []
+tags:
+  - "钉钉小程序"
+  - "编译链路"
+  - "mp-dingtalk"
+  - "package.json"
+  - "CE1000.01"
 status: "draft"
-sortOrder: 30
+sortOrder: 160
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7ae"
 originalSlug: "1-e6cc4f94"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 阶段 1 - 编译链路接入
+# 第 16 篇：钉钉小程序迁移阶段 1：编译链路、mp-dingtalk、package.json、CE1000.01
 
 ## 目标
 

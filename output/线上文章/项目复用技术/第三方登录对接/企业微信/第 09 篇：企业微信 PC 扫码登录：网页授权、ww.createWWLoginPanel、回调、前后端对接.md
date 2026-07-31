@@ -1,18 +1,23 @@
 ---
-title: "企业微信网页授权登录：PC扫码登录与 ww.createWWLoginPanel"
+title: "第 9 篇：企业微信 PC 扫码登录：网页授权、ww.createWWLoginPanel、回调、前后端对接"
 slug: "pc-pc-ww-createwwloginpanel-55975a93"
-summary: ""
+summary: "企业微信网页授权与 PC 扫码登录接入，覆盖 ww.createWWLoginPanel、登录方式、开发准备、回调处理和前后端对接。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "PC扫码登录"
+  - "网页授权"
+  - "ww.createWWLoginPanel"
+  - "回调"
 status: "draft"
-sortOrder: 30
+sortOrder: 90
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7d2"
 originalSlug: "pc-pc-ww-createwwloginpanel-55975a93"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 企业微信网页授权登录\_PC扫码登录\_ww.createWWLoginPanel
+# 第 9 篇：企业微信 PC 扫码登录：网页授权、ww.createWWLoginPanel、回调、前后端对接
 
 > 官方文档：
 >

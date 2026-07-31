@@ -1,18 +1,23 @@
 ---
-title: "钉钉H5微应用-从0到1开发指南"
+title: "第 2 篇：钉钉 H5 微应用开发指南：开放平台配置、uni-app H5、免登、发布流程"
 slug: "h5-h5-0-1-9053e9e2"
-summary: ""
+summary: "钉钉 H5 微应用从 0 到 1 开发指南，覆盖微应用概念、开放平台配置、uni-app H5 产物、免登流程、接口对接和发布流程。"
 category: "钉钉"
-tags: []
+tags:
+  - "钉钉"
+  - "H5微应用"
+  - "开放平台"
+  - "免登"
+  - "uni-app"
 status: "draft"
-sortOrder: 160
+sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac774"
 originalSlug: "h5-h5-0-1-9053e9e2"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 钉钉 H5 微应用 - 从 0 到 1 开发指南
+# 第 2 篇：钉钉 H5 微应用开发指南：开放平台配置、uni-app H5、免登、发布流程
 
 > 适合谁看：你已经有 uni-app 项目，老板要求先做一个钉钉 H5 微应用版本试试水，不想一上来就搞钉钉小程序。
 >

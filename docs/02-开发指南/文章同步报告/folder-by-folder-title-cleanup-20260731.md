@@ -492,10 +492,50 @@
 
 ### 项目复用技术阶段状态
 
-- 本批按最新要求跳过 `项目复用技术 / 第三方登录对接`，未修改该目录下任何文章。
 - 本批完成 `项目复用技术` 非第三方登录目录 24 篇文章整理，当前本地文件路径均存在，`manifest.json` 指向有效。
 - 变更明细：`docs/02-开发指南/文章同步报告/reuse-tech-non-third-party-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/reuse-tech-non-third-party-before-semantic-cleanup-20260731-2100`。
+
+### 项目复用技术 / 第三方登录对接 / 概念速查
+
+- 处理 1 篇第三方登录概念速查文章。原摘要和标签为空，本地文件名也缺少统一阅读序号。
+- 已整理为：第三方登录术语与场景速查：OAuth2、微应用、扫码登录、账号绑定、SSO。
+- 保持 `sortOrder` 为 10；同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / 第三方登录对接 / 概念速查` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术 / 第三方登录对接 / 企业微信
+
+- 处理 11 篇企业微信第三方登录文章。原排序从小程序登录、PC 绑定开始，通用 ID、H5 微应用和开放平台总览排在后面，阅读路径不自然。
+- 已整理为：企业微信开发从 0 到 1、企业微信常见 ID 速查、企业微信 H5 微应用开发指南、企业微信 JSSDK 接入、企业微信 H5 扫一扫 JSAPI 对接、uni-app H5 接入企业微信微应用、企业微信单可信域名跨域 OAuth 方案、企业微信 H5 登录 errcode 60020 排障、企业微信 PC 扫码登录、企业微信账号绑定方案、企业微信小程序登录接入方案。
+- 将 `sortOrder` 调整为 10 到 110，使线上目录按开放平台总览、ID 速查、H5 微应用、JSSDK/JSAPI、uni-app H5、OAuth 排障、PC 扫码/绑定、小程序登录展示；本地文件名采用 `第 01 篇` 到 `第 11 篇`。
+- 按见名知意要求保留关键内容范围，例如开放平台、应用类型、corpId、agentId、appId、userId、openId、unionId、OAuth2、wx.config、agentConfig、签名流程、扫一扫、wx.scanQRCode、可信域名、errcode 60020、可信 IP、ww.createWWLoginPanel、PC 扫码、绑定解绑、wx.qy.login、code2Session、登录态。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / 第三方登录对接 / 企业微信` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术 / 第三方登录对接 / 钉钉
+
+- 处理 17 篇钉钉第三方登录文章。原排序将 CE1000.01 排障、迁移过程记录放在最前，通用 ID、H5 微应用、PC 扫码和小程序主线排在后面。
+- 已整理为：钉钉开发常见 ID 速查、钉钉 H5 微应用开发指南、uni-app H5 接入钉钉微应用、钉钉 H5 微应用双链路实现梳理、钉钉微应用登录项目核验结论、钉钉 H5 微应用 JSAPI 对接清单、PC 多租户钉钉扫码登录接入方案、PC 端钉钉登录四链路实现指南、钉钉账号绑定方案、钉钉小程序前端开发从 0 到 1、uni-app 微信小程序迁移钉钉小程序指南、uni-app 项目改造钉钉小程序清单、uni-app 项目 wx 替换清单、微信能力迁移到钉钉处理对照、钉钉小程序迁移过程记录、钉钉小程序迁移阶段 1、CE1000.01 cannot resolve module 排障。
+- 将 `sortOrder` 调整为 10 到 170，使线上目录按通用 ID、H5 微应用、项目核验、JSAPI、PC 扫码/绑定、小程序开发与迁移、迁移过程和排障记录展示；本地文件名采用 `第 01 篇` 到 `第 17 篇`。
+- 按见名知意要求保留关键内容范围，例如 corpId、agentId、miniAppId、clientId、userId、unionId、openId、开放平台配置、uni-app H5、免登、dingtalk-jsapi、登录页改造、入口分流、移动端仓库、官方依据、JSAPI、前后端协议、签名、多租户、一套代码、多学校部署、扫码登录、客户端免登、账号绑定、第三方企业应用、适配层、条件编译、wx 替换、手机号、支付、消息通知、mp-dingtalk、package.json、CE1000.01。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / 第三方登录对接 / 钉钉` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 项目复用技术 / 第三方登录对接 / 对比笔记
+
+- 处理 2 篇第三方登录对比文章。原第二篇摘要和标签为空，本地文件名缺少统一阅读序号。
+- 已整理为：统一登录中心与子系统切换实战、钉钉与企业微信登录实现对比。
+- 保持 `sortOrder` 为 10、20，使线上目录先看统一登录中心和 SSO 子系统切换，再看钉钉与企业微信实现差异；本地文件名采用 `第 01 篇` 到 `第 02 篇`。
+- 按见名知意要求保留关键内容范围，例如 SSO、一次性票据、目标系统跳转、安全边界、H5、PC 扫码、小程序、账号绑定、流程差异。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `项目复用技术 / 第三方登录对接 / 对比笔记` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 第三方登录对接整理状态
+
+- `项目复用技术 / 第三方登录对接` 下 4 个子目录已完成本地文章层整理：`概念速查`、`企业微信`、`钉钉`、`对比笔记`。
+- 共涉及 31 篇第三方登录文章，当前本地文件路径均存在，`manifest.json` 指向有效。
+- 变更明细：`docs/02-开发指南/文章同步报告/third-party-login-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/third-party-login-folder-before-semantic-cleanup-20260731-2200`。
 
 ### AI相关 / AI开发 / 开发基础
 

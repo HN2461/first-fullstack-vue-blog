@@ -1,23 +1,23 @@
 ---
-title: "uni-app 项目里最常见的 wx 替换清单（附代码模板）"
+title: "第 13 篇：uni-app 项目 wx 替换清单：uni、dd、dingtalk-jsapi、条件编译、适配层模板"
 slug: "uni-app-uni-app-wx-616a50b5"
-summary: "面向真实项目整理 uni-app 中常见 wx 写法迁到钉钉小程序时的替换思路，区分哪些应改为 uni、哪些应改为 dd 或 dingtalk-jsapi，并附适配层代码模板。"
+summary: "uni-app 项目常见 wx 写法迁移钉钉清单，区分 uni、dd、dingtalk-jsapi 的替换边界，附条件编译和适配层代码模板。"
 category: "钉钉"
 tags:
   - "uni-app"
   - "钉钉小程序"
-  - "wx"
+  - "wx替换"
   - "条件编译"
   - "dingtalk-jsapi"
 status: "draft"
-sortOrder: 50
+sortOrder: 130
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7a2"
 originalSlug: "uni-app-uni-app-wx-616a50b5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 项目里最常见的 wx 替换清单（附代码模板）
+# 第 13 篇：uni-app 项目 wx 替换清单：uni、dd、dingtalk-jsapi、条件编译、适配层模板
 
 > 这篇文章就是给你拿去开改项目用的。
 >

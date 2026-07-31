@@ -1,18 +1,23 @@
 ---
-title: "企业微信H5微应用-从0到1开发指南"
+title: "第 3 篇：企业微信 H5 微应用开发指南：后台配置、OAuth2、授权登录、后端接口"
 slug: "h5-h5-0-1-1d0e59cd"
-summary: ""
+summary: "企业微信 H5 微应用从 0 到 1 开发指南，覆盖微应用概念、管理后台配置、OAuth2 授权登录流程、后端接口和前后端联调。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "H5微应用"
+  - "OAuth2"
+  - "授权登录"
+  - "后端接口"
 status: "draft"
-sortOrder: 90
+sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c2"
 originalSlug: "h5-h5-0-1-1d0e59cd"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 企业微信H5微应用-从0到1开发指南
+# 第 3 篇：企业微信 H5 微应用开发指南：后台配置、OAuth2、授权登录、后端接口
 
 > 官方文档：https://developer.work.weixin.qq.com/document/path/91335
 

@@ -1,18 +1,23 @@
 ---
-title: "企业微信 JSSDK 接入：wx.config、agentConfig 与签名流程"
+title: "第 4 篇：企业微信 JSSDK 接入：wx.config、agentConfig、签名流程、前端初始化"
 slug: "h5-jssdk-wx-config-agentconfig-93be1c59"
-summary: ""
+summary: "企业微信 JSSDK 接入说明，覆盖 wx.config、agentConfig、SDK 引入、签名流程、前端初始化代码和常见权限配置差异。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "JSSDK"
+  - "wx.config"
+  - "agentConfig"
+  - "签名流程"
 status: "draft"
-sortOrder: 80
+sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c4"
 originalSlug: "h5-jssdk-wx-config-agentconfig-93be1c59"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 企业微信JSSDK接入*wx.config_agentConfig*签名流程
+# 第 4 篇：企业微信 JSSDK 接入：wx.config、agentConfig、签名流程、前端初始化
 
 > 官方文档：
 >

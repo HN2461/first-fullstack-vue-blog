@@ -1,23 +1,23 @@
 ---
-title: "现有 uni-app 项目改成钉钉小程序的实战改造清单"
+title: "第 12 篇：uni-app 项目改造钉钉小程序清单：排查、编译接入、代码改造、联调发布"
 slug: "uni-app-uni-app-5b84c227"
-summary: "面向真实项目的 uni-app 到钉钉小程序改造清单，结合 uni-app 与钉钉开放平台官方资料，按排查、接入、改造、联调、发布的顺序拆解前端落地步骤。"
+summary: "现有 uni-app 项目改成钉钉小程序的实战改造清单，按排查、编译目标接入、代码改造、联调和发布拆解落地步骤。"
 category: "钉钉"
 tags:
   - "uni-app"
   - "钉钉小程序"
-  - "项目迁移"
+  - "项目改造"
   - "条件编译"
-  - "dingtalk-jsapi"
+  - "联调发布"
 status: "draft"
-sortOrder: 60
+sortOrder: 120
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac79e"
 originalSlug: "uni-app-uni-app-5b84c227"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 现有 uni-app 项目改成钉钉小程序的实战改造清单
+# 第 12 篇：uni-app 项目改造钉钉小程序清单：排查、编译接入、代码改造、联调发布
 
 > 这篇文章不是讲“钉钉小程序从 0 新建一个 demo”，而是讲：
 > 你手上已经有一个正在跑的 `uni-app` 项目，现在老板让你把它改成钉钉小程序，你到底应该怎么一步一步下手。

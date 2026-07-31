@@ -1,18 +1,23 @@
 ---
-title: "单可信域名跨域OAuth解决方案"
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
 slug: "h5-oauth-e33b6d35"
-summary: ""
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
 status: "draft"
-sortOrder: 40
+sortOrder: 70
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7ce"
 originalSlug: "h5-oauth-e33b6d35"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 企业微信 H5 OAuth 单可信域名跨域解决方案
+# 第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造
 
 ## 背景
 
@@ -65,13 +70,70 @@ nginx 配置写成：
 
 ```nginx
 location ^~ /app/ {
-    return 302 https://app.runlan.ltd/$1$is_args$args;
+    return 302 https://app.runlan.ltd/---
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
+slug: "h5-oauth-e33b6d35"
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
+status: "draft"
+sortOrder: 70
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7ce"
+originalSlug: "h5-oauth-e33b6d35"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+$is_args$args;
 }
 ```
 
-`^~` 前缀匹配不支持捕获组，`$1` 为空，跳转到 `https://app.runlan.ltd/?code=xxx`，路径丢失。
+`^~` 前缀匹配不支持捕获组，`---
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
+slug: "h5-oauth-e33b6d35"
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
+status: "draft"
+sortOrder: 70
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7ce"
+originalSlug: "h5-oauth-e33b6d35"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+` 为空，跳转到 `https://app.runlan.ltd/?code=xxx`，路径丢失。
 
-**结论：要用正则匹配 `location ~ ^/app/(.*)$` 才支持 `$1` 捕获组。**
+**结论：要用正则匹配 `location ~ ^/app/(.*) 才支持 `---
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
+slug: "h5-oauth-e33b6d35"
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
+status: "draft"
+sortOrder: 70
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7ce"
+originalSlug: "h5-oauth-e33b6d35"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+` 捕获组。**
 
 ---
 
@@ -81,7 +143,26 @@ location ^~ /app/ {
 
 ```nginx
 location ~ ^/app/(.*)$ {
-    return 302 https://app.runlan.ltd/$1$is_args$args;
+    return 302 https://app.runlan.ltd/---
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
+slug: "h5-oauth-e33b6d35"
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
+status: "draft"
+sortOrder: 70
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7ce"
+originalSlug: "h5-oauth-e33b6d35"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+$is_args$args;
 }
 ```
 
@@ -165,9 +246,47 @@ server {
     server_name *.runlan.ltd;
 
     # 企微 H5 OAuth 中转：/app/xxx → app.runlan.ltd/xxx（302 跳转）
-    # 注意：必须用正则匹配才支持 $1 捕获组，^~ 前缀匹配不支持
+    # 注意：必须用正则匹配才支持 ---
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
+slug: "h5-oauth-e33b6d35"
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
+status: "draft"
+sortOrder: 70
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7ce"
+originalSlug: "h5-oauth-e33b6d35"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+ 捕获组，^~ 前缀匹配不支持
     location ~ ^/app/(.*)$ {
-        return 302 https://app.runlan.ltd/$1$is_args$args;
+        return 302 https://app.runlan.ltd/---
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
+slug: "h5-oauth-e33b6d35"
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
+status: "draft"
+sortOrder: 70
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7ce"
+originalSlug: "h5-oauth-e33b6d35"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+$is_args$args;
     }
 
     # 其他配置...
@@ -192,5 +311,24 @@ location / {
 | state 只能用 `a-zA-Z0-9`，≤128字节 | 不能塞任何编码后的 URL |
 | code 必须在 URL search 部分 | 企微内置浏览器跳转会截断 hash 后的内容 |
 | 302 跳转优于 nginx 反代 | 反代会导致 SPA 静态资源路径错乱 |
-| nginx 正则 `~ ^/app/(.*)$` 才支持捕获组 | `^~` 前缀匹配不支持 `$1` |
+| nginx 正则 `~ ^/app/(.*) 才支持捕获组 | `^~` 前缀匹配不支持 `---
+title: "第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造"
+slug: "h5-oauth-e33b6d35"
+summary: "企业微信 H5 OAuth 单可信域名跨域解决方案，记录可信域名限制、跨域授权跳转、回调处理、前端代码改造和最终落地方案。"
+category: "企业微信"
+tags:
+  - "企业微信"
+  - "OAuth2"
+  - "可信域名"
+  - "跨域"
+  - "授权回调"
+status: "draft"
+sortOrder: 70
+cover: ""
+originalId: "6a2d29208a2b1c68f2cac7ce"
+originalSlug: "h5-oauth-e33b6d35"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+` |
 | localStorage 跨域完全隔离 | 不同域名之间无法共享 localStorage |

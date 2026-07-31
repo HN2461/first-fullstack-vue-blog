@@ -1,23 +1,23 @@
 ---
-title: "uni-app 微信小程序迁移钉钉小程序完整指南"
+title: "第 11 篇：uni-app 微信小程序迁移钉钉小程序指南：路线选型、编译目标、适配层、登录链路、联调发布"
 slug: "uni-app-uni-app-81c6612d"
-summary: "面向已有 uni-app 微信小程序项目的迁移指南，覆盖路线选型、编译目标接入、代码改造、登录链路、联调发布完整流程。"
+summary: "uni-app 微信小程序迁移钉钉小程序完整指南，覆盖路线选型、编译目标接入、平台适配层、登录链路、联调和发布流程。"
 category: "钉钉"
 tags:
   - "uni-app"
   - "钉钉小程序"
   - "微信小程序"
-  - "小程序迁移"
-  - "跨端开发"
+  - "项目迁移"
+  - "适配层"
 status: "draft"
-sortOrder: 70
+sortOrder: 110
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac798"
 originalSlug: "uni-app-uni-app-81c6612d"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 微信小程序迁移钉钉小程序完整指南
+# 第 11 篇：uni-app 微信小程序迁移钉钉小程序指南：路线选型、编译目标、适配层、登录链路、联调发布
 
 > 适用场景：你手上已经有一个正在跑的 uni-app 微信小程序项目，现在要把它改成钉钉小程序。
 >

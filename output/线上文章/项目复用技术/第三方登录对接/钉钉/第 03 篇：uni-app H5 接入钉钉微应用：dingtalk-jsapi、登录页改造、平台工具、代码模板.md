@@ -1,18 +1,23 @@
 ---
-title: "uni-app编译H5接入钉钉微应用-适配要点与代码模板"
+title: "第 3 篇：uni-app H5 接入钉钉微应用：dingtalk-jsapi、登录页改造、平台工具、代码模板"
 slug: "h5-uni-app-h5-2048111a"
-summary: ""
+summary: "uni-app 编译 H5 接入钉钉微应用适配方案，覆盖 dingtalk-jsapi 引入、平台工具模块、登录页改造、API 差异和代码模板。"
 category: "钉钉"
-tags: []
+tags:
+  - "钉钉"
+  - "uni-app"
+  - "H5微应用"
+  - "dingtalk-jsapi"
+  - "代码模板"
 status: "draft"
-sortOrder: 150
+sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac776"
 originalSlug: "h5-uni-app-h5-2048111a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# uni-app 编译 H5 接入钉钉微应用 - 适配要点与代码模板
+# 第 3 篇：uni-app H5 接入钉钉微应用：dingtalk-jsapi、登录页改造、平台工具、代码模板
 
 > 本文专门面向"已有 uni-app 微信小程序项目，要编译成 H5 跑在钉钉微应用里"的场景。
 > 基础流程见 [钉钉H5微应用-从0到1开发指南](./钉钉H5微应用-从0到1开发指南.md)，本文只讲 uni-app 特有的差异和坑。

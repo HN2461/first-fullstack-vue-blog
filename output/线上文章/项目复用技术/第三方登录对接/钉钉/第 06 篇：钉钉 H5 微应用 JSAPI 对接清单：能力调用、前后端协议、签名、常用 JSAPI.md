@@ -1,18 +1,23 @@
 ---
-title: "钉钉H5微应用-JSAPI能力调用-前后端对接清单"
+title: "第 6 篇：钉钉 H5 微应用 JSAPI 对接清单：能力调用、前后端协议、签名、常用 JSAPI"
 slug: "h5-h5-jsapi-d670249e"
-summary: ""
+summary: "钉钉 H5 微应用 JSAPI 能力调用前后端对接清单，覆盖整体流程、前端调用方式、常用 JSAPI、后端协议和联调注意事项。"
 category: "钉钉"
-tags: []
+tags:
+  - "钉钉"
+  - "H5微应用"
+  - "JSAPI"
+  - "前后端对接"
+  - "签名"
 status: "draft"
-sortOrder: 120
+sortOrder: 60
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac77c"
 originalSlug: "h5-h5-jsapi-d670249e"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 钉钉 H5 微应用 — JSAPI 能力调用前后端对接清单
+# 第 6 篇：钉钉 H5 微应用 JSAPI 对接清单：能力调用、前后端协议、签名、常用 JSAPI
 
 > 场景：uni-app 编译为 H5 嵌入钉钉微应用，需要调用钉钉原生能力（扫码、选人、预览文件等）。
 >

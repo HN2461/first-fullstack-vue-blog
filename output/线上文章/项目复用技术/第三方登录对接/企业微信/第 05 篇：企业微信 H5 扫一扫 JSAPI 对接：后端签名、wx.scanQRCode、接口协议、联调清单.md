@@ -1,18 +1,23 @@
 ---
-title: "企业微信H5微应用-扫一扫JSAPI-后端签名对接清单"
+title: "第 5 篇：企业微信 H5 扫一扫 JSAPI 对接：后端签名、wx.scanQRCode、接口协议、联调清单"
 slug: "h5-h5-jsapi-d82c6607"
-summary: ""
+summary: "企业微信 H5 微应用扫一扫 JSAPI 对接清单，覆盖后端签名、接口协议、wx.scanQRCode 调用、前后端联调和常见失败点。"
 category: "企业微信"
-tags: []
+tags:
+  - "企业微信"
+  - "H5微应用"
+  - "JSAPI"
+  - "扫一扫"
+  - "后端签名"
 status: "draft"
-sortOrder: 60
+sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c8"
 originalSlug: "h5-h5-jsapi-d82c6607"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 企业微信 H5 微应用 — 扫一扫 JSAPI 后端签名对接清单
+# 第 5 篇：企业微信 H5 扫一扫 JSAPI 对接：后端签名、wx.scanQRCode、接口协议、联调清单
 
 > 场景：`uni-app` 编译 H5 部署后，登录已通，但 `scanQRCode / ww.scanQRCode` 调不起来，需和后端补齐企业微信签名链路。
 >
