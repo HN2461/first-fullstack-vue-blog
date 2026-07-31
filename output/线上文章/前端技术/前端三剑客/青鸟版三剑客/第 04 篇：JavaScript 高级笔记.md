@@ -1,11 +1,11 @@
 ---
-title: "js高级"
+title: "第 4 篇：JavaScript 高级笔记"
 slug: "javascriptes6-js-dd445881"
-summary: ""
+summary: "青鸟版 JavaScript 高级课堂笔记，整理数据类型判断、执行机制、this、构造函数、原型、闭包和常见高级面试点。"
 category: "青鸟版三剑客"
-tags: []
+tags: ["JavaScript","高级语法","原型","课堂笔记"]
 status: "draft"
-sortOrder: 10
+sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0dc"
 originalSlug: "javascriptes6-js-dd445881"
@@ -5090,7 +5090,7 @@ sever.js
 #### vue代理服务器跨域
 
 
-# 1、axios的基本使用
+# 第 4 篇：JavaScript 高级笔记
 ## 1.1、简介
 说到axios我们就不得不说下Ajax。在旧浏览器页面在向服务器请求数据时，因为返回的是整个页面的数据，页面都会强制刷新一下，这对于用户来讲并不是很友好。并且我们只是需要修改页面的部分数据，但是从服务器端发送的却是整个页面的数据，十分消耗网络资源。而我们只是需要修改页面的部分数据，也希望不刷新页面，因此异步网络请求就应运而生。
 

@@ -146,6 +146,16 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/ai-js-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-js-folder-before-semantic-cleanup-20260731-1635`。
 
+### 前端技术 / 前端三剑客 / 青鸟版三剑客
+
+- 处理 4 篇青鸟版三剑客旧课堂笔记。原排序为 JavaScript 高级、JavaScript 基础、HTML/CSS、`ess`，不符合基础学习顺序。
+- 已整理为：HTML 与 CSS 综合笔记、JavaScript 基础笔记、ES6+ 语法笔记、JavaScript 高级笔记。
+- 将 `sortOrder` 调整为 10、20、30、40，使线上目录按前端三剑客学习路径展示；本地文件名采用 `第 01 篇` 到 `第 04 篇`，保证文件管理器阅读顺序一致。
+- 将旧标题 `html+css笔记`、`js`、`ess`、`js高级` 规范为可阅读标题，补充摘要和检索标签，并同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `前端技术 / 前端三剑客 / 青鸟版三剑客` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/qingniao-trio-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/qingniao-trio-folder-before-semantic-cleanup-20260731-1645`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

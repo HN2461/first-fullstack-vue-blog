@@ -3683,10 +3683,10 @@
       "contentHash": "18b3c2b2fe8b4117086f44c8fd3f4e82d8a471e9a83538eee64fa9b5b8018c0d"
     },
     {
-      "originalId": "6a2d291e8a2b1c68f2cac0dc",
-      "originalSlug": "javascriptes6-js-dd445881",
-      "exportedSlug": "javascriptes6-js-dd445881",
-      "title": "js高级",
+      "originalId": "6a2d291e8a2b1c68f2cac0d8",
+      "originalSlug": "javascriptes6-html-css-ea679145",
+      "exportedSlug": "javascriptes6-html-css-ea679145",
+      "title": "第 1 篇：HTML 与 CSS 综合笔记",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3694,21 +3694,26 @@
         "前端三剑客",
         "青鸟版三剑客"
       ],
-      "tags": [],
+      "tags": [
+        "HTML",
+        "CSS",
+        "前端基础",
+        "课堂笔记"
+      ],
       "sortOrder": 10,
-      "sourcePath": "JavaScriptES6+/js高级.md",
-      "publishedAt": "2026-01-25T13:23:07.516Z",
-      "updatedAt": "2026-06-30T07:30:00.699Z",
-      "fileName": "前端技术/前端三剑客/青鸟版三剑客/js高级.md",
-      "summary": "",
+      "sourcePath": "JavaScriptES6+/html+css笔记.md",
+      "publishedAt": "2026-01-25T13:23:07.511Z",
+      "updatedAt": "2026-06-30T07:47:36.446Z",
+      "fileName": "前端技术/前端三剑客/青鸟版三剑客/第 01 篇：HTML 与 CSS 综合笔记.md",
+      "summary": "青鸟版 HTML 与 CSS 综合课堂笔记，覆盖网页结构、HTML 标签、CSS 样式、布局基础和三剑客入门认知。",
       "cover": "",
-      "contentHash": "015f7bc3c5df2f0107277a8583e3f17e6fa58e3ae86f52a583a33ea97ee67c6a"
+      "contentHash": "2208d2c0d9b46c777f944c086982f631a681db1f9279586e4321f8d623d01456"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac0da",
       "originalSlug": "javascriptes6-js-d939e278",
       "exportedSlug": "javascriptes6-js-d939e278",
-      "title": "js",
+      "title": "第 2 篇：JavaScript 基础笔记",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3716,43 +3721,26 @@
         "前端三剑客",
         "青鸟版三剑客"
       ],
-      "tags": [],
+      "tags": [
+        "JavaScript",
+        "前端基础",
+        "DOM",
+        "课堂笔记"
+      ],
       "sortOrder": 20,
       "sourcePath": "JavaScriptES6+/js.md",
       "publishedAt": "2026-01-25T13:23:07.515Z",
       "updatedAt": "2026-06-30T07:30:02.782Z",
-      "fileName": "前端技术/前端三剑客/青鸟版三剑客/js.md",
-      "summary": "",
+      "fileName": "前端技术/前端三剑客/青鸟版三剑客/第 02 篇：JavaScript 基础笔记.md",
+      "summary": "青鸟版 JavaScript 基础课堂笔记，整理计算机基础、JS 核心语法、数据类型、流程控制、函数、对象和 DOM 入门。",
       "cover": "",
-      "contentHash": "f6a4bdbe0eb56327447903744728e2f3a67a207e557401f2c53dba16dcfc3ac8"
-    },
-    {
-      "originalId": "6a2d291e8a2b1c68f2cac0d8",
-      "originalSlug": "javascriptes6-html-css-ea679145",
-      "exportedSlug": "javascriptes6-html-css-ea679145",
-      "title": "html+css笔记",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客",
-        "青鸟版三剑客"
-      ],
-      "tags": [],
-      "sortOrder": 30,
-      "sourcePath": "JavaScriptES6+/html+css笔记.md",
-      "publishedAt": "2026-01-25T13:23:07.511Z",
-      "updatedAt": "2026-06-30T07:47:36.446Z",
-      "fileName": "前端技术/前端三剑客/青鸟版三剑客/html+css笔记.md",
-      "summary": "",
-      "cover": "",
-      "contentHash": "45fda67f8179c207b00b42f657f38ebc9e3355bd762c110fa698ec9f11e40dd0"
+      "contentHash": "3b328b34f0bca9d0cf1b9e7a5b00e49c4b370f191ee8b28d9cf97c120cd3c35a"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac0d6",
       "originalSlug": "javascriptes6-ess-08fde5e4",
       "exportedSlug": "javascriptes6-ess-08fde5e4",
-      "title": "ess",
+      "title": "第 3 篇：ES6+ 语法笔记",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3760,15 +3748,47 @@
         "前端三剑客",
         "青鸟版三剑客"
       ],
-      "tags": [],
-      "sortOrder": 40,
+      "tags": [
+        "JavaScript",
+        "ES6",
+        "现代语法",
+        "课堂笔记"
+      ],
+      "sortOrder": 30,
       "sourcePath": "JavaScriptES6+/ess.md",
       "publishedAt": "2026-01-25T13:23:07.510Z",
       "updatedAt": "2026-06-30T07:30:05.066Z",
-      "fileName": "前端技术/前端三剑客/青鸟版三剑客/ess.md",
-      "summary": "",
+      "fileName": "前端技术/前端三剑客/青鸟版三剑客/第 03 篇：ES6+ 语法笔记.md",
+      "summary": "青鸟版 ES6+ 课堂笔记，整理 let、const、解构赋值、模板字符串、字符串扩展、数值扩展和现代语法补充。",
       "cover": "",
-      "contentHash": "2298333b7180002c5161630f81beedcf4a3d505620891fbddc603112ed89263e"
+      "contentHash": "72e538e85b23dcb6330f43d551c4bbcab87310f60612d99eeaee42b22851eb3d"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0dc",
+      "originalSlug": "javascriptes6-js-dd445881",
+      "exportedSlug": "javascriptes6-js-dd445881",
+      "title": "第 4 篇：JavaScript 高级笔记",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "青鸟版三剑客"
+      ],
+      "tags": [
+        "JavaScript",
+        "高级语法",
+        "原型",
+        "课堂笔记"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "JavaScriptES6+/js高级.md",
+      "publishedAt": "2026-01-25T13:23:07.516Z",
+      "updatedAt": "2026-06-30T07:30:00.699Z",
+      "fileName": "前端技术/前端三剑客/青鸟版三剑客/第 04 篇：JavaScript 高级笔记.md",
+      "summary": "青鸟版 JavaScript 高级课堂笔记，整理数据类型判断、执行机制、this、构造函数、原型、闭包和常见高级面试点。",
+      "cover": "",
+      "contentHash": "9be74841549d499c78cb13cfa0f3b9bd1dc88403a0e9f7d2929fd4f90a9f180d"
     },
     {
       "originalId": "6a2d30edb480df92ce002e15",

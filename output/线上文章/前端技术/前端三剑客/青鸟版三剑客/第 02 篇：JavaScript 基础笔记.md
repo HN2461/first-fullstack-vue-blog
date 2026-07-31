@@ -1,9 +1,9 @@
 ---
-title: "js"
+title: "第 2 篇：JavaScript 基础笔记"
 slug: "javascriptes6-js-d939e278"
-summary: ""
+summary: "青鸟版 JavaScript 基础课堂笔记，整理计算机基础、JS 核心语法、数据类型、流程控制、函数、对象和 DOM 入门。"
 category: "青鸟版三剑客"
-tags: []
+tags: ["JavaScript","前端基础","DOM","课堂笔记"]
 status: "draft"
 sortOrder: 20
 cover: ""
@@ -5751,7 +5751,7 @@ H5规定自定义属性**<font style="color:#FF0000;">以data-开头作为属性
 
 
 
-# 节点操作
+# 第 2 篇：JavaScript 基础笔记
 ## 1、创建节点
 **<font style="color:#FF0000;">docment.createElement('节点')</font>**
 

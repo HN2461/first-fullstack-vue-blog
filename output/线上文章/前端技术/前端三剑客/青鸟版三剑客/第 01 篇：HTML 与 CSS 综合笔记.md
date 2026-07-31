@@ -1,17 +1,19 @@
 ---
-title: "html+css笔记"
+title: "第 1 篇：HTML 与 CSS 综合笔记"
 slug: "javascriptes6-html-css-ea679145"
-summary: ""
+summary: "青鸟版 HTML 与 CSS 综合课堂笔记，覆盖网页结构、HTML 标签、CSS 样式、布局基础和三剑客入门认知。"
 category: "青鸟版三剑客"
-tags: []
+tags: ["HTML","CSS","前端基础","课堂笔记"]
 status: "draft"
-sortOrder: 30
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0d8"
 originalSlug: "javascriptes6-html-css-ea679145"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 1 篇：HTML 与 CSS 综合笔记
+
 **网页架构**
 
 了解h5规范 
