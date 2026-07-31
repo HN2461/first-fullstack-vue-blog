@@ -4,7 +4,7 @@ slug: "js-webpack-7e2ea348"
 summary: "整理 Webpack 定位、入口出口、Loader、Plugin、开发生产配置和前端打包基础。"
 category: "AI版JS"
 tags: ["Webpack","前端工程化","打包工具","JavaScript"]
-status: "draft"
+status: "published"
 sortOrder: 270
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac104"

@@ -4,7 +4,7 @@ slug: "file-blob-arraybuffer-base64-537d7c38"
 summary: "一次理清 File、Blob、ArrayBuffer、Base64 各自代表什么、彼此怎么转换，以及上传、下载、预览、二进制处理时分别该优先用哪一种。"
 category: "数据类型"
 tags: ["File","Blob","ArrayBuffer","Base64","二进制","文件上传"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac32c"

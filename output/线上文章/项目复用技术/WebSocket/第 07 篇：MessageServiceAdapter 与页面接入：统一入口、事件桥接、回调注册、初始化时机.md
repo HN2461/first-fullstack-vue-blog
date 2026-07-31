@@ -9,7 +9,7 @@ tags:
   - "Adapter"
   - "页面接入"
   - "事件桥接"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac72c"

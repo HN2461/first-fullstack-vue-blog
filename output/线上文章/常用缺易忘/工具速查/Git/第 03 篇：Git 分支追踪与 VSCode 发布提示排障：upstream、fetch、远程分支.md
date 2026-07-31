@@ -4,7 +4,7 @@ slug: "git-git-vscode-bfad3a07"
 summary: "针对 VSCode 中“发布分支”提示问题的排障指南，覆盖分支追踪、upstream 配置、fetch 配置、远程分支检查和修复验证。"
 category: "Git"
 tags: ["Git","VSCode","分支管理","upstream","fetch","排障指南"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ae"

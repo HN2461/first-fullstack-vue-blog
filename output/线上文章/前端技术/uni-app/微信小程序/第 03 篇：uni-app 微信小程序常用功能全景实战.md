@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-web-view-b6e991ff"
 summary: "按真实业务顺序梳理页面交互、路由、请求、缓存、登录、上传、定位、分享、支付、web-view、订阅消息和权限处理。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","能力接入","登录","分享","支付"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac22e"

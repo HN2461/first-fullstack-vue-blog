@@ -8,7 +8,7 @@ tags:
   - "安装检查与运行代码"
   - "pip"
   - "终端"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a4a4304f9ac958d29176032"

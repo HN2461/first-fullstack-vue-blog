@@ -8,7 +8,7 @@ tags:
   - "环境准备"
   - "项目创建"
   - "Node.js"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac280"

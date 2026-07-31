@@ -11,7 +11,7 @@ tags:
   - "Kiro"
   - "进阶技巧"
   - "版本边界"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac01a"

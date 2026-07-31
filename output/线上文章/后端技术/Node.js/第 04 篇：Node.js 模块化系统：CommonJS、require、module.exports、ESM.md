@@ -10,7 +10,7 @@ tags:
   - "module.exports"
   - "ESM"
   - "模块化"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1f2"

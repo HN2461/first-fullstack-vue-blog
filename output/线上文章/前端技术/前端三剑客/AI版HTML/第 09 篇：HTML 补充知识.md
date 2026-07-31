@@ -8,7 +8,7 @@ tags:
   - "补充知识"
   - "语义化"
   - "可访问性"
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0b8"

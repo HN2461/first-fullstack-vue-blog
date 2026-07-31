@@ -4,7 +4,7 @@ slug: "json-formdata-b830a9f9"
 summary: "对比 JSON 和 FormData 的请求体格式、语法特点、Content-Type、接口提交方式、文件上传能力和前后端联调注意事项。"
 category: "数据类型"
 tags: ["JSON","FormData","Content-Type","文件上传","请求体"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33a"

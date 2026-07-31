@@ -8,7 +8,7 @@ tags:
   - "MVVM"
   - "数据代理"
   - "Object.defineProperty"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2b6"

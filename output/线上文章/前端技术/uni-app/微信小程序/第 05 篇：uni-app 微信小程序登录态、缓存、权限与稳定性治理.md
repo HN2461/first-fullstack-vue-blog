@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-session-key-token-8af791f8"
 summary: "从 session_key、业务 token、本地存储、前后台恢复到隐私授权，梳理微信小程序状态治理与稳定性问题。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","登录态","本地缓存","隐私授权"]
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac222"

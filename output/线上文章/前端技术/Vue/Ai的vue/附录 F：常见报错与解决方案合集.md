@@ -8,7 +8,7 @@ tags:
   - "常见报错"
   - "问题排查"
   - "附录"
-status: "draft"
+status: "published"
 sortOrder: 300
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac29a"

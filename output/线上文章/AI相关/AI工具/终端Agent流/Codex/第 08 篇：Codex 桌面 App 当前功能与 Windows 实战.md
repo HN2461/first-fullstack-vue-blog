@@ -10,7 +10,7 @@ tags:
   - "Worktree"
   - "Scheduled tasks"
   - "Browser"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e6c"

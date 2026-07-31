@@ -9,7 +9,7 @@ tags:
   - "命名"
   - "int"
   - "float"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a4a4304f9ac958d2917603a"

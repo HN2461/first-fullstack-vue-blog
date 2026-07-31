@@ -10,7 +10,7 @@ tags:
   - "资源管理器"
   - "系统设置"
   - "终端"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e28"

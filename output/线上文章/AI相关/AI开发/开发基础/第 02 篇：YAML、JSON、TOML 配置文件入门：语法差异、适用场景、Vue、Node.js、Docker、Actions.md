@@ -10,7 +10,7 @@ tags:
   - "TOML"
   - "Docker"
   - "GitHub Actions"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a4a4564f9ac958d29178036"

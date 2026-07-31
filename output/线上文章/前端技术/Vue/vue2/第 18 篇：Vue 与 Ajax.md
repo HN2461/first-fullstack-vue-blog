@@ -8,7 +8,7 @@ tags:
   - "Ajax"
   - "axios"
   - "跨域"
-status: "draft"
+status: "published"
 sortOrder: 180
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a4"

@@ -8,7 +8,7 @@ tags:
   - "Ajax"
   - "HTTP 请求"
   - "json-server"
-status: "draft"
+status: "published"
 sortOrder: 190
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2a0"

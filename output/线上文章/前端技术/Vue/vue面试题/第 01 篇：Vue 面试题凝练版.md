@@ -8,7 +8,7 @@ tags:
   - "Vue 面试"
   - "前端面试"
   - "核心复习"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2e0"

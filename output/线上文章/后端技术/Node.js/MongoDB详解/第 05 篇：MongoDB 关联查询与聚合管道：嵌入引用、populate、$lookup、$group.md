@@ -10,7 +10,7 @@ tags:
   - "聚合管道"
   - "$lookup"
   - "$group"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac152"

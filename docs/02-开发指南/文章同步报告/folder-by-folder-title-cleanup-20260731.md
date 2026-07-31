@@ -579,6 +579,55 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/web-security-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/web-security-folder-before-semantic-cleanup-20260731-2145`。
 
+### AI相关 / AI工具
+
+- 处理 78 篇 AI 工具文章，覆盖总导航、AI 编辑器流、终端 Agent 流、规则机制层、辅助工具层、Agent 框架层等目录。
+- 将 `第一篇`、`第N篇`、`01：`、`补充篇` 等混合格式统一为 `第 01 篇：主题：关键内容范围` 或 `总览/索引` 命名，文件名同步使用两位序号。
+- 对 `CCSwitch` 目录重新固化阅读顺序：快速上手、Codex Provider 排障、中转站接入、MiMo Token Plan、跨电脑导出导入、绝对路径污染排障、两台电脑 Node 环境对比报告。
+- 对 `Skill` 目录重新固化阅读顺序：开放标准与兼容性、场景模板、高级用法、团队协作、前端开发常用 Skills 清单。
+- 对 MCP、Plugin、Rules、Claude Code、Codex、Cursor、Kiro、Windsurf、CatPaw、OpenClaw 等目录统一本地文件名、Front Matter 标题、首个 H1、`sortOrder` 与 `manifest.json` 的 `fileName/contentHash`。
+- 保持分类路径 `AI相关 / AI工具` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### AI相关 / AI开发 / AI应用开发平台 / MaxKB
+
+- 处理 33 篇 MaxKB 文章，覆盖公共规则、基础配置与变量、工程治理、接入与展示、节点创建手册、实战开发指南。
+- 将 `00-`、`01-`、无序号实战稿等导入文件名统一为 `总览`、`第 00 篇`、`第 01 篇` 等可阅读结构，文件名同步保留 MaxKB、节点、RAG、API、安全、发布回滚等关键内容范围。
+- 对 `节点创建手册` 固化阅读顺序：AI 创建节点必读、空白高级智能体创建、添加组件面板、基本信息与开始节点、AI 对话、意图识别、问题优化、判断器、知识库相关、表单收集、指定回复、循环、变量赋值、变量拆分、参数提取、变量聚合、MCP 调用与自定义工具、工具页签与智能体节点。
+- 对 `实战开发指南` 固化阅读顺序：接手环境到发布、智能体编排与状态设计、知识库与 RAG、工具/API 接入与安全、调试测试发布回滚、官方资料索引与文档审计。
+- 同步规范 Front Matter、首个 H1、`sortOrder`、`manifest.json` 的 `fileName/contentHash`，不修改正文主体段落、不修改标签体系。
+- 保持分类路径 `AI相关 / AI开发 / AI应用开发平台 / MaxKB` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/ai-tools-maxkb-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/ai-tools-before-semantic-cleanup-20260731-2230`、`backups/maxkb-before-semantic-cleanup-20260731-2230`。
+
+### 当前整理边界
+
+### 我的总结
+
+- 按最新要求补充处理此前跳过的 `我的总结` 目录，共 52 篇 Markdown。
+- JavaScript、Vue、uni-app 三个总目录统一为 `总览：...` 命名，辅助资料统一为 `第 01 篇：主题：关键内容范围`，Vue 随记统一为 `附录 01：主题：关键内容范围`。
+- 修正 9 篇 Front Matter 标题与首个 H1 不一致的问题，并将 `第01篇`、无序号文件名、下划线残留文件名统一为可阅读两位序号文件名。
+- JavaScript 辅助资料按现有学习顺序补齐第 01 到第 27 篇，保留变量作用域、闭包、this、原型链、Promise、DOM、深浅拷贝、执行上下文、对象描述符、手写题、路径、字符串数组方法、解构赋值等关键范围。
+- Vue 辅助资料按第 01 到第 13 篇整理，保留插值、指令、响应式、组件配置、生命周期、组件通信、Axios、Vue Router、Composition API、Vue2/Vue3 差异、虚拟 DOM 与 Diff 等关键范围。
+- uni-app 辅助资料按第 01 到第 06 篇整理，保留跨端编译、生命周期、工程结构、微信能力接入、性能优化、高频问题等关键范围。
+- 保持分类路径 `我的总结` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 安卓APK
+
+- 按最新要求补充处理此前跳过的 `安卓APK` 目录，共 1 篇 Markdown 和 2 篇 DOCX 元数据文章。
+- Markdown 文章补齐摘要、标签、发布状态和首个 H1，并规范为 `第 01 篇：uni-app 对接自定义 jar 包：HBuilderX、离线 SDK、Android Studio、原生插件`。
+- DOCX 型文章补齐 metadata 中的标题、摘要、标签、分类路径、发布状态和排序，并同步规范本地文档目录名。
+- 三篇文章按 `第 01 篇` 到 `第 03 篇` 排列：自定义 jar 包实操、电子班牌项目复盘与简历素材、uni-app Android APK 从 0 到 1 手册。
+- 保持分类路径 `安卓APK` 不变，未修改 DOCX 原件内容、RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/remaining-my-summary-android-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/my-summary-before-semantic-cleanup-20260731-2245`、`backups/android-apk-before-semantic-cleanup-20260731-2245`。
+
+### 全量校验状态
+
+- `output/线上文章` 当前权威快照读取通过：512 篇文章、96 个分类。
+- 全部文章状态均为 `published`，Markdown Front Matter 与 manifest 状态已对齐。
+- 未发现缺文件、空摘要、空标签、H1 与标题不一致、不规范本地文件名、标题超长、摘要超长或序号断档问题。
+- 编码检查通过：未发现 UTF-8 BOM。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

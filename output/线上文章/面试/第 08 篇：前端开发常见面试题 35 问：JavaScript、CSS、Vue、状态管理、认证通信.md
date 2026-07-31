@@ -10,7 +10,7 @@ tags:
   - "Vue"
   - "状态管理"
   - "认证通信"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac68e"

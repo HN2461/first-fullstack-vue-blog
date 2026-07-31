@@ -10,7 +10,7 @@ tags:
   - "Base URL"
   - "ANTHROPIC_BASE_URL"
   - "模型映射"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf36"

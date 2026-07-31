@@ -4,7 +4,7 @@ slug: "js-promise-30f7cae5"
 summary: "整理 Promise 状态、then、catch、finally、链式调用、并发方法、异常处理和常见使用场景。"
 category: "AI版JS"
 tags: ["JavaScript","Promise","异步编程","并发控制"]
-status: "draft"
+status: "published"
 sortOrder: 170
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ee"

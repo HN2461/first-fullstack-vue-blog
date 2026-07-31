@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-descriptions-timeline-collapse-tag-badge-statist
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解详情页、状态标记、加载态与空态相关的数据展示组件，覆盖 Descriptions、Timeline、Collapse、Tag、Badge、Statistic、Skeleton、Result、Empty。"
 category: "ElementPlus"
 tags: ["Element Plus","Descriptions","Timeline","Collapse","Tag","Skeleton"]
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac61e"

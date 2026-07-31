@@ -1,0 +1,513 @@
+{
+  "generatedAt": "2026-07-31T10:20:36.878Z",
+  "scope": [
+    "我的总结",
+    "安卓APK"
+  ],
+  "changed": 55,
+  "backup": [
+    "backups/my-summary-before-semantic-cleanup-20260731-2245",
+    "backups/android-apk-before-semantic-cleanup-20260731-2245"
+  ],
+  "notes": [
+    "本批处理此前跳过的剩余范围。",
+    "仅修改本地文章标题、摘要、标签、状态、sortOrder、首个 H1、本地文件名或文档 metadata；未写线上数据库。"
+  ],
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac37e",
+      "originalSlug": "js-js-js-d7c0a532",
+      "oldTitle": "JavaScript 常识目录（建议阅读顺序）",
+      "newTitle": "总览：JavaScript 常识目录：建议阅读顺序、核心专题、辅助资料",
+      "oldFileName": "我的总结/js/JavaScript-常识目录（建议阅读顺序）.md",
+      "newFileName": "我的总结/js/总览：JavaScript 常识目录：建议阅读顺序、核心专题、辅助资料.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac45c",
+      "originalSlug": "uni-app-uni-app-4aaf2e1a",
+      "oldTitle": "uni-app目录（系统整理版）",
+      "newTitle": "总览：uni-app 目录：系统整理版、阅读路径、专题索引",
+      "oldFileName": "我的总结/uni-app/uni-app目录（系统整理版）.md",
+      "newFileName": "我的总结/uni-app/总览：uni-app 目录：系统整理版、阅读路径、专题索引.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac47a",
+      "originalSlug": "vue-vue-1cec562a",
+      "oldTitle": "Vue目录（建议阅读顺序）",
+      "newTitle": "总览：Vue 目录：建议阅读顺序、核心概念、辅助资料",
+      "oldFileName": "我的总结/Vue/Vue目录（建议阅读顺序）.md",
+      "newFileName": "我的总结/Vue/总览：Vue 目录：建议阅读顺序、核心概念、辅助资料.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac38c",
+      "originalSlug": "js-js-javascript-4f1a5c58",
+      "oldTitle": "第 1 篇：JavaScript 变量与作用域详解",
+      "newTitle": "第 01 篇：JavaScript 变量与作用域详解：var、let、const、作用域链",
+      "oldFileName": "我的总结/js/辅助资料/第01篇：JavaScript-变量与作用域详解.md",
+      "newFileName": "我的总结/js/辅助资料/第 01 篇：JavaScript 变量与作用域详解：var、let、const、作用域链.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac394",
+      "originalSlug": "js-js-f6bc0394",
+      "oldTitle": "第 2 篇：JavaScript 数据访问安全机制",
+      "newTitle": "第 02 篇：JavaScript 数据访问安全机制：可选链、空值合并、边界判断",
+      "oldFileName": "我的总结/js/辅助资料/第02篇：JavaScript-数据访问安全机制.md",
+      "newFileName": "我的总结/js/辅助资料/第 02 篇：JavaScript 数据访问安全机制：可选链、空值合并、边界判断.md",
+      "sortOrder": 20
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac39c",
+      "originalSlug": "js-js-51b18143",
+      "oldTitle": "第 3 篇：JavaScript 闭包与垃圾回收机制",
+      "newTitle": "第 03 篇：JavaScript 闭包与垃圾回收机制：词法作用域、引用保留、内存释放",
+      "oldFileName": "我的总结/js/辅助资料/第03篇：JavaScript-闭包与垃圾回收机制.md",
+      "newFileName": "我的总结/js/辅助资料/第 03 篇：JavaScript 闭包与垃圾回收机制：词法作用域、引用保留、内存释放.md",
+      "sortOrder": 30
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3a4",
+      "originalSlug": "js-js-arguments-c45f50a4",
+      "oldTitle": "第 4 篇：JavaScript arguments 对象详解",
+      "newTitle": "第 04 篇：JavaScript arguments 对象详解：类数组、函数参数、剩余参数",
+      "oldFileName": "我的总结/js/辅助资料/第04篇：JavaScript-arguments-对象详解.md",
+      "newFileName": "我的总结/js/辅助资料/第 04 篇：JavaScript arguments 对象详解：类数组、函数参数、剩余参数.md",
+      "sortOrder": 40
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3ac",
+      "originalSlug": "js-js-this-515c53fa",
+      "oldTitle": "第 5 篇：JavaScript this 指向规则详解",
+      "newTitle": "第 05 篇：JavaScript this 指向规则详解：默认绑定、隐式绑定、call、apply、bind",
+      "oldFileName": "我的总结/js/辅助资料/第05篇：JavaScript-this-指向规则详解.md",
+      "newFileName": "我的总结/js/辅助资料/第 05 篇：JavaScript this 指向规则详解：默认绑定、隐式绑定、call、apply、bind.md",
+      "sortOrder": 50
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3b6",
+      "originalSlug": "js-javascript-9a9d6589",
+      "oldTitle": "第 6 篇：JavaScript 原型链",
+      "newTitle": "第 06 篇：JavaScript 原型链：prototype、__proto__、constructor",
+      "oldFileName": "我的总结/js/辅助资料/第06篇：JavaScript-原型链.md",
+      "newFileName": "我的总结/js/辅助资料/第 06 篇：JavaScript 原型链：prototype、__proto__、constructor.md",
+      "sortOrder": 60
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3be",
+      "originalSlug": "js-js-es5-es6-class-ddcd40c8",
+      "oldTitle": "第 7 篇：ES5 构造函数与 ES6 Class 详解",
+      "newTitle": "第 07 篇：ES5 构造函数与 ES6 Class 详解：new、继承、super、静态方法",
+      "oldFileName": "我的总结/js/辅助资料/第07篇：ES5-构造函数与-ES6-Class-详解.md",
+      "newFileName": "我的总结/js/辅助资料/第 07 篇：ES5 构造函数与 ES6 Class 详解：new、继承、super、静态方法.md",
+      "sortOrder": 70
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3c4",
+      "originalSlug": "js-8770c0f0",
+      "oldTitle": "第 8 篇：类型检测与原型链深度解析",
+      "newTitle": "第 08 篇：类型检测与原型链深度解析：typeof、instanceof、Object.prototype.toString",
+      "oldFileName": "我的总结/js/辅助资料/第08篇：类型检测与原型链深度解析.md",
+      "newFileName": "我的总结/js/辅助资料/第 08 篇：类型检测与原型链深度解析：typeof、instanceof、Object.prototype.toString.md",
+      "sortOrder": 80
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3ce",
+      "originalSlug": "js-javascript-ceaa578b",
+      "oldTitle": "第 9 篇：JavaScript 数组深度解析",
+      "newTitle": "第 09 篇：JavaScript 数组深度解析：增删改查、遍历、排序、引用",
+      "oldFileName": "我的总结/js/辅助资料/第09篇：JavaScript-数组深度解析.md",
+      "newFileName": "我的总结/js/辅助资料/第 09 篇：JavaScript 数组深度解析：增删改查、遍历、排序、引用.md",
+      "sortOrder": 90
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3d8",
+      "originalSlug": "js-b45cfac4",
+      "oldTitle": "第 10 篇：JavaScript 字符串详解",
+      "newTitle": "第 10 篇：JavaScript 字符串详解：截取、查找、替换、模板字符串",
+      "oldFileName": "我的总结/js/辅助资料/第10篇：JavaScript-字符串详解.md",
+      "newFileName": "我的总结/js/辅助资料/第 10 篇：JavaScript 字符串详解：截取、查找、替换、模板字符串.md",
+      "sortOrder": 100
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3de",
+      "originalSlug": "js-js-32fdfd9a",
+      "oldTitle": "第 11 篇：JavaScript 包装类的详细机制",
+      "newTitle": "第 11 篇：JavaScript 包装类的详细机制：String、Number、Boolean、临时对象",
+      "oldFileName": "我的总结/js/辅助资料/第11篇：JavaScript-包装类的详细机制.md",
+      "newFileName": "我的总结/js/辅助资料/第 11 篇：JavaScript 包装类的详细机制：String、Number、Boolean、临时对象.md",
+      "sortOrder": 110
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3e0",
+      "originalSlug": "js-js-0a88db30",
+      "oldTitle": "第 12 篇：宏任务与微任务",
+      "newTitle": "第 12 篇：宏任务与微任务：事件循环、Promise、setTimeout",
+      "oldFileName": "我的总结/js/辅助资料/第12篇：宏任务与微任务.md",
+      "newFileName": "我的总结/js/辅助资料/第 12 篇：宏任务与微任务：事件循环、Promise、setTimeout.md",
+      "sortOrder": 120
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3ec",
+      "originalSlug": "js-js-offset-client-scroll-29c45981",
+      "oldTitle": "第 13 篇：offset、client、scroll 坐标与尺寸详解",
+      "newTitle": "第 13 篇：offset、client、scroll 坐标与尺寸详解：布局尺寸、滚动距离、元素定位",
+      "oldFileName": "我的总结/js/辅助资料/第13篇：offset、client、scroll-坐标与尺寸详解.md",
+      "newFileName": "我的总结/js/辅助资料/第 13 篇：offset、client、scroll 坐标与尺寸详解：布局尺寸、滚动距离、元素定位.md",
+      "sortOrder": 130
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac3f6",
+      "originalSlug": "js-js-dom-0c6dbfa3",
+      "oldTitle": "第 14 篇：易混淆 DOM 事件对比指南",
+      "newTitle": "第 14 篇：易混淆 DOM 事件对比指南：input、change、blur、click、submit",
+      "oldFileName": "我的总结/js/辅助资料/第14篇：易混淆-DOM-事件对比指南.md",
+      "newFileName": "我的总结/js/辅助资料/第 14 篇：易混淆 DOM 事件对比指南：input、change、blur、click、submit.md",
+      "sortOrder": 140
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac400",
+      "originalSlug": "js-js-map-set-696642c1",
+      "oldTitle": "第 15 篇：Map 与 Set 事件订阅管理器",
+      "newTitle": "第 15 篇：Map 与 Set 事件订阅管理器：事件总线、去重、订阅发布",
+      "oldFileName": "我的总结/js/辅助资料/第15篇：Map-与-Set-事件订阅管理器.md",
+      "newFileName": "我的总结/js/辅助资料/第 15 篇：Map 与 Set 事件订阅管理器：事件总线、去重、订阅发布.md",
+      "sortOrder": 150
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac406",
+      "originalSlug": "js-js-f636b54f",
+      "oldTitle": "第 16 篇：前端模块导入与导出完全指南",
+      "newTitle": "第 16 篇：前端模块导入与导出完全指南：ESM、CommonJS、默认导出、命名导出",
+      "oldFileName": "我的总结/js/辅助资料/第16篇：前端模块导入与导出完全指南.md",
+      "newFileName": "我的总结/js/辅助资料/第 16 篇：前端模块导入与导出完全指南：ESM、CommonJS、默认导出、命名导出.md",
+      "sortOrder": 160
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac40c",
+      "originalSlug": "js-js-promise-6cb6d394",
+      "oldTitle": "第 17 篇：Promise 完全指南",
+      "newTitle": "第 17 篇：Promise 完全指南：状态流转、then、catch、finally、链式调用",
+      "oldFileName": "我的总结/js/辅助资料/第17篇：Promise-完全指南.md",
+      "newFileName": "我的总结/js/辅助资料/第 17 篇：Promise 完全指南：状态流转、then、catch、finally、链式调用.md",
+      "sortOrder": 170
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac410",
+      "originalSlug": "js-js-dom-cefe5122",
+      "oldTitle": "第 18 篇：DOM 文档对象模型基础",
+      "newTitle": "第 18 篇：DOM 文档对象模型基础：节点、选择器、增删改查、事件绑定",
+      "oldFileName": "我的总结/js/辅助资料/第18篇：DOM-文档对象模型基础.md",
+      "newFileName": "我的总结/js/辅助资料/第 18 篇：DOM 文档对象模型基础：节点、选择器、增删改查、事件绑定.md",
+      "sortOrder": 180
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac416",
+      "originalSlug": "js-js-aa0b9079",
+      "oldTitle": "第 19 篇：前端深浅拷贝完全指南",
+      "newTitle": "第 19 篇：前端深浅拷贝完全指南：Object.assign、递归、JSON、structuredClone",
+      "oldFileName": "我的总结/js/辅助资料/第19篇：前端深浅拷贝完全指南.md",
+      "newFileName": "我的总结/js/辅助资料/第 19 篇：前端深浅拷贝完全指南：Object.assign、递归、JSON、structuredClone.md",
+      "sortOrder": 190
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac41e",
+      "originalSlug": "js-js-f451ed2d",
+      "oldTitle": "第 20 篇：数组创建方法对比指南",
+      "newTitle": "第 20 篇：数组创建方法对比指南：Array.from、fill、map、稀疏数组",
+      "oldFileName": "我的总结/js/辅助资料/第20篇：数组创建方法对比指南.md",
+      "newFileName": "我的总结/js/辅助资料/第 20 篇：数组创建方法对比指南：Array.from、fill、map、稀疏数组.md",
+      "sortOrder": 200
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac428",
+      "originalSlug": "js-js-for-ae3e60e0",
+      "oldTitle": "第 21 篇：for 家族完全指南",
+      "newTitle": "第 21 篇：for 家族完全指南：for、forEach、for in、for of",
+      "oldFileName": "我的总结/js/辅助资料/第21篇：for-家族完全指南.md",
+      "newFileName": "我的总结/js/辅助资料/第 21 篇：for 家族完全指南：for、forEach、for in、for of.md",
+      "sortOrder": 210
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac43a",
+      "originalSlug": "js-js-8c9811b5",
+      "oldTitle": "第 23 篇：执行上下文、作用域链与调用栈",
+      "newTitle": "第 22 篇：执行上下文、作用域链与调用栈：VO、AO、词法环境、栈帧",
+      "oldFileName": "我的总结/js/辅助资料/第23篇：执行上下文、作用域链与调用栈.md",
+      "newFileName": "我的总结/js/辅助资料/第 22 篇：执行上下文、作用域链与调用栈：VO、AO、词法环境、栈帧.md",
+      "sortOrder": 220
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac442",
+      "originalSlug": "js-js-d03088d0",
+      "oldTitle": "第 24 篇：JavaScript 对象系统与属性描述符",
+      "newTitle": "第 23 篇：JavaScript 对象系统与属性描述符：defineProperty、getter、setter、枚举性",
+      "oldFileName": "我的总结/js/辅助资料/第24篇：JavaScript-对象系统与属性描述符.md",
+      "newFileName": "我的总结/js/辅助资料/第 23 篇：JavaScript 对象系统与属性描述符：defineProperty、getter、setter、枚举性.md",
+      "sortOrder": 230
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac44a",
+      "originalSlug": "js-js-0c45b118",
+      "oldTitle": "第 25 篇：JavaScript 高频手写题思路总纲",
+      "newTitle": "第 24 篇：JavaScript 高频手写题思路总纲：防抖、节流、深拷贝、Promise",
+      "oldFileName": "我的总结/js/辅助资料/第25篇：JavaScript-高频手写题思路总纲.md",
+      "newFileName": "我的总结/js/辅助资料/第 24 篇：JavaScript 高频手写题思路总纲：防抖、节流、深拷贝、Promise.md",
+      "sortOrder": 240
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac432",
+      "originalSlug": "javascript-js-fc6f3322",
+      "oldTitle": "绝对路径与相对路径详解",
+      "newTitle": "第 25 篇：绝对路径与相对路径详解：根路径、相对层级、URL、模块引用",
+      "oldFileName": "我的总结/js/辅助资料/绝对路径与相对路径详解.md",
+      "newFileName": "我的总结/js/辅助资料/第 25 篇：绝对路径与相对路径详解：根路径、相对层级、URL、模块引用.md",
+      "sortOrder": 250
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac44e",
+      "originalSlug": "js-516c7d40",
+      "oldTitle": "字符串数组方法速背卡（开发+面试）",
+      "newTitle": "第 26 篇：字符串数组方法速背卡：开发常用 API、面试记忆、易混点",
+      "oldFileName": "我的总结/js/辅助资料/字符串数组方法速背卡（开发+面试）.md",
+      "newFileName": "我的总结/js/辅助资料/第 26 篇：字符串数组方法速背卡：开发常用 API、面试记忆、易混点.md",
+      "sortOrder": 260
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac456",
+      "originalSlug": "js-js-e0da040f",
+      "oldTitle": "解构赋值完整指南",
+      "newTitle": "第 27 篇：解构赋值完整指南：数组解构、对象解构、默认值、别名",
+      "oldFileName": "我的总结/js/辅助资料/解构赋值完整指南.md",
+      "newFileName": "我的总结/js/辅助资料/第 27 篇：解构赋值完整指南：数组解构、对象解构、默认值、别名.md",
+      "sortOrder": 270
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac460",
+      "originalSlug": "uni-app-uni-app-5f27ae60",
+      "oldTitle": "第 1 篇：uni-app核心认知、跨端编译与平台边界",
+      "newTitle": "第 01 篇：uni-app 核心认知、跨端编译与平台边界：Vue 语法、多端产物、条件编译",
+      "oldFileName": "我的总结/uni-app/uni-app辅助/第01篇：uni-app核心认知、跨端编译与平台边界.md",
+      "newFileName": "我的总结/uni-app/uni-app辅助/第 01 篇：uni-app 核心认知、跨端编译与平台边界：Vue 语法、多端产物、条件编译.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac468",
+      "originalSlug": "uni-app-uni-app-8c6d7ba1",
+      "oldTitle": "第 2 篇：uni-app生命周期、页面时序与常见页面事件",
+      "newTitle": "第 02 篇：uni-app 生命周期、页面时序与常见页面事件：应用生命周期、页面生命周期、onLoad、onShow",
+      "oldFileName": "我的总结/uni-app/uni-app辅助/第02篇：uni-app生命周期、页面时序与常见页面事件.md",
+      "newFileName": "我的总结/uni-app/uni-app辅助/第 02 篇：uni-app 生命周期、页面时序与常见页面事件：应用生命周期、页面生命周期、onLoad、onShow.md",
+      "sortOrder": 20
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac46c",
+      "originalSlug": "uni-app-uni-app-5d3131e1",
+      "oldTitle": "第 3 篇：uni-app工程结构、配置分层与文件职责边界",
+      "newTitle": "第 03 篇：uni-app 工程结构、配置分层与文件职责边界：pages.json、manifest.json、组件、静态资源",
+      "oldFileName": "我的总结/uni-app/uni-app辅助/第03篇：uni-app工程结构、配置分层与文件职责边界.md",
+      "newFileName": "我的总结/uni-app/uni-app辅助/第 03 篇：uni-app 工程结构、配置分层与文件职责边界：pages.json、manifest.json、组件、静态资源.md",
+      "sortOrder": 30
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac46e",
+      "originalSlug": "uni-app-uni-app-2a3920fc",
+      "oldTitle": "第 4 篇：uni-app跨端开发方法与微信小程序常见能力接入",
+      "newTitle": "第 04 篇：uni-app 跨端开发方法与微信小程序常见能力接入：API 适配、权限、登录、上传",
+      "oldFileName": "我的总结/uni-app/uni-app辅助/第04篇：uni-app跨端开发方法与微信小程序常见能力接入.md",
+      "newFileName": "我的总结/uni-app/uni-app辅助/第 04 篇：uni-app 跨端开发方法与微信小程序常见能力接入：API 适配、权限、登录、上传.md",
+      "sortOrder": 40
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac472",
+      "originalSlug": "uni-app-uni-app-ae457f1c",
+      "oldTitle": "第 5 篇：uni-app性能优化、包体治理与稳定性维护",
+      "newTitle": "第 05 篇：uni-app 性能优化、包体治理与稳定性维护：分包、缓存、渲染性能、异常排查",
+      "oldFileName": "我的总结/uni-app/uni-app辅助/第05篇：uni-app性能优化、包体治理与稳定性维护.md",
+      "newFileName": "我的总结/uni-app/uni-app辅助/第 05 篇：uni-app 性能优化、包体治理与稳定性维护：分包、缓存、渲染性能、异常排查.md",
+      "sortOrder": 50
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac478",
+      "originalSlug": "uni-app-uni-app-9a1496c3",
+      "oldTitle": "第 6 篇：uni-app高频问题补充问答",
+      "newTitle": "第 06 篇：uni-app 高频问题补充问答：跨端差异、调试、发布、兼容处理",
+      "oldFileName": "我的总结/uni-app/uni-app辅助/第06篇：uni-app高频问题补充问答.md",
+      "newFileName": "我的总结/uni-app/uni-app辅助/第 06 篇：uni-app 高频问题补充问答：跨端差异、调试、发布、兼容处理.md",
+      "sortOrder": 60
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac480",
+      "originalSlug": "vue-vue-31fab0ca",
+      "oldTitle": "第 1 篇：插值语法",
+      "newTitle": "第 01 篇：Vue 插值语法：Mustache、表达式、文本渲染",
+      "oldFileName": "我的总结/Vue/vue辅助/第01篇：插值语法.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 01 篇：Vue 插值语法：Mustache、表达式、文本渲染.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac48a",
+      "originalSlug": "vue-vue-vue-011d0d19",
+      "oldTitle": "第 2 篇：Vue指令与自定义指令",
+      "newTitle": "第 02 篇：Vue 指令与自定义指令：v-bind、v-model、directive、钩子函数",
+      "oldFileName": "我的总结/Vue/vue辅助/第02篇：Vue指令与自定义指令.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 02 篇：Vue 指令与自定义指令：v-bind、v-model、directive、钩子函数.md",
+      "sortOrder": 20
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac492",
+      "originalSlug": "vue-vue-vue-ebf8992e",
+      "oldTitle": "第 3 篇：Vue响应式原理",
+      "newTitle": "第 03 篇：Vue 响应式原理：Object.defineProperty、Proxy、依赖收集",
+      "oldFileName": "我的总结/Vue/vue辅助/第03篇：Vue响应式原理.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 03 篇：Vue 响应式原理：Object.defineProperty、Proxy、依赖收集.md",
+      "sortOrder": 30
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac49e",
+      "originalSlug": "vue-vue-vue2-a3062491",
+      "oldTitle": "第 4 篇：Vue2组件五大核心配置项",
+      "newTitle": "第 04 篇：Vue 2 组件五大核心配置项：props、data、methods、computed、watch",
+      "oldFileName": "我的总结/Vue/vue辅助/第04篇：Vue2组件五大核心配置项.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 04 篇：Vue 2 组件五大核心配置项：props、data、methods、computed、watch.md",
+      "sortOrder": 40
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4a6",
+      "originalSlug": "vue-vue-class-style-eb3555df",
+      "oldTitle": "第 5 篇：class与style绑定",
+      "newTitle": "第 05 篇：class 与 style 绑定：对象语法、数组语法、动态样式",
+      "oldFileName": "我的总结/Vue/vue辅助/第05篇：class与style绑定.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 05 篇：class 与 style 绑定：对象语法、数组语法、动态样式.md",
+      "sortOrder": 50
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4ae",
+      "originalSlug": "vue-vue-9d24253e",
+      "oldTitle": "第 6 篇：生命周期",
+      "newTitle": "第 06 篇：Vue 生命周期：创建、挂载、更新、销毁",
+      "oldFileName": "我的总结/Vue/vue辅助/第06篇：生命周期.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 06 篇：Vue 生命周期：创建、挂载、更新、销毁.md",
+      "sortOrder": 60
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4b6",
+      "originalSlug": "vue-vue-9736eb78",
+      "oldTitle": "第 7 篇：组件通讯",
+      "newTitle": "第 07 篇：Vue 组件通讯：props、emit、provide、inject、事件总线",
+      "oldFileName": "我的总结/Vue/vue辅助/第07篇：组件通讯.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 07 篇：Vue 组件通讯：props、emit、provide、inject、事件总线.md",
+      "sortOrder": 70
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4c0",
+      "originalSlug": "vue-vue-mixins-plugins-scoped-5091c143",
+      "oldTitle": "第 8 篇：mixins plugins scoped",
+      "newTitle": "第 08 篇：mixins、plugins 与 scoped：复用逻辑、插件安装、样式隔离",
+      "oldFileName": "我的总结/Vue/vue辅助/第08篇：mixins_plugins_scoped.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 08 篇：mixins、plugins 与 scoped：复用逻辑、插件安装、样式隔离.md",
+      "sortOrder": 80
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4c8",
+      "originalSlug": "vue-vue-axios-4d3d1aab",
+      "oldTitle": "第 9 篇：Axios",
+      "newTitle": "第 09 篇：Axios 请求库：实例、拦截器、取消请求、错误处理",
+      "oldFileName": "我的总结/Vue/vue辅助/第09篇：Axios.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 09 篇：Axios 请求库：实例、拦截器、取消请求、错误处理.md",
+      "sortOrder": 90
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4d2",
+      "originalSlug": "vue-vue-vue-router-b011bea3",
+      "oldTitle": "第 10 篇：Vue Router 超详细总笔记",
+      "newTitle": "第 10 篇：Vue Router 超详细总笔记：路由配置、导航守卫、动态路由",
+      "oldFileName": "我的总结/Vue/vue辅助/第10篇：Vue-Router-超详细总笔记.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 10 篇：Vue Router 超详细总笔记：路由配置、导航守卫、动态路由.md",
+      "sortOrder": 100
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4dc",
+      "originalSlug": "vue-vue-vue3-composition-api-4d51a7a6",
+      "oldTitle": "第 11 篇：Vue3 Composition API核心笔记",
+      "newTitle": "第 11 篇：Vue 3 Composition API 核心笔记：setup、ref、reactive、computed、watch",
+      "oldFileName": "我的总结/Vue/vue辅助/第11篇：Vue3_Composition_API核心笔记.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 11 篇：Vue 3 Composition API 核心笔记：setup、ref、reactive、computed、watch.md",
+      "sortOrder": 110
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4de",
+      "originalSlug": "vue-vue-vue2-vue3-61311af1",
+      "oldTitle": "第 12 篇：Vue2 vs Vue3 核心写法差异",
+      "newTitle": "第 12 篇：Vue 2 vs Vue 3 核心写法差异：Options API、Composition API、迁移对照",
+      "oldFileName": "我的总结/Vue/vue辅助/第12篇：Vue2-vs-Vue3-核心写法差异.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 12 篇：Vue 2 vs Vue 3 核心写法差异：Options API、Composition API、迁移对照.md",
+      "sortOrder": 120
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4ee",
+      "originalSlug": "vue-vue-dom-diff-05a2bbc3",
+      "oldTitle": "第 13 篇：虚拟DOM、Diff算法、编译优化与面试高频补充",
+      "newTitle": "第 13 篇：虚拟 DOM、Diff 算法、编译优化与面试高频补充：VNode、patch、key、编译缓存",
+      "oldFileName": "我的总结/Vue/vue辅助/第13篇：虚拟DOM、Diff算法、编译优化与面试高频补充.md",
+      "newFileName": "我的总结/Vue/vue辅助/第 13 篇：虚拟 DOM、Diff 算法、编译优化与面试高频补充：VNode、patch、key、编译缓存.md",
+      "sortOrder": 130
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac4f8",
+      "originalSlug": "vue-vue-01-vue2-webpack-ba0bd4ed",
+      "oldTitle": "附录01：Vue2的Webpack工程化详解",
+      "newTitle": "附录 01：Vue 2 Webpack 工程化详解：loader、plugin、构建流程",
+      "oldFileName": "我的总结/Vue/vue随记/附录01：Vue2的Webpack工程化详解.md",
+      "newFileName": "我的总结/Vue/vue随记/附录 01：Vue 2 Webpack 工程化详解：loader、plugin、构建流程.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac500",
+      "originalSlug": "vue-vue-02-vue3-vite-b6a24a54",
+      "oldTitle": "附录02：Vue3的Vite工程化详解",
+      "newTitle": "附录 02：Vue 3 Vite 工程化详解：dev server、预构建、插件机制",
+      "oldFileName": "我的总结/Vue/vue随记/附录02：Vue3的Vite工程化详解.md",
+      "newFileName": "我的总结/Vue/vue随记/附录 02：Vue 3 Vite 工程化详解：dev server、预构建、插件机制.md",
+      "sortOrder": 20
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac506",
+      "originalSlug": "vue-vue-03-vue-name-5f5217ee",
+      "oldTitle": "附录03：Vue的name属性",
+      "newTitle": "附录 03：Vue 的 name 属性：递归组件、keep-alive、DevTools",
+      "oldFileName": "我的总结/Vue/vue随记/附录03：Vue的name属性.md",
+      "newFileName": "我的总结/Vue/vue随记/附录 03：Vue 的 name 属性：递归组件、keep-alive、DevTools.md",
+      "sortOrder": 30
+    },
+    {
+      "originalId": "6a58a6f8c48586f4dec3c348",
+      "originalSlug": "uniapp-jar",
+      "oldTitle": "uniapp 对接自定义 jar 包：从零到真机的完整实操指南",
+      "newTitle": "第 01 篇：uni-app 对接自定义 jar 包：HBuilderX、离线 SDK、Android Studio、原生插件",
+      "oldFileName": "安卓APK/uniapp-对接自定义-jar-包：从零到真机的完整实操指南.md",
+      "newFileName": "安卓APK/第 01 篇：uni-app 对接自定义 jar 包：HBuilderX、离线 SDK、Android Studio、原生插件.md",
+      "sortOrder": 10
+    },
+    {
+      "originalId": "6a6a16ddfca6c64076d4099c",
+      "originalSlug": "article-20260729150605",
+      "oldTitle": "第 02 篇：电子班牌项目复盘与简历素材：APK 打包、设备联调、项目表达",
+      "newTitle": "第 02 篇：电子班牌项目复盘与简历素材：APK 打包、设备联调、项目表达",
+      "oldFileName": "安卓APK/电子班牌项目经历深度复盘与简历素材-文档/metadata.json",
+      "newFileName": "安卓APK/第 02 篇：电子班牌项目复盘与简历素材：APK 打包、设备联调、项目表达-文档/metadata.json",
+      "sortOrder": 20
+    },
+    {
+      "originalId": "6a6aafe0c0726f33c296abf8",
+      "originalSlug": "uni-app-android-apk-0-1",
+      "oldTitle": "第 03 篇：uni-app Android APK 从 0 到 1 手册：DCloud SDK、原生插件、签名交付",
+      "newTitle": "第 03 篇：uni-app Android APK 从 0 到 1 手册：DCloud SDK、原生插件、签名交付",
+      "oldFileName": "安卓APK/浩南技术教学资料-uni-app-Android-APK从0到1全流程实战手册-文档/metadata.json",
+      "newFileName": "安卓APK/第 03 篇：uni-app Android APK 从 0 到 1 手册：DCloud SDK、原生插件、签名交付-文档/metadata.json",
+      "sortOrder": 30
+    }
+  ]
+}

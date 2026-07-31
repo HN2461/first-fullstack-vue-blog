@@ -4,7 +4,7 @@ slug: "js-javascript-fcff5e89"
 summary: "JavaScript 完整教程目录，按世界观、语法基础、函数对象、浏览器交互、异步、现代语法、工程化和后端入门梳理 30 章学习路径。"
 category: "AI版JS"
 tags: ["JavaScript","学习目录","前端基础","教程索引"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0e0"

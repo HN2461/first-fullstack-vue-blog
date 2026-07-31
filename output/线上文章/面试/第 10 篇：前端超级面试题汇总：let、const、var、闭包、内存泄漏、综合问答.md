@@ -10,7 +10,7 @@ tags:
   - "闭包"
   - "内存泄漏"
   - "综合题库"
-status: "draft"
+status: "published"
 sortOrder: 100
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac692"

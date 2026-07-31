@@ -10,7 +10,7 @@ tags:
   - "Header"
   - "Token"
   - "环境变量"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac188"

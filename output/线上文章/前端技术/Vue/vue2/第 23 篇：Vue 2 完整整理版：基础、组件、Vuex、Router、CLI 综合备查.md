@@ -8,7 +8,7 @@ tags:
   - "完整整理"
   - "Vue"
   - "备查资料"
-status: "draft"
+status: "published"
 sortOrder: 230
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac29e"

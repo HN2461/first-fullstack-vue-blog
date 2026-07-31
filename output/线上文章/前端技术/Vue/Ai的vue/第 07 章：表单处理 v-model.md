@@ -8,7 +8,7 @@ tags:
   - "表单处理"
   - "v-model"
   - "表单绑定"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac28a"

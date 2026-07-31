@@ -4,7 +4,7 @@ slug: "window-api-3e74acb4"
 summary: "系统梳理前端开发中 window 对象最常用的 API，涵盖 location 跳转、history 路由、navigator 设备信息、postMessage 跨窗口通信、open/close 窗口控制、定时器、滚动、存储等。"
 category: "工具速查"
 tags: ["window","BOM","location","history","navigator","postMessage","前端基础"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac318"

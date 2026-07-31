@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-59f5c8d0"
 summary: "梳理微信小程序常见能力接法，讲清登录、头像昵称、手机号、上传下载、订阅消息、分享与支付的稳妥实践。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","登录","订阅消息","支付"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac210"

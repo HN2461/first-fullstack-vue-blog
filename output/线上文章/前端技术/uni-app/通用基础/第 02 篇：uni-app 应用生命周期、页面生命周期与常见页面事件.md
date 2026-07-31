@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-4049c58c"
 summary: "从 App.vue 的应用生命周期、页面生命周期到常见页面事件，建立一套适用于 uni-app 多端项目的时序认知。"
 category: "通用基础"
 tags: ["uni-app","应用生命周期","页面生命周期","页面事件","App.vue"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac24c"

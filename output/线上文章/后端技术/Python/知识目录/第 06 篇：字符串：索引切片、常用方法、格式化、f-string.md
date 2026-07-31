@@ -9,7 +9,7 @@ tags:
   - "索引切片"
   - "常用方法"
   - "格式化"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a4a4304f9ac958d2917603e"

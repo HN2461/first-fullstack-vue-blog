@@ -11,7 +11,7 @@ tags:
   - "向量化"
   - "OpenAI协议"
   - "Token计费"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a4a4564f9ac958d29178027"

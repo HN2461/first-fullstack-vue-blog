@@ -4,7 +4,7 @@ slug: "js-node-js-ff8ab72b"
 summary: "讲解 Node.js 组成、CommonJS、fs、path、http 模块、运行时能力和后端 JavaScript 基础。"
 category: "AI版JS"
 tags: ["Node.js","JavaScript","CommonJS","后端基础"]
-status: "draft"
+status: "published"
 sortOrder: 300
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10a"

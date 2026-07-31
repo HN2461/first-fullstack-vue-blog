@@ -4,7 +4,7 @@ slug: "http-8498fced"
 summary: "HTTP 缓存机制笔记，讲清强缓存、协商缓存、Cache-Control、Expires、ETag、Last-Modified、缓存命中流程和项目配置思路。"
 category: "浏览器与网络"
 tags: ["HTTP 缓存","强缓存","协商缓存","Cache-Control","ETag"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac348"

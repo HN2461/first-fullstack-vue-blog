@@ -8,7 +8,7 @@ tags:
   - "class 绑定"
   - "style 绑定"
   - "样式绑定"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2bc"

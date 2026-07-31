@@ -4,7 +4,7 @@ slug: "fetch-axios-xhr-4b58d611"
 summary: "前端网络请求方式对比笔记，讲清 XMLHttpRequest、Fetch API、Axios 的基本用法、优缺点、封装方式、错误处理和项目选型。"
 category: "网络请求"
 tags: ["Fetch","Axios","XHR","网络请求","接口封装","错误处理"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac36c"

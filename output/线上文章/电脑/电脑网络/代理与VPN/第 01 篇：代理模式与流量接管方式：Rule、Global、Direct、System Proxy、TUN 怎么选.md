@@ -4,7 +4,7 @@ slug: "proxy-mode-and-traffic-capture-guide-20260705"
 summary: "从日常使用角度解释代理客户端中的规则、全局、直连模式，以及系统代理和 TUN 虚拟网卡的差异，帮助排查为什么有些应用没有走代理。"
 category: "代理与VPN"
 tags: ["代理","VPN","Rule","Global","System Proxy","TUN"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a4a451af9ac958d29177b57"

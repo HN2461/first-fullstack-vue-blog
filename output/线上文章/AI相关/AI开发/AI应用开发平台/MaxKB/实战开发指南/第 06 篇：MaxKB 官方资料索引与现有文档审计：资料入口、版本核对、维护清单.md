@@ -7,7 +7,7 @@ tags:
   - "MaxKB"
   - "AI应用开发"
   - "实战开发指南"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e34"

@@ -4,7 +4,7 @@ slug: "js-bom-8c92d7da"
 summary: "整理 window、定时器、location、history、本地存储、cookie 和浏览器对象模型常用能力。"
 category: "AI版JS"
 tags: ["JavaScript","BOM","浏览器","本地存储"]
-status: "draft"
+status: "published"
 sortOrder: 150
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ea"

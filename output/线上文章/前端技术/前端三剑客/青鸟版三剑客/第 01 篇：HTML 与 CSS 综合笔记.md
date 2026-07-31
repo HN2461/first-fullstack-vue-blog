@@ -4,7 +4,7 @@ slug: "javascriptes6-html-css-ea679145"
 summary: "青鸟版 HTML 与 CSS 综合课堂笔记，覆盖网页结构、HTML 标签、CSS 样式、布局基础和三剑客入门认知。"
 category: "青鸟版三剑客"
 tags: ["HTML","CSS","前端基础","课堂笔记"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0d8"

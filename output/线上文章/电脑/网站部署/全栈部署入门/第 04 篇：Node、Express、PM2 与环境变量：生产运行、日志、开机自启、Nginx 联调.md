@@ -4,7 +4,7 @@ slug: "node-express-pm2-b0b0327c"
 summary: "Express 生产运行入门，讲清为什么不能只靠 npm run dev，如何配置健康检查、环境变量、PM2 常驻运行、日志、开机自启和 Nginx 反向代理联调。"
 category: "全栈部署入门"
 tags: ["Node.js","Express","PM2","环境变量","日志","开机自启","Nginx"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5a4"

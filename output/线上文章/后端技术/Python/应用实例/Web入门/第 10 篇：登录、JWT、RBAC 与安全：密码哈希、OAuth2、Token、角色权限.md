@@ -10,7 +10,7 @@ tags:
   - "RBAC"
   - "OAuth2"
   - "安全"
-status: "draft"
+status: "published"
 sortOrder: 110
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a4"

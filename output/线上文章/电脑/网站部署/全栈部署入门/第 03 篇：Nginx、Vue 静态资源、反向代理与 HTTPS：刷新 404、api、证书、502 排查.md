@@ -4,7 +4,7 @@ slug: "nginx-https-f134e6f0"
 summary: "从 Vue 打包、Nginx 静态站点、前端路由刷新 404、/api 反向代理、HTTPS 证书到 404/502 排查，梳理前端上线入口。"
 category: "全栈部署入门"
 tags: ["Nginx","Vue","静态资源","反向代理","HTTPS","404","502"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5a0"

@@ -10,7 +10,7 @@ tags:
   - "日志级别"
   - "格式化"
   - "文件输出"
-status: "draft"
+status: "published"
 sortOrder: 240
 cover: ""
 originalId: "6a6b57a2fca6347974f5d17e"

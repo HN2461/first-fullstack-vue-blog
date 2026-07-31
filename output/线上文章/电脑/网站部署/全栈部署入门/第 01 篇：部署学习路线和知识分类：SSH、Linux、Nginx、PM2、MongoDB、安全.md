@@ -4,7 +4,7 @@ slug: "legacy-ce762b29-ce762b29"
 summary: "全栈项目部署学习路线，按 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和 Docker 等方向梳理前后端分离项目上线要学的内容。"
 category: "全栈部署入门"
 tags: ["部署","学习路线","SSH","Linux","Nginx","PM2","MongoDB"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac590"

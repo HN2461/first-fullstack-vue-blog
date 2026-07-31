@@ -4,7 +4,7 @@ slug: "javascriptes6-js-dd445881"
 summary: "青鸟版 JavaScript 高级课堂笔记，整理数据类型判断、执行机制、this、构造函数、原型、闭包和常见高级面试点。"
 category: "青鸟版三剑客"
 tags: ["JavaScript","高级语法","原型","课堂笔记"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0dc"

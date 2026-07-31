@@ -4,7 +4,7 @@ slug: "vpn-0373b572"
 summary: "公司网络下网站需开 VPN 才能访问时的排查与修复流程，包含 Windows 系统代理清理、WinHTTP 代理、网络栈重置、DNS 刷新和 IT 白名单沟通。"
 category: "代理与VPN"
 tags: ["Windows","代理","VPN","WinHTTP","DNS","网络故障排查"]
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac510"

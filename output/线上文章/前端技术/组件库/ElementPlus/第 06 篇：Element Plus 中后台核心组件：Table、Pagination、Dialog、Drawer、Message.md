@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-table-pagination-dialog-drawer-message-a9a1cd3a"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，系统讲解表格、分页、对话框、抽屉、消息提示这些中后台最高频组件的组合方式和使用边界。"
 category: "ElementPlus"
 tags: ["Element Plus","Table","Pagination","Dialog","Drawer"]
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac62e"

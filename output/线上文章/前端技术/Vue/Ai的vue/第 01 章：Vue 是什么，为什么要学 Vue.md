@@ -8,7 +8,7 @@ tags:
   - "Vue 入门"
   - "前端框架"
   - "学习路线"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac274"

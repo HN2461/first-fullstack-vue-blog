@@ -7,7 +7,7 @@ tags:
   - "MaxKB"
   - "AI应用开发"
   - "基础配置与变量"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e38"

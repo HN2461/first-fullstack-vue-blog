@@ -4,7 +4,7 @@ slug: "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方 Dataset、Data Transform、Dynamic Data 与 Import 文档，系统讲清 dataset、sourceHeader、seriesLayoutBy、dimensions、encode、多 dataset 与 filter/sort transform 的用法，帮助把后端接口数据整理成可复用的图表数据源。"
 category: "ECharts"
 tags: ["ECharts","dataset","encode","transform","数据可视化","Vue3"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5cc"

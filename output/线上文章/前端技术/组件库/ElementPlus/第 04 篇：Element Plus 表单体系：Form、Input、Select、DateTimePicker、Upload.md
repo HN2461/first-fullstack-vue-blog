@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-form-input-select-datetimepicker-upload-7fbe719b
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，详细讲解 Form、Input、Select、DateTimePicker、Upload 这些表单核心组件在真实后台页面中的组合方式。"
 category: "ElementPlus"
 tags: ["Element Plus","Form","Input","Select","Upload"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac65e"

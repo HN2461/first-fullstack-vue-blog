@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-element-plus-vue3-pc-86202b18"
 summary: "基于 2026-04-28 查阅的 Element Plus 最新官方资料，作为 Element Plus 专题第一篇，先讲清它为什么常用于 Vue 3 的 PC 端项目，以及接入、按需导入、主题定制、国际化与暗黑模式的核心用法。"
 category: "ElementPlus"
 tags: ["Element Plus","Vue3","Vite","UI 组件库","后台管理系统"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5fa"

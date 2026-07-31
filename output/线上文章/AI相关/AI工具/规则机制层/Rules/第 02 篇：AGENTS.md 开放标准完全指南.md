@@ -9,7 +9,7 @@ tags:
   - "开放标准"
   - "AAIF"
   - "Linux基金会"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabff0"

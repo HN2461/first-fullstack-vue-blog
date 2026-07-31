@@ -10,7 +10,7 @@ tags:
   - "agentId"
   - "userId"
   - "unionId"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c0"

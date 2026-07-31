@@ -4,7 +4,7 @@ slug: "uv-ui-uvui-uv-ui-4162c705"
 summary: "基于 2026-05-03 查阅的 uv-ui 官方介绍、安装、扩展配置、Http、常见问题、更新日志、GitHub 与 npm 资料，系统讲清 uv-ui 的定位、公开版本状态、组件地图、项目起手顺序与多端开发中的关键坑位，帮助读完后能快速进入 uni-app 实战。"
 category: "uvui"
 tags: ["uv-ui","uni-app","微信小程序","HBuilderX","easycom","请求封装"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac668"

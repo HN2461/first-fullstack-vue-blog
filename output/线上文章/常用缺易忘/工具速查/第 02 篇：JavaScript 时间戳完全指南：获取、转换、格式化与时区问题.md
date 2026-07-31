@@ -4,7 +4,7 @@ slug: "legacy-5c668a9b-5c668a9b"
 summary: "JavaScript 时间戳速查笔记，整理秒级/毫秒级时间戳、Date 获取、指定时间转换、日期格式化、时区偏差和常见业务用法。"
 category: "工具速查"
 tags: ["JavaScript","时间戳","Date","日期格式化","时区"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac31a"

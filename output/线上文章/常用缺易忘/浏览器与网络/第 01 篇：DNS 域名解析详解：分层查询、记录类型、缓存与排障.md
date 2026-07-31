@@ -4,7 +4,7 @@ slug: "dns-c31ae11a"
 summary: "DNS 域名解析基础笔记，讲清域名为什么需要解析、根域名服务器到权威 DNS 的分层查询、常见记录类型、DNS 缓存和解析故障排查。"
 category: "浏览器与网络"
 tags: ["DNS","域名解析","网络基础","DNS 记录","缓存"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac344"

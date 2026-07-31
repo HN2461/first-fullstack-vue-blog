@@ -10,7 +10,7 @@ tags:
   - "URL"
   - "HTTP"
   - "robots.txt"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a4a44b5f9ac958d291774e7"

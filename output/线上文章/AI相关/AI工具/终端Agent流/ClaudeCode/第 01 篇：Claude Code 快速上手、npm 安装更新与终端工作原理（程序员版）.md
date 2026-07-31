@@ -10,7 +10,7 @@ tags:
   - "CLI"
   - "权限模式"
   - "程序员上手"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf18"

@@ -9,7 +9,7 @@ tags:
   - "项目改造"
   - "条件编译"
   - "联调发布"
-status: "draft"
+status: "published"
 sortOrder: 120
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac79e"

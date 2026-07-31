@@ -4,7 +4,7 @@ slug: "echarts-echarts-vue3-vite-echarts-03b8ae7e"
 summary: "基于 2026-05-03 查阅的 Apache ECharts 官方 chart size、dynamic data、canvas vs svg、安全与 Aria 文档，以及 vue-echarts 官方 README 和 Releases，讲清 Vue 3 + Vite 项目里最稳的图表封装方式、按需引入、自动适配、主题、loading、事件、手动更新和常见坑。"
 category: "ECharts"
 tags: ["ECharts","Vue3","Vite","vue-echarts","图表组件","项目落地"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5f0"

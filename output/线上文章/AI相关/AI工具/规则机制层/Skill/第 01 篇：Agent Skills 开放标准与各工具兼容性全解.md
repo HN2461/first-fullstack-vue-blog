@@ -11,7 +11,7 @@ tags:
   - "Cursor"
   - "Codex"
   - "兼容性"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac014"

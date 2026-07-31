@@ -4,7 +4,7 @@ slug: "js-javascript-9e8b648d"
 summary: "JavaScript 入门笔记，说明语言诞生背景、浏览器关系、ECMAScript、DOM、BOM 和现代前端开发定位。"
 category: "AI版JS"
 tags: ["JavaScript","前端基础","ECMAScript","浏览器"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0f6"

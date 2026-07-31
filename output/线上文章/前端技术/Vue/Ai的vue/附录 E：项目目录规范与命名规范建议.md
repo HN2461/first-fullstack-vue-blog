@@ -8,7 +8,7 @@ tags:
   - "项目规范"
   - "命名规范"
   - "附录"
-status: "draft"
+status: "published"
 sortOrder: 290
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac298"

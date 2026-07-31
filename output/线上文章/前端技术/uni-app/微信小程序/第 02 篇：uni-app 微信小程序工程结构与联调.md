@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-pages-json-manifest-json-38b6eedd"
 summary: "从 pages.json、manifest.json、project.config.json 到条件编译和开发者工具联调，梳理微信小程序工程配置边界。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","pages.json","条件编译","开发者工具"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac208"

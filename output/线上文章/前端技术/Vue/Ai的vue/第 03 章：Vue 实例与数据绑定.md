@@ -8,7 +8,7 @@ tags:
   - "数据绑定"
   - "Vue 实例"
   - "响应式"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac282"

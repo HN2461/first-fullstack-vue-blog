@@ -4,7 +4,7 @@ slug: "canvas-7535da83"
 summary: "HTML5 Canvas 入门笔记，用数字画板的方式讲清 canvas 标签、绘图上下文、坐标系、矩形、路径、圆形、文字、图片和基础动画。"
 category: "工具速查"
 tags: ["Canvas","HTML5","前端图形","绘图 API","动画"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac300"

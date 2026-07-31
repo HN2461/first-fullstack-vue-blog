@@ -10,7 +10,7 @@ tags:
   - "类对象"
   - "属性方法"
   - "继承"
-status: "draft"
+status: "published"
 sortOrder: 200
 cover: ""
 originalId: "6a4a4304f9ac958d29176076"

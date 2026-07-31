@@ -9,7 +9,7 @@ tags:
   - "解释器"
   - "脚本"
   - "交互模式"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a4a4304f9ac958d2917602a"

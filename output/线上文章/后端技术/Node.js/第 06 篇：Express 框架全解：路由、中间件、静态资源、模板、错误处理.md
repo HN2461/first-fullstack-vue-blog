@@ -10,7 +10,7 @@ tags:
   - "中间件"
   - "静态资源"
   - "错误处理"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac1e6"

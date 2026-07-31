@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-web-view-0f6f8748"
 summary: "梳理 web-view、页面通信、登录联动、分享落地和微信专属能力边界等更贴近真实业务的特殊场景。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","web-view","登录","分享","页面通信"]
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac22a"

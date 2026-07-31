@@ -4,7 +4,7 @@ slug: "js-class-0867afc9"
 summary: "整理 class 语法、继承、super、静态方法、模块基础和面向对象写法在 JavaScript 中的实践。"
 category: "AI版JS"
 tags: ["JavaScript","Class","模块化","继承"]
-status: "draft"
+status: "published"
 sortOrder: 220
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0fa"

@@ -4,7 +4,7 @@ slug: "js-dom-cc9e923c"
 summary: "讲解 DOM 树结构、节点类型、元素获取、元素创建、属性样式文本修改和 DOM 操作实践。"
 category: "AI版JS"
 tags: ["JavaScript","DOM","浏览器","节点操作"]
-status: "draft"
+status: "published"
 sortOrder: 130
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0e6"

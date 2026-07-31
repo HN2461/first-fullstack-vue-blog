@@ -9,7 +9,7 @@ tags:
   - "前置知识"
   - "装饰器"
   - "类型注解"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a6b57a2fca6347974f5d194"

@@ -4,7 +4,7 @@ slug: "blob-2000f47d"
 summary: "Blob 深入笔记，讲清 Blob 的底层定位、构造函数、type/size、slice、stream、arrayBuffer、text、与 File/ArrayBuffer/Base64 的转换，以及下载预览等高频场景。"
 category: "数据类型"
 tags: ["Blob","File","ArrayBuffer","Base64","下载预览","二进制"]
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac31e"

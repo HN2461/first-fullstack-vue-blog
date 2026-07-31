@@ -9,7 +9,7 @@ tags:
   - "语音转文字"
   - "录音权限"
   - "H5"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6e0"

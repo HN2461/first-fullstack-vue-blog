@@ -9,7 +9,7 @@ tags:
   - "整数浮点"
   - "运算符"
   - "优先级"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a4a4304f9ac958d29176042"

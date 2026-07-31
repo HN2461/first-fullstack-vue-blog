@@ -9,7 +9,7 @@ tags:
   - "数据可视化"
   - "统计图"
   - "数据分析"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a6b57a2fca6347974f5d190"

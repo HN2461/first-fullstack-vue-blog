@@ -8,7 +8,7 @@ tags:
   - "现代 HTML"
   - "表格"
   - "可访问性"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ce"

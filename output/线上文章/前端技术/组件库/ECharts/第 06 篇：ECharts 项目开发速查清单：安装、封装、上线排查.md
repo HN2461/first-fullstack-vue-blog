@@ -4,7 +4,7 @@ slug: "echarts-echarts-echarts-be0b5cbd"
 summary: "基于 2026-05-03 核对的 Apache ECharts 官方 Handbook、Release 与 vue-echarts 官方资料，整理一套从安装、按需引入、Vue 封装、dataset、交互配置到上线排错的项目开发速查清单。"
 category: "ECharts"
 tags: ["ECharts","Vue3","项目开发","图表封装","数据可视化","排错清单"]
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5ea"

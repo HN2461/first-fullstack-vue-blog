@@ -10,7 +10,7 @@ tags:
   - "Plugin"
   - "终端界面"
   - "英文提示"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabf3e"

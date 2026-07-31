@@ -11,7 +11,7 @@ tags:
   - "Skill"
   - "MCP"
   - "扩展机制"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabfcc"

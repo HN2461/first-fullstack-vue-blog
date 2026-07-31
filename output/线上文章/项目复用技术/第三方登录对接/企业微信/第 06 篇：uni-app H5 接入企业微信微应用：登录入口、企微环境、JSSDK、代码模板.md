@@ -9,7 +9,7 @@ tags:
   - "H5微应用"
   - "JSSDK"
   - "代码模板"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c6"

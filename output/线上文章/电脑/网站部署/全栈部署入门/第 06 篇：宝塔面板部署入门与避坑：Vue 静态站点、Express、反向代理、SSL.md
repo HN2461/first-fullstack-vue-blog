@@ -4,7 +4,7 @@ slug: "legacy-eedf0e1c-eedf0e1c"
 summary: "宝塔面板部署入门，讲清宝塔适合新手快速部署什么、不能替代什么，以及如何部署 Vue 静态站点、Express 接口、反向代理和 SSL。"
 category: "全栈部署入门"
 tags: ["宝塔","面板部署","Vue","Express","反向代理","SSL"]
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5b4"

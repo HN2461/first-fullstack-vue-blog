@@ -4,7 +4,7 @@ slug: "legacy-ffc99f19-ffc99f19"
 summary: "浏览器渲染原理笔记，讲清 HTML 解析、DOM 树、CSSOM 树、渲染树、布局、绘制、合成、重排重绘和性能优化基础。"
 category: "浏览器与网络"
 tags: ["浏览器渲染","DOM","CSSOM","重排","重绘","合成"]
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac35e"

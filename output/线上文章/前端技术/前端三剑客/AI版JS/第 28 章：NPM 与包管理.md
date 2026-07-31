@@ -4,7 +4,7 @@ slug: "js-npm-217bcd42"
 summary: "整理 package.json、npm scripts、依赖版本、包管理命令、发布机制和前端依赖治理基础。"
 category: "AI版JS"
 tags: ["NPM","包管理","package.json","前端工程化"]
-status: "draft"
+status: "published"
 sortOrder: 290
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac108"

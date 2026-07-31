@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38"
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解后台导航体系的五类核心组件：侧边菜单、标签页、面包屑、步骤条、下拉菜单，以及它们与 Vue Router 的联动方式。"
 category: "ElementPlus"
 tags: ["Element Plus","Menu","Tabs","Breadcrumb","Steps","Dropdown"]
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac606"

@@ -9,7 +9,7 @@ tags:
   - "微信小程序"
   - "项目迁移"
   - "适配层"
-status: "draft"
+status: "published"
 sortOrder: 110
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac798"

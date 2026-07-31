@@ -8,7 +8,7 @@ tags:
   - "项目实战"
   - "静态网站"
   - "进阶"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d30eeb480df92ce002e4d"

@@ -8,7 +8,7 @@ tags:
   - "Hooks"
   - "自动化"
   - "Agent Hooks"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabee8"

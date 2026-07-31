@@ -4,7 +4,7 @@ slug: "js-express-71c1cdfd"
 summary: "整理 Express 快速开始、应用结构、路由系统、中间件、接口开发和基础后端服务实践。"
 category: "AI版JS"
 tags: ["Express","Node.js","后端开发","API"]
-status: "draft"
+status: "published"
 sortOrder: 310
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10e"

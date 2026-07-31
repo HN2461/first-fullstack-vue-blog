@@ -9,7 +9,7 @@ tags:
   - "SQLAlchemy"
   - "Alembic"
   - "PostgreSQL"
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1a0"

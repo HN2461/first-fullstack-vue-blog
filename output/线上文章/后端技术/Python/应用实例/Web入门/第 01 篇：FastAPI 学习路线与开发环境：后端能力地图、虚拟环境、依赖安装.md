@@ -9,7 +9,7 @@ tags:
   - "学习路线"
   - "开发环境"
   - "虚拟环境"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a6b57a2fca6347974f5d192"

@@ -9,7 +9,7 @@ tags:
   - "总目录"
   - "知识目录"
   - "应用实例"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a6b635eb46b52abc5dc2865"

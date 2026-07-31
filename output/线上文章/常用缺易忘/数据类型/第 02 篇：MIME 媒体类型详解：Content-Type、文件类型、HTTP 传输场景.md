@@ -4,7 +4,7 @@ slug: "mime-81d4ff42"
 summary: "MIME 媒体类型基础笔记，讲清 type/subtype 格式、Content-Type 作用、常见文本/图片/音视频/二进制类型，以及 HTTP 和文件上传下载中的使用场景。"
 category: "数据类型"
 tags: ["MIME","Content-Type","HTTP","文件类型","媒体类型"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33c"

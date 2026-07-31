@@ -9,7 +9,7 @@ tags:
   - "MCP"
   - "AI 工作流"
   - "扩展"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabe76"

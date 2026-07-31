@@ -8,7 +8,7 @@ tags:
   - "Vue 指令"
   - "速查表"
   - "附录"
-status: "draft"
+status: "published"
 sortOrder: 260
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac292"

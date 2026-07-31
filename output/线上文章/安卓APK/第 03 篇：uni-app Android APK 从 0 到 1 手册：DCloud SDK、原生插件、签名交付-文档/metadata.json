@@ -1,0 +1,24 @@
+{
+  "formatVersion": 1,
+  "contentMode": "document",
+  "originalId": "6a6aafe0c0726f33c296abf8",
+  "originalSlug": "uni-app-android-apk-0-1",
+  "title": "第 03 篇：uni-app Android APK 从 0 到 1 手册：DCloud SDK、原生插件、签名交付",
+  "summary": "uni-app Android APK 从 0 到 1 实战手册，覆盖 HBuilderX、DCloud Android 离线 SDK、Android Studio、原生插件、后端接口接入、签名打包和交付检查。",
+  "status": "published",
+  "originalName": "浩南技术教学资料-uni-app Android APK从0到1全流程实战手册.docx",
+  "exportedAt": "2026-07-31T03:42:38.792Z",
+  "tags": [
+    "安卓APK",
+    "uni-app",
+    "Android Studio",
+    "DCloud SDK",
+    "原生插件",
+    "签名打包"
+  ],
+  "sortOrder": 30,
+  "categoryPath": [
+    "安卓APK"
+  ],
+  "cover": ""
+}

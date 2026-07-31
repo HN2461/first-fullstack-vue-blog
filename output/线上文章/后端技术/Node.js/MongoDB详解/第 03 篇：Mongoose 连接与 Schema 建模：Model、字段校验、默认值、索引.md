@@ -10,7 +10,7 @@ tags:
   - "Model"
   - "字段校验"
   - "索引"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac13e"

@@ -9,7 +9,7 @@ tags:
   - "接入清单"
   - "联调"
   - "页面验收"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac732"

@@ -11,7 +11,7 @@ tags:
   - "AppData"
   - "ProgramData"
   - "ProgramFiles"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac55e"

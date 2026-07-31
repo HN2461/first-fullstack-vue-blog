@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-button-icon-container-space-text-ede7df67"
 summary: "基于 2026-04-28 查阅的 Element Plus 官方文档，系统整理 Button、Icon、Container、Space、Text 这些基础组件在后台页面里的常见用法和搭配思路。"
 category: "ElementPlus"
 tags: ["Element Plus","Button","Icon","Container","Space"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac610"

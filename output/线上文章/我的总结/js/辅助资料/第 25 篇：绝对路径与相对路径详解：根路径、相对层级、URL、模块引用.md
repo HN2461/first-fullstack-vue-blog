@@ -1,0 +1,960 @@
+---
+title: "第 25 篇：绝对路径与相对路径详解：根路径、相对层级、URL、模块引用"
+slug: "javascript-js-fc6f3322"
+summary: "从零开始理解绝对路径和相对路径的概念、区别、使用场景，以及在不同环境下的实际应用。"
+category: "辅助资料"
+tags:
+  - "路径"
+  - "文件系统"
+  - "基础概念"
+status: "published"
+sortOrder: 250
+cover: ""
+originalId: "6a2d291f8a2b1c68f2cac432"
+originalSlug: "javascript-js-fc6f3322"
+originalStatus: "published"
+exportedAt: "2026-07-31T03:42:38.792Z"
+---
+# 第 25 篇：绝对路径与相对路径详解：根路径、相对层级、URL、模块引用
+
+## 一、什么是路径？
+
+**路径（Path）** 就是文件或文件夹在计算机中的"地址"，告诉计算机去哪里找到这个文件。
+
+就像你告诉别人你家的地址一样：
+- **详细地址**："北京市朝阳区某某街道123号" → 这是**绝对路径**
+- **相对地址**："从你家往东走200米" → 这是**相对路径**
+
+---
+
+## 二、绝对路径（Absolute Path）
+
+### 2.1 定义
+
+**绝对路径**是从**根目录**开始的完整路径，无论你当前在哪里，这个路径都能准确找到目标文件。
+
+### 2.2 特点
+
+✅ **完整性**：包含从根目录到目标文件的所有层级  
+✅ **唯一性**：一个文件只有一个绝对路径  
+✅ **独立性**：不依赖当前位置，在任何地方都能找到文件
+
+### 2.3 格式
+
+#### Windows 系统
+```
+C:\Users\Administrator\Desktop\project\index.html
+D:\photos\2024\summer.jpg
+```
+- 以**盘符**开头（C:、D:、E: 等）
+- 使用**反斜杠** `\` 分隔目录
+
+#### Linux / Mac 系统
+```
+/home/user/project/index.html
+/var/www/html/app.js
+```
+- 以**根目录** `/` 开头
+- 使用**正斜杠** `/` 分隔目录
+
+#### 网络路径（URL）
+```
+https://example.com/images/logo.png
+http://localhost:3000/api/users
+```
+- 以**协议**开头（http://、https://、file:// 等）
+
+### 2.4 实际例子
+
+```javascript
+// Node.js 中读取文件（绝对路径）
+const fs = require('fs');
+fs.readFileSync('C:\\Users\\Admin\\Desktop\\data.txt', 'utf-8');
+
+// HTML 中引用图片（绝对路径）
+<img src="https://example.com/images/logo.png" alt="Logo">
+
+// 网页中的绝对路径（从网站根目录开始）
+<link rel="stylesheet" href="/css/style.css">
+```
+
+---
+
+## 三、相对路径（Relative Path）
+
+### 3.1 定义
+
+**相对路径**是相对于**当前位置**的路径，根据你所在的位置不同，相对路径的实际指向也会不同。
+
+### 3.2 特点
+
+✅ **简洁性**：路径较短，书写方便  
+✅ **灵活性**：项目移动后路径仍然有效  
+⚠️ **依赖性**：依赖当前所在位置，位置变了路径可能失效
+
+### 3.3 相对路径符号
+
+| 符号 | 含义 | 示例 |
+|------|------|------|
+| `./` | 当前目录 | `./index.html` |
+| `../` | 上一级目录 | `../images/logo.png` |
+| `../../` | 上两级目录 | `../../config/app.js` |
+| 直接写文件名 | 当前目录（省略 `./`） | `style.css` |
+
+### 3.4 目录结构示例
+
+假设有以下项目结构：
+
+```
+project/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── app.js
+└── images/
+    ├── logo.png
+    └── photos/
+        └── banner.jpg
+```
+
+#### 从 `index.html` 出发
+
+```html
+<!-- 引用同级目录的 CSS -->
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="css/style.css">  <!-- 省略 ./ 也可以 -->
+
+<!-- 引用同级目录的图片 -->
+<img src="./images/logo.png" alt="Logo">
+
+<!-- 引用子目录的图片 -->
+<img src="./images/photos/banner.jpg" alt="Banner">
+```
+
+#### 从 `css/style.css` 出发
+
+```css
+/* 引用上一级目录的图片 */
+body {
+  background-image: url(../images/logo.png);
+}
+
+/* 引用上一级的子目录图片 */
+.banner {
+  background-image: url(../images/photos/banner.jpg);
+}
+```
+
+#### 从 `js/app.js` 出发
+
+```javascript
+// 引用上一级目录的文件
+import config from '../config.js';
+
+// 引用同级目录的文件
+import utils from './utils.js';
+
+// 引用上两级目录的文件
+import data from '../../data/users.json';
+```
+
+---
+
+## 四、特殊路径：`/XXX` 是什么？
+
+### 4.1 `/XXX` 的本质
+
+**`/XXX` 是一种特殊的绝对路径**，它表示**从根目录开始**的路径，但"根目录"的含义取决于使用环境。
+
+### 4.2 在不同环境下的含义
+
+#### 🌐 在网页（HTML/CSS/JS）中
+
+`/XXX` 表示**从网站根目录开始的绝对路径**。
+
+```html
+<!-- 假设网站部署在 https://example.com/ -->
+
+<!-- /css/style.css 实际指向 https://example.com/css/style.css -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- /images/logo.png 实际指向 https://example.com/images/logo.png -->
+<img src="/images/logo.png" alt="Logo">
+
+<!-- /api/users 实际指向 https://example.com/api/users -->
+<script>
+  fetch('/api/users')
+    .then(res => res.json());
+</script>
+```
+
+**⚠️ 子目录部署陷阱**
+
+如果网站部署在子目录（如 `https://example.com/my-app/`）：
+
+```html
+<!-- ❌ 错误：/css/style.css 会指向 https://example.com/css/style.css -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- ✅ 正确方法 1：手动加上子目录前缀 -->
+<link rel="stylesheet" href="/my-app/css/style.css">
+
+<!-- ✅ 正确方法 2：使用相对路径（推荐） -->
+<link rel="stylesheet" href="./css/style.css">
+
+<!-- ✅ 正确方法 3：配置 base 标签 -->
+<base href="/my-app/">
+<link rel="stylesheet" href="/css/style.css">  <!-- 现在指向 /my-app/css/style.css -->
+```
+
+#### 🐧 在 Linux/Mac 系统中
+
+`/XXX` 表示**从系统根目录开始的绝对路径**。
+
+```bash
+# /home/user/file.txt 表示从根目录 / 开始
+/home/user/file.txt
+
+# /var/www/html/index.html
+/var/www/html/index.html
+
+# /etc/nginx/nginx.conf
+/etc/nginx/nginx.conf
+```
+
+#### 🪟 在 Windows 系统中
+
+Windows 没有单一的根目录（有 C:、D: 等盘符），所以 `/XXX` 的含义取决于上下文：
+
+```javascript
+// 在 Node.js 中，/ 通常表示当前盘符的根目录
+const path = require('path');
+console.log(path.resolve('/test'));  
+// 在 C 盘执行输出：C:\test
+// 在 D 盘执行输出：D:\test
+
+// 在 Git Bash / WSL 中，/ 表示虚拟根目录
+// /c/Users/Admin/file.txt 对应 C:\Users\Admin\file.txt
+```
+
+#### 🛣️ 在 Vue Router 中
+
+`/XXX` 表示**从路由根路径开始的绝对路径**。
+
+```javascript
+const routes = [
+  {
+    path: '/home',
+    component: Home,
+    children: [
+      // ✅ 相对路径：不加 /，最终路径是 /home/profile
+      { path: 'profile', component: Profile },
+      
+      // ❌ 绝对路径：加了 /，最终路径是 /settings（不会拼接父路径）
+      { path: '/settings', component: Settings }
+    ]
+  }
+];
+
+// 路由跳转
+router.push('/home');      // 绝对路径：跳转到 /home
+router.push('profile');    // 相对路径：在当前路由基础上拼接
+```
+
+**⚠️ Vue Router 与 Vite base 配置的关系**
+
+当项目部署在子目录时，需要同时配置 Vite 的 `base` 和 Vue Router 的 `base`：
+
+```javascript
+// vite.config.js
+export default {
+  base: '/HaonanKnowledgeBlog/',  // Vite 打包基础路径
+};
+
+// router/index.js
+import { createRouter, createWebHashHistory } from 'vue-router';
+
+const router = createRouter({
+  // Hash 模式不需要配置 base（本项目使用）
+  history: createWebHashHistory(),
+  
+  // 如果使用 History 模式，需要配置 base
+  // history: createWebHistory('/HaonanKnowledgeBlog/'),
+  
+  routes: [...]
+});
+```
+
+**两种模式的区别**：
+
+| 模式 | URL 格式 | 需要配置 Router base | 服务器配置 |
+|------|---------|---------------------|-----------|
+| Hash 模式 | `域名/HaonanKnowledgeBlog/#/home` | ❌ 不需要 | 无需配置 |
+| History 模式 | `域名/HaonanKnowledgeBlog/home` | ✅ 需要 | 需要配置重定向 |
+
+**本项目使用 Hash 模式**，所以只需配置 Vite 的 `base`，不需要配置 Router 的 `base`。
+
+### 4.3 路径类型完整对比
+
+| 路径写法 | 类型 | 含义 | 网页中的实际指向 |
+|---------|------|------|-----------------|
+| `./XXX` | 相对路径 | 当前目录下的 XXX | 相对于当前 HTML 文件 |
+| `../XXX` | 相对路径 | 上一级目录下的 XXX | 相对于当前 HTML 文件 |
+| `XXX` | 相对路径 | 当前目录下的 XXX（省略 `./`） | 相对于当前 HTML 文件 |
+| `/XXX` | **绝对路径** | **从网站根目录开始** | `https://域名/XXX` |
+| `//XXX` | 绝对路径 | 协议相对路径 | 继承当前协议（http/https） |
+| `C:\XXX` | 绝对路径 | Windows 完整路径 | 仅本地文件系统 |
+| `https://XXX` | 绝对路径 | 完整 URL | 完整网络地址 |
+
+### 4.4 实际项目中的最佳实践
+
+#### ✅ 推荐做法
+
+```html
+<!-- 项目内部文件：使用相对路径 -->
+<link rel="stylesheet" href="./css/style.css">
+<img src="./images/logo.png" alt="Logo">
+<script src="./js/app.js"></script>
+
+<!-- 外部 CDN 资源：使用完整 URL -->
+<script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+
+<!-- API 请求：使用相对路径或完整 URL -->
+<script>
+  // 同域 API：相对路径
+  fetch('./api/users').then(res => res.json());
+  
+  // 跨域 API：完整 URL
+  fetch('https://api.example.com/users').then(res => res.json());
+</script>
+```
+
+#### ❌ 避免做法
+
+```html
+<!-- ❌ 避免在项目中使用 /XXX（除非你确定部署在根目录） -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- ❌ 避免混用不同类型的路径 -->
+<img src="/images/logo.png" alt="Logo">
+<img src="./images/banner.jpg" alt="Banner">
+<img src="https://example.com/images/icon.png" alt="Icon">
+```
+
+### 4.5 记忆口诀
+
+```
+斜杠开头 /XXX，绝对路径要记清；
+网页中指网站根，系统中指根目录。
+项目内部用相对，./XXX 最稳妥；
+跨域资源写全称，https 开头不会错。
+```
+
+---
+
+## 五、绝对路径 vs 相对路径对比
+
+| 对比项 | 绝对路径 | 相对路径 |
+|--------|----------|----------|
+| **起点** | 从根目录开始 | 从当前位置开始 |
+| **长度** | 通常较长 | 通常较短 |
+| **稳定性** | 不受当前位置影响 | 受当前位置影响 |
+| **可移植性** | 差（路径写死） | 好（项目整体移动仍有效） |
+| **使用场景** | 系统级操作、外部资源 | 项目内部文件引用 |
+| **`/XXX` 写法** | 属于绝对路径（从根目录开始） | 不适用 |
+
+---
+
+## 六、常见使用场景
+
+### 6.1 HTML 中的路径
+
+#### 相对路径（推荐用于项目内部）
+
+```html
+<!-- 引用同级目录 -->
+<img src="./logo.png" alt="Logo">
+<link rel="stylesheet" href="./style.css">
+
+<!-- 引用子目录 -->
+<script src="./js/app.js"></script>
+
+<!-- 引用上级目录 -->
+<img src="../images/banner.jpg" alt="Banner">
+```
+
+#### 绝对路径（用于外部资源）
+
+```html
+<!-- 外部 CDN 资源（完整 URL） -->
+<script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+
+<!-- 从网站根目录开始（/XXX 写法，需注意子目录部署问题） -->
+<link rel="stylesheet" href="/css/style.css">
+<!-- ⚠️ 如果部署在子目录，这种写法可能失效，建议用相对路径 -->
+```
+
+### 6.2 CSS 中的路径
+
+```css
+/* 相对路径：相对于 CSS 文件所在位置 */
+.logo {
+  background-image: url(../images/logo.png);
+}
+
+/* 绝对路径：从网站根目录开始 */
+.banner {
+  background-image: url(/images/banner.jpg);
+}
+
+/* 外部资源 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto');
+```
+
+### 6.3 JavaScript 中的路径
+
+#### 浏览器环境
+
+```javascript
+// 相对路径（相对于当前 HTML 页面）
+fetch('./api/users.json')
+  .then(res => res.json())
+  .then(data => console.log(data));
+
+// 绝对路径（从网站根目录开始）
+fetch('/api/users')
+  .then(res => res.json());
+
+// 完整 URL
+fetch('https://api.example.com/users')
+  .then(res => res.json());
+```
+
+#### Node.js 环境
+
+```javascript
+const fs = require('fs');
+const path = require('path');
+
+// ❌ 错误：相对路径相对于执行 node 命令的目录，不是文件所在目录
+fs.readFileSync('./data.txt', 'utf-8');
+
+// ✅ 正确：使用 __dirname 构建绝对路径
+const filePath = path.join(__dirname, 'data.txt');
+fs.readFileSync(filePath, 'utf-8');
+
+// __dirname：当前文件所在目录的绝对路径
+// __filename：当前文件的绝对路径（含文件名）
+console.log(__dirname);   // C:\Users\Admin\project
+console.log(__filename);  // C:\Users\Admin\project\app.js
+```
+
+### 6.4 Vue Router 中的路径
+
+#### 路由路径规则
+
+```javascript
+const routes = [
+  {
+    path: '/home',
+    component: Home,
+    children: [
+      // ✅ 相对路径：不加 /，最终路径是 /home/profile
+      { path: 'profile', component: Profile },
+      
+      // ❌ 绝对路径：加了 /，最终路径是 /settings（不会拼接父路径）
+      { path: '/settings', component: Settings }
+    ]
+  }
+];
+```
+
+**规则**：
+- 子路由 `path` **不加** `/`：相对路径，会拼接父路径
+- 子路由 `path` **加** `/`：绝对路径，不拼接父路径
+
+#### 路由跳转路径
+
+```javascript
+// 当前路由：/home
+
+// 绝对路径跳转
+router.push('/about');           // 跳转到 /about
+router.push({ path: '/about' }); // 跳转到 /about
+
+// 相对路径跳转（需要使用 name 或完整路径）
+router.push('profile');          // ❌ 无效（不支持相对路径字符串）
+router.push({ name: 'profile' }); // ✅ 通过命名路由跳转
+```
+
+#### 与 Vite base 配置的关系
+
+**场景 1：Hash 模式（本项目使用）**
+
+```javascript
+// vite.config.js
+export default {
+  base: '/HaonanKnowledgeBlog/',
+};
+
+// router/index.js
+import { createWebHashHistory } from 'vue-router';
+
+const router = createRouter({
+  history: createWebHashHistory(),  // ✅ Hash 模式不需要配置 base
+  routes: [...]
+});
+
+// 最终 URL：https://example.com/HaonanKnowledgeBlog/#/home
+```
+
+**场景 2：History 模式**
+
+```javascript
+// vite.config.js
+export default {
+  base: '/HaonanKnowledgeBlog/',
+};
+
+// router/index.js
+import { createWebHistory } from 'vue-router';
+
+const router = createRouter({
+  // ✅ History 模式需要同步配置 base
+  history: createWebHistory('/HaonanKnowledgeBlog/'),
+  routes: [...]
+});
+
+// 最终 URL：https://example.com/HaonanKnowledgeBlog/home
+```
+
+#### 两种模式对比
+
+| 对比项 | Hash 模式 | History 模式 |
+|--------|----------|-------------|
+| URL 格式 | `域名/#/path` | `域名/path` |
+| 需要配置 Router base | ❌ 不需要 | ✅ 需要（与 Vite base 一致） |
+| 服务器配置 | 无需配置 | 需要配置重定向规则 |
+| SEO 友好 | 较差 | 较好 |
+| 兼容性 | 更好 | 需要服务器支持 |
+
+#### 最佳实践
+
+```javascript
+// ✅ 推荐：使用环境变量统一管理 base
+// vite.config.js
+const BASE_URL = '/HaonanKnowledgeBlog/';
+
+export default {
+  base: BASE_URL,
+};
+
+// router/index.js
+const BASE_URL = '/HaonanKnowledgeBlog/';
+
+const router = createRouter({
+  // Hash 模式
+  history: createWebHashHistory(),
+  
+  // 或 History 模式
+  // history: createWebHistory(BASE_URL),
+  
+  routes: [...]
+});
+```
+
+---
+
+## 七、常见陷阱与注意事项
+
+### 7.1 Node.js 中的相对路径陷阱
+
+```javascript
+// 假设文件结构：
+// project/
+// ├── app.js
+// └── data/
+//     └── users.json
+
+// 在 app.js 中
+const fs = require('fs');
+
+// ❌ 错误：相对路径相对于执行命令的目录
+// 如果在 project/ 目录执行 node app.js，路径是 project/data/users.json ✅
+// 如果在 project/data/ 目录执行 node ../app.js，路径是 project/data/data/users.json ❌
+fs.readFileSync('./data/users.json', 'utf-8');
+
+// ✅ 正确：使用 __dirname 构建绝对路径
+const path = require('path');
+const filePath = path.join(__dirname, 'data', 'users.json');
+fs.readFileSync(filePath, 'utf-8');
+```
+
+**结论**：Node.js 中操作文件系统时，**强烈推荐使用 `__dirname` + `path.join()` 构建绝对路径**。
+
+### 7.2 `/XXX` 路径在子目录部署时的陷阱
+
+```html
+<!-- 假设网站部署在 https://example.com/app/ -->
+
+<!-- ❌ 错误：/css/style.css 会指向 https://example.com/css/style.css -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- ✅ 正确方法 1：使用相对路径（推荐） -->
+<link rel="stylesheet" href="./css/style.css">
+
+<!-- ✅ 正确方法 2：手动加上子目录前缀 -->
+<link rel="stylesheet" href="/app/css/style.css">
+
+<!-- ✅ 正确方法 3：配置 base 标签 -->
+<base href="/app/">
+<link rel="stylesheet" href="/css/style.css">  <!-- 现在指向 /app/css/style.css -->
+```
+
+**实际案例：本项目的配置**
+
+本项目（HaonanKnowledgeBlog）配置了 `base: '/HaonanKnowledgeBlog/'`（在 `vite.config.js` 中）：
+
+```javascript
+// vite.config.js
+export default {
+  base: '/HaonanKnowledgeBlog/',  // GitHub Pages 子目录部署
+};
+```
+
+所以在项目中：
+
+```html
+<!-- ❌ 错误：/css/style.css 会指向 https://你的域名/css/style.css -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- ✅ 正确：使用相对路径（推荐） -->
+<link rel="stylesheet" href="./css/style.css">
+
+<!-- ✅ 或者手动加上 base 前缀 -->
+<link rel="stylesheet" href="/HaonanKnowledgeBlog/css/style.css">
+```
+
+### 7.3 Vite `base` 配置详解
+
+#### 什么是 `base`？
+
+Vite 的 `base` 配置项用于指定**项目部署的基础路径**，影响打包后所有静态资源和路由的访问路径。
+
+#### 配置规则
+
+```javascript
+// vite.config.js
+export default {
+  base: '/my-app/',  // 部署到子目录时需要配置
+};
+```
+
+| 配置值 | 含义 | 访问地址 | 适用场景 |
+|--------|------|---------|---------|
+| `'/'` | 根目录（默认） | `https://example.com/` | 部署在域名根目录 |
+| `'/my-app/'` | 子目录 | `https://example.com/my-app/` | 部署在子目录 |
+| `'./'` | 相对路径 | 相对于 HTML 文件 | CDN 或不确定部署路径 |
+
+#### 实际效果
+
+```javascript
+// vite.config.js
+export default {
+  base: '/HaonanKnowledgeBlog/',
+};
+```
+
+**打包后的资源路径**：
+
+```html
+<!-- 打包前（源码） -->
+<img src="/logo.png" alt="Logo">
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- 打包后（dist/index.html） -->
+<img src="/HaonanKnowledgeBlog/logo.png" alt="Logo">
+<link rel="stylesheet" href="/HaonanKnowledgeBlog/css/style.css">
+```
+
+**访问地址**：
+
+- ✅ 正确：`https://example.com/HaonanKnowledgeBlog/`
+- ❌ 错误：`https://example.com/`（白屏、资源 404）
+
+#### 配套注意事项
+
+1. **Vue Router 配置**（如果使用 History 模式）
+
+```javascript
+// router/index.js
+import { createRouter, createWebHistory } from 'vue-router';
+
+const router = createRouter({
+  // History 模式需要同步配置 base
+  history: createWebHistory('/HaonanKnowledgeBlog/'),
+  routes: [...]
+});
+```
+
+2. **本地开发访问地址**
+
+```bash
+# 启动开发服务器后，访问地址需要带上 base 前缀
+http://localhost:5173/HaonanKnowledgeBlog/
+```
+
+3. **GitHub Pages 部署**
+
+```javascript
+// vite.config.js
+export default {
+  base: '/仓库名/',  // GitHub Pages 仓库名
+};
+```
+
+#### 常见问题
+
+**问题 1：打包后白屏**
+
+```javascript
+// ❌ 错误：部署在子目录但没配置 base
+export default {
+  base: '/',  // 默认值
+};
+
+// ✅ 正确：配置正确的 base
+export default {
+  base: '/HaonanKnowledgeBlog/',
+};
+```
+
+**问题 2：路由跳转失效**
+
+```javascript
+// ❌ 错误：Vite 配置了 base，但 Router 没配置（History 模式）
+// vite.config.js
+export default { base: '/my-app/' };
+
+// router/index.js
+const router = createRouter({
+  history: createWebHistory(),  // 缺少 base 参数
+});
+
+// ✅ 正确：Router 同步配置 base
+const router = createRouter({
+  history: createWebHistory('/my-app/'),
+});
+
+// ✅ 或者使用 Hash 模式（不需要配置 base）
+const router = createRouter({
+  history: createWebHashHistory(),
+});
+```
+
+**问题 3：开发环境和生产环境路径不一致**
+
+```javascript
+// ✅ 使用环境变量动态配置
+export default {
+  base: process.env.NODE_ENV === 'production' 
+    ? '/HaonanKnowledgeBlog/' 
+    : '/',
+};
+```
+
+### 7.4 Windows 路径分隔符问题
+
+```javascript
+// ❌ 错误：Windows 路径在字符串中需要转义
+const path = 'C:\Users\Admin\Desktop\file.txt';  // \U、\A、\D 会被解析为转义字符
+
+// ✅ 正确方法 1：使用双反斜杠
+const path = 'C:\\Users\\Admin\\Desktop\\file.txt';
+
+// ✅ 正确方法 2：使用正斜杠（Node.js 会自动转换）
+const path = 'C:/Users/Admin/Desktop/file.txt';
+
+// ✅ 正确方法 3：使用 path 模块（推荐）
+const path = require('path');
+const filePath = path.join('C:', 'Users', 'Admin', 'Desktop', 'file.txt');
+```
+
+---
+
+## 八、实战练习
+
+### 练习 1：根据目录结构写路径
+
+```
+website/
+├── index.html
+├── about.html
+├── css/
+│   ├── style.css
+│   └── reset.css
+├── js/
+│   ├── app.js
+│   └── utils.js
+└── images/
+    ├── logo.png
+    └── gallery/
+        ├── photo1.jpg
+        └── photo2.jpg
+```
+
+**问题**：
+
+1. 在 `index.html` 中引用 `css/style.css`，写出相对路径
+2. 在 `css/style.css` 中引用 `images/logo.png`，写出相对路径
+3. 在 `js/app.js` 中引用 `js/utils.js`，写出相对路径
+4. 在 `about.html` 中引用 `images/gallery/photo1.jpg`，写出相对路径
+
+**答案**：
+
+```html
+<!-- 1. index.html 引用 css/style.css -->
+<link rel="stylesheet" href="./css/style.css">
+
+<!-- 4. about.html 引用 images/gallery/photo1.jpg -->
+<img src="./images/gallery/photo1.jpg" alt="Photo 1">
+```
+
+```css
+/* 2. css/style.css 引用 images/logo.png */
+.logo {
+  background-image: url(../images/logo.png);
+}
+```
+
+```javascript
+// 3. js/app.js 引用 js/utils.js
+import utils from './utils.js';
+```
+
+### 练习 2：判断路径类型
+
+判断以下路径是绝对路径还是相对路径：
+
+1. `C:\Users\Admin\Desktop\file.txt` → **绝对路径**（Windows 完整路径）
+2. `./images/logo.png` → **相对路径**（当前目录）
+3. `https://example.com/api/users` → **绝对路径**（完整 URL）
+4. `../css/style.css` → **相对路径**（上级目录）
+5. `/home/user/project/app.js` → **绝对路径**（Linux/Mac 系统根目录）
+6. `/css/style.css` → **绝对路径**（网站根目录，需注意子目录部署）
+7. `images/banner.jpg` → **相对路径**（当前目录，省略 `./`）
+8. `../../config/app.json` → **相对路径**（上两级目录）
+9. `//cdn.example.com/lib.js` → **绝对路径**（协议相对路径）
+10. `/api/users` → **绝对路径**（网站根目录）
+
+### 练习 3：修复路径错误
+
+假设网站部署在 `https://example.com/my-blog/`，以下代码有什么问题？如何修复？
+
+```html
+<!-- 问题代码 -->
+<link rel="stylesheet" href="/css/style.css">
+<img src="/images/logo.png" alt="Logo">
+<script src="/js/app.js"></script>
+```
+
+**问题分析**：
+
+`/css/style.css` 会指向 `https://example.com/css/style.css`，而不是 `https://example.com/my-blog/css/style.css`。
+
+**修复方案**：
+
+```html
+<!-- 方案 1：使用相对路径（推荐） -->
+<link rel="stylesheet" href="./css/style.css">
+<img src="./images/logo.png" alt="Logo">
+<script src="./js/app.js"></script>
+
+<!-- 方案 2：手动加上子目录前缀 -->
+<link rel="stylesheet" href="/my-blog/css/style.css">
+<img src="/my-blog/images/logo.png" alt="Logo">
+<script src="/my-blog/js/app.js"></script>
+
+<!-- 方案 3：配置 base 标签 -->
+<base href="/my-blog/">
+<link rel="stylesheet" href="/css/style.css">
+<img src="/images/logo.png" alt="Logo">
+<script src="/js/app.js"></script>
+```
+
+---
+
+## 九、最佳实践建议
+
+### ✅ 推荐做法
+
+1. **项目内部文件引用**：使用相对路径
+   ```html
+   <img src="./images/logo.png" alt="Logo">
+   ```
+
+2. **Node.js 文件操作**：使用 `__dirname` + `path.join()`
+   ```javascript
+   const path = require('path');
+   const filePath = path.join(__dirname, 'data', 'users.json');
+   ```
+
+3. **外部资源引用**：使用完整 URL
+   ```html
+   <script src="https://cdn.jsdelivr.net/npm/vue@3"></script>
+   ```
+
+4. **跨平台路径处理**：使用 `path` 模块
+   ```javascript
+   const path = require('path');
+   path.join('folder', 'file.txt');  // 自动处理 / 和 \
+   ```
+
+### ❌ 避免做法
+
+1. ❌ 在 Node.js 中直接使用相对路径操作文件
+2. ❌ 在 Windows 路径字符串中使用单反斜杠
+3. ❌ 混用绝对路径和相对路径导致路径混乱
+4. ❌ 在项目代码中硬编码绝对路径（如 `C:\Users\...`）
+5. ❌ 在可能部署到子目录的项目中使用 `/XXX` 路径
+
+---
+
+## 十、总结
+
+### 核心要点
+
+1. **绝对路径**：从根目录开始的完整路径，不受当前位置影响
+2. **相对路径**：相对于当前位置的路径，位置变化路径也变化
+3. **`/XXX` 路径**：是绝对路径，表示从根目录开始（网站根或系统根）
+4. **Node.js 陷阱**：相对路径相对于执行命令的目录，不是文件所在目录
+5. **子目录部署陷阱**：`/XXX` 路径在子目录部署时可能失效，建议用相对路径
+6. **最佳实践**：项目内用相对路径，Node.js 用 `__dirname`，外部资源用完整 URL
+
+### 记忆口诀
+
+```
+绝对路径从根起，完整路径不会移；
+相对路径看位置，当前目录是基石。
+斜杠开头 /XXX，网站根目录要记清；
+子目录部署需小心，相对路径最稳定。
+Node.js 中要小心，__dirname 来帮忙；
+项目内部用相对，外部资源写全称。
+```
+
+---
+
+## 十一、扩展阅读
+
+- [Node.js path 模块官方文档](https://nodejs.org/api/path.html)
+- [MDN - URL 和路径](https://developer.mozilla.org/zh-CN/docs/Learn/Common_questions/What_is_a_URL)
+- [Vue Router 路由配置](https://router.vuejs.org/zh/guide/)
+- [Vite 配置参考 - base](https://cn.vitejs.dev/config/shared-options.html#base)
+- [Vue Router - History 模式](https://router.vuejs.org/zh/guide/essentials/history-mode.html)
+
+---
+
+**最后更新**：2026-05-09  
+**适用人群**：前端初学者、Node.js 入门者  
+**难度等级**：⭐⭐☆☆☆（基础）

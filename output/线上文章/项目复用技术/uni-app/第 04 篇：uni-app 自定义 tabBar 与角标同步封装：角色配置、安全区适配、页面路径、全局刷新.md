@@ -9,7 +9,7 @@ tags:
   - "角标"
   - "安全区"
   - "全局状态"
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f4"

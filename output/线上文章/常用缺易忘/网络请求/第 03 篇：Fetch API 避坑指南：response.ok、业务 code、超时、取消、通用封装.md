@@ -4,7 +4,7 @@ slug: "fetch-api-d4229b6f"
 summary: "Fetch API 实战避坑笔记，覆盖 response.ok、HTTP 状态码与业务 code、响应解析、超时控制、AbortController 请求取消和通用封装。"
 category: "网络请求"
 tags: ["Fetch API","response.ok","AbortController","超时控制","错误处理","请求封装"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac36a"

@@ -4,7 +4,7 @@ slug: "markdown-b1298425"
 summary: "Markdown 速查与完整教程，覆盖标题、段落、强调、列表、链接、图片、表格、代码块、引用、任务列表和常用进阶语法。"
 category: "工具速查"
 tags: ["Markdown","文档写作","语法速查","表格","代码块"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac30a"

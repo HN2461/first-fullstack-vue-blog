@@ -10,7 +10,7 @@ tags:
   - "配置管理"
   - "中转服务商"
   - "Provider"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac05a"

@@ -10,7 +10,7 @@ tags:
   - "HTTP方法"
   - "状态码"
   - "统一响应"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac16e"

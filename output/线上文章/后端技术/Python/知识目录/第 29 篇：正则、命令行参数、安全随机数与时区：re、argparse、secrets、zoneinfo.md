@@ -10,7 +10,7 @@ tags:
   - "re"
   - "argparse"
   - "secrets"
-status: "draft"
+status: "published"
 sortOrder: 290
 cover: ""
 originalId: "6a6b57a2fca6347974f5d188"

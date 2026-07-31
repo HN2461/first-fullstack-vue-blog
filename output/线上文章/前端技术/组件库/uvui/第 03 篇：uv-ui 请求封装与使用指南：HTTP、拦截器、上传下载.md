@@ -4,7 +4,7 @@ slug: "uv-ui-uvui-uv-ui-a5e9c7ec"
 summary: "结合 uv-ui 官方 Http 文档、扩展配置和 uni-app 请求能力，整理一套适合微信小程序项目落地的请求封装、拦截器与上传下载方案。"
 category: "uvui"
 tags: ["uv-ui","uni-app","微信小程序","HTTP","请求封装"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac66a"

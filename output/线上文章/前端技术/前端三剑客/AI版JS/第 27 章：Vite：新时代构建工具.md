@@ -4,7 +4,7 @@ slug: "js-vite-cb22aa81"
 summary: "讲解 Vite 的开发服务器、HMR、依赖预构建、配置文件、插件体系和构建优化。"
 category: "AI版JS"
 tags: ["Vite","前端工程化","HMR","构建工具"]
-status: "draft"
+status: "published"
 sortOrder: 280
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac106"

@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-setdata-9f031d07"
 summary: "从包体治理、首屏渲染、长列表、图片、setData 到真机排障，梳理微信小程序性能优化思路。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","性能优化","分包","setData"]
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac214"

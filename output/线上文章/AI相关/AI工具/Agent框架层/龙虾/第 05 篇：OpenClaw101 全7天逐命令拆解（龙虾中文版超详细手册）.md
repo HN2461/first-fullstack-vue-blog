@@ -8,7 +8,7 @@ tags:
   - "龙虾"
   - "命令速查"
   - "Agent框架"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac03a"

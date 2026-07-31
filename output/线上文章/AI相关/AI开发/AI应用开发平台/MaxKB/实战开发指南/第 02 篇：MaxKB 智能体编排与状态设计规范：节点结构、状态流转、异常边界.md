@@ -8,7 +8,7 @@ tags:
   - "AI应用开发"
   - "实战开发指南"
   - "智能体"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a6b691f4bf50146e9b95e2c"

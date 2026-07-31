@@ -4,7 +4,7 @@ slug: "js-javascript-a73da56a"
 summary: "讲解内联脚本、内部脚本、外部脚本、script 标签执行顺序、async、defer、加载阻塞和缓存策略。"
 category: "AI版JS"
 tags: ["JavaScript","script 标签","脚本加载","性能优化"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac110"

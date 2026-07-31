@@ -10,7 +10,7 @@ tags:
   - "临时文件"
   - "Windows.old"
   - "存储设置"
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac54c"

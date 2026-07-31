@@ -10,7 +10,7 @@ tags:
   - "jsonwebtoken"
   - "鉴权中间件"
   - "双Token"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac18e"

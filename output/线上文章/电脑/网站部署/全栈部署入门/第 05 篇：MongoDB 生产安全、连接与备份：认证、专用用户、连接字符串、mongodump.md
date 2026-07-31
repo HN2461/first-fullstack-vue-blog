@@ -4,7 +4,7 @@ slug: "mongodb-ad14cd5a"
 summary: "MongoDB 上线安全笔记，讲清认证、专用用户、网络暴露限制、连接字符串、mongodump 备份和生产数据库常见安全边界。"
 category: "全栈部署入门"
 tags: ["MongoDB","数据库安全","认证","连接字符串","mongodump","备份"]
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5ac"

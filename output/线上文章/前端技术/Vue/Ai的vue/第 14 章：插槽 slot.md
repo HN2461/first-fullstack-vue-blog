@@ -8,7 +8,7 @@ tags:
   - "slot"
   - "插槽"
   - "组件封装"
-status: "draft"
+status: "published"
 sortOrder: 140
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac268"

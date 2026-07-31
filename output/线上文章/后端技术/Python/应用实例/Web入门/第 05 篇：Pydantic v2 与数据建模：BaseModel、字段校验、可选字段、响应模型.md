@@ -9,7 +9,7 @@ tags:
   - "Pydantic v2"
   - "BaseModel"
   - "数据校验"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19a"

@@ -8,7 +8,7 @@ tags:
   - "Steering"
   - "上下文管理"
   - "AGENTS.md"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cabec8"

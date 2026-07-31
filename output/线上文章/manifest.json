@@ -13,39 +13,53 @@
       "originalId": "6a58a6f8c48586f4dec3c348",
       "originalSlug": "uniapp-jar",
       "exportedSlug": "uniapp-jar",
-      "title": "uniapp 对接自定义 jar 包：从零到真机的完整实操指南",
+      "title": "第 01 篇：uni-app 对接自定义 jar 包：HBuilderX、离线 SDK、Android Studio、原生插件",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
         "安卓APK"
       ],
-      "tags": [],
+      "tags": [
+        "安卓APK",
+        "uni-app",
+        "自定义 jar",
+        "Android Studio",
+        "原生插件",
+        "离线 SDK"
+      ],
       "sortOrder": 10,
       "sourcePath": "",
       "publishedAt": "2026-07-30T01:58:28.361Z",
       "updatedAt": "2026-07-30T01:58:28.361Z",
-      "fileName": "安卓APK/uniapp-对接自定义-jar-包：从零到真机的完整实操指南.md",
-      "summary": "",
+      "fileName": "安卓APK/第 01 篇：uni-app 对接自定义 jar 包：HBuilderX、离线 SDK、Android Studio、原生插件.md",
+      "summary": "从零梳理 uni-app 对接 Android 自定义 jar 包的完整实操流程，覆盖 HBuilderX 本地打包资源、DCloud 离线 SDK、Android Studio 宿主工程、原生插件封装、真机调试和 APK 构建。",
       "cover": "",
-      "contentHash": "970c8d166c64493e7e08972ebd93ea2b8717a65f18de78affd7c28a1f89e09fa"
+      "contentHash": "8684dd15d7adde41aa13812edef61bf31521b89d68414ba0ca3fd9b333c10dad"
     },
     {
       "originalId": "6a6a16ddfca6c64076d4099c",
       "originalSlug": "article-20260729150605",
       "exportedSlug": "article-20260729150605",
-      "title": "电子班牌项目经历深度复盘与简历素材",
+      "title": "第 02 篇：电子班牌项目复盘与简历素材：APK 打包、设备联调、项目表达",
       "contentMode": "document",
       "status": "published",
       "categoryPath": [
         "安卓APK"
       ],
-      "tags": [],
+      "tags": [
+        "安卓APK",
+        "电子班牌",
+        "项目复盘",
+        "简历素材",
+        "设备联调",
+        "APK 打包"
+      ],
       "sortOrder": 20,
       "sourcePath": "电子班牌项目经历深度复盘与简历素材.docx",
       "publishedAt": "2026-07-29T15:10:06.403Z",
       "updatedAt": "2026-07-30T01:58:28.391Z",
-      "fileName": "安卓APK/电子班牌项目经历深度复盘与简历素材-文档/metadata.json",
-      "summary": "项目深度复盘 / 代码审计 / 简历素材 电子班牌项目经历 深度复盘与简历素材 从厂家设备能力验证到可发布 Android 电子班牌的端到端工程实践 项目负责人 / 独立开发 陈浩南（依据 Git 作者信息） 投入时间 约 2026-07-12 至 2026-07-29 正式仓库证据 2026-07-15 首提交至 2026-07-28 最新提交，共 54 ...",
+      "fileName": "安卓APK/第 02 篇：电子班牌项目复盘与简历素材：APK 打包、设备联调、项目表达-文档/metadata.json",
+      "summary": "电子班牌项目经历复盘与简历素材，聚焦厂家设备能力验证、uni-app Android APK 打包、设备联调、问题排查、交付成果和简历表达。",
       "cover": "",
       "contentHash": null
     },
@@ -53,19 +67,26 @@
       "originalId": "6a6aafe0c0726f33c296abf8",
       "originalSlug": "uni-app-android-apk-0-1",
       "exportedSlug": "uni-app-android-apk-0-1",
-      "title": "浩南技术教学资料-uni-app Android APK从0到1全流程实战手册",
+      "title": "第 03 篇：uni-app Android APK 从 0 到 1 手册：DCloud SDK、原生插件、签名交付",
       "contentMode": "document",
       "status": "published",
       "categoryPath": [
         "安卓APK"
       ],
-      "tags": [],
+      "tags": [
+        "安卓APK",
+        "uni-app",
+        "Android Studio",
+        "DCloud SDK",
+        "原生插件",
+        "签名打包"
+      ],
       "sortOrder": 30,
       "sourcePath": "浩南技术教学资料-uni-app Android APK从0到1全流程实战手册.docx",
       "publishedAt": "2026-07-30T01:59:31.063Z",
       "updatedAt": "2026-07-30T01:59:31.064Z",
-      "fileName": "安卓APK/浩南技术教学资料-uni-app-Android-APK从0到1全流程实战手册-文档/metadata.json",
-      "summary": "浩南技术教学资料 · 公司内部标准操作手册 · SOP uni-app Android APK 从 0 到 1后端与厂家包接入Android Studio 打包超详细图文教程 编制：浩南｜面向零基础实习生，从空目录到可安装、可调试、可签名交付的 APK 内部教学资料｜禁止对外传播 适用技术：uni-app Vue 3 + 普通后端 API + DCloud ...",
+      "fileName": "安卓APK/第 03 篇：uni-app Android APK 从 0 到 1 手册：DCloud SDK、原生插件、签名交付-文档/metadata.json",
+      "summary": "uni-app Android APK 从 0 到 1 实战手册，覆盖 HBuilderX、DCloud Android 离线 SDK、Android Studio、原生插件、后端接口接入、签名打包和交付检查。",
       "cover": "",
       "contentHash": null
     },
@@ -5028,7 +5049,7 @@
       "originalId": "6a2d291e8a2b1c68f2cac0f0",
       "originalSlug": "js-async-await-b580531b",
       "exportedSlug": "js-async-await-b580531b",
-      "title": "第 17 章：async / await",
+      "title": "第 17 章：async、await",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5046,10 +5067,10 @@
       "sourcePath": "JS/第17章 async await.md",
       "publishedAt": "2026-01-25T13:23:07.488Z",
       "updatedAt": "2026-06-15T14:50:24.946Z",
-      "fileName": "前端技术/前端三剑客/AI版JS/第 17 章：async await.md",
+      "fileName": "前端技术/前端三剑客/AI版JS/第 17 章：async、await.md",
       "summary": "讲解 async 函数、await 暂停机制、异步错误捕获、并发优化和 async/await 写法实践。",
       "cover": "",
-      "contentHash": "865a647d3bedcbedfa560e43d67b837dd5207482c1f47ecfc3cac8943791d885"
+      "contentHash": "c3240cf012736cabfd0890909c031ae313aee68ac402e368265a209b3c782a60"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac0f2",
@@ -8016,7 +8037,7 @@
       "originalId": "6a2d291f8a2b1c68f2cac37e",
       "originalSlug": "js-js-js-d7c0a532",
       "exportedSlug": "js-js-js-d7c0a532",
-      "title": "JavaScript 常识目录（建议阅读顺序）",
+      "title": "总览：JavaScript 常识目录：建议阅读顺序、核心专题、辅助资料",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8032,16 +8053,16 @@
       "sourcePath": "我的总结/JS/JS常识.md",
       "publishedAt": "2026-05-10T11:51:43.087Z",
       "updatedAt": "2026-06-15T14:49:06.040Z",
-      "fileName": "我的总结/js/JavaScript-常识目录（建议阅读顺序）.md",
+      "fileName": "我的总结/js/总览：JavaScript 常识目录：建议阅读顺序、核心专题、辅助资料.md",
       "summary": "按 1 到 25 的顺序整理 JavaScript 常识专题入口，方便从基础概念一路串到进阶专题与面试补强专题。",
       "cover": "",
-      "contentHash": "3673d0dd6bb53786744109be227a490e17165a5ff4bc515bd584f4b8bea6b054"
+      "contentHash": "7604d4bd31fc6f037c7ac5aa83ff10dee77863fb1612a39b75b030d2e5bed6a5"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac38c",
       "originalSlug": "js-js-javascript-4f1a5c58",
       "exportedSlug": "js-js-javascript-4f1a5c58",
-      "title": "第 1 篇：JavaScript 变量与作用域详解",
+      "title": "第 01 篇：JavaScript 变量与作用域详解：var、let、const、作用域链",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8061,16 +8082,16 @@
       "sourcePath": "我的总结/JS/辅助资料/01_JavaScript变量与作用域.md",
       "publishedAt": "2026-05-07T13:25:33.654Z",
       "updatedAt": "2026-06-22T02:07:34.272Z",
-      "fileName": "我的总结/js/辅助资料/第01篇：JavaScript-变量与作用域详解.md",
+      "fileName": "我的总结/js/辅助资料/第 01 篇：JavaScript 变量与作用域详解：var、let、const、作用域链.md",
       "summary": "JavaScript变量声明方式（var/let/const）的核心特性、作用域规则、提升机制及最佳实践。",
       "cover": "",
-      "contentHash": "25f1431c9bf2f1452a579b30d2d92e6ef039f9dea408543b3d58c8e6a3f01084"
+      "contentHash": "4c6ddb0e404eae26f18d8668a5fa13b3ae83882dbf62a2cda73287ef84d8d65c"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac394",
       "originalSlug": "js-js-f6bc0394",
       "exportedSlug": "js-js-f6bc0394",
-      "title": "第 2 篇：JavaScript 数据访问安全机制",
+      "title": "第 02 篇：JavaScript 数据访问安全机制：可选链、空值合并、边界判断",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8088,16 +8109,16 @@
       "sourcePath": "我的总结/JS/辅助资料/02_数据访问安全机制.md",
       "publishedAt": "2026-05-07T13:25:33.655Z",
       "updatedAt": "2026-06-13T10:28:28.557Z",
-      "fileName": "我的总结/js/辅助资料/第02篇：JavaScript-数据访问安全机制.md",
+      "fileName": "我的总结/js/辅助资料/第 02 篇：JavaScript 数据访问安全机制：可选链、空值合并、边界判断.md",
       "summary": "JavaScript可选链操作符（?.）和空值合并操作符（??）的使用方法、原理及与相关操作符的区别。",
       "cover": "",
-      "contentHash": "1103e2f2dc97011a7c997c1cca70017032b1f317ec1775b9918012f48397343d"
+      "contentHash": "adde6f52e020f381d75fb1de54711b09abb1c202140524a9007c93a5b3cc8dec"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac39c",
       "originalSlug": "js-js-51b18143",
       "exportedSlug": "js-js-51b18143",
-      "title": "第 3 篇：JavaScript 闭包与垃圾回收机制",
+      "title": "第 03 篇：JavaScript 闭包与垃圾回收机制：词法作用域、引用保留、内存释放",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8115,16 +8136,16 @@
       "sourcePath": "我的总结/JS/辅助资料/03_闭包与垃圾回收.md",
       "publishedAt": "2026-05-07T13:25:33.656Z",
       "updatedAt": "2026-06-13T10:28:28.567Z",
-      "fileName": "我的总结/js/辅助资料/第03篇：JavaScript-闭包与垃圾回收机制.md",
+      "fileName": "我的总结/js/辅助资料/第 03 篇：JavaScript 闭包与垃圾回收机制：词法作用域、引用保留、内存释放.md",
       "summary": "JavaScript闭包的形成机制、内存泄漏原因及垃圾回收原理，以及如何避免闭包导致的内存问题。",
       "cover": "",
-      "contentHash": "171115eb024c3f59e03d2c6aea233c12e84bef435e117f9c84dc2f5a2e3a2f6d"
+      "contentHash": "33ece2deec57ec33a71470fe37a1401106aedfe132fca60a194fbdb2f49acc21"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3a4",
       "originalSlug": "js-js-arguments-c45f50a4",
       "exportedSlug": "js-js-arguments-c45f50a4",
-      "title": "第 4 篇：JavaScript arguments 对象详解",
+      "title": "第 04 篇：JavaScript arguments 对象详解：类数组、函数参数、剩余参数",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8142,16 +8163,16 @@
       "sourcePath": "我的总结/JS/辅助资料/04_arguments的使用.md",
       "publishedAt": "2026-05-07T13:25:33.657Z",
       "updatedAt": "2026-06-13T10:28:28.578Z",
-      "fileName": "我的总结/js/辅助资料/第04篇：JavaScript-arguments-对象详解.md",
+      "fileName": "我的总结/js/辅助资料/第 04 篇：JavaScript arguments 对象详解：类数组、函数参数、剩余参数.md",
       "summary": "JavaScript arguments 对象的特性、使用方法和现代替代方案（rest parameters）。",
       "cover": "",
-      "contentHash": "f141d672d9c928370cd5d478cbb7c8a1115f10201b6b25cb54179ea9e07a2dfe"
+      "contentHash": "0941c5af7633086d5a6f320b6ea2981a8883f6ac3b97ad96e6d7cc93465d8d79"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3ac",
       "originalSlug": "js-js-this-515c53fa",
       "exportedSlug": "js-js-this-515c53fa",
-      "title": "第 5 篇：JavaScript this 指向规则详解",
+      "title": "第 05 篇：JavaScript this 指向规则详解：默认绑定、隐式绑定、call、apply、bind",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8169,16 +8190,16 @@
       "sourcePath": "我的总结/JS/辅助资料/05_this.md",
       "publishedAt": "2026-05-07T13:25:33.658Z",
       "updatedAt": "2026-06-13T10:28:28.590Z",
-      "fileName": "我的总结/js/辅助资料/第05篇：JavaScript-this-指向规则详解.md",
+      "fileName": "我的总结/js/辅助资料/第 05 篇：JavaScript this 指向规则详解：默认绑定、隐式绑定、call、apply、bind.md",
       "summary": "JavaScript this 指向的完整规则，包括普通函数调用、方法调用、构造函数调用和箭头函数特性。",
       "cover": "",
-      "contentHash": "0dba143adc95e079657a8dcdae1f183db0e7968f3744e1751753694c24fc340e"
+      "contentHash": "69e2b6ac2300dc451583f0d2bdca1f3f8046c055ec31aeca60dcb1fe60b95de3"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3b6",
       "originalSlug": "js-javascript-9a9d6589",
       "exportedSlug": "js-javascript-9a9d6589",
-      "title": "第 6 篇：JavaScript 原型链",
+      "title": "第 06 篇：JavaScript 原型链：prototype、__proto__、constructor",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8196,16 +8217,16 @@
       "sourcePath": "我的总结/JS/辅助资料/06_JavaScript原型链.md",
       "publishedAt": "2026-05-07T13:25:33.659Z",
       "updatedAt": "2026-06-13T14:09:43.228Z",
-      "fileName": "我的总结/js/辅助资料/第06篇：JavaScript-原型链.md",
+      "fileName": "我的总结/js/辅助资料/第 06 篇：JavaScript 原型链：prototype、__proto__、constructor.md",
       "summary": "用小白视角讲透原型链：从三张图入手，理解 prototype、[[Prototype]]、__proto__、constructor、instanceof、new 和 class 的关系。",
       "cover": "",
-      "contentHash": "9869a6a80d8d706e6daabf1dab65958c4c355448921353f40dbafb4fc5f0b0ff"
+      "contentHash": "557ba74ca0ffa53e30c0401d2d4e2a7c254d4596d3671bc19d874577aeb3c6cd"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3be",
       "originalSlug": "js-js-es5-es6-class-ddcd40c8",
       "exportedSlug": "js-js-es5-es6-class-ddcd40c8",
-      "title": "第 7 篇：ES5 构造函数与 ES6 Class 详解",
+      "title": "第 07 篇：ES5 构造函数与 ES6 Class 详解：new、继承、super、静态方法",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8224,16 +8245,16 @@
       "sourcePath": "我的总结/JS/辅助资料/07_es5构造函数与es6语法糖Class.md",
       "publishedAt": "2026-05-07T13:25:33.660Z",
       "updatedAt": "2026-06-13T10:28:28.617Z",
-      "fileName": "我的总结/js/辅助资料/第07篇：ES5-构造函数与-ES6-Class-详解.md",
+      "fileName": "我的总结/js/辅助资料/第 07 篇：ES5 构造函数与 ES6 Class 详解：new、继承、super、静态方法.md",
       "summary": "从原型、实例、静态成员与继承链的关系出发，系统讲清 ES5 构造函数和 ES6 Class 的底层逻辑与实际差异。",
       "cover": "",
-      "contentHash": "18544ba358a5f2f585fc8e60455ab73f36ebd45e6d271a1303b83f509fba174d"
+      "contentHash": "8ee5424822278f64f7d443b44da675b4881de98c552c102b5ae8a7fc1cae7d1c"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3c4",
       "originalSlug": "js-8770c0f0",
       "exportedSlug": "js-8770c0f0",
-      "title": "第 8 篇：类型检测与原型链深度解析",
+      "title": "第 08 篇：类型检测与原型链深度解析：typeof、instanceof、Object.prototype.toString",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8252,16 +8273,16 @@
       "sourcePath": "我的总结/JS/辅助资料/08_类型检测与原型链深度解析.md",
       "publishedAt": "2026-05-07T13:25:33.661Z",
       "updatedAt": "2026-06-13T14:09:43.228Z",
-      "fileName": "我的总结/js/辅助资料/第08篇：类型检测与原型链深度解析.md",
+      "fileName": "我的总结/js/辅助资料/第 08 篇：类型检测与原型链深度解析：typeof、instanceof、Object.prototype.toString.md",
       "summary": "系统讲清 JavaScript 常见类型检测方案各自能做什么、为什么不够用、真正缺点是什么，并补齐 Object.prototype.toString.call 与原型链关系、面试高频回答模板和实战决策表。",
       "cover": "",
-      "contentHash": "57606eca03151d7962455f9e0f13dae4e3e525cfc5ac5a74f2d026e95f119362"
+      "contentHash": "0d600499dc5b017c2957907be1ab7f679170b21ab38b3bff9415ff56c2a9a8ca"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3ce",
       "originalSlug": "js-javascript-ceaa578b",
       "exportedSlug": "js-javascript-ceaa578b",
-      "title": "第 9 篇：JavaScript 数组深度解析",
+      "title": "第 09 篇：JavaScript 数组深度解析：增删改查、遍历、排序、引用",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8280,16 +8301,16 @@
       "sourcePath": "我的总结/JS/辅助资料/09_JavaScript数组.md",
       "publishedAt": "2026-05-07T13:25:33.663Z",
       "updatedAt": "2026-06-13T14:09:43.228Z",
-      "fileName": "我的总结/js/辅助资料/第09篇：JavaScript-数组深度解析.md",
+      "fileName": "我的总结/js/辅助资料/第 09 篇：JavaScript 数组深度解析：增删改查、遍历、排序、引用.md",
       "summary": "从数组本质、length、空位和常用方法等角度系统梳理 JavaScript 数组，并修正 splice、map、copyWithin 等常见误区。",
       "cover": "",
-      "contentHash": "4155bac87a30007bd49909f60954fe2645af36b74478b4f57fb64de2bd7bb32d"
+      "contentHash": "6ca99f48dc1116aa534f9064257d6d9c5ff6482805a3e8935d30fa8f57037df4"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3d8",
       "originalSlug": "js-b45cfac4",
       "exportedSlug": "js-b45cfac4",
-      "title": "第 10 篇：JavaScript 字符串详解",
+      "title": "第 10 篇：JavaScript 字符串详解：截取、查找、替换、模板字符串",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8308,16 +8329,16 @@
       "sourcePath": "我的总结/JS/辅助资料/10_字符串.md",
       "publishedAt": "2026-05-07T13:25:33.664Z",
       "updatedAt": "2026-06-13T14:09:43.228Z",
-      "fileName": "我的总结/js/辅助资料/第10篇：JavaScript-字符串详解.md",
+      "fileName": "我的总结/js/辅助资料/第 10 篇：JavaScript 字符串详解：截取、查找、替换、模板字符串.md",
       "summary": "系统梳理 JavaScript 字符串的创建、查找、截取、替换、Unicode 处理与常见 API，重点纠正常见误区并补充官方参考资料。",
       "cover": "",
-      "contentHash": "325100f1d5c5f0cd6c3b1bcb50f06c73a8a50954097965c3bc97c0d04e63faa4"
+      "contentHash": "6e5d128eeb3287ba09a9119d716403549cc8dd6de7a5f278d2ace75e838e651e"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3de",
       "originalSlug": "js-js-32fdfd9a",
       "exportedSlug": "js-js-32fdfd9a",
-      "title": "第 11 篇：JavaScript 包装类的详细机制",
+      "title": "第 11 篇：JavaScript 包装类的详细机制：String、Number、Boolean、临时对象",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8334,16 +8355,16 @@
       "sourcePath": "我的总结/JS/辅助资料/11_包装类.md",
       "publishedAt": "2026-05-07T13:25:33.665Z",
       "updatedAt": "2026-06-13T10:28:28.668Z",
-      "fileName": "我的总结/js/辅助资料/第11篇：JavaScript-包装类的详细机制.md",
+      "fileName": "我的总结/js/辅助资料/第 11 篇：JavaScript 包装类的详细机制：String、Number、Boolean、临时对象.md",
       "summary": "JavaScript包装类（String、Number、Boolean）的详细机制和使用指南，包括自动装箱拆箱原理。",
       "cover": "",
-      "contentHash": "dd390cce03ef5fd8f8cdc14a636237b4e562baf1643dd197612c4ed5cb575798"
+      "contentHash": "7af68810c9f886827cd6aff8303ac170f098087b096b67ddacdcc01f3c3d6268"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3e0",
       "originalSlug": "js-js-0a88db30",
       "exportedSlug": "js-js-0a88db30",
-      "title": "第 12 篇：宏任务与微任务",
+      "title": "第 12 篇：宏任务与微任务：事件循环、Promise、setTimeout",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8361,16 +8382,16 @@
       "sourcePath": "我的总结/JS/辅助资料/12_宏任务与微任务.md",
       "publishedAt": "2026-05-07T13:25:33.666Z",
       "updatedAt": "2026-06-13T10:28:28.679Z",
-      "fileName": "我的总结/js/辅助资料/第12篇：宏任务与微任务.md",
+      "fileName": "我的总结/js/辅助资料/第 12 篇：宏任务与微任务：事件循环、Promise、setTimeout.md",
       "summary": "用更容易理解的方式讲清宏任务与微任务，适合小白快速掌握事件循环、Promise、await 和 setTimeout 的执行顺序。",
       "cover": "",
-      "contentHash": "7f65d13b11c66fab48f1335166875c2cfa15d1d194c2f5d6e4b83d5c5922e332"
+      "contentHash": "8412f16812b3d9fcbe2d2141d0735da4aacb06aff23d1b6b3b03854fb6215972"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3ec",
       "originalSlug": "js-js-offset-client-scroll-29c45981",
       "exportedSlug": "js-js-offset-client-scroll-29c45981",
-      "title": "第 13 篇：offset、client、scroll 坐标与尺寸详解",
+      "title": "第 13 篇：offset、client、scroll 坐标与尺寸详解：布局尺寸、滚动距离、元素定位",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8390,16 +8411,16 @@
       "sourcePath": "我的总结/JS/辅助资料/13_offset_client_scroll.md",
       "publishedAt": "2026-05-07T13:25:33.667Z",
       "updatedAt": "2026-06-13T10:28:28.693Z",
-      "fileName": "我的总结/js/辅助资料/第13篇：offset、client、scroll-坐标与尺寸详解.md",
+      "fileName": "我的总结/js/辅助资料/第 13 篇：offset、client、scroll 坐标与尺寸详解：布局尺寸、滚动距离、元素定位.md",
       "summary": "JavaScript中事件对象坐标与元素属性的详细对比，涵盖client、offset、scroll三大系列API的使用方法和区别。",
       "cover": "",
-      "contentHash": "3564f3986eccc7c33a2f58cadd93e11ea8f22ac7171133b98673e11f34004609"
+      "contentHash": "d15b0640cb1d9a72b59a1ac6c156ce8e80db2ed4709c6e72814a33f6f6edad6b"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac3f6",
       "originalSlug": "js-js-dom-0c6dbfa3",
       "exportedSlug": "js-js-dom-0c6dbfa3",
-      "title": "第 14 篇：易混淆 DOM 事件对比指南",
+      "title": "第 14 篇：易混淆 DOM 事件对比指南：input、change、blur、click、submit",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8419,16 +8440,16 @@
       "sourcePath": "我的总结/JS/辅助资料/14_易混淆DOM事件对比.md",
       "publishedAt": "2026-05-07T13:25:33.668Z",
       "updatedAt": "2026-06-13T10:28:28.707Z",
-      "fileName": "我的总结/js/辅助资料/第14篇：易混淆-DOM-事件对比指南.md",
+      "fileName": "我的总结/js/辅助资料/第 14 篇：易混淆 DOM 事件对比指南：input、change、blur、click、submit.md",
       "summary": "前端开发中易混淆的DOM事件详细对比，包含表单事件、鼠标事件、键盘事件等的触发时机和使用场景。",
       "cover": "",
-      "contentHash": "6030a7b62b137ba025b79502a015ee13358e042f1dccbabc09d8dc5a92ad4cbe"
+      "contentHash": "dfda6bdb2a465209cb78adfad39f0f4a15a42aab9c07b6c33939f177ee3abf08"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac400",
       "originalSlug": "js-js-map-set-696642c1",
       "exportedSlug": "js-js-map-set-696642c1",
-      "title": "第 15 篇：Map 与 Set 事件订阅管理器",
+      "title": "第 15 篇：Map 与 Set 事件订阅管理器：事件总线、去重、订阅发布",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8447,16 +8468,16 @@
       "sourcePath": "我的总结/JS/辅助资料/15_Map_Set事件订阅管理.md",
       "publishedAt": "2026-05-07T13:25:33.669Z",
       "updatedAt": "2026-06-13T10:28:28.718Z",
-      "fileName": "我的总结/js/辅助资料/第15篇：Map-与-Set-事件订阅管理器.md",
+      "fileName": "我的总结/js/辅助资料/第 15 篇：Map 与 Set 事件订阅管理器：事件总线、去重、订阅发布.md",
       "summary": "从 ES6 Map/Set 基础概念到事件订阅管理器实战，详解如何使用 Map 和 Set 构建高效、可维护的事件系统。",
       "cover": "",
-      "contentHash": "38e45da55ee958b03004d489864a7c290c9f80102b9f4de6215b7bf93b3957ba"
+      "contentHash": "716e8e376ebc5b6c97d9f3dcf56502b27e02b579ca5b0846a0e8bb33b22bd6a0"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac406",
       "originalSlug": "js-js-f636b54f",
       "exportedSlug": "js-js-f636b54f",
-      "title": "第 16 篇：前端模块导入与导出完全指南",
+      "title": "第 16 篇：前端模块导入与导出完全指南：ESM、CommonJS、默认导出、命名导出",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8476,16 +8497,16 @@
       "sourcePath": "我的总结/JS/辅助资料/16_前端模块导入与导出.md",
       "publishedAt": "2026-05-19T12:30:25.028Z",
       "updatedAt": "2026-06-30T02:16:41.826Z",
-      "fileName": "我的总结/js/辅助资料/第16篇：前端模块导入与导出完全指南.md",
+      "fileName": "我的总结/js/辅助资料/第 16 篇：前端模块导入与导出完全指南：ESM、CommonJS、默认导出、命名导出.md",
       "summary": "JavaScript模块化编程完整指南，详解ES Module和CommonJS的语法差异、使用场景和最佳实践。",
       "cover": "",
-      "contentHash": "6e09982d2fc9bde2af804c8ba70fd951c24f28b278f3f8a806fb0fd498e81416"
+      "contentHash": "9b15cbff30b138468a79043615512f1843302231a358058c802d6506fb303404"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac40c",
       "originalSlug": "js-js-promise-6cb6d394",
       "exportedSlug": "js-js-promise-6cb6d394",
-      "title": "第 17 篇：Promise 完全指南",
+      "title": "第 17 篇：Promise 完全指南：状态流转、then、catch、finally、链式调用",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8503,16 +8524,16 @@
       "sourcePath": "我的总结/JS/辅助资料/17_Promise.md",
       "publishedAt": "2026-05-07T13:25:33.670Z",
       "updatedAt": "2026-06-13T10:28:28.743Z",
-      "fileName": "我的总结/js/辅助资料/第17篇：Promise-完全指南.md",
+      "fileName": "我的总结/js/辅助资料/第 17 篇：Promise 完全指南：状态流转、then、catch、finally、链式调用.md",
       "summary": "JavaScript Promise 完整指南，从基础概念到实战应用，包含 async/await 语法糖和常见陷阱。",
       "cover": "",
-      "contentHash": "e3c802df4801d3dae17c27df6f38041796a11a37c66b1bc846de2f10b8ee7e3c"
+      "contentHash": "2985e767f4578364bbe62d78ace27488a92d3eacab2ffbeecffb66b707d03f18"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac410",
       "originalSlug": "js-js-dom-cefe5122",
       "exportedSlug": "js-js-dom-cefe5122",
-      "title": "第 18 篇：DOM 文档对象模型基础",
+      "title": "第 18 篇：DOM 文档对象模型基础：节点、选择器、增删改查、事件绑定",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8529,16 +8550,16 @@
       "sourcePath": "我的总结/JS/辅助资料/18_DOM.md",
       "publishedAt": "2026-05-07T13:25:33.671Z",
       "updatedAt": "2026-06-13T10:28:28.754Z",
-      "fileName": "我的总结/js/辅助资料/第18篇：DOM-文档对象模型基础.md",
+      "fileName": "我的总结/js/辅助资料/第 18 篇：DOM 文档对象模型基础：节点、选择器、增删改查、事件绑定.md",
       "summary": "DOM（文档对象模型）基础概念介绍，包含DOM树结构、元素、节点等核心概念的理解。",
       "cover": "",
-      "contentHash": "a78c13922778bfb7303e9437159de459275e02a70d6c59d89b9e4fedf8144fcf"
+      "contentHash": "3099f46f19ec6318e7aa1a70c943d7614d521fa3588b40ef50fc57c1eef4dc90"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac416",
       "originalSlug": "js-js-aa0b9079",
       "exportedSlug": "js-js-aa0b9079",
-      "title": "第 19 篇：前端深浅拷贝完全指南",
+      "title": "第 19 篇：前端深浅拷贝完全指南：Object.assign、递归、JSON、structuredClone",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8557,16 +8578,16 @@
       "sourcePath": "我的总结/JS/辅助资料/19_深浅拷贝.md",
       "publishedAt": "2026-05-07T13:25:33.672Z",
       "updatedAt": "2026-06-13T10:28:28.768Z",
-      "fileName": "我的总结/js/辅助资料/第19篇：前端深浅拷贝完全指南.md",
+      "fileName": "我的总结/js/辅助资料/第 19 篇：前端深浅拷贝完全指南：Object.assign、递归、JSON、structuredClone.md",
       "summary": "JavaScript深浅拷贝完整指南，从基础概念到实战应用，涵盖JSON方式、structuredClone、lodash等多种实现方案。",
       "cover": "",
-      "contentHash": "a86cdf62eedb7db08db963125b44bd64b82f3dc115d335b6774c79c0f6e7b46a"
+      "contentHash": "851d726783db6d0b006d06aa9d60e4463c3314a57aa2dc8a88071f30ca00d8a6"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac41e",
       "originalSlug": "js-js-f451ed2d",
       "exportedSlug": "js-js-f451ed2d",
-      "title": "第 20 篇：数组创建方法对比指南",
+      "title": "第 20 篇：数组创建方法对比指南：Array.from、fill、map、稀疏数组",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8585,16 +8606,16 @@
       "sourcePath": "我的总结/JS/辅助资料/20_数组创建区别.md",
       "publishedAt": "2026-05-07T13:25:33.673Z",
       "updatedAt": "2026-06-13T10:28:28.782Z",
-      "fileName": "我的总结/js/辅助资料/第20篇：数组创建方法对比指南.md",
+      "fileName": "我的总结/js/辅助资料/第 20 篇：数组创建方法对比指南：Array.from、fill、map、稀疏数组.md",
       "summary": "JavaScript三种数组创建方法的详细对比，包含使用场景、陷阱分析和最佳实践建议。",
       "cover": "",
-      "contentHash": "3ba148fc0a29ce66e016e247017ce8699b0c772cd4b42dee1e896eec54d03476"
+      "contentHash": "d537e4db6436113502b8345333208bd2ec36506c46ffeeb2648245bda7c0e2e5"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac428",
       "originalSlug": "js-js-for-ae3e60e0",
       "exportedSlug": "js-js-for-ae3e60e0",
-      "title": "第 21 篇：for 家族完全指南",
+      "title": "第 21 篇：for 家族完全指南：for、forEach、for in、for of",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8613,16 +8634,16 @@
       "sourcePath": "我的总结/JS/辅助资料/21_for家族完全指南.md",
       "publishedAt": "2026-05-07T14:34:30.018Z",
       "updatedAt": "2026-06-22T09:16:12.251Z",
-      "fileName": "我的总结/js/辅助资料/第21篇：for-家族完全指南.md",
+      "fileName": "我的总结/js/辅助资料/第 21 篇：for 家族完全指南：for、forEach、for in、for of.md",
       "summary": "一次讲清 JavaScript 里的 for、for...of、for...in、forEach、for await...of 的语法、场景、区别、陷阱和选择方法。",
       "cover": "",
-      "contentHash": "b71860b4394fe68e30bed3f731288bad34a206977a993f1ea2710a05daefdf3c"
+      "contentHash": "5fedab1540e792c2742f019131e5bc92001a77eec9fd5ce75f63a89a41494dfc"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac43a",
       "originalSlug": "js-js-8c9811b5",
       "exportedSlug": "js-js-8c9811b5",
-      "title": "第 23 篇：执行上下文、作用域链与调用栈",
+      "title": "第 22 篇：执行上下文、作用域链与调用栈：VO、AO、词法环境、栈帧",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8641,16 +8662,16 @@
       "sourcePath": "我的总结/JS/辅助资料/23_执行上下文作用域链与调用栈.md",
       "publishedAt": "2026-05-10T11:51:43.089Z",
       "updatedAt": "2026-06-13T10:28:28.824Z",
-      "fileName": "我的总结/js/辅助资料/第23篇：执行上下文、作用域链与调用栈.md",
+      "fileName": "我的总结/js/辅助资料/第 22 篇：执行上下文、作用域链与调用栈：VO、AO、词法环境、栈帧.md",
       "summary": "从执行上下文、词法环境、作用域链到调用栈，一次补齐能把变量提升、闭包、this 和异步题串起来的底层总纲。",
       "cover": "",
-      "contentHash": "bfc02ea924f3967cced01e35270c0055d9fff31598419091278d2707856db40c"
+      "contentHash": "70d85e60c1e93cbeedf5079454cd244982040e5ecdc9c5c0330d57c468fdac19"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac442",
       "originalSlug": "js-js-d03088d0",
       "exportedSlug": "js-js-d03088d0",
-      "title": "第 24 篇：JavaScript 对象系统与属性描述符",
+      "title": "第 23 篇：JavaScript 对象系统与属性描述符：defineProperty、getter、setter、枚举性",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8669,16 +8690,16 @@
       "sourcePath": "我的总结/JS/辅助资料/24_对象系统与属性描述符.md",
       "publishedAt": "2026-05-10T11:51:43.091Z",
       "updatedAt": "2026-06-22T02:08:44.095Z",
-      "fileName": "我的总结/js/辅助资料/第24篇：JavaScript-对象系统与属性描述符.md",
+      "fileName": "我的总结/js/辅助资料/第 23 篇：JavaScript 对象系统与属性描述符：defineProperty、getter、setter、枚举性.md",
       "summary": "系统补齐对象创建、原型关联、属性描述符、可枚举性和冻结封印等高频对象题，避免只会讲原型链不会讲对象本身。",
       "cover": "",
-      "contentHash": "a995abe68737eaebb234966ca17777737727fb676d7ac5602b3f69267b015bb1"
+      "contentHash": "a1e8f46eb588986a57fcdc777e38f4ba9e38c830ae633e46448b9d8d669d35eb"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac44a",
       "originalSlug": "js-js-0c45b118",
       "exportedSlug": "js-js-0c45b118",
-      "title": "第 25 篇：JavaScript 高频手写题思路总纲",
+      "title": "第 24 篇：JavaScript 高频手写题思路总纲：防抖、节流、深拷贝、Promise",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8697,16 +8718,16 @@
       "sourcePath": "我的总结/JS/辅助资料/25_高频手写题思路总纲.md",
       "publishedAt": "2026-05-10T11:51:43.091Z",
       "updatedAt": "2026-06-13T10:28:28.848Z",
-      "fileName": "我的总结/js/辅助资料/第25篇：JavaScript-高频手写题思路总纲.md",
+      "fileName": "我的总结/js/辅助资料/第 24 篇：JavaScript 高频手写题思路总纲：防抖、节流、深拷贝、Promise.md",
       "summary": "先建立 JavaScript 高频手写题的知识地图与拆题方法，再逐个补写 bind、new、防抖、节流、柯里化、并发控制等专题实现。",
       "cover": "",
-      "contentHash": "d252dd13f99f81c67c7e16d0d6e0ca73301fa536da9e14532838f0796ef9f702"
+      "contentHash": "3d815d04396eef71db04ef76837f5a2f541aab2a6dcf211445d4b7c1f790cc0d"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac432",
       "originalSlug": "javascript-js-fc6f3322",
       "exportedSlug": "javascript-js-fc6f3322",
-      "title": "绝对路径与相对路径详解",
+      "title": "第 25 篇：绝对路径与相对路径详解：根路径、相对层级、URL、模块引用",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8723,16 +8744,16 @@
       "sourcePath": "我的总结/JS/辅助资料/22_绝对路径与相对路径详解.md",
       "publishedAt": "2026-05-09T12:50:17.705Z",
       "updatedAt": "2026-06-13T14:09:43.231Z",
-      "fileName": "我的总结/js/辅助资料/绝对路径与相对路径详解.md",
+      "fileName": "我的总结/js/辅助资料/第 25 篇：绝对路径与相对路径详解：根路径、相对层级、URL、模块引用.md",
       "summary": "从零开始理解绝对路径和相对路径的概念、区别、使用场景，以及在不同环境下的实际应用。",
       "cover": "",
-      "contentHash": "d7628d566d784ddec5c444206aad5199a9657d47b4de4a07d70320b83f8a1b7f"
+      "contentHash": "0bbc4cd9d8e5bbbfb903f6ced867d5d956a9e5f7d0fb875152cf09d23a626253"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac44e",
       "originalSlug": "js-516c7d40",
       "exportedSlug": "js-516c7d40",
-      "title": "字符串数组方法速背卡（开发+面试）",
+      "title": "第 26 篇：字符串数组方法速背卡：开发常用 API、面试记忆、易混点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8751,16 +8772,16 @@
       "sourcePath": "我的总结/JS/辅助资料/字符串数组方法对比记忆手册.md",
       "publishedAt": "2026-05-07T13:31:33.250Z",
       "updatedAt": "2026-06-13T14:09:43.228Z",
-      "fileName": "我的总结/js/辅助资料/字符串数组方法速背卡（开发+面试）.md",
+      "fileName": "我的总结/js/辅助资料/第 26 篇：字符串数组方法速背卡：开发常用 API、面试记忆、易混点.md",
       "summary": "用速背卡+详细边界说明掌握字符串和数组高频方法，覆盖开发场景、面试话术和易错点。",
       "cover": "",
-      "contentHash": "58b3f0c68ba51b3c69c2eea74c0c5ade4a5a55dfc1f9a5cf8484ec5ead27a728"
+      "contentHash": "32c30585fcb270c2cff78b94c3cee9e8b86fa621d0fbb0258577f2eca774818a"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac456",
       "originalSlug": "js-js-e0da040f",
       "exportedSlug": "js-js-e0da040f",
-      "title": "解构赋值完整指南",
+      "title": "第 27 篇：解构赋值完整指南：数组解构、对象解构、默认值、别名",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8779,16 +8800,16 @@
       "sourcePath": "我的总结/JS/辅助资料/附录_解构赋值.md",
       "publishedAt": "2026-05-07T13:25:33.674Z",
       "updatedAt": "2026-06-13T10:28:28.874Z",
-      "fileName": "我的总结/js/辅助资料/解构赋值完整指南.md",
+      "fileName": "我的总结/js/辅助资料/第 27 篇：解构赋值完整指南：数组解构、对象解构、默认值、别名.md",
       "summary": "JavaScript解构赋值完整指南，从基础语法到实战应用，包含数组解构、对象解构、嵌套解构等核心内容。",
       "cover": "",
-      "contentHash": "805f10f404e6dd0abf48d66f4f96b31617c3be1e71a3293b1fc04133bb50c7b7"
+      "contentHash": "d03e6d91407449066fa1d9ead26d9889370f8f4a2f5bcd88b12009427034e49a"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac45c",
       "originalSlug": "uni-app-uni-app-4aaf2e1a",
       "exportedSlug": "uni-app-uni-app-4aaf2e1a",
-      "title": "uni-app目录（系统整理版）",
+      "title": "总览：uni-app 目录：系统整理版、阅读路径、专题索引",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8805,16 +8826,16 @@
       "sourcePath": "我的总结/uni-app/uni-app.md",
       "publishedAt": "2026-05-08T13:11:46.097Z",
       "updatedAt": "2026-06-14T06:29:24.457Z",
-      "fileName": "我的总结/uni-app/uni-app目录（系统整理版）.md",
+      "fileName": "我的总结/uni-app/总览：uni-app 目录：系统整理版、阅读路径、专题索引.md",
       "summary": "本页用于整理 uni-app 系统整理版笔记，按从底层认知到项目落地的顺序阅读，兼顾原理、代码、边界、常见坑和项目实践。",
       "cover": "",
-      "contentHash": "fb813486e67797caaa3b24fbdfb07d3a9104d8cda9804c03b8f975cc6b41f0e4"
+      "contentHash": "a58f064bcdc1eee463edeb0ec90e8175fd9e8f6e1561c866d22143d51eec8d25"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac460",
       "originalSlug": "uni-app-uni-app-5f27ae60",
       "exportedSlug": "uni-app-uni-app-5f27ae60",
-      "title": "第 1 篇：uni-app核心认知、跨端编译与平台边界",
+      "title": "第 01 篇：uni-app 核心认知、跨端编译与平台边界：Vue 语法、多端产物、条件编译",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8833,16 +8854,16 @@
       "sourcePath": "我的总结/uni-app/uni-app辅助/01_核心认知与跨端原理.md",
       "publishedAt": "2026-05-08T13:11:46.098Z",
       "updatedAt": "2026-06-14T06:31:52.518Z",
-      "fileName": "我的总结/uni-app/uni-app辅助/第01篇：uni-app核心认知、跨端编译与平台边界.md",
+      "fileName": "我的总结/uni-app/uni-app辅助/第 01 篇：uni-app 核心认知、跨端编译与平台边界：Vue 语法、多端产物、条件编译.md",
       "summary": "从跨端编译、运行宿主、通用能力边界到平台差异收口，系统梳理 uni-app 到底是什么、为什么能跨端、又为什么不可能完全无差异。",
       "cover": "",
-      "contentHash": "b5fa40eae756f09569caf1e9f9b476e69950893b2fceb3fcf9b050c2d9d0cb9f"
+      "contentHash": "6b4c62f4aa1c04ab77e2d7f4728ac02618204da2d24e1c567a5b6d8ccd184924"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac468",
       "originalSlug": "uni-app-uni-app-8c6d7ba1",
       "exportedSlug": "uni-app-uni-app-8c6d7ba1",
-      "title": "第 2 篇：uni-app生命周期、页面时序与常见页面事件",
+      "title": "第 02 篇：uni-app 生命周期、页面时序与常见页面事件：应用生命周期、页面生命周期、onLoad、onShow",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8861,16 +8882,16 @@
       "sourcePath": "我的总结/uni-app/uni-app辅助/02_生命周期与页面时序.md",
       "publishedAt": "2026-05-08T13:22:12.473Z",
       "updatedAt": "2026-06-14T06:31:52.522Z",
-      "fileName": "我的总结/uni-app/uni-app辅助/第02篇：uni-app生命周期、页面时序与常见页面事件.md",
+      "fileName": "我的总结/uni-app/uni-app辅助/第 02 篇：uni-app 生命周期、页面时序与常见页面事件：应用生命周期、页面生命周期、onLoad、onShow.md",
       "summary": "从应用生命周期、页面生命周期到下拉刷新、触底加载、页面滚动等常见页面事件出发，系统梳理 uni-app 项目里最核心的时序认知与落点选择。",
       "cover": "",
-      "contentHash": "9b2bba72f30b73cf121ab838d1618b8e19c993533de105c26d4273ad3d81163c"
+      "contentHash": "04c0805b91b8b6af99ad665fc627158821588de9f0de573afc881fd8c3c934f3"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac46c",
       "originalSlug": "uni-app-uni-app-5d3131e1",
       "exportedSlug": "uni-app-uni-app-5d3131e1",
-      "title": "第 3 篇：uni-app工程结构、配置分层与文件职责边界",
+      "title": "第 03 篇：uni-app 工程结构、配置分层与文件职责边界：pages.json、manifest.json、组件、静态资源",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8889,16 +8910,16 @@
       "sourcePath": "我的总结/uni-app/uni-app辅助/03_工程结构与配置边界.md",
       "publishedAt": "2026-05-08T13:22:12.475Z",
       "updatedAt": "2026-06-14T06:31:52.524Z",
-      "fileName": "我的总结/uni-app/uni-app辅助/第03篇：uni-app工程结构、配置分层与文件职责边界.md",
+      "fileName": "我的总结/uni-app/uni-app辅助/第 03 篇：uni-app 工程结构、配置分层与文件职责边界：pages.json、manifest.json、组件、静态资源.md",
       "summary": "从 App.vue、main.js、pages.json、manifest.json、uni.scss、static 等核心文件出发，系统整理 uni-app 项目的工程结构、配置分层和常见职责边界问题。",
       "cover": "",
-      "contentHash": "a7be0878690844a6aca9f1a9203675705ed049ea59893d97b80a5e1ded1c73e2"
+      "contentHash": "dc542cfe1dccc0d98827a320ded3afc25fc90e58b3831accac2118a720df2f24"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac46e",
       "originalSlug": "uni-app-uni-app-2a3920fc",
       "exportedSlug": "uni-app-uni-app-2a3920fc",
-      "title": "第 4 篇：uni-app跨端开发方法与微信小程序常见能力接入",
+      "title": "第 04 篇：uni-app 跨端开发方法与微信小程序常见能力接入：API 适配、权限、登录、上传",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8917,16 +8938,16 @@
       "sourcePath": "我的总结/uni-app/uni-app辅助/04_跨端开发与微信小程序能力接入.md",
       "publishedAt": "2026-05-08T13:22:12.477Z",
       "updatedAt": "2026-06-14T06:31:52.525Z",
-      "fileName": "我的总结/uni-app/uni-app辅助/第04篇：uni-app跨端开发方法与微信小程序常见能力接入.md",
+      "fileName": "我的总结/uni-app/uni-app辅助/第 04 篇：uni-app 跨端开发方法与微信小程序常见能力接入：API 适配、权限、登录、上传.md",
       "summary": "围绕 uni-app 在微信小程序场景下的真实开发方式，系统整理通用能力、平台协议能力、平台专属能力、条件编译和常见业务能力的接入方法与注意事项。",
       "cover": "",
-      "contentHash": "06625a3ddc6280a303df22144f9ed60039ee9a1e1ad499a38d5ea0a85d17f667"
+      "contentHash": "9779b03978e16e7a8741ae2bf25f23bd3b2599120938e3a7e6b331cb82d43d7c"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac472",
       "originalSlug": "uni-app-uni-app-ae457f1c",
       "exportedSlug": "uni-app-uni-app-ae457f1c",
-      "title": "第 5 篇：uni-app性能优化、包体治理与稳定性维护",
+      "title": "第 05 篇：uni-app 性能优化、包体治理与稳定性维护：分包、缓存、渲染性能、异常排查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8945,16 +8966,16 @@
       "sourcePath": "我的总结/uni-app/uni-app辅助/05_性能优化与稳定性治理.md",
       "publishedAt": "2026-05-08T13:22:12.479Z",
       "updatedAt": "2026-06-14T06:31:52.527Z",
-      "fileName": "我的总结/uni-app/uni-app辅助/第05篇：uni-app性能优化、包体治理与稳定性维护.md",
+      "fileName": "我的总结/uni-app/uni-app辅助/第 05 篇：uni-app 性能优化、包体治理与稳定性维护：分包、缓存、渲染性能、异常排查.md",
       "summary": "从包体、首屏、渲染、资源、登录态、本地缓存和权限状态几个方面系统整理 uni-app 项目的性能优化与稳定性维护思路。",
       "cover": "",
-      "contentHash": "baf645ff50d540663a42328100ceed25028317456be7ad3cff859bcff3272ed6"
+      "contentHash": "7d1de4f4149be44755a2c6d68c5c7d3a44f4121062d0d825fa17496ff9ac01f1"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac478",
       "originalSlug": "uni-app-uni-app-9a1496c3",
       "exportedSlug": "uni-app-uni-app-9a1496c3",
-      "title": "第 6 篇：uni-app高频问题补充问答",
+      "title": "第 06 篇：uni-app 高频问题补充问答：跨端差异、调试、发布、兼容处理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8973,16 +8994,16 @@
       "sourcePath": "我的总结/uni-app/uni-app辅助/06_高频技术短答.md",
       "publishedAt": "2026-05-08T13:22:12.480Z",
       "updatedAt": "2026-06-14T06:31:52.529Z",
-      "fileName": "我的总结/uni-app/uni-app辅助/第06篇：uni-app高频问题补充问答.md",
+      "fileName": "我的总结/uni-app/uni-app辅助/第 06 篇：uni-app 高频问题补充问答：跨端差异、调试、发布、兼容处理.md",
       "summary": "作为系统整理版的补充问答，集中梳理 uni-app 学习和复习中最容易反复遇到的高频问题，帮助快速回看关键概念与边界。",
       "cover": "",
-      "contentHash": "bf7490980c7ee245ee6baac1a8c2abcb19b361247a9027ba03e5e07acfa278c7"
+      "contentHash": "2188624aef0f8b53e15a98b67dcdc4340caef22eb8f6bb284f1feebd17690088"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac47a",
       "originalSlug": "vue-vue-1cec562a",
       "exportedSlug": "vue-vue-1cec562a",
-      "title": "Vue目录（建议阅读顺序）",
+      "title": "总览：Vue 目录：建议阅读顺序、核心概念、辅助资料",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8998,16 +9019,16 @@
       "sourcePath": "我的总结/Vue/Vue.md",
       "publishedAt": "2026-05-10T11:49:15.106Z",
       "updatedAt": "2026-06-13T10:28:28.970Z",
-      "fileName": "我的总结/Vue/Vue目录（建议阅读顺序）.md",
+      "fileName": "我的总结/Vue/总览：Vue 目录：建议阅读顺序、核心概念、辅助资料.md",
       "summary": "本页仅作为目录使用，按1到13依次阅读。包含插值语法、指令、响应式原理、组件配置项、class与style绑定、生命周期、组件通讯、mixins/plugins/scoped、Axios、Router、Vue3 Composition API等核心内容。",
       "cover": "",
-      "contentHash": "9513d5e00d762a1fa76e2614c2be9aeabccbffb51301d44101acf291f16023a8"
+      "contentHash": "bb099c9e0f9f4b6f6a0a6fbe4e9af04194c8aaddc3d578dc8708dda6f626e259"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac480",
       "originalSlug": "vue-vue-31fab0ca",
       "exportedSlug": "vue-vue-31fab0ca",
-      "title": "第 1 篇：插值语法",
+      "title": "第 01 篇：Vue 插值语法：Mustache、表达式、文本渲染",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9024,16 +9045,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第01篇_插值语法.md",
       "publishedAt": "2026-05-07T14:02:37.422Z",
       "updatedAt": "2026-06-13T10:28:28.982Z",
-      "fileName": "我的总结/Vue/vue辅助/第01篇：插值语法.md",
+      "fileName": "我的总结/Vue/vue辅助/第 01 篇：Vue 插值语法：Mustache、表达式、文本渲染.md",
       "summary": "本章先建立模板语法的基础认知，讲解Vue插值语法的核心用法与应用场景。",
       "cover": "",
-      "contentHash": "8525d9027b58fec4b4f54f95a1778922e9c4454f8b6e7fe3cf4b14c335ed7e42"
+      "contentHash": "65f7dc35932aeaa6349df3fe79f278bcd931c3b8d5f32f8cf759f8755eed4111"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac48a",
       "originalSlug": "vue-vue-vue-011d0d19",
       "exportedSlug": "vue-vue-vue-011d0d19",
-      "title": "第 2 篇：Vue指令与自定义指令",
+      "title": "第 02 篇：Vue 指令与自定义指令：v-bind、v-model、directive、钩子函数",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9052,16 +9073,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第02篇_Vue指令与自定义指令.md",
       "publishedAt": "2026-05-07T14:29:16.072Z",
       "updatedAt": "2026-06-13T10:28:28.995Z",
-      "fileName": "我的总结/Vue/vue辅助/第02篇：Vue指令与自定义指令.md",
+      "fileName": "我的总结/Vue/vue辅助/第 02 篇：Vue 指令与自定义指令：v-bind、v-model、directive、钩子函数.md",
       "summary": "Vue指令的本质是给DOM元素绑定特定的行为逻辑，让页面能根据数据动态改变DOM的状态。本文详解Vue核心指令与自定义指令的完整用法。",
       "cover": "",
-      "contentHash": "b37e882e7d82d387e087cde1f99a5b97a4d01c4477c2331b13bebe95fa5f9abb"
+      "contentHash": "f362bb335ef34e6d1d09c72fb5e271451f07dd17bddfffa3fdf96c9c640d38db"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac492",
       "originalSlug": "vue-vue-vue-ebf8992e",
       "exportedSlug": "vue-vue-vue-ebf8992e",
-      "title": "第 3 篇：Vue响应式原理",
+      "title": "第 03 篇：Vue 响应式原理：Object.defineProperty、Proxy、依赖收集",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9080,16 +9101,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第03篇_Vue响应式原理.md",
       "publishedAt": "2026-05-09T12:50:17.706Z",
       "updatedAt": "2026-06-13T10:28:29.007Z",
-      "fileName": "我的总结/Vue/vue辅助/第03篇：Vue响应式原理.md",
+      "fileName": "我的总结/Vue/vue辅助/第 03 篇：Vue 响应式原理：Object.defineProperty、Proxy、依赖收集.md",
       "summary": "简单来说，Vue2的响应式原理基于Object.defineProperty()，Vue3则使用Proxy+Reflect实现。本文详解Vue2/Vue3响应式原理的核心差异与实现机制。",
       "cover": "",
-      "contentHash": "0bae700928668cebc66565e5846b7cfe9060e802dd5a4bb1e1d92c1b7aeb1922"
+      "contentHash": "1f5083cfe18b8a07f020437a0791aa8d57abec334a3699217c78a695d2acdd28"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac49e",
       "originalSlug": "vue-vue-vue2-a3062491",
       "exportedSlug": "vue-vue-vue2-a3062491",
-      "title": "第 4 篇：Vue2组件五大核心配置项",
+      "title": "第 04 篇：Vue 2 组件五大核心配置项：props、data、methods、computed、watch",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9109,16 +9130,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第04篇_Vue2组件五大核心配置项.md",
       "publishedAt": "2026-05-09T12:50:17.707Z",
       "updatedAt": "2026-06-13T10:28:29.021Z",
-      "fileName": "我的总结/Vue/vue辅助/第04篇：Vue2组件五大核心配置项.md",
+      "fileName": "我的总结/Vue/vue辅助/第 04 篇：Vue 2 组件五大核心配置项：props、data、methods、computed、watch.md",
       "summary": "Vue2组件的五大核心配置项（data、props、methods、computed、watch）是组件开发的基础，本文详解它们的用法、协作关系与最佳实践。",
       "cover": "",
-      "contentHash": "bda39b32689b0cf5eb2182e7084e89bf264106ec88a5de7d654775f255cd6297"
+      "contentHash": "2062402f39fca8e68badd6a5087a50d07560d6b110eb85aa6fce1ad9b203fa1e"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4a6",
       "originalSlug": "vue-vue-class-style-eb3555df",
       "exportedSlug": "vue-vue-class-style-eb3555df",
-      "title": "第 5 篇：class与style绑定",
+      "title": "第 05 篇：class 与 style 绑定：对象语法、数组语法、动态样式",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9136,16 +9157,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第05篇_class与style绑定.md",
       "publishedAt": "2026-05-07T13:54:35.414Z",
       "updatedAt": "2026-06-13T10:28:29.031Z",
-      "fileName": "我的总结/Vue/vue辅助/第05篇：class与style绑定.md",
+      "fileName": "我的总结/Vue/vue辅助/第 05 篇：class 与 style 绑定：对象语法、数组语法、动态样式.md",
       "summary": "适用于样式的名字不确定需要动态指定、样式名字和个数不确定、样式名字和个数都确定但要动态决定用或不用的三种场景。",
       "cover": "",
-      "contentHash": "85bdac88088682c50f4a6d1e2e52d54a8d71d40b906910dc7f1464cfc23c7e27"
+      "contentHash": "6837136736ceaf69e74299de7316b56f9857920bdda7a50d271b5c824efffd50"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4ae",
       "originalSlug": "vue-vue-9d24253e",
       "exportedSlug": "vue-vue-9d24253e",
-      "title": "第 6 篇：生命周期",
+      "title": "第 06 篇：Vue 生命周期：创建、挂载、更新、销毁",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9164,16 +9185,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第06篇_生命周期.md",
       "publishedAt": "2026-05-08T12:58:11.473Z",
       "updatedAt": "2026-06-13T10:28:29.042Z",
-      "fileName": "我的总结/Vue/vue辅助/第06篇：生命周期.md",
+      "fileName": "我的总结/Vue/vue辅助/第 06 篇：Vue 生命周期：创建、挂载、更新、销毁.md",
       "summary": "Vue2组件的生命周期可以理解为组件从创建到销毁的整个\"生命旅程\"，Vue为这个旅程的关键节点提供了专属的\"钩子函数\"。本文详解Vue2/Vue3生命周期的完整流程。",
       "cover": "",
-      "contentHash": "c5a089a064434151f6358262aeb24632ed414e9e560e088d62c4642cb958fd8b"
+      "contentHash": "9cee9baca9c019cdf33e494f11ee02ecd658c86a7909ad7be71766f54e761c59"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4b6",
       "originalSlug": "vue-vue-9736eb78",
       "exportedSlug": "vue-vue-9736eb78",
-      "title": "第 7 篇：组件通讯",
+      "title": "第 07 篇：Vue 组件通讯：props、emit、provide、inject、事件总线",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9192,16 +9213,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第07篇_组件通讯.md",
       "publishedAt": "2026-05-08T13:16:41.998Z",
       "updatedAt": "2026-06-13T10:28:29.054Z",
-      "fileName": "我的总结/Vue/vue辅助/第07篇：组件通讯.md",
+      "fileName": "我的总结/Vue/vue辅助/第 07 篇：Vue 组件通讯：props、emit、provide、inject、事件总线.md",
       "summary": "单向数据流：谁的数据谁修改，子组件不能直接修改父组件传入的props。耦合度最小化：优先使用官方推荐方案，避免强耦合方式（如$parent/$children）。场景决定方案：不同层级、不同规模的项目选择最适合的通信方式。",
       "cover": "",
-      "contentHash": "e28ec1a9916e7b9f2585f921e35585bc1d1bc3a306110f3ccb3ecf6e651096dd"
+      "contentHash": "806d5f1ac5307ae6dfaf15950db3deaf7976caf4ee18734f379438e035c195d6"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4c0",
       "originalSlug": "vue-vue-mixins-plugins-scoped-5091c143",
       "exportedSlug": "vue-vue-mixins-plugins-scoped-5091c143",
-      "title": "第 8 篇：mixins plugins scoped",
+      "title": "第 08 篇：mixins、plugins 与 scoped：复用逻辑、插件安装、样式隔离",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9220,16 +9241,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第08篇_mixins_plugins_scoped.md",
       "publishedAt": "2026-05-07T13:56:51.095Z",
       "updatedAt": "2026-06-13T10:28:29.066Z",
-      "fileName": "我的总结/Vue/vue辅助/第08篇：mixins_plugins_scoped.md",
+      "fileName": "我的总结/Vue/vue辅助/第 08 篇：mixins、plugins 与 scoped：复用逻辑、插件安装、样式隔离.md",
       "summary": "mixins（混入）、plugins（插件）、scoped（样式隔离）这三个核心特性的用法和差异，我会从概念定义、Vue2/Vue3用法对比、核心差异三个维度，帮你理清它们的区别和适用场景。",
       "cover": "",
-      "contentHash": "eb867b8d1cb4de9f855804f901edd2726e1f81b11e7de40dfc8ef4dd1940c182"
+      "contentHash": "b2cc6b3b2986632af301b6d69a765b3316a9c795c6ac906ebb070816dcc9f829"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4c8",
       "originalSlug": "vue-vue-axios-4d3d1aab",
       "exportedSlug": "vue-vue-axios-4d3d1aab",
-      "title": "第 9 篇：Axios",
+      "title": "第 09 篇：Axios 请求库：实例、拦截器、取消请求、错误处理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9248,16 +9269,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第09篇_Axios.md",
       "publishedAt": "2026-05-08T14:07:54.712Z",
       "updatedAt": "2026-06-13T10:28:29.078Z",
-      "fileName": "我的总结/Vue/vue辅助/第09篇：Axios.md",
+      "fileName": "我的总结/Vue/vue辅助/第 09 篇：Axios 请求库：实例、拦截器、取消请求、错误处理.md",
       "summary": "本文档基于Vue开发场景，从入门原理到企业级封装，涵盖所有核心细节。Axios是一个基于Promise的HTTP网络请求库，可运行于浏览器端和Node.js服务端。",
       "cover": "",
-      "contentHash": "e74c9a6ca6f03a96f0292001c0e8956de80a3d58693b27bccc251cb5ba70c442"
+      "contentHash": "fc059f54bf9dfa1202bae397e7ba9c591550852f8419034d8cc732b9a26db535"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4d2",
       "originalSlug": "vue-vue-vue-router-b011bea3",
       "exportedSlug": "vue-vue-vue-router-b011bea3",
-      "title": "第 10 篇：Vue Router 超详细总笔记",
+      "title": "第 10 篇：Vue Router 超详细总笔记：路由配置、导航守卫、动态路由",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9277,16 +9298,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第10篇_Router.md",
       "publishedAt": "2026-05-09T12:50:17.709Z",
       "updatedAt": "2026-06-13T14:09:43.234Z",
-      "fileName": "我的总结/Vue/vue辅助/第10篇：Vue-Router-超详细总笔记.md",
+      "fileName": "我的总结/Vue/vue辅助/第 10 篇：Vue Router 超详细总笔记：路由配置、导航守卫、动态路由.md",
       "summary": "面向长期复习的一站式 Vue Router 总笔记，系统整理基础概念、Vue2/Vue3 差异、路由配置项、每种传参形式、导航方式、嵌套与命名视图、守卫、历史模式、动态添加路由、滚动行为、懒加载与高频踩坑。",
       "cover": "",
-      "contentHash": "08dd453ece256448f6d5c3e00f9c0d6d0db5f1e193db0df247f135fcb5c23756"
+      "contentHash": "cd169a3657fa1f53ba54eb3c31668051eed7d77e2865ae1587603bdfb68735d0"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4dc",
       "originalSlug": "vue-vue-vue3-composition-api-4d51a7a6",
       "exportedSlug": "vue-vue-vue3-composition-api-4d51a7a6",
-      "title": "第 11 篇：Vue3 Composition API核心笔记",
+      "title": "第 11 篇：Vue 3 Composition API 核心笔记：setup、ref、reactive、computed、watch",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9305,16 +9326,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第11篇_Vue3_Composition_API核心笔记.md",
       "publishedAt": "2026-05-09T12:50:17.711Z",
       "updatedAt": "2026-06-13T10:28:29.108Z",
-      "fileName": "我的总结/Vue/vue辅助/第11篇：Vue3_Composition_API核心笔记.md",
+      "fileName": "我的总结/Vue/vue辅助/第 11 篇：Vue 3 Composition API 核心笔记：setup、ref、reactive、computed、watch.md",
       "summary": "Vue3 Composition API 完整指南：setup、ref/reactive、computed、watch/watchEffect、生命周期、自定义 Hook 及常见易错点总结。",
       "cover": "",
-      "contentHash": "221ef572191c62bdc125c1c33ddbf7c6e5ce19717092fdbaf7384f6c9978defe"
+      "contentHash": "783001070d178c88a111dae7cc10d2ac24952758aadb974f6d3aef2ec5edfda9"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4de",
       "originalSlug": "vue-vue-vue2-vue3-61311af1",
       "exportedSlug": "vue-vue-vue2-vue3-61311af1",
-      "title": "第 12 篇：Vue2 vs Vue3 核心写法差异",
+      "title": "第 12 篇：Vue 2 vs Vue 3 核心写法差异：Options API、Composition API、迁移对照",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9333,16 +9354,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第12篇_Vue2与Vue3核心写法差异.md",
       "publishedAt": "2026-05-09T12:50:17.712Z",
       "updatedAt": "2026-06-13T10:28:29.119Z",
-      "fileName": "我的总结/Vue/vue辅助/第12篇：Vue2-vs-Vue3-核心写法差异.md",
+      "fileName": "我的总结/Vue/vue辅助/第 12 篇：Vue 2 vs Vue 3 核心写法差异：Options API、Composition API、迁移对照.md",
       "summary": "一篇详细的小白友好笔记，解释了Vue2 Options API和Vue3 Composition API的核心差异，重点说明了this的变化原因、setup()执行时机、以及从\"配置对象\"到\"函数式组合\"的思维转变。",
       "cover": "",
-      "contentHash": "45810c9d32c13aa6dde0f95f454c092bb29357baf682d74faffab4589322ec97"
+      "contentHash": "a55419f7a6c6f9b7fefe6d382017a55ba96f0138ef4b6a12aea753dd68a4b9c4"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4ee",
       "originalSlug": "vue-vue-dom-diff-05a2bbc3",
       "exportedSlug": "vue-vue-dom-diff-05a2bbc3",
-      "title": "第 13 篇：虚拟DOM、Diff算法、编译优化与面试高频补充",
+      "title": "第 13 篇：虚拟 DOM、Diff 算法、编译优化与面试高频补充：VNode、patch、key、编译缓存",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9365,16 +9386,16 @@
       "sourcePath": "我的总结/Vue/vue辅助/第13篇_虚拟DOM_Diff_编译优化与面试补充.md",
       "publishedAt": "2026-05-10T11:48:57.152Z",
       "updatedAt": "2026-06-13T10:28:29.135Z",
-      "fileName": "我的总结/Vue/vue辅助/第13篇：虚拟DOM、Diff算法、编译优化与面试高频补充.md",
+      "fileName": "我的总结/Vue/vue辅助/第 13 篇：虚拟 DOM、Diff 算法、编译优化与面试高频补充：VNode、patch、key、编译缓存.md",
       "summary": "补全前12篇之外的面试高频空白：虚拟DOM与VNode、Vue2双端Diff与Vue3快速Diff、key的本质作用、Vue3编译期优化（静态提升/PatchFlag/Block Tree/cacheHandlers）、nextTick原理、Vue性能优化清单、Teleport/Suspense/Fragment、MVVM与SPA概念。",
       "cover": "",
-      "contentHash": "afa9e04b8dbd14b208118427f8f61f833b216e5d4101a9321b3b79cc92f37c16"
+      "contentHash": "3f98319fa2e03bcd44b06a1e0efe3392fff384ea926db2db9b058d12ace59a1a"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac4f8",
       "originalSlug": "vue-vue-01-vue2-webpack-ba0bd4ed",
       "exportedSlug": "vue-vue-01-vue2-webpack-ba0bd4ed",
-      "title": "附录01：Vue2的Webpack工程化详解",
+      "title": "附录 01：Vue 2 Webpack 工程化详解：loader、plugin、构建流程",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9393,16 +9414,16 @@
       "sourcePath": "我的总结/Vue/vue随记/附录01_Vue2的Webpack工程化详解.md",
       "publishedAt": "2026-05-07T13:57:01.545Z",
       "updatedAt": "2026-06-13T10:28:29.149Z",
-      "fileName": "我的总结/Vue/vue随记/附录01：Vue2的Webpack工程化详解.md",
+      "fileName": "我的总结/Vue/vue随记/附录 01：Vue 2 Webpack 工程化详解：loader、plugin、构建流程.md",
       "summary": "Vue2时代最主流的工程化方案是Webpack+vue-loader（通常由vue-cli脚手架封装）。它的核心目标是：把浏览器不直接理解的资源（.vue、scss/less、图片、字体、TS、现代JS语法等）通过loader/plugin/打包策略转成浏览器能高效加载的HTML+CSS+JS+静态资源。",
       "cover": "",
-      "contentHash": "30fff84a90f6842e25599327098861edf3c94fccbca330b58a4a413438552d77"
+      "contentHash": "d5a3e54f74c2fa5f3e931f77d408eeeae6f0c1a1f83e08a0d3ef53ff1b4a6c58"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac500",
       "originalSlug": "vue-vue-02-vue3-vite-b6a24a54",
       "exportedSlug": "vue-vue-02-vue3-vite-b6a24a54",
-      "title": "附录02：Vue3的Vite工程化详解",
+      "title": "附录 02：Vue 3 Vite 工程化详解：dev server、预构建、插件机制",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9421,16 +9442,16 @@
       "sourcePath": "我的总结/Vue/vue随记/附录02_Vue3的Vite工程化详解.md",
       "publishedAt": "2026-05-07T13:57:05.886Z",
       "updatedAt": "2026-06-13T10:28:29.164Z",
-      "fileName": "我的总结/Vue/vue随记/附录02：Vue3的Vite工程化详解.md",
+      "fileName": "我的总结/Vue/vue随记/附录 02：Vue 3 Vite 工程化详解：dev server、预构建、插件机制.md",
       "summary": "Vue3时代最主流的工程化选择是Vite。如果你之前长期写Vue2+Webpack，会明显感觉到：项目启动更快、热更新更\"秒\"、配置更少（但并不是没有\"工程化能力\"）。",
       "cover": "",
-      "contentHash": "d3eb5cdfeb187c6a04001e269a3766fde9677d95a55e330f01768fa1d64b3b4c"
+      "contentHash": "6d4f1927969ca3b66ee33a1a47291c83fbb348c8ac4dd7388c60dbebcfadcfc3"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac506",
       "originalSlug": "vue-vue-03-vue-name-5f5217ee",
       "exportedSlug": "vue-vue-03-vue-name-5f5217ee",
-      "title": "附录03：Vue的name属性",
+      "title": "附录 03：Vue 的 name 属性：递归组件、keep-alive、DevTools",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9449,10 +9470,10 @@
       "sourcePath": "我的总结/Vue/vue随记/附录03_Vue的name属性.md",
       "publishedAt": "2026-05-07T13:57:10.030Z",
       "updatedAt": "2026-06-13T10:28:29.179Z",
-      "fileName": "我的总结/Vue/vue随记/附录03：Vue的name属性.md",
+      "fileName": "我的总结/Vue/vue随记/附录 03：Vue 的 name 属性：递归组件、keep-alive、DevTools.md",
       "summary": "Vue3中不同场景的name属性本质和作用完全不同，核心分类如下：组件name（Vue组件核心配置属性）、Vuex模块name（自定义属性）、Pinia模块name（Pinia内置必填标识符）、路由name（路由规则唯一标识）、组件文件名name（文件命名规范）。",
       "cover": "",
-      "contentHash": "168492ed48caadc74a8e299b887885543f2b81f0bcc884530e8f12d4dde8d412"
+      "contentHash": "36984682ee3d89729bb0366ed494bee753efcce6fbf2a4dc7469e5951b193433"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac7b4",
@@ -11338,7 +11359,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabf96",
       "originalSlug": "ai-mcp-mcp-067b747a",
       "exportedSlug": "ai-mcp-mcp-067b747a",
-      "title": "第 02 篇：MCP 是什么与开放标准核心认知",
+      "title": "第 01 篇：MCP 是什么与开放标准核心认知",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11358,16 +11379,16 @@
       "sourcePath": "AI工具/规则机制层/MCP/01-MCP-是什么与开放标准核心认知.md",
       "publishedAt": "2026-05-24T14:08:06.903Z",
       "updatedAt": "2026-07-30T14:24:30.136Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第 02 篇：MCP 是什么与开放标准核心认知.md",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/第 01 篇：MCP 是什么与开放标准核心认知.md",
       "summary": "从零解释 MCP 的定义、组成、工作流程、价值边界与安全治理，建立“协议层认知”而不是“某个单一 MCP 工具教程”的视角。",
       "cover": "",
-      "contentHash": "b93971fb0dded807497f9fa7b52b70dc1d157d100dea99b2ffec31ad4931d32f"
+      "contentHash": "8c629aaec87a10c8ed571e3f7cfa1959bdd6c89129bab4518aa796bce4cf0f43"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabf9c",
       "originalSlug": "ai-mcp-mcp-mcp-ce5df958",
       "exportedSlug": "ai-mcp-mcp-mcp-ce5df958",
-      "title": "第 03 篇：常用 MCP 分类与选型总览",
+      "title": "第 02 篇：常用 MCP 分类与选型总览",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11387,16 +11408,16 @@
       "sourcePath": "AI工具/规则机制层/MCP/02-常用-MCP-分类与选型总览.md",
       "publishedAt": "2026-05-24T14:31:35.923Z",
       "updatedAt": "2026-07-30T14:24:30.158Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第 03 篇：常用 MCP 分类与选型总览.md",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/第 02 篇：常用 MCP 分类与选型总览.md",
       "summary": "以“能力分类”而不是“单个工具”来组织常用 MCP 清单，帮助前端开发者在面试和项目中快速判断该接入哪一类 MCP server。",
       "cover": "",
-      "contentHash": "208c1d1d5888c2ab3c9ea460da492f0c1c62ceef336bbeba1c1821baba196c63"
+      "contentHash": "db1baa6709514c28de1eb30e7d5b535f545b2c2018483611cfd0fe5728672794"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfa6",
       "originalSlug": "ai-mcp-mcp-mcp-d20641b2",
       "exportedSlug": "ai-mcp-mcp-mcp-d20641b2",
-      "title": "第 04 篇：前端开发常用 MCP 清单与选型建议（2026-07复核）",
+      "title": "第 03 篇：前端开发常用 MCP 清单与选型建议（2026-07复核）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11416,16 +11437,16 @@
       "sourcePath": "AI工具/规则机制层/MCP/03-前端开发常用-MCP-清单与选型建议（2026-07复核）.md",
       "publishedAt": "2026-05-27T12:51:31.733Z",
       "updatedAt": "2026-07-30T14:24:30.171Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第 04 篇：前端开发常用 MCP 清单与选型建议（2026-07复核）.md",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/第 03 篇：前端开发常用 MCP 清单与选型建议（2026-07复核）.md",
       "summary": "面向前端开发者，按“资料检索、浏览器自动化、设计协作、组件生成”四类高频场景整理常用 MCP，补齐官方入口、适用边界与推荐组合。",
       "cover": "",
-      "contentHash": "348b1a16a4c46c4029fd9ccbc5d955d8fba07cc35af3c2f30bc228a2f18090b8"
+      "contentHash": "83c5e2f428361ffd450b54deb1fdd1d47517f6ab9ce8338f3aaf3ed3f098b939"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfb0",
       "originalSlug": "ai-mcp-83743b3f",
       "exportedSlug": "ai-mcp-83743b3f",
-      "title": "第 05 篇：MCP 概念与主流度问题",
+      "title": "第 04 篇：MCP 概念与主流度问题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11444,16 +11465,16 @@
       "sourcePath": "AI工具/规则机制层/MCP/04-MCP-概念与主流度问题.md",
       "publishedAt": "2026-05-24T14:18:00.563Z",
       "updatedAt": "2026-07-30T14:24:30.185Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第 05 篇：MCP 概念与主流度问题.md",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/第 04 篇：MCP 概念与主流度问题.md",
       "summary": "聚焦 MCP 是什么、为什么火、与插件和 function calling 的区别，适合作为第一轮面试的高频基础题库。",
       "cover": "",
-      "contentHash": "ef0c3d46f2a47b7bf01aa61c187d17a483be432713f9b1ef7f21c9e230c9419e"
+      "contentHash": "9c2e6bd4105709c1ed3a37c13b00544fdda3d947a02faafeff836a62c12a1645"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfbc",
       "originalSlug": "ai-mcp-ede3e0c8",
       "exportedSlug": "ai-mcp-ede3e0c8",
-      "title": "第 06 篇：MCP 架构与安全边界问题",
+      "title": "第 05 篇：MCP 架构与安全边界问题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11472,16 +11493,16 @@
       "sourcePath": "AI工具/规则机制层/MCP/05-MCP-架构与安全边界问题.md",
       "publishedAt": "2026-05-24T14:18:00.565Z",
       "updatedAt": "2026-07-30T14:24:30.194Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第 06 篇：MCP 架构与安全边界问题.md",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/第 05 篇：MCP 架构与安全边界问题.md",
       "summary": "围绕 Host、Client、Server、能力原语以及安全治理边界展开，适合二面或追问环节使用。",
       "cover": "",
-      "contentHash": "4ff28b0ca8060401a6e128a0da484526853984a705c8f735196936e134c78b9a"
+      "contentHash": "495480a3dbdd584997aff6f8e23b6e41cf8ed259b52abc1fa79baa3462417c1c"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfb6",
       "originalSlug": "ai-mcp-c534a7cb",
       "exportedSlug": "ai-mcp-c534a7cb",
-      "title": "第 07 篇：MCP 项目落地与收益评估问题",
+      "title": "第 06 篇：MCP 项目落地与收益评估问题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11500,16 +11521,16 @@
       "sourcePath": "AI工具/规则机制层/MCP/06-MCP-项目落地与收益评估问题.md",
       "publishedAt": "2026-05-24T14:18:00.566Z",
       "updatedAt": "2026-07-30T14:24:30.203Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第 07 篇：MCP 项目落地与收益评估问题.md",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/第 06 篇：MCP 项目落地与收益评估问题.md",
       "summary": "围绕如何选型、如何从 0 到 1 接入、怎样评估收益与推广顺序，适合项目经验和实战追问场景。",
       "cover": "",
-      "contentHash": "4249d22d80d767fe3507410caa569ce62cac7406b523b4579ca38638e0e83d61"
+      "contentHash": "2a32ce29c65c37844838eb0f57961dd2eab03cfa72ad0a21f24d7c17fe4994d6"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfc6",
       "originalSlug": "ai-mcp-mcp-79fea32a",
       "exportedSlug": "ai-mcp-mcp-79fea32a",
-      "title": "第 08 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
+      "title": "第 07 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11529,10 +11550,10 @@
       "sourcePath": "AI工具/规则机制层/MCP/07-谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md",
       "publishedAt": "2026-05-24T13:49:15.045Z",
       "updatedAt": "2026-07-30T14:24:30.210Z",
-      "fileName": "AI相关/AI工具/规则机制层/MCP/第 08 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）.md",
+      "fileName": "AI相关/AI工具/规则机制层/MCP/第 07 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）.md",
       "summary": "面向需要在 Windows 上快速复刻 Chrome DevTools MCP 的开发者，整理 Codex 环境下的配置、验证和排障步骤，并解释为什么这类资料应归在 MCP 分类而不是单一终端工具分类。",
       "cover": "",
-      "contentHash": "ced363dab2ba2049bfbf183abb73a6f7b191f99dd3971fc7114ddeaa57bfc9be"
+      "contentHash": "afcbba77a9e0da2af9a1b042e3c7dec6251abaa3db3c080474c3767374f6e022"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfcc",
@@ -11750,7 +11771,7 @@
       "originalId": "6a2d291d8a2b1c68f2cac002",
       "originalSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
       "exportedSlug": "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74",
-      "title": "第 04 篇：Cursor Rules / Devin-Windsurf Rules / Kiro Steering 实战",
+      "title": "第 04 篇：Cursor Rules、Devin-Windsurf Rules、Kiro Steering 实战",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11770,10 +11791,10 @@
       "sourcePath": "AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md",
       "publishedAt": "2026-05-24T12:56:24.680Z",
       "updatedAt": "2026-07-30T14:24:30.276Z",
-      "fileName": "AI相关/AI工具/规则机制层/Rules/第 04 篇：Cursor Rules 、 Devin-Windsurf Rules 、 Kiro Steering 实战.md",
+      "fileName": "AI相关/AI工具/规则机制层/Rules/第 04 篇：Cursor Rules、Devin-Windsurf Rules、Kiro Steering 实战.md",
       "summary": "深度对比 Cursor、Devin Desktop / Windsurf、Kiro 三大工具的规则文档系统，包括 Cursor MDC 四种规则类型、Windsurf 到 Devin 的规则路径变化、Kiro Steering 四种 inclusion 模式与全局/团队 Steering，附完整实战配置示例。",
       "cover": "",
-      "contentHash": "9d2f1d6c5b6ae1f736f4bea764710baf1c1c9b571301ed63a35b42017eec5e36"
+      "contentHash": "d698e2c1c50492ea898d9dc9ab0b0e89cc0986bdf7660c7c86aa1da7442baaae"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac00c",
@@ -12201,7 +12222,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabf5a",
       "originalSlug": "ai-agent-codex-codex-edeadb5e",
       "exportedSlug": "ai-agent-codex-codex-edeadb5e",
-      "title": "第 03 篇：Codex 配置总手册（config.toml / 字段字典 / HN246 本机版）",
+      "title": "第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -12221,10 +12242,10 @@
       "sourcePath": "AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
       "publishedAt": "2026-06-04T13:38:33.777Z",
       "updatedAt": "2026-07-30T14:24:30.420Z",
-      "fileName": "AI相关/AI工具/终端Agent流/Codex/第 03 篇：Codex 配置总手册（config.toml 、 字段字典 、 HN246 本机版）.md",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）.md",
       "summary": "将 Codex 配置心智、字段字典、HN246 本机配置模板、CCSwitch 路径排查和替换验证流程合成一篇完整配置总手册，避免多篇重复讲 config.toml。",
       "cover": "",
-      "contentHash": "f41151199be68bacf192d6bb128a6cc7efa91edac75f7870fe7a9b3949db880f"
+      "contentHash": "cfd195c7d85ce58d34fddb919ab19a3a8cce811db1f860450e75eb63037a16c8"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabf66",
@@ -12260,7 +12281,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabf6e",
       "originalSlug": "ai-agent-codex-codex-cli-app-afad6d17",
       "exportedSlug": "ai-agent-codex-codex-cli-app-afad6d17",
-      "title": "第 05 篇：Codex CLI / 插件 / App 三端联动实战",
+      "title": "第 05 篇：Codex CLI、插件、App 三端联动实战",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -12280,10 +12301,10 @@
       "sourcePath": "AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
       "publishedAt": "2026-06-04T13:41:34.293Z",
       "updatedAt": "2026-07-30T14:24:30.438Z",
-      "fileName": "AI相关/AI工具/终端Agent流/Codex/第 05 篇：Codex CLI 、 插件 、 App 三端联动实战.md",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第 05 篇：Codex CLI、插件、App 三端联动实战.md",
       "summary": "详细讲解 Codex CLI、插件和 App 三端共用配置、认证与规则的关系，帮助排查“CLI 能用但插件或 App 不同步”的典型问题。",
       "cover": "",
-      "contentHash": "e8dbc38da70aa83b3e9c50518f793ecae4da6b576d44175b91f7115d1db6e571"
+      "contentHash": "ac1354c4a8e9b657e3e33b039e2c7e321b7edeee4513aa9d3c2e6fcdd6954fd3"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabf78",
@@ -13171,7 +13192,7 @@
       "originalId": "6a2d291d8a2b1c68f2cabef6",
       "originalSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
       "exportedSlug": "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016",
-      "title": "第 03 篇：Windsurf Code / Plan / Ask 三种模式分工与切换策略（2026-04）",
+      "title": "第 03 篇：Windsurf Code、Plan、Ask 三种模式分工与切换策略（2026-04）",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13191,10 +13212,10 @@
       "sourcePath": "AI工具/01_AI编辑器流/Windsurf/第三篇_Windsurf_Code_Plan_Ask三种模式分工与切换策略_2026-04.md",
       "publishedAt": "2026-05-24T12:56:24.605Z",
       "updatedAt": "2026-06-13T10:28:26.498Z",
-      "fileName": "AI相关/AI工具/AI编辑器流/Windsurf/第 03 篇：Windsurf Code 、 Plan 、 Ask 三种模式分工与切换策略（2026-04）.md",
+      "fileName": "AI相关/AI工具/AI编辑器流/Windsurf/第 03 篇：Windsurf Code、Plan、Ask 三种模式分工与切换策略（2026-04）.md",
       "summary": "基于 Windsurf 官方模式文档与官方 changelog 截至 2026-04-14 的最新信息，详细讲清 Code、Plan、Ask 三种模式分别能做什么、适合什么任务、如何切换，以及它们与旧版 Code/Chat 表述、Command、Tab 之间的关系。",
       "cover": "",
-      "contentHash": "a8bb36a6d3761e46f6834d3368efcde54fa61f871bf8711c377f66a44bf3daf4"
+      "contentHash": "ac32d2ac26b6e304fe7c02163b4d71d18883bd4f2795610fd92eb42a2ce9e821"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabf0c",
@@ -13345,7 +13366,7 @@
       "originalId": "6a6b691f4bf50146e9b95e62",
       "originalSlug": "maxkb-maxkb-d42ce38f",
       "exportedSlug": "maxkb-maxkb-d42ce38f",
-      "title": "第 01 篇：MaxKB MaxKB 功能智能体阶段演进规则",
+      "title": "第 01 篇：MaxKB 功能智能体阶段演进规则",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13366,16 +13387,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/01-功能智能体阶段演进规则.md",
       "publishedAt": "2026-07-30T15:09:19.534Z",
       "updatedAt": "2026-07-30T15:09:19.534Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 01 篇：MaxKB MaxKB 功能智能体阶段演进规则.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 01 篇：MaxKB 功能智能体阶段演进规则.md",
       "summary": "本文整理 MaxKB 功能智能体阶段演进规则，归纳 MaxKB 工程治理相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "9c4b227d28b9ec69e9016dbd6f7d93690f0b53b8a9bea12bb4206abaa20c05eb"
+      "contentHash": "b48a9fccbffbaf8128855dd51c666274c5e2ebe0b369315f1f8195d37e81ff32"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e64",
       "originalSlug": "maxkb-maxkb-061d662d",
       "exportedSlug": "maxkb-maxkb-061d662d",
-      "title": "第 02 篇：MaxKB MaxKB 长链路文档拆分规则",
+      "title": "第 02 篇：MaxKB 长链路文档拆分规则",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13395,16 +13416,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/02-长链路文档拆分规则.md",
       "publishedAt": "2026-07-30T15:09:19.537Z",
       "updatedAt": "2026-07-30T15:09:19.537Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 02 篇：MaxKB MaxKB 长链路文档拆分规则.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 02 篇：MaxKB 长链路文档拆分规则.md",
       "summary": "本文整理 MaxKB 长链路文档拆分规则，归纳 MaxKB 工程治理相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "f886b49c65c35dd558543aae6f4513743bc2ff2d2e957d5dbcc6f6420e752abd"
+      "contentHash": "507e2d2ab573b278f123b5935765aeee6de04ab2a6c3202509df0ce65c78f6b8"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e66",
       "originalSlug": "maxkb-maxkb-d984d85a",
       "exportedSlug": "maxkb-maxkb-d984d85a",
-      "title": "第 03 篇：MaxKB MaxKB 导出包解析与半自动改包规则",
+      "title": "第 03 篇：MaxKB 导出包解析与半自动改包规则",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13424,10 +13445,10 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/03-MaxKB导出包解析与半自动改包规则.md",
       "publishedAt": "2026-07-30T15:09:19.541Z",
       "updatedAt": "2026-07-30T15:09:19.541Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 03 篇：MaxKB MaxKB 导出包解析与半自动改包规则.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/工程治理/第 03 篇：MaxKB 导出包解析与半自动改包规则.md",
       "summary": "本文整理 MaxKB 导出包解析与半自动改包规则，归纳 MaxKB 工程治理相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "be65e0af1af207b1ff2548f45a4de248ddb3adc710787df416c67bf4754b2f1e"
+      "contentHash": "08b5510ed00ca1cec1b82eed0552ec512d0fe9cec3426a016dc8750fa0e459fc"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e38",
@@ -13491,7 +13512,7 @@
       "originalId": "6a6b691f4bf50146e9b95e68",
       "originalSlug": "maxkb-01-maxkb-affa7c4c",
       "exportedSlug": "maxkb-01-maxkb-affa7c4c",
-      "title": "第 01 篇：MaxKB MaxKB 渲染标签与快捷问题规则",
+      "title": "第 01 篇：MaxKB 渲染标签与快捷问题规则",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13511,16 +13532,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/04-接入与展示/01-MaxKB渲染标签与快捷问题规则.md",
       "publishedAt": "2026-07-30T15:09:19.548Z",
       "updatedAt": "2026-07-30T15:09:19.548Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/第 01 篇：MaxKB MaxKB 渲染标签与快捷问题规则.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/第 01 篇：MaxKB 渲染标签与快捷问题规则.md",
       "summary": "本文整理 01-MaxKB渲染标签与快捷问题规则，归纳 MaxKB 接入与展示相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "44f73c9504d110dddf043f99535945d48a11acf4adc4fe09f1951797f1737061"
+      "contentHash": "90927d51f238f5eaf41d4af9297b10a1ed602e0f7e006554ee380e9b30641747"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e6a",
       "originalSlug": "maxkb-maxkb-api-abc235d7",
       "exportedSlug": "maxkb-maxkb-api-abc235d7",
-      "title": "第 02 篇：MaxKB MaxKB 前端接入与原生 API 调用规则",
+      "title": "第 02 篇：MaxKB 前端接入与原生 API 调用规则",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13541,10 +13562,10 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/04-接入与展示/02-MaxKB前端接入与原生API调用规则.md",
       "publishedAt": "2026-07-30T15:09:19.554Z",
       "updatedAt": "2026-07-30T15:09:19.554Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/第 02 篇：MaxKB MaxKB 前端接入与原生 API 调用规则.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/接入与展示/第 02 篇：MaxKB 前端接入与原生 API 调用规则.md",
       "summary": "本文整理 MaxKB 前端接入与原生 API 调用规则，归纳 MaxKB 接入与展示相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "72655d3d99bb0723fac542aeac901c4f24ff8cc50caf9b3300ddf7fd2ba6f422"
+      "contentHash": "78a1199a194d9a16b860c269334fe43449cf4788db1d873ae0d4c2da16367b33"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e3c",
@@ -13580,7 +13601,7 @@
       "originalId": "6a6b691f4bf50146e9b95e3e",
       "originalSlug": "maxkb-00-17697ac6",
       "exportedSlug": "maxkb-00-17697ac6",
-      "title": "第 02 篇：MaxKB 空白高级智能体创建说明",
+      "title": "第 01 篇：MaxKB 空白高级智能体创建说明",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13601,16 +13622,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/00-空白高级智能体创建说明.md",
       "publishedAt": "2026-07-30T15:09:19.442Z",
       "updatedAt": "2026-07-30T15:09:19.442Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 02 篇：MaxKB 空白高级智能体创建说明.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 01 篇：MaxKB 空白高级智能体创建说明.md",
       "summary": "本文整理 00-空白高级智能体创建说明，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "58b0b333c15ca5dd0688379d87b4fa3aaa7583cd896e4ed89e1941fcaaf3708d"
+      "contentHash": "4532953ab1e256c01418efc2a6f594e2359e510e072061e93c3aca282df05ba6"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e40",
       "originalSlug": "maxkb-01-f396d281",
       "exportedSlug": "maxkb-01-f396d281",
-      "title": "第 03 篇：MaxKB 添加组件面板总览",
+      "title": "第 02 篇：MaxKB 添加组件面板总览",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13630,16 +13651,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/01-添加组件面板总览.md",
       "publishedAt": "2026-07-30T15:09:19.446Z",
       "updatedAt": "2026-07-30T15:09:19.446Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 03 篇：MaxKB 添加组件面板总览.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 02 篇：MaxKB 添加组件面板总览.md",
       "summary": "本文整理 01-添加组件面板总览，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "d8bf2c6cdba533661201c0096a75c50dc6d5650fad1bcd545eef92153873d60b"
+      "contentHash": "f5b1d34b1498b3b4b6b8dc4f82e0a2b0f3cced0f2e6a8b1aa01c47a1a973b05f"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e42",
       "originalSlug": "maxkb-02-245bdaaf",
       "exportedSlug": "maxkb-02-245bdaaf",
-      "title": "第 04 篇：MaxKB 基本信息与开始节点",
+      "title": "第 03 篇：MaxKB 基本信息与开始节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13660,16 +13681,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/02-基本信息与开始节点.md",
       "publishedAt": "2026-07-30T15:09:19.451Z",
       "updatedAt": "2026-07-30T15:09:19.451Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 04 篇：MaxKB 基本信息与开始节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 03 篇：MaxKB 基本信息与开始节点.md",
       "summary": "本文整理 02-基本信息与开始节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "65cfb8b6d4165482ad0f51628f3922a17626ce24e86559a83e2817510ef02136"
+      "contentHash": "2de0befdcc998c84a1c1b50abd8a9b731b2457ecadfe3d7e66b1945d2608bd4f"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e44",
       "originalSlug": "maxkb-03-ai-94d77b3d",
       "exportedSlug": "maxkb-03-ai-94d77b3d",
-      "title": "第 05 篇：MaxKB AI 对话节点",
+      "title": "第 04 篇：MaxKB AI 对话节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13690,16 +13711,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/03-AI对话节点.md",
       "publishedAt": "2026-07-30T15:09:19.457Z",
       "updatedAt": "2026-07-30T15:09:19.457Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 05 篇：MaxKB AI 对话节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 04 篇：MaxKB AI 对话节点.md",
       "summary": "本文整理 03-AI对话节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "6b344d96d5e51bdd6a8af65491ecf720dfa16d39052720ebf6dc3e4ce9da2901"
+      "contentHash": "b4a06ab3b2e75efbeb50d142ffb11be74b20790d77c6390b83acdec9f299c92c"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e46",
       "originalSlug": "maxkb-04-9dac9da1",
       "exportedSlug": "maxkb-04-9dac9da1",
-      "title": "第 06 篇：MaxKB 意图识别节点",
+      "title": "第 05 篇：MaxKB 意图识别节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13720,16 +13741,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/04-意图识别节点.md",
       "publishedAt": "2026-07-30T15:09:19.462Z",
       "updatedAt": "2026-07-30T15:09:19.462Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 06 篇：MaxKB 意图识别节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 05 篇：MaxKB 意图识别节点.md",
       "summary": "本文整理 04-意图识别节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "84d968b25f349c7333f8540b6f8016317dcdf72b9b00222fae4e42fda6dd9511"
+      "contentHash": "67f28521c765b7bb3daf585da3e92b5248d0b65ab2fa62fe3dd2d5ef1340668f"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e48",
       "originalSlug": "maxkb-05-ai-7faf066a",
       "exportedSlug": "maxkb-05-ai-7faf066a",
-      "title": "第 07 篇：MaxKB AI 能力低优先级节点速查",
+      "title": "第 06 篇：MaxKB AI 能力低优先级节点速查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13750,16 +13771,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/05-AI能力低优先级节点速查.md",
       "publishedAt": "2026-07-30T15:09:19.468Z",
       "updatedAt": "2026-07-30T15:09:19.468Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 07 篇：MaxKB AI 能力低优先级节点速查.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 06 篇：MaxKB AI 能力低优先级节点速查.md",
       "summary": "本文整理 05-AI能力低优先级节点速查，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "d17ac85091b13e15eb3e13673ad8a770a99e13b52084f9c62de67b8ddd12b9fd"
+      "contentHash": "8aa588d9d4a0341d6ddab96b8646b1707ea76dbfb8917a156aad45ab456da184"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e4a",
       "originalSlug": "maxkb-06-daf63cdf",
       "exportedSlug": "maxkb-06-daf63cdf",
-      "title": "第 08 篇：MaxKB 问题优化节点",
+      "title": "第 07 篇：MaxKB 问题优化节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13780,16 +13801,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/06-问题优化节点.md",
       "publishedAt": "2026-07-30T15:09:19.471Z",
       "updatedAt": "2026-07-30T15:09:19.471Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 08 篇：MaxKB 问题优化节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 07 篇：MaxKB 问题优化节点.md",
       "summary": "本文整理 06-问题优化节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "e4cbfa29313621a30fefdc85e82817138af0fc2eceea49301d479e35befb55ab"
+      "contentHash": "b11f0a1ef0464ce4c91942973894e2939cd03988c5b774dcec7c384d8423d507"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e4c",
       "originalSlug": "maxkb-07-fd8035d1",
       "exportedSlug": "maxkb-07-fd8035d1",
-      "title": "第 09 篇：MaxKB 判断器节点",
+      "title": "第 08 篇：MaxKB 判断器节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13810,16 +13831,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/07-判断器节点.md",
       "publishedAt": "2026-07-30T15:09:19.475Z",
       "updatedAt": "2026-07-30T15:09:19.475Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 09 篇：MaxKB 判断器节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 08 篇：MaxKB 判断器节点.md",
       "summary": "本文整理 07-判断器节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "5e64c35b564084334a48395a925b4ac26282893c86eb5c22ebd9257fd1231e29"
+      "contentHash": "8009276620f6c5af87f47b094fc9f526ba50560da7eb7cb40dff5f4c44c191c3"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e4e",
       "originalSlug": "maxkb-08-d6705804",
       "exportedSlug": "maxkb-08-d6705804",
-      "title": "第 10 篇：MaxKB 知识库相关节点速查",
+      "title": "第 09 篇：MaxKB 知识库相关节点速查",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13840,16 +13861,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/08-知识库相关节点速查.md",
       "publishedAt": "2026-07-30T15:09:19.480Z",
       "updatedAt": "2026-07-30T15:09:19.480Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 10 篇：MaxKB 知识库相关节点速查.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 09 篇：MaxKB 知识库相关节点速查.md",
       "summary": "本文整理 08-知识库相关节点速查，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "926444675863c573c998603d1473bb7a997275f511a75e78954ede7f466b6cc6"
+      "contentHash": "510d8d0469652c069ebecc900376804fc4faad0e1b4acf13710795335492e56d"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e50",
       "originalSlug": "maxkb-09-95eb5588",
       "exportedSlug": "maxkb-09-95eb5588",
-      "title": "第 11 篇：MaxKB 表单收集节点",
+      "title": "第 10 篇：MaxKB 表单收集节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13870,16 +13891,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/09-表单收集节点.md",
       "publishedAt": "2026-07-30T15:09:19.485Z",
       "updatedAt": "2026-07-30T15:09:19.485Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 11 篇：MaxKB 表单收集节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 10 篇：MaxKB 表单收集节点.md",
       "summary": "本文整理 09-表单收集节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "032237ba20b8fc4276eeeea676bfea04e9b9d55a1b58ffe62d398b8f65ae56ad"
+      "contentHash": "1fe01bff0a6375c7450c72bd044c9f2a5e243c6754e5191020f6286b3063621d"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e52",
       "originalSlug": "maxkb-10-bc727f7b",
       "exportedSlug": "maxkb-10-bc727f7b",
-      "title": "第 12 篇：MaxKB 指定回复节点",
+      "title": "第 11 篇：MaxKB 指定回复节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13900,16 +13921,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/10-指定回复节点.md",
       "publishedAt": "2026-07-30T15:09:19.491Z",
       "updatedAt": "2026-07-30T15:09:19.491Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 12 篇：MaxKB 指定回复节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 11 篇：MaxKB 指定回复节点.md",
       "summary": "本文整理 10-指定回复节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "08eb5dd101cc509dc5a407ee5d87dedbc203d3b33244922430beba4e32a021b3"
+      "contentHash": "98053dbdda91e42f8cbfa25eed3721c29619950fc1d4583eb1539adc6cbf9728"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e54",
       "originalSlug": "maxkb-11-dadf9c79",
       "exportedSlug": "maxkb-11-dadf9c79",
-      "title": "第 13 篇：MaxKB 循环节点",
+      "title": "第 12 篇：MaxKB 循环节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13930,16 +13951,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/11-循环节点.md",
       "publishedAt": "2026-07-30T15:09:19.495Z",
       "updatedAt": "2026-07-30T15:09:19.495Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 13 篇：MaxKB 循环节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 12 篇：MaxKB 循环节点.md",
       "summary": "本文整理 11-循环节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "8aab0f760b0e79e5b85b55df67c2a7da53a62f0f25e745d287b51843821d8b57"
+      "contentHash": "8706bb83a7257be7e26f2b118df53cb8ecc9e7c42c8330acb47b508bf82edc0d"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e56",
       "originalSlug": "maxkb-12-dd68373f",
       "exportedSlug": "maxkb-12-dd68373f",
-      "title": "第 14 篇：MaxKB 变量赋值节点",
+      "title": "第 13 篇：MaxKB 变量赋值节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13960,16 +13981,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/12-变量赋值节点.md",
       "publishedAt": "2026-07-30T15:09:19.501Z",
       "updatedAt": "2026-07-30T15:09:19.501Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 14 篇：MaxKB 变量赋值节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 13 篇：MaxKB 变量赋值节点.md",
       "summary": "本文整理 12-变量赋值节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "93abd287b2e2bef3517a1949b5cd1bf51d94d0251c853d73c55af351c4a5c076"
+      "contentHash": "ca495b81b2f3b25450659a35ddf577325816ded95ae2d7f71c58b2c0867e416c"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e58",
       "originalSlug": "maxkb-13-adde6b4f",
       "exportedSlug": "maxkb-13-adde6b4f",
-      "title": "第 15 篇：MaxKB 变量拆分节点",
+      "title": "第 14 篇：MaxKB 变量拆分节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13990,16 +14011,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/13-变量拆分节点.md",
       "publishedAt": "2026-07-30T15:09:19.505Z",
       "updatedAt": "2026-07-30T15:09:19.505Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 15 篇：MaxKB 变量拆分节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 14 篇：MaxKB 变量拆分节点.md",
       "summary": "本文整理 13-变量拆分节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "aefbf8011ff8993fd7835b29d673930a8a9ef441d94601a0335afcc0b2fce170"
+      "contentHash": "535ebb8aacd7253b779a49fc190e868727f6e720313eec8c35d12bf74a2c1c0d"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e5a",
       "originalSlug": "maxkb-14-9115df18",
       "exportedSlug": "maxkb-14-9115df18",
-      "title": "第 16 篇：MaxKB 参数提取节点",
+      "title": "第 15 篇：MaxKB 参数提取节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -14020,16 +14041,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/14-参数提取节点.md",
       "publishedAt": "2026-07-30T15:09:19.509Z",
       "updatedAt": "2026-07-30T15:09:19.509Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 16 篇：MaxKB 参数提取节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 15 篇：MaxKB 参数提取节点.md",
       "summary": "本文整理 14-参数提取节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "b939fe8a3dce0e6d6f6dca1a3c6d508d2ba2d0e5c8e531331060470b156db4f7"
+      "contentHash": "b7f4cb9e8d4daebe198cdb6a1c1380d7e1f44c60f2c6ffa77e738dae9cafd3dd"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e5c",
       "originalSlug": "maxkb-15-a52cbc78",
       "exportedSlug": "maxkb-15-a52cbc78",
-      "title": "第 17 篇：MaxKB 变量聚合节点",
+      "title": "第 16 篇：MaxKB 变量聚合节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -14050,16 +14071,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/15-变量聚合节点.md",
       "publishedAt": "2026-07-30T15:09:19.516Z",
       "updatedAt": "2026-07-30T15:09:19.516Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 17 篇：MaxKB 变量聚合节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 16 篇：MaxKB 变量聚合节点.md",
       "summary": "本文整理 15-变量聚合节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "c0b09a4f9016307552b46bd4b5405201f608d5352023ad441dc162644b25bfd3"
+      "contentHash": "befe45fb347eef289696bdd497ecf17ce34f3a226661116f1120119c48862973"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e5e",
       "originalSlug": "maxkb-16-mcp-cbdce98b",
       "exportedSlug": "maxkb-16-mcp-cbdce98b",
-      "title": "第 18 篇：MaxKB MCP 调用与自定义工具节点",
+      "title": "第 17 篇：MaxKB MCP 调用与自定义工具节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -14081,16 +14102,16 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/16-MCP调用与自定义工具节点.md",
       "publishedAt": "2026-07-30T15:09:19.522Z",
       "updatedAt": "2026-07-30T15:09:19.522Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 18 篇：MaxKB MCP 调用与自定义工具节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 17 篇：MaxKB MCP 调用与自定义工具节点.md",
       "summary": "本文整理 16-MCP调用与自定义工具节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "a05e3275379ba0cb225f387889b699edf89bef76cfefb98ef8fd625895af2e82"
+      "contentHash": "5c463732d689c0d84476ee4b3e5937b591e84d6bb2f2b496b6323a8e938a625e"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e60",
       "originalSlug": "maxkb-17-a788c9f1",
       "exportedSlug": "maxkb-17-a788c9f1",
-      "title": "第 19 篇：MaxKB 工具页签与智能体节点",
+      "title": "第 18 篇：MaxKB 工具页签与智能体节点",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -14112,10 +14133,10 @@
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/17-工具页签与智能体节点.md",
       "publishedAt": "2026-07-30T15:09:19.527Z",
       "updatedAt": "2026-07-30T15:09:19.527Z",
-      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 19 篇：MaxKB 工具页签与智能体节点.md",
+      "fileName": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册/第 18 篇：MaxKB 工具页签与智能体节点.md",
       "summary": "本文整理 17-工具页签与智能体节点，归纳 MaxKB 节点创建手册相关的配置方法、实践步骤、边界条件与常见注意事项。",
       "cover": "",
-      "contentHash": "523cef9119434e16ea40dadbc10f6f2a51be3c99d82567659685247f215d9108"
+      "contentHash": "145e079070938207d6b5a48a980957a52e95d7be78b6cee82aeb97b4b9f5e2b8"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e2a",

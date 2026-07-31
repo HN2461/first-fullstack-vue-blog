@@ -9,7 +9,7 @@ tags:
   - "Depends"
   - "中间件"
   - "项目结构"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19e"

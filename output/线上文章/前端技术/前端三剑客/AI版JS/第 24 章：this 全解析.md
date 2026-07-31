@@ -4,7 +4,7 @@ slug: "js-this-a359b1f0"
 summary: "整理 this 的默认绑定、隐式绑定、显式绑定、new 绑定、箭头函数绑定和常见判断规则。"
 category: "AI版JS"
 tags: ["JavaScript","this","函数调用","绑定规则"]
-status: "draft"
+status: "published"
 sortOrder: 250
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac100"

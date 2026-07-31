@@ -4,7 +4,7 @@ slug: "echarts-echarts-echarts-aca8614a"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方首页、Handbook、Releases 与安全/无障碍文档，系统讲清 ECharts 的定位、最新版本脉络、安装方式、option 思维、dataset、动态更新、交互、性能与 Vue 项目接入要点。"
 category: "ECharts"
 tags: ["ECharts","数据可视化","图表库","Vue3","Canvas","SVG"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5c4"

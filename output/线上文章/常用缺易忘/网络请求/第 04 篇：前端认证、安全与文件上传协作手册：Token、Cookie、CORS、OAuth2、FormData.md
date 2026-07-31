@@ -4,7 +4,7 @@ slug: "legacy-68f76f0c-68f76f0c"
 summary: "前端认证、安全与文件上传协作手册，整理登录态、Bearer Token、Cookie、Access Token、Refresh Token、CORS、CSRF、OAuth2、FormData 和文件上传联调边界。"
 category: "网络请求"
 tags: ["认证","Token","Cookie","CORS","OAuth2","FormData","文件上传"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac378"

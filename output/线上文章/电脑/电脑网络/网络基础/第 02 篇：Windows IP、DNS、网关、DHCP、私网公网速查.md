@@ -4,7 +4,7 @@ slug: "windows-ip-dns-dhcp-fd5c357b"
 summary: "Windows 网络设置速查，整理 IP、DNS、网关、DHCP、子网掩码、私网公网等概念，帮助快速看懂本机网络属性和常见联网问题。"
 category: "网络基础"
 tags: ["Windows","IP 地址","DNS","网关","DHCP","私网公网"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac524"

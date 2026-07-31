@@ -4,7 +4,7 @@ slug: "windows-hosts-dns-a34c6e09"
 summary: "Windows 网络排障基础，整理 hosts 文件、DNS 缓存、公共/专用网络类型、Microsoft Defender Firewall 的作用和常见排障点。"
 category: "网络基础"
 tags: ["Windows","hosts","DNS 缓存","防火墙","网络类型","网络排障"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac51a"

@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-tooltip-popover-popconfirm-notification-alert-f2
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，补全第五篇未覆盖的反馈组件：Tooltip、Popover、Popconfirm、Notification、Alert，以及虚拟化组件的适用场景与基础用法。"
 category: "ElementPlus"
 tags: ["Element Plus","Tooltip","Popover","Popconfirm","Notification","VirtualizedTable"]
-status: "draft"
+status: "published"
 sortOrder: 100
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac654"

@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-props-behaviors-60418e36"
 summary: "从组件边界、props、事件、behaviors、样式隔离到条件编译，梳理微信小程序组件设计与避坑问题。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","组件设计","条件编译","样式隔离"]
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac21a"

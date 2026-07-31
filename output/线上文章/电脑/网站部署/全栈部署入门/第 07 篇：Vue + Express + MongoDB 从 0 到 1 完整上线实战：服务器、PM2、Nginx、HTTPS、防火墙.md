@@ -4,7 +4,7 @@ slug: "legacy-dee56a61-dee56a61"
 summary: "Vue + Express + MongoDB 前后端分离项目完整上线实战，覆盖服务器登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙和故障排查。"
 category: "全栈部署入门"
 tags: ["上线实战","Vue","Express","MongoDB","PM2","Nginx","HTTPS","防火墙"]
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5b8"

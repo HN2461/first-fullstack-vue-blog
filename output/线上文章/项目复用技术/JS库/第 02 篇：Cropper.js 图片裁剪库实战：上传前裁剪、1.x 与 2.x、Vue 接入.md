@@ -9,7 +9,7 @@ tags:
   - "Vue"
   - "图片裁剪"
   - "文件上传"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6c0"

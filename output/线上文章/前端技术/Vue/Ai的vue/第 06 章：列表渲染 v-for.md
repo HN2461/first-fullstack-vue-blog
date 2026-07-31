@@ -8,7 +8,7 @@ tags:
   - "列表渲染"
   - "v-for"
   - "key"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac288"

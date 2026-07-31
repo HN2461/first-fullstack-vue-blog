@@ -4,7 +4,7 @@ slug: "echarts-echarts-tooltip-legend-datazoom-dispatchaction-f27b2d4a"
 summary: "基于 2026-05-02 查阅的 Apache ECharts 官方 Event and Action、Legend、Axis、Chart Size、Intelligent Pointer Snapping 与 Feature 文档，系统讲清 tooltip、legend、dataZoom、事件监听、dispatchAction、双轴和移动端指针优化，帮助前端快速做出真正能分析、能联动的后台图表。"
 category: "ECharts"
 tags: ["ECharts","legend","dataZoom","dispatchAction","图表联动","Tooltip"]
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac5e2"

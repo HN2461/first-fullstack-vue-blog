@@ -9,7 +9,7 @@ tags:
   - "图片裁剪"
   - "Canvas"
   - "拖拽缩放"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6f8"

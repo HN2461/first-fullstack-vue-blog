@@ -10,7 +10,7 @@ tags:
   - "AppData"
   - "ProgramData"
   - "用户目录"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac570"

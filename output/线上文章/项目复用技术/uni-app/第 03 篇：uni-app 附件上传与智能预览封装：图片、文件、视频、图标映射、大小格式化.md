@@ -9,7 +9,7 @@ tags:
   - "附件预览"
   - "图片上传"
   - "视频上传"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ea"

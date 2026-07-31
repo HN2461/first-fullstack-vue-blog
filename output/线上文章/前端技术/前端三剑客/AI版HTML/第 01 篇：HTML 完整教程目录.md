@@ -8,7 +8,7 @@ tags:
   - "学习路线"
   - "教程目录"
   - "前端基础"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ba"

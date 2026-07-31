@@ -4,7 +4,7 @@ slug: "indexeddb-16dda85f"
 summary: "从实际业务判断 IndexedDB 什么时候值得上，什么时候继续用 localStorage 或 sessionStorage 就够，并理解容量、查询、事务、离线和工程复杂度取舍。"
 category: "数据类型"
 tags: ["IndexedDB","浏览器存储","离线数据","localStorage","前端缓存"]
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac338"

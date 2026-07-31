@@ -10,7 +10,7 @@ tags:
   - "监控"
   - "Docker"
   - "部署"
-status: "draft"
+status: "published"
 sortOrder: 150
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1ac"

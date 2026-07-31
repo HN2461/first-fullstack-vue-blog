@@ -4,7 +4,7 @@ slug: "tcp-3213f070"
 summary: "TCP 三次握手基础笔记，讲清连接建立流程、SYN/ACK 报文含义、为什么不能两次握手、为什么通常不是四次握手和常见面试问题。"
 category: "浏览器与网络"
 tags: ["TCP","三次握手","网络基础","SYN","ACK"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac34a"

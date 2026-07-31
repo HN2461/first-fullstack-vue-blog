@@ -9,7 +9,7 @@ tags:
   - "PowerShell"
   - "对比报告"
   - "故障排查"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a2d291d8a2b1c68f2cac048"

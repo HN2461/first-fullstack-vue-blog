@@ -9,7 +9,7 @@ tags:
   - "语言定位"
   - "解释器"
   - "应用场景"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a4a4304f9ac958d2917602e"

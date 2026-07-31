@@ -10,7 +10,7 @@ tags:
   - "MSConfig"
   - "服务"
   - "干净启动"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac556"

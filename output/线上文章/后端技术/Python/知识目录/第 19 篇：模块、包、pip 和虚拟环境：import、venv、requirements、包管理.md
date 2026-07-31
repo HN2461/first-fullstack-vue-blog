@@ -10,7 +10,7 @@ tags:
   - "import"
   - "venv"
   - "requirements"
-status: "draft"
+status: "published"
 sortOrder: 190
 cover: ""
 originalId: "6a4a4304f9ac958d29176072"

@@ -4,7 +4,7 @@ slug: "element-plus-elementplus-cascader-treeselect-transfer-checkbox-radio-swit
 summary: "基于 2026-04-29 查阅的 Element Plus 官方文档，系统讲解表单里的高级录入组件：级联选择、树形选择、穿梭框、多选组、单选组、开关、滑块、评分的用法与联动校验。"
 category: "ElementPlus"
 tags: ["Element Plus","Cascader","TreeSelect","Transfer","Checkbox","Radio"]
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac63c"

@@ -4,7 +4,7 @@ slug: "ssh-linux-8e509843"
 summary: "部署小白入门 SSH 与 Linux 服务器，讲清 SSH 登录、密钥登录、服务器目录、常用 Linux 命令、端口、防火墙和日志查看。"
 category: "全栈部署入门"
 tags: ["SSH","Linux","服务器","密钥登录","端口","防火墙","日志"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac598"

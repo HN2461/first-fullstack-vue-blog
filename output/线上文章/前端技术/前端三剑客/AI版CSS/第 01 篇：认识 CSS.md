@@ -8,7 +8,7 @@ tags:
   - "CSS 入门"
   - "选择器"
   - "前端基础"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d30edb480df92ce002e15"

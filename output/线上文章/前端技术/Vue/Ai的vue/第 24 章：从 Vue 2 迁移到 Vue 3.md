@@ -8,7 +8,7 @@ tags:
   - "Vue 3"
   - "迁移指南"
   - "Composition API"
-status: "draft"
+status: "published"
 sortOrder: 240
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac27e"

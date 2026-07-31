@@ -4,7 +4,7 @@ slug: "wifi-09cbf6da"
 summary: "Windows 笔记本 WiFi 图标消失排障笔记，覆盖 WLAN AutoConfig 服务、依赖服务、网络栈重置、注册表修复和开机自启兜底方案。"
 category: "网络排障"
 tags: ["Windows","WiFi","WLAN AutoConfig","网络重置","开机自启","网络故障排查"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac534"

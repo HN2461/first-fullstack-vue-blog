@@ -9,7 +9,7 @@ tags:
   - "输入和类型转换"
   - "int"
   - "float"
-status: "draft"
+status: "published"
 sortOrder: 80
 cover: ""
 originalId: "6a4a4304f9ac958d29176046"

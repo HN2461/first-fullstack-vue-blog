@@ -8,7 +8,7 @@ tags:
   - "路由守卫"
   - "动态路由"
   - "Vue"
-status: "draft"
+status: "published"
 sortOrder: 160
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac26c"

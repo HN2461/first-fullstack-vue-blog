@@ -9,7 +9,7 @@ tags:
   - "Vue"
   - "拖拽排序"
   - "列表重排"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ba"

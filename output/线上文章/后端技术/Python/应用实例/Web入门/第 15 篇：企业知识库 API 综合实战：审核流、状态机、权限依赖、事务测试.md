@@ -9,7 +9,7 @@ tags:
   - "企业实战"
   - "知识库"
   - "审核流"
-status: "draft"
+status: "published"
 sortOrder: 160
 cover: ""
 originalId: "6a6b57a2fca6347974f5d1ae"

@@ -9,7 +9,7 @@ tags:
   - "OAuth2"
   - "一次性票据"
   - "子系统切换"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7e6"

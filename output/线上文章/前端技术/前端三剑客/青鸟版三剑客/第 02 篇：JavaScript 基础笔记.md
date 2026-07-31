@@ -4,7 +4,7 @@ slug: "javascriptes6-js-d939e278"
 summary: "青鸟版 JavaScript 基础课堂笔记，整理计算机基础、JS 核心语法、数据类型、流程控制、函数、对象和 DOM 入门。"
 category: "青鸟版三剑客"
 tags: ["JavaScript","前端基础","DOM","课堂笔记"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0da"

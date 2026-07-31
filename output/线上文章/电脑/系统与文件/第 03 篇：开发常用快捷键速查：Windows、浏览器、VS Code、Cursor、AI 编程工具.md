@@ -10,7 +10,7 @@ tags:
   - "VS Code"
   - "Cursor"
   - "AI 编程工具"
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac582"

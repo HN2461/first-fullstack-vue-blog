@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-85c68412"
 summary: "从跨端编译、运行时宿主、通用能力边界到平台差异收口，先建立一套适用于 uni-app 多端项目的基础认知。"
 category: "通用基础"
 tags: ["uni-app","跨端开发","编译","运行时","平台差异"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac242"

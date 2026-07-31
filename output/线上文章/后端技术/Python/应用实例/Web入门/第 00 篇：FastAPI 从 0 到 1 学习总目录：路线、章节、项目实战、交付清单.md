@@ -9,7 +9,7 @@ tags:
   - "学习路线"
   - "总目录"
   - "项目实战"
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a6b635eb46b52abc5dc2863"

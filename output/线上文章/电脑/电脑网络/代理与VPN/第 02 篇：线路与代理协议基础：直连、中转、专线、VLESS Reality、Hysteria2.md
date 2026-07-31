@@ -4,7 +4,7 @@ slug: "network-routes-and-proxy-protocols-guide-20260705"
 summary: "用网络路径和协议分层解释直连、中转、专线，以及 VLESS Reality、Hysteria2 等常见代理协议的特点、适用场景和选型误区。"
 category: "代理与VPN"
 tags: ["代理协议","直连","中转","专线","VLESS Reality","Hysteria2"]
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a4a451af9ac958d29177b63"

@@ -4,7 +4,7 @@ slug: "http-d8f25f40"
 summary: "HTTP 协议基础笔记，整理请求报文、响应报文、请求方法、请求头、响应头、状态码、请求体和常见前后端交互细节。"
 category: "浏览器与网络"
 tags: ["HTTP","请求报文","响应报文","状态码","请求头"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac346"

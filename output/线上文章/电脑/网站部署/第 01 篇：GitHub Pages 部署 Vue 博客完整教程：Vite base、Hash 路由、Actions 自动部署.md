@@ -4,7 +4,7 @@ slug: "github-pages-vue-f7e9371a"
 summary: "Vue 博客部署到 GitHub Pages 的完整流程，覆盖 Vite base 路径、Vue Router Hash 模式、dist 手动部署、GitHub Actions 自动部署与常见问题排查。"
 category: "网站部署"
 tags: ["GitHub Pages","Vue3","Vite","Hash 路由","GitHub Actions","博客部署"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac58a"

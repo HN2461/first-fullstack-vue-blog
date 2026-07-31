@@ -10,7 +10,7 @@ tags:
   - "reader"
   - "DictReader"
   - "写入"
-status: "draft"
+status: "published"
 sortOrder: 230
 cover: ""
 originalId: "6a4a4304f9ac958d29176082"

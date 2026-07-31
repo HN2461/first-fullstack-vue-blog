@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-66402eae"
 summary: "从路由、请求、缓存、上传下载到条件编译与平台适配，梳理一套适用于 uni-app 多端项目的通用开发方法。"
 category: "通用基础"
 tags: ["uni-app","路由","条件编译","请求","缓存"]
-status: "draft"
+status: "published"
 sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac25a"

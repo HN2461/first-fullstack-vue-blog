@@ -4,7 +4,7 @@ slug: "vs-charset-utf-8-8af21833"
 summary: "用加密密钥场景讲清字符和字节的区别，整理 ASCII、UTF-8、charset=utf-8、中文字符占用字节数和固定长度字符串的常见误区。"
 category: "数据类型"
 tags: ["字符","字节","UTF-8","ASCII","charset","加密密钥"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33e"

@@ -9,7 +9,7 @@ tags:
   - "JSAPI"
   - "扫一扫"
   - "后端签名"
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac7c8"

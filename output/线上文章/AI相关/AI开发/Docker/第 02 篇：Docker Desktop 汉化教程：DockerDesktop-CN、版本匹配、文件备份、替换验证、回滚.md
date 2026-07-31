@@ -10,7 +10,7 @@ tags:
   - "汉化"
   - "版本匹配"
   - "回滚"
-status: "draft"
+status: "published"
 sortOrder: 20
 cover: ""
 originalId: "6a4a4564f9ac958d2917802c"

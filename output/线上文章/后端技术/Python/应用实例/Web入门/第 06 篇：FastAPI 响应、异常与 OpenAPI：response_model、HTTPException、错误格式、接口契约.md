@@ -9,7 +9,7 @@ tags:
   - "OpenAPI"
   - "异常处理"
   - "response_model"
-status: "draft"
+status: "published"
 sortOrder: 70
 cover: ""
 originalId: "6a6b57a2fca6347974f5d19c"

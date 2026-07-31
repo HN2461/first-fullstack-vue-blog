@@ -4,7 +4,7 @@ slug: "js-javascript-44c8511b"
 summary: "梳理浏览器执行 JavaScript 的过程，涵盖 V8 引擎、单线程模型、事件循环和代码执行生命周期。"
 category: "AI版JS"
 tags: ["JavaScript","运行机制","V8","事件循环"]
-status: "draft"
+status: "published"
 sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10c"

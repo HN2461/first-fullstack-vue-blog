@@ -4,7 +4,7 @@ slug: "url-a3801def"
 summary: "浏览器访问页面全流程笔记，串联 URL 解析、DNS 查询、TCP 连接、HTTP 请求响应、HTML/CSS/JS 解析、渲染树和页面绘制。"
 category: "浏览器与网络"
 tags: ["浏览器","URL","DNS","TCP","HTTP","渲染流程"]
-status: "draft"
+status: "published"
 sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac34c"

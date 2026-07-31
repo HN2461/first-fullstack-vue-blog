@@ -10,7 +10,7 @@ tags:
   - "响应式原理"
   - "组件通信"
   - "答案解析"
-status: "draft"
+status: "published"
 sortOrder: 90
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6a2"

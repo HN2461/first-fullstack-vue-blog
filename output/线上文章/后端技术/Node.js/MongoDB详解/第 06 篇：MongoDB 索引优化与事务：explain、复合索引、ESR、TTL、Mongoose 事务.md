@@ -10,7 +10,7 @@ tags:
   - "复合索引"
   - "事务"
   - "TTL"
-status: "draft"
+status: "published"
 sortOrder: 60
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac15c"

@@ -4,7 +4,7 @@ slug: "uni-app-uni-app-d43ce8ad"
 summary: "从编译链路、宿主环境、页面生命周期、登录链路到分包与性能，建立 uni-app 开发微信小程序的整体认知。"
 category: "微信小程序"
 tags: ["uni-app","微信小程序","运行机制","生命周期","分包"]
-status: "draft"
+status: "published"
 sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac200"
