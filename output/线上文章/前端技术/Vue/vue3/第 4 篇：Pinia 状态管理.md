@@ -1,17 +1,23 @@
 ---
-title: "Pinia》"
+title: "第 4 篇：Pinia 状态管理"
 slug: "vue-vue3-pinia-356d4f75"
-summary: ""
+summary: "Pinia 状态管理笔记，介绍 Pinia 的安装、注册、store 定义、状态读取与 action 使用。"
 category: "vue3"
-tags: []
+tags:
+  - "Vue 3"
+  - "Pinia"
+  - "状态管理"
+  - "Store"
 status: "draft"
-sortOrder: 30
+sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2d4"
 originalSlug: "vue-vue3-pinia-356d4f75"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 4 篇：Pinia 状态管理
+
 ## 4.1、什么是Pinia
 ### 4.1.1、简介
 pinia 是 Vue 的存储库，<u>它允许您跨组件/页面共享状态。就是和vuex一样的实现数据共享。</u>

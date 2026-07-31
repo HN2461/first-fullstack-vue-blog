@@ -1,17 +1,23 @@
 ---
-title: "vue3初相识》"
+title: "第 1 篇：Vue 3 初相识"
 slug: "vue-vue3-vue3-f1f1fd31"
-summary: ""
+summary: "Vue 3 入门笔记，介绍 Vue 3 特性、项目创建、脚手架与基础环境准备。"
 category: "vue3"
-tags: []
+tags:
+  - "Vue 3"
+  - "Vue"
+  - "前端框架"
+  - "项目创建"
 status: "draft"
-sortOrder: 60
+sortOrder: 10
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2ce"
 originalSlug: "vue-vue3-vue3-f1f1fd31"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 1 篇：Vue 3 初相识
+
 ## 1.1、Vue3简介
 Vue3是Vue.js框架的第三个主要版本，于2020年9月18日正式发布。相较于Vue2，Vue3在多个方面实现了显著的提升。
 

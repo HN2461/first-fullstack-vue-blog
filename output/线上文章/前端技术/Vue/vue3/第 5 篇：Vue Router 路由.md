@@ -1,17 +1,23 @@
 ---
-title: "路由》"
+title: "第 5 篇：Vue Router 路由"
 slug: "vue-vue3-21013aa4"
-summary: ""
+summary: "Vue Router 路由笔记，覆盖 vue-router 4 安装、路由配置、导航跳转和常见报错处理。"
 category: "vue3"
-tags: []
+tags:
+  - "Vue 3"
+  - "Vue Router"
+  - "路由"
+  - "前端路由"
 status: "draft"
-sortOrder: 20
+sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2d6"
 originalSlug: "vue-vue3-21013aa4"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 5 篇：Vue Router 路由
+
 ## 5.1、 路由的基本使用
 点击对应tab，跳转到对应的页面
 

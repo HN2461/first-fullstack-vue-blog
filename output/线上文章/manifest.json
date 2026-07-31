@@ -11128,7 +11128,7 @@
       "originalId": "6a2d291f8a2b1c68f2cac2d8",
       "originalSlug": "vue-vue3-apis-94236b74",
       "exportedSlug": "vue-vue3-apis-94236b74",
-      "title": "其他Apis》",
+      "title": "第 6 篇：Vue 3 其他 API",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11136,21 +11136,26 @@
         "Vue",
         "vue3"
       ],
-      "tags": [],
-      "sortOrder": 10,
+      "tags": [
+        "Vue 3",
+        "Composition API",
+        "Vue API",
+        "响应式"
+      ],
+      "sortOrder": 60,
       "sourcePath": "Vue/vue3/《6、其他Apis》.md",
       "publishedAt": "2026-03-27T13:29:03.416Z",
       "updatedAt": "2026-06-17T13:23:43.849Z",
-      "fileName": "前端技术/Vue/vue3/其他Apis》.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue3/第 6 篇：Vue 3 其他 API.md",
+      "summary": "Vue 3 其他 API 笔记，整理 shallowRef、shallowReactive、readonly、toRaw 等进阶 API。",
       "cover": "",
-      "contentHash": "ac2dbe113aab9d07c3c04ffc7cd42c311ec5cb983d0c4bb818c2a37fa05b6b46"
+      "contentHash": "bbd622461bcaf542348eab74ee060ae47c8a1d49da03d26a3e511ed19514e7d5"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2d6",
       "originalSlug": "vue-vue3-21013aa4",
       "exportedSlug": "vue-vue3-21013aa4",
-      "title": "路由》",
+      "title": "第 5 篇：Vue Router 路由",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11158,21 +11163,26 @@
         "Vue",
         "vue3"
       ],
-      "tags": [],
-      "sortOrder": 20,
+      "tags": [
+        "Vue 3",
+        "Vue Router",
+        "路由",
+        "前端路由"
+      ],
+      "sortOrder": 50,
       "sourcePath": "Vue/vue3/《5、路由》.md",
       "publishedAt": "2026-03-27T13:28:53.676Z",
       "updatedAt": "2026-06-17T13:23:48.889Z",
-      "fileName": "前端技术/Vue/vue3/路由》.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue3/第 5 篇：Vue Router 路由.md",
+      "summary": "Vue Router 路由笔记，覆盖 vue-router 4 安装、路由配置、导航跳转和常见报错处理。",
       "cover": "",
-      "contentHash": "b89edd13c413d141aa0023e13eba4aed6e8223d488f95ee148f400dba4979b06"
+      "contentHash": "a5a03cc7cd574c8791ab370b1cfdbf5cc54d056aaf6ec3e6e7be7fa22d0aa317"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2d4",
       "originalSlug": "vue-vue3-pinia-356d4f75",
       "exportedSlug": "vue-vue3-pinia-356d4f75",
-      "title": "Pinia》",
+      "title": "第 4 篇：Pinia 状态管理",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11180,21 +11190,26 @@
         "Vue",
         "vue3"
       ],
-      "tags": [],
-      "sortOrder": 30,
+      "tags": [
+        "Vue 3",
+        "Pinia",
+        "状态管理",
+        "Store"
+      ],
+      "sortOrder": 40,
       "sourcePath": "Vue/vue3/《4、Pinia》.md",
       "publishedAt": "2026-03-27T13:28:53.385Z",
       "updatedAt": "2026-06-17T13:23:50.827Z",
-      "fileName": "前端技术/Vue/vue3/Pinia》.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue3/第 4 篇：Pinia 状态管理.md",
+      "summary": "Pinia 状态管理笔记，介绍 Pinia 的安装、注册、store 定义、状态读取与 action 使用。",
       "cover": "",
-      "contentHash": "7e7bb15a9c8cc1fa921da357cfc1baa6e06cf0f942f0b9333d9a253af23c1f11"
+      "contentHash": "d8cb30f3d870a942134a4e2e5b3c5ebcc862a0d0c8a705d900e8ede8369bc9c1"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2d2",
       "originalSlug": "vue-vue3-9068316c",
       "exportedSlug": "vue-vue3-9068316c",
-      "title": "组件通讯》",
+      "title": "第 3 篇：Vue 3 组件通信",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11202,21 +11217,26 @@
         "Vue",
         "vue3"
       ],
-      "tags": [],
-      "sortOrder": 40,
+      "tags": [
+        "Vue 3",
+        "组件通信",
+        "props",
+        "provide/inject"
+      ],
+      "sortOrder": 30,
       "sourcePath": "Vue/vue3/《3、组件通讯》.md",
       "publishedAt": "2026-03-27T13:28:49.361Z",
       "updatedAt": "2026-06-17T13:23:49.421Z",
-      "fileName": "前端技术/Vue/vue3/组件通讯》.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue3/第 3 篇：Vue 3 组件通信.md",
+      "summary": "Vue 3 组件通信笔记，梳理 props、emit、v-model、attrs、provide/inject 与跨组件通信方式。",
       "cover": "",
-      "contentHash": "63779fe3e9651013a3bc8a7bd7da1c72b1dce0497dd19b7201f0a973542bdfda"
+      "contentHash": "c22f71b0763feea3a531e712b52107e47b7db5a45f7905506780085fefdc1001"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2d0",
       "originalSlug": "vue-vue3-vue3-b1c84be6",
       "exportedSlug": "vue-vue3-vue3-b1c84be6",
-      "title": "Vue3基本语法》",
+      "title": "第 2 篇：Vue 3 基本语法",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11224,21 +11244,26 @@
         "Vue",
         "vue3"
       ],
-      "tags": [],
-      "sortOrder": 50,
+      "tags": [
+        "Vue 3",
+        "Composition API",
+        "响应式",
+        "setup"
+      ],
+      "sortOrder": 20,
       "sourcePath": "Vue/vue3/《2、Vue3基本语法》.md",
       "publishedAt": "2026-03-27T13:28:44.180Z",
       "updatedAt": "2026-06-17T13:23:51.677Z",
-      "fileName": "前端技术/Vue/vue3/Vue3基本语法》.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue3/第 2 篇：Vue 3 基本语法.md",
+      "summary": "Vue 3 基本语法笔记，覆盖 setup、响应式数据、计算属性、监听和常用组合式 API。",
       "cover": "",
-      "contentHash": "46969c14fcf9b0ba986c5f6975fbc02093239017b3e41f8c21696a2d30908501"
+      "contentHash": "b91870088124c0db359f23d3ca1ff0fba2ffe3ea155f9c49cf1a987c3943834a"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2ce",
       "originalSlug": "vue-vue3-vue3-f1f1fd31",
       "exportedSlug": "vue-vue3-vue3-f1f1fd31",
-      "title": "vue3初相识》",
+      "title": "第 1 篇：Vue 3 初相识",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11246,15 +11271,20 @@
         "Vue",
         "vue3"
       ],
-      "tags": [],
-      "sortOrder": 60,
+      "tags": [
+        "Vue 3",
+        "Vue",
+        "前端框架",
+        "项目创建"
+      ],
+      "sortOrder": 10,
       "sourcePath": "Vue/vue3/《1、 vue3初相识》.md",
       "publishedAt": "2026-03-27T13:28:39.328Z",
       "updatedAt": "2026-06-17T13:23:52.277Z",
-      "fileName": "前端技术/Vue/vue3/vue3初相识》.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue3/第 1 篇：Vue 3 初相识.md",
+      "summary": "Vue 3 入门笔记，介绍 Vue 3 特性、项目创建、脚手架与基础环境准备。",
       "cover": "",
-      "contentHash": "d240d91f252a96adc214f9713af211ae64614b95708fa623147068125442b8e6"
+      "contentHash": "36f901a572eb2bcbf11c895c8560f9b077ff8dab648324af446d7fe4409dc3fa"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac2aa",

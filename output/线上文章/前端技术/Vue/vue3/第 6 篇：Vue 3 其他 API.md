@@ -1,18 +1,22 @@
 ---
-title: "其他Apis》"
+title: "第 6 篇：Vue 3 其他 API"
 slug: "vue-vue3-apis-94236b74"
-summary: ""
+summary: "Vue 3 其他 API 笔记，整理 shallowRef、shallowReactive、readonly、toRaw 等进阶 API。"
 category: "vue3"
-tags: []
+tags:
+  - "Vue 3"
+  - "Composition API"
+  - "Vue API"
+  - "响应式"
 status: "draft"
-sortOrder: 10
+sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2d8"
 originalSlug: "vue-vue3-apis-94236b74"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 6、其他APIs
+# 第 6 篇：Vue 3 其他 API
 ## 6.1.【shallowRef 与 shallowReactive 】
 ### `shallowRef`
 1. 作用：创建一个响应式数据，但<u>只对顶层属性进行响应式处理</u>。浅层响应

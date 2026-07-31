@@ -1,17 +1,23 @@
 ---
-title: "Vue3基本语法》"
+title: "第 2 篇：Vue 3 基本语法"
 slug: "vue-vue3-vue3-b1c84be6"
-summary: ""
+summary: "Vue 3 基本语法笔记，覆盖 setup、响应式数据、计算属性、监听和常用组合式 API。"
 category: "vue3"
-tags: []
+tags:
+  - "Vue 3"
+  - "Composition API"
+  - "响应式"
+  - "setup"
 status: "draft"
-sortOrder: 50
+sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2d0"
 originalSlug: "vue-vue3-vue3-b1c84be6"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 2 篇：Vue 3 基本语法
+
 ## 2.1、setup的使用
 ### 2.1.1、基本使用
 它是vue3新增的一个<u>配置项</u>，值为一个**<font style="color:#DF2A3F;">函数</font>**,所有的组合式API 方法都写在在setup函数中。

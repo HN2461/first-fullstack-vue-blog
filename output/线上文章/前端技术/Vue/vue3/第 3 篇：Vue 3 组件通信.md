@@ -1,17 +1,23 @@
 ---
-title: "组件通讯》"
+title: "第 3 篇：Vue 3 组件通信"
 slug: "vue-vue3-9068316c"
-summary: ""
+summary: "Vue 3 组件通信笔记，梳理 props、emit、v-model、attrs、provide/inject 与跨组件通信方式。"
 category: "vue3"
-tags: []
+tags:
+  - "Vue 3"
+  - "组件通信"
+  - "props"
+  - "provide/inject"
 status: "draft"
-sortOrder: 40
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac2d2"
 originalSlug: "vue-vue3-9068316c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 3 篇：Vue 3 组件通信
+
 ## <font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">3.0、概述</font>
 `**<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">Vue3</font>**`**<font style="color:rgb(51, 51, 51);">组件通信和</font>**`**<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">Vue2</font>**`**<font style="color:rgb(51, 51, 51);">的区别：</font>**
 
