@@ -1,9 +1,15 @@
 ---
-title: "YAML、JSON、TOML 配置文件入门：开发初学者看这一篇就够"
+title: "第 2 篇：YAML、JSON、TOML 配置文件入门：语法差异、适用场景、Vue、Node.js、Docker、Actions"
 slug: "yaml-json-toml-config-files-for-beginners"
-summary: "面向开发初学者，用真实项目场景讲清 YAML、JSON、TOML 三类配置文件是什么、为什么常见、语法差异、适用场景、优缺点，以及在 Vue、Node.js、Docker、GitHub Actions、Codex 等项目中的实际用法。"
+summary: "面向开发初学者讲清 YAML、JSON、TOML 三类配置文件的语法差异、适用场景、优缺点，以及在 Vue、Node.js、Docker、GitHub Actions、Codex 等项目中的用法。"
 category: "开发基础"
-tags: []
+tags:
+  - "配置文件"
+  - "YAML"
+  - "JSON"
+  - "TOML"
+  - "Docker"
+  - "GitHub Actions"
 status: "draft"
 sortOrder: 20
 cover: ""
@@ -12,7 +18,7 @@ originalSlug: "yaml-json-toml-config-files-for-beginners"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# YAML、JSON、TOML 配置文件入门：开发初学者看这一篇就够
+# 第 2 篇：YAML、JSON、TOML 配置文件入门：语法差异、适用场景、Vue、Node.js、Docker、Actions
 
 > 你在学习开发时，可能先认识了 `.js`、`.vue`、`.py` 这类“代码文件”，后来又突然看到 `.json`、`.yml`、`.yaml`、`.toml`。它们看起来不像代码，却经常决定项目怎么运行、依赖怎么安装、工具怎么检查代码、服务怎么部署。本文就用初学者能看懂的方式，把 YAML、JSON、TOML 三种常见配置文件讲清楚。
 
@@ -286,9 +292,12 @@ web 服务使用 nginx:latest 镜像。
 title: YAML、JSON、TOML 配置文件入门
 status: draft
 tags:
-  - 配置文件
-  - 开发基础
-  - YAML
+  - "配置文件"
+  - "YAML"
+  - "JSON"
+  - "TOML"
+  - "Docker"
+  - "GitHub Actions"
 ```
 
 这里的 `tags` 是一个数组，包含三个标签。

@@ -1,18 +1,24 @@
 ---
-title: "Docker Desktop 汉化教程：以 DockerDesktop-CN 为例"
+title: "第 2 篇：Docker Desktop 汉化教程：DockerDesktop-CN、版本匹配、文件备份、替换验证、回滚"
 slug: "docker-desktop-cn-localization-guide"
-summary: "记录 Windows 环境下使用 DockerDesktop-CN 对 Docker Desktop 进行汉化的完整流程，包含版本匹配、下载校验、文件备份、管理员权限替换、运行验证、回滚方式和升级维护注意事项。"
+summary: "Windows 环境下使用 DockerDesktop-CN 对 Docker Desktop 进行汉化的完整流程，覆盖版本匹配、下载校验、文件备份、管理员权限替换、运行验证、回滚和升级维护。"
 category: "Docker"
-tags: []
+tags:
+  - "Docker Desktop"
+  - "DockerDesktop-CN"
+  - "Windows"
+  - "汉化"
+  - "版本匹配"
+  - "回滚"
 status: "draft"
-sortOrder: 10
+sortOrder: 20
 cover: ""
 originalId: "6a4a4564f9ac958d2917802c"
 originalSlug: "docker-desktop-cn-localization-guide"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Docker Desktop 汉化教程：以 DockerDesktop-CN 为例
+# 第 2 篇：Docker Desktop 汉化教程：DockerDesktop-CN、版本匹配、文件备份、替换验证、回滚
 
 > 本文记录 Windows 环境下 Docker Desktop 汉化的一套通用流程。重点不是某一台电脑的路径，而是讲清楚版本匹配、备份、替换、验证和回滚这些关键步骤。
 > 

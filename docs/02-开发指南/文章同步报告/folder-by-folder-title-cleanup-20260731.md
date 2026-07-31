@@ -497,6 +497,26 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/reuse-tech-non-third-party-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/reuse-tech-non-third-party-before-semantic-cleanup-20260731-2100`。
 
+### AI相关 / AI开发 / 开发基础
+
+- 处理 2 篇 AI 开发基础文章。原摘要已有质量，但标签为空，本地文件名也未使用统一阅读序号。
+- 已整理为：AI 技术知识体系、YAML/JSON/TOML 配置文件入门。
+- 保持 `sortOrder` 为 10、20；本地文件名采用 `第 01 篇` 到 `第 02 篇`。
+- 按见名知意要求保留关键内容范围，例如 LLM、Agent、RAG、向量化、OpenAI 协议、Token 计费、语法差异、适用场景、Vue、Node.js、Docker、Actions。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `AI相关 / AI开发 / 开发基础` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### AI相关 / AI开发 / Docker
+
+- 处理 2 篇 Docker 文章。原摘要已有质量，但标签为空，本地文件名也未使用统一阅读序号。
+- 已整理为：Docker 学习笔记纯小白版、Docker Desktop 汉化教程。
+- 将 Docker 学习笔记放在第 1 篇、Docker Desktop 汉化教程放在第 2 篇，使线上目录先读基础概念，再看工具专项处理；本地文件名采用 `第 01 篇` 到 `第 02 篇`。
+- 按见名知意要求保留关键内容范围，例如镜像、容器、端口映射、数据挂载、Dockerfile、Compose、DockerDesktop-CN、版本匹配、文件备份、替换验证、回滚。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `AI相关 / AI开发 / Docker` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/ai-dev-basics-docker-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/ai-dev-basics-docker-before-semantic-cleanup-20260731-2115`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

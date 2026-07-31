@@ -13098,7 +13098,7 @@
       "originalId": "6a4a4564f9ac958d29178027",
       "originalSlug": "ai-knowledge-system-from-concepts-to-engineering",
       "exportedSlug": "ai-knowledge-system-from-concepts-to-engineering",
-      "title": "AI技术知识体系：从核心概念到工程化实战",
+      "title": "第 1 篇：AI 技术知识体系：LLM、Agent、RAG、向量化、OpenAI 协议、Token 计费",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13106,21 +13106,29 @@
         "AI开发",
         "开发基础"
       ],
-      "tags": [],
+      "tags": [
+        "AI开发",
+        "LLM",
+        "Agent",
+        "RAG",
+        "向量化",
+        "OpenAI协议",
+        "Token计费"
+      ],
       "sortOrder": 10,
       "sourcePath": "AI技术知识体系-从核心概念到工程化实战.md",
       "publishedAt": "2026-07-05T11:55:50.515Z",
       "updatedAt": "2026-07-05T11:55:50.516Z",
-      "fileName": "AI相关/AI开发/开发基础/AI技术知识体系：从核心概念到工程化实战.md",
-      "summary": "系统整理 LLM、Agent、RAG、向量化等 AI 核心概念，以及 cURL、OpenAI 协议、Token 计费、错误处理、缓存监控等工程化实战知识，帮助开发者建立从\"是什么\"到\"怎么用\"的完整 AI 应用开发知识体系。",
+      "fileName": "AI相关/AI开发/开发基础/第 01 篇：AI 技术知识体系：LLM、Agent、RAG、向量化、OpenAI 协议、Token 计费.md",
+      "summary": "系统整理 LLM、Agent、RAG、向量化等 AI 核心概念，以及 cURL、OpenAI 协议、Token 计费、错误处理、缓存监控等工程化实战知识。",
       "cover": "",
-      "contentHash": "7adb75eb30f535a02fd74d7a518de1d9e8628719fe7d4223ee38ede407fd851f"
+      "contentHash": "5aca1d6d3377523402d63c6522156d7b229896062331d3f71f03ec2e97245b9f"
     },
     {
       "originalId": "6a4a4564f9ac958d29178036",
       "originalSlug": "yaml-json-toml-config-files-for-beginners",
       "exportedSlug": "yaml-json-toml-config-files-for-beginners",
-      "title": "YAML、JSON、TOML 配置文件入门：开发初学者看这一篇就够",
+      "title": "第 2 篇：YAML、JSON、TOML 配置文件入门：语法差异、适用场景、Vue、Node.js、Docker、Actions",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13128,15 +13136,22 @@
         "AI开发",
         "开发基础"
       ],
-      "tags": [],
+      "tags": [
+        "配置文件",
+        "YAML",
+        "JSON",
+        "TOML",
+        "Docker",
+        "GitHub Actions"
+      ],
       "sortOrder": 20,
       "sourcePath": "YAML-JSON-TOML-配置文件入门.md",
       "publishedAt": "2026-07-05T11:55:50.508Z",
       "updatedAt": "2026-07-05T11:55:50.509Z",
-      "fileName": "AI相关/AI开发/开发基础/YAML、JSON、TOML-配置文件入门：开发初学者看这一篇就够.md",
-      "summary": "面向开发初学者，用真实项目场景讲清 YAML、JSON、TOML 三类配置文件是什么、为什么常见、语法差异、适用场景、优缺点，以及在 Vue、Node.js、Docker、GitHub Actions、Codex 等项目中的实际用法。",
+      "fileName": "AI相关/AI开发/开发基础/第 02 篇：YAML、JSON、TOML 配置文件入门：语法差异、适用场景、Vue、Node.js、Docker、Actions.md",
+      "summary": "面向开发初学者讲清 YAML、JSON、TOML 三类配置文件的语法差异、适用场景、优缺点，以及在 Vue、Node.js、Docker、GitHub Actions、Codex 等项目中的用法。",
       "cover": "",
-      "contentHash": "61c5787ca6043d0f1dde262035b45bcd3b998aaa13f2d5ee0bd3f80ae785b555"
+      "contentHash": "755a45d7c16e2796bf62d2dbc734d4bb77d5b3b3e9c2152681278b9571df972a"
     },
     {
       "originalId": "6a6b691f4bf50146e9b95e36",
@@ -14116,7 +14131,7 @@
       "originalId": "6a4a4564f9ac958d2917802c",
       "originalSlug": "docker-desktop-cn-localization-guide",
       "exportedSlug": "docker-desktop-cn-localization-guide",
-      "title": "Docker Desktop 汉化教程：以 DockerDesktop-CN 为例",
+      "title": "第 2 篇：Docker Desktop 汉化教程：DockerDesktop-CN、版本匹配、文件备份、替换验证、回滚",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -14124,21 +14139,28 @@
         "AI开发",
         "Docker"
       ],
-      "tags": [],
-      "sortOrder": 10,
+      "tags": [
+        "Docker Desktop",
+        "DockerDesktop-CN",
+        "Windows",
+        "汉化",
+        "版本匹配",
+        "回滚"
+      ],
+      "sortOrder": 20,
       "sourcePath": "Docker Desktop 汉化教程：以 DockerDesktop-CN 为例.md",
       "publishedAt": "2026-07-05T11:56:11.339Z",
       "updatedAt": "2026-07-05T11:56:11.340Z",
-      "fileName": "AI相关/AI开发/Docker/Docker-Desktop-汉化教程：以-DockerDesktop-CN-为例.md",
-      "summary": "记录 Windows 环境下使用 DockerDesktop-CN 对 Docker Desktop 进行汉化的完整流程，包含版本匹配、下载校验、文件备份、管理员权限替换、运行验证、回滚方式和升级维护注意事项。",
+      "fileName": "AI相关/AI开发/Docker/第 02 篇：Docker Desktop 汉化教程：DockerDesktop-CN、版本匹配、文件备份、替换验证、回滚.md",
+      "summary": "Windows 环境下使用 DockerDesktop-CN 对 Docker Desktop 进行汉化的完整流程，覆盖版本匹配、下载校验、文件备份、管理员权限替换、运行验证、回滚和升级维护。",
       "cover": "",
-      "contentHash": "0b1828a3e6026d45e7c12045f5e4e95340c572af5f82fc3f56486a61e59eeedd"
+      "contentHash": "203aa1476fb1ac4ed6697c975105c24414ef2f8f7c80fc8cb79baf880e86862a"
     },
     {
       "originalId": "6a4a4564f9ac958d29178031",
       "originalSlug": "docker-learning-notes-for-beginners",
       "exportedSlug": "docker-learning-notes-for-beginners",
-      "title": "Docker 学习笔记：纯小白版",
+      "title": "第 1 篇：Docker 学习笔记纯小白版：镜像、容器、端口映射、数据挂载、Dockerfile、Compose",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -14146,15 +14168,23 @@
         "AI开发",
         "Docker"
       ],
-      "tags": [],
-      "sortOrder": 20,
+      "tags": [
+        "Docker",
+        "镜像",
+        "容器",
+        "端口映射",
+        "数据挂载",
+        "Dockerfile",
+        "Docker Compose"
+      ],
+      "sortOrder": 10,
       "sourcePath": "Docker学习笔记-纯小白版.md",
       "publishedAt": "2026-07-05T11:56:11.345Z",
       "updatedAt": "2026-07-05T11:56:11.345Z",
-      "fileName": "AI相关/AI开发/Docker/Docker-学习笔记：纯小白版.md",
-      "summary": "面向 Docker 零基础学习者，从为什么需要 Docker、镜像和容器是什么、如何运行第一个服务、端口映射、数据挂载、环境变量、Dockerfile、Docker Compose 到常见排错，建立一套可动手验证的入门知识框架。",
+      "fileName": "AI相关/AI开发/Docker/第 01 篇：Docker 学习笔记纯小白版：镜像、容器、端口映射、数据挂载、Dockerfile、Compose.md",
+      "summary": "Docker 零基础学习笔记，从为什么需要 Docker、镜像和容器、运行第一个服务、端口映射、数据挂载、环境变量、Dockerfile、Docker Compose 到常见排错。",
       "cover": "",
-      "contentHash": "42a4ebe469ac62e5ffc5d7c9284750d70d31ba7ccc7e908d555c2d2333a354e8"
+      "contentHash": "311dcea0a6e861ffc44628c86d9f68fafc07e058807569589302e9aadabe86cd"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2fa",
@@ -15641,5 +15671,5 @@
       "updatedAt": "2026-07-30T16:04:54.764Z"
     }
   ],
-  "generatedAt": "2026-07-31T09:29:43.274Z"
+  "generatedAt": "2026-07-31T09:41:56.169Z"
 }

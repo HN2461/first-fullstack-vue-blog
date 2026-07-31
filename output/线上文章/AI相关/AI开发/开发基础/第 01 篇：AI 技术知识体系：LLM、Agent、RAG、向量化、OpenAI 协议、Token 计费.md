@@ -1,9 +1,16 @@
 ---
-title: "AI技术知识体系：从核心概念到工程化实战"
+title: "第 1 篇：AI 技术知识体系：LLM、Agent、RAG、向量化、OpenAI 协议、Token 计费"
 slug: "ai-knowledge-system-from-concepts-to-engineering"
-summary: "系统整理 LLM、Agent、RAG、向量化等 AI 核心概念，以及 cURL、OpenAI 协议、Token 计费、错误处理、缓存监控等工程化实战知识，帮助开发者建立从\"是什么\"到\"怎么用\"的完整 AI 应用开发知识体系。"
+summary: "系统整理 LLM、Agent、RAG、向量化等 AI 核心概念，以及 cURL、OpenAI 协议、Token 计费、错误处理、缓存监控等工程化实战知识。"
 category: "开发基础"
-tags: []
+tags:
+  - "AI开发"
+  - "LLM"
+  - "Agent"
+  - "RAG"
+  - "向量化"
+  - "OpenAI协议"
+  - "Token计费"
 status: "draft"
 sortOrder: 10
 cover: ""
@@ -12,7 +19,7 @@ originalSlug: "ai-knowledge-system-from-concepts-to-engineering"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# AI技术知识体系：从核心概念到工程化实战
+# 第 1 篇：AI 技术知识体系：LLM、Agent、RAG、向量化、OpenAI 协议、Token 计费
 
 > 整理自学习对话与开发实践，覆盖 AI 核心概念到工程化落地全链路
 > 2026-07-01

@@ -1,18 +1,25 @@
 ---
-title: "Docker 学习笔记：纯小白版"
+title: "第 1 篇：Docker 学习笔记纯小白版：镜像、容器、端口映射、数据挂载、Dockerfile、Compose"
 slug: "docker-learning-notes-for-beginners"
-summary: "面向 Docker 零基础学习者，从为什么需要 Docker、镜像和容器是什么、如何运行第一个服务、端口映射、数据挂载、环境变量、Dockerfile、Docker Compose 到常见排错，建立一套可动手验证的入门知识框架。"
+summary: "Docker 零基础学习笔记，从为什么需要 Docker、镜像和容器、运行第一个服务、端口映射、数据挂载、环境变量、Dockerfile、Docker Compose 到常见排错。"
 category: "Docker"
-tags: []
+tags:
+  - "Docker"
+  - "镜像"
+  - "容器"
+  - "端口映射"
+  - "数据挂载"
+  - "Dockerfile"
+  - "Docker Compose"
 status: "draft"
-sortOrder: 20
+sortOrder: 10
 cover: ""
 originalId: "6a4a4564f9ac958d29178031"
 originalSlug: "docker-learning-notes-for-beginners"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Docker 学习笔记：纯小白版
+# 第 1 篇：Docker 学习笔记纯小白版：镜像、容器、端口映射、数据挂载、Dockerfile、Compose
 
 > 本文适合完全没有 Docker 基础的人阅读。目标不是一次性讲完所有细节，而是先建立正确体感：Docker 到底解决什么问题、镜像和容器是什么、为什么服务能跑在一个“看不见的环境”里，以及新手应该按什么顺序练习。
 
