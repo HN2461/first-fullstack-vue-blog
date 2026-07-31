@@ -1,17 +1,19 @@
 ---
-title: "JSON 与 FormData"
+title: "第 3 篇：JSON 与 FormData：请求体格式、Content-Type、文件上传区别"
 slug: "json-formdata-b830a9f9"
-summary: ""
+summary: "对比 JSON 和 FormData 的请求体格式、语法特点、Content-Type、接口提交方式、文件上传能力和前后端联调注意事项。"
 category: "数据类型"
-tags: []
+tags: ["JSON","FormData","Content-Type","文件上传","请求体"]
 status: "draft"
-sortOrder: 40
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33a"
 originalSlug: "json-formdata-b830a9f9"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 3 篇：JSON 与 FormData：请求体格式、Content-Type、文件上传区别
+
 ## 📖 第一部分：JSON 格式详解
 ### 一、JSON 是什么？
 JSON（JavaScript Object Notation）是一种**轻量级的数据交换格式**，基于文本，独立于编程语言。

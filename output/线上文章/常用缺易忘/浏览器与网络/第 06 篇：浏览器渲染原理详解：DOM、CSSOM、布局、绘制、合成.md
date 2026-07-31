@@ -1,18 +1,18 @@
 ---
-title: "浏览器渲染原理详解"
+title: "第 6 篇：浏览器渲染原理详解：DOM、CSSOM、布局、绘制、合成"
 slug: "legacy-ffc99f19-ffc99f19"
-summary: ""
+summary: "浏览器渲染原理笔记，讲清 HTML 解析、DOM 树、CSSOM 树、渲染树、布局、绘制、合成、重排重绘和性能优化基础。"
 category: "浏览器与网络"
-tags: []
+tags: ["浏览器渲染","DOM","CSSOM","重排","重绘","合成"]
 status: "draft"
-sortOrder: 20
+sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac35e"
 originalSlug: "legacy-ffc99f19-ffc99f19"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 浏览器渲染原理详解
+# 第 6 篇：浏览器渲染原理详解：DOM、CSSOM、布局、绘制、合成
 
 ## 一、为什么需要理解渲染原理？
 

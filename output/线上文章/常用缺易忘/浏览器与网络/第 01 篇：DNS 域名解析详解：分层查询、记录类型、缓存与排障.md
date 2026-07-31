@@ -1,17 +1,19 @@
 ---
-title: "DNS域名解析详解"
+title: "第 1 篇：DNS 域名解析详解：分层查询、记录类型、缓存与排障"
 slug: "dns-c31ae11a"
-summary: ""
+summary: "DNS 域名解析基础笔记，讲清域名为什么需要解析、根域名服务器到权威 DNS 的分层查询、常见记录类型、DNS 缓存和解析故障排查。"
 category: "浏览器与网络"
-tags: []
+tags: ["DNS","域名解析","网络基础","DNS 记录","缓存"]
 status: "draft"
-sortOrder: 70
+sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac344"
 originalSlug: "dns-c31ae11a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 1 篇：DNS 域名解析详解：分层查询、记录类型、缓存与排障
+
 ## 一、为什么需要DNS域名解析？
 互联网的通信依赖**IP地址**（IPv4如xxx.xxx.xxx.xxx，IPv6如8组十六进制数），所有设备（电脑、手机、服务器）必须通过IP地址才能互相定位和传输数据。但存在两个关键问题：
 1. **人类记忆成本高**：记住“www.taobao.com”远比记住“140.205.140.241”容易；

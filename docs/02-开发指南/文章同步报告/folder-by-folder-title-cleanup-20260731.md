@@ -218,6 +218,47 @@
 - 后续文章整理新增命名规则：标题和本地导出文件名必须在保持阅读序号的同时保留核心内容范围，不能为了缩短文件名牺牲见名知意。
 - 分类路径暂不改名，避免把分类树变更与文章内容整理混在一起；如后续要把 `uvui` 改成 `uv-ui`、`ElementPlus` 改成 `Element Plus`，应单独 dry-run 分类迁移。
 
+### 常用缺易忘 / 工具速查
+
+- 处理 4 篇直接归属于 `常用缺易忘 / 工具速查` 的通用速查文章。原排序为时间戳、window API、Markdown、Canvas，且 Markdown、时间戳、Canvas 缺少摘要和标签。
+- 已整理为：Markdown 完全指南、JavaScript 时间戳完全指南、window 对象常用 API 速查、HTML5 Canvas 入门笔记。
+- 将 `sortOrder` 调整为 10、20、30、40，使线上目录按通用写作工具、时间处理、浏览器 BOM、图形绘制的路径展示；本地文件名采用 `第 01 篇` 到 `第 04 篇`。
+- 按见名知意要求保留关键内容范围，例如 Markdown 的标题、列表、表格、代码块，时间戳的获取、转换、格式化、时区，window API 的 location、history、navigator、postMessage，Canvas 的画布、路径、图形、文字、图片绘制。
+- 为缺少摘要和标签的文章补齐摘要和检索标签，同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `常用缺易忘 / 工具速查` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+
+### 常用缺易忘 / 工具速查 / Git
+
+- 处理 3 篇 Git 速查文章。原排序整体可用，但本地文件名缺少阅读序号，标题格式不统一。
+- 已整理为：Git 账号密码与平台认证、Git 命令速查与常见问题、Git 分支追踪与 VSCode 发布提示排障。
+- 保持语义顺序为认证概念、常用命令、分支追踪排障；本地文件名采用 `第 01 篇` 到 `第 03 篇`。
+- 按见名知意要求保留关键内容范围，例如平台认证、HTTPS、SSH、Token，提交、分支、撤销、回退、GitHub 连接，upstream、fetch、远程分支。
+- 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 变更明细：`docs/02-开发指南/文章同步报告/common-tools-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/common-tools-folder-before-semantic-cleanup-20260731-1745`。
+
+### 常用缺易忘 / 浏览器与网络
+
+- 处理 7 篇浏览器与网络文章。原排序将前端各种帧放在第一、DNS 放在最后，且 DNS、TCP、HTTP、HTTP 缓存、输入 URL 全过程、浏览器渲染等文章缺少摘要和标签。
+- 已整理为：DNS 域名解析、TCP 三次握手、HTTP 协议、HTTP 缓存机制、从输入 URL 到页面显示全过程、浏览器渲染原理、前端里的各种帧。
+- 将 `sortOrder` 调整为 10 到 70，使线上目录按网络基础、协议与缓存、完整访问链路、浏览器渲染、帧概念辨析的路径展示；本地文件名采用 `第 01 篇` 到 `第 07 篇`。
+- 按见名知意要求保留关键内容范围，例如 DNS 的分层查询、记录类型、缓存与排障，TCP 的 SYN/ACK 和两次/四次问题，HTTP 的请求报文、响应报文、状态码与请求头，渲染原理的 DOM、CSSOM、布局、绘制、合成。
+- 为缺少摘要和标签的文章补齐摘要和检索标签，同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `常用缺易忘 / 浏览器与网络` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/browser-network-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/browser-network-folder-before-semantic-cleanup-20260731-1755`。
+
+### 常用缺易忘 / 数据类型
+
+- 处理 7 篇数据类型文章。原排序从浏览器三大存储开始，编码、MIME、JSON/FormData、二进制类型和 IndexedDB 混在一起，且多数文章缺少摘要和标签。
+- 已整理为：字符 vs 字节与 charset=utf-8、MIME 媒体类型、JSON 与 FormData、File/Blob/ArrayBuffer/Base64 区别、Blob 底层本质、浏览器三大存储、IndexedDB 什么时候该上。
+- 将 `sortOrder` 调整为 10 到 70，使线上目录按编码基础、HTTP 数据类型、请求体格式、二进制处理、浏览器存储的路径展示；本地文件名采用 `第 01 篇` 到 `第 07 篇`。
+- 按见名知意要求保留关键内容范围，例如 ASCII、UTF-8、密钥长度、Content-Type、文件上传、上传下载预览、构造函数、类型转换、localStorage、sessionStorage、Cookie、事务与复杂度取舍。
+- 为缺少摘要和标签的文章补齐摘要和检索标签，同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `常用缺易忘 / 数据类型` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/data-types-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/data-types-folder-before-semantic-cleanup-20260731-1805`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

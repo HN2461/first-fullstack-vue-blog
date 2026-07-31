@@ -1,17 +1,19 @@
 ---
-title: "Blob的底层本质与核心定位"
+title: "第 5 篇：Blob 的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览"
 slug: "blob-2000f47d"
-summary: ""
+summary: "Blob 深入笔记，讲清 Blob 的底层定位、构造函数、type/size、slice、stream、arrayBuffer、text、与 File/ArrayBuffer/Base64 的转换，以及下载预览等高频场景。"
 category: "数据类型"
-tags: []
+tags: ["Blob","File","ArrayBuffer","Base64","下载预览","二进制"]
 status: "draft"
-sortOrder: 70
+sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac31e"
 originalSlug: "blob-2000f47d"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 5 篇：Blob 的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览
+
 ### 一、Blob的底层本质与核心定位
 在前端生态中，Blob是**<font style="color:#DF2A3F;">浏览器提供的用于封装「不可变原始二进制数据」的内置对象</font>**，它的核心价值在于：
 

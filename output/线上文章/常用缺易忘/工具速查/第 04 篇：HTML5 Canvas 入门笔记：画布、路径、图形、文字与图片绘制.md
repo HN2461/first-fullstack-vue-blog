@@ -1,9 +1,9 @@
 ---
-title: "Canvas标签"
+title: "第 4 篇：HTML5 Canvas 入门笔记：画布、路径、图形、文字与图片绘制"
 slug: "canvas-7535da83"
-summary: ""
+summary: "HTML5 Canvas 入门笔记，用数字画板的方式讲清 canvas 标签、绘图上下文、坐标系、矩形、路径、圆形、文字、图片和基础动画。"
 category: "工具速查"
-tags: []
+tags: ["Canvas","HTML5","前端图形","绘图 API","动画"]
 status: "draft"
 sortOrder: 40
 cover: ""
@@ -12,7 +12,7 @@ originalSlug: "canvas-7535da83"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# HTML5 Canvas 超详细入门笔记（通俗易懂版）
+# 第 4 篇：HTML5 Canvas 入门笔记：画布、路径、图形、文字与图片绘制
 
 ## 一、把 Canvas 想象成「数字画板」
 

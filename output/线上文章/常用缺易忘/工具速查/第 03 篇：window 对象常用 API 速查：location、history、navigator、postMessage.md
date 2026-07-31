@@ -1,25 +1,18 @@
 ---
-title: "window 对象常用 API 速查"
+title: "第 3 篇：window 对象常用 API 速查：location、history、navigator、postMessage"
 slug: "window-api-3e74acb4"
-summary: "系统梳理前端开发中 window 对象最常用的 API，涵盖 location 跳转、history 路由、navigator 设备信息、postMessage 跨窗口通信、open/close 窗口控制、定时器、滚动、存储等，每个 API 配实战用法。"
+summary: "系统梳理前端开发中 window 对象最常用的 API，涵盖 location 跳转、history 路由、navigator 设备信息、postMessage 跨窗口通信、open/close 窗口控制、定时器、滚动、存储等。"
 category: "工具速查"
-tags:
-  - "window"
-  - "BOM"
-  - "location"
-  - "history"
-  - "navigator"
-  - "postMessage"
-  - "前端基础"
+tags: ["window","BOM","location","history","navigator","postMessage","前端基础"]
 status: "draft"
-sortOrder: 20
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac318"
 originalSlug: "window-api-3e74acb4"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# window 对象常用 API 速查
+# 第 3 篇：window 对象常用 API 速查：location、history、navigator、postMessage
 
 `window` 是浏览器环境的全局对象，所有挂在它上面的属性和方法都可以省略 `window.` 直接调用。本文只讲前端开发中真正高频用到的那些，每个都给实战场景。
 

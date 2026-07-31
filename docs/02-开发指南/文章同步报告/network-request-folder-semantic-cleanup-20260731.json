@@ -1,0 +1,150 @@
+{
+  "generatedAt": "2026-07-31T08:19:20.591Z",
+  "scope": "output/线上文章/常用缺易忘/网络请求",
+  "changedCount": 4,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac372",
+      "originalSlug": "http-6bf1d13c",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "sourcePath": "常用缺易忘/网络请求/前端 HTTP 请求与接口联调手册.md",
+      "old": {
+        "title": "前端 HTTP 请求与接口联调手册",
+        "summary": "把前端最常一起查的 HTTP 请求、状态码、缓存、下载、实时通信与请求治理收进一篇联调手册，避免再按单个术语碎片化翻找。",
+        "sortOrder": 20,
+        "tags": [
+          "HTTP",
+          "接口联调",
+          "状态码",
+          "缓存",
+          "实时通信"
+        ],
+        "fileName": "常用缺易忘/网络请求/前端-HTTP-请求与接口联调手册.md"
+      },
+      "next": {
+        "title": "第 1 篇：前端 HTTP 请求与接口联调手册：请求头、状态码、缓存、下载、实时通信",
+        "summary": "前端 HTTP 请求与接口联调手册，整理请求头、响应头、状态码、缓存、文件下载、实时通信和请求治理，帮助联调时快速对齐前后端边界。",
+        "sortOrder": 10,
+        "tags": [
+          "HTTP",
+          "接口联调",
+          "请求头",
+          "状态码",
+          "缓存",
+          "实时通信"
+        ],
+        "fileName": "常用缺易忘/网络请求/第 01 篇：前端 HTTP 请求与接口联调手册：请求头、状态码、缓存、下载、实时通信.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac36c",
+      "originalSlug": "fetch-axios-xhr-4b58d611",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "sourcePath": "常用缺易忘/网络请求/Fetch、Axios、XHR 详解.md",
+      "old": {
+        "title": "Fetch、Axios、XHR 详解",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "常用缺易忘/网络请求/Fetch、Axios、XHR-详解.md"
+      },
+      "next": {
+        "title": "第 2 篇：Fetch、Axios、XHR 详解：三种前端请求方式对比与实战选择",
+        "summary": "前端网络请求方式对比笔记，讲清 XMLHttpRequest、Fetch API、Axios 的基本用法、优缺点、封装方式、错误处理和项目选型。",
+        "sortOrder": 20,
+        "tags": [
+          "Fetch",
+          "Axios",
+          "XHR",
+          "网络请求",
+          "接口封装",
+          "错误处理"
+        ],
+        "fileName": "常用缺易忘/网络请求/第 02 篇：Fetch、Axios、XHR 详解：三种前端请求方式对比与实战选择.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac36a",
+      "originalSlug": "fetch-api-d4229b6f",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "sourcePath": "常用缺易忘/网络请求/Fetch API 避坑指南.md",
+      "old": {
+        "title": "Fetch API 避坑指南",
+        "summary": "深度梳理 Fetch API 的核心用法与常见陷阱，涵盖两层错误判断、超时控制、请求取消、通用封装等实战技巧，避免上线踩坑。",
+        "sortOrder": 40,
+        "tags": [
+          "Fetch API",
+          "网络请求",
+          "异步编程",
+          "错误处理",
+          "AbortController"
+        ],
+        "fileName": "常用缺易忘/网络请求/Fetch-API-避坑指南.md"
+      },
+      "next": {
+        "title": "第 3 篇：Fetch API 避坑指南：response.ok、业务 code、超时、取消、通用封装",
+        "summary": "Fetch API 实战避坑笔记，覆盖 response.ok、HTTP 状态码与业务 code、响应解析、超时控制、AbortController 请求取消和通用封装。",
+        "sortOrder": 30,
+        "tags": [
+          "Fetch API",
+          "response.ok",
+          "AbortController",
+          "超时控制",
+          "错误处理",
+          "请求封装"
+        ],
+        "fileName": "常用缺易忘/网络请求/第 03 篇：Fetch API 避坑指南：response.ok、业务 code、超时、取消、通用封装.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac378",
+      "originalSlug": "legacy-68f76f0c-68f76f0c",
+      "categoryPath": [
+        "常用缺易忘",
+        "网络请求"
+      ],
+      "sourcePath": "常用缺易忘/网络请求/前端认证、安全与文件上传协作手册.md",
+      "old": {
+        "title": "前端认证、安全与文件上传协作手册",
+        "summary": "把前端最常一起查的登录态、跨域、安全、OAuth2 与文件上传问题收进一篇协作手册，重点放在和后端联调时真正要对齐的边界。",
+        "sortOrder": 10,
+        "tags": [
+          "认证",
+          "CORS",
+          "Cookie",
+          "文件上传",
+          "OAuth2"
+        ],
+        "fileName": "常用缺易忘/网络请求/前端认证、安全与文件上传协作手册.md"
+      },
+      "next": {
+        "title": "第 4 篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData",
+        "summary": "前端认证、安全与文件上传协作手册，整理登录态、Bearer Token、Cookie、Access Token、Refresh Token、CORS、CSRF、OAuth2、FormData 和文件上传联调边界。",
+        "sortOrder": 40,
+        "tags": [
+          "认证",
+          "Token",
+          "Cookie",
+          "CORS",
+          "OAuth2",
+          "FormData",
+          "文件上传"
+        ],
+        "fileName": "常用缺易忘/网络请求/第 04 篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

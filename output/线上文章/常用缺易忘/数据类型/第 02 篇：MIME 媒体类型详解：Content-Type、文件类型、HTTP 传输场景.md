@@ -1,18 +1,18 @@
 ---
-title: "MIME媒体类型"
+title: "第 2 篇：MIME 媒体类型详解：Content-Type、文件类型、HTTP 传输场景"
 slug: "mime-81d4ff42"
-summary: ""
+summary: "MIME 媒体类型基础笔记，讲清 type/subtype 格式、Content-Type 作用、常见文本/图片/音视频/二进制类型，以及 HTTP 和文件上传下载中的使用场景。"
 category: "数据类型"
-tags: []
+tags: ["MIME","Content-Type","HTTP","文件类型","媒体类型"]
 status: "draft"
-sortOrder: 30
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33c"
 originalSlug: "mime-81d4ff42"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# MIME媒体类型
+# 第 2 篇：MIME 媒体类型详解：Content-Type、文件类型、HTTP 传输场景
 MIME（Multipurpose Internet Mail Extensions，多用途互联网邮件扩展）媒体类型，又称“内容类型（Content-Type）”，是一套用于标识互联网中数据格式与性质的标准。它最初为解决传统电子邮件仅能传输ASCII纯文本的局限而生，如今已成为HTTP协议、HTML、文件传输等场景中识别数据类型的核心机制，确保客户端（如浏览器、应用程序）与服务器能正确解析和处理各类数据。
 
 

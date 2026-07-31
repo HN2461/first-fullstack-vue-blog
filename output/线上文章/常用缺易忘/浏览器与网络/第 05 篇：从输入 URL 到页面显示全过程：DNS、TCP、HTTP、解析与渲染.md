@@ -1,18 +1,18 @@
 ---
-title: "从输入URL到页面显示全过程"
+title: "第 5 篇：从输入 URL 到页面显示全过程：DNS、TCP、HTTP、解析与渲染"
 slug: "url-a3801def"
-summary: ""
+summary: "浏览器访问页面全流程笔记，串联 URL 解析、DNS 查询、TCP 连接、HTTP 请求响应、HTML/CSS/JS 解析、渲染树和页面绘制。"
 category: "浏览器与网络"
-tags: []
+tags: ["浏览器","URL","DNS","TCP","HTTP","渲染流程"]
 status: "draft"
-sortOrder: 30
+sortOrder: 50
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac34c"
 originalSlug: "url-a3801def"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 从输入URL到页面显示的完整过程
+# 第 5 篇：从输入 URL 到页面显示全过程：DNS、TCP、HTTP、解析与渲染
 
 > 前端必会！面试高频题详解 🚀
 

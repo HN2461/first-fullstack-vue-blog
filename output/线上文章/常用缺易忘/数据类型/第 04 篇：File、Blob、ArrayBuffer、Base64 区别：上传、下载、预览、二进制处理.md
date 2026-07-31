@@ -1,23 +1,18 @@
 ---
-title: "File、Blob、ArrayBuffer、Base64 区别"
+title: "第 4 篇：File、Blob、ArrayBuffer、Base64 区别：上传、下载、预览、二进制处理"
 slug: "file-blob-arraybuffer-base64-537d7c38"
-summary: "一次理清 File、Blob、ArrayBuffer、Base64 各自代表什么、彼此怎么转换，以及上传、下载、预览、二进制处理时分别该优先用哪一种，避免把编码结果和数据类型混为一谈。"
+summary: "一次理清 File、Blob、ArrayBuffer、Base64 各自代表什么、彼此怎么转换，以及上传、下载、预览、二进制处理时分别该优先用哪一种。"
 category: "数据类型"
-tags:
-  - "File"
-  - "Blob"
-  - "ArrayBuffer"
-  - "Base64"
-  - "二进制"
+tags: ["File","Blob","ArrayBuffer","Base64","二进制","文件上传"]
 status: "draft"
-sortOrder: 60
+sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac32c"
 originalSlug: "file-blob-arraybuffer-base64-537d7c38"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# File、Blob、ArrayBuffer、Base64 区别
+# 第 4 篇：File、Blob、ArrayBuffer、Base64 区别：上传、下载、预览、二进制处理
 
 > 这几个词经常同时出现在上传、下载、预览、Canvas、音视频、接口传输里。
 >

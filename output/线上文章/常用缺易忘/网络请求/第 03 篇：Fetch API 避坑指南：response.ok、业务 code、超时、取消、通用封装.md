@@ -1,23 +1,18 @@
 ---
-title: "Fetch API 避坑指南"
+title: "第 3 篇：Fetch API 避坑指南：response.ok、业务 code、超时、取消、通用封装"
 slug: "fetch-api-d4229b6f"
-summary: "深度梳理 Fetch API 的核心用法与常见陷阱，涵盖两层错误判断、超时控制、请求取消、通用封装等实战技巧，避免上线踩坑。"
+summary: "Fetch API 实战避坑笔记，覆盖 response.ok、HTTP 状态码与业务 code、响应解析、超时控制、AbortController 请求取消和通用封装。"
 category: "网络请求"
-tags:
-  - "Fetch API"
-  - "网络请求"
-  - "异步编程"
-  - "错误处理"
-  - "AbortController"
+tags: ["Fetch API","response.ok","AbortController","超时控制","错误处理","请求封装"]
 status: "draft"
-sortOrder: 40
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac36a"
 originalSlug: "fetch-api-d4229b6f"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Fetch API 避坑指南
+# 第 3 篇：Fetch API 避坑指南：response.ok、业务 code、超时、取消、通用封装
 
 > Fetch 是浏览器原生的异步请求 API，语法简洁、基于 Promise，但有几个"反直觉"的坑，不踩一次很难记住。这篇笔记专门整理这些坑和对应的解法。
 

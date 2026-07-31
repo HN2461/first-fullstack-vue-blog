@@ -1,23 +1,18 @@
 ---
-title: "前端认证、安全与文件上传协作手册"
+title: "第 4 篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData"
 slug: "legacy-68f76f0c-68f76f0c"
-summary: "把前端最常一起查的登录态、跨域、安全、OAuth2 与文件上传问题收进一篇协作手册，重点放在和后端联调时真正要对齐的边界。"
+summary: "前端认证、安全与文件上传协作手册，整理登录态、Bearer Token、Cookie、Access Token、Refresh Token、CORS、CSRF、OAuth2、FormData 和文件上传联调边界。"
 category: "网络请求"
-tags:
-  - "认证"
-  - "CORS"
-  - "Cookie"
-  - "文件上传"
-  - "OAuth2"
+tags: ["认证","Token","Cookie","CORS","OAuth2","FormData","文件上传"]
 status: "draft"
-sortOrder: 10
+sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac378"
 originalSlug: "legacy-68f76f0c-68f76f0c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端认证、安全与文件上传协作手册
+# 第 4 篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData
 
 > 前端和后端在这些问题上最容易“都懂一点，但总对不齐”：
 >

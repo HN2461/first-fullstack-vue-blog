@@ -1,0 +1,251 @@
+{
+  "generatedAt": "2026-07-31T08:08:13.860Z",
+  "scope": "output/线上文章/常用缺易忘/工具速查",
+  "changedCount": 7,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac30a",
+      "originalSlug": "markdown-b1298425",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "sourcePath": "常用缺易忘/工具速查/Markdown完全指南.md",
+      "old": {
+        "title": "Markdown完全指南",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "常用缺易忘/工具速查/Markdown完全指南.md"
+      },
+      "next": {
+        "title": "第 1 篇：Markdown 完全指南：标题、列表、表格、代码块与进阶语法",
+        "summary": "Markdown 速查与完整教程，覆盖标题、段落、强调、列表、链接、图片、表格、代码块、引用、任务列表和常用进阶语法。",
+        "sortOrder": 10,
+        "tags": [
+          "Markdown",
+          "文档写作",
+          "语法速查",
+          "表格",
+          "代码块"
+        ],
+        "fileName": "常用缺易忘/工具速查/第 01 篇：Markdown 完全指南：标题、列表、表格、代码块与进阶语法.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac31a",
+      "originalSlug": "legacy-5c668a9b-5c668a9b",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "sourcePath": "常用缺易忘/工具速查/时间戳完全指南.md",
+      "old": {
+        "title": "时间戳完全指南",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "常用缺易忘/工具速查/时间戳完全指南.md"
+      },
+      "next": {
+        "title": "第 2 篇：JavaScript 时间戳完全指南：获取、转换、格式化与时区问题",
+        "summary": "JavaScript 时间戳速查笔记，整理秒级/毫秒级时间戳、Date 获取、指定时间转换、日期格式化、时区偏差和常见业务用法。",
+        "sortOrder": 20,
+        "tags": [
+          "JavaScript",
+          "时间戳",
+          "Date",
+          "日期格式化",
+          "时区"
+        ],
+        "fileName": "常用缺易忘/工具速查/第 02 篇：JavaScript 时间戳完全指南：获取、转换、格式化与时区问题.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac318",
+      "originalSlug": "window-api-3e74acb4",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "sourcePath": "常用缺易忘/工具速查/window对象常用API速查.md",
+      "old": {
+        "title": "window 对象常用 API 速查",
+        "summary": "系统梳理前端开发中 window 对象最常用的 API，涵盖 location 跳转、history 路由、navigator 设备信息、postMessage 跨窗口通信、open/close 窗口控制、定时器、滚动、存储等，每个 API 配实战用法。",
+        "sortOrder": 20,
+        "tags": [
+          "window",
+          "BOM",
+          "location",
+          "history",
+          "navigator",
+          "postMessage",
+          "前端基础"
+        ],
+        "fileName": "常用缺易忘/工具速查/window-对象常用-API-速查.md"
+      },
+      "next": {
+        "title": "第 3 篇：window 对象常用 API 速查：location、history、navigator、postMessage",
+        "summary": "系统梳理前端开发中 window 对象最常用的 API，涵盖 location 跳转、history 路由、navigator 设备信息、postMessage 跨窗口通信、open/close 窗口控制、定时器、滚动、存储等。",
+        "sortOrder": 30,
+        "tags": [
+          "window",
+          "BOM",
+          "location",
+          "history",
+          "navigator",
+          "postMessage",
+          "前端基础"
+        ],
+        "fileName": "常用缺易忘/工具速查/第 03 篇：window 对象常用 API 速查：location、history、navigator、postMessage.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac300",
+      "originalSlug": "canvas-7535da83",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查"
+      ],
+      "sourcePath": "常用缺易忘/工具速查/Canvas标签.md",
+      "old": {
+        "title": "Canvas标签",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "常用缺易忘/工具速查/Canvas标签.md"
+      },
+      "next": {
+        "title": "第 4 篇：HTML5 Canvas 入门笔记：画布、路径、图形、文字与图片绘制",
+        "summary": "HTML5 Canvas 入门笔记，用数字画板的方式讲清 canvas 标签、绘图上下文、坐标系、矩形、路径、圆形、文字、图片和基础动画。",
+        "sortOrder": 40,
+        "tags": [
+          "Canvas",
+          "HTML5",
+          "前端图形",
+          "绘图 API",
+          "动画"
+        ],
+        "fileName": "常用缺易忘/工具速查/第 04 篇：HTML5 Canvas 入门笔记：画布、路径、图形、文字与图片绘制.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6b2",
+      "originalSlug": "git-git-git-https-ssh-token-45a9f853",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查",
+        "Git"
+      ],
+      "sourcePath": "项目复用技术/Git/Git账号密码到底是什么_Git平台认证_HTTPS_SSH_Token全解.md",
+      "old": {
+        "title": "Git账号密码到底是什么：Git、平台认证、HTTPS、SSH、Token 全解",
+        "summary": "面向刚接触代码托管平台的开发者，系统讲清 Git 本身、GitHub/Gitee/公司代码平台账号、HTTPS 与 SSH、Token、提交署名之间的区别，解决“拉代码时到底在验证谁”的常见困惑。",
+        "sortOrder": 10,
+        "tags": [
+          "Git",
+          "GitHub",
+          "Gitee",
+          "SSH",
+          "Token",
+          "认证"
+        ],
+        "fileName": "常用缺易忘/工具速查/Git/Git账号密码到底是什么：Git、平台认证、HTTPS、SSH、Token-全解.md"
+      },
+      "next": {
+        "title": "第 1 篇：Git 账号密码到底是什么：平台认证、HTTPS、SSH、Token 全解",
+        "summary": "系统讲清 Git 本身、GitHub/Gitee/公司代码平台账号、HTTPS、SSH、Token、提交署名之间的区别，解决拉代码时到底在验证谁的问题。",
+        "sortOrder": 10,
+        "tags": [
+          "Git",
+          "GitHub",
+          "Gitee",
+          "SSH",
+          "Token",
+          "认证"
+        ],
+        "fileName": "常用缺易忘/工具速查/Git/第 01 篇：Git 账号密码到底是什么：平台认证、HTTPS、SSH、Token 全解.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac308",
+      "originalSlug": "git-5aba4c87",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查",
+        "Git"
+      ],
+      "sourcePath": "常用缺易忘/工具速查/Git命令速查与常见问题.md",
+      "old": {
+        "title": "Git 命令速查与常见问题",
+        "summary": "从 VSCode 插件点按钮过渡到命令行操作的 Git 速查手册，涵盖日常命令、分支管理、撤销回退、以及国内连不上 GitHub 的解决方案。",
+        "sortOrder": 30,
+        "tags": [
+          "Git",
+          "命令行",
+          "GitHub",
+          "版本控制",
+          "问题排查"
+        ],
+        "fileName": "常用缺易忘/工具速查/Git/Git-命令速查与常见问题.md"
+      },
+      "next": {
+        "title": "第 2 篇：Git 命令速查与常见问题：提交、分支、撤销、回退、GitHub 连接",
+        "summary": "从 VSCode 插件点按钮过渡到命令行操作的 Git 速查手册，涵盖日常命令、分支管理、撤销回退，以及国内连不上 GitHub 的解决方案。",
+        "sortOrder": 20,
+        "tags": [
+          "Git",
+          "命令行",
+          "GitHub",
+          "版本控制",
+          "问题排查"
+        ],
+        "fileName": "常用缺易忘/工具速查/Git/第 02 篇：Git 命令速查与常见问题：提交、分支、撤销、回退、GitHub 连接.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac6ae",
+      "originalSlug": "git-git-vscode-bfad3a07",
+      "categoryPath": [
+        "常用缺易忘",
+        "工具速查",
+        "Git"
+      ],
+      "sourcePath": "项目复用技术/Git/Git分支追踪与VSCode发布提示-排障指南.md",
+      "old": {
+        "title": "Git分支追踪与VSCode发布提示-排障指南",
+        "summary": "针对VSCode中\"发布分支\"提示问题的完整排障指南，涵盖分支追踪、upstream配置和fetch配置等常见问题的解决方案。",
+        "sortOrder": 20,
+        "tags": [
+          "Git",
+          "VSCode",
+          "分支管理",
+          "排障指南",
+          "upstream"
+        ],
+        "fileName": "常用缺易忘/工具速查/Git/Git分支追踪与VSCode发布提示-排障指南.md"
+      },
+      "next": {
+        "title": "第 3 篇：Git 分支追踪与 VSCode 发布提示排障：upstream、fetch、远程分支",
+        "summary": "针对 VSCode 中“发布分支”提示问题的排障指南，覆盖分支追踪、upstream 配置、fetch 配置、远程分支检查和修复验证。",
+        "sortOrder": 30,
+        "tags": [
+          "Git",
+          "VSCode",
+          "分支管理",
+          "upstream",
+          "fetch",
+          "排障指南"
+        ],
+        "fileName": "常用缺易忘/工具速查/Git/第 03 篇：Git 分支追踪与 VSCode 发布提示排障：upstream、fetch、远程分支.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

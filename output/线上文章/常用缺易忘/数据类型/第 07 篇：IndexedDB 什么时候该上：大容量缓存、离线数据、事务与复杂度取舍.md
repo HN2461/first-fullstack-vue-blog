@@ -1,23 +1,18 @@
 ---
-title: "IndexedDB 什么时候该上"
+title: "第 7 篇：IndexedDB 什么时候该上：大容量缓存、离线数据、事务与复杂度取舍"
 slug: "indexeddb-16dda85f"
-summary: "从实际业务出发判断 IndexedDB 什么时候值得上，什么时候继续用 localStorage 或 sessionStorage 就够了，并理解 IndexedDB 在容量、查询、事务、离线和工程复杂度上的取舍。"
+summary: "从实际业务判断 IndexedDB 什么时候值得上，什么时候继续用 localStorage 或 sessionStorage 就够，并理解容量、查询、事务、离线和工程复杂度取舍。"
 category: "数据类型"
-tags:
-  - "IndexedDB"
-  - "浏览器存储"
-  - "离线"
-  - "localStorage"
-  - "前端缓存"
+tags: ["IndexedDB","浏览器存储","离线数据","localStorage","前端缓存"]
 status: "draft"
-sortOrder: 50
+sortOrder: 70
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac338"
 originalSlug: "indexeddb-16dda85f"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# IndexedDB 什么时候该上
+# 第 7 篇：IndexedDB 什么时候该上：大容量缓存、离线数据、事务与复杂度取舍
 
 > 很多人第一次接触 IndexedDB，都会觉得它像“浏览器里的小数据库”，然后马上问：
 >

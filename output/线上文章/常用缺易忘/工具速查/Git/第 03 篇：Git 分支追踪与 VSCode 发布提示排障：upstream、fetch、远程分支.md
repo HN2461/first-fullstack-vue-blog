@@ -1,23 +1,18 @@
 ---
-title: "Git分支追踪与VSCode发布提示-排障指南"
+title: "第 3 篇：Git 分支追踪与 VSCode 发布提示排障：upstream、fetch、远程分支"
 slug: "git-git-vscode-bfad3a07"
-summary: "针对VSCode中\"发布分支\"提示问题的完整排障指南，涵盖分支追踪、upstream配置和fetch配置等常见问题的解决方案。"
+summary: "针对 VSCode 中“发布分支”提示问题的排障指南，覆盖分支追踪、upstream 配置、fetch 配置、远程分支检查和修复验证。"
 category: "Git"
-tags:
-  - "Git"
-  - "VSCode"
-  - "分支管理"
-  - "排障指南"
-  - "upstream"
+tags: ["Git","VSCode","分支管理","upstream","fetch","排障指南"]
 status: "draft"
-sortOrder: 20
+sortOrder: 30
 cover: ""
 originalId: "6a2d29208a2b1c68f2cac6ae"
 originalSlug: "git-git-vscode-bfad3a07"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Git分支追踪与VSCode发布提示-排障指南
+# 第 3 篇：Git 分支追踪与 VSCode 发布提示排障：upstream、fetch、远程分支
 
 ## 问题背景
 

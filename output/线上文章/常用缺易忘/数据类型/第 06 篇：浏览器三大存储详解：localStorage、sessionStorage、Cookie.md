@@ -1,18 +1,18 @@
 ---
-title: "浏览器3大存储"
+title: "第 6 篇：浏览器三大存储详解：localStorage、sessionStorage、Cookie"
 slug: "3-c11c6248"
-summary: ""
+summary: "浏览器三大存储笔记，对比 localStorage、sessionStorage、Cookie 的生命周期、容量、作用域、API、请求携带、安全性和常见业务选择。"
 category: "数据类型"
-tags: []
+tags: ["浏览器存储","localStorage","sessionStorage","Cookie","前端缓存"]
 status: "draft"
-sortOrder: 10
+sortOrder: 60
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac340"
 originalSlug: "3-c11c6248"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 浏览器三大存储详解
+# 第 6 篇：浏览器三大存储详解：localStorage、sessionStorage、Cookie
 ## 目录
 + [一、总览：三大存储对比](#一总览三大存储对比)
 + [二、LocalStorage（永久储物柜）](#二localstorage永久储物柜)

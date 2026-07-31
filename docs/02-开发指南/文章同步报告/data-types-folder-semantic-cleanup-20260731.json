@@ -1,0 +1,232 @@
+{
+  "generatedAt": "2026-07-31T08:15:20.190Z",
+  "scope": "output/线上文章/常用缺易忘/数据类型",
+  "changedCount": 7,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac33e",
+      "originalSlug": "vs-charset-utf-8-8af21833",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sourcePath": "常用缺易忘/数据类型/字符 vs 字节，charset=utf-8.md",
+      "old": {
+        "title": "字符 vs 字节，charset=utf-8",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "常用缺易忘/数据类型/字符-vs-字节，charset=utf-8.md"
+      },
+      "next": {
+        "title": "第 1 篇：字符 vs 字节与 charset=utf-8：ASCII、UTF-8、密钥长度问题",
+        "summary": "用加密密钥场景讲清字符和字节的区别，整理 ASCII、UTF-8、charset=utf-8、中文字符占用字节数和固定长度字符串的常见误区。",
+        "sortOrder": 10,
+        "tags": [
+          "字符",
+          "字节",
+          "UTF-8",
+          "ASCII",
+          "charset",
+          "加密密钥"
+        ],
+        "fileName": "常用缺易忘/数据类型/第 01 篇：字符 vs 字节与 charset=utf-8：ASCII、UTF-8、密钥长度问题.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac33c",
+      "originalSlug": "mime-81d4ff42",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sourcePath": "常用缺易忘/数据类型/MIME媒体类型.md",
+      "old": {
+        "title": "MIME媒体类型",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "常用缺易忘/数据类型/MIME媒体类型.md"
+      },
+      "next": {
+        "title": "第 2 篇：MIME 媒体类型详解：Content-Type、文件类型、HTTP 传输场景",
+        "summary": "MIME 媒体类型基础笔记，讲清 type/subtype 格式、Content-Type 作用、常见文本/图片/音视频/二进制类型，以及 HTTP 和文件上传下载中的使用场景。",
+        "sortOrder": 20,
+        "tags": [
+          "MIME",
+          "Content-Type",
+          "HTTP",
+          "文件类型",
+          "媒体类型"
+        ],
+        "fileName": "常用缺易忘/数据类型/第 02 篇：MIME 媒体类型详解：Content-Type、文件类型、HTTP 传输场景.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac33a",
+      "originalSlug": "json-formdata-b830a9f9",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sourcePath": "常用缺易忘/数据类型/JSON 与 FormData.md",
+      "old": {
+        "title": "JSON 与 FormData",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "常用缺易忘/数据类型/JSON-与-FormData.md"
+      },
+      "next": {
+        "title": "第 3 篇：JSON 与 FormData：请求体格式、Content-Type、文件上传区别",
+        "summary": "对比 JSON 和 FormData 的请求体格式、语法特点、Content-Type、接口提交方式、文件上传能力和前后端联调注意事项。",
+        "sortOrder": 30,
+        "tags": [
+          "JSON",
+          "FormData",
+          "Content-Type",
+          "文件上传",
+          "请求体"
+        ],
+        "fileName": "常用缺易忘/数据类型/第 03 篇：JSON 与 FormData：请求体格式、Content-Type、文件上传区别.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac32c",
+      "originalSlug": "file-blob-arraybuffer-base64-537d7c38",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sourcePath": "常用缺易忘/数据类型/File、Blob、ArrayBuffer、Base64 区别.md",
+      "old": {
+        "title": "File、Blob、ArrayBuffer、Base64 区别",
+        "summary": "一次理清 File、Blob、ArrayBuffer、Base64 各自代表什么、彼此怎么转换，以及上传、下载、预览、二进制处理时分别该优先用哪一种，避免把编码结果和数据类型混为一谈。",
+        "sortOrder": 60,
+        "tags": [
+          "File",
+          "Blob",
+          "ArrayBuffer",
+          "Base64",
+          "二进制"
+        ],
+        "fileName": "常用缺易忘/数据类型/File、Blob、ArrayBuffer、Base64-区别.md"
+      },
+      "next": {
+        "title": "第 4 篇：File、Blob、ArrayBuffer、Base64 区别：上传、下载、预览、二进制处理",
+        "summary": "一次理清 File、Blob、ArrayBuffer、Base64 各自代表什么、彼此怎么转换，以及上传、下载、预览、二进制处理时分别该优先用哪一种。",
+        "sortOrder": 40,
+        "tags": [
+          "File",
+          "Blob",
+          "ArrayBuffer",
+          "Base64",
+          "二进制",
+          "文件上传"
+        ],
+        "fileName": "常用缺易忘/数据类型/第 04 篇：File、Blob、ArrayBuffer、Base64 区别：上传、下载、预览、二进制处理.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac31e",
+      "originalSlug": "blob-2000f47d",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sourcePath": "常用缺易忘/数据类型/Blob的底层本质与核心定位.md",
+      "old": {
+        "title": "Blob的底层本质与核心定位",
+        "summary": "",
+        "sortOrder": 70,
+        "tags": [],
+        "fileName": "常用缺易忘/数据类型/Blob的底层本质与核心定位.md"
+      },
+      "next": {
+        "title": "第 5 篇：Blob 的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览",
+        "summary": "Blob 深入笔记，讲清 Blob 的底层定位、构造函数、type/size、slice、stream、arrayBuffer、text、与 File/ArrayBuffer/Base64 的转换，以及下载预览等高频场景。",
+        "sortOrder": 50,
+        "tags": [
+          "Blob",
+          "File",
+          "ArrayBuffer",
+          "Base64",
+          "下载预览",
+          "二进制"
+        ],
+        "fileName": "常用缺易忘/数据类型/第 05 篇：Blob 的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac340",
+      "originalSlug": "3-c11c6248",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sourcePath": "常用缺易忘/数据类型/浏览器3大存储.md",
+      "old": {
+        "title": "浏览器3大存储",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "常用缺易忘/数据类型/浏览器3大存储.md"
+      },
+      "next": {
+        "title": "第 6 篇：浏览器三大存储详解：localStorage、sessionStorage、Cookie",
+        "summary": "浏览器三大存储笔记，对比 localStorage、sessionStorage、Cookie 的生命周期、容量、作用域、API、请求携带、安全性和常见业务选择。",
+        "sortOrder": 60,
+        "tags": [
+          "浏览器存储",
+          "localStorage",
+          "sessionStorage",
+          "Cookie",
+          "前端缓存"
+        ],
+        "fileName": "常用缺易忘/数据类型/第 06 篇：浏览器三大存储详解：localStorage、sessionStorage、Cookie.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac338",
+      "originalSlug": "indexeddb-16dda85f",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "sourcePath": "常用缺易忘/数据类型/IndexedDB 什么时候该上.md",
+      "old": {
+        "title": "IndexedDB 什么时候该上",
+        "summary": "从实际业务出发判断 IndexedDB 什么时候值得上，什么时候继续用 localStorage 或 sessionStorage 就够了，并理解 IndexedDB 在容量、查询、事务、离线和工程复杂度上的取舍。",
+        "sortOrder": 50,
+        "tags": [
+          "IndexedDB",
+          "浏览器存储",
+          "离线",
+          "localStorage",
+          "前端缓存"
+        ],
+        "fileName": "常用缺易忘/数据类型/IndexedDB-什么时候该上.md"
+      },
+      "next": {
+        "title": "第 7 篇：IndexedDB 什么时候该上：大容量缓存、离线数据、事务与复杂度取舍",
+        "summary": "从实际业务判断 IndexedDB 什么时候值得上，什么时候继续用 localStorage 或 sessionStorage 就够，并理解容量、查询、事务、离线和工程复杂度取舍。",
+        "sortOrder": 70,
+        "tags": [
+          "IndexedDB",
+          "浏览器存储",
+          "离线数据",
+          "localStorage",
+          "前端缓存"
+        ],
+        "fileName": "常用缺易忘/数据类型/第 07 篇：IndexedDB 什么时候该上：大容量缓存、离线数据、事务与复杂度取舍.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

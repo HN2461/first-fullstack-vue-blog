@@ -1,18 +1,18 @@
 ---
-title: "字符 vs 字节，charset=utf-8"
+title: "第 1 篇：字符 vs 字节与 charset=utf-8：ASCII、UTF-8、密钥长度问题"
 slug: "vs-charset-utf-8-8af21833"
-summary: ""
+summary: "用加密密钥场景讲清字符和字节的区别，整理 ASCII、UTF-8、charset=utf-8、中文字符占用字节数和固定长度字符串的常见误区。"
 category: "数据类型"
-tags: []
+tags: ["字符","字节","UTF-8","ASCII","charset","加密密钥"]
 status: "draft"
-sortOrder: 20
+sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac33e"
 originalSlug: "vs-charset-utf-8-8af21833"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 字符 vs 字节：零基础讲明白（结合加密密钥场景）
+# 第 1 篇：字符 vs 字节与 charset=utf-8：ASCII、UTF-8、密钥长度问题
 你完全不懂字符和字节的区别很正常——这是新手最容易卡壳的点，我不用任何专业术语，纯「生活化比喻+实际例子」讲透，还会结合你关心的「加密密钥」场景，让你知道这俩到底和密钥有啥关系。
 
 ## 一、先记核心比喻（看完就懂一半）

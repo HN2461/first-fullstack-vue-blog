@@ -1,18 +1,18 @@
 ---
-title: "TCP三次握手详解"
+title: "第 2 篇：TCP 三次握手详解：连接建立、SYN/ACK、两次与四次问题"
 slug: "tcp-3213f070"
-summary: ""
+summary: "TCP 三次握手基础笔记，讲清连接建立流程、SYN/ACK 报文含义、为什么不能两次握手、为什么通常不是四次握手和常见面试问题。"
 category: "浏览器与网络"
-tags: []
+tags: ["TCP","三次握手","网络基础","SYN","ACK"]
 status: "draft"
-sortOrder: 40
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac34a"
 originalSlug: "tcp-3213f070"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# TCP三次握手详解
+# 第 2 篇：TCP 三次握手详解：连接建立、SYN/ACK、两次与四次问题
 
 ## 一、为什么需要TCP三次握手？
 

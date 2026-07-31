@@ -1,23 +1,18 @@
 ---
-title: "Git 命令速查与常见问题"
+title: "第 2 篇：Git 命令速查与常见问题：提交、分支、撤销、回退、GitHub 连接"
 slug: "git-5aba4c87"
-summary: "从 VSCode 插件点按钮过渡到命令行操作的 Git 速查手册，涵盖日常命令、分支管理、撤销回退、以及国内连不上 GitHub 的解决方案。"
+summary: "从 VSCode 插件点按钮过渡到命令行操作的 Git 速查手册，涵盖日常命令、分支管理、撤销回退，以及国内连不上 GitHub 的解决方案。"
 category: "Git"
-tags:
-  - "Git"
-  - "命令行"
-  - "GitHub"
-  - "版本控制"
-  - "问题排查"
+tags: ["Git","命令行","GitHub","版本控制","问题排查"]
 status: "draft"
-sortOrder: 30
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac308"
 originalSlug: "git-5aba4c87"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# Git 命令速查与常见问题
+# 第 2 篇：Git 命令速查与常见问题：提交、分支、撤销、回退、GitHub 连接
 
 > 习惯了 VSCode 插件点按钮？这份手册帮你把每个按钮背后的命令对应起来，遇到问题也能自己排查。
 

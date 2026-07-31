@@ -1,18 +1,18 @@
 ---
-title: "HTTP协议详解"
+title: "第 3 篇：HTTP 协议详解：请求报文、响应报文、状态码与请求头"
 slug: "http-d8f25f40"
-summary: ""
+summary: "HTTP 协议基础笔记，整理请求报文、响应报文、请求方法、请求头、响应头、状态码、请求体和常见前后端交互细节。"
 category: "浏览器与网络"
-tags: []
+tags: ["HTTP","请求报文","响应报文","状态码","请求头"]
 status: "draft"
-sortOrder: 60
+sortOrder: 30
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac346"
 originalSlug: "http-d8f25f40"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# HTTP协议详解
+# 第 3 篇：HTTP 协议详解：请求报文、响应报文、状态码与请求头
 
 ## 一、什么是HTTP协议？
 

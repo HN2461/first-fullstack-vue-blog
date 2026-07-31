@@ -1,23 +1,18 @@
 ---
-title: "前端 HTTP 请求与接口联调手册"
+title: "第 1 篇：前端 HTTP 请求与接口联调手册：请求头、状态码、缓存、下载、实时通信"
 slug: "http-6bf1d13c"
-summary: "把前端最常一起查的 HTTP 请求、状态码、缓存、下载、实时通信与请求治理收进一篇联调手册，避免再按单个术语碎片化翻找。"
+summary: "前端 HTTP 请求与接口联调手册，整理请求头、响应头、状态码、缓存、文件下载、实时通信和请求治理，帮助联调时快速对齐前后端边界。"
 category: "网络请求"
-tags:
-  - "HTTP"
-  - "接口联调"
-  - "状态码"
-  - "缓存"
-  - "实时通信"
+tags: ["HTTP","接口联调","请求头","状态码","缓存","实时通信"]
 status: "draft"
-sortOrder: 20
+sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac372"
 originalSlug: "http-6bf1d13c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端 HTTP 请求与接口联调手册
+# 第 1 篇：前端 HTTP 请求与接口联调手册：请求头、状态码、缓存、下载、实时通信
 
 > 这篇手册不再按单个术语拆，而按前端真正的工作流来收口：
 >

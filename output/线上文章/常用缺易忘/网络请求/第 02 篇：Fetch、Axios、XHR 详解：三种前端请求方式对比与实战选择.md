@@ -1,18 +1,18 @@
 ---
-title: "Fetch、Axios、XHR 详解"
+title: "第 2 篇：Fetch、Axios、XHR 详解：三种前端请求方式对比与实战选择"
 slug: "fetch-axios-xhr-4b58d611"
-summary: ""
+summary: "前端网络请求方式对比笔记，讲清 XMLHttpRequest、Fetch API、Axios 的基本用法、优缺点、封装方式、错误处理和项目选型。"
 category: "网络请求"
-tags: []
+tags: ["Fetch","Axios","XHR","网络请求","接口封装","错误处理"]
 status: "draft"
-sortOrder: 30
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac36c"
 originalSlug: "fetch-axios-xhr-4b58d611"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 前端网络请求三大利器：从基础到实战的全面解析
+# 第 2 篇：Fetch、Axios、XHR 详解：三种前端请求方式对比与实战选择
 在前端开发中，“获取后端数据”是贯穿项目始终的核心需求——就像我们在餐厅点餐时需要服务员传递需求，前端也需要“网络请求工具”作为桥梁，连接前端页面与后端服务器。今天，我们就来系统梳理前端网络请求的三大核心工具：XMLHttpRequest（XHR）、Fetch API 和 Axios，带你掌握它们的用法、特性与适用场景，轻松应对不同项目需求。
 
 
