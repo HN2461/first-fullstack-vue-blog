@@ -115,9 +115,9 @@ const totalBadgeCount = computed(() => notificationStore.unreadCount + discussio
 let pollTimer = null
 
 const levelMap = {
-  info: { text: '提示', color: 'blue' },
-  warning: { text: '警告', color: 'orange' },
-  error: { text: '紧急', color: 'red' }
+  info: { text: '功能更新', color: 'blue' },
+  warning: { text: '重要提醒', color: 'orange' },
+  error: { text: '紧急高危', color: 'red' }
 }
 
 function getLevelText(level) {

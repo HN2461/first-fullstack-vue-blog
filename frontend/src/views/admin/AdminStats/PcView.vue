@@ -706,7 +706,7 @@ function getLevelColor(level) {
 }
 
 function getLevelText(level) {
-  return { info: '普通', success: '成功', warning: '警告', error: '紧急' }[level] || '普通'
+  return { info: '功能更新', success: '成功', warning: '重要提醒', error: '紧急高危' }[level] || '功能更新'
 }
 
 function formatDate(dateStr) {

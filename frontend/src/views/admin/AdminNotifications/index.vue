@@ -10,8 +10,8 @@
           class="announce-filter-select"
           allow-clear
         >
-          <a-select-option value="info">普通提示</a-select-option>
-          <a-select-option value="warning">重要警告</a-select-option>
+          <a-select-option value="info">功能更新</a-select-option>
+          <a-select-option value="warning">重要提醒</a-select-option>
           <a-select-option value="error">紧急高危</a-select-option>
         </a-select>
         <a-select
@@ -34,7 +34,6 @@
       </a-button>
     </div>
 
-    <!-- 批量操作栏：选中后内嵌在表格头部区域 -->
     <Transition name="batch-fade">
       <div v-if="selectedRowKeys.length > 0" class="announce-batch-bar">
         <span class="batch-hint">已选 <strong>{{ selectedRowKeys.length }}</strong> 项</span>
@@ -60,7 +59,6 @@
       </div>
     </Transition>
 
-    <!-- 表格区：绝对主角 -->
     <BlogTable
       ref="tableRef"
       :api-fn="fetchAnnouncements"
@@ -76,14 +74,12 @@
     >
 
       <template #bodyCell="{ column, record }">
-        <!-- 标题列 -->
         <template v-if="column.key === 'title'">
           <div class="announce-title-cell">
             <span class="announce-title-text">{{ record.title }}</span>
           </div>
         </template>
 
-        <!-- 级别列 -->
         <template v-else-if="column.key === 'level'">
           <a-tag :color="getLevelColor(record.level)" class="announce-level-tag">
             <span class="announce-level-dot" :style="{ background: getLevelDotColor(record.level) }" />
@@ -91,7 +87,6 @@
           </a-tag>
         </template>
 
-        <!-- 状态列 -->
         <template v-else-if="column.key === 'isActive'">
           <a-badge
             :status="record.isActive ? 'success' : 'default'"
@@ -99,21 +94,18 @@
           />
         </template>
 
-        <!-- 时间列 -->
         <template v-else-if="column.key === 'createdAt'">
           <div class="announce-time-cell">
             <span>{{ formatDate(record.createdAt) }}</span>
           </div>
         </template>
 
-        <!-- 已读人数列 -->
         <template v-else-if="column.key === 'viewCount'">
           <span class="announce-view-count">
             <EyeOutlined /> {{ record.readCount || 0 }}
           </span>
         </template>
 
-        <!-- 操作列 -->
         <template v-else-if="column.key === 'action'">
           <div class="announce-actions">
             <a-tooltip title="详情">
@@ -145,97 +137,16 @@
       </template>
     </BlogTable>
 
-    <!-- 新建 / 编辑弹窗 -->
-    <a-modal
-      v-model:open="formModalVisible"
-      :title="editingId ? '编辑公告' : '发布公告'"
-      :confirm-loading="submitting"
-      width="680px"
-      :mask-closable="false"
-      centered
-      class="announce-form-modal"
-      @cancel="closeFormModal"
-    >
-      <template #footer>
-        <a-button @click="closeFormModal">取消</a-button>
-        <a-button :loading="submitting" @click="handleFormSubmit()">
-          {{ editingId ? '保存修改' : '发布公告' }}
-        </a-button>
-        <a-button
-          v-if="editingId"
-          type="primary"
-          :loading="repushing"
-          @click="handleFormSubmit({ repush: true })"
-        >
-          保存并重新推送
-        </a-button>
-      </template>
-      <a-form layout="vertical" class="announce-form">
-        <a-form-item label="公告标题" required>
-          <a-input
-            v-model:value="form.title"
-            placeholder="请输入公告标题"
-            :maxlength="120"
-            show-count
-          />
-        </a-form-item>
+    <AdminAnnouncementFormModal
+      :open="formModalVisible"
+      :editing-id="editingId"
+      :form="form"
+      :submitting="submitting"
+      :repushing="repushing"
+      @close="closeFormModal"
+      @submit="handleFormSubmit"
+    />
 
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="公告级别">
-              <a-select v-model:value="form.level">
-                <a-select-option value="info">
-                  <span style="color: #1677ff">●</span> 普通提示
-                </a-select-option>
-                <a-select-option value="warning">
-                  <span style="color: #fa8c16">●</span> 重要警告
-                </a-select-option>
-                <a-select-option value="error">
-                  <span style="color: #f5222d">●</span> 紧急高危
-                </a-select-option>
-              </a-select>
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="上下架状态">
-              <a-switch
-                v-model:checked="form.isActive"
-                checked-children="上架"
-                un-checked-children="下架"
-              />
-            </a-form-item>
-          </a-col>
-        </a-row>
-
-        <a-form-item label="公告内容" required>
-          <a-textarea
-            v-model:value="form.content"
-            placeholder="请输入公告内容"
-            :rows="8"
-            :maxlength="10000"
-            show-count
-          />
-        </a-form-item>
-
-        <a-form-item label="关联链接">
-          <a-input
-            v-model:value="form.link"
-            placeholder="可选，点击公告后跳转的链接"
-          />
-        </a-form-item>
-
-        <a-form-item label="弹窗推送">
-          <a-switch
-            v-model:checked="form.autoPopup"
-            checked-children="开启"
-            un-checked-children="关闭"
-          />
-          <div class="announce-form-hint">开启后，公告发布时将对所有在线用户弹窗提醒（仅首次）</div>
-        </a-form-item>
-      </a-form>
-    </a-modal>
-
-    <!-- 详情弹窗 -->
     <a-modal
       v-model:open="detailModalVisible"
       :title="detailData?.title || '公告详情'"
@@ -261,7 +172,9 @@
           </span>
         </div>
         <a-divider style="margin: 16px 0" />
-        <div class="announce-detail-content">{{ detailData.content }}</div>
+        <div class="announce-detail-content">
+          <AnnouncementContent :content="detailData.content" />
+        </div>
         <div v-if="detailData.link" class="announce-detail-link">
           <LinkOutlined /> <a :href="detailData.link" target="_blank">{{ detailData.link }}</a>
         </div>
@@ -275,6 +188,7 @@
 
 <script setup>
 import { ref, computed, reactive } from 'vue'
+import './styles.css'
 import {
   ClockCircleOutlined,
   ClearOutlined,
@@ -287,6 +201,8 @@ import {
   PlayCircleOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import AnnouncementContent from '@/components/announcement/AnnouncementContent.vue'
+import AdminAnnouncementFormModal from './AdminAnnouncementFormModal.vue'
 import {
   batchDeleteAnnouncements,
   batchToggleAnnouncement,
@@ -304,7 +220,6 @@ const detailLoading = ref(false)
 const rowActionKey = ref('')
 const { runAction, warn, confirmAction } = useAdminActions()
 
-// 筛选
 const filterLevel = ref(undefined)
 const filterIsActive = ref(undefined)
 
@@ -313,7 +228,6 @@ const filterParams = computed(() => ({
   isActive: filterIsActive.value
 }))
 
-// 表单弹窗
 const formModalVisible = ref(false)
 const editingId = ref(null)
 const submitting = ref(false)
@@ -341,19 +255,17 @@ const { isDirty: formDirty, markClean: markFormClean, pauseTracking: pauseFormTr
   okText: '仍然关闭'
 })
 
-// 详情弹窗
 const detailModalVisible = ref(false)
 const detailData = ref(null)
 
-// 级别映射
 const levelMap = {
-  info: { text: '普通提示', color: 'blue', dot: '#1677ff' },
-  warning: { text: '重要警告', color: 'orange', dot: '#fa8c16' },
+  info: { text: '功能更新', color: 'blue', dot: '#1677ff' },
+  warning: { text: '重要提醒', color: 'orange', dot: '#fa8c16' },
   error: { text: '紧急高危', color: 'red', dot: '#f5222d' }
 }
 
 function getLevelText(level) {
-  return levelMap[level]?.text || '普通提示'
+  return levelMap[level]?.text || '功能更新'
 }
 
 function getLevelColor(level) {
@@ -375,7 +287,6 @@ function formatDate(dateStr) {
   })
 }
 
-// 表格列
 const columns = [
   { title: '公告标题', key: 'title', dataIndex: 'title', ellipsis: true },
   { title: '级别', key: 'level', width: 110, align: 'center' },
@@ -385,24 +296,20 @@ const columns = [
   { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
 ]
 
-// 数据加载（适配 BlogTable 的 apiFn 格式）
 async function fetchAnnouncements(params) {
   const result = await listAdminAnnouncements(params)
   return { items: result.items || [], total: result.total || 0 }
 }
 
-// 筛选重置
 function resetFilters() {
   filterLevel.value = undefined
   filterIsActive.value = undefined
 }
 
-// 行选择
 function onSelectionChange(keys) {
   selectedRowKeys.value = keys
 }
 
-// 新建弹窗
 function openCreateModal() {
   editingId.value = null
   form.title = ''
@@ -415,7 +322,6 @@ function openCreateModal() {
   markFormClean()
 }
 
-// 编辑弹窗
 function openEditModal(record) {
   editingId.value = record.id
   form.title = record.title
@@ -446,7 +352,6 @@ function closeFormModal() {
   formModalVisible.value = false
 }
 
-// 提交表单
 async function handleFormSubmit({ repush = false } = {}) {
   if (!form.title.trim()) {
     warn('请输入公告标题')
@@ -482,7 +387,6 @@ async function handleFormSubmit({ repush = false } = {}) {
   }
 }
 
-// 详情弹窗
 async function openDetailModal(record) {
   detailLoading.value = true
   try {
@@ -496,7 +400,6 @@ async function openDetailModal(record) {
   }
 }
 
-// 上架 / 下架
 async function handleToggleActive(record) {
   rowActionKey.value = `toggle:${record.id}`
   try {
@@ -510,7 +413,6 @@ async function handleToggleActive(record) {
   }
 }
 
-// 删除
 function handleDelete(record) {
   confirmAction({
     title: '确认删除',
@@ -532,7 +434,6 @@ function handleDelete(record) {
   }).catch(() => {})
 }
 
-// 批量操作
 async function handleBatchToggle(isActive) {
   confirmAction({
     title: isActive ? '批量上架' : '批量下架',
@@ -572,377 +473,3 @@ function handleBatchDelete() {
   }).catch(() => {})
 }
 </script>
-
-<style scoped>
-/* ===== 页面容器：表格是绝对主角 ===== */
-.announce-page {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
-  overflow: hidden;
-}
-
-/* ===== 精简顶栏：一行搞定 ===== */
-.announce-topbar {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 4px 0;
-  flex-shrink: 0;
-}
-
-.announce-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--console-text);
-  white-space: nowrap;
-  line-height: 32px;
-}
-
-.announce-filters {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  min-width: 0;
-}
-
-.announce-filter-select {
-  width: 120px;
-  border-radius: 6px;
-}
-
-.announce-reset-btn {
-  border-radius: 6px;
-}
-
-.announce-add-btn {
-  flex-shrink: 0;
-  height: 32px;
-  padding: 0 16px;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: 6px;
-}
-
-/* ===== 表格区域 ===== */
-.announce-table {
-  flex: 1 1 0;
-  min-height: 0;
-}
-
-.announce-table :deep(.blog-table) {
-  border: 1px solid var(--console-border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-/* ===== 批量操作栏：轻量嵌入风格 ===== */
-.announce-batch-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  background: var(--console-surface-muted, #fafafa);
-  border-bottom: 1px solid var(--console-border, #f0f0f0);
-  font-size: 13px;
-}
-
-.batch-hint {
-  color: var(--console-text-secondary);
-  font-size: 13px;
-}
-
-.batch-hint strong {
-  color: var(--console-primary-strong);
-  font-weight: 600;
-}
-
-.batch-actions {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.batch-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  height: 28px;
-  padding: 0 8px;
-  font-size: 12px;
-  border-radius: 5px;
-  color: var(--console-text-secondary);
-  transition: all 0.15s ease;
-}
-
-.batch-btn:hover:not(:disabled) {
-  background: var(--console-surface-hover);
-  color: var(--console-text);
-}
-
-.batch-btn--up {
-  color: #52c41a;
-}
-
-.batch-btn--up:hover:not(:disabled) {
-  background: rgba(82, 196, 26, 0.08);
-}
-
-.batch-btn--down {
-  color: #faad14;
-}
-
-.batch-btn--down:hover:not(:disabled) {
-  background: rgba(250, 173, 20, 0.08);
-}
-
-.batch-btn--del {
-  color: #ff4d4f;
-}
-
-.batch-btn--del:hover:not(:disabled) {
-  background: rgba(255, 77, 79, 0.08);
-}
-
-.batch-btn--close {
-  margin-left: 4px;
-  color: var(--console-text-tertiary, #999);
-}
-
-.batch-divider {
-  margin: 0 6px;
-  height: 14px;
-  background: var(--console-border-light, #e8e8e8);
-}
-
-/* 过渡动画 */
-.batch-fade-enter-active,
-.batch-fade-leave-active {
-  transition: all 0.2s ease;
-  overflow: hidden;
-}
-
-.batch-fade-enter-from,
-.batch-fade-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
-/* ===== 操作按钮：图标风格 ===== */
-.announce-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.action-btn {
-  width: 32px;
-  height: 32px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-}
-
-.action-btn:hover:not(:disabled) {
-  background: var(--console-surface-hover);
-  transform: scale(1.05);
-}
-
-.action-detail {
-  color: var(--console-text-secondary);
-}
-
-.action-edit {
-  color: var(--console-primary-strong);
-}
-
-.action-edit:hover:not(:disabled) {
-  background: var(--console-primary-soft);
-}
-
-.action-enable {
-  color: #52c41a;
-}
-
-.action-enable:hover:not(:disabled) {
-  background: rgba(82, 196, 26, 0.1);
-}
-
-.action-disable {
-  color: #faad14;
-}
-
-.action-disable:hover:not(:disabled) {
-  background: rgba(250, 173, 20, 0.1);
-}
-
-.action-delete {
-  color: #ff4d4f;
-}
-
-.action-delete:hover:not(:disabled) {
-  background: rgba(255, 77, 79, 0.1);
-}
-
-.action-divider {
-  margin: 0 4px;
-  height: 16px;
-  background: var(--console-border);
-}
-
-/* ===== 单元格内容 ===== */
-.announce-title-cell {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.announce-title-text {
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--console-text);
-  line-height: 1.5;
-}
-
-/* 级别标签 */
-.announce-level-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 0;
-  border-radius: 4px;
-  font-weight: 500;
-  font-size: 12px;
-}
-
-.announce-level-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-/* 时间 */
-.announce-time-cell {
-  font-size: 13px;
-  color: var(--console-text-secondary);
-}
-
-/* 阅读量 */
-.announce-view-count {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 13px;
-  color: var(--console-text-secondary);
-}
-
-/* 表单弹窗 */
-.announce-form-modal :deep(.ant-modal-body) {
-  padding: 24px 28px;
-}
-
-.announce-form {
-  max-height: 60vh;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.announce-form-hint {
-  margin-top: 4px;
-  font-size: 12px;
-  color: var(--console-text-secondary);
-  line-height: 1.6;
-}
-
-/* 详情弹窗 */
-.announce-detail-modal :deep(.ant-modal-body) {
-  padding: 24px 28px;
-}
-
-.announce-detail-meta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.announce-detail-time,
-.announce-detail-views {
-  font-size: 13px;
-  color: var(--console-text-secondary);
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.announce-detail-content {
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--console-text);
-}
-
-.announce-detail-link {
-  margin-top: 16px;
-  font-size: 13px;
-  color: var(--console-text-secondary);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.announce-detail-popup-badge {
-  margin-top: 12px;
-}
-
-/* ===== 表格行细节 ===== */
-.announce-table :deep(.ant-table-thead > tr > th) {
-  height: 46px;
-  padding: 10px 16px;
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  color: var(--console-text-secondary);
-  background: var(--console-surface-muted);
-  border-bottom: 1px solid var(--console-border);
-}
-
-.announce-table :deep(.ant-table-tbody > tr > td) {
-  padding: 12px 16px;
-  vertical-align: top;
-  border-bottom: 1px solid var(--console-border-light, #f0f0f0);
-  transition: background 0.15s ease;
-}
-
-.announce-table :deep(.ant-table-tbody > tr:hover > td) {
-  background: var(--console-surface-hover, #fafafa);
-}
-
-.announce-table :deep(.ant-tag) {
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-/* ===== 响应式 ===== */
-@media (max-width: 768px) {
-  .announce-topbar {
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .announce-filters {
-    order: 3;
-    flex-basis: 100%;
-  }
-}
-</style>

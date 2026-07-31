@@ -10,7 +10,7 @@
         <div class="announce-panel-empty">
           <BellOutlined />
           <strong>暂无公告</strong>
-          <span>系统公告和重要通知会在这里显示。</span>
+          <span>功能升级、重要提醒和紧急通知会在这里显示。</span>
         </div>
       </template>
       <template v-else>

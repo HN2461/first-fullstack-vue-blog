@@ -15,7 +15,9 @@
         <span>{{ formatDate(announcement.createdAt) }}</span>
       </div>
       <a-divider style="margin: 14px 0" />
-      <div class="announce-detail-content">{{ announcement.content }}</div>
+      <div class="announce-detail-content">
+        <AnnouncementContent :content="announcement.content" />
+      </div>
       <div v-if="announcement.link" class="announce-detail-link">
         <LinkOutlined /> <a :href="announcement.link" target="_blank">{{ announcement.link }}</a>
       </div>
@@ -25,6 +27,7 @@
 
 <script setup>
 import { LinkOutlined } from '@ant-design/icons-vue'
+import AnnouncementContent from './AnnouncementContent.vue'
 
 defineProps({
   announcement: {
@@ -65,11 +68,9 @@ const open = defineModel('open', {
 }
 
 .announce-detail-content {
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--console-text, #101828);
+  max-height: min(58vh, 460px);
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .announce-detail-link {

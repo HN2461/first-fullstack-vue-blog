@@ -3,21 +3,27 @@
     v-model:open="visible"
     title="系统公告"
     :footer="null"
-    width="520px"
+    width="640px"
     centered
     class="announce-popup-modal"
     :mask-closable="true"
     @cancel="handleClose"
   >
     <template v-if="currentAnnouncement">
-      <div class="announce-popup-meta">
-        <a-tag :color="getLevelColor(currentAnnouncement.level)">
-          {{ getLevelText(currentAnnouncement.level) }}
-        </a-tag>
-        <span class="announce-popup-time">{{ formatDate(currentAnnouncement.createdAt) }}</span>
+      <div class="announce-popup-head">
+        <div class="announce-popup-title-block">
+          <h3 class="announce-popup-title">{{ currentAnnouncement.title }}</h3>
+          <div class="announce-popup-meta">
+            <a-tag :color="getLevelColor(currentAnnouncement.level)" :bordered="false">
+              {{ getLevelText(currentAnnouncement.level) }}
+            </a-tag>
+            <span class="announce-popup-time">{{ formatDate(currentAnnouncement.createdAt) }}</span>
+          </div>
+        </div>
       </div>
-      <h3 class="announce-popup-title">{{ currentAnnouncement.title }}</h3>
-      <div class="announce-popup-content">{{ currentAnnouncement.content }}</div>
+      <div class="announce-popup-content">
+        <AnnouncementContent :content="currentAnnouncement.content" />
+      </div>
       <div v-if="currentAnnouncement.link" class="announce-popup-link">
         <LinkOutlined /> <a :href="currentAnnouncement.link" target="_blank">{{ currentAnnouncement.link }}</a>
       </div>
@@ -33,6 +39,7 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import { LinkOutlined } from '@ant-design/icons-vue'
 import { useNotificationStore } from '@/stores/notification'
 import { useAuthStore } from '@/stores/auth'
+import AnnouncementContent from '@/components/announcement/AnnouncementContent.vue'
 
 const notificationStore = useNotificationStore()
 const authStore = useAuthStore()
@@ -46,9 +53,9 @@ let firstCheckTimer = null
 const POPUP_POLL_INTERVAL = 600000
 
 const levelMap = {
-  info: { text: '提示', color: 'blue' },
-  warning: { text: '警告', color: 'orange' },
-  error: { text: '紧急', color: 'red' }
+  info: { text: '功能更新', color: 'blue' },
+  warning: { text: '重要提醒', color: 'orange' },
+  error: { text: '紧急高危', color: 'red' }
 }
 
 function getLevelText(level) {
@@ -87,8 +94,12 @@ function getShownIds() {
   }
 }
 
-function markShown(id) {
-  const ids = [...new Set([...getShownIds(), id])].slice(-80)
+function getPopupShownKey(announcement) {
+  return `${announcement.id}:${announcement.updatedAt || announcement.createdAt || ''}`
+}
+
+function markShown(announcement) {
+  const ids = [...new Set([...getShownIds(), getPopupShownKey(announcement)])].slice(-80)
   localStorage.setItem(getShownStorageKey(), JSON.stringify(ids))
 }
 
@@ -98,7 +109,7 @@ async function checkPopupAnnouncements() {
   try {
     await notificationStore.fetchPopupAnnouncements()
     const shownIds = new Set(getShownIds())
-    const popups = notificationStore.popupAnnouncements.filter((item) => !shownIds.has(item.id))
+    const popups = notificationStore.popupAnnouncements.filter((item) => !shownIds.has(getPopupShownKey(item)))
 
     if (popups.length > 0) {
       queue.value = [...popups]
@@ -117,7 +128,7 @@ function showNext() {
   }
 
   currentAnnouncement.value = queue.value.shift()
-  markShown(currentAnnouncement.value.id)
+  markShown(currentAnnouncement.value)
   visible.value = true
 }
 
@@ -149,14 +160,24 @@ onUnmounted(() => {
 
 <style scoped>
 .announce-popup-modal :deep(.ant-modal-body) {
-  padding: 24px 28px;
+  padding: 24px 30px 26px;
+}
+
+.announce-popup-head {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--console-border, #e5e7eb);
+  margin-bottom: 18px;
+}
+
+.announce-popup-title-block {
+  min-width: 0;
 }
 
 .announce-popup-meta {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .announce-popup-time {
@@ -165,21 +186,17 @@ onUnmounted(() => {
 }
 
 .announce-popup-title {
-  margin: 0 0 14px;
-  font-size: 17px;
-  font-weight: 600;
+  margin: 0;
+  font-size: 19px;
+  font-weight: 650;
   color: var(--console-text, #101828);
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 .announce-popup-content {
-  white-space: pre-wrap;
-  word-break: break-word;
-  font-size: 14px;
-  line-height: 1.8;
-  color: var(--console-text, #101828);
-  max-height: 300px;
+  max-height: min(52vh, 430px);
   overflow-y: auto;
+  padding-right: 4px;
 }
 
 .announce-popup-link {
@@ -193,5 +210,11 @@ onUnmounted(() => {
 
 .announce-popup-actions {
   margin-top: 24px;
+}
+
+@media (max-width: 640px) {
+  .announce-popup-modal {
+    width: calc(100vw - 32px) !important;
+  }
 }
 </style>

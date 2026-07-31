@@ -44,6 +44,20 @@
       "detail": "1. 基于已全量校验通过的 output/线上文章 权威快照，新增并使用文章增量补丁脚本按 originalId/originalSlug 匹配线上既有文章，仅更新标题、摘要、封面、发布状态、文章排序、Markdown 正文、字数和阅读时间等文章字段。2. 生产发布前完成 dry-run：512 篇待更新、阻断 0、缺失标签 0、仅线上存在 0；发布前 MongoDB 备份保存至 /www/personal-blog/backups/article-patch-20260731-2315/mongodb-before，脚本级文章 EJSON 备份保存至 /www/personal-blog/backend/backups/article-patch-before-2026-07-31T11-16-20-902Z.ejson。3. 经确认后执行 --apply --target=production --confirm-production-article-patch --skip-tags，完成 512 篇既有文章更新；本次明确跳过标签同步，不创建或删除文章，不创建或删除分类，不修改分类路径，不触碰菜单、RBAC 权限和服务器 .env。4. 发布后再次执行 dry-run 校验，结果为待更新 0、阻断 0、缺失标签 0、仅线上存在 0，PM2 进程 personal-blog-api 保持 online。",
       "occurredAt": "2026-07-31T19:20:00+08:00",
       "category": "数据治理"
+    },
+    {
+      "id": "local-article-database-refresh-from-authority-snapshot",
+      "title": "将本地文章数据库重建到最新权威快照",
+      "detail": "1. 对本机 MongoDB 执行文章快照同步 dry-run，确认当前本地库为 513 篇文章、97 个分类、831 个标签，按 output/线上文章 权威快照同步后将变为 512 篇文章、96 个分类，移除测试文章 article-20260714092929，且无需新增文章。2. 执行 npm run article-snapshot:apply，将本地文章、分类、标签和文档媒体重建为当前权威快照状态；脚本写入前自动生成 EJSON 备份 backend/backups/article-snapshot-before-2026-07-31T11-59-20-192Z.ejson。3. 写入后复查本机数据库：文章 512 篇、已发布 512 篇、草稿 0 篇、Markdown 510 篇、文档文章 2 篇、分类 96 个、标签 1284 个，测试文章已不存在；再次 dry-run 校验新增、更新、移除和分类元数据更新均为 0。4. 确认标签 1284 个来自当前 output/线上文章 manifest 与 Front Matter 的真实标签集合，属于本地权威快照整理后的当前口径。",
+      "occurredAt": "2026-07-31T20:05:00+08:00",
+      "category": "数据治理"
+    },
+    {
+      "id": "knowledge-sidebar-and-announcement-experience-upgrade",
+      "title": "优化知识库侧栏完整名称与公告阅读体验",
+      "detail": "1. 知识库左侧菜单默认开启完整名称展示，解决深层分类和长文章标题在侧栏中容易被截断的问题；用户仍可通过侧栏右上角菜单恢复单行名称，个人偏好会在本地保存。2. 公告级别文案调整为功能更新、重要提醒、紧急高危，使功能升级类通知和风险类通知语义区分更清晰。3. 优化公告弹窗、公告详情、通知入口和公告管理详情的内容展示，支持按小标题和列表分点渲染升级说明，减少长文本拥挤感。4. 拆分公告管理页的表单弹窗和样式文件，保持后台页面结构更清晰，并移除一次性公告模板入口，仅保留通用内容编辑与展示能力。5. 修复同一天内已弹过的公告在保存并重新推送后仍被本地弹窗去重拦截的问题，改为按公告 ID 与更新时间共同判断弹窗记录。",
+      "occurredAt": "2026-07-31T20:35:00+08:00",
+      "category": "功能更新"
     }
   ]
 }

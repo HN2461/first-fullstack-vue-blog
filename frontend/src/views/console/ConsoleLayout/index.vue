@@ -167,7 +167,7 @@
 
       <a-drawer
         v-model:open="mobileMenuOpen"
-        class="enterprise-mobile-drawer"
+        :class="['enterprise-mobile-drawer', { 'enterprise-sider--full-labels': siderFullLabels }]"
         placement="left"
         width="300"
         :title="sectionTitle"
@@ -338,10 +338,28 @@ import { isRoutePathMatched } from '@/utils/routeMatch'
 
 const KNOWLEDGE_MENU_CACHE_TTL = 60 * 1000
 const ARTICLE_DIRECTORY_PATH = '/console/article-directory'
+const SIDER_FULL_LABELS_STORAGE_KEY = 'console:sider-full-labels'
 const knowledgeMenuCache = {
   categories: [],
   articles: [],
   loadedAt: 0
+}
+
+function readSiderFullLabelsPreference() {
+  try {
+    const value = localStorage.getItem(SIDER_FULL_LABELS_STORAGE_KEY)
+    return value === null ? true : value === 'true'
+  } catch {
+    return true
+  }
+}
+
+function saveSiderFullLabelsPreference(value) {
+  try {
+    localStorage.setItem(SIDER_FULL_LABELS_STORAGE_KEY, String(Boolean(value)))
+  } catch {
+    // 本地偏好写入失败不影响菜单正常使用。
+  }
 }
 
 const route = useRoute()
@@ -352,7 +370,7 @@ const siteStore = useSiteStore()
 const categories = ref([])
 const articles = ref([])
 const siderCollapsed = ref(false)
-const siderFullLabels = ref(false)
+const siderFullLabels = ref(readSiderFullLabelsPreference())
 const mobileMenuOpen = ref(false)
 const createModalVisible = ref(false)
 const articleExportModalVisible = ref(false)
@@ -832,6 +850,7 @@ function handleCreateAction(key) {
 function handleSiderAction({ key }) {
   if (key === 'toggle-labels') {
     siderFullLabels.value = !siderFullLabels.value
+    message.success(siderFullLabels.value ? '已展开完整名称' : '已恢复单行名称')
     return
   }
 
@@ -1282,6 +1301,10 @@ watch(() => authStore.isAdmin, () => {
   if (!authStore.isAdmin && route.path.includes('/console/manage')) {
     router.push('/console/articles')
   }
+})
+
+watch(siderFullLabels, (value) => {
+  saveSiderFullLabelsPreference(value)
 })
 
 onMounted(() => {
