@@ -32,6 +32,7 @@
     "article-repository:export": "node src/scripts/exportArticleRepository.js",
     "article-authority:compare": "node src/scripts/compareArticleAuthority.js",
     "article-authority:sync": "node src/scripts/syncArticleAuthorityContent.js",
+    "article-authority:patch": "node src/scripts/patchArticleAuthoritySnapshot.js",
     "article-authority:pull": "node src/scripts/pullArticleAuthorityMetadata.js",
     "tag-merge:dry-run": "node src/scripts/mergeDuplicateTags.js",
     "tag-merge:apply": "node src/scripts/mergeDuplicateTags.js --apply",

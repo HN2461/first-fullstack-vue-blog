@@ -628,6 +628,15 @@
 - 未发现缺文件、空摘要、空标签、H1 与标题不一致、不规范本地文件名、标题超长、摘要超长或序号断档问题。
 - 编码检查通过：未发现 UTF-8 BOM。
 
+### 线上同步预检
+
+- 新增安全增量补丁脚本 `backend/src/scripts/patchArticleAuthoritySnapshot.js`，用于将本地权威快照同步到目标数据库的既有文章。
+- 脚本边界：不创建或删除文章，不创建或删除分类，不修改分类路径，不触碰 RBAC 菜单；可更新既有文章的标题、摘要、封面、正文、发布状态和文章 `sortOrder`。
+- 标签同步默认支持 dry-run，但本次生产 dry-run 显示如果同步标签会新增 538 个标签，数量不合理，因此线上发布阶段先使用 `--skip-tags`，标签治理后续单独处理。
+- 生产临时快照目录：`/www/personal-blog/tmp/article-authority-20260731-2305/线上文章`。
+- 生产 dry-run 结果：待更新 512 篇，阻断 0，缺失标签 0，仅目标数据库存在 0；报告位于 `/www/personal-blog/docs/02-开发指南/文章同步报告/article-authority-patch-20260731-2315-skip-tags.md`。
+- 写库前 MongoDB 备份已完成：`/www/personal-blog/backups/article-patch-20260731-2315/mongodb-before`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。
