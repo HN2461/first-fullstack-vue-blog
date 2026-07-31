@@ -381,6 +381,9 @@ async function handleFormSubmit({ repush = false } = {}) {
     pauseFormTracking()
     formModalVisible.value = false
     tableRef.value?.refresh()
+    if (form.autoPopup) {
+      window.dispatchEvent(new CustomEvent('announcement-popup-refresh'))
+    }
   } finally {
     submitting.value = false
     repushing.value = false

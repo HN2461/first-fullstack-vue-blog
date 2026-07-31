@@ -51,6 +51,7 @@ const queue = ref([])
 let pollTimer = null
 let firstCheckTimer = null
 const POPUP_POLL_INTERVAL = 600000
+const POPUP_REFRESH_EVENT = 'announcement-popup-refresh'
 
 const levelMap = {
   info: { text: '功能更新', color: 'blue' },
@@ -150,11 +151,13 @@ onMounted(() => {
   firstCheckTimer = setTimeout(checkPopupAnnouncements, 5000)
 
   pollTimer = setInterval(checkPopupAnnouncements, POPUP_POLL_INTERVAL)
+  window.addEventListener(POPUP_REFRESH_EVENT, checkPopupAnnouncements)
 })
 
 onUnmounted(() => {
   if (firstCheckTimer) clearTimeout(firstCheckTimer)
   if (pollTimer) clearInterval(pollTimer)
+  window.removeEventListener(POPUP_REFRESH_EVENT, checkPopupAnnouncements)
 })
 </script>
 
