@@ -1,17 +1,23 @@
 ---
-title: "面试题修改篇"
+title: "第 4 篇：Vue 面试题修订完整版"
 slug: "vue-vue-10dc3ed5"
-summary: ""
+summary: "Vue 面试题修订完整版，题量更完整，适合作为系统复盘、查漏补缺和面试前详细背诵资料。"
 category: "vue面试题"
-tags: []
+tags:
+  - "Vue"
+  - "Vue 面试"
+  - "面试题库"
+  - "查漏补缺"
 status: "draft"
-sortOrder: 10
+sortOrder: 40
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2e2"
 originalSlug: "vue-vue-10dc3ed5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 4 篇：Vue 面试题修订完整版
+
 ### 1、vue功能是什么，跟传统开发有什么区别？
 #### vue功能是什么
 <font style="color:rgba(0, 0, 0, 0.95);">Vue 是一套用于构建用户界面的渐进式框架。它具有响应式数据绑定、组件化开发、虚拟 DOM 等功能。可以高效地更新和渲染页面，实现数据与视图的自动同步。</font>

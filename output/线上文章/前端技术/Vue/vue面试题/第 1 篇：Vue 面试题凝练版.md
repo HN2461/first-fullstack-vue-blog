@@ -1,17 +1,23 @@
 ---
-title: "Vue面试题凝练版"
+title: "第 1 篇：Vue 面试题凝练版"
 slug: "vue-vue-vue-80f4d76c"
-summary: ""
+summary: "Vue 面试核心复习稿，适合面试前快速过一遍 Vue 基础、虚拟 DOM、Diff、MVVM、组件和常见机制。"
 category: "vue面试题"
-tags: []
+tags:
+  - "Vue"
+  - "Vue 面试"
+  - "前端面试"
+  - "核心复习"
 status: "draft"
-sortOrder: 20
+sortOrder: 10
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2e0"
 originalSlug: "vue-vue-vue-80f4d76c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 1 篇：Vue 面试题凝练版
+
 #  Vue 面试题核心内容，供复习和面试时参考：
 ---
 

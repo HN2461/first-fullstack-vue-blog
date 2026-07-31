@@ -1,9 +1,13 @@
 ---
-title: "vue3面试题"
+title: "第 3 篇：Vue 3 面试题"
 slug: "vue-vue-vue3-ace64a20"
-summary: ""
+summary: "Vue 3 面试题整理，覆盖 Composition API、ref、reactive、watchEffect、Provide/Inject 和性能优化。"
 category: "vue面试题"
-tags: []
+tags:
+  - "Vue 3"
+  - "Vue 面试"
+  - "Composition API"
+  - "前端面试"
 status: "draft"
 sortOrder: 30
 cover: ""
@@ -12,6 +16,8 @@ originalSlug: "vue-vue-vue3-ace64a20"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 3 篇：Vue 3 面试题
+
 ### Vue3 相比 Vue2 的改进（通俗版）
 + **更快**：
     - Proxy 代理：Vue2 的响应式像“逐个监听保险箱”（每个属性单独监听）

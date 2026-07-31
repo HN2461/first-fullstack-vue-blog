@@ -11040,7 +11040,7 @@
       "originalId": "6a2d291f8a2b1c68f2cac2e2",
       "originalSlug": "vue-vue-10dc3ed5",
       "exportedSlug": "vue-vue-10dc3ed5",
-      "title": "面试题修改篇",
+      "title": "第 4 篇：Vue 面试题修订完整版",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11048,21 +11048,26 @@
         "Vue",
         "vue面试题"
       ],
-      "tags": [],
-      "sortOrder": 10,
+      "tags": [
+        "Vue",
+        "Vue 面试",
+        "面试题库",
+        "查漏补缺"
+      ],
+      "sortOrder": 40,
       "sourcePath": "Vue/vue面试题/面试题修改篇.md",
       "publishedAt": "2026-03-27T13:29:38.864Z",
       "updatedAt": "2026-06-13T10:28:28.313Z",
-      "fileName": "前端技术/Vue/vue面试题/面试题修改篇.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue面试题/第 4 篇：Vue 面试题修订完整版.md",
+      "summary": "Vue 面试题修订完整版，题量更完整，适合作为系统复盘、查漏补缺和面试前详细背诵资料。",
       "cover": "",
-      "contentHash": "d7ea62a3566f37754413a9d93832d0cd9e3b98e40e92c805fca98ef3054a04d6"
+      "contentHash": "d6124feb740476341d86ba500efeaa339de5d50e471756035720f0033a507b30"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2e0",
       "originalSlug": "vue-vue-vue-80f4d76c",
       "exportedSlug": "vue-vue-vue-80f4d76c",
-      "title": "Vue面试题凝练版",
+      "title": "第 1 篇：Vue 面试题凝练版",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11070,21 +11075,26 @@
         "Vue",
         "vue面试题"
       ],
-      "tags": [],
-      "sortOrder": 20,
+      "tags": [
+        "Vue",
+        "Vue 面试",
+        "前端面试",
+        "核心复习"
+      ],
+      "sortOrder": 10,
       "sourcePath": "Vue/vue面试题/Vue面试题凝练版.md",
       "publishedAt": "2026-03-27T13:29:33.808Z",
       "updatedAt": "2026-06-13T10:28:28.309Z",
-      "fileName": "前端技术/Vue/vue面试题/Vue面试题凝练版.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue面试题/第 1 篇：Vue 面试题凝练版.md",
+      "summary": "Vue 面试核心复习稿，适合面试前快速过一遍 Vue 基础、虚拟 DOM、Diff、MVVM、组件和常见机制。",
       "cover": "",
-      "contentHash": "b6045d6141b7c59925703a1fe99ee2de03acf68183375a2e98717933db2b847d"
+      "contentHash": "c62535adcca463ca5c65c1342fe29f420255f26471aa9719ef37e36b4a65ac76"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2de",
       "originalSlug": "vue-vue-vue3-ace64a20",
       "exportedSlug": "vue-vue-vue3-ace64a20",
-      "title": "vue3面试题",
+      "title": "第 3 篇：Vue 3 面试题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11092,21 +11102,26 @@
         "Vue",
         "vue面试题"
       ],
-      "tags": [],
+      "tags": [
+        "Vue 3",
+        "Vue 面试",
+        "Composition API",
+        "前端面试"
+      ],
       "sortOrder": 30,
       "sourcePath": "Vue/vue面试题/vue3面试题.md",
       "publishedAt": "2026-03-27T13:29:28.860Z",
       "updatedAt": "2026-06-13T10:28:28.304Z",
-      "fileName": "前端技术/Vue/vue面试题/vue3面试题.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue面试题/第 3 篇：Vue 3 面试题.md",
+      "summary": "Vue 3 面试题整理，覆盖 Composition API、ref、reactive、watchEffect、Provide/Inject 和性能优化。",
       "cover": "",
-      "contentHash": "672058a232843554e370cf6e8eed823eeb5b740315926a2ac8bdfaa2e869aac7"
+      "contentHash": "5c1a98b514e9f366aba364fceddeae0688e80f2d436fa3491924ae1cc483a710"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2dc",
       "originalSlug": "vue-vue-vue2-979be5aa",
       "exportedSlug": "vue-vue-vue2-979be5aa",
-      "title": "vue2面试题",
+      "title": "第 2 篇：Vue 2 面试题",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -11114,15 +11129,20 @@
         "Vue",
         "vue面试题"
       ],
-      "tags": [],
-      "sortOrder": 40,
+      "tags": [
+        "Vue 2",
+        "Vue 面试",
+        "前端面试",
+        "响应式"
+      ],
+      "sortOrder": 20,
       "sourcePath": "Vue/vue面试题/vue2面试题.md",
       "publishedAt": "2026-03-27T13:29:24.443Z",
       "updatedAt": "2026-06-17T12:36:16.649Z",
-      "fileName": "前端技术/Vue/vue面试题/vue2面试题.md",
-      "summary": "",
+      "fileName": "前端技术/Vue/vue面试题/第 2 篇：Vue 2 面试题.md",
+      "summary": "Vue 2 面试题整理，覆盖 Vue 2 基础、响应式、组件、生命周期、computed、watch 和常见原理问题。",
       "cover": "",
-      "contentHash": "54bc2a87bb967d2cd6b5b4098ad8c263fdab9c21dc1181f5045016ae4c73effc"
+      "contentHash": "25377a32e3c5ca5457ddd46078506adff7c783cdc7ea94d229dd9d947c747ed5"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac2d8",

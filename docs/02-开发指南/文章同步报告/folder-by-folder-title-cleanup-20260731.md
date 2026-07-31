@@ -78,6 +78,28 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/vue3-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/vue3-folder-before-semantic-cleanup-20260731-1450`。
 
+### 前端技术 / Vue / vue2
+
+- 处理 23 篇 Vue 2 系列文章，将旧导入标题 `vue2初体验》`、`.1、模版语法》`、`route》`、`Vuex的使用》` 等规范为连续阅读标题。
+- 拆分稿作为主线阅读顺序，按 `第 1 篇` 到 `第 22 篇` 排列：初体验、模板语法、MVVM、事件处理、计算/侦听、样式绑定、渲染、列表、表单/过滤器、指令、响应式、生命周期、组件、单文件组件、脚手架、组件通信、mixins/plugins/scoped、Ajax、axios、Vuex、Vue Router、动画与过渡。
+- `vue2.md` 为 43 万字符综合稿，未删除，改名为 `Vue 2 完整整理版` 并放在 `sortOrder: 230`，作为备查资料，不抢占主线阅读入口。
+- 同步重命名 23 个本地导出 Markdown 文件，并更新 `manifest.json` 的 `fileName`；历史 `sourcePath` 保留不动，仅用于溯源。
+- 为 23 篇文章补充摘要和检索标签，标签按主题控制在 4 个左右，避免空标签和无意义长尾标签。
+- 保持分类路径 `前端技术 / Vue / vue2` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/vue2-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/vue2-folder-before-semantic-cleanup-20260731-1510`。
+- 说明：Windows 文件管理器按文件名字典序显示时，`第 10 篇` 可能排在 `第 2 篇` 前；线上知识库目录不依赖文件名字典序，而是按文章 `sortOrder` 升序展示。
+
+### 前端技术 / Vue / vue面试题
+
+- 处理 4 篇 Vue 面试题文章，按复习路径整理为：凝练版、Vue 2 面试题、Vue 3 面试题、修订完整版。
+- 将旧标题 `Vue面试题凝练版`、`vue2面试题`、`vue3面试题`、`面试题修改篇` 规范为 `第 1 篇` 到 `第 4 篇` 的阅读标题。
+- 将 `sortOrder` 调整为 10、20、30、40，使线上目录先展示短复习稿，再展示分版本题目，最后展示完整修订题库。
+- 同步重命名 4 个本地导出 Markdown 文件，并更新 `manifest.json` 的 `fileName`；历史 `sourcePath` 保留不动，仅用于溯源。
+- 为 4 篇文章补充摘要和检索标签，保持分类路径 `前端技术 / Vue / vue面试题` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/vue-interview-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/vue-interview-folder-before-semantic-cleanup-20260731-1530`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

@@ -1,17 +1,23 @@
 ---
-title: "vue2面试题"
+title: "第 2 篇：Vue 2 面试题"
 slug: "vue-vue-vue2-979be5aa"
-summary: ""
+summary: "Vue 2 面试题整理，覆盖 Vue 2 基础、响应式、组件、生命周期、computed、watch 和常见原理问题。"
 category: "vue面试题"
-tags: []
+tags:
+  - "Vue 2"
+  - "Vue 面试"
+  - "前端面试"
+  - "响应式"
 status: "draft"
-sortOrder: 40
+sortOrder: 20
 cover: ""
 originalId: "6a2d291f8a2b1c68f2cac2dc"
 originalSlug: "vue-vue-vue2-979be5aa"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
+# 第 2 篇：Vue 2 面试题
+
 ### 1、vue功能是什么，跟传统开发有什么区别？
 #### vue功能是什么
 Vue.js是一个用于创建用户界面的开源JavaScript框架，也是一个创建单页面应用的Web应用框架

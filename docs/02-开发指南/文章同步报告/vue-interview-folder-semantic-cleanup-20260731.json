@@ -1,0 +1,123 @@
+{
+  "generatedAt": "2026-07-31T07:09:42.102Z",
+  "scope": "output/线上文章/前端技术/Vue/vue面试题",
+  "changedCount": 4,
+  "changes": [
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2e2",
+      "originalSlug": "vue-vue-10dc3ed5",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "old": {
+        "title": "面试题修改篇",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue面试题/面试题修改篇.md"
+      },
+      "next": {
+        "sortOrder": 40,
+        "title": "第 4 篇：Vue 面试题修订完整版",
+        "summary": "Vue 面试题修订完整版，题量更完整，适合作为系统复盘、查漏补缺和面试前详细背诵资料。",
+        "tags": [
+          "Vue",
+          "Vue 面试",
+          "面试题库",
+          "查漏补缺"
+        ],
+        "fileName": "前端技术/Vue/vue面试题/第 4 篇：Vue 面试题修订完整版.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2e0",
+      "originalSlug": "vue-vue-vue-80f4d76c",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "old": {
+        "title": "Vue面试题凝练版",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue面试题/Vue面试题凝练版.md"
+      },
+      "next": {
+        "sortOrder": 10,
+        "title": "第 1 篇：Vue 面试题凝练版",
+        "summary": "Vue 面试核心复习稿，适合面试前快速过一遍 Vue 基础、虚拟 DOM、Diff、MVVM、组件和常见机制。",
+        "tags": [
+          "Vue",
+          "Vue 面试",
+          "前端面试",
+          "核心复习"
+        ],
+        "fileName": "前端技术/Vue/vue面试题/第 1 篇：Vue 面试题凝练版.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2de",
+      "originalSlug": "vue-vue-vue3-ace64a20",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "old": {
+        "title": "vue3面试题",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue面试题/vue3面试题.md"
+      },
+      "next": {
+        "sortOrder": 30,
+        "title": "第 3 篇：Vue 3 面试题",
+        "summary": "Vue 3 面试题整理，覆盖 Composition API、ref、reactive、watchEffect、Provide/Inject 和性能优化。",
+        "tags": [
+          "Vue 3",
+          "Vue 面试",
+          "Composition API",
+          "前端面试"
+        ],
+        "fileName": "前端技术/Vue/vue面试题/第 3 篇：Vue 3 面试题.md"
+      },
+      "h1Inserted": true
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac2dc",
+      "originalSlug": "vue-vue-vue2-979be5aa",
+      "categoryPath": [
+        "前端技术",
+        "Vue",
+        "vue面试题"
+      ],
+      "old": {
+        "title": "vue2面试题",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "前端技术/Vue/vue面试题/vue2面试题.md"
+      },
+      "next": {
+        "sortOrder": 20,
+        "title": "第 2 篇：Vue 2 面试题",
+        "summary": "Vue 2 面试题整理，覆盖 Vue 2 基础、响应式、组件、生命周期、computed、watch 和常见原理问题。",
+        "tags": [
+          "Vue 2",
+          "Vue 面试",
+          "前端面试",
+          "响应式"
+        ],
+        "fileName": "前端技术/Vue/vue面试题/第 2 篇：Vue 2 面试题.md"
+      },
+      "h1Inserted": true
+    }
+  ]
+}
