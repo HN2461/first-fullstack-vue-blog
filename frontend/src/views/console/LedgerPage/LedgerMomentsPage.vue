@@ -8,54 +8,40 @@
       :params="params"
       :page-size="20"
       :page-sizes="['20', '50', '100']"
-      :scroll="{ x: 1080 }"
+      :scroll="{ x: 1180 }"
       height="auto"
       striped
       column-border
       show-column-setting
+      @data-change="handleTableDataChange"
     >
       <template #toolbar>
-        <span class="ledger-table-title">重要记录</span>
-        <a-select
-          v-model:value="filters.scope"
-          class="ledger-moment-filter"
-          :options="scopeOptions"
-          show-search
-          option-filter-prop="label"
-          @change="reload"
+        <LedgerMomentsToolbar
+          :scope="filters.scope"
+          :category-id="filters.categoryId"
+          :keyword="filters.keyword"
+          :view-mode="viewMode"
+          :categories="categories"
+          :total="tableTotal"
+          @update:scope="filters.scope = $event"
+          @update:category-id="filters.categoryId = $event"
+          @update:keyword="filters.keyword = $event"
+          @update:view-mode="setViewMode"
+          @search="applyKeywordImmediately"
+          @add="openModal()"
         />
-        <a-input-search
-          v-model:value="filters.keyword"
-          class="ledger-moment-search"
-          allow-clear
-          placeholder="搜索标题、内容、标签"
-          @search="reload"
-        />
-        <span class="ledger-toolbar-spacer" />
-        <a-tooltip title="切换重要记录展示方式">
-          <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
-            <a-radio-button value="table">
-              <UnorderedListOutlined />
-            </a-radio-button>
-            <a-radio-button value="timeline">
-              <ClockCircleOutlined />
-            </a-radio-button>
-          </a-radio-group>
-        </a-tooltip>
-        <a-button type="primary" size="small" @click="openModal()">
-          <template #icon><PlusOutlined /></template>
-          新增记录
-        </a-button>
       </template>
+
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'occurredAt'">
-          <strong>{{ formatMomentDate(record) }}</strong>
+          <strong class="ledger-moment-date">{{ formatMomentDate(record) }}</strong>
         </template>
         <template v-else-if="column.key === 'scope'">
           <a-tag :bordered="false">{{ scopeLabel(record.scope) }}</a-tag>
         </template>
         <template v-else-if="column.key === 'amount'">
-          <strong class="amount-expense">{{ record.amount ? formatMoney(record.amount) : '-' }}</strong>
+          <strong v-if="record.amount" class="ledger-moment-amount">{{ formatMoney(record.amount) }}</strong>
+          <span v-else class="ledger-muted">-</span>
         </template>
         <template v-else-if="column.key === 'category'">
           <a-tag v-if="momentCategoryText(record)" :bordered="false">
@@ -66,7 +52,12 @@
         <template v-else-if="column.key === 'title'">
           <div class="ledger-moment-title">
             <a-tag v-if="record.pinned" color="gold" :bordered="false">置顶</a-tag>
-            <strong class="ledger-moment-title__text">{{ record.title }}</strong>
+            <LedgerTextTooltip
+              :text="record.title"
+              text-class="ledger-moment-title__text"
+              :search-mode="hasKeyword"
+              :search-keyword="appliedKeyword"
+            />
           </div>
         </template>
         <template v-else-if="column.key === 'tags'">
@@ -76,22 +67,28 @@
           </a-space>
         </template>
         <template v-else-if="column.key === 'content'">
-          <span class="ledger-moment-content">{{ record.content || '-' }}</span>
+          <LedgerTextTooltip
+            :text="record.content"
+            text-class="ledger-moment-content"
+            muted-class="ledger-muted"
+            :search-mode="hasKeyword"
+            :search-keyword="appliedKeyword"
+          />
         </template>
         <template v-else-if="column.key === 'action'">
           <a-space size="small">
-            <a-tooltip title="查看">
-              <a-button type="text" @click="openDetail(record)">
+            <a-tooltip title="查看详情">
+              <a-button type="text" size="small" aria-label="查看详情" @click="openDetail(record)">
                 <template #icon><EyeOutlined /></template>
               </a-button>
             </a-tooltip>
-            <a-tooltip title="编辑">
-              <a-button type="text" @click="openModal(record)">
+            <a-tooltip title="编辑记录">
+              <a-button type="text" size="small" aria-label="编辑记录" @click="openModal(record)">
                 <template #icon><EditOutlined /></template>
               </a-button>
             </a-tooltip>
-            <a-tooltip title="删除">
-              <a-button type="text" danger @click="confirmDelete(record)">
+            <a-tooltip title="删除记录">
+              <a-button type="text" size="small" danger aria-label="删除记录" @click="confirmDelete(record)">
                 <template #icon><DeleteOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -101,43 +98,29 @@
     </BlogTable>
 
     <section v-else class="ledger-moment-panel">
-      <div class="ledger-moment-panel__head">
-        <span class="ledger-table-title">重要记录</span>
-        <a-select
-          v-model:value="filters.scope"
-          class="ledger-moment-filter"
-          :options="scopeOptions"
-          show-search
-          option-filter-prop="label"
-          @change="reload"
+      <div class="ledger-moment-panel__toolbar">
+        <LedgerMomentsToolbar
+          :scope="filters.scope"
+          :category-id="filters.categoryId"
+          :keyword="filters.keyword"
+          :view-mode="viewMode"
+          :categories="categories"
+          :total="timelineTotal"
+          @update:scope="filters.scope = $event"
+          @update:category-id="filters.categoryId = $event"
+          @update:keyword="filters.keyword = $event"
+          @update:view-mode="setViewMode"
+          @search="applyKeywordImmediately"
+          @add="openModal()"
         />
-        <a-input-search
-          v-model:value="filters.keyword"
-          class="ledger-moment-search"
-          allow-clear
-          placeholder="搜索标题、内容、标签"
-          @search="reload"
-        />
-        <span class="ledger-toolbar-spacer" />
-        <a-tooltip title="切换重要记录展示方式">
-          <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
-            <a-radio-button value="table">
-              <UnorderedListOutlined />
-            </a-radio-button>
-            <a-radio-button value="timeline">
-              <ClockCircleOutlined />
-            </a-radio-button>
-          </a-radio-group>
-        </a-tooltip>
-        <a-button type="primary" size="small" @click="openModal()">
-          <template #icon><PlusOutlined /></template>
-          新增记录
-        </a-button>
       </div>
       <LedgerMomentsTimeline
         :items="timelineItems"
         :total="timelineTotal"
+        :page="timelinePage"
         :page-size="timelinePageSize"
+        :keyword="appliedKeyword"
+        :loading="timelineLoading"
         @view="openDetail"
         @edit="openModal"
         @delete="confirmDelete"
@@ -150,45 +133,31 @@
       :book-id="bookId"
       :categories="categories"
       :moment="currentMoment"
-      @saved="reload"
+      @saved="reloadActiveView"
     />
-
-    <a-modal
+    <LedgerMomentDetailModal
       v-model:open="detailOpen"
-      title="查看重要记录"
-      :footer="null"
-      :width="640"
-      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
-    >
-      <div v-if="detailMoment" class="ledger-moment-detail">
-        <div class="ledger-moment-detail__head">
-          <strong>{{ detailMoment.title }}</strong>
-          <a-tag v-if="detailMoment.pinned" color="gold" :bordered="false">置顶</a-tag>
-        </div>
-        <div class="ledger-moment-detail__meta">
-          <span>{{ scopeLabel(detailMoment.scope) }}：{{ formatMomentDate(detailMoment) }}</span>
-          <span v-if="detailMoment.amount">相关金额：{{ formatMoney(detailMoment.amount) }}</span>
-          <span v-if="momentCategoryText(detailMoment)">相关分类：{{ momentCategoryText(detailMoment) }}</span>
-          <span v-if="detailMoment.mood">心情：{{ detailMoment.mood }}</span>
-        </div>
-        <a-space v-if="detailMoment.tags?.length" wrap size="small">
-          <a-tag v-for="tag in detailMoment.tags" :key="tag" :bordered="false">{{ tag }}</a-tag>
-        </a-space>
-        <p class="ledger-moment-detail__content">{{ detailMoment.content || '暂无记录内容' }}</p>
-      </div>
-    </a-modal>
+      :moment="detailMoment"
+      @edit="openModal"
+    />
   </section>
 </template>
 
 <script setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onUnmounted, reactive, ref, watch } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { ClockCircleOutlined, DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteLedgerMoment, listLedgerMoments } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
-import LedgerMomentsTimeline from './LedgerMomentsTimeline.vue'
+import LedgerMomentDetailModal from './LedgerMomentDetailModal.vue'
 import LedgerMomentModal from './LedgerMomentModal.vue'
+import LedgerMomentsTimeline from './LedgerMomentsTimeline.vue'
+import LedgerMomentsToolbar from './LedgerMomentsToolbar.vue'
+import LedgerTextTooltip from './LedgerTextTooltip.vue'
+import { formatMomentDate, momentCategoryText, scopeLabel } from './ledgerMomentUtils'
+
+const VIEW_STORAGE_KEY = 'ledger-moment-view-mode'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -198,68 +167,63 @@ const props = defineProps({
 })
 
 const tableRef = ref(null)
+const tableTotal = ref(Number.NaN)
 const modalOpen = ref(false)
 const currentMoment = ref(null)
-const viewMode = ref('table')
 const detailOpen = ref(false)
 const detailMoment = ref(null)
-
-// 时间线分页状态
+const viewMode = ref(readStoredViewMode())
 const timelineItems = ref([])
 const timelineTotal = ref(0)
-const timelinePageSize = ref(20)
+const timelinePageSize = 20
 const timelinePage = ref(1)
+const timelineLoading = ref(false)
+const appliedKeyword = ref('')
+let keywordTimer = null
 
 const filters = reactive({
   scope: '',
+  categoryId: '',
   keyword: ''
 })
-
-const scopeOptions = [
-  { label: '全部范围', value: '' },
-  { label: '某一天', value: 'day' },
-  { label: '某个月', value: 'month' },
-  { label: '某一年', value: 'year' }
-]
 
 const columns = [
   { title: '日期', key: 'occurredAt', width: 130, align: 'center', fixed: 'left' },
   { title: '范围', key: 'scope', width: 100, align: 'center' },
   { title: '标题', key: 'title', width: 220, align: 'left' },
-  { title: '金额', key: 'amount', width: 130, align: 'center' },
+  { title: '相关金额', key: 'amount', width: 130, align: 'center' },
   { title: '相关分类', key: 'category', width: 160, align: 'center' },
   { title: '心情', dataIndex: 'mood', key: 'mood', width: 130, align: 'center' },
   { title: '标签', key: 'tags', width: 180, align: 'center' },
-  { title: '内容', key: 'content', width: 320, align: 'center' },
-  { title: '操作', key: 'action', width: 150, align: 'center', fixed: 'right' }
+  { title: '内容', key: 'content', width: 320, align: 'left' },
+  { title: '操作', key: 'action', width: 130, align: 'center', fixed: 'right' }
 ]
 
+const hasKeyword = computed(() => Boolean(appliedKeyword.value))
 const params = computed(() => ({
   bookId: props.bookId || undefined,
   scope: filters.scope || undefined,
-  keyword: filters.keyword.trim() || undefined
+  categoryId: filters.categoryId || undefined,
+  keyword: appliedKeyword.value || undefined
 }))
 
-function scopeLabel(scope) {
-  return scopeOptions.find((item) => item.value === scope)?.label || '某一天'
+function readStoredViewMode() {
+  try {
+    const stored = localStorage.getItem(VIEW_STORAGE_KEY)
+    return stored === 'table' || stored === 'timeline' ? stored : 'timeline'
+  } catch {
+    return 'timeline'
+  }
 }
 
-function formatMomentDate(record) {
-  if (!record?.occurredAt) return '-'
-  const date = new Date(record.occurredAt)
-  if (Number.isNaN(date.getTime())) return '-'
-  const [year, month, day] = [
-    date.getFullYear(),
-    String(date.getMonth() + 1).padStart(2, '0'),
-    String(date.getDate()).padStart(2, '0')
-  ]
-  if (record.scope === 'year') return `${year}`
-  if (record.scope === 'month') return `${year}-${month}`
-  return `${year}-${month}-${day}`
-}
-
-function momentCategoryText(record) {
-  return record?.category?.name || record?.categoryText || ''
+function setViewMode(mode) {
+  if (mode !== 'table' && mode !== 'timeline') return
+  viewMode.value = mode
+  try {
+    localStorage.setItem(VIEW_STORAGE_KEY, mode)
+  } catch {
+    // 浏览器禁用本地存储时仍允许正常切换视图。
+  }
 }
 
 function loadMoments(query) {
@@ -272,32 +236,49 @@ async function loadTimeline() {
     timelineTotal.value = 0
     return
   }
+  timelineLoading.value = true
   try {
     const result = await listLedgerMoments({
       ...params.value,
       page: timelinePage.value,
-      pageSize: timelinePageSize.value
+      pageSize: timelinePageSize
     })
     timelineItems.value = result.items || []
     timelineTotal.value = result.total || 0
   } catch {
     timelineItems.value = []
     timelineTotal.value = 0
+  } finally {
+    timelineLoading.value = false
   }
 }
 
-function reload() {
+function reloadActiveView() {
   if (viewMode.value === 'table') {
     tableRef.value?.reload?.()
-  } else {
-    timelinePage.value = 1
-    loadTimeline()
+    return
   }
+  timelinePage.value = 1
+  loadTimeline()
 }
 
 function handleTimelinePageChange(page) {
   timelinePage.value = page
   loadTimeline()
+}
+
+function handleTableDataChange({ total }) {
+  tableTotal.value = Number(total) || 0
+}
+
+function applyKeywordImmediately() {
+  if (keywordTimer) clearTimeout(keywordTimer)
+  const keyword = filters.keyword.trim()
+  if (appliedKeyword.value === keyword) {
+    reloadActiveView()
+    return
+  }
+  appliedKeyword.value = keyword
 }
 
 function openModal(moment = null) {
@@ -321,7 +302,7 @@ function confirmDelete(moment) {
       try {
         await deleteLedgerMoment(moment.id)
         message.success('重要记录已删除')
-        reload()
+        reloadActiveView()
       } catch (error) {
         message.error(error.message || '删除失败')
       }
@@ -330,12 +311,36 @@ function confirmDelete(moment) {
 }
 
 watch(
-  () => [props.bookId, props.refreshKey],
-  reload
+  () => filters.keyword,
+  () => {
+    if (keywordTimer) clearTimeout(keywordTimer)
+    keywordTimer = setTimeout(() => {
+      appliedKeyword.value = filters.keyword.trim()
+    }, 300)
+  }
 )
 
-watch(viewMode, (mode) => {
-  if (mode === 'timeline') loadTimeline()
+watch(
+  params,
+  () => {
+    if (viewMode.value !== 'timeline') return
+    timelinePage.value = 1
+    loadTimeline()
+  },
+  { immediate: true }
+)
+
+watch(viewMode, (mode, previousMode) => {
+  if (mode === 'timeline' && previousMode !== 'timeline') loadTimeline()
+})
+
+watch(
+  () => props.refreshKey,
+  reloadActiveView
+)
+
+onUnmounted(() => {
+  if (keywordTimer) clearTimeout(keywordTimer)
 })
 </script>
 
@@ -344,103 +349,45 @@ watch(viewMode, (mode) => {
   min-width: 0;
 }
 
-.ledger-table-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--console-text);
-  white-space: nowrap;
-}
-
-.ledger-toolbar-spacer {
-  flex: 1;
-}
-
 .ledger-moment-panel {
   min-width: 0;
-  display: grid;
-  gap: 12px;
+  overflow: hidden;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
+}
+
+.ledger-moment-panel__toolbar {
   padding: 10px;
+  border-bottom: 1px solid var(--console-border);
 }
 
-.ledger-moment-panel__head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+.ledger-moment-date,
+.ledger-moment-amount {
+  font-variant-numeric: tabular-nums;
 }
 
-.ledger-moment-filter {
-  width: 140px;
-}
-
-.ledger-moment-search {
-  width: 260px;
+.ledger-moment-amount {
+  color: var(--console-primary, #1677ff);
 }
 
 .ledger-moment-title {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
+  display: flex;
+  align-items: flex-start;
   gap: 6px;
-  max-width: 200px;
   min-width: 0;
 }
 
-.ledger-moment-title__text,
-.ledger-moment-content {
-  display: inline-block;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.ledger-moment-title :deep(.ledger-moment-title__text) {
+  color: var(--console-text);
+  font-weight: 600;
 }
 
-.ledger-moment-content {
-  display: inline-block;
-  max-width: 300px;
+:deep(.ledger-moment-content) {
   color: var(--console-text-secondary);
 }
 
 .ledger-muted {
   color: var(--console-text-secondary);
-}
-
-.amount-expense {
-  color: var(--color-error, #dc2626);
-}
-
-.ledger-moment-detail { display: grid; gap: 12px; }
-
-.ledger-moment-detail__head { display: flex; align-items: center; gap: 8px; }
-
-.ledger-moment-detail__head strong { color: var(--console-text); font-size: 16px; }
-
-.ledger-moment-detail__meta { display: flex; flex-wrap: wrap; gap: 8px 14px; color: var(--console-text-secondary); font-size: 13px; }
-
-.ledger-moment-detail__content {
-  margin: 0;
-  white-space: pre-wrap;
-  word-break: break-word;
-  color: var(--console-text);
-  line-height: 1.7;
-}
-
-@media (max-width: 800px) {
-  .ledger-moment-panel__head {
-    align-items: stretch;
-    flex-direction: column;
-  }
-
-  .ledger-moment-filter,
-  .ledger-moment-search {
-    width: 100%;
-  }
-
-  .ledger-toolbar-spacer {
-    display: none;
-  }
 }
 </style>

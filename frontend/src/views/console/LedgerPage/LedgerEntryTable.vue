@@ -1,17 +1,19 @@
 <template>
   <BlogTable
+    :key="tableModeKey"
     ref="tableRef"
+    :class="{ 'ledger-entry-table--search': isSearchActive }"
     :api-fn="loadEntries"
-    :columns="columns"
+    :columns="tableColumns"
     :params="params"
     :page-size="20"
     :page-sizes="['20', '50', '100']"
-    :scroll="{ x: 1440 }"
+    :scroll="tableScroll"
     height="auto"
-    show-column-setting
-    striped
-    column-border
-    :row-selection="{ columnWidth: 48 }"
+    :show-column-setting="!isSearchActive"
+    :striped="!isSearchActive"
+    :column-border="!isSearchActive"
+    :row-selection="rowSelection"
     @selection-change="handleSelectionChange"
   >
     <template #toolbar>
@@ -46,8 +48,8 @@
           v-model:value="filters.keyword"
           class="ledger-search"
           allow-clear
-          placeholder="搜索备注或分类"
-          @search="reload"
+          placeholder="搜索备注、当日备注或分类"
+          @search="applyKeywordSearch"
           @change="handleKeywordInput"
         />
         <a-tooltip :title="amountSortTooltip">
@@ -75,7 +77,15 @@
     </template>
 
     <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'occurredAt'">
+      <template v-if="column.key === 'searchResult'">
+        <LedgerEntrySearchGroup
+          :group="record"
+          :keyword="searchKeyword"
+          @edit="$emit('edit', $event)"
+          @delete="$emit('delete', $event)"
+        />
+      </template>
+      <template v-else-if="column.key === 'occurredAt'">
         <span class="ledger-cell-center">{{ formatDate(record.occurredAt) }}</span>
       </template>
       <template v-else-if="column.key === 'type'">
@@ -94,10 +104,21 @@
         </strong>
       </template>
       <template v-else-if="column.key === 'note'">
-        <LedgerTextTooltip :text="record.note || ''" text-class="ledger-note-cell" />
+        <LedgerTextTooltip
+          :text="record.note || ''"
+          text-class="ledger-note-cell"
+          :search-mode="isSearchActive"
+          :search-keyword="searchKeyword"
+        />
       </template>
       <template v-else-if="column.key === 'dailyNote'">
-        <LedgerTextTooltip :text="record.dailyNote || ''" text-class="ledger-note-cell ledger-muted" muted-class="ledger-muted" />
+        <LedgerTextTooltip
+          :text="record.dailyNote || ''"
+          :text-class="dailyNoteTextClass"
+          muted-class="ledger-muted"
+          :search-mode="isSearchActive"
+          :search-keyword="searchKeyword"
+        />
       </template>
       <template v-else-if="column.key === 'tags'">
         <a-space wrap size="small">
@@ -136,6 +157,7 @@ import BlogTable from '@/components/BlogTable.vue'
 import { listLedgerEntries } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import { formatDate, formatTime } from './ledgerUtils'
+import LedgerEntrySearchGroup from './LedgerEntrySearchGroup.vue'
 import LedgerTextTooltip from './LedgerTextTooltip.vue'
 
 const props = defineProps({
@@ -149,6 +171,7 @@ defineEmits(['edit', 'delete', 'batch-edit', 'export'])
 
 const tableRef = ref(null)
 const selectedKeys = ref([])
+const searchKeyword = ref('')
 let keywordTimer = null
 const filters = reactive({
   type: '',
@@ -172,6 +195,10 @@ const columns = [
   { title: '操作', key: 'action', width: 120, align: 'center', fixed: 'right' }
 ]
 
+const searchColumns = [
+  { title: '搜索结果', key: 'searchResult' }
+]
+
 const typeOptions = [
   { label: '全部类型', value: '' },
   { label: '支出', value: 'expense' },
@@ -185,6 +212,14 @@ const categoryOptions = computed(() => [
     value: item.id
   }))
 ])
+const isSearchActive = computed(() => Boolean(searchKeyword.value))
+const tableModeKey = computed(() => (isSearchActive.value ? 'search-results' : 'entry-table'))
+const tableColumns = computed(() => (isSearchActive.value ? searchColumns : columns))
+const tableScroll = computed(() => (isSearchActive.value ? {} : { x: 1440 }))
+const rowSelection = computed(() => (isSearchActive.value ? false : { columnWidth: 48 }))
+const dailyNoteTextClass = computed(() => (
+  isSearchActive.value ? 'ledger-note-cell' : 'ledger-note-cell ledger-muted'
+))
 
 const params = computed(() => ({
   bookId: props.bookId || undefined,
@@ -192,7 +227,7 @@ const params = computed(() => ({
   to: props.range?.[1] || undefined,
   type: filters.type || undefined,
   categoryId: filters.categoryId || undefined,
-  keyword: filters.keyword.trim() || undefined,
+  keyword: searchKeyword.value || undefined,
   tags: filters.tags?.length ? filters.tags : undefined,
   sortField: filters.sortField || undefined,
   sortOrder: filters.sortOrder || undefined
@@ -203,8 +238,36 @@ const amountSortTooltip = computed(() => {
   return filters.sortOrder === 'asc' ? '按金额降序' : '恢复默认日期排序'
 })
 
-function loadEntries(query) {
-  return listLedgerEntries(query)
+function toLocalDateKey(value) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return String(value || '')
+  const pad = (part) => String(part).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+function groupSearchEntries(entries) {
+  const groups = new Map()
+  entries.forEach((entry) => {
+    const dateKey = toLocalDateKey(entry.occurredAt)
+    if (!groups.has(dateKey)) {
+      groups.set(dateKey, {
+        id: `search-day-${dateKey}`,
+        occurredAt: entry.occurredAt,
+        entries: []
+      })
+    }
+    groups.get(dateKey).entries.push(entry)
+  })
+  return [...groups.values()]
+}
+
+async function loadEntries(query) {
+  const result = await listLedgerEntries(query)
+  if (!query.keyword) return result
+  return {
+    ...result,
+    items: groupSearchEntries(result.items)
+  }
 }
 
 function reload() {
@@ -234,7 +297,18 @@ function handleSelectionChange(keys) {
 
 function handleKeywordInput() {
   clearTimeout(keywordTimer)
-  keywordTimer = setTimeout(reload, 300)
+  keywordTimer = setTimeout(applyKeywordSearch, 300)
+}
+
+function applyKeywordSearch() {
+  clearTimeout(keywordTimer)
+  const nextKeyword = filters.keyword.trim()
+  if (nextKeyword === searchKeyword.value) {
+    reload()
+    return
+  }
+  searchKeyword.value = nextKeyword
+  selectedKeys.value = []
 }
 
 function toggleAmountSort() {
@@ -314,6 +388,19 @@ defineExpose({ reload, refresh, clearSelection, getSelectedKeys, getExportParams
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+}
+
+.ledger-entry-table--search :deep(.ant-table-thead) {
+  display: none;
+}
+
+.ledger-entry-table--search :deep(.ant-table-tbody > tr > td) {
+  padding: 0;
+  vertical-align: top;
+}
+
+.ledger-entry-table--search :deep(.ant-table-tbody > tr:hover > td) {
+  background: transparent;
 }
 
 @media (max-width: 760px) {

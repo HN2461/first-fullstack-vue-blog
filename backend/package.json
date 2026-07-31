@@ -49,6 +49,7 @@
     "menu:knowledge-routes:apply": "node src/scripts/migrateKnowledgeMenuRoutes.js --apply",
     "timeline:seed": "node src/scripts/seedProjectTimeline.js",
     "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply",
+    "ledger-moments:sync": "node src/scripts/syncLedgerMomentsFromExport.js",
     "resume:import-materials": "node src/scripts/importResumeMaterials.js",
     "resume:import-materials:apply": "node src/scripts/importResumeMaterials.js --apply",
     "bookmark:reset": "node src/scripts/resetBookmarkData.js",
