@@ -1,18 +1,18 @@
 ---
-title: "Class与模块"
+title: "第 21 章：Class 与模块"
 slug: "js-class-0867afc9"
-summary: ""
+summary: "整理 class 语法、继承、super、静态方法、模块基础和面向对象写法在 JavaScript 中的实践。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","Class","模块化","继承"]
 status: "draft"
-sortOrder: 180
+sortOrder: 220
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0fa"
 originalSlug: "js-class-0867afc9"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第21章 Class与模块
+# 第 21 章：Class 与模块
 
 > ES6 引入的 class 语法为 JavaScript 提供了更清晰的面向对象编程方式。虽然本质上仍是基于原型的继承，但 class 语法让代码更加直观和易于理解。
 

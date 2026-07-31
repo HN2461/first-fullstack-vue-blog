@@ -1,18 +1,18 @@
 ---
-title: "NPM与包管理"
+title: "第 28 章：NPM 与包管理"
 slug: "js-npm-217bcd42"
-summary: ""
+summary: "整理 package.json、npm scripts、依赖版本、包管理命令、发布机制和前端依赖治理基础。"
 category: "AI版JS"
-tags: []
+tags: ["NPM","包管理","package.json","前端工程化"]
 status: "draft"
-sortOrder: 110
+sortOrder: 290
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac108"
 originalSlug: "js-npm-217bcd42"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第28章 NPM与包管理
+# 第 28 章：NPM 与包管理
 
 > NPM是Node.js的包管理器，也是现代前端开发的基础设施。理解NPM和包管理对于前端工程化至关重要。
 

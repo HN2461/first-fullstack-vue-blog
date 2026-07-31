@@ -1,18 +1,18 @@
 ---
-title: "编写 JavaScript 的方式与加载机制"
+title: "第 3 章：编写 JavaScript 的方式与加载机制"
 slug: "js-javascript-a73da56a"
-summary: ""
+summary: "讲解内联脚本、内部脚本、外部脚本、script 标签执行顺序、async、defer、加载阻塞和缓存策略。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","script 标签","脚本加载","性能优化"]
 status: "draft"
-sortOrder: 70
+sortOrder: 40
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac110"
 originalSlug: "js-javascript-a73da56a"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第3章　编写 JavaScript 的方式与加载机制
+# 第 3 章：编写 JavaScript 的方式与加载机制
 
 ## 3.1 内联脚本、内部脚本、外部脚本
 

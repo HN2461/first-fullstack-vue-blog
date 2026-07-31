@@ -1,18 +1,18 @@
 ---
-title: "使用Express开发后端"
+title: "第 30 章：使用 Express 开发后端"
 slug: "js-express-71c1cdfd"
-summary: ""
+summary: "整理 Express 快速开始、应用结构、路由系统、中间件、接口开发和基础后端服务实践。"
 category: "AI版JS"
-tags: []
+tags: ["Express","Node.js","后端开发","API"]
 status: "draft"
-sortOrder: 80
+sortOrder: 310
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10e"
 originalSlug: "js-express-71c1cdfd"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第30章 使用Express开发后端
+# 第 30 章：使用 Express 开发后端
 
 > Express是Node.js最流行的Web应用框架，提供了构建Web服务器和API的强大工具。
 

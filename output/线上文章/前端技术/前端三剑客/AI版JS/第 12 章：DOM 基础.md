@@ -1,18 +1,18 @@
 ---
-title: "DOM基础"
+title: "第 12 章：DOM 基础"
 slug: "js-dom-cc9e923c"
-summary: ""
+summary: "讲解 DOM 树结构、节点类型、元素获取、元素创建、属性样式文本修改和 DOM 操作实践。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","DOM","浏览器","节点操作"]
 status: "draft"
-sortOrder: 280
+sortOrder: 130
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0e6"
 originalSlug: "js-dom-cc9e923c"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第12章　DOM基础
+# 第 12 章：DOM 基础
 
 DOM（Document Object Model，文档对象模型）是JavaScript操作网页的核心接口。它将HTML文档表示为节点树，让我们能够动态地操作网页内容、结构和样式。本章将全面掌握DOM操作的基础知识。
 

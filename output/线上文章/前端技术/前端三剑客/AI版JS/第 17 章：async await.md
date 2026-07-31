@@ -1,18 +1,18 @@
 ---
-title: "async await"
+title: "第 17 章：async / await"
 slug: "js-async-await-b580531b"
-summary: ""
+summary: "讲解 async 函数、await 暂停机制、异步错误捕获、并发优化和 async/await 写法实践。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","async await","异步编程","错误处理"]
 status: "draft"
-sortOrder: 230
+sortOrder: 180
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0f0"
 originalSlug: "js-async-await-b580531b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第17章　async / await
+# 第 17 章：async / await
 
 async/await是ES2017引入的异步编程语法糖，基于Promise构建，让异步代码看起来像同步代码，极大提升了异步编程的可读性和可维护性。
 

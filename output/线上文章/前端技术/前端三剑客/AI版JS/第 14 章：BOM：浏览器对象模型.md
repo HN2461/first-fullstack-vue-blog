@@ -1,18 +1,18 @@
 ---
-title: "BOM：浏览器对象模型"
+title: "第 14 章：BOM：浏览器对象模型"
 slug: "js-bom-8c92d7da"
-summary: ""
+summary: "整理 window、定时器、location、history、本地存储、cookie 和浏览器对象模型常用能力。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","BOM","浏览器","本地存储"]
 status: "draft"
-sortOrder: 260
+sortOrder: 150
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ea"
 originalSlug: "js-bom-8c92d7da"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第14章　BOM：浏览器对象模型
+# 第 14 章：BOM：浏览器对象模型
 
 BOM（Browser Object Model，浏览器对象模型）提供了与浏览器窗口交互的接口，包括窗口控制、定时器、位置信息、历史记录、本地存储等功能。本章将深入学习BOM的各个组件及其在实际开发中的应用。
 

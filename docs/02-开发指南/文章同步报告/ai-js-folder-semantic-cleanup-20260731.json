@@ -1,0 +1,937 @@
+{
+  "generatedAt": "2026-07-31T07:36:17.581Z",
+  "scope": "output/线上文章/前端技术/前端三剑客/AI版JS",
+  "changedCount": 31,
+  "changes": [
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e0",
+      "originalSlug": "js-javascript-fcff5e89",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/JavaScript 目录.md",
+      "old": {
+        "title": "JavaScript 目录",
+        "summary": "",
+        "sortOrder": 310,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/JavaScript-目录.md"
+      },
+      "next": {
+        "title": "JavaScript 完整教程目录",
+        "summary": "JavaScript 完整教程目录，按世界观、语法基础、函数对象、浏览器交互、异步、现代语法、工程化和后端入门梳理 30 章学习路径。",
+        "sortOrder": 10,
+        "tags": [
+          "JavaScript",
+          "学习目录",
+          "前端基础",
+          "教程索引"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 00 篇：JavaScript 完整教程目录.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f6",
+      "originalSlug": "js-javascript-9e8b648d",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第1章 JavaScript 是什么.md",
+      "old": {
+        "title": "JavaScript 是什么",
+        "summary": "",
+        "sortOrder": 200,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/JavaScript-是什么.md"
+      },
+      "next": {
+        "title": "第 1 章：JavaScript 是什么",
+        "summary": "JavaScript 入门笔记，说明语言诞生背景、浏览器关系、ECMAScript、DOM、BOM 和现代前端开发定位。",
+        "sortOrder": 20,
+        "tags": [
+          "JavaScript",
+          "前端基础",
+          "ECMAScript",
+          "浏览器"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 01 章：JavaScript 是什么.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac10c",
+      "originalSlug": "js-javascript-44c8511b",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第2章 JavaScript 的运行机制.md",
+      "old": {
+        "title": "JavaScript 的运行机制",
+        "summary": "",
+        "sortOrder": 90,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/JavaScript-的运行机制.md"
+      },
+      "next": {
+        "title": "第 2 章：JavaScript 的运行机制",
+        "summary": "梳理浏览器执行 JavaScript 的过程，涵盖 V8 引擎、单线程模型、事件循环和代码执行生命周期。",
+        "sortOrder": 30,
+        "tags": [
+          "JavaScript",
+          "运行机制",
+          "V8",
+          "事件循环"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 02 章：JavaScript 的运行机制.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac110",
+      "originalSlug": "js-javascript-a73da56a",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第3章 编写 JavaScript 的方式与加载机制.md",
+      "old": {
+        "title": "编写 JavaScript 的方式与加载机制",
+        "summary": "",
+        "sortOrder": 70,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/编写-JavaScript-的方式与加载机制.md"
+      },
+      "next": {
+        "title": "第 3 章：编写 JavaScript 的方式与加载机制",
+        "summary": "讲解内联脚本、内部脚本、外部脚本、script 标签执行顺序、async、defer、加载阻塞和缓存策略。",
+        "sortOrder": 40,
+        "tags": [
+          "JavaScript",
+          "script 标签",
+          "脚本加载",
+          "性能优化"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 03 章：编写 JavaScript 的方式与加载机制.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac112",
+      "originalSlug": "js-30485a51",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第4章 变量与常量.md",
+      "old": {
+        "title": "变量与常量",
+        "summary": "",
+        "sortOrder": 60,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/变量与常量.md"
+      },
+      "next": {
+        "title": "第 4 章：变量与常量",
+        "summary": "整理 var、let、const 的差异，说明作用域、变量提升、暂时性死区和变量命名实践。",
+        "sortOrder": 50,
+        "tags": [
+          "JavaScript",
+          "变量声明",
+          "作用域",
+          "TDZ"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 04 章：变量与常量.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac114",
+      "originalSlug": "js-baafb9f8",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第5章 数据类型与类型系统.md",
+      "old": {
+        "title": "数据类型与类型系统",
+        "summary": "",
+        "sortOrder": 50,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/数据类型与类型系统.md"
+      },
+      "next": {
+        "title": "第 5 章：数据类型与类型系统",
+        "summary": "系统整理 JavaScript 基本类型、引用类型、类型判断、类型转换、包装对象和常见类型陷阱。",
+        "sortOrder": 60,
+        "tags": [
+          "JavaScript",
+          "数据类型",
+          "类型转换",
+          "类型判断"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 05 章：数据类型与类型系统.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac116",
+      "originalSlug": "js-2d98dd08",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第6章 运算符、表达式与逻辑.md",
+      "old": {
+        "title": "运算符、表达式与逻辑",
+        "summary": "",
+        "sortOrder": 40,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/运算符、表达式与逻辑.md"
+      },
+      "next": {
+        "title": "第 6 章：运算符、表达式与逻辑",
+        "summary": "整理算术、比较、逻辑、短路、可选链、空值合并、位运算和表达式优先级等基础语法。",
+        "sortOrder": 70,
+        "tags": [
+          "JavaScript",
+          "运算符",
+          "表达式",
+          "逻辑判断"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 06 章：运算符、表达式与逻辑.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac118",
+      "originalSlug": "js-33cd1322",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第7章 流程控制.md",
+      "old": {
+        "title": "流程控制",
+        "summary": "",
+        "sortOrder": 30,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/流程控制.md"
+      },
+      "next": {
+        "title": "第 7 章：流程控制",
+        "summary": "整理 if、switch、for、while、break、continue、异常处理和流程控制的常见写法。",
+        "sortOrder": 80,
+        "tags": [
+          "JavaScript",
+          "流程控制",
+          "循环",
+          "异常处理"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 07 章：流程控制.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac11a",
+      "originalSlug": "js-1529951f",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第8章 函数基础.md",
+      "old": {
+        "title": "函数基础",
+        "summary": "",
+        "sortOrder": 20,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/函数基础.md"
+      },
+      "next": {
+        "title": "第 8 章：函数基础",
+        "summary": "讲解函数声明、函数表达式、箭头函数、参数、返回值、作用域、闭包基础和函数调用方式。",
+        "sortOrder": 90,
+        "tags": [
+          "JavaScript",
+          "函数",
+          "箭头函数",
+          "闭包"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 08 章：函数基础.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac11c",
+      "originalSlug": "js-ea69a97a",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第9章 对象与引用.md",
+      "old": {
+        "title": "对象与引用",
+        "summary": "",
+        "sortOrder": 10,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/对象与引用.md"
+      },
+      "next": {
+        "title": "第 9 章：对象与引用",
+        "summary": "整理对象创建、属性访问、属性描述符、引用复制、对象遍历、内置对象和对象常用操作。",
+        "sortOrder": 100,
+        "tags": [
+          "JavaScript",
+          "对象",
+          "引用类型",
+          "属性描述符"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 09 章：对象与引用.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e2",
+      "originalSlug": "js-9c3f58ce",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第10章 原型与原型链.md",
+      "old": {
+        "title": "原型与原型链",
+        "summary": "",
+        "sortOrder": 300,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/原型与原型链.md"
+      },
+      "next": {
+        "title": "第 10 章：原型与原型链",
+        "summary": "讲解 prototype、__proto__、构造函数、new、继承、原型链查找机制和常见原型面试点。",
+        "sortOrder": 110,
+        "tags": [
+          "JavaScript",
+          "原型",
+          "原型链",
+          "继承"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 10 章：原型与原型链.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e4",
+      "originalSlug": "js-d13ebf9a",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第11章 数组与高阶方法.md",
+      "old": {
+        "title": "数组与高阶方法",
+        "summary": "",
+        "sortOrder": 290,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/数组与高阶方法.md"
+      },
+      "next": {
+        "title": "第 11 章：数组与高阶方法",
+        "summary": "整理数组本质、常用方法、遍历、map、filter、reduce、排序、查找和数组处理实践。",
+        "sortOrder": 120,
+        "tags": [
+          "JavaScript",
+          "数组",
+          "高阶函数",
+          "reduce"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 11 章：数组与高阶方法.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e6",
+      "originalSlug": "js-dom-cc9e923c",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第12章 DOM基础.md",
+      "old": {
+        "title": "DOM基础",
+        "summary": "",
+        "sortOrder": 280,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/DOM基础.md"
+      },
+      "next": {
+        "title": "第 12 章：DOM 基础",
+        "summary": "讲解 DOM 树结构、节点类型、元素获取、元素创建、属性样式文本修改和 DOM 操作实践。",
+        "sortOrder": 130,
+        "tags": [
+          "JavaScript",
+          "DOM",
+          "浏览器",
+          "节点操作"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 12 章：DOM 基础.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0e8",
+      "originalSlug": "js-710ba916",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第13章 事件与交互系统.md",
+      "old": {
+        "title": "事件与交互系统",
+        "summary": "",
+        "sortOrder": 270,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/事件与交互系统.md"
+      },
+      "next": {
+        "title": "第 13 章：事件与交互系统",
+        "summary": "整理事件监听、事件流、冒泡捕获、默认行为、事件委托、常见交互事件和表单事件。",
+        "sortOrder": 140,
+        "tags": [
+          "JavaScript",
+          "事件",
+          "事件委托",
+          "浏览器交互"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 13 章：事件与交互系统.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ea",
+      "originalSlug": "js-bom-8c92d7da",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第14章 BOM：浏览器对象模型.md",
+      "old": {
+        "title": "BOM：浏览器对象模型",
+        "summary": "",
+        "sortOrder": 260,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/BOM：浏览器对象模型.md"
+      },
+      "next": {
+        "title": "第 14 章：BOM：浏览器对象模型",
+        "summary": "整理 window、定时器、location、history、本地存储、cookie 和浏览器对象模型常用能力。",
+        "sortOrder": 150,
+        "tags": [
+          "JavaScript",
+          "BOM",
+          "浏览器",
+          "本地存储"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 14 章：BOM：浏览器对象模型.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ec",
+      "originalSlug": "js-021185e9",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第15章 异步编程基础.md",
+      "old": {
+        "title": "异步编程基础",
+        "summary": "",
+        "sortOrder": 250,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/异步编程基础.md"
+      },
+      "next": {
+        "title": "第 15 章：异步编程基础",
+        "summary": "讲解同步与异步、回调函数、任务队列、事件循环、宏任务、微任务和异步流程基础。",
+        "sortOrder": 160,
+        "tags": [
+          "JavaScript",
+          "异步编程",
+          "事件循环",
+          "任务队列"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 15 章：异步编程基础.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ee",
+      "originalSlug": "js-promise-30f7cae5",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第16章 Promise.md",
+      "old": {
+        "title": "Promise",
+        "summary": "",
+        "sortOrder": 240,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/Promise.md"
+      },
+      "next": {
+        "title": "第 16 章：Promise",
+        "summary": "整理 Promise 状态、then、catch、finally、链式调用、并发方法、异常处理和常见使用场景。",
+        "sortOrder": 170,
+        "tags": [
+          "JavaScript",
+          "Promise",
+          "异步编程",
+          "并发控制"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 16 章：Promise.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f0",
+      "originalSlug": "js-async-await-b580531b",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第17章 async await.md",
+      "old": {
+        "title": "async await",
+        "summary": "",
+        "sortOrder": 230,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/async-await.md"
+      },
+      "next": {
+        "title": "第 17 章：async / await",
+        "summary": "讲解 async 函数、await 暂停机制、异步错误捕获、并发优化和 async/await 写法实践。",
+        "sortOrder": 180,
+        "tags": [
+          "JavaScript",
+          "async await",
+          "异步编程",
+          "错误处理"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 17 章：async await.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f2",
+      "originalSlug": "js-339b4b0d",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第18章 网络请求与跨域.md",
+      "old": {
+        "title": "网络请求与跨域",
+        "summary": "",
+        "sortOrder": 220,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/网络请求与跨域.md"
+      },
+      "next": {
+        "title": "第 18 章：网络请求与跨域",
+        "summary": "整理 HTTP 基础、Fetch、Axios、CORS、跨域原理、请求配置和前端网络请求实践。",
+        "sortOrder": 190,
+        "tags": [
+          "JavaScript",
+          "HTTP",
+          "Fetch",
+          "跨域"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 18 章：网络请求与跨域.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f4",
+      "originalSlug": "js-es6-9a72088d",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第19章 ES6核心语法.md",
+      "old": {
+        "title": "ES6核心语法",
+        "summary": "",
+        "sortOrder": 210,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/ES6核心语法.md"
+      },
+      "next": {
+        "title": "第 19 章：ES6 核心语法",
+        "summary": "整理 let、const、解构、展开语法、模板字符串、箭头函数、默认参数和 ES6 常用语法。",
+        "sortOrder": 200,
+        "tags": [
+          "JavaScript",
+          "ES6",
+          "解构赋值",
+          "展开语法"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 19 章：ES6 核心语法.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0f8",
+      "originalSlug": "js-e2f984c3",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第20章 新数据结构.md",
+      "old": {
+        "title": "新数据结构",
+        "summary": "",
+        "sortOrder": 190,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/新数据结构.md"
+      },
+      "next": {
+        "title": "第 20 章：新数据结构",
+        "summary": "讲解 Map、Set、WeakMap、WeakSet、Symbol、Iterator 和现代 JavaScript 数据结构应用。",
+        "sortOrder": 210,
+        "tags": [
+          "JavaScript",
+          "Map",
+          "Set",
+          "Iterator"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 20 章：新数据结构.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0fa",
+      "originalSlug": "js-class-0867afc9",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第21章 Class与模块.md",
+      "old": {
+        "title": "Class与模块",
+        "summary": "",
+        "sortOrder": 180,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/Class与模块.md"
+      },
+      "next": {
+        "title": "第 21 章：Class 与模块",
+        "summary": "整理 class 语法、继承、super、静态方法、模块基础和面向对象写法在 JavaScript 中的实践。",
+        "sortOrder": 220,
+        "tags": [
+          "JavaScript",
+          "Class",
+          "模块化",
+          "继承"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 21 章：Class 与模块.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0fc",
+      "originalSlug": "js-f6e109fa",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第22章 模块化体系.md",
+      "old": {
+        "title": "模块化体系",
+        "summary": "",
+        "sortOrder": 170,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/模块化体系.md"
+      },
+      "next": {
+        "title": "第 22 章：模块化体系",
+        "summary": "梳理 CommonJS、ES Modules、AMD、CMD、模块化演进、加载机制和前端工程中的模块组织方式。",
+        "sortOrder": 230,
+        "tags": [
+          "JavaScript",
+          "模块化",
+          "CommonJS",
+          "ES Modules"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 22 章：模块化体系.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0fe",
+      "originalSlug": "js-01724ccd",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第23章 执行上下文与作用域链.md",
+      "old": {
+        "title": "执行上下文与作用域链",
+        "summary": "",
+        "sortOrder": 160,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/执行上下文与作用域链.md"
+      },
+      "next": {
+        "title": "第 23 章：执行上下文与作用域链",
+        "summary": "讲解执行上下文创建、变量环境、词法环境、作用域链查找、闭包关系和执行栈。",
+        "sortOrder": 240,
+        "tags": [
+          "JavaScript",
+          "执行上下文",
+          "作用域链",
+          "闭包"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 23 章：执行上下文与作用域链.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac100",
+      "originalSlug": "js-this-a359b1f0",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第24章 this全解析.md",
+      "old": {
+        "title": "this全解析",
+        "summary": "",
+        "sortOrder": 150,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/this全解析.md"
+      },
+      "next": {
+        "title": "第 24 章：this 全解析",
+        "summary": "整理 this 的默认绑定、隐式绑定、显式绑定、new 绑定、箭头函数绑定和常见判断规则。",
+        "sortOrder": 250,
+        "tags": [
+          "JavaScript",
+          "this",
+          "函数调用",
+          "绑定规则"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 24 章：this 全解析.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac102",
+      "originalSlug": "js-141879fe",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第25章 深拷贝与浅拷贝.md",
+      "old": {
+        "title": "深拷贝与浅拷贝",
+        "summary": "",
+        "sortOrder": 140,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/深拷贝与浅拷贝.md"
+      },
+      "next": {
+        "title": "第 25 章：深拷贝与浅拷贝",
+        "summary": "讲解引用复制、浅拷贝、深拷贝、JSON 方法、递归实现、循环引用和结构化克隆方案。",
+        "sortOrder": 260,
+        "tags": [
+          "JavaScript",
+          "深拷贝",
+          "浅拷贝",
+          "引用类型"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 25 章：深拷贝与浅拷贝.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac104",
+      "originalSlug": "js-webpack-7e2ea348",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第26章 Webpack入门.md",
+      "old": {
+        "title": "Webpack入门",
+        "summary": "",
+        "sortOrder": 130,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/Webpack入门.md"
+      },
+      "next": {
+        "title": "第 26 章：Webpack 入门",
+        "summary": "整理 Webpack 定位、入口出口、Loader、Plugin、开发生产配置和前端打包基础。",
+        "sortOrder": 270,
+        "tags": [
+          "Webpack",
+          "前端工程化",
+          "打包工具",
+          "JavaScript"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 26 章：Webpack 入门.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac106",
+      "originalSlug": "js-vite-cb22aa81",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第27章 Vite：新时代构建工具.md",
+      "old": {
+        "title": "Vite：新时代构建工具",
+        "summary": "",
+        "sortOrder": 120,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/Vite：新时代构建工具.md"
+      },
+      "next": {
+        "title": "第 27 章：Vite：新时代构建工具",
+        "summary": "讲解 Vite 的开发服务器、HMR、依赖预构建、配置文件、插件体系和构建优化。",
+        "sortOrder": 280,
+        "tags": [
+          "Vite",
+          "前端工程化",
+          "HMR",
+          "构建工具"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 27 章：Vite：新时代构建工具.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac108",
+      "originalSlug": "js-npm-217bcd42",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第28章 NPM与包管理.md",
+      "old": {
+        "title": "NPM与包管理",
+        "summary": "",
+        "sortOrder": 110,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/NPM与包管理.md"
+      },
+      "next": {
+        "title": "第 28 章：NPM 与包管理",
+        "summary": "整理 package.json、npm scripts、依赖版本、包管理命令、发布机制和前端依赖治理基础。",
+        "sortOrder": 290,
+        "tags": [
+          "NPM",
+          "包管理",
+          "package.json",
+          "前端工程化"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 28 章：NPM 与包管理.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac10a",
+      "originalSlug": "js-node-js-ff8ab72b",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第29章 Node.js基础.md",
+      "old": {
+        "title": "Node.js基础",
+        "summary": "",
+        "sortOrder": 100,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/Node.js基础.md"
+      },
+      "next": {
+        "title": "第 29 章：Node.js 基础",
+        "summary": "讲解 Node.js 组成、CommonJS、fs、path、http 模块、运行时能力和后端 JavaScript 基础。",
+        "sortOrder": 300,
+        "tags": [
+          "Node.js",
+          "JavaScript",
+          "CommonJS",
+          "后端基础"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 29 章：Node.js 基础.md"
+      },
+      "h1Updated": true
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac10e",
+      "originalSlug": "js-express-71c1cdfd",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "sourcePath": "JS/第30章 使用Express开发后端.md",
+      "old": {
+        "title": "使用Express开发后端",
+        "summary": "",
+        "sortOrder": 80,
+        "tags": [],
+        "fileName": "前端技术/前端三剑客/AI版JS/使用Express开发后端.md"
+      },
+      "next": {
+        "title": "第 30 章：使用 Express 开发后端",
+        "summary": "整理 Express 快速开始、应用结构、路由系统、中间件、接口开发和基础后端服务实践。",
+        "sortOrder": 310,
+        "tags": [
+          "Express",
+          "Node.js",
+          "后端开发",
+          "API"
+        ],
+        "fileName": "前端技术/前端三剑客/AI版JS/第 30 章：使用 Express 开发后端.md"
+      },
+      "h1Updated": true
+    }
+  ]
+}

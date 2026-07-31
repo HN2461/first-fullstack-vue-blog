@@ -1,18 +1,18 @@
 ---
-title: "JavaScript 的运行机制"
+title: "第 2 章：JavaScript 的运行机制"
 slug: "js-javascript-44c8511b"
-summary: ""
+summary: "梳理浏览器执行 JavaScript 的过程，涵盖 V8 引擎、单线程模型、事件循环和代码执行生命周期。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","运行机制","V8","事件循环"]
 status: "draft"
-sortOrder: 90
+sortOrder: 30
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10c"
 originalSlug: "js-javascript-44c8511b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第2章　JavaScript 的运行机制
+# 第 2 章：JavaScript 的运行机制
 
 ## 2.1 浏览器如何执行 JavaScript
 

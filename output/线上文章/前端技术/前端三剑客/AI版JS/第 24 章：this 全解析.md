@@ -1,18 +1,18 @@
 ---
-title: "this全解析"
+title: "第 24 章：this 全解析"
 slug: "js-this-a359b1f0"
-summary: ""
+summary: "整理 this 的默认绑定、隐式绑定、显式绑定、new 绑定、箭头函数绑定和常见判断规则。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","this","函数调用","绑定规则"]
 status: "draft"
-sortOrder: 150
+sortOrder: 250
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac100"
 originalSlug: "js-this-a359b1f0"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第24章 this全解析
+# 第 24 章：this 全解析
 
 > this是JavaScript中最容易产生困惑的概念之一。理解this的绑定规则对于掌握面向对象编程和函数调用机制至关重要。
 

@@ -1,18 +1,18 @@
 ---
-title: "Vite：新时代构建工具"
+title: "第 27 章：Vite：新时代构建工具"
 slug: "js-vite-cb22aa81"
-summary: ""
+summary: "讲解 Vite 的开发服务器、HMR、依赖预构建、配置文件、插件体系和构建优化。"
 category: "AI版JS"
-tags: []
+tags: ["Vite","前端工程化","HMR","构建工具"]
 status: "draft"
-sortOrder: 120
+sortOrder: 280
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac106"
 originalSlug: "js-vite-cb22aa81"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第27章 Vite：新时代构建工具
+# 第 27 章：Vite：新时代构建工具
 
 > Vite是基于ES modules的新一代前端构建工具，提供极速的开发服务器和优化的生产构建。
 

@@ -1,18 +1,18 @@
 ---
-title: "Webpack入门"
+title: "第 26 章：Webpack 入门"
 slug: "js-webpack-7e2ea348"
-summary: ""
+summary: "整理 Webpack 定位、入口出口、Loader、Plugin、开发生产配置和前端打包基础。"
 category: "AI版JS"
-tags: []
+tags: ["Webpack","前端工程化","打包工具","JavaScript"]
 status: "draft"
-sortOrder: 130
+sortOrder: 270
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac104"
 originalSlug: "js-webpack-7e2ea348"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第26章 Webpack入门
+# 第 26 章：Webpack 入门
 
 > Webpack是现代前端开发的核心构建工具，它将各种资源打包成浏览器可以理解的静态文件。
 

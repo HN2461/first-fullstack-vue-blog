@@ -136,6 +136,16 @@
 - 变更明细：`docs/02-开发指南/文章同步报告/ai-css-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-css-folder-before-semantic-cleanup-20260731-1625`。
 
+### 前端技术 / 前端三剑客 / AI版JS
+
+- 处理 31 篇 AI 辅助 JavaScript 教程文章。原排序从第 9 章、第 8 章等中段内容开始，目录页和第 1 章排在后面，阅读路径被明显打乱。
+- 已整理为：JavaScript 完整教程目录、第 1 章到第 30 章，覆盖语言认知、运行机制、变量、类型、运算符、流程控制、函数、对象、原型、数组、DOM、BOM、事件、异步、ES6、模块化、工程化、Node.js 和 Express。
+- 将 `sortOrder` 调整为 10 到 310，使线上目录先展示教程目录，再按第 1 章到第 30 章展示；本地文件名采用 `第 00 篇` 和 `第 01 章` 到 `第 30 章`，保证文件管理器阅读顺序一致。
+- 为 31 篇文章补充摘要和检索标签，并同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
+- 保持分类路径 `前端技术 / 前端三剑客 / AI版JS` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
+- 变更明细：`docs/02-开发指南/文章同步报告/ai-js-folder-semantic-cleanup-20260731.json`。
+- 本地备份：`backups/ai-js-folder-before-semantic-cleanup-20260731-1635`。
+
 ### 菜单排序保护
 
 - 知识库侧栏分类按分类 `sortOrder` 升序展示，文章按文章 `sortOrder` 升序展示；顶部和后台管理菜单按 RBAC 菜单 `sortOrder` 展示。

@@ -1,18 +1,18 @@
 ---
-title: "Promise"
+title: "第 16 章：Promise"
 slug: "js-promise-30f7cae5"
-summary: ""
+summary: "整理 Promise 状态、then、catch、finally、链式调用、并发方法、异常处理和常见使用场景。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","Promise","异步编程","并发控制"]
 status: "draft"
-sortOrder: 240
+sortOrder: 170
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0ee"
 originalSlug: "js-promise-30f7cae5"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第16章　Promise
+# 第 16 章：Promise
 
 Promise是ES6引入的异步编程解决方案，它以更优雅的方式处理异步操作，解决了回调地狱问题。Promise代表一个异步操作的最终完成（或失败）及其结果值。
 

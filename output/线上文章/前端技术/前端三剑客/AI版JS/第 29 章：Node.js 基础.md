@@ -1,18 +1,18 @@
 ---
-title: "Node.js基础"
+title: "第 29 章：Node.js 基础"
 slug: "js-node-js-ff8ab72b"
-summary: ""
+summary: "讲解 Node.js 组成、CommonJS、fs、path、http 模块、运行时能力和后端 JavaScript 基础。"
 category: "AI版JS"
-tags: []
+tags: ["Node.js","JavaScript","CommonJS","后端基础"]
 status: "draft"
-sortOrder: 100
+sortOrder: 300
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac10a"
 originalSlug: "js-node-js-ff8ab72b"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第29章 Node.js基础
+# 第 29 章：Node.js 基础
 
 > Node.js让JavaScript运行在服务器端，为前端开发者提供了全栈开发的可能性。
 

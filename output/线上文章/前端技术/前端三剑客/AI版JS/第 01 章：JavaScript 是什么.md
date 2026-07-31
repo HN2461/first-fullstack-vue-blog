@@ -1,18 +1,18 @@
 ---
-title: "JavaScript 是什么"
+title: "第 1 章：JavaScript 是什么"
 slug: "js-javascript-9e8b648d"
-summary: ""
+summary: "JavaScript 入门笔记，说明语言诞生背景、浏览器关系、ECMAScript、DOM、BOM 和现代前端开发定位。"
 category: "AI版JS"
-tags: []
+tags: ["JavaScript","前端基础","ECMAScript","浏览器"]
 status: "draft"
-sortOrder: 200
+sortOrder: 20
 cover: ""
 originalId: "6a2d291e8a2b1c68f2cac0f6"
 originalSlug: "js-javascript-9e8b648d"
 originalStatus: "published"
 exportedAt: "2026-07-31T03:42:38.792Z"
 ---
-# 第1章　JavaScript 是什么
+# 第 1 章：JavaScript 是什么
 
 ## 1.1 JavaScript 的诞生与历史背景
 
