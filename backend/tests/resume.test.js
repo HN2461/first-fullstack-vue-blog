@@ -6,6 +6,7 @@ import { Menu } from '#modules/rbac/models/Menu.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
 import { ResumeMaterial } from '#modules/resume/models/ResumeMaterial.js'
+import { HN246_BOSS_RESUME } from '../src/data/resume/hn246BossResume.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import {
@@ -346,6 +347,55 @@ describe('resume module', () => {
 
       expect(downloadResponse.headers['content-disposition']).toContain('filename*=')
       expect(Number(downloadResponse.headers['content-length'])).toBeGreaterThan(0)
+    }
+  })
+
+  it('preserves Boss profile fields and exports the latest five-project resume', async () => {
+    const resumeResponse = await request(app)
+      .post('/api/resumes')
+      .set('Authorization', `Bearer ${token}`)
+      .send(structuredClone(HN246_BOSS_RESUME))
+      .expect(201)
+
+    expect(resumeResponse.body.data).toMatchObject({
+      templateKey: 'boss',
+      targetRole: '前端开发工程师'
+    })
+    expect(resumeResponse.body.data.sections.profile).toMatchObject({
+      gender: '男',
+      age: '25岁',
+      expectedCity: '合肥',
+      workYears: '1年工作经验'
+    })
+    expect(resumeResponse.body.data.sections.advantages).toHaveLength(7)
+    expect(resumeResponse.body.data.sections.projects).toHaveLength(5)
+    expect(resumeResponse.body.data.sections.projects[4].name).toBe('电子班牌设备端应用')
+    expect(resumeResponse.body.data.sections.projects[0].highlights[0].title).toBe('动态路由与权限')
+
+    for (const format of ['pdf', 'word']) {
+      const exportResponse = await request(app)
+        .post('/api/resume-exports')
+        .set('Authorization', `Bearer ${token}`)
+        .send({ resumeId: resumeResponse.body.data.id, format, templateKey: 'boss' })
+        .expect(201)
+
+      const downloadResponse = await request(app)
+        .get(`/api/resume-exports/${exportResponse.body.data.id}/download`)
+        .set('Authorization', `Bearer ${token}`)
+        .buffer(true)
+        .parse(parseBinary)
+        .expect(200)
+
+      if (format === 'pdf') {
+        const source = downloadResponse.body.toString('latin1')
+        expect(source.startsWith('%PDF-')).toBe(true)
+        expect(Number(source.match(/\/Count (\d+)/)?.[1] || 0)).toBe(3)
+        expect(source).toMatch(/\/FontFile\d?/)
+        expect(source).toContain('/ToUnicode')
+      } else {
+        expect(downloadResponse.body.toString('utf8')).toContain('个人优势')
+        expect(downloadResponse.body.toString('utf8')).toContain('电子班牌设备端应用')
+      }
     }
   })
 

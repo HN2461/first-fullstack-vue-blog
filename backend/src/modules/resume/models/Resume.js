@@ -11,12 +11,18 @@ export function createEmptyResumeSections() {
   return {
     profile: {
       name: '',
+      gender: '',
+      age: '',
       phone: '',
       email: '',
       location: '',
+      expectedCity: '',
+      workYears: '',
+      photoUrl: '',
       website: '',
       summary: ''
     },
+    advantages: [],
     skills: [],
     education: [],
     workExperiences: [],
@@ -47,7 +53,7 @@ const resumeSchema = new mongoose.Schema(
     },
     templateKey: {
       type: String,
-      default: 'classic',
+      default: 'boss',
       trim: true,
       maxlength: 40
     },
@@ -79,7 +85,7 @@ resumeSchema.methods.toSafeJSON = function toSafeJSON() {
     ownerId: this.ownerId?.toString?.(),
     title: this.title,
     targetRole: this.targetRole || '',
-    templateKey: this.templateKey || 'classic',
+    templateKey: this.templateKey || 'boss',
     status: this.status,
     sections: this.sections || createEmptyResumeSections(),
     version: this.version || 1,

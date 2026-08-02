@@ -18,7 +18,10 @@
       @dragover.prevent
       @drop="reorder(index)"
     >
-      <a-textarea v-model:value="item.content" :auto-size="{ minRows: 2, maxRows: 5 }" />
+      <div class="resume-highlight-row__content">
+        <a-input v-if="showTitle" v-model:value="item.title" placeholder="模块标题，例如：动态路由与权限" :maxlength="80" />
+        <a-textarea v-model:value="item.content" :auto-size="{ minRows: 2, maxRows: 5 }" />
+      </div>
       <a-tooltip title="绑定面试问答">
         <a-button size="small" @click="$emit('link', item)">
           <template #icon><LinkOutlined /></template>
@@ -41,6 +44,7 @@ import { DeleteOutlined, LinkOutlined, PlusOutlined } from '@ant-design/icons-vu
 
 const props = defineProps({
   title: { type: String, default: '' },
+  showTitle: { type: Boolean, default: false },
   items: { type: Array, default: () => [] }
 })
 

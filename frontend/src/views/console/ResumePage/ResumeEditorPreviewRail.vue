@@ -36,15 +36,14 @@
       </button>
     </div>
 
-    <div class="resume-preview-rail__paper" :class="`is-${resume.templateKey || 'classic'}`">
+    <div class="resume-preview-rail__paper" :class="`is-${resume.templateKey || 'boss'}`">
       <header>
         <strong>{{ profile.name || '姓名' }}</strong>
-        <span>{{ resume.targetRole || '目标岗位' }}</span>
+        <span>{{ profile.gender || '性别' }} | {{ profile.age || '年龄' }} | {{ resume.targetRole || '目标岗位' }}</span>
       </header>
-      <p v-if="profile.summary">{{ profile.summary }}</p>
-      <section v-if="firstSkill">
-        <b>专业技能</b>
-        <span>{{ firstSkill.name }}{{ firstSkill.level ? ` / ${firstSkill.level}` : '' }}</span>
+      <section v-if="firstAdvantage">
+        <b>个人优势</b>
+        <span>{{ firstAdvantage.content }}</span>
       </section>
       <section v-if="firstProject">
         <b>项目经历</b>
@@ -68,18 +67,17 @@ defineEmits(['open-preview', 'edit-section'])
 
 const sections = computed(() => props.resume.sections || {})
 const profile = computed(() => sections.value.profile || {})
-const firstSkill = computed(() => sorted(sections.value.skills)[0])
+const firstAdvantage = computed(() => sorted(sections.value.advantages)[0])
 const firstProject = computed(() => sorted(sections.value.projects)[0])
 const sectionSummary = computed(() => [
   { key: 'profile', label: '基础', value: filledProfileCount.value },
-  { key: 'skills', label: '技能', value: sections.value.skills?.length || 0 },
-  { key: 'education', label: '教育', value: sections.value.education?.length || 0 },
+  { key: 'advantages', label: '优势', value: sections.value.advantages?.length || 0 },
   { key: 'workExperiences', label: '工作', value: sections.value.workExperiences?.length || 0 },
   { key: 'projects', label: '项目', value: sections.value.projects?.length || 0 },
-  { key: 'selfEvaluation', label: '评价', value: sections.value.selfEvaluation?.length || 0 }
+  { key: 'education', label: '教育', value: sections.value.education?.length || 0 }
 ])
 const filledProfileCount = computed(() => {
-  return ['name', 'phone', 'email', 'location', 'summary']
+  return ['name', 'gender', 'age', 'phone', 'email', 'expectedCity', 'workYears', 'photoUrl']
     .filter((key) => String(profile.value[key] || '').trim()).length
 })
 const completion = computed(() => {
@@ -87,13 +85,13 @@ const completion = computed(() => {
     !!profile.value.name,
     !!profile.value.phone,
     !!profile.value.email,
-    !!profile.value.summary,
-    !!sections.value.skills?.length,
+    !!profile.value.photoUrl,
+    !!sections.value.advantages?.length,
     !!sections.value.education?.length,
     !!sections.value.workExperiences?.length,
     !!sections.value.projects?.length,
     !!sections.value.projects?.some((item) => item.highlights?.length),
-    !!sections.value.selfEvaluation?.length
+    !!sections.value.projects?.every((item) => item.description && item.techStack)
   ]
   return Math.round((checks.filter(Boolean).length / checks.length) * 100)
 })
@@ -187,7 +185,7 @@ function sorted(items = []) {
 }
 
 .resume-preview-rail__paper {
-  --rail-accent: #1677ff;
+  --rail-accent: #171717;
   display: grid;
   gap: 8px;
   min-height: 230px;
@@ -196,6 +194,10 @@ function sorted(items = []) {
   padding: 14px;
   background: var(--console-surface-muted);
   overflow: hidden;
+}
+
+.resume-preview-rail__paper.is-classic {
+  --rail-accent: #1677ff;
 }
 
 .resume-preview-rail__paper.is-compact {

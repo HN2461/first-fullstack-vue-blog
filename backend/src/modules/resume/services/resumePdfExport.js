@@ -1,4 +1,5 @@
 import { buildResumeBlocks } from './resumeExportContent.js'
+import { buildBossResumePdf } from './bossResumePdf.js'
 
 const PAGE_WIDTH = 595
 const PAGE_HEIGHT = 842
@@ -186,6 +187,7 @@ function serializePdf(objects) {
 }
 
 export function buildResumePdf(resume, templateKey = 'classic') {
+  if (templateKey === 'boss') return buildBossResumePdf(resume)
   const template = resolveTemplate(templateKey)
   const pages = placeResumeContent(resume, template)
   const streams = pages.map((items, index) => buildPageStream(items, index + 1, pages.length, template))

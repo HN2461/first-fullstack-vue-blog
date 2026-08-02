@@ -52,6 +52,7 @@ export function normalizeSections(sections = {}) {
       ...empty.profile,
       ...(sections.profile || {})
     },
+    advantages: normalizeSortableItems(sections.advantages || []),
     skills: normalizeSortableItems(sections.skills || []),
     education: normalizeSortableItems(sections.education || []),
     workExperiences: normalizeSortableItems(sections.workExperiences || [], ['achievements']),

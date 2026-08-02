@@ -9,6 +9,7 @@ const itemIdSchema = z.string().trim().max(80, '条目标识不能超过 80 个�
 
 const highlightSchema = z.object({
   id: itemIdSchema,
+  title: text(80, '亮点标题不能超过 80 个字符'),
   content: z.string().trim().min(1, '亮点内容不能为空').max(500, '亮点内容不能超过 500 个字符'),
   sortOrder: z.number().int().min(0).max(9999).optional().default(0)
 }).passthrough()
@@ -61,15 +62,27 @@ const evaluationSchema = z.object({
   sortOrder: z.number().int().min(0).max(9999).optional().default(0)
 }).passthrough()
 
+const advantageSchema = z.object({
+  id: itemIdSchema,
+  content: z.string().trim().min(1, '个人优势不能为空').max(600, '个人优势不能超过 600 个字符'),
+  sortOrder: z.number().int().min(0).max(9999).optional().default(0)
+}).passthrough()
+
 const sectionsSchema = z.object({
   profile: z.object({
     name: text(60, '姓名不能超过 60 个字符'),
+    gender: text(20, '性别不能超过 20 个字符'),
+    age: text(20, '年龄不能超过 20 个字符'),
     phone: text(40, '手机号不能超过 40 个字符'),
     email: text(120, '邮箱不能超过 120 个字符'),
     location: text(80, '所在地不能超过 80 个字符'),
+    expectedCity: text(80, '期望城市不能超过 80 个字符'),
+    workYears: text(40, '工作年限不能超过 40 个字符'),
+    photoUrl: text(300, '照片地址不能超过 300 个字符'),
     website: text(200, '个人链接不能超过 200 个字符'),
     summary: text(1000, '个人简介不能超过 1000 个字符')
   }).optional().default({}),
+  advantages: z.array(advantageSchema).max(20, '个人优势最多 20 条').optional().default([]),
   skills: z.array(skillSchema).max(80, '技能条目最多 80 条').optional().default([]),
   education: z.array(educationSchema).max(30, '教育经历最多 30 条').optional().default([]),
   workExperiences: z.array(workSchema).max(50, '工作经历最多 50 条').optional().default([]),

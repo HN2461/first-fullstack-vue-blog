@@ -1,5 +1,6 @@
 import { createZip } from '#utils/zipArchive.js'
 import { buildResumeBlocks } from './resumeExportContent.js'
+import { buildBossResumeDocx } from './bossResumeDocx.js'
 
 const DOCX_TEMPLATES = {
   classic: {
@@ -76,6 +77,7 @@ function buildFooterXml(template) {
 }
 
 export function buildResumeDocx(resume, templateKey = 'classic') {
+  if (templateKey === 'boss') return buildBossResumeDocx(resume)
   const template = resolveTemplate(templateKey)
   const paragraphs = buildResumeBlocks(resume).map(paragraphXml).join('')
   const documentXml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body>${paragraphs}<w:sectPr><w:footerReference w:type="default" r:id="rId4"/><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="${template.pageMargin}" w:right="${template.pageMargin}" w:bottom="${template.pageMargin}" w:left="${template.pageMargin}" w:header="600" w:footer="600"/></w:sectPr></w:body></w:document>`

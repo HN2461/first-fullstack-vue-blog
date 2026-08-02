@@ -97,7 +97,7 @@ const creating = ref(false)
 const form = reactive({
   title: '',
   targetRole: '',
-  templateKey: 'classic'
+  templateKey: 'boss'
 })
 
 async function loadResumes() {
@@ -130,7 +130,7 @@ async function createResume() {
 
 watch(() => props.templateOptions, (options) => {
   if (!form.templateKey) {
-    form.templateKey = options[0]?.value || 'classic'
+    form.templateKey = options[0]?.value || 'boss'
   }
 }, { immediate: true })
 

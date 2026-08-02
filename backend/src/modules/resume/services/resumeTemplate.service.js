@@ -3,6 +3,13 @@ import { createResumeError } from './resume.utils.js'
 
 const SYSTEM_TEMPLATES = [
   {
+    key: 'boss',
+    name: 'Boss 投递',
+    description: '对齐 Boss 直聘附件简历的信息结构、单栏密度与黑白打印版式。',
+    accentColor: '#171717',
+    sortOrder: 5
+  },
+  {
     key: 'classic',
     name: '经典投递',
     description: '适合通用技术岗位，结构清晰，信息密度适中。',

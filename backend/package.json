@@ -52,6 +52,8 @@
     "ledger-moments:sync": "node src/scripts/syncLedgerMomentsFromExport.js",
     "resume:import-materials": "node src/scripts/importResumeMaterials.js",
     "resume:import-materials:apply": "node src/scripts/importResumeMaterials.js --apply",
+    "resume:boss:dry-run": "node src/scripts/replaceBossResume.js",
+    "resume:boss:apply": "node src/scripts/replaceBossResume.js --apply",
     "bookmark:reset": "node src/scripts/resetBookmarkData.js",
     "bookmark:reset:apply": "node src/scripts/resetBookmarkData.js --apply"
   },
@@ -69,6 +71,7 @@
     "mongoose": "^8.18.1",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "pdfkit": "^0.19.1",
     "socket.io": "^4.8.3",
     "svg-captcha": "^1.4.0",
     "xlsx": "^0.18.5",

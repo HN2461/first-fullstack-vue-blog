@@ -6,10 +6,12 @@ import {
   createResume,
   deleteResume,
   duplicateResume,
+  findOwnedResume,
   getResume,
   listResumes,
   updateResume
 } from '#modules/resume/services/resume.service.js'
+import { handleResumePhotoUpload, saveResumePhoto } from '#modules/resume/services/resumePhoto.service.js'
 import {
   addInterviewLink,
   createInterview,
@@ -54,6 +56,19 @@ resumeRouter.post('/', asyncHandler(async (req, res) => {
   const input = parseBody(resumeCreateSchema, req.body)
   res.status(201).json(ok(await createResume(req.user._id, input), '简历已创建'))
 }))
+
+resumeRouter.post(
+  '/:id/photo',
+  asyncHandler(async (req, res, next) => {
+    // 先校验归属再接收文件，避免越权请求在上传目录留下孤儿文件。
+    await findOwnedResume(req.params.id, req.user._id)
+    next()
+  }),
+  handleResumePhotoUpload,
+  asyncHandler(async (req, res) => {
+    res.json(ok(await saveResumePhoto(req.params.id, req.user._id, req.file), '证件照已更新'))
+  })
+)
 
 resumeRouter.get('/:id', asyncHandler(async (req, res) => {
   res.json(ok(await getResume(req.params.id, req.user._id)))

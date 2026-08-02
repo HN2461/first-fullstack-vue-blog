@@ -1,4 +1,7 @@
+import fs from 'node:fs/promises'
+import path from 'node:path'
 import { ResumeExportRecord } from '#modules/resume/models/ResumeExportRecord.js'
+import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { findOwnedResume } from './resume.service.js'
 import { assertObjectId, createResumeError, formatCompactDate, safeFilename } from './resume.utils.js'
 import { buildResumeMarkdown } from './resumeExportContent.js'
@@ -20,12 +23,25 @@ async function buildExportFile(resume, format, templateKey) {
   return Buffer.from(buildResumeMarkdown(resume), 'utf8')
 }
 
+async function loadResumePhoto(resume) {
+  const photoUrl = String(resume.sections?.profile?.photoUrl || '')
+  if (!photoUrl.startsWith('/uploads/')) return null
+
+  const relativePath = photoUrl.slice('/uploads/'.length).replaceAll('/', path.sep)
+  const uploadRoot = path.resolve(resolveUploadRoot())
+  const filePath = path.resolve(uploadRoot, relativePath)
+  if (!filePath.startsWith(`${uploadRoot}${path.sep}`)) return null
+  return fs.readFile(filePath).catch(() => null)
+}
+
 export async function createResumeExport(userId, input) {
   const resume = await findOwnedResume(input.resumeId, userId)
   const format = input.format
   const meta = FORMAT_META[format]
-  const templateKey = input.templateKey || resume.templateKey || 'classic'
-  const fileData = await buildExportFile(resume.toSafeJSON(), format, templateKey)
+  const templateKey = input.templateKey || resume.templateKey || 'boss'
+  const safeResume = resume.toSafeJSON()
+  const photoBuffer = templateKey === 'boss' ? await loadResumePhoto(safeResume) : null
+  const fileData = await buildExportFile({ ...safeResume, photoBuffer }, format, templateKey)
   const filename = `${safeFilename(resume.title)}-${formatCompactDate()}.${meta.ext}`
 
   const record = await ResumeExportRecord.create({

@@ -62,7 +62,7 @@ export async function createResume(userId, input) {
     ownerId: userId,
     title: input.title,
     targetRole: input.targetRole || '',
-    templateKey: input.templateKey || 'classic',
+    templateKey: input.templateKey || 'boss',
     status: input.status || 'draft',
     sections: normalizeSections(input.sections || createEmptyResumeSections())
   })
@@ -80,7 +80,7 @@ export async function updateResume(id, userId, input) {
 
   if (input.title !== undefined) resume.title = input.title
   if (input.targetRole !== undefined) resume.targetRole = input.targetRole || ''
-  if (input.templateKey !== undefined) resume.templateKey = input.templateKey || 'classic'
+  if (input.templateKey !== undefined) resume.templateKey = input.templateKey || 'boss'
   if (input.status !== undefined) resume.status = input.status
   if (input.sections !== undefined) resume.sections = normalizeSections(input.sections)
 
@@ -95,7 +95,7 @@ export async function duplicateResume(id, userId) {
     ownerId: userId,
     title: `${resume.title} 副本`.slice(0, 80),
     targetRole: resume.targetRole || '',
-    templateKey: resume.templateKey || 'classic',
+    templateKey: resume.templateKey || 'boss',
     status: 'draft',
     sections: normalizeSections(JSON.parse(JSON.stringify(resume.sections || createEmptyResumeSections())))
   })

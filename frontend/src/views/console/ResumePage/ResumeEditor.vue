@@ -57,80 +57,22 @@
             </a-button>
           </div>
           <div class="resume-panel__body">
-            <div v-if="activeSection === 'profile'" class="resume-form-grid">
-              <a-form-item label="姓名"><a-input v-model:value="sections.profile.name" /></a-form-item>
-              <a-form-item label="电话"><a-input v-model:value="sections.profile.phone" /></a-form-item>
-              <a-form-item label="邮箱"><a-input v-model:value="sections.profile.email" /></a-form-item>
-              <a-form-item label="所在地"><a-input v-model:value="sections.profile.location" /></a-form-item>
-              <a-form-item label="个人链接"><a-input v-model:value="sections.profile.website" /></a-form-item>
-              <a-form-item label="个人简介">
-                <a-textarea v-model:value="sections.profile.summary" :auto-size="{ minRows: 3, maxRows: 8 }" />
-              </a-form-item>
-            </div>
-
-            <div v-else class="resume-card-list">
-              <article
-                v-for="(item, index) in sectionItems"
-                :key="item.id"
-                class="resume-item-card"
-                draggable="true"
-                @dragstart="dragStart(index)"
-                @dragover.prevent
-                @drop="dropItem(activeSection, index)"
-              >
-                <div class="resume-item-card__head">
-                  <strong>{{ currentSectionLabel }} #{{ index + 1 }}</strong>
-                  <div class="resume-action-row">
-                    <a-tooltip title="上移"><a-button size="small" @click="move(activeSection, index, index - 1)"><template #icon><ArrowUpOutlined /></template></a-button></a-tooltip>
-                    <a-tooltip title="下移"><a-button size="small" @click="move(activeSection, index, index + 1)"><template #icon><ArrowDownOutlined /></template></a-button></a-tooltip>
-                    <a-tooltip title="删除"><a-button size="small" danger @click="removeItem(activeSection, index)"><template #icon><DeleteOutlined /></template></a-button></a-tooltip>
-                  </div>
-                </div>
-
-                <div v-if="activeSection === 'skills'" class="resume-form-grid">
-                  <a-form-item label="技能"><a-input v-model:value="item.name" /></a-form-item>
-                  <a-form-item label="熟练度"><a-input v-model:value="item.level" /></a-form-item>
-                  <a-form-item label="说明"><a-textarea v-model:value="item.description" :auto-size="{ minRows: 2, maxRows: 5 }" /></a-form-item>
-                </div>
-
-                <div v-else-if="activeSection === 'education'" class="resume-form-grid">
-                  <a-form-item label="学校"><a-input v-model:value="item.school" /></a-form-item>
-                  <a-form-item label="专业"><a-input v-model:value="item.major" /></a-form-item>
-                  <a-form-item label="学历"><a-input v-model:value="item.degree" /></a-form-item>
-                  <a-form-item label="开始时间"><a-input v-model:value="item.startDate" /></a-form-item>
-                  <a-form-item label="结束时间"><a-input v-model:value="item.endDate" /></a-form-item>
-                  <a-form-item label="说明"><a-textarea v-model:value="item.description" :auto-size="{ minRows: 2, maxRows: 5 }" /></a-form-item>
-                </div>
-
-                <div v-else-if="activeSection === 'workExperiences'" class="resume-card-list">
-                  <div class="resume-form-grid">
-                    <a-form-item label="公司"><a-input v-model:value="item.company" /></a-form-item>
-                    <a-form-item label="职位"><a-input v-model:value="item.role" /></a-form-item>
-                    <a-form-item label="开始时间"><a-input v-model:value="item.startDate" /></a-form-item>
-                    <a-form-item label="结束时间"><a-input v-model:value="item.endDate" /></a-form-item>
-                    <a-form-item label="工作说明"><a-textarea v-model:value="item.description" :auto-size="{ minRows: 2, maxRows: 5 }" /></a-form-item>
-                  </div>
-                  <ResumeHighlightEditor title="工作成果" :items="item.achievements" @add="addHighlight(item, 'achievements')" @remove="(i) => removeHighlight(item, 'achievements', i)" @link="(h) => openInterviewDrawer('workExperiences', item, h)" />
-                </div>
-
-                <div v-else-if="activeSection === 'projects'" class="resume-card-list">
-                  <div class="resume-form-grid">
-                    <a-form-item label="项目"><a-input v-model:value="item.name" /></a-form-item>
-                    <a-form-item label="角色"><a-input v-model:value="item.role" /></a-form-item>
-                    <a-form-item label="技术栈"><a-input v-model:value="item.techStack" /></a-form-item>
-                    <a-form-item label="开始时间"><a-input v-model:value="item.startDate" /></a-form-item>
-                    <a-form-item label="结束时间"><a-input v-model:value="item.endDate" /></a-form-item>
-                    <a-form-item label="项目说明"><a-textarea v-model:value="item.description" :auto-size="{ minRows: 2, maxRows: 5 }" /></a-form-item>
-                  </div>
-                  <ResumeHighlightEditor title="项目亮点" :items="item.highlights" @add="addHighlight(item, 'highlights')" @remove="(i) => removeHighlight(item, 'highlights', i)" @link="(h) => openInterviewDrawer('projects', item, h)" />
-                </div>
-
-                <div v-else-if="activeSection === 'selfEvaluation'">
-                  <a-textarea v-model:value="item.content" :auto-size="{ minRows: 2, maxRows: 6 }" />
-                </div>
-              </article>
-              <a-empty v-if="sectionItems.length === 0" description="暂无条目" />
-            </div>
+            <ResumeSectionEditor
+              :active-section="activeSection"
+              :section-label="currentSectionLabel"
+              :profile="sections.profile"
+              :items="sectionItems"
+              :resume-id="resume.id"
+              :photo-uploading="photoUploading"
+              @move-item="(from, to) => move(activeSection, from, to)"
+              @remove-item="(index) => removeItem(activeSection, index)"
+              @drag-start="dragStart"
+              @drop-item="(index) => dropItem(activeSection, index)"
+              @add-highlight="addHighlight"
+              @remove-highlight="removeHighlight"
+              @link-highlight="openInterviewDrawer"
+              @upload-photo="handlePhotoUpload"
+            />
           </div>
         </div>
 
@@ -188,10 +130,7 @@ import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
-  ArrowDownOutlined,
   ArrowLeftOutlined,
-  ArrowUpOutlined,
-  DeleteOutlined,
   EyeOutlined,
   PlusOutlined,
   SaveOutlined
@@ -202,6 +141,7 @@ import {
   getResume,
   listResumeInterviews,
   listResumeTemplates,
+  uploadResumePhoto,
   updateResume
 } from '@/services/resume'
 import {
@@ -215,7 +155,7 @@ import {
 } from './resumeHelpers'
 import ResumeEditorStart from './ResumeEditorStart.vue'
 import ResumeEditorPreviewRail from './ResumeEditorPreviewRail.vue'
-import ResumeHighlightEditor from './ResumeHighlightEditor.vue'
+import ResumeSectionEditor from './ResumeSectionEditor.vue'
 import ResumePreviewDrawer from './ResumePreviewDrawer.vue'
 import './resumePage.css'
 
@@ -229,6 +169,7 @@ const saveState = ref('idle')
 const initialLoaded = ref(false)
 const applyingServerData = ref(false)
 const previewOpen = ref(false)
+const photoUploading = ref(false)
 const interviewDrawerOpen = ref(false)
 const linkedInterviews = ref([])
 const interviewSubmitting = ref(false)
@@ -322,7 +263,7 @@ async function createFromStart(input) {
     const saved = await createResume({
       title: input.title,
       targetRole: input.targetRole,
-      templateKey: input.templateKey || templateOptions.value[0]?.value || 'classic',
+      templateKey: input.templateKey || templateOptions.value[0]?.value || 'boss',
       status: 'draft',
       sections: createEmptySections()
     })
@@ -345,6 +286,7 @@ function scheduleSave() {
 function addItem(sectionKey) {
   const base = { id: createId(), sortOrder: sectionItems.value.length * 10 }
   const factories = {
+    advantages: () => ({ ...base, content: '' }),
     skills: () => ({ ...base, name: '', level: '', description: '' }),
     education: () => ({ ...base, school: '', degree: '', major: '', startDate: '', endDate: '', description: '' }),
     workExperiences: () => ({ ...base, company: '', role: '', startDate: '', endDate: '', description: '', achievements: [] }),
@@ -376,11 +318,29 @@ function goSection(sectionKey) {
 }
 
 function addHighlight(item, key) {
-  item[key].push({ id: createId(), content: '', sortOrder: item[key].length * 10 })
+  item[key].push({ id: createId(), title: '', content: '', sortOrder: item[key].length * 10 })
 }
 
 function removeHighlight(item, key, index) {
   item[key].splice(index, 1)
+}
+
+async function handlePhotoUpload(file) {
+  if (!resume.id) {
+    message.warning('请先保存简历，再上传证件照')
+    return
+  }
+
+  photoUploading.value = true
+  try {
+    const saved = await uploadResumePhoto(resume.id, file)
+    applyResume(saved)
+    message.success('证件照已更新')
+  } catch (error) {
+    message.error(error.message || '证件照上传失败')
+  } finally {
+    photoUploading.value = false
+  }
 }
 
 async function openInterviewDrawer(sectionKey, entry, highlight) {

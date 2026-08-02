@@ -12,10 +12,11 @@ export const difficultyOptions = [
 
 export const sectionTabs = [
   { key: 'profile', label: '基础信息' },
-  { key: 'skills', label: '专业技能' },
-  { key: 'education', label: '教育经历' },
+  { key: 'advantages', label: '个人优势' },
   { key: 'workExperiences', label: '工作经历' },
   { key: 'projects', label: '项目经历' },
+  { key: 'education', label: '教育经历' },
+  { key: 'skills', label: '专业技能' },
   { key: 'selfEvaluation', label: '自我评价' }
 ]
 
@@ -23,12 +24,18 @@ export function createEmptySections() {
   return {
     profile: {
       name: '',
+      gender: '',
+      age: '',
       phone: '',
       email: '',
       location: '',
+      expectedCity: '',
+      workYears: '',
+      photoUrl: '',
       website: '',
       summary: ''
     },
+    advantages: [],
     skills: [],
     education: [],
     workExperiences: [],
@@ -42,7 +49,7 @@ export function createDraftResume() {
     id: '',
     title: '未命名简历',
     targetRole: '',
-    templateKey: 'classic',
+    templateKey: 'boss',
     status: 'draft',
     sections: createEmptySections()
   }

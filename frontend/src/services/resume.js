@@ -17,6 +17,12 @@ export function updateResume(id, data) {
   return http.patch(`/api/resumes/${id}`, data)
 }
 
+export function uploadResumePhoto(id, file) {
+  const formData = new FormData()
+  formData.append('photo', file)
+  return http.post(`/api/resumes/${id}/photo`, formData)
+}
+
 export function duplicateResume(id) {
   return http.post(`/api/resumes/${id}/duplicate`)
 }

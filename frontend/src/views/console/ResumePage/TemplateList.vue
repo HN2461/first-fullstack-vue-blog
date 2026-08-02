@@ -162,7 +162,7 @@ const sampleResume = {
 
 const previewResumeData = computed(() => ({
   ...(selectedResume.value || sampleResume),
-  templateKey: activeTemplate.value?.key || selectedResume.value?.templateKey || 'classic'
+  templateKey: activeTemplate.value?.key || selectedResume.value?.templateKey || 'boss'
 }))
 
 async function loadData() {

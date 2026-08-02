@@ -177,7 +177,7 @@ const filters = reactive({
 const createForm = reactive({
   title: '',
   targetRole: '',
-  templateKey: 'classic'
+  templateKey: 'boss'
 })
 const statusFilterOptions = [
   { label: '全部状态', value: 'all' },
@@ -224,7 +224,7 @@ async function previewResume(record) {
 function openCreate() {
   createForm.title = ''
   createForm.targetRole = ''
-  createForm.templateKey = templateOptions.value[0]?.value || 'classic'
+  createForm.templateKey = templateOptions.value[0]?.value || 'boss'
   createVisible.value = true
 }
 
