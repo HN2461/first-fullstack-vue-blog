@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "questions": [
+    {
+      "code": "node-001-event-loop",
+      "categoryKey": "backend.node",
+      "type": "single_choice",
+      "stem": "Node.js 适合高并发 I/O 服务的关键原因是什么？",
+      "options": [{ "id": "A", "content": "JavaScript 主线程会为每个请求创建一个线程" }, { "id": "B", "content": "事件循环配合异步非阻塞 I/O，避免主线程等待大多数 I/O 完成" }, { "id": "C", "content": "所有 CPU 计算都会自动并行" }, { "id": "D", "content": "Node.js 不需要操作系统" }],
+      "answerKeys": ["B"],
+      "explanation": "Node 将文件、网络等异步任务交给系统或 libuv，完成后通过事件循环调度回调；CPU 密集任务仍可能阻塞主线程。",
+      "difficulty": "medium",
+      "tags": ["Node.js", "事件循环", "异步IO"]
+    },
+    {
+      "code": "node-002-nexttick-promise",
+      "categoryKey": "backend.node",
+      "type": "true_false",
+      "stem": "在 Node.js 中过度递归调度 `process.nextTick()` 可能饿死事件循环，使 I/O 回调长期得不到执行。",
+      "answerKeys": ["true"],
+      "explanation": "nextTick 队列会在事件循环继续进入后续阶段前被清空，因此应避免无界递归。",
+      "difficulty": "hard",
+      "tags": ["Node.js", "事件循环", "nextTick"]
+    },
+    {
+      "code": "node-003-buffer",
+      "categoryKey": "backend.node",
+      "type": "single_choice",
+      "stem": "Node.js 的 `Buffer` 主要用于处理什么？",
+      "options": [{ "id": "A", "content": "DOM 元素" }, { "id": "B", "content": "原始二进制数据" }, { "id": "C", "content": "CSS 规则" }, { "id": "D", "content": "数据库事务" }],
+      "answerKeys": ["B"],
+      "explanation": "Buffer 是 Uint8Array 的子类，常用于文件、网络、编码转换等二进制场景。",
+      "difficulty": "easy",
+      "tags": ["Node.js", "Buffer", "二进制"]
+    },
+    {
+      "code": "node-004-stream",
+      "categoryKey": "backend.node",
+      "type": "multiple_choice",
+      "stem": "使用 Stream 处理大文件的优势有哪些？",
+      "options": [{ "id": "A", "content": "按块处理，降低一次性内存占用" }, { "id": "B", "content": "可通过管道组合处理步骤" }, { "id": "C", "content": "支持背压控制生产与消费速度" }, { "id": "D", "content": "保证所有业务逻辑自动变快" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "流适合渐进式处理数据；性能仍取决于具体转换、磁盘、网络和下游消费能力。",
+      "difficulty": "medium",
+      "tags": ["Node.js", "Stream", "背压"]
+    },
+    {
+      "code": "node-005-commonjs-esm",
+      "categoryKey": "backend.node",
+      "type": "multiple_choice",
+      "stem": "关于 CommonJS 与 ES Module，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "CommonJS 常使用 `require` 与 `module.exports`" }, { "id": "B", "content": "ESM 使用静态 `import`/`export`，便于静态分析" }, { "id": "C", "content": "两套模块系统的解析和缓存语义完全相同" }, { "id": "D", "content": "Node.js 可通过扩展名和 package.json 的 type 字段区分模块模式" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "两者互操作存在规则和边界，迁移时需关注默认导出、路径、顶层 await 和 __dirname 等差异。",
+      "difficulty": "medium",
+      "tags": ["Node.js", "CommonJS", "ESM"]
+    },
+    {
+      "code": "node-006-error-first",
+      "categoryKey": "backend.node",
+      "type": "true_false",
+      "stem": "传统 Node.js 回调通常采用 error-first 约定，即第一个参数表示错误，后续参数表示结果。",
+      "answerKeys": ["true"],
+      "explanation": "Promise 和 async/await 已改善异步控制流，但许多底层 API 和生态接口仍可见该约定。",
+      "difficulty": "easy",
+      "tags": ["Node.js", "回调", "错误处理"]
+    },
+    {
+      "code": "node-007-worker-threads",
+      "categoryKey": "backend.node",
+      "type": "single_choice",
+      "stem": "Node.js 中执行 CPU 密集型 JavaScript 计算并避免阻塞主事件循环，通常优先考虑什么？",
+      "options": [{ "id": "A", "content": "增加更多 `setTimeout`" }, { "id": "B", "content": "Worker Threads 或独立进程" }, { "id": "C", "content": "同步读取文件" }, { "id": "D", "content": "无限递归" }],
+      "answerKeys": ["B"],
+      "explanation": "Worker Threads 适合 CPU 密集计算并可共享内存；多进程也可提供隔离和多核利用。",
+      "difficulty": "medium",
+      "tags": ["Node.js", "Worker Threads", "性能"]
+    },
+    {
+      "code": "node-008-cluster",
+      "categoryKey": "backend.node",
+      "type": "true_false",
+      "stem": "单个 Node.js 进程通常主要使用一个 JavaScript 主线程，多核利用可通过多进程部署或 Worker Threads 实现。",
+      "answerKeys": ["true"],
+      "explanation": "生产中常由 PM2、容器编排或反向代理管理多个 Node 进程。",
+      "difficulty": "easy",
+      "tags": ["Node.js", "多进程", "多核"]
+    },
+    {
+      "code": "node-009-package-lock",
+      "categoryKey": "backend.node",
+      "type": "single_choice",
+      "stem": "`package-lock.json` 的主要价值是什么？",
+      "options": [{ "id": "A", "content": "保存应用运行日志" }, { "id": "B", "content": "记录完整依赖解析结果，提高不同环境安装的可重复性" }, { "id": "C", "content": "替代源代码" }, { "id": "D", "content": "保存数据库密码" }],
+      "answerKeys": ["B"],
+      "explanation": "锁文件应提交到应用仓库；CI 中常使用 `npm ci` 按锁文件进行干净安装。",
+      "difficulty": "easy",
+      "tags": ["Node.js", "npm", "依赖管理"]
+    },
+    {
+      "code": "node-010-env",
+      "categoryKey": "backend.node",
+      "type": "multiple_choice",
+      "stem": "管理 Node.js 生产环境配置时，哪些做法更合理？",
+      "options": [{ "id": "A", "content": "密钥通过环境变量或密钥管理服务注入" }, { "id": "B", "content": "启动时校验必需配置" }, { "id": "C", "content": "把生产 `.env` 提交到公开仓库" }, { "id": "D", "content": "不同环境独立维护敏感配置" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "配置应与代码分离，敏感值不能进入版本库、前端包、日志和错误响应。",
+      "difficulty": "easy",
+      "tags": ["Node.js", "环境变量", "安全"]
+    },
+    {
+      "code": "node-011-unhandled-rejection",
+      "categoryKey": "backend.node",
+      "type": "single_choice",
+      "stem": "生产服务遇到未捕获异常后，较稳妥的处理原则是什么？",
+      "options": [{ "id": "A", "content": "忽略并继续运行" }, { "id": "B", "content": "记录上下文，停止接收新请求，优雅关闭并由进程管理器重启" }, { "id": "C", "content": "把完整堆栈返回给所有客户端" }, { "id": "D", "content": "删除日志" }],
+      "answerKeys": ["B"],
+      "explanation": "未捕获异常可能令进程状态不一致；应避免泄露内部信息，并依靠 PM2/systemd/容器恢复。",
+      "difficulty": "medium",
+      "tags": ["Node.js", "异常处理", "优雅关闭"]
+    },
+    {
+      "code": "node-012-libuv",
+      "categoryKey": "backend.node",
+      "type": "single_choice",
+      "stem": "Node.js 中 libuv 的主要职责是什么？",
+      "options": [{ "id": "A", "content": "解析 Vue 模板" }, { "id": "B", "content": "提供跨平台事件循环、异步 I/O 和线程池能力" }, { "id": "C", "content": "替代 V8 执行 JavaScript" }, { "id": "D", "content": "生成 CSS" }],
+      "answerKeys": ["B"],
+      "explanation": "V8 执行 JavaScript，libuv 负责跨平台异步基础设施，二者共同构成 Node 运行时关键部分。",
+      "difficulty": "medium",
+      "tags": ["Node.js", "libuv", "运行时"]
+    },
+    {
+      "code": "express-001-middleware",
+      "categoryKey": "backend.express",
+      "type": "single_choice",
+      "stem": "Express 中间件调用 `next()` 的主要作用是什么？",
+      "options": [{ "id": "A", "content": "重新启动服务器" }, { "id": "B", "content": "将控制权交给后续匹配的中间件或路由" }, { "id": "C", "content": "自动提交数据库事务" }, { "id": "D", "content": "关闭响应连接" }],
+      "answerKeys": ["B"],
+      "explanation": "中间件如果既不结束响应也不调用 next，请求可能一直挂起。",
+      "difficulty": "easy",
+      "tags": ["Express", "中间件"]
+    },
+    {
+      "code": "express-002-error-middleware",
+      "categoryKey": "backend.express",
+      "type": "true_false",
+      "stem": "Express 错误处理中间件通常使用 `(err, req, res, next)` 四个参数，以区别普通中间件。",
+      "answerKeys": ["true"],
+      "explanation": "它通常放在业务路由之后，统一记录错误并输出规范、无敏感信息的错误响应。",
+      "difficulty": "easy",
+      "tags": ["Express", "错误处理", "中间件"]
+    },
+    {
+      "code": "express-003-order",
+      "categoryKey": "backend.express",
+      "type": "single_choice",
+      "stem": "为什么 Express 中间件注册顺序很重要？",
+      "options": [{ "id": "A", "content": "Express 会按注册顺序匹配和执行中间件" }, { "id": "B", "content": "顺序只影响 CSS" }, { "id": "C", "content": "顺序决定数据库索引" }, { "id": "D", "content": "顺序不会产生任何影响" }],
+      "answerKeys": ["A"],
+      "explanation": "例如 JSON 解析、认证、权限中间件应在依赖它们的路由之前，404 与错误处理通常放在最后。",
+      "difficulty": "easy",
+      "tags": ["Express", "中间件", "路由"]
+    },
+    {
+      "code": "express-004-auth",
+      "categoryKey": "backend.express",
+      "type": "multiple_choice",
+      "stem": "Express API 的鉴权与授权应遵循哪些原则？",
+      "options": [{ "id": "A", "content": "先验证身份，再检查资源或操作权限" }, { "id": "B", "content": "不能只依赖前端隐藏按钮" }, { "id": "C", "content": "资源查询应包含当前用户或租户边界" }, { "id": "D", "content": "知道资源 ID 就应该允许访问" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "服务端必须执行对象级权限校验，防止水平越权和垂直越权。",
+      "difficulty": "medium",
+      "tags": ["Express", "鉴权", "授权", "越权"]
+    },
+    {
+      "code": "express-005-rate-limit",
+      "categoryKey": "backend.express",
+      "type": "true_false",
+      "stem": "登录、验证码、密码重置等敏感接口通常需要限流，但限流不能替代密码安全与审计。",
+      "answerKeys": ["true"],
+      "explanation": "还应结合账号锁定策略、验证码、密码哈希、异常告警和来源风险控制。",
+      "difficulty": "easy",
+      "tags": ["Express", "限流", "安全"]
+    },
+    {
+      "code": "express-006-async-error",
+      "categoryKey": "backend.express",
+      "type": "single_choice",
+      "stem": "在 Express 路由中统一处理异步业务错误，常见做法是什么？",
+      "options": [{ "id": "A", "content": "每个请求永不返回错误" }, { "id": "B", "content": "使用 async 包装器将 rejected Promise 交给统一错误中间件" }, { "id": "C", "content": "把错误写入 Cookie" }, { "id": "D", "content": "只在前端捕获" }],
+      "answerKeys": ["B"],
+      "explanation": "Express 5 已能自动转发许多异步 handler 的 rejected Promise，但统一响应层仍有价值。",
+      "difficulty": "medium",
+      "tags": ["Express", "异步", "错误处理"]
+    },
+    {
+      "code": "express-007-validation",
+      "categoryKey": "backend.express",
+      "type": "multiple_choice",
+      "stem": "API 输入校验应覆盖哪些位置？",
+      "options": [{ "id": "A", "content": "请求体 body" }, { "id": "B", "content": "路径参数 params" }, { "id": "C", "content": "查询参数 query" }, { "id": "D", "content": "上传文件的类型、大小与数量" }],
+      "answerKeys": ["A", "B", "C", "D"],
+      "explanation": "所有外部输入都不可信；应使用白名单结构化校验，并避免将未知字段直接传给数据库更新。",
+      "difficulty": "easy",
+      "tags": ["Express", "参数校验", "安全"]
+    },
+    {
+      "code": "express-008-rest",
+      "categoryKey": "backend.express",
+      "type": "single_choice",
+      "stem": "创建新资源成功时，REST API 通常返回哪个 HTTP 状态码？",
+      "options": [{ "id": "A", "content": "200" }, { "id": "B", "content": "201" }, { "id": "C", "content": "204" }, { "id": "D", "content": "404" }],
+      "answerKeys": ["B"],
+      "explanation": "201 Created 表示资源创建成功；可在响应体返回资源，或通过 Location 指向新资源。",
+      "difficulty": "easy",
+      "tags": ["Express", "REST", "HTTP状态码"]
+    }
+  ]
+}

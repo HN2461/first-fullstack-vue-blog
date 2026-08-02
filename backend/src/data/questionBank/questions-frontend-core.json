@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "questions": [
+    {
+      "code": "html-001-semantic",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "下列哪个元素最适合表示页面中的独立文章内容？",
+      "options": [{ "id": "A", "content": "`<div>`" }, { "id": "B", "content": "`<article>`" }, { "id": "C", "content": "`<span>`" }, { "id": "D", "content": "`<b>`" }],
+      "answerKeys": ["B"],
+      "explanation": "`article` 表示可以独立分发或复用的完整内容，语义比通用容器 `div` 更明确。",
+      "difficulty": "easy",
+      "tags": ["HTML", "语义化"]
+    },
+    {
+      "code": "html-002-doctype",
+      "categoryKey": "frontend.html",
+      "type": "true_false",
+      "stem": "`<!DOCTYPE html>` 的主要作用是告诉浏览器使用标准模式解析当前 HTML 文档。",
+      "answerKeys": ["true"],
+      "explanation": "缺少或使用错误的 Doctype 可能使浏览器进入怪异模式，导致布局规则与标准模式不同。",
+      "difficulty": "easy",
+      "tags": ["HTML", "DOCTYPE"]
+    },
+    {
+      "code": "html-003-defer-async",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "关于外部脚本的 `defer` 与 `async`，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "两者都不会阻塞 HTML 下载过程" }, { "id": "B", "content": "`defer` 脚本通常按文档顺序执行" }, { "id": "C", "content": "`async` 脚本严格按文档顺序执行" }, { "id": "D", "content": "`defer` 脚本在 DOM 解析完成后执行" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "两者都并行下载；`async` 下载完成即执行且顺序不保证，`defer` 等 DOM 解析完成后按顺序执行。",
+      "difficulty": "medium",
+      "tags": ["HTML", "脚本加载", "性能"]
+    },
+    {
+      "code": "html-004-alt",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "图片元素的 `alt` 属性最核心的用途是什么？",
+      "options": [{ "id": "A", "content": "设置图片标题" }, { "id": "B", "content": "图片无法展示时提供替代文本并改善可访问性" }, { "id": "C", "content": "强制图片懒加载" }, { "id": "D", "content": "控制图片尺寸" }],
+      "answerKeys": ["B"],
+      "explanation": "替代文本供图片加载失败和屏幕阅读器场景使用；装饰性图片通常使用空 `alt`。",
+      "difficulty": "easy",
+      "tags": ["HTML", "可访问性"]
+    },
+    {
+      "code": "html-005-cookie-storage",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "浏览器发送同源 HTTP 请求时，哪类数据通常会由浏览器自动附带？",
+      "options": [{ "id": "A", "content": "localStorage" }, { "id": "B", "content": "sessionStorage" }, { "id": "C", "content": "符合规则的 Cookie" }, { "id": "D", "content": "IndexedDB" }],
+      "answerKeys": ["C"],
+      "explanation": "Cookie 会依据 Domain、Path、Secure、SameSite 等规则自动进入请求头；其他存储不会自动发送。",
+      "difficulty": "medium",
+      "tags": ["HTML", "浏览器存储", "Cookie"]
+    },
+    {
+      "code": "html-006-form-label",
+      "categoryKey": "frontend.html",
+      "type": "true_false",
+      "stem": "为表单控件配置关联的 `<label>`，可以扩大可点击区域并改善屏幕阅读器体验。",
+      "answerKeys": ["true"],
+      "explanation": "可以使用 `label[for]` 关联控件 `id`，或将控件包裹在 `label` 内。",
+      "difficulty": "easy",
+      "tags": ["HTML", "表单", "可访问性"]
+    },
+    {
+      "code": "html-007-meta-viewport",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "移动端页面常用 `<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">` 的作用是什么？",
+      "options": [{ "id": "A", "content": "关闭 JavaScript" }, { "id": "B", "content": "让布局视口宽度匹配设备宽度并设置初始缩放" }, { "id": "C", "content": "开启深色模式" }, { "id": "D", "content": "预加载所有图片" }],
+      "answerKeys": ["B"],
+      "explanation": "它控制移动浏览器的布局视口和初始缩放，是响应式布局的基础配置。",
+      "difficulty": "easy",
+      "tags": ["HTML", "移动端", "响应式"]
+    },
+    {
+      "code": "html-008-reflow-resource",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "哪些做法有助于减少页面加载时的布局偏移（CLS）？",
+      "options": [{ "id": "A", "content": "为图片声明宽高或 `aspect-ratio`" }, { "id": "B", "content": "为异步内容预留稳定空间" }, { "id": "C", "content": "在页面顶部动态插入未知高度广告" }, { "id": "D", "content": "合理预加载关键字体并配置字体回退" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "稳定媒体尺寸、为动态内容预留位置、减少字体切换造成的尺寸变化，都能降低累计布局偏移。",
+      "difficulty": "medium",
+      "tags": ["HTML", "性能", "CLS"]
+    },
+    {
+      "code": "html-009-srcset",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "`img` 的 `srcset` 与 `sizes` 主要解决什么问题？",
+      "options": [{ "id": "A", "content": "图片跨域" }, { "id": "B", "content": "根据视口与像素密度选择合适的图片资源" }, { "id": "C", "content": "给图片添加水印" }, { "id": "D", "content": "将图片转成 Base64" }],
+      "answerKeys": ["B"],
+      "explanation": "浏览器可根据候选资源宽度、设备像素比和布局尺寸选择成本更合适的图片。",
+      "difficulty": "medium",
+      "tags": ["HTML", "响应式图片", "性能"]
+    },
+    {
+      "code": "html-010-data-attribute",
+      "categoryKey": "frontend.html",
+      "type": "true_false",
+      "stem": "自定义 HTML 数据推荐使用 `data-*` 属性，并可通过元素的 `dataset` 访问。",
+      "answerKeys": ["true"],
+      "explanation": "例如 `data-user-id` 对应 `element.dataset.userId`，比随意发明非标准属性更规范。",
+      "difficulty": "easy",
+      "tags": ["HTML", "DOM"]
+    },
+    {
+      "code": "css-001-box-model",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "设置 `box-sizing: border-box` 后，声明的 `width` 包含哪些部分？",
+      "options": [{ "id": "A", "content": "仅 content" }, { "id": "B", "content": "content 与 padding" }, { "id": "C", "content": "content、padding 与 border" }, { "id": "D", "content": "content、padding、border 与 margin" }],
+      "answerKeys": ["C"],
+      "explanation": "`border-box` 将内容、内边距和边框计算在声明宽度内，margin 始终在盒子外部。",
+      "difficulty": "easy",
+      "tags": ["CSS", "盒模型"]
+    },
+    {
+      "code": "css-002-specificity",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "在不考虑 `!important` 和样式来源层级时，下列哪个选择器的优先级最高？",
+      "options": [{ "id": "A", "content": "`.panel .title`" }, { "id": "B", "content": "`#app .title`" }, { "id": "C", "content": "`section h2`" }, { "id": "D", "content": "`h2`" }],
+      "answerKeys": ["B"],
+      "explanation": "ID 选择器的权重高于类、属性、伪类和标签选择器。",
+      "difficulty": "easy",
+      "tags": ["CSS", "优先级"]
+    },
+    {
+      "code": "css-003-bfc",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "块级格式化上下文（BFC）常见的作用有哪些？",
+      "options": [{ "id": "A", "content": "包含内部浮动元素" }, { "id": "B", "content": "避免与外部浮动元素发生文字环绕" }, { "id": "C", "content": "阻止所有子元素继承" }, { "id": "D", "content": "隔离内部与外部块级元素的垂直 margin 折叠" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "BFC 是独立布局区域，可用于清除浮动影响、阻止外部浮动覆盖和处理 margin 折叠边界。",
+      "difficulty": "medium",
+      "tags": ["CSS", "BFC", "布局"]
+    },
+    {
+      "code": "css-004-flex-shrink",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "Flex 项目的 `flex-shrink: 0` 可以阻止它在主轴空间不足时被压缩。",
+      "answerKeys": ["true"],
+      "explanation": "默认 `flex-shrink` 为 1；设置为 0 后该项目不参与负剩余空间的收缩分配。",
+      "difficulty": "easy",
+      "tags": ["CSS", "Flex"]
+    },
+    {
+      "code": "css-005-grid",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "哪种布局更适合同时控制行和列的二维页面结构？",
+      "options": [{ "id": "A", "content": "float" }, { "id": "B", "content": "CSS Grid" }, { "id": "C", "content": "inline-block" }, { "id": "D", "content": "文本流" }],
+      "answerKeys": ["B"],
+      "explanation": "Grid 是二维布局模型；Flex 更擅长单一主轴上的一维排列。",
+      "difficulty": "easy",
+      "tags": ["CSS", "Grid", "布局"]
+    },
+    {
+      "code": "css-006-position-sticky",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "`position: sticky` 未按预期吸顶时，可能需要检查哪些因素？",
+      "options": [{ "id": "A", "content": "是否设置了 `top` 等阈值" }, { "id": "B", "content": "祖先元素的 `overflow` 是否改变了滚动容器" }, { "id": "C", "content": "元素所在容器是否有足够滚动空间" }, { "id": "D", "content": "是否设置了 `font-weight`" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "Sticky 依赖偏移阈值和最近滚动容器，其活动范围还受包含块尺寸约束。",
+      "difficulty": "medium",
+      "tags": ["CSS", "定位", "Sticky"]
+    },
+    {
+      "code": "css-007-repaint-reflow",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "通常情况下，哪种动画方式比持续修改 `left` 更容易只触发合成而避免布局计算？",
+      "options": [{ "id": "A", "content": "修改 `transform: translateX()`" }, { "id": "B", "content": "修改 `width`" }, { "id": "C", "content": "修改 `margin-left`" }, { "id": "D", "content": "修改 `font-size`" }],
+      "answerKeys": ["A"],
+      "explanation": "`transform` 和 `opacity` 动画通常能在合成阶段完成，但实际行为仍取决于浏览器和图层策略。",
+      "difficulty": "medium",
+      "tags": ["CSS", "动画", "性能"]
+    },
+    {
+      "code": "css-008-rem-em",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "`rem` 相对于根元素字体大小计算，而 `em` 通常相对于当前元素的字体大小计算。",
+      "answerKeys": ["true"],
+      "explanation": "`rem` 提供稳定的全局尺度；`em` 会随局部字号上下文变化，在字号属性自身上需注意其计算基准。",
+      "difficulty": "easy",
+      "tags": ["CSS", "单位"]
+    },
+    {
+      "code": "css-009-ellipsis",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "实现单行文本溢出显示省略号，通常需要哪些声明？",
+      "options": [{ "id": "A", "content": "`white-space: nowrap`" }, { "id": "B", "content": "`overflow: hidden`" }, { "id": "C", "content": "`text-overflow: ellipsis`" }, { "id": "D", "content": "`word-break: break-all`" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "元素还需要存在可约束的宽度；`word-break` 不是单行省略号的必要条件。",
+      "difficulty": "easy",
+      "tags": ["CSS", "文本溢出"]
+    },
+    {
+      "code": "css-010-css-variables",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "CSS 自定义属性相较预处理器变量的重要特点是什么？",
+      "options": [{ "id": "A", "content": "只能在构建期使用" }, { "id": "B", "content": "参与运行时级联，可被继承并通过 JavaScript 修改" }, { "id": "C", "content": "不支持回退值" }, { "id": "D", "content": "不能用于主题切换" }],
+      "answerKeys": ["B"],
+      "explanation": "自定义属性属于真实 CSS 值，能够参与级联和继承，适合主题与组件变量系统。",
+      "difficulty": "medium",
+      "tags": ["CSS", "自定义属性", "主题"]
+    }
+  ]
+}

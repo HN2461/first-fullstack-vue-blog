@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "questions": [
+    {
+      "code": "js-001-event-loop",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "下面代码的输出顺序是什么？\n\n```js\nconsole.log('A')\nsetTimeout(() => console.log('B'))\nPromise.resolve().then(() => console.log('C'))\nconsole.log('D')\n```",
+      "options": [{ "id": "A", "content": "A B C D" }, { "id": "B", "content": "A D C B" }, { "id": "C", "content": "A C D B" }, { "id": "D", "content": "A D B C" }],
+      "answerKeys": ["B"],
+      "explanation": "同步代码先输出 A、D，当前宏任务结束后清空 Promise 微任务，最后执行定时器宏任务。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "事件循环", "Promise"]
+    },
+    {
+      "code": "js-002-closure",
+      "categoryKey": "frontend.javascript",
+      "type": "short_answer",
+      "stem": "JavaScript 中，能够访问其词法作用域中变量、即使外层函数已经执行结束的函数称为什么？",
+      "answerKeys": ["闭包", "closure"],
+      "explanation": "闭包是函数与其创建时词法环境的组合，可用于数据私有化、回调状态保存等场景。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "闭包", "作用域"]
+    },
+    {
+      "code": "js-003-var-let",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "关于 `var`、`let` 和 `const`，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "`let` 和 `const` 具有块级作用域" }, { "id": "B", "content": "`var` 声明会提升并初始化为 `undefined`" }, { "id": "C", "content": "`const` 声明的对象内部属性完全不可修改" }, { "id": "D", "content": "同一作用域内不能重复声明同名 `let` 变量" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "`const` 约束变量绑定不可重新赋值，并不会自动深度冻结对象。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "变量", "作用域"]
+    },
+    {
+      "code": "js-004-this-arrow",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "箭头函数没有自己的 `this`，其 `this` 来自定义时所在的词法环境。",
+      "answerKeys": ["true"],
+      "explanation": "箭头函数也没有自己的 `arguments`、`super` 和 `new.target`，不能作为构造函数调用。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "this", "箭头函数"]
+    },
+    {
+      "code": "js-005-prototype",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "访问对象自身不存在的属性时，JavaScript 通常如何继续查找？",
+      "options": [{ "id": "A", "content": "遍历所有全局变量" }, { "id": "B", "content": "沿对象的原型链向上查找" }, { "id": "C", "content": "自动创建该属性" }, { "id": "D", "content": "立即抛出异常" }],
+      "answerKeys": ["B"],
+      "explanation": "属性读取会沿 `[[Prototype]]` 链逐级查找，直到找到属性或到达 `null`。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "原型链"]
+    },
+    {
+      "code": "js-006-call-apply-bind",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "关于 `call`、`apply` 和 `bind`，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "`call` 与 `apply` 都会立即调用函数" }, { "id": "B", "content": "`apply` 使用数组或类数组传递参数" }, { "id": "C", "content": "`bind` 返回绑定后的新函数" }, { "id": "D", "content": "`bind` 会立即执行原函数" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "三者都能影响调用时的 `this`；`bind` 返回新函数，适合延迟调用。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "this", "函数"]
+    },
+    {
+      "code": "js-007-deep-copy",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "为什么 `JSON.parse(JSON.stringify(value))` 不是通用的深拷贝方案？",
+      "options": [{ "id": "A", "content": "它不能复制任何字符串" }, { "id": "B", "content": "会丢失 `undefined`、函数、Symbol，并不能正确保留 Date、Map、循环引用等结构" }, { "id": "C", "content": "它只支持数组" }, { "id": "D", "content": "它总会修改原对象" }],
+      "answerKeys": ["B"],
+      "explanation": "结构化克隆可优先考虑 `structuredClone`，但函数、DOM 节点等仍需按具体类型处理。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "深拷贝", "数据类型"]
+    },
+    {
+      "code": "js-008-promise-all",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "`Promise.all` 中任意一个输入 Promise 变为 rejected，返回的 Promise 通常会立即以该原因 rejected。",
+      "answerKeys": ["true"],
+      "explanation": "如果需要等待所有任务结束并分别获得结果与错误，可使用 `Promise.allSettled`。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "Promise"]
+    },
+    {
+      "code": "js-009-async-return",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "`async` 函数直接 `return 42` 时，调用结果是什么？",
+      "options": [{ "id": "A", "content": "数字 42" }, { "id": "B", "content": "一个 fulfilled 值为 42 的 Promise" }, { "id": "C", "content": "undefined" }, { "id": "D", "content": "同步异常" }],
+      "answerKeys": ["B"],
+      "explanation": "`async` 函数总是返回 Promise；普通返回值会被包装为 fulfilled Promise。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "async", "Promise"]
+    },
+    {
+      "code": "js-010-equality",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "关于 `===`、`Object.is` 与 `==`，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "`==` 可能执行类型转换" }, { "id": "B", "content": "`NaN === NaN` 为 false" }, { "id": "C", "content": "`Object.is(NaN, NaN)` 为 true" }, { "id": "D", "content": "`Object.is(+0, -0)` 为 true" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "`Object.is` 将 NaN 视为相同，但区分 +0 和 -0；严格相等在这两处行为不同。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "类型转换", "相等判断"]
+    },
+    {
+      "code": "js-011-map-weakmap",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "`WeakMap` 相较 `Map` 的关键特点是什么？",
+      "options": [{ "id": "A", "content": "键可以是任意基本类型" }, { "id": "B", "content": "键必须是对象或非注册 Symbol，且不会阻止对象被垃圾回收" }, { "id": "C", "content": "可以直接遍历所有键" }, { "id": "D", "content": "值只能是字符串" }],
+      "answerKeys": ["B"],
+      "explanation": "WeakMap 的弱引用特性适合保存与对象生命周期绑定的私有元数据，且不可枚举。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "WeakMap", "垃圾回收"]
+    },
+    {
+      "code": "js-012-descriptor",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "通过普通对象字面量创建的属性，默认通常是可写、可枚举、可配置的。",
+      "answerKeys": ["true"],
+      "explanation": "而通过 `Object.defineProperty` 新建属性时，未显式配置的布尔描述符默认是 false。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "属性描述符"]
+    },
+    {
+      "code": "js-013-debounce-throttle",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "搜索框连续输入后，等待用户停止一段时间再请求接口，通常使用哪种策略？",
+      "options": [{ "id": "A", "content": "防抖 debounce" }, { "id": "B", "content": "节流 throttle" }, { "id": "C", "content": "轮询 polling" }, { "id": "D", "content": "递归 recursion" }],
+      "answerKeys": ["A"],
+      "explanation": "防抖将连续触发合并为停止后的最后一次；节流是在持续触发期间限制执行频率。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "防抖", "节流"]
+    },
+    {
+      "code": "js-014-module-live-binding",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "ES Module 的导入是对导出绑定的实时只读视图，而不是简单复制导出时的值。",
+      "answerKeys": ["true"],
+      "explanation": "导出模块更新绑定后，导入方可以观察到新值，但不能直接给导入绑定重新赋值。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "ESM", "模块化"]
+    },
+    {
+      "code": "js-015-array-methods",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "下列哪些数组方法默认会修改原数组？",
+      "options": [{ "id": "A", "content": "`sort`" }, { "id": "B", "content": "`splice`" }, { "id": "C", "content": "`map`" }, { "id": "D", "content": "`reverse`" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "`map` 返回新数组；需要非变异排序或反转时可使用 `toSorted`、`toReversed` 等新方法。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "数组"]
+    },
+    {
+      "code": "js-016-generator",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "Generator 函数调用后会立即执行完整函数体吗？",
+      "options": [{ "id": "A", "content": "会，并返回最终值" }, { "id": "B", "content": "不会，先返回迭代器，调用 `next()` 时执行到下一个 `yield`" }, { "id": "C", "content": "只在浏览器中执行" }, { "id": "D", "content": "必须配合 Promise 才能执行" }],
+      "answerKeys": ["B"],
+      "explanation": "Generator 提供可暂停和恢复的执行过程，并实现了迭代器协议。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "Generator", "迭代器"]
+    },
+    {
+      "code": "js-017-memory-leak",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "前端常见的内存泄漏来源有哪些？",
+      "options": [{ "id": "A", "content": "组件销毁后未移除的全局事件监听" }, { "id": "B", "content": "仍被引用的定时器和闭包" }, { "id": "C", "content": "无限增长且未淘汰的缓存" }, { "id": "D", "content": "及时取消的订阅" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "只要对象仍可从 GC Root 到达，就无法回收；清理监听、定时器、订阅和缓存是关键。",
+      "difficulty": "medium",
+      "tags": ["JavaScript", "内存泄漏", "性能"]
+    },
+    {
+      "code": "js-018-object-freeze",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "`Object.freeze()` 默认只进行浅冻结，嵌套对象仍可能被修改。",
+      "answerKeys": ["true"],
+      "explanation": "如需深度冻结，需要递归处理可达对象，并注意循环引用。",
+      "difficulty": "easy",
+      "tags": ["JavaScript", "对象", "不可变"]
+    },
+    {
+      "code": "ts-001-any-unknown",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "`unknown` 相比 `any` 的主要安全优势是什么？",
+      "options": [{ "id": "A", "content": "`unknown` 可以绕过所有检查" }, { "id": "B", "content": "使用 `unknown` 值前必须先进行类型收窄" }, { "id": "C", "content": "`unknown` 只能保存字符串" }, { "id": "D", "content": "`unknown` 会在运行时自动校验" }],
+      "answerKeys": ["B"],
+      "explanation": "`unknown` 可以接收任意值，但不能在未收窄时随意访问属性或调用，从而保留类型安全。",
+      "difficulty": "easy",
+      "tags": ["TypeScript", "unknown", "any"]
+    },
+    {
+      "code": "ts-002-never",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "`never` 类型通常表示什么？",
+      "options": [{ "id": "A", "content": "任意值" }, { "id": "B", "content": "可能为 null" }, { "id": "C", "content": "永远不会出现的值，例如始终抛错的函数返回值" }, { "id": "D", "content": "未知值" }],
+      "answerKeys": ["C"],
+      "explanation": "`never` 也常用于可辨识联合的穷尽性检查，发现遗漏分支。",
+      "difficulty": "medium",
+      "tags": ["TypeScript", "never", "类型系统"]
+    },
+    {
+      "code": "ts-003-interface-type",
+      "categoryKey": "frontend.typescript",
+      "type": "multiple_choice",
+      "stem": "关于 `interface` 和类型别名 `type`，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "两者都能描述对象结构" }, { "id": "B", "content": "`interface` 支持声明合并" }, { "id": "C", "content": "`type` 可以直接表达联合类型" }, { "id": "D", "content": "两者在所有语法和行为上完全一致" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "两者能力重叠但并不完全相同；公共可扩展对象契约常用 interface，组合与联合常用 type。",
+      "difficulty": "medium",
+      "tags": ["TypeScript", "interface", "type"]
+    },
+    {
+      "code": "ts-004-generics",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "泛型可以在保持类型关系的前提下编写可复用代码，例如让函数返回值类型与参数类型一致。",
+      "answerKeys": ["true"],
+      "explanation": "泛型不是简单地放宽为 any，而是用类型参数保存和传播调用时的具体类型信息。",
+      "difficulty": "easy",
+      "tags": ["TypeScript", "泛型"]
+    },
+    {
+      "code": "ts-005-keyof",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "对对象类型 `User` 使用 `keyof User` 得到什么？",
+      "options": [{ "id": "A", "content": "User 的运行时值" }, { "id": "B", "content": "User 已知属性键组成的联合类型" }, { "id": "C", "content": "所有字符串" }, { "id": "D", "content": "User 的构造函数" }],
+      "answerKeys": ["B"],
+      "explanation": "`keyof` 常与泛型、索引访问类型配合，用来约束只能访问对象已知键。",
+      "difficulty": "medium",
+      "tags": ["TypeScript", "keyof", "类型操作"]
+    },
+    {
+      "code": "ts-006-utility-types",
+      "categoryKey": "frontend.typescript",
+      "type": "multiple_choice",
+      "stem": "下列 TypeScript 工具类型与用途匹配正确的是？",
+      "options": [{ "id": "A", "content": "`Partial<T>`：将属性变为可选" }, { "id": "B", "content": "`Pick<T, K>`：选取指定属性" }, { "id": "C", "content": "`Omit<T, K>`：排除指定属性" }, { "id": "D", "content": "`Readonly<T>`：在运行时深度冻结对象" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "Readonly 只提供编译期浅只读约束，不会生成运行时冻结逻辑。",
+      "difficulty": "easy",
+      "tags": ["TypeScript", "工具类型"]
+    },
+    {
+      "code": "ts-007-type-guard",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "`typeof`、`instanceof`、`in` 和自定义类型谓词都可以用于类型收窄。",
+      "answerKeys": ["true"],
+      "explanation": "类型守卫让控制流分析在特定分支中推断出更具体的类型。",
+      "difficulty": "easy",
+      "tags": ["TypeScript", "类型守卫", "类型收窄"]
+    }
+  ]
+}

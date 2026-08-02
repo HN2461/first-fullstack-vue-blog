@@ -43,6 +43,14 @@ const LedgerEntriesPage = () => import('@/views/console/LedgerPage/LedgerEntries
 const LedgerDailyPage = () => import('@/views/console/LedgerPage/LedgerDailyPage.vue')
 const LedgerMonthlyPage = () => import('@/views/console/LedgerPage/LedgerMonthlyPage.vue')
 const LedgerMomentsPage = () => import('@/views/console/LedgerPage/LedgerMomentsPage.vue')
+const QuestionBankPage = () => import('@/views/console/QuestionBankPage/index.vue')
+const QuestionBankOverviewPage = () => import('@/views/console/QuestionBankPage/QuestionBankOverviewPage.vue')
+const QuestionListPage = () => import('@/views/console/QuestionBankPage/QuestionListPage.vue')
+const QuestionPaperListPage = () => import('@/views/console/QuestionBankPage/QuestionPaperListPage.vue')
+const QuestionPracticePage = () => import('@/views/console/QuestionBankPage/QuestionPracticePage.vue')
+const QuestionReviewPage = () => import('@/views/console/QuestionBankPage/QuestionReviewPage.vue')
+const QuestionAttemptHistoryPage = () => import('@/views/console/QuestionBankPage/QuestionAttemptHistoryPage.vue')
+const QuestionAttemptPage = () => import('@/views/console/QuestionBankPage/QuestionAttemptPage.vue')
 const ProfilePage = () => import('@/views/console/ProfilePage/index.vue')
 const UnavailablePage = () => import('@/views/console/UnavailablePage/index.vue')
 
@@ -209,6 +217,21 @@ export const router = createRouter({
               component: LedgerMomentsPage,
               meta: { title: '账本重要记录', requiresAuth: true, requiresMenuAccess: true }
             }
+          ]
+        },
+        {
+          path: 'question-bank',
+          component: QuestionBankPage,
+          meta: { title: '题库', requiresAuth: true },
+          children: [
+            { path: '', redirect: { name: 'ConsoleQuestionBankOverview' } },
+            { path: 'overview', name: 'ConsoleQuestionBankOverview', component: QuestionBankOverviewPage, meta: { title: '题库总览', requiresAuth: true, requiresMenuAccess: true } },
+            { path: 'questions', name: 'ConsoleQuestionList', component: QuestionListPage, meta: { title: '题目库', requiresAuth: true, requiresMenuAccess: true } },
+            { path: 'papers', name: 'ConsoleQuestionPapers', component: QuestionPaperListPage, meta: { title: '试卷库', requiresAuth: true, requiresMenuAccess: true } },
+            { path: 'practice', name: 'ConsoleQuestionPractice', component: QuestionPracticePage, meta: { title: '快速练习', requiresAuth: true, requiresMenuAccess: true } },
+            { path: 'review', name: 'ConsoleQuestionReview', component: QuestionReviewPage, meta: { title: '错题复习', requiresAuth: true, requiresMenuAccess: true } },
+            { path: 'attempts', name: 'ConsoleQuestionAttempts', component: QuestionAttemptHistoryPage, meta: { title: '作答记录', requiresAuth: true, requiresMenuAccess: true } },
+            { path: 'attempts/:id', name: 'ConsoleQuestionAttempt', component: QuestionAttemptPage, meta: { title: '答题工作区', requiresAuth: true, requiresMenuAccess: true } }
           ]
         },
         {

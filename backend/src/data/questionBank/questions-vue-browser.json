@@ -1,0 +1,274 @@
+{
+  "schemaVersion": 1,
+  "questions": [
+    {
+      "code": "vue-001-ref-reactive",
+      "categoryKey": "frontend.vue",
+      "type": "single_choice",
+      "stem": "在 Vue 3 Composition API 中，`ref` 与 `reactive` 的常见区别是什么？",
+      "options": [{ "id": "A", "content": "`ref` 只能保存数字" }, { "id": "B", "content": "`ref` 通过 `.value` 访问包装值，`reactive` 返回对象代理" }, { "id": "C", "content": "`reactive` 不支持嵌套对象" }, { "id": "D", "content": "两者都不会触发视图更新" }],
+      "answerKeys": ["B"],
+      "explanation": "模板中 ref 会自动解包；JavaScript 中访问 ref 通常需要 `.value`，reactive 适合代理对象。",
+      "difficulty": "easy",
+      "tags": ["Vue", "响应式", "Composition API"]
+    },
+    {
+      "code": "vue-002-computed",
+      "categoryKey": "frontend.vue",
+      "type": "true_false",
+      "stem": "Vue 的 `computed` 会基于响应式依赖缓存结果，依赖未变化时重复读取通常不会重新执行计算函数。",
+      "answerKeys": ["true"],
+      "explanation": "计算属性适合从状态派生值；需要执行异步副作用时通常使用 watch 或普通方法。",
+      "difficulty": "easy",
+      "tags": ["Vue", "computed", "响应式"]
+    },
+    {
+      "code": "vue-003-watch-watch-effect",
+      "categoryKey": "frontend.vue",
+      "type": "multiple_choice",
+      "stem": "关于 `watch` 与 `watchEffect`，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "`watch` 显式声明被观察源" }, { "id": "B", "content": "`watchEffect` 会自动收集同步执行期间访问的响应式依赖" }, { "id": "C", "content": "`watch` 可以获得新旧值" }, { "id": "D", "content": "两者都只能观察基本类型" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "两者都能处理多种响应式源；异步回调中只有首个 await 之前的访问会被 watchEffect 自动追踪。",
+      "difficulty": "medium",
+      "tags": ["Vue", "watch", "watchEffect"]
+    },
+    {
+      "code": "vue-004-next-tick",
+      "categoryKey": "frontend.vue",
+      "type": "single_choice",
+      "stem": "修改 Vue 响应式状态后，想等待 DOM 更新完成再读取元素尺寸，应使用什么？",
+      "options": [{ "id": "A", "content": "`nextTick()`" }, { "id": "B", "content": "`provide()`" }, { "id": "C", "content": "`toRaw()`" }, { "id": "D", "content": "`markRaw()`" }],
+      "answerKeys": ["A"],
+      "explanation": "Vue 会批量调度 DOM 更新，`nextTick` 返回的 Promise 在当前更新刷新后完成。",
+      "difficulty": "easy",
+      "tags": ["Vue", "nextTick", "DOM"]
+    },
+    {
+      "code": "vue-005-v-if-v-show",
+      "categoryKey": "frontend.vue",
+      "type": "single_choice",
+      "stem": "一个面板需要非常频繁地显示和隐藏，且首次渲染成本不高，通常优先考虑哪个指令？",
+      "options": [{ "id": "A", "content": "`v-if`" }, { "id": "B", "content": "`v-show`" }, { "id": "C", "content": "`v-once`" }, { "id": "D", "content": "`v-pre`" }],
+      "answerKeys": ["B"],
+      "explanation": "v-show 保留 DOM 并切换 display，初始成本较高但切换便宜；v-if 会创建和销毁分支。",
+      "difficulty": "easy",
+      "tags": ["Vue", "指令", "性能"]
+    },
+    {
+      "code": "vue-006-key",
+      "categoryKey": "frontend.vue",
+      "type": "true_false",
+      "stem": "`v-for` 中稳定且唯一的 `key` 有助于 Vue 正确复用和移动节点，通常不应在可重排列表中使用数组索引作为 key。",
+      "answerKeys": ["true"],
+      "explanation": "索引会随插入、删除和排序变化，可能造成组件状态复用错误。",
+      "difficulty": "easy",
+      "tags": ["Vue", "v-for", "key", "diff"]
+    },
+    {
+      "code": "vue-007-props-emits",
+      "categoryKey": "frontend.vue",
+      "type": "multiple_choice",
+      "stem": "关于 Vue 组件通信，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "父组件通常通过 props 向子组件传值" }, { "id": "B", "content": "子组件可通过 emits 向父组件表达事件" }, { "id": "C", "content": "子组件应直接修改父组件传入的 prop" }, { "id": "D", "content": "跨层依赖可使用 provide/inject" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "Props 遵循单向数据流；需要变更时由子组件发事件，让拥有状态的一方更新。",
+      "difficulty": "easy",
+      "tags": ["Vue", "组件通信", "props", "emits"]
+    },
+    {
+      "code": "vue-008-lifecycle",
+      "categoryKey": "frontend.vue",
+      "type": "single_choice",
+      "stem": "在 Composition API 中，访问已挂载 DOM 或初始化依赖真实 DOM 的第三方库，通常放在哪个钩子？",
+      "options": [{ "id": "A", "content": "`onMounted`" }, { "id": "B", "content": "`onBeforeMount`" }, { "id": "C", "content": "`onErrorCaptured`" }, { "id": "D", "content": "`onServerPrefetch`" }],
+      "answerKeys": ["A"],
+      "explanation": "onMounted 运行时组件 DOM 已创建并插入父容器；卸载时应在 onUnmounted 清理副作用。",
+      "difficulty": "easy",
+      "tags": ["Vue", "生命周期"]
+    },
+    {
+      "code": "vue-009-keep-alive",
+      "categoryKey": "frontend.vue",
+      "type": "single_choice",
+      "stem": "`KeepAlive` 的主要作用是什么？",
+      "options": [{ "id": "A", "content": "缓存动态组件实例，切换时保留其状态" }, { "id": "B", "content": "永久缓存 HTTP 请求" }, { "id": "C", "content": "阻止组件更新" }, { "id": "D", "content": "将组件转换为 Web Worker" }],
+      "answerKeys": ["A"],
+      "explanation": "缓存组件会经历 activated/deactivated，而不是每次切换都完整 mount/unmount。",
+      "difficulty": "medium",
+      "tags": ["Vue", "KeepAlive", "生命周期"]
+    },
+    {
+      "code": "vue-010-teleport",
+      "categoryKey": "frontend.vue",
+      "type": "true_false",
+      "stem": "Vue 的 `Teleport` 可以让一段模板在逻辑上属于当前组件，但渲染到组件 DOM 层级之外的目标容器。",
+      "answerKeys": ["true"],
+      "explanation": "它常用于 Modal、Drawer、Tooltip 等需要脱离局部 overflow 或层叠上下文的内容。",
+      "difficulty": "medium",
+      "tags": ["Vue", "Teleport", "弹窗"]
+    },
+    {
+      "code": "vue-011-router-guard",
+      "categoryKey": "frontend.vue",
+      "type": "multiple_choice",
+      "stem": "Vue Router 导航守卫常见用途有哪些？",
+      "options": [{ "id": "A", "content": "登录鉴权" }, { "id": "B", "content": "页面权限检查" }, { "id": "C", "content": "处理未保存修改的离开确认" }, { "id": "D", "content": "替代数据库事务" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "前端守卫改善交互，但真正的数据权限仍必须由后端接口再次校验。",
+      "difficulty": "easy",
+      "tags": ["Vue", "Vue Router", "权限"]
+    },
+    {
+      "code": "vue-012-pinia",
+      "categoryKey": "frontend.vue",
+      "type": "single_choice",
+      "stem": "Pinia 中用于派生状态、类似组件 computed 的概念是什么？",
+      "options": [{ "id": "A", "content": "getters" }, { "id": "B", "content": "actions" }, { "id": "C", "content": "plugins" }, { "id": "D", "content": "routes" }],
+      "answerKeys": ["A"],
+      "explanation": "State 保存源状态，getters 派生值，actions 封装同步或异步业务动作。",
+      "difficulty": "easy",
+      "tags": ["Vue", "Pinia", "状态管理"]
+    },
+    {
+      "code": "vue-013-reactive-destructure",
+      "categoryKey": "frontend.vue",
+      "type": "single_choice",
+      "stem": "直接解构 `reactive` 对象的基本类型属性可能丢失响应式连接，通常可用什么辅助函数保留？",
+      "options": [{ "id": "A", "content": "`toRefs`" }, { "id": "B", "content": "`readonly`" }, { "id": "C", "content": "`nextTick`" }, { "id": "D", "content": "`effectScope`" }],
+      "answerKeys": ["A"],
+      "explanation": "toRefs 将响应式对象每个属性转换为与源属性联动的 ref，适合解构返回。",
+      "difficulty": "medium",
+      "tags": ["Vue", "reactive", "toRefs"]
+    },
+    {
+      "code": "vue-014-slot",
+      "categoryKey": "frontend.vue",
+      "type": "true_false",
+      "stem": "作用域插槽允许子组件向父组件提供插槽属性，由父组件决定最终内容的渲染方式。",
+      "answerKeys": ["true"],
+      "explanation": "这适合表格单元格、列表项等“子组件提供数据，父组件提供模板”的场景。",
+      "difficulty": "medium",
+      "tags": ["Vue", "插槽", "组件设计"]
+    },
+    {
+      "code": "vue-015-virtual-dom",
+      "categoryKey": "frontend.vue",
+      "type": "multiple_choice",
+      "stem": "关于 Vue 虚拟 DOM，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "它用 JavaScript 对象描述 UI 结构" }, { "id": "B", "content": "更新时可比较新旧 VNode 并生成 DOM 操作" }, { "id": "C", "content": "它保证任何场景都比手写 DOM 更快" }, { "id": "D", "content": "编译器可通过静态提升和 Patch Flag 减少比较工作" }],
+      "answerKeys": ["A", "B", "D"],
+      "explanation": "虚拟 DOM 的价值还包括声明式编程和跨平台抽象，并非无条件性能最优。",
+      "difficulty": "hard",
+      "tags": ["Vue", "虚拟DOM", "diff", "编译优化"]
+    },
+    {
+      "code": "browser-001-url-process",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "浏览器从输入 URL 到页面展示，通常可能经历哪些步骤？",
+      "options": [{ "id": "A", "content": "DNS 解析" }, { "id": "B", "content": "建立 TCP/TLS 连接" }, { "id": "C", "content": "发送 HTTP 请求并接收响应" }, { "id": "D", "content": "解析 HTML/CSS、布局、绘制与合成" }],
+      "answerKeys": ["A", "B", "C", "D"],
+      "explanation": "实际过程还会受到缓存、代理、HTTP 版本、Service Worker 和预连接等机制影响。",
+      "difficulty": "medium",
+      "tags": ["浏览器", "网络", "渲染"]
+    },
+    {
+      "code": "browser-002-cors",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "CORS 的核心控制方是谁？",
+      "options": [{ "id": "A", "content": "浏览器根据服务端响应头执行跨源读取限制" }, { "id": "B", "content": "数据库自动决定" }, { "id": "C", "content": "HTML 标签决定" }, { "id": "D", "content": "DNS 服务器决定" }],
+      "answerKeys": ["A"],
+      "explanation": "CORS 是浏览器安全机制；服务端通过 Access-Control-Allow-* 响应头声明允许的来源、方法和头。",
+      "difficulty": "medium",
+      "tags": ["浏览器", "CORS", "同源策略"]
+    },
+    {
+      "code": "browser-003-preflight",
+      "categoryKey": "frontend.browser",
+      "type": "true_false",
+      "stem": "跨源请求不满足简单请求条件时，浏览器可能先发送 OPTIONS 预检请求。",
+      "answerKeys": ["true"],
+      "explanation": "预检用于询问服务端是否允许实际请求的方法和自定义请求头。",
+      "difficulty": "easy",
+      "tags": ["浏览器", "CORS", "预检请求"]
+    },
+    {
+      "code": "browser-004-http-cache",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "下列哪些响应头常用于 HTTP 缓存控制或协商验证？",
+      "options": [{ "id": "A", "content": "Cache-Control" }, { "id": "B", "content": "ETag" }, { "id": "C", "content": "Last-Modified" }, { "id": "D", "content": "Content-Security-Policy" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "CSP 主要用于内容安全策略；ETag/If-None-Match 与 Last-Modified/If-Modified-Since 可用于协商缓存。",
+      "difficulty": "medium",
+      "tags": ["HTTP", "缓存"]
+    },
+    {
+      "code": "browser-005-cookie-security",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "Cookie 的哪些属性有助于降低常见安全风险？",
+      "options": [{ "id": "A", "content": "HttpOnly 降低脚本读取 Cookie 的风险" }, { "id": "B", "content": "Secure 限制通过 HTTPS 发送" }, { "id": "C", "content": "SameSite 可降低部分 CSRF 风险" }, { "id": "D", "content": "Path 可以替代所有鉴权" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "这些属性是纵深防御，仍需配合输入输出编码、CSRF Token、权限校验等措施。",
+      "difficulty": "medium",
+      "tags": ["Cookie", "安全", "CSRF", "XSS"]
+    },
+    {
+      "code": "browser-006-web-storage",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "`sessionStorage` 的数据生命周期通常与什么相关？",
+      "options": [{ "id": "A", "content": "整个浏览器所有窗口" }, { "id": "B", "content": "当前顶级浏览上下文/标签页会话" }, { "id": "C", "content": "服务器进程" }, { "id": "D", "content": "DNS 缓存" }],
+      "answerKeys": ["B"],
+      "explanation": "sessionStorage 按来源且通常按标签页会话隔离；localStorage 则在来源下持久保存。",
+      "difficulty": "easy",
+      "tags": ["浏览器", "sessionStorage", "存储"]
+    },
+    {
+      "code": "browser-007-render-pipeline",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "DOM 与 CSSOM 通常结合生成什么结构，用于后续布局和绘制？",
+      "options": [{ "id": "A", "content": "原型链" }, { "id": "B", "content": "渲染树" }, { "id": "C", "content": "调用栈" }, { "id": "D", "content": "模块图" }],
+      "answerKeys": ["B"],
+      "explanation": "不可见节点和某些非渲染元素不会进入最终渲染树，随后进行布局、绘制和合成。",
+      "difficulty": "easy",
+      "tags": ["浏览器", "渲染原理", "DOM", "CSSOM"]
+    },
+    {
+      "code": "browser-008-request-animation-frame",
+      "categoryKey": "frontend.browser",
+      "type": "true_false",
+      "stem": "`requestAnimationFrame` 会让浏览器在下一次重绘前调用回调，适合与视觉刷新同步的动画。",
+      "answerKeys": ["true"],
+      "explanation": "后台标签页中回调通常会被降频或暂停，且它不是严格固定间隔定时器。",
+      "difficulty": "easy",
+      "tags": ["浏览器", "动画", "requestAnimationFrame"]
+    },
+    {
+      "code": "browser-009-xss-csrf",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "下列哪项更准确地区分 XSS 与 CSRF？",
+      "options": [{ "id": "A", "content": "XSS 注入并执行恶意脚本，CSRF 利用用户已有身份发起非预期请求" }, { "id": "B", "content": "两者完全相同" }, { "id": "C", "content": "XSS 只发生在数据库" }, { "id": "D", "content": "CSRF 只能通过 WebSocket" }],
+      "answerKeys": ["A"],
+      "explanation": "输出编码、CSP 等主要防 XSS；SameSite、CSRF Token、来源校验等主要防 CSRF。",
+      "difficulty": "medium",
+      "tags": ["浏览器", "XSS", "CSRF", "安全"]
+    },
+    {
+      "code": "browser-010-http2",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "HTTP/2 相较 HTTP/1.1 的常见改进有哪些？",
+      "options": [{ "id": "A", "content": "二进制分帧" }, { "id": "B", "content": "单连接多路复用" }, { "id": "C", "content": "HPACK 头部压缩" }, { "id": "D", "content": "彻底消除所有层面的队头阻塞" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "HTTP/2 解决应用层请求的队头阻塞，但 TCP 丢包仍会影响同连接的多个流；HTTP/3 改用 QUIC。",
+      "difficulty": "hard",
+      "tags": ["HTTP", "HTTP2", "网络"]
+    }
+  ]
+}

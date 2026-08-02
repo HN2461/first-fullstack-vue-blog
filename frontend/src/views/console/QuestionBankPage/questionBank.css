@@ -1,0 +1,214 @@
+.question-bank-page {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.question-bank-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.question-bank-search {
+  width: min(320px, 100%);
+}
+
+.question-bank-filter {
+  width: 160px;
+}
+
+.question-bank-category-filter {
+  width: min(260px, 100%);
+}
+
+.question-bank-metrics {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border: 1px solid var(--console-border, #e5e7eb);
+  border-radius: 6px;
+  background: var(--console-surface, #fff);
+  overflow: hidden;
+}
+
+.question-bank-metric {
+  min-width: 0;
+  padding: 18px;
+  border-right: 1px solid var(--console-border, #e5e7eb);
+}
+
+.question-bank-metric:last-child {
+  border-right: 0;
+}
+
+.question-bank-metric span,
+.question-bank-muted {
+  color: var(--console-text-secondary, #667085);
+}
+
+.question-bank-metric strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--console-text, #101828);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.question-bank-section {
+  border: 1px solid var(--console-border, #e5e7eb);
+  border-radius: 6px;
+  background: var(--console-surface, #fff);
+}
+
+.question-bank-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--console-border, #e5e7eb);
+}
+
+.question-bank-section__head strong {
+  color: var(--console-text, #101828);
+  font-size: 14px;
+}
+
+.question-bank-empty {
+  padding: 36px 16px;
+}
+
+.question-bank-recent-list {
+  display: grid;
+}
+
+.question-bank-recent-item {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) 110px 100px 170px 40px;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--console-border, #e5e7eb);
+  color: var(--console-text, #101828);
+}
+
+.question-bank-recent-item:last-child {
+  border-bottom: 0;
+}
+
+.question-bank-recent-item strong,
+.question-bank-stem-cell strong,
+.question-bank-stem-cell span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.question-bank-stem-cell {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.question-bank-stem-cell span {
+  margin-top: 4px;
+  color: var(--console-text-secondary, #667085);
+  font-size: 12px;
+}
+
+.question-bank-action-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.question-bank-modal-body {
+  max-height: min(68vh, 680px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.question-bank-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 12px;
+}
+
+.question-bank-option-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 36px;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.question-bank-option-row .ant-input:first-child {
+  text-align: center;
+}
+
+.question-category-tree {
+  max-height: calc(100vh - 230px);
+  overflow: auto;
+  padding: 8px 0;
+}
+
+.question-category-node {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .question-bank-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .question-bank-metric:nth-child(3) {
+    border-right: 0;
+  }
+
+  .question-bank-metric:nth-child(-n + 3) {
+    border-bottom: 1px solid var(--console-border, #e5e7eb);
+  }
+}
+
+@media (max-width: 720px) {
+  .question-bank-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .question-bank-metric:nth-child(3) {
+    border-right: 1px solid var(--console-border, #e5e7eb);
+  }
+
+  .question-bank-metric:nth-child(even) {
+    border-right: 0;
+  }
+
+  .question-bank-metric:nth-child(-n + 4) {
+    border-bottom: 1px solid var(--console-border, #e5e7eb);
+  }
+
+  .question-bank-recent-item {
+    grid-template-columns: minmax(0, 1fr) 84px 36px;
+  }
+
+  .question-bank-recent-item > :nth-child(3),
+  .question-bank-recent-item > :nth-child(4) {
+    display: none;
+  }
+
+  .question-bank-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .question-bank-filter,
+  .question-bank-category-filter {
+    flex: 1 1 140px;
+    width: auto;
+  }
+}

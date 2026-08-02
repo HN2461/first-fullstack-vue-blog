@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "questions": [
+    {
+      "code": "python-001-mutable-default",
+      "categoryKey": "backend.python",
+      "type": "single_choice",
+      "stem": "为什么 Python 函数参数通常不应使用 `items=[]` 作为默认值？",
+      "options": [{ "id": "A", "content": "列表不能作为参数" }, { "id": "B", "content": "默认对象在函数定义时创建并被多次调用共享，可能残留上次修改" }, { "id": "C", "content": "列表只能保存数字" }, { "id": "D", "content": "会导致语法错误" }],
+      "answerKeys": ["B"],
+      "explanation": "常用 `items=None`，在函数内部需要时再创建新列表，避免跨调用共享可变状态。",
+      "difficulty": "medium",
+      "tags": ["Python", "函数", "可变默认参数"]
+    },
+    {
+      "code": "python-002-gil",
+      "categoryKey": "backend.python",
+      "type": "multiple_choice",
+      "stem": "关于 CPython 的 GIL，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "同一进程通常同一时刻只有一个线程执行 Python 字节码" }, { "id": "B", "content": "I/O 密集任务仍可从多线程并发中受益" }, { "id": "C", "content": "CPU 密集任务可考虑多进程或释放 GIL 的扩展" }, { "id": "D", "content": "GIL 意味着 Python 完全不支持并发" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "GIL 是 CPython 实现细节，不等于没有并发；具体策略需区分 I/O 密集与 CPU 密集。",
+      "difficulty": "hard",
+      "tags": ["Python", "GIL", "并发"]
+    },
+    {
+      "code": "python-003-generator",
+      "categoryKey": "backend.python",
+      "type": "true_false",
+      "stem": "包含 `yield` 的生成器函数调用后返回生成器对象，并在迭代时按需执行。",
+      "answerKeys": ["true"],
+      "explanation": "生成器适合惰性处理大数据序列，避免一次性把全部结果放入内存。",
+      "difficulty": "easy",
+      "tags": ["Python", "生成器", "yield"]
+    },
+    {
+      "code": "python-004-decorator",
+      "categoryKey": "backend.python",
+      "type": "single_choice",
+      "stem": "Python 装饰器的核心作用是什么？",
+      "options": [{ "id": "A", "content": "在不直接修改目标函数主体的情况下包装或扩展其行为" }, { "id": "B", "content": "只能改变变量名称" }, { "id": "C", "content": "自动创建数据库" }, { "id": "D", "content": "替代异常处理" }],
+      "answerKeys": ["A"],
+      "explanation": "装饰器本质上接收可调用对象并返回新的可调用对象，常用于日志、鉴权、缓存和路由注册。",
+      "difficulty": "medium",
+      "tags": ["Python", "装饰器", "函数"]
+    },
+    {
+      "code": "python-005-context-manager",
+      "categoryKey": "backend.python",
+      "type": "multiple_choice",
+      "stem": "上下文管理器 `with` 适合管理哪些资源？",
+      "options": [{ "id": "A", "content": "文件句柄" }, { "id": "B", "content": "数据库连接或事务" }, { "id": "C", "content": "线程锁" }, { "id": "D", "content": "需要成对获取和释放的资源" }],
+      "answerKeys": ["A", "B", "C", "D"],
+      "explanation": "上下文管理器通过 `__enter__`/`__exit__` 或 contextmanager 保证异常路径也能执行清理。",
+      "difficulty": "medium",
+      "tags": ["Python", "上下文管理器", "资源管理"]
+    },
+    {
+      "code": "python-006-shallow-copy",
+      "categoryKey": "backend.python",
+      "type": "true_false",
+      "stem": "Python 浅拷贝会创建新的外层容器，但嵌套可变对象仍与原对象共享引用。",
+      "answerKeys": ["true"],
+      "explanation": "需要递归复制嵌套结构时可考虑 `copy.deepcopy`，但自定义对象和外部资源需谨慎处理。",
+      "difficulty": "easy",
+      "tags": ["Python", "浅拷贝", "深拷贝"]
+    },
+    {
+      "code": "fastapi-001-validation",
+      "categoryKey": "backend.fastapi",
+      "type": "single_choice",
+      "stem": "FastAPI 通常依赖什么完成请求数据声明、解析和校验？",
+      "options": [{ "id": "A", "content": "Pydantic 模型与 Python 类型注解" }, { "id": "B", "content": "CSS 选择器" }, { "id": "C", "content": "MongoDB 聚合" }, { "id": "D", "content": "浏览器 Cookie" }],
+      "answerKeys": ["A"],
+      "explanation": "类型声明还能驱动 OpenAPI Schema 和交互式接口文档生成。",
+      "difficulty": "easy",
+      "tags": ["FastAPI", "Pydantic", "参数校验"]
+    },
+    {
+      "code": "fastapi-002-dependency",
+      "categoryKey": "backend.fastapi",
+      "type": "multiple_choice",
+      "stem": "FastAPI 依赖注入 `Depends` 常用于哪些场景？",
+      "options": [{ "id": "A", "content": "身份认证与权限检查" }, { "id": "B", "content": "数据库会话管理" }, { "id": "C", "content": "复用查询参数或业务前置逻辑" }, { "id": "D", "content": "替代所有数据模型" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "依赖可以嵌套并复用，yield 依赖还能在响应后执行资源清理。",
+      "difficulty": "medium",
+      "tags": ["FastAPI", "Depends", "依赖注入"]
+    },
+    {
+      "code": "fastapi-003-async",
+      "categoryKey": "backend.fastapi",
+      "type": "true_false",
+      "stem": "在 FastAPI 的 `async def` 路由中直接执行长时间同步阻塞 I/O，仍可能阻塞事件循环。",
+      "answerKeys": ["true"],
+      "explanation": "应使用异步客户端，或将同步阻塞任务放到线程池/任务队列；CPU 密集任务通常需要进程或外部工作器。",
+      "difficulty": "medium",
+      "tags": ["FastAPI", "async", "性能"]
+    },
+    {
+      "code": "fastapi-004-openapi",
+      "categoryKey": "backend.fastapi",
+      "type": "single_choice",
+      "stem": "FastAPI 默认自动生成的接口文档主要基于哪个规范？",
+      "options": [{ "id": "A", "content": "OpenAPI" }, { "id": "B", "content": "WebRTC" }, { "id": "C", "content": "CSSOM" }, { "id": "D", "content": "BSON" }],
+      "answerKeys": ["A"],
+      "explanation": "FastAPI 根据路由、参数和 Pydantic Schema 生成 OpenAPI，并提供 Swagger UI/ReDoc 展示。",
+      "difficulty": "easy",
+      "tags": ["FastAPI", "OpenAPI", "接口文档"]
+    }
+  ]
+}

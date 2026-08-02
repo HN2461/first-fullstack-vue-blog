@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "questions": [
+    {
+      "code": "mongodb-001-document",
+      "categoryKey": "database.mongodb",
+      "type": "single_choice",
+      "stem": "MongoDB 最基本的数据存储单位是什么？",
+      "options": [{ "id": "A", "content": "行" }, { "id": "B", "content": "BSON 文档" }, { "id": "C", "content": "工作表" }, { "id": "D", "content": "XML 节点" }],
+      "answerKeys": ["B"],
+      "explanation": "文档组织在集合中，BSON 在 JSON 风格基础上支持 ObjectId、Date、Decimal128 等类型。",
+      "difficulty": "easy",
+      "tags": ["MongoDB", "文档模型", "BSON"]
+    },
+    {
+      "code": "mongodb-002-index-prefix",
+      "categoryKey": "database.mongodb",
+      "type": "true_false",
+      "stem": "复合索引 `{ a: 1, b: 1, c: 1 }` 通常可以支持仅按 `a`，或按 `a + b` 开始的查询条件。",
+      "answerKeys": ["true"],
+      "explanation": "这体现复合索引的最左前缀特性；是否真正采用索引还要结合排序、选择性和执行计划判断。",
+      "difficulty": "medium",
+      "tags": ["MongoDB", "索引", "复合索引"]
+    },
+    {
+      "code": "mongodb-003-embed-reference",
+      "categoryKey": "database.mongodb",
+      "type": "multiple_choice",
+      "stem": "MongoDB 建模时，哪些情况更适合嵌入文档？",
+      "options": [{ "id": "A", "content": "数据通常一起读取" }, { "id": "B", "content": "子数据规模有明确上限" }, { "id": "C", "content": "需要单文档原子更新" }, { "id": "D", "content": "子集合无限增长且被多个实体共享" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "高共享、独立生命周期或无限增长关系更适合引用，避免文档膨胀和 16MB 上限风险。",
+      "difficulty": "medium",
+      "tags": ["MongoDB", "数据建模", "嵌入"]
+    },
+    {
+      "code": "mongodb-004-aggregation",
+      "categoryKey": "database.mongodb",
+      "type": "single_choice",
+      "stem": "聚合管道中，通常应尽量把高选择性的 `$match` 放在什么位置？",
+      "options": [{ "id": "A", "content": "尽可能靠前，以减少后续阶段处理的数据量" }, { "id": "B", "content": "只能放在最后" }, { "id": "C", "content": "放在哪里完全相同" }, { "id": "D", "content": "必须放在 `$group` 后" }],
+      "answerKeys": ["A"],
+      "explanation": "尽早过滤可降低管道成本，并可能让匹配利用索引；仍需通过 explain 验证执行计划。",
+      "difficulty": "medium",
+      "tags": ["MongoDB", "聚合管道", "性能"]
+    },
+    {
+      "code": "mongodb-005-lean",
+      "categoryKey": "database.mongodb",
+      "type": "true_false",
+      "stem": "Mongoose 查询使用 `lean()` 后通常返回普通 JavaScript 对象，不包含完整 Mongoose Document 能力。",
+      "answerKeys": ["true"],
+      "explanation": "lean 可减少水合开销，适合只读列表；不能直接使用文档实例方法、save 和部分 getter/virtual 行为。",
+      "difficulty": "medium",
+      "tags": ["MongoDB", "Mongoose", "lean"]
+    },
+    {
+      "code": "mongodb-006-transaction",
+      "categoryKey": "database.mongodb",
+      "type": "multiple_choice",
+      "stem": "关于 MongoDB 事务，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "单文档写入本身具有原子性" }, { "id": "B", "content": "跨文档一致性场景可使用事务" }, { "id": "C", "content": "事务有额外成本，不应替代合理的数据模型" }, { "id": "D", "content": "任何部署模式都无需配置即可支持多文档事务" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "多文档事务需要副本集或分片集群等支持，应控制事务时间和涉及文档范围。",
+      "difficulty": "hard",
+      "tags": ["MongoDB", "事务", "原子性"]
+    },
+    {
+      "code": "mongodb-007-populate-lookup",
+      "categoryKey": "database.mongodb",
+      "type": "single_choice",
+      "stem": "Mongoose `populate` 与 MongoDB `$lookup` 的主要区别之一是什么？",
+      "options": [{ "id": "A", "content": "populate 通常由 Mongoose 组织额外查询或填充，$lookup 在数据库聚合管道中连接集合" }, { "id": "B", "content": "两者都只能操作数组" }, { "id": "C", "content": "$lookup 只能在浏览器执行" }, { "id": "D", "content": "populate 会自动创建外键约束" }],
+      "answerKeys": ["A"],
+      "explanation": "选择哪种方式取决于过滤、分页、聚合和数据量；两者都不等同于关系数据库强外键。",
+      "difficulty": "medium",
+      "tags": ["MongoDB", "Mongoose", "populate", "lookup"]
+    },
+    {
+      "code": "mongodb-008-explain",
+      "categoryKey": "database.mongodb",
+      "type": "multiple_choice",
+      "stem": "分析 MongoDB 慢查询时，`explain('executionStats')` 中常关注哪些指标？",
+      "options": [{ "id": "A", "content": "执行阶段是否出现 COLLSCAN" }, { "id": "B", "content": "totalDocsExamined 与返回数量" }, { "id": "C", "content": "totalKeysExamined" }, { "id": "D", "content": "执行时间与排序阶段" }],
+      "answerKeys": ["A", "B", "C", "D"],
+      "explanation": "扫描文档远多于返回数量通常提示索引或查询结构仍有优化空间。",
+      "difficulty": "hard",
+      "tags": ["MongoDB", "explain", "性能"]
+    },
+    {
+      "code": "mysql-001-index-btree",
+      "categoryKey": "database.mysql",
+      "type": "single_choice",
+      "stem": "MySQL InnoDB 常用 B+Tree 索引而不是普通二叉树的主要原因之一是什么？",
+      "options": [{ "id": "A", "content": "B+Tree 分支多、树高低，叶子有序且适合磁盘范围扫描" }, { "id": "B", "content": "B+Tree 不占磁盘" }, { "id": "C", "content": "B+Tree 只能保存字符串" }, { "id": "D", "content": "B+Tree 不需要比较键" }],
+      "answerKeys": ["A"],
+      "explanation": "较低树高减少磁盘 I/O，叶子链表便于范围查询和顺序遍历。",
+      "difficulty": "medium",
+      "tags": ["MySQL", "索引", "B+Tree"]
+    },
+    {
+      "code": "mysql-002-clustered-index",
+      "categoryKey": "database.mysql",
+      "type": "true_false",
+      "stem": "InnoDB 主键索引的叶子节点保存整行数据，普通二级索引叶子节点通常保存主键值。",
+      "answerKeys": ["true"],
+      "explanation": "通过二级索引查找非覆盖列时，常需要再根据主键回表；合理的覆盖索引可避免回表。",
+      "difficulty": "medium",
+      "tags": ["MySQL", "InnoDB", "聚簇索引", "回表"]
+    },
+    {
+      "code": "mysql-003-isolation",
+      "categoryKey": "database.mysql",
+      "type": "multiple_choice",
+      "stem": "SQL 标准事务隔离问题通常包括哪些？",
+      "options": [{ "id": "A", "content": "脏读" }, { "id": "B", "content": "不可重复读" }, { "id": "C", "content": "幻读" }, { "id": "D", "content": "CSS 重排" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "不同隔离级别在并发性与一致性之间权衡，InnoDB 还通过 MVCC 和锁机制实现具体语义。",
+      "difficulty": "medium",
+      "tags": ["MySQL", "事务", "隔离级别"]
+    },
+    {
+      "code": "mysql-004-mvcc",
+      "categoryKey": "database.mysql",
+      "type": "single_choice",
+      "stem": "MVCC 的主要目标是什么？",
+      "options": [{ "id": "A", "content": "通过多版本并发控制减少读写冲突，并提供一致性读" }, { "id": "B", "content": "压缩所有图片" }, { "id": "C", "content": "替代备份" }, { "id": "D", "content": "删除事务日志" }],
+      "answerKeys": ["A"],
+      "explanation": "InnoDB 借助隐藏事务字段、undo log 与 Read View 实现多版本可见性判断。",
+      "difficulty": "hard",
+      "tags": ["MySQL", "MVCC", "事务"]
+    },
+    {
+      "code": "mysql-005-left-prefix",
+      "categoryKey": "database.mysql",
+      "type": "true_false",
+      "stem": "联合索引 `(a, b, c)` 的有效利用通常受最左前缀和范围条件位置影响。",
+      "answerKeys": ["true"],
+      "explanation": "优化器能力会随版本变化，不能只背规则，应结合 EXPLAIN、索引下推和实际查询验证。",
+      "difficulty": "medium",
+      "tags": ["MySQL", "联合索引", "最左前缀"]
+    },
+    {
+      "code": "mysql-006-deadlock",
+      "categoryKey": "database.mysql",
+      "type": "multiple_choice",
+      "stem": "降低数据库死锁概率的常见做法有哪些？",
+      "options": [{ "id": "A", "content": "多个事务按一致顺序访问资源" }, { "id": "B", "content": "缩短事务时间和锁持有范围" }, { "id": "C", "content": "为查询建立合适索引，减少扫描和加锁范围" }, { "id": "D", "content": "业务对死锁完全不做重试" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "死锁无法在高并发系统中绝对消除，应用通常还需要识别死锁错误并做有限次数重试。",
+      "difficulty": "hard",
+      "tags": ["MySQL", "死锁", "事务"]
+    },
+    {
+      "code": "redis-001-data-types",
+      "categoryKey": "database.redis",
+      "type": "multiple_choice",
+      "stem": "Redis 常用数据结构包括哪些？",
+      "options": [{ "id": "A", "content": "String" }, { "id": "B", "content": "Hash" }, { "id": "C", "content": "List、Set、Sorted Set" }, { "id": "D", "content": "Stream" }],
+      "answerKeys": ["A", "B", "C", "D"],
+      "explanation": "还包括 Bitmap、HyperLogLog、Geo 等能力，应按访问模式选择结构。",
+      "difficulty": "easy",
+      "tags": ["Redis", "数据结构"]
+    },
+    {
+      "code": "redis-002-expiration",
+      "categoryKey": "database.redis",
+      "type": "single_choice",
+      "stem": "Redis 过期键删除通常采用什么组合策略？",
+      "options": [{ "id": "A", "content": "只在启动时删除" }, { "id": "B", "content": "惰性删除与周期性主动过期检查结合" }, { "id": "C", "content": "永不删除" }, { "id": "D", "content": "只依赖客户端删除" }],
+      "answerKeys": ["B"],
+      "explanation": "访问过期键时会惰性删除，同时后台周期性抽样清理，平衡 CPU 与内存成本。",
+      "difficulty": "medium",
+      "tags": ["Redis", "过期策略"]
+    },
+    {
+      "code": "redis-003-cache-penetration",
+      "categoryKey": "database.redis",
+      "type": "single_choice",
+      "stem": "大量查询数据库中根本不存在的数据，导致每次都绕过缓存访问数据库，称为什么？",
+      "options": [{ "id": "A", "content": "缓存穿透" }, { "id": "B", "content": "缓存雪崩" }, { "id": "C", "content": "缓存预热" }, { "id": "D", "content": "主从复制" }],
+      "answerKeys": ["A"],
+      "explanation": "可使用参数校验、缓存空值、布隆过滤器等方式降低不存在键对数据库的压力。",
+      "difficulty": "easy",
+      "tags": ["Redis", "缓存穿透", "缓存"]
+    },
+    {
+      "code": "redis-004-cache-breakdown",
+      "categoryKey": "database.redis",
+      "type": "true_false",
+      "stem": "热点 Key 过期瞬间大量请求同时回源数据库，通常称为缓存击穿。",
+      "answerKeys": ["true"],
+      "explanation": "可采用互斥重建、逻辑过期、热点不过期加主动更新等策略，避免并发回源。",
+      "difficulty": "easy",
+      "tags": ["Redis", "缓存击穿", "热点Key"]
+    },
+    {
+      "code": "redis-005-persistence",
+      "categoryKey": "database.redis",
+      "type": "multiple_choice",
+      "stem": "关于 Redis RDB 与 AOF 持久化，下列说法正确的是？",
+      "options": [{ "id": "A", "content": "RDB 保存某个时间点的数据快照" }, { "id": "B", "content": "AOF 记录写命令并可重放" }, { "id": "C", "content": "两者可以按需求组合使用" }, { "id": "D", "content": "开启持久化后绝对不会丢失任何数据" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "数据安全取决于 fsync 策略、复制、备份和故障模式，任何方案都需要明确 RPO/RTO。",
+      "difficulty": "medium",
+      "tags": ["Redis", "RDB", "AOF", "持久化"]
+    },
+    {
+      "code": "redis-006-distributed-lock",
+      "categoryKey": "database.redis",
+      "type": "multiple_choice",
+      "stem": "使用 Redis 实现基础分布式锁时，应重点考虑哪些问题？",
+      "options": [{ "id": "A", "content": "使用原子 `SET key value NX PX` 获取锁" }, { "id": "B", "content": "锁值使用唯一令牌，释放时先校验所有权" }, { "id": "C", "content": "用 Lua 脚本保证校验与删除原子性" }, { "id": "D", "content": "锁永不过期" }],
+      "answerKeys": ["A", "B", "C"],
+      "explanation": "还需处理业务超时、续期、主从切换一致性和 fencing token 等更复杂问题。",
+      "difficulty": "hard",
+      "tags": ["Redis", "分布式锁", "Lua"]
+    }
+  ]
+}

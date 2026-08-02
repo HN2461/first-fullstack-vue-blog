@@ -55,7 +55,9 @@
     "resume:boss:dry-run": "node src/scripts/replaceBossResume.js",
     "resume:boss:apply": "node src/scripts/replaceBossResume.js --apply",
     "bookmark:reset": "node src/scripts/resetBookmarkData.js",
-    "bookmark:reset:apply": "node src/scripts/resetBookmarkData.js --apply"
+    "bookmark:reset:apply": "node src/scripts/resetBookmarkData.js --apply",
+    "question-bank:seed": "node src/scripts/seedQuestionBank.js",
+    "question-bank:seed:apply": "node src/scripts/seedQuestionBank.js --apply"
   },
   "dependencies": {
     "archiver": "^7.0.1",

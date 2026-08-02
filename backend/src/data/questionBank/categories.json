@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    { "key": "frontend", "name": "前端", "sortOrder": 10 },
+    { "key": "frontend.html", "name": "HTML", "parentKey": "frontend", "sortOrder": 10 },
+    { "key": "frontend.css", "name": "CSS", "parentKey": "frontend", "sortOrder": 20 },
+    { "key": "frontend.javascript", "name": "JavaScript", "parentKey": "frontend", "sortOrder": 30 },
+    { "key": "frontend.typescript", "name": "TypeScript", "parentKey": "frontend", "sortOrder": 40 },
+    { "key": "frontend.vue", "name": "Vue", "parentKey": "frontend", "sortOrder": 50 },
+    { "key": "frontend.browser", "name": "浏览器与网络", "parentKey": "frontend", "sortOrder": 60 },
+    { "key": "backend", "name": "后端", "sortOrder": 20 },
+    { "key": "backend.node", "name": "Node.js", "parentKey": "backend", "sortOrder": 10 },
+    { "key": "backend.express", "name": "Express", "parentKey": "backend", "sortOrder": 20 },
+    { "key": "backend.python", "name": "Python", "parentKey": "backend", "sortOrder": 30 },
+    { "key": "backend.fastapi", "name": "FastAPI", "parentKey": "backend", "sortOrder": 40 },
+    { "key": "database", "name": "数据库与缓存", "sortOrder": 30 },
+    { "key": "database.mongodb", "name": "MongoDB", "parentKey": "database", "sortOrder": 10 },
+    { "key": "database.mysql", "name": "MySQL", "parentKey": "database", "sortOrder": 20 },
+    { "key": "database.redis", "name": "Redis", "parentKey": "database", "sortOrder": 30 }
+  ]
+}
