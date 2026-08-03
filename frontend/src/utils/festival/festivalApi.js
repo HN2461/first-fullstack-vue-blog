@@ -5,7 +5,7 @@ function normalize(item) {
     ? '法定假期'
     : item.isWorkday
       ? '调休补班'
-      : ({ traditional: '传统节日', 'solar-term': '二十四节气', national: '国家纪念日', industry: '行业纪念日', international: '国际纪念日', social: '社会节日' }[item.type] || '纪念日')
+      : ({ traditional: '传统节日', 'solar-term': '二十四节气', national: '国家纪念日', industry: '行业纪念日', international: '国际纪念日', social: '社会节日', personal: '个人日期' }[item.type] || '纪念日')
   return {
     ...item,
     key: `${item.date}-${item.name}`,
@@ -22,6 +22,10 @@ function normalize(item) {
 
 export async function loadFestivalCalendar(date) {
   const calendar = await getPublicFestivalCalendar(date)
+  return normalizeCalendar(calendar)
+}
+
+export function normalizeCalendar(calendar = {}) {
   return {
     ...calendar,
     today: (calendar.today || []).map(normalize),

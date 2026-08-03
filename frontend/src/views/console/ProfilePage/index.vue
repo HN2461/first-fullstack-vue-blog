@@ -181,6 +181,7 @@
               v-model:birthday-calendar="profileForm.birthdayCalendar"
               v-model:close-birth-effect="profileForm.closeBirthEffect"
             />
+            <PersonalDateSettings v-model="profileForm.personalDates" />
             <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
             <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
             <a-form-item>
@@ -446,6 +447,7 @@ import AvatarCropper from '@/components/AvatarCropper.vue'
 import EntranceEffectSettings from './components/EntranceEffectSettings.vue'
 import SiteEntrancePreference from './components/SiteEntrancePreference.vue'
 import BirthdayPreference from './components/BirthdayPreference.vue'
+import PersonalDateSettings from './components/PersonalDateSettings.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 
@@ -492,6 +494,7 @@ const profileForm = reactive({
   birthday: '',
   birthdayCalendar: 'solar',
   closeBirthEffect: false,
+  personalDates: [],
   closeSiteEntranceEffect: false,
   entranceEffect: { ...DEFAULT_ENTRANCE_EFFECT }
 })
@@ -598,6 +601,7 @@ function syncProfileForm(user = {}) {
   profileForm.birthday = user.birthday || ''
   profileForm.birthdayCalendar = user.birthdayCalendar || 'solar'
   profileForm.closeBirthEffect = Boolean(user.closeBirthEffect)
+  profileForm.personalDates = Array.isArray(user.personalDates) ? user.personalDates.map((item) => ({ ...item })) : []
   profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
   profileForm.entranceEffect = normalizeEntranceEffectConfig(user.entranceEffect)
 }
@@ -684,6 +688,7 @@ async function handleSaveProfile() {
       birthday: profileForm.birthday,
       birthdayCalendar: profileForm.birthdayCalendar,
       closeBirthEffect: profileForm.closeBirthEffect,
+      personalDates: profileForm.personalDates,
       closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
       entranceEffect: normalizeEntranceEffectConfig(profileForm.entranceEffect)
     })

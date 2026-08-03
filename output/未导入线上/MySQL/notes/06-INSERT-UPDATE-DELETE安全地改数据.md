@@ -2,8 +2,15 @@
 title: "MySQL 06：添加、修改、删除数据"
 slug: mysql-06-insert-update-delete
 summary: "围绕 learning_notes 表学习 INSERT、LAST_INSERT_ID、UPDATE、ROW_COUNT、DELETE 和软删除；每次写操作都先定位数据、再执行、再验证，建立安全操作习惯。"
-category:
-tags: []
+category: "MySQL"
+categoryPath:
+  - "后端技术"
+  - "数据库"
+  - "MySQL"
+tags:
+  - "MySQL"
+  - "数据操作"
+  - "SQL入门"
 status: draft
 sortOrder: 60
 cover:

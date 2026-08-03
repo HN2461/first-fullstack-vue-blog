@@ -4,7 +4,7 @@ import { CustomFestival } from '#modules/festival/models/CustomFestival.js'
 import { FIXED_FESTIVALS } from '#modules/festival/constants/festivalCatalog.js'
 import { getBusinessDate } from '#utils/businessDate.js'
 
-const { getLunarFestivals, getSolarTerms } = chineseDays
+const { getLunarDate, getLunarFestivals, getSolarDateFromLunar, getSolarTerms } = chineseDays
 const STALE_MS = 7 * 24 * 60 * 60 * 1000
 const pad = (value) => String(value).padStart(2, '0')
 const key = (year, month, day) => `${year}-${pad(month)}-${pad(day)}`
@@ -70,10 +70,28 @@ async function annualItems(year) {
   return [...map.values()]
 }
 
-export async function getFestivalCalendar(dateKey = getBusinessDate()) {
+function buildPersonalFestivals(year, personalDates = []) {
+  return personalDates.filter((item) => item.enabled !== false).flatMap((personal) => {
+    if (!personal.repeatYearly && !personal.date.startsWith(`${year}-`)) return []
+    let date = personal.date
+    if (personal.repeatYearly) {
+      const [, month, day] = personal.date.split('-')
+      date = `${year}-${month}-${day}`
+    }
+    if (personal.repeatYearly && personal.calendar === 'lunar') {
+      try {
+        const lunar = getLunarDate(personal.date)
+        date = getSolarDateFromLunar(`${year}-${pad(lunar.lunarMon)}-${pad(lunar.lunarDay)}`)?.date || ''
+      } catch { date = '' }
+    }
+    return date ? [item({ id: personal.id || '', name: personal.name, date, type: 'personal', source: '个人日期', personalType: personal.type, isPersonal: true })] : []
+  })
+}
+
+export async function getFestivalCalendar(dateKey = getBusinessDate(), options = {}) {
   const year = Number(dateKey.slice(0, 4))
   await ensureHolidayYears([year, year + 1])
-  const items = [...await annualItems(year), ...await annualItems(year + 1)].map((festival) => ({ ...festival, daysUntil: Math.round((new Date(`${festival.date}T00:00:00`) - new Date(`${dateKey}T00:00:00`)) / 86400000) }))
+  const items = [...await annualItems(year), ...await annualItems(year + 1), ...buildPersonalFestivals(year, options.personalDates), ...buildPersonalFestivals(year + 1, options.personalDates)].map((festival) => ({ ...festival, daysUntil: Math.round((new Date(`${festival.date}T00:00:00`) - new Date(`${dateKey}T00:00:00`)) / 86400000) }))
   const upcoming = items.filter((festival) => festival.daysUntil >= 0).sort((a, b) => (b.isHoliday - a.isHoliday) || (b.isMajor - a.isMajor) || a.daysUntil - b.daysUntil)
   const history = items.filter((festival) => festival.daysUntil < 0).sort((a, b) => b.daysUntil - a.daysUntil)
   const today = items.filter((festival) => festival.daysUntil === 0)

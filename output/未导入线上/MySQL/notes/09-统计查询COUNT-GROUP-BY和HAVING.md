@@ -2,8 +2,15 @@
 title: "MySQL 09：统计查询，数一数、分组算一算"
 slug: mysql-09-group-by-statistics
 summary: "从“逐条看笔记”和“问一共有多少条”有什么不同讲起，逐步掌握 COUNT、DISTINCT、GROUP BY、HAVING、SUM、AVG、MAX、MIN，以及 LEFT JOIN 下正确统计零条记录的方式。"
-category:
-tags: []
+category: "MySQL"
+categoryPath:
+  - "后端技术"
+  - "数据库"
+  - "MySQL"
+tags:
+  - "MySQL"
+  - "聚合查询"
+  - "数据查询"
 status: draft
 sortOrder: 90
 cover:

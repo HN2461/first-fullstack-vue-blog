@@ -2,8 +2,15 @@
 title: "MySQL 01：数据库到底解决什么问题"
 slug: mysql-01-what-is-mysql
 summary: "从一条学习笔记应该保存在哪里开始，慢慢分清数据、数据库、MySQL、SQL、服务端、客户端，以及前端到数据库的一次完整请求。"
-category:
-tags: []
+category: "MySQL"
+categoryPath:
+  - "后端技术"
+  - "数据库"
+  - "MySQL"
+tags:
+  - "MySQL"
+  - "数据库"
+  - "SQL入门"
 status: draft
 sortOrder: 10
 cover:

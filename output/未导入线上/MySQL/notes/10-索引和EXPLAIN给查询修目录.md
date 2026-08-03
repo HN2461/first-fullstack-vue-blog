@@ -2,8 +2,15 @@
 title: "MySQL 10：索引和 EXPLAIN，为什么查询会快或慢"
 slug: mysql-10-index-explain
 summary: "先用书籍目录建立索引直觉，再从真实查询出发学习主键、普通索引、联合索引、最左前缀、SHOW INDEX、EXPLAIN 和常见失效写法；不把优化变成背口诀。"
-category:
-tags: []
+category: "MySQL"
+categoryPath:
+  - "后端技术"
+  - "数据库"
+  - "MySQL"
+tags:
+  - "MySQL"
+  - "索引"
+  - "数据库性能"
 status: draft
 sortOrder: 100
 cover:

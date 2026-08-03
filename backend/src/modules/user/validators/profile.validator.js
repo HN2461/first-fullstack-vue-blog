@@ -9,6 +9,18 @@ const optionalBirthday = z.union([
     .regex(/^\d{4}-\d{2}-\d{2}$/, '生日格式应为 YYYY-MM-DD')
     .refine((value) => isValidPastOrTodayDate(value), '生日必须是真实日期且不能晚于今天')
 ]).optional()
+const personalDateSchema = z.object({
+  id: z.string().optional(),
+  name: z.string().trim().min(1, '个人日期名称不能为空').max(40, '个人日期名称不能超过 40 个字符'),
+  type: z.enum(['family-birthday', 'wedding-anniversary', 'trip', 'custom']),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '个人日期格式应为 YYYY-MM-DD').refine((value) => {
+    const [year, month, day] = value.split('-').map(Number)
+    return new Date(Date.UTC(year, month - 1, day)).toISOString().slice(0, 10) === value
+  }, '个人日期必须是真实日期'),
+  calendar: z.enum(['solar', 'lunar']).optional(),
+  repeatYearly: z.boolean().optional(),
+  enabled: z.boolean().optional()
+}).strict('个人日期存在不支持的字段')
 const entranceEffectSchema = z.object({
   enabled: z.boolean({ invalid_type_error: '页面动效总开关必须是布尔值' }).optional(),
   effectKey: z.enum(ENTRANCE_EFFECT_KEYS, {
@@ -32,6 +44,7 @@ export const profileUpdateSchema = z.object({
   birthdayCalendar: z.enum(['solar', 'lunar', 'both'], {
     errorMap: () => ({ message: '生日历法不支持' })
   }).optional(),
+  personalDates: z.array(personalDateSchema).max(30, '个人日期最多设置 30 条').optional(),
   closeBirthEffect: z.boolean({ invalid_type_error: '生日特效开关必须是布尔值' }).optional(),
   closeSiteEntranceEffect: z.boolean({ invalid_type_error: '网站入场欢迎屏蔽开关必须是布尔值' }).optional(),
   entranceEffect: entranceEffectSchema.optional()

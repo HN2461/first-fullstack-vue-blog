@@ -135,7 +135,7 @@ router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
   const today = getBusinessDate(now)
   const safeUser = req.user.toSafeJSON()
   const isBirthdayToday = isBirthdayOnDate(safeUser.birthday, safeUser.birthdayCalendar, today)
-  const calendar = await getFestivalCalendar(today)
+  const calendar = await getFestivalCalendar(today, { personalDates: safeUser.personalDates })
 
   res.json(ok({
     serverTime: now.toISOString(),
@@ -146,7 +146,8 @@ router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
     lastBirthEffectDate: safeUser.lastBirthEffectDate,
     isBirthdayToday,
     shouldShowBirthEffect: isBirthdayToday && !safeUser.closeBirthEffect && safeUser.lastBirthEffectDate !== today,
-    festival: calendar.today.find((item) => item.isHoliday || item.isMajor) || null
+    festival: calendar.today.find((item) => item.isHoliday || item.isMajor) || null,
+    calendar
   }))
 }))
 

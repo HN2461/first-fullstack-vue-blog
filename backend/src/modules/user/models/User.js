@@ -72,6 +72,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: ''
     },
+    personalDates: [{
+      name: { type: String, required: true, trim: true, maxlength: 40 },
+      type: { type: String, enum: ['family-birthday', 'wedding-anniversary', 'trip', 'custom'], default: 'custom' },
+      date: { type: String, required: true, match: /^\d{4}-\d{2}-\d{2}$/ },
+      calendar: { type: String, enum: ['solar', 'lunar'], default: 'solar' },
+      repeatYearly: { type: Boolean, default: true },
+      enabled: { type: Boolean, default: true }
+    }],
     entranceEffect: {
       enabled: {
         type: Boolean,
@@ -194,6 +202,10 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     closeBirthEffect: !!this.closeBirthEffect,
     closeSiteEntranceEffect: !!this.closeSiteEntranceEffect,
     lastBirthEffectDate: this.lastBirthEffectDate || '',
+    personalDates: Array.isArray(this.personalDates) ? this.personalDates.map((item) => ({
+      id: item._id?.toString?.() || '', name: item.name, type: item.type, date: item.date,
+      calendar: item.calendar || 'solar', repeatYearly: item.repeatYearly !== false, enabled: item.enabled !== false
+    })) : [],
     entranceEffect: {
       enabled: !!this.entranceEffect?.enabled,
       effectKey: this.entranceEffect?.effectKey || 'fade-soft',

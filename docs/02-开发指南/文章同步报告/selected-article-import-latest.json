@@ -1,828 +1,264 @@
 {
-  "generatedAt": "2026-07-30T15:09:28.318Z",
+  "generatedAt": "2026-08-03T09:56:15.390Z",
   "mode": "dry-run",
-  "outputRoot": "C:\\Users\\HN246\\Desktop\\个人全栈博客系统\\output",
+  "outputRoot": "C:\\Users\\Administrator\\Desktop\\first-fullstack-vue-blog\\output",
   "summary": {
-    "sourceFiles": 40,
-    "navigationSkipped": 4,
-    "sourceArticles": 36,
-    "unchanged": 36,
+    "sourceFiles": 13,
+    "navigationSkipped": 0,
+    "sourceArticles": 13,
+    "unchanged": 13,
     "update": 0,
     "createDraft": 0,
     "missingCategories": 0,
     "missingTags": 0
   },
-  "skippedNavigation": [
-    "AI应用开发平台/MaxKB/01-实战开发指南/README.md",
-    "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/README.md",
-    "AI应用开发平台/MaxKB/02-公共规则/README.md",
-    "AI应用开发平台/MaxKB/README.md"
-  ],
+  "skippedNavigation": [],
   "items": [
     {
-      "sourcePath": "电脑/系统与文件/Windows-电脑卡死救急与常用快捷键.md",
-      "title": "Windows 电脑卡死救急与常用快捷键：小白优先记这 4 类",
-      "slug": "windows-freeze-rescue-shortcuts",
+      "sourcePath": "MySQL/README.md",
+      "title": "MySQL 小白课程：像上课一样从 0 到 1 学会数据库",
+      "slug": "mysql-zero-to-one-beginner",
       "categoryPath": [
-        "电脑",
-        "系统与文件"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "Windows",
-        "快捷键",
-        "任务管理器",
-        "电脑卡死",
-        "系统排障"
+        "MySQL",
+        "数据库",
+        "SQL教程"
       ],
       "sortOrder": 0,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e26",
+      "existingId": "6a7065a4ba76f4bbcfcd5de6",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "电脑/系统与文件/Windows-电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清.md",
-      "title": "Windows 电脑基础概念入门：任务管理器、资源管理器、设置、终端一次讲清",
-      "slug": "windows-basic-concepts-for-beginners",
+      "sourcePath": "MySQL/notes/01-MySQL到底放在后端哪里.md",
+      "title": "MySQL 01：数据库到底解决什么问题",
+      "slug": "mysql-01-what-is-mysql",
       "categoryPath": [
-        "电脑",
-        "系统与文件"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "Windows",
-        "电脑基础",
-        "任务管理器",
-        "资源管理器",
-        "系统工具"
-      ],
-      "sortOrder": 0,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e28",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/01-从接手环境到发布的标准流程.md",
-      "title": "从接手环境到发布的标准流程",
-      "slug": "maxkb-e122b2b7",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "实战开发指南"
+        "MySQL",
+        "数据库",
+        "SQL入门"
       ],
       "sortOrder": 10,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e2a",
+      "existingId": "6a7065a4ba76f4bbcfcd5de8",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/02-智能体编排与状态设计规范.md",
-      "title": "智能体编排与状态设计规范",
-      "slug": "maxkb-4bcf1a3f",
+      "sourcePath": "MySQL/notes/02-表行列主键和关系.md",
+      "title": "MySQL 02：一张表到底长什么样",
+      "slug": "mysql-02-table-row-column-key",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "实战开发指南",
-        "智能体"
+        "MySQL",
+        "关系型数据库",
+        "数据库设计"
       ],
       "sortOrder": 20,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e2c",
+      "existingId": "6a7065a5ba76f4bbcfcd5dea",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/03-知识库与RAG实战规范.md",
-      "title": "知识库与 RAG 实战规范",
-      "slug": "maxkb-rag-813a4abe",
+      "sourcePath": "MySQL/notes/03-安装连接和第一个数据库.md",
+      "title": "MySQL 03：安装、连接和第一次输入 SQL",
+      "slug": "mysql-03-install-connect-database",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "实战开发指南"
+        "MySQL",
+        "数据库安装",
+        "SQL入门"
       ],
       "sortOrder": 30,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e2e",
+      "existingId": "6a7065a5ba76f4bbcfcd5dec",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/04-工具API接入与安全规范.md",
-      "title": "工具、API 接入与安全规范",
-      "slug": "maxkb-api-01efc881",
+      "sourcePath": "MySQL/notes/04-数据类型每个字段应该装什么.md",
+      "title": "MySQL 04：字段类型，每一列应该装什么",
+      "slug": "mysql-04-data-types",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "实战开发指南",
-        "API与工具"
+        "MySQL",
+        "数据类型",
+        "数据库设计"
       ],
       "sortOrder": 40,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e30",
+      "existingId": "6a7065a5ba76f4bbcfcd5dee",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/05-调试测试发布与回滚清单.md",
-      "title": "调试、测试、发布与回滚清单",
-      "slug": "maxkb-db4fbad4",
+      "sourcePath": "MySQL/notes/05-建表把业务需求变成表结构.md",
+      "title": "MySQL 05：创建第一张表，学习笔记表",
+      "slug": "mysql-05-create-table-from-business",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "实战开发指南"
+        "MySQL",
+        "建表",
+        "SQL入门"
       ],
       "sortOrder": 50,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e32",
+      "existingId": "6a7065a5ba76f4bbcfcd5df0",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/06-官方资料索引与现有文档审计.md",
-      "title": "官方资料索引与现有文档审计",
-      "slug": "maxkb-d439f0e3",
+      "sourcePath": "MySQL/notes/06-INSERT-UPDATE-DELETE安全地改数据.md",
+      "title": "MySQL 06：添加、修改、删除数据",
+      "slug": "mysql-06-insert-update-delete",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "实战开发指南"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "实战开发指南"
+        "MySQL",
+        "数据操作",
+        "SQL入门"
       ],
       "sortOrder": 60,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e34",
+      "existingId": "6a7065a5ba76f4bbcfcd5df2",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/00-规范包使用说明.md",
-      "title": "00-MaxKB 公共规则规范包使用说明",
-      "slug": "maxkb-00-maxkb-6d42583b",
+      "sourcePath": "MySQL/notes/07-SELECT从一张表里找数据.md",
+      "title": "MySQL 07：查询数据，从简单条件开始",
+      "slug": "mysql-07-select-one-table",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "公共规则"
-      ],
-      "sortOrder": 0,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e36",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/01-基础配置与变量/01-变量引用写法规范.md",
-      "title": "01-变量引用写法规范",
-      "slug": "maxkb-01-4ac20739",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "基础配置与变量"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "基础配置与变量"
-      ],
-      "sortOrder": 10,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e38",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/01-基础配置与变量/02-跨环境参数配置清单.md",
-      "title": "02-跨环境参数配置清单",
-      "slug": "maxkb-02-bbb61e60",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "基础配置与变量"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "基础配置与变量"
-      ],
-      "sortOrder": 20,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e3a",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/00-AI创建节点必读.md",
-      "title": "00-AI创建节点必读",
-      "slug": "maxkb-00-ai-c676db58",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 0,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e3c",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/00-空白高级智能体创建说明.md",
-      "title": "00-空白高级智能体创建说明",
-      "slug": "maxkb-00-17697ac6",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 0,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e3e",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/01-添加组件面板总览.md",
-      "title": "01-添加组件面板总览",
-      "slug": "maxkb-01-f396d281",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册"
-      ],
-      "sortOrder": 10,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e40",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/02-基本信息与开始节点.md",
-      "title": "02-基本信息与开始节点",
-      "slug": "maxkb-02-245bdaaf",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 20,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e42",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/03-AI对话节点.md",
-      "title": "03-AI对话节点",
-      "slug": "maxkb-03-ai-94d77b3d",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 30,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e44",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/04-意图识别节点.md",
-      "title": "04-意图识别节点",
-      "slug": "maxkb-04-9dac9da1",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 40,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e46",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/05-AI能力低优先级节点速查.md",
-      "title": "05-AI能力低优先级节点速查",
-      "slug": "maxkb-05-ai-7faf066a",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 50,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e48",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/06-问题优化节点.md",
-      "title": "06-问题优化节点",
-      "slug": "maxkb-06-daf63cdf",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 60,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e4a",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/07-判断器节点.md",
-      "title": "07-判断器节点",
-      "slug": "maxkb-07-fd8035d1",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
+        "MySQL",
+        "数据查询",
+        "SQL入门"
       ],
       "sortOrder": 70,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e4c",
+      "existingId": "6a7065a5ba76f4bbcfcd5df4",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/08-知识库相关节点速查.md",
-      "title": "08-知识库相关节点速查",
-      "slug": "maxkb-08-d6705804",
+      "sourcePath": "MySQL/notes/08-多表关系和JOIN把几本账册合起来看.md",
+      "title": "MySQL 08：两张表的关系和 JOIN",
+      "slug": "mysql-08-join-relations",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
+        "MySQL",
+        "JOIN",
+        "数据库设计"
       ],
       "sortOrder": 80,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e4e",
+      "existingId": "6a7065a5ba76f4bbcfcd5df6",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/09-表单收集节点.md",
-      "title": "09-表单收集节点",
-      "slug": "maxkb-09-95eb5588",
+      "sourcePath": "MySQL/notes/09-统计查询COUNT-GROUP-BY和HAVING.md",
+      "title": "MySQL 09：统计查询，数一数、分组算一算",
+      "slug": "mysql-09-group-by-statistics",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
+        "MySQL",
+        "聚合查询",
+        "数据查询"
       ],
       "sortOrder": 90,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e50",
+      "existingId": "6a7065a5ba76f4bbcfcd5df8",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/10-指定回复节点.md",
-      "title": "10-指定回复节点",
-      "slug": "maxkb-10-bc727f7b",
+      "sourcePath": "MySQL/notes/10-索引和EXPLAIN给查询修目录.md",
+      "title": "MySQL 10：索引和 EXPLAIN，为什么查询会快或慢",
+      "slug": "mysql-10-index-explain",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
+        "MySQL",
+        "索引",
+        "数据库性能"
       ],
       "sortOrder": 100,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e52",
+      "existingId": "6a7065a5ba76f4bbcfcd5dfa",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/11-循环节点.md",
-      "title": "11-循环节点",
-      "slug": "maxkb-11-dadf9c79",
+      "sourcePath": "MySQL/notes/11-事务和锁多步操作要么都成功要么都失败.md",
+      "title": "MySQL 11：事务和锁，多步操作不能做一半",
+      "slug": "mysql-11-transaction-lock",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
+        "MySQL",
+        "事务",
+        "并发控制"
       ],
       "sortOrder": 110,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e54",
+      "existingId": "6a7065a5ba76f4bbcfcd5dfc",
       "existingStatus": "draft"
     },
     {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/12-变量赋值节点.md",
-      "title": "12-变量赋值节点",
-      "slug": "maxkb-12-dd68373f",
+      "sourcePath": "MySQL/notes/12-小白毕业项目博客系统MySQL设计.md",
+      "title": "MySQL 12：毕业项目，博客系统 MySQL 设计",
+      "slug": "mysql-12-blog-project",
       "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
+        "后端技术",
+        "数据库",
+        "MySQL"
       ],
       "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
+        "MySQL",
+        "博客系统",
+        "数据库设计"
       ],
       "sortOrder": 120,
       "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e56",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/13-变量拆分节点.md",
-      "title": "13-变量拆分节点",
-      "slug": "maxkb-13-adde6b4f",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 130,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e58",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/14-参数提取节点.md",
-      "title": "14-参数提取节点",
-      "slug": "maxkb-14-9115df18",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 140,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e5a",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/15-变量聚合节点.md",
-      "title": "15-变量聚合节点",
-      "slug": "maxkb-15-a52cbc78",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体"
-      ],
-      "sortOrder": 150,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e5c",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/16-MCP调用与自定义工具节点.md",
-      "title": "16-MCP调用与自定义工具节点",
-      "slug": "maxkb-16-mcp-cbdce98b",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体",
-        "API与工具"
-      ],
-      "sortOrder": 160,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e5e",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/17-工具页签与智能体节点.md",
-      "title": "17-工具页签与智能体节点",
-      "slug": "maxkb-17-a788c9f1",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "节点创建手册"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "节点创建手册",
-        "智能体",
-        "API与工具"
-      ],
-      "sortOrder": 170,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e60",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/01-功能智能体阶段演进规则.md",
-      "title": "MaxKB 功能智能体阶段演进规则",
-      "slug": "maxkb-maxkb-d42ce38f",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "工程治理"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "工程治理",
-        "智能体"
-      ],
-      "sortOrder": 10,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e62",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/02-长链路文档拆分规则.md",
-      "title": "MaxKB 长链路文档拆分规则",
-      "slug": "maxkb-maxkb-061d662d",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "工程治理"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "工程治理"
-      ],
-      "sortOrder": 20,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e64",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/03-工程治理/03-MaxKB导出包解析与半自动改包规则.md",
-      "title": "MaxKB 导出包解析与半自动改包规则",
-      "slug": "maxkb-maxkb-d984d85a",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "工程治理"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "工程治理"
-      ],
-      "sortOrder": 30,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e66",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/04-接入与展示/01-MaxKB渲染标签与快捷问题规则.md",
-      "title": "01-MaxKB渲染标签与快捷问题规则",
-      "slug": "maxkb-01-maxkb-affa7c4c",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "接入与展示"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "接入与展示"
-      ],
-      "sortOrder": 10,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e68",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/04-接入与展示/02-MaxKB前端接入与原生API调用规则.md",
-      "title": "MaxKB 前端接入与原生 API 调用规则",
-      "slug": "maxkb-maxkb-api-abc235d7",
-      "categoryPath": [
-        "AI相关",
-        "AI开发",
-        "AI应用开发平台",
-        "MaxKB",
-        "公共规则",
-        "接入与展示"
-      ],
-      "tags": [
-        "MaxKB",
-        "AI应用开发",
-        "接入与展示",
-        "API与工具"
-      ],
-      "sortOrder": 20,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e6a",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
-      "title": "第八篇：Codex 桌面 App 当前功能与 Windows 实战",
-      "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "终端Agent流",
-        "Codex"
-      ],
-      "tags": [
-        "Codex",
-        "桌面 App",
-        "Windows",
-        "Worktree",
-        "Scheduled tasks",
-        "Browser"
-      ],
-      "sortOrder": 0,
-      "action": "unchanged",
-      "existingId": "6a6b691f4bf50146e9b95e6c",
+      "existingId": "6a7065a5ba76f4bbcfcd5dfe",
       "existingStatus": "draft"
     }
   ]

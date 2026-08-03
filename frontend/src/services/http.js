@@ -178,7 +178,7 @@ export function getProfile() {
 
 /**
  * 更新个人信息
- * @param {Object} data - { username?, bio?, website?, location?, birthday?, closeBirthEffect? }
+ * @param {Object} data - { username?, bio?, website?, location?, birthday?, personalDates?, closeBirthEffect? }
  */
 export function updateProfile(data) {
   return http.put('/api/profile', data)

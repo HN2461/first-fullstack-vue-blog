@@ -2,8 +2,15 @@
 title: "MySQL 小白课程：像上课一样从 0 到 1 学会数据库"
 slug: mysql-zero-to-one-beginner
 summary: "一套面向零基础读者的 MySQL 课程讲义：每章先用生活场景解释概念，再给可运行 SQL、逐行说明、结果预期、易错点和练习，最后完成博客系统设计。"
-category:
-tags: []
+category: "MySQL"
+categoryPath:
+  - "后端技术"
+  - "数据库"
+  - "MySQL"
+tags:
+  - "MySQL"
+  - "数据库"
+  - "SQL教程"
 status: draft
 sortOrder: 0
 cover:

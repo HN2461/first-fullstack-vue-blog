@@ -2,8 +2,15 @@
 title: "MySQL 07：查询数据，从简单条件开始"
 slug: mysql-07-select-one-table
 summary: "把 SELECT 当成向登记册提问：从指定列、WHERE 条件、NULL、AND/OR、LIKE、排序、LIMIT、别名到 COUNT，逐段解释查询如何一步步得到结果。"
-category:
-tags: []
+category: "MySQL"
+categoryPath:
+  - "后端技术"
+  - "数据库"
+  - "MySQL"
+tags:
+  - "MySQL"
+  - "数据查询"
+  - "SQL入门"
 status: draft
 sortOrder: 70
 cover:

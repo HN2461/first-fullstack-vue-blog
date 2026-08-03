@@ -20,7 +20,10 @@ import {
   generateAsciiSlug
 } from '#modules/content/services/legacyMigration.service.js'
 
-const APPLY = new Set(process.argv.slice(2)).has('--apply')
+const rawArgs = process.argv.slice(2)
+const args = new Set(rawArgs)
+const APPLY = args.has('--apply')
+const sourceFilter = rawArgs.find((item) => item.startsWith('--source='))?.slice('--source='.length).trim()
 const OUTPUT_ROOT = path.resolve(process.env.SELECTED_ARTICLE_OUTPUT_ROOT || path.join(env.rootDir, '../output'))
 const REPORT_PATH = process.env.SELECTED_ARTICLE_SYNC_REPORT || (
   env.nodeEnv === 'production'
@@ -50,6 +53,14 @@ const SOURCES = [
     root: ['未导入线上', 'AI工具'],
     categoryPrefix: ['AI相关', 'AI工具'],
     metadata: 'front-matter'
+  },
+  {
+    key: 'mysql',
+    label: 'MySQL',
+    root: ['未导入线上', 'MySQL'],
+    categoryPrefix: ['后端技术', '数据库', 'MySQL'],
+    metadata: 'front-matter',
+    includeDirectoriesInCategory: false
   }
 ]
 
@@ -105,11 +116,13 @@ function parseRecord(source, sourceRoot, fullPath) {
   const raw = fs.readFileSync(fullPath, 'utf8').replace(/^\uFEFF/, '')
   const parsed = matter(raw)
   const data = parsed.data || {}
-  const directoryParts = path.dirname(relativePath)
-    .split('/')
-    .filter((item) => item && item !== '.')
-    .map(cleanDirectoryName)
-    .filter(Boolean)
+  const directoryParts = source.includeDirectoriesInCategory === false
+    ? []
+    : path.dirname(relativePath)
+      .split('/')
+      .filter((item) => item && item !== '.')
+      .map(cleanDirectoryName)
+      .filter(Boolean)
   const categoryPath = [...source.categoryPrefix, ...directoryParts]
   const isDerived = source.metadata === 'derived'
   const title = isDerived ? firstHeading(parsed.content) : String(data.title || '').trim()
@@ -149,7 +162,15 @@ function parseSources() {
   const skippedNavigation = []
   const errors = []
   let sourceFiles = 0
-  for (const source of SOURCES) {
+  const selectedSources = sourceFilter
+    ? SOURCES.filter((source) => source.key === sourceFilter)
+    : SOURCES
+
+  if (sourceFilter && selectedSources.length === 0) {
+    throw new Error(`未知文章源：${sourceFilter}`)
+  }
+
+  for (const source of selectedSources) {
     const sourceRoot = path.join(OUTPUT_ROOT, ...source.root)
     if (!fs.existsSync(sourceRoot)) {
       errors.push(`${source.label}: 目录不存在 ${sourceRoot}`)
@@ -432,6 +453,7 @@ async function applyPlan(sourceAudit, plan, categories, writeUser) {
 async function main() {
   console.log(`模式: ${APPLY ? 'apply' : 'dry-run'}`)
   console.log(`output 根目录: ${OUTPUT_ROOT}`)
+  console.log(`文章源: ${sourceFilter || '全部已配置源'}`)
   const sourceAudit = parseSources()
   await connectDatabase()
   const [categories, tags, articles, adminUser] = await Promise.all([

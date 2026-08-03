@@ -63,7 +63,7 @@ import {
   getSolarSummary,
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
-import { loadFestivalCalendar } from '@/utils/festival/festivalApi'
+import { loadFestivalCalendar, normalizeCalendar } from '@/utils/festival/festivalApi'
 import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/confettiPlayer'
 import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
@@ -201,7 +201,7 @@ async function loadFestivalState() {
     birthday: state.birthday,
     birthdayCalendar: state.birthdayCalendar || 'solar'
   }
-  const calendar = await loadFestivalCalendar(serverDate.value)
+  const calendar = normalizeCalendar(state.calendar || await loadFestivalCalendar(serverDate.value))
   activeFestival.value = calendar.today.find((item) => item.isHoliday || item.level === 'major') || null
   festivalEnabled.value = isFestivalEnabled()
   // 先保留当前年度完整数据，再由弹框内部滚动展示，避免生日等较晚节日被前置截断。
@@ -273,6 +273,7 @@ watch(celebrationOpen, (visible) => {
 watch(() => [
   authStore.user?.birthday,
   authStore.user?.birthdayCalendar,
+  authStore.user?.personalDates,
   authStore.user?.closeBirthEffect
 ], () => {
   if (!authStore.ready || !authStore.isLoggedIn) return
