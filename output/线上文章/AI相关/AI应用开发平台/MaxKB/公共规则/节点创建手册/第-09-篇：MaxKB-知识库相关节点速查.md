@@ -22,7 +22,7 @@ originalSlug: "maxkb-08-d6705804"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.480Z"
 updatedAt: "2026-07-31T11:16:25.816Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 09 篇：MaxKB 知识库相关节点速查
 > 文档状态（2026-07-19）：根据空白高级智能体验证截图和 MaxKB v2.10.4 官方文档，记录知识库相关节点基础配置。

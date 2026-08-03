@@ -21,7 +21,7 @@ originalSlug: "maxkb-01-4ac20739"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.425Z"
 updatedAt: "2026-07-31T11:16:25.753Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 01 篇：MaxKB 变量引用写法规范
 > 文档状态（2026-06-29）：本文记录 MaxKB 高级编排中全局变量、会话变量、开始节点输出参数、普通节点输出参数和跨服务器导入时的接口传参写法。

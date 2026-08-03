@@ -16,7 +16,7 @@ originalSlug: "0-1-f01367dd"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.454Z"
 updatedAt: "2026-07-31T11:16:24.899Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用
 

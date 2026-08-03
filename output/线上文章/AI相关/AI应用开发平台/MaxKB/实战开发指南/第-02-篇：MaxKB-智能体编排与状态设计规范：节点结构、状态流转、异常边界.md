@@ -21,7 +21,7 @@ originalSlug: "maxkb-4bcf1a3f"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.390Z"
 updatedAt: "2026-07-31T11:16:25.875Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 02 篇：MaxKB 智能体编排与状态设计规范：节点结构、状态流转、异常边界
 

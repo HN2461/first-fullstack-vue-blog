@@ -1,6 +1,6 @@
 ---
 title: "MySQL 小白课程：像上课一样从 0 到 1 学会数据库"
-slug: mysql-zero-to-one-beginner
+slug: "mysql-zero-to-one-beginner"
 summary: "一套面向零基础读者的 MySQL 课程讲义：每章先用生活场景解释概念，再给可运行 SQL、逐行说明、结果预期、易错点和练习，最后完成博客系统设计。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "数据库"
   - "SQL教程"
-status: draft
+status: "published"
 sortOrder: 0
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d05d"
+originalSlug: "mysql-zero-to-one-beginner"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.243Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # MySQL 小白课程：像上课一样从 0 到 1 学会数据库
 
 这不是一份 MySQL 命令清单，也不是一套默认你已经会后端开发的“项目实战”。它是一门从零开始的课。

@@ -1,13 +1,13 @@
 {
   "formatVersion": 3,
-  "exportedAt": "2026-08-03T03:03:53.296Z",
+  "exportedAt": "2026-08-03T10:17:08.920Z",
   "scope": "all",
   "slugStrategy": "keep",
   "filters": {
     "categoryId": null,
     "keyword": ""
   },
-  "total": 512,
+  "total": 525,
   "categories": [
     {
       "name": "默认分类",
@@ -20,7 +20,7 @@
       "status": "active",
       "isSystem": true,
       "createdAt": "2026-06-14T06:55:23.135Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "AI相关",
@@ -33,7 +33,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-29T09:56:58.318Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "AI工具",
@@ -47,7 +47,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:41.311Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "终端Agent流",
@@ -62,7 +62,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.543Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "Codex",
@@ -78,7 +78,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.634Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.620Z"
     },
     {
       "name": "AI开发",
@@ -92,7 +92,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-05T11:53:12.724Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "AI应用开发平台",
@@ -106,7 +106,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.941Z",
-      "updatedAt": "2026-08-03T01:37:07.354Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "MaxKB",
@@ -121,7 +121,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.951Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "公共规则",
@@ -137,7 +137,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.961Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "接入与展示",
@@ -154,7 +154,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.980Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "工程治理",
@@ -171,7 +171,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.975Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "节点创建手册",
@@ -188,7 +188,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.970Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "基础配置与变量",
@@ -205,7 +205,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.966Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "实战开发指南",
@@ -221,7 +221,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T15:12:00.956Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "电脑",
@@ -234,7 +234,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:43.608Z",
-      "updatedAt": "2026-07-31T02:52:07.465Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "系统与文件",
@@ -248,7 +248,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.253Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "后端技术",
@@ -261,7 +261,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-29T09:52:56.976Z",
-      "updatedAt": "2026-07-31T02:51:01.961Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "Python",
@@ -275,7 +275,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-22T06:14:51.935Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "Web入门",
@@ -290,7 +290,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-05T11:46:25.703Z",
-      "updatedAt": "2026-08-03T01:40:16.376Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "网络爬虫与数据分析",
@@ -305,7 +305,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-05T11:46:04.518Z",
-      "updatedAt": "2026-08-03T01:40:43.551Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "知识目录",
@@ -320,7 +320,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-05T11:45:02.616Z",
-      "updatedAt": "2026-08-03T01:40:33.923Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "安卓APK",
@@ -333,7 +333,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-30T01:57:38.020Z",
-      "updatedAt": "2026-07-31T02:50:52.853Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "Docker",
@@ -348,7 +348,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-05T11:53:57.526Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "开发基础",
@@ -363,7 +363,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-05T11:54:38.557Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "电脑网络",
@@ -377,7 +377,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.183Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "代理与VPN",
@@ -392,7 +392,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.186Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "网站部署",
@@ -406,7 +406,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.352Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "全栈部署入门",
@@ -421,7 +421,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.370Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "Node.js",
@@ -435,7 +435,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T05:22:57.003Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "MongoDB详解",
@@ -450,7 +450,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.544Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "接口与会话控制详解",
@@ -465,7 +465,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.633Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "常用缺易忘",
@@ -478,7 +478,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:43.077Z",
-      "updatedAt": "2026-07-31T02:51:10.481Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "工具速查",
@@ -492,7 +492,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.341Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Git",
@@ -507,7 +507,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.841Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "辅助工具层",
@@ -522,7 +522,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.185Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "CCSwitch",
@@ -538,7 +538,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.190Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.621Z"
     },
     {
       "name": "ClaudeCode",
@@ -554,7 +554,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.547Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "规则机制层",
@@ -569,7 +569,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.743Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "Skill",
@@ -585,7 +585,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.031Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "MCP",
@@ -601,7 +601,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.746Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Plugin",
@@ -617,7 +617,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.867Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Agent框架层",
@@ -632,7 +632,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.115Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "龙虾",
@@ -648,7 +648,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.118Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Gemini",
@@ -664,7 +664,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.730Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "基础与计费",
@@ -680,7 +680,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.317Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Rules",
@@ -696,7 +696,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.948Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "AI编辑器流",
@@ -711,7 +711,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.162Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "Windsurf",
@@ -727,7 +727,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.476Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Kiro",
@@ -743,7 +743,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.392Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Cursor",
@@ -759,7 +759,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.265Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "CatPaw",
@@ -775,7 +775,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.172Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "项目复用技术",
@@ -788,7 +788,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:44.079Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "JS库",
@@ -802,7 +802,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.869Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Vue后台管理",
@@ -816,7 +816,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.014Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "第三方登录对接",
@@ -830,7 +830,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.217Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "对比笔记",
@@ -845,7 +845,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.599Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "我的总结",
@@ -858,7 +858,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:43.271Z",
-      "updatedAt": "2026-07-31T02:51:20.898Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "js",
@@ -872,7 +872,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-15T14:48:44.292Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "辅助资料",
@@ -887,7 +887,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.535Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "前端技术",
@@ -900,7 +900,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-07-29T09:52:28.071Z",
-      "updatedAt": "2026-07-31T02:49:43.820Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "uni-app",
@@ -914,7 +914,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:42.737Z",
-      "updatedAt": "2026-08-03T01:39:31.637Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "微信小程序",
@@ -929,7 +929,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.800Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "浏览器与网络",
@@ -943,7 +943,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.435Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "WebSocket",
@@ -957,7 +957,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.030Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "面试",
@@ -970,7 +970,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:43.937Z",
-      "updatedAt": "2026-07-31T02:51:27.633Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Vue",
@@ -984,7 +984,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.965Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "vue辅助",
@@ -999,7 +999,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.976Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "通用基础",
@@ -1014,7 +1014,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.909Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "uni-app",
@@ -1028,7 +1028,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-14T06:29:24.451Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "uni-app辅助",
@@ -1043,7 +1043,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-14T06:31:52.508Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "vue随记",
@@ -1058,7 +1058,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.141Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "网络基础",
@@ -1073,7 +1073,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.200Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "组件库",
@@ -1087,7 +1087,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:43.825Z",
-      "updatedAt": "2026-08-03T01:39:40.846Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "uvui",
@@ -1102,7 +1102,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.684Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "ECharts",
@@ -1117,7 +1117,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:43.777Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "前端三剑客",
@@ -1131,7 +1131,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-30T07:27:28.602Z",
-      "updatedAt": "2026-08-03T01:39:17.460Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "AI版CSS",
@@ -1146,7 +1146,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:41.964Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "ElementPlus",
@@ -1161,7 +1161,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.547Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "AI版HTML",
@@ -1176,7 +1176,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:42.059Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "企业微信",
@@ -1191,7 +1191,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.493Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "钉钉",
@@ -1206,7 +1206,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.250Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "概念速查",
@@ -1221,7 +1221,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.220Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "网络请求",
@@ -1235,7 +1235,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.500Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "数据类型",
@@ -1249,7 +1249,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.381Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Web安全",
@@ -1262,7 +1262,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:43.055Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "前端工程化与安全",
@@ -1276,7 +1276,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.201Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "uni-app",
@@ -1290,7 +1290,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.935Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "网络排障",
@@ -1305,7 +1305,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.242Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Vue",
@@ -1319,7 +1319,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-15T14:40:20.486Z",
-      "updatedAt": "2026-08-03T01:39:26.906Z"
+      "updatedAt": "2026-08-03T10:16:01.539Z"
     },
     {
       "name": "vue面试题",
@@ -1334,7 +1334,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.293Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "vue3",
@@ -1349,7 +1349,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.257Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "vue2",
@@ -1364,7 +1364,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:28.124Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "Ai的vue",
@@ -1379,7 +1379,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.955Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "青鸟版三剑客",
@@ -1394,7 +1394,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:42.125Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     },
     {
       "name": "AI版JS",
@@ -1409,10 +1409,377 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-15T14:45:39.312Z",
-      "updatedAt": "2026-07-30T16:04:54.764Z"
+      "updatedAt": "2026-08-03T10:16:01.622Z"
+    },
+    {
+      "name": "数据库",
+      "slug": "legacy-68337e5e-68337e5e",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "数据库"
+      ],
+      "sortOrder": 20,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-08-03T10:16:01.361Z",
+      "updatedAt": "2026-08-03T10:16:01.539Z"
+    },
+    {
+      "name": "MySQL",
+      "slug": "mysql-862f0e00",
+      "description": "",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "sortOrder": 30,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-08-03T10:16:01.371Z",
+      "updatedAt": "2026-08-03T10:16:01.622Z"
     }
   ],
   "articles": [
+    {
+      "originalId": "6a706a61360397398ac2d05d",
+      "originalSlug": "mysql-zero-to-one-beginner",
+      "exportedSlug": "mysql-zero-to-one-beginner",
+      "title": "MySQL 小白课程：像上课一样从 0 到 1 学会数据库",
+      "summary": "一套面向零基础读者的 MySQL 课程讲义：每章先用生活场景解释概念，再给可运行 SQL、逐行说明、结果预期、易错点和练习，最后完成博客系统设计。",
+      "cover": "",
+      "contentHash": "b60e5619ec13a6b20cdb8b8b0adcdd1b70a9e43b09986bbf5aef1bf584a46327",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "数据库",
+        "SQL教程"
+      ],
+      "sortOrder": 0,
+      "sourcePath": "MySQL/README.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.243Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-小白课程：像上课一样从-0-到-1-学会数据库.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d075",
+      "originalSlug": "mysql-12-blog-project",
+      "exportedSlug": "mysql-12-blog-project",
+      "title": "MySQL 12：毕业项目，博客系统 MySQL 设计",
+      "summary": "把前 11 章学过的表、字段、关系、查询、索引和事务逐步组装成可运行的博客练习数据库：先画关系和建表顺序，再创建用户、分类、文章、标签、评论，最后完成发布、列表、详情和审核查询。",
+      "cover": "",
+      "contentHash": "21bb72282cf3750405cd98a4a32fcf551c3885c302f878ddc24a6b1ac2b2fe7d",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "博客系统",
+        "数据库设计"
+      ],
+      "sortOrder": 120,
+      "sourcePath": "MySQL/notes/12-小白毕业项目博客系统MySQL设计.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.240Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-12：毕业项目，博客系统-MySQL-设计.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d073",
+      "originalSlug": "mysql-11-transaction-lock",
+      "exportedSlug": "mysql-11-transaction-lock",
+      "title": "MySQL 11：事务和锁，多步操作不能做一半",
+      "summary": "从“多条相关 SQL 不能只成功一半”开始，逐步理解自动提交、START TRANSACTION、COMMIT、ROLLBACK、ACID、条件更新、FOR UPDATE、隔离级别和死锁；每个并发概念都先说明它解决什么问题。",
+      "cover": "",
+      "contentHash": "3db369342abc90bb70d2b06aa2ea664fa5e10bd0353c263dea0ab1573cb03ff1",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "事务",
+        "并发控制"
+      ],
+      "sortOrder": 110,
+      "sourcePath": "MySQL/notes/11-事务和锁多步操作要么都成功要么都失败.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.237Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-11：事务和锁，多步操作不能做一半.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d071",
+      "originalSlug": "mysql-10-index-explain",
+      "exportedSlug": "mysql-10-index-explain",
+      "title": "MySQL 10：索引和 EXPLAIN，为什么查询会快或慢",
+      "summary": "先用书籍目录建立索引直觉，再从真实查询出发学习主键、普通索引、联合索引、最左前缀、SHOW INDEX、EXPLAIN 和常见失效写法；不把优化变成背口诀。",
+      "cover": "",
+      "contentHash": "08f9812b307319925e3f76190ec9191b4b26d93f8522f28ae50bb6252baf602f",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "索引",
+        "数据库性能"
+      ],
+      "sortOrder": 100,
+      "sourcePath": "MySQL/notes/10-索引和EXPLAIN给查询修目录.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.234Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-10：索引和-EXPLAIN，为什么查询会快或慢.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d06f",
+      "originalSlug": "mysql-09-group-by-statistics",
+      "exportedSlug": "mysql-09-group-by-statistics",
+      "title": "MySQL 09：统计查询，数一数、分组算一算",
+      "summary": "从“逐条看笔记”和“问一共有多少条”有什么不同讲起，逐步掌握 COUNT、DISTINCT、GROUP BY、HAVING、SUM、AVG、MAX、MIN，以及 LEFT JOIN 下正确统计零条记录的方式。",
+      "cover": "",
+      "contentHash": "b8f4d9d8fafd98471e096b2a939b22cc1310ceb102a1a912eecce4cd6dbc518c",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "聚合查询",
+        "数据查询"
+      ],
+      "sortOrder": 90,
+      "sourcePath": "MySQL/notes/09-统计查询COUNT-GROUP-BY和HAVING.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.231Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-09：统计查询，数一数、分组算一算.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d06d",
+      "originalSlug": "mysql-08-join-relations",
+      "exportedSlug": "mysql-08-join-relations",
+      "title": "MySQL 08：两张表的关系和 JOIN",
+      "summary": "从“分类名称为什么不直接重复写在每条笔记里”出发，完整创建分类表、添加 category_id、认识外键约束，并逐行理解 INNER JOIN、LEFT JOIN、ON、WHERE 和多对多中间表。",
+      "cover": "",
+      "contentHash": "843c523840017d84dc65f5a8b00238317446f6eb930841598da4e107e3d9ffad",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "JOIN",
+        "数据库设计"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "MySQL/notes/08-多表关系和JOIN把几本账册合起来看.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.228Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-08：两张表的关系和-JOIN.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d06b",
+      "originalSlug": "mysql-07-select-one-table",
+      "exportedSlug": "mysql-07-select-one-table",
+      "title": "MySQL 07：查询数据，从简单条件开始",
+      "summary": "把 SELECT 当成向登记册提问：从指定列、WHERE 条件、NULL、AND/OR、LIKE、排序、LIMIT、别名到 COUNT，逐段解释查询如何一步步得到结果。",
+      "cover": "",
+      "contentHash": "9775779cb260eb01b78d985fd8aa553f651d6a8f923aa87b5edebf0fecb07168",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "数据查询",
+        "SQL入门"
+      ],
+      "sortOrder": 70,
+      "sourcePath": "MySQL/notes/07-SELECT从一张表里找数据.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.225Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-07：查询数据，从简单条件开始.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d069",
+      "originalSlug": "mysql-06-insert-update-delete",
+      "exportedSlug": "mysql-06-insert-update-delete",
+      "title": "MySQL 06：添加、修改、删除数据",
+      "summary": "围绕 learning_notes 表学习 INSERT、LAST_INSERT_ID、UPDATE、ROW_COUNT、DELETE 和软删除；每次写操作都先定位数据、再执行、再验证，建立安全操作习惯。",
+      "cover": "",
+      "contentHash": "bc6e97602b18f65c89bdeadc14b316a4c6ccceac5514c87cc9bbc73915814538",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "数据操作",
+        "SQL入门"
+      ],
+      "sortOrder": 60,
+      "sourcePath": "MySQL/notes/06-INSERT-UPDATE-DELETE安全地改数据.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.222Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-06：添加、修改、删除数据.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d067",
+      "originalSlug": "mysql-05-create-table-from-business",
+      "exportedSlug": "mysql-05-create-table-from-business",
+      "title": "MySQL 05：创建第一张表，学习笔记表",
+      "summary": "把“我想保存一条学习笔记”一步步翻译成字段、类型和规则，完整讲解 CREATE TABLE、主键、默认值、自动更新时间、表选项、检查表结构和安全重建。",
+      "cover": "",
+      "contentHash": "fdae21c10597464401ef8092a74706533f12f337aa98323b7cb6003961ea214c",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "建表",
+        "SQL入门"
+      ],
+      "sortOrder": 50,
+      "sourcePath": "MySQL/notes/05-建表把业务需求变成表结构.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.219Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-05：创建第一张表，学习笔记表.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d065",
+      "originalSlug": "mysql-04-data-types",
+      "exportedSlug": "mysql-04-data-types",
+      "title": "MySQL 04：字段类型，每一列应该装什么",
+      "summary": "从“每个抽屉该放什么”开始，完整学习整数、小数、短文本、长文本、日期时间、布尔状态、NULL、默认值、字符集，以及为学习笔记表选择字段类型的理由。",
+      "cover": "",
+      "contentHash": "4aa2c5688dc6d0f847d83d7410bd4b6e878d44d07df7d50509705e4e0971a8b0",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "数据类型",
+        "数据库设计"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "MySQL/notes/04-数据类型每个字段应该装什么.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.216Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-04：字段类型，每一列应该装什么.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d063",
+      "originalSlug": "mysql-03-install-connect-database",
+      "exportedSlug": "mysql-03-install-connect-database",
+      "title": "MySQL 03：安装、连接和第一次输入 SQL",
+      "summary": "从 MySQL Server、客户端和密码各自是什么讲起，逐步完成 Windows 安装、服务检查、命令行连接、第一条 SQL、创建练习数据库和常见故障定位。",
+      "cover": "",
+      "contentHash": "170f3fa5900fdc850d6fd54e75468eaf20f8c966717d6ad3174356b001b698aa",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "数据库安装",
+        "SQL入门"
+      ],
+      "sortOrder": 30,
+      "sourcePath": "MySQL/notes/03-安装连接和第一个数据库.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.213Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-03：安装、连接和第一次输入-SQL.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d061",
+      "originalSlug": "mysql-02-table-row-column-key",
+      "exportedSlug": "mysql-02-table-row-column-key",
+      "title": "MySQL 02：一张表到底长什么样",
+      "summary": "把数据库表当成有固定栏目和编号的登记册，逐步认识 table、row、column、value、主键、唯一约束、NULL，以及一对多和多对多关系。",
+      "cover": "",
+      "contentHash": "ef78c4945ed27275415f243d882bed4d6738f7448e092c934baec359c2435171",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "关系型数据库",
+        "数据库设计"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "MySQL/notes/02-表行列主键和关系.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.209Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-02：一张表到底长什么样.md"
+    },
+    {
+      "originalId": "6a706a61360397398ac2d05f",
+      "originalSlug": "mysql-01-what-is-mysql",
+      "exportedSlug": "mysql-01-what-is-mysql",
+      "title": "MySQL 01：数据库到底解决什么问题",
+      "summary": "从一条学习笔记应该保存在哪里开始，慢慢分清数据、数据库、MySQL、SQL、服务端、客户端，以及前端到数据库的一次完整请求。",
+      "cover": "",
+      "contentHash": "932e7f322a9dae4aa2360ab6b6b6ad933e4f4e887fd05b76891088666c7cf893",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "MySQL"
+      ],
+      "tags": [
+        "MySQL",
+        "数据库",
+        "SQL入门"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "MySQL/notes/01-MySQL到底放在后端哪里.md",
+      "publishedAt": "2026-08-03T10:16:37.195Z",
+      "updatedAt": "2026-08-03T10:16:37.202Z",
+      "fileName": "后端技术/数据库/MySQL/MySQL-01：数据库到底解决什么问题.md"
+    },
     {
       "originalId": "6a6b691f4bf50146e9b95e6c",
       "originalSlug": "ai-agent-codex-desktop-app-windows-workflow-20260726",

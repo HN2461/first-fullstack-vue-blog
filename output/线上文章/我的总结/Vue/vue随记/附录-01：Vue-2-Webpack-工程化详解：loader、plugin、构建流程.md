@@ -21,7 +21,7 @@ originalSlug: "vue-vue-01-vue2-webpack-ba0bd4ed"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:57:01.545Z"
 updatedAt: "2026-07-31T11:16:24.682Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 附录 01：Vue 2 Webpack 工程化详解：loader、plugin、构建流程
 

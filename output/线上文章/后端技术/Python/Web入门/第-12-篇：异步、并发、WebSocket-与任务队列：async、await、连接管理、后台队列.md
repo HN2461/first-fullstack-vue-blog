@@ -21,7 +21,7 @@ originalSlug: "fastapi-async-concurrency-websocket-task-queue"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.203Z"
 updatedAt: "2026-07-31T11:16:22.144Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 12 篇：异步、并发、WebSocket 与任务队列：async、await、连接管理、后台队列
 

@@ -22,7 +22,7 @@ originalSlug: "maxkb-09-95eb5588"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.485Z"
 updatedAt: "2026-07-31T11:16:25.821Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 10 篇：MaxKB 表单收集节点
 > 文档状态（2026-07-19）：根据空白高级智能体验证截图、附件通用验证记录和 MaxKB v2.10.4 官方资料，记录表单收集节点配置、组件类型、显隐条件和工作流项目使用建议。

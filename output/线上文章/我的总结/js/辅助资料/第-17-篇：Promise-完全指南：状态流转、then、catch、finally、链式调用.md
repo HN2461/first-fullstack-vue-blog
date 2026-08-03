@@ -20,7 +20,7 @@ originalSlug: "js-js-promise-6cb6d394"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.670Z"
 updatedAt: "2026-07-31T11:16:24.465Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 17 篇：Promise 完全指南：状态流转、then、catch、finally、链式调用
 ## 1. Promise 概述

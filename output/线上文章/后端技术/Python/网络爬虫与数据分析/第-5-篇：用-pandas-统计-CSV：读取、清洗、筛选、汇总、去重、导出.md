@@ -19,7 +19,7 @@ originalSlug: "python-data-analysis-pandas-csv"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:49:33.207Z"
 updatedAt: "2026-07-31T11:16:22.003Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 5 篇：用 pandas 统计 CSV：读取、清洗、筛选、汇总、去重、导出
 

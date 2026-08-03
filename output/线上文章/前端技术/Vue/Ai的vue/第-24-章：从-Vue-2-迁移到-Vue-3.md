@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-vue2-vue3-a7bca734"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:17:53.475Z"
 updatedAt: "2026-07-31T11:16:23.864Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 24 章：从 Vue 2 迁移到 Vue 3
 

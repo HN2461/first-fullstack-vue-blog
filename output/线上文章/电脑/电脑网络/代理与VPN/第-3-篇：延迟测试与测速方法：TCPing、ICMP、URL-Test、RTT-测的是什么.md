@@ -16,7 +16,7 @@ originalSlug: "latency-test-methods-tcping-icmp-urltest-rtt-20260705"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:51:14.541Z"
 updatedAt: "2026-07-31T11:16:21.546Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 测的是什么
 

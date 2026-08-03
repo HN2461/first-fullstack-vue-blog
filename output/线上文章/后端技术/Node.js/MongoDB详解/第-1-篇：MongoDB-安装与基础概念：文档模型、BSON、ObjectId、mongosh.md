@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-mongodb-5f0dd1bc"
 originalStatus: "published"
 publishedAt: "2026-06-06T11:39:25.706Z"
 updatedAt: "2026-07-31T11:16:21.905Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：MongoDB 安装与基础概念：文档模型、BSON、ObjectId、mongosh
 

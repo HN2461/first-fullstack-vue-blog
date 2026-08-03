@@ -21,7 +21,7 @@ originalSlug: "vue-vue-02-vue3-vite-b6a24a54"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:57:05.886Z"
 updatedAt: "2026-07-31T11:16:24.688Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 附录 02：Vue 3 Vite 工程化详解：dev server、预构建、插件机制
 

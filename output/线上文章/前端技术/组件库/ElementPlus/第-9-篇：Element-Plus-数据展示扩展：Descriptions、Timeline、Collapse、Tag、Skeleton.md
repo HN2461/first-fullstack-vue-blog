@@ -23,7 +23,7 @@ originalSlug: "element-plus-elementplus-descriptions-timeline-collapse-tag-badge
 originalStatus: "published"
 publishedAt: "2026-04-29T11:27:17.321Z"
 updatedAt: "2026-07-31T11:16:23.625Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 9 篇：Element Plus 数据展示扩展：Descriptions、Timeline、Collapse、Tag、Skeleton
 

@@ -19,7 +19,7 @@ originalSlug: "fastapi-zero-to-one-roadmap-environment"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.180Z"
 updatedAt: "2026-07-31T11:16:22.030Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：FastAPI 学习路线与开发环境：后端能力地图、虚拟环境、依赖安装
 

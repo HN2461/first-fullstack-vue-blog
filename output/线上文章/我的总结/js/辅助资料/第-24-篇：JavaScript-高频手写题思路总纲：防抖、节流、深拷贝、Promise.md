@@ -21,7 +21,7 @@ originalSlug: "js-js-0c45b118"
 originalStatus: "published"
 publishedAt: "2026-05-10T11:51:43.091Z"
 updatedAt: "2026-07-31T11:16:24.508Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 24 篇：JavaScript 高频手写题思路总纲：防抖、节流、深拷贝、Promise
 很多人面试不是不会写代码，而是一看到“手写题”就脑子空白。

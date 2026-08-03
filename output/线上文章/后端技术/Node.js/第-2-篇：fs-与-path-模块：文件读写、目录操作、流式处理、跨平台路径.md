@@ -20,7 +20,7 @@ originalSlug: "node-js-fs-path-e956bb19"
 originalStatus: "published"
 publishedAt: "2026-04-18T13:01:07.819Z"
 updatedAt: "2026-07-31T11:16:21.738Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：fs 与 path 模块：文件读写、目录操作、流式处理、跨平台路径
 

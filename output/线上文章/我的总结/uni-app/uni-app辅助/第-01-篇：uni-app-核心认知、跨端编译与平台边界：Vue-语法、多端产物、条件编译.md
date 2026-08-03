@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-5f27ae60"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:11:46.098Z"
 updatedAt: "2026-07-31T11:16:24.537Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 01 篇：uni-app 核心认知、跨端编译与平台边界：Vue 语法、多端产物、条件编译
 

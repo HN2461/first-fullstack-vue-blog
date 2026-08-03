@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-6-class-style-d3586390"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:25:52.642Z"
 updatedAt: "2026-07-31T11:16:23.910Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：class 与 style 绑定
 

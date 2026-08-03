@@ -18,7 +18,7 @@ originalSlug: "python-zero-object-oriented-programming"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.497Z"
 updatedAt: "2026-07-31T11:16:22.374Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 20 篇：面向对象 class：类对象、属性方法、继承、封装
 

@@ -1,6 +1,6 @@
 ---
 title: "MySQL 02：一张表到底长什么样"
-slug: mysql-02-table-row-column-key
+slug: "mysql-02-table-row-column-key"
 summary: "把数据库表当成有固定栏目和编号的登记册，逐步认识 table、row、column、value、主键、唯一约束、NULL，以及一对多和多对多关系。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "关系型数据库"
   - "数据库设计"
-status: draft
+status: "published"
 sortOrder: 20
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d061"
+originalSlug: "mysql-02-table-row-column-key"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.209Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 02 一张表到底长什么样
 
 ## 1. 本节目标：先看懂表，再去创建表

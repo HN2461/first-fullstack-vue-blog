@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-3-vue-25c1aa35"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:26:52.874Z"
 updatedAt: "2026-07-31T11:16:23.947Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 15 篇：Vue CLI 脚手架
 

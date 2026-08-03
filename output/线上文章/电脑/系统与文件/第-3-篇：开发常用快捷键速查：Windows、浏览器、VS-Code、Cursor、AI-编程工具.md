@@ -18,7 +18,7 @@ originalSlug: "legacy-5846ff96-5846ff96"
 originalStatus: "published"
 publishedAt: "2026-05-12T14:26:21.409Z"
 updatedAt: "2026-07-31T11:16:21.650Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具
 

@@ -21,7 +21,7 @@ originalSlug: "js-8770c0f0"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.661Z"
 updatedAt: "2026-07-31T11:16:24.410Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 08 篇：类型检测与原型链深度解析：typeof、instanceof、Object.prototype.toString
 这一篇的目标不是只背一句“类型检测用 `Object.prototype.toString.call()`”，而是要真正回答下面两个问题：

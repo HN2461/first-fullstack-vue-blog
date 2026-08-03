@@ -20,7 +20,7 @@ originalSlug: "js-js-arguments-c45f50a4"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.657Z"
 updatedAt: "2026-07-31T11:16:24.369Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 04 篇：JavaScript arguments 对象详解：类数组、函数参数、剩余参数
 在调用函数时，浏览器每次都会传递两个隐含参数：

@@ -18,7 +18,7 @@ originalSlug: "python-zero-install-and-run"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.618Z"
 updatedAt: "2026-07-31T11:16:22.237Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：Python 安装检查与运行代码：Python、pip、终端、文件运行
 

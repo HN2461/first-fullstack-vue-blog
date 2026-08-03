@@ -23,7 +23,7 @@ originalSlug: "maxkb-16-mcp-cbdce98b"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.522Z"
 updatedAt: "2026-07-31T11:16:25.857Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 17 篇：MaxKB MCP 调用与自定义工具节点
 > 文档状态（2026-07-01）：根据空白高级智能体验证截图、MaxKB 官方文档和工具扩展通用实践，记录 MCP 调用、自定义工具两个扩展类节点的配置、定位和使用边界。

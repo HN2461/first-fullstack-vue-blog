@@ -21,7 +21,7 @@ originalSlug: "vue-vue-vue-011d0d19"
 originalStatus: "published"
 publishedAt: "2026-05-07T14:29:16.072Z"
 updatedAt: "2026-07-31T11:16:24.578Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 ### 一、指令的核心定义
 Vue指令的本质是：**给DOM元素绑定特定的行为逻辑**，让页面能根据数据动态改变DOM的状态（比如显示/隐藏、绑定属性、循环渲染等）。<font style="color:#DF2A3F;">所有的指令都是以HTML标签的属性形式存在的。</font>  

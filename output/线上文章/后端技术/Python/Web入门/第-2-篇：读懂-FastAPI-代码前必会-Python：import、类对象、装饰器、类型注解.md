@@ -19,7 +19,7 @@ originalSlug: "fastapi-python-reading-prerequisites"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.182Z"
 updatedAt: "2026-07-31T11:16:22.037Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：读懂 FastAPI 代码前必会 Python：import、类对象、装饰器、类型注解
 

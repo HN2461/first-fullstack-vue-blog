@@ -21,7 +21,7 @@ originalSlug: "js-js-map-set-696642c1"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.669Z"
 updatedAt: "2026-07-31T11:16:24.453Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 15 篇：Map 与 Set 事件订阅管理器：事件总线、去重、订阅发布
 目标：**一次复习，长期可用**。这篇笔记从 ES6 的 Map / Set 概念讲起，再过渡到事件订阅管理器（EventManager），由浅入深，避免以后复习时还要先翻 Map / Set 的资料。

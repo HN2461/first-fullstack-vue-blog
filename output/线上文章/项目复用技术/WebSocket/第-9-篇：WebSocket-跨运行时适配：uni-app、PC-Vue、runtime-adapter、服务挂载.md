@@ -21,7 +21,7 @@ originalSlug: "websocket-websocket-uni-app-pcvue-dc468cc2"
 originalStatus: "published"
 publishedAt: "2026-04-16T12:41:50.142Z"
 updatedAt: "2026-07-31T11:16:25.075Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 9 篇：WebSocket 跨运行时适配：uni-app、PC Vue、runtime adapter、服务挂载
 

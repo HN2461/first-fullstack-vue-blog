@@ -21,7 +21,7 @@ originalSlug: "ai-mcp-ede3e0c8"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:18:00.565Z"
 updatedAt: "2026-07-31T11:16:25.191Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 05 篇：MCP 架构与安全边界问题
 

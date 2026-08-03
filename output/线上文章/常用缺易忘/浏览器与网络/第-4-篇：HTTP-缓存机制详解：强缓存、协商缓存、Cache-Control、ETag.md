@@ -15,7 +15,7 @@ originalSlug: "http-8498fced"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.373Z"
 updatedAt: "2026-07-31T11:16:21.418Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：HTTP 缓存机制详解：强缓存、协商缓存、Cache-Control、ETag
 

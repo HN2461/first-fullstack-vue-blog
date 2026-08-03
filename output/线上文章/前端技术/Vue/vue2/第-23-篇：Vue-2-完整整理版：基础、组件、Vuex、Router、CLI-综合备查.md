@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-vue2-a0e09fcf"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:24:30.645Z"
 updatedAt: "2026-07-31T11:16:24.038Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 23 篇：Vue 2 完整整理版：基础、组件、Vuex、Router、CLI 综合备查
 

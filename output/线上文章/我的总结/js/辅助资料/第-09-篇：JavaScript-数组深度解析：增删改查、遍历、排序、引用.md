@@ -21,7 +21,7 @@ originalSlug: "js-javascript-ceaa578b"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.663Z"
 updatedAt: "2026-07-31T11:16:24.418Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 09 篇：JavaScript 数组深度解析：增删改查、遍历、排序、引用
 ## 一、数组的本质理解

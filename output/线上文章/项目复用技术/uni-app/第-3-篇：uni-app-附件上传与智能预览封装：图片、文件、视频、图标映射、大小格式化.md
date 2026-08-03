@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-7432a1ba"
 originalStatus: "published"
 publishedAt: "2026-04-16T12:41:50.147Z"
 updatedAt: "2026-07-31T11:16:24.957Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：uni-app 附件上传与智能预览封装：图片、文件、视频、图标映射、大小格式化
 

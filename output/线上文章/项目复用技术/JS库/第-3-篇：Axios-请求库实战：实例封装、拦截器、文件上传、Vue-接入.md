@@ -20,7 +20,7 @@ originalSlug: "js-axios-61754a5a"
 originalStatus: "published"
 publishedAt: "2026-05-21T13:22:10.960Z"
 updatedAt: "2026-07-31T11:16:24.924Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：Axios 请求库实战：实例封装、拦截器、文件上传、Vue 接入
 

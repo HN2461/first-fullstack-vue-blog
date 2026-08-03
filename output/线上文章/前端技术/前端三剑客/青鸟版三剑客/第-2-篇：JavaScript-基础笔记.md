@@ -16,7 +16,7 @@ originalSlug: "javascriptes6-js-d939e278"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.515Z"
 updatedAt: "2026-07-31T11:16:22.728Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 ## 一、计算机基础
 ### 1、编程语言

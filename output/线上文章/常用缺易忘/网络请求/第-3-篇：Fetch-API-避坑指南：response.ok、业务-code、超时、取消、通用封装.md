@@ -20,7 +20,7 @@ originalSlug: "fetch-api-d4229b6f"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.376Z"
 updatedAt: "2026-07-31T11:16:21.521Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：Fetch API 避坑指南：response.ok、业务 code、超时、取消、通用封装
 

@@ -15,7 +15,7 @@ originalSlug: "vs-charset-utf-8-8af21833"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.368Z"
 updatedAt: "2026-07-31T11:16:21.455Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：字符 vs 字节与 charset=utf-8：ASCII、UTF-8、密钥长度问题
 你完全不懂字符和字节的区别很正常——这是新手最容易卡壳的点，我不用任何专业术语，纯「生活化比喻+实际例子」讲透，还会结合你关心的「加密密钥」场景，让你知道这俩到底和密钥有啥关系。

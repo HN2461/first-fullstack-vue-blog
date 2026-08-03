@@ -20,7 +20,7 @@ originalSlug: "maxkb-00-maxkb-6d42583b"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.420Z"
 updatedAt: "2026-07-31T11:16:25.735Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 总览：MaxKB 公共规则规范包使用说明
 > 文档状态（2026-07-19）：本文是 `02-公共规则/` 的跨项目使用入口。目标是把本目录整理成可复制、可检索、可复用的 MaxKB 规范包，供其他项目的 AI 或开发者快速理解 MaxKB 节点创建、参数传递、变量引用、工具绑定和前端接入规则。

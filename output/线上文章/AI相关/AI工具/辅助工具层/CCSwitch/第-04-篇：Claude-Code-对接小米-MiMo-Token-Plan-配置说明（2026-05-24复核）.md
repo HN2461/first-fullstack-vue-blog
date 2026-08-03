@@ -23,7 +23,7 @@ originalSlug: "ai-ccswitch-claudecode-mimotokenplan-736772f0"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:10:38.110Z"
 updatedAt: "2026-07-31T11:16:25.136Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 04 篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）
 

@@ -16,7 +16,7 @@ originalSlug: "docker-desktop-cn-localization-guide"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:56:11.339Z"
 updatedAt: "2026-07-31T11:16:25.898Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：Docker Desktop 汉化教程：DockerDesktop-CN、版本匹配、文件备份、替换验证、回滚
 

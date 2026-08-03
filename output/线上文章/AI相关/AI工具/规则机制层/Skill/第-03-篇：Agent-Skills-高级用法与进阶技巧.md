@@ -24,7 +24,7 @@ originalSlug: "ai-skill-agentskills-b37a5530"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:29:34.181Z"
 updatedAt: "2026-07-31T11:16:25.278Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 03 篇：Agent Skills 高级用法与进阶技巧
 

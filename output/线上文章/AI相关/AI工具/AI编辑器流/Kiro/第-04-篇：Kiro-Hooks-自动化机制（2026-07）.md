@@ -21,7 +21,7 @@ originalSlug: "ai-ai-kiro-kiro-hooks-4b92a74f"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.593Z"
 updatedAt: "2026-07-31T11:16:25.638Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 04 篇：Kiro Hooks 自动化机制（2026-07）
 

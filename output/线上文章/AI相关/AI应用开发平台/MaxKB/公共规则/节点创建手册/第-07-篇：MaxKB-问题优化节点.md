@@ -22,7 +22,7 @@ originalSlug: "maxkb-06-daf63cdf"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.471Z"
 updatedAt: "2026-07-31T11:16:25.808Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 07 篇：MaxKB 问题优化节点
 > 文档状态（2026-07-01）：根据空白高级智能体验证截图和资料说明，记录问题优化节点配置、输出与可能用途。

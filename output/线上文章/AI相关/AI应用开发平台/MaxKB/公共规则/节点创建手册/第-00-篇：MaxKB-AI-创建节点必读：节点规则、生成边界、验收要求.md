@@ -22,7 +22,7 @@ originalSlug: "maxkb-00-ai-c676db58"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.437Z"
 updatedAt: "2026-07-31T11:16:25.775Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 00 篇：MaxKB AI 创建节点必读：节点规则、生成边界、验收要求
 > 文档状态（2026-07-01）：给 AI 使用的 MaxKB 节点创建防忘清单。目的不是写教程，而是防止后续教用户创建节点时少说参数、乱补不存在的参数、混淆相似节点。

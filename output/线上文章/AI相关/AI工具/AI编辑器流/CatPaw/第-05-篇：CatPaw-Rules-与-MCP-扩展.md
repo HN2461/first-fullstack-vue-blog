@@ -22,7 +22,7 @@ originalSlug: "ai-ai-catpaw-catpaw-rules-mcp-6f2f4d79"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.576Z"
 updatedAt: "2026-07-31T11:16:25.569Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 05 篇：CatPaw Rules 与 MCP 扩展
 如果说 Ask / Agent 解决的是“AI 能不能帮我干活”，  

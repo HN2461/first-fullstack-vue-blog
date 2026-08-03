@@ -1,6 +1,6 @@
 ---
 title: "MySQL 07：查询数据，从简单条件开始"
-slug: mysql-07-select-one-table
+slug: "mysql-07-select-one-table"
 summary: "把 SELECT 当成向登记册提问：从指定列、WHERE 条件、NULL、AND/OR、LIKE、排序、LIMIT、别名到 COUNT，逐段解释查询如何一步步得到结果。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "数据查询"
   - "SQL入门"
-status: draft
+status: "published"
 sortOrder: 70
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d06b"
+originalSlug: "mysql-07-select-one-table"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.225Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 07 查询数据，从简单条件开始
 
 ## 1. 本节目标：先把一张表问明白

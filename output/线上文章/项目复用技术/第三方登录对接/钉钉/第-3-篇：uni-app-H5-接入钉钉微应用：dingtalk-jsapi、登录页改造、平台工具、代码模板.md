@@ -16,7 +16,7 @@ originalSlug: "h5-uni-app-h5-2048111a"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.429Z"
 updatedAt: "2026-07-31T11:16:24.794Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：uni-app H5 接入钉钉微应用：dingtalk-jsapi、登录页改造、平台工具、代码模板
 

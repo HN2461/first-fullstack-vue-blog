@@ -21,7 +21,7 @@ originalSlug: "js-b45cfac4"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.664Z"
 updatedAt: "2026-07-31T11:16:24.427Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 10 篇：JavaScript 字符串详解：截取、查找、替换、模板字符串
 这一篇先把字符串里最容易写错的点记住：

@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-computed-e0e31524"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:05:32.026Z"
 updatedAt: "2026-07-31T11:16:23.813Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 9 章：计算属性 computed
 

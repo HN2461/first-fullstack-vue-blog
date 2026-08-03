@@ -1,6 +1,6 @@
 ---
 title: "MySQL 04：字段类型，每一列应该装什么"
-slug: mysql-04-data-types
+slug: "mysql-04-data-types"
 summary: "从“每个抽屉该放什么”开始，完整学习整数、小数、短文本、长文本、日期时间、布尔状态、NULL、默认值、字符集，以及为学习笔记表选择字段类型的理由。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "数据类型"
   - "数据库设计"
-status: draft
+status: "published"
 sortOrder: 40
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d065"
+originalSlug: "mysql-04-data-types"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.216Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 04 字段类型，每一列应该装什么
 
 ## 1. 本节目标：先学会挑抽屉，再去造柜子

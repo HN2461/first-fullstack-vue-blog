@@ -21,7 +21,7 @@ originalSlug: "fastapi-zero-to-one-learning-outcome-express-delivery"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.212Z"
 updatedAt: "2026-07-31T11:16:22.205Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 17 篇：学习成效评估与 Express 对照交付：能力清单、技术对照、复刻练习、作品表达
 

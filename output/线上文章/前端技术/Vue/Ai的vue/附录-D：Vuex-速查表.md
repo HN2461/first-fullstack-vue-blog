@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-d-vuex-8579ca48"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:22:00.002Z"
 updatedAt: "2026-07-31T11:16:23.875Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 附录 D：Vuex 速查表
 

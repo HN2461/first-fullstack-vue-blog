@@ -1,6 +1,6 @@
 ---
 title: "MySQL 06：添加、修改、删除数据"
-slug: mysql-06-insert-update-delete
+slug: "mysql-06-insert-update-delete"
 summary: "围绕 learning_notes 表学习 INSERT、LAST_INSERT_ID、UPDATE、ROW_COUNT、DELETE 和软删除；每次写操作都先定位数据、再执行、再验证，建立安全操作习惯。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "数据操作"
   - "SQL入门"
-status: draft
+status: "published"
 sortOrder: 60
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d069"
+originalSlug: "mysql-06-insert-update-delete"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.222Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 06 添加、修改、删除数据
 
 ## 1. 本节目标：让空表开始有内容，但不“手滑”改错数据

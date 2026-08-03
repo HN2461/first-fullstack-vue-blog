@@ -18,7 +18,7 @@ originalSlug: "websocket-a1cbc328"
 originalStatus: "published"
 publishedAt: "2026-05-10T14:38:27.761Z"
 updatedAt: "2026-07-31T11:16:22.660Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：WebSocket 协议面试题：协议原理、握手、实时通信、JavaScript 使用
 

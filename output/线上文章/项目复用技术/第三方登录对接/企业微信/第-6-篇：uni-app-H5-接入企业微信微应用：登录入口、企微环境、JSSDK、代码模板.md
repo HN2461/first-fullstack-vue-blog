@@ -16,7 +16,7 @@ originalSlug: "h5-uni-app-h5-a4b1be0e"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.458Z"
 updatedAt: "2026-07-31T11:16:24.876Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：uni-app H5 接入企业微信微应用：登录入口、企微环境、JSSDK、代码模板
 

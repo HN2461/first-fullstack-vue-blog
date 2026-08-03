@@ -22,7 +22,7 @@ originalSlug: "echarts-echarts-echarts-aca8614a"
 originalStatus: "published"
 publishedAt: "2026-05-02T08:04:36.031Z"
 updatedAt: "2026-07-31T11:16:23.532Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：快速认识 ECharts：安装、核心概念与常见图表
 

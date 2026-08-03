@@ -21,7 +21,7 @@ originalSlug: "python-data-cleaning-regex-crawler-text"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.174Z"
 updatedAt: "2026-07-31T11:16:21.991Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：正则表达式清洗爬虫文本：re、分组、命名分组、贪婪与非贪婪
 

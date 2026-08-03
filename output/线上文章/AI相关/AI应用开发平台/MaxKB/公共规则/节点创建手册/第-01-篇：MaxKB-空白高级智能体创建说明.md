@@ -22,7 +22,7 @@ originalSlug: "maxkb-00-17697ac6"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.442Z"
 updatedAt: "2026-07-31T11:16:25.780Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 01 篇：MaxKB 空白高级智能体创建说明
 > 文档状态（2026-07-03）：本文记录创建 MaxKB 空白高级智能体的方法，以及维护节点创建手册的通用规则。它不是项目进度记录，也不要求其他项目沿用固定智能体名称。

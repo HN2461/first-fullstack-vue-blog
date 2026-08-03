@@ -20,7 +20,7 @@ originalSlug: "js-js-this-515c53fa"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.658Z"
 updatedAt: "2026-07-31T11:16:24.373Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 05 篇：JavaScript this 指向规则详解：默认绑定、隐式绑定、call、apply、bind
 你原来的 4 条结论抓住了主干，但有两处容易误导：

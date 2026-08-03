@@ -22,7 +22,7 @@ originalSlug: "ai-ai-windsurf-windsurf-code-plan-ask-ce80a016"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.605Z"
 updatedAt: "2026-07-31T11:16:25.687Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 03 篇：Windsurf Code、Plan、Ask 三种模式分工与切换策略（2026-04）
 

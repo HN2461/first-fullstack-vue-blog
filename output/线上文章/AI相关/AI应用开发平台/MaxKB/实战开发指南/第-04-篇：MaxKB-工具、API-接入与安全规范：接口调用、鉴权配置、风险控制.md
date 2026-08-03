@@ -21,7 +21,7 @@ originalSlug: "maxkb-api-01efc881"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.401Z"
 updatedAt: "2026-07-31T11:16:25.883Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 04 篇：MaxKB 工具、API 接入与安全规范：接口调用、鉴权配置、风险控制
 

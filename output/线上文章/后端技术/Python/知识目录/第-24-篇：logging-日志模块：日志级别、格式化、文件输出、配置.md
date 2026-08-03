@@ -20,7 +20,7 @@ originalSlug: "python-zero-logging-module"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.157Z"
 updatedAt: "2026-07-31T11:16:22.408Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 24 篇：logging 日志模块：日志级别、格式化、文件输出、配置
 

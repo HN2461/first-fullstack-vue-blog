@@ -21,7 +21,7 @@ originalSlug: "element-plus-elementplus-configprovider-f9cb9b2c"
 originalStatus: "published"
 publishedAt: "2026-04-28T13:45:18.644Z"
 updatedAt: "2026-07-31T11:16:23.618Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 8 篇：Element Plus 全局能力：主题定制、国际化、暗黑模式、ConfigProvider
 

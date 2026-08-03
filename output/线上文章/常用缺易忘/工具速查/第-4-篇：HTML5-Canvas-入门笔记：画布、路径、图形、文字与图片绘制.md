@@ -15,7 +15,7 @@ originalSlug: "canvas-7535da83"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.356Z"
 updatedAt: "2026-07-31T11:16:21.369Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：HTML5 Canvas 入门笔记：画布、路径、图形、文字与图片绘制
 

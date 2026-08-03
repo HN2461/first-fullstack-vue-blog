@@ -21,7 +21,7 @@ originalSlug: "websocket-stomp-8044d9d1"
 originalStatus: "published"
 publishedAt: "2026-04-16T13:25:08.647Z"
 updatedAt: "2026-07-31T11:16:25.062Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：STOMP 帧封装实战：命令拼装、拆帧、心跳、粘包处理
 

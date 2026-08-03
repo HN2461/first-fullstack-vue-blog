@@ -22,7 +22,7 @@ originalSlug: "web-053c73ce"
 originalStatus: "published"
 publishedAt: "2026-04-22T12:52:23.733Z"
 updatedAt: "2026-07-31T11:16:25.913Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：前端开发常见网络安全攻击：XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持
 

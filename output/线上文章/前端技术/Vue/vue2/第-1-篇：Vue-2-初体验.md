@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-vue2-b45d61d5"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:24:34.209Z"
 updatedAt: "2026-07-31T11:16:23.884Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：Vue 2 初体验
 

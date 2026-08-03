@@ -20,7 +20,7 @@ originalSlug: "windows-freeze-rescue-shortcuts"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.346Z"
 updatedAt: "2026-07-31T11:16:21.635Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：Windows 电脑卡死救急与常用快捷键：任务管理器、黑屏恢复、窗口操作、复制保存
 

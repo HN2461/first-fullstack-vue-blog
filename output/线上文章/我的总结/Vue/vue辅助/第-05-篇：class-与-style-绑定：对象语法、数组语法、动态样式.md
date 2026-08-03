@@ -20,7 +20,7 @@ originalSlug: "vue-vue-class-style-eb3555df"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:54:35.414Z"
 updatedAt: "2026-07-31T11:16:24.601Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 05 篇：class 与 style 绑定：对象语法、数组语法、动态样式
 

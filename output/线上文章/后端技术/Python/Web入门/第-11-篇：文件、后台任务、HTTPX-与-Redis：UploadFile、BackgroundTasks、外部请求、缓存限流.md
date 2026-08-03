@@ -21,7 +21,7 @@ originalSlug: "fastapi-files-background-httpx-redis"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.200Z"
 updatedAt: "2026-07-31T11:16:22.130Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 11 篇：文件、后台任务、HTTPX 与 Redis：UploadFile、BackgroundTasks、外部请求、缓存限流
 

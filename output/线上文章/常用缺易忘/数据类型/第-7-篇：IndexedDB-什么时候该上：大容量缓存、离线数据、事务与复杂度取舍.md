@@ -20,7 +20,7 @@ originalSlug: "indexeddb-16dda85f"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.363Z"
 updatedAt: "2026-07-31T11:16:21.502Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 7 篇：IndexedDB 什么时候该上：大容量缓存、离线数据、事务与复杂度取舍
 

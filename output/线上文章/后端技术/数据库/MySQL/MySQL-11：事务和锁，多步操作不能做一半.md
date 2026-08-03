@@ -1,6 +1,6 @@
 ---
 title: "MySQL 11：事务和锁，多步操作不能做一半"
-slug: mysql-11-transaction-lock
+slug: "mysql-11-transaction-lock"
 summary: "从“多条相关 SQL 不能只成功一半”开始，逐步理解自动提交、START TRANSACTION、COMMIT、ROLLBACK、ACID、条件更新、FOR UPDATE、隔离级别和死锁；每个并发概念都先说明它解决什么问题。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "事务"
   - "并发控制"
-status: draft
+status: "published"
 sortOrder: 110
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d073"
+originalSlug: "mysql-11-transaction-lock"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.237Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 11 事务和锁，多步操作不能做一半
 
 ## 1. 本节目标：把几步相关操作当成一个整体

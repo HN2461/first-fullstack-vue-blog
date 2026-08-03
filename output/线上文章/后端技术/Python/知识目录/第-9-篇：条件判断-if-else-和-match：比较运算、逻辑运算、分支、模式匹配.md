@@ -18,7 +18,7 @@ originalSlug: "python-zero-if-else-match"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.528Z"
 updatedAt: "2026-07-31T11:16:22.291Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 9 篇：条件判断 if else 和 match：比较运算、逻辑运算、分支、模式匹配
 

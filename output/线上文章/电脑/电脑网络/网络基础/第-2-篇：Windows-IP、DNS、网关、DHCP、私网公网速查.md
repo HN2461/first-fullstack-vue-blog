@@ -21,7 +21,7 @@ originalSlug: "windows-ip-dns-dhcp-fd5c357b"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.793Z"
 updatedAt: "2026-07-31T11:16:21.566Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：Windows IP、DNS、网关、DHCP、私网公网速查
 

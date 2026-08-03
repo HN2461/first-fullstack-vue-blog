@@ -22,7 +22,7 @@ originalSlug: "maxkb-13-adde6b4f"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.505Z"
 updatedAt: "2026-07-31T11:16:25.841Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 14 篇：MaxKB 变量拆分节点
 > 文档状态（2026-07-01）：根据空白高级智能体验证截图、MaxKB 官方文档和JSON 字段处理通用实践，记录变量拆分节点配置、JSON Path 表达式和高频搭配用法。

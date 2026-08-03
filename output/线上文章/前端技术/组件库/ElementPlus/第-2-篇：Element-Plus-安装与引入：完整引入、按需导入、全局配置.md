@@ -21,7 +21,7 @@ originalSlug: "element-plus-elementplus-975655e4"
 originalStatus: "published"
 publishedAt: "2026-04-28T13:45:18.641Z"
 updatedAt: "2026-07-31T11:16:23.579Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：Element Plus 安装与引入：完整引入、按需导入、全局配置
 

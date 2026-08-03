@@ -20,7 +20,7 @@ originalSlug: "fastapi-dependencies-middleware-lifespan-structure"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.194Z"
 updatedAt: "2026-07-31T11:16:22.074Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 7 篇：依赖、中间件、生命周期与项目结构：Depends、Middleware、lifespan、Router、Service
 

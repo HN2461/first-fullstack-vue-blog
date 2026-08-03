@@ -20,7 +20,7 @@ originalSlug: "windows-basic-concepts-for-beginners"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.365Z"
 updatedAt: "2026-07-31T11:16:21.641Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：Windows 电脑基础概念入门：开始菜单、任务栏、资源管理器、设置、终端
 

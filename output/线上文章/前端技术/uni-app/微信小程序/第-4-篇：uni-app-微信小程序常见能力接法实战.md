@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-59f5c8d0"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:52:03.314Z"
 updatedAt: "2026-07-31T11:16:23.719Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：uni-app 微信小程序常见能力接法实战
 

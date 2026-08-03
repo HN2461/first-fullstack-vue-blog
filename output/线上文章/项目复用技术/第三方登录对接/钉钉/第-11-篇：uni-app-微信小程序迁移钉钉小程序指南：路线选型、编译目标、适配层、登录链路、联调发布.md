@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-81c6612d"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.441Z"
 updatedAt: "2026-07-31T11:16:24.729Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 11 篇：uni-app 微信小程序迁移钉钉小程序指南：路线选型、编译目标、适配层、登录链路、联调发布
 

@@ -1,6 +1,6 @@
 ---
 title: "MySQL 05：创建第一张表，学习笔记表"
-slug: mysql-05-create-table-from-business
+slug: "mysql-05-create-table-from-business"
 summary: "把“我想保存一条学习笔记”一步步翻译成字段、类型和规则，完整讲解 CREATE TABLE、主键、默认值、自动更新时间、表选项、检查表结构和安全重建。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "建表"
   - "SQL入门"
-status: draft
+status: "published"
 sortOrder: 50
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d067"
+originalSlug: "mysql-05-create-table-from-business"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.219Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 05 创建第一张表，学习笔记表
 
 ## 1. 本节目标：把人话需求变成 MySQL 能执行的表结构

@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-e-72e17220"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:22:00.011Z"
 updatedAt: "2026-07-31T11:16:23.877Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 附录 E：项目目录规范与命名规范建议
 

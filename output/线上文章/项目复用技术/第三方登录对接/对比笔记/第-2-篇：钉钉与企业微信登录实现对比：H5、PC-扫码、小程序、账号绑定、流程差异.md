@@ -16,7 +16,7 @@ originalSlug: "legacy-52ecb25c-52ecb25c"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.473Z"
 updatedAt: "2026-07-31T11:16:24.831Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：钉钉与企业微信登录实现对比：H5、PC 扫码、小程序、账号绑定、流程差异
 

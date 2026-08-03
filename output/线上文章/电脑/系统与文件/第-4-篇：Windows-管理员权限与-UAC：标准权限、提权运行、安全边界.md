@@ -20,7 +20,7 @@ originalSlug: "windows-uac-9d17ce33"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.793Z"
 updatedAt: "2026-07-31T11:16:21.656Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界
 

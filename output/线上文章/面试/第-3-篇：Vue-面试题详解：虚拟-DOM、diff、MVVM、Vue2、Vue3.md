@@ -18,7 +18,7 @@ originalSlug: "vue-9af82b75"
 originalStatus: "published"
 publishedAt: "2026-05-10T15:10:33.649Z"
 updatedAt: "2026-07-31T11:16:22.624Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3
 

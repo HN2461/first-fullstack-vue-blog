@@ -18,7 +18,7 @@ originalSlug: "python-zero-print-and-comments"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.615Z"
 updatedAt: "2026-07-31T11:16:22.246Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：print 输出与注释：print、sep/end、注释、调试输出
 

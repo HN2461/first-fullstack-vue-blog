@@ -21,7 +21,7 @@ originalSlug: "vue-vue-vue-ebf8992e"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.706Z"
 updatedAt: "2026-07-31T11:16:24.588Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 03 篇：Vue 响应式原理：Object.defineProperty、Proxy、依赖收集
 

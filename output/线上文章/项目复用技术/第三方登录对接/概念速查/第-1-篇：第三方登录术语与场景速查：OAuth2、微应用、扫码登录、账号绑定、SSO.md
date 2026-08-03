@@ -16,7 +16,7 @@ originalSlug: "legacy-079f6d23-079f6d23"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.424Z"
 updatedAt: "2026-07-31T11:16:24.838Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：第三方登录术语与场景速查：OAuth2、微应用、扫码登录、账号绑定、SSO
 

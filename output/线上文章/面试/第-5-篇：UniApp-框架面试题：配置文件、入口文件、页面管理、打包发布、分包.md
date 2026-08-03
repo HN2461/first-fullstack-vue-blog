@@ -18,7 +18,7 @@ originalSlug: "uniapp-9cf05b58"
 originalStatus: "published"
 publishedAt: "2026-05-10T14:48:13.144Z"
 updatedAt: "2026-07-31T11:16:22.646Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 5 篇：UniApp 框架面试题：配置文件、入口文件、页面管理、打包发布、分包
 

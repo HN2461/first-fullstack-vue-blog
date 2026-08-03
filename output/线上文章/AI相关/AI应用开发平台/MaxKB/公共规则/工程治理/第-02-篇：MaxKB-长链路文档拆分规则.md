@@ -21,7 +21,7 @@ originalSlug: "maxkb-maxkb-061d662d"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.537Z"
 updatedAt: "2026-07-31T11:16:25.741Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 02 篇：MaxKB 长链路文档拆分规则
 

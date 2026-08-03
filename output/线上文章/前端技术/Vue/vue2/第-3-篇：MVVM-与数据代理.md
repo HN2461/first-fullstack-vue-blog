@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-2-mvvm-0f1dddb4"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:24:55.325Z"
 updatedAt: "2026-07-31T11:16:23.896Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：MVVM 与数据代理
 

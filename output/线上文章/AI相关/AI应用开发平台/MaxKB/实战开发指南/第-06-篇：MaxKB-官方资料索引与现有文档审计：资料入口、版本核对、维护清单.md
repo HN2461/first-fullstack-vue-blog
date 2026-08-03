@@ -20,7 +20,7 @@ originalSlug: "maxkb-d439f0e3"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.413Z"
 updatedAt: "2026-07-31T11:16:25.893Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 06 篇：MaxKB 官方资料索引与现有文档审计：资料入口、版本核对、维护清单
 

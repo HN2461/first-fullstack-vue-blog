@@ -21,7 +21,7 @@ originalSlug: "vue-vue-vue2-vue3-61311af1"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.712Z"
 updatedAt: "2026-07-31T11:16:24.667Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 12 篇：Vue 2 vs Vue 3 核心写法差异：Options API、Composition API、迁移对照
 

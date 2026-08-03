@@ -16,7 +16,7 @@ originalSlug: "vue-vue3-pinia-356d4f75"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:28:53.385Z"
 updatedAt: "2026-07-31T11:16:24.165Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：Pinia 状态管理
 

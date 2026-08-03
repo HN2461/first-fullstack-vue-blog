@@ -21,7 +21,7 @@ originalSlug: "maxkb-01-maxkb-affa7c4c"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.548Z"
 updatedAt: "2026-07-31T11:16:25.763Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 01 篇：MaxKB 渲染标签与快捷问题规则
 > 文档状态（2026-07-19）：根据 FIT2CLOUD 社区帖《MaxKB 中的特殊标签》、当前环境实测和 MaxKB 官方更新日志整理。本文用于优化候选项、下一步引导、图表和 HTML 展示，不记录某个项目或某个智能体的完整链路。

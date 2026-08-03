@@ -22,7 +22,7 @@ originalSlug: "ai-agent-codex-codex-edeadb5e"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.777Z"
 updatedAt: "2026-07-31T11:16:25.463Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）
 

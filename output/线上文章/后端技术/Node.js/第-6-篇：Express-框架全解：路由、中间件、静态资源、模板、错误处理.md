@@ -23,7 +23,7 @@ originalSlug: "node-js-express-ba1a095d"
 originalStatus: "published"
 publishedAt: "2026-06-05T11:32:01.047Z"
 updatedAt: "2026-07-31T11:16:21.796Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：Express 框架全解：路由、中间件、静态资源、模板、错误处理
 

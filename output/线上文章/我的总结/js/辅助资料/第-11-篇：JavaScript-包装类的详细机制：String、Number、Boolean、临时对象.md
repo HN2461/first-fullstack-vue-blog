@@ -19,7 +19,7 @@ originalSlug: "js-js-32fdfd9a"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.665Z"
 updatedAt: "2026-07-31T11:16:24.436Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 11 篇：JavaScript 包装类的详细机制：String、Number、Boolean、临时对象
 在js中为我们提供了三个包装类，通过这三个包装类可以**基本数据类型转换为对象**

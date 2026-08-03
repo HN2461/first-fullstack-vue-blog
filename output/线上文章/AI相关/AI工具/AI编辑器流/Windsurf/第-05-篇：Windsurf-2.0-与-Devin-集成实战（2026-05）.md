@@ -22,7 +22,7 @@ originalSlug: "ai-ai-windsurf-windsurf-2-0-devin-78b4664a"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.607Z"
 updatedAt: "2026-07-31T11:16:25.702Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 05 篇：Windsurf 2.0 与 Devin 集成实战（2026-05）
 

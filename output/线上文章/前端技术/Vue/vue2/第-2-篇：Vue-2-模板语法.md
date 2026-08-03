@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-1-93bdf6b0"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:24:44.696Z"
 updatedAt: "2026-07-31T11:16:23.891Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：Vue 2 模板语法
 

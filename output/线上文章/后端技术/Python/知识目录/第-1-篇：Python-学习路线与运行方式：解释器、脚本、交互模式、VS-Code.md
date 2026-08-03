@@ -18,7 +18,7 @@ originalSlug: "python-zero-learning-guide"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.623Z"
 updatedAt: "2026-07-31T11:16:22.217Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：Python 学习路线与运行方式：解释器、脚本、交互模式、VS Code
 

@@ -21,7 +21,7 @@ originalSlug: "websocket-stomp-abe9babf"
 originalStatus: "published"
 publishedAt: "2026-05-14T13:07:41.593Z"
 updatedAt: "2026-07-31T11:16:25.014Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 11 篇：STOMP 协议速查手册：帧结构、核心命令、心跳、调试清单
 

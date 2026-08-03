@@ -18,7 +18,7 @@ originalSlug: "python-zero-modules-pip-venv"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.500Z"
 updatedAt: "2026-07-31T11:16:22.363Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 19 篇：模块、包、pip 和虚拟环境：import、venv、requirements、包管理
 

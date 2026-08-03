@@ -22,7 +22,7 @@ originalSlug: "js-js-dom-0c6dbfa3"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.668Z"
 updatedAt: "2026-07-31T11:16:24.448Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 14 篇：易混淆 DOM 事件对比指南：input、change、blur、click、submit
 ## 一、表单交互类事件（以 input/change 为核心）

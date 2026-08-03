@@ -18,7 +18,7 @@ originalSlug: "python-zero-what-is-python"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.621Z"
 updatedAt: "2026-07-31T11:16:22.229Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：Python 是什么：语言定位、解释器、应用场景、学习方法
 

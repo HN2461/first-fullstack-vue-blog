@@ -20,7 +20,7 @@ originalSlug: "windows-msconfig-3392836b"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.793Z"
 updatedAt: "2026-07-31T11:16:21.662Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 5 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动
 

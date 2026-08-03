@@ -20,7 +20,7 @@ originalSlug: "python-data-visualization-matplotlib-charts"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.178Z"
 updatedAt: "2026-07-31T11:16:22.014Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：用 matplotlib 绘制统计图：折线图、柱状图、散点图、饼图、多子图
 

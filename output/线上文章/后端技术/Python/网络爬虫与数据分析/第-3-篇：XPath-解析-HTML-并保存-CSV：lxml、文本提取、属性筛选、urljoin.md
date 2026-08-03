@@ -21,7 +21,7 @@ originalSlug: "python-crawler-lxml-parse-html-save-csv"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:49:33.213Z"
 updatedAt: "2026-07-31T11:16:21.980Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：XPath 解析 HTML 并保存 CSV：lxml、文本提取、属性筛选、urljoin
 

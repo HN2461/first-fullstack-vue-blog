@@ -15,7 +15,7 @@ originalSlug: "dns-c31ae11a"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.370Z"
 updatedAt: "2026-07-31T11:16:21.399Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 1 篇：DNS 域名解析详解：分层查询、记录类型、缓存与排障
 

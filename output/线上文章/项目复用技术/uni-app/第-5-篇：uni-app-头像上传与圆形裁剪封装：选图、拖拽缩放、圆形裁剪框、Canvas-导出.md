@@ -20,7 +20,7 @@ originalSlug: "uni-app-uni-app-canvas-7159e2f3"
 originalStatus: "published"
 publishedAt: "2026-04-17T12:49:16.572Z"
 updatedAt: "2026-07-31T11:16:24.941Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 5 篇：uni-app 头像上传与圆形裁剪封装：选图、拖拽缩放、圆形裁剪框、Canvas 导出
 

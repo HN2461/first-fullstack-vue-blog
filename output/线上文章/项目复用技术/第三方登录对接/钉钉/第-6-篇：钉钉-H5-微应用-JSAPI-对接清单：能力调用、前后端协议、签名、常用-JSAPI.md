@@ -16,7 +16,7 @@ originalSlug: "h5-h5-jsapi-d670249e"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.431Z"
 updatedAt: "2026-07-31T11:16:24.774Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：钉钉 H5 微应用 JSAPI 对接清单：能力调用、前后端协议、签名、常用 JSAPI
 

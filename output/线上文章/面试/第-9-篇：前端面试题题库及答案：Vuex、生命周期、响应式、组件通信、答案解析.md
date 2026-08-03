@@ -18,7 +18,7 @@ originalSlug: "legacy-bb449f80-bb449f80"
 originalStatus: "published"
 publishedAt: "2026-05-11T15:08:09.035Z"
 updatedAt: "2026-07-31T11:16:22.497Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 9 篇：前端面试题题库及答案：Vuex、生命周期、响应式、组件通信、答案解析
 

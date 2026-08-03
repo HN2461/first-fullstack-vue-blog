@@ -21,7 +21,7 @@ originalSlug: "js-js-aa0b9079"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.672Z"
 updatedAt: "2026-07-31T11:16:24.480Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 19 篇：前端深浅拷贝完全指南：Object.assign、递归、JSON、structuredClone
 全程遵循**从基础到进阶、从概念到实战、从简单实现到复杂场景**的逻辑，先讲透底层基础，再依次讲解浅拷贝、深拷贝，最后落地实战选型和面试考点，所有代码示例极简可运行，新手也能一步步理解。

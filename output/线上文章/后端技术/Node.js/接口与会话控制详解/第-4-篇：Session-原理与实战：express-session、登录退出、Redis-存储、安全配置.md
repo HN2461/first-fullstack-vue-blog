@@ -22,7 +22,7 @@ originalSlug: "node-js-session-9e7c15d4"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:20:35.663Z"
 updatedAt: "2026-07-31T11:16:21.859Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：Session 原理与实战：express-session、登录退出、Redis 存储、安全配置
 

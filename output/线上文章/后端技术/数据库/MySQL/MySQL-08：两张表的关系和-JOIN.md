@@ -1,6 +1,6 @@
 ---
 title: "MySQL 08：两张表的关系和 JOIN"
-slug: mysql-08-join-relations
+slug: "mysql-08-join-relations"
 summary: "从“分类名称为什么不直接重复写在每条笔记里”出发，完整创建分类表、添加 category_id、认识外键约束，并逐行理解 INNER JOIN、LEFT JOIN、ON、WHERE 和多对多中间表。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "JOIN"
   - "数据库设计"
-status: draft
+status: "published"
 sortOrder: 80
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d06d"
+originalSlug: "mysql-08-join-relations"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.228Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 08 两张表的关系和 JOIN
 
 ## 1. 本节目标：让两本登记册通过编号对得上

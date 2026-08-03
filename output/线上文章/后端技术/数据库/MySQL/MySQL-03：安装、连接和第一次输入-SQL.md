@@ -1,6 +1,6 @@
 ---
 title: "MySQL 03：安装、连接和第一次输入 SQL"
-slug: mysql-03-install-connect-database
+slug: "mysql-03-install-connect-database"
 summary: "从 MySQL Server、客户端和密码各自是什么讲起，逐步完成 Windows 安装、服务检查、命令行连接、第一条 SQL、创建练习数据库和常见故障定位。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "数据库安装"
   - "SQL入门"
-status: draft
+status: "published"
 sortOrder: 30
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d063"
+originalSlug: "mysql-03-install-connect-database"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.213Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 03 安装、连接和第一次输入 SQL
 
 ## 1. 本节目标：先让电脑里的 MySQL 可以对话

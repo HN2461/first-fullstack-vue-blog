@@ -21,7 +21,7 @@ originalSlug: "js-js-for-ae3e60e0"
 originalStatus: "published"
 publishedAt: "2026-05-07T14:34:30.018Z"
 updatedAt: "2026-07-31T11:16:24.492Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 21 篇：for 家族完全指南：for、forEach、for in、for of
 很多人不是不会写循环，而是还没先分清：**我现在到底要的是索引、值、键，还是异步结果？**  

@@ -16,7 +16,7 @@ originalSlug: "yaml-json-toml-config-files-for-beginners"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:55:50.508Z"
 updatedAt: "2026-07-31T11:16:25.726Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：YAML、JSON、TOML 配置文件入门：语法差异、适用场景、Vue、Node.js、Docker、Actions
 

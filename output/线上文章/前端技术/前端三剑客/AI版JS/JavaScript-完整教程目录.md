@@ -16,7 +16,7 @@ originalSlug: "js-javascript-fcff5e89"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.482Z"
 updatedAt: "2026-07-31T11:16:23.186Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # JavaScript 完整教程目录
 

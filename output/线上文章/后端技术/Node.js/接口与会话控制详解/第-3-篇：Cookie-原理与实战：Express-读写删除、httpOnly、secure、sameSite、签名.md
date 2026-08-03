@@ -22,7 +22,7 @@ originalSlug: "node-js-cookie-1bb83e69"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:17:09.322Z"
 updatedAt: "2026-07-31T11:16:21.848Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 3 篇：Cookie 原理与实战：Express 读写删除、httpOnly、secure、sameSite、签名
 

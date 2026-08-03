@@ -21,7 +21,7 @@ originalSlug: "vue-vue-vue3-composition-api-4d51a7a6"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.711Z"
 updatedAt: "2026-07-31T11:16:24.659Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 11 篇：Vue 3 Composition API 核心笔记：setup、ref、reactive、computed、watch
 

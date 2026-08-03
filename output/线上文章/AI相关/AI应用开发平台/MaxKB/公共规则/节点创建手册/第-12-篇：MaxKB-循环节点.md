@@ -22,7 +22,7 @@ originalSlug: "maxkb-11-dadf9c79"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.495Z"
 updatedAt: "2026-07-31T11:16:25.831Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 12 篇：MaxKB 循环节点
 > 文档状态（2026-07-19）：根据空白高级智能体验证截图、MaxKB v2.10.4 官方文档和组件处理通用实践，记录循环节点、循环体、循环开始、Continue、Break 的基础配置和使用边界。

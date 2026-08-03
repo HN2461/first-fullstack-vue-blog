@@ -16,7 +16,7 @@ originalSlug: "vue-ai-vue-c-vue-router-8010183d"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:21:58.978Z"
 updatedAt: "2026-07-31T11:16:23.873Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 附录 C：Vue Router 速查表
 

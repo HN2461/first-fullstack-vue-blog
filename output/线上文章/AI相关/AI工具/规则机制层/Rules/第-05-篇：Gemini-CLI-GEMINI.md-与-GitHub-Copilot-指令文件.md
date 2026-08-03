@@ -22,7 +22,7 @@ originalSlug: "ai-rules-gemini-copilot-geminicli-copilot-853f4742"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.681Z"
 updatedAt: "2026-07-31T11:16:25.256Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 05 篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件
 

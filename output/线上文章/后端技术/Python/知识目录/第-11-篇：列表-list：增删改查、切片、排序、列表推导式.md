@@ -18,7 +18,7 @@ originalSlug: "python-zero-lists"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.523Z"
 updatedAt: "2026-07-31T11:16:22.304Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 11 篇：列表 list：增删改查、切片、排序、列表推导式
 

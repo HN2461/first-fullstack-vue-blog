@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-mongodb-crud-85922e88"
 originalStatus: "published"
 publishedAt: "2026-06-06T11:39:25.707Z"
 updatedAt: "2026-07-31T11:16:21.912Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 2 篇：MongoDB 原生 CRUD：mongosh、Node.js Driver、过滤、分页、更新操作符
 

@@ -20,7 +20,7 @@ originalSlug: "legacy-68f76f0c-68f76f0c"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.380Z"
 updatedAt: "2026-07-31T11:16:21.529Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData
 

@@ -22,7 +22,7 @@ originalSlug: "maxkb-14-9115df18"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.509Z"
 updatedAt: "2026-07-31T11:16:25.846Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 15 篇：MaxKB 参数提取节点
 > 文档状态（2026-07-01）：根据空白高级智能体验证截图、MaxKB 官方文档和参数提取通用实践，记录参数提取节点配置、AI 提取参数能力和使用边界。

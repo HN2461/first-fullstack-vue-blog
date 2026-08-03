@@ -16,7 +16,7 @@ originalSlug: "1-e6cc4f94"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.447Z"
 updatedAt: "2026-07-31T11:16:24.705Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 16 篇：钉钉小程序迁移阶段 1：编译链路、mp-dingtalk、package.json、CE1000.01
 

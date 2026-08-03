@@ -1,6 +1,6 @@
 ---
 title: "MySQL 12：毕业项目，博客系统 MySQL 设计"
-slug: mysql-12-blog-project
+slug: "mysql-12-blog-project"
 summary: "把前 11 章学过的表、字段、关系、查询、索引和事务逐步组装成可运行的博客练习数据库：先画关系和建表顺序，再创建用户、分类、文章、标签、评论，最后完成发布、列表、详情和审核查询。"
 category: "MySQL"
 categoryPath:
@@ -11,11 +11,16 @@ tags:
   - "MySQL"
   - "博客系统"
   - "数据库设计"
-status: draft
+status: "published"
 sortOrder: 120
-cover:
+cover: ""
+originalId: "6a706a61360397398ac2d075"
+originalSlug: "mysql-12-blog-project"
+originalStatus: "published"
+publishedAt: "2026-08-03T10:16:37.195Z"
+updatedAt: "2026-08-03T10:16:37.240Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
-
 # 12 毕业项目，博客系统 MySQL 设计
 
 ## 1. 这一章不是“突然上项目”，而是把学过的积木放在一起

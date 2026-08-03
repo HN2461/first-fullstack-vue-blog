@@ -18,7 +18,7 @@ originalSlug: "python-zero-string"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.594Z"
 updatedAt: "2026-07-31T11:16:22.268Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：字符串：索引切片、常用方法、格式化、f-string
 

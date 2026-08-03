@@ -21,7 +21,7 @@ originalSlug: "maxkb-02-bbb61e60"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.432Z"
 updatedAt: "2026-07-31T11:16:25.758Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 02 篇：MaxKB 跨环境参数配置清单
 > 文档状态（2026-07-03）：本文是 MaxKB 智能体导出、复制或导入新环境时的通用参数治理模板。本文不记录单个项目的真实接口路径、字段编码或联调流水账。

@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-mongoose-crud-bcf8ad68"
 originalStatus: "published"
 publishedAt: "2026-06-07T06:14:19.366Z"
 updatedAt: "2026-07-31T11:16:21.924Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：Mongoose CRUD 与中间件：查询链、更新选择、lean、文档钩子
 

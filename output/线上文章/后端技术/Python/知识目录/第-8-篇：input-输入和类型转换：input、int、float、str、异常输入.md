@@ -18,7 +18,7 @@ originalSlug: "python-zero-input-and-convert"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.533Z"
 updatedAt: "2026-07-31T11:16:22.285Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 8 篇：input 输入和类型转换：input、int、float、str、异常输入
 

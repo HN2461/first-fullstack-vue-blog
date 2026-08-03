@@ -20,7 +20,7 @@ originalSlug: "file-blob-arraybuffer-base64-537d7c38"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.362Z"
 updatedAt: "2026-07-31T11:16:21.474Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 4 篇：File、Blob、ArrayBuffer、Base64 区别：上传、下载、预览、二进制处理
 

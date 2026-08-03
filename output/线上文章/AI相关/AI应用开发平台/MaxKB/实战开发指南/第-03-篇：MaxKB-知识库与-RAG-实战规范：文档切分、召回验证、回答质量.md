@@ -20,7 +20,7 @@ originalSlug: "maxkb-rag-813a4abe"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.395Z"
 updatedAt: "2026-07-31T11:16:25.879Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 03 篇：MaxKB 知识库与 RAG 实战规范：文档切分、召回验证、回答质量
 

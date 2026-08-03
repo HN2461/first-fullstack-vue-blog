@@ -21,7 +21,7 @@ originalSlug: "element-plus-elementplus-table-pagination-dialog-drawer-message-a
 originalStatus: "published"
 publishedAt: "2026-04-28T13:45:18.643Z"
 updatedAt: "2026-07-31T11:16:23.606Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 6 篇：Element Plus 中后台核心组件：Table、Pagination、Dialog、Drawer、Message
 

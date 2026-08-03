@@ -22,7 +22,7 @@ originalSlug: "ai-agent-codex-codex-cli-app-afad6d17"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.293Z"
 updatedAt: "2026-07-31T11:16:25.480Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 05 篇：Codex CLI、插件、App 三端联动实战
 

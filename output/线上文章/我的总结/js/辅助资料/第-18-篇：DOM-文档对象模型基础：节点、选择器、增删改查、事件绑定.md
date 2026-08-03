@@ -19,7 +19,7 @@ originalSlug: "js-js-dom-cefe5122"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.671Z"
 updatedAt: "2026-07-31T11:16:24.471Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 18 篇：DOM 文档对象模型基础：节点、选择器、增删改查、事件绑定
 **文档对象模型**（Document Object Model，简称DOM），它就是一系列**编程接口**，有了这些接口，就可以**改变页面内容，结构和样式**

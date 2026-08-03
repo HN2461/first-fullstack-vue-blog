@@ -22,7 +22,7 @@ originalSlug: "ai-rules-claude-claude-md-claudecode-ff6cd587"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.678Z"
 updatedAt: "2026-07-31T11:16:25.240Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 03 篇：CLAUDE.md 与 Claude Code 记忆系统
 

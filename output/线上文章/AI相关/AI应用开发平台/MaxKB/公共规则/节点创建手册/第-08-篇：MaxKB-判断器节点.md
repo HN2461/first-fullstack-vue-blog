@@ -22,7 +22,7 @@ originalSlug: "maxkb-07-fd8035d1"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.475Z"
 updatedAt: "2026-07-31T11:16:25.811Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 08 篇：MaxKB 判断器节点
 > 文档状态（2026-07-01）：根据空白高级智能体验证截图、通用实践和 MaxKB 官方资料，记录判断器节点配置、条件类型和项目使用规则。

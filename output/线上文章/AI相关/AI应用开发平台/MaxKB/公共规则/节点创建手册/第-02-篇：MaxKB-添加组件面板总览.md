@@ -21,7 +21,7 @@ originalSlug: "maxkb-01-f396d281"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.446Z"
 updatedAt: "2026-07-31T11:16:25.784Z"
-exportedAt: "2026-08-03T03:03:53.296Z"
+exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 # 第 02 篇：MaxKB 添加组件面板总览
 > 文档状态（2026-07-01）：根据空白高级智能体验证截图，记录添加组件面板的三个页签和可见节点。
