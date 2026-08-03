@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "description": "内置技术题目的知识范围参考。题干、选项和解析均为项目内重新组织的原创内容，不直接复制文档示例。",
+  "sources": [
+    { "categories": ["frontend.html"], "name": "MDN HTML", "url": "https://developer.mozilla.org/en-US/docs/Web/HTML" },
+    { "categories": ["frontend.css"], "name": "MDN CSS", "url": "https://developer.mozilla.org/en-US/docs/Web/CSS" },
+    { "categories": ["frontend.javascript"], "name": "MDN JavaScript Guide", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide" },
+    { "categories": ["frontend.browser", "frontend.security"], "name": "MDN HTTP", "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP" },
+    { "categories": ["frontend.typescript"], "name": "TypeScript Handbook", "url": "https://www.typescriptlang.org/docs/handbook/intro.html" },
+    { "categories": ["frontend.vue"], "name": "Vue.js Guide", "url": "https://vuejs.org/guide/" },
+    { "categories": ["frontend.react"], "name": "React Documentation", "url": "https://react.dev/learn" },
+    { "categories": ["frontend.engineering"], "name": "Vite Guide", "url": "https://vite.dev/guide/" },
+    { "categories": ["frontend.performance"], "name": "web.dev Performance", "url": "https://web.dev/learn/performance/" },
+    { "categories": ["frontend.testing"], "name": "web.dev Testing", "url": "https://web.dev/learn/testing/" },
+    { "categories": ["backend.node"], "name": "Node.js Documentation", "url": "https://nodejs.org/docs/latest/api/" },
+    { "categories": ["backend.express"], "name": "Express Guide", "url": "https://expressjs.com/en/guide/routing.html" },
+    { "categories": ["database.mongodb"], "name": "MongoDB Manual", "url": "https://www.mongodb.com/docs/manual/" },
+    { "categories": ["database.mysql"], "name": "MySQL Reference Manual", "url": "https://dev.mysql.com/doc/refman/8.4/en/" },
+    { "categories": ["database.redis"], "name": "Redis Documentation", "url": "https://redis.io/docs/latest/" },
+    { "categories": ["backend.python"], "name": "Python Tutorial", "url": "https://docs.python.org/3/tutorial/" },
+    { "categories": ["backend.fastapi"], "name": "FastAPI Documentation", "url": "https://fastapi.tiangolo.com/" }
+  ]
+}

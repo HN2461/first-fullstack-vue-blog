@@ -93,17 +93,30 @@ describe('question bank routes', () => {
     await disconnectTestDatabase()
   })
 
-  it('ships 120 structurally valid and uniquely coded essential questions', () => {
+  it('ships 420 structurally valid and uniquely coded essential questions', () => {
     const { categories, questions } = loadBuiltinQuestionData()
     const categoryKeys = new Set(categories.map((item) => item.key))
     const questionCodes = questions.map((item) => item.code)
+    const frontendQuestions = questions.filter((item) => item.categoryKey.startsWith('frontend.'))
+    const choiceQuestions = questions.filter((item) => ['single_choice', 'multiple_choice'].includes(item.type))
+    const booleanQuestions = questions.filter((item) => item.type === 'true_false')
 
-    expect(categories).toHaveLength(16)
-    expect(questions).toHaveLength(120)
-    expect(new Set(questionCodes).size).toBe(120)
+    expect(categories).toHaveLength(21)
+    expect(questions).toHaveLength(420)
+    expect(frontendQuestions).toHaveLength(335)
+    expect(new Set(questionCodes).size).toBe(420)
+    expect([...categoryKeys]).toEqual(expect.arrayContaining([
+      'frontend.react',
+      'frontend.engineering',
+      'frontend.performance',
+      'frontend.security',
+      'frontend.testing'
+    ]))
     expect(questions.every((item) => categoryKeys.has(item.categoryKey))).toBe(true)
     expect(questions.every((item) => item.stem?.trim() && item.answerKeys?.length && item.explanation?.trim())).toBe(true)
-    expect(questions.filter((item) => ['single_choice', 'multiple_choice'].includes(item.type)).every((item) => item.options?.length >= 2)).toBe(true)
+    expect(choiceQuestions.every((item) => item.options?.length >= 2)).toBe(true)
+    expect(choiceQuestions.every((item) => item.answerKeys.every((key) => item.options.some((option) => option.id === key)))).toBe(true)
+    expect(booleanQuestions.every((item) => item.answerKeys.length === 1 && ['true', 'false'].includes(item.answerKeys[0]))).toBe(true)
   })
 
   it('seeds a standalone question bank menu tree', async () => {
