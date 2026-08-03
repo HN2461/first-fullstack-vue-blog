@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 export const QUESTION_TYPES = Object.freeze(['single_choice', 'multiple_choice', 'true_false', 'short_answer'])
 export const QUESTION_DIFFICULTIES = Object.freeze(['easy', 'medium', 'hard'])
 export const QUESTION_STATUSES = Object.freeze(['draft', 'ready', 'archived'])
+export const QUESTION_ASSESSMENT_MODES = Object.freeze(['auto', 'self'])
 
 const optionSchema = new mongoose.Schema(
   {
@@ -43,6 +44,11 @@ const questionSchema = new mongoose.Schema(
       enum: QUESTION_TYPES,
       required: true
     },
+    assessmentMode: {
+      type: String,
+      enum: QUESTION_ASSESSMENT_MODES,
+      default: 'auto'
+    },
     stem: {
       type: String,
       required: true,
@@ -56,7 +62,7 @@ const questionSchema = new mongoose.Schema(
     answerKeys: [{
       type: String,
       trim: true,
-      maxlength: 500
+      maxlength: 12000
     }],
     explanation: {
       type: String,
@@ -125,6 +131,7 @@ questionSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     categoryId: category?.id || this.categoryId?.toString?.(),
     category,
     type: this.type,
+    assessmentMode: this.assessmentMode || 'auto',
     stem: this.stem,
     options: this.options || [],
     difficulty: this.difficulty,

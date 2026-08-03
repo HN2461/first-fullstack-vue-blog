@@ -17,6 +17,17 @@ export const questionStatusOptions = [
   { label: '已归档', value: 'archived', color: 'default' }
 ]
 
+export const questionAssessmentModeOptions = [
+  { label: '系统自动判分', value: 'auto' },
+  { label: '提交后自行评估', value: 'self' }
+]
+
+export const selfAssessmentOptions = [
+  { label: '掌握', value: 'mastered' },
+  { label: '模糊', value: 'uncertain' },
+  { label: '不会', value: 'unknown' }
+]
+
 export const paperModeOptions = [
   { label: '随机组卷', value: 'random' },
   { label: '固定选题', value: 'fixed' }

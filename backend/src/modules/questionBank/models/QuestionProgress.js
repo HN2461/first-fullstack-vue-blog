@@ -9,6 +9,17 @@ const questionProgressSchema = new mongoose.Schema(
     wrongCount: { type: Number, min: 0, default: 0 },
     masteryLevel: { type: Number, min: 0, max: 5, default: 0 },
     lastCorrect: { type: Boolean, default: false },
+    lastSelfAssessment: {
+      type: String,
+      enum: ['mastered', 'uncertain', 'unknown'],
+      default: null
+    },
+    lastSelfAssessmentAttemptId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'QuestionAttempt',
+      default: null
+    },
+    selfAssessmentUpdatedAt: { type: Date, default: null },
     isFavorite: { type: Boolean, default: false },
     nextReviewAt: { type: Date, default: null },
     lastAttemptAt: { type: Date, default: null }

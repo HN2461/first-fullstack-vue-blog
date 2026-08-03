@@ -1,8 +1,9 @@
 import mongoose from 'mongoose'
-import { QUESTION_TYPES } from './Question.js'
+import { QUESTION_ASSESSMENT_MODES, QUESTION_TYPES } from './Question.js'
 
 export const QUESTION_ATTEMPT_MODES = Object.freeze(['exam', 'practice', 'review'])
 export const QUESTION_ATTEMPT_STATUSES = Object.freeze(['in_progress', 'submitted', 'expired'])
+export const QUESTION_SELF_ASSESSMENTS = Object.freeze(['mastered', 'uncertain', 'unknown'])
 
 const optionSnapshotSchema = new mongoose.Schema(
   {
@@ -20,9 +21,10 @@ const questionSnapshotSchema = new mongoose.Schema(
     categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'QuestionCategory', required: true },
     categoryName: { type: String, required: true, trim: true, maxlength: 240 },
     type: { type: String, enum: QUESTION_TYPES, required: true },
+    assessmentMode: { type: String, enum: QUESTION_ASSESSMENT_MODES, default: 'auto' },
     stem: { type: String, required: true, trim: true, maxlength: 12000 },
     options: { type: [optionSnapshotSchema], default: [] },
-    answerKeys: [{ type: String, trim: true, maxlength: 500 }],
+    answerKeys: [{ type: String, trim: true, maxlength: 12000 }],
     explanation: { type: String, default: '', trim: true, maxlength: 12000 },
     difficulty: { type: String, required: true },
     tags: [{ type: String, trim: true, maxlength: 30 }]
@@ -33,7 +35,7 @@ const questionSnapshotSchema = new mongoose.Schema(
 const draftAnswerSchema = new mongoose.Schema(
   {
     questionId: { type: mongoose.Schema.Types.ObjectId, required: true },
-    answerKeys: [{ type: String, trim: true, maxlength: 1000 }],
+    answerKeys: [{ type: String, trim: true, maxlength: 12000 }],
     updatedAt: { type: Date, default: Date.now }
   },
   { _id: false }
@@ -42,9 +44,11 @@ const draftAnswerSchema = new mongoose.Schema(
 const resultAnswerSchema = new mongoose.Schema(
   {
     questionId: { type: mongoose.Schema.Types.ObjectId, required: true },
-    answerKeys: [{ type: String, trim: true, maxlength: 1000 }],
-    correct: { type: Boolean, required: true },
-    score: { type: Number, min: 0, required: true }
+    answerKeys: [{ type: String, trim: true, maxlength: 12000 }],
+    correct: { type: Boolean, default: null },
+    score: { type: Number, min: 0, required: true },
+    selfAssessment: { type: String, enum: QUESTION_SELF_ASSESSMENTS, default: null },
+    assessedAt: { type: Date, default: null }
   },
   { _id: false }
 )

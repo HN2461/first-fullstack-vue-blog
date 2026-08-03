@@ -2,7 +2,11 @@ import { Question } from '#modules/questionBank/models/Question.js'
 import { QuestionAttempt } from '#modules/questionBank/models/QuestionAttempt.js'
 import { QuestionPaper } from '#modules/questionBank/models/QuestionPaper.js'
 import { buildQuestionQuery } from './question.service.js'
-import { getReviewQuestionIds, recordQuestionProgress } from './questionProgress.service.js'
+import {
+  getReviewQuestionIds,
+  recordQuestionProgress,
+  recordQuestionSelfAssessment
+} from './questionProgress.service.js'
 import {
   areAnswersCorrect,
   assertObjectId,
@@ -21,6 +25,7 @@ function snapshotQuestion(question) {
     categoryId: category._id,
     categoryName: (category.pathNames || [category.name]).join(' / '),
     type: question.type,
+    assessmentMode: question.assessmentMode || 'auto',
     stem: question.stem,
     options: question.options.map((option) => ({ id: option.id, content: option.content })),
     answerKeys: question.answerKeys,
@@ -34,6 +39,14 @@ function serializeAttempt(attempt) {
   const includeResults = attempt.status === 'submitted'
   const draftMap = new Map((attempt.draftAnswers || []).map((item) => [item.questionId.toString(), item.answerKeys || []]))
   const resultMap = new Map((attempt.answers || []).map((item) => [item.questionId.toString(), item]))
+  const autoQuestionCount = attempt.questions.filter((item) => (item.assessmentMode || 'auto') === 'auto').length
+  const selfQuestionCount = attempt.questions.length - autoQuestionCount
+  const pendingSelfAssessmentCount = includeResults
+    ? attempt.answers.filter((item) => {
+        const question = attempt.questions.find((candidate) => String(candidate.questionId) === String(item.questionId))
+        return question?.assessmentMode === 'self' && !item.selfAssessment
+      }).length
+    : selfQuestionCount
   return {
     id: attempt._id.toString(),
     paperId: attempt.paperId?.toString?.() || null,
@@ -45,6 +58,9 @@ function serializeAttempt(attempt) {
     totalScore: attempt.totalScore,
     correctCount: attempt.correctCount,
     questionCount: attempt.questions.length,
+    autoQuestionCount,
+    selfQuestionCount,
+    pendingSelfAssessmentCount,
     startedAt: attempt.startedAt,
     submittedAt: attempt.submittedAt,
     createdAt: attempt.createdAt,
@@ -59,6 +75,7 @@ function serializeAttempt(attempt) {
         categoryId: question.categoryId.toString(),
         categoryName: question.categoryName,
         type: question.type,
+        assessmentMode: question.assessmentMode || 'auto',
         stem: question.stem,
         options: question.options || [],
         difficulty: question.difficulty,
@@ -68,8 +85,10 @@ function serializeAttempt(attempt) {
       if (includeResults) {
         item.answerKeys = question.answerKeys || []
         item.explanation = question.explanation || ''
-        item.correct = result?.correct || false
+        item.correct = result?.correct ?? null
         item.score = result?.score || 0
+        item.selfAssessment = result?.selfAssessment || null
+        item.assessedAt = result?.assessedAt || null
       }
       return item
     })
@@ -213,21 +232,54 @@ export async function submitAttempt(id, userId, input = {}) {
 
   const draftMap = new Map(attempt.draftAnswers.map((item) => [item.questionId.toString(), item.answerKeys || []]))
   let correctCount = 0
+  let autoQuestionCount = 0
   attempt.answers = attempt.questions.map((question) => {
     const submitted = draftMap.get(question.questionId.toString()) || []
+    if (question.assessmentMode === 'self') {
+      return { questionId: question.questionId, answerKeys: submitted, correct: null, score: 0 }
+    }
+    autoQuestionCount += 1
     const correct = areAnswersCorrect(question.type, submitted, question.answerKeys)
     if (correct) correctCount += 1
     return { questionId: question.questionId, answerKeys: submitted, correct, score: correct ? 1 : 0 }
   })
   attempt.correctCount = correctCount
-  attempt.totalScore = Math.round((correctCount / attempt.questions.length) * 10000) / 100
+  attempt.totalScore = autoQuestionCount
+    ? Math.round((correctCount / autoQuestionCount) * 10000) / 100
+    : 0
   attempt.status = 'submitted'
   attempt.submittedAt = new Date()
   await attempt.save()
 
   for (const answer of attempt.answers) {
-    await recordQuestionProgress(userId, answer.questionId, answer.correct)
+    if (typeof answer.correct === 'boolean') {
+      await recordQuestionProgress(userId, answer.questionId, answer.correct)
+    }
   }
+  return serializeAttempt(attempt)
+}
+
+export async function assessAttemptQuestion(id, userId, input) {
+  const attempt = await findOwnedAttempt(id, userId)
+  if (attempt.status !== 'submitted') {
+    throw createQuestionBankError(409, 'QUESTION_ATTEMPT_NOT_SUBMITTED', '请先提交答卷再进行自评')
+  }
+  const question = attempt.questions.find((item) => String(item.questionId) === String(input.questionId))
+  if (!question) {
+    throw createQuestionBankError(400, 'ATTEMPT_QUESTION_NOT_FOUND', '当前答题记录中不存在该题目')
+  }
+  if (question.assessmentMode !== 'self') {
+    throw createQuestionBankError(400, 'QUESTION_SELF_ASSESSMENT_NOT_ALLOWED', '该题目由系统自动判分，无需自评')
+  }
+  const result = attempt.answers.find((item) => String(item.questionId) === String(input.questionId))
+  if (!result) {
+    throw createQuestionBankError(409, 'ATTEMPT_RESULT_NOT_FOUND', '答题结果尚未生成')
+  }
+
+  await recordQuestionSelfAssessment(userId, question.questionId, attempt._id, input.assessment)
+  result.selfAssessment = input.assessment
+  result.assessedAt = new Date()
+  await attempt.save()
   return serializeAttempt(attempt)
 }
 

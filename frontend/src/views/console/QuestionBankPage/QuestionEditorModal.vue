@@ -26,6 +26,10 @@
           </a-form-item>
         </div>
 
+        <a-form-item v-if="form.type === 'short_answer'" label="判分方式" required>
+          <a-segmented v-model:value="form.assessmentMode" :options="questionAssessmentModeOptions" />
+        </a-form-item>
+
         <a-form-item label="题干" required>
           <a-textarea v-model:value="form.stem" :auto-size="{ minRows: 4, maxRows: 10 }" :maxlength="12000" placeholder="支持 Markdown 与代码块" />
         </a-form-item>
@@ -71,6 +75,15 @@
           <a-segmented v-model:value="booleanAnswer" :options="[{ label: '正确', value: 'true' }, { label: '错误', value: 'false' }]" />
         </a-form-item>
 
+        <a-form-item v-else-if="form.assessmentMode === 'self'" label="参考答案" required>
+          <a-textarea
+            v-model:value="selfReferenceAnswer"
+            :auto-size="{ minRows: 5, maxRows: 12 }"
+            :maxlength="12000"
+            placeholder="填写口述要点、参考实现或评分依据，支持 Markdown 与代码块"
+          />
+        </a-form-item>
+
         <a-form-item v-else label="参考答案" required>
           <a-select
             v-model:value="form.answerKeys"
@@ -106,7 +119,12 @@ import { computed, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { createQuestion, updateQuestion } from '@/services/questionBank'
-import { difficultyOptions, questionStatusOptions, questionTypeOptions } from './questionBankMeta'
+import {
+  difficultyOptions,
+  questionAssessmentModeOptions,
+  questionStatusOptions,
+  questionTypeOptions
+} from './questionBankMeta'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -118,6 +136,7 @@ const emit = defineEmits(['cancel', 'saved'])
 const form = reactive({
   categoryId: undefined,
   type: 'single_choice',
+  assessmentMode: 'auto',
   stem: '',
   options: [],
   answerKeys: [],
@@ -139,6 +158,10 @@ const booleanAnswer = computed({
   get: () => form.answerKeys[0] || 'true',
   set: (value) => { form.answerKeys = [value] }
 })
+const selfReferenceAnswer = computed({
+  get: () => form.answerKeys[0] || '',
+  set: (value) => { form.answerKeys = value.trim() ? [value] : [] }
+})
 
 function createDefaultOptions() {
   return ['A', 'B', 'C', 'D'].map((id) => ({ id, content: '' }))
@@ -148,6 +171,7 @@ function resetForm() {
   const question = props.question
   form.categoryId = question?.categoryId || undefined
   form.type = question?.type || 'single_choice'
+  form.assessmentMode = question?.assessmentMode || 'auto'
   form.stem = question?.stem || ''
   form.options = question?.options?.length
     ? question.options.map((item) => ({ id: item.id, content: item.content }))
@@ -161,6 +185,7 @@ function resetForm() {
 }
 
 function resetAnswerDefinition() {
+  form.assessmentMode = 'auto'
   form.answerKeys = form.type === 'true_false' ? ['true'] : []
   form.options = isChoice.value ? createDefaultOptions() : []
 }
@@ -197,6 +222,7 @@ async function submit() {
     const payload = {
       categoryId: form.categoryId,
       type: form.type,
+      assessmentMode: form.assessmentMode,
       stem: form.stem,
       options,
       answerKeys: form.answerKeys,

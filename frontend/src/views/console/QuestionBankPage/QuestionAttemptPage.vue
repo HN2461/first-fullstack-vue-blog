@@ -13,8 +13,8 @@
           {{ attempt.durationMinutes ? formatClock(remainingSeconds) : `${answeredCount}/${attempt.questionCount}` }}
         </span>
         <a-button v-if="attempt.status === 'in_progress'" type="primary" danger :loading="submitting" @click="confirmSubmit">提交答卷</a-button>
-        <a-tag v-else :color="attempt.totalScore >= attempt.passScore ? 'success' : 'error'">
-          {{ attempt.totalScore >= attempt.passScore ? '已通过' : '未通过' }}
+        <a-tag v-else :color="resultStatus.color">
+          {{ resultStatus.label }}
         </a-tag>
       </header>
 
@@ -56,7 +56,7 @@
                 v-else
                 :value="getAnswer(currentQuestion)[0] || ''"
                 :auto-size="{ minRows: 5, maxRows: 12 }"
-                placeholder="填写答案"
+                :placeholder="currentQuestion.assessmentMode === 'self' ? '输入口述要点、实现思路或代码，交卷后对照参考答案自评' : '填写答案'"
                 @change="setTextAnswer(currentQuestion, $event.target.value)"
               />
             </div>
@@ -84,15 +84,16 @@
 
       <template v-else>
         <section class="question-result-summary">
-          <div class="question-result-score"><strong>{{ attempt.totalScore }}</strong><span>总分 / 100</span></div>
-          <div class="question-result-metric"><strong>{{ attempt.correctCount }}/{{ attempt.questionCount }}</strong><span>答对题目</span></div>
-          <div class="question-result-metric"><strong>{{ Math.round(attempt.correctCount / attempt.questionCount * 100) }}%</strong><span>正确率</span></div>
+          <div class="question-result-score"><strong>{{ attempt.autoQuestionCount ? attempt.totalScore : '--' }}</strong><span>自动判题得分</span></div>
+          <div class="question-result-metric"><strong>{{ attempt.correctCount }}/{{ attempt.autoQuestionCount }}</strong><span>自动判题</span></div>
+          <div class="question-result-metric"><strong>{{ autoAccuracy }}</strong><span>自动题正确率</span></div>
+          <div v-if="attempt.selfQuestionCount" class="question-result-metric"><strong>{{ selfAssessedCount }}/{{ attempt.selfQuestionCount }}</strong><span>自评完成</span></div>
           <div class="question-result-metric"><strong>{{ formatDuration(attempt.startedAt, attempt.submittedAt) }}</strong><span>作答用时</span></div>
         </section>
 
         <section class="question-result-breakdown">
-          <a-tag v-for="item in categoryBreakdown" :key="item.name" :color="item.correct === item.total ? 'green' : 'default'">
-            {{ item.name }} {{ item.correct }}/{{ item.total }}
+          <a-tag v-for="item in categoryBreakdown" :key="item.name" :color="breakdownColor(item)">
+            {{ item.name }}<template v-if="item.autoTotal"> · 自动 {{ item.correct }}/{{ item.autoTotal }}</template><template v-if="item.selfTotal"> · 自评 {{ item.assessed }}/{{ item.selfTotal }}</template>
           </a-tag>
         </section>
 
@@ -100,7 +101,9 @@
           <a-collapse-panel v-for="(question, index) in attempt.questions" :key="question.questionId">
             <template #header>
               <a-space>
-                <CheckCircleFilled v-if="question.correct" style="color: #52c41a" />
+                <CheckCircleFilled v-if="question.correct || question.selfAssessment === 'mastered'" style="color: #52c41a" />
+                <QuestionCircleFilled v-else-if="question.selfAssessment === 'uncertain'" style="color: #faad14" />
+                <ClockCircleFilled v-else-if="question.assessmentMode === 'self' && !question.selfAssessment" style="color: #fa8c16" />
                 <CloseCircleFilled v-else style="color: #ff4d4f" />
                 <span>第 {{ index + 1 }} 题 · {{ question.categoryName }}</span>
               </a-space>
@@ -114,10 +117,20 @@
               <MarkdownRenderer :content="question.stem" code-wrap />
               <div class="question-result-answer">
                 <div><span>你的答案</span><strong>{{ formatAnswer(question, question.submittedAnswer) }}</strong></div>
-                <div><span>正确答案</span><strong>{{ formatAnswer(question, question.answerKeys) }}</strong></div>
+                <div><span>{{ question.assessmentMode === 'self' ? '参考答案' : '正确答案' }}</span><strong>{{ formatAnswer(question, question.answerKeys) }}</strong></div>
               </div>
               <div class="question-result-explanation">
+                <div class="question-result-explanation__title"><BulbOutlined />答案解析</div>
                 <MarkdownRenderer :content="question.explanation || '暂无解析'" code-wrap />
+              </div>
+              <div v-if="question.assessmentMode === 'self'" class="question-result-self-assessment">
+                <span>对照参考答案后自评</span>
+                <a-segmented
+                  :value="question.selfAssessment"
+                  :options="selfAssessmentOptions"
+                  :disabled="assessingQuestionId === question.questionId"
+                  @change="saveSelfAssessment(question, $event)"
+                />
               </div>
             </div>
           </a-collapse-panel>
@@ -133,14 +146,18 @@ import { useRoute, useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import {
   ArrowLeftOutlined,
+  BulbOutlined,
   CheckCircleFilled,
+  ClockCircleFilled,
   CloseCircleFilled,
   LeftOutlined,
+  QuestionCircleFilled,
   RightOutlined,
   StarOutlined
 } from '@ant-design/icons-vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 import {
+  assessQuestionAttempt,
   getQuestionAttempt,
   saveQuestionAnswer,
   setQuestionFavorite,
@@ -151,7 +168,8 @@ import {
   difficultyOptions,
   formatDuration,
   getOptionMeta,
-  questionTypeOptions
+  questionTypeOptions,
+  selfAssessmentOptions
 } from './questionBankMeta'
 import './questionBank.css'
 import './questionAttempt.css'
@@ -160,6 +178,7 @@ const route = useRoute()
 const router = useRouter()
 const loading = ref(false)
 const submitting = ref(false)
+const assessingQuestionId = ref('')
 const attempt = reactive({})
 const answers = reactive({})
 const currentIndex = ref(0)
@@ -170,16 +189,38 @@ let clockTimer = null
 
 const currentQuestion = computed(() => attempt.questions?.[currentIndex.value] || {})
 const answeredCount = computed(() => (attempt.questions || []).filter((item) => getAnswer(item).length > 0).length)
+const selfAssessedCount = computed(() => (attempt.questions || []).filter((item) => item.assessmentMode === 'self' && item.selfAssessment).length)
+const autoAccuracy = computed(() => attempt.autoQuestionCount
+  ? `${Math.round(attempt.correctCount / attempt.autoQuestionCount * 100)}%`
+  : '--')
+const resultStatus = computed(() => {
+  if (attempt.pendingSelfAssessmentCount) return { label: `待自评 ${attempt.pendingSelfAssessmentCount} 题`, color: 'warning' }
+  if (!attempt.autoQuestionCount) return { label: '自评已完成', color: 'success' }
+  return attempt.totalScore >= attempt.passScore
+    ? { label: '已通过', color: 'success' }
+    : { label: '未通过', color: 'error' }
+})
 const categoryBreakdown = computed(() => {
   const groups = new Map()
   for (const question of attempt.questions || []) {
-    const item = groups.get(question.categoryName) || { name: question.categoryName, correct: 0, total: 0 }
-    item.total += 1
-    if (question.correct) item.correct += 1
+    const item = groups.get(question.categoryName) || { name: question.categoryName, correct: 0, autoTotal: 0, assessed: 0, selfTotal: 0 }
+    if (question.assessmentMode === 'self') {
+      item.selfTotal += 1
+      if (question.selfAssessment) item.assessed += 1
+    } else {
+      item.autoTotal += 1
+      if (question.correct) item.correct += 1
+    }
     groups.set(question.categoryName, item)
   }
   return [...groups.values()]
 })
+
+function breakdownColor(item) {
+  if (item.selfTotal && item.assessed < item.selfTotal) return 'orange'
+  if (!item.autoTotal || item.correct === item.autoTotal) return 'green'
+  return 'default'
+}
 
 function getAnswer(question) {
   return answers[question.questionId] || []
@@ -283,6 +324,22 @@ async function favoriteQuestion(question) {
     message.success('已加入收藏')
   } catch (error) {
     message.error(error.message || '收藏失败')
+  }
+}
+
+async function saveSelfAssessment(question, assessment) {
+  assessingQuestionId.value = question.questionId
+  try {
+    const result = await assessQuestionAttempt(attempt.id, {
+      questionId: question.questionId,
+      assessment
+    })
+    Object.assign(attempt, result)
+    message.success('自评结果已保存')
+  } catch (error) {
+    message.error(error.message || '自评结果保存失败')
+  } finally {
+    assessingQuestionId.value = ''
   }
 }
 

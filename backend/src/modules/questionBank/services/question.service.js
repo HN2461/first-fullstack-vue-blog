@@ -103,6 +103,9 @@ function validateQuestionDefinition(input) {
   if (input.type === 'short_answer' && !input.answerKeys.length) {
     throw createQuestionBankError(400, 'QUESTION_ANSWER_REQUIRED', '简答题至少需要一个参考答案')
   }
+  if (input.assessmentMode === 'self' && input.type !== 'short_answer') {
+    throw createQuestionBankError(400, 'QUESTION_ASSESSMENT_MODE_INVALID', '提交后自评仅适用于简答题')
+  }
 }
 
 export async function createQuestion(input, userId) {
@@ -133,7 +136,7 @@ export async function updateQuestion(id, input) {
     options: input.options ?? question.options
   })
   validateQuestionDefinition(normalized)
-  const fields = ['categoryId', 'type', 'stem', 'options', 'answerKeys', 'explanation', 'difficulty', 'tags', 'status', 'defaultScore']
+  const fields = ['categoryId', 'type', 'assessmentMode', 'stem', 'options', 'answerKeys', 'explanation', 'difficulty', 'tags', 'status', 'defaultScore']
   for (const field of fields) {
     if (input[field] !== undefined) question[field] = normalized[field]
   }

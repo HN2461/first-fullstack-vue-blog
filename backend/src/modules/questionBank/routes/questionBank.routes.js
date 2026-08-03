@@ -22,6 +22,7 @@ import {
   updateQuestionPaper
 } from '#modules/questionBank/services/questionPaper.service.js'
 import {
+  assessAttemptQuestion,
   getQuestionAttempt,
   listQuestionAttempts,
   saveAttemptAnswer,
@@ -49,6 +50,7 @@ import {
   questionQuerySchema,
   questionUpdateSchema,
   quickAttemptSchema,
+  selfAssessmentSchema,
   parseBody
 } from '#modules/questionBank/validators/questionBank.validator.js'
 
@@ -172,6 +174,11 @@ questionBankRouter.patch('/attempts/:id/answer', canViewAttempts, asyncHandler(a
 questionBankRouter.post('/attempts/:id/submit', canViewAttempts, asyncHandler(async (req, res) => {
   const input = parseBody(attemptSubmitSchema, req.body)
   res.json(ok(await submitAttempt(req.params.id, req.user._id, input), '答题已提交'))
+}))
+
+questionBankRouter.patch('/attempts/:id/self-assessment', canViewAttempts, asyncHandler(async (req, res) => {
+  const input = parseBody(selfAssessmentSchema, req.body)
+  res.json(ok(await assessAttemptQuestion(req.params.id, req.user._id, input), '自评结果已保存'))
 }))
 
 questionBankRouter.get('/progress', canReview, asyncHandler(async (req, res) => {

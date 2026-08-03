@@ -100,6 +100,7 @@ async function seedQuestions(items, categoryMap) {
     const contentHash = crypto.createHash('sha256').update(JSON.stringify({
       categoryKey: input.categoryKey,
       type: input.type,
+      assessmentMode: input.assessmentMode,
       stem: input.stem,
       options: input.options || [],
       answerKeys: (input.answerKeys || []).map(String),
@@ -110,6 +111,7 @@ async function seedQuestions(items, categoryMap) {
     const data = {
       categoryId: category._id,
       type: input.type,
+      assessmentMode: input.assessmentMode || 'auto',
       stem: input.stem,
       options: input.options || [],
       answerKeys: (input.answerKeys || []).map(String),

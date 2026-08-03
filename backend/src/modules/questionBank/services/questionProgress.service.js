@@ -3,6 +3,11 @@ import { QuestionProgress } from '#modules/questionBank/models/QuestionProgress.
 import { assertObjectId, createQuestionBankError, resolvePaging } from './questionBank.utils.js'
 
 const REVIEW_INTERVAL_DAYS = [0, 1, 3, 7, 14, 30]
+const SELF_ASSESSMENT_CONFIG = Object.freeze({
+  mastered: { correct: true, masteryDelta: 1, reviewDays: 14 },
+  uncertain: { correct: false, masteryDelta: -1, reviewDays: 1 },
+  unknown: { correct: false, masteryDelta: -2, reviewDays: 0 }
+})
 
 function resolveNextReviewAt(masteryLevel, correct) {
   const days = correct ? REVIEW_INTERVAL_DAYS[masteryLevel] || 30 : 0
@@ -28,6 +33,37 @@ export async function recordQuestionProgress(userId, questionId, correct) {
   return progress
 }
 
+export async function recordQuestionSelfAssessment(userId, questionId, attemptId, assessment) {
+  let progress = await QuestionProgress.findOne({ userId, questionId })
+  if (!progress) progress = new QuestionProgress({ userId, questionId })
+
+  const config = SELF_ASSESSMENT_CONFIG[assessment]
+  const sameAttempt = String(progress.lastSelfAssessmentAttemptId || '') === String(attemptId)
+  const previousAssessment = sameAttempt ? progress.lastSelfAssessment : null
+  if (previousAssessment === assessment) return progress
+
+  if (previousAssessment) {
+    const previousConfig = SELF_ASSESSMENT_CONFIG[previousAssessment]
+    if (previousConfig.correct) progress.correctCount = Math.max(0, progress.correctCount - 1)
+    else progress.wrongCount = Math.max(0, progress.wrongCount - 1)
+    progress.masteryLevel = Math.max(0, Math.min(5, progress.masteryLevel - previousConfig.masteryDelta))
+  } else {
+    progress.attempts += 1
+  }
+
+  if (config.correct) progress.correctCount += 1
+  else progress.wrongCount += 1
+  progress.masteryLevel = Math.max(0, Math.min(5, progress.masteryLevel + config.masteryDelta))
+  progress.lastCorrect = config.correct
+  progress.lastAttemptAt = new Date()
+  progress.lastSelfAssessment = assessment
+  progress.lastSelfAssessmentAttemptId = attemptId
+  progress.selfAssessmentUpdatedAt = new Date()
+  progress.nextReviewAt = new Date(Date.now() + config.reviewDays * 24 * 60 * 60 * 1000)
+  await progress.save()
+  return progress
+}
+
 function serializeProgress(item) {
   const question = item.questionId
   if (!question || !question._id) return null
@@ -41,6 +77,8 @@ function serializeProgress(item) {
     accuracy: item.attempts ? Math.round((item.correctCount / item.attempts) * 100) : 0,
     masteryLevel: item.masteryLevel,
     lastCorrect: item.lastCorrect,
+    lastSelfAssessment: item.lastSelfAssessment,
+    selfAssessmentUpdatedAt: item.selfAssessmentUpdatedAt,
     isFavorite: item.isFavorite,
     nextReviewAt: item.nextReviewAt,
     lastAttemptAt: item.lastAttemptAt

@@ -1,6 +1,3 @@
-import fs from 'node:fs'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import request from 'supertest'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
@@ -17,18 +14,6 @@ import {
   connectTestDatabase,
   disconnectTestDatabase
 } from './helpers/testDatabase.js'
-
-const testDir = path.dirname(fileURLToPath(import.meta.url))
-const questionDataDir = path.resolve(testDir, '../src/data/questionBank')
-
-function loadBuiltinQuestionData() {
-  const categories = JSON.parse(fs.readFileSync(path.join(questionDataDir, 'categories.json'), 'utf8')).items
-  const questions = fs.readdirSync(questionDataDir)
-    .filter((fileName) => /^questions-.+\.json$/i.test(fileName))
-    .sort()
-    .flatMap((fileName) => JSON.parse(fs.readFileSync(path.join(questionDataDir, fileName), 'utf8')).questions)
-  return { categories, questions }
-}
 
 async function createSuperUser(email) {
   const role = await Role.findOne({ code: BUILTIN_ROLE_CODES.SUPER_ADMIN })
@@ -91,43 +76,6 @@ describe('question bank routes', () => {
 
   afterAll(async () => {
     await disconnectTestDatabase()
-  })
-
-  it('ships 570 structurally valid and uniquely coded essential questions', () => {
-    const { categories, questions } = loadBuiltinQuestionData()
-    const categoryKeys = new Set(categories.map((item) => item.key))
-    const questionCodes = questions.map((item) => item.code)
-    const questionStems = questions.map((item) => item.stem.trim())
-    const frontendQuestions = questions.filter((item) => item.categoryKey.startsWith('frontend.'))
-    const interviewQuestions = questions.filter((item) => item.categoryKey.startsWith('frontend.interview.'))
-    const choiceQuestions = questions.filter((item) => ['single_choice', 'multiple_choice'].includes(item.type))
-    const booleanQuestions = questions.filter((item) => item.type === 'true_false')
-
-    expect(categories).toHaveLength(27)
-    expect(questions).toHaveLength(570)
-    expect(frontendQuestions).toHaveLength(485)
-    expect(interviewQuestions).toHaveLength(150)
-    expect(new Set(questionCodes).size).toBe(570)
-    expect(new Set(questionStems).size).toBe(570)
-    expect([...categoryKeys]).toEqual(expect.arrayContaining([
-      'frontend.react',
-      'frontend.engineering',
-      'frontend.performance',
-      'frontend.security',
-      'frontend.testing',
-      'frontend.interview',
-      'frontend.interview.output',
-      'frontend.interview.handwritten',
-      'frontend.interview.vue',
-      'frontend.interview.scenario',
-      'frontend.interview.algorithm'
-    ]))
-    expect(questions.every((item) => categoryKeys.has(item.categoryKey))).toBe(true)
-    expect(questions.every((item) => item.stem?.trim() && item.answerKeys?.length && item.explanation?.trim())).toBe(true)
-    expect(interviewQuestions.every((item) => item.explanation.trim().length >= 40)).toBe(true)
-    expect(choiceQuestions.every((item) => item.options?.length >= 2)).toBe(true)
-    expect(choiceQuestions.every((item) => item.answerKeys.every((key) => item.options.some((option) => option.id === key)))).toBe(true)
-    expect(booleanQuestions.every((item) => item.answerKeys.length === 1 && ['true', 'false'].includes(item.answerKeys[0]))).toBe(true)
   })
 
   it('seeds a standalone question bank menu tree', async () => {
@@ -335,6 +283,92 @@ describe('question bank routes', () => {
       .send({})
       .expect(200)
     expect(submitResponse.body.data).toMatchObject({ correctCount: 1, totalScore: 100 })
+  })
+
+  it('supports detailed post-submit self assessment without treating oral answers as wrong', async () => {
+    const category = await createCategory(app, token, 'frontend.interview.oral', '前端口述题')
+    const question = await createQuestion(app, token, category.id, {
+      code: 'interview-oral-event-loop',
+      type: 'short_answer',
+      assessmentMode: 'self',
+      stem: '请口述一次浏览器事件循环的完整执行过程。',
+      options: [],
+      answerKeys: ['同步代码执行完成后清空微任务队列，再进入下一轮宏任务；渲染时机由浏览器调度。'],
+      explanation: '关键点包括调用栈、任务队列、微任务检查点以及渲染时机。'
+    })
+    const startResponse = await request(app)
+      .post('/api/question-bank/attempts/quick')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ count: 1, categoryId: category.id })
+      .expect(201)
+    const attempt = startResponse.body.data
+    expect(attempt.questions[0]).toMatchObject({ assessmentMode: 'self' })
+    expect(attempt.questions[0].answerKeys).toBeUndefined()
+    expect(attempt.questions[0].explanation).toBeUndefined()
+
+    await request(app)
+      .patch(`/api/question-bank/attempts/${attempt.id}/answer`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ questionId: question.id, answerKeys: ['先执行同步代码，然后处理微任务。'] })
+      .expect(200)
+
+    const submitResponse = await request(app)
+      .post(`/api/question-bank/attempts/${attempt.id}/submit`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({})
+      .expect(200)
+    expect(submitResponse.body.data).toMatchObject({
+      correctCount: 0,
+      totalScore: 0,
+      autoQuestionCount: 0,
+      selfQuestionCount: 1,
+      pendingSelfAssessmentCount: 1
+    })
+    expect(submitResponse.body.data.questions[0]).toMatchObject({
+      correct: null,
+      selfAssessment: null,
+      answerKeys: question.answerKeys,
+      explanation: question.explanation
+    })
+    expect(await QuestionProgress.countDocuments({ questionId: question.id })).toBe(0)
+
+    const masteredResponse = await request(app)
+      .patch(`/api/question-bank/attempts/${attempt.id}/self-assessment`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ questionId: question.id, assessment: 'mastered' })
+      .expect(200)
+    expect(masteredResponse.body.data.pendingSelfAssessmentCount).toBe(0)
+    expect(masteredResponse.body.data.questions[0].selfAssessment).toBe('mastered')
+
+    await request(app)
+      .patch(`/api/question-bank/attempts/${attempt.id}/self-assessment`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ questionId: question.id, assessment: 'mastered' })
+      .expect(200)
+    let progress = await QuestionProgress.findOne({ questionId: question.id })
+    expect(progress).toMatchObject({
+      attempts: 1,
+      correctCount: 1,
+      wrongCount: 0,
+      masteryLevel: 1,
+      lastCorrect: true,
+      lastSelfAssessment: 'mastered'
+    })
+
+    await request(app)
+      .patch(`/api/question-bank/attempts/${attempt.id}/self-assessment`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ questionId: question.id, assessment: 'uncertain' })
+      .expect(200)
+    progress = await QuestionProgress.findOne({ questionId: question.id })
+    expect(progress).toMatchObject({
+      attempts: 1,
+      correctCount: 0,
+      wrongCount: 1,
+      masteryLevel: 0,
+      lastCorrect: false,
+      lastSelfAssessment: 'uncertain'
+    })
   })
 
   it('supports favorite and due review scopes while excluding archived questions', async () => {

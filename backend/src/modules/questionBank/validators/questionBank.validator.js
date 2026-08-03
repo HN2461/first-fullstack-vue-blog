@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import {
+  QUESTION_ASSESSMENT_MODES,
   QUESTION_DIFFICULTIES,
   QUESTION_STATUSES,
   QUESTION_TYPES
@@ -8,7 +9,10 @@ import {
   QUESTION_PAPER_MODES,
   QUESTION_PAPER_STATUSES
 } from '#modules/questionBank/models/QuestionPaper.js'
-import { QUESTION_ATTEMPT_MODES } from '#modules/questionBank/models/QuestionAttempt.js'
+import {
+  QUESTION_ATTEMPT_MODES,
+  QUESTION_SELF_ASSESSMENTS
+} from '#modules/questionBank/models/QuestionAttempt.js'
 
 const objectIdSchema = z.string().regex(/^[a-f\d]{24}$/i, '数据 id 不正确')
 const tagSchema = z.string().trim().min(1, '标签不能为空').max(30, '单个标签不能超过 30 个字符')
@@ -35,6 +39,7 @@ export const questionCreateSchema = z.object({
   code: z.string().trim().min(2).max(120).regex(/^[a-z0-9.-]+$/, '题目编码只能包含小写字母、数字、点和横线').optional(),
   categoryId: objectIdSchema,
   type: z.enum(QUESTION_TYPES),
+  assessmentMode: z.enum(QUESTION_ASSESSMENT_MODES).optional().default('auto'),
   stem: z.string().trim().min(1, '题干不能为空').max(12000),
   options: z.array(questionOptionSchema).max(12).optional().default([]),
   answerKeys: z.array(z.union([z.string(), z.boolean(), z.number()]).transform(String)).max(20),
@@ -116,6 +121,11 @@ export const answerSaveSchema = z.object({
 export const attemptSubmitSchema = z.object({
   answers: z.array(answerSaveSchema).max(200).optional().default([])
 }).strict('存在不支持的交卷字段')
+
+export const selfAssessmentSchema = z.object({
+  questionId: objectIdSchema,
+  assessment: z.enum(QUESTION_SELF_ASSESSMENTS)
+}).strict('存在不支持的自评字段')
 
 export const attemptQuerySchema = z.object({
   page: z.coerce.number().int().min(1).optional(),

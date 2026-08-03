@@ -81,6 +81,10 @@ export function submitQuestionAttempt(id, data = {}) {
   return http.post(`/api/question-bank/attempts/${id}/submit`, data)
 }
 
+export function assessQuestionAttempt(id, data) {
+  return http.patch(`/api/question-bank/attempts/${id}/self-assessment`, data)
+}
+
 export async function listQuestionProgress(params = {}) {
   return toPageResult(await http.get('/api/question-bank/progress', { params }), params.pageSize || 20)
 }
