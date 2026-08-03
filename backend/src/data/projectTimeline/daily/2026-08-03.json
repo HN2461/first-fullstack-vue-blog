@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-03",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "online-article-structure-pull",
+      "title": "拉取线上文章结构并更新本地权威仓库",
+      "detail": "1. 通过生产服务器只读导出当前线上文章仓库，确认未删除文章 512 篇、分类 95 个，并将旧本地 output/线上文章 备份到 backups/output-online-before-pull-20260803-local。2. 使用线上导出快照替换本地 output/线上文章，保留 manifest、README、文档型文章元数据及分类路径，修正因线上目录调整产生的本地路径差异。3. 针对 Python 专题当前目录结构，修正总目录文章中旧的 02-应用实例/Web入门 与 02-应用实例/网络爬虫与数据分析 路径说明；manifest contentHash 保留线上拉取基线，便于后续 compare 识别该文章为本地正文待推送。4. 新增线上文章结构拉取报告，记录导出包、本地备份、文章数量、分类数量、Python 目录分组和本地修正内容。",
+      "occurredAt": "2026-08-03T11:20:00+08:00",
+      "category": "内容维护"
+    }
+  ]
+}

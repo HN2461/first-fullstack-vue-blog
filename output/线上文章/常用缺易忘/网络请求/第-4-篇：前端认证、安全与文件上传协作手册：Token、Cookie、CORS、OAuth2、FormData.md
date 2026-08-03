@@ -1,0 +1,301 @@
+---
+title: "第 4 篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData"
+slug: "legacy-68f76f0c-68f76f0c"
+summary: "前端认证、安全与文件上传协作手册，整理登录态、Bearer Token、Cookie、Access Token、Refresh Token、CORS、CSRF、OAuth2、FormData 和文件上传联调边界。"
+category: "网络请求"
+categoryPath:
+  - "常用缺易忘"
+  - "网络请求"
+tags:
+  - "认证"
+  - "CORS"
+  - "Cookie"
+  - "文件上传"
+  - "OAuth2"
+status: "published"
+sortOrder: 40
+cover: ""
+originalId: "6a2d291f8a2b1c68f2cac378"
+originalSlug: "legacy-68f76f0c-68f76f0c"
+originalStatus: "published"
+publishedAt: "2026-04-28T11:18:24.380Z"
+updatedAt: "2026-07-31T11:16:21.529Z"
+exportedAt: "2026-08-03T03:03:53.296Z"
+---
+# 第 4 篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData
+
+> 前端和后端在这些问题上最容易“都懂一点，但总对不齐”：
+>
+> - 登录态到底放哪一层
+> - 跨域和 CSRF 到底是不是一回事
+> - 为什么会突然多一个 `OPTIONS`
+> - 文件上传到底该不该手动写 `Content-Type`
+
+## 一、先把登录态拆层，不要把名词堆成一团
+
+### 1. 这些词不在同一层
+
+| 名词 | 它属于哪一层 | 它负责什么 | 前端最该关心什么 |
+| --- | --- | --- | --- |
+| Cookie | 浏览器存储与自动携带层 | 让浏览器在满足规则时自动带一段数据 | `HttpOnly`、`Secure`、`SameSite`、作用域 |
+| Session | 服务端会话层 | 在服务端保存当前登录状态 | 是否需要共享存储、是否支持强制失效 |
+| JWT | 令牌格式层 | 把身份信息打包成可验签字符串 | 过期时间、签名校验、载荷别塞敏感信息 |
+| `Authorization` | 请求头层 | 把凭证带给服务端 | 一般用 `Bearer <token>` |
+| Access Token | 业务访问凭证 | 调业务接口时频繁使用 | 建议短时效、优先放内存 |
+| Refresh Token | 续期凭证 | Access Token 失效时换新 | 更适合放 `HttpOnly` Cookie 并做失效控制 |
+
+一句话先记清：
+
+- Cookie 是“怎么带”
+- Session 是“服务端把状态存哪”
+- JWT 是“token 长什么样”
+- `Authorization` 是“请求时放哪”
+
+### 2. 前端最常见的几种组合
+
+| 场景 | 更常见的方案 | 为什么 |
+| --- | --- | --- |
+| 传统同站后台 | `Cookie + Session` | 浏览器自动带 Cookie，后端统一控会话 |
+| 前后端分离 SPA | `Authorization: Bearer <access token>` + 刷新机制 | 适合多端、多域名、网关转发 |
+| 安全要求更高的 Web 项目 | Access Token 放内存 + Refresh Token 放 `HttpOnly` Cookie | 兼顾续期体验和泄露风险 |
+| 第三方开放接口 | Bearer Token | 不依赖浏览器 Cookie 语义，更适合多客户端 |
+
+### 3. `Bearer Token` 和 Cookie 怎么选
+
+优先看 Cookie 的场景：
+
+- 同站 Web 后台
+- 后端已经有成熟 Session 体系
+- 需要服务端随时失效会话
+
+优先看 Bearer Token 的场景：
+
+- 前后端分离
+- 多端统一认证
+- 网关、微服务、开放 API 更重
+
+但前端要知道一个常见折中：
+
+- Access Token 走 `Authorization`
+- Refresh Token 走 `HttpOnly` Cookie
+
+这比“两个 token 都塞 localStorage”更稳。
+
+### 4. `Access Token` 和 `Refresh Token` 的前端实践重点
+
+- Access Token 短时效，过期别硬扛
+- Refresh 失败后别无限循环刷新
+- 并发请求一起过期时，要做“只刷新一次，其余请求排队等结果”
+- 退出登录时，不要只删前端本地状态，最好也让后端失效 refresh token
+
+## 二、跨域、跨站和安全要一起看
+
+### 1. 先把 5 个概念一次分开
+
+| 名词 | 它解决什么 | 前端该怎么理解 |
+| --- | --- | --- |
+| `CORS` | 浏览器能不能读跨源响应 | 这是浏览器放行机制，不是鉴权本身 |
+| `OPTIONS` 预检 | 浏览器在正式请求前先问“这样发行不行” | 跨域、非简单请求时很常见 |
+| `CSRF` | 浏览器会不会替用户带着凭证去发危险请求 | 重点在“自动携带凭证” |
+| `SameSite` | 跨站请求时 Cookie 要不要自动带上 | 是 Cookie 属性，不是完整防线 |
+| `CSRF Token` | 给危险请求加第二道证明 | 常和 Session、Cookie 配合使用 |
+
+### 2. `OPTIONS` 预检什么时候会出现
+
+最常见的触发条件是：
+
+- 方法不是简单请求方法
+- 带了自定义头，比如 `Authorization`
+- `Content-Type` 不是简单类型
+
+简单类型通常是：
+
+- `application/x-www-form-urlencoded`
+- `multipart/form-data`
+- `text/plain`
+
+这也是为什么前端一旦：
+
+- 带 `Authorization`
+- 用 `application/json`
+
+就经常会多看到一个 `OPTIONS`。
+
+### 3. `CORS` 和 `CSRF` 不是一回事
+
+最容易误解的一句是：
+
+`CORS 放行了，不代表接口安全了。`
+
+因为：
+
+- `CORS` 主要管前端脚本能不能读响应
+- `CSRF` 主要管浏览器会不会自动带凭证去发危险请求
+
+所以哪怕攻击者读不到响应，只要危险请求真的打到了你的后端，后端又只靠 Cookie 识别用户，CSRF 依旧可能成立。
+
+### 4. `SameSite` 只是一层防线
+
+| 取值 | 最粗暴理解 | 适合怎么理解 |
+| --- | --- | --- |
+| `Strict` | 只有同站才带 | 最保守，但跳转体验影响也最大 |
+| `Lax` | 大部分跨站子请求不带 | 浏览器默认更常见，平衡体验与安全 |
+| `None` | 跨站也允许带 | 必须同时配 `Secure` |
+
+如果你的项目是跨站 Cookie 登录，前端经常要和后端一起确认这 3 件事：
+
+- Cookie 是否设置了 `SameSite=None; Secure`
+- 请求是否用了 `credentials: 'include'`
+- `Access-Control-Allow-Origin` 是否是明确来源而不是 `*`
+
+### 5. `Origin`、`Referer`、`Host`、`Referer-Policy` 最容易混
+
+| 名词 | 它表示什么 | 前端联调时看它做什么 |
+| --- | --- | --- |
+| `Origin` | 发起页面的源，只含协议、域名、端口 | CORS、来源校验、CSRF 防护里最常看 |
+| `Referer` | 上一个页面或资源地址，可能带路径 | 排查跳转来源、来源裁剪、下载来源 |
+| `Host` | 这次请求打到哪个主机 | 这是请求目标，不是页面来源 |
+| `Referer-Policy` | 浏览器发送 `Referer` 时要暴露多少信息 | 控制来源暴露范围，影响埋点和安全策略 |
+
+前端最该记的 3 句话：
+
+- `Origin` 更像“我从哪来”
+- `Host` 更像“我要打到哪去”
+- `Referer-Policy` 决定 `Referer` 会不会被裁掉
+
+### 6. `CSRF Token` 通常怎么配
+
+一套很常见的思路是：
+
+1. 服务端建立登录会话
+2. 页面初始化或接口下发一个 `CSRF Token`
+3. 前端在危险请求里把它放到自定义头，比如 `X-CSRF-Token`
+4. 后端同时校验 Session、Token、`Origin` / `Referer`
+
+这样做的重点不是“多传一个字符串”，而是：
+
+`让攻击页面很难伪造出既带合法会话、又带合法 token 的请求。`
+
+## 三、OAuth2 从前端视角只记授权码这条主线
+
+### 1. 最实用的理解
+
+OAuth2 不是“帮你登录”的单个按钮，而是：
+
+`让用户把某个平台授予你有限权限，而不是把账号密码交给你。`
+
+### 2. 前端最常见的是授权码流程
+
+流程可以先粗暴记成：
+
+1. 前端把用户带到授权页
+2. 用户在授权平台登录并确认授权
+3. 授权平台带着授权码跳回你的回调地址
+4. 你的后端或受信客户端拿授权码换 token
+5. 再拿 token 去调用户信息或业务接口
+
+### 3. 现在更值得记住的是 `PKCE`
+
+如果你是纯前端 SPA，对接第三方登录时，优先了解：
+
+- 授权码流程
+- `PKCE`
+
+别再把重心放在旧的 implicit flow 上。
+
+更稳的落地方式通常是：
+
+- 前端只负责发起授权和接收回跳
+- token 交换尽量放到后端或 BFF
+
+## 四、文件上传不要只盯着 `FormData`，要看整条协作链路
+
+### 1. `multipart/form-data` 的 `boundary` 不要手写
+
+当你这样上传：
+
+```js
+const formData = new FormData()
+formData.append('file', file)
+formData.append('bizType', 'avatar')
+
+await fetch('/api/upload', {
+  method: 'POST',
+  body: formData
+})
+```
+
+浏览器会自动生成类似这样的头：
+
+```http
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary...
+```
+
+所以前端最重要的提醒就是：
+
+- 用 `FormData` 时别手动写 `Content-Type`
+- 手动写了反而最容易把 `boundary` 搞丢
+
+### 2. 普通上传、预签名上传、分片上传分别解决什么
+
+| 方案 | 适合什么 | 你要和后端对齐什么 |
+| --- | --- | --- |
+| 普通上传 | 小文件、业务流程简单 | 字段名、大小限制、鉴权方式 |
+| 预签名上传 | 直传对象存储、大文件、减轻业务服务器压力 | 签名有效期、允许的类型和路径、回调登记 |
+| 分片上传 | 大文件、断点续传、失败补传 | 文件标识、分片序号、并发数、合并时机、校验方式 |
+
+### 3. 预签名上传最容易误解的点
+
+预签名上传不是：
+
+- 把对象存储的长期密钥给前端
+
+而是：
+
+- 由业务后端签发一个短时有效、权限受限的上传授权
+
+前端通常要和后端确认：
+
+- 预签名有效多久
+- 允许上传到哪条路径
+- 是否限制 MIME、大小、扩展名
+- 上传完成后业务系统如何登记文件归属
+
+### 4. 分片上传最值得前端提前问清的 5 件事
+
+1. 文件唯一标识怎么生成
+2. 分片大小是多少
+3. 是否允许并发上传，最多几片并发
+4. 中断后怎么查哪些分片已经成功
+5. 合并成功后返回什么文件地址或任务状态
+
+分片上传真正的价值不在“把文件切开很高级”，而在：
+
+- 失败时不用整包重传
+- 更容易做断点续传
+- 大文件链路更稳
+
+### 5. 下载文件时别忘了 `Content-Disposition`
+
+上传是把文件送出去，下载则经常要确认回包怎么被浏览器处理。
+
+前端最常一起确认的是：
+
+- 返回是直接预览还是强制下载
+- 文件名是不是由 `Content-Disposition` 控制
+- 大文件是否支持 `Range`
+
+## 五、前端和后端联调上传接口时，至少对齐这份清单
+
+1. 字段名到底叫 `file`、`files` 还是别的，是否支持多文件
+2. 最大体积、多大走普通上传、多大走分片或预签名
+3. 白名单是看扩展名、MIME 还是两者都看
+4. 认证方式是什么，走 Cookie、Bearer Token 还是临时签名
+5. 上传完成后接口返回什么，直接 URL、文件 ID 还是异步任务号
+6. 是否需要秒传、去重、MD5 或额外校验
+7. 失败重试是整包重试、单片重试，还是由前端先查已上传分片
+8. 删除、替换、预览、下载是否走同一套文件标识
+
+如果只记一句，就记：
+
+`前端做认证、安全和上传，不要只盯某一个名词，要把“凭证放哪、浏览器会不会自动带、跨域怎么放行、文件最终怎么传完”当成一条完整链路来看。`

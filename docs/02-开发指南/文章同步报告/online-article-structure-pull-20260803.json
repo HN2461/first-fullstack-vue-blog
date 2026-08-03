@@ -1,0 +1,31 @@
+{
+  "generatedAt": "2026-08-03T03:13:30.875Z",
+  "source": "production_article_repository_export",
+  "remoteZip": "/www/personal-blog/backups/article-repository-online-20260803.zip",
+  "localZip": "backups/article-repository-online-20260803.zip",
+  "localBackup": "backups/output-online-before-pull-20260803-local",
+  "exportedAt": "2026-08-03T03:03:53.296Z",
+  "articles": 512,
+  "categories": 95,
+  "missingFiles": 0,
+  "changedComparedWithPreviousLocalSnapshot": {
+    "contentHashChangedBeforeLocalEdit": 0,
+    "categoryPathChanged": 57,
+    "pythonCategoryGroups": {
+      "后端技术/Python": 1,
+      "后端技术/Python/知识目录": 29,
+      "后端技术/Python/网络爬虫与数据分析": 6,
+      "后端技术/Python/Web入门": 18
+    }
+  },
+  "localEditsAfterPull": [
+    {
+      "originalSlug": "python-learning-index",
+      "fileName": "后端技术/Python/第-00-篇：Python-学习资料总目录：知识目录、应用实例、工具链、学习顺序.md",
+      "reason": "线上 Python 分类已去除应用实例中间层，修正总目录中的旧内容路径说明。",
+      "baselineContentHash": "4d641b44a37a5313261f1c0631ca276a7ab80ad0efee6201460516120ad9531b",
+      "localContentHash": "b0a54296b55f90ce92d2194c104c1e05074dce32b94082dead517bbde34f27b9",
+      "compareExpectation": "article-authority:compare 应将该文章识别为本地正文待推送"
+    }
+  ]
+}

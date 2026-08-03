@@ -1,0 +1,352 @@
+---
+title: "第 4 篇：Vue 2 事件处理"
+slug: "vue-vue2-3-eb141f48"
+summary: "Vue 2 事件处理笔记，整理事件绑定、事件对象、事件修饰符和键盘事件。"
+category: "vue2"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "vue2"
+tags: []
+status: "published"
+sortOrder: 40
+cover: ""
+originalId: "6a2d291e8a2b1c68f2cac2b8"
+originalSlug: "vue-vue2-3-eb141f48"
+originalStatus: "published"
+publishedAt: "2026-03-27T13:24:59.557Z"
+updatedAt: "2026-07-31T11:16:23.900Z"
+exportedAt: "2026-08-03T03:03:53.296Z"
+---
+# 第 4 篇：Vue 2 事件处理
+
+# 2.3 事件处理
+## 2.3.1 事件处理的核心语法
+### 2.3.1.1 事件处理知识点
+1. **指令的语法格式**：
+
+```html
+<标签 v-指令名:参数名="表达式">{{插值语法}}</标签>
+
+```
+
+“表达式”位置都可以写什么？
+
+    - 常量
+    - JS表达式
+    - Vue实例所管理的XXX
+2. **在Vue当中完成事件绑定需要哪个指令呢？**
+    - `v-on`指令。
+    - 语法格式：`v-on:事件名="表达式"`
+    - 例如：
+        * `v-on:click="表达式"` 表示当发生鼠标单击事件之后，执行表达式。
+        * `v-on:keydown="表达式"` 表示当发生键盘按下事件之后，执行表达式。
+3. **配置项methods**
+    - 在Vue当中，所有事件所关联的回调函数，需要在Vue实例的配置项`methods`中进行定义。
+    - `methods`是一个对象：`{}`
+    - 在这个`methods`对象中可以定义多个回调函数。
+4. `v-on`**指令也有简写形式**
+    - `v-on:click` 简写为 `@click`
+    - `v-on:keydown` 简写为 `@keydown`
+    - `v-on:mouseover` 简写为 `@mouseover`
+    - ....
+5. **绑定的回调函数，如果函数调用时不需要传递任何参数，小括号**`()`**可以省略。默认传递事件对象**`event`
+6. **Vue在调用回调函数的时候，会自动给回调函数传递一个对象，这个对象是：当前发生的事件对象。**
+7. **在绑定回调函数的时候，可以在回调函数的参数上使用**`$event`**占位符，**
+    - Vue框架看到这个`$event`占位符之后，会自动将当前事件以对象的形式传过去。
+
+### 示例代码
+```html
+<body>
+  <!-- 容器 -->
+  <div id="app">
+    <h1>{{msg}}</h1>
+    <!-- 需求一: 使用javascript原生代码实现，点击弹出‘hello提示’。 -->
+    <button onclick="alert('hello')">按钮1</button>
+    <!-- 需求二: 使用Vue来完成事件绑定 -->
+    <!-- 1、注意：alert()并没有被Vue实例管理，无法直接调用-->
+    <!-- <button v-on:click="alert('hello')">按钮2</button> -->
+    <!-- 2、注意：全局定义的sayHello()也不会被Vue实例管理。 -->
+    <!-- <button v-on:click="sayHello()">按钮3</button> -->
+    <!-- 3、正确的写法，配合methods配置项 -->
+    <button v-on:click="sayHello()">按钮4</button>
+    <!-- 4、v-on指令的简写形式 -->
+    <button @click="sayHi()">按钮5</button>
+    <!-- 5、v-on指令的传参 sayHi($event, 'jack') -->
+    <button @click="sayHi($event, 'jack')">按钮6</button>
+    <!-- 6、绑定的回调函数，如果不需要传任何参数，小括号() 可以省略 -->
+    <button @click="sayWhat">按钮7</button>
+  </div>
+  <!-- vue代码 -->
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        num: 1,
+      },
+      methods: {
+        sayHello() {
+          alert("hello");
+        },
+        sayHi(event, name) {
+          console.log(name, event);
+        },
+        sayWhat(event) {
+          console.log(event);
+        },
+      },
+    });
+  </script>
+</body>
+
+```
+
+### 2.3.1.2 事件回调函数中的`this`
+1. **常规写法下：回调函数中的**`this`**是**`vm`**。**
+    - 箭头函数写法下：回调函数中的`this`是`window`。
+    - 箭头函数没有自己的`this`，它的`this`是继承过来的，默认这个`this`是箭头函数所在的宿主对象。这个宿主对象其实就是它的父级作用域。而对象又不能构成单独的作用域，所以这个父级作用域是全局作用域，也就是`window`。
+2. **可以在函数中改变**`data`**中的数据，例如：**`this.num++`**，这样会联动页面上产生动态效果。**
+
+### 示例代码
+```html
+<body>
+  <!-- 容器 -->
+  <div id="app">
+    <h1>{{msg}}</h1>
+    <h1>计数器：{{num}}</h1>
+    <!-- 在模版中，可以拿到num，对num++，数据改变了，就会改变页面 -->
+    <button @click="num++">点击我加1</button>
+    <!-- 方法的实现 -->
+    <button @click="add">点击我加2</button>
+    <button @click="add2">点击我加3（箭头函数）</button>
+  </div>
+  <!-- vue代码 -->
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        msg: "关于事件回调函数中的this",
+        num: 0,
+      },
+      methods: {
+        add() {
+          this.num += 2;
+        },
+        add2: () => {
+          console.log(this); // 箭头函数中的this是window
+        },
+        sayhello() {
+          alert("hello");
+        },
+      },
+    });
+  </script>
+</body>
+
+```
+
+3. **回调函数并没有在**`vm`**对象上，为什么通过**`vm`**可以直接调用函数呢？尝试手写Vue框架。**
+
+### 示例代码
+```javascript
+// 定义一个Vue类
+class MyVue {
+  constructor(options) {
+    Object.keys(options.methods).forEach((methodName) => {
+      this[methodName] = options.methods[methodName];
+    });
+  }
+}
+
+<script>
+  const vm = new MyVue({
+    data: {
+      msg: "hello vue!",
+    },
+    methods: {
+      sayHi() {
+        console.log("hi");
+      },
+      sayHello: () => {
+        console.log("hello");
+      },
+    },
+  });
+</script>
+
+```
+
+## 2.3.2 事件修饰符
+方法只有纯粹的数据逻辑，而不是去处理DOM事件细节。为了解决这个问题，Vue.js为`v-on`提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。
+
+1. `.prevent`：等同于`event.preventDefault()`，阻止事件的默认行为。
+2. `.stop`：停止事件冒泡，等同于`event.stopPropagation()`。
+3. `.capture`：添加事件监听器时使用事件捕获模式。
+    - 添加事件监听器包括两种不同的方式：
+        * 一种是从内到外添加（事件冒泡模式）。
+        * 一种是从外到内添加（事件捕获模式）。
+4. `.self`：这个事件如果是“我自己元素”上发生的事件，这个事件不是别人给我传递过来的事件，则执行对应的程序。
+5. `.once`：事件只发生一次。
+6. `.passive`：passive翻译为顺从/不抵抗。无需等待，直接继续（立即）执行事件的默认行为。
+    - `.prevent`：阻止事件的默认行为，`.passive`：解除阻止，这两种修饰符是对立的。不可以共存（如果一起用，就会报错）。
+
+### 示例代码
+```html
+<head>
+  <meta charset="UTF-8" />
+  <title>事件修饰符</title>
+  <!-- 安装Vue -->
+  <script src="../js/vue.js"></script>
+  <style>
+    div:not(#app) {
+      background-color: pink;
+      padding: 10px;
+      margin: 5px;
+    }
+    .divList {
+      width: 300px;
+      height: 200px;
+      background-color: aquamarine;
+      overflow: auto;
+    }
+    .item {
+      width: 300px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 容器 -->
+  <div id="app">
+    <h1>{{msg}}</h1>
+    <!-- 1、阻止事件的默认行为  .prevent -->
+    <a href="https://www.baidu.com" @click.prevent="fun">百度</a>
+    <hr />
+    <!-- 2、停止事件冒泡  .stop -->
+    <div @click="san">
+      <div @click="er">
+        <button @click="fun">事件冒泡</button>
+      </div>
+    </div>
+    <hr />
+    <!-- 3、添加事件监听器时使用事件捕获模式 .capture -->
+    <div @click.capture="san">
+      <div @click.capture="er">
+        <button @click.capture="fun">添加事件监听器的时候采用事件捕获模式</button>
+      </div>
+    </div>
+    <hr />
+    <!-- 4、.self修饰符 只有点击到自己的时候会运行 -->
+    <div @click="san">
+      <div @click="er">
+        <button @click.self="fun">self修饰符</button>
+      </div>
+    </div>
+    <hr />
+    <!-- 5、.once修饰符：事件只发生一次 -->
+    <button @click.once="fun">事件只发生一次</button>
+    <hr />
+    <!-- 6、.passive修饰符 -->
+    <div class="divList" @wheel.passive="testPassive">
+      <div class="item">div1</div>
+      <div class="item">div2</div>
+      <div class="item">div3</div>
+    </div>
+  </div>
+  <script>
+    const vm = new Vue({
+      el: "#app",
+      data: {
+        msg: "事件修饰符",
+      },
+      methods: {
+        fun(event) {
+          alert("1");
+        },
+        er() {
+          alert(2);
+        },
+        san() {
+          alert(3);
+        },
+        testPassive(event) {
+          console.log("test passive");
+        },
+      },
+    });
+  </script>
+</body>
+
+```
+
+## 2.3.3 按键修饰符
+1. **9个比较常用的按键修饰符**：
+    - `.enter`
+    - `.tab`（必须配合`keydown`事件使用）
+    - `.delete`（捕获“删除”和“退格”键）
+    - `.esc`
+    - `.space`
+    - `.up`
+    - `.down`
+    - `.left`
+    - `.right`
+
+### 示例代码
+```html
+回车键：<input type="text" @keyup.enter="getInfo" />
+<hr />
+回车键（键值）：<input type="text" @keyup.13="getInfo" />
+<hr />
+delete键：<input type="text" @keyup.delete="getInfo" />
+<hr />
+esc键：<input type="text" @keyup.esc="getInfo" />
+<hr />
+space键：<input type="text" @keyup.space="getInfo" />
+<hr />
+up键：<input type="text" @keyup.up="getInfo" />
+<hr />
+down键：<input type="text" @keyup.down="getInfo" />
+<hr />
+left键：<input type="text" @keyup.left="getInfo" />
+<hr />
+right键：<input type="text" @keyup.right="getInfo" />
+<hr />
+```
+
+2. **怎么获取某个键的按键修饰符？**
+    - 第一步：通过`event.key`获取这个键的真实名字。
+    - 第二步：将这个真实名字以kebab-case风格进行命名。例如：`PageDown`是真实名字，经过命名之后：`page-down`。
+
+### 示例代码
+```html
+PageDown键：<input type="text" @keyup.page-down="getInfo" />
+<hr />
+```
+
+3. **按键修饰符是可以自定义的？**
+    - 第一步：获取按键的键值：`event.keyCode`
+    - 第二步：通过Vue的全局配置对象`config`来进行按键修饰符的自定义。
+    - 语法规则：`Vue.config.keyCodes.按键修饰符的名字 = 键值`
+
+### 示例代码
+```html
+huiche键：<input type="text" @keyup.huiche="getInfo" />
+<hr />
+```
+
+4. **系统修饰键：4个比较特殊的键**
+    - `ctrl`、`alt`、`shift`、`meta`
+    - 对于`keydown`事件来说：只要按下`ctrl`键，`keydown`事件就会触发。
+    - 对于`keyup`事件来说：需要按下`ctrl`键，并且加上按下组合键，然后松开组合键之后，`keyup`事件才能触发。
+
+### 示例代码
+```html
+ctrl键(keydown)：<input type="text" @keydown.ctrl="getInfo" />
+<hr />
+ctrl键(keyup)：<input type="text" @keyup.ctrl="getInfo" />
+<hr />
+ctrl+i键时才能触发：<input type="text" @keyup.ctrl.i="getInfo" />
+<hr />
+```
+
+---

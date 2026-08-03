@@ -1,0 +1,581 @@
+---
+title: "第 6 篇：浏览器渲染原理详解：DOM、CSSOM、布局、绘制、合成"
+slug: "legacy-ffc99f19-ffc99f19"
+summary: "浏览器渲染原理笔记，讲清 HTML 解析、DOM 树、CSSOM 树、渲染树、布局、绘制、合成、重排重绘和性能优化基础。"
+category: "浏览器与网络"
+categoryPath:
+  - "常用缺易忘"
+  - "浏览器与网络"
+tags: []
+status: "published"
+sortOrder: 60
+cover: ""
+originalId: "6a2d291f8a2b1c68f2cac35e"
+originalSlug: "legacy-ffc99f19-ffc99f19"
+originalStatus: "published"
+publishedAt: "2026-04-28T11:18:24.375Z"
+updatedAt: "2026-07-31T11:16:21.434Z"
+exportedAt: "2026-08-03T03:03:53.296Z"
+---
+# 第 6 篇：浏览器渲染原理详解：DOM、CSSOM、布局、绘制、合成
+
+## 一、为什么需要理解渲染原理？
+
+### 1. 渲染的核心使命
+浏览器渲染的目标：将服务器返回的**代码文本**（HTML/CSS/JS）转换成用户能看到的**可视化页面**。
+
+**过程类比**：
+```
+建筑施工流程              浏览器渲染流程
+────────────────         ─────────────────
+设计图纸（HTML）    →     解析HTML生成DOM树
+装修方案（CSS）     →     解析CSS生成CSSOM树
+施工队（JS）        →     执行JavaScript
+合并图纸+方案       →     合成渲染树
+测量定位（Layout）  →     布局计算
+粉刷墙壁（Paint）   →     绘制像素
+组装（Composite）   →     合成图层
+房子建成           →     页面显示
+```
+
+### 2. 理解渲染的价值
+- **性能优化**：知道哪些操作会触发重排/重绘，避免性能杀手
+- **调试技巧**：明白为什么页面"闪烁"、"白屏"、"卡顿"
+- **面试加分**：前端高频考点，体现技术深度
+
+
+## 二、渲染流程的5个核心步骤
+
+```
+                    关键渲染路径（Critical Rendering Path）
+                    
+HTML文件 ──────→ 解析HTML ──→ DOM树（文档对象模型）
+                                    │
+                                    ├──→ 合成渲染树 ──→ 布局 ──→ 绘制 ──→ 合成 ──→ 显示
+                                    │      (Render Tree)  (Layout) (Paint) (Composite)
+CSS文件 ───────→ 解析CSS ──→ CSSOM树（CSS对象模型）
+                                    
+JS文件 ────────→ 可能修改DOM/CSSOM（会阻塞渲染）
+```
+
+---
+
+## 三、步骤1：解析HTML，构建DOM树
+
+### 1. HTML是什么？
+HTML（HyperText Markup Language）是网页的"骨架"，用标签（Tag）描述页面结构。
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>我的网页</title>
+  </head>
+  <body>
+    <div id="app">
+      <h1>欢迎</h1>
+      <p>这是内容</p>
+    </div>
+  </body>
+</html>
+```
+
+### 2. DOM树（Document Object Model）
+浏览器把HTML转成树状结构的"对象模型"，JavaScript可以操作这棵树。
+
+**解析过程**：
+```
+字节流（Bytes）
+    ↓
+字符流（Characters）  ← 根据charset（如UTF-8）解码
+    ↓
+词法分析（Tokenization）  ← 识别标签：<html>、<div>、</div>等
+    ↓
+语法分析（Parsing）  ← 建立父子关系
+    ↓
+DOM树（DOM Tree）
+```
+
+**DOM树示例**：
+```
+Document
+  └─ html
+      ├─ head
+      │   └─ title
+      │       └─ "我的网页"（文本节点）
+      └─ body
+          └─ div#app
+              ├─ h1
+              │   └─ "欢迎"
+              └─ p
+                  └─ "这是内容"
+```
+
+### 3. 渐进式渲染
+浏览器**边解析边渲染**，不会等整个HTML下载完。
+```html
+<html>
+  <body>
+    <h1>第1屏内容</h1>  ← 用户很快看到
+    <!-- 中间10000行代码 -->
+    <footer>页脚</footer>  ← 最后才看到
+  </body>
+</html>
+```
+
+**优化技巧**：
+- 把重要内容放前面（首屏优化）
+- 用骨架屏、Loading动画占位
+
+
+## 四、步骤2：解析CSS，构建CSSOM树
+
+### 1. CSS是什么？
+CSS（Cascading Style Sheets）是网页的"外观"，定义颜色、大小、布局等。
+
+```css
+body {
+  font-size: 16px;
+  color: #333;
+}
+
+#app {
+  width: 100%;
+  padding: 20px;
+}
+
+h1 {
+  color: red;
+  font-size: 24px;
+}
+```
+
+### 2. CSSOM树（CSS Object Model）
+浏览器把CSS规则转成树状结构，计算每个元素的最终样式。
+
+**CSSOM树示例**：
+```
+body { font-size: 16px; color: #333 }
+  └─ div#app { width: 100%; padding: 20px }
+      └─ h1 { color: red; font-size: 24px }
+```
+
+### 3. CSS的层叠（Cascade）和优先级
+**层叠规则**：多个CSS规则作用于同一元素时，优先级决定最终生效的规则。
+
+**优先级从高到低**：
+```
+!important > 内联样式 > ID选择器 > 类选择器 > 标签选择器 > 通配符 > 继承
+```
+
+**示例**：
+```css
+/* 优先级：0,0,0,1 */
+p { color: blue; }
+
+/* 优先级：0,0,1,0 */
+.text { color: green; }
+
+/* 优先级：0,1,0,0 */
+#title { color: red; }
+
+/* 优先级：1,0,0,0 */
+<p style="color: yellow;">  <!-- 内联样式 -->
+
+/* 最高优先级 */
+p { color: purple !important; }
+```
+
+**实际应用**：
+```html
+<p id="title" class="text" style="color: yellow;">Hello</p>
+<!-- 最终颜色？紫色！因为有!important -->
+```
+
+### 4. CSS阻塞渲染（重要）
+**关键点**：CSS会阻塞渲染，但不阻塞DOM解析。
+
+```html
+<head>
+  <link rel="stylesheet" href="style.css">  ← 下载CSS时
+</head>
+<body>
+  <div>内容</div>  ← DOM树继续构建，但页面不显示（等CSS加载完）
+</body>
+```
+
+**原因**：浏览器必须等CSS加载完，才能知道元素的样式，避免"页面闪烁"（FOUC，Flash of Unstyled Content）。
+
+**优化建议**：
+- CSS放`<head>`，尽早开始下载
+- 内联关键CSS（首屏样式直接写在HTML里，避免网络请求）
+- 非关键CSS异步加载：
+  ```html
+  <link rel="stylesheet" href="print.css" media="print">  <!-- 打印样式，不阻塞 -->
+  ```
+
+
+## 五、步骤3：遇到JavaScript的处理
+
+### 1. JavaScript的特殊性
+JS是"动态的"，可以修改DOM和CSSOM，所以**默认会阻塞HTML解析和渲染**。
+
+```html
+<html>
+<body>
+  <div>上面的内容</div>
+  <script src="app.js"></script>  ← 遇到这里，HTML解析暂停
+  <div>下面的内容</div>  ← 等JS下载并执行完，才继续解析
+</body>
+</html>
+```
+
+### 2. 三种script加载方式
+
+#### **(1) 普通script（默认）**
+```html
+<script src="app.js"></script>
+```
+- ❌ **阻塞HTML解析**
+- ❌ **阻塞页面渲染**
+- 流程：下载JS → 执行JS → 继续解析HTML
+
+**时间线**：
+```
+HTML解析 ──→│暂停│──→ 继续解析
+             │    │
+下载JS ──────┘    │
+执行JS ────────────┘
+```
+
+#### **(2) async（异步加载）**
+```html
+<script src="app.js" async></script>
+```
+- ✅ 不阻塞HTML解析（并行下载）
+- ❌ 下载完立即执行，**执行时会阻塞解析**
+- ⚠️ 多个async脚本**执行顺序不确定**（谁先下载完谁先执行）
+
+**适用场景**：
+- 独立的第三方脚本（如Google Analytics统计代码）
+- 不依赖DOM的脚本
+
+**时间线**：
+```
+HTML解析 ──→ 继续解析 ──→│暂停│──→ 继续解析
+                        │    │
+下载JS ────────┬────────┘    │
+               └─执行JS ──────┘
+```
+
+#### **(3) defer（延迟执行）**
+```html
+<script src="app.js" defer></script>
+```
+- ✅ 不阻塞HTML解析（并行下载）
+- ✅ **等HTML解析完**再执行
+- ✅ 多个defer脚本**按顺序执行**
+
+**适用场景**：
+- 需要操作DOM的脚本
+- 有依赖关系的脚本
+
+**时间线**：
+```
+HTML解析 ──→ 继续解析 ──→ 解析完成 ──→│执行JS│
+                                    │      │
+下载JS ────────┬────────────────────┘      │
+               └───────────────────────────┘
+```
+
+### 3. 对比表格
+
+| 特性 | 普通script | async | defer |
+|------|-----------|-------|-------|
+| 阻塞HTML解析 | ✅ | ❌ | ❌ |
+| 下载完立即执行 | ✅ | ✅ | ❌ |
+| 执行时机 | 下载完立即执行 | 下载完立即执行 | HTML解析完执行 |
+| 执行顺序 | 按顺序 | **不确定** | 按顺序 |
+| 适用场景 | 必须立即执行的脚本 | 独立脚本（统计） | 操作DOM的脚本 |
+
+### 4. 最佳实践
+```html
+<!-- ❌ 不好：阻塞渲染 -->
+<head>
+  <script src="big-library.js"></script>
+</head>
+
+<!-- ✅ 好：放底部 -->
+<body>
+  <div id="app"></div>
+  <script src="main.js"></script>  <!-- HTML已解析完 -->
+</body>
+
+<!-- ✅ 更好：用defer -->
+<head>
+  <script src="main.js" defer></script>  <!-- 并行下载，解析完执行 -->
+</head>
+```
+
+
+## 六、步骤4：合成渲染树（Render Tree）
+
+### 1. 渲染树 = DOM树 + CSSOM树
+**过程**：
+```
+DOM树：           CSSOM树：              渲染树：
+body             body { font-size:16px }   body (font-size:16px)
+  ├─ div#app       ├─ #app { width:100% }    └─ div#app (width:100%)
+  │   ├─ h1          ├─ h1 { color:red }        ├─ h1 (color:red)
+  │   └─ p           └─ p { color:blue }        └─ p (color:blue)
+  └─ script      （script不参与渲染）        （不包含script）
+```
+
+### 2. 哪些元素不在渲染树中？
+- `display: none` 的元素（不占位，不渲染）
+- `<head>`、`<script>`、`<meta>` 等不可见元素
+- `visibility: hidden` **在渲染树中**（占位，但不可见）
+
+**示例**：
+```html
+<div style="display: none;">我不在渲染树中</div>
+<div style="visibility: hidden;">我在渲染树中，但不可见</div>
+```
+
+
+## 七、步骤5：布局（Layout / Reflow）
+
+### 1. 布局的任务
+计算每个元素的**位置**和**大小**（坐标、宽高）。
+
+**过程**：
+```
+从根节点开始，递归计算每个节点：
+1. 盒模型（width、height、margin、padding、border）
+2. 定位（position、top、left、float、flex、grid）
+3. 最终确定每个元素在屏幕上的坐标和尺寸
+```
+
+### 2. 布局计算示例
+```html
+<div style="width: 100%; padding: 20px;">
+  <p style="width: 50%; margin: 10px;">Hello</p>
+</div>
+```
+
+**计算过程**：
+```
+1. 视口宽度：1920px
+2. div宽度 = 100% × 1920 = 1920px
+3. div内容宽度 = 1920 - 20*2（padding） = 1880px
+4. p宽度 = 50% × 1880 = 940px
+5. p实际占宽 = 940 + 10*2（margin） = 960px
+```
+
+### 3. 什么操作会触发重排（Reflow）？
+
+**重排**：重新计算布局（性能开销大💸）
+
+**触发条件**：
+- 添加/删除DOM元素
+- 改变元素位置/尺寸：
+  ```javascript
+  element.style.width = '100px';
+  element.style.height = '100px';
+  element.style.display = 'none';
+  element.style.position = 'absolute';
+  ```
+- 改变窗口大小：`window.resize()`
+- 读取某些属性（触发强制同步布局）：
+  ```javascript
+  element.offsetTop
+  element.offsetLeft
+  element.clientWidth
+  element.scrollTop
+  window.getComputedStyle(element)
+  ```
+
+### 4. 重排优化技巧
+
+#### **(1) 批量修改样式**
+```javascript
+// ❌ 触发3次重排
+element.style.width = '100px';
+element.style.height = '100px';
+element.style.margin = '10px';
+
+// ✅ 只触发1次重排
+element.style.cssText = 'width:100px; height:100px; margin:10px;';
+
+// ✅ 用class一次性修改
+element.className = 'new-style';
+```
+
+#### **(2) 离线操作DOM**
+```javascript
+// ❌ 每次appendChild都触发重排
+for (let i = 0; i < 1000; i++) {
+  document.body.appendChild(createDiv());
+}
+
+// ✅ 用DocumentFragment批量操作
+const fragment = document.createDocumentFragment();
+for (let i = 0; i < 1000; i++) {
+  fragment.appendChild(createDiv());
+}
+document.body.appendChild(fragment);  // 只触发1次重排
+```
+
+#### **(3) 避免频繁读取布局属性**
+```javascript
+// ❌ 每次读取offsetTop都触发重排
+for (let i = 0; i < 1000; i++) {
+  element.style.top = element.offsetTop + 1 + 'px';
+}
+
+// ✅ 先缓存值
+const top = element.offsetTop;
+for (let i = 0; i < 1000; i++) {
+  element.style.top = top + i + 'px';
+}
+```
+
+
+## 八、步骤6：绘制（Paint）
+
+### 1. 绘制的任务
+把元素"画"成像素，填充颜色、绘制文字、边框、阴影等。
+
+**绘制顺序**（从后到前）：
+```
+1. 背景色（background-color）
+2. 背景图（background-image）
+3. 边框（border）
+4. 子元素（children）
+5. 轮廓（outline）
+```
+
+### 2. 什么操作会触发重绘（Repaint）？
+
+**重绘**：重新绘制像素，但不改变布局（性能开销中💸）
+
+**触发条件**：
+- 改变颜色：
+  ```javascript
+  element.style.color = 'red';
+  element.style.backgroundColor = 'blue';
+  ```
+- 改变阴影/圆角：
+  ```javascript
+  element.style.boxShadow = '0 0 10px red';
+  element.style.borderRadius = '10px';
+  ```
+- 改变可见性：
+  ```javascript
+  element.style.visibility = 'hidden';  // 触发重绘，不触发重排
+  ```
+
+### 3. 重绘优化
+```javascript
+// ❌ 触发重绘
+element.style.color = 'red';
+
+// ✅ 用transform和opacity（只触发合成，不触发重绘）
+element.style.transform = 'translateX(100px)';  // 不触发重绘！
+element.style.opacity = '0.5';                  // 不触发重绘！
+```
+
+
+## 九、步骤7：合成（Composite）
+
+### 1. 图层合成
+现代浏览器把页面分成多个**图层**（Layer），GPU并行合成。
+
+**图层分层条件**：
+- 3D或透视变换：`transform: translateZ(0)`、`perspective`
+- 视频、Canvas、iframe
+- CSS动画或过渡：`will-change`
+- `position: fixed`
+
+### 2. GPU加速的属性（只触发合成，性能最佳🚀）
+```css
+/* ✅ 只触发合成，不触发重排/重绘 */
+transform: translateX(100px);  /* 移动 */
+transform: scale(1.5);         /* 缩放 */
+transform: rotate(45deg);      /* 旋转 */
+opacity: 0.5;                  /* 透明度 */
+filter: blur(5px);             /* 滤镜 */
+```
+
+### 3. will-change提示浏览器优化
+```css
+.box {
+  will-change: transform, opacity;  /* 提前告诉浏览器"我要变化了" */
+}
+
+.box:hover {
+  transform: scale(1.2);  /* 动画更流畅 */
+}
+```
+
+**注意**：不要滥用`will-change`（占用内存）。
+
+
+## 十、性能优化总结
+
+### 1. 性能开销对比
+```
+重排（Reflow）        > 重绘（Repaint）        > 合成（Composite）
+改变位置/尺寸           改变颜色/阴影             只改transform/opacity
+开销最大💸💸💸          开销中等💸💸              开销最小💸
+```
+
+### 2. 优化原则
+| 操作 | 触发 | 优化方案 |
+|------|------|---------|
+| 改变位置 | 重排 | 用`transform: translate()`代替`left/top` |
+| 改变尺寸 | 重排 | 用`transform: scale()`代替`width/height` |
+| 隐藏元素 | 重排 | 用`opacity: 0`代替`display: none`（如果可以占位） |
+| 批量DOM操作 | 多次重排 | 用DocumentFragment或先`display:none`再操作 |
+| 动画 | 重排/重绘 | 只用`transform`和`opacity` |
+
+### 3. Chrome DevTools查看性能
+```
+1. 打开开发者工具（F12）
+2. Performance面板
+3. 点击Record录制
+4. 操作页面
+5. 停止录制，查看Flame Chart（火焰图）
+   - 黄色：JavaScript执行
+   - 紫色：渲染（Layout、Paint、Composite）
+   - 绿色：绘制
+```
+
+
+## 十一、核心总结
+
+**渲染7步**：
+```
+1. 解析HTML → DOM树
+2. 解析CSS → CSSOM树
+3. 执行JS（可能修改DOM/CSSOM）
+4. 合成渲染树（DOM + CSSOM）
+5. 布局（计算位置尺寸）
+6. 绘制（填充像素）
+7. 合成（GPU加速显示）
+```
+
+**记忆口诀**：
+```
+HTML变DOM，CSS变CSSOM
+两树合一成渲染树
+布局绘制再合成
+页面展现在眼前
+```
+
+**性能优化金科玉律**：
+1. CSS放`<head>`，JS放`<body>`底部或用`defer`
+2. 避免重排：用`transform`代替`left/top`
+3. 避免重绘：用`opacity`代替`visibility`
+4. 批量操作：DocumentFragment、cssText
+5. 动画只用`transform`和`opacity`

@@ -1,0 +1,985 @@
+---
+title: "第 3 篇：Vue 3 组件通信"
+slug: "vue-vue3-9068316c"
+summary: "Vue 3 组件通信笔记，梳理 props、emit、v-model、attrs、provide/inject 与跨组件通信方式。"
+category: "vue3"
+categoryPath:
+  - "前端技术"
+  - "Vue"
+  - "vue3"
+tags: []
+status: "published"
+sortOrder: 30
+cover: ""
+originalId: "6a2d291e8a2b1c68f2cac2d2"
+originalSlug: "vue-vue3-9068316c"
+originalStatus: "published"
+publishedAt: "2026-03-27T13:28:49.361Z"
+updatedAt: "2026-07-31T11:16:24.149Z"
+exportedAt: "2026-08-03T03:03:53.296Z"
+---
+# 第 3 篇：Vue 3 组件通信
+
+## <font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">3.0、概述</font>
+`**<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">Vue3</font>**`**<font style="color:rgb(51, 51, 51);">组件通信和</font>**`**<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">Vue2</font>**`**<font style="color:rgb(51, 51, 51);">的区别：</font>**
+
++ <font style="color:rgb(51, 51, 51);">移出事件总线，使用</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">mitt</font>`<font style="color:rgb(51, 51, 51);">代替。</font>
++ `<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">vuex</font>`<font style="color:rgb(51, 51, 51);">换成了</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">pinia</font>`<font style="color:rgb(51, 51, 51);">。</font>
++ <font style="color:rgb(51, 51, 51);">把</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">.sync</font>`<font style="color:rgb(51, 51, 51);">优化到了</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">v-model</font>`<font style="color:rgb(51, 51, 51);">里面了。</font>
++ <font style="color:rgb(51, 51, 51);">把</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$listeners</font>`<font style="color:rgb(51, 51, 51);">所有的东西，合并到</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$attrs</font>`<font style="color:rgb(51, 51, 51);">中了。</font>
++ `<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$children</font>`<font style="color:rgb(51, 51, 51);">被砍掉了。</font>
+
+**<font style="color:rgb(51, 51, 51);">常见搭配形式</font>**
+
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2024/png/27167233/1734608061054-0cd822ec-0f7a-4629-99d4-42c2c6795014.png)
+
+## <font style="color:rgb(51, 51, 51);">3.1. 【props】</font>
+<font style="color:rgb(51, 51, 51);">概述：</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">props</font>`<font style="color:rgb(51, 51, 51);">是使用频率最高的一种通信方式，常用与 ：</font>**<font style="color:rgb(51, 51, 51);">父 </font>****<font style="color:rgb(51, 51, 51);">↔</font>****<font style="color:rgb(51, 51, 51);"> 子</font>**<font style="color:rgb(51, 51, 51);">。</font>
+
++ <font style="color:rgb(51, 51, 51);">若 </font>**<font style="color:rgb(51, 51, 51);">父传子</font>**<font style="color:rgb(51, 51, 51);">：属性值是</font>**<font style="color:rgb(51, 51, 51);">非函数</font>**<font style="color:rgb(51, 51, 51);">。</font>
++ <font style="color:rgb(51, 51, 51);">若 </font>**<font style="color:rgb(51, 51, 51);">子传父</font>**<font style="color:rgb(51, 51, 51);">：属性值是</font>**<font style="color:rgb(51, 51, 51);">函数</font>**<font style="color:rgb(51, 51, 51);">。</font>
+
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2025/png/27167233/1736433548043-460bbb97-baa5-47a7-b88a-790be73e0e16.png)
+
+### 3.1.1、js的写法
+需求：数组在app.vue上，需要传递给myside组件，进行渲染
+
+<font style="color:rgb(51, 51, 51);">父组件：</font>
+
+```vue
+<template>
+  <mySide class="myside" :navList="navList" />
+</template>
+```
+
+<font style="color:rgb(51, 51, 51);">子组件</font>
+
+```vue
+<script setup >
+  import { defineProps } from 'vue';
+  // 第一种写法：仅接收
+  // const props=defineProps(['navList'])
+  
+  // 第二种写法：接收+限制类型
+  // const props=defineProps({
+  //     navList:Object
+  // })
+  
+  // 第三种写法：接收+限制类型+指定默认值+限制必要性
+  const props=defineProps({
+    navList:{
+      type:Object,
+      default:[1,2,3],
+      // required:true
+    }
+  })
+
+</script>
+```
+
+### 3.1.2、ts写法
+定义ts类型
+
+```typescript
+export interface item {
+    id: number,
+    value: string
+}
+export type contentList = item[]
+```
+
+父组件：
+
+```vue
+<myContent class="mycontent" ref="myContentCom" :contentList="contentList" />
+  //······
+//导入类型
+import { type contentList } from '@/type/index'
+let contentList = reactive<contentList>([
+  {
+    id: 1, value: 'aaa'
+  },
+  {
+    id: 2, value: 'bbb'
+  },
+  {
+    id: 3, value: 'ccc'
+  },
+  {
+    id: 4, value: 'ddd'
+  },
+])
+```
+
+子组件
+
+```vue
+<script setup name="myContent123" lang="ts">
+import { ref, reactive, toRef, toRefs, defineProps, withDefaults } from 'vue';
+// 引入contentList类型
+import { type contentList, type item } from '@/type';
+// 1、只接受
+let props = defineProps(['contentList'])
+//2、 接收并限制类型
+// let props = defineProps<{ contentList: contentList }>()
+// 3、接收并限制类型并赋默认值
+// let props = withDefaults(defineProps<{ contentList: contentList }>(), {
+//   contentList: () => [{ id: 1, value: 'haha' }]
+// })
+ //·····
+</script>
+```
+
+## <font style="color:rgb(51, 51, 51);">3.2. 【自定义事件】</font>
+1. <font style="color:rgb(51, 51, 51);">概述：自定义事件常用于：</font>**<font style="color:rgb(51, 51, 51);">子 => 父。</font>**
+2. <font style="color:rgb(51, 51, 51);">注意区分好：原生事件、自定义事件。</font>
++ <font style="color:rgb(51, 51, 51);">原生事件：</font>
+    - <font style="color:rgb(51, 51, 51);">事件名是特定的（</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">click</font>`<font style="color:rgb(51, 51, 51);">、</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">mosueenter</font>`<font style="color:rgb(51, 51, 51);">等等）</font><font style="color:rgb(51, 51, 51);">	</font>
+    - <font style="color:rgb(51, 51, 51);">事件对象</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$event</font>`<font style="color:rgb(51, 51, 51);">: 是包含事件相关信息的对象（</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">pageX</font>`<font style="color:rgb(51, 51, 51);">、</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">pageY</font>`<font style="color:rgb(51, 51, 51);">、</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">target</font>`<font style="color:rgb(51, 51, 51);">、</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">keyCode</font>`<font style="color:rgb(51, 51, 51);">）</font>
++ <font style="color:rgb(51, 51, 51);">自定义事件：</font>
+    - <font style="color:rgb(51, 51, 51);">事件名是任意名称</font>
+    - **事件对象**`**<font style="color:red;background-color:rgb(243, 244, 244);">$event</font>**`**: 是调用**`**<font style="color:red;background-color:rgb(243, 244, 244);">emit</font>**`**时所提供的数据，可以是任意类型！！！**
+
+**需求：**app身上有数据isShow，控制myside组件是否显示，需要监听myheader里的按钮操作
+
+父组件
+
+```vue
+<!--在父组件中，给子组件绑定自定义事件：-->
+<myHeader class="myheader" @isShowSide="isShowSide" />
+  //····
+  // 定义侧边栏是否可见初始值
+let isShow=ref(true)
+// 操作侧边栏，并可以收到参数
+const isShowSide=(a:number)=>{
+  isShow.value=!isShow.value
+  console.log(a);
+}
+```
+
+子组件
+
+```vue
+//子组件中，触发事件：
+    <template>
+      <div>
+        <h3>myheader</h3>
+        <button @click="isShowMySide">折叠导航</button>
+      </div>
+    </template>
+      <script setup lang="ts">
+      import { defineEmits, getCurrentInstance } from 'vue'
+      // 方式一、拿到this 通过getCurrentInstance函数 不建议
+      // let _this = getCurrentInstance()
+      // console.log(_this);
+
+      //方式二、 defineEmits(['']) 可以监听多个事件
+      const emit = defineEmits(['isShowSide'])
+      const isShowMySide = () => {
+      // _this?.emit('isShowSide')
+      // 通知父元素改变mySide状态
+      emit('isShowSide', 123)
+      }
+
+    </script>
+
+      <style scoped></style>
+```
+
+## <font style="color:rgb(51, 51, 51);">3.3. 【mitt】</font>
+<font style="color:rgb(51, 51, 51);">概述：与消息订阅与发布（</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">pubsub</font>`<font style="color:rgb(51, 51, 51);">）、$bus功能类似，可以实现任意组件间通信。</font>
+
+<u><font style="color:rgb(51, 51, 51);">如同消息订阅一样是个插件，有类似于$bus的emit、on、off方法</font></u>
+
+<u><font style="color:rgb(51, 51, 51);">通过绑定函数发送数据，触发函数接受处理数据，别忘不用时及时销毁</font></u>
+
+**<font style="color:rgb(51, 51, 51);">需求：</font>**<font style="color:rgb(51, 51, 51);">根据myside组件传递的信息mycontent组件请求数据</font>
+
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2025/png/27167233/1736433680003-8b764631-0ac6-489b-8b0e-72b91d42f117.png)
+
+### <font style="color:rgb(51, 51, 51);">3.3.1、安装</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">mitt</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">(体积非常小)</font>
+```vue
+npm i mitt
+```
+
+### <font style="color:rgb(51, 51, 51);">3.3.2、搭建mitt环境</font>
+src/utils/emitters.ts
+
+```vue
+// 引入mitt
+import mitt from 'mitt'
+// 创建emitter
+const emitter=mitt()
+// 对外暴露
+export default emitter
+```
+
+<u><font style="color:rgb(51, 51, 51);">接收数据的组件中：绑定事件、同时在销毁前解绑事件：mycontent.vue</font></u>
+
+<font style="color:rgb(51, 51, 51);">emitter.emit('触发哪个回调'，参数)</font>
+
+```vue
+import emitter from '@/utils/emitters';
+  let queryNavItem = ref()
+  // 一挂载完毕，就去绑定事件，等待被触发
+  onMounted(() => {
+  emitter.on('sendNavFun', (navItem) => {
+  queryNavItem.value = navItem
+  })
+  })
+  onBeforeUnmount(() => {
+  // 解绑事件1
+  // emitter.off('sendNavFun')
+  // 解绑事件2
+  emitter.all.clear()
+
+  })
+```
+
+<font style="color:rgb(51, 51, 51);">【第三步】：</font><u><font style="color:rgb(51, 51, 51);">提供数据的组件，在合适的时候触发事件:myside.vue</font></u>
+
+<font style="color:rgb(51, 51, 51);">emiiters.on('绑定哪个回调'，（参数）=>{</font>
+
+<font style="color:rgb(51, 51, 51);">//处理参数</font>
+
+<font style="color:rgb(51, 51, 51);">})</font>
+
+```vue
+import emitter from '@/utils/emitters';
+  // 点击传递数据
+  const sendNav = (navItem) => {
+  // 触发事件sendNavFun，传递数据
+  emitter.emit('sendNavFun', navItem)
+  }
+```
+
+**<font style="color:rgb(51, 51, 51);">注意这个重要的内置关系，总线依赖着这个内置关系</font>**
+
+## <font style="color:rgb(51, 51, 51);">3.4.【v-model】</font>
+<font style="color:rgb(51, 51, 51);">可以实现 父</font><font style="color:rgb(51, 51, 51);">↔</font><font style="color:rgb(51, 51, 51);">子 组件之间相互通信。</font>
+
+### <font style="color:rgb(51, 51, 51);">3.4.1、标签中的v-model实现原理</font>
+```vue
+<template>
+    <div>
+        <h1>App组件</h1>
+        <!--1、 表单组件中 v-model的使用 -->
+        <input type="text" v-model="inputVal">
+        <!-- 2、v-model的实现原理 -->
+        <input type="text" :value="inputVal" @input="changeValue"><br>
+        <!-- 原理简写 -->
+        <input type="text" :value="inputVal" @input="inputVal=$event.target.value"> 
+    </div>
+</template>
+
+<script>
+export default {
+    data() {
+        return {
+            inputVal: ''
+        }
+    },
+    methods: {
+        changeValue(e) {
+            this.inputVal = e.target.value
+        }
+    }
+};
+</script>
+```
+
+
+
+### <font style="color:rgb(51, 51, 51);">3.4.2 、组件标签上的</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">v-model</font>`
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2025/png/27167233/1736433879594-f357424c-e24d-4f9e-a16d-dee824f2b9ef.png)
+
+<font style="color:rgb(51, 51, 51);">父传子</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">:moldeValue</font>`<font style="color:rgb(51, 51, 51);"> ＋ 子传父</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">update:modelValue</font>`<font style="color:rgb(51, 51, 51);">事件。</font>
+
+```plain
+    <!-- 2.1 组件上v-model -->
+    <inputChild v-model="usename"></inputChild>
+    <!-- 2.2 组件上v-model 原理写法-->
+    <!-- <inputChild :modelValue="usename" @update:model-value="changeInputCom"></inputChild> -->
+    <!-- <inputChild :modelValue="usename" @update:model-value="usename=$event"></inputChild> -->
+```
+
+`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">inputChild</font>`<font style="color:rgb(51, 51, 51);">组件中：</font>
+
+```vue
+<script setup>
+  import { defineProps, defineEmits } from 'vue'
+  // 1.1、子组件接收的名字默认是modelValue
+  const props = defineProps(['modelValue'])
+  // 1.2、子组件触发事件，传递参数，触发时间名默认是'update:model-value'
+  const emit = defineEmits(['update:model-value'])
+  const changeInput = (e) => {
+    emit('update:model-value', e.target.value)
+  }
+</script>
+<template>
+  <div>
+    <h2>child组件</h2>
+    <input type="text" :value="modelValue" @input="changeInput">
+    </div>
+</template>
+<style scoped></style>
+```
+
+<font style="color:rgb(51, 51, 51);">3.4.2、更换</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">value</font>`<font style="color:rgb(51, 51, 51);">，例如改成</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">abc</font>`
+
+```plain
+    <!-- 3.1、组件上v-model更换名字，适用于组件上有多个v-model的值 -->
+    <inputChild v-model:usename="usename"></inputChild>
+```
+
+`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">unputChild</font>`<font style="color:rgb(51, 51, 51);">组件中：</font>
+
+```vue
+<script setup>
+  import { defineProps, defineEmits } from 'vue'
+  const props = defineProps(['usename'])
+  const emit = defineEmits([ 'update:usename'])
+  const changeInput = (e) => {
+    emit('update:usename', e.target.value)
+  }
+</script>
+<template>
+  <div>
+    <h2>child组件</h2>
+    <input type="text" :value="usename" @input="changeInput">
+    </div>
+</template>
+<style scoped></style>
+```
+
+<font style="color:rgb(51, 51, 51);">如果</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">value</font>`<font style="color:rgb(51, 51, 51);">可以更换，那么就可以在组件标签上多次使用</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">v-model</font>`
+
+```vue
+<inputChild  v-model:usename="userName" v-model:password="password"/>
+```
+
+## <font style="color:rgb(51, 51, 51);">3.5.【$attrs 】</font>
+1. <font style="color:rgb(51, 51, 51);">概述：</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$attrs</font>`<font style="color:rgb(51, 51, 51);">用于实现</font>**<font style="color:rgb(51, 51, 51);">当前组件的父组件</font>**<font style="color:rgb(51, 51, 51);">，向</font>**<font style="color:rgb(51, 51, 51);">当前组件的子组件</font>**<font style="color:rgb(51, 51, 51);">通信（</font>**<font style="color:rgb(51, 51, 51);">祖→孙</font>**<font style="color:rgb(51, 51, 51);">）。通过</font>**<font style="color:rgb(51, 51, 51);">传方法</font>**<font style="color:rgb(51, 51, 51);">可以实现</font>**<font style="color:rgb(51, 51, 51);">孙-->祖先</font>**
+2. <font style="color:rgb(51, 51, 51);">具体说明：</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$attrs</font>`<font style="color:rgb(51, 51, 51);">是一个对象，包含所有父组件传入的标签属性。</font>
+
+<font style="color:rgb(119, 119, 119);">注意：</font>
+
+1. `<font style="color:rgb(119, 119, 119);background-color:rgb(243, 244, 244);">$attrs</font>`<font style="color:rgb(119, 119, 119);">会自动排除</font>`<font style="color:rgb(119, 119, 119);background-color:rgb(243, 244, 244);">props</font>`<font style="color:rgb(119, 119, 119);">中声明的属性(可以认为声明过的 </font>`<font style="color:rgb(119, 119, 119);background-color:rgb(243, 244, 244);">props</font>`<font style="color:rgb(119, 119, 119);"> 被子组件自己“消费”了)</font>
+2. <font style="color:rgb(119, 119, 119);">接收的数据，不可以直接修改，如果是复杂数据类型，只要不改地址值，就检测不到，可以修改</font>
+3. <font style="color:rgb(51, 51, 51);">与vue2相比，添加了可以保护方法，即把</font>`<font style="color:rgb(51, 51, 51);">listeners</font>`<font style="color:rgb(51, 51, 51);">取消了，功能给了$attrs</font>
+
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2025/png/27167233/1736434096743-cb00b735-dd49-4c57-9731-f262534d954e.png)
+
+<font style="color:rgb(51, 51, 51);">父组件：</font>
+
+```vue
+<script setup>
+  import { ref } from 'vue';
+  import son from './components/son.vue';
+  // 1、传递数据
+  let msg=ref(66)
+  let myname=ref('jack')
+  // 2、传递方法
+  const changemsg=(value)=>{
+    msg.value+=value
+  }
+</script>
+<template>
+  <div class="app">
+    <h1>app组件</h1>
+    
+    <!-- 先向子传数据，子再通过$attrs传给孙 -->
+    <son :msg="msg" :myname="myname" :myage="18" :changemsg="changemsg"></son>
+  </div>
+</template>
+<style scoped>
+  .app{
+    padding: 20px;
+    background-color: #ccc;
+  }
+</style>
+```
+
+<font style="color:rgb(51, 51, 51);">子组件：</font>
+
+```vue
+<script setup>
+  import child from './child.vue';
+  import { defineProps } from 'vue';
+  
+  // 如果props接受了，则不会出现在$attrs中
+  const props=defineProps(['msg'])
+</script>
+<template>
+  <div class="son">
+    <h2>son组件</h2>
+    <h4>app传递的数据:{{ msg }}</h4>
+    
+    <!--向孙组件传递数据，通过$attrs  -->
+    <child v-bind="$attrs"></child>
+  </div>
+</template>
+<style scoped>
+  .son{
+    padding: 20px;
+    background-color: #bfa;
+  }
+</style>
+```
+
+<font style="color:rgb(51, 51, 51);">孙组件：</font>
+
+```vue
+<script setup>
+  import { defineProps } from 'vue';
+  // 孙组件接收数据
+  const props =defineProps(['myname','myage','changemsg'])
+</script>
+<template>
+  <div class="child">
+    <h3>child组件</h3>
+    <h4>app传递的数据：{{ myname }}-{{ myage }}</h4>
+    <button @click="changemsg(1)">点击给app组件传递数据</button>
+  </div>
+</template>
+<style scoped>
+  .child {
+    padding: 20px;
+    background-color: pink;
+  }
+</style>
+```
+
+## <font style="color:rgb(51, 51, 51);">3.6. 【$refs、$parent、$root】</font>
+### <font style="color:rgb(51, 51, 51);">3.6.1、概述：</font>
+    - <font style="color:#DF2A3F;">$refs      用于 ：父→子</font>
+    - <font style="color:#DF2A3F;">$parent 用于：子→父</font>
+    - <font style="color:#DF2A3F;">$root    用于 孙-->祖先</font>
+
+注意：传参占位以及对外暴露数据
+
+### <font style="color:rgb(51, 51, 51);">3.6.2、原理如下：</font>
+| **<font style="color:rgb(51, 51, 51);">属性</font>** | **<font style="color:rgb(51, 51, 51);">说明</font>** |
+| :--- | :--- |
+| `<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$refs</font>` | <u><font style="color:rgb(51, 51, 51);">值为对象</font></u><font style="color:rgb(51, 51, 51);">，包含所有被</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">ref</font>`<font style="color:rgb(51, 51, 51);">属性标识的</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">DOM</font>`<font style="color:rgb(51, 51, 51);">元素或组件实例。</font> |
+| `<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$parent</font>` | <font style="color:rgb(51, 51, 51);">值为对象，当前组件的父组件实例对象。</font> |
+| <font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">$root </font> | <font style="color:rgb(51, 51, 51);">值为对象，当前组件的祖先组件实例对象</font> |
+
+
+### <font style="color:rgb(51, 51, 51);">3.6.3、</font>案例图
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2024/png/27167233/1735648870073-4f74b011-67a2-43ac-8230-5885a35cf519.png)
+
+app.vue
+
+```vue
+<script setup>
+import son from './components/son.vue';
+import girl from './components/girl.vue';
+import { ref,defineExpose } from 'vue';
+let appMoney = ref(1000)
+let sonComp = ref()
+let girlComp = ref()
+let sonMoney = ref(0)
+let girlMoney = ref(0)
+// 分别拿到子组件的数据
+const getSon = () => {
+  sonMoney.value = sonComp.value.sonMoney
+}
+const getgirl = () => {
+  girlMoney.value = girlComp.value.girlMoney
+}
+  
+// 拿到所有子组件的数据
+const getAll=(refs)=>{
+  for(let k in refs){
+    console.log(refs[k].msg);
+  }
+}
+
+defineExpose({appMoney})
+
+</script>
+<template>
+  <div class="app">
+    <h1>app组件</h1>
+    <h4>appMoney:{{ appMoney }}</h4>
+    <h4>sonMoney:{{ sonMoney }}</h4>
+    <h4>girlMoney:{{ girlMoney }}</h4>
+    <button @click="getSon">获取son组件</button>
+    <button @click="getgirl">获取girl组件</button>
+    
+    <!-- 把$refs作为参数传给函数 -->
+    <button @click="getAll($refs)">获取所有子组件</button>
+    <son ref="sonComp"></son>
+    <girl ref="girlComp"></girl>
+
+
+  </div>
+</template>
+<style scoped>
+.app {
+  padding: 10px;
+  background-color: #ccc;
+}
+</style>
+```
+
+son.vue
+
+```vue
+<script setup>
+import child from './child.vue';
+import { ref, defineExpose } from 'vue';
+let sonMoney = ref(100)
+let msg = ref('sonMsg')
+defineExpose({ sonMoney, msg })
+
+const getParentMoney = (parent) => {
+    console.log(parent.appMoney);
+    // 也可以操作app的数据
+    parent.appMoney -= 100
+}
+</script>
+<template>
+    <div class="son">
+        <h2>son组件</h2>
+        <h4>sonMoney:{{ sonMoney }}</h4>
+
+          <!-- 把$parent作为参数传给函数 -->
+        <button @click="getParentMoney($parent)">拿到app的数据</button>
+        <child></child>
+    </div>
+</template>
+<style scoped>
+.son {
+    padding: 10px;
+    background-color: #bfa;
+}
+</style>
+```
+
+girl.vue
+
+```vue
+<script setup>
+import { ref, defineExpose } from 'vue';
+let girlMoney = ref(100)
+let msg = ref('girlMsg')
+defineExpose({ girlMoney, msg })
+</script>
+<template>
+    <div class="girl">
+        <h2>girl组件</h2>
+        <h4>girlMoney:{{ girlMoney }}</h4>
+
+    </div>
+</template>
+<style scoped>
+.girl {
+    padding: 10px;
+    background-color: blueviolet;
+}
+</style>
+```
+
+child.vue
+
+```vue
+<script setup>
+import { ref } from 'vue';
+let childMoney = ref(5)
+const getAppMoney = (root) => {
+    console.log(root.appMoney);
+    root.appMoney -= 100
+
+}
+</script>
+<template>
+    <div class="child">
+        <h3>child组件</h3>
+
+          <!-- 把$root作为参数传给函数 -->
+        <button @click="getAppMoney($root)">拿到app的数据</button>
+    </div>
+</template>
+<style scoped>
+.child {
+    padding: 10px;
+    background-color: pink;
+}
+</style>
+```
+
+## <font style="color:rgb(51, 51, 51);">3.7. 【provide、inject】</font>
+1. <font style="color:rgb(51, 51, 51);">概述：实现</font>**<font style="color:rgb(51, 51, 51);">祖孙组件</font>**<font style="color:rgb(51, 51, 51);">直接通信</font>
+2. <font style="color:rgb(28, 31, 35);">总体而言，`provide` 无需变量接收，`inject` 建议用变量接收。 </font>
+
+#### `<font style="background-color:rgb(249, 250, 251);">provide</font>`
++ **<font style="background-color:rgb(249, 250, 251);">第一个参数</font>**<font style="background-color:rgb(249, 250, 251);">：是一个字符串或</font><font style="background-color:rgb(249, 250, 251);"> </font>`<font style="background-color:rgb(249, 250, 251);">Symbol</font>`<font style="background-color:rgb(249, 250, 251);">，作为注入的 key，用于后代组件查找要注入的数据或方法。</font>
++ **<font style="background-color:rgb(249, 250, 251);">第二个参数</font>**<font style="background-color:rgb(249, 250, 251);">：是要提供的数据或方法，可以是普通值、响应式对象（如</font><font style="background-color:rgb(249, 250, 251);"> </font>`<font style="background-color:rgb(249, 250, 251);">ref</font>`<font style="background-color:rgb(249, 250, 251);"> </font><font style="background-color:rgb(249, 250, 251);">或</font><font style="background-color:rgb(249, 250, 251);"> </font>`<font style="background-color:rgb(249, 250, 251);">reactive</font>`<font style="background-color:rgb(249, 250, 251);"> </font><font style="background-color:rgb(249, 250, 251);">创建的）、函数等。</font>
+
+#### `<font style="background-color:rgb(249, 250, 251);">inject</font>`
++ **<font style="background-color:rgb(249, 250, 251);">第一个参数</font>**<font style="background-color:rgb(249, 250, 251);">：同样是字符串或</font><font style="background-color:rgb(249, 250, 251);"> </font>`<font style="background-color:rgb(249, 250, 251);">Symbol</font>`<font style="background-color:rgb(249, 250, 251);">，用于指定要注入的 key，必须和祖先组件</font><font style="background-color:rgb(249, 250, 251);"> </font>`<font style="background-color:rgb(249, 250, 251);">provide</font>`<font style="background-color:rgb(249, 250, 251);"> </font><font style="background-color:rgb(249, 250, 251);">时使用的 key 一致。</font>
++ **<font style="background-color:rgb(249, 250, 251);">第二个参数（可选）</font>**<font style="background-color:rgb(249, 250, 251);">：是默认值。当没有祖先组件提供该 key 对应的值时，将使用这个默认值。</font>
++ **<font style="background-color:rgb(249, 250, 251);">第三个参数（可选）</font>**<font style="background-color:rgb(249, 250, 251);">：是一个布尔值，用于指定是否允许注入值为 </font>`<font style="background-color:rgb(249, 250, 251);">undefined</font>`<font style="background-color:rgb(249, 250, 251);">。默认为 </font>`<font style="background-color:rgb(249, 250, 251);">false</font>`<font style="background-color:rgb(249, 250, 251);">，即如果没有找到注入值且没有提供默认值，会抛出警告；如果设置为 </font>`<font style="background-color:rgb(249, 250, 251);">true</font>`<font style="background-color:rgb(249, 250, 251);">，则不会抛出警告。</font>
+3. <font style="color:rgb(51, 51, 51);">具体使用：</font>
+    - <font style="color:rgb(51, 51, 51);">在祖先组件中通过</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">provide</font>`<font style="color:rgb(51, 51, 51);">配置向后代组件提供数据</font>
+    - <font style="color:rgb(51, 51, 51);">在后代组件中通过</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">inject</font>`<font style="color:rgb(51, 51, 51);">配置来声明接收数据</font>
+4. <font style="color:rgb(51, 51, 51);">具体编码：</font>
+
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2025/png/27167233/1736434284876-409b42af-3874-4f98-ad1e-529860cc0b9a.png)
+
+<font style="color:rgb(51, 51, 51);">【第一步】父组件中，使用</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">provide</font>`<font style="color:rgb(51, 51, 51);">提供数据</font>
+
+```vue
+<script setup lang="ts">
+  import son from '@/components/son.vue';
+  import { provide, ref } from 'vue';
+  let appMoney = ref(1000)
+  let msg = ref('appmsg')
+  const changeAppMoney = (val: number) => {
+    appMoney.value -= val
+  }
+  // 对外提供数据,可以提供多个数据
+  provide('appMoneyAbout', { appMoney, changeAppMoney })
+  provide('msg', msg)
+
+</script>
+<template>
+  <div class="app">
+    <h1>app组件</h1>
+    <h2>appMoeny:{{ appMoney }}</h2>
+    <son></son>
+  </div>
+</template>
+<style scoped>
+  .app {
+    padding: 20px;
+    background-color: #ccc;
+  }
+</style>
+```
+
+<font style="color:rgb(119, 119, 119);">注意：子组件中不用编写任何东西，是不受到任何打扰的</font>
+
+<font style="color:rgb(51, 51, 51);">【第二步】孙组件中使用</font>`<font style="color:rgb(51, 51, 51);background-color:rgb(243, 244, 244);">inject</font>`<font style="color:rgb(51, 51, 51);">配置项接受数据。</font>
+
+```vue
+<script setup lang="ts">
+  import { inject } from 'vue';
+  // 接收祖先注入的数据,后面跟的是默认值
+  let { appMoney, changeAppMoney } = inject('appMoneyAbout', { appMoney: 0, changeAppMoney: (num: number) => { } })
+  let msg = inject('msg')
+  const reduceMoney = () => {
+    changeAppMoney(10)
+  }
+</script>
+<template>
+  <div class="child">
+    <h3>child组件</h3>
+    <h4>appMoney:{{ appMoney }}</h4>
+    <h4>appmsg:{{ msg }}</h4>
+    <button @click="reduceMoney">花appMoney</button>
+  </div>
+</template>
+<style scoped>
+  .child {
+    padding: 20px;
+    background-color: pink;
+  }
+</style>
+```
+
+## <font style="color:rgb(51, 51, 51);">3.8. 【slot】</font>
+### 3.8.1、作用
+让父组件可以向子组件指定位置插入html结构，也是一种组件通信的方式，使用：父组件==》子组件，传递html结构
+
+<slot>元素是一个插槽出口(slot outlet),标示了父元素提供的插槽内容(slot content)将在哪里被渲染。
+
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2024/png/27167233/1734088629764-40695d68-220e-4d03-8662-165fde554f57.png)
+
+### 3.8.2、分类
+默认插槽，具名插槽，作用域插槽
+
+#### Vue 2和Vue 3插槽区别主要如下：
+1. **插槽语法**
+    - **匿名插槽**：两者定义和使用基本相同，都用 `<slot>` 标签。
+    - **具名插槽**：Vue 2用 `name` 命名，父组件用 `slot` 特性指定；Vue 3用 `v - slot` 指令（缩写 `#`）指定。
+    - **作用域插槽**：Vue 2子组件 `v - bind` 绑定数据，父组件用 `slot - scope` 接收；Vue 3用 `v - slot` 指令接收，语法更简洁。
+2. **语法一致性**：Vue 2各类型插槽语法不同，Vue 3统一用 `v - slot` 指令，更清晰一致。
+3. **语法废弃**：Vue 3废弃了Vue 2的 `slot` 和 `slot - scope` 特性。
+
+### 3.8.3、使用方式
+#### 3.8.3.1、默认插槽
+插槽内容可以访问到父组件的数据作用域，因为插槽内容本身是在父组件模板中定义的
+
+插槽内容无法访问子组件的数据。Vue模板中的表达式只能访问其定义时所处的作用域，这和JavaScript的词法
+
+作用域规则是一致的。换言之：
+
+<font style="color:#DF2A3F;">父组件模板中的表达式只能访问父组件的作用域；子组件模板中的表达式只能访问子组件的作用域。</font>
+
+<!-- 这是一张图片，ocr 内容为：姓名分类 电影分类 名著分类 章三 1. 西虹市首富 红楼梦 宝贝计划 2. 李四 王武 你好,李焕英 3. 三国演义 赵六 金瓶梅 哈利波特 -->
+![](https://cdn.nlark.com/yuque/0/2024/png/27167233/1726125268983-f89d992f-6877-4a34-a4e0-52d4924f8b96.png)
+
+父组件：
+
+数据在父组件，在父组件中给子组件传递结构
+
+```javascript
+<script setup lang='ts'>
+import { reactive } from 'vue';
+import child from './components/child.vue';
+let books = reactive(['《红楼梦》', '《三国演义》', '《金瓶梅》', '《哈利波特》'])
+let names = reactive(['章三', '李四', '王武', '赵六'])
+let movies = reactive(['《西虹市首富》', '《宝贝计划》', '《你好，李焕英》'])
+</script>
+<template>
+  <div>
+    <h1>app组件</h1>
+    <div class="list">
+      <child title="名著">
+        <h4 v-for="book in books" :key="book">{{ book }}</h4>
+      </child>
+      <child title="姓名">
+        <ul>
+          <li v-for="name in names" :key="name">{{ name }}</li>
+        </ul>
+      </child>
+      <child title="电影">
+        <ol>
+          <li v-for="movie in movies" :key="movie">{{ movie }}</li>
+        </ol>
+      </child>
+    </div>
+
+  </div>
+</template>
+<style scoped>
+.list {
+  display: flex;
+  justify-content: space-around;
+}
+</style>
+```
+
+子组件：
+
++ slot占位
++ 可以设置默认值，如果父组件不传，则显示默认值
++ 如果多次使用slot，则父组件传递的结构也会有多次
+
+```vue
+<script setup lang='ts'>
+import { defineProps } from 'vue';
+const props = defineProps(['title'])
+</script>
+<template>
+    <div class="child">
+        <h3>{{ title }}列表</h3>
+        <slot>我是默认值</slot>
+    </div>
+</template>
+<style scoped>
+h3 {
+    background-color: orange;
+    text-align: center;
+}
+
+.child {
+    width: 200px;
+    height: 280px;
+    background-color: #baf;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+</style>
+```
+
+#### 3.8.3.2、具名插槽
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2024/png/27167233/1735653933012-b29b45c4-8921-4406-897f-450efb356eb2.png)
+
+父组件：
+
+注意插槽的两种写法
+
+```javascript
+<script setup lang='ts'>
+import { reactive } from 'vue';
+import child from './components/child.vue';
+let books = reactive(['《红楼梦》', '《三国演义》', '《金瓶梅》', '《哈利波特》'])
+let names = reactive(['章三', '李四', '王武', '赵六'])
+let movies = reactive(['《西虹市首富》', '《宝贝计划》', '《你好，李焕英》'])
+</script>
+<template>
+  <div>
+    <h1>app组件</h1>
+    <div class="list">
+      <child title="名著">
+        <!-- 对应结构会插在对应的插槽位置上 -->
+        <!-- 写法一：v-slot:插槽名 -->
+        <template v-slot:footer>
+          <a href="#">更多名著</a>
+        </template>
+        <template v-slot:center>
+          <h4 v-for="book in books" :key="book">{{ book }}</h4>
+        </template>
+
+      </child>
+      <child title="姓名">
+        <!-- 写法二：#插槽名 -->
+        <template #center>
+          <ul>
+            <li v-for="name in names" :key="name">{{ name }}</li>
+          </ul>
+        </template>
+        <template #footer>
+          <a href="#">更多名字</a>
+          <a href="#">查看更多</a>
+        </template>
+      </child>
+      <child title="电影">
+        <template #center>
+          <ol>
+            <li v-for="movie in movies" :key="movie">{{ movie }}</li>
+          </ol>
+        </template>
+        <template #footer>
+          <b>更多电影</b>
+        </template>
+      </child>
+    </div>
+
+  </div>
+</template>
+<style scoped>
+.list {
+  display: flex;
+  justify-content: space-around;
+}
+</style>
+```
+
+子组件
+
+```vue
+<script setup lang='ts'>
+import { defineProps } from 'vue';
+const props = defineProps(['title'])
+</script>
+<template>
+    <div class="child">
+        <h3>{{ title }}列表</h3>
+        <slot name="center"></slot>
+        <slot name="footer"></slot>
+    </div>
+</template>
+<style scoped>
+h3 {
+    background-color: orange;
+    text-align: center;
+}
+
+.child {
+    width: 200px;
+    height: 280px;
+    background-color: #baf;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+</style>
+```
+
+#### 3.8.3.3、作用域插槽
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2024/png/27167233/1735654679060-4f585822-8eca-4886-85fc-08ed20844e09.png)
+
+##### （1）、理解：
+然而在某些场景下插槽的内容可能想要同时使用父组件域内和子组件域内的数据。要做到这一点，我们需要一种方
+
+法来让子组件在渲染时将一部分数据提供给插槽。
+
+数据在组件自身，但根据数据生成的结构需要组件的使用者来决定。（数组在子组件上，但根据数据遍历出的结构在父组件决定）
+
+<!-- 这是一张图片，ocr 内容为： -->
+![](https://cdn.nlark.com/yuque/0/2024/png/27167233/1734090628144-6097759f-39ff-41bb-abb0-c8dab2813d1f.png)
+
+##### （2）、具体代码
+```javascript
+//子组件
+<script setup lang='ts'>
+import { reactive } from 'vue';
+let books = reactive(['《红楼梦》', '《三国演义》', '《金瓶梅》', '《哈利波特》'])
+</script>
+<template>
+    <div class="child">
+        <h3>名著列表</h3>
+  
+        <!-- slot是vue的内置组件，可以传递数据 -->
+        <slot :books="books" msg="测试"></slot>
+    </div>
+</template>
+<style scoped>
+h3 {
+    background-color: orange;
+    text-align: center;
+}
+
+.child {
+    width: 200px;
+    height: 280px;
+    background-color: #baf;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+</style>
+  
+
+//父组件
+<script setup lang='ts'>
+import child from './components/child.vue';
+
+</script>
+<template>
+  <div>
+    <h1>app组件</h1>
+    <div class="list">
+      <child>
+        <!-- props是对象，里面是slot传递过来的所有数据 -->
+        <template v-slot="props">
+          <ul>
+            <li v-for="book in props.books" :key="book">{{ book }}</li>
+          </ul>
+        </template>
+      </child>
+      <child>
+        <!-- 解构拿到想要的数据 -->
+        <template v-slot="{ books }">
+          <ol>
+            <li v-for="book in books" :key="book">{{ book }}</li>
+          </ol>
+        </template>
+      </child>
+      <child>
+        <!-- 解构拿到想要的数据 -->
+        <template v-slot="{ books }">
+          <h4 v-for="book in books" :key="book">{{ book }}</h4>
+        </template>
+      </child>
+    </div>
+
+  </div>
+</template>
+<style scoped>
+.list {
+  display: flex;
+  justify-content: space-around;
+}
+</style>
+```
