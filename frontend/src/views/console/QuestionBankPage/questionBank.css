@@ -9,6 +9,22 @@
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+  min-height: 52px;
+  padding: 9px 12px;
+  border: 1px solid var(--console-border, #e5e7eb);
+  border-radius: 6px;
+  background: var(--console-surface, #fff);
+}
+
+.question-bank-toolbar__spacer {
+  flex: 1 1 auto;
+  min-width: 4px;
+}
+
+.question-bank-dialog-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .question-bank-search {
@@ -101,11 +117,29 @@
 
 .question-bank-recent-item strong,
 .question-bank-stem-cell strong,
+.question-bank-stem-link,
 .question-bank-stem-cell span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.question-bank-stem-link {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--console-text, #101828);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.question-bank-stem-link:hover,
+.question-bank-stem-link:focus-visible {
+  color: #1677ff;
 }
 
 .question-bank-stem-cell {
@@ -123,6 +157,12 @@
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.question-bank-action-row .ant-btn {
+  width: 32px;
+  height: 32px;
+  padding-inline: 0;
 }
 
 .question-bank-modal-body {

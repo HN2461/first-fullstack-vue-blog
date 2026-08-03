@@ -13,6 +13,8 @@
         <a-select v-model:value="filters.mode" class="question-bank-filter" :options="attemptModeOptions" allow-clear show-search option-filter-prop="label" placeholder="全部模式" @change="reload" />
         <a-select v-model:value="filters.status" class="question-bank-filter" :options="statusOptions" allow-clear show-search option-filter-prop="label" placeholder="全部状态" @change="reload" />
         <a-button @click="reload"><template #icon><ReloadOutlined /></template>刷新</a-button>
+        <span class="question-bank-toolbar__spacer"></span>
+        <QuestionBankHelp topic="attempts" />
       </template>
 
       <template #bodyCell="{ column, record }">
@@ -47,6 +49,7 @@ import { EyeOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listQuestionAttempts } from '@/services/questionBank'
 import { attemptModeOptions, formatQuestionTime, getOptionMeta } from './questionBankMeta'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import './questionBank.css'
 
 const router = useRouter()

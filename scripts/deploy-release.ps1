@@ -94,23 +94,23 @@ RELEASE_DIR=/www/personal-blog/backups/release-$(date +%Y%m%d-%H%M%S)
 mkdir -p "$RELEASE_DIR"
 echo "RELEASE_DIR=$RELEASE_DIR"
 
-echo "[1/11] MongoDB backup"
+echo "[1/13] MongoDB backup"
 mongodump --uri="mongodb://127.0.0.1:27017/personal_fullstack_blog" --out="$RELEASE_DIR/mongodb-before"
 test -d "$RELEASE_DIR/mongodb-before/personal_fullstack_blog"
 
-echo "[2/11] File backups"
+echo "[2/13] File backups"
 cp -a /www/personal-blog/frontend "$RELEASE_DIR/frontend-before"
 cp -a /www/personal-blog/backend "$RELEASE_DIR/backend-before"
 cp -a /www/personal-blog/uploads "$RELEASE_DIR/uploads-before"
 test -f /www/personal-blog/backend/.env
 cp /www/personal-blog/backend/.env "$RELEASE_DIR/backend.env.before-release"
 
-echo "[3/11] Publish frontend"
+echo "[3/13] Publish frontend"
 rm -rf /www/personal-blog/frontend/*
 unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
 test -f /www/personal-blog/frontend/index.html
 
-echo "[4/11] Publish backend"
+echo "[4/13] Publish backend"
 OLD_BACKEND=/www/personal-blog/backend_old_$(date +%Y%m%d_%H%M%S)
 mv /www/personal-blog/backend "$OLD_BACKEND"
 mkdir -p /www/personal-blog/backend
@@ -121,32 +121,55 @@ test -f /www/personal-blog/backend/package.json
 
 echo "OLD_BACKEND=$OLD_BACKEND"
 
-echo "[5/11] Install backend dependencies"
+echo "[5/13] Install backend dependencies"
 cd /www/personal-blog/backend
 npm install --omit=dev
 
-echo "[6/11] Seed question bank"
+echo "[6/13] Seed question bank"
 npm run question-bank:seed:apply
 
-echo "[7/11] Optional bookmark data reset"
+echo "[7/13] Optional bookmark data reset"
 __BOOKMARK_RESET_STEP__
 
-echo "[8/11] Restart PM2"
+echo "[8/13] Restart PM2"
 pm2 restart personal-blog-api --update-env
 
-echo "[9/11] PM2 status"
+echo "[9/13] PM2 status"
 pm2 jlist | node -e "let s=''; process.stdin.on('data',d=>s+=d); process.stdin.on('end',()=>{const apps=JSON.parse(s); const app=apps.find(a=>a.name==='personal-blog-api'); if(!app){console.error('PM2 app missing'); process.exit(2)} console.log(JSON.stringify({name:app.name,status:app.pm2_env.status,restarts:app.pm2_env.restart_time,pid:app.pid}, null, 2)); if(app.pm2_env.status!=='online') process.exit(3)})"
 
-echo "[10/11] Local health"
+echo "[10/13] Local health"
 for i in 1 2 3 4 5; do
   if curl -fsS http://127.0.0.1:3001/api/health; then echo; break; fi
   sleep 2
   if [ "$i" = "5" ]; then exit 4; fi
 done
 
-echo "[11/11] Save PM2 and sizes"
+echo "[11/13] Verify question bank seed is idempotent"
+npm run question-bank:seed
+
+echo "[12/13] Remove expired rollback copies"
+PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
+find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
+  | sort -z -nr \
+  | tail -z -n +3 \
+  | cut -z -d' ' -f2- \
+  | xargs -0 -r rm -rf --
+find /www/personal-blog -mindepth 1 -maxdepth 1 -type d -name 'backend_old_*' -printf '%T@ %p\0' \
+  | sort -z -nr \
+  | tail -z -n +3 \
+  | cut -z -d' ' -f2- \
+  | xargs -0 -r rm -rf --
+PROJECT_BYTES_AFTER=$(du -sb /www/personal-blog | awk '{print $1}')
+echo "CLEANUP_BYTES=$((PROJECT_BYTES_BEFORE - PROJECT_BYTES_AFTER))"
+echo "RETAINED_RELEASES"
+find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
+echo "RETAINED_OLD_BACKENDS"
+find /www/personal-blog -mindepth 1 -maxdepth 1 -type d -name 'backend_old_*' -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
+
+echo "[13/13] Save PM2 and sizes"
 pm2 save
 ls -lh /www/personal-blog/frontend/index.html /www/personal-blog/backend/package.json /www/personal-blog/backups/frontend-dist.zip /www/personal-blog/backups/backend-release.zip
+df -h /www
 echo "DONE_RELEASE_DIR=$RELEASE_DIR"
 """
 

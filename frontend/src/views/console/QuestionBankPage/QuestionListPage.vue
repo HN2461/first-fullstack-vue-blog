@@ -40,12 +40,14 @@
           <template #icon><PlusOutlined /></template>
           新增题目
         </a-button>
+        <span class="question-bank-toolbar__spacer"></span>
+        <QuestionBankHelp topic="questions" />
       </template>
 
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'stem'">
           <div class="question-bank-stem-cell">
-            <strong>{{ record.stem }}</strong>
+            <button type="button" class="question-bank-stem-link" @click="openPreview(record)">{{ record.stem }}</button>
             <span>{{ record.code }} · v{{ record.version }}</span>
           </div>
         </template>
@@ -70,6 +72,9 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <div class="question-bank-action-row">
+            <a-tooltip title="预览题目">
+              <a-button size="small" @click="openPreview(record)"><template #icon><EyeOutlined /></template></a-button>
+            </a-tooltip>
             <a-tooltip title="编辑题目">
               <a-button size="small" @click="openEdit(record)"><template #icon><EditOutlined /></template></a-button>
             </a-tooltip>
@@ -88,6 +93,13 @@
       @cancel="editorOpen = false"
       @saved="handleSaved"
     />
+    <QuestionPreviewModal
+      :open="previewOpen"
+      :loading="previewLoading"
+      :question="previewQuestion"
+      @cancel="previewOpen = false"
+      @edit="handlePreviewEdit"
+    />
     <QuestionCategoryDrawer :open="categoryDrawerOpen" @close="categoryDrawerOpen = false" @changed="loadCategories" />
   </section>
 </template>
@@ -95,7 +107,7 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { ApartmentOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { ApartmentOutlined, DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import {
   archiveQuestion,
@@ -113,12 +125,17 @@ import {
 } from './questionBankMeta'
 import QuestionCategoryDrawer from './QuestionCategoryDrawer.vue'
 import QuestionEditorModal from './QuestionEditorModal.vue'
+import QuestionBankHelp from './QuestionBankHelp.vue'
+import QuestionPreviewModal from './QuestionPreviewModal.vue'
 import './questionBank.css'
 
 const tableRef = ref(null)
 const editorOpen = ref(false)
+const previewOpen = ref(false)
+const previewLoading = ref(false)
 const categoryDrawerOpen = ref(false)
 const editingQuestion = ref(null)
+const previewQuestion = ref(null)
 const categoryTree = ref([])
 const categoryOptions = computed(() => flattenCategoryOptions(categoryTree.value))
 const filters = reactive({ keyword: '', categoryId: undefined, type: undefined, difficulty: undefined, status: undefined })
@@ -131,7 +148,7 @@ const columns = [
   { title: '标签', key: 'tags', dataIndex: 'tags', width: 210 },
   { title: '状态', key: 'status', dataIndex: 'status', width: 90 },
   { title: '更新时间', key: 'updatedAt', dataIndex: 'updatedAt', width: 170 },
-  { title: '操作', key: 'action', width: 100, fixed: 'right' }
+  { title: '操作', key: 'action', width: 136, fixed: 'right' }
 ]
 
 function reload() {
@@ -153,6 +170,20 @@ function openCreate() {
   editorOpen.value = true
 }
 
+async function openPreview(record) {
+  previewQuestion.value = null
+  previewOpen.value = true
+  previewLoading.value = true
+  try {
+    previewQuestion.value = await getQuestion(record.id)
+  } catch (error) {
+    previewOpen.value = false
+    message.error(error.message || '题目预览加载失败')
+  } finally {
+    previewLoading.value = false
+  }
+}
+
 async function openEdit(record) {
   try {
     editingQuestion.value = await getQuestion(record.id)
@@ -160,6 +191,12 @@ async function openEdit(record) {
   } catch (error) {
     message.error(error.message || '题目详情加载失败')
   }
+}
+
+function handlePreviewEdit(question) {
+  previewOpen.value = false
+  editingQuestion.value = question
+  editorOpen.value = true
 }
 
 function handleSaved() {

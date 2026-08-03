@@ -1,25 +1,581 @@
 {
   "schemaVersion": 1,
   "questions": [
-    { "code": "ts-101-structural-typing", "categoryKey": "frontend.typescript", "type": "true_false", "stem": "TypeScript 主要采用结构化类型系统：两个对象类型是否兼容通常取决于成员结构，而不是是否显式声明继承关系。", "answerKeys": ["true"], "explanation": "结构化类型关注形状；只要源类型包含目标所需成员并满足类型关系，就可能兼容。", "difficulty": "medium", "tags": ["TypeScript", "结构化类型"] },
-    { "code": "ts-102-excess-property", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "把对象字面量直接赋给一个明确对象类型时，TypeScript 额外执行的常见检查是什么？", "options": [{ "id": "A", "content": "多余属性检查" }, { "id": "B", "content": "运行时深拷贝" }, { "id": "C", "content": "数据库约束检查" }, { "id": "D", "content": "CSS 兼容检查" }], "answerKeys": ["A"], "explanation": "新鲜对象字面量会进行 excess property checking，用于捕获拼写错误；经变量间接赋值时规则可能不同。", "difficulty": "medium", "tags": ["TypeScript", "对象类型"] },
-    { "code": "ts-103-union-intersection", "categoryKey": "frontend.typescript", "type": "multiple_choice", "stem": "关于联合类型与交叉类型，哪些理解正确？", "options": [{ "id": "A", "content": "A | B 表示值满足其中至少一种类型" }, { "id": "B", "content": "A & B 通常要求同时具备两边结构" }, { "id": "C", "content": "联合类型上只能直接安全访问各成员共有的属性" }, { "id": "D", "content": "交叉任意类型都保证能在运行时成功构造" }], "answerKeys": ["A", "B", "C"], "explanation": "联合表达或，交叉表达同时满足；不相容原始类型的交叉可能化为 never，并非总有可构造值。", "difficulty": "medium", "tags": ["TypeScript", "联合类型", "交叉类型"] },
-    { "code": "ts-104-discriminated-union", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "为不同状态对象设置共同的字面量字段 `kind`，再通过 switch 收窄各分支，这种模式称为什么？", "options": [{ "id": "A", "content": "可辨识联合" }, { "id": "B", "content": "命名空间合并" }, { "id": "C", "content": "装饰器注入" }, { "id": "D", "content": "原型继承" }], "answerKeys": ["A"], "explanation": "discriminated union 使用共同判别字段建立可靠分支收窄，适合状态机和 API 结果建模。", "difficulty": "medium", "tags": ["TypeScript", "类型收窄", "可辨识联合"] },
-    { "code": "ts-105-exhaustive-never", "categoryKey": "frontend.typescript", "type": "true_false", "stem": "在可辨识联合的 switch 默认分支中把剩余值赋给 `never`，可以帮助编译器检查是否遗漏新成员。", "answerKeys": ["true"], "explanation": "若所有成员已处理，剩余类型应为 never；新增联合成员后默认分支会产生类型错误，形成穷尽检查。", "difficulty": "hard", "tags": ["TypeScript", "never", "穷尽检查"] },
-    { "code": "ts-106-satisfies", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "`satisfies` 运算符相较直接类型断言的主要优势是什么？", "options": [{ "id": "A", "content": "验证表达式符合目标类型，同时尽量保留表达式自身更具体的推断类型" }, { "id": "B", "content": "在运行时转换对象" }, { "id": "C", "content": "跳过全部类型检查" }, { "id": "D", "content": "自动生成接口文档" }], "answerKeys": ["A"], "explanation": "satisfies 用于兼容性校验而非强行把表达式改成目标静态类型，适合配置对象和键完整性检查。", "difficulty": "hard", "tags": ["TypeScript", "satisfies", "类型推断"] },
-    { "code": "ts-107-as-const", "categoryKey": "frontend.typescript", "type": "multiple_choice", "stem": "对象或数组表达式使用 `as const` 通常会产生哪些效果？", "options": [{ "id": "A", "content": "字面量值不再被宽化为普通 string/number" }, { "id": "B", "content": "对象属性被推断为 readonly" }, { "id": "C", "content": "数组被推断为只读元组" }, { "id": "D", "content": "运行时自动深冻结" }], "answerKeys": ["A", "B", "C"], "explanation": "const assertion 是编译期推断约束，不会调用 Object.freeze，也不保证运行时深度不可变。", "difficulty": "medium", "tags": ["TypeScript", "as const", "字面量类型"] },
-    { "code": "ts-108-generic-constraint", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "泛型函数需要确保参数具有 `length` 属性，常用哪种写法？", "options": [{ "id": "A", "content": "T extends { length: number }" }, { "id": "B", "content": "T = any 且不校验" }, { "id": "C", "content": "T implements length" }, { "id": "D", "content": "typeof T === 'length'" }], "answerKeys": ["A"], "explanation": "extends 在泛型参数中表达约束，使函数体可安全访问 length，同时保留具体输入类型。", "difficulty": "medium", "tags": ["TypeScript", "泛型", "约束"] },
-    { "code": "ts-109-keyof-typeof", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "给定常量对象 `routes`，希望得到其所有键的联合类型，常见写法是什么？", "options": [{ "id": "A", "content": "keyof typeof routes" }, { "id": "B", "content": "typeof keyof routes" }, { "id": "C", "content": "routes.keys()" }, { "id": "D", "content": "instanceof routes" }], "answerKeys": ["A"], "explanation": "typeof 在类型位置取得值的静态类型，再由 keyof 提取其键联合。", "difficulty": "medium", "tags": ["TypeScript", "keyof", "typeof"] },
-    { "code": "ts-110-indexed-access", "categoryKey": "frontend.typescript", "type": "true_false", "stem": "对于对象类型 `User`，`User['name']` 可以取得 name 属性对应的类型，这称为索引访问类型。", "answerKeys": ["true"], "explanation": "indexed access type 可通过键类型读取属性类型，也可使用联合键一次取得多个属性值类型。", "difficulty": "easy", "tags": ["TypeScript", "索引访问类型"] },
-    { "code": "ts-111-mapped-modifier", "categoryKey": "frontend.typescript", "type": "multiple_choice", "stem": "映射类型中的 `-?` 与 `-readonly` 分别可用于什么？", "options": [{ "id": "A", "content": "移除可选修饰符" }, { "id": "B", "content": "移除只读修饰符" }, { "id": "C", "content": "删除运行时属性" }, { "id": "D", "content": "构造可变且必填的派生类型" }], "answerKeys": ["A", "B", "D"], "explanation": "映射修饰符只影响静态类型属性标记，不会在运行时修改实际对象。", "difficulty": "hard", "tags": ["TypeScript", "映射类型"] },
-    { "code": "ts-112-conditional-infer", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "条件类型中希望提取函数返回值类型，常用哪个关键字声明待推断部分？", "options": [{ "id": "A", "content": "infer" }, { "id": "B", "content": "await" }, { "id": "C", "content": "yield" }, { "id": "D", "content": "declare" }], "answerKeys": ["A"], "explanation": "`T extends (...args: any) => infer R ? R : never` 中 infer R 从匹配结构提取返回类型。", "difficulty": "hard", "tags": ["TypeScript", "条件类型", "infer"] },
-    { "code": "ts-113-distributive", "categoryKey": "frontend.typescript", "type": "true_false", "stem": "当条件类型左侧是裸类型参数时，传入联合类型通常会对联合的每个成员分别计算再合并结果。", "answerKeys": ["true"], "explanation": "这称为分布式条件类型；用元组包裹两侧如 `[T] extends [U]` 可抑制分布。", "difficulty": "hard", "tags": ["TypeScript", "条件类型", "联合类型"] },
-    { "code": "ts-114-template-literal", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "需要从联合类型 `'click' | 'focus'` 派生 `'onClick' | 'onFocus'`，适合使用什么能力？", "options": [{ "id": "A", "content": "模板字面量类型配合 Capitalize" }, { "id": "B", "content": "运行时正则替换" }, { "id": "C", "content": "namespace" }, { "id": "D", "content": "abstract class" }], "answerKeys": ["A"], "explanation": "模板字面量类型能在类型层组合字符串联合，内置字符串操作类型可完成大小写派生。", "difficulty": "hard", "tags": ["TypeScript", "模板字面量类型"] },
-    { "code": "ts-115-overload", "categoryKey": "frontend.typescript", "type": "multiple_choice", "stem": "关于 TypeScript 函数重载，哪些说法正确？", "options": [{ "id": "A", "content": "可以提供多个对调用方可见的重载签名" }, { "id": "B", "content": "实现签名必须兼容所有重载" }, { "id": "C", "content": "运行时会自动生成多个函数实现" }, { "id": "D", "content": "若简单联合参数足够，通常无需滥用重载" }], "answerKeys": ["A", "B", "D"], "explanation": "重载是静态声明，JavaScript 运行时仍只有一个实现；应选择能准确表达参数与返回关系的最简单方案。", "difficulty": "medium", "tags": ["TypeScript", "函数重载"] },
-    { "code": "ts-116-function-variance", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "启用 `strictFunctionTypes` 后，普通函数参数类型检查更严格的主要目的是什么？", "options": [{ "id": "A", "content": "减少把只接受更窄输入的函数用于更宽调用场景的风险" }, { "id": "B", "content": "让所有函数返回 any" }, { "id": "C", "content": "禁用回调函数" }, { "id": "D", "content": "强制函数同步执行" }], "answerKeys": ["A"], "explanation": "参数逆变相关检查可防止回调只处理子类型却被传到可能提供父类型值的位置。", "difficulty": "hard", "tags": ["TypeScript", "类型兼容", "严格模式"] },
-    { "code": "ts-117-enum-union", "categoryKey": "frontend.typescript", "type": "multiple_choice", "stem": "相较字符串 enum，字符串字面量联合常见特点有哪些？", "options": [{ "id": "A", "content": "通常不产生额外运行时代码" }, { "id": "B", "content": "与普通字符串值互操作直接" }, { "id": "C", "content": "永远优于 enum，完全没有场景差异" }, { "id": "D", "content": "可配合 as const 对象同时获得运行时映射和类型" }], "answerKeys": ["A", "B", "D"], "explanation": "联合类型会被擦除，as const 对象是常见替代；enum 是否合适取决于运行时对象和 API 设计需求。", "difficulty": "medium", "tags": ["TypeScript", "enum", "联合类型"] },
-    { "code": "ts-118-import-type", "categoryKey": "frontend.typescript", "type": "true_false", "stem": "`import type` 明确导入仅用于类型的位置，并可帮助工具在编译输出中安全移除该导入。", "answerKeys": ["true"], "explanation": "类型导入不能当运行时值使用，能明确模块边界并避免不必要的运行时依赖。", "difficulty": "easy", "tags": ["TypeScript", "模块", "import type"] },
-    { "code": "ts-119-no-unchecked-index", "categoryKey": "frontend.typescript", "type": "single_choice", "stem": "启用 `noUncheckedIndexedAccess` 后，通过未知键读取索引签名的结果通常会增加什么类型？", "options": [{ "id": "A", "content": "undefined" }, { "id": "B", "content": "never" }, { "id": "C", "content": "void only" }, { "id": "D", "content": "symbol" }], "answerKeys": ["A"], "explanation": "未知索引可能不存在，该选项把 undefined 加入结果，促使调用方进行存在性判断。", "difficulty": "hard", "tags": ["TypeScript", "tsconfig", "类型安全"] },
-    { "code": "ts-120-type-erasure", "categoryKey": "frontend.typescript", "type": "true_false", "stem": "大多数 TypeScript 类型在编译为 JavaScript 后会被擦除，因此接口和类型别名不能直接承担运行时数据校验。", "answerKeys": ["true"], "explanation": "静态类型只在编译阶段工作；来自网络、存储和用户输入的数据仍需运行时 schema 或显式校验。", "difficulty": "easy", "tags": ["TypeScript", "类型擦除", "运行时校验"] }
+    {
+      "code": "ts-101-structural-typing",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "TypeScript 主要采用结构化类型系统：两个对象类型是否兼容通常取决于成员结构，而不是是否显式声明继承关系。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。结构化类型关注形状；只要源类型包含目标所需成员并满足类型关系，就可能兼容。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、结构化类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、结构化类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "结构化类型"
+      ]
+    },
+    {
+      "code": "ts-102-excess-property",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "把对象字面量直接赋给一个明确对象类型时，TypeScript 额外执行的常见检查是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "多余属性检查"
+        },
+        {
+          "id": "B",
+          "content": "运行时深拷贝"
+        },
+        {
+          "id": "C",
+          "content": "数据库约束检查"
+        },
+        {
+          "id": "D",
+          "content": "CSS 兼容检查"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（多余属性检查）。新鲜对象字面量会进行 excess property checking，用于捕获拼写错误；经变量间接赋值时规则可能不同。\n\n**逐项分析**\n\n- **A：正确。** 多余属性检查。它准确对应本题结论。依据是：新鲜对象字面量会进行 excess property checking，用于捕获拼写错误；经变量间接赋值时规则可能不同。\n- **B：不选。** 运行时深拷贝。如果选择它，就等于断言“运行时深拷贝”；但本题成立的结论是“多余属性检查”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 数据库约束检查。如果选择它，就等于断言“数据库约束检查”；但本题成立的结论是“多余属性检查”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** CSS 兼容检查。如果选择它，就等于断言“CSS 兼容检查”；但本题成立的结论是“多余属性检查”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、对象类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、对象类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "对象类型"
+      ]
+    },
+    {
+      "code": "ts-103-union-intersection",
+      "categoryKey": "frontend.typescript",
+      "type": "multiple_choice",
+      "stem": "关于联合类型与交叉类型，哪些理解正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "A | B 表示值满足其中至少一种类型"
+        },
+        {
+          "id": "B",
+          "content": "A & B 通常要求同时具备两边结构"
+        },
+        {
+          "id": "C",
+          "content": "联合类型上只能直接安全访问各成员共有的属性"
+        },
+        {
+          "id": "D",
+          "content": "交叉任意类型都保证能在运行时成功构造"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（A | B 表示值满足其中至少一种类型）、**B**（A & B 通常要求同时具备两边结构）、**C**（联合类型上只能直接安全访问各成员共有的属性）。联合表达或，交叉表达同时满足；不相容原始类型的交叉可能化为 never，并非总有可构造值。\n\n**逐项分析**\n\n- **A：正确。** A | B 表示值满足其中至少一种类型。它准确对应本题结论。依据是：联合表达或，交叉表达同时满足；不相容原始类型的交叉可能化为 never，并非总有可构造值。\n- **B：正确。** A & B 通常要求同时具备两边结构。它准确对应本题结论。依据是：联合表达或，交叉表达同时满足；不相容原始类型的交叉可能化为 never，并非总有可构造值。\n- **C：正确。** 联合类型上只能直接安全访问各成员共有的属性。它准确对应本题结论。依据是：联合表达或，交叉表达同时满足；不相容原始类型的交叉可能化为 never，并非总有可构造值。\n- **D：不选。** 交叉任意类型都保证能在运行时成功构造。如果选择它，就等于断言“交叉任意类型都保证能在运行时成功构造”；但本题成立的结论是“A | B 表示值满足其中至少一种类型；A & B 通常要求同时具备两边结构；联合类型上只能直接安全访问各成员共有的属性”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、联合类型、交叉类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、联合类型、交叉类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "联合类型",
+        "交叉类型"
+      ]
+    },
+    {
+      "code": "ts-104-discriminated-union",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "为不同状态对象设置共同的字面量字段 `kind`，再通过 switch 收窄各分支，这种模式称为什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "可辨识联合"
+        },
+        {
+          "id": "B",
+          "content": "命名空间合并"
+        },
+        {
+          "id": "C",
+          "content": "装饰器注入"
+        },
+        {
+          "id": "D",
+          "content": "原型继承"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（可辨识联合）。discriminated union 使用共同判别字段建立可靠分支收窄，适合状态机和 API 结果建模。\n\n**逐项分析**\n\n- **A：正确。** 可辨识联合。它准确对应本题结论。依据是：discriminated union 使用共同判别字段建立可靠分支收窄，适合状态机和 API 结果建模。\n- **B：不选。** 命名空间合并。如果选择它，就等于断言“命名空间合并”；但本题成立的结论是“可辨识联合”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 装饰器注入。如果选择它，就等于断言“装饰器注入”；但本题成立的结论是“可辨识联合”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 原型继承。如果选择它，就等于断言“原型继承”；但本题成立的结论是“可辨识联合”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、类型收窄、可辨识联合”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、类型收窄、可辨识联合”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "类型收窄",
+        "可辨识联合"
+      ]
+    },
+    {
+      "code": "ts-105-exhaustive-never",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "在可辨识联合的 switch 默认分支中把剩余值赋给 `never`，可以帮助编译器检查是否遗漏新成员。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。若所有成员已处理，剩余类型应为 never；新增联合成员后默认分支会产生类型错误，形成穷尽检查。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、never、穷尽检查”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、never、穷尽检查”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "never",
+        "穷尽检查"
+      ]
+    },
+    {
+      "code": "ts-106-satisfies",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "`satisfies` 运算符相较直接类型断言的主要优势是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "验证表达式符合目标类型，同时尽量保留表达式自身更具体的推断类型"
+        },
+        {
+          "id": "B",
+          "content": "在运行时转换对象"
+        },
+        {
+          "id": "C",
+          "content": "跳过全部类型检查"
+        },
+        {
+          "id": "D",
+          "content": "自动生成接口文档"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（验证表达式符合目标类型，同时尽量保留表达式自身更具体的推断类型）。satisfies 用于兼容性校验而非强行把表达式改成目标静态类型，适合配置对象和键完整性检查。\n\n**逐项分析**\n\n- **A：正确。** 验证表达式符合目标类型，同时尽量保留表达式自身更具体的推断类型。它准确对应本题结论。依据是：satisfies 用于兼容性校验而非强行把表达式改成目标静态类型，适合配置对象和键完整性检查。\n- **B：不选。** 在运行时转换对象。如果选择它，就等于断言“在运行时转换对象”；但本题成立的结论是“验证表达式符合目标类型，同时尽量保留表达式自身更具体的推断类型”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 跳过全部类型检查。如果选择它，就等于断言“跳过全部类型检查”；但本题成立的结论是“验证表达式符合目标类型，同时尽量保留表达式自身更具体的推断类型”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 自动生成接口文档。如果选择它，就等于断言“自动生成接口文档”；但本题成立的结论是“验证表达式符合目标类型，同时尽量保留表达式自身更具体的推断类型”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、satisfies、类型推断”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、satisfies、类型推断”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "satisfies",
+        "类型推断"
+      ]
+    },
+    {
+      "code": "ts-107-as-const",
+      "categoryKey": "frontend.typescript",
+      "type": "multiple_choice",
+      "stem": "对象或数组表达式使用 `as const` 通常会产生哪些效果？",
+      "options": [
+        {
+          "id": "A",
+          "content": "字面量值不再被宽化为普通 string/number"
+        },
+        {
+          "id": "B",
+          "content": "对象属性被推断为 readonly"
+        },
+        {
+          "id": "C",
+          "content": "数组被推断为只读元组"
+        },
+        {
+          "id": "D",
+          "content": "运行时自动深冻结"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（字面量值不再被宽化为普通 string/number）、**B**（对象属性被推断为 readonly）、**C**（数组被推断为只读元组）。const assertion 是编译期推断约束，不会调用 Object.freeze，也不保证运行时深度不可变。\n\n**逐项分析**\n\n- **A：正确。** 字面量值不再被宽化为普通 string/number。它准确对应本题结论。依据是：const assertion 是编译期推断约束，不会调用 Object.freeze，也不保证运行时深度不可变。\n- **B：正确。** 对象属性被推断为 readonly。它准确对应本题结论。依据是：const assertion 是编译期推断约束，不会调用 Object.freeze，也不保证运行时深度不可变。\n- **C：正确。** 数组被推断为只读元组。它准确对应本题结论。依据是：const assertion 是编译期推断约束，不会调用 Object.freeze，也不保证运行时深度不可变。\n- **D：不选。** 运行时自动深冻结。如果选择它，就等于断言“运行时自动深冻结”；但本题成立的结论是“字面量值不再被宽化为普通 string/number；对象属性被推断为 readonly；数组被推断为只读元组”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、as const、字面量类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、as const、字面量类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "as const",
+        "字面量类型"
+      ]
+    },
+    {
+      "code": "ts-108-generic-constraint",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "泛型函数需要确保参数具有 `length` 属性，常用哪种写法？",
+      "options": [
+        {
+          "id": "A",
+          "content": "T extends { length: number }"
+        },
+        {
+          "id": "B",
+          "content": "T = any 且不校验"
+        },
+        {
+          "id": "C",
+          "content": "T implements length"
+        },
+        {
+          "id": "D",
+          "content": "typeof T === 'length'"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（T extends { length: number }）。extends 在泛型参数中表达约束，使函数体可安全访问 length，同时保留具体输入类型。\n\n**逐项分析**\n\n- **A：正确。** T extends { length: number }。它准确对应本题结论。依据是：extends 在泛型参数中表达约束，使函数体可安全访问 length，同时保留具体输入类型。\n- **B：不选。** T = any 且不校验。如果选择它，就等于断言“T = any 且不校验”；但本题成立的结论是“T extends { length: number }”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** T implements length。如果选择它，就等于断言“T implements length”；但本题成立的结论是“T extends { length: number }”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** typeof T === 'length'。如果选择它，就等于断言“typeof T === 'length'”；但本题成立的结论是“T extends { length: number }”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、泛型、约束”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、泛型、约束”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "泛型",
+        "约束"
+      ]
+    },
+    {
+      "code": "ts-109-keyof-typeof",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "给定常量对象 `routes`，希望得到其所有键的联合类型，常见写法是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "keyof typeof routes"
+        },
+        {
+          "id": "B",
+          "content": "typeof keyof routes"
+        },
+        {
+          "id": "C",
+          "content": "routes.keys()"
+        },
+        {
+          "id": "D",
+          "content": "instanceof routes"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（keyof typeof routes）。typeof 在类型位置取得值的静态类型，再由 keyof 提取其键联合。\n\n**逐项分析**\n\n- **A：正确。** keyof typeof routes。它准确对应本题结论。依据是：typeof 在类型位置取得值的静态类型，再由 keyof 提取其键联合。\n- **B：不选。** typeof keyof routes。如果选择它，就等于断言“typeof keyof routes”；但本题成立的结论是“keyof typeof routes”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** routes.keys()。如果选择它，就等于断言“routes.keys()”；但本题成立的结论是“keyof typeof routes”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** instanceof routes。如果选择它，就等于断言“instanceof routes”；但本题成立的结论是“keyof typeof routes”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、keyof、typeof”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、keyof、typeof”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "keyof",
+        "typeof"
+      ]
+    },
+    {
+      "code": "ts-110-indexed-access",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "对于对象类型 `User`，`User['name']` 可以取得 name 属性对应的类型，这称为索引访问类型。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。indexed access type 可通过键类型读取属性类型，也可使用联合键一次取得多个属性值类型。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、索引访问类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、索引访问类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "TypeScript",
+        "索引访问类型"
+      ]
+    },
+    {
+      "code": "ts-111-mapped-modifier",
+      "categoryKey": "frontend.typescript",
+      "type": "multiple_choice",
+      "stem": "映射类型中的 `-?` 与 `-readonly` 分别可用于什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "移除可选修饰符"
+        },
+        {
+          "id": "B",
+          "content": "移除只读修饰符"
+        },
+        {
+          "id": "C",
+          "content": "删除运行时属性"
+        },
+        {
+          "id": "D",
+          "content": "构造可变且必填的派生类型"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（移除可选修饰符）、**B**（移除只读修饰符）、**D**（构造可变且必填的派生类型）。映射修饰符只影响静态类型属性标记，不会在运行时修改实际对象。\n\n**逐项分析**\n\n- **A：正确。** 移除可选修饰符。它准确对应本题结论。依据是：映射修饰符只影响静态类型属性标记，不会在运行时修改实际对象。\n- **B：正确。** 移除只读修饰符。它准确对应本题结论。依据是：映射修饰符只影响静态类型属性标记，不会在运行时修改实际对象。\n- **C：不选。** 删除运行时属性。如果选择它，就等于断言“删除运行时属性”；但本题成立的结论是“移除可选修饰符；移除只读修饰符；构造可变且必填的派生类型”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 构造可变且必填的派生类型。它准确对应本题结论。依据是：映射修饰符只影响静态类型属性标记，不会在运行时修改实际对象。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、映射类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、映射类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "映射类型"
+      ]
+    },
+    {
+      "code": "ts-112-conditional-infer",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "条件类型中希望提取函数返回值类型，常用哪个关键字声明待推断部分？",
+      "options": [
+        {
+          "id": "A",
+          "content": "infer"
+        },
+        {
+          "id": "B",
+          "content": "await"
+        },
+        {
+          "id": "C",
+          "content": "yield"
+        },
+        {
+          "id": "D",
+          "content": "declare"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（infer）。`T extends (...args: any) => infer R ? R : never` 中 infer R 从匹配结构提取返回类型。\n\n**逐项分析**\n\n- **A：正确。** infer。它准确对应本题结论。依据是：`T extends (...args: any) => infer R ? R : never` 中 infer R 从匹配结构提取返回类型。\n- **B：不选。** await。如果选择它，就等于断言“await”；但本题成立的结论是“infer”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** yield。如果选择它，就等于断言“yield”；但本题成立的结论是“infer”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** declare。如果选择它，就等于断言“declare”；但本题成立的结论是“infer”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、条件类型、infer”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、条件类型、infer”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "条件类型",
+        "infer"
+      ]
+    },
+    {
+      "code": "ts-113-distributive",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "当条件类型左侧是裸类型参数时，传入联合类型通常会对联合的每个成员分别计算再合并结果。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。这称为分布式条件类型；用元组包裹两侧如 `[T] extends [U]` 可抑制分布。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、条件类型、联合类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、条件类型、联合类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "条件类型",
+        "联合类型"
+      ]
+    },
+    {
+      "code": "ts-114-template-literal",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "需要从联合类型 `'click' | 'focus'` 派生 `'onClick' | 'onFocus'`，适合使用什么能力？",
+      "options": [
+        {
+          "id": "A",
+          "content": "模板字面量类型配合 Capitalize"
+        },
+        {
+          "id": "B",
+          "content": "运行时正则替换"
+        },
+        {
+          "id": "C",
+          "content": "namespace"
+        },
+        {
+          "id": "D",
+          "content": "abstract class"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（模板字面量类型配合 Capitalize）。模板字面量类型能在类型层组合字符串联合，内置字符串操作类型可完成大小写派生。\n\n**逐项分析**\n\n- **A：正确。** 模板字面量类型配合 Capitalize。它准确对应本题结论。依据是：模板字面量类型能在类型层组合字符串联合，内置字符串操作类型可完成大小写派生。\n- **B：不选。** 运行时正则替换。如果选择它，就等于断言“运行时正则替换”；但本题成立的结论是“模板字面量类型配合 Capitalize”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** namespace。如果选择它，就等于断言“namespace”；但本题成立的结论是“模板字面量类型配合 Capitalize”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** abstract class。如果选择它，就等于断言“abstract class”；但本题成立的结论是“模板字面量类型配合 Capitalize”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、模板字面量类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、模板字面量类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "模板字面量类型"
+      ]
+    },
+    {
+      "code": "ts-115-overload",
+      "categoryKey": "frontend.typescript",
+      "type": "multiple_choice",
+      "stem": "关于 TypeScript 函数重载，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "可以提供多个对调用方可见的重载签名"
+        },
+        {
+          "id": "B",
+          "content": "实现签名必须兼容所有重载"
+        },
+        {
+          "id": "C",
+          "content": "运行时会自动生成多个函数实现"
+        },
+        {
+          "id": "D",
+          "content": "若简单联合参数足够，通常无需滥用重载"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（可以提供多个对调用方可见的重载签名）、**B**（实现签名必须兼容所有重载）、**D**（若简单联合参数足够，通常无需滥用重载）。重载是静态声明，JavaScript 运行时仍只有一个实现；应选择能准确表达参数与返回关系的最简单方案。\n\n**逐项分析**\n\n- **A：正确。** 可以提供多个对调用方可见的重载签名。它准确对应本题结论。依据是：重载是静态声明，JavaScript 运行时仍只有一个实现；应选择能准确表达参数与返回关系的最简单方案。\n- **B：正确。** 实现签名必须兼容所有重载。它准确对应本题结论。依据是：重载是静态声明，JavaScript 运行时仍只有一个实现；应选择能准确表达参数与返回关系的最简单方案。\n- **C：不选。** 运行时会自动生成多个函数实现。如果选择它，就等于断言“运行时会自动生成多个函数实现”；但本题成立的结论是“可以提供多个对调用方可见的重载签名；实现签名必须兼容所有重载；若简单联合参数足够，通常无需滥用重载”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 若简单联合参数足够，通常无需滥用重载。它准确对应本题结论。依据是：重载是静态声明，JavaScript 运行时仍只有一个实现；应选择能准确表达参数与返回关系的最简单方案。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、函数重载”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、函数重载”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "函数重载"
+      ]
+    },
+    {
+      "code": "ts-116-function-variance",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "启用 `strictFunctionTypes` 后，普通函数参数类型检查更严格的主要目的是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "减少把只接受更窄输入的函数用于更宽调用场景的风险"
+        },
+        {
+          "id": "B",
+          "content": "让所有函数返回 any"
+        },
+        {
+          "id": "C",
+          "content": "禁用回调函数"
+        },
+        {
+          "id": "D",
+          "content": "强制函数同步执行"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（减少把只接受更窄输入的函数用于更宽调用场景的风险）。参数逆变相关检查可防止回调只处理子类型却被传到可能提供父类型值的位置。\n\n**逐项分析**\n\n- **A：正确。** 减少把只接受更窄输入的函数用于更宽调用场景的风险。它准确对应本题结论。依据是：参数逆变相关检查可防止回调只处理子类型却被传到可能提供父类型值的位置。\n- **B：不选。** 让所有函数返回 any。如果选择它，就等于断言“让所有函数返回 any”；但本题成立的结论是“减少把只接受更窄输入的函数用于更宽调用场景的风险”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 禁用回调函数。如果选择它，就等于断言“禁用回调函数”；但本题成立的结论是“减少把只接受更窄输入的函数用于更宽调用场景的风险”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 强制函数同步执行。如果选择它，就等于断言“强制函数同步执行”；但本题成立的结论是“减少把只接受更窄输入的函数用于更宽调用场景的风险”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、类型兼容、严格模式”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、类型兼容、严格模式”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "类型兼容",
+        "严格模式"
+      ]
+    },
+    {
+      "code": "ts-117-enum-union",
+      "categoryKey": "frontend.typescript",
+      "type": "multiple_choice",
+      "stem": "相较字符串 enum，字符串字面量联合常见特点有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "通常不产生额外运行时代码"
+        },
+        {
+          "id": "B",
+          "content": "与普通字符串值互操作直接"
+        },
+        {
+          "id": "C",
+          "content": "永远优于 enum，完全没有场景差异"
+        },
+        {
+          "id": "D",
+          "content": "可配合 as const 对象同时获得运行时映射和类型"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（通常不产生额外运行时代码）、**B**（与普通字符串值互操作直接）、**D**（可配合 as const 对象同时获得运行时映射和类型）。联合类型会被擦除，as const 对象是常见替代；enum 是否合适取决于运行时对象和 API 设计需求。\n\n**逐项分析**\n\n- **A：正确。** 通常不产生额外运行时代码。它准确对应本题结论。依据是：联合类型会被擦除，as const 对象是常见替代；enum 是否合适取决于运行时对象和 API 设计需求。\n- **B：正确。** 与普通字符串值互操作直接。它准确对应本题结论。依据是：联合类型会被擦除，as const 对象是常见替代；enum 是否合适取决于运行时对象和 API 设计需求。\n- **C：不选。** 永远优于 enum，完全没有场景差异。如果选择它，就等于断言“永远优于 enum，完全没有场景差异”；但本题成立的结论是“通常不产生额外运行时代码；与普通字符串值互操作直接；可配合 as const 对象同时获得运行时映射和类型”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 可配合 as const 对象同时获得运行时映射和类型。它准确对应本题结论。依据是：联合类型会被擦除，as const 对象是常见替代；enum 是否合适取决于运行时对象和 API 设计需求。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、enum、联合类型”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、enum、联合类型”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "TypeScript",
+        "enum",
+        "联合类型"
+      ]
+    },
+    {
+      "code": "ts-118-import-type",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "`import type` 明确导入仅用于类型的位置，并可帮助工具在编译输出中安全移除该导入。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。类型导入不能当运行时值使用，能明确模块边界并避免不必要的运行时依赖。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、模块、import type”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、模块、import type”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "TypeScript",
+        "模块",
+        "import type"
+      ]
+    },
+    {
+      "code": "ts-119-no-unchecked-index",
+      "categoryKey": "frontend.typescript",
+      "type": "single_choice",
+      "stem": "启用 `noUncheckedIndexedAccess` 后，通过未知键读取索引签名的结果通常会增加什么类型？",
+      "options": [
+        {
+          "id": "A",
+          "content": "undefined"
+        },
+        {
+          "id": "B",
+          "content": "never"
+        },
+        {
+          "id": "C",
+          "content": "void only"
+        },
+        {
+          "id": "D",
+          "content": "symbol"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（undefined）。未知索引可能不存在，该选项把 undefined 加入结果，促使调用方进行存在性判断。\n\n**逐项分析**\n\n- **A：正确。** undefined。它准确对应本题结论。依据是：未知索引可能不存在，该选项把 undefined 加入结果，促使调用方进行存在性判断。\n- **B：不选。** never。如果选择它，就等于断言“never”；但本题成立的结论是“undefined”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** void only。如果选择它，就等于断言“void only”；但本题成立的结论是“undefined”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** symbol。如果选择它，就等于断言“symbol”；但本题成立的结论是“undefined”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、tsconfig、类型安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、tsconfig、类型安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "TypeScript",
+        "tsconfig",
+        "类型安全"
+      ]
+    },
+    {
+      "code": "ts-120-type-erasure",
+      "categoryKey": "frontend.typescript",
+      "type": "true_false",
+      "stem": "大多数 TypeScript 类型在编译为 JavaScript 后会被擦除，因此接口和类型别名不能直接承担运行时数据校验。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。静态类型只在编译阶段工作；来自网络、存储和用户输入的数据仍需运行时 schema 或显式校验。\n\n**小白理解与核心原理**\n\nTypeScript 在编译阶段检查类型，运行时通常仍是 JavaScript。回答类型题时要区分“类型系统允许什么”和“运行时真正发生什么”，并说明类型收窄、泛型约束及边界数据校验各自负责哪一层。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“TypeScript、类型擦除、运行时校验”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“TypeScript、类型擦除、运行时校验”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "TypeScript",
+        "类型擦除",
+        "运行时校验"
+      ]
+    }
   ]
 }

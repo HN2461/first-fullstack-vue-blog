@@ -25,6 +25,7 @@ describe('question bank builtin data', () => {
     const interviewQuestions = questions.filter((item) => item.categoryKey.startsWith('frontend.interview.'))
     const choiceQuestions = questions.filter((item) => ['single_choice', 'multiple_choice'].includes(item.type))
     const booleanQuestions = questions.filter((item) => item.type === 'true_false')
+    const frontendChoiceQuestions = frontendQuestions.filter((item) => ['single_choice', 'multiple_choice'].includes(item.type))
 
     expect(categories).toHaveLength(27)
     expect(questions).toHaveLength(570)
@@ -47,7 +48,20 @@ describe('question bank builtin data', () => {
     ]))
     expect(questions.every((item) => categoryKeys.has(item.categoryKey))).toBe(true)
     expect(questions.every((item) => item.stem?.trim() && item.answerKeys?.length && item.explanation?.trim())).toBe(true)
-    expect(interviewQuestions.every((item) => item.explanation.trim().length >= 40)).toBe(true)
+    expect(frontendQuestions.every((item) => item.explanation.trim().length >= 300)).toBe(true)
+    expect(interviewQuestions.every((item) => item.explanation.trim().length >= 420)).toBe(true)
+    expect(frontendQuestions.every((item) => [
+      '**答案与结论**',
+      '**小白理解与核心原理**',
+      '**项目实践与排错**',
+      '**常见误区与面试追问**'
+    ].every((heading) => item.explanation.includes(heading)))).toBe(true)
+    expect(frontendChoiceQuestions.every((item) => item.explanation.includes('**逐项分析**'))).toBe(true)
+    expect(frontendQuestions.every((item) => !/待补充|TODO|暂无解析|略$/.test(item.explanation))).toBe(true)
+    expect(questions.find((item) => item.code === 'interview-vue-003-ref-unwrapping').explanation).toContain('reactive 数组元素或 Map')
+    expect(questions.find((item) => item.code === 'interview-vue-014-keep-alive').explanation).toContain('暂时离开')
+    expect(questions.find((item) => item.code === 'interview-vue-016-suspense').explanation).toContain('实验性能力')
+    expect(questions.find((item) => item.code === 'interview-vue-029-ssr-hydration').explanation).toContain('Vue 3.5+')
     expect(choiceQuestions.every((item) => item.options?.length >= 2)).toBe(true)
     expect(choiceQuestions.every((item) => item.answerKeys.every((key) => item.options.some((option) => option.id === key)))).toBe(true)
     expect(booleanQuestions.every((item) => item.answerKeys.length === 1 && ['true', 'false'].includes(item.answerKeys[0]))).toBe(true)

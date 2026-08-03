@@ -14,6 +14,8 @@
           <template #icon><RedoOutlined /></template>
           开始本组复习
         </a-button>
+        <span class="question-bank-toolbar__spacer"></span>
+        <QuestionBankHelp topic="review" />
       </template>
 
       <template #bodyCell="{ column, record }">
@@ -56,6 +58,7 @@ import { PlayCircleOutlined, RedoOutlined, StarFilled, StarOutlined } from '@ant
 import BlogTable from '@/components/BlogTable.vue'
 import { listQuestionProgress, setQuestionFavorite, startQuickAttempt } from '@/services/questionBank'
 import { formatQuestionTime, getOptionMeta, questionTypeOptions } from './questionBankMeta'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import './questionBank.css'
 
 const router = useRouter()

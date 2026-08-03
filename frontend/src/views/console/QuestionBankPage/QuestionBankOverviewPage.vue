@@ -14,6 +14,8 @@
           <template #icon><ReloadOutlined /></template>
           刷新
         </a-button>
+        <span class="question-bank-toolbar__spacer"></span>
+        <QuestionBankHelp topic="overview" />
       </div>
 
       <div class="question-bank-metrics">
@@ -58,6 +60,7 @@ import { message } from 'ant-design-vue'
 import { RedoOutlined, ReloadOutlined, RightOutlined, RocketOutlined } from '@ant-design/icons-vue'
 import { getQuestionBankOverview } from '@/services/questionBank'
 import { attemptModeOptions, formatQuestionTime, getOptionMeta } from './questionBankMeta'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import './questionBank.css'
 
 const router = useRouter()

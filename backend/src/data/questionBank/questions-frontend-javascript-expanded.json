@@ -1,40 +1,1018 @@
 {
   "schemaVersion": 1,
   "questions": [
-    { "code": "js-101-execution-context", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "JavaScript 执行函数时，为参数、局部变量、作用域链和 `this` 等执行信息建立的抽象环境通常称为什么？", "options": [{ "id": "A", "content": "执行上下文" }, { "id": "B", "content": "渲染树" }, { "id": "C", "content": "样式上下文" }, { "id": "D", "content": "网络栈" }], "answerKeys": ["A"], "explanation": "执行上下文描述代码运行所需的环境；函数调用会创建新的函数执行上下文并进入调用栈。", "difficulty": "medium", "tags": ["JavaScript", "执行上下文"] },
-    { "code": "js-102-lexical-scope", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "JavaScript 的词法作用域主要由函数和代码块在源码中的定义位置决定，而不是由函数调用位置决定。", "answerKeys": ["true"], "explanation": "作用域链在词法结构上建立；闭包能够保留函数定义位置可访问的词法环境。", "difficulty": "medium", "tags": ["JavaScript", "作用域"] },
-    { "code": "js-103-tdz", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "在 `let` 或 `const` 声明前访问其绑定通常会发生什么？", "options": [{ "id": "A", "content": "得到 undefined" }, { "id": "B", "content": "得到 null" }, { "id": "C", "content": "处于暂时性死区并抛出 ReferenceError" }, { "id": "D", "content": "自动创建全局变量" }], "answerKeys": ["C"], "explanation": "绑定已创建但在声明执行前未初始化，这段区域称为暂时性死区，访问会抛出 ReferenceError。", "difficulty": "medium", "tags": ["JavaScript", "TDZ", "变量"] },
-    { "code": "js-104-const-binding", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "`const user = { name: 'A' }` 会让 user 指向的对象深度不可变。", "answerKeys": ["false"], "explanation": "const 只禁止重新赋值该绑定，对象内部属性仍可修改；深度不可变需要额外约束。", "difficulty": "easy", "tags": ["JavaScript", "const", "对象"] },
-    { "code": "js-105-symbol", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "关于 `Symbol`，哪些说法正确？", "options": [{ "id": "A", "content": "每次调用 Symbol() 通常得到唯一值" }, { "id": "B", "content": "可用作对象属性键" }, { "id": "C", "content": "普通 JSON.stringify 会完整保留 Symbol 属性" }, { "id": "D", "content": "内置 well-known symbols 可定制迭代等语言行为" }], "answerKeys": ["A", "B", "D"], "explanation": "Symbol 是唯一的原始值，可作为属性键并参与协议定制；JSON 默认忽略 Symbol 键和值。", "difficulty": "medium", "tags": ["JavaScript", "Symbol"] },
-    { "code": "js-106-bigint", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "关于 `BigInt` 与 `Number` 的算术运算，哪项正确？", "options": [{ "id": "A", "content": "可以在所有算术运算中直接混用" }, { "id": "B", "content": "通常不能直接混用，需要显式转换" }, { "id": "C", "content": "BigInt 只能表示负数" }, { "id": "D", "content": "BigInt 会自动转成字符串" }], "answerKeys": ["B"], "explanation": "BigInt 用于任意精度整数，算术操作通常要求两边同为 BigInt，避免隐式精度语义不清。", "difficulty": "medium", "tags": ["JavaScript", "BigInt"] },
-    { "code": "js-107-type-coercion", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "表达式 `[] + {}` 的结果涉及哪类核心机制？", "options": [{ "id": "A", "content": "对象到原始值转换与字符串拼接" }, { "id": "B", "content": "CSS 层叠" }, { "id": "C", "content": "DOM 事件捕获" }, { "id": "D", "content": "二进制位运算" }], "answerKeys": ["A"], "explanation": "加号遇到对象会执行 ToPrimitive 等抽象转换，若得到字符串则走拼接；面试中应解释规则而不是死记结果。", "difficulty": "hard", "tags": ["JavaScript", "类型转换"] },
-    { "code": "js-108-nullish", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "当配置值为 `0` 或空字符串时仍希望保留，只在 `null` 或 `undefined` 时使用默认值，应使用什么运算符？", "options": [{ "id": "A", "content": "||" }, { "id": "B", "content": "??" }, { "id": "C", "content": "&&" }, { "id": "D", "content": "delete" }], "answerKeys": ["B"], "explanation": "空值合并运算符只把 null 和 undefined 视为缺失，逻辑或还会把 0、空字符串和 false 当成假值。", "difficulty": "easy", "tags": ["JavaScript", "运算符"] },
-    { "code": "js-109-optional-chain", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "可选链 `obj?.method()` 会在 obj 为 null 或 undefined 时短路并返回 undefined。", "answerKeys": ["true"], "explanation": "可选链避免在空值上继续取属性或调用，但不会吞掉方法内部真实抛出的异常。", "difficulty": "easy", "tags": ["JavaScript", "可选链"] },
-    { "code": "js-110-iterable", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "哪些语法通常会消费可迭代对象的迭代器协议？", "options": [{ "id": "A", "content": "for...of" }, { "id": "B", "content": "展开语法 [...value]" }, { "id": "C", "content": "Array.from(value)" }, { "id": "D", "content": "for...in 只枚举对象键" }], "answerKeys": ["A", "B", "C"], "explanation": "for...of、展开和 Array.from 可使用 Symbol.iterator；for...in 枚举可枚举属性键，不等同于迭代器协议。", "difficulty": "medium", "tags": ["JavaScript", "迭代器"] },
-    { "code": "js-111-custom-iterator", "categoryKey": "frontend.javascript", "type": "short_answer", "stem": "对象需要支持 `for...of` 时，应实现哪个符号属性方法？", "answerKeys": ["Symbol.iterator", "[Symbol.iterator]"], "explanation": "可迭代对象通过 `[Symbol.iterator]()` 返回迭代器，迭代器的 next() 返回 `{ value, done }`。", "difficulty": "medium", "tags": ["JavaScript", "迭代器", "Symbol"] },
-    { "code": "js-112-promise-allsettled", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "希望等待一批 Promise 全部结束，并同时获得每项 fulfilled 或 rejected 状态，应使用什么？", "options": [{ "id": "A", "content": "Promise.allSettled" }, { "id": "B", "content": "Promise.reject" }, { "id": "C", "content": "Promise.any" }, { "id": "D", "content": "queueMicrotask" }], "answerKeys": ["A"], "explanation": "allSettled 不会因单项失败提前拒绝，结果数组按输入顺序给出每项状态与值或原因。", "difficulty": "easy", "tags": ["JavaScript", "Promise"] },
-    { "code": "js-113-promise-any", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "`Promise.any` 在什么情况下会 rejected？", "options": [{ "id": "A", "content": "任意一个输入失败时" }, { "id": "B", "content": "所有输入都失败时，通常以 AggregateError 拒绝" }, { "id": "C", "content": "第一个输入完成时" }, { "id": "D", "content": "永远不会拒绝" }], "answerKeys": ["B"], "explanation": "Promise.any 返回第一个成功值；只有全部失败时才以 AggregateError 拒绝。", "difficulty": "medium", "tags": ["JavaScript", "Promise"] },
-    { "code": "js-114-promise-race", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "`Promise.race` 采用第一个 settled 的输入结果，因此最先完成的输入无论成功还是失败都会决定返回 Promise。", "answerKeys": ["true"], "explanation": "race 关注最先落定，而不是最先成功；常与超时 Promise 组合，但不会自动取消其他任务。", "difficulty": "medium", "tags": ["JavaScript", "Promise"] },
-    { "code": "js-115-finally", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "关于 Promise 的 `finally`，哪些说法正确？", "options": [{ "id": "A", "content": "无论成功失败通常都会执行" }, { "id": "B", "content": "适合释放 loading 等公共清理" }, { "id": "C", "content": "默认接收前一个成功值作为参数" }, { "id": "D", "content": "若 finally 自身抛错，会改变链的结果" }], "answerKeys": ["A", "B", "D"], "explanation": "finally 不以成功值或失败原因作为普通参数；正常结束时透传原结果，自身抛错或返回拒绝则覆盖结果。", "difficulty": "medium", "tags": ["JavaScript", "Promise", "错误处理"] },
-    { "code": "js-116-async-error", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "在 `async` 函数中抛出异常，调用方通常如何观察到它？", "options": [{ "id": "A", "content": "函数返回的 Promise 变为 rejected" }, { "id": "B", "content": "函数返回 null" }, { "id": "C", "content": "异常必然被静默忽略" }, { "id": "D", "content": "自动退出浏览器" }], "answerKeys": ["A"], "explanation": "async 函数总返回 Promise；同步 throw 或 await 到拒绝都会使返回 Promise 拒绝，除非内部捕获。", "difficulty": "easy", "tags": ["JavaScript", "async-await", "错误处理"] },
-    { "code": "js-117-abort-controller", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "`AbortController` 常用于哪些场景？", "options": [{ "id": "A", "content": "取消支持 AbortSignal 的 fetch 请求" }, { "id": "B", "content": "统一通知多个支持 signal 的异步操作中止" }, { "id": "C", "content": "强制回滚任意服务器事务" }, { "id": "D", "content": "组件卸载时终止不再需要的请求" }], "answerKeys": ["A", "B", "D"], "explanation": "AbortSignal 是协作式取消信号，能中止支持它的客户端操作，但不能魔法般撤销服务器已完成的副作用。", "difficulty": "medium", "tags": ["JavaScript", "Fetch", "取消请求"] },
-    { "code": "js-118-proxy-reflect", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "在 Proxy trap 中配合 Reflect 调用的常见价值有哪些？", "options": [{ "id": "A", "content": "调用与语言内部操作对应的默认行为" }, { "id": "B", "content": "更方便保留 receiver 等语义" }, { "id": "C", "content": "绕过所有 Proxy 不变量" }, { "id": "D", "content": "让 trap 代码更接近原始操作" }], "answerKeys": ["A", "B", "D"], "explanation": "Reflect 提供对象内部操作的函数形式，常用于转发默认行为，但仍必须遵守 Proxy 不变量。", "difficulty": "hard", "tags": ["JavaScript", "Proxy", "Reflect"] },
-    { "code": "js-119-set", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "需要对原始值数组快速去重，常见简洁写法是什么？", "options": [{ "id": "A", "content": "[...new Set(values)]" }, { "id": "B", "content": "new WeakMap(values)" }, { "id": "C", "content": "values.sort() 必然去重" }, { "id": "D", "content": "JSON.stringify(values)" }], "answerKeys": ["A"], "explanation": "Set 保证成员唯一，展开后得到去重数组；复杂对象仍按引用身份判断。", "difficulty": "easy", "tags": ["JavaScript", "Set", "数组"] },
-    { "code": "js-120-sort-mutates", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "`Array.prototype.sort()` 默认会原地修改数组；需要保留原数组时应先复制或使用支持的非变异排序方法。", "answerKeys": ["true"], "explanation": "sort 是变异方法；现代环境可考虑 toSorted()，兼容场景也可先展开复制再排序。", "difficulty": "easy", "tags": ["JavaScript", "数组", "不可变"] },
-    { "code": "js-121-flatmap", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "`flatMap` 最接近哪种组合操作？", "options": [{ "id": "A", "content": "先 map，再对结果执行一层 flat" }, { "id": "B", "content": "先 sort，再 reverse" }, { "id": "C", "content": "深度无限扁平化" }, { "id": "D", "content": "只过滤假值" }], "answerKeys": ["A"], "explanation": "flatMap 将映射与一层扁平化组合，适合一个输入产生零个、一个或多个输出的转换。", "difficulty": "medium", "tags": ["JavaScript", "数组"] },
-    { "code": "js-122-structured-clone", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "相较 JSON 序列化深拷贝，`structuredClone` 通常有哪些能力？", "options": [{ "id": "A", "content": "支持循环引用" }, { "id": "B", "content": "保留 Date、Map、Set 等多种结构化类型" }, { "id": "C", "content": "可以克隆函数闭包" }, { "id": "D", "content": "可配合 transfer 转移部分可转移对象" }], "answerKeys": ["A", "B", "D"], "explanation": "结构化克隆覆盖多种内建数据与循环引用，但函数和部分宿主对象不可克隆。", "difficulty": "medium", "tags": ["JavaScript", "深拷贝", "structuredClone"] },
-    { "code": "js-123-property-descriptor", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "使用 `Object.defineProperty` 创建属性且省略 descriptor 中的布尔标志时，它们默认为什么？", "options": [{ "id": "A", "content": "writable、enumerable、configurable 都为 false" }, { "id": "B", "content": "都为 true" }, { "id": "C", "content": "随机决定" }, { "id": "D", "content": "与对象字面量完全相同" }], "answerKeys": ["A"], "explanation": "defineProperty 省略布尔特性时默认 false，这与对象字面量普通属性默认可写、可枚举、可配置不同。", "difficulty": "hard", "tags": ["JavaScript", "属性描述符"] },
-    { "code": "js-124-private-field", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "JavaScript 类的 `#privateField` 私有字段由语言语法强制限制，不能像普通字符串属性那样从类外直接访问。", "answerKeys": ["true"], "explanation": "私有字段使用私有名称并受语法级品牌检查约束，不等同于命名约定中的下划线属性。", "difficulty": "medium", "tags": ["JavaScript", "Class", "私有字段"] },
-    { "code": "js-125-static-block", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "类的 static initialization block 主要用于什么？", "options": [{ "id": "A", "content": "在类定义求值时执行较复杂的静态初始化逻辑" }, { "id": "B", "content": "替代每个实例构造函数" }, { "id": "C", "content": "声明 CSS 静态样式" }, { "id": "D", "content": "阻止类被继承" }], "answerKeys": ["A"], "explanation": "静态块可访问类的私有静态状态，并在类初始化阶段执行多条语句。", "difficulty": "hard", "tags": ["JavaScript", "Class"] },
-    { "code": "js-126-microtask-drain", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "一个任务执行结束后，事件循环通常会在进入下一个任务前清空当前微任务队列；微任务持续追加微任务可能延迟渲染和其他任务。", "answerKeys": ["true"], "explanation": "微任务检查点会持续处理队列直至为空，因此不受控的递归微任务也可能造成饥饿。", "difficulty": "hard", "tags": ["JavaScript", "事件循环", "微任务"] },
-    { "code": "js-127-queue-microtask", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "需要显式安排一个微任务且不需要构造 Promise，通常可使用什么？", "options": [{ "id": "A", "content": "queueMicrotask" }, { "id": "B", "content": "setInterval" }, { "id": "C", "content": "requestFullscreen" }, { "id": "D", "content": "alert" }], "answerKeys": ["A"], "explanation": "queueMicrotask 直接把回调加入微任务队列；异常报告语义也不同于借助 Promise.then。", "difficulty": "medium", "tags": ["JavaScript", "微任务"] },
-    { "code": "js-128-json-limit", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "原生 JSON 格式与 `JSON.stringify` 通常不能无损表达哪些 JavaScript 内容？", "options": [{ "id": "A", "content": "undefined" }, { "id": "B", "content": "函数" }, { "id": "C", "content": "BigInt 默认值" }, { "id": "D", "content": "普通有限数字" }], "answerKeys": ["A", "B", "C"], "explanation": "JSON 数据模型有限，undefined 和函数会被忽略或转成 null，BigInt 默认会抛错；需要自定义协议时应显式设计。", "difficulty": "medium", "tags": ["JavaScript", "JSON", "序列化"] },
-    { "code": "js-129-intl", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "格式化不同语言和地区的日期、数字、货币，优先使用哪个标准 API？", "options": [{ "id": "A", "content": "Intl" }, { "id": "B", "content": "eval" }, { "id": "C", "content": "escape" }, { "id": "D", "content": "with" }], "answerKeys": ["A"], "explanation": "Intl 提供 locale-aware 的 NumberFormat、DateTimeFormat、PluralRules 等能力，避免手写地区规则。", "difficulty": "easy", "tags": ["JavaScript", "国际化", "Intl"] },
-    { "code": "js-130-url-search-params", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "构造和解析 URL 查询参数时，`URL` 与 `URLSearchParams` 通常比手工字符串拼接更可靠，因为会处理编码和重复参数等细节。", "answerKeys": ["true"], "explanation": "结构化 URL API 能正确编码键值并支持同名多值，减少拼接产生的转义与分隔符错误。", "difficulty": "easy", "tags": ["JavaScript", "URL", "Web API"] },
-    { "code": "js-131-fetch-http-error", "categoryKey": "frontend.javascript", "type": "true_false", "stem": "Fetch 收到 HTTP 404 或 500 响应时，返回的 Promise 必然自动 rejected。", "answerKeys": ["false"], "explanation": "fetch 通常只在网络层失败或请求被中止时拒绝；HTTP 错误仍是正常 Response，需要检查 response.ok/status。", "difficulty": "medium", "tags": ["JavaScript", "Fetch", "HTTP"] },
-    { "code": "js-132-dynamic-import", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "动态 `import()` 的常见用途有哪些？", "options": [{ "id": "A", "content": "按需加载模块" }, { "id": "B", "content": "配合打包器做路由或功能代码分割" }, { "id": "C", "content": "返回一个 Promise" }, { "id": "D", "content": "把所有模块强制同步执行" }], "answerKeys": ["A", "B", "C"], "explanation": "import() 是异步模块加载表达式，适合延迟加载；具体 chunk 行为由运行环境和打包器决定。", "difficulty": "medium", "tags": ["JavaScript", "ESM", "代码分割"] },
-    { "code": "js-133-circular-module", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "ES Module 出现循环依赖时，较准确的说法是什么？", "options": [{ "id": "A", "content": "规范完全禁止循环依赖" }, { "id": "B", "content": "模块图可以存在循环，但初始化顺序和暂时未初始化绑定可能导致问题" }, { "id": "C", "content": "所有导入都会变成深拷贝" }, { "id": "D", "content": "循环依赖会自动合并文件" }], "answerKeys": ["B"], "explanation": "ESM 通过实时绑定支持循环图，但在模块初始化完成前访问绑定可能触发错误，应减少相互初始化耦合。", "difficulty": "hard", "tags": ["JavaScript", "ESM", "循环依赖"] },
-    { "code": "js-134-error-cause", "categoryKey": "frontend.javascript", "type": "single_choice", "stem": "重新抛出业务错误时，希望保留原始底层异常链，可使用 Error 构造选项中的什么字段？", "options": [{ "id": "A", "content": "cause" }, { "id": "B", "content": "target" }, { "id": "C", "content": "prototypeName" }, { "id": "D", "content": "capture" }], "answerKeys": ["A"], "explanation": "`new Error(message, { cause: originalError })` 能保留因果链，便于分层补充上下文而不丢失根因。", "difficulty": "medium", "tags": ["JavaScript", "错误处理"] },
-    { "code": "js-135-memoization", "categoryKey": "frontend.javascript", "type": "multiple_choice", "stem": "实现通用 memoization 时需要重点考虑哪些问题？", "options": [{ "id": "A", "content": "缓存键如何表达参数身份" }, { "id": "B", "content": "缓存大小和淘汰策略" }, { "id": "C", "content": "函数是否纯且结果是否可复用" }, { "id": "D", "content": "缓存一定不会产生内存增长" }], "answerKeys": ["A", "B", "C"], "explanation": "记忆化只适合可复用结果；键策略、对象身份、失效和容量决定正确性与内存风险。", "difficulty": "hard", "tags": ["JavaScript", "缓存", "函数式编程"] }
+    {
+      "code": "js-101-execution-context",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "JavaScript 执行函数时，为参数、局部变量、作用域链和 `this` 等执行信息建立的抽象环境通常称为什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "执行上下文"
+        },
+        {
+          "id": "B",
+          "content": "渲染树"
+        },
+        {
+          "id": "C",
+          "content": "样式上下文"
+        },
+        {
+          "id": "D",
+          "content": "网络栈"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（执行上下文）。执行上下文描述代码运行所需的环境；函数调用会创建新的函数执行上下文并进入调用栈。\n\n**逐项分析**\n\n- **A：正确。** 执行上下文。它准确对应本题结论。依据是：执行上下文描述代码运行所需的环境；函数调用会创建新的函数执行上下文并进入调用栈。\n- **B：不选。** 渲染树。如果选择它，就等于断言“渲染树”；但本题成立的结论是“执行上下文”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 样式上下文。如果选择它，就等于断言“样式上下文”；但本题成立的结论是“执行上下文”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 网络栈。如果选择它，就等于断言“网络栈”；但本题成立的结论是“执行上下文”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、执行上下文”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、执行上下文”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "执行上下文"
+      ]
+    },
+    {
+      "code": "js-102-lexical-scope",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "JavaScript 的词法作用域主要由函数和代码块在源码中的定义位置决定，而不是由函数调用位置决定。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。作用域链在词法结构上建立；闭包能够保留函数定义位置可访问的词法环境。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、作用域”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、作用域”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "作用域"
+      ]
+    },
+    {
+      "code": "js-103-tdz",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "在 `let` 或 `const` 声明前访问其绑定通常会发生什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "得到 undefined"
+        },
+        {
+          "id": "B",
+          "content": "得到 null"
+        },
+        {
+          "id": "C",
+          "content": "处于暂时性死区并抛出 ReferenceError"
+        },
+        {
+          "id": "D",
+          "content": "自动创建全局变量"
+        }
+      ],
+      "answerKeys": [
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**C**（处于暂时性死区并抛出 ReferenceError）。绑定已创建但在声明执行前未初始化，这段区域称为暂时性死区，访问会抛出 ReferenceError。\n\n**逐项分析**\n\n- **A：不选。** 得到 undefined。如果选择它，就等于断言“得到 undefined”；但本题成立的结论是“处于暂时性死区并抛出 ReferenceError”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：不选。** 得到 null。如果选择它，就等于断言“得到 null”；但本题成立的结论是“处于暂时性死区并抛出 ReferenceError”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：正确。** 处于暂时性死区并抛出 ReferenceError。它准确对应本题结论。依据是：绑定已创建但在声明执行前未初始化，这段区域称为暂时性死区，访问会抛出 ReferenceError。\n- **D：不选。** 自动创建全局变量。如果选择它，就等于断言“自动创建全局变量”；但本题成立的结论是“处于暂时性死区并抛出 ReferenceError”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n词法作用域由代码书写位置决定。闭包保留的是对外层绑定的访问能力，不是把某个瞬间的值复制一份；let/const 绑定虽已创建，但在初始化前处于暂时性死区，访问会抛出 ReferenceError。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、TDZ、变量”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、TDZ、变量”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "TDZ",
+        "变量"
+      ]
+    },
+    {
+      "code": "js-104-const-binding",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "`const user = { name: 'A' }` 会让 user 指向的对象深度不可变。",
+      "answerKeys": [
+        "false"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：错误。const 只禁止重新赋值该绑定，对象内部属性仍可修改；深度不可变需要额外约束。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、const、对象”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、const、对象”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "const",
+        "对象"
+      ]
+    },
+    {
+      "code": "js-105-symbol",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "关于 `Symbol`，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "每次调用 Symbol() 通常得到唯一值"
+        },
+        {
+          "id": "B",
+          "content": "可用作对象属性键"
+        },
+        {
+          "id": "C",
+          "content": "普通 JSON.stringify 会完整保留 Symbol 属性"
+        },
+        {
+          "id": "D",
+          "content": "内置 well-known symbols 可定制迭代等语言行为"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（每次调用 Symbol() 通常得到唯一值）、**B**（可用作对象属性键）、**D**（内置 well-known symbols 可定制迭代等语言行为）。Symbol 是唯一的原始值，可作为属性键并参与协议定制；JSON 默认忽略 Symbol 键和值。\n\n**逐项分析**\n\n- **A：正确。** 每次调用 Symbol() 通常得到唯一值。它准确对应本题结论。依据是：Symbol 是唯一的原始值，可作为属性键并参与协议定制；JSON 默认忽略 Symbol 键和值。\n- **B：正确。** 可用作对象属性键。它准确对应本题结论。依据是：Symbol 是唯一的原始值，可作为属性键并参与协议定制；JSON 默认忽略 Symbol 键和值。\n- **C：不选。** 普通 JSON.stringify 会完整保留 Symbol 属性。如果选择它，就等于断言“普通 JSON.stringify 会完整保留 Symbol 属性”；但本题成立的结论是“每次调用 Symbol() 通常得到唯一值；可用作对象属性键；内置 well-known symbols 可定制迭代等语言行为”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 内置 well-known symbols 可定制迭代等语言行为。它准确对应本题结论。依据是：Symbol 是唯一的原始值，可作为属性键并参与协议定制；JSON 默认忽略 Symbol 键和值。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Symbol”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Symbol”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "Symbol"
+      ]
+    },
+    {
+      "code": "js-106-bigint",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "关于 `BigInt` 与 `Number` 的算术运算，哪项正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "可以在所有算术运算中直接混用"
+        },
+        {
+          "id": "B",
+          "content": "通常不能直接混用，需要显式转换"
+        },
+        {
+          "id": "C",
+          "content": "BigInt 只能表示负数"
+        },
+        {
+          "id": "D",
+          "content": "BigInt 会自动转成字符串"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（通常不能直接混用，需要显式转换）。BigInt 用于任意精度整数，算术操作通常要求两边同为 BigInt，避免隐式精度语义不清。\n\n**逐项分析**\n\n- **A：不选。** 可以在所有算术运算中直接混用。如果选择它，就等于断言“可以在所有算术运算中直接混用”；但本题成立的结论是“通常不能直接混用，需要显式转换”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 通常不能直接混用，需要显式转换。它准确对应本题结论。依据是：BigInt 用于任意精度整数，算术操作通常要求两边同为 BigInt，避免隐式精度语义不清。\n- **C：不选。** BigInt 只能表示负数。如果选择它，就等于断言“BigInt 只能表示负数”；但本题成立的结论是“通常不能直接混用，需要显式转换”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** BigInt 会自动转成字符串。如果选择它，就等于断言“BigInt 会自动转成字符串”；但本题成立的结论是“通常不能直接混用，需要显式转换”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、BigInt”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、BigInt”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "BigInt"
+      ]
+    },
+    {
+      "code": "js-107-type-coercion",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "表达式 `[] + {}` 的结果涉及哪类核心机制？",
+      "options": [
+        {
+          "id": "A",
+          "content": "对象到原始值转换与字符串拼接"
+        },
+        {
+          "id": "B",
+          "content": "CSS 层叠"
+        },
+        {
+          "id": "C",
+          "content": "DOM 事件捕获"
+        },
+        {
+          "id": "D",
+          "content": "二进制位运算"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（对象到原始值转换与字符串拼接）。加号遇到对象会执行 ToPrimitive 等抽象转换，若得到字符串则走拼接；面试中应解释规则而不是死记结果。\n\n**逐项分析**\n\n- **A：正确。** 对象到原始值转换与字符串拼接。它准确对应本题结论。依据是：加号遇到对象会执行 ToPrimitive 等抽象转换，若得到字符串则走拼接；面试中应解释规则而不是死记结果。\n- **B：不选。** CSS 层叠。如果选择它，就等于断言“CSS 层叠”；但本题成立的结论是“对象到原始值转换与字符串拼接”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** DOM 事件捕获。如果选择它，就等于断言“DOM 事件捕获”；但本题成立的结论是“对象到原始值转换与字符串拼接”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 二进制位运算。如果选择它，就等于断言“二进制位运算”；但本题成立的结论是“对象到原始值转换与字符串拼接”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、类型转换”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、类型转换”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "JavaScript",
+        "类型转换"
+      ]
+    },
+    {
+      "code": "js-108-nullish",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "当配置值为 `0` 或空字符串时仍希望保留，只在 `null` 或 `undefined` 时使用默认值，应使用什么运算符？",
+      "options": [
+        {
+          "id": "A",
+          "content": "||"
+        },
+        {
+          "id": "B",
+          "content": "??"
+        },
+        {
+          "id": "C",
+          "content": "&&"
+        },
+        {
+          "id": "D",
+          "content": "delete"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（??）。空值合并运算符只把 null 和 undefined 视为缺失，逻辑或还会把 0、空字符串和 false 当成假值。\n\n**逐项分析**\n\n- **A：不选。** ||。如果选择它，就等于断言“||”；但本题成立的结论是“??”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** ??。它准确对应本题结论。依据是：空值合并运算符只把 null 和 undefined 视为缺失，逻辑或还会把 0、空字符串和 false 当成假值。\n- **C：不选。** &&。如果选择它，就等于断言“&&”；但本题成立的结论是“??”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** delete。如果选择它，就等于断言“delete”；但本题成立的结论是“??”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、运算符”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、运算符”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "运算符"
+      ]
+    },
+    {
+      "code": "js-109-optional-chain",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "可选链 `obj?.method()` 会在 obj 为 null 或 undefined 时短路并返回 undefined。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。可选链避免在空值上继续取属性或调用，但不会吞掉方法内部真实抛出的异常。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、可选链”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、可选链”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "可选链"
+      ]
+    },
+    {
+      "code": "js-110-iterable",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "哪些语法通常会消费可迭代对象的迭代器协议？",
+      "options": [
+        {
+          "id": "A",
+          "content": "for...of"
+        },
+        {
+          "id": "B",
+          "content": "展开语法 [...value]"
+        },
+        {
+          "id": "C",
+          "content": "Array.from(value)"
+        },
+        {
+          "id": "D",
+          "content": "for...in 只枚举对象键"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（for...of）、**B**（展开语法 [...value]）、**C**（Array.from(value)）。for...of、展开和 Array.from 可使用 Symbol.iterator；for...in 枚举可枚举属性键，不等同于迭代器协议。\n\n**逐项分析**\n\n- **A：正确。** for...of。它准确对应本题结论。依据是：for...of、展开和 Array.from 可使用 Symbol.iterator；for...in 枚举可枚举属性键，不等同于迭代器协议。\n- **B：正确。** 展开语法 [...value]。它准确对应本题结论。依据是：for...of、展开和 Array.from 可使用 Symbol.iterator；for...in 枚举可枚举属性键，不等同于迭代器协议。\n- **C：正确。** Array.from(value)。它准确对应本题结论。依据是：for...of、展开和 Array.from 可使用 Symbol.iterator；for...in 枚举可枚举属性键，不等同于迭代器协议。\n- **D：不选。** for...in 只枚举对象键。如果选择它，就等于断言“for...in 只枚举对象键”；但本题成立的结论是“for...of；展开语法 [...value]；Array.from(value)”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、迭代器”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、迭代器”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "迭代器"
+      ]
+    },
+    {
+      "code": "js-111-custom-iterator",
+      "categoryKey": "frontend.javascript",
+      "type": "short_answer",
+      "stem": "对象需要支持 `for...of` 时，应实现哪个符号属性方法？",
+      "answerKeys": [
+        "Symbol.iterator",
+        "[Symbol.iterator]"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：`Symbol.iterator`、`[Symbol.iterator]`。可迭代对象通过 `[Symbol.iterator]()` 返回迭代器，迭代器的 next() 返回 `{ value, done }`。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、迭代器、Symbol”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、迭代器、Symbol”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "迭代器",
+        "Symbol"
+      ]
+    },
+    {
+      "code": "js-112-promise-allsettled",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "希望等待一批 Promise 全部结束，并同时获得每项 fulfilled 或 rejected 状态，应使用什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Promise.allSettled"
+        },
+        {
+          "id": "B",
+          "content": "Promise.reject"
+        },
+        {
+          "id": "C",
+          "content": "Promise.any"
+        },
+        {
+          "id": "D",
+          "content": "queueMicrotask"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Promise.allSettled）。allSettled 不会因单项失败提前拒绝，结果数组按输入顺序给出每项状态与值或原因。\n\n**逐项分析**\n\n- **A：正确。** Promise.allSettled。它准确对应本题结论。依据是：allSettled 不会因单项失败提前拒绝，结果数组按输入顺序给出每项状态与值或原因。\n- **B：不选。** Promise.reject。如果选择它，就等于断言“Promise.reject”；但本题成立的结论是“Promise.allSettled”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** Promise.any。如果选择它，就等于断言“Promise.any”；但本题成立的结论是“Promise.allSettled”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** queueMicrotask。如果选择它，就等于断言“queueMicrotask”；但本题成立的结论是“Promise.allSettled”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\nPromise 回调和 await 后续代码进入微任务队列，setTimeout 等计时器回调进入后续任务。每完成一个任务，宿主通常会在进入下一任务前清空微任务队列；但渲染时机和 Node.js 的部分队列规则还需结合宿主说明。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Promise”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Promise”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "Promise"
+      ]
+    },
+    {
+      "code": "js-113-promise-any",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "`Promise.any` 在什么情况下会 rejected？",
+      "options": [
+        {
+          "id": "A",
+          "content": "任意一个输入失败时"
+        },
+        {
+          "id": "B",
+          "content": "所有输入都失败时，通常以 AggregateError 拒绝"
+        },
+        {
+          "id": "C",
+          "content": "第一个输入完成时"
+        },
+        {
+          "id": "D",
+          "content": "永远不会拒绝"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（所有输入都失败时，通常以 AggregateError 拒绝）。Promise.any 返回第一个成功值；只有全部失败时才以 AggregateError 拒绝。\n\n**逐项分析**\n\n- **A：不选。** 任意一个输入失败时。如果选择它，就等于断言“任意一个输入失败时”；但本题成立的结论是“所有输入都失败时，通常以 AggregateError 拒绝”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 所有输入都失败时，通常以 AggregateError 拒绝。它准确对应本题结论。依据是：Promise.any 返回第一个成功值；只有全部失败时才以 AggregateError 拒绝。\n- **C：不选。** 第一个输入完成时。如果选择它，就等于断言“第一个输入完成时”；但本题成立的结论是“所有输入都失败时，通常以 AggregateError 拒绝”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 永远不会拒绝。如果选择它，就等于断言“永远不会拒绝”；但本题成立的结论是“所有输入都失败时，通常以 AggregateError 拒绝”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\nPromise 回调和 await 后续代码进入微任务队列，setTimeout 等计时器回调进入后续任务。每完成一个任务，宿主通常会在进入下一任务前清空微任务队列；但渲染时机和 Node.js 的部分队列规则还需结合宿主说明。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Promise”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Promise”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "Promise"
+      ]
+    },
+    {
+      "code": "js-114-promise-race",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "`Promise.race` 采用第一个 settled 的输入结果，因此最先完成的输入无论成功还是失败都会决定返回 Promise。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。race 关注最先落定，而不是最先成功；常与超时 Promise 组合，但不会自动取消其他任务。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\nPromise 回调和 await 后续代码进入微任务队列，setTimeout 等计时器回调进入后续任务。每完成一个任务，宿主通常会在进入下一任务前清空微任务队列；但渲染时机和 Node.js 的部分队列规则还需结合宿主说明。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Promise”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Promise”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "Promise"
+      ]
+    },
+    {
+      "code": "js-115-finally",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "关于 Promise 的 `finally`，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "无论成功失败通常都会执行"
+        },
+        {
+          "id": "B",
+          "content": "适合释放 loading 等公共清理"
+        },
+        {
+          "id": "C",
+          "content": "默认接收前一个成功值作为参数"
+        },
+        {
+          "id": "D",
+          "content": "若 finally 自身抛错，会改变链的结果"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（无论成功失败通常都会执行）、**B**（适合释放 loading 等公共清理）、**D**（若 finally 自身抛错，会改变链的结果）。finally 不以成功值或失败原因作为普通参数；正常结束时透传原结果，自身抛错或返回拒绝则覆盖结果。\n\n**逐项分析**\n\n- **A：正确。** 无论成功失败通常都会执行。它准确对应本题结论。依据是：finally 不以成功值或失败原因作为普通参数；正常结束时透传原结果，自身抛错或返回拒绝则覆盖结果。\n- **B：正确。** 适合释放 loading 等公共清理。它准确对应本题结论。依据是：finally 不以成功值或失败原因作为普通参数；正常结束时透传原结果，自身抛错或返回拒绝则覆盖结果。\n- **C：不选。** 默认接收前一个成功值作为参数。如果选择它，就等于断言“默认接收前一个成功值作为参数”；但本题成立的结论是“无论成功失败通常都会执行；适合释放 loading 等公共清理；若 finally 自身抛错，会改变链的结果”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 若 finally 自身抛错，会改变链的结果。它准确对应本题结论。依据是：finally 不以成功值或失败原因作为普通参数；正常结束时透传原结果，自身抛错或返回拒绝则覆盖结果。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\nPromise 回调和 await 后续代码进入微任务队列，setTimeout 等计时器回调进入后续任务。每完成一个任务，宿主通常会在进入下一任务前清空微任务队列；但渲染时机和 Node.js 的部分队列规则还需结合宿主说明。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Promise、错误处理”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Promise、错误处理”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "Promise",
+        "错误处理"
+      ]
+    },
+    {
+      "code": "js-116-async-error",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "在 `async` 函数中抛出异常，调用方通常如何观察到它？",
+      "options": [
+        {
+          "id": "A",
+          "content": "函数返回的 Promise 变为 rejected"
+        },
+        {
+          "id": "B",
+          "content": "函数返回 null"
+        },
+        {
+          "id": "C",
+          "content": "异常必然被静默忽略"
+        },
+        {
+          "id": "D",
+          "content": "自动退出浏览器"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（函数返回的 Promise 变为 rejected）。async 函数总返回 Promise；同步 throw 或 await 到拒绝都会使返回 Promise 拒绝，除非内部捕获。\n\n**逐项分析**\n\n- **A：正确。** 函数返回的 Promise 变为 rejected。它准确对应本题结论。依据是：async 函数总返回 Promise；同步 throw 或 await 到拒绝都会使返回 Promise 拒绝，除非内部捕获。\n- **B：不选。** 函数返回 null。如果选择它，就等于断言“函数返回 null”；但本题成立的结论是“函数返回的 Promise 变为 rejected”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 异常必然被静默忽略。如果选择它，就等于断言“异常必然被静默忽略”；但本题成立的结论是“函数返回的 Promise 变为 rejected”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 自动退出浏览器。如果选择它，就等于断言“自动退出浏览器”；但本题成立的结论是“函数返回的 Promise 变为 rejected”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、async-await、错误处理”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、async-await、错误处理”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "async-await",
+        "错误处理"
+      ]
+    },
+    {
+      "code": "js-117-abort-controller",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "`AbortController` 常用于哪些场景？",
+      "options": [
+        {
+          "id": "A",
+          "content": "取消支持 AbortSignal 的 fetch 请求"
+        },
+        {
+          "id": "B",
+          "content": "统一通知多个支持 signal 的异步操作中止"
+        },
+        {
+          "id": "C",
+          "content": "强制回滚任意服务器事务"
+        },
+        {
+          "id": "D",
+          "content": "组件卸载时终止不再需要的请求"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（取消支持 AbortSignal 的 fetch 请求）、**B**（统一通知多个支持 signal 的异步操作中止）、**D**（组件卸载时终止不再需要的请求）。AbortSignal 是协作式取消信号，能中止支持它的客户端操作，但不能魔法般撤销服务器已完成的副作用。\n\n**逐项分析**\n\n- **A：正确。** 取消支持 AbortSignal 的 fetch 请求。它准确对应本题结论。依据是：AbortSignal 是协作式取消信号，能中止支持它的客户端操作，但不能魔法般撤销服务器已完成的副作用。\n- **B：正确。** 统一通知多个支持 signal 的异步操作中止。它准确对应本题结论。依据是：AbortSignal 是协作式取消信号，能中止支持它的客户端操作，但不能魔法般撤销服务器已完成的副作用。\n- **C：不选。** 强制回滚任意服务器事务。如果选择它，就等于断言“强制回滚任意服务器事务”；但本题成立的结论是“取消支持 AbortSignal 的 fetch 请求；统一通知多个支持 signal 的异步操作中止；组件卸载时终止不再需要的请求”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 组件卸载时终止不再需要的请求。它准确对应本题结论。依据是：AbortSignal 是协作式取消信号，能中止支持它的客户端操作，但不能魔法般撤销服务器已完成的副作用。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n减少请求次数和保证结果正确是两件事：防抖/节流控制触发频率，AbortController 负责取消可取消任务，请求序号或版本号负责阻止旧响应覆盖新状态，缓存与去重则减少相同工作。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Fetch、取消请求”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Fetch、取消请求”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "Fetch",
+        "取消请求"
+      ]
+    },
+    {
+      "code": "js-118-proxy-reflect",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "在 Proxy trap 中配合 Reflect 调用的常见价值有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "调用与语言内部操作对应的默认行为"
+        },
+        {
+          "id": "B",
+          "content": "更方便保留 receiver 等语义"
+        },
+        {
+          "id": "C",
+          "content": "绕过所有 Proxy 不变量"
+        },
+        {
+          "id": "D",
+          "content": "让 trap 代码更接近原始操作"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（调用与语言内部操作对应的默认行为）、**B**（更方便保留 receiver 等语义）、**D**（让 trap 代码更接近原始操作）。Reflect 提供对象内部操作的函数形式，常用于转发默认行为，但仍必须遵守 Proxy 不变量。\n\n**逐项分析**\n\n- **A：正确。** 调用与语言内部操作对应的默认行为。它准确对应本题结论。依据是：Reflect 提供对象内部操作的函数形式，常用于转发默认行为，但仍必须遵守 Proxy 不变量。\n- **B：正确。** 更方便保留 receiver 等语义。它准确对应本题结论。依据是：Reflect 提供对象内部操作的函数形式，常用于转发默认行为，但仍必须遵守 Proxy 不变量。\n- **C：不选。** 绕过所有 Proxy 不变量。如果选择它，就等于断言“绕过所有 Proxy 不变量”；但本题成立的结论是“调用与语言内部操作对应的默认行为；更方便保留 receiver 等语义；让 trap 代码更接近原始操作”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 让 trap 代码更接近原始操作。它准确对应本题结论。依据是：Reflect 提供对象内部操作的函数形式，常用于转发默认行为，但仍必须遵守 Proxy 不变量。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Proxy、Reflect”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Proxy、Reflect”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "JavaScript",
+        "Proxy",
+        "Reflect"
+      ]
+    },
+    {
+      "code": "js-119-set",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "需要对原始值数组快速去重，常见简洁写法是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "[...new Set(values)]"
+        },
+        {
+          "id": "B",
+          "content": "new WeakMap(values)"
+        },
+        {
+          "id": "C",
+          "content": "values.sort() 必然去重"
+        },
+        {
+          "id": "D",
+          "content": "JSON.stringify(values)"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（[...new Set(values)]）。Set 保证成员唯一，展开后得到去重数组；复杂对象仍按引用身份判断。\n\n**逐项分析**\n\n- **A：正确。** [...new Set(values)]。它准确对应本题结论。依据是：Set 保证成员唯一，展开后得到去重数组；复杂对象仍按引用身份判断。\n- **B：不选。** new WeakMap(values)。如果选择它，就等于断言“new WeakMap(values)”；但本题成立的结论是“[...new Set(values)]”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** values.sort() 必然去重。如果选择它，就等于断言“values.sort() 必然去重”；但本题成立的结论是“[...new Set(values)]”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** JSON.stringify(values)。如果选择它，就等于断言“JSON.stringify(values)”；但本题成立的结论是“[...new Set(values)]”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Set、数组”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Set、数组”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "Set",
+        "数组"
+      ]
+    },
+    {
+      "code": "js-120-sort-mutates",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "`Array.prototype.sort()` 默认会原地修改数组；需要保留原数组时应先复制或使用支持的非变异排序方法。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。sort 是变异方法；现代环境可考虑 toSorted()，兼容场景也可先展开复制再排序。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、数组、不可变”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、数组、不可变”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "数组",
+        "不可变"
+      ]
+    },
+    {
+      "code": "js-121-flatmap",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "`flatMap` 最接近哪种组合操作？",
+      "options": [
+        {
+          "id": "A",
+          "content": "先 map，再对结果执行一层 flat"
+        },
+        {
+          "id": "B",
+          "content": "先 sort，再 reverse"
+        },
+        {
+          "id": "C",
+          "content": "深度无限扁平化"
+        },
+        {
+          "id": "D",
+          "content": "只过滤假值"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（先 map，再对结果执行一层 flat）。flatMap 将映射与一层扁平化组合，适合一个输入产生零个、一个或多个输出的转换。\n\n**逐项分析**\n\n- **A：正确。** 先 map，再对结果执行一层 flat。它准确对应本题结论。依据是：flatMap 将映射与一层扁平化组合，适合一个输入产生零个、一个或多个输出的转换。\n- **B：不选。** 先 sort，再 reverse。如果选择它，就等于断言“先 sort，再 reverse”；但本题成立的结论是“先 map，再对结果执行一层 flat”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 深度无限扁平化。如果选择它，就等于断言“深度无限扁平化”；但本题成立的结论是“先 map，再对结果执行一层 flat”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只过滤假值。如果选择它，就等于断言“只过滤假值”；但本题成立的结论是“先 map，再对结果执行一层 flat”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、数组”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、数组”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "数组"
+      ]
+    },
+    {
+      "code": "js-122-structured-clone",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "相较 JSON 序列化深拷贝，`structuredClone` 通常有哪些能力？",
+      "options": [
+        {
+          "id": "A",
+          "content": "支持循环引用"
+        },
+        {
+          "id": "B",
+          "content": "保留 Date、Map、Set 等多种结构化类型"
+        },
+        {
+          "id": "C",
+          "content": "可以克隆函数闭包"
+        },
+        {
+          "id": "D",
+          "content": "可配合 transfer 转移部分可转移对象"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（支持循环引用）、**B**（保留 Date、Map、Set 等多种结构化类型）、**D**（可配合 transfer 转移部分可转移对象）。结构化克隆覆盖多种内建数据与循环引用，但函数和部分宿主对象不可克隆。\n\n**逐项分析**\n\n- **A：正确。** 支持循环引用。它准确对应本题结论。依据是：结构化克隆覆盖多种内建数据与循环引用，但函数和部分宿主对象不可克隆。\n- **B：正确。** 保留 Date、Map、Set 等多种结构化类型。它准确对应本题结论。依据是：结构化克隆覆盖多种内建数据与循环引用，但函数和部分宿主对象不可克隆。\n- **C：不选。** 可以克隆函数闭包。如果选择它，就等于断言“可以克隆函数闭包”；但本题成立的结论是“支持循环引用；保留 Date、Map、Set 等多种结构化类型；可配合 transfer 转移部分可转移对象”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 可配合 transfer 转移部分可转移对象。它准确对应本题结论。依据是：结构化克隆覆盖多种内建数据与循环引用，但函数和部分宿主对象不可克隆。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、深拷贝、structuredClone”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、深拷贝、structuredClone”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "深拷贝",
+        "structuredClone"
+      ]
+    },
+    {
+      "code": "js-123-property-descriptor",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "使用 `Object.defineProperty` 创建属性且省略 descriptor 中的布尔标志时，它们默认为什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "writable、enumerable、configurable 都为 false"
+        },
+        {
+          "id": "B",
+          "content": "都为 true"
+        },
+        {
+          "id": "C",
+          "content": "随机决定"
+        },
+        {
+          "id": "D",
+          "content": "与对象字面量完全相同"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（writable、enumerable、configurable 都为 false）。defineProperty 省略布尔特性时默认 false，这与对象字面量普通属性默认可写、可枚举、可配置不同。\n\n**逐项分析**\n\n- **A：正确。** writable、enumerable、configurable 都为 false。它准确对应本题结论。依据是：defineProperty 省略布尔特性时默认 false，这与对象字面量普通属性默认可写、可枚举、可配置不同。\n- **B：不选。** 都为 true。如果选择它，就等于断言“都为 true”；但本题成立的结论是“writable、enumerable、configurable 都为 false”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 随机决定。如果选择它，就等于断言“随机决定”；但本题成立的结论是“writable、enumerable、configurable 都为 false”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 与对象字面量完全相同。如果选择它，就等于断言“与对象字面量完全相同”；但本题成立的结论是“writable、enumerable、configurable 都为 false”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、属性描述符”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、属性描述符”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "JavaScript",
+        "属性描述符"
+      ]
+    },
+    {
+      "code": "js-124-private-field",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "JavaScript 类的 `#privateField` 私有字段由语言语法强制限制，不能像普通字符串属性那样从类外直接访问。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。私有字段使用私有名称并受语法级品牌检查约束，不等同于命名约定中的下划线属性。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n属性读取会沿对象的 [[Prototype]] 链查找。new 通常会创建对象、连接原型、以该对象调用构造函数，并根据构造函数返回值决定最终结果；class 是更严格、更清晰的语法层，不等于另一套继承模型。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Class、私有字段”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Class、私有字段”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "Class",
+        "私有字段"
+      ]
+    },
+    {
+      "code": "js-125-static-block",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "类的 static initialization block 主要用于什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "在类定义求值时执行较复杂的静态初始化逻辑"
+        },
+        {
+          "id": "B",
+          "content": "替代每个实例构造函数"
+        },
+        {
+          "id": "C",
+          "content": "声明 CSS 静态样式"
+        },
+        {
+          "id": "D",
+          "content": "阻止类被继承"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（在类定义求值时执行较复杂的静态初始化逻辑）。静态块可访问类的私有静态状态，并在类初始化阶段执行多条语句。\n\n**逐项分析**\n\n- **A：正确。** 在类定义求值时执行较复杂的静态初始化逻辑。它准确对应本题结论。依据是：静态块可访问类的私有静态状态，并在类初始化阶段执行多条语句。\n- **B：不选。** 替代每个实例构造函数。如果选择它，就等于断言“替代每个实例构造函数”；但本题成立的结论是“在类定义求值时执行较复杂的静态初始化逻辑”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 声明 CSS 静态样式。如果选择它，就等于断言“声明 CSS 静态样式”；但本题成立的结论是“在类定义求值时执行较复杂的静态初始化逻辑”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 阻止类被继承。如果选择它，就等于断言“阻止类被继承”；但本题成立的结论是“在类定义求值时执行较复杂的静态初始化逻辑”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n属性读取会沿对象的 [[Prototype]] 链查找。new 通常会创建对象、连接原型、以该对象调用构造函数，并根据构造函数返回值决定最终结果；class 是更严格、更清晰的语法层，不等于另一套继承模型。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Class”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Class”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "JavaScript",
+        "Class"
+      ]
+    },
+    {
+      "code": "js-126-microtask-drain",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "一个任务执行结束后，事件循环通常会在进入下一个任务前清空当前微任务队列；微任务持续追加微任务可能延迟渲染和其他任务。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。微任务检查点会持续处理队列直至为空，因此不受控的递归微任务也可能造成饥饿。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\nPromise 回调和 await 后续代码进入微任务队列，setTimeout 等计时器回调进入后续任务。每完成一个任务，宿主通常会在进入下一任务前清空微任务队列；但渲染时机和 Node.js 的部分队列规则还需结合宿主说明。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、事件循环、微任务”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、事件循环、微任务”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "JavaScript",
+        "事件循环",
+        "微任务"
+      ]
+    },
+    {
+      "code": "js-127-queue-microtask",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "需要显式安排一个微任务且不需要构造 Promise，通常可使用什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "queueMicrotask"
+        },
+        {
+          "id": "B",
+          "content": "setInterval"
+        },
+        {
+          "id": "C",
+          "content": "requestFullscreen"
+        },
+        {
+          "id": "D",
+          "content": "alert"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（queueMicrotask）。queueMicrotask 直接把回调加入微任务队列；异常报告语义也不同于借助 Promise.then。\n\n**逐项分析**\n\n- **A：正确。** queueMicrotask。它准确对应本题结论。依据是：queueMicrotask 直接把回调加入微任务队列；异常报告语义也不同于借助 Promise.then。\n- **B：不选。** setInterval。如果选择它，就等于断言“setInterval”；但本题成立的结论是“queueMicrotask”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** requestFullscreen。如果选择它，就等于断言“requestFullscreen”；但本题成立的结论是“queueMicrotask”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** alert。如果选择它，就等于断言“alert”；但本题成立的结论是“queueMicrotask”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\nPromise 回调和 await 后续代码进入微任务队列，setTimeout 等计时器回调进入后续任务。每完成一个任务，宿主通常会在进入下一任务前清空微任务队列；但渲染时机和 Node.js 的部分队列规则还需结合宿主说明。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、微任务”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、微任务”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "微任务"
+      ]
+    },
+    {
+      "code": "js-128-json-limit",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "原生 JSON 格式与 `JSON.stringify` 通常不能无损表达哪些 JavaScript 内容？",
+      "options": [
+        {
+          "id": "A",
+          "content": "undefined"
+        },
+        {
+          "id": "B",
+          "content": "函数"
+        },
+        {
+          "id": "C",
+          "content": "BigInt 默认值"
+        },
+        {
+          "id": "D",
+          "content": "普通有限数字"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（undefined）、**B**（函数）、**C**（BigInt 默认值）。JSON 数据模型有限，undefined 和函数会被忽略或转成 null，BigInt 默认会抛错；需要自定义协议时应显式设计。\n\n**逐项分析**\n\n- **A：正确。** undefined。它准确对应本题结论。依据是：JSON 数据模型有限，undefined 和函数会被忽略或转成 null，BigInt 默认会抛错；需要自定义协议时应显式设计。\n- **B：正确。** 函数。它准确对应本题结论。依据是：JSON 数据模型有限，undefined 和函数会被忽略或转成 null，BigInt 默认会抛错；需要自定义协议时应显式设计。\n- **C：正确。** BigInt 默认值。它准确对应本题结论。依据是：JSON 数据模型有限，undefined 和函数会被忽略或转成 null，BigInt 默认会抛错；需要自定义协议时应显式设计。\n- **D：不选。** 普通有限数字。如果选择它，就等于断言“普通有限数字”；但本题成立的结论是“undefined；函数；BigInt 默认值”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、JSON、序列化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、JSON、序列化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "JSON",
+        "序列化"
+      ]
+    },
+    {
+      "code": "js-129-intl",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "格式化不同语言和地区的日期、数字、货币，优先使用哪个标准 API？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Intl"
+        },
+        {
+          "id": "B",
+          "content": "eval"
+        },
+        {
+          "id": "C",
+          "content": "escape"
+        },
+        {
+          "id": "D",
+          "content": "with"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Intl）。Intl 提供 locale-aware 的 NumberFormat、DateTimeFormat、PluralRules 等能力，避免手写地区规则。\n\n**逐项分析**\n\n- **A：正确。** Intl。它准确对应本题结论。依据是：Intl 提供 locale-aware 的 NumberFormat、DateTimeFormat、PluralRules 等能力，避免手写地区规则。\n- **B：不选。** eval。如果选择它，就等于断言“eval”；但本题成立的结论是“Intl”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** escape。如果选择它，就等于断言“escape”；但本题成立的结论是“Intl”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** with。如果选择它，就等于断言“with”；但本题成立的结论是“Intl”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、国际化、Intl”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、国际化、Intl”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "国际化",
+        "Intl"
+      ]
+    },
+    {
+      "code": "js-130-url-search-params",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "构造和解析 URL 查询参数时，`URL` 与 `URLSearchParams` 通常比手工字符串拼接更可靠，因为会处理编码和重复参数等细节。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。结构化 URL API 能正确编码键值并支持同名多值，减少拼接产生的转义与分隔符错误。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、URL、Web API”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、URL、Web API”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "JavaScript",
+        "URL",
+        "Web API"
+      ]
+    },
+    {
+      "code": "js-131-fetch-http-error",
+      "categoryKey": "frontend.javascript",
+      "type": "true_false",
+      "stem": "Fetch 收到 HTTP 404 或 500 响应时，返回的 Promise 必然自动 rejected。",
+      "answerKeys": [
+        "false"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：错误。fetch 通常只在网络层失败或请求被中止时拒绝；HTTP 错误仍是正常 Response，需要检查 response.ok/status。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、Fetch、HTTP”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、Fetch、HTTP”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "Fetch",
+        "HTTP"
+      ]
+    },
+    {
+      "code": "js-132-dynamic-import",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "动态 `import()` 的常见用途有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "按需加载模块"
+        },
+        {
+          "id": "B",
+          "content": "配合打包器做路由或功能代码分割"
+        },
+        {
+          "id": "C",
+          "content": "返回一个 Promise"
+        },
+        {
+          "id": "D",
+          "content": "把所有模块强制同步执行"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（按需加载模块）、**B**（配合打包器做路由或功能代码分割）、**C**（返回一个 Promise）。import() 是异步模块加载表达式，适合延迟加载；具体 chunk 行为由运行环境和打包器决定。\n\n**逐项分析**\n\n- **A：正确。** 按需加载模块。它准确对应本题结论。依据是：import() 是异步模块加载表达式，适合延迟加载；具体 chunk 行为由运行环境和打包器决定。\n- **B：正确。** 配合打包器做路由或功能代码分割。它准确对应本题结论。依据是：import() 是异步模块加载表达式，适合延迟加载；具体 chunk 行为由运行环境和打包器决定。\n- **C：正确。** 返回一个 Promise。它准确对应本题结论。依据是：import() 是异步模块加载表达式，适合延迟加载；具体 chunk 行为由运行环境和打包器决定。\n- **D：不选。** 把所有模块强制同步执行。如果选择它，就等于断言“把所有模块强制同步执行”；但本题成立的结论是“按需加载模块；配合打包器做路由或功能代码分割；返回一个 Promise”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、ESM、代码分割”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、ESM、代码分割”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "ESM",
+        "代码分割"
+      ]
+    },
+    {
+      "code": "js-133-circular-module",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "ES Module 出现循环依赖时，较准确的说法是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "规范完全禁止循环依赖"
+        },
+        {
+          "id": "B",
+          "content": "模块图可以存在循环，但初始化顺序和暂时未初始化绑定可能导致问题"
+        },
+        {
+          "id": "C",
+          "content": "所有导入都会变成深拷贝"
+        },
+        {
+          "id": "D",
+          "content": "循环依赖会自动合并文件"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（模块图可以存在循环，但初始化顺序和暂时未初始化绑定可能导致问题）。ESM 通过实时绑定支持循环图，但在模块初始化完成前访问绑定可能触发错误，应减少相互初始化耦合。\n\n**逐项分析**\n\n- **A：不选。** 规范完全禁止循环依赖。如果选择它，就等于断言“规范完全禁止循环依赖”；但本题成立的结论是“模块图可以存在循环，但初始化顺序和暂时未初始化绑定可能导致问题”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 模块图可以存在循环，但初始化顺序和暂时未初始化绑定可能导致问题。它准确对应本题结论。依据是：ESM 通过实时绑定支持循环图，但在模块初始化完成前访问绑定可能触发错误，应减少相互初始化耦合。\n- **C：不选。** 所有导入都会变成深拷贝。如果选择它，就等于断言“所有导入都会变成深拷贝”；但本题成立的结论是“模块图可以存在循环，但初始化顺序和暂时未初始化绑定可能导致问题”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 循环依赖会自动合并文件。如果选择它，就等于断言“循环依赖会自动合并文件”；但本题成立的结论是“模块图可以存在循环，但初始化顺序和暂时未初始化绑定可能导致问题”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、ESM、循环依赖”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、ESM、循环依赖”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "JavaScript",
+        "ESM",
+        "循环依赖"
+      ]
+    },
+    {
+      "code": "js-134-error-cause",
+      "categoryKey": "frontend.javascript",
+      "type": "single_choice",
+      "stem": "重新抛出业务错误时，希望保留原始底层异常链，可使用 Error 构造选项中的什么字段？",
+      "options": [
+        {
+          "id": "A",
+          "content": "cause"
+        },
+        {
+          "id": "B",
+          "content": "target"
+        },
+        {
+          "id": "C",
+          "content": "prototypeName"
+        },
+        {
+          "id": "D",
+          "content": "capture"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（cause）。`new Error(message, { cause: originalError })` 能保留因果链，便于分层补充上下文而不丢失根因。\n\n**逐项分析**\n\n- **A：正确。** cause。它准确对应本题结论。依据是：`new Error(message, { cause: originalError })` 能保留因果链，便于分层补充上下文而不丢失根因。\n- **B：不选。** target。如果选择它，就等于断言“target”；但本题成立的结论是“cause”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** prototypeName。如果选择它，就等于断言“prototypeName”；但本题成立的结论是“cause”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** capture。如果选择它，就等于断言“capture”；但本题成立的结论是“cause”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、错误处理”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、错误处理”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "JavaScript",
+        "错误处理"
+      ]
+    },
+    {
+      "code": "js-135-memoization",
+      "categoryKey": "frontend.javascript",
+      "type": "multiple_choice",
+      "stem": "实现通用 memoization 时需要重点考虑哪些问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "缓存键如何表达参数身份"
+        },
+        {
+          "id": "B",
+          "content": "缓存大小和淘汰策略"
+        },
+        {
+          "id": "C",
+          "content": "函数是否纯且结果是否可复用"
+        },
+        {
+          "id": "D",
+          "content": "缓存一定不会产生内存增长"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（缓存键如何表达参数身份）、**B**（缓存大小和淘汰策略）、**C**（函数是否纯且结果是否可复用）。记忆化只适合可复用结果；键策略、对象身份、失效和容量决定正确性与内存风险。\n\n**逐项分析**\n\n- **A：正确。** 缓存键如何表达参数身份。它准确对应本题结论。依据是：记忆化只适合可复用结果；键策略、对象身份、失效和容量决定正确性与内存风险。\n- **B：正确。** 缓存大小和淘汰策略。它准确对应本题结论。依据是：记忆化只适合可复用结果；键策略、对象身份、失效和容量决定正确性与内存风险。\n- **C：正确。** 函数是否纯且结果是否可复用。它准确对应本题结论。依据是：记忆化只适合可复用结果；键策略、对象身份、失效和容量决定正确性与内存风险。\n- **D：不选。** 缓存一定不会产生内存增长。如果选择它，就等于断言“缓存一定不会产生内存增长”；但本题成立的结论是“缓存键如何表达参数身份；缓存大小和淘汰策略；函数是否纯且结果是否可复用”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nJavaScript 题要按“创建执行上下文、读取变量、求值、调用函数、调度异步任务”的顺序推导，不能只凭运行经验猜结果。还要明确严格模式、浏览器或 Node.js 环境，以及使用的是哪一版语言和 Web API。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n本题可以用一个最小示例验证：只保留与“JavaScript、缓存、函数式编程”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“JavaScript、缓存、函数式编程”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "JavaScript",
+        "缓存",
+        "函数式编程"
+      ]
+    }
   ]
 }

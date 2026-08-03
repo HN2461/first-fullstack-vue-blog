@@ -1,7 +1,6 @@
 <template>
   <a-modal
     :open="open"
-    :title="question?.id ? '编辑题目' : '新增题目'"
     :width="820"
     :confirm-loading="submitting"
     ok-text="保存"
@@ -9,6 +8,12 @@
     @ok="submit"
     @cancel="$emit('cancel')"
   >
+    <template #title>
+      <span class="question-bank-dialog-title">
+        {{ question?.id ? '编辑题目' : '新增题目' }}
+        <QuestionBankHelp topic="questionEditor" size="small" button-type="text" />
+      </span>
+    </template>
     <div class="question-bank-modal-body">
       <a-form layout="vertical">
         <div class="question-bank-form-grid">
@@ -119,6 +124,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { createQuestion, updateQuestion } from '@/services/questionBank'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import {
   difficultyOptions,
   questionAssessmentModeOptions,

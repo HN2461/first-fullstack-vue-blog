@@ -1,55 +1,1532 @@
 {
   "schemaVersion": 1,
   "questions": [
-    { "code": "browser-101-event-phase", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "DOM 事件传播通常包含哪些阶段？", "options": [{ "id": "A", "content": "捕获阶段" }, { "id": "B", "content": "到达目标阶段" }, { "id": "C", "content": "冒泡阶段" }, { "id": "D", "content": "数据库提交阶段" }], "answerKeys": ["A", "B", "C"], "explanation": "事件沿祖先向目标捕获，再在目标触发，并按事件是否冒泡向祖先返回。", "difficulty": "easy", "tags": ["浏览器", "DOM事件"] },
-    { "code": "browser-102-stop-event", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "`stopPropagation()` 与 `preventDefault()` 的区别是什么？", "options": [{ "id": "A", "content": "前者阻止继续传播，后者阻止可取消事件的默认行为" }, { "id": "B", "content": "两者完全相同" }, { "id": "C", "content": "前者删除元素，后者刷新页面" }, { "id": "D", "content": "两者都只影响 CSS" }], "answerKeys": ["A"], "explanation": "传播路径和默认动作是两个维度；阻止传播不会自动阻止链接跳转等默认行为。", "difficulty": "easy", "tags": ["浏览器", "DOM事件"] },
-    { "code": "browser-103-delegation", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "事件委托的常见优势和前提有哪些？", "options": [{ "id": "A", "content": "利用冒泡在祖先统一处理大量子元素事件" }, { "id": "B", "content": "适合动态新增的子元素" }, { "id": "C", "content": "需要通过 target/closest 判断实际来源" }, { "id": "D", "content": "所有事件都必然冒泡" }], "answerKeys": ["A", "B", "C"], "explanation": "委托减少监听器并支持动态内容，但并非所有事件都冒泡，且需处理嵌套目标和边界。", "difficulty": "medium", "tags": ["浏览器", "事件委托"] },
-    { "code": "browser-104-passive", "categoryKey": "frontend.browser", "type": "true_false", "stem": "把触摸或滚轮监听器标记为 `passive: true` 表示回调不会调用 preventDefault，可帮助浏览器更早开始滚动。", "answerKeys": ["true"], "explanation": "passive 是不取消默认滚动的承诺，可降低浏览器等待监听器的阻塞，但需要取消滚动时不能使用。", "difficulty": "medium", "tags": ["浏览器", "事件", "性能"] },
-    { "code": "browser-105-dom-cssom", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "浏览器通常将 DOM 与 CSSOM 结合生成什么，再用于布局？", "options": [{ "id": "A", "content": "渲染树" }, { "id": "B", "content": "DNS 树" }, { "id": "C", "content": "Git 树" }, { "id": "D", "content": "调用栈" }], "answerKeys": ["A"], "explanation": "渲染树包含需要绘制的节点及计算样式，之后进行布局、绘制和合成。", "difficulty": "easy", "tags": ["浏览器", "渲染流程"] },
-    { "code": "browser-106-forced-layout", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "哪些模式容易造成强制同步布局或布局抖动？", "options": [{ "id": "A", "content": "循环中交替写样式并读取 offsetWidth" }, { "id": "B", "content": "批量读取后再批量写入" }, { "id": "C", "content": "DOM 修改后立即读取几何属性" }, { "id": "D", "content": "反复触发影响布局的属性更新" }], "answerKeys": ["A", "C", "D"], "explanation": "浏览器为返回最新几何值可能被迫提前执行样式和布局；批量读写能减少往返。", "difficulty": "hard", "tags": ["浏览器", "布局", "性能"] },
-    { "code": "browser-107-compositor", "categoryKey": "frontend.browser", "type": "true_false", "stem": "只修改 transform 或 opacity 的动画常有机会在合成线程处理，但是否真正独立合成仍取决于浏览器分层与资源情况。", "answerKeys": ["true"], "explanation": "transform/opacity 通常避免布局和绘制，但不能把合成当绝对保证，也不应无限创建图层。", "difficulty": "medium", "tags": ["浏览器", "合成", "动画"] },
-    { "code": "browser-108-same-origin", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "同源策略判断两个 URL 是否同源，主要比较哪些部分？", "options": [{ "id": "A", "content": "协议、主机、端口" }, { "id": "B", "content": "路径、查询、片段" }, { "id": "C", "content": "页面标题" }, { "id": "D", "content": "User-Agent" }], "answerKeys": ["A"], "explanation": "scheme、host、port 相同才同源；路径差异不改变源。", "difficulty": "easy", "tags": ["浏览器", "同源策略", "安全"] },
-    { "code": "browser-109-cors-credentials", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "跨源请求携带凭据并允许浏览器读取响应，服务端通常需要满足哪些条件？", "options": [{ "id": "A", "content": "明确返回允许的 Origin，不能用通配符代替凭据源" }, { "id": "B", "content": "Access-Control-Allow-Credentials: true" }, { "id": "C", "content": "客户端按需设置 credentials" }, { "id": "D", "content": "只要状态码 200 就自动允许" }], "answerKeys": ["A", "B", "C"], "explanation": "凭据 CORS 需要客户端和服务端共同声明，且允许源必须具体匹配。", "difficulty": "hard", "tags": ["浏览器", "CORS", "Cookie"] },
-    { "code": "browser-110-samesite", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "跨站场景确需发送 Cookie 时，现代浏览器通常要求怎样设置？", "options": [{ "id": "A", "content": "SameSite=None 且 Secure" }, { "id": "B", "content": "SameSite=Strict 且不使用 HTTPS" }, { "id": "C", "content": "只设置 Path" }, { "id": "D", "content": "删除 HttpOnly" }], "answerKeys": ["A"], "explanation": "SameSite=None 表示允许跨站，同时要求 Secure；仍需结合 CSRF 防护和最小范围。", "difficulty": "medium", "tags": ["浏览器", "Cookie", "SameSite"] },
-    { "code": "browser-111-csp", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "内容安全策略 CSP 的常见作用有哪些？", "options": [{ "id": "A", "content": "限制脚本、样式、图片等资源来源" }, { "id": "B", "content": "通过 nonce/hash 允许特定内联脚本" }, { "id": "C", "content": "降低部分 XSS 注入后的执行能力" }, { "id": "D", "content": "替代输出编码和输入处理的全部安全措施" }], "answerKeys": ["A", "B", "C"], "explanation": "CSP 是纵深防御，不是修复 XSS 根因的唯一手段；应先用 Report-Only 验证策略。", "difficulty": "hard", "tags": ["浏览器", "CSP", "安全"] },
-    { "code": "browser-112-sri", "categoryKey": "frontend.browser", "type": "true_false", "stem": "Subresource Integrity 可通过 integrity 哈希让浏览器校验从 CDN 加载的脚本或样式是否与预期内容一致。", "answerKeys": ["true"], "explanation": "SRI 能发现资源被篡改，跨源资源还需正确 CORS 配置；版本更新时哈希也要同步。", "difficulty": "medium", "tags": ["浏览器", "SRI", "安全"] },
-    { "code": "browser-113-service-worker", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "关于 Service Worker，哪些说法正确？", "options": [{ "id": "A", "content": "可拦截受控范围内的网络请求" }, { "id": "B", "content": "可用于离线缓存和后台能力" }, { "id": "C", "content": "运行在独立 worker 上下文，不能直接操作 DOM" }, { "id": "D", "content": "页面一注册就必然立即控制当前页面" }], "answerKeys": ["A", "B", "C"], "explanation": "Service Worker 有安装、激活和控制生命周期，通常需要安全上下文，首次注册不一定控制当前文档。", "difficulty": "medium", "tags": ["浏览器", "Service Worker", "PWA"] },
-    { "code": "browser-114-web-worker", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "把 CPU 密集计算移到 Web Worker 的主要好处是什么？", "options": [{ "id": "A", "content": "避免长时间占用页面主线程" }, { "id": "B", "content": "Worker 可以直接更新 DOM" }, { "id": "C", "content": "自动增加服务器 CPU" }, { "id": "D", "content": "绕过同源策略" }], "answerKeys": ["A"], "explanation": "Worker 在后台线程执行脚本并通过消息通信，不能直接访问页面 DOM。", "difficulty": "easy", "tags": ["浏览器", "Web Worker", "性能"] },
-    { "code": "browser-115-indexeddb", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "浏览器端需要保存较大量结构化数据并支持事务和索引查询，优先考虑什么？", "options": [{ "id": "A", "content": "IndexedDB" }, { "id": "B", "content": "sessionStorage 单字符串" }, { "id": "C", "content": "Cookie" }, { "id": "D", "content": "URL hash" }], "answerKeys": ["A"], "explanation": "IndexedDB 是异步事务型对象存储，容量和查询能力通常比 Web Storage 更适合离线数据。", "difficulty": "medium", "tags": ["浏览器", "IndexedDB", "存储"] },
-    { "code": "browser-116-broadcast-channel", "categoryKey": "frontend.browser", "type": "true_false", "stem": "同源多个标签页之间可以使用 BroadcastChannel 发布和接收消息，但仍应处理页面关闭与兼容性。", "answerKeys": ["true"], "explanation": "BroadcastChannel 为同源浏览上下文提供命名频道通信，不会跨不同源。", "difficulty": "medium", "tags": ["浏览器", "多标签通信"] },
-    { "code": "browser-117-history-api", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "SPA 使用 History API 时需要注意哪些事项？", "options": [{ "id": "A", "content": "pushState/replaceState 不会自动触发网络导航" }, { "id": "B", "content": "监听 popstate 处理前进后退" }, { "id": "C", "content": "服务器需把前端路由回退到入口 HTML" }, { "id": "D", "content": "pushState 会自动触发 popstate" }], "answerKeys": ["A", "B", "C"], "explanation": "程序主动 pushState 通常不触发 popstate；History 路由还需要服务端 fallback 配合深层 URL。", "difficulty": "medium", "tags": ["浏览器", "History API", "SPA"] },
-    { "code": "browser-118-bfcache", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "浏览器 BFCache 的主要目标是什么？", "options": [{ "id": "A", "content": "在前进后退时恢复完整页面快照以实现快速导航" }, { "id": "B", "content": "永久缓存所有 API 响应" }, { "id": "C", "content": "替代 CDN" }, { "id": "D", "content": "压缩 JavaScript" }], "answerKeys": ["A"], "explanation": "BFCache 保存页面执行状态而非普通 HTTP 资源缓存；pageshow/pagehide 可帮助处理恢复场景。", "difficulty": "hard", "tags": ["浏览器", "BFCache", "性能"] },
-    { "code": "browser-119-http-idempotent", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "按 HTTP 语义，哪些方法通常被定义为幂等？", "options": [{ "id": "A", "content": "GET" }, { "id": "B", "content": "PUT" }, { "id": "C", "content": "DELETE" }, { "id": "D", "content": "POST" }], "answerKeys": ["A", "B", "C"], "explanation": "幂等指重复相同请求对服务器预期效果等同一次；POST 通常不保证，实际 API 仍需正确实现语义。", "difficulty": "medium", "tags": ["HTTP", "幂等性"] },
-    { "code": "browser-120-http-status", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "资源已成功创建并希望返回其位置，最合适的状态码通常是什么？", "options": [{ "id": "A", "content": "201 Created" }, { "id": "B", "content": "204 No Content" }, { "id": "C", "content": "304 Not Modified" }, { "id": "D", "content": "409 Conflict" }], "answerKeys": ["A"], "explanation": "201 表示创建成功，可配合 Location 响应头指向新资源。", "difficulty": "easy", "tags": ["HTTP", "状态码"] },
-    { "code": "browser-121-cache-control", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "带内容哈希且可长期复用的静态资源，常用哪类缓存策略？", "options": [{ "id": "A", "content": "Cache-Control: public, max-age=31536000, immutable" }, { "id": "B", "content": "no-store" }, { "id": "C", "content": "每次随机 URL 且不缓存" }, { "id": "D", "content": "只设置 Cookie" }], "answerKeys": ["A"], "explanation": "内容哈希使 URL 随内容变化，可安全使用长期强缓存；HTML 入口通常采用不同策略。", "difficulty": "medium", "tags": ["HTTP", "缓存", "静态资源"] },
-    { "code": "browser-122-etag", "categoryKey": "frontend.browser", "type": "true_false", "stem": "客户端携带 `If-None-Match`，服务端确认 ETag 未变化时可返回 304 且不发送完整响应体。", "answerKeys": ["true"], "explanation": "ETag 用于协商缓存验证；304 表示继续使用本地表示，仍可能携带更新后的缓存元数据。", "difficulty": "medium", "tags": ["HTTP", "ETag", "缓存"] },
-    { "code": "browser-123-http3", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "HTTP/3 相较 HTTP/2 的常见特点有哪些？", "options": [{ "id": "A", "content": "基于 QUIC/UDP" }, { "id": "B", "content": "传输层流之间避免 TCP 级队头阻塞" }, { "id": "C", "content": "集成 TLS 1.3 握手" }, { "id": "D", "content": "完全取消加密" }], "answerKeys": ["A", "B", "C"], "explanation": "HTTP/3 在 QUIC 上提供多路流、快速握手和连接迁移，仍使用加密。", "difficulty": "hard", "tags": ["HTTP", "HTTP3", "QUIC"] },
-    { "code": "browser-124-tls", "categoryKey": "frontend.browser", "type": "multiple_choice", "stem": "HTTPS 中 TLS 主要提供哪些安全属性？", "options": [{ "id": "A", "content": "传输加密" }, { "id": "B", "content": "消息完整性" }, { "id": "C", "content": "基于证书的服务器身份认证" }, { "id": "D", "content": "保证服务器业务逻辑没有漏洞" }], "answerKeys": ["A", "B", "C"], "explanation": "TLS 保护传输通道，但不能证明业务代码、账号权限或页面内容本身没有漏洞。", "difficulty": "medium", "tags": ["HTTPS", "TLS", "安全"] },
-    { "code": "browser-125-websocket-sse", "categoryKey": "frontend.browser", "type": "single_choice", "stem": "只需要服务器持续向浏览器推送文本事件，并希望基于普通 HTTP 自动重连，优先考虑什么？", "options": [{ "id": "A", "content": "Server-Sent Events" }, { "id": "B", "content": "WebSocket 双向协议必然更简单" }, { "id": "C", "content": "localStorage" }, { "id": "D", "content": "DNS TXT" }], "answerKeys": ["A"], "explanation": "SSE 是单向服务器推送，原生支持事件流和重连；需要全双工或二进制交互时再评估 WebSocket。", "difficulty": "medium", "tags": ["浏览器", "SSE", "WebSocket"] },
-    { "code": "engineering-001-vite-dev", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "Vite 开发服务器启动快的核心思路之一是什么？", "options": [{ "id": "A", "content": "开发时按浏览器原生 ESM 按需提供源码模块" }, { "id": "B", "content": "启动前必须打包全部业务代码" }, { "id": "C", "content": "禁用模块系统" }, { "id": "D", "content": "把所有依赖写入 HTML" }], "answerKeys": ["A"], "explanation": "Vite 开发时避免预先打包完整应用，只转换浏览器请求到的模块，并预构建依赖。", "difficulty": "easy", "tags": ["Vite", "开发服务器", "ESM"] },
-    { "code": "engineering-002-dep-prebundle", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "Vite 依赖预构建通常解决哪些问题？", "options": [{ "id": "A", "content": "把部分 CommonJS/UMD 依赖转换为 ESM" }, { "id": "B", "content": "合并拥有大量内部模块的依赖以减少开发请求" }, { "id": "C", "content": "缓存预构建结果" }, { "id": "D", "content": "替代生产构建的所有优化" }], "answerKeys": ["A", "B", "C"], "explanation": "依赖预构建服务于开发兼容性和请求性能，生产构建仍走独立打包流程。", "difficulty": "medium", "tags": ["Vite", "依赖预构建"] },
-    { "code": "engineering-003-hmr", "categoryKey": "frontend.engineering", "type": "true_false", "stem": "HMR 尝试只替换变更模块并保留应用状态；若模块边界不能安全接受更新，可能退化为整页刷新。", "answerKeys": ["true"], "explanation": "热更新依赖模块接受边界和框架集成，无法保证任何改动都无状态刷新。", "difficulty": "medium", "tags": ["Vite", "HMR"] },
-    { "code": "engineering-004-production-build", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "Vite 生产构建通常使用什么完成应用打包和优化？", "options": [{ "id": "A", "content": "Rollup 体系" }, { "id": "B", "content": "浏览器 localStorage" }, { "id": "C", "content": "MongoDB" }, { "id": "D", "content": "CSSOM" }], "answerKeys": ["A"], "explanation": "Vite 生产构建基于 Rollup 能力处理代码分割、资源和插件；具体版本实现可能演进。", "difficulty": "easy", "tags": ["Vite", "Rollup", "构建"] },
-    { "code": "engineering-005-env-prefix", "categoryKey": "frontend.engineering", "type": "true_false", "stem": "Vite 默认只把特定前缀（通常为 `VITE_`）的环境变量暴露给客户端代码，因此任何进入该前缀的值都不应包含秘密。", "answerKeys": ["true"], "explanation": "客户端环境变量会被构建进静态资源，可被用户查看；服务端密钥绝不能依赖前缀隐藏。", "difficulty": "easy", "tags": ["Vite", "环境变量", "安全"] },
-    { "code": "engineering-006-mode", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "Vite 的 mode 与 `NODE_ENV` 更准确的关系是什么？", "options": [{ "id": "A", "content": "mode 决定加载哪组 .env 文件，但与 NODE_ENV 不是完全同一概念" }, { "id": "B", "content": "两者永远不可配置且完全相同" }, { "id": "C", "content": "mode 只影响 CSS" }, { "id": "D", "content": "NODE_ENV 是数据库名称" }], "answerKeys": ["A"], "explanation": "命令 mode 选择环境文件和 import.meta.env.MODE；NODE_ENV 影响生产/开发语义，二者可组合但不应混淆。", "difficulty": "medium", "tags": ["Vite", "Mode", "环境变量"] },
-    { "code": "engineering-007-tree-shaking", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "Tree shaking 更有效通常依赖哪些条件？", "options": [{ "id": "A", "content": "静态可分析的 ES Module import/export" }, { "id": "B", "content": "明确副作用边界" }, { "id": "C", "content": "避免难以分析的动态访问和全局副作用" }, { "id": "D", "content": "把所有代码放进 eval" }], "answerKeys": ["A", "B", "C"], "explanation": "静态模块图和副作用信息帮助打包器安全移除未使用导出；动态执行会破坏分析。", "difficulty": "medium", "tags": ["构建", "Tree Shaking", "ESM"] },
-    { "code": "engineering-008-side-effects", "categoryKey": "frontend.engineering", "type": "true_false", "stem": "错误地把包含全局 CSS 导入或注册逻辑的包标记为 `sideEffects: false`，可能导致生产构建误删必要代码。", "answerKeys": ["true"], "explanation": "sideEffects 是对打包器的承诺，必须准确列出有副作用文件，否则 tree shaking 会改变行为。", "difficulty": "hard", "tags": ["构建", "sideEffects", "Tree Shaking"] },
-    { "code": "engineering-009-code-splitting", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "前端路由级代码分割最常见的入口是什么？", "options": [{ "id": "A", "content": "动态 import()" }, { "id": "B", "content": "同步 require 所有页面" }, { "id": "C", "content": "把 JS 放进 Cookie" }, { "id": "D", "content": "使用 !important" }], "answerKeys": ["A"], "explanation": "动态导入创建异步模块边界，打包器通常据此输出独立 chunk，在路由访问时加载。", "difficulty": "easy", "tags": ["构建", "代码分割", "动态导入"] },
-    { "code": "engineering-010-chunk-strategy", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "设计生产 chunk 策略时应考虑哪些因素？", "options": [{ "id": "A", "content": "首屏请求数量和总体传输体积" }, { "id": "B", "content": "长期缓存稳定性" }, { "id": "C", "content": "共享依赖重复与并行加载" }, { "id": "D", "content": "chunk 越碎永远越快" }], "answerKeys": ["A", "B", "C"], "explanation": "分包需要在缓存、复用、请求开销和加载优先级之间平衡，不能只追求文件数量。", "difficulty": "hard", "tags": ["构建", "Chunk", "性能"] },
-    { "code": "engineering-011-babel-polyfill", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "语法转译与运行时 API polyfill 的区别是什么？", "options": [{ "id": "A", "content": "转译改写新语法，polyfill 补充目标环境缺失的内建 API" }, { "id": "B", "content": "两者只处理图片" }, { "id": "C", "content": "转译会自动实现所有浏览器 API" }, { "id": "D", "content": "polyfill 只改 CSS" }], "answerKeys": ["A"], "explanation": "例如箭头函数可被转译，而 Promise、URL 等缺失能力可能需要按目标环境引入 polyfill。", "difficulty": "medium", "tags": ["Babel", "Polyfill", "兼容性"] },
-    { "code": "engineering-012-browserslist", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "Browserslist 配置常被哪些工具用于确定目标环境？", "options": [{ "id": "A", "content": "Babel/转译工具" }, { "id": "B", "content": "Autoprefixer" }, { "id": "C", "content": "部分构建优化工具" }, { "id": "D", "content": "数据库事务引擎" }], "answerKeys": ["A", "B", "C"], "explanation": "共享目标浏览器配置能让 JS 和 CSS 兼容处理保持一致，避免无谓兼容或遗漏。", "difficulty": "medium", "tags": ["Browserslist", "兼容性", "工程化"] },
-    { "code": "engineering-013-source-map", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "生产 Source Map 策略需要权衡哪些问题？", "options": [{ "id": "A", "content": "错误堆栈还原能力" }, { "id": "B", "content": "源码暴露风险" }, { "id": "C", "content": "构建与上传体积" }, { "id": "D", "content": "Source Map 会自动修复运行时错误" }], "answerKeys": ["A", "B", "C"], "explanation": "可把 map 私下上传到监控平台而不公开部署；它用于映射调试，不会改变程序行为。", "difficulty": "medium", "tags": ["Source Map", "监控", "构建"] },
-    { "code": "engineering-014-semver", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "npm 依赖范围 `^1.2.3` 通常允许自动升级到什么范围？", "options": [{ "id": "A", "content": "大于等于 1.2.3 且小于 2.0.0" }, { "id": "B", "content": "任意未来主版本" }, { "id": "C", "content": "只能精确 1.2.3" }, { "id": "D", "content": "小于 1.2.3" }], "answerKeys": ["A"], "explanation": "主版本非零时 caret 允许不改变主版本的兼容更新；0.x 版本规则更严格。", "difficulty": "medium", "tags": ["npm", "SemVer", "依赖"] },
-    { "code": "engineering-015-peer-dependency", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "组件库把 Vue 或 React 声明为 peerDependency 的主要目的是什么？", "options": [{ "id": "A", "content": "要求宿主提供兼容版本，避免库私自捆绑另一份框架实例" }, { "id": "B", "content": "把框架上传到 Cookie" }, { "id": "C", "content": "禁止宿主安装框架" }, { "id": "D", "content": "替代 devDependency" }], "answerKeys": ["A"], "explanation": "peerDependency 表达宿主协作关系，库开发和测试仍常在 devDependencies 安装相应版本。", "difficulty": "medium", "tags": ["npm", "peerDependencies", "组件库"] },
-    { "code": "engineering-016-lockfile", "categoryKey": "frontend.engineering", "type": "true_false", "stem": "应用项目提交 lockfile 有助于 CI 和团队安装相同依赖图，并记录完整性信息。", "answerKeys": ["true"], "explanation": "lockfile 提升可复现性；仍应定期审计并有计划地更新依赖。", "difficulty": "easy", "tags": ["npm", "Lockfile", "依赖"] },
-    { "code": "engineering-017-npm-ci", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "CI 中希望严格按照 lockfile 做干净、可复现安装，通常优先使用什么？", "options": [{ "id": "A", "content": "npm ci" }, { "id": "B", "content": "npm init" }, { "id": "C", "content": "npm deprecate" }, { "id": "D", "content": "npm link 全局包" }], "answerKeys": ["A"], "explanation": "npm ci 要求 lockfile 与 package.json 一致并进行干净安装，不会重写 lockfile。", "difficulty": "easy", "tags": ["npm", "CI", "依赖"] },
-    { "code": "engineering-018-monorepo", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "Monorepo 的常见收益与成本包括哪些？", "options": [{ "id": "A", "content": "共享配置和原子跨包变更" }, { "id": "B", "content": "统一依赖与构建编排" }, { "id": "C", "content": "仓库规模和 CI 缓存治理更复杂" }, { "id": "D", "content": "天然消除所有团队协作冲突" }], "answerKeys": ["A", "B", "C"], "explanation": "Monorepo 能统一工具与复用，但需要任务图、权限、版本和缓存策略，不是无成本方案。", "difficulty": "medium", "tags": ["Monorepo", "工程化"] },
-    { "code": "engineering-019-eslint-prettier", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "ESLint 与 Prettier 的职责通常如何划分？", "options": [{ "id": "A", "content": "ESLint 侧重代码质量和规则，Prettier 侧重确定性格式化" }, { "id": "B", "content": "两者都是数据库" }, { "id": "C", "content": "Prettier 做权限校验" }, { "id": "D", "content": "ESLint 只压缩图片" }], "answerKeys": ["A"], "explanation": "两者可配合使用，并关闭相互冲突的纯格式规则；类型检查仍需 TypeScript 编译器等工具。", "difficulty": "easy", "tags": ["ESLint", "Prettier", "代码质量"] },
-    { "code": "engineering-020-css-modules", "categoryKey": "frontend.engineering", "type": "true_false", "stem": "CSS Modules 通常在构建时把局部类名映射为唯一标识，从而降低组件间类名冲突，但并不等同于 Shadow DOM 隔离。", "answerKeys": ["true"], "explanation": "CSS Modules 主要解决命名作用域，选择器和样式仍位于文档 CSS 环境中。", "difficulty": "medium", "tags": ["CSS Modules", "工程化"] },
-    { "code": "engineering-021-postcss", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "PostCSS 更准确的定位是什么？", "options": [{ "id": "A", "content": "通过插件转换 CSS 的工具平台" }, { "id": "B", "content": "浏览器布局引擎" }, { "id": "C", "content": "JavaScript 虚拟机" }, { "id": "D", "content": "关系数据库" }], "answerKeys": ["A"], "explanation": "Autoprefixer、现代语法转换等可作为 PostCSS 插件运行，具体能力取决于插件配置。", "difficulty": "easy", "tags": ["PostCSS", "CSS", "工程化"] },
-    { "code": "engineering-022-bundle-analysis", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "分析前端 bundle 时应重点关注哪些内容？", "options": [{ "id": "A", "content": "体积最大的模块和重复依赖" }, { "id": "B", "content": "首屏同步 chunk 与懒加载边界" }, { "id": "C", "content": "未生效的 tree shaking 或整库引入" }, { "id": "D", "content": "只看源文件行数即可准确判断传输成本" }], "answerKeys": ["A", "B", "C"], "explanation": "应结合可视化分析、网络压缩后体积和真实加载瀑布，源码行数不能代替构建产物证据。", "difficulty": "medium", "tags": ["Bundle", "性能", "分析"] },
-    { "code": "engineering-023-content-hash", "categoryKey": "frontend.engineering", "type": "single_choice", "stem": "生产静态资源文件名加入内容哈希的主要价值是什么？", "options": [{ "id": "A", "content": "内容不变时 URL 稳定可长期缓存，内容变化时生成新 URL" }, { "id": "B", "content": "隐藏所有源码" }, { "id": "C", "content": "替代 HTTPS" }, { "id": "D", "content": "让文件不需要服务器" }], "answerKeys": ["A"], "explanation": "内容寻址文件名支持 immutable 缓存和精确失效，HTML 入口负责引用新版本。", "difficulty": "easy", "tags": ["构建", "缓存", "内容哈希"] },
-    { "code": "engineering-024-ci-cache", "categoryKey": "frontend.engineering", "type": "multiple_choice", "stem": "CI 缓存设计需要注意哪些问题？", "options": [{ "id": "A", "content": "缓存键应包含 lockfile 或工具版本等输入" }, { "id": "B", "content": "缓存命中后仍需保证产物与输入一致" }, { "id": "C", "content": "不要把密钥和不可共享凭据打入公共缓存" }, { "id": "D", "content": "永久复用同一个缓存键最可靠" }], "answerKeys": ["A", "B", "C"], "explanation": "缓存是可丢弃优化，键和恢复策略必须能在输入变化时失效，并避免敏感信息泄漏。", "difficulty": "medium", "tags": ["CI", "缓存", "工程化"] },
-    { "code": "engineering-025-feature-flag", "categoryKey": "frontend.engineering", "type": "true_false", "stem": "前端 Feature Flag 只控制界面显示，不能替代后端权限校验；敏感操作仍必须由服务端授权。", "answerKeys": ["true"], "explanation": "客户端代码和状态可被用户修改，功能开关适合发布治理，不是安全边界。", "difficulty": "easy", "tags": ["工程化", "Feature Flag", "安全"] }
+    {
+      "code": "browser-101-event-phase",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "DOM 事件传播通常包含哪些阶段？",
+      "options": [
+        {
+          "id": "A",
+          "content": "捕获阶段"
+        },
+        {
+          "id": "B",
+          "content": "到达目标阶段"
+        },
+        {
+          "id": "C",
+          "content": "冒泡阶段"
+        },
+        {
+          "id": "D",
+          "content": "数据库提交阶段"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（捕获阶段）、**B**（到达目标阶段）、**C**（冒泡阶段）。事件沿祖先向目标捕获，再在目标触发，并按事件是否冒泡向祖先返回。\n\n**逐项分析**\n\n- **A：正确。** 捕获阶段。它准确对应本题结论。依据是：事件沿祖先向目标捕获，再在目标触发，并按事件是否冒泡向祖先返回。\n- **B：正确。** 到达目标阶段。它准确对应本题结论。依据是：事件沿祖先向目标捕获，再在目标触发，并按事件是否冒泡向祖先返回。\n- **C：正确。** 冒泡阶段。它准确对应本题结论。依据是：事件沿祖先向目标捕获，再在目标触发，并按事件是否冒泡向祖先返回。\n- **D：不选。** 数据库提交阶段。如果选择它，就等于断言“数据库提交阶段”；但本题成立的结论是“捕获阶段；到达目标阶段；冒泡阶段”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、DOM事件”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、DOM事件”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "浏览器",
+        "DOM事件"
+      ]
+    },
+    {
+      "code": "browser-102-stop-event",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "`stopPropagation()` 与 `preventDefault()` 的区别是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "前者阻止继续传播，后者阻止可取消事件的默认行为"
+        },
+        {
+          "id": "B",
+          "content": "两者完全相同"
+        },
+        {
+          "id": "C",
+          "content": "前者删除元素，后者刷新页面"
+        },
+        {
+          "id": "D",
+          "content": "两者都只影响 CSS"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（前者阻止继续传播，后者阻止可取消事件的默认行为）。传播路径和默认动作是两个维度；阻止传播不会自动阻止链接跳转等默认行为。\n\n**逐项分析**\n\n- **A：正确。** 前者阻止继续传播，后者阻止可取消事件的默认行为。它准确对应本题结论。依据是：传播路径和默认动作是两个维度；阻止传播不会自动阻止链接跳转等默认行为。\n- **B：不选。** 两者完全相同。如果选择它，就等于断言“两者完全相同”；但本题成立的结论是“前者阻止继续传播，后者阻止可取消事件的默认行为”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 前者删除元素，后者刷新页面。如果选择它，就等于断言“前者删除元素，后者刷新页面”；但本题成立的结论是“前者阻止继续传播，后者阻止可取消事件的默认行为”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 两者都只影响 CSS。如果选择它，就等于断言“两者都只影响 CSS”；但本题成立的结论是“前者阻止继续传播，后者阻止可取消事件的默认行为”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、DOM事件”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、DOM事件”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "浏览器",
+        "DOM事件"
+      ]
+    },
+    {
+      "code": "browser-103-delegation",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "事件委托的常见优势和前提有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "利用冒泡在祖先统一处理大量子元素事件"
+        },
+        {
+          "id": "B",
+          "content": "适合动态新增的子元素"
+        },
+        {
+          "id": "C",
+          "content": "需要通过 target/closest 判断实际来源"
+        },
+        {
+          "id": "D",
+          "content": "所有事件都必然冒泡"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（利用冒泡在祖先统一处理大量子元素事件）、**B**（适合动态新增的子元素）、**C**（需要通过 target/closest 判断实际来源）。委托减少监听器并支持动态内容，但并非所有事件都冒泡，且需处理嵌套目标和边界。\n\n**逐项分析**\n\n- **A：正确。** 利用冒泡在祖先统一处理大量子元素事件。它准确对应本题结论。依据是：委托减少监听器并支持动态内容，但并非所有事件都冒泡，且需处理嵌套目标和边界。\n- **B：正确。** 适合动态新增的子元素。它准确对应本题结论。依据是：委托减少监听器并支持动态内容，但并非所有事件都冒泡，且需处理嵌套目标和边界。\n- **C：正确。** 需要通过 target/closest 判断实际来源。它准确对应本题结论。依据是：委托减少监听器并支持动态内容，但并非所有事件都冒泡，且需处理嵌套目标和边界。\n- **D：不选。** 所有事件都必然冒泡。如果选择它，就等于断言“所有事件都必然冒泡”；但本题成立的结论是“利用冒泡在祖先统一处理大量子元素事件；适合动态新增的子元素；需要通过 target/closest 判断实际来源”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、事件委托”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、事件委托”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "事件委托"
+      ]
+    },
+    {
+      "code": "browser-104-passive",
+      "categoryKey": "frontend.browser",
+      "type": "true_false",
+      "stem": "把触摸或滚轮监听器标记为 `passive: true` 表示回调不会调用 preventDefault，可帮助浏览器更早开始滚动。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。passive 是不取消默认滚动的承诺，可降低浏览器等待监听器的阻塞，但需要取消滚动时不能使用。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“浏览器、事件、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、事件、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "事件",
+        "性能"
+      ]
+    },
+    {
+      "code": "browser-105-dom-cssom",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "浏览器通常将 DOM 与 CSSOM 结合生成什么，再用于布局？",
+      "options": [
+        {
+          "id": "A",
+          "content": "渲染树"
+        },
+        {
+          "id": "B",
+          "content": "DNS 树"
+        },
+        {
+          "id": "C",
+          "content": "Git 树"
+        },
+        {
+          "id": "D",
+          "content": "调用栈"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（渲染树）。渲染树包含需要绘制的节点及计算样式，之后进行布局、绘制和合成。\n\n**逐项分析**\n\n- **A：正确。** 渲染树。它准确对应本题结论。依据是：渲染树包含需要绘制的节点及计算样式，之后进行布局、绘制和合成。\n- **B：不选。** DNS 树。如果选择它，就等于断言“DNS 树”；但本题成立的结论是“渲染树”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** Git 树。如果选择它，就等于断言“Git 树”；但本题成立的结论是“渲染树”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 调用栈。如果选择它，就等于断言“调用栈”；但本题成立的结论是“渲染树”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、渲染流程”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、渲染流程”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "浏览器",
+        "渲染流程"
+      ]
+    },
+    {
+      "code": "browser-106-forced-layout",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "哪些模式容易造成强制同步布局或布局抖动？",
+      "options": [
+        {
+          "id": "A",
+          "content": "循环中交替写样式并读取 offsetWidth"
+        },
+        {
+          "id": "B",
+          "content": "批量读取后再批量写入"
+        },
+        {
+          "id": "C",
+          "content": "DOM 修改后立即读取几何属性"
+        },
+        {
+          "id": "D",
+          "content": "反复触发影响布局的属性更新"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "C",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（循环中交替写样式并读取 offsetWidth）、**C**（DOM 修改后立即读取几何属性）、**D**（反复触发影响布局的属性更新）。浏览器为返回最新几何值可能被迫提前执行样式和布局；批量读写能减少往返。\n\n**逐项分析**\n\n- **A：正确。** 循环中交替写样式并读取 offsetWidth。它准确对应本题结论。依据是：浏览器为返回最新几何值可能被迫提前执行样式和布局；批量读写能减少往返。\n- **B：不选。** 批量读取后再批量写入。如果选择它，就等于断言“批量读取后再批量写入”；但本题成立的结论是“循环中交替写样式并读取 offsetWidth；DOM 修改后立即读取几何属性；反复触发影响布局的属性更新”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：正确。** DOM 修改后立即读取几何属性。它准确对应本题结论。依据是：浏览器为返回最新几何值可能被迫提前执行样式和布局；批量读写能减少往返。\n- **D：正确。** 反复触发影响布局的属性更新。它准确对应本题结论。依据是：浏览器为返回最新几何值可能被迫提前执行样式和布局；批量读写能减少往返。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n布局排错可以固定为四步：看父容器的布局模式，看子项可用空间与最小尺寸，看 overflow/position 是否改变包含块或滚动容器，再看是否跨越了不同层叠上下文。这样比不断增大 z-index 或盲目加宽度更可靠。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“浏览器、布局、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、布局、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "浏览器",
+        "布局",
+        "性能"
+      ]
+    },
+    {
+      "code": "browser-107-compositor",
+      "categoryKey": "frontend.browser",
+      "type": "true_false",
+      "stem": "只修改 transform 或 opacity 的动画常有机会在合成线程处理，但是否真正独立合成仍取决于浏览器分层与资源情况。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。transform/opacity 通常避免布局和绘制，但不能把合成当绝对保证，也不应无限创建图层。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、合成、动画”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、合成、动画”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "合成",
+        "动画"
+      ]
+    },
+    {
+      "code": "browser-108-same-origin",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "同源策略判断两个 URL 是否同源，主要比较哪些部分？",
+      "options": [
+        {
+          "id": "A",
+          "content": "协议、主机、端口"
+        },
+        {
+          "id": "B",
+          "content": "路径、查询、片段"
+        },
+        {
+          "id": "C",
+          "content": "页面标题"
+        },
+        {
+          "id": "D",
+          "content": "User-Agent"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（协议、主机、端口）。scheme、host、port 相同才同源；路径差异不改变源。\n\n**逐项分析**\n\n- **A：正确。** 协议、主机、端口。它准确对应本题结论。依据是：scheme、host、port 相同才同源；路径差异不改变源。\n- **B：不选。** 路径、查询、片段。如果选择它，就等于断言“路径、查询、片段”；但本题成立的结论是“协议、主机、端口”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 页面标题。如果选择它，就等于断言“页面标题”；但本题成立的结论是“协议、主机、端口”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** User-Agent。如果选择它，就等于断言“User-Agent”；但本题成立的结论是“协议、主机、端口”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、同源策略、安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、同源策略、安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "浏览器",
+        "同源策略",
+        "安全"
+      ]
+    },
+    {
+      "code": "browser-109-cors-credentials",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "跨源请求携带凭据并允许浏览器读取响应，服务端通常需要满足哪些条件？",
+      "options": [
+        {
+          "id": "A",
+          "content": "明确返回允许的 Origin，不能用通配符代替凭据源"
+        },
+        {
+          "id": "B",
+          "content": "Access-Control-Allow-Credentials: true"
+        },
+        {
+          "id": "C",
+          "content": "客户端按需设置 credentials"
+        },
+        {
+          "id": "D",
+          "content": "只要状态码 200 就自动允许"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（明确返回允许的 Origin，不能用通配符代替凭据源）、**B**（Access-Control-Allow-Credentials: true）、**C**（客户端按需设置 credentials）。凭据 CORS 需要客户端和服务端共同声明，且允许源必须具体匹配。\n\n**逐项分析**\n\n- **A：正确。** 明确返回允许的 Origin，不能用通配符代替凭据源。它准确对应本题结论。依据是：凭据 CORS 需要客户端和服务端共同声明，且允许源必须具体匹配。\n- **B：正确。** Access-Control-Allow-Credentials: true。它准确对应本题结论。依据是：凭据 CORS 需要客户端和服务端共同声明，且允许源必须具体匹配。\n- **C：正确。** 客户端按需设置 credentials。它准确对应本题结论。依据是：凭据 CORS 需要客户端和服务端共同声明，且允许源必须具体匹配。\n- **D：不选。** 只要状态码 200 就自动允许。如果选择它，就等于断言“只要状态码 200 就自动允许”；但本题成立的结论是“明确返回允许的 Origin，不能用通配符代替凭据源；Access-Control-Allow-Credentials: true；客户端按需设置 credentials”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“浏览器、CORS、Cookie”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、CORS、Cookie”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "浏览器",
+        "CORS",
+        "Cookie"
+      ]
+    },
+    {
+      "code": "browser-110-samesite",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "跨站场景确需发送 Cookie 时，现代浏览器通常要求怎样设置？",
+      "options": [
+        {
+          "id": "A",
+          "content": "SameSite=None 且 Secure"
+        },
+        {
+          "id": "B",
+          "content": "SameSite=Strict 且不使用 HTTPS"
+        },
+        {
+          "id": "C",
+          "content": "只设置 Path"
+        },
+        {
+          "id": "D",
+          "content": "删除 HttpOnly"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（SameSite=None 且 Secure）。SameSite=None 表示允许跨站，同时要求 Secure；仍需结合 CSRF 防护和最小范围。\n\n**逐项分析**\n\n- **A：正确。** SameSite=None 且 Secure。它准确对应本题结论。依据是：SameSite=None 表示允许跨站，同时要求 Secure；仍需结合 CSRF 防护和最小范围。\n- **B：不选。** SameSite=Strict 且不使用 HTTPS。如果选择它，就等于断言“SameSite=Strict 且不使用 HTTPS”；但本题成立的结论是“SameSite=None 且 Secure”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 只设置 Path。如果选择它，就等于断言“只设置 Path”；但本题成立的结论是“SameSite=None 且 Secure”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 删除 HttpOnly。如果选择它，就等于断言“删除 HttpOnly”；但本题成立的结论是“SameSite=None 且 Secure”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“浏览器、Cookie、SameSite”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、Cookie、SameSite”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "Cookie",
+        "SameSite"
+      ]
+    },
+    {
+      "code": "browser-111-csp",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "内容安全策略 CSP 的常见作用有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "限制脚本、样式、图片等资源来源"
+        },
+        {
+          "id": "B",
+          "content": "通过 nonce/hash 允许特定内联脚本"
+        },
+        {
+          "id": "C",
+          "content": "降低部分 XSS 注入后的执行能力"
+        },
+        {
+          "id": "D",
+          "content": "替代输出编码和输入处理的全部安全措施"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（限制脚本、样式、图片等资源来源）、**B**（通过 nonce/hash 允许特定内联脚本）、**C**（降低部分 XSS 注入后的执行能力）。CSP 是纵深防御，不是修复 XSS 根因的唯一手段；应先用 Report-Only 验证策略。\n\n**逐项分析**\n\n- **A：正确。** 限制脚本、样式、图片等资源来源。它准确对应本题结论。依据是：CSP 是纵深防御，不是修复 XSS 根因的唯一手段；应先用 Report-Only 验证策略。\n- **B：正确。** 通过 nonce/hash 允许特定内联脚本。它准确对应本题结论。依据是：CSP 是纵深防御，不是修复 XSS 根因的唯一手段；应先用 Report-Only 验证策略。\n- **C：正确。** 降低部分 XSS 注入后的执行能力。它准确对应本题结论。依据是：CSP 是纵深防御，不是修复 XSS 根因的唯一手段；应先用 Report-Only 验证策略。\n- **D：不选。** 替代输出编码和输入处理的全部安全措施。如果选择它，就等于断言“替代输出编码和输入处理的全部安全措施”；但本题成立的结论是“限制脚本、样式、图片等资源来源；通过 nonce/hash 允许特定内联脚本；降低部分 XSS 注入后的执行能力”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“浏览器、CSP、安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、CSP、安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "浏览器",
+        "CSP",
+        "安全"
+      ]
+    },
+    {
+      "code": "browser-112-sri",
+      "categoryKey": "frontend.browser",
+      "type": "true_false",
+      "stem": "Subresource Integrity 可通过 integrity 哈希让浏览器校验从 CDN 加载的脚本或样式是否与预期内容一致。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。SRI 能发现资源被篡改，跨源资源还需正确 CORS 配置；版本更新时哈希也要同步。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、SRI、安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、SRI、安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "SRI",
+        "安全"
+      ]
+    },
+    {
+      "code": "browser-113-service-worker",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "关于 Service Worker，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "可拦截受控范围内的网络请求"
+        },
+        {
+          "id": "B",
+          "content": "可用于离线缓存和后台能力"
+        },
+        {
+          "id": "C",
+          "content": "运行在独立 worker 上下文，不能直接操作 DOM"
+        },
+        {
+          "id": "D",
+          "content": "页面一注册就必然立即控制当前页面"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（可拦截受控范围内的网络请求）、**B**（可用于离线缓存和后台能力）、**C**（运行在独立 worker 上下文，不能直接操作 DOM）。Service Worker 有安装、激活和控制生命周期，通常需要安全上下文，首次注册不一定控制当前文档。\n\n**逐项分析**\n\n- **A：正确。** 可拦截受控范围内的网络请求。它准确对应本题结论。依据是：Service Worker 有安装、激活和控制生命周期，通常需要安全上下文，首次注册不一定控制当前文档。\n- **B：正确。** 可用于离线缓存和后台能力。它准确对应本题结论。依据是：Service Worker 有安装、激活和控制生命周期，通常需要安全上下文，首次注册不一定控制当前文档。\n- **C：正确。** 运行在独立 worker 上下文，不能直接操作 DOM。它准确对应本题结论。依据是：Service Worker 有安装、激活和控制生命周期，通常需要安全上下文，首次注册不一定控制当前文档。\n- **D：不选。** 页面一注册就必然立即控制当前页面。如果选择它，就等于断言“页面一注册就必然立即控制当前页面”；但本题成立的结论是“可拦截受控范围内的网络请求；可用于离线缓存和后台能力；运行在独立 worker 上下文，不能直接操作 DOM”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、Service Worker、PWA”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、Service Worker、PWA”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "Service Worker",
+        "PWA"
+      ]
+    },
+    {
+      "code": "browser-114-web-worker",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "把 CPU 密集计算移到 Web Worker 的主要好处是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "避免长时间占用页面主线程"
+        },
+        {
+          "id": "B",
+          "content": "Worker 可以直接更新 DOM"
+        },
+        {
+          "id": "C",
+          "content": "自动增加服务器 CPU"
+        },
+        {
+          "id": "D",
+          "content": "绕过同源策略"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（避免长时间占用页面主线程）。Worker 在后台线程执行脚本并通过消息通信，不能直接访问页面 DOM。\n\n**逐项分析**\n\n- **A：正确。** 避免长时间占用页面主线程。它准确对应本题结论。依据是：Worker 在后台线程执行脚本并通过消息通信，不能直接访问页面 DOM。\n- **B：不选。** Worker 可以直接更新 DOM。如果选择它，就等于断言“Worker 可以直接更新 DOM”；但本题成立的结论是“避免长时间占用页面主线程”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 自动增加服务器 CPU。如果选择它，就等于断言“自动增加服务器 CPU”；但本题成立的结论是“避免长时间占用页面主线程”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 绕过同源策略。如果选择它，就等于断言“绕过同源策略”；但本题成立的结论是“避免长时间占用页面主线程”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“浏览器、Web Worker、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、Web Worker、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "浏览器",
+        "Web Worker",
+        "性能"
+      ]
+    },
+    {
+      "code": "browser-115-indexeddb",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "浏览器端需要保存较大量结构化数据并支持事务和索引查询，优先考虑什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "IndexedDB"
+        },
+        {
+          "id": "B",
+          "content": "sessionStorage 单字符串"
+        },
+        {
+          "id": "C",
+          "content": "Cookie"
+        },
+        {
+          "id": "D",
+          "content": "URL hash"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（IndexedDB）。IndexedDB 是异步事务型对象存储，容量和查询能力通常比 Web Storage 更适合离线数据。\n\n**逐项分析**\n\n- **A：正确。** IndexedDB。它准确对应本题结论。依据是：IndexedDB 是异步事务型对象存储，容量和查询能力通常比 Web Storage 更适合离线数据。\n- **B：不选。** sessionStorage 单字符串。如果选择它，就等于断言“sessionStorage 单字符串”；但本题成立的结论是“IndexedDB”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** Cookie。如果选择它，就等于断言“Cookie”；但本题成立的结论是“IndexedDB”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** URL hash。如果选择它，就等于断言“URL hash”；但本题成立的结论是“IndexedDB”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、IndexedDB、存储”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、IndexedDB、存储”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "IndexedDB",
+        "存储"
+      ]
+    },
+    {
+      "code": "browser-116-broadcast-channel",
+      "categoryKey": "frontend.browser",
+      "type": "true_false",
+      "stem": "同源多个标签页之间可以使用 BroadcastChannel 发布和接收消息，但仍应处理页面关闭与兼容性。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。BroadcastChannel 为同源浏览上下文提供命名频道通信，不会跨不同源。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、多标签通信”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、多标签通信”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "多标签通信"
+      ]
+    },
+    {
+      "code": "browser-117-history-api",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "SPA 使用 History API 时需要注意哪些事项？",
+      "options": [
+        {
+          "id": "A",
+          "content": "pushState/replaceState 不会自动触发网络导航"
+        },
+        {
+          "id": "B",
+          "content": "监听 popstate 处理前进后退"
+        },
+        {
+          "id": "C",
+          "content": "服务器需把前端路由回退到入口 HTML"
+        },
+        {
+          "id": "D",
+          "content": "pushState 会自动触发 popstate"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（pushState/replaceState 不会自动触发网络导航）、**B**（监听 popstate 处理前进后退）、**C**（服务器需把前端路由回退到入口 HTML）。程序主动 pushState 通常不触发 popstate；History 路由还需要服务端 fallback 配合深层 URL。\n\n**逐项分析**\n\n- **A：正确。** pushState/replaceState 不会自动触发网络导航。它准确对应本题结论。依据是：程序主动 pushState 通常不触发 popstate；History 路由还需要服务端 fallback 配合深层 URL。\n- **B：正确。** 监听 popstate 处理前进后退。它准确对应本题结论。依据是：程序主动 pushState 通常不触发 popstate；History 路由还需要服务端 fallback 配合深层 URL。\n- **C：正确。** 服务器需把前端路由回退到入口 HTML。它准确对应本题结论。依据是：程序主动 pushState 通常不触发 popstate；History 路由还需要服务端 fallback 配合深层 URL。\n- **D：不选。** pushState 会自动触发 popstate。如果选择它，就等于断言“pushState 会自动触发 popstate”；但本题成立的结论是“pushState/replaceState 不会自动触发网络导航；监听 popstate 处理前进后退；服务器需把前端路由回退到入口 HTML”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、History API、SPA”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、History API、SPA”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "History API",
+        "SPA"
+      ]
+    },
+    {
+      "code": "browser-118-bfcache",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "浏览器 BFCache 的主要目标是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "在前进后退时恢复完整页面快照以实现快速导航"
+        },
+        {
+          "id": "B",
+          "content": "永久缓存所有 API 响应"
+        },
+        {
+          "id": "C",
+          "content": "替代 CDN"
+        },
+        {
+          "id": "D",
+          "content": "压缩 JavaScript"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（在前进后退时恢复完整页面快照以实现快速导航）。BFCache 保存页面执行状态而非普通 HTTP 资源缓存；pageshow/pagehide 可帮助处理恢复场景。\n\n**逐项分析**\n\n- **A：正确。** 在前进后退时恢复完整页面快照以实现快速导航。它准确对应本题结论。依据是：BFCache 保存页面执行状态而非普通 HTTP 资源缓存；pageshow/pagehide 可帮助处理恢复场景。\n- **B：不选。** 永久缓存所有 API 响应。如果选择它，就等于断言“永久缓存所有 API 响应”；但本题成立的结论是“在前进后退时恢复完整页面快照以实现快速导航”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 替代 CDN。如果选择它，就等于断言“替代 CDN”；但本题成立的结论是“在前进后退时恢复完整页面快照以实现快速导航”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 压缩 JavaScript。如果选择它，就等于断言“压缩 JavaScript”；但本题成立的结论是“在前进后退时恢复完整页面快照以实现快速导航”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“浏览器、BFCache、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、BFCache、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "浏览器",
+        "BFCache",
+        "性能"
+      ]
+    },
+    {
+      "code": "browser-119-http-idempotent",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "按 HTTP 语义，哪些方法通常被定义为幂等？",
+      "options": [
+        {
+          "id": "A",
+          "content": "GET"
+        },
+        {
+          "id": "B",
+          "content": "PUT"
+        },
+        {
+          "id": "C",
+          "content": "DELETE"
+        },
+        {
+          "id": "D",
+          "content": "POST"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（GET）、**B**（PUT）、**C**（DELETE）。幂等指重复相同请求对服务器预期效果等同一次；POST 通常不保证，实际 API 仍需正确实现语义。\n\n**逐项分析**\n\n- **A：正确。** GET。它准确对应本题结论。依据是：幂等指重复相同请求对服务器预期效果等同一次；POST 通常不保证，实际 API 仍需正确实现语义。\n- **B：正确。** PUT。它准确对应本题结论。依据是：幂等指重复相同请求对服务器预期效果等同一次；POST 通常不保证，实际 API 仍需正确实现语义。\n- **C：正确。** DELETE。它准确对应本题结论。依据是：幂等指重复相同请求对服务器预期效果等同一次；POST 通常不保证，实际 API 仍需正确实现语义。\n- **D：不选。** POST。如果选择它，就等于断言“POST”；但本题成立的结论是“GET；PUT；DELETE”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTTP、幂等性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTTP、幂等性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTTP",
+        "幂等性"
+      ]
+    },
+    {
+      "code": "browser-120-http-status",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "资源已成功创建并希望返回其位置，最合适的状态码通常是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "201 Created"
+        },
+        {
+          "id": "B",
+          "content": "204 No Content"
+        },
+        {
+          "id": "C",
+          "content": "304 Not Modified"
+        },
+        {
+          "id": "D",
+          "content": "409 Conflict"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（201 Created）。201 表示创建成功，可配合 Location 响应头指向新资源。\n\n**逐项分析**\n\n- **A：正确。** 201 Created。它准确对应本题结论。依据是：201 表示创建成功，可配合 Location 响应头指向新资源。\n- **B：不选。** 204 No Content。如果选择它，就等于断言“204 No Content”；但本题成立的结论是“201 Created”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 304 Not Modified。如果选择它，就等于断言“304 Not Modified”；但本题成立的结论是“201 Created”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 409 Conflict。如果选择它，就等于断言“409 Conflict”；但本题成立的结论是“201 Created”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTTP、状态码”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTTP、状态码”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "HTTP",
+        "状态码"
+      ]
+    },
+    {
+      "code": "browser-121-cache-control",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "带内容哈希且可长期复用的静态资源，常用哪类缓存策略？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Cache-Control: public, max-age=31536000, immutable"
+        },
+        {
+          "id": "B",
+          "content": "no-store"
+        },
+        {
+          "id": "C",
+          "content": "每次随机 URL 且不缓存"
+        },
+        {
+          "id": "D",
+          "content": "只设置 Cookie"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Cache-Control: public, max-age=31536000, immutable）。内容哈希使 URL 随内容变化，可安全使用长期强缓存；HTML 入口通常采用不同策略。\n\n**逐项分析**\n\n- **A：正确。** Cache-Control: public, max-age=31536000, immutable。它准确对应本题结论。依据是：内容哈希使 URL 随内容变化，可安全使用长期强缓存；HTML 入口通常采用不同策略。\n- **B：不选。** no-store。如果选择它，就等于断言“no-store”；但本题成立的结论是“Cache-Control: public, max-age=31536000, immutable”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 每次随机 URL 且不缓存。如果选择它，就等于断言“每次随机 URL 且不缓存”；但本题成立的结论是“Cache-Control: public, max-age=31536000, immutable”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只设置 Cookie。如果选择它，就等于断言“只设置 Cookie”；但本题成立的结论是“Cache-Control: public, max-age=31536000, immutable”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n本题可以用一个最小示例验证：只保留与“HTTP、缓存、静态资源”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTTP、缓存、静态资源”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTTP",
+        "缓存",
+        "静态资源"
+      ]
+    },
+    {
+      "code": "browser-122-etag",
+      "categoryKey": "frontend.browser",
+      "type": "true_false",
+      "stem": "客户端携带 `If-None-Match`，服务端确认 ETag 未变化时可返回 304 且不发送完整响应体。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。ETag 用于协商缓存验证；304 表示继续使用本地表示，仍可能携带更新后的缓存元数据。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n本题可以用一个最小示例验证：只保留与“HTTP、ETag、缓存”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTTP、ETag、缓存”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTTP",
+        "ETag",
+        "缓存"
+      ]
+    },
+    {
+      "code": "browser-123-http3",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "HTTP/3 相较 HTTP/2 的常见特点有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "基于 QUIC/UDP"
+        },
+        {
+          "id": "B",
+          "content": "传输层流之间避免 TCP 级队头阻塞"
+        },
+        {
+          "id": "C",
+          "content": "集成 TLS 1.3 握手"
+        },
+        {
+          "id": "D",
+          "content": "完全取消加密"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（基于 QUIC/UDP）、**B**（传输层流之间避免 TCP 级队头阻塞）、**C**（集成 TLS 1.3 握手）。HTTP/3 在 QUIC 上提供多路流、快速握手和连接迁移，仍使用加密。\n\n**逐项分析**\n\n- **A：正确。** 基于 QUIC/UDP。它准确对应本题结论。依据是：HTTP/3 在 QUIC 上提供多路流、快速握手和连接迁移，仍使用加密。\n- **B：正确。** 传输层流之间避免 TCP 级队头阻塞。它准确对应本题结论。依据是：HTTP/3 在 QUIC 上提供多路流、快速握手和连接迁移，仍使用加密。\n- **C：正确。** 集成 TLS 1.3 握手。它准确对应本题结论。依据是：HTTP/3 在 QUIC 上提供多路流、快速握手和连接迁移，仍使用加密。\n- **D：不选。** 完全取消加密。如果选择它，就等于断言“完全取消加密”；但本题成立的结论是“基于 QUIC/UDP；传输层流之间避免 TCP 级队头阻塞；集成 TLS 1.3 握手”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTTP、HTTP3、QUIC”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTTP、HTTP3、QUIC”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "HTTP",
+        "HTTP3",
+        "QUIC"
+      ]
+    },
+    {
+      "code": "browser-124-tls",
+      "categoryKey": "frontend.browser",
+      "type": "multiple_choice",
+      "stem": "HTTPS 中 TLS 主要提供哪些安全属性？",
+      "options": [
+        {
+          "id": "A",
+          "content": "传输加密"
+        },
+        {
+          "id": "B",
+          "content": "消息完整性"
+        },
+        {
+          "id": "C",
+          "content": "基于证书的服务器身份认证"
+        },
+        {
+          "id": "D",
+          "content": "保证服务器业务逻辑没有漏洞"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（传输加密）、**B**（消息完整性）、**C**（基于证书的服务器身份认证）。TLS 保护传输通道，但不能证明业务代码、账号权限或页面内容本身没有漏洞。\n\n**逐项分析**\n\n- **A：正确。** 传输加密。它准确对应本题结论。依据是：TLS 保护传输通道，但不能证明业务代码、账号权限或页面内容本身没有漏洞。\n- **B：正确。** 消息完整性。它准确对应本题结论。依据是：TLS 保护传输通道，但不能证明业务代码、账号权限或页面内容本身没有漏洞。\n- **C：正确。** 基于证书的服务器身份认证。它准确对应本题结论。依据是：TLS 保护传输通道，但不能证明业务代码、账号权限或页面内容本身没有漏洞。\n- **D：不选。** 保证服务器业务逻辑没有漏洞。如果选择它，就等于断言“保证服务器业务逻辑没有漏洞”；但本题成立的结论是“传输加密；消息完整性；基于证书的服务器身份认证”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTTPS、TLS、安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTTPS、TLS、安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTTPS",
+        "TLS",
+        "安全"
+      ]
+    },
+    {
+      "code": "browser-125-websocket-sse",
+      "categoryKey": "frontend.browser",
+      "type": "single_choice",
+      "stem": "只需要服务器持续向浏览器推送文本事件，并希望基于普通 HTTP 自动重连，优先考虑什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Server-Sent Events"
+        },
+        {
+          "id": "B",
+          "content": "WebSocket 双向协议必然更简单"
+        },
+        {
+          "id": "C",
+          "content": "localStorage"
+        },
+        {
+          "id": "D",
+          "content": "DNS TXT"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Server-Sent Events）。SSE 是单向服务器推送，原生支持事件流和重连；需要全双工或二进制交互时再评估 WebSocket。\n\n**逐项分析**\n\n- **A：正确。** Server-Sent Events。它准确对应本题结论。依据是：SSE 是单向服务器推送，原生支持事件流和重连；需要全双工或二进制交互时再评估 WebSocket。\n- **B：不选。** WebSocket 双向协议必然更简单。如果选择它，就等于断言“WebSocket 双向协议必然更简单”；但本题成立的结论是“Server-Sent Events”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** localStorage。如果选择它，就等于断言“localStorage”；但本题成立的结论是“Server-Sent Events”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** DNS TXT。如果选择它，就等于断言“DNS TXT”；但本题成立的结论是“Server-Sent Events”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n浏览器与网络题要区分浏览器安全策略、HTTP 协议语义和业务代码行为。排查时结合 DevTools 的 Network、Performance、Application 和 Console 面板，用请求头、响应头、时间线和缓存状态验证结论。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“浏览器、SSE、WebSocket”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“浏览器、SSE、WebSocket”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "浏览器",
+        "SSE",
+        "WebSocket"
+      ]
+    },
+    {
+      "code": "engineering-001-vite-dev",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "Vite 开发服务器启动快的核心思路之一是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "开发时按浏览器原生 ESM 按需提供源码模块"
+        },
+        {
+          "id": "B",
+          "content": "启动前必须打包全部业务代码"
+        },
+        {
+          "id": "C",
+          "content": "禁用模块系统"
+        },
+        {
+          "id": "D",
+          "content": "把所有依赖写入 HTML"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（开发时按浏览器原生 ESM 按需提供源码模块）。Vite 开发时避免预先打包完整应用，只转换浏览器请求到的模块，并预构建依赖。\n\n**逐项分析**\n\n- **A：正确。** 开发时按浏览器原生 ESM 按需提供源码模块。它准确对应本题结论。依据是：Vite 开发时避免预先打包完整应用，只转换浏览器请求到的模块，并预构建依赖。\n- **B：不选。** 启动前必须打包全部业务代码。如果选择它，就等于断言“启动前必须打包全部业务代码”；但本题成立的结论是“开发时按浏览器原生 ESM 按需提供源码模块”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 禁用模块系统。如果选择它，就等于断言“禁用模块系统”；但本题成立的结论是“开发时按浏览器原生 ESM 按需提供源码模块”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 把所有依赖写入 HTML。如果选择它，就等于断言“把所有依赖写入 HTML”；但本题成立的结论是“开发时按浏览器原生 ESM 按需提供源码模块”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Vite、开发服务器、ESM”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Vite、开发服务器、ESM”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "Vite",
+        "开发服务器",
+        "ESM"
+      ]
+    },
+    {
+      "code": "engineering-002-dep-prebundle",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "Vite 依赖预构建通常解决哪些问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "把部分 CommonJS/UMD 依赖转换为 ESM"
+        },
+        {
+          "id": "B",
+          "content": "合并拥有大量内部模块的依赖以减少开发请求"
+        },
+        {
+          "id": "C",
+          "content": "缓存预构建结果"
+        },
+        {
+          "id": "D",
+          "content": "替代生产构建的所有优化"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（把部分 CommonJS/UMD 依赖转换为 ESM）、**B**（合并拥有大量内部模块的依赖以减少开发请求）、**C**（缓存预构建结果）。依赖预构建服务于开发兼容性和请求性能，生产构建仍走独立打包流程。\n\n**逐项分析**\n\n- **A：正确。** 把部分 CommonJS/UMD 依赖转换为 ESM。它准确对应本题结论。依据是：依赖预构建服务于开发兼容性和请求性能，生产构建仍走独立打包流程。\n- **B：正确。** 合并拥有大量内部模块的依赖以减少开发请求。它准确对应本题结论。依据是：依赖预构建服务于开发兼容性和请求性能，生产构建仍走独立打包流程。\n- **C：正确。** 缓存预构建结果。它准确对应本题结论。依据是：依赖预构建服务于开发兼容性和请求性能，生产构建仍走独立打包流程。\n- **D：不选。** 替代生产构建的所有优化。如果选择它，就等于断言“替代生产构建的所有优化”；但本题成立的结论是“把部分 CommonJS/UMD 依赖转换为 ESM；合并拥有大量内部模块的依赖以减少开发请求；缓存预构建结果”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Vite、依赖预构建”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Vite、依赖预构建”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Vite",
+        "依赖预构建"
+      ]
+    },
+    {
+      "code": "engineering-003-hmr",
+      "categoryKey": "frontend.engineering",
+      "type": "true_false",
+      "stem": "HMR 尝试只替换变更模块并保留应用状态；若模块边界不能安全接受更新，可能退化为整页刷新。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。热更新依赖模块接受边界和框架集成，无法保证任何改动都无状态刷新。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Vite、HMR”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Vite、HMR”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Vite",
+        "HMR"
+      ]
+    },
+    {
+      "code": "engineering-004-production-build",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "Vite 生产构建通常使用什么完成应用打包和优化？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Rollup 体系"
+        },
+        {
+          "id": "B",
+          "content": "浏览器 localStorage"
+        },
+        {
+          "id": "C",
+          "content": "MongoDB"
+        },
+        {
+          "id": "D",
+          "content": "CSSOM"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Rollup 体系）。Vite 生产构建基于 Rollup 能力处理代码分割、资源和插件；具体版本实现可能演进。\n\n**逐项分析**\n\n- **A：正确。** Rollup 体系。它准确对应本题结论。依据是：Vite 生产构建基于 Rollup 能力处理代码分割、资源和插件；具体版本实现可能演进。\n- **B：不选。** 浏览器 localStorage。如果选择它，就等于断言“浏览器 localStorage”；但本题成立的结论是“Rollup 体系”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** MongoDB。如果选择它，就等于断言“MongoDB”；但本题成立的结论是“Rollup 体系”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** CSSOM。如果选择它，就等于断言“CSSOM”；但本题成立的结论是“Rollup 体系”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Vite、Rollup、构建”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Vite、Rollup、构建”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "Vite",
+        "Rollup",
+        "构建"
+      ]
+    },
+    {
+      "code": "engineering-005-env-prefix",
+      "categoryKey": "frontend.engineering",
+      "type": "true_false",
+      "stem": "Vite 默认只把特定前缀（通常为 `VITE_`）的环境变量暴露给客户端代码，因此任何进入该前缀的值都不应包含秘密。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。客户端环境变量会被构建进静态资源，可被用户查看；服务端密钥绝不能依赖前缀隐藏。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Vite、环境变量、安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Vite、环境变量、安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "Vite",
+        "环境变量",
+        "安全"
+      ]
+    },
+    {
+      "code": "engineering-006-mode",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "Vite 的 mode 与 `NODE_ENV` 更准确的关系是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "mode 决定加载哪组 .env 文件，但与 NODE_ENV 不是完全同一概念"
+        },
+        {
+          "id": "B",
+          "content": "两者永远不可配置且完全相同"
+        },
+        {
+          "id": "C",
+          "content": "mode 只影响 CSS"
+        },
+        {
+          "id": "D",
+          "content": "NODE_ENV 是数据库名称"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（mode 决定加载哪组 .env 文件，但与 NODE_ENV 不是完全同一概念）。命令 mode 选择环境文件和 import.meta.env.MODE；NODE_ENV 影响生产/开发语义，二者可组合但不应混淆。\n\n**逐项分析**\n\n- **A：正确。** mode 决定加载哪组 .env 文件，但与 NODE_ENV 不是完全同一概念。它准确对应本题结论。依据是：命令 mode 选择环境文件和 import.meta.env.MODE；NODE_ENV 影响生产/开发语义，二者可组合但不应混淆。\n- **B：不选。** 两者永远不可配置且完全相同。如果选择它，就等于断言“两者永远不可配置且完全相同”；但本题成立的结论是“mode 决定加载哪组 .env 文件，但与 NODE_ENV 不是完全同一概念”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** mode 只影响 CSS。如果选择它，就等于断言“mode 只影响 CSS”；但本题成立的结论是“mode 决定加载哪组 .env 文件，但与 NODE_ENV 不是完全同一概念”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** NODE_ENV 是数据库名称。如果选择它，就等于断言“NODE_ENV 是数据库名称”；但本题成立的结论是“mode 决定加载哪组 .env 文件，但与 NODE_ENV 不是完全同一概念”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Vite、Mode、环境变量”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Vite、Mode、环境变量”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Vite",
+        "Mode",
+        "环境变量"
+      ]
+    },
+    {
+      "code": "engineering-007-tree-shaking",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "Tree shaking 更有效通常依赖哪些条件？",
+      "options": [
+        {
+          "id": "A",
+          "content": "静态可分析的 ES Module import/export"
+        },
+        {
+          "id": "B",
+          "content": "明确副作用边界"
+        },
+        {
+          "id": "C",
+          "content": "避免难以分析的动态访问和全局副作用"
+        },
+        {
+          "id": "D",
+          "content": "把所有代码放进 eval"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（静态可分析的 ES Module import/export）、**B**（明确副作用边界）、**C**（避免难以分析的动态访问和全局副作用）。静态模块图和副作用信息帮助打包器安全移除未使用导出；动态执行会破坏分析。\n\n**逐项分析**\n\n- **A：正确。** 静态可分析的 ES Module import/export。它准确对应本题结论。依据是：静态模块图和副作用信息帮助打包器安全移除未使用导出；动态执行会破坏分析。\n- **B：正确。** 明确副作用边界。它准确对应本题结论。依据是：静态模块图和副作用信息帮助打包器安全移除未使用导出；动态执行会破坏分析。\n- **C：正确。** 避免难以分析的动态访问和全局副作用。它准确对应本题结论。依据是：静态模块图和副作用信息帮助打包器安全移除未使用导出；动态执行会破坏分析。\n- **D：不选。** 把所有代码放进 eval。如果选择它，就等于断言“把所有代码放进 eval”；但本题成立的结论是“静态可分析的 ES Module import/export；明确副作用边界；避免难以分析的动态访问和全局副作用”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“构建、Tree Shaking、ESM”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“构建、Tree Shaking、ESM”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "构建",
+        "Tree Shaking",
+        "ESM"
+      ]
+    },
+    {
+      "code": "engineering-008-side-effects",
+      "categoryKey": "frontend.engineering",
+      "type": "true_false",
+      "stem": "错误地把包含全局 CSS 导入或注册逻辑的包标记为 `sideEffects: false`，可能导致生产构建误删必要代码。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。sideEffects 是对打包器的承诺，必须准确列出有副作用文件，否则 tree shaking 会改变行为。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“构建、sideEffects、Tree Shaking”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“构建、sideEffects、Tree Shaking”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "构建",
+        "sideEffects",
+        "Tree Shaking"
+      ]
+    },
+    {
+      "code": "engineering-009-code-splitting",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "前端路由级代码分割最常见的入口是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "动态 import()"
+        },
+        {
+          "id": "B",
+          "content": "同步 require 所有页面"
+        },
+        {
+          "id": "C",
+          "content": "把 JS 放进 Cookie"
+        },
+        {
+          "id": "D",
+          "content": "使用 !important"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（动态 import()）。动态导入创建异步模块边界，打包器通常据此输出独立 chunk，在路由访问时加载。\n\n**逐项分析**\n\n- **A：正确。** 动态 import()。它准确对应本题结论。依据是：动态导入创建异步模块边界，打包器通常据此输出独立 chunk，在路由访问时加载。\n- **B：不选。** 同步 require 所有页面。如果选择它，就等于断言“同步 require 所有页面”；但本题成立的结论是“动态 import()”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 把 JS 放进 Cookie。如果选择它，就等于断言“把 JS 放进 Cookie”；但本题成立的结论是“动态 import()”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 使用 !important。如果选择它，就等于断言“使用 !important”；但本题成立的结论是“动态 import()”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“构建、代码分割、动态导入”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“构建、代码分割、动态导入”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "构建",
+        "代码分割",
+        "动态导入"
+      ]
+    },
+    {
+      "code": "engineering-010-chunk-strategy",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "设计生产 chunk 策略时应考虑哪些因素？",
+      "options": [
+        {
+          "id": "A",
+          "content": "首屏请求数量和总体传输体积"
+        },
+        {
+          "id": "B",
+          "content": "长期缓存稳定性"
+        },
+        {
+          "id": "C",
+          "content": "共享依赖重复与并行加载"
+        },
+        {
+          "id": "D",
+          "content": "chunk 越碎永远越快"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（首屏请求数量和总体传输体积）、**B**（长期缓存稳定性）、**C**（共享依赖重复与并行加载）。分包需要在缓存、复用、请求开销和加载优先级之间平衡，不能只追求文件数量。\n\n**逐项分析**\n\n- **A：正确。** 首屏请求数量和总体传输体积。它准确对应本题结论。依据是：分包需要在缓存、复用、请求开销和加载优先级之间平衡，不能只追求文件数量。\n- **B：正确。** 长期缓存稳定性。它准确对应本题结论。依据是：分包需要在缓存、复用、请求开销和加载优先级之间平衡，不能只追求文件数量。\n- **C：正确。** 共享依赖重复与并行加载。它准确对应本题结论。依据是：分包需要在缓存、复用、请求开销和加载优先级之间平衡，不能只追求文件数量。\n- **D：不选。** chunk 越碎永远越快。如果选择它，就等于断言“chunk 越碎永远越快”；但本题成立的结论是“首屏请求数量和总体传输体积；长期缓存稳定性；共享依赖重复与并行加载”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“构建、Chunk、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“构建、Chunk、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "构建",
+        "Chunk",
+        "性能"
+      ]
+    },
+    {
+      "code": "engineering-011-babel-polyfill",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "语法转译与运行时 API polyfill 的区别是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "转译改写新语法，polyfill 补充目标环境缺失的内建 API"
+        },
+        {
+          "id": "B",
+          "content": "两者只处理图片"
+        },
+        {
+          "id": "C",
+          "content": "转译会自动实现所有浏览器 API"
+        },
+        {
+          "id": "D",
+          "content": "polyfill 只改 CSS"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（转译改写新语法，polyfill 补充目标环境缺失的内建 API）。例如箭头函数可被转译，而 Promise、URL 等缺失能力可能需要按目标环境引入 polyfill。\n\n**逐项分析**\n\n- **A：正确。** 转译改写新语法，polyfill 补充目标环境缺失的内建 API。它准确对应本题结论。依据是：例如箭头函数可被转译，而 Promise、URL 等缺失能力可能需要按目标环境引入 polyfill。\n- **B：不选。** 两者只处理图片。如果选择它，就等于断言“两者只处理图片”；但本题成立的结论是“转译改写新语法，polyfill 补充目标环境缺失的内建 API”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 转译会自动实现所有浏览器 API。如果选择它，就等于断言“转译会自动实现所有浏览器 API”；但本题成立的结论是“转译改写新语法，polyfill 补充目标环境缺失的内建 API”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** polyfill 只改 CSS。如果选择它，就等于断言“polyfill 只改 CSS”；但本题成立的结论是“转译改写新语法，polyfill 补充目标环境缺失的内建 API”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Babel、Polyfill、兼容性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Babel、Polyfill、兼容性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Babel",
+        "Polyfill",
+        "兼容性"
+      ]
+    },
+    {
+      "code": "engineering-012-browserslist",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "Browserslist 配置常被哪些工具用于确定目标环境？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Babel/转译工具"
+        },
+        {
+          "id": "B",
+          "content": "Autoprefixer"
+        },
+        {
+          "id": "C",
+          "content": "部分构建优化工具"
+        },
+        {
+          "id": "D",
+          "content": "数据库事务引擎"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Babel/转译工具）、**B**（Autoprefixer）、**C**（部分构建优化工具）。共享目标浏览器配置能让 JS 和 CSS 兼容处理保持一致，避免无谓兼容或遗漏。\n\n**逐项分析**\n\n- **A：正确。** Babel/转译工具。它准确对应本题结论。依据是：共享目标浏览器配置能让 JS 和 CSS 兼容处理保持一致，避免无谓兼容或遗漏。\n- **B：正确。** Autoprefixer。它准确对应本题结论。依据是：共享目标浏览器配置能让 JS 和 CSS 兼容处理保持一致，避免无谓兼容或遗漏。\n- **C：正确。** 部分构建优化工具。它准确对应本题结论。依据是：共享目标浏览器配置能让 JS 和 CSS 兼容处理保持一致，避免无谓兼容或遗漏。\n- **D：不选。** 数据库事务引擎。如果选择它，就等于断言“数据库事务引擎”；但本题成立的结论是“Babel/转译工具；Autoprefixer；部分构建优化工具”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Browserslist、兼容性、工程化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Browserslist、兼容性、工程化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Browserslist",
+        "兼容性",
+        "工程化"
+      ]
+    },
+    {
+      "code": "engineering-013-source-map",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "生产 Source Map 策略需要权衡哪些问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "错误堆栈还原能力"
+        },
+        {
+          "id": "B",
+          "content": "源码暴露风险"
+        },
+        {
+          "id": "C",
+          "content": "构建与上传体积"
+        },
+        {
+          "id": "D",
+          "content": "Source Map 会自动修复运行时错误"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（错误堆栈还原能力）、**B**（源码暴露风险）、**C**（构建与上传体积）。可把 map 私下上传到监控平台而不公开部署；它用于映射调试，不会改变程序行为。\n\n**逐项分析**\n\n- **A：正确。** 错误堆栈还原能力。它准确对应本题结论。依据是：可把 map 私下上传到监控平台而不公开部署；它用于映射调试，不会改变程序行为。\n- **B：正确。** 源码暴露风险。它准确对应本题结论。依据是：可把 map 私下上传到监控平台而不公开部署；它用于映射调试，不会改变程序行为。\n- **C：正确。** 构建与上传体积。它准确对应本题结论。依据是：可把 map 私下上传到监控平台而不公开部署；它用于映射调试，不会改变程序行为。\n- **D：不选。** Source Map 会自动修复运行时错误。如果选择它，就等于断言“Source Map 会自动修复运行时错误”；但本题成立的结论是“错误堆栈还原能力；源码暴露风险；构建与上传体积”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n线上排障应记录版本、路由、设备、请求追踪标识和错误堆栈，并通过与发布版本匹配的 source map 符号化。上报必须脱敏、采样和限流，同时准备错误兜底、功能降级和快速回滚。\n\n本题可以用一个最小示例验证：只保留与“Source Map、监控、构建”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Source Map、监控、构建”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Source Map",
+        "监控",
+        "构建"
+      ]
+    },
+    {
+      "code": "engineering-014-semver",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "npm 依赖范围 `^1.2.3` 通常允许自动升级到什么范围？",
+      "options": [
+        {
+          "id": "A",
+          "content": "大于等于 1.2.3 且小于 2.0.0"
+        },
+        {
+          "id": "B",
+          "content": "任意未来主版本"
+        },
+        {
+          "id": "C",
+          "content": "只能精确 1.2.3"
+        },
+        {
+          "id": "D",
+          "content": "小于 1.2.3"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（大于等于 1.2.3 且小于 2.0.0）。主版本非零时 caret 允许不改变主版本的兼容更新；0.x 版本规则更严格。\n\n**逐项分析**\n\n- **A：正确。** 大于等于 1.2.3 且小于 2.0.0。它准确对应本题结论。依据是：主版本非零时 caret 允许不改变主版本的兼容更新；0.x 版本规则更严格。\n- **B：不选。** 任意未来主版本。如果选择它，就等于断言“任意未来主版本”；但本题成立的结论是“大于等于 1.2.3 且小于 2.0.0”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 只能精确 1.2.3。如果选择它，就等于断言“只能精确 1.2.3”；但本题成立的结论是“大于等于 1.2.3 且小于 2.0.0”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 小于 1.2.3。如果选择它，就等于断言“小于 1.2.3”；但本题成立的结论是“大于等于 1.2.3 且小于 2.0.0”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“npm、SemVer、依赖”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“npm、SemVer、依赖”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "npm",
+        "SemVer",
+        "依赖"
+      ]
+    },
+    {
+      "code": "engineering-015-peer-dependency",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "组件库把 Vue 或 React 声明为 peerDependency 的主要目的是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "要求宿主提供兼容版本，避免库私自捆绑另一份框架实例"
+        },
+        {
+          "id": "B",
+          "content": "把框架上传到 Cookie"
+        },
+        {
+          "id": "C",
+          "content": "禁止宿主安装框架"
+        },
+        {
+          "id": "D",
+          "content": "替代 devDependency"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（要求宿主提供兼容版本，避免库私自捆绑另一份框架实例）。peerDependency 表达宿主协作关系，库开发和测试仍常在 devDependencies 安装相应版本。\n\n**逐项分析**\n\n- **A：正确。** 要求宿主提供兼容版本，避免库私自捆绑另一份框架实例。它准确对应本题结论。依据是：peerDependency 表达宿主协作关系，库开发和测试仍常在 devDependencies 安装相应版本。\n- **B：不选。** 把框架上传到 Cookie。如果选择它，就等于断言“把框架上传到 Cookie”；但本题成立的结论是“要求宿主提供兼容版本，避免库私自捆绑另一份框架实例”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 禁止宿主安装框架。如果选择它，就等于断言“禁止宿主安装框架”；但本题成立的结论是“要求宿主提供兼容版本，避免库私自捆绑另一份框架实例”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 替代 devDependency。如果选择它，就等于断言“替代 devDependency”；但本题成立的结论是“要求宿主提供兼容版本，避免库私自捆绑另一份框架实例”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“npm、peerDependencies、组件库”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“npm、peerDependencies、组件库”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "npm",
+        "peerDependencies",
+        "组件库"
+      ]
+    },
+    {
+      "code": "engineering-016-lockfile",
+      "categoryKey": "frontend.engineering",
+      "type": "true_false",
+      "stem": "应用项目提交 lockfile 有助于 CI 和团队安装相同依赖图，并记录完整性信息。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。lockfile 提升可复现性；仍应定期审计并有计划地更新依赖。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“npm、Lockfile、依赖”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“npm、Lockfile、依赖”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "npm",
+        "Lockfile",
+        "依赖"
+      ]
+    },
+    {
+      "code": "engineering-017-npm-ci",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "CI 中希望严格按照 lockfile 做干净、可复现安装，通常优先使用什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "npm ci"
+        },
+        {
+          "id": "B",
+          "content": "npm init"
+        },
+        {
+          "id": "C",
+          "content": "npm deprecate"
+        },
+        {
+          "id": "D",
+          "content": "npm link 全局包"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（npm ci）。npm ci 要求 lockfile 与 package.json 一致并进行干净安装，不会重写 lockfile。\n\n**逐项分析**\n\n- **A：正确。** npm ci。它准确对应本题结论。依据是：npm ci 要求 lockfile 与 package.json 一致并进行干净安装，不会重写 lockfile。\n- **B：不选。** npm init。如果选择它，就等于断言“npm init”；但本题成立的结论是“npm ci”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** npm deprecate。如果选择它，就等于断言“npm deprecate”；但本题成立的结论是“npm ci”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** npm link 全局包。如果选择它，就等于断言“npm link 全局包”；但本题成立的结论是“npm ci”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“npm、CI、依赖”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“npm、CI、依赖”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "npm",
+        "CI",
+        "依赖"
+      ]
+    },
+    {
+      "code": "engineering-018-monorepo",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "Monorepo 的常见收益与成本包括哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "共享配置和原子跨包变更"
+        },
+        {
+          "id": "B",
+          "content": "统一依赖与构建编排"
+        },
+        {
+          "id": "C",
+          "content": "仓库规模和 CI 缓存治理更复杂"
+        },
+        {
+          "id": "D",
+          "content": "天然消除所有团队协作冲突"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（共享配置和原子跨包变更）、**B**（统一依赖与构建编排）、**C**（仓库规模和 CI 缓存治理更复杂）。Monorepo 能统一工具与复用，但需要任务图、权限、版本和缓存策略，不是无成本方案。\n\n**逐项分析**\n\n- **A：正确。** 共享配置和原子跨包变更。它准确对应本题结论。依据是：Monorepo 能统一工具与复用，但需要任务图、权限、版本和缓存策略，不是无成本方案。\n- **B：正确。** 统一依赖与构建编排。它准确对应本题结论。依据是：Monorepo 能统一工具与复用，但需要任务图、权限、版本和缓存策略，不是无成本方案。\n- **C：正确。** 仓库规模和 CI 缓存治理更复杂。它准确对应本题结论。依据是：Monorepo 能统一工具与复用，但需要任务图、权限、版本和缓存策略，不是无成本方案。\n- **D：不选。** 天然消除所有团队协作冲突。如果选择它，就等于断言“天然消除所有团队协作冲突”；但本题成立的结论是“共享配置和原子跨包变更；统一依赖与构建编排；仓库规模和 CI 缓存治理更复杂”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“Monorepo、工程化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Monorepo、工程化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Monorepo",
+        "工程化"
+      ]
+    },
+    {
+      "code": "engineering-019-eslint-prettier",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "ESLint 与 Prettier 的职责通常如何划分？",
+      "options": [
+        {
+          "id": "A",
+          "content": "ESLint 侧重代码质量和规则，Prettier 侧重确定性格式化"
+        },
+        {
+          "id": "B",
+          "content": "两者都是数据库"
+        },
+        {
+          "id": "C",
+          "content": "Prettier 做权限校验"
+        },
+        {
+          "id": "D",
+          "content": "ESLint 只压缩图片"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（ESLint 侧重代码质量和规则，Prettier 侧重确定性格式化）。两者可配合使用，并关闭相互冲突的纯格式规则；类型检查仍需 TypeScript 编译器等工具。\n\n**逐项分析**\n\n- **A：正确。** ESLint 侧重代码质量和规则，Prettier 侧重确定性格式化。它准确对应本题结论。依据是：两者可配合使用，并关闭相互冲突的纯格式规则；类型检查仍需 TypeScript 编译器等工具。\n- **B：不选。** 两者都是数据库。如果选择它，就等于断言“两者都是数据库”；但本题成立的结论是“ESLint 侧重代码质量和规则，Prettier 侧重确定性格式化”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** Prettier 做权限校验。如果选择它，就等于断言“Prettier 做权限校验”；但本题成立的结论是“ESLint 侧重代码质量和规则，Prettier 侧重确定性格式化”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** ESLint 只压缩图片。如果选择它，就等于断言“ESLint 只压缩图片”；但本题成立的结论是“ESLint 侧重代码质量和规则，Prettier 侧重确定性格式化”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“ESLint、Prettier、代码质量”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“ESLint、Prettier、代码质量”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "ESLint",
+        "Prettier",
+        "代码质量"
+      ]
+    },
+    {
+      "code": "engineering-020-css-modules",
+      "categoryKey": "frontend.engineering",
+      "type": "true_false",
+      "stem": "CSS Modules 通常在构建时把局部类名映射为唯一标识，从而降低组件间类名冲突，但并不等同于 Shadow DOM 隔离。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。CSS Modules 主要解决命名作用域，选择器和样式仍位于文档 CSS 环境中。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS Modules、工程化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS Modules、工程化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS Modules",
+        "工程化"
+      ]
+    },
+    {
+      "code": "engineering-021-postcss",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "PostCSS 更准确的定位是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "通过插件转换 CSS 的工具平台"
+        },
+        {
+          "id": "B",
+          "content": "浏览器布局引擎"
+        },
+        {
+          "id": "C",
+          "content": "JavaScript 虚拟机"
+        },
+        {
+          "id": "D",
+          "content": "关系数据库"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（通过插件转换 CSS 的工具平台）。Autoprefixer、现代语法转换等可作为 PostCSS 插件运行，具体能力取决于插件配置。\n\n**逐项分析**\n\n- **A：正确。** 通过插件转换 CSS 的工具平台。它准确对应本题结论。依据是：Autoprefixer、现代语法转换等可作为 PostCSS 插件运行，具体能力取决于插件配置。\n- **B：不选。** 浏览器布局引擎。如果选择它，就等于断言“浏览器布局引擎”；但本题成立的结论是“通过插件转换 CSS 的工具平台”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** JavaScript 虚拟机。如果选择它，就等于断言“JavaScript 虚拟机”；但本题成立的结论是“通过插件转换 CSS 的工具平台”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 关系数据库。如果选择它，就等于断言“关系数据库”；但本题成立的结论是“通过插件转换 CSS 的工具平台”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“PostCSS、CSS、工程化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“PostCSS、CSS、工程化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "PostCSS",
+        "CSS",
+        "工程化"
+      ]
+    },
+    {
+      "code": "engineering-022-bundle-analysis",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "分析前端 bundle 时应重点关注哪些内容？",
+      "options": [
+        {
+          "id": "A",
+          "content": "体积最大的模块和重复依赖"
+        },
+        {
+          "id": "B",
+          "content": "首屏同步 chunk 与懒加载边界"
+        },
+        {
+          "id": "C",
+          "content": "未生效的 tree shaking 或整库引入"
+        },
+        {
+          "id": "D",
+          "content": "只看源文件行数即可准确判断传输成本"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（体积最大的模块和重复依赖）、**B**（首屏同步 chunk 与懒加载边界）、**C**（未生效的 tree shaking 或整库引入）。应结合可视化分析、网络压缩后体积和真实加载瀑布，源码行数不能代替构建产物证据。\n\n**逐项分析**\n\n- **A：正确。** 体积最大的模块和重复依赖。它准确对应本题结论。依据是：应结合可视化分析、网络压缩后体积和真实加载瀑布，源码行数不能代替构建产物证据。\n- **B：正确。** 首屏同步 chunk 与懒加载边界。它准确对应本题结论。依据是：应结合可视化分析、网络压缩后体积和真实加载瀑布，源码行数不能代替构建产物证据。\n- **C：正确。** 未生效的 tree shaking 或整库引入。它准确对应本题结论。依据是：应结合可视化分析、网络压缩后体积和真实加载瀑布，源码行数不能代替构建产物证据。\n- **D：不选。** 只看源文件行数即可准确判断传输成本。如果选择它，就等于断言“只看源文件行数即可准确判断传输成本”；但本题成立的结论是“体积最大的模块和重复依赖；首屏同步 chunk 与懒加载边界；未生效的 tree shaking 或整库引入”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“Bundle、性能、分析”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“Bundle、性能、分析”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "Bundle",
+        "性能",
+        "分析"
+      ]
+    },
+    {
+      "code": "engineering-023-content-hash",
+      "categoryKey": "frontend.engineering",
+      "type": "single_choice",
+      "stem": "生产静态资源文件名加入内容哈希的主要价值是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "内容不变时 URL 稳定可长期缓存，内容变化时生成新 URL"
+        },
+        {
+          "id": "B",
+          "content": "隐藏所有源码"
+        },
+        {
+          "id": "C",
+          "content": "替代 HTTPS"
+        },
+        {
+          "id": "D",
+          "content": "让文件不需要服务器"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（内容不变时 URL 稳定可长期缓存，内容变化时生成新 URL）。内容寻址文件名支持 immutable 缓存和精确失效，HTML 入口负责引用新版本。\n\n**逐项分析**\n\n- **A：正确。** 内容不变时 URL 稳定可长期缓存，内容变化时生成新 URL。它准确对应本题结论。依据是：内容寻址文件名支持 immutable 缓存和精确失效，HTML 入口负责引用新版本。\n- **B：不选。** 隐藏所有源码。如果选择它，就等于断言“隐藏所有源码”；但本题成立的结论是“内容不变时 URL 稳定可长期缓存，内容变化时生成新 URL”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 替代 HTTPS。如果选择它，就等于断言“替代 HTTPS”；但本题成立的结论是“内容不变时 URL 稳定可长期缓存，内容变化时生成新 URL”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 让文件不需要服务器。如果选择它，就等于断言“让文件不需要服务器”；但本题成立的结论是“内容不变时 URL 稳定可长期缓存，内容变化时生成新 URL”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n本题可以用一个最小示例验证：只保留与“构建、缓存、内容哈希”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“构建、缓存、内容哈希”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "构建",
+        "缓存",
+        "内容哈希"
+      ]
+    },
+    {
+      "code": "engineering-024-ci-cache",
+      "categoryKey": "frontend.engineering",
+      "type": "multiple_choice",
+      "stem": "CI 缓存设计需要注意哪些问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "缓存键应包含 lockfile 或工具版本等输入"
+        },
+        {
+          "id": "B",
+          "content": "缓存命中后仍需保证产物与输入一致"
+        },
+        {
+          "id": "C",
+          "content": "不要把密钥和不可共享凭据打入公共缓存"
+        },
+        {
+          "id": "D",
+          "content": "永久复用同一个缓存键最可靠"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（缓存键应包含 lockfile 或工具版本等输入）、**B**（缓存命中后仍需保证产物与输入一致）、**C**（不要把密钥和不可共享凭据打入公共缓存）。缓存是可丢弃优化，键和恢复策略必须能在输入变化时失效，并避免敏感信息泄漏。\n\n**逐项分析**\n\n- **A：正确。** 缓存键应包含 lockfile 或工具版本等输入。它准确对应本题结论。依据是：缓存是可丢弃优化，键和恢复策略必须能在输入变化时失效，并避免敏感信息泄漏。\n- **B：正确。** 缓存命中后仍需保证产物与输入一致。它准确对应本题结论。依据是：缓存是可丢弃优化，键和恢复策略必须能在输入变化时失效，并避免敏感信息泄漏。\n- **C：正确。** 不要把密钥和不可共享凭据打入公共缓存。它准确对应本题结论。依据是：缓存是可丢弃优化，键和恢复策略必须能在输入变化时失效，并避免敏感信息泄漏。\n- **D：不选。** 永久复用同一个缓存键最可靠。如果选择它，就等于断言“永久复用同一个缓存键最可靠”；但本题成立的结论是“缓存键应包含 lockfile 或工具版本等输入；缓存命中后仍需保证产物与输入一致；不要把密钥和不可共享凭据打入公共缓存”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n本题可以用一个最小示例验证：只保留与“CI、缓存、工程化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CI、缓存、工程化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CI",
+        "缓存",
+        "工程化"
+      ]
+    },
+    {
+      "code": "engineering-025-feature-flag",
+      "categoryKey": "frontend.engineering",
+      "type": "true_false",
+      "stem": "前端 Feature Flag 只控制界面显示，不能替代后端权限校验；敏感操作仍必须由服务端授权。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。客户端代码和状态可被用户修改，功能开关适合发布治理，不是安全边界。\n\n**小白理解与核心原理**\n\n工程化方案要说明它解决的是开发效率、构建产物、依赖治理还是发布稳定性。面试中不能只报工具名，应讲清输入、处理过程、输出、缓存失效条件和生产环境边界。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“工程化、Feature Flag、安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“工程化、Feature Flag、安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "工程化",
+        "Feature Flag",
+        "安全"
+      ]
+    }
   ]
 }

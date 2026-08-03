@@ -1,5 +1,11 @@
 <template>
-  <a-drawer :open="open" title="技术分类" :width="440" @close="$emit('close')">
+  <a-drawer :open="open" :width="440" @close="$emit('close')">
+    <template #title>
+      <span class="question-bank-dialog-title">
+        技术分类
+        <QuestionBankHelp topic="categories" size="small" button-type="text" />
+      </span>
+    </template>
     <template #extra>
       <a-button type="primary" size="small" @click="openCreate()">
         <template #icon><PlusOutlined /></template>
@@ -23,12 +29,17 @@
 
     <a-modal
       v-model:open="formOpen"
-      :title="editing?.id ? '编辑分类' : '新增分类'"
       :confirm-loading="submitting"
       ok-text="保存"
       cancel-text="取消"
       @ok="submit"
     >
+      <template #title>
+        <span class="question-bank-dialog-title">
+          {{ editing?.id ? '编辑分类' : '新增分类' }}
+          <QuestionBankHelp topic="categories" size="small" button-type="text" />
+        </span>
+      </template>
       <div class="question-bank-modal-body">
         <a-form layout="vertical">
           <a-form-item v-if="!editing?.id" label="分类编码" required>
@@ -69,6 +80,7 @@ import {
   updateQuestionCategory
 } from '@/services/questionBank'
 import { flattenCategoryOptions } from './questionBankMeta'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 
 const props = defineProps({ open: { type: Boolean, default: false } })
 const emit = defineEmits(['close', 'changed'])

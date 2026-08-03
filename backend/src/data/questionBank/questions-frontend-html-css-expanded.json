@@ -1,50 +1,1341 @@
 {
   "schemaVersion": 1,
   "questions": [
-    { "code": "html-101-lang", "categoryKey": "frontend.html", "type": "single_choice", "stem": "HTML 根元素上的 `lang` 属性最直接帮助哪类能力？", "options": [{ "id": "A", "content": "让浏览器自动翻译全部正文" }, { "id": "B", "content": "帮助屏幕阅读器选择正确发音规则并辅助搜索引擎理解语言" }, { "id": "C", "content": "强制页面使用指定字符编码" }, { "id": "D", "content": "阻止用户切换系统语言" }], "answerKeys": ["B"], "explanation": "`lang` 声明文档语言，主要服务于辅助技术、拼写处理和搜索理解，不等同于翻译或字符编码。", "difficulty": "easy", "tags": ["HTML", "可访问性"] },
-    { "code": "html-102-heading-order", "categoryKey": "frontend.html", "type": "multiple_choice", "stem": "设计页面标题层级时，哪些做法更合理？", "options": [{ "id": "A", "content": "标题元素表达内容层级，而不是只为获得字号" }, { "id": "B", "content": "尽量保持层级顺序清晰，避免无理由跨级" }, { "id": "C", "content": "所有文字都使用 h1 以提升权重" }, { "id": "D", "content": "样式需求通过 CSS 处理" }], "answerKeys": ["A", "B", "D"], "explanation": "标题元素负责文档结构，视觉大小交给 CSS；清晰层级有利于导航、SEO 和辅助技术。", "difficulty": "easy", "tags": ["HTML", "语义化", "可访问性"] },
-    { "code": "html-103-button-link", "categoryKey": "frontend.html", "type": "single_choice", "stem": "一个控件点击后在当前页面提交表单，最合适的原生元素是什么？", "options": [{ "id": "A", "content": "带 click 事件的 div" }, { "id": "B", "content": "没有 href 的 a" }, { "id": "C", "content": "button" }, { "id": "D", "content": "span" }], "answerKeys": ["C"], "explanation": "`button` 自带键盘、焦点和按钮语义；链接用于导航，普通 div/span 不应替代交互控件。", "difficulty": "easy", "tags": ["HTML", "语义化", "表单"] },
-    { "code": "html-104-button-default-type", "categoryKey": "frontend.html", "type": "true_false", "stem": "位于表单内部且未声明 `type` 的 `<button>`，通常默认具有提交表单的行为。", "answerKeys": ["true"], "explanation": "表单中的 button 默认类型通常是 submit；非提交按钮应显式写 `type=\"button\"`，避免意外交表。", "difficulty": "easy", "tags": ["HTML", "表单"] },
-    { "code": "html-105-fieldset", "categoryKey": "frontend.html", "type": "single_choice", "stem": "需要为一组相关单选框提供统一可访问名称，优先使用哪组元素？", "options": [{ "id": "A", "content": "div 与 span" }, { "id": "B", "content": "fieldset 与 legend" }, { "id": "C", "content": "section 与 title" }, { "id": "D", "content": "table 与 caption" }], "answerKeys": ["B"], "explanation": "`fieldset` 对相关表单控件分组，`legend` 为组提供标题，辅助技术能够正确建立关联。", "difficulty": "medium", "tags": ["HTML", "表单", "可访问性"] },
-    { "code": "html-106-autocomplete", "categoryKey": "frontend.html", "type": "multiple_choice", "stem": "表单字段合理设置 `autocomplete` 属性可能带来哪些收益？", "options": [{ "id": "A", "content": "帮助浏览器和密码管理器识别字段用途" }, { "id": "B", "content": "减少重复输入" }, { "id": "C", "content": "自动绕过服务端校验" }, { "id": "D", "content": "改善部分用户的填写可访问性" }], "answerKeys": ["A", "B", "D"], "explanation": "正确的 autocomplete token 能改善自动填充和可访问性，但不能替代任何服务端校验。", "difficulty": "medium", "tags": ["HTML", "表单", "用户体验"] },
-    { "code": "html-107-inputmode", "categoryKey": "frontend.html", "type": "single_choice", "stem": "移动端希望文本输入框弹出数字键盘，但值中可能保留前导零，较合适的组合是什么？", "options": [{ "id": "A", "content": "type=number" }, { "id": "B", "content": "type=text 与 inputmode=numeric" }, { "id": "C", "content": "type=range" }, { "id": "D", "content": "contenteditable=true" }], "answerKeys": ["B"], "explanation": "`inputmode=numeric` 提示使用数字键盘，而文本类型不会把编号错误地当成可计算数值或吞掉前导零。", "difficulty": "medium", "tags": ["HTML", "表单", "移动端"] },
-    { "code": "html-108-aria-first-rule", "categoryKey": "frontend.html", "type": "true_false", "stem": "当原生 HTML 元素已经提供所需语义和行为时，通常应优先使用原生元素，而不是用 div 加 ARIA 角色模拟。", "answerKeys": ["true"], "explanation": "原生控件自带语义、键盘交互和状态映射；ARIA 只补充语义，不会自动补齐行为。", "difficulty": "medium", "tags": ["HTML", "ARIA", "可访问性"] },
-    { "code": "html-109-aria-hidden", "categoryKey": "frontend.html", "type": "single_choice", "stem": "对一个仍可聚焦的交互按钮设置 `aria-hidden=\"true\"` 的主要问题是什么？", "options": [{ "id": "A", "content": "按钮会自动禁用" }, { "id": "B", "content": "可能让键盘用户聚焦到辅助技术看不见的控件" }, { "id": "C", "content": "按钮文字会被浏览器删除" }, { "id": "D", "content": "只会影响 CSS" }], "answerKeys": ["B"], "explanation": "可聚焦元素不应从可访问性树隐藏，否则视觉、键盘焦点和读屏反馈会出现矛盾。", "difficulty": "medium", "tags": ["HTML", "ARIA", "可访问性"] },
-    { "code": "html-110-tabindex", "categoryKey": "frontend.html", "type": "multiple_choice", "stem": "关于 `tabindex`，哪些说法正确？", "options": [{ "id": "A", "content": "tabindex=0 可让元素按自然顺序进入 Tab 导航" }, { "id": "B", "content": "tabindex=-1 可允许脚本聚焦但不进入普通 Tab 顺序" }, { "id": "C", "content": "大量正整数 tabindex 通常有利于维护" }, { "id": "D", "content": "应优先依赖合理 DOM 顺序" }], "answerKeys": ["A", "B", "D"], "explanation": "正整数会人为重排焦点并难以维护；合理 DOM 顺序配合 0 和 -1 更稳定。", "difficulty": "medium", "tags": ["HTML", "键盘导航"] },
-    { "code": "html-111-picture", "categoryKey": "frontend.html", "type": "single_choice", "stem": "需要根据媒体条件提供不同裁切构图的图片时，哪个元素最适合做 art direction？", "options": [{ "id": "A", "content": "picture 配合 source" }, { "id": "B", "content": "单独使用 canvas" }, { "id": "C", "content": "marquee" }, { "id": "D", "content": "object" }], "answerKeys": ["A"], "explanation": "`picture` 可按 media/type 选择不同资源，适合不同视口使用不同构图，而 srcset 密度描述更偏向同一内容的分辨率选择。", "difficulty": "medium", "tags": ["HTML", "响应式图片"] },
-    { "code": "html-112-native-lazy", "categoryKey": "frontend.html", "type": "true_false", "stem": "为所有首屏关键图片统一设置 `loading=\"lazy\"` 通常是最佳性能实践。", "answerKeys": ["false"], "explanation": "首屏 LCP 图片延迟加载可能推迟发现和请求；懒加载更适合视口外资源。", "difficulty": "medium", "tags": ["HTML", "性能", "图片"] },
-    { "code": "html-113-module-script", "categoryKey": "frontend.html", "type": "multiple_choice", "stem": "关于 `<script type=\"module\">`，哪些说法通常正确？", "options": [{ "id": "A", "content": "默认采用延迟执行语义" }, { "id": "B", "content": "模块脚本使用严格模式" }, { "id": "C", "content": "可以直接使用 import/export" }, { "id": "D", "content": "无条件阻塞 HTML 解析直到执行完成" }], "answerKeys": ["A", "B", "C"], "explanation": "模块脚本支持 ESM、默认严格模式且默认 defer；它并非传统同步阻塞脚本。", "difficulty": "medium", "tags": ["HTML", "ESM", "脚本加载"] },
-    { "code": "html-114-preload-prefetch", "categoryKey": "frontend.html", "type": "single_choice", "stem": "页面当前导航很快就要使用某个关键字体，希望提高其请求优先级，优先考虑什么资源提示？", "options": [{ "id": "A", "content": "preload" }, { "id": "B", "content": "prefetch" }, { "id": "C", "content": "dns-prefetch 当前同源字体" }, { "id": "D", "content": "refresh" }], "answerKeys": ["A"], "explanation": "preload 用于当前页面确定需要的关键资源；prefetch 通常面向未来导航的低优先级资源。", "difficulty": "medium", "tags": ["HTML", "性能", "资源提示"] },
-    { "code": "html-115-iframe-sandbox", "categoryKey": "frontend.html", "type": "multiple_choice", "stem": "给第三方 iframe 设置 `sandbox` 的目的和注意点包括哪些？", "options": [{ "id": "A", "content": "默认限制脚本、表单、导航等能力" }, { "id": "B", "content": "可通过 allow-* token 按需放开能力" }, { "id": "C", "content": "等同于完全可信且无需 CSP" }, { "id": "D", "content": "放开 allow-scripts 与 allow-same-origin 等组合需要谨慎评估" }], "answerKeys": ["A", "B", "D"], "explanation": "sandbox 是最小权限隔离机制，但错误组合放权可能显著削弱隔离，不能替代完整安全策略。", "difficulty": "hard", "tags": ["HTML", "iframe", "安全"] },
-    { "code": "html-116-template", "categoryKey": "frontend.html", "type": "single_choice", "stem": "`<template>` 元素中的内容在解析后通常具有什么特点？", "options": [{ "id": "A", "content": "立即渲染并执行其中脚本" }, { "id": "B", "content": "保存在惰性的 DocumentFragment 中，克隆插入前不参与页面渲染" }, { "id": "C", "content": "会自动发送网络请求" }, { "id": "D", "content": "只能包含纯文本" }], "answerKeys": ["B"], "explanation": "template 内容被解析但保持惰性，适合客户端克隆复用，不会直接成为活动 DOM。", "difficulty": "medium", "tags": ["HTML", "DOM"] },
-    { "code": "html-117-dialog", "categoryKey": "frontend.html", "type": "true_false", "stem": "原生 `<dialog>` 调用 `showModal()` 后会进入模态状态，并为背景内容提供浏览器级交互限制。", "answerKeys": ["true"], "explanation": "showModal 会把对话框放入 top layer 并使其余文档处于 inert 类似状态，但仍需设计焦点返回和语义文案。", "difficulty": "medium", "tags": ["HTML", "对话框", "可访问性"] },
-    { "code": "html-118-details-summary", "categoryKey": "frontend.html", "type": "single_choice", "stem": "实现无需 JavaScript 的基本可展开详情控件，优先使用什么？", "options": [{ "id": "A", "content": "details 与 summary" }, { "id": "B", "content": "div 与 i" }, { "id": "C", "content": "canvas" }, { "id": "D", "content": "map 与 area" }], "answerKeys": ["A"], "explanation": "details/summary 提供原生展开状态、键盘支持和语义，适合作为渐进增强基础。", "difficulty": "easy", "tags": ["HTML", "语义化"] },
-    { "code": "html-119-canvas-svg", "categoryKey": "frontend.html", "type": "multiple_choice", "stem": "关于 Canvas 与 SVG 的选择，哪些判断通常合理？", "options": [{ "id": "A", "content": "大量像素级高频绘制常更适合 Canvas" }, { "id": "B", "content": "需要独立 DOM 节点、CSS 和可访问语义的图形常更适合 SVG" }, { "id": "C", "content": "Canvas 中每个绘制图形天然都是 DOM 节点" }, { "id": "D", "content": "选择应考虑对象数量、交互和缩放需求" }], "answerKeys": ["A", "B", "D"], "explanation": "Canvas 是位图绘制表面，SVG 是保留图形的 DOM；两者适用的对象规模和交互模型不同。", "difficulty": "medium", "tags": ["HTML", "Canvas", "SVG"] },
-    { "code": "html-120-dom-ready", "categoryKey": "frontend.html", "type": "single_choice", "stem": "`DOMContentLoaded` 通常表示什么？", "options": [{ "id": "A", "content": "所有图片和字体都下载完成" }, { "id": "B", "content": "HTML 已解析且延迟脚本已执行完成，不必等待所有图片" }, { "id": "C", "content": "页面已完成首次网络请求" }, { "id": "D", "content": "浏览器缓存已清空" }], "answerKeys": ["B"], "explanation": "DOMContentLoaded 关注文档解析与相关脚本，不等同于 load 事件所代表的全部依赖资源完成。", "difficulty": "medium", "tags": ["HTML", "DOM", "事件"] },
-    { "code": "css-101-cascade-origin", "categoryKey": "frontend.css", "type": "multiple_choice", "stem": "CSS 最终值的层叠决策会受到哪些因素影响？", "options": [{ "id": "A", "content": "样式来源和重要性" }, { "id": "B", "content": "层叠层与选择器优先级" }, { "id": "C", "content": "源码顺序" }, { "id": "D", "content": "JavaScript 变量名长度" }], "answerKeys": ["A", "B", "C"], "explanation": "层叠会综合来源、important、layer、优先级和顺序等因素，脚本变量名与 CSS 层叠无关。", "difficulty": "hard", "tags": ["CSS", "层叠"] },
-    { "code": "css-102-cascade-layers", "categoryKey": "frontend.css", "type": "true_false", "stem": "CSS `@layer` 可以显式安排不同样式层的优先顺序，从而减少依靠提高选择器优先级覆盖样式的需求。", "answerKeys": ["true"], "explanation": "层叠层在优先级计算之前建立层级顺序，适合组织 reset、组件和工具样式。", "difficulty": "hard", "tags": ["CSS", "@layer", "工程化"] },
-    { "code": "css-103-where-specificity", "categoryKey": "frontend.css", "type": "single_choice", "stem": "`:where(.card .title)` 的选择器优先级有什么特点？", "options": [{ "id": "A", "content": "与 ID 选择器相同" }, { "id": "B", "content": "其参数不会增加优先级，整体优先级为零" }, { "id": "C", "content": "永远高于内联样式" }, { "id": "D", "content": "只能匹配一个元素" }], "answerKeys": ["B"], "explanation": "`:where()` 的特殊设计是零优先级，便于编写易覆盖的基础规则。", "difficulty": "hard", "tags": ["CSS", "选择器"] },
-    { "code": "css-104-is-selector", "categoryKey": "frontend.css", "type": "single_choice", "stem": "`:is(header, main, footer) a` 的主要价值是什么？", "options": [{ "id": "A", "content": "减少重复的选择器分组" }, { "id": "B", "content": "强制创建 BFC" }, { "id": "C", "content": "禁用继承" }, { "id": "D", "content": "只在 Shadow DOM 内生效" }], "answerKeys": ["A"], "explanation": "`:is()` 接收选择器列表，可压缩重复组合；其优先级由参数中最高者参与计算。", "difficulty": "medium", "tags": ["CSS", "选择器"] },
-    { "code": "css-105-has-selector", "categoryKey": "frontend.css", "type": "true_false", "stem": "`:has()` 可以根据元素是否包含或关联匹配后代等条件选择其自身，因此常被称为关系伪类。", "answerKeys": ["true"], "explanation": "`:has()` 允许根据相对选择器结果匹配当前元素，可实现过去通常需要 JavaScript 的父级条件样式。", "difficulty": "hard", "tags": ["CSS", "选择器"] },
-    { "code": "css-106-logical-properties", "categoryKey": "frontend.css", "type": "single_choice", "stem": "希望组件同时适配从左到右和从右到左书写方向，优先使用哪种属性？", "options": [{ "id": "A", "content": "margin-left" }, { "id": "B", "content": "margin-inline-start" }, { "id": "C", "content": "translateX" }, { "id": "D", "content": "float:left" }], "answerKeys": ["B"], "explanation": "逻辑属性按书写模式表达 inline/block 方向，减少针对 RTL 单独覆盖物理方向属性。", "difficulty": "medium", "tags": ["CSS", "国际化", "逻辑属性"] },
-    { "code": "css-107-container-query", "categoryKey": "frontend.css", "type": "single_choice", "stem": "组件样式应根据其所在容器宽度变化，而不是根据整个视口变化，应优先考虑什么？", "options": [{ "id": "A", "content": "容器查询" }, { "id": "B", "content": "页面刷新" }, { "id": "C", "content": "HTML width 属性" }, { "id": "D", "content": "只使用 vw" }], "answerKeys": ["A"], "explanation": "容器查询让可复用组件根据自身布局上下文响应，避免过度依赖视口媒体查询。", "difficulty": "medium", "tags": ["CSS", "响应式", "容器查询"] },
-    { "code": "css-108-clamp", "categoryKey": "frontend.css", "type": "single_choice", "stem": "`font-size: clamp(1rem, 2vw, 2rem)` 表达什么？", "options": [{ "id": "A", "content": "字号固定为 2vw" }, { "id": "B", "content": "字号使用首选流体值，但限制在 1rem 到 2rem 之间" }, { "id": "C", "content": "字号随机变化" }, { "id": "D", "content": "只在打印时生效" }], "answerKeys": ["B"], "explanation": "clamp(min, preferred, max) 在最小与最大边界内采用首选值，适合有边界的流体尺寸。", "difficulty": "medium", "tags": ["CSS", "响应式"] },
-    { "code": "css-109-aspect-ratio", "categoryKey": "frontend.css", "type": "true_false", "stem": "在已知媒体比例时声明 `aspect-ratio`，可以在资源加载前预留稳定空间并减少布局偏移。", "answerKeys": ["true"], "explanation": "浏览器可提前计算另一维尺寸，从而减少图片或视频加载后的 CLS。", "difficulty": "easy", "tags": ["CSS", "性能", "CLS"] },
-    { "code": "css-110-object-fit", "categoryKey": "frontend.css", "type": "single_choice", "stem": "固定尺寸图片容器需要铺满且允许裁剪图片边缘，应使用哪个 `object-fit` 值？", "options": [{ "id": "A", "content": "contain" }, { "id": "B", "content": "cover" }, { "id": "C", "content": "fill-space" }, { "id": "D", "content": "auto" }], "answerKeys": ["B"], "explanation": "cover 保持资源比例并覆盖内容盒，超出的部分会裁剪；contain 则保证完整显示但可能留白。", "difficulty": "easy", "tags": ["CSS", "图片"] },
-    { "code": "css-111-stacking-context", "categoryKey": "frontend.css", "type": "multiple_choice", "stem": "哪些情况可能创建新的层叠上下文？", "options": [{ "id": "A", "content": "定位元素设置非 auto 的 z-index" }, { "id": "B", "content": "opacity 小于 1" }, { "id": "C", "content": "transform 不为 none" }, { "id": "D", "content": "任意 margin 值" }], "answerKeys": ["A", "B", "C"], "explanation": "定位 z-index、透明度、transform 等会创建层叠上下文；子元素 z-index 不能越过祖先上下文随意竞争。", "difficulty": "hard", "tags": ["CSS", "层叠上下文"] },
-    { "code": "css-112-z-index", "categoryKey": "frontend.css", "type": "true_false", "stem": "把子元素的 `z-index` 改成极大值，必然可以覆盖页面中任何其他层叠上下文。", "answerKeys": ["false"], "explanation": "z-index 只在当前层叠上下文中比较；祖先上下文的整体层级会限制子元素。", "difficulty": "medium", "tags": ["CSS", "z-index"] },
-    { "code": "css-113-flex-basis", "categoryKey": "frontend.css", "type": "single_choice", "stem": "Flex 布局中，`flex-basis` 主要定义什么？", "options": [{ "id": "A", "content": "项目分配剩余空间前的主轴初始尺寸" }, { "id": "B", "content": "交叉轴对齐方式" }, { "id": "C", "content": "层叠顺序" }, { "id": "D", "content": "动画持续时间" }], "answerKeys": ["A"], "explanation": "flex-basis 是伸缩分配前的基准主尺寸，之后再结合 grow、shrink 和可用空间计算。", "difficulty": "medium", "tags": ["CSS", "Flex"] },
-    { "code": "css-114-min-width-flex", "categoryKey": "frontend.css", "type": "single_choice", "stem": "Flex 子项中的长文本拒绝收缩并撑破容器，常见修复是给该子项设置什么？", "options": [{ "id": "A", "content": "min-width: 0" }, { "id": "B", "content": "z-index: -1" }, { "id": "C", "content": "position: fixed" }, { "id": "D", "content": "font-size: 0" }], "answerKeys": ["A"], "explanation": "Flex 项默认最小主尺寸常基于内容，`min-width: 0` 允许其收缩，之后溢出和省略规则才能生效。", "difficulty": "hard", "tags": ["CSS", "Flex", "文本溢出"] },
-    { "code": "css-115-grid-minmax", "categoryKey": "frontend.css", "type": "single_choice", "stem": "`grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))` 常用于实现什么？", "options": [{ "id": "A", "content": "无需固定断点的自适应卡片列" }, { "id": "B", "content": "只允许一列" }, { "id": "C", "content": "禁用网格换行" }, { "id": "D", "content": "固定每列为 1px" }], "answerKeys": ["A"], "explanation": "浏览器会按最小列宽容纳尽可能多的列，并用 1fr 分配剩余空间。", "difficulty": "medium", "tags": ["CSS", "Grid", "响应式"] },
-    { "code": "css-116-subgrid", "categoryKey": "frontend.css", "type": "true_false", "stem": "CSS Subgrid 允许嵌套网格复用父网格的轨道定义，从而对齐不同子组件内部内容。", "answerKeys": ["true"], "explanation": "subgrid 让子网格沿指定轴继承父网格轨道，适合跨卡片对齐标题、正文和操作区。", "difficulty": "hard", "tags": ["CSS", "Grid", "Subgrid"] },
-    { "code": "css-117-reduced-motion", "categoryKey": "frontend.css", "type": "multiple_choice", "stem": "响应 `prefers-reduced-motion: reduce` 时，哪些处理较合理？", "options": [{ "id": "A", "content": "减少非必要的大幅移动动画" }, { "id": "B", "content": "保留必要状态变化但缩短或替换动画" }, { "id": "C", "content": "完全隐藏所有内容" }, { "id": "D", "content": "避免自动播放引发眩晕的效果" }], "answerKeys": ["A", "B", "D"], "explanation": "该媒体特性反映用户减少运动偏好，应降低非必要动效，同时仍清楚表达状态。", "difficulty": "medium", "tags": ["CSS", "可访问性", "动画"] },
-    { "code": "css-118-focus-visible", "categoryKey": "frontend.css", "type": "single_choice", "stem": "希望主要在键盘导航等需要时显示清晰焦点环，优先使用哪个伪类？", "options": [{ "id": "A", "content": ":hover" }, { "id": "B", "content": ":focus-visible" }, { "id": "C", "content": ":empty" }, { "id": "D", "content": ":visited" }], "answerKeys": ["B"], "explanation": "`:focus-visible` 由浏览器启发式判断何时需要明显焦点提示，比无差别移除 outline 更可访问。", "difficulty": "easy", "tags": ["CSS", "可访问性", "焦点"] },
-    { "code": "css-119-current-color", "categoryKey": "frontend.css", "type": "true_false", "stem": "CSS 的 `currentColor` 关键字表示元素当前计算后的 `color` 值，可让边框或 SVG 图形继承文字颜色。", "answerKeys": ["true"], "explanation": "currentColor 便于图标、边框与文本颜色保持同步，常用于可复用组件主题。", "difficulty": "easy", "tags": ["CSS", "颜色"] },
-    { "code": "css-120-custom-fallback", "categoryKey": "frontend.css", "type": "single_choice", "stem": "`color: var(--brand, #1677ff)` 中第二个参数的作用是什么？", "options": [{ "id": "A", "content": "当自定义属性缺失或无效时使用的回退值" }, { "id": "B", "content": "颜色混合比例" }, { "id": "C", "content": "媒体查询条件" }, { "id": "D", "content": "强制覆盖 important" }], "answerKeys": ["A"], "explanation": "var() 的回退参数在指定自定义属性不可用时参与计算，可继续嵌套 var()。", "difficulty": "easy", "tags": ["CSS", "自定义属性"] },
-    { "code": "css-121-contain", "categoryKey": "frontend.css", "type": "multiple_choice", "stem": "合理使用 CSS `contain` 可能带来哪些效果？", "options": [{ "id": "A", "content": "限制元素布局、绘制或尺寸影响范围" }, { "id": "B", "content": "帮助浏览器缩小重新计算范围" }, { "id": "C", "content": "无条件提升所有页面性能" }, { "id": "D", "content": "可能改变布局或定位行为，需要按场景验证" }], "answerKeys": ["A", "B", "D"], "explanation": "contain 是隔离提示，可能优化渲染，但不同 containment 会改变尺寸和布局语义，不能盲目全局使用。", "difficulty": "hard", "tags": ["CSS", "性能", "Containment"] },
-    { "code": "css-122-will-change", "categoryKey": "frontend.css", "type": "true_false", "stem": "为了性能，应给页面所有元素长期设置 `will-change: transform`。", "answerKeys": ["false"], "explanation": "will-change 会消耗额外内存和合成资源，应只在确有变化且临近发生时针对性使用。", "difficulty": "medium", "tags": ["CSS", "性能", "合成"] },
-    { "code": "css-123-animation-fill", "categoryKey": "frontend.css", "type": "single_choice", "stem": "希望 CSS 动画结束后元素保持最后关键帧样式，可设置什么？", "options": [{ "id": "A", "content": "animation-fill-mode: forwards" }, { "id": "B", "content": "animation-play-state: paused" }, { "id": "C", "content": "animation-direction: reverse" }, { "id": "D", "content": "animation-iteration-count: infinite" }], "answerKeys": ["A"], "explanation": "forwards 让动画在结束后应用最后一个相关关键帧计算值，但不会把值写回原始样式。", "difficulty": "medium", "tags": ["CSS", "动画"] },
-    { "code": "css-124-pseudo-element", "categoryKey": "frontend.css", "type": "multiple_choice", "stem": "关于 `::before` 和 `::after`，哪些说法正确？", "options": [{ "id": "A", "content": "通常依赖 content 生成内容" }, { "id": "B", "content": "适合纯装饰，重要语义内容不应只依赖它们" }, { "id": "C", "content": "它们是真实 HTML 节点" }, { "id": "D", "content": "可参与布局和样式" }], "answerKeys": ["A", "B", "D"], "explanation": "伪元素由 CSS 生成并可参与渲染，但不是 DOM 节点，关键内容应存在于可访问的 HTML 中。", "difficulty": "medium", "tags": ["CSS", "伪元素", "可访问性"] },
-    { "code": "css-125-supports", "categoryKey": "frontend.css", "type": "single_choice", "stem": "需要只在浏览器支持某个 CSS 特性时应用增强样式，应使用什么？", "options": [{ "id": "A", "content": "@supports" }, { "id": "B", "content": "@charset" }, { "id": "C", "content": "@page" }, { "id": "D", "content": "@namespace" }], "answerKeys": ["A"], "explanation": "`@supports` 执行特性查询，是实现渐进增强和安全回退的重要工具。", "difficulty": "easy", "tags": ["CSS", "特性查询", "兼容性"] }
+    {
+      "code": "html-101-lang",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "HTML 根元素上的 `lang` 属性最直接帮助哪类能力？",
+      "options": [
+        {
+          "id": "A",
+          "content": "让浏览器自动翻译全部正文"
+        },
+        {
+          "id": "B",
+          "content": "帮助屏幕阅读器选择正确发音规则并辅助搜索引擎理解语言"
+        },
+        {
+          "id": "C",
+          "content": "强制页面使用指定字符编码"
+        },
+        {
+          "id": "D",
+          "content": "阻止用户切换系统语言"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（帮助屏幕阅读器选择正确发音规则并辅助搜索引擎理解语言）。`lang` 声明文档语言，主要服务于辅助技术、拼写处理和搜索理解，不等同于翻译或字符编码。\n\n**逐项分析**\n\n- **A：不选。** 让浏览器自动翻译全部正文。如果选择它，就等于断言“让浏览器自动翻译全部正文”；但本题成立的结论是“帮助屏幕阅读器选择正确发音规则并辅助搜索引擎理解语言”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 帮助屏幕阅读器选择正确发音规则并辅助搜索引擎理解语言。它准确对应本题结论。依据是：`lang` 声明文档语言，主要服务于辅助技术、拼写处理和搜索理解，不等同于翻译或字符编码。\n- **C：不选。** 强制页面使用指定字符编码。如果选择它，就等于断言“强制页面使用指定字符编码”；但本题成立的结论是“帮助屏幕阅读器选择正确发音规则并辅助搜索引擎理解语言”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 阻止用户切换系统语言。如果选择它，就等于断言“阻止用户切换系统语言”；但本题成立的结论是“帮助屏幕阅读器选择正确发音规则并辅助搜索引擎理解语言”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、可访问性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、可访问性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "HTML",
+        "可访问性"
+      ]
+    },
+    {
+      "code": "html-102-heading-order",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "设计页面标题层级时，哪些做法更合理？",
+      "options": [
+        {
+          "id": "A",
+          "content": "标题元素表达内容层级，而不是只为获得字号"
+        },
+        {
+          "id": "B",
+          "content": "尽量保持层级顺序清晰，避免无理由跨级"
+        },
+        {
+          "id": "C",
+          "content": "所有文字都使用 h1 以提升权重"
+        },
+        {
+          "id": "D",
+          "content": "样式需求通过 CSS 处理"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（标题元素表达内容层级，而不是只为获得字号）、**B**（尽量保持层级顺序清晰，避免无理由跨级）、**D**（样式需求通过 CSS 处理）。标题元素负责文档结构，视觉大小交给 CSS；清晰层级有利于导航、SEO 和辅助技术。\n\n**逐项分析**\n\n- **A：正确。** 标题元素表达内容层级，而不是只为获得字号。它准确对应本题结论。依据是：标题元素负责文档结构，视觉大小交给 CSS；清晰层级有利于导航、SEO 和辅助技术。\n- **B：正确。** 尽量保持层级顺序清晰，避免无理由跨级。它准确对应本题结论。依据是：标题元素负责文档结构，视觉大小交给 CSS；清晰层级有利于导航、SEO 和辅助技术。\n- **C：不选。** 所有文字都使用 h1 以提升权重。如果选择它，就等于断言“所有文字都使用 h1 以提升权重”；但本题成立的结论是“标题元素表达内容层级，而不是只为获得字号；尽量保持层级顺序清晰，避免无理由跨级；样式需求通过 CSS 处理”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 样式需求通过 CSS 处理。它准确对应本题结论。依据是：标题元素负责文档结构，视觉大小交给 CSS；清晰层级有利于导航、SEO 和辅助技术。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、语义化、可访问性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、语义化、可访问性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "HTML",
+        "语义化",
+        "可访问性"
+      ]
+    },
+    {
+      "code": "html-103-button-link",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "一个控件点击后在当前页面提交表单，最合适的原生元素是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "带 click 事件的 div"
+        },
+        {
+          "id": "B",
+          "content": "没有 href 的 a"
+        },
+        {
+          "id": "C",
+          "content": "button"
+        },
+        {
+          "id": "D",
+          "content": "span"
+        }
+      ],
+      "answerKeys": [
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**C**（button）。`button` 自带键盘、焦点和按钮语义；链接用于导航，普通 div/span 不应替代交互控件。\n\n**逐项分析**\n\n- **A：不选。** 带 click 事件的 div。如果选择它，就等于断言“带 click 事件的 div”；但本题成立的结论是“button”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：不选。** 没有 href 的 a。如果选择它，就等于断言“没有 href 的 a”；但本题成立的结论是“button”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：正确。** button。它准确对应本题结论。依据是：`button` 自带键盘、焦点和按钮语义；链接用于导航，普通 div/span 不应替代交互控件。\n- **D：不选。** span。如果选择它，就等于断言“span”；但本题成立的结论是“button”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、语义化、表单”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、语义化、表单”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "HTML",
+        "语义化",
+        "表单"
+      ]
+    },
+    {
+      "code": "html-104-button-default-type",
+      "categoryKey": "frontend.html",
+      "type": "true_false",
+      "stem": "位于表单内部且未声明 `type` 的 `<button>`，通常默认具有提交表单的行为。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。表单中的 button 默认类型通常是 submit；非提交按钮应显式写 `type=\"button\"`，避免意外提交表单。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、表单”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、表单”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "HTML",
+        "表单"
+      ]
+    },
+    {
+      "code": "html-105-fieldset",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "需要为一组相关单选框提供统一可访问名称，优先使用哪组元素？",
+      "options": [
+        {
+          "id": "A",
+          "content": "div 与 span"
+        },
+        {
+          "id": "B",
+          "content": "fieldset 与 legend"
+        },
+        {
+          "id": "C",
+          "content": "section 与 title"
+        },
+        {
+          "id": "D",
+          "content": "table 与 caption"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（fieldset 与 legend）。`fieldset` 对相关表单控件分组，`legend` 为组提供标题，辅助技术能够正确建立关联。\n\n**逐项分析**\n\n- **A：不选。** div 与 span。如果选择它，就等于断言“div 与 span”；但本题成立的结论是“fieldset 与 legend”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** fieldset 与 legend。它准确对应本题结论。依据是：`fieldset` 对相关表单控件分组，`legend` 为组提供标题，辅助技术能够正确建立关联。\n- **C：不选。** section 与 title。如果选择它，就等于断言“section 与 title”；但本题成立的结论是“fieldset 与 legend”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** table 与 caption。如果选择它，就等于断言“table 与 caption”；但本题成立的结论是“fieldset 与 legend”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、表单、可访问性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、表单、可访问性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "表单",
+        "可访问性"
+      ]
+    },
+    {
+      "code": "html-106-autocomplete",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "表单字段合理设置 `autocomplete` 属性可能带来哪些收益？",
+      "options": [
+        {
+          "id": "A",
+          "content": "帮助浏览器和密码管理器识别字段用途"
+        },
+        {
+          "id": "B",
+          "content": "减少重复输入"
+        },
+        {
+          "id": "C",
+          "content": "自动绕过服务端校验"
+        },
+        {
+          "id": "D",
+          "content": "改善部分用户的填写可访问性"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（帮助浏览器和密码管理器识别字段用途）、**B**（减少重复输入）、**D**（改善部分用户的填写可访问性）。正确的 autocomplete token 能改善自动填充和可访问性，但不能替代任何服务端校验。\n\n**逐项分析**\n\n- **A：正确。** 帮助浏览器和密码管理器识别字段用途。它准确对应本题结论。依据是：正确的 autocomplete token 能改善自动填充和可访问性，但不能替代任何服务端校验。\n- **B：正确。** 减少重复输入。它准确对应本题结论。依据是：正确的 autocomplete token 能改善自动填充和可访问性，但不能替代任何服务端校验。\n- **C：不选。** 自动绕过服务端校验。如果选择它，就等于断言“自动绕过服务端校验”；但本题成立的结论是“帮助浏览器和密码管理器识别字段用途；减少重复输入；改善部分用户的填写可访问性”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 改善部分用户的填写可访问性。它准确对应本题结论。依据是：正确的 autocomplete token 能改善自动填充和可访问性，但不能替代任何服务端校验。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、表单、用户体验”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、表单、用户体验”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "表单",
+        "用户体验"
+      ]
+    },
+    {
+      "code": "html-107-inputmode",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "移动端希望文本输入框弹出数字键盘，但值中可能保留前导零，较合适的组合是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "type=number"
+        },
+        {
+          "id": "B",
+          "content": "type=text 与 inputmode=numeric"
+        },
+        {
+          "id": "C",
+          "content": "type=range"
+        },
+        {
+          "id": "D",
+          "content": "contenteditable=true"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（type=text 与 inputmode=numeric）。`inputmode=numeric` 提示使用数字键盘，而文本类型不会把编号错误地当成可计算数值或吞掉前导零。\n\n**逐项分析**\n\n- **A：不选。** type=number。如果选择它，就等于断言“type=number”；但本题成立的结论是“type=text 与 inputmode=numeric”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** type=text 与 inputmode=numeric。它准确对应本题结论。依据是：`inputmode=numeric` 提示使用数字键盘，而文本类型不会把编号错误地当成可计算数值或吞掉前导零。\n- **C：不选。** type=range。如果选择它，就等于断言“type=range”；但本题成立的结论是“type=text 与 inputmode=numeric”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** contenteditable=true。如果选择它，就等于断言“contenteditable=true”；但本题成立的结论是“type=text 与 inputmode=numeric”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、表单、移动端”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、表单、移动端”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "表单",
+        "移动端"
+      ]
+    },
+    {
+      "code": "html-108-aria-first-rule",
+      "categoryKey": "frontend.html",
+      "type": "true_false",
+      "stem": "当原生 HTML 元素已经提供所需语义和行为时，通常应优先使用原生元素，而不是用 div 加 ARIA 角色模拟。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。原生控件自带语义、键盘交互和状态映射；ARIA 只补充语义，不会自动补齐行为。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、ARIA、可访问性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、ARIA、可访问性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "ARIA",
+        "可访问性"
+      ]
+    },
+    {
+      "code": "html-109-aria-hidden",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "对一个仍可聚焦的交互按钮设置 `aria-hidden=\"true\"` 的主要问题是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "按钮会自动禁用"
+        },
+        {
+          "id": "B",
+          "content": "可能让键盘用户聚焦到辅助技术看不见的控件"
+        },
+        {
+          "id": "C",
+          "content": "按钮文字会被浏览器删除"
+        },
+        {
+          "id": "D",
+          "content": "只会影响 CSS"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（可能让键盘用户聚焦到辅助技术看不见的控件）。可聚焦元素不应从可访问性树隐藏，否则视觉、键盘焦点和读屏反馈会出现矛盾。\n\n**逐项分析**\n\n- **A：不选。** 按钮会自动禁用。如果选择它，就等于断言“按钮会自动禁用”；但本题成立的结论是“可能让键盘用户聚焦到辅助技术看不见的控件”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 可能让键盘用户聚焦到辅助技术看不见的控件。它准确对应本题结论。依据是：可聚焦元素不应从可访问性树隐藏，否则视觉、键盘焦点和读屏反馈会出现矛盾。\n- **C：不选。** 按钮文字会被浏览器删除。如果选择它，就等于断言“按钮文字会被浏览器删除”；但本题成立的结论是“可能让键盘用户聚焦到辅助技术看不见的控件”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只会影响 CSS。如果选择它，就等于断言“只会影响 CSS”；但本题成立的结论是“可能让键盘用户聚焦到辅助技术看不见的控件”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、ARIA、可访问性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、ARIA、可访问性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "ARIA",
+        "可访问性"
+      ]
+    },
+    {
+      "code": "html-110-tabindex",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "关于 `tabindex`，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "tabindex=0 可让元素按自然顺序进入 Tab 导航"
+        },
+        {
+          "id": "B",
+          "content": "tabindex=-1 可允许脚本聚焦但不进入普通 Tab 顺序"
+        },
+        {
+          "id": "C",
+          "content": "大量正整数 tabindex 通常有利于维护"
+        },
+        {
+          "id": "D",
+          "content": "应优先依赖合理 DOM 顺序"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（tabindex=0 可让元素按自然顺序进入 Tab 导航）、**B**（tabindex=-1 可允许脚本聚焦但不进入普通 Tab 顺序）、**D**（应优先依赖合理 DOM 顺序）。正整数会人为重排焦点并难以维护；合理 DOM 顺序配合 0 和 -1 更稳定。\n\n**逐项分析**\n\n- **A：正确。** tabindex=0 可让元素按自然顺序进入 Tab 导航。它准确对应本题结论。依据是：正整数会人为重排焦点并难以维护；合理 DOM 顺序配合 0 和 -1 更稳定。\n- **B：正确。** tabindex=-1 可允许脚本聚焦但不进入普通 Tab 顺序。它准确对应本题结论。依据是：正整数会人为重排焦点并难以维护；合理 DOM 顺序配合 0 和 -1 更稳定。\n- **C：不选。** 大量正整数 tabindex 通常有利于维护。如果选择它，就等于断言“大量正整数 tabindex 通常有利于维护”；但本题成立的结论是“tabindex=0 可让元素按自然顺序进入 Tab 导航；tabindex=-1 可允许脚本聚焦但不进入普通 Tab 顺序；应优先依赖合理 DOM 顺序”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 应优先依赖合理 DOM 顺序。它准确对应本题结论。依据是：正整数会人为重排焦点并难以维护；合理 DOM 顺序配合 0 和 -1 更稳定。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、键盘导航”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、键盘导航”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "键盘导航"
+      ]
+    },
+    {
+      "code": "html-111-picture",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "需要根据媒体条件提供不同裁切构图的图片时，哪个元素最适合做 art direction？",
+      "options": [
+        {
+          "id": "A",
+          "content": "picture 配合 source"
+        },
+        {
+          "id": "B",
+          "content": "单独使用 canvas"
+        },
+        {
+          "id": "C",
+          "content": "marquee"
+        },
+        {
+          "id": "D",
+          "content": "object"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（picture 配合 source）。`picture` 可按 media/type 选择不同资源，适合不同视口使用不同构图，而 srcset 密度描述更偏向同一内容的分辨率选择。\n\n**逐项分析**\n\n- **A：正确。** picture 配合 source。它准确对应本题结论。依据是：`picture` 可按 media/type 选择不同资源，适合不同视口使用不同构图，而 srcset 密度描述更偏向同一内容的分辨率选择。\n- **B：不选。** 单独使用 canvas。如果选择它，就等于断言“单独使用 canvas”；但本题成立的结论是“picture 配合 source”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** marquee。如果选择它，就等于断言“marquee”；但本题成立的结论是“picture 配合 source”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** object。如果选择它，就等于断言“object”；但本题成立的结论是“picture 配合 source”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTML、响应式图片”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、响应式图片”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "响应式图片"
+      ]
+    },
+    {
+      "code": "html-112-native-lazy",
+      "categoryKey": "frontend.html",
+      "type": "true_false",
+      "stem": "为所有首屏关键图片统一设置 `loading=\"lazy\"` 通常是最佳性能实践。",
+      "answerKeys": [
+        "false"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：错误。首屏 LCP 图片延迟加载可能推迟发现和请求；懒加载更适合视口外资源。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“HTML、性能、图片”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、性能、图片”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "性能",
+        "图片"
+      ]
+    },
+    {
+      "code": "html-113-module-script",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "关于 `<script type=\"module\">`，哪些说法通常正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "默认采用延迟执行语义"
+        },
+        {
+          "id": "B",
+          "content": "模块脚本使用严格模式"
+        },
+        {
+          "id": "C",
+          "content": "可以直接使用 import/export"
+        },
+        {
+          "id": "D",
+          "content": "无条件阻塞 HTML 解析直到执行完成"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（默认采用延迟执行语义）、**B**（模块脚本使用严格模式）、**C**（可以直接使用 import/export）。模块脚本支持 ESM、默认严格模式且默认 defer；它并非传统同步阻塞脚本。\n\n**逐项分析**\n\n- **A：正确。** 默认采用延迟执行语义。它准确对应本题结论。依据是：模块脚本支持 ESM、默认严格模式且默认 defer；它并非传统同步阻塞脚本。\n- **B：正确。** 模块脚本使用严格模式。它准确对应本题结论。依据是：模块脚本支持 ESM、默认严格模式且默认 defer；它并非传统同步阻塞脚本。\n- **C：正确。** 可以直接使用 import/export。它准确对应本题结论。依据是：模块脚本支持 ESM、默认严格模式且默认 defer；它并非传统同步阻塞脚本。\n- **D：不选。** 无条件阻塞 HTML 解析直到执行完成。如果选择它，就等于断言“无条件阻塞 HTML 解析直到执行完成”；但本题成立的结论是“默认采用延迟执行语义；模块脚本使用严格模式；可以直接使用 import/export”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTML、ESM、脚本加载”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、ESM、脚本加载”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "ESM",
+        "脚本加载"
+      ]
+    },
+    {
+      "code": "html-114-preload-prefetch",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "页面当前导航很快就要使用某个关键字体，希望提高其请求优先级，优先考虑什么资源提示？",
+      "options": [
+        {
+          "id": "A",
+          "content": "preload"
+        },
+        {
+          "id": "B",
+          "content": "prefetch"
+        },
+        {
+          "id": "C",
+          "content": "dns-prefetch 当前同源字体"
+        },
+        {
+          "id": "D",
+          "content": "refresh"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（preload）。preload 用于当前页面确定需要的关键资源；prefetch 通常面向未来导航的低优先级资源。\n\n**逐项分析**\n\n- **A：正确。** preload。它准确对应本题结论。依据是：preload 用于当前页面确定需要的关键资源；prefetch 通常面向未来导航的低优先级资源。\n- **B：不选。** prefetch。如果选择它，就等于断言“prefetch”；但本题成立的结论是“preload”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** dns-prefetch 当前同源字体。如果选择它，就等于断言“dns-prefetch 当前同源字体”；但本题成立的结论是“preload”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** refresh。如果选择它，就等于断言“refresh”；但本题成立的结论是“preload”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“HTML、性能、资源提示”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、性能、资源提示”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "性能",
+        "资源提示"
+      ]
+    },
+    {
+      "code": "html-115-iframe-sandbox",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "给第三方 iframe 设置 `sandbox` 的目的和注意点包括哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "默认限制脚本、表单、导航等能力"
+        },
+        {
+          "id": "B",
+          "content": "可通过 allow-* token 按需放开能力"
+        },
+        {
+          "id": "C",
+          "content": "等同于完全可信且无需 CSP"
+        },
+        {
+          "id": "D",
+          "content": "放开 allow-scripts 与 allow-same-origin 等组合需要谨慎评估"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（默认限制脚本、表单、导航等能力）、**B**（可通过 allow-* token 按需放开能力）、**D**（放开 allow-scripts 与 allow-same-origin 等组合需要谨慎评估）。sandbox 是最小权限隔离机制，但错误组合放权可能显著削弱隔离，不能替代完整安全策略。\n\n**逐项分析**\n\n- **A：正确。** 默认限制脚本、表单、导航等能力。它准确对应本题结论。依据是：sandbox 是最小权限隔离机制，但错误组合放权可能显著削弱隔离，不能替代完整安全策略。\n- **B：正确。** 可通过 allow-* token 按需放开能力。它准确对应本题结论。依据是：sandbox 是最小权限隔离机制，但错误组合放权可能显著削弱隔离，不能替代完整安全策略。\n- **C：不选。** 等同于完全可信且无需 CSP。如果选择它，就等于断言“等同于完全可信且无需 CSP”；但本题成立的结论是“默认限制脚本、表单、导航等能力；可通过 allow-* token 按需放开能力；放开 allow-scripts 与 allow-same-origin 等组合需要谨慎评估”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 放开 allow-scripts 与 allow-same-origin 等组合需要谨慎评估。它准确对应本题结论。依据是：sandbox 是最小权限隔离机制，但错误组合放权可能显著削弱隔离，不能替代完整安全策略。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTML、iframe、安全”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、iframe、安全”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "HTML",
+        "iframe",
+        "安全"
+      ]
+    },
+    {
+      "code": "html-116-template",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "`<template>` 元素中的内容在解析后通常具有什么特点？",
+      "options": [
+        {
+          "id": "A",
+          "content": "立即渲染并执行其中脚本"
+        },
+        {
+          "id": "B",
+          "content": "保存在惰性的 DocumentFragment 中，克隆插入前不参与页面渲染"
+        },
+        {
+          "id": "C",
+          "content": "会自动发送网络请求"
+        },
+        {
+          "id": "D",
+          "content": "只能包含纯文本"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（保存在惰性的 DocumentFragment 中，克隆插入前不参与页面渲染）。template 内容被解析但保持惰性，适合客户端克隆复用，不会直接成为活动 DOM。\n\n**逐项分析**\n\n- **A：不选。** 立即渲染并执行其中脚本。如果选择它，就等于断言“立即渲染并执行其中脚本”；但本题成立的结论是“保存在惰性的 DocumentFragment 中，克隆插入前不参与页面渲染”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 保存在惰性的 DocumentFragment 中，克隆插入前不参与页面渲染。它准确对应本题结论。依据是：template 内容被解析但保持惰性，适合客户端克隆复用，不会直接成为活动 DOM。\n- **C：不选。** 会自动发送网络请求。如果选择它，就等于断言“会自动发送网络请求”；但本题成立的结论是“保存在惰性的 DocumentFragment 中，克隆插入前不参与页面渲染”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只能包含纯文本。如果选择它，就等于断言“只能包含纯文本”；但本题成立的结论是“保存在惰性的 DocumentFragment 中，克隆插入前不参与页面渲染”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTML、DOM”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、DOM”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "DOM"
+      ]
+    },
+    {
+      "code": "html-117-dialog",
+      "categoryKey": "frontend.html",
+      "type": "true_false",
+      "stem": "原生 `<dialog>` 调用 `showModal()` 后会进入模态状态，并为背景内容提供浏览器级交互限制。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。showModal 会把对话框放入 top layer 并使其余文档处于 inert 类似状态，但仍需设计焦点返回和语义文案。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、对话框、可访问性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、对话框、可访问性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "对话框",
+        "可访问性"
+      ]
+    },
+    {
+      "code": "html-118-details-summary",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "实现无需 JavaScript 的基本可展开详情控件，优先使用什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "details 与 summary"
+        },
+        {
+          "id": "B",
+          "content": "div 与 i"
+        },
+        {
+          "id": "C",
+          "content": "canvas"
+        },
+        {
+          "id": "D",
+          "content": "map 与 area"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（details 与 summary）。details/summary 提供原生展开状态、键盘支持和语义，适合作为渐进增强基础。\n\n**逐项分析**\n\n- **A：正确。** details 与 summary。它准确对应本题结论。依据是：details/summary 提供原生展开状态、键盘支持和语义，适合作为渐进增强基础。\n- **B：不选。** div 与 i。如果选择它，就等于断言“div 与 i”；但本题成立的结论是“details 与 summary”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** canvas。如果选择它，就等于断言“canvas”；但本题成立的结论是“details 与 summary”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** map 与 area。如果选择它，就等于断言“map 与 area”；但本题成立的结论是“details 与 summary”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“HTML、语义化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、语义化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "HTML",
+        "语义化"
+      ]
+    },
+    {
+      "code": "html-119-canvas-svg",
+      "categoryKey": "frontend.html",
+      "type": "multiple_choice",
+      "stem": "关于 Canvas 与 SVG 的选择，哪些判断通常合理？",
+      "options": [
+        {
+          "id": "A",
+          "content": "大量像素级高频绘制常更适合 Canvas"
+        },
+        {
+          "id": "B",
+          "content": "需要独立 DOM 节点、CSS 和可访问语义的图形常更适合 SVG"
+        },
+        {
+          "id": "C",
+          "content": "Canvas 中每个绘制图形天然都是 DOM 节点"
+        },
+        {
+          "id": "D",
+          "content": "选择应考虑对象数量、交互和缩放需求"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（大量像素级高频绘制常更适合 Canvas）、**B**（需要独立 DOM 节点、CSS 和可访问语义的图形常更适合 SVG）、**D**（选择应考虑对象数量、交互和缩放需求）。Canvas 是位图绘制表面，SVG 是保留图形的 DOM；两者适用的对象规模和交互模型不同。\n\n**逐项分析**\n\n- **A：正确。** 大量像素级高频绘制常更适合 Canvas。它准确对应本题结论。依据是：Canvas 是位图绘制表面，SVG 是保留图形的 DOM；两者适用的对象规模和交互模型不同。\n- **B：正确。** 需要独立 DOM 节点、CSS 和可访问语义的图形常更适合 SVG。它准确对应本题结论。依据是：Canvas 是位图绘制表面，SVG 是保留图形的 DOM；两者适用的对象规模和交互模型不同。\n- **C：不选。** Canvas 中每个绘制图形天然都是 DOM 节点。如果选择它，就等于断言“Canvas 中每个绘制图形天然都是 DOM 节点”；但本题成立的结论是“大量像素级高频绘制常更适合 Canvas；需要独立 DOM 节点、CSS 和可访问语义的图形常更适合 SVG；选择应考虑对象数量、交互和缩放需求”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 选择应考虑对象数量、交互和缩放需求。它准确对应本题结论。依据是：Canvas 是位图绘制表面，SVG 是保留图形的 DOM；两者适用的对象规模和交互模型不同。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTML、Canvas、SVG”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、Canvas、SVG”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "Canvas",
+        "SVG"
+      ]
+    },
+    {
+      "code": "html-120-dom-ready",
+      "categoryKey": "frontend.html",
+      "type": "single_choice",
+      "stem": "`DOMContentLoaded` 通常表示什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "所有图片和字体都下载完成"
+        },
+        {
+          "id": "B",
+          "content": "HTML 已解析且延迟脚本已执行完成，不必等待所有图片"
+        },
+        {
+          "id": "C",
+          "content": "页面已完成首次网络请求"
+        },
+        {
+          "id": "D",
+          "content": "浏览器缓存已清空"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（HTML 已解析且延迟脚本已执行完成，不必等待所有图片）。DOMContentLoaded 关注文档解析与相关脚本，不等同于 load 事件所代表的全部依赖资源完成。\n\n**逐项分析**\n\n- **A：不选。** 所有图片和字体都下载完成。如果选择它，就等于断言“所有图片和字体都下载完成”；但本题成立的结论是“HTML 已解析且延迟脚本已执行完成，不必等待所有图片”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** HTML 已解析且延迟脚本已执行完成，不必等待所有图片。它准确对应本题结论。依据是：DOMContentLoaded 关注文档解析与相关脚本，不等同于 load 事件所代表的全部依赖资源完成。\n- **C：不选。** 页面已完成首次网络请求。如果选择它，就等于断言“页面已完成首次网络请求”；但本题成立的结论是“HTML 已解析且延迟脚本已执行完成，不必等待所有图片”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 浏览器缓存已清空。如果选择它，就等于断言“浏览器缓存已清空”；但本题成立的结论是“HTML 已解析且延迟脚本已执行完成，不必等待所有图片”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nHTML 决定页面的内容结构和原生语义。学习时不要只记标签名称，还要同时考虑默认行为、键盘操作、屏幕阅读器以及浏览器兼容边界。真实项目应优先使用语义匹配的原生元素，再用 CSS 调整外观；只有原生能力确实不足时，才补充 ARIA 和 JavaScript。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“HTML、DOM、事件”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“HTML、DOM、事件”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "HTML",
+        "DOM",
+        "事件"
+      ]
+    },
+    {
+      "code": "css-101-cascade-origin",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "CSS 最终值的层叠决策会受到哪些因素影响？",
+      "options": [
+        {
+          "id": "A",
+          "content": "样式来源和重要性"
+        },
+        {
+          "id": "B",
+          "content": "层叠层与选择器优先级"
+        },
+        {
+          "id": "C",
+          "content": "源码顺序"
+        },
+        {
+          "id": "D",
+          "content": "JavaScript 变量名长度"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（样式来源和重要性）、**B**（层叠层与选择器优先级）、**C**（源码顺序）。层叠会综合来源、important、layer、优先级和顺序等因素，脚本变量名与 CSS 层叠无关。\n\n**逐项分析**\n\n- **A：正确。** 样式来源和重要性。它准确对应本题结论。依据是：层叠会综合来源、important、layer、优先级和顺序等因素，脚本变量名与 CSS 层叠无关。\n- **B：正确。** 层叠层与选择器优先级。它准确对应本题结论。依据是：层叠会综合来源、important、layer、优先级和顺序等因素，脚本变量名与 CSS 层叠无关。\n- **C：正确。** 源码顺序。它准确对应本题结论。依据是：层叠会综合来源、important、layer、优先级和顺序等因素，脚本变量名与 CSS 层叠无关。\n- **D：不选。** JavaScript 变量名长度。如果选择它，就等于断言“JavaScript 变量名长度”；但本题成立的结论是“样式来源和重要性；层叠层与选择器优先级；源码顺序”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n布局排错可以固定为四步：看父容器的布局模式，看子项可用空间与最小尺寸，看 overflow/position 是否改变包含块或滚动容器，再看是否跨越了不同层叠上下文。这样比不断增大 z-index 或盲目加宽度更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、层叠”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、层叠”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "层叠"
+      ]
+    },
+    {
+      "code": "css-102-cascade-layers",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "CSS `@layer` 可以显式安排不同样式层的优先顺序，从而减少依靠提高选择器优先级覆盖样式的需求。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。层叠层在优先级计算之前建立层级顺序，适合组织 reset、组件和工具样式。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、@layer、工程化”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、@layer、工程化”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "@layer",
+        "工程化"
+      ]
+    },
+    {
+      "code": "css-103-where-specificity",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "`:where(.card .title)` 的选择器优先级有什么特点？",
+      "options": [
+        {
+          "id": "A",
+          "content": "与 ID 选择器相同"
+        },
+        {
+          "id": "B",
+          "content": "其参数不会增加优先级，整体优先级为零"
+        },
+        {
+          "id": "C",
+          "content": "永远高于内联样式"
+        },
+        {
+          "id": "D",
+          "content": "只能匹配一个元素"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（其参数不会增加优先级，整体优先级为零）。`:where()` 的特殊设计是零优先级，便于编写易覆盖的基础规则。\n\n**逐项分析**\n\n- **A：不选。** 与 ID 选择器相同。如果选择它，就等于断言“与 ID 选择器相同”；但本题成立的结论是“其参数不会增加优先级，整体优先级为零”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 其参数不会增加优先级，整体优先级为零。它准确对应本题结论。依据是：`:where()` 的特殊设计是零优先级，便于编写易覆盖的基础规则。\n- **C：不选。** 永远高于内联样式。如果选择它，就等于断言“永远高于内联样式”；但本题成立的结论是“其参数不会增加优先级，整体优先级为零”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只能匹配一个元素。如果选择它，就等于断言“只能匹配一个元素”；但本题成立的结论是“其参数不会增加优先级，整体优先级为零”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、选择器”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、选择器”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "选择器"
+      ]
+    },
+    {
+      "code": "css-104-is-selector",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "`:is(header, main, footer) a` 的主要价值是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "减少重复的选择器分组"
+        },
+        {
+          "id": "B",
+          "content": "强制创建 BFC"
+        },
+        {
+          "id": "C",
+          "content": "禁用继承"
+        },
+        {
+          "id": "D",
+          "content": "只在 Shadow DOM 内生效"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（减少重复的选择器分组）。`:is()` 接收选择器列表，可压缩重复组合；其优先级由参数中最高者参与计算。\n\n**逐项分析**\n\n- **A：正确。** 减少重复的选择器分组。它准确对应本题结论。依据是：`:is()` 接收选择器列表，可压缩重复组合；其优先级由参数中最高者参与计算。\n- **B：不选。** 强制创建 BFC。如果选择它，就等于断言“强制创建 BFC”；但本题成立的结论是“减少重复的选择器分组”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 禁用继承。如果选择它，就等于断言“禁用继承”；但本题成立的结论是“减少重复的选择器分组”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只在 Shadow DOM 内生效。如果选择它，就等于断言“只在 Shadow DOM 内生效”；但本题成立的结论是“减少重复的选择器分组”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、选择器”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、选择器”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "选择器"
+      ]
+    },
+    {
+      "code": "css-105-has-selector",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "`:has()` 可以根据元素是否包含或关联匹配后代等条件选择其自身，因此常被称为关系伪类。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。`:has()` 允许根据相对选择器结果匹配当前元素，可实现过去通常需要 JavaScript 的父级条件样式。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、选择器”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、选择器”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "选择器"
+      ]
+    },
+    {
+      "code": "css-106-logical-properties",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "希望组件同时适配从左到右和从右到左书写方向，优先使用哪种属性？",
+      "options": [
+        {
+          "id": "A",
+          "content": "margin-left"
+        },
+        {
+          "id": "B",
+          "content": "margin-inline-start"
+        },
+        {
+          "id": "C",
+          "content": "translateX"
+        },
+        {
+          "id": "D",
+          "content": "float:left"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（margin-inline-start）。逻辑属性按书写模式表达 inline/block 方向，减少针对 RTL 单独覆盖物理方向属性。\n\n**逐项分析**\n\n- **A：不选。** margin-left。如果选择它，就等于断言“margin-left”；但本题成立的结论是“margin-inline-start”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** margin-inline-start。它准确对应本题结论。依据是：逻辑属性按书写模式表达 inline/block 方向，减少针对 RTL 单独覆盖物理方向属性。\n- **C：不选。** translateX。如果选择它，就等于断言“translateX”；但本题成立的结论是“margin-inline-start”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** float:left。如果选择它，就等于断言“float:left”；但本题成立的结论是“margin-inline-start”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、国际化、逻辑属性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、国际化、逻辑属性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "国际化",
+        "逻辑属性"
+      ]
+    },
+    {
+      "code": "css-107-container-query",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "组件样式应根据其所在容器宽度变化，而不是根据整个视口变化，应优先考虑什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "容器查询"
+        },
+        {
+          "id": "B",
+          "content": "页面刷新"
+        },
+        {
+          "id": "C",
+          "content": "HTML width 属性"
+        },
+        {
+          "id": "D",
+          "content": "只使用 vw"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（容器查询）。容器查询让可复用组件根据自身布局上下文响应，避免过度依赖视口媒体查询。\n\n**逐项分析**\n\n- **A：正确。** 容器查询。它准确对应本题结论。依据是：容器查询让可复用组件根据自身布局上下文响应，避免过度依赖视口媒体查询。\n- **B：不选。** 页面刷新。如果选择它，就等于断言“页面刷新”；但本题成立的结论是“容器查询”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** HTML width 属性。如果选择它，就等于断言“HTML width 属性”；但本题成立的结论是“容器查询”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只使用 vw。如果选择它，就等于断言“只使用 vw”；但本题成立的结论是“容器查询”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n本题可以用一个最小示例验证：只保留与“CSS、响应式、容器查询”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、响应式、容器查询”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "响应式",
+        "容器查询"
+      ]
+    },
+    {
+      "code": "css-108-clamp",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "`font-size: clamp(1rem, 2vw, 2rem)` 表达什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "字号固定为 2vw"
+        },
+        {
+          "id": "B",
+          "content": "字号使用首选流体值，但限制在 1rem 到 2rem 之间"
+        },
+        {
+          "id": "C",
+          "content": "字号随机变化"
+        },
+        {
+          "id": "D",
+          "content": "只在打印时生效"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（字号使用首选流体值，但限制在 1rem 到 2rem 之间）。clamp(min, preferred, max) 在最小与最大边界内采用首选值，适合有边界的流体尺寸。\n\n**逐项分析**\n\n- **A：不选。** 字号固定为 2vw。如果选择它，就等于断言“字号固定为 2vw”；但本题成立的结论是“字号使用首选流体值，但限制在 1rem 到 2rem 之间”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 字号使用首选流体值，但限制在 1rem 到 2rem 之间。它准确对应本题结论。依据是：clamp(min, preferred, max) 在最小与最大边界内采用首选值，适合有边界的流体尺寸。\n- **C：不选。** 字号随机变化。如果选择它，就等于断言“字号随机变化”；但本题成立的结论是“字号使用首选流体值，但限制在 1rem 到 2rem 之间”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只在打印时生效。如果选择它，就等于断言“只在打印时生效”；但本题成立的结论是“字号使用首选流体值，但限制在 1rem 到 2rem 之间”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n本题可以用一个最小示例验证：只保留与“CSS、响应式”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、响应式”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "响应式"
+      ]
+    },
+    {
+      "code": "css-109-aspect-ratio",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "在已知媒体比例时声明 `aspect-ratio`，可以在资源加载前预留稳定空间并减少布局偏移。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。浏览器可提前计算另一维尺寸，从而减少图片或视频加载后的 CLS。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“CSS、性能、CLS”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、性能、CLS”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "CSS",
+        "性能",
+        "CLS"
+      ]
+    },
+    {
+      "code": "css-110-object-fit",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "固定尺寸图片容器需要铺满且允许裁剪图片边缘，应使用哪个 `object-fit` 值？",
+      "options": [
+        {
+          "id": "A",
+          "content": "contain"
+        },
+        {
+          "id": "B",
+          "content": "cover"
+        },
+        {
+          "id": "C",
+          "content": "fill-space"
+        },
+        {
+          "id": "D",
+          "content": "auto"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（cover）。cover 保持资源比例并覆盖内容盒，超出的部分会裁剪；contain 则保证完整显示但可能留白。\n\n**逐项分析**\n\n- **A：不选。** contain。如果选择它，就等于断言“contain”；但本题成立的结论是“cover”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** cover。它准确对应本题结论。依据是：cover 保持资源比例并覆盖内容盒，超出的部分会裁剪；contain 则保证完整显示但可能留白。\n- **C：不选。** fill-space。如果选择它，就等于断言“fill-space”；但本题成立的结论是“cover”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** auto。如果选择它，就等于断言“auto”；但本题成立的结论是“cover”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、图片”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、图片”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "CSS",
+        "图片"
+      ]
+    },
+    {
+      "code": "css-111-stacking-context",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "哪些情况可能创建新的层叠上下文？",
+      "options": [
+        {
+          "id": "A",
+          "content": "定位元素设置非 auto 的 z-index"
+        },
+        {
+          "id": "B",
+          "content": "opacity 小于 1"
+        },
+        {
+          "id": "C",
+          "content": "transform 不为 none"
+        },
+        {
+          "id": "D",
+          "content": "任意 margin 值"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（定位元素设置非 auto 的 z-index）、**B**（opacity 小于 1）、**C**（transform 不为 none）。定位 z-index、透明度、transform 等会创建层叠上下文；子元素 z-index 不能越过祖先上下文随意竞争。\n\n**逐项分析**\n\n- **A：正确。** 定位元素设置非 auto 的 z-index。它准确对应本题结论。依据是：定位 z-index、透明度、transform 等会创建层叠上下文；子元素 z-index 不能越过祖先上下文随意竞争。\n- **B：正确。** opacity 小于 1。它准确对应本题结论。依据是：定位 z-index、透明度、transform 等会创建层叠上下文；子元素 z-index 不能越过祖先上下文随意竞争。\n- **C：正确。** transform 不为 none。它准确对应本题结论。依据是：定位 z-index、透明度、transform 等会创建层叠上下文；子元素 z-index 不能越过祖先上下文随意竞争。\n- **D：不选。** 任意 margin 值。如果选择它，就等于断言“任意 margin 值”；但本题成立的结论是“定位元素设置非 auto 的 z-index；opacity 小于 1；transform 不为 none”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、层叠上下文”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、层叠上下文”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "层叠上下文"
+      ]
+    },
+    {
+      "code": "css-112-z-index",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "把子元素的 `z-index` 改成极大值，必然可以覆盖页面中任何其他层叠上下文。",
+      "answerKeys": [
+        "false"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：错误。z-index 只在当前层叠上下文中比较；祖先上下文的整体层级会限制子元素。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n布局排错可以固定为四步：看父容器的布局模式，看子项可用空间与最小尺寸，看 overflow/position 是否改变包含块或滚动容器，再看是否跨越了不同层叠上下文。这样比不断增大 z-index 或盲目加宽度更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、z-index”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、z-index”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "z-index"
+      ]
+    },
+    {
+      "code": "css-113-flex-basis",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "Flex 布局中，`flex-basis` 主要定义什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "项目分配剩余空间前的主轴初始尺寸"
+        },
+        {
+          "id": "B",
+          "content": "交叉轴对齐方式"
+        },
+        {
+          "id": "C",
+          "content": "层叠顺序"
+        },
+        {
+          "id": "D",
+          "content": "动画持续时间"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（项目分配剩余空间前的主轴初始尺寸）。flex-basis 是伸缩分配前的基准主尺寸，之后再结合 grow、shrink 和可用空间计算。\n\n**逐项分析**\n\n- **A：正确。** 项目分配剩余空间前的主轴初始尺寸。它准确对应本题结论。依据是：flex-basis 是伸缩分配前的基准主尺寸，之后再结合 grow、shrink 和可用空间计算。\n- **B：不选。** 交叉轴对齐方式。如果选择它，就等于断言“交叉轴对齐方式”；但本题成立的结论是“项目分配剩余空间前的主轴初始尺寸”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 层叠顺序。如果选择它，就等于断言“层叠顺序”；但本题成立的结论是“项目分配剩余空间前的主轴初始尺寸”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 动画持续时间。如果选择它，就等于断言“动画持续时间”；但本题成立的结论是“项目分配剩余空间前的主轴初始尺寸”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n布局排错可以固定为四步：看父容器的布局模式，看子项可用空间与最小尺寸，看 overflow/position 是否改变包含块或滚动容器，再看是否跨越了不同层叠上下文。这样比不断增大 z-index 或盲目加宽度更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、Flex”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、Flex”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "Flex"
+      ]
+    },
+    {
+      "code": "css-114-min-width-flex",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "Flex 子项中的长文本拒绝收缩并撑破容器，常见修复是给该子项设置什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "min-width: 0"
+        },
+        {
+          "id": "B",
+          "content": "z-index: -1"
+        },
+        {
+          "id": "C",
+          "content": "position: fixed"
+        },
+        {
+          "id": "D",
+          "content": "font-size: 0"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（min-width: 0）。Flex 项默认最小主尺寸常基于内容，`min-width: 0` 允许其收缩，之后溢出和省略规则才能生效。\n\n**逐项分析**\n\n- **A：正确。** min-width: 0。它准确对应本题结论。依据是：Flex 项默认最小主尺寸常基于内容，`min-width: 0` 允许其收缩，之后溢出和省略规则才能生效。\n- **B：不选。** z-index: -1。如果选择它，就等于断言“z-index: -1”；但本题成立的结论是“min-width: 0”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** position: fixed。如果选择它，就等于断言“position: fixed”；但本题成立的结论是“min-width: 0”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** font-size: 0。如果选择它，就等于断言“font-size: 0”；但本题成立的结论是“min-width: 0”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n布局排错可以固定为四步：看父容器的布局模式，看子项可用空间与最小尺寸，看 overflow/position 是否改变包含块或滚动容器，再看是否跨越了不同层叠上下文。这样比不断增大 z-index 或盲目加宽度更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、Flex、文本溢出”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、Flex、文本溢出”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "Flex",
+        "文本溢出"
+      ]
+    },
+    {
+      "code": "css-115-grid-minmax",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "`grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))` 常用于实现什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "无需固定断点的自适应卡片列"
+        },
+        {
+          "id": "B",
+          "content": "只允许一列"
+        },
+        {
+          "id": "C",
+          "content": "禁用网格换行"
+        },
+        {
+          "id": "D",
+          "content": "固定每列为 1px"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（无需固定断点的自适应卡片列）。浏览器会按最小列宽容纳尽可能多的列，并用 1fr 分配剩余空间。\n\n**逐项分析**\n\n- **A：正确。** 无需固定断点的自适应卡片列。它准确对应本题结论。依据是：浏览器会按最小列宽容纳尽可能多的列，并用 1fr 分配剩余空间。\n- **B：不选。** 只允许一列。如果选择它，就等于断言“只允许一列”；但本题成立的结论是“无需固定断点的自适应卡片列”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 禁用网格换行。如果选择它，就等于断言“禁用网格换行”；但本题成立的结论是“无需固定断点的自适应卡片列”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 固定每列为 1px。如果选择它，就等于断言“固定每列为 1px”；但本题成立的结论是“无需固定断点的自适应卡片列”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n布局排错可以固定为四步：看父容器的布局模式，看子项可用空间与最小尺寸，看 overflow/position 是否改变包含块或滚动容器，再看是否跨越了不同层叠上下文。这样比不断增大 z-index 或盲目加宽度更可靠。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n本题可以用一个最小示例验证：只保留与“CSS、Grid、响应式”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、Grid、响应式”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "Grid",
+        "响应式"
+      ]
+    },
+    {
+      "code": "css-116-subgrid",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "CSS Subgrid 允许嵌套网格复用父网格的轨道定义，从而对齐不同子组件内部内容。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。subgrid 让子网格沿指定轴继承父网格轨道，适合跨卡片对齐标题、正文和操作区。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n布局排错可以固定为四步：看父容器的布局模式，看子项可用空间与最小尺寸，看 overflow/position 是否改变包含块或滚动容器，再看是否跨越了不同层叠上下文。这样比不断增大 z-index 或盲目加宽度更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、Grid、Subgrid”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、Grid、Subgrid”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "Grid",
+        "Subgrid"
+      ]
+    },
+    {
+      "code": "css-117-reduced-motion",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "响应 `prefers-reduced-motion: reduce` 时，哪些处理较合理？",
+      "options": [
+        {
+          "id": "A",
+          "content": "减少非必要的大幅移动动画"
+        },
+        {
+          "id": "B",
+          "content": "保留必要状态变化但缩短或替换动画"
+        },
+        {
+          "id": "C",
+          "content": "完全隐藏所有内容"
+        },
+        {
+          "id": "D",
+          "content": "避免自动播放引发眩晕的效果"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（减少非必要的大幅移动动画）、**B**（保留必要状态变化但缩短或替换动画）、**D**（避免自动播放引发眩晕的效果）。该媒体特性反映用户减少运动偏好，应降低非必要动效，同时仍清楚表达状态。\n\n**逐项分析**\n\n- **A：正确。** 减少非必要的大幅移动动画。它准确对应本题结论。依据是：该媒体特性反映用户减少运动偏好，应降低非必要动效，同时仍清楚表达状态。\n- **B：正确。** 保留必要状态变化但缩短或替换动画。它准确对应本题结论。依据是：该媒体特性反映用户减少运动偏好，应降低非必要动效，同时仍清楚表达状态。\n- **C：不选。** 完全隐藏所有内容。如果选择它，就等于断言“完全隐藏所有内容”；但本题成立的结论是“减少非必要的大幅移动动画；保留必要状态变化但缩短或替换动画；避免自动播放引发眩晕的效果”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 避免自动播放引发眩晕的效果。它准确对应本题结论。依据是：该媒体特性反映用户减少运动偏好，应降低非必要动效，同时仍清楚表达状态。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、可访问性、动画”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、可访问性、动画”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "可访问性",
+        "动画"
+      ]
+    },
+    {
+      "code": "css-118-focus-visible",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "希望主要在键盘导航等需要时显示清晰焦点环，优先使用哪个伪类？",
+      "options": [
+        {
+          "id": "A",
+          "content": ":hover"
+        },
+        {
+          "id": "B",
+          "content": ":focus-visible"
+        },
+        {
+          "id": "C",
+          "content": ":empty"
+        },
+        {
+          "id": "D",
+          "content": ":visited"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（:focus-visible）。`:focus-visible` 由浏览器启发式判断何时需要明显焦点提示，比无差别移除 outline 更可访问。\n\n**逐项分析**\n\n- **A：不选。** :hover。如果选择它，就等于断言“:hover”；但本题成立的结论是“:focus-visible”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** :focus-visible。它准确对应本题结论。依据是：`:focus-visible` 由浏览器启发式判断何时需要明显焦点提示，比无差别移除 outline 更可访问。\n- **C：不选。** :empty。如果选择它，就等于断言“:empty”；但本题成立的结论是“:focus-visible”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** :visited。如果选择它，就等于断言“:visited”；但本题成立的结论是“:focus-visible”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、可访问性、焦点”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、可访问性、焦点”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "CSS",
+        "可访问性",
+        "焦点"
+      ]
+    },
+    {
+      "code": "css-119-current-color",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "CSS 的 `currentColor` 关键字表示元素当前计算后的 `color` 值，可让边框或 SVG 图形继承文字颜色。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。currentColor 便于图标、边框与文本颜色保持同步，常用于可复用组件主题。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、颜色”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、颜色”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "CSS",
+        "颜色"
+      ]
+    },
+    {
+      "code": "css-120-custom-fallback",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "`color: var(--brand, #1677ff)` 中第二个参数的作用是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "当自定义属性缺失或无效时使用的回退值"
+        },
+        {
+          "id": "B",
+          "content": "颜色混合比例"
+        },
+        {
+          "id": "C",
+          "content": "媒体查询条件"
+        },
+        {
+          "id": "D",
+          "content": "强制覆盖 important"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（当自定义属性缺失或无效时使用的回退值）。var() 的回退参数在指定自定义属性不可用时参与计算，可继续嵌套 var()。\n\n**逐项分析**\n\n- **A：正确。** 当自定义属性缺失或无效时使用的回退值。它准确对应本题结论。依据是：var() 的回退参数在指定自定义属性不可用时参与计算，可继续嵌套 var()。\n- **B：不选。** 颜色混合比例。如果选择它，就等于断言“颜色混合比例”；但本题成立的结论是“当自定义属性缺失或无效时使用的回退值”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 媒体查询条件。如果选择它，就等于断言“媒体查询条件”；但本题成立的结论是“当自定义属性缺失或无效时使用的回退值”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 强制覆盖 important。如果选择它，就等于断言“强制覆盖 important”；但本题成立的结论是“当自定义属性缺失或无效时使用的回退值”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、自定义属性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、自定义属性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "CSS",
+        "自定义属性"
+      ]
+    },
+    {
+      "code": "css-121-contain",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "合理使用 CSS `contain` 可能带来哪些效果？",
+      "options": [
+        {
+          "id": "A",
+          "content": "限制元素布局、绘制或尺寸影响范围"
+        },
+        {
+          "id": "B",
+          "content": "帮助浏览器缩小重新计算范围"
+        },
+        {
+          "id": "C",
+          "content": "无条件提升所有页面性能"
+        },
+        {
+          "id": "D",
+          "content": "可能改变布局或定位行为，需要按场景验证"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（限制元素布局、绘制或尺寸影响范围）、**B**（帮助浏览器缩小重新计算范围）、**D**（可能改变布局或定位行为，需要按场景验证）。contain 是隔离提示，可能优化渲染，但不同 containment 会改变尺寸和布局语义，不能盲目全局使用。\n\n**逐项分析**\n\n- **A：正确。** 限制元素布局、绘制或尺寸影响范围。它准确对应本题结论。依据是：contain 是隔离提示，可能优化渲染，但不同 containment 会改变尺寸和布局语义，不能盲目全局使用。\n- **B：正确。** 帮助浏览器缩小重新计算范围。它准确对应本题结论。依据是：contain 是隔离提示，可能优化渲染，但不同 containment 会改变尺寸和布局语义，不能盲目全局使用。\n- **C：不选。** 无条件提升所有页面性能。如果选择它，就等于断言“无条件提升所有页面性能”；但本题成立的结论是“限制元素布局、绘制或尺寸影响范围；帮助浏览器缩小重新计算范围；可能改变布局或定位行为，需要按场景验证”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 可能改变布局或定位行为，需要按场景验证。它准确对应本题结论。依据是：contain 是隔离提示，可能优化渲染，但不同 containment 会改变尺寸和布局语义，不能盲目全局使用。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“CSS、性能、Containment”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、性能、Containment”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "CSS",
+        "性能",
+        "Containment"
+      ]
+    },
+    {
+      "code": "css-122-will-change",
+      "categoryKey": "frontend.css",
+      "type": "true_false",
+      "stem": "为了性能，应给页面所有元素长期设置 `will-change: transform`。",
+      "answerKeys": [
+        "false"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：错误。will-change 会消耗额外内存和合成资源，应只在确有变化且临近发生时针对性使用。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“CSS、性能、合成”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、性能、合成”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "性能",
+        "合成"
+      ]
+    },
+    {
+      "code": "css-123-animation-fill",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "希望 CSS 动画结束后元素保持最后关键帧样式，可设置什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "animation-fill-mode: forwards"
+        },
+        {
+          "id": "B",
+          "content": "animation-play-state: paused"
+        },
+        {
+          "id": "C",
+          "content": "animation-direction: reverse"
+        },
+        {
+          "id": "D",
+          "content": "animation-iteration-count: infinite"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（animation-fill-mode: forwards）。forwards 让动画在结束后应用最后一个相关关键帧计算值，但不会把值写回原始样式。\n\n**逐项分析**\n\n- **A：正确。** animation-fill-mode: forwards。它准确对应本题结论。依据是：forwards 让动画在结束后应用最后一个相关关键帧计算值，但不会把值写回原始样式。\n- **B：不选。** animation-play-state: paused。如果选择它，就等于断言“animation-play-state: paused”；但本题成立的结论是“animation-fill-mode: forwards”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** animation-direction: reverse。如果选择它，就等于断言“animation-direction: reverse”；但本题成立的结论是“animation-fill-mode: forwards”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** animation-iteration-count: infinite。如果选择它，就等于断言“animation-iteration-count: infinite”；但本题成立的结论是“animation-fill-mode: forwards”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、动画”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、动画”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "动画"
+      ]
+    },
+    {
+      "code": "css-124-pseudo-element",
+      "categoryKey": "frontend.css",
+      "type": "multiple_choice",
+      "stem": "关于 `::before` 和 `::after`，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "通常依赖 content 生成内容"
+        },
+        {
+          "id": "B",
+          "content": "适合纯装饰，重要语义内容不应只依赖它们"
+        },
+        {
+          "id": "C",
+          "content": "它们是真实 HTML 节点"
+        },
+        {
+          "id": "D",
+          "content": "可参与布局和样式"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（通常依赖 content 生成内容）、**B**（适合纯装饰，重要语义内容不应只依赖它们）、**D**（可参与布局和样式）。伪元素由 CSS 生成并可参与渲染，但不是 DOM 节点，关键内容应存在于可访问的 HTML 中。\n\n**逐项分析**\n\n- **A：正确。** 通常依赖 content 生成内容。它准确对应本题结论。依据是：伪元素由 CSS 生成并可参与渲染，但不是 DOM 节点，关键内容应存在于可访问的 HTML 中。\n- **B：正确。** 适合纯装饰，重要语义内容不应只依赖它们。它准确对应本题结论。依据是：伪元素由 CSS 生成并可参与渲染，但不是 DOM 节点，关键内容应存在于可访问的 HTML 中。\n- **C：不选。** 它们是真实 HTML 节点。如果选择它，就等于断言“它们是真实 HTML 节点”；但本题成立的结论是“通常依赖 content 生成内容；适合纯装饰，重要语义内容不应只依赖它们；可参与布局和样式”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 可参与布局和样式。它准确对应本题结论。依据是：伪元素由 CSS 生成并可参与渲染，但不是 DOM 节点，关键内容应存在于可访问的 HTML 中。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“CSS、伪元素、可访问性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、伪元素、可访问性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "CSS",
+        "伪元素",
+        "可访问性"
+      ]
+    },
+    {
+      "code": "css-125-supports",
+      "categoryKey": "frontend.css",
+      "type": "single_choice",
+      "stem": "需要只在浏览器支持某个 CSS 特性时应用增强样式，应使用什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "@supports"
+        },
+        {
+          "id": "B",
+          "content": "@charset"
+        },
+        {
+          "id": "C",
+          "content": "@page"
+        },
+        {
+          "id": "D",
+          "content": "@namespace"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（@supports）。`@supports` 执行特性查询，是实现渐进增强和安全回退的重要工具。\n\n**逐项分析**\n\n- **A：正确。** @supports。它准确对应本题结论。依据是：`@supports` 执行特性查询，是实现渐进增强和安全回退的重要工具。\n- **B：不选。** @charset。如果选择它，就等于断言“@charset”；但本题成立的结论是“@supports”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** @page。如果选择它，就等于断言“@page”；但本题成立的结论是“@supports”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** @namespace。如果选择它，就等于断言“@namespace”；但本题成立的结论是“@supports”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nCSS 的答案通常来自层叠、格式化上下文、包含块和布局算法，而不是某个属性“突然失效”。排查时先确认最终计算样式，再确认元素处于普通流、Flex、Grid 还是定位上下文，最后检查尺寸约束、滚动容器和层叠上下文。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“CSS、特性查询、兼容性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“CSS、特性查询、兼容性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "CSS",
+        "特性查询",
+        "兼容性"
+      ]
+    }
   ]
 }

@@ -1,7 +1,6 @@
 <template>
   <a-modal
     :open="open"
-    :title="paper?.id ? '编辑试卷' : '新建试卷'"
     :width="760"
     :confirm-loading="submitting"
     ok-text="保存"
@@ -9,6 +8,12 @@
     @ok="submit"
     @cancel="$emit('cancel')"
   >
+    <template #title>
+      <span class="question-bank-dialog-title">
+        {{ paper?.id ? '编辑试卷' : '新建试卷' }}
+        <QuestionBankHelp topic="paperEditor" size="small" button-type="text" />
+      </span>
+    </template>
     <div class="question-bank-modal-body">
       <a-form layout="vertical">
         <a-form-item label="试卷名称" required>
@@ -89,6 +94,7 @@
 import { reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { createQuestionPaper, updateQuestionPaper } from '@/services/questionBank'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import { difficultyOptions, paperModeOptions, questionTypeOptions } from './questionBankMeta'
 
 const props = defineProps({

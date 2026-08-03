@@ -3,6 +3,8 @@
     <section class="question-bank-page">
       <div class="question-bank-toolbar">
         <a-segmented v-model:value="form.mode" :options="[{ label: '快速练习', value: 'practice' }, { label: '模拟测验', value: 'exam' }]" />
+        <span class="question-bank-toolbar__spacer"></span>
+        <QuestionBankHelp topic="practice" />
       </div>
       <section class="question-bank-section question-practice-config">
         <a-form layout="vertical">
@@ -30,10 +32,16 @@
               <a-input-number v-model:value="form.durationMinutes" :min="0" :max="480" style="width: 100%" />
             </a-form-item>
           </div>
-          <a-button type="primary" size="large" :loading="starting" @click="start">
-            <template #icon><PlayCircleOutlined /></template>
-            开始{{ form.mode === 'exam' ? '测验' : '练习' }}
-          </a-button>
+          <div class="question-practice-actions">
+            <a-button @click="resetForm">
+              <template #icon><ClearOutlined /></template>
+              重置条件
+            </a-button>
+            <a-button type="primary" :loading="starting" @click="start">
+              <template #icon><PlayCircleOutlined /></template>
+              开始{{ form.mode === 'exam' ? '测验' : '练习' }}
+            </a-button>
+          </div>
         </a-form>
       </section>
     </section>
@@ -44,9 +52,10 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { PlayCircleOutlined } from '@ant-design/icons-vue'
+import { ClearOutlined, PlayCircleOutlined } from '@ant-design/icons-vue'
 import { listQuestionCategories, startQuickAttempt } from '@/services/questionBank'
 import { difficultyOptions, flattenCategoryOptions, questionTypeOptions } from './questionBankMeta'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import './questionBank.css'
 
 const router = useRouter()
@@ -63,6 +72,17 @@ const form = reactive({
   tags: [],
   durationMinutes: 0
 })
+
+function resetForm() {
+  Object.assign(form, {
+    categoryId: undefined,
+    count: 20,
+    types: [],
+    difficulties: [],
+    tags: [],
+    durationMinutes: 0
+  })
+}
 
 async function start() {
   starting.value = true
@@ -96,7 +116,25 @@ onMounted(async () => {
 
 <style scoped>
 .question-practice-config {
-  width: min(780px, 100%);
-  padding: 20px;
+  width: min(860px, 100%);
+  padding: 24px;
+}
+
+.question-practice-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 18px;
+  border-top: 1px solid var(--console-border, #e5e7eb);
+}
+
+@media (max-width: 640px) {
+  .question-practice-config {
+    padding: 16px;
+  }
+
+  .question-practice-actions > .ant-btn {
+    flex: 1;
+  }
 }
 </style>

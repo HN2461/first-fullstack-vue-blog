@@ -16,6 +16,8 @@
           <template #icon><PlusOutlined /></template>
           新建试卷
         </a-button>
+        <span class="question-bank-toolbar__spacer"></span>
+        <QuestionBankHelp topic="papers" />
       </template>
 
       <template #bodyCell="{ column, record }">
@@ -73,6 +75,7 @@ import {
 } from '@/services/questionBank'
 import { flattenCategoryOptions, formatQuestionTime, getOptionMeta, paperModeOptions } from './questionBankMeta'
 import QuestionPaperEditorModal from './QuestionPaperEditorModal.vue'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import './questionBank.css'
 
 const router = useRouter()

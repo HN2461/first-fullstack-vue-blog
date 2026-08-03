@@ -1,35 +1,881 @@
 {
   "schemaVersion": 1,
   "questions": [
-    { "code": "react-001-purity", "categoryKey": "frontend.react", "type": "true_false", "stem": "React 组件渲染函数应保持纯粹：相同 props、state 和 context 输入应产生相同 JSX，副作用不应在渲染阶段执行。", "answerKeys": ["true"], "explanation": "纯渲染使 React 能安全地重试、暂停或重复渲染；副作用应放在事件处理或 Effect 等合适阶段。", "difficulty": "easy", "tags": ["React", "纯函数", "渲染"] },
-    { "code": "react-002-state-snapshot", "categoryKey": "frontend.react", "type": "single_choice", "stem": "在一次 React 渲染创建的事件处理函数中读取 state，较准确的理解是什么？", "options": [{ "id": "A", "content": "读取的是该次渲染的 state 快照" }, { "id": "B", "content": "永远自动读取未来最终值" }, { "id": "C", "content": "state 是可直接修改的全局变量" }, { "id": "D", "content": "读取会同步重绘 DOM" }], "answerKeys": ["A"], "explanation": "每次渲染都有自己的 state 快照和闭包，调用 setter 会请求新渲染，不会修改当前闭包中的值。", "difficulty": "medium", "tags": ["React", "State", "闭包"] },
-    { "code": "react-003-batching", "categoryKey": "frontend.react", "type": "true_false", "stem": "React 会对同一批事件中的多个状态更新进行批处理，以减少不必要的重复渲染。", "answerKeys": ["true"], "explanation": "批处理会等事件处理逻辑完成后统一处理更新；依赖前一状态时应使用函数式更新。", "difficulty": "easy", "tags": ["React", "批处理", "State"] },
-    { "code": "react-004-functional-update", "categoryKey": "frontend.react", "type": "single_choice", "stem": "一次事件中需要连续把计数增加三次，哪种写法能可靠基于前一次排队结果更新？", "options": [{ "id": "A", "content": "连续调用 setCount(count + 1)" }, { "id": "B", "content": "连续调用 setCount(c => c + 1)" }, { "id": "C", "content": "直接执行 count += 3" }, { "id": "D", "content": "修改 DOM 文本" }], "answerKeys": ["B"], "explanation": "函数式 updater 依次接收前一个排队状态，避免同一渲染快照中的 count 被重复使用。", "difficulty": "easy", "tags": ["React", "State", "函数式更新"] },
-    { "code": "react-005-state-immutability", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "为什么 React state 中的对象和数组通常应按不可变方式更新？", "options": [{ "id": "A", "content": "保留旧渲染快照" }, { "id": "B", "content": "让引用变化可用于判断更新" }, { "id": "C", "content": "避免直接修改导致 React 无法感知" }, { "id": "D", "content": "因为 JavaScript 对象天生不可变" }], "answerKeys": ["A", "B", "C"], "explanation": "JavaScript 对象本身可变，但 React 把 state 当快照；应创建新引用而不是修改现有对象。", "difficulty": "medium", "tags": ["React", "State", "不可变"] },
-    { "code": "react-006-key-identity", "categoryKey": "frontend.react", "type": "single_choice", "stem": "React 列表中 key 的核心作用是什么？", "options": [{ "id": "A", "content": "在同级元素间标识稳定身份，帮助匹配增删和移动" }, { "id": "B", "content": "作为 props 自动传入组件" }, { "id": "C", "content": "决定 CSS 优先级" }, { "id": "D", "content": "替代数据库主键约束" }], "answerKeys": ["A"], "explanation": "key 只在同级协调中使用且不会自动作为普通 prop；不稳定 key 会造成状态错位或无谓重建。", "difficulty": "easy", "tags": ["React", "key", "协调"] },
-    { "code": "react-007-reset-key", "categoryKey": "frontend.react", "type": "true_false", "stem": "改变组件的 key 会让 React 把它视为不同身份，从而重置该位置的组件状态。", "answerKeys": ["true"], "explanation": "状态与组件在渲染树中的位置和身份关联；新 key 会触发旧实例卸载和新实例挂载。", "difficulty": "medium", "tags": ["React", "key", "State"] },
-    { "code": "react-008-controlled", "categoryKey": "frontend.react", "type": "single_choice", "stem": "受控表单输入的典型特征是什么？", "options": [{ "id": "A", "content": "value 由 React state 提供，并通过 onChange 更新 state" }, { "id": "B", "content": "只使用 defaultValue 且从不读取" }, { "id": "C", "content": "输入值存储在 CSS" }, { "id": "D", "content": "不允许用户输入" }], "answerKeys": ["A"], "explanation": "受控输入以 state 为单一事实来源；非受控输入则主要由 DOM 保存当前值并通过 ref 读取。", "difficulty": "easy", "tags": ["React", "表单", "受控组件"] },
-    { "code": "react-009-lift-state", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "两个兄弟组件需要共享并同步同一份状态时，常见做法是什么？", "options": [{ "id": "A", "content": "把状态提升到最近共同父组件" }, { "id": "B", "content": "由父组件通过 props 下发值和更新回调" }, { "id": "C", "content": "两个组件各存一份并靠定时器猜测同步" }, { "id": "D", "content": "状态跨度很大时可评估 context 或外部 store" }], "answerKeys": ["A", "B", "D"], "explanation": "共享状态应有明确单一所有者；局部场景提升状态，跨层级或复杂领域再选择 context/store。", "difficulty": "medium", "tags": ["React", "状态提升", "组件通信"] },
-    { "code": "react-010-effect-purpose", "categoryKey": "frontend.react", "type": "single_choice", "stem": "React Effect 最适合解决什么问题？", "options": [{ "id": "A", "content": "把组件与网络、订阅、DOM 插件等外部系统同步" }, { "id": "B", "content": "计算所有可以在渲染中直接得到的派生值" }, { "id": "C", "content": "替代普通事件处理" }, { "id": "D", "content": "修改 props" }], "answerKeys": ["A"], "explanation": "Effect 是连接外部系统的逃生舱；纯派生值应在渲染中计算，用户动作应在事件处理器中执行。", "difficulty": "medium", "tags": ["React", "Effect", "副作用"] },
-    { "code": "react-011-effect-deps", "categoryKey": "frontend.react", "type": "true_false", "stem": "Effect 中使用的响应式值应出现在依赖列表中；不能仅为减少执行次数而随意压制依赖检查。", "answerKeys": ["true"], "explanation": "依赖描述代码真实数据流，缺失依赖会产生 stale closure；应重构代码而不是欺骗 linter。", "difficulty": "medium", "tags": ["React", "Effect", "依赖"] },
-    { "code": "react-012-effect-cleanup", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "Effect cleanup 常用于哪些清理工作？", "options": [{ "id": "A", "content": "取消订阅" }, { "id": "B", "content": "断开连接或观察器" }, { "id": "C", "content": "终止过期请求" }, { "id": "D", "content": "直接改变上一次渲染的 props" }], "answerKeys": ["A", "B", "C"], "explanation": "cleanup 在依赖变化后的下一次 Effect 前及卸载时执行，用于撤销上一轮外部同步。", "difficulty": "easy", "tags": ["React", "Effect", "清理"] },
-    { "code": "react-013-derived-state", "categoryKey": "frontend.react", "type": "single_choice", "stem": "`fullName` 完全可由当前 `firstName` 与 `lastName` 计算得到，最合适的处理通常是什么？", "options": [{ "id": "A", "content": "渲染时直接计算，不额外用 state 和 Effect 同步" }, { "id": "B", "content": "再建一份 state 并在 Effect 更新" }, { "id": "C", "content": "写入全局变量" }, { "id": "D", "content": "每秒轮询更新" }], "answerKeys": ["A"], "explanation": "可从现有输入计算的值不应冗余存储，否则会增加一次渲染并产生状态不同步风险。", "difficulty": "easy", "tags": ["React", "派生状态", "Effect"] },
-    { "code": "react-014-ref-state", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "关于 ref 与 state，哪些说法正确？", "options": [{ "id": "A", "content": "修改 ref.current 通常不会触发渲染" }, { "id": "B", "content": "ref 适合保存 DOM 节点或不参与渲染的数据" }, { "id": "C", "content": "需要显示在界面的数据通常应使用 state" }, { "id": "D", "content": "应在渲染期间任意读写 ref.current" }], "answerKeys": ["A", "B", "C"], "explanation": "ref 是跨渲染保留的可变容器，但渲染应保持纯粹；视觉状态应由 state 驱动。", "difficulty": "medium", "tags": ["React", "Ref", "State"] },
-    { "code": "react-015-imperative-handle", "categoryKey": "frontend.react", "type": "single_choice", "stem": "组件需要限制父级通过 ref 能调用的命令式能力，可使用什么 Hook 自定义暴露句柄？", "options": [{ "id": "A", "content": "useImperativeHandle" }, { "id": "B", "content": "useDebugValue" }, { "id": "C", "content": "useDeferredValue" }, { "id": "D", "content": "useTransition" }], "answerKeys": ["A"], "explanation": "useImperativeHandle 可暴露 focus、scroll 等最小命令式 API；大多数数据流仍应优先使用 props。", "difficulty": "hard", "tags": ["React", "Ref", "useImperativeHandle"] },
-    { "code": "react-016-context-render", "categoryKey": "frontend.react", "type": "true_false", "stem": "Context provider 的 value 引用每次渲染都变化时，消费该 context 的组件可能重新渲染，即使对象内容看起来相同。", "answerKeys": ["true"], "explanation": "Context 按 value 身份传播；高频变化和大对象应合理拆分，并避免无意义的新引用。", "difficulty": "medium", "tags": ["React", "Context", "性能"] },
-    { "code": "react-017-reducer", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "复杂组件状态适合用 reducer 的常见原因有哪些？", "options": [{ "id": "A", "content": "把更新逻辑集中为 action 到新状态的转换" }, { "id": "B", "content": "便于测试状态转换" }, { "id": "C", "content": "适合多个相关字段和复杂更新规则" }, { "id": "D", "content": "reducer 可以在执行时直接发网络请求" }], "answerKeys": ["A", "B", "C"], "explanation": "Reducer 应保持纯函数；网络请求等副作用应由事件、Effect 或外部层协调。", "difficulty": "medium", "tags": ["React", "useReducer", "状态管理"] },
-    { "code": "react-018-memo", "categoryKey": "frontend.react", "type": "single_choice", "stem": "`memo(Component)` 默认如何判断 props 是否变化？", "options": [{ "id": "A", "content": "逐个使用 Object.is 比较 props" }, { "id": "B", "content": "深度递归比较所有对象" }, { "id": "C", "content": "永远不重新渲染" }, { "id": "D", "content": "比较生成的 HTML 字符串" }], "answerKeys": ["A"], "explanation": "memo 默认浅层按 Object.is 比较每个 prop；每次新建对象或函数会破坏跳过渲染的机会。", "difficulty": "medium", "tags": ["React", "memo", "性能"] },
-    { "code": "react-019-use-memo", "categoryKey": "frontend.react", "type": "true_false", "stem": "`useMemo` 是性能优化提示而不是语义保证，不应依赖它维持程序正确性。", "answerKeys": ["true"], "explanation": "代码在移除 useMemo 后仍应正确；只有昂贵计算或稳定引用确有收益时才使用。", "difficulty": "medium", "tags": ["React", "useMemo", "性能"] },
-    { "code": "react-020-use-callback", "categoryKey": "frontend.react", "type": "single_choice", "stem": "`useCallback(fn, deps)` 主要缓存什么？", "options": [{ "id": "A", "content": "函数引用本身" }, { "id": "B", "content": "函数每次调用的所有返回值" }, { "id": "C", "content": "DOM 树" }, { "id": "D", "content": "网络响应" }], "answerKeys": ["A"], "explanation": "useCallback 在依赖不变时返回同一函数引用，常与 memo 子组件或其他 Hook 依赖配合。", "difficulty": "easy", "tags": ["React", "useCallback", "性能"] },
-    { "code": "react-021-transition", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "React transition 更新的特点通常包括哪些？", "options": [{ "id": "A", "content": "标记非紧急更新" }, { "id": "B", "content": "允许输入等紧急更新优先响应" }, { "id": "C", "content": "可提供 pending 状态" }, { "id": "D", "content": "适合控制文本输入本身的同步 value 更新" }], "answerKeys": ["A", "B", "C"], "explanation": "输入控件的直接受控更新应保持紧急；与之关联的昂贵结果渲染可放入 transition。", "difficulty": "hard", "tags": ["React", "Transition", "并发渲染"] },
-    { "code": "react-022-deferred-value", "categoryKey": "frontend.react", "type": "single_choice", "stem": "`useDeferredValue` 常用于什么场景？", "options": [{ "id": "A", "content": "让界面先响应最新输入，同时让昂贵结果视图稍后跟进" }, { "id": "B", "content": "永久冻结 state" }, { "id": "C", "content": "替代服务端缓存" }, { "id": "D", "content": "同步阻塞主线程" }], "answerKeys": ["A"], "explanation": "延迟值让非紧急子树使用滞后的值渲染；若子树能通过 memo 跳过更新，优化效果更明显。", "difficulty": "hard", "tags": ["React", "useDeferredValue", "性能"] },
-    { "code": "react-023-suspense", "categoryKey": "frontend.react", "type": "true_false", "stem": "Suspense 边界可以在其子树等待支持 Suspense 的资源或懒加载组件时展示 fallback。", "answerKeys": ["true"], "explanation": "Suspense 协调等待状态，但普通 Effect 内 fetch 不会仅因存在 Suspense 就自动被捕获。", "difficulty": "medium", "tags": ["React", "Suspense", "异步"] },
-    { "code": "react-024-error-boundary", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "React Error Boundary 通常能捕获哪些错误？", "options": [{ "id": "A", "content": "后代组件渲染期间抛出的错误" }, { "id": "B", "content": "后代生命周期中的错误" }, { "id": "C", "content": "所有事件处理器中的错误自动捕获" }, { "id": "D", "content": "用于展示降级 UI 并上报组件错误" }], "answerKeys": ["A", "B", "D"], "explanation": "错误边界不捕获普通事件处理器、边界自身或任意异步回调错误，需要各自处理。", "difficulty": "medium", "tags": ["React", "错误边界", "错误处理"] },
-    { "code": "react-025-portal", "categoryKey": "frontend.react", "type": "true_false", "stem": "Portal 改变节点在 DOM 中的物理位置，但事件仍按 React 组件树传播，context 也保持组件树关系。", "answerKeys": ["true"], "explanation": "Portal 常用于模态框和浮层；其逻辑父子关系仍在 React 树中，而非按 DOM 祖先决定。", "difficulty": "medium", "tags": ["React", "Portal", "事件"] },
-    { "code": "react-026-strict-mode", "categoryKey": "frontend.react", "type": "single_choice", "stem": "开发环境 StrictMode 可能额外执行渲染或 Effect setup/cleanup 的主要目的是什么？", "options": [{ "id": "A", "content": "暴露不纯渲染和缺失清理等问题" }, { "id": "B", "content": "生产环境永久执行两次请求" }, { "id": "C", "content": "提高 CSS 优先级" }, { "id": "D", "content": "自动修复所有错误" }], "answerKeys": ["A"], "explanation": "StrictMode 的额外开发检查帮助发现副作用和清理缺陷；生产构建不会保留相同的开发重复行为。", "difficulty": "medium", "tags": ["React", "StrictMode", "调试"] },
-    { "code": "react-027-hydration", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "React SSR 水合要求和常见风险包括哪些？", "options": [{ "id": "A", "content": "客户端首次渲染应与服务端 HTML 匹配" }, { "id": "B", "content": "随机数、时间和浏览器专属分支可能造成不匹配" }, { "id": "C", "content": "不匹配只影响日志，永远不会导致交互问题" }, { "id": "D", "content": "应提供确定性的初始数据" }], "answerKeys": ["A", "B", "D"], "explanation": "水合复用现有 HTML 并绑定交互，结构不一致可能导致重建、性能损失甚至错误绑定。", "difficulty": "hard", "tags": ["React", "SSR", "水合"] },
-    { "code": "react-028-custom-hook", "categoryKey": "frontend.react", "type": "true_false", "stem": "自定义 Hook 复用的是状态逻辑而不是同一份状态；每次调用通常拥有独立的 state 和 Effect。", "answerKeys": ["true"], "explanation": "Hook 组合代码逻辑，调用之间不会自动共享状态；共享状态仍需提升、context 或外部 store。", "difficulty": "easy", "tags": ["React", "自定义Hook", "复用"] },
-    { "code": "react-029-stale-closure", "categoryKey": "frontend.react", "type": "single_choice", "stem": "定时器回调长期读到创建时的旧 state，通常属于什么问题？", "options": [{ "id": "A", "content": "stale closure" }, { "id": "B", "content": "CSS 重排" }, { "id": "C", "content": "HTTP 缓存穿透" }, { "id": "D", "content": "DOM 水合成功" }], "answerKeys": ["A"], "explanation": "回调闭包捕获某次渲染快照；可通过正确依赖、函数式更新、重新订阅或适当 ref 解决。", "difficulty": "medium", "tags": ["React", "闭包", "Effect"] },
-    { "code": "react-030-rules-hooks", "categoryKey": "frontend.react", "type": "multiple_choice", "stem": "经典 Hooks 调用规则包括哪些？", "options": [{ "id": "A", "content": "在组件或自定义 Hook 顶层调用" }, { "id": "B", "content": "不要在普通条件、循环或嵌套函数中随意调用" }, { "id": "C", "content": "保持每次渲染 Hook 调用顺序稳定" }, { "id": "D", "content": "可以在任意 class 方法中调用" }], "answerKeys": ["A", "B", "C"], "explanation": "稳定调用顺序让 React 把 Hook 状态与调用位置对应；lint 规则可自动检查大部分违规。", "difficulty": "easy", "tags": ["React", "Hooks", "规则"] }
+    {
+      "code": "react-001-purity",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "React 组件渲染函数应保持纯粹：相同 props、state 和 context 输入应产生相同 JSX，副作用不应在渲染阶段执行。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。纯渲染使 React 能安全地重试、暂停或重复渲染；副作用应放在事件处理或 Effect 等合适阶段。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、纯函数、渲染”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、纯函数、渲染”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "纯函数",
+        "渲染"
+      ]
+    },
+    {
+      "code": "react-002-state-snapshot",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "在一次 React 渲染创建的事件处理函数中读取 state，较准确的理解是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "读取的是该次渲染的 state 快照"
+        },
+        {
+          "id": "B",
+          "content": "永远自动读取未来最终值"
+        },
+        {
+          "id": "C",
+          "content": "state 是可直接修改的全局变量"
+        },
+        {
+          "id": "D",
+          "content": "读取会同步重绘 DOM"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（读取的是该次渲染的 state 快照）。每次渲染都有自己的 state 快照和闭包，调用 setter 会请求新渲染，不会修改当前闭包中的值。\n\n**逐项分析**\n\n- **A：正确。** 读取的是该次渲染的 state 快照。它准确对应本题结论。依据是：每次渲染都有自己的 state 快照和闭包，调用 setter 会请求新渲染，不会修改当前闭包中的值。\n- **B：不选。** 永远自动读取未来最终值。如果选择它，就等于断言“永远自动读取未来最终值”；但本题成立的结论是“读取的是该次渲染的 state 快照”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** state 是可直接修改的全局变量。如果选择它，就等于断言“state 是可直接修改的全局变量”；但本题成立的结论是“读取的是该次渲染的 state 快照”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 读取会同步重绘 DOM。如果选择它，就等于断言“读取会同步重绘 DOM”；但本题成立的结论是“读取的是该次渲染的 state 快照”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n词法作用域由代码书写位置决定。闭包保留的是对外层绑定的访问能力，不是把某个瞬间的值复制一份；let/const 绑定虽已创建，但在初始化前处于暂时性死区，访问会抛出 ReferenceError。\n\n本题可以用一个最小示例验证：只保留与“React、State、闭包”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、State、闭包”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "State",
+        "闭包"
+      ]
+    },
+    {
+      "code": "react-003-batching",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "React 会对同一批事件中的多个状态更新进行批处理，以减少不必要的重复渲染。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。批处理会等事件处理逻辑完成后统一处理更新；依赖前一状态时应使用函数式更新。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、批处理、State”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、批处理、State”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "批处理",
+        "State"
+      ]
+    },
+    {
+      "code": "react-004-functional-update",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "一次事件中需要连续把计数增加三次，哪种写法能可靠基于前一次排队结果更新？",
+      "options": [
+        {
+          "id": "A",
+          "content": "连续调用 setCount(count + 1)"
+        },
+        {
+          "id": "B",
+          "content": "连续调用 setCount(c => c + 1)"
+        },
+        {
+          "id": "C",
+          "content": "直接执行 count += 3"
+        },
+        {
+          "id": "D",
+          "content": "修改 DOM 文本"
+        }
+      ],
+      "answerKeys": [
+        "B"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**B**（连续调用 setCount(c => c + 1)）。函数式 updater 依次接收前一个排队状态，避免同一渲染快照中的 count 被重复使用。\n\n**逐项分析**\n\n- **A：不选。** 连续调用 setCount(count + 1)。如果选择它，就等于断言“连续调用 setCount(count + 1)”；但本题成立的结论是“连续调用 setCount(c => c + 1)”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **B：正确。** 连续调用 setCount(c => c + 1)。它准确对应本题结论。依据是：函数式 updater 依次接收前一个排队状态，避免同一渲染快照中的 count 被重复使用。\n- **C：不选。** 直接执行 count += 3。如果选择它，就等于断言“直接执行 count += 3”；但本题成立的结论是“连续调用 setCount(c => c + 1)”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 修改 DOM 文本。如果选择它，就等于断言“修改 DOM 文本”；但本题成立的结论是“连续调用 setCount(c => c + 1)”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、State、函数式更新”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、State、函数式更新”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "State",
+        "函数式更新"
+      ]
+    },
+    {
+      "code": "react-005-state-immutability",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "为什么 React state 中的对象和数组通常应按不可变方式更新？",
+      "options": [
+        {
+          "id": "A",
+          "content": "保留旧渲染快照"
+        },
+        {
+          "id": "B",
+          "content": "让引用变化可用于判断更新"
+        },
+        {
+          "id": "C",
+          "content": "避免直接修改导致 React 无法感知"
+        },
+        {
+          "id": "D",
+          "content": "因为 JavaScript 对象天生不可变"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（保留旧渲染快照）、**B**（让引用变化可用于判断更新）、**C**（避免直接修改导致 React 无法感知）。JavaScript 对象本身可变，但 React 把 state 当快照；应创建新引用而不是修改现有对象。\n\n**逐项分析**\n\n- **A：正确。** 保留旧渲染快照。它准确对应本题结论。依据是：JavaScript 对象本身可变，但 React 把 state 当快照；应创建新引用而不是修改现有对象。\n- **B：正确。** 让引用变化可用于判断更新。它准确对应本题结论。依据是：JavaScript 对象本身可变，但 React 把 state 当快照；应创建新引用而不是修改现有对象。\n- **C：正确。** 避免直接修改导致 React 无法感知。它准确对应本题结论。依据是：JavaScript 对象本身可变，但 React 把 state 当快照；应创建新引用而不是修改现有对象。\n- **D：不选。** 因为 JavaScript 对象天生不可变。如果选择它，就等于断言“因为 JavaScript 对象天生不可变”；但本题成立的结论是“保留旧渲染快照；让引用变化可用于判断更新；避免直接修改导致 React 无法感知”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、State、不可变”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、State、不可变”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "State",
+        "不可变"
+      ]
+    },
+    {
+      "code": "react-006-key-identity",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "React 列表中 key 的核心作用是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "在同级元素间标识稳定身份，帮助匹配增删和移动"
+        },
+        {
+          "id": "B",
+          "content": "作为 props 自动传入组件"
+        },
+        {
+          "id": "C",
+          "content": "决定 CSS 优先级"
+        },
+        {
+          "id": "D",
+          "content": "替代数据库主键约束"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（在同级元素间标识稳定身份，帮助匹配增删和移动）。key 只在同级协调中使用且不会自动作为普通 prop；不稳定 key 会造成状态错位或无谓重建。\n\n**逐项分析**\n\n- **A：正确。** 在同级元素间标识稳定身份，帮助匹配增删和移动。它准确对应本题结论。依据是：key 只在同级协调中使用且不会自动作为普通 prop；不稳定 key 会造成状态错位或无谓重建。\n- **B：不选。** 作为 props 自动传入组件。如果选择它，就等于断言“作为 props 自动传入组件”；但本题成立的结论是“在同级元素间标识稳定身份，帮助匹配增删和移动”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 决定 CSS 优先级。如果选择它，就等于断言“决定 CSS 优先级”；但本题成立的结论是“在同级元素间标识稳定身份，帮助匹配增删和移动”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 替代数据库主键约束。如果选择它，就等于断言“替代数据库主键约束”；但本题成立的结论是“在同级元素间标识稳定身份，帮助匹配增删和移动”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\nkey 用来表达同级节点的稳定身份，帮助渲染器判断复用、移动、创建和卸载。索引在插入、删除、排序后不能稳定代表业务实体，涉及输入状态或组件局部状态时尤其容易出现错误复用。\n\n本题可以用一个最小示例验证：只保留与“React、key、协调”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、key、协调”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "key",
+        "协调"
+      ]
+    },
+    {
+      "code": "react-007-reset-key",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "改变组件的 key 会让 React 把它视为不同身份，从而重置该位置的组件状态。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。状态与组件在渲染树中的位置和身份关联；新 key 会触发旧实例卸载和新实例挂载。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\nkey 用来表达同级节点的稳定身份，帮助渲染器判断复用、移动、创建和卸载。索引在插入、删除、排序后不能稳定代表业务实体，涉及输入状态或组件局部状态时尤其容易出现错误复用。\n\n本题可以用一个最小示例验证：只保留与“React、key、State”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、key、State”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "key",
+        "State"
+      ]
+    },
+    {
+      "code": "react-008-controlled",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "受控表单输入的典型特征是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "value 由 React state 提供，并通过 onChange 更新 state"
+        },
+        {
+          "id": "B",
+          "content": "只使用 defaultValue 且从不读取"
+        },
+        {
+          "id": "C",
+          "content": "输入值存储在 CSS"
+        },
+        {
+          "id": "D",
+          "content": "不允许用户输入"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（value 由 React state 提供，并通过 onChange 更新 state）。受控输入以 state 为单一事实来源；非受控输入则主要由 DOM 保存当前值并通过 ref 读取。\n\n**逐项分析**\n\n- **A：正确。** value 由 React state 提供，并通过 onChange 更新 state。它准确对应本题结论。依据是：受控输入以 state 为单一事实来源；非受控输入则主要由 DOM 保存当前值并通过 ref 读取。\n- **B：不选。** 只使用 defaultValue 且从不读取。如果选择它，就等于断言“只使用 defaultValue 且从不读取”；但本题成立的结论是“value 由 React state 提供，并通过 onChange 更新 state”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 输入值存储在 CSS。如果选择它，就等于断言“输入值存储在 CSS”；但本题成立的结论是“value 由 React state 提供，并通过 onChange 更新 state”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 不允许用户输入。如果选择它，就等于断言“不允许用户输入”；但本题成立的结论是“value 由 React state 提供，并通过 onChange 更新 state”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“React、表单、受控组件”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、表单、受控组件”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "表单",
+        "受控组件"
+      ]
+    },
+    {
+      "code": "react-009-lift-state",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "两个兄弟组件需要共享并同步同一份状态时，常见做法是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "把状态提升到最近共同父组件"
+        },
+        {
+          "id": "B",
+          "content": "由父组件通过 props 下发值和更新回调"
+        },
+        {
+          "id": "C",
+          "content": "两个组件各存一份并靠定时器猜测同步"
+        },
+        {
+          "id": "D",
+          "content": "状态跨度很大时可评估 context 或外部 store"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（把状态提升到最近共同父组件）、**B**（由父组件通过 props 下发值和更新回调）、**D**（状态跨度很大时可评估 context 或外部 store）。共享状态应有明确单一所有者；局部场景提升状态，跨层级或复杂领域再选择 context/store。\n\n**逐项分析**\n\n- **A：正确。** 把状态提升到最近共同父组件。它准确对应本题结论。依据是：共享状态应有明确单一所有者；局部场景提升状态，跨层级或复杂领域再选择 context/store。\n- **B：正确。** 由父组件通过 props 下发值和更新回调。它准确对应本题结论。依据是：共享状态应有明确单一所有者；局部场景提升状态，跨层级或复杂领域再选择 context/store。\n- **C：不选。** 两个组件各存一份并靠定时器猜测同步。如果选择它，就等于断言“两个组件各存一份并靠定时器猜测同步”；但本题成立的结论是“把状态提升到最近共同父组件；由父组件通过 props 下发值和更新回调；状态跨度很大时可评估 context 或外部 store”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 状态跨度很大时可评估 context 或外部 store。它准确对应本题结论。依据是：共享状态应有明确单一所有者；局部场景提升状态，跨层级或复杂领域再选择 context/store。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、状态提升、组件通信”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、状态提升、组件通信”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "状态提升",
+        "组件通信"
+      ]
+    },
+    {
+      "code": "react-010-effect-purpose",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "React Effect 最适合解决什么问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "把组件与网络、订阅、DOM 插件等外部系统同步"
+        },
+        {
+          "id": "B",
+          "content": "计算所有可以在渲染中直接得到的派生值"
+        },
+        {
+          "id": "C",
+          "content": "替代普通事件处理"
+        },
+        {
+          "id": "D",
+          "content": "修改 props"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（把组件与网络、订阅、DOM 插件等外部系统同步）。Effect 是连接外部系统的逃生舱；纯派生值应在渲染中计算，用户动作应在事件处理器中执行。\n\n**逐项分析**\n\n- **A：正确。** 把组件与网络、订阅、DOM 插件等外部系统同步。它准确对应本题结论。依据是：Effect 是连接外部系统的逃生舱；纯派生值应在渲染中计算，用户动作应在事件处理器中执行。\n- **B：不选。** 计算所有可以在渲染中直接得到的派生值。如果选择它，就等于断言“计算所有可以在渲染中直接得到的派生值”；但本题成立的结论是“把组件与网络、订阅、DOM 插件等外部系统同步”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 替代普通事件处理。如果选择它，就等于断言“替代普通事件处理”；但本题成立的结论是“把组件与网络、订阅、DOM 插件等外部系统同步”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 修改 props。如果选择它，就等于断言“修改 props”；但本题成立的结论是“把组件与网络、订阅、DOM 插件等外部系统同步”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Effect、副作用”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Effect、副作用”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "Effect",
+        "副作用"
+      ]
+    },
+    {
+      "code": "react-011-effect-deps",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "Effect 中使用的响应式值应出现在依赖列表中；不能仅为减少执行次数而随意压制依赖检查。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。依赖描述代码真实数据流，缺失依赖会产生 stale closure；应重构代码而不是欺骗 linter。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Effect、依赖”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Effect、依赖”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "Effect",
+        "依赖"
+      ]
+    },
+    {
+      "code": "react-012-effect-cleanup",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "Effect cleanup 常用于哪些清理工作？",
+      "options": [
+        {
+          "id": "A",
+          "content": "取消订阅"
+        },
+        {
+          "id": "B",
+          "content": "断开连接或观察器"
+        },
+        {
+          "id": "C",
+          "content": "终止过期请求"
+        },
+        {
+          "id": "D",
+          "content": "直接改变上一次渲染的 props"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（取消订阅）、**B**（断开连接或观察器）、**C**（终止过期请求）。cleanup 在依赖变化后的下一次 Effect 前及卸载时执行，用于撤销上一轮外部同步。\n\n**逐项分析**\n\n- **A：正确。** 取消订阅。它准确对应本题结论。依据是：cleanup 在依赖变化后的下一次 Effect 前及卸载时执行，用于撤销上一轮外部同步。\n- **B：正确。** 断开连接或观察器。它准确对应本题结论。依据是：cleanup 在依赖变化后的下一次 Effect 前及卸载时执行，用于撤销上一轮外部同步。\n- **C：正确。** 终止过期请求。它准确对应本题结论。依据是：cleanup 在依赖变化后的下一次 Effect 前及卸载时执行，用于撤销上一轮外部同步。\n- **D：不选。** 直接改变上一次渲染的 props。如果选择它，就等于断言“直接改变上一次渲染的 props”；但本题成立的结论是“取消订阅；断开连接或观察器；终止过期请求”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Effect、清理”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Effect、清理”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "Effect",
+        "清理"
+      ]
+    },
+    {
+      "code": "react-013-derived-state",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "`fullName` 完全可由当前 `firstName` 与 `lastName` 计算得到，最合适的处理通常是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "渲染时直接计算，不额外用 state 和 Effect 同步"
+        },
+        {
+          "id": "B",
+          "content": "再建一份 state 并在 Effect 更新"
+        },
+        {
+          "id": "C",
+          "content": "写入全局变量"
+        },
+        {
+          "id": "D",
+          "content": "每秒轮询更新"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（渲染时直接计算，不额外用 state 和 Effect 同步）。可从现有输入计算的值不应冗余存储，否则会增加一次渲染并产生状态不同步风险。\n\n**逐项分析**\n\n- **A：正确。** 渲染时直接计算，不额外用 state 和 Effect 同步。它准确对应本题结论。依据是：可从现有输入计算的值不应冗余存储，否则会增加一次渲染并产生状态不同步风险。\n- **B：不选。** 再建一份 state 并在 Effect 更新。如果选择它，就等于断言“再建一份 state 并在 Effect 更新”；但本题成立的结论是“渲染时直接计算，不额外用 state 和 Effect 同步”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 写入全局变量。如果选择它，就等于断言“写入全局变量”；但本题成立的结论是“渲染时直接计算，不额外用 state 和 Effect 同步”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 每秒轮询更新。如果选择它，就等于断言“每秒轮询更新”；但本题成立的结论是“渲染时直接计算，不额外用 state 和 Effect 同步”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、派生状态、Effect”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、派生状态、Effect”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "派生状态",
+        "Effect"
+      ]
+    },
+    {
+      "code": "react-014-ref-state",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "关于 ref 与 state，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "修改 ref.current 通常不会触发渲染"
+        },
+        {
+          "id": "B",
+          "content": "ref 适合保存 DOM 节点或不参与渲染的数据"
+        },
+        {
+          "id": "C",
+          "content": "需要显示在界面的数据通常应使用 state"
+        },
+        {
+          "id": "D",
+          "content": "应在渲染期间任意读写 ref.current"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（修改 ref.current 通常不会触发渲染）、**B**（ref 适合保存 DOM 节点或不参与渲染的数据）、**C**（需要显示在界面的数据通常应使用 state）。ref 是跨渲染保留的可变容器，但渲染应保持纯粹；视觉状态应由 state 驱动。\n\n**逐项分析**\n\n- **A：正确。** 修改 ref.current 通常不会触发渲染。它准确对应本题结论。依据是：ref 是跨渲染保留的可变容器，但渲染应保持纯粹；视觉状态应由 state 驱动。\n- **B：正确。** ref 适合保存 DOM 节点或不参与渲染的数据。它准确对应本题结论。依据是：ref 是跨渲染保留的可变容器，但渲染应保持纯粹；视觉状态应由 state 驱动。\n- **C：正确。** 需要显示在界面的数据通常应使用 state。它准确对应本题结论。依据是：ref 是跨渲染保留的可变容器，但渲染应保持纯粹；视觉状态应由 state 驱动。\n- **D：不选。** 应在渲染期间任意读写 ref.current。如果选择它，就等于断言“应在渲染期间任意读写 ref.current”；但本题成立的结论是“修改 ref.current 通常不会触发渲染；ref 适合保存 DOM 节点或不参与渲染的数据；需要显示在界面的数据通常应使用 state”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Ref、State”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Ref、State”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "Ref",
+        "State"
+      ]
+    },
+    {
+      "code": "react-015-imperative-handle",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "组件需要限制父级通过 ref 能调用的命令式能力，可使用什么 Hook 自定义暴露句柄？",
+      "options": [
+        {
+          "id": "A",
+          "content": "useImperativeHandle"
+        },
+        {
+          "id": "B",
+          "content": "useDebugValue"
+        },
+        {
+          "id": "C",
+          "content": "useDeferredValue"
+        },
+        {
+          "id": "D",
+          "content": "useTransition"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（useImperativeHandle）。useImperativeHandle 可暴露 focus、scroll 等最小命令式 API；大多数数据流仍应优先使用 props。\n\n**逐项分析**\n\n- **A：正确。** useImperativeHandle。它准确对应本题结论。依据是：useImperativeHandle 可暴露 focus、scroll 等最小命令式 API；大多数数据流仍应优先使用 props。\n- **B：不选。** useDebugValue。如果选择它，就等于断言“useDebugValue”；但本题成立的结论是“useImperativeHandle”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** useDeferredValue。如果选择它，就等于断言“useDeferredValue”；但本题成立的结论是“useImperativeHandle”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** useTransition。如果选择它，就等于断言“useTransition”；但本题成立的结论是“useImperativeHandle”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Ref、useImperativeHandle”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Ref、useImperativeHandle”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "React",
+        "Ref",
+        "useImperativeHandle"
+      ]
+    },
+    {
+      "code": "react-016-context-render",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "Context provider 的 value 引用每次渲染都变化时，消费该 context 的组件可能重新渲染，即使对象内容看起来相同。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。Context 按 value 身份传播；高频变化和大对象应合理拆分，并避免无意义的新引用。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“React、Context、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Context、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "Context",
+        "性能"
+      ]
+    },
+    {
+      "code": "react-017-reducer",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "复杂组件状态适合用 reducer 的常见原因有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "把更新逻辑集中为 action 到新状态的转换"
+        },
+        {
+          "id": "B",
+          "content": "便于测试状态转换"
+        },
+        {
+          "id": "C",
+          "content": "适合多个相关字段和复杂更新规则"
+        },
+        {
+          "id": "D",
+          "content": "reducer 可以在执行时直接发网络请求"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（把更新逻辑集中为 action 到新状态的转换）、**B**（便于测试状态转换）、**C**（适合多个相关字段和复杂更新规则）。Reducer 应保持纯函数；网络请求等副作用应由事件、Effect 或外部层协调。\n\n**逐项分析**\n\n- **A：正确。** 把更新逻辑集中为 action 到新状态的转换。它准确对应本题结论。依据是：Reducer 应保持纯函数；网络请求等副作用应由事件、Effect 或外部层协调。\n- **B：正确。** 便于测试状态转换。它准确对应本题结论。依据是：Reducer 应保持纯函数；网络请求等副作用应由事件、Effect 或外部层协调。\n- **C：正确。** 适合多个相关字段和复杂更新规则。它准确对应本题结论。依据是：Reducer 应保持纯函数；网络请求等副作用应由事件、Effect 或外部层协调。\n- **D：不选。** reducer 可以在执行时直接发网络请求。如果选择它，就等于断言“reducer 可以在执行时直接发网络请求”；但本题成立的结论是“把更新逻辑集中为 action 到新状态的转换；便于测试状态转换；适合多个相关字段和复杂更新规则”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n状态管理应保存跨页面或跨组件共享的业务状态，而不是把所有临时 UI 状态都放进全局仓库。解构 store 时要注意保持响应性，异步 action 还要处理并发、错误、加载状态和退出登录后的数据清理。\n\n本题可以用一个最小示例验证：只保留与“React、useReducer、状态管理”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、useReducer、状态管理”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "useReducer",
+        "状态管理"
+      ]
+    },
+    {
+      "code": "react-018-memo",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "`memo(Component)` 默认如何判断 props 是否变化？",
+      "options": [
+        {
+          "id": "A",
+          "content": "逐个使用 Object.is 比较 props"
+        },
+        {
+          "id": "B",
+          "content": "深度递归比较所有对象"
+        },
+        {
+          "id": "C",
+          "content": "永远不重新渲染"
+        },
+        {
+          "id": "D",
+          "content": "比较生成的 HTML 字符串"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（逐个使用 Object.is 比较 props）。memo 默认浅层按 Object.is 比较每个 prop；每次新建对象或函数会破坏跳过渲染的机会。\n\n**逐项分析**\n\n- **A：正确。** 逐个使用 Object.is 比较 props。它准确对应本题结论。依据是：memo 默认浅层按 Object.is 比较每个 prop；每次新建对象或函数会破坏跳过渲染的机会。\n- **B：不选。** 深度递归比较所有对象。如果选择它，就等于断言“深度递归比较所有对象”；但本题成立的结论是“逐个使用 Object.is 比较 props”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 永远不重新渲染。如果选择它，就等于断言“永远不重新渲染”；但本题成立的结论是“逐个使用 Object.is 比较 props”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 比较生成的 HTML 字符串。如果选择它，就等于断言“比较生成的 HTML 字符串”；但本题成立的结论是“逐个使用 Object.is 比较 props”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“React、memo、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、memo、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "memo",
+        "性能"
+      ]
+    },
+    {
+      "code": "react-019-use-memo",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "`useMemo` 是性能优化提示而不是语义保证，不应依赖它维持程序正确性。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。代码在移除 useMemo 后仍应正确；只有昂贵计算或稳定引用确有收益时才使用。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“React、useMemo、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、useMemo、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "useMemo",
+        "性能"
+      ]
+    },
+    {
+      "code": "react-020-use-callback",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "`useCallback(fn, deps)` 主要缓存什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "函数引用本身"
+        },
+        {
+          "id": "B",
+          "content": "函数每次调用的所有返回值"
+        },
+        {
+          "id": "C",
+          "content": "DOM 树"
+        },
+        {
+          "id": "D",
+          "content": "网络响应"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（函数引用本身）。useCallback 在依赖不变时返回同一函数引用，常与 memo 子组件或其他 Hook 依赖配合。\n\n**逐项分析**\n\n- **A：正确。** 函数引用本身。它准确对应本题结论。依据是：useCallback 在依赖不变时返回同一函数引用，常与 memo 子组件或其他 Hook 依赖配合。\n- **B：不选。** 函数每次调用的所有返回值。如果选择它，就等于断言“函数每次调用的所有返回值”；但本题成立的结论是“函数引用本身”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** DOM 树。如果选择它，就等于断言“DOM 树”；但本题成立的结论是“函数引用本身”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 网络响应。如果选择它，就等于断言“网络响应”；但本题成立的结论是“函数引用本身”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“React、useCallback、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、useCallback、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "useCallback",
+        "性能"
+      ]
+    },
+    {
+      "code": "react-021-transition",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "React transition 更新的特点通常包括哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "标记非紧急更新"
+        },
+        {
+          "id": "B",
+          "content": "允许输入等紧急更新优先响应"
+        },
+        {
+          "id": "C",
+          "content": "可提供 pending 状态"
+        },
+        {
+          "id": "D",
+          "content": "适合控制文本输入本身的同步 value 更新"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（标记非紧急更新）、**B**（允许输入等紧急更新优先响应）、**C**（可提供 pending 状态）。输入控件的直接受控更新应保持紧急；与之关联的昂贵结果渲染可放入 transition。\n\n**逐项分析**\n\n- **A：正确。** 标记非紧急更新。它准确对应本题结论。依据是：输入控件的直接受控更新应保持紧急；与之关联的昂贵结果渲染可放入 transition。\n- **B：正确。** 允许输入等紧急更新优先响应。它准确对应本题结论。依据是：输入控件的直接受控更新应保持紧急；与之关联的昂贵结果渲染可放入 transition。\n- **C：正确。** 可提供 pending 状态。它准确对应本题结论。依据是：输入控件的直接受控更新应保持紧急；与之关联的昂贵结果渲染可放入 transition。\n- **D：不选。** 适合控制文本输入本身的同步 value 更新。如果选择它，就等于断言“适合控制文本输入本身的同步 value 更新”；但本题成立的结论是“标记非紧急更新；允许输入等紧急更新优先响应；可提供 pending 状态”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Transition、并发渲染”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Transition、并发渲染”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "React",
+        "Transition",
+        "并发渲染"
+      ]
+    },
+    {
+      "code": "react-022-deferred-value",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "`useDeferredValue` 常用于什么场景？",
+      "options": [
+        {
+          "id": "A",
+          "content": "让界面先响应最新输入，同时让昂贵结果视图稍后跟进"
+        },
+        {
+          "id": "B",
+          "content": "永久冻结 state"
+        },
+        {
+          "id": "C",
+          "content": "替代服务端缓存"
+        },
+        {
+          "id": "D",
+          "content": "同步阻塞主线程"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（让界面先响应最新输入，同时让昂贵结果视图稍后跟进）。延迟值让非紧急子树使用滞后的值渲染；若子树能通过 memo 跳过更新，优化效果更明显。\n\n**逐项分析**\n\n- **A：正确。** 让界面先响应最新输入，同时让昂贵结果视图稍后跟进。它准确对应本题结论。依据是：延迟值让非紧急子树使用滞后的值渲染；若子树能通过 memo 跳过更新，优化效果更明显。\n- **B：不选。** 永久冻结 state。如果选择它，就等于断言“永久冻结 state”；但本题成立的结论是“让界面先响应最新输入，同时让昂贵结果视图稍后跟进”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 替代服务端缓存。如果选择它，就等于断言“替代服务端缓存”；但本题成立的结论是“让界面先响应最新输入，同时让昂贵结果视图稍后跟进”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 同步阻塞主线程。如果选择它，就等于断言“同步阻塞主线程”；但本题成立的结论是“让界面先响应最新输入，同时让昂贵结果视图稍后跟进”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“React、useDeferredValue、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、useDeferredValue、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "React",
+        "useDeferredValue",
+        "性能"
+      ]
+    },
+    {
+      "code": "react-023-suspense",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "Suspense 边界可以在其子树等待支持 Suspense 的资源或懒加载组件时展示 fallback。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。Suspense 协调等待状态，但普通 Effect 内 fetch 不会仅因存在 Suspense 就自动被捕获。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n这些是组件树与渲染位置的高级能力。使用时要明确实例是否仍存活、DOM 实际挂载在哪里、异步依赖怎样失败，以及 activated/deactivated、卸载清理和 SSR 水合会受到什么影响。\n\n本题可以用一个最小示例验证：只保留与“React、Suspense、异步”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Suspense、异步”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "Suspense",
+        "异步"
+      ]
+    },
+    {
+      "code": "react-024-error-boundary",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "React Error Boundary 通常能捕获哪些错误？",
+      "options": [
+        {
+          "id": "A",
+          "content": "后代组件渲染期间抛出的错误"
+        },
+        {
+          "id": "B",
+          "content": "后代生命周期中的错误"
+        },
+        {
+          "id": "C",
+          "content": "所有事件处理器中的错误自动捕获"
+        },
+        {
+          "id": "D",
+          "content": "用于展示降级 UI 并上报组件错误"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（后代组件渲染期间抛出的错误）、**B**（后代生命周期中的错误）、**D**（用于展示降级 UI 并上报组件错误）。错误边界不捕获普通事件处理器、边界自身或任意异步回调错误，需要各自处理。\n\n**逐项分析**\n\n- **A：正确。** 后代组件渲染期间抛出的错误。它准确对应本题结论。依据是：错误边界不捕获普通事件处理器、边界自身或任意异步回调错误，需要各自处理。\n- **B：正确。** 后代生命周期中的错误。它准确对应本题结论。依据是：错误边界不捕获普通事件处理器、边界自身或任意异步回调错误，需要各自处理。\n- **C：不选。** 所有事件处理器中的错误自动捕获。如果选择它，就等于断言“所有事件处理器中的错误自动捕获”；但本题成立的结论是“后代组件渲染期间抛出的错误；后代生命周期中的错误；用于展示降级 UI 并上报组件错误”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 用于展示降级 UI 并上报组件错误。它准确对应本题结论。依据是：错误边界不捕获普通事件处理器、边界自身或任意异步回调错误，需要各自处理。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、错误边界、错误处理”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、错误边界、错误处理”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "错误边界",
+        "错误处理"
+      ]
+    },
+    {
+      "code": "react-025-portal",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "Portal 改变节点在 DOM 中的物理位置，但事件仍按 React 组件树传播，context 也保持组件树关系。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。Portal 常用于模态框和浮层；其逻辑父子关系仍在 React 树中，而非按 DOM 祖先决定。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Portal、事件”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Portal、事件”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "Portal",
+        "事件"
+      ]
+    },
+    {
+      "code": "react-026-strict-mode",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "开发环境 StrictMode 可能额外执行渲染或 Effect setup/cleanup 的主要目的是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "暴露不纯渲染和缺失清理等问题"
+        },
+        {
+          "id": "B",
+          "content": "生产环境永久执行两次请求"
+        },
+        {
+          "id": "C",
+          "content": "提高 CSS 优先级"
+        },
+        {
+          "id": "D",
+          "content": "自动修复所有错误"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（暴露不纯渲染和缺失清理等问题）。StrictMode 的额外开发检查帮助发现副作用和清理缺陷；生产构建不会保留相同的开发重复行为。\n\n**逐项分析**\n\n- **A：正确。** 暴露不纯渲染和缺失清理等问题。它准确对应本题结论。依据是：StrictMode 的额外开发检查帮助发现副作用和清理缺陷；生产构建不会保留相同的开发重复行为。\n- **B：不选。** 生产环境永久执行两次请求。如果选择它，就等于断言“生产环境永久执行两次请求”；但本题成立的结论是“暴露不纯渲染和缺失清理等问题”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 提高 CSS 优先级。如果选择它，就等于断言“提高 CSS 优先级”；但本题成立的结论是“暴露不纯渲染和缺失清理等问题”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 自动修复所有错误。如果选择它，就等于断言“自动修复所有错误”；但本题成立的结论是“暴露不纯渲染和缺失清理等问题”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、StrictMode、调试”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、StrictMode、调试”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "StrictMode",
+        "调试"
+      ]
+    },
+    {
+      "code": "react-027-hydration",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "React SSR 水合要求和常见风险包括哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "客户端首次渲染应与服务端 HTML 匹配"
+        },
+        {
+          "id": "B",
+          "content": "随机数、时间和浏览器专属分支可能造成不匹配"
+        },
+        {
+          "id": "C",
+          "content": "不匹配只影响日志，永远不会导致交互问题"
+        },
+        {
+          "id": "D",
+          "content": "应提供确定性的初始数据"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（客户端首次渲染应与服务端 HTML 匹配）、**B**（随机数、时间和浏览器专属分支可能造成不匹配）、**D**（应提供确定性的初始数据）。水合复用现有 HTML 并绑定交互，结构不一致可能导致重建、性能损失甚至错误绑定。\n\n**逐项分析**\n\n- **A：正确。** 客户端首次渲染应与服务端 HTML 匹配。它准确对应本题结论。依据是：水合复用现有 HTML 并绑定交互，结构不一致可能导致重建、性能损失甚至错误绑定。\n- **B：正确。** 随机数、时间和浏览器专属分支可能造成不匹配。它准确对应本题结论。依据是：水合复用现有 HTML 并绑定交互，结构不一致可能导致重建、性能损失甚至错误绑定。\n- **C：不选。** 不匹配只影响日志，永远不会导致交互问题。如果选择它，就等于断言“不匹配只影响日志，永远不会导致交互问题”；但本题成立的结论是“客户端首次渲染应与服务端 HTML 匹配；随机数、时间和浏览器专属分支可能造成不匹配；应提供确定性的初始数据”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：正确。** 应提供确定性的初始数据。它准确对应本题结论。依据是：水合复用现有 HTML 并绑定交互，结构不一致可能导致重建、性能损失甚至错误绑定。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\nSSR 提供服务端 HTML，水合再把客户端行为连接到已有 DOM。服务端和客户端首屏输出不一致会产生水合警告甚至重新渲染，因此随机数、当前时间、浏览器专属 API 和用户状态都要设计一致的初始化策略。\n\n本题可以用一个最小示例验证：只保留与“React、SSR、水合”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、SSR、水合”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "React",
+        "SSR",
+        "水合"
+      ]
+    },
+    {
+      "code": "react-028-custom-hook",
+      "categoryKey": "frontend.react",
+      "type": "true_false",
+      "stem": "自定义 Hook 复用的是状态逻辑而不是同一份状态；每次调用通常拥有独立的 state 和 Effect。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。Hook 组合代码逻辑，调用之间不会自动共享状态；共享状态仍需提升、context 或外部 store。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、自定义Hook、复用”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、自定义Hook、复用”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "自定义Hook",
+        "复用"
+      ]
+    },
+    {
+      "code": "react-029-stale-closure",
+      "categoryKey": "frontend.react",
+      "type": "single_choice",
+      "stem": "定时器回调长期读到创建时的旧 state，通常属于什么问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "stale closure"
+        },
+        {
+          "id": "B",
+          "content": "CSS 重排"
+        },
+        {
+          "id": "C",
+          "content": "HTTP 缓存穿透"
+        },
+        {
+          "id": "D",
+          "content": "DOM 水合成功"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（stale closure）。回调闭包捕获某次渲染快照；可通过正确依赖、函数式更新、重新订阅或适当 ref 解决。\n\n**逐项分析**\n\n- **A：正确。** stale closure。它准确对应本题结论。依据是：回调闭包捕获某次渲染快照；可通过正确依赖、函数式更新、重新订阅或适当 ref 解决。\n- **B：不选。** CSS 重排。如果选择它，就等于断言“CSS 重排”；但本题成立的结论是“stale closure”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** HTTP 缓存穿透。如果选择它，就等于断言“HTTP 缓存穿透”；但本题成立的结论是“stale closure”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** DOM 水合成功。如果选择它，就等于断言“DOM 水合成功”；但本题成立的结论是“stale closure”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n词法作用域由代码书写位置决定。闭包保留的是对外层绑定的访问能力，不是把某个瞬间的值复制一份；let/const 绑定虽已创建，但在初始化前处于暂时性死区，访问会抛出 ReferenceError。\n\n本题可以用一个最小示例验证：只保留与“React、闭包、Effect”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、闭包、Effect”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "React",
+        "闭包",
+        "Effect"
+      ]
+    },
+    {
+      "code": "react-030-rules-hooks",
+      "categoryKey": "frontend.react",
+      "type": "multiple_choice",
+      "stem": "经典 Hooks 调用规则包括哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "在组件或自定义 Hook 顶层调用"
+        },
+        {
+          "id": "B",
+          "content": "不要在普通条件、循环或嵌套函数中随意调用"
+        },
+        {
+          "id": "C",
+          "content": "保持每次渲染 Hook 调用顺序稳定"
+        },
+        {
+          "id": "D",
+          "content": "可以在任意 class 方法中调用"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（在组件或自定义 Hook 顶层调用）、**B**（不要在普通条件、循环或嵌套函数中随意调用）、**C**（保持每次渲染 Hook 调用顺序稳定）。稳定调用顺序让 React 把 Hook 状态与调用位置对应；lint 规则可自动检查大部分违规。\n\n**逐项分析**\n\n- **A：正确。** 在组件或自定义 Hook 顶层调用。它准确对应本题结论。依据是：稳定调用顺序让 React 把 Hook 状态与调用位置对应；lint 规则可自动检查大部分违规。\n- **B：正确。** 不要在普通条件、循环或嵌套函数中随意调用。它准确对应本题结论。依据是：稳定调用顺序让 React 把 Hook 状态与调用位置对应；lint 规则可自动检查大部分违规。\n- **C：正确。** 保持每次渲染 Hook 调用顺序稳定。它准确对应本题结论。依据是：稳定调用顺序让 React 把 Hook 状态与调用位置对应；lint 规则可自动检查大部分违规。\n- **D：不选。** 可以在任意 class 方法中调用。如果选择它，就等于断言“可以在任意 class 方法中调用”；但本题成立的结论是“在组件或自定义 Hook 顶层调用；不要在普通条件、循环或嵌套函数中随意调用；保持每次渲染 Hook 调用顺序稳定”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nReact 题的核心是状态快照、单向数据流、渲染与提交阶段，以及 Effect 的同步外部系统职责。不要把 memo 或 Hook 当成必然优化，要结合依赖稳定性、渲染成本和测量结果判断。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“React、Hooks、规则”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“React、Hooks、规则”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "React",
+        "Hooks",
+        "规则"
+      ]
+    }
   ]
 }

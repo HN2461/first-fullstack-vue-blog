@@ -1,35 +1,1025 @@
 {
   "schemaVersion": 1,
   "questions": [
-    { "code": "interview-vue-001-vue2-vue3-reactivity", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "面试追问：Vue 3 使用 Proxy 相比 Vue 2 使用 Object.defineProperty，主要改进了哪些响应式能力？", "options": [{ "id": "A", "content": "可拦截属性新增和删除" }, { "id": "B", "content": "可更自然地追踪数组索引和 length" }, { "id": "C", "content": "可支持 Map、Set 等集合" }, { "id": "D", "content": "让任何深层对象都在创建时立即全部递归代理" }], "answerKeys": ["A", "B", "C"], "explanation": "Proxy 可以从对象操作层统一拦截 get、set、delete、ownKeys 等行为，补足 Vue 2 对新增属性和数组操作的限制，并扩展到集合类型。Vue 3 对嵌套对象通常仍是访问时按需代理，不是初始化时无条件遍历全部层级。", "difficulty": "medium", "tags": ["面试", "Vue", "响应式", "Proxy"] },
-    { "code": "interview-vue-002-reactive-destructure", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "为什么直接执行 `const { count } = reactiveState` 后，`count` 通常不再随源对象更新？", "options": [{ "id": "A", "content": "解构读取出当前原始值，后续访问不再经过代理 get" }, { "id": "B", "content": "reactive 只能处理数组" }, { "id": "C", "content": "Vue 禁止对象解构" }, { "id": "D", "content": "count 自动变成 computed" }], "answerKeys": ["A"], "explanation": "响应式依赖在读取代理属性时收集，解构后的原始值与代理失去访问联系。可使用 `toRef`、`toRefs`，或保持通过源对象属性读取；嵌套对象解构为对象引用时还有不同表现，需要具体分析。", "difficulty": "medium", "tags": ["面试", "Vue", "reactive", "解构"] },
-    { "code": "interview-vue-003-ref-unwrapping", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "关于 Vue 3 的 ref 自动解包，哪些说法正确？", "options": [{ "id": "A", "content": "模板中顶层 ref 通常无需写 .value" }, { "id": "B", "content": "JavaScript 逻辑中通常仍需通过 .value 访问" }, { "id": "C", "content": "reactive 对象属性中的 ref 常会自动解包，但数组和集合索引有例外" }, { "id": "D", "content": "所有嵌套位置都无条件自动解包" }], "answerKeys": ["A", "B", "C"], "explanation": "自动解包是有上下文边界的语法便利，不能概括为任何位置都省略 `.value`。面试回答应区分模板、reactive 对象属性以及数组或 Map 中的 ref。", "difficulty": "hard", "tags": ["面试", "Vue", "ref", "自动解包"] },
-    { "code": "interview-vue-004-computed-cache", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "`computed` 为什么能缓存结果，何时重新计算？", "options": [{ "id": "A", "content": "依赖未变化时返回缓存，依赖触发后标记脏并在下次读取时重新求值" }, { "id": "B", "content": "每毫秒自动重新计算" }, { "id": "C", "content": "只在组件卸载时计算" }, { "id": "D", "content": "把结果永久写入 localStorage" }], "answerKeys": ["A"], "explanation": "computed 内部以响应式 effect 追踪 getter 依赖，采用惰性求值。依赖变化通常先让它失效，真正读取 `.value` 或模板访问时才重新计算，因此适合纯派生值。", "difficulty": "medium", "tags": ["面试", "Vue", "computed", "缓存"] },
-    { "code": "interview-vue-005-computed-side-effect", "categoryKey": "frontend.interview.vue", "type": "true_false", "stem": "`computed` getter 应保持纯粹，不应在里面发请求、修改其他状态或操作 DOM。", "answerKeys": ["true"], "explanation": "computed 可能被缓存、延迟或多次读取，副作用会让执行时机难以预测并可能形成循环更新。副作用应放入事件处理、watch/watchEffect 或专门的数据层。", "difficulty": "easy", "tags": ["面试", "Vue", "computed", "副作用"] },
-    { "code": "interview-vue-006-watch-watch-effect", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "`watch` 与 `watchEffect` 的常见区别有哪些？", "options": [{ "id": "A", "content": "watch 显式指定数据源，可获得新旧值并默认惰性" }, { "id": "B", "content": "watchEffect 同步执行期间自动收集所读取依赖" }, { "id": "C", "content": "watch 更适合精确控制何时触发" }, { "id": "D", "content": "watchEffect 会追踪 await 之后首次读取的所有依赖" }], "answerKeys": ["A", "B", "C"], "explanation": "watchEffect 只会收集其同步执行阶段访问的依赖，async 回调在第一个 await 后的读取不会被同一轮自动收集。两者都应通过 cleanup 处理过期副作用。", "difficulty": "medium", "tags": ["面试", "Vue", "watch", "watchEffect"] },
-    { "code": "interview-vue-007-watch-flush", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "watch 回调中必须读取 Vue 更新后的组件 DOM，通常应使用哪种刷新时机？", "options": [{ "id": "A", "content": "flush: 'post'" }, { "id": "B", "content": "flush: 'sync'" }, { "id": "C", "content": "immediate: false" }, { "id": "D", "content": "deep: false" }], "answerKeys": ["A"], "explanation": "默认 watcher 在父组件更新后、当前组件 DOM 更新前执行；`flush: 'post'` 把回调安排到组件 DOM 更新之后。`sync` 不批处理，频繁数据变化时可能带来大量调用。", "difficulty": "hard", "tags": ["面试", "Vue", "watch", "flush"] },
-    { "code": "interview-vue-008-next-tick", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "调用 `state.value++` 后立即读取 DOM 仍是旧值，为什么 `await nextTick()` 后可以读取更新结果？", "options": [{ "id": "A", "content": "Vue 批量调度 DOM 更新，nextTick 等待当前更新队列完成" }, { "id": "B", "content": "nextTick 强制刷新整个浏览器" }, { "id": "C", "content": "state 更新本身需要一秒" }, { "id": "D", "content": "nextTick 会重新加载页面" }], "answerKeys": ["A"], "explanation": "响应式状态赋值是同步的，但组件渲染更新被去重并批量放入调度队列。`nextTick` 等待这一批 DOM 提交完成，不代表一定创建新的宏任务，也不应被用来替代正确的数据流。", "difficulty": "medium", "tags": ["面试", "Vue", "nextTick", "DOM更新"] },
-    { "code": "interview-vue-009-batching", "categoryKey": "frontend.interview.vue", "type": "true_false", "stem": "同一同步调用栈中连续修改多次响应式状态，Vue 通常会对组件更新去重并在下一轮统一渲染。", "answerKeys": ["true"], "explanation": "调度器会把同一组件的更新任务放入队列并去重，从而避免每次赋值都立即重渲染。状态本身已经更新，批处理的是副作用和 DOM 提交。", "difficulty": "easy", "tags": ["面试", "Vue", "调度器", "批处理"] },
-    { "code": "interview-vue-010-lifecycle-order", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "父子组件首次挂载时，常见生命周期顺序是什么？", "options": [{ "id": "A", "content": "父 beforeMount → 子 beforeMount → 子 mounted → 父 mounted" }, { "id": "B", "content": "父 mounted → 子 mounted" }, { "id": "C", "content": "子 mounted → 父 beforeMount" }, { "id": "D", "content": "顺序完全随机" }], "answerKeys": ["A"], "explanation": "父组件开始挂载后需要先创建和挂载子树，子组件完成 mounted 后，父组件才算完成挂载。异步组件、Suspense 和条件渲染会影响具体时机，回答时应说明这是普通同步子树。", "difficulty": "medium", "tags": ["面试", "Vue", "生命周期", "父子组件"] },
-    { "code": "interview-vue-011-v-if-v-for", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "Vue 3 中同一元素同时写 `v-if` 与 `v-for`，主要问题是什么？", "options": [{ "id": "A", "content": "v-if 优先级更高，条件表达式可能访问不到 v-for 作用域变量" }, { "id": "B", "content": "v-for 永远只执行一次" }, { "id": "C", "content": "两者会自动变成 computed" }, { "id": "D", "content": "没有任何可维护性问题" }], "answerKeys": ["A"], "explanation": "同节点组合会让作用域和性能难以理解。过滤列表应先用 computed，整组条件可把 `v-if` 放在外层 template，单项条件可在循环内部再包一层。", "difficulty": "medium", "tags": ["面试", "Vue", "v-if", "v-for"] },
-    { "code": "interview-vue-012-key", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "为什么可增删排序的列表不建议使用数组索引作为 key？", "options": [{ "id": "A", "content": "索引不能稳定代表业务项身份" }, { "id": "B", "content": "插入或重排后可能复用错误组件状态" }, { "id": "C", "content": "可能造成输入框、动画或子组件状态错位" }, { "id": "D", "content": "索引 key 会让 JavaScript 语法报错" }], "answerKeys": ["A", "B", "C"], "explanation": "key 用于告诉 diff 算法新旧节点是否是同一身份。索引随位置变化，会把旧位置的状态错误地交给另一条数据；应使用唯一且稳定的业务 ID。", "difficulty": "easy", "tags": ["面试", "Vue", "key", "diff"] },
-    { "code": "interview-vue-013-diff", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "描述 Vue 3 keyed children diff 时，哪些关键点正确？", "options": [{ "id": "A", "content": "先同步比较头部和尾部相同节点" }, { "id": "B", "content": "中间未知序列通过 key 建立新索引映射" }, { "id": "C", "content": "利用最长递增子序列减少 DOM 移动" }, { "id": "D", "content": "每次更新都销毁全部真实 DOM" }], "answerKeys": ["A", "B", "C"], "explanation": "Vue 3 先处理稳定前后缀，再对未知区间复用、创建、删除并移动节点。最长递增子序列用于识别已经保持相对顺序的节点，从而减少移动次数。", "difficulty": "hard", "tags": ["面试", "Vue", "diff", "最长递增子序列"] },
-    { "code": "interview-vue-014-keep-alive", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "被 KeepAlive 缓存的动态组件切走再返回时，哪些说法正确？", "options": [{ "id": "A", "content": "实例通常不会销毁，而是 deactivated" }, { "id": "B", "content": "返回时触发 activated" }, { "id": "C", "content": "定时器和外部订阅未必自动暂停，需要自行管理" }, { "id": "D", "content": "每次都重新执行完整首次挂载流程" }], "answerKeys": ["A", "B", "C"], "explanation": "KeepAlive 缓存组件实例和状态，切换使用 activated/deactivated 生命周期。若组件在不可见期间不应继续轮询或监听，应在对应钩子中暂停和恢复。", "difficulty": "medium", "tags": ["面试", "Vue", "KeepAlive", "生命周期"] },
-    { "code": "interview-vue-015-teleport", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "Teleport 把弹窗 DOM 移到 body 后，组件的 props、emit 和 provide/inject 关系会怎样？", "options": [{ "id": "A", "content": "仍按 Vue 组件树保持逻辑关系" }, { "id": "B", "content": "全部按 body 的 DOM 祖先重新建立" }, { "id": "C", "content": "组件立即卸载" }, { "id": "D", "content": "emit 自动变成原生 DOM 事件" }], "answerKeys": ["A"], "explanation": "Teleport 只改变渲染后的 DOM 物理位置，不改变虚拟组件树中的父子关系。因此依赖注入、事件和状态仍按原组件树工作，同时可避开祖先 overflow 或层叠上下文限制。", "difficulty": "medium", "tags": ["面试", "Vue", "Teleport", "弹窗"] },
-    { "code": "interview-vue-016-suspense", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "Vue Suspense 的主要职责是什么？", "options": [{ "id": "A", "content": "协调异步依赖并在等待时展示 fallback" }, { "id": "B", "content": "缓存所有接口数据" }, { "id": "C", "content": "替代错误边界" }, { "id": "D", "content": "让同步代码自动并行" }], "answerKeys": ["A"], "explanation": "Suspense 可等待异步 setup 和异步组件形成的依赖树，并统一切换 fallback。错误处理仍需 `onErrorCaptured` 或应用级 handler，数据缓存与请求去重也不是 Suspense 自动提供的。", "difficulty": "medium", "tags": ["面试", "Vue", "Suspense", "异步组件"] },
-    { "code": "interview-vue-017-provide-inject", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "大型组件树使用 provide/inject 时，哪些设计有助于维护？", "options": [{ "id": "A", "content": "使用 Symbol 作为注入键避免冲突" }, { "id": "B", "content": "由提供者封装修改方法，消费方优先只读" }, { "id": "C", "content": "为可选注入提供默认值或明确报错" }, { "id": "D", "content": "把所有业务状态都无差别放入一个 provide" }], "answerKeys": ["A", "B", "C"], "explanation": "依赖注入适合跨层级的局部上下文，但过度使用会隐藏依赖。注入键、只读边界、默认值和 TypeScript 类型应统一管理，复杂全局领域再评估 Pinia。", "difficulty": "medium", "tags": ["面试", "Vue", "provide-inject", "组件设计"] },
-    { "code": "interview-vue-018-attrs", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "组件存在多个根节点时，未声明的属性为什么不会像单根组件那样自动透传？", "options": [{ "id": "A", "content": "Vue 无法判断应把属性放到哪个根节点，需要显式用 $attrs 绑定" }, { "id": "B", "content": "多根组件不能接收 props" }, { "id": "C", "content": "所有属性都会丢失且无法访问" }, { "id": "D", "content": "必须改用 iframe" }], "answerKeys": ["A"], "explanation": "Fragment 允许多根模板，但透传目标不再唯一。组件应通过 `v-bind=\"$attrs\"` 把属性交给真正的交互根节点，必要时设置 `inheritAttrs: false` 控制默认行为。", "difficulty": "medium", "tags": ["面试", "Vue", "透传属性", "Fragment"] },
-    { "code": "interview-vue-019-emits", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "设计可复用表单组件的事件 API 时，显式声明 emits 能带来哪些工程收益？", "options": [{ "id": "A", "content": "形成组件事件契约并支持参数校验" }, { "id": "B", "content": "避免同名监听器被当作透传原生监听器" }, { "id": "C", "content": "改善文档和 TypeScript 推断" }, { "id": "D", "content": "让子组件可以任意修改父组件状态" }], "answerKeys": ["A", "B", "C"], "explanation": "声明 emits 能区分组件事件和透传监听器，并让 API 更清晰。数据仍应通过 props down、events up 或显式双向契约流动，而不是子组件直接修改父状态。", "difficulty": "medium", "tags": ["面试", "Vue", "emits", "组件通信"] },
-    { "code": "interview-vue-020-v-model", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "Vue 3 自定义组件默认 `v-model` 对应什么 prop 和事件？", "options": [{ "id": "A", "content": "modelValue 与 update:modelValue" }, { "id": "B", "content": "value 与 input，且不可改变" }, { "id": "C", "content": "checked 与 change" }, { "id": "D", "content": "data 与 setData" }], "answerKeys": ["A"], "explanation": "默认双向绑定使用 `modelValue` 和 `update:modelValue`；带参数的 `v-model:title` 对应 `title` 与 `update:title`，因此一个组件可以定义多个 v-model 契约。", "difficulty": "easy", "tags": ["面试", "Vue", "v-model", "组件通信"] },
-    { "code": "interview-vue-021-scoped-slot", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "作用域插槽解决的核心问题是什么？", "options": [{ "id": "A", "content": "子组件提供数据，父组件决定这部分内容如何渲染" }, { "id": "B", "content": "父组件直接修改子组件私有变量" }, { "id": "C", "content": "替代所有 props" }, { "id": "D", "content": "只用于 CSS 隔离" }], "answerKeys": ["A"], "explanation": "插槽内容在父组件作用域编译，但子组件可通过 slot props 暴露行数据、状态和操作。它适合表格列、列表项等“数据归子组件、表现由调用方定制”的场景。", "difficulty": "easy", "tags": ["面试", "Vue", "作用域插槽", "组件设计"] },
-    { "code": "interview-vue-022-shallow-ref", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "保存大型第三方图表实例或不可变大对象时，为什么可能选择 `shallowRef`？", "options": [{ "id": "A", "content": "只追踪 .value 替换，避免深层对象被递归转为响应式" }, { "id": "B", "content": "让所有深层修改都立即触发" }, { "id": "C", "content": "自动销毁图表" }, { "id": "D", "content": "把对象复制到服务端" }], "answerKeys": ["A"], "explanation": "第三方实例通常不需要深层代理，深度响应式可能增加开销甚至破坏身份判断。`shallowRef` 在整体替换时触发更新，若原地修改后确需通知可显式 `triggerRef`。", "difficulty": "medium", "tags": ["面试", "Vue", "shallowRef", "性能"] },
-    { "code": "interview-vue-023-mark-raw", "categoryKey": "frontend.interview.vue", "type": "true_false", "stem": "`markRaw` 可阻止对象被转换为响应式代理，但嵌套对象若在其他路径单独进入响应式系统，仍可能产生原始对象与代理对象的身份差异。", "answerKeys": ["true"], "explanation": "markRaw 只标记传入对象本身并需要谨慎使用，嵌套值可能在别处被代理。涉及 Map 键、第三方实例和严格引用比较时，应明确原始值与代理值的身份风险。", "difficulty": "hard", "tags": ["面试", "Vue", "markRaw", "对象身份"] },
-    { "code": "interview-vue-024-custom-ref", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "使用 `customRef` 实现防抖输入时，`track` 和 `trigger` 分别应在什么阶段调用？", "options": [{ "id": "A", "content": "get 时 track，防抖确认值更新后 trigger" }, { "id": "B", "content": "set 时 track，get 时 trigger" }, { "id": "C", "content": "两者都不调用" }, { "id": "D", "content": "组件卸载后无限 trigger" }], "answerKeys": ["A"], "explanation": "读取时调用 track 建立依赖，set 接收新值后延迟更新内部值并调用 trigger 通知依赖。getter 若每次返回新对象，还可能让父子更新判断产生额外触发，应保持返回身份合理。", "difficulty": "hard", "tags": ["面试", "Vue", "customRef", "防抖"] },
-    { "code": "interview-vue-025-effect-scope", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "`effectScope` 最适合解决什么问题？", "options": [{ "id": "A", "content": "把多个 computed、watch 和 watchEffect 归组后统一停止" }, { "id": "B", "content": "替代所有组件" }, { "id": "C", "content": "同步数据库事务" }, { "id": "D", "content": "提高 CSS 权重" }], "answerKeys": ["A"], "explanation": "可复用逻辑在组件外创建多个响应式副作用时，effectScope 能建立明确生命周期边界，调用 `scope.stop()` 一次清理。组件 setup 中创建的副作用通常已自动归属组件作用域。", "difficulty": "hard", "tags": ["面试", "Vue", "effectScope", "清理"] },
-    { "code": "interview-vue-026-composable-cleanup", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "编写包含窗口监听和异步请求的 composable，哪些生命周期处理正确？", "options": [{ "id": "A", "content": "组件卸载时移除事件监听器" }, { "id": "B", "content": "通过 AbortController 或 cleanup 取消过期请求" }, { "id": "C", "content": "避免在模块顶层为每个调用者共享意外可变状态" }, { "id": "D", "content": "每次响应回来都更新已卸载组件" }], "answerKeys": ["A", "B", "C"], "explanation": "Composable 复用的是有生命周期的数据逻辑，必须把外部资源的建立与释放成对处理。是否共享状态应明确设计，不能因模块单例无意泄漏不同组件或用户的数据。", "difficulty": "medium", "tags": ["面试", "Vue", "Composable", "生命周期"] },
-    { "code": "interview-vue-027-router-guard", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "Vue Router 权限守卫的成熟实现应注意哪些问题？", "options": [{ "id": "A", "content": "等待用户身份和动态路由初始化完成" }, { "id": "B", "content": "避免每次导航重复添加同一路由" }, { "id": "C", "content": "保留并校验登录后的站内 redirect" }, { "id": "D", "content": "只隐藏菜单，不校验后端权限" }], "answerKeys": ["A", "B", "C"], "explanation": "前端守卫负责体验和导航，后端仍必须执行真正授权。动态路由加载要有一次性状态和失败回退，redirect 只允许安全站内路径以避免开放重定向。", "difficulty": "hard", "tags": ["面试", "Vue Router", "权限", "动态路由"] },
-    { "code": "interview-vue-028-pinia-destructure", "categoryKey": "frontend.interview.vue", "type": "single_choice", "stem": "从 Pinia store 中解构响应式 state/getter，推荐使用什么工具保持响应性？", "options": [{ "id": "A", "content": "storeToRefs" }, { "id": "B", "content": "JSON.parse" }, { "id": "C", "content": "Object.freeze" }, { "id": "D", "content": "toRaw 后直接解构" }], "answerKeys": ["A"], "explanation": "直接解构 store 会得到当前值并失去代理访问，`storeToRefs` 会把 state、getter 和插件添加的响应式属性转为 ref，同时忽略 actions 等方法。actions 可直接从 store 解构调用。", "difficulty": "easy", "tags": ["面试", "Vue", "Pinia", "storeToRefs"] },
-    { "code": "interview-vue-029-ssr-hydration", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "Vue SSR 水合不匹配的常见来源有哪些？", "options": [{ "id": "A", "content": "服务端与客户端首屏使用不同时间或随机数" }, { "id": "B", "content": "服务端直接依赖 window、localStorage 等浏览器 API" }, { "id": "C", "content": "服务端与客户端初始数据不一致" }, { "id": "D", "content": "稳定确定的模板和序列化状态" }], "answerKeys": ["A", "B", "C"], "explanation": "水合要求客户端首次虚拟 DOM 与服务端 HTML 一致，否则可能警告、重建节点甚至产生交互错误。浏览器专属逻辑应放到挂载后或客户端分支，并把服务端状态确定性地传给客户端。", "difficulty": "hard", "tags": ["面试", "Vue", "SSR", "水合"] },
-    { "code": "interview-vue-030-render-performance", "categoryKey": "frontend.interview.vue", "type": "multiple_choice", "stem": "Vue 大列表或复杂页面出现频繁更新时，合理的排查和优化包括哪些？", "options": [{ "id": "A", "content": "用 Vue DevTools 和 Performance 面板定位真正的更新热点" }, { "id": "B", "content": "稳定 props，避免把无关变化传入大量子项" }, { "id": "C", "content": "使用虚拟列表、v-once 或 v-memo 等与场景匹配的手段" }, { "id": "D", "content": "无论数据量都给每个字段添加 deep watch" }], "answerKeys": ["A", "B", "C"], "explanation": "性能优化应从测量开始，区分 JavaScript、组件更新、布局和绘制成本。稳定数据边界和减少 DOM 数量通常比盲目增加缓存或深度监听更有效。", "difficulty": "hard", "tags": ["面试", "Vue", "性能", "渲染优化"] }
+    {
+      "code": "interview-vue-001-vue2-vue3-reactivity",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "面试追问：Vue 3 使用 Proxy 相比 Vue 2 使用 Object.defineProperty，主要改进了哪些响应式能力？",
+      "options": [
+        {
+          "id": "A",
+          "content": "可拦截属性新增和删除"
+        },
+        {
+          "id": "B",
+          "content": "可更自然地追踪数组索引和 length"
+        },
+        {
+          "id": "C",
+          "content": "可支持 Map、Set 等集合"
+        },
+        {
+          "id": "D",
+          "content": "让任何深层对象都在创建时立即全部递归代理"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（可拦截属性新增和删除）、**B**（可更自然地追踪数组索引和 length）、**C**（可支持 Map、Set 等集合）。Proxy 可以从对象操作层统一拦截 get、set、delete、ownKeys 等行为，补足 Vue 2 对新增属性和数组操作的限制，并扩展到集合类型。Vue 3 对嵌套对象通常仍是访问时按需代理，不是初始化时无条件遍历全部层级。\n\n**逐项分析**\n\n- **A：正确。** 可拦截属性新增和删除。它准确对应本题结论。依据是：Proxy 可以从对象操作层统一拦截 get、set、delete、ownKeys 等行为，补足 Vue 2 对新增属性和数组操作的限制，并扩展到集合类型。Vue 3 对嵌套对象通常仍是访问时按需代理，不是初始化时无条件遍历全部层级。\n- **B：正确。** 可更自然地追踪数组索引和 length。它准确对应本题结论。依据是：Proxy 可以从对象操作层统一拦截 get、set、delete、ownKeys 等行为，补足 Vue 2 对新增属性和数组操作的限制，并扩展到集合类型。Vue 3 对嵌套对象通常仍是访问时按需代理，不是初始化时无条件遍历全部层级。\n- **C：正确。** 可支持 Map、Set 等集合。它准确对应本题结论。依据是：Proxy 可以从对象操作层统一拦截 get、set、delete、ownKeys 等行为，补足 Vue 2 对新增属性和数组操作的限制，并扩展到集合类型。Vue 3 对嵌套对象通常仍是访问时按需代理，不是初始化时无条件遍历全部层级。\n- **D：不选。** 让任何深层对象都在创建时立即全部递归代理。如果选择它，就等于断言“让任何深层对象都在创建时立即全部递归代理”；但本题成立的结论是“可拦截属性新增和删除；可更自然地追踪数组索引和 length；可支持 Map、Set 等集合”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、响应式”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、响应式”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "响应式",
+        "Proxy"
+      ]
+    },
+    {
+      "code": "interview-vue-002-reactive-destructure",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "为什么直接执行 `const { count } = reactiveState` 后，`count` 通常不再随源对象更新？",
+      "options": [
+        {
+          "id": "A",
+          "content": "解构读取出当前原始值，后续访问不再经过代理 get"
+        },
+        {
+          "id": "B",
+          "content": "reactive 只能处理数组"
+        },
+        {
+          "id": "C",
+          "content": "Vue 禁止对象解构"
+        },
+        {
+          "id": "D",
+          "content": "count 自动变成 computed"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（解构读取出当前原始值，后续访问不再经过代理 get）。响应式依赖在读取代理属性时收集，解构后的原始值与代理失去访问联系。可使用 `toRef`、`toRefs`，或保持通过源对象属性读取；嵌套对象解构为对象引用时还有不同表现，需要具体分析。\n\n**逐项分析**\n\n- **A：正确。** 解构读取出当前原始值，后续访问不再经过代理 get。它准确对应本题结论。依据是：响应式依赖在读取代理属性时收集，解构后的原始值与代理失去访问联系。可使用 `toRef`、`toRefs`，或保持通过源对象属性读取；嵌套对象解构为对象引用时还有不同表现，需要具体分析。\n- **B：不选。** reactive 只能处理数组。如果选择它，就等于断言“reactive 只能处理数组”；但本题成立的结论是“解构读取出当前原始值，后续访问不再经过代理 get”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** Vue 禁止对象解构。如果选择它，就等于断言“Vue 禁止对象解构”；但本题成立的结论是“解构读取出当前原始值，后续访问不再经过代理 get”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** count 自动变成 computed。如果选择它，就等于断言“count 自动变成 computed”；但本题成立的结论是“解构读取出当前原始值，后续访问不再经过代理 get”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n这里丢失连接的是解构出来的基本类型值，因为后续读取不再经过 Proxy。若属性值本身是对象，解构得到的仍可能是一个响应式代理引用，但变量与源属性的“替换关系”仍未保留，所以不能简单背成“所有解构都完全失去响应性”。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、reactive”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "reactive",
+        "解构"
+      ]
+    },
+    {
+      "code": "interview-vue-003-ref-unwrapping",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "关于 Vue 3 的 ref 自动解包，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "模板中顶层 ref 通常无需写 .value"
+        },
+        {
+          "id": "B",
+          "content": "JavaScript 逻辑中通常仍需通过 .value 访问"
+        },
+        {
+          "id": "C",
+          "content": "reactive 对象属性中的 ref 常会自动解包，但数组和集合索引有例外"
+        },
+        {
+          "id": "D",
+          "content": "所有嵌套位置都无条件自动解包"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（模板中顶层 ref 通常无需写 .value）、**B**（JavaScript 逻辑中通常仍需通过 .value 访问）、**C**（reactive 对象属性中的 ref 常会自动解包，但数组和集合索引有例外）。自动解包是有上下文边界的语法便利，不能概括为任何位置都省略 `.value`。面试回答应区分模板、reactive 对象属性以及数组或 Map 中的 ref。\n\n**逐项分析**\n\n- **A：正确。** 模板中顶层 ref 通常无需写 .value。它准确对应本题结论。依据是：自动解包是有上下文边界的语法便利，不能概括为任何位置都省略 `.value`。面试回答应区分模板、reactive 对象属性以及数组或 Map 中的 ref。\n- **B：正确。** JavaScript 逻辑中通常仍需通过 .value 访问。它准确对应本题结论。依据是：自动解包是有上下文边界的语法便利，不能概括为任何位置都省略 `.value`。面试回答应区分模板、reactive 对象属性以及数组或 Map 中的 ref。\n- **C：正确。** reactive 对象属性中的 ref 常会自动解包，但数组和集合索引有例外。它准确对应本题结论。依据是：自动解包是有上下文边界的语法便利，不能概括为任何位置都省略 `.value`。面试回答应区分模板、reactive 对象属性以及数组或 Map 中的 ref。\n- **D：不选。** 所有嵌套位置都无条件自动解包。如果选择它，就等于断言“所有嵌套位置都无条件自动解包”；但本题成立的结论是“模板中顶层 ref 通常无需写 .value；JavaScript 逻辑中通常仍需通过 .value 访问；reactive 对象属性中的 ref 常会自动解包，但数组和集合索引有例外”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n官方文档明确给出两个重要例外：ref 作为 reactive 数组元素或 Map 等原生集合的值时，访问仍需要 `.value`；模板自动解包也主要针对渲染上下文中的顶层属性。把规则说成“Vue 里 ref 永远不用 `.value`”是典型错误。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、ref”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "ref",
+        "自动解包"
+      ]
+    },
+    {
+      "code": "interview-vue-004-computed-cache",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "`computed` 为什么能缓存结果，何时重新计算？",
+      "options": [
+        {
+          "id": "A",
+          "content": "依赖未变化时返回缓存，依赖触发后标记脏并在下次读取时重新求值"
+        },
+        {
+          "id": "B",
+          "content": "每毫秒自动重新计算"
+        },
+        {
+          "id": "C",
+          "content": "只在组件卸载时计算"
+        },
+        {
+          "id": "D",
+          "content": "把结果永久写入 localStorage"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（依赖未变化时返回缓存，依赖触发后标记脏并在下次读取时重新求值）。computed 内部以响应式 effect 追踪 getter 依赖，采用惰性求值。依赖变化通常先让它失效，真正读取 `.value` 或模板访问时才重新计算，因此适合纯派生值。\n\n**逐项分析**\n\n- **A：正确。** 依赖未变化时返回缓存，依赖触发后标记脏并在下次读取时重新求值。它准确对应本题结论。依据是：computed 内部以响应式 effect 追踪 getter 依赖，采用惰性求值。依赖变化通常先让它失效，真正读取 `.value` 或模板访问时才重新计算，因此适合纯派生值。\n- **B：不选。** 每毫秒自动重新计算。如果选择它，就等于断言“每毫秒自动重新计算”；但本题成立的结论是“依赖未变化时返回缓存，依赖触发后标记脏并在下次读取时重新求值”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 只在组件卸载时计算。如果选择它，就等于断言“只在组件卸载时计算”；但本题成立的结论是“依赖未变化时返回缓存，依赖触发后标记脏并在下次读取时重新求值”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 把结果永久写入 localStorage。如果选择它，就等于断言“把结果永久写入 localStorage”；但本题成立的结论是“依赖未变化时返回缓存，依赖触发后标记脏并在下次读取时重新求值”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、computed”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、computed”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "computed",
+        "缓存"
+      ]
+    },
+    {
+      "code": "interview-vue-005-computed-side-effect",
+      "categoryKey": "frontend.interview.vue",
+      "type": "true_false",
+      "stem": "`computed` getter 应保持纯粹，不应在里面发请求、修改其他状态或操作 DOM。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。computed 可能被缓存、延迟或多次读取，副作用会让执行时机难以预测并可能形成循环更新。副作用应放入事件处理、watch/watchEffect 或专门的数据层。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、computed”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、computed”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "easy",
+      "tags": [
+        "面试",
+        "Vue",
+        "computed",
+        "副作用"
+      ]
+    },
+    {
+      "code": "interview-vue-006-watch-watch-effect",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "`watch` 与 `watchEffect` 的常见区别有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "watch 显式指定数据源，可获得新旧值并默认惰性"
+        },
+        {
+          "id": "B",
+          "content": "watchEffect 同步执行期间自动收集所读取依赖"
+        },
+        {
+          "id": "C",
+          "content": "watch 更适合精确控制何时触发"
+        },
+        {
+          "id": "D",
+          "content": "watchEffect 会追踪 await 之后首次读取的所有依赖"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（watch 显式指定数据源，可获得新旧值并默认惰性）、**B**（watchEffect 同步执行期间自动收集所读取依赖）、**C**（watch 更适合精确控制何时触发）。watchEffect 只会收集其同步执行阶段访问的依赖，async 回调在第一个 await 后的读取不会被同一轮自动收集。两者都应通过 cleanup 处理过期副作用。\n\n**逐项分析**\n\n- **A：正确。** watch 显式指定数据源，可获得新旧值并默认惰性。它准确对应本题结论。依据是：watchEffect 只会收集其同步执行阶段访问的依赖，async 回调在第一个 await 后的读取不会被同一轮自动收集。两者都应通过 cleanup 处理过期副作用。\n- **B：正确。** watchEffect 同步执行期间自动收集所读取依赖。它准确对应本题结论。依据是：watchEffect 只会收集其同步执行阶段访问的依赖，async 回调在第一个 await 后的读取不会被同一轮自动收集。两者都应通过 cleanup 处理过期副作用。\n- **C：正确。** watch 更适合精确控制何时触发。它准确对应本题结论。依据是：watchEffect 只会收集其同步执行阶段访问的依赖，async 回调在第一个 await 后的读取不会被同一轮自动收集。两者都应通过 cleanup 处理过期副作用。\n- **D：不选。** watchEffect 会追踪 await 之后首次读取的所有依赖。如果选择它，就等于断言“watchEffect 会追踪 await 之后首次读取的所有依赖”；但本题成立的结论是“watch 显式指定数据源，可获得新旧值并默认惰性；watchEffect 同步执行期间自动收集所读取依赖；watch 更适合精确控制何时触发”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n`watchEffect` 只会自动追踪回调同步执行期间读取的依赖。异步回调在第一个 `await` 之后才读取的数据不会被本轮自动收集，因此常把依赖读取放在 await 前，或改用 `watch` 显式声明来源。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、watch”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "watch",
+        "watchEffect"
+      ]
+    },
+    {
+      "code": "interview-vue-007-watch-flush",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "watch 回调中必须读取 Vue 更新后的组件 DOM，通常应使用哪种刷新时机？",
+      "options": [
+        {
+          "id": "A",
+          "content": "flush: 'post'"
+        },
+        {
+          "id": "B",
+          "content": "flush: 'sync'"
+        },
+        {
+          "id": "C",
+          "content": "immediate: false"
+        },
+        {
+          "id": "D",
+          "content": "deep: false"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（flush: 'post'）。默认 watcher 在父组件更新后、当前组件 DOM 更新前执行；`flush: 'post'` 把回调安排到组件 DOM 更新之后。`sync` 不批处理，频繁数据变化时可能带来大量调用。\n\n**逐项分析**\n\n- **A：正确。** flush: 'post'。它准确对应本题结论。依据是：默认 watcher 在父组件更新后、当前组件 DOM 更新前执行；`flush: 'post'` 把回调安排到组件 DOM 更新之后。`sync` 不批处理，频繁数据变化时可能带来大量调用。\n- **B：不选。** flush: 'sync'。如果选择它，就等于断言“flush: 'sync'”；但本题成立的结论是“flush: 'post'”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** immediate: false。如果选择它，就等于断言“immediate: false”；但本题成立的结论是“flush: 'post'”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** deep: false。如果选择它，就等于断言“deep: false”；但本题成立的结论是“flush: 'post'”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 响应式的关键是读取时收集依赖、写入时触发相关副作用。computed 适合可缓存的纯派生值；watch 适合明确来源的副作用；watchEffect 自动追踪同步执行期间读取的依赖。异步请求还必须清理上一轮副作用，避免竞态。\n\n`flush: 'post'` 只保证回调在所属组件的 Vue DOM 更新之后执行。它不保证图片已经加载、字体已经稳定，也不代表浏览器已经完成下一帧绘制；这些场景还要等待对应资源事件或 `requestAnimationFrame`。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、watch”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "watch",
+        "flush"
+      ]
+    },
+    {
+      "code": "interview-vue-008-next-tick",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "调用 `state.value++` 后立即读取 DOM 仍是旧值，为什么 `await nextTick()` 后可以读取更新结果？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Vue 批量调度 DOM 更新，nextTick 等待当前更新队列完成"
+        },
+        {
+          "id": "B",
+          "content": "nextTick 强制刷新整个浏览器"
+        },
+        {
+          "id": "C",
+          "content": "state 更新本身需要一秒"
+        },
+        {
+          "id": "D",
+          "content": "nextTick 会重新加载页面"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Vue 批量调度 DOM 更新，nextTick 等待当前更新队列完成）。响应式状态赋值是同步的，但组件渲染更新被去重并批量放入调度队列。`nextTick` 等待这一批 DOM 提交完成，不代表一定创建新的宏任务，也不应被用来替代正确的数据流。\n\n**逐项分析**\n\n- **A：正确。** Vue 批量调度 DOM 更新，nextTick 等待当前更新队列完成。它准确对应本题结论。依据是：响应式状态赋值是同步的，但组件渲染更新被去重并批量放入调度队列。`nextTick` 等待这一批 DOM 提交完成，不代表一定创建新的宏任务，也不应被用来替代正确的数据流。\n- **B：不选。** nextTick 强制刷新整个浏览器。如果选择它，就等于断言“nextTick 强制刷新整个浏览器”；但本题成立的结论是“Vue 批量调度 DOM 更新，nextTick 等待当前更新队列完成”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** state 更新本身需要一秒。如果选择它，就等于断言“state 更新本身需要一秒”；但本题成立的结论是“Vue 批量调度 DOM 更新，nextTick 等待当前更新队列完成”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** nextTick 会重新加载页面。如果选择它，就等于断言“nextTick 会重新加载页面”；但本题成立的结论是“Vue 批量调度 DOM 更新，nextTick 等待当前更新队列完成”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 会批量调度状态更新，赋值后 DOM 通常不会同步立即变化。nextTick 等待的是 Vue 当前更新批次完成，不等于等待图片加载、网络请求或浏览器完成所有绘制；读取 DOM 前要明确自己等待的究竟是哪一层。\n\n`nextTick` 等待 Vue 当前批次的 DOM 更新完成，不是“延迟固定一毫秒”，也不会替你等待接口、CSS 动画、图片加载或所有浏览器绘制。若连续状态修改属于同一批次，一次 `await nextTick()` 通常足以读取该批次提交后的 DOM。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、nextTick”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "nextTick",
+        "DOM更新"
+      ]
+    },
+    {
+      "code": "interview-vue-009-batching",
+      "categoryKey": "frontend.interview.vue",
+      "type": "true_false",
+      "stem": "同一同步调用栈中连续修改多次响应式状态，Vue 通常会对组件更新去重并在下一轮统一渲染。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。调度器会把同一组件的更新任务放入队列并去重，从而避免每次赋值都立即重渲染。状态本身已经更新，批处理的是副作用和 DOM 提交。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 会批量调度状态更新，赋值后 DOM 通常不会同步立即变化。nextTick 等待的是 Vue 当前更新批次完成，不等于等待图片加载、网络请求或浏览器完成所有绘制；读取 DOM 前要明确自己等待的究竟是哪一层。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、调度器”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、调度器”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "easy",
+      "tags": [
+        "面试",
+        "Vue",
+        "调度器",
+        "批处理"
+      ]
+    },
+    {
+      "code": "interview-vue-010-lifecycle-order",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "父子组件首次挂载时，常见生命周期顺序是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "父 beforeMount → 子 beforeMount → 子 mounted → 父 mounted"
+        },
+        {
+          "id": "B",
+          "content": "父 mounted → 子 mounted"
+        },
+        {
+          "id": "C",
+          "content": "子 mounted → 父 beforeMount"
+        },
+        {
+          "id": "D",
+          "content": "顺序完全随机"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（父 beforeMount → 子 beforeMount → 子 mounted → 父 mounted）。父组件开始挂载后需要先创建和挂载子树，子组件完成 mounted 后，父组件才算完成挂载。异步组件、Suspense 和条件渲染会影响具体时机，回答时应说明这是普通同步子树。\n\n**逐项分析**\n\n- **A：正确。** 父 beforeMount → 子 beforeMount → 子 mounted → 父 mounted。它准确对应本题结论。依据是：父组件开始挂载后需要先创建和挂载子树，子组件完成 mounted 后，父组件才算完成挂载。异步组件、Suspense 和条件渲染会影响具体时机，回答时应说明这是普通同步子树。\n- **B：不选。** 父 mounted → 子 mounted。如果选择它，就等于断言“父 mounted → 子 mounted”；但本题成立的结论是“父 beforeMount → 子 beforeMount → 子 mounted → 父 mounted”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 子 mounted → 父 beforeMount。如果选择它，就等于断言“子 mounted → 父 beforeMount”；但本题成立的结论是“父 beforeMount → 子 beforeMount → 子 mounted → 父 mounted”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 顺序完全随机。如果选择它，就等于断言“顺序完全随机”；但本题成立的结论是“父 beforeMount → 子 beforeMount → 子 mounted → 父 mounted”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 会批量调度状态更新，赋值后 DOM 通常不会同步立即变化。nextTick 等待的是 Vue 当前更新批次完成，不等于等待图片加载、网络请求或浏览器完成所有绘制；读取 DOM 前要明确自己等待的究竟是哪一层。\n\n首次挂载时，父组件的 `onMounted` 会等待同步子组件挂载完成，所以同步子组件通常先 mounted，父组件后 mounted。这里不能扩展成“所有后代异步组件也必然完成”，异步组件与 Suspense 边界需要单独判断。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、生命周期”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "生命周期",
+        "父子组件"
+      ]
+    },
+    {
+      "code": "interview-vue-011-v-if-v-for",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "Vue 3 中同一元素同时写 `v-if` 与 `v-for`，主要问题是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "v-if 优先级更高，条件表达式可能访问不到 v-for 作用域变量"
+        },
+        {
+          "id": "B",
+          "content": "v-for 永远只执行一次"
+        },
+        {
+          "id": "C",
+          "content": "两者会自动变成 computed"
+        },
+        {
+          "id": "D",
+          "content": "没有任何可维护性问题"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（v-if 优先级更高，条件表达式可能访问不到 v-for 作用域变量）。同节点组合会让作用域和性能难以理解。过滤列表应先用 computed，整组条件可把 `v-if` 放在外层 template，单项条件可在循环内部再包一层。\n\n**逐项分析**\n\n- **A：正确。** v-if 优先级更高，条件表达式可能访问不到 v-for 作用域变量。它准确对应本题结论。依据是：同节点组合会让作用域和性能难以理解。过滤列表应先用 computed，整组条件可把 `v-if` 放在外层 template，单项条件可在循环内部再包一层。\n- **B：不选。** v-for 永远只执行一次。如果选择它，就等于断言“v-for 永远只执行一次”；但本题成立的结论是“v-if 优先级更高，条件表达式可能访问不到 v-for 作用域变量”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 两者会自动变成 computed。如果选择它，就等于断言“两者会自动变成 computed”；但本题成立的结论是“v-if 优先级更高，条件表达式可能访问不到 v-for 作用域变量”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 没有任何可维护性问题。如果选择它，就等于断言“没有任何可维护性问题”；但本题成立的结论是“v-if 优先级更高，条件表达式可能访问不到 v-for 作用域变量”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、v-if”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、v-if”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "v-if",
+        "v-for"
+      ]
+    },
+    {
+      "code": "interview-vue-012-key",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "为什么可增删排序的列表不建议使用数组索引作为 key？",
+      "options": [
+        {
+          "id": "A",
+          "content": "索引不能稳定代表业务项身份"
+        },
+        {
+          "id": "B",
+          "content": "插入或重排后可能复用错误组件状态"
+        },
+        {
+          "id": "C",
+          "content": "可能造成输入框、动画或子组件状态错位"
+        },
+        {
+          "id": "D",
+          "content": "索引 key 会让 JavaScript 语法报错"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（索引不能稳定代表业务项身份）、**B**（插入或重排后可能复用错误组件状态）、**C**（可能造成输入框、动画或子组件状态错位）。key 用于告诉 diff 算法新旧节点是否是同一身份。索引随位置变化，会把旧位置的状态错误地交给另一条数据；应使用唯一且稳定的业务 ID。\n\n**逐项分析**\n\n- **A：正确。** 索引不能稳定代表业务项身份。它准确对应本题结论。依据是：key 用于告诉 diff 算法新旧节点是否是同一身份。索引随位置变化，会把旧位置的状态错误地交给另一条数据；应使用唯一且稳定的业务 ID。\n- **B：正确。** 插入或重排后可能复用错误组件状态。它准确对应本题结论。依据是：key 用于告诉 diff 算法新旧节点是否是同一身份。索引随位置变化，会把旧位置的状态错误地交给另一条数据；应使用唯一且稳定的业务 ID。\n- **C：正确。** 可能造成输入框、动画或子组件状态错位。它准确对应本题结论。依据是：key 用于告诉 diff 算法新旧节点是否是同一身份。索引随位置变化，会把旧位置的状态错误地交给另一条数据；应使用唯一且稳定的业务 ID。\n- **D：不选。** 索引 key 会让 JavaScript 语法报错。如果选择它，就等于断言“索引 key 会让 JavaScript 语法报错”；但本题成立的结论是“索引不能稳定代表业务项身份；插入或重排后可能复用错误组件状态；可能造成输入框、动画或子组件状态错位”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nkey 用来表达同级节点的稳定身份，帮助渲染器判断复用、移动、创建和卸载。索引在插入、删除、排序后不能稳定代表业务实体，涉及输入状态或组件局部状态时尤其容易出现错误复用。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、key”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、key”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "easy",
+      "tags": [
+        "面试",
+        "Vue",
+        "key",
+        "diff"
+      ]
+    },
+    {
+      "code": "interview-vue-013-diff",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "描述 Vue 3 keyed children diff 时，哪些关键点正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "先同步比较头部和尾部相同节点"
+        },
+        {
+          "id": "B",
+          "content": "中间未知序列通过 key 建立新索引映射"
+        },
+        {
+          "id": "C",
+          "content": "利用最长递增子序列减少 DOM 移动"
+        },
+        {
+          "id": "D",
+          "content": "每次更新都销毁全部真实 DOM"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（先同步比较头部和尾部相同节点）、**B**（中间未知序列通过 key 建立新索引映射）、**C**（利用最长递增子序列减少 DOM 移动）。Vue 3 先处理稳定前后缀，再对未知区间复用、创建、删除并移动节点。最长递增子序列用于识别已经保持相对顺序的节点，从而减少移动次数。\n\n**逐项分析**\n\n- **A：正确。** 先同步比较头部和尾部相同节点。它准确对应本题结论。依据是：Vue 3 先处理稳定前后缀，再对未知区间复用、创建、删除并移动节点。最长递增子序列用于识别已经保持相对顺序的节点，从而减少移动次数。\n- **B：正确。** 中间未知序列通过 key 建立新索引映射。它准确对应本题结论。依据是：Vue 3 先处理稳定前后缀，再对未知区间复用、创建、删除并移动节点。最长递增子序列用于识别已经保持相对顺序的节点，从而减少移动次数。\n- **C：正确。** 利用最长递增子序列减少 DOM 移动。它准确对应本题结论。依据是：Vue 3 先处理稳定前后缀，再对未知区间复用、创建、删除并移动节点。最长递增子序列用于识别已经保持相对顺序的节点，从而减少移动次数。\n- **D：不选。** 每次更新都销毁全部真实 DOM。如果选择它，就等于断言“每次更新都销毁全部真实 DOM”；但本题成立的结论是“先同步比较头部和尾部相同节点；中间未知序列通过 key 建立新索引映射；利用最长递增子序列减少 DOM 移动”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nkey 用来表达同级节点的稳定身份，帮助渲染器判断复用、移动、创建和卸载。索引在插入、删除、排序后不能稳定代表业务实体，涉及输入状态或组件局部状态时尤其容易出现错误复用。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、diff”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、diff”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "diff",
+        "最长递增子序列"
+      ]
+    },
+    {
+      "code": "interview-vue-014-keep-alive",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "被 KeepAlive 缓存的动态组件切走再返回时，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "实例通常不会销毁，而是 deactivated"
+        },
+        {
+          "id": "B",
+          "content": "返回时触发 activated"
+        },
+        {
+          "id": "C",
+          "content": "定时器和外部订阅未必自动暂停，需要自行管理"
+        },
+        {
+          "id": "D",
+          "content": "每次都重新执行完整首次挂载流程"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（实例通常不会销毁，而是 deactivated）、**B**（返回时触发 activated）、**C**（定时器和外部订阅未必自动暂停，需要自行管理）。KeepAlive 缓存组件实例和状态，切换使用 activated/deactivated 生命周期。若组件在不可见期间不应继续轮询或监听，应在对应钩子中暂停和恢复。\n\n**逐项分析**\n\n- **A：正确。** 实例通常不会销毁，而是 deactivated。它准确对应本题结论。依据是：KeepAlive 缓存组件实例和状态，切换使用 activated/deactivated 生命周期。若组件在不可见期间不应继续轮询或监听，应在对应钩子中暂停和恢复。\n- **B：正确。** 返回时触发 activated。它准确对应本题结论。依据是：KeepAlive 缓存组件实例和状态，切换使用 activated/deactivated 生命周期。若组件在不可见期间不应继续轮询或监听，应在对应钩子中暂停和恢复。\n- **C：正确。** 定时器和外部订阅未必自动暂停，需要自行管理。它准确对应本题结论。依据是：KeepAlive 缓存组件实例和状态，切换使用 activated/deactivated 生命周期。若组件在不可见期间不应继续轮询或监听，应在对应钩子中暂停和恢复。\n- **D：不选。** 每次都重新执行完整首次挂载流程。如果选择它，就等于断言“每次都重新执行完整首次挂载流程”；但本题成立的结论是“实例通常不会销毁，而是 deactivated；返回时触发 activated；定时器和外部订阅未必自动暂停，需要自行管理”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 会批量调度状态更新，赋值后 DOM 通常不会同步立即变化。nextTick 等待的是 Vue 当前更新批次完成，不等于等待图片加载、网络请求或浏览器完成所有绘制；读取 DOM 前要明确自己等待的究竟是哪一层。\n\n这些是组件树与渲染位置的高级能力。使用时要明确实例是否仍存活、DOM 实际挂载在哪里、异步依赖怎样失败，以及 activated/deactivated、卸载清理和 SSR 水合会受到什么影响。\n\n进入缓存的组件不会执行普通卸载流程，而会触发 deactivated；重新插入时触发 activated。官方文档还指出：activated 会在首次挂载时触发，deactivated 也会在缓存实例最终卸载时触发，因此清理逻辑要区分“暂时离开”和“永久销毁”。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、KeepAlive”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "KeepAlive",
+        "生命周期"
+      ]
+    },
+    {
+      "code": "interview-vue-015-teleport",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "Teleport 把弹窗 DOM 移到 body 后，组件的 props、emit 和 provide/inject 关系会怎样？",
+      "options": [
+        {
+          "id": "A",
+          "content": "仍按 Vue 组件树保持逻辑关系"
+        },
+        {
+          "id": "B",
+          "content": "全部按 body 的 DOM 祖先重新建立"
+        },
+        {
+          "id": "C",
+          "content": "组件立即卸载"
+        },
+        {
+          "id": "D",
+          "content": "emit 自动变成原生 DOM 事件"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（仍按 Vue 组件树保持逻辑关系）。Teleport 只改变渲染后的 DOM 物理位置，不改变虚拟组件树中的父子关系。因此依赖注入、事件和状态仍按原组件树工作，同时可避开祖先 overflow 或层叠上下文限制。\n\n**逐项分析**\n\n- **A：正确。** 仍按 Vue 组件树保持逻辑关系。它准确对应本题结论。依据是：Teleport 只改变渲染后的 DOM 物理位置，不改变虚拟组件树中的父子关系。因此依赖注入、事件和状态仍按原组件树工作，同时可避开祖先 overflow 或层叠上下文限制。\n- **B：不选。** 全部按 body 的 DOM 祖先重新建立。如果选择它，就等于断言“全部按 body 的 DOM 祖先重新建立”；但本题成立的结论是“仍按 Vue 组件树保持逻辑关系”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 组件立即卸载。如果选择它，就等于断言“组件立即卸载”；但本题成立的结论是“仍按 Vue 组件树保持逻辑关系”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** emit 自动变成原生 DOM 事件。如果选择它，就等于断言“emit 自动变成原生 DOM 事件”；但本题成立的结论是“仍按 Vue 组件树保持逻辑关系”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n这些是组件树与渲染位置的高级能力。使用时要明确实例是否仍存活、DOM 实际挂载在哪里、异步依赖怎样失败，以及 activated/deactivated、卸载清理和 SSR 水合会受到什么影响。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、Teleport”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、Teleport”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "Teleport",
+        "弹窗"
+      ]
+    },
+    {
+      "code": "interview-vue-016-suspense",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "Vue Suspense 的主要职责是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "协调异步依赖并在等待时展示 fallback"
+        },
+        {
+          "id": "B",
+          "content": "缓存所有接口数据"
+        },
+        {
+          "id": "C",
+          "content": "替代错误边界"
+        },
+        {
+          "id": "D",
+          "content": "让同步代码自动并行"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（协调异步依赖并在等待时展示 fallback）。Suspense 可等待异步 setup 和异步组件形成的依赖树，并统一切换 fallback。错误处理仍需 `onErrorCaptured` 或应用级 handler，数据缓存与请求去重也不是 Suspense 自动提供的。\n\n**逐项分析**\n\n- **A：正确。** 协调异步依赖并在等待时展示 fallback。它准确对应本题结论。依据是：Suspense 可等待异步 setup 和异步组件形成的依赖树，并统一切换 fallback。错误处理仍需 `onErrorCaptured` 或应用级 handler，数据缓存与请求去重也不是 Suspense 自动提供的。\n- **B：不选。** 缓存所有接口数据。如果选择它，就等于断言“缓存所有接口数据”；但本题成立的结论是“协调异步依赖并在等待时展示 fallback”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 替代错误边界。如果选择它，就等于断言“替代错误边界”；但本题成立的结论是“协调异步依赖并在等待时展示 fallback”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 让同步代码自动并行。如果选择它，就等于断言“让同步代码自动并行”；但本题成立的结论是“协调异步依赖并在等待时展示 fallback”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n这些是组件树与渲染位置的高级能力。使用时要明确实例是否仍存活、DOM 实际挂载在哪里、异步依赖怎样失败，以及 activated/deactivated、卸载清理和 SSR 水合会受到什么影响。\n\nVue 官方文档目前仍把 Suspense 标为实验性能力。它可以协调异步 setup 与异步组件的等待状态，但错误处理、嵌套顺序、SSR 和框架版本都要实际验证，不能把它当作所有请求的通用加载容器。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、Suspense”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "Suspense",
+        "异步组件"
+      ]
+    },
+    {
+      "code": "interview-vue-017-provide-inject",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "大型组件树使用 provide/inject 时，哪些设计有助于维护？",
+      "options": [
+        {
+          "id": "A",
+          "content": "使用 Symbol 作为注入键避免冲突"
+        },
+        {
+          "id": "B",
+          "content": "由提供者封装修改方法，消费方优先只读"
+        },
+        {
+          "id": "C",
+          "content": "为可选注入提供默认值或明确报错"
+        },
+        {
+          "id": "D",
+          "content": "把所有业务状态都无差别放入一个 provide"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（使用 Symbol 作为注入键避免冲突）、**B**（由提供者封装修改方法，消费方优先只读）、**C**（为可选注入提供默认值或明确报错）。依赖注入适合跨层级的局部上下文，但过度使用会隐藏依赖。注入键、只读边界、默认值和 TypeScript 类型应统一管理，复杂全局领域再评估 Pinia。\n\n**逐项分析**\n\n- **A：正确。** 使用 Symbol 作为注入键避免冲突。它准确对应本题结论。依据是：依赖注入适合跨层级的局部上下文，但过度使用会隐藏依赖。注入键、只读边界、默认值和 TypeScript 类型应统一管理，复杂全局领域再评估 Pinia。\n- **B：正确。** 由提供者封装修改方法，消费方优先只读。它准确对应本题结论。依据是：依赖注入适合跨层级的局部上下文，但过度使用会隐藏依赖。注入键、只读边界、默认值和 TypeScript 类型应统一管理，复杂全局领域再评估 Pinia。\n- **C：正确。** 为可选注入提供默认值或明确报错。它准确对应本题结论。依据是：依赖注入适合跨层级的局部上下文，但过度使用会隐藏依赖。注入键、只读边界、默认值和 TypeScript 类型应统一管理，复杂全局领域再评估 Pinia。\n- **D：不选。** 把所有业务状态都无差别放入一个 provide。如果选择它，就等于断言“把所有业务状态都无差别放入一个 provide”；但本题成立的结论是“使用 Symbol 作为注入键避免冲突；由提供者封装修改方法，消费方优先只读；为可选注入提供默认值或明确报错”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、provide-inject”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、provide-inject”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "provide-inject",
+        "组件设计"
+      ]
+    },
+    {
+      "code": "interview-vue-018-attrs",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "组件存在多个根节点时，未声明的属性为什么不会像单根组件那样自动透传？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Vue 无法判断应把属性放到哪个根节点，需要显式用 $attrs 绑定"
+        },
+        {
+          "id": "B",
+          "content": "多根组件不能接收 props"
+        },
+        {
+          "id": "C",
+          "content": "所有属性都会丢失且无法访问"
+        },
+        {
+          "id": "D",
+          "content": "必须改用 iframe"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Vue 无法判断应把属性放到哪个根节点，需要显式用 $attrs 绑定）。Fragment 允许多根模板，但透传目标不再唯一。组件应通过 `v-bind=\"$attrs\"` 把属性交给真正的交互根节点，必要时设置 `inheritAttrs: false` 控制默认行为。\n\n**逐项分析**\n\n- **A：正确。** Vue 无法判断应把属性放到哪个根节点，需要显式用 $attrs 绑定。它准确对应本题结论。依据是：Fragment 允许多根模板，但透传目标不再唯一。组件应通过 `v-bind=\"$attrs\"` 把属性交给真正的交互根节点，必要时设置 `inheritAttrs: false` 控制默认行为。\n- **B：不选。** 多根组件不能接收 props。如果选择它，就等于断言“多根组件不能接收 props”；但本题成立的结论是“Vue 无法判断应把属性放到哪个根节点，需要显式用 $attrs 绑定”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 所有属性都会丢失且无法访问。如果选择它，就等于断言“所有属性都会丢失且无法访问”；但本题成立的结论是“Vue 无法判断应把属性放到哪个根节点，需要显式用 $attrs 绑定”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 必须改用 iframe。如果选择它，就等于断言“必须改用 iframe”；但本题成立的结论是“Vue 无法判断应把属性放到哪个根节点，需要显式用 $attrs 绑定”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、透传属性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、透传属性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "透传属性",
+        "Fragment"
+      ]
+    },
+    {
+      "code": "interview-vue-019-emits",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "设计可复用表单组件的事件 API 时，显式声明 emits 能带来哪些工程收益？",
+      "options": [
+        {
+          "id": "A",
+          "content": "形成组件事件契约并支持参数校验"
+        },
+        {
+          "id": "B",
+          "content": "避免同名监听器被当作透传原生监听器"
+        },
+        {
+          "id": "C",
+          "content": "改善文档和 TypeScript 推断"
+        },
+        {
+          "id": "D",
+          "content": "让子组件可以任意修改父组件状态"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（形成组件事件契约并支持参数校验）、**B**（避免同名监听器被当作透传原生监听器）、**C**（改善文档和 TypeScript 推断）。声明 emits 能区分组件事件和透传监听器，并让 API 更清晰。数据仍应通过 props down、events up 或显式双向契约流动，而不是子组件直接修改父状态。\n\n**逐项分析**\n\n- **A：正确。** 形成组件事件契约并支持参数校验。它准确对应本题结论。依据是：声明 emits 能区分组件事件和透传监听器，并让 API 更清晰。数据仍应通过 props down、events up 或显式双向契约流动，而不是子组件直接修改父状态。\n- **B：正确。** 避免同名监听器被当作透传原生监听器。它准确对应本题结论。依据是：声明 emits 能区分组件事件和透传监听器，并让 API 更清晰。数据仍应通过 props down、events up 或显式双向契约流动，而不是子组件直接修改父状态。\n- **C：正确。** 改善文档和 TypeScript 推断。它准确对应本题结论。依据是：声明 emits 能区分组件事件和透传监听器，并让 API 更清晰。数据仍应通过 props down、events up 或显式双向契约流动，而不是子组件直接修改父状态。\n- **D：不选。** 让子组件可以任意修改父组件状态。如果选择它，就等于断言“让子组件可以任意修改父组件状态”；但本题成立的结论是“形成组件事件契约并支持参数校验；避免同名监听器被当作透传原生监听器；改善文档和 TypeScript 推断”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、emits”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、emits”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "emits",
+        "组件通信"
+      ]
+    },
+    {
+      "code": "interview-vue-020-v-model",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "Vue 3 自定义组件默认 `v-model` 对应什么 prop 和事件？",
+      "options": [
+        {
+          "id": "A",
+          "content": "modelValue 与 update:modelValue"
+        },
+        {
+          "id": "B",
+          "content": "value 与 input，且不可改变"
+        },
+        {
+          "id": "C",
+          "content": "checked 与 change"
+        },
+        {
+          "id": "D",
+          "content": "data 与 setData"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（modelValue 与 update:modelValue）。默认双向绑定使用 `modelValue` 和 `update:modelValue`；带参数的 `v-model:title` 对应 `title` 与 `update:title`，因此一个组件可以定义多个 v-model 契约。\n\n**逐项分析**\n\n- **A：正确。** modelValue 与 update:modelValue。它准确对应本题结论。依据是：默认双向绑定使用 `modelValue` 和 `update:modelValue`；带参数的 `v-model:title` 对应 `title` 与 `update:title`，因此一个组件可以定义多个 v-model 契约。\n- **B：不选。** value 与 input，且不可改变。如果选择它，就等于断言“value 与 input，且不可改变”；但本题成立的结论是“modelValue 与 update:modelValue”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** checked 与 change。如果选择它，就等于断言“checked 与 change”；但本题成立的结论是“modelValue 与 update:modelValue”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** data 与 setData。如果选择它，就等于断言“data 与 setData”；但本题成立的结论是“modelValue 与 update:modelValue”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、v-model”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、v-model”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "easy",
+      "tags": [
+        "面试",
+        "Vue",
+        "v-model",
+        "组件通信"
+      ]
+    },
+    {
+      "code": "interview-vue-021-scoped-slot",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "作用域插槽解决的核心问题是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "子组件提供数据，父组件决定这部分内容如何渲染"
+        },
+        {
+          "id": "B",
+          "content": "父组件直接修改子组件私有变量"
+        },
+        {
+          "id": "C",
+          "content": "替代所有 props"
+        },
+        {
+          "id": "D",
+          "content": "只用于 CSS 隔离"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（子组件提供数据，父组件决定这部分内容如何渲染）。插槽内容在父组件作用域编译，但子组件可通过 slot props 暴露行数据、状态和操作。它适合表格列、列表项等“数据归子组件、表现由调用方定制”的场景。\n\n**逐项分析**\n\n- **A：正确。** 子组件提供数据，父组件决定这部分内容如何渲染。它准确对应本题结论。依据是：插槽内容在父组件作用域编译，但子组件可通过 slot props 暴露行数据、状态和操作。它适合表格列、列表项等“数据归子组件、表现由调用方定制”的场景。\n- **B：不选。** 父组件直接修改子组件私有变量。如果选择它，就等于断言“父组件直接修改子组件私有变量”；但本题成立的结论是“子组件提供数据，父组件决定这部分内容如何渲染”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 替代所有 props。如果选择它，就等于断言“替代所有 props”；但本题成立的结论是“子组件提供数据，父组件决定这部分内容如何渲染”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 只用于 CSS 隔离。如果选择它，就等于断言“只用于 CSS 隔离”；但本题成立的结论是“子组件提供数据，父组件决定这部分内容如何渲染”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、作用域插槽”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、作用域插槽”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "easy",
+      "tags": [
+        "面试",
+        "Vue",
+        "作用域插槽",
+        "组件设计"
+      ]
+    },
+    {
+      "code": "interview-vue-022-shallow-ref",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "保存大型第三方图表实例或不可变大对象时，为什么可能选择 `shallowRef`？",
+      "options": [
+        {
+          "id": "A",
+          "content": "只追踪 .value 替换，避免深层对象被递归转为响应式"
+        },
+        {
+          "id": "B",
+          "content": "让所有深层修改都立即触发"
+        },
+        {
+          "id": "C",
+          "content": "自动销毁图表"
+        },
+        {
+          "id": "D",
+          "content": "把对象复制到服务端"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（只追踪 .value 替换，避免深层对象被递归转为响应式）。第三方实例通常不需要深层代理，深度响应式可能增加开销甚至破坏身份判断。`shallowRef` 在整体替换时触发更新，若原地修改后确需通知可显式 `triggerRef`。\n\n**逐项分析**\n\n- **A：正确。** 只追踪 .value 替换，避免深层对象被递归转为响应式。它准确对应本题结论。依据是：第三方实例通常不需要深层代理，深度响应式可能增加开销甚至破坏身份判断。`shallowRef` 在整体替换时触发更新，若原地修改后确需通知可显式 `triggerRef`。\n- **B：不选。** 让所有深层修改都立即触发。如果选择它，就等于断言“让所有深层修改都立即触发”；但本题成立的结论是“只追踪 .value 替换，避免深层对象被递归转为响应式”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 自动销毁图表。如果选择它，就等于断言“自动销毁图表”；但本题成立的结论是“只追踪 .value 替换，避免深层对象被递归转为响应式”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 把对象复制到服务端。如果选择它，就等于断言“把对象复制到服务端”；但本题成立的结论是“只追踪 .value 替换，避免深层对象被递归转为响应式”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、shallowRef”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、shallowRef”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "shallowRef",
+        "性能"
+      ]
+    },
+    {
+      "code": "interview-vue-023-mark-raw",
+      "categoryKey": "frontend.interview.vue",
+      "type": "true_false",
+      "stem": "`markRaw` 可阻止对象被转换为响应式代理，但嵌套对象若在其他路径单独进入响应式系统，仍可能产生原始对象与代理对象的身份差异。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。markRaw 只标记传入对象本身并需要谨慎使用，嵌套值可能在别处被代理。涉及 Map 键、第三方实例和严格引用比较时，应明确原始值与代理值的身份风险。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、markRaw”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、markRaw”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "markRaw",
+        "对象身份"
+      ]
+    },
+    {
+      "code": "interview-vue-024-custom-ref",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "使用 `customRef` 实现防抖输入时，`track` 和 `trigger` 分别应在什么阶段调用？",
+      "options": [
+        {
+          "id": "A",
+          "content": "get 时 track，防抖确认值更新后 trigger"
+        },
+        {
+          "id": "B",
+          "content": "set 时 track，get 时 trigger"
+        },
+        {
+          "id": "C",
+          "content": "两者都不调用"
+        },
+        {
+          "id": "D",
+          "content": "组件卸载后无限 trigger"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（get 时 track，防抖确认值更新后 trigger）。读取时调用 track 建立依赖，set 接收新值后延迟更新内部值并调用 trigger 通知依赖。getter 若每次返回新对象，还可能让父子更新判断产生额外触发，应保持返回身份合理。\n\n**逐项分析**\n\n- **A：正确。** get 时 track，防抖确认值更新后 trigger。它准确对应本题结论。依据是：读取时调用 track 建立依赖，set 接收新值后延迟更新内部值并调用 trigger 通知依赖。getter 若每次返回新对象，还可能让父子更新判断产生额外触发，应保持返回身份合理。\n- **B：不选。** set 时 track，get 时 trigger。如果选择它，就等于断言“set 时 track，get 时 trigger”；但本题成立的结论是“get 时 track，防抖确认值更新后 trigger”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 两者都不调用。如果选择它，就等于断言“两者都不调用”；但本题成立的结论是“get 时 track，防抖确认值更新后 trigger”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 组件卸载后无限 trigger。如果选择它，就等于断言“组件卸载后无限 trigger”；但本题成立的结论是“get 时 track，防抖确认值更新后 trigger”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n减少请求次数和保证结果正确是两件事：防抖/节流控制触发频率，AbortController 负责取消可取消任务，请求序号或版本号负责阻止旧响应覆盖新状态，缓存与去重则减少相同工作。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、customRef”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、customRef”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "customRef",
+        "防抖"
+      ]
+    },
+    {
+      "code": "interview-vue-025-effect-scope",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "`effectScope` 最适合解决什么问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "把多个 computed、watch 和 watchEffect 归组后统一停止"
+        },
+        {
+          "id": "B",
+          "content": "替代所有组件"
+        },
+        {
+          "id": "C",
+          "content": "同步数据库事务"
+        },
+        {
+          "id": "D",
+          "content": "提高 CSS 权重"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（把多个 computed、watch 和 watchEffect 归组后统一停止）。可复用逻辑在组件外创建多个响应式副作用时，effectScope 能建立明确生命周期边界，调用 `scope.stop()` 一次清理。组件 setup 中创建的副作用通常已自动归属组件作用域。\n\n**逐项分析**\n\n- **A：正确。** 把多个 computed、watch 和 watchEffect 归组后统一停止。它准确对应本题结论。依据是：可复用逻辑在组件外创建多个响应式副作用时，effectScope 能建立明确生命周期边界，调用 `scope.stop()` 一次清理。组件 setup 中创建的副作用通常已自动归属组件作用域。\n- **B：不选。** 替代所有组件。如果选择它，就等于断言“替代所有组件”；但本题成立的结论是“把多个 computed、watch 和 watchEffect 归组后统一停止”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 同步数据库事务。如果选择它，就等于断言“同步数据库事务”；但本题成立的结论是“把多个 computed、watch 和 watchEffect 归组后统一停止”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 提高 CSS 权重。如果选择它，就等于断言“提高 CSS 权重”；但本题成立的结论是“把多个 computed、watch 和 watchEffect 归组后统一停止”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、effectScope”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、effectScope”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "effectScope",
+        "清理"
+      ]
+    },
+    {
+      "code": "interview-vue-026-composable-cleanup",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "编写包含窗口监听和异步请求的 composable，哪些生命周期处理正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "组件卸载时移除事件监听器"
+        },
+        {
+          "id": "B",
+          "content": "通过 AbortController 或 cleanup 取消过期请求"
+        },
+        {
+          "id": "C",
+          "content": "避免在模块顶层为每个调用者共享意外可变状态"
+        },
+        {
+          "id": "D",
+          "content": "每次响应回来都更新已卸载组件"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（组件卸载时移除事件监听器）、**B**（通过 AbortController 或 cleanup 取消过期请求）、**C**（避免在模块顶层为每个调用者共享意外可变状态）。Composable 复用的是有生命周期的数据逻辑，必须把外部资源的建立与释放成对处理。是否共享状态应明确设计，不能因模块单例无意泄漏不同组件或用户的数据。\n\n**逐项分析**\n\n- **A：正确。** 组件卸载时移除事件监听器。它准确对应本题结论。依据是：Composable 复用的是有生命周期的数据逻辑，必须把外部资源的建立与释放成对处理。是否共享状态应明确设计，不能因模块单例无意泄漏不同组件或用户的数据。\n- **B：正确。** 通过 AbortController 或 cleanup 取消过期请求。它准确对应本题结论。依据是：Composable 复用的是有生命周期的数据逻辑，必须把外部资源的建立与释放成对处理。是否共享状态应明确设计，不能因模块单例无意泄漏不同组件或用户的数据。\n- **C：正确。** 避免在模块顶层为每个调用者共享意外可变状态。它准确对应本题结论。依据是：Composable 复用的是有生命周期的数据逻辑，必须把外部资源的建立与释放成对处理。是否共享状态应明确设计，不能因模块单例无意泄漏不同组件或用户的数据。\n- **D：不选。** 每次响应回来都更新已卸载组件。如果选择它，就等于断言“每次响应回来都更新已卸载组件”；但本题成立的结论是“组件卸载时移除事件监听器；通过 AbortController 或 cleanup 取消过期请求；避免在模块顶层为每个调用者共享意外可变状态”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nVue 会批量调度状态更新，赋值后 DOM 通常不会同步立即变化。nextTick 等待的是 Vue 当前更新批次完成，不等于等待图片加载、网络请求或浏览器完成所有绘制；读取 DOM 前要明确自己等待的究竟是哪一层。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、Composable”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、Composable”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "medium",
+      "tags": [
+        "面试",
+        "Vue",
+        "Composable",
+        "生命周期"
+      ]
+    },
+    {
+      "code": "interview-vue-027-router-guard",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "Vue Router 权限守卫的成熟实现应注意哪些问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "等待用户身份和动态路由初始化完成"
+        },
+        {
+          "id": "B",
+          "content": "避免每次导航重复添加同一路由"
+        },
+        {
+          "id": "C",
+          "content": "保留并校验登录后的站内 redirect"
+        },
+        {
+          "id": "D",
+          "content": "只隐藏菜单，不校验后端权限"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（等待用户身份和动态路由初始化完成）、**B**（避免每次导航重复添加同一路由）、**C**（保留并校验登录后的站内 redirect）。前端守卫负责体验和导航，后端仍必须执行真正授权。动态路由加载要有一次性状态和失败回退，redirect 只允许安全站内路径以避免开放重定向。\n\n**逐项分析**\n\n- **A：正确。** 等待用户身份和动态路由初始化完成。它准确对应本题结论。依据是：前端守卫负责体验和导航，后端仍必须执行真正授权。动态路由加载要有一次性状态和失败回退，redirect 只允许安全站内路径以避免开放重定向。\n- **B：正确。** 避免每次导航重复添加同一路由。它准确对应本题结论。依据是：前端守卫负责体验和导航，后端仍必须执行真正授权。动态路由加载要有一次性状态和失败回退，redirect 只允许安全站内路径以避免开放重定向。\n- **C：正确。** 保留并校验登录后的站内 redirect。它准确对应本题结论。依据是：前端守卫负责体验和导航，后端仍必须执行真正授权。动态路由加载要有一次性状态和失败回退，redirect 只允许安全站内路径以避免开放重定向。\n- **D：不选。** 只隐藏菜单，不校验后端权限。如果选择它，就等于断言“只隐藏菜单，不校验后端权限”；但本题成立的结论是“等待用户身份和动态路由初始化完成；避免每次导航重复添加同一路由；保留并校验登录后的站内 redirect”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n路由守卫负责导航流程和体验控制，不能替代服务端授权。动态路由还要处理刷新恢复、404 匹配顺序、退出登录后的路由清理，以及导航期间请求取消。\n\n登录态处理要区分认证、授权与界面展示。并发 401 通常应共享一次刷新操作并排队重放；刷新失败要统一退出。按钮隐藏只是体验，服务端仍必须对每个资源和动作做权限校验。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue Router、权限”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue Router、权限”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue Router",
+        "权限",
+        "动态路由"
+      ]
+    },
+    {
+      "code": "interview-vue-028-pinia-destructure",
+      "categoryKey": "frontend.interview.vue",
+      "type": "single_choice",
+      "stem": "从 Pinia store 中解构响应式 state/getter，推荐使用什么工具保持响应性？",
+      "options": [
+        {
+          "id": "A",
+          "content": "storeToRefs"
+        },
+        {
+          "id": "B",
+          "content": "JSON.parse"
+        },
+        {
+          "id": "C",
+          "content": "Object.freeze"
+        },
+        {
+          "id": "D",
+          "content": "toRaw 后直接解构"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（storeToRefs）。直接解构 store 会得到当前值并失去代理访问，`storeToRefs` 会把 state、getter 和插件添加的响应式属性转为 ref，同时忽略 actions 等方法。actions 可直接从 store 解构调用。\n\n**逐项分析**\n\n- **A：正确。** storeToRefs。它准确对应本题结论。依据是：直接解构 store 会得到当前值并失去代理访问，`storeToRefs` 会把 state、getter 和插件添加的响应式属性转为 ref，同时忽略 actions 等方法。actions 可直接从 store 解构调用。\n- **B：不选。** JSON.parse。如果选择它，就等于断言“JSON.parse”；但本题成立的结论是“storeToRefs”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** Object.freeze。如果选择它，就等于断言“Object.freeze”；但本题成立的结论是“storeToRefs”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** toRaw 后直接解构。如果选择它，就等于断言“toRaw 后直接解构”；但本题成立的结论是“storeToRefs”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n状态管理应保存跨页面或跨组件共享的业务状态，而不是把所有临时 UI 状态都放进全局仓库。解构 store 时要注意保持响应性，异步 action 还要处理并发、错误、加载状态和退出登录后的数据清理。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、Pinia”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、Pinia”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "easy",
+      "tags": [
+        "面试",
+        "Vue",
+        "Pinia",
+        "storeToRefs"
+      ]
+    },
+    {
+      "code": "interview-vue-029-ssr-hydration",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "Vue SSR 水合不匹配的常见来源有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "服务端与客户端首屏使用不同时间或随机数"
+        },
+        {
+          "id": "B",
+          "content": "服务端直接依赖 window、localStorage 等浏览器 API"
+        },
+        {
+          "id": "C",
+          "content": "服务端与客户端初始数据不一致"
+        },
+        {
+          "id": "D",
+          "content": "稳定确定的模板和序列化状态"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（服务端与客户端首屏使用不同时间或随机数）、**B**（服务端直接依赖 window、localStorage 等浏览器 API）、**C**（服务端与客户端初始数据不一致）。水合要求客户端首次虚拟 DOM 与服务端 HTML 一致，否则可能警告、重建节点甚至产生交互错误。浏览器专属逻辑应放到挂载后或客户端分支，并把服务端状态确定性地传给客户端。\n\n**逐项分析**\n\n- **A：正确。** 服务端与客户端首屏使用不同时间或随机数。它准确对应本题结论。依据是：水合要求客户端首次虚拟 DOM 与服务端 HTML 一致，否则可能警告、重建节点甚至产生交互错误。浏览器专属逻辑应放到挂载后或客户端分支，并把服务端状态确定性地传给客户端。\n- **B：正确。** 服务端直接依赖 window、localStorage 等浏览器 API。它准确对应本题结论。依据是：水合要求客户端首次虚拟 DOM 与服务端 HTML 一致，否则可能警告、重建节点甚至产生交互错误。浏览器专属逻辑应放到挂载后或客户端分支，并把服务端状态确定性地传给客户端。\n- **C：正确。** 服务端与客户端初始数据不一致。它准确对应本题结论。依据是：水合要求客户端首次虚拟 DOM 与服务端 HTML 一致，否则可能警告、重建节点甚至产生交互错误。浏览器专属逻辑应放到挂载后或客户端分支，并把服务端状态确定性地传给客户端。\n- **D：不选。** 稳定确定的模板和序列化状态。如果选择它，就等于断言“稳定确定的模板和序列化状态”；但本题成立的结论是“服务端与客户端首屏使用不同时间或随机数；服务端直接依赖 window、localStorage 等浏览器 API；服务端与客户端初始数据不一致”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\nSSR 提供服务端 HTML，水合再把客户端行为连接到已有 DOM。服务端和客户端首屏输出不一致会产生水合警告甚至重新渲染，因此随机数、当前时间、浏览器专属 API 和用户状态都要设计一致的初始化策略。\n\n常见不一致来源包括无效 HTML 被浏览器纠正、服务端和客户端随机值不同、时区不同，以及只在浏览器存在的 API。Vue 3.5+ 可用 `data-allow-mismatch` 抑制确实无法避免的局部警告，但它不是修复数据不一致的首选方案。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、SSR”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "SSR",
+        "水合"
+      ]
+    },
+    {
+      "code": "interview-vue-030-render-performance",
+      "categoryKey": "frontend.interview.vue",
+      "type": "multiple_choice",
+      "stem": "Vue 大列表或复杂页面出现频繁更新时，合理的排查和优化包括哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "用 Vue DevTools 和 Performance 面板定位真正的更新热点"
+        },
+        {
+          "id": "B",
+          "content": "稳定 props，避免把无关变化传入大量子项"
+        },
+        {
+          "id": "C",
+          "content": "使用虚拟列表、v-once 或 v-memo 等与场景匹配的手段"
+        },
+        {
+          "id": "D",
+          "content": "无论数据量都给每个字段添加 deep watch"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（用 Vue DevTools 和 Performance 面板定位真正的更新热点）、**B**（稳定 props，避免把无关变化传入大量子项）、**C**（使用虚拟列表、v-once 或 v-memo 等与场景匹配的手段）。性能优化应从测量开始，区分 JavaScript、组件更新、布局和绘制成本。稳定数据边界和减少 DOM 数量通常比盲目增加缓存或深度监听更有效。\n\n**逐项分析**\n\n- **A：正确。** 用 Vue DevTools 和 Performance 面板定位真正的更新热点。它准确对应本题结论。依据是：性能优化应从测量开始，区分 JavaScript、组件更新、布局和绘制成本。稳定数据边界和减少 DOM 数量通常比盲目增加缓存或深度监听更有效。\n- **B：正确。** 稳定 props，避免把无关变化传入大量子项。它准确对应本题结论。依据是：性能优化应从测量开始，区分 JavaScript、组件更新、布局和绘制成本。稳定数据边界和减少 DOM 数量通常比盲目增加缓存或深度监听更有效。\n- **C：正确。** 使用虚拟列表、v-once 或 v-memo 等与场景匹配的手段。它准确对应本题结论。依据是：性能优化应从测量开始，区分 JavaScript、组件更新、布局和绘制成本。稳定数据边界和减少 DOM 数量通常比盲目增加缓存或深度监听更有效。\n- **D：不选。** 无论数据量都给每个字段添加 deep watch。如果选择它，就等于断言“无论数据量都给每个字段添加 deep watch”；但本题成立的结论是“用 Vue DevTools 和 Performance 面板定位真正的更新热点；稳定 props，避免把无关变化传入大量子项；使用虚拟列表、v-once 或 v-memo 等与场景匹配的手段”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\nVue 高频追问不能停留在 API 对比。回答时先说适用场景，再解释响应式或渲染机制，最后补充清理、性能、SSR 和组件生命周期边界，并给出项目中真实的选择依据。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“面试、Vue、性能”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“面试、Vue、性能”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n回答可按“场景与约束 -> 原理 -> 方案 -> 异常与边界 -> 验证指标”组织。面试官继续追问时，重点说明为什么没有选择另一种方案，以及上线后如何监控、降级和回滚。",
+      "difficulty": "hard",
+      "tags": [
+        "面试",
+        "Vue",
+        "性能",
+        "渲染优化"
+      ]
+    }
   ]
 }

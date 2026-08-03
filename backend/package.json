@@ -60,6 +60,9 @@
     "resume:boss:apply": "node src/scripts/replaceBossResume.js --apply",
     "bookmark:reset": "node src/scripts/resetBookmarkData.js",
     "bookmark:reset:apply": "node src/scripts/resetBookmarkData.js --apply",
+    "question-bank:audit": "node src/scripts/auditQuestionBankContent.js",
+    "question-bank:enhance": "node src/scripts/enhanceFrontendQuestionExplanations.js",
+    "question-bank:enhance:apply": "node src/scripts/enhanceFrontendQuestionExplanations.js --apply",
     "question-bank:seed": "node src/scripts/seedQuestionBank.js",
     "question-bank:seed:apply": "node src/scripts/seedQuestionBank.js --apply"
   },

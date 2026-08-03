@@ -1,60 +1,1682 @@
 {
   "schemaVersion": 1,
   "questions": [
-    { "code": "performance-001-lcp", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "Core Web Vitals 中 LCP 主要衡量什么？", "options": [{ "id": "A", "content": "视口内主要内容完成渲染的加载体验" }, { "id": "B", "content": "页面累计 JavaScript 行数" }, { "id": "C", "content": "数据库写入速度" }, { "id": "D", "content": "用户密码强度" }], "answerKeys": ["A"], "explanation": "Largest Contentful Paint 关注视口内最大候选内容元素的呈现时间，常受服务器响应、资源发现和渲染阻塞影响。", "difficulty": "easy", "tags": ["性能", "LCP", "Core Web Vitals"] },
-    { "code": "performance-002-inp", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "INP 主要反映哪类用户体验？", "options": [{ "id": "A", "content": "页面整个生命周期的交互响应性" }, { "id": "B", "content": "首次 DNS 查询" }, { "id": "C", "content": "图片压缩率" }, { "id": "D", "content": "滚动距离" }], "answerKeys": ["A"], "explanation": "Interaction to Next Paint 观察用户交互到下一次绘制的延迟，长任务和复杂渲染会恶化它。", "difficulty": "easy", "tags": ["性能", "INP", "Core Web Vitals"] },
-    { "code": "performance-003-cls", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "哪些做法有助于降低 CLS？", "options": [{ "id": "A", "content": "为图片和广告预留尺寸" }, { "id": "B", "content": "避免在已有内容上方无提示插入内容" }, { "id": "C", "content": "谨慎加载会改变字体度量的 Web Font" }, { "id": "D", "content": "首屏随机改变所有元素高度" }], "answerKeys": ["A", "B", "C"], "explanation": "累计布局偏移来自非用户预期的视觉移动，稳定尺寸和字体策略是关键。", "difficulty": "easy", "tags": ["性能", "CLS", "布局偏移"] },
-    { "code": "performance-004-field-lab", "categoryKey": "frontend.performance", "type": "true_false", "stem": "实验室性能数据便于稳定复现和定位，而真实用户监控能反映设备、网络和交互分布，两者应结合使用。", "answerKeys": ["true"], "explanation": "单一测试机不能代表所有用户；RUM 与实验室工具分别提供真实分布和可控诊断。", "difficulty": "medium", "tags": ["性能", "RUM", "监控"] },
-    { "code": "performance-005-lcp-image", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "优化首屏 LCP 图片时，哪些措施通常合理？", "options": [{ "id": "A", "content": "不要对 LCP 图片懒加载" }, { "id": "B", "content": "确保图片可从初始 HTML 或 preload 尽早发现" }, { "id": "C", "content": "使用合适尺寸和现代编码" }, { "id": "D", "content": "把关键图片作为很晚才注入的 CSS 背景" }], "answerKeys": ["A", "B", "C"], "explanation": "关键资源应尽早发现并按正确优先级加载，同时控制字节体积；过晚发现会增加资源加载延迟。", "difficulty": "medium", "tags": ["性能", "LCP", "图片"] },
-    { "code": "performance-006-fetch-priority", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "确定某张首屏图片是关键候选资源，希望提示浏览器提高抓取优先级，可评估什么属性？", "options": [{ "id": "A", "content": "fetchpriority=high" }, { "id": "B", "content": "loading=lazy" }, { "id": "C", "content": "aria-hidden=true" }, { "id": "D", "content": "tabindex=-1" }], "answerKeys": ["A"], "explanation": "fetchpriority 是优先级提示，应只用于少量确实关键资源，滥用会让所有资源互相竞争。", "difficulty": "medium", "tags": ["性能", "资源优先级"] },
-    { "code": "performance-007-font", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "Web Font 性能治理可考虑哪些策略？", "options": [{ "id": "A", "content": "字体子集化并只保留需要字形" }, { "id": "B", "content": "合理设置 font-display" }, { "id": "C", "content": "只 preload 首屏确实使用的字体文件" }, { "id": "D", "content": "为每个字重无条件加载多种格式" }], "answerKeys": ["A", "B", "C"], "explanation": "字体文件常较大，应控制字形、字重和预加载数量，并用回退字体度量减少布局跳动。", "difficulty": "medium", "tags": ["性能", "字体", "资源加载"] },
-    { "code": "performance-008-long-task", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "主线程任务持续时间过长会直接影响什么？", "options": [{ "id": "A", "content": "输入处理和下一次绘制机会" }, { "id": "B", "content": "服务器硬盘容量" }, { "id": "C", "content": "DNS 域名所有权" }, { "id": "D", "content": "CSS 文件扩展名" }], "answerKeys": ["A"], "explanation": "长任务阻塞事件循环，用户输入只能等待；可拆分任务、减少工作量或转移适合的计算。", "difficulty": "easy", "tags": ["性能", "长任务", "INP"] },
-    { "code": "performance-009-yield", "categoryKey": "frontend.performance", "type": "true_false", "stem": "把大型同步工作拆成小任务并适时让出主线程，可以改善交互响应，但会增加调度开销并需要保持任务正确性。", "answerKeys": ["true"], "explanation": "任务分片让输入和渲染获得机会；应基于实际性能剖析决定粒度。", "difficulty": "medium", "tags": ["性能", "任务分片", "主线程"] },
-    { "code": "performance-010-virtual-list", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "页面需要展示十万条高度相近的列表记录，最有效的前端渲染策略通常是什么？", "options": [{ "id": "A", "content": "虚拟列表，只渲染视口附近项目" }, { "id": "B", "content": "一次创建十万个复杂 DOM 节点" }, { "id": "C", "content": "给每项添加更多 watcher" }, { "id": "D", "content": "提高 z-index" }], "answerKeys": ["A"], "explanation": "虚拟化把 DOM 数量限制在可见窗口附近，降低布局、绘制和内存成本。", "difficulty": "easy", "tags": ["性能", "虚拟列表", "DOM"] },
-    { "code": "performance-011-lazy-boundary", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "代码懒加载边界设计应避免哪些极端？", "options": [{ "id": "A", "content": "首屏包含所有低频功能" }, { "id": "B", "content": "拆成大量极小 chunk 导致请求瀑布" }, { "id": "C", "content": "忽略用户高概率下一步操作的预取" }, { "id": "D", "content": "按路由和重型功能建立有业务意义的边界" }], "answerKeys": ["A", "B", "C"], "explanation": "合理边界需要平衡首屏字节、请求开销、缓存复用与下一步导航概率。", "difficulty": "hard", "tags": ["性能", "代码分割", "懒加载"] },
-    { "code": "performance-012-compression", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "静态文本资源在服务器支持时，Brotli 与 gzip 的合理使用方式是什么？", "options": [{ "id": "A", "content": "按客户端 Accept-Encoding 协商，优先提供可用的高效压缩" }, { "id": "B", "content": "把已压缩图片再次无限压缩" }, { "id": "C", "content": "只在 JavaScript 运行后压缩" }, { "id": "D", "content": "忽略响应 Vary 和缓存配置" }], "answerKeys": ["A"], "explanation": "HTML/CSS/JS/JSON 等文本压缩收益明显，可预压缩并正确协商与缓存；图片格式通常已压缩。", "difficulty": "medium", "tags": ["性能", "Brotli", "HTTP压缩"] },
-    { "code": "performance-013-cdn", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "CDN 加速静态资源的常见机制有哪些？", "options": [{ "id": "A", "content": "边缘节点就近响应" }, { "id": "B", "content": "缓存可复用内容" }, { "id": "C", "content": "减少源站压力" }, { "id": "D", "content": "自动修复前端逻辑错误" }], "answerKeys": ["A", "B", "C"], "explanation": "CDN 优化网络距离和缓存分发，但资源版本、缓存键和失效策略仍需正确设计。", "difficulty": "easy", "tags": ["性能", "CDN", "缓存"] },
-    { "code": "performance-014-preconnect", "categoryKey": "frontend.performance", "type": "true_false", "stem": "`preconnect` 可提前建立到关键跨源的 DNS、TCP 和 TLS 连接，但对过多来源使用会浪费连接资源。", "answerKeys": ["true"], "explanation": "preconnect 适合即将请求的关键源；不确定的未来来源更适合谨慎使用 dns-prefetch 或不提示。", "difficulty": "medium", "tags": ["性能", "资源提示", "网络"] },
-    { "code": "performance-015-script-cost", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "JavaScript 资源成本不仅包括下载，还包括哪些阶段？", "options": [{ "id": "A", "content": "解压和解析" }, { "id": "B", "content": "编译" }, { "id": "C", "content": "执行和垃圾回收" }, { "id": "D", "content": "只要 gzip 小就没有运行成本" }], "answerKeys": ["A", "B", "C"], "explanation": "低端设备对解析执行更敏感，因此应结合主线程时间和交互指标，而不只看网络体积。", "difficulty": "medium", "tags": ["性能", "JavaScript", "主线程"] },
-    { "code": "performance-016-debounce", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "窗口 resize 高频触发且只需停止变化后重新计算一次布局，优先使用哪种策略？", "options": [{ "id": "A", "content": "防抖" }, { "id": "B", "content": "无限递归" }, { "id": "C", "content": "每次同步全量重建" }, { "id": "D", "content": "轮询数据库" }], "answerKeys": ["A"], "explanation": "防抖在事件停止一段时间后执行；若需要持续按固定频率反馈则更接近节流场景。", "difficulty": "easy", "tags": ["性能", "防抖", "事件"] },
-    { "code": "performance-017-performance-api", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "浏览器 Performance API 可用于哪些测量？", "options": [{ "id": "A", "content": "通过 mark/measure 记录业务区间" }, { "id": "B", "content": "读取导航和资源时间条目" }, { "id": "C", "content": "配合 PerformanceObserver 观察特定条目" }, { "id": "D", "content": "保证测量本身完全零开销" }], "answerKeys": ["A", "B", "C"], "explanation": "结构化性能条目比 Date 打点更完整，但监控采样、缓冲区和上报成本仍需控制。", "difficulty": "medium", "tags": ["性能", "Performance API", "监控"] },
-    { "code": "performance-018-memory", "categoryKey": "frontend.performance", "type": "multiple_choice", "stem": "排查前端内存持续增长时，可重点检查哪些对象保留链？", "options": [{ "id": "A", "content": "未移除的事件监听器和定时器" }, { "id": "B", "content": "无限增长的缓存" }, { "id": "C", "content": "脱离文档但仍被引用的 DOM" }, { "id": "D", "content": "已经不可达且可被正常回收的临时对象" }], "answerKeys": ["A", "B", "C"], "explanation": "内存泄漏来自不再需要却仍可达的对象，可用堆快照、allocation timeline 和 retainers 定位。", "difficulty": "medium", "tags": ["性能", "内存泄漏", "DevTools"] },
-    { "code": "performance-019-ssr-tradeoff", "categoryKey": "frontend.performance", "type": "true_false", "stem": "SSR 可能改善首屏内容呈现和可抓取性，但也增加服务器工作、水合成本与缓存复杂度，并非所有页面都应使用。", "answerKeys": ["true"], "explanation": "应根据内容动态性、交互比例、TTFB 和运维能力选择 CSR、SSR、SSG 或混合策略。", "difficulty": "medium", "tags": ["性能", "SSR", "架构"] },
-    { "code": "performance-020-budget", "categoryKey": "frontend.performance", "type": "single_choice", "stem": "在 CI 中设置 bundle 大小或核心指标阈值的主要价值是什么？", "options": [{ "id": "A", "content": "把性能预算变成可持续检测的回归门禁" }, { "id": "B", "content": "保证任何设备都达到完全相同性能" }, { "id": "C", "content": "替代真实用户监控" }, { "id": "D", "content": "自动删除业务需求" }], "answerKeys": ["A"], "explanation": "预算能阻止无意识退化，但阈值应结合真实数据维护，并与运行时监控互补。", "difficulty": "medium", "tags": ["性能", "性能预算", "CI"] },
-    { "code": "security-001-xss", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "常见 XSS 类型包括哪些？", "options": [{ "id": "A", "content": "存储型" }, { "id": "B", "content": "反射型" }, { "id": "C", "content": "DOM 型" }, { "id": "D", "content": "数据库死锁型" }], "answerKeys": ["A", "B", "C"], "explanation": "三类按恶意数据进入和执行路径区分，核心都是不可信数据进入可执行上下文。", "difficulty": "easy", "tags": ["安全", "XSS"] },
-    { "code": "security-002-output-context", "categoryKey": "frontend.security", "type": "single_choice", "stem": "防止 XSS 时，为什么输出编码必须按上下文区分？", "options": [{ "id": "A", "content": "HTML 文本、属性、URL 和 JavaScript 上下文的危险字符与解析规则不同" }, { "id": "B", "content": "所有上下文只需删除空格" }, { "id": "C", "content": "编码只影响数据库" }, { "id": "D", "content": "浏览器不会解析字符串" }], "answerKeys": ["A"], "explanation": "同一字符串放入不同解析器上下文会产生不同语义，不能用一种转义覆盖所有位置。", "difficulty": "hard", "tags": ["安全", "XSS", "输出编码"] },
-    { "code": "security-003-inner-html", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "确需渲染富文本 HTML 时，哪些措施更合理？", "options": [{ "id": "A", "content": "使用可信、持续维护的 HTML sanitizer" }, { "id": "B", "content": "采用严格允许列表" }, { "id": "C", "content": "结合 CSP 等纵深防御" }, { "id": "D", "content": "只用字符串 replace 删除 script 标签即可" }], "answerKeys": ["A", "B", "C"], "explanation": "危险载荷可出现在属性、URL、SVG 等多种位置，简单正则无法正确解析和净化 HTML。", "difficulty": "hard", "tags": ["安全", "XSS", "富文本"] },
-    { "code": "security-004-csrf", "categoryKey": "frontend.security", "type": "single_choice", "stem": "CSRF 攻击成立的关键条件通常是什么？", "options": [{ "id": "A", "content": "浏览器会自动携带目标站点的身份凭据，服务端又无法区分请求意图" }, { "id": "B", "content": "攻击者知道数据库密码" }, { "id": "C", "content": "页面使用 CSS" }, { "id": "D", "content": "请求没有响应体" }], "answerKeys": ["A"], "explanation": "CSRF 借用用户浏览器的现有认证状态发起非预期操作，防护应验证 token、Origin/Referer 并合理使用 SameSite。", "difficulty": "medium", "tags": ["安全", "CSRF", "Cookie"] },
-    { "code": "security-005-csrf-defense", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "基于 Cookie 会话的敏感操作可采用哪些 CSRF 防护？", "options": [{ "id": "A", "content": "不可预测且与会话绑定的 CSRF Token" }, { "id": "B", "content": "校验 Origin/Referer" }, { "id": "C", "content": "合理设置 SameSite" }, { "id": "D", "content": "只把按钮颜色改成红色" }], "answerKeys": ["A", "B", "C"], "explanation": "多层校验可降低绕过风险；GET 不应产生敏感副作用。", "difficulty": "medium", "tags": ["安全", "CSRF", "防护"] },
-    { "code": "security-006-clickjacking", "categoryKey": "frontend.security", "type": "single_choice", "stem": "防止页面被恶意站点嵌入透明 iframe 诱导点击，优先使用什么响应策略？", "options": [{ "id": "A", "content": "CSP frame-ancestors，兼容时配合 X-Frame-Options" }, { "id": "B", "content": "Access-Control-Allow-Origin: *" }, { "id": "C", "content": "把页面背景设为透明" }, { "id": "D", "content": "关闭缓存" }], "answerKeys": ["A"], "explanation": "frame-ancestors 控制哪些父页面可以嵌入当前页面，是服务端响应级点击劫持防护。", "difficulty": "medium", "tags": ["安全", "点击劫持", "CSP"] },
-    { "code": "security-007-open-redirect", "categoryKey": "frontend.security", "type": "true_false", "stem": "登录后的 redirect 参数若允许跳转任意外部 URL，可能被用于钓鱼和令牌泄漏，应使用站内路径或严格允许列表。", "answerKeys": ["true"], "explanation": "开放重定向能借可信域名包装恶意目标，还可能影响 OAuth 回调等安全流程。", "difficulty": "medium", "tags": ["安全", "开放重定向"] },
-    { "code": "security-008-prototype-pollution", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "降低 JavaScript 原型污染风险的做法有哪些？", "options": [{ "id": "A", "content": "升级存在漏洞的合并或路径赋值依赖" }, { "id": "B", "content": "拒绝 __proto__、constructor.prototype 等危险路径" }, { "id": "C", "content": "对不可信对象做 schema 校验" }, { "id": "D", "content": "把任意用户键直接深度合并到配置" }], "answerKeys": ["A", "B", "C"], "explanation": "原型污染通过特殊键影响共享原型，需在库版本、输入校验和合并实现多层防护。", "difficulty": "hard", "tags": ["安全", "原型污染", "依赖"] },
-    { "code": "security-009-supply-chain", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "前端供应链安全治理可包括哪些措施？", "options": [{ "id": "A", "content": "提交并审查 lockfile" }, { "id": "B", "content": "定期依赖审计与最小化依赖" }, { "id": "C", "content": "限制发布权限并启用多因素认证" }, { "id": "D", "content": "自动信任任意 postinstall 脚本" }], "answerKeys": ["A", "B", "C"], "explanation": "供应链风险横跨依赖选择、安装脚本、账号和发布流程，应保留可追溯和最小权限。", "difficulty": "medium", "tags": ["安全", "供应链", "npm"] },
-    { "code": "security-010-client-secret", "categoryKey": "frontend.security", "type": "true_false", "stem": "打包到前端 JavaScript 的 API 密钥即使通过环境变量注入，也不能被视为秘密。", "answerKeys": ["true"], "explanation": "浏览器必须下载并执行客户端代码，用户可查看资源和网络请求；真正秘密只能由受控服务端保存。", "difficulty": "easy", "tags": ["安全", "密钥", "前端"] },
-    { "code": "security-011-token-storage", "categoryKey": "frontend.security", "type": "single_choice", "stem": "关于访问令牌存储，哪项最准确？", "options": [{ "id": "A", "content": "不存在对所有系统都绝对安全的单一位置，应结合 XSS、CSRF、生命周期和架构权衡" }, { "id": "B", "content": "localStorage 能防止任何 XSS 读取" }, { "id": "C", "content": "HttpOnly Cookie 不需要 CSRF 防护" }, { "id": "D", "content": "把令牌写在 URL 永远安全" }], "answerKeys": ["A"], "explanation": "内存、Web Storage 和 Cookie 风险模型不同；短生命周期、旋转、最小权限和纵深防御同样重要。", "difficulty": "hard", "tags": ["安全", "Token", "认证"] },
-    { "code": "security-012-jwt", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "使用 JWT 时应注意哪些问题？", "options": [{ "id": "A", "content": "校验签名、算法、过期时间和预期 issuer/audience" }, { "id": "B", "content": "载荷通常只是编码，不应放敏感秘密" }, { "id": "C", "content": "需要设计撤销或 tokenVersion 等失效机制" }, { "id": "D", "content": "只解析 payload 就等同于验证" }], "answerKeys": ["A", "B", "C"], "explanation": "JWT 自包含不代表天然安全，验证上下文、密钥轮换和会话失效都必须设计。", "difficulty": "medium", "tags": ["安全", "JWT", "认证"] },
-    { "code": "security-013-cors-auth", "categoryKey": "frontend.security", "type": "true_false", "stem": "CORS 主要控制浏览器脚本是否能读取跨源响应，不是服务端鉴权机制；非浏览器客户端不受同样限制。", "answerKeys": ["true"], "explanation": "接口仍必须认证授权，不能把允许或拒绝 Origin 当作资源访问控制的唯一边界。", "difficulty": "easy", "tags": ["安全", "CORS", "鉴权"] },
-    { "code": "security-014-post-message", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "使用 `window.postMessage` 时，哪些做法正确？", "options": [{ "id": "A", "content": "发送时指定尽可能精确的 targetOrigin" }, { "id": "B", "content": "接收时校验 event.origin" }, { "id": "C", "content": "校验消息数据结构" }, { "id": "D", "content": "默认信任任意来源和任意字段" }], "answerKeys": ["A", "B", "C"], "explanation": "跨窗口消息是显式信任边界，来源和 payload 都应验证，敏感信息避免发往通配目标。", "difficulty": "medium", "tags": ["安全", "postMessage", "跨窗口通信"] },
-    { "code": "security-015-url-scheme", "categoryKey": "frontend.security", "type": "single_choice", "stem": "把用户输入直接作为链接 href 时，除域名外还应重点校验什么？", "options": [{ "id": "A", "content": "URL scheme，防止 javascript: 等危险协议" }, { "id": "B", "content": "字符串长度是否为偶数" }, { "id": "C", "content": "CSS 类名" }, { "id": "D", "content": "屏幕分辨率" }], "answerKeys": ["A"], "explanation": "URL 允许列表应限制协议和目标；仅做 HTML 转义并不能消除 javascript: URL 的执行语义。", "difficulty": "medium", "tags": ["安全", "URL", "XSS"] },
-    { "code": "security-016-mixed-content", "categoryKey": "frontend.security", "type": "true_false", "stem": "HTTPS 页面加载 HTTP 子资源会形成混合内容，浏览器可能升级或阻止请求，并削弱传输安全。", "answerKeys": ["true"], "explanation": "所有活动和展示资源都应走可信 HTTPS，避免中间人篡改和浏览器拦截。", "difficulty": "easy", "tags": ["安全", "HTTPS", "混合内容"] },
-    { "code": "security-017-password", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "关于密码处理，哪些说法正确？", "options": [{ "id": "A", "content": "服务端使用专用慢哈希算法和独立盐" }, { "id": "B", "content": "传输必须使用 HTTPS" }, { "id": "C", "content": "前端不应记录明文密码日志" }, { "id": "D", "content": "仅在前端做一次 MD5 就足够" }], "answerKeys": ["A", "B", "C"], "explanation": "密码安全依赖传输保护、服务端 KDF、限流和泄漏防护，客户端单次哈希不能替代。", "difficulty": "medium", "tags": ["安全", "密码", "认证"] },
-    { "code": "security-018-permission", "categoryKey": "frontend.security", "type": "true_false", "stem": "前端隐藏无权限按钮只是体验优化，后端仍必须在每个敏感接口按当前用户和资源执行授权校验。", "answerKeys": ["true"], "explanation": "客户端可被修改或绕过，真正安全边界在服务端；同时要防止水平越权和垂直越权。", "difficulty": "easy", "tags": ["安全", "权限", "越权"] },
-    { "code": "security-019-rate-limit", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "登录等敏感接口限流设计应考虑哪些维度？", "options": [{ "id": "A", "content": "账号、IP、设备或全局多维组合" }, { "id": "B", "content": "渐进延迟和告警" }, { "id": "C", "content": "避免让限流机制成为批量锁号攻击工具" }, { "id": "D", "content": "限流后不再需要密码校验" }], "answerKeys": ["A", "B", "C"], "explanation": "单一 IP 或账号限制容易被绕过或滥用，应与认证、审计和异常检测结合。", "difficulty": "hard", "tags": ["安全", "限流", "登录"] },
-    { "code": "security-020-security-header", "categoryKey": "frontend.security", "type": "multiple_choice", "stem": "现代 Web 应用常评估哪些安全响应头？", "options": [{ "id": "A", "content": "Content-Security-Policy" }, { "id": "B", "content": "Strict-Transport-Security" }, { "id": "C", "content": "X-Content-Type-Options: nosniff" }, { "id": "D", "content": "Permissions-Policy" }], "answerKeys": ["A", "B", "C", "D"], "explanation": "安全头分别约束资源执行、HTTPS、MIME 嗅探和浏览器能力，应按业务测试后部署。", "difficulty": "medium", "tags": ["安全", "安全响应头", "HTTP"] },
-    { "code": "testing-001-pyramid", "categoryKey": "frontend.testing", "type": "single_choice", "stem": "经典测试金字塔通常建议什么分布？", "options": [{ "id": "A", "content": "较多快速单元测试，适量集成测试，少量关键端到端测试" }, { "id": "B", "content": "只做大量端到端测试" }, { "id": "C", "content": "完全不做集成测试" }, { "id": "D", "content": "所有逻辑都靠人工验证" }], "answerKeys": ["A"], "explanation": "不同层次平衡反馈速度、隔离性和真实度；具体比例应按系统风险调整。", "difficulty": "easy", "tags": ["测试", "测试金字塔"] },
-    { "code": "testing-002-behavior", "categoryKey": "frontend.testing", "type": "true_false", "stem": "组件测试优先验证用户可观察行为，而不是紧耦合内部 state、私有方法和 DOM 实现细节，通常更抗重构。", "answerKeys": ["true"], "explanation": "通过角色、标签和可见文本交互更接近使用方式，内部实现变化时不应无意义破坏测试。", "difficulty": "easy", "tags": ["测试", "组件测试", "行为"] },
-    { "code": "testing-003-unit-integration", "categoryKey": "frontend.testing", "type": "single_choice", "stem": "验证表单组件、校验逻辑和请求适配层协同工作，更接近哪类测试？", "options": [{ "id": "A", "content": "集成测试" }, { "id": "B", "content": "纯静态格式化" }, { "id": "C", "content": "数据库备份" }, { "id": "D", "content": "压力测试唯一形式" }], "answerKeys": ["A"], "explanation": "集成测试验证多个单元间契约，通常比完全 mock 每层更能发现连接错误。", "difficulty": "easy", "tags": ["测试", "集成测试"] },
-    { "code": "testing-004-mock-boundary", "categoryKey": "frontend.testing", "type": "multiple_choice", "stem": "合理使用 mock 时应考虑哪些原则？", "options": [{ "id": "A", "content": "优先 mock 系统外部边界和不稳定依赖" }, { "id": "B", "content": "避免把被测实现的每个内部函数都 mock 掉" }, { "id": "C", "content": "mock 行为应与真实契约一致" }, { "id": "D", "content": "mock 越多测试越真实" }], "answerKeys": ["A", "B", "C"], "explanation": "过度 mock 会让测试只验证自己的桩；边界模拟应有契约测试或真实集成校验支撑。", "difficulty": "medium", "tags": ["测试", "Mock", "边界"] },
-    { "code": "testing-005-fake-timer", "categoryKey": "frontend.testing", "type": "true_false", "stem": "测试防抖、重试和定时器时使用 fake timers 可以加快测试并控制时间，但结束后应恢复真实计时器并处理已排队任务。", "answerKeys": ["true"], "explanation": "虚拟时间提高确定性，若忘记清理可能污染其他测试或遗漏 Promise 微任务。", "difficulty": "medium", "tags": ["测试", "Fake Timer", "异步"] },
-    { "code": "testing-006-async-wait", "categoryKey": "frontend.testing", "type": "single_choice", "stem": "测试异步 UI 时，为什么通常应等待界面出现预期状态，而不是固定 sleep 1000ms？", "options": [{ "id": "A", "content": "条件等待更快且对机器速度变化更稳定" }, { "id": "B", "content": "sleep 能验证更多逻辑" }, { "id": "C", "content": "异步 UI 不需要断言" }, { "id": "D", "content": "浏览器禁止定时器" }], "answerKeys": ["A"], "explanation": "固定等待会让测试慢且易抖动；应等待可观察条件并设置合理超时。", "difficulty": "easy", "tags": ["测试", "异步", "稳定性"] },
-    { "code": "testing-007-accessible-query", "categoryKey": "frontend.testing", "type": "multiple_choice", "stem": "优先按 role 和 accessible name 查询元素有哪些好处？", "options": [{ "id": "A", "content": "接近辅助技术和用户理解页面的方式" }, { "id": "B", "content": "间接推动语义化 HTML" }, { "id": "C", "content": "比私有 class 选择器更抗样式重构" }, { "id": "D", "content": "保证页面满足所有无障碍标准" }], "answerKeys": ["A", "B", "C"], "explanation": "可访问查询提升测试语义，但不能替代完整的自动化和人工无障碍审查。", "difficulty": "medium", "tags": ["测试", "可访问性", "查询"] },
-    { "code": "testing-008-snapshot", "categoryKey": "frontend.testing", "type": "true_false", "stem": "大型组件快照如果频繁整体更新而不审查差异，容易变成低信号测试；应控制范围并搭配行为断言。", "answerKeys": ["true"], "explanation": "快照适合稳定、可读的小型输出，不能用批准更新替代对行为变化的理解。", "difficulty": "medium", "tags": ["测试", "Snapshot"] },
-    { "code": "testing-009-coverage", "categoryKey": "frontend.testing", "type": "single_choice", "stem": "关于代码覆盖率，哪项最准确？", "options": [{ "id": "A", "content": "覆盖率能发现未执行区域，但高覆盖率不等于断言正确或风险已覆盖" }, { "id": "B", "content": "100% 覆盖率证明没有缺陷" }, { "id": "C", "content": "覆盖率越低质量越高" }, { "id": "D", "content": "覆盖率只用于 CSS" }], "answerKeys": ["A"], "explanation": "覆盖率是导航指标，应结合变异测试、边界案例和业务风险评估测试有效性。", "difficulty": "easy", "tags": ["测试", "覆盖率", "质量"] },
-    { "code": "testing-010-flaky", "categoryKey": "frontend.testing", "type": "multiple_choice", "stem": "前端自动化测试不稳定的常见来源有哪些？", "options": [{ "id": "A", "content": "依赖固定延时" }, { "id": "B", "content": "共享未清理状态" }, { "id": "C", "content": "真实网络和时间随机性未控制" }, { "id": "D", "content": "使用确定性数据并等待明确条件" }], "answerKeys": ["A", "B", "C"], "explanation": "稳定测试需要隔离状态、控制外部输入、使用确定性选择器和基于条件的等待。", "difficulty": "medium", "tags": ["测试", "Flaky", "稳定性"] },
-    { "code": "testing-011-isolation", "categoryKey": "frontend.testing", "type": "true_false", "stem": "每个测试应能够独立运行，不依赖其他测试的执行顺序或残留数据库、DOM 和 mock 状态。", "answerKeys": ["true"], "explanation": "独立性让并行、重试和单独定位可靠；setup/teardown 应建立并清理必要状态。", "difficulty": "easy", "tags": ["测试", "隔离", "清理"] },
-    { "code": "testing-012-visual", "categoryKey": "frontend.testing", "type": "single_choice", "stem": "视觉回归测试最适合发现什么？", "options": [{ "id": "A", "content": "布局、颜色、字体和组件外观的非预期变化" }, { "id": "B", "content": "数据库事务死锁" }, { "id": "C", "content": "服务端权限绕过的全部情况" }, { "id": "D", "content": "TypeScript 类型错误" }], "answerKeys": ["A"], "explanation": "截图差异能覆盖视觉输出，但应控制字体、动画、时间和环境以减少噪声。", "difficulty": "easy", "tags": ["测试", "视觉回归", "截图"] },
-    { "code": "testing-013-contract", "categoryKey": "frontend.testing", "type": "multiple_choice", "stem": "前后端契约测试可以重点验证哪些内容？", "options": [{ "id": "A", "content": "请求和响应字段结构" }, { "id": "B", "content": "状态码和错误码" }, { "id": "C", "content": "可选字段与版本兼容" }, { "id": "D", "content": "用户屏幕亮度" }], "answerKeys": ["A", "B", "C"], "explanation": "契约测试在不运行完整端到端链路时发现接口双方理解偏差，仍需保留关键真实集成验证。", "difficulty": "medium", "tags": ["测试", "契约测试", "API"] },
-    { "code": "testing-014-component", "categoryKey": "frontend.testing", "type": "single_choice", "stem": "浏览器内组件测试相较纯 jsdom 测试的一个优势是什么？", "options": [{ "id": "A", "content": "使用真实布局、事件和浏览器 API 行为" }, { "id": "B", "content": "完全不需要启动浏览器" }, { "id": "C", "content": "自动证明生产环境无错误" }, { "id": "D", "content": "无需任何断言" }], "answerKeys": ["A"], "explanation": "真实浏览器提高环境保真度，但启动成本更高，应根据组件行为和风险选择。", "difficulty": "medium", "tags": ["测试", "组件测试", "浏览器"] },
-    { "code": "testing-015-ci-parallel", "categoryKey": "frontend.testing", "type": "multiple_choice", "stem": "测试套件并行化前需要确保哪些条件？", "options": [{ "id": "A", "content": "测试不共享可变全局状态" }, { "id": "B", "content": "端口、数据库和临时目录有隔离策略" }, { "id": "C", "content": "结果汇总和失败日志可追踪" }, { "id": "D", "content": "所有测试固定使用同一账号和同一记录" }], "answerKeys": ["A", "B", "C"], "explanation": "并行能缩短反馈，但资源冲突会制造偶发失败，应先建立隔离和可诊断性。", "difficulty": "medium", "tags": ["测试", "CI", "并行"] }
+    {
+      "code": "performance-001-lcp",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "Core Web Vitals 中 LCP 主要衡量什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "视口内主要内容完成渲染的加载体验"
+        },
+        {
+          "id": "B",
+          "content": "页面累计 JavaScript 行数"
+        },
+        {
+          "id": "C",
+          "content": "数据库写入速度"
+        },
+        {
+          "id": "D",
+          "content": "用户密码强度"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（视口内主要内容完成渲染的加载体验）。Largest Contentful Paint 关注视口内最大候选内容元素的呈现时间，常受服务器响应、资源发现和渲染阻塞影响。\n\n**逐项分析**\n\n- **A：正确。** 视口内主要内容完成渲染的加载体验。它准确对应本题结论。依据是：Largest Contentful Paint 关注视口内最大候选内容元素的呈现时间，常受服务器响应、资源发现和渲染阻塞影响。\n- **B：不选。** 页面累计 JavaScript 行数。如果选择它，就等于断言“页面累计 JavaScript 行数”；但本题成立的结论是“视口内主要内容完成渲染的加载体验”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 数据库写入速度。如果选择它，就等于断言“数据库写入速度”；但本题成立的结论是“视口内主要内容完成渲染的加载体验”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 用户密码强度。如果选择它，就等于断言“用户密码强度”；但本题成立的结论是“视口内主要内容完成渲染的加载体验”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、LCP、Core Web Vitals”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、LCP、Core Web Vitals”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "性能",
+        "LCP",
+        "Core Web Vitals"
+      ]
+    },
+    {
+      "code": "performance-002-inp",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "INP 主要反映哪类用户体验？",
+      "options": [
+        {
+          "id": "A",
+          "content": "页面整个生命周期的交互响应性"
+        },
+        {
+          "id": "B",
+          "content": "首次 DNS 查询"
+        },
+        {
+          "id": "C",
+          "content": "图片压缩率"
+        },
+        {
+          "id": "D",
+          "content": "滚动距离"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（页面整个生命周期的交互响应性）。Interaction to Next Paint 观察用户交互到下一次绘制的延迟，长任务和复杂渲染会恶化它。\n\n**逐项分析**\n\n- **A：正确。** 页面整个生命周期的交互响应性。它准确对应本题结论。依据是：Interaction to Next Paint 观察用户交互到下一次绘制的延迟，长任务和复杂渲染会恶化它。\n- **B：不选。** 首次 DNS 查询。如果选择它，就等于断言“首次 DNS 查询”；但本题成立的结论是“页面整个生命周期的交互响应性”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 图片压缩率。如果选择它，就等于断言“图片压缩率”；但本题成立的结论是“页面整个生命周期的交互响应性”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 滚动距离。如果选择它，就等于断言“滚动距离”；但本题成立的结论是“页面整个生命周期的交互响应性”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、INP、Core Web Vitals”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、INP、Core Web Vitals”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "性能",
+        "INP",
+        "Core Web Vitals"
+      ]
+    },
+    {
+      "code": "performance-003-cls",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "哪些做法有助于降低 CLS？",
+      "options": [
+        {
+          "id": "A",
+          "content": "为图片和广告预留尺寸"
+        },
+        {
+          "id": "B",
+          "content": "避免在已有内容上方无提示插入内容"
+        },
+        {
+          "id": "C",
+          "content": "谨慎加载会改变字体度量的 Web Font"
+        },
+        {
+          "id": "D",
+          "content": "首屏随机改变所有元素高度"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（为图片和广告预留尺寸）、**B**（避免在已有内容上方无提示插入内容）、**C**（谨慎加载会改变字体度量的 Web Font）。累计布局偏移来自非用户预期的视觉移动，稳定尺寸和字体策略是关键。\n\n**逐项分析**\n\n- **A：正确。** 为图片和广告预留尺寸。它准确对应本题结论。依据是：累计布局偏移来自非用户预期的视觉移动，稳定尺寸和字体策略是关键。\n- **B：正确。** 避免在已有内容上方无提示插入内容。它准确对应本题结论。依据是：累计布局偏移来自非用户预期的视觉移动，稳定尺寸和字体策略是关键。\n- **C：正确。** 谨慎加载会改变字体度量的 Web Font。它准确对应本题结论。依据是：累计布局偏移来自非用户预期的视觉移动，稳定尺寸和字体策略是关键。\n- **D：不选。** 首屏随机改变所有元素高度。如果选择它，就等于断言“首屏随机改变所有元素高度”；但本题成立的结论是“为图片和广告预留尺寸；避免在已有内容上方无提示插入内容；谨慎加载会改变字体度量的 Web Font”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、CLS、布局偏移”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、CLS、布局偏移”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "性能",
+        "CLS",
+        "布局偏移"
+      ]
+    },
+    {
+      "code": "performance-004-field-lab",
+      "categoryKey": "frontend.performance",
+      "type": "true_false",
+      "stem": "实验室性能数据便于稳定复现和定位，而真实用户监控能反映设备、网络和交互分布，两者应结合使用。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。单一测试机不能代表所有用户；RUM 与实验室工具分别提供真实分布和可控诊断。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n线上排障应记录版本、路由、设备、请求追踪标识和错误堆栈，并通过与发布版本匹配的 source map 符号化。上报必须脱敏、采样和限流，同时准备错误兜底、功能降级和快速回滚。\n\n本题可以用一个最小示例验证：只保留与“性能、RUM、监控”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、RUM、监控”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "RUM",
+        "监控"
+      ]
+    },
+    {
+      "code": "performance-005-lcp-image",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "优化首屏 LCP 图片时，哪些措施通常合理？",
+      "options": [
+        {
+          "id": "A",
+          "content": "不要对 LCP 图片懒加载"
+        },
+        {
+          "id": "B",
+          "content": "确保图片可从初始 HTML 或 preload 尽早发现"
+        },
+        {
+          "id": "C",
+          "content": "使用合适尺寸和现代编码"
+        },
+        {
+          "id": "D",
+          "content": "把关键图片作为很晚才注入的 CSS 背景"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（不要对 LCP 图片懒加载）、**B**（确保图片可从初始 HTML 或 preload 尽早发现）、**C**（使用合适尺寸和现代编码）。关键资源应尽早发现并按正确优先级加载，同时控制字节体积；过晚发现会增加资源加载延迟。\n\n**逐项分析**\n\n- **A：正确。** 不要对 LCP 图片懒加载。它准确对应本题结论。依据是：关键资源应尽早发现并按正确优先级加载，同时控制字节体积；过晚发现会增加资源加载延迟。\n- **B：正确。** 确保图片可从初始 HTML 或 preload 尽早发现。它准确对应本题结论。依据是：关键资源应尽早发现并按正确优先级加载，同时控制字节体积；过晚发现会增加资源加载延迟。\n- **C：正确。** 使用合适尺寸和现代编码。它准确对应本题结论。依据是：关键资源应尽早发现并按正确优先级加载，同时控制字节体积；过晚发现会增加资源加载延迟。\n- **D：不选。** 把关键图片作为很晚才注入的 CSS 背景。如果选择它，就等于断言“把关键图片作为很晚才注入的 CSS 背景”；但本题成立的结论是“不要对 LCP 图片懒加载；确保图片可从初始 HTML 或 preload 尽早发现；使用合适尺寸和现代编码”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、LCP、图片”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、LCP、图片”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "LCP",
+        "图片"
+      ]
+    },
+    {
+      "code": "performance-006-fetch-priority",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "确定某张首屏图片是关键候选资源，希望提示浏览器提高抓取优先级，可评估什么属性？",
+      "options": [
+        {
+          "id": "A",
+          "content": "fetchpriority=high"
+        },
+        {
+          "id": "B",
+          "content": "loading=lazy"
+        },
+        {
+          "id": "C",
+          "content": "aria-hidden=true"
+        },
+        {
+          "id": "D",
+          "content": "tabindex=-1"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（fetchpriority=high）。fetchpriority 是优先级提示，应只用于少量确实关键资源，滥用会让所有资源互相竞争。\n\n**逐项分析**\n\n- **A：正确。** fetchpriority=high。它准确对应本题结论。依据是：fetchpriority 是优先级提示，应只用于少量确实关键资源，滥用会让所有资源互相竞争。\n- **B：不选。** loading=lazy。如果选择它，就等于断言“loading=lazy”；但本题成立的结论是“fetchpriority=high”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** aria-hidden=true。如果选择它，就等于断言“aria-hidden=true”；但本题成立的结论是“fetchpriority=high”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** tabindex=-1。如果选择它，就等于断言“tabindex=-1”；但本题成立的结论是“fetchpriority=high”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、资源优先级”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、资源优先级”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "资源优先级"
+      ]
+    },
+    {
+      "code": "performance-007-font",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "Web Font 性能治理可考虑哪些策略？",
+      "options": [
+        {
+          "id": "A",
+          "content": "字体子集化并只保留需要字形"
+        },
+        {
+          "id": "B",
+          "content": "合理设置 font-display"
+        },
+        {
+          "id": "C",
+          "content": "只 preload 首屏确实使用的字体文件"
+        },
+        {
+          "id": "D",
+          "content": "为每个字重无条件加载多种格式"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（字体子集化并只保留需要字形）、**B**（合理设置 font-display）、**C**（只 preload 首屏确实使用的字体文件）。字体文件常较大，应控制字形、字重和预加载数量，并用回退字体度量减少布局跳动。\n\n**逐项分析**\n\n- **A：正确。** 字体子集化并只保留需要字形。它准确对应本题结论。依据是：字体文件常较大，应控制字形、字重和预加载数量，并用回退字体度量减少布局跳动。\n- **B：正确。** 合理设置 font-display。它准确对应本题结论。依据是：字体文件常较大，应控制字形、字重和预加载数量，并用回退字体度量减少布局跳动。\n- **C：正确。** 只 preload 首屏确实使用的字体文件。它准确对应本题结论。依据是：字体文件常较大，应控制字形、字重和预加载数量，并用回退字体度量减少布局跳动。\n- **D：不选。** 为每个字重无条件加载多种格式。如果选择它，就等于断言“为每个字重无条件加载多种格式”；但本题成立的结论是“字体子集化并只保留需要字形；合理设置 font-display；只 preload 首屏确实使用的字体文件”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、字体、资源加载”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、字体、资源加载”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "字体",
+        "资源加载"
+      ]
+    },
+    {
+      "code": "performance-008-long-task",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "主线程任务持续时间过长会直接影响什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "输入处理和下一次绘制机会"
+        },
+        {
+          "id": "B",
+          "content": "服务器硬盘容量"
+        },
+        {
+          "id": "C",
+          "content": "DNS 域名所有权"
+        },
+        {
+          "id": "D",
+          "content": "CSS 文件扩展名"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（输入处理和下一次绘制机会）。长任务阻塞事件循环，用户输入只能等待；可拆分任务、减少工作量或转移适合的计算。\n\n**逐项分析**\n\n- **A：正确。** 输入处理和下一次绘制机会。它准确对应本题结论。依据是：长任务阻塞事件循环，用户输入只能等待；可拆分任务、减少工作量或转移适合的计算。\n- **B：不选。** 服务器硬盘容量。如果选择它，就等于断言“服务器硬盘容量”；但本题成立的结论是“输入处理和下一次绘制机会”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** DNS 域名所有权。如果选择它，就等于断言“DNS 域名所有权”；但本题成立的结论是“输入处理和下一次绘制机会”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** CSS 文件扩展名。如果选择它，就等于断言“CSS 文件扩展名”；但本题成立的结论是“输入处理和下一次绘制机会”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、长任务、INP”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、长任务、INP”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "性能",
+        "长任务",
+        "INP"
+      ]
+    },
+    {
+      "code": "performance-009-yield",
+      "categoryKey": "frontend.performance",
+      "type": "true_false",
+      "stem": "把大型同步工作拆成小任务并适时让出主线程，可以改善交互响应，但会增加调度开销并需要保持任务正确性。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。任务分片让输入和渲染获得机会；应基于实际性能剖析决定粒度。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、任务分片、主线程”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、任务分片、主线程”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "任务分片",
+        "主线程"
+      ]
+    },
+    {
+      "code": "performance-010-virtual-list",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "页面需要展示十万条高度相近的列表记录，最有效的前端渲染策略通常是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "虚拟列表，只渲染视口附近项目"
+        },
+        {
+          "id": "B",
+          "content": "一次创建十万个复杂 DOM 节点"
+        },
+        {
+          "id": "C",
+          "content": "给每项添加更多 watcher"
+        },
+        {
+          "id": "D",
+          "content": "提高 z-index"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（虚拟列表，只渲染视口附近项目）。虚拟化把 DOM 数量限制在可见窗口附近，降低布局、绘制和内存成本。\n\n**逐项分析**\n\n- **A：正确。** 虚拟列表，只渲染视口附近项目。它准确对应本题结论。依据是：虚拟化把 DOM 数量限制在可见窗口附近，降低布局、绘制和内存成本。\n- **B：不选。** 一次创建十万个复杂 DOM 节点。如果选择它，就等于断言“一次创建十万个复杂 DOM 节点”；但本题成立的结论是“虚拟列表，只渲染视口附近项目”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 给每项添加更多 watcher。如果选择它，就等于断言“给每项添加更多 watcher”；但本题成立的结论是“虚拟列表，只渲染视口附近项目”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 提高 z-index。如果选择它，就等于断言“提高 z-index”；但本题成立的结论是“虚拟列表，只渲染视口附近项目”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、虚拟列表、DOM”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、虚拟列表、DOM”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "性能",
+        "虚拟列表",
+        "DOM"
+      ]
+    },
+    {
+      "code": "performance-011-lazy-boundary",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "代码懒加载边界设计应避免哪些极端？",
+      "options": [
+        {
+          "id": "A",
+          "content": "首屏包含所有低频功能"
+        },
+        {
+          "id": "B",
+          "content": "拆成大量极小 chunk 导致请求瀑布"
+        },
+        {
+          "id": "C",
+          "content": "忽略用户高概率下一步操作的预取"
+        },
+        {
+          "id": "D",
+          "content": "按路由和重型功能建立有业务意义的边界"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（首屏包含所有低频功能）、**B**（拆成大量极小 chunk 导致请求瀑布）、**C**（忽略用户高概率下一步操作的预取）。合理边界需要平衡首屏字节、请求开销、缓存复用与下一步导航概率。\n\n**逐项分析**\n\n- **A：正确。** 首屏包含所有低频功能。它准确对应本题结论。依据是：合理边界需要平衡首屏字节、请求开销、缓存复用与下一步导航概率。\n- **B：正确。** 拆成大量极小 chunk 导致请求瀑布。它准确对应本题结论。依据是：合理边界需要平衡首屏字节、请求开销、缓存复用与下一步导航概率。\n- **C：正确。** 忽略用户高概率下一步操作的预取。它准确对应本题结论。依据是：合理边界需要平衡首屏字节、请求开销、缓存复用与下一步导航概率。\n- **D：不选。** 按路由和重型功能建立有业务意义的边界。如果选择它，就等于断言“按路由和重型功能建立有业务意义的边界”；但本题成立的结论是“首屏包含所有低频功能；拆成大量极小 chunk 导致请求瀑布；忽略用户高概率下一步操作的预取”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、代码分割、懒加载”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、代码分割、懒加载”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "性能",
+        "代码分割",
+        "懒加载"
+      ]
+    },
+    {
+      "code": "performance-012-compression",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "静态文本资源在服务器支持时，Brotli 与 gzip 的合理使用方式是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "按客户端 Accept-Encoding 协商，优先提供可用的高效压缩"
+        },
+        {
+          "id": "B",
+          "content": "把已压缩图片再次无限压缩"
+        },
+        {
+          "id": "C",
+          "content": "只在 JavaScript 运行后压缩"
+        },
+        {
+          "id": "D",
+          "content": "忽略响应 Vary 和缓存配置"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（按客户端 Accept-Encoding 协商，优先提供可用的高效压缩）。HTML/CSS/JS/JSON 等文本压缩收益明显，可预压缩并正确协商与缓存；图片格式通常已压缩。\n\n**逐项分析**\n\n- **A：正确。** 按客户端 Accept-Encoding 协商，优先提供可用的高效压缩。它准确对应本题结论。依据是：HTML/CSS/JS/JSON 等文本压缩收益明显，可预压缩并正确协商与缓存；图片格式通常已压缩。\n- **B：不选。** 把已压缩图片再次无限压缩。如果选择它，就等于断言“把已压缩图片再次无限压缩”；但本题成立的结论是“按客户端 Accept-Encoding 协商，优先提供可用的高效压缩”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 只在 JavaScript 运行后压缩。如果选择它，就等于断言“只在 JavaScript 运行后压缩”；但本题成立的结论是“按客户端 Accept-Encoding 协商，优先提供可用的高效压缩”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 忽略响应 Vary 和缓存配置。如果选择它，就等于断言“忽略响应 Vary 和缓存配置”；但本题成立的结论是“按客户端 Accept-Encoding 协商，优先提供可用的高效压缩”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、Brotli、HTTP压缩”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、Brotli、HTTP压缩”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "Brotli",
+        "HTTP压缩"
+      ]
+    },
+    {
+      "code": "performance-013-cdn",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "CDN 加速静态资源的常见机制有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "边缘节点就近响应"
+        },
+        {
+          "id": "B",
+          "content": "缓存可复用内容"
+        },
+        {
+          "id": "C",
+          "content": "减少源站压力"
+        },
+        {
+          "id": "D",
+          "content": "自动修复前端逻辑错误"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（边缘节点就近响应）、**B**（缓存可复用内容）、**C**（减少源站压力）。CDN 优化网络距离和缓存分发，但资源版本、缓存键和失效策略仍需正确设计。\n\n**逐项分析**\n\n- **A：正确。** 边缘节点就近响应。它准确对应本题结论。依据是：CDN 优化网络距离和缓存分发，但资源版本、缓存键和失效策略仍需正确设计。\n- **B：正确。** 缓存可复用内容。它准确对应本题结论。依据是：CDN 优化网络距离和缓存分发，但资源版本、缓存键和失效策略仍需正确设计。\n- **C：正确。** 减少源站压力。它准确对应本题结论。依据是：CDN 优化网络距离和缓存分发，但资源版本、缓存键和失效策略仍需正确设计。\n- **D：不选。** 自动修复前端逻辑错误。如果选择它，就等于断言“自动修复前端逻辑错误”；但本题成立的结论是“边缘节点就近响应；缓存可复用内容；减少源站压力”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n发布稳定性依赖不可变带哈希资源、入口 HTML 的短缓存、旧资源保留和可回滚版本。遇到 chunk 加载失败不能无限刷新，应识别版本错配、提示用户并配合监控和回滚。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、CDN、缓存”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、CDN、缓存”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "性能",
+        "CDN",
+        "缓存"
+      ]
+    },
+    {
+      "code": "performance-014-preconnect",
+      "categoryKey": "frontend.performance",
+      "type": "true_false",
+      "stem": "`preconnect` 可提前建立到关键跨源的 DNS、TCP 和 TLS 连接，但对过多来源使用会浪费连接资源。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。preconnect 适合即将请求的关键源；不确定的未来来源更适合谨慎使用 dns-prefetch 或不提示。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、资源提示、网络”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、资源提示、网络”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "资源提示",
+        "网络"
+      ]
+    },
+    {
+      "code": "performance-015-script-cost",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "JavaScript 资源成本不仅包括下载，还包括哪些阶段？",
+      "options": [
+        {
+          "id": "A",
+          "content": "解压和解析"
+        },
+        {
+          "id": "B",
+          "content": "编译"
+        },
+        {
+          "id": "C",
+          "content": "执行和垃圾回收"
+        },
+        {
+          "id": "D",
+          "content": "只要 gzip 小就没有运行成本"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（解压和解析）、**B**（编译）、**C**（执行和垃圾回收）。低端设备对解析执行更敏感，因此应结合主线程时间和交互指标，而不只看网络体积。\n\n**逐项分析**\n\n- **A：正确。** 解压和解析。它准确对应本题结论。依据是：低端设备对解析执行更敏感，因此应结合主线程时间和交互指标，而不只看网络体积。\n- **B：正确。** 编译。它准确对应本题结论。依据是：低端设备对解析执行更敏感，因此应结合主线程时间和交互指标，而不只看网络体积。\n- **C：正确。** 执行和垃圾回收。它准确对应本题结论。依据是：低端设备对解析执行更敏感，因此应结合主线程时间和交互指标，而不只看网络体积。\n- **D：不选。** 只要 gzip 小就没有运行成本。如果选择它，就等于断言“只要 gzip 小就没有运行成本”；但本题成立的结论是“解压和解析；编译；执行和垃圾回收”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、JavaScript、主线程”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、JavaScript、主线程”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "JavaScript",
+        "主线程"
+      ]
+    },
+    {
+      "code": "performance-016-debounce",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "窗口 resize 高频触发且只需停止变化后重新计算一次布局，优先使用哪种策略？",
+      "options": [
+        {
+          "id": "A",
+          "content": "防抖"
+        },
+        {
+          "id": "B",
+          "content": "无限递归"
+        },
+        {
+          "id": "C",
+          "content": "每次同步全量重建"
+        },
+        {
+          "id": "D",
+          "content": "轮询数据库"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（防抖）。防抖在事件停止一段时间后执行；若需要持续按固定频率反馈则更接近节流场景。\n\n**逐项分析**\n\n- **A：正确。** 防抖。它准确对应本题结论。依据是：防抖在事件停止一段时间后执行；若需要持续按固定频率反馈则更接近节流场景。\n- **B：不选。** 无限递归。如果选择它，就等于断言“无限递归”；但本题成立的结论是“防抖”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 每次同步全量重建。如果选择它，就等于断言“每次同步全量重建”；但本题成立的结论是“防抖”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 轮询数据库。如果选择它，就等于断言“轮询数据库”；但本题成立的结论是“防抖”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n减少请求次数和保证结果正确是两件事：防抖/节流控制触发频率，AbortController 负责取消可取消任务，请求序号或版本号负责阻止旧响应覆盖新状态，缓存与去重则减少相同工作。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、防抖、事件”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、防抖、事件”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "性能",
+        "防抖",
+        "事件"
+      ]
+    },
+    {
+      "code": "performance-017-performance-api",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "浏览器 Performance API 可用于哪些测量？",
+      "options": [
+        {
+          "id": "A",
+          "content": "通过 mark/measure 记录业务区间"
+        },
+        {
+          "id": "B",
+          "content": "读取导航和资源时间条目"
+        },
+        {
+          "id": "C",
+          "content": "配合 PerformanceObserver 观察特定条目"
+        },
+        {
+          "id": "D",
+          "content": "保证测量本身完全零开销"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（通过 mark/measure 记录业务区间）、**B**（读取导航和资源时间条目）、**C**（配合 PerformanceObserver 观察特定条目）。结构化性能条目比 Date 打点更完整，但监控采样、缓冲区和上报成本仍需控制。\n\n**逐项分析**\n\n- **A：正确。** 通过 mark/measure 记录业务区间。它准确对应本题结论。依据是：结构化性能条目比 Date 打点更完整，但监控采样、缓冲区和上报成本仍需控制。\n- **B：正确。** 读取导航和资源时间条目。它准确对应本题结论。依据是：结构化性能条目比 Date 打点更完整，但监控采样、缓冲区和上报成本仍需控制。\n- **C：正确。** 配合 PerformanceObserver 观察特定条目。它准确对应本题结论。依据是：结构化性能条目比 Date 打点更完整，但监控采样、缓冲区和上报成本仍需控制。\n- **D：不选。** 保证测量本身完全零开销。如果选择它，就等于断言“保证测量本身完全零开销”；但本题成立的结论是“通过 mark/measure 记录业务区间；读取导航和资源时间条目；配合 PerformanceObserver 观察特定条目”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n线上排障应记录版本、路由、设备、请求追踪标识和错误堆栈，并通过与发布版本匹配的 source map 符号化。上报必须脱敏、采样和限流，同时准备错误兜底、功能降级和快速回滚。\n\n本题可以用一个最小示例验证：只保留与“性能、Performance API、监控”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、Performance API、监控”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "Performance API",
+        "监控"
+      ]
+    },
+    {
+      "code": "performance-018-memory",
+      "categoryKey": "frontend.performance",
+      "type": "multiple_choice",
+      "stem": "排查前端内存持续增长时，可重点检查哪些对象保留链？",
+      "options": [
+        {
+          "id": "A",
+          "content": "未移除的事件监听器和定时器"
+        },
+        {
+          "id": "B",
+          "content": "无限增长的缓存"
+        },
+        {
+          "id": "C",
+          "content": "脱离文档但仍被引用的 DOM"
+        },
+        {
+          "id": "D",
+          "content": "已经不可达且可被正常回收的临时对象"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（未移除的事件监听器和定时器）、**B**（无限增长的缓存）、**C**（脱离文档但仍被引用的 DOM）。内存泄漏来自不再需要却仍可达的对象，可用堆快照、allocation timeline 和 retainers 定位。\n\n**逐项分析**\n\n- **A：正确。** 未移除的事件监听器和定时器。它准确对应本题结论。依据是：内存泄漏来自不再需要却仍可达的对象，可用堆快照、allocation timeline 和 retainers 定位。\n- **B：正确。** 无限增长的缓存。它准确对应本题结论。依据是：内存泄漏来自不再需要却仍可达的对象，可用堆快照、allocation timeline 和 retainers 定位。\n- **C：正确。** 脱离文档但仍被引用的 DOM。它准确对应本题结论。依据是：内存泄漏来自不再需要却仍可达的对象，可用堆快照、allocation timeline 和 retainers 定位。\n- **D：不选。** 已经不可达且可被正常回收的临时对象。如果选择它，就等于断言“已经不可达且可被正常回收的临时对象”；但本题成立的结论是“未移除的事件监听器和定时器；无限增长的缓存；脱离文档但仍被引用的 DOM”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、内存泄漏、DevTools”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、内存泄漏、DevTools”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "内存泄漏",
+        "DevTools"
+      ]
+    },
+    {
+      "code": "performance-019-ssr-tradeoff",
+      "categoryKey": "frontend.performance",
+      "type": "true_false",
+      "stem": "SSR 可能改善首屏内容呈现和可抓取性，但也增加服务器工作、水合成本与缓存复杂度，并非所有页面都应使用。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。应根据内容动态性、交互比例、TTFB 和运维能力选择 CSR、SSR、SSG 或混合策略。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\nSSR 提供服务端 HTML，水合再把客户端行为连接到已有 DOM。服务端和客户端首屏输出不一致会产生水合警告甚至重新渲染，因此随机数、当前时间、浏览器专属 API 和用户状态都要设计一致的初始化策略。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、SSR、架构”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、SSR、架构”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "SSR",
+        "架构"
+      ]
+    },
+    {
+      "code": "performance-020-budget",
+      "categoryKey": "frontend.performance",
+      "type": "single_choice",
+      "stem": "在 CI 中设置 bundle 大小或核心指标阈值的主要价值是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "把性能预算变成可持续检测的回归门禁"
+        },
+        {
+          "id": "B",
+          "content": "保证任何设备都达到完全相同性能"
+        },
+        {
+          "id": "C",
+          "content": "替代真实用户监控"
+        },
+        {
+          "id": "D",
+          "content": "自动删除业务需求"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（把性能预算变成可持续检测的回归门禁）。预算能阻止无意识退化，但阈值应结合真实数据维护，并与运行时监控互补。\n\n**逐项分析**\n\n- **A：正确。** 把性能预算变成可持续检测的回归门禁。它准确对应本题结论。依据是：预算能阻止无意识退化，但阈值应结合真实数据维护，并与运行时监控互补。\n- **B：不选。** 保证任何设备都达到完全相同性能。如果选择它，就等于断言“保证任何设备都达到完全相同性能”；但本题成立的结论是“把性能预算变成可持续检测的回归门禁”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 替代真实用户监控。如果选择它，就等于断言“替代真实用户监控”；但本题成立的结论是“把性能预算变成可持续检测的回归门禁”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 自动删除业务需求。如果选择它，就等于断言“自动删除业务需求”；但本题成立的结论是“把性能预算变成可持续检测的回归门禁”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n性能优化必须先测量再行动。要把网络加载、主线程执行、渲染和用户交互分开分析，并用 LCP、INP、CLS、长任务和资源瀑布等证据验证优化是否真正改善用户体验。\n\n优化前要建立可复现基线。虚拟列表只减少 DOM 数量，不能降低全量下载和内存成本；图片尺寸影响 CLS，关键资源优先级影响 LCP，长任务和高频事件处理则常影响 INP。\n\n本题可以用一个最小示例验证：只保留与“性能、性能预算、CI”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“性能、性能预算、CI”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "性能",
+        "性能预算",
+        "CI"
+      ]
+    },
+    {
+      "code": "security-001-xss",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "常见 XSS 类型包括哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "存储型"
+        },
+        {
+          "id": "B",
+          "content": "反射型"
+        },
+        {
+          "id": "C",
+          "content": "DOM 型"
+        },
+        {
+          "id": "D",
+          "content": "数据库死锁型"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（存储型）、**B**（反射型）、**C**（DOM 型）。三类按恶意数据进入和执行路径区分，核心都是不可信数据进入可执行上下文。\n\n**逐项分析**\n\n- **A：正确。** 存储型。它准确对应本题结论。依据是：三类按恶意数据进入和执行路径区分，核心都是不可信数据进入可执行上下文。\n- **B：正确。** 反射型。它准确对应本题结论。依据是：三类按恶意数据进入和执行路径区分，核心都是不可信数据进入可执行上下文。\n- **C：正确。** DOM 型。它准确对应本题结论。依据是：三类按恶意数据进入和执行路径区分，核心都是不可信数据进入可执行上下文。\n- **D：不选。** 数据库死锁型。如果选择它，就等于断言“数据库死锁型”；但本题成立的结论是“存储型；反射型；DOM 型”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、XSS”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、XSS”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "安全",
+        "XSS"
+      ]
+    },
+    {
+      "code": "security-002-output-context",
+      "categoryKey": "frontend.security",
+      "type": "single_choice",
+      "stem": "防止 XSS 时，为什么输出编码必须按上下文区分？",
+      "options": [
+        {
+          "id": "A",
+          "content": "HTML 文本、属性、URL 和 JavaScript 上下文的危险字符与解析规则不同"
+        },
+        {
+          "id": "B",
+          "content": "所有上下文只需删除空格"
+        },
+        {
+          "id": "C",
+          "content": "编码只影响数据库"
+        },
+        {
+          "id": "D",
+          "content": "浏览器不会解析字符串"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（HTML 文本、属性、URL 和 JavaScript 上下文的危险字符与解析规则不同）。同一字符串放入不同解析器上下文会产生不同语义，不能用一种转义覆盖所有位置。\n\n**逐项分析**\n\n- **A：正确。** HTML 文本、属性、URL 和 JavaScript 上下文的危险字符与解析规则不同。它准确对应本题结论。依据是：同一字符串放入不同解析器上下文会产生不同语义，不能用一种转义覆盖所有位置。\n- **B：不选。** 所有上下文只需删除空格。如果选择它，就等于断言“所有上下文只需删除空格”；但本题成立的结论是“HTML 文本、属性、URL 和 JavaScript 上下文的危险字符与解析规则不同”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 编码只影响数据库。如果选择它，就等于断言“编码只影响数据库”；但本题成立的结论是“HTML 文本、属性、URL 和 JavaScript 上下文的危险字符与解析规则不同”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 浏览器不会解析字符串。如果选择它，就等于断言“浏览器不会解析字符串”；但本题成立的结论是“HTML 文本、属性、URL 和 JavaScript 上下文的危险字符与解析规则不同”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、XSS、输出编码”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、XSS、输出编码”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "安全",
+        "XSS",
+        "输出编码"
+      ]
+    },
+    {
+      "code": "security-003-inner-html",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "确需渲染富文本 HTML 时，哪些措施更合理？",
+      "options": [
+        {
+          "id": "A",
+          "content": "使用可信、持续维护的 HTML sanitizer"
+        },
+        {
+          "id": "B",
+          "content": "采用严格允许列表"
+        },
+        {
+          "id": "C",
+          "content": "结合 CSP 等纵深防御"
+        },
+        {
+          "id": "D",
+          "content": "只用字符串 replace 删除 script 标签即可"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（使用可信、持续维护的 HTML sanitizer）、**B**（采用严格允许列表）、**C**（结合 CSP 等纵深防御）。危险载荷可出现在属性、URL、SVG 等多种位置，简单正则无法正确解析和净化 HTML。\n\n**逐项分析**\n\n- **A：正确。** 使用可信、持续维护的 HTML sanitizer。它准确对应本题结论。依据是：危险载荷可出现在属性、URL、SVG 等多种位置，简单正则无法正确解析和净化 HTML。\n- **B：正确。** 采用严格允许列表。它准确对应本题结论。依据是：危险载荷可出现在属性、URL、SVG 等多种位置，简单正则无法正确解析和净化 HTML。\n- **C：正确。** 结合 CSP 等纵深防御。它准确对应本题结论。依据是：危险载荷可出现在属性、URL、SVG 等多种位置，简单正则无法正确解析和净化 HTML。\n- **D：不选。** 只用字符串 replace 删除 script 标签即可。如果选择它，就等于断言“只用字符串 replace 删除 script 标签即可”；但本题成立的结论是“使用可信、持续维护的 HTML sanitizer；采用严格允许列表；结合 CSP 等纵深防御”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、XSS、富文本”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、XSS、富文本”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "安全",
+        "XSS",
+        "富文本"
+      ]
+    },
+    {
+      "code": "security-004-csrf",
+      "categoryKey": "frontend.security",
+      "type": "single_choice",
+      "stem": "CSRF 攻击成立的关键条件通常是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "浏览器会自动携带目标站点的身份凭据，服务端又无法区分请求意图"
+        },
+        {
+          "id": "B",
+          "content": "攻击者知道数据库密码"
+        },
+        {
+          "id": "C",
+          "content": "页面使用 CSS"
+        },
+        {
+          "id": "D",
+          "content": "请求没有响应体"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（浏览器会自动携带目标站点的身份凭据，服务端又无法区分请求意图）。CSRF 借用用户浏览器的现有认证状态发起非预期操作，防护应验证 token、Origin/Referer 并合理使用 SameSite。\n\n**逐项分析**\n\n- **A：正确。** 浏览器会自动携带目标站点的身份凭据，服务端又无法区分请求意图。它准确对应本题结论。依据是：CSRF 借用用户浏览器的现有认证状态发起非预期操作，防护应验证 token、Origin/Referer 并合理使用 SameSite。\n- **B：不选。** 攻击者知道数据库密码。如果选择它，就等于断言“攻击者知道数据库密码”；但本题成立的结论是“浏览器会自动携带目标站点的身份凭据，服务端又无法区分请求意图”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 页面使用 CSS。如果选择它，就等于断言“页面使用 CSS”；但本题成立的结论是“浏览器会自动携带目标站点的身份凭据，服务端又无法区分请求意图”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 请求没有响应体。如果选择它，就等于断言“请求没有响应体”；但本题成立的结论是“浏览器会自动携带目标站点的身份凭据，服务端又无法区分请求意图”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、CSRF、Cookie”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、CSRF、Cookie”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "CSRF",
+        "Cookie"
+      ]
+    },
+    {
+      "code": "security-005-csrf-defense",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "基于 Cookie 会话的敏感操作可采用哪些 CSRF 防护？",
+      "options": [
+        {
+          "id": "A",
+          "content": "不可预测且与会话绑定的 CSRF Token"
+        },
+        {
+          "id": "B",
+          "content": "校验 Origin/Referer"
+        },
+        {
+          "id": "C",
+          "content": "合理设置 SameSite"
+        },
+        {
+          "id": "D",
+          "content": "只把按钮颜色改成红色"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（不可预测且与会话绑定的 CSRF Token）、**B**（校验 Origin/Referer）、**C**（合理设置 SameSite）。多层校验可降低绕过风险；GET 不应产生敏感副作用。\n\n**逐项分析**\n\n- **A：正确。** 不可预测且与会话绑定的 CSRF Token。它准确对应本题结论。依据是：多层校验可降低绕过风险；GET 不应产生敏感副作用。\n- **B：正确。** 校验 Origin/Referer。它准确对应本题结论。依据是：多层校验可降低绕过风险；GET 不应产生敏感副作用。\n- **C：正确。** 合理设置 SameSite。它准确对应本题结论。依据是：多层校验可降低绕过风险；GET 不应产生敏感副作用。\n- **D：不选。** 只把按钮颜色改成红色。如果选择它，就等于断言“只把按钮颜色改成红色”；但本题成立的结论是“不可预测且与会话绑定的 CSRF Token；校验 Origin/Referer；合理设置 SameSite”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、CSRF、防护”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、CSRF、防护”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "CSRF",
+        "防护"
+      ]
+    },
+    {
+      "code": "security-006-clickjacking",
+      "categoryKey": "frontend.security",
+      "type": "single_choice",
+      "stem": "防止页面被恶意站点嵌入透明 iframe 诱导点击，优先使用什么响应策略？",
+      "options": [
+        {
+          "id": "A",
+          "content": "CSP frame-ancestors，兼容时配合 X-Frame-Options"
+        },
+        {
+          "id": "B",
+          "content": "Access-Control-Allow-Origin: *"
+        },
+        {
+          "id": "C",
+          "content": "把页面背景设为透明"
+        },
+        {
+          "id": "D",
+          "content": "关闭缓存"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（CSP frame-ancestors，兼容时配合 X-Frame-Options）。frame-ancestors 控制哪些父页面可以嵌入当前页面，是服务端响应级点击劫持防护。\n\n**逐项分析**\n\n- **A：正确。** CSP frame-ancestors，兼容时配合 X-Frame-Options。它准确对应本题结论。依据是：frame-ancestors 控制哪些父页面可以嵌入当前页面，是服务端响应级点击劫持防护。\n- **B：不选。** Access-Control-Allow-Origin: *。如果选择它，就等于断言“Access-Control-Allow-Origin: *”；但本题成立的结论是“CSP frame-ancestors，兼容时配合 X-Frame-Options”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 把页面背景设为透明。如果选择它，就等于断言“把页面背景设为透明”；但本题成立的结论是“CSP frame-ancestors，兼容时配合 X-Frame-Options”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 关闭缓存。如果选择它，就等于断言“关闭缓存”；但本题成立的结论是“CSP frame-ancestors，兼容时配合 X-Frame-Options”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、点击劫持、CSP”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、点击劫持、CSP”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "点击劫持",
+        "CSP"
+      ]
+    },
+    {
+      "code": "security-007-open-redirect",
+      "categoryKey": "frontend.security",
+      "type": "true_false",
+      "stem": "登录后的 redirect 参数若允许跳转任意外部 URL，可能被用于钓鱼和令牌泄漏，应使用站内路径或严格允许列表。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。开放重定向能借可信域名包装恶意目标，还可能影响 OAuth 回调等安全流程。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“安全、开放重定向”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、开放重定向”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "开放重定向"
+      ]
+    },
+    {
+      "code": "security-008-prototype-pollution",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "降低 JavaScript 原型污染风险的做法有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "升级存在漏洞的合并或路径赋值依赖"
+        },
+        {
+          "id": "B",
+          "content": "拒绝 __proto__、constructor.prototype 等危险路径"
+        },
+        {
+          "id": "C",
+          "content": "对不可信对象做 schema 校验"
+        },
+        {
+          "id": "D",
+          "content": "把任意用户键直接深度合并到配置"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（升级存在漏洞的合并或路径赋值依赖）、**B**（拒绝 __proto__、constructor.prototype 等危险路径）、**C**（对不可信对象做 schema 校验）。原型污染通过特殊键影响共享原型，需在库版本、输入校验和合并实现多层防护。\n\n**逐项分析**\n\n- **A：正确。** 升级存在漏洞的合并或路径赋值依赖。它准确对应本题结论。依据是：原型污染通过特殊键影响共享原型，需在库版本、输入校验和合并实现多层防护。\n- **B：正确。** 拒绝 __proto__、constructor.prototype 等危险路径。它准确对应本题结论。依据是：原型污染通过特殊键影响共享原型，需在库版本、输入校验和合并实现多层防护。\n- **C：正确。** 对不可信对象做 schema 校验。它准确对应本题结论。依据是：原型污染通过特殊键影响共享原型，需在库版本、输入校验和合并实现多层防护。\n- **D：不选。** 把任意用户键直接深度合并到配置。如果选择它，就等于断言“把任意用户键直接深度合并到配置”；但本题成立的结论是“升级存在漏洞的合并或路径赋值依赖；拒绝 __proto__、constructor.prototype 等危险路径；对不可信对象做 schema 校验”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“安全、原型污染、依赖”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、原型污染、依赖”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "安全",
+        "原型污染",
+        "依赖"
+      ]
+    },
+    {
+      "code": "security-009-supply-chain",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "前端供应链安全治理可包括哪些措施？",
+      "options": [
+        {
+          "id": "A",
+          "content": "提交并审查 lockfile"
+        },
+        {
+          "id": "B",
+          "content": "定期依赖审计与最小化依赖"
+        },
+        {
+          "id": "C",
+          "content": "限制发布权限并启用多因素认证"
+        },
+        {
+          "id": "D",
+          "content": "自动信任任意 postinstall 脚本"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（提交并审查 lockfile）、**B**（定期依赖审计与最小化依赖）、**C**（限制发布权限并启用多因素认证）。供应链风险横跨依赖选择、安装脚本、账号和发布流程，应保留可追溯和最小权限。\n\n**逐项分析**\n\n- **A：正确。** 提交并审查 lockfile。它准确对应本题结论。依据是：供应链风险横跨依赖选择、安装脚本、账号和发布流程，应保留可追溯和最小权限。\n- **B：正确。** 定期依赖审计与最小化依赖。它准确对应本题结论。依据是：供应链风险横跨依赖选择、安装脚本、账号和发布流程，应保留可追溯和最小权限。\n- **C：正确。** 限制发布权限并启用多因素认证。它准确对应本题结论。依据是：供应链风险横跨依赖选择、安装脚本、账号和发布流程，应保留可追溯和最小权限。\n- **D：不选。** 自动信任任意 postinstall 脚本。如果选择它，就等于断言“自动信任任意 postinstall 脚本”；但本题成立的结论是“提交并审查 lockfile；定期依赖审计与最小化依赖；限制发布权限并启用多因素认证”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“安全、供应链、npm”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、供应链、npm”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "供应链",
+        "npm"
+      ]
+    },
+    {
+      "code": "security-010-client-secret",
+      "categoryKey": "frontend.security",
+      "type": "true_false",
+      "stem": "打包到前端 JavaScript 的 API 密钥即使通过环境变量注入，也不能被视为秘密。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。浏览器必须下载并执行客户端代码，用户可查看资源和网络请求；真正秘密只能由受控服务端保存。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“安全、密钥、前端”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、密钥、前端”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "安全",
+        "密钥",
+        "前端"
+      ]
+    },
+    {
+      "code": "security-011-token-storage",
+      "categoryKey": "frontend.security",
+      "type": "single_choice",
+      "stem": "关于访问令牌存储，哪项最准确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "不存在对所有系统都绝对安全的单一位置，应结合 XSS、CSRF、生命周期和架构权衡"
+        },
+        {
+          "id": "B",
+          "content": "localStorage 能防止任何 XSS 读取"
+        },
+        {
+          "id": "C",
+          "content": "HttpOnly Cookie 不需要 CSRF 防护"
+        },
+        {
+          "id": "D",
+          "content": "把令牌写在 URL 永远安全"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（不存在对所有系统都绝对安全的单一位置，应结合 XSS、CSRF、生命周期和架构权衡）。内存、Web Storage 和 Cookie 风险模型不同；短生命周期、旋转、最小权限和纵深防御同样重要。\n\n**逐项分析**\n\n- **A：正确。** 不存在对所有系统都绝对安全的单一位置，应结合 XSS、CSRF、生命周期和架构权衡。它准确对应本题结论。依据是：内存、Web Storage 和 Cookie 风险模型不同；短生命周期、旋转、最小权限和纵深防御同样重要。\n- **B：不选。** localStorage 能防止任何 XSS 读取。如果选择它，就等于断言“localStorage 能防止任何 XSS 读取”；但本题成立的结论是“不存在对所有系统都绝对安全的单一位置，应结合 XSS、CSRF、生命周期和架构权衡”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** HttpOnly Cookie 不需要 CSRF 防护。如果选择它，就等于断言“HttpOnly Cookie 不需要 CSRF 防护”；但本题成立的结论是“不存在对所有系统都绝对安全的单一位置，应结合 XSS、CSRF、生命周期和架构权衡”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 把令牌写在 URL 永远安全。如果选择它，就等于断言“把令牌写在 URL 永远安全”；但本题成立的结论是“不存在对所有系统都绝对安全的单一位置，应结合 XSS、CSRF、生命周期和架构权衡”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n登录态处理要区分认证、授权与界面展示。并发 401 通常应共享一次刷新操作并排队重放；刷新失败要统一退出。按钮隐藏只是体验，服务端仍必须对每个资源和动作做权限校验。\n\n本题可以用一个最小示例验证：只保留与“安全、Token、认证”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、Token、认证”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "安全",
+        "Token",
+        "认证"
+      ]
+    },
+    {
+      "code": "security-012-jwt",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "使用 JWT 时应注意哪些问题？",
+      "options": [
+        {
+          "id": "A",
+          "content": "校验签名、算法、过期时间和预期 issuer/audience"
+        },
+        {
+          "id": "B",
+          "content": "载荷通常只是编码，不应放敏感秘密"
+        },
+        {
+          "id": "C",
+          "content": "需要设计撤销或 tokenVersion 等失效机制"
+        },
+        {
+          "id": "D",
+          "content": "只解析 payload 就等同于验证"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（校验签名、算法、过期时间和预期 issuer/audience）、**B**（载荷通常只是编码，不应放敏感秘密）、**C**（需要设计撤销或 tokenVersion 等失效机制）。JWT 自包含不代表天然安全，验证上下文、密钥轮换和会话失效都必须设计。\n\n**逐项分析**\n\n- **A：正确。** 校验签名、算法、过期时间和预期 issuer/audience。它准确对应本题结论。依据是：JWT 自包含不代表天然安全，验证上下文、密钥轮换和会话失效都必须设计。\n- **B：正确。** 载荷通常只是编码，不应放敏感秘密。它准确对应本题结论。依据是：JWT 自包含不代表天然安全，验证上下文、密钥轮换和会话失效都必须设计。\n- **C：正确。** 需要设计撤销或 tokenVersion 等失效机制。它准确对应本题结论。依据是：JWT 自包含不代表天然安全，验证上下文、密钥轮换和会话失效都必须设计。\n- **D：不选。** 只解析 payload 就等同于验证。如果选择它，就等于断言“只解析 payload 就等同于验证”；但本题成立的结论是“校验签名、算法、过期时间和预期 issuer/audience；载荷通常只是编码，不应放敏感秘密；需要设计撤销或 tokenVersion 等失效机制”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n登录态处理要区分认证、授权与界面展示。并发 401 通常应共享一次刷新操作并排队重放；刷新失败要统一退出。按钮隐藏只是体验，服务端仍必须对每个资源和动作做权限校验。\n\n本题可以用一个最小示例验证：只保留与“安全、JWT、认证”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、JWT、认证”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "JWT",
+        "认证"
+      ]
+    },
+    {
+      "code": "security-013-cors-auth",
+      "categoryKey": "frontend.security",
+      "type": "true_false",
+      "stem": "CORS 主要控制浏览器脚本是否能读取跨源响应，不是服务端鉴权机制；非浏览器客户端不受同样限制。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。接口仍必须认证授权，不能把允许或拒绝 Origin 当作资源访问控制的唯一边界。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、CORS、鉴权”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、CORS、鉴权”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "安全",
+        "CORS",
+        "鉴权"
+      ]
+    },
+    {
+      "code": "security-014-post-message",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "使用 `window.postMessage` 时，哪些做法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "发送时指定尽可能精确的 targetOrigin"
+        },
+        {
+          "id": "B",
+          "content": "接收时校验 event.origin"
+        },
+        {
+          "id": "C",
+          "content": "校验消息数据结构"
+        },
+        {
+          "id": "D",
+          "content": "默认信任任意来源和任意字段"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（发送时指定尽可能精确的 targetOrigin）、**B**（接收时校验 event.origin）、**C**（校验消息数据结构）。跨窗口消息是显式信任边界，来源和 payload 都应验证，敏感信息避免发往通配目标。\n\n**逐项分析**\n\n- **A：正确。** 发送时指定尽可能精确的 targetOrigin。它准确对应本题结论。依据是：跨窗口消息是显式信任边界，来源和 payload 都应验证，敏感信息避免发往通配目标。\n- **B：正确。** 接收时校验 event.origin。它准确对应本题结论。依据是：跨窗口消息是显式信任边界，来源和 payload 都应验证，敏感信息避免发往通配目标。\n- **C：正确。** 校验消息数据结构。它准确对应本题结论。依据是：跨窗口消息是显式信任边界，来源和 payload 都应验证，敏感信息避免发往通配目标。\n- **D：不选。** 默认信任任意来源和任意字段。如果选择它，就等于断言“默认信任任意来源和任意字段”；但本题成立的结论是“发送时指定尽可能精确的 targetOrigin；接收时校验 event.origin；校验消息数据结构”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“安全、postMessage、跨窗口通信”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、postMessage、跨窗口通信”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "postMessage",
+        "跨窗口通信"
+      ]
+    },
+    {
+      "code": "security-015-url-scheme",
+      "categoryKey": "frontend.security",
+      "type": "single_choice",
+      "stem": "把用户输入直接作为链接 href 时，除域名外还应重点校验什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "URL scheme，防止 javascript: 等危险协议"
+        },
+        {
+          "id": "B",
+          "content": "字符串长度是否为偶数"
+        },
+        {
+          "id": "C",
+          "content": "CSS 类名"
+        },
+        {
+          "id": "D",
+          "content": "屏幕分辨率"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（URL scheme，防止 javascript: 等危险协议）。URL 允许列表应限制协议和目标；仅做 HTML 转义并不能消除 javascript: URL 的执行语义。\n\n**逐项分析**\n\n- **A：正确。** URL scheme，防止 javascript: 等危险协议。它准确对应本题结论。依据是：URL 允许列表应限制协议和目标；仅做 HTML 转义并不能消除 javascript: URL 的执行语义。\n- **B：不选。** 字符串长度是否为偶数。如果选择它，就等于断言“字符串长度是否为偶数”；但本题成立的结论是“URL scheme，防止 javascript: 等危险协议”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** CSS 类名。如果选择它，就等于断言“CSS 类名”；但本题成立的结论是“URL scheme，防止 javascript: 等危险协议”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 屏幕分辨率。如果选择它，就等于断言“屏幕分辨率”；但本题成立的结论是“URL scheme，防止 javascript: 等危险协议”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n安全问题要先识别攻击者控制的数据和浏览器自动行为。XSS 重点是按输出上下文编码或净化，CSRF 重点是阻止第三方站点借用用户凭据，CORS 只控制浏览器是否向脚本开放跨源响应，并不是服务端鉴权。\n\n本题可以用一个最小示例验证：只保留与“安全、URL、XSS”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、URL、XSS”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "URL",
+        "XSS"
+      ]
+    },
+    {
+      "code": "security-016-mixed-content",
+      "categoryKey": "frontend.security",
+      "type": "true_false",
+      "stem": "HTTPS 页面加载 HTTP 子资源会形成混合内容，浏览器可能升级或阻止请求，并削弱传输安全。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。所有活动和展示资源都应走可信 HTTPS，避免中间人篡改和浏览器拦截。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“安全、HTTPS、混合内容”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、HTTPS、混合内容”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "安全",
+        "HTTPS",
+        "混合内容"
+      ]
+    },
+    {
+      "code": "security-017-password",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "关于密码处理，哪些说法正确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "服务端使用专用慢哈希算法和独立盐"
+        },
+        {
+          "id": "B",
+          "content": "传输必须使用 HTTPS"
+        },
+        {
+          "id": "C",
+          "content": "前端不应记录明文密码日志"
+        },
+        {
+          "id": "D",
+          "content": "仅在前端做一次 MD5 就足够"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（服务端使用专用慢哈希算法和独立盐）、**B**（传输必须使用 HTTPS）、**C**（前端不应记录明文密码日志）。密码安全依赖传输保护、服务端 KDF、限流和泄漏防护，客户端单次哈希不能替代。\n\n**逐项分析**\n\n- **A：正确。** 服务端使用专用慢哈希算法和独立盐。它准确对应本题结论。依据是：密码安全依赖传输保护、服务端 KDF、限流和泄漏防护，客户端单次哈希不能替代。\n- **B：正确。** 传输必须使用 HTTPS。它准确对应本题结论。依据是：密码安全依赖传输保护、服务端 KDF、限流和泄漏防护，客户端单次哈希不能替代。\n- **C：正确。** 前端不应记录明文密码日志。它准确对应本题结论。依据是：密码安全依赖传输保护、服务端 KDF、限流和泄漏防护，客户端单次哈希不能替代。\n- **D：不选。** 仅在前端做一次 MD5 就足够。如果选择它，就等于断言“仅在前端做一次 MD5 就足够”；但本题成立的结论是“服务端使用专用慢哈希算法和独立盐；传输必须使用 HTTPS；前端不应记录明文密码日志”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n登录态处理要区分认证、授权与界面展示。并发 401 通常应共享一次刷新操作并排队重放；刷新失败要统一退出。按钮隐藏只是体验，服务端仍必须对每个资源和动作做权限校验。\n\n本题可以用一个最小示例验证：只保留与“安全、密码、认证”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、密码、认证”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "密码",
+        "认证"
+      ]
+    },
+    {
+      "code": "security-018-permission",
+      "categoryKey": "frontend.security",
+      "type": "true_false",
+      "stem": "前端隐藏无权限按钮只是体验优化，后端仍必须在每个敏感接口按当前用户和资源执行授权校验。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。客户端可被修改或绕过，真正安全边界在服务端；同时要防止水平越权和垂直越权。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n登录态处理要区分认证、授权与界面展示。并发 401 通常应共享一次刷新操作并排队重放；刷新失败要统一退出。按钮隐藏只是体验，服务端仍必须对每个资源和动作做权限校验。\n\n本题可以用一个最小示例验证：只保留与“安全、权限、越权”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、权限、越权”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "安全",
+        "权限",
+        "越权"
+      ]
+    },
+    {
+      "code": "security-019-rate-limit",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "登录等敏感接口限流设计应考虑哪些维度？",
+      "options": [
+        {
+          "id": "A",
+          "content": "账号、IP、设备或全局多维组合"
+        },
+        {
+          "id": "B",
+          "content": "渐进延迟和告警"
+        },
+        {
+          "id": "C",
+          "content": "避免让限流机制成为批量锁号攻击工具"
+        },
+        {
+          "id": "D",
+          "content": "限流后不再需要密码校验"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（账号、IP、设备或全局多维组合）、**B**（渐进延迟和告警）、**C**（避免让限流机制成为批量锁号攻击工具）。单一 IP 或账号限制容易被绕过或滥用，应与认证、审计和异常检测结合。\n\n**逐项分析**\n\n- **A：正确。** 账号、IP、设备或全局多维组合。它准确对应本题结论。依据是：单一 IP 或账号限制容易被绕过或滥用，应与认证、审计和异常检测结合。\n- **B：正确。** 渐进延迟和告警。它准确对应本题结论。依据是：单一 IP 或账号限制容易被绕过或滥用，应与认证、审计和异常检测结合。\n- **C：正确。** 避免让限流机制成为批量锁号攻击工具。它准确对应本题结论。依据是：单一 IP 或账号限制容易被绕过或滥用，应与认证、审计和异常检测结合。\n- **D：不选。** 限流后不再需要密码校验。如果选择它，就等于断言“限流后不再需要密码校验”；但本题成立的结论是“账号、IP、设备或全局多维组合；渐进延迟和告警；避免让限流机制成为批量锁号攻击工具”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n登录态处理要区分认证、授权与界面展示。并发 401 通常应共享一次刷新操作并排队重放；刷新失败要统一退出。按钮隐藏只是体验，服务端仍必须对每个资源和动作做权限校验。\n\n本题可以用一个最小示例验证：只保留与“安全、限流、登录”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、限流、登录”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "hard",
+      "tags": [
+        "安全",
+        "限流",
+        "登录"
+      ]
+    },
+    {
+      "code": "security-020-security-header",
+      "categoryKey": "frontend.security",
+      "type": "multiple_choice",
+      "stem": "现代 Web 应用常评估哪些安全响应头？",
+      "options": [
+        {
+          "id": "A",
+          "content": "Content-Security-Policy"
+        },
+        {
+          "id": "B",
+          "content": "Strict-Transport-Security"
+        },
+        {
+          "id": "C",
+          "content": "X-Content-Type-Options: nosniff"
+        },
+        {
+          "id": "D",
+          "content": "Permissions-Policy"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（Content-Security-Policy）、**B**（Strict-Transport-Security）、**C**（X-Content-Type-Options: nosniff）、**D**（Permissions-Policy）。安全头分别约束资源执行、HTTPS、MIME 嗅探和浏览器能力，应按业务测试后部署。\n\n**逐项分析**\n\n- **A：正确。** Content-Security-Policy。它准确对应本题结论。依据是：安全头分别约束资源执行、HTTPS、MIME 嗅探和浏览器能力，应按业务测试后部署。\n- **B：正确。** Strict-Transport-Security。它准确对应本题结论。依据是：安全头分别约束资源执行、HTTPS、MIME 嗅探和浏览器能力，应按业务测试后部署。\n- **C：正确。** X-Content-Type-Options: nosniff。它准确对应本题结论。依据是：安全头分别约束资源执行、HTTPS、MIME 嗅探和浏览器能力，应按业务测试后部署。\n- **D：正确。** Permissions-Policy。它准确对应本题结论。依据是：安全头分别约束资源执行、HTTPS、MIME 嗅探和浏览器能力，应按业务测试后部署。\n\n**小白理解与核心原理**\n\n前端安全的基本原则是所有来自用户、URL、存储和接口的数据都不可信。前端校验只能改善体验，真正的鉴权、数据权限和可信校验必须在服务端完成；CSP、SameSite 等机制属于纵深防御，不能替代正确编码和权限控制。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“安全、安全响应头、HTTP”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“安全、安全响应头、HTTP”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "安全",
+        "安全响应头",
+        "HTTP"
+      ]
+    },
+    {
+      "code": "testing-001-pyramid",
+      "categoryKey": "frontend.testing",
+      "type": "single_choice",
+      "stem": "经典测试金字塔通常建议什么分布？",
+      "options": [
+        {
+          "id": "A",
+          "content": "较多快速单元测试，适量集成测试，少量关键端到端测试"
+        },
+        {
+          "id": "B",
+          "content": "只做大量端到端测试"
+        },
+        {
+          "id": "C",
+          "content": "完全不做集成测试"
+        },
+        {
+          "id": "D",
+          "content": "所有逻辑都靠人工验证"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（较多快速单元测试，适量集成测试，少量关键端到端测试）。不同层次平衡反馈速度、隔离性和真实度；具体比例应按系统风险调整。\n\n**逐项分析**\n\n- **A：正确。** 较多快速单元测试，适量集成测试，少量关键端到端测试。它准确对应本题结论。依据是：不同层次平衡反馈速度、隔离性和真实度；具体比例应按系统风险调整。\n- **B：不选。** 只做大量端到端测试。如果选择它，就等于断言“只做大量端到端测试”；但本题成立的结论是“较多快速单元测试，适量集成测试，少量关键端到端测试”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 完全不做集成测试。如果选择它，就等于断言“完全不做集成测试”；但本题成立的结论是“较多快速单元测试，适量集成测试，少量关键端到端测试”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 所有逻辑都靠人工验证。如果选择它，就等于断言“所有逻辑都靠人工验证”；但本题成立的结论是“较多快速单元测试，适量集成测试，少量关键端到端测试”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、测试金字塔”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、测试金字塔”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "测试",
+        "测试金字塔"
+      ]
+    },
+    {
+      "code": "testing-002-behavior",
+      "categoryKey": "frontend.testing",
+      "type": "true_false",
+      "stem": "组件测试优先验证用户可观察行为，而不是紧耦合内部 state、私有方法和 DOM 实现细节，通常更抗重构。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。通过角色、标签和可见文本交互更接近使用方式，内部实现变化时不应无意义破坏测试。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、组件测试、行为”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、组件测试、行为”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "测试",
+        "组件测试",
+        "行为"
+      ]
+    },
+    {
+      "code": "testing-003-unit-integration",
+      "categoryKey": "frontend.testing",
+      "type": "single_choice",
+      "stem": "验证表单组件、校验逻辑和请求适配层协同工作，更接近哪类测试？",
+      "options": [
+        {
+          "id": "A",
+          "content": "集成测试"
+        },
+        {
+          "id": "B",
+          "content": "纯静态格式化"
+        },
+        {
+          "id": "C",
+          "content": "数据库备份"
+        },
+        {
+          "id": "D",
+          "content": "压力测试唯一形式"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（集成测试）。集成测试验证多个单元间契约，通常比完全 mock 每层更能发现连接错误。\n\n**逐项分析**\n\n- **A：正确。** 集成测试。它准确对应本题结论。依据是：集成测试验证多个单元间契约，通常比完全 mock 每层更能发现连接错误。\n- **B：不选。** 纯静态格式化。如果选择它，就等于断言“纯静态格式化”；但本题成立的结论是“集成测试”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 数据库备份。如果选择它，就等于断言“数据库备份”；但本题成立的结论是“集成测试”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 压力测试唯一形式。如果选择它，就等于断言“压力测试唯一形式”；但本题成立的结论是“集成测试”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、集成测试”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、集成测试”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "测试",
+        "集成测试"
+      ]
+    },
+    {
+      "code": "testing-004-mock-boundary",
+      "categoryKey": "frontend.testing",
+      "type": "multiple_choice",
+      "stem": "合理使用 mock 时应考虑哪些原则？",
+      "options": [
+        {
+          "id": "A",
+          "content": "优先 mock 系统外部边界和不稳定依赖"
+        },
+        {
+          "id": "B",
+          "content": "避免把被测实现的每个内部函数都 mock 掉"
+        },
+        {
+          "id": "C",
+          "content": "mock 行为应与真实契约一致"
+        },
+        {
+          "id": "D",
+          "content": "mock 越多测试越真实"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（优先 mock 系统外部边界和不稳定依赖）、**B**（避免把被测实现的每个内部函数都 mock 掉）、**C**（mock 行为应与真实契约一致）。过度 mock 会让测试只验证自己的桩；边界模拟应有契约测试或真实集成校验支撑。\n\n**逐项分析**\n\n- **A：正确。** 优先 mock 系统外部边界和不稳定依赖。它准确对应本题结论。依据是：过度 mock 会让测试只验证自己的桩；边界模拟应有契约测试或真实集成校验支撑。\n- **B：正确。** 避免把被测实现的每个内部函数都 mock 掉。它准确对应本题结论。依据是：过度 mock 会让测试只验证自己的桩；边界模拟应有契约测试或真实集成校验支撑。\n- **C：正确。** mock 行为应与真实契约一致。它准确对应本题结论。依据是：过度 mock 会让测试只验证自己的桩；边界模拟应有契约测试或真实集成校验支撑。\n- **D：不选。** mock 越多测试越真实。如果选择它，就等于断言“mock 越多测试越真实”；但本题成立的结论是“优先 mock 系统外部边界和不稳定依赖；避免把被测实现的每个内部函数都 mock 掉；mock 行为应与真实契约一致”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、Mock、边界”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、Mock、边界”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "Mock",
+        "边界"
+      ]
+    },
+    {
+      "code": "testing-005-fake-timer",
+      "categoryKey": "frontend.testing",
+      "type": "true_false",
+      "stem": "测试防抖、重试和定时器时使用 fake timers 可以加快测试并控制时间，但结束后应恢复真实计时器并处理已排队任务。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。虚拟时间提高确定性，若忘记清理可能污染其他测试或遗漏 Promise 微任务。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、Fake Timer、异步”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、Fake Timer、异步”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "Fake Timer",
+        "异步"
+      ]
+    },
+    {
+      "code": "testing-006-async-wait",
+      "categoryKey": "frontend.testing",
+      "type": "single_choice",
+      "stem": "测试异步 UI 时，为什么通常应等待界面出现预期状态，而不是固定 sleep 1000ms？",
+      "options": [
+        {
+          "id": "A",
+          "content": "条件等待更快且对机器速度变化更稳定"
+        },
+        {
+          "id": "B",
+          "content": "sleep 能验证更多逻辑"
+        },
+        {
+          "id": "C",
+          "content": "异步 UI 不需要断言"
+        },
+        {
+          "id": "D",
+          "content": "浏览器禁止定时器"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（条件等待更快且对机器速度变化更稳定）。固定等待会让测试慢且易抖动；应等待可观察条件并设置合理超时。\n\n**逐项分析**\n\n- **A：正确。** 条件等待更快且对机器速度变化更稳定。它准确对应本题结论。依据是：固定等待会让测试慢且易抖动；应等待可观察条件并设置合理超时。\n- **B：不选。** sleep 能验证更多逻辑。如果选择它，就等于断言“sleep 能验证更多逻辑”；但本题成立的结论是“条件等待更快且对机器速度变化更稳定”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 异步 UI 不需要断言。如果选择它，就等于断言“异步 UI 不需要断言”；但本题成立的结论是“条件等待更快且对机器速度变化更稳定”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 浏览器禁止定时器。如果选择它，就等于断言“浏览器禁止定时器”；但本题成立的结论是“条件等待更快且对机器速度变化更稳定”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、异步、稳定性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、异步、稳定性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "测试",
+        "异步",
+        "稳定性"
+      ]
+    },
+    {
+      "code": "testing-007-accessible-query",
+      "categoryKey": "frontend.testing",
+      "type": "multiple_choice",
+      "stem": "优先按 role 和 accessible name 查询元素有哪些好处？",
+      "options": [
+        {
+          "id": "A",
+          "content": "接近辅助技术和用户理解页面的方式"
+        },
+        {
+          "id": "B",
+          "content": "间接推动语义化 HTML"
+        },
+        {
+          "id": "C",
+          "content": "比私有 class 选择器更抗样式重构"
+        },
+        {
+          "id": "D",
+          "content": "保证页面满足所有无障碍标准"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（接近辅助技术和用户理解页面的方式）、**B**（间接推动语义化 HTML）、**C**（比私有 class 选择器更抗样式重构）。可访问查询提升测试语义，但不能替代完整的自动化和人工无障碍审查。\n\n**逐项分析**\n\n- **A：正确。** 接近辅助技术和用户理解页面的方式。它准确对应本题结论。依据是：可访问查询提升测试语义，但不能替代完整的自动化和人工无障碍审查。\n- **B：正确。** 间接推动语义化 HTML。它准确对应本题结论。依据是：可访问查询提升测试语义，但不能替代完整的自动化和人工无障碍审查。\n- **C：正确。** 比私有 class 选择器更抗样式重构。它准确对应本题结论。依据是：可访问查询提升测试语义，但不能替代完整的自动化和人工无障碍审查。\n- **D：不选。** 保证页面满足所有无障碍标准。如果选择它，就等于断言“保证页面满足所有无障碍标准”；但本题成立的结论是“接近辅助技术和用户理解页面的方式；间接推动语义化 HTML；比私有 class 选择器更抗样式重构”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n可访问性不是“加一个 aria-label”就结束。应检查语义树、可访问名称、Tab 顺序、焦点可见性、键盘行为和状态播报；能用 button、label、fieldset 等原生元素时，通常比 div 模拟更可靠。\n\n本题可以用一个最小示例验证：只保留与“测试、可访问性、查询”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、可访问性、查询”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "可访问性",
+        "查询"
+      ]
+    },
+    {
+      "code": "testing-008-snapshot",
+      "categoryKey": "frontend.testing",
+      "type": "true_false",
+      "stem": "大型组件快照如果频繁整体更新而不审查差异，容易变成低信号测试；应控制范围并搭配行为断言。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。快照适合稳定、可读的小型输出，不能用批准更新替代对行为变化的理解。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、Snapshot”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、Snapshot”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "Snapshot"
+      ]
+    },
+    {
+      "code": "testing-009-coverage",
+      "categoryKey": "frontend.testing",
+      "type": "single_choice",
+      "stem": "关于代码覆盖率，哪项最准确？",
+      "options": [
+        {
+          "id": "A",
+          "content": "覆盖率能发现未执行区域，但高覆盖率不等于断言正确或风险已覆盖"
+        },
+        {
+          "id": "B",
+          "content": "100% 覆盖率证明没有缺陷"
+        },
+        {
+          "id": "C",
+          "content": "覆盖率越低质量越高"
+        },
+        {
+          "id": "D",
+          "content": "覆盖率只用于 CSS"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（覆盖率能发现未执行区域，但高覆盖率不等于断言正确或风险已覆盖）。覆盖率是导航指标，应结合变异测试、边界案例和业务风险评估测试有效性。\n\n**逐项分析**\n\n- **A：正确。** 覆盖率能发现未执行区域，但高覆盖率不等于断言正确或风险已覆盖。它准确对应本题结论。依据是：覆盖率是导航指标，应结合变异测试、边界案例和业务风险评估测试有效性。\n- **B：不选。** 100% 覆盖率证明没有缺陷。如果选择它，就等于断言“100% 覆盖率证明没有缺陷”；但本题成立的结论是“覆盖率能发现未执行区域，但高覆盖率不等于断言正确或风险已覆盖”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 覆盖率越低质量越高。如果选择它，就等于断言“覆盖率越低质量越高”；但本题成立的结论是“覆盖率能发现未执行区域，但高覆盖率不等于断言正确或风险已覆盖”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 覆盖率只用于 CSS。如果选择它，就等于断言“覆盖率只用于 CSS”；但本题成立的结论是“覆盖率能发现未执行区域，但高覆盖率不等于断言正确或风险已覆盖”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、覆盖率、质量”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、覆盖率、质量”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "测试",
+        "覆盖率",
+        "质量"
+      ]
+    },
+    {
+      "code": "testing-010-flaky",
+      "categoryKey": "frontend.testing",
+      "type": "multiple_choice",
+      "stem": "前端自动化测试不稳定的常见来源有哪些？",
+      "options": [
+        {
+          "id": "A",
+          "content": "依赖固定延时"
+        },
+        {
+          "id": "B",
+          "content": "共享未清理状态"
+        },
+        {
+          "id": "C",
+          "content": "真实网络和时间随机性未控制"
+        },
+        {
+          "id": "D",
+          "content": "使用确定性数据并等待明确条件"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（依赖固定延时）、**B**（共享未清理状态）、**C**（真实网络和时间随机性未控制）。稳定测试需要隔离状态、控制外部输入、使用确定性选择器和基于条件的等待。\n\n**逐项分析**\n\n- **A：正确。** 依赖固定延时。它准确对应本题结论。依据是：稳定测试需要隔离状态、控制外部输入、使用确定性选择器和基于条件的等待。\n- **B：正确。** 共享未清理状态。它准确对应本题结论。依据是：稳定测试需要隔离状态、控制外部输入、使用确定性选择器和基于条件的等待。\n- **C：正确。** 真实网络和时间随机性未控制。它准确对应本题结论。依据是：稳定测试需要隔离状态、控制外部输入、使用确定性选择器和基于条件的等待。\n- **D：不选。** 使用确定性数据并等待明确条件。如果选择它，就等于断言“使用确定性数据并等待明确条件”；但本题成立的结论是“依赖固定延时；共享未清理状态；真实网络和时间随机性未控制”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、Flaky、稳定性”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、Flaky、稳定性”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "Flaky",
+        "稳定性"
+      ]
+    },
+    {
+      "code": "testing-011-isolation",
+      "categoryKey": "frontend.testing",
+      "type": "true_false",
+      "stem": "每个测试应能够独立运行，不依赖其他测试的执行顺序或残留数据库、DOM 和 mock 状态。",
+      "answerKeys": [
+        "true"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：正确。独立性让并行、重试和单独定位可靠；setup/teardown 应建立并清理必要状态。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、隔离、清理”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、隔离、清理”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "测试",
+        "隔离",
+        "清理"
+      ]
+    },
+    {
+      "code": "testing-012-visual",
+      "categoryKey": "frontend.testing",
+      "type": "single_choice",
+      "stem": "视觉回归测试最适合发现什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "布局、颜色、字体和组件外观的非预期变化"
+        },
+        {
+          "id": "B",
+          "content": "数据库事务死锁"
+        },
+        {
+          "id": "C",
+          "content": "服务端权限绕过的全部情况"
+        },
+        {
+          "id": "D",
+          "content": "TypeScript 类型错误"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（布局、颜色、字体和组件外观的非预期变化）。截图差异能覆盖视觉输出，但应控制字体、动画、时间和环境以减少噪声。\n\n**逐项分析**\n\n- **A：正确。** 布局、颜色、字体和组件外观的非预期变化。它准确对应本题结论。依据是：截图差异能覆盖视觉输出，但应控制字体、动画、时间和环境以减少噪声。\n- **B：不选。** 数据库事务死锁。如果选择它，就等于断言“数据库事务死锁”；但本题成立的结论是“布局、颜色、字体和组件外观的非预期变化”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 服务端权限绕过的全部情况。如果选择它，就等于断言“服务端权限绕过的全部情况”；但本题成立的结论是“布局、颜色、字体和组件外观的非预期变化”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** TypeScript 类型错误。如果选择它，就等于断言“TypeScript 类型错误”；但本题成立的结论是“布局、颜色、字体和组件外观的非预期变化”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、视觉回归、截图”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、视觉回归、截图”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "easy",
+      "tags": [
+        "测试",
+        "视觉回归",
+        "截图"
+      ]
+    },
+    {
+      "code": "testing-013-contract",
+      "categoryKey": "frontend.testing",
+      "type": "multiple_choice",
+      "stem": "前后端契约测试可以重点验证哪些内容？",
+      "options": [
+        {
+          "id": "A",
+          "content": "请求和响应字段结构"
+        },
+        {
+          "id": "B",
+          "content": "状态码和错误码"
+        },
+        {
+          "id": "C",
+          "content": "可选字段与版本兼容"
+        },
+        {
+          "id": "D",
+          "content": "用户屏幕亮度"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（请求和响应字段结构）、**B**（状态码和错误码）、**C**（可选字段与版本兼容）。契约测试在不运行完整端到端链路时发现接口双方理解偏差，仍需保留关键真实集成验证。\n\n**逐项分析**\n\n- **A：正确。** 请求和响应字段结构。它准确对应本题结论。依据是：契约测试在不运行完整端到端链路时发现接口双方理解偏差，仍需保留关键真实集成验证。\n- **B：正确。** 状态码和错误码。它准确对应本题结论。依据是：契约测试在不运行完整端到端链路时发现接口双方理解偏差，仍需保留关键真实集成验证。\n- **C：正确。** 可选字段与版本兼容。它准确对应本题结论。依据是：契约测试在不运行完整端到端链路时发现接口双方理解偏差，仍需保留关键真实集成验证。\n- **D：不选。** 用户屏幕亮度。如果选择它，就等于断言“用户屏幕亮度”；但本题成立的结论是“请求和响应字段结构；状态码和错误码；可选字段与版本兼容”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、契约测试、API”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、契约测试、API”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "契约测试",
+        "API"
+      ]
+    },
+    {
+      "code": "testing-014-component",
+      "categoryKey": "frontend.testing",
+      "type": "single_choice",
+      "stem": "浏览器内组件测试相较纯 jsdom 测试的一个优势是什么？",
+      "options": [
+        {
+          "id": "A",
+          "content": "使用真实布局、事件和浏览器 API 行为"
+        },
+        {
+          "id": "B",
+          "content": "完全不需要启动浏览器"
+        },
+        {
+          "id": "C",
+          "content": "自动证明生产环境无错误"
+        },
+        {
+          "id": "D",
+          "content": "无需任何断言"
+        }
+      ],
+      "answerKeys": [
+        "A"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（使用真实布局、事件和浏览器 API 行为）。真实浏览器提高环境保真度，但启动成本更高，应根据组件行为和风险选择。\n\n**逐项分析**\n\n- **A：正确。** 使用真实布局、事件和浏览器 API 行为。它准确对应本题结论。依据是：真实浏览器提高环境保真度，但启动成本更高，应根据组件行为和风险选择。\n- **B：不选。** 完全不需要启动浏览器。如果选择它，就等于断言“完全不需要启动浏览器”；但本题成立的结论是“使用真实布局、事件和浏览器 API 行为”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **C：不选。** 自动证明生产环境无错误。如果选择它，就等于断言“自动证明生产环境无错误”；但本题成立的结论是“使用真实布局、事件和浏览器 API 行为”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n- **D：不选。** 无需任何断言。如果选择它，就等于断言“无需任何断言”；但本题成立的结论是“使用真实布局、事件和浏览器 API 行为”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、组件测试、浏览器”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、组件测试、浏览器”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "组件测试",
+        "浏览器"
+      ]
+    },
+    {
+      "code": "testing-015-ci-parallel",
+      "categoryKey": "frontend.testing",
+      "type": "multiple_choice",
+      "stem": "测试套件并行化前需要确保哪些条件？",
+      "options": [
+        {
+          "id": "A",
+          "content": "测试不共享可变全局状态"
+        },
+        {
+          "id": "B",
+          "content": "端口、数据库和临时目录有隔离策略"
+        },
+        {
+          "id": "C",
+          "content": "结果汇总和失败日志可追踪"
+        },
+        {
+          "id": "D",
+          "content": "所有测试固定使用同一账号和同一记录"
+        }
+      ],
+      "answerKeys": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "**答案与结论**\n\n本题答案是：**A**（测试不共享可变全局状态）、**B**（端口、数据库和临时目录有隔离策略）、**C**（结果汇总和失败日志可追踪）。并行能缩短反馈，但资源冲突会制造偶发失败，应先建立隔离和可诊断性。\n\n**逐项分析**\n\n- **A：正确。** 测试不共享可变全局状态。它准确对应本题结论。依据是：并行能缩短反馈，但资源冲突会制造偶发失败，应先建立隔离和可诊断性。\n- **B：正确。** 端口、数据库和临时目录有隔离策略。它准确对应本题结论。依据是：并行能缩短反馈，但资源冲突会制造偶发失败，应先建立隔离和可诊断性。\n- **C：正确。** 结果汇总和失败日志可追踪。它准确对应本题结论。依据是：并行能缩短反馈，但资源冲突会制造偶发失败，应先建立隔离和可诊断性。\n- **D：不选。** 所有测试固定使用同一账号和同一记录。如果选择它，就等于断言“所有测试固定使用同一账号和同一记录”；但本题成立的结论是“测试不共享可变全局状态；端口、数据库和临时目录有隔离策略；结果汇总和失败日志可追踪”。结合上面的机制说明，它混淆了能力、执行时机或适用边界，因此不能选。\n\n**小白理解与核心原理**\n\n测试应围绕用户可观察行为和稳定契约，而不是组件内部实现细节。单元、组件、集成与端到端测试覆盖不同风险，数量和粒度应由故障成本决定。\n\n先把题干中的技术名词还原成“输入是什么、浏览器或框架做了什么、最终产生什么结果”三步，再记忆 API 名称。只背结论很容易在题目换一个条件后答错。\n\n本题可以用一个最小示例验证：只保留与“测试、CI、并行”有关的输入和操作，分别记录操作前、操作中和操作后的值。这样能把抽象规则变成可观察结果。\n\n**项目实践与排错**\n\n在项目里遇到“测试、CI、并行”相关问题时，不要先套结论。先构造最小复现，再用浏览器开发者工具、日志或测试确认输入、执行时机和最终状态；同时验证正常路径、失败路径、重复触发和组件销毁后的行为。\n\n**常见误区与面试追问**\n\n面试回答不要只说选项字母。先用一句话给结论，再解释底层规则，接着给一个项目例子，最后主动补充例外条件。这样即使面试官改变题目条件，你也能从原理继续推导。",
+      "difficulty": "medium",
+      "tags": [
+        "测试",
+        "CI",
+        "并行"
+      ]
+    }
   ]
 }

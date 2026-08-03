@@ -12,6 +12,7 @@
         <span v-if="attempt.status === 'in_progress'" :class="['question-attempt-timer', { 'is-urgent': remainingSeconds <= 300 && attempt.durationMinutes }]">
           {{ attempt.durationMinutes ? formatClock(remainingSeconds) : `${answeredCount}/${attempt.questionCount}` }}
         </span>
+        <QuestionBankHelp topic="attempt" button-type="text" />
         <a-button v-if="attempt.status === 'in_progress'" type="primary" danger :loading="submitting" @click="confirmSubmit">提交答卷</a-button>
         <a-tag v-else :color="resultStatus.color">
           {{ resultStatus.label }}
@@ -156,6 +157,7 @@ import {
   StarOutlined
 } from '@ant-design/icons-vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
+import QuestionBankHelp from './QuestionBankHelp.vue'
 import {
   assessQuestionAttempt,
   getQuestionAttempt,
