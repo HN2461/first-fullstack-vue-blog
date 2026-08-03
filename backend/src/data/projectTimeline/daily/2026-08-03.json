@@ -34,7 +34,7 @@
     {
       "id": "question-bank-content-expansion",
       "title": "扩充技术题库分类与复习题目",
-      "detail": "1. 参考 MDN、Vue、React、TypeScript、Vite、Node.js、Express、MongoDB、MySQL、Redis、Python、FastAPI 和 web.dev 等官方资料，整理并记录内置题库知识来源。2. 新增 React、前端工程化、性能优化、Web 安全、前端测试 5 个前端分类，在原有 120 道题基础上新增 300 道单选、多选和判断题，题库总量扩展至 420 道，其中前端题目 335 道。3. 补充题库完整性测试，校验题目编码唯一、分类引用、必填内容、选择题答案选项和判断题答案格式；本地导入前完成 MongoDB 备份，写入后再次 dry-run 确认 21 个分类和 420 道题全部幂等。4. 后端 227 个测试全部通过，前端生产构建通过。",
+      "detail": "1. 参考 MDN、Vue、React、TypeScript、Vite、Webpack、pnpm、OWASP、Node.js、Express、MongoDB、MySQL、Redis、Python、FastAPI 和 web.dev 等官方资料，整理并记录内置题库知识来源。2. 第一阶段新增 React、前端工程化、性能优化、Web 安全、前端测试 5 个分类和 300 道题；第二阶段新增可折叠的前端面试专项及 JavaScript 代码输出、手写实现与原理、Vue 高频追问、工程与项目场景、算法与数据结构 5 个子题库，各补充 30 道带原因解析的面试题。3. 题库由最初 120 道扩展至 570 道，其中前端题目 485 道、前端面试专项 150 道；交卷回顾会逐题展示用户答案、正确答案和 Markdown 解析，作答过程中继续隐藏答案与解析。4. 加强题库完整性测试，校验题目编码唯一、分类引用、必填内容、选择题答案选项、判断题答案格式、面试专项解析完整度及交卷后解析返回；本地导入前完成 MongoDB 备份 backups/question-bank-interview-before-20260803-212246，写入后 dry-run 确认 27 个分类和 570 道题全部 unchanged。5. 题库专项测试 9/9 通过，前端生产构建和 UTF-8 无 BOM 检查通过；全量后端 228 个测试通过，另有 1 个既有文章资料测试因已移走的 output/未导入线上/MySQL 目录不存在而失败，与题库变更无关。",
       "occurredAt": "2026-08-03T20:48:54+08:00",
       "category": "内容上新"
     }
