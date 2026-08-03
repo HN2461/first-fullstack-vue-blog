@@ -176,13 +176,6 @@
                 </a-form-item>
               </a-col>
             </a-row>
-            <BirthdayPreference
-              v-model:birthday="profileForm.birthday"
-              v-model:birthday-calendar="profileForm.birthdayCalendar"
-              v-model:close-birth-effect="profileForm.closeBirthEffect"
-            />
-            <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
-            <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
             <a-form-item>
               <a-button type="primary" html-type="submit" :loading="saving">
                 保存修改
@@ -200,10 +193,34 @@
             class="profile-form"
             @finish="handleSaveProfile"
           >
+            <BirthdayPreference
+              v-model:birthday="profileForm.birthday"
+              v-model:birthday-calendar="profileForm.birthdayCalendar"
+              v-model:close-birth-effect="profileForm.closeBirthEffect"
+            />
             <PersonalDateSettings v-model="profileForm.personalDates" />
             <a-form-item>
               <a-button type="primary" html-type="submit" :loading="saving">
                 保存日期设置
+              </a-button>
+            </a-form-item>
+          </a-form>
+        </div>
+
+        <!-- 界面偏好 -->
+        <div v-show="activeTab === 'preferences'" class="tab-content">
+          <h3 class="content-title">界面偏好</h3>
+          <a-form
+            :model="profileForm"
+            layout="vertical"
+            class="profile-form"
+            @finish="handleSaveProfile"
+          >
+            <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
+            <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
+            <a-form-item>
+              <a-button type="primary" html-type="submit" :loading="saving">
+                保存界面设置
               </a-button>
             </a-form-item>
           </a-form>
@@ -497,6 +514,7 @@ const userStats = reactive({
 const tabs = [
   { key: 'basic', label: '基本资料', icon: UserOutlined },
   { key: 'dates', label: '日期提醒', icon: CalendarOutlined },
+  { key: 'preferences', label: '界面偏好', icon: DesktopOutlined },
   { key: 'security', label: '安全设置', icon: SafetyOutlined },
   { key: 'binding', label: '账号绑定', icon: LinkOutlined },
   { key: 'notification', label: '通知设置', icon: BellOutlined },
