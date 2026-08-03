@@ -34,7 +34,7 @@
         {{ celebrationFestival.icons?.[0] || '✨' }}
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
-      <span>{{ celebrationFestival.source }} · {{ celebrationFestival.date }}</span>
+      <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }}</span>
       <div class="festival-celebration__actions">
         <a-button @click="celebrationOpen = false">关闭本次</a-button>
         <a-button v-if="celebrationFestival.type === 'birthday'" danger @click="closeBirthdayForever">
@@ -63,6 +63,7 @@ import {
   getSolarSummary,
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
+import { loadFestivalCalendar } from '@/utils/festival/festivalApi'
 import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/confettiPlayer'
 import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
@@ -200,11 +201,14 @@ async function loadFestivalState() {
     birthday: state.birthday,
     birthdayCalendar: state.birthdayCalendar || 'solar'
   }
-  activeFestival.value = getActiveFestival(serverDate.value)
+  const calendar = await loadFestivalCalendar(serverDate.value)
+  activeFestival.value = calendar.today.find((item) => item.isHoliday || item.level === 'major') || null
   festivalEnabled.value = isFestivalEnabled()
   // 先保留当前年度完整数据，再由弹框内部滚动展示，避免生日等较晚节日被前置截断。
-  schedule.value = getFestivalSchedule(serverDate.value, Number.POSITIVE_INFINITY, birthdayOptions)
-  history.value = getFestivalHistory(serverDate.value, Number.POSITIVE_INFINITY, birthdayOptions)
+  const birthdaySchedule = getFestivalSchedule(serverDate.value, Number.POSITIVE_INFINITY, birthdayOptions).filter((item) => item.type === 'birthday')
+  const birthdayHistory = getFestivalHistory(serverDate.value, Number.POSITIVE_INFINITY, birthdayOptions).filter((item) => item.type === 'birthday')
+  schedule.value = [...calendar.upcoming, ...birthdaySchedule].sort((left, right) => left.daysUntil - right.daysUntil)
+  history.value = [...calendar.history, ...birthdayHistory].sort((left, right) => right.daysUntil - left.daysUntil)
   solarSummary.value = getSolarSummary(serverDate.value)
   lunarSummary.value = getLunarSummary(serverDate.value)
 

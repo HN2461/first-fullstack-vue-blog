@@ -8,6 +8,7 @@ import { optionalAuth, requireAuth } from '#middlewares/auth.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
 import { getBusinessDate } from '#utils/businessDate.js'
+import { getFestivalCalendar, getFestivalYear } from '#modules/festival/services/festival.service.js'
 
 export const publicRouter = Router()
 
@@ -25,10 +26,27 @@ publicRouter.get('/site/profile', asyncHandler(async (req, res) => {
 
 publicRouter.get('/festival-effect', asyncHandler(async (req, res) => {
   const now = new Date()
+  const calendar = await getFestivalCalendar(getBusinessDate(now))
   res.json(ok({
     serverTime: now.toISOString(),
-    serverDate: getBusinessDate(now)
+    serverDate: getBusinessDate(now),
+    festival: calendar.today.find((item) => item.isHoliday || item.isMajor) || null
   }))
+}))
+
+publicRouter.get('/festivals', asyncHandler(async (req, res) => {
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(req.query.date || '') ? req.query.date : getBusinessDate()
+  res.json(ok(await getFestivalCalendar(date)))
+}))
+
+publicRouter.get('/festivals/year', asyncHandler(async (req, res) => {
+  const year = Number(req.query.year) || Number(getBusinessDate().slice(0, 4))
+  if (year < 2000 || year > 2100) {
+    const error = new Error('年份范围不正确')
+    error.statusCode = 400
+    throw error
+  }
+  res.json(ok(await getFestivalYear(year)))
 }))
 
 publicRouter.use(optionalAuth)

@@ -553,3 +553,9 @@ export function getAdminSettings() {
 export function updateAdminSettings(data) {
   return http.patch('/api/admin/settings', data)
 }
+
+export function listAdminFestivals() { return http.get('/api/admin/festivals') }
+export function createAdminFestival(data) { return http.post('/api/admin/festivals', data) }
+export function updateAdminFestival(id, data) { return http.patch(`/api/admin/festivals/${id}`, data) }
+export function deleteAdminFestival(id) { return http.delete(`/api/admin/festivals/${id}`) }
+export function syncAdminFestivals(year) { return http.post('/api/admin/festivals/sync', { year }) }

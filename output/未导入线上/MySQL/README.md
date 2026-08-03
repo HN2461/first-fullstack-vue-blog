@@ -1,7 +1,7 @@
 ---
-title: "MySQL 0 到 1：企业后端开发系统学习路线"
-slug: mysql-zero-to-enterprise
-summary: "面向 Node.js 后端开发者的 MySQL 系统学习路线，串联关系模型、SQL、索引、事务、性能优化、运维和企业项目实战。"
+title: "MySQL 小白课程：像上课一样从 0 到 1 学会数据库"
+slug: mysql-zero-to-one-beginner
+summary: "一套面向零基础读者的 MySQL 课程讲义：每章先用生活场景解释概念，再给可运行 SQL、逐行说明、结果预期、易错点和练习，最后完成博客系统设计。"
 category:
 tags: []
 status: draft
@@ -9,143 +9,120 @@ sortOrder: 0
 cover:
 ---
 
-# MySQL 0 到 1：企业后端开发系统学习笔记
+# MySQL 小白课程：像上课一样从 0 到 1 学会数据库
 
-这套笔记主要面向已经接触过 Node.js、MongoDB，但刚开始学习关系型数据库的后端开发者。完全没有数据库经验的读者也可以学习，但应先按“入门必修”路线完成基础练习，不要一开始通读事务、锁和运维章节。目标不是背完 MySQL 手册，而是建立一套能用于真实项目的知识体系：能设计表、写可靠 SQL、正确使用事务和索引、定位慢查询，并在 Node.js 服务中安全访问 MySQL。
+这不是一份 MySQL 命令清单，也不是一套默认你已经会后端开发的“项目实战”。它是一门从零开始的课。
 
-企业项目通常还会使用 Redis 承担缓存、会话、限流、排行榜和分布式协调。完成 MySQL 主线后，可继续学习配套的 [Redis 0 到 1 企业后端专题](/console/articles/redis-zero-to-enterprise)，重点理解 MySQL 作为权威数据源、Redis 作为高性能派生数据和协作组件时的一致性边界。
+你会从一张最简单的学习笔记表开始。先搞懂数据库为什么存在，再亲手创建表、放入几行数据、把数据查出来、改掉和删掉。等这些动作已经熟悉，才会增加第二张表、学习 `JOIN`，最后才把前面学到的东西合成一个小博客系统。
 
-版本口径以 **MySQL 8.x** 为主。学习环境推荐 MySQL 8.4 LTS；企业存量项目中也常见 MySQL 8.0。本套内容不使用已经淘汰的 5.x 写法作为主线。
+课程中的每一段 SQL 都可以在你自己的 `mysql_learning` 数据库里执行。不要只看，建议边读边敲。输入报错不是失败，而是数据库把规则告诉你的机会。
 
-## 你最终应该具备的能力
+## 先知道这套课的节奏
 
-学完并完成练习后，应能独立完成：
+把学习数据库想成第一次学做饭：一开始先认识灶台、锅和食材，学会做一道简单的菜；不应该第一天就被要求准备一桌宴席。
 
-1. 根据需求拆分实体、关系、字段、约束和索引。
-2. 熟练编写增删改查、多表关联、分组统计、子查询、CTE 和窗口函数。
-3. 理解事务、隔离级别、MVCC、行锁和死锁，正确实现订单等一致性流程。
-4. 使用 `EXPLAIN` 判断索引是否生效，解决常见慢查询。
-5. 使用 Node.js `mysql2` 连接池、参数化查询和事务编写数据访问层。
-6. 完成账号权限、备份恢复、迁移发布和线上排障的基础操作。
-7. 知道哪些问题应交给 DBA、云数据库或成熟迁移工具处理。
-
-## 学习优先级
-
-| 标记 | 含义 | 学习要求 |
+| 阶段 | 你会做什么 | 暂时不做什么 |
 | --- | --- | --- |
-| P0 | 项目必用 | 必须理解并能脱离笔记写出 |
-| P1 | 工作高频 | 必须理解，会查文档完成复杂写法 |
-| P2 | 了解即可 | 知道用途和边界，需要时再深入 |
+| 01-02 | 建立数据库、表、行、列的画面 | 不背术语、不设计复杂项目 |
+| 03-05 | 安装 MySQL，创建第一张表 | 不急着学索引、事务 |
+| 06-07 | 增、删、改、查一张表的数据 | 不急着连接很多张表 |
+| 08-11 | 分类关系、统计、索引、事务 | 不要求理解底层源码 |
+| 12 | 把已学内容组装成博客数据库 | 不新增一堆没讲过的概念 |
 
-核心投入建议：P0 约占 70%，P1 约占 25%，P2 约占 5%。存储引擎源码、复制协议细节、复杂存储过程、冷门函数等内容不应成为入门阶段的重点。
+前 11 章反复使用同一张表：`learning_notes`，它表示“学习笔记”。第 08 章才增加 `note_categories` 分类表。这样每次只多一个新东西，读到后面不会迷路。
 
-## 推荐学习顺序
+## 课程目录
 
-### 学习分层
+### 第一阶段：先在脑中搭起画面
 
-| 层级 | 对应内容 | 完成标准 |
-| --- | --- | --- |
-| 入门必修 | 01～06 | 能连接数据库，理解表和关系，独立完成单表及多表 CRUD |
-| 项目开发 | 07～10、13～14 | 能做统计查询、表设计、索引、事务和 Node.js 数据访问 |
-| 生产进阶 | 11～12 | 能看懂慢查询、备份恢复和迁移流程，知道哪些操作应交给 DBA |
-| 复习查阅 | 15～16、exercises | 用于验收、面试准备和日常查询，不替代前面的动手练习 |
+1. [01 - 数据库到底解决什么问题](/console/articles/mysql-01-what-is-mysql)
+2. [02 - 一张表到底长什么样](/console/articles/mysql-02-table-row-column-key)
 
-MongoDB 用户建议同步阅读 [MongoDB 到 MySQL 迁移对照](/console/articles/mysql-00-mongodb-to-mysql)，每章遇到“MongoDB 对照”小节时先回忆原有写法，再运行 MySQL 示例。两种数据库的语义可以对比，但不能把操作名称机械一一翻译。
+这一阶段不要求写复杂 SQL。重点是能用自己的话分清“数据库”“表”“行”“列”“SQL”“客户端”和“服务端”。
 
-### 第一阶段：能操作数据库（第 1 周）
+### 第二阶段：让 MySQL 真正运行起来
 
-1. [01 - 认识 MySQL 与搭建环境](/console/articles/mysql-01-getting-started)
-2. [02 - 关系型数据库核心概念](/console/articles/mysql-02-relational-core)
-3. [03 - 数据类型、建库与建表](/console/articles/mysql-03-data-types-and-ddl)
-4. [04 - INSERT、UPDATE、DELETE](/console/articles/mysql-04-insert-update-delete)
-5. [05 - SELECT 单表查询](/console/articles/mysql-05-select)
+3. [03 - 安装、连接和第一次输入 SQL](/console/articles/mysql-03-install-connect-database)
+4. [04 - 字段类型：每一列应该装什么](/console/articles/mysql-04-data-types)
+5. [05 - 创建第一张表：学习笔记表](/console/articles/mysql-05-create-table-from-business)
 
-阶段目标：能独立建立数据库和表，完成可靠的单表增删改查。
+这一阶段结束时，你的电脑里会有一个叫 `mysql_learning` 的数据库，以及一张你能逐列解释的 `learning_notes` 表。
 
-### 第二阶段：解决业务查询（第 2 周）
+### 第三阶段：让表里的数据动起来
 
-6. [06 - 多表连接与集合思维](/console/articles/mysql-06-joins)
-7. [07 - 聚合、子查询、CTE 与窗口函数](/console/articles/mysql-07-aggregation-subquery-cte-window)
-8. [08 - 企业表设计与数据建模](/console/articles/mysql-08-schema-design)
+6. [06 - 添加、修改、删除数据](/console/articles/mysql-06-insert-update-delete)
+7. [07 - 查询数据：从简单条件开始](/console/articles/mysql-07-select-one-table)
 
-阶段目标：能处理列表、详情、统计报表等后端常见查询，并把业务需求落成合理表结构。
+这一阶段请反复练习。数据库最重要的不是“见过命令”，而是知道一条 SQL 会改到哪几行、执行后会看到什么结果。
 
-### 第三阶段：写出可靠且高性能的 SQL（第 3 周）
+### 第四阶段：从一张表走向真实项目
 
-9. [09 - 索引与 EXPLAIN](/console/articles/mysql-09-index-and-explain)
-10. [10 - 事务、隔离级别、MVCC 与锁](/console/articles/mysql-10-transactions-mvcc-locks)
-11. [11 - SQL 性能优化与线上排障](/console/articles/mysql-11-performance-troubleshooting)
+8. [08 - 两张表的关系和 JOIN](/console/articles/mysql-08-join-relations)
+9. [09 - 统计查询：数一数、分组算一算](/console/articles/mysql-09-group-by-statistics)
+10. [10 - 索引和 EXPLAIN：为什么查询会快或慢](/console/articles/mysql-10-index-explain)
+11. [11 - 事务和锁：多步操作不能做一半](/console/articles/mysql-11-transaction-lock)
+12. [12 - 毕业项目：博客系统 MySQL 设计](/console/articles/mysql-12-blog-project)
 
-阶段目标：知道 SQL 为什么慢、并发为什么出错，以及如何用证据定位问题。
+这些内容看起来更接近真实项目，但每一章只在已经掌握的内容上加一个台阶。
 
-### 第四阶段：进入企业项目（第 4 周）
+## 每章应该怎样读
 
-12. [12 - 用户权限、备份恢复与迁移](/console/articles/mysql-12-security-backup-migration)
-13. [13 - Node.js 连接 MySQL 实战](/console/articles/mysql-13-nodejs-mysql2)
-14. [14 - 企业项目开发规范与完整案例](/console/articles/mysql-14-enterprise-order-case)
-15. [15 - 高频面试题与能力验收](/console/articles/mysql-15-interview-checklist)
-16. [16 - MySQL 高频命令速查表](/console/articles/mysql-16-cheatsheet)
+每篇讲义会使用相同结构。先知道自己正在学什么，才不容易被代码淹没。
 
-阶段目标：能够以团队可维护的方式在 Node.js 项目中使用 MySQL。
+1. **本节目标**：学完能做什么，哪些事情暂时不用会。
+2. **先用人话理解**：用一个生活中的场景建立画面。
+3. **最小可运行示例**：只给完成当前目标所需的 SQL。
+4. **逐行拆解**：解释关键字、字段和符号各自的作用。
+5. **执行后的结果**：告诉你终端或表格里应该出现什么。
+6. **易错点**：说明新手最容易误解或造成风险的地方。
+7. **小练习与自测**：通过改一个条件，确认自己不是只会复制。
 
-## 配套实验文件
-
-本地实验脚本按顺序执行：
-
-1. `sql/00_reset.sql`：删除并重建本地学习库，仅用于实验环境恢复初始状态。
-2. `sql/01_schema.sql`：创建实验数据库、表、约束和索引。
-3. `sql/02_seed.sql`：写入带有明确期初库存的示例数据。
-4. `sql/03_query_labs.sql`：核心查询实验。
-5. `sql/04_transaction_labs.sql`：事务与锁实验。
-6. `sql/05_explain_labs.sql`：索引与执行计划实验。
-
-这些 `.sql` 文件是本地可执行附件，文章导入页面只选择 `.md` 文件。核心 SQL 已在各章正文和练习答案中提供，线上阅读不依赖本地附件。
-
-在 MySQL 命令行中可这样导入：
+代码块中以 `--` 开头的行是注释，只是给人看的说明。你可以保留它们执行，也可以删掉它们；MySQL 不会把注释当成 SQL 命令。
 
 ```sql
-SOURCE C:/Users/HN246/Desktop/个人全栈博客系统/output/MySQL/sql/00_reset.sql;
-SOURCE C:/Users/HN246/Desktop/个人全栈博客系统/output/MySQL/sql/01_schema.sql;
-SOURCE C:/Users/HN246/Desktop/个人全栈博客系统/output/MySQL/sql/02_seed.sql;
+-- 这一行是注释，MySQL 会忽略它
+SELECT 1 + 1;
 ```
 
-路径包含中文或空格时，部分客户端的 `SOURCE` 兼容性可能不好。遇到问题可在 MySQL Workbench 中打开 SQL 文件执行，或在 PowerShell 使用：
+除非特别写明，文中的每条 SQL 都应以英文分号 `;` 结束。这个分号的意思是：“这句话说完了，可以执行。”
 
-```powershell
-Get-Content -Raw -Encoding utf8 .\sql\00_reset.sql | mysql --default-character-set=utf8mb4 -u root -p
-Get-Content -Raw -Encoding utf8 .\sql\01_schema.sql | mysql --default-character-set=utf8mb4 -u root -p
-Get-Content -Raw -Encoding utf8 .\sql\02_seed.sql | mysql --default-character-set=utf8mb4 -u root -p
-```
+## 你需要准备什么
 
-`00_reset.sql` 会删除 `mysql_learning` 及其中的全部实验数据，只能对本地学习库执行。第一次学习或实验数据被改乱后再执行；日常只查询时不要重复执行。
+不需要会 Java、Node.js、Vue、接口、ORM、索引原理或服务器运维。
 
-## 练习与答案
+你只需要准备：
 
-- [阶段练习](/console/articles/mysql-17-exercises)
-- [参考答案](/console/articles/mysql-18-exercise-answers)
+- 一台能安装 MySQL 的电脑。
+- 一个 MySQL 客户端：命令行、MySQL Workbench 或 DBeaver 三选一即可。
+- 愿意在自己的练习库中重复执行、观察、修改。
 
-建议先独立完成，再看答案。SQL 通常不只有一种正确写法，答案重点解释思路、正确性和性能边界。
+学习时请只在 `mysql_learning` 这个练习数据库中操作。不要把课程中的 `DROP TABLE`、`DELETE` 等命令直接复制到你正在使用的项目数据库。
 
-## 推荐的每日学习方法
+## 这套课刻意不做的事
 
-每次学习 60 到 90 分钟：
+- 不把“面试高频题”当成学习主线。先理解，再考虑背诵。
+- 不在第 1 章就塞进用户、文章、标签、评论等很多张表。
+- 不只丢 SQL 而不说它执行前、执行后发生了什么。
+- 不把某一种写法说成任何项目都必须照抄的唯一标准；课程会说明它适合什么场景。
 
-1. 用 20 分钟阅读一个小节，先理解问题场景。
-2. 用 30 分钟手敲 SQL，不要只复制运行。
-3. 用 20 分钟修改条件、故意制造错误并观察结果。
-4. 用 10 分钟写下“这条语句在后端哪个接口会用到”。
+## 学完本课程后再学什么
 
-判断真正掌握的标准不是“看懂”，而是：能根据接口需求自行设计 SQL；能预测执行结果；能说明索引、事务和异常边界。
+这 12 章已经覆盖了第一次独立设计并操作一个基础 MySQL 数据库所必需的主线：数据库与表、字段类型、增删改查、条件和排序、关系与 JOIN、统计、索引、事务、权限边界、参数化查询以及备份恢复的最小闭环。
 
-## 必须形成的工程习惯
+以下主题很重要，但它们建立在这条主线之上。把它们放在前几章会让刚学会一张表的人一下子面对太多新概念，所以它们属于下一阶段，不是本课程遗漏：
 
-- 所有业务表优先使用 InnoDB、`utf8mb4` 和明确的主键。
-- 金额使用 `DECIMAL`，禁止使用浮点数保存精确金额。
-- 时间语义先确定，再选择 `DATETIME` 或 `TIMESTAMP`。
-- 写 `UPDATE`、`DELETE` 前先用同条件 `SELECT` 验证范围。
-- 后端永远使用参数化查询，禁止拼接用户输入。
-- 多步一致性写操作使用事务，事务必须短小。
-- 索引根据真实查询设计，不是越多越好。
-- 优化必须看执行计划和数据量，不凭感觉改 SQL。
-- 生产结构变更使用迁移脚本，不直接手工改表。
-- 删除、迁移、恢复前先备份并验证恢复路径。
+| 下一阶段主题 | 它解决的问题 | 建议开始的时机 |
+| --- | --- | --- |
+| 子查询、CTE、窗口函数 | 用更复杂的方式组合、分层和排名查询结果 | 能独立写出单表、JOIN、分组统计后 |
+| 视图、存储过程、触发器 | 把部分查询或数据库规则封装起来 | 能分清哪些规则该放后端、哪些才适合放数据库后 |
+| 全文检索、JSON 深入使用、分区 | 处理特殊查询和更大规模数据 | 真实需求出现且基础索引已无法满足时 |
+| 慢查询日志、复制、高可用、读写分离 | 处理线上性能、备份和服务器可用性 | 已有真实服务、监控和恢复演练需求后 |
+| 细粒度权限、迁移工具、自动化备份 | 让多人和长期项目能稳定协作、可回滚 | 开始部署项目或多人维护数据库时 |
+
+下一步最值得先学的不是背完这些名词，而是重复完成第 12 章：自己换一个小需求，例如图书借阅、待办清单或课程报名，重新画关系、建表、写查询、加索引，再把备份恢复到检查库。能从需求反推表和 SQL，才算把基础真正用熟。
+
+## 版本和资料口径
+
+课程以 MySQL 8.x 为主，练习环境建议使用 MySQL 8.4 LTS。基础顺序参考 [MySQL 8.4 官方教程](https://dev.mysql.com/doc/refman/8.4/en/tutorial.html)：连接服务器、输入查询、创建数据库、创建表、插入数据和查询数据。
+
+官方文档是准确的参考书，但它默认读者能较快理解术语。本课程会把相同内容拆得更慢、更具体；当官方规则和“经验口诀”不一致时，以官方规则为准。

@@ -22,6 +22,7 @@ import { decryptCredential } from '#utils/authSecurity.js'
 import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema } from '#modules/user/validators/profile.validator.js'
 import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { isBirthdayOnDate } from '#modules/user/utils/birthday.js'
+import { getFestivalCalendar } from '#modules/festival/services/festival.service.js'
 
 const router = Router()
 
@@ -134,6 +135,7 @@ router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
   const today = getBusinessDate(now)
   const safeUser = req.user.toSafeJSON()
   const isBirthdayToday = isBirthdayOnDate(safeUser.birthday, safeUser.birthdayCalendar, today)
+  const calendar = await getFestivalCalendar(today)
 
   res.json(ok({
     serverTime: now.toISOString(),
@@ -143,7 +145,8 @@ router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
     closeBirthEffect: safeUser.closeBirthEffect,
     lastBirthEffectDate: safeUser.lastBirthEffectDate,
     isBirthdayToday,
-    shouldShowBirthEffect: isBirthdayToday && !safeUser.closeBirthEffect && safeUser.lastBirthEffectDate !== today
+    shouldShowBirthEffect: isBirthdayToday && !safeUser.closeBirthEffect && safeUser.lastBirthEffectDate !== today,
+    festival: calendar.today.find((item) => item.isHoliday || item.isMajor) || null
   }))
 }))
 

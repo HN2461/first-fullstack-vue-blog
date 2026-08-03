@@ -31,6 +31,9 @@ import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userR
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
 import { mediaRegisterUntrackedSchema, mediaRenameSchema } from '#modules/media/validators/media.validator.js'
+import { deleteCustomFestival, listCustomFestivals, saveCustomFestival, syncHolidayYear, updateCustomFestival } from '#modules/festival/services/festival.service.js'
+import { z } from 'zod'
+import { getBusinessDate } from '#utils/businessDate.js'
 
 export const adminRouter = Router()
 
@@ -831,6 +834,28 @@ adminRouter.delete('/announcements/:id', asyncHandler(async (req, res) => {
 
 adminRouter.get('/settings', requireSuperAdmin, asyncHandler(async (req, res) => {
   res.json(ok(await getSettings()))
+}))
+
+const festivalSchema = z.object({
+  name: z.string().trim().min(1).max(50), month: z.number().int().min(1).max(12), day: z.number().int().min(1).max(31),
+  category: z.enum(['national', 'industry', 'international', 'social']), source: z.string().trim().max(100).optional(),
+  greeting: z.string().trim().max(120).optional(), effect: z.string().trim().max(40).optional(), isMajor: z.boolean().optional(), enabled: z.boolean().optional()
+})
+
+adminRouter.get('/festivals', canAccessSettings, asyncHandler(async (req, res) => res.json(ok(await listCustomFestivals()))))
+adminRouter.post('/festivals', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.status(201).json(ok(await saveCustomFestival(parseBody(festivalSchema, req.body), req.user), '纪念日已创建'))
+}))
+adminRouter.patch('/festivals/:id', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.json(ok(await updateCustomFestival(req.params.id, parseBody(festivalSchema.partial(), req.body)), '纪念日已更新'))
+}))
+adminRouter.delete('/festivals/:id', requireSuperAdmin, asyncHandler(async (req, res) => {
+  await deleteCustomFestival(req.params.id)
+  res.json(ok(null, '纪念日已删除'))
+}))
+adminRouter.post('/festivals/sync', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const year = Number(req.body?.year) || Number(getBusinessDate().slice(0, 4))
+  res.json(ok(await syncHolidayYear(year), '法定节假日已同步'))
 }))
 
 adminRouter.patch('/settings', requireSuperAdmin, asyncHandler(async (req, res) => {

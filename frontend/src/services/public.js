@@ -8,6 +8,10 @@ export function getPublicFestivalEffectState() {
   return http.get('/api/public/festival-effect')
 }
 
+export function getPublicFestivalCalendar(date) {
+  return http.get('/api/public/festivals', { params: date ? { date } : {} })
+}
+
 export function getPublicHome() {
   return http.get('/api/public/home')
 }

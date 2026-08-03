@@ -141,6 +141,7 @@
               </div>
               <SiteEntranceEffectSettings v-model:value="form.siteEntranceEffect" />
             </div>
+            <FestivalSettings />
           </a-form>
         </div>
       </div>
@@ -214,6 +215,7 @@ import { setCachedSiteProfile } from '@/utils/siteProfile'
 import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 import { useSiteStore } from '@/stores/site'
 import SiteEntranceEffectSettings from './components/SiteEntranceEffectSettings.vue'
+import FestivalSettings from './components/FestivalSettings.vue'
 import {
   DEFAULT_SITE_ENTRANCE_EFFECT,
   normalizeSiteEntranceEffectConfig

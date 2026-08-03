@@ -44,7 +44,7 @@
             </div>
             <div class="festival-countdown__focus-copy">
               <strong>{{ nextFestival.daysUntil === 0 ? '就是今天' : `还有 ${nextFestival.daysUntil} 天` }}</strong>
-              <span>{{ nextFestival.text }} · {{ formatFriendlyDate(nextFestival.date) }}</span>
+              <span>{{ getFestivalLabel(nextFestival) }} · {{ formatFriendlyDate(nextFestival.date) }}</span>
               <div class="festival-countdown__progress" aria-hidden="true">
                 <i :style="{ width: `${progressPercent}%` }"></i>
               </div>
@@ -108,7 +108,7 @@
               <span class="festival-countdown__icon">{{ item.icons?.[0] || '✨' }}</span>
               <span class="festival-countdown__body">
                 <strong>{{ item.name }}</strong>
-                <small>{{ item.source }} · {{ formatFriendlyDate(item.date) }} · {{ item.text }}</small>
+                <small>{{ getFestivalLabel(item) }} · {{ formatFestivalDate(item) }}</small>
               </span>
               <span class="festival-countdown__days">
                 {{ formatDistance(item) }}
@@ -145,9 +145,14 @@ const activeView = ref('upcoming')
 const majorFestivalLabel = MAJOR_FESTIVAL_LABEL
 const filters = [
   { key: 'all', label: '全部' },
-  { key: 'lunar', label: '传统' },
-  { key: 'solar', label: '公历' },
+  { key: 'legal-holiday', label: '法定假期' },
+  { key: 'make-up-workday', label: '补班' },
+  { key: 'traditional', label: '传统' },
   { key: 'solar-term', label: '节气' },
+  { key: 'national', label: '国家纪念日' },
+  { key: 'industry', label: '行业纪念日' },
+  { key: 'international', label: '国际纪念日' },
+  { key: 'social', label: '社会节日' },
   { key: 'birthday', label: '生日' }
 ]
 
@@ -164,15 +169,15 @@ const filteredSchedule = computed(() => {
   if (activeFilter.value === 'all') return source
   return source.filter((item) => item.type === activeFilter.value)
 })
-const visibleItems = computed(() => filteredSchedule.value)
+const visibleItems = computed(() => groupHolidayRanges(filteredSchedule.value, activeView.value === 'history'))
 const panelStyle = computed(() => ({
   '--festival-countdown-accent': nextFestival.value?.accent || '#1677ff',
   '--festival-countdown-tint': nextFestival.value?.tint || '#eff6ff'
 }))
 const nextFestivalSummary = computed(() => {
   if (!nextFestival.value) return '近 10 个节日'
-  if (nextFestival.value.daysUntil === 0) return `${nextFestival.value.source} · 今天`
-  return `${nextFestival.value.source} · ${formatFriendlyDate(nextFestival.value.date)}`
+  if (nextFestival.value.daysUntil === 0) return `${getFestivalLabel(nextFestival.value)} · 今天`
+  return `${getFestivalLabel(nextFestival.value)} · ${formatFriendlyDate(nextFestival.value.date)}`
 })
 const tooltipTitle = computed(() => {
   if (!nextFestival.value) return '节日倒计时'
@@ -191,5 +196,54 @@ function formatDistance(item) {
   if (item.daysUntil === 0) return '今天'
   if (item.daysUntil > 0) return `${item.daysUntil}天`
   return `已过${Math.abs(item.daysUntil)}天`
+}
+
+function formatFestivalDate(item) {
+  const start = formatFriendlyDate(item.date)
+  return item.endDate ? `${start} - ${formatFriendlyDate(item.endDate)}` : start
+}
+
+function dateDistance(left, right) {
+  return Math.round((new Date(`${left}T00:00:00`) - new Date(`${right}T00:00:00`)) / 86400000)
+}
+
+function groupHolidayRanges(items, history) {
+  const ordered = [...items].sort((left, right) => left.date.localeCompare(right.date))
+  const groups = []
+
+  ordered.forEach((item) => {
+    const previous = groups.at(-1)
+    const isSameHolidayRange = previous && item.isHoliday && previous.isHoliday &&
+      item.name === previous.name && item.type === previous.type &&
+      dateDistance(item.date, previous.endDate || previous.date) === 1
+
+    if (isSameHolidayRange) {
+      previous.endDate = item.date
+      previous.rangeDays = (previous.rangeDays || 1) + 1
+      return
+    }
+
+    groups.push({ ...item })
+  })
+
+  return history
+    ? groups.sort((left, right) => right.daysUntil - left.daysUntil)
+    : groups
+}
+
+function getFestivalLabel(item) {
+  if (item.isHoliday) return '法定假期'
+  if (item.isWorkday) return '调休补班'
+  const labels = {
+    traditional: '传统节日',
+    lunar: '传统节日',
+    'solar-term': '二十四节气',
+    national: '国家纪念日',
+    industry: '行业纪念日',
+    international: '国际纪念日',
+    social: '社会节日',
+    birthday: '个人生日'
+  }
+  return labels[item.type] || '纪念日'
 }
 </script>
