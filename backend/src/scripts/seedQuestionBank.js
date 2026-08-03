@@ -141,9 +141,67 @@ async function seedQuestions(items, categoryMap) {
   return { created, updated, unchanged }
 }
 
+async function seedPapers(items, categoryMap) {
+  let created = 0
+  let updated = 0
+  let unchanged = 0
+  for (const input of items) {
+    const categoryIds = input.categoryKeys.map((key) => {
+      const category = categoryMap.get(key)
+      if (!category) throw new Error(`试卷 ${input.key} 的分类不存在：${key}`)
+      return category._id
+    })
+    const data = {
+      title: input.title,
+      description: input.description || '系统内置随机试卷。每次开始考试时按当前题库动态抽题，历史答卷仍保留当次题目快照。',
+      mode: 'random',
+      questionIds: [],
+      filters: {
+        categoryIds,
+        tags: input.tags || [],
+        types: input.types || [],
+        difficulties: input.difficulties || []
+      },
+      questionCount: input.questionCount,
+      durationMinutes: input.durationMinutes,
+      passScore: input.passScore ?? 70,
+      shuffleQuestions: true,
+      status: 'ready',
+      createdBy: null,
+      source: 'builtin-essential-v1:papers.json'
+    }
+    const existing = await QuestionPaper.findOne({ key: input.key })
+    const current = existing?.toObject()
+    const changed = existing && (
+      current.title !== data.title ||
+      current.description !== data.description ||
+      current.mode !== data.mode ||
+      current.questionCount !== data.questionCount ||
+      current.durationMinutes !== data.durationMinutes ||
+      current.passScore !== data.passScore ||
+      current.shuffleQuestions !== data.shuffleQuestions ||
+      current.status !== data.status ||
+      current.source !== data.source ||
+      JSON.stringify((current.filters?.categoryIds || []).map(String)) !== JSON.stringify(categoryIds.map(String)) ||
+      JSON.stringify(current.filters?.tags || []) !== JSON.stringify(data.filters.tags) ||
+      JSON.stringify(current.filters?.types || []) !== JSON.stringify(data.filters.types) ||
+      JSON.stringify(current.filters?.difficulties || []) !== JSON.stringify(data.filters.difficulties)
+    )
+    if (apply) {
+      if (!existing) await QuestionPaper.create({ ...data, key: input.key })
+      else if (changed) await QuestionPaper.updateOne({ _id: existing._id }, { $set: data }, { runValidators: true })
+    }
+    if (!existing) created += 1
+    else if (changed) updated += 1
+    else unchanged += 1
+  }
+  return { created, updated, unchanged }
+}
+
 async function main() {
   await connectDatabase()
   const categoryPayload = readJson('categories.json')
+  const paperPayload = readJson('papers.json')
   const questions = loadQuestionFiles()
   const duplicateCodes = questions.filter((item, index) => questions.findIndex((candidate) => candidate.code === item.code) !== index)
   if (duplicateCodes.length) throw new Error(`存在重复题目编码：${duplicateCodes.map((item) => item.code).join(', ')}`)
@@ -151,14 +209,19 @@ async function main() {
   console.log(`MODE=${apply ? 'APPLY' : 'DRY_RUN'}`)
   console.log(`SOURCE_CATEGORIES=${categoryPayload.items.length}`)
   console.log(`SOURCE_QUESTIONS=${questions.length}`)
+  console.log(`SOURCE_PAPERS=${paperPayload.items.length}`)
   const categoryResult = await seedCategories(categoryPayload.items)
   const questionResult = await seedQuestions(questions, categoryResult.categoryMap)
+  const paperResult = await seedPapers(paperPayload.items, categoryResult.categoryMap)
   console.log(`CATEGORIES_CREATE=${categoryResult.created}`)
   console.log(`CATEGORIES_UPDATE=${categoryResult.updated}`)
   console.log(`CATEGORIES_UNCHANGED=${categoryResult.unchanged}`)
   console.log(`QUESTIONS_CREATE=${questionResult.created}`)
   console.log(`QUESTIONS_UPDATE=${questionResult.updated}`)
   console.log(`QUESTIONS_UNCHANGED=${questionResult.unchanged}`)
+  console.log(`PAPERS_CREATE=${paperResult.created}`)
+  console.log(`PAPERS_UPDATE=${paperResult.updated}`)
+  console.log(`PAPERS_UNCHANGED=${paperResult.unchanged}`)
   if (apply) {
     await ensureQuestionBankIndexes()
     console.log('题库数据已写入，索引已确认。')

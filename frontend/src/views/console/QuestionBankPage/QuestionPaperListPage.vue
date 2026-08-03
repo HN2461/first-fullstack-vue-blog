@@ -23,7 +23,7 @@
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'title'">
           <div class="question-bank-stem-cell">
-            <strong>{{ record.title }}</strong>
+            <strong>{{ record.title }} <a-tag v-if="record.isBuiltin" color="blue">内置</a-tag></strong>
             <span>{{ record.description || '暂无说明' }}</span>
           </div>
         </template>
@@ -37,10 +37,10 @@
             <a-tooltip title="开始考试">
               <a-button type="primary" size="small" :loading="startingId === record.id" @click="startPaper(record)"><template #icon><PlayCircleOutlined /></template></a-button>
             </a-tooltip>
-            <a-tooltip title="编辑试卷">
+            <a-tooltip v-if="!record.isBuiltin" title="编辑试卷">
               <a-button size="small" @click="openEdit(record)"><template #icon><EditOutlined /></template></a-button>
             </a-tooltip>
-            <a-tooltip title="归档试卷">
+            <a-tooltip v-if="!record.isBuiltin" title="归档试卷">
               <a-button size="small" danger @click="confirmArchive(record)"><template #icon><DeleteOutlined /></template></a-button>
             </a-tooltip>
           </div>

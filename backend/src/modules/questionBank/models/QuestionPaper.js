@@ -19,6 +19,14 @@ const paperFilterSchema = new mongoose.Schema(
 
 const questionPaperSchema = new mongoose.Schema(
   {
+    key: {
+      type: String,
+      unique: true,
+      sparse: true,
+      lowercase: true,
+      trim: true,
+      maxlength: 120
+    },
     title: {
       type: String,
       required: true,
@@ -74,8 +82,14 @@ const questionPaperSchema = new mongoose.Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      default: null,
       index: true
+    },
+    source: {
+      type: String,
+      default: 'manual',
+      trim: true,
+      maxlength: 120
     }
   },
   { timestamps: true }
@@ -86,6 +100,7 @@ questionPaperSchema.index({ status: 1, updatedAt: -1 })
 questionPaperSchema.methods.toSafeJSON = function toSafeJSON() {
   return {
     id: this._id.toString(),
+    key: this.key || '',
     title: this.title,
     description: this.description || '',
     mode: this.mode,
@@ -102,6 +117,8 @@ questionPaperSchema.methods.toSafeJSON = function toSafeJSON() {
     shuffleQuestions: this.shuffleQuestions,
     status: this.status,
     createdBy: this.createdBy?.toString?.(),
+    source: this.source || 'manual',
+    isBuiltin: (this.source || '').startsWith('builtin-'),
     createdAt: this.createdAt,
     updatedAt: this.updatedAt
   }

@@ -8,16 +8,17 @@ const questionDataDir = path.resolve(testDir, '../src/data/questionBank')
 
 function loadBuiltinQuestionData() {
   const categories = JSON.parse(fs.readFileSync(path.join(questionDataDir, 'categories.json'), 'utf8')).items
+  const papers = JSON.parse(fs.readFileSync(path.join(questionDataDir, 'papers.json'), 'utf8')).items
   const questions = fs.readdirSync(questionDataDir)
     .filter((fileName) => /^questions-.+\.json$/i.test(fileName))
     .sort()
     .flatMap((fileName) => JSON.parse(fs.readFileSync(path.join(questionDataDir, fileName), 'utf8')).questions)
-  return { categories, questions }
+  return { categories, questions, papers }
 }
 
 describe('question bank builtin data', () => {
-  it('ships 570 structurally valid and uniquely coded essential questions', () => {
-    const { categories, questions } = loadBuiltinQuestionData()
+  it('ships broad, detailed and uniquely coded essential questions with built-in papers', () => {
+    const { categories, questions, papers } = loadBuiltinQuestionData()
     const categoryKeys = new Set(categories.map((item) => item.key))
     const questionCodes = questions.map((item) => item.code)
     const questionStems = questions.map((item) => item.stem.trim())
@@ -28,11 +29,20 @@ describe('question bank builtin data', () => {
     const frontendChoiceQuestions = frontendQuestions.filter((item) => ['single_choice', 'multiple_choice'].includes(item.type))
 
     expect(categories).toHaveLength(27)
-    expect(questions).toHaveLength(570)
-    expect(frontendQuestions).toHaveLength(485)
-    expect(interviewQuestions).toHaveLength(150)
-    expect(new Set(questionCodes).size).toBe(570)
-    expect(new Set(questionStems).size).toBe(570)
+    const coverageQuestions = questions.filter((item) => item.code.startsWith('coverage-'))
+    const leafCategoryKeys = categories
+      .filter((item) => !categories.some((candidate) => candidate.parentKey === item.key))
+      .map((item) => item.key)
+
+    expect(questions).toHaveLength(846)
+    expect(frontendQuestions).toHaveLength(677)
+    expect(interviewQuestions).toHaveLength(210)
+    expect(coverageQuestions).toHaveLength(276)
+    expect(new Set(questionCodes).size).toBe(846)
+    expect(new Set(questionStems).size).toBe(846)
+    expect(papers).toHaveLength(29)
+    expect(new Set(papers.map((item) => item.key)).size).toBe(29)
+    expect(leafCategoryKeys.every((key) => coverageQuestions.filter((item) => item.categoryKey === key).length === 12)).toBe(true)
     expect([...categoryKeys]).toEqual(expect.arrayContaining([
       'frontend.react',
       'frontend.engineering',
@@ -48,6 +58,7 @@ describe('question bank builtin data', () => {
     ]))
     expect(questions.every((item) => categoryKeys.has(item.categoryKey))).toBe(true)
     expect(questions.every((item) => item.stem?.trim() && item.answerKeys?.length && item.explanation?.trim())).toBe(true)
+    expect(questions.every((item) => (item.tags || []).length <= 12 && (item.tags || []).every((tag) => tag.trim() && tag.length <= 30))).toBe(true)
     expect(frontendQuestions.every((item) => item.explanation.trim().length >= 300)).toBe(true)
     expect(interviewQuestions.every((item) => item.explanation.trim().length >= 420)).toBe(true)
     expect(frontendQuestions.every((item) => [
@@ -58,6 +69,15 @@ describe('question bank builtin data', () => {
     ].every((heading) => item.explanation.includes(heading)))).toBe(true)
     expect(frontendChoiceQuestions.every((item) => item.explanation.includes('**逐项分析**'))).toBe(true)
     expect(frontendQuestions.every((item) => !/待补充|TODO|暂无解析|略$/.test(item.explanation))).toBe(true)
+    expect(coverageQuestions.every((item) => item.type === 'short_answer' && item.assessmentMode === 'self')).toBe(true)
+    expect(coverageQuestions.every((item) => item.explanation.length >= 500)).toBe(true)
+    expect(coverageQuestions.every((item) => [
+      '**答案与结论**',
+      '**参考作答框架**',
+      '**小白理解与核心原理**',
+      '**项目实践与排错**',
+      '**常见误区与面试追问**'
+    ].every((heading) => item.explanation.includes(heading)))).toBe(true)
     expect(questions.find((item) => item.code === 'interview-vue-003-ref-unwrapping').explanation).toContain('reactive 数组元素或 Map')
     expect(questions.find((item) => item.code === 'interview-vue-014-keep-alive').explanation).toContain('暂时离开')
     expect(questions.find((item) => item.code === 'interview-vue-016-suspense').explanation).toContain('实验性能力')

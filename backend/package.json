@@ -63,6 +63,10 @@
     "question-bank:audit": "node src/scripts/auditQuestionBankContent.js",
     "question-bank:enhance": "node src/scripts/enhanceFrontendQuestionExplanations.js",
     "question-bank:enhance:apply": "node src/scripts/enhanceFrontendQuestionExplanations.js --apply",
+    "question-bank:coverage": "node src/scripts/generateQuestionBankCoverageExpansion.js",
+    "question-bank:coverage:apply": "node src/scripts/generateQuestionBankCoverageExpansion.js --apply",
+    "question-bank:history:clear": "node src/scripts/clearQuestionBankHistory.js",
+    "question-bank:history:clear:apply": "node src/scripts/clearQuestionBankHistory.js --apply",
     "question-bank:seed": "node src/scripts/seedQuestionBank.js",
     "question-bank:seed:apply": "node src/scripts/seedQuestionBank.js --apply"
   },

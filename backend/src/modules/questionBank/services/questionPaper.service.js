@@ -88,6 +88,9 @@ export async function updateQuestionPaper(id, input) {
   assertObjectId(id, 'QUESTION_PAPER_NOT_FOUND', '试卷不存在')
   const paper = await QuestionPaper.findById(id)
   if (!paper) throw createQuestionBankError(404, 'QUESTION_PAPER_NOT_FOUND', '试卷不存在')
+  if ((paper.source || '').startsWith('builtin-')) {
+    throw createQuestionBankError(409, 'BUILTIN_PAPER_READONLY', '内置试卷由题库数据统一维护，不能直接编辑')
+  }
 
   const normalized = normalizePaperInput({
     ...paper.toObject(),
@@ -110,6 +113,9 @@ export async function archiveQuestionPaper(id) {
   assertObjectId(id, 'QUESTION_PAPER_NOT_FOUND', '试卷不存在')
   const paper = await QuestionPaper.findById(id)
   if (!paper) throw createQuestionBankError(404, 'QUESTION_PAPER_NOT_FOUND', '试卷不存在')
+  if ((paper.source || '').startsWith('builtin-')) {
+    throw createQuestionBankError(409, 'BUILTIN_PAPER_READONLY', '内置试卷由题库数据统一维护，不能归档')
+  }
   paper.status = 'archived'
   await paper.save()
   return { id: paper._id.toString(), archived: true }
