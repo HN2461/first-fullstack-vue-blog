@@ -417,20 +417,30 @@ body:has(.enterprise-admin-shell) {
 
 .enterprise-sider--full-labels .enterprise-menu .ant-menu-item,
 .enterprise-sider--full-labels .enterprise-menu .ant-menu-submenu-title {
-  height: auto;
+  height: auto !important;
   min-height: 40px;
-  line-height: 1.45;
+  line-height: 1.45 !important;
+  display: flex;
+  align-items: flex-start;
   padding-top: 9px;
   padding-bottom: 9px;
   white-space: normal;
 }
 
+.enterprise-sider--full-labels .enterprise-menu .ant-menu-item .ant-menu-item-icon,
+.enterprise-sider--full-labels .enterprise-menu .ant-menu-submenu-title .ant-menu-item-icon {
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
 .enterprise-sider--full-labels .enterprise-menu .ant-menu-title-content {
+  flex: 1 1 auto;
   min-width: 0;
   overflow: visible;
   text-overflow: initial;
   white-space: normal;
   word-break: break-word;
+  line-height: 1.45;
 }
 
 .enterprise-sider--full-labels .enterprise-menu .ant-menu-submenu-arrow {

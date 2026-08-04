@@ -1,13 +1,37 @@
 {
-  "generatedAt": "2026-07-30T16:11:24.475Z",
+  "generatedAt": "2026-08-04T01:43:51.651Z",
   "mode": "dry-run",
   "publishAll": true,
-  "total": 513,
-  "publishedCount": 513,
+  "total": 525,
+  "publishedCount": 525,
   "publishChangeCount": 0,
-  "sortChangeCount": 0,
-  "categorySortChangeCount": 0,
+  "sortChangeCount": 40,
+  "categorySortChangeCount": 3,
   "sequenceCategories": [
+    {
+      "categoryPath": "后端技术/数据库/MySQL",
+      "total": 13,
+      "numberedCount": 12,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 13,
+      "changedCount": 1,
+      "articleIds": [
+        "6a706a61360397398ac2d05f",
+        "6a706a61360397398ac2d061",
+        "6a706a61360397398ac2d063",
+        "6a706a61360397398ac2d065",
+        "6a706a61360397398ac2d067",
+        "6a706a61360397398ac2d069",
+        "6a706a61360397398ac2d06b",
+        "6a706a61360397398ac2d06d",
+        "6a706a61360397398ac2d06f",
+        "6a706a61360397398ac2d071",
+        "6a706a61360397398ac2d073",
+        "6a706a61360397398ac2d075",
+        "6a706a61360397398ac2d05d"
+      ]
+    },
     {
       "categoryPath": "AI相关/AI工具/终端Agent流/Codex",
       "total": 8,
@@ -28,10 +52,37 @@
       ]
     },
     {
-      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/节点创建手册",
+      "categoryPath": "AI相关/AI应用开发平台/MaxKB/公共规则/接入与展示",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e68",
+        "6a6b691f4bf50146e9b95e6a"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI应用开发平台/MaxKB/公共规则/工程治理",
+      "total": 3,
+      "numberedCount": 3,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e62",
+        "6a6b691f4bf50146e9b95e64",
+        "6a6b691f4bf50146e9b95e66"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI应用开发平台/MaxKB/公共规则/节点创建手册",
       "total": 19,
       "numberedCount": 19,
-      "duplicateSequenceCount": 1,
+      "duplicateSequenceCount": 0,
       "useSequence": true,
       "reorderedCount": 0,
       "changedCount": 0,
@@ -58,7 +109,7 @@
       ]
     },
     {
-      "categoryPath": "AI相关/AI开发/AI应用开发平台/MaxKB/公共规则/基础配置与变量",
+      "categoryPath": "AI相关/AI应用开发平台/MaxKB/公共规则/基础配置与变量",
       "total": 2,
       "numberedCount": 2,
       "duplicateSequenceCount": 0,
@@ -71,7 +122,45 @@
       ]
     },
     {
-      "categoryPath": "后端技术/Python/应用实例/Web入门/FastAPI从0到1",
+      "categoryPath": "AI相关/AI应用开发平台/MaxKB/实战开发指南",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e2a",
+        "6a6b691f4bf50146e9b95e2c",
+        "6a6b691f4bf50146e9b95e2e",
+        "6a6b691f4bf50146e9b95e30",
+        "6a6b691f4bf50146e9b95e32",
+        "6a6b691f4bf50146e9b95e34"
+      ]
+    },
+    {
+      "categoryPath": "电脑/系统与文件",
+      "total": 10,
+      "numberedCount": 10,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a6b691f4bf50146e9b95e26",
+        "6a6b691f4bf50146e9b95e28",
+        "6a2d291f8a2b1c68f2cac582",
+        "6a2d291f8a2b1c68f2cac578",
+        "6a2d291f8a2b1c68f2cac556",
+        "6a2d291f8a2b1c68f2cac55e",
+        "6a2d291f8a2b1c68f2cac570",
+        "6a2d291f8a2b1c68f2cac568",
+        "6a2d291f8a2b1c68f2cac54c",
+        "6a2d291f8a2b1c68f2cac540"
+      ]
+    },
+    {
+      "categoryPath": "后端技术/Python/Web入门",
       "total": 18,
       "numberedCount": 18,
       "duplicateSequenceCount": 0,
@@ -100,7 +189,7 @@
       ]
     },
     {
-      "categoryPath": "后端技术/Python/应用实例/网络爬虫与数据分析",
+      "categoryPath": "后端技术/Python/网络爬虫与数据分析",
       "total": 6,
       "numberedCount": 6,
       "duplicateSequenceCount": 0,
@@ -154,6 +243,62 @@
         "6a6b57a2fca6347974f5d184",
         "6a6b57a2fca6347974f5d186",
         "6a6b57a2fca6347974f5d188"
+      ]
+    },
+    {
+      "categoryPath": "安卓APK",
+      "total": 3,
+      "numberedCount": 3,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a58a6f8c48586f4dec3c348",
+        "6a6a16ddfca6c64076d4099c",
+        "6a6aafe0c0726f33c296abf8"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI开发/Docker",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a4a4564f9ac958d29178031",
+        "6a4a4564f9ac958d2917802c"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI开发/开发基础",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a4a4564f9ac958d29178027",
+        "6a4a4564f9ac958d29178036"
+      ]
+    },
+    {
+      "categoryPath": "电脑/电脑网络/代理与VPN",
+      "total": 5,
+      "numberedCount": 5,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a4a451af9ac958d29177b57",
+        "6a4a451af9ac958d29177b63",
+        "6a4a451af9ac958d29177b5b",
+        "6a4a451af9ac958d29177b5f",
+        "6a2d291f8a2b1c68f2cac510"
       ]
     },
     {
@@ -229,10 +374,24 @@
       ]
     },
     {
+      "categoryPath": "常用缺易忘/工具速查/Git",
+      "total": 3,
+      "numberedCount": 3,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d29208a2b1c68f2cac6b2",
+        "6a2d291f8a2b1c68f2cac308",
+        "6a2d29208a2b1c68f2cac6ae"
+      ]
+    },
+    {
       "categoryPath": "AI相关/AI工具/辅助工具层/CCSwitch",
       "total": 8,
-      "numberedCount": 6,
-      "duplicateSequenceCount": 1,
+      "numberedCount": 8,
+      "duplicateSequenceCount": 0,
       "useSequence": true,
       "reorderedCount": 0,
       "changedCount": 0,
@@ -262,6 +421,22 @@
         "6a2d291d8a2b1c68f2cabf46",
         "6a2d291d8a2b1c68f2cabf36",
         "6a2d291d8a2b1c68f2cabf3e"
+      ]
+    },
+    {
+      "categoryPath": "AI相关/AI工具/规则机制层/Skill",
+      "total": 5,
+      "numberedCount": 5,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291d8a2b1c68f2cac014",
+        "6a2d291d8a2b1c68f2cac01e",
+        "6a2d291d8a2b1c68f2cac01a",
+        "6a2d291d8a2b1c68f2cac024",
+        "6a2d291d8a2b1c68f2cac020"
       ]
     },
     {
@@ -413,9 +588,38 @@
       ]
     },
     {
+      "categoryPath": "项目复用技术/JS库",
+      "total": 5,
+      "numberedCount": 5,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d29208a2b1c68f2cac6ba",
+        "6a2d29208a2b1c68f2cac6c0",
+        "6a2d29208a2b1c68f2cac6c2",
+        "6a2d29208a2b1c68f2cac6c8",
+        "6a2d29208a2b1c68f2cac6ce"
+      ]
+    },
+    {
+      "categoryPath": "项目复用技术/第三方登录对接/对比笔记",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d29208a2b1c68f2cac7e6",
+        "6a2d29208a2b1c68f2cac7ea"
+      ]
+    },
+    {
       "categoryPath": "我的总结/js/辅助资料",
       "total": 27,
-      "numberedCount": 24,
+      "numberedCount": 27,
       "duplicateSequenceCount": 0,
       "useSequence": true,
       "reorderedCount": 0,
@@ -451,6 +655,88 @@
       ]
     },
     {
+      "categoryPath": "前端技术/uni-app/微信小程序",
+      "total": 9,
+      "numberedCount": 9,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac200",
+        "6a2d291e8a2b1c68f2cac208",
+        "6a2d291e8a2b1c68f2cac22e",
+        "6a2d291e8a2b1c68f2cac210",
+        "6a2d291e8a2b1c68f2cac222",
+        "6a2d291e8a2b1c68f2cac21a",
+        "6a2d291e8a2b1c68f2cac22a",
+        "6a2d291e8a2b1c68f2cac236",
+        "6a2d291e8a2b1c68f2cac214"
+      ]
+    },
+    {
+      "categoryPath": "常用缺易忘/浏览器与网络",
+      "total": 7,
+      "numberedCount": 7,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac344",
+        "6a2d291f8a2b1c68f2cac34a",
+        "6a2d291f8a2b1c68f2cac346",
+        "6a2d291f8a2b1c68f2cac348",
+        "6a2d291f8a2b1c68f2cac34c",
+        "6a2d291f8a2b1c68f2cac35e",
+        "6a2d291f8a2b1c68f2cac35c"
+      ]
+    },
+    {
+      "categoryPath": "项目复用技术/WebSocket",
+      "total": 12,
+      "numberedCount": 12,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d29208a2b1c68f2cac704",
+        "6a2d29208a2b1c68f2cac70a",
+        "6a2d29208a2b1c68f2cac712",
+        "6a2d29208a2b1c68f2cac718",
+        "6a2d29208a2b1c68f2cac71e",
+        "6a2d29208a2b1c68f2cac726",
+        "6a2d29208a2b1c68f2cac72c",
+        "6a2d29208a2b1c68f2cac732",
+        "6a2d29208a2b1c68f2cac736",
+        "6a2d29208a2b1c68f2cac73e",
+        "6a2d29208a2b1c68f2cac746",
+        "6a2d29208a2b1c68f2cac750"
+      ]
+    },
+    {
+      "categoryPath": "面试",
+      "total": 10,
+      "numberedCount": 10,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac674",
+        "6a2d291f8a2b1c68f2cac678",
+        "6a2d291f8a2b1c68f2cac684",
+        "6a2d29208a2b1c68f2cac69a",
+        "6a2d291f8a2b1c68f2cac680",
+        "6a2d291f8a2b1c68f2cac68a",
+        "6a2d29208a2b1c68f2cac696",
+        "6a2d291f8a2b1c68f2cac68e",
+        "6a2d29208a2b1c68f2cac6a2",
+        "6a2d29208a2b1c68f2cac692"
+      ]
+    },
+    {
       "categoryPath": "我的总结/Vue/vue辅助",
       "total": 13,
       "numberedCount": 13,
@@ -472,6 +758,21 @@
         "6a2d291f8a2b1c68f2cac4dc",
         "6a2d291f8a2b1c68f2cac4de",
         "6a2d291f8a2b1c68f2cac4ee"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/uni-app/通用基础",
+      "total": 4,
+      "numberedCount": 4,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac242",
+        "6a2d291e8a2b1c68f2cac24c",
+        "6a2d291e8a2b1c68f2cac254",
+        "6a2d291e8a2b1c68f2cac25a"
       ]
     },
     {
@@ -506,6 +807,20 @@
       ]
     },
     {
+      "categoryPath": "电脑/电脑网络/网络基础",
+      "total": 3,
+      "numberedCount": 3,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac52e",
+        "6a2d291f8a2b1c68f2cac524",
+        "6a2d291f8a2b1c68f2cac51a"
+      ]
+    },
+    {
       "categoryPath": "前端技术/组件库/uvui",
       "total": 3,
       "numberedCount": 3,
@@ -535,7 +850,446 @@
         "6a2d291f8a2b1c68f2cac5e2",
         "6a2d291f8a2b1c68f2cac5ea"
       ]
+    },
+    {
+      "categoryPath": "前端技术/前端三剑客/AI版CSS",
+      "total": 9,
+      "numberedCount": 8,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d30edb480df92ce002e15",
+        "6a2d30eeb480df92ce002e20",
+        "6a2d291d8a2b1c68f2cac09e",
+        "6a2d30eeb480df92ce002e34",
+        "6a2d30eeb480df92ce002e25",
+        "6a2d30eeb480df92ce002e2f",
+        "6a2d30eeb480df92ce002e1a",
+        "6a2d30eeb480df92ce002e2a",
+        "6a2d291e8a2b1c68f2cac0b4"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/组件库/ElementPlus",
+      "total": 10,
+      "numberedCount": 10,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac5fa",
+        "6a2d291f8a2b1c68f2cac624",
+        "6a2d291f8a2b1c68f2cac610",
+        "6a2d291f8a2b1c68f2cac65e",
+        "6a2d291f8a2b1c68f2cac63c",
+        "6a2d291f8a2b1c68f2cac62e",
+        "6a2d291f8a2b1c68f2cac606",
+        "6a2d291f8a2b1c68f2cac646",
+        "6a2d291f8a2b1c68f2cac61e",
+        "6a2d291f8a2b1c68f2cac654"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/前端三剑客/AI版HTML",
+      "total": 9,
+      "numberedCount": 7,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 8,
+      "changedCount": 8,
+      "articleIds": [
+        "6a2d30eeb480df92ce002e3c",
+        "6a2d30eeb480df92ce002e47",
+        "6a2d30eeb480df92ce002e42",
+        "6a2d30eeb480df92ce002e52",
+        "6a2d291e8a2b1c68f2cac0ce",
+        "6a2d30eeb480df92ce002e4d",
+        "6a2d291e8a2b1c68f2cac0c8",
+        "6a2d291e8a2b1c68f2cac0ba",
+        "6a2d291e8a2b1c68f2cac0b8"
+      ]
+    },
+    {
+      "categoryPath": "项目复用技术/第三方登录对接/企业微信",
+      "total": 11,
+      "numberedCount": 11,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d29208a2b1c68f2cac7be",
+        "6a2d29208a2b1c68f2cac7c0",
+        "6a2d29208a2b1c68f2cac7c2",
+        "6a2d29208a2b1c68f2cac7c4",
+        "6a2d29208a2b1c68f2cac7c8",
+        "6a2d29208a2b1c68f2cac7c6",
+        "6a2d29208a2b1c68f2cac7ce",
+        "6a2d29208a2b1c68f2cac7cc",
+        "6a2d29208a2b1c68f2cac7d2",
+        "6a2d29208a2b1c68f2cac7d4",
+        "6a2d29208a2b1c68f2cac7d8"
+      ]
+    },
+    {
+      "categoryPath": "项目复用技术/第三方登录对接/钉钉",
+      "total": 17,
+      "numberedCount": 17,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d29208a2b1c68f2cac76c",
+        "6a2d29208a2b1c68f2cac774",
+        "6a2d29208a2b1c68f2cac776",
+        "6a2d29208a2b1c68f2cac778",
+        "6a2d29208a2b1c68f2cac77a",
+        "6a2d29208a2b1c68f2cac77c",
+        "6a2d29208a2b1c68f2cac786",
+        "6a2d29208a2b1c68f2cac78a",
+        "6a2d29208a2b1c68f2cac78c",
+        "6a2d29208a2b1c68f2cac794",
+        "6a2d29208a2b1c68f2cac798",
+        "6a2d29208a2b1c68f2cac79e",
+        "6a2d29208a2b1c68f2cac7a2",
+        "6a2d29208a2b1c68f2cac7a6",
+        "6a2d29208a2b1c68f2cac7b0",
+        "6a2d29208a2b1c68f2cac7ae",
+        "6a2d29208a2b1c68f2cac7b4"
+      ]
+    },
+    {
+      "categoryPath": "常用缺易忘/网络请求",
+      "total": 4,
+      "numberedCount": 4,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac372",
+        "6a2d291f8a2b1c68f2cac36c",
+        "6a2d291f8a2b1c68f2cac36a",
+        "6a2d291f8a2b1c68f2cac378"
+      ]
+    },
+    {
+      "categoryPath": "常用缺易忘/数据类型",
+      "total": 7,
+      "numberedCount": 7,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac33e",
+        "6a2d291f8a2b1c68f2cac33c",
+        "6a2d291f8a2b1c68f2cac33a",
+        "6a2d291f8a2b1c68f2cac32c",
+        "6a2d291f8a2b1c68f2cac31e",
+        "6a2d291f8a2b1c68f2cac340",
+        "6a2d291f8a2b1c68f2cac338"
+      ]
+    },
+    {
+      "categoryPath": "常用缺易忘/工具速查",
+      "total": 4,
+      "numberedCount": 4,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac30a",
+        "6a2d291f8a2b1c68f2cac31a",
+        "6a2d291f8a2b1c68f2cac318",
+        "6a2d291f8a2b1c68f2cac300"
+      ]
+    },
+    {
+      "categoryPath": "Web安全",
+      "total": 2,
+      "numberedCount": 2,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac2fa",
+        "6a2d291f8a2b1c68f2cac2ee"
+      ]
+    },
+    {
+      "categoryPath": "项目复用技术/uni-app",
+      "total": 5,
+      "numberedCount": 5,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d29208a2b1c68f2cac6d6",
+        "6a2d29208a2b1c68f2cac6e0",
+        "6a2d29208a2b1c68f2cac6ea",
+        "6a2d29208a2b1c68f2cac6f4",
+        "6a2d29208a2b1c68f2cac6f8"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/Vue/vue面试题",
+      "total": 4,
+      "numberedCount": 4,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291f8a2b1c68f2cac2e0",
+        "6a2d291f8a2b1c68f2cac2dc",
+        "6a2d291f8a2b1c68f2cac2de",
+        "6a2d291f8a2b1c68f2cac2e2"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/Vue/vue3",
+      "total": 6,
+      "numberedCount": 6,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac2ce",
+        "6a2d291e8a2b1c68f2cac2d0",
+        "6a2d291e8a2b1c68f2cac2d2",
+        "6a2d291f8a2b1c68f2cac2d4",
+        "6a2d291f8a2b1c68f2cac2d6",
+        "6a2d291f8a2b1c68f2cac2d8"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/Vue/vue2",
+      "total": 23,
+      "numberedCount": 23,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac2a2",
+        "6a2d291e8a2b1c68f2cac2b4",
+        "6a2d291e8a2b1c68f2cac2b6",
+        "6a2d291e8a2b1c68f2cac2b8",
+        "6a2d291e8a2b1c68f2cac2ba",
+        "6a2d291e8a2b1c68f2cac2bc",
+        "6a2d291e8a2b1c68f2cac2be",
+        "6a2d291e8a2b1c68f2cac2c0",
+        "6a2d291e8a2b1c68f2cac2ac",
+        "6a2d291e8a2b1c68f2cac2ae",
+        "6a2d291e8a2b1c68f2cac2b0",
+        "6a2d291e8a2b1c68f2cac2b2",
+        "6a2d291e8a2b1c68f2cac2c2",
+        "6a2d291e8a2b1c68f2cac2c4",
+        "6a2d291e8a2b1c68f2cac2c6",
+        "6a2d291e8a2b1c68f2cac2c8",
+        "6a2d291e8a2b1c68f2cac2ca",
+        "6a2d291e8a2b1c68f2cac2a4",
+        "6a2d291e8a2b1c68f2cac2a0",
+        "6a2d291e8a2b1c68f2cac2a6",
+        "6a2d291e8a2b1c68f2cac2a8",
+        "6a2d291e8a2b1c68f2cac2aa",
+        "6a2d291e8a2b1c68f2cac29e"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/Vue/Ai的vue",
+      "total": 30,
+      "numberedCount": 24,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac274",
+        "6a2d291e8a2b1c68f2cac280",
+        "6a2d291e8a2b1c68f2cac282",
+        "6a2d291e8a2b1c68f2cac284",
+        "6a2d291e8a2b1c68f2cac286",
+        "6a2d291e8a2b1c68f2cac288",
+        "6a2d291e8a2b1c68f2cac28a",
+        "6a2d291e8a2b1c68f2cac28c",
+        "6a2d291e8a2b1c68f2cac28e",
+        "6a2d291e8a2b1c68f2cac260",
+        "6a2d291e8a2b1c68f2cac262",
+        "6a2d291e8a2b1c68f2cac264",
+        "6a2d291e8a2b1c68f2cac266",
+        "6a2d291e8a2b1c68f2cac268",
+        "6a2d291e8a2b1c68f2cac26a",
+        "6a2d291e8a2b1c68f2cac26c",
+        "6a2d291e8a2b1c68f2cac26e",
+        "6a2d291e8a2b1c68f2cac270",
+        "6a2d291e8a2b1c68f2cac272",
+        "6a2d291e8a2b1c68f2cac276",
+        "6a2d291e8a2b1c68f2cac278",
+        "6a2d291e8a2b1c68f2cac27a",
+        "6a2d291e8a2b1c68f2cac27c",
+        "6a2d291e8a2b1c68f2cac27e",
+        "6a2d291e8a2b1c68f2cac290",
+        "6a2d291e8a2b1c68f2cac292",
+        "6a2d291e8a2b1c68f2cac294",
+        "6a2d291e8a2b1c68f2cac296",
+        "6a2d291e8a2b1c68f2cac298",
+        "6a2d291e8a2b1c68f2cac29a"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/前端三剑客/青鸟版三剑客",
+      "total": 4,
+      "numberedCount": 4,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 0,
+      "changedCount": 0,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac0d8",
+        "6a2d291e8a2b1c68f2cac0da",
+        "6a2d291e8a2b1c68f2cac0d6",
+        "6a2d291e8a2b1c68f2cac0dc"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/前端三剑客/AI版JS",
+      "total": 31,
+      "numberedCount": 30,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 31,
+      "changedCount": 31,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac0f6",
+        "6a2d291e8a2b1c68f2cac10c",
+        "6a2d291e8a2b1c68f2cac110",
+        "6a2d291e8a2b1c68f2cac112",
+        "6a2d291e8a2b1c68f2cac114",
+        "6a2d291e8a2b1c68f2cac116",
+        "6a2d291e8a2b1c68f2cac118",
+        "6a2d291e8a2b1c68f2cac11a",
+        "6a2d291e8a2b1c68f2cac11c",
+        "6a2d291e8a2b1c68f2cac0e2",
+        "6a2d291e8a2b1c68f2cac0e4",
+        "6a2d291e8a2b1c68f2cac0e6",
+        "6a2d291e8a2b1c68f2cac0e8",
+        "6a2d291e8a2b1c68f2cac0ea",
+        "6a2d291e8a2b1c68f2cac0ec",
+        "6a2d291e8a2b1c68f2cac0ee",
+        "6a2d291e8a2b1c68f2cac0f0",
+        "6a2d291e8a2b1c68f2cac0f2",
+        "6a2d291e8a2b1c68f2cac0f4",
+        "6a2d291e8a2b1c68f2cac0f8",
+        "6a2d291e8a2b1c68f2cac0fa",
+        "6a2d291e8a2b1c68f2cac0fc",
+        "6a2d291e8a2b1c68f2cac0fe",
+        "6a2d291e8a2b1c68f2cac100",
+        "6a2d291e8a2b1c68f2cac102",
+        "6a2d291e8a2b1c68f2cac104",
+        "6a2d291e8a2b1c68f2cac106",
+        "6a2d291e8a2b1c68f2cac108",
+        "6a2d291e8a2b1c68f2cac10a",
+        "6a2d291e8a2b1c68f2cac10e",
+        "6a2d291e8a2b1c68f2cac0e0"
+      ]
     }
   ],
-  "changedCategories": []
+  "changedCategories": [
+    {
+      "categoryPath": "后端技术/数据库/MySQL",
+      "total": 13,
+      "numberedCount": 12,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 13,
+      "changedCount": 1,
+      "articleIds": [
+        "6a706a61360397398ac2d05f",
+        "6a706a61360397398ac2d061",
+        "6a706a61360397398ac2d063",
+        "6a706a61360397398ac2d065",
+        "6a706a61360397398ac2d067",
+        "6a706a61360397398ac2d069",
+        "6a706a61360397398ac2d06b",
+        "6a706a61360397398ac2d06d",
+        "6a706a61360397398ac2d06f",
+        "6a706a61360397398ac2d071",
+        "6a706a61360397398ac2d073",
+        "6a706a61360397398ac2d075",
+        "6a706a61360397398ac2d05d"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/前端三剑客/AI版HTML",
+      "total": 9,
+      "numberedCount": 7,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 8,
+      "changedCount": 8,
+      "articleIds": [
+        "6a2d30eeb480df92ce002e3c",
+        "6a2d30eeb480df92ce002e47",
+        "6a2d30eeb480df92ce002e42",
+        "6a2d30eeb480df92ce002e52",
+        "6a2d291e8a2b1c68f2cac0ce",
+        "6a2d30eeb480df92ce002e4d",
+        "6a2d291e8a2b1c68f2cac0c8",
+        "6a2d291e8a2b1c68f2cac0ba",
+        "6a2d291e8a2b1c68f2cac0b8"
+      ]
+    },
+    {
+      "categoryPath": "前端技术/前端三剑客/AI版JS",
+      "total": 31,
+      "numberedCount": 30,
+      "duplicateSequenceCount": 0,
+      "useSequence": true,
+      "reorderedCount": 31,
+      "changedCount": 31,
+      "articleIds": [
+        "6a2d291e8a2b1c68f2cac0f6",
+        "6a2d291e8a2b1c68f2cac10c",
+        "6a2d291e8a2b1c68f2cac110",
+        "6a2d291e8a2b1c68f2cac112",
+        "6a2d291e8a2b1c68f2cac114",
+        "6a2d291e8a2b1c68f2cac116",
+        "6a2d291e8a2b1c68f2cac118",
+        "6a2d291e8a2b1c68f2cac11a",
+        "6a2d291e8a2b1c68f2cac11c",
+        "6a2d291e8a2b1c68f2cac0e2",
+        "6a2d291e8a2b1c68f2cac0e4",
+        "6a2d291e8a2b1c68f2cac0e6",
+        "6a2d291e8a2b1c68f2cac0e8",
+        "6a2d291e8a2b1c68f2cac0ea",
+        "6a2d291e8a2b1c68f2cac0ec",
+        "6a2d291e8a2b1c68f2cac0ee",
+        "6a2d291e8a2b1c68f2cac0f0",
+        "6a2d291e8a2b1c68f2cac0f2",
+        "6a2d291e8a2b1c68f2cac0f4",
+        "6a2d291e8a2b1c68f2cac0f8",
+        "6a2d291e8a2b1c68f2cac0fa",
+        "6a2d291e8a2b1c68f2cac0fc",
+        "6a2d291e8a2b1c68f2cac0fe",
+        "6a2d291e8a2b1c68f2cac100",
+        "6a2d291e8a2b1c68f2cac102",
+        "6a2d291e8a2b1c68f2cac104",
+        "6a2d291e8a2b1c68f2cac106",
+        "6a2d291e8a2b1c68f2cac108",
+        "6a2d291e8a2b1c68f2cac10a",
+        "6a2d291e8a2b1c68f2cac10e",
+        "6a2d291e8a2b1c68f2cac0e0"
+      ]
+    }
+  ]
 }

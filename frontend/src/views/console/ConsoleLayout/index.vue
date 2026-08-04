@@ -348,9 +348,9 @@ const knowledgeMenuCache = {
 function readSiderFullLabelsPreference() {
   try {
     const value = localStorage.getItem(SIDER_FULL_LABELS_STORAGE_KEY)
-    return value === null ? true : value === 'true'
+    return value === 'true'
   } catch {
-    return true
+    return false
   }
 }
 
