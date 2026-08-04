@@ -68,6 +68,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    consoleTabsEnabled: {
+      type: Boolean,
+      default: true
+    },
     lastBirthEffectDate: {
       type: String,
       default: ''
@@ -201,6 +205,8 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     birthdayCalendar: this.birthdayCalendar || 'solar',
     closeBirthEffect: !!this.closeBirthEffect,
     closeSiteEntranceEffect: !!this.closeSiteEntranceEffect,
+    // 兼容字段上线前的存量用户：只有明确保存 false 时才关闭标签页。
+    consoleTabsEnabled: this.consoleTabsEnabled !== false,
     lastBirthEffectDate: this.lastBirthEffectDate || '',
     personalDates: Array.isArray(this.personalDates) ? this.personalDates.map((item) => ({
       id: item._id?.toString?.() || '', name: item.name, type: item.type, date: item.date,

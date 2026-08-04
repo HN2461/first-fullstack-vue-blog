@@ -25,7 +25,7 @@ const description = computed(() => route.meta?.pendingPage ? '暂无内容' : '�
 
 <style scoped>
 .unavailable-page {
-  min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  min-height: var(--console-page-available-height);
   display: grid;
   place-items: center;
 }

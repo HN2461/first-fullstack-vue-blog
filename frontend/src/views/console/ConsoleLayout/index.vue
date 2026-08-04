@@ -198,13 +198,7 @@
         </a-menu>
       </a-drawer>
 
-      <a-layout class="enterprise-main-layout">
-        <a-layout-content :class="['enterprise-content', { 'enterprise-content--immersive': isImmersiveRoute }]">
-          <div :class="['enterprise-content-inner', { 'enterprise-content-inner--immersive': isImmersiveRoute }]">
-            <router-view />
-          </div>
-        </a-layout-content>
-      </a-layout>
+      <ConsoleWorkspace :immersive="isImmersiveRoute" />
     </a-layout>
   </a-layout>
   <AnnouncementPopup />
@@ -335,6 +329,7 @@ import { getKnowledgeMenu, listPublicArticles } from '@/services/public'
 import { isKnowledgeConsolePath } from '@/utils/consoleRoutes'
 import { openMenuRoute } from '@/utils/menuNavigation'
 import { isRoutePathMatched } from '@/utils/routeMatch'
+import ConsoleWorkspace from '@/components/console-tabs/ConsoleWorkspace.vue'
 
 const KNOWLEDGE_MENU_CACHE_TTL = 60 * 1000
 const ARTICLE_DIRECTORY_PATH = '/console/article-directory'

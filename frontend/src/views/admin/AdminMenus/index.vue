@@ -181,10 +181,27 @@
               </a-col>
               <a-col :xs="24" :lg="16">
                 <a-form-item label="打开方式" name="openMode">
-                  <a-segmented v-model:value="form.openMode" block :options="[{ label: '当前页', value: 'current' }, { label: '新标签页', value: 'blank' }]" />
+                  <a-segmented v-model:value="form.openMode" block :options="[{ label: '当前工作区', value: 'current' }, { label: '新浏览器标签页', value: 'blank' }]" />
                 </a-form-item>
               </a-col>
             </a-row>
+            <a-form-item name="pageCacheEnabled">
+              <template #label>
+                <span class="menu-form-label-help">
+                  页面缓存
+                  <a-tooltip title="开启后，用户启用多标签页时，切换页面会保留筛选、分页和滚动位置。">
+                    <QuestionCircleOutlined />
+                  </a-tooltip>
+                </span>
+              </template>
+              <a-switch
+                v-model:checked="form.pageCacheEnabled"
+                :disabled="!menuCanCachePage"
+                checked-children="缓存"
+                un-checked-children="不缓存"
+              />
+              <span class="switch-label">{{ pageCacheStatusText }}</span>
+            </a-form-item>
             <a-row :gutter="16">
               <a-col :xs="24" :lg="12">
                 <a-switch v-model:checked="form.enabled" checked-children="启用" un-checked-children="禁用" />
@@ -252,6 +269,7 @@ const form = reactive({
   activeMenuCode: '',
   directoryAutoExpandWhenNested: true,
   openMode: 'current',
+  pageCacheEnabled: false,
   hidden: false,
   enabled: true,
   parentId: null,
@@ -273,6 +291,12 @@ const selectedMenuIsSystem = computed(() => !!selectedMenu.value && selectedMenu
 const selectedMenuIsArticleDirectory = computed(() => isArticleDirectoryRecord(selectedMenu.value))
 const articleDirectoryIsRoot = computed(() => selectedMenuIsArticleDirectory.value && !form.parentId)
 const effectiveDirectoryAutoExpand = computed(() => articleDirectoryIsRoot.value || form.directoryAutoExpandWhenNested)
+const menuCanCachePage = computed(() => form.openMode === 'current' && Boolean(form.routePath))
+const pageCacheStatusText = computed(() => {
+  if (!form.routePath) return '分组菜单没有页面，无需缓存'
+  if (form.openMode === 'blank') return '新浏览器标签页不进入工作区缓存'
+  return form.pageCacheEnabled ? '切换标签时保留页面状态' : '切换标签时重新初始化页面'
+})
 
 function collectDescendantIds(targetId) {
   const record = flatMenus.value.find((item) => item.id === targetId)
@@ -327,6 +351,7 @@ function resetForm(record = null) {
   form.activeMenuCode = record?.activeMenuCode || ''
   form.directoryAutoExpandWhenNested = record?.directoryAutoExpandWhenNested !== false
   form.openMode = record?.openMode || 'current'
+  form.pageCacheEnabled = !!record?.pageCacheEnabled
   form.hidden = !!record?.hidden
   form.enabled = record?.enabled !== false
   form.parentId = record?.parentId || null
@@ -564,6 +589,7 @@ async function submitMenu() {
       activeMenuCode: form.activeMenuCode || '',
       directoryAutoExpandWhenNested: selectedMenuIsArticleDirectory.value ? form.directoryAutoExpandWhenNested : true,
       openMode: form.openMode,
+      pageCacheEnabled: menuCanCachePage.value && form.pageCacheEnabled,
       hidden: form.hidden,
       enabled: form.enabled,
       parentId: form.parentId || null,
@@ -619,7 +645,7 @@ watch(expandedKeys, () => {
 
 <style scoped>
 .menu-workbench {
-  min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  min-height: var(--console-page-available-height);
 }
 
 .menu-workbench-grid {
@@ -785,6 +811,12 @@ watch(expandedKeys, () => {
 .menu-form {
   display: grid;
   gap: 12px;
+}
+
+.menu-form-label-help {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .menu-help-content {

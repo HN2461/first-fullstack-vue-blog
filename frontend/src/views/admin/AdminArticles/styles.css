@@ -1,6 +1,6 @@
 .articles-page {
   max-width: 1400px;
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  height: var(--console-page-available-height);
 }
 
 .article-cover-cell {

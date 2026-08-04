@@ -617,7 +617,7 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 }
 
 .doc-reader--console .doc-reader__scroll {
-  height: calc(100vh - var(--console-header-height, 64px));
+  height: var(--console-content-viewport-height);
 }
 
 .doc-reader__scroll::-webkit-scrollbar {
@@ -1095,7 +1095,7 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 }
 
 .doc-reader--console .doc-reader__toc-widget {
-  top: calc(var(--console-header-height, 64px) + 24px);
+  top: calc(var(--console-workspace-top-offset) + 24px);
 }
 
 .doc-reader__toc-trigger {
@@ -1155,7 +1155,8 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 
 :global(body.reader-immersive-active .public-header),
 :global(body.reader-immersive-active .enterprise-topnav),
-:global(body.reader-immersive-active .enterprise-sider) {
+:global(body.reader-immersive-active .enterprise-sider),
+:global(body.reader-immersive-active .console-tabs-bar) {
   display: none !important;
 }
 
@@ -1190,7 +1191,7 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 
   .doc-reader--console .doc-reader__scroll {
     height: auto;
-    min-height: calc(100vh - var(--console-header-height, 64px));
+    min-height: var(--console-content-viewport-height);
   }
 
   .doc-reader__layout {

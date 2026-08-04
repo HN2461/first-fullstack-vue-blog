@@ -1222,7 +1222,7 @@ onMounted(async () => {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: calc(100vh - 72px); /* 让表格撑满屏幕 */
+  height: var(--console-page-available-height);
 }
 
 /* ===== 顶栏：一行搞定，不抢戏 ===== */

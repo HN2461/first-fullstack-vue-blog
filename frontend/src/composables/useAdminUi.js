@@ -1,6 +1,8 @@
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { onBeforeRouteLeave } from 'vue-router'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { onBeforeRouteLeave, useRoute } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
+import { useConsoleTabsStore } from '@/stores/consoleTabs'
+import { buildConsoleTabKey } from '@/utils/consoleTabs'
 
 function toMessage(error, fallback) {
   return error?.message || fallback || '操作失败'
@@ -96,6 +98,8 @@ export function useUnsavedChanges(options) {
 
   const baseline = ref('')
   const ready = ref(false)
+  const route = useRoute()
+  const tabsStore = useConsoleTabsStore()
 
   const currentSnapshot = computed(() => serializeSnapshot(getSnapshot?.()))
   const isDirty = computed(() => ready.value && resolveEnabled() && currentSnapshot.value !== baseline.value)
@@ -122,12 +126,22 @@ export function useUnsavedChanges(options) {
     window.addEventListener('beforeunload', handleBeforeUnload)
   })
 
+  watch(isDirty, (dirty) => {
+    tabsStore.setDirty(route, dirty)
+  }, { immediate: true })
+
   onUnmounted(() => {
     window.removeEventListener('beforeunload', handleBeforeUnload)
+    tabsStore.setDirty(route, false)
   })
 
   onBeforeRouteLeave(() => {
     if (!isDirty.value) {
+      return true
+    }
+
+    // 缓存标签切换后组件仍保留在内存中，关闭或刷新标签时再统一确认是否丢弃修改。
+    if (tabsStore.getByRoute(route)?.pageCacheEnabled) {
       return true
     }
 
@@ -140,7 +154,12 @@ export function useUnsavedChanges(options) {
         okType: 'default',
         centered: true,
         onOk() {
+          pauseTracking()
+          tabsStore.setDirty(route, false)
           resolve(true)
+          // 等路由完成切换后再淘汰旧实例，确保返回标签时按“丢弃修改”重新加载。
+          const leavingTabKey = buildConsoleTabKey(route)
+          setTimeout(() => tabsStore.invalidate(leavingTabKey), 0)
         },
         onCancel() {
           resolve(false)

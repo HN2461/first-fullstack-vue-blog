@@ -278,7 +278,7 @@ function confirmEmptyTrash() {
   flex-direction: column;
   gap: 12px;
   width: 100%;
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  height: var(--console-page-available-height);
   overflow: hidden;
 }
 

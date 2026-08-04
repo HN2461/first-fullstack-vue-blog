@@ -746,6 +746,7 @@ export async function createMenu(input) {
     activeMenuCode: input.activeMenuCode || '',
     directoryAutoExpandWhenNested: input.directoryAutoExpandWhenNested !== false,
     openMode: input.openMode,
+    pageCacheEnabled: !!input.pageCacheEnabled,
     hidden: !!input.hidden,
     enabled: input.enabled !== false,
     parentType,
@@ -783,6 +784,7 @@ export async function updateMenu(id, input) {
     menu.directoryAutoExpandWhenNested = input.directoryAutoExpandWhenNested
   }
   if (input.openMode !== undefined) menu.openMode = input.openMode
+  if (input.pageCacheEnabled !== undefined) menu.pageCacheEnabled = input.pageCacheEnabled
   if (input.hidden !== undefined) menu.hidden = input.hidden
   if (input.enabled !== undefined) menu.enabled = input.enabled
   if (input.sortOrder !== undefined) menu.sortOrder = input.sortOrder

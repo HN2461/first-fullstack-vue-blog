@@ -62,6 +62,7 @@ const menuBaseSchema = z.object({
   ]).optional().default(''),
   directoryAutoExpandWhenNested: z.boolean().optional().default(true),
   openMode: z.enum(['current', 'blank']).optional().default('current'),
+  pageCacheEnabled: z.boolean({ invalid_type_error: '页面缓存开关必须是布尔值' }).optional().default(false),
   hidden: z.boolean().optional().default(false),
   enabled: z.boolean().optional().default(true),
   parentType: z.enum(['root', 'child']).optional(),

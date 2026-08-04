@@ -172,7 +172,7 @@ function handleDrop(info) {
 }
 
 .bookmark-folder-tree {
-  max-height: calc(100vh - 238px);
+  max-height: calc(var(--console-content-viewport-height) - 174px);
   overflow: auto;
   padding: 8px;
   background: transparent;

@@ -216,6 +216,7 @@
             class="profile-form"
             @finish="handleSaveProfile"
           >
+            <WorkspaceTabsPreference v-model="profileForm.consoleTabsEnabled" />
             <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
             <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
             <a-form-item>
@@ -483,6 +484,7 @@ import EntranceEffectSettings from './components/EntranceEffectSettings.vue'
 import SiteEntrancePreference from './components/SiteEntrancePreference.vue'
 import BirthdayPreference from './components/BirthdayPreference.vue'
 import PersonalDateSettings from './components/PersonalDateSettings.vue'
+import WorkspaceTabsPreference from './components/WorkspaceTabsPreference.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 
@@ -533,6 +535,7 @@ const profileForm = reactive({
   closeBirthEffect: false,
   personalDates: [],
   closeSiteEntranceEffect: false,
+  consoleTabsEnabled: true,
   entranceEffect: { ...DEFAULT_ENTRANCE_EFFECT }
 })
 
@@ -640,6 +643,7 @@ function syncProfileForm(user = {}) {
   profileForm.closeBirthEffect = Boolean(user.closeBirthEffect)
   profileForm.personalDates = Array.isArray(user.personalDates) ? user.personalDates.map((item) => ({ ...item })) : []
   profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
+  profileForm.consoleTabsEnabled = user.consoleTabsEnabled !== false
   profileForm.entranceEffect = normalizeEntranceEffectConfig(user.entranceEffect)
 }
 
@@ -727,6 +731,7 @@ async function handleSaveProfile() {
       closeBirthEffect: profileForm.closeBirthEffect,
       personalDates: profileForm.personalDates,
       closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
+      consoleTabsEnabled: profileForm.consoleTabsEnabled,
       entranceEffect: normalizeEntranceEffectConfig(profileForm.entranceEffect)
     })
     authStore.user = { ...authStore.user, ...result }
@@ -908,7 +913,7 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 16px;
-  height: calc(100vh - 120px);
+  height: calc(var(--console-page-available-height) - 16px);
   overflow: hidden;
   min-height: 0;
 }

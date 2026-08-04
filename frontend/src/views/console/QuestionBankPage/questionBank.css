@@ -189,7 +189,7 @@
 }
 
 .question-category-tree {
-  max-height: calc(100vh - 230px);
+  max-height: calc(var(--console-content-viewport-height) - 166px);
   overflow: auto;
   padding: 8px 0;
 }

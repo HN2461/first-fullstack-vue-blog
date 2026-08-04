@@ -462,7 +462,7 @@ onUnmounted(() => {
 }
 
 .enterprise-page.csdn-search {
-  min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  min-height: var(--console-page-available-height);
 }
 
 .csdn-search__command {

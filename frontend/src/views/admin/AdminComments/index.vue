@@ -210,7 +210,7 @@ async function review(id, action) {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  height: var(--console-page-available-height);
   overflow: hidden;
 }
 

@@ -361,7 +361,7 @@ function handleDelete(record) {
 /* ── 页面：flex纵向铺满 ── */
 .taxonomy-page {
   width: 100%;
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  height: var(--console-page-available-height);
   display: flex;
   flex-direction: column;
   gap: 12px;

@@ -55,6 +55,10 @@ const menuSchema = new mongoose.Schema(
       enum: Object.values(MENU_OPEN_MODES),
       default: MENU_OPEN_MODES.CURRENT
     },
+    pageCacheEnabled: {
+      type: Boolean,
+      default: false
+    },
     hidden: {
       type: Boolean,
       default: false
@@ -105,6 +109,7 @@ menuSchema.methods.toSafeJSON = function toSafeJSON() {
     activeMenuCode: this.activeMenuCode,
     directoryAutoExpandWhenNested: this.directoryAutoExpandWhenNested !== false,
     openMode: this.openMode,
+    pageCacheEnabled: !!this.pageCacheEnabled,
     hidden: this.hidden,
     enabled: this.enabled,
     parentType: this.parentType,

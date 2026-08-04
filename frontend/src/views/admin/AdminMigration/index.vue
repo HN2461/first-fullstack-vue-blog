@@ -1039,7 +1039,7 @@ onMounted(() => {
   flex-direction: column;
   gap: var(--console-page-gap);
   width: 100%;
-  min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  min-height: var(--console-page-available-height);
   overflow: visible;
 }
 

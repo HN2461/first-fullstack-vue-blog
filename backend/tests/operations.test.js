@@ -156,7 +156,8 @@ describe('operations routes', () => {
         username: '资料管理员',
         bio: '长期维护知识库',
         website: 'https://example.com',
-        location: '深圳'
+        location: '深圳',
+        consoleTabsEnabled: true
       })
       .expect(200)
 
@@ -164,7 +165,8 @@ describe('operations routes', () => {
       username: '资料管理员',
       bio: '长期维护知识库',
       website: 'https://example.com',
-      location: '深圳'
+      location: '深圳',
+      consoleTabsEnabled: true
     })
 
     const notificationResponse = await request(app)

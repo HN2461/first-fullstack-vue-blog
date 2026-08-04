@@ -661,7 +661,7 @@ onMounted(loadPermissionTree)
 
 <style scoped>
 .rbac-page {
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  height: var(--console-page-available-height);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   gap: 16px;

@@ -951,7 +951,7 @@ onMounted(async () => {
 .writer-studio {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: var(--console-content-viewport-height);
   padding: 28px 56px 40px;
   background: #f6f3ea;
 }
@@ -997,7 +997,7 @@ onMounted(async () => {
 }
 
 .writer-studio__preview-board {
-  height: calc(100vh - 210px);
+  height: calc(var(--console-content-viewport-height) - 146px);
   min-height: 680px;
   overflow: auto;
   border: 1px solid rgba(31, 35, 41, 0.08);
@@ -1038,7 +1038,7 @@ onMounted(async () => {
 }
 
 .writer-studio__editor {
-  height: calc(100vh - 210px);
+  height: calc(var(--console-content-viewport-height) - 146px);
   min-height: 680px;
   border: 1px solid rgba(31, 35, 41, 0.08);
   border-radius: 20px;
@@ -1084,7 +1084,7 @@ onMounted(async () => {
 .writer-studio__editor :deep(.cm-content) {
   width: 100%;
   max-width: none;
-  min-height: calc(100vh - 330px);
+  min-height: calc(var(--console-content-viewport-height) - 266px);
   padding: 8px 44px 120px !important;
   font-size: 19px;
   line-height: 2;
@@ -1538,7 +1538,7 @@ onMounted(async () => {
 
 @media (max-width: 960px) {
   .writer-studio {
-    min-height: 100vh;
+    min-height: var(--console-content-viewport-height);
     padding: 20px 18px 28px;
   }
 
@@ -1566,7 +1566,7 @@ onMounted(async () => {
 
   .writer-studio__preview-board,
   .writer-studio__editor {
-    height: calc(100vh - 180px);
+    height: calc(var(--console-content-viewport-height) - 124px);
     min-height: 560px;
   }
 
@@ -1583,7 +1583,7 @@ onMounted(async () => {
   }
 
   .writer-studio__editor :deep(.cm-content) {
-    min-height: calc(100vh - 280px);
+    min-height: calc(var(--console-content-viewport-height) - 224px);
     padding: 4px 20px 72px !important;
     font-size: 17px;
   }

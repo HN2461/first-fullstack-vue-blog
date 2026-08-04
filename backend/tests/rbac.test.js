@@ -687,6 +687,22 @@ describe('rbac account and permission flows', () => {
     expect(freshMenu.directoryAutoExpandWhenNested).toBe(false)
   })
 
+  it('allows configuring page cache behavior for a menu', async () => {
+    const articlesMenu = await Menu.findOne({ code: 'content.articles' })
+
+    const updateResponse = await request(app)
+      .patch(`/api/rbac/menus/${articlesMenu._id}`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({ pageCacheEnabled: true })
+      .expect(200)
+
+    expect(updateResponse.body.data).toMatchObject({
+      code: 'content.articles',
+      pageCacheEnabled: true
+    })
+    expect((await Menu.findById(articlesMenu._id)).pageCacheEnabled).toBe(true)
+  })
+
   it('protects system menu route fields while allowing display configuration', async () => {
     const knowledgeArticleMenu = await Menu.findOne({ code: 'knowledge.articles' })
 

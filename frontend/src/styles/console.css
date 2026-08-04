@@ -4,8 +4,12 @@
   --console-sider-collapsed-width: 72px;
   --console-sider-head-height: 48px;
   --console-sider-footer-height: 48px;
+  --console-tabs-height: 48px;
   --console-content-padding: 20px;
   --console-page-gap: 16px;
+  --console-workspace-top-offset: var(--console-header-height);
+  --console-content-viewport-height: calc(100vh - var(--console-header-height));
+  --console-page-available-height: calc(var(--console-content-viewport-height) - var(--console-content-padding) * 2);
   --console-bg: #f4f6f9;
   --console-surface: #ffffff;
   --console-surface-hover: #f2f6fc;
@@ -581,13 +585,14 @@ body:has(.enterprise-admin-shell) {
 
 .enterprise-content {
   min-width: 0;
-  height: calc(100vh - var(--console-header-height));
+  height: var(--console-content-viewport-height);
   overflow: auto;
   padding: var(--console-content-padding);
   background: var(--console-bg);
 }
 
 .enterprise-content--immersive {
+  --console-page-available-height: var(--console-content-viewport-height);
   padding: 0;
 }
 
@@ -595,7 +600,7 @@ body:has(.enterprise-admin-shell) {
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  min-height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  min-height: var(--console-page-available-height);
   margin: 0 auto;
 }
 

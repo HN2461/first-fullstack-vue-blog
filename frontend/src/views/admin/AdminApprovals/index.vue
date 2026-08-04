@@ -212,7 +212,7 @@ async function submitReject() {
 
 <style scoped>
 .approval-page {
-  height: calc(100vh - var(--console-header-height) - var(--console-content-padding) * 2);
+  height: var(--console-page-available-height);
   display: grid;
   grid-template-rows: minmax(0, 1fr);
 }
