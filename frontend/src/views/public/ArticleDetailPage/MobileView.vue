@@ -181,11 +181,13 @@ import {
 } from '@/services/interaction'
 import { getPublicArticle } from '@/services/public'
 import { extractTOC } from '@/utils/markdown'
+import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const siteStore = useSiteStore()
+const { updateConsoleTabTitle } = useConsoleTabTitle()
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -280,6 +282,7 @@ async function loadArticle() {
       ? await getAdminArticle(route.params.id)
       : await getPublicArticle(route.params.slug)
     article.value = result
+    updateConsoleTabTitle(result.title)
     likeCount.value = Number(result.likeCount) || 0
     favoriteCount.value = Number(result.favoriteCount) || 0
     likedByCurrentUser.value = !!result.likedByCurrentUser

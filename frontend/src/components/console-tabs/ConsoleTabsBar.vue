@@ -1,7 +1,7 @@
 <template>
   <nav class="console-tabs-bar" aria-label="已打开页面">
     <div ref="scrollRef" class="console-tabs-bar__scroll" @wheel="handleWheel">
-      <div class="console-tabs-bar__list" role="tablist">
+      <div ref="listRef" class="console-tabs-bar__list" role="tablist">
         <a-dropdown v-for="tab in tabsStore.tabs" :key="tab.key" :trigger="['contextmenu']">
           <div
             class="console-tab"
@@ -15,22 +15,28 @@
               :title="tab.title"
               @click="openTab(tab)"
             >
-              <Pin v-if="tab.affix" class="console-tab__pin" :size="13" />
+              <component :is="resolveMenuIcon(tab.icon)" class="console-tab__icon" />
               <span class="console-tab__title">{{ tab.title }}</span>
               <span v-if="tabsStore.isDirty(tab.key)" class="console-tab__dirty" title="存在未保存修改"></span>
             </button>
             <button
-              v-if="!tab.affix"
-              class="console-tab__close"
+              class="console-tab__control"
+              :class="{ 'is-pinned': tab.affix }"
               type="button"
-              :aria-label="`关闭${tab.title}`"
-              @click.stop="closeTab(tab)"
+              :aria-label="tab.affix ? `取消固定${tab.title}` : `关闭${tab.title}`"
+              :title="tab.affix ? '取消固定标签' : '关闭标签'"
+              @click.stop="tab.affix ? toggleAffix(tab) : closeTab(tab)"
             >
-              <X :size="14" />
+              <Pin v-if="tab.affix" :size="13" />
+              <X v-else :size="14" />
             </button>
           </div>
           <template #overlay>
             <a-menu @click="handleMenuAction($event.key, tab)">
+              <a-menu-item key="toggle-affix">
+                <template #icon><PinOff v-if="tab.affix" :size="15" /><Pin v-else :size="15" /></template>
+                {{ tab.affix ? '取消固定标签' : '固定标签' }}
+              </a-menu-item>
               <a-menu-item key="close" :disabled="tab.affix">
                 <template #icon><X :size="15" /></template>
                 关闭标签
@@ -48,9 +54,9 @@
                 <template #icon><PanelRightClose :size="15" /></template>
                 关闭右侧标签
               </a-menu-item>
-              <a-menu-item key="close-other" :disabled="!canCloseOther(tab)">
+              <a-menu-item key="clear-other" :disabled="!canClearOther(tab)">
                 <template #icon><CopyX :size="15" /></template>
-                关闭其他标签
+                清除其他标签
               </a-menu-item>
               <a-menu-item key="close-all" :disabled="!canCloseAll">
                 <template #icon><PanelTopClose :size="15" /></template>
@@ -72,7 +78,7 @@
         <template #overlay>
           <a-menu @click="handleMenuAction($event.key, activeTab)">
             <a-menu-item key="close" :disabled="!activeTab || activeTab.affix">关闭当前标签</a-menu-item>
-            <a-menu-item key="close-other" :disabled="!activeTab || !canCloseOther(activeTab)">关闭其他标签</a-menu-item>
+            <a-menu-item key="clear-other" :disabled="!activeTab || !canClearOther(activeTab)">清除其他标签</a-menu-item>
             <a-menu-item key="close-all" :disabled="!canCloseAll">关闭全部标签</a-menu-item>
           </a-menu>
         </template>
@@ -92,9 +98,10 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { isNavigationFailure, useRoute, useRouter } from 'vue-router'
 import { Modal } from 'ant-design-vue'
+import Sortable from 'sortablejs'
 import {
   CopyX,
   Ellipsis,
@@ -104,20 +111,27 @@ import {
   PanelRightClose,
   PanelTopClose,
   Pin,
+  PinOff,
   RefreshCw,
   X
 } from 'lucide-vue-next'
+import { useAuthStore } from '@/stores/auth'
 import { useConsoleTabsStore } from '@/stores/consoleTabs'
 import { buildConsoleTabKey, shouldConfirmConsoleTabClose } from '@/utils/consoleTabs'
+import { resolveMenuIcon } from '@/config/menuIcons'
 
 const route = useRoute()
 const router = useRouter()
+const authStore = useAuthStore()
 const tabsStore = useConsoleTabsStore()
 const scrollRef = ref(null)
+const listRef = ref(null)
+let sortable = null
 
 const activeKey = computed(() => buildConsoleTabKey(route))
 const activeTab = computed(() => tabsStore.tabs.find((tab) => tab.key === activeKey.value) || null)
 const canCloseAll = computed(() => tabsStore.tabs.some((tab) => !tab.affix))
+const homePath = computed(() => authStore.canAccessPath('/console') ? '/console' : '/console/articles')
 
 function tabIndex(tab) {
   return tabsStore.tabs.findIndex((item) => item.key === tab?.key)
@@ -133,8 +147,8 @@ function canCloseRight(tab) {
   return index >= 0 && tabsStore.tabs.slice(index + 1).some((item) => !item.affix)
 }
 
-function canCloseOther(tab) {
-  return tabsStore.tabs.some((item) => item.key !== tab?.key && !item.affix)
+function canClearOther(tab) {
+  return tabsStore.tabs.some((item) => item.key !== tab?.key)
 }
 
 function confirmDiscard(count = 1) {
@@ -156,14 +170,29 @@ async function openTab(tab) {
   await router.push(tab.fullPath)
 }
 
+function ensureHomeTab() {
+  const homeRoute = router.resolve(homePath.value)
+  return tabsStore.addRoute(homeRoute, authStore.rootMenus, { affix: true })
+}
+
+function toggleAffix(tab) {
+  if (!tab) return
+  tabsStore.setAffix(tab.key, !tab.affix)
+}
+
 async function closeTab(tab) {
   if (!tab || tab.affix) return
   if (shouldConfirmConsoleTabClose(tab, activeKey.value, tabsStore.isDirty(tab.key)) && !(await confirmDiscard())) return
 
   if (tab.key === activeKey.value) {
     const index = tabIndex(tab)
-    const fallback = tabsStore.tabs[index - 1] || tabsStore.tabs[index + 1]
+    let fallback = tabsStore.tabs[index - 1] || tabsStore.tabs[index + 1]
+    if (!fallback) fallback = ensureHomeTab()
     if (!fallback) return
+    if (fallback.key === tab.key) {
+      tabsStore.setAffix(tab.key, true)
+      return
+    }
     const failure = await router.push(fallback.fullPath)
     if (isNavigationFailure(failure)) return
   }
@@ -181,22 +210,38 @@ async function closeTabSet(targetTabs, preferredTab = null) {
     const failure = await router.push(preferredTab.fullPath)
     if (isNavigationFailure(failure)) return
   } else if (removingActive) {
-    const fallback = tabsStore.tabs.find((tab) => !closableTabs.some((item) => item.key === tab.key))
+    let fallback = tabsStore.tabs.find((tab) => !closableTabs.some((item) => item.key === tab.key))
+    if (!fallback) fallback = ensureHomeTab()
     if (!fallback) return
-    const failure = await router.push(fallback.fullPath)
-    if (isNavigationFailure(failure)) return
+    if (fallback.key !== activeKey.value) {
+      const failure = await router.push(fallback.fullPath)
+      if (isNavigationFailure(failure)) return
+    }
   }
   tabsStore.removeMany(closableTabs.map((tab) => tab.key))
+}
+
+async function clearOtherTabs(tab) {
+  const removingTabs = tabsStore.tabs.filter((item) => item.key !== tab.key)
+  if (!removingTabs.length) return
+  const dirtyCount = removingTabs.filter((item) => tabsStore.isDirty(item.key)).length
+  if (dirtyCount > 0 && !(await confirmDiscard(dirtyCount))) return
+  if (tab.key !== activeKey.value) {
+    const failure = await router.push(tab.fullPath)
+    if (isNavigationFailure(failure)) return
+  }
+  tabsStore.keepOnly(tab.key)
 }
 
 async function handleMenuAction(action, tab) {
   if (!tab && action !== 'close-all') return
   const index = tabIndex(tab)
+  if (action === 'toggle-affix') toggleAffix(tab)
   if (action === 'close') await closeTab(tab)
   if (action === 'open-window') window.open(router.resolve(tab.fullPath).href, '_blank', 'noopener')
   if (action === 'close-left') await closeTabSet(tabsStore.tabs.slice(0, index))
   if (action === 'close-right') await closeTabSet(tabsStore.tabs.slice(index + 1))
-  if (action === 'close-other') await closeTabSet(tabsStore.tabs.filter((item) => item.key !== tab.key), tab)
+  if (action === 'clear-other') await clearOtherTabs(tab)
   if (action === 'close-all') await closeTabSet([...tabsStore.tabs])
 }
 
@@ -211,12 +256,31 @@ function handleWheel(event) {
   scrollRef.value.scrollLeft += event.deltaY
 }
 
+function initializeSortable() {
+  if (!listRef.value) return
+  sortable = Sortable.create(listRef.value, {
+    animation: 160,
+    draggable: '.console-tab',
+    handle: '.console-tab__main',
+    filter: '.console-tab__control',
+    preventOnFilter: false,
+    ghostClass: 'is-drag-ghost',
+    chosenClass: 'is-dragging',
+    onEnd(event) {
+      if (event.oldIndex === undefined || event.newIndex === undefined) return
+      tabsStore.reorder(event.oldIndex, event.newIndex)
+    }
+  })
+}
+
 async function scrollActiveIntoView() {
   await nextTick()
   scrollRef.value?.querySelector('.console-tab.is-active')?.scrollIntoView({ block: 'nearest', inline: 'nearest' })
 }
 
 watch(activeKey, scrollActiveIntoView, { immediate: true })
+onMounted(initializeSortable)
+onBeforeUnmount(() => sortable?.destroy())
 </script>
 
 <style scoped>
@@ -272,7 +336,7 @@ watch(activeKey, scrollActiveIntoView, { immediate: true })
 }
 
 .console-tab__main,
-.console-tab__close,
+.console-tab__control,
 .console-tabs-bar__action {
   border: 0;
   color: inherit;
@@ -298,8 +362,24 @@ watch(activeKey, scrollActiveIntoView, { immediate: true })
   white-space: nowrap;
 }
 
-.console-tab__pin {
+.console-tab__icon {
+  width: 14px;
+  height: 14px;
   flex: 0 0 auto;
+  font-size: 14px;
+}
+
+.console-tab .console-tab__main {
+  cursor: grab;
+}
+
+.console-tab.is-dragging .console-tab__main {
+  cursor: grabbing;
+}
+
+.console-tab.is-drag-ghost {
+  opacity: 0.35;
+  background: var(--console-primary-soft);
 }
 
 .console-tab__dirty {
@@ -310,7 +390,7 @@ watch(activeKey, scrollActiveIntoView, { immediate: true })
   background: var(--console-primary-strong);
 }
 
-.console-tab__close {
+.console-tab__control {
   width: 24px;
   height: 24px;
   display: inline-flex;
@@ -321,13 +401,14 @@ watch(activeKey, scrollActiveIntoView, { immediate: true })
   opacity: 0.5;
 }
 
-.console-tab:hover .console-tab__close,
-.console-tab.is-active .console-tab__close,
-.console-tab__close:focus-visible {
+.console-tab:hover .console-tab__control,
+.console-tab.is-active .console-tab__control,
+.console-tab__control:focus-visible,
+.console-tab__control.is-pinned {
   opacity: 1;
 }
 
-.console-tab__close:hover,
+.console-tab__control:hover,
 .console-tabs-bar__action:hover {
   color: var(--console-primary-strong);
   background: var(--console-surface-hover);
@@ -354,7 +435,7 @@ watch(activeKey, scrollActiveIntoView, { immediate: true })
 }
 
 .console-tab__main:focus-visible,
-.console-tab__close:focus-visible,
+.console-tab__control:focus-visible,
 .console-tabs-bar__action:focus-visible {
   outline: 2px solid var(--console-primary);
   outline-offset: -2px;

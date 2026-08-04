@@ -1,42 +1,44 @@
 <template>
-  <a-layout
-    :class="[
-      'enterprise-main-layout',
-      {
-        'enterprise-main-layout--tabs': tabsEnabled,
-        'enterprise-main-layout--maximized': tabsStore.maximized
-      }
-    ]"
-  >
-    <ConsoleTabsBar v-if="tabsEnabled" />
-    <main
-      ref="contentRef"
-      :class="['enterprise-content', { 'enterprise-content--immersive': immersive }]"
+  <Teleport to="body" :disabled="!tabsStore.maximized">
+    <a-layout
+      :class="[
+        'enterprise-main-layout',
+        {
+          'enterprise-main-layout--tabs': tabsEnabled,
+          'enterprise-main-layout--maximized': tabsStore.maximized
+        }
+      ]"
     >
-      <div :class="['enterprise-content-inner', { 'enterprise-content-inner--immersive': immersive }]">
-        <router-view v-slot="{ Component, route: viewRoute }">
-          <keep-alive :max="10">
+      <ConsoleTabsBar v-if="tabsEnabled" />
+      <main
+        ref="contentRef"
+        :class="['enterprise-content', { 'enterprise-content--immersive': immersive }]"
+      >
+        <div :class="['enterprise-content-inner', { 'enterprise-content-inner--immersive': immersive }]">
+          <router-view v-slot="{ Component, route: viewRoute }">
+            <keep-alive :max="10">
+              <component
+                :is="Component"
+                v-if="Component && isRouteCached(viewRoute)"
+                :key="getViewKey(viewRoute)"
+              />
+            </keep-alive>
             <component
               :is="Component"
-              v-if="Component && isRouteCached(viewRoute)"
+              v-if="Component && !isRouteCached(viewRoute)"
               :key="getViewKey(viewRoute)"
             />
-          </keep-alive>
-          <component
-            :is="Component"
-            v-if="Component && !isRouteCached(viewRoute)"
-            :key="getViewKey(viewRoute)"
-          />
-        </router-view>
-      </div>
-    </main>
+          </router-view>
+        </div>
+      </main>
 
-    <a-tooltip v-if="tabsStore.maximized" title="退出最大化">
-      <button class="console-workspace-exit" type="button" aria-label="退出最大化" @click="tabsStore.maximized = false">
-        <Minimize2 :size="18" />
-      </button>
-    </a-tooltip>
-  </a-layout>
+      <a-tooltip v-if="tabsStore.maximized" title="退出最大化">
+        <button class="console-workspace-exit" type="button" aria-label="退出最大化" @click="tabsStore.maximized = false">
+          <Minimize2 :size="18" />
+        </button>
+      </a-tooltip>
+    </a-layout>
+  </Teleport>
 </template>
 
 <script setup>
@@ -158,6 +160,8 @@ onBeforeUnmount(() => {
   z-index: 1200;
   width: 100vw;
   height: 100vh;
+  min-height: 100vh;
+  flex: none;
   background: var(--console-bg);
 }
 
@@ -166,7 +170,13 @@ onBeforeUnmount(() => {
 }
 
 .enterprise-main-layout--maximized .enterprise-content {
+  min-height: 0;
+  flex: 1;
   height: 100vh;
+}
+
+:global(body.console-workspace-maximized) {
+  overflow: hidden;
 }
 
 .console-workspace-exit {

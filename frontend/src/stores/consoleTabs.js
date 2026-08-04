@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia'
 import { computed, reactive, ref } from 'vue'
-import { buildConsoleTabKey, createConsoleTab, isRestorableConsoleRoute } from '@/utils/consoleTabs'
+import {
+  buildConsoleTabKey,
+  createConsoleTab,
+  isRestorableConsoleRoute,
+  reorderConsoleTabs
+} from '@/utils/consoleTabs'
 
 const STORAGE_PREFIX = 'console-tabs:v1'
 
@@ -65,13 +70,8 @@ export const useConsoleTabsStore = defineStore('consoleTabs', () => {
     }
 
     const resolvedHome = router.resolve(homePath)
-    if (isRestorableConsoleRoute(resolvedHome, canAccessPath)) {
+    if (!tabs.value.length && isRestorableConsoleRoute(resolvedHome, canAccessPath)) {
       addRoute(resolvedHome, rootMenus, { affix: true })
-      const homeIndex = tabs.value.findIndex((tab) => tab.key === buildConsoleTabKey(resolvedHome))
-      if (homeIndex > 0) {
-        const [homeTab] = tabs.value.splice(homeIndex, 1)
-        tabs.value.unshift(homeTab)
-      }
     }
     persist()
   }
@@ -92,7 +92,7 @@ export const useConsoleTabsStore = defineStore('consoleTabs', () => {
 
   function remove(key) {
     const index = tabs.value.findIndex((tab) => tab.key === key)
-    if (index < 0 || tabs.value[index].affix) return false
+    if (index < 0 || tabs.value[index].affix || tabs.value.length <= 1) return false
     tabs.value.splice(index, 1)
     invalidate(key)
     delete scrollPositions[key]
@@ -102,12 +102,37 @@ export const useConsoleTabsStore = defineStore('consoleTabs', () => {
 
   function removeMany(keys = []) {
     const targets = new Set(keys)
-    tabs.value
-      .filter((tab) => targets.has(tab.key) && !tab.affix)
-      .forEach((tab) => invalidate(tab.key))
-    tabs.value = tabs.value.filter((tab) => tab.affix || !targets.has(tab.key))
-    keys.forEach((key) => delete scrollPositions[key])
+    const removableTabs = tabs.value.filter((tab) => targets.has(tab.key) && !tab.affix)
+    if (!removableTabs.length || removableTabs.length >= tabs.value.length) return false
+    removableTabs.forEach((tab) => {
+      invalidate(tab.key)
+      delete scrollPositions[tab.key]
+    })
+    tabs.value = tabs.value.filter((tab) => !removableTabs.some((item) => item.key === tab.key))
     persist()
+    return true
+  }
+
+  function keepOnly(key) {
+    const retainedTab = tabs.value.find((tab) => tab.key === key)
+    if (!retainedTab) return false
+    tabs.value
+      .filter((tab) => tab.key !== key)
+      .forEach((tab) => {
+        invalidate(tab.key)
+        delete scrollPositions[tab.key]
+      })
+    tabs.value = [retainedTab]
+    persist()
+    return true
+  }
+
+  function setAffix(key, affix) {
+    const tab = tabs.value.find((item) => item.key === key)
+    if (!tab) return false
+    tab.affix = Boolean(affix)
+    persist()
+    return true
   }
 
   function updateTitle(key, title) {
@@ -115,6 +140,12 @@ export const useConsoleTabsStore = defineStore('consoleTabs', () => {
     if (!tab || !String(title || '').trim()) return
     tab.title = String(title).trim()
     persist()
+  }
+
+  function reorder(oldIndex, newIndex) {
+    const previousOrder = tabs.value.map((tab) => tab.key).join('|')
+    tabs.value = reorderConsoleTabs(tabs.value, oldIndex, newIndex)
+    if (tabs.value.map((tab) => tab.key).join('|') !== previousOrder) persist()
   }
 
   function syncMenuPolicies(router, rootMenus = []) {
@@ -169,6 +200,9 @@ export const useConsoleTabsStore = defineStore('consoleTabs', () => {
     invalidate,
     remove,
     removeMany,
+    keepOnly,
+    setAffix,
+    reorder,
     updateTitle,
     syncMenuPolicies,
     setDirty,

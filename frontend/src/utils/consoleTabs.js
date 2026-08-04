@@ -30,8 +30,21 @@ export function findExactRouteMenu(route, rootMenus = []) {
   }) || null
 }
 
+export function findDisplayRouteMenu(route, rootMenus = []) {
+  const exactMenu = findExactRouteMenu(route, rootMenus)
+  if (exactMenu) return exactMenu
+
+  return flattenMenus(rootMenus)
+    .filter((menu) => {
+      if (menu.enabled === false || !menu.routePath) return false
+      return route.path.startsWith(`${menu.routePath}/`)
+    })
+    .sort((left, right) => right.routePath.length - left.routePath.length)[0] || null
+}
+
 function getRouteTitle(route, menu) {
   const baseTitle = menu?.name || route.meta?.title || '控制台页面'
+  if (route.meta?.deferTabTitle) return baseTitle
   const detailValue = route.params?.category || route.params?.tag || route.params?.slug
   if (!detailValue) return baseTitle
 
@@ -46,6 +59,7 @@ function getRouteTitle(route, menu) {
 
 export function createConsoleTab(route, rootMenus = [], options = {}) {
   const menu = findExactRouteMenu(route, rootMenus)
+  const displayMenu = findDisplayRouteMenu(route, rootMenus)
   const routeCacheSetting = route.meta?.pageCacheEnabled
   const pageCacheEnabled = typeof routeCacheSetting === 'boolean'
     ? routeCacheSetting
@@ -57,10 +71,27 @@ export function createConsoleTab(route, rootMenus = [], options = {}) {
     title: getRouteTitle(route, menu),
     fullPath: route.fullPath,
     path: route.path,
-    icon: menu?.icon || '',
+    icon: displayMenu?.icon || route.meta?.icon || 'FileTextOutlined',
     pageCacheEnabled,
     affix: Boolean(options.affix)
   }
+}
+
+export function reorderConsoleTabs(tabs = [], oldIndex, newIndex) {
+  const nextTabs = [...tabs]
+  if (
+    oldIndex === newIndex ||
+    oldIndex < 0 ||
+    newIndex < 0 ||
+    oldIndex >= nextTabs.length ||
+    newIndex >= nextTabs.length
+  ) {
+    return nextTabs
+  }
+
+  const [movedTab] = nextTabs.splice(oldIndex, 1)
+  nextTabs.splice(newIndex, 0, movedTab)
+  return nextTabs
 }
 
 export function isRestorableConsoleRoute(route, canAccessPath) {

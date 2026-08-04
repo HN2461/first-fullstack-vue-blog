@@ -105,7 +105,7 @@ export const router = createRouter({
           path: 'articles/:slug',
           name: 'ConsoleArticleDetail',
           redirect: (to) => `/console/article-directory/articles/${to.params.slug}`,
-          meta: { title: '文章详情', requiresAuth: true }
+          meta: { title: '文章详情', requiresAuth: true, deferTabTitle: true }
         },
         {
           path: 'article-directory',
@@ -117,7 +117,7 @@ export const router = createRouter({
           path: 'article-directory/articles/:slug',
           name: 'ConsoleDirectoryArticleDetail',
           component: ArticleDetailPage,
-          meta: { title: '文章详情', requiresAuth: true }
+          meta: { title: '文章详情', requiresAuth: true, deferTabTitle: true }
         },
         {
           path: 'article-directory/categories/:category',
@@ -268,7 +268,7 @@ export const router = createRouter({
           path: 'manage/articles/:id([a-f\\d]{24})/read',
           name: 'AdminArticlePreview',
           component: ArticleDetailPage,
-          meta: { title: '文章预览', requiresAdmin: true, adminArticlePreview: true }
+          meta: { title: '文章预览', requiresAdmin: true, adminArticlePreview: true, deferTabTitle: true }
         },
         {
           path: 'manage/articles/:id([a-f\\d]{24})',
