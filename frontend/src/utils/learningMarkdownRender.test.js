@@ -23,7 +23,7 @@ function collectMarkdownPaths(root) {
 }
 
 function stripFrontMatter(content) {
-  return String(content).replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n+/, '')
+  return String(content).replace(/^---\r?\n[\s\S]*?\r?\n---(?:\r?\n)+/, '')
 }
 
 describe('database learning markdown rendering', () => {

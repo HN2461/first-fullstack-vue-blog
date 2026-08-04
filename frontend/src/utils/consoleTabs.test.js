@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { buildConsoleTabKey, createConsoleTab, findExactRouteMenu } from './consoleTabs'
+import {
+  buildConsoleTabKey,
+  createConsoleTab,
+  findExactRouteMenu,
+  shouldConfirmConsoleTabClose
+} from './consoleTabs'
 
 const rootMenus = [
   {
@@ -62,5 +67,12 @@ describe('consoleTabs', () => {
   it('lets explicit route metadata override menu cache settings', () => {
     const route = createRoute({ meta: { title: '文章管理', pageCacheEnabled: false } })
     expect(createConsoleTab(route, rootMenus).pageCacheEnabled).toBe(false)
+  })
+
+  it('directly confirms dirty inactive tabs and dirty active cached tabs', () => {
+    expect(shouldConfirmConsoleTabClose({ key: 'inactive', pageCacheEnabled: false }, 'active', true)).toBe(true)
+    expect(shouldConfirmConsoleTabClose({ key: 'active', pageCacheEnabled: true }, 'active', true)).toBe(true)
+    expect(shouldConfirmConsoleTabClose({ key: 'active', pageCacheEnabled: false }, 'active', true)).toBe(false)
+    expect(shouldConfirmConsoleTabClose({ key: 'active', pageCacheEnabled: true }, 'active', false)).toBe(false)
   })
 })

@@ -108,7 +108,7 @@ import {
   X
 } from 'lucide-vue-next'
 import { useConsoleTabsStore } from '@/stores/consoleTabs'
-import { buildConsoleTabKey } from '@/utils/consoleTabs'
+import { buildConsoleTabKey, shouldConfirmConsoleTabClose } from '@/utils/consoleTabs'
 
 const route = useRoute()
 const router = useRouter()
@@ -158,7 +158,7 @@ async function openTab(tab) {
 
 async function closeTab(tab) {
   if (!tab || tab.affix) return
-  if (tab.key !== activeKey.value && tabsStore.isDirty(tab.key) && !(await confirmDiscard())) return
+  if (shouldConfirmConsoleTabClose(tab, activeKey.value, tabsStore.isDirty(tab.key)) && !(await confirmDiscard())) return
 
   if (tab.key === activeKey.value) {
     const index = tabIndex(tab)

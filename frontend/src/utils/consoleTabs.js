@@ -19,6 +19,10 @@ export function buildConsoleTabKey(route) {
   return params.length ? `${routeName}:${params.join('&')}` : routeName
 }
 
+export function shouldConfirmConsoleTabClose(tab, activeKey, isDirty) {
+  return Boolean(tab && isDirty && (tab.key !== activeKey || tab.pageCacheEnabled))
+}
+
 export function findExactRouteMenu(route, rootMenus = []) {
   const menus = flattenMenus(rootMenus)
   return [...menus].reverse().find((menu) => {

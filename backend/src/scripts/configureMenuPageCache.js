@@ -45,6 +45,10 @@ async function main() {
       return
     }
 
+    if (missingCodes.length > 0) {
+      throw new Error(`缺少 ${missingCodes.length} 个目标菜单，已停止写入页面缓存配置`)
+    }
+
     if (pendingMenus.length > 0) {
       await Menu.updateMany(
         { _id: { $in: pendingMenus.map((menu) => menu._id) } },
@@ -58,7 +62,7 @@ async function main() {
     })
     console.log(`写入后已开启缓存：${enabledCount} 项`)
 
-    if (enabledCount !== menus.length) {
+    if (enabledCount !== CACHE_ENABLED_MENU_CODES.length) {
       throw new Error('菜单页面缓存配置写入后数量不一致')
     }
   } finally {
