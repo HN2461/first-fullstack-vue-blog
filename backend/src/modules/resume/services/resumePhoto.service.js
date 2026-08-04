@@ -14,7 +14,10 @@ const extensionByMimeType = {
 
 const upload = multer({
   storage: multer.diskStorage({
-    destination: (req, file, callback) => callback(null, photoDir),
+    destination: (_req, _file, callback) => {
+      // 上传目录可能被运维清理或测试重置，每次写入前都要确保目录仍然存在。
+      fs.mkdir(photoDir, { recursive: true }, (error) => callback(error, photoDir))
+    },
     filename: (req, file, callback) => {
       callback(null, `${req.params.id}-${Date.now()}${extensionByMimeType[file.mimetype] || '.jpg'}`)
     }

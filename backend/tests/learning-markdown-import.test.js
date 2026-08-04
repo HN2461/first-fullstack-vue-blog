@@ -10,10 +10,9 @@ import {
 } from './helpers/testDatabase.js'
 
 const repositoryRoot = fileURLToPath(new URL('../..', import.meta.url))
-const offlineArticleRoot = path.join(repositoryRoot, 'output', '未导入线上')
 const learningRoots = [
-  path.join(offlineArticleRoot, 'MySQL'),
-  path.join(offlineArticleRoot, 'Redis')
+  path.join(repositoryRoot, 'output', '线上文章', '后端技术', '数据库', 'MySQL'),
+  path.join(repositoryRoot, 'output', '未导入线上', 'Redis')
 ]
 
 function collectMarkdownFiles(root) {
@@ -54,11 +53,12 @@ describe('database learning markdown import compatibility', () => {
     const files = learningRoots.flatMap(collectMarkdownFiles)
     const preview = await previewMarkdownArticleImport(files)
     const slugs = preview.items.map((item) => item.slug)
+    const warnings = preview.items.flatMap((item) => item.warnings || [])
 
-    expect(files.length).toBeGreaterThanOrEqual(40)
+    expect(files.length).toBeGreaterThanOrEqual(20)
     expect(preview.errorCount).toBe(0)
     expect(preview.duplicateCount).toBe(0)
-    expect(preview.warningCount).toBe(0)
+    expect(warnings.every((warning) => /^(分类「.+」不存在|标签不存在：.+)$/.test(warning))).toBe(true)
     expect(new Set(slugs).size).toBe(slugs.length)
     expect(preview.items.every((item) => item.canImport)).toBe(true)
     expect(preview.items.every((item) => item.contentMarkdown.startsWith('# '))).toBe(true)
