@@ -27,6 +27,17 @@ const REPORT_PATH = process.env.REDIS_ARTICLE_REPORT || (env.nodeEnv === 'produc
 const CATEGORY_PATH = ['后端技术', '数据库', 'Redis']
 const CATEGORY_SORT_ORDER = 40
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const CANONICAL_SOURCE_PATHS = {
+  'redis-practical-beginner-guide': 'Redis/README.md',
+  'redis-01-overview-fast-key-ttl': 'Redis/notes/01-认识Redis为什么快与Key生命周期.md',
+  'redis-02-core-data-structures': 'Redis/notes/02-核心数据结构与常见场景.md',
+  'redis-03-extended-types-internals-complexity': 'Redis/notes/03-扩展能力底层结构与复杂度.md',
+  'redis-04-atomicity-memory-performance': 'Redis/notes/04-原子操作内存管理与性能问题.md',
+  'redis-05-cache-consistency': 'Redis/notes/05-缓存问题与数据库一致性.md',
+  'redis-06-business-lock-idempotency': 'Redis/notes/06-常见业务场景分布式锁与幂等.md',
+  'redis-07-messaging-persistence-high-availability': 'Redis/notes/07-消息持久化与高可用.md',
+  'redis-08-security-monitoring-ioredis-case': 'Redis/notes/08-安全监控ioredis与项目应用.md'
+}
 
 if (PUBLISH && !APPLY) throw new Error('发布必须同时传入 --apply --publish')
 
@@ -65,7 +76,7 @@ function parseSourceRecord(filePath) {
   const tags = normalizeTags(data.tags)
   const sortOrder = Number(data.sortOrder)
   const contentMarkdown = String(parsed.content || '').trim()
-  const sourcePath = `Redis/${path.relative(SOURCE_ROOT, filePath).replace(/\\/g, '/')}`
+  const sourcePath = CANONICAL_SOURCE_PATHS[slug] || `Redis/${path.relative(SOURCE_ROOT, filePath).replace(/\\/g, '/')}`
   const errors = []
 
   if (!title || title.length > 120) errors.push('title 为空或超过 120 个字符')
