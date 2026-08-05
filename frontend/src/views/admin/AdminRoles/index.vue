@@ -1,23 +1,5 @@
 <template>
   <section class="rbac-page enterprise-page">
-    <header class="enterprise-page-header">
-      <div>
-        <h1>角色管理</h1>
-      </div>
-      <div class="enterprise-page-toolbar">
-        <a-button @click="refreshRoles">
-          <template #icon><ReloadOutlined /></template>
-          刷新
-        </a-button>
-        <a-tooltip :title="authStore.isSuperAdmin ? '新增角色' : '仅超级管理员可新增角色'">
-          <a-button type="primary" :disabled="!authStore.isSuperAdmin" @click="openCreate">
-            <template #icon><PlusOutlined /></template>
-            新增角色
-          </a-button>
-        </a-tooltip>
-      </div>
-    </header>
-
     <BlogTable
       ref="tableRef"
       class="role-table"
@@ -52,16 +34,27 @@
           @search="handleSearch"
           @change="handleSearchChange"
         />
-        <a-select v-model:value="filterStatus" placeholder="状态筛选" style="width: 128px">
-          <a-select-option value="all">全部状态</a-select-option>
-          <a-select-option value="active">启用</a-select-option>
-          <a-select-option value="disabled">禁用</a-select-option>
+        <a-select v-model:value="filterStatus" placeholder="状态筛选" style="width: 128px" show-search option-filter-prop="label">
+          <a-select-option value="all" label="全部状态">全部状态</a-select-option>
+          <a-select-option value="active" label="启用">启用</a-select-option>
+          <a-select-option value="disabled" label="禁用">禁用</a-select-option>
         </a-select>
-        <a-select v-model:value="filterType" placeholder="类型筛选" style="width: 140px">
-          <a-select-option value="all">全部类型</a-select-option>
-          <a-select-option value="builtin">内置角色</a-select-option>
-          <a-select-option value="custom">自定义角色</a-select-option>
+        <a-select v-model:value="filterType" placeholder="类型筛选" style="width: 140px" show-search option-filter-prop="label">
+          <a-select-option value="all" label="全部类型">全部类型</a-select-option>
+          <a-select-option value="builtin" label="内置角色">内置角色</a-select-option>
+          <a-select-option value="custom" label="自定义角色">自定义角色</a-select-option>
         </a-select>
+        <a-tooltip title="刷新数据">
+          <a-button aria-label="刷新角色数据" @click="refreshRoles">
+            <template #icon><ReloadOutlined /></template>
+          </a-button>
+        </a-tooltip>
+        <a-tooltip :title="authStore.isSuperAdmin ? '新增角色' : '仅超级管理员可新增角色'">
+          <a-button type="primary" :disabled="!authStore.isSuperAdmin" @click="openCreate">
+            <template #icon><PlusOutlined /></template>
+            新增角色
+          </a-button>
+        </a-tooltip>
       </template>
 
       <template #bodyCell="{ column, record }">
@@ -88,7 +81,7 @@
         <template v-else-if="column.key === 'action'">
           <a-space size="small">
             <a-tooltip title="编辑角色">
-              <a-button type="text" size="small" :disabled="!authStore.isSuperAdmin || record.isSuperAdmin" @click="openEdit(record)">
+              <a-button type="text" size="small" aria-label="编辑角色" :disabled="!authStore.isSuperAdmin || record.isSuperAdmin" @click="openEdit(record)">
                 <template #icon><EditOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -100,7 +93,7 @@
               @confirm="removeRole(record)"
             >
             <a-tooltip :title="getDeleteTooltip(record)">
-              <a-button type="text" size="small" danger :disabled="!canDeleteRole(record)">
+              <a-button type="text" size="small" danger aria-label="删除角色" :disabled="!canDeleteRole(record)">
                 <template #icon><DeleteOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -663,8 +656,7 @@ onMounted(loadPermissionTree)
 .rbac-page {
   height: var(--console-page-available-height);
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 16px;
+  grid-template-rows: minmax(0, 1fr);
 }
 
 .role-table {

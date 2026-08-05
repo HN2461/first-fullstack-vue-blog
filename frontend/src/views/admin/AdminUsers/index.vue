@@ -1,23 +1,5 @@
 <template>
   <section class="users-page enterprise-page">
-    <header class="enterprise-page-header">
-      <div>
-        <p class="enterprise-page-kicker">ACCOUNT DIRECTORY</p>
-        <h1>用户管理</h1>
-        <p>统一维护账号状态、角色分配和密码重置，支持多选后的批量处理。</p>
-      </div>
-      <div class="enterprise-page-toolbar">
-        <a-button @click="tableRef?.refresh?.()">
-          <template #icon><ReloadOutlined /></template>
-          刷新
-        </a-button>
-        <a-button type="primary" @click="openCreateUser">
-          <template #icon><UserAddOutlined /></template>
-          新增用户
-        </a-button>
-      </div>
-    </header>
-
     <BlogTable
       ref="tableRef"
       class="users-table"
@@ -80,9 +62,11 @@
           placeholder="角色筛选"
           style="width: 160px"
           allow-clear
+          show-search
+          option-filter-prop="label"
         >
-          <a-select-option value="all">全部角色</a-select-option>
-          <a-select-option v-for="role in roles" :key="role.code" :value="role.code">
+          <a-select-option value="all" label="全部角色">全部角色</a-select-option>
+          <a-select-option v-for="role in roles" :key="role.code" :value="role.code" :label="role.name">
             {{ role.name }}
           </a-select-option>
         </a-select>
@@ -91,12 +75,23 @@
           placeholder="状态筛选"
           style="width: 120px"
           allow-clear
+          show-search
+          option-filter-prop="label"
         >
-          <a-select-option value="all">全部状态</a-select-option>
-          <a-select-option value="active">正常</a-select-option>
-          <a-select-option value="muted">禁言</a-select-option>
-          <a-select-option value="disabled">禁用</a-select-option>
+          <a-select-option value="all" label="全部状态">全部状态</a-select-option>
+          <a-select-option value="active" label="正常">正常</a-select-option>
+          <a-select-option value="muted" label="禁言">禁言</a-select-option>
+          <a-select-option value="disabled" label="禁用">禁用</a-select-option>
         </a-select>
+        <a-tooltip title="刷新数据">
+          <a-button aria-label="刷新用户数据" @click="tableRef?.refresh?.()">
+            <template #icon><ReloadOutlined /></template>
+          </a-button>
+        </a-tooltip>
+        <a-button type="primary" @click="openCreateUser">
+          <template #icon><UserAddOutlined /></template>
+          新增用户
+        </a-button>
       </template>
 
       <template #bodyCell="{ column, record }">
@@ -147,7 +142,7 @@
         <template v-else-if="column.key === 'action'">
           <span v-if="record.isSuperAdmin" class="protected-action-text">系统保留</span>
           <a-dropdown v-else>
-            <a-button type="text" size="small" class="action-more-btn">
+            <a-button type="text" size="small" class="action-more-btn" aria-label="更多用户操作">
               <MoreOutlined />
             </a-button>
             <template #overlay>
@@ -200,10 +195,10 @@
           </a-col>
           <a-col :span="12">
             <a-form-item label="账号状态" name="status">
-              <a-select v-model:value="createUserForm.status">
-                <a-select-option value="active">正常</a-select-option>
-                <a-select-option value="muted">禁言</a-select-option>
-                <a-select-option value="disabled">禁用</a-select-option>
+              <a-select v-model:value="createUserForm.status" show-search option-filter-prop="label">
+                <a-select-option value="active" label="正常">正常</a-select-option>
+                <a-select-option value="muted" label="禁言">禁言</a-select-option>
+                <a-select-option value="disabled" label="禁用">禁用</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
@@ -212,8 +207,8 @@
           <a-input v-model:value="createUserForm.remarkName" placeholder="例如：老客户、同事、测试账号" :maxlength="60" allow-clear />
         </a-form-item>
         <a-form-item label="绑定角色" name="roleIds">
-          <a-select v-model:value="createUserForm.roleIds" mode="multiple" placeholder="不选择时默认绑定访客角色">
-            <a-select-option v-for="role in assignableRoles" :key="role.id" :value="role.id">
+          <a-select v-model:value="createUserForm.roleIds" mode="multiple" placeholder="不选择时默认绑定访客角色" show-search option-filter-prop="label">
+            <a-select-option v-for="role in assignableRoles" :key="role.id" :value="role.id" :label="role.name">
               {{ role.name }}
             </a-select-option>
           </a-select>
@@ -256,11 +251,12 @@
           <a-input :value="roleTargetLabel" disabled />
         </a-form-item>
         <a-form-item label="角色" required>
-          <a-select v-model:value="roleForm.roleIds" mode="multiple" placeholder="请选择角色">
+          <a-select v-model:value="roleForm.roleIds" mode="multiple" placeholder="请选择角色" show-search option-filter-prop="label">
             <a-select-option
               v-for="role in assignableRoles"
               :key="role.id"
               :value="role.id"
+              :label="role.name"
             >
               {{ role.name }}
             </a-select-option>
@@ -711,8 +707,7 @@ onMounted(loadRoles)
 .users-page {
   height: var(--console-page-available-height);
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: 16px;
+  grid-template-rows: minmax(0, 1fr);
 }
 
 .users-table {

@@ -27,18 +27,18 @@
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--console-border, #e5e7eb);
 }
 
 .project-timeline-search {
-  width: min(360px, 100%);
+  width: min(320px, 100%);
 }
 
 .project-timeline-category {
-  width: 180px;
+  width: 160px;
 }
 
 .project-timeline-help-button {
@@ -120,7 +120,7 @@
   min-height: 24px;
   padding: 2px 9px;
   border: 1px solid var(--timeline-category-border);
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--timeline-category-bg);
   color: var(--timeline-category-text);
   font-size: 12px;
@@ -147,51 +147,19 @@
 }
 
 .timeline-entry__detail {
-  margin: 12px 0 0;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--console-border, #e5e7eb) 76%, transparent);
   word-break: break-word;
-  line-height: 1.75;
   color: var(--console-text, #101828);
 }
 
-.timeline-entry__detail p {
+.timeline-entry__detail-text {
   margin: 0;
-}
-
-.timeline-entry__detail p + p {
-  margin-top: 8px;
-}
-
-.timeline-entry__detail-list {
-  display: grid;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.timeline-entry__detail-list li {
-  display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
-  gap: 8px;
-  align-items: start;
-  padding: 8px 10px;
-  border: 1px solid color-mix(in srgb, var(--console-border, #e5e7eb) 82%, transparent);
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--console-surface, #fff) 78%, transparent);
-}
-
-.timeline-entry__detail-index {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  background: var(--console-primary-soft, #eef4ff);
-  color: var(--console-primary, #2563eb);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 1.8;
 }
 
 .timeline-entry__meta {

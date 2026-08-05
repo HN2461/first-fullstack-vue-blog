@@ -460,16 +460,16 @@ onUnmounted(() => {
   color: var(--console-primary-strong);
 }
 
-.form-item :deep(.ant-input),
-.form-item :deep(.ant-input-affix-wrapper),
-.form-item :deep(.ant-input-textarea) {
+.form-item > :deep(.ant-input),
+.form-item > :deep(.ant-input-affix-wrapper),
+.form-item > :deep(.ant-input-textarea) {
   border-radius: 8px;
   transition: all 0.2s;
 }
 
-.form-item :deep(.ant-input):hover,
-.form-item :deep(.ant-input-affix-wrapper:hover),
-.form-item :deep(.ant-input-textarea:hover) {
+.form-item > :deep(.ant-input):hover,
+.form-item > :deep(.ant-input-affix-wrapper:hover),
+.form-item > :deep(.ant-input-textarea:hover) {
   border-color: var(--console-primary);
 }
 
@@ -619,7 +619,7 @@ onUnmounted(() => {
 }
 
 .sys-info-dot--db {
-  background: #722ed1;
+  background: #13c2c2;
 }
 
 .sys-info-label {

@@ -37,6 +37,12 @@
   justify-content: flex-end;
 }
 
+.article-import-help {
+  flex: 0 0 auto;
+  color: var(--console-text-secondary);
+  cursor: help;
+}
+
 .article-import-confirm:not(:disabled) {
   color: #fff;
   border-color: #16a34a;

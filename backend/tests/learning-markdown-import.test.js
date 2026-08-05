@@ -12,7 +12,7 @@ import {
 const repositoryRoot = fileURLToPath(new URL('../..', import.meta.url))
 const learningRoots = [
   path.join(repositoryRoot, 'output', '线上文章', '后端技术', '数据库', 'MySQL'),
-  path.join(repositoryRoot, 'output', '未导入线上', 'Redis')
+  path.join(repositoryRoot, 'output', '线上文章', '后端技术', '数据库', 'Redis')
 ]
 
 function collectMarkdownFiles(root) {

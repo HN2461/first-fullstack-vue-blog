@@ -34,11 +34,13 @@
           placeholder="状态筛选"
           style="width: 120px"
           allow-clear
+          show-search
+          option-filter-prop="label"
         >
-          <a-select-option value="all">全部状态</a-select-option>
-          <a-select-option value="published">已发布</a-select-option>
-          <a-select-option value="draft">草稿</a-select-option>
-          <a-select-option value="archived">已下架</a-select-option>
+          <a-select-option value="all" label="全部状态">全部状态</a-select-option>
+          <a-select-option value="published" label="已发布">已发布</a-select-option>
+          <a-select-option value="draft" label="草稿">草稿</a-select-option>
+          <a-select-option value="archived" label="已下架">已下架</a-select-option>
         </a-select>
         <a-cascader
           v-model:value="filterCategoryPath"
@@ -131,7 +133,7 @@
               阅读
             </a-button>
             <a-dropdown>
-              <a-button type="text" size="small">
+              <a-button type="text" size="small" aria-label="更多文章操作">
                 <MoreOutlined />
               </a-button>
               <template #overlay>

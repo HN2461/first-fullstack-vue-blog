@@ -19,12 +19,17 @@
           <h2 class="comment-title">评论审核</h2>
           <div class="comment-filters">
             <span class="filter-label">状态</span>
-            <a-select v-model:value="status" class="status-select">
-              <a-select-option value="">全部</a-select-option>
-              <a-select-option value="pending">待审核</a-select-option>
-              <a-select-option value="visible">已展示</a-select-option>
-              <a-select-option value="rejected">已驳回</a-select-option>
-              <a-select-option value="hidden">已隐藏</a-select-option>
+            <a-select
+              v-model:value="status"
+              class="status-select"
+              show-search
+              option-filter-prop="label"
+            >
+              <a-select-option value="" label="全部">全部</a-select-option>
+              <a-select-option value="pending" label="待审核">待审核</a-select-option>
+              <a-select-option value="visible" label="已展示">已展示</a-select-option>
+              <a-select-option value="rejected" label="已驳回">已驳回</a-select-option>
+              <a-select-option value="hidden" label="已隐藏">已隐藏</a-select-option>
             </a-select>
           </div>
           <BatchActionBar :count="selectedCommentIds.length" @clear="clearSelection">
@@ -58,18 +63,18 @@
         <template v-else-if="column.key === 'action'">
           <div class="comment-actions">
             <a-tooltip title="通过">
-              <a-button type="text" class="action-btn action-approve" @click="review(record.id, 'approve')">
+              <a-button type="text" class="action-btn action-approve" aria-label="通过评论" @click="review(record.id, 'approve')">
                 <template #icon><CheckCircleOutlined /></template>
               </a-button>
             </a-tooltip>
             <a-tooltip title="驳回">
-              <a-button type="text" class="action-btn action-reject" @click="review(record.id, 'reject')">
+              <a-button type="text" class="action-btn action-reject" aria-label="驳回评论" @click="review(record.id, 'reject')">
                 <template #icon><CloseCircleOutlined /></template>
               </a-button>
             </a-tooltip>
             <a-divider type="vertical" class="action-divider" />
             <a-tooltip title="隐藏">
-              <a-button type="text" class="action-btn action-hide" @click="review(record.id, 'hide')">
+              <a-button type="text" class="action-btn action-hide" aria-label="隐藏评论" @click="review(record.id, 'hide')">
                 <template #icon><EyeInvisibleOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -264,7 +269,7 @@ async function review(id, action) {
 
 .comment-table :deep(.blog-table) {
   border: 1px solid var(--console-border);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
 }
 

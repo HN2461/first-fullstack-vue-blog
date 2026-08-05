@@ -20,37 +20,37 @@ import '@/styles/festival.css'
 const appStore = useAppStore()
 const antThemeConfig = computed(() => {
   const isDark = appStore.isDark
-  const primary = isDark ? '#8ab4ff' : '#165dff'
-  const text = isDark ? '#f2f4f7' : '#1d2129'
-  const textSecondary = isDark ? '#98a2b3' : '#4e5969'
-  const border = isDark ? '#273244' : '#e5e6eb'
+  const primary = isDark ? '#8ab4ff' : '#409eff'
+  const text = isDark ? '#f2f4f7' : '#303133'
+  const textSecondary = isDark ? '#98a2b3' : '#606266'
+  const border = isDark ? '#273244' : '#dcdfe6'
   const surface = isDark ? '#151f2e' : '#ffffff'
-  const surfaceMuted = isDark ? '#1d2939' : '#f2f3f5'
+  const surfaceMuted = isDark ? '#1d2939' : '#f5f7fa'
 
   return {
     algorithm: isDark ? antTheme.darkAlgorithm : antTheme.defaultAlgorithm,
     token: {
       colorPrimary: primary,
       colorInfo: primary,
-      colorSuccess: isDark ? '#4fc782' : '#00b42a',
-      colorWarning: isDark ? '#ffb65d' : '#ff7d00',
-      colorError: isDark ? '#ff7875' : '#f53f3f',
+      colorSuccess: isDark ? '#4fc782' : '#67c23a',
+      colorWarning: isDark ? '#ffb65d' : '#e6a23c',
+      colorError: isDark ? '#ff7875' : '#f56c6c',
       colorLink: primary,
-      colorBgLayout: isDark ? '#0f1623' : '#f2f3f5',
+      colorBgLayout: isDark ? '#0f1623' : '#f5f7fa',
       colorBgContainer: surface,
       colorBgElevated: isDark ? '#1a2637' : '#ffffff',
       colorText: text,
       colorTextSecondary: textSecondary,
-      colorTextTertiary: isDark ? '#7d899a' : '#86909c',
+      colorTextTertiary: isDark ? '#7d899a' : '#909399',
       colorBorder: border,
-      colorBorderSecondary: isDark ? '#222d3d' : '#f0f1f2',
+      colorBorderSecondary: isDark ? '#222d3d' : '#ebeef5',
       colorFillSecondary: surfaceMuted,
-      colorFillTertiary: isDark ? '#182334' : '#f7f8fa',
-      colorFillQuaternary: isDark ? '#151f2e' : '#fafbfc',
-      controlOutline: isDark ? 'rgba(138, 180, 255, 0.22)' : 'rgba(22, 93, 255, 0.16)',
-      borderRadius: isDark ? 8 : 6,
+      colorFillTertiary: isDark ? '#182334' : '#f0f2f5',
+      colorFillQuaternary: isDark ? '#151f2e' : '#fafafa',
+      controlOutline: isDark ? 'rgba(138, 180, 255, 0.22)' : 'rgba(64, 158, 255, 0.16)',
+      borderRadius: 8,
       borderRadiusLG: 8,
-      borderRadiusSM: 4,
+      borderRadiusSM: 6,
       fontFamily: "'Knowledge Sans SC', 'Microsoft YaHei UI', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif",
       fontSize: 14,
       fontWeightStrong: 600,
@@ -58,33 +58,37 @@ const antThemeConfig = computed(() => {
     },
     components: {
       Button: {
-        borderRadius: isDark ? 8 : 6,
-        colorPrimaryHover: isDark ? '#9bc0ff' : '#4080ff',
-        colorPrimaryActive: isDark ? '#70a0f2' : '#0e42d2'
+        borderRadius: 8,
+        colorPrimaryHover: isDark ? '#9bc0ff' : '#66b1ff',
+        colorPrimaryActive: isDark ? '#70a0f2' : '#337ecc',
+        defaultBorderColor: border
       },
       Card: {
-        borderRadiusLG: isDark ? 8 : 6,
+        borderRadiusLG: 8,
         colorBorderSecondary: border
       },
       Input: {
         colorBgContainer: isDark ? '#111927' : '#ffffff',
-        colorBorder: isDark ? '#344054' : '#c9cdd4'
+        colorBorder: isDark ? '#344054' : '#dcdfe6',
+        hoverBorderColor: isDark ? '#8ab4ff' : '#c0c4cc',
+        activeBorderColor: primary,
+        activeShadow: isDark ? '0 0 0 2px rgba(138, 180, 255, 0.16)' : '0 0 0 2px rgba(64, 158, 255, 0.14)'
       },
       Menu: {
-        colorItemText: isDark ? '#cbd5e1' : '#4e5969',
+        colorItemText: isDark ? '#cbd5e1' : '#606266',
         colorItemTextHover: text,
         colorItemTextHoverHorizontal: text,
         colorItemTextSelected: text,
         colorItemTextSelectedHorizontal: text,
         colorItemBg: 'transparent',
-        colorItemBgHover: isDark ? '#1d2939' : '#f2f3f5',
+        colorItemBgHover: isDark ? '#1d2939' : '#f5f7fa',
         colorSubItemBg: isDark ? '#151f2e' : '#ffffff',
-        colorItemBgSelected: isDark ? 'rgba(138, 180, 255, 0.16)' : '#e8f3ff',
+        colorItemBgSelected: isDark ? 'rgba(138, 180, 255, 0.16)' : '#ecf5ff',
         colorItemBgSelectedHorizontal: 'transparent',
         colorActiveBarHeight: 2,
         itemMarginInline: 0,
-        radiusItem: isDark ? 6 : 4,
-        radiusSubMenuItem: isDark ? 6 : 4
+        radiusItem: 6,
+        radiusSubMenuItem: 6
       },
       Modal: {
         borderRadiusLG: 8,
@@ -93,16 +97,18 @@ const antThemeConfig = computed(() => {
       Select: {
         colorBgElevated: isDark ? '#1a2637' : '#ffffff',
         controlItemBgHover: surfaceMuted,
-        controlItemBgActive: isDark ? '#223047' : '#e8f3ff'
+        controlItemBgActive: isDark ? '#223047' : '#ecf5ff'
       },
       Table: {
         colorBgContainer: surface,
         colorFillAlter: surfaceMuted,
-        colorTextHeading: isDark ? '#cbd5e1' : '#4e5969',
+        colorTextHeading: isDark ? '#cbd5e1' : '#606266',
         colorBorderSecondary: border,
-        colorFillContent: isDark ? '#223047' : '#f6f8fa',
-        controlItemBgActive: isDark ? '#223047' : '#e8f3ff',
-        fontSize: isDark ? 14 : 13
+        headerBg: isDark ? '#1d2939' : '#f5f7fa',
+        rowHoverBg: isDark ? '#223047' : '#f5f7fa',
+        colorFillContent: isDark ? '#223047' : '#f5f7fa',
+        controlItemBgActive: isDark ? '#223047' : '#ecf5ff',
+        fontSize: 14
       },
       Tabs: {
         colorPrimary: primary,

@@ -59,7 +59,7 @@
 
 .announce-table :deep(.blog-table) {
   border: 1px solid var(--console-border);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -283,6 +283,12 @@
   font-size: 12px;
   color: var(--console-text-secondary);
   line-height: 1.6;
+}
+
+.announce-help-icon {
+  margin-left: 4px;
+  color: var(--console-text-tertiary, var(--console-text-secondary));
+  cursor: help;
 }
 
 .announce-template-tip-row {

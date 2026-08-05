@@ -1022,6 +1022,8 @@ onMounted(async () => {
   padding: 8px;
   flex: 1;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .tab-item {
@@ -1074,6 +1076,15 @@ onMounted(async () => {
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tab-list::-webkit-scrollbar,
+.main-card::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .content-title {

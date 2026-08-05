@@ -66,7 +66,7 @@
         <template v-else-if="column.key === 'action'">
           <div class="taxonomy-actions">
             <a-tooltip title="编辑">
-              <a-button type="text" size="small" class="action-edit" @click="openModal(record)">
+              <a-button type="text" size="small" class="action-edit" aria-label="编辑标签" @click="openModal(record)">
                 <template #icon><EditOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -75,6 +75,7 @@
                 type="text"
                 size="small"
                 :class="record.status === 'active' ? 'action-disable' : 'action-enable'"
+                :aria-label="record.status === 'active' ? '禁用标签' : '启用标签'"
                 @click="handleToggleStatus(record)"
               >
                 <template #icon>
@@ -84,7 +85,7 @@
               </a-button>
             </a-tooltip>
             <a-tooltip title="删除">
-              <a-button type="text" size="small" danger class="action-delete" @click="handleDelete(record)">
+              <a-button type="text" size="small" danger class="action-delete" aria-label="删除标签" @click="handleDelete(record)">
                 <template #icon><DeleteOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -100,6 +101,7 @@
       :confirm-loading="submitting"
       :width="520"
       :destroy-on-close="true"
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
       ok-text="确认"
       cancel-text="取消"
       @ok="handleModalSubmit"

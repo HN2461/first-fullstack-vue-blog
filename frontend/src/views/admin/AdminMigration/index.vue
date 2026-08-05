@@ -1,24 +1,5 @@
 <template>
   <section class="mg-page">
-    <!-- ══════ 页面头部 ══════ -->
-    <header class="mg-page-header">
-      <div class="mg-header-info">
-        <p class="mg-header-kicker">内容资产</p>
-        <h2>知识库迁移配置</h2>
-        <p class="mg-header-desc">编辑分类层级、排序和文章归属，按当前数据库内容手动对齐你的知识库目录习惯。</p>
-      </div>
-      <div class="mg-header-toolbar">
-        <a-button class="mg-btn" @click="reloadAll" :loading="treeLoading">
-          <template #icon><ReloadOutlined /></template>
-          刷新数据
-        </a-button>
-        <a-button type="primary" class="mg-btn mg-btn-primary" @click="openCreateModal()">
-          <template #icon><PlusOutlined /></template>
-          新增根分类
-        </a-button>
-      </div>
-    </header>
-
     <!-- ══════ 主体工作区 ══════ -->
     <div class="mg-workspace">
       <!-- ── 左栏：分类树 ── -->
@@ -28,6 +9,28 @@
             <ApartmentOutlined class="mg-aside-icon" />
             <strong>分类树</strong>
             <span class="mg-aside-count">{{ flatCategories.length }} 个节点</span>
+            <div class="mg-aside-actions">
+              <a-tooltip title="刷新数据">
+                <a-button
+                  class="mg-btn mg-refresh-btn"
+                  aria-label="刷新数据"
+                  :loading="treeLoading"
+                  @click="reloadAll"
+                >
+                  <template #icon><ReloadOutlined /></template>
+                </a-button>
+              </a-tooltip>
+              <a-tooltip title="新增根分类">
+                <a-button
+                  type="primary"
+                  class="mg-btn mg-btn-primary mg-root-btn"
+                  aria-label="新增根分类"
+                  @click="openCreateModal()"
+                >
+                  <template #icon><PlusOutlined /></template>
+                </a-button>
+              </a-tooltip>
+            </div>
           </div>
           <a-input-search
             v-model:value="categoryKeyword"
@@ -202,6 +205,8 @@
                     :tree-data="parentTreeData"
                     :disabled="isLockedCategory"
                     allow-clear
+                    show-search
+                    tree-node-filter-prop="title"
                     placeholder="保持为空则为顶级分类"
                     tree-default-expand-all
                   />
@@ -210,9 +215,14 @@
                   <a-input-number v-model:value="editForm.sortOrder" :disabled="isLockedCategory" :min="0" :max="9999" style="width: 100%" />
                 </a-form-item>
                 <a-form-item label="状态" name="status">
-                  <a-select v-model:value="editForm.status" :disabled="isLockedCategory">
-                    <a-select-option value="active">启用</a-select-option>
-                    <a-select-option value="hidden">隐藏</a-select-option>
+                  <a-select
+                    v-model:value="editForm.status"
+                    :disabled="isLockedCategory"
+                    show-search
+                    option-filter-prop="label"
+                  >
+                    <a-select-option value="active" label="启用">启用</a-select-option>
+                    <a-select-option value="hidden" label="隐藏">隐藏</a-select-option>
                   </a-select>
                 </a-form-item>
                 <a-form-item label="说明" name="description" class="mg-form-span-full">
@@ -340,6 +350,7 @@
       :confirm-loading="createSubmitting"
       width="620px"
       destroy-on-close
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
       ok-text="确认"
       cancel-text="取消"
       class="mg-modal"
@@ -363,6 +374,8 @@
               v-model:value="createForm.parent"
               :tree-data="createParentTreeData"
               allow-clear
+              show-search
+              tree-node-filter-prop="title"
               placeholder="留空则创建顶级分类"
               tree-default-expand-all
             />
@@ -371,9 +384,9 @@
             <a-input-number v-model:value="createForm.sortOrder" :min="0" :max="9999" style="width: 100%" />
           </a-form-item>
           <a-form-item label="状态" name="status">
-            <a-select v-model:value="createForm.status">
-              <a-select-option value="active">启用</a-select-option>
-              <a-select-option value="hidden">隐藏</a-select-option>
+            <a-select v-model:value="createForm.status" show-search option-filter-prop="label">
+              <a-select-option value="active" label="启用">启用</a-select-option>
+              <a-select-option value="hidden" label="隐藏">隐藏</a-select-option>
             </a-select>
           </a-form-item>
           <a-form-item label="说明" name="description" class="mg-form-span-full">
@@ -394,6 +407,7 @@
       :confirm-loading="movingArticle"
       width="540px"
       destroy-on-close
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
       ok-text="确认迁移"
       cancel-text="取消"
       class="mg-modal"
@@ -416,6 +430,8 @@
               v-model:value="moveArticleTargetId"
               :tree-data="articleMoveTreeData"
               allow-clear
+              show-search
+              tree-node-filter-prop="title"
               placeholder="选择要迁移到的分类"
               tree-default-expand-all
             />
@@ -1039,8 +1055,9 @@ onMounted(() => {
   flex-direction: column;
   gap: var(--console-page-gap);
   width: 100%;
-  min-height: var(--console-page-available-height);
-  overflow: visible;
+  height: var(--console-page-available-height);
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* ── 页面头部 ── */
@@ -1050,36 +1067,24 @@ onMounted(() => {
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-  padding: 16px 18px;
-  background: var(--console-surface);
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  padding: 0 0 10px;
+  border-bottom: 1px solid var(--console-border);
 }
 
 .mg-header-kicker {
-  margin: 0 0 2px;
-  color: var(--console-primary-strong);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  display: none;
 }
 
 .mg-page-header h2 {
   margin: 0;
   color: var(--console-text);
-  font-size: 20px;
-  font-weight: 650;
-  line-height: 28px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 32px;
 }
 
 .mg-header-desc {
-  margin: 4px 0 0;
-  max-width: 680px;
-  color: var(--console-text-secondary);
-  font-size: 13px;
-  line-height: 1.6;
+  display: none;
 }
 
 .mg-header-toolbar {
@@ -1087,7 +1092,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding-top: 16px;
+  padding-top: 0;
 }
 
 /* ── 按钮系统 ── */
@@ -1116,7 +1121,7 @@ onMounted(() => {
 .mg-workspace {
   flex: 1 1 0;
   display: grid;
-  grid-template-columns: 360px minmax(0, 1fr);
+  grid-template-columns: 320px minmax(0, 1fr);
   gap: var(--console-page-gap);
   min-height: 0;
 }
@@ -1125,11 +1130,10 @@ onMounted(() => {
 .mg-tree-aside {
   display: flex;
   flex-direction: column;
-  min-height: 720px;
+  min-height: 0;
   background: var(--console-surface);
   border: 1px solid var(--console-border);
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -1138,14 +1142,14 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 16px;
+  padding: 12px;
   border-bottom: 1px solid var(--console-border);
 }
 
 .mg-aside-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .mg-aside-icon {
@@ -1163,6 +1167,18 @@ onMounted(() => {
   margin-left: auto;
   color: var(--console-text-secondary);
   font-size: 12px;
+}
+
+.mg-aside-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mg-refresh-btn,
+.mg-root-btn {
+  width: 32px;
+  padding-inline: 0;
 }
 
 .mg-tree-search {
@@ -1347,8 +1363,7 @@ onMounted(() => {
 .mg-article-panel {
   background: var(--console-surface);
   border: 1px solid var(--console-border);
-  border-radius: 8px;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -1655,6 +1670,8 @@ onMounted(() => {
 
 .mg-modal :deep(.ant-modal-body) {
   padding: 20px 24px;
+  max-height: min(68vh, 680px);
+  overflow-y: auto;
 }
 
 /* ═══════════════════════════════════════════

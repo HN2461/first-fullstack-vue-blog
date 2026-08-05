@@ -49,6 +49,9 @@
               <template #icon><ImportOutlined /></template>
               确认导入 {{ selectedImportItems.length }} 篇
             </a-button>
+            <a-tooltip title="导入只会创建新草稿，不会覆盖原文章；Slug 已存在的条目会跳过。">
+              <QuestionCircleOutlined class="article-import-help" />
+            </a-tooltip>
             <a-button :disabled="!previewRows.length || previewLoading || commitLoading" @click="clearPreview">
               <template #icon><ClearOutlined /></template>
               清空
@@ -197,6 +200,7 @@ import {
   DownloadOutlined,
   FileWordOutlined,
   ImportOutlined,
+  QuestionCircleOutlined,
   UploadOutlined
 } from '@ant-design/icons-vue'
 import { message, Modal } from 'ant-design-vue'

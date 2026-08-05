@@ -25,6 +25,8 @@
         <a-select
           v-model:value="filterFileClass"
           allow-clear
+          show-search
+          option-filter-prop="label"
           placeholder="类型"
           style="width: 110px"
           size="middle"
@@ -33,6 +35,8 @@
         <a-select
           v-model:value="filterUsageStatus"
           allow-clear
+          show-search
+          option-filter-prop="label"
           placeholder="引用状态"
           style="width: 130px"
           size="middle"
@@ -173,22 +177,22 @@
           <template v-else-if="column.key === 'action'">
             <a-space :size="4">
               <a-tooltip title="预览">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--view" @click="handleView(record)">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--view" aria-label="预览媒体" @click="handleView(record)">
                   <template #icon><EyeOutlined /></template>
                 </a-button>
               </a-tooltip>
               <a-tooltip title="重命名">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--rename" @click="handleRename(record)">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--rename" aria-label="重命名媒体" @click="handleRename(record)">
                   <template #icon><EditOutlined /></template>
                 </a-button>
               </a-tooltip>
               <a-tooltip title="查看引用">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--refs" @click="openReferenceModal(record)">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--refs" aria-label="查看媒体引用" @click="openReferenceModal(record)">
                   <template #icon><LinkOutlined /></template>
                 </a-button>
               </a-tooltip>
               <a-tooltip title="移入回收站">
-                <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete" @click="handleDelete(record)">
+                <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete" aria-label="移入回收站" @click="handleDelete(record)">
                   <template #icon><DeleteOutlined /></template>
                 </a-button>
               </a-tooltip>
@@ -322,7 +326,7 @@
         <!-- 音频预览 -->
         <div v-else-if="previewType === 'audio'" class="media-preview__audio">
           <div class="media-preview__audio-icon">
-            <CustomerServiceOutlined style="font-size: 48px; color: #8b5cf6" />
+            <CustomerServiceOutlined style="font-size: 48px; color: var(--console-primary-strong)" />
           </div>
           <h3>{{ previewRecord.originalName }}</h3>
           <audio :src="previewRecord.url" controls preload="metadata" class="media-preview__player">
@@ -1277,16 +1281,25 @@ onMounted(async () => {
   gap: 6px;
   min-width: 0;
   overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.media-cloud__type-filter::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .media-type-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  background: #ffffff;
+  padding: 4px 10px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
   font-size: 13px;
   color: #64748b;
   cursor: pointer;
@@ -1296,15 +1309,15 @@ onMounted(async () => {
 }
 
 .media-type-chip:hover {
-  border-color: #94a3b8;
-  color: #334155;
-  background: #f8fafc;
+  border-bottom-color: var(--console-border-strong);
+  color: var(--console-text);
+  background: transparent;
 }
 
 .media-type-chip.is-active {
-  border-color: #3b82f6;
-  background: #eff6ff;
-  color: #2563eb;
+  border-bottom-color: var(--console-primary);
+  background: transparent;
+  color: var(--console-primary-strong);
   font-weight: 500;
 }
 
@@ -1353,9 +1366,9 @@ onMounted(async () => {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  border-radius: 10px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: var(--console-surface-muted);
+  border: 1px solid var(--console-border);
   position: relative;
 }
 
@@ -1364,7 +1377,7 @@ onMounted(async () => {
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 9px;
+  border-radius: 5px;
 }
 
 .media-file__ext {
@@ -1376,28 +1389,28 @@ onMounted(async () => {
 
 /* 文件类型缩略图色彩 */
 .media-file__thumb.is-image {
-  background: linear-gradient(135deg, #eff6ff, #dbeafe);
-  border-color: #bfdbfe;
+  background: color-mix(in srgb, var(--console-primary) 10%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, var(--console-primary) 28%, var(--console-border));
 }
-.media-file__thumb.is-image .media-file__ext { color: #2563eb; }
+.media-file__thumb.is-image .media-file__ext { color: var(--console-primary-strong); }
 
 .media-file__thumb.is-code {
-  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-  border-color: #bbf7d0;
+  background: color-mix(in srgb, #52c41a 10%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, #52c41a 30%, var(--console-border));
 }
-.media-file__thumb.is-code .media-file__ext { color: #16a34a; }
+.media-file__thumb.is-code .media-file__ext { color: #389e0d; }
 
 .media-file__thumb.is-document {
-  background: linear-gradient(135deg, #fefce8, #fef9c3);
-  border-color: #fde68a;
+  background: color-mix(in srgb, #faad14 12%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, #faad14 30%, var(--console-border));
 }
-.media-file__thumb.is-document .media-file__ext { color: #ca8a04; }
+.media-file__thumb.is-document .media-file__ext { color: #d48806; }
 
 .media-file__thumb.is-archive {
-  background: linear-gradient(135deg, #fff1f2, #ffe4e6);
-  border-color: #fecdd3;
+  background: color-mix(in srgb, #ff4d4f 10%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, #ff4d4f 28%, var(--console-border));
 }
-.media-file__thumb.is-archive .media-file__ext { color: #e11d48; }
+.media-file__thumb.is-archive .media-file__ext { color: #cf1322; }
 
 .media-file__info {
   flex: 1;
@@ -1491,7 +1504,7 @@ onMounted(async () => {
 }
 
 .media-action-btn--rename {
-  color: #7c3aed !important;
+  color: #d48806 !important;
 }
 
 .media-action-btn--refs {
@@ -1504,8 +1517,8 @@ onMounted(async () => {
 }
 
 .media-action-btn--rename:hover {
-  background: #f5f3ff !important;
-  color: #6d28d9 !important;
+  background: var(--console-primary-soft) !important;
+  color: var(--console-primary-strong) !important;
 }
 
 .media-action-btn--refs:hover {
@@ -1816,10 +1829,10 @@ onMounted(async () => {
 }
 
 .media-preview__audio-icon {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+  width: 64px;
+  height: 64px;
+  border-radius: 6px;
+  background: var(--console-primary-soft);
   display: flex;
   align-items: center;
   justify-content: center;

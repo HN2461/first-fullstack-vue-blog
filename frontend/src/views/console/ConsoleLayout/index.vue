@@ -1316,6 +1316,8 @@ watch(() => appStore.isMobile, (isMobile) => {
   if (isMobile) {
     siderCollapsed.value = true
     mobileMenuOpen.value = false
+  } else {
+    siderCollapsed.value = false
   }
 }, { immediate: true })
 </script>

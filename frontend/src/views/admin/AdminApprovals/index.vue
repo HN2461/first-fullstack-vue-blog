@@ -23,10 +23,11 @@
             option-filter-prop="label"
             :options="statusOptions"
           />
-          <a-button @click="tableRef?.refresh?.()">
-            <template #icon><ReloadOutlined /></template>
-            刷新
-          </a-button>
+          <a-tooltip title="刷新数据">
+            <a-button aria-label="刷新审批数据" @click="tableRef?.refresh?.()">
+              <template #icon><ReloadOutlined /></template>
+            </a-button>
+          </a-tooltip>
         </a-space>
       </template>
 
@@ -62,12 +63,12 @@
         <template v-else-if="column.key === 'approvalAction'">
           <a-space v-if="record.status === 'pending'" size="small" class="approval-actions">
             <a-tooltip title="通过申请">
-              <a-button type="text" class="approval-action approval-action--approve" :loading="reviewingId === record.id" @click="approve(record)">
+              <a-button type="text" class="approval-action approval-action--approve" aria-label="通过权限申请" :loading="reviewingId === record.id" @click="approve(record)">
                 <template #icon><CheckOutlined /></template>
               </a-button>
             </a-tooltip>
             <a-tooltip title="驳回申请">
-              <a-button type="text" danger class="approval-action approval-action--reject" :disabled="reviewingId === record.id" @click="openReject(record)">
+              <a-button type="text" danger class="approval-action approval-action--reject" aria-label="驳回权限申请" :disabled="reviewingId === record.id" @click="openReject(record)">
                 <template #icon><CloseOutlined /></template>
               </a-button>
             </a-tooltip>

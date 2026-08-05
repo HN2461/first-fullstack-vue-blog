@@ -1,41 +1,41 @@
-/* 浅色控制台：参考 Ant Design Pro、Arco Pro 与 Vben 的明快高密度工作台。 */
+/* 浅色控制台采用清爽产品化层级，Ant Design 组件外观由 ConfigProvider token 统一控制。 */
 :root:not(.dark-theme) {
-  --console-header-height: 60px;
-  --console-sider-head-height: 44px;
-  --console-tabs-height: 44px;
-  --console-content-padding: 16px;
-  --console-page-gap: 12px;
-  --console-bg: #f2f3f5;
+  --console-header-height: 64px;
+  --console-sider-head-height: 48px;
+  --console-tabs-height: 48px;
+  --console-content-padding: 18px;
+  --console-page-gap: 14px;
+  --console-bg: #f5f7fa;
   --console-surface: #ffffff;
-  --console-surface-hover: #f2f3f5;
-  --console-surface-muted: #f7f8fa;
-  --console-border: #e5e6eb;
-  --console-border-strong: #c9cdd4;
-  --console-text: #1d2129;
-  --console-text-primary: #1d2129;
-  --console-text-secondary: #4e5969;
-  --console-menu-text: #4e5969;
+  --console-surface-hover: #f5f7fa;
+  --console-surface-muted: #fafafa;
+  --console-border: #ebeef5;
+  --console-border-strong: #dcdfe6;
+  --console-text: #303133;
+  --console-text-primary: #303133;
+  --console-text-secondary: #606266;
+  --console-menu-text: #606266;
   --console-card-bg: #ffffff;
   --console-bg-card: #ffffff;
-  --console-input-disabled-bg: #f2f3f5;
-  --console-primary: #165dff;
-  --console-primary-strong: #0e42d2;
-  --console-primary-soft: #e8f3ff;
-  --console-shadow-panel: 0 1px 3px rgba(29, 33, 41, 0.04);
+  --console-input-disabled-bg: #f5f7fa;
+  --console-primary: #409eff;
+  --console-primary-strong: #337ecc;
+  --console-primary-soft: #ecf5ff;
+  --console-shadow-panel: 0 1px 4px rgba(48, 49, 51, 0.05);
 }
 
 :root:not(.dark-theme) .enterprise-admin-shell {
   --bg-primary: #ffffff;
-  --bg-secondary: #f2f3f5;
+  --bg-secondary: #f5f7fa;
   --bg-elevated: #ffffff;
-  --bg-muted: #f7f8fa;
-  --text-primary: #1d2129;
-  --text-secondary: #4e5969;
-  --text-muted: #86909c;
-  --border-color: #e5e6eb;
-  --primary-color: #165dff;
-  --primary-strong: #0e42d2;
-  --accent-color: #f77234;
+  --bg-muted: #fafafa;
+  --text-primary: #303133;
+  --text-secondary: #606266;
+  --text-muted: #909399;
+  --border-color: #ebeef5;
+  --primary-color: #409eff;
+  --primary-strong: #337ecc;
+  --accent-color: #e6a23c;
   font-family: 'Knowledge Sans SC', 'Microsoft YaHei UI', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 1.5715;
@@ -43,17 +43,30 @@
 }
 
 :root:not(.dark-theme) .ant-layout-header.enterprise-topnav {
-  border-bottom-color: #e5e6eb;
-  box-shadow: none;
-  z-index: 4;
+  gap: 8px;
+  border-bottom: 0;
+  box-shadow: 0 1px 4px rgba(48, 49, 51, 0.06);
+  z-index: 5;
 }
 
 :root:not(.dark-theme) .enterprise-topnav-brand {
-  border-right-color: #e5e6eb;
+  gap: 10px;
+  border-right: 0;
+  padding-inline: 18px;
+  background: #ffffff;
+}
+
+:root:not(.dark-theme) .enterprise-brand-icon {
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 :root:not(.dark-theme) .enterprise-topnav-brand strong {
-  color: #1d2129;
+  color: #303133;
   font-family: 'Knowledge Sans SC', 'Segoe UI', 'Microsoft YaHei UI', sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -61,41 +74,50 @@
 }
 
 :root:not(.dark-theme) .enterprise-topnav-brand small {
-  color: #86909c;
+  color: #909399;
   font-size: 12px;
   line-height: 18px;
 }
 
 :root:not(.dark-theme) .enterprise-primary-menu .ant-menu-item {
   height: var(--console-header-height);
-  margin: 0;
+  margin: 0 2px;
+  padding-inline: 16px;
   border-radius: 0;
-  color: #4e5969;
+  color: var(--console-menu-text);
   font-size: 14px;
   font-weight: 500;
   transition: color 0.16s ease, background 0.16s ease;
 }
 
 :root:not(.dark-theme) .enterprise-primary-menu .ant-menu-item::after {
-  display: none;
+  inset-inline: 16px;
+  bottom: 0;
+  display: block;
+  border-bottom-width: 3px;
+  border-bottom-color: transparent;
 }
 
 :root:not(.dark-theme) .enterprise-primary-menu .ant-menu-item-selected {
-  color: #165dff;
+  color: var(--console-primary);
   background: transparent;
   font-weight: 600;
 }
 
+:root:not(.dark-theme) .enterprise-primary-menu .ant-menu-item-selected::after {
+  border-bottom-color: var(--console-primary);
+}
+
 :root:not(.dark-theme) .enterprise-primary-menu .ant-menu-item:hover {
-  color: #165dff;
-  background: #f7f8fa;
+  color: var(--console-primary);
+  background: transparent;
 }
 
 :root:not(.dark-theme) .enterprise-primary-menu .ant-menu-item .anticon,
 :root:not(.dark-theme) .enterprise-primary-menu .ant-menu-item svg {
   width: 15px;
   height: 15px;
-  color: #86909c;
+  color: #909399;
   font-size: 15px;
 }
 
@@ -106,22 +128,34 @@
 
 :root:not(.dark-theme) .enterprise-topnav-actions .ant-btn.enterprise-icon-action,
 :root:not(.dark-theme) .enterprise-profile-button {
-  border-radius: 4px;
-  color: #4e5969;
-  transition: color 0.16s ease, background 0.16s ease;
+  border-radius: 8px;
+  color: var(--console-menu-text);
+  transition: color 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+
+:root:not(.dark-theme) .enterprise-topnav-actions .ant-btn.enterprise-icon-action {
+  width: 36px;
+  height: 36px;
 }
 
 :root:not(.dark-theme) .enterprise-topnav-actions .ant-btn.enterprise-icon-action:hover,
 :root:not(.dark-theme) .enterprise-profile-button:hover {
-  color: #165dff;
-  background: #f2f3f5;
+  color: var(--console-primary);
+  background: var(--console-surface-hover);
+}
+
+:root:not(.dark-theme) .enterprise-profile-button {
+  height: 40px;
+  border: 0;
+  padding-right: 12px;
+  background: transparent;
 }
 
 :root:not(.dark-theme) .ant-layout-sider.enterprise-sider {
-  border-right-color: #e5e6eb;
+  border-right: 1px solid var(--console-border);
   background: #ffffff;
   box-shadow: none;
-  z-index: 3;
+  z-index: 4;
 }
 
 :root:not(.dark-theme) .enterprise-sider-head,
@@ -138,25 +172,36 @@
 }
 
 :root:not(.dark-theme) .enterprise-sider-head {
-  border-bottom-color: #f0f1f2;
+  border-bottom-color: var(--console-border);
+  padding-inline: 12px;
 }
 
 :root:not(.dark-theme) .enterprise-sider-head strong {
-  color: #1d2129;
-  font-size: 15px;
+  color: #303133;
+  font-size: 14px;
   font-weight: 600;
 }
 
 :root:not(.dark-theme) .enterprise-sider-head-action {
-  border-radius: 4px;
-  color: #6b7785;
+  border-radius: 8px;
+  color: #909399;
+}
+
+:root:not(.dark-theme) .enterprise-sider-head-action:hover,
+:root:not(.dark-theme) .enterprise-sider-head-action:focus {
+  color: var(--console-primary);
+  background: var(--console-primary-soft);
+}
+
+:root:not(.dark-theme) .enterprise-menu {
+  padding: 10px 12px 16px;
 }
 
 :root:not(.dark-theme) .enterprise-menu .ant-menu-item,
 :root:not(.dark-theme) .enterprise-menu .ant-menu-submenu-title {
-  margin-block: 2px;
-  border-radius: 4px;
-  color: #4e5969;
+  margin-block: 3px;
+  border-radius: 8px;
+  color: var(--console-menu-text);
   font-size: 14px;
   font-weight: 400;
   transition: color 0.16s ease, background 0.16s ease;
@@ -168,19 +213,19 @@
 :root:not(.dark-theme) .enterprise-menu .ant-menu-submenu-title svg {
   width: 16px;
   height: 16px;
-  color: #86909c;
+  color: #909399;
   font-size: 16px;
 }
 
 :root:not(.dark-theme) .enterprise-menu .ant-menu-item:hover,
 :root:not(.dark-theme) .enterprise-menu .ant-menu-submenu-title:hover {
-  color: #1d2129;
-  background: #f2f3f5;
+  color: #303133;
+  background: var(--console-surface-hover);
 }
 
 :root:not(.dark-theme) .enterprise-menu .ant-menu-item-selected {
-  color: #165dff;
-  background: #e8f3ff;
+  color: #ffffff;
+  background: var(--console-primary);
   box-shadow: none;
   font-weight: 600;
 }
@@ -191,14 +236,26 @@
 
 :root:not(.dark-theme) .enterprise-menu .ant-menu-item-selected .anticon,
 :root:not(.dark-theme) .enterprise-menu .ant-menu-item-selected svg {
-  color: var(--console-primary);
+  color: #ffffff;
+}
+
+:root:not(.dark-theme) .enterprise-menu .ant-menu-item-selected:hover,
+:root:not(.dark-theme) .enterprise-menu .ant-menu-item-selected:active {
+  color: #ffffff;
+  background: var(--console-primary);
+  box-shadow: none;
 }
 
 :root:not(.dark-theme) .enterprise-menu .ant-menu-submenu-selected > .ant-menu-submenu-title,
 :root:not(.dark-theme) .enterprise-menu .ant-menu-submenu-open > .ant-menu-submenu-title {
-  color: #1d2129;
+  color: var(--console-primary-strong);
   background: transparent;
   font-weight: 600;
+}
+
+:root:not(.dark-theme) .enterprise-menu .ant-menu-submenu-selected > .ant-menu-submenu-title svg,
+:root:not(.dark-theme) .enterprise-menu .ant-menu-submenu-open > .ant-menu-submenu-title svg {
+  color: var(--console-primary);
 }
 
 :root:not(.dark-theme) .enterprise-main-layout,
@@ -210,8 +267,8 @@
   align-items: stretch;
   gap: 0;
   padding: 0 8px;
-  border-bottom-color: #e5e6eb;
-  background: #f7f8fa;
+  border-bottom-color: var(--console-border);
+  background: #ffffff;
   box-shadow: none;
 }
 
@@ -225,25 +282,22 @@
   height: 100%;
   align-self: stretch;
   border: 0;
-  border-right: 1px solid #e5e6eb;
   border-radius: 0;
-  color: #6b7785;
+  color: #606266;
   background: transparent;
   box-shadow: none;
   transition: color 0.16s ease, background 0.16s ease;
 }
 
 :root:not(.dark-theme) .console-tab:hover {
-  color: #1d2129;
-  border-color: #e5e6eb;
-  background: #f2f3f5;
+  color: var(--console-primary);
+  background: transparent;
 }
 
 :root:not(.dark-theme) .console-tab.is-active {
-  color: #1d2129;
-  border-color: #e5e6eb;
-  background: #ffffff;
-  box-shadow: inset 0 -2px 0 #165dff;
+  color: var(--console-primary);
+  background: transparent;
+  box-shadow: inset 0 -3px 0 var(--console-primary);
 }
 
 :root:not(.dark-theme) .console-tab.is-active::after {
@@ -251,242 +305,91 @@
 }
 
 :root:not(.dark-theme) .console-tab.is-active .console-tab__title {
-  font-weight: 500;
+  font-weight: 600;
 }
 
 :root:not(.dark-theme) .console-tab.is-active .console-tab__icon {
-  color: #165dff;
+  color: var(--console-primary);
 }
 
 :root:not(.dark-theme) .console-tab.is-active .console-tab__control {
-  color: #86909c;
+  color: #909399;
 }
 
 :root:not(.dark-theme) .console-tabs-bar__actions {
   height: 100%;
-  border-left: 1px solid #e5e6eb;
+  gap: 0;
+  border: 0;
+  border-left: 1px solid var(--console-border);
   border-radius: 0;
-  background: #f7f8fa;
+  background: #ffffff;
 }
 
 :root:not(.dark-theme) .console-tabs-bar__action:hover {
-  color: #165dff;
-  background: #f2f3f5;
+  color: var(--console-primary);
+  background: var(--console-primary-soft);
   box-shadow: none;
-}
-
-:root:not(.dark-theme) .enterprise-content .ant-btn-primary {
-  border-color: var(--console-primary);
-  background: var(--console-primary);
-  box-shadow: none;
-}
-
-:root:not(.dark-theme) .enterprise-content .ant-btn-primary:hover,
-:root:not(.dark-theme) .enterprise-content .ant-btn-primary:focus {
-  border-color: var(--console-primary-strong);
-  background: var(--console-primary-strong);
 }
 
 :root:not(.dark-theme) .enterprise-page-header,
 :root:not(.dark-theme) .enterprise-card,
 :root:not(.dark-theme) .enterprise-panel {
   border-color: var(--console-border);
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow: var(--console-shadow-panel);
 }
 
-/* 业务工作面：统一表格、表单、卡片与浮层，不依赖单个页面的专属覆盖。 */
-:root:not(.dark-theme) .enterprise-admin-shell .ant-card,
+/* BlogTable 是项目自有工作区，保留骨架层样式；Ant Design 组件不在此重复绘制。 */
 :root:not(.dark-theme) .enterprise-admin-shell .blog-table {
-  border-color: #edf0f3;
-  border-radius: 6px;
+  border-color: var(--console-border);
+  border-radius: 8px;
   background: var(--console-surface);
   box-shadow: var(--console-shadow-panel);
 }
 
-:root:not(.dark-theme) .enterprise-admin-shell .ant-card-head,
 :root:not(.dark-theme) .enterprise-admin-shell .blog-table__toolbar,
 :root:not(.dark-theme) .enterprise-admin-shell .blog-table__footer {
-  border-color: #e3e7eb;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-card-head {
-  min-height: 46px;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-card-head-title,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-form-item-label > label,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-descriptions-title {
-  color: var(--console-text);
-  font-weight: 600;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-btn-default,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-btn-dashed {
-  color: var(--console-menu-text);
-  border-color: var(--console-border-strong);
-  background: #ffffff;
-  box-shadow: none;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-btn-default:not(:disabled):hover,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-btn-dashed:not(:disabled):hover {
-  color: var(--console-primary-strong);
-  border-color: #829bc0;
-  background: #f8fafc;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-btn-text:not(:disabled):hover {
-  background: var(--console-surface-hover);
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-affix-wrapper,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-number,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-picker,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-select-selector,
-:root:not(.dark-theme) .enterprise-admin-shell textarea.ant-input {
-  border-color: var(--console-border-strong);
-  background: #ffffff;
-  box-shadow: none;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input:hover,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-affix-wrapper:hover,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-number:hover,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-picker:hover,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
-  border-color: #98a2b3;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input:focus:not(.ant-input-search .ant-input),
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-focused:not(.ant-input-search .ant-input),
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-affix-wrapper-focused,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-number-focused,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-picker-focused,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-select-focused .ant-select-selector {
-  border-color: var(--console-primary) !important;
-  box-shadow: 0 0 0 3px rgba(22, 93, 255, 0.12) !important;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-table-thead > tr > th,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-table-thead > tr > td {
-  color: #4e5969;
-  border-bottom-color: #e5e6eb;
-  background: #f7f8fa;
-  font-weight: 600;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-table-tbody > tr > td {
-  color: var(--console-text);
-  border-bottom-color: #f0f1f2;
-  background: #ffffff;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-table-tbody > tr:hover > td,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-table-tbody > tr:hover > td.ant-table-cell-fix-left,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-table-tbody > tr:hover > td.ant-table-cell-fix-right {
-  background: #f7f8fa;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-table-tbody > tr.ant-table-row-selected > td {
-  background: #e8f3ff;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-pagination .ant-pagination-item,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-pagination .ant-pagination-prev .ant-pagination-item-link,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-pagination .ant-pagination-next .ant-pagination-item-link {
-  border-color: transparent;
-  background: transparent;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-pagination .ant-pagination-item:hover,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-pagination .ant-pagination-prev:hover .ant-pagination-item-link,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-pagination .ant-pagination-next:hover .ant-pagination-item-link {
-  background: var(--console-surface-hover);
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-pagination .ant-pagination-item-active {
-  border-color: #94bfff;
-  background: #ffffff;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-segmented {
-  padding: 3px;
-  background: #f2f3f5;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-segmented-item-selected {
-  color: var(--console-text);
-  background: #ffffff;
-  box-shadow: 0 1px 2px rgba(25, 35, 48, 0.1);
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-tabs-nav::before,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-descriptions-bordered .ant-descriptions-view,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-descriptions-bordered .ant-descriptions-row,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-descriptions-bordered .ant-descriptions-item-label,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-descriptions-bordered .ant-descriptions-item-content {
   border-color: var(--console-border);
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-descriptions-bordered .ant-descriptions-item-label {
-  color: var(--console-menu-text);
-  background: #f7f8fa;
-}
-
-:root:not(.dark-theme) .enterprise-admin-shell .ant-empty-description {
-  color: var(--console-text-secondary);
-}
-
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-modal-content,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-drawer-content,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-popover-inner,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-dropdown-menu,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-select-dropdown,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-tree-select-dropdown,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-picker-dropdown .ant-picker-panel-container {
-  border: 1px solid rgba(229, 230, 235, 0.96);
-  background: #ffffff;
-  box-shadow: 0 12px 30px rgba(25, 35, 48, 0.14);
-}
-
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-modal-header,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-modal-footer,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-drawer-header {
-  border-color: #e3e7eb;
-  background: #ffffff;
-}
-
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-dropdown-menu-item:hover,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-dropdown-menu-submenu-title:hover,
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-select-item-option-active:not(.ant-select-item-option-disabled) {
-  background: #f2f3f5;
-}
-
-:root:not(.dark-theme) body:has(.enterprise-admin-shell) .ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
-  color: var(--console-text);
-  background: var(--console-primary-soft);
-  font-weight: 600;
 }
 
 :root:not(.dark-theme) .enterprise-admin-shell .csdn-index {
   padding: 18px 20px;
-  border-radius: 6px;
+  border-radius: 8px;
   background: #ffffff;
   box-shadow: var(--console-shadow-panel);
 }
 
 :root:not(.dark-theme) .enterprise-admin-shell .csdn-index__head h2 {
-  color: #1d2129;
+  color: var(--console-text);
   font-size: 22px;
   font-weight: 600;
 }
 
 :root:not(.dark-theme) .enterprise-admin-shell .csdn-index__body h3 {
-  color: #1d2129;
+  color: var(--console-text);
   font-size: 17px;
   font-weight: 500;
+}
+
+@media (max-width: 767px) {
+  :root:not(.dark-theme) {
+    --console-header-height: 56px;
+    --console-content-padding: 10px;
+    --console-page-gap: 10px;
+  }
+
+  :root:not(.dark-theme) .ant-layout-header.enterprise-topnav {
+    gap: 0;
+  }
+
+  :root:not(.dark-theme) .enterprise-topnav-brand {
+    padding-inline: 8px;
+  }
+
+  :root:not(.dark-theme) .enterprise-brand-icon {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

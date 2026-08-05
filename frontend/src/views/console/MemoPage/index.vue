@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="memo-metric">
-        <div class="memo-metric__icon memo-metric__icon--purple">
+        <div class="memo-metric__icon memo-metric__icon--pinned">
           <PushpinOutlined />
         </div>
         <div class="memo-metric__body">
@@ -57,6 +57,8 @@
         :options="typeFilterOptions"
         placeholder="类型"
         allow-clear
+        show-search
+        option-filter-prop="label"
         @change="refreshMemos"
       />
       <a-select
@@ -65,10 +67,12 @@
         :options="priorityFilterOptions"
         placeholder="优先级"
         allow-clear
+        show-search
+        option-filter-prop="label"
         @change="refreshMemos"
       />
       <a-tooltip title="刷新">
-        <a-button class="memo-icon-btn" @click="refreshMemos">
+        <a-button class="memo-icon-btn" aria-label="刷新备忘录" @click="refreshMemos">
           <template #icon><ReloadOutlined /></template>
         </a-button>
       </a-tooltip>
@@ -128,32 +132,32 @@
               </div>
               <div class="memo-card__actions">
                 <a-tooltip title="查看详情">
-                  <a-button size="small" @click="openDetailModal(memo)">
+                  <a-button size="small" aria-label="查看备忘详情" @click="openDetailModal(memo)">
                     <template #icon><EyeOutlined /></template>
                   </a-button>
                 </a-tooltip>
                 <a-tooltip :title="memo.isPinned ? '取消置顶' : '置顶'">
-                  <a-button size="small" :class="{ 'memo-icon-btn--active': memo.isPinned }" @click="togglePinned(memo)">
+                  <a-button size="small" :aria-label="memo.isPinned ? '取消置顶备忘' : '置顶备忘'" :class="{ 'memo-icon-btn--active': memo.isPinned }" @click="togglePinned(memo)">
                     <template #icon><PushpinOutlined /></template>
                   </a-button>
                 </a-tooltip>
                 <a-tooltip :title="memo.status === 'completed' ? '重新打开' : '标记完成'">
-                  <a-button size="small" @click="toggleCompleted(memo)">
+                  <a-button size="small" :aria-label="memo.status === 'completed' ? '重新打开备忘' : '标记备忘完成'" @click="toggleCompleted(memo)">
                     <template #icon><CheckOutlined /></template>
                   </a-button>
                 </a-tooltip>
                 <a-tooltip :title="memo.status === 'archived' ? '取消归档' : '归档'">
-                  <a-button size="small" @click="toggleArchive(memo)">
+                  <a-button size="small" :aria-label="memo.status === 'archived' ? '取消归档备忘' : '归档备忘'" @click="toggleArchive(memo)">
                     <template #icon><InboxOutlined /></template>
                   </a-button>
                 </a-tooltip>
                 <a-tooltip title="编辑">
-                  <a-button size="small" @click="openEditModal(memo)">
+                  <a-button size="small" aria-label="编辑备忘" @click="openEditModal(memo)">
                     <template #icon><EditOutlined /></template>
                   </a-button>
                 </a-tooltip>
                 <a-tooltip title="删除">
-                  <a-button size="small" danger @click="confirmDelete(memo)">
+                  <a-button size="small" danger aria-label="删除备忘" @click="confirmDelete(memo)">
                     <template #icon><DeleteOutlined /></template>
                   </a-button>
                 </a-tooltip>
@@ -216,10 +220,10 @@
           </a-form-item>
           <div class="memo-modal-grid">
             <a-form-item label="类型">
-              <a-select v-model:value="createForm.type" :options="typeOptions" />
+              <a-select v-model:value="createForm.type" :options="typeOptions" show-search option-filter-prop="label" />
             </a-form-item>
             <a-form-item label="优先级">
-              <a-select v-model:value="createForm.priority" :options="priorityOptions" />
+              <a-select v-model:value="createForm.priority" :options="priorityOptions" show-search option-filter-prop="label" />
             </a-form-item>
             <a-form-item label="计划日期">
               <a-input v-model:value.trim="createForm.dueAt" type="date" />
@@ -255,13 +259,13 @@
           </a-form-item>
           <div class="memo-modal-grid">
             <a-form-item label="类型">
-              <a-select v-model:value="editForm.type" :options="typeOptions" />
+              <a-select v-model:value="editForm.type" :options="typeOptions" show-search option-filter-prop="label" />
             </a-form-item>
             <a-form-item label="优先级">
-              <a-select v-model:value="editForm.priority" :options="priorityOptions" />
+              <a-select v-model:value="editForm.priority" :options="priorityOptions" show-search option-filter-prop="label" />
             </a-form-item>
             <a-form-item label="状态">
-              <a-select v-model:value="editForm.status" :options="statusOptions" />
+              <a-select v-model:value="editForm.status" :options="statusOptions" show-search option-filter-prop="label" />
             </a-form-item>
             <a-form-item label="计划日期">
               <a-input v-model:value.trim="editForm.dueAt" type="date" />
@@ -742,9 +746,9 @@ watch(
   color: #3b82f6;
 }
 
-.memo-metric__icon--purple {
-  background: rgba(139, 92, 246, 0.1);
-  color: #8b5cf6;
+.memo-metric__icon--pinned {
+  background: color-mix(in srgb, #13c2c2 12%, transparent);
+  color: #13c2c2;
 }
 
 .memo-metric__icon--amber {

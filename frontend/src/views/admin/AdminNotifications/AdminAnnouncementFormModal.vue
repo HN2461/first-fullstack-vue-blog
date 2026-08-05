@@ -12,7 +12,7 @@
   >
     <template #footer>
       <a-button @click="$emit('close')">取消</a-button>
-      <a-button :loading="submitting" @click="$emit('submit')">
+      <a-button :type="editingId ? 'default' : 'primary'" :loading="submitting" @click="$emit('submit')">
         {{ editingId ? '保存修改' : '发布公告' }}
       </a-button>
       <a-button
@@ -38,14 +38,14 @@
       <a-row :gutter="16">
         <a-col :span="12">
           <a-form-item label="公告级别">
-            <a-select v-model:value="form.level">
-              <a-select-option value="info">
+            <a-select v-model:value="form.level" show-search option-filter-prop="label">
+              <a-select-option value="info" label="功能更新">
                 <span style="color: #1677ff">●</span> 功能更新
               </a-select-option>
-              <a-select-option value="warning">
+              <a-select-option value="warning" label="重要提醒">
                 <span style="color: #fa8c16">●</span> 重要提醒
               </a-select-option>
-              <a-select-option value="error">
+              <a-select-option value="error" label="紧急高危">
                 <span style="color: #f5222d">●</span> 紧急高危
               </a-select-option>
             </a-select>
@@ -79,7 +79,13 @@
         />
       </a-form-item>
 
-      <a-form-item label="弹窗推送">
+      <a-form-item>
+        <template #label>
+          弹窗推送
+          <a-tooltip title="开启后，公告发布时会向在线用户显示一次提醒；不会修改用户的个人通知设置。">
+            <QuestionCircleOutlined class="announce-help-icon" />
+          </a-tooltip>
+        </template>
         <a-switch
           v-model:checked="form.autoPopup"
           checked-children="开启"
@@ -92,6 +98,8 @@
 </template>
 
 <script setup>
+import { QuestionCircleOutlined } from '@ant-design/icons-vue'
+
 defineProps({
   open: {
     type: Boolean,

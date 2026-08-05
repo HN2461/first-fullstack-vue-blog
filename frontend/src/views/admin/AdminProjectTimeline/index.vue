@@ -35,10 +35,11 @@
           </a-button>
         </a-tooltip>
         <span class="project-timeline-total">共 {{ total }} 条</span>
-        <a-button :loading="loading" @click="loadRecords">
-          <template #icon><ReloadOutlined /></template>
-          刷新
-        </a-button>
+        <a-tooltip title="刷新记录">
+          <a-button :loading="loading" aria-label="刷新项目记录" @click="loadRecords">
+            <template #icon><ReloadOutlined /></template>
+          </a-button>
+        </a-tooltip>
         <a-button :loading="exporting" @click="handleExport">
           <template #icon><DownloadOutlined /></template>
           导出记录

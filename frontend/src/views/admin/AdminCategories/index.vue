@@ -82,6 +82,7 @@
                 <a-button
                   type="text"
                   class="action-btn action-edit"
+                  aria-label="编辑分类"
                   :disabled="record.isSystem"
                   @click="openModal(record)"
                 >
@@ -93,6 +94,7 @@
                   type="text"
                   class="action-btn"
                   :class="record.status === 'active' ? 'action-disable' : 'action-enable'"
+                  :aria-label="record.status === 'active' ? '禁用分类' : '启用分类'"
                   :disabled="record.isSystem"
                   @click="handleToggleStatus(record)"
                 >
@@ -107,6 +109,7 @@
                 <a-button
                   type="text"
                   class="action-btn action-delete"
+                  aria-label="删除分类"
                   :disabled="record.isSystem"
                   @click="handleDelete(record)"
                 >
@@ -126,6 +129,7 @@
       :confirm-loading="submitting"
       :width="520"
       :destroy-on-close="true"
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
       ok-text="确认"
       cancel-text="取消"
       class="taxonomy-modal"
@@ -467,7 +471,7 @@ function handleDelete(record) {
   font-size: 12px;
   color: var(--console-text-secondary);
   background: var(--console-surface-muted);
-  border-radius: 12px;
+  border-radius: 4px;
   white-space: nowrap;
   line-height: 20px;
 }
@@ -498,7 +502,7 @@ function handleDelete(record) {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 /* ── 表格卡片 ── */
@@ -721,7 +725,7 @@ function handleDelete(record) {
 
 /* ── 弹窗样式 ── */
 .taxonomy-modal :deep(.ant-modal-content) {
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
 }
 

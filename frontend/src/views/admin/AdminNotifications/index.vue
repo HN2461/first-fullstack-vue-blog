@@ -48,19 +48,23 @@
               placeholder="级别"
               class="announce-filter-select"
               allow-clear
+              show-search
+              option-filter-prop="label"
             >
-              <a-select-option value="info">功能更新</a-select-option>
-              <a-select-option value="warning">重要提醒</a-select-option>
-              <a-select-option value="error">紧急高危</a-select-option>
+              <a-select-option value="info" label="功能更新">功能更新</a-select-option>
+              <a-select-option value="warning" label="重要提醒">重要提醒</a-select-option>
+              <a-select-option value="error" label="紧急高危">紧急高危</a-select-option>
             </a-select>
             <a-select
               v-model:value="filterIsActive"
               placeholder="状态"
               class="announce-filter-select"
               allow-clear
+              show-search
+              option-filter-prop="label"
             >
-              <a-select-option value="true">已上架</a-select-option>
-              <a-select-option value="false">已下架</a-select-option>
+              <a-select-option value="true" label="已上架">已上架</a-select-option>
+              <a-select-option value="false" label="已下架">已下架</a-select-option>
             </a-select>
             <a-button size="small" class="announce-reset-btn" @click="resetFilters">
               <template #icon><ClearOutlined /></template>
@@ -110,17 +114,17 @@
         <template v-else-if="column.key === 'action'">
           <div class="announce-actions">
             <a-tooltip title="详情">
-              <a-button type="text" class="action-btn action-detail" @click="openDetailModal(record)">
+              <a-button type="text" class="action-btn action-detail" aria-label="查看公告详情" @click="openDetailModal(record)">
                 <template #icon><EyeOutlined /></template>
               </a-button>
             </a-tooltip>
             <a-tooltip title="编辑">
-              <a-button type="text" class="action-btn action-edit" @click="openEditModal(record)">
+              <a-button type="text" class="action-btn action-edit" aria-label="编辑公告" @click="openEditModal(record)">
                 <template #icon><EditOutlined /></template>
               </a-button>
             </a-tooltip>
             <a-tooltip :title="record.isActive ? '下架' : '上架'">
-              <a-button type="text" class="action-btn" :class="record.isActive ? 'action-disable' : 'action-enable'" @click="handleToggleActive(record)">
+              <a-button type="text" class="action-btn" :class="record.isActive ? 'action-disable' : 'action-enable'" :aria-label="record.isActive ? '下架公告' : '上架公告'" @click="handleToggleActive(record)">
                 <template #icon>
                   <StopOutlined v-if="record.isActive" />
                   <PlayCircleOutlined v-else />
@@ -129,7 +133,7 @@
             </a-tooltip>
             <a-divider type="vertical" class="action-divider" />
             <a-tooltip title="删除">
-              <a-button type="text" class="action-btn action-delete" @click="handleDelete(record)">
+              <a-button type="text" class="action-btn action-delete" aria-label="删除公告" @click="handleDelete(record)">
                 <template #icon><DeleteOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -180,7 +184,7 @@
           <LinkOutlined /> <a :href="detailData.link" target="_blank">{{ detailData.link }}</a>
         </div>
         <div v-if="detailData.autoPopup" class="announce-detail-popup-badge">
-          <a-tag color="purple">弹窗推送已开启</a-tag>
+          <a-tag color="processing">弹窗推送已开启</a-tag>
         </div>
       </template>
     </a-modal>
