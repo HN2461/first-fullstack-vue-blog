@@ -1,9 +1,5 @@
 <template>
   <section class="comment-review-page">
-    <div class="comment-topbar">
-      <h2 class="comment-title">评论审核</h2>
-    </div>
-
     <BlogTable
       ref="tableRef"
       :api-fn="fetchComments"
@@ -13,12 +9,14 @@
       :page-size="15"
       :page-sizes="['10', '15', '20', '50']"
       :show-column-setting="true"
+      empty-text="暂无待处理评论"
       class="comment-table"
       row-selection
       @selection-change="handleSelectionChange"
     >
       <template #toolbar>
         <div class="comment-toolbar">
+          <h2 class="comment-title">评论审核</h2>
           <div class="comment-filters">
             <span class="filter-label">状态</span>
             <a-select v-model:value="status" class="status-select">

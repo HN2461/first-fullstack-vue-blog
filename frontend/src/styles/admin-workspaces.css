@@ -1,0 +1,466 @@
+/* 内容治理页面共用的紧凑工作区语言，仅作用于明确的后台页面根节点。 */
+:is(
+  .articles-page,
+  .article-import-page,
+  .media-cloud,
+  .taxonomy-page,
+  .comment-review-page,
+  .announce-page
+) {
+  --workspace-toolbar-height: 56px;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .comment-review-page,
+  .announce-page
+) > .blog-table,
+.tag-management-table,
+.media-cloud__body > .blog-table {
+  border-color: var(--console-border);
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .comment-review-page,
+  .announce-page
+) > .blog-table > .blog-table__toolbar,
+.tag-management-table > .blog-table__toolbar {
+  min-height: var(--workspace-toolbar-height);
+  padding: 10px 16px;
+  background: var(--console-surface);
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .comment-review-page,
+  .announce-page
+) .blog-table__toolbar-left,
+.tag-management-table .blog-table__toolbar-left {
+  width: 100%;
+  gap: 10px;
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .comment-review-page,
+  .announce-page,
+  .taxonomy-page
+) .blog-table__footer,
+.media-cloud .blog-table__footer {
+  min-height: 48px;
+  background: var(--console-surface);
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .media-cloud,
+  .taxonomy-page,
+  .comment-review-page,
+  .announce-page
+) .ant-table-thead > tr > th {
+  height: 44px;
+  padding-block: 9px;
+  color: var(--console-menu-text);
+  background: var(--console-surface-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .media-cloud,
+  .taxonomy-page,
+  .comment-review-page,
+  .announce-page
+) .ant-table-tbody > tr > td {
+  border-bottom-color: var(--console-border);
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .media-cloud,
+  .taxonomy-page,
+  .comment-review-page,
+  .announce-page
+) .ant-table-placeholder > td.ant-table-cell {
+  background: color-mix(in srgb, var(--console-surface-muted) 58%, var(--console-surface)) !important;
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .media-cloud,
+  .taxonomy-page,
+  .comment-review-page,
+  .announce-page
+) .ant-empty {
+  width: min(360px, calc(100% - 32px));
+  min-height: 150px;
+  margin: auto;
+  padding: 28px 24px;
+  border: 1px dashed var(--console-border-strong, var(--console-border));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--console-surface) 82%, transparent);
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .media-cloud,
+  .taxonomy-page,
+  .comment-review-page,
+  .announce-page
+) .ant-empty-image {
+  height: 44px;
+  margin-bottom: 12px;
+  opacity: 0.72;
+}
+
+:is(
+  .articles-page,
+  .article-import-page,
+  .media-cloud,
+  .taxonomy-page,
+  .comment-review-page,
+  .announce-page
+) .ant-empty-description {
+  color: var(--console-text-secondary);
+  font-size: 13px;
+}
+
+/* 文章管理：释放工作区宽度，加强标题、摘要与时间数据层级。 */
+.articles-page {
+  max-width: none;
+}
+
+.articles-page .article-title {
+  color: var(--console-text);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.articles-page .article-summary,
+.articles-page .article-meta-line,
+.articles-page .time-ago {
+  color: var(--console-text-secondary);
+}
+
+.articles-page .article-cover-cell {
+  border: 1px solid var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+.articles-page .metric-cell,
+.articles-page .time-cell span:first-child {
+  color: var(--console-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 文章导入：操作与识别统计形成左右两组，空列表不再像未完成页面。 */
+.article-import-toolbar {
+  gap: 10px 20px;
+}
+
+.article-import-toolbar__actions {
+  gap: 8px;
+}
+
+.article-import-toolbar__summary {
+  gap: 6px;
+  padding-left: 16px;
+  border-left: 1px solid var(--console-border);
+}
+
+.article-import-toolbar__summary .ant-tag {
+  min-width: 50px;
+  padding-inline: 8px;
+  text-align: center;
+}
+
+/* 媒体资产：把页头、类型切换和列表收敛为连续工作区。 */
+.enterprise-page .media-cloud {
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.enterprise-page .media-cloud > .media-cloud__topbar {
+  min-height: 58px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--console-border);
+  background: var(--console-surface);
+}
+
+.enterprise-page .media-cloud .media-cloud__title {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.enterprise-page .media-cloud .media-cloud__filters {
+  gap: 8px;
+}
+
+.enterprise-page .media-cloud .media-cloud__actions {
+  gap: 8px;
+}
+
+.enterprise-page .media-cloud > .media-cloud__list-toolbar {
+  min-height: 48px;
+  margin: 0;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+.enterprise-page .media-cloud .media-type-chip {
+  height: 30px;
+  border-color: var(--console-border);
+  background: var(--console-surface);
+}
+
+.enterprise-page .media-cloud .media-type-chip.is-active {
+  border-color: color-mix(in srgb, var(--console-primary) 34%, var(--console-border));
+  background: var(--console-primary-soft);
+}
+
+.enterprise-page .media-cloud > .media-cloud__body {
+  padding: 12px 16px 16px;
+  background: var(--console-surface-muted);
+}
+
+.enterprise-page .media-cloud > .media-cloud__body > .blog-table {
+  box-shadow: none;
+}
+
+.enterprise-page .media-cloud .media-file__name {
+  color: var(--console-text) !important;
+  font-weight: 600 !important;
+}
+
+.enterprise-page .media-cloud .media-file__url,
+.enterprise-page .media-cloud .media-size,
+.enterprise-page .media-cloud .media-time {
+  color: var(--console-text-secondary) !important;
+}
+
+.enterprise-page .media-cloud .media-category-label {
+  color: var(--console-menu-text);
+  background: var(--console-surface-muted);
+}
+
+/* 分类与标签：标题、查询、统计和主操作使用同一条工具带。 */
+.enterprise-page .taxonomy-page > .taxonomy-topbar,
+.enterprise-page .tag-management-toolbar {
+  min-height: 56px;
+  gap: 12px;
+  padding: 10px 16px;
+  border: 1px solid var(--console-border);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: var(--console-surface);
+}
+
+.enterprise-page .taxonomy-title,
+.enterprise-page .tag-management-toolbar h2,
+.enterprise-page .comment-title,
+.enterprise-page .announce-title {
+  margin: 0;
+  color: var(--console-text);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 32px;
+  white-space: nowrap;
+}
+
+.enterprise-page .taxonomy-stats-inline {
+  gap: 6px;
+}
+
+.enterprise-page .taxonomy-page .stat-chip {
+  min-height: 26px;
+  padding: 2px 9px;
+  border: 1px solid var(--console-border);
+  border-radius: 6px;
+  background: var(--console-surface-muted);
+}
+
+.enterprise-page .taxonomy-page > .taxonomy-table-card {
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.enterprise-page .taxonomy-table-card > .taxonomy-table-header {
+  min-height: 50px;
+  padding: 8px 16px;
+  background: var(--console-surface-muted);
+}
+
+.enterprise-page .taxonomy-table .ant-table-thead > tr > th {
+  background: var(--console-surface-muted);
+}
+
+.enterprise-page .taxonomy-name,
+.enterprise-page .taxonomy-tag-badge {
+  font-weight: 600;
+}
+
+.enterprise-page .taxonomy-slug {
+  font-family: 'Cascadia Mono', 'SFMono-Regular', Consolas, monospace;
+}
+
+.enterprise-page .tag-management-toolbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+}
+
+.enterprise-page .tag-management-search {
+  width: 240px;
+}
+
+.enterprise-page .tag-management-toolbar__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.enterprise-page .tag-management-table .taxonomy-actions .ant-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 6px;
+}
+
+/* 评论与公告：标题进入表格工具栏，筛选和动作成为一条连续任务带。 */
+.enterprise-page .comment-review-page,
+.enterprise-page .announce-page {
+  gap: 0;
+}
+
+.enterprise-page .comment-review-page .comment-toolbar,
+.enterprise-page .announce-page .announce-topbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 34px;
+  gap: 14px;
+  padding: 0;
+}
+
+.enterprise-page .comment-review-page .comment-filters,
+.enterprise-page .announce-page .announce-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.enterprise-page .announce-page .announce-filters {
+  flex: 1;
+}
+
+.enterprise-page .announce-page .announce-add-btn {
+  margin-left: auto;
+}
+
+.enterprise-page .comment-review-page .comment-table,
+.enterprise-page .announce-page .announce-table {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.enterprise-page .comment-review-page .comment-content,
+.enterprise-page .announce-page .announce-title-text {
+  color: var(--console-text);
+  font-weight: 600;
+}
+
+.enterprise-page .comment-table .table-summary,
+.enterprise-page .announce-time-cell,
+.enterprise-page .announce-view-count {
+  color: var(--console-text-secondary);
+}
+
+@media (max-width: 1100px) {
+  .media-cloud__topbar,
+  .tag-management-toolbar,
+  .comment-toolbar,
+  .announce-topbar {
+    flex-wrap: wrap;
+  }
+
+  .media-cloud__filters,
+  .announce-filters {
+    flex: 1 1 420px;
+  }
+
+  .media-cloud__actions,
+  .tag-management-toolbar__actions {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  :is(
+    .articles-page,
+    .article-import-page,
+    .comment-review-page,
+    .announce-page
+  ) > .blog-table > .blog-table__toolbar,
+  .tag-management-table > .blog-table__toolbar,
+  .media-cloud__topbar,
+  .media-cloud__list-toolbar,
+  .media-cloud__body,
+  .taxonomy-topbar,
+  .taxonomy-table-header {
+    padding-inline: 12px;
+  }
+
+  .article-import-toolbar__summary {
+    width: 100%;
+    padding: 8px 0 0;
+    border-top: 1px solid var(--console-border);
+    border-left: 0;
+    justify-content: flex-start;
+  }
+
+  .tag-management-search {
+    width: 100%;
+    order: 3;
+  }
+
+  .tag-management-toolbar__actions {
+    margin-left: auto;
+  }
+
+  .comment-title,
+  .announce-title {
+    width: 100%;
+  }
+}

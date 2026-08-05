@@ -359,8 +359,8 @@
   border-color: #98a2b3;
 }
 
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input:focus,
-:root:not(.dark-theme) .enterprise-admin-shell .ant-input-focused,
+:root:not(.dark-theme) .enterprise-admin-shell .ant-input:focus:not(.ant-input-search .ant-input),
+:root:not(.dark-theme) .enterprise-admin-shell .ant-input-focused:not(.ant-input-search .ant-input),
 :root:not(.dark-theme) .enterprise-admin-shell .ant-input-affix-wrapper-focused,
 :root:not(.dark-theme) .enterprise-admin-shell .ant-input-number-focused,
 :root:not(.dark-theme) .enterprise-admin-shell .ant-picker-focused,

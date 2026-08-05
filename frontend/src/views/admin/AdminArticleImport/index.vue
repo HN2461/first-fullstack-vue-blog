@@ -12,6 +12,7 @@
       :row-selection="rowSelection"
       :scroll="{ x: 1180 }"
       :show-column-setting="true"
+      empty-text="暂无待导入文章"
       height="100%"
       striped
       @selection-change="handleSelectionChange"
@@ -40,7 +41,7 @@
               上传 Word
             </a-button>
             <a-button
-              type="primary"
+              class="article-import-confirm"
               :disabled="selectedImportItems.length === 0"
               :loading="commitLoading"
               @click="handleCommit"

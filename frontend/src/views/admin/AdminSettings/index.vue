@@ -181,11 +181,11 @@
 
       <!-- 操作按钮组 -->
       <div class="settings-actions">
-        <a-button @click="loadSettings" :loading="loading" class="action-btn action-btn--reset">
+        <a-button @click="loadSettings" :loading="loading" class="settings-action-button settings-action-button--reset">
           <template #icon><UndoOutlined /></template>
           重置
         </a-button>
-        <a-button type="primary" @click="saveSettings" :loading="saving" class="action-btn action-btn--save">
+        <a-button type="primary" @click="saveSettings" :loading="saving" class="settings-action-button settings-action-button--save">
           <template #icon><SaveOutlined /></template>
           保存设置
         </a-button>
@@ -659,16 +659,19 @@ onUnmounted(() => {
 
 /* 操作按钮 */
 .settings-actions {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
+  width: 100%;
 }
 
-.action-btn {
-  display: flex;
+.settings-action-button {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  width: 100%;
+  min-width: 0;
   height: 44px;
   border-radius: 8px;
   font-size: 14px;
@@ -676,24 +679,24 @@ onUnmounted(() => {
   transition: all 0.2s;
 }
 
-.action-btn--reset {
+.settings-action-button--reset {
   border-color: var(--console-border);
   color: var(--console-text-secondary);
   background: var(--console-surface);
 }
 
-.action-btn--reset:hover {
+.settings-action-button--reset:hover {
   border-color: var(--console-primary);
   color: var(--console-primary-strong);
   background: var(--console-primary-soft);
 }
 
-.action-btn--save {
+.settings-action-button--save {
   box-shadow: 0 2px 8px rgba(22, 104, 220, 0.25);
   font-weight: 600;
 }
 
-.action-btn--save:hover {
+.settings-action-button--save:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(22, 104, 220, 0.35);
 }
@@ -716,7 +719,7 @@ onUnmounted(() => {
   }
 
   .settings-actions {
-    flex-direction: row;
+    grid-template-columns: repeat(2, minmax(132px, 1fr));
     flex: 0 0 auto;
   }
 }
@@ -731,10 +734,10 @@ onUnmounted(() => {
   }
 
   .settings-actions {
-    flex-direction: column;
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .action-btn {
+  .settings-action-button {
     width: 100%;
   }
 

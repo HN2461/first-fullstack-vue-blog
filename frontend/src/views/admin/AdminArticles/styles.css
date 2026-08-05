@@ -1,5 +1,7 @@
 .articles-page {
-  max-width: 1400px;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
   height: var(--console-page-available-height);
 }
 

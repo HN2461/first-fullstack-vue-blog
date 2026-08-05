@@ -750,8 +750,8 @@ body:has(.enterprise-admin-shell) {
   border-color: var(--console-primary-strong);
 }
 
-.dark-theme .ant-input:focus,
-.dark-theme .ant-input-focused,
+.dark-theme .ant-input:focus:not(.ant-input-search .ant-input),
+.dark-theme .ant-input-focused:not(.ant-input-search .ant-input),
 .dark-theme .ant-input-affix-wrapper-focused,
 .dark-theme .ant-input-number-focused,
 .dark-theme .ant-picker-focused,

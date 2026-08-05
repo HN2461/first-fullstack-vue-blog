@@ -1,14 +1,5 @@
 <template>
   <section class="taxonomy-page">
-    <!-- 精简头部 -->
-    <div class="taxonomy-page-head">
-      <h2>标签管理</h2>
-      <a-button type="primary" @click="openModal()">
-        <template #icon><PlusOutlined /></template>
-        新增标签
-      </a-button>
-    </div>
-
     <!-- 表格区 -->
     <BlogTable
       ref="tableRef"
@@ -19,32 +10,43 @@
       :page-size="15"
       :page-sizes="['10', '15', '20', '50']"
       :show-column-setting="true"
+      empty-text="暂无符合条件的标签"
+      class="tag-management-table"
       row-selection
       @selection-change="handleSelectionChange"
     >
       <template #toolbar>
-        <BatchActionBar :count="selectedTagIds.length" @clear="clearSelection">
-          <a-dropdown>
-            <a-button size="small">
-              批量状态 <DownOutlined />
+        <div class="tag-management-toolbar">
+          <h2>标签体系</h2>
+          <a-input-search
+            v-model:value="searchKeyword"
+            placeholder="搜索标签名称"
+            class="tag-management-search"
+            allow-clear
+            @search="handleSearch"
+            @change="handleSearchChange"
+          />
+          <div class="tag-management-toolbar__actions">
+            <BatchActionBar :count="selectedTagIds.length" @clear="clearSelection">
+              <a-dropdown>
+                <a-button size="small">
+                  批量状态 <DownOutlined />
+                </a-button>
+                <template #overlay>
+                  <a-menu @click="({ key }) => handleBatchStatus(key)">
+                    <a-menu-item key="active">启用</a-menu-item>
+                    <a-menu-item key="hidden">禁用</a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown>
+              <a-button size="small" danger @click="handleBatchDelete">批量删除</a-button>
+            </BatchActionBar>
+            <a-button type="primary" @click="openModal()">
+              <template #icon><PlusOutlined /></template>
+              新增标签
             </a-button>
-            <template #overlay>
-              <a-menu @click="({ key }) => handleBatchStatus(key)">
-                <a-menu-item key="active">启用</a-menu-item>
-                <a-menu-item key="hidden">禁用</a-menu-item>
-              </a-menu>
-            </template>
-          </a-dropdown>
-          <a-button size="small" danger @click="handleBatchDelete">批量删除</a-button>
-        </BatchActionBar>
-        <a-input-search
-          v-model:value="searchKeyword"
-          placeholder="搜索标签名称"
-          style="width: 220px"
-          allow-clear
-          @search="handleSearch"
-          @change="handleSearchChange"
-        />
+          </div>
+        </div>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'name'">
@@ -63,16 +65,29 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <div class="taxonomy-actions">
-            <a-button type="link" size="small" class="action-edit" @click="openModal(record)">编辑</a-button>
-            <a-button
-              type="link"
-              size="small"
-              :class="record.status === 'active' ? 'action-disable' : 'action-enable'"
-              @click="handleToggleStatus(record)"
-            >
-              {{ record.status === 'active' ? '禁用' : '启用' }}
-            </a-button>
-            <a-button type="link" size="small" danger class="action-delete" @click="handleDelete(record)">删除</a-button>
+            <a-tooltip title="编辑">
+              <a-button type="text" size="small" class="action-edit" @click="openModal(record)">
+                <template #icon><EditOutlined /></template>
+              </a-button>
+            </a-tooltip>
+            <a-tooltip :title="record.status === 'active' ? '禁用' : '启用'">
+              <a-button
+                type="text"
+                size="small"
+                :class="record.status === 'active' ? 'action-disable' : 'action-enable'"
+                @click="handleToggleStatus(record)"
+              >
+                <template #icon>
+                  <StopOutlined v-if="record.status === 'active'" />
+                  <PlayCircleOutlined v-else />
+                </template>
+              </a-button>
+            </a-tooltip>
+            <a-tooltip title="删除">
+              <a-button type="text" size="small" danger class="action-delete" @click="handleDelete(record)">
+                <template #icon><DeleteOutlined /></template>
+              </a-button>
+            </a-tooltip>
           </div>
         </template>
       </template>
@@ -125,10 +140,18 @@
 
 <script setup>
 import { computed, reactive, ref } from 'vue'
-import { DownOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import {
+  DeleteOutlined,
+  DownOutlined,
+  EditOutlined,
+  PlayCircleOutlined,
+  PlusOutlined,
+  StopOutlined
+} from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import BatchActionBar from '@/components/BatchActionBar.vue'
 import { batchDeleteAdminTags, batchUpdateAdminTagStatus, createAdminTag, deleteAdminTag, listAdminTags, updateAdminTag } from '@/services/admin'
+import './index.css'
 import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 
 const tableRef = ref(null)
@@ -356,105 +379,3 @@ function handleDelete(record) {
   }).catch(() => {})
 }
 </script>
-
-<style scoped>
-/* ── 页面：flex纵向铺满 ── */
-.taxonomy-page {
-  width: 100%;
-  height: var(--console-page-available-height);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow: hidden;
-}
-
-/* ── 头部栏 ── */
-.taxonomy-page-head {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: var(--console-surface);
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-}
-
-.taxonomy-page-head h2 {
-  margin: 0;
-  font-size: 18px;
-  line-height: 24px;
-  color: var(--console-text);
-  font-weight: 650;
-}
-
-/* ── 单元格内容 ── */
-.taxonomy-tag-badge {
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: 4px;
-  padding: 1px 8px;
-}
-
-.taxonomy-sort {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 24px;
-  height: 20px;
-  border-radius: 3px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--console-text-secondary);
-  background: var(--console-surface-muted);
-  padding: 0 5px;
-}
-
-.taxonomy-time {
-  font-size: 13px;
-  color: var(--console-text-secondary);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ── 操作按钮 ── */
-.taxonomy-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.taxonomy-actions .ant-btn-link {
-  padding: 0 5px;
-  height: 24px;
-  border-radius: 3px;
-  font-size: 13px;
-  transition: all 0.2s ease;
-}
-
-.taxonomy-actions .action-edit { color: var(--console-primary-strong); }
-.taxonomy-actions .action-edit:hover { background: var(--console-primary-soft); }
-.taxonomy-actions .action-enable { color: #52c41a; }
-.taxonomy-actions .action-enable:hover { background: rgba(82, 196, 26, 0.08); }
-.taxonomy-actions .action-disable { color: #faad14; }
-.taxonomy-actions .action-disable:hover { background: rgba(250, 173, 20, 0.08); }
-.taxonomy-actions .action-delete { color: #ff4d4f; }
-.taxonomy-actions .action-delete:hover { background: rgba(255, 77, 79, 0.08); }
-
-/* ── 弹窗表单 ── */
-.taxonomy-form {
-  padding: 8px 4px 0;
-}
-
-.taxonomy-form :deep(.ant-form-item-label > label) {
-  font-weight: 500;
-}
-
-.color-preview {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-  vertical-align: middle;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-</style>

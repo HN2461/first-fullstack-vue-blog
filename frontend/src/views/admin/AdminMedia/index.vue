@@ -107,6 +107,7 @@
         :page-sizes="['16', '32', '64']"
         :scroll="{ x: 920 }"
         :row-selection="mediaRowSelection"
+        empty-text="暂无符合条件的媒体资源"
         height="auto"
         @selection-change="handleMediaSelectionChange"
       >

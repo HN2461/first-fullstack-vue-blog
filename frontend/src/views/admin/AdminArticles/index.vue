@@ -9,8 +9,9 @@
       :page-size="10"
       :page-sizes="['10', '20', '50']"
       :show-column-setting="true"
+      empty-text="暂无符合条件的文章"
       :height="'100%'"
-      :scroll="{ x: 1120 }"
+      :scroll="{ x: 1320 }"
       row-selection
       @selection-change="handleSelectionChange"
     >

@@ -8,39 +8,37 @@
         <span class="stat-chip stat-chip--active">启用 <strong>{{ activeCount }}</strong></span>
         <span class="stat-chip stat-chip--system">系统 <strong>{{ systemCount }}</strong></span>
       </div>
-      <BatchActionBar :count="selectedCategoryIds.length" @clear="clearSelection">
-        <a-dropdown>
-          <a-button size="small">
-            批量状态 <DownOutlined />
-          </a-button>
-          <template #overlay>
-            <a-menu @click="({ key }) => handleBatchStatus(key)">
-              <a-menu-item key="active">启用</a-menu-item>
-              <a-menu-item key="hidden">隐藏</a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
-        <a-button size="small" danger @click="handleBatchDelete">批量删除</a-button>
-      </BatchActionBar>
-      <a-button type="primary" class="taxonomy-add-btn" @click="openModal()">
-        <template #icon><PlusOutlined /></template>
-        新增分类
-      </a-button>
+      <a-input-search
+        v-model:value="searchKeyword"
+        placeholder="搜索分类名称"
+        class="taxonomy-search"
+        allow-clear
+        @search="handleSearch"
+      />
+      <div class="taxonomy-topbar-actions">
+        <BatchActionBar :count="selectedCategoryIds.length" @clear="clearSelection">
+          <a-dropdown>
+            <a-button size="small">
+              批量状态 <DownOutlined />
+            </a-button>
+            <template #overlay>
+              <a-menu @click="({ key }) => handleBatchStatus(key)">
+                <a-menu-item key="active">启用</a-menu-item>
+                <a-menu-item key="hidden">隐藏</a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+          <a-button size="small" danger @click="handleBatchDelete">批量删除</a-button>
+        </BatchActionBar>
+        <a-button type="primary" class="taxonomy-add-btn" @click="openModal()">
+          <template #icon><PlusOutlined /></template>
+          新增分类
+        </a-button>
+      </div>
     </div>
 
     <!-- 表格区：绝对主角 -->
     <div class="taxonomy-table-card">
-      <div class="taxonomy-table-header">
-        <div class="taxonomy-table-actions">
-          <a-input-search
-            v-model:value="searchKeyword"
-            placeholder="搜索分类名称"
-            class="taxonomy-search"
-            @search="handleSearch"
-          />
-        </div>
-      </div>
-
       <BlogTable
         ref="tableRef"
         :api-fn="loadCategories"
@@ -49,6 +47,7 @@
         :page-size="15"
         :page-sizes="['10', '15', '20', '50']"
         :show-column-setting="true"
+        empty-text="暂无符合条件的分类"
         :params="tableParams"
         class="taxonomy-table"
         row-selection
@@ -432,8 +431,13 @@ function handleDelete(record) {
 .taxonomy-topbar {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 4px 0;
+  gap: 12px;
+  min-height: 56px;
+  padding: 10px 16px;
+  border: 1px solid var(--console-border);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: var(--console-surface);
   flex-shrink: 0;
 }
 
@@ -451,7 +455,7 @@ function handleDelete(record) {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
+  flex: 0 0 auto;
   min-width: 0;
 }
 
@@ -490,6 +494,13 @@ function handleDelete(record) {
   border-radius: 6px;
 }
 
+.taxonomy-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
 /* ── 表格卡片 ── */
 .taxonomy-table-card {
   flex: 1 1 0;
@@ -497,30 +508,15 @@ function handleDelete(record) {
   flex-direction: column;
   background: var(--console-surface);
   border: 1px solid var(--console-border);
-  border-radius: 12px;
+  border-radius: 0 0 8px 8px;
   box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
   overflow: hidden;
   min-height: 0;
 }
 
-.taxonomy-table-header {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--console-border);
-  background: var(--console-surface-muted);
-}
-
-.taxonomy-table-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
 .taxonomy-search {
   width: 240px;
+  margin-left: auto;
 }
 
 .taxonomy-search :deep(.ant-input) {
@@ -797,6 +793,10 @@ function handleDelete(record) {
   .taxonomy-stats-inline {
     order: 3;
     flex-basis: 100%;
+  }
+
+  .taxonomy-topbar-actions {
+    margin-left: auto;
   }
 
   .taxonomy-search {

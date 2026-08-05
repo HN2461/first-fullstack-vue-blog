@@ -1,39 +1,5 @@
 <template>
   <section class="announce-page">
-    <!-- 精简顶栏：标题 + 筛选 + 操作，一行搞定 -->
-    <div class="announce-topbar">
-      <h2 class="announce-title">公告管理</h2>
-      <div class="announce-filters">
-        <a-select
-          v-model:value="filterLevel"
-          placeholder="级别"
-          class="announce-filter-select"
-          allow-clear
-        >
-          <a-select-option value="info">功能更新</a-select-option>
-          <a-select-option value="warning">重要提醒</a-select-option>
-          <a-select-option value="error">紧急高危</a-select-option>
-        </a-select>
-        <a-select
-          v-model:value="filterIsActive"
-          placeholder="状态"
-          class="announce-filter-select"
-          allow-clear
-        >
-          <a-select-option value="true">已上架</a-select-option>
-          <a-select-option value="false">已下架</a-select-option>
-        </a-select>
-        <a-button size="small" class="announce-reset-btn" @click="resetFilters">
-          <template #icon><ClearOutlined /></template>
-          重置
-        </a-button>
-      </div>
-      <a-button type="primary" class="announce-add-btn" @click="openCreateModal">
-        <template #icon><PlusOutlined /></template>
-        发布公告
-      </a-button>
-    </div>
-
     <Transition name="batch-fade">
       <div v-if="selectedRowKeys.length > 0" class="announce-batch-bar">
         <span class="batch-hint">已选 <strong>{{ selectedRowKeys.length }}</strong> 项</span>
@@ -69,9 +35,44 @@
       :page-size="15"
       :page-sizes="['10', '15', '20', '50']"
       :show-column-setting="true"
+      empty-text="暂无公告"
       class="announce-table"
       @selection-change="onSelectionChange"
     >
+      <template #toolbar>
+        <div class="announce-topbar">
+          <h2 class="announce-title">公告管理</h2>
+          <div class="announce-filters">
+            <a-select
+              v-model:value="filterLevel"
+              placeholder="级别"
+              class="announce-filter-select"
+              allow-clear
+            >
+              <a-select-option value="info">功能更新</a-select-option>
+              <a-select-option value="warning">重要提醒</a-select-option>
+              <a-select-option value="error">紧急高危</a-select-option>
+            </a-select>
+            <a-select
+              v-model:value="filterIsActive"
+              placeholder="状态"
+              class="announce-filter-select"
+              allow-clear
+            >
+              <a-select-option value="true">已上架</a-select-option>
+              <a-select-option value="false">已下架</a-select-option>
+            </a-select>
+            <a-button size="small" class="announce-reset-btn" @click="resetFilters">
+              <template #icon><ClearOutlined /></template>
+              重置
+            </a-button>
+          </div>
+          <a-button type="primary" class="announce-add-btn" @click="openCreateModal">
+            <template #icon><PlusOutlined /></template>
+            发布公告
+          </a-button>
+        </div>
+      </template>
 
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'title'">
