@@ -55,6 +55,7 @@
     "menu:knowledge-routes:apply": "node src/scripts/migrateKnowledgeMenuRoutes.js --apply",
     "menu:page-cache:dry-run": "node src/scripts/configureMenuPageCache.js",
     "menu:page-cache:apply": "node src/scripts/configureMenuPageCache.js --apply",
+    "menu:snapshot:sync": "node src/scripts/syncMenuSnapshotByCode.js",
     "timeline:seed": "node src/scripts/seedProjectTimeline.js",
     "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply",
     "ledger-moments:sync": "node src/scripts/syncLedgerMomentsFromExport.js",

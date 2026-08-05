@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-04T01:44:22.022Z",
+  "generatedAt": "2026-08-05T03:20:27.119Z",
   "export": {
-    "exportedAt": "2026-08-03T10:17:08.920Z",
-    "total": 525
+    "exportedAt": "2026-08-05T02:03:41.304Z",
+    "total": 534
   },
   "repositoryCategoryAliases": [
     {
@@ -16,7 +16,7 @@
     }
   ],
   "summary": {
-    "repositoryMarkdown": 19,
+    "repositoryMarkdown": 0,
     "matched": 0,
     "uniqueOnlineMatched": 0,
     "duplicateRepositoryFiles": 0,
@@ -26,319 +26,123 @@
     "mediumRefactor": 0,
     "closeRevision": 0,
     "categoryUpdateRecommended": 0,
-    "repositoryOnly": 19,
+    "repositoryOnly": 0,
     "previousExportOnly": 0,
-    "localNew": 19,
-    "onlineOnly": 525
+    "localNew": 0,
+    "onlineOnly": 534
   },
   "matched": [],
   "duplicateRepositoryMatches": [],
-  "repositoryOnly": [
+  "repositoryOnly": [],
+  "onlineOnly": [
     {
-      "repositoryPath": "未导入线上/Redis/00-线上导入说明.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
+      "originalId": "6a7297bdaa75b420fbbaf295",
+      "originalSlug": "redis-08-security-monitoring-ioredis-case",
+      "title": "第 08 篇：生产安全与项目应用：监控、ioredis、缓存、会话与计数",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
         "Redis"
       ],
-      "title": "Redis 专题线上导入说明",
-      "slug": "redis-online-import-guide",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "5247dff15fabfc4f9d0af74b8bab2e35c9c4be4bb0fb5508009317731f365650",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-08-篇：生产安全与项目应用：监控、ioredis、缓存、会话与计数.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/exercises/01-阶段练习.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "exercises"
+      "originalId": "6a7297bdaa75b420fbbaf293",
+      "originalSlug": "redis-07-messaging-persistence-high-availability",
+      "title": "第 07 篇：消息与高可用：Pub/Sub、Stream、RDB、AOF、Sentinel 与 Cluster",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 17：阶段练习",
-      "slug": "redis-17-exercises",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "3699b28f853bd964d0d1a8dee76194f448bfc0a79e3bc430e35b733d2093de0c",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-07-篇：消息与高可用：Pub-Sub、Stream、RDB、AOF、Sentinel-与-Cluster.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/exercises/02-参考答案.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "exercises"
+      "originalId": "6a7297bdaa75b420fbbaf291",
+      "originalSlug": "redis-06-business-lock-idempotency",
+      "title": "第 06 篇：业务场景与并发控制：会话、限流、分布式锁与幂等",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 18：阶段练习参考答案",
-      "slug": "redis-18-exercise-answers",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "f025bf4d1434112ea6f6addb7b70e28284f012514fbffc069092edf4861014f0",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-06-篇：业务场景与并发控制：会话、限流、分布式锁与幂等.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/notes/01-认识Redis与搭建环境.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
+      "originalId": "6a7297bdaa75b420fbbaf28f",
+      "originalSlug": "redis-05-cache-consistency",
+      "title": "第 05 篇：缓存一致性与风险治理：Cache-Aside、穿透、击穿、雪崩与更新",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 01：认识 Redis 与搭建环境",
-      "slug": "redis-01-getting-started",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "444207ad1329fee6dba170d211e6718f73e54dca55032664312b7774e7b38286",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-05-篇：缓存一致性与风险治理：Cache-Aside、穿透、击穿、雪崩与更新.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/notes/02-Key与TTL及命名规范.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
+      "originalId": "6a7297bdaa75b420fbbaf28d",
+      "originalSlug": "redis-04-atomicity-memory-performance",
+      "title": "第 04 篇：原子操作与性能治理：事务、Lua、内存淘汰、大 Key 与热 Key",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 02：Key、TTL、命名与通用命令",
-      "slug": "redis-02-key-ttl-naming",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "e250b47d7774eb135dad8138363838b7d904e75748336b46c8f32975f6d64587",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-04-篇：原子操作与性能治理：事务、Lua、内存淘汰、大-Key-与热-Key.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/notes/03-五大核心数据结构.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
+      "originalId": "6a7297bdaa75b420fbbaf28b",
+      "originalSlug": "redis-03-extended-types-internals-complexity",
+      "title": "第 03 篇：扩展能力与性能直觉：Bitmap、HyperLogLog、Geo、底层结构与复杂度",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 03：五大核心数据结构",
-      "slug": "redis-03-core-data-structures",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "efd1b26c71de9b727afa3b8520fb4c66a34b53b1c677186addf28217e6cd27d7",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-03-篇：扩展能力与性能直觉：Bitmap、HyperLogLog、Geo、底层结构与复杂度.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/notes/04-扩展数据结构事务Pipeline与Lua.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
+      "originalId": "6a7297bdaa75b420fbbaf289",
+      "originalSlug": "redis-02-core-data-structures",
+      "title": "第 02 篇：核心数据结构与场景：String、Hash、List、Set 与 ZSet",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 04：扩展数据结构、事务、Pipeline 与 Lua",
-      "slug": "redis-04-extended-types-pipeline-lua",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "9304d46e7cde25175201ec0f3149314921bd5ed7307e3610c8c916578e33c285",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-02-篇：核心数据结构与场景：String、Hash、List、Set-与-ZSet.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/notes/05-内存过期淘汰大Key与热Key.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
+      "originalId": "6a7297bdaa75b420fbbaf287",
+      "originalSlug": "redis-01-overview-fast-key-ttl",
+      "title": "第 01 篇：Redis 定位与 Key 生命周期：为什么快、请求链路、Key 设计与 TTL",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 05：内存、过期、淘汰、大 Key 与热 Key",
-      "slug": "redis-05-memory-expiry-bigkey-hotkey",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "b2cd1da61bbcf8b345091b3bd44cedaeb4d52f7ecc49b1a2422aeca2bf2d423b",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/第-01-篇：Redis-定位与-Key-生命周期：为什么快、请求链路、Key-设计与-TTL.md"
     },
     {
-      "repositoryPath": "未导入线上/Redis/notes/06-缓存模式与缓存三大问题.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
+      "originalId": "6a7297bdaa75b420fbbaf285",
+      "originalSlug": "redis-practical-beginner-guide",
+      "title": "Redis 实用入门总目录：定位、数据结构、缓存与高可用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "后端技术",
+        "数据库",
+        "Redis"
       ],
-      "title": "Redis 06：缓存模式与缓存三大问题",
-      "slug": "redis-06-cache-patterns",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "817309c900ad6c894645777c8a2a080784253af6d471cb6e82ab13d148869b95",
-      "originStatus": "local-new"
+      "onlineFile": "后端技术/数据库/Redis/Redis-实用入门总目录：定位、数据结构、缓存与高可用.md"
     },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/07-MySQL与Redis数据一致性.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 07：MySQL 与 Redis 数据一致性",
-      "slug": "redis-07-mysql-cache-consistency",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "61c2bff0342d394687c3204e088c00e304fa403b9adbf3206ae5b5d3ed6ebcb8",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/08-企业高频业务场景.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 08：会话、验证码、限流与排行榜",
-      "slug": "redis-08-enterprise-scenarios",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "369ac009bf20dc91562dc62e83491b5d27b0037e5b5a1fdbcdd2e6342a3e0c08",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/09-分布式锁幂等与原子操作.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 09：分布式锁、幂等与原子操作",
-      "slug": "redis-09-lock-idempotency-atomicity",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "03920e2bf291e42baaf563d3748013cdc4822d9ca28e02504c2d470d6234ed85",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/10-PubSub与Stream消息场景.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 10：Pub/Sub、Stream 与任务队列边界",
-      "slug": "redis-10-pubsub-stream",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "28b178f55158b304e00dd4c68479ddafd610b114a63129d12bbe8693442ece13",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/11-持久化备份与恢复.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 11：RDB、AOF、备份与恢复",
-      "slug": "redis-11-persistence-backup-recovery",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "7d17d0bad664f27b68106703f2cddf146683f023a8760d4895f70206f506a11c",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/12-复制SentinelCluster与高可用.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 12：复制、Sentinel、Cluster 与高可用",
-      "slug": "redis-12-replication-sentinel-cluster",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "0d1ead8ba9ccd137c352dcf80b6394cd7f5fda7f5804e6f3566633b1624615af",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/13-安全监控性能与线上排障.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 13：安全、监控、性能与线上排障",
-      "slug": "redis-13-security-monitoring-troubleshooting",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "bcf6c50a7e7fe5493d06011245d3cb4ad5054a6f3007792f25e0c84a3f573680",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/14-Nodejs使用ioredis实战.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 14：Node.js 使用 ioredis 实战",
-      "slug": "redis-14-nodejs-ioredis",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "cd6b3ac2537f11361e1ac54a905d9a51388955c356416493f50803ab7936e070",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/15-MySQL与Redis企业案例.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 15：MySQL + Redis 企业知识库案例",
-      "slug": "redis-15-mysql-enterprise-case",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "eb5e4b979a9eb3046457ae2edce61caa54f2654258ddf4e7c00502f3a74ce6b5",
-      "originStatus": "local-new"
-    },
-    {
-      "repositoryPath": "未导入线上/Redis/notes/16-高频面试题与命令速查.md",
-      "repositoryCategoryPath": [
-        "未导入线上",
-        "Redis",
-        "notes"
-      ],
-      "title": "Redis 16：高频面试题与命令速查",
-      "slug": "redis-16-interview-cheatsheet",
-      "originalId": "",
-      "originalSlug": "",
-      "exportedAt": "",
-      "frontMatterCategory": "",
-      "bodyHash": "a12cad5e4226ab8d1dbcc267bac8514955dc5737209360a2c7c64f043878e2da",
-      "originStatus": "local-new"
-    }
-  ],
-  "onlineOnly": [
     {
       "originalId": "6a706a61360397398ac2d05d",
       "originalSlug": "mysql-zero-to-one-beginner",
