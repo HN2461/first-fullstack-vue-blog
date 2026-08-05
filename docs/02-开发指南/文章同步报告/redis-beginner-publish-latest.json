@@ -1,0 +1,164 @@
+{
+  "generatedAt": "2026-08-05T01:47:47.116Z",
+  "mode": "dry-run",
+  "sourceRoot": "C:\\Users\\Administrator\\Desktop\\first-fullstack-vue-blog\\output\\未导入线上\\Redis",
+  "summary": {
+    "sourceArticles": 9,
+    "unchanged": 9,
+    "createAndPublish": 0,
+    "updateAndPublish": 0,
+    "publishBlockers": 0,
+    "redisCategoryExists": true
+  },
+  "items": [
+    {
+      "title": "Redis 实用入门总目录：定位、数据结构、缓存与高可用",
+      "slug": "redis-practical-beginner-guide",
+      "summary": "面向零基础读者的 Redis 图文专题，用 8 篇详细文章讲清定位、数据结构、缓存、并发、消息、持久化、高可用、安全运维和 Node.js 项目应用。",
+      "tags": [
+        "Redis",
+        "后端开发",
+        "学习目录"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "Redis/README.md",
+      "id": "6a7295e71fa343bd3266c16c",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 01 篇：Redis 定位与 Key 生命周期：为什么快、请求链路、Key 设计与 TTL",
+      "slug": "redis-01-overview-fast-key-ttl",
+      "summary": "用一篇文章建立 Redis 全貌：它和数据库如何分工、请求为什么快、环境版本怎样看，以及 Key、TTL 和安全遍历怎么设计。",
+      "tags": [
+        "Redis",
+        "缓存",
+        "Key设计",
+        "TTL"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "Redis/notes/01-认识Redis为什么快与Key生命周期.md",
+      "id": "6a7295e71fa343bd3266c16e",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 02 篇：核心数据结构与场景：String、Hash、List、Set 与 ZSet",
+      "slug": "redis-02-core-data-structures",
+      "summary": "快速掌握 String、Hash、List、Set 和 Sorted Set 的数据形状、常见场景、最小命令和选型边界。",
+      "tags": [
+        "Redis",
+        "数据结构",
+        "缓存"
+      ],
+      "sortOrder": 30,
+      "sourcePath": "Redis/notes/02-核心数据结构与常见场景.md",
+      "id": "6a7295e71fa343bd3266c170",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 03 篇：扩展能力与性能直觉：Bitmap、HyperLogLog、Geo、底层结构与复杂度",
+      "slug": "redis-03-extended-types-internals-complexity",
+      "summary": "概览 Bitmap、HyperLogLog、Geo、现代 Redis 能力及常见内部编码，理解为什么同一种命令在数据变大后会变慢。",
+      "tags": [
+        "Redis",
+        "性能优化",
+        "数据结构"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "Redis/notes/03-扩展能力底层结构与复杂度.md",
+      "id": "6a7295e71fa343bd3266c172",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 04 篇：原子操作与性能治理：事务、Lua、内存淘汰、大 Key 与热 Key",
+      "slug": "redis-04-atomicity-memory-performance",
+      "summary": "区分事务、WATCH、Pipeline、Lua 和 Functions，并掌握过期、淘汰、碎片、大 Key、热 Key 与慢请求的判断方法。",
+      "tags": [
+        "Redis",
+        "Lua",
+        "性能优化",
+        "内存管理"
+      ],
+      "sortOrder": 50,
+      "sourcePath": "Redis/notes/04-原子操作内存管理与性能问题.md",
+      "id": "6a7295e71fa343bd3266c174",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 05 篇：缓存一致性与风险治理：Cache-Aside、穿透、击穿、雪崩与更新",
+      "slug": "redis-05-cache-consistency",
+      "summary": "掌握 Cache-Aside、多级缓存、穿透、击穿、雪崩、冷启动，以及数据库更新后如何控制 Redis 旧数据。",
+      "tags": [
+        "Redis",
+        "缓存一致性",
+        "Cache-Aside"
+      ],
+      "sortOrder": 60,
+      "sourcePath": "Redis/notes/05-缓存问题与数据库一致性.md",
+      "id": "6a7295e71fa343bd3266c176",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 06 篇：业务场景与并发控制：会话、限流、分布式锁与幂等",
+      "slug": "redis-06-business-lock-idempotency",
+      "summary": "理解会话、验证码、限流、计数、排行榜、在线状态，以及 Redis 锁、幂等和围栏令牌各自负责什么。",
+      "tags": [
+        "Redis",
+        "分布式锁",
+        "幂等性",
+        "限流"
+      ],
+      "sortOrder": 70,
+      "sourcePath": "Redis/notes/06-常见业务场景分布式锁与幂等.md",
+      "id": "6a7295e71fa343bd3266c178",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 07 篇：消息与高可用：Pub/Sub、Stream、RDB、AOF、Sentinel 与 Cluster",
+      "slug": "redis-07-messaging-persistence-high-availability",
+      "summary": "概览 Pub/Sub、Stream、RDB、AOF、复制、Sentinel 与 Cluster，知道消息怎样恢复、数据可能丢在哪里、节点怎样切换。",
+      "tags": [
+        "Redis",
+        "Stream",
+        "高可用",
+        "持久化"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "Redis/notes/07-消息持久化与高可用.md",
+      "id": "6a7295e71fa343bd3266c17a",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    },
+    {
+      "title": "第 08 篇：生产安全与项目应用：监控、ioredis、缓存、会话与计数",
+      "slug": "redis-08-security-monitoring-ioredis-case",
+      "summary": "用最后一篇了解 Redis 的生产安全、关键指标、ioredis 连接与重试，以及知识库项目里哪些数据适合放 Redis。",
+      "tags": [
+        "Redis",
+        "ioredis",
+        "监控",
+        "安全"
+      ],
+      "sortOrder": 90,
+      "sourcePath": "Redis/notes/08-安全监控ioredis与项目应用.md",
+      "id": "6a7295e71fa343bd3266c17c",
+      "state": "unchanged",
+      "mismatches": [],
+      "blockers": []
+    }
+  ]
+}

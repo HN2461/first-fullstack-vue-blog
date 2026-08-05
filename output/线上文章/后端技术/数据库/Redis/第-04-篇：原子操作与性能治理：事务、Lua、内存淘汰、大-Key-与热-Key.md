@@ -1,22 +1,27 @@
 ---
 title: "第 04 篇：原子操作与性能治理：事务、Lua、内存淘汰、大 Key 与热 Key"
-slug: redis-04-atomicity-memory-performance
+slug: "redis-04-atomicity-memory-performance"
 summary: "区分事务、WATCH、Pipeline、Lua 和 Functions，并掌握过期、淘汰、碎片、大 Key、热 Key 与慢请求的判断方法。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - Lua
-  - 性能优化
-  - 内存管理
-status: published
+  - "Redis"
+  - "Lua"
+  - "性能优化"
+  - "内存管理"
+status: "published"
 sortOrder: 50
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c174"
+originalSlug: "redis-04-atomicity-memory-performance"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.940Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # 第 04 篇：原子操作与性能治理：事务、Lua、内存淘汰、大 Key 与热 Key
 
 > 阅读定位：这一篇解决两个容易混在一起的问题。前半篇讲“多个请求同时操作时怎样避免互相踩数据”，后半篇讲“Redis 内存满了或某个 Key 太重时会怎样”。第一次阅读先抓住区别，不需要背八种淘汰策略。

@@ -46,6 +46,8 @@
     "mysql-articles:apply": "node src/scripts/importSelectedArticles.js --source=mysql --apply",
     "mysql-articles:publish:dry-run": "node src/scripts/publishMysqlBeginnerArticles.js",
     "mysql-articles:publish": "node src/scripts/publishMysqlBeginnerArticles.js --apply --publish",
+    "redis-articles:publish:dry-run": "node src/scripts/publishRedisBeginnerArticles.js",
+    "redis-articles:publish": "node src/scripts/publishRedisBeginnerArticles.js --apply --publish",
     "update:frontend-paths": "node src/scripts/updateFrontendPathReferences.js",
     "menu:tree:dry-run": "node src/scripts/migrateMenuTree.js",
     "menu:tree:apply": "node src/scripts/migrateMenuTree.js --apply",

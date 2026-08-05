@@ -1,22 +1,27 @@
 ---
 title: "第 08 篇：生产安全与项目应用：监控、ioredis、缓存、会话与计数"
-slug: redis-08-security-monitoring-ioredis-case
+slug: "redis-08-security-monitoring-ioredis-case"
 summary: "用最后一篇了解 Redis 的生产安全、关键指标、ioredis 连接与重试，以及知识库项目里哪些数据适合放 Redis。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - ioredis
-  - 监控
-  - 安全
-status: published
+  - "Redis"
+  - "ioredis"
+  - "监控"
+  - "安全"
+status: "published"
 sortOrder: 90
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c17c"
+originalSlug: "redis-08-security-monitoring-ioredis-case"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.980Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # 第 08 篇：生产安全与项目应用：监控、ioredis、缓存、会话与计数
 
 > 阅读定位：最后一篇把 Redis 从“知识点”放回真实 Node.js 项目。你不需要自己维护 Redis 内核，但要知道连接怎样复用、超时和重试为什么危险、哪些指标值得看，以及知识库中哪些数据可以缓存、哪些必须以数据库为准。

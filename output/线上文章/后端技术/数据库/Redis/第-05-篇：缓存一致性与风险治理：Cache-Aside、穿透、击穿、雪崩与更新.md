@@ -1,21 +1,26 @@
 ---
 title: "第 05 篇：缓存一致性与风险治理：Cache-Aside、穿透、击穿、雪崩与更新"
-slug: redis-05-cache-consistency
+slug: "redis-05-cache-consistency"
 summary: "掌握 Cache-Aside、多级缓存、穿透、击穿、雪崩、冷启动，以及数据库更新后如何控制 Redis 旧数据。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - 缓存一致性
-  - Cache-Aside
-status: published
+  - "Redis"
+  - "缓存一致性"
+  - "Cache-Aside"
+status: "published"
 sortOrder: 60
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c176"
+originalSlug: "redis-05-cache-consistency"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.951Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # 第 05 篇：缓存一致性与风险治理：Cache-Aside、穿透、击穿、雪崩与更新
 
 > 阅读定位：这是整套文章里最实用的一篇。你不需要自己写缓存框架，但需要看懂“先查 Redis、未命中查数据库、更新后删缓存”这条主线，以及穿透、击穿、雪崩为什么不是同一个问题。

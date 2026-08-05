@@ -1,22 +1,27 @@
 ---
 title: "第 01 篇：Redis 定位与 Key 生命周期：为什么快、请求链路、Key 设计与 TTL"
-slug: redis-01-overview-fast-key-ttl
+slug: "redis-01-overview-fast-key-ttl"
 summary: "用一篇文章建立 Redis 全貌：它和数据库如何分工、请求为什么快、环境版本怎样看，以及 Key、TTL 和安全遍历怎么设计。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - 缓存
-  - Key设计
-  - TTL
-status: published
+  - "Redis"
+  - "缓存"
+  - "Key设计"
+  - "TTL"
+status: "published"
 sortOrder: 20
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c16e"
+originalSlug: "redis-01-overview-fast-key-ttl"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.883Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # 第 01 篇：Redis 定位与 Key 生命周期：为什么快、请求链路、Key 设计与 TTL
 
 > 阅读定位：这一篇默认你从来没有用过 Redis。读完后不要求会搭集群，也不要求背命令，只要求能说清 Redis 放在系统哪里、一次请求怎样经过它、Key 和 TTL 分别负责什么。

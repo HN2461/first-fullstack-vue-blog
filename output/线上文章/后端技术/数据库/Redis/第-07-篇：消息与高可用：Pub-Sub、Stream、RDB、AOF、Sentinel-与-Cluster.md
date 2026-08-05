@@ -1,22 +1,27 @@
 ---
 title: "第 07 篇：消息与高可用：Pub/Sub、Stream、RDB、AOF、Sentinel 与 Cluster"
-slug: redis-07-messaging-persistence-high-availability
+slug: "redis-07-messaging-persistence-high-availability"
 summary: "概览 Pub/Sub、Stream、RDB、AOF、复制、Sentinel 与 Cluster，知道消息怎样恢复、数据可能丢在哪里、节点怎样切换。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - Stream
-  - 高可用
-  - 持久化
-status: published
+  - "Redis"
+  - "Stream"
+  - "高可用"
+  - "持久化"
+status: "published"
 sortOrder: 80
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c17a"
+originalSlug: "redis-07-messaging-persistence-high-availability"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.969Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # 第 07 篇：消息与高可用：Pub/Sub、Stream、RDB、AOF、Sentinel 与 Cluster
 
 > 阅读定位：这一篇术语较多，但主线只有三条。消息机制解决“任务交给谁、失败能否再来”，持久化解决“进程重启后数据怎样回来”，高可用解决“当前节点坏了由谁接班”。三条线不能互相替代。

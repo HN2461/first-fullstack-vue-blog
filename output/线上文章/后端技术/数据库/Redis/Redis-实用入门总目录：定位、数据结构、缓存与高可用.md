@@ -1,21 +1,26 @@
 ---
 title: "Redis 实用入门总目录：定位、数据结构、缓存与高可用"
-slug: redis-practical-beginner-guide
+slug: "redis-practical-beginner-guide"
 summary: "面向零基础读者的 Redis 图文专题，用 8 篇详细文章讲清定位、数据结构、缓存、并发、消息、持久化、高可用、安全运维和 Node.js 项目应用。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - 后端开发
-  - 学习目录
-status: published
+  - "Redis"
+  - "后端开发"
+  - "学习目录"
+status: "published"
 sortOrder: 10
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c16c"
+originalSlug: "redis-practical-beginner-guide"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.692Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # Redis 实用入门总目录：定位、数据结构、缓存与高可用
 
 Redis 的知识点很多，但日常开发并不要求每个人都会搭 Cluster、背完整命令或手写分布式锁。真正重要的是建立一张正确地图：Redis 在系统里负责什么，什么数据适合放进去，缓存为什么会出问题，并发和故障时系统会发生什么。

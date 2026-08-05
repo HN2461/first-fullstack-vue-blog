@@ -1,21 +1,26 @@
 ---
 title: "第 02 篇：核心数据结构与场景：String、Hash、List、Set 与 ZSet"
-slug: redis-02-core-data-structures
+slug: "redis-02-core-data-structures"
 summary: "快速掌握 String、Hash、List、Set 和 Sorted Set 的数据形状、常见场景、最小命令和选型边界。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - 数据结构
-  - 缓存
-status: published
+  - "Redis"
+  - "数据结构"
+  - "缓存"
+status: "published"
 sortOrder: 30
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c170"
+originalSlug: "redis-02-core-data-structures"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.914Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # 第 02 篇：核心数据结构与场景：String、Hash、List、Set 与 ZSet
 
 > 阅读定位：这一篇只讲最常见的五种结构。你不需要背完整命令参数，重点是看到一份业务数据时，能判断它更像“一个值、一张资料卡、一条队伍、一份去重名单，还是一张排行榜”。

@@ -1,21 +1,26 @@
 ---
 title: "第 03 篇：扩展能力与性能直觉：Bitmap、HyperLogLog、Geo、底层结构与复杂度"
-slug: redis-03-extended-types-internals-complexity
+slug: "redis-03-extended-types-internals-complexity"
 summary: "概览 Bitmap、HyperLogLog、Geo、现代 Redis 能力及常见内部编码，理解为什么同一种命令在数据变大后会变慢。"
-category: Redis
+category: "Redis"
 categoryPath:
-  - 后端技术
-  - 数据库
-  - Redis
+  - "后端技术"
+  - "数据库"
+  - "Redis"
 tags:
-  - Redis
-  - 性能优化
-  - 数据结构
-status: published
+  - "Redis"
+  - "性能优化"
+  - "数据结构"
+status: "published"
 sortOrder: 40
-cover:
+cover: ""
+originalId: "6a7295e71fa343bd3266c172"
+originalSlug: "redis-03-extended-types-internals-complexity"
+originalStatus: "published"
+publishedAt: "2026-08-05T01:46:15.689Z"
+updatedAt: "2026-08-05T01:46:15.926Z"
+exportedAt: "2026-08-05T01:48:02.381Z"
 ---
-
 # 第 03 篇：扩展能力与性能直觉：Bitmap、HyperLogLog、Geo、底层结构与复杂度
 
 > 阅读定位：这一篇分成两层。Bitmap、HyperLogLog、Geo 和 Stream 只需要知道“解决什么问题”；底层编码和复杂度只需要建立性能直觉。第一次阅读不要求记住所有名词。

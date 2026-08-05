@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-05",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "redis-topic-adaptation-publish-and-snapshot-sync",
+      "title": "适配并发布 Redis 八篇入门专题",
+      "detail": "1. 将 Redis 专题总目录和八篇正文统一适配为后端技术 / 数据库 / Redis 分类，补齐发布标题、摘要、标签、分类路径与连续 sortOrder；内部导入说明未作为公开文章发布。\n2. 新增 Redis 专项发布脚本，默认 dry-run，只有同时传入 --apply --publish 才会写库；脚本校验固定的 9 篇公开内容、slug、Front Matter、发布状态、分类路径、标签和排序，写入前生成 EJSON 备份，写入后重建分类与标签文章统计。\n3. 本地发布后再次 dry-run 确认 9 篇全部 unchanged；从本地数据库导出并完整校验 534 篇文章权威快照，旧 525 篇快照已移动到 backups/output-online-before-redis-publish-20260805 以便恢复。\n4. 前端生产构建和 UTF-8 无 BOM 检查通过；后端全量测试因 mongodb-memory-server 并发下载 MongoDB 二进制超出各测试 30 秒初始化时限而失败，与本次 Redis 内容和发布脚本无关。",
+      "occurredAt": "2026-08-05T09:55:00+08:00",
+      "category": "内容上新"
+    }
+  ]
+}
