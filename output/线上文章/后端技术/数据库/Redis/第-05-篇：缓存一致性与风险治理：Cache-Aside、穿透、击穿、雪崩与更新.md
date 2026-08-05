@@ -14,12 +14,12 @@ tags:
 status: "published"
 sortOrder: 60
 cover: ""
-originalId: "6a7295e71fa343bd3266c176"
+originalId: "6a7297bdaa75b420fbbaf28f"
 originalSlug: "redis-05-cache-consistency"
 originalStatus: "published"
-publishedAt: "2026-08-05T01:46:15.689Z"
-updatedAt: "2026-08-05T01:46:15.951Z"
-exportedAt: "2026-08-05T01:48:02.381Z"
+publishedAt: "2026-08-05T01:57:25.524Z"
+updatedAt: "2026-08-05T01:57:25.565Z"
+exportedAt: "2026-08-05T02:03:41.304Z"
 ---
 # 第 05 篇：缓存一致性与风险治理：Cache-Aside、穿透、击穿、雪崩与更新
 

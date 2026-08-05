@@ -15,12 +15,12 @@ tags:
 status: "published"
 sortOrder: 20
 cover: ""
-originalId: "6a7295e71fa343bd3266c16e"
+originalId: "6a7297bdaa75b420fbbaf287"
 originalSlug: "redis-01-overview-fast-key-ttl"
 originalStatus: "published"
-publishedAt: "2026-08-05T01:46:15.689Z"
-updatedAt: "2026-08-05T01:46:15.883Z"
-exportedAt: "2026-08-05T01:48:02.381Z"
+publishedAt: "2026-08-05T01:57:25.524Z"
+updatedAt: "2026-08-05T01:57:25.544Z"
+exportedAt: "2026-08-05T02:03:41.304Z"
 ---
 # 第 01 篇：Redis 定位与 Key 生命周期：为什么快、请求链路、Key 设计与 TTL
 

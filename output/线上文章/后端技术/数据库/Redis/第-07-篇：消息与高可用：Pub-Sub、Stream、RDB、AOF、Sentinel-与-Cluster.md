@@ -15,12 +15,12 @@ tags:
 status: "published"
 sortOrder: 80
 cover: ""
-originalId: "6a7295e71fa343bd3266c17a"
+originalId: "6a7297bdaa75b420fbbaf293"
 originalSlug: "redis-07-messaging-persistence-high-availability"
 originalStatus: "published"
-publishedAt: "2026-08-05T01:46:15.689Z"
-updatedAt: "2026-08-05T01:46:15.969Z"
-exportedAt: "2026-08-05T01:48:02.381Z"
+publishedAt: "2026-08-05T01:57:25.524Z"
+updatedAt: "2026-08-05T01:57:25.576Z"
+exportedAt: "2026-08-05T02:03:41.304Z"
 ---
 # 第 07 篇：消息与高可用：Pub/Sub、Stream、RDB、AOF、Sentinel 与 Cluster
 

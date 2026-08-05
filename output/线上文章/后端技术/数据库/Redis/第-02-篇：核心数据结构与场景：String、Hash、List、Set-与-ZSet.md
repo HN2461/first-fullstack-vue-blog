@@ -14,12 +14,12 @@ tags:
 status: "published"
 sortOrder: 30
 cover: ""
-originalId: "6a7295e71fa343bd3266c170"
+originalId: "6a7297bdaa75b420fbbaf289"
 originalSlug: "redis-02-core-data-structures"
 originalStatus: "published"
-publishedAt: "2026-08-05T01:46:15.689Z"
-updatedAt: "2026-08-05T01:46:15.914Z"
-exportedAt: "2026-08-05T01:48:02.381Z"
+publishedAt: "2026-08-05T01:57:25.524Z"
+updatedAt: "2026-08-05T01:57:25.549Z"
+exportedAt: "2026-08-05T02:03:41.304Z"
 ---
 # 第 02 篇：核心数据结构与场景：String、Hash、List、Set 与 ZSet
 

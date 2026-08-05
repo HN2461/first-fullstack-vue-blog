@@ -15,12 +15,12 @@ tags:
 status: "published"
 sortOrder: 90
 cover: ""
-originalId: "6a7295e71fa343bd3266c17c"
+originalId: "6a7297bdaa75b420fbbaf295"
 originalSlug: "redis-08-security-monitoring-ioredis-case"
 originalStatus: "published"
-publishedAt: "2026-08-05T01:46:15.689Z"
-updatedAt: "2026-08-05T01:46:15.980Z"
-exportedAt: "2026-08-05T01:48:02.381Z"
+publishedAt: "2026-08-05T01:57:25.524Z"
+updatedAt: "2026-08-05T01:57:25.581Z"
+exportedAt: "2026-08-05T02:03:41.304Z"
 ---
 # 第 08 篇：生产安全与项目应用：监控、ioredis、缓存、会话与计数
 

@@ -14,12 +14,12 @@ tags:
 status: "published"
 sortOrder: 40
 cover: ""
-originalId: "6a7295e71fa343bd3266c172"
+originalId: "6a7297bdaa75b420fbbaf28b"
 originalSlug: "redis-03-extended-types-internals-complexity"
 originalStatus: "published"
-publishedAt: "2026-08-05T01:46:15.689Z"
-updatedAt: "2026-08-05T01:46:15.926Z"
-exportedAt: "2026-08-05T01:48:02.381Z"
+publishedAt: "2026-08-05T01:57:25.524Z"
+updatedAt: "2026-08-05T01:57:25.554Z"
+exportedAt: "2026-08-05T02:03:41.304Z"
 ---
 # 第 03 篇：扩展能力与性能直觉：Bitmap、HyperLogLog、Geo、底层结构与复杂度
 
