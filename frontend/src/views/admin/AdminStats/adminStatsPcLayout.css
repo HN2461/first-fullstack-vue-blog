@@ -1,0 +1,61 @@
+/* 两列共享行轨道，确保左右工作台卡片在内容变化时仍保持上下对齐。 */
+.main-content {
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: stretch;
+  gap: 16px 20px;
+}
+
+.content-left,
+.content-right {
+  display: contents;
+}
+
+.content-left > .content-card:first-child,
+.content-right > .content-card:first-child {
+  grid-row: 1;
+}
+
+.content-left > .content-card {
+  grid-column: 1;
+}
+
+.content-left > .content-card:last-child {
+  display: flex;
+  flex-direction: column;
+  grid-row: 2 / span 2;
+}
+
+.content-left > .content-card:last-child .recent-list {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
+
+.content-right > .content-card {
+  grid-column: 2;
+}
+
+.content-right > .content-card:nth-child(2) {
+  grid-row: 2;
+}
+
+.content-right > .content-card:nth-child(3) {
+  grid-row: 3;
+}
+
+.content-card {
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .content-left > .content-card,
+  .content-right > .content-card {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}

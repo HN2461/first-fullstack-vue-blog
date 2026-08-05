@@ -9,6 +9,10 @@ import { useAuthStore } from './stores/auth'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.css'
 import './styles/console.css'
+import './styles/console-dark.css'
+import './styles/console-light.css'
+import './styles/article-reader-light.css'
+import './styles/public-theme.css'
 import './styles/auth-inputs.css'
 
 dayjs.locale('zh-cn')

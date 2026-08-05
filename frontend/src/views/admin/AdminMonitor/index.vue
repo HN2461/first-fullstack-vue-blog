@@ -904,18 +904,22 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   gap: 24px;
   padding: 24px 28px;
   margin-bottom: 20px;
-  border: 1px solid rgba(22, 119, 255, 0.14);
+  border: 1px solid var(--console-border);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(22, 119, 255, 0.08), rgba(19, 194, 194, 0.08)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 251, 255, 0.98));
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--console-primary) 10%, transparent),
+      color-mix(in srgb, #13c2c2 8%, transparent)
+    ),
+    linear-gradient(180deg, var(--console-surface), var(--console-surface-muted));
 }
 
 .monitor-hero h1 {
   margin: 6px 0 10px;
   font-size: 24px;
   line-height: 1.2;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .monitor-hero__eyebrow,
@@ -923,13 +927,13 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #1677ff;
+  color: var(--console-primary-strong);
 }
 
 .monitor-hero__desc {
   max-width: 720px;
   margin: 0;
-  color: #5f6b7a;
+  color: var(--console-text-secondary);
   line-height: 1.7;
 }
 
@@ -945,20 +949,20 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   min-width: 180px;
   padding: 12px 14px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(22, 119, 255, 0.12);
+  background: color-mix(in srgb, var(--console-surface) 82%, transparent);
+  border: 1px solid var(--console-border);
 }
 
 .monitor-hero__stamp span {
   display: block;
   margin-bottom: 4px;
   font-size: 12px;
-  color: #7a869a;
+  color: var(--console-text-secondary);
 }
 
 .monitor-hero__stamp strong {
   font-size: 14px;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .monitor-refresh-control {
@@ -967,10 +971,10 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   gap: 8px;
   height: 32px;
   padding: 0 10px;
-  border: 1px solid #e8edf3;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.78);
-  color: #5f6b7a;
+  background: color-mix(in srgb, var(--console-surface) 86%, transparent);
+  color: var(--console-text-secondary);
   font-size: 13px;
 }
 
@@ -992,10 +996,10 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 .monitor-kpi,
 .monitor-card {
   min-width: 0;
-  border: 1px solid #eef1f5;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: #fff;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  background: var(--console-surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .monitor-kpi {
@@ -1025,7 +1029,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 .resource-panel__meta,
 .detail-row span,
 .request-metric span {
-  color: #7a869a;
+  color: var(--console-text-secondary);
 }
 
 .monitor-label,
@@ -1036,13 +1040,13 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 }
 
 .monitor-help-icon {
-  color: #94a3b8;
+  color: var(--console-text-secondary);
   cursor: help;
   transition: color 0.2s ease;
 }
 
 .monitor-help-icon:hover {
-  color: #1677ff;
+  color: var(--console-primary-strong);
 }
 
 .monitor-kpi__label,
@@ -1055,7 +1059,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   display: block;
   margin: 3px 0;
   font-size: 18px;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .monitor-grid {
@@ -1084,7 +1088,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 .monitor-card__header h3 {
   margin: 4px 0 0;
   font-size: 17px;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .resource-grid {
@@ -1097,8 +1101,8 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   min-width: 0;
   padding: 16px;
   border-radius: 8px;
-  background: linear-gradient(180deg, #fbfcfe 0%, #ffffff 100%);
-  border: 1px solid #eff3f8;
+  background: linear-gradient(180deg, var(--console-surface-muted), var(--console-surface));
+  border: 1px solid var(--console-border);
 }
 
 .resource-panel__top,
@@ -1116,7 +1120,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 
 .resource-panel__top strong {
   font-size: 18px;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .resource-panel__meta {
@@ -1142,7 +1146,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 
 .detail-row {
   padding-bottom: 10px;
-  border-bottom: 1px solid #f2f4f7;
+  border-bottom: 1px solid var(--console-border);
 }
 
 .detail-row:last-child {
@@ -1151,7 +1155,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 }
 
 .detail-row strong {
-  color: #1f1f1f;
+  color: var(--console-text);
   text-align: right;
 }
 
@@ -1165,8 +1169,8 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   min-width: 0;
   padding: 16px;
   border-radius: 8px;
-  border: 1px solid #eef1f5;
-  background: #fafcff;
+  border: 1px solid var(--console-border);
+  background: var(--console-surface-muted);
 }
 
 .request-metric span {
@@ -1177,7 +1181,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 
 .request-metric strong {
   font-size: 18px;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .request-metric strong.is-danger {
@@ -1187,19 +1191,19 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 .table-main-cell strong {
   display: block;
   margin-bottom: 4px;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .table-main-cell span,
 .table-muted-text {
   margin: 0;
-  color: #5f6b7a;
+  color: var(--console-text-secondary);
   line-height: 1.6;
 }
 
 .monitor-inner-table {
   max-width: 100%;
-  border: 1px solid #eef1f5;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
   overflow: hidden;
 }
@@ -1209,8 +1213,8 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 }
 
 .monitor-inner-table :deep(.ant-table-thead > tr > th) {
-  background: #f7f9fc;
-  color: #5f6b7a;
+  background: var(--console-surface-muted);
+  color: var(--console-menu-text);
   font-weight: 600;
 }
 
@@ -1223,8 +1227,8 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   max-width: 100%;
   padding: 10px 12px;
   border-radius: 6px;
-  background: #f6f8fb;
-  color: #334155;
+  background: var(--console-primary-soft);
+  color: var(--console-primary-strong);
   white-space: normal;
   word-break: break-all;
   line-height: 1.5;
@@ -1250,15 +1254,15 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 
 .glossary-card {
   padding: 16px;
-  border: 1px solid #eef1f5;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: linear-gradient(180deg, #fbfcfe 0%, #ffffff 100%);
+  background: linear-gradient(180deg, var(--console-surface-muted), var(--console-surface));
 }
 
 .glossary-card h3 {
   margin: 0 0 14px;
   font-size: 16px;
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .glossary-list {
@@ -1269,7 +1273,7 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 
 .glossary-item {
   padding-top: 14px;
-  border-top: 1px solid #f0f3f7;
+  border-top: 1px solid var(--console-border);
 }
 
 .glossary-item:first-child {
@@ -1285,12 +1289,12 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
 }
 
 .glossary-item__title strong {
-  color: #1f1f1f;
+  color: var(--console-text);
 }
 
 .glossary-item__title span,
 .glossary-item p {
-  color: #5f6b7a;
+  color: var(--console-text-secondary);
 }
 
 .glossary-item p {
@@ -1376,85 +1380,4 @@ watch([autoRefresh, refreshIntervalMs], startAutoRefresh)
   }
 }
 
-:deep(.dark-theme) .monitor-hero {
-  border-color: rgba(91, 143, 249, 0.22);
-  background:
-    linear-gradient(135deg, rgba(91, 143, 249, 0.14), rgba(19, 194, 194, 0.08)),
-    linear-gradient(180deg, rgba(22, 31, 48, 0.95), rgba(17, 24, 39, 0.98));
-}
-
-:deep(.dark-theme) .monitor-hero h1,
-:deep(.dark-theme) .monitor-hero__stamp strong,
-:deep(.dark-theme) .monitor-kpi__value,
-:deep(.dark-theme) .monitor-card__header h3,
-:deep(.dark-theme) .resource-panel__top strong,
-:deep(.dark-theme) .detail-row strong,
-:deep(.dark-theme) .request-metric strong,
-:deep(.dark-theme) .table-main-cell strong,
-:deep(.dark-theme) .glossary-card h3,
-:deep(.dark-theme) .glossary-item__title strong {
-  color: #f8fafc;
-}
-
-:deep(.dark-theme) .monitor-hero__desc,
-:deep(.dark-theme) .monitor-kpi__label,
-:deep(.dark-theme) .monitor-kpi__meta,
-:deep(.dark-theme) .resource-panel__meta,
-:deep(.dark-theme) .detail-row span,
-:deep(.dark-theme) .request-metric span,
-:deep(.dark-theme) .table-main-cell span,
-:deep(.dark-theme) .table-muted-text,
-:deep(.dark-theme) .glossary-item__title span,
-:deep(.dark-theme) .glossary-item p {
-  color: #94a3b8;
-}
-
-:deep(.dark-theme) .monitor-hero__stamp,
-:deep(.dark-theme) .monitor-refresh-control,
-:deep(.dark-theme) .monitor-kpi,
-:deep(.dark-theme) .monitor-card,
-:deep(.dark-theme) .resource-panel,
-:deep(.dark-theme) .request-metric,
-:deep(.dark-theme) .monitor-inner-table,
-:deep(.dark-theme) .glossary-card {
-  border-color: rgba(148, 163, 184, 0.18);
-  background: #111827;
-  box-shadow: none;
-}
-
-:deep(.dark-theme) .detail-row,
-:deep(.dark-theme) .glossary-item {
-  border-color: rgba(148, 163, 184, 0.14);
-}
-
-:deep(.dark-theme) .monitor-inner-table :deep(.ant-table),
-:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-container),
-:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-body),
-:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-content) {
-  background: #111827;
-}
-
-:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-thead > tr > th) {
-  background: #0f172a;
-  color: #cbd5e1;
-  border-color: rgba(148, 163, 184, 0.14);
-}
-
-:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr > td) {
-  color: #cbd5e1;
-  border-color: rgba(148, 163, 184, 0.14);
-}
-
-:deep(.dark-theme) .monitor-inner-table :deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
-  background: rgba(30, 41, 59, 0.88);
-}
-
-:deep(.dark-theme) .table-path {
-  background: #0f172a;
-  color: #cbd5e1;
-}
-
-:deep(.dark-theme) .is-warning {
-  color: #fbbf24;
-}
 </style>

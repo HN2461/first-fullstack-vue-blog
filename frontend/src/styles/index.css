@@ -45,6 +45,22 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Knowledge Sans SC';
+  src: url('/fonts/noto-sans-sc-regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Knowledge Sans SC';
+  src: url('/fonts/noto-sans-sc-bold.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+}
+
 html {
   min-width: 320px;
   max-width: 100%;
@@ -59,7 +75,8 @@ body {
   max-width: 100%;
   overflow-x: hidden;
   min-height: 100vh;
-  font-family: 'Aptos', 'Segoe UI Variable Text', 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  font-family: 'Knowledge Sans SC', 'Microsoft YaHei UI', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  letter-spacing: 0;
   color: var(--text-primary);
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(255, 255, 255, 0.20)),

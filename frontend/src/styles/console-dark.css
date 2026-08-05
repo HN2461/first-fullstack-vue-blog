@@ -1,0 +1,14 @@
+/* 暗色工作台保留图标色相，同时压低浅色底块在深色界面中的亮度。 */
+.dark-theme .workbench .stat-icon,
+.dark-theme .workbench .quick-icon,
+.dark-theme .workbench .root-menu-icon {
+  color: color-mix(in srgb, var(--icon-tone) 74%, white) !important;
+  background: color-mix(in srgb, var(--icon-tone) 18%, var(--console-surface-muted)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--icon-tone) 16%, var(--console-border));
+}
+
+.dark-theme .workbench .todo-icon {
+  color: color-mix(in srgb, var(--icon-tone) 72%, white);
+  background: color-mix(in srgb, var(--icon-tone) 28%, var(--console-surface-muted)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--icon-tone) 20%, var(--console-border));
+}

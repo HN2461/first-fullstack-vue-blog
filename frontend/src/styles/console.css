@@ -176,7 +176,7 @@ body:has(.enterprise-admin-shell) {
 .enterprise-primary-menu .ant-menu-item-selected {
   color: var(--console-primary-strong);
   background: transparent;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .dark-theme .enterprise-primary-menu .ant-menu-item-selected {
@@ -267,7 +267,7 @@ body:has(.enterprise-admin-shell) {
 .enterprise-profile-button strong {
   color: var(--console-text);
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 18px;
 }
 
@@ -372,7 +372,7 @@ body:has(.enterprise-admin-shell) {
   overflow: hidden;
   color: var(--console-text);
   font-size: 16px;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 22px;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -508,7 +508,7 @@ body:has(.enterprise-admin-shell) {
 .enterprise-menu .ant-menu-item-selected {
   color: var(--console-primary-strong);
   background: var(--console-primary-soft);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .enterprise-menu .ant-menu-item-selected::before {
@@ -526,7 +526,7 @@ body:has(.enterprise-admin-shell) {
 .enterprise-menu .ant-menu-submenu-open > .ant-menu-submenu-title {
   color: var(--console-primary-strong);
   background: var(--console-surface-hover);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .enterprise-menu .ant-menu-sub.ant-menu-inline {
@@ -926,7 +926,7 @@ body:has(.enterprise-admin-shell) {
 .enterprise-page .ant-table-thead > tr > th {
   color: var(--console-menu-text);
   background: var(--console-surface-muted);
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .enterprise-page .ant-table-tbody > tr > td {

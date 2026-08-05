@@ -45,8 +45,11 @@
       </template>
       <template v-else>
         <div class="stat-card" v-for="item in statCards" :key="item.label">
-          <div class="stat-icon" :style="{ background: item.iconBg }">
-            <component :is="item.icon" :style="{ color: item.iconColor }" />
+          <div
+            class="stat-icon"
+            :style="{ '--icon-tone': item.iconColor, background: item.iconBg, color: item.iconColor }"
+          >
+            <component :is="item.icon" />
           </div>
           <div class="stat-body">
             <span class="stat-label">{{ item.label }}</span>
@@ -74,7 +77,10 @@
           type="button"
           @click="openRootMenu(item)"
         >
-          <span class="root-menu-icon" :style="{ background: item.bg, color: item.color }">
+          <span
+            class="root-menu-icon"
+            :style="{ '--icon-tone': item.color, background: item.bg, color: item.color }"
+          >
             <component :is="item.icon" />
           </span>
           <strong>{{ item.name }}</strong>
@@ -96,7 +102,7 @@
           <a-skeleton v-if="loading && !hasLoaded" active :paragraph="{ rows: 3 }" />
           <div v-else class="todo-list">
             <button class="todo-item" v-for="item in todoItems" :key="item.label" type="button" @click="$router.push(item.route)">
-              <div class="todo-icon" :style="{ background: item.color }">
+              <div class="todo-icon" :style="{ '--icon-tone': item.color, background: item.color }">
                 <component :is="item.icon" />
               </div>
               <div class="todo-info">
@@ -164,7 +170,10 @@
                   type="button"
                   @click.stop="handleQuickActionClick(item.route)"
                 >
-                  <div class="quick-icon" :style="{ background: item.bg, color: item.color }">
+                  <div
+                    class="quick-icon"
+                    :style="{ '--icon-tone': item.color, background: item.bg, color: item.color }"
+                  >
                     <component :is="item.icon" />
                   </div>
                   <span>{{ item.label }}</span>

@@ -1,0 +1,109 @@
+/* 公开站点专用变量保留现有浅色视觉，并与 Ant Design 暗色算法同步切换。 */
+:root {
+  --public-page-bg: #f5f7fb;
+  --public-surface: #ffffff;
+  --public-surface-muted: #f1f5f9;
+  --public-surface-accent: #f8fbff;
+  --public-text: #101828;
+  --public-text-secondary: #667085;
+  --public-border: #e5e7eb;
+  --public-border-soft: #eef0f4;
+  --public-border-accent: #d9e7ff;
+  --public-primary: #1677ff;
+  --public-primary-strong: #0958d9;
+}
+
+.dark-theme {
+  --public-page-bg: var(--bg-secondary);
+  --public-surface: var(--bg-elevated);
+  --public-surface-muted: var(--bg-muted);
+  --public-surface-accent: var(--bg-muted);
+  --public-text: var(--text-primary);
+  --public-text-secondary: var(--text-secondary);
+  --public-border: var(--border-color);
+  --public-border-soft: var(--border-color);
+  --public-border-accent: var(--border-color);
+  --public-primary: var(--primary-color);
+  --public-primary-strong: var(--primary-color);
+}
+
+.dark-theme .public-site,
+.dark-theme .mobile-home {
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+.dark-theme .public-header {
+  border-color: var(--border-color);
+  background: rgba(17, 23, 35, 0.92);
+}
+
+.dark-theme .public-brand strong,
+.dark-theme .portal-hero-content h1,
+.dark-theme .portal-section-head h2,
+.dark-theme .portal-article-card h3,
+.dark-theme .mobile-home__intro h1,
+.dark-theme .mobile-home__section-head h2,
+.dark-theme .mobile-home__card h3 {
+  color: var(--text-primary);
+}
+
+.dark-theme .public-brand small,
+.dark-theme .public-nav,
+.dark-theme .portal-hero-content p,
+.dark-theme .portal-overview-card span,
+.dark-theme .portal-overview-card small,
+.dark-theme .portal-metrics em,
+.dark-theme .portal-article-card p,
+.dark-theme .portal-article-card span,
+.dark-theme .mobile-home__intro p,
+.dark-theme .mobile-home__card p,
+.dark-theme .mobile-home__card span,
+.dark-theme .mobile-home__stats span,
+.dark-theme .mobile-home__drawer-note {
+  color: var(--text-secondary);
+}
+
+.dark-theme .public-console-link {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  background: var(--bg-elevated);
+}
+
+.dark-theme .portal-overview-card {
+  border-color: var(--border-color);
+  background: linear-gradient(180deg, var(--bg-elevated), var(--bg-muted));
+  box-shadow: var(--shadow);
+}
+
+.dark-theme .portal-overview-card strong,
+.dark-theme .portal-section-head span,
+.dark-theme .mobile-home__section-head span,
+.dark-theme .mobile-home__stats strong {
+  color: var(--primary-color);
+}
+
+.dark-theme .portal-metrics div,
+.dark-theme .mobile-home__intro,
+.dark-theme .mobile-home__section {
+  border-color: var(--border-color);
+  background: var(--bg-elevated);
+}
+
+.dark-theme .portal-metrics b {
+  color: var(--text-primary);
+}
+
+.dark-theme .portal-article-cover,
+.dark-theme .mobile-home__card img {
+  background: var(--bg-muted);
+}
+
+.dark-theme .mobile-home__card {
+  border-bottom-color: var(--border-color);
+}
+
+.dark-theme .mobile-home__stats div {
+  border-color: var(--border-color);
+  background: var(--bg-muted);
+}

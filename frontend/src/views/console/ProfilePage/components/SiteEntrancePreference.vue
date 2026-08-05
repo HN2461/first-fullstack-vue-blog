@@ -32,9 +32,9 @@ defineEmits(['update:value'])
   gap: 16px;
   padding: 16px;
   margin: 16px 0 20px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: #fafafa;
+  background: var(--console-surface-muted);
 }
 
 .site-entrance-preference > div {
@@ -44,27 +44,14 @@ defineEmits(['update:value'])
 }
 
 .site-entrance-preference strong {
-  color: #262626;
+  color: var(--console-text);
   font-size: 14px;
 }
 
 .site-entrance-preference span {
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   font-size: 12px;
   line-height: 1.6;
-}
-
-:deep(.dark-theme) .site-entrance-preference {
-  border-color: var(--console-border);
-  background: var(--console-surface-muted);
-}
-
-:deep(.dark-theme) .site-entrance-preference strong {
-  color: var(--console-text);
-}
-
-:deep(.dark-theme) .site-entrance-preference span {
-  color: var(--console-text-secondary);
 }
 
 @media (max-width: 640px) {

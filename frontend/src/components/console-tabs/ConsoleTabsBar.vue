@@ -33,13 +33,21 @@
           </div>
           <template #overlay>
             <a-menu @click="handleMenuAction($event.key, tab)">
+              <a-menu-item key="close" :disabled="tab.affix">
+                <template #icon><X :size="15" /></template>
+                关闭标签
+              </a-menu-item>
               <a-menu-item key="toggle-affix">
                 <template #icon><PinOff v-if="tab.affix" :size="15" /><Pin v-else :size="15" /></template>
                 {{ tab.affix ? '取消固定标签' : '固定标签' }}
               </a-menu-item>
-              <a-menu-item key="close" :disabled="tab.affix">
-                <template #icon><X :size="15" /></template>
-                关闭标签
+              <a-menu-item key="maximize">
+                <template #icon><Maximize2 :size="15" /></template>
+                内容最大化
+              </a-menu-item>
+              <a-menu-item key="refresh">
+                <template #icon><RefreshCw :size="15" /></template>
+                重新加载
               </a-menu-item>
               <a-menu-item key="open-window">
                 <template #icon><ExternalLink :size="15" /></template>
@@ -56,7 +64,7 @@
               </a-menu-item>
               <a-menu-item key="clear-other" :disabled="!canClearOther(tab)">
                 <template #icon><CopyX :size="15" /></template>
-                清除其他标签
+                关闭其他标签
               </a-menu-item>
               <a-menu-item key="close-all" :disabled="!canCloseAll">
                 <template #icon><PanelTopClose :size="15" /></template>
@@ -78,18 +86,18 @@
         <template #overlay>
           <a-menu @click="handleMenuAction($event.key, activeTab)">
             <a-menu-item key="close" :disabled="!activeTab || activeTab.affix">关闭当前标签</a-menu-item>
-            <a-menu-item key="clear-other" :disabled="!activeTab || !canClearOther(activeTab)">清除其他标签</a-menu-item>
+            <a-menu-item key="clear-other" :disabled="!activeTab || !canClearOther(activeTab)">关闭其他标签</a-menu-item>
             <a-menu-item key="close-all" :disabled="!canCloseAll">关闭全部标签</a-menu-item>
           </a-menu>
         </template>
       </a-dropdown>
       <a-tooltip title="重新加载当前页面">
-        <button class="console-tabs-bar__action" type="button" aria-label="重新加载当前页面" @click="refreshActiveTab">
+        <button class="console-tabs-bar__action" type="button" aria-label="重新加载当前页面" @click="refreshTab(activeTab)">
           <RefreshCw :size="16" />
         </button>
       </a-tooltip>
       <a-tooltip title="内容最大化">
-        <button class="console-tabs-bar__action" type="button" aria-label="内容最大化" @click="tabsStore.maximized = true">
+        <button class="console-tabs-bar__action" type="button" aria-label="内容最大化" @click="maximizeTab(activeTab)">
           <Maximize2 :size="16" />
         </button>
       </a-tooltip>
@@ -170,6 +178,13 @@ async function openTab(tab) {
   await router.push(tab.fullPath)
 }
 
+async function activateTab(tab) {
+  if (!tab) return false
+  if (tab.key === activeKey.value) return true
+  const failure = await router.push(tab.fullPath)
+  return !isNavigationFailure(failure)
+}
+
 function ensureHomeTab() {
   const homeRoute = router.resolve(homePath.value)
   return tabsStore.addRoute(homeRoute, authStore.rootMenus, { affix: true })
@@ -238,6 +253,8 @@ async function handleMenuAction(action, tab) {
   const index = tabIndex(tab)
   if (action === 'toggle-affix') toggleAffix(tab)
   if (action === 'close') await closeTab(tab)
+  if (action === 'maximize') await maximizeTab(tab)
+  if (action === 'refresh') await refreshTab(tab)
   if (action === 'open-window') window.open(router.resolve(tab.fullPath).href, '_blank', 'noopener')
   if (action === 'close-left') await closeTabSet(tabsStore.tabs.slice(0, index))
   if (action === 'close-right') await closeTabSet(tabsStore.tabs.slice(index + 1))
@@ -245,10 +262,16 @@ async function handleMenuAction(action, tab) {
   if (action === 'close-all') await closeTabSet([...tabsStore.tabs])
 }
 
-async function refreshActiveTab() {
-  if (!activeTab.value) return
-  if (tabsStore.isDirty(activeTab.value.key) && !(await confirmDiscard())) return
-  tabsStore.invalidate(activeTab.value.key)
+async function refreshTab(tab) {
+  if (!tab) return
+  if (tabsStore.isDirty(tab.key) && !(await confirmDiscard())) return
+  if (!(await activateTab(tab))) return
+  tabsStore.invalidate(tab.key)
+}
+
+async function maximizeTab(tab) {
+  if (!(await activateTab(tab))) return
+  tabsStore.maximized = true
 }
 
 function handleWheel(event) {

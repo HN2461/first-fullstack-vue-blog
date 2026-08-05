@@ -1,0 +1,15 @@
+/* 阅读器保留独立纸质配色，避免控制台工作面变量抹平文章阅读氛围。 */
+:root:not(.dark-theme) .enterprise-admin-shell .doc-reader--console,
+:root:not(.dark-theme) .enterprise-admin-shell .mobile-reader--console {
+  --bg-primary: #f7f4ed;
+  --bg-secondary: #ebe7dc;
+  --bg-elevated: #fffdf8;
+  --bg-muted: #f1ede3;
+  --text-primary: #18202c;
+  --text-secondary: #687080;
+  --text-muted: #8b91a0;
+  --border-color: #ded6c7;
+  --primary-color: #1f5eff;
+  --primary-strong: #1748c7;
+  --accent-color: #b26c1f;
+}

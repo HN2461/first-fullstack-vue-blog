@@ -149,8 +149,8 @@ onMounted(() => {
   min-height: 100vh;
   overflow-x: hidden;
   padding: 18px 0 34px;
-  color: var(--text-primary);
-  background: #f5f7fb;
+  color: var(--public-text);
+  background: var(--public-page-bg);
 }
 
 .mobile-home,
@@ -162,15 +162,15 @@ onMounted(() => {
 .mobile-home__intro,
 .mobile-home__section {
   margin: 0 12px 16px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--public-border);
   border-radius: 8px;
   padding: 16px;
-  background: #ffffff;
+  background: var(--public-surface);
 }
 
 .mobile-home__intro h1 {
   margin: 14px 0 10px;
-  color: #101828;
+  color: var(--public-text);
   font-size: 30px;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -178,7 +178,7 @@ onMounted(() => {
 
 .mobile-home__intro p {
   margin: 0;
-  color: #475467;
+  color: var(--public-text-secondary);
   font-size: 16px;
   line-height: 1.75;
 }
@@ -201,14 +201,14 @@ onMounted(() => {
 }
 
 .mobile-home__section-head span {
-  color: #1677ff;
+  color: var(--public-primary);
   font-size: 12px;
   font-weight: 800;
 }
 
 .mobile-home__section-head h2 {
   margin: 4px 0 0;
-  color: #101828;
+  color: var(--public-text);
   font-size: 22px;
 }
 
@@ -222,7 +222,7 @@ onMounted(() => {
   gap: 12px;
   min-width: 0;
   padding-bottom: 12px;
-  border-bottom: 1px solid #eef0f4;
+  border-bottom: 1px solid var(--public-border-soft);
   cursor: pointer;
 }
 
@@ -237,7 +237,7 @@ onMounted(() => {
   display: block;
   border-radius: 8px;
   object-fit: cover;
-  background: #f1f5f9;
+  background: var(--public-surface-muted);
 }
 
 .mobile-home__card--compact {
@@ -251,7 +251,7 @@ onMounted(() => {
 
 .mobile-home__card h3 {
   margin: 10px 0 6px;
-  color: #1f2329;
+  color: var(--public-text);
   font-size: 19px;
   line-height: 1.35;
   overflow-wrap: anywhere;
@@ -259,14 +259,14 @@ onMounted(() => {
 
 .mobile-home__card p {
   margin: 0 0 8px;
-  color: #667085;
+  color: var(--public-text-secondary);
   font-size: 15px;
   line-height: 1.7;
   overflow-wrap: anywhere;
 }
 
 .mobile-home__card span {
-  color: #667085;
+  color: var(--public-text-secondary);
   font-size: 13px;
 }
 
@@ -294,22 +294,22 @@ onMounted(() => {
   gap: 4px;
   min-height: 86px;
   align-content: center;
-  border: 1px solid #d9e7ff;
+  border: 1px solid var(--public-border-accent);
   border-radius: 8px;
   padding: 12px;
   text-align: center;
-  background: #f8fbff;
+  background: var(--public-surface-accent);
 }
 
 .mobile-home__stats strong {
-  color: #0958d9;
+  color: var(--public-primary-strong);
   font-size: 26px;
   line-height: 1;
 }
 
 .mobile-home__stats span,
 .mobile-home__drawer-note {
-  color: #667085;
+  color: var(--public-text-secondary);
 }
 
 .mobile-home__drawer-note {

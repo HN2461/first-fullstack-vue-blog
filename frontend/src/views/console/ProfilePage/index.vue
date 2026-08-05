@@ -925,8 +925,8 @@ onMounted(async () => {
 }
 
 .sidebar-card {
-  background: #fff;
-  border: 1px solid #e8e8e8;
+  background: var(--console-surface);
+  border: 1px solid var(--console-border);
   border-radius: 8px;
   height: 100%;
   display: flex;
@@ -982,7 +982,7 @@ onMounted(async () => {
 }
 
 .user-email {
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   font-size: 13px;
   margin: 0 0 8px;
 }
@@ -996,7 +996,7 @@ onMounted(async () => {
   display: flex;
   justify-content: space-around;
   padding: 16px 24px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--console-border);
 }
 
 .stat-item {
@@ -1008,12 +1008,12 @@ onMounted(async () => {
 .stat-num {
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: var(--console-text);
 }
 
 .stat-label {
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   margin-top: 2px;
 }
 
@@ -1032,29 +1032,29 @@ onMounted(async () => {
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  color: #666;
+  color: var(--console-menu-text);
   transition: all 0.2s;
 }
 
 .tab-item:hover {
-  background: #f5f5f5;
-  color: #333;
+  background: var(--console-surface-hover);
+  color: var(--console-text);
 }
 
 .tab-item.active {
-  background: #e6f4ff;
-  color: #1677ff;
+  background: var(--console-primary-soft);
+  color: var(--console-primary-strong);
   font-weight: 500;
 }
 
 .tab-arrow {
   margin-left: auto;
   font-size: 12px;
-  color: #d9d9d9;
+  color: var(--console-text-secondary);
 }
 
 .tab-item.active .tab-arrow {
-  color: #1677ff;
+  color: var(--console-primary-strong);
 }
 
 /* ========== 右侧卡片 ========== */
@@ -1065,8 +1065,8 @@ onMounted(async () => {
 }
 
 .main-card {
-  background: #fff;
-  border: 1px solid #e8e8e8;
+  background: var(--console-surface);
+  border: 1px solid var(--console-border);
   border-radius: 8px;
   padding: 24px 32px;
   height: 100%;
@@ -1081,7 +1081,7 @@ onMounted(async () => {
   font-weight: 600;
   margin: 0 0 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--console-border);
 }
 
 .profile-avatar-panel {
@@ -1090,9 +1090,9 @@ onMounted(async () => {
   gap: 16px;
   padding: 16px;
   margin-bottom: 24px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: #fafafa;
+  background: var(--console-surface-muted);
 }
 
 .profile-avatar-preview-action {
@@ -1134,12 +1134,12 @@ onMounted(async () => {
 }
 
 .profile-avatar-panel__body strong {
-  color: #262626;
+  color: var(--console-text);
   font-size: 14px;
 }
 
 .profile-avatar-panel__body span {
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   font-size: 12px;
   line-height: 1.6;
 }
@@ -1153,8 +1153,8 @@ onMounted(async () => {
 
 .record-loading {
   padding: 16px;
-  color: #8c8c8c;
-  background: #fafafa;
+  color: var(--console-text-secondary);
+  background: var(--console-surface-muted);
   border-radius: 8px;
   text-align: center;
 }
@@ -1164,13 +1164,13 @@ onMounted(async () => {
   align-items: center;
   gap: 12px;
   padding: 12px;
-  background: #fafafa;
+  background: var(--console-surface-muted);
   border-radius: 8px;
 }
 
 .record-icon {
   font-size: 18px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
 }
 
 .record-info {
@@ -1186,13 +1186,13 @@ onMounted(async () => {
 
 .record-desc {
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   margin-top: 2px;
 }
 
 .feature-hint {
   text-align: center;
-  color: #bfbfbf;
+  color: var(--console-text-secondary);
   font-size: 13px;
   margin: 16px 0 0;
   font-style: italic;
@@ -1210,7 +1210,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  background: #fafafa;
+  background: var(--console-surface-muted);
   border-radius: 8px;
 }
 
@@ -1232,7 +1232,7 @@ onMounted(async () => {
 
 .binding-desc {
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
 }
 
 /* 设置列表 */
@@ -1247,7 +1247,7 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   padding: 16px;
-  background: #fafafa;
+  background: var(--console-surface-muted);
   border-radius: 8px;
 }
 
@@ -1263,7 +1263,7 @@ onMounted(async () => {
 
 .setting-desc {
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   margin-top: 2px;
 }
 
@@ -1286,7 +1286,7 @@ onMounted(async () => {
 
 .permission-header p {
   margin: 0;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   font-size: 13px;
 }
 
@@ -1296,13 +1296,13 @@ onMounted(async () => {
   justify-content: space-between;
   gap: 16px;
   padding: 14px 16px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: #fafafa;
+  background: var(--console-surface-muted);
 }
 
 .role-summary > span {
-  color: #595959;
+  color: var(--console-menu-text);
   font-weight: 600;
 }
 
@@ -1317,9 +1317,9 @@ onMounted(async () => {
   justify-content: space-between;
   gap: 16px;
   padding: 14px 16px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: #fafafa;
+  background: var(--console-surface-muted);
 }
 
 .permission-request-item strong {
@@ -1329,7 +1329,7 @@ onMounted(async () => {
 
 .permission-request-item p {
   margin: 6px 0 0;
-  color: #595959;
+  color: var(--console-menu-text);
   line-height: 1.7;
 }
 
@@ -1344,7 +1344,7 @@ onMounted(async () => {
   display: grid;
   justify-items: end;
   gap: 6px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   font-size: 12px;
 }
 
@@ -1356,83 +1356,15 @@ onMounted(async () => {
 .avatar-cropper-modal__tip {
   margin-top: 12px;
   padding: 10px 12px;
-  background: #f6f8fa;
+  background: var(--console-surface-muted);
   border-radius: 6px;
 }
 
 .avatar-cropper-modal__tip p {
   margin: 0;
   font-size: 12px;
-  color: #8c8c8c;
+  color: var(--console-text-secondary);
   line-height: 1.6;
-}
-
-:deep(.dark-theme) .sidebar-card,
-:deep(.dark-theme) .main-card {
-  color: var(--console-text);
-  border-color: var(--console-border);
-  background: var(--console-surface);
-}
-
-:deep(.dark-theme) .avatar-section {
-  background: linear-gradient(135deg, rgba(138, 180, 255, 0.14), rgba(21, 31, 46, 0.96));
-}
-
-:deep(.dark-theme) .stats-section,
-:deep(.dark-theme) .content-title,
-:deep(.dark-theme) .profile-avatar-panel,
-:deep(.dark-theme) .role-summary,
-:deep(.dark-theme) .permission-request-item {
-  border-color: var(--console-border);
-}
-
-:deep(.dark-theme) .tab-item,
-:deep(.dark-theme) .user-email,
-:deep(.dark-theme) .stat-label,
-:deep(.dark-theme) .record-desc,
-:deep(.dark-theme) .binding-desc,
-:deep(.dark-theme) .setting-desc,
-:deep(.dark-theme) .permission-header p,
-:deep(.dark-theme) .permission-request-meta,
-:deep(.dark-theme) .avatar-cropper-modal__tip p {
-  color: var(--console-text-secondary);
-}
-
-:deep(.dark-theme) .user-name,
-:deep(.dark-theme) .stat-num,
-:deep(.dark-theme) .content-title,
-:deep(.dark-theme) .profile-avatar-panel__body strong,
-:deep(.dark-theme) .record-title,
-:deep(.dark-theme) .binding-name,
-:deep(.dark-theme) .setting-title,
-:deep(.dark-theme) .permission-request-item strong {
-  color: var(--console-text);
-}
-
-:deep(.dark-theme) .tab-item:hover,
-:deep(.dark-theme) .record-loading,
-:deep(.dark-theme) .record-item,
-:deep(.dark-theme) .binding-item,
-:deep(.dark-theme) .setting-item,
-:deep(.dark-theme) .profile-avatar-panel,
-:deep(.dark-theme) .role-summary,
-:deep(.dark-theme) .permission-request-item,
-:deep(.dark-theme) .avatar-cropper-modal__tip {
-  background: var(--console-surface-muted);
-}
-
-:deep(.dark-theme) .tab-item.active {
-  color: var(--console-primary-strong);
-  background: var(--console-primary-soft);
-}
-
-:deep(.dark-theme) .tab-arrow {
-  color: var(--console-text-secondary);
-}
-
-:deep(.dark-theme) .permission-request-item p,
-:deep(.dark-theme) .role-summary > span {
-  color: var(--console-menu-text);
 }
 
 /* 响应式 */
