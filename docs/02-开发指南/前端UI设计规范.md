@@ -278,4 +278,3 @@ BlogTable
 - 系统设置问号说明：`frontend/src/views/admin/AdminSettings/index.vue`
 - 法定节假日与纪念日说明：`frontend/src/views/admin/AdminSettings/components/FestivalSettings.vue`
 - 个人信息对称表单与隐藏滚动条：`frontend/src/views/console/ProfilePage/index.vue`
-
