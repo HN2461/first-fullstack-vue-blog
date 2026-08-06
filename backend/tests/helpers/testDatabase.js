@@ -16,6 +16,12 @@ function resetTestUploadRoot() {
 }
 
 export async function connectTestDatabase() {
+  if (process.env.TEST_MONGODB_URI) {
+    await mongoose.connect(process.env.TEST_MONGODB_URI)
+    resetTestUploadRoot()
+    return
+  }
+
   mongoServer = await MongoMemoryServer.create()
   await mongoose.connect(mongoServer.getUri())
   resetTestUploadRoot()
