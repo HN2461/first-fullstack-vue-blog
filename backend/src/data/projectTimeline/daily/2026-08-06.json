@@ -19,8 +19,8 @@
     },
     {
       "id": "tea-demo-independent-api",
-      "title": "新增并发布茶饮业务独立联调接口",
-      "detail": "1. 新增 /api/tea-demo/v1 独立接口模块，使用 tea_demo_users 与 tea_demo_products 集合承载联调用户和商品数据，不复用主业务用户、文章、菜单或 RBAC 集合。\n2. 实现登录注册前的一次性 RSA-OAEP-SHA256 Challenge 加密流程、独立 JWT scope、Token 刷新与退出失效，并完成普通用户和管理员两级角色权限控制。\n3. 完成商品分类、公开商品列表、详情和管理员商品 CRUD / 上下架接口，默认 8 个商品改用经过可用性检查的 HTTPS 商品图片。\n4. 编写正式前后端 API 对接文档和端到端测试；专项测试、本地串行全量 237 项后端测试、主站与茶饮前端构建、UTF-8 无 BOM 检查全部通过。\n5. 配置服务器独立 JWT 密钥和 CORS 来源白名单，完成生产发布、数据库发布前备份、PM2 重启与公网端到端验收；健康检查、RSA 登录、Token 刷新/退出、Challenge 防重放、角色 403、商品 CRUD、下架隔离和 8 张图片访问均正常。",
+      "title": "拆分并发布独立前端联调服务",
+      "detail": "1. 将 /api/tea-demo/v1 综合联调模块迁移到独立 frontend-lab-api 项目，独立维护源码、依赖、环境变量、测试、发布包和正式接口文档，博客后端移除全部茶饮模块代码与运行配置。\n2. 独立服务继续提供 RSA-OAEP-SHA256 Challenge 登录注册、JWT 刷新与退出失效、普通用户和管理员角色权限、商品分类、商品列表与详情、管理员商品 CRUD 和上下架接口。\n3. 服务器使用 /www/frontend-lab-api 独立目录、3101 独立端口、frontend-lab-api 独立 PM2 进程和 frontend_lab_api 独立 MongoDB 数据库；Nginx 仅将 /api/tea-demo/v1 路由转发到新服务，博客其余接口继续使用 3001。\n4. 迁移 tea_demo_users 与 tea_demo_products 集合并保留原数据标识，生产密钥仅在服务器独立 .env 中维护；迁移前完成源集合备份，验收后从博客数据库删除旧集合。\n5. 独立服务 4 项端到端测试、原生 Node 启动、UTF-8 无 BOM、文件行数和发布包白名单检查通过；公网完成 25 项认证、权限、商品 CRUD、CORS 和图片可用性验收。",
       "occurredAt": "2026-08-06T13:04:43+08:00",
       "category": "功能更新"
     }

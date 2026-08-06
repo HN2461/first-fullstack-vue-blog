@@ -21,7 +21,6 @@ import { discussionRouter } from '#modules/discussion/routes/discussion.routes.j
 import profileRouter from '#modules/user/routes/profile.routes.js'
 import { publicRouter } from '#modules/public/routes/public.routes.js'
 import { rbacRouter } from '#modules/rbac/routes/rbac.routes.js'
-import { teaDemoRouter } from '#modules/teaDemo/routes/teaDemo.routes.js'
 import { questionBankRouter } from '#modules/questionBank/routes/questionBank.routes.js'
 import {
   resumeExportRouter,
@@ -33,24 +32,11 @@ import {
 
 export function createApp() {
   const app = express()
-  const mainAllowedOrigins = new Set((env.clientOrigins || []).filter(Boolean))
-  const teaDemoAllowedOrigins = new Set((env.teaDemoClientOrigins || []).filter(Boolean))
 
   app.use(helmet())
-  app.use(cors((req, callback) => {
-    const origin = req.get('Origin') || ''
-    const isTeaDemoRequest = req.path === `${API_PREFIX}/tea-demo/v1` || req.path.startsWith(`${API_PREFIX}/tea-demo/v1/`)
-    const allowedOrigins = isTeaDemoRequest ? teaDemoAllowedOrigins : mainAllowedOrigins
-
-    if (!origin || !allowedOrigins.size || allowedOrigins.has(origin)) {
-      callback(null, { origin: true, credentials: true })
-      return
-    }
-
-    const error = new Error(`CORS 不允许来源：${origin}`)
-    error.statusCode = 403
-    error.code = 'CORS_ORIGIN_DENIED'
-    callback(error)
+  app.use(cors({
+    origin: env.clientOrigin,
+    credentials: true
   }))
   app.use(express.json({ limit: '1mb' }))
   app.use(express.urlencoded({ extended: true }))
@@ -78,7 +64,6 @@ export function createApp() {
   app.use(`${API_PREFIX}/profile`, profileRouter)
   app.use(`${API_PREFIX}/public`, publicRouter)
   app.use(`${API_PREFIX}/rbac`, rbacRouter)
-  app.use(`${API_PREFIX}/tea-demo/v1`, teaDemoRouter)
   app.use(`${API_PREFIX}/question-bank`, questionBankRouter)
   app.use(API_PREFIX, healthRouter)
   app.use(API_PREFIX, interactionRouter)

@@ -5,12 +5,10 @@ import { env } from './config/env.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { initDiscussionSocket } from '#modules/discussion/realtime/discussionSocket.js'
 import { ensureHolidayYears } from '#modules/festival/services/festival.service.js'
-import { ensureTeaDemoSeed } from '#modules/teaDemo/services/teaDemoSeed.service.js'
 
 async function bootstrap() {
   await connectDatabase()
   await ensureRbacSeed()
-  await ensureTeaDemoSeed()
   const currentYear = Number(new Intl.DateTimeFormat('en-CA', { timeZone: env.businessTimeZone, year: 'numeric' }).format(new Date()))
   await ensureHolidayYears([currentYear, currentYear + 1])
 
