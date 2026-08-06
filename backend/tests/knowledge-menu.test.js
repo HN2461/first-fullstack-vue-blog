@@ -59,7 +59,21 @@ describe('knowledge menu routes', () => {
 
     expect(response.body.data.categories).toHaveLength(1)
     expect(response.body.data.articles).toHaveLength(1)
-    expect(response.body.data.articles[0]).not.toHaveProperty('contentMarkdown')
-    expect(response.body.data.articles[0]).not.toHaveProperty('resources')
+    expect(response.body.data.categories[0]).toEqual(expect.objectContaining({
+      name: 'Node.js',
+      slug: 'node-js',
+      parent: null
+    }))
+    expect(response.body.data.articles[0]).toEqual({
+      id: expect.any(String),
+      title: '公开文章',
+      slug: 'public-post',
+      category: {
+        id: expect.any(String),
+        name: 'Node.js',
+        slug: 'node-js',
+        isSystem: false
+      }
+    })
   })
 })

@@ -342,7 +342,10 @@ export async function listArticles(options = {}) {
   ])
 
   return {
-    items: articles.map((article) => article.toSafeJSON()),
+    items: articles.map((article) => article.toSafeJSON({
+      includeContent: false,
+      includeResources: false
+    })),
     total,
     page: Number(page),
     pageSize: Number(pageSize)

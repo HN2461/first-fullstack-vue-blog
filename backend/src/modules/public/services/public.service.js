@@ -197,6 +197,7 @@ export async function getPublicHomeData() {
       status: ARTICLE_STATUS.PUBLISHED,
       deletedAt: null
     })
+      .select('-contentMarkdown -resources -document')
       .populate('category')
       .populate('tags')
       .populate('createdBy', 'username avatar role')
@@ -207,6 +208,7 @@ export async function getPublicHomeData() {
       deletedAt: null,
       isRecommended: true
     })
+      .select('-contentMarkdown -resources -document')
       .populate('category')
       .populate('tags')
       .populate('createdBy', 'username avatar role')
@@ -222,29 +224,55 @@ export async function getPublicHomeData() {
     },
     categories: categories.map((category) => category.toSafeJSON()),
     tags: tags.map((tag) => tag.toSafeJSON()),
-    recentArticles: recentArticles.map((article) => article.toSafeJSON()),
-    recommendedArticles: recommendedArticles.map((article) => article.toSafeJSON())
+    recentArticles: recentArticles.map((article) => article.toSafeJSON({
+      includeContent: false,
+      includeResources: false
+    })),
+    recommendedArticles: recommendedArticles.map((article) => article.toSafeJSON({
+      includeContent: false,
+      includeResources: false
+    }))
   }
 }
 
 export async function getKnowledgeMenuData() {
   const [categories, articles] = await Promise.all([
     Category.find({ status: 'active', isSystem: { $ne: true } })
-      .sort({ sortOrder: 1, createdAt: -1 }),
+      .select('_id name slug parent sortOrder isSystem')
+      .sort({ sortOrder: 1, createdAt: -1 })
+      .lean(),
     Article.find({
       status: ARTICLE_STATUS.PUBLISHED,
       deletedAt: null
     })
-      .populate('category')
+      .select('_id title slug category')
+      .populate('category', '_id name slug isSystem')
       .sort(getDirectoryArticleSort())
       .limit(500)
+      .lean()
   ])
 
   return {
-    categories: categories.map((category) => category.toSafeJSON()),
-    articles: articles.map((article) => article.toSafeJSON({
-      includeContent: false,
-      includeResources: false
+    categories: categories.map((category) => ({
+      id: category._id.toString(),
+      name: category.name,
+      slug: category.slug,
+      parent: category.parent?.toString() || null,
+      sortOrder: category.sortOrder || 0,
+      isSystem: !!category.isSystem
+    })),
+    articles: articles.map((article) => ({
+      id: article._id.toString(),
+      title: article.title,
+      slug: article.slug,
+      category: article.category
+        ? {
+            id: article.category._id.toString(),
+            name: article.category.name,
+            slug: article.category.slug,
+            isSystem: !!article.category.isSystem
+          }
+        : null
     }))
   }
 }

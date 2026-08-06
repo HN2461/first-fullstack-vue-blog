@@ -74,6 +74,8 @@ describe('public reader routes', () => {
     expect(response.body.data.stats.articleCount).toBe(1)
     expect(response.body.data.recentArticles).toHaveLength(1)
     expect(response.body.data.recentArticles[0].slug).toBe('published-post')
+    expect(response.body.data.recentArticles[0]).not.toHaveProperty('contentMarkdown')
+    expect(response.body.data.recentArticles[0]).not.toHaveProperty('resources')
   })
 
   it('lists only published articles', async () => {

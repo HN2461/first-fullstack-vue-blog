@@ -270,8 +270,10 @@ function compareMenuSort(left, right) {
   return itemSort || createdSort || String(left.name || '').localeCompare(String(right.name || ''), 'zh-Hans-CN')
 }
 
-export async function ensureRbacSeed(options = {}) {
-  const forceBuiltinSync = options.forceBuiltinSync === true
+let rbacSeedReady = false
+let rbacSeedPromise = null
+
+async function runRbacSeed(forceBuiltinSync = false) {
   const codeToMenu = new Map()
 
   for (const menuInput of DEFAULT_MENUS) {
@@ -477,6 +479,29 @@ export async function ensureRbacSeed(options = {}) {
       { upsert: true, new: true }
     )
   }
+}
+
+export async function ensureRbacSeed(options = {}) {
+  const forceBuiltinSync = options.forceBuiltinSync === true
+  const reuseSeedState = env.nodeEnv !== 'test'
+
+  if (reuseSeedState && !forceBuiltinSync && rbacSeedReady) {
+    return
+  }
+
+  if (reuseSeedState && !forceBuiltinSync && rbacSeedPromise) {
+    return rbacSeedPromise
+  }
+
+  rbacSeedPromise = runRbacSeed(forceBuiltinSync)
+    .then(() => {
+      rbacSeedReady = true
+    })
+    .finally(() => {
+      rbacSeedPromise = null
+    })
+
+  return rbacSeedPromise
 }
 
 export async function getVisitorRole() {

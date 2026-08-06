@@ -327,18 +327,18 @@ import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
 import { getKnowledgeMenu, listPublicArticles } from '@/services/public'
 import { isKnowledgeConsolePath } from '@/utils/consoleRoutes'
+import {
+  isKnowledgeMenuCacheFresh as isKnowledgeMenuSnapshotFresh,
+  readKnowledgeMenuCache,
+  writeKnowledgeMenuCache
+} from '@/utils/knowledgeMenuCache'
 import { openMenuRoute } from '@/utils/menuNavigation'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 import ConsoleWorkspace from '@/components/console-tabs/ConsoleWorkspace.vue'
 
-const KNOWLEDGE_MENU_CACHE_TTL = 60 * 1000
 const ARTICLE_DIRECTORY_PATH = '/console/article-directory'
 const SIDER_FULL_LABELS_STORAGE_KEY = 'console:sider-full-labels'
-const knowledgeMenuCache = {
-  categories: [],
-  articles: [],
-  loadedAt: 0
-}
+const knowledgeMenuCache = readKnowledgeMenuCache()
 
 function readSiderFullLabelsPreference() {
   try {
@@ -1214,7 +1214,7 @@ function resolveCategoryOpenKeys(slug) {
 }
 
 function isKnowledgeMenuCacheFresh() {
-  return knowledgeMenuCache.loadedAt > 0 && Date.now() - knowledgeMenuCache.loadedAt < KNOWLEDGE_MENU_CACHE_TTL
+  return isKnowledgeMenuSnapshotFresh(knowledgeMenuCache)
 }
 
 async function loadKnowledgeMenu({ force = false } = {}) {
@@ -1248,9 +1248,11 @@ async function loadKnowledgeMenu({ force = false } = {}) {
     const nextArticles = menuResult.articles || []
     categories.value = nextCategories
     articles.value = nextArticles
-    knowledgeMenuCache.categories = nextCategories
-    knowledgeMenuCache.articles = nextArticles
-    knowledgeMenuCache.loadedAt = Date.now()
+    Object.assign(knowledgeMenuCache, writeKnowledgeMenuCache({
+      categories: nextCategories,
+      articles: nextArticles,
+      loadedAt: Date.now()
+    }))
     knowledgeMenuLoaded.value = true
     openKeys.value = resolveOpenKeys(route.path)
   } catch (error) {
@@ -1285,7 +1287,7 @@ watch(() => [route.path, route.query.menu], ([path]) => {
 })
 
 watch(currentRootHasKnowledgeDirectory, async (hasDirectory) => {
-  if (!hasDirectory || knowledgeMenuLoaded.value) {
+  if (!hasDirectory) {
     return
   }
 
@@ -1307,8 +1309,8 @@ onMounted(() => {
   if (appStore.isMobile) {
     siderCollapsed.value = true
   }
-  if (currentRootHasKnowledgeDirectory.value && !knowledgeMenuLoaded.value) {
-    loadKnowledgeMenu()
+  if (currentRootHasKnowledgeDirectory.value) {
+    loadKnowledgeMenu({ force: true })
   }
 })
 
