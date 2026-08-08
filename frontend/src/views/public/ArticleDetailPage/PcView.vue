@@ -149,7 +149,7 @@
       </aside>
 
       <footer v-if="actionBarVisible" class="doc-reader__footer">
-        <div class="doc-reader__author">
+        <div v-if="authorCardVisible" class="doc-reader__author">
           <div class="doc-reader__author-avatar">
             <img v-if="article.author?.avatar" :src="article.author.avatar" :alt="article.author?.username || '作者头像'">
             <span v-else>{{ authorInitial }}</span>
@@ -221,9 +221,11 @@
         :immersive-mode="isImmersiveReading"
         :footer-actions-visible="showFooterActions"
         :default-bottom="actionBarVisible ? 88 : 24"
+        :neighbors="article.readingNeighbors"
         @font-size-change="handleFontSizeChange"
         @show-footer-actions="showFooterActionBar"
         @toggle-immersive="toggleImmersiveReading"
+        @navigate-article="navigateToNeighbor"
       />
 
       <a-drawer
@@ -283,7 +285,7 @@
 
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
   DownloadOutlined,
@@ -314,6 +316,7 @@ import { extractTOC } from '@/utils/markdown'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
 
 const route = useRoute()
+const router = useRouter()
 const authStore = useAuthStore()
 const siteStore = useSiteStore()
 const { updateConsoleTabTitle } = useConsoleTabTitle()
@@ -333,6 +336,7 @@ const likedByCurrentUser = ref(false)
 const favoritedByCurrentUser = ref(false)
 const fontSize = ref(17)
 const isImmersiveReading = ref(false)
+const preserveImmersiveOnNextLoad = ref(false)
 const isTocOpen = ref(false)
 const showFooterActions = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
 
@@ -355,13 +359,15 @@ const article = ref({
   source: '',
   sourcePath: '',
   likedByCurrentUser: false,
-  favoritedByCurrentUser: false
+  favoritedByCurrentUser: false,
+  readingNeighbors: { previous: [], next: [], position: 0, total: 0 }
 })
 
 const inConsole = computed(() => route.path.startsWith('/console'))
 const inDirectoryConsole = computed(() => route.path.startsWith('/console/article-directory'))
 const isAdminPreview = computed(() => route.meta.adminArticlePreview === true)
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
+const authorCardVisible = computed(() => authStore.user?.articleAuthorCardEnabled === true)
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
 const actionBarVisible = computed(() => !isAdminPreview.value && !isImmersiveReading.value && showFooterActions.value)
 const authorInitial = computed(() => (article.value.author?.username || '知').slice(0, 1).toUpperCase())
@@ -425,6 +431,16 @@ function showFooterActionBar() {
   sessionStorage.removeItem(FOOTER_ACTIONS_SESSION_KEY)
 }
 
+function navigateToNeighbor(slug) {
+  if (!slug) return
+  preserveImmersiveOnNextLoad.value = isImmersiveReading.value
+  if (inDirectoryConsole.value) {
+    router.push(`/console/article-directory/articles/${slug}`)
+    return
+  }
+  router.push(inConsole.value ? `/console/articles/${slug}` : `/articles/${slug}`)
+}
+
 function handleFooterMoreAction({ key }) {
   if (key === 'hide-session') {
     hideFooterActionBarForSession()
@@ -444,7 +460,11 @@ async function loadComments() {
 async function loadArticle() {
   loading.value = true
   errorMessage.value = ''
-  isImmersiveReading.value = false
+  const preserveImmersive = preserveImmersiveOnNextLoad.value
+  preserveImmersiveOnNextLoad.value = false
+  if (!preserveImmersive) {
+    isImmersiveReading.value = false
+  }
   isTocOpen.value = false
 
   try {

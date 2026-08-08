@@ -98,6 +98,42 @@ describe('public reader routes', () => {
 
     expect(response.body.data.title).toBe('已发布文章')
     expect(response.body.data.contentMarkdown).toContain('Express reader content')
+    expect(response.body.data.readingNeighbors).toMatchObject({
+      previous: [],
+      next: [],
+      position: 1,
+      total: 1
+    })
+  })
+
+  it('returns same-category neighbors in directory order', async () => {
+    const app = createApp()
+
+    for (let index = 1; index <= 7; index += 1) {
+      await createArticle({
+        title: `顺序文章${index}`,
+        slug: `ordered-post-${index}`,
+        contentMarkdown: `# 顺序文章${index}`,
+        category: category.id,
+        sortOrder: (index + 1) * 10,
+        status: ARTICLE_STATUS.PUBLISHED
+      }, admin)
+    }
+
+    const response = await request(app)
+      .get('/api/public/articles/ordered-post-4')
+      .expect(200)
+
+    expect(response.body.data.readingNeighbors.previous.map((item) => item.slug)).toEqual([
+      'ordered-post-3',
+      'ordered-post-2',
+      'ordered-post-1'
+    ])
+    expect(response.body.data.readingNeighbors.next.map((item) => item.slug)).toEqual([
+      'ordered-post-5',
+      'ordered-post-6',
+      'ordered-post-7'
+    ])
   })
 
   it('increments views without changing article update time', async () => {

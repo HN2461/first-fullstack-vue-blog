@@ -219,6 +219,7 @@
             <WorkspaceTabsPreference v-model="profileForm.consoleTabsEnabled" />
             <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
             <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
+            <ArticleAuthorPreference v-model="profileForm.articleAuthorCardEnabled" />
             <a-form-item>
               <a-button type="primary" html-type="submit" :loading="saving">
                 保存界面设置
@@ -485,6 +486,7 @@ import SiteEntrancePreference from './components/SiteEntrancePreference.vue'
 import BirthdayPreference from './components/BirthdayPreference.vue'
 import PersonalDateSettings from './components/PersonalDateSettings.vue'
 import WorkspaceTabsPreference from './components/WorkspaceTabsPreference.vue'
+import ArticleAuthorPreference from './components/ArticleAuthorPreference.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 
@@ -536,6 +538,7 @@ const profileForm = reactive({
   personalDates: [],
   closeSiteEntranceEffect: false,
   consoleTabsEnabled: true,
+  articleAuthorCardEnabled: false,
   entranceEffect: { ...DEFAULT_ENTRANCE_EFFECT }
 })
 
@@ -644,6 +647,7 @@ function syncProfileForm(user = {}) {
   profileForm.personalDates = Array.isArray(user.personalDates) ? user.personalDates.map((item) => ({ ...item })) : []
   profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
   profileForm.consoleTabsEnabled = user.consoleTabsEnabled !== false
+  profileForm.articleAuthorCardEnabled = user.articleAuthorCardEnabled === true
   profileForm.entranceEffect = normalizeEntranceEffectConfig(user.entranceEffect)
 }
 
@@ -732,6 +736,7 @@ async function handleSaveProfile() {
       personalDates: profileForm.personalDates,
       closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
       consoleTabsEnabled: profileForm.consoleTabsEnabled,
+      articleAuthorCardEnabled: profileForm.articleAuthorCardEnabled,
       entranceEffect: normalizeEntranceEffectConfig(profileForm.entranceEffect)
     })
     authStore.user = { ...authStore.user, ...result }

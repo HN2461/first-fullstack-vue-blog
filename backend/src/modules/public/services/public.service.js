@@ -137,6 +137,37 @@ export async function listPublicArticles(rawQuery = {}) {
   }
 }
 
+async function getArticleReadingNeighbors(article, limit = 3) {
+  const categoryId = article.category?._id || article.category || null
+  const siblings = await Article.find({
+    status: ARTICLE_STATUS.PUBLISHED,
+    deletedAt: null,
+    category: categoryId
+  })
+    .select('_id title slug')
+    .sort(getDirectoryArticleSort())
+    .lean()
+  const currentIndex = siblings.findIndex((item) => String(item._id) === String(article._id))
+
+  if (currentIndex < 0) {
+    return { previous: [], next: [], position: 0, total: siblings.length }
+  }
+
+  const toItem = (item) => ({
+    id: item._id.toString(),
+    title: item.title,
+    slug: item.slug
+  })
+
+  return {
+    // 前序文章按离当前文章由近到远返回，方便阅读器直接突出“上一篇”。
+    previous: siblings.slice(Math.max(0, currentIndex - limit), currentIndex).reverse().map(toItem),
+    next: siblings.slice(currentIndex + 1, currentIndex + 1 + limit).map(toItem),
+    position: currentIndex + 1,
+    total: siblings.length
+  }
+}
+
 export async function getPublicArticleBySlug(slug, currentUserId = null) {
   const article = await Article.findOne({
     slug,
@@ -159,11 +190,15 @@ export async function getPublicArticleBySlug(slug, currentUserId = null) {
   )
   article.viewCount += 1
 
-  const payload = article.toSafeJSON()
+  const [payload, readingNeighbors] = await Promise.all([
+    Promise.resolve(article.toSafeJSON()),
+    getArticleReadingNeighbors(article)
+  ])
 
   if (!currentUserId) {
     return {
       ...payload,
+      readingNeighbors,
       likedByCurrentUser: false,
       favoritedByCurrentUser: false
     }
@@ -180,6 +215,7 @@ export async function getPublicArticleBySlug(slug, currentUserId = null) {
 
   return {
     ...payload,
+    readingNeighbors,
     likedByCurrentUser: reactionTypes.has('like'),
     favoritedByCurrentUser: reactionTypes.has('favorite')
   }

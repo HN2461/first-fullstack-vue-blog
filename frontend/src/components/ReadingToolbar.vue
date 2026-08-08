@@ -77,6 +77,12 @@
             </button>
           </div>
 
+          <ReadingArticleNavigation
+            v-if="immersiveMode && neighbors"
+            :neighbors="neighbors"
+            @navigate="navigateArticle"
+          />
+
           <div v-if="!footerActionsVisible" class="panel-section">
             <button class="action-btn footer-btn" type="button" @click.stop="showFooterActions">
               <Eye :size="18" />
@@ -92,10 +98,11 @@
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Eye, Focus, RotateCcw, X } from 'lucide-vue-next'
+import ReadingArticleNavigation from './ReadingArticleNavigation.vue'
 import { getDefaultFontSize, getFontSize, MAX_FONT_SIZE, MIN_FONT_SIZE, setFontSize } from '@/utils/fontSizeStorage'
 import { resolveScrollableContainer } from '@/utils/scrollContainer'
 
-const emit = defineEmits(['fontSizeChange', 'toggleImmersive', 'showFooterActions'])
+const emit = defineEmits(['fontSizeChange', 'toggleImmersive', 'showFooterActions', 'navigateArticle'])
 
 const props = defineProps({
   immersiveMode: {
@@ -109,6 +116,10 @@ const props = defineProps({
   defaultBottom: {
     type: Number,
     default: 24
+  },
+  neighbors: {
+    type: Object,
+    default: null
   }
 })
 
@@ -151,7 +162,7 @@ const panelStyle = computed(() => {
   }
 
   const panelWidth = viewportWidth.value <= 768 ? Math.min(280, viewportWidth.value - 32) : 240
-  const panelHeight = props.footerActionsVisible ? 252 : 308
+  const panelHeight = props.immersiveMode ? 520 : (props.footerActionsVisible ? 252 : 308)
   const buttonSize = viewportWidth.value <= 768 ? 48 : 56
   const padding = 16
 
@@ -159,7 +170,8 @@ const panelStyle = computed(() => {
     return {
       right: '0',
       bottom: `${props.defaultBottom + (props.footerActionsVisible ? 70 : 118)}px`,
-      width: `${panelWidth}px`
+      width: `${panelWidth}px`,
+      maxHeight: `${Math.min(panelHeight, window.innerHeight - 40)}px`
     }
   }
 
@@ -254,6 +266,11 @@ function toggleImmersive() {
 
 function showFooterActions() {
   emit('showFooterActions')
+  isExpanded.value = false
+}
+
+function navigateArticle(slug) {
+  emit('navigateArticle', slug)
   isExpanded.value = false
 }
 
