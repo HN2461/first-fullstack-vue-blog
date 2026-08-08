@@ -181,13 +181,21 @@ import {
 } from '@/services/interaction'
 import { getPublicArticle } from '@/services/public'
 import { extractTOC } from '@/utils/markdown'
+import { useArticleReadingProgress } from '@/composables/useArticleReadingProgress'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
+import { resolveReadingScrollTarget } from '@/utils/readingProgress'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const siteStore = useSiteStore()
 const { updateConsoleTabTitle } = useConsoleTabTitle()
+const readingProgress = useArticleReadingProgress({
+  authStore,
+  getScrollTarget: () => resolveReadingScrollTarget(
+    document.querySelector('.mobile-reader')
+  )
+})
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -270,15 +278,18 @@ function goBack() {
 async function loadComments() {
   if (isAdminPreview.value || !article.value.id) return
   comments.value = await listComments(article.value.id)
+  article.value.commentCount = comments.value.length
 }
 
 async function loadArticle() {
+  readingProgress.stop()
   loading.value = true
   errorMessage.value = ''
   tocVisible.value = false
 
+  let result = null
   try {
-    const result = isAdminPreview.value
+    result = isAdminPreview.value
       ? await getAdminArticle(route.params.id)
       : await getPublicArticle(route.params.slug)
     article.value = result
@@ -287,15 +298,20 @@ async function loadArticle() {
     favoriteCount.value = Number(result.favoriteCount) || 0
     likedByCurrentUser.value = !!result.likedByCurrentUser
     favoritedByCurrentUser.value = !!result.favoritedByCurrentUser
-    await nextTick()
-    window.scrollTo({ top: 0, behavior: 'auto' })
-    if (!isAdminPreview.value && commentDrawerVisible.value) {
-      await loadComments()
-    }
   } catch (error) {
     errorMessage.value = error.message || '文章加载失败'
   } finally {
     loading.value = false
+  }
+
+  if (!result) return
+  await nextTick()
+  window.scrollTo({ top: 0, behavior: 'auto' })
+  if (!isAdminPreview.value && commentDrawerVisible.value) {
+    await loadComments()
+  }
+  if (!isAdminPreview.value) {
+    await readingProgress.start(result)
   }
 }
 
@@ -362,7 +378,7 @@ async function submitComment() {
     })
     commentContent.value = ''
     commentMessage.value = comment.status === 'pending' ? '评论已提交审核' : '评论已发布'
-    await Promise.all([loadArticle(), loadComments()])
+    await loadComments()
   } catch (error) {
     commentMessage.value = error.message || '评论提交失败'
   } finally {
@@ -373,7 +389,7 @@ async function submitComment() {
 async function reportCurrentComment(id) {
   await reportComment(id)
   commentMessage.value = '举报已提交，评论将进入审核'
-  await Promise.all([loadArticle(), loadComments()])
+  await loadComments()
 }
 
 async function shareArticle() {

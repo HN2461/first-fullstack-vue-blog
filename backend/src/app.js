@@ -20,6 +20,7 @@ import { logRelayRouter } from '#modules/logRelay/routes/logRelay.routes.js'
 import { discussionRouter } from '#modules/discussion/routes/discussion.routes.js'
 import profileRouter from '#modules/user/routes/profile.routes.js'
 import { publicRouter } from '#modules/public/routes/public.routes.js'
+import { readingProgressRouter } from '#modules/readingProgress/routes/readingProgress.routes.js'
 import { rbacRouter } from '#modules/rbac/routes/rbac.routes.js'
 import { questionBankRouter } from '#modules/questionBank/routes/questionBank.routes.js'
 import {
@@ -63,6 +64,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/discussions`, discussionRouter)
   app.use(`${API_PREFIX}/profile`, profileRouter)
   app.use(`${API_PREFIX}/public`, publicRouter)
+  app.use(`${API_PREFIX}/articles`, readingProgressRouter)
   app.use(`${API_PREFIX}/rbac`, rbacRouter)
   app.use(`${API_PREFIX}/question-bank`, questionBankRouter)
   app.use(API_PREFIX, healthRouter)

@@ -314,6 +314,7 @@ import {
 } from '@/services/interaction'
 import { getPublicArticle } from '@/services/public'
 import { extractTOC } from '@/utils/markdown'
+import { useArticleReadingProgress } from '@/composables/useArticleReadingProgress'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
 
 const route = useRoute()
@@ -322,6 +323,10 @@ const authStore = useAuthStore()
 const siteStore = useSiteStore()
 const { updateConsoleTabTitle } = useConsoleTabTitle()
 const readerScrollRef = ref(null)
+const readingProgress = useArticleReadingProgress({
+  authStore,
+  getScrollTarget: () => readerScrollRef.value
+})
 const FOOTER_ACTIONS_SESSION_KEY = 'article-footer-actions-hidden'
 const IMMERSIVE_QUERY_KEY = 'immersive'
 
@@ -470,9 +475,11 @@ function handleFooterMoreAction({ key }) {
 async function loadComments() {
   if (isAdminPreview.value || !article.value.id) return
   comments.value = await listComments(article.value.id)
+  article.value.commentCount = comments.value.length
 }
 
 async function loadArticle() {
+  readingProgress.stop()
   loading.value = true
   errorMessage.value = ''
   const preserveImmersive = preserveImmersiveOnNextLoad.value || route.query[IMMERSIVE_QUERY_KEY] === '1'
@@ -480,8 +487,9 @@ async function loadArticle() {
   isImmersiveReading.value = preserveImmersive
   isTocOpen.value = false
 
+  let result = null
   try {
-    const result = isAdminPreview.value
+    result = isAdminPreview.value
       ? await getAdminArticle(route.params.id)
       : await getPublicArticle(route.params.slug)
     article.value = result
@@ -490,15 +498,20 @@ async function loadArticle() {
     favoriteCount.value = Number(result.favoriteCount) || 0
     likedByCurrentUser.value = !!result.likedByCurrentUser
     favoritedByCurrentUser.value = !!result.favoritedByCurrentUser
-    await nextTick()
-    readerScrollRef.value?.scrollTo({ top: 0 })
-    if (!isAdminPreview.value && commentDrawerVisible.value) {
-      await loadComments()
-    }
   } catch (error) {
     errorMessage.value = error.message || '文章加载失败'
   } finally {
     loading.value = false
+  }
+
+  if (!result) return
+  await nextTick()
+  readerScrollRef.value?.scrollTo({ top: 0, behavior: 'auto' })
+  if (!isAdminPreview.value && commentDrawerVisible.value) {
+    await loadComments()
+  }
+  if (!isAdminPreview.value) {
+    await readingProgress.start(result)
   }
 }
 
@@ -567,7 +580,7 @@ async function submitComment() {
     commentMessage.value = comment.status === 'pending'
       ? '评论已提交审核'
       : '评论已发布'
-    await Promise.all([loadArticle(), loadComments()])
+    await loadComments()
   } catch (error) {
     commentMessage.value = error.message || '评论提交失败'
   } finally {
@@ -578,7 +591,7 @@ async function submitComment() {
 async function reportCurrentComment(id) {
   await reportComment(id)
   commentMessage.value = '举报已提交，评论将进入审核'
-  await Promise.all([loadArticle(), loadComments()])
+  await loadComments()
 }
 
 function reportArticle() {
