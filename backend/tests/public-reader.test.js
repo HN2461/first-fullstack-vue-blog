@@ -101,8 +101,10 @@ describe('public reader routes', () => {
     expect(response.body.data.readingNeighbors).toMatchObject({
       previous: [],
       next: [],
+      related: [],
       position: 1,
-      total: 1
+      total: 1,
+      displayedCount: 0
     })
   })
 
@@ -134,6 +136,47 @@ describe('public reader routes', () => {
       'ordered-post-6',
       'ordered-post-7'
     ])
+    expect(response.body.data.readingNeighbors.related).toEqual([])
+    expect(response.body.data.readingNeighbors.displayedCount).toBe(6)
+  })
+
+  it('fills the immersive reading list to six articles at category boundaries', async () => {
+    const app = createApp()
+
+    for (let index = 1; index <= 5; index += 1) {
+      await createArticle({
+        title: `边界文章${index}`,
+        slug: `boundary-post-${index}`,
+        contentMarkdown: `# 边界文章${index}`,
+        category: category.id,
+        sortOrder: (index + 1) * 10,
+        status: ARTICLE_STATUS.PUBLISHED
+      }, admin)
+    }
+
+    const otherCategory = await createCategory({
+      name: '补充分类',
+      slug: 'reading-fallback',
+      description: '用于验证连续阅读补足逻辑'
+    })
+    await createArticle({
+      title: '目录补充文章',
+      slug: 'directory-fallback-post',
+      contentMarkdown: '# 目录补充文章',
+      category: otherCategory.id,
+      sortOrder: 5,
+      status: ARTICLE_STATUS.PUBLISHED
+    }, admin)
+
+    const response = await request(app)
+      .get('/api/public/articles/boundary-post-1')
+      .expect(200)
+
+    expect(response.body.data.readingNeighbors.previous).toHaveLength(1)
+    expect(response.body.data.readingNeighbors.next).toHaveLength(3)
+    expect(response.body.data.readingNeighbors.related).toHaveLength(2)
+    expect(response.body.data.readingNeighbors.related.map((item) => item.slug)).toContain('directory-fallback-post')
+    expect(response.body.data.readingNeighbors.displayedCount).toBe(6)
   })
 
   it('increments views without changing article update time', async () => {

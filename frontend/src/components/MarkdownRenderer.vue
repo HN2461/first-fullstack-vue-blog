@@ -26,6 +26,10 @@ const props = defineProps({
   codeWrap: {
     type: Boolean,
     default: false
+  },
+  expandCodeBlocks: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -34,6 +38,7 @@ const emit = defineEmits(['imageClick'])
 const rendererRef = ref(null)
 let mermaidReady = false
 let mermaidInstance = null
+let lastExpandCodeBlocks = null
 
 const renderedContent = computed(() => renderMarkdown(props.content, {
   assetBase: props.assetBase
@@ -154,6 +159,21 @@ function updateCodeToggle(block) {
   toggle.setAttribute('aria-label', expanded ? '收起代码块' : '展开完整代码块')
 }
 
+function syncCodeBlockExpansion() {
+  const root = rendererRef.value
+  if (!root) return
+
+  const preferenceChanged = lastExpandCodeBlocks !== props.expandCodeBlocks
+  root.querySelectorAll('.code-block.is-collapsible').forEach((block) => {
+    if (preferenceChanged || !block.dataset.expansionInitialized) {
+      block.classList.toggle('is-collapsed', !props.expandCodeBlocks)
+      block.dataset.expansionInitialized = 'true'
+      updateCodeToggle(block)
+    }
+  })
+  lastExpandCodeBlocks = props.expandCodeBlocks
+}
+
 function addCodeBlockToggles() {
   const root = rendererRef.value
   if (!root) {
@@ -260,6 +280,7 @@ async function setupInteractions() {
   await nextTick()
   await renderMermaidDiagrams()
   addCopyButtons()
+  syncCodeBlockExpansion()
   addCodeBlockToggles()
   addImageClickHandlers()
   addMermaidClickHandlers()

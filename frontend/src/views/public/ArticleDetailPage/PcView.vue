@@ -118,6 +118,7 @@
                 :article="article"
                 :asset-base="legacyAssetBase"
                 :code-wrap="isImmersiveReading"
+                :expand-code-blocks="isImmersiveReading"
               />
             </div>
           </article>
@@ -322,6 +323,7 @@ const siteStore = useSiteStore()
 const { updateConsoleTabTitle } = useConsoleTabTitle()
 const readerScrollRef = ref(null)
 const FOOTER_ACTIONS_SESSION_KEY = 'article-footer-actions-hidden'
+const IMMERSIVE_QUERY_KEY = 'immersive'
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -360,7 +362,7 @@ const article = ref({
   sourcePath: '',
   likedByCurrentUser: false,
   favoritedByCurrentUser: false,
-  readingNeighbors: { previous: [], next: [], position: 0, total: 0 }
+  readingNeighbors: { previous: [], next: [], related: [], position: 0, total: 0, displayedCount: 0 }
 })
 
 const inConsole = computed(() => route.path.startsWith('/console'))
@@ -410,6 +412,13 @@ function handleFontSizeChange(nextSize) {
 
 function toggleImmersiveReading() {
   isImmersiveReading.value = !isImmersiveReading.value
+  const nextQuery = { ...route.query }
+  if (isImmersiveReading.value) {
+    nextQuery[IMMERSIVE_QUERY_KEY] = '1'
+  } else {
+    delete nextQuery[IMMERSIVE_QUERY_KEY]
+  }
+  router.replace({ query: nextQuery })
   if (isImmersiveReading.value) {
     isTocOpen.value = false
   }
@@ -434,11 +443,17 @@ function showFooterActionBar() {
 function navigateToNeighbor(slug) {
   if (!slug) return
   preserveImmersiveOnNextLoad.value = isImmersiveReading.value
+  const query = isImmersiveReading.value
+    ? { ...route.query, [IMMERSIVE_QUERY_KEY]: '1' }
+    : route.query
   if (inDirectoryConsole.value) {
-    router.push(`/console/article-directory/articles/${slug}`)
+    router.push({ path: `/console/article-directory/articles/${slug}`, query })
     return
   }
-  router.push(inConsole.value ? `/console/articles/${slug}` : `/articles/${slug}`)
+  router.push({
+    path: inConsole.value ? `/console/articles/${slug}` : `/articles/${slug}`,
+    query
+  })
 }
 
 function handleFooterMoreAction({ key }) {
@@ -460,11 +475,9 @@ async function loadComments() {
 async function loadArticle() {
   loading.value = true
   errorMessage.value = ''
-  const preserveImmersive = preserveImmersiveOnNextLoad.value
+  const preserveImmersive = preserveImmersiveOnNextLoad.value || route.query[IMMERSIVE_QUERY_KEY] === '1'
   preserveImmersiveOnNextLoad.value = false
-  if (!preserveImmersive) {
-    isImmersiveReading.value = false
-  }
+  isImmersiveReading.value = preserveImmersive
   isTocOpen.value = false
 
   try {

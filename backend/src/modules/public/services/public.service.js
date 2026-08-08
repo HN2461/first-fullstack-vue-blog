@@ -144,7 +144,7 @@ async function getArticleReadingNeighbors(article, limit = 3) {
     deletedAt: null,
     category: categoryId
   })
-    .select('_id title slug')
+    .select('_id title slug category')
     .sort(getDirectoryArticleSort())
     .lean()
   const currentIndex = siblings.findIndex((item) => String(item._id) === String(article._id))
@@ -156,15 +156,36 @@ async function getArticleReadingNeighbors(article, limit = 3) {
   const toItem = (item) => ({
     id: item._id.toString(),
     title: item.title,
-    slug: item.slug
+    slug: item.slug,
+    scope: String(item.category || '') === String(categoryId || '') ? 'category' : 'directory'
   })
+
+  const previous = siblings.slice(Math.max(0, currentIndex - limit), currentIndex).reverse().map(toItem)
+  const next = siblings.slice(currentIndex + 1, currentIndex + 1 + limit).map(toItem)
+  const selectedIds = [article._id, ...previous.map((item) => item.id), ...next.map((item) => item.id)]
+  const missingCount = Math.max(0, limit * 2 - previous.length - next.length)
+  const related = missingCount > 0
+    ? await Article.find({
+        _id: { $nin: selectedIds },
+        status: ARTICLE_STATUS.PUBLISHED,
+        deletedAt: null
+      })
+        .select('_id title slug category')
+        .sort(getDirectoryArticleSort())
+        .limit(missingCount)
+        .lean()
+        .then((items) => items.map(toItem))
+    : []
 
   return {
     // 前序文章按离当前文章由近到远返回，方便阅读器直接突出“上一篇”。
-    previous: siblings.slice(Math.max(0, currentIndex - limit), currentIndex).reverse().map(toItem),
-    next: siblings.slice(currentIndex + 1, currentIndex + 1 + limit).map(toItem),
+    previous,
+    next,
+    // 分类边界不足 6 篇时，用全站文章目录补足，避免连续阅读列表出现无内容可滚动的空缺。
+    related,
     position: currentIndex + 1,
-    total: siblings.length
+    total: siblings.length,
+    displayedCount: previous.length + next.length + related.length
   }
 }
 

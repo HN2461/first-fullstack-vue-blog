@@ -4,6 +4,7 @@
     :content="article.contentMarkdown"
     :asset-base="assetBase"
     :code-wrap="codeWrap"
+    :expand-code-blocks="expandCodeBlocks"
   />
 
   <section v-else class="document-reader">
@@ -86,6 +87,10 @@ const props = defineProps({
     default: ''
   },
   codeWrap: {
+    type: Boolean,
+    default: false
+  },
+  expandCodeBlocks: {
     type: Boolean,
     default: false
   }

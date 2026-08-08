@@ -2,7 +2,7 @@
   <section v-if="hasNeighbors" class="reading-navigation" aria-label="相邻文章">
     <div class="reading-navigation__heading">
       <span>继续阅读</span>
-      <small>{{ neighbors.position }} / {{ neighbors.total }}</small>
+      <small>{{ displayedCount }} 篇</small>
     </div>
 
     <div class="reading-navigation__list">
@@ -33,23 +33,44 @@
           <strong>{{ item.title }}</strong>
         </span>
       </button>
+
+      <button
+        v-for="item in neighbors.related"
+        :key="`related-${item.id}`"
+        type="button"
+        class="reading-navigation__item"
+        @click="navigate(item.slug)"
+      >
+        <BookOpen :size="15" aria-hidden="true" />
+        <span>
+          <small>{{ item.scope === 'category' ? '同类文章' : '目录推荐' }}</small>
+          <strong>{{ item.title }}</strong>
+        </span>
+      </button>
     </div>
   </section>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import { ChevronDown, ChevronUp } from 'lucide-vue-next'
+import { BookOpen, ChevronDown, ChevronUp } from 'lucide-vue-next'
 
 const props = defineProps({
   neighbors: {
     type: Object,
-    default: () => ({ previous: [], next: [], position: 0, total: 0 })
+    default: () => ({ previous: [], next: [], related: [], position: 0, total: 0, displayedCount: 0 })
   }
 })
 
 const emit = defineEmits(['navigate'])
-const hasNeighbors = computed(() => props.neighbors.previous?.length || props.neighbors.next?.length)
+const displayedCount = computed(() => (
+  props.neighbors.previous?.length || 0
+) + (
+  props.neighbors.next?.length || 0
+) + (
+  props.neighbors.related?.length || 0
+))
+const hasNeighbors = computed(() => displayedCount.value > 0)
 
 function navigate(slug) {
   if (slug) emit('navigate', slug)
@@ -82,8 +103,11 @@ function navigate(slug) {
 .reading-navigation__list {
   display: grid;
   gap: 4px;
-  max-height: 238px;
+  max-height: 232px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
 }
 
 .reading-navigation__item {
