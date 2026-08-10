@@ -528,7 +528,7 @@ const sectionTitle = computed(() => currentRootMenu.value?.name || '控制台')
 const uncategorizedArticles = computed(() => {
   return articles.value
     .filter((article) => !article.category?.id || article.category?.isSystem || article.category?.slug === 'uncategorized')
-    .sort(compareDirectoryArticles)
+    .sort(compareKnowledgeMenuArticles)
 })
 const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)
 const effectiveOpenKeys = computed(() => (siderCollapsed.value ? [] : openKeys.value))
