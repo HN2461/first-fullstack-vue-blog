@@ -45,10 +45,9 @@ function clearMenuCache() {
   localStorage.removeItem(MENU_CACHE_KEY)
 }
 
-function mergeCachedPermissions(userInfo) {
+export function mergeCachedPermissions(userInfo, cache = readMenuCache()) {
   if (!userInfo?.id) return userInfo
 
-  const cache = readMenuCache()
   if (cache.userId !== userInfo.id || !cache.permissions) {
     return userInfo
   }
@@ -59,10 +58,7 @@ function mergeCachedPermissions(userInfo) {
 
   return {
     ...userInfo,
-    permissions: {
-      ...nextPermissions,
-      ...cache.permissions
-    }
+    permissions: { ...cache.permissions }
   }
 }
 

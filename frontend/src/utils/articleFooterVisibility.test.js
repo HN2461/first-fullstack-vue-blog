@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest'
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { shouldShowArticleFooter } from './articleFooterVisibility'
 
 describe('shouldShowArticleFooter', () => {
@@ -33,5 +35,13 @@ describe('shouldShowArticleFooter', () => {
       preferenceEnabled: true,
       ...state
     })).toBe(false)
+  })
+
+  it.each(['PcView.vue', 'MobileView.vue'])('controls the complete %s footer block through the shared rule', (fileName) => {
+    const viewPath = fileURLToPath(new URL(`../views/public/ArticleDetailPage/${fileName}`, import.meta.url))
+    const viewSource = readFileSync(viewPath, 'utf8')
+
+    expect(viewSource).toContain('shouldShowArticleFooter({')
+    expect(viewSource).toMatch(/<footer\s+[\s\S]*?v-if="actionBarVisible"/)
   })
 })

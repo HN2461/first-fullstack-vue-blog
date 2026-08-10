@@ -47,6 +47,17 @@ if (-not (Test-Path -LiteralPath (Join-Path $frontendDir 'dist\index.html'))) {
   throw "未找到 frontend/dist/index.html。请先执行：cd frontend; npm run build"
 }
 
+$frontendIndex = Get-Item -LiteralPath (Join-Path $frontendDir 'dist\index.html')
+$staleFrontendAssets = Get-ChildItem -LiteralPath (Join-Path $frontendDir 'dist\assets') -File |
+  Where-Object {
+    $_.Extension -in @('.js', '.css') -and
+    $_.LastWriteTimeUtc -lt $frontendIndex.LastWriteTimeUtc.AddMinutes(-2)
+  }
+if ($staleFrontendAssets) {
+  $staleNames = ($staleFrontendAssets | Select-Object -First 5 -ExpandProperty Name) -join '、'
+  throw "检测到旧前端构建分块（$staleNames）。请删除 frontend/dist 后重新执行 npm run build，禁止混合发布多次构建产物。"
+}
+
 Remove-Item -LiteralPath $releaseDir -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path $releaseDir | Out-Null
 New-Item -ItemType Directory -Path $backendStageDir | Out-Null

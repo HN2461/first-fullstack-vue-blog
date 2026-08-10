@@ -15,3 +15,11 @@ export function compareKnowledgeMenuArticles(left, right) {
     numeric: true
   })
 }
+
+export function isUncategorizedKnowledgeArticle(article, categoryIds = new Set()) {
+  const category = article?.category
+  if (!category?.id || category.isSystem || category.slug === 'uncategorized') return true
+
+  // 已停用或已删除分类不会出现在目录分类列表中，文章必须回收到“未分类”以免静默丢失。
+  return !categoryIds.has(String(category.id))
+}

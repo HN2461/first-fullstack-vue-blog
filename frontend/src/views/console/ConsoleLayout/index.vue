@@ -333,7 +333,10 @@ import {
   readKnowledgeMenuCache,
   writeKnowledgeMenuCache
 } from '@/utils/knowledgeMenuCache'
-import { compareKnowledgeMenuArticles } from '@/utils/knowledgeMenuSort'
+import {
+  compareKnowledgeMenuArticles,
+  isUncategorizedKnowledgeArticle
+} from '@/utils/knowledgeMenuSort'
 import { openMenuRoute } from '@/utils/menuNavigation'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 import ConsoleWorkspace from '@/components/console-tabs/ConsoleWorkspace.vue'
@@ -525,9 +528,10 @@ const userRoleLabel = computed(() => {
   return authStore.isAdmin ? '管理员' : '普通用户'
 })
 const sectionTitle = computed(() => currentRootMenu.value?.name || '控制台')
+const knowledgeCategoryIds = computed(() => new Set(categories.value.map((category) => String(category.id))))
 const uncategorizedArticles = computed(() => {
   return articles.value
-    .filter((article) => !article.category?.id || article.category?.isSystem || article.category?.slug === 'uncategorized')
+    .filter((article) => isUncategorizedKnowledgeArticle(article, knowledgeCategoryIds.value))
     .sort(compareKnowledgeMenuArticles)
 })
 const hasKnowledgeMenuData = computed(() => categoryTree.value.length > 0 || uncategorizedArticles.value.length > 0)

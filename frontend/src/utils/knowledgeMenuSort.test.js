@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest'
 import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { compareKnowledgeMenuArticles } from './knowledgeMenuSort'
+import {
+  compareKnowledgeMenuArticles,
+  isUncategorizedKnowledgeArticle
+} from './knowledgeMenuSort'
 
 describe('compareKnowledgeMenuArticles', () => {
   it('sorts articles by the directory sort order returned by the API', () => {
@@ -38,5 +41,20 @@ describe('compareKnowledgeMenuArticles', () => {
 
     expect(consoleLayoutSource).not.toContain('compareDirectoryArticles')
     expect(consoleLayoutSource.match(/compareKnowledgeMenuArticles/g)).toHaveLength(3)
+  })
+
+  it('keeps articles visible when their category is not part of the active directory tree', () => {
+    const categoryIds = new Set(['active-category'])
+
+    expect(isUncategorizedKnowledgeArticle({ category: null }, categoryIds)).toBe(true)
+    expect(isUncategorizedKnowledgeArticle({
+      category: { id: 'system-category', slug: 'uncategorized', isSystem: true }
+    }, categoryIds)).toBe(true)
+    expect(isUncategorizedKnowledgeArticle({
+      category: { id: 'inactive-category', slug: 'archived' }
+    }, categoryIds)).toBe(true)
+    expect(isUncategorizedKnowledgeArticle({
+      category: { id: 'active-category', slug: 'active' }
+    }, categoryIds)).toBe(false)
   })
 })
