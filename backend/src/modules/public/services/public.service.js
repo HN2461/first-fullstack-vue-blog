@@ -295,33 +295,37 @@ export async function getPublicHomeData() {
 export async function getKnowledgeMenuData() {
   const [categories, articles] = await Promise.all([
     Category.find({ status: 'active', isSystem: { $ne: true } })
-      .select('_id name slug parent sortOrder isSystem')
+      .select('_id name slug parent sortOrder articleCount isSystem')
       .sort({ sortOrder: 1, createdAt: -1 })
       .lean(),
     Article.find({
       status: ARTICLE_STATUS.PUBLISHED,
       deletedAt: null
     })
-      .select('_id title slug category')
+      .select('_id title slug category sortOrder publishedAt createdAt')
       .populate('category', '_id name slug isSystem')
       .sort(getDirectoryArticleSort())
-      .limit(500)
       .lean()
   ])
 
   return {
+    total: articles.length,
     categories: categories.map((category) => ({
       id: category._id.toString(),
       name: category.name,
       slug: category.slug,
       parent: category.parent?.toString() || null,
       sortOrder: category.sortOrder || 0,
+      articleCount: category.articleCount || 0,
       isSystem: !!category.isSystem
     })),
     articles: articles.map((article) => ({
       id: article._id.toString(),
       title: article.title,
       slug: article.slug,
+      sortOrder: article.sortOrder || 0,
+      publishedAt: article.publishedAt || null,
+      createdAt: article.createdAt || null,
       category: article.category
         ? {
             id: article.category._id.toString(),

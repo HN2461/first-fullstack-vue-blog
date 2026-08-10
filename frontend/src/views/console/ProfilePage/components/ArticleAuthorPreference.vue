@@ -1,8 +1,8 @@
 <template>
   <div class="article-author-preference">
     <div>
-      <strong>显示文章作者栏</strong>
-      <span>阅读文章时在底部操作栏展示作者头像、昵称和创作者标识，默认关闭。</span>
+      <strong>显示文章阅读底栏</strong>
+      <span>开启后显示作者信息和文章操作；关闭后整块隐藏，效果与“本次登录隐藏底栏”一致。</span>
     </div>
     <a-switch
       :checked="modelValue"

@@ -328,10 +328,12 @@ import { useSiteStore } from '@/stores/site'
 import { getKnowledgeMenu, listPublicArticles } from '@/services/public'
 import { isKnowledgeConsolePath } from '@/utils/consoleRoutes'
 import {
+  isCompleteKnowledgeMenuSnapshot,
   isKnowledgeMenuCacheFresh as isKnowledgeMenuSnapshotFresh,
   readKnowledgeMenuCache,
   writeKnowledgeMenuCache
 } from '@/utils/knowledgeMenuCache'
+import { compareKnowledgeMenuArticles } from '@/utils/knowledgeMenuSort'
 import { openMenuRoute } from '@/utils/menuNavigation'
 import { isRoutePathMatched } from '@/utils/routeMatch'
 import ConsoleWorkspace from '@/components/console-tabs/ConsoleWorkspace.vue'
@@ -769,7 +771,7 @@ const categoryTree = computed(() => {
       .map((item) => ({
         ...item,
         children: sortTree(item.children),
-        articles: item.articles.sort(compareDirectoryArticles)
+        articles: item.articles.sort(compareKnowledgeMenuArticles)
       }))
   }
 
@@ -778,17 +780,6 @@ const categoryTree = computed(() => {
 
 function handlePrimaryClick({ key }) {
   switchRootMenu(key)
-}
-
-function compareDirectoryArticles(left, right) {
-  const sortDiff = Number(left.sortOrder || 0) - Number(right.sortOrder || 0)
-  if (sortDiff) return sortDiff
-
-  const leftTime = new Date(left.publishedAt || left.createdAt || 0).getTime()
-  const rightTime = new Date(right.publishedAt || right.createdAt || 0).getTime()
-  if (rightTime !== leftTime) return rightTime - leftTime
-
-  return String(left.title || '').localeCompare(String(right.title || ''), 'zh-Hans-CN')
 }
 
 function handleSecondaryClick({ key }) {
@@ -1246,13 +1237,19 @@ async function loadKnowledgeMenu({ force = false } = {}) {
 
     const nextCategories = menuResult.categories || []
     const nextArticles = menuResult.articles || []
-    categories.value = nextCategories
-    articles.value = nextArticles
-    Object.assign(knowledgeMenuCache, writeKnowledgeMenuCache({
+    const nextSnapshot = {
       categories: nextCategories,
       articles: nextArticles,
+      total: menuResult.total,
       loadedAt: Date.now()
-    }))
+    }
+    if (!isCompleteKnowledgeMenuSnapshot(nextSnapshot)) {
+      throw new Error('知识库目录数据不完整，请刷新后重试')
+    }
+
+    categories.value = nextCategories
+    articles.value = nextArticles
+    Object.assign(knowledgeMenuCache, writeKnowledgeMenuCache(nextSnapshot))
     knowledgeMenuLoaded.value = true
     openKeys.value = resolveOpenKeys(route.path)
   } catch (error) {

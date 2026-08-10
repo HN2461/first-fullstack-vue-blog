@@ -7,6 +7,7 @@ const mocks = vi.hoisted(() => {
     slug: 'vue',
     parent: null,
     sortOrder: 10,
+    articleCount: 1,
     isSystem: false,
     description: '菜单不需要分类描述'
   }]
@@ -14,6 +15,9 @@ const mocks = vi.hoisted(() => {
     _id: 'article-1',
     title: '响应式原理',
     slug: 'vue-reactivity',
+    sortOrder: 20,
+    publishedAt: new Date('2026-08-10T08:00:00.000Z'),
+    createdAt: new Date('2026-08-09T08:00:00.000Z'),
     category: {
       _id: 'category-1',
       name: 'Vue',
@@ -75,21 +79,27 @@ describe('knowledge menu payload', () => {
   it('queries and returns only fields required by the directory tree', async () => {
     const result = await getKnowledgeMenuData()
 
-    expect(mocks.categoryQuery.select).toHaveBeenCalledWith('_id name slug parent sortOrder isSystem')
-    expect(mocks.articleQuery.select).toHaveBeenCalledWith('_id title slug category')
+    expect(mocks.categoryQuery.select).toHaveBeenCalledWith('_id name slug parent sortOrder articleCount isSystem')
+    expect(mocks.articleQuery.select).toHaveBeenCalledWith('_id title slug category sortOrder publishedAt createdAt')
+    expect(mocks.articleQuery.limit).not.toHaveBeenCalled()
     expect(result).toEqual({
+      total: 1,
       categories: [{
         id: 'category-1',
         name: 'Vue',
         slug: 'vue',
         parent: null,
         sortOrder: 10,
+        articleCount: 1,
         isSystem: false
       }],
       articles: [{
         id: 'article-1',
         title: '响应式原理',
         slug: 'vue-reactivity',
+        sortOrder: 20,
+        publishedAt: new Date('2026-08-10T08:00:00.000Z'),
+        createdAt: new Date('2026-08-09T08:00:00.000Z'),
         category: {
           id: 'category-1',
           name: 'Vue',

@@ -211,7 +211,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     closeSiteEntranceEffect: !!this.closeSiteEntranceEffect,
     // 兼容字段上线前的存量用户：只有明确保存 false 时才关闭标签页。
     consoleTabsEnabled: this.consoleTabsEnabled !== false,
-    // 作者栏属于当前用户的阅读偏好，历史用户和访客默认不展示。
+    // 复用原作者栏字段保存登录用户的文章阅读底栏偏好，存量用户默认隐藏整块底栏。
     articleAuthorCardEnabled: this.articleAuthorCardEnabled === true,
     lastBirthEffectDate: this.lastBirthEffectDate || '',
     personalDates: Array.isArray(this.personalDates) ? this.personalDates.map((item) => ({

@@ -314,6 +314,7 @@ import {
 } from '@/services/interaction'
 import { getPublicArticle } from '@/services/public'
 import { extractTOC } from '@/utils/markdown'
+import { shouldShowArticleFooter } from '@/utils/articleFooterVisibility'
 import { useArticleReadingProgress } from '@/composables/useArticleReadingProgress'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
 
@@ -376,7 +377,13 @@ const isAdminPreview = computed(() => route.meta.adminArticlePreview === true)
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const authorCardVisible = computed(() => authStore.user?.articleAuthorCardEnabled === true)
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
-const actionBarVisible = computed(() => !isAdminPreview.value && !isImmersiveReading.value && showFooterActions.value)
+const actionBarVisible = computed(() => shouldShowArticleFooter({
+  isAdminPreview: isAdminPreview.value,
+  isImmersiveReading: isImmersiveReading.value,
+  isSessionHidden: !showFooterActions.value,
+  isLoggedIn: authStore.isLoggedIn,
+  preferenceEnabled: authorCardVisible.value
+}))
 const authorInitial = computed(() => (article.value.author?.username || '知').slice(0, 1).toUpperCase())
 const categoryPath = computed(() => {
   const slug = article.value.category?.slug

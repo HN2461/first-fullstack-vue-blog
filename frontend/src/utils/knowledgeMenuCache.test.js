@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   KNOWLEDGE_MENU_CACHE_TTL,
+  isCompleteKnowledgeMenuSnapshot,
   isKnowledgeMenuCacheFresh,
   readKnowledgeMenuCache,
   writeKnowledgeMenuCache
@@ -22,7 +23,15 @@ describe('knowledgeMenuCache', () => {
     const storage = createStorage()
     const snapshot = {
       categories: [{ id: 'category-1', name: 'Vue' }],
-      articles: [{ id: 'article-1', title: '响应式原理', slug: 'vue-reactivity' }],
+      articles: [{
+        id: 'article-1',
+        title: '响应式原理',
+        slug: 'vue-reactivity',
+        sortOrder: 10,
+        publishedAt: '2026-08-10T08:00:00.000Z',
+        createdAt: '2026-08-09T08:00:00.000Z'
+      }],
+      total: 1,
       loadedAt: Date.now()
     }
 
@@ -36,6 +45,7 @@ describe('knowledgeMenuCache', () => {
     const cache = {
       categories: [{ id: 'category-1' }],
       articles: [],
+      total: 0,
       loadedAt: now - KNOWLEDGE_MENU_CACHE_TTL - 1
     }
     const storage = createStorage(JSON.stringify(cache))
@@ -50,7 +60,22 @@ describe('knowledgeMenuCache', () => {
     expect(readKnowledgeMenuCache(storage)).toEqual({
       categories: [],
       articles: [],
+      total: 0,
       loadedAt: 0
     })
+  })
+
+  it('rejects truncated or legacy snapshots without complete sort metadata', () => {
+    expect(isCompleteKnowledgeMenuSnapshot({
+      categories: [],
+      articles: [{ id: 'article-1', title: '第 1 篇' }],
+      total: 2
+    })).toBe(false)
+
+    expect(isCompleteKnowledgeMenuSnapshot({
+      categories: [],
+      articles: [{ id: 'article-1', title: '第 1 篇', sortOrder: 10 }],
+      total: 1
+    })).toBe(false)
   })
 })

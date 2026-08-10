@@ -1,5 +1,11 @@
 <template>
-  <section class="mobile-reader" :class="{ 'mobile-reader--console': inConsole }">
+  <section
+    class="mobile-reader"
+    :class="{
+      'mobile-reader--console': inConsole,
+      'mobile-reader--footer-hidden': !actionBarVisible
+    }"
+  >
     <div v-if="loading" class="mobile-reader__state" aria-busy="true">正在加载文章...</div>
     <div v-else-if="errorMessage" class="mobile-reader__state mobile-reader__state--error">{{ errorMessage }}</div>
 
@@ -122,7 +128,7 @@
       </a-drawer>
 
       <footer
-        v-if="!isAdminPreview"
+        v-if="actionBarVisible"
         class="mobile-reader__actions"
         :class="{ 'mobile-reader__actions--document': article.contentMode === 'document' }"
         aria-label="文章操作"
@@ -184,6 +190,7 @@ import { extractTOC } from '@/utils/markdown'
 import { useArticleReadingProgress } from '@/composables/useArticleReadingProgress'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
 import { resolveReadingScrollTarget } from '@/utils/readingProgress'
+import { shouldShowArticleFooter } from '@/utils/articleFooterVisibility'
 
 const route = useRoute()
 const router = useRouter()
@@ -236,6 +243,11 @@ const inDirectoryConsole = computed(() => route.path.startsWith('/console/articl
 const isAdminPreview = computed(() => route.meta.adminArticlePreview === true)
 const backLabel = computed(() => (isAdminPreview.value ? '返回文章管理' : (inConsole.value ? '返回知识库文章列表' : '返回首页')))
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
+const actionBarVisible = computed(() => shouldShowArticleFooter({
+  isAdminPreview: isAdminPreview.value,
+  isLoggedIn: authStore.isLoggedIn,
+  preferenceEnabled: authStore.user?.articleAuthorCardEnabled === true
+}))
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
 const categoryPath = computed(() => {
   const slug = article.value.category?.slug
@@ -474,6 +486,10 @@ watch(() => [route.params.slug, route.params.id], loadArticle)
   max-width: 720px;
   margin: 0 auto;
   padding: 18px max(16px, env(safe-area-inset-left)) calc(92px + env(safe-area-inset-bottom));
+}
+
+.mobile-reader--footer-hidden .mobile-reader__article {
+  padding-bottom: calc(32px + env(safe-area-inset-bottom));
 }
 
 .mobile-reader__kicker {
