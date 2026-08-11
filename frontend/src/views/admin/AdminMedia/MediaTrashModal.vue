@@ -19,16 +19,21 @@
         :page-sizes="['10', '20', '50']"
         :scroll="{ x: 720 }"
         :row-selection="trashRowSelection"
-        height="520px"
+        height="min(58vh, 520px)"
         empty-text="回收站暂无媒体资源"
         @selection-change="handleSelectionChange"
       >
         <template #toolbar>
           <div class="media-trash__toolbar">
-            <span>
-              普通删除的资源会保留在回收站，彻底删除后会同步移除服务器磁盘文件。
-              <b v-if="selectedTrashKeys.length">已选择 {{ selectedTrashKeys.length }} 个</b>
-            </span>
+            <div class="media-trash__context">
+              <div>
+                <strong>回收站资源</strong>
+                <span>普通删除保留数据库记录；彻底删除将同步移除服务器文件。</span>
+              </div>
+              <a-tag v-if="selectedTrashKeys.length" :bordered="false" color="blue">
+                已选择 {{ selectedTrashKeys.length }} 个
+              </a-tag>
+            </div>
             <a-space>
               <a-button
                 size="small"
@@ -58,7 +63,7 @@
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'asset'">
             <div class="media-trash-file">
-              <strong :title="record.originalName">{{ record.originalName }}</strong>
+              <strong>{{ record.originalName }}</strong>
               <span>{{ record.category || '未分类' }} · {{ formatFileSize(record.size) }}</span>
             </div>
           </template>
@@ -292,7 +297,7 @@ function formatDate(value) {
 .media-trash {
   display: flex;
   flex-direction: column;
-  min-height: 520px;
+  min-height: 0;
 }
 
 .media-trash__toolbar {
@@ -302,20 +307,33 @@ function formatDate(value) {
   flex-wrap: wrap;
   gap: 12px;
   width: 100%;
-  color: #64748b;
-  font-size: 13px;
+  color: var(--text-secondary);
 }
 
-.media-trash__toolbar > span {
+.media-trash__context {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   min-width: 240px;
   flex: 1;
-  line-height: 1.6;
 }
 
-.media-trash__toolbar b {
-  margin-left: 8px;
-  color: #2563eb;
+.media-trash__context > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.media-trash__context strong {
+  color: var(--text-primary);
+  font-size: 13px;
   font-weight: 600;
+}
+
+.media-trash__context span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .media-trash-file {
@@ -327,7 +345,7 @@ function formatDate(value) {
 
 .media-trash-file strong {
   overflow: hidden;
-  color: #1e293b;
+  color: var(--text-primary);
   font-size: 13px;
   font-weight: 500;
   text-overflow: ellipsis;
@@ -335,36 +353,24 @@ function formatDate(value) {
 }
 
 .media-trash-file span {
-  color: #94a3b8;
+  color: var(--text-secondary);
   font-size: 12px;
 }
 
 .media-time {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 13px;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
-:deep(.dark-theme) .media-trash__toolbar {
-  color: var(--console-text-secondary);
-}
-
-:deep(.dark-theme) .media-trash__toolbar b {
-  color: var(--console-primary-strong);
-}
-
-:deep(.dark-theme) .media-trash-file strong {
-  color: var(--console-text);
-}
-
-:deep(.dark-theme) .media-trash-file span,
-:deep(.dark-theme) .media-time {
-  color: var(--console-text-secondary) !important;
-}
-
 @media (max-width: 768px) {
   .media-trash__toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .media-trash__context {
     align-items: flex-start;
     flex-direction: column;
   }

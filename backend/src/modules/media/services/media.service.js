@@ -5,7 +5,7 @@ import { Media } from '#modules/media/models/Media.js'
 import { inferMediaFileClass } from '#modules/media/constants/mediaUpload.constants.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
-import { ensureDefaultMediaCategory } from './mediaCategory.service.js'
+import { assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCategory.service.js'
 import { attachMediaReferenceSummaries, findMediaReferences, getMediaReferenceDetail } from './mediaReference.service.js'
 
 function normalizeMediaCategory(value) {
@@ -209,6 +209,53 @@ export async function renameMedia(id, originalName, actor = null) {
   await media.save()
 
   return media.toSafeJSON()
+}
+
+export async function moveMediaCategory(id, categoryName, actor = null) {
+  const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(actor) })
+  if (!media) {
+    const error = new Error('媒体文件不存在')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+
+  const category = await assertMediaCategoryExists(categoryName)
+  media.category = category.name
+  await media.save()
+
+  return media.toSafeJSON()
+}
+
+export async function moveMediaCategories(ids = [], categoryName, actor = null) {
+  const uniqueIds = [...new Set(ids.map((id) => String(id || '').trim()).filter(Boolean))]
+  if (uniqueIds.length === 0) {
+    const error = new Error('请选择要迁移的媒体文件')
+    error.statusCode = 400
+    error.code = 'MEDIA_IDS_REQUIRED'
+    throw error
+  }
+
+  const category = await assertMediaCategoryExists(categoryName)
+  const query = {
+    _id: { $in: uniqueIds },
+    deletedAt: null,
+    ...getMediaAccessQuery(actor)
+  }
+  const matchedCount = await Media.countDocuments(query)
+  if (matchedCount !== uniqueIds.length) {
+    const error = new Error('部分媒体文件不存在、已移入回收站或无权操作，未执行分类迁移')
+    error.statusCode = 404
+    error.code = 'MEDIA_BATCH_NOT_FOUND'
+    throw error
+  }
+
+  const result = await Media.updateMany(query, { $set: { category: category.name } })
+  return {
+    movedCount: matchedCount,
+    changedCount: result.modifiedCount || 0,
+    category: category.name
+  }
 }
 
 export async function listMediaCategories(options = {}) {

@@ -12,12 +12,13 @@
     @cancel="handleCancel"
     @ok="handleSubmit"
   >
-    <a-alert
-      class="media-rename__alert"
-      type="info"
-      show-icon
-      message="这里修改的是资源展示名，不会改动服务器上的实际文件和访问地址。"
-    />
+    <div v-if="record" class="media-rename__context">
+      <div>
+        <span>当前资源</span>
+        <strong>{{ record.originalName }}</strong>
+      </div>
+      <a-tag :bordered="false" color="blue">{{ record.category || '未分类' }}</a-tag>
+    </div>
     <a-form layout="vertical">
       <a-form-item label="资源名称">
         <a-input
@@ -28,6 +29,7 @@
           allow-clear
           @press-enter="handleSubmit"
         />
+        <div class="media-rename__note">仅修改媒体库中的展示名称，不会改动实际文件和访问地址。</div>
       </a-form-item>
     </a-form>
   </a-modal>
@@ -79,7 +81,39 @@ function handleSubmit() {
 </script>
 
 <style scoped>
-.media-rename__alert {
-  margin-bottom: 16px;
+.media-rename__context {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+}
+
+.media-rename__context > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.media-rename__context span,
+.media-rename__note {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.media-rename__context strong {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.media-rename__note {
+  margin-top: 8px;
 }
 </style>

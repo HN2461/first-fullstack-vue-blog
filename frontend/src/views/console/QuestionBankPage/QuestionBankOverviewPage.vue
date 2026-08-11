@@ -91,15 +91,26 @@ onMounted(loadOverview)
 
 <style scoped>
 .question-bank-recent-item {
+  appearance: none;
   width: 100%;
   border-top: 0;
   border-left: 0;
   border-right: 0;
+  background: var(--console-surface, #fff);
+  color: var(--console-text, #101828);
+  font: inherit;
   text-align: left;
   cursor: pointer;
 }
 
 .question-bank-recent-item:hover {
-  background: var(--console-surface-soft, #f8fafc);
+  background: var(--console-surface-hover, #f2f6fc);
+}
+
+.question-bank-recent-item:focus-visible {
+  position: relative;
+  z-index: 1;
+  outline: 2px solid var(--console-primary, #1677ff);
+  outline-offset: -2px;
 }
 </style>

@@ -667,6 +667,10 @@ body:has(.enterprise-admin-shell) {
 .dark-theme .ant-modal-content,
 .dark-theme .ant-modal-header,
 .dark-theme .ant-modal-footer,
+.dark-theme .ant-drawer-content,
+.dark-theme .ant-drawer-header,
+.dark-theme .ant-drawer-body,
+.dark-theme .ant-drawer-footer,
 .dark-theme .ant-popover-inner,
 .dark-theme .ant-dropdown-menu,
 .dark-theme .ant-picker-dropdown .ant-picker-panel-container,
@@ -674,11 +678,14 @@ body:has(.enterprise-admin-shell) {
 .dark-theme .ant-tree-select-dropdown,
 .dark-theme .ant-cascader-dropdown {
   color: var(--console-text);
-  background: var(--console-surface);
+  background: var(--console-surface) !important;
   border-color: var(--console-border);
 }
 
 .dark-theme .ant-modal-title,
+.dark-theme .ant-drawer-title,
+.dark-theme .ant-modal-confirm-title,
+.dark-theme .ant-modal-confirm-content,
 .dark-theme .ant-popover-title,
 .dark-theme .ant-dropdown-menu-title-content,
 .dark-theme .ant-empty-description,
@@ -693,10 +700,31 @@ body:has(.enterprise-admin-shell) {
 
 .dark-theme .ant-modal-header,
 .dark-theme .ant-modal-footer,
+.dark-theme .ant-drawer-header,
+.dark-theme .ant-drawer-footer,
 .dark-theme .ant-card-head,
 .dark-theme .ant-descriptions-bordered .ant-descriptions-item-label,
 .dark-theme .ant-descriptions-bordered .ant-descriptions-item-content {
   border-color: var(--console-border);
+}
+
+.dark-theme .ant-modal-close,
+.dark-theme .ant-drawer-close,
+.dark-theme .ant-popover-close-icon,
+.dark-theme .ant-modal-close-x,
+.dark-theme .ant-drawer-close {
+  color: var(--console-text-secondary);
+}
+
+.dark-theme .ant-modal-close:hover,
+.dark-theme .ant-drawer-close:hover,
+.dark-theme .ant-popover-close-icon:hover {
+  color: var(--console-text);
+}
+
+.dark-theme .ant-popover-arrow::before,
+.dark-theme .ant-dropdown-arrow::before {
+  background: var(--console-surface) !important;
 }
 
 .dark-theme .ant-btn-default,
@@ -770,6 +798,20 @@ body:has(.enterprise-admin-shell) {
   background: var(--console-input-disabled-bg);
 }
 
+.dark-theme .ant-input-number-handler-wrap {
+  border-inline-start-color: var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+.dark-theme .ant-input-number-handler {
+  color: var(--console-text-secondary);
+  border-block-end-color: var(--console-border);
+}
+
+.dark-theme .ant-input-number-handler:hover {
+  color: var(--console-primary-strong);
+}
+
 .dark-theme .ant-select-arrow,
 .dark-theme .ant-select-clear,
 .dark-theme .ant-input-clear-icon,
@@ -804,6 +846,78 @@ body:has(.enterprise-admin-shell) {
 .dark-theme .ant-cascader-menu-item-active {
   color: var(--console-primary-strong);
   background: var(--console-primary-soft);
+}
+
+.dark-theme .ant-select-item-empty,
+.dark-theme .ant-select-selection-item-remove,
+.dark-theme .ant-cascader-menu-item-expand-icon,
+.dark-theme .ant-picker-header,
+.dark-theme .ant-picker-panel,
+.dark-theme .ant-picker-content th,
+.dark-theme .ant-picker-cell {
+  color: var(--console-text-secondary);
+}
+
+.dark-theme .ant-picker-header,
+.dark-theme .ant-picker-header button,
+.dark-theme .ant-picker-panel-container,
+.dark-theme .ant-cascader-menu {
+  border-color: var(--console-border);
+}
+
+.dark-theme .ant-picker-cell-in-view {
+  color: var(--console-text);
+}
+
+.dark-theme .ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.dark-theme .ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.dark-theme .ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  color: #ffffff;
+  background: var(--console-primary);
+}
+
+.dark-theme .ant-checkbox-inner,
+.dark-theme .ant-radio-inner {
+  border-color: var(--console-border-strong);
+  background: var(--console-input-bg);
+}
+
+.dark-theme .ant-checkbox:hover .ant-checkbox-inner,
+.dark-theme .ant-radio:hover .ant-radio-inner,
+.dark-theme .ant-checkbox-input:focus + .ant-checkbox-inner,
+.dark-theme .ant-radio-input:focus + .ant-radio-inner {
+  border-color: var(--console-primary-strong);
+}
+
+.dark-theme .ant-checkbox-checked .ant-checkbox-inner,
+.dark-theme .ant-radio-checked .ant-radio-inner {
+  border-color: var(--console-primary);
+  background: var(--console-primary);
+}
+
+.dark-theme .ant-upload-wrapper .ant-upload-drag,
+.dark-theme .ant-upload-wrapper .ant-upload-list-item,
+.dark-theme .ant-upload-wrapper .ant-upload-list-item-container {
+  color: var(--console-text);
+  border-color: var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+.dark-theme .ant-upload-wrapper .ant-upload-drag:hover,
+.dark-theme .ant-upload-wrapper .ant-upload-list-item:hover {
+  border-color: var(--console-primary-strong);
+  background: var(--console-surface-hover);
+}
+
+.dark-theme .ant-upload-wrapper .ant-upload-text,
+.dark-theme .ant-upload-wrapper .ant-upload-list-item-name,
+.dark-theme .ant-upload-wrapper .ant-upload-list-item .anticon {
+  color: var(--console-text);
+}
+
+.dark-theme .ant-upload-wrapper .ant-upload-hint,
+.dark-theme .ant-upload-wrapper .ant-upload-list-item-card-actions .anticon {
+  color: var(--console-text-secondary);
 }
 
 .dark-theme .ant-table-wrapper,

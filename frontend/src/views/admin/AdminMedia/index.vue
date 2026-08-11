@@ -1,14 +1,46 @@
 <template>
   <section class="media-cloud">
-    <!-- 顶栏：标题 + 上传 + 筛选，一行搞定 -->
+    <!-- 一级工具栏只保留页面识别和全局命令，避免与查询条件互相挤压。 -->
     <div class="media-cloud__topbar">
-      <h2 class="media-cloud__title">媒体资产</h2>
+      <div class="media-cloud__identity">
+        <h2 class="media-cloud__title">媒体资产</h2>
+      </div>
+      <div class="media-cloud__actions">
+        <a-tooltip v-if="authStore.isSuperAdmin" title="扫描未登记资源">
+          <a-button class="media-cloud__header-icon" aria-label="扫描未登记资源" @click="inventoryModalVisible = true">
+            <template #icon><SearchOutlined /></template>
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="上传限制">
+          <a-button class="media-cloud__header-icon" aria-label="上传限制" @click="openUploadSettings">
+            <template #icon><SettingOutlined /></template>
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="媒体回收站">
+          <a-button class="media-cloud__header-icon" aria-label="媒体回收站" @click="openTrashModal">
+            <template #icon><RestOutlined /></template>
+          </a-button>
+        </a-tooltip>
+        <a-tooltip title="管理资源分类">
+          <a-button class="media-cloud__header-icon" aria-label="管理资源分类" @click="categoryModalVisible = true">
+            <template #icon><FolderOpenOutlined /></template>
+          </a-button>
+        </a-tooltip>
+        <a-button type="primary" @click="uploadModalVisible = true">
+          <template #icon><InboxOutlined /></template>
+          上传资源
+        </a-button>
+      </div>
+    </div>
+
+    <!-- 查询、类型统计和批量操作属于同一工作层，选中前不展示无效命令。 -->
+    <div class="media-cloud__list-toolbar">
       <div class="media-cloud__filters">
         <a-input-search
           v-model:value="keyword"
           allow-clear
           placeholder="搜索文件名或分类"
-          style="width: 220px"
+          style="width: 260px"
           size="middle"
           @search="refreshTable"
         />
@@ -43,29 +75,6 @@
           :options="usageStatusOptions"
         />
       </div>
-      <div class="media-cloud__actions">
-        <a-button v-if="authStore.isSuperAdmin" size="middle" @click="inventoryModalVisible = true">
-          <template #icon><SearchOutlined /></template>
-          扫描资源
-        </a-button>
-        <a-button size="middle" @click="openUploadSettings">
-          <template #icon><SettingOutlined /></template>
-          上传限制
-        </a-button>
-        <a-button size="middle" @click="openTrashModal">
-          <template #icon><RestOutlined /></template>
-          回收站
-        </a-button>
-        <a-button size="middle" @click="categoryModalVisible = true">管理分类</a-button>
-        <a-button type="primary" size="middle" @click="uploadModalVisible = true">
-          <template #icon><InboxOutlined /></template>
-          上传资源
-        </a-button>
-      </div>
-    </div>
-
-    <!-- 列表工具条：固定筛选与批量操作，避免勾选时页面跳动 -->
-    <div class="media-cloud__list-toolbar">
       <div class="media-cloud__type-filter">
         <button
           v-for="item in summaryCards"
@@ -78,7 +87,7 @@
           <b>{{ item.count }}</b>
         </button>
       </div>
-      <div class="media-batch-actions">
+      <div v-if="selectedMediaKeys.length > 0" class="media-batch-actions">
         <span class="media-batch-actions__count">已选择 {{ selectedMediaKeys.length }} 个</span>
         <a-button
           size="small"
@@ -86,6 +95,14 @@
           @click="clearMediaSelection"
         >
           取消选择
+        </a-button>
+        <a-button
+          size="small"
+          :disabled="selectedMediaKeys.length === 0"
+          @click="openBatchCategoryMove"
+        >
+          <template #icon><SwapOutlined /></template>
+          迁移分类
         </a-button>
         <a-button
           size="small"
@@ -186,6 +203,11 @@
                   <template #icon><EditOutlined /></template>
                 </a-button>
               </a-tooltip>
+              <a-tooltip title="调整分类">
+                <a-button type="text" size="small" class="media-action-btn media-action-btn--move" aria-label="调整资源分类" @click="openSingleCategoryMove(record)">
+                  <template #icon><SwapOutlined /></template>
+                </a-button>
+              </a-tooltip>
               <a-tooltip title="查看引用">
                 <a-button type="text" size="small" class="media-action-btn media-action-btn--refs" aria-label="查看媒体引用" @click="openReferenceModal(record)">
                   <template #icon><LinkOutlined /></template>
@@ -204,48 +226,62 @@
 
     <a-modal
       v-model:open="uploadModalVisible"
+      class="media-upload-modal"
       title="上传资源"
       :confirm-loading="uploading"
       ok-text="上传到媒体库"
       cancel-text="取消"
       centered
       width="520px"
-      :body-style="{ maxHeight: '70vh', overflowY: 'auto' }"
+      :body-style="{ maxHeight: '70vh', overflow: 'hidden' }"
       @ok="uploadFile"
       @cancel="resetUploadDraft"
     >
-      <a-alert v-if="errorMessage" class="media-cloud__alert" type="error" show-icon :message="errorMessage" />
-      <a-form layout="vertical">
-        <a-form-item label="资源分类">
-          <a-select
-            v-model:value="uploadCategory"
-            show-search
-            allow-clear
-            placeholder="选择资源分类"
-            :options="filterCategoryOptions"
-            :filter-option="filterSelectOption"
-          />
-        </a-form-item>
-        <a-form-item label="选择文件">
-          <a-upload-dragger
-            multiple
-            :before-upload="beforeUpload"
-            :show-upload-list="false"
-            :accept="uploadAccept"
-          >
-            <p class="ant-upload-drag-icon"><InboxOutlined /></p>
-            <p class="ant-upload-text">拖拽文件到这里，或点击选择本地资源</p>
-            <p class="ant-upload-hint">
-              单次最多 {{ uploadRules.maxFiles }} 个文件，单文件最大 {{ uploadRules.maxFileSizeMB }}MB
-            </p>
-          </a-upload-dragger>
-        </a-form-item>
-      </a-form>
-      <div v-if="files.length" class="media-cloud__file-list">
-        <div v-for="(item, index) in files" :key="`${item.name}-${item.size}-${index}`" class="media-cloud__file-chip">
-          <strong>{{ item.name }}</strong>
-          <span>{{ formatFileSize(item.size) }}</span>
-          <a-button type="text" size="small" danger @click="removeSelectedFile(index)">移除</a-button>
+      <div class="media-upload-modal__scroll">
+        <a-alert v-if="errorMessage" class="media-cloud__alert" type="error" show-icon :message="errorMessage" />
+        <div class="media-upload-modal__context">
+          <div>
+            <strong>上传规则</strong>
+            <span>单次最多 {{ uploadRules.maxFiles }} 个文件，单文件最大 {{ uploadRules.maxFileSizeMB }}MB</span>
+          </div>
+          <a-tag :bordered="false" color="blue">媒体库</a-tag>
+        </div>
+        <a-form layout="vertical">
+          <a-form-item label="资源分类">
+            <a-select
+              v-model:value="uploadCategory"
+              show-search
+              allow-clear
+              placeholder="选择资源分类"
+              :options="filterCategoryOptions"
+              :filter-option="filterSelectOption"
+            />
+          </a-form-item>
+          <a-form-item label="选择文件">
+            <a-upload-dragger
+              multiple
+              :before-upload="beforeUpload"
+              :show-upload-list="false"
+              :accept="uploadAccept"
+            >
+              <p class="ant-upload-drag-icon"><InboxOutlined /></p>
+              <p class="ant-upload-text">拖拽文件到这里，或点击选择本地资源</p>
+              <p class="ant-upload-hint">
+                单次最多 {{ uploadRules.maxFiles }} 个文件，单文件最大 {{ uploadRules.maxFileSizeMB }}MB
+              </p>
+            </a-upload-dragger>
+          </a-form-item>
+        </a-form>
+        <div v-if="files.length" class="media-cloud__file-list">
+          <div class="media-cloud__file-list-header">
+            <strong>待上传 {{ files.length }} 个</strong>
+            <a-button type="link" size="small" @click="resetUploadDraft">清空</a-button>
+          </div>
+          <div v-for="(item, index) in files" :key="`${item.name}-${item.size}-${index}`" class="media-cloud__file-chip">
+            <strong>{{ item.name }}</strong>
+            <span>{{ formatFileSize(item.size) }}</span>
+            <a-button type="text" size="small" danger @click="removeSelectedFile(index)">移除</a-button>
+          </div>
         </div>
       </div>
     </a-modal>
@@ -269,6 +305,15 @@
       @submit="submitRename"
     />
 
+    <MediaCategoryMoveModal
+      v-model:open="categoryMoveModalVisible"
+      :record="categoryMoveRecord"
+      :selected-count="categoryMoveIds.length"
+      :categories="categories"
+      :submitting="categoryMoveSubmitting"
+      @submit="submitCategoryMove"
+    />
+
     <MediaReferenceModal
       v-model:open="referenceModalVisible"
       :record="referenceRecord"
@@ -279,163 +324,87 @@
       @changed="handleInventoryChanged"
     />
 
-    <!-- 媒体预览弹窗 -->
-    <a-modal
-      v-model:open="previewVisible"
-      :title="previewRecord?.originalName || '预览'"
-      :footer="null"
-      :width="previewModalWidth"
-      centered
-      :destroy-on-close="true"
-      :body-style="{ maxHeight: '78vh', overflowY: 'auto' }"
-      @cancel="closePreview"
-    >
-      <div class="media-preview">
-        <div v-if="previewRecord" class="media-preview__toolbar">
-          <div class="media-preview__toolbar-text">
-            <strong>{{ getFileClassLabel(previewRecord.fileClass) }}</strong>
-            <span>{{ formatFileSize(previewRecord.size) }}</span>
-          </div>
-          <a-space :size="8">
-            <a-button :href="previewOpenUrl" target="_blank" rel="noopener noreferrer">
-              <template #icon><ExportOutlined /></template>
-              新页面打开
-            </a-button>
-            <a-button :href="previewOpenUrl" download target="_blank" rel="noopener noreferrer">
-              <template #icon><DownloadOutlined /></template>
-              下载
-            </a-button>
-          </a-space>
-        </div>
-
-        <!-- 图片预览 -->
-        <div v-if="previewType === 'image'" class="media-preview__image">
-          <img :src="previewRecord.url" :alt="previewRecord.originalName" />
-        </div>
-
-        <!-- 视频预览 -->
-        <div v-else-if="previewType === 'video'" class="media-preview__video">
-          <video
-            :src="previewRecord.url"
-            controls
-            preload="metadata"
-            class="media-preview__player"
-          >您的浏览器不支持视频播放</video>
-        </div>
-
-        <!-- 音频预览 -->
-        <div v-else-if="previewType === 'audio'" class="media-preview__audio">
-          <div class="media-preview__audio-icon">
-            <CustomerServiceOutlined style="font-size: 48px; color: var(--console-primary-strong)" />
-          </div>
-          <h3>{{ previewRecord.originalName }}</h3>
-          <audio :src="previewRecord.url" controls preload="metadata" class="media-preview__player">
-            您的浏览器不支持音频播放
-          </audio>
-        </div>
-
-        <!-- PDF 预览 -->
-        <div v-else-if="previewType === 'pdf'" class="media-preview__pdf">
-          <template v-if="!pdfLoadError">
-            <iframe :src="previewOpenUrl" class="media-preview__iframe" @error="onPdfViewerError" />
-          </template>
-          <div v-else class="media-preview__fallback">
-            <div class="media-preview__file-card">
-              <FileWordOutlined style="font-size: 48px; color: #2563eb" />
-              <h3>{{ previewRecord?.originalName }}</h3>
-              <p>浏览器内嵌 PDF 预览不可用，请在新页面打开或下载后查看。</p>
-              <div class="media-preview__file-meta">
-                <span>类型：{{ previewRecord?.mimeType || '未知' }}</span>
-                <span>大小：{{ formatFileSize(previewRecord?.size) }}</span>
-              </div>
-              <a-space :size="8">
-                <a-button type="primary" :href="previewOpenUrl" target="_blank" rel="noopener noreferrer">
-                  <template #icon><ExportOutlined /></template>
-                  新页面打开
-                </a-button>
-                <a-button @click="retryPdfViewer">重试预览</a-button>
-              </a-space>
-            </div>
-          </div>
-        </div>
-
-        <!-- Office 文档预览（doc/docx/xls/xlsx/ppt/pptx/csv） -->
-        <div v-else-if="previewType === 'office'" class="media-preview__office">
-          <!-- Office Viewer 加载失败时降级到下载卡片 -->
-          <template v-if="officePreviewAvailable && !officeLoadError">
-            <iframe
-              :key="officeViewerKey"
-              :src="officeViewerUrl"
-              class="media-preview__iframe"
-              @load="onOfficeViewerLoad"
-              @error="onOfficeViewerError"
-            />
-          </template>
-          <div v-else class="media-preview__fallback">
-            <div class="media-preview__file-card">
-              <FileWordOutlined style="font-size: 48px; color: #2563eb" />
-              <h3>{{ previewRecord?.originalName }}</h3>
-              <p>{{ officePreviewTip }}</p>
-              <div class="media-preview__file-meta">
-                <span>类型：{{ previewRecord?.mimeType || '未知' }}</span>
-                <span>大小：{{ formatFileSize(previewRecord?.size) }}</span>
-              </div>
-              <a-space :size="8">
-                <a-button type="primary" :href="previewOpenUrl" target="_blank" rel="noopener noreferrer">
-                  <template #icon><ExportOutlined /></template>
-                  新页面打开
-                </a-button>
-                <a-button :href="previewOpenUrl" download target="_blank" rel="noopener noreferrer">
-                  下载
-                </a-button>
-                <a-button v-if="officePreviewAvailable" @click="retryOfficeViewer" :loading="officeRetrying">
-                  重试预览
-                </a-button>
-              </a-space>
-            </div>
-          </div>
-        </div>
-
-        <!-- 文本/代码预览 -->
-        <div v-else-if="previewType === 'text'" class="media-preview__text">
-          <a-spin :spinning="textLoading" tip="加载内容中…">
-            <pre class="media-preview__code"><code>{{ textContent }}</code></pre>
-          </a-spin>
-        </div>
-
-        <!-- 不可预览类型：文件信息卡片 -->
-        <div v-else class="media-preview__fallback">
-          <div class="media-preview__file-card">
-            <div class="media-preview__file-icon">
-              <FileZipOutlined v-if="previewRecord?.fileClass === 'archive'" style="font-size: 48px; color: #f97316" />
-              <FileUnknownOutlined v-else style="font-size: 48px; color: #94a3b8" />
-            </div>
-            <h3>{{ previewRecord?.originalName }}</h3>
-            <p>此文件类型暂不支持在线预览</p>
-            <div class="media-preview__file-meta">
-              <span>类型：{{ previewRecord?.mimeType || '未知' }}</span>
-              <span>大小：{{ formatFileSize(previewRecord?.size) }}</span>
-            </div>
-            <a-button type="primary" :href="previewRecord?.url" download target="_blank">
-              <template #icon><DownloadOutlined /></template>
-              下载文件
-            </a-button>
-          </div>
-        </div>
-      </div>
-    </a-modal>
+    <MediaPreviewModal v-model:open="previewVisible" :record="previewRecord" />
 
     <a-modal
       v-model:open="categoryModalVisible"
-      title="资源分类"
       :footer="null"
-      width="560px"
+      width="900px"
       centered
       :body-style="{ maxHeight: '72vh', overflow: 'hidden', paddingBottom: '16px' }"
     >
+      <template #title>
+        <div class="media-category-modal__title">
+          <span>资源分类</span>
+          <a-tooltip title="查看分类规则">
+            <a-button type="text" size="small" aria-label="查看资源分类说明" @click="openMediaGuide('category')">
+              <template #icon><QuestionCircleOutlined /></template>
+            </a-button>
+          </a-tooltip>
+        </div>
+      </template>
+
       <div class="media-category-panel">
-        <!-- 固定表单区 -->
-        <div class="media-category-panel__form">
+        <aside class="media-category-panel__list-wrap">
+          <div class="media-category-panel__list-header">
+            <strong>已有分类</strong>
+            <span>{{ categories.length }} 个</span>
+          </div>
+          <div v-if="categories.length === 0" class="media-category-panel__empty">暂无资源分类</div>
+          <div v-else class="media-category-panel__list">
+            <article
+              v-for="item in categories"
+              :key="item.id || item.name"
+              class="media-category-item"
+              :class="{
+                'is-active': editingCategoryId === item.id,
+                'is-system': item.system
+              }"
+            >
+              <div class="media-category-item__info">
+                <div class="media-category-item__title">
+                  <strong>{{ item.name }}</strong>
+                  <a-tag v-if="item.system" :bordered="false" color="blue">系统</a-tag>
+                  <a-tag v-else-if="!item.id" :bordered="false" color="orange">待归档</a-tag>
+                </div>
+                <p>{{ item.description || '未填写分类说明' }}</p>
+                <span>{{ item.count || 0 }} 个资源</span>
+              </div>
+              <a-space v-if="canEditCategory(item)" :size="2" class="media-category-item__actions">
+                <a-tooltip title="编辑分类">
+                  <a-button
+                    type="text"
+                    size="small"
+                    :aria-label="`编辑分类 ${item.name}`"
+                    @click="editCategory(item)"
+                  >
+                    <template #icon><EditOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip title="删除分类">
+                  <a-button
+                    type="text"
+                    size="small"
+                    danger
+                    :aria-label="`删除分类 ${item.name}`"
+                    @click="removeCategory(item)"
+                  >
+                    <template #icon><DeleteOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+              </a-space>
+            </article>
+          </div>
+        </aside>
+
+        <section class="media-category-panel__form">
+          <div class="media-category-panel__form-header">
+            <div>
+              <strong>{{ editingCategoryId ? '编辑自定义分类' : '新建自定义分类' }}</strong>
+              <span>系统分类由业务链路维护，不能修改或删除。</span>
+            </div>
+            <a-button v-if="editingCategoryId" type="text" size="small" @click="resetCategoryDraft">取消编辑</a-button>
+          </div>
           <a-form layout="vertical">
             <a-form-item label="分类名称">
               <a-input v-model:value="categoryDraft.name" placeholder="例如 项目截图 / 课程资料 / 接口示例" />
@@ -444,51 +413,16 @@
               <a-textarea v-model:value="categoryDraft.description" :rows="2" placeholder="可选，说明这个分类存放什么资源" />
             </a-form-item>
             <div class="media-category-panel__actions">
-              <a-button v-if="editingCategoryId" @click="resetCategoryDraft">取消编辑</a-button>
               <a-button type="primary" :loading="categorySubmitting" @click="submitCategory">
                 {{ editingCategoryId ? '保存分类' : '新建分类' }}
               </a-button>
             </div>
           </a-form>
-        </div>
-
-        <!-- 可滚动列表区 -->
-        <div class="media-category-panel__list-wrap">
-          <div v-if="categories.length === 0" class="media-category-panel__empty">暂无自定义分类</div>
-          <div v-else class="media-category-panel__list">
-            <div
-              v-for="item in categories"
-              :key="item.id"
-              class="media-category-item"
-            >
-              <div class="media-category-item__info">
-                <strong>{{ item.name }}</strong>
-                <span>{{ item.count || 0 }} 个资源</span>
-              </div>
-              <a-space size="small">
-                <a-tooltip :title="isSystemCategory(item.name) ? '系统分类不支持编辑' : ''">
-                  <a-button
-                    type="link"
-                    size="small"
-                    :disabled="isSystemCategory(item.name)"
-                    @click="editCategory(item)"
-                  >编辑</a-button>
-                </a-tooltip>
-                <a-tooltip :title="isSystemCategory(item.name) ? '系统分类不能删除' : ''">
-                  <a-button
-                    type="link"
-                    size="small"
-                    danger
-                    :disabled="isSystemCategory(item.name)"
-                    @click="removeCategory(item)"
-                  >删除</a-button>
-                </a-tooltip>
-              </a-space>
-            </div>
-          </div>
-        </div>
+        </section>
       </div>
     </a-modal>
+
+    <MediaGuideModal v-model:open="mediaGuideVisible" :topic="mediaGuideTopic" />
   </section>
 </template>
 
@@ -503,19 +437,19 @@ import {
   SettingOutlined,
   RestOutlined,
   SearchOutlined,
-  CustomerServiceOutlined,
-  FileZipOutlined,
-  FileUnknownOutlined,
-  FileWordOutlined,
-  ExportOutlined,
-  DownloadOutlined
+  QuestionCircleOutlined,
+  SwapOutlined,
+  FolderOpenOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import MediaTrashModal from './MediaTrashModal.vue'
 import MediaRenameModal from './MediaRenameModal.vue'
+import MediaCategoryMoveModal from './MediaCategoryMoveModal.vue'
+import MediaPreviewModal from './MediaPreviewModal.vue'
 import MediaReferenceModal from './MediaReferenceModal.vue'
 import MediaInventoryModal from './MediaInventoryModal.vue'
 import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
+import MediaGuideModal from './MediaGuideModal.vue'
 import {
   DEFAULT_MEDIA_ALLOWED_EXTENSIONS,
   buildMediaUploadAccept,
@@ -532,6 +466,8 @@ import {
   listAdminMedia,
   listAdminMediaCategories,
   batchDeleteAdminMedia,
+  batchMoveAdminMediaCategory,
+  moveAdminMediaCategory,
   renameAdminMedia,
   updateAdminMediaCategory,
   updateAdminSettings,
@@ -560,9 +496,15 @@ const settingsSaving = ref(false)
 const renameModalVisible = ref(false)
 const renameSubmitting = ref(false)
 const renameRecord = ref(null)
+const categoryMoveModalVisible = ref(false)
+const categoryMoveSubmitting = ref(false)
+const categoryMoveRecord = ref(null)
+const categoryMoveIds = ref([])
 const referenceModalVisible = ref(false)
 const referenceRecord = ref(null)
 const inventoryModalVisible = ref(false)
+const mediaGuideVisible = ref(false)
+const mediaGuideTopic = ref('inventory')
 const uploadRules = ref({
   maxFiles: 5,
   maxFileSizeMB: 20,
@@ -633,7 +575,7 @@ const columns = [
   { title: '分类', key: 'category', width: 120, align: 'center' },
   { title: '引用状态', key: 'usage', width: 140, align: 'center' },
   { title: '上传时间', key: 'createdAt', width: 170, align: 'center' },
-  { title: '操作', key: 'action', width: 168, align: 'center', fixed: 'right' }
+  { title: '操作', key: 'action', width: 180, align: 'center', fixed: 'right' }
 ]
 
 const mediaRowSelection = computed(() => ({
@@ -850,172 +792,10 @@ async function uploadFile() {
 
 const previewVisible = ref(false)
 const previewRecord = ref(null)
-const textContent = ref('')
-const textLoading = ref(false)
-const pdfLoadError = ref(false)
-const officeLoadError = ref(false)
-const officeRetrying = ref(false)
-const officeViewerKey = ref(0)
-let officeFallbackTimer = null
 
-/**
- * 判断预览类型：image / video / audio / pdf / text / other
- */
-function getPreviewType(record) {
-  const mime = (record.mimeType || '').toLowerCase()
-  const ext = (record.originalName || '').split('.').pop().toLowerCase()
-
-  if (mime.startsWith('image/') || record.fileClass === 'image') return 'image'
-  if (mime.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'].includes(ext)) return 'video'
-  if (mime.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma'].includes(ext)) return 'audio'
-  if (mime === 'application/pdf' || ext === 'pdf') return 'pdf'
-
-  const officeExtensions = new Set(['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'])
-  if (officeExtensions.has(ext)) return 'office'
-
-  const textExtensions = new Set([
-    'js', 'jsx', 'ts', 'tsx', 'vue', 'json', 'yml', 'yaml', 'xml',
-    'html', 'css', 'scss', 'less', 'md', 'txt', 'sh', 'bat', 'ps1',
-    'py', 'java', 'go', 'rb', 'php', 'sql', 'c', 'cpp', 'h', 'cs',
-    'kt', 'swift', 'rs', 'ini', 'conf', 'env', 'gitignore', 'editorconfig'
-  ])
-  if (mime.startsWith('text/') || textExtensions.has(ext)) return 'text'
-
-  return 'other'
-}
-
-const previewType = computed(() => previewRecord.value ? getPreviewType(previewRecord.value) : 'other')
-
-const previewModalWidth = computed(() => {
-  if (previewType.value === 'video') return '800px'
-  if (previewType.value === 'pdf' || previewType.value === 'office') return '900px'
-  if (previewType.value === 'image') return '800px'
-  return '640px'
-})
-
-const officeViewerUrl = computed(() => {
-  if (!previewRecord.value?.url) return ''
-  return `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(previewOpenUrl.value)}`
-})
-
-const previewOpenUrl = computed(() => {
-  if (!previewRecord.value?.url) return ''
-  return new URL(previewRecord.value.url, window.location.origin).href
-})
-
-const officePreviewAvailable = computed(() => {
-  if (!previewOpenUrl.value) return false
-
-  try {
-    const url = new URL(previewOpenUrl.value)
-    const host = url.hostname.toLowerCase()
-    const isLocalhost = host === 'localhost' || host === '127.0.0.1' || host === '::1'
-    const isPrivateIp =
-      /^10\./.test(host) ||
-      /^192\.168\./.test(host) ||
-      /^172\.(1[6-9]|2\d|3[01])\./.test(host)
-    const isPlainIp = /^\d{1,3}(\.\d{1,3}){3}$/.test(host)
-
-    // Microsoft Office Viewer 需要外网服务能访问文件地址；内网/IP 环境通常无法稳定在线预览。
-    return ['http:', 'https:'].includes(url.protocol) && !isLocalhost && !isPrivateIp && !isPlainIp
-  } catch {
-    return false
-  }
-})
-
-const officePreviewTip = computed(() => {
-  if (officePreviewAvailable.value) {
-    return '在线文档预览暂不可用，可能是 Office Viewer 无法访问该文件。请在新页面打开，或下载后使用本地软件查看。'
-  }
-
-  return '当前访问地址为本地、内网或 IP 地址，Microsoft Office Viewer 无法从公网读取该文件，因此暂不能在线预览。请在新页面打开或下载后查看；后续可接入服务端文档转换后实现内网阅读。'
-})
-
-function clearOfficeFallbackTimer() {
-  if (officeFallbackTimer) {
-    clearTimeout(officeFallbackTimer)
-    officeFallbackTimer = null
-  }
-}
-
-function armOfficeFallbackTimer() {
-  clearOfficeFallbackTimer()
-  officeFallbackTimer = setTimeout(() => {
-    if (previewVisible.value && previewType.value === 'office') {
-      officeLoadError.value = true
-    }
-  }, 8000)
-}
-
-async function handleView(record) {
+function handleView(record) {
   previewRecord.value = record
   previewVisible.value = true
-  pdfLoadError.value = false
-  officeLoadError.value = false
-  officeRetrying.value = false
-  clearOfficeFallbackTimer()
-
-  if (getPreviewType(record) === 'office') {
-    if (officePreviewAvailable.value) {
-      officeViewerKey.value += 1
-      armOfficeFallbackTimer()
-    } else {
-      officeLoadError.value = true
-    }
-  }
-
-  if (getPreviewType(record) === 'text') {
-    textContent.value = ''
-    textLoading.value = true
-    try {
-      const response = await fetch(record.url)
-      if (response.ok) {
-        textContent.value = await response.text()
-      } else {
-        textContent.value = `无法加载文件内容（HTTP ${response.status}）`
-      }
-    } catch {
-      textContent.value = '加载文件内容失败，请尝试下载后查看'
-    } finally {
-      textLoading.value = false
-    }
-  }
-}
-
-function closePreview() {
-  previewVisible.value = false
-  textContent.value = ''
-  pdfLoadError.value = false
-  officeLoadError.value = false
-  officeRetrying.value = false
-  clearOfficeFallbackTimer()
-}
-
-function onPdfViewerError() {
-  pdfLoadError.value = true
-}
-
-function retryPdfViewer() {
-  pdfLoadError.value = false
-}
-
-function onOfficeViewerLoad() {
-  clearOfficeFallbackTimer()
-}
-
-function onOfficeViewerError() {
-  clearOfficeFallbackTimer()
-  officeLoadError.value = true
-}
-
-function retryOfficeViewer() {
-  officeRetrying.value = true
-  officeLoadError.value = false
-  officeViewerKey.value += 1
-  armOfficeFallbackTimer()
-  setTimeout(() => {
-    officeRetrying.value = false
-  }, 2000)
 }
 
 function handleDelete(record) {
@@ -1045,6 +825,56 @@ function handleDelete(record) {
 function handleRename(record) {
   renameRecord.value = record
   renameModalVisible.value = true
+}
+
+function openSingleCategoryMove(record) {
+  categoryMoveRecord.value = record
+  categoryMoveIds.value = []
+  categoryMoveModalVisible.value = true
+}
+
+function openBatchCategoryMove() {
+  categoryMoveRecord.value = null
+  categoryMoveIds.value = [...selectedMediaKeys.value]
+  categoryMoveModalVisible.value = true
+}
+
+async function submitCategoryMove(category) {
+  const targetCategory = String(category || '').trim()
+  if (!targetCategory) {
+    return
+  }
+
+  const record = categoryMoveRecord.value
+  const ids = [...categoryMoveIds.value]
+  if (!record && ids.length === 0) {
+    return
+  }
+
+  categoryMoveSubmitting.value = true
+  try {
+    await runAction(
+      () => record
+        ? moveAdminMediaCategory(record.id, targetCategory)
+        : batchMoveAdminMediaCategory(ids, targetCategory),
+      {
+        successMessage: record
+          ? `已将资源迁移至「${targetCategory}」`
+          : `已将 ${ids.length} 个资源迁移至「${targetCategory}」`,
+        errorMessage: '资源分类迁移失败',
+        onSuccess: async () => {
+          categoryMoveModalVisible.value = false
+          categoryMoveRecord.value = null
+          categoryMoveIds.value = []
+          clearMediaSelection()
+          await loadCategories()
+          tableRef.value?.refresh()
+        }
+      }
+    )
+  } finally {
+    categoryMoveSubmitting.value = false
+  }
 }
 
 async function submitRename(nextName) {
@@ -1136,6 +966,11 @@ function openTrashModal() {
   trashModalVisible.value = true
 }
 
+function openMediaGuide(topic) {
+  mediaGuideTopic.value = topic
+  mediaGuideVisible.value = true
+}
+
 async function handleTrashChanged() {
   await loadCategories()
   tableRef.value?.refresh()
@@ -1149,12 +984,12 @@ function resetCategoryDraft() {
   }
 }
 
-function isSystemCategory(name) {
-  return ['默认素材', '文章封面'].includes(name)
+function canEditCategory(item) {
+  return Boolean(item?.id) && !item.system
 }
 
 function editCategory(item) {
-  if (isSystemCategory(item.name)) {
+  if (!canEditCategory(item)) {
     errorMessage.value = '系统资源分类不支持编辑'
     return
   }
@@ -1230,47 +1065,60 @@ onMounted(async () => {
   height: var(--console-page-available-height);
 }
 
-/* ===== 顶栏：一行搞定，不抢戏 ===== */
+/* ===== 顶层命令：页面身份在左，全局命令在右 ===== */
 .media-cloud__topbar {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 4px 4px;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 2px 8px;
   flex-shrink: 0;
+  border-bottom: 1px solid var(--console-border);
+}
+
+.media-cloud__identity {
+  display: flex;
+  align-items: center;
+  min-width: 0;
 }
 
 .media-cloud__title {
   margin: 0;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
-  color: #1e293b;
+  color: var(--console-text);
   white-space: nowrap;
-  line-height: 32px;
+  line-height: 36px;
 }
 
 .media-cloud__filters {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
   min-width: 0;
 }
 
 .media-cloud__actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
-/* ===== 列表工具条：筛选与批量操作固定同一行 ===== */
+.media-cloud__header-icon {
+  width: 32px;
+  min-width: 32px;
+  padding: 0;
+}
+
+/* ===== 查询状态带：读取顺序为搜索 -> 条件 -> 类型 -> 选中操作 ===== */
 .media-cloud__list-toolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 44px;
-  padding: 6px 4px;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 2px;
   flex-shrink: 0;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -1280,6 +1128,8 @@ onMounted(async () => {
   align-items: center;
   gap: 6px;
   min-width: 0;
+  padding-left: 10px;
+  border-left: 1px solid var(--console-border);
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1295,10 +1145,10 @@ onMounted(async () => {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 10px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   background: transparent;
   font-size: 13px;
   color: #64748b;
@@ -1309,14 +1159,14 @@ onMounted(async () => {
 }
 
 .media-type-chip:hover {
-  border-bottom-color: var(--console-border-strong);
+  border-color: var(--console-border-strong);
   color: var(--console-text);
-  background: transparent;
+  background: var(--console-surface-hover);
 }
 
 .media-type-chip.is-active {
-  border-bottom-color: var(--console-primary);
-  background: transparent;
+  border-color: color-mix(in srgb, var(--console-primary) 32%, var(--console-border));
+  background: var(--console-primary-soft);
   color: var(--console-primary-strong);
   font-weight: 500;
 }
@@ -1330,11 +1180,13 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: auto;
+  padding-left: 12px;
+  border-left: 1px solid var(--console-border);
   flex-shrink: 0;
 }
 
 .media-batch-actions__count {
-  min-width: 86px;
   color: #64748b;
   font-size: 13px;
   text-align: right;
@@ -1507,6 +1359,10 @@ onMounted(async () => {
   color: #d48806 !important;
 }
 
+.media-action-btn--move {
+  color: var(--console-primary-strong) !important;
+}
+
 .media-action-btn--refs {
   color: #0f766e !important;
 }
@@ -1517,6 +1373,11 @@ onMounted(async () => {
 }
 
 .media-action-btn--rename:hover {
+  background: var(--console-primary-soft) !important;
+  color: var(--console-primary-strong) !important;
+}
+
+.media-action-btn--move:hover {
   background: var(--console-primary-soft) !important;
   color: var(--console-primary-strong) !important;
 }
@@ -1534,6 +1395,47 @@ onMounted(async () => {
   margin-bottom: 12px;
 }
 
+.media-upload-modal__context {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface-muted);
+}
+
+.media-upload-modal__scroll {
+  max-height: min(60vh, 520px);
+  overflow-y: auto;
+  padding-right: 2px;
+  scrollbar-width: none;
+}
+
+.media-upload-modal__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.media-upload-modal__context > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.media-upload-modal__context strong {
+  color: var(--console-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.media-upload-modal__context span {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 .media-cloud__file-list {
   display: flex;
   flex-direction: column;
@@ -1543,14 +1445,28 @@ onMounted(async () => {
   padding-top: 4px;
 }
 
+.media-cloud__file-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 2px;
+}
+
+.media-cloud__file-list-header strong {
+  color: var(--console-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .media-cloud__file-chip {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 8px 10px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--console-border);
   border-radius: 8px;
-  background: #f8fafc;
+  background: var(--console-surface-muted);
 }
 
 .media-cloud__file-chip strong {
@@ -1560,11 +1476,11 @@ onMounted(async () => {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 13px;
-  color: #1e293b;
+  color: var(--console-text);
 }
 
 .media-cloud__file-chip span {
-  color: #64748b;
+  color: var(--console-text-secondary);
   font-size: 12px;
   white-space: nowrap;
 }
@@ -1572,15 +1488,50 @@ onMounted(async () => {
 /* ===== 表格区域深度样式覆盖 ===== */
 
 .media-category-panel {
-  display: flex;
-  flex-direction: column;
+  height: min(58vh, 520px);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+  overflow: hidden;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
 }
 
 .media-category-panel__form {
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 12px;
-  flex-shrink: 0;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--console-surface);
+  scrollbar-width: none;
+}
+
+.media-category-panel__form::-webkit-scrollbar,
+.media-category-panel__list-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.media-category-panel__form-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.media-category-panel__form-header strong,
+.media-category-panel__list-header strong {
+  display: block;
+  color: var(--console-text);
+  font-size: 15px;
+}
+
+.media-category-panel__form-header span {
+  display: block;
+  margin-top: 4px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .media-category-panel__actions {
@@ -1590,16 +1541,32 @@ onMounted(async () => {
   margin-top: 4px;
 }
 
-/* 列表区域：固定最大高度，内部滚动 */
 .media-category-panel__list-wrap {
-  max-height: 360px;
+  min-width: 0;
   overflow-y: auto;
   overflow-x: hidden;
+  border-right: 1px solid var(--console-border);
+  padding: 10px;
+  background: var(--console-surface-muted);
+  scrollbar-width: none;
+}
+
+.media-category-panel__list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 6px 12px;
+}
+
+.media-category-panel__list-header span {
+  color: var(--console-text-secondary);
+  font-size: 12px;
 }
 
 .media-category-panel__empty {
   text-align: center;
-  color: #94a3b8;
+  color: var(--console-text-secondary);
   font-size: 13px;
   padding: 32px 0;
 }
@@ -1610,51 +1577,70 @@ onMounted(async () => {
   gap: 4px;
 }
 
-/* 精简的分类条目：紧凑行式 */
 .media-category-item {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 10px 11px;
   border-radius: 8px;
-  border: 1px solid transparent;
-  background: #f8fafc;
+  border: 1px solid var(--console-border);
+  background: var(--console-surface);
   transition: all 0.15s ease;
 }
 
-.media-category-item:hover {
-  background: #f1f5f9;
-  border-color: #e2e8f0;
+.media-category-item:hover,
+.media-category-item.is-active {
+  border-color: var(--console-primary-strong);
+  background: var(--console-surface-hover);
 }
 
 .media-category-item__info {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
+  display: grid;
+  gap: 4px;
   min-width: 0;
   flex: 1;
 }
 
+.media-category-item__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
 .media-category-item strong {
   font-size: 14px;
-  font-weight: 500;
-  color: #1e293b;
+  font-weight: 600;
+  color: var(--console-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.media-category-item p,
 .media-category-item span {
+  margin: 0;
   font-size: 12px;
-  color: #94a3b8;
-  white-space: nowrap;
-  flex-shrink: 0;
+  color: var(--console-text-secondary);
+  line-height: 1.5;
 }
 
-/* ===== 媒体预览弹窗 ===== */
-.media-preview {
-  min-height: 200px;
+.media-category-item p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.media-category-item__actions {
+  flex: 0 0 auto;
+}
+
+.media-category-modal__title {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 :deep(.dark-theme) .media-cloud__toolbar,
@@ -1667,14 +1653,20 @@ onMounted(async () => {
   border-color: var(--console-border);
 }
 
+:deep(.dark-theme) .media-cloud__topbar,
+:deep(.dark-theme) .media-cloud__type-filter,
+:deep(.dark-theme) .media-batch-actions {
+  border-color: var(--console-border);
+}
+
 :deep(.dark-theme) .media-batch-actions__count {
   color: var(--console-text-secondary);
 }
 
 :deep(.dark-theme) .media-type-chip {
   color: var(--console-menu-text);
-  border-color: var(--console-border);
-  background: var(--console-surface);
+  border-color: transparent;
+  background: transparent;
 }
 
 :deep(.dark-theme) .media-type-chip:hover {
@@ -1706,10 +1698,7 @@ onMounted(async () => {
 :deep(.dark-theme) .media-file__name,
 :deep(.dark-theme) .media-cloud__title,
 :deep(.dark-theme) .media-cloud__file-chip strong,
-:deep(.dark-theme) .media-category-item strong,
-:deep(.dark-theme) .media-preview__toolbar-text strong,
-:deep(.dark-theme) .media-preview__audio h3,
-:deep(.dark-theme) .media-preview__file-card h3 {
+:deep(.dark-theme) .media-category-item strong {
   color: var(--console-text);
 }
 
@@ -1719,10 +1708,7 @@ onMounted(async () => {
 :deep(.dark-theme) .media-usage-link :deep(.ant-badge-status-text),
 :deep(.dark-theme) .media-cloud__file-chip span,
 :deep(.dark-theme) .media-category-item span,
-:deep(.dark-theme) .media-category-panel__empty,
-:deep(.dark-theme) .media-preview__toolbar-text,
-:deep(.dark-theme) .media-preview__file-card p,
-:deep(.dark-theme) .media-preview__file-meta {
+:deep(.dark-theme) .media-category-panel__empty {
   color: var(--console-text-secondary) !important;
 }
 
@@ -1743,182 +1729,21 @@ onMounted(async () => {
   border-bottom-color: var(--console-border);
 }
 
-:deep(.dark-theme) .media-preview__toolbar,
-:deep(.dark-theme) .media-preview__file-icon {
-  border-color: var(--console-border);
-  background: var(--console-surface-muted);
-}
-
-:deep(.dark-theme) .media-preview__audio-icon {
-  background: color-mix(in srgb, var(--console-primary) 14%, var(--console-surface-muted));
-}
-
-.media-preview__toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 10px 12px;
-  margin-bottom: 12px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #f8fafc;
-}
-
-.media-preview__toolbar-text {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  min-width: 0;
-  color: #64748b;
-  font-size: 13px;
-}
-
-.media-preview__toolbar-text strong {
-  color: #1e293b;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.media-preview__toolbar-text span {
-  white-space: nowrap;
-}
-
-.media-preview__image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-height: 70vh;
-  overflow: auto;
-}
-
-.media-preview__image img {
-  max-width: 100%;
-  max-height: 70vh;
-  border-radius: 8px;
-  object-fit: contain;
-}
-
-.media-preview__video {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.media-preview__player {
-  width: 100%;
-  border-radius: 8px;
-  outline: none;
-}
-
-.media-preview__audio {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 40px 20px;
-}
-
-.media-preview__audio h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  color: #1e293b;
-  word-break: break-all;
-  text-align: center;
-}
-
-.media-preview__audio-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: 6px;
-  background: var(--console-primary-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.media-preview__pdf,
-.media-preview__office {
-  height: min(68vh, 720px);
-}
-
-.media-preview__iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  border-radius: 8px;
-}
-
-.media-preview__text {
-  max-height: 70vh;
-  overflow: auto;
-}
-
-.media-preview__code {
-  background: #1e293b;
-  color: #e2e8f0;
-  padding: 20px;
-  border-radius: 8px;
-  font-size: 13px;
-  line-height: 1.6;
-  overflow-x: auto;
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin: 0;
-  min-height: 200px;
-  max-height: 70vh;
-  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-}
-
-.media-preview__fallback {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 280px;
-}
-
-.media-preview__file-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 32px;
-  text-align: center;
-}
-
-.media-preview__file-card h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: #1e293b;
-  word-break: break-all;
-}
-
-.media-preview__file-card p {
-  margin: 0;
-  font-size: 14px;
-  color: #94a3b8;
-}
-
-.media-preview__file-meta {
-  display: flex;
-  gap: 16px;
-  font-size: 13px;
-  color: #64748b;
-}
-
-.media-preview__file-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #f8fafc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* ===== 响应式 ===== */
+@media (max-width: 1280px) {
+  .media-cloud__list-toolbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .media-cloud__type-filter {
+    flex-basis: 100%;
+    order: 3;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .media-cloud {
     height: auto;
@@ -1926,6 +1751,7 @@ onMounted(async () => {
   }
 
   .media-cloud__topbar {
+    align-items: flex-start;
     flex-wrap: wrap;
     gap: 10px;
   }
@@ -1935,18 +1761,12 @@ onMounted(async () => {
   }
 
   .media-cloud__filters {
-    order: 3;
     flex-basis: 100%;
     flex-wrap: wrap;
   }
 
   .media-cloud__actions {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
-  .media-cloud__actions :deep(.ant-btn) {
-    flex: 1 1 calc(50% - 4px);
+    margin-left: auto;
   }
 
   .media-cloud__body {
@@ -1956,6 +1776,28 @@ onMounted(async () => {
   .media-cloud__filters :deep(.ant-input-search),
   .media-cloud__filters :deep(.ant-select) {
     width: 100% !important;
+  }
+
+  .media-cloud__list-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .media-cloud__type-filter {
+    flex-basis: auto;
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid var(--console-border);
+  }
+
+  .media-batch-actions {
+    width: 100%;
+    margin-left: 0;
+    padding-top: 8px;
+    padding-left: 0;
+    border-top: 1px solid var(--console-border);
+    border-left: 0;
   }
 
   .media-type-chip {
@@ -1986,9 +1828,19 @@ onMounted(async () => {
     max-height: 280px;
   }
 
-  .media-preview__toolbar {
-    align-items: flex-start;
-    flex-direction: column;
+  .media-category-panel {
+    height: min(62vh, 640px);
+    grid-template-rows: minmax(180px, 0.8fr) minmax(0, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .media-category-panel__list-wrap {
+    border-right: 0;
+    border-bottom: 1px solid var(--console-border);
+  }
+
+  .media-category-panel__form {
+    padding: 16px;
   }
 
   .media-category-item {
@@ -2005,8 +1857,13 @@ onMounted(async () => {
     gap: 6px;
   }
 
-  .media-cloud__actions :deep(.ant-btn) {
-    flex-basis: 100%;
+  .media-cloud__header-icon {
+    width: 28px;
+    min-width: 28px;
+  }
+
+  .media-cloud__actions :deep(.ant-btn-primary) {
+    padding-inline: 10px;
   }
 
   .media-type-chip {

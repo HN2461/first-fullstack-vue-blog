@@ -390,6 +390,10 @@ export async function listUnregisteredAdminMedia(params = {}) {
   return http.get('/api/admin/media/unregistered', { params })
 }
 
+export function getUnregisteredAdminMediaDetail(relativePath) {
+  return http.get('/api/admin/media/unregistered/detail', { params: { relativePath } })
+}
+
 export function registerUntrackedAdminMedia(data) {
   return http.post('/api/admin/media/register-untracked', data)
 }
@@ -400,6 +404,10 @@ export function clearSuspectedUntrackedAdminMedia(params = {}) {
 
 export function batchDeleteAdminMedia(ids) {
   return http.post('/api/admin/media/batch/delete', { ids })
+}
+
+export function batchMoveAdminMediaCategory(ids, category) {
+  return http.patch('/api/admin/media/category/batch', { ids, category })
 }
 
 export function listAdminMediaCategories() {
@@ -506,6 +514,10 @@ export function batchDeleteAnnouncements(ids) {
 
 export function renameAdminMedia(id, data) {
   return http.patch(`/api/admin/media/${id}/name`, data)
+}
+
+export function moveAdminMediaCategory(id, category) {
+  return http.patch(`/api/admin/media/${id}/category`, { category })
 }
 
 export async function listProjectTimelineRecords(params = {}) {

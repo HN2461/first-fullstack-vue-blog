@@ -4,6 +4,14 @@ export const mediaRenameSchema = z.object({
   originalName: z.string().trim().min(1, '资源名称不能为空').max(160, '资源名称不能超过 160 个字符')
 })
 
+export const mediaCategoryMoveSchema = z.object({
+  category: z.string().trim().min(1, '目标资源分类不能为空').max(40, '分类名称不能超过 40 个字符')
+})
+
+export const mediaCategoryBatchMoveSchema = mediaCategoryMoveSchema.extend({
+  ids: z.array(z.string().trim().min(1, '资源 ID 不能为空')).min(1, '请选择要迁移的媒体文件').max(100, '单次最多迁移 100 个媒体文件')
+})
+
 const mediaInventoryItemSchema = z.object({
   id: z.string().optional(),
   relativePath: z.string().optional(),

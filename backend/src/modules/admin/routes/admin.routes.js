@@ -8,9 +8,9 @@ import { batchUpdateArticleMeta, batchUpdateArticleTitles, listArticleTitlePrevi
 import { reorderCategoryArticles } from '#modules/content/services/articleOrder.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
 import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
-import { createMediaCategory, deleteMediaCategory, listMediaCategoryEntities, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
-import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, listMediaCategories, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
-import { clearSuspectedUntrackedMedia, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
+import { createMediaCategory, deleteMediaCategory, isSystemMediaCategory, listMediaCategoryEntities, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
+import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, listMediaCategories, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { clearSuspectedUntrackedMedia, getUnregisteredMediaFileDetail, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
 import { createProjectTimelineRecord, exportProjectTimelineRecords, importProjectTimelinePayloads, importProjectTimelineRecords, listProjectTimelineRecords, updateProjectTimelineRecord } from '#modules/projectTimeline/services/projectTimeline.service.js'
@@ -30,7 +30,7 @@ import { articleBatchMetaSchema, articleBatchTitleSchema, articleCategoryBatchMo
 import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
-import { mediaRegisterUntrackedSchema, mediaRenameSchema } from '#modules/media/validators/media.validator.js'
+import { mediaCategoryBatchMoveSchema, mediaCategoryMoveSchema, mediaRegisterUntrackedSchema, mediaRenameSchema } from '#modules/media/validators/media.validator.js'
 import { deleteCustomFestival, listCustomFestivals, saveCustomFestival, syncHolidayYear, updateCustomFestival } from '#modules/festival/services/festival.service.js'
 import { z } from 'zod'
 import { getBusinessDate } from '#utils/businessDate.js'
@@ -635,12 +635,18 @@ adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
   const usageMap = new Map(usageRows.map((item) => [item.name, item.count]))
   const merged = categoryEntities.map((item) => ({
     ...item.toSafeJSON(),
-    count: usageMap.get(item.name) || 0
+    count: usageMap.get(item.name) || 0,
+    system: isSystemMediaCategory(item.name)
   }))
 
   for (const row of usageRows) {
     if (!merged.some((item) => item.name === row.name)) {
-      merged.push(row)
+      merged.push({
+        ...row,
+        id: '',
+        description: '历史资源记录使用的分类，尚未建立分类配置。',
+        system: isSystemMediaCategory(row.name)
+      })
     }
   }
 
@@ -657,6 +663,10 @@ adminRouter.get('/media/delete-risk', asyncHandler(async (req, res) => {
 
 adminRouter.get('/media/unregistered', requireSuperAdmin, asyncHandler(async (req, res) => {
   res.json(ok(await listUnregisteredMediaFiles(req.query)))
+}))
+
+adminRouter.get('/media/unregistered/detail', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.json(ok(await getUnregisteredMediaFileDetail(req.query.relativePath)))
 }))
 
 adminRouter.post('/media/register-untracked', requireSuperAdmin, asyncHandler(async (req, res) => {
@@ -750,6 +760,12 @@ adminRouter.post('/media/batch/delete', asyncHandler(async (req, res) => {
   res.json(ok(result, `已移入回收站 ${result.deletedCount} 个媒体文件`))
 }))
 
+adminRouter.patch('/media/category/batch', asyncHandler(async (req, res) => {
+  const input = parseBody(mediaCategoryBatchMoveSchema, req.body)
+  const result = await moveMediaCategories(input.ids, input.category, req.user)
+  res.json(ok(result, `已将 ${result.movedCount} 个媒体文件迁移至「${result.category}」`))
+}))
+
 adminRouter.post('/media/trash/batch/restore', asyncHandler(async (req, res) => {
   const input = parseBody(idBatchSchema, req.body)
   const result = await batchRestoreMedia(input.ids, req.user)
@@ -774,6 +790,12 @@ adminRouter.patch('/media/:id/name', asyncHandler(async (req, res) => {
   const input = parseBody(mediaRenameSchema, req.body)
   const media = await renameMedia(req.params.id, input.originalName, req.user)
   res.json(ok(media, '资源名称已更新'))
+}))
+
+adminRouter.patch('/media/:id/category', asyncHandler(async (req, res) => {
+  const input = parseBody(mediaCategoryMoveSchema, req.body)
+  const media = await moveMediaCategory(req.params.id, input.category, req.user)
+  res.json(ok(media, '资源分类已更新'))
 }))
 
 adminRouter.delete('/media/trash/empty', asyncHandler(async (req, res) => {

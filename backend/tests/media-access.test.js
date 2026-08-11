@@ -123,6 +123,7 @@ describe('media access scope', () => {
       .set('Authorization', `Bearer ${superToken}`)
       .expect(200)
 
+    expect(scanResponse.body.data).not.toHaveProperty('uploadRoot')
     expect(scanResponse.body.data.items[0]).toMatchObject({
       relativePath,
       protected: true,
@@ -139,5 +140,89 @@ describe('media access scope', () => {
       type: 'userAvatar',
       ownerTitle: mediaManager.username
     })
+    expect(scanResponse.body.data.items[0]).not.toHaveProperty('storagePath')
+
+    await request(app)
+      .get('/api/admin/media/unregistered/detail')
+      .query({ relativePath })
+      .set('Authorization', `Bearer ${managerToken}`)
+      .expect(403)
+
+    const detailResponse = await request(app)
+      .get('/api/admin/media/unregistered/detail')
+      .query({ relativePath })
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+
+    expect(detailResponse.body.data).toMatchObject({
+      relativePath,
+      source: { type: 'avatar' },
+      usage: { referenceCount: 1 },
+      references: [expect.objectContaining({
+        type: 'userAvatar',
+        ownerTitle: mediaManager.username
+      })]
+    })
+    expect(detailResponse.body.data).not.toHaveProperty('storagePath')
+  })
+
+  it('returns document and snapshot categories as protected system categories', async () => {
+    const response = await request(app)
+      .get('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+
+    expect(response.body.data).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: '文章原始文档',
+          system: true,
+          description: expect.stringContaining('原始附件')
+        }),
+        expect.objectContaining({
+          name: '文章快照原始文档',
+          system: true,
+          description: expect.stringContaining('文章快照')
+        })
+      ])
+    )
+  })
+
+  it('moves owned media to configured categories and rejects cross-owner batch moves', async () => {
+    const managerMedia = await createMedia(mediaManager, 'manager-category-move.txt')
+    const managerSecondMedia = await createMedia(mediaManager, 'manager-category-second.txt')
+    const superMedia = await createMedia(superAdmin, 'super-category-protected.txt')
+
+    await request(app)
+      .patch(`/api/admin/media/${managerMedia._id}/category`)
+      .set('Authorization', `Bearer ${managerToken}`)
+      .send({ category: '文章封面' })
+      .expect(200)
+
+    expect((await Media.findById(managerMedia._id)).category).toBe('文章封面')
+
+    await request(app)
+      .patch('/api/admin/media/category/batch')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .send({
+        ids: [managerMedia._id.toString(), managerSecondMedia._id.toString(), superMedia._id.toString()],
+        category: '文章正文图片'
+      })
+      .expect(404)
+
+    expect((await Media.findById(managerMedia._id)).category).toBe('文章封面')
+    expect((await Media.findById(managerSecondMedia._id)).category).toBe('默认素材')
+
+    await request(app)
+      .patch('/api/admin/media/category/batch')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .send({
+        ids: [managerMedia._id.toString(), managerSecondMedia._id.toString()],
+        category: '文章正文图片'
+      })
+      .expect(200)
+
+    expect((await Media.findById(managerMedia._id)).category).toBe('文章正文图片')
+    expect((await Media.findById(managerSecondMedia._id)).category).toBe('文章正文图片')
   })
 })

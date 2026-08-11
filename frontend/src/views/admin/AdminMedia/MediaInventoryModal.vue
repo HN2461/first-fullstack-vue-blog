@@ -1,14 +1,24 @@
 <template>
   <a-modal
     :open="open"
-    title="扫描未登记资源"
-    width="860px"
+    width="960px"
     centered
     :footer="null"
-    :body-style="{ maxHeight: '72vh', overflowY: 'auto' }"
+    :body-style="{ maxHeight: '72vh', overflow: 'hidden' }"
     @update:open="emit('update:open', $event)"
     @cancel="emit('update:open', false)"
   >
+    <template #title>
+      <div class="media-inventory__modal-title">
+        <span>扫描未登记资源</span>
+        <a-tooltip title="查看扫描规则">
+          <a-button type="text" size="small" aria-label="查看扫描未登记资源说明" @click="guideVisible = true">
+            <template #icon><QuestionCircleOutlined /></template>
+          </a-button>
+        </a-tooltip>
+      </div>
+    </template>
+
     <div class="media-inventory">
       <div class="media-inventory__toolbar">
         <a-input-search
@@ -40,7 +50,7 @@
       <div class="media-inventory__summary">
         <span>未登记 {{ pageState.total }} 个</span>
         <span>合计 {{ formatFileSize(totalSize) }}</span>
-        <span class="media-inventory__path">{{ uploadRoot || '上传目录' }}</span>
+        <span class="media-inventory__path">扫描范围：上传存储目录</span>
       </div>
 
       <div v-if="selectedRowKeys.length > 0" class="media-inventory__batch">
@@ -53,61 +63,25 @@
         </a-space>
       </div>
 
-      <a-table
-        row-key="id"
-        size="middle"
-        :columns="columns"
-        :data-source="items"
+      <MediaInventoryList
+        :items="items"
         :loading="loading"
-        :pagination="pagination"
-        :row-selection="rowSelection"
-        :scroll="{ x: 780, y: 360 }"
-        @change="handleTableChange"
-      >
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'asset'">
-            <div class="inventory-file">
-              <div class="inventory-file__thumb" :class="`is-${record.fileClass || 'other'}`">
-                <img v-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
-                <span v-else>{{ getFileBadge(record) }}</span>
-              </div>
-              <div class="inventory-file__info">
-                <div class="inventory-file__name">
-                  <strong :title="record.originalName">{{ record.originalName }}</strong>
-                  <a-tag v-if="record.suspectedTest" :bordered="false" color="red">
-                    疑似测试
-                  </a-tag>
-                  <a-tag :bordered="false" :color="getSourceColor(record.source?.type)">
-                    {{ record.source?.label || '上传目录' }}
-                  </a-tag>
-                  <a-tag v-if="record.usage?.referenceCount > 0" :bordered="false" color="green">
-                    引用 {{ record.usage.referenceCount }}
-                  </a-tag>
-                  <a-tag v-if="record.protected" :bordered="false" color="orange">
-                    受保护
-                  </a-tag>
-                </div>
-                <span :title="record.relativePath">{{ record.relativePath }}</span>
-                <em v-if="getInventoryNote(record)">{{ getInventoryNote(record) }}</em>
-              </div>
-            </div>
-          </template>
+        :selected-keys="selectedRowKeys"
+        @selection-change="handleSelectionChange"
+        @select-all="handleSelectAll"
+        @open-detail="openDetail"
+      />
 
-          <template v-else-if="column.key === 'fileClass'">
-            <a-tag :bordered="false" :color="getFileClassColor(record.fileClass)">
-              {{ getFileClassLabel(record.fileClass) }}
-            </a-tag>
-          </template>
-
-          <template v-else-if="column.key === 'size'">
-            {{ formatFileSize(record.size) }}
-          </template>
-
-          <template v-else-if="column.key === 'mtime'">
-            {{ formatDate(record.mtime) }}
-          </template>
-        </template>
-      </a-table>
+      <a-pagination
+        class="media-inventory__pagination"
+        :current="pageState.current"
+        :page-size="pageState.pageSize"
+        :total="pageState.total"
+        :show-total="(total) => `共 ${total} 个`"
+        show-size-changer
+        :page-size-options="['10', '20', '50', '100']"
+        @change="handlePageChange"
+      />
 
       <div class="media-inventory__footer">
         <a-button @click="emit('update:open', false)">关闭</a-button>
@@ -134,14 +108,21 @@
         </a-popconfirm>
       </div>
     </div>
+
   </a-modal>
+
+  <MediaInventoryDetailModal v-model:open="detailVisible" :record="detailRecord" />
+  <MediaGuideModal v-model:open="guideVisible" topic="inventory" />
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { ReloadOutlined } from '@ant-design/icons-vue'
+import { QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import { clearSuspectedUntrackedAdminMedia, listUnregisteredAdminMedia, registerUntrackedAdminMedia } from '@/services/admin'
+import MediaInventoryDetailModal from './MediaInventoryDetailModal.vue'
+import MediaGuideModal from './MediaGuideModal.vue'
+import MediaInventoryList from './MediaInventoryList.vue'
 
 const props = defineProps({
   open: { type: Boolean, default: false }
@@ -158,7 +139,9 @@ const suspectOnly = ref(false)
 const items = ref([])
 const selectedRowKeys = ref([])
 const totalSize = ref(0)
-const uploadRoot = ref('')
+const detailVisible = ref(false)
+const detailRecord = ref(null)
+const guideVisible = ref(false)
 const pageState = ref({
   current: 1,
   pageSize: 20,
@@ -174,34 +157,6 @@ const fileClassOptions = [
   { label: '压缩包', value: 'archive' },
   { label: '其他', value: 'other' }
 ]
-
-const columns = [
-  { title: '文件', key: 'asset', width: 360, fixed: 'left' },
-  { title: '类型', key: 'fileClass', width: 96, align: 'center' },
-  { title: '大小', key: 'size', width: 96, align: 'right' },
-  { title: '更新时间', key: 'mtime', width: 170, align: 'center' }
-]
-
-const pagination = computed(() => ({
-  current: pageState.value.current,
-  pageSize: pageState.value.pageSize,
-  total: pageState.value.total,
-  showSizeChanger: true,
-  pageSizeOptions: ['10', '20', '50', '100'],
-  showTotal: (total) => `共 ${total} 个`
-}))
-
-const rowSelection = computed(() => ({
-  selectedRowKeys: selectedRowKeys.value,
-  preserveSelectedRowKeys: true,
-  getCheckboxProps: (record) => ({
-    disabled: record.protected,
-    title: record.protectedReason || '该资源暂不建议批量处理'
-  }),
-  onChange: (keys) => {
-    selectedRowKeys.value = keys
-  }
-}))
 
 watch(
   () => props.open,
@@ -232,7 +187,6 @@ async function loadItems() {
     items.value = result.items
     pageState.value.total = result.total
     totalSize.value = result.totalSize || 0
-    uploadRoot.value = result.uploadRoot || ''
   } catch (error) {
     message.error(error.message || '未登记资源扫描失败')
   } finally {
@@ -240,14 +194,44 @@ async function loadItems() {
   }
 }
 
-function handleTableChange(nextPagination) {
-  pageState.value.current = nextPagination.current || 1
-  pageState.value.pageSize = nextPagination.pageSize || 20
+function handlePageChange(page, pageSize) {
+  pageState.value.current = page || 1
+  pageState.value.pageSize = pageSize || 20
   loadItems()
+}
+
+function handleSelectionChange({ id, checked }) {
+  const nextKeys = new Set(selectedRowKeys.value)
+  if (checked) {
+    nextKeys.add(id)
+  } else {
+    nextKeys.delete(id)
+  }
+  selectedRowKeys.value = [...nextKeys]
+}
+
+function handleSelectAll(checked) {
+  const selectableIds = items.value
+    .filter((item) => item.source?.type !== 'avatar')
+    .map((item) => item.id)
+  const nextKeys = new Set(selectedRowKeys.value)
+  selectableIds.forEach((id) => {
+    if (checked) {
+      nextKeys.add(id)
+    } else {
+      nextKeys.delete(id)
+    }
+  })
+  selectedRowKeys.value = [...nextKeys]
 }
 
 function clearSelection() {
   selectedRowKeys.value = []
+}
+
+function openDetail(record) {
+  detailRecord.value = record
+  detailVisible.value = true
 }
 
 function getSelectedItems() {
@@ -282,6 +266,9 @@ async function registerResources(payload) {
   try {
     const result = await registerUntrackedAdminMedia(payload)
     message.success(`已登记 ${result.createdCount} 个资源`)
+    if (result.skippedCount > 0) {
+      message.info(`另有 ${result.skippedCount} 个资源未登记，请查看头像目录或已登记提示`)
+    }
     clearSelection()
     emit('changed')
     await loadItems()
@@ -320,44 +307,26 @@ function formatFileSize(size = 0) {
   return `${size} B`
 }
 
-function formatDate(value) {
-  return value ? new Date(value).toLocaleString('zh-CN') : '-'
-}
-
-function getFileBadge(record) {
-  return record.originalName?.split('.').at(-1)?.toUpperCase() || 'FILE'
-}
-
-function getFileClassLabel(value) {
-  return fileClassOptions.find((item) => item.value === value)?.label || '其他'
-}
-
-function getFileClassColor(value) {
-  const map = {
-    image: 'blue',
-    code: 'geekblue',
-    document: 'green',
-    archive: 'orange',
-    other: 'default'
-  }
-  return map[value] || 'default'
-}
-
-function getSourceColor(value) {
-  return ({ avatar: 'purple', media: 'blue', test: 'red', upload: 'default' })[value] || 'default'
-}
-
-function getInventoryNote(record) {
-  if (record.protectedReason) return record.protectedReason
-  if (record.references?.length) return record.references.map((item) => `${item.typeLabel}：${item.ownerTitle || item.ownerSubtitle}`).join('；')
-  return record.suspectedTestReason || record.source?.description || ''
-}
 </script>
 
 <style scoped>
 .media-inventory {
   display: grid;
   gap: 12px;
+  max-height: min(62vh, 620px);
+  overflow-y: auto;
+  padding-right: 2px;
+  scrollbar-width: none;
+}
+
+.media-inventory::-webkit-scrollbar {
+  display: none;
+}
+
+.media-inventory__modal-title {
+  display: flex;
+  align-items: center;
+  gap: 2px;
 }
 
 .media-inventory__toolbar,
@@ -406,94 +375,7 @@ function getInventoryNote(record) {
   padding-top: 2px;
 }
 
-.inventory-file {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-.inventory-file__thumb {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
-  font-size: 10px;
-  font-weight: 700;
-}
-
-.inventory-file__thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.inventory-file__thumb.is-image {
-  border-color: #bfdbfe;
-  background: #eff6ff;
-  color: #2563eb;
-}
-
-.inventory-file__thumb.is-code {
-  border-color: #c7d2fe;
-  background: #eef2ff;
-  color: #4f46e5;
-}
-
-.inventory-file__thumb.is-document {
-  border-color: #bbf7d0;
-  background: #f0fdf4;
-  color: #16a34a;
-}
-
-.inventory-file__thumb.is-archive {
-  border-color: #fed7aa;
-  background: #fff7ed;
-  color: #ea580c;
-}
-
-.inventory-file__info {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.inventory-file__name,
-.inventory-file__info strong,
-.inventory-file__info span {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.inventory-file__name {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.inventory-file__info strong {
-  color: var(--text-primary);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.inventory-file__info span,
-.inventory-file__info em {
-  color: var(--text-secondary);
-  font-size: 12px;
-}
-
-.inventory-file__info em {
-  font-style: normal;
-  color: #dc2626;
+.media-inventory__pagination {
+  justify-self: end;
 }
 </style>

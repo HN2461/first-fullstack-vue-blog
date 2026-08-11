@@ -57,7 +57,7 @@ async function walkFiles(rootDir, currentDir = rootDir, items = []) {
   return items
 }
 
-async function attachInventoryUsages(files = []) {
+async function attachInventoryUsages(files = [], { includeAllReferences = false } = {}) {
   return Promise.all(files.map(async (item) => {
     const references = await findMediaReferences({ url: item.url })
     const usage = summarizeMediaReferences(references)
@@ -68,11 +68,12 @@ async function attachInventoryUsages(files = []) {
         ? '头像目录资源需确认账号引用后再处理'
         : ''
 
+    const { storagePath, ...safeItem } = item
     return {
-      ...item,
+      ...safeItem,
       source,
       usage,
-      references: references.slice(0, 5),
+      references: includeAllReferences ? references : references.slice(0, 5),
       protected: Boolean(protectedReason),
       protectedReason
     }
@@ -132,8 +133,7 @@ export async function listUnregisteredMediaFiles(options = {}) {
     total: files.length,
     page,
     pageSize,
-    totalSize: files.reduce((sum, item) => sum + item.size, 0),
-    uploadRoot: resolveUploadRoot().replace(/\\/g, '/')
+    totalSize: files.reduce((sum, item) => sum + item.size, 0)
   }
 }
 
@@ -164,6 +164,56 @@ function resolveUnregisteredFilePath(relativePath) {
     targetPath,
     relativePath: path.relative(uploadRoot, targetPath).replace(/\\/g, '/')
   }
+}
+
+export async function getUnregisteredMediaFileDetail(relativePath) {
+  const { targetPath, relativePath: normalizedRelativePath } = resolveUnregisteredFilePath(relativePath)
+  let stats
+  try {
+    stats = await fs.stat(targetPath)
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      throw createHttpError(404, 'MEDIA_INVENTORY_NOT_FOUND', '未找到该未登记资源')
+    }
+    throw error
+  }
+
+  if (!stats.isFile()) {
+    throw createHttpError(400, 'MEDIA_INVENTORY_NOT_FILE', '只能查看文件资源')
+  }
+
+  const url = buildUrlFromRelativePath(normalizedRelativePath)
+  const existing = await Media.exists({
+    $or: [
+      { storagePath: targetPath.replace(/\\/g, '/') },
+      { url }
+    ]
+  })
+  if (existing) {
+    throw createHttpError(409, 'MEDIA_INVENTORY_ALREADY_REGISTERED', '该资源已登记到媒体资产库')
+  }
+
+  const filename = path.basename(targetPath)
+  const mimeType = inferMimeType(filename)
+  const suspectedTestReason = getTestUploadReason(normalizedRelativePath, filename)
+  const [detail] = await attachInventoryUsages([{
+    id: normalizedRelativePath,
+    relativePath: normalizedRelativePath,
+    filename,
+    originalName: getDisplayName(filename),
+    url,
+    storagePath: targetPath.replace(/\\/g, '/'),
+    mimeType,
+    kind: mimeType.startsWith('image/') ? 'image' : 'attachment',
+    fileClass: inferFileClass(filename, mimeType),
+    size: stats.size,
+    mtime: stats.mtime,
+    registered: false,
+    suspectedTest: Boolean(suspectedTestReason),
+    suspectedTestReason
+  }], { includeAllReferences: true })
+
+  return detail
 }
 
 async function createMediaFromDiskFile(item, user, category) {

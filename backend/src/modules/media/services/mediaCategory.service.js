@@ -23,11 +23,25 @@ export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
     sortOrder: 3
   },
   {
-    name: '历史未登记资源',
-    description: '服务器上传目录中扫描登记的历史资源',
+    name: '文章原始文档',
+    description: '通过文档导入创建的原始附件，供文章下载和内容转换使用',
     sortOrder: 4
+  },
+  {
+    name: '文章快照原始文档',
+    description: '本地文章快照同步生成的原始附件，保留文章来源与阅读关联',
+    sortOrder: 5
+  },
+  {
+    name: '历史未登记资源',
+    description: '服务器上传目录中扫描并补登记的历史资源',
+    sortOrder: 6
   }
 ])
+
+export function isSystemMediaCategory(name) {
+  return SYSTEM_MEDIA_CATEGORIES.some((item) => item.name === name)
+}
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -56,6 +70,21 @@ export async function ensureDefaultMediaCategory() {
 export async function listMediaCategoryEntities() {
   await ensureDefaultMediaCategory()
   return MediaCategory.find().sort({ sortOrder: 1, createdAt: 1 })
+}
+
+export async function assertMediaCategoryExists(name) {
+  const normalizedName = normalizeCategoryName(name)
+  if (!normalizedName) {
+    throw createHttpError(400, 'MEDIA_CATEGORY_NAME_REQUIRED', '目标资源分类不能为空')
+  }
+
+  await ensureDefaultMediaCategory()
+  const category = await MediaCategory.findOne({ name: normalizedName })
+  if (!category) {
+    throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '目标资源分类不存在，请先在分类管理中创建')
+  }
+
+  return category
 }
 
 export async function listMediaCategories() {
@@ -102,7 +131,7 @@ export async function updateMediaCategory(id, input) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
   }
 
-  if (SYSTEM_MEDIA_CATEGORIES.some((item) => item.name === category.name)) {
+  if (isSystemMediaCategory(category.name)) {
     throw createHttpError(400, 'MEDIA_CATEGORY_RESERVED', '系统资源分类不支持修改')
   }
 
@@ -142,7 +171,7 @@ export async function deleteMediaCategory(id) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
   }
 
-  if (SYSTEM_MEDIA_CATEGORIES.some((item) => item.name === category.name)) {
+  if (isSystemMediaCategory(category.name)) {
     throw createHttpError(400, 'MEDIA_CATEGORY_RESERVED', '系统资源分类不可删除')
   }
 

@@ -7,76 +7,84 @@
     cancel-text="取消"
     centered
     width="640px"
-    :body-style="{ maxHeight: '72vh', overflowY: 'auto' }"
+    :body-style="{ maxHeight: '72vh', overflow: 'hidden' }"
     @update:open="emit('update:open', $event)"
     @cancel="handleCancel"
     @ok="handleSubmit"
   >
-    <a-alert
-      class="media-upload-settings__alert"
-      type="warning"
-      show-icon
-      message="线上 Nginx 的 client_max_body_size 需要不小于这里的容量，否则大文件会在进入后端前返回 413。"
-    />
+    <div class="media-upload-settings">
+      <a-alert
+        class="media-upload-settings__alert"
+        type="warning"
+        show-icon
+        message="线上 Nginx 的 client_max_body_size 需要不小于这里的容量，否则大文件会在进入后端前返回 413。"
+      />
 
-    <a-form layout="vertical">
-      <a-form-item label="单次最大上传文件数量">
-        <a-input-number
-          v-model:value="draft.mediaMaxFilesPerUpload"
-          :min="1"
-          :max="20"
-          style="width: 100%"
-        />
-      </a-form-item>
+      <a-form layout="vertical">
+        <a-form-item label="单次最大上传文件数量">
+          <a-input-number
+            v-model:value="draft.mediaMaxFilesPerUpload"
+            :min="1"
+            :max="20"
+            style="width: 100%"
+          />
+        </a-form-item>
 
-      <a-form-item label="单文件上传最大容量（MB）">
-        <a-input-number
-          v-model:value="draft.mediaMaxFileSizeMB"
-          :min="1"
-          :max="200"
-          style="width: 100%"
-        />
-        <div class="media-upload-settings__note">
-          当前应用层最高 200MB；部署模板将网关上限预留为 220MB，适配 multipart 上传开销。
-        </div>
-      </a-form-item>
+        <a-form-item label="单文件上传最大容量（MB）">
+          <a-input-number
+            v-model:value="draft.mediaMaxFileSizeMB"
+            :min="1"
+            :max="200"
+            style="width: 100%"
+          />
+          <div class="media-upload-settings__note">
+            当前应用层最高 200MB；部署模板将网关上限预留为 220MB，适配 multipart 上传开销。
+          </div>
+        </a-form-item>
 
-      <a-form-item label="允许上传的文件扩展名">
-        <div class="media-upload-settings__toolbar">
-          <a-button size="small" @click="selectAllExtensions">全选</a-button>
-          <a-button size="small" @click="selectCoreExtensions">仅常用资源</a-button>
-        </div>
-
-        <div class="media-upload-settings__groups">
-          <section
-            v-for="group in MEDIA_EXTENSION_GROUPS"
-            :key="group.key"
-            class="media-upload-settings__group"
-          >
-            <div class="media-upload-settings__group-title">
-              <span>{{ group.label }}</span>
-              <a-checkbox
-                :checked="isGroupSelected(group)"
-                :indeterminate="isGroupIndeterminate(group)"
-                @change="toggleGroup(group, $event.target.checked)"
-              >
-                整组
-              </a-checkbox>
+        <a-form-item label="允许上传的文件扩展名">
+          <div class="media-upload-settings__section-heading">
+            <div>
+              <strong>扩展名分组</strong>
+              <span>按资源类型选择允许写入媒体库的文件格式。</span>
             </div>
-            <div class="media-upload-settings__extension-list">
-              <a-checkbox
-                v-for="extension in group.extensions"
-                :key="extension"
-                :checked="draft.mediaAllowedExtensions.includes(extension)"
-                @change="toggleExtension(extension, $event.target.checked)"
-              >
-                {{ extension }}
-              </a-checkbox>
-            </div>
-          </section>
-        </div>
-      </a-form-item>
-    </a-form>
+          </div>
+          <div class="media-upload-settings__toolbar">
+            <a-button size="small" @click="selectAllExtensions">全选</a-button>
+            <a-button size="small" @click="selectCoreExtensions">仅常用资源</a-button>
+          </div>
+
+          <div class="media-upload-settings__groups">
+            <section
+              v-for="group in MEDIA_EXTENSION_GROUPS"
+              :key="group.key"
+              class="media-upload-settings__group"
+            >
+              <div class="media-upload-settings__group-title">
+                <span>{{ group.label }}</span>
+                <a-checkbox
+                  :checked="isGroupSelected(group)"
+                  :indeterminate="isGroupIndeterminate(group)"
+                  @change="toggleGroup(group, $event.target.checked)"
+                >
+                  整组
+                </a-checkbox>
+              </div>
+              <div class="media-upload-settings__extension-list">
+                <a-checkbox
+                  v-for="extension in group.extensions"
+                  :key="extension"
+                  :checked="draft.mediaAllowedExtensions.includes(extension)"
+                  @change="toggleExtension(extension, $event.target.checked)"
+                >
+                  {{ extension }}
+                </a-checkbox>
+              </div>
+            </section>
+          </div>
+        </a-form-item>
+      </a-form>
+    </div>
   </a-modal>
 </template>
 
@@ -183,9 +191,20 @@ function handleSubmit() {
   margin-bottom: 16px;
 }
 
+.media-upload-settings {
+  max-height: min(62vh, 560px);
+  overflow-y: auto;
+  padding-right: 2px;
+  scrollbar-width: none;
+}
+
+.media-upload-settings::-webkit-scrollbar {
+  display: none;
+}
+
 .media-upload-settings__note {
   margin-top: 8px;
-  color: var(--text-tertiary, #8c8c8c);
+  color: var(--console-text-secondary);
   font-size: 12px;
   line-height: 1.6;
 }
@@ -196,16 +215,38 @@ function handleSubmit() {
   margin-bottom: 12px;
 }
 
+.media-upload-settings__section-heading {
+  margin-bottom: 10px;
+}
+
+.media-upload-settings__section-heading > div {
+  display: grid;
+  gap: 3px;
+}
+
+.media-upload-settings__section-heading strong {
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.media-upload-settings__section-heading span {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 .media-upload-settings__groups {
   display: grid;
-  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .media-upload-settings__group {
-  border: 1px solid var(--border-color, #f0f0f0);
+  border: 1px solid var(--console-border);
   border-radius: 8px;
   padding: 12px;
-  background: var(--bg-container, #fff);
+  background: var(--console-surface-muted);
 }
 
 .media-upload-settings__group-title {
@@ -225,5 +266,11 @@ function handleSubmit() {
 
 .media-upload-settings__extension-list :deep(.ant-checkbox-wrapper) {
   margin-inline-start: 0;
+}
+
+@media (max-width: 576px) {
+  .media-upload-settings__groups {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
