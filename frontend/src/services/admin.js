@@ -469,6 +469,22 @@ export function emptyMediaTrash() {
   return http.delete('/api/admin/media/trash/empty')
 }
 
+export async function listAdminMediaShares(params = {}) {
+  return toPageResult(await http.get('/api/admin/media-shares', { params }), params.pageSize || 20)
+}
+
+export function createAdminMediaShare(data) {
+  return http.post('/api/admin/media-shares', data)
+}
+
+export function updateAdminMediaShare(id, data) {
+  return http.patch(`/api/admin/media-shares/${id}`, data)
+}
+
+export function revokeAdminMediaShare(id) {
+  return http.post(`/api/admin/media-shares/${id}/revoke`)
+}
+
 // 公告相关
 export async function listAdminAnnouncements(params = {}) {
   return toPageResult(await http.get('/api/admin/announcements', { params }), params.pageSize || 20)

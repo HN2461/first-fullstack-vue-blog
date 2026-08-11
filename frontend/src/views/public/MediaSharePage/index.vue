@@ -1,0 +1,241 @@
+<template>
+  <div class="resource-share-page">
+    <header class="resource-share-header">
+      <div class="resource-share-brand">
+        <span><CloudDownloadOutlined /></span>
+        <div><strong>资源分享</strong><small>安全文件交付</small></div>
+      </div>
+      <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
+        <a-button type="text" class="resource-share-theme" aria-label="切换页面主题" @click="appStore.toggleTheme()">
+          <template #icon><MoonOutlined v-if="!appStore.isDark" /><SunOutlined v-else /></template>
+        </a-button>
+      </a-tooltip>
+    </header>
+
+    <main class="resource-share-main">
+      <div v-if="loading" class="resource-share-state"><a-spin size="large" /><span>正在读取资源包</span></div>
+
+      <section v-else-if="errorState" class="resource-share-error">
+        <a-result :status="errorState.status" :title="errorState.title" :sub-title="errorState.description">
+          <template #extra><a-button v-if="errorState.retry" type="primary" @click="loadShare">重新加载</a-button></template>
+        </a-result>
+      </section>
+
+      <section v-else-if="share && !share.unlocked" class="resource-share-gate">
+        <div class="resource-share-gate__icon"><LockOutlined /></div>
+        <span class="resource-share-gate__label">提取码访问</span>
+        <h1>{{ share.name }}</h1>
+        <p>{{ share.description || '该资源包受到提取码保护，请输入分享者提供的 4 位数字提取码。' }}</p>
+        <a-input
+          :value="passwordCode"
+          class="resource-share-code"
+          inputmode="numeric"
+          autocomplete="one-time-code"
+          maxlength="4"
+          placeholder="请输入 4 位提取码"
+          @update:value="setPasswordCode"
+          @press-enter="verifyPassword"
+        />
+        <a-button type="primary" size="large" block :loading="verifying" :disabled="passwordCode.length !== 4" @click="verifyPassword">
+          验证并打开资源包
+        </a-button>
+        <a-alert v-if="passwordError" type="error" show-icon :message="passwordError" />
+        <div class="resource-share-gate__meta"><span>{{ expiryLabel }}</span><span>{{ accessLimitLabel }}</span></div>
+      </section>
+
+      <section v-else-if="share" class="resource-share-sheet">
+        <div class="resource-share-sheet__heading">
+          <div>
+            <span class="resource-share-sheet__eyebrow"><SafetyCertificateOutlined /> 已通过访问校验</span>
+            <h1>{{ share.name }}</h1>
+            <p v-if="share.description">{{ share.description }}</p>
+          </div>
+          <a-button type="primary" size="large" :href="archiveUrl">
+            <template #icon><DownloadOutlined /></template>
+            下载全部
+          </a-button>
+        </div>
+
+        <div class="resource-share-content">
+          <div class="resource-share-files">
+            <div class="resource-share-files__head"><strong>资源清单</strong><span>{{ share.items.length }} 个文件</span></div>
+            <article v-for="item in share.items" :key="item.entryId" class="resource-share-file">
+              <div class="resource-share-file__icon"><component :is="fileIcon(item)" /></div>
+              <div class="resource-share-file__info">
+                <strong :title="item.originalName">{{ item.originalName }}</strong>
+                <span>{{ fileTypeLabel(item) }} · {{ formatFileSize(item.size) }}</span>
+              </div>
+              <div class="resource-share-file__actions">
+                <a-tooltip v-if="item.previewType !== 'other'" title="预览资源">
+                  <a-button type="text" :aria-label="`预览 ${item.originalName}`" @click="openPreview(item)">
+                    <template #icon><EyeOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip title="下载资源">
+                  <a-button type="text" :aria-label="`下载 ${item.originalName}`" :href="getDownloadUrl(item)">
+                    <template #icon><DownloadOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+              </div>
+            </article>
+          </div>
+
+          <aside class="resource-share-summary">
+            <strong>资源包信息</strong>
+            <dl>
+              <div><dt>文件数量</dt><dd>{{ share.items.length }} 个</dd></div>
+              <div><dt>总体积</dt><dd>{{ formatFileSize(totalSize) }}</dd></div>
+              <div><dt>有效期</dt><dd>{{ expiryLabel }}</dd></div>
+              <div><dt>访问额度</dt><dd>{{ accessLimitLabel }}</dd></div>
+            </dl>
+            <a-alert type="info" show-icon message="链接中的文件通过受控接口提供，页面不会公开原始存储地址。" />
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="resource-share-footer">资源分享页面 · 无需登录账号</footer>
+
+    <MediaSharePreviewModal
+      v-model:open="previewVisible"
+      :item="previewItem"
+      :preview-url="previewItem ? getPreviewUrl(previewItem) : ''"
+      :download-url="previewItem ? getDownloadUrl(previewItem) : ''"
+    />
+  </div>
+</template>
+
+<script setup>
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import {
+  CloudDownloadOutlined,
+  DownloadOutlined,
+  EyeOutlined,
+  FileImageOutlined,
+  FileOutlined,
+  FilePdfOutlined,
+  FileTextOutlined,
+  LockOutlined,
+  MoonOutlined,
+  SafetyCertificateOutlined,
+  SoundOutlined,
+  SunOutlined,
+  VideoCameraOutlined
+} from '@ant-design/icons-vue'
+import { useAppStore } from '@/stores/app'
+import {
+  claimPublicMediaShare,
+  getPublicMediaShare,
+  getPublicMediaShareArchiveUrl,
+  getPublicMediaShareContentUrl,
+  verifyPublicMediaShare
+} from '@/services/mediaShare'
+import MediaSharePreviewModal from './MediaSharePreviewModal.vue'
+import './media-share-page.css'
+
+const route = useRoute()
+const appStore = useAppStore()
+const loading = ref(true)
+const verifying = ref(false)
+const share = ref(null)
+const requestError = ref(null)
+const passwordCode = ref('')
+const passwordError = ref('')
+const previewVisible = ref(false)
+const previewItem = ref(null)
+const publicId = computed(() => String(route.params.publicId || ''))
+const totalSize = computed(() => share.value?.items?.reduce((sum, item) => sum + item.size, 0) || 0)
+const archiveUrl = computed(() => getPublicMediaShareArchiveUrl(publicId.value))
+const expiryLabel = computed(() => share.value?.expiresAt ? formatDate(share.value.expiresAt) : '永久有效')
+const accessLimitLabel = computed(() => share.value?.maxAccessCount === null
+  ? '不限制访问人数'
+  : `剩余 ${share.value?.remainingAccessCount ?? 0} / ${share.value.maxAccessCount} 人`)
+const errorState = computed(() => {
+  if (!requestError.value) return null
+  const states = {
+    SHARE_NOT_FOUND: { status: '404', title: '分享链接不存在', description: '请确认链接是否完整，或联系分享者重新获取。' },
+    SHARE_REVOKED: { status: 'warning', title: '分享已被撤销', description: '分享者已停止该资源包的访问。' },
+    SHARE_EXPIRED: { status: 'warning', title: '分享已过期', description: '该资源包已经超过有效期。' },
+    SHARE_ACCESS_EXHAUSTED: { status: 'warning', title: '访问名额已用完', description: '该资源包已达到最大访问人数。' }
+  }
+  return states[requestError.value.code] || {
+    status: 'error',
+    title: '资源包加载失败',
+    description: requestError.value.message || '网络异常，请稍后再试。',
+    retry: true
+  }
+})
+
+watch(publicId, loadShare, { immediate: true })
+
+async function loadShare() {
+  loading.value = true
+  requestError.value = null
+  passwordError.value = ''
+  share.value = null
+  try {
+    let result = await getPublicMediaShare(publicId.value)
+    if (result.mode === 'public' && !result.unlocked) {
+      result = await claimPublicMediaShare(publicId.value)
+    }
+    share.value = result
+  } catch (error) {
+    requestError.value = error
+  } finally {
+    loading.value = false
+  }
+}
+
+function setPasswordCode(value) {
+  passwordCode.value = String(value || '').replace(/\D/g, '').slice(0, 4)
+  passwordError.value = ''
+}
+
+async function verifyPassword() {
+  if (passwordCode.value.length !== 4 || verifying.value) return
+  verifying.value = true
+  passwordError.value = ''
+  try {
+    share.value = await verifyPublicMediaShare(publicId.value, passwordCode.value)
+  } catch (error) {
+    passwordError.value = error.code === 'SHARE_PASSWORD_RATE_LIMITED'
+      ? '尝试次数过多，请稍后再试。'
+      : (error.message || '提取码验证失败')
+  } finally {
+    verifying.value = false
+  }
+}
+
+function openPreview(item) {
+  previewItem.value = item
+  previewVisible.value = true
+}
+
+function getPreviewUrl(item) {
+  return getPublicMediaShareContentUrl(publicId.value, item.entryId)
+}
+
+function getDownloadUrl(item) {
+  return getPublicMediaShareContentUrl(publicId.value, item.entryId, 'attachment')
+}
+
+function fileIcon(item) {
+  return ({ image: FileImageOutlined, video: VideoCameraOutlined, audio: SoundOutlined, pdf: FilePdfOutlined, text: FileTextOutlined }[item.previewType] || FileOutlined)
+}
+
+function fileTypeLabel(item) {
+  return ({ image: '图片', video: '视频', audio: '音频', pdf: 'PDF', text: '文本' }[item.previewType] || item.mimeType || '文件')
+}
+
+function formatFileSize(size = 0) {
+  if (size >= 1024 * 1024 * 1024) return `${(size / 1024 / 1024 / 1024).toFixed(2)} GB`
+  if (size >= 1024 * 1024) return `${(size / 1024 / 1024).toFixed(1)} MB`
+  if (size >= 1024) return `${Math.round(size / 1024)} KB`
+  return `${size} B`
+}
+
+function formatDate(value) {
+  return new Date(value).toLocaleString('zh-CN', { hour12: false })
+}
+</script>

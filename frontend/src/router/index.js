@@ -8,6 +8,7 @@ const ArticleDetailPage = () => import('@/views/public/ArticleDetailPage/index.v
 const SearchPage = () => import('@/views/public/SearchPage/index.vue')
 const LoginPage = () => import('@/views/auth/LoginPage/index.vue')
 const RegisterPage = () => import('@/views/auth/RegisterPage/index.vue')
+const MediaSharePage = () => import('@/views/public/MediaSharePage/index.vue')
 const PublicLayout = () => import('@/views/public/PublicLayout/index.vue')
 const ConsoleLayout = () => import('@/views/console/ConsoleLayout/index.vue')
 const AdminArticles = () => import('@/views/admin/AdminArticles/index.vue')
@@ -80,6 +81,12 @@ export const router = createRouter({
       name: 'Register',
       component: RegisterPage,
       meta: { title: '注册' }
+    },
+    {
+      path: '/share/:publicId',
+      name: 'PublicMediaShare',
+      component: MediaSharePage,
+      meta: { title: '资源分享' }
     },
     {
       path: '/console',

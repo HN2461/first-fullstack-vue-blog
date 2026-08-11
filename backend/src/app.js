@@ -23,6 +23,8 @@ import { publicRouter } from '#modules/public/routes/public.routes.js'
 import { readingProgressRouter } from '#modules/readingProgress/routes/readingProgress.routes.js'
 import { rbacRouter } from '#modules/rbac/routes/rbac.routes.js'
 import { questionBankRouter } from '#modules/questionBank/routes/questionBank.routes.js'
+import { mediaShareAdminRouter } from '#modules/mediaShare/routes/mediaShareAdmin.routes.js'
+import { mediaSharePublicRouter } from '#modules/mediaShare/routes/mediaSharePublic.routes.js'
 import {
   resumeExportRouter,
   resumeInterviewRouter,
@@ -49,6 +51,7 @@ export function createApp() {
     app.use(morgan('dev'))
   }
 
+  app.use(`${API_PREFIX}/admin/media-shares`, mediaShareAdminRouter)
   app.use(`${API_PREFIX}/admin`, adminRouter)
   app.use(`${API_PREFIX}/auth`, authRouter)
   app.use(`${API_PREFIX}/bookmarks`, bookmarkRouter)
@@ -63,6 +66,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/resume-exports`, resumeExportRouter)
   app.use(`${API_PREFIX}/discussions`, discussionRouter)
   app.use(`${API_PREFIX}/profile`, profileRouter)
+  app.use(`${API_PREFIX}/public/media-shares`, mediaSharePublicRouter)
   app.use(`${API_PREFIX}/public`, publicRouter)
   app.use(`${API_PREFIX}/articles`, readingProgressRouter)
   app.use(`${API_PREFIX}/rbac`, rbacRouter)

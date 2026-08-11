@@ -26,6 +26,11 @@
             <template #icon><FolderOpenOutlined /></template>
           </a-button>
         </a-tooltip>
+        <a-tooltip title="管理资源分享">
+          <a-button class="media-cloud__header-icon" aria-label="管理资源分享" @click="shareManageVisible = true">
+            <template #icon><ShareAltOutlined /></template>
+          </a-button>
+        </a-tooltip>
         <a-button type="primary" @click="uploadModalVisible = true">
           <template #icon><InboxOutlined /></template>
           上传资源
@@ -103,6 +108,14 @@
         >
           <template #icon><SwapOutlined /></template>
           迁移分类
+        </a-button>
+        <a-button
+          size="small"
+          :disabled="selectedMediaKeys.length === 0"
+          @click="shareCreateVisible = true"
+        >
+          <template #icon><ShareAltOutlined /></template>
+          创建分享
         </a-button>
         <a-button
           size="small"
@@ -326,6 +339,14 @@
 
     <MediaPreviewModal v-model:open="previewVisible" :record="previewRecord" />
 
+    <MediaShareCreateModal
+      v-model:open="shareCreateVisible"
+      :media-ids="selectedMediaKeys"
+      @created="handleShareCreated"
+    />
+
+    <MediaShareManageModal v-model:open="shareManageVisible" />
+
     <a-modal
       v-model:open="categoryModalVisible"
       :footer="null"
@@ -439,7 +460,8 @@ import {
   SearchOutlined,
   QuestionCircleOutlined,
   SwapOutlined,
-  FolderOpenOutlined
+  FolderOpenOutlined,
+  ShareAltOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import MediaTrashModal from './MediaTrashModal.vue'
@@ -450,6 +472,8 @@ import MediaReferenceModal from './MediaReferenceModal.vue'
 import MediaInventoryModal from './MediaInventoryModal.vue'
 import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
 import MediaGuideModal from './MediaGuideModal.vue'
+import MediaShareCreateModal from './MediaShareCreateModal.vue'
+import MediaShareManageModal from './MediaShareManageModal.vue'
 import {
   DEFAULT_MEDIA_ALLOWED_EXTENSIONS,
   buildMediaUploadAccept,
@@ -505,6 +529,8 @@ const referenceRecord = ref(null)
 const inventoryModalVisible = ref(false)
 const mediaGuideVisible = ref(false)
 const mediaGuideTopic = ref('inventory')
+const shareCreateVisible = ref(false)
+const shareManageVisible = ref(false)
 const uploadRules = ref({
   maxFiles: 5,
   maxFileSizeMB: 20,
@@ -658,6 +684,10 @@ function handleMediaSelectionChange(keys) {
 function clearMediaSelection() {
   selectedMediaKeys.value = []
   tableRef.value?.clearSelection()
+}
+
+function handleShareCreated() {
+  clearMediaSelection()
 }
 
 function toggleFileClassFilter(value) {

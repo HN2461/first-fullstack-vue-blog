@@ -5,6 +5,10 @@ export function notFoundHandler(req, res) {
 }
 
 export function errorHandler(error, req, res, next) {
+  if (res.headersSent) {
+    return next(error)
+  }
+
   const status = error.statusCode || error.status || 500
   const message = status >= 500 ? '服务器内部错误' : error.message
 
@@ -12,5 +16,9 @@ export function errorHandler(error, req, res, next) {
     console.error(error)
   }
 
-  res.status(status).json(fail(message, error.code || 'INTERNAL_ERROR'))
+  if (error.retryAfter) {
+    res.setHeader('Retry-After', String(error.retryAfter))
+  }
+
+  return res.status(status).json(fail(message, error.code || 'INTERNAL_ERROR'))
 }
