@@ -7,7 +7,7 @@
       </div>
       <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
         <a-button type="text" class="resource-share-theme" aria-label="切换页面主题" @click="appStore.toggleTheme()">
-          <template #icon><MoonOutlined v-if="!appStore.isDark" /><SunOutlined v-else /></template>
+          <template #icon><Moon v-if="!appStore.isDark" :size="17" /><Sun v-else :size="17" /></template>
         </a-button>
       </a-tooltip>
     </header>
@@ -117,12 +117,11 @@ import {
   FilePdfOutlined,
   FileTextOutlined,
   LockOutlined,
-  MoonOutlined,
   SafetyCertificateOutlined,
   SoundOutlined,
-  SunOutlined,
   VideoCameraOutlined
 } from '@ant-design/icons-vue'
+import { Moon, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'
 import {
   claimPublicMediaShare,
