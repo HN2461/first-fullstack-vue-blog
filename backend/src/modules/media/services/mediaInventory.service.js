@@ -62,11 +62,9 @@ async function attachInventoryUsages(files = [], { includeAllReferences = false 
     const references = await findMediaReferences({ url: item.url })
     const usage = summarizeMediaReferences(references)
     const source = inferInventorySource(item.relativePath)
-    const protectedReason = references.length > 0
+    const protectedReason = source.protectedReason || (references.length > 0
       ? `仍被 ${references.length} 处业务引用`
-      : source.type === 'avatar'
-        ? '头像目录资源需确认账号引用后再处理'
-        : ''
+      : '')
 
     const { storagePath, ...safeItem } = item
     return {
@@ -133,6 +131,8 @@ export async function listUnregisteredMediaFiles(options = {}) {
     total: files.length,
     page,
     pageSize,
+    registerableCount: files.filter((item) => item.source?.registerable !== false).length,
+    protectedCount: files.filter((item) => item.protected).length,
     totalSize: files.reduce((sum, item) => sum + item.size, 0)
   }
 }
@@ -237,13 +237,13 @@ async function createMediaFromDiskFile(item, user, category) {
   const filename = path.basename(targetPath)
   const mimeType = inferMimeType(filename)
   const source = inferInventorySource(relativePath)
-  if (source.type === 'avatar') {
+  if (source.registerable === false) {
     return {
       media: null,
       skipped: true,
-      reason: 'avatar_resource',
+      reason: `${source.type}_resource`,
       relativePath,
-      message: '用户头像目录资源不登记为普通媒体资产'
+      message: source.protectedReason
     }
   }
 

@@ -101,27 +101,62 @@ export function inferInventorySource(relativePath) {
     return {
       type: 'avatar',
       label: '用户头像目录',
-      description: '来自个人资料头像上传目录，需优先确认是否仍被用户账号使用。'
+      description: '由个人资料模块管理的用户头像，不属于普通媒体资产。',
+      registerable: false,
+      protectedReason: '用户头像由账号资料独立管理，不可登记或按未登记资源清理'
     }
   }
-  if (normalizedPath.startsWith('media/')) {
+  if (normalizedPath.startsWith('resumes/')) {
+    return {
+      type: 'resume',
+      label: '简历照片目录',
+      description: '由简历模块管理的证件照或个人照片，不属于普通媒体资产。',
+      registerable: false,
+      protectedReason: '简历照片由简历模块独立管理，不可登记或按未登记资源清理'
+    }
+  }
+  if (normalizedPath.startsWith('discussions/')) {
+    return {
+      type: 'discussion',
+      label: '讨论附件目录',
+      description: '由讨论模块管理的图片和附件，引用关系不依赖媒体资产记录。',
+      registerable: false,
+      protectedReason: '讨论附件由讨论模块独立管理，不可登记或按未登记资源清理'
+    }
+  }
+  if (normalizedPath.startsWith('article-snapshot/')) {
+    return {
+      type: 'articleSnapshot',
+      label: '文章快照目录',
+      description: '用于保存文章权威快照的原始文档，由文章快照流程独立管理。',
+      registerable: false,
+      protectedReason: '文章快照原始文档由快照流程独立管理，不可按未登记资源处理'
+    }
+  }
+  if (normalizedPath.startsWith('media/') || /^\d{4}\/(0[1-9]|1[0-2])\//.test(normalizedPath)) {
     return {
       type: 'media',
       label: '媒体上传目录',
-      description: '来自后台媒体资产上传目录，通常应登记进媒体库后再统一管理。'
+      description: '后台媒体资产使用的常规上传位置，未登记文件可以补录到媒体库。',
+      registerable: true,
+      protectedReason: ''
     }
   }
   if (normalizedPath.startsWith('inventory-test/')) {
     return {
       type: 'test',
       label: '测试目录',
-      description: '来自测试扫描目录，确认无引用后可清理。'
+      description: '用于验证库存扫描的测试位置，确认无引用后可以登记或清理。',
+      registerable: true,
+      protectedReason: ''
     }
   }
   return {
     type: 'upload',
-    label: '上传目录',
-    description: '位于上传根目录下，需结合引用状态判断是否可清理。'
+    label: '其他上传目录',
+    description: '上传根目录下尚未归类的历史或脚本写入文件，需结合业务用途和引用状态人工判断。',
+    registerable: true,
+    protectedReason: ''
   }
 }
 

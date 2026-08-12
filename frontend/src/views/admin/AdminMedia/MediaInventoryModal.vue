@@ -49,6 +49,8 @@
 
       <div class="media-inventory__summary">
         <span>未登记 {{ pageState.total }} 个</span>
+        <span>可登记 {{ pageState.registerableCount }} 个</span>
+        <span>受保护 {{ pageState.protectedCount }} 个</span>
         <span>合计 {{ formatFileSize(totalSize) }}</span>
         <span class="media-inventory__path">扫描范围：上传存储目录</span>
       </div>
@@ -102,7 +104,7 @@
           cancel-text="取消"
           @confirm="registerAll"
         >
-          <a-button type="primary" :disabled="pageState.total === 0" :loading="registering">
+          <a-button type="primary" :disabled="pageState.registerableCount === 0" :loading="registering">
             登记当前全部
           </a-button>
         </a-popconfirm>
@@ -145,7 +147,9 @@ const guideVisible = ref(false)
 const pageState = ref({
   current: 1,
   pageSize: 20,
-  total: 0
+  total: 0,
+  registerableCount: 0,
+  protectedCount: 0
 })
 
 const suspectedCount = computed(() => items.value.filter((item) => item.suspectedTest).length)
@@ -186,6 +190,8 @@ async function loadItems() {
     })
     items.value = result.items
     pageState.value.total = result.total
+    pageState.value.registerableCount = result.registerableCount || 0
+    pageState.value.protectedCount = result.protectedCount || 0
     totalSize.value = result.totalSize || 0
   } catch (error) {
     message.error(error.message || '未登记资源扫描失败')
@@ -212,7 +218,7 @@ function handleSelectionChange({ id, checked }) {
 
 function handleSelectAll(checked) {
   const selectableIds = items.value
-    .filter((item) => item.source?.type !== 'avatar')
+    .filter((item) => item.source?.registerable !== false)
     .map((item) => item.id)
   const nextKeys = new Set(selectedRowKeys.value)
   selectableIds.forEach((id) => {
@@ -236,7 +242,9 @@ function openDetail(record) {
 
 function getSelectedItems() {
   const selectedSet = new Set(selectedRowKeys.value)
-  return items.value.filter((item) => selectedSet.has(item.id))
+  return items.value.filter((item) => (
+    selectedSet.has(item.id) && item.source?.registerable !== false
+  ))
 }
 
 async function registerSelected() {
@@ -267,7 +275,7 @@ async function registerResources(payload) {
     const result = await registerUntrackedAdminMedia(payload)
     message.success(`已登记 ${result.createdCount} 个资源`)
     if (result.skippedCount > 0) {
-      message.info(`另有 ${result.skippedCount} 个资源未登记，请查看头像目录或已登记提示`)
+      message.info(`另有 ${result.skippedCount} 个资源未登记，请查看业务专用目录或已登记提示`)
     }
     clearSelection()
     emit('changed')

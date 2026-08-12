@@ -17,8 +17,8 @@
               <strong>{{ detail.originalName }}</strong>
               <span>{{ detail.relativePath }}</span>
             </div>
-            <a-tag :bordered="false" :color="detail.source?.type === 'avatar' ? 'purple' : 'blue'">
-              {{ detail.source?.label || '上传目录' }}
+            <a-tag :bordered="false" :color="getSourceColor(detail.source?.type)">
+              {{ detail.source?.label || '其他上传目录' }}
             </a-tag>
           </div>
 
@@ -110,13 +110,25 @@ function getFileClassLabel(value) {
 }
 
 function getRegistrationStatus(record) {
-  if (record.source?.type === 'avatar') {
-    return '不可登记为普通媒体资产，用户头像由账号资料独立管理'
+  if (record.source?.registerable === false) {
+    return record.source?.protectedReason || '该业务专用资源不可登记为普通媒体资产'
   }
   if (record.usage?.referenceCount > 0) {
     return '可以登记；登记不会改变现有文件或业务引用'
   }
   return '可以登记到媒体资产库统一管理'
+}
+
+function getSourceColor(value) {
+  return ({
+    avatar: 'purple',
+    resume: 'magenta',
+    discussion: 'cyan',
+    articleSnapshot: 'gold',
+    media: 'blue',
+    test: 'red',
+    upload: 'default'
+  })[value] || 'default'
 }
 
 function formatFileSize(size = 0) {

@@ -21,7 +21,7 @@
           <div class="inventory-row__select">
             <a-checkbox
               :checked="selectedKeySet.has(record.id)"
-              :disabled="record.source?.type === 'avatar'"
+              :disabled="record.source?.registerable === false"
               :aria-label="`选择 ${record.originalName}`"
               @change="emit('selection-change', { id: record.id, checked: $event.target.checked })"
             />
@@ -37,7 +37,7 @@
                 <strong>{{ record.originalName }}</strong>
                 <a-tag v-if="record.suspectedTest" :bordered="false" color="red">疑似测试</a-tag>
                 <a-tag :bordered="false" :color="getSourceColor(record.source?.type)">
-                  {{ record.source?.label || '上传目录' }}
+                  {{ record.source?.label || '其他上传目录' }}
                 </a-tag>
                 <a-tag v-if="record.usage?.referenceCount > 0" :bordered="false" color="green">
                   引用 {{ record.usage.referenceCount }}
@@ -84,7 +84,7 @@ const props = defineProps({
 const emit = defineEmits(['selection-change', 'select-all', 'open-detail'])
 
 const selectedKeySet = computed(() => new Set(props.selectedKeys))
-const selectableItems = computed(() => props.items.filter((item) => item.source?.type !== 'avatar'))
+const selectableItems = computed(() => props.items.filter((item) => item.source?.registerable !== false))
 const allSelectableSelected = computed(() => (
   selectableItems.value.length > 0 && selectableItems.value.every((item) => selectedKeySet.value.has(item.id))
 ))
@@ -134,7 +134,15 @@ function getFileClassColor(value) {
 }
 
 function getSourceColor(value) {
-  return ({ avatar: 'purple', media: 'blue', test: 'red', upload: 'default' })[value] || 'default'
+  return ({
+    avatar: 'purple',
+    resume: 'magenta',
+    discussion: 'cyan',
+    articleSnapshot: 'gold',
+    media: 'blue',
+    test: 'red',
+    upload: 'default'
+  })[value] || 'default'
 }
 
 </script>
