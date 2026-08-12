@@ -31,10 +31,11 @@ async function createUser(role, username, roles = []) {
 async function createMediaManager() {
   await ensureRbacSeed()
   const mediaMenu = await Menu.findOne({ routePath: '/console/manage/media' })
+  const mediaShareMenu = await Menu.findOne({ routePath: '/console/manage/media-shares' })
   const role = await Role.create({
     name: '资源分享管理员',
     code: `media-share-manager-${Date.now()}-${Math.random().toString(16).slice(2)}`,
-    menuIds: [mediaMenu._id],
+    menuIds: [mediaMenu._id, mediaShareMenu._id],
     status: 'active'
   })
   return createUser(USER_ROLES.ADMIN, 'media-share-manager', [role._id])
@@ -96,6 +97,7 @@ describe('media resource package sharing', () => {
   })
 
   afterAll(async () => {
+    await clearTestDatabase()
     await disconnectTestDatabase()
   })
 
@@ -167,7 +169,7 @@ describe('media resource package sharing', () => {
 
   it('unlocks password shares and limits repeated four-digit password attempts', async () => {
     const media = await createMedia(superAdmin, 'protected-note.txt')
-    const created = await createShare(app, superToken, [media._id], { mode: 'password' })
+    const created = await createShare(app, superToken, [media._id], { mode: 'password', maxAccessCount: 1 })
     const visitor = request.agent(app)
 
     const locked = await visitor.get(`/api/public/media-shares/${created.publicId}`).expect(200)
@@ -180,15 +182,25 @@ describe('media resource package sharing', () => {
     expect(unlocked.body.data.unlocked).toBe(true)
     expect(unlocked.body.data.items).toHaveLength(1)
 
+    await request(app)
+      .post(`/api/public/media-shares/${created.publicId}/verify-password`)
+      .send({ code: created.extractionCode })
+      .expect(410)
+    const existingSession = await visitor
+      .post(`/api/public/media-shares/${created.publicId}/verify-password`)
+      .send({ code: created.extractionCode })
+      .expect(200)
+    expect(existingSession.body.data.unlocked).toBe(true)
+
     const secondMedia = await createMedia(superAdmin, 'rate-limited-note.txt')
     const limitedShare = await createShare(app, superToken, [secondMedia._id], { mode: 'password' })
     const wrongCode = limitedShare.extractionCode === '9999' ? '0000' : '9999'
-    for (let index = 0; index < 5; index += 1) {
-      await request(app)
+    const failedAttempts = await Promise.all(Array.from({ length: 5 }, () => (
+      request(app)
         .post(`/api/public/media-shares/${limitedShare.publicId}/verify-password`)
         .send({ code: wrongCode })
-        .expect(400)
-    }
+    )))
+    expect(failedAttempts.every((response) => response.status === 400)).toBe(true)
 
     const blocked = await request(app)
       .post(`/api/public/media-shares/${limitedShare.publicId}/verify-password`)
@@ -258,5 +270,141 @@ describe('media resource package sharing', () => {
       .get(`/api/public/media-shares/${created.publicId}/entries/${claimed.body.data.items[0].entryId}/content`)
       .expect(410)
     expect(response.body.code).toBe('SHARE_FILE_UNAVAILABLE')
+  })
+
+  it('reveals and resets encrypted extraction codes without leaking credentials in list responses', async () => {
+    const media = await createMedia(superAdmin, 'reset-code-note.txt')
+    const created = await createShare(app, superToken, [media._id], { mode: 'password', maxAccessCount: 3 })
+    const visitor = request.agent(app)
+
+    const listResponse = await request(app)
+      .get('/api/admin/media-shares')
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+    expect(listResponse.body.data.items[0].extractionCodeAvailable).toBe(true)
+    expect(listResponse.body.data.items[0]).not.toHaveProperty('extractionCode')
+    expect(listResponse.body.data.items[0]).not.toHaveProperty('passwordHash')
+    expect(listResponse.body.data.items[0]).not.toHaveProperty('passwordCipher')
+
+    const revealed = await request(app)
+      .get(`/api/admin/media-shares/${created.id}/extraction-code`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+    expect(revealed.body.data.extractionCode).toBe(created.extractionCode)
+
+    const unlocked = await visitor
+      .post(`/api/public/media-shares/${created.publicId}/verify-password`)
+      .send({ code: created.extractionCode })
+      .expect(200)
+    const entryId = unlocked.body.data.items[0].entryId
+
+    const reset = await request(app)
+      .post(`/api/admin/media-shares/${created.id}/extraction-code/reset`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+    expect(reset.body.data.extractionCode).toMatch(/^\d{4}$/)
+    expect(reset.body.data.extractionCode).not.toBe(created.extractionCode)
+    await visitor.get(`/api/public/media-shares/${created.publicId}/entries/${entryId}/content`).expect(403)
+    await request(app)
+      .post(`/api/public/media-shares/${created.publicId}/verify-password`)
+      .send({ code: created.extractionCode })
+      .expect(400)
+    await request(app)
+      .post(`/api/public/media-shares/${created.publicId}/verify-password`)
+      .send({ code: reset.body.data.extractionCode })
+      .expect(200)
+
+    const stored = await MediaSharePackage.findById(created.id)
+    expect(stored.accessCount).toBe(1)
+  })
+
+  it('reports unavailable codes for historical shares and isolates administrator-owned shares', async () => {
+    const owner = await createMediaManager()
+    const other = await createMediaManager()
+    const ownerToken = signAccessToken(owner)
+    const otherToken = signAccessToken(other)
+    const media = await createMedia(owner, 'historical-code.txt')
+    const created = await createShare(app, ownerToken, [media._id], { mode: 'password' })
+    await MediaSharePackage.updateOne({ _id: created.id }, { $set: { passwordCipher: '' } })
+
+    const unavailable = await request(app)
+      .get(`/api/admin/media-shares/${created.id}/extraction-code`)
+      .set('Authorization', `Bearer ${ownerToken}`)
+      .expect(409)
+    expect(unavailable.body.code).toBe('SHARE_CODE_UNAVAILABLE')
+
+    await request(app)
+      .get(`/api/admin/media-shares/${created.id}`)
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(404)
+    await request(app)
+      .post(`/api/admin/media-shares/${created.id}/revoke`)
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(404)
+  })
+
+  it('filters dynamic share statuses, returns global status counts and only deletes revoked records', async () => {
+    const media = await createMedia(superAdmin, 'status-filter.txt')
+    const active = await createShare(app, superToken, [media._id], { name: '生效资源包' })
+    const expired = await createShare(app, superToken, [media._id], { name: '过期资源包', mode: 'password' })
+    const exhausted = await createShare(app, superToken, [media._id], { name: '用尽资源包', maxAccessCount: 1 })
+    const revoked = await createShare(app, superToken, [media._id], { name: '撤销资源包' })
+    await MediaSharePackage.updateOne({ _id: expired.id }, { $set: { expiresAt: new Date(Date.now() - 60000) } })
+    await MediaSharePackage.updateOne({ _id: exhausted.id }, { $set: { accessCount: 1 } })
+    await request(app).post(`/api/admin/media-shares/${revoked.id}/revoke`).set('Authorization', `Bearer ${superToken}`).expect(200)
+
+    const activeDelete = await request(app)
+      .delete(`/api/admin/media-shares/${active.id}`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(409)
+    expect(activeDelete.body.code).toBe('SHARE_DELETE_REQUIRES_REVOKED')
+
+    for (const [status, expectedId] of [['active', active.id], ['expired', expired.id], ['exhausted', exhausted.id], ['revoked', revoked.id]]) {
+      const response = await request(app)
+        .get('/api/admin/media-shares')
+        .query({ status, pageSize: 20 })
+        .set('Authorization', `Bearer ${superToken}`)
+        .expect(200)
+      expect(response.body.data.items.map((item) => item.id)).toEqual([expectedId])
+      expect(response.body.data.counts).toEqual({ all: 4, active: 1, expired: 1, exhausted: 1, revoked: 1 })
+    }
+
+    const passwordOnly = await request(app)
+      .get('/api/admin/media-shares')
+      .query({ keyword: '过期', mode: 'password' })
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+    expect(passwordOnly.body.data.items.map((item) => item.id)).toEqual([expired.id])
+
+    await request(app).delete(`/api/admin/media-shares/${revoked.id}`).set('Authorization', `Bearer ${superToken}`).expect(200)
+    await request(app).get(`/api/public/media-shares/${revoked.publicId}`).expect(404)
+    expect(await Media.findById(media._id)).not.toBeNull()
+  })
+
+  it('keeps shared media available in trash and blocks permanent deletion until shares are revoked', async () => {
+    const media = await createMedia(superAdmin, 'protected-delete.txt')
+    const created = await createShare(app, superToken, [media._id])
+    const visitor = request.agent(app)
+    const claimed = await visitor.post(`/api/public/media-shares/${created.publicId}/claim`).expect(200)
+    const entryId = claimed.body.data.items[0].entryId
+
+    const references = await request(app)
+      .get(`/api/admin/media/${media._id}/references`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+    expect(references.body.data.references.some((item) => item.type === 'resourceShare')).toBe(true)
+
+    await request(app).delete(`/api/admin/media/${media._id}`).set('Authorization', `Bearer ${superToken}`).expect(200)
+    await visitor.get(`/api/public/media-shares/${created.publicId}/entries/${entryId}/content`).expect(200)
+    const blocked = await request(app)
+      .delete(`/api/admin/media/${media._id}/permanent`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(409)
+    expect(blocked.body.code).toBe('MEDIA_ACTIVE_SHARE_REFERENCE')
+
+    await request(app).post(`/api/admin/media-shares/${created.id}/revoke`).set('Authorization', `Bearer ${superToken}`).expect(200)
+    await request(app).delete(`/api/admin/media/${media._id}/permanent`).set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(await Media.findById(media._id)).toBeNull()
+    expect(fs.existsSync(media.storagePath)).toBe(false)
   })
 })

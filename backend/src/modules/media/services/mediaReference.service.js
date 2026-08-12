@@ -1,6 +1,7 @@
 import { Article } from '#modules/content/models/Article.js'
 import { Setting } from '#modules/settings/models/Setting.js'
 import { User } from '#modules/user/models/User.js'
+import { findMediaShareReferences } from '#modules/mediaShare/services/mediaShareReference.service.js'
 
 function normalizeUrl(value) {
   const text = String(value || '').trim()
@@ -45,7 +46,8 @@ function getReferenceLabel(type) {
     articleDocument: '文章原始文档',
     articleDocumentPreview: '文章阅读版',
     userAvatar: '用户头像',
-    setting: '系统设置'
+    setting: '系统设置',
+    resourceShare: '资源分享'
   }
   return labels[type] || '其他引用'
 }
@@ -100,7 +102,8 @@ export function summarizeMediaReferences(references = []) {
     'articleDocument',
     'articleDocumentPreview',
     'userAvatar',
-    'setting'
+    'setting',
+    'resourceShare'
   ]
   const countByType = Object.fromEntries(typeOrder.map((type) => [type, 0]))
 
@@ -119,8 +122,9 @@ export function summarizeMediaReferences(references = []) {
 
 export async function findMediaReferences(media) {
   const url = normalizeUrl(media?.url)
+  const shareReferencesPromise = findMediaShareReferences(media?._id)
   if (!url) {
-    return []
+    return shareReferencesPromise
   }
 
   const urlVariants = getUrlVariants(url)
@@ -130,7 +134,7 @@ export async function findMediaReferences(media) {
   }
   const urlRegex = new RegExp(escapedVariants.join('|'))
 
-  const [articles, users, settings] = await Promise.all([
+  const [articles, users, settings, shares] = await Promise.all([
     Article.find({
       deletedAt: null,
       $or: [
@@ -145,7 +149,8 @@ export async function findMediaReferences(media) {
       ].filter(Boolean)
     }).select('title slug status contentMarkdown cover resources document updatedAt').lean(),
     User.find({ avatar: { $in: urlVariants } }).select('username email avatar status updatedAt').lean(),
-    Setting.find({}).select('key value group updatedAt').lean()
+    Setting.find({}).select('key value group updatedAt').lean(),
+    shareReferencesPromise
   ])
 
   const references = []
@@ -184,6 +189,7 @@ export async function findMediaReferences(media) {
 
   users.forEach((user) => references.push(buildUserReference(user)))
   settings.forEach((setting) => references.push(...collectSettingReferences(setting, url)))
+  references.push(...shares)
 
   return references
 }

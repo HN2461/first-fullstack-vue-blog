@@ -23,6 +23,7 @@ const mediaSharePackageSchema = new mongoose.Schema({
   },
   mode: { type: String, enum: ['public', 'password'], required: true },
   passwordHash: { type: String, select: false, default: '' },
+  passwordCipher: { type: String, select: false, default: '' },
   expiresAt: { type: Date, default: null },
   maxAccessCount: { type: Number, default: null, min: 1, max: 100000 },
   accessCount: { type: Number, default: 0, min: 0 },

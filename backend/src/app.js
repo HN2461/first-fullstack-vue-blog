@@ -36,6 +36,10 @@ import {
 export function createApp() {
   const app = express()
 
+  if (env.trustProxy) {
+    app.set('trust proxy', env.trustProxy)
+  }
+
   app.use(helmet())
   app.use(cors({
     origin: env.clientOrigin,

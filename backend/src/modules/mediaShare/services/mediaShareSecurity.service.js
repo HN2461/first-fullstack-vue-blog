@@ -73,34 +73,49 @@ export async function assertPasswordAttemptAllowed(share, req) {
 
 async function recordBucketFailure(definition) {
   const now = new Date()
-  let bucket = await MediaShareRateLimit.findOne({ key: definition.key })
+  const windowBoundary = new Date(now.getTime() - definition.windowMs)
+  const expiresAt = new Date(now.getTime() + Math.max(definition.windowMs, definition.lockMs) * 2)
+  const lockedUntil = new Date(now.getTime() + definition.lockMs)
+  const shouldReset = {
+    $or: [
+      { $eq: [{ $type: '$windowStartedAt' }, 'missing'] },
+      { $lte: ['$windowStartedAt', windowBoundary] }
+    ]
+  }
 
-  if (!bucket) {
-    try {
-      bucket = await MediaShareRateLimit.create({
+  const update = [
+    { $set: { _resetWindow: shouldReset } },
+    {
+      $set: {
         key: definition.key,
-        failures: 0,
-        windowStartedAt: now,
-        expiresAt: new Date(now.getTime() + Math.max(definition.windowMs, definition.lockMs) * 2)
-      })
-    } catch (error) {
-      if (error.code !== 11000) throw error
-      bucket = await MediaShareRateLimit.findOne({ key: definition.key })
-    }
-  }
+        windowStartedAt: { $cond: ['$_resetWindow', now, '$windowStartedAt'] },
+        failures: { $cond: ['$_resetWindow', 1, { $add: [{ $ifNull: ['$failures', 0] }, 1] }] },
+        expiresAt,
+        updatedAt: now,
+        createdAt: { $ifNull: ['$createdAt', now] }
+      }
+    },
+    {
+      $set: {
+        lockedUntil: {
+          $cond: [
+            { $gte: ['$failures', definition.threshold] },
+            lockedUntil,
+            { $cond: ['$_resetWindow', null, '$lockedUntil'] }
+          ]
+        }
+      }
+    },
+    { $unset: '_resetWindow' }
+  ]
 
-  if (now.getTime() - bucket.windowStartedAt.getTime() >= definition.windowMs) {
-    bucket.failures = 0
-    bucket.windowStartedAt = now
-    bucket.lockedUntil = null
+  try {
+    await MediaShareRateLimit.updateOne({ key: definition.key }, update, { upsert: true })
+  } catch (error) {
+    // 并发首次写入可能争抢唯一键；落败请求改为普通更新，计数仍不会丢失。
+    if (error.code !== 11000) throw error
+    await MediaShareRateLimit.updateOne({ key: definition.key }, update)
   }
-
-  bucket.failures += 1
-  bucket.expiresAt = new Date(now.getTime() + Math.max(definition.windowMs, definition.lockMs) * 2)
-  if (bucket.failures >= definition.threshold) {
-    bucket.lockedUntil = new Date(now.getTime() + definition.lockMs)
-  }
-  await bucket.save()
 }
 
 export async function recordPasswordFailure(share, req) {

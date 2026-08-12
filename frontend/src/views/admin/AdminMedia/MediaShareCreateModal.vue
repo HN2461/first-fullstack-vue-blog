@@ -60,11 +60,14 @@
         <strong>{{ result.extractionCode }}</strong>
         <a-button size="small" @click="copyText(result.extractionCode, '提取码已复制')"><template #icon><CopyOutlined /></template>复制</a-button>
       </div>
-      <a-alert v-if="result.extractionCode" type="warning" show-icon message="提取码仅在本次创建结果中展示，请与分享链接一起保存。" />
+      <a-alert v-if="result.extractionCode" type="info" show-icon message="提取码可在“资源分享”中再次查看；重新生成后旧提取码和已授权访客会话将立即失效。" />
     </div>
 
     <template #footer>
-      <a-button v-if="result" @click="closeModal">完成</a-button>
+      <template v-if="result">
+        <a-button @click="closeModal">完成</a-button>
+        <a-button type="primary" @click="openShareManagement">进入资源分享</a-button>
+      </template>
       <template v-else>
         <a-button @click="closeModal">取消</a-button>
         <a-button type="primary" :loading="submitting" @click="submitShare">创建分享</a-button>
@@ -75,6 +78,7 @@
 
 <script setup>
 import { computed, reactive, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
 import { message } from 'ant-design-vue'
 import { CopyOutlined } from '@ant-design/icons-vue'
@@ -82,6 +86,7 @@ import { createAdminMediaShare } from '@/services/admin'
 
 const props = defineProps({ open: { type: Boolean, default: false }, mediaIds: { type: Array, default: () => [] } })
 const emit = defineEmits(['update:open', 'created'])
+const router = useRouter()
 const submitting = ref(false)
 const result = ref(null)
 const form = reactive({ name: '', description: '', mode: 'public', expiryPreset: '7d', customExpiresAt: null, limitEnabled: false, maxAccessCount: 100 })
@@ -143,6 +148,11 @@ async function copyText(value, successMessage) {
 
 function closeModal() {
   emit('update:open', false)
+}
+
+function openShareManagement() {
+  closeModal()
+  router.push('/console/manage/media-shares')
 }
 </script>
 

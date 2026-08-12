@@ -25,6 +25,7 @@ const AdminApprovals = () => import('@/views/admin/AdminApprovals/index.vue')
 const AdminStats = () => import('@/views/admin/AdminStats/index.vue')
 const AdminMonitor = () => import('@/views/admin/AdminMonitor/index.vue')
 const AdminMedia = () => import('@/views/admin/AdminMedia/index.vue')
+const AdminMediaShares = () => import('@/views/admin/AdminMediaShares/index.vue')
 const AdminNotifications = () => import('@/views/admin/AdminNotifications/index.vue')
 const AdminProjectTimeline = () => import('@/views/admin/AdminProjectTimeline/index.vue')
 const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
@@ -342,6 +343,12 @@ export const router = createRouter({
           name: 'AdminMedia',
           component: AdminMedia,
           meta: { title: '媒体库', requiresAdmin: true }
+        },
+        {
+          path: 'manage/media-shares',
+          name: 'AdminMediaShares',
+          component: AdminMediaShares,
+          meta: { title: '资源分享', requiresAdmin: true }
         },
         {
           path: 'manage/notifications',

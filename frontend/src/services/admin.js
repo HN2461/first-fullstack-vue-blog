@@ -470,7 +470,12 @@ export function emptyMediaTrash() {
 }
 
 export async function listAdminMediaShares(params = {}) {
-  return toPageResult(await http.get('/api/admin/media-shares', { params }), params.pageSize || 20)
+  const result = await http.get('/api/admin/media-shares', { params })
+  return { ...toPageResult(result, params.pageSize || 20), counts: result?.counts || {} }
+}
+
+export function getAdminMediaShare(id) {
+  return http.get(`/api/admin/media-shares/${id}`)
 }
 
 export function createAdminMediaShare(data) {
@@ -483,6 +488,18 @@ export function updateAdminMediaShare(id, data) {
 
 export function revokeAdminMediaShare(id) {
   return http.post(`/api/admin/media-shares/${id}/revoke`)
+}
+
+export function getAdminMediaShareCode(id) {
+  return http.get(`/api/admin/media-shares/${id}/extraction-code`)
+}
+
+export function resetAdminMediaShareCode(id) {
+  return http.post(`/api/admin/media-shares/${id}/extraction-code/reset`)
+}
+
+export function deleteAdminMediaShare(id) {
+  return http.delete(`/api/admin/media-shares/${id}`)
 }
 
 // 公告相关

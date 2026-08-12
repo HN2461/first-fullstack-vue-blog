@@ -47,6 +47,7 @@ const DEFAULT_MENUS = [
   { code: 'content.categories', name: '分类体系', icon: 'FolderOutlined', routePath: '/console/manage/categories', routeKey: 'admin.category.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
   { code: 'content.tags', name: '标签体系', icon: 'TagsOutlined', routePath: '/console/manage/tags', routeKey: 'admin.tag.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 },
   { code: 'content.media', name: '媒体资产', icon: 'PictureOutlined', routePath: '/console/manage/media', routeKey: 'admin.media.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40 },
+  { code: 'content.mediaShares', name: '资源分享', icon: 'ShareAltOutlined', routePath: '/console/manage/media-shares', routeKey: 'admin.media-share.list', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 45 },
   { code: 'content.migration', name: '迁移配置', icon: 'SwapOutlined', routePath: '/console/manage/migration', routeKey: 'admin.migration', parentCode: 'content.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50 },
   { code: 'operation.group', name: '互动运营', icon: 'BellOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 },
   { code: 'governance.comments', name: '评论审核', icon: 'AuditOutlined', routePath: '/console/manage/comments', routeKey: 'admin.comment.list', parentCode: 'operation.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
@@ -275,6 +276,7 @@ let rbacSeedPromise = null
 
 async function runRbacSeed(forceBuiltinSync = false) {
   const codeToMenu = new Map()
+  let mediaShareMenuCreated = false
 
   for (const menuInput of DEFAULT_MENUS) {
     const parent = menuInput.parentCode
@@ -283,6 +285,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
 
     let menu = await Menu.findOne({ code: menuInput.code })
     if (!menu) {
+      if (menuInput.code === 'content.mediaShares') mediaShareMenuCreated = true
       menu = await Menu.create({
         name: menuInput.name,
         code: menuInput.code,
@@ -356,6 +359,20 @@ async function runRbacSeed(forceBuiltinSync = false) {
   )
 
   const allMenus = await Menu.find({ enabled: true })
+  const mediaMenu = allMenus.find((menu) => menu.code === 'content.media')
+  const mediaShareMenu = allMenus.find((menu) => menu.code === 'content.mediashares')
+  if (mediaShareMenuCreated && mediaMenu && mediaShareMenu) {
+    // 新菜单上线时继承一次原媒体权限，避免已有管理员升级后突然失去分享管理能力。
+    await Role.updateMany(
+      {
+        $and: [
+          { menuIds: mediaMenu._id },
+          { menuIds: { $ne: mediaShareMenu._id } }
+        ]
+      },
+      { $addToSet: { menuIds: mediaShareMenu._id } }
+    )
+  }
   const knowledgeRootMenu = allMenus.find((menu) => menu.code === 'knowledge.root')
   const bookmarkMenu = allMenus.find((menu) => menu.code === 'knowledge.bookmarks')
   if (knowledgeRootMenu && bookmarkMenu) {

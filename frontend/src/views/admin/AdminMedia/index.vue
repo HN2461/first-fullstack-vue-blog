@@ -26,8 +26,8 @@
             <template #icon><FolderOpenOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-tooltip title="管理资源分享">
-          <a-button class="media-cloud__header-icon" aria-label="管理资源分享" @click="shareManageVisible = true">
+        <a-tooltip v-if="canManageMediaShares" title="管理资源分享">
+          <a-button class="media-cloud__header-icon" aria-label="管理资源分享" @click="router.push('/console/manage/media-shares')">
             <template #icon><ShareAltOutlined /></template>
           </a-button>
         </a-tooltip>
@@ -95,6 +95,7 @@
       <div v-if="selectedMediaKeys.length > 0" class="media-batch-actions">
         <span class="media-batch-actions__count">已选择 {{ selectedMediaKeys.length }} 个</span>
         <a-button
+          v-if="canManageMediaShares"
           size="small"
           :disabled="selectedMediaKeys.length === 0"
           @click="clearMediaSelection"
@@ -345,8 +346,6 @@
       @created="handleShareCreated"
     />
 
-    <MediaShareManageModal v-model:open="shareManageVisible" />
-
     <a-modal
       v-model:open="categoryModalVisible"
       :footer="null"
@@ -449,6 +448,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import {
   InboxOutlined,
   EyeOutlined,
@@ -473,7 +473,6 @@ import MediaInventoryModal from './MediaInventoryModal.vue'
 import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
 import MediaGuideModal from './MediaGuideModal.vue'
 import MediaShareCreateModal from './MediaShareCreateModal.vue'
-import MediaShareManageModal from './MediaShareManageModal.vue'
 import {
   DEFAULT_MEDIA_ALLOWED_EXTENSIONS,
   buildMediaUploadAccept,
@@ -501,6 +500,7 @@ import { useAdminActions } from '@/composables/useAdminUi'
 import { useAuthStore } from '@/stores/auth'
 
 const tableRef = ref(null)
+const router = useRouter()
 const files = ref([])
 const errorMessage = ref('')
 const uploading = ref(false)
@@ -530,7 +530,6 @@ const inventoryModalVisible = ref(false)
 const mediaGuideVisible = ref(false)
 const mediaGuideTopic = ref('inventory')
 const shareCreateVisible = ref(false)
-const shareManageVisible = ref(false)
 const uploadRules = ref({
   maxFiles: 5,
   maxFileSizeMB: 20,
@@ -549,6 +548,7 @@ const categoryDraft = ref({
 })
 const { runAction, confirmAction } = useAdminActions()
 const authStore = useAuthStore()
+const canManageMediaShares = computed(() => authStore.canAccessPath('/console/manage/media-shares'))
 
 const fileClassOptions = [
   { label: '图片', value: 'image' },

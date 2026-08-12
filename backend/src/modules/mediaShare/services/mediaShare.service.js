@@ -15,6 +15,13 @@ import {
   invalidateShareSessions,
   recordPasswordFailure
 } from './mediaShareSecurity.service.js'
+import { decryptMediaShareCode, encryptMediaShareCode } from './mediaShareCode.service.js'
+import { attachShareEntryAvailability } from './mediaShareReference.service.js'
+import {
+  buildMediaShareListQuery,
+  buildMediaShareSort,
+  countMediaShareStatuses
+} from './mediaShareQuery.service.js'
 
 const PUBLIC_ID_BYTES = 16
 const SESSION_DOWNLOAD_ALLOWED = true
@@ -111,6 +118,7 @@ function serializeAdminShare(share) {
       size: entry.size,
       fileClass: entry.fileClass
     })),
+    extractionCodeAvailable: share.mode === 'password' && Boolean(share.passwordCipher),
     revokedAt: share.revokedAt,
     createdAt: share.createdAt,
     updatedAt: share.updatedAt
@@ -203,6 +211,7 @@ export async function createMediaShare(input, actor) {
     description: input.description || '',
     mode: input.mode,
     passwordHash: password ? await bcrypt.hash(password, 10) : '',
+    passwordCipher: password ? encryptMediaShareCode(password) : '',
     expiresAt: normalizeExpiresAt(input.expiresAt),
     maxAccessCount: normalizeMaxAccessCount(input.maxAccessCount),
     createdBy: actor._id,
@@ -226,15 +235,30 @@ export async function createMediaShare(input, actor) {
   }
 }
 
-export async function listMediaShares({ actor, page = 1, pageSize = 20 } = {}) {
+export async function listMediaShares({ actor, page = 1, pageSize = 20, ...filters } = {}) {
   const currentPage = Math.max(1, Number(page) || 1)
   const limit = Math.min(100, Math.max(1, Number(pageSize) || 20))
-  const query = getActorQuery(actor)
-  const [items, total] = await Promise.all([
-    MediaSharePackage.find(query).sort({ createdAt: -1 }).skip((currentPage - 1) * limit).limit(limit),
-    MediaSharePackage.countDocuments(query)
+  const actorQuery = getActorQuery(actor)
+  const now = new Date()
+  const query = buildMediaShareListQuery(filters, actorQuery, now)
+  const [items, total, counts] = await Promise.all([
+    MediaSharePackage.find(query).select('+passwordCipher')
+      .sort(buildMediaShareSort(filters.sortField, filters.sortOrder))
+      .skip((currentPage - 1) * limit)
+      .limit(limit),
+    MediaSharePackage.countDocuments(query),
+    countMediaShareStatuses(MediaSharePackage, actorQuery, now)
   ])
-  return { items: items.map(serializeAdminShare), total, page: currentPage, pageSize: limit }
+  return { items: items.map(serializeAdminShare), total, page: currentPage, pageSize: limit, counts }
+}
+
+export async function getMediaShareDetail(id, actor) {
+  const share = await MediaSharePackage.findOne({ _id: id, ...getActorQuery(actor) }).select('+passwordCipher')
+  if (!share) throw shareError('资源分享不存在', 404, 'SHARE_NOT_FOUND')
+  return {
+    ...serializeAdminShare(share),
+    entries: await attachShareEntryAvailability(share)
+  }
 }
 
 export async function updateMediaShare(id, input, actor) {
@@ -263,6 +287,50 @@ export async function revokeMediaShare(id, actor) {
     await invalidateShareSessions(share._id)
   }
   return serializeAdminShare(share)
+}
+
+export async function revealMediaShareCode(id, actor) {
+  const share = await MediaSharePackage.findOne({ _id: id, ...getActorQuery(actor) })
+    .select('+passwordCipher')
+  if (!share) throw shareError('资源分享不存在', 404, 'SHARE_NOT_FOUND')
+  if (share.mode !== 'password') throw shareError('公开分享没有提取码', 400, 'SHARE_PASSWORD_NOT_REQUIRED')
+
+  const extractionCode = decryptMediaShareCode(share.passwordCipher)
+  if (!extractionCode) {
+    throw shareError('历史分享未保存可恢复提取码，请重新生成', 409, 'SHARE_CODE_UNAVAILABLE')
+  }
+  return { extractionCode }
+}
+
+export async function resetMediaShareCode(id, actor) {
+  const share = await MediaSharePackage.findOne({ _id: id, ...getActorQuery(actor) })
+    .select('+passwordHash +passwordCipher')
+  if (!share) throw shareError('资源分享不存在', 404, 'SHARE_NOT_FOUND')
+  if (share.mode !== 'password') throw shareError('公开分享没有提取码', 400, 'SHARE_PASSWORD_NOT_REQUIRED')
+  if (share.status === 'revoked') throw shareError('已撤销分享不能重置提取码', 409, 'SHARE_REVOKED')
+
+  const extractionCode = String(crypto.randomInt(0, 10000)).padStart(4, '0')
+  share.passwordHash = await bcrypt.hash(extractionCode, 10)
+  share.passwordCipher = encryptMediaShareCode(extractionCode)
+  share.accessVersion += 1
+  share.accessCount = 0
+  share.lastAccessAt = null
+  await share.save()
+  await invalidateShareSessions(share._id)
+  return { extractionCode }
+}
+
+export async function deleteRevokedMediaShare(id, actor) {
+  const share = await findAdminShare(id, actor)
+  if (share.status !== 'revoked') {
+    throw shareError('只能删除已经撤销的分享记录', 409, 'SHARE_DELETE_REQUIRES_REVOKED')
+  }
+
+  await Promise.all([
+    MediaSharePackage.deleteOne({ _id: share._id }),
+    invalidateShareSessions(share._id)
+  ])
+  return { id: share._id.toString(), deleted: true }
 }
 
 export async function getPublicMediaShare(publicId, req) {
@@ -300,9 +368,9 @@ export async function claimPublicMediaShare(publicId, req, res) {
 export async function verifyPublicMediaShare(publicId, code, req, res) {
   const share = await MediaSharePackage.findOne({ publicId }).select('+passwordHash')
   if (!share) throw shareError('资源分享不存在', 404, 'SHARE_NOT_FOUND')
-  assertShareUsable(share)
   if (share.mode !== 'password') throw shareError('该资源分享无需提取码', 400, 'SHARE_PASSWORD_NOT_REQUIRED')
   const existing = await findValidShareSession(share, req)
+  assertShareUsable(share, { allowExhausted: Boolean(existing) })
   if (existing) return serializePublicShare(share, true, existing)
 
   await assertPasswordAttemptAllowed(share, req)
@@ -322,7 +390,7 @@ export async function getPublicShareContent(publicId, entryId, req) {
   if (!session || !SESSION_DOWNLOAD_ALLOWED) throw shareError('请先获取资源包访问权限', 403, 'SHARE_ACCESS_REQUIRED')
   const entry = share.entries.find((item) => item.entryId === entryId)
   if (!entry) throw shareError('分享资源不存在', 404, 'SHARE_ENTRY_NOT_FOUND')
-  const media = await Media.findOne({ _id: entry.media, deletedAt: null })
+  const media = await Media.findById(entry.media)
   if (!media) throw shareError('该资源已不可用', 410, 'SHARE_MEDIA_UNAVAILABLE')
   const filePath = await resolveStoragePath(media)
   return { share, session, entry, media, filePath }
@@ -332,10 +400,7 @@ export async function getPublicShareDownloadEntries(publicId, req) {
   const { share, session } = await getPublicShareWithSession(publicId, req)
   if (!session || !SESSION_DOWNLOAD_ALLOWED) throw shareError('请先获取资源包访问权限', 403, 'SHARE_ACCESS_REQUIRED')
 
-  const mediaItems = await Media.find({
-    _id: { $in: share.entries.map((entry) => entry.media) },
-    deletedAt: null
-  })
+  const mediaItems = await Media.find({ _id: { $in: share.entries.map((entry) => entry.media) } })
   const mediaMap = new Map(mediaItems.map((item) => [item._id.toString(), item]))
   const entries = []
 

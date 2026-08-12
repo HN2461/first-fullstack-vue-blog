@@ -7,6 +7,7 @@ import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCategory.service.js'
 import { attachMediaReferenceSummaries, findMediaReferences, getMediaReferenceDetail } from './mediaReference.service.js'
+import { findBlockingMediaShares } from '#modules/mediaShare/services/mediaShareReference.service.js'
 
 function normalizeMediaCategory(value) {
   const category = String(value || '').trim()
@@ -454,6 +455,21 @@ export async function permanentDeleteMedia(id, actor = null) {
     throw error
   }
 
+  const blockingShares = await findBlockingMediaShares(media._id)
+  if (blockingShares.length > 0) {
+    const error = new Error(`该资源仍被 ${blockingShares.length} 个未撤销分享引用，请先撤销相关分享`)
+    error.statusCode = 409
+    error.code = 'MEDIA_ACTIVE_SHARE_REFERENCE'
+    error.details = {
+      shares: blockingShares.map((share) => ({
+        id: share._id.toString(),
+        name: share.name,
+        publicId: share.publicId
+      }))
+    }
+    throw error
+  }
+
   const fileRemoved = await removeStoredFile(media.storagePath, media.url)
 
   await Media.findByIdAndDelete(id)
@@ -483,6 +499,14 @@ export async function batchPermanentDeleteMedia(ids, actor = null) {
 
 export async function emptyMediaTrash(actor = null) {
   const mediaList = await Media.find({ deletedAt: { $exists: true, $ne: null }, ...getMediaAccessQuery(actor) })
+  for (const media of mediaList) {
+    if ((await findBlockingMediaShares(media._id)).length > 0) {
+      const error = new Error('回收站中仍有资源被未撤销分享引用，请先撤销相关分享')
+      error.statusCode = 409
+      error.code = 'MEDIA_ACTIVE_SHARE_REFERENCE'
+      throw error
+    }
+  }
   let removedFileCount = 0
 
   for (const media of mediaList) {
