@@ -46,6 +46,11 @@ function normalizeRenamedOriginalName(value, fallbackName = '') {
 
 export async function createMediaFromFile(file, user, metadata = {}) {
   await ensureDefaultMediaCategory()
+  const category = await assertMediaCategoryExists(
+    normalizeMediaCategory(metadata.category),
+    user,
+    metadata.categoryId
+  )
   const kind = file.mimetype.startsWith('image/') ? 'image' : 'attachment'
   const normalizedPath = file.path.replace(/\\/g, '/')
   const uploadsIndex = normalizedPath.lastIndexOf('uploads/')
@@ -59,7 +64,8 @@ export async function createMediaFromFile(file, user, metadata = {}) {
     url: `/${relativePath}`,
     storagePath: normalizedPath,
     kind,
-    category: normalizeMediaCategory(metadata.category),
+    category: category.name,
+    categoryId: category._id,
     fileClass: inferMediaFileClass(file.originalname, file.mimetype),
     uploader: user._id
   })
@@ -98,7 +104,9 @@ export async function listMedia(options = {}) {
     query.fileClass = fileClass
   }
 
-  if (options.category) {
+  if (options.categoryId) {
+    query.categoryId = options.categoryId
+  } else if (options.category) {
     query.category = normalizeMediaCategory(options.category)
   }
 
@@ -212,7 +220,7 @@ export async function renameMedia(id, originalName, actor = null) {
   return media.toSafeJSON()
 }
 
-export async function moveMediaCategory(id, categoryName, actor = null) {
+export async function moveMediaCategory(id, categoryName, actor = null, categoryId = '') {
   const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('媒体文件不存在')
@@ -221,14 +229,15 @@ export async function moveMediaCategory(id, categoryName, actor = null) {
     throw error
   }
 
-  const category = await assertMediaCategoryExists(categoryName)
+  const category = await assertMediaCategoryExists(categoryName, media.uploader, categoryId)
   media.category = category.name
+  media.categoryId = category._id
   await media.save()
 
   return media.toSafeJSON()
 }
 
-export async function moveMediaCategories(ids = [], categoryName, actor = null) {
+export async function moveMediaCategories(ids = [], categoryName, actor = null, categoryId = '') {
   const uniqueIds = [...new Set(ids.map((id) => String(id || '').trim()).filter(Boolean))]
   if (uniqueIds.length === 0) {
     const error = new Error('请选择要迁移的媒体文件')
@@ -237,7 +246,6 @@ export async function moveMediaCategories(ids = [], categoryName, actor = null) 
     throw error
   }
 
-  const category = await assertMediaCategoryExists(categoryName)
   const query = {
     _id: { $in: uniqueIds },
     deletedAt: null,
@@ -251,11 +259,24 @@ export async function moveMediaCategories(ids = [], categoryName, actor = null) 
     throw error
   }
 
-  const result = await Media.updateMany(query, { $set: { category: category.name } })
+  const mediaList = await Media.find(query).select('uploader')
+  const ownerIds = [...new Set(mediaList.map((item) => item.uploader.toString()))]
+  const requestedCategory = await assertMediaCategoryExists(categoryName, ownerIds[0], categoryId)
+  if (!requestedCategory.system && ownerIds.length > 1) {
+    const error = new Error('跨用户资源只能迁移到系统分类')
+    error.statusCode = 400
+    error.code = 'MEDIA_CATEGORY_CROSS_OWNER'
+    throw error
+  }
+
+  const result = await Media.updateMany(query, {
+    $set: { category: requestedCategory.name, categoryId: requestedCategory._id }
+  })
   return {
     movedCount: matchedCount,
     changedCount: result.modifiedCount || 0,
-    category: category.name
+    category: requestedCategory.name,
+    categoryId: requestedCategory._id.toString()
   }
 }
 
@@ -271,14 +292,18 @@ export async function listMediaCategories(options = {}) {
     },
     {
       $group: {
-        _id: { $ifNull: ['$category', '默认素材'] },
+        _id: {
+          categoryId: '$categoryId',
+          name: { $ifNull: ['$category', '默认素材'] }
+        },
         count: { $sum: 1 }
       }
     },
     {
       $project: {
         _id: 0,
-        name: '$_id',
+        id: { $ifNull: [{ $toString: '$_id.categoryId' }, ''] },
+        name: '$_id.name',
         count: 1
       }
     },

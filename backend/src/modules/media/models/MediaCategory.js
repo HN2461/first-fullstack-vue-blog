@@ -6,8 +6,16 @@ const mediaCategorySchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
       maxlength: 40
+    },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      default: null
+    },
+    system: {
+      type: Boolean,
+      default: false
     },
     description: {
       type: String,
@@ -25,10 +33,15 @@ const mediaCategorySchema = new mongoose.Schema(
   }
 )
 
+mediaCategorySchema.index({ owner: 1, name: 1 }, { unique: true })
+mediaCategorySchema.index({ system: 1, sortOrder: 1, createdAt: 1 })
+
 mediaCategorySchema.methods.toSafeJSON = function toSafeJSON() {
   return {
     id: this._id.toString(),
     name: this.name,
+    owner: this.owner?.toString?.() || null,
+    system: this.system === true,
     description: this.description || '',
     sortOrder: this.sortOrder || 0,
     createdAt: this.createdAt,

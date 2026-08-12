@@ -37,6 +37,11 @@ const mediaSchema = new mongoose.Schema(
       default: '未分类',
       maxlength: 40
     },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'MediaCategory',
+      default: null
+    },
     fileClass: {
       type: String,
       enum: ['image', 'code', 'document', 'archive', 'other'],
@@ -88,6 +93,7 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
     storagePath: this.storagePath,
     kind: this.kind,
     category: this.category || '未分类',
+    categoryId: this.categoryId?.toString?.() || null,
     fileClass: this.fileClass || 'other',
     uploader,
     article: this.article?.toString?.() || null,

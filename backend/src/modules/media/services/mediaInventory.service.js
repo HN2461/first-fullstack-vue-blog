@@ -247,6 +247,7 @@ async function createMediaFromDiskFile(item, user, category) {
     }
   }
 
+  const categoryEntity = await assertMediaCategoryExists(category, user)
   const media = await Media.create({
     filename,
     originalName: getDisplayName(filename),
@@ -256,6 +257,7 @@ async function createMediaFromDiskFile(item, user, category) {
     storagePath: targetPath.replace(/\\/g, '/'),
     kind: mimeType.startsWith('image/') ? 'image' : 'attachment',
     category,
+    categoryId: categoryEntity._id,
     fileClass: inferFileClass(filename, mimeType),
     uploader: user._id
   })

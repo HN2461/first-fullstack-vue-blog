@@ -43,6 +43,10 @@ export function isSystemMediaCategory(name) {
   return SYSTEM_MEDIA_CATEGORIES.some((item) => item.name === name)
 }
 
+function getActorId(actor) {
+  return actor?._id || actor?.id || null
+}
+
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
   error.statusCode = statusCode
@@ -56,30 +60,53 @@ function normalizeCategoryName(name) {
 
 export async function ensureDefaultMediaCategory() {
   const [defaultCategory] = await Promise.all(SYSTEM_MEDIA_CATEGORIES.map(async (item) => {
-    const exists = await MediaCategory.findOne({ name: item.name })
+    const exists = await MediaCategory.findOne({ name: item.name, system: true })
     if (exists) {
+      if (exists.owner || exists.description !== item.description || exists.sortOrder !== item.sortOrder) {
+        exists.owner = null
+        exists.description = item.description
+        exists.sortOrder = item.sortOrder
+        await exists.save()
+      }
       return exists
     }
 
-    return MediaCategory.create(item)
+    return MediaCategory.create({ ...item, owner: null, system: true })
   }))
 
   return defaultCategory
 }
 
-export async function listMediaCategoryEntities() {
+export async function listMediaCategoryEntities(actor) {
   await ensureDefaultMediaCategory()
-  return MediaCategory.find().sort({ sortOrder: 1, createdAt: 1 })
+  const actorId = getActorId(actor)
+  return MediaCategory.find({
+    $or: [
+      { system: true },
+      ...(actorId ? [{ system: false, owner: actorId }] : [])
+    ]
+  }).sort({ system: -1, sortOrder: 1, createdAt: 1 })
 }
 
-export async function assertMediaCategoryExists(name) {
+export async function assertMediaCategoryExists(name, actor, categoryId = '') {
   const normalizedName = normalizeCategoryName(name)
-  if (!normalizedName) {
+  if (!normalizedName && !categoryId) {
     throw createHttpError(400, 'MEDIA_CATEGORY_NAME_REQUIRED', '目标资源分类不能为空')
   }
 
   await ensureDefaultMediaCategory()
-  const category = await MediaCategory.findOne({ name: normalizedName })
+  const actorId = getActorId(actor)
+  const category = categoryId
+    ? await MediaCategory.findOne({
+        _id: categoryId,
+        $or: [
+          { system: true },
+          { system: false, owner: actorId }
+        ]
+      })
+    : await MediaCategory.findOne(isSystemMediaCategory(normalizedName)
+        ? { name: normalizedName, system: true }
+        : { name: normalizedName, system: false, owner: actorId })
   if (!category) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '目标资源分类不存在，请先在分类管理中创建')
   }
@@ -87,37 +114,57 @@ export async function assertMediaCategoryExists(name) {
   return category
 }
 
-export async function listMediaCategories() {
-  const entities = await listMediaCategoryEntities()
+export async function listMediaCategories(actor) {
+  const actorId = getActorId(actor)
+  const entities = await listMediaCategoryEntities(actor)
   const counts = await Media.aggregate([
+    ...(actorId ? [{ $match: { uploader: actorId, deletedAt: null } }] : []),
     {
       $group: {
-        _id: { $ifNull: ['$category', '默认素材'] },
+        _id: {
+          categoryId: '$categoryId',
+          name: { $ifNull: ['$category', '默认素材'] }
+        },
         count: { $sum: 1 }
       }
     }
   ])
-  const countMap = new Map(counts.map((item) => [item._id, item.count]))
+  const countById = new Map(counts
+    .filter((item) => item._id.categoryId)
+    .map((item) => [item._id.categoryId.toString(), item.count]))
+  const legacyCountByName = new Map(counts
+    .filter((item) => !item._id.categoryId)
+    .map((item) => [item._id.name, item.count]))
 
   return entities.map((item) => ({
     ...item.toSafeJSON(),
-    count: countMap.get(item.name) || 0
+    count: (countById.get(item._id.toString()) || 0) + (legacyCountByName.get(item.name) || 0)
   }))
 }
 
-export async function createMediaCategory(input) {
+export async function createMediaCategory(input, actor) {
   const name = normalizeCategoryName(input.name)
   if (!name) {
     throw createHttpError(400, 'MEDIA_CATEGORY_NAME_REQUIRED', '分类名称不能为空')
   }
+  if (isSystemMediaCategory(name)) {
+    throw createHttpError(409, 'MEDIA_CATEGORY_RESERVED', '该名称属于系统资源分类')
+  }
 
-  const exists = await MediaCategory.exists({ name })
+  const owner = getActorId(actor)
+  if (!owner) {
+    throw createHttpError(401, 'MEDIA_CATEGORY_OWNER_REQUIRED', '请先登录后再创建资源分类')
+  }
+
+  const exists = await MediaCategory.exists({ name, owner, system: false })
   if (exists) {
     throw createHttpError(409, 'MEDIA_CATEGORY_EXISTS', '资源分类已存在')
   }
 
   const category = await MediaCategory.create({
     name,
+    owner,
+    system: false,
     description: String(input.description || '').trim(),
     sortOrder: Number.isFinite(Number(input.sortOrder)) ? Number(input.sortOrder) : 0
   })
@@ -125,14 +172,11 @@ export async function createMediaCategory(input) {
   return category.toSafeJSON()
 }
 
-export async function updateMediaCategory(id, input) {
-  const category = await MediaCategory.findById(id)
+export async function updateMediaCategory(id, input, actor) {
+  const owner = getActorId(actor)
+  const category = await MediaCategory.findOne({ _id: id, owner, system: false })
   if (!category) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
-  }
-
-  if (isSystemMediaCategory(category.name)) {
-    throw createHttpError(400, 'MEDIA_CATEGORY_RESERVED', '系统资源分类不支持修改')
   }
 
   if (input.name !== undefined) {
@@ -141,13 +185,25 @@ export async function updateMediaCategory(id, input) {
       throw createHttpError(400, 'MEDIA_CATEGORY_NAME_REQUIRED', '分类名称不能为空')
     }
 
-    const exists = await MediaCategory.exists({ name: nextName, _id: { $ne: id } })
+    if (isSystemMediaCategory(nextName)) {
+      throw createHttpError(409, 'MEDIA_CATEGORY_RESERVED', '该名称属于系统资源分类')
+    }
+
+    const exists = await MediaCategory.exists({ name: nextName, owner, system: false, _id: { $ne: id } })
     if (exists) {
       throw createHttpError(409, 'MEDIA_CATEGORY_EXISTS', '资源分类已存在')
     }
 
     if (category.name !== nextName) {
-      await Media.updateMany({ category: category.name }, { $set: { category: nextName } })
+      await Media.updateMany({
+        uploader: owner,
+        $or: [
+          { categoryId: category._id },
+          { categoryId: null, category: category.name }
+        ]
+      }, {
+        $set: { category: nextName, categoryId: category._id }
+      })
     }
 
     category.name = nextName
@@ -165,17 +221,23 @@ export async function updateMediaCategory(id, input) {
   return category.toSafeJSON()
 }
 
-export async function deleteMediaCategory(id) {
-  const category = await MediaCategory.findById(id)
+export async function deleteMediaCategory(id, actor) {
+  const owner = getActorId(actor)
+  const category = await MediaCategory.findOne({ _id: id, owner, system: false })
   if (!category) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
   }
 
-  if (isSystemMediaCategory(category.name)) {
-    throw createHttpError(400, 'MEDIA_CATEGORY_RESERVED', '系统资源分类不可删除')
-  }
-
-  await Media.updateMany({ category: category.name }, { $set: { category: '默认素材' } })
+  const defaultCategory = await assertMediaCategoryExists('默认素材', actor)
+  await Media.updateMany({
+    uploader: owner,
+    $or: [
+      { categoryId: category._id },
+      { categoryId: null, category: category.name }
+    ]
+  }, {
+    $set: { category: defaultCategory.name, categoryId: defaultCategory._id }
+  })
   await MediaCategory.findByIdAndDelete(id)
 
   return { id, deleted: true }
