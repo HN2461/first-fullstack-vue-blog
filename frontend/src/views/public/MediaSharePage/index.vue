@@ -50,7 +50,7 @@
             <h1>{{ share.name }}</h1>
             <p v-if="share.description">{{ share.description }}</p>
           </div>
-          <a-button type="primary" size="large" :href="archiveUrl">
+          <a-button type="primary" size="large" :loading="downloadState.active" @click="downloadArchive">
             <template #icon><DownloadOutlined /></template>
             下载全部
           </a-button>
@@ -72,7 +72,7 @@
                   </a-button>
                 </a-tooltip>
                 <a-tooltip title="下载资源">
-                  <a-button type="text" :aria-label="`下载 ${item.originalName}`" :href="getDownloadUrl(item)">
+                  <a-button type="text" :aria-label="`下载 ${item.originalName}`" :disabled="downloadState.active" @click="downloadItem(item)">
                     <template #icon><DownloadOutlined /></template>
                   </a-button>
                 </a-tooltip>
@@ -91,6 +91,24 @@
             <a-alert type="info" show-icon message="链接中的文件通过受控接口提供，页面不会公开原始存储地址。" />
           </aside>
         </div>
+        <TransferProgressPanel
+          v-if="downloadState.visible"
+          class="resource-share-transfer"
+          :title="downloadState.title"
+          :subtitle="downloadState.subtitle"
+          :loaded="downloadState.loaded"
+          :total="downloadState.total"
+          :percent="downloadState.percent"
+          :speed="downloadState.speed"
+          :remaining-seconds="downloadState.remainingSeconds"
+          :status="downloadState.status"
+        >
+          <template #actions>
+            <span v-if="downloadState.status === 'browser'" class="resource-share-transfer__hint">进度请在浏览器下载面板查看</span>
+            <a-button v-if="downloadState.active" size="small" @click="cancelDownload">取消下载</a-button>
+            <a-button v-else size="small" @click="resetDownloadState">关闭</a-button>
+          </template>
+        </TransferProgressPanel>
       </section>
     </main>
 
@@ -101,6 +119,8 @@
       :item="previewItem"
       :preview-url="previewItem ? getPreviewUrl(previewItem) : ''"
       :download-url="previewItem ? getDownloadUrl(previewItem) : ''"
+      :download-disabled="downloadState.active"
+      @download="downloadItem(previewItem)"
     />
   </div>
 </template>
@@ -131,6 +151,8 @@ import {
   verifyPublicMediaShare
 } from '@/services/mediaShare'
 import MediaSharePreviewModal from './MediaSharePreviewModal.vue'
+import TransferProgressPanel from '@/components/TransferProgressPanel.vue'
+import { downloadWithProgress } from '@/utils/downloadWithProgress'
 import './media-share-page.css'
 
 const route = useRoute()
@@ -143,6 +165,8 @@ const passwordCode = ref('')
 const passwordError = ref('')
 const previewVisible = ref(false)
 const previewItem = ref(null)
+const downloadState = ref(createEmptyDownloadState())
+let downloadAbortController = null
 const publicId = computed(() => String(route.params.publicId || ''))
 const totalSize = computed(() => share.value?.items?.reduce((sum, item) => sum + item.size, 0) || 0)
 const archiveUrl = computed(() => getPublicMediaShareArchiveUrl(publicId.value))
@@ -217,6 +241,61 @@ function getPreviewUrl(item) {
 
 function getDownloadUrl(item) {
   return getPublicMediaShareContentUrl(publicId.value, item.entryId, 'attachment')
+}
+
+function createEmptyDownloadState() {
+  return { visible: false, active: false, title: '', subtitle: '', loaded: 0, total: 0, percent: 0, speed: 0, remainingSeconds: 0, status: 'active' }
+}
+
+function resetDownloadState() {
+  if (downloadState.value.active) return
+  downloadState.value = createEmptyDownloadState()
+}
+
+function cancelDownload() {
+  downloadAbortController?.abort()
+}
+
+async function runDownload({ url, filename, title, subtitle, expectedSize = 0 }) {
+  if (downloadState.value.active) return
+  downloadAbortController = new AbortController()
+  downloadState.value = { ...createEmptyDownloadState(), visible: true, active: true, title, subtitle }
+  try {
+    const result = await downloadWithProgress(url, {
+      filename,
+      expectedSize,
+      signal: downloadAbortController.signal,
+      onProgress: (progress) => {
+        downloadState.value = { ...downloadState.value, ...progress, active: progress.status === 'active' }
+      }
+    })
+    downloadState.value = { ...downloadState.value, active: false, status: result.method === 'browser' ? 'browser' : 'success' }
+  } catch (error) {
+    const cancelled = error.name === 'AbortError'
+    downloadState.value = { ...downloadState.value, active: false, status: cancelled ? 'cancelled' : 'error', subtitle: cancelled ? '下载已取消' : (error.message || '下载失败') }
+  } finally {
+    downloadAbortController = null
+  }
+}
+
+function downloadItem(item) {
+  if (!item) return
+  return runDownload({
+    url: getDownloadUrl(item),
+    filename: item.originalName,
+    title: `下载 ${item.originalName}`,
+    subtitle: formatFileSize(item.size),
+    expectedSize: item.size || 0
+  })
+}
+
+function downloadArchive() {
+  return runDownload({
+    url: archiveUrl.value,
+    filename: `${share.value?.name || 'resource-package'}.zip`,
+    title: '下载全部资源',
+    subtitle: `${share.value?.items?.length || 0} 个文件 · 原始体积 ${formatFileSize(totalSize.value)}`
+  })
 }
 
 function fileIcon(item) {

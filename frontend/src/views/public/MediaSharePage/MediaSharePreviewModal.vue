@@ -25,7 +25,7 @@
               <a-tooltip title="向右旋转"><a-button type="text" aria-label="向右旋转图片" @click="rotation = (rotation + 90) % 360"><template #icon><RotateRightOutlined /></template></a-button></a-tooltip>
             </template>
             <a-tooltip title="新页面打开"><a-button type="text" aria-label="新页面打开资源" :href="previewUrl" target="_blank" rel="noopener noreferrer"><template #icon><ExportOutlined /></template></a-button></a-tooltip>
-            <a-tooltip title="下载资源"><a-button type="text" aria-label="下载资源" :href="downloadUrl"><template #icon><DownloadOutlined /></template></a-button></a-tooltip>
+            <a-tooltip title="下载资源"><a-button type="text" aria-label="下载资源" :disabled="downloadDisabled" @click="emit('download')"><template #icon><DownloadOutlined /></template></a-button></a-tooltip>
           </div>
         </div>
 
@@ -89,8 +89,8 @@ const PreviewFallback = defineComponent({
     return () => h('div', { class: 'share-preview-workspace__fallback' }, [h('strong', props.title), h('p', props.text), slots.default?.()])
   }
 })
-const props = defineProps({ open: { type: Boolean, default: false }, item: { type: Object, default: null }, previewUrl: { type: String, default: '' }, downloadUrl: { type: String, default: '' } })
-const emit = defineEmits(['update:open'])
+const props = defineProps({ open: { type: Boolean, default: false }, item: { type: Object, default: null }, previewUrl: { type: String, default: '' }, downloadUrl: { type: String, default: '' }, downloadDisabled: { type: Boolean, default: false } })
+const emit = defineEmits(['update:open', 'download'])
 const scale = ref(1)
 const rotation = ref(0)
 const position = ref({ x: 0, y: 0 })

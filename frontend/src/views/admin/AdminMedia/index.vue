@@ -238,67 +238,13 @@
       </BlogTable>
     </div>
 
-    <a-modal
+    <MediaUploadModal
+      ref="uploadModalRef"
       v-model:open="uploadModalVisible"
-      class="media-upload-modal"
-      title="上传资源"
-      :confirm-loading="uploading"
-      ok-text="上传到媒体库"
-      cancel-text="取消"
-      centered
-      width="520px"
-      :body-style="{ maxHeight: '70vh', overflow: 'hidden' }"
-      @ok="uploadFile"
-      @cancel="resetUploadDraft"
-    >
-      <div class="media-upload-modal__scroll">
-        <a-alert v-if="errorMessage" class="media-cloud__alert" type="error" show-icon :message="errorMessage" />
-        <div class="media-upload-modal__context">
-          <div>
-            <strong>上传规则</strong>
-            <span>单次最多 {{ uploadRules.maxFiles }} 个文件，单文件最大 {{ uploadRules.maxFileSizeMB }}MB</span>
-          </div>
-          <a-tag :bordered="false" color="blue">媒体库</a-tag>
-        </div>
-        <a-form layout="vertical">
-          <a-form-item label="资源分类">
-            <a-select
-              v-model:value="uploadCategory"
-              show-search
-              allow-clear
-              placeholder="选择资源分类"
-              :options="filterCategoryOptions"
-              :filter-option="filterSelectOption"
-            />
-          </a-form-item>
-          <a-form-item label="选择文件">
-            <a-upload-dragger
-              multiple
-              :before-upload="beforeUpload"
-              :show-upload-list="false"
-              :accept="uploadAccept"
-            >
-              <p class="ant-upload-drag-icon"><InboxOutlined /></p>
-              <p class="ant-upload-text">拖拽文件到这里，或点击选择本地资源</p>
-              <p class="ant-upload-hint">
-                单次最多 {{ uploadRules.maxFiles }} 个文件，单文件最大 {{ uploadRules.maxFileSizeMB }}MB
-              </p>
-            </a-upload-dragger>
-          </a-form-item>
-        </a-form>
-        <div v-if="files.length" class="media-cloud__file-list">
-          <div class="media-cloud__file-list-header">
-            <strong>待上传 {{ files.length }} 个</strong>
-            <a-button type="link" size="small" @click="resetUploadDraft">清空</a-button>
-          </div>
-          <div v-for="(item, index) in files" :key="`${item.name}-${item.size}-${index}`" class="media-cloud__file-chip">
-            <strong>{{ item.name }}</strong>
-            <span>{{ formatFileSize(item.size) }}</span>
-            <a-button type="text" size="small" danger @click="removeSelectedFile(index)">移除</a-button>
-          </div>
-        </div>
-      </div>
-    </a-modal>
+      :rules="uploadRules"
+      :category-options="filterCategoryOptions"
+      @uploaded="handleUploadCompleted"
+    />
 
     <MediaUploadSettingsModal
       v-model:open="settingsModalVisible"
@@ -471,13 +417,11 @@ import MediaPreviewModal from './MediaPreviewModal.vue'
 import MediaReferenceModal from './MediaReferenceModal.vue'
 import MediaInventoryModal from './MediaInventoryModal.vue'
 import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
+import MediaUploadModal from './MediaUploadModal.vue'
 import MediaGuideModal from './MediaGuideModal.vue'
 import MediaShareCreateModal from './MediaShareCreateModal.vue'
 import {
   DEFAULT_MEDIA_ALLOWED_EXTENSIONS,
-  buildMediaUploadAccept,
-  getMediaFileExtension,
-  isMediaFileExtensionAllowed,
   normalizeAllowedMediaExtensions
 } from './mediaUploadConfig'
 import {
@@ -493,18 +437,15 @@ import {
   moveAdminMediaCategory,
   renameAdminMedia,
   updateAdminMediaCategory,
-  updateAdminSettings,
-  uploadAdminMedia
+  updateAdminSettings
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAuthStore } from '@/stores/auth'
 
 const tableRef = ref(null)
 const router = useRouter()
-const files = ref([])
+const uploadModalRef = ref(null)
 const errorMessage = ref('')
-const uploading = ref(false)
-const uploadCategory = ref('默认素材')
 const categories = ref([])
 const keyword = ref('')
 const filterCategory = ref(undefined)
@@ -587,7 +528,6 @@ const tableParams = computed(() => ({
   fileClass: filterFileClass.value || undefined,
   usageStatus: filterUsageStatus.value || undefined
 }))
-const uploadAccept = computed(() => buildMediaUploadAccept(uploadRules.value.allowedExtensions))
 
 const columns = [
   {
@@ -636,36 +576,6 @@ function filterSelectOption(input, option) {
   if (!keyword) return true
   const label = String(option?.label || '').toLowerCase()
   return label.includes(keyword)
-}
-
-function beforeUpload(nextFile) {
-  if (files.value.length >= uploadRules.value.maxFiles) {
-    errorMessage.value = `单次最多选择 ${uploadRules.value.maxFiles} 个文件`
-    return false
-  }
-
-  if ((nextFile.size || 0) > uploadRules.value.maxFileSizeMB * 1024 * 1024) {
-    errorMessage.value = `单文件大小不能超过 ${uploadRules.value.maxFileSizeMB}MB`
-    return false
-  }
-
-  if (!isMediaFileExtensionAllowed(nextFile.name, uploadRules.value.allowedExtensions)) {
-    errorMessage.value = `当前上传限制不支持 ${getMediaFileExtension(nextFile.name) || '无扩展名'} 文件`
-    return false
-  }
-
-  errorMessage.value = ''
-  files.value.push(nextFile)
-  return false
-}
-
-function removeSelectedFile(index) {
-  files.value.splice(index, 1)
-}
-
-function resetUploadDraft() {
-  files.value = []
-  errorMessage.value = ''
 }
 
 function refreshTable() {
@@ -791,33 +701,15 @@ async function saveUploadSettings(payload) {
       mediaAllowedExtensions: uploadRules.value.allowedExtensions
     }
     settingsModalVisible.value = false
-    resetUploadDraft()
+    uploadModalRef.value?.reset()
   } finally {
     settingsSaving.value = false
   }
 }
 
-async function uploadFile() {
-  if (files.value.length === 0) {
-    errorMessage.value = '请选择要上传的资源文件'
-    return
-  }
-  errorMessage.value = ''
-  uploading.value = true
-  try {
-    await runAction(() => uploadAdminMedia(files.value, { category: uploadCategory.value || '默认素材' }), {
-      successMessage: `已上传 ${files.value.length} 个资源`,
-      errorMessage: '上传失败'
-    })
-    resetUploadDraft()
-    uploadModalVisible.value = false
-    await loadCategories()
-    tableRef.value?.refresh()
-  } catch (error) {
-    errorMessage.value = error.message || '上传失败'
-  } finally {
-    uploading.value = false
-  }
+async function handleUploadCompleted() {
+  await loadCategories()
+  tableRef.value?.refresh()
 }
 
 const previewVisible = ref(false)
@@ -1421,100 +1313,6 @@ onMounted(async () => {
   background: #fef2f2 !important;
 }
 
-.media-cloud__alert {
-  margin-bottom: 12px;
-}
-
-.media-upload-modal__context {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
-  padding: 12px 14px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface-muted);
-}
-
-.media-upload-modal__scroll {
-  max-height: min(60vh, 520px);
-  overflow-y: auto;
-  padding-right: 2px;
-  scrollbar-width: none;
-}
-
-.media-upload-modal__scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.media-upload-modal__context > div {
-  display: grid;
-  gap: 3px;
-  min-width: 0;
-}
-
-.media-upload-modal__context strong {
-  color: var(--console-text);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.media-upload-modal__context span {
-  color: var(--console-text-secondary);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.media-cloud__file-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 180px;
-  overflow-y: auto;
-  padding-top: 4px;
-}
-
-.media-cloud__file-list-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 0 2px;
-}
-
-.media-cloud__file-list-header strong {
-  color: var(--console-text);
-  font-size: 13px;
-  font-weight: 600;
-}
-
-.media-cloud__file-chip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface-muted);
-}
-
-.media-cloud__file-chip strong {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 13px;
-  color: var(--console-text);
-}
-
-.media-cloud__file-chip span {
-  color: var(--console-text-secondary);
-  font-size: 12px;
-  white-space: nowrap;
-}
-
 /* ===== 表格区域深度样式覆盖 ===== */
 
 .media-category-panel {
@@ -1727,7 +1525,6 @@ onMounted(async () => {
 
 :deep(.dark-theme) .media-file__name,
 :deep(.dark-theme) .media-cloud__title,
-:deep(.dark-theme) .media-cloud__file-chip strong,
 :deep(.dark-theme) .media-category-item strong {
   color: var(--console-text);
 }
@@ -1736,7 +1533,6 @@ onMounted(async () => {
 :deep(.dark-theme) .media-size,
 :deep(.dark-theme) .media-time,
 :deep(.dark-theme) .media-usage-link :deep(.ant-badge-status-text),
-:deep(.dark-theme) .media-cloud__file-chip span,
 :deep(.dark-theme) .media-category-item span,
 :deep(.dark-theme) .media-category-panel__empty {
   color: var(--console-text-secondary) !important;

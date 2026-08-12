@@ -88,6 +88,8 @@
 .resource-share-summary dt { color: var(--share-text-secondary); }
 .resource-share-summary dd { margin: 0; color: var(--share-text); text-align: right; }
 .resource-share-summary .ant-alert-message { font-size: 12px; line-height: 1.6; }
+.resource-share-transfer { margin: 0 24px 24px; }
+.resource-share-transfer__hint { color: var(--share-text-secondary); font-size: 12px; }
 .resource-share-footer { display: grid; place-items: center; color: var(--share-text-secondary); font-size: 12px; }
 
 @media (max-width: 760px) {
@@ -103,5 +105,6 @@
   .resource-share-files__head { padding: 0 16px; }
   .resource-share-file { grid-template-columns: 36px minmax(0, 1fr) auto; padding: 11px 10px 11px 14px; }
   .resource-share-summary { border-top: 1px solid var(--share-border); }
+  .resource-share-transfer { margin: 0 14px 16px; }
   .resource-share-gate__meta { flex-direction: column; }
 }

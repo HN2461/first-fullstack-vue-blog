@@ -438,7 +438,11 @@ export function uploadAdminMedia(fileOrFiles, metadata = {}) {
   if (metadata.category) {
     formData.append('category', metadata.category)
   }
-  return http.post('/api/admin/media', formData)
+  return http.post('/api/admin/media', formData, {
+    timeout: 0,
+    signal: metadata.signal,
+    onUploadProgress: metadata.onUploadProgress
+  })
 }
 
 export function deleteAdminMedia(id) {

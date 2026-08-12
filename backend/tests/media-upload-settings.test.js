@@ -76,4 +76,22 @@ describe('media upload settings', () => {
     expect(uploadResponse.body.data.fileClass).toBe('archive')
     expect(await Media.countDocuments()).toBe(1)
   })
+
+  it('accepts the 1GB media limit and rejects values above the absolute limit', async () => {
+    const accepted = await request(app)
+      .patch('/api/admin/settings')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ mediaMaxFileSizeMB: 1024 })
+      .expect(200)
+
+    expect(accepted.body.data.mediaMaxFileSizeMB).toBe(1024)
+
+    const rejected = await request(app)
+      .patch('/api/admin/settings')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ mediaMaxFileSizeMB: 1025 })
+      .expect(400)
+
+    expect(rejected.body.message).toContain('1024MB')
+  })
 })

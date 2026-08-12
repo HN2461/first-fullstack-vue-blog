@@ -50,7 +50,7 @@ const storage = multer.diskStorage({
 })
 
 const ABSOLUTE_MAX_MEDIA_FILES = 20
-const ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB = 200
+const ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB = 1024
 
 const upload = multer({
   storage,

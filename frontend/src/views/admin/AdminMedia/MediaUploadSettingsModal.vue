@@ -17,7 +17,7 @@
         class="media-upload-settings__alert"
         type="warning"
         show-icon
-        message="线上 Nginx 的 client_max_body_size 需要不小于这里的容量，否则大文件会在进入后端前返回 413。"
+        message="网关上限需要大于这里的容量，并预留 multipart 请求开销；否则大文件会在进入后端前返回 413。"
       />
 
       <a-form layout="vertical">
@@ -34,11 +34,11 @@
           <a-input-number
             v-model:value="draft.mediaMaxFileSizeMB"
             :min="1"
-            :max="200"
+            :max="1024"
             style="width: 100%"
           />
           <div class="media-upload-settings__note">
-            当前应用层最高 200MB；部署模板将网关上限预留为 220MB，适配 multipart 上传开销。
+            当前应用层最高 1024MB；大文件上传耗时取决于网络速度，上传面板会显示进度、速度和预计剩余时间。
           </div>
         </a-form-item>
 

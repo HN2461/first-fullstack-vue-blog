@@ -203,7 +203,7 @@ server {
     root /www/personal-blog/frontend;
     index index.html;
 
-    client_max_body_size 220m;
+    client_max_body_size 1100m;
 
     ssl_certificate /etc/nginx/ssl/haonan.online/haonan.online.pem;
     ssl_certificate_key /etc/nginx/ssl/haonan.online/haonan.online.key;

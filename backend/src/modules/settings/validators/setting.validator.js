@@ -38,7 +38,7 @@ export const settingSchema = z.object({
   mediaMaxFileSizeMB: z.number({ invalid_type_error: '单文件上传最大容量必须是数字' })
     .int('单文件上传最大容量必须是整数')
     .min(1, '单文件上传最大容量不能小于 1MB')
-    .max(200, '单文件上传最大容量不能超过 200MB')
+    .max(1024, '单文件上传最大容量不能超过 1024MB')
     .optional(),
   mediaAllowedExtensions: z.array(z.enum(MEDIA_ALLOWED_EXTENSION_VALUES, {
     errorMap: () => ({ message: '存在不支持的资源扩展名' })
