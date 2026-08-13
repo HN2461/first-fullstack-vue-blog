@@ -118,11 +118,6 @@ export const userRoleAssignSchema = z.object({
   roleIds: z.array(z.string().regex(objectIdPattern, '角色 id 不正确')).min(1, '请选择至少一个角色')
 }).strict('存在不支持的用户角色字段')
 
-export const userBatchResetPasswordSchema = z.object({
-  userIds: z.array(z.string().regex(objectIdPattern, '用户 id 不正确')).min(1, '请选择要重置密码的用户'),
-  credential: encryptedCredentialSchema
-}).strict('存在不支持的批量密码重置字段')
-
 export const userCreateSchema = z.object({
   username: z.string().trim().min(2, '用户名至少需要 2 个字符').max(32, '用户名不能超过 32 个字符'),
   email: z.string().trim().email('邮箱格式不正确'),

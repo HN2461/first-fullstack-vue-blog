@@ -3,7 +3,7 @@ import { listVisibleComments } from '#modules/interaction/services/comment.servi
 import { getPopupAnnouncements, listActiveAnnouncements, getUnreadCount, markAllAsRead, markAsRead } from '#modules/notification/services/notification.service.js'
 import { getKnowledgeMenuData, getPublicArticleBySlug, getPublicHomeData, listPublicArticles } from '#modules/public/services/public.service.js'
 import { getSearchSuggestions, searchArticles } from '#modules/search/services/search.service.js'
-import { getSettings } from '#modules/settings/services/setting.service.js'
+import { getPublicSiteProfile } from '#modules/settings/services/setting.service.js'
 import { optionalAuth, requireAuth } from '#middlewares/auth.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
@@ -21,7 +21,7 @@ publicRouter.get('/knowledge-menu', asyncHandler(async (req, res) => {
 }))
 
 publicRouter.get('/site/profile', asyncHandler(async (req, res) => {
-  res.json(ok(await getSettings()))
+  res.json(ok(await getPublicSiteProfile()))
 }))
 
 publicRouter.get('/festival-effect', asyncHandler(async (req, res) => {

@@ -45,7 +45,7 @@
 
       <section v-else-if="share" class="resource-share-sheet">
         <div class="resource-share-sheet__heading">
-          <div>
+          <div class="resource-share-sheet__title">
             <span class="resource-share-sheet__eyebrow"><SafetyCertificateOutlined /> 已通过访问校验</span>
             <h1>{{ share.name }}</h1>
             <p v-if="share.description">{{ share.description }}</p>
@@ -56,40 +56,52 @@
           </a-button>
         </div>
 
-        <div class="resource-share-content">
-          <div class="resource-share-files">
-            <div class="resource-share-files__head"><strong>资源清单</strong><span>{{ share.items.length }} 个文件</span></div>
-            <article v-for="item in share.items" :key="item.entryId" class="resource-share-file">
-              <div class="resource-share-file__icon"><component :is="fileIcon(item)" /></div>
-              <div class="resource-share-file__info">
-                <strong :title="item.originalName">{{ item.originalName }}</strong>
-                <span>{{ fileTypeLabel(item) }} · {{ formatFileSize(item.size) }}</span>
-              </div>
-              <div class="resource-share-file__actions">
-                <a-tooltip v-if="item.previewType !== 'other'" title="预览资源">
-                  <a-button type="text" :aria-label="`预览 ${item.originalName}`" @click="openPreview(item)">
-                    <template #icon><EyeOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-                <a-tooltip title="下载资源">
-                  <a-button type="text" :aria-label="`下载 ${item.originalName}`" :disabled="downloadState.active" @click="downloadItem(item)">
-                    <template #icon><DownloadOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-              </div>
-            </article>
-          </div>
+        <dl class="resource-share-facts">
+          <div><dt>文件数量</dt><dd>{{ share.items.length }} 个</dd></div>
+          <div><dt>资源包体积</dt><dd>{{ formatFileSize(totalSize) }}</dd></div>
+          <div><dt>有效期至</dt><dd>{{ expiryLabel }}</dd></div>
+          <div><dt>访问额度</dt><dd>{{ accessLimitLabel }}</dd></div>
+        </dl>
 
-          <aside class="resource-share-summary">
-            <strong>资源包信息</strong>
-            <dl>
-              <div><dt>文件数量</dt><dd>{{ share.items.length }} 个</dd></div>
-              <div><dt>总体积</dt><dd>{{ formatFileSize(totalSize) }}</dd></div>
-              <div><dt>有效期</dt><dd>{{ expiryLabel }}</dd></div>
-              <div><dt>访问额度</dt><dd>{{ accessLimitLabel }}</dd></div>
-            </dl>
-            <a-alert type="info" show-icon message="链接中的文件通过受控接口提供，页面不会公开原始存储地址。" />
-          </aside>
+        <div class="resource-share-security">
+          <SafetyCertificateOutlined />
+          <span>所有文件均通过分享权限校验提供，原始存储地址不会公开。</span>
+        </div>
+
+        <div class="resource-share-files">
+          <div class="resource-share-files__head">
+            <div><strong>资源清单</strong><span>选择文件可在线预览或单独下载</span></div>
+            <span>共 {{ share.items.length }} 个</span>
+          </div>
+          <article v-for="item in share.items" :key="item.entryId" class="resource-share-file">
+            <button
+              v-if="item.previewType === 'image' && !failedThumbnails.has(item.entryId)"
+              type="button"
+              class="resource-share-file__thumbnail"
+              :aria-label="`预览 ${item.originalName}`"
+              @click="openPreview(item)"
+            >
+              <img :src="getPreviewUrl(item)" :alt="item.originalName" loading="lazy" @error="markThumbnailFailed(item.entryId)">
+            </button>
+            <div v-else class="resource-share-file__icon"><component :is="fileIcon(item)" /></div>
+            <div class="resource-share-file__info">
+              <button v-if="item.previewType !== 'other'" type="button" :title="item.originalName" @click="openPreview(item)">{{ item.originalName }}</button>
+              <strong v-else :title="item.originalName">{{ item.originalName }}</strong>
+              <span>{{ fileTypeLabel(item) }} · {{ formatFileSize(item.size) }}</span>
+            </div>
+            <div class="resource-share-file__actions">
+              <a-tooltip v-if="item.previewType !== 'other'" title="预览资源">
+                <a-button type="text" :aria-label="`预览 ${item.originalName}`" @click="openPreview(item)">
+                  <template #icon><EyeOutlined /></template>
+                </a-button>
+              </a-tooltip>
+              <a-tooltip title="下载资源">
+                <a-button type="text" :aria-label="`下载 ${item.originalName}`" :disabled="downloadState.active" @click="downloadItem(item)">
+                  <template #icon><DownloadOutlined /></template>
+                </a-button>
+              </a-tooltip>
+            </div>
+          </article>
         </div>
         <TransferProgressPanel
           v-if="downloadState.visible"
@@ -165,6 +177,7 @@ const passwordCode = ref('')
 const passwordError = ref('')
 const previewVisible = ref(false)
 const previewItem = ref(null)
+const failedThumbnails = ref(new Set())
 const downloadState = ref(createEmptyDownloadState())
 let downloadAbortController = null
 const publicId = computed(() => String(route.params.publicId || ''))
@@ -197,6 +210,7 @@ async function loadShare() {
   requestError.value = null
   passwordError.value = ''
   share.value = null
+  failedThumbnails.value = new Set()
   try {
     let result = await getPublicMediaShare(publicId.value)
     if (result.mode === 'public' && !result.unlocked) {
@@ -233,6 +247,10 @@ async function verifyPassword() {
 function openPreview(item) {
   previewItem.value = item
   previewVisible.value = true
+}
+
+function markThumbnailFailed(entryId) {
+  failedThumbnails.value = new Set([...failedThumbnails.value, entryId])
 }
 
 function getPreviewUrl(item) {

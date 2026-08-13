@@ -135,6 +135,49 @@
   border-color: #0969da !important;
 }
 
+/* 登录/注册页拥有独立主题，复选框不能继续继承应用外层的 Ant Design 主题。 */
+.theme-light .ant-checkbox-wrapper {
+  color: #344054 !important;
+}
+
+.theme-light .ant-checkbox-inner {
+  border-color: #98a2b3 !important;
+  background-color: #ffffff !important;
+}
+
+.theme-light .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.theme-light .ant-checkbox-input:focus-visible + .ant-checkbox-inner {
+  border-color: #0969da !important;
+}
+
+.theme-light .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: #0969da !important;
+  background-color: #0969da !important;
+}
+
+.theme-light .ant-checkbox-input:focus-visible + .ant-checkbox-inner {
+  box-shadow: 0 0 0 3px rgba(9, 105, 218, 0.16) !important;
+}
+
+.theme-dark .ant-checkbox-wrapper {
+  color: #c9d1d9 !important;
+}
+
+.theme-dark .ant-checkbox-inner {
+  border-color: #6e7681 !important;
+  background-color: #161b22 !important;
+}
+
+.theme-dark .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.theme-dark .ant-checkbox-input:focus-visible + .ant-checkbox-inner,
+.theme-dark .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: #58a6ff !important;
+}
+
+.theme-dark .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #1f6feb !important;
+}
+
 /* 亮色自动填充 */
 .theme-light input:-webkit-autofill,
 .theme-light input:-webkit-autofill:hover,

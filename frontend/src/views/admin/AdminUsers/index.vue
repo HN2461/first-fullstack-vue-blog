@@ -33,10 +33,6 @@
             <template #icon><TeamOutlined /></template>
             批量修改角色
           </a-button>
-          <a-button size="small" danger @click="openResetPasswordModal()">
-            <template #icon><KeyOutlined /></template>
-            批量重置密码
-          </a-button>
           <a-popconfirm
             title="确认删除选中用户？"
             ok-text="删除"
@@ -140,22 +136,30 @@
         </template>
 
         <template v-else-if="column.key === 'action'">
-          <span v-if="record.isSuperAdmin" class="protected-action-text">系统保留</span>
-          <a-dropdown v-else>
+          <a-dropdown>
             <a-button type="text" size="small" class="action-more-btn" aria-label="更多用户操作">
               <MoreOutlined />
             </a-button>
             <template #overlay>
               <a-menu @click="({ key }) => handleAction(key, record)">
-                <a-menu-item key="remark">设置备注</a-menu-item>
-                <a-menu-item key="roles">修改角色</a-menu-item>
-                <a-menu-item key="reset-password">重置密码</a-menu-item>
-                <a-menu-divider />
-                <a-menu-item v-if="record.status !== 'active'" key="active">启用账号</a-menu-item>
-                <a-menu-item v-if="record.status !== 'muted'" key="muted">禁言</a-menu-item>
-                <a-menu-item v-if="record.status !== 'disabled'" key="disabled" danger>禁用账号</a-menu-item>
-                <a-menu-divider />
-                <a-menu-item key="delete" danger>删除用户</a-menu-item>
+                <template v-if="record.isSuperAdmin">
+                  <a-menu-item key="reset-password">修改本人密码</a-menu-item>
+                  <a-menu-item key="reset-records">查看重置记录</a-menu-item>
+                </template>
+                <template v-else>
+                  <a-menu-item key="create-reset-link">生成重置链接</a-menu-item>
+                  <a-menu-item key="reset-password">直接设置密码</a-menu-item>
+                  <a-menu-item key="reset-records">查看重置记录</a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item key="remark">设置备注</a-menu-item>
+                  <a-menu-item key="roles">修改角色</a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item v-if="record.status !== 'active'" key="active">启用账号</a-menu-item>
+                  <a-menu-item v-if="record.status !== 'muted'" key="muted">禁言</a-menu-item>
+                  <a-menu-item v-if="record.status !== 'disabled'" key="disabled" danger>禁用账号</a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item key="delete" danger>删除用户</a-menu-item>
+                </template>
               </a-menu>
             </template>
           </a-dropdown>
@@ -265,41 +269,23 @@
       </a-form>
     </a-modal>
 
-    <a-modal
-      v-model:open="resetPasswordVisible"
-      title="重置用户密码"
-      ok-text="确认重置"
-      cancel-text="取消"
-      :confirm-loading="resettingPassword"
-      :destroy-on-close="true"
-      :body-style="{ maxHeight: '64vh', overflowY: 'auto' }"
-      @ok="submitResetPassword"
-    >
-      <a-alert
-        type="warning"
-        show-icon
-        message="该操作会使目标用户当前登录态失效"
-        class="reset-alert"
-      />
-      <a-form layout="vertical">
-        <a-form-item label="目标用户">
-          <a-input :value="resetTargetLabel" disabled />
-        </a-form-item>
-        <a-form-item label="新密码" required>
-          <a-input-password v-model:value="resetPasswordForm.newPassword" autocomplete="new-password" />
-        </a-form-item>
-      </a-form>
-    </a-modal>
+    <PasswordRecoveryManager
+      v-model:open="passwordRecoveryVisible"
+      :user="passwordRecoveryUser"
+      :initial-mode="passwordRecoveryMode"
+      @completed="tableRef?.refresh?.()"
+      @self-reset="handleSelfReset"
+    />
   </section>
 </template>
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
   DeleteOutlined,
   DownOutlined,
-  KeyOutlined,
   MoreOutlined,
   PoweroffOutlined,
   ReloadOutlined,
@@ -308,9 +294,9 @@ import {
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import BatchActionBar from '@/components/BatchActionBar.vue'
+import PasswordRecoveryManager from './PasswordRecoveryManager.vue'
 import {
   batchDeleteAdminUsers,
-  batchResetAdminUserPasswords,
   batchUpdateAdminUserRoles,
   batchUpdateAdminUserStatus,
   createAdminUser,
@@ -322,6 +308,7 @@ import {
   updateAdminUserStatus
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
+import { useAuthStore } from '@/stores/auth'
 
 const tableRef = ref(null)
 const searchKeyword = ref('')
@@ -336,18 +323,19 @@ const createUserVisible = ref(false)
 const creatingUser = ref(false)
 const savingRoles = ref(false)
 const roleRecord = ref(null)
-const resetPasswordVisible = ref(false)
-const resettingPassword = ref(false)
-const resetRecord = ref(null)
+const passwordRecoveryVisible = ref(false)
+const passwordRecoveryUser = ref(null)
+const passwordRecoveryMode = ref('link')
 const remarkVisible = ref(false)
 const savingRemark = ref(false)
 const remarkRecord = ref(null)
 const createUserFormRef = ref(null)
 const { runAction, confirmAction } = useAdminActions()
+const authStore = useAuthStore()
+const router = useRouter()
 
 const roleForm = reactive({ roleIds: [] })
 const remarkForm = reactive({ remarkName: '' })
-const resetPasswordForm = reactive({ newPassword: '' })
 const createUserForm = reactive({
   username: '',
   email: '',
@@ -378,7 +366,6 @@ const filterParams = computed(() => ({
   status: filterStatus.value === 'all' ? undefined : filterStatus.value
 }))
 const roleTargetLabel = computed(() => roleRecord.value ? roleRecord.value.email : `已选 ${selectedUserIds.value.length} 个用户`)
-const resetTargetLabel = computed(() => resetRecord.value ? resetRecord.value.email : `已选 ${selectedUserIds.value.length} 个用户`)
 
 const columns = [
   { title: '用户', key: 'user', dataIndex: 'username', width: 280 },
@@ -591,37 +578,20 @@ async function submitRoles() {
   }
 }
 
-function openResetPasswordModal(record = null) {
-  if (record?.isSuperAdmin) {
-    message.warning('超级管理员账号不支持重置密码')
+function openPasswordRecovery(record, mode) {
+  if (record.isSuperAdmin && record.id !== authStore.user?.id) {
+    message.warning('只能修改当前登录的超级管理员账号')
     return
   }
-  if (!record && !ensureSelected()) return
-  resetRecord.value = record
-  resetPasswordForm.newPassword = ''
-  resetPasswordVisible.value = true
+  passwordRecoveryUser.value = record
+  passwordRecoveryMode.value = mode
+  passwordRecoveryVisible.value = true
 }
 
-async function submitResetPassword() {
-  const password = resetPasswordForm.newPassword
-  if (!password || password.length < 8 || password.length > 72) {
-    message.warning('新密码长度需为 8-72 个字符')
-    return
-  }
-
-  resettingPassword.value = true
-  try {
-    const ids = resetRecord.value ? [resetRecord.value.id] : selectedUserIds.value
-    await batchResetAdminUserPasswords(ids, password)
-    message.success('用户密码已重置')
-    resetPasswordVisible.value = false
-    if (!resetRecord.value) clearSelection()
-    tableRef.value?.refresh()
-  } catch (error) {
-    message.error(error.message || '密码重置失败')
-  } finally {
-    resettingPassword.value = false
-  }
+async function handleSelfReset() {
+  authStore.clearSession?.({ clearEntranceAutoPlay: true })
+  message.info('密码已修改，请重新登录')
+  await router.replace('/login')
 }
 
 async function removeUser(record) {
@@ -682,7 +652,15 @@ function handleAction(key, record) {
     return
   }
   if (key === 'reset-password') {
-    openResetPasswordModal(record)
+    openPasswordRecovery(record, 'direct')
+    return
+  }
+  if (key === 'create-reset-link') {
+    openPasswordRecovery(record, 'link')
+    return
+  }
+  if (key === 'reset-records') {
+    openPasswordRecovery(record, 'records')
     return
   }
   if (key === 'delete') {

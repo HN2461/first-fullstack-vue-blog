@@ -16,6 +16,14 @@ export const defaultSiteProfile = {
   commentEnabled: true,
   defaultTheme: 'light',
   systemVersion: 'v1.0.0',
+  accountRecovery: {
+    enabled: true,
+    instructions: '请联系站点管理员核验身份，核验通过后将获得一次性密码重置链接。',
+    contactHours: '',
+    qq: { enabled: false, account: '', allowLaunch: true, qrCodeUrl: '' },
+    wechat: { enabled: false, account: '', qrCodeUrl: '' },
+    email: { enabled: false, address: '' }
+  },
   siteEntranceEffect: { ...defaultSiteEntranceEffect }
 }
 

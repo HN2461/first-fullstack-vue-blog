@@ -141,6 +141,15 @@
               </div>
               <SiteEntranceEffectSettings v-model:value="form.siteEntranceEffect" />
             </div>
+            <div class="form-item">
+              <div class="field-header">
+                <label>账号找回</label>
+                <a-tooltip title="登录页只展示已启用的联系方式，二维码统一从媒体资产选择。">
+                  <QuestionCircleOutlined class="field-help" />
+                </a-tooltip>
+              </div>
+              <AccountRecoverySettings v-model:value="form.accountRecovery" />
+            </div>
             <FestivalSettings />
           </a-form>
         </div>
@@ -216,6 +225,7 @@ import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 import { useSiteStore } from '@/stores/site'
 import SiteEntranceEffectSettings from './components/SiteEntranceEffectSettings.vue'
 import FestivalSettings from './components/FestivalSettings.vue'
+import AccountRecoverySettings from './components/AccountRecoverySettings.vue'
 import {
   DEFAULT_SITE_ENTRANCE_EFFECT,
   normalizeSiteEntranceEffectConfig
@@ -228,6 +238,14 @@ const defaultForm = {
   commentEnabled: true,
   defaultTheme: 'light',
   systemVersion: '',
+  accountRecovery: {
+    enabled: true,
+    instructions: '请通过下方联系方式与管理员核验身份，核验通过后管理员会发送一次性密码重置链接。',
+    contactHours: '',
+    qq: { enabled: false, account: '', allowLaunch: true, qrCode: { mediaId: '', url: '', name: '' } },
+    wechat: { enabled: false, account: '', qrCode: { mediaId: '', url: '', name: '' } },
+    email: { enabled: false, address: '' }
+  },
   siteEntranceEffect: { ...DEFAULT_SITE_ENTRANCE_EFFECT }
 }
 
@@ -245,6 +263,13 @@ function normalizeSettings(settings = {}) {
     ...defaultForm,
     ...settings,
     commentEnabled: settings.commentEnabled !== false,
+    accountRecovery: {
+      ...defaultForm.accountRecovery,
+      ...(settings.accountRecovery || {}),
+      qq: { ...defaultForm.accountRecovery.qq, ...(settings.accountRecovery?.qq || {}), qrCode: { ...defaultForm.accountRecovery.qq.qrCode, ...(settings.accountRecovery?.qq?.qrCode || {}) } },
+      wechat: { ...defaultForm.accountRecovery.wechat, ...(settings.accountRecovery?.wechat || {}), qrCode: { ...defaultForm.accountRecovery.wechat.qrCode, ...(settings.accountRecovery?.wechat?.qrCode || {}) } },
+      email: { ...defaultForm.accountRecovery.email, ...(settings.accountRecovery?.email || {}) }
+    },
     siteEntranceEffect: normalizeSiteEntranceEffectConfig(settings.siteEntranceEffect)
   }
 }

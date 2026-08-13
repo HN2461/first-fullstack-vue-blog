@@ -332,28 +332,6 @@ export async function batchUpdateUserRoles(userIds, roleIds) {
   return { updatedCount: result.modifiedCount || 0 }
 }
 
-export async function batchResetUserPasswords(userIds, newPassword) {
-  if (!Array.isArray(userIds) || userIds.length === 0) {
-    throw createHttpError(400, 'USER_IDS_REQUIRED', '请选择要重置密码的用户')
-  }
-
-  const passwordHash = await bcrypt.hash(newPassword, 12)
-  const result = await User.updateMany(
-    { _id: { $in: userIds } },
-    {
-      $set: {
-        passwordHash,
-        failedLoginCount: 0,
-        lockedUntil: null,
-        passwordChangedAt: new Date()
-      },
-      $inc: { tokenVersion: 1 }
-    }
-  )
-
-  return { updatedCount: result.modifiedCount || 0 }
-}
-
 export async function deleteAdminUser(userId, operatorId = null) {
   const user = await User.findById(userId).populate('roles')
   if (!user) {

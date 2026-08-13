@@ -50,6 +50,8 @@
         </p>
       </a-form>
 
+      <SocialLoginButtons :lang="lang" />
+
       <div class="mobile-auth__links">
         <router-link to="/register">{{ lang === 'zh' ? '立即注册' : 'Sign Up' }}</router-link>
         <router-link to="/">{{ lang === 'zh' ? '返回首页' : 'Back to Home' }}</router-link>
@@ -58,47 +60,7 @@
       <SiteBeianLinks tone="auth-card" show-copyright />
     </section>
 
-    <a-modal
-      v-model:open="forgotPasswordVisible"
-      :title="lang === 'zh' ? '重置密码' : 'Reset password'"
-      :confirm-loading="resettingPassword"
-      :ok-text="lang === 'zh' ? '确认重置' : 'Reset'"
-      :cancel-text="lang === 'zh' ? '取消' : 'Cancel'"
-      :width="420"
-      :destroy-on-close="true"
-      @ok="submitForgotPassword"
-    >
-      <a-alert
-        class="mobile-auth__reset-tip"
-        type="info"
-        show-icon
-        :message="lang === 'zh' ? '请输入注册邮箱与新密码。' : 'Enter your email and new password.'"
-      />
-      <a-form
-        ref="forgotPasswordFormRef"
-        :model="forgotPasswordForm"
-        :rules="forgotPasswordRules"
-        layout="vertical"
-        class="mobile-auth__reset-form"
-        @finish="handleResetPassword"
-      >
-        <a-form-item :label="lang === 'zh' ? '注册邮箱' : 'Email'" name="email">
-          <a-input v-model:value.trim="forgotPasswordForm.email" size="large" allow-clear>
-            <template #prefix><MailOutlined /></template>
-          </a-input>
-        </a-form-item>
-        <a-form-item :label="lang === 'zh' ? '新密码' : 'New password'" name="newPassword">
-          <a-input-password v-model:value="forgotPasswordForm.newPassword" size="large" autocomplete="new-password">
-            <template #prefix><LockOutlined /></template>
-          </a-input-password>
-        </a-form-item>
-        <a-form-item :label="lang === 'zh' ? '确认新密码' : 'Confirm password'" name="confirmPassword">
-          <a-input-password v-model:value="forgotPasswordForm.confirmPassword" size="large" autocomplete="new-password" @keyup.enter="submitForgotPassword">
-            <template #prefix><LockOutlined /></template>
-          </a-input-password>
-        </a-form-item>
-      </a-form>
-    </a-modal>
+    <AccountRecoveryModal v-model:open="forgotPasswordVisible" :lang="lang" :theme="theme" />
   </main>
 </template>
 
@@ -110,6 +72,8 @@ import { LockOutlined, MailOutlined } from '@ant-design/icons-vue'
 import AuthSettings from '@/components/AuthSettings.vue'
 import SlideCaptcha from '@/components/SlideCaptcha.vue'
 import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
+import AccountRecoveryModal from './AccountRecoveryModal.vue'
+import SocialLoginButtons from './SocialLoginButtons.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
@@ -119,13 +83,10 @@ const theme = ref(localStorage.getItem('auth-theme') || 'dark')
 const lang = ref(localStorage.getItem('auth-lang') || 'zh')
 const layout = ref(localStorage.getItem('auth-layout') || 'right')
 const form = reactive({ email: '', password: '', remember: false })
-const forgotPasswordForm = reactive({ email: '', newPassword: '', confirmPassword: '' })
 const submitting = ref(false)
-const resettingPassword = ref(false)
 const forgotPasswordVisible = ref(false)
 const captchaVerified = ref(false)
 const slideCaptchaRef = ref(null)
-const forgotPasswordFormRef = ref(null)
 
 watch(theme, (value) => localStorage.setItem('auth-theme', value))
 watch(lang, (value) => localStorage.setItem('auth-lang', value))
@@ -141,58 +102,12 @@ const passwordRules = computed(() => [
   { min: 8, message: lang.value === 'zh' ? '密码至少8个字符' : 'At least 8 characters' }
 ])
 
-const forgotPasswordRules = computed(() => ({
-  email: emailRules.value,
-  newPassword: [
-    { required: true, message: lang.value === 'zh' ? '请输入新密码' : 'New password is required' },
-    { min: 8, message: lang.value === 'zh' ? '新密码至少需要 8 个字符' : 'At least 8 characters' },
-    { max: 72, message: lang.value === 'zh' ? '新密码不能超过 72 个字符' : 'No more than 72 characters' }
-  ],
-  confirmPassword: [
-    { required: true, message: lang.value === 'zh' ? '请确认新密码' : 'Please confirm the new password' },
-    {
-      validator: async (_rule, value) => {
-        if (value && value !== forgotPasswordForm.newPassword) {
-          throw new Error(lang.value === 'zh' ? '两次输入的新密码不一致' : 'Passwords do not match')
-        }
-      }
-    }
-  ]
-}))
-
 function onCaptchaSuccess() {
   captchaVerified.value = true
 }
 
 function openForgotPasswordModal() {
-  forgotPasswordForm.email = form.email || localStorage.getItem('blog-remembered-email') || ''
-  forgotPasswordForm.newPassword = ''
-  forgotPasswordForm.confirmPassword = ''
   forgotPasswordVisible.value = true
-}
-
-async function submitForgotPassword() {
-  try {
-    await forgotPasswordFormRef.value?.validate()
-    await handleResetPassword()
-  } catch {
-    // Ant Design Vue 会展示具体校验信息。
-  }
-}
-
-async function handleResetPassword() {
-  resettingPassword.value = true
-  try {
-    await authStore.resetPassword({ ...forgotPasswordForm })
-    form.email = forgotPasswordForm.email
-    form.password = ''
-    forgotPasswordVisible.value = false
-    message.success(lang.value === 'zh' ? '密码重置成功，请使用新密码登录' : 'Password reset successfully')
-  } catch (error) {
-    message.error(error.message || (lang.value === 'zh' ? '密码重置失败' : 'Password reset failed'))
-  } finally {
-    resettingPassword.value = false
-  }
 }
 
 async function handleSubmit() {

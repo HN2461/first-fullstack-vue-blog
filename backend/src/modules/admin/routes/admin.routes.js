@@ -7,7 +7,9 @@ import { batchDeleteArticles, batchPermanentDeleteArticles, batchRestoreArticles
 import { batchUpdateArticleMeta, batchUpdateArticleTitles, listArticleTitlePreview } from '#modules/content/services/articleBatch.service.js'
 import { reorderCategoryArticles } from '#modules/content/services/articleOrder.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
-import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
+import { batchDeleteAdminUsers, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
+import { createPasswordResetLink, deletePasswordResetRecord, listPasswordResetRecords, resetPasswordDirectly, revokePasswordResetLink } from '#modules/passwordReset/services/passwordReset.service.js'
+import { directPasswordResetSchema, passwordResetCredentialSchema, passwordResetLinkCreateSchema } from '#modules/passwordReset/validators/passwordReset.validator.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
 import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
 import { handleMediaUpload } from '#modules/media/handlers/mediaUpload.handler.js'
@@ -25,10 +27,10 @@ import { buildArticleExportHeaders, exportArticlesAsMarkdownZip } from '#modules
 import { assertArticlePublishable } from '#modules/content/services/articleContent.service.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
-import { decryptCredential } from '#utils/authSecurity.js'
+import { clearAuthCookie, decryptCredential } from '#utils/authSecurity.js'
 import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
 import { articleBatchMetaSchema, articleBatchTitleSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleExportSchema, articleReorderSchema, articleSchema, articleStatusBatchSchema, articleTitlePreviewSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, documentArticleImportSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
-import { userBatchResetPasswordSchema, userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
+import { userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
 import { mediaCategoryBatchMoveSchema, mediaCategoryMoveSchema, mediaRegisterUntrackedSchema, mediaRenameSchema } from '#modules/media/validators/media.validator.js'
@@ -579,11 +581,29 @@ adminRouter.post('/users/batch/roles', requireSuperAdmin, asyncHandler(async (re
   res.json(ok(result, `已更新 ${result.updatedCount} 个用户角色`))
 }))
 
-adminRouter.post('/users/batch/reset-password', requireSuperAdmin, asyncHandler(async (req, res) => {
-  const input = parseBody(userBatchResetPasswordSchema, req.body)
-  const credential = decryptCredential(input.credential, 'admin-reset-password')
-  const result = await batchResetUserPasswords(input.userIds, credential.newPassword)
-  res.json(ok(result, `已重置 ${result.updatedCount} 个用户密码`))
+adminRouter.post('/users/:id/password-reset-links', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const input = parseBody(passwordResetLinkCreateSchema, req.body)
+  res.status(201).json(ok(await createPasswordResetLink(req.params.id, req.user, input, req.ip), '重置链接已生成'))
+}))
+
+adminRouter.get('/users/:id/password-reset-records', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.json(ok(await listPasswordResetRecords(req.params.id)))
+}))
+
+adminRouter.post('/password-reset-links/:id/revoke', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.json(ok(await revokePasswordResetLink(req.params.id, req.user), '重置链接已撤销'))
+}))
+
+adminRouter.delete('/password-reset-records/:id', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.json(ok(await deletePasswordResetRecord(req.params.id), '密码重置记录已永久删除'))
+}))
+
+adminRouter.post('/users/:id/reset-password', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const input = parseBody(directPasswordResetSchema, req.body)
+  const credential = parseBody(passwordResetCredentialSchema, decryptCredential(input.credential, 'admin-reset-password'))
+  const result = await resetPasswordDirectly(req.params.id, credential.newPassword, req.user, req.ip, input.note)
+  if (result.selfReset) clearAuthCookie(res)
+  res.json(ok(result, '用户密码已重置'))
 }))
 
 adminRouter.post('/users/batch/delete', requireSuperAdmin, asyncHandler(async (req, res) => {

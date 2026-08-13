@@ -7,7 +7,6 @@ import {
   loginAccount,
   logoutAccount,
   registerAccount,
-  resetAccountPassword,
   setStoredToken
 } from '@/services/http'
 import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
@@ -200,34 +199,6 @@ export const useAuthStore = defineStore('auth', () => {
     setStoredToken('')
   }
 
-  async function resetPassword(form) {
-    if (!canEncryptCredentialInBrowser()) {
-      await resetAccountPassword({
-        email: form.email,
-        newPassword: form.newPassword,
-        confirmPassword: form.confirmPassword
-      })
-      return
-    }
-
-    const challenge = await getAuthChallenge('reset-password')
-    const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
-      purpose: 'reset-password',
-      challengeId: challenge.challengeId,
-      nonce: challenge.nonce,
-      newPassword: form.newPassword,
-      confirmPassword: form.confirmPassword
-    })
-
-    await resetAccountPassword({
-      email: form.email,
-      credential: {
-        challengeId: challenge.challengeId,
-        payload: encryptedPayload
-      }
-    })
-  }
-
   function clearSession(options = {}) {
     token.value = ''
     user.value = null
@@ -259,9 +230,9 @@ export const useAuthStore = defineStore('auth', () => {
     canAccessPath,
     restoreSession,
     refreshCurrentUser,
+    clearSession,
     register,
     login,
-    resetPassword,
     logout
   }
 })

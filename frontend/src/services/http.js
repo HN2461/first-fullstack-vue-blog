@@ -138,12 +138,23 @@ export function logoutAccount() {
   return http.post('/api/auth/logout')
 }
 
-/**
- * 忘记密码重置。该流程不要求登录态，也不复用个人信息页旧密码校验接口。
- * @param {Object} data - { email, newPassword, confirmPassword }
- */
-export function resetAccountPassword(data) {
-  return http.post('/api/auth/reset-password', data)
+export function inspectPasswordResetLink(token) {
+  return http.post('/api/auth/password-reset/inspect', { token })
+}
+
+export async function consumePasswordResetLink(token, data) {
+  const challenge = await getAuthChallenge('password-reset-link')
+  const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+    purpose: 'password-reset-link',
+    challengeId: challenge.challengeId,
+    nonce: challenge.nonce,
+    newPassword: data.newPassword,
+    confirmPassword: data.confirmPassword
+  })
+  return http.post('/api/auth/password-reset/consume', {
+    token,
+    credential: { challengeId: challenge.challengeId, payload: encryptedPayload }
+  })
 }
 
 export function getCurrentUser() {

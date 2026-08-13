@@ -282,7 +282,7 @@ export function batchDeleteAdminUsers(ids) {
   return http.post('/api/admin/users/batch/delete', { ids })
 }
 
-export async function batchResetAdminUserPasswords(userIds, newPassword) {
+export async function resetAdminUserPassword(userId, data) {
   const challenge = await http.get('/api/auth/challenge', {
     params: { purpose: 'admin-reset-password' }
   })
@@ -290,16 +290,33 @@ export async function batchResetAdminUserPasswords(userIds, newPassword) {
     purpose: 'admin-reset-password',
     challengeId: challenge.challengeId,
     nonce: challenge.nonce,
-    newPassword
+    newPassword: data.newPassword,
+    confirmPassword: data.confirmPassword
   })
 
-  return http.post('/api/admin/users/batch/reset-password', {
-    userIds,
+  return http.post(`/api/admin/users/${userId}/reset-password`, {
+    note: data.note || '',
     credential: {
       challengeId: challenge.challengeId,
       payload: encryptedPayload
     }
   })
+}
+
+export function createAdminPasswordResetLink(userId, data) {
+  return http.post(`/api/admin/users/${userId}/password-reset-links`, data)
+}
+
+export function listAdminPasswordResetRecords(userId) {
+  return http.get(`/api/admin/users/${userId}/password-reset-records`)
+}
+
+export function revokeAdminPasswordResetLink(recordId) {
+  return http.post(`/api/admin/password-reset-links/${recordId}/revoke`)
+}
+
+export function deleteAdminPasswordResetRecord(recordId) {
+  return http.delete(`/api/admin/password-reset-records/${recordId}`)
 }
 
 export async function listRbacRoles(params = {}) {

@@ -21,6 +21,33 @@ const siteEntranceEffectSchema = z.object({
   })).max(4, '网站入场欢迎触发页面数量不正确').optional()
 }).strict('存在不支持的网站入场欢迎字段')
 
+const recoveryQrCodeSchema = z.object({
+  mediaId: z.string().trim().max(40, '二维码资源编号不正确').optional().default(''),
+  url: z.string().trim().max(500, '二维码地址不能超过 500 个字符').optional().default(''),
+  name: z.string().trim().max(120, '二维码资源名称不能超过 120 个字符').optional().default('')
+}).strict('存在不支持的二维码资源字段')
+
+const accountRecoverySchema = z.object({
+  enabled: z.boolean({ invalid_type_error: '账号找回开关必须是布尔值' }).optional(),
+  instructions: z.string().trim().max(500, '账号找回说明不能超过 500 个字符').optional(),
+  contactHours: z.string().trim().max(200, '联系时间说明不能超过 200 个字符').optional(),
+  qq: z.object({
+    enabled: z.boolean().optional(),
+    account: z.string().trim().max(32, 'QQ 号不能超过 32 个字符').optional(),
+    allowLaunch: z.boolean().optional(),
+    qrCode: recoveryQrCodeSchema.optional()
+  }).strict('存在不支持的 QQ 联系字段').optional(),
+  wechat: z.object({
+    enabled: z.boolean().optional(),
+    account: z.string().trim().max(64, '微信号不能超过 64 个字符').optional(),
+    qrCode: recoveryQrCodeSchema.optional()
+  }).strict('存在不支持的微信联系字段').optional(),
+  email: z.object({
+    enabled: z.boolean().optional(),
+    address: z.string().trim().max(120, '联系邮箱不能超过 120 个字符').refine((value) => !value || z.string().email().safeParse(value).success, '联系邮箱格式不正确').optional()
+  }).strict('存在不支持的邮箱联系字段').optional()
+}).strict('存在不支持的账号找回字段')
+
 export const settingSchema = z.object({
   siteTitle: z.string().trim().min(1, '站点标题不能为空').max(60, '站点标题不能超过 60 个字符').optional(),
   siteDescription: z.string().trim().max(200, '站点描述不能超过 200 个字符').optional(),
@@ -46,5 +73,6 @@ export const settingSchema = z.object({
     .min(1, '至少选择 1 个允许上传的扩展名')
     .max(MEDIA_ALLOWED_EXTENSION_VALUES.length, '允许上传的扩展名数量不正确')
     .optional(),
+  accountRecovery: accountRecoverySchema.optional(),
   siteEntranceEffect: siteEntranceEffectSchema.optional()
 }).strict('存在不支持的设置项')

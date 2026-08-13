@@ -13,7 +13,6 @@ function createHttpError(statusCode, code, message) {
   error.code = code
   return error
 }
-
 function isLocked(user) {
   return user.lockedUntil && user.lockedUntil.getTime() > Date.now()
 }
@@ -67,7 +66,6 @@ export async function registerUser(input) {
     user: await hydrateUserPermissions(user)
   }
 }
-
 export async function loginUser(input) {
   const email = input.email.trim().toLowerCase()
   const user = await User.findOne({ email })
@@ -97,58 +95,4 @@ export async function loginUser(input) {
     token: signAccessToken(user),
     user: await hydrateUserPermissions(user)
   }
-}
-
-export async function resetPassword(input) {
-  const email = input.email.trim().toLowerCase()
-  const user = await User.findOne({ email })
-
-  if (!user) {
-    throw createHttpError(404, 'USER_NOT_FOUND', '该邮箱未注册')
-  }
-
-  if (user.status === USER_STATUS.DISABLED) {
-    throw createHttpError(403, 'USER_DISABLED', '账号已被禁用，无法重置密码')
-  }
-
-  const sameAsCurrent = await bcrypt.compare(input.newPassword, user.passwordHash)
-  if (sameAsCurrent) {
-    throw createHttpError(400, 'PASSWORD_UNCHANGED', '新密码不能与当前密码相同')
-  }
-
-  user.passwordHash = await bcrypt.hash(input.newPassword, 12)
-  user.tokenVersion = (user.tokenVersion || 0) + 1
-  user.failedLoginCount = 0
-  user.lockedUntil = null
-  user.passwordChangedAt = new Date()
-  await user.save()
-
-  return user.toSafeJSON()
-}
-
-export async function resetPasswordByAdmin(input) {
-  const email = input.email.trim().toLowerCase()
-  const user = await User.findOne({ email })
-
-  if (!user) {
-    throw createHttpError(404, 'USER_NOT_FOUND', '该邮箱未注册')
-  }
-
-  if (user.status === USER_STATUS.DISABLED) {
-    throw createHttpError(403, 'USER_DISABLED', '账号已被禁用，无法重置密码')
-  }
-
-  const sameAsCurrent = await bcrypt.compare(input.newPassword, user.passwordHash)
-  if (sameAsCurrent) {
-    throw createHttpError(400, 'PASSWORD_UNCHANGED', '新密码不能与当前密码相同')
-  }
-
-  user.passwordHash = await bcrypt.hash(input.newPassword, 12)
-  user.tokenVersion = (user.tokenVersion || 0) + 1
-  user.failedLoginCount = 0
-  user.lockedUntil = null
-  user.passwordChangedAt = new Date()
-  await user.save()
-
-  return user.toSafeJSON()
 }
