@@ -1,204 +1,190 @@
 <template>
   <div class="settings-page">
-    <!-- 左栏：站点信息配置 -->
-    <div class="settings-main">
-      <div class="settings-panel">
-        <div class="panel-header">
-          <div class="panel-header-icon">
-            <SettingOutlined />
-          </div>
-          <div class="panel-header-text">
-            <h3>站点信息</h3>
-            <span>配置站点基本信息、作者身份和显示偏好</span>
-          </div>
-        </div>
-
-        <div class="panel-body">
-          <!-- 保存状态提示条 -->
-          <div v-if="loadError" class="settings-alert settings-alert--error">
-            <ExclamationCircleOutlined /> {{ loadError }}
-          </div>
-          <div v-else-if="saving" class="settings-alert settings-alert--saving">
-            <LoadingOutlined spin /> 正在保存设置...
-          </div>
-          <div v-else class="settings-alert">
-            <InfoCircleOutlined /> 修改后请主动保存，离开页面前会提醒未保存内容。
-          </div>
-
-          <!-- 表单 -->
-          <a-form layout="vertical" class="settings-form">
-            <div class="form-item">
-              <div class="field-header">
-                <label for="siteTitle">站点标题</label>
-                <a-tooltip :title="settingHelp.siteTitle">
-                  <QuestionCircleOutlined class="field-help" />
-                </a-tooltip>
-              </div>
-              <a-input
-                id="siteTitle"
-                v-model:value.trim="form.siteTitle"
-                placeholder="显示在浏览器标签页"
-                :maxlength="60"
-                show-count
-              >
-                <template #prefix><FontColorsOutlined /></template>
-              </a-input>
-              <span class="form-hint">用于浏览器标题栏和 SEO 标题</span>
-            </div>
-
-            <div class="form-item">
-              <div class="field-header">
-                <label for="siteDescription">站点描述</label>
-                <a-tooltip :title="settingHelp.siteDescription">
-                  <QuestionCircleOutlined class="field-help" />
-                </a-tooltip>
-              </div>
-              <a-textarea
-                id="siteDescription"
-                v-model:value.trim="form.siteDescription"
-                placeholder="简要描述你的站点内容..."
-                :rows="3"
-                :maxlength="200"
-                show-count
-              />
-              <span class="form-hint">用于搜索引擎优化（SEO）和社交分享预览</span>
-            </div>
-
-            <div class="form-row">
-              <div class="form-item form-item--half">
-                <div class="field-header">
-                  <label for="authorName">作者名称</label>
-                  <a-tooltip :title="settingHelp.authorName">
-                    <QuestionCircleOutlined class="field-help" />
-                  </a-tooltip>
-                </div>
-                <a-input
-                  id="authorName"
-                  v-model:value.trim="form.authorName"
-                  placeholder="显示在文章页面"
-                  :maxlength="32"
-                >
-                  <template #prefix><UserOutlined /></template>
-                </a-input>
-              </div>
-              <div class="form-item form-item--half">
-                <div class="field-header">
-                  <label for="systemVersion">系统版本</label>
-                  <a-tooltip :title="settingHelp.systemVersion">
-                    <QuestionCircleOutlined class="field-help" />
-                  </a-tooltip>
-                </div>
-                <a-input
-                  id="systemVersion"
-                  v-model:value.trim="form.systemVersion"
-                  placeholder="例如 v1.0.0"
-                  :maxlength="20"
-                >
-                  <template #prefix><TagOutlined /></template>
-                </a-input>
-              </div>
-            </div>
-
-            <div class="form-item">
-              <div class="field-header">
-                <label>评论功能</label>
-                <a-tooltip :title="settingHelp.commentEnabled">
-                  <QuestionCircleOutlined class="field-help" />
-                </a-tooltip>
-              </div>
-              <div class="toggle-field">
-                <div class="toggle-field__copy">
-                  <strong>允许登录用户发表评论</strong>
-                  <span>关闭后，前台评论提交会被统一拦截，历史评论仍保留展示。</span>
-                </div>
-                <a-switch v-model:checked="form.commentEnabled" />
-              </div>
-            </div>
-
-            <div class="form-item">
-              <div class="field-header">
-                <label>默认主题</label>
-                <a-tooltip :title="settingHelp.defaultTheme">
-                  <QuestionCircleOutlined class="field-help" />
-                </a-tooltip>
-              </div>
-              <a-radio-group v-model:value="form.defaultTheme" class="theme-switcher">
-                <a-radio-button value="light" class="theme-opt theme-opt--light">
-                  <Sun :size="16" /> 浅色
-                </a-radio-button>
-                <a-radio-button value="dark" class="theme-opt theme-opt--dark">
-                  <Moon :size="16" /> 暗色
-                </a-radio-button>
-              </a-radio-group>
-            </div>
-
-            <div class="form-item">
-              <div class="field-header">
-                <label>网站入场欢迎</label>
-                <a-tooltip title="站点级欢迎由管理员配置，用户开启个人页面动效时会自动优先展示个人效果。">
-                  <QuestionCircleOutlined class="field-help" />
-                </a-tooltip>
-              </div>
-              <SiteEntranceEffectSettings v-model:value="form.siteEntranceEffect" />
-            </div>
-            <div class="form-item">
-              <div class="field-header">
-                <label>账号找回</label>
-                <a-tooltip title="登录页只展示已启用的联系方式，二维码统一从媒体资产选择。">
-                  <QuestionCircleOutlined class="field-help" />
-                </a-tooltip>
-              </div>
-              <AccountRecoverySettings v-model:value="form.accountRecovery" />
-            </div>
-            <FestivalSettings />
-          </a-form>
-        </div>
-      </div>
-    </div>
-
-    <!-- 右栏：系统信息 + 操作 -->
-    <div class="settings-aside">
-      <!-- 系统信息卡片 -->
-      <div class="settings-panel sys-info-panel">
-        <div class="panel-header panel-header--compact">
-          <InfoCircleOutlined />
-          <h3>系统信息</h3>
-        </div>
-        <div class="sys-info-list">
-          <div class="sys-info-item">
-            <span class="sys-info-dot sys-info-dot--active"></span>
-            <span class="sys-info-label">服务状态</span>
-            <span class="sys-info-value sys-info-value--success">运行中</span>
-          </div>
-          <div class="sys-info-item">
-            <span class="sys-info-dot sys-info-dot--env"></span>
-            <span class="sys-info-label">运行环境</span>
-            <span class="sys-info-value">Node.js</span>
-          </div>
-          <div class="sys-info-item">
-            <span class="sys-info-dot sys-info-dot--db"></span>
-            <span class="sys-info-label">数据库</span>
-            <span class="sys-info-value">MongoDB</span>
-          </div>
-          <div class="sys-info-divider"></div>
-          <div class="sys-info-time">
+    <div class="settings-workspace">
+      <div class="settings-toolbar">
+        <div class="system-status" aria-label="系统运行信息">
+          <span class="system-status__item system-status__item--online">
+            <i class="system-status__dot"></i>
+            服务运行中
+          </span>
+          <span class="system-status__divider"></span>
+          <span class="system-status__item">Node.js</span>
+          <span class="system-status__item">MongoDB</span>
+          <span class="system-status__time">
             <ClockCircleOutlined />
-            <span>{{ currentTime }}</span>
-          </div>
+            {{ currentTime }}
+          </span>
+        </div>
+        <div class="settings-actions">
+          <a-button :loading="loading" @click="loadSettings">
+            <template #icon><UndoOutlined /></template>
+            重置
+          </a-button>
+          <a-button type="primary" :loading="saving" :disabled="loading" @click="saveSettings">
+            <template #icon><SaveOutlined /></template>
+            保存设置
+          </a-button>
         </div>
       </div>
 
-      <!-- 操作按钮组 -->
-      <div class="settings-actions">
-        <a-button @click="loadSettings" :loading="loading" class="settings-action-button settings-action-button--reset">
-          <template #icon><UndoOutlined /></template>
-          重置
-        </a-button>
-        <a-button type="primary" @click="saveSettings" :loading="saving" class="settings-action-button settings-action-button--save">
-          <template #icon><SaveOutlined /></template>
-          保存设置
-        </a-button>
+      <div v-if="loadError" class="settings-alert settings-alert--error">
+        <ExclamationCircleOutlined />
+        <span>{{ loadError }}</span>
+        <a-button type="link" size="small" @click="loadSettings">重新加载</a-button>
       </div>
+      <div v-else-if="saving" class="settings-alert settings-alert--saving">
+        <LoadingOutlined spin />
+        <span>正在保存设置...</span>
+      </div>
+
+      <a-tabs v-model:active-key="activeSection" class="settings-tabs">
+        <a-tab-pane key="site" tab="基础信息">
+          <section class="settings-section">
+            <div class="settings-section__header">
+              <h3>基础信息</h3>
+              <span>站点身份、公开描述和版本信息</span>
+            </div>
+            <a-form layout="vertical" class="settings-form">
+              <div class="form-item">
+                <div class="field-header">
+                  <label for="siteTitle">站点标题</label>
+                  <a-tooltip :title="settingHelp.siteTitle">
+                    <QuestionCircleOutlined class="field-help" />
+                  </a-tooltip>
+                </div>
+                <a-input
+                  id="siteTitle"
+                  v-model:value.trim="form.siteTitle"
+                  placeholder="显示在浏览器标签页"
+                  :maxlength="60"
+                  show-count
+                >
+                  <template #prefix><FontColorsOutlined /></template>
+                </a-input>
+                <span class="form-hint">用于浏览器标题栏和 SEO 标题</span>
+              </div>
+
+              <div class="form-item">
+                <div class="field-header">
+                  <label for="siteDescription">站点描述</label>
+                  <a-tooltip :title="settingHelp.siteDescription">
+                    <QuestionCircleOutlined class="field-help" />
+                  </a-tooltip>
+                </div>
+                <a-textarea
+                  id="siteDescription"
+                  v-model:value.trim="form.siteDescription"
+                  placeholder="简要描述你的站点内容..."
+                  :rows="3"
+                  :maxlength="200"
+                  show-count
+                />
+                <span class="form-hint">用于搜索引擎优化（SEO）和社交分享预览</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-item form-item--half">
+                  <div class="field-header">
+                    <label for="authorName">作者名称</label>
+                    <a-tooltip :title="settingHelp.authorName">
+                      <QuestionCircleOutlined class="field-help" />
+                    </a-tooltip>
+                  </div>
+                  <a-input
+                    id="authorName"
+                    v-model:value.trim="form.authorName"
+                    placeholder="显示在文章页面"
+                    :maxlength="32"
+                  >
+                    <template #prefix><UserOutlined /></template>
+                  </a-input>
+                </div>
+                <div class="form-item form-item--half">
+                  <div class="field-header">
+                    <label for="systemVersion">系统版本</label>
+                    <a-tooltip :title="settingHelp.systemVersion">
+                      <QuestionCircleOutlined class="field-help" />
+                    </a-tooltip>
+                  </div>
+                  <a-input
+                    id="systemVersion"
+                    v-model:value.trim="form.systemVersion"
+                    placeholder="例如 v1.0.0"
+                    :maxlength="20"
+                  >
+                    <template #prefix><TagOutlined /></template>
+                  </a-input>
+                </div>
+              </div>
+            </a-form>
+          </section>
+        </a-tab-pane>
+
+        <a-tab-pane key="experience" tab="外观与体验">
+          <section class="settings-section">
+            <div class="settings-section__header">
+              <h3>外观与体验</h3>
+              <span>统一新访客主题、评论入口和网站欢迎效果</span>
+            </div>
+            <a-form layout="vertical" class="settings-form">
+              <div class="form-row form-row--preferences">
+                <div class="form-item form-item--half">
+                  <div class="field-header">
+                    <label>默认主题</label>
+                    <a-tooltip :title="settingHelp.defaultTheme">
+                      <QuestionCircleOutlined class="field-help" />
+                    </a-tooltip>
+                  </div>
+                  <a-radio-group v-model:value="form.defaultTheme" class="theme-switcher">
+                    <a-radio-button value="light" class="theme-opt theme-opt--light">
+                      <Sun :size="16" /> 浅色
+                    </a-radio-button>
+                    <a-radio-button value="dark" class="theme-opt theme-opt--dark">
+                      <Moon :size="16" /> 深色
+                    </a-radio-button>
+                  </a-radio-group>
+                  <span class="form-hint">用于访客和选择“跟随站点默认”的用户</span>
+                </div>
+
+                <div class="form-item form-item--half">
+                  <div class="field-header">
+                    <label>评论功能</label>
+                    <a-tooltip :title="settingHelp.commentEnabled">
+                      <QuestionCircleOutlined class="field-help" />
+                    </a-tooltip>
+                  </div>
+                  <div class="toggle-field">
+                    <div class="toggle-field__copy">
+                      <strong>允许登录用户发表评论</strong>
+                      <span>关闭后保留历史评论，仅停止新增评论。</span>
+                    </div>
+                    <a-switch v-model:checked="form.commentEnabled" />
+                  </div>
+                </div>
+              </div>
+
+              <div class="section-divider"></div>
+              <SiteEntranceEffectSettings v-model:value="form.siteEntranceEffect" />
+            </a-form>
+          </section>
+        </a-tab-pane>
+
+        <a-tab-pane key="recovery" tab="账号服务">
+          <section class="settings-section">
+            <div class="settings-section__header">
+              <h3>账号服务</h3>
+              <span>配置登录页展示的人工找回渠道</span>
+            </div>
+            <AccountRecoverySettings v-model:value="form.accountRecovery" />
+          </section>
+        </a-tab-pane>
+
+        <a-tab-pane key="calendar" tab="日历数据">
+          <section class="settings-section settings-section--calendar">
+            <FestivalSettings />
+          </section>
+        </a-tab-pane>
+      </a-tabs>
     </div>
   </div>
 </template>
@@ -206,8 +192,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import {
-  SettingOutlined,
-  InfoCircleOutlined,
   ExclamationCircleOutlined,
   LoadingOutlined,
   FontColorsOutlined,
@@ -276,6 +260,7 @@ function normalizeSettings(settings = {}) {
 
 const saving = ref(false)
 const loading = ref(false)
+const activeSection = ref('site')
 const currentTime = ref('')
 const loadError = ref('')
 const { runAction, toMessage } = useAdminActions()
@@ -348,109 +333,168 @@ onUnmounted(() => {
 
 <style scoped>
 .settings-page {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 24px;
-  align-items: start;
-  max-width: 1280px;
+  width: 100%;
+  min-width: 0;
 }
 
-/* ===== 面板通用 ===== */
-.settings-panel {
+.settings-workspace {
+  width: 100%;
+  min-width: 0;
   background: var(--console-surface);
   border: 1px solid var(--console-border);
   border-radius: 8px;
   overflow: hidden;
 }
 
-/* ===== 面板头部 ===== */
-.panel-header {
+.settings-toolbar {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 20px 24px;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 62px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--console-border);
   background: var(--console-surface-muted);
 }
 
-.panel-header-icon {
-  width: 40px;
-  height: 40px;
+.system-status,
+.system-status__item,
+.system-status__time {
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background: var(--console-primary-soft);
-  color: var(--console-primary-strong);
-  font-size: 18px;
+}
+
+.system-status {
+  min-width: 0;
+  gap: 14px;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.system-status__item,
+.system-status__time {
+  gap: 7px;
+}
+
+.system-status__item--online {
+  color: var(--console-text);
+  font-weight: 600;
+}
+
+.system-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #52c41a;
+  box-shadow: 0 0 0 3px color-mix(in srgb, #52c41a 16%, transparent);
+}
+
+.system-status__divider {
+  width: 1px;
+  height: 16px;
+  background: var(--console-border);
+}
+
+.system-status__time {
+  font-variant-numeric: tabular-nums;
+}
+
+.settings-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   flex-shrink: 0;
 }
 
-.panel-header-text h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--console-text);
-  line-height: 1.5;
+.settings-actions :deep(.ant-btn) {
+  min-width: 92px;
+  height: 36px;
+  border-radius: 6px;
 }
 
-.panel-header-text span {
-  font-size: 13px;
-  color: var(--console-text-secondary);
-  line-height: 1.5;
-  margin-top: 2px;
-}
-
-.panel-header--compact {
-  gap: 8px;
-  padding: 14px 18px;
-  background: transparent;
-}
-
-.panel-header--compact > .anticon {
-  color: var(--console-primary-strong);
-  font-size: 14px;
-}
-
-/* ===== 面板主体 ===== */
-.panel-body {
-  padding: 28px 28px 32px;
-}
-
-/* ===== 提示条 ===== */
 .settings-alert {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
-  margin-bottom: 24px;
-  border-radius: 8px;
+  min-height: 42px;
+  padding: 8px 20px;
+  border-bottom: 1px solid var(--console-border);
   font-size: 13px;
   line-height: 1.6;
   color: var(--console-text-secondary);
   background: var(--console-surface-muted);
-  border: 1px solid var(--console-border);
+}
+
+.settings-alert > span {
+  min-width: 0;
+  flex: 1;
 }
 
 .settings-alert--error {
   color: #ff7875;
   background: color-mix(in srgb, #ff4d4f 12%, var(--console-surface));
-  border-color: color-mix(in srgb, #ff4d4f 42%, var(--console-border));
 }
 
 .settings-alert--saving {
   color: var(--console-primary-strong);
   background: var(--console-primary-soft);
-  border-color: #adc5ff;
 }
 
-/* ===== 表单 ===== */
+.settings-tabs :deep(.ant-tabs-nav) {
+  margin: 0;
+  padding: 0 24px;
+  background: var(--console-surface);
+}
+
+.settings-tabs :deep(.ant-tabs-tab) {
+  min-height: 52px;
+  padding: 14px 4px;
+}
+
+.settings-tabs :deep(.ant-tabs-content-holder) {
+  min-width: 0;
+}
+
+.settings-section {
+  width: 100%;
+  max-width: 980px;
+  min-height: 440px;
+  padding: 26px 28px 34px;
+}
+
+.settings-section__header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--console-border);
+}
+
+.settings-section__header h3 {
+  margin: 0;
+  color: var(--console-text);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.settings-section__header span {
+  display: block;
+  margin-top: 3px;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.settings-section--calendar {
+  padding-top: 4px;
+}
+
 .settings-form {
   max-width: 100%;
 }
 
 .form-item {
-  margin-bottom: 26px;
+  margin-bottom: 24px;
 }
 
 .form-item:last-child {
@@ -470,7 +514,7 @@ onUnmounted(() => {
   font-size: 14px;
   font-weight: 600;
   color: var(--console-text);
-  letter-spacing: 0.03em;
+  letter-spacing: 0;
 }
 
 .field-help {
@@ -511,24 +555,39 @@ onUnmounted(() => {
   line-height: 1.6;
 }
 
-/* 双列布局 */
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .form-item--half {
-  margin-bottom: 26px;
+  margin-bottom: 0;
 }
 
-/* 主题切换 */
+.form-row--preferences {
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+
+.form-row--preferences .form-item {
+  min-width: 0;
+}
+
+.section-divider {
+  height: 1px;
+  margin: 0 0 24px;
+  background: var(--console-border);
+}
+
 .theme-switcher {
   display: flex;
-  gap: 12px;
+  width: 100%;
+  gap: 8px;
 }
 
 .theme-opt {
+  flex: 1;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
@@ -546,14 +605,19 @@ onUnmounted(() => {
   flex-shrink: 0;
 }
 
-/* 移除 radio-button 默认边框 */
 .theme-switcher .ant-radio-button-wrapper {
-  border-left: none !important;
-  border-right: none !important;
+  border: 1px solid var(--console-border) !important;
+  background: var(--console-surface);
 }
 
 .theme-switcher .ant-radio-button-wrapper:not(:first-child)::before {
   display: none !important;
+}
+
+.theme-switcher .ant-radio-button-wrapper-checked {
+  border-color: var(--console-primary) !important;
+  background: var(--console-primary-soft);
+  box-shadow: none !important;
 }
 
 .theme-opt--light {
@@ -562,15 +626,6 @@ onUnmounted(() => {
 
 .theme-opt--dark {
   color: #597ef7;
-}
-
-/* ===== 右侧栏 ===== */
-.settings-aside {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: sticky;
-  top: 0;
 }
 
 .toggle-field {
@@ -603,171 +658,61 @@ onUnmounted(() => {
   line-height: 1.6;
 }
 
-/* 系统信息卡片 */
-.sys-info-panel .panel-body {
-  padding: 20px 20px 18px;
-}
-
-.sys-info-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.sys-info-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 8px;
-  border-radius: 6px;
-  transition: background 0.15s;
-}
-
-.sys-info-item:hover {
-  background: var(--console-surface-hover);
-}
-
-.sys-info-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.sys-info-dot--active {
-  background: #52c41a;
-  box-shadow: 0 0 6px rgba(82, 196, 26, 0.4);
-}
-
-.sys-info-dot--env {
-  background: #1677ff;
-}
-
-.sys-info-dot--db {
-  background: #13c2c2;
-}
-
-.sys-info-label {
-  font-size: 14px;
-  color: var(--console-text-secondary);
-  flex: 1;
-  min-width: 0;
-}
-
-.sys-info-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--console-text);
-  font-variant-numeric: tabular-nums;
-}
-
-.sys-info-value--success {
-  color: #52c41a;
-}
-
-.sys-info-divider {
-  height: 1px;
-  background: var(--console-border);
-  margin: 8px 0;
-}
-
-.sys-info-time {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--console-text-secondary);
-  padding: 10px 0 4px;
-  font-variant-numeric: tabular-nums;
-}
-
-/* 操作按钮 */
-.settings-actions {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 12px;
-  width: 100%;
-}
-
-.settings-action-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  min-width: 0;
-  height: 44px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.settings-action-button--reset {
-  border-color: var(--console-border);
-  color: var(--console-text-secondary);
-  background: var(--console-surface);
-}
-
-.settings-action-button--reset:hover {
-  border-color: var(--console-primary);
-  color: var(--console-primary-strong);
-  background: var(--console-primary-soft);
-}
-
-.settings-action-button--save {
-  box-shadow: 0 2px 8px rgba(22, 104, 220, 0.25);
-  font-weight: 600;
-}
-
-.settings-action-button--save:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(22, 104, 220, 0.35);
-}
-
-/* ===== 响应式 ===== */
 @media (max-width: 1024px) {
-  .settings-page {
-    grid-template-columns: 1fr;
-  }
-
-  .settings-aside {
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-
-  .sys-info-panel {
-    flex: 1;
-    min-width: 240px;
-  }
-
-  .settings-actions {
-    grid-template-columns: repeat(2, minmax(132px, 1fr));
-    flex: 0 0 auto;
+  .system-status__divider,
+  .system-status__item:not(.system-status__item--online) {
+    display: none;
   }
 }
 
 @media (max-width: 640px) {
+  .settings-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .system-status {
+    justify-content: space-between;
+  }
+
+  .settings-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .settings-actions :deep(.ant-btn) {
+    width: 100%;
+  }
+
+  .settings-tabs :deep(.ant-tabs-nav) {
+    padding: 0 16px;
+  }
+
+  .settings-tabs :deep(.ant-tabs-nav-wrap) {
+    overflow-x: auto;
+  }
+
+  .settings-section {
+    min-height: 360px;
+    padding: 22px 16px 28px;
+  }
+
   .form-row {
     grid-template-columns: 1fr;
   }
 
-  .settings-aside {
-    flex-direction: column;
+  .form-row--preferences {
+    gap: 24px;
   }
 
-  .settings-actions {
-    grid-template-columns: minmax(0, 1fr);
+  .theme-opt {
+    padding: 0 12px;
   }
 
-  .settings-action-button {
-    width: 100%;
-  }
-
-  .panel-body {
-    padding: 18px 16px;
+  .system-status__time {
+    font-size: 12px;
   }
 }
 </style>
