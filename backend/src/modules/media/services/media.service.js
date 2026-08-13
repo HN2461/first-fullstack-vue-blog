@@ -74,11 +74,42 @@ export async function createMediaFromFile(file, user, metadata = {}) {
 }
 
 export async function createMediaFromFiles(files, user, metadata = {}) {
-  const items = []
+  await ensureDefaultMediaCategory()
+  const category = await assertMediaCategoryExists(
+    normalizeMediaCategory(metadata.category),
+    user,
+    metadata.categoryId
+  )
+  const documents = files.map((file) => {
+    const normalizedPath = file.path.replace(/\\/g, '/')
+    const uploadsIndex = normalizedPath.lastIndexOf('uploads/')
+    const relativePath = uploadsIndex >= 0 ? normalizedPath.slice(uploadsIndex) : normalizedPath
 
-  for (const file of files) {
-    items.push(await createMediaFromFile(file, user, metadata))
+    return {
+      filename: file.filename,
+      originalName: decodeUploadFilename(file.originalname),
+      mimeType: file.mimetype,
+      size: file.size,
+      url: `/${relativePath}`,
+      storagePath: normalizedPath,
+      kind: file.mimetype.startsWith('image/') ? 'image' : 'attachment',
+      category: category.name,
+      categoryId: category._id,
+      fileClass: inferMediaFileClass(file.originalname, file.mimetype),
+      uploader: user._id
+    }
+  })
+  let created = []
+  try {
+    created = await Media.insertMany(documents)
+  } catch (error) {
+    const insertedIds = (error.insertedDocs || []).map((item) => item._id).filter(Boolean)
+    if (insertedIds.length > 0) {
+      await Media.deleteMany({ _id: { $in: insertedIds } })
+    }
+    throw error
   }
+  const items = created.map((item) => item.toSafeJSON())
 
   return {
     items,
@@ -220,6 +251,23 @@ export async function renameMedia(id, originalName, actor = null) {
   return media.toSafeJSON()
 }
 
+function getActorId(actor) {
+  return actor?._id || actor?.id || actor
+}
+
+function isSameOwner(actor, owner) {
+  return String(getActorId(actor) || '') === String(owner || '')
+}
+
+function assertActorCanUseCategory(category, actor, owner) {
+  if (!category.system && !isSameOwner(actor, owner)) {
+    const error = new Error('只能将其他用户的资源迁移到系统分类')
+    error.statusCode = 403
+    error.code = 'MEDIA_CATEGORY_OWNER_FORBIDDEN'
+    throw error
+  }
+}
+
 export async function moveMediaCategory(id, categoryName, actor = null, categoryId = '') {
   const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(actor) })
   if (!media) {
@@ -230,6 +278,7 @@ export async function moveMediaCategory(id, categoryName, actor = null, category
   }
 
   const category = await assertMediaCategoryExists(categoryName, media.uploader, categoryId)
+  assertActorCanUseCategory(category, actor, media.uploader)
   media.category = category.name
   media.categoryId = category._id
   await media.save()
@@ -262,6 +311,7 @@ export async function moveMediaCategories(ids = [], categoryName, actor = null, 
   const mediaList = await Media.find(query).select('uploader')
   const ownerIds = [...new Set(mediaList.map((item) => item.uploader.toString()))]
   const requestedCategory = await assertMediaCategoryExists(categoryName, ownerIds[0], categoryId)
+  ownerIds.forEach((ownerId) => assertActorCanUseCategory(requestedCategory, actor, ownerId))
   if (!requestedCategory.system && ownerIds.length > 1) {
     const error = new Error('跨用户资源只能迁移到系统分类')
     error.statusCode = 400
@@ -278,42 +328,6 @@ export async function moveMediaCategories(ids = [], categoryName, actor = null, 
     category: requestedCategory.name,
     categoryId: requestedCategory._id.toString()
   }
-}
-
-export async function listMediaCategories(options = {}) {
-  await ensureDefaultMediaCategory()
-  const match = {
-    deletedAt: null,
-    ...getMediaAccessQuery(options.actor)
-  }
-  const rows = await Media.aggregate([
-    {
-      $match: match
-    },
-    {
-      $group: {
-        _id: {
-          categoryId: '$categoryId',
-          name: { $ifNull: ['$category', '默认素材'] }
-        },
-        count: { $sum: 1 }
-      }
-    },
-    {
-      $project: {
-        _id: 0,
-        id: { $ifNull: [{ $toString: '$_id.categoryId' }, ''] },
-        name: '$_id.name',
-        count: 1
-      }
-    },
-    { $sort: { count: -1, name: 1 } }
-  ])
-
-  return rows.map((item) => ({
-    name: item.name || '默认素材',
-    count: item.count || 0
-  }))
 }
 
 export function getUploadSubdir() {

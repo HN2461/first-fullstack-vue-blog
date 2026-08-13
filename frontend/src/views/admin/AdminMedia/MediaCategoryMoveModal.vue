@@ -60,7 +60,8 @@ const categoryOptions = computed(() => props.categories
   .filter((item) => item.id)
   .map((item) => ({
     label: item.description ? `${item.name} - ${item.description}` : item.name,
-    value: item.name
+    value: item.id,
+    name: item.name
   })))
 
 watch(
@@ -71,7 +72,9 @@ watch(
       return
     }
 
-    targetCategory.value = selectedCount > 0 ? undefined : record?.category || undefined
+    targetCategory.value = selectedCount > 0
+      ? undefined
+      : record?.categoryId || props.categories.find((item) => item.name === record?.category)?.id
   },
   { immediate: true }
 )
@@ -86,7 +89,11 @@ function handleSubmit() {
     return
   }
 
-  emit('submit', targetCategory.value)
+  const selectedCategory = categoryOptions.value.find((item) => item.value === targetCategory.value)
+  emit('submit', {
+    id: selectedCategory.value,
+    name: selectedCategory.name
+  })
 }
 </script>
 

@@ -406,8 +406,14 @@ export function batchDeleteAdminMedia(ids) {
   return http.post('/api/admin/media/batch/delete', { ids })
 }
 
-export function batchMoveAdminMediaCategory(ids, category) {
-  return http.patch('/api/admin/media/category/batch', { ids, category })
+function normalizeMediaCategoryTarget(target) {
+  return typeof target === 'object' && target
+    ? { category: target.name, categoryId: target.id || undefined }
+    : { category: target }
+}
+
+export function batchMoveAdminMediaCategory(ids, target) {
+  return http.patch('/api/admin/media/category/batch', { ids, ...normalizeMediaCategoryTarget(target) })
 }
 
 export function listAdminMediaCategories() {
@@ -437,6 +443,9 @@ export function uploadAdminMedia(fileOrFiles, metadata = {}) {
 
   if (metadata.category) {
     formData.append('category', metadata.category)
+  }
+  if (metadata.categoryId) {
+    formData.append('categoryId', metadata.categoryId)
   }
   return http.post('/api/admin/media', formData, {
     timeout: 0,
@@ -553,8 +562,8 @@ export function renameAdminMedia(id, data) {
   return http.patch(`/api/admin/media/${id}/name`, data)
 }
 
-export function moveAdminMediaCategory(id, category) {
-  return http.patch(`/api/admin/media/${id}/category`, { category })
+export function moveAdminMediaCategory(id, target) {
+  return http.patch(`/api/admin/media/${id}/category`, normalizeMediaCategoryTarget(target))
 }
 
 export async function listProjectTimelineRecords(params = {}) {

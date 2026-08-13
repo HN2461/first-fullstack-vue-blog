@@ -8,8 +8,9 @@ import { batchUpdateArticleMeta, batchUpdateArticleTitles, listArticleTitlePrevi
 import { reorderCategoryArticles } from '#modules/content/services/articleOrder.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
 import { batchDeleteAdminUsers, batchResetUserPasswords, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
-import { createMediaCategory, deleteMediaCategory, isSystemMediaCategory, listMediaCategoryEntities, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
-import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, createMediaFromFiles, deleteMedia, emptyMediaTrash, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, listMediaCategories, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { createMediaCategory, deleteMediaCategory, listMediaCategories, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
+import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { handleMediaUpload } from '#modules/media/handlers/mediaUpload.handler.js'
 import { clearSuspectedUntrackedMedia, getUnregisteredMediaFileDetail, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
@@ -630,27 +631,7 @@ adminRouter.get('/media/trash', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
-  const categoryEntities = await listMediaCategoryEntities()
-  const usageRows = await listMediaCategories({ actor: req.user })
-  const usageMap = new Map(usageRows.map((item) => [item.name, item.count]))
-  const merged = categoryEntities.map((item) => ({
-    ...item.toSafeJSON(),
-    count: usageMap.get(item.name) || 0,
-    system: isSystemMediaCategory(item.name)
-  }))
-
-  for (const row of usageRows) {
-    if (!merged.some((item) => item.name === row.name)) {
-      merged.push({
-        ...row,
-        id: '',
-        description: '历史资源记录使用的分类，尚未建立分类配置。',
-        system: isSystemMediaCategory(row.name)
-      })
-    }
-  }
-
-  res.json(ok(merged))
+  res.json(ok(await listMediaCategories(req.user)))
 }))
 
 adminRouter.get('/media/delete-risk', asyncHandler(async (req, res) => {
@@ -685,74 +666,18 @@ adminRouter.get('/media/:id/references', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.post('/media/categories', asyncHandler(async (req, res) => {
-  res.status(201).json(ok(await createMediaCategory(req.body), '资源分类已创建'))
+  res.status(201).json(ok(await createMediaCategory(req.body, req.user), '资源分类已创建'))
 }))
 
 adminRouter.patch('/media/categories/:id', asyncHandler(async (req, res) => {
-  res.json(ok(await updateMediaCategory(req.params.id, req.body), '资源分类已更新'))
+  res.json(ok(await updateMediaCategory(req.params.id, req.body, req.user), '资源分类已更新'))
 }))
 
 adminRouter.delete('/media/categories/:id', asyncHandler(async (req, res) => {
-  res.json(ok(await deleteMediaCategory(req.params.id), '资源分类已删除'))
+  res.json(ok(await deleteMediaCategory(req.params.id, req.user), '资源分类已删除'))
 }))
 
-adminRouter.post('/media', (req, res, next) => {
-  upload.fields([
-    { name: 'files', maxCount: ABSOLUTE_MAX_MEDIA_FILES },
-    { name: 'file', maxCount: 1 }
-  ])(req, res, async (error) => {
-    if (error) {
-      if (error instanceof MulterError) {
-        error.statusCode = 400
-        error.code = error.code || 'UPLOAD_ERROR'
-        if (error.code === 'LIMIT_FILE_SIZE') {
-          error.message = `文件大小不能超过 ${ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB}MB`
-        } else if (error.code === 'LIMIT_UNEXPECTED_FILE') {
-          error.message = `单次最多上传 ${ABSOLUTE_MAX_MEDIA_FILES} 个文件`
-        }
-      }
-
-      next(error)
-      return
-    }
-
-    try {
-      const files = getUploadedFiles(req)
-      if (files.length === 0) {
-        const fileError = new Error('请选择要上传的文件')
-        fileError.statusCode = 400
-        fileError.code = 'FILE_REQUIRED'
-        throw fileError
-      }
-
-      const rules = await getMediaUploadRules()
-      if (files.length > rules.maxFiles) {
-        await cleanupUploadedFiles(files)
-        throw createUploadValidationError(`单次最多上传 ${rules.maxFiles} 个文件`, 'MEDIA_UPLOAD_COUNT_LIMIT')
-      }
-
-      const oversized = files.find((file) => file.size > rules.maxFileSizeMB * 1024 * 1024)
-      if (oversized) {
-        await cleanupUploadedFiles(files)
-        throw createUploadValidationError(`单文件大小不能超过 ${rules.maxFileSizeMB}MB`, 'MEDIA_UPLOAD_SIZE_LIMIT')
-      }
-
-      const unsupported = files.find((file) => !isMediaExtensionAllowed(file.originalname, rules.allowedExtensions))
-      if (unsupported) {
-        await cleanupUploadedFiles(files)
-        const extension = getMediaFileExtension(unsupported.originalname) || '无扩展名'
-        throw createUploadValidationError(`当前上传限制不支持 ${extension} 文件`, 'MEDIA_UPLOAD_EXTENSION_NOT_ALLOWED')
-      }
-
-      const result = await createMediaFromFiles(files, req.user, {
-        category: req.body?.category
-      })
-      res.status(201).json(ok(result.total === 1 ? result.items[0] : result, `已上传 ${result.total} 个文件`))
-    } catch (handlerError) {
-      next(handlerError)
-    }
-  })
-})
+adminRouter.post('/media', handleMediaUpload)
 
 adminRouter.post('/media/batch/delete', asyncHandler(async (req, res) => {
   const input = parseBody(idBatchSchema, req.body)
@@ -762,7 +687,7 @@ adminRouter.post('/media/batch/delete', asyncHandler(async (req, res) => {
 
 adminRouter.patch('/media/category/batch', asyncHandler(async (req, res) => {
   const input = parseBody(mediaCategoryBatchMoveSchema, req.body)
-  const result = await moveMediaCategories(input.ids, input.category, req.user)
+  const result = await moveMediaCategories(input.ids, input.category, req.user, input.categoryId)
   res.json(ok(result, `已将 ${result.movedCount} 个媒体文件迁移至「${result.category}」`))
 }))
 
@@ -794,7 +719,7 @@ adminRouter.patch('/media/:id/name', asyncHandler(async (req, res) => {
 
 adminRouter.patch('/media/:id/category', asyncHandler(async (req, res) => {
   const input = parseBody(mediaCategoryMoveSchema, req.body)
-  const media = await moveMediaCategory(req.params.id, input.category, req.user)
+  const media = await moveMediaCategory(req.params.id, input.category, req.user, input.categoryId)
   res.json(ok(media, '资源分类已更新'))
 }))
 

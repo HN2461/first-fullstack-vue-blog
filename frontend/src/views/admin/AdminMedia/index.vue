@@ -269,7 +269,7 @@
       v-model:open="categoryMoveModalVisible"
       :record="categoryMoveRecord"
       :selected-count="categoryMoveIds.length"
-      :categories="categories"
+      :categories="categoryMoveOptions"
       :submitting="categoryMoveSubmitting"
       @submit="submitCategoryMove"
     />
@@ -441,6 +441,7 @@ import {
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAuthStore } from '@/stores/auth'
+import { getMovableMediaCategories } from './mediaCategoryOptions'
 
 const tableRef = ref(null)
 const router = useRouter()
@@ -483,6 +484,7 @@ const settingsDraft = ref({
 })
 const trashModalVisible = ref(false)
 const selectedMediaKeys = ref([])
+const selectedMediaRecords = ref([])
 const categoryDraft = ref({
   name: '',
   description: ''
@@ -505,26 +507,29 @@ const usageStatusOptions = [
 ]
 
 const categoryOptions = computed(() => {
-  const baseOptions = categories.value.map((item) => ({
+  return categories.value
+    .filter((item) => item.id)
+    .map((item) => ({
     label: `${item.name}${item.count ? ` (${item.count})` : ''}`,
-    value: item.name
+    value: item.id,
+    name: item.name
   }))
-
-  if (!baseOptions.find((item) => item.value === '默认素材')) {
-    baseOptions.unshift({ label: '默认素材', value: '默认素材' })
-  }
-
-  return baseOptions
 })
 
 const filterCategoryOptions = computed(() => categories.value.map((item) => ({
   label: `${item.name}${item.count ? ` (${item.count})` : ''}`,
-  value: item.name
+  value: item.id || item.name
 })))
+
+const categoryMoveOptions = computed(() => {
+  const records = categoryMoveRecord.value ? [categoryMoveRecord.value] : selectedMediaRecords.value
+  return getMovableMediaCategories(categories.value, records, authStore.user?.id)
+})
 
 const tableParams = computed(() => ({
   keyword: keyword.value || undefined,
-  category: filterCategory.value || undefined,
+  categoryId: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? filterCategory.value : undefined,
+  category: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? undefined : filterCategory.value,
   fileClass: filterFileClass.value || undefined,
   usageStatus: filterUsageStatus.value || undefined
 }))
@@ -547,8 +552,9 @@ const columns = [
 const mediaRowSelection = computed(() => ({
   fixed: true,
   selectedRowKeys: selectedMediaKeys.value,
-  onChange: (keys) => {
+  onChange: (keys, rows) => {
     selectedMediaKeys.value = keys
+    selectedMediaRecords.value = rows
   }
 }))
 
@@ -593,6 +599,7 @@ function handleMediaSelectionChange(keys) {
 
 function clearMediaSelection() {
   selectedMediaKeys.value = []
+  selectedMediaRecords.value = []
   tableRef.value?.clearSelection()
 }
 
@@ -640,7 +647,8 @@ async function loadMedia(params) {
     page: 1,
     pageSize: 200,
     keyword: keyword.value || undefined,
-    category: filterCategory.value || undefined,
+    categoryId: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? filterCategory.value : undefined,
+    category: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? undefined : filterCategory.value,
     usageStatus: filterUsageStatus.value || undefined
   })
   mediaStats.value = statsSource.items.reduce((acc, item) => {
@@ -761,9 +769,8 @@ function openBatchCategoryMove() {
   categoryMoveModalVisible.value = true
 }
 
-async function submitCategoryMove(category) {
-  const targetCategory = String(category || '').trim()
-  if (!targetCategory) {
+async function submitCategoryMove(target) {
+  if (!target?.id || !target?.name) {
     return
   }
 
@@ -777,12 +784,12 @@ async function submitCategoryMove(category) {
   try {
     await runAction(
       () => record
-        ? moveAdminMediaCategory(record.id, targetCategory)
-        : batchMoveAdminMediaCategory(ids, targetCategory),
+        ? moveAdminMediaCategory(record.id, target)
+        : batchMoveAdminMediaCategory(ids, target),
       {
         successMessage: record
-          ? `已将资源迁移至「${targetCategory}」`
-          : `已将 ${ids.length} 个资源迁移至「${targetCategory}」`,
+          ? `已将资源迁移至「${target.name}」`
+          : `已将 ${ids.length} 个资源迁移至「${target.name}」`,
         errorMessage: '资源分类迁移失败',
         onSuccess: async () => {
           categoryMoveModalVisible.value = false

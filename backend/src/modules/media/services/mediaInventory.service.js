@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { Media } from '#modules/media/models/Media.js'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
-import { ensureDefaultMediaCategory } from './mediaCategory.service.js'
+import { assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCategory.service.js'
 import { findMediaReferences, summarizeMediaReferences } from './mediaReference.service.js'
 import { buildUrlFromRelativePath, getDisplayName, getTestUploadReason, inferFileClass, inferInventorySource, inferMimeType, isPathInside, normalizeDiskPath } from '../utils/mediaInventory.util.js'
 

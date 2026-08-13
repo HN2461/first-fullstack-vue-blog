@@ -84,7 +84,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { InboxOutlined } from '@ant-design/icons-vue'
 import TransferProgressPanel from '@/components/TransferProgressPanel.vue'
@@ -109,7 +109,7 @@ const emit = defineEmits(['update:open', 'uploaded'])
 const files = ref([])
 const errorMessage = ref('')
 const uploading = ref(false)
-const uploadCategory = ref('默认素材')
+const uploadCategory = ref(undefined)
 const uploadProgress = ref(createEmptyProgress())
 let uploadAbortController = null
 
@@ -179,8 +179,10 @@ async function uploadFiles() {
   })
 
   try {
+    const selectedCategory = props.categoryOptions.find((item) => item.value === uploadCategory.value)
     await uploadAdminMedia(files.value, {
-      category: uploadCategory.value || '默认素材',
+      category: selectedCategory?.name || '默认素材',
+      categoryId: selectedCategory?.value,
       signal: uploadAbortController.signal,
       onUploadProgress: (event) => updateProgress(event.loaded, event.total || uploadProgress.value.total)
     })
@@ -209,6 +211,13 @@ function resetAfterSuccess() {
   errorMessage.value = ''
   uploadProgress.value = createEmptyProgress()
 }
+
+function ensureDefaultCategory() {
+  if (props.categoryOptions.some((item) => item.value === uploadCategory.value)) return
+  uploadCategory.value = props.categoryOptions.find((item) => item.name === '默认素材')?.value
+}
+
+watch(() => props.categoryOptions, ensureDefaultCategory, { immediate: true, deep: true })
 
 defineExpose({ reset })
 </script>

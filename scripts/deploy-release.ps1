@@ -97,23 +97,23 @@ RELEASE_DIR=/www/personal-blog/backups/release-$(date +%Y%m%d-%H%M%S)
 mkdir -p "$RELEASE_DIR"
 echo "RELEASE_DIR=$RELEASE_DIR"
 
-echo "[1/16] MongoDB backup"
+echo "[1/20] MongoDB backup"
 mongodump --uri="mongodb://127.0.0.1:27017/personal_fullstack_blog" --out="$RELEASE_DIR/mongodb-before"
 test -d "$RELEASE_DIR/mongodb-before/personal_fullstack_blog"
 
-echo "[2/16] File backups"
+echo "[2/20] File backups"
 cp -a /www/personal-blog/frontend "$RELEASE_DIR/frontend-before"
 cp -a /www/personal-blog/backend "$RELEASE_DIR/backend-before"
 cp -a /www/personal-blog/uploads "$RELEASE_DIR/uploads-before"
 test -f /www/personal-blog/backend/.env
 cp /www/personal-blog/backend/.env "$RELEASE_DIR/backend.env.before-release"
+test -f /etc/nginx/conf.d/personal-blog.conf
+cp /etc/nginx/conf.d/personal-blog.conf "$RELEASE_DIR/personal-blog.nginx.before-release.conf"
 
-echo "[3/16] Publish frontend"
-rm -rf /www/personal-blog/frontend/*
-unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
-test -f /www/personal-blog/frontend/index.html
+echo "[3/20] Verify frontend release archive"
+unzip -tq /www/personal-blog/backups/frontend-dist.zip >/dev/null
 
-echo "[4/16] Publish backend"
+echo "[4/20] Publish backend"
 OLD_BACKEND=/www/personal-blog/backend_old_$(date +%Y%m%d_%H%M%S)
 mv /www/personal-blog/backend "$OLD_BACKEND"
 mkdir -p /www/personal-blog/backend
@@ -124,44 +124,85 @@ test -f /www/personal-blog/backend/package.json
 
 echo "OLD_BACKEND=$OLD_BACKEND"
 
-echo "[5/16] Install backend dependencies"
+echo "[5/20] Install backend dependencies"
 cd /www/personal-blog/backend
 npm install --omit=dev
 
-echo "[6/16] Ensure reading progress indexes"
+echo "[6/20] Preview media category ownership migration"
+npm run media-categories:dry-run
+
+echo "[7/20] Apply and verify media category ownership migration"
+npm run media-categories:apply
+npm run media-categories:verify
+
+echo "[8/20] Ensure reading progress indexes"
 npm run reading-progress:indexes:apply
 npm run reading-progress:indexes:verify
 
-echo "[7/16] Seed question bank"
+echo "[9/20] Seed question bank"
 npm run question-bank:seed:apply
 
-echo "[8/16] Configure menu page cache"
+echo "[10/20] Configure menu page cache"
 npm run menu:page-cache:apply
 npm run menu:page-cache:dry-run
 
-echo "[9/16] Optional question bank history cleanup"
+echo "[11/20] Optional question bank history cleanup"
 __QUESTION_BANK_HISTORY_STEP__
 
-echo "[10/16] Optional bookmark data reset"
+echo "[12/20] Optional bookmark data reset"
 __BOOKMARK_RESET_STEP__
 
-echo "[11/16] Restart PM2"
-pm2 restart personal-blog-api --update-env
+echo "[13/20] Enable streaming request proxy for large uploads"
+python3 - <<'PY'
+from pathlib import Path
 
-echo "[12/16] PM2 status"
-pm2 jlist | node -e "let s=''; process.stdin.on('data',d=>s+=d); process.stdin.on('end',()=>{const apps=JSON.parse(s); const app=apps.find(a=>a.name==='personal-blog-api'); if(!app){console.error('PM2 app missing'); process.exit(2)} console.log(JSON.stringify({name:app.name,status:app.pm2_env.status,restarts:app.pm2_env.restart_time,pid:app.pid}, null, 2)); if(app.pm2_env.status!=='online') process.exit(3)})"
+path = Path('/etc/nginx/conf.d/personal-blog.conf')
+content = path.read_text(encoding='utf-8')
+if 'location = /api/admin/media {' not in content:
+    marker = '    location /api/ {'
+    if marker not in content:
+        raise SystemExit('Cannot find generic API location in Nginx config')
+    location = '''    location = /api/admin/media {
+        proxy_pass http://127.0.0.1:3001/api/admin/media;
+        proxy_http_version 1.1;
+        proxy_request_buffering off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+    }
 
-echo "[13/16] Local health"
+'''
+    path.write_text(content.replace(marker, location + marker, 1), encoding='utf-8')
+PY
+nginx -t
+systemctl reload nginx
+
+echo "[14/20] Start or reload PM2"
+pm2 startOrReload ecosystem.config.cjs --update-env
+
+echo "[15/20] PM2 status"
+pm2 jlist | node -e "let s=''; process.stdin.on('data',d=>s+=d); process.stdin.on('end',()=>{const apps=JSON.parse(s); const app=apps.find(a=>a.name==='personal-blog-api'); if(!app){console.error('PM2 app missing'); process.exit(2)} const status={name:app.name,status:app.pm2_env.status,restarts:app.pm2_env.restart_time,pid:app.pid,maxMemoryRestart:app.pm2_env.max_memory_restart}; console.log(JSON.stringify(status, null, 2)); if(app.pm2_env.status!=='online') process.exit(3); if(Number(app.pm2_env.max_memory_restart)!==536870912){console.error('PM2 memory restart threshold missing');process.exit(5)}})"
+
+echo "[16/20] Local health"
 for i in 1 2 3 4 5; do
   if curl -fsS http://127.0.0.1:3001/api/health; then echo; break; fi
   sleep 2
   if [ "$i" = "5" ]; then exit 4; fi
 done
 
-echo "[14/16] Verify question bank seed is idempotent"
-npm run question-bank:seed
+echo "[17/20] Publish frontend"
+rm -rf /www/personal-blog/frontend/*
+unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
+test -f /www/personal-blog/frontend/index.html
 
-echo "[15/16] Remove expired rollback copies"
+echo "[18/20] Verify idempotent data operations"
+npm run question-bank:seed
+npm run media-categories:verify
+
+echo "[19/20] Remove expired rollback copies"
 PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
 find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
   | sort -z -nr \
@@ -180,8 +221,9 @@ find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*
 echo "RETAINED_OLD_BACKENDS"
 find /www/personal-blog -mindepth 1 -maxdepth 1 -type d -name 'backend_old_*' -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
 
-echo "[16/16] Save PM2 and sizes"
+echo "[20/20] Save PM2 and sizes"
 pm2 save
+nginx -T 2>&1 | grep -A12 'location = /api/admin/media {'
 ls -lh /www/personal-blog/frontend/index.html /www/personal-blog/backend/package.json /www/personal-blog/backups/frontend-dist.zip /www/personal-blog/backups/backend-release.zip
 df -h /www
 echo "DONE_RELEASE_DIR=$RELEASE_DIR"

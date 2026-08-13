@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import { MediaCategory } from '#modules/media/models/MediaCategory.js'
 import { Media } from '#modules/media/models/Media.js'
 
@@ -44,6 +45,7 @@ export function isSystemMediaCategory(name) {
 }
 
 function getActorId(actor) {
+  if (mongoose.isObjectIdOrHexString(actor)) return actor
   return actor?._id || actor?.id || null
 }
 
@@ -60,18 +62,11 @@ function normalizeCategoryName(name) {
 
 export async function ensureDefaultMediaCategory() {
   const [defaultCategory] = await Promise.all(SYSTEM_MEDIA_CATEGORIES.map(async (item) => {
-    const exists = await MediaCategory.findOne({ name: item.name, system: true })
-    if (exists) {
-      if (exists.owner || exists.description !== item.description || exists.sortOrder !== item.sortOrder) {
-        exists.owner = null
-        exists.description = item.description
-        exists.sortOrder = item.sortOrder
-        await exists.save()
-      }
-      return exists
-    }
-
-    return MediaCategory.create({ ...item, owner: null, system: true })
+    return MediaCategory.findOneAndUpdate(
+      { name: item.name, owner: null },
+      { $set: { ...item, owner: null, system: true } },
+      { new: true, upsert: true, setDefaultsOnInsert: true }
+    )
   }))
 
   return defaultCategory
@@ -136,10 +131,26 @@ export async function listMediaCategories(actor) {
     .filter((item) => !item._id.categoryId)
     .map((item) => [item._id.name, item.count]))
 
-  return entities.map((item) => ({
+  const result = entities.map((item) => ({
     ...item.toSafeJSON(),
     count: (countById.get(item._id.toString()) || 0) + (legacyCountByName.get(item.name) || 0)
   }))
+
+  for (const [name, count] of legacyCountByName) {
+    if (!result.some((item) => item.name === name)) {
+      result.push({
+        id: '',
+        name,
+        owner: getActorId(actor)?.toString?.() || null,
+        system: isSystemMediaCategory(name),
+        description: '当前账号历史资源使用的分类，尚未完成分类关联。',
+        sortOrder: 999,
+        count
+      })
+    }
+  }
+
+  return result
 }
 
 export async function createMediaCategory(input, actor) {

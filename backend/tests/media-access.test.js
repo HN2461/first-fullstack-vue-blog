@@ -4,6 +4,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
+import { MediaCategory } from '#modules/media/models/MediaCategory.js'
 import { Menu } from '#modules/rbac/models/Menu.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
@@ -28,7 +29,7 @@ async function createUser(role, extra = {}) {
   })
 }
 
-async function createMediaManager() {
+async function createMediaManager(username = 'media-manager') {
   await ensureRbacSeed()
   const mediaMenu = await Menu.findOne({ routePath: '/console/manage/media' })
   const role = await Role.create({
@@ -37,7 +38,7 @@ async function createMediaManager() {
     menuIds: [mediaMenu._id],
     status: 'active'
   })
-  return createUser(USER_ROLES.ADMIN, { username: 'media-manager', roles: [role._id] })
+  return createUser(USER_ROLES.ADMIN, { username, roles: [role._id] })
 }
 
 async function createMedia(owner, originalName) {
@@ -53,6 +54,13 @@ async function createMedia(owner, originalName) {
     fileClass: 'code',
     uploader: owner._id
   })
+}
+
+function listUploadFiles(root) {
+  return fs.readdirSync(root, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile())
+    .map((entry) => path.join(entry.parentPath || entry.path, entry.name))
+    .sort()
 }
 
 describe('media access scope', () => {
@@ -224,5 +232,148 @@ describe('media access scope', () => {
 
     expect((await Media.findById(managerMedia._id)).category).toBe('文章正文图片')
     expect((await Media.findById(managerSecondMedia._id)).category).toBe('文章正文图片')
+  })
+
+  it('only allows super admins to move another user media into system categories', async () => {
+    const managerMedia = await createMedia(mediaManager, 'manager-super-move.txt')
+    const managerCategory = await request(app)
+      .post('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .send({ name: '经理私有分类' })
+      .expect(201)
+
+    const forbidden = await request(app)
+      .patch(`/api/admin/media/${managerMedia._id}/category`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .send({
+        category: '经理私有分类',
+        categoryId: managerCategory.body.data.id
+      })
+      .expect(403)
+
+    expect(forbidden.body.code).toBe('MEDIA_CATEGORY_OWNER_FORBIDDEN')
+    expect((await Media.findById(managerMedia._id)).category).toBe('默认素材')
+
+    await request(app)
+      .patch(`/api/admin/media/${managerMedia._id}/category`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .send({ category: '文章封面' })
+      .expect(200)
+
+    expect((await Media.findById(managerMedia._id)).category).toBe('文章封面')
+  })
+
+  it('isolates same-name custom categories by creator', async () => {
+    const secondManager = await createMediaManager('media-manager-two')
+    const secondToken = signAccessToken(secondManager)
+
+    const firstCategory = await request(app)
+      .post('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .send({ name: '项目资料', description: '第一个账号的资料' })
+      .expect(201)
+
+    const secondCategory = await request(app)
+      .post('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${secondToken}`)
+      .send({ name: '项目资料', description: '第二个账号的资料' })
+      .expect(201)
+
+    expect(firstCategory.body.data.id).not.toBe(secondCategory.body.data.id)
+    expect(firstCategory.body.data.owner).toBe(mediaManager._id.toString())
+    expect(secondCategory.body.data.owner).toBe(secondManager._id.toString())
+
+    const firstList = await request(app)
+      .get('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .expect(200)
+    const secondList = await request(app)
+      .get('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${secondToken}`)
+      .expect(200)
+
+    expect(firstList.body.data).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: firstCategory.body.data.id, name: '项目资料' }),
+      expect.objectContaining({ name: '默认素材', system: true })
+    ]))
+    expect(firstList.body.data.some((item) => item.id === secondCategory.body.data.id)).toBe(false)
+    expect(secondList.body.data.some((item) => item.id === firstCategory.body.data.id)).toBe(false)
+
+    await request(app)
+      .patch(`/api/admin/media/categories/${firstCategory.body.data.id}`)
+      .set('Authorization', `Bearer ${secondToken}`)
+      .send({ description: '越权修改' })
+      .expect(404)
+
+    await request(app)
+      .delete(`/api/admin/media/categories/${firstCategory.body.data.id}`)
+      .set('Authorization', `Bearer ${secondToken}`)
+      .expect(404)
+  })
+
+  it('deleting a custom category only moves resources owned by its creator', async () => {
+    const secondManager = await createMediaManager('media-manager-two')
+    const secondToken = signAccessToken(secondManager)
+    const firstCategory = await request(app)
+      .post('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .send({ name: '项目资料' })
+      .expect(201)
+    const secondCategory = await request(app)
+      .post('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${secondToken}`)
+      .send({ name: '项目资料' })
+      .expect(201)
+    const firstMedia = await createMedia(mediaManager, 'first-private-category.txt')
+    const secondMedia = await createMedia(secondManager, 'second-private-category.txt')
+
+    await Media.findByIdAndUpdate(firstMedia._id, {
+      $set: { category: '项目资料', categoryId: firstCategory.body.data.id }
+    })
+    await Media.findByIdAndUpdate(secondMedia._id, {
+      $set: { category: '项目资料', categoryId: secondCategory.body.data.id }
+    })
+
+    await request(app)
+      .delete(`/api/admin/media/categories/${firstCategory.body.data.id}`)
+      .set('Authorization', `Bearer ${managerToken}`)
+      .expect(200)
+
+    const [updatedFirst, updatedSecond] = await Promise.all([
+      Media.findById(firstMedia._id),
+      Media.findById(secondMedia._id)
+    ])
+    expect(updatedFirst.category).toBe('默认素材')
+    expect(updatedFirst.categoryId.toString()).not.toBe(firstCategory.body.data.id)
+    expect(updatedSecond.category).toBe('项目资料')
+    expect(updatedSecond.categoryId.toString()).toBe(secondCategory.body.data.id)
+    expect(await MediaCategory.findById(secondCategory.body.data.id)).not.toBeNull()
+  })
+
+  it('rejects uploads to another user private category and removes the written file', async () => {
+    const secondManager = await createMediaManager('media-manager-two')
+    const secondToken = signAccessToken(secondManager)
+    const secondCategory = await request(app)
+      .post('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${secondToken}`)
+      .send({ name: '项目资料' })
+      .expect(201)
+    const uploadRoot = resolveUploadRoot()
+    const beforeFiles = listUploadFiles(uploadRoot)
+
+    const response = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .field('category', '项目资料')
+      .field('categoryId', secondCategory.body.data.id)
+      .attach('files', Buffer.from('private category payload'), {
+        filename: 'private-category.txt',
+        contentType: 'text/plain'
+      })
+      .expect(404)
+
+    expect(response.body.code).toBe('MEDIA_CATEGORY_NOT_FOUND')
+    expect(await Media.countDocuments({ originalName: 'private-category.txt' })).toBe(0)
+    expect(listUploadFiles(uploadRoot)).toEqual(beforeFiles)
   })
 })
