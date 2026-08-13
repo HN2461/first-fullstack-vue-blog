@@ -8,16 +8,20 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, watch } from 'vue'
 import { theme as antTheme } from 'ant-design-vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+import { useSiteStore } from '@/stores/site'
 import EntranceEffectHost from '@/components/entrance/EntranceEffectHost.vue'
 import DiscussionRealtimeBridge from '@/components/notification/DiscussionRealtimeBridge.vue'
 import PublicFestivalHost from '@/components/festival/PublicFestivalHost.vue'
 import '@/styles/festival.css'
 
 const appStore = useAppStore()
+const authStore = useAuthStore()
+const siteStore = useSiteStore()
 const antThemeConfig = computed(() => {
   const isDark = appStore.isDark
   const primary = isDark ? '#8ab4ff' : '#409eff'
@@ -123,4 +127,14 @@ onMounted(() => {
   appStore.applyTheme()
   appStore.initResponsive()
 })
+
+watch(
+  () => siteStore.profile.defaultTheme,
+  (value) => appStore.setSiteDefaultTheme(value)
+)
+
+watch(
+  () => authStore.user?.themePreference,
+  () => appStore.syncUserThemePreference(authStore.user)
+)
 </script>

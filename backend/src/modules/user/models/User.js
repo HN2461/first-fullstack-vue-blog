@@ -76,6 +76,11 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    themePreference: {
+      type: String,
+      enum: ['default', 'light', 'dark'],
+      default: 'default'
+    },
     lastBirthEffectDate: {
       type: String,
       default: ''
@@ -213,6 +218,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     consoleTabsEnabled: this.consoleTabsEnabled !== false,
     // 复用原作者栏字段保存登录用户的文章阅读底栏偏好，存量用户默认隐藏整块底栏。
     articleAuthorCardEnabled: this.articleAuthorCardEnabled === true,
+    themePreference: ['light', 'dark'].includes(this.themePreference) ? this.themePreference : 'default',
     lastBirthEffectDate: this.lastBirthEffectDate || '',
     personalDates: Array.isArray(this.personalDates) ? this.personalDates.map((item) => ({
       id: item._id?.toString?.() || '', name: item.name, type: item.type, date: item.date,

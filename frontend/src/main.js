@@ -6,6 +6,8 @@ import Antd from 'ant-design-vue'
 import App from './App.vue'
 import { router } from './router'
 import { useAuthStore } from './stores/auth'
+import { useAppStore } from './stores/app'
+import { useSiteStore } from './stores/site'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.css'
 import './styles/console.css'
@@ -26,6 +28,16 @@ app.use(router)
 app.use(Antd)
 
 const authStore = useAuthStore()
-authStore.restoreSession().finally(() => {
+const appStore = useAppStore()
+const siteStore = useSiteStore()
+
+Promise.allSettled([
+  authStore.restoreSession(),
+  siteStore.loadProfile()
+]).then(() => {
+  appStore.initializeTheme({
+    defaultTheme: siteStore.profile.defaultTheme,
+    user: authStore.user
+  })
   app.mount('#app')
 })

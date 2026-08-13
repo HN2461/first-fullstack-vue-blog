@@ -41,9 +41,7 @@ const route = useRoute()
 
 onMounted(async () => {
   const profile = await siteStore.loadProfile()
-  if (!localStorage.getItem('blog-theme') && profile.defaultTheme) {
-    appStore.setTheme(profile.defaultTheme, { persist: false })
-  }
+  appStore.setSiteDefaultTheme(profile.defaultTheme)
 })
 
 watch(

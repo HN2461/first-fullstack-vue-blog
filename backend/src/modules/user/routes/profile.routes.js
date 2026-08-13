@@ -19,7 +19,7 @@ import {
   listPermissionRequests
 } from '#modules/rbac/services/rbac.service.js'
 import { decryptCredential } from '#utils/authSecurity.js'
-import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema } from '#modules/user/validators/profile.validator.js'
+import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema, themePreferenceSchema } from '#modules/user/validators/profile.validator.js'
 import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { isBirthdayOnDate } from '#modules/user/utils/birthday.js'
 import { getFestivalCalendar } from '#modules/festival/services/festival.service.js'
@@ -124,6 +124,24 @@ router.put('/', requireAuth, asyncHandler(async (req, res) => {
   )
 
   res.json(ok(await hydrateUserPermissions(user), '个人信息更新成功'))
+}))
+
+/**
+ * PUT /api/profile/theme
+ * 保存当前登录用户的个人主题偏好。
+ * 参数：themePreference 支持 default、light、dark；default 表示继承管理员配置的站点默认主题。
+ * 返回：包含最新权限和主题偏好的安全用户信息。
+ * 边界：未登录返回 401，不支持的值或额外字段返回 400。
+ */
+router.put('/theme', requireAuth, asyncHandler(async (req, res) => {
+  const { themePreference } = parseBody(themePreferenceSchema, req.body)
+  const user = await User.findByIdAndUpdate(
+    req.user._id,
+    { $set: { themePreference } },
+    { new: true }
+  )
+
+  res.json(ok(await hydrateUserPermissions(user), '主题偏好已保存'))
 }))
 
 /**

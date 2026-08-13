@@ -195,6 +195,16 @@ export function updateProfile(data) {
   return http.put('/api/profile', data)
 }
 
+/**
+ * 保存当前登录用户的个人主题偏好。
+ * @param {'default'|'light'|'dark'} themePreference - default 表示继承站点默认主题
+ * @returns {Promise<Object>} 包含最新主题偏好的安全用户信息
+ * @throws {Error} 未登录或主题值不受支持时由统一响应拦截器抛出
+ */
+export function updateThemePreference(themePreference) {
+  return http.put('/api/profile/theme', { themePreference })
+}
+
 export function getFestivalEffectState() {
   return http.get('/api/profile/festival-effect')
 }

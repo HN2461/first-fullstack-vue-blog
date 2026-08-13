@@ -49,8 +49,17 @@ export const profileUpdateSchema = z.object({
   closeSiteEntranceEffect: z.boolean({ invalid_type_error: '网站入场欢迎屏蔽开关必须是布尔值' }).optional(),
   consoleTabsEnabled: z.boolean({ invalid_type_error: '多标签页开关必须是布尔值' }).optional(),
   articleAuthorCardEnabled: z.boolean({ invalid_type_error: '文章阅读底栏开关必须是布尔值' }).optional(),
+  themePreference: z.enum(['default', 'light', 'dark'], {
+    errorMap: () => ({ message: '个人主题只能是跟随站点默认、浅色或深色' })
+  }).optional(),
   entranceEffect: entranceEffectSchema.optional()
 }).strict('存在不支持的个人资料字段')
+
+export const themePreferenceSchema = z.object({
+  themePreference: z.enum(['default', 'light', 'dark'], {
+    errorMap: () => ({ message: '个人主题只能是跟随站点默认、浅色或深色' })
+  })
+}).strict('存在不支持的主题偏好字段')
 
 export const festivalEffectActionSchema = z.object({
   action: z.enum(['birth-shown', 'close-birth-effect'], {

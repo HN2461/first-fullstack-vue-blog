@@ -150,7 +150,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -160,18 +160,13 @@ import {
 import { useAuthStore } from '@/stores/auth'
 import AuthSettings from '@/components/AuthSettings.vue'
 import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
+import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
 // 设置状态
-const theme = ref(localStorage.getItem('auth-theme') || 'dark')
-const lang = ref(localStorage.getItem('auth-lang') || 'zh')
-const layout = ref(localStorage.getItem('auth-layout') || 'right')
-
-watch(theme, (v) => localStorage.setItem('auth-theme', v))
-watch(lang, (v) => localStorage.setItem('auth-lang', v))
-watch(layout, (v) => localStorage.setItem('auth-layout', v))
+const { theme, lang, layout } = useAuthPageSettings()
 
 const form = reactive({ username: '', email: '', password: '', applyAdmin: false, permissionRequestReason: '' })
 const submitting = ref(false)

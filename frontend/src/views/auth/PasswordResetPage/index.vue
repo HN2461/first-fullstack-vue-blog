@@ -43,14 +43,13 @@ import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { KeyRound, ShieldCheck } from 'lucide-vue-next'
 import AuthSettings from '@/components/AuthSettings.vue'
+import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 import { consumePasswordResetLink, inspectPasswordResetLink } from '@/services/http'
 import { useSiteStore } from '@/stores/site'
 
 const router = useRouter()
 const siteStore = useSiteStore()
-const theme = ref(localStorage.getItem('auth-theme') || 'dark')
-const lang = ref(localStorage.getItem('auth-lang') || 'zh')
-const layout = ref(localStorage.getItem('auth-layout') || 'right')
+const { theme, lang, layout } = useAuthPageSettings()
 const token = ref('')
 const loading = ref(true)
 const submitting = ref(false)

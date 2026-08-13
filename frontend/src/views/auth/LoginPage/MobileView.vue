@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { LockOutlined, MailOutlined } from '@ant-design/icons-vue'
@@ -73,24 +73,19 @@ import AuthSettings from '@/components/AuthSettings.vue'
 import SlideCaptcha from '@/components/SlideCaptcha.vue'
 import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 import AccountRecoveryModal from './AccountRecoveryModal.vue'
+import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 import SocialLoginButtons from './SocialLoginButtons.vue'
 import { useAuthStore } from '@/stores/auth'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
-const theme = ref(localStorage.getItem('auth-theme') || 'dark')
-const lang = ref(localStorage.getItem('auth-lang') || 'zh')
-const layout = ref(localStorage.getItem('auth-layout') || 'right')
+const { theme, lang, layout } = useAuthPageSettings()
 const form = reactive({ email: '', password: '', remember: false })
 const submitting = ref(false)
 const forgotPasswordVisible = ref(false)
 const captchaVerified = ref(false)
 const slideCaptchaRef = ref(null)
-
-watch(theme, (value) => localStorage.setItem('auth-theme', value))
-watch(lang, (value) => localStorage.setItem('auth-lang', value))
-watch(layout, (value) => localStorage.setItem('auth-layout', value))
 
 const emailRules = computed(() => [
   { required: true, message: lang.value === 'zh' ? '请输入邮箱地址' : 'Email is required' },

@@ -216,6 +216,10 @@
             class="profile-form"
             @finish="handleSaveProfile"
           >
+            <ThemePreference
+              v-model="profileForm.themePreference"
+              :site-default-theme="appStore.siteDefaultTheme"
+            />
             <WorkspaceTabsPreference v-model="profileForm.consoleTabsEnabled" />
             <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
             <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
@@ -466,6 +470,7 @@ import {
   RightOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
+import { useAppStore } from '@/stores/app'
 import {
   changePassword,
   createMyPermissionRequest,
@@ -487,10 +492,12 @@ import BirthdayPreference from './components/BirthdayPreference.vue'
 import PersonalDateSettings from './components/PersonalDateSettings.vue'
 import WorkspaceTabsPreference from './components/WorkspaceTabsPreference.vue'
 import ArticleAuthorPreference from './components/ArticleAuthorPreference.vue'
+import ThemePreference from './components/ThemePreference.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 
 const authStore = useAuthStore()
+const appStore = useAppStore()
 
 const userAvatar = computed(() => authStore.user?.avatar || '')
 const userInitial = computed(() => {
@@ -539,6 +546,7 @@ const profileForm = reactive({
   closeSiteEntranceEffect: false,
   consoleTabsEnabled: true,
   articleAuthorCardEnabled: false,
+  themePreference: 'default',
   entranceEffect: { ...DEFAULT_ENTRANCE_EFFECT }
 })
 
@@ -648,6 +656,7 @@ function syncProfileForm(user = {}) {
   profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
   profileForm.consoleTabsEnabled = user.consoleTabsEnabled !== false
   profileForm.articleAuthorCardEnabled = user.articleAuthorCardEnabled === true
+  profileForm.themePreference = ['light', 'dark'].includes(user.themePreference) ? user.themePreference : 'default'
   profileForm.entranceEffect = normalizeEntranceEffectConfig(user.entranceEffect)
 }
 
@@ -737,9 +746,11 @@ async function handleSaveProfile() {
       closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
       consoleTabsEnabled: profileForm.consoleTabsEnabled,
       articleAuthorCardEnabled: profileForm.articleAuthorCardEnabled,
+      themePreference: profileForm.themePreference,
       entranceEffect: normalizeEntranceEffectConfig(profileForm.entranceEffect)
     })
     authStore.user = { ...authStore.user, ...result }
+    appStore.syncUserThemePreference(authStore.user)
     cacheEntranceEffectConfig(result.entranceEffect)
     syncProfileForm(result)
     message.success('个人资料更新成功')

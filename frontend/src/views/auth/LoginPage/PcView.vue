@@ -142,7 +142,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, onMounted, watch } from 'vue'
+import { reactive, ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -155,19 +155,13 @@ import AuthSettings from '@/components/AuthSettings.vue'
 import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 import AccountRecoveryModal from './AccountRecoveryModal.vue'
 import SocialLoginButtons from './SocialLoginButtons.vue'
+import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 
-// 设置状态
-const theme = ref(localStorage.getItem('auth-theme') || 'dark')
-const lang = ref(localStorage.getItem('auth-lang') || 'zh')
-const layout = ref(localStorage.getItem('auth-layout') || 'right')
-
-watch(theme, (v) => localStorage.setItem('auth-theme', v))
-watch(lang, (v) => localStorage.setItem('auth-lang', v))
-watch(layout, (v) => localStorage.setItem('auth-layout', v))
+const { theme, lang, layout } = useAuthPageSettings()
 
 // 计算页面类名
 const pageClasses = computed(() => [

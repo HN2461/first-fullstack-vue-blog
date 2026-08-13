@@ -64,7 +64,7 @@
         </a-tooltip>
         <NotificationBell />
         <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
-          <a-button class="enterprise-icon-action" @click="appStore.toggleTheme">
+          <a-button class="enterprise-icon-action" @click="handleThemeToggle">
             <template #icon>
               <Sun v-if="appStore.isDark" :size="16" />
               <Moon v-else :size="16" />
@@ -826,7 +826,16 @@ async function handleProfileAction({ key }) {
   }
 
   await authStore.logout()
+  appStore.resetToSiteDefault()
   router.push('/')
+}
+
+async function handleThemeToggle() {
+  try {
+    await appStore.toggleTheme()
+  } catch (error) {
+    message.error(error.message || '主题偏好保存失败')
+  }
 }
 
 function handleCreateAction(key) {

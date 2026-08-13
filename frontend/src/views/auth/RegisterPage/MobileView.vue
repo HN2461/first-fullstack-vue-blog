@@ -74,26 +74,21 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons-vue'
 import AuthSettings from '@/components/AuthSettings.vue'
 import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
+import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const theme = ref(localStorage.getItem('auth-theme') || 'dark')
-const lang = ref(localStorage.getItem('auth-lang') || 'zh')
-const layout = ref(localStorage.getItem('auth-layout') || 'right')
+const { theme, lang, layout } = useAuthPageSettings()
 const form = reactive({ username: '', email: '', password: '', applyAdmin: false, permissionRequestReason: '' })
 const submitting = ref(false)
 const errorMessage = ref('')
-
-watch(theme, (value) => localStorage.setItem('auth-theme', value))
-watch(lang, (value) => localStorage.setItem('auth-lang', value))
-watch(layout, (value) => localStorage.setItem('auth-layout', value))
 
 const usernameRules = computed(() => [
   { required: true, message: lang.value === 'zh' ? '请输入昵称' : 'Username is required' },

@@ -63,7 +63,8 @@ describe('auth service', () => {
       username: '主人',
       email: 'owner@example.com',
       role: USER_ROLES.USER,
-      status: USER_STATUS.ACTIVE
+      status: USER_STATUS.ACTIVE,
+      themePreference: 'default'
     })
     expect(result.user.passwordHash).toBeUndefined()
   })
@@ -217,6 +218,40 @@ describe('auth routes', () => {
       .expect(200)
 
     expect(meResponse.body.data.email).toBe('reader@example.com')
+    expect(meResponse.body.data.themePreference).toBe('default')
+  })
+
+  it('persists the current user theme preference and rejects unsupported values', async () => {
+    const app = createApp()
+    const user = await User.create({
+      username: 'theme-reader',
+      email: 'theme-reader@example.com',
+      passwordHash: 'test-password-hash'
+    })
+    const token = signAccessToken(user)
+
+    const updateResponse = await request(app)
+      .put('/api/profile/theme')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ themePreference: 'dark' })
+      .expect(200)
+
+    expect(updateResponse.body.data.themePreference).toBe('dark')
+
+    const meResponse = await request(app)
+      .get('/api/auth/me')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(meResponse.body.data.themePreference).toBe('dark')
+
+    const invalidResponse = await request(app)
+      .put('/api/profile/theme')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ themePreference: 'system' })
+      .expect(400)
+
+    expect(invalidResponse.body.code).toBe('VALIDATION_ERROR')
   })
 
   it('rejects reused encrypted credential challenges', async () => {
