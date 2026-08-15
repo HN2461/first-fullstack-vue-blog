@@ -50,6 +50,7 @@ discussionMemberSchema.methods.toSafeJSON = function toSafeJSON() {
     username: user?.username || '',
     email: user?.email || '',
     avatar: user?.avatar || '',
+    gender: user?.gender || 'unknown',
     role: this.role,
     muted: this.muted,
     lastReadAt: this.lastReadAt,

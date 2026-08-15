@@ -64,9 +64,22 @@ describe('auth service', () => {
       email: 'owner@example.com',
       role: USER_ROLES.USER,
       status: USER_STATUS.ACTIVE,
+      gender: 'unknown',
       themePreference: 'default'
     })
     expect(result.user.passwordHash).toBeUndefined()
+  })
+
+  it('persists an explicitly selected registration gender', async () => {
+    const result = await registerUser({
+      username: 'female-reader',
+      email: 'female-reader@example.com',
+      password: 'password123',
+      gender: 'female'
+    })
+
+    expect(result.user.gender).toBe('female')
+    expect((await User.findOne({ email: 'female-reader@example.com' })).gender).toBe('female')
   })
 
   it('rejects duplicated email registration', async () => {
@@ -333,6 +346,7 @@ describe('auth routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         username: 'birthday-user',
+        gender: 'male',
         birthday,
         birthdayCalendar: 'both',
         closeBirthEffect: false
@@ -341,6 +355,7 @@ describe('auth routes', () => {
 
     expect(profileResponse.body.data).toMatchObject({
       birthday,
+      gender: 'male',
       birthdayCalendar: 'both',
       closeBirthEffect: false
     })
@@ -394,6 +409,23 @@ describe('auth routes', () => {
 
       expect(response.body.code).toBe('VALIDATION_ERROR')
     }
+  })
+
+  it('rejects unsupported profile gender values', async () => {
+    const app = createApp()
+    const user = await User.create({
+      username: 'gender-validation-user',
+      email: 'gender-validation@example.com',
+      passwordHash: 'hashed-password'
+    })
+
+    const response = await request(app)
+      .put('/api/profile')
+      .set('Authorization', `Bearer ${signAccessToken(user)}`)
+      .send({ gender: 'not-supported' })
+      .expect(400)
+
+    expect(response.body.code).toBe('VALIDATION_ERROR')
   })
 
   it('calculates recurring lunar and solar birthdays from one birth date', () => {

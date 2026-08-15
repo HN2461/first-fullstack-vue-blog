@@ -100,6 +100,21 @@
             </a-input>
           </a-form-item>
 
+          <a-form-item name="gender">
+            <a-select
+              v-model:value="form.gender"
+              size="large"
+              allow-clear
+              show-search
+              option-filter-prop="label"
+              :placeholder="lang === 'zh' ? '性别（可选）' : 'Gender (optional)'"
+            >
+              <a-select-option value="male" label="男">男</a-select-option>
+              <a-select-option value="female" label="女">女</a-select-option>
+              <a-select-option value="unknown" label="未知">未知</a-select-option>
+            </a-select>
+          </a-form-item>
+
           <a-form-item name="password" :rules="passwordRules">
             <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码（至少8位）' : 'Password (8+ chars)'" size="large" autocomplete="new-password">
               <template #prefix><LockOutlined /></template>
@@ -128,9 +143,6 @@
             {{ lang === 'zh' ? '注册' : 'Sign Up' }}
           </a-button>
 
-          <p class="security-note">
-            {{ lang === 'zh' ? '注册密码会在浏览器内完成一次性加密后提交，服务端仅保存不可逆哈希。' : 'Password is encrypted in the browser before submission and only an irreversible hash is stored.' }}
-          </p>
         </a-form>
 
         <div class="form-footer">
@@ -168,7 +180,7 @@ const authStore = useAuthStore()
 // 设置状态
 const { theme, lang, layout } = useAuthPageSettings()
 
-const form = reactive({ username: '', email: '', password: '', applyAdmin: false, permissionRequestReason: '' })
+const form = reactive({ username: '', email: '', password: '', gender: undefined, applyAdmin: false, permissionRequestReason: '' })
 const submitting = ref(false)
 const errorMessage = ref('')
 
@@ -210,6 +222,7 @@ async function handleSubmit() {
       username: form.username,
       email: form.email,
       password: form.password,
+      gender: form.gender || 'unknown',
       permissionRequestReason: form.applyAdmin ? form.permissionRequestReason : ''
     })
     message.success(lang.value === 'zh' ? '注册成功，正在跳转...' : 'Registration successful!')
@@ -706,15 +719,17 @@ async function handleSubmit() {
   height: 100%;
   background: var(--right-bg);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 40px;
+  overflow-y: auto;
   transition: all 0.3s;
 }
 
 .register-form-wrapper {
   width: 100%;
   max-width: 360px;
+  margin: auto 0;
 }
 
 .form-header {
@@ -768,13 +783,6 @@ async function handleSubmit() {
   box-shadow: 0 6px 20px rgba(22, 119, 255, 0.4);
 }
 
-.security-note {
-  margin: 12px 0 0;
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
 .form-footer {
   text-align: center;
   font-size: 14px;
@@ -822,6 +830,7 @@ async function handleSubmit() {
   .register-right {
     width: 100% !important;
     padding: 30px 20px;
+    overflow-y: visible;
   }
 
   .hero-text .line {

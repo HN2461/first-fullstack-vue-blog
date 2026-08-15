@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { PERMISSION_REQUEST_STATUS } from '#constants/domain'
+import { PERMISSION_REQUEST_STATUS, USER_GENDERS } from '#constants/domain'
 import { encryptedCredentialSchema } from '#modules/auth/validators/auth.validator.js'
 
 const objectIdPattern = /^[a-f\d]{24}$/i
@@ -122,6 +122,7 @@ export const userCreateSchema = z.object({
   username: z.string().trim().min(2, '用户名至少需要 2 个字符').max(32, '用户名不能超过 32 个字符'),
   email: z.string().trim().email('邮箱格式不正确'),
   password: z.string().min(8, '密码至少需要 8 个字符').max(72, '密码不能超过 72 个字符'),
+  gender: z.enum(Object.values(USER_GENDERS), { errorMap: () => ({ message: '性别选项不支持' }) }).optional().default(USER_GENDERS.UNKNOWN),
   remarkName: z.string().trim().max(60, '用户备注名不能超过 60 个字符').optional().default(''),
   roleIds: z.array(z.string().regex(objectIdPattern, '角色 id 不正确')).default([]),
   status: z.enum(['active', 'muted', 'disabled']).optional().default('active')
@@ -130,6 +131,10 @@ export const userCreateSchema = z.object({
 export const userRemarkSchema = z.object({
   remarkName: z.string().trim().max(60, '用户备注名不能超过 60 个字符').default('')
 }).strict('存在不支持的用户备注字段')
+
+export const userGenderSchema = z.object({
+  gender: z.enum(Object.values(USER_GENDERS), { errorMap: () => ({ message: '性别选项不支持' }) })
+}).strict('存在不支持的用户性别字段')
 
 export const permissionRequestSchema = z.object({
   targetRoleId: z.string().regex(objectIdPattern, '目标角色 id 不正确').optional(),

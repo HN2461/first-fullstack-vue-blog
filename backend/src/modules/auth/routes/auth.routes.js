@@ -36,6 +36,7 @@ authRouter.post('/register', asyncHandler(async (req, res) => {
     ? {
         username: input.username,
         email: input.email,
+        gender: input.gender,
         permissionRequestReason: input.permissionRequestReason,
         ...decryptCredential(input.credential, 'register')
       }

@@ -7,7 +7,7 @@ import { batchDeleteArticles, batchPermanentDeleteArticles, batchRestoreArticles
 import { batchUpdateArticleMeta, batchUpdateArticleTitles, listArticleTitlePreview } from '#modules/content/services/articleBatch.service.js'
 import { reorderCategoryArticles } from '#modules/content/services/articleOrder.service.js'
 import { batchDeleteCategories, batchUpdateCategoryStatus, createCategory, deleteCategory, listCategories, listCategoryArticles, listCategoryTree, moveArticleCategory, moveArticlesCategory, moveCategoryBranch, updateCategory } from '#modules/content/services/category.service.js'
-import { batchDeleteAdminUsers, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
+import { batchDeleteAdminUsers, batchReviewComments, batchUpdateUserRoles, batchUpdateUserStatus, createAdminUser, deleteAdminUser, listAdminComments, listUsers, reviewComment, updateUserGender, updateUserRemark, updateUserRoles, updateUserStatus } from '#modules/interaction/services/comment.service.js'
 import { createPasswordResetLink, deletePasswordResetRecord, listPasswordResetRecords, resetPasswordDirectly, revokePasswordResetLink } from '#modules/passwordReset/services/passwordReset.service.js'
 import { directPasswordResetSchema, passwordResetCredentialSchema, passwordResetLinkCreateSchema } from '#modules/passwordReset/validators/passwordReset.validator.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
@@ -30,7 +30,7 @@ import { asyncHandler } from '#utils/asyncHandler.js'
 import { clearAuthCookie, decryptCredential } from '#utils/authSecurity.js'
 import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
 import { articleBatchMetaSchema, articleBatchTitleSchema, articleCategoryBatchMoveSchema, articleCategoryMoveSchema, articleExportSchema, articleReorderSchema, articleSchema, articleStatusBatchSchema, articleTitlePreviewSchema, categoryMoveSchema, categorySchema, categoryUpdateSchema, commentReviewBatchSchema, documentArticleImportSchema, idBatchSchema, parseBody, statusBatchSchema, tagSchema } from '#modules/content/validators/content.validator.js'
-import { userCreateSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
+import { userCreateSchema, userGenderSchema, userRemarkSchema, userRoleAssignSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
 import { mediaCategoryBatchMoveSchema, mediaCategoryMoveSchema, mediaRegisterUntrackedSchema, mediaRenameSchema } from '#modules/media/validators/media.validator.js'
@@ -621,6 +621,12 @@ adminRouter.patch('/users/:id/remark', asyncHandler(async (req, res) => {
   const input = parseBody(userRemarkSchema, req.body)
   const user = await updateUserRemark(req.params.id, input.remarkName)
   res.json(ok(user, '用户备注已更新'))
+}))
+
+adminRouter.patch('/users/:id/gender', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const input = parseBody(userGenderSchema, req.body)
+  const user = await updateUserGender(req.params.id, input.gender)
+  res.json(ok(user, '用户性别已更新'))
 }))
 
 adminRouter.patch('/users/:id/roles', requireSuperAdmin, asyncHandler(async (req, res) => {

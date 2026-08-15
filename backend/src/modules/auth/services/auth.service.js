@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { USER_STATUS } from '#constants/domain'
+import { USER_GENDERS, USER_STATUS } from '#constants/domain'
 import { User } from '#modules/user/models/User.js'
 import { signAccessToken } from '#utils/jwt.js'
 import { createPermissionRequest, getAdminBaseRole, getVisitorRole, hydrateUserPermissions } from '#modules/rbac/services/rbac.service.js'
@@ -48,6 +48,7 @@ export async function registerUser(input) {
     username: input.username.trim(),
     email,
     passwordHash,
+    gender: input.gender || USER_GENDERS.UNKNOWN,
     roles: visitorRole ? [visitorRole._id] : []
   })
 

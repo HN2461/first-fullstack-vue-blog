@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs'
-import { ARTICLE_STATUS, BUILTIN_ROLE_CODES, COMMENT_STATUS, USER_STATUS } from '#constants/domain'
+import { ARTICLE_STATUS, BUILTIN_ROLE_CODES, COMMENT_STATUS, USER_GENDERS, USER_STATUS } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Comment } from '#modules/interaction/models/Comment.js'
 import { PermissionRequest } from '#modules/rbac/models/PermissionRequest.js'
@@ -277,6 +277,7 @@ export async function createAdminUser(input) {
     username: input.username.trim(),
     email,
     passwordHash: await bcrypt.hash(input.password, 12),
+    gender: input.gender || USER_GENDERS.UNKNOWN,
     remarkName: input.remarkName || '',
     roles: roleIds,
     status: input.status || USER_STATUS.ACTIVE
@@ -310,6 +311,17 @@ export async function updateUserRemark(userId, remarkName = '') {
   }
 
   user.remarkName = String(remarkName || '').trim()
+  await user.save()
+  return user.toSafeJSON({ roles: user.roles })
+}
+
+export async function updateUserGender(userId, gender) {
+  const user = await User.findById(userId).populate('roles')
+  if (!user) {
+    throw createHttpError(404, 'USER_NOT_FOUND', '用户不存在')
+  }
+
+  user.gender = gender
   await user.save()
   return user.toSafeJSON({ roles: user.roles })
 }

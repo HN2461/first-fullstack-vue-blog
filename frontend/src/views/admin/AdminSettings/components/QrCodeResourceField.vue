@@ -2,7 +2,7 @@
   <div class="qr-resource">
     <span class="qr-resource__label">{{ label }}</span>
     <div v-if="value?.url" class="qr-resource__selected">
-      <img :src="value.url" :alt="label">
+      <a-image :src="value.url" :alt="label" :width="56" :height="56" class="qr-resource__preview" />
       <span>{{ value.name || '已选择二维码资源' }}</span>
       <a-button size="small" @click="openPicker">更换</a-button>
       <a-button size="small" danger @click="clearValue">移除</a-button>

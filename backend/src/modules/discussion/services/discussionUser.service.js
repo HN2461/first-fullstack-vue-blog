@@ -13,7 +13,8 @@ function buildUserLite(user) {
     id: user._id.toString(),
     username: user.username,
     email: user.email,
-    avatar: user.avatar || ''
+    avatar: user.avatar || '',
+    gender: user.gender || 'unknown'
   }
 }
 
@@ -48,7 +49,7 @@ export async function listDiscussionUsers(currentUserId, keyword = '') {
   }
 
   const users = await User.find({ $and: conditions })
-    .select('username email avatar')
+    .select('username email avatar gender')
     .sort({ username: 1, email: 1 })
     .limit(30)
 

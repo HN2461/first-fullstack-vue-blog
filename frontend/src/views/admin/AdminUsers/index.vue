@@ -94,8 +94,7 @@
         <template v-if="column.key === 'user'">
           <div class="user-info-cell">
             <div class="user-avatar">
-              <img v-if="record.avatar" :src="record.avatar" :alt="record.username" class="avatar-img">
-              <span v-else class="avatar-placeholder">{{ (record.username || '').charAt(0).toUpperCase() }}</span>
+              <img :src="getUserAvatar(record)" :alt="record.username" class="avatar-img">
             </div>
             <div class="user-detail">
               <span class="user-name">{{ record.username }}</span>
@@ -103,6 +102,12 @@
               <span class="user-email">{{ record.email }}</span>
             </div>
           </div>
+        </template>
+
+        <template v-else-if="column.key === 'gender'">
+          <a-tag :color="getGenderColor(record.gender)" :bordered="false">
+            {{ getGenderLabel(record.gender) }}
+          </a-tag>
         </template>
 
         <template v-else-if="column.key === 'roles'">
@@ -152,6 +157,7 @@
                   <a-menu-item key="reset-records">查看重置记录</a-menu-item>
                   <a-menu-divider />
                   <a-menu-item key="remark">设置备注</a-menu-item>
+                  <a-menu-item v-if="authStore.isSuperAdmin" key="gender">设置性别</a-menu-item>
                   <a-menu-item key="roles">修改角色</a-menu-item>
                   <a-menu-divider />
                   <a-menu-item v-if="record.status !== 'active'" key="active">启用账号</a-menu-item>
@@ -206,6 +212,15 @@
               </a-select>
             </a-form-item>
           </a-col>
+          <a-col :span="12">
+            <a-form-item label="性别" name="gender">
+              <a-select v-model:value="createUserForm.gender" show-search option-filter-prop="label">
+                <a-select-option value="unknown" label="未知">未知</a-select-option>
+                <a-select-option value="male" label="男">男</a-select-option>
+                <a-select-option value="female" label="女">女</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
         </a-row>
         <a-form-item label="用户备注" name="remarkName">
           <a-input v-model:value="createUserForm.remarkName" placeholder="例如：老客户、同事、测试账号" :maxlength="60" allow-clear />
@@ -236,6 +251,29 @@
         </a-form-item>
         <a-form-item label="用户备注">
           <a-input v-model:value="remarkForm.remarkName" placeholder="仅后台用户管理可见" :maxlength="60" allow-clear />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:open="genderVisible"
+      title="设置用户性别"
+      ok-text="保存性别"
+      cancel-text="取消"
+      :confirm-loading="savingGender"
+      :destroy-on-close="true"
+      @ok="submitGender"
+    >
+      <a-form layout="vertical">
+        <a-form-item label="目标用户">
+          <a-input :value="genderRecord?.email || ''" disabled />
+        </a-form-item>
+        <a-form-item label="性别">
+          <a-select v-model:value="genderForm.gender" show-search option-filter-prop="label">
+            <a-select-option value="unknown" label="未知">未知</a-select-option>
+            <a-select-option value="male" label="男">男</a-select-option>
+            <a-select-option value="female" label="女">女</a-select-option>
+          </a-select>
         </a-form-item>
       </a-form>
     </a-modal>
@@ -304,11 +342,13 @@ import {
   listAllRbacRoles,
   listAdminUsers,
   updateAdminUserRemark,
+  updateAdminUserGender,
   updateAdminUserRoles,
   updateAdminUserStatus
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAuthStore } from '@/stores/auth'
+import { getGenderLabel, getUserAvatar } from '@/utils/avatar'
 
 const tableRef = ref(null)
 const searchKeyword = ref('')
@@ -329,6 +369,9 @@ const passwordRecoveryMode = ref('link')
 const remarkVisible = ref(false)
 const savingRemark = ref(false)
 const remarkRecord = ref(null)
+const genderVisible = ref(false)
+const savingGender = ref(false)
+const genderRecord = ref(null)
 const createUserFormRef = ref(null)
 const { runAction, confirmAction } = useAdminActions()
 const authStore = useAuthStore()
@@ -336,10 +379,12 @@ const router = useRouter()
 
 const roleForm = reactive({ roleIds: [] })
 const remarkForm = reactive({ remarkName: '' })
+const genderForm = reactive({ gender: 'unknown' })
 const createUserForm = reactive({
   username: '',
   email: '',
   password: '',
+  gender: 'unknown',
   remarkName: '',
   roleIds: [],
   status: 'active'
@@ -369,6 +414,7 @@ const roleTargetLabel = computed(() => roleRecord.value ? roleRecord.value.email
 
 const columns = [
   { title: '用户', key: 'user', dataIndex: 'username', width: 280 },
+  { title: '性别', key: 'gender', width: 80, align: 'center' },
   { title: '角色', key: 'roles', width: 240 },
   { title: '状态', key: 'status', width: 90, align: 'center' },
   { title: '权限申请', key: 'permission', width: 110, align: 'center' },
@@ -405,6 +451,12 @@ function getRequestColor(status) {
   if (status === 'pending') return 'gold'
   if (status === 'approved') return 'green'
   if (status === 'rejected') return 'red'
+  return 'default'
+}
+
+function getGenderColor(gender) {
+  if (gender === 'male') return 'blue'
+  if (gender === 'female') return 'magenta'
   return 'default'
 }
 
@@ -506,6 +558,7 @@ function openCreateUser() {
   createUserForm.username = ''
   createUserForm.email = ''
   createUserForm.password = ''
+  createUserForm.gender = 'unknown'
   createUserForm.remarkName = ''
   createUserForm.roleIds = []
   createUserForm.status = 'active'
@@ -551,6 +604,29 @@ async function submitRemark() {
     message.error(error.message || '用户备注保存失败')
   } finally {
     savingRemark.value = false
+  }
+}
+
+function openGenderModal(record) {
+  if (!record || !authStore.isSuperAdmin) return
+  genderRecord.value = record
+  genderForm.gender = record.gender || 'unknown'
+  genderVisible.value = true
+}
+
+async function submitGender() {
+  if (!genderRecord.value) return
+
+  savingGender.value = true
+  try {
+    await updateAdminUserGender(genderRecord.value.id, genderForm.gender)
+    message.success('用户性别已更新')
+    genderVisible.value = false
+    tableRef.value?.refresh()
+  } catch (error) {
+    message.error(error.message || '用户性别保存失败')
+  } finally {
+    savingGender.value = false
   }
 }
 
@@ -649,6 +725,10 @@ function handleAction(key, record) {
   }
   if (key === 'remark') {
     openRemarkModal(record)
+    return
+  }
+  if (key === 'gender') {
+    openGenderModal(record)
     return
   }
   if (key === 'reset-password') {

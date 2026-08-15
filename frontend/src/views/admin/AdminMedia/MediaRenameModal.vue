@@ -29,7 +29,7 @@
           allow-clear
           @press-enter="handleSubmit"
         />
-        <div class="media-rename__note">仅修改媒体库中的展示名称，不会改动实际文件和访问地址。</div>
+        <div class="media-rename__note">会同步作为默认下载文件名，但不会改动实际文件和访问地址。</div>
       </a-form-item>
     </a-form>
   </a-modal>

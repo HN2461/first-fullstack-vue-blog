@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { USER_GENDERS } from '#constants/domain'
 import { ENTRANCE_EFFECT_KEYS, ENTRANCE_TRIGGER_PAGES } from '#modules/user/constants/entranceEffects.js'
 import { isValidPastOrTodayDate } from '#utils/businessDate.js'
 
@@ -34,6 +35,7 @@ const entranceEffectSchema = z.object({
 
 export const profileUpdateSchema = z.object({
   username: z.string().trim().min(2, '昵称长度需在 2-32 个字符之间').max(32, '昵称长度需在 2-32 个字符之间').optional(),
+  gender: z.enum(Object.values(USER_GENDERS), { errorMap: () => ({ message: '性别选项不支持' }) }).optional(),
   bio: optionalText(240, '简介不能超过 240 个字符'),
   website: z.union([
     z.literal(''),

@@ -27,7 +27,7 @@
             :key="item.id"
             :class="['discussion-message', { mine: item.senderId === currentUserId }]"
           >
-            <a-avatar :src="item.senderAvatar || ''">{{ getInitial(getSenderName(item)) }}</a-avatar>
+            <a-avatar :src="getUserAvatar({ avatar: item.senderAvatar, gender: item.senderGender })">{{ getInitial(getSenderName(item)) }}</a-avatar>
             <div class="discussion-message__stack">
               <div v-if="showSenderName" class="discussion-message__sender">
                 {{ getSenderName(item) }}
@@ -173,6 +173,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { MessageOutlined, MoreOutlined, PaperClipOutlined, ReloadOutlined } from '@ant-design/icons-vue'
+import { getUserAvatar } from '@/utils/avatar'
 import {
   canUseOfficeOnlinePreview,
   getAttachmentOpenUrl,

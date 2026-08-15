@@ -246,6 +246,7 @@ articleSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
         id: this.createdBy._id?.toString?.() || this.createdBy.id,
         username: this.createdBy.username,
         avatar: this.createdBy.avatar || '',
+        gender: this.createdBy.gender || 'unknown',
         role: this.createdBy.role || 'user'
       }
     : null

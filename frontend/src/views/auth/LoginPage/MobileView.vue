@@ -45,9 +45,6 @@
           {{ lang === 'zh' ? '登录' : 'Sign In' }}
         </a-button>
 
-        <p class="mobile-auth__note">
-          {{ lang === 'zh' ? '密码会在浏览器内完成一次性加密后提交。' : 'Password is encrypted before submission.' }}
-        </p>
       </a-form>
 
       <SocialLoginButtons :lang="lang" />
@@ -201,8 +198,7 @@ onMounted(() => {
   line-height: 1.2;
 }
 
-.mobile-auth__head p,
-.mobile-auth__note {
+.mobile-auth__head p {
   margin: 0;
   color: var(--text-secondary);
   line-height: 1.7;

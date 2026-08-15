@@ -101,7 +101,7 @@ export async function listDiscussionMessages(threadId, currentUserId, query = {}
   }
 
   const messages = await DiscussionMessage.find(filter)
-    .populate('senderId', 'username email avatar')
+    .populate('senderId', 'username email avatar gender')
     .sort({ createdAt: -1, _id: -1 })
     .limit(limit)
 
@@ -145,7 +145,7 @@ export async function createDiscussionMessage(threadId, input, currentUserId) {
   )
   await cleanupUserDiscussionMessages(currentUserId)
 
-  await message.populate('senderId', 'username email avatar')
+  await message.populate('senderId', 'username email avatar gender')
   const safeMessage = message.toSafeJSON()
   emitDiscussionEvent(threadId, 'discussion:message-created', {
     threadId: String(threadId),
@@ -226,7 +226,7 @@ export async function revokeDiscussionMessage(threadId, messageId, currentUserId
   await message.save()
   await removeDiscussionAttachmentFiles([{ attachments: attachmentsToRemove }])
   await updateThreadLastMessage(threadId)
-  await message.populate('senderId', 'username email avatar')
+  await message.populate('senderId', 'username email avatar gender')
   const safeMessage = message.toSafeJSON()
   emitDiscussionEvent(threadId, 'discussion:message-revoked', {
     threadId: String(threadId),

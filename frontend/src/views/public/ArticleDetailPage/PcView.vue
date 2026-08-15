@@ -152,8 +152,7 @@
       <footer v-if="actionBarVisible" class="doc-reader__footer">
         <div v-if="authorCardVisible" class="doc-reader__author">
           <div class="doc-reader__author-avatar">
-            <img v-if="article.author?.avatar" :src="article.author.avatar" :alt="article.author?.username || '作者头像'">
-            <span v-else>{{ authorInitial }}</span>
+            <img :src="getUserAvatar(article.author)" :alt="article.author?.username || '作者头像'">
           </div>
           <div class="doc-reader__author-meta">
             <strong>{{ article.author?.username || '知识库作者' }}</strong>
@@ -263,7 +262,7 @@
             <article v-for="comment in comments" :key="comment.id" class="doc-reader__comment-item">
               <div class="doc-reader__comment-item-head">
                 <div class="doc-reader__comment-user">
-                  <a-avatar :size="36" :src="comment.user?.avatar">
+                  <a-avatar :size="36" :src="getUserAvatar(comment.user)">
                     {{ (comment.user?.username || '读者').slice(0, 1).toUpperCase() }}
                   </a-avatar>
                   <div>
@@ -317,6 +316,7 @@ import { extractTOC } from '@/utils/markdown'
 import { shouldShowArticleFooter } from '@/utils/articleFooterVisibility'
 import { useArticleReadingProgress } from '@/composables/useArticleReadingProgress'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
+import { getUserAvatar } from '@/utils/avatar'
 
 const route = useRoute()
 const router = useRouter()
@@ -384,7 +384,6 @@ const actionBarVisible = computed(() => shouldShowArticleFooter({
   isLoggedIn: authStore.isLoggedIn,
   preferenceEnabled: authorCardVisible.value
 }))
-const authorInitial = computed(() => (article.value.author?.username || '知').slice(0, 1).toUpperCase())
 const categoryPath = computed(() => {
   const slug = article.value.category?.slug
   if (!slug) return inDirectoryConsole.value ? '/console/article-directory' : (inConsole.value ? '/console/articles' : '/articles')

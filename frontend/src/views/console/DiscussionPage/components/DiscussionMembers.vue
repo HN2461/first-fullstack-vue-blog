@@ -6,7 +6,7 @@
     </div>
     <div class="discussion-members__list">
       <div v-for="member in members" :key="member.userId" class="discussion-members__item">
-        <a-avatar :src="member.avatar || ''">{{ getInitial(member.username || member.email) }}</a-avatar>
+        <a-avatar :src="getUserAvatar(member)">{{ getInitial(member.username || member.email) }}</a-avatar>
         <span>
           <strong>{{ member.username || member.email || '成员' }}</strong>
           <small>{{ member.role === 'owner' ? '负责人' : '成员' }}</small>
@@ -17,6 +17,8 @@
 </template>
 
 <script setup>
+import { getUserAvatar } from '@/utils/avatar'
+
 defineProps({
   members: {
     type: Array,

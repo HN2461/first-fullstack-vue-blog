@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title">
+  <title>Unknown avatar</title>
+  <circle cx="128" cy="128" r="128" fill="#e7edf3"/>
+  <circle cx="128" cy="96" r="42" fill="#8a9aaa"/>
+  <path d="M54 222c7-45 34-70 74-70s67 25 74 70" fill="#8a9aaa"/>
+  <circle cx="112" cy="92" r="5" fill="#f7fafc"/>
+  <circle cx="144" cy="92" r="5" fill="#f7fafc"/>
+</svg>

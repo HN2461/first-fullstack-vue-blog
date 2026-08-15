@@ -15,7 +15,7 @@ export async function listDiscussionThreads(currentUserId) {
   const threads = await DiscussionThread.find({ _id: { $in: threadIds }, status: 'active' })
     .sort({ lastMessageAt: -1, updatedAt: -1 })
   const memberRows = await DiscussionMember.find({ threadId: { $in: threadIds } })
-    .populate('userId', 'username email avatar')
+    .populate('userId', 'username email avatar gender')
     .sort({ createdAt: 1 })
   const membersByThread = new Map()
   for (const member of memberRows) {

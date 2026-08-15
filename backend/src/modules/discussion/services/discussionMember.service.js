@@ -11,6 +11,6 @@ export async function assertThreadMember(threadId, userId) {
 
 export async function getThreadMembers(threadId) {
   return DiscussionMember.find({ threadId })
-    .populate('userId', 'username email avatar')
+    .populate('userId', 'username email avatar gender')
     .sort({ role: -1, createdAt: 1 })
 }

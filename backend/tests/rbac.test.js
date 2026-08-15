@@ -145,6 +145,53 @@ describe('rbac account and permission flows', () => {
     expect(response.body.code).toBe('SUPER_ADMIN_REQUIRED')
   })
 
+  it('allows only super admins to update a user gender', async () => {
+    const target = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
+      username: 'gender-target',
+      email: 'gender-target@example.com'
+    })
+
+    const updateResponse = await request(app)
+      .patch(`/api/admin/users/${target._id}/gender`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({ gender: 'female' })
+      .expect(200)
+
+    expect(updateResponse.body.data.gender).toBe('female')
+    expect((await User.findById(target._id)).gender).toBe('female')
+
+    const invalidResponse = await request(app)
+      .patch(`/api/admin/users/${target._id}/gender`)
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({ gender: 'not-supported' })
+      .expect(400)
+
+    expect(invalidResponse.body.code).toBe('VALIDATION_ERROR')
+
+    const usersMenu = await Menu.findOne({ code: 'governance.users' })
+    const limitedRole = await Role.create({
+      name: '性别设置管理员',
+      code: 'gender-manager',
+      menuIds: [usersMenu._id],
+      status: 'active'
+    })
+    const limitedAdmin = await User.create({
+      username: 'gender-manager',
+      email: 'gender-manager@example.com',
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.ADMIN,
+      roles: [limitedRole._id]
+    })
+
+    const forbiddenResponse = await request(app)
+      .patch(`/api/admin/users/${target._id}/gender`)
+      .set('Authorization', `Bearer ${signAccessToken(limitedAdmin)}`)
+      .send({ gender: 'male' })
+      .expect(403)
+
+    expect(forbiddenResponse.body.code).toBe('SUPER_ADMIN_REQUIRED')
+  })
+
   it('lets a logged-in user submit and view permission request history', async () => {
     const user = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
       username: 'reader',

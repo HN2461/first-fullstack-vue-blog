@@ -1,9 +1,11 @@
 import { z } from 'zod'
+import { USER_GENDERS } from '#constants/domain'
 
 export const registerSchema = z.object({
   username: z.string().trim().min(2, '用户名至少需要 2 个字符').max(32, '用户名不能超过 32 个字符'),
   email: z.string().trim().email('邮箱格式不正确'),
   password: z.string().min(8, '密码至少需要 8 个字符').max(72, '密码不能超过 72 个字符'),
+  gender: z.enum(Object.values(USER_GENDERS), { errorMap: () => ({ message: '性别选项不支持' }) }).optional(),
   permissionRequestReason: z.string().trim().max(500, '权限申请说明不能超过 500 个字符').optional()
 })
 
@@ -26,6 +28,7 @@ export const encryptedCredentialSchema = z.object({
 export const secureRegisterSchema = z.object({
   username: z.string().trim().min(2, '用户名至少需要 2 个字符').max(32, '用户名不能超过 32 个字符'),
   email: z.string().trim().email('邮箱格式不正确'),
+  gender: z.enum(Object.values(USER_GENDERS), { errorMap: () => ({ message: '性别选项不支持' }) }).optional(),
   permissionRequestReason: z.string().trim().max(500, '权限申请说明不能超过 500 个字符').optional(),
   credential: encryptedCredentialSchema
 }).strict('存在不支持的注册字段')

@@ -34,7 +34,7 @@
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'approvalApplicant'">
           <div class="approval-user-cell">
-            <a-avatar :src="record.user?.avatar || undefined" :size="34">
+            <a-avatar :src="getUserAvatar(record.user)" :size="34">
               {{ getInitial(record.user?.username) }}
             </a-avatar>
             <div>
@@ -110,6 +110,7 @@ import { message } from 'ant-design-vue'
 import { CheckOutlined, CloseOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listPermissionRequests, reviewPermissionRequest } from '@/services/admin'
+import { getUserAvatar } from '@/utils/avatar'
 
 const tableRef = ref(null)
 const statusFilter = ref('pending')

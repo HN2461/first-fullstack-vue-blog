@@ -21,7 +21,7 @@
           <div class="recovery-channel__title"><strong>QQ</strong><a-switch v-model:checked="model.qq.enabled" size="small" /></div>
           <div class="recovery-channel__grid">
             <a-input v-model:value.trim="model.qq.account" placeholder="QQ 号" :maxlength="32" />
-            <a-checkbox v-model:checked="model.qq.allowLaunch">允许尝试唤起 QQ</a-checkbox>
+            <a-checkbox v-model:checked="model.qq.allowLaunch">允许尝试打开 QQ 添加好友</a-checkbox>
           </div>
           <QrCodeResourceField v-model:value="model.qq.qrCode" label="QQ 二维码" />
         </div>

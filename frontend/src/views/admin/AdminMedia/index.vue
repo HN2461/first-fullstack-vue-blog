@@ -5,37 +5,17 @@
       <div class="media-cloud__identity">
         <h2 class="media-cloud__title">媒体资产</h2>
       </div>
-      <div class="media-cloud__actions">
-        <a-tooltip v-if="authStore.isSuperAdmin" title="扫描未登记资源">
-          <a-button class="media-cloud__header-icon" aria-label="扫描未登记资源" @click="inventoryModalVisible = true">
-            <template #icon><SearchOutlined /></template>
-          </a-button>
-        </a-tooltip>
-        <a-tooltip title="上传限制">
-          <a-button class="media-cloud__header-icon" aria-label="上传限制" @click="openUploadSettings">
-            <template #icon><SettingOutlined /></template>
-          </a-button>
-        </a-tooltip>
-        <a-tooltip title="媒体回收站">
-          <a-button class="media-cloud__header-icon" aria-label="媒体回收站" @click="openTrashModal">
-            <template #icon><RestOutlined /></template>
-          </a-button>
-        </a-tooltip>
-        <a-tooltip title="管理资源分类">
-          <a-button class="media-cloud__header-icon" aria-label="管理资源分类" @click="categoryModalVisible = true">
-            <template #icon><FolderOpenOutlined /></template>
-          </a-button>
-        </a-tooltip>
-        <a-tooltip v-if="canManageMediaShares" title="管理资源分享">
-          <a-button class="media-cloud__header-icon" aria-label="管理资源分享" @click="router.push('/console/manage/media-shares')">
-            <template #icon><ShareAltOutlined /></template>
-          </a-button>
-        </a-tooltip>
-        <a-button type="primary" @click="uploadModalVisible = true">
-          <template #icon><InboxOutlined /></template>
-          上传资源
-        </a-button>
-      </div>
+      <MediaHeaderActions
+        class="media-cloud__actions"
+        :super-admin="authStore.isSuperAdmin"
+        :can-manage-shares="canManageMediaShares"
+        @upload="uploadModalVisible = true"
+        @inventory="inventoryModalVisible = true"
+        @settings="openUploadSettings"
+        @trash="openTrashModal"
+        @categories="categoryModalVisible = true"
+        @shares="router.push('/console/manage/media-shares')"
+      />
     </div>
 
     <!-- 查询、类型统计和批量操作属于同一工作层，选中前不展示无效命令。 -->
@@ -92,42 +72,16 @@
           <b>{{ item.count }}</b>
         </button>
       </div>
-      <div v-if="selectedMediaKeys.length > 0" class="media-batch-actions">
-        <span class="media-batch-actions__count">已选择 {{ selectedMediaKeys.length }} 个</span>
-        <a-button
-          v-if="canManageMediaShares"
-          size="small"
-          :disabled="selectedMediaKeys.length === 0"
-          @click="clearMediaSelection"
-        >
-          取消选择
-        </a-button>
-        <a-button
-          size="small"
-          :disabled="selectedMediaKeys.length === 0"
-          @click="openBatchCategoryMove"
-        >
-          <template #icon><SwapOutlined /></template>
-          迁移分类
-        </a-button>
-        <a-button
-          size="small"
-          :disabled="selectedMediaKeys.length === 0"
-          @click="shareCreateVisible = true"
-        >
-          <template #icon><ShareAltOutlined /></template>
-          创建分享
-        </a-button>
-        <a-button
-          size="small"
-          danger
-          :disabled="selectedMediaKeys.length === 0"
-          @click="handleBatchDelete"
-        >
-          <template #icon><DeleteOutlined /></template>
-          批量移入回收站
-        </a-button>
-      </div>
+      <MediaBatchActions
+        v-if="selectedMediaKeys.length > 0"
+        :count="selectedMediaKeys.length"
+        :can-manage-shares="canManageMediaShares"
+        @download="openBatchDownload"
+        @move="openBatchCategoryMove"
+        @share="shareCreateVisible = true"
+        @delete="handleBatchDelete"
+        @clear="clearMediaSelection"
+      />
     </div>
 
     <!-- 表格主体 -->
@@ -206,33 +160,14 @@
 
           <!-- 操作按钮 -->
           <template v-else-if="column.key === 'action'">
-            <a-space :size="4">
-              <a-tooltip title="预览">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--view" aria-label="预览媒体" @click="handleView(record)">
-                  <template #icon><EyeOutlined /></template>
-                </a-button>
-              </a-tooltip>
-              <a-tooltip title="重命名">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--rename" aria-label="重命名媒体" @click="handleRename(record)">
-                  <template #icon><EditOutlined /></template>
-                </a-button>
-              </a-tooltip>
-              <a-tooltip title="调整分类">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--move" aria-label="调整资源分类" @click="openSingleCategoryMove(record)">
-                  <template #icon><SwapOutlined /></template>
-                </a-button>
-              </a-tooltip>
-              <a-tooltip title="查看引用">
-                <a-button type="text" size="small" class="media-action-btn media-action-btn--refs" aria-label="查看媒体引用" @click="openReferenceModal(record)">
-                  <template #icon><LinkOutlined /></template>
-                </a-button>
-              </a-tooltip>
-              <a-tooltip title="移入回收站">
-                <a-button type="text" size="small" danger class="media-action-btn media-action-btn--delete" aria-label="移入回收站" @click="handleDelete(record)">
-                  <template #icon><DeleteOutlined /></template>
-                </a-button>
-              </a-tooltip>
-            </a-space>
+            <MediaRowActions
+              @view="handleView(record)"
+              @download="downloadSingleMedia(record)"
+              @rename="handleRename(record)"
+              @move="openSingleCategoryMove(record)"
+              @references="openReferenceModal(record)"
+              @delete="handleDelete(record)"
+            />
           </template>
         </template>
       </BlogTable>
@@ -263,6 +198,13 @@
       :record="renameRecord"
       :submitting="renameSubmitting"
       @submit="submitRename"
+    />
+
+    <MediaDownloadModal
+      v-model:open="downloadModalVisible"
+      :records="selectedMediaRecords"
+      :submitting="downloadSubmitting"
+      @submit="submitBatchDownload"
     />
 
     <MediaCategoryMoveModal
@@ -396,20 +338,15 @@
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import {
-  InboxOutlined,
-  EyeOutlined,
   EditOutlined,
   DeleteOutlined,
-  LinkOutlined,
-  SettingOutlined,
-  RestOutlined,
-  SearchOutlined,
-  QuestionCircleOutlined,
-  SwapOutlined,
-  FolderOpenOutlined,
-  ShareAltOutlined
+  QuestionCircleOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import MediaBatchActions from './MediaBatchActions.vue'
+import MediaDownloadModal from './MediaDownloadModal.vue'
+import MediaHeaderActions from './MediaHeaderActions.vue'
+import MediaRowActions from './MediaRowActions.vue'
 import MediaTrashModal from './MediaTrashModal.vue'
 import MediaRenameModal from './MediaRenameModal.vue'
 import MediaCategoryMoveModal from './MediaCategoryMoveModal.vue'
@@ -442,6 +379,7 @@ import {
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAuthStore } from '@/stores/auth'
 import { getMovableMediaCategories } from './mediaCategoryOptions'
+import { useMediaDownloads } from './useMediaDownloads'
 
 const tableRef = ref(null)
 const router = useRouter()
@@ -492,6 +430,13 @@ const categoryDraft = ref({
 const { runAction, confirmAction } = useAdminActions()
 const authStore = useAuthStore()
 const canManageMediaShares = computed(() => authStore.canAccessPath('/console/manage/media-shares'))
+const {
+  downloadModalVisible,
+  downloadSubmitting,
+  downloadSingleMedia,
+  openBatchDownload,
+  submitBatchDownload
+} = useMediaDownloads({ selectedMediaRecords, clearSelection: clearMediaSelection })
 
 const fileClassOptions = [
   { label: '图片', value: 'image' },
@@ -546,7 +491,7 @@ const columns = [
   { title: '分类', key: 'category', width: 120, align: 'center' },
   { title: '引用状态', key: 'usage', width: 140, align: 'center' },
   { title: '上传时间', key: 'createdAt', width: 170, align: 'center' },
-  { title: '操作', key: 'action', width: 180, align: 'center', fixed: 'right' }
+  { title: '操作', key: 'action', width: 110, align: 'center', fixed: 'right' }
 ]
 
 const mediaRowSelection = computed(() => ({
@@ -1035,12 +980,6 @@ onMounted(async () => {
   flex-shrink: 0;
 }
 
-.media-cloud__header-icon {
-  width: 32px;
-  min-width: 32px;
-  padding: 0;
-}
-
 /* ===== 查询状态带：读取顺序为搜索 -> 条件 -> 类型 -> 选中操作 ===== */
 .media-cloud__list-toolbar {
   display: flex;
@@ -1267,57 +1206,6 @@ onMounted(async () => {
   color: #64748b;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
-}
-
-/* ===== 操作按钮 ===== */
-.media-action-btn {
-  width: 28px !important;
-  height: 28px !important;
-  min-width: 28px !important;
-  padding: 0 !important;
-  font-size: 13px !important;
-  border-radius: 6px !important;
-  transition: all 0.15s ease !important;
-}
-
-.media-action-btn--view {
-  color: #3b82f6 !important;
-}
-
-.media-action-btn--rename {
-  color: #d48806 !important;
-}
-
-.media-action-btn--move {
-  color: var(--console-primary-strong) !important;
-}
-
-.media-action-btn--refs {
-  color: #0f766e !important;
-}
-
-.media-action-btn--view:hover {
-  background: #eff6ff !important;
-  color: #2563eb !important;
-}
-
-.media-action-btn--rename:hover {
-  background: var(--console-primary-soft) !important;
-  color: var(--console-primary-strong) !important;
-}
-
-.media-action-btn--move:hover {
-  background: var(--console-primary-soft) !important;
-  color: var(--console-primary-strong) !important;
-}
-
-.media-action-btn--refs:hover {
-  color: #0d9488 !important;
-  background: #ecfdf5 !important;
-}
-
-.media-action-btn--delete:hover {
-  background: #fef2f2 !important;
 }
 
 /* ===== 表格区域深度样式覆盖 ===== */
@@ -1553,11 +1441,6 @@ onMounted(async () => {
   background: color-mix(in srgb, var(--console-primary) 10%, var(--console-surface-muted));
 }
 
-:deep(.dark-theme) .media-action-btn--view:hover,
-:deep(.dark-theme) .media-action-btn--delete:hover {
-  background: var(--console-surface-hover) !important;
-}
-
 :deep(.dark-theme) .media-category-panel__form {
   border-bottom-color: var(--console-border);
 }
@@ -1688,11 +1571,6 @@ onMounted(async () => {
 
   .media-cloud__actions {
     gap: 6px;
-  }
-
-  .media-cloud__header-icon {
-    width: 28px;
-    min-width: 28px;
   }
 
   .media-cloud__actions :deep(.ant-btn-primary) {

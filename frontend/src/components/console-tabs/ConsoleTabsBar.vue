@@ -392,8 +392,9 @@ onBeforeUnmount(() => sortable?.destroy())
   font-size: 14px;
 }
 
+/* 普通标签沿用系统的点击指针，避免 grab 光标覆盖用户的系统鼠标主题。 */
 .console-tab .console-tab__main {
-  cursor: grab;
+  cursor: pointer;
 }
 
 .console-tab.is-dragging .console-tab__main {

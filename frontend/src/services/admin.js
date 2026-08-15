@@ -244,6 +244,7 @@ export async function createAdminUser(data) {
   return http.post('/api/admin/users', {
     username: data.username,
     email: data.email,
+    gender: data.gender || 'unknown',
     remarkName: data.remarkName || '',
     roleIds: data.roleIds || [],
     status: data.status || 'active',
@@ -260,6 +261,10 @@ export function updateAdminUserStatus(id, status) {
 
 export function updateAdminUserRemark(id, remarkName) {
   return http.patch(`/api/admin/users/${id}/remark`, { remarkName })
+}
+
+export function updateAdminUserGender(id, gender) {
+  return http.patch(`/api/admin/users/${id}/gender`, { gender })
 }
 
 export function batchUpdateAdminUserStatus(ids, status) {
@@ -421,6 +426,20 @@ export function clearSuspectedUntrackedAdminMedia(params = {}) {
 
 export function batchDeleteAdminMedia(ids) {
   return http.post('/api/admin/media/batch/delete', { ids })
+}
+
+export function downloadAdminMedia(id) {
+  return http.get(`/api/admin/media-downloads/${id}`, {
+    responseType: 'blob',
+    timeout: 0
+  })
+}
+
+export function downloadAdminMediaBatch(data) {
+  return http.post('/api/admin/media-downloads/batch/archive', data, {
+    responseType: 'blob',
+    timeout: 0
+  })
 }
 
 function normalizeMediaCategoryTarget(target) {

@@ -117,9 +117,6 @@
             {{ lang === 'zh' ? '登录' : 'Sign In' }}
           </a-button>
 
-          <p class="security-note">
-            {{ lang === 'zh' ? '密码会在浏览器内完成一次性加密后提交，并通过安全会话 Cookie 保持登录。' : 'Password is encrypted in the browser before submission and the session is kept by a secure cookie.' }}
-          </p>
         </a-form>
 
         <AccountRecoveryModal v-model:open="forgotPasswordVisible" :lang="lang" :theme="theme" />
@@ -719,9 +716,10 @@ onMounted(() => {
   height: 100%;
   background: var(--right-bg);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   padding: 40px;
+  overflow-y: auto;
   transition: all 0.3s;
 }
 
@@ -732,6 +730,7 @@ onMounted(() => {
 .login-form-wrapper {
   width: 100%;
   max-width: 360px;
+  margin: auto 0;
 }
 
 .form-header {
@@ -852,13 +851,6 @@ onMounted(() => {
   box-shadow: none;
 }
 
-.security-note {
-  margin: 12px 0 0;
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
 .other-login {
   margin-bottom: 28px;
 }
@@ -964,6 +956,7 @@ onMounted(() => {
   .login-right {
     width: 100% !important;
     padding: 30px 20px;
+    overflow-y: visible;
   }
 
   .hero-text .line {

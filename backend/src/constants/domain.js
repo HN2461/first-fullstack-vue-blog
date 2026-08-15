@@ -10,6 +10,12 @@ export const USER_STATUS = Object.freeze({
   DISABLED: 'disabled'
 })
 
+export const USER_GENDERS = Object.freeze({
+  UNKNOWN: 'unknown',
+  MALE: 'male',
+  FEMALE: 'female'
+})
+
 export const ARTICLE_STATUS = Object.freeze({
   DRAFT: 'draft',
   PUBLISHED: 'published',

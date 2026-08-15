@@ -25,6 +25,7 @@ import { rbacRouter } from '#modules/rbac/routes/rbac.routes.js'
 import { questionBankRouter } from '#modules/questionBank/routes/questionBank.routes.js'
 import { mediaShareAdminRouter } from '#modules/mediaShare/routes/mediaShareAdmin.routes.js'
 import { mediaSharePublicRouter } from '#modules/mediaShare/routes/mediaSharePublic.routes.js'
+import { mediaDownloadAdminRouter } from '#modules/media/routes/mediaDownloadAdmin.routes.js'
 import {
   resumeExportRouter,
   resumeInterviewRouter,
@@ -56,6 +57,7 @@ export function createApp() {
   }
 
   app.use(`${API_PREFIX}/admin/media-shares`, mediaShareAdminRouter)
+  app.use(`${API_PREFIX}/admin/media-downloads`, mediaDownloadAdminRouter)
   app.use(`${API_PREFIX}/admin`, adminRouter)
   app.use(`${API_PREFIX}/auth`, authRouter)
   app.use(`${API_PREFIX}/bookmarks`, bookmarkRouter)

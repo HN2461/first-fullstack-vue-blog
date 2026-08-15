@@ -425,7 +425,7 @@ export async function listCategoryArticles(categoryId, options = {}) {
     Article.find(query)
       .populate('category')
       .populate('tags')
-      .populate('createdBy', 'username avatar role')
+      .populate('createdBy', 'username avatar gender role')
       .sort(getDirectoryArticleSort())
       .skip(skip)
       .limit(pageSize),

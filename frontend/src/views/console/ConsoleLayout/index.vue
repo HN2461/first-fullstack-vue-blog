@@ -74,7 +74,7 @@
 
           <a-dropdown :trigger="['hover']">
             <button class="enterprise-profile-button" type="button">
-              <a-avatar class="enterprise-avatar" :src="authStore.user?.avatar || ''">{{ userInitial }}</a-avatar>
+              <a-avatar class="enterprise-avatar" :src="getUserAvatar(authStore.user)">{{ userInitial }}</a-avatar>
             <span>
               <strong>{{ authStore.user?.username || '用户' }}</strong>
               <small>{{ userRoleLabel }}</small>
@@ -339,6 +339,7 @@ import {
 } from '@/utils/knowledgeMenuSort'
 import { openMenuRoute } from '@/utils/menuNavigation'
 import { isRoutePathMatched } from '@/utils/routeMatch'
+import { getUserAvatar } from '@/utils/avatar'
 import ConsoleWorkspace from '@/components/console-tabs/ConsoleWorkspace.vue'
 
 const ARTICLE_DIRECTORY_PATH = '/console/article-directory'

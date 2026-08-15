@@ -119,7 +119,7 @@ export async function listPublicArticles(rawQuery = {}) {
     Article.find(query)
       .populate('category')
       .populate('tags')
-      .populate('createdBy', 'username avatar role')
+      .populate('createdBy', 'username avatar gender role')
       .sort(sort)
       .skip(pagination.skip)
       .limit(pagination.pageSize),
@@ -197,7 +197,7 @@ export async function getPublicArticleBySlug(slug, currentUserId = null) {
   })
     .populate('category')
     .populate('tags')
-    .populate('createdBy', 'username avatar role')
+      .populate('createdBy', 'username avatar gender role')
 
   if (!article) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
@@ -257,7 +257,7 @@ export async function getPublicHomeData() {
       .select('-contentMarkdown -resources -document')
       .populate('category')
       .populate('tags')
-      .populate('createdBy', 'username avatar role')
+      .populate('createdBy', 'username avatar gender role')
       .sort({ publishedAt: -1, createdAt: -1 })
       .limit(5),
     Article.find({
@@ -268,7 +268,7 @@ export async function getPublicHomeData() {
       .select('-contentMarkdown -resources -document')
       .populate('category')
       .populate('tags')
-      .populate('createdBy', 'username avatar role')
+      .populate('createdBy', 'username avatar gender role')
       .sort({ publishedAt: -1, createdAt: -1 })
       .limit(4)
   ])

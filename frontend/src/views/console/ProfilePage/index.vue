@@ -8,7 +8,7 @@
           <button
             class="avatar-wrapper"
             type="button"
-            :aria-label="userAvatar ? '预览头像' : '当前暂无头像'"
+            aria-label="预览头像"
             @click="openAvatarPreview"
           >
             <a-avatar :size="80" :src="userAvatar" class="user-avatar">
@@ -101,7 +101,7 @@
             <button
               class="profile-avatar-preview-action"
               type="button"
-              :aria-label="userAvatar ? '预览头像' : '当前暂无头像'"
+              :aria-label="hasCustomAvatar ? '预览头像' : '预览默认头像'"
               @click="openAvatarPreview"
             >
               <a-avatar :size="72" :src="userAvatar" class="profile-avatar-preview">
@@ -117,7 +117,7 @@
                 <template #icon><CameraOutlined /></template>
                 更新头像
               </a-button>
-              <a-button danger :disabled="!userAvatar" :loading="deletingAvatar" @click="handleDeleteAvatar">
+              <a-button danger :disabled="!hasCustomAvatar" :loading="deletingAvatar" @click="handleDeleteAvatar">
                 删除头像
               </a-button>
             </a-space>
@@ -147,6 +147,9 @@
                     placeholder="未绑定邮箱"
                   />
                 </a-form-item>
+              </a-col>
+              <a-col :span="12">
+                <GenderPreference v-model="profileForm.gender" />
               </a-col>
             </a-row>
             <a-form-item label="个人简介" name="bio">
@@ -493,13 +496,16 @@ import PersonalDateSettings from './components/PersonalDateSettings.vue'
 import WorkspaceTabsPreference from './components/WorkspaceTabsPreference.vue'
 import ArticleAuthorPreference from './components/ArticleAuthorPreference.vue'
 import ThemePreference from './components/ThemePreference.vue'
+import GenderPreference from './components/GenderPreference.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
 import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
+import { getUserAvatar, normalizeGender } from '@/utils/avatar'
 
 const authStore = useAuthStore()
 const appStore = useAppStore()
 
-const userAvatar = computed(() => authStore.user?.avatar || '')
+const userAvatar = computed(() => getUserAvatar(authStore.user))
+const hasCustomAvatar = computed(() => Boolean(authStore.user?.avatar))
 const userInitial = computed(() => {
   const name = authStore.user?.username || authStore.user?.email || ''
   return name.charAt(0).toUpperCase()
@@ -536,6 +542,7 @@ const activeTab = ref('basic')
 
 const profileForm = reactive({
   username: '',
+  gender: 'unknown',
   bio: '',
   website: '',
   location: '',
@@ -646,6 +653,7 @@ function openAvatarPreview() {
 
 function syncProfileForm(user = {}) {
   profileForm.username = user.username || ''
+  profileForm.gender = normalizeGender(user.gender)
   profileForm.bio = user.bio || ''
   profileForm.website = user.website || ''
   profileForm.location = user.location || ''
@@ -736,6 +744,7 @@ async function handleSaveProfile() {
   try {
     const result = await updateProfile({
       username: profileForm.username,
+      gender: profileForm.gender,
       bio: profileForm.bio,
       website: profileForm.website,
       location: profileForm.location,

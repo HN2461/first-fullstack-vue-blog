@@ -370,6 +370,7 @@ function formatArticlePayload(article, evaluation) {
         id: article.createdBy._id?.toString?.() || article.createdBy.id,
         username: article.createdBy.username,
         avatar: article.createdBy.avatar || '',
+        gender: article.createdBy.gender || 'unknown',
         role: article.createdBy.role || 'user'
       }
     : null
@@ -573,7 +574,7 @@ export async function searchArticles(rawQuery = {}) {
   })
     .populate('category')
     .populate('tags')
-    .populate('createdBy', 'username avatar role')
+    .populate('createdBy', 'username avatar gender role')
     .lean()
 
   const evaluatedItems = candidateArticles

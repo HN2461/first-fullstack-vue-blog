@@ -30,6 +30,21 @@
           </a-input>
         </a-form-item>
 
+        <a-form-item name="gender">
+          <a-select
+            v-model:value="form.gender"
+            size="large"
+            allow-clear
+            show-search
+            option-filter-prop="label"
+            :placeholder="lang === 'zh' ? '性别（可选）' : 'Gender (optional)'"
+          >
+            <a-select-option value="male" label="男">男</a-select-option>
+            <a-select-option value="female" label="女">女</a-select-option>
+            <a-select-option value="unknown" label="未知">未知</a-select-option>
+          </a-select>
+        </a-form-item>
+
         <a-form-item name="password" :rules="passwordRules">
           <a-input-password v-model:value="form.password" :placeholder="lang === 'zh' ? '请输入密码（至少8位）' : 'Password (8+ chars)'" size="large" autocomplete="new-password">
             <template #prefix><LockOutlined /></template>
@@ -58,9 +73,6 @@
           {{ lang === 'zh' ? '注册' : 'Sign Up' }}
         </a-button>
 
-        <p class="mobile-auth__note">
-          {{ lang === 'zh' ? '注册密码会在浏览器内完成一次性加密后提交。' : 'Password is encrypted before submission.' }}
-        </p>
       </a-form>
 
       <div class="mobile-auth__links">
@@ -86,7 +98,7 @@ import { useAuthStore } from '@/stores/auth'
 const router = useRouter()
 const authStore = useAuthStore()
 const { theme, lang, layout } = useAuthPageSettings()
-const form = reactive({ username: '', email: '', password: '', applyAdmin: false, permissionRequestReason: '' })
+const form = reactive({ username: '', email: '', password: '', gender: undefined, applyAdmin: false, permissionRequestReason: '' })
 const submitting = ref(false)
 const errorMessage = ref('')
 
@@ -120,6 +132,7 @@ async function handleSubmit() {
       username: form.username,
       email: form.email,
       password: form.password,
+      gender: form.gender || 'unknown',
       permissionRequestReason: form.applyAdmin ? form.permissionRequestReason : ''
     })
     message.success(lang.value === 'zh' ? '注册成功，正在跳转...' : 'Registration successful!')
@@ -189,8 +202,7 @@ async function handleSubmit() {
   line-height: 1.2;
 }
 
-.mobile-auth__head p,
-.mobile-auth__note {
+.mobile-auth__head p {
   margin: 0;
   color: var(--text-secondary);
   line-height: 1.7;

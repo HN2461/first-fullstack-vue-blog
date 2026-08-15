@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { USER_ROLES, USER_STATUS } from '#constants/domain'
+import { USER_GENDERS, USER_ROLES, USER_STATUS } from '#constants/domain'
 import { ENTRANCE_EFFECT_KEYS, ENTRANCE_TRIGGER_PAGES } from '#modules/user/constants/entranceEffects.js'
 
 const userSchema = new mongoose.Schema(
@@ -25,6 +25,11 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default: ''
+    },
+    gender: {
+      type: String,
+      enum: Object.values(USER_GENDERS),
+      default: USER_GENDERS.UNKNOWN
     },
     bio: {
       type: String,
@@ -206,6 +211,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     username: this.username,
     email: this.email,
     avatar: this.avatar,
+    gender: Object.values(USER_GENDERS).includes(this.gender) ? this.gender : USER_GENDERS.UNKNOWN,
     bio: this.bio,
     remarkName: this.remarkName || '',
     website: this.website,

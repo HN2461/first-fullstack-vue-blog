@@ -95,6 +95,7 @@ discussionMessageSchema.methods.toSafeJSON = function toSafeJSON() {
     senderName: sender?.username || '',
     senderEmail: sender?.email || '',
     senderAvatar: sender?.avatar || '',
+    senderGender: sender?.gender || 'unknown',
     content: this.revokedAt ? '' : this.content,
     contentType: this.contentType,
     attachments: this.revokedAt ? [] : (this.attachments || []),

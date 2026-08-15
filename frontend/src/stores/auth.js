@@ -135,6 +135,7 @@ export const useAuthStore = defineStore('auth', () => {
         username: form.username,
         email: form.email,
         password: form.password,
+        gender: form.gender || 'unknown',
         permissionRequestReason: form.permissionRequestReason || undefined
       })
       token.value = result.token || ''
@@ -154,6 +155,7 @@ export const useAuthStore = defineStore('auth', () => {
     const result = await registerAccount({
       username: form.username,
       email: form.email,
+      gender: form.gender || 'unknown',
       permissionRequestReason: form.permissionRequestReason || undefined,
       credential: {
         challengeId: challenge.challengeId,
