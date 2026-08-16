@@ -12,6 +12,7 @@ const DEFAULT_MENUS = [
   { code: 'knowledge.articles', name: '全部文章', icon: 'FileTextOutlined', routePath: '/console/articles', routeKey: 'knowledge.article.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.directory', name: '文章目录', icon: 'FolderOutlined', routePath: '/console/article-directory', routeKey: 'knowledge.article.directory', directoryAutoExpandWhenNested: true, parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.memos', name: '备忘录', icon: 'BulbOutlined', routePath: '/console/memos', routeKey: 'knowledge.memo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.todos', name: '待办清单', icon: 'CheckSquareOutlined', routePath: '/console/todos', routeKey: 'knowledge.todo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 21, type: MENU_TYPES.SYSTEM },
   { code: 'collaboration.discussions', name: '项目讨论', icon: 'MessageOutlined', routePath: '/console/discussions', routeKey: 'collaboration.discussion.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 22, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.bookmarks', name: '书签中转站', icon: 'LinkOutlined', routePath: '/console/bookmarks', routeKey: 'knowledge.bookmarks', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 24, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.logRelay', name: '日志中转', icon: 'ApiOutlined', routePath: '/console/log-relay', routeKey: 'knowledge.log-relay', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 26, type: MENU_TYPES.SYSTEM },
@@ -396,6 +397,18 @@ async function runRbacSeed(forceBuiltinSync = false) {
         ]
       },
       { $addToSet: { menuIds: logRelayMenu._id } }
+    )
+  }
+  const todoMenu = allMenus.find((menu) => menu.code === 'knowledge.todos')
+  if (knowledgeRootMenu && todoMenu) {
+    await Role.updateMany(
+      {
+        $and: [
+          { menuIds: knowledgeRootMenu._id },
+          { menuIds: { $ne: todoMenu._id } }
+        ]
+      },
+      { $addToSet: { menuIds: todoMenu._id } }
     )
   }
   const ledgerMenu = allMenus.find((menu) => menu.code === 'knowledge.ledger')

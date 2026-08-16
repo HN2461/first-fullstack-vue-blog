@@ -111,7 +111,7 @@
 - 所有源码和配置文件使用 UTF-8 无 BOM。
 - 保持中文可读，禁止乱码。
 - 完成明确功能、问题修复或重要版本调整后，必须维护当天项目记录文件：
-  - 文件路径：`backend/src/data/projectTimeline/daily/YYYY-MM-DD.json`。
+  - 文件路径：`backend/src/data/projectTimeline/YYYY-MM/YYYY-MM-DD.json`。
   - 当天文件只记录当天协作完成的功能点，不混入其他日期。
   - 项目记录不是碎片流水账；同一功能类、同一问题链路或同一协作主题应尽量合并成一条记录。
   - 需要表达多个动作时，在同一条记录的 `detail` 中使用 `1.`、`2.`、`3.` 分点说明，不要拆成多条相近消息。
@@ -193,7 +193,8 @@
 - 发布前必须先判断 `backend/src/models`、`backend/src/services`、`backend/src/scripts`、`backend/src/validators`、`backend/src/constants` 是否存在数据结构、枚举、权限、关联关系变化。
 - 需要迁移数据库时，优先新增一次性脚本到 `backend/src/scripts`，脚本默认 dry-run，只有传入 `--apply` 才允许写库。
 - 迁移脚本必须先明确筛选范围、打印影响数量，并在发布前确认已有 `mongodump` 备份。
-- 项目记录台账不通过整库迁移同步日常协作记录；日常记录优先维护 `backend/src/data/projectTimeline/daily/YYYY-MM-DD.json`，部署后在后台“项目记录台账”页面使用“导入记录”按钮导入线上数据库。
+- 项目记录台账不通过整库迁移同步日常协作记录；日常记录优先维护 `backend/src/data/projectTimeline/YYYY-MM/YYYY-MM-DD.json`，按月份归档，不再增加 `daily` 中间层，部署后在后台“项目记录台账”页面使用“导入记录”按钮导入线上数据库。
+- 项目记录导入单个文件最多 31 条记录，后台批量导入一次最多选择 31 个日期文件，覆盖一个完整月份。
 - 每日项目记录 JSON 导入必须保持幂等，依赖 `source + date + records[].id` 去重；同一文件重复导入不得生成重复记录。
 - 只有在明确要用本地数据库替换线上数据库时，才允许使用 `mongorestore --drop` 整库覆盖。
 - 数据库回滚会丢失发布后新增数据，只有确认数据被改坏时才执行。

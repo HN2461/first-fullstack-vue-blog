@@ -17,7 +17,7 @@
       :before-upload="handleBeforeUpload"
       :file-list="fileList"
       :multiple="true"
-      :max-count="30"
+      :max-count="31"
       @remove="handleRemove"
     >
       <a-button>
@@ -27,7 +27,7 @@
     </a-upload>
 
     <div v-if="fileList.length" class="timeline-import-summary">
-      已选择 {{ fileList.length }} 个文件，单次最多导入 30 个。
+      已选择 {{ fileList.length }} 个文件，单次最多导入 31 个。
     </div>
 
     <div class="timeline-import-format">
@@ -64,8 +64,8 @@ function handleBeforeUpload(file) {
     return false
   }
 
-  if (selectedFiles.value.length >= 30) {
-    message.warning('单次最多导入 30 个 JSON 文件')
+  if (selectedFiles.value.length >= 31) {
+    message.warning('单次最多导入 31 个 JSON 文件')
     return false
   }
 

@@ -32,6 +32,7 @@ const AdminProjectTimeline = () => import('@/views/admin/AdminProjectTimeline/in
 const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
 const AdminTrash = () => import('@/views/admin/AdminTrash/index.vue')
 const MemoPage = () => import('@/views/console/MemoPage/index.vue')
+const TodoPage = () => import('@/views/console/TodoPage/index.vue')
 const DiscussionPage = () => import('@/views/console/DiscussionPage/index.vue')
 const BookmarkPage = () => import('@/views/console/BookmarkPage/index.vue')
 const LogRelayPage = () => import('@/views/console/LogRelayPage/index.vue')
@@ -169,6 +170,12 @@ export const router = createRouter({
           name: 'ConsoleMemos',
           component: MemoPage,
           meta: { title: '备忘录', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'todos',
+          name: 'ConsoleTodos',
+          component: TodoPage,
+          meta: { title: '待办清单', requiresAuth: true, requiresMenuAccess: true }
         },
         {
           path: 'discussions',

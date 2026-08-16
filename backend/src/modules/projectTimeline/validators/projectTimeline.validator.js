@@ -85,7 +85,7 @@ export const projectTimelineImportSchema = z.object({
   schemaVersion: z.number().int().positive().optional().default(1),
   date: z.string().trim().regex(/^\d{4}-\d{2}-\d{2}$/, '导入日期格式应为 YYYY-MM-DD'),
   source: z.enum(PROJECT_TIMELINE_SOURCES).optional().default('collaboration_daily'),
-  records: z.array(projectTimelineImportRecordSchema).min(1, '导入记录不能为空').max(100, '单个文件最多导入 100 条记录')
+  records: z.array(projectTimelineImportRecordSchema).min(1, '导入记录不能为空').max(31, '单个文件最多导入 31 条记录')
 })
 
 export const projectTimelineExportQuerySchema = z.object({

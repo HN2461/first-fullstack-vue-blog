@@ -248,6 +248,7 @@ import {
   BulbOutlined,
   CalendarOutlined,
   CheckCircleOutlined,
+  CheckSquareOutlined,
   ClockCircleOutlined,
   CloudOutlined,
   CodeOutlined,
@@ -400,6 +401,7 @@ const iconMap = {
   BookOutlined,
   CalendarOutlined,
   CheckCircleOutlined,
+  CheckSquareOutlined,
   ClockCircleOutlined,
   CloudOutlined,
   CodeOutlined,
@@ -575,6 +577,15 @@ const createActions = computed(() => {
       description: '记录临时想法、待办事项和工作线索',
       routePath: '/console/memos?create=1',
       icon: FormOutlined
+    })
+  }
+  if (authStore.canAccessPath('/console/todos')) {
+    actions.push({
+      key: 'todo',
+      label: '新建待办清单',
+      description: '安排今天、购物或出行需要完成的事项',
+      routePath: '/console/todos',
+      icon: CheckSquareOutlined
     })
   }
   return actions
