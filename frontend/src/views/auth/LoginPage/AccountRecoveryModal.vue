@@ -116,7 +116,7 @@ const enabled = computed(() => recovery.value.enabled !== false)
 const instructions = computed(() => recovery.value.instructions || '请联系站点管理员核验身份，核验通过后将获得一次性密码重置链接。')
 const hasContacts = computed(() => Boolean(recovery.value.qq?.enabled || recovery.value.wechat?.enabled || recovery.value.email?.enabled))
 const contactCount = computed(() => [recovery.value.qq, recovery.value.wechat, recovery.value.email].filter(item => item?.enabled).length)
-const bodyStyle = { maxHeight: 'min(70vh, 620px)', overflow: 'hidden', padding: '0' }
+const bodyStyle = { maxHeight: 'min(calc(100vh - 140px), 700px)', overflow: 'hidden', padding: '0' }
 
 watch(() => props.open, (value) => { if (value) siteStore.loadProfile(true) })
 
@@ -147,7 +147,7 @@ function launchWechat() {
 </script>
 
 <style scoped>
-.recovery-content { max-height: min(70vh, 620px); overflow-y: auto; padding: 26px 28px 30px; scrollbar-width: none; }
+.recovery-content { flex: 1 1 auto; min-height: 0; max-height: none; overflow-y: auto; padding: 26px 28px 30px; scrollbar-width: none; }
 .recovery-content::-webkit-scrollbar { display: none; }
 .recovery-state { display: grid; place-items: center; min-height: 260px; }
 .modal-title { display: flex; align-items: center; gap: 12px; }
@@ -194,9 +194,10 @@ function launchWechat() {
 .channel-qr :deep(.ant-image) { width: 100px; height: 100px; overflow: hidden; border-radius: 6px; }
 .channel-qr :deep(.ant-image-img) { width: 100px; height: 100px; object-fit: contain; }
 .channel-card--email { padding-top: 14px; padding-bottom: 14px; }
-:global(.account-recovery-modal) { align-items: flex-start; padding: clamp(20px, 4vh, 44px) 16px clamp(28px, 6vh, 64px); }
-:global(.account-recovery-modal .ant-modal) { top: 0; max-width: calc(100vw - 24px); }
+:global(.ant-modal-wrap.account-recovery-modal) { align-items: flex-start; padding: clamp(12px, 2vh, 24px) 16px clamp(48px, 8vh, 72px); }
+:global(.ant-modal-wrap.account-recovery-modal .ant-modal) { top: 0; max-width: calc(100vw - 24px); }
 :global(.account-recovery-modal .ant-modal-content) { overflow: hidden; border-radius: 10px; }
+:global(.account-recovery-modal .ant-modal-body) { display: flex; flex-direction: column; min-height: 0; }
 :global(.account-recovery-modal .ant-modal-header) { padding: 20px 28px 16px; border-bottom: 1px solid var(--border-color, #e5e7eb); }
 :global(.account-recovery-modal.theme-dark .ant-modal-content) { --text-primary: #f1f5f9; --text-secondary: #94a3b8; --border-color: #334155; --surface-subtle: rgba(255, 255, 255, 0.035); background: #18202d; color: #f1f5f9; }
 :global(.account-recovery-modal.theme-dark .ant-modal-header) { background: #18202d; }
@@ -212,7 +213,7 @@ function launchWechat() {
   .modal-title span { display: none; }
   :global(.account-recovery-modal .ant-modal-header) { padding: 16px 20px 14px; }
   .recovery-content { padding: 20px 16px 22px; }
-  :global(.account-recovery-modal) { padding: 16px 12px 28px; }
+  :global(.ant-modal-wrap.account-recovery-modal) { padding: 16px 12px 36px; }
   .channel-card__body { grid-template-columns: minmax(0, 1fr) 88px; gap: 12px; }
   .channel-qr :deep(.ant-image), .channel-qr :deep(.ant-image-img) { width: 88px; height: 88px; }
   .channel-card__actions :deep(.ant-btn) { flex: 1 1 auto; }
