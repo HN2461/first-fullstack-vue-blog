@@ -55,6 +55,7 @@ const DEFAULT_MENUS = [
   { code: 'governance.notifications', name: '公告管理', icon: 'BellOutlined', routePath: '/console/manage/notifications', routeKey: 'admin.notification.list', parentCode: 'operation.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
   { code: 'access.group', name: '权限治理', icon: 'SafetyOutlined', routePath: '', parentCode: 'management.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40 },
   { code: 'governance.users', name: '用户管理', icon: 'UserOutlined', routePath: '/console/manage/users', routeKey: 'admin.user.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
+  { code: 'governance.onlineUsers', name: '在线用户', icon: 'MonitorOutlined', routePath: '/console/manage/online-users', routeKey: 'admin.online-user.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15 },
   { code: 'governance.roles', name: '角色管理', icon: 'TeamOutlined', routePath: '/console/manage/roles', routeKey: 'admin.role.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
   { code: 'governance.menus', name: '菜单管理', icon: 'MenuOutlined', routePath: '/console/manage/menus', routeKey: 'admin.menu.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 },
   { code: 'governance.approvals', name: '权限审批', icon: 'SafetyOutlined', routePath: '/console/manage/approvals', routeKey: 'admin.approval.list', parentCode: 'access.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40 },
@@ -360,6 +361,20 @@ async function runRbacSeed(forceBuiltinSync = false) {
   )
 
   const allMenus = await Menu.find({ enabled: true })
+  const userManagementMenu = allMenus.find((menu) => menu.code === 'governance.users')
+  const onlineUsersMenu = allMenus.find((menu) => menu.code === 'governance.onlineusers')
+  if (userManagementMenu && onlineUsersMenu) {
+    // 在线用户是用户管理的只读扩展；已有具备用户管理权限的角色同步继承入口。
+    await Role.updateMany(
+      {
+        $and: [
+          { menuIds: userManagementMenu._id },
+          { menuIds: { $ne: onlineUsersMenu._id } }
+        ]
+      },
+      { $addToSet: { menuIds: onlineUsersMenu._id } }
+    )
+  }
   const mediaMenu = allMenus.find((menu) => menu.code === 'content.media')
   const mediaShareMenu = allMenus.find((menu) => menu.code === 'content.mediashares')
   if (mediaShareMenuCreated && mediaMenu && mediaShareMenu) {

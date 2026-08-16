@@ -1,8 +1,9 @@
 import { Router } from 'express'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
-import { requireAuth } from '#middlewares/auth.js'
+import { optionalAuth, requireAuth } from '#middlewares/auth.js'
 import { loginUser, registerUser } from '#modules/auth/services/auth.service.js'
+import { logoutLoginSession, touchLoginSession } from '#modules/auth/services/loginSession.service.js'
 import { consumePasswordResetLink, inspectPasswordResetLink } from '#modules/passwordReset/services/passwordReset.service.js'
 import { passwordResetConsumeSchema, passwordResetCredentialSchema, passwordResetTokenSchema } from '#modules/passwordReset/validators/passwordReset.validator.js'
 import { hydrateUserPermissions } from '#modules/rbac/services/rbac.service.js'
@@ -42,7 +43,7 @@ authRouter.post('/register', asyncHandler(async (req, res) => {
       }
     : input
 
-  const result = await registerUser(secureInput)
+  const result = await registerUser(secureInput, { req })
   setAuthCookie(res, result.token)
   res.status(201).json(ok(result, '注册成功'))
 }))
@@ -56,7 +57,7 @@ authRouter.post('/login', asyncHandler(async (req, res) => {
       }
     : input
 
-  const result = await loginUser(secureInput)
+  const result = await loginUser(secureInput, { req })
   setAuthCookie(res, result.token)
   res.json(ok(result, '登录成功'))
 }))
@@ -85,10 +86,20 @@ authRouter.post('/reset-password', (req, res) => {
   })
 })
 
-authRouter.post('/logout', (req, res) => {
+authRouter.post('/logout', optionalAuth, asyncHandler(async (req, res) => {
+  await logoutLoginSession({ userId: req.user?._id, sessionId: req.authSessionId })
   clearAuthCookie(res)
   res.json(ok(null, '退出成功'))
-})
+}))
+
+authRouter.post('/heartbeat', requireAuth, asyncHandler(async (req, res) => {
+  const updated = await touchLoginSession({
+    userId: req.user._id,
+    sessionId: req.authSessionId
+  })
+
+  res.json(ok({ updated, serverTime: new Date().toISOString() }))
+}))
 
 authRouter.get('/me', requireAuth, asyncHandler(async (req, res) => {
   res.json(ok(await hydrateUserPermissions(req.user)))

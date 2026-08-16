@@ -279,14 +279,15 @@
               <div class="record-icon"><DesktopOutlined /></div>
               <div class="record-info">
                 <span class="record-title">{{ record.device || '未知设备' }}</span>
-                <span class="record-desc">登录时间：{{ formatDate(record.loggedAt) }}</span>
+                <span class="record-desc">登录时间：{{ formatDate(record.loginAt) }}</span>
               </div>
-              <a-tag v-if="record.current" color="green">当前设备</a-tag>
+              <a-tag v-if="record.current" color="green">当前会话</a-tag>
+              <a-tag v-else-if="record.status === 'online'" color="blue">在线</a-tag>
             </div>
           </div>
           <a-empty
             v-else
-            description="登录记录接口待接入真实审计数据"
+            description="暂无登录记录"
             :image-style="{ height: '48px' }"
           />
         </div>

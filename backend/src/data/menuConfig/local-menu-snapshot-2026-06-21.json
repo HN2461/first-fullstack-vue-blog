@@ -355,6 +355,22 @@
       "directoryAutoExpandWhenNested": true
     },
     {
+      "code": "governance.onlineUsers",
+      "name": "在线用户",
+      "icon": "MonitorOutlined",
+      "routePath": "/console/manage/online-users",
+      "routeKey": "admin.online-user.list",
+      "activeMenuCode": "",
+      "parentCode": "access.group",
+      "parentType": "child",
+      "sortOrder": 15,
+      "hidden": false,
+      "enabled": true,
+      "type": "custom",
+      "openMode": "current",
+      "directoryAutoExpandWhenNested": true
+    },
+    {
       "code": "governance.roles",
       "name": "角色管理",
       "icon": "TeamOutlined",

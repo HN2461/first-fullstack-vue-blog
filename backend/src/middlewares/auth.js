@@ -30,6 +30,8 @@ export async function requireAuth(req, res, next) {
     }
 
     req.user = user
+    req.authTokenPayload = payload
+    req.authSessionId = payload.sid || ''
     next()
   } catch (error) {
     if (!error.statusCode) {
@@ -57,6 +59,8 @@ export async function optionalAuth(req, res, next) {
 
       if (user && user.status !== USER_STATUS.DISABLED && (payload.tv ?? 0) === (user.tokenVersion || 0)) {
         req.user = user
+        req.authTokenPayload = payload
+        req.authSessionId = payload.sid || ''
       }
     }
   } catch {

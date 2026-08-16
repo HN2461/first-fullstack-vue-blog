@@ -7,6 +7,7 @@ import {
   loginAccount,
   logoutAccount,
   registerAccount,
+  sendAuthHeartbeat,
   setStoredToken
 } from '@/services/http'
 import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/credentialCrypto'
@@ -14,6 +15,7 @@ import { clearEntranceAutoPlaySession } from '@/utils/entranceEffects/entranceAu
 import { isRoutePathMatched } from '@/utils/routeMatch'
 
 const MENU_CACHE_KEY = 'blog-auth-menu-cache'
+const HEARTBEAT_INTERVAL_MS = 60 * 1000
 
 function readMenuCache() {
   try {
@@ -65,6 +67,7 @@ export const useAuthStore = defineStore('auth', () => {
   const user = ref(null)
   const token = ref(getStoredToken())
   const ready = ref(false)
+  let heartbeatTimer = null
 
   const isLoggedIn = computed(() => !!user.value)
   const isSuperAdmin = computed(() => !!user.value?.isSuperAdmin)
@@ -115,6 +118,7 @@ export const useAuthStore = defineStore('auth', () => {
       const currentUser = await getCurrentUser()
       user.value = mergeCachedPermissions(currentUser)
       writeMenuCache(user.value)
+      startHeartbeat()
     } catch {
       clearSession()
     } finally {
@@ -142,6 +146,7 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = result.user
       writeMenuCache(user.value)
       setStoredToken(token.value)
+      startHeartbeat()
       return
     }
 
@@ -166,6 +171,7 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = result.user
     writeMenuCache(user.value)
     setStoredToken('')
+    startHeartbeat()
   }
 
   async function login(form) {
@@ -178,6 +184,7 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = result.user
       writeMenuCache(user.value)
       setStoredToken(token.value)
+      startHeartbeat()
       return
     }
 
@@ -199,9 +206,11 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = result.user
     writeMenuCache(user.value)
     setStoredToken('')
+    startHeartbeat()
   }
 
   function clearSession(options = {}) {
+    stopHeartbeat()
     token.value = ''
     user.value = null
     setStoredToken('')
@@ -209,6 +218,33 @@ export const useAuthStore = defineStore('auth', () => {
     if (options.clearEntranceAutoPlay) {
       clearEntranceAutoPlaySession()
     }
+  }
+
+  function stopHeartbeat() {
+    if (heartbeatTimer) {
+      window.clearInterval(heartbeatTimer)
+      heartbeatTimer = null
+    }
+  }
+
+  function startHeartbeat() {
+    stopHeartbeat()
+    if (!user.value) return
+
+    const heartbeat = async () => {
+      if (!user.value) return
+
+      try {
+        await sendAuthHeartbeat()
+      } catch (error) {
+        if (error.status === 401 || error.code === 'UNAUTHORIZED') {
+          clearSession({ clearEntranceAutoPlay: true })
+        }
+      }
+    }
+
+    void heartbeat()
+    heartbeatTimer = window.setInterval(heartbeat, HEARTBEAT_INTERVAL_MS)
   }
 
   async function logout() {

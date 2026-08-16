@@ -20,6 +20,7 @@ const AdminMigration = () => import('@/views/admin/AdminMigration/index.vue')
 const AdminTags = () => import('@/views/admin/AdminTags/index.vue')
 const AdminComments = () => import('@/views/admin/AdminComments/index.vue')
 const AdminUsers = () => import('@/views/admin/AdminUsers/index.vue')
+const AdminOnlineUsers = () => import('@/views/admin/AdminOnlineUsers/index.vue')
 const AdminRoles = () => import('@/views/admin/AdminRoles/index.vue')
 const AdminMenus = () => import('@/views/admin/AdminMenus/index.vue')
 const AdminApprovals = () => import('@/views/admin/AdminApprovals/index.vue')
@@ -333,6 +334,12 @@ export const router = createRouter({
           name: 'AdminUsers',
           component: AdminUsers,
           meta: { title: '用户管理', requiresAdmin: true }
+        },
+        {
+          path: 'manage/online-users',
+          name: 'AdminOnlineUsers',
+          component: AdminOnlineUsers,
+          meta: { title: '在线用户', requiresAdmin: true }
         },
         {
           path: 'manage/roles',

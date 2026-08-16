@@ -37,6 +37,7 @@ import { mediaCategoryBatchMoveSchema, mediaCategoryMoveSchema, mediaRegisterUnt
 import { deleteCustomFestival, listCustomFestivals, saveCustomFestival, syncHolidayYear, updateCustomFestival } from '#modules/festival/services/festival.service.js'
 import { z } from 'zod'
 import { getBusinessDate } from '#utils/businessDate.js'
+import { listLoginSessions } from '#modules/auth/services/loginSession.service.js'
 
 export const adminRouter = Router()
 
@@ -135,6 +136,7 @@ const canAccessSettings = requireMenuAccess('/console/manage/settings')
 const canAccessTags = requireMenuAccess('/console/manage/tags')
 const canAccessTrash = requireMenuAccess('/console/manage/trash')
 const canAccessUsers = requireMenuAccess('/console/manage/users')
+const canAccessOnlineUsers = requireMenuAccess('/console/manage/online-users')
 
 adminRouter.use('/articles/trash', canAccessTrash)
 adminRouter.use('/articles/import', canAccessArticleImport)
@@ -161,6 +163,7 @@ adminRouter.use('/settings', requireSuperAdmin)
 adminRouter.use('/stats', requireMenuAccess('/console'))
 adminRouter.use('/tags', canAccessTags)
 adminRouter.use('/users', canAccessUsers)
+adminRouter.use('/online-users', canAccessOnlineUsers)
 
 adminRouter.get('/categories', canAccessCategories, asyncHandler(async (req, res) => {
   res.json(ok(await listCategories(req.query)))
@@ -556,6 +559,10 @@ adminRouter.post('/comments/batch/review', asyncHandler(async (req, res) => {
 
 adminRouter.get('/users', asyncHandler(async (req, res) => {
   res.json(ok(await listUsers(req.query)))
+}))
+
+adminRouter.get('/online-users', asyncHandler(async (req, res) => {
+  res.json(ok(await listLoginSessions(req.query)))
 }))
 
 adminRouter.post('/users', requireSuperAdmin, asyncHandler(async (req, res) => {

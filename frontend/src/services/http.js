@@ -162,6 +162,14 @@ export function getCurrentUser() {
 }
 
 /**
+ * 更新当前登录会话的最近活动时间。
+ * 心跳只维护在线状态，不创建新的登录记录。
+ */
+export function sendAuthHeartbeat() {
+  return http.post('/api/auth/heartbeat')
+}
+
+/**
  * 获取验证码
  * @returns {Promise<{captchaId: string, captchaSvg: string}>}
  */
@@ -238,7 +246,7 @@ export function updateQuickActions(routes) {
 }
 
 /**
- * 获取登录记录。当前后端仅返回待接入真实审计数据的空状态。
+ * 获取当前用户的登录会话记录。
  */
 export function getLoginRecords() {
   return http.get('/api/profile/login-records')

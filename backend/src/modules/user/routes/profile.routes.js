@@ -23,6 +23,7 @@ import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, pass
 import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { isBirthdayOnDate } from '#modules/user/utils/birthday.js'
 import { getFestivalCalendar } from '#modules/festival/services/festival.service.js'
+import { listMyLoginSessions } from '#modules/auth/services/loginSession.service.js'
 
 const router = Router()
 
@@ -281,14 +282,13 @@ router.put('/quick-actions', requireAuth, asyncHandler(async (req, res) => {
 
 /**
  * GET /api/profile/login-records
- * 登录记录暂未接入真实审计数据，先返回明确空状态，避免前端展示模拟记录。
+ * 返回当前用户最近的登录会话记录，不暴露其他用户的登录信息。
  */
 router.get('/login-records', requireAuth, asyncHandler(async (req, res) => {
-  res.json(ok({
-    items: [],
-    total: 0,
-    source: 'pending_integration'
-  }))
+  res.json(ok(await listMyLoginSessions(req.user._id, {
+    ...req.query,
+    currentSessionId: req.authSessionId
+  })))
 }))
 
 router.get('/permission-requests', requireAuth, asyncHandler(async (req, res) => {

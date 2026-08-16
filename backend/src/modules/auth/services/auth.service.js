@@ -1,8 +1,10 @@
 import bcrypt from 'bcryptjs'
+import { randomUUID } from 'node:crypto'
 import { USER_GENDERS, USER_STATUS } from '#constants/domain'
 import { User } from '#modules/user/models/User.js'
 import { signAccessToken } from '#utils/jwt.js'
 import { createPermissionRequest, getAdminBaseRole, getVisitorRole, hydrateUserPermissions } from '#modules/rbac/services/rbac.service.js'
+import { createLoginSession } from '#modules/auth/services/loginSession.service.js'
 
 const MAX_FAILED_LOGIN_COUNT = 5
 const LOGIN_LOCK_MS = 15 * 60 * 1000
@@ -34,7 +36,7 @@ async function registerSuccessfulLogin(user) {
   await user.save()
 }
 
-export async function registerUser(input) {
+export async function registerUser(input, context = {}) {
   const email = input.email.trim().toLowerCase()
   const exists = await User.exists({ email })
 
@@ -62,12 +64,16 @@ export async function registerUser(input) {
     }
   }
 
+  const sessionId = randomUUID()
+  const token = signAccessToken(user, { sessionId })
+  await createLoginSession({ user, sessionId, req: context.req })
+
   return {
-    token: signAccessToken(user),
+    token,
     user: await hydrateUserPermissions(user)
   }
 }
-export async function loginUser(input) {
+export async function loginUser(input, context = {}) {
   const email = input.email.trim().toLowerCase()
   const user = await User.findOne({ email })
 
@@ -92,8 +98,12 @@ export async function loginUser(input) {
 
   await registerSuccessfulLogin(user)
 
+  const sessionId = randomUUID()
+  const token = signAccessToken(user, { sessionId })
+  await createLoginSession({ user, sessionId, req: context.req })
+
   return {
-    token: signAccessToken(user),
+    token,
     user: await hydrateUserPermissions(user)
   }
 }
