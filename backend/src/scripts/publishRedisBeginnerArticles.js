@@ -9,13 +9,12 @@ import matter from 'gray-matter'
 import mongoose from 'mongoose'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { USER_ROLES } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
-import { User } from '#modules/user/models/User.js'
 import { assertArticlePublishable } from '#modules/content/services/articleContent.service.js'
 import { calculateReadingMinutes, calculateWordCount, contentHash, generateAsciiSlug } from '#modules/content/services/legacyMigration.service.js'
+import { findPreferredArticleAuthor } from '#utils/articleAuthor.js'
 
 const args = new Set(process.argv.slice(2))
 const APPLY = args.has('--apply')
@@ -265,7 +264,7 @@ async function main() {
 
   const blocked = items.filter((item) => item.blockers.length > 0)
   if (blocked.length > 0) throw new Error(`发布前校验未通过：${blocked.map((item) => item.slug).join('、')}`)
-  const adminUser = await User.findOne({ role: { $in: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] } }).sort({ createdAt: 1 })
+  const adminUser = await findPreferredArticleAuthor()
   if (!adminUser) throw new Error('数据库中没有可用的管理员账号，不能记录发布人')
 
   const backupPath = await createBackup(articles, categories, tags)

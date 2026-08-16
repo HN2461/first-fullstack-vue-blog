@@ -10,7 +10,6 @@ import matter from 'gray-matter'
 import mongoose from 'mongoose'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { USER_ROLES } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
@@ -22,6 +21,7 @@ import {
   calculateWordCount,
   generateAsciiSlug
 } from '#modules/content/services/legacyMigration.service.js'
+import { findPreferredArticleAuthor } from '#utils/articleAuthor.js'
 
 const APPLY = new Set(process.argv.slice(2)).has('--apply')
 const SOURCE_ROOT = path.resolve(process.env.PYTHON_ARTICLE_ROOT || path.join(env.rootDir, '../output/Python'))
@@ -412,7 +412,7 @@ async function main() {
   const [categories, allArticles, adminUser] = await Promise.all([
     Category.find({}),
     Article.find({ deletedAt: null }),
-    User.findOne({ role: { $in: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] } }).sort({ createdAt: 1 })
+    findPreferredArticleAuthor()
   ])
   const categoryMaps = buildCategoryPathMaps(categories)
   const pythonRoot = categoryMaps.byPath.get(CATEGORY_PREFIX.join('/'))

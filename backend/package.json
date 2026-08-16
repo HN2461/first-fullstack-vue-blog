@@ -20,6 +20,8 @@
     "migrate:dry-run": "node src/scripts/migrateArticles.js --dry-run",
     "migrate:audit": "node src/scripts/migrateArticles.js --audit",
     "migrate:repair": "node src/scripts/migrateArticles.js --repair-existing",
+    "article-authors:dry-run": "node src/scripts/migrateArticleAuthorsToSuperAdmin.js",
+    "article-authors:apply": "node src/scripts/migrateArticleAuthorsToSuperAdmin.js --apply",
     "fix:timestamps": "node src/scripts/fixArticleTimestamps.js",
     "article-sort:dry-run": "node src/scripts/backfillArticleSortOrder.js",
     "article-sort:apply": "node src/scripts/backfillArticleSortOrder.js --apply",

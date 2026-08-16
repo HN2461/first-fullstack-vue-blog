@@ -8,17 +8,16 @@ import matter from 'gray-matter'
 import mongoose from 'mongoose'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { USER_ROLES } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
-import { User } from '#modules/user/models/User.js'
 import {
   calculateReadingMinutes,
   calculateWordCount,
   contentHash,
   generateAsciiSlug
 } from '#modules/content/services/legacyMigration.service.js'
+import { findPreferredArticleAuthor } from '#utils/articleAuthor.js'
 
 const rawArgs = process.argv.slice(2)
 const args = new Set(rawArgs)
@@ -460,7 +459,7 @@ async function main() {
     Category.find({}),
     Tag.find({}),
     Article.find({ deletedAt: null }),
-    User.findOne({ role: { $in: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] } }).sort({ createdAt: 1 })
+    findPreferredArticleAuthor()
   ])
   const categoryMaps = buildCategoryMaps(categories)
   const plan = buildPlan(sourceAudit.records, articles, categoryMaps, tags)

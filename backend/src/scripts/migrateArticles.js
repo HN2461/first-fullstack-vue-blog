@@ -17,7 +17,7 @@ import { env } from '../config/env.js'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
-import { User } from '#modules/user/models/User.js'
+import { findPreferredArticleAuthor } from '#utils/articleAuthor.js'
 import {
   analyzeLegacyNotes,
   buildLegacyArticleRecord,
@@ -89,7 +89,7 @@ async function createBackup() {
 }
 
 async function getAdminUser() {
-  const adminUser = await User.findOne({ role: 'admin' }).sort({ createdAt: 1 })
+  const adminUser = await findPreferredArticleAuthor()
   if (!adminUser) {
     throw new Error('数据库中没有管理员用户，请先在 backend 目录运行 npm run create:admin')
   }

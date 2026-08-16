@@ -10,11 +10,9 @@ import mongoose from 'mongoose'
 import mammoth from 'mammoth'
 import { connectDatabase, disconnectDatabase } from '../config/database.js'
 import { env } from '../config/env.js'
-import { USER_ROLES } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
-import { User } from '#modules/user/models/User.js'
 import { Media } from '#modules/media/models/Media.js'
 import { Comment } from '#modules/interaction/models/Comment.js'
 import { Reaction } from '#modules/interaction/models/Reaction.js'
@@ -32,6 +30,7 @@ import {
   buildRepositoryAnalysisMarkdown,
   readArticleExportSnapshot
 } from '#modules/content/services/articleSnapshot.service.js'
+import { findPreferredArticleAuthor } from '#utils/articleAuthor.js'
 
 const rawArgs = process.argv.slice(2)
 const args = new Set(rawArgs)
@@ -299,7 +298,7 @@ async function buildDatabaseDocuments(snapshot, localArticles, localCategories, 
 
 async function replaceArticles(snapshot) {
   const [adminUser, localArticles, localCategories, localTags] = await Promise.all([
-    User.findOne({ role: { $in: [USER_ROLES.SUPER_ADMIN, USER_ROLES.ADMIN] } }).sort({ createdAt: 1 }),
+    findPreferredArticleAuthor(),
     Article.find({}).lean(),
     Category.find({}).lean(),
     Tag.find({}).lean()
