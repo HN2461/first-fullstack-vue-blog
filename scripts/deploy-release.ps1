@@ -139,20 +139,24 @@ echo "[8/20] Ensure reading progress indexes"
 npm run reading-progress:indexes:apply
 npm run reading-progress:indexes:verify
 
-echo "[9/20] Seed question bank"
+echo "[9/20] Ensure article share indexes"
+npm run article-share:indexes:apply
+npm run article-share:indexes:verify
+
+echo "[10/20] Seed question bank"
 npm run question-bank:seed:apply
 
-echo "[10/20] Configure menu page cache"
+echo "[11/20] Configure menu page cache"
 npm run menu:page-cache:apply
 npm run menu:page-cache:dry-run
 
-echo "[11/20] Optional question bank history cleanup"
+echo "[12/20] Optional question bank history cleanup"
 __QUESTION_BANK_HISTORY_STEP__
 
-echo "[12/20] Optional bookmark data reset"
+echo "[13/20] Optional bookmark data reset"
 __BOOKMARK_RESET_STEP__
 
-echo "[13/20] Enable streaming request proxy for large uploads"
+echo "[14/20] Enable streaming request proxy for large uploads"
 python3 - <<'PY'
 from pathlib import Path
 
@@ -180,29 +184,29 @@ PY
 nginx -t
 systemctl reload nginx
 
-echo "[14/20] Start or reload PM2"
+echo "[15/20] Start or reload PM2"
 pm2 startOrReload ecosystem.config.cjs --update-env
 
-echo "[15/20] PM2 status"
+echo "[16/20] PM2 status"
 pm2 jlist | node -e "let s=''; process.stdin.on('data',d=>s+=d); process.stdin.on('end',()=>{const apps=JSON.parse(s); const app=apps.find(a=>a.name==='personal-blog-api'); if(!app){console.error('PM2 app missing'); process.exit(2)} const status={name:app.name,status:app.pm2_env.status,restarts:app.pm2_env.restart_time,pid:app.pid,maxMemoryRestart:app.pm2_env.max_memory_restart}; console.log(JSON.stringify(status, null, 2)); if(app.pm2_env.status!=='online') process.exit(3); if(Number(app.pm2_env.max_memory_restart)!==536870912){console.error('PM2 memory restart threshold missing');process.exit(5)}})"
 
-echo "[16/20] Local health"
+echo "[17/20] Local health"
 for i in 1 2 3 4 5; do
   if curl -fsS http://127.0.0.1:3001/api/health; then echo; break; fi
   sleep 2
   if [ "$i" = "5" ]; then exit 4; fi
 done
 
-echo "[17/20] Publish frontend"
+echo "[18/20] Publish frontend"
 rm -rf /www/personal-blog/frontend/*
 unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
 test -f /www/personal-blog/frontend/index.html
 
-echo "[18/20] Verify idempotent data operations"
+echo "[19/20] Verify idempotent data operations"
 npm run question-bank:seed
 npm run media-categories:verify
 
-echo "[19/20] Remove expired rollback copies"
+echo "[20/20] Remove expired rollback copies"
 PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
 find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
   | sort -z -nr \
