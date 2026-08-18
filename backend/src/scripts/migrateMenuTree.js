@@ -99,6 +99,11 @@ const DEFAULT_MENU_STRUCTURE = Object.freeze({
     sortOrder: 40,
     routePath: '/console/manage/media'
   },
+  'content.articleShares': {
+    parentCode: 'content.group',
+    sortOrder: 47,
+    routePath: '/console/manage/article-shares'
+  },
   'content.migration': {
     parentCode: 'content.group',
     sortOrder: 50,

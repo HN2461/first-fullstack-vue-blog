@@ -259,6 +259,22 @@
       "directoryAutoExpandWhenNested": true
     },
     {
+      "code": "content.articleShares",
+      "name": "共享阅读",
+      "icon": "LinkOutlined",
+      "routePath": "/console/manage/article-shares",
+      "routeKey": "admin.article-share.list",
+      "activeMenuCode": "",
+      "parentCode": "content.group",
+      "parentType": "child",
+      "sortOrder": 47,
+      "hidden": false,
+      "enabled": true,
+      "type": "custom",
+      "openMode": "current",
+      "directoryAutoExpandWhenNested": true
+    },
+    {
       "code": "content.migration",
       "name": "迁移配置",
       "icon": "SwapOutlined",

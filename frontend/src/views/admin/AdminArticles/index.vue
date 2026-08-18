@@ -148,6 +148,9 @@
                     <EditOutlined /> 转为草稿
                   </a-menu-item>
                   <a-menu-divider />
+                  <a-menu-item v-if="record.status === 'published'" key="share">
+                    <LinkOutlined /> 生成共享阅读链接
+                  </a-menu-item>
                   <a-menu-item key="delete" danger>
                     <DeleteOutlined /> 删除
                   </a-menu-item>
@@ -197,7 +200,8 @@ import {
   MoreOutlined,
   MinusCircleOutlined,
   EditOutlined,
-  DeleteOutlined
+  DeleteOutlined,
+  LinkOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import BatchActionBar from '@/components/BatchActionBar.vue'
@@ -232,7 +236,7 @@ const categoryLoading = ref(false)
 const selectedArticleIds = ref([])
 const { runAction, confirmAction } = useAdminActions()
 const {
-  handleAction,
+  handleAction: handleArticleAction,
   handleBatchDelete,
   openReader
 } = useAdminArticleActions({
@@ -362,6 +366,14 @@ function openArticle(record) {
     return
   }
   router.push(`/console/manage/articles/${record.id}`)
+}
+
+function handleAction(key, record) {
+  if (key === 'share') {
+    router.push({ path: '/console/manage/article-shares', query: { articleId: record.id } })
+    return
+  }
+  handleArticleAction(key, record)
 }
 
 async function loadCategories() {

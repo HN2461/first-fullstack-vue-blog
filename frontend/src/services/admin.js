@@ -179,6 +179,8 @@ export function reorderAdminCategoryArticles(categoryId, items) {
   return http.post('/api/admin/articles/reorder', { categoryId, items })
 }
 
+export { listAdminArticleShares, getAdminArticleShare, createAdminArticleShare, updateAdminArticleShare, revokeAdminArticleShare } from './articleShare'
+
 export function deleteAdminCategory(id) {
   return http.delete(`/api/admin/categories/${id}`)
 }

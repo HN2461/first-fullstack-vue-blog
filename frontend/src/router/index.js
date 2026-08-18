@@ -28,6 +28,7 @@ const AdminStats = () => import('@/views/admin/AdminStats/index.vue')
 const AdminMonitor = () => import('@/views/admin/AdminMonitor/index.vue')
 const AdminMedia = () => import('@/views/admin/AdminMedia/index.vue')
 const AdminMediaShares = () => import('@/views/admin/AdminMediaShares/index.vue')
+const AdminArticleShares = () => import('@/views/admin/AdminArticleShares/index.vue')
 const AdminNotifications = () => import('@/views/admin/AdminNotifications/index.vue')
 const AdminProjectTimeline = () => import('@/views/admin/AdminProjectTimeline/index.vue')
 const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
@@ -97,6 +98,12 @@ export const router = createRouter({
       name: 'PublicMediaShare',
       component: MediaSharePage,
       meta: { title: '资源分享' }
+    },
+    {
+      path: '/s/:publicId',
+      name: 'PublicArticleShare',
+      component: () => import('@/views/public/ArticleSharePage/index.vue'),
+      meta: { title: '共享阅读' }
     },
     {
       path: '/console',
@@ -370,6 +377,12 @@ export const router = createRouter({
           name: 'AdminMediaShares',
           component: AdminMediaShares,
           meta: { title: '资源分享', requiresAdmin: true }
+        },
+        {
+          path: 'manage/article-shares',
+          name: 'AdminArticleShares',
+          component: AdminArticleShares,
+          meta: { title: '共享阅读', requiresAdmin: true }
         },
         {
           path: 'manage/notifications',
