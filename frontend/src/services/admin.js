@@ -233,7 +233,7 @@ export async function listAdminUsers(params = {}) {
 /**
  * 查询管理员可见的登录会话和当前在线数量。
  * @param {object} params - 分页、状态、关键词和登录日期筛选条件。
- * @returns {Promise<{items: object[], total: number, onlineCount: number}>} 登录会话列表。
+ * @returns {Promise<{items: object[], total: number, onlineCount: number, onlineUserCount: number, recentLoginCount: number}>} 登录会话列表和概览指标。
  */
 export async function listAdminOnlineUsers(params = {}) {
   return http.get('/api/admin/online-users', { params })

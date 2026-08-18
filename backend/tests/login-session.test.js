@@ -121,6 +121,29 @@ describe('login sessions', () => {
     expect((await listLoginSessions({ status: 'online' })).onlineCount).toBe(0)
   })
 
+  it('counts concurrent sessions separately while deduplicating online users', async () => {
+    await registerUser({
+      username: 'metric-user',
+      email: 'metric-user@example.com',
+      password: 'password123'
+    })
+    await loginUser({ email: 'metric-user@example.com', password: 'password123' })
+
+    const concurrentResult = await listLoginSessions({ status: 'all' })
+    expect(concurrentResult.onlineCount).toBe(2)
+    expect(concurrentResult.onlineUserCount).toBe(1)
+    expect(concurrentResult.recentLoginCount).toBe(2)
+
+    const oldestSession = await LoginSession.findOne().sort({ loginAt: 1 })
+    oldestSession.loginAt = new Date(Date.now() - 25 * 60 * 60 * 1000)
+    await oldestSession.save()
+
+    const recentResult = await listLoginSessions({ status: 'all' })
+    expect(recentResult.onlineCount).toBe(2)
+    expect(recentResult.onlineUserCount).toBe(1)
+    expect(recentResult.recentLoginCount).toBe(1)
+  })
+
   it('allows a super administrator to read the online user page data', async () => {
     const app = createApp()
     const admin = await User.create({

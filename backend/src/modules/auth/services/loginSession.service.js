@@ -243,9 +243,12 @@ async function listSessions(options = {}) {
     }
   )
 
-  const [result, onlineCount] = await Promise.all([
+  const metricsPromise = options.includeMetrics === false
+    ? Promise.resolve({ onlineCount: 0, onlineUserCount: 0, recentLoginCount: 0 })
+    : getSessionMetrics()
+  const [result, metrics] = await Promise.all([
     LoginSession.aggregate(pipeline),
-    countOnlineSessions()
+    metricsPromise
   ])
   const pageResult = result[0] || { items: [], total: [] }
   const now = Date.now()
@@ -258,21 +261,22 @@ async function listSessions(options = {}) {
     total: pageResult.total?.[0]?.value || 0,
     page,
     pageSize,
-    onlineCount
+    ...metrics
   }
 }
 
-async function countOnlineSessions() {
+async function getSessionMetrics() {
   const cutoff = new Date(Date.now() - LOGIN_SESSION_ONLINE_WINDOW_MS)
-  const result = await LoginSession.aggregate([
-    {
-      $match: {
-        status: LOGIN_SESSION_STATUS.ACTIVE,
-        logoutAt: null,
-        lastSeenAt: { $gte: cutoff }
-      }
-    },
-    ...[
+  const recentCutoff = new Date(Date.now() - 24 * 60 * 60 * 1000)
+  const [onlineResult, onlineUsersResult, recentLoginResult] = await Promise.all([
+    LoginSession.aggregate([
+      {
+        $match: {
+          status: LOGIN_SESSION_STATUS.ACTIVE,
+          logoutAt: null,
+          lastSeenAt: { $gte: cutoff }
+        }
+      },
       {
         $lookup: {
           from: User.collection.name,
@@ -289,16 +293,50 @@ async function countOnlineSessions() {
         }
       },
       { $count: 'value' }
-    ]
+    ]),
+    LoginSession.aggregate([
+      {
+        $match: {
+          status: LOGIN_SESSION_STATUS.ACTIVE,
+          logoutAt: null,
+          lastSeenAt: { $gte: cutoff }
+        }
+      },
+      {
+        $lookup: {
+          from: User.collection.name,
+          localField: 'user',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { $unwind: '$user' },
+      {
+        $match: {
+          'user.status': 'active',
+          $expr: { $eq: ['$tokenVersion', '$user.tokenVersion'] }
+        }
+      },
+      { $group: { _id: '$user._id' } },
+      { $count: 'value' }
+    ]),
+    LoginSession.aggregate([
+      { $match: { loginAt: { $gte: recentCutoff } } },
+      { $count: 'value' }
+    ])
   ])
 
-  return result[0]?.value || 0
+  return {
+    onlineCount: onlineResult[0]?.value || 0,
+    onlineUserCount: onlineUsersResult[0]?.value || 0,
+    recentLoginCount: recentLoginResult[0]?.value || 0
+  }
 }
 
 /**
  * 查询管理员可见的登录会话，并按最近心跳计算在线状态。
  * @param {{page?: number, pageSize?: number, keyword?: string, status?: string, from?: string, to?: string}} options - 分页和筛选条件。
- * @returns {Promise<{items: object[], total: number, onlineCount: number, page: number, pageSize: number}>} 会话列表和在线数量。
+ * @returns {Promise<{items: object[], total: number, onlineCount: number, onlineUserCount: number, recentLoginCount: number, page: number, pageSize: number}>} 会话列表和实时指标。
  */
 export function listLoginSessions(options = {}) {
   return listSessions(options)
@@ -316,6 +354,7 @@ export async function listMyLoginSessions(userId, options = {}) {
     page: 1,
     pageSize: Math.min(50, Math.max(1, Number(options.pageSize) || 20)),
     status: 'all',
+    includeMetrics: false,
     userIds: [userId]
   })
 
