@@ -6,18 +6,26 @@
           <component :is="metric.icon" />
         </div>
         <div class="online-users-metric__content">
-          <span>{{ metric.label }}</span>
+          <div class="online-users-metric__label">
+            <span>{{ metric.label }}</span>
+            <small>{{ metric.badge }}</small>
+          </div>
           <strong>{{ metric.value }}</strong>
-          <small>{{ metric.help }}</small>
+          <span class="online-users-metric__help">{{ metric.help }}</span>
         </div>
       </article>
-      <div class="online-users-overview__sync">
+      <div class="online-users-overview__sync online-users-sync-card">
         <span class="online-users-sync-dot" :class="{ 'is-paused': !autoRefreshEnabled }" />
         <div>
-          <span>状态同步</span>
-          <strong>{{ autoRefreshEnabled ? '每 30 秒自动更新' : '已暂停自动更新' }}</strong>
+          <div class="online-users-sync-card__label">
+            <span>状态同步</span>
+            <small>{{ autoRefreshEnabled ? '运行中' : '已暂停' }}</small>
+          </div>
+          <strong>{{ autoRefreshEnabled ? '每 30 秒' : '手动刷新' }}</strong>
         </div>
-        <a-switch v-model:checked="autoRefreshEnabled" size="small" />
+        <a-tooltip :title="autoRefreshEnabled ? '暂停自动更新' : '开启自动更新'">
+          <a-switch v-model:checked="autoRefreshEnabled" size="small" aria-label="切换自动更新" />
+        </a-tooltip>
       </div>
     </div>
 
@@ -32,15 +40,19 @@
       :page-sizes="['10', '20', '50', '100']"
       :show-column-setting="true"
       :height="'100%'"
-      :scroll="{ x: 1280 }"
+      :scroll="{ x: 1080 }"
+      column-border
       striped
       @data-change="handleDataChange"
     >
       <template #toolbar>
         <div class="online-users-toolbar">
           <div class="online-users-toolbar__heading">
-            <span class="online-users-toolbar__title">登录会话</span>
-            <a-tooltip title="最近 3 分钟内有心跳且账号有效的会话视为在线。关闭浏览器或网络中断后，会话会在窗口结束后转为离线。">
+            <div class="online-users-toolbar__title-line">
+              <span class="online-users-toolbar__title">在线用户</span>
+              <a-tag class="online-users-toolbar__tag" :bordered="false" color="blue">登录会话监控</a-tag>
+            </div>
+            <a-tooltip title="一行代表一次登录会话，同一账号在多个设备登录会显示多行。最近 3 分钟内有心跳且账号有效的会话视为在线，关闭浏览器或网络中断后会转为离线。">
               <QuestionCircleOutlined aria-label="在线状态说明" />
             </a-tooltip>
             <span class="online-users-toolbar__updated">更新于 {{ formatClock(lastRefreshAt) }}</span>
@@ -218,19 +230,19 @@ const filterParams = computed(() => ({
 }))
 
 const metrics = computed(() => [
-  { key: 'sessions', label: '在线会话', value: onlineCount.value, help: '最近 3 分钟有心跳', icon: WifiOutlined, tone: 'blue' },
-  { key: 'users', label: '在线用户', value: onlineUserCount.value, help: '按账号去重', icon: UserOutlined, tone: 'green' },
-  { key: 'logins', label: '近 24 小时登录', value: recentLoginCount.value, help: '包含已结束会话', icon: ClockCircleOutlined, tone: 'orange' }
+  { key: 'sessions', label: '在线会话', badge: '实时', value: onlineCount.value, help: '最近 3 分钟有心跳', icon: WifiOutlined, tone: 'blue' },
+  { key: 'users', label: '在线用户', badge: '去重', value: onlineUserCount.value, help: '按账号统计', icon: UserOutlined, tone: 'green' },
+  { key: 'logins', label: '近 24 小时登录', badge: '审计', value: recentLoginCount.value, help: '包含已结束会话', icon: ClockCircleOutlined, tone: 'orange' }
 ])
 
 const columns = [
-  { title: '用户', key: 'sessionUser', width: 238, fixed: 'left' },
-  { title: '状态', key: 'sessionStatus', width: 150 },
-  { title: '设备 / 浏览器', key: 'sessionDevice', width: 190 },
-  { title: '网络', key: 'sessionNetwork', width: 168 },
-  { title: '登录时间', key: 'sessionLoginAt', width: 190 },
-  { title: '最近活动', key: 'sessionLastSeenAt', width: 174 },
-  { title: '', key: 'sessionAction', width: 58, fixed: 'right', align: 'center' }
+  { title: '用户 / 账号', key: 'sessionUser', width: 214, fixed: 'left' },
+  { title: '状态', key: 'sessionStatus', width: 132 },
+  { title: '设备 / 浏览器', key: 'sessionDevice', width: 176 },
+  { title: 'IP 地址', key: 'sessionNetwork', width: 150 },
+  { title: '登录时间', key: 'sessionLoginAt', width: 184 },
+  { title: '最近活动', key: 'sessionLastSeenAt', width: 150 },
+  { title: '', key: 'sessionAction', width: 52, fixed: 'right', align: 'center' }
 ]
 
 async function loadSessions(params) {
@@ -337,13 +349,13 @@ onUnmounted(() => {
   min-height: 0;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  gap: 12px;
+  gap: 8px;
 }
 
 .online-users-overview {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(220px, 1.15fr);
-  gap: 10px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
   min-width: 0;
 }
 
@@ -351,48 +363,56 @@ onUnmounted(() => {
 .online-users-overview__sync {
   display: flex;
   align-items: center;
-  min-height: 76px;
-  padding: 12px 14px;
+  min-height: 58px;
+  padding: 8px 10px;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
 }
 
-.online-users-metric { gap: 12px; }
+.online-users-metric { gap: 9px; }
 
 .online-users-metric__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 34px;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  font-size: 17px;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 .online-users-metric__icon.is-blue { color: var(--console-primary); background: var(--console-primary-soft); }
 .online-users-metric__icon.is-green { color: #389e0d; background: #f6ffed; }
 .online-users-metric__icon.is-orange { color: #d46b08; background: #fff7e6; }
 
-.online-users-metric__content { display: grid; min-width: 0; gap: 2px; }
+.online-users-metric__content { display: grid; min-width: 0; gap: 1px; }
 
-.online-users-metric__content span,
-.online-users-metric__content small,
-.online-users-overview__sync span,
+.online-users-metric__label,
+.online-users-sync-card__label { display: flex; align-items: center; gap: 6px; min-width: 0; }
+
+.online-users-metric__label span,
+.online-users-metric__label small,
+.online-users-metric__help,
+.online-users-sync-card__label span,
+.online-users-sync-card__label small,
 .online-users-overview__sync strong {
   color: var(--console-text-secondary);
   font-size: 12px;
 }
 
+.online-users-metric__label small,
+.online-users-sync-card__label small { color: var(--console-text-tertiary, #909399); }
+
 .online-users-metric__content strong {
   color: var(--console-text);
-  font-size: 23px;
+  font-size: 20px;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
 }
 
-.online-users-metric__content small { color: var(--console-text-tertiary, #909399); }
+.online-users-metric__help { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .online-users-overview__sync { justify-content: space-between; gap: 10px; }
 .online-users-overview__sync > div { display: grid; min-width: 0; gap: 2px; }
@@ -431,7 +451,9 @@ onUnmounted(() => {
 .online-users-toolbar__heading { flex: 0 0 auto; }
 .online-users-toolbar__filters { justify-content: flex-end; flex: 1 1 auto; }
 
-.online-users-toolbar__title { color: var(--console-text); font-size: 17px; font-weight: 600; white-space: nowrap; }
+.online-users-toolbar__title-line { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.online-users-toolbar__title { color: var(--console-text); font-size: 16px; font-weight: 600; white-space: nowrap; }
+.online-users-toolbar__tag { margin: 0; font-size: 11px; line-height: 20px; }
 .online-users-toolbar__heading > .anticon { color: var(--console-text-secondary); cursor: help; }
 
 .online-users-toolbar__updated {
@@ -506,16 +528,18 @@ onUnmounted(() => {
 .session-detail__note .anticon { flex: 0 0 auto; margin-top: 3px; color: var(--console-primary); }
 
 @media (max-width: 1180px) {
-  .online-users-overview { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .online-users-overview__sync { grid-column: 1 / -1; min-height: 52px; }
+  .online-users-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .online-users-overview__sync { min-height: 58px; }
   .online-users-toolbar { align-items: flex-start; flex-direction: column; }
   .online-users-toolbar__filters { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
 }
 
 @media (max-width: 680px) {
   .online-users-page { height: auto; min-height: var(--console-page-available-height); overflow: visible; }
-  .online-users-overview { grid-template-columns: 1fr; }
-  .online-users-overview__sync { grid-column: auto; }
+  .online-users-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .online-users-metric,
+  .online-users-overview__sync { min-height: 54px; padding-inline: 8px; }
+  .online-users-metric__help { display: none; }
   .online-users-toolbar__heading { width: 100%; flex-wrap: wrap; }
   .online-users-toolbar__updated { margin-left: auto; }
   .online-users-status,
