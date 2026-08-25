@@ -15,13 +15,18 @@
         </div>
       </article>
       <div class="online-users-overview__sync online-users-sync-card">
-        <span class="online-users-sync-dot" :class="{ 'is-paused': !autoRefreshEnabled }" />
-        <div>
-          <div class="online-users-sync-card__label">
-            <span>状态同步</span>
-            <small>{{ autoRefreshEnabled ? '运行中' : '已暂停' }}</small>
+        <div class="online-users-sync-card__main">
+          <div class="online-users-sync-card__icon" :class="{ 'is-paused': !autoRefreshEnabled }">
+            <SyncOutlined />
+            <span class="online-users-sync-dot" :class="{ 'is-paused': !autoRefreshEnabled }" />
           </div>
-          <strong>{{ autoRefreshEnabled ? '每 30 秒' : '手动刷新' }}</strong>
+          <div class="online-users-sync-card__content">
+            <div class="online-users-sync-card__label">
+              <span>状态同步</span>
+              <small>{{ autoRefreshEnabled ? '运行中' : '已暂停' }}</small>
+            </div>
+            <strong>{{ autoRefreshEnabled ? '每 30 秒刷新' : '手动刷新' }}</strong>
+          </div>
         </div>
         <a-tooltip :title="autoRefreshEnabled ? '暂停自动更新' : '开启自动更新'">
           <a-switch v-model:checked="autoRefreshEnabled" size="small" aria-label="切换自动更新" />
@@ -210,6 +215,7 @@ import {
   LogoutOutlined,
   MobileOutlined,
   QuestionCircleOutlined,
+  SyncOutlined,
   UserOutlined,
   WifiOutlined
 } from '@ant-design/icons-vue'
@@ -429,6 +435,38 @@ onUnmounted(() => {
 .online-users-metric__icon.is-green { color: #389e0d; background: #f6ffed; }
 .online-users-metric__icon.is-orange { color: #d46b08; background: #fff7e6; }
 
+.online-users-sync-card__icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  color: var(--console-primary);
+  background: var(--console-primary-soft);
+  font-size: 14px;
+}
+
+.online-users-sync-card__icon.is-paused {
+  color: var(--console-text-tertiary, #909399);
+  background: var(--console-surface-muted);
+}
+
+.online-users-sync-card__main {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 9px;
+}
+
+.online-users-sync-card__content {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
 .online-users-metric__content { display: grid; min-width: 0; gap: 1px; }
 
 .online-users-metric__label,
@@ -457,7 +495,6 @@ onUnmounted(() => {
 .online-users-metric__help { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .online-users-overview__sync { justify-content: space-between; gap: 10px; }
-.online-users-overview__sync > div { display: grid; min-width: 0; gap: 2px; }
 .online-users-overview__sync strong { color: var(--console-text); font-weight: 500; }
 
 .online-users-sync-dot,
@@ -469,6 +506,17 @@ onUnmounted(() => {
   border-radius: 50%;
   background: #52c41a;
   box-shadow: 0 0 0 3px color-mix(in srgb, #52c41a 16%, transparent);
+}
+
+.online-users-sync-card__icon .online-users-sync-dot {
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 7px;
+  height: 7px;
+  border: 2px solid var(--console-surface);
+  box-sizing: content-box;
+  box-shadow: none;
 }
 
 .online-users-sync-dot.is-paused { background: #bfbfbf; box-shadow: none; }
