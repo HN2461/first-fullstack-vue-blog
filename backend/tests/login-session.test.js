@@ -166,4 +166,33 @@ describe('login sessions', () => {
     expect(response.body.data.onlineCount).toBe(1)
     expect(response.body.data.items[0].user.username).toBe('visible-reader')
   })
+
+  it('includes the whole selected end date and lets admins end another session', async () => {
+    const app = createApp()
+    const admin = await User.create({
+      username: 'session-control-admin',
+      email: 'session-control-admin@example.com',
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.SUPER_ADMIN
+    })
+    const visitor = await request(app)
+      .post('/api/auth/register')
+      .send({ username: 'revoked-reader', email: 'revoked-reader@example.com', password: 'password123' })
+      .expect(201)
+    const visitorSession = await LoginSession.findOne({ user: (await User.findOne({ email: 'revoked-reader@example.com' }))._id })
+    const selectedDay = visitorSession.loginAt.toISOString().slice(0, 10)
+    const filtered = await listLoginSessions({ to: selectedDay })
+    expect(filtered.items.some((item) => item.user.email === 'revoked-reader@example.com')).toBe(true)
+
+    await request(app)
+      .post(`/api/admin/online-users/${visitorSession._id}/revoke`)
+      .set('Authorization', `Bearer ${signAccessToken(admin)}`)
+      .expect(200)
+
+    const protectedResponse = await request(app)
+      .get('/api/auth/me')
+      .set('Cookie', visitor.headers['set-cookie'])
+      .expect(401)
+    expect(protectedResponse.body.code).toBe('LOGIN_SESSION_REVOKED')
+  })
 })

@@ -37,7 +37,7 @@ import { mediaCategoryBatchMoveSchema, mediaCategoryMoveSchema, mediaRegisterUnt
 import { deleteCustomFestival, listCustomFestivals, saveCustomFestival, syncHolidayYear, updateCustomFestival } from '#modules/festival/services/festival.service.js'
 import { z } from 'zod'
 import { getBusinessDate } from '#utils/businessDate.js'
-import { listLoginSessions } from '#modules/auth/services/loginSession.service.js'
+import { listLoginSessions, revokeLoginSession } from '#modules/auth/services/loginSession.service.js'
 
 export const adminRouter = Router()
 
@@ -562,7 +562,11 @@ adminRouter.get('/users', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/online-users', asyncHandler(async (req, res) => {
-  res.json(ok(await listLoginSessions(req.query)))
+  res.json(ok(await listLoginSessions({ ...req.query, currentSessionId: req.authSessionId })))
+}))
+
+adminRouter.post('/online-users/:id/revoke', asyncHandler(async (req, res) => {
+  res.json(ok(await revokeLoginSession(req.params.id, req.authSessionId), '登录会话已结束'))
 }))
 
 adminRouter.post('/users', requireSuperAdmin, asyncHandler(async (req, res) => {

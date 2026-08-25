@@ -7,7 +7,14 @@ function getRequestIp(req) {
     return forwardedFor.split(',')[0].trim()
   }
 
-  return req?.ip || req?.socket?.remoteAddress || ''
+  const ip = req?.ip || req?.socket?.remoteAddress || ''
+  if (ip === '::1') return '127.0.0.1'
+  if (ip.startsWith('::ffff:')) return ip.slice(7)
+  return ip
+}
+
+function isDateOnly(value) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(String(value || ''))
 }
 
 function parseUserAgent(userAgent = '') {
@@ -114,7 +121,14 @@ function buildSessionMatch(options = {}, userIds = null) {
     match.loginAt = { ...(match.loginAt || {}), $gte: new Date(options.from) }
   }
   if (options.to) {
-    match.loginAt = { ...(match.loginAt || {}), $lte: new Date(options.to) }
+    const endAt = new Date(options.to)
+    if (isDateOnly(options.to)) {
+      // 日期筛选的结束日应覆盖到 23:59:59.999，避免漏掉当天晚些时候的登录记录。
+      endAt.setUTCDate(endAt.getUTCDate() + 1)
+      match.loginAt = { ...(match.loginAt || {}), $lt: endAt }
+    } else {
+      match.loginAt = { ...(match.loginAt || {}), $lte: endAt }
+    }
   }
 
   if (status === 'online') {
@@ -340,6 +354,45 @@ async function getSessionMetrics() {
  */
 export function listLoginSessions(options = {}) {
   return listSessions(options)
+}
+
+/**
+ * 结束指定的后台可见登录会话。
+ * @param {string} sessionRecordId - 登录会话文档 ID。
+ * @param {string} currentSessionId - 操作者当前 JWT 关联的会话编号。
+ * @returns {Promise<{id: string, status: string}>} 已结束的会话摘要。
+ * @throws {Error} 会话不存在、已经结束或尝试结束当前会话时抛出业务错误。
+ */
+export async function revokeLoginSession(sessionRecordId, currentSessionId = '') {
+  const session = await LoginSession.findById(sessionRecordId).select('_id sessionId status logoutAt')
+  if (!session) {
+    const error = new Error('登录会话不存在')
+    error.statusCode = 404
+    error.code = 'LOGIN_SESSION_NOT_FOUND'
+    throw error
+  }
+
+  if (session.sessionId === currentSessionId) {
+    const error = new Error('不能结束当前管理员会话，请使用退出登录')
+    error.statusCode = 409
+    error.code = 'LOGIN_SESSION_CURRENT'
+    throw error
+  }
+
+  if (session.status !== LOGIN_SESSION_STATUS.ACTIVE || session.logoutAt) {
+    const error = new Error('该登录会话已经结束')
+    error.statusCode = 409
+    error.code = 'LOGIN_SESSION_ALREADY_ENDED'
+    throw error
+  }
+
+  const now = new Date()
+  session.status = LOGIN_SESSION_STATUS.LOGGED_OUT
+  session.logoutAt = now
+  session.lastSeenAt = now
+  await session.save()
+
+  return { id: session._id.toString(), status: 'logged_out' }
 }
 
 /**

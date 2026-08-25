@@ -90,7 +90,10 @@
               {{ getInitial(record.user?.username) }}
             </a-avatar>
             <div class="online-user-cell__identity">
-              <strong>{{ record.user?.username || '-' }}</strong>
+              <strong>
+                {{ record.user?.username || '-' }}
+                <a-tag v-if="record.current" class="online-user-cell__current" :bordered="false" color="blue">当前</a-tag>
+              </strong>
               <span v-if="record.user?.remarkName">{{ record.user.remarkName }}</span>
               <small>{{ record.user?.email || '-' }}</small>
             </div>
@@ -156,6 +159,7 @@
             <strong>{{ detailRecord.user?.username || '-' }}</strong>
             <span>{{ detailRecord.user?.email || '-' }}</span>
           </div>
+          <a-tag v-if="detailRecord.current" color="blue" :bordered="false">当前会话</a-tag>
           <a-tag :color="getStatusMeta(detailRecord.status).color" :bordered="false">
             {{ getStatusMeta(detailRecord.status).label }}
           </a-tag>
@@ -175,7 +179,20 @@
 
         <div class="session-detail__note">
           <InfoCircleOutlined />
-          <span>当前页面只读展示会话状态。会话是否在线以服务端最近心跳和账号有效性为准。</span>
+          <span>在线状态以服务端最近心跳和账号有效性为准。结束其他活跃会话后，对方下次请求会立即失效。</span>
+        </div>
+
+        <div class="session-detail__actions">
+          <a-button
+            v-if="detailRecord.status !== 'logged_out' && !detailRecord.current"
+            danger
+            :loading="revoking"
+            @click="confirmRevokeSession(detailRecord)"
+          >
+            <template #icon><LogoutOutlined /></template>
+            结束此会话
+          </a-button>
+          <span v-else-if="detailRecord.current" class="session-detail__current-hint">当前管理员会话不能从这里结束</span>
         </div>
       </template>
     </a-drawer>
@@ -184,19 +201,20 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import {
   ClockCircleOutlined,
   DesktopOutlined,
   EyeOutlined,
   InfoCircleOutlined,
+  LogoutOutlined,
   MobileOutlined,
   QuestionCircleOutlined,
   UserOutlined,
   WifiOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
-import { listAdminOnlineUsers } from '@/services/admin'
+import { listAdminOnlineUsers, revokeAdminOnlineSession } from '@/services/admin'
 import { getUserAvatar } from '@/utils/avatar'
 
 const REFRESH_INTERVAL_MS = 30 * 1000
@@ -214,6 +232,7 @@ const lastRefreshAt = ref(null)
 const autoRefreshEnabled = ref(true)
 const detailVisible = ref(false)
 const detailRecord = ref(null)
+const revoking = ref(false)
 let refreshTimer = null
 
 const statusOptions = computed(() => [
@@ -327,6 +346,29 @@ function getInitial(name = '') {
 function openSessionDetail(record) {
   detailRecord.value = record
   detailVisible.value = true
+}
+
+function confirmRevokeSession(record) {
+  Modal.confirm({
+    title: '结束登录会话',
+    content: `结束「${record.user?.username || '该用户'}」的这次登录会话？对方下次访问时需要重新登录。`,
+    okText: '确认结束',
+    okType: 'danger',
+    cancelText: '取消',
+    async onOk() {
+      revoking.value = true
+      try {
+        await revokeAdminOnlineSession(record.id)
+        message.success('登录会话已结束')
+        detailVisible.value = false
+        await tableRef.value?.refresh?.()
+      } catch (error) {
+        message.error(error.message || '结束会话失败')
+      } finally {
+        revoking.value = false
+      }
+    }
+  })
 }
 
 function startAutoRefresh() {
@@ -492,6 +534,8 @@ onUnmounted(() => {
 .online-users-device span,
 .online-users-network span,
 .online-users-time-cell span { color: var(--console-text); }
+.online-user-cell__identity strong { display: flex; align-items: center; gap: 6px; }
+.online-user-cell__current { flex: 0 0 auto; margin: 0; font-size: 11px; line-height: 18px; }
 .online-user-cell__identity span { color: var(--console-primary); font-size: 12px; }
 .online-user-cell__identity small,
 .online-users-device small,
@@ -526,6 +570,9 @@ onUnmounted(() => {
 }
 
 .session-detail__note .anticon { flex: 0 0 auto; margin-top: 3px; color: var(--console-primary); }
+
+.session-detail__actions { display: flex; align-items: center; justify-content: flex-end; min-height: 40px; margin-top: 18px; }
+.session-detail__current-hint { color: var(--console-text-tertiary, #909399); font-size: 12px; }
 
 @media (max-width: 1180px) {
   .online-users-overview { grid-template-columns: repeat(2, minmax(0, 1fr)); }

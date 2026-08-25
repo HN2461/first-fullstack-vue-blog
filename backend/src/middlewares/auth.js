@@ -4,6 +4,7 @@ import { hydrateUserPermissions } from '#modules/rbac/services/rbac.service.js'
 import { getAuthCookieToken } from '#utils/authSecurity.js'
 import { verifyAccessToken } from '#utils/jwt.js'
 import { isRoutePathMatched } from '#utils/routeMatch.js'
+import { LoginSession, LOGIN_SESSION_STATUS } from '#modules/auth/models/LoginSession.js'
 
 function authError(statusCode, code, message) {
   const error = new Error(message)
@@ -27,6 +28,17 @@ export async function requireAuth(req, res, next) {
 
     if (!user || user.status === USER_STATUS.DISABLED || (payload.tv ?? 0) !== (user.tokenVersion || 0)) {
       throw authError(401, 'UNAUTHORIZED', '登录状态已失效')
+    }
+
+    // 兼容没有落库会话的历史/测试 token；正式登录产生 sid 时，管理员结束会话必须立即阻断后续请求。
+    if (payload.sid) {
+      const session = await LoginSession.findOne({
+        user: user._id,
+        sessionId: payload.sid
+      }).select('status logoutAt').lean()
+      if (session && (session.status !== LOGIN_SESSION_STATUS.ACTIVE || session.logoutAt)) {
+        throw authError(401, 'LOGIN_SESSION_REVOKED', '登录会话已结束')
+      }
     }
 
     req.user = user

@@ -241,6 +241,10 @@ export async function listAdminOnlineUsers(params = {}) {
   return http.get('/api/admin/online-users', { params })
 }
 
+export function revokeAdminOnlineSession(id) {
+  return http.post(`/api/admin/online-users/${id}/revoke`)
+}
+
 export async function createAdminUser(data) {
   const challenge = await http.get('/api/auth/challenge', {
     params: { purpose: 'admin-create-user' }
