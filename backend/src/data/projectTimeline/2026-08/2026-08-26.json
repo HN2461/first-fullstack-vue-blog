@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-26",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "markdown-duplicate-heading-toc-anchor-fix",
+      "title": "修复文章目录重复标题锚点跳转",
+      "detail": "1. 定位到 Markdown 渲染器使用 markdown-it-anchor 自动为重复标题生成后缀，而目录提取逻辑仍使用相同基础 slug，导致多个“规范回答（可直接复述）”目录项全部选中并跳转到第一个标题。\n2. 让目录提取复用唯一 slug 规则，按出现顺序生成标题锚点，并覆盖显式后缀冲突场景。\n3. 新增 Markdown 渲染单元测试，验证重复二级/三级标题的目录 slug、DOM id 和目录跳转目标一致。\n4. 完成前端 Markdown 专项测试和生产构建，准备重新部署线上前端静态资源。",
+      "occurredAt": "2026-08-26T10:30:00+08:00",
+      "category": "问题修复"
+    }
+  ]
+}

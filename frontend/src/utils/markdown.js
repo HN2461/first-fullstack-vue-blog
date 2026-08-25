@@ -65,6 +65,19 @@ export const slugifyHeading = (value) => {
     .replace(/^-|-$/g, '')
 }
 
+function createUniqueHeadingSlug(baseSlug, usedSlugs) {
+  let slug = baseSlug
+  let suffix = 1
+
+  while (usedSlugs.has(slug)) {
+    slug = `${baseSlug}-${suffix}`
+    suffix += 1
+  }
+
+  usedSlugs.add(slug)
+  return slug
+}
+
 function resolveAssetUrl(src, assetBase = '') {
   const source = String(src || '')
   if (!assetBase || !/^(?![a-z][a-z\d+.-]*:|\/|#)/i.test(source)) {
@@ -270,6 +283,7 @@ export function renderMarkdown(content, env = {}) {
 export function extractTOC(content) {
   const tokens = md.parse(stripEmbeddedTocMarkers(content), {})
   const result = []
+  const usedSlugs = new Set()
 
   tokens.forEach((token, index) => {
     if (token.type !== 'heading_open') {
@@ -280,10 +294,11 @@ export function extractTOC(content) {
     const nextToken = tokens[index + 1]
 
     if (nextToken?.type === 'inline') {
+      const baseSlug = slugifyHeading(nextToken.content)
       result.push({
         level,
         text: nextToken.content,
-        slug: slugifyHeading(nextToken.content)
+        slug: createUniqueHeadingSlug(baseSlug, usedSlugs)
       })
     }
   })

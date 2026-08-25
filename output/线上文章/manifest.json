@@ -8002,9 +8002,9 @@
       "originalSlug": "html-css-adfc1aa8",
       "exportedSlug": "html-css-adfc1aa8",
       "title": "第 1 篇：HTML CSS 面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型",
-      "summary": "HTML 和 CSS 基础面试题，覆盖浏览器内核、DOCTYPE、布局模式、语义化、盒模型、选择器和常见页面基础概念。",
+  "summary": "HTML 和 CSS 面试题详解，使用小白易懂的解释搭配规范回答，覆盖浏览器基础、语义化、表单、盒模型、选择器、布局、性能、缓存、无障碍、响应式和现代 CSS。",
       "cover": "",
-      "contentHash": "eb831b18bf5625f1f50d39e94c7cd3f0c94600b7f52749ebf955ec2d823325ab",
+  "contentHash": "9f40be2728154d98805dad123a1a370e3bb6024ad2b5dbc868fe6f35d0b0601f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8019,7 +8019,7 @@
       "sortOrder": 10,
       "sourcePath": "面试/html+css面试.md",
       "publishedAt": "2026-05-12T13:10:54.706Z",
-      "updatedAt": "2026-07-31T11:16:22.463Z",
+  "updatedAt": "2026-08-25T14:30:11.042Z",
       "fileName": "面试/第-1-篇：HTML-CSS-面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型.md"
     },
     {

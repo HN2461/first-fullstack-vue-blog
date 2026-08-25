@@ -54,6 +54,38 @@ describe('markdown rendering', () => {
     ])
   })
 
+  it('keeps duplicate heading anchors aligned with markdown-it-anchor', () => {
+    const content = [
+      '## 规范回答（可直接复述）',
+      '',
+      '### 先说结论',
+      '',
+      '## 规范回答（可直接复述）',
+      '',
+      '### 先说结论',
+      '',
+      '## 规范回答（可直接复述）-1'
+    ].join('\n')
+
+    const toc = extractTOC(content)
+    const html = renderMarkdown(content)
+
+    expect(toc.map((item) => item.slug)).toEqual([
+      '规范回答可直接复述',
+      '先说结论',
+      '规范回答可直接复述-1',
+      '先说结论-1',
+      '规范回答可直接复述-1-1'
+    ])
+    expect(html.match(/<h[1-6][^>]*id="[^"]+"/g)).toEqual([
+      '<h2 id="规范回答可直接复述"',
+      '<h3 id="先说结论"',
+      '<h2 id="规范回答可直接复述-1"',
+      '<h3 id="先说结论-1"',
+      '<h2 id="规范回答可直接复述-1-1"'
+    ])
+  })
+
   it('normalizes common legacy fence language aliases', () => {
     expect(normalizeCodeLanguage('c++ {1,3}')).toBe('cpp')
     expect(normalizeCodeLanguage('c#')).toBe('csharp')
