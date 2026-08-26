@@ -11,6 +11,13 @@
       "category": "问题修复"
     },
     {
+      "id": "vue-interview-article-rewrite",
+      "title": "重构 Vue 面试题文章并纠正版本边界",
+      "detail": "1. 将原有 Vue2、Vue3 零散题库重构为 12 个主题、78 个连续编号问题，统一使用小白理解、规范回答、原理追问和易错点组织高频内容。\n2. 纠正虚拟 DOM、Vue2/Vue3 diff、key、响应式、computed、nextTick、v-model、scoped、KeepAlive 和生命周期等错误或绝对化表述。\n3. 明确 Vue2 与 Vue3、Vue Router 3 与 4、Vuex 与 Pinia 的版本边界，补充 Composition API、script setup、Patch Flag、Block Tree、最长递增子序列、Pinia、Teleport、Suspense、请求竞态和性能排查等现代面试重点。\n4. 根据阅读反馈恢复原笔记的学习展开深度，增加分步执行过程、关系选择表、完整组件代码和实际使用场景，重点细化组件通信、插槽、生命周期、组合式函数、Vuex/Pinia、路由守卫、Axios 与跨域。\n5. 按生产运营字段纠正本地数据库目标文章标签漂移，在本地和生产分别完成增量备份、正文 dry-run、正式同步与幂等验证；生产完整备份目录为 /www/personal-blog/backups/article-sync-20260826-233012。\n6. 完成四端一致性核验：本地与线上 Markdown 文件 SHA-256 一致，本地与生产数据库的正文哈希、sourceHash、摘要、分类、标签、状态和排序一致，线上目标文章再次 dry-run 为待推送 0、阻断 0。",
+      "occurredAt": "2026-08-26T23:20:00+08:00",
+      "category": "内容完善"
+    },
+    {
       "id": "immersive-reading-toc-visible",
       "title": "沉浸式阅读保留文章目录",
       "detail": "1. 调整桌面端文章详情目录悬浮组件的显示条件，沉浸式阅读模式下仍保留目录入口和目录面板。\n2. 移除进入沉浸式阅读时强制关闭目录的逻辑，用户可继续使用目录定位文章章节。\n3. 将沉浸式模式下的目录入口调整到视口右上方安全间距，适配隐藏顶栏后的全屏阅读布局。",

@@ -8002,9 +8002,9 @@
       "originalSlug": "html-css-adfc1aa8",
       "exportedSlug": "html-css-adfc1aa8",
       "title": "第 1 篇：HTML CSS 面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型",
-  "summary": "HTML 和 CSS 面试题详解，使用小白易懂的解释搭配规范回答，覆盖浏览器基础、语义化、表单、盒模型、选择器、布局、性能、缓存、无障碍、响应式和现代 CSS。",
+      "summary": "HTML 和 CSS 面试题详解，使用小白易懂的解释搭配规范回答，覆盖浏览器基础、语义化、表单、盒模型、选择器、布局、性能、缓存、无障碍、响应式和现代 CSS。",
       "cover": "",
-  "contentHash": "9f40be2728154d98805dad123a1a370e3bb6024ad2b5dbc868fe6f35d0b0601f",
+      "contentHash": "9f40be2728154d98805dad123a1a370e3bb6024ad2b5dbc868fe6f35d0b0601f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8019,7 +8019,7 @@
       "sortOrder": 10,
       "sourcePath": "面试/html+css面试.md",
       "publishedAt": "2026-05-12T13:10:54.706Z",
-  "updatedAt": "2026-08-25T14:30:11.042Z",
+      "updatedAt": "2026-08-25T14:30:11.042Z",
       "fileName": "面试/第-1-篇：HTML-CSS-面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型.md"
     },
     {
@@ -8210,9 +8210,9 @@
       "originalSlug": "vue-9af82b75",
       "exportedSlug": "vue-9af82b75",
       "title": "第 3 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3",
-      "summary": "Vue 框架核心面试题，覆盖虚拟 DOM、diff 算法、MVVM 原理、Vue2 与 Vue3 常见问题。",
+      "summary": "Vue 面试系统复习指南，兼顾小白理解与规范复述，覆盖响应式、虚拟 DOM、diff、组件通信、生命周期、Composition API、Vue Router、Vuex、Pinia及性能优化。",
       "cover": "",
-      "contentHash": "b76bab1c3ece2e6d317a100c00adf8c3857a9f7be6e61faa8bb6f7882ee6ebcc",
+      "contentHash": "83012c622787c9b7a23a369417ca9ef7465ff005ad43cdee64cd6c2e67855331",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
