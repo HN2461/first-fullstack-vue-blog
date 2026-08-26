@@ -64,7 +64,7 @@
             </div>
           </div>
 
-          <div class="panel-section">
+          <div v-if="showImmersive" class="panel-section">
             <button
               class="action-btn immersive-btn"
               :class="{ 'is-active': immersiveMode }"
@@ -74,6 +74,13 @@
             >
               <Focus :size="18" />
               <span>{{ immersiveMode ? '退出沉浸' : '沉浸阅读' }}</span>
+            </button>
+          </div>
+
+          <div v-if="showToc" class="panel-section">
+            <button class="action-btn toc-btn" type="button" @click.stop="emit('openToc')">
+              <ListTree :size="18" />
+              <span>文章目录</span>
             </button>
           </div>
 
@@ -97,12 +104,12 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { Eye, Focus, RotateCcw, X } from 'lucide-vue-next'
+import { Eye, Focus, ListTree, RotateCcw, X } from 'lucide-vue-next'
 import ReadingArticleNavigation from './ReadingArticleNavigation.vue'
 import { getDefaultFontSize, getFontSize, MAX_FONT_SIZE, MIN_FONT_SIZE, setFontSize } from '@/utils/fontSizeStorage'
 import { resolveScrollableContainer } from '@/utils/scrollContainer'
 
-const emit = defineEmits(['fontSizeChange', 'toggleImmersive', 'showFooterActions', 'navigateArticle'])
+const emit = defineEmits(['fontSizeChange', 'toggleImmersive', 'showFooterActions', 'navigateArticle', 'openToc'])
 
 const props = defineProps({
   immersiveMode: {
@@ -120,6 +127,14 @@ const props = defineProps({
   neighbors: {
     type: Object,
     default: null
+  },
+  showImmersive: {
+    type: Boolean,
+    default: true
+  },
+  showToc: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -211,6 +226,10 @@ let ticking = false
 let resizeHandler = null
 
 function resolveScrollContainer() {
+  if (document.querySelector('.mobile-reader')) {
+    return window
+  }
+
   return resolveScrollableContainer(
     document.querySelector('[data-reading-scroll-container="true"]'),
     document.querySelector('.enterprise-content'),

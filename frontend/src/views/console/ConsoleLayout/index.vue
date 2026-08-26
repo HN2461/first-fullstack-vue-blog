@@ -31,39 +31,24 @@
       </a-menu>
 
       <div class="enterprise-topnav-actions">
-        <a-dropdown v-if="appStore.isMobile" trigger="click">
-          <a-button class="enterprise-icon-action enterprise-root-switch" @click.prevent>
-            <template #icon><SwapOutlined /></template>
-          </a-button>
-          <template #overlay>
-            <a-menu class="enterprise-root-switch-menu" :selected-keys="[primarySection]" @click="handlePrimaryClick">
-              <a-menu-item v-for="menu in availableRootMenus" :key="menu.id">
-                <template #icon>
-                  <component :is="iconMap[menu.icon] || MenuOutlined" />
-                </template>
-                {{ menu.name }}
-              </a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
         <a-tooltip title="门户首页">
-          <a-button class="enterprise-icon-action" @click="router.push('/')">
+          <a-button class="enterprise-icon-action enterprise-topnav-home" @click="router.push('/')">
             <template #icon><HomeOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-tooltip title="全文检索">
+        <a-tooltip v-if="!appStore.isMobile" title="全文检索">
           <a-button class="enterprise-icon-action" @click="router.push('/console/search')">
             <template #icon><SearchOutlined /></template>
           </a-button>
         </a-tooltip>
         <span id="festival-countdown-action" class="enterprise-topnav-action-slot"></span>
-        <a-tooltip v-if="createActions.length" title="新建内容">
+        <a-tooltip v-if="!appStore.isMobile && createActions.length" title="新建内容">
           <a-button class="enterprise-icon-action" @click="createModalVisible = true">
             <template #icon><SquarePen :size="16" /></template>
           </a-button>
         </a-tooltip>
-        <NotificationBell />
-        <a-tooltip :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
+        <span class="enterprise-topnav-notifications"><NotificationBell /></span>
+        <a-tooltip v-if="!appStore.isMobile" :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
           <a-button class="enterprise-icon-action" @click="handleThemeToggle">
             <template #icon>
               <Sun v-if="appStore.isDark" :size="16" />
@@ -72,9 +57,38 @@
           </a-button>
         </a-tooltip>
 
-          <a-dropdown :trigger="['hover']">
-            <button class="enterprise-profile-button" type="button">
-              <a-avatar class="enterprise-avatar" :src="getUserAvatar(authStore.user)">{{ userInitial }}</a-avatar>
+        <a-dropdown v-if="appStore.isMobile" trigger="click">
+          <a-button class="enterprise-icon-action enterprise-mobile-more" aria-label="更多操作" @click.prevent>
+            <template #icon><MoreOutlined /></template>
+          </a-button>
+          <template #overlay>
+            <a-menu class="enterprise-mobile-more-menu" @click="handleMobileMoreAction">
+              <a-menu-item key="search">
+                <template #icon><SearchOutlined /></template>
+                全文检索
+              </a-menu-item>
+              <a-menu-item key="reading-history">
+                <template #icon><HistoryOutlined /></template>
+                最近阅读
+              </a-menu-item>
+              <a-menu-item v-if="createActions.length" key="create">
+                <template #icon><SquarePen :size="16" /></template>
+                新建内容
+              </a-menu-item>
+              <a-menu-item key="theme">
+                <template #icon>
+                  <Sun v-if="appStore.isDark" :size="16" />
+                  <Moon v-else :size="16" />
+                </template>
+                {{ appStore.isDark ? '切换浅色模式' : '切换深色模式' }}
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
+
+        <a-dropdown :trigger="['hover']">
+          <button class="enterprise-profile-button" type="button">
+            <a-avatar class="enterprise-avatar" :src="getUserAvatar(authStore.user)">{{ userInitial }}</a-avatar>
             <span>
               <strong>{{ authStore.user?.username || '用户' }}</strong>
               <small>{{ userRoleLabel }}</small>
@@ -86,6 +100,10 @@
               <a-menu-item key="profile">
                 <template #icon><UserOutlined /></template>
                 个人信息
+              </a-menu-item>
+              <a-menu-item key="reading-history">
+                <template #icon><HistoryOutlined /></template>
+                最近阅读
               </a-menu-item>
               <a-menu-item key="logout" danger>
                 <template #icon><LogoutOutlined /></template>
@@ -203,6 +221,7 @@
   </a-layout>
   <AnnouncementPopup />
   <FestivalEffectHost />
+  <ReadingHistoryDrawer v-model:open="readingHistoryOpen" />
 
   <a-modal
     v-model:open="createModalVisible"
@@ -278,6 +297,7 @@ import {
   GlobalOutlined,
   HddOutlined,
   HeartOutlined,
+  HistoryOutlined,
   HomeOutlined,
   InboxOutlined,
   ImportOutlined,
@@ -321,6 +341,7 @@ import NotificationBell from '@/components/NotificationBell.vue'
 import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
 import FestivalEffectHost from '@/components/festival/FestivalEffectHost.vue'
 import ArticleExportModal from './ArticleExportModal.vue'
+import ReadingHistoryDrawer from '@/components/reading-history/ReadingHistoryDrawer.vue'
 import { Menu, message } from 'ant-design-vue'
 import { Moon, SquarePen, Sun } from 'lucide-vue-next'
 import { useAppStore } from '@/stores/app'
@@ -375,6 +396,7 @@ const siderCollapsed = ref(false)
 const siderFullLabels = ref(readSiderFullLabelsPreference())
 const mobileMenuOpen = ref(false)
 const createModalVisible = ref(false)
+const readingHistoryOpen = ref(false)
 const articleExportModalVisible = ref(false)
 const openKeys = ref([])
 const clickedMenuKey = ref('')
@@ -837,6 +859,11 @@ async function handleProfileAction({ key }) {
     return
   }
 
+  if (key === 'reading-history') {
+    readingHistoryOpen.value = true
+    return
+  }
+
   await authStore.logout()
   appStore.resetToSiteDefault()
   router.push('/')
@@ -847,6 +874,27 @@ async function handleThemeToggle() {
     await appStore.toggleTheme()
   } catch (error) {
     message.error(error.message || '主题偏好保存失败')
+  }
+}
+
+function handleMobileMoreAction({ key }) {
+  if (key === 'search') {
+    router.push('/console/search')
+    return
+  }
+
+  if (key === 'create') {
+    createModalVisible.value = true
+    return
+  }
+
+  if (key === 'reading-history') {
+    readingHistoryOpen.value = true
+    return
+  }
+
+  if (key === 'theme') {
+    handleThemeToggle()
   }
 }
 

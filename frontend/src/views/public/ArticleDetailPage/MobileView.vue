@@ -65,13 +65,23 @@
           </a>
         </div>
 
-        <div class="mobile-reader__content">
+        <div class="mobile-reader__content" :style="{ fontSize: `${fontSize}px` }">
           <ArticleContentRenderer
             :article="article"
             :asset-base="legacyAssetBase"
           />
         </div>
       </article>
+
+      <ReadingToolbar
+        :immersive-mode="false"
+        :footer-actions-visible="actionBarVisible"
+        :default-bottom="actionBarVisible ? 88 : 24"
+        :show-immersive="false"
+        :show-toc="toc.length > 0"
+        @font-size-change="handleFontSizeChange"
+        @open-toc="tocVisible = true"
+      />
 
       <a-drawer
         v-model:open="tocVisible"
@@ -172,6 +182,7 @@ import {
   UnorderedListOutlined
 } from '@ant-design/icons-vue'
 import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
+import ReadingToolbar from '@/components/ReadingToolbar.vue'
 import TableOfContents from '@/components/TableOfContents.vue'
 import { getAdminArticle } from '@/services/admin'
 import { useAuthStore } from '@/stores/auth'
@@ -214,6 +225,7 @@ const commentMessage = ref('')
 const submittingComment = ref(false)
 const likeCount = ref(0)
 const favoriteCount = ref(0)
+const fontSize = ref(18)
 const likedByCurrentUser = ref(false)
 const favoritedByCurrentUser = ref(false)
 const article = ref({
@@ -276,6 +288,10 @@ function formatMetric(value = 0) {
   return `${count}`
 }
 
+function handleFontSizeChange(nextSize) {
+  fontSize.value = nextSize
+}
+
 function goBack() {
   const fallback = isAdminPreview.value
     ? '/console/manage/articles'
@@ -323,7 +339,7 @@ async function loadArticle() {
     await loadComments()
   }
   if (!isAdminPreview.value) {
-    await readingProgress.start(result)
+    await readingProgress.start(result, { autoResume: route.query.resume === '1' })
   }
 }
 
@@ -428,7 +444,7 @@ onMounted(() => {
   loadArticle()
 })
 
-watch(() => [route.params.slug, route.params.id], loadArticle)
+watch(() => [route.params.slug, route.params.id, route.query.resume, route.query.restart], loadArticle)
 </script>
 
 <style scoped>

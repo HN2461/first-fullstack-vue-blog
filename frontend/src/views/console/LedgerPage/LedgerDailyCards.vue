@@ -115,11 +115,13 @@ watch(() => props.items, () => {
 
 .ledger-cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  /* min() prevents the card's desktop minimum from forcing horizontal overflow on narrow devices. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
   gap: 12px;
 }
 
 .ledger-day-card {
+  min-width: 0;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
@@ -134,7 +136,9 @@ watch(() => props.items, () => {
 .ledger-day-card__header {
   display: flex;
   align-items: baseline;
+  min-width: 0;
   gap: 8px;
+  flex-wrap: wrap;
   margin-bottom: 10px;
 }
 
@@ -150,7 +154,9 @@ watch(() => props.items, () => {
 
 .ledger-day-card__totals {
   margin-left: auto;
+  min-width: 0;
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   font-size: 13px;
   font-weight: 600;
@@ -172,6 +178,8 @@ watch(() => props.items, () => {
 }
 
 .ledger-day-cat-tag {
+  min-width: 0;
+  max-width: 100%;
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
@@ -193,7 +201,8 @@ watch(() => props.items, () => {
 
 .ledger-day-cat-tag__text {
   display: inline-block;
-  max-width: 180px;
+  min-width: 0;
+  max-width: min(180px, 100%);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -201,10 +210,19 @@ watch(() => props.items, () => {
 }
 
 .ledger-day-card__note {
+  min-width: 0;
   margin: 6px 0 0;
   font-size: 12px;
   color: var(--console-text-secondary);
   line-height: 1.5;
+}
+
+:deep(.ledger-day-card__note-text) {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .ledger-cards-pagination {
@@ -213,9 +231,19 @@ watch(() => props.items, () => {
   padding: 16px 0;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 760px), (pointer: coarse) and (max-width: 1024px) {
   .ledger-cards-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ledger-day-card {
+    padding: 12px;
+  }
+
+  .ledger-day-card__totals {
+    width: 100%;
+    margin-left: 0;
+    gap: 8px;
   }
 }
 </style>

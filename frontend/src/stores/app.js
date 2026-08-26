@@ -16,9 +16,10 @@ export const useAppStore = defineStore('app', () => {
   const userThemePreference = ref('default')
   const authThemeOverride = ref(sessionStorage.getItem(AUTH_THEME_OVERRIDE_KEY) || '')
   const viewportWidth = ref(typeof window === 'undefined' ? 1024 : window.innerWidth)
+  const handheldDevice = ref(false)
 
   const isDark = computed(() => theme.value === 'dark')
-  const isMobile = computed(() => viewportWidth.value < 768)
+  const isMobile = computed(() => viewportWidth.value < 768 || handheldDevice.value)
 
   function applyTheme() {
     document.documentElement.classList.toggle('dark-theme', isDark.value)
@@ -120,6 +121,8 @@ export const useAppStore = defineStore('app', () => {
   function syncViewport() {
     if (typeof window === 'undefined') return
     viewportWidth.value = window.innerWidth
+    handheldDevice.value = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+      && (window.matchMedia?.('(pointer: coarse)').matches || navigator.maxTouchPoints > 0)
     document.documentElement.dataset.device = isMobile.value ? 'mobile' : 'desktop'
   }
 
@@ -135,6 +138,7 @@ export const useAppStore = defineStore('app', () => {
     siteDefaultTheme,
     userThemePreference,
     viewportWidth,
+    handheldDevice,
     isDark,
     isMobile,
     initializeTheme,

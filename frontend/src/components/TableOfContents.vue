@@ -34,6 +34,10 @@ let scrollHandler = null
 let scrollTimeout = null
 
 function resolveScrollContainer() {
+  if (document.querySelector('.mobile-reader')) {
+    return window
+  }
+
   return resolveScrollableContainer(
     document.querySelector('[data-reading-scroll-container="true"]'),
     document.querySelector('.enterprise-content'),
@@ -47,9 +51,10 @@ function scrollToHeading(slug) {
     return
   }
 
-  const containerRect = scrollContainer.getBoundingClientRect()
+  const isWindow = scrollContainer === window
+  const containerRect = isWindow ? { top: 0 } : scrollContainer.getBoundingClientRect()
   const elementRect = element.getBoundingClientRect()
-  const scrollTop = scrollContainer.scrollTop
+  const scrollTop = isWindow ? window.scrollY : scrollContainer.scrollTop
   const offset = elementRect.top - containerRect.top + scrollTop - 88
 
   scrollContainer.scrollTo({
@@ -64,8 +69,9 @@ function updateActiveSlug() {
     return
   }
 
-  const containerRect = scrollContainer.getBoundingClientRect()
-  const scrollTop = scrollContainer.scrollTop
+  const isWindow = scrollContainer === window
+  const containerRect = isWindow ? { top: 0 } : scrollContainer.getBoundingClientRect()
+  const scrollTop = isWindow ? window.scrollY : scrollContainer.scrollTop
   const headings = props.toc
     .map((item) => {
       const element = document.getElementById(item.slug)

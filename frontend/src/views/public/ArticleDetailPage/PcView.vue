@@ -126,7 +126,7 @@
       </div>
 
       <aside
-        v-if="toc.length && !isImmersiveReading"
+        v-if="toc.length"
         class="doc-reader__toc-widget"
         :class="{ 'is-open': isTocOpen }"
       >
@@ -430,9 +430,6 @@ function toggleImmersiveReading() {
     delete nextQuery[IMMERSIVE_QUERY_KEY]
   }
   router.replace({ query: nextQuery })
-  if (isImmersiveReading.value) {
-    isTocOpen.value = false
-  }
   nextTick(() => {
     readerScrollRef.value?.scrollTo({
       top: readerScrollRef.value.scrollTop,
@@ -517,7 +514,7 @@ async function loadArticle() {
     await loadComments()
   }
   if (!isAdminPreview.value) {
-    await readingProgress.start(result)
+    await readingProgress.start(result, { autoResume: route.query.resume === '1' })
   }
 }
 
@@ -633,7 +630,7 @@ onUnmounted(() => {
   document.body.classList.remove('reader-immersive-active')
 })
 
-watch(() => [route.params.slug, route.params.id], loadArticle)
+watch(() => [route.params.slug, route.params.id, route.query.resume, route.query.restart], loadArticle)
 watch(isImmersiveReading, syncImmersiveBodyClass)
 </script>
 
@@ -1151,6 +1148,10 @@ watch(isImmersiveReading, syncImmersiveBodyClass)
 
 .doc-reader--console .doc-reader__toc-widget {
   top: calc(var(--console-workspace-top-offset) + 24px);
+}
+
+.doc-reader--immersive .doc-reader__toc-widget {
+  top: 24px;
 }
 
 .doc-reader__toc-trigger {

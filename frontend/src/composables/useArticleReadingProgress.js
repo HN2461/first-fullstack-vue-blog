@@ -142,7 +142,7 @@ export function useArticleReadingProgress({ authStore, getScrollTarget }) {
     }
   }
 
-  async function start(article) {
+  async function start(article, options = {}) {
     if (!article?.id) return
 
     detachListeners()
@@ -179,6 +179,14 @@ export function useArticleReadingProgress({ authStore, getScrollTarget }) {
     }
 
     const target = scrollTarget
+    if (options.autoResume) {
+      restoreReadingPosition(target, {
+        ...savedProgress,
+        currentArticleUpdatedAt: article.updatedAt
+      })
+      return
+    }
+
     resumeModal = Modal.confirm({
       title: '继续阅读',
       content: `上次读到 ${Math.round(savedProgress.progressPercent)}%，是否继续？`,

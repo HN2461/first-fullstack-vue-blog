@@ -2,6 +2,7 @@ import request from 'supertest'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { USER_ROLES } from '#constants/domain'
 import { createApp } from '../src/app.js'
+import { Article } from '#modules/content/models/Article.js'
 import { ArticleReadingProgress } from '#modules/readingProgress/models/ArticleReadingProgress.js'
 import { User } from '#modules/user/models/User.js'
 import { createArticle } from '#modules/content/services/article.service.js'
@@ -65,6 +66,99 @@ describe('article reading progress routes', () => {
       .expect(200)
 
     expect(response.body.data).toBeNull()
+  })
+
+  it('lists the current user unfinished and completed reading records by latest activity', async () => {
+    const secondArticle = await createArticle({
+      title: '第二篇阅读进度文章',
+      slug: `reading-progress-second-${Date.now()}`,
+      contentMarkdown: '# 第二篇阅读进度文章',
+      status: 'published'
+    }, admin)
+
+    await request(app)
+      .put(`/api/articles/${article.id}/reading-progress`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ progressPercent: 34, scrollRatio: 0.34 })
+      .expect(200)
+
+    await request(app)
+      .put(`/api/articles/${secondArticle.id}/reading-progress`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ progressPercent: 96, scrollRatio: 0.96 })
+      .expect(200)
+
+    const unfinished = await request(app)
+      .get('/api/articles/reading-progress?status=unfinished&pageSize=10')
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect(200)
+
+    expect(unfinished.body.data).toMatchObject({
+      total: 1,
+      unfinishedCount: 1,
+      page: 1,
+      pageSize: 10
+    })
+    expect(unfinished.body.data.items[0]).toMatchObject({
+      articleId: article.id,
+      progressPercent: 34,
+      article: {
+        id: article.id,
+        title: '阅读进度文章',
+        slug: article.slug
+      }
+    })
+
+    const all = await request(app)
+      .get('/api/articles/reading-progress?status=all&pageSize=10')
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect(200)
+
+    expect(all.body.data.total).toBe(2)
+    expect(all.body.data.items.map((item) => item.articleId)).toEqual([
+      secondArticle.id,
+      article.id
+    ])
+    expect(all.body.data.items[0].completedAt).toEqual(expect.any(String))
+
+    const otherUserResult = await request(app)
+      .get('/api/articles/reading-progress?status=all')
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(200)
+
+    expect(otherUserResult.body.data.total).toBe(0)
+    expect(otherUserResult.body.data.unfinishedCount).toBe(0)
+  })
+
+  it('excludes insignificant progress and articles that are no longer published', async () => {
+    const hiddenArticle = await createArticle({
+      title: '已下架阅读进度文章',
+      slug: `reading-progress-hidden-${Date.now()}`,
+      contentMarkdown: '# 已下架阅读进度文章',
+      status: 'published'
+    }, admin)
+
+    await request(app)
+      .put(`/api/articles/${article.id}/reading-progress`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ progressPercent: 4.99, scrollRatio: 0.0499 })
+      .expect(200)
+
+    await request(app)
+      .put(`/api/articles/${hiddenArticle.id}/reading-progress`)
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ progressPercent: 40, scrollRatio: 0.4 })
+      .expect(200)
+
+    await Article.findByIdAndUpdate(hiddenArticle.id, { status: 'draft' })
+
+    const response = await request(app)
+      .get('/api/articles/reading-progress?status=all')
+      .set('Authorization', `Bearer ${userToken}`)
+      .expect(200)
+
+    expect(response.body.data.total).toBe(0)
+    expect(response.body.data.items).toEqual([])
   })
 
   it('upserts one progress record per user and article', async () => {

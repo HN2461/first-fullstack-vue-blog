@@ -51,6 +51,7 @@
     </div>
 
     <BlogTable
+      v-if="!appStore.isMobile"
       ref="tableRef"
       :api-fn="loadMonth"
       :columns="columns"
@@ -102,16 +103,32 @@
         </template>
       </template>
     </BlogTable>
+
+    <section v-else class="ledger-monthly-card-panel">
+      <div class="ledger-monthly-card-panel__head">
+        <span class="ledger-table-title">{{ monthLabel }} 月表格</span>
+        <span class="ledger-toolbar-spacer" />
+        <span class="ledger-monthly-toolbar-note">每天一行，共 {{ daysInSelectedMonth }} 天</span>
+      </div>
+      <LedgerDailyCards
+        :items="monthRows"
+        :categories="categories"
+        :total="monthRows.length"
+        :page-size="daysInSelectedMonth"
+      />
+    </section>
   </section>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { CalendarOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { getLedgerDaily } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
+import LedgerDailyCards from './LedgerDailyCards.vue'
 import LedgerTextTooltip from './LedgerTextTooltip.vue'
+import { useAppStore } from '@/stores/app'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -119,6 +136,7 @@ const props = defineProps({
   refreshKey: { type: Number, default: 0 }
 })
 
+const appStore = useAppStore()
 const tableRef = ref(null)
 const monthRows = ref([])
 const now = new Date()
@@ -186,6 +204,14 @@ async function loadMonth() {
   return { items: monthRows.value, total: monthRows.value.length, page: 1, pageSize: monthRows.value.length }
 }
 
+watch(
+  [() => props.bookId, selectedMonth, () => props.refreshKey, () => appStore.isMobile],
+  () => {
+    if (appStore.isMobile) loadMonth()
+  },
+  { immediate: true }
+)
+
 function shiftMonth(offset) {
   const [year, month] = selectedMonth.value.split('-').map(Number)
   const next = new Date(year, month - 1 + offset, 1)
@@ -237,6 +263,22 @@ function getCategoryNote(record, categoryId) {
 .ledger-table-title { color: var(--console-text); font-size: 13px; font-weight: 600; white-space: nowrap; }
 .ledger-toolbar-spacer { flex: 1; }
 .ledger-monthly-toolbar-note { color: var(--console-text-secondary); font-size: 12px; }
+.ledger-monthly-card-panel {
+  min-width: 0;
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--console-surface);
+}
+.ledger-monthly-card-panel__head {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 .ledger-monthly-date { display: grid; gap: 2px; justify-items: center; }
 .ledger-monthly-date strong { color: var(--console-text); font-variant-numeric: tabular-nums; }
 .ledger-monthly-date small { color: var(--console-text-secondary); font-size: 11px; }
@@ -251,5 +293,56 @@ function getCategoryNote(record, categoryId) {
   .ledger-monthly-header { align-items: flex-start; }
   .ledger-monthly-stats { order: 3; flex-basis: 100%; overflow-x: auto; padding: 4px 0 2px; border-top: 1px solid var(--console-border); }
   .ledger-monthly-stat { flex: 1 0 auto; }
+}
+
+@media (pointer: coarse) and (max-width: 1024px) {
+  .ledger-monthly-header {
+    align-items: stretch;
+    padding: 8px;
+  }
+
+  .ledger-monthly-header__title,
+  .ledger-monthly-header__controls {
+    min-width: 0;
+  }
+
+  .ledger-monthly-header__controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .ledger-monthly-header__controls .ant-picker {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .ledger-monthly-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    padding: 8px 0 0;
+    border-top: 1px solid var(--console-border);
+  }
+
+  .ledger-monthly-stat,
+  .ledger-monthly-stat:first-child,
+  .ledger-monthly-stat:last-child {
+    min-width: 0;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border: 1px solid var(--console-border);
+    border-radius: 6px;
+    background: var(--console-surface-muted);
+  }
+
+  .ledger-monthly-stat strong {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ledger-monthly-card-panel__head .ledger-monthly-toolbar-note {
+    margin-left: auto;
+  }
 }
 </style>

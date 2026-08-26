@@ -28,6 +28,7 @@
             <template #icon><BookOutlined /></template>
             知识库
           </a-button>
+          <ContinueReadingButton />
         </div>
       </div>
     </div>
@@ -341,6 +342,7 @@ import {
   WalletOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
+import ContinueReadingButton from '@/components/reading-history/ContinueReadingButton.vue'
 import { updateQuickActions } from '@/services/http'
 import {
   getAdminStats,
@@ -839,8 +841,11 @@ watch(selectedQuickActionPages, (pages) => {
 
 .welcome-content {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
+  text-align: center;
 }
 
 .welcome-text h1 {
@@ -858,6 +863,7 @@ watch(selectedQuickActionPages, (pages) => {
 
 .welcome-actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -875,7 +881,7 @@ watch(selectedQuickActionPages, (pages) => {
 /* 统计卡片 */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 20px;
 }
@@ -884,7 +890,7 @@ watch(selectedQuickActionPages, (pages) => {
   margin-bottom: 20px;
   border: 1px solid var(--console-border);
   border-radius: 8px;
-  padding: 18px;
+  padding: 14px;
   background: var(--console-surface);
 }
 
@@ -910,13 +916,13 @@ watch(selectedQuickActionPages, (pages) => {
 
 .root-menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-template-columns: 1fr;
   gap: 12px;
 }
 
 .root-menu-card {
   min-width: 0;
-  min-height: 84px;
+  min-height: 76px;
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr);
   grid-template-rows: 22px 18px;
@@ -1033,7 +1039,7 @@ watch(selectedQuickActionPages, (pages) => {
 /* 主内容 */
 .main-content {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 20px;
 }
 
@@ -1266,7 +1272,7 @@ watch(selectedQuickActionPages, (pages) => {
 
 .quick-config {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   min-height: 360px;
 }
@@ -1295,7 +1301,7 @@ watch(selectedQuickActionPages, (pages) => {
 }
 
 .quick-config__list {
-  height: 316px;
+  height: 220px;
   overflow-y: auto;
   padding: 10px;
 }
@@ -1415,18 +1421,23 @@ watch(selectedQuickActionPages, (pages) => {
 }
 
 /* 响应式 */
-@media (max-width: 1200px) {
-  .stats-grid { grid-template-columns: repeat(3, 1fr); }
-  .main-content { grid-template-columns: 1fr; }
-}
+@media (max-width: 390px) {
+  .content-card {
+    padding: 14px;
+  }
 
-@media (max-width: 768px) {
-  .welcome-content { flex-direction: column; gap: 12px; text-align: center; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
-  .root-menu-section { padding: 14px; }
-  .root-menu-grid { grid-template-columns: 1fr; }
-  .root-menu-card { min-height: 76px; }
-  .quick-config { grid-template-columns: 1fr; }
-  .quick-config__list { height: 220px; }
+  .welcome-section {
+    padding: 18px 14px;
+  }
+
+  .welcome-actions {
+    width: 100%;
+  }
+
+  .welcome-actions .ant-btn {
+    flex: 1 1 calc(50% - 5px);
+    min-width: 0;
+    padding-inline: 8px;
+  }
 }
 </style>

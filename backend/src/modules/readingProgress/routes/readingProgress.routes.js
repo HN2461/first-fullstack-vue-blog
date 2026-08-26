@@ -5,13 +5,23 @@ import { asyncHandler } from '#utils/asyncHandler.js'
 import {
   deleteReadingProgress,
   getReadingProgress,
+  listReadingProgress,
   saveReadingProgress
 } from '../services/readingProgress.service.js'
-import { parseReadingProgressBody } from '../validators/readingProgress.validator.js'
+import {
+  parseReadingProgressBody,
+  parseReadingProgressQuery
+} from '../validators/readingProgress.validator.js'
 
 export const readingProgressRouter = Router()
 
 readingProgressRouter.use(requireAuth)
+
+/** 获取当前登录用户的最近阅读记录；已下架文章不会出现在列表中。 */
+readingProgressRouter.get('/reading-progress', asyncHandler(async (req, res) => {
+  const query = parseReadingProgressQuery(req.query)
+  res.json(ok(await listReadingProgress(req.user._id, query)))
+}))
 
 /** 获取当前登录用户的单篇文章阅读进度；无记录时 data 为 null。 */
 readingProgressRouter.get('/:articleId/reading-progress', asyncHandler(async (req, res) => {

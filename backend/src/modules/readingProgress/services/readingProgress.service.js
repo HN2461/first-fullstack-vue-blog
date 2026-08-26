@@ -41,6 +41,130 @@ export async function getReadingProgress(articleId, userId) {
   return progress?.toSafeJSON() || null
 }
 
+function buildStatusMatch(status) {
+  if (status === 'unfinished') return { completedAt: null }
+  if (status === 'completed') return { completedAt: { $ne: null } }
+  return {}
+}
+
+function toReadingHistoryItem(row) {
+  const article = row.article
+  const category = article.category
+    ? {
+        id: article.category._id.toString(),
+        name: article.category.name || '',
+        slug: article.category.slug || ''
+      }
+    : null
+
+  return {
+    id: row._id.toString(),
+    articleId: row.articleId.toString(),
+    progressPercent: row.progressPercent,
+    scrollRatio: row.scrollRatio,
+    anchorSlug: row.anchorSlug || '',
+    anchorOffset: row.anchorOffset || 0,
+    articleUpdatedAt: row.articleUpdatedAt,
+    lastReadAt: row.lastReadAt,
+    completedAt: row.completedAt,
+    article: {
+      id: article._id.toString(),
+      title: article.title,
+      slug: article.slug,
+      summary: article.summary || '',
+      cover: article.cover || '',
+      readingMinutes: article.readingMinutes || 1,
+      updatedAt: article.updatedAt,
+      publishedAt: article.publishedAt,
+      category
+    }
+  }
+}
+
+/**
+ * 查询当前用户的文章阅读记录，并过滤已经下架或删除的文章。
+ * @param {mongoose.Types.ObjectId} userId 当前用户 ObjectId。
+ * @param {{status?: 'unfinished'|'completed'|'all', page?: number, pageSize?: number}} options 查询条件。
+ * @returns {Promise<{items: object[], total: number, unfinishedCount: number, page: number, pageSize: number}>} 阅读记录分页结果。
+ */
+export async function listReadingProgress(userId, options = {}) {
+  const status = options.status || 'all'
+  const page = Math.max(1, Number(options.page) || 1)
+  const pageSize = Math.min(50, Math.max(1, Number(options.pageSize) || 10))
+  const statusMatch = buildStatusMatch(status)
+
+  const [result] = await ArticleReadingProgress.aggregate([
+    { $match: { userId, progressPercent: { $gte: 5 } } },
+    {
+      $lookup: {
+        from: 'articles',
+        let: { articleId: '$articleId' },
+        pipeline: [
+          {
+            $match: {
+              $expr: { $eq: ['$_id', '$$articleId'] },
+              status: ARTICLE_STATUS.PUBLISHED,
+              deletedAt: null
+            }
+          },
+          {
+            $lookup: {
+              from: 'categories',
+              localField: 'category',
+              foreignField: '_id',
+              as: 'category'
+            }
+          },
+          { $unwind: { path: '$category', preserveNullAndEmptyArrays: true } },
+          {
+            $project: {
+              _id: 1,
+              title: 1,
+              slug: 1,
+              summary: 1,
+              cover: 1,
+              readingMinutes: 1,
+              updatedAt: 1,
+              publishedAt: 1,
+              'category._id': 1,
+              'category.name': 1,
+              'category.slug': 1
+            }
+          }
+        ],
+        as: 'article'
+      }
+    },
+    { $unwind: '$article' },
+    {
+      $facet: {
+        items: [
+          { $match: statusMatch },
+          { $sort: { lastReadAt: -1, _id: -1 } },
+          { $skip: (page - 1) * pageSize },
+          { $limit: pageSize }
+        ],
+        total: [
+          { $match: statusMatch },
+          { $count: 'value' }
+        ],
+        unfinishedCount: [
+          { $match: { completedAt: null } },
+          { $count: 'value' }
+        ]
+      }
+    }
+  ])
+
+  return {
+    items: (result?.items || []).map(toReadingHistoryItem),
+    total: result?.total?.[0]?.value || 0,
+    unfinishedCount: result?.unfinishedCount?.[0]?.value || 0,
+    page,
+    pageSize
+  }
+}
+
 /**
  * 原子保存当前用户在指定公开文章中的阅读进度。
  * @param {string} articleId 文章 ObjectId。

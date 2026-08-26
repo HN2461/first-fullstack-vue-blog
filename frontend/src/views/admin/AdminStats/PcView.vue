@@ -28,6 +28,7 @@
             <template #icon><BookOutlined /></template>
             知识库
           </a-button>
+          <ContinueReadingButton />
         </div>
       </div>
     </div>
@@ -316,6 +317,7 @@ import {
   WalletOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
+import ContinueReadingButton from '@/components/reading-history/ContinueReadingButton.vue'
 import { updateQuickActions } from '@/services/http'
 import {
   getAdminStats,

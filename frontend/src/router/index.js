@@ -174,6 +174,12 @@ export const router = createRouter({
           meta: { title: '全文检索', requiresAuth: true }
         },
         {
+          path: 'reading-history',
+          name: 'ConsoleReadingHistory',
+          component: () => import('@/views/console/ReadingHistoryPage/index.vue'),
+          meta: { title: '最近阅读', requiresAuth: true }
+        },
+        {
           path: 'memos',
           name: 'ConsoleMemos',
           component: MemoPage,

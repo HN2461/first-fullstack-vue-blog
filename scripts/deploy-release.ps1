@@ -213,10 +213,9 @@ find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*
   | tail -z -n +3 \
   | cut -z -d' ' -f2- \
   | xargs -0 -r rm -rf --
-find /www/personal-blog -mindepth 1 -maxdepth 1 -type d -name 'backend_old_*' -printf '%T@ %p\0' \
-  | sort -z -nr \
-  | tail -z -n +3 \
-  | cut -z -d' ' -f2- \
+# 发布成功后，RELEASE_DIR 已保留 backend-before 和 .env，可承担后端回滚。
+# backend_old_* 仅供发布过程中应急使用，成功后继续保留会形成重复备份。
+find /www/personal-blog -mindepth 1 -maxdepth 1 -type d -name 'backend_old_*' -print0 \
   | xargs -0 -r rm -rf --
 PROJECT_BYTES_AFTER=$(du -sb /www/personal-blog | awk '{print $1}')
 echo "CLEANUP_BYTES=$((PROJECT_BYTES_BEFORE - PROJECT_BYTES_AFTER))"

@@ -277,7 +277,7 @@ watch(viewMode, (mode) => {
   z-index: 1;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 760px), (pointer: coarse) and (max-width: 1024px) {
   .ledger-daily-card-panel__head {
     align-items: stretch;
     flex-direction: column;
