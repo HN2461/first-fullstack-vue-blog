@@ -6,7 +6,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { Media } from '#modules/media/models/Media.js'
 import { User } from '#modules/user/models/User.js'
-import { createArticle } from '#modules/content/services/article.service.js'
+import { createArticle, updateArticle } from '#modules/content/services/article.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import { resolveUploadRoot } from '../src/utils/uploadPath.js'
 import {
@@ -377,6 +377,68 @@ describe('operations routes', () => {
 
     expect(riskResponse.body.data.referencedCount).toBe(1)
     expect(riskResponse.body.data.items[0].referenceCount).toBe(3)
+  })
+
+  it('promotes saved editor images and keeps article bindings aligned with current content', async () => {
+    const first = await Media.create({
+      filename: 'first-content.png',
+      originalName: 'first-content.png',
+      mimeType: 'image/png',
+      size: 10,
+      url: '/uploads/2026/08/first-content.png',
+      storagePath: '/uploads/2026/08/first-content.png',
+      kind: 'image',
+      category: '文章正文临时图片',
+      fileClass: 'image',
+      uploader: admin._id
+    })
+    const second = await Media.create({
+      filename: 'second-content.png',
+      originalName: 'second-content.png',
+      mimeType: 'image/png',
+      size: 10,
+      url: '/uploads/2026/08/second-content.png',
+      storagePath: '/uploads/2026/08/second-content.png',
+      kind: 'image',
+      category: '文章正文临时图片',
+      fileClass: 'image',
+      uploader: admin._id
+    })
+
+    const article = await createArticle({
+      title: '正文图片绑定测试',
+      slug: 'article-content-media-binding',
+      contentMarkdown: `![第一张](${first.url})`,
+      status: 'draft'
+    }, admin)
+    const storedFirst = await Media.findById(first._id)
+    const untouchedSecond = await Media.findById(second._id)
+
+    expect(storedFirst).toMatchObject({
+      category: '文章正文图片'
+    })
+    expect(storedFirst.categoryId).toBeTruthy()
+    expect(storedFirst.article.toString()).toBe(article.id)
+    expect(untouchedSecond.category).toBe('文章正文临时图片')
+    expect(untouchedSecond.article).toBeNull()
+
+    await updateArticle(article.id, {
+      title: article.title,
+      summary: '',
+      contentMarkdown: `<img src="${second.url}" alt="第二张">`,
+      category: null,
+      tags: [],
+      cover: '',
+      resources: [],
+      isRecommended: false
+    }, admin)
+    const releasedFirst = await Media.findById(first._id)
+    const storedSecond = await Media.findById(second._id)
+
+    expect(releasedFirst.category).toBe('文章正文图片')
+    expect(releasedFirst.article).toBeNull()
+    expect(storedSecond.category).toBe('文章正文图片')
+    expect(storedSecond.article.toString()).toBe(article.id)
   })
 
   it('scans and registers uploaded files that are missing media records', async () => {

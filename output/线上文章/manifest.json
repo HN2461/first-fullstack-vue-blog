@@ -8212,7 +8212,7 @@
       "title": "第 3 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3",
       "summary": "Vue 面试系统复习指南，兼顾小白理解与规范复述，覆盖响应式、虚拟 DOM、diff、组件通信、生命周期、Composition API、Vue Router、Vuex、Pinia及性能优化。",
       "cover": "",
-      "contentHash": "83012c622787c9b7a23a369417ca9ef7465ff005ad43cdee64cd6c2e67855331",
+      "contentHash": "66c23ab2945c8332e04ffe3e7cd838e9c92c209903deb76ae78c33ac41fe1a4c",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -8227,7 +8227,7 @@
       "sortOrder": 30,
       "sourcePath": "面试/Vue面试.md",
       "publishedAt": "2026-05-10T15:10:33.649Z",
-      "updatedAt": "2026-07-31T11:16:22.624Z",
+      "updatedAt": "2026-08-27T03:21:51.053Z",
       "fileName": "面试/第-3-篇：Vue-面试题详解：虚拟-DOM、diff、MVVM、Vue2、Vue3.md"
     },
     {

@@ -1,6 +1,10 @@
 import { ARTICLE_STATUS } from '#constants/domain'
 import { Category } from '#modules/content/models/Category.js'
 import { Article } from '#modules/content/models/Article.js'
+import {
+  releaseArticleContentMediaBindings,
+  syncArticleContentMediaBindings
+} from '#modules/media/services/articleContentMedia.service.js'
 import { getNextArticleSortOrder, normalizeArticleSortOrder } from './articleOrder.service.js'
 import {
   assertArticlePublishable,
@@ -178,6 +182,8 @@ export async function createArticle(input, user) {
     await adjustCategoryArticleCount(article.category, 1)
   }
 
+  await syncArticleContentMediaBindings(article)
+
   return article.toSafeJSON()
 }
 
@@ -232,6 +238,8 @@ export async function updateArticle(id, input, user) {
       await adjustCategoryArticleCount(nextCategoryId, 1)
     }
   }
+
+  await syncArticleContentMediaBindings(article)
 
   return article.toSafeJSON()
 }
@@ -378,6 +386,7 @@ export async function deleteArticle(id, user) {
   article.deletedAt = new Date()
   article.updatedBy = user._id
   await article.save()
+  await releaseArticleContentMediaBindings(article._id)
 
   return { id, deleted: true }
 }
@@ -436,6 +445,8 @@ export async function restoreArticle(id, user) {
   if (article.category) {
     await adjustCategoryArticleCount(article.category, 1)
   }
+
+  await syncArticleContentMediaBindings(article)
 
   return article.toSafeJSON()
 }

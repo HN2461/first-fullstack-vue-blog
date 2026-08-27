@@ -67,6 +67,8 @@
     "media-categories:dry-run": "node src/scripts/migrateMediaCategoryOwnership.js",
     "media-categories:apply": "node src/scripts/migrateMediaCategoryOwnership.js --apply",
     "media-categories:verify": "node src/scripts/migrateMediaCategoryOwnership.js --verify",
+    "article-media-bindings:dry-run": "node src/scripts/reconcileArticleContentMedia.js",
+    "article-media-bindings:apply": "node src/scripts/reconcileArticleContentMedia.js --apply",
     "timeline:seed": "node src/scripts/seedProjectTimeline.js",
     "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply",
     "ledger-moments:sync": "node src/scripts/syncLedgerMomentsFromExport.js",

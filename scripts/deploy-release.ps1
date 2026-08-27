@@ -135,6 +135,11 @@ echo "[7/20] Apply and verify media category ownership migration"
 npm run media-categories:apply
 npm run media-categories:verify
 
+echo "[7b/20] Reconcile saved article content images"
+npm run article-media-bindings:dry-run
+npm run article-media-bindings:apply
+npm run article-media-bindings:dry-run
+
 echo "[8/20] Ensure reading progress indexes"
 npm run reading-progress:indexes:apply
 npm run reading-progress:indexes:verify

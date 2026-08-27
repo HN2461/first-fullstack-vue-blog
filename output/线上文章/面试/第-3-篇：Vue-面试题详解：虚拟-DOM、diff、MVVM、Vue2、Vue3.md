@@ -17,7 +17,7 @@ originalId: "6a2d291f8a2b1c68f2cac684"
 originalSlug: "vue-9af82b75"
 originalStatus: "published"
 publishedAt: "2026-05-10T15:10:33.649Z"
-updatedAt: "2026-07-31T11:16:22.624Z"
+updatedAt: "2026-08-27T03:21:51.053Z"
 exportedAt: "2026-08-03T10:17:08.920Z"
 ---
 
@@ -177,6 +177,8 @@ A C B E
 如果每项都有稳定 key，Vue 可以判断：A 仍在原位，B 和 C 仍是原来的节点但顺序变化，D 被删除，E 是新节点。于是它会尽量复用 A、B、C 对应的 DOM，只删除 D、创建 E，并移动确实需要移动的节点。
 
 如果使用数组下标作为 key，旧列表和新列表的第 2 项都叫 key `1`，Vue 更容易把“位置”当成“身份”，于是原来 B 对应的组件状态可能被复用给 C。这就是 key 不只影响性能，还影响状态正确性的原因。
+![image.png](/uploads/2026/08/1787800869877-image.png 'image.png')
+![image.png](/uploads/2026/08/1787800897649-image.png 'image.png')
 
 **面试官可能追问：diff 为什么不跨层级比较？**
 
