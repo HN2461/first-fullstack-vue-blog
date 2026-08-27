@@ -8132,9 +8132,9 @@
       "originalSlug": "legacy-c16e0589-c16e0589",
       "exportedSlug": "legacy-c16e0589-c16e0589",
       "title": "第 4 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide/inject、Vuex、Three.js",
-      "summary": "Vue 2 与 Vue 3 响应式原理对比，以及 provide/inject、Vuex、Three.js 等扩展面试题整理。",
+      "summary": "Vue 响应式进阶与工程扩展面试指南，深入讲解 Vue2、Vue3、provide/inject、Vuex、Pinia、Three.js，并补充安全、通信、构建与常见 JavaScript/CSS 工程题。",
       "cover": "",
-      "contentHash": "9556ba40d8a3d6f70fc1d14345120be9ee49679d5daa5b2a969d94b0438bf877",
+      "contentHash": "40b2dfe1da92e25166e4d56e528b65a4f740659703ef253aea252e6b1006385d",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
