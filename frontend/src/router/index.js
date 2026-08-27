@@ -141,7 +141,13 @@ export const router = createRouter({
           path: 'article-directory/articles/:slug',
           name: 'ConsoleDirectoryArticleDetail',
           component: ArticleDetailPage,
-          meta: { title: '文章详情', requiresAuth: true, deferTabTitle: true }
+          // 文章详情属于高频阅读页，切换控制台标签时保留组件实例和滚动位置。
+          meta: {
+            title: '文章详情',
+            requiresAuth: true,
+            deferTabTitle: true,
+            pageCacheEnabled: true
+          }
         },
         {
           path: 'article-directory/categories/:category',

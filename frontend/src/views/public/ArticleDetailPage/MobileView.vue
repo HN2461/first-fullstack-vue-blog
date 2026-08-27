@@ -169,8 +169,8 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, nextTick, onActivated, onDeactivated, onMounted, ref, watch } from 'vue'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
   ArrowLeftOutlined,
@@ -200,7 +200,12 @@ import { getPublicArticle } from '@/services/public'
 import { extractTOC } from '@/utils/markdown'
 import { useArticleReadingProgress } from '@/composables/useArticleReadingProgress'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
-import { resolveReadingScrollTarget } from '@/utils/readingProgress'
+import {
+  buildReadingSnapshot,
+  captureReadingMetrics,
+  resolveReadingScrollTarget,
+  restoreReadingPosition
+} from '@/utils/readingProgress'
 import { shouldShowArticleFooter } from '@/utils/articleFooterVisibility'
 
 const route = useRoute()
@@ -217,6 +222,8 @@ const readingProgress = useArticleReadingProgress({
 
 const loading = ref(false)
 const errorMessage = ref('')
+const pageActive = ref(true)
+let cachedReadingPosition = null
 const tocVisible = ref(false)
 const commentDrawerVisible = ref(false)
 const comments = ref([])
@@ -290,6 +297,13 @@ function formatMetric(value = 0) {
 
 function handleFontSizeChange(nextSize) {
   fontSize.value = nextSize
+}
+
+function cacheCurrentReadingPosition() {
+  const scrollTarget = resolveReadingScrollTarget(document.querySelector('.mobile-reader'))
+  cachedReadingPosition = scrollTarget
+    ? buildReadingSnapshot(captureReadingMetrics(scrollTarget))
+    : null
 }
 
 function goBack() {
@@ -444,7 +458,52 @@ onMounted(() => {
   loadArticle()
 })
 
-watch(() => [route.params.slug, route.params.id, route.query.resume, route.query.restart], loadArticle)
+// 移动端文章页同样可能被控制台 keep-alive 暂停，停用时强制保存当前阅读进度。
+onDeactivated(() => {
+  pageActive.value = false
+  void readingProgress.persist(true)
+})
+
+onActivated(() => {
+  pageActive.value = true
+  nextTick(() => {
+    const scrollTarget = resolveReadingScrollTarget(document.querySelector('.mobile-reader'))
+    if (!scrollTarget || !cachedReadingPosition) return
+    restoreReadingPosition(scrollTarget, {
+      ...cachedReadingPosition,
+      articleUpdatedAt: article.value.updatedAt,
+      currentArticleUpdatedAt: article.value.updatedAt
+    })
+  })
+})
+
+watch(
+  [
+    () => route.params.slug,
+    () => route.params.id,
+    () => route.query.resume,
+    () => route.query.restart
+  ],
+  () => {
+    if (pageActive.value) loadArticle()
+  }
+)
+
+// keep-alive 实例离开当前路由后仍会收到全局 route 变化，冻结旧实例避免其误加载新文章。
+onBeforeRouteLeave(() => {
+  cacheCurrentReadingPosition()
+  pageActive.value = false
+})
+
+onBeforeRouteUpdate((to, from) => {
+  const switchingCachedArticle = inConsole.value && authStore.user?.consoleTabsEnabled && (
+    to.params.slug !== from.params.slug || to.params.id !== from.params.id
+  )
+  if (switchingCachedArticle) {
+    cacheCurrentReadingPosition()
+    pageActive.value = false
+  }
+})
 </script>
 
 <style scoped>

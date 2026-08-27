@@ -284,8 +284,8 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { computed, nextTick, onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue'
+import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
   DownloadOutlined,
@@ -313,6 +313,7 @@ import {
 } from '@/services/interaction'
 import { getPublicArticle } from '@/services/public'
 import { extractTOC } from '@/utils/markdown'
+import { buildReadingSnapshot, captureReadingMetrics, restoreReadingPosition } from '@/utils/readingProgress'
 import { shouldShowArticleFooter } from '@/utils/articleFooterVisibility'
 import { useArticleReadingProgress } from '@/composables/useArticleReadingProgress'
 import { useConsoleTabTitle } from '@/composables/useConsoleTabTitle'
@@ -347,6 +348,8 @@ const isImmersiveReading = ref(false)
 const preserveImmersiveOnNextLoad = ref(false)
 const isTocOpen = ref(false)
 const showFooterActions = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
+const pageActive = ref(true)
+let cachedReadingPosition = null
 
 const article = ref({
   id: '',
@@ -417,11 +420,20 @@ function syncImmersiveBodyClass() {
   document.body.classList.toggle('reader-immersive-active', isImmersiveReading.value)
 }
 
+function cacheCurrentReadingPosition() {
+  cachedReadingPosition = readerScrollRef.value
+    ? buildReadingSnapshot(captureReadingMetrics(readerScrollRef.value))
+    : null
+}
+
 function handleFontSizeChange(nextSize) {
   fontSize.value = nextSize
 }
 
 function toggleImmersiveReading() {
+  const readingPosition = readerScrollRef.value
+    ? buildReadingSnapshot(captureReadingMetrics(readerScrollRef.value))
+    : null
   isImmersiveReading.value = !isImmersiveReading.value
   const nextQuery = { ...route.query }
   if (isImmersiveReading.value) {
@@ -431,9 +443,11 @@ function toggleImmersiveReading() {
   }
   router.replace({ query: nextQuery })
   nextTick(() => {
-    readerScrollRef.value?.scrollTo({
-      top: readerScrollRef.value.scrollTop,
-      behavior: 'auto'
+    if (!readerScrollRef.value || !readingPosition) return
+    restoreReadingPosition(readerScrollRef.value, {
+      ...readingPosition,
+      articleUpdatedAt: article.value.updatedAt,
+      currentArticleUpdatedAt: article.value.updatedAt
     })
   })
 }
@@ -630,8 +644,54 @@ onUnmounted(() => {
   document.body.classList.remove('reader-immersive-active')
 })
 
-watch(() => [route.params.slug, route.params.id, route.query.resume, route.query.restart], loadArticle)
+// 标签页缓存停用前先落盘，避免组件被 keep-alive 淘汰或浏览器进入后台时丢失最后位置。
+onDeactivated(() => {
+  pageActive.value = false
+  void readingProgress.persist(true)
+  document.body.classList.remove('reader-immersive-active')
+})
+
+onActivated(() => {
+  pageActive.value = true
+  syncImmersiveBodyClass()
+  nextTick(() => {
+    if (!readerScrollRef.value || !cachedReadingPosition) return
+    restoreReadingPosition(readerScrollRef.value, {
+      ...cachedReadingPosition,
+      articleUpdatedAt: article.value.updatedAt,
+      currentArticleUpdatedAt: article.value.updatedAt
+    })
+  })
+})
+
+watch(
+  [
+    () => route.params.slug,
+    () => route.params.id,
+    () => route.query.resume,
+    () => route.query.restart
+  ],
+  () => {
+    if (pageActive.value) loadArticle()
+  }
+)
 watch(isImmersiveReading, syncImmersiveBodyClass)
+
+// keep-alive 实例离开当前路由后仍会收到全局 route 变化，冻结旧实例避免其误加载新文章。
+onBeforeRouteLeave(() => {
+  cacheCurrentReadingPosition()
+  pageActive.value = false
+})
+
+onBeforeRouteUpdate((to, from) => {
+  const switchingCachedArticle = inConsole.value && authStore.user?.consoleTabsEnabled && (
+    to.params.slug !== from.params.slug || to.params.id !== from.params.id
+  )
+  if (switchingCachedArticle) {
+    cacheCurrentReadingPosition()
+    pageActive.value = false
+  }
+})
 </script>
 
 <style scoped>

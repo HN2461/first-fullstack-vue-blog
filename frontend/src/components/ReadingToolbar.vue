@@ -227,7 +227,10 @@ let resizeHandler = null
 
 function resolveScrollContainer() {
   if (document.querySelector('.mobile-reader')) {
-    return window
+    const consoleContainer = document.querySelector('.enterprise-content')
+    return consoleContainer
+      ? resolveScrollableContainer(consoleContainer)
+      : window
   }
 
   return resolveScrollableContainer(
@@ -242,10 +245,16 @@ function updateProgress() {
     return
   }
 
-  const maxScroll = scrollContainer.value.scrollHeight - scrollContainer.value.clientHeight
+  const isWindow = scrollContainer.value === window
+  const scrollHeight = isWindow
+    ? Math.max(document.documentElement.scrollHeight, document.body.scrollHeight)
+    : scrollContainer.value.scrollHeight
+  const clientHeight = isWindow ? window.innerHeight : scrollContainer.value.clientHeight
+  const scrollTop = isWindow ? window.scrollY : scrollContainer.value.scrollTop
+  const maxScroll = scrollHeight - clientHeight
   progress.value = maxScroll <= 0
     ? 0
-    : Math.min(100, Math.max(0, (scrollContainer.value.scrollTop / maxScroll) * 100))
+    : Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100))
 }
 
 function onScroll() {
