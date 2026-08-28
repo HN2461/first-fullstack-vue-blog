@@ -8260,9 +8260,9 @@
       "originalSlug": "websocket-a1cbc328",
       "exportedSlug": "websocket-a1cbc328",
       "title": "第 6 篇：WebSocket 协议面试题：协议原理、握手、实时通信、JavaScript 使用",
-      "summary": "WebSocket 协议面试题，覆盖协议原理、连接握手、特点、应用场景、实时通信和 JavaScript 基础用法。",
+      "summary": "WebSocket 面试系统复习指南，兼顾小白理解与规范复述，深入讲解握手、数据帧、浏览器 API、心跳重连、消息可靠性、安全、扩容和实时通信选型。",
       "cover": "",
-      "contentHash": "ee41c60293ea358b8a1630377bc615145cac43c5e4e1ffa7e7f0e8c3ce061fa5",
+      "contentHash": "5ca4469ac00f7c14394e04b10eb0d1aef9ef0127382c2c229322485929f2b5b1",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [

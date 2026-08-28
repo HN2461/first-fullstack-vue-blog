@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-08-28",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "websocket-article-production-sync",
+      "title": "同步 WebSocket 面试文章到线上并完成三方核验",
+      "detail": "1. 按文章权威同步流程比较本地、基线和生产数据库，识别并处理本地正文/摘要更新与线上标签差异；以生产运营字段为准，保持 WebSocket 文章的分类、4 个标签、发布状态和排序不变。\n2. 完成服务器代码增量发布，发布前备份 MongoDB、后端、前端、上传目录和 Nginx 配置；PM2、Nginx、本地健康检查和首页状态正常。\n3. 备份线上文章快照后上传更新后的 WebSocket Markdown 与 manifest，生产 dry-run 显示正文待推送 1 篇、阻断 0，显式 apply 成功并生成文章内容备份。\n4. 同步本地数据库文章正文、摘要和生产一致的标签，生成本地备份；本地和生产写后 dry-run 均显示正文待推送 0、阻断 0。\n5. 核验本地文件、本地数据库、生产文件和生产数据库正文 SHA-256 均为 5ca4469ac00f7c14394e04b10eb0d1aef9ef0127382c2c229322485929f2b5b1，摘要、标签、published 状态和 sortOrder=60 一致；未使用浏览器。",
+      "occurredAt": "2026-08-28T18:28:30+08:00",
+      "category": "部署发布"
+    }
+  ]
+}
