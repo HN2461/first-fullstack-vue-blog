@@ -13,7 +13,7 @@
     {
       "id": "article-tab-reading-progress-cache",
       "title": "优化文章标签切换与阅读进度恢复体验",
-      "detail": "1. 定位控制台文章详情标签未开启 pageCacheEnabled，切换标签会销毁文章组件并在返回时重新触发阅读进度提示的问题。\n2. 为文章详情路由开启 keep-alive 页面缓存，切换标签时直接保留沉浸式状态、文章组件实例和滚动位置；缓存实例离开路由后冻结，避免旧文章误响应其他标签的路由参数。\n3. PC 与移动文章页在 keep-alive 停用时强制落盘阅读进度，并保存当前标题锚点与段内偏移；标签重新激活后即时恢复同一正文位置，解决独立滚动容器随 DOM 暂时移除而回到顶部的问题。\n4. 进入或退出沉浸式阅读时先记录当前正文标题锚点和段内偏移，布局变化后直接回到同一阅读位置，不再依赖可能随换行和代码块高度变化而漂移的旧像素值，也不触发继续阅读弹框。\n5. 浏览器回归发现原路由监听器会因 immersive 查询参数改变而误判需要重载文章，PC 与移动端均改为逐项监听文章标识、继续阅读和重新开始参数，避免无关查询参数导致重复请求、回顶和恢复提示；重新打开文章仍按既有规则在存在历史进度时提示继续阅读。\n6. 移动端浏览器回归发现控制台文章实际滚动容器为 enterprise-content，但阅读工具误用 window 导致进度显示 NaN%；现已区分控制台外层滚动容器与公开页窗口滚动，并统一窗口和元素的进度计算。",
+      "detail": "1. 定位控制台文章详情标签未开启 pageCacheEnabled，切换标签会销毁文章组件并在返回时重新触发阅读进度提示的问题。\n2. 为文章详情路由开启 keep-alive 页面缓存，切换标签时直接保留沉浸式状态、文章组件实例和滚动位置；缓存实例离开路由后冻结，避免旧文章误响应其他标签的路由参数。\n3. PC 与移动文章页在 keep-alive 停用时强制落盘阅读进度，并保存当前标题锚点与段内偏移；标签重新激活后即时恢复同一正文位置，解决独立滚动容器随 DOM 暂时移除而回到顶部的问题。\n4. 进入或退出沉浸式阅读时先记录当前正文标题锚点和段内偏移，布局变化后直接回到同一阅读位置，不再依赖可能随换行和代码块高度变化而漂移的旧像素值，也不触发继续阅读弹框。\n5. 浏览器回归发现原路由监听器会因 immersive 查询参数改变而误判需要重载文章，PC 与移动端均改为逐项监听文章标识、继续阅读和重新开始参数，避免无关查询参数导致重复请求、回顶和恢复提示；重新打开文章仍按既有规则在存在历史进度时提示继续阅读。\n6. 移动端浏览器回归发现控制台文章实际滚动容器为 enterprise-content，但阅读工具误用 window 导致进度显示 NaN%；现已区分控制台外层滚动容器与公开页窗口滚动，并统一窗口和元素的进度计算。\n7. 修复进入或退出沉浸式阅读、切换标签后，标签标题被路由静态占位标题“文章详情”覆盖的问题；延迟标题标签在重复登记路由时保留文章数据生成的真实标题，并增加查询参数变化和标签切回回归测试。",
       "occurredAt": "2026-08-27T16:30:00+08:00",
       "category": "体验优化"
     },
@@ -23,6 +23,20 @@
       "detail": "1. 重写第 4 篇 Vue 面试文章，按“小白理解、规范回答、原理过程、场景代码、易错点”组织内容，保留原文章 slug、originalId、originalSlug、发布状态和排序等线上身份字段。\n2. 深入补充 Vue2 的 Observer、defineReactive、Dep、Watcher、数组拦截和 Vue.set，Vue3 的 Proxy、Reflect、track/trigger、WeakMap-Map-Set 依赖结构、惰性深层代理、ref/reactive、toRef/toRefs、computed/watch/watchEffect、调度队列、nextTick、浅层响应式、readonly、markRaw、toRaw、customRef 和 effectScope。\n3. 完善 provide/inject、Vuex、Pinia、Three.js 的规范回答，补充状态修改权、持久化安全边界、模型加载器来源、Raycaster、ResizeObserver、DPR、GPU 资源释放和性能优化。\n4. 补齐防抖节流、Promise 组合、二次封装、高德地图、Vue3+Vite、HTTP/HTTPS、轮询/SSE/WebSocket/MQTT、前端与上传安全、KeepAlive、CSS 单位、列表布局、数组提取、类型日期转换、白屏排查和打包优化等原笔记散题，纠正 HTTPS、toISOString、Promise.all 和过时地图接口等表述。\n5. 完成本地 Markdown 结构、代码围栏、身份字段、UTF-8 无 BOM 和 git diff 检查；完成前端构建、后端测试（全量并发测试中 1 个媒体清理用例受并发干扰，单独重跑 18/18 通过）和编码检查。\n6. 生成前后端发布包并完成服务器 MongoDB/文件备份、PM2/Nginx 增量部署与公网健康检查；生产正文 dry-run 阻断为 0 后 apply 1 篇，生成文章内容备份。同步本地数据库后，本地与生产文章标题、摘要、正文 hash、标签、状态、排序和发布时间核验一致。",
       "occurredAt": "2026-08-27T18:00:00+08:00",
       "category": "内容完善"
+    },
+    {
+      "id": "websocket-interview-article-protocol-engineering-expansion",
+      "title": "完善 WebSocket 协议面试文章",
+      "detail": "1. 重写第 6 篇 WebSocket 面试文章，按基础概念、HTTP Upgrade 握手、数据帧、浏览器 API、心跳重连、安全、扩容性能和选型组织内容，保留原文章 slug、originalId、originalSlug、发布状态和排序等线上身份字段。\n2. 补充 Sec-WebSocket-Key 计算、101 状态码、子协议、Origin、MASK、分片、控制帧、UTF-8、二进制消息和关闭状态码等协议细节，纠正 HTTP 推送、低延迟、游戏公平性等过度简化表述。\n3. 补充 readyState、bufferedAmount、binaryType、应用层心跳、指数退避、消息 ID、ack、序号、幂等、离线补偿、鉴权、CSWSH 防护、资源限流、多实例消息中间件和监控要点。\n4. 增加 WebSocket 与 HTTP、短轮询、长轮询、SSE 的选型对比，以及可直接复述的面试回答和常见易错点。\n5. 完成本地 Markdown 层级、代码围栏、UTF-8 无 BOM 和 git diff 检查；外部正文配图暂保留，未擅自改变媒体资产。",
+      "occurredAt": "2026-08-27T22:34:49+08:00",
+      "category": "内容完善"
+    },
+    {
+      "id": "external-image-referer-policy-fix",
+      "title": "修复语雀 CDN 外链图片防盗链",
+      "detail": "1. 结合浏览器 Network 响应头和阿里云 OSS 防盗链文档确认，语雀 CDN 对带 haonan.online Referer 的图片请求返回 403，并提示 denied by Referer ACL；不带 Referer 的同一图片请求返回 200。\n2. Markdown 渲染器对 HTTPS 外链图片自动增加 referrerpolicy=\"no-referrer\"，使浏览器请求不发送站点 Referer；本站 /uploads 和相对路径图片保持原有行为。\n3. 增加 Markdown 渲染单元测试，验证外链图片保留原始地址并生成 no-referrer 属性。",
+      "occurredAt": "2026-08-27T22:50:00+08:00",
+      "category": "问题修复"
     }
   ]
 }

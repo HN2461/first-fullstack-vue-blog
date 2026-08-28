@@ -139,4 +139,11 @@ describe('markdown rendering', () => {
     expect(html).toContain('<font style="color:#FF0000;">红色重点</font>')
     expect(html).toContain('href="https://www.jd.com/"')
   })
+
+  it('omits the referrer for external images protected by referer ACL', () => {
+    const html = renderMarkdown('![语雀截图](https://cdn.nlark.com/yuque/example.png)')
+
+    expect(html).toContain('src="https://cdn.nlark.com/yuque/example.png"')
+    expect(html).toContain('referrerpolicy="no-referrer"')
+  })
 })

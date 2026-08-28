@@ -267,7 +267,13 @@ md.renderer.rules.image = (tokens, index, options, env, self) => {
   const srcIndex = token.attrIndex('src')
 
   if (srcIndex >= 0) {
-    token.attrs[srcIndex][1] = resolveAssetUrl(token.attrs[srcIndex][1], env.assetBase)
+    const source = resolveAssetUrl(token.attrs[srcIndex][1], env.assetBase)
+    token.attrs[srcIndex][1] = source
+
+    // 部分 CDN 会按 Referer 防盗链拦截站外图片；空 Referer 在其白名单策略中可正常访问。
+    if (/^https?:\/\//i.test(source)) {
+      token.attrSet('referrerpolicy', 'no-referrer')
+    }
   }
 
   token.attrSet('loading', 'lazy')

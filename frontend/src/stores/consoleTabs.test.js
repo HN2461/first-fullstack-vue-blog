@@ -16,6 +16,14 @@ const articlesRoute = createRoute({
   meta: { title: '文章管理' }
 })
 
+const articleDetailRoute = createRoute({
+  name: 'ConsoleDirectoryArticleDetail',
+  path: '/console/article-directory/articles/vue-reactivity',
+  fullPath: '/console/article-directory/articles/vue-reactivity',
+  params: { slug: 'vue-reactivity' },
+  meta: { title: '文章详情', deferTabTitle: true, pageCacheEnabled: true }
+})
+
 function createRoute(overrides = {}) {
   const route = {
     name: 'ConsolePage',
@@ -111,5 +119,25 @@ describe('console tabs store', () => {
     expect(store.keepOnly('AdminArticles')).toBe(true)
     expect(store.tabs).toHaveLength(1)
     expect(store.tabs[0]).toMatchObject({ key: 'AdminArticles', affix: true })
+  })
+
+  it('preserves a deferred article title across immersive query changes and tab switches', () => {
+    const store = useConsoleTabsStore()
+    initializeStore(store)
+    store.addRoute(articleDetailRoute)
+    store.updateTitle(articleDetailRoute.name + ':slug=vue-reactivity', 'Vue 响应式原理')
+
+    store.addRoute({
+      ...articleDetailRoute,
+      fullPath: `${articleDetailRoute.path}?immersive=1`,
+      query: { immersive: '1' }
+    })
+    store.addRoute(articlesRoute)
+    store.addRoute(articleDetailRoute)
+
+    expect(store.getByRoute(articleDetailRoute)).toMatchObject({
+      title: 'Vue 响应式原理',
+      fullPath: articleDetailRoute.fullPath
+    })
   })
 })

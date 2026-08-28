@@ -47,10 +47,13 @@ export const useConsoleTabsStore = defineStore('consoleTabs', () => {
     const index = tabs.value.findIndex((tab) => tab.key === nextTab.key)
 
     if (index >= 0) {
+      const currentTab = tabs.value[index]
       tabs.value[index] = {
-        ...tabs.value[index],
+        ...currentTab,
         ...nextTab,
-        affix: tabs.value[index].affix || nextTab.affix
+        // 延迟标题由页面数据生成，路由查询参数变化或标签切回时不能退回静态占位标题。
+        title: route.meta?.deferTabTitle ? currentTab.title : nextTab.title,
+        affix: currentTab.affix || nextTab.affix
       }
     } else {
       tabs.value.push(nextTab)
