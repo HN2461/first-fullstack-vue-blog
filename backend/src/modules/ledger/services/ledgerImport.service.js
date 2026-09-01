@@ -41,14 +41,9 @@ function readCellComment(sheet, rowIndex, columnIndex) {
 function classifyExcelColumn(header, categoryMap) {
   const name = String(header || '').trim()
   if (!name || name === DATE_COLUMN || name === NOTE_COLUMN || DERIVED_COLUMNS.has(name)) return null
+  const type = ['工资', '奖金', '其他收入'].includes(name) ? 'income' : 'expense'
   const existing = categoryMap.byName.get(name.toLowerCase())
-  if (existing) return { name, type: existing.type, category: existing }
-
-  if (['工资', '奖金', '其他收入'].includes(name)) {
-    return { name, type: 'income', category: null }
-  }
-
-  return { name, type: 'expense', category: null }
+  return { name, type, category: existing?.type === type ? existing : null }
 }
 
 async function getExistingEntryKeySet(userId, bookId) {
@@ -62,11 +57,24 @@ async function getExistingEntryKeySet(userId, bookId) {
 }
 
 function getSheetMonthKey(sheetName) {
-  const matched = sheetName.match(/(\d{4})年(\d{1,2})月份收支明细/)
+  const matched = String(sheetName || '').trim().match(/^(\d{4})年(\d{1,2})(?:月份|月)收支明细$|^(\d{4})年(\d{1,2})$/)
   if (!matched) return null
-  const year = Number(matched[1])
-  const monthIndex = Number(matched[2]) - 1
+  const year = Number(matched[1] || matched[3])
+  const monthIndex = Number(matched[2] || matched[4]) - 1
+  if (monthIndex < 0 || monthIndex > 11) return null
   return `${year}-${String(monthIndex + 1).padStart(2, '0')}`
+}
+
+function getMonthKeyFromRows(rows) {
+  for (const row of rows.slice(0, 25)) {
+    const value = String(row?.[0] || '').trim()
+    const matched = value.match(/^(\d{4})年(\d{1,2})(?:月份|月)收支明细/)
+    if (!matched) continue
+    const monthIndex = Number(matched[2]) - 1
+    if (monthIndex < 0 || monthIndex > 11) return null
+    return `${matched[1]}-${String(monthIndex + 1).padStart(2, '0')}`
+  }
+  return null
 }
 
 // 只把 Excel 明确覆盖的月份和分类作为同步边界，避免清空单元格时误删手工流水或表外分类。
@@ -137,25 +145,25 @@ async function parseYuqueWorkbook(buffer, userId, bookId) {
       continue
     }
 
-    if (!/\d{4}年\d{1,2}月份收支明细/.test(sheetName)) {
-      skipped += 1
-      continue
-    }
-
     const sheet = workbook.Sheets[sheetName]
     const rows = XLSX.utils.sheet_to_json(sheet, {
       header: 1,
       raw: false,
       defval: ''
     })
+    const monthKey = getSheetMonthKey(sheetName) || getMonthKeyFromRows(rows)
     const headerRowIndex = rows.findIndex((row) => String(row?.[0] || '').trim() === DATE_COLUMN)
     if (headerRowIndex < 0) {
-      errors.push({ sheetName, row: 0, message: '未找到日期表头行' })
+      if (!monthKey) skipped += 1
+      else errors.push({ sheetName, row: 0, message: '未找到日期表头行' })
+      continue
+    }
+    if (!monthKey) {
+      skipped += 1
       continue
     }
 
     sheetCount += 1
-    const monthKey = getSheetMonthKey(sheetName)
     const coveredDates = new Map()
     const headers = rows[headerRowIndex].map((item) => String(item || '').trim())
     const columns = headers.map((header, index) => ({
@@ -169,9 +177,20 @@ async function parseYuqueWorkbook(buffer, userId, bookId) {
       const row = rows[rowIndex] || []
       const occurredAt = parseExcelDate(row[0])
       if (!occurredAt) {
-        if (row.some((cell) => String(cell || '').trim())) {
+        // 月表尾部可能保留“当日统计”公式，但日期和所有可导入分类均为空；这不是坏数据，应直接跳过。
+        const hasAmount = columns.some((column) => {
+          const amount = parseAmount(row[column.index])
+          return amount !== null && amount !== 0
+        })
+        const hasDailyNote = noteIndex >= 0 && String(row[noteIndex] || '').trim()
+        const hasRawDate = String(row[0] || '').trim()
+        if (hasRawDate || hasAmount || hasDailyNote) {
           errors.push({ sheetName, row: rowIndex + 1, message: '日期格式不正确' })
         }
+        continue
+      }
+      if (formatDay(occurredAt).slice(0, 7) !== monthKey) {
+        errors.push({ sheetName, row: rowIndex + 1, message: '日期与工作表月份不一致' })
         continue
       }
       coveredDates.set(formatDay(occurredAt), occurredAt)

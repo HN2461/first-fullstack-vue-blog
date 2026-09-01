@@ -83,9 +83,22 @@ export function parseAmount(value) {
   return Number.isFinite(amount) ? amount : null
 }
 
+// 金额统一按分舍入，避免浮点误差进入接口响应和图表统计。
+export function roundMoney(value) {
+  const amount = Number(value)
+  if (!Number.isFinite(amount)) return 0
+  return Math.round((amount + Number.EPSILON) * 100) / 100
+}
+
+export function addMoney(current, value) {
+  return roundMoney((Number(current) || 0) + (Number(value) || 0))
+}
+
 export function buildEntryQuery(userId, options = {}) {
   const query = { userId }
-  if (options.bookId) query.bookId = toObjectId(options.bookId, 'LEDGER_BOOK_NOT_FOUND', '账本不存在')
+  if (options.bookId && options.bookId !== 'all') {
+    query.bookId = toObjectId(options.bookId, 'LEDGER_BOOK_NOT_FOUND', '账本不存在')
+  }
   if (options.type) query.type = options.type
   if (options.categoryId) query.categoryId = toObjectId(options.categoryId, 'LEDGER_CATEGORY_NOT_FOUND', '分类不存在')
 

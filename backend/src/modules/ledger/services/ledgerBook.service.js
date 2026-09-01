@@ -37,7 +37,7 @@ export { findOwnedBook, seedDefaultCategories }
 
 async function seedDefaultCategories(userId, bookId) {
   const existingCount = await LedgerCategory.countDocuments({ userId, bookId })
-  if (existingCount > 0) return
+  if (existingCount > 0) return existingCount
 
   const items = [
     ...DEFAULT_EXPENSE_CATEGORIES.map(([name, color, icon], index) => ({
@@ -63,6 +63,7 @@ async function seedDefaultCategories(userId, bookId) {
     code: slugifyName(`${item.type}-${item.name}`),
     aliases: [item.name]
   })))
+  return items.length
 }
 
 export async function ensureDefaultBook(userId) {

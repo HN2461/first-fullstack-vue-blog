@@ -3,10 +3,11 @@
     <LedgerPageToolbar
       v-if="isOverviewRoute"
       :book-id="selectedBookId"
-      :book-options="bookOptions"
+      :book-options="allBookOptions"
       :period="activePeriod"
       :range="queryRange"
       :period-options="periodOptions"
+      :show-period="isOverviewRoute"
       @update:book-id="handleBookChange"
       @update:period="selectPeriod"
       @update:range="handleCustomRangeChange"
@@ -15,8 +16,9 @@
     />
 
     <RouterView
-      :book-id="selectedBookId"
-      :book-name="selectedBookName"
+      :book-id="contentBookId"
+      :book-name="contentBookName"
+      :book-options="bookOptions"
       :categories="categories"
       :range="contentRange"
       :period="activePeriod"
@@ -26,11 +28,13 @@
       @edit-category="openCategoryModal"
       @open-entry-modal="openEntryModal"
       @reload="reloadAll"
+      @update-book-id="handleBookChange"
     />
 
     <LedgerEntryModal
       v-model:open="entryModalOpen"
       :book-id="selectedBookId"
+      :book-options="bookOptions"
       :entry="currentEntry"
       :categories="categories"
       @saved="reloadAll"
@@ -46,8 +50,55 @@
     <LedgerImportModal
       v-model:open="importModalOpen"
       :book-id="selectedBookId"
+      :default-book-id="selectedBookId"
+      :book-options="bookOptions.filter((item) => item.value !== 'all')"
       @imported="reloadAll"
     />
+
+    <a-modal
+      v-model:open="bookManageOpen"
+      title="账本管理"
+      :width="640"
+      :footer="null"
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
+      destroy-on-close
+    >
+      <div class="ledger-book-manage">
+        <div class="ledger-book-manage__toolbar">
+          <span>账本只允许归档，不直接删除历史数据。</span>
+          <a-button type="primary" size="small" @click="openBookEditor()">新建账本</a-button>
+        </div>
+        <div v-for="book in books" :key="book.id" class="ledger-book-row">
+          <div class="ledger-book-row__main">
+            <strong>{{ book.name }}</strong>
+            <span>{{ book.description || '暂无说明' }}</span>
+          </div>
+          <a-tag :color="book.status === 'archived' ? 'default' : 'green'">{{ book.status === 'archived' ? '已归档' : '使用中' }}</a-tag>
+          <a-button size="small" @click="openBookEditor(book)">编辑</a-button>
+        </div>
+      </div>
+    </a-modal>
+
+    <a-modal
+      v-model:open="bookEditorOpen"
+      :title="editingBook ? '编辑账本' : '新建账本'"
+      :confirm-loading="bookSubmitting"
+      ok-text="保存"
+      cancel-text="取消"
+      @ok="saveBook"
+    >
+      <a-form layout="vertical">
+        <a-form-item label="账本名称" required>
+          <a-input v-model:value="bookForm.name" maxlength="60" show-count placeholder="例如：杭漂、杭州工作期｜公司名称" />
+        </a-form-item>
+        <a-form-item label="说明">
+          <a-textarea v-model:value="bookForm.description" maxlength="240" show-count :rows="3" />
+        </a-form-item>
+        <a-form-item v-if="editingBook" label="状态">
+          <a-select v-model:value="bookForm.status" :options="bookStatusOptions" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
 
     <LedgerCategoryDrawer
       v-model:open="categoryDrawerOpen"
@@ -109,7 +160,7 @@
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import LedgerCategoryDrawer from './LedgerCategoryDrawer.vue'
 import LedgerCategoryModal from './LedgerCategoryModal.vue'
@@ -122,11 +173,14 @@ import {
   getLedgerInsights,
   getLedgerSummary,
   listLedgerBooks,
-  listLedgerCategories
+  listLedgerCategories,
+  createLedgerBook,
+  updateLedgerBook
 } from '@/services/ledger'
 
 const loading = ref(false)
 const route = useRoute()
+const router = useRouter()
 const books = ref([])
 const categories = ref([])
 const selectedBookId = ref('')
@@ -140,6 +194,11 @@ const importRecordsOpen = ref(false)
 const exportModalOpen = ref(false)
 const exporting = ref(false)
 const categoryDrawerOpen = ref(false)
+const bookManageOpen = ref(false)
+const bookEditorOpen = ref(false)
+const bookSubmitting = ref(false)
+const editingBook = ref(null)
+const bookForm = reactive({ name: '', description: '', status: 'active' })
 const currentEntry = ref(null)
 const currentCategory = ref(null)
 const exportForm = reactive({
@@ -161,8 +220,21 @@ const bookOptions = computed(() => books.value.map((book) => ({
   label: book.name,
   value: book.id
 })))
-const selectedBookName = computed(() => bookOptions.value.find((item) => item.value === selectedBookId.value)?.label || '')
+const allBookOptions = computed(() => [
+  { label: '全部账本', value: 'all' },
+  ...bookOptions.value
+])
+const bookStatusOptions = [
+  { label: '使用中', value: 'active' },
+  { label: '已归档', value: 'archived' }
+]
+const selectedBookName = computed(() => selectedBookId.value === 'all'
+  ? '全部账本'
+  : bookOptions.value.find((item) => item.value === selectedBookId.value)?.label || '')
 const isOverviewRoute = computed(() => route.name === 'ConsoleLedgerOverview')
+const isMomentsRoute = computed(() => route.name === 'ConsoleLedgerMoments')
+const contentBookId = computed(() => selectedBookId.value)
+const contentBookName = computed(() => selectedBookName.value)
 const contentRange = computed(() => isOverviewRoute.value ? queryRange.value : [])
 
 /** 根据快速时间段计算日期范围 */
@@ -202,6 +274,12 @@ function selectPeriod(value) {
 
 function handleBookChange(value) {
   selectedBookId.value = value
+  router.replace({
+    query: {
+      ...route.query,
+      bookId: value
+    }
+  })
   reloadAll()
 }
 
@@ -212,17 +290,28 @@ function handleCustomRangeChange(value) {
 
 async function loadBooks() {
   books.value = await listLedgerBooks()
-  if (!selectedBookId.value && books.value.length) {
-    selectedBookId.value = books.value[0].id
-  }
+  const queryBookId = String(route.query.bookId || '')
+  const validBookIds = new Set(books.value.map((book) => book.id))
+  if (queryBookId === 'all' || validBookIds.has(queryBookId)) selectedBookId.value = queryBookId
+  else if (books.value.length) selectedBookId.value = 'all'
 }
 
 async function loadCategories() {
-  if (!selectedBookId.value) {
+  if (isMomentsRoute.value) {
     categories.value = []
     return
   }
-  categories.value = await listLedgerCategories({ bookId: selectedBookId.value })
+  const categoryBookId = isOverviewRoute.value ? selectedBookId.value : contentBookId.value
+  if (!categoryBookId) {
+    categories.value = []
+    return
+  }
+  if (categoryBookId === 'all') {
+    const categoryLists = await Promise.all(books.value.map((book) => listLedgerCategories({ bookId: book.id })))
+    categories.value = categoryLists.flat()
+    return
+  }
+  categories.value = await listLedgerCategories({ bookId: categoryBookId })
 }
 
 async function reloadCategoriesAndSummary() {
@@ -248,12 +337,53 @@ function openEntryModal(entry = null) {
 }
 
 function openCategoryModal(category = null) {
+  if (selectedBookId.value === 'all') {
+    message.warning('请先选择具体账本后再管理分类')
+    return
+  }
   currentCategory.value = category
   categoryModalOpen.value = true
 }
 
+function openBookEditor(book = null) {
+  editingBook.value = book
+  bookForm.name = book?.name || ''
+  bookForm.description = book?.description || ''
+  bookForm.status = book?.status || 'active'
+  bookEditorOpen.value = true
+}
+
+async function saveBook() {
+  if (!bookForm.name.trim()) {
+    message.warning('请输入账本名称')
+    return
+  }
+  bookSubmitting.value = true
+  try {
+    const payload = { name: bookForm.name, description: bookForm.description, status: bookForm.status }
+    const saved = editingBook.value
+      ? await updateLedgerBook(editingBook.value.id, payload)
+      : await createLedgerBook(payload)
+    bookEditorOpen.value = false
+    bookManageOpen.value = false
+    await loadBooks()
+    if (!editingBook.value) selectedBookId.value = saved.id
+    message.success(editingBook.value ? '账本已更新' : '账本已创建')
+    await reloadAll()
+  } catch (error) {
+    message.error(error.message || '账本保存失败')
+  } finally {
+    bookSubmitting.value = false
+  }
+}
+
 function handleMenuAction(key) {
+  if (['categories', 'newCategory', 'importRecords', 'importExcel'].includes(key) && selectedBookId.value === 'all') {
+    message.warning('请先选择具体账本后再执行此操作')
+    return
+  }
   if (key === 'categories') categoryDrawerOpen.value = true
+  else if (key === 'manageBooks') bookManageOpen.value = true
   else if (key === 'newCategory') openCategoryModal()
   else if (key === 'importRecords') importRecordsOpen.value = true
   else if (key === 'importExcel') importModalOpen.value = true
@@ -364,6 +494,48 @@ onMounted(async () => {
   display: grid;
   gap: 12px;
   min-width: 0;
+}
+
+.ledger-book-manage {
+  display: grid;
+  gap: 10px;
+}
+
+.ledger-book-manage__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+}
+
+.ledger-book-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+}
+
+.ledger-book-row__main {
+  min-width: 0;
+}
+
+.ledger-book-row__main strong,
+.ledger-book-row__main span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ledger-book-row__main span {
+  margin-top: 3px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
 }
 
 /* ── 全局覆盖 ── */

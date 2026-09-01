@@ -3,6 +3,7 @@
     <LedgerEntryTable
       ref="tableRef"
       :book-id="bookId"
+      :book-options="bookOptions"
       :categories="categories"
       :range="range"
       :refresh-key="refreshKey"
@@ -10,14 +11,9 @@
       @delete="$emit('delete-entry', $event)"
       @batch-edit="openBatchModal"
       @export="openExportModal"
-    >
-      <template #extra>
-        <a-button type="primary" size="small" @click="$emit('open-entry-modal')">
-          <template #icon><PlusOutlined /></template>
-          新增流水
-        </a-button>
-      </template>
-    </LedgerEntryTable>
+      @update-book-id="$emit('update-book-id', $event)"
+      @new-entry="$emit('open-entry-modal')"
+    />
 
     <a-modal
       v-model:open="batchModalOpen"
@@ -41,7 +37,14 @@
           <a-input v-model:value="form.occurredAt" type="date" :disabled="!enabled.occurredAt" />
         </a-form-item>
         <a-form-item>
-          <a-checkbox v-model:checked="enabled.typeCategory">统一类型和分类</a-checkbox>
+          <a-checkbox v-model:checked="enabled.typeCategory" :disabled="isCrossBookSelection">统一类型和分类</a-checkbox>
+          <a-alert
+            v-if="isCrossBookSelection"
+            type="warning"
+            show-icon
+            message="跨账本选择时不能统一分类；日期、备注和标签仍可批量修改。"
+            class="ledger-batch-alert"
+          />
           <div class="ledger-batch-grid">
             <a-select
               v-model:value="form.type"
@@ -94,20 +97,20 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { PlusOutlined } from '@ant-design/icons-vue'
 import LedgerEntryTable from './LedgerEntryTable.vue'
 import LedgerExportModal from './export/LedgerExportModal.vue'
 import { batchUpdateLedgerEntries } from '@/services/ledger'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
+  bookOptions: { type: Array, default: () => [] },
   bookName: { type: String, default: '' },
   categories: { type: Array, default: () => [] },
   range: { type: Array, default: () => [] },
   refreshKey: { type: Number, default: 0 }
 })
 
-const emit = defineEmits(['edit-entry', 'delete-entry', 'reload', 'open-entry-modal'])
+const emit = defineEmits(['edit-entry', 'delete-entry', 'reload', 'open-entry-modal', 'update-book-id'])
 
 const tableRef = ref(null)
 const batchModalOpen = ref(false)
@@ -115,6 +118,8 @@ const exportModalOpen = ref(false)
 const exporting = ref(false)
 const submitting = ref(false)
 const selectedKeys = ref([])
+const selectedBookIds = ref([])
+const isCrossBookSelection = computed(() => props.bookId === 'all' || selectedBookIds.value.length > 1)
 const exportSelectedKeys = ref([])
 const exportParams = ref({})
 const enabled = reactive({
@@ -142,8 +147,10 @@ const batchCategoryOptions = computed(() => props.categories
   .filter((item) => item.type === form.type && !item.archived)
   .map((item) => ({ label: item.name, value: item.id })))
 
-function openBatchModal(keys) {
+function openBatchModal(keys, rows = []) {
   selectedKeys.value = keys
+  selectedBookIds.value = [...new Set(rows.map((row) => row.bookId).filter(Boolean))]
+  enabled.typeCategory = !isCrossBookSelection.value
   batchModalOpen.value = true
 }
 

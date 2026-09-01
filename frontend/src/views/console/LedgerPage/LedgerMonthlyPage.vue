@@ -31,6 +31,14 @@
             <template #icon><LeftOutlined /></template>
           </a-button>
         </a-tooltip>
+        <a-select
+          :value="bookId"
+          class="ledger-inline-book-select"
+          :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
+          show-search
+          option-filter-prop="label"
+          @change="$emit('update-book-id', $event)"
+        />
         <a-date-picker
           v-model:value="selectedMonth"
           picker="month"
@@ -64,12 +72,6 @@
       striped
       column-border
     >
-      <template #toolbar>
-        <span class="ledger-table-title">{{ monthLabel }} 月表格</span>
-        <span class="ledger-toolbar-spacer" />
-        <span class="ledger-monthly-toolbar-note">每天一行，共 {{ daysInSelectedMonth }} 天</span>
-      </template>
-
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'date'">
           <div class="ledger-monthly-date">
@@ -105,14 +107,9 @@
     </BlogTable>
 
     <section v-else class="ledger-monthly-card-panel">
-      <div class="ledger-monthly-card-panel__head">
-        <span class="ledger-table-title">{{ monthLabel }} 月表格</span>
-        <span class="ledger-toolbar-spacer" />
-        <span class="ledger-monthly-toolbar-note">每天一行，共 {{ daysInSelectedMonth }} 天</span>
-      </div>
       <LedgerDailyCards
         :items="monthRows"
-        :categories="categories"
+        :categories="displayCategories"
         :total="monthRows.length"
         :page-size="daysInSelectedMonth"
       />
@@ -132,9 +129,12 @@ import { useAppStore } from '@/stores/app'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
+  bookOptions: { type: Array, default: () => [] },
   categories: { type: Array, default: () => [] },
   refreshKey: { type: Number, default: 0 }
 })
+
+defineEmits(['update-book-id'])
 
 const appStore = useAppStore()
 const tableRef = ref(null)
@@ -144,7 +144,8 @@ const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart
 const selectedMonth = ref(currentMonth)
 const weekdayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 
-const visibleCategories = computed(() => props.categories.filter((item) => !item.archived))
+const visibleCategories = computed(() => (props.bookId === 'all' ? [] : props.categories.filter((item) => !item.archived)))
+const displayCategories = computed(() => visibleCategories.value)
 const monthRange = computed(() => {
   const [year, month] = selectedMonth.value.split('-').map(Number)
   const lastDay = new Date(year, month, 0).getDate()
@@ -278,6 +279,11 @@ function getCategoryNote(record, categoryId) {
   min-width: 0;
   gap: 10px;
   flex-wrap: wrap;
+}
+
+.ledger-inline-book-select {
+  width: 138px;
+  flex: 0 0 auto;
 }
 .ledger-monthly-date { display: grid; gap: 2px; justify-items: center; }
 .ledger-monthly-date strong { color: var(--console-text); font-variant-numeric: tabular-nums; }

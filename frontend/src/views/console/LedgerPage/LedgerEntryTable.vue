@@ -17,13 +17,23 @@
     @selection-change="handleSelectionChange"
   >
     <template #toolbar>
-      <a-space wrap>
+      <a-space wrap size="small">
+        <a-select
+          :value="bookId"
+          class="ledger-filter ledger-filter-book"
+          :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
+          show-search
+          option-filter-prop="label"
+          @change="$emit('update-book-id', $event)"
+        />
         <a-select
           v-model:value="filters.type"
           class="ledger-filter"
           :options="typeOptions"
           show-search
           option-filter-prop="label"
+          allow-clear
+          placeholder="全部类型"
           @change="reload"
         />
         <a-select
@@ -32,6 +42,8 @@
           :options="categoryOptions"
           show-search
           option-filter-prop="label"
+          allow-clear
+          placeholder="全部分类"
           @change="reload"
         />
         <a-select
@@ -61,19 +73,26 @@
             金额
           </a-button>
         </a-tooltip>
-        <a-button
-          :disabled="!selectedKeys.length"
-          @click="$emit('batch-edit', selectedKeys)"
-        >
-          批量修改
-        </a-button>
-        <a-button @click="$emit('export')">
-          <template #icon><DownloadOutlined /></template>
-          导出
-        </a-button>
+        <a-dropdown :trigger="['click']">
+          <a-button aria-label="更多流水操作">
+            <template #icon><MoreOutlined /></template>
+          </a-button>
+          <template #overlay>
+            <a-menu @click="handleAction">
+              <a-menu-item key="new-entry">
+                <PlusOutlined /> 新增流水
+              </a-menu-item>
+              <a-menu-item key="batch-edit" :disabled="!selectedKeys.length">
+                <EditOutlined /> 批量修改
+              </a-menu-item>
+              <a-menu-divider />
+              <a-menu-item key="export">
+                <DownloadOutlined /> 导出
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </a-space>
-      <span class="ledger-toolbar-spacer" />
-      <slot name="extra" />
     </template>
 
     <template #bodyCell="{ column, record }">
@@ -87,6 +106,9 @@
       </template>
       <template v-else-if="column.key === 'occurredAt'">
         <span class="ledger-cell-center">{{ formatDate(record.occurredAt) }}</span>
+      </template>
+      <template v-else-if="column.key === 'book'">
+        <span class="ledger-muted">{{ record.book?.name || record.bookName || '-' }}</span>
       </template>
       <template v-else-if="column.key === 'type'">
         <a-tag :color="record.type === 'income' ? 'green' : 'red'" :bordered="false">
@@ -152,7 +174,7 @@
 
 <script setup>
 import { computed, onUnmounted, reactive, ref, watch } from 'vue'
-import { DeleteOutlined, DownloadOutlined, EditOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons-vue'
+import { DeleteOutlined, DownloadOutlined, EditOutlined, MoreOutlined, PlusOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { listLedgerEntries } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
@@ -162,15 +184,17 @@ import LedgerTextTooltip from './LedgerTextTooltip.vue'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
+  bookOptions: { type: Array, default: () => [] },
   categories: { type: Array, default: () => [] },
   range: { type: Array, default: () => [] },
   refreshKey: { type: Number, default: 0 }
 })
 
-defineEmits(['edit', 'delete', 'batch-edit', 'export'])
+const emit = defineEmits(['edit', 'delete', 'batch-edit', 'export', 'update-book-id', 'new-entry'])
 
 const tableRef = ref(null)
 const selectedKeys = ref([])
+const selectedRows = ref([])
 const searchKeyword = ref('')
 let keywordTimer = null
 const filters = reactive({
@@ -184,6 +208,7 @@ const filters = reactive({
 
 const columns = [
   { title: '日期', dataIndex: 'occurredAt', key: 'occurredAt', width: 140, align: 'center', fixed: 'left' },
+  { title: '账本', key: 'book', width: 120, align: 'center' },
   { title: '类型', key: 'type', width: 90, align: 'center' },
   { title: '分类', key: 'category', width: 140, align: 'center' },
   { title: '金额', dataIndex: 'amount', key: 'amount', width: 130, align: 'center' },
@@ -214,7 +239,7 @@ const categoryOptions = computed(() => [
 ])
 const isSearchActive = computed(() => Boolean(searchKeyword.value))
 const tableModeKey = computed(() => (isSearchActive.value ? 'search-results' : 'entry-table'))
-const tableColumns = computed(() => (isSearchActive.value ? searchColumns : columns))
+const tableColumns = computed(() => (isSearchActive.value ? searchColumns : (props.bookId === 'all' ? columns : columns.filter((column) => column.key !== 'book'))))
 const tableScroll = computed(() => (isSearchActive.value ? {} : { x: 1440 }))
 const rowSelection = computed(() => (isSearchActive.value ? false : { columnWidth: 48 }))
 const dailyNoteTextClass = computed(() => (
@@ -280,6 +305,7 @@ function refresh() {
 
 function clearSelection() {
   selectedKeys.value = []
+  selectedRows.value = []
   tableRef.value?.clearSelection?.()
 }
 
@@ -291,8 +317,9 @@ function getExportParams() {
   return { ...params.value }
 }
 
-function handleSelectionChange(keys) {
+function handleSelectionChange(keys, rows = []) {
   selectedKeys.value = keys
+  selectedRows.value = rows
 }
 
 function handleKeywordInput() {
@@ -324,13 +351,23 @@ function toggleAmountSort() {
   reload()
 }
 
+function handleAction({ key }) {
+  if (key === 'new-entry') emit('new-entry')
+  if (key === 'batch-edit') emit('batch-edit', selectedKeys.value, selectedRows.value)
+  if (key === 'export') emit('export')
+}
+
 onUnmounted(() => {
   clearTimeout(keywordTimer)
 })
 
 watch(
-  () => props.refreshKey,
-  () => reload()
+  () => [props.bookId, props.range?.[0], props.range?.[1], props.refreshKey],
+  () => {
+    // 查询范围变化时清掉旧选择，避免切换账本后误批量修改上一账本的流水。
+    clearSelection()
+    reload()
+  }
 )
 
 defineExpose({ reload, refresh, clearSelection, getSelectedKeys, getExportParams })
@@ -339,6 +376,10 @@ defineExpose({ reload, refresh, clearSelection, getSelectedKeys, getExportParams
 <style scoped>
 .ledger-filter {
   width: 140px;
+}
+
+.ledger-filter-book {
+  width: 128px;
 }
 
 .ledger-filter-tags {

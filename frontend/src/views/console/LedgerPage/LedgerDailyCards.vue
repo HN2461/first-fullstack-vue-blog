@@ -9,7 +9,7 @@
           <strong class="ledger-day-card__date">{{ day.date }}</strong>
           <span class="ledger-day-card__weekday">{{ weekdayOf(day.date) }}</span>
           <span class="ledger-day-card__totals">
-            <span class="ledger-day-expense">-{{ formatMoney(day.expense) }}</span>
+            <span v-if="day.expense" class="ledger-day-expense">-{{ formatMoney(day.expense) }}</span>
             <span v-if="day.income" class="ledger-day-income">+{{ formatMoney(day.income) }}</span>
           </span>
         </div>

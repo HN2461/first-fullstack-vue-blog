@@ -13,8 +13,9 @@ const ledgerMomentSchema = new mongoose.Schema(
     bookId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'LedgerBook',
-      required: true,
-      index: true
+      required: false,
+      index: true,
+      default: null
     },
     title: {
       type: String,
@@ -80,7 +81,7 @@ const ledgerMomentSchema = new mongoose.Schema(
   }
 )
 
-ledgerMomentSchema.index({ userId: 1, bookId: 1, occurredAt: -1 })
+ledgerMomentSchema.index({ userId: 1, bookId: 1, occurredAt: -1 }, { sparse: true })
 ledgerMomentSchema.index({ title: 'text', content: 'text', mood: 'text', tags: 'text' }, { name: 'ledger_moment_text_index' })
 
 ledgerMomentSchema.methods.toSafeJSON = function toSafeJSON() {

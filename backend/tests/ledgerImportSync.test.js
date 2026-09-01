@@ -28,11 +28,22 @@ function buildLedgerWorkbookBuffer(options = {}) {
   if (options.fifthBreakfast !== undefined) {
     rows.push(['2026/06/05', options.fifthBreakfast, '', '', '', '', '', '', 0, 0, 0, '', '', '', ''])
   }
+  if (options.trailingFormulaRows) {
+    rows[50] = Array(15).fill('')
+    rows[51] = Array(15).fill('')
+  }
   const sheet = XLSX.utils.aoa_to_sheet(rows)
+  if (options.trailingFormulaRows) {
+    sheet.I51 = { t: 'n', v: 0, f: 'SUM(B51:D51)' }
+    sheet.J51 = { t: 'n', v: 0, f: 'SUM(B51:H51)' }
+    sheet.K51 = { t: 'n', v: 0, f: 'J51-I51' }
+    sheet.I52 = { t: 'n', v: 0, f: 'SUM(B52:D52)' }
+    sheet.K52 = { t: 'n', v: 0, f: 'J52-I52' }
+  }
   sheet.C21.c = [{ a: 'Author', t: '大盘鸡面' }]
   sheet.E22.c = [{ a: 'Author', t: '50（话费），0.5（打包费）' }]
   sheet.L24.c = [{ a: 'Author', t: '6月工资' }]
-  XLSX.utils.book_append_sheet(workbook, sheet, '2026年6月份收支明细')
+  XLSX.utils.book_append_sheet(workbook, sheet, options.sheetName || '2026年6月份收支明细')
   XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet(rows), '模版')
   return XLSX.write(workbook, { bookType: 'xlsx', type: 'buffer' })
 }
@@ -151,5 +162,18 @@ describe('ledger Excel import synchronization', () => {
       categoryNameSnapshot: '早餐',
       amount: 4
     })).toBe(1)
+  })
+
+  it('imports a short month sheet name when the page title identifies the month', async () => {
+    const { previewResponse } = await previewAndCommit(buildLedgerWorkbookBuffer({ sheetName: '2026年06' }))
+
+    expect(previewResponse.body.data.stats).toMatchObject({ sheets: 1, inserted: 9, errors: 0 })
+    expect(await LedgerEntry.countDocuments({ userId: user._id, source: 'excel_import' })).toBe(9)
+  })
+
+  it('ignores trailing formula-only rows without reporting date errors', async () => {
+    const { previewResponse } = await previewAndCommit(buildLedgerWorkbookBuffer({ trailingFormulaRows: true }))
+
+    expect(previewResponse.body.data.stats).toMatchObject({ sheets: 1, inserted: 9, errors: 0 })
   })
 })

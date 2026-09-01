@@ -13,7 +13,7 @@ async function findOwnedEntry(entryId, userId) {
 }
 
 export async function listLedgerEntries(userId, options = {}) {
-  if (options.bookId) await findOwnedBook(options.bookId, userId)
+  if (options.bookId && options.bookId !== 'all') await findOwnedBook(options.bookId, userId)
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const query = buildEntryQuery(userId, options)
@@ -28,6 +28,7 @@ export async function listLedgerEntries(userId, options = {}) {
   const [items, total] = await Promise.all([
     LedgerEntry.find(query)
       .populate('categoryId')
+      .populate('bookId')
       .sort(sort)
       .skip(skip)
       .limit(pageSize),

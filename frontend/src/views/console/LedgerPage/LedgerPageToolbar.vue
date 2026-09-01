@@ -16,7 +16,7 @@
 
       <span class="ledger-toolbar__divider" />
 
-      <div class="ledger-toolbar__periods">
+      <div v-if="showPeriod" class="ledger-toolbar__periods">
         <a-tooltip v-for="p in periodOptions" :key="p.value" :title="p.tip || `切换到${p.label}数据`">
           <button
             :class="['ledger-period-btn', { active: period === p.value }]"
@@ -28,7 +28,7 @@
       </div>
 
       <a-range-picker
-        v-if="period === 'custom'"
+        v-if="showPeriod && period === 'custom'"
         :value="rangeValue"
         class="ledger-toolbar__range"
         size="small"
@@ -50,6 +50,10 @@
         </button>
         <template #overlay>
           <a-menu @click="$emit('action', $event.key)">
+            <a-menu-item key="manageBooks">
+              <BookOutlined /> 账本管理
+            </a-menu-item>
+            <a-menu-divider />
             <a-menu-item key="categories">
               <AppstoreOutlined /> 分类管理
             </a-menu-item>
@@ -76,7 +80,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { AppstoreOutlined, DownloadOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { AppstoreOutlined, BookOutlined, DownloadOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { BookOpen, MoreHorizontal, RefreshCw } from 'lucide-vue-next'
 
 const props = defineProps({
@@ -84,7 +88,8 @@ const props = defineProps({
   bookOptions: { type: Array, default: () => [] },
   period: { type: String, default: 'thisMonth' },
   range: { type: Array, default: () => [] },
-  periodOptions: { type: Array, default: () => [] }
+  periodOptions: { type: Array, default: () => [] },
+  showPeriod: { type: Boolean, default: true }
 })
 
 const emit = defineEmits([

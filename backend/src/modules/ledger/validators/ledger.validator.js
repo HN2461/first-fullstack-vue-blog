@@ -6,6 +6,10 @@ import { LEDGER_MOMENT_SCOPES } from '#modules/ledger/models/LedgerMoment.js'
 
 const objectIdPattern = /^[a-f\d]{24}$/i
 const colorPattern = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
+const ledgerScopeId = z.union([
+  z.literal('all'),
+  z.string().regex(objectIdPattern, '账本 id 不正确')
+])
 
 export const ledgerBookCreateSchema = z.object({
   name: z.string().trim().min(1, '账本名称不能为空').max(60, '账本名称不能超过 60 个字符'),
@@ -54,7 +58,7 @@ export const ledgerEntryUpdateSchema = ledgerEntryCreateSchema
   .strict('存在不支持的流水字段')
 
 export const ledgerEntryQuerySchema = z.object({
-  bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
+  bookId: ledgerScopeId.optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
@@ -81,7 +85,7 @@ export const ledgerEntryBatchUpdateSchema = z.object({
 }).strict('存在不支持的批量修改字段')
 
 export const ledgerSummaryQuerySchema = z.object({
-  bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
+  bookId: ledgerScopeId.optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
@@ -91,7 +95,7 @@ export const ledgerSummaryQuerySchema = z.object({
 })
 
 export const ledgerInsightsQuerySchema = z.object({
-  bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
+  bookId: ledgerScopeId.optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
@@ -99,7 +103,7 @@ export const ledgerInsightsQuerySchema = z.object({
 })
 
 export const ledgerDailyQuerySchema = z.object({
-  bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
+  bookId: ledgerScopeId.optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
@@ -117,7 +121,7 @@ export const ledgerImportQuerySchema = z.object({
 })
 
 export const ledgerMomentCreateSchema = z.object({
-  bookId: z.string().regex(objectIdPattern, '账本 id 不正确'),
+  bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional().nullable(),
   title: z.string().trim().min(1, '重要记录标题不能为空').max(80, '标题不能超过 80 个字符'),
   scope: z.enum(LEDGER_MOMENT_SCOPES).optional().default('day'),
   occurredAt: z.coerce.date({ invalid_type_error: '记录日期不正确' }),
@@ -136,9 +140,10 @@ export const ledgerMomentUpdateSchema = ledgerMomentCreateSchema
   .strict('存在不支持的重要记录字段')
 
 export const ledgerMomentQuerySchema = z.object({
-  bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional(),
+  bookId: ledgerScopeId.optional(),
   scope: z.enum(LEDGER_MOMENT_SCOPES).optional(),
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
+  categoryText: z.string().trim().max(40, '记录分类不能超过 40 个字符').optional(),
   from: z.coerce.date().optional(),
   to: z.coerce.date().optional(),
   keyword: z.string().trim().max(80).optional(),

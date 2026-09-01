@@ -11,6 +11,20 @@
     @ok="handleOk"
     @cancel="close"
   >
+    <a-form layout="vertical" class="ledger-import-form">
+      <a-form-item label="导入目标账本" required>
+        <a-select
+          v-model:value="selectedBookId"
+          :options="bookOptions"
+          :disabled="Boolean(previewResult)"
+          show-search
+          option-filter-prop="label"
+          placeholder="请选择本次导入要更新的账本"
+        />
+        <div class="ledger-import-help">当前页面选中的账本只作为默认值，本次导入以这里的选择为准。</div>
+      </a-form-item>
+    </a-form>
+
     <a-upload-dragger
       v-if="!previewResult"
       :before-upload="beforeUpload"
@@ -25,6 +39,12 @@
     </a-upload-dragger>
 
     <div v-else class="ledger-import-preview">
+      <a-alert
+        type="info"
+        show-icon
+        :message="`本次导入目标：${selectedBookName}`"
+        description="预览和确认同步都只会作用于这个账本。"
+      />
       <div class="ledger-import-stats">
         <div><span>{{ previewResult.stats?.inserted || 0 }}</span><small>新增</small></div>
         <div><span>{{ previewResult.stats?.updated || 0 }}</span><small>更新</small></div>
@@ -79,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
@@ -89,7 +109,9 @@ import { formatDate } from './ledgerUtils'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
-  bookId: { type: String, default: '' }
+  bookId: { type: String, default: '' },
+  defaultBookId: { type: String, default: '' },
+  bookOptions: { type: Array, default: () => [] }
 })
 
 const emit = defineEmits(['update:open', 'imported'])
@@ -98,6 +120,9 @@ const submitting = ref(false)
 const selectedFile = ref(null)
 const fileList = ref([])
 const previewResult = ref(null)
+const selectedBookId = ref('')
+
+const selectedBookName = computed(() => props.bookOptions.find((item) => item.value === selectedBookId.value)?.label || '未选择')
 
 const actionMeta = {
   insert: { label: '新增', color: 'green' },
@@ -134,6 +159,7 @@ watch(
   () => props.open,
   (visible) => {
     if (!visible) return
+    selectedBookId.value = props.defaultBookId || props.bookId || props.bookOptions[0]?.value || ''
     selectedFile.value = null
     fileList.value = []
     previewResult.value = null
@@ -156,8 +182,8 @@ function close() {
 }
 
 async function handleOk() {
-  if (!props.bookId) {
-    message.warning('请先选择账本')
+  if (!selectedBookId.value) {
+    message.warning('请选择导入目标账本')
     return
   }
 
@@ -168,7 +194,7 @@ async function handleOk() {
         message.warning('请先选择 Excel 文件')
         return
       }
-      previewResult.value = await previewLedgerImport(props.bookId, selectedFile.value)
+      previewResult.value = await previewLedgerImport(selectedBookId.value, selectedFile.value)
       message.success('Excel 解析完成')
       return
     }
@@ -189,6 +215,16 @@ async function handleOk() {
 .ledger-import-preview {
   display: grid;
   gap: 12px;
+}
+
+.ledger-import-form {
+  margin-bottom: 4px;
+}
+
+.ledger-import-help {
+  margin-top: 6px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
 }
 
 .ledger-import-stats {

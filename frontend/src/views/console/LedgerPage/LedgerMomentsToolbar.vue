@@ -13,13 +13,13 @@
       option-filter-prop="label"
       @update:value="$emit('update:scope', $event)"
     />
-    <a-select
-      :value="categoryId"
+    <a-input
+      :value="categoryText"
       class="ledger-moments-toolbar__category"
-      :options="categoryOptions"
-      show-search
-      option-filter-prop="label"
-      @update:value="$emit('update:category-id', $event)"
+      allow-clear
+      placeholder="记录分类"
+      @update:value="$emit('update:category-text', $event)"
+      @press-enter="$emit('search')"
     />
     <a-input-search
       :value="keyword"
@@ -30,6 +30,10 @@
       @change="$emit('keyword-input')"
       @search="$emit('search')"
     />
+    <a-button @click="$emit('reset')">
+      <template #icon><ClearOutlined /></template>
+      重置筛选
+    </a-button>
 
     <span class="ledger-moments-toolbar__spacer" />
     <a-radio-group
@@ -58,13 +62,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { ClockCircleOutlined, PlusOutlined, TableOutlined } from '@ant-design/icons-vue'
+import { ClearOutlined, ClockCircleOutlined, PlusOutlined, TableOutlined } from '@ant-design/icons-vue'
 import { MOMENT_SCOPE_OPTIONS } from './ledgerMomentUtils'
 
 const props = defineProps({
   scope: { type: String, default: '' },
-  categoryId: { type: String, default: '' },
+  categoryText: { type: String, default: '' },
   keyword: { type: String, default: '' },
   viewMode: { type: String, default: 'timeline' },
   categories: { type: Array, default: () => [] },
@@ -73,21 +76,15 @@ const props = defineProps({
 
 defineEmits([
   'update:scope',
-  'update:category-id',
+  'update:category-text',
   'update:keyword',
   'update:view-mode',
   'keyword-input',
   'search',
+  'reset',
   'add'
 ])
 
-const categoryOptions = computed(() => [
-  { label: '全部分类', value: '' },
-  ...props.categories.filter((item) => !item.archived).map((item) => ({
-    label: item.name,
-    value: item.id
-  }))
-])
 </script>
 
 <style scoped>

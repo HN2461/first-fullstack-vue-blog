@@ -16,6 +16,14 @@
     >
       <template #toolbar>
         <span class="ledger-table-title">日表格</span>
+        <a-select
+          :value="bookId"
+          class="ledger-inline-book-select"
+          :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
+          show-search
+          option-filter-prop="label"
+          @change="$emit('update-book-id', $event)"
+        />
         <span class="ledger-toolbar-spacer" />
         <a-tooltip title="切换日表格展示方式">
           <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
@@ -57,6 +65,14 @@
     <section v-else class="ledger-daily-card-panel">
       <div class="ledger-daily-card-panel__head">
         <span class="ledger-table-title">日表格</span>
+        <a-select
+          :value="bookId"
+          class="ledger-inline-book-select"
+          :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
+          show-search
+          option-filter-prop="label"
+          @change="$emit('update-book-id', $event)"
+        />
         <span class="ledger-toolbar-spacer" />
         <a-tooltip title="切换日表格展示方式">
           <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
@@ -71,7 +87,7 @@
       </div>
       <LedgerDailyCards
         :items="cardItems"
-        :categories="categories"
+        :categories="displayCategories"
         :total="cardTotal"
         :page-size="cardPageSize"
         @page-change="handleCardPageChange"
@@ -91,10 +107,13 @@ import LedgerTextTooltip from './LedgerTextTooltip.vue'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
+  bookOptions: { type: Array, default: () => [] },
   categories: { type: Array, default: () => [] },
   range: { type: Array, default: () => [] },
   refreshKey: { type: Number, default: 0 }
 })
+
+defineEmits(['update-book-id'])
 
 const tableRef = ref(null)
 const viewMode = ref('matrix')
@@ -104,7 +123,8 @@ const allCardItems = ref([])
 const cardPage = ref(1)
 const cardPageSize = ref(31)
 
-const visibleCategories = computed(() => props.categories.filter((item) => !item.archived))
+const visibleCategories = computed(() => (props.bookId === 'all' ? [] : props.categories.filter((item) => !item.archived)))
+const displayCategories = computed(() => visibleCategories.value)
 const columns = computed(() => [
   { title: '日期', key: 'date', width: 130, align: 'center', fixed: 'left' },
   ...visibleCategories.value.map((item) => ({
@@ -243,6 +263,11 @@ watch(viewMode, (mode) => {
   vertical-align: middle;
   color: var(--console-text-secondary);
   font-size: 12px;
+}
+
+.ledger-inline-book-select {
+  width: 138px;
+  flex: 0 0 auto;
 }
 
 .ledger-category-amount {

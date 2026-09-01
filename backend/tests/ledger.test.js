@@ -261,6 +261,181 @@ describe('ledger routes', () => {
     expect(insightResponse.body.data.mealExpense).toBe(10)
   })
 
+  it('aggregates all owned books without creating a synthetic total book', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const firstBookId = booksResponse.body.data[0].id
+    const firstCategories = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: firstBookId })
+      .expect(200)
+    const breakfast = firstCategories.body.data.find((item) => item.name === '早餐')
+
+    const secondBook = await request(app)
+      .post('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '杭漂' })
+      .expect(201)
+    const secondCategories = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: secondBook.body.data.id })
+      .expect(200)
+    const lunch = secondCategories.body.data.find((item) => item.name === '午餐')
+
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId: firstBookId, occurredAt: '2026-06-01', type: 'expense', categoryId: breakfast.id, amount: 10 })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId: secondBook.body.data.id, occurredAt: '2026-09-01', type: 'expense', categoryId: lunch.id, amount: 20 })
+      .expect(201)
+
+    const summary = await request(app)
+      .get('/api/ledger/summary')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: 'all', groupBy: 'all' })
+      .expect(200)
+    expect(summary.body.data.book).toMatchObject({ id: 'all', name: '全部账本' })
+    expect(summary.body.data.overview).toMatchObject({ income: 0, expense: 30, balance: -30 })
+    expect(await LedgerBook.countDocuments({ userId: user._id })).toBe(2)
+
+    const daily = await request(app)
+      .get('/api/ledger/daily')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: 'all' })
+      .expect(200)
+    expect(daily.body.data.items).toHaveLength(2)
+
+    const entries = await request(app)
+      .get('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: 'all' })
+      .expect(200)
+    expect(entries.body.data.total).toBe(2)
+
+    await request(app)
+      .post('/api/ledger/moments')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId: firstBookId, title: '阶段节点', occurredAt: '2026-06-01', content: '润岚阶段记录' })
+      .expect(201)
+
+    const moments = await request(app)
+      .get('/api/ledger/moments')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: 'all' })
+      .expect(200)
+    expect(moments.body.data.total).toBe(1)
+  })
+
+  it('keeps decimal totals consistent across summary, daily matrix and all-book views', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const firstBookId = booksResponse.body.data[0].id
+    const secondBook = await request(app)
+      .post('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '杭州阶段' })
+      .expect(201)
+    const firstCategories = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: firstBookId })
+      .expect(200)
+    const secondCategories = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: secondBook.body.data.id })
+      .expect(200)
+    const firstExpense = firstCategories.body.data.find((item) => item.name === '早餐')
+    const secondExpense = secondCategories.body.data.find((item) => item.name === '早餐')
+    const firstIncome = firstCategories.body.data.find((item) => item.name === '工资')
+
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId: firstBookId, occurredAt: '2026-08-01', type: 'expense', categoryId: firstExpense.id, amount: 0.1 })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId: firstBookId, occurredAt: '2026-08-02', type: 'expense', categoryId: firstExpense.id, amount: 0.2 })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId: firstBookId, occurredAt: '2026-08-01', type: 'income', categoryId: firstIncome.id, amount: 1.1 })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId: secondBook.body.data.id, occurredAt: '2026-08-01', type: 'expense', categoryId: secondExpense.id, amount: 0.2 })
+      .expect(201)
+
+    const summary = await request(app)
+      .get('/api/ledger/summary')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: 'all', from: '2026-08-01', to: '2026-08-01', groupBy: 'day' })
+      .expect(200)
+    expect(summary.body.data.overview).toMatchObject({ income: 1.1, expense: 0.3, balance: 0.8 })
+    expect(summary.body.data.byDay[0]).toMatchObject({ income: 1.1, expense: 0.3, balance: 0.8 })
+
+    const daily = await request(app)
+      .get('/api/ledger/daily')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: 'all', from: '2026-08-01', to: '2026-08-01' })
+      .expect(200)
+    expect(daily.body.data.items[0]).toMatchObject({ income: 1.1, expense: 0.3, balance: 0.8 })
+  })
+
+  it('includes the full local end date in recent-seven-day insight comparison', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const breakfast = categoriesResponse.body.data.find((item) => item.name === '早餐')
+
+    await LedgerEntry.create({
+      userId: user._id,
+      bookId,
+      occurredAt: new Date(2026, 7, 7, 0, 0, 0),
+      type: 'expense',
+      categoryId: breakfast.id,
+      categoryNameSnapshot: breakfast.name,
+      amount: 10
+    })
+    await LedgerEntry.create({
+      userId: user._id,
+      bookId,
+      occurredAt: new Date(2026, 7, 1, 0, 0, 0),
+      type: 'expense',
+      categoryId: breakfast.id,
+      categoryNameSnapshot: breakfast.name,
+      amount: 5
+    })
+
+    const response = await request(app)
+      .get('/api/ledger/insights')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, from: '2026-08-01', to: '2026-08-07' })
+      .expect(200)
+    expect(response.body.data.recentComparison).toMatchObject({ recent7: 15, previous7: 0 })
+  })
+
   it('calculates ledger life insights by range days and expense categories', async () => {
     const booksResponse = await request(app)
       .get('/api/ledger/books')

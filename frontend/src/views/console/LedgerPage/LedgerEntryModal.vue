@@ -15,6 +15,15 @@
       <a-form-item label="日期" name="occurredAt">
         <a-input v-model:value="form.occurredAt" type="date" />
       </a-form-item>
+      <a-form-item v-if="!entry?.id" label="所属账本" name="bookId">
+        <a-select
+          v-model:value="form.bookId"
+          :options="bookOptions"
+          show-search
+          option-filter-prop="label"
+          placeholder="请选择所属账本"
+        />
+      </a-form-item>
       <div class="ledger-entry-modal__grid">
         <a-form-item label="类型" name="type">
           <a-select v-model:value="form.type" :options="typeOptions" @change="form.categoryId = undefined" />
@@ -60,6 +69,7 @@ import { createLedgerEntry, updateLedgerEntry } from '@/services/ledger'
 const props = defineProps({
   open: { type: Boolean, default: false },
   bookId: { type: String, default: '' },
+  bookOptions: { type: Array, default: () => [] },
   entry: { type: Object, default: null },
   categories: { type: Array, default: () => [] }
 })
@@ -70,6 +80,7 @@ const formRef = ref(null)
 const submitting = ref(false)
 const form = reactive({
   occurredAt: '',
+  bookId: '',
   type: 'expense',
   categoryId: undefined,
   amount: null,
@@ -85,12 +96,15 @@ const typeOptions = [
 
 const rules = {
   occurredAt: [{ required: true, message: '请选择日期' }],
+  bookId: [{ required: true, message: '请选择所属账本' }],
   type: [{ required: true, message: '请选择类型' }],
   categoryId: [{ required: true, message: '请选择分类' }],
   amount: [{ required: true, message: '请输入金额' }]
 }
 
+const activeBookId = computed(() => props.entry?.bookId || form.bookId || (props.bookId !== 'all' ? props.bookId : ''))
 const categoryOptions = computed(() => props.categories
+  .filter((item) => !activeBookId.value || item.bookId === activeBookId.value)
   .filter((item) => item.type === form.type && !item.archived)
   .map((item) => ({ label: item.name, value: item.id })))
 
@@ -104,8 +118,12 @@ function toDateInput(value) {
 
 function resetForm() {
   form.occurredAt = toDateInput(new Date())
+  form.bookId = props.bookId !== 'all' ? props.bookId : props.bookOptions[0]?.value || ''
   form.type = 'expense'
-  form.categoryId = props.categories.find((item) => item.type === 'expense' && !item.archived)?.id
+  const defaultBookId = form.bookId
+  form.categoryId = props.categories.find((item) => (
+    item.type === 'expense' && !item.archived && (!defaultBookId || item.bookId === defaultBookId)
+  ))?.id
   form.amount = null
   form.note = ''
   form.dailyNote = ''
@@ -118,6 +136,7 @@ watch(
     if (!visible) return
     if (props.entry?.id) {
       form.occurredAt = toDateInput(props.entry.occurredAt)
+      form.bookId = props.entry.bookId || ''
       form.type = props.entry.type || 'expense'
       form.categoryId = props.entry.categoryId
       form.amount = props.entry.amount
@@ -152,7 +171,7 @@ async function submit() {
       await updateLedgerEntry(props.entry.id, payload)
       message.success('流水已更新')
     } else {
-      await createLedgerEntry({ ...payload, bookId: props.bookId })
+      await createLedgerEntry({ ...payload, bookId: form.bookId })
       message.success('流水已创建')
     }
     emit('update:open', false)

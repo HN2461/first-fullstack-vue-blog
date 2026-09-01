@@ -70,9 +70,10 @@ async function findOwnedMoment(momentId, userId) {
 
 function buildMomentQuery(userId, options = {}) {
   const query = { userId }
-  if (options.bookId) query.bookId = toObjectId(options.bookId, 'LEDGER_BOOK_NOT_FOUND', '账本不存在')
   if (options.scope) query.scope = options.scope
   if (options.categoryId) query.categoryId = toObjectId(options.categoryId, 'LEDGER_CATEGORY_NOT_FOUND', '分类不存在')
+  const categoryText = String(options.categoryText || '').trim()
+  if (categoryText) query.categoryText = { $regex: categoryText, $options: 'i' }
 
   const from = options.from ? startOfDay(options.from) : null
   const to = options.to ? endOfDay(options.to) : null
@@ -111,7 +112,6 @@ function normalizeTags(tags = []) {
 }
 
 export async function listLedgerMoments(userId, options = {}) {
-  if (options.bookId) await findOwnedBook(options.bookId, userId)
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const query = buildMomentQuery(userId, options)
@@ -135,9 +135,10 @@ export async function listLedgerMoments(userId, options = {}) {
 }
 
 export async function createLedgerMoment(userId, input) {
-  const book = await findOwnedBook(input.bookId, userId)
   let category = null
   if (input.categoryId) {
+    if (!input.bookId) throw createError(400, 'LEDGER_MOMENT_CATEGORY_BOOK_REQUIRED', '使用账本分类时必须指定账本')
+    const book = await findOwnedBook(input.bookId, userId)
     category = await findOwnedCategory(input.categoryId, userId, book._id)
   }
   if (input.entryId) {
@@ -147,7 +148,7 @@ export async function createLedgerMoment(userId, input) {
   const moment = await LedgerMoment.create({
     ...input,
     userId,
-    bookId: book._id,
+    bookId: input.bookId || null,
     occurredAt: startOfDay(input.occurredAt),
     categoryId: category?._id || null,
     categoryText: input.categoryText || '',
@@ -161,11 +162,13 @@ export async function createLedgerMoment(userId, input) {
 export async function updateLedgerMoment(userId, id, input) {
   const moment = await findOwnedMoment(id, userId)
   // 兼容旧前端编辑时携带当前 bookId 的请求，但不允许借此移动重要记录所属账本。
-  if (input.bookId !== undefined && String(input.bookId) !== moment.bookId.toString()) {
+  if (moment.bookId && input.bookId !== undefined && String(input.bookId) !== moment.bookId.toString()) {
     throw createError(400, 'LEDGER_MOMENT_BOOK_IMMUTABLE', '重要记录所属账本不支持修改')
   }
-  if (input.categoryId) {
+  if (input.categoryId && moment.bookId) {
     await findOwnedCategory(input.categoryId, userId, moment.bookId)
+  } else if (input.categoryId && !moment.bookId) {
+    throw createError(400, 'LEDGER_MOMENT_CATEGORY_BOOK_REQUIRED', '无账本重要记录不能使用账本分类')
   }
   if (input.entryId) {
     await findOwnedEntry(input.entryId, userId)

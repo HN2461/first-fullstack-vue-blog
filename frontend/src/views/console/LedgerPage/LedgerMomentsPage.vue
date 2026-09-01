@@ -18,17 +18,18 @@
       <template #toolbar>
         <LedgerMomentsToolbar
           :scope="filters.scope"
-          :category-id="filters.categoryId"
+          :category-text="filters.categoryText"
           :keyword="filters.keyword"
           :view-mode="viewMode"
           :categories="categories"
           :total="tableTotal"
           @update:scope="filters.scope = $event"
-          @update:category-id="filters.categoryId = $event"
+          @update:category-text="filters.categoryText = $event"
           @update:keyword="filters.keyword = $event"
           @update:view-mode="setViewMode"
           @search="applyKeywordImmediately"
-          @add="openModal()"
+          @reset="resetFilters"
+          @add="handleAdd"
         />
       </template>
 
@@ -101,17 +102,18 @@
       <div class="ledger-moment-panel__toolbar">
         <LedgerMomentsToolbar
           :scope="filters.scope"
-          :category-id="filters.categoryId"
+          :category-text="filters.categoryText"
           :keyword="filters.keyword"
           :view-mode="viewMode"
           :categories="categories"
           :total="timelineTotal"
           @update:scope="filters.scope = $event"
-          @update:category-id="filters.categoryId = $event"
+          @update:category-text="filters.categoryText = $event"
           @update:keyword="filters.keyword = $event"
           @update:view-mode="setViewMode"
           @search="applyKeywordImmediately"
-          @add="openModal()"
+          @reset="resetFilters"
+          @add="handleAdd"
         />
       </div>
       <LedgerMomentsTimeline
@@ -130,8 +132,6 @@
 
     <LedgerMomentModal
       v-model:open="modalOpen"
-      :book-id="bookId"
-      :categories="categories"
       :moment="currentMoment"
       @saved="reloadActiveView"
     />
@@ -183,7 +183,7 @@ let keywordTimer = null
 
 const filters = reactive({
   scope: '',
-  categoryId: '',
+  categoryText: '',
   keyword: ''
 })
 
@@ -201,9 +201,8 @@ const columns = [
 
 const hasKeyword = computed(() => Boolean(appliedKeyword.value))
 const params = computed(() => ({
-  bookId: props.bookId || undefined,
   scope: filters.scope || undefined,
-  categoryId: filters.categoryId || undefined,
+  categoryText: filters.categoryText.trim() || undefined,
   keyword: appliedKeyword.value || undefined
 }))
 
@@ -230,12 +229,11 @@ function loadMoments(query) {
   return listLedgerMoments(query)
 }
 
+function handleAdd() {
+  openModal()
+}
+
 async function loadTimeline() {
-  if (!props.bookId) {
-    timelineItems.value = []
-    timelineTotal.value = 0
-    return
-  }
   timelineLoading.value = true
   try {
     const result = await listLedgerMoments({
@@ -279,6 +277,16 @@ function applyKeywordImmediately() {
     return
   }
   appliedKeyword.value = keyword
+}
+
+function resetFilters() {
+  if (keywordTimer) clearTimeout(keywordTimer)
+  filters.scope = ''
+  filters.categoryText = ''
+  filters.keyword = ''
+  appliedKeyword.value = ''
+  timelinePage.value = 1
+  reloadActiveView()
 }
 
 function openModal(moment = null) {

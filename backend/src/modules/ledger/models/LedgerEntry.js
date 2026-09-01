@@ -103,6 +103,9 @@ ledgerEntrySchema.methods.toSafeJSON = function toSafeJSON() {
     id: this._id.toString(),
     userId: this.userId?.toString?.(),
     bookId: this.bookId?.toString?.(),
+    book: this.bookId && typeof this.bookId === 'object'
+      ? { id: this.bookId._id?.toString?.(), name: this.bookId.name }
+      : null,
     occurredAt: this.occurredAt,
     type: this.type,
     categoryId: category?.id || this.categoryId?.toString?.(),

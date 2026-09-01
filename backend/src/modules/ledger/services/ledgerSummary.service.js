@@ -1,11 +1,37 @@
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
-import { buildEntryQuery, formatDay, formatMonth, formatYear, formatTrendKey } from './ledger.utils.js'
+import { addMoney, buildEntryQuery, endOfDay, formatDay, formatMonth, formatYear, formatTrendKey, roundMoney, startOfDay } from './ledger.utils.js'
 import { ensureDefaultBook, findOwnedBook } from './ledgerBook.service.js'
 import { buildPeriodComparison, computePreviousRange } from './ledgerComparison.js'
 
+function isAllBooks(bookId) {
+  return bookId === 'all'
+}
+
+function getSummaryBook(userId, bookId) {
+  if (isAllBooks(bookId)) {
+    return Promise.resolve({
+      id: 'all',
+      userId: userId?.toString?.(),
+      name: '全部账本',
+      currency: 'CNY',
+      description: '所有阶段账本的实时汇总视图',
+      status: 'active',
+      sortOrder: 0
+    })
+  }
+  return bookId ? findOwnedBook(bookId, userId) : ensureDefaultBook(userId)
+}
+
+function buildSummaryEntryQuery(userId, options, book) {
+  const scopedOptions = isAllBooks(options.bookId)
+    ? { ...options, bookId: undefined }
+    : { ...options, bookId: book._id.toString() }
+  return buildEntryQuery(userId, scopedOptions)
+}
+
 export async function getLedgerSummary(userId, options = {}) {
-  const book = options.bookId ? await findOwnedBook(options.bookId, userId) : await ensureDefaultBook(userId)
-  const query = buildEntryQuery(userId, { ...options, bookId: book._id.toString() })
+  const book = await getSummaryBook(userId, options.bookId)
+  const query = buildSummaryEntryQuery(userId, options, book)
   const entries = await LedgerEntry.find(query).populate('categoryId').sort({ occurredAt: 1 })
   const groupBy = options.groupBy || 'month'
 
@@ -25,8 +51,8 @@ export async function getLedgerSummary(userId, options = {}) {
 
   for (const entry of entries) {
     const amount = Number(entry.amount) || 0
-    if (entry.type === 'income') overview.income += amount
-    if (entry.type === 'expense') overview.expense += amount
+    if (entry.type === 'income') overview.income = addMoney(overview.income, amount)
+    if (entry.type === 'expense') overview.expense = addMoney(overview.expense, amount)
 
     const categoryName = entry.categoryId?.name || entry.categoryNameSnapshot
     const dayKey = formatDay(entry.occurredAt)
@@ -46,33 +72,33 @@ export async function getLedgerSummary(userId, options = {}) {
       color: entry.categoryId?.color || '#1677ff',
       amount: 0
     }
-    category.amount += amount
+    category.amount = addMoney(category.amount, amount)
     categoryMap.set(categoryKey, category)
 
     if (entry.type === 'income') {
-      day.income += amount
-      month.income += amount
-      year.income += amount
-      trend.income += amount
+      day.income = addMoney(day.income, amount)
+      month.income = addMoney(month.income, amount)
+      year.income = addMoney(year.income, amount)
+      trend.income = addMoney(trend.income, amount)
     } else {
-      day.expense += amount
-      month.expense += amount
-      year.expense += amount
-      trend.expense += amount
-      if (mealCategories.has(categoryName)) day.mealExpense += amount
+      day.expense = addMoney(day.expense, amount)
+      month.expense = addMoney(month.expense, amount)
+      year.expense = addMoney(year.expense, amount)
+      trend.expense = addMoney(trend.expense, amount)
+      if (mealCategories.has(categoryName)) day.mealExpense = addMoney(day.mealExpense, amount)
     }
 
-    day.balance = day.income - day.expense
-    month.balance = month.income - month.expense
-    year.balance = year.income - year.expense
-    trend.balance = trend.income - trend.expense
+    day.balance = roundMoney(day.income - day.expense)
+    month.balance = roundMoney(month.income - month.expense)
+    year.balance = roundMoney(year.income - year.expense)
+    trend.balance = roundMoney(trend.income - trend.expense)
     dayMap.set(dayKey, day)
     monthMap.set(monthKey, month)
     yearMap.set(yearKey, year)
     trendMap.set(trendKey, trend)
   }
 
-  overview.balance = overview.income - overview.expense
+  overview.balance = roundMoney(overview.income - overview.expense)
   const days = Array.from(dayMap.values())
   overview.averageDailyExpense = days.length ? overview.expense / days.length : 0
   overview.maxDailyExpense = days.reduce((max, item) => Math.max(max, item.expense), 0)
@@ -87,14 +113,14 @@ export async function getLedgerSummary(userId, options = {}) {
   const { prevFrom, prevTo } = computePreviousRange(options.from, options.to, options.period)
   if (prevFrom && prevTo) {
     const prevEntries = await LedgerEntry.find(
-      buildEntryQuery(userId, { ...options, bookId: book._id.toString(), from: prevFrom, to: prevTo })
+      buildSummaryEntryQuery(userId, { ...options, from: prevFrom, to: prevTo }, book)
     )
     let prevIncome = 0
     let prevExpense = 0
     for (const entry of prevEntries) {
       const amount = Number(entry.amount) || 0
-      if (entry.type === 'income') prevIncome += amount
-      else prevExpense += amount
+      if (entry.type === 'income') prevIncome = addMoney(prevIncome, amount)
+      else prevExpense = addMoney(prevExpense, amount)
     }
     const prevBalance = prevIncome - prevExpense
     const comparison = buildPeriodComparison(overview, {
@@ -113,7 +139,7 @@ export async function getLedgerSummary(userId, options = {}) {
   }
 
   return {
-    book: book.toSafeJSON(),
+    book: typeof book.toSafeJSON === 'function' ? book.toSafeJSON() : book,
     overview,
     previousPeriod,
     byCategory: expenseCategories,
@@ -144,8 +170,7 @@ export async function getLedgerSummary(userId, options = {}) {
  * 10. 消费波动（日支出标准差）
  */
 export async function getLedgerInsights(userId, options = {}) {
-  const book = options.bookId ? await findOwnedBook(options.bookId, userId) : await ensureDefaultBook(userId)
-  const bookId = book._id
+  const book = await getSummaryBook(userId, options.bookId)
 
   // 默认查最近 30 天
   const now = new Date()
@@ -159,7 +184,7 @@ export async function getLedgerInsights(userId, options = {}) {
   })()
 
   const entries = await LedgerEntry.find(
-    buildEntryQuery(userId, { ...options, bookId: bookId.toString(), from, to })
+    buildSummaryEntryQuery(userId, { ...options, from, to }, book)
   ).populate('categoryId')
 
   const empty = {
@@ -172,7 +197,7 @@ export async function getLedgerInsights(userId, options = {}) {
 
   // ─── 基础数据 ────────────────────────────────────────────
   const expenseEntries = entries.filter((e) => e.type === 'expense')
-  const totalExpense = expenseEntries.reduce((s, e) => s + (Number(e.amount) || 0), 0)
+  const totalExpense = expenseEntries.reduce((s, e) => addMoney(s, Number(e.amount) || 0), 0)
   if (!expenseEntries.length) return { ...empty, totalExpense: 0 }
 
   // 有消费记录的天数集合（用于日均等计算）
@@ -187,15 +212,17 @@ export async function getLedgerInsights(userId, options = {}) {
   for (const entry of expenseEntries) {
     const day = new Date(entry.occurredAt).getDay()
     const stat = weekdayMap.get(weekdayNames[day])
-    stat.expense += Number(entry.amount) || 0
+    stat.expense = addMoney(stat.expense, Number(entry.amount) || 0)
     stat.count += 1
   }
   // 计算 from~to 范围内每个星期几出现的天数
   const weekdayDaysCount = [0, 0, 0, 0, 0, 0, 0]
-  const fromDate = new Date(from)
-  const toDate = new Date(to)
-  for (let d = new Date(fromDate); d <= toDate; d.setDate(d.getDate() + 1)) {
-    weekdayDaysCount[d.getDay()]++
+  const fromDate = startOfDay(from)
+  const toDate = endOfDay(to)
+  if (fromDate && toDate) {
+    for (let d = new Date(fromDate); d <= toDate; d.setDate(d.getDate() + 1)) {
+      weekdayDaysCount[d.getDay()]++
+    }
   }
   const weekdayStats = weekdayNames.map((name, idx) => {
     const stat = weekdayMap.get(name)
@@ -214,8 +241,8 @@ export async function getLedgerInsights(userId, options = {}) {
   for (const entry of expenseEntries) {
     const day = new Date(entry.occurredAt).getDay()
     const amount = Number(entry.amount) || 0
-    if (day >= 1 && day <= 5) workdayExpense += amount
-    else weekendExpense += amount
+    if (day >= 1 && day <= 5) workdayExpense = addMoney(workdayExpense, amount)
+    else weekendExpense = addMoney(weekendExpense, amount)
   }
   const workdayDays = new Set()
   const weekendDays = new Set()
@@ -228,16 +255,16 @@ export async function getLedgerInsights(userId, options = {}) {
 
   // ─── 3. 最近 7 天 vs 前 7 天 ─────────────────────────────
   const msPerDay = 86400000
-  const endDate = new Date(to)
-  const recent7Start = new Date(endDate.getTime() - 6 * msPerDay)
-  const prev7End = new Date(recent7Start.getTime() - msPerDay)
-  const prev7Start = new Date(prev7End.getTime() - 6 * msPerDay)
+  const endDate = endOfDay(to)
+  const recent7Start = startOfDay(new Date(endDate.getTime() - 6 * msPerDay))
+  const prev7End = endOfDay(new Date(recent7Start.getTime() - msPerDay))
+  const prev7Start = startOfDay(new Date(prev7End.getTime() - 6 * msPerDay))
   let recent7Expense = 0, prev7Expense = 0
   for (const entry of expenseEntries) {
     const d = new Date(entry.occurredAt)
     const amount = Number(entry.amount) || 0
-    if (d >= recent7Start && d <= endDate) recent7Expense += amount
-    else if (d >= prev7Start && d <= prev7End) prev7Expense += amount
+    if (d >= recent7Start && d <= endDate) recent7Expense = addMoney(recent7Expense, amount)
+    else if (d >= prev7Start && d <= prev7End) prev7Expense = addMoney(prev7Expense, amount)
   }
   const recentComparison = {
     recent7: recent7Expense,
@@ -253,7 +280,7 @@ export async function getLedgerInsights(userId, options = {}) {
   for (const entry of expenseEntries) {
     const name = entry.categoryId?.name || entry.categoryNameSnapshot
     if (mealCategories.has(name)) {
-      mealExpense += Number(entry.amount) || 0
+      mealExpense = addMoney(mealExpense, Number(entry.amount) || 0)
       mealDaySet.add(formatDay(entry.occurredAt))
     }
   }
@@ -263,7 +290,7 @@ export async function getLedgerInsights(userId, options = {}) {
   const dailyMap = new Map()
   for (const entry of expenseEntries) {
     const d = formatDay(entry.occurredAt)
-    dailyMap.set(d, (dailyMap.get(d) || 0) + (Number(entry.amount) || 0))
+    dailyMap.set(d, addMoney(dailyMap.get(d), Number(entry.amount) || 0))
   }
   let maxDay = { date: '', expense: 0 }
   for (const [date, expense] of dailyMap) {
@@ -274,7 +301,7 @@ export async function getLedgerInsights(userId, options = {}) {
   const categoryMap = new Map()
   for (const entry of expenseEntries) {
     const name = entry.categoryId?.name || entry.categoryNameSnapshot || '未分类'
-    categoryMap.set(name, (categoryMap.get(name) || 0) + (Number(entry.amount) || 0))
+    categoryMap.set(name, addMoney(categoryMap.get(name), Number(entry.amount) || 0))
   }
   const topCategories = [...categoryMap.entries()]
     .sort((a, b) => b[1] - a[1])

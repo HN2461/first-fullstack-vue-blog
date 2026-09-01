@@ -25,27 +25,15 @@
         <a-form-item label="相关金额">
           <a-input-number v-model:value="form.amount" :min="0" :precision="2" class="ledger-moment-modal__full" />
         </a-form-item>
-        <a-form-item label="账本分类">
-          <a-select
-            v-model:value="form.categoryId"
-            :options="categoryOptions"
-            show-search
+        <a-form-item label="记录分类">
+          <a-input
+            v-model:value="form.categoryText"
+            :maxlength="40"
             allow-clear
-            option-filter-prop="label"
-            placeholder="可选，选择后会优先展示账本分类"
-            @change="handleCategoryChange"
+            placeholder="例如：工作变化、人生节点、家庭事项"
           />
         </a-form-item>
       </div>
-      <a-form-item label="自定义分类">
-        <a-input
-          v-model:value="form.categoryText"
-          :maxlength="40"
-          allow-clear
-          placeholder="不属于账本分类时填写，例如：家庭事项、阶段目标"
-          @change="handleCategoryTextInput"
-        />
-      </a-form-item>
       <a-form-item label="心情/关键词">
         <a-input v-model:value="form.mood" placeholder="例如：值得纪念、压力大、开心" />
       </a-form-item>
@@ -81,8 +69,6 @@ import { createLedgerMoment, updateLedgerMoment } from '@/services/ledger'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
-  bookId: { type: String, default: '' },
-  categories: { type: Array, default: () => [] },
   moment: { type: Object, default: null }
 })
 
@@ -113,10 +99,6 @@ const scopeOptions = [
   { label: '某一年', value: 'year' }
 ]
 
-const categoryOptions = computed(() => props.categories.map((item) => ({
-  label: `${item.type === 'income' ? '收入' : '支出'} / ${item.name}`,
-  value: item.id
-})))
 const tagOptions = computed(() => form.tags.map((tag) => ({ label: tag, value: tag })))
 const dateInputType = computed(() => {
   if (form.scope === 'year') return 'number'
@@ -133,7 +115,12 @@ function formatDate(value) {
   if (!value) return ''
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return ''
-  return date.toISOString().slice(0, 10)
+  const pad = (part) => String(part).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+}
+
+function todayDate() {
+  return formatDate(new Date())
 }
 
 function normalizeTags(tags = []) {
@@ -164,15 +151,7 @@ function toSubmitDate(value, scope) {
 }
 
 function handleScopeChange() {
-  form.occurredAt = normalizeDateValue(form.occurredAt || new Date().toISOString().slice(0, 10), form.scope)
-}
-
-function handleCategoryChange(value) {
-  if (value) form.categoryText = ''
-}
-
-function handleCategoryTextInput() {
-  if (form.categoryText.trim()) form.categoryId = undefined
+  form.occurredAt = normalizeDateValue(form.occurredAt || todayDate(), form.scope)
 }
 
 function handleTagsChange(value) {
@@ -182,7 +161,7 @@ function handleTagsChange(value) {
 function resetForm() {
   form.title = ''
   form.scope = 'day'
-  form.occurredAt = new Date().toISOString().slice(0, 10)
+  form.occurredAt = todayDate()
   form.amount = 0
   form.categoryId = undefined
   form.categoryText = ''
@@ -223,10 +202,7 @@ async function submit() {
     if (props.moment?.id) {
       await updateLedgerMoment(props.moment.id, basePayload)
     } else {
-      await createLedgerMoment({
-        ...basePayload,
-        bookId: props.bookId
-      })
+      await createLedgerMoment(basePayload)
     }
     message.success('重要记录已保存')
     visible.value = false

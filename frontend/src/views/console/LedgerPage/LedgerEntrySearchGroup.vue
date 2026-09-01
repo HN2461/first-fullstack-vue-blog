@@ -30,6 +30,7 @@
             <a-tag :color="entry.category?.color || 'blue'" :bordered="false">
               {{ entry.category?.name || entry.categoryNameSnapshot || '-' }}
             </a-tag>
+            <a-tag v-if="entry.book?.name" color="cyan" :bordered="false">{{ entry.book.name }}</a-tag>
             <span>{{ entry.type === 'income' ? '收入' : '支出' }}</span>
           </div>
 
