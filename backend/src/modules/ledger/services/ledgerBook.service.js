@@ -33,7 +33,18 @@ async function findOwnedBook(bookId, userId) {
   return book
 }
 
-export { findOwnedBook, seedDefaultCategories }
+function assertWritableBook(book) {
+  if (book.status === 'archived') {
+    throw createError(409, 'LEDGER_BOOK_ARCHIVED_READ_ONLY', '归档账本为只读状态，请先恢复账本后再修改')
+  }
+  return book
+}
+
+async function findWritableBook(bookId, userId) {
+  return assertWritableBook(await findOwnedBook(bookId, userId))
+}
+
+export { assertWritableBook, findOwnedBook, findWritableBook, seedDefaultCategories }
 
 async function seedDefaultCategories(userId, bookId) {
   const existingCount = await LedgerCategory.countDocuments({ userId, bookId })

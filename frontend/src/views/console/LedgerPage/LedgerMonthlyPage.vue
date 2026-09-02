@@ -296,9 +296,68 @@ function getCategoryNote(record, categoryId) {
 :deep(.ledger-category-note-cell) { position: relative; }
 :deep(.ledger-category-note-cell)::after { content: ''; position: absolute; top: 0; right: 0; width: 0; height: 0; border-top: 9px solid var(--color-warning, #f59e0b); border-left: 9px solid transparent; pointer-events: none; }
 @media (max-width: 760px) {
-  .ledger-monthly-header { align-items: flex-start; }
-  .ledger-monthly-stats { order: 3; flex-basis: 100%; overflow-x: auto; padding: 4px 0 2px; border-top: 1px solid var(--console-border); }
-  .ledger-monthly-stat { flex: 1 0 auto; }
+  .ledger-monthly-header {
+    align-items: stretch;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+  }
+
+  .ledger-monthly-header__controls {
+    width: 100%;
+    min-width: 0;
+    gap: 6px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+
+  .ledger-monthly-header__controls .ant-picker {
+    min-width: 120px;
+    width: auto;
+    flex: 1 1 120px;
+  }
+
+  .ledger-monthly-header__controls .ledger-inline-book-select {
+    width: 120px;
+  }
+
+  .ledger-monthly-header__controls > .ant-btn {
+    flex: 0 0 32px;
+  }
+
+  .ledger-monthly-header__controls > .ant-btn:last-child {
+    margin-left: auto;
+  }
+
+  .ledger-monthly-stats {
+    order: 3;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    padding: 8px 0 0;
+    border-top: 1px solid var(--console-border);
+  }
+
+  .ledger-monthly-stat,
+  .ledger-monthly-stat:first-child,
+  .ledger-monthly-stat:last-child {
+    min-width: 0;
+    justify-content: space-between;
+    padding: 6px 8px;
+    border: 1px solid var(--console-border);
+    border-radius: 6px;
+    background: var(--console-surface-muted);
+  }
+
+  .ledger-monthly-stat strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 @media (pointer: coarse) and (max-width: 1024px) {
@@ -314,12 +373,27 @@ function getCategoryNote(record, categoryId) {
 
   .ledger-monthly-header__controls {
     width: 100%;
-    justify-content: space-between;
+    gap: 6px;
+    justify-content: flex-start;
+    overflow: hidden;
   }
 
   .ledger-monthly-header__controls .ant-picker {
     min-width: 0;
     flex: 1;
+    width: auto;
+  }
+
+  .ledger-monthly-header__controls .ledger-inline-book-select {
+    width: 120px;
+  }
+
+  .ledger-monthly-header__controls > .ant-btn {
+    flex: 0 0 32px;
+  }
+
+  .ledger-monthly-header__controls > .ant-btn:last-child {
+    margin-left: auto;
   }
 
   .ledger-monthly-stats {
@@ -327,6 +401,8 @@ function getCategoryNote(record, categoryId) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
     width: 100%;
+    flex: 0 0 100%;
+    box-sizing: border-box;
     padding: 8px 0 0;
     border-top: 1px solid var(--console-border);
   }

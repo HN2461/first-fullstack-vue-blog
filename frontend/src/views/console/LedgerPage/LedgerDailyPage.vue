@@ -36,6 +36,15 @@
           </a-radio-group>
         </a-tooltip>
       </template>
+      <template #empty>
+        <a-empty :description="emptyDescription">
+          <template #extra>
+            <a-button v-if="canSwitchToAllBooks" type="link" @click="switchToAllBooks">
+              查看全部账本
+            </a-button>
+          </template>
+        </a-empty>
+      </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'date'">
           <strong class="ledger-daily-date">{{ record.date }}</strong>
@@ -90,7 +99,10 @@
         :categories="displayCategories"
         :total="cardTotal"
         :page-size="cardPageSize"
+        :empty-description="emptyDescription"
+        :empty-action-label="canSwitchToAllBooks ? '查看全部账本' : ''"
         @page-change="handleCardPageChange"
+        @empty-action="switchToAllBooks"
       />
     </section>
   </section>
@@ -113,7 +125,7 @@ const props = defineProps({
   refreshKey: { type: Number, default: 0 }
 })
 
-defineEmits(['update-book-id'])
+const emit = defineEmits(['update-book-id'])
 
 const tableRef = ref(null)
 const viewMode = ref('matrix')
@@ -152,6 +164,10 @@ const params = computed(() => ({
 
 // 卡片分页数据
 const cardTotal = computed(() => allCardItems.value.length)
+const canSwitchToAllBooks = computed(() => Boolean(props.bookId) && props.bookId !== 'all')
+const emptyDescription = computed(() => canSwitchToAllBooks.value
+  ? '当前账本暂无记录，可切换到“全部账本”查看所有阶段数据'
+  : '暂无记录')
 const cardItems = computed(() => {
   const start = (cardPage.value - 1) * cardPageSize.value
   return allCardItems.value.slice(start, start + cardPageSize.value)
@@ -183,6 +199,10 @@ async function loadCardData() {
 
 function handleCardPageChange(page) {
   cardPage.value = page
+}
+
+function switchToAllBooks() {
+  if (canSwitchToAllBooks.value) emit('update-book-id', 'all')
 }
 
 function formatOptionalMoney(value) {

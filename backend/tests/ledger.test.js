@@ -540,6 +540,120 @@ describe('ledger routes', () => {
     expect(entries[0].dailyNote).toBe('批量当日总结')
   })
 
+  it('persists and normalizes entry tags across create, update and batch update', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const breakfast = categoriesResponse.body.data.find((item) => item.name === '早餐')
+    const lunch = categoriesResponse.body.data.find((item) => item.name === '午餐')
+
+    const created = await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        bookId,
+        occurredAt: '2026-08-01',
+        type: 'expense',
+        categoryId: breakfast.id,
+        amount: 10,
+        tags: [' 早餐 ', '生活', '早餐']
+      })
+      .expect(201)
+    expect(created.body.data.tags).toEqual(['早餐', '生活'])
+
+    const updated = await request(app)
+      .patch(`/api/ledger/entries/${created.body.data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ tags: ['通勤', ' 通勤 ', '日常'] })
+      .expect(200)
+    expect(updated.body.data.tags).toEqual(['通勤', '日常'])
+
+    await request(app)
+      .patch('/api/ledger/entries/batch')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ ids: [created.body.data.id], patch: { categoryId: lunch.id, tags: ['工作', '工作'] } })
+      .expect(200)
+
+    const saved = await LedgerEntry.findById(created.body.data.id)
+    expect(saved.tags).toEqual(['工作'])
+  })
+
+  it('treats regular-expression characters in ledger search as literal text', async () => {
+    const response = await request(app)
+      .get('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ keyword: '[' })
+      .expect(200)
+    expect(response.body.data.items).toEqual([])
+  })
+
+  it('keeps archived books read-only for ledger writes', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const category = categoriesResponse.body.data.find((item) => item.type === 'expense')
+
+    await request(app)
+      .patch(`/api/ledger/books/${bookId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ status: 'archived' })
+      .expect(200)
+
+    const response = await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-08-03', type: 'expense', categoryId: category.id, amount: 12 })
+      .expect(409)
+    expect(response.body.code).toBe('LEDGER_BOOK_ARCHIVED_READ_ONLY')
+
+    await request(app)
+      .patch(`/api/ledger/books/${bookId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ status: 'active' })
+      .expect(200)
+  })
+
+  it('locks category type changes after the category is referenced', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const category = categoriesResponse.body.data.find((item) => item.type === 'expense')
+
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-08-04', type: 'expense', categoryId: category.id, amount: 18 })
+      .expect(201)
+
+    const response = await request(app)
+      .patch(`/api/ledger/categories/${category.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ type: 'income' })
+      .expect(409)
+    expect(response.body.code).toBe('LEDGER_CATEGORY_TYPE_LOCKED')
+  })
+
   it('does not let overview-only ledger permission mutate entries', async () => {
     const role = await Role.findOne({ code: BUILTIN_ROLE_CODES.VISITOR }).populate('menuIds')
     role.menuIds = role.menuIds

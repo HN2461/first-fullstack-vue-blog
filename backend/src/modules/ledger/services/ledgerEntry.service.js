@@ -1,6 +1,6 @@
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
-import { buildEntryQuery, createError, formatDay, startOfDay, toObjectId } from './ledger.utils.js'
-import { findOwnedBook } from './ledgerBook.service.js'
+import { buildEntryQuery, createError, formatDay, normalizeTags, startOfDay, toObjectId } from './ledger.utils.js'
+import { findOwnedBook, findWritableBook } from './ledgerBook.service.js'
 import { findOwnedCategory } from './ledgerCategory.service.js'
 
 async function findOwnedEntry(entryId, userId) {
@@ -44,7 +44,7 @@ export async function listLedgerEntries(userId, options = {}) {
 }
 
 export async function createLedgerEntry(userId, input) {
-  const book = await findOwnedBook(input.bookId, userId)
+  const book = await findWritableBook(input.bookId, userId)
   const category = await findOwnedCategory(input.categoryId, userId, book._id)
   if (category.type !== input.type) {
     throw createError(400, 'LEDGER_CATEGORY_TYPE_MISMATCH', '流水类型和分类类型不一致')
@@ -61,6 +61,7 @@ export async function createLedgerEntry(userId, input) {
     amount: input.amount,
     note: input.note || '',
     dailyNote: input.dailyNote || '',
+    tags: normalizeTags(input.tags || []),
     source: 'manual',
     sourceKey: `${formatDay(occurredAt)}:${input.type}:${category._id.toString()}`
   })
@@ -71,6 +72,7 @@ export async function createLedgerEntry(userId, input) {
 
 export async function updateLedgerEntry(userId, id, input) {
   const entry = await findOwnedEntry(id, userId)
+  await findWritableBook(entry.bookId, userId)
   const nextCategory = input.categoryId
     ? await findOwnedCategory(input.categoryId, userId, entry.bookId)
     : await findOwnedCategory(entry.categoryId, userId, entry.bookId)
@@ -88,6 +90,7 @@ export async function updateLedgerEntry(userId, id, input) {
   if (input.amount !== undefined) entry.amount = input.amount
   if (input.note !== undefined) entry.note = input.note
   if (input.dailyNote !== undefined) entry.dailyNote = input.dailyNote
+  if (input.tags !== undefined) entry.tags = normalizeTags(input.tags)
   entry.sourceKey = `${formatDay(entry.occurredAt)}:${entry.type}:${entry.categoryId.toString()}`
   await entry.save()
   await entry.populate('categoryId')
@@ -101,6 +104,15 @@ export async function batchUpdateLedgerEntries(userId, input) {
   })
   if (entries.length !== input.ids.length) {
     throw createError(404, 'LEDGER_ENTRY_NOT_FOUND', '部分流水不存在')
+  }
+
+  const writableBookIds = new Set()
+  for (const entry of entries) {
+    const bookId = entry.bookId.toString()
+    if (!writableBookIds.has(bookId)) {
+      await findWritableBook(entry.bookId, userId)
+      writableBookIds.add(bookId)
+    }
   }
 
   const categoryCache = new Map()
@@ -136,6 +148,7 @@ export async function batchUpdateLedgerEntries(userId, input) {
     }
     if (patch.note !== undefined) update.note = patch.note
     if (patch.dailyNote !== undefined) update.dailyNote = patch.dailyNote
+    if (patch.tags !== undefined) update.tags = normalizeTags(patch.tags)
     update.sourceKey = `${formatDay(nextOccurredAt)}:${nextType}:${(patch.categoryId ? nextCategory._id : entry.categoryId).toString()}`
 
     operations.push({

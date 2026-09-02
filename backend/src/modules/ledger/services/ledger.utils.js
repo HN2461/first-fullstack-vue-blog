@@ -83,6 +83,26 @@ export function parseAmount(value) {
   return Number.isFinite(amount) ? amount : null
 }
 
+// 标签既用于展示也用于筛选，统一去空、去重，避免同一流水产生重复标签。
+export function normalizeTags(tags = []) {
+  const seen = new Set()
+  return tags
+    .map((item) => String(item || '').trim())
+    .filter(Boolean)
+    .filter((item) => {
+      const key = item.toLowerCase()
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+    .slice(0, 12)
+}
+
+// 用户搜索词按普通文本处理，避免括号、方括号等字符被解释为正则语法。
+export function escapeRegex(value = '') {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
 // 金额统一按分舍入，避免浮点误差进入接口响应和图表统计。
 export function roundMoney(value) {
   const amount = Number(value)
@@ -112,10 +132,11 @@ export function buildEntryQuery(userId, options = {}) {
 
   const keyword = String(options.keyword || '').trim()
   if (keyword) {
+    const safeKeyword = escapeRegex(keyword)
     query.$or = [
-      { note: { $regex: keyword, $options: 'i' } },
-      { dailyNote: { $regex: keyword, $options: 'i' } },
-      { categoryNameSnapshot: { $regex: keyword, $options: 'i' } }
+      { note: { $regex: safeKeyword, $options: 'i' } },
+      { dailyNote: { $regex: safeKeyword, $options: 'i' } },
+      { categoryNameSnapshot: { $regex: safeKeyword, $options: 'i' } }
     ]
   }
 

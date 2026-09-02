@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const LEDGER_IMPORT_STATUSES = ['previewed', 'committed', 'failed']
+export const LEDGER_IMPORT_STATUSES = ['previewed', 'committing', 'committed', 'failed']
 export const LEDGER_IMPORT_TEMPLATE_TYPES = ['yuque_monthly_ledger_v1']
 
 const ledgerImportBatchSchema = new mongoose.Schema(
@@ -54,6 +54,12 @@ const ledgerImportBatchSchema = new mongoose.Schema(
     errorItems: [{
       type: mongoose.Schema.Types.Mixed
     }],
+    errorMessage: {
+      type: String,
+      default: '',
+      trim: true,
+      maxlength: 500
+    },
     committedAt: {
       type: Date,
       default: null
@@ -79,6 +85,7 @@ ledgerImportBatchSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     stats: this.stats,
     previewItems: includePreview ? this.previewItems || [] : undefined,
     errors: this.errorItems || [],
+    errorMessage: this.errorMessage || '',
     committedAt: this.committedAt,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt

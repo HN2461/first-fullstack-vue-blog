@@ -5,7 +5,7 @@ import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { LedgerImportBatch } from '#modules/ledger/models/LedgerImportBatch.js'
 import { createError, formatDay, parseAmount, startOfDay, toObjectId } from './ledger.utils.js'
 import { seedDefaultCategories } from './ledgerBook.service.js'
-import { findOwnedBook } from './ledgerBook.service.js'
+import { findWritableBook } from './ledgerBook.service.js'
 import { getCategoryMap, getOrCreateCategoryByName } from './ledgerCategory.service.js'
 
 const DERIVED_COLUMNS = new Set(['当日吃饭总支出', '当日总支出', '当日逆差'])
@@ -208,14 +208,10 @@ async function parseYuqueWorkbook(buffer, userId, bookId) {
           continue
         }
 
-        const category = column.category || await getOrCreateCategoryByName(userId, bookId, column.name, column.type)
-        if (!column.category) {
-          column.category = category
-          categoryMap.byName.set(category.name.toLowerCase(), category)
-          categoryMap.byId.set(category._id.toString(), category)
-        }
-
-        const sourceKey = `${formatDay(occurredAt)}:${column.type}:${category._id.toString()}`
+        const category = column.category
+        const sourceKey = category
+          ? `${formatDay(occurredAt)}:${column.type}:${category._id.toString()}`
+          : `${formatDay(occurredAt)}:${column.type}:name:${column.name.toLowerCase()}`
         const note = readCellComment(sheet, rowIndex, column.index)
         previewItems.push({
           action: existingEntryKeys.has(sourceKey) ? 'update' : 'insert',
@@ -224,8 +220,8 @@ async function parseYuqueWorkbook(buffer, userId, bookId) {
           sourceKey,
           occurredAt,
           type: column.type,
-          categoryId: category._id.toString(),
-          categoryName: category.name,
+          categoryId: category?._id?.toString() || null,
+          categoryName: category?.name || column.name,
           amount,
           note,
           dailyNote,
@@ -270,7 +266,7 @@ export async function previewLedgerImport(userId, input, file) {
     throw createError(400, 'LEDGER_IMPORT_FILE_TYPE_INVALID', '仅支持 xlsx/xls 文件')
   }
 
-  const book = await findOwnedBook(input.bookId, userId)
+  const book = await findWritableBook(input.bookId, userId)
   await seedDefaultCategories(userId, book._id)
   const fileHash = crypto.createHash('sha256').update(file.buffer).digest('hex')
   const parsed = await parseYuqueWorkbook(file.buffer, userId, book._id)
@@ -302,96 +298,90 @@ export async function previewLedgerImport(userId, input, file) {
 
 export async function commitLedgerImport(userId, id) {
   const batchId = toObjectId(id, 'LEDGER_IMPORT_NOT_FOUND', '导入批次不存在')
-  const batch = await LedgerImportBatch.findOne({ _id: batchId, userId })
-  if (!batch) {
-    throw createError(404, 'LEDGER_IMPORT_NOT_FOUND', '导入批次不存在')
-  }
-  if (batch.status === 'committed') {
-    return batch.toSafeJSON({ includePreview: true })
-  }
+  const current = await LedgerImportBatch.findOne({ _id: batchId, userId })
+  if (!current) throw createError(404, 'LEDGER_IMPORT_NOT_FOUND', '导入批次不存在')
+  if (current.status === 'committed') return current.toSafeJSON({ includePreview: true })
+  if (current.status === 'committing') throw createError(409, 'LEDGER_IMPORT_COMMITTING', '该导入批次正在同步，请稍后查看结果')
+  if (current.status === 'failed') throw createError(409, 'LEDGER_IMPORT_FAILED', current.errorMessage || '该导入批次上次同步失败，请重新预览')
 
-  await findOwnedBook(batch.bookId, userId)
-  const upsertItems = (batch.previewItems || []).filter((item) => item.action !== 'delete')
-  const deleteItems = (batch.previewItems || []).filter((item) => item.action === 'delete')
-  const categoryIds = [...new Set(upsertItems.map((item) => item.categoryId?.toString()).filter(Boolean))]
-  const categories = await LedgerCategory.find({
-    _id: { $in: categoryIds },
-    userId,
-    bookId: batch.bookId
-  })
-  const categoryMap = new Map(categories.map((category) => [category._id.toString(), category]))
-  if (categoryMap.size !== categoryIds.length) {
-    throw createError(404, 'LEDGER_CATEGORY_NOT_FOUND', '分类不存在')
-  }
+  const batch = await LedgerImportBatch.findOneAndUpdate(
+    { _id: batchId, userId, status: 'previewed' },
+    { $set: { status: 'committing', errorMessage: '' } },
+    { new: true }
+  )
+  if (!batch) throw createError(409, 'LEDGER_IMPORT_COMMITTING', '该导入批次正在同步，请稍后查看结果')
 
-  const operations = []
+  try {
+    await findWritableBook(batch.bookId, userId)
+    const upsertItems = (batch.previewItems || []).filter((item) => item.action !== 'delete')
+    const deleteItems = (batch.previewItems || []).filter((item) => item.action === 'delete')
+    const categoryIds = [...new Set(upsertItems.map((item) => item.categoryId?.toString()).filter(Boolean))]
+    const categories = await LedgerCategory.find({ _id: { $in: categoryIds }, userId, bookId: batch.bookId })
+    const categoryMap = new Map(categories.map((category) => [category._id.toString(), category]))
+    const categoryNameMap = new Map(categories.map((category) => [`${category.type}:${category.name.trim().toLowerCase()}`, category]))
+    const operations = []
 
-  for (const item of upsertItems) {
-    const category = categoryMap.get(item.categoryId?.toString())
-    const occurredAt = startOfDay(item.occurredAt)
-    const payload = {
-      userId,
-      bookId: batch.bookId,
-      occurredAt,
-      type: item.type,
-      categoryId: category._id,
-      categoryNameSnapshot: category.name,
-      amount: item.amount,
-      note: item.note || '',
-      dailyNote: item.dailyNote || '',
-      source: 'excel_import',
-      sourceKey: item.sourceKey,
-      importBatchId: batch._id,
-      raw: item.raw || null
-    }
-    operations.push({
-      updateOne: {
-        filter: {
-          userId,
-          bookId: batch.bookId,
-          occurredAt,
-          type: item.type,
-          categoryId: category._id
-        },
-        update: { $set: payload },
-        upsert: true
+    for (const item of upsertItems) {
+      let category = categoryMap.get(item.categoryId?.toString())
+      if (!category) {
+        const key = `${item.type}:${String(item.categoryName || '').trim().toLowerCase()}`
+        category = categoryNameMap.get(key) || await getOrCreateCategoryByName(userId, batch.bookId, item.categoryName, item.type)
+        categoryNameMap.set(key, category)
       }
-    })
+      if (category.type !== item.type) throw createError(400, 'LEDGER_CATEGORY_TYPE_MISMATCH', '导入流水类型和分类类型不一致')
+      const occurredAt = startOfDay(item.occurredAt)
+      const payload = {
+        userId,
+        bookId: batch.bookId,
+        occurredAt,
+        type: item.type,
+        categoryId: category._id,
+        categoryNameSnapshot: category.name,
+        amount: item.amount,
+        note: item.note || '',
+        dailyNote: item.dailyNote || '',
+        source: 'excel_import',
+        sourceKey: `${formatDay(occurredAt)}:${item.type}:${category._id.toString()}`,
+        importBatchId: batch._id,
+        raw: item.raw || null
+      }
+      operations.push({
+        updateOne: {
+          filter: { userId, bookId: batch.bookId, occurredAt, type: item.type, categoryId: category._id },
+          update: { $set: payload },
+          upsert: true
+        }
+      })
+    }
+
+    let inserted = 0
+    let updated = 0
+    let deleted = 0
+    if (operations.length) {
+      const result = await LedgerEntry.bulkWrite(operations, { ordered: false })
+      inserted = result.upsertedCount || 0
+      updated = result.matchedCount || 0
+    }
+    if (deleteItems.length) {
+      const deleteIds = deleteItems.map((item) => toObjectId(item.entryId, 'LEDGER_IMPORT_DELETE_ENTRY_INVALID', '待删除的导入流水不存在'))
+      const result = await LedgerEntry.deleteMany({ _id: { $in: deleteIds }, userId, bookId: batch.bookId, source: 'excel_import' })
+      deleted = result.deletedCount || 0
+    }
+
+    batch.status = 'committed'
+    batch.stats.inserted = inserted
+    batch.stats.updated = updated
+    batch.stats.deleted = deleted
+    batch.committedAt = new Date()
+    await batch.save()
+    return batch.toSafeJSON({ includePreview: true })
+  } catch (error) {
+    await LedgerImportBatch.updateOne(
+      { _id: batch._id, userId, status: 'committing' },
+      { $set: { status: 'failed', errorMessage: String(error.message || '导入同步失败').slice(0, 500) } }
+    )
+    throw error
   }
-
-  let inserted = 0
-  let updated = 0
-  let deleted = 0
-  if (operations.length) {
-    const result = await LedgerEntry.bulkWrite(operations, { ordered: false })
-    inserted = result.upsertedCount || 0
-    // bulkWrite 的 matchedCount 才代表“命中了多少条已有流水”，这比 modifiedCount 更符合导入统计语义。
-    updated = result.matchedCount || 0
-  }
-
-  if (deleteItems.length) {
-    const deleteIds = deleteItems.map((item) => toObjectId(
-      item.entryId,
-      'LEDGER_IMPORT_DELETE_ENTRY_INVALID',
-      '待删除的导入流水不存在'
-    ))
-    const result = await LedgerEntry.deleteMany({
-      _id: { $in: deleteIds },
-      userId,
-      bookId: batch.bookId,
-      source: 'excel_import'
-    })
-    deleted = result.deletedCount || 0
-  }
-
-  batch.status = 'committed'
-  batch.stats.inserted = inserted
-  batch.stats.updated = updated
-  batch.stats.deleted = deleted
-  batch.committedAt = new Date()
-  await batch.save()
-
-  return batch.toSafeJSON({ includePreview: true })
 }
 
 export async function listLedgerImports(userId, options = {}) {

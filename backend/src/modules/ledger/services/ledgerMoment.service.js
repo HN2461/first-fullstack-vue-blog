@@ -3,6 +3,7 @@ import { LedgerBook } from '#modules/ledger/models/LedgerBook.js'
 import { LedgerCategory } from '#modules/ledger/models/LedgerCategory.js'
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { LedgerMoment } from '#modules/ledger/models/LedgerMoment.js'
+import { escapeRegex, normalizeTags } from './ledger.utils.js'
 
 function createError(statusCode, code, message) {
   const error = new Error(message)
@@ -73,7 +74,7 @@ function buildMomentQuery(userId, options = {}) {
   if (options.scope) query.scope = options.scope
   if (options.categoryId) query.categoryId = toObjectId(options.categoryId, 'LEDGER_CATEGORY_NOT_FOUND', '分类不存在')
   const categoryText = String(options.categoryText || '').trim()
-  if (categoryText) query.categoryText = { $regex: categoryText, $options: 'i' }
+  if (categoryText) query.categoryText = { $regex: escapeRegex(categoryText), $options: 'i' }
 
   const from = options.from ? startOfDay(options.from) : null
   const to = options.to ? endOfDay(options.to) : null
@@ -85,30 +86,17 @@ function buildMomentQuery(userId, options = {}) {
 
   const keyword = String(options.keyword || '').trim()
   if (keyword) {
+    const safeKeyword = escapeRegex(keyword)
     query.$or = [
-      { title: { $regex: keyword, $options: 'i' } },
-      { content: { $regex: keyword, $options: 'i' } },
-      { categoryText: { $regex: keyword, $options: 'i' } },
-      { mood: { $regex: keyword, $options: 'i' } },
-      { tags: { $regex: keyword, $options: 'i' } }
+      { title: { $regex: safeKeyword, $options: 'i' } },
+      { content: { $regex: safeKeyword, $options: 'i' } },
+      { categoryText: { $regex: safeKeyword, $options: 'i' } },
+      { mood: { $regex: safeKeyword, $options: 'i' } },
+      { tags: { $regex: safeKeyword, $options: 'i' } }
     ]
   }
 
   return query
-}
-
-function normalizeTags(tags = []) {
-  const seen = new Set()
-  return tags
-    .map((item) => String(item || '').trim())
-    .filter(Boolean)
-    .filter((item) => {
-      const key = item.toLowerCase()
-      if (seen.has(key)) return false
-      seen.add(key)
-      return true
-    })
-    .slice(0, 12)
 }
 
 export async function listLedgerMoments(userId, options = {}) {

@@ -1,7 +1,13 @@
 <template>
   <div class="ledger-daily-cards">
     <div v-if="!items.length" class="ledger-cards-empty">
-      <a-empty description="暂无记录" />
+      <a-empty :description="emptyDescription">
+        <template #extra>
+          <a-button v-if="emptyActionLabel" type="link" @click="emit('empty-action')">
+            {{ emptyActionLabel }}
+          </a-button>
+        </template>
+      </a-empty>
     </div>
     <div v-else class="ledger-cards-grid">
       <div v-for="day in items" :key="day.date" class="ledger-day-card">
@@ -63,10 +69,12 @@ const props = defineProps({
   items: { type: Array, default: () => [] },
   categories: { type: Array, default: () => [] },
   total: { type: Number, default: 0 },
-  pageSize: { type: Number, default: 31 }
+  pageSize: { type: Number, default: 31 },
+  emptyDescription: { type: String, default: '暂无记录' },
+  emptyActionLabel: { type: String, default: '' }
 })
 
-const emit = defineEmits(['page-change'])
+const emit = defineEmits(['page-change', 'empty-action'])
 
 const currentPage = ref(1)
 
