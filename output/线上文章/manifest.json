@@ -7,7 +7,7 @@
     "categoryId": null,
     "keyword": ""
   },
-  "total": 534,
+  "total": 535,
   "categories": [
     {
       "name": "默认分类",
@@ -15357,6 +15357,34 @@
       "publishedAt": "2026-01-25T13:23:07.468Z",
       "updatedAt": "2026-07-31T11:16:23.052Z",
       "fileName": "前端技术/前端三剑客/AI版CSS/第-7-篇：综合实战：从风格到产品.md"
+    },
+    {
+      "originalId": "6a993354b4b7d341cfbab078",
+      "originalSlug": "chen-haonan-frontend-interview-qa-beginner",
+      "exportedSlug": "chen-haonan-frontend-interview-qa-beginner",
+      "title": "陈浩南前端开发工程师简历面试问答：小白背诵版",
+      "summary": "根据陈浩南简历中的智慧校园 PC 中后台、uni-app 移动端、MaxKB 智慧校园 AI、电子班牌和多平台登录项目整理，按先背一句、再补两句、追问应对的方式准备前端面试。",
+      "cover": "",
+      "contentHash": "34783709dae5eaf92459a6fdd018d163284951efe37169147c0fe087529f45af",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "面试"
+      ],
+      "tags": [
+        "前端面试",
+        "Vue 3",
+        "uni-app",
+        "智慧校园",
+        "WebSocket",
+        "MaxKB",
+        "SSE"
+      ],
+      "sortOrder": 1,
+      "sourcePath": "面试/陈浩南前端开发工程师简历面试问答小白背诵版.md",
+      "publishedAt": "2026-09-03T08:44:04.220Z",
+      "updatedAt": "2026-09-03T08:44:04.221Z",
+      "fileName": "面试/陈浩南前端开发工程师简历面试问答小白背诵版.md"
     }
   ]
 }

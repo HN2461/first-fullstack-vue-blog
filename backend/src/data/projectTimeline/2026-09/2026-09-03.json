@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-03",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "publish-resume-interview-qa-online",
+      "title": "发布前端简历面试问答小白背诵版到线上",
+      "detail": "1. 完成《陈浩南前端开发工程师简历面试问答：小白背诵版》发布前复核：文章约 1514 行、123 道连续编号问答，覆盖简历中的智慧校园 PC 中后台、uni-app 多端、MaxKB 智慧校园 AI、电子班牌、多平台登录、Vue 3、WebSocket/STOMP、SSE、动态表单、接口协作和行为面试等内容；Front Matter、UTF-8 无 BOM、关键词逐项覆盖均通过。2. 发布前完成前端 npm run build、后端 npm run test（50 个测试文件、308 个测试用例）和 scripts/check-encoding.ps1、git diff --check 验证。3. 生产发布前创建 MongoDB 备份 /www/personal-blog/backups/resume-interview-20260903-163446；通过范围受控的文章导入流程创建文章并立即发布，未执行无关的整套部署迁移。4. 线上文章标题为“陈浩南前端开发工程师简历面试问答：小白背诵版”，slug 为 chen-haonan-frontend-interview-qa-beginner，状态为 published，先归入临时分类后已调整到现有顶层分类“面试”，标签为 前端面试、Vue 3、uni-app、智慧校园、WebSocket、MaxKB、SSE，文章 ID 为 6a993354b4b7d341cfbab078。5. 通过生产 MongoDB、内网健康接口和公开文章接口核验成功：文章 wordCount=20683、readingMinutes=52，公开 API 返回 HTTP 200，PM2 的 personal-blog-api 保持 online。6. 已将本地文章同步到 output/线上文章/面试，并更新 Front Matter 与 manifest 分类状态；清理远程导入脚本和文章临时文件，不修改生产 .env。",
+      "occurredAt": "2026-09-03T16:48:00+08:00",
+      "category": "部署发布"
+    }
+  ]
+}
