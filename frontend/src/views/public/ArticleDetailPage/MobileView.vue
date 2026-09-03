@@ -74,25 +74,15 @@
       </article>
 
       <ReadingToolbar
+        ref="readingToolbarRef"
         :immersive-mode="false"
         :footer-actions-visible="actionBarVisible"
         :default-bottom="actionBarVisible ? 88 : 24"
         :show-immersive="false"
         :show-toc="toc.length > 0"
+        :toc="toc"
         @font-size-change="handleFontSizeChange"
-        @open-toc="tocVisible = true"
       />
-
-      <a-drawer
-        v-model:open="tocVisible"
-        placement="bottom"
-        height="58vh"
-        title="文章目录"
-        class="mobile-reader__drawer"
-      >
-        <TableOfContents v-if="toc.length" :toc="toc" @navigate="tocVisible = false" />
-        <a-empty v-else description="当前文章暂无目录" />
-      </a-drawer>
 
       <a-drawer
         v-if="!isAdminPreview"
@@ -155,7 +145,7 @@
           <DownloadOutlined />
           <span>下载</span>
         </button>
-        <button v-if="article.contentMode !== 'document'" type="button" @click="tocVisible = true">
+        <button v-if="article.contentMode !== 'document'" type="button" @click="openTocPanel">
           <UnorderedListOutlined />
           <span>目录</span>
         </button>
@@ -183,7 +173,6 @@ import {
 } from '@ant-design/icons-vue'
 import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
 import ReadingToolbar from '@/components/ReadingToolbar.vue'
-import TableOfContents from '@/components/TableOfContents.vue'
 import { getAdminArticle } from '@/services/admin'
 import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
@@ -224,7 +213,7 @@ const loading = ref(false)
 const errorMessage = ref('')
 const pageActive = ref(true)
 let cachedReadingPosition = null
-const tocVisible = ref(false)
+const readingToolbarRef = ref(null)
 const commentDrawerVisible = ref(false)
 const comments = ref([])
 const commentContent = ref('')
@@ -299,6 +288,10 @@ function handleFontSizeChange(nextSize) {
   fontSize.value = nextSize
 }
 
+function openTocPanel() {
+  readingToolbarRef.value?.openPanel('toc')
+}
+
 function cacheCurrentReadingPosition() {
   const scrollTarget = resolveReadingScrollTarget(document.querySelector('.mobile-reader'))
   cachedReadingPosition = scrollTarget
@@ -327,7 +320,7 @@ async function loadArticle() {
   readingProgress.stop()
   loading.value = true
   errorMessage.value = ''
-  tocVisible.value = false
+  readingToolbarRef.value?.closePanel()
 
   let result = null
   try {

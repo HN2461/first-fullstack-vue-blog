@@ -11,10 +11,10 @@
         class="reading-fab"
         :class="{ 'is-expanded': isExpanded, 'is-dragging': isDragging }"
         type="button"
-        aria-label="阅读工具栏"
+        :aria-label="isExpanded ? '收起阅读助手' : '打开阅读助手'"
         :aria-expanded="String(isExpanded)"
-        @mousedown="startDrag"
-        @touchstart="startDrag"
+        aria-controls="reading-toolbar-panel"
+        @pointerdown="startDrag"
         @click="handleClick"
         @keydown.enter.prevent="toggleExpand"
         @keydown.space.prevent="toggleExpand"
@@ -36,65 +36,114 @@
       </button>
 
       <Transition name="panel-slide">
-        <section v-if="isExpanded" class="toolbar-panel" :style="panelStyle" aria-label="阅读设置">
+        <section
+          v-if="isExpanded"
+          id="reading-toolbar-panel"
+          class="toolbar-panel"
+          :class="{ 'toolbar-panel--toc': activePanel === 'toc' }"
+          :style="panelStyle"
+          :aria-label="activePanel === 'toc' ? '文章目录' : '阅读工具'"
+        >
           <header class="panel-header">
-            <span class="panel-title">阅读工具</span>
-            <button class="panel-close" type="button" aria-label="关闭阅读工具" @click.stop="isExpanded = false">
+            <span class="panel-title">阅读助手</span>
+            <button class="panel-close" type="button" aria-label="关闭阅读助手" @click.stop="closePanel">
               <X :size="16" />
             </button>
           </header>
 
-          <div class="panel-section">
-            <div class="section-label">阅读进度</div>
-            <div class="progress-bar-container">
-              <div class="progress-bar" :style="{ width: `${progress}%` }"></div>
-            </div>
-            <div class="progress-info">{{ Math.round(progress) }}%</div>
+          <div v-if="hasToc" class="panel-tabs" role="tablist" aria-label="阅读助手功能">
+            <button
+              id="reading-tools-tab"
+              class="panel-tab"
+              :class="{ 'is-active': activePanel === 'tools' }"
+              type="button"
+              role="tab"
+              :aria-selected="String(activePanel === 'tools')"
+              aria-controls="reading-tools-panel"
+              @click.stop="activePanel = 'tools'"
+            >
+              <SlidersHorizontal :size="16" />
+              <span>工具</span>
+            </button>
+            <button
+              id="reading-toc-tab"
+              class="panel-tab"
+              :class="{ 'is-active': activePanel === 'toc' }"
+              type="button"
+              role="tab"
+              :aria-selected="String(activePanel === 'toc')"
+              aria-controls="reading-toc-panel"
+              @click.stop="activePanel = 'toc'"
+            >
+              <ListTree :size="16" />
+              <span>目录</span>
+              <span class="panel-tab__count">{{ toc.length }}</span>
+            </button>
           </div>
 
-          <div class="panel-section">
-            <div class="section-label">字体大小</div>
-            <div class="font-controls">
-              <button class="font-btn" type="button" :disabled="fontSize <= MIN_FONT_SIZE" @click.stop="decreaseFontSize">A-</button>
-              <span class="font-size-value">{{ fontSize }}px</span>
-              <button class="font-btn" type="button" :disabled="fontSize >= MAX_FONT_SIZE" @click.stop="increaseFontSize">A+</button>
-              <button class="font-btn reset-btn" type="button" :disabled="fontSize === defaultFontSize" aria-label="重置字号" @click.stop="resetFontSize">
-                <RotateCcw :size="14" />
+          <div
+            v-show="activePanel === 'tools'"
+            id="reading-tools-panel"
+            class="panel-view panel-view--tools"
+            role="tabpanel"
+            aria-labelledby="reading-tools-tab"
+          >
+            <div class="panel-section">
+              <div class="section-label">阅读进度</div>
+              <div class="progress-bar-container">
+                <div class="progress-bar" :style="{ width: `${progress}%` }"></div>
+              </div>
+              <div class="progress-info">{{ Math.round(progress) }}%</div>
+            </div>
+
+            <div class="panel-section">
+              <div class="section-label">字体大小</div>
+              <div class="font-controls">
+                <button class="font-btn" type="button" :disabled="fontSize <= MIN_FONT_SIZE" aria-label="减小字号" @click.stop="decreaseFontSize">A-</button>
+                <span class="font-size-value">{{ fontSize }}px</span>
+                <button class="font-btn" type="button" :disabled="fontSize >= MAX_FONT_SIZE" aria-label="增大字号" @click.stop="increaseFontSize">A+</button>
+                <button class="font-btn reset-btn" type="button" :disabled="fontSize === defaultFontSize" aria-label="重置字号" @click.stop="resetFontSize">
+                  <RotateCcw :size="14" />
+                </button>
+              </div>
+            </div>
+
+            <div v-if="showImmersive" class="panel-section">
+              <button
+                class="action-btn immersive-btn"
+                :class="{ 'is-active': immersiveMode }"
+                type="button"
+                :aria-pressed="String(immersiveMode)"
+                @click.stop="toggleImmersive"
+              >
+                <Focus :size="18" />
+                <span>{{ immersiveMode ? '退出沉浸' : '沉浸阅读' }}</span>
+              </button>
+            </div>
+
+            <ReadingArticleNavigation
+              v-if="immersiveMode && neighbors"
+              :neighbors="neighbors"
+              @navigate="navigateArticle"
+            />
+
+            <div v-if="!footerActionsVisible" class="panel-section">
+              <button class="action-btn footer-btn" type="button" @click.stop="showFooterActions">
+                <Eye :size="18" />
+                <span>显示底栏</span>
               </button>
             </div>
           </div>
 
-          <div v-if="showImmersive" class="panel-section">
-            <button
-              class="action-btn immersive-btn"
-              :class="{ 'is-active': immersiveMode }"
-              type="button"
-              :aria-pressed="String(immersiveMode)"
-              @click.stop="toggleImmersive"
-            >
-              <Focus :size="18" />
-              <span>{{ immersiveMode ? '退出沉浸' : '沉浸阅读' }}</span>
-            </button>
-          </div>
-
-          <div v-if="showToc" class="panel-section">
-            <button class="action-btn toc-btn" type="button" @click.stop="emit('openToc')">
-              <ListTree :size="18" />
-              <span>文章目录</span>
-            </button>
-          </div>
-
-          <ReadingArticleNavigation
-            v-if="immersiveMode && neighbors"
-            :neighbors="neighbors"
-            @navigate="navigateArticle"
-          />
-
-          <div v-if="!footerActionsVisible" class="panel-section">
-            <button class="action-btn footer-btn" type="button" @click.stop="showFooterActions">
-              <Eye :size="18" />
-              <span>显示底栏</span>
-            </button>
+          <div
+            v-if="hasToc"
+            v-show="activePanel === 'toc'"
+            id="reading-toc-panel"
+            class="panel-view panel-view--toc"
+            role="tabpanel"
+            aria-labelledby="reading-toc-tab"
+          >
+            <TableOfContents :toc="toc" embedded @navigate="handleTocNavigate" />
           </div>
         </section>
       </Transition>
@@ -103,13 +152,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { Eye, Focus, ListTree, RotateCcw, X } from 'lucide-vue-next'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { Eye, Focus, ListTree, RotateCcw, SlidersHorizontal, X } from 'lucide-vue-next'
 import ReadingArticleNavigation from './ReadingArticleNavigation.vue'
+import TableOfContents from './TableOfContents.vue'
 import { getDefaultFontSize, getFontSize, MAX_FONT_SIZE, MIN_FONT_SIZE, setFontSize } from '@/utils/fontSizeStorage'
 import { resolveScrollableContainer } from '@/utils/scrollContainer'
 
-const emit = defineEmits(['fontSizeChange', 'toggleImmersive', 'showFooterActions', 'navigateArticle', 'openToc'])
+const emit = defineEmits(['fontSizeChange', 'toggleImmersive', 'showFooterActions', 'navigateArticle', 'tocNavigate'])
 
 const props = defineProps({
   immersiveMode: {
@@ -135,11 +185,16 @@ const props = defineProps({
   showToc: {
     type: Boolean,
     default: false
+  },
+  toc: {
+    type: Array,
+    default: () => []
   }
 })
 
 const containerRef = ref(null)
 const isExpanded = ref(false)
+const activePanel = ref('tools')
 const progress = ref(0)
 const fontSize = ref(17)
 const viewportWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1024)
@@ -154,6 +209,7 @@ const dragOffset = ref({ x: 0, y: 0 })
 const circumference = 2 * Math.PI * 18
 const defaultFontSize = computed(() => getDefaultFontSize(viewportWidth.value))
 const progressOffset = computed(() => circumference - (progress.value / 100) * circumference)
+const hasToc = computed(() => props.showToc && props.toc.length > 0)
 
 const positionStyle = computed(() => {
   if (position.value.x === null) {
@@ -173,20 +229,26 @@ const positionStyle = computed(() => {
 
 const panelStyle = computed(() => {
   if (typeof window === 'undefined') {
-    return { right: '0', bottom: '70px' }
+    return { right: '16px', bottom: '86px' }
   }
 
-  const panelWidth = viewportWidth.value <= 768 ? Math.min(280, viewportWidth.value - 32) : 240
-  const panelHeight = props.immersiveMode ? 520 : (props.footerActionsVisible ? 252 : 308)
+  const isMobile = viewportWidth.value <= 768
+  const panelWidth = isMobile ? Math.min(340, viewportWidth.value - 32) : 260
+  const desiredPanelHeight = activePanel.value === 'toc'
+    ? 520
+    : (props.immersiveMode ? 520 : (props.footerActionsVisible ? 296 : 352))
   const buttonSize = viewportWidth.value <= 768 ? 48 : 56
   const padding = 16
 
   if (position.value.x === null) {
+    const bottom = props.defaultBottom + buttonSize + 14
+    const maxHeight = Math.max(240, Math.min(desiredPanelHeight, window.innerHeight - bottom - padding))
     return {
-      right: '0',
-      bottom: `${props.defaultBottom + (props.footerActionsVisible ? 70 : 118)}px`,
+      right: `${isMobile ? padding : 24}px`,
+      bottom: `${bottom}px`,
       width: `${panelWidth}px`,
-      maxHeight: `${Math.min(panelHeight, window.innerHeight - 40)}px`
+      maxHeight: `${maxHeight}px`,
+      ...(activePanel.value === 'toc' ? { height: `${maxHeight}px` } : {})
     }
   }
 
@@ -194,17 +256,24 @@ const panelStyle = computed(() => {
   const buttonY = position.value.y
   const viewportHeight = window.innerHeight
   const style = {
-    width: `${panelWidth}px`,
-    maxHeight: `${Math.min(panelHeight, viewportHeight - 40)}px`
+    width: `${panelWidth}px`
   }
 
-  if (viewportWidth.value <= 768) {
+  if (isMobile) {
     style.left = '50%'
     style.transform = 'translateX(-50%)'
     if (buttonY < viewportHeight / 2) {
-      style.top = `${buttonY + buttonSize + padding}px`
+      const top = buttonY + buttonSize + padding
+      const maxHeight = Math.max(240, Math.min(desiredPanelHeight, viewportHeight - top - padding))
+      style.top = `${top}px`
+      style.maxHeight = `${maxHeight}px`
+      if (activePanel.value === 'toc') style.height = `${maxHeight}px`
     } else {
-      style.bottom = `${viewportHeight - buttonY + padding}px`
+      const bottom = viewportHeight - buttonY + padding
+      const maxHeight = Math.max(240, Math.min(desiredPanelHeight, viewportHeight - bottom - padding))
+      style.bottom = `${bottom}px`
+      style.maxHeight = `${maxHeight}px`
+      if (activePanel.value === 'toc') style.height = `${maxHeight}px`
     }
     return style
   }
@@ -215,9 +284,11 @@ const panelStyle = computed(() => {
     style.left = `${Math.min(buttonX + buttonSize + padding, viewportWidth.value - panelWidth - padding)}px`
   }
 
-  style.top = buttonY + panelHeight + padding <= viewportHeight
+  style.top = buttonY + desiredPanelHeight + padding <= viewportHeight
     ? `${buttonY}px`
-    : `${Math.max(padding, buttonY + buttonSize - panelHeight)}px`
+    : `${Math.max(padding, buttonY + buttonSize - desiredPanelHeight)}px`
+  style.maxHeight = `${Math.min(desiredPanelHeight, viewportHeight - (Number.parseFloat(style.top) || padding) - padding)}px`
+  if (activePanel.value === 'toc') style.height = style.maxHeight
 
   return style
 })
@@ -304,8 +375,25 @@ function navigateArticle(slug) {
 
 function toggleExpand() {
   if (!isDragging.value) {
+    if (!isExpanded.value && activePanel.value === 'toc' && !hasToc.value) {
+      activePanel.value = 'tools'
+    }
     isExpanded.value = !isExpanded.value
   }
+}
+
+function openPanel(panel = 'tools') {
+  activePanel.value = panel === 'toc' && hasToc.value ? 'toc' : 'tools'
+  isExpanded.value = true
+}
+
+function closePanel() {
+  isExpanded.value = false
+}
+
+function handleTocNavigate(slug) {
+  emit('tocNavigate', slug)
+  closePanel()
 }
 
 function handleMouseEnter() {
@@ -332,27 +420,22 @@ function handleClick() {
 }
 
 function startDrag(event) {
-  event.preventDefault()
-  event.stopPropagation()
   isDragging.value = true
   hasDragged.value = false
-  isExpanded.value = false
-
-  const pointer = event.type === 'touchstart' ? event.touches[0] : event
-  dragStart.value = { x: pointer.clientX, y: pointer.clientY }
+  dragStart.value = { x: event.clientX, y: event.clientY }
 
   if (containerRef.value) {
     const rect = containerRef.value.getBoundingClientRect()
     dragOffset.value = {
-      x: pointer.clientX - rect.left,
-      y: pointer.clientY - rect.top
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
     }
   }
 
-  document.addEventListener('mousemove', onDrag, { passive: false })
-  document.addEventListener('mouseup', stopDrag)
-  document.addEventListener('touchmove', onDrag, { passive: false })
-  document.addEventListener('touchend', stopDrag)
+  event.currentTarget?.setPointerCapture?.(event.pointerId)
+  document.addEventListener('pointermove', onDrag, { passive: false })
+  document.addEventListener('pointerup', stopDrag)
+  document.addEventListener('pointercancel', stopDrag)
   document.body.style.userSelect = 'none'
 }
 
@@ -362,18 +445,18 @@ function onDrag(event) {
   }
 
   event.preventDefault()
-  const pointer = event.type === 'touchmove' ? event.touches[0] : event
-  const deltaX = Math.abs(pointer.clientX - dragStart.value.x)
-  const deltaY = Math.abs(pointer.clientY - dragStart.value.y)
+  const deltaX = Math.abs(event.clientX - dragStart.value.x)
+  const deltaY = Math.abs(event.clientY - dragStart.value.y)
 
   if (deltaX > 5 || deltaY > 5) {
     hasDragged.value = true
+    isExpanded.value = false
   }
 
   const buttonSize = viewportWidth.value <= 768 ? 48 : 56
   const padding = 16
-  const x = Math.max(padding, Math.min(pointer.clientX - dragOffset.value.x, window.innerWidth - buttonSize - padding))
-  const y = Math.max(padding, Math.min(pointer.clientY - dragOffset.value.y, window.innerHeight - buttonSize - padding))
+  const x = Math.max(padding, Math.min(event.clientX - dragOffset.value.x, window.innerWidth - buttonSize - padding))
+  const y = Math.max(padding, Math.min(event.clientY - dragOffset.value.y, window.innerHeight - buttonSize - padding))
 
   position.value = { x, y }
   localStorage.setItem('reading-toolbar-position', JSON.stringify(position.value))
@@ -381,10 +464,9 @@ function onDrag(event) {
 
 function stopDrag() {
   isDragging.value = false
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
-  document.removeEventListener('touchmove', onDrag)
-  document.removeEventListener('touchend', stopDrag)
+  document.removeEventListener('pointermove', onDrag)
+  document.removeEventListener('pointerup', stopDrag)
+  document.removeEventListener('pointercancel', stopDrag)
   document.body.style.userSelect = ''
   setTimeout(() => {
     hasDragged.value = false
@@ -430,15 +512,25 @@ onMounted(() => {
   window.addEventListener('resize', resizeHandler, { passive: true })
 })
 
+watch(hasToc, (available) => {
+  if (!available && activePanel.value === 'toc') {
+    activePanel.value = 'tools'
+  }
+})
+
+defineExpose({
+  closePanel,
+  openPanel
+})
+
 onUnmounted(() => {
   scrollContainer.value?.removeEventListener('scroll', onScroll)
   if (resizeHandler) {
     window.removeEventListener('resize', resizeHandler)
   }
-  document.removeEventListener('mousemove', onDrag)
-  document.removeEventListener('mouseup', stopDrag)
-  document.removeEventListener('touchmove', onDrag)
-  document.removeEventListener('touchend', stopDrag)
+  document.removeEventListener('pointermove', onDrag)
+  document.removeEventListener('pointerup', stopDrag)
+  document.removeEventListener('pointercancel', stopDrag)
 })
 </script>
 
@@ -510,7 +602,9 @@ onUnmounted(() => {
 
 .toolbar-panel {
   position: fixed;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   padding: 16px;
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -525,12 +619,80 @@ onUnmounted(() => {
 }
 
 .panel-header {
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--border-color);
+}
+
+.panel-tabs {
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px;
+  margin-bottom: 14px;
+  padding: 3px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-secondary);
+}
+
+.panel-tab {
+  min-width: 0;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  background: transparent;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.panel-tab.is-active {
+  color: var(--primary-color);
+  background: var(--bg-elevated);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  font-weight: 600;
+}
+
+.panel-tab__count {
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  border-radius: 9px;
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--text-muted) 10%, transparent);
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.panel-view {
+  min-height: 0;
+}
+
+.panel-view--tools {
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.panel-view--tools::-webkit-scrollbar {
+  display: none;
+}
+
+.panel-view--toc {
+  flex: 1;
+  overflow: hidden;
 }
 
 .panel-title {
@@ -592,7 +754,7 @@ onUnmounted(() => {
 .progress-bar {
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  background: var(--primary-color);
   transition: width 0.2s ease;
 }
 
@@ -668,6 +830,10 @@ onUnmounted(() => {
 
   .toolbar-panel {
     padding: 12px;
+  }
+
+  .panel-header {
+    margin-bottom: 12px;
   }
 }
 

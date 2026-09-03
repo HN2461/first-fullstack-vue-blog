@@ -1,5 +1,10 @@
 <template>
-  <div v-if="toc.length" ref="tocContainer" class="table-of-contents">
+  <div
+    v-if="toc.length"
+    ref="tocContainer"
+    class="table-of-contents"
+    :class="{ 'table-of-contents--embedded': embedded }"
+  >
     <nav class="toc-nav" aria-label="文章目录">
       <a
         v-for="item in toc"
@@ -22,6 +27,10 @@ const props = defineProps({
   toc: {
     type: Array,
     default: () => []
+  },
+  embedded: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -35,7 +44,10 @@ let scrollTimeout = null
 
 function resolveScrollContainer() {
   if (document.querySelector('.mobile-reader')) {
-    return window
+    const consoleContainer = document.querySelector('.enterprise-content')
+    return consoleContainer
+      ? resolveScrollableContainer(consoleContainer)
+      : window
   }
 
   return resolveScrollableContainer(
@@ -181,6 +193,16 @@ onUnmounted(() => {
   border-radius: 8px;
   background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
   box-shadow: 0 12px 32px rgba(24, 32, 44, 0.07);
+}
+
+.table-of-contents--embedded {
+  height: 100%;
+  max-height: none;
+  padding: 0 2px 0 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .toc-nav {
