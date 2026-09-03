@@ -9,6 +9,13 @@
       "detail": "1. 完成《陈浩南前端开发工程师简历面试问答：小白背诵版》发布前复核：文章约 1514 行、123 道连续编号问答，覆盖简历中的智慧校园 PC 中后台、uni-app 多端、MaxKB 智慧校园 AI、电子班牌、多平台登录、Vue 3、WebSocket/STOMP、SSE、动态表单、接口协作和行为面试等内容；Front Matter、UTF-8 无 BOM、关键词逐项覆盖均通过。2. 发布前完成前端 npm run build、后端 npm run test（50 个测试文件、308 个测试用例）和 scripts/check-encoding.ps1、git diff --check 验证。3. 生产发布前创建 MongoDB 备份 /www/personal-blog/backups/resume-interview-20260903-163446；通过范围受控的文章导入流程创建文章并立即发布，未执行无关的整套部署迁移。4. 线上文章标题为“陈浩南前端开发工程师简历面试问答：小白背诵版”，slug 为 chen-haonan-frontend-interview-qa-beginner，状态为 published，先归入临时分类后已调整到现有顶层分类“面试”，标签为 前端面试、Vue 3、uni-app、智慧校园、WebSocket、MaxKB、SSE，文章 ID 为 6a993354b4b7d341cfbab078。5. 通过生产 MongoDB、内网健康接口和公开文章接口核验成功：文章 wordCount=20683、readingMinutes=52，公开 API 返回 HTTP 200，PM2 的 personal-blog-api 保持 online。6. 已将本地文章同步到 output/线上文章/面试，并更新 Front Matter 与 manifest 分类状态；清理远程导入脚本和文章临时文件，不修改生产 .env。",
       "occurredAt": "2026-09-03T16:48:00+08:00",
       "category": "部署发布"
+    },
+    {
+      "id": "mobile-responsive-interaction-regression-20260903",
+      "title": "完成全站移动端适配与关键交互回归",
+      "detail": "1. 针对 390×844 手机视口逐页检查公开首页、登录/注册、控制台知识库、账本、题库、个人工作台、个人中心及后台管理全部实际路由，确认页面非空、无横向溢出、无 Vite 错误覆盖层。2. 修正认证页移动端设置按钮层级：主题、语言、布局操作从卡片外悬浮位置收进白色认证卡片标题行，避免按钮与卡片边界产生错乱视觉；主题图标改为项目已安装的 Lucide 图标并补齐按钮 type、aria-label 和展开状态。3. 修正控制台头像菜单触屏交互，移动端使用 click 触发、桌面端保留 hover，实测头像可打开个人信息/最近阅读/退出登录菜单，点击个人信息可进入 /console/profile。4. 实测备忘录、待办、书签、简历、面试问答、账本重要记录、题库题目/试卷、分类、标签、用户、角色、媒体、文章共享、公告和项目台账等主要新建弹窗，均保留视口安全边距且内容不撑破页面。",
+      "occurredAt": "2026-09-03T23:10:00+08:00",
+      "category": "前端体验"
     }
   ]
 }

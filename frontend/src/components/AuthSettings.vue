@@ -1,18 +1,38 @@
 <template>
-  <div class="auth-settings" :class="theme">
+  <div class="auth-settings" :class="[theme, { 'auth-settings--embedded': embedded }]">
     <!-- 主题切换 -->
-    <button class="setting-btn" @click="toggleTheme" :title="isDark ? '切换亮色主题' : '切换暗色主题'">
-      <BulbOutlined />
+    <button
+      class="setting-btn"
+      type="button"
+      :aria-label="isDark ? '切换亮色主题' : '切换暗色主题'"
+      :title="isDark ? '切换亮色主题' : '切换暗色主题'"
+      @click="toggleTheme"
+    >
+      <Sun v-if="isDark" :size="17" />
+      <Moon v-else :size="17" />
     </button>
 
     <!-- 语言切换 - 纯文字 -->
-    <button class="setting-btn lang-btn" @click="toggleLang" :title="lang === 'zh' ? 'Switch to English' : '切换中文'">
+    <button
+      class="setting-btn lang-btn"
+      type="button"
+      :aria-label="lang === 'zh' ? 'Switch to English' : '切换中文'"
+      :title="lang === 'zh' ? 'Switch to English' : '切换中文'"
+      @click="toggleLang"
+    >
       {{ lang === 'zh' ? 'EN' : '中' }}
     </button>
 
     <!-- 布局切换 - 使用下拉菜单 -->
     <div class="layout-dropdown" ref="dropdownRef">
-      <button class="setting-btn" @click="showLayoutMenu = !showLayoutMenu" title="布局设置">
+      <button
+        class="setting-btn"
+        type="button"
+        aria-label="布局设置"
+        title="布局设置"
+        :aria-expanded="showLayoutMenu"
+        @click="showLayoutMenu = !showLayoutMenu"
+      >
         <LayoutOutlined />
       </button>
       <div v-if="showLayoutMenu" class="layout-menu">
@@ -48,17 +68,18 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import {
-  BulbOutlined,
   LayoutOutlined,
   ColumnWidthOutlined,
   AlignLeftOutlined,
   AlignRightOutlined
 } from '@ant-design/icons-vue'
+import { Moon, Sun } from 'lucide-vue-next'
 
 const props = defineProps({
   theme: { type: String, default: 'dark' },
   lang: { type: String, default: 'zh' },
-  layout: { type: String, default: 'right' }
+  layout: { type: String, default: 'right' },
+  embedded: { type: Boolean, default: false }
 })
 
 const emit = defineEmits(['update:theme', 'update:lang', 'update:layout'])
@@ -99,50 +120,57 @@ onUnmounted(() => {
 <style scoped>
 .auth-settings {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 28px;
+  right: 28px;
   display: flex;
-  gap: 8px;
+  gap: 2px;
   z-index: 100;
 }
 
-/* 暗黑模式按钮 - 更亮更清晰 */
+.auth-settings--embedded {
+  position: static;
+  flex: 0 0 auto;
+}
+
 .auth-settings.dark .setting-btn {
-  background: #21262d;
-  color: #e6edf3;
-  border: 1px solid #30363d;
+  color: #98a2b3;
+  background: transparent;
 }
 
 .auth-settings.dark .setting-btn:hover {
-  background: #30363d;
-  color: #ffffff;
-  border-color: #8b949e;
+  color: #8ab4ff;
+  background: rgba(138, 180, 255, 0.12);
 }
 
-/* 亮色模式按钮 */
 .auth-settings.light .setting-btn {
-  background: rgba(0, 0, 0, 0.06);
-  color: #666;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+  color: #606266;
+  background: transparent;
 }
 
 .auth-settings.light .setting-btn:hover {
-  background: rgba(0, 0, 0, 0.1);
-  color: #333;
+  color: #337ecc;
+  background: #ecf5ff;
 }
 
 .setting-btn {
   width: 36px;
   height: 36px;
-  border-radius: 8px;
+  border: 0;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 16px;
-  transition: all 0.3s;
+  transition: color 0.16s ease, background 0.16s ease;
   padding: 0;
   outline: none;
+}
+
+.setting-btn:focus-visible {
+  color: #337ecc;
+  background: #ecf5ff;
+  box-shadow: inset 0 0 0 2px rgba(64, 158, 255, 0.32);
 }
 
 .lang-btn {
@@ -219,15 +247,20 @@ onUnmounted(() => {
 }
 
 @media (max-width: 767px) {
-  .auth-settings {
-    top: 12px;
-    right: 12px;
+  .auth-settings:not(.auth-settings--embedded) {
+    top: 48px;
+    right: 28px;
   }
 
   .setting-btn,
   .layout-menu-item {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .setting-btn {
+    width: 36px;
+    height: 36px;
   }
 
   .layout-menu-item {

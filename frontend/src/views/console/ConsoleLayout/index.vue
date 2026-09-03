@@ -86,8 +86,8 @@
           </template>
         </a-dropdown>
 
-        <a-dropdown :trigger="['hover']">
-          <button class="enterprise-profile-button" type="button">
+        <a-dropdown :trigger="profileDropdownTrigger">
+          <button class="enterprise-profile-button" type="button" aria-label="打开用户菜单">
             <a-avatar class="enterprise-avatar" :src="getUserAvatar(authStore.user)">{{ userInitial }}</a-avatar>
             <span>
               <strong>{{ authStore.user?.username || '用户' }}</strong>
@@ -411,6 +411,7 @@ if (knowledgeMenuLoaded.value) {
 }
 
 const menuTheme = computed(() => appStore.isDark ? 'dark' : 'light')
+const profileDropdownTrigger = computed(() => appStore.isMobile ? ['click'] : ['hover'])
 const AMenuItem = Menu.Item
 const ASubMenu = Menu.SubMenu
 const iconMap = {

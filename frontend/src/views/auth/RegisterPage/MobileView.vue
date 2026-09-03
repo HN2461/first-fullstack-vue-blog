@@ -1,16 +1,18 @@
 <template>
   <main class="mobile-auth" :class="`theme-${theme}`">
-    <AuthSettings
-      v-model:theme="theme"
-      v-model:lang="lang"
-      v-model:layout="layout"
-    />
-
     <section class="mobile-auth__panel">
-      <router-link class="mobile-auth__brand" to="/">
-        <img src="/favicon.svg" alt="" aria-hidden="true">
-        <span>Knowledge OS</span>
-      </router-link>
+      <div class="mobile-auth__topbar">
+        <router-link class="mobile-auth__brand" to="/">
+          <img src="/favicon.svg" alt="" aria-hidden="true">
+          <span>Knowledge OS</span>
+        </router-link>
+        <AuthSettings
+          v-model:theme="theme"
+          v-model:lang="lang"
+          v-model:layout="layout"
+          embedded
+        />
+      </div>
 
       <div class="mobile-auth__head">
         <h1>{{ lang === 'zh' ? '创建账号' : 'Create Account' }}</h1>
@@ -190,6 +192,24 @@ async function handleSubmit() {
   font-weight: 700;
 }
 
+.mobile-auth__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.mobile-auth__topbar .mobile-auth__brand {
+  min-width: 0;
+}
+
+.mobile-auth__brand span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .mobile-auth__brand img {
   width: 38px;
   height: 38px;
@@ -239,5 +259,20 @@ async function handleSubmit() {
   align-items: center;
   color: #1677ff;
   font-weight: 600;
+}
+
+@media (max-width: 360px) {
+  .mobile-auth__panel {
+    padding-inline: 14px;
+  }
+
+  .mobile-auth__brand img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mobile-auth__brand span {
+    font-size: 14px;
+  }
 }
 </style>
