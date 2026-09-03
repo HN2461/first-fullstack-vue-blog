@@ -1432,6 +1432,11 @@ body.ant-scrolling-effect {
     min-width: 0;
   }
 
+  .public-brand > div {
+    min-width: 0;
+    overflow: hidden;
+  }
+
   .public-brand strong {
     max-width: 150px;
     overflow: hidden;
@@ -1453,6 +1458,12 @@ body.ant-scrolling-effect {
 
   .public-footer {
     padding: 0 16px 24px;
+  }
+}
+
+@media (max-width: 360px) {
+  .public-brand strong {
+    max-width: 100px;
   }
 }
 

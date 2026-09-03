@@ -1558,6 +1558,20 @@ body:has(.enterprise-admin-shell) {
     white-space: nowrap;
   }
 
+  /* 极窄屏下分页项不能折成多行，否则页码会被截断且 footer 高度跳动。
+   * 保持单行并允许在分页区域内横向滑动，页码和操作按钮始终完整可点。 */
+  .enterprise-content .blog-table__pagination {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .enterprise-content .blog-table__pagination .ant-pagination {
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: max-content;
+  }
+
   .enterprise-mobile-drawer .ant-drawer-body {
     padding: 0;
     background: var(--console-surface);
@@ -1616,5 +1630,29 @@ body:has(.enterprise-admin-shell) {
 
   .console-article-row p {
     max-width: 100%;
+  }
+}
+
+/* 320px 等极窄视口下，品牌区与右侧操作区没有足够空间并排放置。
+ * 门户首页入口仍可从侧栏/菜单进入，因此在此断点收起该非核心图标，
+ * 让品牌标题保持可读且不覆盖通知、更多和头像。 */
+@media (max-width: 360px) {
+  .enterprise-topnav-actions .ant-btn.enterprise-topnav-home {
+    display: none !important;
+  }
+
+  .enterprise-topnav-brand {
+    gap: 6px;
+    padding-inline: 4px;
+  }
+
+  .enterprise-topnav-brand strong {
+    max-width: 78px;
+  }
+
+  .enterprise-topnav-actions .ant-btn.enterprise-icon-action,
+  .enterprise-profile-button {
+    width: 36px;
+    min-width: 36px;
   }
 }
