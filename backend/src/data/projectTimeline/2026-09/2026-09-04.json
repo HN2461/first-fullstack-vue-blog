@@ -6,8 +6,15 @@
     {
       "id": "mobile-reading-toolbar-toc-20260904",
       "title": "整合移动端阅读悬浮球与文章目录",
-      "detail": "1. 将移动端文章阅读悬浮球改为点击展开阅读助手面板，悬浮球保持可见并通过 aria-expanded 明确展开状态；触摸点击与拖动改用 Pointer Events 区分，拖动时仍可移动位置，点击时不会先消失。2. 在同一面板内增加“工具 / 目录”标签切换，目录直接复用 TableOfContents，显示目录项数量、当前阅读项和可滚动目录列表；移动端文章底栏的“目录”入口也统一打开悬浮球的目录标签。3. 修正移动端控制台文章阅读页的目录滚动容器解析，使目录点击实际滚动 .enterprise-content 而不是误用 window；点击目录项后面板自动收起并跳转到对应标题。4. 在 390×844 真实 Chrome 触摸模拟中验证悬浮球展开、工具/目录切换、152 项目录渲染、目录项滚动跳转和面板收起，确认滚动容器从 0 滚动到约 374px、目标标题进入视口、页面横向溢出为 0 且无控制台错误。5. 完成前端 20 个测试文件共 75 个测试用例、生产构建、UTF-8 无 BOM 检查和 git diff --check；本次改动涉及 ReadingToolbar.vue、TableOfContents.vue、ArticleDetailPage/MobileView.vue。6. 提交 f22032e 并完成生产部署，发布备份目录为 /www/personal-blog/backups/release-20260904-003023；PM2 personal-blog-api 状态为 online，公网 /api/health 健康检查通过，首页 HTTP 状态为 200，部署脚本返回 REMOTE_EXIT=0。",
+      "detail": "1. 将移动端文章阅读悬浮球改为点击展开阅读助手面板，悬浮球保持可见并通过 aria-expanded 明确展开状态；触摸点击与拖动改用 Pointer Events 区分，拖动时仍可移动位置，点击时不会先消失。2. 在同一面板内增加“工具 / 目录”标签切换，目录直接复用 TableOfContents，显示目录项数量、当前阅读项和可滚动目录列表；移动端文章底栏的“目录”入口也统一打开悬浮球的目录标签。3. 修正移动端控制台文章阅读页的目录滚动容器解析，使目录点击实际滚动 .enterprise-content 而不是误用 window；点击目录项后面板自动收起并跳转到对应标题。4. 在 390×844 真实 Chrome 触摸模拟中验证悬浮球展开、工具/目录切换、152 项目录渲染、目录项滚动跳转和面板收起，确认滚动容器从 0 滚动到约 374px、目标标题进入视口、页面横向溢出为 0 且无控制台错误。5. 完成前端 20 个测试文件共 75 个测试用例、生产构建、UTF-8 无 BOM 检查和 git diff --check；本次改动涉及 ReadingToolbar.vue、TableOfContents.vue、ArticleDetailPage/MobileView.vue。6. 提交 f22032e 并完成生产部署，发布备份目录为 /www/personal-blog/backups/release-20260904-003023；PM2 personal-blog-api 状态为 online，公网 /api/health 健康检查通过，首页 HTTP 状态为 200，部署脚本返回 REMOTE_EXIT=0。7. 修复移动端滚动时悬浮球闪烁：进度量化为整数且仅在变化时更新，移除圆环和面板进度条高频过渡动画，悬浮球改用不透明表面并隔离绘制层；同步移动端底栏会话显示状态，避免偏好关闭时误显示“显示底栏”按钮。完成 390×844 移动视口滚动、面板、目录、字号、拖拽和无横向溢出验证。",
       "occurredAt": "2026-09-04T00:20:00+08:00",
+      "category": "前端体验"
+    },
+    {
+      "id": "mobile-console-menu-more-20260904",
+      "title": "补齐移动端控制台菜单更多操作",
+      "detail": "1. 移动端菜单抽屉标题右侧复用 PC 侧栏“更多”菜单，提供展开完整名称、刷新菜单和按权限导出文章。2. 移除汉堡按钮触摸打开抽屉后残留的“打开菜单”悬浮提示。3. 在 390×844 移动视口验证菜单项显示、菜单动作触发后抽屉关闭以及无 tooltip 残留。",
+      "occurredAt": "2026-09-04T20:35:00+08:00",
       "category": "前端体验"
     }
   ]

@@ -1,11 +1,15 @@
 <template>
   <a-layout class="enterprise-admin-shell">
     <a-layout-header class="enterprise-topnav">
-      <a-tooltip v-if="appStore.isMobile" title="打开菜单">
-        <button class="enterprise-mobile-menu-button" type="button" aria-label="打开控制台菜单" @click="mobileMenuOpen = true">
-          <MenuOutlined />
-        </button>
-      </a-tooltip>
+      <button
+        v-if="appStore.isMobile"
+        class="enterprise-mobile-menu-button"
+        type="button"
+        aria-label="打开控制台菜单"
+        @click="mobileMenuOpen = true"
+      >
+        <MenuOutlined />
+      </button>
 
       <button class="enterprise-topnav-brand" type="button" @click="router.push('/console/articles')">
         <img class="enterprise-brand-icon" src="/favicon.svg" alt="" aria-hidden="true">
@@ -188,8 +192,42 @@
         :class="['enterprise-mobile-drawer', { 'enterprise-sider--full-labels': siderFullLabels }]"
         placement="left"
         width="300"
-        :title="sectionTitle"
       >
+        <template #title>
+          <div class="enterprise-mobile-drawer-title">
+            <span>{{ sectionTitle }}</span>
+            <a-dropdown :trigger="['click']">
+              <button
+                class="enterprise-sider-head-action"
+                type="button"
+                aria-label="打开菜单操作"
+                @click.prevent
+              >
+                <MoreOutlined />
+              </button>
+              <template #overlay>
+                <a-menu class="enterprise-sider-actions" @click="handleMobileSiderAction">
+                  <a-menu-item key="toggle-labels">
+                    <template #icon>
+                      <ExpandOutlined v-if="!siderFullLabels" />
+                      <CompressOutlined v-else />
+                    </template>
+                    <span>{{ siderFullLabels ? '恢复单行名称' : '展开完整名称' }}</span>
+                  </a-menu-item>
+                  <a-menu-item key="refresh-menu">
+                    <template #icon><SyncOutlined /></template>
+                    刷新菜单
+                  </a-menu-item>
+                  <a-menu-divider v-if="canExportArticles" />
+                  <a-menu-item v-if="canExportArticles" key="export-articles">
+                    <template #icon><DownloadOutlined /></template>
+                    导出文章
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </div>
+        </template>
         <div class="enterprise-mobile-root-tabs" role="tablist" aria-label="一级菜单切换">
           <button
             v-for="menu in availableRootMenus"
@@ -922,6 +960,11 @@ function handleSiderAction({ key }) {
   if (key === 'refresh-menu') {
     refreshMenus()
   }
+}
+
+function handleMobileSiderAction(payload) {
+  handleSiderAction(payload)
+  mobileMenuOpen.value = false
 }
 
 async function refreshMenus() {

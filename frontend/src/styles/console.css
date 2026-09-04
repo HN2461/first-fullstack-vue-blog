@@ -1577,6 +1577,27 @@ body:has(.enterprise-admin-shell) {
     background: var(--console-surface);
   }
 
+  .enterprise-mobile-drawer-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .enterprise-mobile-drawer-title > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .enterprise-mobile-drawer-title .enterprise-sider-head-action {
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+  }
+
   .enterprise-mobile-root-tabs {
     display: flex;
     gap: 8px;

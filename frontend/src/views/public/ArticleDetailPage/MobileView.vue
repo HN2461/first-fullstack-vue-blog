@@ -76,12 +76,17 @@
       <ReadingToolbar
         ref="readingToolbarRef"
         :immersive-mode="false"
-        :footer-actions-visible="actionBarVisible"
+        :footer-actions-visible="showFooterActions"
+        footer-restore-label="显示操作栏"
         :default-bottom="actionBarVisible ? 88 : 24"
+        :neighbors="article.readingNeighbors"
         :show-immersive="false"
+        :show-navigation="true"
         :show-toc="toc.length > 0"
         :toc="toc"
         @font-size-change="handleFontSizeChange"
+        @navigate-article="navigateToNeighbor"
+        @show-footer-actions="showFooterActionBar"
       />
 
       <a-drawer
@@ -153,6 +158,19 @@
           <ShareAltOutlined />
           <span>分享</span>
         </button>
+        <a-dropdown trigger="click">
+          <button type="button" aria-label="更多文章操作">
+            <EllipsisOutlined />
+            <span>更多</span>
+          </button>
+          <template #overlay>
+            <a-menu @click="handleFooterMoreAction">
+              <a-menu-item key="hide-session">本次登录隐藏操作栏</a-menu-item>
+              <a-menu-divider />
+              <a-menu-item key="report">举报文章</a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
       </footer>
     </template>
   </section>
@@ -165,6 +183,7 @@ import { message } from 'ant-design-vue'
 import {
   ArrowLeftOutlined,
   DownloadOutlined,
+  EllipsisOutlined,
   LikeOutlined,
   MessageOutlined,
   ShareAltOutlined,
@@ -208,6 +227,7 @@ const readingProgress = useArticleReadingProgress({
     document.querySelector('.mobile-reader')
   )
 })
+const FOOTER_ACTIONS_SESSION_KEY = 'article-footer-actions-hidden'
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -224,6 +244,7 @@ const favoriteCount = ref(0)
 const fontSize = ref(18)
 const likedByCurrentUser = ref(false)
 const favoritedByCurrentUser = ref(false)
+const showFooterActions = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
 const article = ref({
   id: '',
   title: '',
@@ -243,7 +264,8 @@ const article = ref({
   source: '',
   sourcePath: '',
   likedByCurrentUser: false,
-  favoritedByCurrentUser: false
+  favoritedByCurrentUser: false,
+  readingNeighbors: { previous: [], next: [], related: [], position: 0, total: 0, displayedCount: 0 }
 })
 
 const inConsole = computed(() => route.path.startsWith('/console'))
@@ -253,6 +275,7 @@ const backLabel = computed(() => (isAdminPreview.value ? '返回文章管理' : 
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const actionBarVisible = computed(() => shouldShowArticleFooter({
   isAdminPreview: isAdminPreview.value,
+  isSessionHidden: !showFooterActions.value,
   isLoggedIn: authStore.isLoggedIn,
   preferenceEnabled: authStore.user?.articleAuthorCardEnabled === true
 }))
@@ -286,6 +309,41 @@ function formatMetric(value = 0) {
 
 function handleFontSizeChange(nextSize) {
   fontSize.value = nextSize
+}
+
+function showFooterActionBar() {
+  showFooterActions.value = true
+  sessionStorage.removeItem(FOOTER_ACTIONS_SESSION_KEY)
+}
+
+function hideFooterActionBarForSession() {
+  showFooterActions.value = false
+  sessionStorage.setItem(FOOTER_ACTIONS_SESSION_KEY, 'true')
+}
+
+function handleFooterMoreAction({ key }) {
+  if (key === 'hide-session') {
+    hideFooterActionBarForSession()
+    return
+  }
+
+  if (key === 'report') {
+    reportArticle()
+  }
+}
+
+function reportArticle() {
+  message.info('文章举报入口已预留，后续可直接接入正式表单流程。')
+}
+
+function navigateToNeighbor(slug) {
+  if (!slug) return
+  const query = route.query
+  if (inDirectoryConsole.value) {
+    router.push({ path: `/console/article-directory/articles/${slug}`, query })
+    return
+  }
+  router.push({ path: inConsole.value ? `/console/articles/${slug}` : `/articles/${slug}`, query })
 }
 
 function openTocPanel() {
@@ -701,7 +759,7 @@ onBeforeRouteUpdate((to, from) => {
   left: 0;
   z-index: 40;
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 2px;
   padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--border-color);
@@ -711,7 +769,7 @@ onBeforeRouteUpdate((to, from) => {
 }
 
 .mobile-reader__actions--document {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
 .mobile-reader__actions button {
@@ -727,6 +785,14 @@ onBeforeRouteUpdate((to, from) => {
   color: var(--text-secondary);
   background: transparent;
   font-size: 12px;
+}
+
+.mobile-reader__actions > .ant-dropdown {
+  min-width: 0;
+}
+
+.mobile-reader__actions > .ant-dropdown > button {
+  width: 100%;
 }
 
 .mobile-reader__actions button:disabled {

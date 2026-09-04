@@ -122,7 +122,7 @@
             </div>
 
             <ReadingArticleNavigation
-              v-if="immersiveMode && neighbors"
+              v-if="hasNavigation && neighbors"
               :neighbors="neighbors"
               @navigate="navigateArticle"
             />
@@ -130,7 +130,7 @@
             <div v-if="!footerActionsVisible" class="panel-section">
               <button class="action-btn footer-btn" type="button" @click.stop="showFooterActions">
                 <Eye :size="18" />
-                <span>显示底栏</span>
+                <span>{{ footerRestoreLabel }}</span>
               </button>
             </div>
           </div>
@@ -170,6 +170,10 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  footerRestoreLabel: {
+    type: String,
+    default: '显示底栏'
+  },
   defaultBottom: {
     type: Number,
     default: 24
@@ -181,6 +185,10 @@ const props = defineProps({
   showImmersive: {
     type: Boolean,
     default: true
+  },
+  showNavigation: {
+    type: Boolean,
+    default: false
   },
   showToc: {
     type: Boolean,
@@ -210,6 +218,7 @@ const circumference = 2 * Math.PI * 18
 const defaultFontSize = computed(() => getDefaultFontSize(viewportWidth.value))
 const progressOffset = computed(() => circumference - (progress.value / 100) * circumference)
 const hasToc = computed(() => props.showToc && props.toc.length > 0)
+const hasNavigation = computed(() => props.showNavigation || props.immersiveMode)
 
 const positionStyle = computed(() => {
   if (position.value.x === null) {
@@ -323,9 +332,14 @@ function updateProgress() {
   const clientHeight = isWindow ? window.innerHeight : scrollContainer.value.clientHeight
   const scrollTop = isWindow ? window.scrollY : scrollContainer.value.scrollTop
   const maxScroll = scrollHeight - clientHeight
-  progress.value = maxScroll <= 0
+  const nextProgress = maxScroll <= 0
     ? 0
-    : Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100))
+    : Math.round(Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100)))
+
+  // 圆环文本只展示整数进度；跳过同一百分比内的更新，避免移动端滚动时持续触发 SVG 重绘。
+  if (nextProgress !== progress.value) {
+    progress.value = nextProgress
+  }
 }
 
 function onScroll() {
@@ -555,11 +569,15 @@ onUnmounted(() => {
   border: 1px solid var(--border-color);
   border-radius: 50%;
   color: var(--text-primary);
-  background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  /* 使用不透明表面，避免正文滚动时半透明层被移动端浏览器反复合成。 */
+  background: var(--bg-elevated);
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12);
   cursor: grab;
   user-select: none;
   touch-action: none;
+  isolation: isolate;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
@@ -588,7 +606,6 @@ onUnmounted(() => {
 
 .progress-ring-fill {
   stroke: var(--primary-color);
-  transition: stroke-dashoffset 0.25s ease;
 }
 
 .progress-text {
@@ -755,7 +772,6 @@ onUnmounted(() => {
   height: 100%;
   border-radius: inherit;
   background: var(--primary-color);
-  transition: width 0.2s ease;
 }
 
 .progress-info {
