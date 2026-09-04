@@ -217,9 +217,10 @@
       </footer>
 
       <ReadingToolbar
-        v-if="article.contentMode !== 'document'"
+        v-if="pageActive && !loading && !errorMessage && article.id && article.contentMode !== 'document'"
         :immersive-mode="isImmersiveReading"
-        :footer-actions-visible="showFooterActions"
+        :footer-actions-visible="actionBarVisible"
+        :footer-restore-visible="!isImmersiveReading && !isAdminPreview"
         :default-bottom="actionBarVisible ? 88 : 24"
         :neighbors="article.readingNeighbors"
         @font-size-change="handleFontSizeChange"
@@ -347,7 +348,8 @@ const fontSize = ref(17)
 const isImmersiveReading = ref(false)
 const preserveImmersiveOnNextLoad = ref(false)
 const isTocOpen = ref(false)
-const showFooterActions = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
+const footerSessionVisible = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
+const footerVisibilityOverride = ref(false)
 const pageActive = ref(true)
 let cachedReadingPosition = null
 
@@ -383,7 +385,8 @@ const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((ite
 const actionBarVisible = computed(() => shouldShowArticleFooter({
   isAdminPreview: isAdminPreview.value,
   isImmersiveReading: isImmersiveReading.value,
-  isSessionHidden: !showFooterActions.value,
+  isSessionHidden: !footerSessionVisible.value,
+  forceVisible: footerVisibilityOverride.value,
   isLoggedIn: authStore.isLoggedIn,
   preferenceEnabled: authorCardVisible.value
 }))
@@ -453,12 +456,14 @@ function toggleImmersiveReading() {
 }
 
 function hideFooterActionBarForSession() {
-  showFooterActions.value = false
+  footerSessionVisible.value = false
+  footerVisibilityOverride.value = false
   sessionStorage.setItem(FOOTER_ACTIONS_SESSION_KEY, 'true')
 }
 
 function showFooterActionBar() {
-  showFooterActions.value = true
+  footerSessionVisible.value = true
+  footerVisibilityOverride.value = true
   sessionStorage.removeItem(FOOTER_ACTIONS_SESSION_KEY)
 }
 

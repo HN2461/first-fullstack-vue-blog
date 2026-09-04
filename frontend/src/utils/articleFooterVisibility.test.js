@@ -18,6 +18,14 @@ describe('shouldShowArticleFooter', () => {
     })).toBe(true)
   })
 
+  it('allows the reading assistant to temporarily restore a disabled preference', () => {
+    expect(shouldShowArticleFooter({
+      isLoggedIn: true,
+      preferenceEnabled: false,
+      forceVisible: true
+    })).toBe(true)
+  })
+
   it('keeps public article actions available to signed-out visitors', () => {
     expect(shouldShowArticleFooter({
       isLoggedIn: false,

@@ -127,7 +127,7 @@
               @navigate="navigateArticle"
             />
 
-            <div v-if="!footerActionsVisible" class="panel-section">
+            <div v-if="!footerActionsVisible && footerRestoreVisible" class="panel-section">
               <button class="action-btn footer-btn" type="button" @click.stop="showFooterActions">
                 <Eye :size="18" />
                 <span>{{ footerRestoreLabel }}</span>
@@ -173,6 +173,10 @@ const props = defineProps({
   footerRestoreLabel: {
     type: String,
     default: '显示底栏'
+  },
+  footerRestoreVisible: {
+    type: Boolean,
+    default: true
   },
   defaultBottom: {
     type: Number,
@@ -257,7 +261,7 @@ const panelStyle = computed(() => {
       bottom: `${bottom}px`,
       width: `${panelWidth}px`,
       maxHeight: `${maxHeight}px`,
-      ...(activePanel.value === 'toc' ? { height: `${maxHeight}px` } : {})
+      height: `${maxHeight}px`
     }
   }
 
@@ -276,13 +280,13 @@ const panelStyle = computed(() => {
       const maxHeight = Math.max(240, Math.min(desiredPanelHeight, viewportHeight - top - padding))
       style.top = `${top}px`
       style.maxHeight = `${maxHeight}px`
-      if (activePanel.value === 'toc') style.height = `${maxHeight}px`
+      style.height = `${maxHeight}px`
     } else {
       const bottom = viewportHeight - buttonY + padding
       const maxHeight = Math.max(240, Math.min(desiredPanelHeight, viewportHeight - bottom - padding))
       style.bottom = `${bottom}px`
       style.maxHeight = `${maxHeight}px`
-      if (activePanel.value === 'toc') style.height = `${maxHeight}px`
+      style.height = `${maxHeight}px`
     }
     return style
   }
@@ -297,7 +301,7 @@ const panelStyle = computed(() => {
     ? `${buttonY}px`
     : `${Math.max(padding, buttonY + buttonSize - desiredPanelHeight)}px`
   style.maxHeight = `${Math.min(desiredPanelHeight, viewportHeight - (Number.parseFloat(style.top) || padding) - padding)}px`
-  if (activePanel.value === 'toc') style.height = style.maxHeight
+  style.height = style.maxHeight
 
   return style
 })
@@ -699,7 +703,11 @@ onUnmounted(() => {
 }
 
 .panel-view--tools {
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
 

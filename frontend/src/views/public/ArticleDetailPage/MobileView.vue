@@ -3,6 +3,7 @@
     class="mobile-reader"
     :class="{
       'mobile-reader--console': inConsole,
+      'mobile-reader--immersive': isImmersiveReading,
       'mobile-reader--footer-hidden': !actionBarVisible
     }"
   >
@@ -69,24 +70,29 @@
           <ArticleContentRenderer
             :article="article"
             :asset-base="legacyAssetBase"
+            :code-wrap="isImmersiveReading"
+            :expand-code-blocks="isImmersiveReading"
           />
         </div>
       </article>
 
       <ReadingToolbar
+        v-if="pageActive && !loading && !errorMessage && article.id"
         ref="readingToolbarRef"
-        :immersive-mode="false"
-        :footer-actions-visible="showFooterActions"
+        :immersive-mode="isImmersiveReading"
+        :footer-actions-visible="actionBarVisible"
+        :footer-restore-visible="!isImmersiveReading && !isAdminPreview"
         footer-restore-label="显示操作栏"
         :default-bottom="actionBarVisible ? 88 : 24"
         :neighbors="article.readingNeighbors"
-        :show-immersive="false"
+        :show-immersive="true"
         :show-navigation="true"
         :show-toc="toc.length > 0"
         :toc="toc"
         @font-size-change="handleFontSizeChange"
         @navigate-article="navigateToNeighbor"
         @show-footer-actions="showFooterActionBar"
+        @toggle-immersive="toggleImmersiveReading"
       />
 
       <a-drawer
@@ -177,7 +183,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onActivated, onDeactivated, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onActivated, onDeactivated, onMounted, onUnmounted, ref, watch } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -228,6 +234,7 @@ const readingProgress = useArticleReadingProgress({
   )
 })
 const FOOTER_ACTIONS_SESSION_KEY = 'article-footer-actions-hidden'
+const IMMERSIVE_QUERY_KEY = 'immersive'
 
 const loading = ref(false)
 const errorMessage = ref('')
@@ -244,7 +251,9 @@ const favoriteCount = ref(0)
 const fontSize = ref(18)
 const likedByCurrentUser = ref(false)
 const favoritedByCurrentUser = ref(false)
-const showFooterActions = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
+const footerSessionVisible = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
+const footerVisibilityOverride = ref(false)
+const isImmersiveReading = ref(route.query[IMMERSIVE_QUERY_KEY] === '1')
 const article = ref({
   id: '',
   title: '',
@@ -275,7 +284,9 @@ const backLabel = computed(() => (isAdminPreview.value ? '返回文章管理' : 
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const actionBarVisible = computed(() => shouldShowArticleFooter({
   isAdminPreview: isAdminPreview.value,
-  isSessionHidden: !showFooterActions.value,
+  isImmersiveReading: isImmersiveReading.value,
+  isSessionHidden: !footerSessionVisible.value,
+  forceVisible: footerVisibilityOverride.value,
   isLoggedIn: authStore.isLoggedIn,
   preferenceEnabled: authStore.user?.articleAuthorCardEnabled === true
 }))
@@ -307,17 +318,48 @@ function formatMetric(value = 0) {
   return `${count}`
 }
 
+function syncImmersiveBodyClass() {
+  document.body.classList.toggle('reader-immersive-active', isImmersiveReading.value)
+}
+
+function toggleImmersiveReading() {
+  const scrollTarget = resolveReadingScrollTarget(document.querySelector('.mobile-reader'))
+  const readingPosition = scrollTarget
+    ? buildReadingSnapshot(captureReadingMetrics(scrollTarget))
+    : null
+  isImmersiveReading.value = !isImmersiveReading.value
+  const nextQuery = { ...route.query }
+  if (isImmersiveReading.value) {
+    nextQuery[IMMERSIVE_QUERY_KEY] = '1'
+  } else {
+    delete nextQuery[IMMERSIVE_QUERY_KEY]
+  }
+  router.replace({ query: nextQuery })
+  nextTick(() => {
+    if (!readingPosition) return
+    const target = resolveReadingScrollTarget(document.querySelector('.mobile-reader'))
+    if (!target) return
+    restoreReadingPosition(target, {
+      ...readingPosition,
+      articleUpdatedAt: article.value.updatedAt,
+      currentArticleUpdatedAt: article.value.updatedAt
+    })
+  })
+}
+
 function handleFontSizeChange(nextSize) {
   fontSize.value = nextSize
 }
 
 function showFooterActionBar() {
-  showFooterActions.value = true
+  footerSessionVisible.value = true
+  footerVisibilityOverride.value = true
   sessionStorage.removeItem(FOOTER_ACTIONS_SESSION_KEY)
 }
 
 function hideFooterActionBarForSession() {
-  showFooterActions.value = false
+  footerSessionVisible.value = false
+  footerVisibilityOverride.value = false
   sessionStorage.setItem(FOOTER_ACTIONS_SESSION_KEY, 'true')
 }
 
@@ -338,7 +380,9 @@ function reportArticle() {
 
 function navigateToNeighbor(slug) {
   if (!slug) return
-  const query = route.query
+  const query = isImmersiveReading.value
+    ? { ...route.query, [IMMERSIVE_QUERY_KEY]: '1' }
+    : route.query
   if (inDirectoryConsole.value) {
     router.push({ path: `/console/article-directory/articles/${slug}`, query })
     return
@@ -379,6 +423,7 @@ async function loadArticle() {
   loading.value = true
   errorMessage.value = ''
   readingToolbarRef.value?.closePanel()
+  isImmersiveReading.value = route.query[IMMERSIVE_QUERY_KEY] === '1'
 
   let result = null
   try {
@@ -399,7 +444,12 @@ async function loadArticle() {
 
   if (!result) return
   await nextTick()
-  window.scrollTo({ top: 0, behavior: 'auto' })
+  const scrollTarget = resolveReadingScrollTarget(document.querySelector('.mobile-reader'))
+  if (scrollTarget === window) {
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  } else {
+    scrollTarget?.scrollTo({ top: 0, behavior: 'auto' })
+  }
   if (!isAdminPreview.value && commentDrawerVisible.value) {
     await loadComments()
   }
@@ -506,17 +556,24 @@ async function shareArticle() {
 
 onMounted(() => {
   siteStore.loadProfile().catch(() => {})
+  syncImmersiveBodyClass()
   loadArticle()
+})
+
+onUnmounted(() => {
+  document.body.classList.remove('reader-immersive-active')
 })
 
 // 移动端文章页同样可能被控制台 keep-alive 暂停，停用时强制保存当前阅读进度。
 onDeactivated(() => {
   pageActive.value = false
   void readingProgress.persist(true)
+  document.body.classList.remove('reader-immersive-active')
 })
 
 onActivated(() => {
   pageActive.value = true
+  syncImmersiveBodyClass()
   nextTick(() => {
     const scrollTarget = resolveReadingScrollTarget(document.querySelector('.mobile-reader'))
     if (!scrollTarget || !cachedReadingPosition) return
@@ -527,6 +584,8 @@ onActivated(() => {
     })
   })
 })
+
+watch(isImmersiveReading, syncImmersiveBodyClass)
 
 watch(
   [
@@ -563,6 +622,10 @@ onBeforeRouteUpdate((to, from) => {
   overflow-x: hidden;
   color: var(--text-primary);
   background: var(--bg-primary);
+}
+
+.mobile-reader--immersive {
+  min-height: 100vh;
 }
 
 .mobile-reader__state {
@@ -871,6 +934,24 @@ onBeforeRouteUpdate((to, from) => {
 
 :global(.enterprise-content-inner:has(.mobile-reader)) {
   min-height: auto !important;
+}
+
+:global(body.reader-immersive-active .public-header),
+:global(body.reader-immersive-active .enterprise-topnav),
+:global(body.reader-immersive-active .enterprise-sider),
+:global(body.reader-immersive-active .console-tabs-bar) {
+  display: none !important;
+}
+
+:global(body.reader-immersive-active .enterprise-console-body),
+:global(body.reader-immersive-active .enterprise-main-layout),
+:global(body.reader-immersive-active .enterprise-content) {
+  min-height: 100vh !important;
+  height: 100vh !important;
+}
+
+:global(body.reader-immersive-active .enterprise-content) {
+  padding: 0 !important;
 }
 
 @media (orientation: landscape) and (max-height: 520px) {

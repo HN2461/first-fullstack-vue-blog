@@ -103,11 +103,7 @@ function navigate(slug) {
 .reading-navigation__list {
   display: grid;
   gap: 4px;
-  max-height: 232px;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-gutter: stable;
-  scrollbar-width: thin;
+  overflow: visible;
 }
 
 .reading-navigation__item {
