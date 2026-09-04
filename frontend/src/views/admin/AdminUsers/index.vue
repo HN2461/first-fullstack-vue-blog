@@ -4,11 +4,12 @@
       ref="tableRef"
       class="users-table"
       :api-fn="loadUsers"
-      :columns="columns"
+      :columns="visibleColumns"
       :params="filterParams"
       :auto-load="true"
       :page-size="10"
       :page-sizes="['10', '20', '50']"
+      :scroll="viewportWidth > 720 ? { x: 1020 } : undefined"
       :show-column-setting="true"
       :height="'100%'"
       :row-selection="rowSelection"
@@ -318,7 +319,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -376,6 +377,7 @@ const createUserFormRef = ref(null)
 const { runAction, confirmAction } = useAdminActions()
 const authStore = useAuthStore()
 const router = useRouter()
+const viewportWidth = ref(typeof window === 'undefined' ? 1280 : window.innerWidth)
 
 const roleForm = reactive({ roleIds: [] })
 const remarkForm = reactive({ remarkName: '' })
@@ -413,14 +415,25 @@ const filterParams = computed(() => ({
 const roleTargetLabel = computed(() => roleRecord.value ? roleRecord.value.email : `已选 ${selectedUserIds.value.length} 个用户`)
 
 const columns = [
-  { title: '用户', key: 'user', dataIndex: 'username', width: 280 },
+  { title: '用户', key: 'user', dataIndex: 'username', width: 280, fixed: 'left' },
   { title: '性别', key: 'gender', width: 80, align: 'center' },
   { title: '角色', key: 'roles', width: 240 },
   { title: '状态', key: 'status', width: 90, align: 'center' },
   { title: '权限申请', key: 'permission', width: 110, align: 'center' },
   { title: '注册时间', key: 'createdAt', width: 170, align: 'center' },
-  { title: '操作', key: 'action', width: 100, align: 'center' }
+  { title: '操作', key: 'action', width: 100, align: 'center', fixed: 'right' }
 ]
+const visibleColumns = computed(() => {
+  if (viewportWidth.value > 720) return columns
+
+  return columns
+    .filter((column) => ['user', 'status', 'action'].includes(column.key))
+    .map((column) => ({
+      ...column,
+      width: { user: 218, status: 78, action: 64 }[column.key],
+      fixed: undefined
+    }))
+})
 const rowSelection = computed(() => ({
   getCheckboxProps: (record) => ({
     disabled: record.isSuperAdmin
@@ -758,7 +771,16 @@ async function loadRoles() {
   }
 }
 
-onMounted(loadRoles)
+function handleViewportResize() {
+  viewportWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  loadRoles()
+  window.addEventListener('resize', handleViewportResize, { passive: true })
+})
+
+onUnmounted(() => window.removeEventListener('resize', handleViewportResize))
 </script>
 
 <style scoped>
@@ -855,6 +877,103 @@ onMounted(loadRoles)
 @media (max-width: 900px) {
   .users-page {
     height: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  .users-page {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .users-table :deep(.blog-table__toolbar) {
+    padding: 10px 12px;
+  }
+
+  .users-table :deep(.blog-table__toolbar-left) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .users-table :deep(.blog-table__toolbar-left > .ant-input-search) {
+    grid-column: 1 / -1;
+    width: 100% !important;
+  }
+
+  .users-table :deep(.blog-table__toolbar-left > .ant-select) {
+    width: 100% !important;
+  }
+
+  .users-table :deep(.blog-table__toolbar-left > .ant-tooltip),
+  .users-table :deep(.blog-table__toolbar-left > .ant-btn-primary) {
+    min-width: 0;
+  }
+
+  .users-table :deep(.blog-table__body) {
+    overflow-x: hidden;
+  }
+
+  .users-table :deep(.ant-table-thead > tr > th),
+  .users-table :deep(.ant-table-tbody > tr > td) {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .users-table :deep(.ant-table-selection-column) {
+    width: 34px;
+  }
+
+  .users-table :deep(.ant-table-content > table) {
+    width: 100% !important;
+    min-width: 100% !important;
+    table-layout: fixed;
+  }
+
+  .users-table :deep(.ant-table),
+  .users-table :deep(.ant-table-container),
+  .users-table :deep(.ant-table-content) {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .users-table :deep(.ant-table-selection-col) {
+    width: 34px !important;
+  }
+
+  .user-info-cell {
+    gap: 8px;
+  }
+
+  .user-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .user-name {
+    font-size: 12px;
+  }
+
+  .user-email {
+    max-width: 132px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .user-detail :deep(.ant-tag) {
+    max-width: 94px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .users-table :deep(.blog-table__footer) {
+    padding: 8px 10px;
+  }
+
+  .users-table :deep(.ant-pagination-options-quick-jumper),
+  .users-table :deep(.ant-pagination-total-text) {
+    display: none;
   }
 }
 </style>

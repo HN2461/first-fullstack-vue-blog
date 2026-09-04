@@ -3,6 +3,7 @@
     :open="open"
     :footer="null"
     centered
+    wrap-class-name="media-preview-modal"
     width="min(1180px, calc(100vw - 32px))"
     :body-style="{ height: 'min(76vh, 760px)', overflow: 'hidden', padding: 0 }"
     @update:open="emit('update:open', $event)"
