@@ -426,11 +426,15 @@ const columns = [
 const visibleColumns = computed(() => {
   if (viewportWidth.value > 720) return columns
 
+  const mobileColumnWidths = viewportWidth.value <= 380
+    ? { user: 149, status: 56, action: 44 }
+    : { user: Math.min(218, Math.max(149, viewportWidth.value - 186)), status: 64, action: 52 }
+
   return columns
     .filter((column) => ['user', 'status', 'action'].includes(column.key))
     .map((column) => ({
       ...column,
-      width: { user: 218, status: 78, action: 64 }[column.key],
+      width: mobileColumnWidths[column.key],
       fixed: undefined
     }))
 })
@@ -876,7 +880,24 @@ onUnmounted(() => window.removeEventListener('resize', handleViewportResize))
 
 @media (max-width: 900px) {
   .users-page {
-    height: auto;
+    height: var(--console-page-available-height);
+    min-height: 0;
+  }
+
+  .users-table {
+    height: 100% !important;
+  }
+
+  .users-table :deep(.blog-table__body) {
+    flex: 1 1 0 !important;
+    min-height: 0;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .users-table :deep(.blog-table__footer) {
+    margin-top: 0;
   }
 }
 
@@ -928,7 +949,11 @@ onUnmounted(() => window.removeEventListener('resize', handleViewportResize))
   .users-table :deep(.ant-table-content > table) {
     width: 100% !important;
     min-width: 100% !important;
-    table-layout: fixed;
+    table-layout: fixed !important;
+  }
+
+  .users-table :deep(.ant-table-content) {
+    overflow-x: hidden !important;
   }
 
   .users-table :deep(.ant-table),
@@ -974,6 +999,21 @@ onUnmounted(() => window.removeEventListener('resize', handleViewportResize))
   .users-table :deep(.ant-pagination-options-quick-jumper),
   .users-table :deep(.ant-pagination-total-text) {
     display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .user-info-cell {
+    gap: 6px;
+  }
+
+  .user-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .user-email {
+    max-width: 90px;
   }
 }
 </style>

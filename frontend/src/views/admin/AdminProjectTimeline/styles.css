@@ -37,6 +37,27 @@
   width: min(320px, 100%);
 }
 
+.project-timeline-toolbar__filters,
+.project-timeline-toolbar__summary,
+.project-timeline-toolbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.project-timeline-toolbar__filters {
+  flex: 1 1 480px;
+}
+
+.project-timeline-toolbar__summary {
+  margin-left: auto;
+}
+
+.project-timeline-toolbar__actions {
+  flex-shrink: 0;
+}
+
 .project-timeline-category {
   width: 160px;
 }
@@ -46,7 +67,6 @@
 }
 
 .project-timeline-total {
-  margin-left: auto;
   font-size: 13px;
   color: var(--console-text-secondary, #667085);
 }
@@ -211,8 +231,22 @@
 
 @media (max-width: 900px) {
   .project-timeline-toolbar {
-    align-items: stretch;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 10px 12px;
+    padding-bottom: 10px;
+  }
+
+  .project-timeline-toolbar__filters {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 36px;
+    gap: 8px;
+  }
+
+  .project-timeline-search {
+    grid-column: 1 / -1;
   }
 
   .project-timeline-search,
@@ -220,16 +254,45 @@
     width: 100%;
   }
 
-  .project-timeline-total {
+  .project-timeline-toolbar__summary {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
     margin-left: 0;
   }
 
-  .project-timeline-toolbar .ant-btn {
-    width: 100%;
+  .project-timeline-toolbar__actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
   }
 
-  .project-timeline-help-button.ant-btn {
-    width: 32px;
+  .project-timeline-toolbar__actions .ant-btn {
+    width: 100%;
+    min-width: 0;
+    padding-inline: 8px;
+  }
+
+  .project-timeline-list {
+    padding: 12px 2px 0;
+  }
+
+  .project-timeline-pagination {
+    justify-content: center;
+    padding-top: 8px;
+  }
+
+  .project-timeline-pagination .ant-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  }
+
+  .project-timeline-pagination .ant-pagination-total-text,
+  .project-timeline-pagination .ant-pagination-options {
+    display: none;
   }
 
   .timeline-entry__head {
@@ -239,5 +302,26 @@
   .timeline-entry__actions {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .timeline-entry {
+    padding: 12px;
+  }
+
+  .timeline-entry__detail {
+    margin-top: 10px;
+    padding-top: 8px;
+  }
+
+  .timeline-entry__detail-text {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 380px) {
+  .project-timeline-action-prefix,
+  .project-timeline-action-suffix {
+    display: none !important;
   }
 }

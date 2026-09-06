@@ -10,48 +10,54 @@
 
     <main class="project-timeline-workspace">
       <div class="project-timeline-toolbar">
-        <a-input-search
-          v-model:value="keyword"
-          allow-clear
-          placeholder="搜索标题或详情"
-          class="project-timeline-search"
-          :loading="loading"
-          @search="handleSearch"
-          @press-enter="handleSearch"
-        />
-        <a-select
-          v-model:value="filterCategory"
-          allow-clear
-          show-search
-          option-filter-prop="label"
-          placeholder="全部分类"
-          class="project-timeline-category"
-          :options="categoryOptions"
-          @change="handleFilterChange"
-        />
-        <a-tooltip title="用于留存系统搭建、迭代开发、问题修复、部署发布等关键节点。">
-          <a-button class="project-timeline-help-button" shape="circle">
-            <template #icon><QuestionCircleOutlined /></template>
+        <div class="project-timeline-toolbar__filters">
+          <a-input-search
+            v-model:value="keyword"
+            allow-clear
+            placeholder="搜索标题或详情"
+            class="project-timeline-search"
+            :loading="loading"
+            @search="handleSearch"
+            @press-enter="handleSearch"
+          />
+          <a-select
+            v-model:value="filterCategory"
+            allow-clear
+            show-search
+            option-filter-prop="label"
+            placeholder="全部分类"
+            class="project-timeline-category"
+            :options="categoryOptions"
+            @change="handleFilterChange"
+          />
+          <a-tooltip title="用于留存系统搭建、迭代开发、问题修复、部署发布等关键节点。">
+            <a-button class="project-timeline-help-button" shape="circle" aria-label="查看项目记录说明">
+              <template #icon><QuestionCircleOutlined /></template>
+            </a-button>
+          </a-tooltip>
+        </div>
+        <div class="project-timeline-toolbar__summary">
+          <span class="project-timeline-total">共 {{ total }} 条</span>
+          <a-tooltip title="刷新记录">
+            <a-button :loading="loading" aria-label="刷新项目记录" @click="loadRecords">
+              <template #icon><ReloadOutlined /></template>
+            </a-button>
+          </a-tooltip>
+        </div>
+        <div class="project-timeline-toolbar__actions">
+          <a-button :loading="exporting" @click="handleExport">
+            <template #icon><DownloadOutlined /></template>
+            导出<span class="project-timeline-action-suffix">记录</span>
           </a-button>
-        </a-tooltip>
-        <span class="project-timeline-total">共 {{ total }} 条</span>
-        <a-tooltip title="刷新记录">
-          <a-button :loading="loading" aria-label="刷新项目记录" @click="loadRecords">
-            <template #icon><ReloadOutlined /></template>
+          <a-button @click="importModalVisible = true">
+            <template #icon><UploadOutlined /></template>
+            <span class="project-timeline-action-prefix">批量</span>导入
           </a-button>
-        </a-tooltip>
-        <a-button :loading="exporting" @click="handleExport">
-          <template #icon><DownloadOutlined /></template>
-          导出记录
-        </a-button>
-        <a-button @click="importModalVisible = true">
-          <template #icon><UploadOutlined /></template>
-          批量导入
-        </a-button>
-        <a-button type="primary" @click="createModalVisible = true">
-          <template #icon><PlusOutlined /></template>
-          新增记录
-        </a-button>
+          <a-button type="primary" @click="createModalVisible = true">
+            <template #icon><PlusOutlined /></template>
+            新增<span class="project-timeline-action-suffix">记录</span>
+          </a-button>
+        </div>
       </div>
 
       <div v-if="loading && records.length === 0" class="project-timeline-loading">
@@ -75,12 +81,13 @@
           v-model:current="page"
           v-model:page-size="pageSize"
           :total="total"
-          :responsive="false"
-          :show-less-items="false"
-          :show-size-changer="true"
+          :responsive="compactPagination"
+          :show-less-items="compactPagination"
+          :show-size-changer="!compactPagination"
           :page-size-options="pageSizeOptions"
-          :show-total="(value) => `共 ${value} 条`"
-          show-quick-jumper
+          :show-total="compactPagination ? undefined : (value) => `共 ${value} 条`"
+          :show-quick-jumper="!compactPagination"
+          :size="compactPagination ? 'small' : 'default'"
           @change="handlePageChange"
           @showSizeChange="handlePageSizeChange"
         />
@@ -112,7 +119,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { DownloadOutlined, PlusOutlined, QuestionCircleOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import {
@@ -146,8 +153,10 @@ const editingRecord = ref(null)
 const filterCategory = ref(undefined)
 const keyword = ref('')
 const knownCategories = ref([])
+const viewportWidth = ref(typeof window === 'undefined' ? 1280 : window.innerWidth)
 
 const categoryOptions = computed(() => buildCategoryOptions(knownCategories.value))
+const compactPagination = computed(() => viewportWidth.value <= 900)
 
 async function loadRecords(nextPage = page.value) {
   page.value = nextPage
@@ -277,7 +286,15 @@ async function handleExport() {
   }
 }
 
+function syncViewportWidth() {
+  viewportWidth.value = window.innerWidth
+}
+
 onMounted(() => {
+  syncViewportWidth()
+  window.addEventListener('resize', syncViewportWidth, { passive: true })
   loadRecords()
 })
+
+onUnmounted(() => window.removeEventListener('resize', syncViewportWidth))
 </script>

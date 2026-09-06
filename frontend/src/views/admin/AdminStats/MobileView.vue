@@ -259,7 +259,7 @@
       class="quick-config-modal"
       title="快捷操作配置"
       width="760px"
-      :body-style="{ maxHeight: '62vh', overflow: 'hidden' }"
+      :body-style="{ maxHeight: '62vh', overflowY: 'auto', overscrollBehavior: 'contain' }"
       :footer="null"
     >
       <div class="quick-config">
@@ -270,22 +270,47 @@
           </header>
           <div
             class="quick-config__list quick-config__list--selected"
-            @dragover.prevent
-            @drop="handleDropToSelected"
           >
-            <button
+            <div
               v-for="(item, index) in draftQuickActions"
               :key="item.route"
               class="quick-config__item"
-              type="button"
-              draggable="true"
-              @dragstart="handleDraftDragStart(index)"
-              @dragover.prevent
-              @drop="handleDraftDrop(index)"
             >
               <component :is="item.icon" />
-              <span>{{ item.label }}</span>
-            </button>
+              <span class="quick-config__label">{{ item.label }}</span>
+              <div class="quick-config__item-actions">
+                <button
+                  class="quick-config__icon-button"
+                  type="button"
+                  :disabled="quickSaving || index === 0"
+                  :aria-label="`上移${item.label}`"
+                  :title="`上移${item.label}`"
+                  @click="moveSelectedItem(index, -1)"
+                >
+                  <UpOutlined />
+                </button>
+                <button
+                  class="quick-config__icon-button"
+                  type="button"
+                  :disabled="quickSaving || index === draftQuickActions.length - 1"
+                  :aria-label="`下移${item.label}`"
+                  :title="`下移${item.label}`"
+                  @click="moveSelectedItem(index, 1)"
+                >
+                  <DownOutlined />
+                </button>
+                <button
+                  class="quick-config__icon-button quick-config__icon-button--danger"
+                  type="button"
+                  :disabled="quickSaving"
+                  :aria-label="`移除${item.label}`"
+                  :title="`移除${item.label}`"
+                  @click="removeSelectedItem(item.route)"
+                >
+                  <DeleteOutlined />
+                </button>
+              </div>
+            </div>
             <a-empty
               v-if="draftQuickActions.length === 0"
               description="请选择右侧菜单"
@@ -301,19 +326,25 @@
           </header>
           <div
             class="quick-config__list quick-config__list--available"
-            @dragover.prevent
-            @drop="handleDropToAvailable"
           >
             <div class="quick-config__checks">
               <div
                 v-for="item in unselectedQuickActions"
                 :key="item.route"
                 class="quick-config__check"
-                draggable="true"
-                @dragstart="handleAvailableDragStart(item.route)"
               >
                 <component :is="item.icon" />
-                <span>{{ item.label }}</span>
+                <span class="quick-config__label">{{ item.label }}</span>
+                <button
+                  class="quick-config__icon-button quick-config__icon-button--add"
+                  type="button"
+                  :disabled="quickSaving"
+                  :aria-label="`添加${item.label}`"
+                  :title="`添加${item.label}`"
+                  @click="addQuickAction(item.route)"
+                >
+                  <PlusOutlined />
+                </button>
               </div>
               <a-empty
                 v-if="unselectedQuickActions.length === 0"
@@ -331,6 +362,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
 import { openMenuRoute } from '@/utils/menuNavigation'
 import {
   PlusOutlined, BookOutlined,
@@ -339,7 +371,7 @@ import {
   TagOutlined, FolderOutlined, BellOutlined, ToolOutlined, ApiOutlined,
   DashboardOutlined, SafetyOutlined, MenuOutlined, DeleteOutlined, SwapOutlined,
   MonitorOutlined, SettingOutlined, SearchOutlined, BulbOutlined, ControlOutlined,
-  WalletOutlined
+  WalletOutlined, UpOutlined, DownOutlined
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import ContinueReadingButton from '@/components/reading-history/ContinueReadingButton.vue'
@@ -364,8 +396,6 @@ const quickConfigOpen = ref(false)
 const quickSaving = ref(false)
 const quickRoutes = ref([])
 const draftQuickRoutes = ref([])
-const draftDragIndex = ref(-1)
-const quickDragPayload = ref(null)
 const quickPageIndex = ref(0)
 const quickSlideIndex = ref(0)
 const quickPointerStartX = ref(0)
@@ -694,6 +724,7 @@ function openQuickConfig() {
 }
 
 async function saveQuickConfig(nextRoutes = draftQuickRoutes.value) {
+  const previousRoutes = [...quickRoutes.value]
   quickSaving.value = true
   try {
     const savedRoutes = await updateQuickActions([...nextRoutes])
@@ -703,6 +734,13 @@ async function saveQuickConfig(nextRoutes = draftQuickRoutes.value) {
       ...authStore.user,
       quickActions: savedRoutes
     }
+    return savedRoutes
+  } catch (error) {
+    // 保存失败时回到服务端已确认的顺序，避免弹窗继续显示未落库的草稿。
+    quickRoutes.value = previousRoutes
+    draftQuickRoutes.value = [...previousRoutes]
+    message.error(error.message || '快捷操作保存失败，已恢复原顺序')
+    return previousRoutes
   } finally {
     quickSaving.value = false
   }
@@ -716,48 +754,28 @@ function moveItem(items, fromIndex, toIndex) {
   return next
 }
 
-function handleDraftDragStart(index) {
-  draftDragIndex.value = index
-  quickDragPayload.value = {
-    source: 'selected',
-    route: draftQuickRoutes.value[index],
-    index
-  }
-}
+async function moveSelectedItem(index, step) {
+  if (quickSaving.value) return
 
-async function handleDraftDrop(index) {
-  draftQuickRoutes.value = moveItem(draftQuickRoutes.value, draftDragIndex.value, index)
-  draftDragIndex.value = -1
+  const targetIndex = index + step
+  if (targetIndex < 0 || targetIndex >= draftQuickRoutes.value.length) return
+
+  draftQuickRoutes.value = moveItem(draftQuickRoutes.value, index, targetIndex)
   await saveQuickConfig(draftQuickRoutes.value)
 }
 
-function handleAvailableDragStart(route) {
-  quickDragPayload.value = {
-    source: 'available',
-    route
-  }
-}
+async function removeSelectedItem(route) {
+  if (quickSaving.value || !draftQuickRoutes.value.includes(route)) return
 
-async function handleDropToSelected() {
-  const payload = quickDragPayload.value
-  if (!payload?.route) return
-
-  if (payload.source === 'available' && !draftQuickRoutes.value.includes(payload.route)) {
-    draftQuickRoutes.value = [...draftQuickRoutes.value, payload.route]
-    await saveQuickConfig(draftQuickRoutes.value)
-  }
-
-  quickDragPayload.value = null
-}
-
-async function handleDropToAvailable() {
-  const payload = quickDragPayload.value
-  if (payload?.source !== 'selected' || !payload.route) return
-
-  draftQuickRoutes.value = draftQuickRoutes.value.filter((route) => route !== payload.route)
+  draftQuickRoutes.value = draftQuickRoutes.value.filter((itemRoute) => itemRoute !== route)
   await saveQuickConfig(draftQuickRoutes.value)
-  quickDragPayload.value = null
-  draftDragIndex.value = -1
+}
+
+async function addQuickAction(route) {
+  if (quickSaving.value || draftQuickRoutes.value.includes(route)) return
+
+  draftQuickRoutes.value = [...draftQuickRoutes.value, route]
+  await saveQuickConfig(draftQuickRoutes.value)
 }
 
 function getLevelColor(level) {
@@ -1334,7 +1352,7 @@ watch(selectedQuickActionPages, (pages) => {
 .quick-config__item {
   border: 1px solid transparent;
   background: transparent;
-  cursor: grab;
+  cursor: default;
 }
 
 .quick-config__item:hover,
@@ -1353,7 +1371,7 @@ watch(selectedQuickActionPages, (pages) => {
 
 .quick-config__check {
   margin-inline-start: 0;
-  cursor: grab;
+  cursor: default;
   border: 1px solid transparent;
   background: transparent;
 }
@@ -1363,12 +1381,60 @@ watch(selectedQuickActionPages, (pages) => {
   background: var(--console-surface-hover);
 }
 
-.quick-config__item span,
-.quick-config__check > span:last-child {
+.quick-config__label {
   min-width: 0;
+  flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.quick-config__item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline-start: 8px;
+  flex-shrink: 0;
+}
+
+.quick-config__icon-button {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 0;
+  color: var(--console-text-secondary);
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.quick-config__icon-button:hover:not(:disabled),
+.quick-config__icon-button:focus-visible:not(:disabled) {
+  color: var(--console-text);
+  border-color: var(--console-border-strong);
+  background: var(--console-surface-hover);
+  outline: none;
+}
+
+.quick-config__icon-button--danger:hover:not(:disabled),
+.quick-config__icon-button--danger:focus-visible:not(:disabled) {
+  color: #f5222d;
+}
+
+.quick-config__icon-button--add {
+  margin-inline-start: 8px;
+  color: var(--console-primary, #1890ff);
+}
+
+.quick-config__icon-button:disabled {
+  color: var(--console-text-tertiary, #bfbfbf);
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 /* 公告 */

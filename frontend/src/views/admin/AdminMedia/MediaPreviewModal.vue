@@ -34,6 +34,7 @@
             </template>
             <a-tooltip title="新页面打开"><a-button type="text" aria-label="新页面打开资源" :href="previewOpenUrl" target="_blank" rel="noopener noreferrer"><template #icon><ExportOutlined /></template></a-button></a-tooltip>
             <a-tooltip title="下载资源"><a-button type="text" aria-label="下载资源" :href="previewOpenUrl" download><template #icon><DownloadOutlined /></template></a-button></a-tooltip>
+            <a-tooltip title="查看资源信息"><a-button class="media-preview-workspace__info-trigger" type="text" aria-label="查看资源信息" @click="mobileInfoOpen = true"><template #icon><InfoCircleOutlined /></template></a-button></a-tooltip>
           </div>
         </div>
 
@@ -93,7 +94,13 @@
         </section>
       </main>
 
-      <aside class="media-preview-inspector">
+      <aside class="media-preview-inspector" :class="{ 'is-mobile-open': mobileInfoOpen }">
+        <header class="media-preview-inspector__mobile-header">
+          <strong>资源信息</strong>
+          <a-button type="text" aria-label="关闭资源信息" @click="mobileInfoOpen = false">
+            <template #icon><CloseOutlined /></template>
+          </a-button>
+        </header>
         <section class="media-preview-inspector__section">
           <h3>资源信息</h3>
           <dl class="media-preview-inspector__list">
@@ -119,7 +126,7 @@
 <script setup>
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { CompressOutlined, CopyOutlined, CustomerServiceOutlined, DownloadOutlined, ExportOutlined, FileUnknownOutlined, FileZipOutlined, LinkOutlined, ReloadOutlined, RotateLeftOutlined, RotateRightOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons-vue'
+import { CloseOutlined, CompressOutlined, CopyOutlined, CustomerServiceOutlined, DownloadOutlined, ExportOutlined, FileUnknownOutlined, FileZipOutlined, InfoCircleOutlined, LinkOutlined, ReloadOutlined, RotateLeftOutlined, RotateRightOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons-vue'
 
 const props = defineProps({ open: { type: Boolean, default: false }, record: { type: Object, default: null } })
 const emit = defineEmits(['update:open'])
@@ -133,10 +140,13 @@ const textLoading = ref(false)
 const viewerKey = ref(0)
 const frameLoading = ref(false)
 const viewerError = ref(false)
+const mobileInfoOpen = ref(false)
 let viewerFallbackTimer = null
 let textRequestId = 0
 let imagePointerId = null
 let imagePointerStart = null
+const imagePointers = new Map()
+let imagePinchStart = null
 
 const previewType = computed(() => getPreviewType(props.record))
 const previewOpenUrl = computed(() => props.record?.url ? new URL(props.record.url, window.location.origin).href : '')
@@ -181,6 +191,7 @@ function resetPreview() {
   textLoading.value = false
   frameLoading.value = false
   viewerError.value = false
+  mobileInfoOpen.value = false
 }
 
 function startFramePreview() {
@@ -224,7 +235,13 @@ async function loadTextPreview(record) {
 }
 
 function changeImageScale(delta) {
-  imageScale.value = Math.min(4, Math.max(0.25, Number((imageScale.value + delta).toFixed(2))))
+  const nextScale = clampImageScale(imageScale.value + delta)
+  imageScale.value = nextScale
+  if (nextScale <= 1) imagePosition.value = { x: 0, y: 0 }
+}
+
+function clampImageScale(value) {
+  return Math.min(4, Math.max(0.25, Number(value.toFixed(2))))
 }
 
 function resetImageViewport() {
@@ -234,6 +251,8 @@ function resetImageViewport() {
   imageDragging.value = false
   imagePointerId = null
   imagePointerStart = null
+  imagePointers.clear()
+  imagePinchStart = null
 }
 
 function rotateImage(degrees) {
@@ -245,14 +264,52 @@ function handleImageWheel(event) {
 }
 
 function handleImagePointerDown(event) {
-  if (imageScale.value <= 1 || event.button !== 0) return
+  const isTouchPointer = event.pointerType === 'touch' || event.pointerType === 'pen'
+  if (!isTouchPointer && (imageScale.value <= 1 || event.button !== 0)) return
+
+  imagePointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
+  event.currentTarget.setPointerCapture?.(event.pointerId)
+
+  if (isTouchPointer && imagePointers.size >= 2) {
+    const [first, second] = Array.from(imagePointers.values()).slice(0, 2)
+    imagePinchStart = {
+      distance: pointerDistance(first, second),
+      midpoint: pointerMidpoint(first, second),
+      scale: imageScale.value,
+      offsetX: imagePosition.value.x,
+      offsetY: imagePosition.value.y
+    }
+    imagePointerId = null
+    imagePointerStart = null
+    imageDragging.value = true
+    return
+  }
+
+  if (isTouchPointer && imageScale.value <= 1) return
   imagePointerId = event.pointerId
   imagePointerStart = { x: event.clientX, y: event.clientY, offsetX: imagePosition.value.x, offsetY: imagePosition.value.y }
   imageDragging.value = true
-  event.currentTarget.setPointerCapture(event.pointerId)
 }
 
 function handleImagePointerMove(event) {
+  if (imagePointers.has(event.pointerId)) imagePointers.set(event.pointerId, { x: event.clientX, y: event.clientY })
+
+  if (imagePinchStart && imagePointers.size >= 2) {
+    const [first, second] = Array.from(imagePointers.values()).slice(0, 2)
+    const nextScale = clampImageScale(imagePinchStart.scale * pointerDistance(first, second) / imagePinchStart.distance)
+    imageScale.value = nextScale
+    if (nextScale <= 1) {
+      imagePosition.value = { x: 0, y: 0 }
+      return
+    }
+    const midpoint = pointerMidpoint(first, second)
+    imagePosition.value = {
+      x: imagePinchStart.offsetX + midpoint.x - imagePinchStart.midpoint.x,
+      y: imagePinchStart.offsetY + midpoint.y - imagePinchStart.midpoint.y
+    }
+    return
+  }
+
   if (!imageDragging.value || event.pointerId !== imagePointerId || !imagePointerStart) return
   imagePosition.value = {
     x: imagePointerStart.offsetX + event.clientX - imagePointerStart.x,
@@ -261,11 +318,43 @@ function handleImagePointerMove(event) {
 }
 
 function handleImagePointerEnd(event) {
+  const wasTracked = imagePointers.has(event.pointerId)
+  if (!wasTracked && event.pointerId !== imagePointerId) return
+  imagePointers.delete(event.pointerId)
+  if (event.currentTarget.hasPointerCapture?.(event.pointerId)) event.currentTarget.releasePointerCapture?.(event.pointerId)
+
+  if (imagePinchStart) {
+    imagePinchStart = null
+    const remainingPointer = Array.from(imagePointers.entries())[0]
+    if (remainingPointer && imageScale.value > 1) {
+      imagePointerId = remainingPointer[0]
+      imagePointerStart = {
+        x: remainingPointer[1].x,
+        y: remainingPointer[1].y,
+        offsetX: imagePosition.value.x,
+        offsetY: imagePosition.value.y
+      }
+      imageDragging.value = true
+    } else {
+      imagePointerId = null
+      imagePointerStart = null
+      imageDragging.value = false
+    }
+    return
+  }
+
   if (event.pointerId !== imagePointerId) return
-  if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId)
   imageDragging.value = false
   imagePointerId = null
   imagePointerStart = null
+}
+
+function pointerDistance(first, second) {
+  return Math.max(1, Math.hypot(second.x - first.x, second.y - first.y))
+}
+
+function pointerMidpoint(first, second) {
+  return { x: (first.x + second.x) / 2, y: (first.y + second.y) / 2 }
 }
 
 function handleImageDoubleClick() {
