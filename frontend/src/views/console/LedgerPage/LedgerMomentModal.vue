@@ -11,19 +11,32 @@
   >
     <a-form layout="vertical">
       <a-form-item label="标题">
-        <a-input v-model:value="form.title" placeholder="例如：第一次独立承担大额支出" />
+        <a-input v-model:value="form.title" :maxlength="80" show-count placeholder="例如：从杭州转到宁波长期发展" />
       </a-form-item>
       <div class="ledger-moment-modal__grid">
         <a-form-item label="记录范围">
           <a-select v-model:value="form.scope" :options="scopeOptions" @change="handleScopeChange" />
         </a-form-item>
         <a-form-item :label="dateLabel">
-          <a-input v-model:value="form.occurredAt" :type="dateInputType" />
+          <a-range-picker
+            v-if="form.scope === 'range'"
+            v-model:value="form.dateRange"
+            value-format="YYYY-MM-DD"
+            format="YYYY-MM-DD"
+            class="ledger-moment-modal__full"
+          />
+          <a-input v-else v-model:value="form.occurredAt" :type="dateInputType" />
         </a-form-item>
       </div>
       <div class="ledger-moment-modal__grid">
         <a-form-item label="相关金额">
-          <a-input-number v-model:value="form.amount" :min="0" :precision="2" class="ledger-moment-modal__full" />
+          <a-input-number
+            v-model:value="form.amount"
+            :min="0"
+            :precision="2"
+            class="ledger-moment-modal__full"
+            placeholder="无直接金额可留空"
+          />
         </a-form-item>
         <a-form-item label="记录分类">
           <a-input
@@ -35,7 +48,7 @@
         </a-form-item>
       </div>
       <a-form-item label="心情/关键词">
-        <a-input v-model:value="form.mood" placeholder="例如：值得纪念、压力大、开心" />
+        <a-input v-model:value="form.mood" :maxlength="40" show-count placeholder="例如：重新出发、忐忑、期待" />
       </a-form-item>
       <a-form-item label="标签">
         <a-select
@@ -54,7 +67,7 @@
           :maxlength="2000"
           show-count
           :auto-size="{ minRows: 5, maxRows: 9 }"
-          placeholder="把这笔钱背后的事情记下来，之后回看会更有感觉。"
+          placeholder="记录发生了什么、为什么做出这个决定，以及接下来准备怎么走。"
         />
       </a-form-item>
       <a-checkbox v-model:checked="form.pinned">置顶这条记录</a-checkbox>
@@ -84,7 +97,8 @@ const form = reactive({
   title: '',
   scope: 'day',
   occurredAt: '',
-  amount: 0,
+  dateRange: [],
+  amount: null,
   categoryId: undefined,
   categoryText: '',
   mood: '',
@@ -95,6 +109,7 @@ const form = reactive({
 
 const scopeOptions = [
   { label: '某一天', value: 'day' },
+  { label: '一段时间', value: 'range' },
   { label: '某个月', value: 'month' },
   { label: '某一年', value: 'year' }
 ]
@@ -108,6 +123,7 @@ const dateInputType = computed(() => {
 const dateLabel = computed(() => {
   if (form.scope === 'year') return '年份'
   if (form.scope === 'month') return '月份'
+  if (form.scope === 'range') return '时间段'
   return '日期'
 })
 
@@ -151,7 +167,13 @@ function toSubmitDate(value, scope) {
 }
 
 function handleScopeChange() {
+  if (form.scope === 'range') {
+    const currentDate = normalizeDateValue(form.occurredAt || todayDate(), 'day')
+    form.dateRange = [currentDate, currentDate]
+    return
+  }
   form.occurredAt = normalizeDateValue(form.occurredAt || todayDate(), form.scope)
+  form.dateRange = []
 }
 
 function handleTagsChange(value) {
@@ -162,7 +184,8 @@ function resetForm() {
   form.title = ''
   form.scope = 'day'
   form.occurredAt = todayDate()
-  form.amount = 0
+  form.dateRange = []
+  form.amount = null
   form.categoryId = undefined
   form.categoryText = ''
   form.mood = ''
@@ -176,7 +199,11 @@ async function submit() {
     message.warning('请填写标题')
     return
   }
-  if (!form.occurredAt) {
+  if (form.scope === 'range' && form.dateRange?.length !== 2) {
+    message.warning('请选择开始和结束日期')
+    return
+  }
+  if (form.scope !== 'range' && !form.occurredAt) {
     message.warning(`请选择${dateLabel.value}`)
     return
   }
@@ -187,11 +214,14 @@ async function submit() {
 
   submitting.value = true
   try {
+    const occurredAt = form.scope === 'range' ? form.dateRange[0] : toSubmitDate(form.occurredAt, form.scope)
+    const endedAt = form.scope === 'range' ? form.dateRange[1] : null
     const basePayload = {
       title: form.title,
       scope: form.scope,
-      occurredAt: toSubmitDate(form.occurredAt, form.scope),
-      amount: form.amount || 0,
+      occurredAt,
+      endedAt,
+      amount: form.amount ?? 0,
       categoryId: form.categoryId || null,
       categoryText: form.categoryText.trim(),
       mood: form.mood,
@@ -223,7 +253,10 @@ watch(
       form.title = props.moment.title || ''
       form.scope = props.moment.scope || 'day'
       form.occurredAt = normalizeDateValue(formatDate(props.moment.occurredAt), form.scope)
-      form.amount = props.moment.amount || 0
+      form.dateRange = form.scope === 'range'
+        ? [formatDate(props.moment.occurredAt), formatDate(props.moment.endedAt)]
+        : []
+      form.amount = props.moment.amount || null
       form.categoryId = props.moment.categoryId || undefined
       form.categoryText = props.moment.categoryText || ''
       form.mood = props.moment.mood || ''

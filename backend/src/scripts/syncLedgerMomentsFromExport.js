@@ -55,11 +55,19 @@ export function normalizeSourceMoment(item) {
   }
 
   const scope = validScopes.has(item.scope) ? item.scope : 'day'
+  const endedAt = item.endedAt ? new Date(item.endedAt) : null
+  if (endedAt && Number.isNaN(endedAt.getTime())) {
+    throw new Error(`重要记录结束日期不正确: ${item?.title || item?.sourceId}`)
+  }
+  if (scope === 'range' && (!endedAt || endedAt < occurredAt)) {
+    throw new Error(`重要记录时间段不正确: ${item?.title || item?.sourceId}`)
+  }
   return {
     sourceId: String(item.sourceId),
     title: normalizeText(item.title, 80, '标题'),
     scope,
     occurredAt,
+    endedAt: scope === 'range' ? endedAt : null,
     amount,
     categoryName: normalizeText(item.categoryName, 40, '分类名称'),
     categoryText: normalizeText(item.categoryText, 40, '自定义分类'),
@@ -85,6 +93,7 @@ function comparableMoment(item) {
     title: item.title,
     scope: item.scope,
     occurredAt: new Date(item.occurredAt).toISOString(),
+    endedAt: item.endedAt ? new Date(item.endedAt).toISOString() : null,
     amount: Number(item.amount || 0),
     categoryId: item.categoryId ? String(item.categoryId) : null,
     categoryText: item.categoryText || '',
@@ -108,6 +117,7 @@ function buildPayload(source, target, categoryId) {
     title: source.title,
     scope: source.scope,
     occurredAt: source.occurredAt,
+    endedAt: source.endedAt,
     amount: source.amount,
     categoryId,
     categoryText: source.categoryText,

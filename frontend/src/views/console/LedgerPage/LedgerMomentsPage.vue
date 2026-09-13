@@ -188,7 +188,7 @@ const filters = reactive({
 })
 
 const columns = [
-  { title: '日期', key: 'occurredAt', width: 130, align: 'center', fixed: 'left' },
+  { title: '日期', key: 'occurredAt', width: 220, align: 'center', fixed: 'left' },
   { title: '范围', key: 'scope', width: 100, align: 'center' },
   { title: '标题', key: 'title', width: 220, align: 'left' },
   { title: '相关金额', key: 'amount', width: 130, align: 'center' },

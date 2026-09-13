@@ -120,11 +120,12 @@ export const ledgerImportQuerySchema = z.object({
   pageSize: z.coerce.number().int().min(1).max(100).optional()
 })
 
-export const ledgerMomentCreateSchema = z.object({
+const ledgerMomentFields = {
   bookId: z.string().regex(objectIdPattern, '账本 id 不正确').optional().nullable(),
   title: z.string().trim().min(1, '重要记录标题不能为空').max(80, '标题不能超过 80 个字符'),
   scope: z.enum(LEDGER_MOMENT_SCOPES).optional().default('day'),
   occurredAt: z.coerce.date({ invalid_type_error: '记录日期不正确' }),
+  endedAt: z.coerce.date({ invalid_type_error: '结束日期不正确' }).optional().nullable(),
   amount: z.coerce.number().min(0, '金额不能小于 0').max(999999999, '金额过大').optional().default(0),
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').nullable().optional(),
   categoryText: z.string().trim().max(40, '自定义分类不能超过 40 个字符').optional().default(''),
@@ -133,11 +134,25 @@ export const ledgerMomentCreateSchema = z.object({
   content: z.string().trim().max(2000, '记录内容不能超过 2000 个字符').optional().default(''),
   tags: z.array(z.string().trim().max(24, '标签不能超过 24 个字符')).max(12, '最多 12 个标签').optional().default([]),
   pinned: z.boolean().optional().default(false)
-}).strict('存在不支持的重要记录字段')
+}
 
-export const ledgerMomentUpdateSchema = ledgerMomentCreateSchema
+function validateMomentRange(input, context) {
+  if (input.scope === 'range' && !input.endedAt) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['endedAt'], message: '时间段记录必须填写结束日期' })
+  }
+  if (input.occurredAt && input.endedAt && input.endedAt < input.occurredAt) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['endedAt'], message: '结束日期不能早于开始日期' })
+  }
+}
+
+export const ledgerMomentCreateSchema = z.object(ledgerMomentFields)
+  .strict('存在不支持的重要记录字段')
+  .superRefine(validateMomentRange)
+
+export const ledgerMomentUpdateSchema = z.object(ledgerMomentFields)
   .partial()
   .strict('存在不支持的重要记录字段')
+  .superRefine(validateMomentRange)
 
 export const ledgerMomentQuerySchema = z.object({
   bookId: ledgerScopeId.optional(),

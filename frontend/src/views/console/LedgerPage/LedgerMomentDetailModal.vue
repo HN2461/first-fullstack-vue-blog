@@ -40,7 +40,7 @@
       </div>
 
       <section class="ledger-moment-detail__content">
-        <span>记录正文</span>
+        <span>事情经过与决定</span>
         <p>{{ moment.content || '暂无记录内容' }}</p>
       </section>
     </article>

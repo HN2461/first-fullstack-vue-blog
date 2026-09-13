@@ -105,4 +105,33 @@ describe('ledger moment routes', () => {
 
     expect(rejected.body.message).toBe('重要记录所属账本不支持修改')
   })
+
+  it('supports a date range for a life-stage record', async () => {
+    const created = await request(app)
+      .post('/api/ledger/moments')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: '结束短暂杭漂，转到宁波重新开始',
+        scope: 'range',
+        occurredAt: '2026-09-02',
+        endedAt: '2026-09-09',
+        categoryText: '城市迁居与职业转折',
+        content: '在杭州找工作约一周后，决定转到宁波长期发展。'
+      })
+      .expect(201)
+
+    expect(created.body.data).toMatchObject({
+      scope: 'range',
+      categoryText: '城市迁居与职业转折'
+    })
+    expect(created.body.data.endedAt).toBeTruthy()
+
+    const invalid = await request(app)
+      .patch(`/api/ledger/moments/${created.body.data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ endedAt: '2026-09-01' })
+      .expect(400)
+
+    expect(invalid.body.message).toBe('结束日期不能早于开始日期')
+  })
 })

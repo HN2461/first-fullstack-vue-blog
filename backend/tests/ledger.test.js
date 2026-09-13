@@ -728,6 +728,20 @@ describe('ledger routes', () => {
 
     expect(listResponse.body.data.items).toHaveLength(1)
 
+    const otherBook = await request(app)
+      .post('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '宁波' })
+      .expect(201)
+
+    const otherBookListResponse = await request(app)
+      .get('/api/ledger/moments')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: otherBook.body.data.id })
+      .expect(200)
+
+    expect(otherBookListResponse.body.data.items).toHaveLength(0)
+
     const categoryListResponse = await request(app)
       .get('/api/ledger/moments')
       .set('Authorization', `Bearer ${token}`)

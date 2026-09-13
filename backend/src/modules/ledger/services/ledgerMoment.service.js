@@ -71,6 +71,11 @@ async function findOwnedMoment(momentId, userId) {
 
 function buildMomentQuery(userId, options = {}) {
   const query = { userId }
+  // 重要记录默认独立于账本；只有调用方明确传入账本时才按旧记录的 bookId 过滤。
+  // 这样既不改变“全部重要记录”的默认视图，也能让历史上关联账本的记录可被准确定位。
+  if (options.bookId && options.bookId !== 'all') {
+    query.bookId = toObjectId(options.bookId, 'LEDGER_BOOK_NOT_FOUND', '账本不存在')
+  }
   if (options.scope) query.scope = options.scope
   if (options.categoryId) query.categoryId = toObjectId(options.categoryId, 'LEDGER_CATEGORY_NOT_FOUND', '分类不存在')
   const categoryText = String(options.categoryText || '').trim()
@@ -100,6 +105,7 @@ function buildMomentQuery(userId, options = {}) {
 }
 
 export async function listLedgerMoments(userId, options = {}) {
+  if (options.bookId && options.bookId !== 'all') await findOwnedBook(options.bookId, userId)
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const query = buildMomentQuery(userId, options)
@@ -138,6 +144,7 @@ export async function createLedgerMoment(userId, input) {
     userId,
     bookId: input.bookId || null,
     occurredAt: startOfDay(input.occurredAt),
+    endedAt: input.scope === 'range' ? startOfDay(input.endedAt) : null,
     categoryId: category?._id || null,
     categoryText: input.categoryText || '',
     entryId: input.entryId || null,
@@ -162,9 +169,21 @@ export async function updateLedgerMoment(userId, id, input) {
     await findOwnedEntry(input.entryId, userId)
   }
 
+  const nextScope = input.scope ?? moment.scope
+  const nextOccurredAt = input.occurredAt !== undefined ? startOfDay(input.occurredAt) : moment.occurredAt
+  const nextEndedAt = input.endedAt !== undefined ? startOfDay(input.endedAt) : moment.endedAt
+  if (nextScope === 'range' && !nextEndedAt) {
+    throw createError(400, 'LEDGER_MOMENT_END_DATE_REQUIRED', '时间段记录必须填写结束日期')
+  }
+  if (nextScope === 'range' && nextEndedAt < nextOccurredAt) {
+    throw createError(400, 'LEDGER_MOMENT_DATE_RANGE_INVALID', '结束日期不能早于开始日期')
+  }
+
   if (input.title !== undefined) moment.title = input.title
   if (input.scope !== undefined) moment.scope = input.scope
-  if (input.occurredAt !== undefined) moment.occurredAt = startOfDay(input.occurredAt)
+  if (input.occurredAt !== undefined) moment.occurredAt = nextOccurredAt
+  if (nextScope === 'range') moment.endedAt = nextEndedAt
+  else moment.endedAt = null
   if (input.amount !== undefined) moment.amount = input.amount
   if (input.categoryId !== undefined) moment.categoryId = input.categoryId || null
   if (input.categoryText !== undefined) moment.categoryText = input.categoryText

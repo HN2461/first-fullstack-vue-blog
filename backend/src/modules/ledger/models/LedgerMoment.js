@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-export const LEDGER_MOMENT_SCOPES = ['day', 'month', 'year']
+export const LEDGER_MOMENT_SCOPES = ['day', 'range', 'month', 'year']
 
 const ledgerMomentSchema = new mongoose.Schema(
   {
@@ -32,6 +32,10 @@ const ledgerMomentSchema = new mongoose.Schema(
       type: Date,
       required: true,
       index: true
+    },
+    endedAt: {
+      type: Date,
+      default: null
     },
     amount: {
       type: Number,
@@ -96,6 +100,7 @@ ledgerMomentSchema.methods.toSafeJSON = function toSafeJSON() {
     title: this.title,
     scope: this.scope,
     occurredAt: this.occurredAt,
+    endedAt: this.endedAt,
     amount: this.amount,
     categoryId: category?.id || this.categoryId?.toString?.() || null,
     categoryText: this.categoryText || '',
