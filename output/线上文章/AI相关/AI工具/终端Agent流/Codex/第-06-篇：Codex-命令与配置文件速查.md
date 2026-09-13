@@ -9,11 +9,11 @@ categoryPath:
   - "终端Agent流"
   - "Codex"
 tags:
+  - "AGENTS"
   - "Codex"
   - "命令"
-  - "配置文件"
-  - "AGENTS"
   - "速查"
+  - "配置文件"
 status: "published"
 sortOrder: 60
 cover: ""
@@ -21,12 +21,12 @@ originalId: "6a2d291d8a2b1c68f2cabf78"
 originalSlug: "ai-agent-codex-codex-9cf3fc01"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.294Z"
-updatedAt: "2026-07-31T11:16:25.488Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.780Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 06 篇：Codex 命令与配置文件速查
 
-> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列命令与模型目录复核）
+> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
 > 定位：工具底座（全系列命令与配置文件统一说明）。
 > 使用方式：读任何一篇时，遇到“这条命令是干嘛的”就回查本篇。
 > 小白读完目标：你应该能分清“命令层 / 配置层 / 项目规则层”，并且看到一个命令或字段名时，知道它属于哪一层。
@@ -80,6 +80,7 @@ exportedAt: "2026-08-03T10:17:08.920Z"
 | `npm i -g @openai/codex` | 全局安装 Codex CLI | 首次安装 | 需网络可用 |
 | `codex --version` | 查看 Codex 版本 | 验证是否安装成功 | 不能输出版本说明安装有问题 |
 | `codex` | 启动交互会话 | 日常编码协作 | 默认在当前目录上下文工作 |
+| `codex agents` | 浏览共享本地 app-server 上的 agent 会话 | 并行任务盘点 | 依赖本地 app-server 状态 |
 | `codex login` | 浏览器登录 | 交互式登录 | 适合个人本地开发 |
 | `codex login --device-auth` | 设备码登录 | 无浏览器环境 | 服务器常用 |
 | `codex login --with-api-key` | 用 API key 登录 | 自动化/脚本场景 | key 需安全保存 |
@@ -103,6 +104,8 @@ exportedAt: "2026-08-03T10:17:08.920Z"
 | `codex plugin list` | 查看插件市场与安装状态 | 管理插件 | 区分 marketplace、plugin、skill 和 MCP |
 | `codex app <path>` | 在桌面 App 打开工作区 | 图形化工作流 | 桌面 App 未安装时会进入安装流程 |
 | `codex cloud ...` | 提交、查看、比较和应用云端任务 | 云端委派 | 当前仍带实验边界，以 `--help` 为准 |
+| `codex app-server` | 启动/管理本地 app-server | 本地协议集成或调试 | 当前为 experimental，不等同于外部 MCP server |
+| `codex queue ...` | 向已有会话排队发送消息 | 长任务中追加上下文 | 先确认目标 session |
 | `codex features list` | 查看功能开关 | 诊断功能状态 | 和版本关联较大 |
 
 旧资料里的 `--full-auto` 已被当前 CLI 移除，并且当前审批策略也没有 `on-failure`。日常开发请明确写 `--ask-for-approval on-request --sandbox workspace-write`。
@@ -145,7 +148,7 @@ exportedAt: "2026-08-03T10:17:08.920Z"
 | `[model_providers.<id>].base_url` | API 地址 | 官方默认地址或服务商地址 | 路线切换最常错字段 |
 | `approval_policy` | 是否弹确认 | `on-request` | 自动化可用 `never`，但要配安全边界 |
 | `sandbox_mode` | 技术权限范围 | `workspace-write` | `danger-full-access` 仅隔离环境用 |
-| `web_search` | 联网搜索策略 | 默认不在通用模板写死 | 需要最新资料时优先使用 `codex --search`；旧 cached 路径已进入 deprecated 阶段 |
+| `web_search` | 联网搜索策略 | `cached`（本地聊天默认） | 可选 `cached | indexed | live | disabled`；需要最新资料时使用 `codex --search` 或 `live` |
 | `model_reasoning_effort` | 思考深度 | `medium` | 越高通常越慢、成本越高 |
 | `~/.codex/<profile>.config.toml` | 场景配置文件 | `dev_safe` + `audit` 两套 | 用 `codex --profile <name>` 加载 |
 | `[history].persistence` | 历史保存策略 | `save-all` | 合规敏感场景可设 `none` |

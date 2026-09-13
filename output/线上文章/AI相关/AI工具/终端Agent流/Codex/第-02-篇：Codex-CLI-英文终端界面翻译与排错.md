@@ -9,11 +9,11 @@ categoryPath:
   - "终端Agent流"
   - "Codex"
 tags:
-  - "Codex"
   - "CLI"
-  - "英文提示"
-  - "终端界面"
+  - "Codex"
   - "排错"
+  - "终端界面"
+  - "英文提示"
 status: "published"
 sortOrder: 20
 cover: ""
@@ -21,12 +21,12 @@ originalId: "6a2d291d8a2b1c68f2cabf50"
 originalSlug: "ai-agent-codex-codex-cli-64e9fd24"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.774Z"
-updatedAt: "2026-07-31T11:16:25.447Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.812Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 02 篇：Codex CLI 英文终端界面翻译与排错
 
-> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列界面与命令复核）
+> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
 > 这一篇不是再讲 Codex 是什么。
 > 它专门解决一个真实问题：终端里全是英文菜单、状态词、权限词、插件词和错误词，看着都认识，合起来却不知道下一步该怎么判断。
 
@@ -155,7 +155,7 @@ flowchart TD
 | `approval` | 哪些动作需要主人确认 |
 | `sandbox` | Codex 被限制在哪个范围内活动 |
 | `trusted` | 当前目录被信任，策略可能更宽 |
-| `untrusted` | 当前目录不被信任，限制会更严 |
+| `untrusted` | 这是项目 `trust_level` 的状态，不是可直接填写的审批策略；不受信任项目会跳过项目级 `.codex`、hooks 和 rules |
 
 建议：
 
@@ -483,7 +483,7 @@ git status --short
 | `failed` | 失败了，先排错 |
 | `pending` | 还在处理中 |
 | `trusted` | 当前环境被信任 |
-| `untrusted` | 当前环境不被信任 |
+| `untrusted` | 当前环境/项目不被信任；这是 `trust_level` 状态，不是可直接传给 `--ask-for-approval` 的值 |
 | `experimental` | 实验能力，可能变化 |
 
 ### 来源词：回答“从哪来”

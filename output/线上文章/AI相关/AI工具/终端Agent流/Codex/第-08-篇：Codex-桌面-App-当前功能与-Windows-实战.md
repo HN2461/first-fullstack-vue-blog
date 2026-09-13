@@ -9,12 +9,12 @@ categoryPath:
   - "终端Agent流"
   - "Codex"
 tags:
+  - "Browser"
   - "Codex"
-  - "桌面 App"
+  - "Scheduled tasks"
   - "Windows"
   - "Worktree"
-  - "Scheduled tasks"
-  - "Browser"
+  - "桌面 App"
 status: "published"
 sortOrder: 80
 cover: ""
@@ -22,16 +22,16 @@ originalId: "6a6b691f4bf50146e9b95e6c"
 originalSlug: "ai-agent-codex-desktop-app-windows-workflow-20260726"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.559Z"
-updatedAt: "2026-07-31T11:16:25.506Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.643Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 08 篇：Codex 桌面 App 当前功能与 Windows 实战
 
-> 更新时间：2026-07-26。
-> 本机复核基线：Windows Store 包 `OpenAI.Codex 26.721.4979.0`，当前可调用 CLI 为 `codex-cli 0.146.0-alpha.3`。
+> 更新时间：2026-09-13。
+> 本机复核基线：Windows Store 包 `OpenAI.Codex 26.908.4834.0`，当前可调用 CLI 为 `codex-cli 0.154.0`。
 > 产品名称：从桌面版 `26.707` 起，Codex 已并入 macOS 和 Windows 的 **ChatGPT desktop app**；原 Codex App 用户正常更新即可保留项目、设置和工作流。
 > 定位：桌面 App 主手册。以后 App 的版本、多文件夹项目、Voice、Local / Worktree / Cloud、PR Chat、Browser、Computer Use、Scheduled tasks、Remote、插件和 Windows 差异统一在本篇维护。
-> 时效边界：官方 Changelog 当前最新明确的桌面版本条目是 `26.715`；本机 Store 包版本更高，但本文不推断尚无公开说明的 `26.721` 具体变更。账号、平台、地区和组织策略仍会影响实际界面。
+> 时效边界：官方 Changelog 已进入 2026 年 9 月，桌面 App 与 CLI 都在快速迭代；账号、平台、地区和组织策略仍会影响实际界面。本文的版本号只代表本机复核时点，不是读者必须追齐的固定版本。
 
 [[toc]]
 
@@ -71,7 +71,7 @@ Get-AppxPackage -Name OpenAI.Codex |
 
 ```text
 Name: OpenAI.Codex
-Version: 26.721.4979.0
+Version: 26.908.4834.0
 ```
 
 不要把 `ChatGPT.exe` 显示的 Chromium 文件版本当成桌面产品版本。Windows Store 包的 `Version` 才适合记录本机安装基线。
@@ -112,8 +112,20 @@ Windows 安装包仍保留 `OpenAI.Codex` 这个包身份，不能据此判断�
 | 2026-06-11 / `26.609` | Browser Developer mode、App 内 `/init`、Windows Computer Use 的 per-app access control |
 | 2026-05-29 / `26.527` | Computer Use 和 Remote control 正式支持 Windows；后台线程和 subagent 可见性增强 |
 | 2026-05-21 / `26.519` | Goal mode 结束 experimental，App / IDE / CLI 均可用 |
+| 2026-08-11 | Linux 桌面预览；可从 Claude Code、Claude Cowork 和 Cursor 导入 instructions、settings、skills、plugins、projects 与近期工作 |
+| 2026-08-19 | Codex cloud 增加 GitLab Beta，可从 Issue / Merge Request 启动任务并请求 MR review |
+| 2026-08-25 | 内置 Browser 增加 Site tools（WebMCP）；Chrome 扩展扩展到 Edge、Brave、Opera、Vivaldi |
+| 2026-08-25 | Scheduled tasks 支持 Gmail、Slack、GitHub 事件触发，但事件触发和时间计划不能叠加 |
+| 2026-09-11 / `26.908` | Windows 支持 Appshots，可把前台应用窗口截图与可用文本送入 ChatGPT/Codex 上下文 |
 
 这张表只记录改变工作流的节点，不逐条抄录修复项。版本细节仍以 Changelog 为准。
+
+### 2.5 这些新增能力怎么快速熟悉
+
+1. **先做 Browser / Site tools 小任务**：在内置 Browser 打开支持 WebMCP 的站点，先让 Codex 读取结构化工具，再做一个不会产生外部副作用的查询或草稿动作。Site tools 目前要求支持的模型与桌面版本，Enterprise/Edu 工作区和 Luna 不一定可用。
+2. **再做事件触发任务**：用 GitHub PR 评论或 Slack 测试频道触发一个“汇总并生成草稿”的任务，验证连接器授权、触发条件和通知链路；不要一上来绑定发布、删除或改权限操作。
+3. **最后试 Cloud / GitLab**：先连接一个低风险仓库，确认 Cloud environment、分支、权限和 MR diff 能完整加载，再把 review 自动化接入正式项目。
+4. **Windows 开发者试 Appshots**：按官方快捷键抓取当前前台窗口，让 Codex 结合截图和窗口文本定位 UI 问题；涉及敏感窗口前先确认截图接收方和线程。
 
 ---
 
@@ -632,5 +644,7 @@ codex app-server daemon --help
 - Windows App：<https://learn.chatgpt.com/docs/windows/windows-app>
 - Troubleshooting：<https://learn.chatgpt.com/docs/reference/troubleshooting>
 - Plugins：<https://learn.chatgpt.com/docs/plugins?surface=app>
+
+近期功能总览与 IDE/CLI 对照见[第九篇：Codex 近期功能雷达与三端快速上手](#/note/AI工具/02_终端Agent流/Codex/09_Codex近期功能雷达与三端快速上手)。
 
 本次已通过官方 Changelog 和上述实时页面逐项复核。命令行直接抓取 `developers.openai.com` 仍可能返回 403，但浏览器访问会跳转到当前 `learn.chatgpt.com` 文档体系；这属于访问方式差异，不再是本文资料未核实的理由。

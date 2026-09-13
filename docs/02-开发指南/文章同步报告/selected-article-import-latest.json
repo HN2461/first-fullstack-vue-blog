@@ -1,265 +1,41 @@
 {
-  "generatedAt": "2026-08-03T09:56:15.390Z",
-  "mode": "dry-run",
-  "outputRoot": "C:\\Users\\Administrator\\Desktop\\first-fullstack-vue-blog\\output",
+  "generatedAt": "2026-09-13T13:54:31.284Z",
+  "mode": "apply",
+  "outputRoot": "C:\\Users\\HN246\\Desktop\\个人全栈博客系统\\tmp\\codex-new-article-local-20260913",
   "summary": {
-    "sourceFiles": 13,
+    "sourceFiles": 1,
     "navigationSkipped": 0,
-    "sourceArticles": 13,
-    "unchanged": 13,
+    "sourceArticles": 1,
+    "unchanged": 0,
     "update": 0,
-    "createDraft": 0,
+    "createDraft": 1,
     "missingCategories": 0,
     "missingTags": 0
   },
   "skippedNavigation": [],
   "items": [
     {
-      "sourcePath": "MySQL/README.md",
-      "title": "MySQL 小白课程：像上课一样从 0 到 1 学会数据库",
-      "slug": "mysql-zero-to-one-beginner",
+      "sourcePath": "AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md",
+      "title": "第 09 篇：Codex 近期功能雷达与三端快速上手",
+      "slug": "ai-agent-codex-current-feature-radar-20260913",
       "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
       ],
       "tags": [
-        "MySQL",
-        "数据库",
-        "SQL教程"
-      ],
-      "sortOrder": 0,
-      "action": "unchanged",
-      "existingId": "6a7065a4ba76f4bbcfcd5de6",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/01-MySQL到底放在后端哪里.md",
-      "title": "MySQL 01：数据库到底解决什么问题",
-      "slug": "mysql-01-what-is-mysql",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "数据库",
-        "SQL入门"
-      ],
-      "sortOrder": 10,
-      "action": "unchanged",
-      "existingId": "6a7065a4ba76f4bbcfcd5de8",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/02-表行列主键和关系.md",
-      "title": "MySQL 02：一张表到底长什么样",
-      "slug": "mysql-02-table-row-column-key",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "关系型数据库",
-        "数据库设计"
-      ],
-      "sortOrder": 20,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5dea",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/03-安装连接和第一个数据库.md",
-      "title": "MySQL 03：安装、连接和第一次输入 SQL",
-      "slug": "mysql-03-install-connect-database",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "数据库安装",
-        "SQL入门"
-      ],
-      "sortOrder": 30,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5dec",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/04-数据类型每个字段应该装什么.md",
-      "title": "MySQL 04：字段类型，每一列应该装什么",
-      "slug": "mysql-04-data-types",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "数据类型",
-        "数据库设计"
-      ],
-      "sortOrder": 40,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5dee",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/05-建表把业务需求变成表结构.md",
-      "title": "MySQL 05：创建第一张表，学习笔记表",
-      "slug": "mysql-05-create-table-from-business",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "建表",
-        "SQL入门"
-      ],
-      "sortOrder": 50,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5df0",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/06-INSERT-UPDATE-DELETE安全地改数据.md",
-      "title": "MySQL 06：添加、修改、删除数据",
-      "slug": "mysql-06-insert-update-delete",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "数据操作",
-        "SQL入门"
-      ],
-      "sortOrder": 60,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5df2",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/07-SELECT从一张表里找数据.md",
-      "title": "MySQL 07：查询数据，从简单条件开始",
-      "slug": "mysql-07-select-one-table",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "数据查询",
-        "SQL入门"
-      ],
-      "sortOrder": 70,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5df4",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/08-多表关系和JOIN把几本账册合起来看.md",
-      "title": "MySQL 08：两张表的关系和 JOIN",
-      "slug": "mysql-08-join-relations",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "JOIN",
-        "数据库设计"
-      ],
-      "sortOrder": 80,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5df6",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/09-统计查询COUNT-GROUP-BY和HAVING.md",
-      "title": "MySQL 09：统计查询，数一数、分组算一算",
-      "slug": "mysql-09-group-by-statistics",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "聚合查询",
-        "数据查询"
+        "Codex",
+        "桌面 App",
+        "VS Code",
+        "CLI",
+        "Cloud",
+        "功能追踪"
       ],
       "sortOrder": 90,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5df8",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/10-索引和EXPLAIN给查询修目录.md",
-      "title": "MySQL 10：索引和 EXPLAIN，为什么查询会快或慢",
-      "slug": "mysql-10-index-explain",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "索引",
-        "数据库性能"
-      ],
-      "sortOrder": 100,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5dfa",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/11-事务和锁多步操作要么都成功要么都失败.md",
-      "title": "MySQL 11：事务和锁，多步操作不能做一半",
-      "slug": "mysql-11-transaction-lock",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "事务",
-        "并发控制"
-      ],
-      "sortOrder": 110,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5dfc",
-      "existingStatus": "draft"
-    },
-    {
-      "sourcePath": "MySQL/notes/12-小白毕业项目博客系统MySQL设计.md",
-      "title": "MySQL 12：毕业项目，博客系统 MySQL 设计",
-      "slug": "mysql-12-blog-project",
-      "categoryPath": [
-        "后端技术",
-        "数据库",
-        "MySQL"
-      ],
-      "tags": [
-        "MySQL",
-        "博客系统",
-        "数据库设计"
-      ],
-      "sortOrder": 120,
-      "action": "unchanged",
-      "existingId": "6a7065a5ba76f4bbcfcd5dfe",
-      "existingStatus": "draft"
+      "action": "create",
+      "existingId": null,
+      "existingStatus": null
     }
   ]
 }

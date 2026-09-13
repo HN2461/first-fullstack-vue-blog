@@ -9,11 +9,11 @@ categoryPath:
   - "终端Agent流"
   - "Codex"
 tags:
-  - "Codex"
   - "CLI"
+  - "Codex"
+  - "开发工作流"
   - "程序员上手"
   - "终端界面"
-  - "开发工作流"
 status: "published"
 sortOrder: 10
 cover: ""
@@ -21,12 +21,12 @@ originalId: "6a2d291d8a2b1c68f2cabf4c"
 originalSlug: "ai-agent-codex-codex-cli-10e9408b"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.297Z"
-updatedAt: "2026-07-31T11:16:25.410Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.747Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 01 篇：Codex CLI 第一日开发实战
 
-> 更新时间：2026-07-26（按本机当前 Codex CLI 与 App 能力复核）
+> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
 > 这篇只解决 4 件事：怎么确认装对、怎么进仓库、怎么看第一屏、怎么完成第一轮真实开发。
 > 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查；桌面 App 高频使用请直接看第八篇。
 

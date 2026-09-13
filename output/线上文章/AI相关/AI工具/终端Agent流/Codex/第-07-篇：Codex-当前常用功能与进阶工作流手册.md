@@ -9,12 +9,12 @@ categoryPath:
   - "终端Agent流"
   - "Codex"
 tags:
-  - "Codex"
-  - "功能手册"
   - "App"
-  - "IDE"
   - "CLI"
+  - "Codex"
+  - "IDE"
   - "OpenAI官方"
+  - "功能手册"
 status: "published"
 sortOrder: 70
 cover: ""
@@ -22,12 +22,12 @@ originalId: "6a2d291d8a2b1c68f2cabf80"
 originalSlug: "ai-agent-codex-codex-1c9633e1"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.296Z"
-updatedAt: "2026-07-31T11:16:25.495Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.761Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 07 篇：Codex 当前常用功能与进阶工作流手册
 
-> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列、Windows App 26.721.4979.0 与模型目录复核）
+> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
 > 定位：主线大总手册。专门解决“我知道 Codex 大概能做什么，但开发时到底该用哪个入口、哪些旧说法该删、哪些进阶能力该什么时候补”的问题。
 > 适合谁看：主人已经开始真正把 Codex 用进日常开发，希望文档既能查功能，也能防止自己继续按旧认知误用。
 > 本篇原则：把原本分散在“当前常用功能”“官方进阶补充”“最近更新差异”里的重复内容合成一篇，主线只保留真正值得长期查的东西。
@@ -66,14 +66,56 @@ exportedAt: "2026-08-03T10:17:08.920Z"
 | `gpt-5.6-sol` | 最新旗舰 Agent 编码模型 | 最难的重构、复杂排错、研究和质量优先任务 |
 | `gpt-5.6-terra` | 日常平衡档 | 常规读仓库、改代码、补测试、写文档和多数桌面 App 任务 |
 | `gpt-5.6-luna` | 快速轻量档 | 高吞吐整理、分类、简单检查和严格延迟任务 |
+| `gpt-6-astra` | 最强端到端工作档 | 跨代码、应用和研究的多步骤任务，需要持续判断和高完成度时优先评估 |
 | `gpt-5.5` | 上一代旗舰 | 既有配置、第三方 provider 或兼容场景 |
 
 更稳妥的选择顺序是：
 
-1. 日常任务先评估 `gpt-5.6-terra`
+1. 端到端跨工具、长链路且需要持续判断时评估 `gpt-6-astra`
 2. 任务很难、失败代价高或质量优先时切 `gpt-5.6-sol`
-3. 任务简单、量大、延迟敏感时评估 `gpt-5.6-luna`
-4. 既有第三方线路不要只因为名字旧就机械升级，先看后台是否真实支持 GPT-5.6
+3. 日常任务先评估 `gpt-5.6-terra`
+4. 任务简单、量大、延迟敏感时评估 `gpt-5.6-luna`
+5. 既有第三方线路不要只因为名字旧就机械升级，先看后台是否真实支持 GPT-5.6
+
+官方模型页还提醒：GPT-5.4 与 GPT-5.4 mini 已于 2026-08-31 从 ChatGPT 登录的 Codex 中退役；对应替代项分别是 Terra 与 Luna。API key 认证的 Codex 和 OpenAI API 不受这次退役影响。模型名称、可见档位和账号权限仍以当前 `/model` 为准。
+
+### 1.3 2026 年 9 月 CLI 复核要点
+
+本机 `codex --version` 为 `codex-cli 0.154.0`。官方 Changelog 记录了几个会影响旧笔记的升级点：
+
+1. `codex mcp-server` 命令及独立 `codex-mcp-server` 已于 2026-09-05 移除；需要构建集成时改看实验性的 `codex app-server`，日常接外部 MCP 仍使用 `codex mcp`。
+2. `approval_policy = "untrusted"` 已不再支持；项目 `trust_level = "untrusted"` 仍是另一回事。
+3. CLI 继续提供 `codex cloud`、`codex app`、`codex review`、`codex exec`、plugins、hooks、Goals 和本地/云端工作流，但成熟度以当前 `codex --help` 与官方命令参考为准。
+
+### 1.4 近期新增功能雷达：哪些值得开发者马上熟悉
+
+下面只收录近几个月已经进入官方文档或 Changelog、并且会改变日常开发工作流的能力。具体是否出现，仍取决于账号、地区、工作区策略和客户端版本。
+
+| 能力 | 近期状态 | 最值得用在哪 | 最短上手动作 |
+|---|---|---|---|
+| `gpt-6-astra` 与 Ultra reasoning | 模型页已列为最强端到端档；Ultra 会委派 subagents | 跨代码、应用、研究的长链路任务 | `/model` 先确认 Astra/Ultra 是否对账号开放，再用一个可验收的小任务试跑 |
+| Site tools（WebMCP） | 2026-08-25 加入桌面内置浏览器 | 网站提供结构化工具时，优先用站点工具完成操作 | 更新桌面 App，在内置 Browser 打开支持 WebMCP 的站点；不要把它和普通网页搜索混为一谈 |
+| 事件触发 Scheduled tasks | 可由 Gmail、Slack、GitHub 事件触发 | PR 评论、合并、指定邮件或 Slack 频道出现时自动启动处理 | 先连接对应 App，创建一个只读/草稿型任务；事件触发与时间计划不能同时使用 |
+| GitLab Codex cloud | 2026-08-19 Beta | Issue、Merge Request、自动 MR review | 连接 GitLab 项目并创建 Cloud environment；大型/折叠 diff 可能无法完成 review |
+| CLI `codex agents` / `codex queue` | 0.154.0 help 已提供 | 观察共享本地会话、给长任务追加排队消息 | 先运行 `codex agents` 找到目标 session，再用 `codex queue --help` 确认参数 |
+| App server | `codex app-server` 仍为 experimental | 本地协议客户端、IDE 或自动化集成 | 先用 `codex app-server --stdio` 做本地调试；生产集成不要依赖实验接口 |
+| 浏览器扩展多浏览器 | 2026-08-25 扩展到 Edge、Brave、Opera、Vivaldi | 需要引用已有浏览器标签页、选中文本或 YouTube 上下文 | 在桌面 App 的 Computer Use 设置中配置扩展；浏览器登录态仍与内置 Browser 分离 |
+| Linux 桌面预览与 Agent 导入 | 2026-08-11 开放 Linux 预览，并支持从 Claude Code/Cursor 导入 | Linux 本地项目、迁移已有 agent 规则/skills/近期工作 | 先导入一份非关键项目，核对 `AGENTS.md`、skills、plugins 和最近会话后再启用自动同步 |
+
+这张表的共同原则是：先用最小任务验证权限、上下文和产物，再把能力接进长期自动化。尤其是 Site tools、事件触发任务、Cloud 和 App server，它们的可用性与数据边界都明显不同，不能只看到菜单就默认已经具备完整权限。
+
+### 1.5 一周内熟练的练习顺序
+
+按下面顺序练，每一步都留下可复用的命令或项目配置：
+
+1. **第 1 次**：在测试仓库用 `/model` 试 Terra、Sol 和可见的 Ultra，记录同一个小 bug 在速度、修改范围和验证完整度上的差异。
+2. **第 2 次**：用 `codex exec --json` 跑一次只读仓库盘点，再用 `codex review --uncommitted` 审查一个人为制造的小改动。
+3. **第 3 次**：用 `codex --worktree`（或 App 的 Worktree）并行处理两个独立任务，练会查看分支、diff、依赖和清理策略。
+4. **第 4 次**：在内置 Browser 中试 Site tools 或浏览器扩展标签页引用，只做查询、提取和草稿，不做发布与删除。
+5. **第 5 次**：创建一个 GitHub/Slack 事件触发的 Scheduled task，让它只生成报告或草稿，观察失败重试和通知。
+6. **第 6-7 次**：用 GitLab Cloud Beta 或 Cloud delegation 跑一个低风险分支，练习从云端结果回到本地 review、修改和提交。
+
+每次练习都记录四个结果：实际模型、权限/沙箱、输入上下文来源、最终验证命令。这样功能升级时只需替换其中一项，不会把“新按钮出现了”误当成“工作流已经掌握”。
 
 ### 1.1 推理强度也要跟模型一起看
 
@@ -537,6 +579,8 @@ sandbox_mode = 'read-only'
    负责当前常用功能、官方进阶能力和最近该升级的产品认知。
 6. **第八篇：Codex 桌面 App 当前功能与 Windows 实战**
    负责 App 版本检查、多文件夹项目、Voice、Local / Worktree / Cloud、Git / PR Chat、Browser / Computer Use、Scheduled tasks、Remote、插件与 Windows-native / WSL 实战。
+7. **第九篇：Codex 近期功能雷达与三端快速上手**
+   负责持续追踪桌面 App、VS Code/兼容 IDE、CLI 与 Cloud 的近期新增能力、成熟度边界和 7 天练习路线。
 
 专题当前收束为 8 篇主文，不再保留“已并入”的历史跳转页。
 
@@ -556,6 +600,10 @@ sandbox_mode = 'read-only'
 - App Remote：<https://learn.chatgpt.com/docs/remote-connections>
 - App Windows：<https://developers.openai.com/codex/app/windows>
 - Codex Changelog：<https://learn.chatgpt.com/docs/changelog>
+- Codex Models：<https://learn.chatgpt.com/docs/models?surface=cli>
+- Site tools / WebMCP：<https://learn.chatgpt.com/docs/webmcp>
+- Scheduled tasks：<https://learn.chatgpt.com/docs/automations>
+- GitLab integration：<https://learn.chatgpt.com/docs/third-party/gitlab>
 - Codex Plugins：<https://developers.openai.com/codex/plugins>
 - IDE 功能：<https://developers.openai.com/codex/ide/features>
 - IDE 设置：<https://developers.openai.com/codex/ide/settings>

@@ -16,6 +16,34 @@
       "detail": "1. 核验“杭漂与宁波.xlsx”的工作表、表头、日期、分类、备注和单元格批注，确认可识别 38 条有效流水，支出 2203.89 元、收入 1127.02 元，模版工作表会安全跳过。2. 只读核对生产账本与重要记录，确认线上“杭漂”账本已同步 9 月 1 日至 7 日的 22 条流水，本次完整文件预计更新 22 条、新增 16 条、删除 0 条；确认账本管理已支持重命名、说明修改和归档。3. 修复重要记录查询传入具体账本时未按 bookId 过滤的问题，保留默认独立于账本的全量视图和旧数据兼容。4. 为重要记录增加“时间段”范围和结束日期校验，列表、时间线、详情及同步脚本完整支持起止日期，适合用一条记录表达短暂杭漂后转往宁波的完整阶段。5. 调整金额、标题、心情和正文提示，使迁居、工作变化等无直接金额事件可自然记录；前端生产构建、前端日期格式测试、账本专项 29 项、全量后端 312 项测试和 UTF-8 无 BOM 检查通过。6. 提交 3b7f4f2 已推送到 origin/main 并发布生产，发布前完成 MongoDB 与前后端文件备份，PM2、公网 API 和首页检查通过。7. 在专项 BSON 备份后，将线上“杭漂一周找工作”和“宁波长期发展”合并为 2026 年 9 月 2 日至 9 日的时间段记录，补齐城市迁居与职业转折分类、心情、标签和完整经过，并删除重复的空白记录。8. 将线上“杭漂”重命名为“杭漂与宁波”并补充阶段说明，专项备份账本相关集合后通过正式导入服务同步最新 Excel，预览与提交均为新增 16 条、更新 22 条、删除 0 条、错误 0 条；同步后对账为 38 条流水、支出 2203.89 元、收入 1127.02 元。9. 清理服务器 8 月至 9 月初已被最新完整发布备份覆盖的文章、账本、简历和旧发布备份，保留最新完整发布备份、本轮两份账本专项备份与当前发布包，释放约 478MiB，备份目录由 803M 降至 300M。",
       "occurredAt": "2026-09-13T20:10:00+08:00",
       "category": "功能更新"
+    },
+    {
+      "id": "codex-docs-current-feature-radar-and-refresh",
+      "title": "核验并更新 Codex 系列笔记的近期功能与版本边界",
+      "detail": "1. 对 Codex 终端 Agent 流 8 篇文章逐篇核对官方 ChatGPT Learn 文档、2026 年 8-9 月 Changelog 与本机 CLI/App 版本，更新为 Codex CLI 0.154.0、Windows App 26.908.4834.0 的复核基线。2. 修正 CLI 0.149.0+ 不再支持 approval_policy = \"untrusted\"、codex mcp-server 已于 2026-09-05 移除、web_search 当前默认 cached 且支持 cached/indexed/live/disabled 等会导致读者执行失败的旧说明，并区分 project trust_level = \"untrusted\"。3. 补充 gpt-6-astra、Ultra reasoning、Site tools/WebMCP、Gmail/Slack/GitHub 事件触发 Scheduled tasks、GitLab Codex cloud Beta、CLI agents/queue/app-server、浏览器扩展多浏览器、Linux 桌面预览与 Agent 导入、Windows Appshots 等近期开发者功能。4. 增加按最小任务验证权限、上下文、产物和验证命令的一周练习路线，补齐官方模型、Changelog、WebMCP、Automations 与 GitLab 资料入口；同步抽查修改文件编码与仓库状态。",
+      "occurredAt": "2026-09-13T21:30:00+08:00",
+      "category": "文档维护"
+    },
+    {
+      "id": "codex-three-surface-feature-radar-article",
+      "title": "新增 Codex 三端近期功能雷达文章",
+      "detail": "1. 新增第 09 篇《Codex 近期功能雷达与三端快速上手》，把桌面 App、VS Code/兼容 IDE、CLI 与 Codex Cloud 的近期功能分开维护。2. 重点补充 IDE 的 editor context、/ide-context、Local/Cloud/Worktree、side chat、queue/steer、reviewDelivery 和 WSL 设置；桌面 App 的多文件夹、Appshots、Site tools/WebMCP、事件触发 Scheduled tasks、Linux 预览与 Agent 导入；CLI 0.154.0 的 agents、queue、--worktree、--approve-for-me、app-server；Cloud 的 GitHub/GitLab/Linear/Slack 入口与环境复现。3. 为每项能力增加成熟度/风险边界、最短上手动作和 7 天练习路线，帮助开发者快速熟悉近期新增功能，并给出每周 15 分钟更新追踪方法。",
+      "occurredAt": "2026-09-13T22:00:00+08:00",
+      "category": "文档维护"
+    },
+    {
+      "id": "codex-articles-production-and-local-sync",
+      "title": "同步 Codex 文章到生产线上并回写本地权威快照",
+      "detail": "1. 生产同步前通过 Paramiko 连接服务器，备份 Codex 文章目录、生产 output 快照和 manifest，并执行文章权威 compare。2. 发现服务器旧 output manifest 缺少一篇历史线上文章，先从生产 MongoDB 重新导出 535 篇完整权威文章仓库，保留服务器备份，再将本地修改后的第 01-08 篇 Codex 文章合并到该快照。3. 对第 01-08 篇执行生产 article-authority patch dry-run，确认 8 篇待更新、0 阻断、0 快照外文章后，以 `--apply --target=production --confirm-production-article-patch` 写入，生成生产文章专项 EJSON 备份。4. 对新增第 09 篇执行选定文章导入 dry-run，确认 1 篇 createDraft、0 更新、0 缺失分类后导入草稿，并通过文章服务发布为 published；生产文章总数由 535 增至 536。5. 从生产数据库重新导出 536 篇权威快照，校验 ZIP、manifest 和文章数量后替换本地 `output/线上文章`，同时回写服务器 output 快照；最终 compare 仅保留原有 2 篇文档型文章人工处理阻断，9 篇 Codex 文章 manifestHash 与正文 fileHash 全部一致。6. 远程替换命令末尾使用服务器未安装的 jq 导致该命令返回 127，但后续 Python/Node 校验成功，文章同步本身已完成；本地编码检查与项目记录 JSON 校验通过。",
+      "occurredAt": "2026-09-13T22:30:00+08:00",
+      "category": "发布同步"
+    },
+    {
+      "id": "codex-local-database-content-sync",
+      "title": "完成本地 Codex 文章数据库同步",
+      "detail": "1. 对本地开发 MongoDB 执行第 01-08 篇 Codex 文章的 article-authority patch dry-run，确认 8 篇正文待更新、0 阻断后 apply，并生成本地文章专项 EJSON 备份。2. 对第 09 篇使用隔离临时文章源执行 selected article dry-run，确认 1 篇 createDraft、0 更新、0 缺失分类/标签后导入并通过文章服务发布为 published。3. 定向 article-authority content dry-run 显示 9 篇 Codex 正文待推送为 0；完整本地 compare 仍报告本地数据库与生产数据库固有的运营字段差异，不执行跨库运营信息覆盖。",
+      "occurredAt": "2026-09-13T22:45:00+08:00",
+      "category": "发布同步"
     }
   ]
 }

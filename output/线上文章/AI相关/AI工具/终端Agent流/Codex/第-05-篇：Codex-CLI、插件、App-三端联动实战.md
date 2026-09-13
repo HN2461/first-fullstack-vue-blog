@@ -9,10 +9,10 @@ categoryPath:
   - "终端Agent流"
   - "Codex"
 tags:
-  - "Codex"
-  - "CLI"
-  - "插件"
   - "App"
+  - "CLI"
+  - "Codex"
+  - "插件"
   - "配置联动"
 status: "published"
 sortOrder: 50
@@ -21,12 +21,12 @@ originalId: "6a2d291d8a2b1c68f2cabf6e"
 originalSlug: "ai-agent-codex-codex-cli-app-afad6d17"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.293Z"
-updatedAt: "2026-07-31T11:16:25.480Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.789Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 05 篇：Codex CLI、插件、App 三端联动实战
 
-> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列与 Windows App 26.721.4979.0 复核）
+> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
 > 定位：主线 03（三端统一与联动排障）。
 > 前置：第三篇（先懂配置原理和字段，再做联动最稳）。
 > 下一篇建议：第六篇（命令与配置速查）。
@@ -173,13 +173,13 @@ persistence = "save-all"
 4. `approval_policy = "on-request"`：风险动作需人工确认。
 5. `sandbox_mode = "workspace-write"`：只允许改当前工作区。
 6. `[history] persistence = "save-all"`：保存历史会话，便于后续恢复与审计。
-7. 需要最新网页资料时临时使用 `codex --search`，不再把旧版 cached 搜索写进所有默认模板。
+7. 本地聊天默认走 cached web search；需要最新网页资料时临时使用 `codex --search`，或在配置中明确写 `web_search = "live"`。
 
 ## 3.4 CLI 关键参数（按使用频率）
 
 1. `--model/-m`：临时切模型
 2. `--sandbox/-s`：`read-only | workspace-write | danger-full-access`
-3. `--ask-for-approval/-a`：`untrusted | on-request | never`
+3. `--ask-for-approval/-a`：`on-request | never`；`untrusted` 已在 CLI 0.149.0 起移除
 4. `-c key=value`：临时覆盖配置
 5. `--profile/-p`：加载 profile
 6. `--cd/-C`：指定工作目录
@@ -317,7 +317,7 @@ codex mcp list
 
 ```toml
 disable_response_storage = true
-model = "gpt-5.5"
+model = "gpt-5.6-terra" # 仅作示例，第三方线路以后台实际开放模型为准
 model_provider = "packycode"
 model_reasoning_effort = "high"
 model_verbosity = "high"
@@ -332,7 +332,7 @@ wire_api = "responses"
 逐字段解释：
 
 1. `disable_response_storage = true`：减少响应持久化，偏隐私场景。
-2. `model = "gpt-5.5"`：当前示例模型名，具体可用性取决于服务商后台。
+2. `model = "gpt-5.6-terra"`：当前示例模型名，具体可用性取决于服务商后台；第三方线路不要把示例当成长期保证。
 3. `model_provider = "packycode"`：默认 provider 指向 `packycode`。
 4. `model_reasoning_effort = "high"`：高强度推理，质量高但更慢；`xhigh` 是否可用取决于模型。
 5. `model_verbosity = "high"`：输出更详细。

@@ -10,11 +10,11 @@ categoryPath:
   - "Codex"
 tags:
   - "Codex"
-  - "多线路"
   - "OpenAI"
   - "Packy"
-  - "yunyi"
   - "rpcod"
+  - "yunyi"
+  - "多线路"
 status: "published"
 sortOrder: 40
 cover: ""
@@ -22,12 +22,12 @@ originalId: "6a2d291d8a2b1c68f2cabf66"
 originalSlug: "ai-agent-codex-codex-94189641"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.298Z"
-updatedAt: "2026-07-31T11:16:25.472Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.728Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 04 篇：Codex 多线路接入与迁移总手册
 
-> 更新时间：2026-07-26（按本机当前 Codex CLI、GPT-5.6 模型目录与既有服务商样例复核）
+> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、GPT-5.6 模型目录与既有服务商样例复核）
 > 定位：线路总手册。专门解决“我要走哪条线路、配置该怎么落、切线路时最容易在哪翻车”这些问题。
 > 前置建议：先读第一篇、第三篇、第五篇。先把 CLI 主线、配置层级和三端差异搞清，再来看线路，判断会稳很多。
 > 精简说明：rpcod 线路补充内容已经合并到本篇，专题不再单独保留历史跳转页。
@@ -285,13 +285,13 @@ sandbox_mode = 'workspace-write'
 2. 先把 CLI、IDE、App 的心智跑顺
 3. 以 OpenAI Codex 模型页和当前账号可见模型为准，不把本文示例当永久默认
 
-需要最新网页资料时，临时使用 `codex --search`。不要再把旧版 `web_search = 'cached'` 当成所有环境的长期默认配置。
+Codex 当前本地聊天默认使用 OpenAI 维护的 web search cache。需要最新网页资料时，可以临时使用 `codex --search`，或在配置中明确写 `web_search = 'live'`；也可使用 `indexed` / `disabled`，不要把 `features.web_search*` 这些旧开关和顶层 `web_search` 混为一谈。
 
 ### 6.2 Packy 路线
 
 ```toml
 model_provider = 'packy'
-model = 'gpt-5.5'
+model = 'gpt-5.6-terra' # 仅作示例，第三方线路以后台实际开放模型为准
 model_reasoning_effort = 'high'
 
 [model_providers.packy]
@@ -316,7 +316,7 @@ PowerShell 环境变量示例：
 
 ```toml
 model_provider = 'yunyi'
-model = 'gpt-5.5'
+model = 'gpt-5.6-terra' # 仅作示例，第三方线路以后台实际开放模型为准
 model_reasoning_effort = 'medium'
 disable_response_storage = true
 preferred_auth_method = 'apikey'
@@ -348,7 +348,7 @@ rpcod 这部分现在直接并入本篇，不再单独放一篇长文重复讲�
 更稳的最小写法建议是：
 
 ```toml
-model = 'gpt-5.5'
+model = 'gpt-5.6-terra' # 仅作示例，第三方线路以后台实际开放模型为准
 model_reasoning_effort = 'xhigh'
 disable_response_storage = true
 approval_policy = 'on-request'

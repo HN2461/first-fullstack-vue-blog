@@ -9,11 +9,11 @@ categoryPath:
   - "终端Agent流"
   - "Codex"
 tags:
-  - "Codex"
-  - "config.toml"
   - "CCSwitch"
-  - "配置字段"
+  - "Codex"
   - "Windows"
+  - "config.toml"
+  - "配置字段"
 status: "published"
 sortOrder: 30
 cover: ""
@@ -21,12 +21,12 @@ originalId: "6a2d291d8a2b1c68f2cabf5a"
 originalSlug: "ai-agent-codex-codex-edeadb5e"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.777Z"
-updatedAt: "2026-07-31T11:16:25.463Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-09-13T13:42:49.803Z"
+exportedAt: "2026-09-13T13:45:04.756Z"
 ---
 # 第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）
 
-> 更新时间：2026-07-26（按本机当前 Codex CLI 0.146 系列、模型目录与 App 配置复核）
+> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
 > 定位：配置总手册。以后所有 `config.toml`、provider、模型、审批、沙箱、MCP、Desktop、本机路径、CCSwitch 快照污染和 HN246 本机替换版配置，都统一在这一篇维护。
 > 前置：第一篇跑通 CLI；第二篇看懂终端英文状态。
 > 下一篇建议：第四篇（多线路接入与迁移）。
@@ -337,9 +337,11 @@ model_provider = "my_codex"
 
 | 值 | 适合场景 |
 |---|---|
-| `untrusted` | 陌生项目，更保守 |
-| `on-request` | 日常开发推荐 |
+| `on-request` | 日常开发推荐，必要时请求人工确认 |
 | `never` | 自动化或隔离环境，风险更高 |
+| `granular = { ... }` | 按 sandbox、rules、MCP elicitation 等类别细分审批 |
+
+`untrusted` 已不再是可直接填写的 `approval_policy` 值。它仍可作为项目的 `trust_level`，表示该项目不加载项目级配置、hooks 和 rules；升级到 CLI 0.149.0 及以上后，旧配置中的 `approval_policy = "untrusted"` 必须删除或改成 `on-request` / `never`。
 
 HN246 日常建议：
 

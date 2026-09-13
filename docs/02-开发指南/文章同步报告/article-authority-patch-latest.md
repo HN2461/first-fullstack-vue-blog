@@ -1,14 +1,14 @@
 # 文章权威快照增量补丁预览
 
-- 生成时间：2026-08-27T14:19:48.866Z
+- 生成时间：2026-09-13T13:50:55.318Z
 - 目标：local
-- 已核验：534
-- 待更新：288
-- Markdown 待更新：286
+- 已核验：536
+- 待更新：294
+- Markdown 待更新：292
 - 文档型待更新：2
-- 阻断：79
+- 阻断：80
 - 仅目标数据库存在：0
-- 待创建标签：100
+- 待创建标签：2
 - 是否同步标签：是
 
 ## 变更明细
@@ -37,6 +37,7 @@
 | mysql-03-install-connect-database | MySQL 03：安装、连接和第一次输入 SQL | - | 目标数据库缺少文章 |
 | mysql-02-table-row-column-key | MySQL 02：一张表到底长什么样 | - | 目标数据库缺少文章 |
 | mysql-01-what-is-mysql | MySQL 01：数据库到底解决什么问题 | - | 目标数据库缺少文章 |
+| ai-agent-codex-desktop-app-windows-workflow-20260726 | 第 08 篇：Codex 桌面 App 当前功能与 Windows 实战 | contentHash | - |
 | maxkb-maxkb-api-abc235d7 | 第 02 篇：MaxKB 前端接入与原生 API 调用规则 | - | 分类路径不一致，拒绝由文章补丁脚本处理 |
 | maxkb-01-maxkb-affa7c4c | 第 01 篇：MaxKB 渲染标签与快捷问题规则 | - | 分类路径不一致，拒绝由文章补丁脚本处理 |
 | maxkb-maxkb-d984d85a | 第 03 篇：MaxKB 导出包解析与半自动改包规则 | - | 分类路径不一致，拒绝由文章补丁脚本处理 |
@@ -156,6 +157,13 @@
 | node-js-express-ba1a095d | 第 6 篇：Express 框架全解：路由、中间件、静态资源、模板、错误处理 | tags | - |
 | node-js-npm-nvm-0ada380c | 第 5 篇：npm 包管理与 nvm 版本管理：package.json、semver、本地全局包、Node 版本 | tags | - |
 | node-js-node-js-buffer-52d2c595 | 第 1 篇：Node.js 入门与 Buffer：运行环境、事件循环、全局对象、二进制数据 | tags | - |
+| ai-agent-codex-codex-94189641 | 第 04 篇：Codex 多线路接入与迁移总手册 | contentHash | - |
+| ai-agent-codex-codex-cli-10e9408b | 第 01 篇：Codex CLI 第一日开发实战 | contentHash | - |
+| ai-agent-codex-codex-1c9633e1 | 第 07 篇：Codex 当前常用功能与进阶工作流手册 | contentHash | - |
+| ai-agent-codex-codex-9cf3fc01 | 第 06 篇：Codex 命令与配置文件速查 | contentHash | - |
+| ai-agent-codex-codex-cli-app-afad6d17 | 第 05 篇：Codex CLI、插件、App 三端联动实战 | contentHash | - |
+| ai-agent-codex-codex-edeadb5e | 第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版） | contentHash | - |
+| ai-agent-codex-codex-cli-64e9fd24 | 第 02 篇：Codex CLI 英文终端界面翻译与排错 | contentHash | - |
 | vpn-0373b572 | 第 5 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障 | tags | - |
 | js-cryptojs-aes-81b77601 | 第 5 篇：CryptoJS 前端加密库实战：MD5、SHA256、HMAC、AES、参数签名 | tags | - |
 | js-qrcode-vue-ff5f7ac7 | 第 4 篇：qrcode 二维码生成库实战：登录码、分享码、toCanvas、toDataURL、Vue 接入 | tags | - |
@@ -174,11 +182,9 @@
 | git-git-vscode-bfad3a07 | 第 3 篇：Git 分支追踪与 VSCode 发布提示排障：upstream、fetch、远程分支 | tags | - |
 | legacy-bb449f80-bb449f80 | 第 9 篇：前端面试题题库及答案：Vuex、生命周期、响应式、组件通信、答案解析 | tags | - |
 | 35-9db8f3f8 | 第 8 篇：前端开发常见面试题 35 问：JavaScript、CSS、Vue、状态管理、认证通信 | tags | - |
-| legacy-c16e0589-c16e0589 | 第 4 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide/inject、Vuex、Three.js | summary、tags、contentHash | - |
 | legacy-a87b199b-a87b199b | 第 10 篇：前端超级面试题汇总：let/const/var、闭包、内存泄漏、综合问答 | tags | - |
 | websocket-websocket-ai-sse-a4e8c551 | 第 10 篇：WebSocket 与 AI 流式传输：SSE 对比、流式 API、前端实现、最佳实践 | tags | - |
 | uniapp-9cf05b58 | 第 5 篇：UniApp 框架面试题：配置文件、入口文件、页面管理、打包发布、分包 | tags | - |
-| websocket-a1cbc328 | 第 6 篇：WebSocket 协议面试题：协议原理、握手、实时通信、JavaScript 使用 | tags | - |
 | legacy-ccf8bc9f-ccf8bc9f | 第 1 篇：开发必懂网络基础概念：IP、127.0.0.1、localhost、端口、DNS | tags | - |
 | css-fa549107 | 第 3 篇：现代布局：Flex 与 Grid | tags | - |
 | websocket-websocket-uni-app-8118619a | 第 1 篇：WebSocket 零基础入门：协议概念、握手流程、浏览器、uni-app、心跳重连 | tags | - |
@@ -309,9 +315,3 @@
 | vue-vue2-vue2-b45d61d5 | 第 1 篇：Vue 2 初体验 | tags | - |
 | vue-vue2-vue2-a0e09fcf | 第 23 篇：Vue 2 完整整理版：基础、组件、Vuex、Router、CLI 综合备查 | tags | - |
 | vue-ai-vue-f-fa05c4ac | 附录 F：常见报错与解决方案合集 | tags | - |
-| vue-ai-vue-e-72e17220 | 附录 E：项目目录规范与命名规范建议 | tags | - |
-| vue-ai-vue-d-vuex-8579ca48 | 附录 D：Vuex 速查表 | tags | - |
-| vue-ai-vue-c-vue-router-8010183d | 附录 C：Vue Router 速查表 | tags | - |
-| vue-ai-vue-b-vue-0374bedc | 附录 B：Vue 指令速查表 | tags | - |
-| vue-ai-vue-a-vue2-e1001ab4 | 附录 A：Vue 2 生命周期图 | tags | - |
-| vue-ai-vue-vue2-vue3-a7bca734 | 第 24 章：从 Vue 2 迁移到 Vue 3 | tags | - |
