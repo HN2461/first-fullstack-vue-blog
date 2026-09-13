@@ -12,7 +12,8 @@ const articleSharePackageSchema = new mongoose.Schema({
   publicId: { type: String, required: true, unique: true },
   title: { type: String, required: true, trim: true, maxlength: 120 },
   description: { type: String, trim: true, maxlength: 500, default: '' },
-  scopeType: { type: String, enum: ['article', 'category'], required: true },
+  scopeType: { type: String, enum: ['article', 'category', 'articles'], required: true },
+  scopeKey: { type: String, trim: true, default: '' },
   sourceArticle: { type: mongoose.Schema.Types.ObjectId, ref: 'Article', default: null },
   sourceCategory: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
   includeDescendants: { type: Boolean, default: false },
@@ -39,5 +40,6 @@ const articleSharePackageSchema = new mongoose.Schema({
 
 articleSharePackageSchema.index({ createdBy: 1, updatedAt: -1 })
 articleSharePackageSchema.index({ status: 1, expiresAt: 1 })
+articleSharePackageSchema.index({ createdBy: 1, scopeKey: 1, status: 1, updatedAt: -1 })
 
 export const ArticleSharePackage = mongoose.model('ArticleSharePackage', articleSharePackageSchema)

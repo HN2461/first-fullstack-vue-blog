@@ -216,6 +216,8 @@
         </div>
       </footer>
 
+      <ArticleShareCreateModal v-model:open="shareModalVisible" :article="article" />
+
       <ReadingToolbar
         v-if="pageActive && !loading && !errorMessage && article.id && article.contentMode !== 'document'"
         :immersive-mode="isImmersiveReading"
@@ -298,6 +300,7 @@ import {
 } from '@ant-design/icons-vue'
 import { ListTree, X } from 'lucide-vue-next'
 import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
+import ArticleShareCreateModal from '@/components/article-share/ArticleShareCreateModal.vue'
 import ReadingToolbar from '@/components/ReadingToolbar.vue'
 import TableOfContents from '@/components/TableOfContents.vue'
 import { getAdminArticle } from '@/services/admin'
@@ -350,6 +353,7 @@ const preserveImmersiveOnNextLoad = ref(false)
 const isTocOpen = ref(false)
 const footerSessionVisible = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
 const footerVisibilityOverride = ref(false)
+const shareModalVisible = ref(false)
 const pageActive = ref(true)
 let cachedReadingPosition = null
 
@@ -381,6 +385,7 @@ const inDirectoryConsole = computed(() => route.path.startsWith('/console/articl
 const isAdminPreview = computed(() => route.meta.adminArticlePreview === true)
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
 const authorCardVisible = computed(() => authStore.user?.articleAuthorCardEnabled === true)
+const canCreateArticleShare = computed(() => inConsole.value && authStore.isAdmin && (authStore.canAccessPath('/console/manage/article-shares') || authStore.canAccessPath('/console/manage/articles')))
 const toc = computed(() => extractTOC(article.value.contentMarkdown).filter((item) => item.level >= 1 && item.level <= 4))
 const actionBarVisible = computed(() => shouldShowArticleFooter({
   isAdminPreview: isAdminPreview.value,
@@ -621,10 +626,14 @@ function reportArticle() {
 }
 
 async function shareArticle() {
+  if (canCreateArticleShare.value && !isAdminPreview.value) {
+    shareModalVisible.value = true
+    return
+  }
   const payload = {
     title: article.value.title,
     text: article.value.title,
-    url: window.location.href
+    url: inConsole.value ? new URL(`/articles/${article.value.slug}`, window.location.origin).toString() : window.location.href
   }
 
   try {
@@ -633,7 +642,7 @@ async function shareArticle() {
       return
     }
 
-    await navigator.clipboard.writeText(window.location.href)
+    await navigator.clipboard.writeText(payload.url)
     message.success('文章链接已复制')
   } catch {
     message.info('已取消分享')

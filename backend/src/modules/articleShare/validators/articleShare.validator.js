@@ -6,23 +6,37 @@ const nullableFutureDateSchema = z.union([
   z.null()
 ]).optional()
 
-export const articleShareCreateSchema = z.object({
-  scopeType: z.enum(['article', 'category']),
+const articleShareScopeSchema = z.object({
+  scopeType: z.enum(['article', 'category', 'articles']),
   articleId: z.string().regex(objectIdPattern, '文章 ID 格式不正确').optional(),
+  articleIds: z.array(z.string().regex(objectIdPattern, '文章 ID 格式不正确')).min(2, '请至少选择 2 篇文章').max(100, '一次最多分享 100 篇文章').optional(),
   categoryId: z.string().regex(objectIdPattern, '分类 ID 格式不正确').optional(),
-  includeDescendants: z.boolean().optional().default(false),
-  title: z.string().trim().max(120, '分享标题不能超过 120 个字符').optional(),
-  description: z.string().trim().max(500, '分享说明不能超过 500 个字符').optional().default(''),
-  mode: z.enum(['public', 'password']).default('public'),
-  expiresAt: nullableFutureDateSchema
-}).superRefine((value, ctx) => {
+  includeDescendants: z.boolean().optional().default(false)
+})
+
+function validateShareScope(value, ctx) {
   if (value.scopeType === 'article' && !value.articleId) {
     ctx.addIssue({ code: z.ZodIssueCode.custom, message: '请选择要分享的文章', path: ['articleId'] })
   }
   if (value.scopeType === 'category' && !value.categoryId) {
     ctx.addIssue({ code: z.ZodIssueCode.custom, message: '请选择要分享的分类', path: ['categoryId'] })
   }
-})
+  if (value.scopeType === 'articles' && (!value.articleIds || value.articleIds.length < 2)) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: '请至少选择 2 篇文章', path: ['articleIds'] })
+  }
+  if (value.scopeType === 'articles' && value.articleIds && new Set(value.articleIds).size !== value.articleIds.length) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, message: '不能重复选择同一篇文章', path: ['articleIds'] })
+  }
+}
+
+export const articleShareCreateSchema = articleShareScopeSchema.extend({
+  title: z.string().trim().max(120, '分享标题不能超过 120 个字符').optional(),
+  description: z.string().trim().max(500, '分享说明不能超过 500 个字符').optional().default(''),
+  mode: z.enum(['public', 'password']).default('public'),
+  expiresAt: nullableFutureDateSchema
+}).superRefine(validateShareScope)
+
+export const articleShareReusableSchema = articleShareScopeSchema.superRefine(validateShareScope)
 
 export const articleShareUpdateSchema = z.object({
   title: z.string().trim().min(1, '分享标题不能为空').max(120, '分享标题不能超过 120 个字符').optional(),

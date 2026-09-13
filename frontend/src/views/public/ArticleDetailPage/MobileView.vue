@@ -178,6 +178,7 @@
           </template>
         </a-dropdown>
       </footer>
+      <ArticleShareCreateModal v-model:open="shareModalVisible" :article="article" />
     </template>
   </section>
 </template>
@@ -197,6 +198,7 @@ import {
   UnorderedListOutlined
 } from '@ant-design/icons-vue'
 import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
+import ArticleShareCreateModal from '@/components/article-share/ArticleShareCreateModal.vue'
 import ReadingToolbar from '@/components/ReadingToolbar.vue'
 import { getAdminArticle } from '@/services/admin'
 import { useAuthStore } from '@/stores/auth'
@@ -253,6 +255,7 @@ const likedByCurrentUser = ref(false)
 const favoritedByCurrentUser = ref(false)
 const footerSessionVisible = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
 const footerVisibilityOverride = ref(false)
+const shareModalVisible = ref(false)
 const isImmersiveReading = ref(route.query[IMMERSIVE_QUERY_KEY] === '1')
 const article = ref({
   id: '',
@@ -282,6 +285,7 @@ const inDirectoryConsole = computed(() => route.path.startsWith('/console/articl
 const isAdminPreview = computed(() => route.meta.adminArticlePreview === true)
 const backLabel = computed(() => (isAdminPreview.value ? '返回文章管理' : (inConsole.value ? '返回知识库文章列表' : '返回首页')))
 const commentsEnabled = computed(() => siteStore.profile.commentEnabled !== false)
+const canCreateArticleShare = computed(() => inConsole.value && authStore.isAdmin && (authStore.canAccessPath('/console/manage/article-shares') || authStore.canAccessPath('/console/manage/articles')))
 const actionBarVisible = computed(() => shouldShowArticleFooter({
   isAdminPreview: isAdminPreview.value,
   isImmersiveReading: isImmersiveReading.value,
@@ -536,10 +540,14 @@ async function reportCurrentComment(id) {
 }
 
 async function shareArticle() {
+  if (canCreateArticleShare.value && !isAdminPreview.value) {
+    shareModalVisible.value = true
+    return
+  }
   const payload = {
     title: article.value.title,
     text: article.value.title,
-    url: window.location.href
+    url: inConsole.value ? new URL(`/articles/${article.value.slug}`, window.location.origin).toString() : window.location.href
   }
 
   try {
@@ -547,7 +555,7 @@ async function shareArticle() {
       await navigator.share(payload)
       return
     }
-    await navigator.clipboard.writeText(window.location.href)
+    await navigator.clipboard.writeText(payload.url)
     message.success('文章链接已复制')
   } catch {
     message.info('已取消分享')

@@ -129,7 +129,22 @@ async function resolveEntries(input) {
   if (input.scopeType === 'article') {
     const article = await Article.findOne({ _id: input.articleId, status: ARTICLE_STATUS.PUBLISHED, deletedAt: null }).select('_id title slug category sortOrder')
     if (!article) throw shareError('文章不存在、未发布或已删除', 404, 'ARTICLE_SHARE_ARTICLE_NOT_FOUND')
-    return { title: input.title || article.title, sourceArticle: article._id, sourceCategory: article.category, entries: [{ article: article._id, title: article.title, slug: article.slug, category: article.category, sortOrder: article.sortOrder || 0 }] }
+    return { title: input.title || article.title, sourceArticle: article._id, sourceCategory: article.category, scopeKey: `article:${article._id}`, entries: [{ article: article._id, title: article.title, slug: article.slug, category: article.category, sortOrder: article.sortOrder || 0 }] }
+  }
+
+  if (input.scopeType === 'articles') {
+    const ids = [...new Set((input.articleIds || []).map((id) => String(id)))]
+    const articles = await Article.find({ _id: { $in: ids }, status: ARTICLE_STATUS.PUBLISHED, deletedAt: null }).select('_id title slug category sortOrder')
+    const byId = new Map(articles.map((article) => [article._id.toString(), article]))
+    if (articles.length !== ids.length) throw shareError('部分文章不存在、未发布或已删除', 404, 'ARTICLE_SHARE_ARTICLES_NOT_FOUND')
+    const ordered = ids.map((id) => byId.get(id))
+    return {
+      title: input.title || ordered[0].title,
+      sourceArticle: null,
+      sourceCategory: null,
+      scopeKey: `articles:${[...ids].sort().join(',')}`,
+      entries: ordered.map((article) => ({ article: article._id, title: article.title, slug: article.slug, category: article.category, sortOrder: article.sortOrder || 0 }))
+    }
   }
 
   const category = await Category.findOne({ _id: input.categoryId, status: 'active', isSystem: { $ne: true } })
@@ -159,8 +174,16 @@ async function resolveEntries(input) {
   return {
     title: input.title || category.name,
     sourceCategory: category._id,
+    scopeKey: `category:${category._id}:${input.includeDescendants === true ? 'descendants' : 'direct'}`,
     entries: articles.map((article) => ({ article: article._id, title: article.title, slug: article.slug, category: article.category, sortOrder: article.sortOrder || 0 }))
   }
+}
+
+function sameEntrySet(left = [], right = []) {
+  if (left.length !== right.length) return false
+  const leftIds = left.map((entry) => entry.article.toString()).sort()
+  const rightIds = right.map((entry) => entry.article.toString()).sort()
+  return leftIds.every((id, index) => id === rightIds[index])
 }
 
 export async function createArticleShare(input, actor) {
@@ -171,6 +194,7 @@ export async function createArticleShare(input, actor) {
     title: resolved.title,
     description: input.description || '',
     scopeType: input.scopeType,
+    scopeKey: resolved.scopeKey || '',
     sourceArticle: resolved.sourceArticle || null,
     sourceCategory: resolved.sourceCategory || null,
     includeDescendants: input.includeDescendants,
@@ -184,13 +208,69 @@ export async function createArticleShare(input, actor) {
   return { ...serializeAdmin(share), extractionCode: password || null }
 }
 
+/**
+ * 按当前操作者和实际文章集合查找可复用分享；过期、撤销或目录快照不一致时返回 null。
+ * @param {object} input 已校验的分享范围。
+ * @param {object} actor 当前管理员。
+ * @returns {Promise<object|null>} 含提取码的共享详情或 null。
+ */
+export async function findReusableArticleShare(input, actor) {
+  const resolved = await resolveEntries(input)
+  const query = {
+    createdBy: actor._id,
+    scopeType: input.scopeType,
+    status: 'active',
+    $or: [{ scopeKey: resolved.scopeKey }, { scopeKey: '' }, { scopeKey: { $exists: false } }]
+  }
+  if (input.scopeType === 'article') query.sourceArticle = input.articleId
+  if (input.scopeType === 'category') {
+    query.sourceCategory = input.categoryId
+    query.includeDescendants = input.includeDescendants === true
+  }
+  const candidates = await ArticleSharePackage.find(query).sort({ updatedAt: -1 }).limit(50)
+  const reusable = candidates.find((share) => getStatus(share) === 'active' && sameEntrySet(share.entries, resolved.entries))
+  if (!reusable) return null
+  return serializeAdmin(await ArticleSharePackage.findById(reusable._id).select('+passwordCipher'), true)
+}
+
+/**
+ * 返回共享选择器所需的已发布文章与有效目录；空关键词时按更新时间返回限定数量。
+ * @param {object} query 查询词和数量限制。
+ * @returns {Promise<{articles: object[], categories: object[]}>} 可共享来源。
+ */
+export async function listArticleShareSources({ keyword, pageSize = 500 } = {}) {
+  const limit = Math.min(500, Math.max(1, Number(pageSize) || 500))
+  const query = { status: ARTICLE_STATUS.PUBLISHED, deletedAt: null }
+  const normalizedKeyword = String(keyword || '').trim()
+  if (normalizedKeyword) {
+    const escaped = normalizedKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    query.title = new RegExp(escaped, 'i')
+  }
+  const [articles, categories] = await Promise.all([
+    Article.find(query).select('_id title slug category').sort({ updatedAt: -1 }).limit(limit),
+    Category.find({ status: 'active', isSystem: { $ne: true } }).select('_id name slug parent').sort({ sortOrder: 1, name: 1 })
+  ])
+  return {
+    articles: articles.map((article) => ({ id: article._id.toString(), title: article.title, slug: article.slug, category: article.category?.toString?.() || article.category || null })),
+    categories: categories.map((category) => ({ id: category._id.toString(), name: category.name, slug: category.slug, parent: category.parent?.toString?.() || category.parent || null }))
+  }
+}
+
 export async function listArticleShares({ actor, page = 1, pageSize = 20, keyword, status, scopeType } = {}) {
   const currentPage = Math.max(1, Number(page) || 1)
   const limit = Math.min(100, Math.max(1, Number(pageSize) || 20))
   const query = { createdBy: actor._id }
-  if (status) query.status = status
+  const conditions = []
+  if (status === 'active') conditions.push({ status: 'active' }, { $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date() } }] })
+  else if (status === 'expired') conditions.push({ status: 'active', expiresAt: { $lte: new Date() } })
+  else if (status === 'revoked') conditions.push({ status: 'revoked' })
   if (scopeType) query.scopeType = scopeType
-  if (keyword) query.$or = [{ title: new RegExp(String(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') }, { description: new RegExp(String(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') }]
+  if (keyword) {
+    const escaped = String(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const keywordQuery = [{ title: new RegExp(escaped, 'i') }, { description: new RegExp(escaped, 'i') }]
+    conditions.push({ $or: keywordQuery })
+  }
+  if (conditions.length) query.$and = conditions
   const [items, total] = await Promise.all([
     ArticleSharePackage.find(query).sort({ updatedAt: -1 }).skip((currentPage - 1) * limit).limit(limit),
     ArticleSharePackage.countDocuments(query)
@@ -224,6 +304,23 @@ export async function revokeArticleShare(id, actor) {
   await share.save()
   await invalidateArticleShareSessions(share._id)
   return serializeAdmin(share)
+}
+
+/**
+ * 删除本人失效的共享记录及会话；生效中的链接必须先撤销并会抛出业务错误。
+ * @param {string} id 共享记录 ID。
+ * @param {object} actor 当前管理员。
+ * @returns {Promise<{id: string}>} 已删除记录标识。
+ */
+export async function deleteArticleShare(id, actor) {
+  const share = await ArticleSharePackage.findOne({ _id: id, createdBy: actor._id })
+  if (!share) throw shareError('共享阅读链接不存在', 404, 'ARTICLE_SHARE_NOT_FOUND')
+  if (getStatus(share) === 'active') throw shareError('生效中的链接请先撤销，再删除历史记录', 400, 'ARTICLE_SHARE_DELETE_ACTIVE')
+  await Promise.all([
+    ArticleSharePackage.deleteOne({ _id: share._id }),
+    invalidateArticleShareSessions(share._id)
+  ])
+  return { id: share._id.toString() }
 }
 
 export async function getPublicArticleShare(publicId, req) {
