@@ -1,7 +1,7 @@
 ---
 title: "第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）"
 slug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
-summary: "基于 2026-07-04 Claude Code 官方 Model Config、Settings 与第三方接入资料复核更新，面向程序员说明 Claude Code 如何接入中转、LLM Gateway 和多模型线路，重点讲清 Base URL、Key、模型映射、最小配置模板、验证顺序与高频排障。"
+summary: "基于 2026-09-14 Claude Code 官方 Model Config、Settings reference 与第三方接入资料复核更新，面向程序员说明 Claude Code 如何接入中转、LLM Gateway 和多模型线路，重点讲清 Base URL、Key、模型映射、最小配置模板、验证顺序与高频排障。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -80,7 +80,7 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
 
 这时候根因往往不是线路没通，而是模型映射没配。
 
-按 2026-07-04 官方 `model-config` 文档，Claude Code 当前模型别名不只 Sonnet / Opus / Haiku，还包括 `fable` 和 `best`。其中 `fable` 偏文档、写作、清晰沟通类任务；如果你的第三方网关支持这类映射，建议一起配齐。`best` 是自动选择别名，通常不直接映射成某个固定环境变量。
+按 2026-09-14 官方 `model-config` 文档，Claude Code 当前模型别名不只 Sonnet / Opus / Haiku，还包括 `fable`、`best` 和 `opusplan`。其中 `fable` 是服务商提供的模型族别名，`best` 在 Fable 可用时跟随 `fable`，否则按 `opus` 解析；它们都不是可以脱离服务商文档直接猜出的固定模型 ID。
 
 ---
 
@@ -195,7 +195,7 @@ Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件�
 
 但前提是你真的知道服务商给你的模型名是“真实模型名”，不是营销名。
 
-这里千万不要直接把官方别名当真实模型名照抄给第三方线路。第三方 Gateway 可能要求 `claude-sonnet-5-20260229`、`glm-xxx`、`mimo-xxx` 这类服务商自己的模型 ID；每次发布或复习配置前，都要以服务商后台当前文档为准。
+这里千万不要直接把官方别名当真实模型名照抄给第三方线路。第三方 Gateway 可能要求自己的部署名、推理配置 ARN 或 `glm-xxx`、`mimo-xxx` 这类服务商模型 ID；每次发布或复习配置前，都要以服务商后台当前文档为准，不能凭日期后缀猜模型名。
 
 ---
 
@@ -376,3 +376,4 @@ claude
 - https://docs.anthropic.com/en/docs/claude-code/settings
 - https://platform.xiaomimimo.com/docs/integration/claudecode
 - https://docs.bigmodel.cn/cn/guide/develop/claude
+- https://code.claude.com/docs/en/settings-reference

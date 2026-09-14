@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-8b6661f9"
-summary: "基于 2026-07-04 Claude Code 官方 Common Workflows、Best Practices、Commands 与 Interactive Mode 文档复核更新，重点补齐程序员最常见的看仓库、修 bug、做重构、补测试、改文档、并行任务与会话管理工作流，并提供可直接复用的 prompt 模板。"
+summary: "基于 2026-09-14 Claude Code 官方 Common Workflows、Best Practices、Commands、Agent Teams 与 Interactive Mode 文档复核更新，重点补齐程序员最常见的看仓库、修 bug、做重构、补测试、改文档、并行任务与会话管理工作流，并提供可直接复用的 prompt 模板。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -347,7 +347,7 @@ Claude 补测试时，最容易出现的低质量结果是：
 
 这样主上下文只收结论，不收所有中间读取噪音。
 
-注意一个当前命令变化：从 Claude Code `v2.1.198` 起，`/agents` 不再打开旧版交互管理界面，而是提示你直接让 Claude 创建、管理 subagents，或者手动编辑 `.claude/agents/`、`~/.claude/agents/`。如果你看到旧教程里说 `/agents` 会弹出配置界面，要先看自己的版本。
+注意一个当前命令变化：从 Claude Code `v2.1.198` 起，`/agents` 不再打开旧版交互管理界面，而是提示你直接让 Claude 创建、管理 subagents，或者手动编辑 `.claude/agents/`、`~/.claude/agents/`。如果你看到旧教程里说 `/agents` 会弹出配置界面，要先看自己的版本。需要查看当前会话的后台任务用 `/tasks`，要查看所有后台会话则用 `claude agents`。
 
 ### Worktree 适合什么
 
@@ -517,3 +517,5 @@ Claude 不会自动知道你最在乎的是性能、结构、样式还是交互�
 - https://code.claude.com/docs/en/interactive-mode
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/subagents
+- https://code.claude.com/docs/en/agent-teams
+- https://code.claude.com/docs/en/agents

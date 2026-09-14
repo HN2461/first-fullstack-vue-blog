@@ -1,7 +1,7 @@
 ---
 title: "第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）"
 slug: "ai-agent-claudecode-claudecode-4c9d5bfe"
-summary: "基于 2026-07-04 Claude Code 官方 Setup、Interactive Mode、Commands、Permission Modes 与 How Claude Code Works 文档复核更新，聚焦程序员真正需要的安装更新、终端读屏、权限模式与第一轮最小工作流。"
+summary: "基于 2026-09-14 Claude Code 官方 Installation、CLI reference、Commands、Permission Modes 与 How Claude Code Works 文档复核更新，聚焦程序员真正需要的安装更新、终端读屏、权限模式与第一轮最小工作流。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -49,7 +49,7 @@ exportedAt: "2026-08-03T10:17:08.920Z"
 ## 1. 程序员最常用的主线：`npm` 安装与更新
 
 如果面向程序员写 Claude Code，`npm` 不能只是顺带一提。  
-按 2026-07-04 我复核的官方文档，Claude Code 现在更推荐优先使用官方原生安装器、Homebrew 或 WinGet；`npm` 仍然是官方支持的全局安装方式之一，尤其适合已经习惯 Node/npm 工具链的程序员。
+按 2026-09-14 我复核的官方文档，Claude Code 更推荐优先使用官方原生安装器；Homebrew、WinGet 和 Linux 包管理器也都是正式渠道。`npm` 仍然是官方支持的全局安装方式之一，尤其适合已经习惯 Node/npm 工具链的程序员。
 
 如果你是第一次安装，先记住这条最新主线：
 
@@ -91,7 +91,7 @@ npm install -g @anthropic-ai/claude-code@latest
 npm update -g @anthropic-ai/claude-code
 ```
 
-因为它不一定把你带到最新版本。
+因为它会遵守原始安装时的 semver 范围，可能不会移动到最新发布版本。
 
 ### 实战提醒
 
@@ -284,8 +284,10 @@ flowchart TD
 - `/compact`：压缩上下文
 - `/doctor`：排查安装和环境问题
 - `/debug`：诊断运行时或配置问题
-- `/model`：切模型，当前官方别名包括 `sonnet`、`opus`、`haiku`、`fable`、`best` 等
-- `/effort`：切推理投入，当前常见档位包括 `low`、`medium`、`high`、`xhigh`、`max`、`ultracode`
+- `/model`：切模型，当前官方别名包括 `sonnet`、`opus`、`haiku`、`fable`、`best`、`opusplan`，长上下文版本还可见 `sonnet[1m]` / `opus[1m]`
+- `/effort`：切推理投入，当前常见档位包括 `low`、`medium`、`high`、`xhigh`、`max`；`ultracode` 是更高层的 Claude Code 工作流设置，不只是一个普通 effort 档位
+- `/fast`：切换快速模式（是否可用取决于当前模型、账号和版本）
+- `/rewind`：回到文件检查点，或对较早对话做总结
 - `/skills`：看当前能发现的 skills / commands
 - `/mcp`：看当前 MCP 状态
 
@@ -386,3 +388,5 @@ flowchart TD
 - https://code.claude.com/docs/en/commands
 - https://code.claude.com/docs/en/permission-modes
 - https://code.claude.com/docs/en/how-claude-code-works
+- https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/checkpointing

@@ -1,7 +1,7 @@
 ---
 title: "第 04 篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-76aa3c89"
-summary: "基于 2026-07-04 Claude Code 官方 Settings、Model Config、Permission Modes、Sandboxing、Statusline 与 Keybindings 文档复核更新，重点说明程序员最需要掌握的配置层级、CLAUDE.md 写法、模式选择、模型与 effort 理解以及常见误配排查。"
+summary: "基于 2026-09-14 Claude Code 官方 Settings reference、Model Config、Permission Modes、Sandboxing、Statusline 与 Keybindings 文档复核更新，重点说明程序员最需要掌握的配置层级、CLAUDE.md 写法、模式选择、模型与 effort 理解以及常见误配排查。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -253,11 +253,12 @@ Claude Code 的配置，最怕的不是少，而是乱。
 模型决定的是底层能力特征。  
 按官方当前 `model config` 文档，`default` 别名会因不同计划或平台而映射到不同模型族。当前官方命令里常见的模型别名包括：
 
-- `best`：系统自动选择最合适模型
-- `opus`：Claude Opus 4.8 级别能力
-- `sonnet`：Claude Sonnet 5 级别能力
+- `best`：有 Fable 可用时跟随 `fable`，否则按 `opus` 解析；不是一个固定模型名
+- `opus`：当前可用的 Opus 模型族别名，具体版本取决于服务商和账号
+- `sonnet`：当前可用的 Sonnet 模型族别名，具体版本取决于服务商和账号
 - `haiku`：轻量、低延迟任务
-- `fable`：适合文档、写作、清晰沟通类任务
+- `fable`：当前服务商提供的 Fable 模型，适合长任务和复杂表达；并非所有账号或网关都提供
+- `opusplan`：计划阶段使用 Opus、执行阶段切换 Sonnet 的特殊模式
 
 对程序员来说，最实用的理解是：
 
@@ -277,7 +278,7 @@ Claude Code 的配置，最怕的不是少，而是乱。
 - 方案比较
 - 很容易因为想漏边界而返工的任务
 
-当前官方常见档位包括 `low`、`medium`、`high`、`xhigh`、`max`、`ultracode`。`auto` 不是“最高档”，而是恢复模型默认判断。
+当前官方常见档位包括 `low`、`medium`、`high`、`xhigh`、`max`。`auto` 不是“最高档”，而是恢复模型默认判断；`ultracode` 是 Claude Code 的工作流设置，会以 `xhigh` 为基础并额外编排动态工作流，不应和普通 effort 档位混为一谈。
 
 ### 上下文
 
@@ -463,3 +464,5 @@ skill 的名字、description、任务定位如果太模糊，就会直接影响
 - https://code.claude.com/docs/en/statusline
 - https://code.claude.com/docs/en/keybindings
 - https://code.claude.com/docs/en/memory
+- https://code.claude.com/docs/en/settings-reference
+- https://code.claude.com/docs/en/checkpointing

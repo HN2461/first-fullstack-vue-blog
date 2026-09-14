@@ -1,7 +1,7 @@
 ---
 title: "第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错"
 slug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
-summary: "基于 2026-07-04 Claude Code 官方 Skills、MCP、Plugins、Commands 与 Debug 文档复核更新，专门解决“装了很多 skill、MCP、plugin，但终端里全是英文，看不懂也不会调用”的程序员实战问题，按 `/mcp`、`/skills`、`/plugin` 与斜杠命令列表逐屏拆解。"
+summary: "基于 2026-09-14 Claude Code 官方 Skills、MCP、Plugins、Commands、CLI reference 与 Debug 文档复核更新，专门解决“装了很多 skill、MCP、plugin，但终端里全是英文，看不懂也不会调用”的程序员实战问题，按 `/mcp`、`/skills`、`/plugin` 与斜杠命令列表逐屏拆解。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -656,7 +656,7 @@ flowchart LR
 
 ## 四点五、主人截图里这些命令哪些是官方的
 
-这一段我专门去对了 2026-07-04 的 Claude Code 官方文档，主要看的就是：
+这一段我专门去对了 2026-09-14 的 Claude Code 官方文档，主要看的就是：
 
 - `commands`
 - `sub-agents`
@@ -713,7 +713,7 @@ flowchart LR
 
 这是官方内置命令，不是第三方插件命令，但它的行为已经变过一次。
 
-按 2026-07-04 官方命令页，Claude Code `v2.1.198` 起 `/agents` 不再打开旧版交互式 subagent 管理界面，而是提示你直接让 Claude 创建、管理 subagents，或者手动编辑：
+按 2026-09-14 官方命令页，Claude Code `v2.1.198` 起 `/agents` 不再打开旧版交互式 subagent 管理界面，而是提示你直接让 Claude 创建、管理 subagents，或者手动编辑：
 
 - `.claude/agents/`
 - `~/.claude/agents/`
@@ -1360,3 +1360,7 @@ superpowers:xxx
 - Claude Code 官方 Model / Effort 文档：https://code.claude.com/docs/en/model-config
 - Claude Code 官方 Scheduled Tasks 与 `/loop` 文档：https://code.claude.com/docs/en/scheduled-tasks
 - Claude Code 官方配置排障文档：https://code.claude.com/docs/en/debug-your-config
+- Claude Code 官方 CLI reference：https://code.claude.com/docs/en/cli-reference
+- Claude Code 官方 Checkpointing 文档：https://code.claude.com/docs/en/checkpointing
+- Claude Code 官方 Agent Teams 文档：https://code.claude.com/docs/en/agent-teams
+- Claude Code 官方 Settings reference：https://code.claude.com/docs/en/settings-reference

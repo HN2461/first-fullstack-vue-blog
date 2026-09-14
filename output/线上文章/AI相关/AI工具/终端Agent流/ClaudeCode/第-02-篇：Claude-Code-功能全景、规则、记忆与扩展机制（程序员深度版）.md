@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-083e790a"
-summary: "基于 2026-07-04 Claude Code 官方 Memory、Skills、Hooks、Plugins、MCP 与 Settings 文档复核更新，重点解释程序员最容易混淆的规则层、权限层、记忆层与扩展层，并补清 CLAUDE.md、rules、auto memory、skills、hooks、MCP、plugin 的职责边界。"
+summary: "基于 2026-09-14 Claude Code 官方 Memory、Skills、Hooks、Plugins、MCP 与 Settings reference 文档复核更新，重点解释程序员最容易混淆的规则层、权限层、记忆层与扩展层，并补清 CLAUDE.md、rules、auto memory、skills、hooks、MCP、plugin 的职责边界。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -224,7 +224,7 @@ Claude 可能会尽量遵守，但这不等于底层被硬性拦住。
 
 ### 当前官方 auto memory 的关键边界
 
-按 2026-07-04 官方文档，auto memory 默认开启，Claude 会把它认为后续有用的构建命令、调试经验、架构笔记和偏好记录到本机目录。它不是团队共享规则，也不是硬约束。
+按 2026-09-14 官方文档，auto memory 是可以在设置中开启或关闭的本机记忆机制；启用后，Claude 会把它认为后续有用的构建命令、调试经验、架构笔记和偏好记录到本机目录。它不是团队共享规则，也不是硬约束。
 
 几个边界一定要记住：
 
@@ -550,3 +550,5 @@ Plugin 只是容器或分发方式，不代表其中每项能力都会自动命�
 - https://code.claude.com/docs/en/mcp
 - https://code.claude.com/docs/en/plugins
 - https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/settings-reference
+- https://code.claude.com/docs/en/agents

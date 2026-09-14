@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-14",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "claude-code-docs-review-and-sync",
+      "title": "复核并更新 Claude Code 系列文章",
+      "detail": "1. 检索并阅读 Claude Code 官方 Installation、CLI reference、Commands、Model Config、Settings reference、Checkpointing、Agent Teams、Skills、Plugins 与 MCP 文档。\n2. 更新 ClaudeCode 目录 6 篇文章中过时的官方复核日期、npm 更新说明、模型别名语义、ultracode 定位、/agents 版本行为和参考链接，保留原文章 slug、originalId、分类与排序。\n3. 对 6 个指定 slug 执行 article-authority 增量 dry-run 与 apply，本地数据库写入 6 篇正文并生成备份；写后比较确认正文待推送为 0。\n4. 生产数据库未在本地 .env 中配置，未越权执行生产写库；待同一 Git 提交部署到生产环境后按规则运行生产正文同步命令。",
+      "occurredAt": "2026-09-14T23:40:00+08:00",
+      "category": "内容更新"
+    }
+  ]
+}
