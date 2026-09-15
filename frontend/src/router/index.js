@@ -38,6 +38,7 @@ const TodoPage = () => import('@/views/console/TodoPage/index.vue')
 const DiscussionPage = () => import('@/views/console/DiscussionPage/index.vue')
 const BookmarkPage = () => import('@/views/console/BookmarkPage/index.vue')
 const LogRelayPage = () => import('@/views/console/LogRelayPage/index.vue')
+const ToolsPage = () => import('@/views/console/ToolsPage/index.vue')
 const ResumeListPage = () => import('@/views/console/ResumePage/ResumeList.vue')
 const ResumeEditorPage = () => import('@/views/console/ResumePage/ResumeEditor.vue')
 const ResumeInterviewPage = () => import('@/views/console/ResumePage/InterviewBank.vue')
@@ -214,6 +215,18 @@ export const router = createRouter({
           name: 'ConsoleLogRelay',
           component: LogRelayPage,
           meta: { title: '日志中转', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'tools',
+          name: 'ConsoleTools',
+          component: ToolsPage,
+          meta: { title: '工具箱', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'tools/:toolKey',
+          name: 'ConsoleTool',
+          component: ToolsPage,
+          meta: { title: '工具箱', requiresAuth: true, requiresMenuAccess: true }
         },
         { path: 'resumes', name: 'ConsoleResumes', component: ResumeListPage, meta: { title: '简历列表', requiresAuth: true, requiresMenuAccess: true } },
         { path: 'resumes/editor', name: 'ConsoleResumeEditor', component: ResumeEditorPage, meta: { title: '简历编辑', requiresAuth: true, requiresMenuAccess: true } },
