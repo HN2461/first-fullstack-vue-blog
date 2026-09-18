@@ -18,7 +18,17 @@ import {
   ListFilter,
   TextCursorInput,
   ListOrdered,
-  Timer
+  Timer,
+  Dice5,
+  Coins,
+  Languages,
+  Table2,
+  Percent,
+  Ratio,
+  HeartPulse,
+  CalendarDays,
+  FileSpreadsheet,
+  Sparkles
 } from 'lucide-vue-next'
 
 export const TOOL_CATEGORIES = [
@@ -26,6 +36,7 @@ export const TOOL_CATEGORIES = [
   { key: 'data', label: '数据与编码' },
   { key: 'web', label: 'Web 与开发' },
   { key: 'text', label: '文本处理' },
+  { key: 'math', label: '计算与转换' },
   { key: 'time', label: '日期与时间' },
   { key: 'fun', label: '随机与娱乐' }
 ]
@@ -182,6 +193,86 @@ export const TOOL_CATALOG = [
     description: '用于专注、运动或小实验的本地秒表',
     icon: Timer,
     component: defineAsyncComponent(() => import('./tools/StopwatchTool.vue'))
+  },
+  {
+    key: 'dice',
+    category: 'fun',
+    name: '骰子与硬币',
+    description: '掷骰子、抛硬币，支持自定义面数',
+    icon: Dice5,
+    component: defineAsyncComponent(() => import('./tools/DiceTool.vue'))
+  },
+  {
+    key: 'lorem',
+    category: 'text',
+    name: '随机文本',
+    description: '生成中文、英文和开发占位文本',
+    icon: Sparkles,
+    component: defineAsyncComponent(() => import('./tools/LoremTool.vue'))
+  },
+  {
+    key: 'morse',
+    category: 'text',
+    name: '摩斯电码',
+    description: '文本与摩斯电码互相翻译',
+    icon: Languages,
+    component: defineAsyncComponent(() => import('./tools/MorseTool.vue'))
+  },
+  {
+    key: 'markdown-table',
+    category: 'text',
+    name: 'Markdown 表格',
+    description: '把 TSV 或 CSV 文本变成 Markdown 表格',
+    icon: Table2,
+    component: defineAsyncComponent(() => import('./tools/MarkdownTableTool.vue'))
+  },
+  {
+    key: 'csv-json',
+    category: 'data',
+    name: 'CSV 转 JSON',
+    description: '将表格文本转换成 JSON 数组',
+    icon: FileSpreadsheet,
+    component: defineAsyncComponent(() => import('./tools/CsvJsonTool.vue'))
+  },
+  {
+    key: 'percentage',
+    category: 'math',
+    name: '百分比计算',
+    description: '折扣、增长率和占比快速计算',
+    icon: Percent,
+    component: defineAsyncComponent(() => import('./tools/PercentageTool.vue'))
+  },
+  {
+    key: 'ratio',
+    category: 'math',
+    name: '比例换算',
+    description: '按比例缩放尺寸、配方和数量',
+    icon: Ratio,
+    component: defineAsyncComponent(() => import('./tools/RatioTool.vue'))
+  },
+  {
+    key: 'bmi',
+    category: 'math',
+    name: 'BMI 计算',
+    description: '根据身高体重估算身体质量指数',
+    icon: HeartPulse,
+    component: defineAsyncComponent(() => import('./tools/BmiTool.vue'))
+  },
+  {
+    key: 'date-diff',
+    category: 'time',
+    name: '日期间隔',
+    description: '计算两个日期之间相差多少天',
+    icon: CalendarDays,
+    component: defineAsyncComponent(() => import('./tools/DateDiffTool.vue'))
+  },
+  {
+    key: 'coin',
+    category: 'fun',
+    name: '硬币统计',
+    description: '批量抛硬币并统计正反面比例',
+    icon: Coins,
+    component: defineAsyncComponent(() => import('./tools/CoinTool.vue'))
   }
 ]
 
