@@ -1,6 +1,8 @@
 import mongoose from 'mongoose'
+import { USER_ROLES } from '#constants/domain'
 import { MediaCategory } from '#modules/media/models/MediaCategory.js'
 import { Media } from '#modules/media/models/Media.js'
+import { User } from '#modules/user/models/User.js'
 
 export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
   {
@@ -49,6 +51,18 @@ function getActorId(actor) {
   return actor?._id || actor?.id || null
 }
 
+function canManageAllMediaCategories(actor) {
+  return actor?.role === USER_ROLES.SUPER_ADMIN || actor?.isSuperAdmin === true
+}
+
+function getLegacyCategoryKey(owner, name) {
+  return JSON.stringify([owner || 'system', name])
+}
+
+function getLegacyCategoryId(owner, name) {
+  return `legacy:${owner || 'system'}:${encodeURIComponent(name)}`
+}
+
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
   error.statusCode = statusCode
@@ -72,15 +86,23 @@ export async function ensureDefaultMediaCategory() {
   return defaultCategory
 }
 
-export async function listMediaCategoryEntities(actor) {
+export async function listMediaCategoryEntities(actor, options = {}) {
   await ensureDefaultMediaCategory()
   const actorId = getActorId(actor)
-  return MediaCategory.find({
+  const includeAllOwners = options.scope === 'all' && canManageAllMediaCategories(actor)
+  const ownerFilters = includeAllOwners
+    ? [{ system: false }]
+    : actorId
+      ? [{ system: false, owner: actorId }]
+      : []
+  const query = MediaCategory.find({
     $or: [
       { system: true },
-      ...(actorId ? [{ system: false, owner: actorId }] : [])
+      ...ownerFilters
     ]
-  }).sort({ system: -1, sortOrder: 1, createdAt: 1 })
+  })
+  if (includeAllOwners) query.populate('owner', 'username email')
+  return query.sort({ system: -1, sortOrder: 1, createdAt: 1 })
 }
 
 export async function assertMediaCategoryExists(name, actor, categoryId = '') {
@@ -109,16 +131,19 @@ export async function assertMediaCategoryExists(name, actor, categoryId = '') {
   return category
 }
 
-export async function listMediaCategories(actor) {
+export async function listMediaCategories(actor, options = {}) {
   const actorId = getActorId(actor)
-  const entities = await listMediaCategoryEntities(actor)
+  const includeAllOwners = options.scope === 'all' && canManageAllMediaCategories(actor)
+  const entities = await listMediaCategoryEntities(actor, options)
+  const mediaMatch = includeAllOwners || !actorId ? {} : { uploader: actorId }
   const counts = await Media.aggregate([
-    ...(actorId ? [{ $match: { uploader: actorId, deletedAt: null } }] : []),
+    { $match: { ...mediaMatch, deletedAt: null } },
     {
       $group: {
         _id: {
           categoryId: '$categoryId',
-          name: { $ifNull: ['$category', '默认素材'] }
+          name: { $ifNull: ['$category', '默认素材'] },
+          owner: '$uploader'
         },
         count: { $sum: 1 }
       }
@@ -127,22 +152,49 @@ export async function listMediaCategories(actor) {
   const countById = new Map(counts
     .filter((item) => item._id.categoryId)
     .map((item) => [item._id.categoryId.toString(), item.count]))
-  const legacyCountByName = new Map(counts
+  const legacyCountByOwnerName = new Map(counts
     .filter((item) => !item._id.categoryId)
-    .map((item) => [item._id.name, item.count]))
+    .map((item) => [
+      getLegacyCategoryKey(isSystemMediaCategory(item._id.name) ? 'system' : item._id.owner, item._id.name),
+      item.count
+    ]))
 
-  const result = entities.map((item) => ({
-    ...item.toSafeJSON(),
-    count: (countById.get(item._id.toString()) || 0) + (legacyCountByName.get(item.name) || 0)
-  }))
+  const legacyOwnerIds = [...legacyCountByOwnerName.keys()]
+    .map((key) => JSON.parse(key)[0])
+    .filter((owner) => owner !== 'system' && mongoose.isObjectIdOrHexString(owner))
+  const legacyOwners = legacyOwnerIds.length
+    ? await User.find({ _id: { $in: legacyOwnerIds } }).select('username email').lean()
+    : []
+  const legacyOwnerNameById = new Map(legacyOwners.map((owner) => [
+    owner._id.toString(),
+    owner.username || owner.email || ''
+  ]))
 
-  for (const [name, count] of legacyCountByName) {
-    if (!result.some((item) => item.name === name)) {
+  const result = entities.map((item) => {
+    const safeCategory = item.toSafeJSON()
+    const categoryOwner = item.owner?._id?.toString?.() || safeCategory.owner || null
+    return {
+      ...safeCategory,
+      owner: categoryOwner,
+      ownerName: item.owner?.username || item.owner?.email || '',
+      count: (countById.get(item._id.toString()) || 0) + (
+        legacyCountByOwnerName.get(getLegacyCategoryKey(item.system ? 'system' : categoryOwner, item.name)) || 0
+      )
+    }
+  })
+
+  for (const [ownerName, count] of legacyCountByOwnerName) {
+    const [ownerId, name] = JSON.parse(ownerName)
+    if (!result.some((item) => (
+      item.name === name && String(item.owner || 'system') === ownerId
+    ))) {
       result.push({
-        id: '',
+        id: getLegacyCategoryId(ownerId === 'system' ? null : ownerId, name),
         name,
-        owner: getActorId(actor)?.toString?.() || null,
+        owner: ownerId === 'system' ? null : ownerId,
+        ownerName: legacyOwnerNameById.get(ownerId) || '',
         system: isSystemMediaCategory(name),
+        virtual: true,
         description: '当前账号历史资源使用的分类，尚未完成分类关联。',
         sortOrder: 999,
         count

@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import mongoose from 'mongoose'
 import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
 import { inferMediaFileClass } from '#modules/media/constants/mediaUpload.constants.js'
@@ -136,7 +137,24 @@ export async function listMedia(options = {}) {
   }
 
   if (options.categoryId) {
-    query.categoryId = options.categoryId
+    if (options.category) {
+      const legacyCategoryQuery = {
+        categoryId: null,
+        category: normalizeMediaCategory(options.category)
+      }
+      if (options.categoryOwner && mongoose.isObjectIdOrHexString(options.categoryOwner)) {
+        legacyCategoryQuery.uploader = options.categoryOwner
+      }
+      query.$and = query.$and || []
+      query.$and.push({
+        $or: [
+          { categoryId: options.categoryId },
+          legacyCategoryQuery
+        ]
+      })
+    } else {
+      query.categoryId = options.categoryId
+    }
   } else if (options.category) {
     query.category = normalizeMediaCategory(options.category)
   }
@@ -159,11 +177,12 @@ export async function listMedia(options = {}) {
   }
 
   if (keyword) {
-    query.$or = [
+    query.$and = query.$and || []
+    query.$and.push({ $or: [
       { originalName: { $regex: keyword, $options: 'i' } },
       { filename: { $regex: keyword, $options: 'i' } },
       { category: { $regex: keyword, $options: 'i' } }
-    ]
+    ] })
   }
 
   if (usageStatus === 'referenced' || usageStatus === 'unreferenced') {

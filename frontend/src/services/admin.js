@@ -467,8 +467,8 @@ export function batchMoveAdminMediaCategory(ids, target) {
   return http.patch('/api/admin/media/category/batch', { ids, ...normalizeMediaCategoryTarget(target) })
 }
 
-export function listAdminMediaCategories() {
-  return http.get('/api/admin/media/categories')
+export function listAdminMediaCategories(params = {}) {
+  return http.get('/api/admin/media/categories', { params })
 }
 
 export function createAdminMediaCategory(data) {

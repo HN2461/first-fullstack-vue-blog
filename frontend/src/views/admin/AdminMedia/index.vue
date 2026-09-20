@@ -5,21 +5,24 @@
       <div class="media-cloud__identity">
         <h2 class="media-cloud__title">媒体资产</h2>
       </div>
-      <MediaHeaderActions
-        class="media-cloud__actions"
-        :super-admin="authStore.isSuperAdmin"
-        :can-manage-shares="canManageMediaShares"
-        @upload="uploadModalVisible = true"
-        @inventory="inventoryModalVisible = true"
-        @settings="openUploadSettings"
-        @trash="openTrashModal"
-        @categories="categoryModalVisible = true"
-        @shares="router.push('/console/manage/media-shares')"
-      />
+      <div class="media-cloud__topbar-actions">
+        <MediaViewSwitcher v-model="viewMode" @update:model-value="changeViewMode" />
+        <MediaHeaderActions
+          class="media-cloud__actions"
+          :super-admin="authStore.isSuperAdmin"
+          :can-manage-shares="canManageMediaShares"
+          @upload="openUploadModal()"
+          @inventory="inventoryModalVisible = true"
+          @settings="openUploadSettings"
+          @trash="openTrashModal"
+          @categories="categoryModalVisible = true"
+          @shares="router.push('/console/manage/media-shares')"
+        />
+      </div>
     </div>
 
     <!-- 查询、类型统计和批量操作属于同一工作层，选中前不展示无效命令。 -->
-    <div class="media-cloud__list-toolbar">
+    <div v-if="viewMode === 'list'" class="media-cloud__list-toolbar">
       <div class="media-cloud__filters">
         <a-input-search
           v-model:value="keyword"
@@ -85,7 +88,7 @@
     </div>
 
     <!-- 表格主体 -->
-    <div class="media-cloud__body">
+    <div v-if="viewMode === 'list'" class="media-cloud__body">
       <BlogTable
         ref="tableRef"
         :api-fn="loadMedia"
@@ -173,11 +176,46 @@
       </BlogTable>
     </div>
 
+    <div v-else class="media-cloud__body media-cloud__body--folders">
+      <MediaFolderBrowser
+        :categories="folderCategories"
+        :active-folder-id="activeFolderId"
+        :items="folderItems"
+        :loading="folderLoading"
+        :total="folderTotal"
+        :page="folderPage"
+        :page-size="folderPageSize"
+        :keyword="folderKeyword"
+        :selected-keys="folderSelectedKeys"
+        :can-manage-shares="canManageMediaShares"
+        :current-user-id="authStore.user?.id"
+        @open-folder="openFolder"
+        @back="backToFolderRoot"
+        @upload="openUploadModal"
+        @manage-categories="categoryModalVisible = true"
+        @search="handleFolderSearch"
+        @page-change="handleFolderPageChange"
+        @selection-change="handleFolderSelectionChange"
+        @view="handleView"
+        @download="folderDownloads.downloadSingleMedia"
+        @rename="handleRename"
+        @move="openSingleCategoryMove"
+        @references="openReferenceModal"
+        @delete="handleDelete"
+        @batch-download="folderDownloads.openBatchDownload"
+        @batch-move="openFolderBatchCategoryMove"
+        @batch-share="shareCreateVisible = true"
+        @batch-delete="handleFolderBatchDelete"
+        @clear-selection="clearFolderSelection"
+      />
+    </div>
+
     <MediaUploadModal
       ref="uploadModalRef"
       v-model:open="uploadModalVisible"
       :rules="uploadRules"
       :category-options="filterCategoryOptions"
+      :default-category-id="uploadCategoryId"
       @uploaded="handleUploadCompleted"
     />
 
@@ -207,6 +245,13 @@
       @submit="submitBatchDownload"
     />
 
+    <MediaDownloadModal
+      v-model:open="folderDownloadModalVisible"
+      :records="folderSelectedRecords"
+      :submitting="folderDownloadSubmitting"
+      @submit="submitFolderBatchDownload"
+    />
+
     <MediaCategoryMoveModal
       v-model:open="categoryMoveModalVisible"
       :record="categoryMoveRecord"
@@ -230,7 +275,7 @@
 
     <MediaShareCreateModal
       v-model:open="shareCreateVisible"
-      :media-ids="selectedMediaKeys"
+      :media-ids="activeSelectedMediaKeys"
       @created="handleShareCreated"
     />
 
@@ -336,7 +381,7 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import {
   EditOutlined,
   DeleteOutlined,
@@ -357,6 +402,8 @@ import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
 import MediaUploadModal from './MediaUploadModal.vue'
 import MediaGuideModal from './MediaGuideModal.vue'
 import MediaShareCreateModal from './MediaShareCreateModal.vue'
+import MediaFolderBrowser from './MediaFolderBrowser.vue'
+import MediaViewSwitcher from './MediaViewSwitcher.vue'
 import {
   DEFAULT_MEDIA_ALLOWED_EXTENSIONS,
   normalizeAllowedMediaExtensions
@@ -383,9 +430,11 @@ import { useMediaDownloads } from './useMediaDownloads'
 
 const tableRef = ref(null)
 const router = useRouter()
+const route = useRoute()
 const uploadModalRef = ref(null)
 const errorMessage = ref('')
 const categories = ref([])
+const folderCategories = ref([])
 const keyword = ref('')
 const filterCategory = ref(undefined)
 const filterFileClass = ref(undefined)
@@ -423,6 +472,17 @@ const settingsDraft = ref({
 const trashModalVisible = ref(false)
 const selectedMediaKeys = ref([])
 const selectedMediaRecords = ref([])
+const viewMode = ref(route.query.view === 'folders' ? 'folders' : 'list')
+const activeFolderId = ref(String(route.query.categoryId || ''))
+const folderKeyword = ref(String(route.query.keyword || ''))
+const folderPage = ref(1)
+const folderPageSize = ref(24)
+const folderItems = ref([])
+const folderTotal = ref(0)
+const folderLoading = ref(false)
+const folderSelectedKeys = ref([])
+const folderSelectedRecords = ref([])
+const uploadCategoryId = ref('')
 const categoryDraft = ref({
   name: '',
   description: ''
@@ -437,6 +497,15 @@ const {
   openBatchDownload,
   submitBatchDownload
 } = useMediaDownloads({ selectedMediaRecords, clearSelection: clearMediaSelection })
+const folderDownloads = useMediaDownloads({
+  selectedMediaRecords: folderSelectedRecords,
+  clearSelection: clearFolderSelection
+})
+const {
+  downloadModalVisible: folderDownloadModalVisible,
+  downloadSubmitting: folderDownloadSubmitting,
+  submitBatchDownload: submitFolderBatchDownload
+} = folderDownloads
 
 const fileClassOptions = [
   { label: '图片', value: 'image' },
@@ -522,6 +591,10 @@ const mediaStats = ref({
   other: 0
 })
 
+const activeSelectedMediaKeys = computed(() => (
+  viewMode.value === 'folders' ? folderSelectedKeys.value : selectedMediaKeys.value
+))
+
 function filterSelectOption(input, option) {
   const keyword = String(input || '').trim().toLowerCase()
   if (!keyword) return true
@@ -535,6 +608,7 @@ function refreshTable() {
 
 async function handleInventoryChanged() {
   await loadCategories()
+  await loadFolderCategoriesAndItems()
   refreshTable()
 }
 
@@ -550,6 +624,7 @@ function clearMediaSelection() {
 
 function handleShareCreated() {
   clearMediaSelection()
+  clearFolderSelection()
 }
 
 function toggleFileClassFilter(value) {
@@ -608,6 +683,150 @@ async function loadCategories() {
   categories.value = await listAdminMediaCategories()
 }
 
+async function loadFolderCategories() {
+  folderCategories.value = await listAdminMediaCategories({
+    scope: authStore.isSuperAdmin ? 'all' : undefined
+  })
+}
+
+function updateFolderRoute() {
+  router.replace({
+    query: {
+      ...route.query,
+      view: viewMode.value === 'folders' ? 'folders' : undefined,
+      categoryId: viewMode.value === 'folders' && activeFolderId.value ? activeFolderId.value : undefined,
+      keyword: viewMode.value === 'folders' && folderKeyword.value ? folderKeyword.value : undefined
+    }
+  })
+}
+
+function changeViewMode(value) {
+  viewMode.value = value
+  if (value === 'folders') {
+    activeFolderId.value = ''
+    folderPage.value = 1
+    folderSelectedKeys.value = []
+    loadFolderCategoriesAndItems()
+  }
+  updateFolderRoute()
+}
+
+function openFolder(folder) {
+  activeFolderId.value = folder?.id || folder?.name || ''
+  folderPage.value = 1
+  folderKeyword.value = ''
+  clearFolderSelection()
+  updateFolderRoute()
+  loadFolderItems()
+}
+
+function backToFolderRoot() {
+  activeFolderId.value = ''
+  folderPage.value = 1
+  folderKeyword.value = ''
+  clearFolderSelection()
+  updateFolderRoute()
+}
+
+function handleFolderSearch(value) {
+  folderKeyword.value = value || ''
+  folderPage.value = 1
+  clearFolderSelection()
+  updateFolderRoute()
+  loadFolderItems()
+}
+
+function handleFolderPageChange({ page, pageSize }) {
+  folderPage.value = page
+  folderPageSize.value = pageSize
+  loadFolderItems()
+}
+
+function handleFolderSelectionChange(keys, rows) {
+  folderSelectedKeys.value = keys
+  folderSelectedRecords.value = rows
+}
+
+function clearFolderSelection() {
+  folderSelectedKeys.value = []
+  folderSelectedRecords.value = []
+}
+
+function openUploadModal(category = '') {
+  const categoryId = typeof category === 'object'
+    ? category?.id || categories.value.find((item) => item.name === category?.name && item.system)?.id || ''
+    : category
+  uploadCategoryId.value = /^[a-f\d]{24}$/i.test(categoryId || '') ? categoryId : ''
+  uploadModalVisible.value = true
+}
+
+function openFolderBatchCategoryMove() {
+  categoryMoveRecord.value = null
+  categoryMoveIds.value = [...folderSelectedKeys.value]
+  categoryMoveModalVisible.value = true
+}
+
+function handleFolderBatchDelete() {
+  const ids = [...folderSelectedKeys.value]
+  if (!ids.length) return
+
+  confirmMediaDelete(ids, {
+    title: '批量移入回收站',
+    getContent: (risk) => buildDeleteRiskContent(risk, `确认将选中的 ${ids.length} 个媒体资源移入回收站？数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`),
+    okText: '批量移入回收站',
+    okType: 'danger',
+    async onOk() {
+      await runAction(() => batchDeleteAdminMedia(ids), {
+        successMessage: `已移入回收站 ${ids.length} 个媒体文件`,
+        errorMessage: '批量删除失败',
+        onSuccess: async () => {
+          clearFolderSelection()
+          await loadFolderCategoriesAndItems()
+          await loadCategories()
+        }
+      })
+    }
+  }).catch(() => {})
+}
+
+async function loadFolderCategoriesAndItems() {
+  await loadFolderCategories()
+  await loadFolderItems()
+}
+
+async function loadFolderItems() {
+  if (!activeFolderId.value) {
+    folderItems.value = []
+    folderTotal.value = 0
+    return
+  }
+
+  folderLoading.value = true
+  try {
+    const activeFolder = folderCategories.value.find((item) => String(item.id) === String(activeFolderId.value))
+    if (!activeFolder) {
+      folderItems.value = []
+      folderTotal.value = 0
+      return
+    }
+    const hasCategoryId = /^[a-f\d]{24}$/i.test(activeFolderId.value || '')
+    const result = await listAdminMedia({
+      categoryId: hasCategoryId ? activeFolderId.value : undefined,
+      category: activeFolder?.name || (!hasCategoryId ? activeFolderId.value : undefined),
+      categoryOwner: activeFolder?.owner || undefined,
+      keyword: folderKeyword.value || undefined,
+      page: folderPage.value,
+      pageSize: folderPageSize.value
+    })
+    folderItems.value = result.items
+    folderTotal.value = result.total
+  } catch (error) {
+    errorMessage.value = error.message || '文件夹资源加载失败'
+  } finally {
+    folderLoading.value = false
+  }
+}
+
 async function loadUploadRules() {
   const settings = await getAdminSettings()
   uploadRules.value = {
@@ -662,6 +881,7 @@ async function saveUploadSettings(payload) {
 
 async function handleUploadCompleted() {
   await loadCategories()
+  await loadFolderCategoriesAndItems()
   tableRef.value?.refresh()
 }
 
@@ -687,6 +907,7 @@ function handleDelete(record) {
           errorMessage: '删除失败',
           onSuccess: async () => {
             await loadCategories()
+            await loadFolderCategoriesAndItems()
             tableRef.value?.refresh()
           }
         })
@@ -741,7 +962,9 @@ async function submitCategoryMove(target) {
           categoryMoveRecord.value = null
           categoryMoveIds.value = []
           clearMediaSelection()
+          clearFolderSelection()
           await loadCategories()
+          await loadFolderCategoriesAndItems()
           tableRef.value?.refresh()
         }
       }
@@ -769,6 +992,7 @@ async function submitRename(nextName) {
         renameModalVisible.value = false
         renameRecord.value = null
         await loadCategories()
+        await loadFolderCategoriesAndItems()
         tableRef.value?.refresh()
       }
     })
@@ -793,6 +1017,7 @@ function handleBatchDelete() {
         onSuccess: async () => {
           clearMediaSelection()
           await loadCategories()
+          await loadFolderCategoriesAndItems()
           tableRef.value?.refresh()
         }
       })
@@ -847,6 +1072,7 @@ function openMediaGuide(topic) {
 
 async function handleTrashChanged() {
   await loadCategories()
+  await loadFolderCategoriesAndItems()
   tableRef.value?.refresh()
 }
 
@@ -922,7 +1148,8 @@ onMounted(async () => {
   try {
     await Promise.all([
       loadCategories(),
-      loadUploadRules()
+      loadUploadRules(),
+      viewMode.value === 'folders' ? loadFolderCategoriesAndItems() : Promise.resolve()
     ])
   } catch (error) {
     errorMessage.value = error.message || '媒体页初始化失败'
@@ -977,6 +1204,13 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 6px;
+  flex-shrink: 0;
+}
+
+.media-cloud__topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   flex-shrink: 0;
 }
 
@@ -1068,6 +1302,10 @@ onMounted(async () => {
   flex: 1;
   min-height: 0; /* 关键：允许 flex 子元素收缩 */
   overflow: hidden; /* 强制裁剪，防止内容撑开 */
+}
+
+.media-cloud__body--folders {
+  overflow: hidden;
 }
 
 /* ===== 表格行：文件信息 ===== */
@@ -1457,6 +1695,20 @@ onMounted(async () => {
     order: 3;
     padding-left: 0;
     border-left: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .media-cloud__topbar {
+    align-items: flex-start;
+  }
+
+  .media-cloud__topbar-actions {
+    gap: 6px;
+  }
+
+  .media-cloud__title {
+    font-size: 16px;
   }
 }
 

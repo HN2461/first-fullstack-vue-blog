@@ -102,7 +102,8 @@ const props = defineProps({
     type: Object,
     default: () => ({ maxFiles: 5, maxFileSizeMB: 20, allowedExtensions: [] })
   },
-  categoryOptions: { type: Array, default: () => [] }
+  categoryOptions: { type: Array, default: () => [] },
+  defaultCategoryId: { type: String, default: '' }
 })
 
 const emit = defineEmits(['update:open', 'uploaded'])
@@ -218,6 +219,17 @@ function ensureDefaultCategory() {
 }
 
 watch(() => props.categoryOptions, ensureDefaultCategory, { immediate: true, deep: true })
+
+watch(
+  () => [props.open, props.defaultCategoryId, props.categoryOptions],
+  ([visible, categoryId]) => {
+    if (!visible || !categoryId) return
+    if (props.categoryOptions.some((item) => item.value === categoryId)) {
+      uploadCategory.value = categoryId
+    }
+  },
+  { immediate: true, deep: true }
+)
 
 defineExpose({ reset })
 </script>

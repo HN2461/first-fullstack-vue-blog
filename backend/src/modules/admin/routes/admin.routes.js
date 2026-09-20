@@ -668,7 +668,7 @@ adminRouter.get('/media/trash', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
-  res.json(ok(await listMediaCategories(req.user)))
+  res.json(ok(await listMediaCategories(req.user, { scope: req.query.scope })))
 }))
 
 adminRouter.get('/media/delete-risk', asyncHandler(async (req, res) => {
