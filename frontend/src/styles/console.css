@@ -1414,7 +1414,7 @@ body:has(.enterprise-admin-shell) {
   }
 }
 
-@media (max-width: 767px), (pointer: coarse) and (max-width: 1024px) {
+@media (max-width: 1024px) {
   :root {
     --console-header-height: 56px;
     --console-content-padding: 10px;
@@ -1459,6 +1459,11 @@ body:has(.enterprise-admin-shell) {
     height: var(--console-header-height);
     border-right: 0;
     padding: 0 8px;
+  }
+
+  .enterprise-topnav-brand > div {
+    min-width: 0;
+    flex: 1 1 auto;
   }
 
   .enterprise-brand-icon {
@@ -1675,5 +1680,12 @@ body:has(.enterprise-admin-shell) {
   .enterprise-profile-button {
     width: 36px;
     min-width: 36px;
+  }
+}
+
+@media (max-width: 420px) {
+  /* 顶栏空间不足时收起门户入口，避免首页图标与品牌标题重叠。 */
+  .enterprise-topnav-actions .ant-btn.enterprise-topnav-home {
+    display: none !important;
   }
 }

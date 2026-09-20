@@ -19,7 +19,8 @@ export const useAppStore = defineStore('app', () => {
   const handheldDevice = ref(false)
 
   const isDark = computed(() => theme.value === 'dark')
-  const isMobile = computed(() => viewportWidth.value < 768 || handheldDevice.value)
+  // 1024px 及以下使用移动控制台布局，避免平板窗口保留宽侧栏后把工作区推出视口。
+  const isMobile = computed(() => viewportWidth.value <= 1024 || handheldDevice.value)
 
   function applyTheme() {
     document.documentElement.classList.toggle('dark-theme', isDark.value)

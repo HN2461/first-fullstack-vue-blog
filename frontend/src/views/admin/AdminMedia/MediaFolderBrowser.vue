@@ -294,7 +294,7 @@ function openFolder(folder) {
   overflow: visible;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 900px) {
   .media-folder-browser__toolbar {
     align-items: flex-start;
     flex-direction: column;

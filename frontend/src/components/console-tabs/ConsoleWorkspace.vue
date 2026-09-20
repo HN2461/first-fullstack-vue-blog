@@ -203,7 +203,7 @@ onBeforeUnmount(() => {
   border-color: var(--console-primary);
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .enterprise-main-layout--tabs {
     --console-workspace-top-offset: var(--console-header-height);
     --console-content-viewport-height: calc(100vh - var(--console-header-height));

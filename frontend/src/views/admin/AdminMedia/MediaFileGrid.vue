@@ -38,15 +38,17 @@
             :text="`${record.usage?.usageStatusLabel || '待扫描'} · ${record.usage?.referenceCount || 0}`"
           />
         </div>
-        <MediaRowActions
-          class="media-file-card__actions"
-          @view="emit('view', record)"
-          @download="emit('download', record)"
-          @rename="emit('rename', record)"
-          @move="emit('move', record)"
-          @references="emit('references', record)"
-          @delete="emit('delete', record)"
-        />
+        <div class="media-file-card__actions-wrap">
+          <MediaRowActions
+            class="media-file-card__actions"
+            @view="emit('view', record)"
+            @download="emit('download', record)"
+            @rename="emit('rename', record)"
+            @move="emit('move', record)"
+            @references="emit('references', record)"
+            @delete="emit('delete', record)"
+          />
+        </div>
       </article>
     </div>
 
@@ -169,10 +171,10 @@ function handlePageSizeChange(page, pageSize) {
 
 .media-file-card {
   position: relative;
-  display: flex;
+  display: grid;
   min-width: 0;
-  min-height: 234px;
-  flex-direction: column;
+  min-height: 280px;
+  grid-template-rows: 132px minmax(106px, 1fr) 42px;
   overflow: hidden;
   border: 1px solid var(--console-border);
   border-radius: 8px;
@@ -197,7 +199,6 @@ function handlePageSizeChange(page, pageSize) {
   display: grid;
   width: 100%;
   height: 132px;
-  flex: 0 0 132px;
   place-items: center;
   padding: 0;
   overflow: hidden;
@@ -232,19 +233,24 @@ function handlePageSizeChange(page, pageSize) {
 
 .media-file-card__info {
   display: grid;
+  align-content: start;
   gap: 5px;
   min-width: 0;
+  min-height: 0;
   padding: 10px 11px 8px;
 }
 
 .media-file-card__info strong {
+  display: -webkit-box;
+  min-height: 36px;
   overflow: hidden;
   color: var(--console-text);
   font-size: 13px;
   font-weight: 600;
   line-height: 1.4;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
 }
 
 .media-file-card__info > span,
@@ -257,10 +263,25 @@ function handlePageSizeChange(page, pageSize) {
   white-space: nowrap;
 }
 
-.media-file-card__actions {
+.media-file-card__actions-wrap {
   display: flex;
+  align-items: center;
   justify-content: flex-end;
-  padding: 0 8px 8px;
+  min-width: 0;
+  min-height: 42px;
+  padding: 6px 8px;
+  border-top: 1px solid var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+.media-file-card__actions {
+  min-width: 0;
+}
+
+.media-file-card__actions :deep(.ant-space) {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
 .media-file-grid__footer {
@@ -277,26 +298,45 @@ function handlePageSizeChange(page, pageSize) {
   }
 
   .media-file-card {
-    min-height: 214px;
+    min-height: 250px;
+    grid-template-rows: 112px minmax(96px, 1fr) 40px;
   }
 
   .media-file-card__preview {
-    height: 104px;
-    flex-basis: 104px;
+    height: 112px;
   }
 
   .media-file-card__info {
     padding: 8px;
   }
 
-  .media-file-card__actions {
-    padding: 0 5px 6px;
+  .media-file-card__actions-wrap {
+    min-height: 40px;
+    padding: 5px 6px;
   }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 480px) {
   .media-file-grid {
     grid-template-columns: 1fr;
+  }
+
+  .media-file-card {
+    min-height: 282px;
+    grid-template-rows: 142px minmax(96px, 1fr) 42px;
+  }
+
+  .media-file-card__preview {
+    height: 142px;
+  }
+
+  .media-file-card__info {
+    padding: 10px 12px 8px;
+  }
+
+  .media-file-card__info strong {
+    min-height: 38px;
+    font-size: 14px;
   }
 }
 </style>

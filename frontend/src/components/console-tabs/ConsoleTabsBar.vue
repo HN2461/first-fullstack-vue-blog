@@ -465,7 +465,7 @@ onBeforeUnmount(() => sortable?.destroy())
   outline-offset: -2px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1024px) {
   .console-tabs-bar {
     display: none;
   }
