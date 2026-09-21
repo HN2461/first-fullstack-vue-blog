@@ -14,11 +14,14 @@
     <div class="media-folder-card__body">
       <div class="media-folder-card__title" :title="folder.name">
         <strong>{{ folder.name }}</strong>
-        <a-tag v-if="folder.system" :bordered="false" color="blue">系统</a-tag>
       </div>
-      <span>{{ folder.count || 0 }} 个资源</span>
-      <small v-if="folder.ownerName">归属：{{ folder.ownerName }}</small>
-      <small v-else>{{ folder.description || '资源分类文件夹' }}</small>
+      <div class="media-folder-card__meta">
+        <span>{{ folder.count || 0 }} 个资源</span>
+        <a-tag v-if="folder.system" class="media-folder-card__system-tag" :bordered="true" color="blue">系统</a-tag>
+      </div>
+      <small class="media-folder-card__description" :title="folder.ownerName ? `归属：${folder.ownerName}` : (folder.description || '资源分类文件夹')">
+        {{ folder.ownerName ? `归属：${folder.ownerName}` : (folder.description || '资源分类文件夹') }}
+      </small>
     </div>
     <RightOutlined class="media-folder-card__arrow" aria-hidden="true" />
   </article>
@@ -44,8 +47,8 @@ const emit = defineEmits(['open'])
   align-items: flex-start;
   gap: 12px;
   min-width: 0;
-  min-height: 112px;
-  padding: 16px;
+  min-height: 104px;
+  padding: 13px 14px;
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
@@ -90,30 +93,57 @@ const emit = defineEmits(['open'])
 }
 
 .media-folder-card__title {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: block;
   min-width: 0;
 }
 
 .media-folder-card__title strong {
+  display: -webkit-box;
   min-width: 0;
   overflow: hidden;
   color: var(--console-text);
   font-size: 14px;
   font-weight: 600;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
 }
 
-.media-folder-card__body span,
-.media-folder-card__body small {
+.media-folder-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 3px;
+}
+
+.media-folder-card__meta > span,
+.media-folder-card__description {
   overflow: hidden;
   color: var(--console-text-secondary);
   font-size: 12px;
   line-height: 1.5;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.media-folder-card__description {
+  display: -webkit-box;
+  margin: 0;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow-wrap: anywhere;
+}
+
+.media-folder-card__system-tag {
+  flex: 0 0 auto;
+  margin: 0;
+  padding-inline: 5px;
+  border-radius: 4px;
+  font-size: 11px;
+  line-height: 18px;
 }
 
 .media-folder-card__arrow {

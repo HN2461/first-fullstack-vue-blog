@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-21",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "deployment-super-guide",
+      "title": "整理从开发到上线的独立超级详细部署教程",
+      "detail": "1. 结合当前项目真实部署结构，整理 Vue/Vite 前端、Express 后端、MongoDB、PM2、Nginx、上传目录和备份目录之间的关系，补充本地开发、构建检查、服务器购买、Linux 初始化、Node.js/MongoDB/PM2 安装和首次部署步骤。\n2. 将当前项目真实的 haonan.online 域名、121.41.11.78 服务器、/www/personal-blog 线上目录、personal-blog-api PM2 应用、personal_fullstack_blog 数据库和 Nginx HTTPS 配置纳入独立教程，并加入阿里云 ICP 备案、公安联网备案、SSL 证书官方入口。\n3. 补充日常前端发布、后端发布、完整发布、MongoDB 备份与迁移、前后端和数据库回滚、PM2/Nginx/MongoDB 运维命令、分层故障排查、截图清单和个人部署卡片，使教程无需依赖其他零散实操记录即可单独阅读。\n4. 根据独立阅读审阅补齐首次本地数据库导入、Socket.IO WebSocket、媒体大文件上传、legacy-notes 兼容、完整生产环境变量、Nginx 安装失败分支、数据库恢复停机顺序、测试单 worker 排查和一键部署脚本的真实写库行为，并将文档索引调整为只推荐这一篇部署教程。\n5. 部署阿里云新下载的 Nginx 证书 `www.haonan.online.pem` 与配套私钥 `www.haonan.online.key`，先备份服务器旧证书，再替换 `/etc/nginx/ssl/haonan.online/` 下的线上文件，执行 `nginx -t` 并平滑重载 Nginx。公网复核确认裸域名和 www 域名均已生效，证书覆盖 `haonan.online`、`www.haonan.online`，到期时间为 2026-12-19 23:59:59 UTC，旧证书备份于 `/etc/nginx/ssl/haonan.online/backups/20260921-2246/`。",
+      "occurredAt": "2026-09-21T22:00:00+08:00",
+      "category": "文档更新"
+    },
+    {
+      "id": "media-folder-layout-20260921",
+      "title": "优化媒体资产文件夹视图布局",
+      "detail": "1. 重排文件夹详情工具栏，移除重复的返回箭头，仅保留可点击的“全部资源 > 当前文件夹”面包屑，并将资源数量和归属信息收纳为当前文件夹的弱辅助信息。\n2. 将文件夹详情标题区改为按需显示的批量操作栏，减少小屏幕下的垂直占用。\n3. 媒体卡片网格改用固定列轨道配合响应式断点，压缩预览、信息和操作区高度，避免宽屏过度塞入列；分页默认调整为 20 条，并提供 20/40/80 条选项。\n4. 优化文件夹卡片信息层级：标题允许两行省略，资源数量与系统标签并列，说明或归属信息允许两行展示；文件夹网格恢复固定列轨道，避免只有一个文件夹时卡片被拉伸到整行；媒体资产默认进入文件夹视图。\n5. 优化媒体预览：Markdown 改为复用文章阅读器渲染链路并剥离 Front Matter，支持标题、列表、表格、代码高亮和 Mermaid；DOCX 改为使用 docx-preview 本地渲染，保留旧 DOC、Excel 和 PowerPoint 的 Office Viewer 兜底，并增加加载取消、失败重试和 iframe 超时提示。",
+      "occurredAt": "2026-09-21T23:30:00+08:00",
+      "category": "前端优化"
+    }
+  ]
+}

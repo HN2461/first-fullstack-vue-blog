@@ -58,7 +58,7 @@
         v-model:page-size="currentPageSize"
         size="small"
         :total="total"
-        :page-size-options="['24', '48', '96']"
+        :page-size-options="['20', '40', '80']"
         show-size-changer
         :show-total="(value) => `共 ${value} 条`"
         @change="handlePageChange"
@@ -153,7 +153,7 @@ function handlePageSizeChange(page, pageSize) {
 
 .media-file-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 12px;
   min-height: 0;
   padding: 2px;
@@ -173,8 +173,8 @@ function handlePageSizeChange(page, pageSize) {
   position: relative;
   display: grid;
   min-width: 0;
-  min-height: 280px;
-  grid-template-rows: 132px minmax(106px, 1fr) 42px;
+  min-height: 248px;
+  grid-template-rows: 116px minmax(94px, 1fr) 38px;
   overflow: hidden;
   border: 1px solid var(--console-border);
   border-radius: 8px;
@@ -198,7 +198,7 @@ function handlePageSizeChange(page, pageSize) {
 .media-file-card__preview {
   display: grid;
   width: 100%;
-  height: 132px;
+  height: 116px;
   place-items: center;
   padding: 0;
   overflow: hidden;
@@ -237,7 +237,7 @@ function handlePageSizeChange(page, pageSize) {
   gap: 5px;
   min-width: 0;
   min-height: 0;
-  padding: 10px 11px 8px;
+  padding: 9px 10px 7px;
 }
 
 .media-file-card__info strong {
@@ -268,8 +268,8 @@ function handlePageSizeChange(page, pageSize) {
   align-items: center;
   justify-content: flex-end;
   min-width: 0;
-  min-height: 42px;
-  padding: 6px 8px;
+  min-height: 38px;
+  padding: 4px 7px;
   border-top: 1px solid var(--console-border);
   background: var(--console-surface-muted);
 }
@@ -288,7 +288,7 @@ function handlePageSizeChange(page, pageSize) {
   display: flex;
   justify-content: center;
   flex: 0 0 auto;
-  padding: 14px 0 2px;
+  padding: 10px 0 2px;
 }
 
 @media (max-width: 680px) {
@@ -298,12 +298,12 @@ function handlePageSizeChange(page, pageSize) {
   }
 
   .media-file-card {
-    min-height: 250px;
-    grid-template-rows: 112px minmax(96px, 1fr) 40px;
+    min-height: 226px;
+    grid-template-rows: 96px minmax(88px, 1fr) 38px;
   }
 
   .media-file-card__preview {
-    height: 112px;
+    height: 96px;
   }
 
   .media-file-card__info {

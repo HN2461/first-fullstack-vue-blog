@@ -72,6 +72,10 @@
             <audio :src="record.url" controls preload="metadata" class="media-preview-workspace__media-player">您的浏览器不支持音频播放</audio>
           </div>
 
+          <template v-else-if="previewType === 'docx'">
+            <MediaDocxPreview :open="open" :url="previewOpenUrl" />
+          </template>
+
           <template v-else-if="previewType === 'pdf' || previewType === 'office'">
             <a-spin v-if="frameLoading && !viewerError" class="media-preview-workspace__frame-loading" tip="正在准备预览" />
             <iframe v-if="!viewerError" :key="viewerKey" :src="previewType === 'office' ? officeViewerUrl : previewOpenUrl" class="media-preview-workspace__frame" @load="handleFrameLoad" @error="handleFrameError" />
@@ -84,7 +88,25 @@
             </div>
           </template>
 
-          <a-spin v-else-if="previewType === 'text'" :spinning="textLoading" tip="加载内容中"><pre class="media-preview-workspace__code"><code>{{ textContent }}</code></pre></a-spin>
+          <template v-else-if="previewType === 'markdown'">
+            <a-spin v-if="textLoading" tip="正在解析 Markdown" />
+            <div v-else-if="textError" class="media-preview-workspace__fallback">
+              <strong>Markdown 预览失败</strong>
+              <p>{{ textError }}</p>
+              <a-button size="small" @click="loadTextPreview(record)">重新加载</a-button>
+            </div>
+            <MediaMarkdownPreview v-else :content="textContent" :asset-base="markdownAssetBase" />
+          </template>
+
+          <template v-else-if="previewType === 'text'">
+            <a-spin v-if="textLoading" tip="加载内容中" />
+            <div v-else-if="textError" class="media-preview-workspace__fallback">
+              <strong>文本预览失败</strong>
+              <p>{{ textError }}</p>
+              <a-button size="small" @click="loadTextPreview(record)">重新加载</a-button>
+            </div>
+            <pre v-else class="media-preview-workspace__code"><code>{{ textContent }}</code></pre>
+          </template>
 
           <div v-else class="media-preview-workspace__fallback">
             <FileZipOutlined v-if="record.fileClass === 'archive'" class="media-preview-workspace__fallback-icon" />
@@ -127,6 +149,8 @@
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { CloseOutlined, CompressOutlined, CopyOutlined, CustomerServiceOutlined, DownloadOutlined, ExportOutlined, FileUnknownOutlined, FileZipOutlined, InfoCircleOutlined, LinkOutlined, ReloadOutlined, RotateLeftOutlined, RotateRightOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons-vue'
+import MediaDocxPreview from './MediaDocxPreview.vue'
+import MediaMarkdownPreview from './MediaMarkdownPreview.vue'
 
 const props = defineProps({ open: { type: Boolean, default: false }, record: { type: Object, default: null } })
 const emit = defineEmits(['update:open'])
@@ -137,6 +161,7 @@ const imageDragging = ref(false)
 const imageLoadError = ref(false)
 const textContent = ref('')
 const textLoading = ref(false)
+const textError = ref('')
 const viewerKey = ref(0)
 const frameLoading = ref(false)
 const viewerError = ref(false)
@@ -152,8 +177,16 @@ const previewType = computed(() => getPreviewType(props.record))
 const previewOpenUrl = computed(() => props.record?.url ? new URL(props.record.url, window.location.origin).href : '')
 const officeViewerUrl = computed(() => `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(previewOpenUrl.value)}`)
 const officePreviewAvailable = computed(() => isPublicPreviewUrl(previewOpenUrl.value))
-const previewTypeLabel = computed(() => ({ image: '图片', video: '视频', audio: '音频', pdf: 'PDF', office: '文档', text: '文本', other: '文件' }[previewType.value]))
-const fileTypeColor = computed(() => ({ image: 'blue', video: 'purple', audio: 'cyan', pdf: 'red', office: 'green', text: 'geekblue', other: 'default' }[previewType.value]))
+const markdownAssetBase = computed(() => {
+  try {
+    const pathname = new URL(previewOpenUrl.value).pathname
+    return pathname.slice(0, pathname.lastIndexOf('/'))
+  } catch {
+    return ''
+  }
+})
+const previewTypeLabel = computed(() => ({ image: '图片', video: '视频', audio: '音频', pdf: 'PDF', docx: 'Word', office: '文档', markdown: 'Markdown', text: '文本', other: '文件' }[previewType.value]))
+const fileTypeColor = computed(() => ({ image: 'blue', video: 'purple', audio: 'cyan', pdf: 'red', docx: 'blue', office: 'green', markdown: 'geekblue', text: 'geekblue', other: 'default' }[previewType.value]))
 const previewFailureMessage = computed(() => previewType.value === 'office' && !officePreviewAvailable.value
   ? '当前地址为本地、内网或 IP 地址，Office Viewer 无法从公网读取文件。请新页面打开或下载后查看。'
   : '当前环境无法完成内嵌预览。可重试，或在新页面打开、下载后继续查看。')
@@ -170,8 +203,10 @@ function getPreviewType(record) {
   if (mime.startsWith('video/') || ['mp4', 'webm', 'ogg', 'mov', 'avi', 'mkv'].includes(ext)) return 'video'
   if (mime.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma'].includes(ext)) return 'audio'
   if (mime === 'application/pdf' || ext === 'pdf') return 'pdf'
-  if (['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'csv'].includes(ext)) return 'office'
-  if (mime.startsWith('text/') || ['js', 'jsx', 'ts', 'tsx', 'vue', 'json', 'yml', 'yaml', 'xml', 'html', 'css', 'scss', 'less', 'md', 'txt', 'sh', 'bat', 'ps1', 'py', 'java', 'go', 'rb', 'php', 'sql', 'c', 'cpp', 'h', 'cs', 'kt', 'swift', 'rs', 'ini', 'conf', 'env', 'gitignore', 'editorconfig'].includes(ext)) return 'text'
+  if (mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || ext === 'docx') return 'docx'
+  if (['doc', 'xls', 'xlsx', 'ppt', 'pptx'].includes(ext)) return 'office'
+  if (mime === 'text/markdown' || ['md', 'markdown', 'mdown', 'mkdn'].includes(ext)) return 'markdown'
+  if (mime.startsWith('text/') || ['js', 'jsx', 'ts', 'tsx', 'vue', 'json', 'yml', 'yaml', 'xml', 'html', 'css', 'scss', 'less', 'csv', 'txt', 'sh', 'bat', 'ps1', 'py', 'java', 'go', 'rb', 'php', 'sql', 'c', 'cpp', 'h', 'cs', 'kt', 'swift', 'rs', 'ini', 'conf', 'env', 'gitignore', 'editorconfig'].includes(ext)) return 'text'
   return 'other'
 }
 
@@ -179,7 +214,7 @@ function initializePreview() {
   resetPreview()
   if (previewType.value === 'pdf') startFramePreview()
   if (previewType.value === 'office') officePreviewAvailable.value ? startFramePreview() : viewerError.value = true
-  if (previewType.value === 'text') loadTextPreview(props.record)
+  if (['markdown', 'text'].includes(previewType.value)) loadTextPreview(props.record)
 }
 
 function resetPreview() {
@@ -189,6 +224,7 @@ function resetPreview() {
   imageLoadError.value = false
   textContent.value = ''
   textLoading.value = false
+  textError.value = ''
   frameLoading.value = false
   viewerError.value = false
   mobileInfoOpen.value = false
@@ -199,13 +235,13 @@ function startFramePreview() {
   frameLoading.value = true
   viewerError.value = false
   clearViewerFallbackTimer()
-  if (previewType.value === 'office') {
+  if (['pdf', 'office'].includes(previewType.value)) {
     viewerFallbackTimer = setTimeout(() => {
-      if (props.open && previewType.value === 'office' && frameLoading.value) {
+      if (props.open && ['pdf', 'office'].includes(previewType.value) && frameLoading.value) {
         frameLoading.value = false
         viewerError.value = true
       }
-    }, 9000)
+    }, previewType.value === 'office' ? 9000 : 12000)
   }
 }
 
@@ -219,16 +255,14 @@ function clearViewerFallbackTimer() {
 async function loadTextPreview(record) {
   const requestId = ++textRequestId
   textLoading.value = true
+  textError.value = ''
   try {
-    const response = await fetch(record.url)
-    if (!response.ok) {
-      textContent.value = `无法加载文件内容（HTTP ${response.status}）`
-      return
-    }
+    const response = await fetch(record.url, { credentials: 'include' })
+    if (!response.ok) throw new Error(`无法加载文件内容（HTTP ${response.status}）`)
     const content = await response.text()
     if (requestId === textRequestId) textContent.value = content
-  } catch {
-    if (requestId === textRequestId) textContent.value = '加载文件内容失败，请新页面打开或下载后查看。'
+  } catch (error) {
+    if (requestId === textRequestId) textError.value = error?.message || '加载文件内容失败，请新页面打开或下载后查看。'
   } finally {
     if (requestId === textRequestId) textLoading.value = false
   }

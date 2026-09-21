@@ -2,16 +2,16 @@
   <section class="media-folder-browser">
     <div class="media-folder-browser__toolbar">
       <div class="media-folder-browser__path">
-        <a-button v-if="activeFolder" type="text" size="small" aria-label="返回资源文件夹" @click="emit('back')">
-          <template #icon><ArrowLeftOutlined /></template>
-        </a-button>
         <button type="button" class="media-folder-browser__crumb" @click="emit('back')">
           <FolderOutlined />
           <span>全部资源</span>
         </button>
         <template v-if="activeFolder">
           <RightOutlined class="media-folder-browser__separator" />
-          <strong :title="activeFolder.name">{{ activeFolder.name }}</strong>
+          <div class="media-folder-browser__current-folder">
+            <strong :title="activeFolder.name">{{ activeFolder.name }}</strong>
+            <span>{{ total }} 个资源<span v-if="activeFolder.ownerName"> · {{ activeFolder.ownerName }}</span></span>
+          </div>
         </template>
       </div>
       <div class="media-folder-browser__tools">
@@ -60,13 +60,8 @@
     </div>
 
     <template v-else>
-      <div class="media-folder-browser__content-heading">
-        <div>
-          <strong>{{ activeFolder.name }}</strong>
-          <span>{{ total }} 个资源<span v-if="activeFolder.ownerName"> · {{ activeFolder.ownerName }}</span></span>
-        </div>
+      <div v-if="selectedKeys.length" class="media-folder-browser__selection-heading">
         <MediaBatchActions
-          v-if="selectedKeys.length"
           :count="selectedKeys.length"
           :can-manage-shares="canManageShares"
           @download="emit('batch-download')"
@@ -98,7 +93,7 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { ArrowLeftOutlined, FolderOutlined, RightOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { FolderOutlined, RightOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import MediaBatchActions from './MediaBatchActions.vue'
 import MediaFileGrid from './MediaFileGrid.vue'
 import MediaFolderCard from './MediaFolderCard.vue'
@@ -185,8 +180,8 @@ function openFolder(folder) {
 }
 
 .media-folder-browser__toolbar,
-.media-folder-browser__content-heading,
-.media-folder-browser__section-heading {
+.media-folder-browser__section-heading,
+.media-folder-browser__selection-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -208,8 +203,27 @@ function openFolder(folder) {
   min-width: 0;
 }
 
+.media-folder-browser__current-folder {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.media-folder-browser__current-folder strong {
+  max-width: min(38vw, 360px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-folder-browser__current-folder span {
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
 .media-folder-browser__path strong,
-.media-folder-browser__content-heading strong,
 .media-folder-browser__section-heading strong {
   color: var(--console-text);
   font-size: 15px;
@@ -237,8 +251,7 @@ function openFolder(folder) {
   width: 240px;
 }
 
-.media-folder-browser__root,
-.media-folder-browser__content-heading {
+.media-folder-browser__root {
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
@@ -258,15 +271,13 @@ function openFolder(folder) {
   align-items: flex-start;
 }
 
-.media-folder-browser__section-heading > div,
-.media-folder-browser__content-heading > div {
+.media-folder-browser__section-heading > div {
   display: grid;
   gap: 3px;
   min-width: 0;
 }
 
-.media-folder-browser__section-heading span,
-.media-folder-browser__content-heading span {
+.media-folder-browser__section-heading span {
   color: var(--console-text-secondary);
   font-size: 12px;
   line-height: 1.5;
@@ -290,8 +301,13 @@ function openFolder(folder) {
   border-radius: 8px;
 }
 
-.media-folder-browser__content-heading {
-  overflow: visible;
+.media-folder-browser__selection-heading {
+  min-height: 34px;
+  padding: 0 2px;
+}
+
+.media-folder-browser__selection-heading :deep(.media-batch-actions) {
+  margin-left: auto;
 }
 
 @media (max-width: 900px) {
@@ -330,9 +346,15 @@ function openFolder(folder) {
     display: none;
   }
 
-  .media-folder-browser__content-heading {
+  .media-folder-browser__selection-heading {
     align-items: flex-start;
     flex-direction: column;
+    gap: 6px;
+  }
+
+  .media-folder-browser__selection-heading :deep(.media-batch-actions) {
+    width: 100%;
+    margin-left: 0;
   }
 }
 
