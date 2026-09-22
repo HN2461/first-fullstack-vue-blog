@@ -76,16 +76,24 @@
             <MediaDocxPreview :open="open" :url="previewOpenUrl" />
           </template>
 
-          <template v-else-if="previewType === 'pdf' || previewType === 'office'">
+          <template v-else-if="previewType === 'pdf'">
             <a-spin v-if="frameLoading && !viewerError" class="media-preview-workspace__frame-loading" tip="正在准备预览" />
-            <iframe v-if="!viewerError" :key="viewerKey" :src="previewType === 'office' ? officeViewerUrl : previewOpenUrl" class="media-preview-workspace__frame" @load="handleFrameLoad" @error="handleFrameError" />
+            <iframe v-if="!viewerError" :key="viewerKey" :src="previewOpenUrl" class="media-preview-workspace__frame" @load="handleFrameLoad" @error="handleFrameError" />
             <div v-else class="media-preview-workspace__fallback">
-              <strong>{{ previewType === 'office' ? '文档在线预览不可用' : 'PDF 预览不可用' }}</strong>
-              <p>{{ previewFailureMessage }}</p>
-              <div v-if="previewType === 'pdf' || officePreviewAvailable" class="media-preview-workspace__fallback-actions">
+              <strong>PDF 预览不可用</strong>
+              <p>当前浏览器无法完成内嵌 PDF 预览，可重试或下载后查看。</p>
+              <div class="media-preview-workspace__fallback-actions">
                 <a-button @click="retryViewer"><template #icon><ReloadOutlined /></template>重试预览</a-button>
               </div>
             </div>
+          </template>
+
+          <template v-else-if="previewType === 'spreadsheet'">
+            <MediaSpreadsheetPreview :open="open" :url="previewOpenUrl" :file-name="record.originalName" />
+          </template>
+
+          <template v-else-if="previewType === 'presentation'">
+            <MediaPptxPreview :open="open" :url="previewOpenUrl" />
           </template>
 
           <template v-else-if="previewType === 'markdown'">
@@ -107,6 +115,12 @@
             </div>
             <pre v-else class="media-preview-workspace__code"><code>{{ textContent }}</code></pre>
           </template>
+
+          <div v-else-if="previewType === 'unsupported-office'" class="media-preview-workspace__fallback">
+            <FileUnknownOutlined class="media-preview-workspace__fallback-icon" />
+            <strong>暂不支持本地预览</strong>
+            <p>旧式 Office 文件或复杂演示文稿无法在浏览器中稳定还原，请使用下载或新页面打开。</p>
+          </div>
 
           <div v-else class="media-preview-workspace__fallback">
             <FileZipOutlined v-if="record.fileClass === 'archive'" class="media-preview-workspace__fallback-icon" />
@@ -151,6 +165,8 @@ import { message } from 'ant-design-vue'
 import { CloseOutlined, CompressOutlined, CopyOutlined, CustomerServiceOutlined, DownloadOutlined, ExportOutlined, FileUnknownOutlined, FileZipOutlined, InfoCircleOutlined, LinkOutlined, ReloadOutlined, RotateLeftOutlined, RotateRightOutlined, ZoomInOutlined, ZoomOutOutlined } from '@ant-design/icons-vue'
 import MediaDocxPreview from './MediaDocxPreview.vue'
 import MediaMarkdownPreview from './MediaMarkdownPreview.vue'
+import MediaPptxPreview from './MediaPptxPreview.vue'
+import MediaSpreadsheetPreview from './MediaSpreadsheetPreview.vue'
 
 const props = defineProps({ open: { type: Boolean, default: false }, record: { type: Object, default: null } })
 const emit = defineEmits(['update:open'])
@@ -175,8 +191,6 @@ let imagePinchStart = null
 
 const previewType = computed(() => getPreviewType(props.record))
 const previewOpenUrl = computed(() => props.record?.url ? new URL(props.record.url, window.location.origin).href : '')
-const officeViewerUrl = computed(() => `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(previewOpenUrl.value)}`)
-const officePreviewAvailable = computed(() => isPublicPreviewUrl(previewOpenUrl.value))
 const markdownAssetBase = computed(() => {
   try {
     const pathname = new URL(previewOpenUrl.value).pathname
@@ -185,11 +199,8 @@ const markdownAssetBase = computed(() => {
     return ''
   }
 })
-const previewTypeLabel = computed(() => ({ image: '图片', video: '视频', audio: '音频', pdf: 'PDF', docx: 'Word', office: '文档', markdown: 'Markdown', text: '文本', other: '文件' }[previewType.value]))
-const fileTypeColor = computed(() => ({ image: 'blue', video: 'purple', audio: 'cyan', pdf: 'red', docx: 'blue', office: 'green', markdown: 'geekblue', text: 'geekblue', other: 'default' }[previewType.value]))
-const previewFailureMessage = computed(() => previewType.value === 'office' && !officePreviewAvailable.value
-  ? '当前地址为本地、内网或 IP 地址，Office Viewer 无法从公网读取文件。请新页面打开或下载后查看。'
-  : '当前环境无法完成内嵌预览。可重试，或在新页面打开、下载后继续查看。')
+const previewTypeLabel = computed(() => ({ image: '图片', video: '视频', audio: '音频', pdf: 'PDF', docx: 'Word', spreadsheet: '表格', presentation: 'PPTX', markdown: 'Markdown', text: '文本', 'unsupported-office': 'Office 文件', other: '文件' }[previewType.value]))
+const fileTypeColor = computed(() => ({ image: 'blue', video: 'purple', audio: 'cyan', pdf: 'red', docx: 'blue', spreadsheet: 'green', presentation: 'orange', markdown: 'geekblue', text: 'geekblue', 'unsupported-office': 'default', other: 'default' }[previewType.value]))
 
 watch(() => [props.open, props.record], ([visible]) => {
   if (visible && props.record) initializePreview()
@@ -204,16 +215,17 @@ function getPreviewType(record) {
   if (mime.startsWith('audio/') || ['mp3', 'wav', 'ogg', 'flac', 'aac', 'm4a', 'wma'].includes(ext)) return 'audio'
   if (mime === 'application/pdf' || ext === 'pdf') return 'pdf'
   if (mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || ext === 'docx') return 'docx'
-  if (['doc', 'xls', 'xlsx', 'ppt', 'pptx'].includes(ext)) return 'office'
+  if (mime === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || ['xlsx', 'csv', 'tsv', 'tab'].includes(ext)) return 'spreadsheet'
+  if (mime === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || ext === 'pptx') return 'presentation'
+  if (['doc', 'xls', 'ppt'].includes(ext)) return 'unsupported-office'
   if (mime === 'text/markdown' || ['md', 'markdown', 'mdown', 'mkdn'].includes(ext)) return 'markdown'
-  if (mime.startsWith('text/') || ['js', 'jsx', 'ts', 'tsx', 'vue', 'json', 'yml', 'yaml', 'xml', 'html', 'css', 'scss', 'less', 'csv', 'txt', 'sh', 'bat', 'ps1', 'py', 'java', 'go', 'rb', 'php', 'sql', 'c', 'cpp', 'h', 'cs', 'kt', 'swift', 'rs', 'ini', 'conf', 'env', 'gitignore', 'editorconfig'].includes(ext)) return 'text'
+  if (mime.startsWith('text/') || ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs', 'mts', 'cts', 'vue', 'svelte', 'astro', 'json', 'map', 'yml', 'yaml', 'xml', 'html', 'xhtml', 'css', 'scss', 'less', 'txt', 'log', 'mdx', 'sh', 'bat', 'ps1', 'py', 'java', 'go', 'rb', 'php', 'sql', 'graphql', 'gql', 'proto', 'c', 'cpp', 'h', 'cs', 'kt', 'swift', 'rs', 'dart', 'ex', 'exs', 'pl', 'r', 'asm', 'ini', 'conf', 'properties', 'toml', 'env', 'lock', 'diff', 'patch', 'gitignore', 'editorconfig', 'npmrc', 'prettierrc', 'eslintrc', 'dockerfile'].includes(ext)) return 'text'
   return 'other'
 }
 
 function initializePreview() {
   resetPreview()
   if (previewType.value === 'pdf') startFramePreview()
-  if (previewType.value === 'office') officePreviewAvailable.value ? startFramePreview() : viewerError.value = true
   if (['markdown', 'text'].includes(previewType.value)) loadTextPreview(props.record)
 }
 
@@ -235,13 +247,13 @@ function startFramePreview() {
   frameLoading.value = true
   viewerError.value = false
   clearViewerFallbackTimer()
-  if (['pdf', 'office'].includes(previewType.value)) {
+  if (previewType.value === 'pdf') {
     viewerFallbackTimer = setTimeout(() => {
-      if (props.open && ['pdf', 'office'].includes(previewType.value) && frameLoading.value) {
+      if (props.open && previewType.value === 'pdf' && frameLoading.value) {
         frameLoading.value = false
         viewerError.value = true
       }
-    }, previewType.value === 'office' ? 9000 : 12000)
+    }, 12000)
   }
 }
 
@@ -439,16 +451,6 @@ function formatFileSize(size = 0) {
 
 function formatDate(value) {
   return value ? new Date(value).toLocaleString('zh-CN') : '-'
-}
-
-function isPublicPreviewUrl(value) {
-  try {
-    const url = new URL(value)
-    const host = url.hostname.toLowerCase()
-    return ['http:', 'https:'].includes(url.protocol) && !['localhost', '127.0.0.1', '::1'].includes(host) && !/^10\./.test(host) && !/^192\.168\./.test(host) && !/^172\.(1[6-9]|2\d|3[01])\./.test(host) && !/^\d{1,3}(\.\d{1,3}){3}$/.test(host)
-  } catch {
-    return false
-  }
 }
 
 onUnmounted(resetPreview)

@@ -41,10 +41,15 @@ function stripFrontMatter(value) {
 <style scoped>
 .media-markdown-preview {
   width: 100%;
-  min-height: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  box-sizing: border-box;
   padding: 24px 28px 40px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--console-surface);
+  scrollbar-width: thin;
   --text-primary: var(--console-text);
   --text-secondary: var(--console-text-secondary);
   --border-color: var(--console-border);

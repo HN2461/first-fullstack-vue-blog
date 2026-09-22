@@ -88,6 +88,18 @@
   background: var(--console-surface-muted);
 }
 
+/* Markdown 内容由自身承担纵向滚动，避免被预览舞台的 overflow 裁掉。 */
+.media-preview-workspace__stage.is-markdown {
+  display: block;
+  overflow: hidden;
+}
+
+.media-preview-workspace__stage.is-spreadsheet,
+.media-preview-workspace__stage.is-presentation {
+  display: block;
+  overflow: hidden;
+}
+
 .media-preview-workspace__stage.is-image,
 .media-preview-workspace__stage.is-video {
   background: #152033;
