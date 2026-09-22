@@ -31,8 +31,13 @@
           <tbody>
             <tr v-for="row in activeSheet.rows" :key="row.number">
               <th scope="row">{{ row.number }}</th>
-              <td v-for="column in activeSheet.columnCount" :key="`${row.number}-${column}`">
-                {{ row.values[column - 1] ?? '' }}
+              <td
+                v-for="cell in row.cells"
+                :key="cell.key"
+                :colspan="cell.colSpan > 1 ? cell.colSpan : undefined"
+                :rowspan="cell.rowSpan > 1 ? cell.rowSpan : undefined"
+              >
+                {{ cell.text }}
               </td>
             </tr>
           </tbody>
@@ -95,7 +100,7 @@ async function loadWorkbook() {
       const ExcelJS = module.default || module
       const workbook = new ExcelJS.Workbook()
       await workbook.xlsx.load(buffer)
-      sheets.value = workbook.worksheets.map((worksheet) => buildSheet(worksheet.name, readWorksheet(worksheet)))
+      sheets.value = workbook.worksheets.map((worksheet) => readWorksheet(worksheet))
     }
     activeSheetName.value = sheets.value[0]?.name || ''
   } catch (error) {
@@ -108,36 +113,89 @@ async function loadWorkbook() {
 }
 
 function readWorksheet(worksheet) {
+  const dimensions = worksheet.dimensions
+  const top = Math.max(1, dimensions?.top || 1)
+  const left = Math.max(1, dimensions?.left || 1)
+  const bottom = Math.min(dimensions?.bottom || top, top + MAX_ROWS - 1)
+  const right = Math.min(dimensions?.right || left, left + MAX_COLUMNS - 1)
+  const merges = getMergeRanges(worksheet, top, left, bottom, right)
   const rows = []
-  worksheet.eachRow({ includeEmpty: false }, (row) => {
-    if (rows.length >= MAX_ROWS) return
-    rows.push({
-      number: row.number,
-      values: row.values.slice(1, MAX_COLUMNS + 1).map(normalizeCellValue)
-    })
-  })
-  return rows
+
+  for (let rowNumber = top; rowNumber <= bottom; rowNumber += 1) {
+    const cells = []
+    for (let columnNumber = left; columnNumber <= right; columnNumber += 1) {
+      const merge = merges.find((item) => containsCell(item, rowNumber, columnNumber))
+      if (merge && (merge.top !== rowNumber || merge.left !== columnNumber)) continue
+
+      const cell = worksheet.getCell(rowNumber, columnNumber)
+      const master = cell.isMerged ? cell.master : cell
+      cells.push({
+        key: `${rowNumber}-${columnNumber}`,
+        text: formatCellDisplay(master),
+        colSpan: merge ? merge.right - merge.left + 1 : 1,
+        rowSpan: merge ? merge.bottom - merge.top + 1 : 1
+      })
+    }
+    rows.push({ number: rowNumber, cells })
+  }
+
+  return {
+    name: worksheet.name,
+    rows,
+    columnCount: right - left + 1
+  }
 }
 
 function buildSheet(name, rows) {
-  const columnCount = Math.min(MAX_COLUMNS, Math.max(0, ...rows.map((row) => row.values.length)))
+  const normalizedRows = rows.map((row) => ({
+    number: row.number,
+    cells: row.cells || row.values.slice(0, MAX_COLUMNS).map((value, index) => ({
+      key: `${row.number}-${index + 1}`,
+      text: String(value ?? ''),
+      colSpan: 1,
+      rowSpan: 1
+    }))
+  }))
+  const columnCount = Math.min(MAX_COLUMNS, Math.max(0, ...normalizedRows.map((row) => row.cells.length)))
   return {
     name,
-    rows,
+    rows: normalizedRows,
     columnCount
   }
 }
 
-function normalizeCellValue(value) {
-  if (value === null || value === undefined) return ''
-  if (value instanceof Date) return value.toLocaleString('zh-CN')
-  if (typeof value === 'object') {
-    if (Array.isArray(value.richText)) return value.richText.map((item) => item.text || '').join('')
-    if ('result' in value) return normalizeCellValue(value.result)
-    if ('text' in value) return String(value.text || '')
-    return JSON.stringify(value)
+function getMergeRanges(worksheet, top, left, bottom, right) {
+  return Object.values(worksheet._merges || {}).map((range) => range.model).filter((range) => (
+    range.bottom >= top && range.top <= bottom && range.right >= left && range.left <= right
+  ))
+}
+
+function containsCell(range, rowNumber, columnNumber) {
+  return rowNumber >= range.top && rowNumber <= range.bottom && columnNumber >= range.left && columnNumber <= range.right
+}
+
+function formatCellDisplay(cell) {
+  if (!cell) return ''
+  const value = cell.value
+  const source = value && typeof value === 'object' && !Array.isArray(value)
+    ? ('result' in value ? value.result : value)
+    : value
+  const numFmt = String(cell.numFmt || '')
+
+  if (source === null || source === undefined) return ''
+  if (source instanceof Date) return source.toLocaleString('zh-CN')
+  if (typeof source === 'object') {
+    if (Array.isArray(source.richText)) return source.richText.map((item) => item.text || '').join('')
+    if ('text' in source) return String(source.text || '')
+    return String(cell.text || '')
   }
-  return String(value)
+  if (typeof source === 'number' || (typeof source === 'string' && /^-?\d+(?:\.\d+)?$/.test(source))) {
+    const numericValue = Number(source)
+    if (numFmt.includes('%')) return `${(numericValue * 100).toFixed(2)}%`
+    if (numFmt.includes('¥') || numFmt.includes('$')) return `${numFmt.includes('$') ? '$' : '¥'}${numericValue.toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+    return String(source)
+  }
+  return String(source)
 }
 
 function detectCsvDelimiter(source) {
