@@ -822,7 +822,7 @@ adminRouter.get('/settings', requireSuperAdmin, asyncHandler(async (req, res) =>
 
 const festivalSchema = z.object({
   name: z.string().trim().min(1).max(50), month: z.number().int().min(1).max(12), day: z.number().int().min(1).max(31),
-  category: z.enum(['national', 'industry', 'international', 'social']), source: z.string().trim().max(100).optional(),
+  category: z.enum(['national', 'industry', 'international', 'social', 'project']), source: z.string().trim().max(100).optional(),
   greeting: z.string().trim().max(120).optional(), effect: z.string().trim().max(40).optional(), isMajor: z.boolean().optional(), enabled: z.boolean().optional()
 })
 

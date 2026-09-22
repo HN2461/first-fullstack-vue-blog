@@ -153,6 +153,7 @@ const filters = [
   { key: 'industry', label: '行业纪念日' },
   { key: 'international', label: '国际纪念日' },
   { key: 'social', label: '社会节日' },
+  { key: 'project', label: '项目纪念日' },
   { key: 'personal', label: '个人日期' },
   { key: 'birthday', label: '生日' }
 ]
@@ -243,6 +244,7 @@ function getFestivalLabel(item) {
     industry: '行业纪念日',
     international: '国际纪念日',
     social: '社会节日',
+    project: '项目纪念日',
     personal: '个人日期',
     birthday: '个人生日'
   }

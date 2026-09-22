@@ -3,9 +3,9 @@ import { DEFAULT_SITE_ENTRANCE_EFFECT } from '#modules/settings/constants/siteEn
 import { DEFAULT_MEDIA_ALLOWED_EXTENSIONS } from '#modules/media/constants/mediaUpload.constants.js'
 
 const DEFAULT_SETTINGS = {
-  siteTitle: '个人全栈博客系统',
-  siteDescription: '一个由 Vue、Express 和 MongoDB 驱动的个人技术博客。',
-  authorName: 'Haonan',
+  siteTitle: '浩南的全栈博客系统',
+  siteDescription: '一个持续建设的个人技术知识库，记录前端、后端、数据库、项目部署与日常实践。',
+  authorName: '浩南',
   commentEnabled: true,
   defaultTheme: 'light',
   systemVersion: 'v1.0.0',

@@ -148,6 +148,11 @@ echo "[9/20] Ensure article share indexes"
 npm run article-share:indexes:apply
 npm run article-share:indexes:verify
 
+echo "[9b/20] Ensure site profile and first deployment anniversary"
+npm run site-profile:dry-run
+npm run site-profile:apply
+npm run site-profile:dry-run
+
 echo "[10/20] Seed question bank"
 npm run question-bank:seed:apply
 

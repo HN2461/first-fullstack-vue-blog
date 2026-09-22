@@ -71,6 +71,8 @@
     "article-media-bindings:apply": "node src/scripts/reconcileArticleContentMedia.js --apply",
     "timeline:seed": "node src/scripts/seedProjectTimeline.js",
     "timeline:seed:apply": "node src/scripts/seedProjectTimeline.js --apply",
+    "site-profile:dry-run": "node src/scripts/ensureSiteProfileAndFestival.js",
+    "site-profile:apply": "node src/scripts/ensureSiteProfileAndFestival.js --apply",
     "ledger-moments:sync": "node src/scripts/syncLedgerMomentsFromExport.js",
     "ledger-books:ensure": "node src/scripts/ensureLedgerBooks.js",
     "resume:import-materials": "node src/scripts/importResumeMaterials.js",

@@ -149,7 +149,8 @@ const categories = [
   { value: 'national', label: '国家纪念日' },
   { value: 'industry', label: '行业纪念日' },
   { value: 'international', label: '国际纪念日' },
-  { value: 'social', label: '社会节日' }
+  { value: 'social', label: '社会节日' },
+  { value: 'project', label: '项目纪念日' }
 ]
 
 const year = ref(new Date().getFullYear())
