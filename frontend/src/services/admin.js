@@ -667,4 +667,5 @@ export function listAdminFestivals() { return http.get('/api/admin/festivals') }
 export function createAdminFestival(data) { return http.post('/api/admin/festivals', data) }
 export function updateAdminFestival(id, data) { return http.patch(`/api/admin/festivals/${id}`, data) }
 export function deleteAdminFestival(id) { return http.delete(`/api/admin/festivals/${id}`) }
+export function restoreAdminFestival(id) { return http.post(`/api/admin/festivals/${id}/restore`) }
 export function syncAdminFestivals(year) { return http.post('/api/admin/festivals/sync', { year }) }

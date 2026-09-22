@@ -34,7 +34,7 @@
         {{ celebrationFestival.icons?.[0] || '✨' }}
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
-      <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }}</span>
+      <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
       <div class="festival-celebration__actions">
         <a-button @click="celebrationOpen = false">关闭本次</a-button>
         <a-button v-if="celebrationFestival.type === 'birthday'" danger @click="closeBirthdayForever">

@@ -16,12 +16,13 @@ const FIRST_DEPLOYMENT_FESTIVAL = {
   name: '网站首次成功部署纪念日',
   month: 6,
   day: 17,
-  category: 'project',
+  category: 'system-broadcast',
   source: '项目部署记录：2026-06-17 首次公网验证成功',
   greeting: '网站第一次成功运行并通过公网验证，纪念这次重要的起点。',
   effect: 'new-year',
   isMajor: true,
-  enabled: true
+  enabled: true,
+  deletedAt: null
 }
 
 async function findCurrentState() {
@@ -55,6 +56,11 @@ async function applyChanges(current) {
       { upsert: true, new: true }
     )
   }
+
+  await CustomFestival.updateMany(
+    { category: 'project' },
+    { $set: { category: 'system-broadcast' } }
+  )
 
   await CustomFestival.findOneAndUpdate(
     {

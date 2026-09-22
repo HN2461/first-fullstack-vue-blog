@@ -1,22 +1,27 @@
 import { getPublicFestivalCalendar } from '@/services/public'
+import { EFFECT_META } from './festivalCatalog'
 
 function normalize(item) {
+  const type = item.type === 'project' ? 'system-broadcast' : item.type
+  const effectMeta = EFFECT_META[item.effect] || EFFECT_META['new-year']
   const displaySource = item.isHoliday
     ? '法定假期'
     : item.isWorkday
       ? '调休补班'
-      : ({ traditional: '传统节日', 'solar-term': '二十四节气', national: '国家纪念日', industry: '行业纪念日', international: '国际纪念日', social: '社会节日', project: '项目纪念日', personal: '个人日期' }[item.type] || '纪念日')
+      : ({ traditional: '传统节日', 'solar-term': '二十四节气', national: '国家纪念日', industry: '行业纪念日', international: '国际纪念日', social: '社会节日', 'system-broadcast': '系统广播纪念日', project: '系统广播纪念日', personal: '我的日期', birthday: '我的生日' }[type] || '纪念日')
   return {
     ...item,
+    type,
     key: `${item.date}-${item.name}`,
     level: item.isMajor ? 'major' : 'normal',
     text: item.greeting || `${item.name}，愿今天顺遂安宁。`,
-    icons: item.isHoliday ? ['🎉', '✨'] : item.isWorkday ? ['💼', '📅'] : ['✨'],
-    accent: item.isHoliday ? '#dc2626' : item.isWorkday ? '#b45309' : '#2563eb',
-    tint: item.isHoliday ? '#fff1f2' : '#fffbeb',
-    particle: ['✨'],
+    icons: item.icons?.length ? item.icons : item.isHoliday ? ['🎉', '✨'] : item.isWorkday ? ['💼', '📅'] : effectMeta.particle,
+    accent: item.isHoliday ? '#dc2626' : item.isWorkday ? '#b45309' : effectMeta.accent,
+    tint: item.isHoliday ? '#fff1f2' : effectMeta.tint,
+    particle: effectMeta.particle,
     duration: item.isMajor ? [-2, 2] : [-1, 1],
-    displaySource
+    displaySource,
+    visibilityLabel: item.isPersonal ? '仅你可见' : '全站公开'
   }
 }
 

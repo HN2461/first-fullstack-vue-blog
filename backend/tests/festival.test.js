@@ -21,8 +21,21 @@ describe('festival calendar routes', () => {
 
   it('allows only a super administrator to create custom festivals', async () => {
     const admin = await User.create({ username: 'festival-admin', email: 'festival-admin@example.com', passwordHash: 'hash', role: USER_ROLES.SUPER_ADMIN })
-    const response = await request(createApp()).post('/api/admin/festivals').set('Authorization', `Bearer ${signAccessToken(admin)}`).send({ name: '站点纪念日', month: 8, day: 3, category: 'project' }).expect(201)
+    const response = await request(createApp()).post('/api/admin/festivals').set('Authorization', `Bearer ${signAccessToken(admin)}`).send({ name: '站点纪念日', month: 8, day: 3, greeting: '今天也值得被记录。' }).expect(201)
     expect(response.body.data.name).toBe('站点纪念日')
-    expect(response.body.data.category).toBe('project')
+    expect(response.body.data.category).toBe('system-broadcast')
+    expect(response.body.data.greeting).toBe('今天也值得被记录。')
+  })
+
+  it('archives custom festivals instead of deleting them and supports restore', async () => {
+    const admin = await User.create({ username: 'festival-restore-admin', email: 'festival-restore-admin@example.com', passwordHash: 'hash', role: USER_ROLES.SUPER_ADMIN })
+    const token = `Bearer ${signAccessToken(admin)}`
+    const created = await request(createApp()).post('/api/admin/festivals').set('Authorization', token).send({ name: '可恢复纪念日', month: 9, day: 9 }).expect(201)
+    const archived = await request(createApp()).delete(`/api/admin/festivals/${created.body.data.id || created.body.data._id}`).set('Authorization', token).expect(200)
+    expect(archived.body.data.deletedAt).toBeTruthy()
+    expect(archived.body.data.enabled).toBe(false)
+    const restored = await request(createApp()).post(`/api/admin/festivals/${created.body.data.id || created.body.data._id}/restore`).set('Authorization', token).expect(200)
+    expect(restored.body.data.deletedAt).toBeNull()
+    expect(restored.body.data.enabled).toBe(true)
   })
 })

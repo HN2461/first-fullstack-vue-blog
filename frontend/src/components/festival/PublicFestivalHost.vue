@@ -20,7 +20,7 @@
         {{ celebrationFestival.icons?.[0] || '✨' }}
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
-      <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }}</span>
+      <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
       <a-button @click="celebrationOpen = false">知道了</a-button>
     </div>
   </a-modal>

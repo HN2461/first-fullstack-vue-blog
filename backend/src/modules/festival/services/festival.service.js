@@ -1,6 +1,6 @@
 import chineseDays from 'chinese-days'
 import { FestivalDay } from '#modules/festival/models/FestivalDay.js'
-import { CustomFestival } from '#modules/festival/models/CustomFestival.js'
+import { CustomFestival, SYSTEM_BROADCAST_FESTIVAL_CATEGORY } from '#modules/festival/models/CustomFestival.js'
 import { FIXED_FESTIVALS } from '#modules/festival/constants/festivalCatalog.js'
 import { getBusinessDate } from '#utils/businessDate.js'
 
@@ -59,9 +59,12 @@ export async function ensureHolidayYears(years) {
 }
 
 async function annualItems(year) {
-  const [remote, custom] = await Promise.all([FestivalDay.find({ year }).lean(), CustomFestival.find({ enabled: true }).lean()])
+  const [remote, custom] = await Promise.all([
+    FestivalDay.find({ year }).lean(),
+    CustomFestival.find({ enabled: true, deletedAt: null }).lean()
+  ])
   const fixed = FIXED_FESTIVALS.map((festival) => item({ ...festival, date: key(year, festival.month, festival.day), type: festival.category }))
-  const manual = custom.map((festival) => item({ id: festival._id.toString(), name: festival.name, date: key(year, festival.month, festival.day), type: festival.category, source: festival.source, greeting: festival.greeting, effect: festival.effect, isMajor: festival.isMajor, isCustom: true }))
+  const manual = custom.map((festival) => item({ id: festival._id.toString(), name: festival.name, date: key(year, festival.month, festival.day), type: festival.category === 'project' ? SYSTEM_BROADCAST_FESTIVAL_CATEGORY : festival.category, source: festival.source, greeting: festival.greeting, effect: festival.effect, isMajor: festival.isMajor, isCustom: true }))
   const legal = remote.map((day) => item({ name: day.name, date: day.date, type: day.isHoliday ? 'legal-holiday' : 'make-up-workday', source: day.source, isHoliday: day.isHoliday, isWorkday: day.isWorkday, isMajor: day.isHoliday }))
   const lunar = getLunarFestivals(`${year}-01-01`, `${year}-12-31`).flatMap((day) => day.name.map((name) => item({ name, date: day.date, type: 'traditional', source: '农历传统节日' })))
   const terms = getSolarTerms(`${year}-01-01`, `${year}-12-31`).map((day) => item({ name: day.name, date: day.date, type: 'solar-term', source: '二十四节气' }))
@@ -99,7 +102,27 @@ export async function getFestivalCalendar(dateKey = getBusinessDate(), options =
 }
 
 export async function getFestivalYear(year) { await ensureHolidayYears([year]); return annualItems(year) }
-export async function listCustomFestivals() { return CustomFestival.find().sort({ month: 1, day: 1 }).lean() }
-export async function saveCustomFestival(input, user) { return CustomFestival.create({ ...input, createdBy: user._id }) }
-export async function updateCustomFestival(id, input) { return CustomFestival.findByIdAndUpdate(id, input, { new: true }) }
-export async function deleteCustomFestival(id) { return CustomFestival.findByIdAndDelete(id) }
+export async function listCustomFestivals() { return CustomFestival.find().sort({ deletedAt: 1, month: 1, day: 1 }).lean() }
+
+export async function saveCustomFestival(input, user) {
+  return CustomFestival.create({
+    ...input,
+    category: SYSTEM_BROADCAST_FESTIVAL_CATEGORY,
+    deletedAt: null,
+    createdBy: user._id
+  })
+}
+
+export async function updateCustomFestival(id, input) {
+  const next = { ...input, category: SYSTEM_BROADCAST_FESTIVAL_CATEGORY }
+  if (next.enabled === true) next.deletedAt = null
+  return CustomFestival.findByIdAndUpdate(id, next, { new: true })
+}
+
+export async function archiveCustomFestival(id) {
+  return CustomFestival.findByIdAndUpdate(id, { enabled: false, deletedAt: new Date() }, { new: true })
+}
+
+export async function restoreCustomFestival(id) {
+  return CustomFestival.findByIdAndUpdate(id, { enabled: true, deletedAt: null, category: SYSTEM_BROADCAST_FESTIVAL_CATEGORY }, { new: true })
+}

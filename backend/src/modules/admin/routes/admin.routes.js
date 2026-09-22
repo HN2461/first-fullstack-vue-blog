@@ -34,7 +34,7 @@ import { userCreateSchema, userGenderSchema, userRemarkSchema, userRoleAssignSch
 import { settingSchema } from '#modules/settings/validators/setting.validator.js'
 import { projectTimelineCreateSchema, projectTimelineExportQuerySchema, projectTimelineImportSchema, projectTimelineUpdateSchema } from '#modules/projectTimeline/validators/projectTimeline.validator.js'
 import { mediaCategoryBatchMoveSchema, mediaCategoryMoveSchema, mediaRegisterUntrackedSchema, mediaRenameSchema } from '#modules/media/validators/media.validator.js'
-import { deleteCustomFestival, listCustomFestivals, saveCustomFestival, syncHolidayYear, updateCustomFestival } from '#modules/festival/services/festival.service.js'
+import { archiveCustomFestival, listCustomFestivals, restoreCustomFestival, saveCustomFestival, syncHolidayYear, updateCustomFestival } from '#modules/festival/services/festival.service.js'
 import { z } from 'zod'
 import { getBusinessDate } from '#utils/businessDate.js'
 import { listLoginSessions, revokeLoginSession } from '#modules/auth/services/loginSession.service.js'
@@ -822,8 +822,14 @@ adminRouter.get('/settings', requireSuperAdmin, asyncHandler(async (req, res) =>
 
 const festivalSchema = z.object({
   name: z.string().trim().min(1).max(50), month: z.number().int().min(1).max(12), day: z.number().int().min(1).max(31),
-  category: z.enum(['national', 'industry', 'international', 'social', 'project']), source: z.string().trim().max(100).optional(),
+  category: z.enum(['system-broadcast', 'project']).optional(), source: z.string().trim().max(100).optional(),
   greeting: z.string().trim().max(120).optional(), effect: z.string().trim().max(40).optional(), isMajor: z.boolean().optional(), enabled: z.boolean().optional()
+}).superRefine((value, context) => {
+  if (value.month === undefined || value.day === undefined) return
+  const date = new Date(Date.UTC(2000, value.month - 1, value.day))
+  if (date.getUTCMonth() !== value.month - 1 || date.getUTCDate() !== value.day) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['day'], message: '日期不是有效的月日组合' })
+  }
 })
 
 adminRouter.get('/festivals', canAccessSettings, asyncHandler(async (req, res) => res.json(ok(await listCustomFestivals()))))
@@ -834,8 +840,10 @@ adminRouter.patch('/festivals/:id', requireSuperAdmin, asyncHandler(async (req, 
   res.json(ok(await updateCustomFestival(req.params.id, parseBody(festivalSchema.partial(), req.body)), '纪念日已更新'))
 }))
 adminRouter.delete('/festivals/:id', requireSuperAdmin, asyncHandler(async (req, res) => {
-  await deleteCustomFestival(req.params.id)
-  res.json(ok(null, '纪念日已删除'))
+  res.json(ok(await archiveCustomFestival(req.params.id), '纪念日已移入停用列表'))
+}))
+adminRouter.post('/festivals/:id/restore', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.json(ok(await restoreCustomFestival(req.params.id), '纪念日已恢复'))
 }))
 adminRouter.post('/festivals/sync', requireSuperAdmin, asyncHandler(async (req, res) => {
   const year = Number(req.body?.year) || Number(getBusinessDate().slice(0, 4))

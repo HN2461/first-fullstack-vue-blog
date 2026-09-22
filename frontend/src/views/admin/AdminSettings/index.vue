@@ -335,11 +335,18 @@ onUnmounted(() => {
 .settings-page {
   width: 100%;
   min-width: 0;
+  height: var(--console-page-available-height);
+  min-height: 0;
 }
 
 .settings-workspace {
   width: 100%;
   min-width: 0;
+  height: var(--console-page-available-height);
+  max-height: var(--console-page-available-height);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
   background: var(--console-surface);
   border: 1px solid var(--console-border);
   border-radius: 8px;
@@ -453,7 +460,24 @@ onUnmounted(() => {
 }
 
 .settings-tabs :deep(.ant-tabs-content-holder) {
+  flex: 1;
+  min-height: 0;
   min-width: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+.settings-tabs {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-tabs :deep(.ant-tabs-content),
+.settings-tabs :deep(.ant-tabs-tabpane) {
+  min-height: 100%;
 }
 
 .settings-section {

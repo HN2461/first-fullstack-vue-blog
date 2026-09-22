@@ -87,7 +87,7 @@
 
           <div class="festival-countdown__filters" role="tablist" aria-label="节日类型筛选">
             <button
-              v-for="filter in filters"
+              v-for="filter in availableFilters"
               :key="filter.key"
               type="button"
               :class="{ active: activeFilter === filter.key }"
@@ -123,7 +123,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { CalendarOutlined } from '@ant-design/icons-vue'
 import { MAJOR_FESTIVAL_LABEL } from '@/utils/festival/festivalCalendar'
 import './FestivalCountdownPanel.css'
@@ -143,7 +143,7 @@ const open = ref(false)
 const activeFilter = ref('all')
 const activeView = ref('upcoming')
 const majorFestivalLabel = MAJOR_FESTIVAL_LABEL
-const filters = [
+const filterDefinitions = [
   { key: 'all', label: '全部' },
   { key: 'legal-holiday', label: '法定假期' },
   { key: 'make-up-workday', label: '补班' },
@@ -153,15 +153,18 @@ const filters = [
   { key: 'industry', label: '行业纪念日' },
   { key: 'international', label: '国际纪念日' },
   { key: 'social', label: '社会节日' },
-  { key: 'project', label: '项目纪念日' },
-  { key: 'personal', label: '个人日期' },
-  { key: 'birthday', label: '生日' }
+  { key: 'system-broadcast', label: '系统广播纪念日' },
+  { key: 'personal', label: '我的日期' }
 ]
 
 const nextFestival = computed(() => props.schedule[0] || null)
 const todayCount = computed(() => props.schedule.filter((item) => item.daysUntil === 0).length)
 const monthCount = computed(() => props.schedule.filter((item) => item.daysUntil <= 30).length)
 const majorCount = computed(() => props.schedule.filter((item) => item.level === 'major').length)
+const availableFilters = computed(() => {
+  const types = new Set([...props.schedule, ...props.history].map((item) => item.type))
+  return filterDefinitions.filter((filter) => filter.key === 'all' || types.has(filter.key) || (filter.key === 'personal' && types.has('birthday')))
+})
 const progressPercent = computed(() => {
   const days = nextFestival.value?.daysUntil ?? 60
   return Math.max(8, Math.round((1 - Math.min(days, 60) / 60) * 100))
@@ -169,6 +172,7 @@ const progressPercent = computed(() => {
 const filteredSchedule = computed(() => {
   const source = activeView.value === 'history' ? props.history : props.schedule
   if (activeFilter.value === 'all') return source
+  if (activeFilter.value === 'personal') return source.filter((item) => item.type === 'personal' || item.type === 'birthday')
   return source.filter((item) => item.type === activeFilter.value)
 })
 const visibleItems = computed(() => groupHolidayRanges(filteredSchedule.value, activeView.value === 'history'))
@@ -187,6 +191,10 @@ const tooltipTitle = computed(() => {
     ? `${nextFestival.value.name} · 今天`
     : `${nextFestival.value.name} · 还有 ${nextFestival.value.daysUntil} 天`
 })
+
+watch(availableFilters, (nextFilters) => {
+  if (!nextFilters.some((filter) => filter.key === activeFilter.value)) activeFilter.value = 'all'
+}, { deep: true })
 
 function formatFriendlyDate(dateKey) {
   const [year, month, day] = String(dateKey || '').split('-')
@@ -244,9 +252,10 @@ function getFestivalLabel(item) {
     industry: '行业纪念日',
     international: '国际纪念日',
     social: '社会节日',
-    project: '项目纪念日',
-    personal: '个人日期',
-    birthday: '个人生日'
+    'system-broadcast': '系统广播纪念日',
+    project: '系统广播纪念日',
+    personal: '我的日期',
+    birthday: '我的生日'
   }
   return labels[item.type] || '纪念日'
 }

@@ -1,4 +1,4 @@
-export const FESTIVAL_CATEGORIES = ['legal-holiday', 'make-up-workday', 'traditional', 'solar-term', 'national', 'industry', 'international', 'social', 'project', 'birthday']
+export const FESTIVAL_CATEGORIES = ['legal-holiday', 'make-up-workday', 'traditional', 'solar-term', 'national', 'industry', 'international', 'social', 'system-broadcast', 'birthday']
 
 // 该目录覆盖公共常用纪念日；地方性、临时设立日期由管理员在后台补充。
 export const FIXED_FESTIVALS = [
