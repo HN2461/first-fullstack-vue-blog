@@ -990,6 +990,28 @@ describe('rbac account and permission flows', () => {
     expect(menuIds).not.toContain(directoryMenu._id.toString())
   })
 
+  it('retires the removed standalone work journal evidence menu', async () => {
+    const parent = await Menu.findOne({ code: 'knowledge.workJournal' })
+    await Menu.create({
+      name: '图片凭证',
+      code: 'knowledge.workJournal.evidence',
+      icon: 'PictureOutlined',
+      routePath: '/console/work-journal/evidence',
+      routeKey: 'knowledge.work-journal.evidence',
+      parentType: 'child',
+      parentId: parent._id,
+      level: parent.level + 1,
+      type: 'system',
+      enabled: true,
+      hidden: false
+    })
+
+    await ensureRbacSeed({ forceBuiltinSync: true })
+
+    const retiredMenu = await Menu.findOne({ code: 'knowledge.workJournal.evidence' })
+    expect(retiredMenu).toMatchObject({ enabled: false, hidden: true })
+  })
+
   it('persists only explicit menu grants while exposing inherited ancestors for permissions', async () => {
     const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
     const managementRoot = await Menu.findOne({ code: 'management.root' })

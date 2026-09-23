@@ -36,9 +36,14 @@ export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
     sortOrder: 5
   },
   {
+    name: '工作日志',
+    description: '工作日记的私有图片凭证，由日报与资源管理共同维护',
+    sortOrder: 6
+  },
+  {
     name: '历史未登记资源',
     description: '服务器上传目录中扫描并补登记的历史资源',
-    sortOrder: 6
+    sortOrder: 7
   }
 ])
 

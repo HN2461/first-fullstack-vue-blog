@@ -12,6 +12,12 @@ const DEFAULT_MENUS = [
   { code: 'knowledge.articles', name: '全部文章', icon: 'FileTextOutlined', routePath: '/console/articles', routeKey: 'knowledge.article.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.directory', name: '文章目录', icon: 'FolderOutlined', routePath: '/console/article-directory', routeKey: 'knowledge.article.directory', directoryAutoExpandWhenNested: true, parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.memos', name: '备忘录', icon: 'BulbOutlined', routePath: '/console/memos', routeKey: 'knowledge.memo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.workJournal', name: '工作日记', icon: 'CalendarOutlined', routePath: '', routeKey: 'knowledge.work-journal', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 22.5, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.workJournal.daily', name: '日报', icon: 'FileTextOutlined', routePath: '/console/work-journal/daily', routeKey: 'knowledge.work-journal.daily', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.workJournal.weekly', name: '周报', icon: 'CalendarOutlined', routePath: '/console/work-journal/weekly', routeKey: 'knowledge.work-journal.weekly', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.workJournal.monthly', name: '月报', icon: 'CalendarOutlined', routePath: '/console/work-journal/monthly', routeKey: 'knowledge.work-journal.monthly', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.workJournal.employments', name: '工作经历', icon: 'ProfileOutlined', routePath: '/console/work-journal/employments', routeKey: 'knowledge.work-journal.employments', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.workJournal.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/work-journal/trash', routeKey: 'knowledge.work-journal.trash', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.todos', name: '待办清单', icon: 'CheckSquareOutlined', routePath: '/console/todos', routeKey: 'knowledge.todo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 21, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.tools', name: '工具箱', icon: 'ToolOutlined', routePath: '/console/tools', routeKey: 'knowledge.tools', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 23, type: MENU_TYPES.SYSTEM },
   { code: 'collaboration.discussions', name: '项目讨论', icon: 'MessageOutlined', routePath: '/console/discussions', routeKey: 'collaboration.discussion.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 22, type: MENU_TYPES.SYSTEM },
@@ -67,7 +73,7 @@ const DEFAULT_MENUS = [
   { code: 'governance.projectTimeline', name: '项目记录台账', icon: 'ClockCircleOutlined', routePath: '/console/manage/project-timeline', routeKey: 'admin.project.timeline', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 25 },
   { code: 'governance.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/manage/trash', routeKey: 'admin.trash.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 }
 ]
-const RETIRED_SYSTEM_MENU_CODES = ['resume.editor']
+const RETIRED_SYSTEM_MENU_CODES = ['resume.editor', 'knowledge.workjournal.evidence']
 
 function createHttpError(statusCode, code, message) {
   const error = new Error(message)
@@ -282,6 +288,8 @@ async function runRbacSeed(forceBuiltinSync = false) {
   const codeToMenu = new Map()
   let mediaShareMenuCreated = false
   let articleShareMenuCreated = false
+  let workJournalMenuCreated = false
+  let migrateLegacyWorkJournalGrants = false
 
   for (const menuInput of DEFAULT_MENUS) {
     const parent = menuInput.parentCode
@@ -290,6 +298,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
 
     let menu = await Menu.findOne({ code: menuInput.code })
     if (!menu) {
+      if (menuInput.code.toLowerCase() === 'knowledge.workjournal') workJournalMenuCreated = true
       if (menuInput.code === 'content.mediaShares') mediaShareMenuCreated = true
       if (menuInput.code === 'content.articleShares') articleShareMenuCreated = true
       menu = await Menu.create({
@@ -311,6 +320,9 @@ async function runRbacSeed(forceBuiltinSync = false) {
       })
     } else {
       const patch = {}
+      if (menuInput.code.toLowerCase() === 'knowledge.workjournal' && menu.routePath === '/console/work-journal') {
+        migrateLegacyWorkJournalGrants = true
+      }
       if (forceBuiltinSync) {
         patch.name = menuInput.name
         patch.icon = menuInput.icon
@@ -343,6 +355,12 @@ async function runRbacSeed(forceBuiltinSync = false) {
 
       if (menuInput.code === 'knowledge.ledger') {
         patch.routePath = ''
+      }
+      if (menuInput.code.toLowerCase() === 'knowledge.workjournal') {
+        patch.routePath = ''
+        patch.routeKey = menuInput.routeKey
+        patch.name = menuInput.name
+        patch.icon = menuInput.icon
       }
       if (['knowledge.ledger.categories', 'knowledge.ledger.imports'].includes(menuInput.code)) {
         patch.routePath = ''
@@ -442,6 +460,19 @@ async function runRbacSeed(forceBuiltinSync = false) {
         ]
       },
       { $addToSet: { menuIds: todoMenu._id } }
+    )
+  }
+  const workJournalMenu = allMenus.find((menu) => menu.code === 'knowledge.workjournal')
+  const workJournalChildren = allMenus.filter((menu) => menu.code?.startsWith('knowledge.workjournal.'))
+  if (knowledgeRootMenu && workJournalMenu && workJournalChildren.length && (workJournalMenuCreated || migrateLegacyWorkJournalGrants)) {
+    await Role.updateMany(
+      {
+        $or: [
+          { menuIds: knowledgeRootMenu._id },
+          { menuIds: workJournalMenu._id }
+        ]
+      },
+      { $addToSet: { menuIds: { $each: [workJournalMenu._id, ...workJournalChildren.map((menu) => menu._id)] } } }
     )
   }
   const toolsMenu = allMenus.find((menu) => menu.code === 'knowledge.tools')

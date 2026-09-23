@@ -125,6 +125,24 @@ describe('media resource package sharing', () => {
     expect(share.entries[0]).not.toHaveProperty('storagePath')
   })
 
+  it('does not allow private work journal evidence into a public media share', async () => {
+    const media = await createMedia(superAdmin, 'work-proof.jpg', Buffer.from([0xff, 0xd8, 0xff, 0xd9]), {
+      mimeType: 'image/jpeg',
+      kind: 'image',
+      fileClass: 'image',
+      category: '工作日志',
+      accessScope: 'private'
+    })
+
+    await request(app)
+      .post('/api/admin/media-shares')
+      .set('Authorization', `Bearer ${superToken}`)
+      .send({ name: '不可公开的工作凭证', mediaIds: [media._id.toString()], mode: 'public' })
+      .expect(404)
+
+    expect(await MediaSharePackage.countDocuments()).toBe(0)
+  })
+
   it('returns a four-digit extraction code only in the password share creation response', async () => {
     const media = await createMedia(superAdmin, 'password-note.txt')
     const created = await createShare(app, superToken, [media._id], { mode: 'password' })

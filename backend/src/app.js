@@ -17,6 +17,7 @@ import { interactionRouter } from '#modules/interaction/routes/interaction.route
 import { ledgerRouter } from '#modules/ledger/routes/ledger.routes.js'
 import { memoRouter } from '#modules/memo/routes/memo.routes.js'
 import { todoRouter } from '#modules/todo/routes/todo.routes.js'
+import { workJournalRouter } from '#modules/workJournal/routes/workJournal.routes.js'
 import { logRelayRouter } from '#modules/logRelay/routes/logRelay.routes.js'
 import { discussionRouter } from '#modules/discussion/routes/discussion.routes.js'
 import profileRouter from '#modules/user/routes/profile.routes.js'
@@ -51,6 +52,7 @@ export function createApp() {
   }))
   app.use(express.json({ limit: '1mb' }))
   app.use(express.urlencoded({ extended: true }))
+  app.use('/uploads/work-journal', (_req, res) => res.sendStatus(404))
   app.use('/uploads', express.static(resolveUploadRoot()))
   app.use('/legacy-notes', express.static(env.legacyNotesDir))
   app.use(requestMetricsMiddleware)
@@ -69,6 +71,7 @@ export function createApp() {
   app.use(`${API_PREFIX}/ledger`, ledgerRouter)
   app.use(`${API_PREFIX}/memos`, memoRouter)
   app.use(`${API_PREFIX}/todos`, todoRouter)
+  app.use(`${API_PREFIX}/work-journal`, workJournalRouter)
   app.use(`${API_PREFIX}/log-relay`, logRelayRouter)
   app.use(`${API_PREFIX}/resumes`, resumeRouter)
   app.use(`${API_PREFIX}/resume-interviews`, resumeInterviewRouter)

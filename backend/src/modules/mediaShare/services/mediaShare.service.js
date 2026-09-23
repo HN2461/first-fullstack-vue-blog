@@ -195,6 +195,7 @@ export async function createMediaShare(input, actor) {
   const media = await Media.find({
     _id: { $in: input.mediaIds },
     deletedAt: null,
+    accessScope: { $ne: 'private' },
     ...getMediaActorQuery(actor)
   })
   if (media.length !== input.mediaIds.length) {

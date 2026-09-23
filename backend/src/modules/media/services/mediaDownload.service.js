@@ -31,8 +31,10 @@ function isPathInside(parent, target) {
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative))
 }
 
-function getAllowedUploadRoots() {
-  return [...new Set([resolveUploadRoot(), resolveLegacyUploadRoot()].map((item) => path.resolve(item)))]
+function getAllowedUploadRoots(includePrivate = false) {
+  const roots = [resolveUploadRoot(), resolveLegacyUploadRoot()]
+  if (includePrivate) roots.push(path.resolve(resolveUploadRoot(), 'work-journal'))
+  return [...new Set(roots.map((item) => path.resolve(item)))]
 }
 
 function collectCandidatePaths(media) {
@@ -48,14 +50,14 @@ function collectCandidatePaths(media) {
   const normalizedUrl = String(media.url || '').trim()
   if (normalizedUrl.startsWith('/uploads/')) {
     const relativePath = normalizedUrl.replace(/^\/uploads\//, '').replace(/\//g, path.sep)
-    getAllowedUploadRoots().forEach((root) => addCandidate(path.join(root, relativePath)))
+  getAllowedUploadRoots(media.accessScope === 'private').forEach((root) => addCandidate(path.join(root, relativePath)))
   }
 
   return candidates
 }
 
 function resolveManagedFilePath(media) {
-  const allowedRoots = getAllowedUploadRoots()
+  const allowedRoots = getAllowedUploadRoots(media.accessScope === 'private')
   const targetPath = collectCandidatePaths(media).find((candidate) => (
     allowedRoots.some((root) => isPathInside(root, candidate)) &&
     fs.existsSync(candidate) &&

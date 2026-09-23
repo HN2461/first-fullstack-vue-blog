@@ -105,6 +105,11 @@ echo "[2/20] File backups"
 cp -a /www/personal-blog/frontend "$RELEASE_DIR/frontend-before"
 cp -a /www/personal-blog/backend "$RELEASE_DIR/backend-before"
 cp -a /www/personal-blog/uploads "$RELEASE_DIR/uploads-before"
+if [ -d /www/personal-blog/work-journal-private ]; then
+  cp -a /www/personal-blog/work-journal-private "$RELEASE_DIR/work-journal-private-before"
+else
+  mkdir -p "$RELEASE_DIR/work-journal-private-before"
+fi
 test -f /www/personal-blog/backend/.env
 cp /www/personal-blog/backend/.env "$RELEASE_DIR/backend.env.before-release"
 test -f /etc/nginx/conf.d/personal-blog.conf
@@ -127,6 +132,13 @@ echo "OLD_BACKEND=$OLD_BACKEND"
 echo "[5/20] Install backend dependencies"
 cd /www/personal-blog/backend
 npm install --omit=dev
+
+echo "[5b/20] Ensure work journal indexes"
+npm run work-journal:indexes:apply
+npm run work-journal:indexes:verify
+
+echo "[5c/20] Migrate legacy work journal evidence into media assets"
+npm run work-journal:media-migrate -- --apply
 
 echo "[6/20] Preview media category ownership migration"
 npm run media-categories:dry-run
@@ -220,7 +232,7 @@ echo "[20/20] Remove expired rollback copies"
 PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
 find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
   | sort -z -nr \
-  | tail -z -n +3 \
+  | tail -z -n +5 \
   | cut -z -d' ' -f2- \
   | xargs -0 -r rm -rf --
 # 发布成功后，RELEASE_DIR 已保留 backend-before 和 .env，可承担后端回滚。
@@ -286,6 +298,9 @@ try:
 finally:
     client.close()
 '@ | python -
+  if ($LASTEXITCODE -ne 0) {
+    throw "远程部署失败，Python/SSH 进程退出码：$LASTEXITCODE"
+  }
 }
 
 Invoke-Step -Title '公网健康检查' -Action {

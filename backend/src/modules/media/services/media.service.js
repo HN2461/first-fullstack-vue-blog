@@ -3,6 +3,7 @@ import path from 'node:path'
 import mongoose from 'mongoose'
 import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
+import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
 import { inferMediaFileClass } from '#modules/media/constants/mediaUpload.constants.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
@@ -366,13 +367,14 @@ function getLegacyUploadsRoot() {
   return resolveLegacyUploadRoot()
 }
 
-function getAllowedUploadRoots() {
+function getAllowedUploadRoots(includePrivate = false) {
   const roots = [getUploadsRoot()]
   const legacyRoot = getLegacyUploadsRoot()
 
   if (legacyRoot !== roots[0]) {
     roots.push(legacyRoot)
   }
+  if (includePrivate) roots.push(path.resolve(resolveUploadRoot(), 'work-journal'))
 
   return roots
 }
@@ -409,8 +411,8 @@ function collectCandidateStoragePaths(storagePath, fileUrl = '') {
   return candidates
 }
 
-async function removeStoredFile(storagePath, fileUrl = '') {
-  const allowedUploadRoots = getAllowedUploadRoots()
+async function removeStoredFile(storagePath, fileUrl = '', media = null) {
+  const allowedUploadRoots = getAllowedUploadRoots(media?.accessScope === 'private')
   const candidates = collectCandidateStoragePaths(storagePath, fileUrl)
   let sawUnsafePath = false
 
@@ -528,10 +530,54 @@ export async function permanentDeleteMedia(id, actor = null) {
     throw error
   }
 
-  const fileRemoved = await removeStoredFile(media.storagePath, media.url)
+  if (media.accessScope === 'private') {
+    const privateRoot = path.resolve(resolveUploadRoot(), 'work-journal')
+    const privatePath = path.resolve(media.storagePath)
+    const relative = path.relative(privateRoot, privatePath)
+    if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+      const error = new Error('工作日志图片存储路径无效，已阻止删除')
+      error.statusCode = 409
+      error.code = 'MEDIA_PRIVATE_PATH_INVALID'
+      throw error
+    }
+  }
+
+  const fileRemoved = await removeStoredFile(media.storagePath, media.url, media)
+
+  if (media.workJournalEvidence) {
+    await WorkLog.updateOne(
+      { _id: media.workJournalLog, 'evidence._id': media.workJournalEvidence },
+      { $pull: { evidence: { _id: media.workJournalEvidence } } }
+    )
+  }
 
   await Media.findByIdAndDelete(id)
   return { id, deleted: true, mode: 'permanent', fileRemoved }
+}
+
+export async function permanentlyDeleteWorkJournalMedia(id, actor) {
+  const media = await Media.findOne({ _id: id, accessScope: 'private', category: '工作日志', ...getMediaAccessQuery(actor) })
+  if (!media) return { deleted: false, fileRemoved: false }
+  const blockingShares = await findBlockingMediaShares(media._id)
+  if (blockingShares.length > 0) {
+    const error = new Error('该工作日志图片仍被未撤销分享引用，请先撤销相关分享')
+    error.statusCode = 409
+    error.code = 'MEDIA_ACTIVE_SHARE_REFERENCE'
+    throw error
+  }
+
+  if (media.accessScope === 'private') {
+    const privateRoot = path.resolve(resolveUploadRoot(), 'work-journal')
+    const privatePath = path.resolve(media.storagePath)
+    const relative = path.relative(privateRoot, privatePath)
+    if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
+      const error = new Error('工作日志图片存储路径无效，已阻止删除')
+      error.statusCode = 409
+      error.code = 'MEDIA_PRIVATE_PATH_INVALID'
+      throw error
+    }
+  }
+  return permanentDeleteMedia(media._id, actor)
 }
 
 export async function batchPermanentDeleteMedia(ids, actor = null) {
@@ -568,8 +614,14 @@ export async function emptyMediaTrash(actor = null) {
   let removedFileCount = 0
 
   for (const media of mediaList) {
-    if (await removeStoredFile(media.storagePath, media.url)) {
+    if (await removeStoredFile(media.storagePath, media.url, media)) {
       removedFileCount += 1
+    }
+    if (media.workJournalEvidence) {
+      await WorkLog.updateOne(
+        { _id: media.workJournalLog, 'evidence._id': media.workJournalEvidence },
+        { $pull: { evidence: { _id: media.workJournalEvidence } } }
+      )
     }
   }
 

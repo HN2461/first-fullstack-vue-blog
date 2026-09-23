@@ -47,6 +47,27 @@ const mediaSchema = new mongoose.Schema(
       enum: ['image', 'code', 'document', 'archive', 'other'],
       default: 'other'
     },
+    accessScope: {
+      type: String,
+      enum: ['public', 'private'],
+      default: 'public',
+      index: true
+    },
+    sha256: {
+      type: String,
+      default: '',
+      match: /^(?:[a-f0-9]{64})?$/
+    },
+    workJournalLog: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'WorkLog',
+      default: null,
+      index: true
+    },
+    workJournalEvidence: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null
+    },
     uploader: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -95,8 +116,12 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
     category: this.category || '未分类',
     categoryId: this.categoryId?.toString?.() || null,
     fileClass: this.fileClass || 'other',
+    accessScope: this.accessScope || 'public',
+    sha256: this.sha256 || '',
     uploader,
     article: this.article?.toString?.() || null,
+    workJournalLog: this.workJournalLog?.toString?.() || null,
+    workJournalEvidence: this.workJournalEvidence?.toString?.() || null,
     deletedAt: this.deletedAt || null,
     deletedBy: this.deletedBy?.toString?.() || null,
     createdAt: this.createdAt,

@@ -380,7 +380,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
   EditOutlined,
@@ -1151,6 +1151,12 @@ onMounted(async () => {
       loadUploadRules(),
       viewMode.value === 'folders' ? loadFolderCategoriesAndItems() : Promise.resolve()
     ])
+    if (viewMode.value === 'list' && typeof route.query.category === 'string') {
+      const category = categories.value.find((item) => item.name === route.query.category)
+      filterCategory.value = category?.id || route.query.category
+      await nextTick()
+      await tableRef.value?.refresh()
+    }
   } catch (error) {
     errorMessage.value = error.message || '媒体页初始化失败'
   }

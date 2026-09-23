@@ -34,6 +34,9 @@ const AdminProjectTimeline = () => import('@/views/admin/AdminProjectTimeline/in
 const AdminSettings = () => import('@/views/admin/AdminSettings/index.vue')
 const AdminTrash = () => import('@/views/admin/AdminTrash/index.vue')
 const MemoPage = () => import('@/views/console/MemoPage/index.vue')
+const WorkLogListPage = () => import('@/views/console/WorkJournalPage/WorkLogListPage.vue')
+const WorkReportPage = () => import('@/views/console/WorkJournalPage/WorkReportPage.vue')
+const WorkEmploymentPage = () => import('@/views/console/WorkJournalPage/WorkEmploymentPage.vue')
 const TodoPage = () => import('@/views/console/TodoPage/index.vue')
 const DiscussionPage = () => import('@/views/console/DiscussionPage/index.vue')
 const BookmarkPage = () => import('@/views/console/BookmarkPage/index.vue')
@@ -191,6 +194,44 @@ export const router = createRouter({
           name: 'ConsoleMemos',
           component: MemoPage,
           meta: { title: '备忘录', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'work-journal',
+          redirect: '/console/work-journal/daily',
+          meta: { title: '工作日记', requiresAuth: true }
+        },
+        {
+          path: 'work-journal/daily',
+          name: 'ConsoleWorkJournalDaily',
+          component: WorkLogListPage,
+          meta: { title: '工作日记 · 日报', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'work-journal/weekly',
+          name: 'ConsoleWorkJournalWeekly',
+          component: WorkReportPage,
+          props: { period: 'week' },
+          meta: { title: '工作日记 · 周报', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'work-journal/monthly',
+          name: 'ConsoleWorkJournalMonthly',
+          component: WorkReportPage,
+          props: { period: 'month' },
+          meta: { title: '工作日记 · 月报', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'work-journal/employments',
+          name: 'ConsoleWorkJournalEmployments',
+          component: WorkEmploymentPage,
+          meta: { title: '工作日记 · 工作经历', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'work-journal/trash',
+          name: 'ConsoleWorkJournalTrash',
+          component: WorkLogListPage,
+          props: { trash: true },
+          meta: { title: '工作日记 · 回收站', requiresAuth: true, requiresMenuAccess: true }
         },
         {
           path: 'todos',

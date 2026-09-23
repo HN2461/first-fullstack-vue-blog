@@ -2,6 +2,7 @@ import { Article } from '#modules/content/models/Article.js'
 import { Setting } from '#modules/settings/models/Setting.js'
 import { User } from '#modules/user/models/User.js'
 import { findMediaShareReferences } from '#modules/mediaShare/services/mediaShareReference.service.js'
+import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
 
 function normalizeUrl(value) {
   const text = String(value || '').trim()
@@ -47,7 +48,8 @@ function getReferenceLabel(type) {
     articleDocumentPreview: '文章阅读版',
     userAvatar: '用户头像',
     setting: '系统设置',
-    resourceShare: '资源分享'
+    resourceShare: '资源分享',
+    workJournalEvidence: '工作日记图片凭证'
   }
   return labels[type] || '其他引用'
 }
@@ -103,7 +105,8 @@ export function summarizeMediaReferences(references = []) {
     'articleDocumentPreview',
     'userAvatar',
     'setting',
-    'resourceShare'
+    'resourceShare',
+    'workJournalEvidence'
   ]
   const countByType = Object.fromEntries(typeOrder.map((type) => [type, 0]))
 
@@ -124,7 +127,25 @@ export async function findMediaReferences(media) {
   const url = normalizeUrl(media?.url)
   const shareReferencesPromise = findMediaShareReferences(media?._id)
   if (!url) {
-    return shareReferencesPromise
+    const [shares, workJournalLogs] = await Promise.all([
+      shareReferencesPromise,
+      media?._id
+        ? WorkLog.find({ 'evidence.mediaId': media._id }).select('title workDate deletedAt updatedAt').lean()
+        : []
+    ])
+    return [
+      ...shares,
+      ...workJournalLogs.map((log) => ({
+        type: 'workJournalEvidence',
+        typeLabel: getReferenceLabel('workJournalEvidence'),
+        ownerId: log._id.toString(),
+        ownerTitle: log.title,
+        ownerSubtitle: log.workDate,
+        routePath: log.deletedAt ? '/console/work-journal/trash' : '/console/work-journal/daily',
+        status: log.deletedAt ? 'trash' : '',
+        updatedAt: log.updatedAt
+      }))
+    ]
   }
 
   const urlVariants = getUrlVariants(url)
@@ -134,7 +155,7 @@ export async function findMediaReferences(media) {
   }
   const urlRegex = new RegExp(escapedVariants.join('|'))
 
-  const [articles, users, settings, shares] = await Promise.all([
+  const [articles, users, settings, shares, workJournalLogs] = await Promise.all([
     Article.find({
       deletedAt: null,
       $or: [
@@ -150,7 +171,10 @@ export async function findMediaReferences(media) {
     }).select('title slug status contentMarkdown cover resources document updatedAt').lean(),
     User.find({ avatar: { $in: urlVariants } }).select('username email avatar status updatedAt').lean(),
     Setting.find({}).select('key value group updatedAt').lean(),
-    shareReferencesPromise
+    shareReferencesPromise,
+    media?._id
+      ? WorkLog.find({ 'evidence.mediaId': media._id }).select('title workDate deletedAt createdBy updatedAt').lean()
+      : []
   ])
 
   const references = []
@@ -190,6 +214,16 @@ export async function findMediaReferences(media) {
   users.forEach((user) => references.push(buildUserReference(user)))
   settings.forEach((setting) => references.push(...collectSettingReferences(setting, url)))
   references.push(...shares)
+  workJournalLogs.forEach((log) => references.push({
+    type: 'workJournalEvidence',
+    typeLabel: getReferenceLabel('workJournalEvidence'),
+    ownerId: log._id.toString(),
+    ownerTitle: log.title,
+    ownerSubtitle: log.workDate,
+    routePath: log.deletedAt ? '/console/work-journal/trash' : '/console/work-journal/daily',
+    status: log.deletedAt ? 'trash' : '',
+    updatedAt: log.updatedAt
+  }))
 
   return references
 }
