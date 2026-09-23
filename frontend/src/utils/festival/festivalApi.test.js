@@ -36,4 +36,22 @@ describe('festival calendar server data', () => {
       displaySource: '系统广播纪念日'
     })
   })
+
+  it('assigns distinct festive visuals instead of falling back to one fireworks icon', () => {
+    const calendar = normalizeCalendar({
+      today: [],
+      upcoming: [
+        { name: '春节', date: '2027-02-06', type: 'legal-holiday', isHoliday: true },
+        { name: '中秋节', date: '2027-09-15', type: 'legal-holiday', isHoliday: true },
+        { name: '网站首次成功部署纪念日', date: '2027-06-17', type: 'system-broadcast' }
+      ],
+      history: []
+    })
+
+    expect(calendar.upcoming[0].icons).toEqual(['🏮', '🧧', '🎊'])
+    expect(calendar.upcoming[1].icons).toEqual(['🥮', '🌕', '🏮'])
+    expect(calendar.upcoming[2].icons).toEqual(['🎊', '🎁', '🌟'])
+    expect(calendar.upcoming.every((item) => item.icons[0] !== '🎆')).toBe(true)
+    expect(calendar.upcoming.every((item) => item.accent !== '#7c3aed')).toBe(true)
+  })
 })

@@ -47,6 +47,6 @@ export async function playBirthdayConfetti(isMobile = false) {
   await Promise.all([
     confetti({ ...defaults, origin: { x: 0.2, y: 0.45 }, colors: ['#f472b6', '#fb7185', '#fbbf24'] }),
     confetti({ ...defaults, origin: { x: 0.5, y: 0.35 }, shapes: makeShapes(confetti, ['🎂', '💗'], isMobile ? 1.3 : 1.7) }),
-    confetti({ ...defaults, origin: { x: 0.8, y: 0.45 }, colors: ['#60a5fa', '#a78bfa', '#34d399'] })
+    confetti({ ...defaults, origin: { x: 0.8, y: 0.45 }, colors: ['#f97316', '#fbbf24', '#34d399'] })
   ])
 }

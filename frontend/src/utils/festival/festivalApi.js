@@ -1,9 +1,10 @@
 import { getPublicFestivalCalendar } from '@/services/public'
-import { EFFECT_META } from './festivalCatalog'
+import { getFestivalVisual } from './festivalCatalog'
 
 function normalize(item) {
   const type = item.type === 'project' ? 'system-broadcast' : item.type
-  const effectMeta = EFFECT_META[item.effect] || EFFECT_META['new-year']
+  const visual = getFestivalVisual(item.name, type, item.effect)
+  const effect = visual.effect || item.effect || 'new-year'
   const displaySource = item.isHoliday
     ? '法定假期'
     : item.isWorkday
@@ -13,12 +14,13 @@ function normalize(item) {
     ...item,
     type,
     key: `${item.date}-${item.name}`,
+    effect,
     level: item.isMajor ? 'major' : 'normal',
     text: item.greeting || `${item.name}，愿今天顺遂安宁。`,
-    icons: item.icons?.length ? item.icons : item.isHoliday ? ['🎉', '✨'] : item.isWorkday ? ['💼', '📅'] : effectMeta.particle,
-    accent: item.isHoliday ? '#dc2626' : item.isWorkday ? '#b45309' : effectMeta.accent,
-    tint: item.isHoliday ? '#fff1f2' : effectMeta.tint,
-    particle: effectMeta.particle,
+    icons: item.icons?.length ? item.icons : visual.icons || (item.isHoliday ? ['🎉', '✨'] : item.isWorkday ? ['💼', '📅'] : ['🎊', '✨']),
+    accent: item.isHoliday ? '#dc2626' : item.isWorkday ? '#b45309' : visual.accent,
+    tint: item.isHoliday ? '#fff1f2' : visual.tint,
+    particle: visual.particle || visual.icons || ['🎊', '✨'],
     duration: item.isMajor ? [-2, 2] : [-1, 1],
     displaySource,
     visibilityLabel: item.isPersonal ? '仅你可见' : '全站公开'

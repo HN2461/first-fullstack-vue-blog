@@ -9,7 +9,7 @@ export const SOLAR_FESTIVALS = [
     day: 1,
     effect: 'new-year',
     level: 'major',
-    icons: ['🎆', '✨'],
+    icons: ['🎊', '🧨', '✨'],
     greetings: ['新年快乐，愿今天是清亮的新开始。', '新的一年，愿计划都有回响，热爱都有去处。']
   },
   {
@@ -282,17 +282,75 @@ export const EFFECT_META = {
   national: { accent: '#dc2626', tint: '#fff1f2', particle: ['🇨🇳', '🎉', '✨'] },
   christmas: { accent: '#0f766e', tint: '#ecfdf5', particle: ['🎄', '❄️'] },
   love: { accent: '#db2777', tint: '#fdf2f8', particle: ['💗', '🌹'] },
-  qixi: { accent: '#7c3aed', tint: '#f5f3ff', particle: ['✨', '💫'] },
+  qixi: { accent: '#c2410c', tint: '#fff7ed', particle: ['💗', '🌹', '🎊'] },
   qingming: { accent: '#4d7c0f', tint: '#f7fee7', particle: ['🌿', '☔'] },
   winter: { accent: '#0369a1', tint: '#eff6ff', particle: ['❄️', '🥟'] },
   labor: { accent: '#047857', tint: '#ecfdf5', particle: ['🌿', '✨'] },
   chongyang: { accent: '#b45309', tint: '#fffbeb', particle: ['🍂', '🌼'] },
-  'new-year': { accent: '#2563eb', tint: '#eff6ff', particle: ['🎆', '✨'] },
+  'new-year': { accent: '#c2410c', tint: '#fff7ed', particle: ['🎊', '🧨', '✨'] },
   'solar-term': { accent: '#0f766e', tint: '#ecfdf5', particle: ['🌿', '✨'] },
   'term-spring': { accent: '#16a34a', tint: '#f0fdf4', particle: ['🌱', '🌿', '✨'] },
   'term-summer': { accent: '#ca8a04', tint: '#fefce8', particle: ['☀️', '🍃', '✨'] },
   'term-autumn': { accent: '#b45309', tint: '#fffbeb', particle: ['🍂', '🍁', '✨'] },
   'term-winter': { accent: '#0369a1', tint: '#eff6ff', particle: ['❄️', '✨'] },
-  'lunar-folk': { accent: '#7c3aed', tint: '#f5f3ff', particle: ['🌙', '✨'] },
+  'lunar-folk': { accent: '#b45309', tint: '#fffbeb', particle: ['🌙', '🏮', '✨'] },
   birthday: { accent: '#db2777', tint: '#fdf2f8', particle: ['🎂', '💗', '🎉'] }
+}
+
+const FESTIVAL_NAME_VISUALS = {
+  元旦: { effect: 'new-year', icons: ['🎊', '🧨', '✨'], accent: '#c2410c', tint: '#fff7ed' },
+  春节: { effect: 'spring', icons: ['🏮', '🧧', '🎊'], accent: '#b91c1c', tint: '#fff1f2' },
+  除夕: { effect: 'spring', icons: ['🏮', '🧧', '🎊'], accent: '#b91c1c', tint: '#fff1f2' },
+  元宵节: { effect: 'lantern', icons: ['🏮', '🎉', '✨'], accent: '#dc2626', tint: '#fff1f2' },
+  情人节: { effect: 'love', icons: ['💗', '🌹', '🎁'], accent: '#db2777', tint: '#fdf2f8' },
+  妇女节: { effect: 'love', icons: ['🌷', '💐', '✨'], accent: '#db2777', tint: '#fdf2f8' },
+  植树节: { effect: 'labor', icons: ['🌱', '🌿', '🌳'], accent: '#15803d', tint: '#f0fdf4' },
+  清明节: { effect: 'qingming', icons: ['🌿', '☔', '🕊️'], accent: '#4d7c0f', tint: '#f7fee7' },
+  劳动节: { effect: 'labor', icons: ['🎉', '🛠️', '🌿'], accent: '#047857', tint: '#ecfdf5' },
+  青年节: { effect: 'labor', icons: ['🔥', '🚩', '✨'], accent: '#c2410c', tint: '#fff7ed' },
+  儿童节: { effect: 'love', icons: ['🎈', '🎁', '🎉'], accent: '#ea580c', tint: '#fff7ed' },
+  建党节: { effect: 'national', icons: ['⭐', '🚩', '🎉'], accent: '#b91c1c', tint: '#fff1f2' },
+  建军节: { effect: 'national', icons: ['⭐', '🛡️', '🎖️'], accent: '#b91c1c', tint: '#fff1f2' },
+  教师节: { effect: 'love', icons: ['📖', '🍎', '💐'], accent: '#c2410c', tint: '#fff7ed' },
+  国庆节: { effect: 'national', icons: ['🇨🇳', '🎉', '🎊'], accent: '#dc2626', tint: '#fff1f2' },
+  端午节: { effect: 'duanwu', icons: ['🥟', '🌿', '🚣'], accent: '#15803d', tint: '#f0fdf4' },
+  七夕: { effect: 'qixi', icons: ['💗', '🌹', '🎁'], accent: '#c2410c', tint: '#fff7ed' },
+  中秋节: { effect: 'mid-autumn', icons: ['🥮', '🌕', '🏮'], accent: '#b45309', tint: '#fffbeb' },
+  重阳节: { effect: 'chongyang', icons: ['🍂', '🌼', '🎉'], accent: '#b45309', tint: '#fffbeb' },
+  圣诞节: { effect: 'christmas', icons: ['🎄', '🎁', '🔔'], accent: '#0f766e', tint: '#ecfdf5' },
+  网站首次成功部署纪念日: { effect: 'new-year', icons: ['🎊', '🎁', '🌟'], accent: '#c2410c', tint: '#fff7ed' }
+}
+
+const FESTIVAL_TYPE_VISUALS = {
+  'legal-holiday': { effect: 'national', icons: ['🎉', '🎊', '✨'], accent: '#dc2626', tint: '#fff1f2' },
+  'make-up-workday': { effect: 'labor', icons: ['💼', '📅', '✅'], accent: '#b45309', tint: '#fffbeb' },
+  traditional: { effect: 'lunar-folk', icons: ['🏮', '🎊', '✨'], accent: '#b45309', tint: '#fffbeb' },
+  'solar-term': { effect: 'solar-term', icons: ['🌿', '☀️', '🍃'], accent: '#0f766e', tint: '#ecfdf5' },
+  national: { effect: 'national', icons: ['⭐', '🚩', '🎉'], accent: '#b91c1c', tint: '#fff1f2' },
+  industry: { effect: 'labor', icons: ['🎉', '🏅', '✨'], accent: '#c2410c', tint: '#fff7ed' },
+  international: { effect: 'national', icons: ['🌐', '🎉', '✨'], accent: '#2563eb', tint: '#eff6ff' },
+  social: { effect: 'love', icons: ['🎉', '🎁', '✨'], accent: '#db2777', tint: '#fdf2f8' },
+  birthday: { effect: 'birthday', icons: ['🎂', '🎁', '🎉'], accent: '#db2777', tint: '#fdf2f8' }
+}
+
+const SYSTEM_BROADCAST_VISUALS = [
+  { effect: 'new-year', icons: ['🎊', '🎁', '🌟'], accent: '#c2410c', tint: '#fff7ed' },
+  { effect: 'spring', icons: ['🏮', '🧧', '🎉'], accent: '#b91c1c', tint: '#fff1f2' },
+  { effect: 'love', icons: ['🎈', '💐', '✨'], accent: '#db2777', tint: '#fdf2f8' },
+  { effect: 'national', icons: ['🎉', '🎊', '⭐'], accent: '#dc2626', tint: '#fff1f2' }
+]
+
+function visualIndex(value, length) {
+  let hash = 0
+  for (const char of String(value || '')) hash = (hash * 31 + char.charCodeAt(0)) % 1000003
+  return hash % length
+}
+
+export function getFestivalVisual(name = '', type = '', effect = '') {
+  const nameMatch = Object.entries(FESTIVAL_NAME_VISUALS).find(([key]) => String(name).includes(key))
+  if (nameMatch) return nameMatch[1]
+  if (type === 'system-broadcast' || type === 'project') {
+    return SYSTEM_BROADCAST_VISUALS[visualIndex(name, SYSTEM_BROADCAST_VISUALS.length)]
+  }
+  return FESTIVAL_TYPE_VISUALS[type] || EFFECT_META[effect] || EFFECT_META['new-year']
 }
