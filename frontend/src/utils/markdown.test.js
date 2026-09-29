@@ -54,6 +54,24 @@ describe('markdown rendering', () => {
     ])
   })
 
+  it('removes embedded HTML formatting tags from toc labels and keeps anchor slugs aligned', () => {
+    const content = [
+      '# <font style="color:rgb(38,38,38);">一、TypeScript 简介</font>',
+      '',
+      '## <font style="color:rgb(38,38,38);">1️⃣</font><font style="color:rgb(38,38,38);">今非昔比的 JavaScript</font>'
+    ].join('\n')
+
+    const toc = extractTOC(content)
+    const html = renderMarkdown(content)
+
+    expect(toc).toEqual([
+      { level: 1, text: '一、TypeScript 简介', slug: '一typescript-简介' },
+      { level: 2, text: '1️⃣今非昔比的 JavaScript', slug: '1今非昔比的-javascript' }
+    ])
+    expect(html).toContain('id="一typescript-简介"')
+    expect(html).toContain('id="1今非昔比的-javascript"')
+  })
+
   it('renders Yuque info, tips and legacy color containers as formatted callouts', () => {
     const html = renderMarkdown([
       ':::info',

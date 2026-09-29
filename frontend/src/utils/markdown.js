@@ -303,16 +303,27 @@ export function extractTOC(content) {
     const nextToken = tokens[index + 1]
 
     if (nextToken?.type === 'inline') {
-      const baseSlug = slugifyHeading(nextToken.content)
+      const text = getInlineTokenText(nextToken)
+      const baseSlug = slugifyHeading(text)
       result.push({
         level,
-        text: nextToken.content,
+        text,
         slug: createUniqueHeadingSlug(baseSlug, usedSlugs)
       })
     }
   })
 
   return result
+}
+
+function getInlineTokenText(token) {
+  const children = Array.isArray(token?.children) ? token.children : []
+  const text = children
+    .filter((child) => ['text', 'code_inline'].includes(child.type))
+    .map((child) => child.content)
+    .join('')
+
+  return text || String(token?.content || '')
 }
 
 export default md

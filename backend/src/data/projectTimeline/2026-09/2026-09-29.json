@@ -16,6 +16,13 @@
       "detail": "1. 前端 Markdown 渲染器新增语雀 :::info、:::tips、:::warning、:::colorN 等容器解析和对应样式，保留容器标题、嵌套内容与代码块中的字面标记。\n2. 增加提示块和安全 HTML 富文本格式的渲染测试；验证三篇 TypeScript 文章的提示块可正确渲染。\n3. 保持文章正文不变，仅发布前端渲染逻辑。",
       "occurredAt": "2026-09-29T22:15:00+08:00",
       "category": "问题修复"
+    },
+    {
+      "id": "markdown-yuque-toc-labels-20260929",
+      "title": "修复语雀富文本标题在文章目录中的标签显示",
+      "detail": "1. 文章目录改用 Markdown inline token 中的可见文本生成标题，移除语雀导出的 <font> 等 HTML 格式标签。\n2. 目录 slug 与正文标题锚点统一，避免目录文字清理后无法正确跳转。\n3. 核验三篇 TypeScript 文章的目录均不再包含原始 HTML 标签，文章正文保持不变。",
+      "occurredAt": "2026-09-29T22:55:00+08:00",
+      "category": "问题修复"
     }
   ]
 }
