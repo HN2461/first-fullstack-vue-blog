@@ -1211,6 +1211,23 @@ describe('rbac account and permission flows', () => {
     expect(roleIndex).toBeGreaterThan(menuIndex)
   })
 
+  it('returns a Chinese validation message when menu sort order is decimal', async () => {
+    const menusMenu = await Menu.findOne({ code: 'governance.menus' })
+
+    const response = await request(app)
+      .post('/api/rbac/menus/reorder')
+      .set('Authorization', `Bearer ${superAdminToken}`)
+      .send({
+        items: [
+          { id: menusMenu.id, parentId: null, sortOrder: 22.5 }
+        ]
+      })
+      .expect(400)
+
+    expect(response.body.code).toBe('VALIDATION_ERROR')
+    expect(response.body.message).toBe('排序必须是整数')
+  })
+
   it('allows child menus to be promoted or nested under another menu', async () => {
     const rolesMenu = await Menu.findOne({ code: 'governance.roles' })
     const menusMenu = await Menu.findOne({ code: 'governance.menus' })

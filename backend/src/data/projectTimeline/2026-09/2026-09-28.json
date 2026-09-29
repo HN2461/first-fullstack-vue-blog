@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-28",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "rbac-menu-sort-validation-message",
+      "title": "修复菜单排序小数报错提示",
+      "detail": "1. 为菜单和角色排序字段补充中文数字校验提示，提交小数时显示“排序必须是整数”。\n2. 增加菜单重排接口回归测试，确认校验失败不会写入数据。",
+      "occurredAt": "2026-09-28T00:00:00+08:00",
+      "category": "问题修复"
+    },
+    {
+      "id": "typescript-notes-staged-locally",
+      "title": "同步 TypeScript 学习笔记线上线下仓库",
+      "detail": "1. 将《装饰器》《TypeScript快速上手》《ts应用》按前端技术 / TypeScript 归类，正文按源文件原样写入并完成 SHA-256 校验。\n2. 生产库新增 TypeScript 分类、TypeScript 标签和 3 篇已发布文章；写入前完成 MongoDB 全库备份，写后核验文章状态、分类、标签和正文哈希。\n3. 从生产库导出 539 篇权威快照，备份旧本地线上文章目录后，将本次 3 篇与分类合并到 output/线上文章，并移除待导入副本。",
+      "occurredAt": "2026-09-28T00:00:00+08:00",
+      "category": "内容上新"
+    }
+  ]
+}

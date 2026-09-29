@@ -16,7 +16,7 @@ export const roleSchema = z.object({
   remarkName: z.string().trim().max(60, '备注名不能超过 60 个字符').optional().default(''),
   menuIds: z.array(z.string().regex(objectIdPattern, '菜单 id 不正确')).optional().default([]),
   status: z.enum(['active', 'disabled']).optional().default('active'),
-  sortOrder: z.coerce.number().int().min(0).max(9999).optional().default(0)
+  sortOrder: z.coerce.number({ invalid_type_error: '排序必须是数字' }).int('排序必须是整数').min(0, '排序不能小于 0').max(9999, '排序不能超过 9999').optional().default(0)
 }).strict('存在不支持的角色字段')
 
 export const roleUpdateSchema = roleSchema.partial().extend({
@@ -72,7 +72,7 @@ const menuBaseSchema = z.object({
     z.literal('0'),
     z.string().regex(objectIdPattern, '父级菜单 id 不正确')
   ]).nullable().optional(),
-  sortOrder: z.coerce.number().int().min(0).max(9999).optional().default(0),
+  sortOrder: z.coerce.number({ invalid_type_error: '排序必须是数字' }).int('排序必须是整数').min(0, '排序不能小于 0').max(9999, '排序不能超过 9999').optional().default(0),
   type: z.enum(['system', 'custom']).optional().default('custom')
 }).strict('存在不支持的菜单字段')
 
@@ -110,7 +110,7 @@ export const menuReorderSchema = z.object({
       z.literal('0'),
       z.string().regex(objectIdPattern, '父级菜单 id 不正确')
     ]).nullable().optional().default(null),
-    sortOrder: z.coerce.number().int().min(0).max(9999)
+    sortOrder: z.coerce.number({ invalid_type_error: '排序必须是数字' }).int('排序必须是整数').min(0, '排序不能小于 0').max(9999, '排序不能超过 9999')
   }).strict('存在不支持的菜单排序字段')).min(1, '请提供至少一个菜单排序项')
 }).strict('存在不支持的菜单重排字段')
 

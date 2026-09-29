@@ -1,13 +1,13 @@
 {
   "formatVersion": 3,
-  "exportedAt": "2026-09-13T13:45:04.756Z",
+  "exportedAt": "2026-09-28T09:01:20.378Z",
   "scope": "all",
   "slugStrategy": "keep",
   "filters": {
     "categoryId": null,
     "keyword": ""
   },
-  "total": 536,
+  "total": 539,
   "categories": [
     {
       "name": "默认分类",
@@ -1454,6 +1454,20 @@
       "isSystem": false,
       "createdAt": "2026-08-05T01:54:05.472Z",
       "updatedAt": "2026-08-05T01:57:25.664Z"
+    },
+    {
+      "name": "TypeScript",
+      "slug": "typescript",
+      "description": "TypeScript 学习与应用",
+      "categoryPath": [
+        "前端技术",
+        "TypeScript"
+      ],
+      "sortOrder": 50,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-09-28T09:00:23.755Z",
+      "updatedAt": "2026-09-28T09:00:24.045Z"
     }
   ],
   "articles": [
@@ -15415,6 +15429,82 @@
       "publishedAt": "2026-09-13T13:44:41.251Z",
       "updatedAt": "2026-09-13T13:44:41.256Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md"
+    },
+    {
+      "originalId": "6aba2ca7ed2c7796bd5f5560",
+      "originalSlug": "typescript-decorators",
+      "exportedSlug": "typescript-decorators",
+      "title": "TypeScript 装饰器",
+      "summary": "系统整理 TypeScript 装饰器的类、属性、方法、访问器与参数装饰器写法，覆盖装饰器工厂、组合、返回值和典型应用。",
+      "cover": "",
+      "contentHash": "5e2ae523322c6dbfed1745de72c67e7e8ea7d14b150b90bccdb7c34a8979f752",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "TypeScript"
+      ],
+      "tags": [
+        "TypeScript",
+        "JavaScript",
+        "前端开发",
+        "装饰器"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "TypeScript/装饰器.md",
+      "publishedAt": "2026-09-28T09:00:23.766Z",
+      "updatedAt": "2026-09-28T09:00:23.771Z",
+      "fileName": "前端技术/TypeScript/TypeScript-装饰器.md"
+    },
+    {
+      "originalId": "6aba2ca7ed2c7796bd5f5562",
+      "originalSlug": "typescript-quick-start",
+      "exportedSlug": "typescript-quick-start",
+      "title": "TypeScript 快速上手",
+      "summary": "从 TypeScript 的定位、静态类型检查、编译环境、常用类型、接口与泛型入门，整理一套可直接查阅的快速上手笔记。",
+      "cover": "",
+      "contentHash": "0d2b0ab48628d646bfe54134b3a88c5c3ddeb89460baa53c04f566b1d71c7008",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "TypeScript"
+      ],
+      "tags": [
+        "TypeScript",
+        "JavaScript",
+        "前端开发"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "TypeScript/TypeScript快速上手.md",
+      "publishedAt": "2026-09-28T09:00:23.766Z",
+      "updatedAt": "2026-09-28T09:00:23.803Z",
+      "fileName": "前端技术/TypeScript/TypeScript-快速上手.md"
+    },
+    {
+      "originalId": "6aba2ca7ed2c7796bd5f5564",
+      "originalSlug": "typescript-applications",
+      "exportedSlug": "typescript-applications",
+      "title": "TypeScript 应用",
+      "summary": "围绕 TypeScript 的环境准备、核心类型、类型守卫、模块导入、高级类型、装饰器与综合案例整理应用笔记。",
+      "cover": "",
+      "contentHash": "e3b47be0876d339f7afb73b6b5cf1c2c670a2a41b1fe6eda38bf4fe40cb8e5d5",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "TypeScript"
+      ],
+      "tags": [
+        "TypeScript",
+        "JavaScript",
+        "前端开发"
+      ],
+      "sortOrder": 30,
+      "sourcePath": "TypeScript/ts应用.md",
+      "publishedAt": "2026-09-28T09:00:23.766Z",
+      "updatedAt": "2026-09-28T09:00:23.827Z",
+      "fileName": "前端技术/TypeScript/TypeScript-应用.md"
     }
   ]
 }
