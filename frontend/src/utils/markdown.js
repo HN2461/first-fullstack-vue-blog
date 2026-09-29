@@ -15,6 +15,7 @@ import {
   getCodeLanguageLabel,
   normalizeCodeLanguage
 } from './markdownCodeBlocks'
+import markdownContainers from './markdownContainers'
 
 hljs.registerLanguage('powershell', powershell)
 hljs.registerLanguage('dockerfile', dockerfile)
@@ -29,6 +30,8 @@ const md = new MarkdownIt({
   linkify: true,
   typographer: true
 })
+
+md.use(markdownContainers)
 
 const escapeHtml = (value) => md.utils.escapeHtml(String(value ?? ''))
 const unsafeTagNames = [

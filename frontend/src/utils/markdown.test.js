@@ -54,6 +54,54 @@ describe('markdown rendering', () => {
     ])
   })
 
+  it('renders Yuque info, tips and legacy color containers as formatted callouts', () => {
+    const html = renderMarkdown([
+      ':::info',
+      '浏览器不能直接运行 **TypeScript** 代码。',
+      ':::',
+      '',
+      ':::tips',
+      '- 先编译为 JavaScript。',
+      '- 再交给浏览器执行。',
+      ':::',
+      '',
+      ':::color4 额外提示',
+      '注意保留文档正文。',
+      ':::'
+    ].join('\n'))
+
+    expect(html).toContain('class="markdown-container markdown-container--info"')
+    expect(html).toContain('class="markdown-container markdown-container--tips"')
+    expect(html).toContain('class="markdown-container markdown-container--color4"')
+    expect(html).toContain('<strong>TypeScript</strong>')
+    expect(html).toContain('<ul>')
+    expect(html).toContain('<p class="markdown-container__title">额外提示</p>')
+    expect(html).not.toContain(':::info')
+    expect(html).not.toContain(':::tips')
+    expect(html).not.toContain(':::color4')
+  })
+
+  it('keeps nested containers and fenced colon markers intact', () => {
+    const html = renderMarkdown([
+      ':::warning 外层提醒',
+      '外层文字。',
+      '',
+      ':::info',
+      '内层说明。',
+      ':::',
+      '',
+      '```text',
+      ':::info',
+      '```',
+      ':::'
+    ].join('\n'))
+
+    expect(html).toContain('markdown-container--warning')
+    expect(html).toContain('markdown-container--info')
+    expect(html).toContain('class="code-block__code language-text">:::info')
+    expect(html).not.toContain('<p>:::warning')
+  })
+
   it('keeps duplicate heading anchors aligned with markdown-it-anchor', () => {
     const content = [
       '## 规范回答（可直接复述）',

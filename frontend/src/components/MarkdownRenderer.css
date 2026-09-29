@@ -83,6 +83,52 @@
   background: color-mix(in srgb, var(--primary-color) 6%, transparent);
 }
 
+.markdown-renderer .markdown-body .markdown-container {
+  margin: 22px 0;
+  padding: 14px 16px 1px;
+  border: 1px solid color-mix(in srgb, var(--container-accent, var(--primary-color)) 22%, transparent);
+  border-left: 4px solid var(--container-accent, var(--primary-color));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--container-accent, var(--primary-color)) 7%, var(--bg-elevated));
+}
+
+.markdown-renderer .markdown-body .markdown-container > :last-child {
+  margin-bottom: 14px;
+}
+
+.markdown-renderer .markdown-body .markdown-container__title {
+  margin-bottom: 8px;
+  color: var(--container-accent, var(--primary-color));
+  font-weight: 700;
+}
+
+.markdown-renderer .markdown-body .markdown-container--tip,
+.markdown-renderer .markdown-body .markdown-container--tips {
+  --container-accent: #16835d;
+}
+
+.markdown-renderer .markdown-body .markdown-container--warning,
+.markdown-renderer .markdown-body .markdown-container--caution {
+  --container-accent: #bd7200;
+}
+
+.markdown-renderer .markdown-body .markdown-container--danger {
+  --container-accent: #c43d3d;
+}
+
+.markdown-renderer .markdown-body .markdown-container--important {
+  --container-accent: #8a4fc4;
+}
+
+.markdown-renderer .markdown-body .markdown-container--color1,
+.markdown-renderer .markdown-body .markdown-container--color4 {
+  --container-accent: #bd7200;
+}
+
+.markdown-renderer .markdown-body .markdown-container--color5 {
+  --container-accent: #8a4fc4;
+}
+
 .markdown-renderer .markdown-body .code-block {
   margin: 24px 0;
   overflow: hidden;
