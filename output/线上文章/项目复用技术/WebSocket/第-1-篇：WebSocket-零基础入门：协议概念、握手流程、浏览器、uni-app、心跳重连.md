@@ -19,8 +19,8 @@ originalId: "6a2d29208a2b1c68f2cac704"
 originalSlug: "websocket-websocket-uni-app-8118619a"
 originalStatus: "published"
 publishedAt: "2026-04-29T14:07:07.239Z"
-updatedAt: "2026-07-31T11:16:25.036Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：WebSocket 零基础入门：协议概念、握手流程、浏览器、uni-app、心跳重连
 

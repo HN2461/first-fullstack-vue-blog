@@ -17,8 +17,8 @@ originalId: "6a2d29208a2b1c68f2cac692"
 originalSlug: "legacy-a87b199b-a87b199b"
 originalStatus: "published"
 publishedAt: "2026-05-11T14:43:12.581Z"
-updatedAt: "2026-07-31T11:16:22.580Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 ### 1. let、var、const 的区别
 | 特性 | var | let | const |

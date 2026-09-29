@@ -21,7 +21,7 @@ originalSlug: "fastapi-sqlalchemy-alembic"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.195Z"
 updatedAt: "2026-07-31T11:16:22.083Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 8 篇：SQLAlchemy 与 Alembic：异步 Engine、Session、ORM Model、数据库迁移
 

@@ -19,7 +19,7 @@ originalSlug: "mysql-zero-to-one-beginner"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.243Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # MySQL 小白课程：像上课一样从 0 到 1 学会数据库
 

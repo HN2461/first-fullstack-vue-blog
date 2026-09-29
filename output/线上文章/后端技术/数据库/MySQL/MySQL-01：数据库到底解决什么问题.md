@@ -19,7 +19,7 @@ originalSlug: "mysql-01-what-is-mysql"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.202Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 01 数据库到底解决什么问题
 

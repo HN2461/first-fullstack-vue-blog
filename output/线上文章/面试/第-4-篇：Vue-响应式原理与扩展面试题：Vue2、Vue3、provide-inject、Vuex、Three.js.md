@@ -17,10 +17,9 @@ originalId: "6a2d29208a2b1c68f2cac69a"
 originalSlug: "legacy-c16e0589-c16e0589"
 originalStatus: "published"
 publishedAt: "2026-05-11T14:44:26.726Z"
-updatedAt: "2026-07-31T11:16:22.566Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-27T14:19:03.170Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
-
 # 第 4 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide/inject、Vuex、Three.js
 
 这篇是上一篇 Vue 全面题库的进阶补充。上一篇侧重 Vue 的整体知识框架、虚拟 DOM、diff、组件通信和常用 API；本篇重点回答两个问题：**Vue 的响应式到底怎样运转**，以及**在真实项目中怎样处理跨层通信、全局状态、Three.js 和常见工程问题**。

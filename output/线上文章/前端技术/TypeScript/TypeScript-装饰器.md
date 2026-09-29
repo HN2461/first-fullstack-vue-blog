@@ -19,7 +19,7 @@ originalSlug: "typescript-decorators"
 originalStatus: "published"
 publishedAt: "2026-09-28T09:00:23.766Z"
 updatedAt: "2026-09-28T09:00:23.771Z"
-exportedAt: "2026-09-28T09:01:20.378Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 一、简介
 1. 装饰器本质是一种特殊的**函数**，它可以对：类、属性、方法、参数进行扩展，同时能让代码更简洁。
@@ -709,4 +709,3 @@ class Student {
 const s1 = new Student("张三");
 s1.speak(100, 200);
 ```
-

@@ -22,7 +22,7 @@ originalSlug: "ai-agent-codex-codex-cli-10e9408b"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.297Z"
 updatedAt: "2026-09-13T13:42:49.747Z"
-exportedAt: "2026-09-13T13:45:04.756Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 01 篇：Codex CLI 第一日开发实战
 

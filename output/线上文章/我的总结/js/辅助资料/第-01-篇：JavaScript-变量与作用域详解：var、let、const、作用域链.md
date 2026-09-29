@@ -21,8 +21,8 @@ originalId: "6a2d291f8a2b1c68f2cac38c"
 originalSlug: "js-js-javascript-4f1a5c58"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.654Z"
-updatedAt: "2026-07-31T11:16:24.356Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 01 篇：JavaScript 变量与作用域详解：var、let、const、作用域链
 ## 一、变量声明方式核心特性

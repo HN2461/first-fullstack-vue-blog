@@ -14,7 +14,7 @@ originalSlug: "uniapp-jar"
 originalStatus: "published"
 publishedAt: "2026-07-30T01:58:28.361Z"
 updatedAt: "2026-07-31T11:16:21.244Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 01 篇：uni-app 对接自定义 jar 包：HBuilderX、离线 SDK、Android Studio、原生插件
 

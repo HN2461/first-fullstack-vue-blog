@@ -20,8 +20,8 @@ originalId: "6a2d291d8a2b1c68f2cabe9c"
 originalSlug: "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.582Z"
-updatedAt: "2026-07-31T11:16:25.577Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 02 篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）
 

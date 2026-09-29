@@ -15,8 +15,8 @@ originalId: "6a2d291e8a2b1c68f2cac2ca"
 originalSlug: "vue-vue2-5-mixins-plugins-scoped-febd1092"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:08.964Z"
-updatedAt: "2026-07-31T11:16:23.967Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 17 篇：mixins、plugins 与 scoped
 

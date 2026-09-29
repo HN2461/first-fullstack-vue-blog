@@ -19,8 +19,8 @@ originalId: "6a2d291f8a2b1c68f2cac5a4"
 originalSlug: "node-express-pm2-b0b0327c"
 originalStatus: "published"
 publishedAt: "2026-06-08T11:09:58.537Z"
-updatedAt: "2026-07-31T11:16:21.607Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 4 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调
 

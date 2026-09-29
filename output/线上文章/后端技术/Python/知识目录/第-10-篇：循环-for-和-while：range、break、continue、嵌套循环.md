@@ -18,7 +18,7 @@ originalSlug: "python-zero-loops"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.525Z"
 updatedAt: "2026-07-31T11:16:22.298Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 10 篇：循环 for 和 while：range、break、continue、嵌套循环
 

@@ -20,8 +20,8 @@ originalId: "6a2d291e8a2b1c68f2cac188"
 originalSlug: "node-js-apipost-ea2d5bde"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:15:10.765Z"
-updatedAt: "2026-07-31T11:16:21.834Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 2 篇：Apipost 接口测试工具：请求发送、Header、Token、环境变量、文档生成
 

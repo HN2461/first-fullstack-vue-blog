@@ -15,8 +15,8 @@ originalId: "6a2d291e8a2b1c68f2cac2a6"
 originalSlug: "vue-vue2-vuex-4372322f"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:25.702Z"
-updatedAt: "2026-07-31T11:16:23.993Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 20 篇：Vuex 状态管理
 

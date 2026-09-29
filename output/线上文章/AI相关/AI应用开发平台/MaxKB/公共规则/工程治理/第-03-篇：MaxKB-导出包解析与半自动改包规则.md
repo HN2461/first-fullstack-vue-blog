@@ -21,7 +21,7 @@ originalSlug: "maxkb-maxkb-d984d85a"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.541Z"
 updatedAt: "2026-07-31T11:16:25.745Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 03 篇：MaxKB 导出包解析与半自动改包规则
 

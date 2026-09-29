@@ -20,7 +20,7 @@ originalSlug: "redis-07-messaging-persistence-high-availability"
 originalStatus: "published"
 publishedAt: "2026-08-05T01:57:25.524Z"
 updatedAt: "2026-08-05T01:57:25.576Z"
-exportedAt: "2026-08-05T02:03:41.304Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 07 篇：消息与高可用：Pub/Sub、Stream、RDB、AOF、Sentinel 与 Cluster
 

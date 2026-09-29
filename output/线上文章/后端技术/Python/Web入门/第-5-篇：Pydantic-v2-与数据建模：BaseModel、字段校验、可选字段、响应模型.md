@@ -20,7 +20,7 @@ originalSlug: "fastapi-pydantic-v2-data-modeling"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.190Z"
 updatedAt: "2026-07-31T11:16:22.061Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 5 篇：Pydantic v2 与数据建模：BaseModel、字段校验、可选字段、响应模型
 

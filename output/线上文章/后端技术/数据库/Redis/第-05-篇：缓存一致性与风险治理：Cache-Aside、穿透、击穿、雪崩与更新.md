@@ -19,7 +19,7 @@ originalSlug: "redis-05-cache-consistency"
 originalStatus: "published"
 publishedAt: "2026-08-05T01:57:25.524Z"
 updatedAt: "2026-08-05T01:57:25.565Z"
-exportedAt: "2026-08-05T02:03:41.304Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：缓存一致性与风险治理：Cache-Aside、穿透、击穿、雪崩与更新
 

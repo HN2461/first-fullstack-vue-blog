@@ -18,7 +18,7 @@ originalSlug: "python-zero-variables-and-types"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.612Z"
 updatedAt: "2026-07-31T11:16:22.257Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 5 篇：变量和基本数据类型：命名、int、float、str、bool、None
 

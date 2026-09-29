@@ -22,8 +22,8 @@ originalId: "6a2d291e8a2b1c68f2cac136"
 originalSlug: "node-js-mongodb-f251a01d"
 originalStatus: "published"
 publishedAt: "2026-06-06T11:39:25.707Z"
-updatedAt: "2026-07-31T11:16:21.948Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 7 篇：Express + MongoDB 完整项目实战：建模、鉴权、分页搜索、软删除
 

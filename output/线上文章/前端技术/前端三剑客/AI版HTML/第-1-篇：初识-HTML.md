@@ -15,8 +15,8 @@ originalId: "6a2d30eeb480df92ce002e3c"
 originalSlug: "html-html-dfc1c5fd"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.477Z"
-updatedAt: "2026-07-31T11:16:23.097Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：初识 HTML
 

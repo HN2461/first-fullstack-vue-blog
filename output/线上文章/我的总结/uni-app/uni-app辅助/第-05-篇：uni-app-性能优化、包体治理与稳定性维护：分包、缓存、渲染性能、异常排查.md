@@ -20,8 +20,8 @@ originalId: "6a2d291f8a2b1c68f2cac472"
 originalSlug: "uni-app-uni-app-ae457f1c"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:22:12.479Z"
-updatedAt: "2026-07-31T11:16:24.561Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：uni-app 性能优化、包体治理与稳定性维护：分包、缓存、渲染性能、异常排查
 

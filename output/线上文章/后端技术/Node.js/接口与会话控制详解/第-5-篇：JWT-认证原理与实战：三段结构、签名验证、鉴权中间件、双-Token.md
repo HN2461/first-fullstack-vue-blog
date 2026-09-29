@@ -21,8 +21,8 @@ originalId: "6a2d291e8a2b1c68f2cac18e"
 originalSlug: "node-js-jwt-64903817"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:22:25.066Z"
-updatedAt: "2026-07-31T11:16:21.872Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 5 篇：JWT 认证原理与实战：三段结构、签名验证、鉴权中间件、双 Token
 

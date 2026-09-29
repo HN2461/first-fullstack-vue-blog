@@ -19,7 +19,7 @@ originalSlug: "mysql-12-blog-project"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.240Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 12 毕业项目，博客系统 MySQL 设计
 

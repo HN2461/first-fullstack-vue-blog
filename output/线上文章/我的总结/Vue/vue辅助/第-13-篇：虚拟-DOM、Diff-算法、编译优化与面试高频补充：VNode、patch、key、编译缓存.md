@@ -24,8 +24,8 @@ originalId: "6a2d291f8a2b1c68f2cac4ee"
 originalSlug: "vue-vue-dom-diff-05a2bbc3"
 originalStatus: "published"
 publishedAt: "2026-05-10T11:48:57.152Z"
-updatedAt: "2026-07-31T11:16:24.672Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 13 篇：虚拟 DOM、Diff 算法、编译优化与面试高频补充：VNode、patch、key、编译缓存
 

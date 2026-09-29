@@ -18,7 +18,7 @@ originalSlug: "typescript-applications"
 originalStatus: "published"
 publishedAt: "2026-09-28T09:00:23.766Z"
 updatedAt: "2026-09-28T09:00:23.827Z"
-exportedAt: "2026-09-28T09:01:20.378Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 1、TS介绍
 ## 1.1、JavaScript应用与不足
@@ -3553,5 +3553,3 @@ class Person { }
 # 7、vue3+ts案例
 ## 7.1、todolist案例
 ## 7.2、贪吃蛇案例
-
-

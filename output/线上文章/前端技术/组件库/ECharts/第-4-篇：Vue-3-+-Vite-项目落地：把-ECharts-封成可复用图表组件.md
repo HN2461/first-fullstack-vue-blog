@@ -21,8 +21,8 @@ originalId: "6a2d291f8a2b1c68f2cac5f0"
 originalSlug: "echarts-echarts-vue3-vite-echarts-03b8ae7e"
 originalStatus: "published"
 publishedAt: "2026-05-03T11:53:30.954Z"
-updatedAt: "2026-07-31T11:16:23.554Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 4 篇：Vue 3 + Vite 项目落地：把 ECharts 封成可复用图表组件
 

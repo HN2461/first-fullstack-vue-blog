@@ -20,8 +20,8 @@ originalId: "6a2d291f8a2b1c68f2cac478"
 originalSlug: "uni-app-uni-app-9a1496c3"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:22:12.480Z"
-updatedAt: "2026-07-31T11:16:24.566Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 06 篇：uni-app 高频问题补充问答：跨端差异、调试、发布、兼容处理
 

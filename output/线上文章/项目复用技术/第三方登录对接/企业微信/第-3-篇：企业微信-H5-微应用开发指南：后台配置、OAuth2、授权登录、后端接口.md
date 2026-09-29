@@ -15,8 +15,8 @@ originalId: "6a2d29208a2b1c68f2cac7c2"
 originalSlug: "h5-h5-0-1-1d0e59cd"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.456Z"
-updatedAt: "2026-07-31T11:16:24.890Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 3 篇：企业微信 H5 微应用开发指南：后台配置、OAuth2、授权登录、后端接口
 

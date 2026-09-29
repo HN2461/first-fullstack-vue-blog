@@ -18,7 +18,7 @@ originalSlug: "python-zero-dictionaries"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.514Z"
 updatedAt: "2026-07-31T11:16:22.324Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 14 篇：字典 dict：键值对、遍历、嵌套、get/update
 

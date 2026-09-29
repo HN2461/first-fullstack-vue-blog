@@ -20,7 +20,7 @@ originalSlug: "python-zero-pytest-debugging-code-quality"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.164Z"
 updatedAt: "2026-07-31T11:16:22.436Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 28 篇：pytest 测试、调试与代码质量：断言、fixture、pdb、格式化
 

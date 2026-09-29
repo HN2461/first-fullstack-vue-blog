@@ -20,8 +20,8 @@ originalId: "6a2d291d8a2b1c68f2cac040"
 originalSlug: "ai-agent-openclaw101-7-7f46689a"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.057Z"
-updatedAt: "2026-07-31T11:16:25.535Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 04 篇：OpenClaw101 全7天资料总研版（龙虾中文版可执行手册）
 

@@ -15,8 +15,8 @@ originalId: "6a2d29208a2b1c68f2cac78c"
 originalSlug: "pc-pc-44f7ba8c"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.438Z"
-updatedAt: "2026-07-31T11:16:24.744Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 9 篇：钉钉账号绑定方案：PC 扫码绑定、原地处理、绑定解绑、前后端流程
 

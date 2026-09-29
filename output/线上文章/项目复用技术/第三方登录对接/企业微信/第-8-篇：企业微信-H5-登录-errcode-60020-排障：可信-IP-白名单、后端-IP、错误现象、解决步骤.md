@@ -15,8 +15,8 @@ originalId: "6a2d29208a2b1c68f2cac7cc"
 originalSlug: "h5-h5-errcode60020-ip-ip-0be8e8e2"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.461Z"
-updatedAt: "2026-07-31T11:16:24.867Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 8 篇：企业微信 H5 登录 errcode 60020 排障：可信 IP 白名单、后端 IP、错误现象、解决步骤
 

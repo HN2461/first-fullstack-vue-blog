@@ -20,7 +20,7 @@ originalSlug: "fastapi-response-errors-openapi"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.192Z"
 updatedAt: "2026-07-31T11:16:22.066Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 6 篇：FastAPI 响应、异常与 OpenAPI：response_model、HTTPException、错误格式、接口契约
 

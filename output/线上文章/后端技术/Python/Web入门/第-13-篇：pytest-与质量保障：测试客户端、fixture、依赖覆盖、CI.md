@@ -21,7 +21,7 @@ originalSlug: "fastapi-pytest-quality-assurance"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.205Z"
 updatedAt: "2026-07-31T11:16:22.156Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 13 篇：pytest 与质量保障：测试客户端、fixture、依赖覆盖、CI
 

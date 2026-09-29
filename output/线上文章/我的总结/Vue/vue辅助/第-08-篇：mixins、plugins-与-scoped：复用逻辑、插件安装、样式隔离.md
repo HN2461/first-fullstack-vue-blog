@@ -20,8 +20,8 @@ originalId: "6a2d291f8a2b1c68f2cac4c0"
 originalSlug: "vue-vue-mixins-plugins-scoped-5091c143"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:56:51.095Z"
-updatedAt: "2026-07-31T11:16:24.624Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 08 篇：mixins、plugins 与 scoped：复用逻辑、插件安装、样式隔离
 

@@ -19,7 +19,7 @@ originalSlug: "mysql-08-join-relations"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.228Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 08 两张表的关系和 JOIN
 

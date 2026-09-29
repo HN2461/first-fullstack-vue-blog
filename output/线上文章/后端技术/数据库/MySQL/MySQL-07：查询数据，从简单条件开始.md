@@ -19,7 +19,7 @@ originalSlug: "mysql-07-select-one-table"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.225Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 07 查询数据，从简单条件开始
 

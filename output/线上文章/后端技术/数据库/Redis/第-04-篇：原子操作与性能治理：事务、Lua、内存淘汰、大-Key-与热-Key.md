@@ -20,7 +20,7 @@ originalSlug: "redis-04-atomicity-memory-performance"
 originalStatus: "published"
 publishedAt: "2026-08-05T01:57:25.524Z"
 updatedAt: "2026-08-05T01:57:25.561Z"
-exportedAt: "2026-08-05T02:03:41.304Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 04 篇：原子操作与性能治理：事务、Lua、内存淘汰、大 Key 与热 Key
 

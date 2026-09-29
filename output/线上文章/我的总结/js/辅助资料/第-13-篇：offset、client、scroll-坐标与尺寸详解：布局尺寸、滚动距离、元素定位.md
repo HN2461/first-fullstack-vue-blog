@@ -21,8 +21,8 @@ originalId: "6a2d291f8a2b1c68f2cac3ec"
 originalSlug: "js-js-offset-client-scroll-29c45981"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.667Z"
-updatedAt: "2026-07-31T11:16:24.444Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 13 篇：offset、client、scroll 坐标与尺寸详解：布局尺寸、滚动距离、元素定位
 > 适合场景  

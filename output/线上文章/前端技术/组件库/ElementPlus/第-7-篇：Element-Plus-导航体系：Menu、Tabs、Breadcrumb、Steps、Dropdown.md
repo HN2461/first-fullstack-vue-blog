@@ -21,8 +21,8 @@ originalId: "6a2d291f8a2b1c68f2cac606"
 originalSlug: "element-plus-elementplus-menu-tabs-breadcrumb-steps-dropdown-1d3b9b38"
 originalStatus: "published"
 publishedAt: "2026-04-29T11:27:17.307Z"
-updatedAt: "2026-07-31T11:16:23.612Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 7 篇：Element Plus 导航体系：Menu、Tabs、Breadcrumb、Steps、Dropdown
 

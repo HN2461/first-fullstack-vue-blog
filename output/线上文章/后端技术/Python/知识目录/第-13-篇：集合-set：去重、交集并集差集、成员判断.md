@@ -18,7 +18,7 @@ originalSlug: "python-zero-sets"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.517Z"
 updatedAt: "2026-07-31T11:16:22.318Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 13 篇：集合 set：去重、交集并集差集、成员判断
 

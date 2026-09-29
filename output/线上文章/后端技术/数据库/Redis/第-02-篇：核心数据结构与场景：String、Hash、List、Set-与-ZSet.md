@@ -19,7 +19,7 @@ originalSlug: "redis-02-core-data-structures"
 originalStatus: "published"
 publishedAt: "2026-08-05T01:57:25.524Z"
 updatedAt: "2026-08-05T01:57:25.549Z"
-exportedAt: "2026-08-05T02:03:41.304Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 02 篇：核心数据结构与场景：String、Hash、List、Set 与 ZSet
 

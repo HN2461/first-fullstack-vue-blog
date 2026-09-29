@@ -16,7 +16,7 @@ originalSlug: "proxy-mode-and-traffic-capture-guide-20260705"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:51:14.546Z"
 updatedAt: "2026-07-31T11:16:21.535Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选
 

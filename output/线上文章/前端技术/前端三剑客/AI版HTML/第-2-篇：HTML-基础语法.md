@@ -15,8 +15,8 @@ originalId: "6a2d30eeb480df92ce002e47"
 originalSlug: "html-html-de7f4404"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.479Z"
-updatedAt: "2026-07-31T11:16:23.113Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 2 篇：HTML 基础语法
 

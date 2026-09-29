@@ -20,8 +20,8 @@ originalId: "6a2d291f8a2b1c68f2cac3be"
 originalSlug: "js-js-es5-es6-class-ddcd40c8"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.660Z"
-updatedAt: "2026-07-31T11:16:24.389Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 07 篇：ES5 构造函数与 ES6 Class 详解：new、继承、super、静态方法
 ## 快速理解

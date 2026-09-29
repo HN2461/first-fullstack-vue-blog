@@ -20,8 +20,8 @@ originalId: "6a2d291d8a2b1c68f2cabea4"
 originalSlug: "ai-ai-cursor-cursor-backgroundagents-bugbot-github-slack-a20b2f89"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.583Z"
-updatedAt: "2026-07-31T11:16:25.592Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：Cursor 协作自动化：Background Agents、Bugbot、GitHub 与 Slack（2026-04）
 

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-09-29",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "article-authority-online-sync-20260929",
+      "title": "按线上文章权威源同步本地文章仓库与数据库",
+      "detail": "1. 从生产环境只读导出 539 篇线上文章，校验 manifest、文章文件和 UTF-8 无 BOM 状态。\n2. 备份本地 MongoDB 后，按线上快照重建本地文章与分类数据，文章从 514 篇同步到 539 篇，分类从 96 个同步到 99 个。\n3. 更新 output/线上文章 权威快照，保留旧快照和数据库备份；完成线上导出、本地文章文件和本地数据库三方核验。",
+      "occurredAt": "2026-09-29T21:25:00+08:00",
+      "category": "内容更新"
+    }
+  ]
+}

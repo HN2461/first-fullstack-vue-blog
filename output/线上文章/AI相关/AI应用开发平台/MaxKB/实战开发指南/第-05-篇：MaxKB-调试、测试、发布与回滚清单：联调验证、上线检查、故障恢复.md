@@ -20,7 +20,7 @@ originalSlug: "maxkb-db4fbad4"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.408Z"
 updatedAt: "2026-07-31T11:16:25.888Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：MaxKB 调试、测试、发布与回滚清单：联调验证、上线检查、故障恢复
 

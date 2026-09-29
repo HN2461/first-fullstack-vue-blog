@@ -18,7 +18,7 @@ originalSlug: "python-zero-functions"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.511Z"
 updatedAt: "2026-07-31T11:16:22.331Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 15 篇：函数 function：参数、返回值、作用域、文档字符串
 

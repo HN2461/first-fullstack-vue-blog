@@ -17,8 +17,8 @@ originalId: "6a2d291f8a2b1c68f2cac47a"
 originalSlug: "vue-vue-1cec562a"
 originalStatus: "published"
 publishedAt: "2026-05-10T11:49:15.106Z"
-updatedAt: "2026-07-31T11:16:24.569Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 总览：Vue 目录：建议阅读顺序、核心概念、辅助资料
 

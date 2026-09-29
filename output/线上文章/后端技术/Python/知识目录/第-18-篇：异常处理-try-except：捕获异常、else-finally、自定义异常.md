@@ -18,7 +18,7 @@ originalSlug: "python-zero-exception-handling"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.503Z"
 updatedAt: "2026-07-31T11:16:22.353Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 18 篇：异常处理 try except：捕获异常、else/finally、自定义异常
 

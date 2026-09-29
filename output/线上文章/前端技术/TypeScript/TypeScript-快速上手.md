@@ -18,7 +18,7 @@ originalSlug: "typescript-quick-start"
 originalStatus: "published"
 publishedAt: "2026-09-28T09:00:23.766Z"
 updatedAt: "2026-09-28T09:00:23.803Z"
-exportedAt: "2026-09-28T09:01:20.378Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # <font style="color:rgb(38,38,38);">⼀、TypeScript 简介</font>
 <!-- 这是一张图片，ocr 内容为： -->
@@ -1702,4 +1702,3 @@ const y = mul(4, 5); // y 类型为 number
 
 console.log(x,y)
 ```
-

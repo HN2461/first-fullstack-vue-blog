@@ -21,8 +21,8 @@ originalId: "6a2d291e8a2b1c68f2cac22a"
 originalSlug: "uni-app-uni-app-web-view-0f6f8748"
 originalStatus: "published"
 publishedAt: "2026-05-09T13:39:13.192Z"
-updatedAt: "2026-07-31T11:16:23.749Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 7 篇：uni-app 微信小程序特殊能力与微信能力边界
 

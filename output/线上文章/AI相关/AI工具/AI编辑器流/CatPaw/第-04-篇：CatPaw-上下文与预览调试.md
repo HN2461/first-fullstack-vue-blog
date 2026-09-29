@@ -21,8 +21,8 @@ originalId: "6a2d291d8a2b1c68f2cabe80"
 originalSlug: "ai-ai-catpaw-catpaw-e217fd6c"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.578Z"
-updatedAt: "2026-07-31T11:16:25.564Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 04 篇：CatPaw 上下文与预览调试
 很多人觉得 AI 编程工具“不稳定”，核心原因往往不是模型太差，而是：

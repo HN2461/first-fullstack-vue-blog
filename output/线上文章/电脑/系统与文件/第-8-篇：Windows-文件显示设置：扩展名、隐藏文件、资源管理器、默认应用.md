@@ -19,8 +19,8 @@ originalId: "6a2d291f8a2b1c68f2cac568"
 originalSlug: "windows-7c8d9756"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.791Z"
-updatedAt: "2026-07-31T11:16:21.684Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 8 篇：Windows 文件显示设置：扩展名、隐藏文件、资源管理器、默认应用
 

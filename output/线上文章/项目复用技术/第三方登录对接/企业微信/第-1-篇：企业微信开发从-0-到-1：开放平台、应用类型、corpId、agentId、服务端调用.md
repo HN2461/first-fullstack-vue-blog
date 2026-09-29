@@ -15,8 +15,8 @@ originalId: "6a2d29208a2b1c68f2cac7be"
 originalSlug: "0-1-f01367dd"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.454Z"
-updatedAt: "2026-07-31T11:16:24.899Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用
 

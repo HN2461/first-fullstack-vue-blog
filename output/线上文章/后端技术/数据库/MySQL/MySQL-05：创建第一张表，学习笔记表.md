@@ -19,7 +19,7 @@ originalSlug: "mysql-05-create-table-from-business"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.219Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 05 创建第一张表，学习笔记表
 

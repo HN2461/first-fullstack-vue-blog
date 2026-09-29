@@ -20,8 +20,8 @@ originalId: "6a2d29208a2b1c68f2cac6d6"
 originalSlug: "uni-app-uni-app-b0f67933"
 originalStatus: "published"
 publishedAt: "2026-04-16T12:41:50.147Z"
-updatedAt: "2026-07-31T11:16:24.980Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：uni-app 人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板
 

@@ -18,9 +18,8 @@ originalSlug: "vue-9af82b75"
 originalStatus: "published"
 publishedAt: "2026-05-10T15:10:33.649Z"
 updatedAt: "2026-08-27T03:21:51.053Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
-
 # 第 3 篇：Vue 面试题详解：虚拟 DOM、diff、MVVM、Vue2、Vue3
 
 这篇文章不是只给结论的题库，而是一份可以直接用来理解、复习和组织面试语言的 Vue 知识框架。

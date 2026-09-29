@@ -20,8 +20,8 @@ originalId: "6a2d291e8a2b1c68f2cac200"
 originalSlug: "uni-app-uni-app-d43ce8ad"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:50:43.295Z"
-updatedAt: "2026-07-31T11:16:23.685Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：uni-app 微信小程序底层逻辑
 

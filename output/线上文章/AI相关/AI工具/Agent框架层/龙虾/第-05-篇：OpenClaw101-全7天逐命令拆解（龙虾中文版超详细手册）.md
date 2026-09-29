@@ -20,8 +20,8 @@ originalId: "6a2d291d8a2b1c68f2cac03a"
 originalSlug: "ai-agent-openclaw101-7-98f47885"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.055Z"
-updatedAt: "2026-07-31T11:16:25.539Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：OpenClaw101 全7天逐命令拆解（龙虾中文版超详细手册）
 

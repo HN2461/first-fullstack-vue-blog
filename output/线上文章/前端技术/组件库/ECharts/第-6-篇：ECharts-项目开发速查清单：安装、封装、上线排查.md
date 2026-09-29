@@ -21,8 +21,8 @@ originalId: "6a2d291f8a2b1c68f2cac5ea"
 originalSlug: "echarts-echarts-echarts-be0b5cbd"
 originalStatus: "published"
 publishedAt: "2026-05-03T11:54:59.254Z"
-updatedAt: "2026-07-31T11:16:23.565Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 6 篇：ECharts 项目开发速查清单：安装、封装、上线排查
 

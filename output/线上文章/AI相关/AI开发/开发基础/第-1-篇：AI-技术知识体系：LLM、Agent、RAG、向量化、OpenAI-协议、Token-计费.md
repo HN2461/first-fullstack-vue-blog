@@ -16,7 +16,7 @@ originalSlug: "ai-knowledge-system-from-concepts-to-engineering"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:55:50.515Z"
 updatedAt: "2026-07-31T11:16:25.711Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：AI 技术知识体系：LLM、Agent、RAG、向量化、OpenAI 协议、Token 计费
 

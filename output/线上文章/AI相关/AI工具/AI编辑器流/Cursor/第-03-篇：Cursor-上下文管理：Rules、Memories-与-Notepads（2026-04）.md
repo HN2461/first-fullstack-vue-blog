@@ -20,8 +20,8 @@ originalId: "6a2d291d8a2b1c68f2cabe96"
 originalSlug: "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.582Z"
-updatedAt: "2026-07-31T11:16:25.581Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 03 篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）
 

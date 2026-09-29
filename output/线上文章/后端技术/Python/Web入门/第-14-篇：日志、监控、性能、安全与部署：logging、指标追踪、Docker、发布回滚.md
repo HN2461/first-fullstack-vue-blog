@@ -21,7 +21,7 @@ originalSlug: "fastapi-observability-performance-security-deployment"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.207Z"
 updatedAt: "2026-07-31T11:16:22.171Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 14 篇：日志、监控、性能、安全与部署：logging、指标追踪、Docker、发布回滚
 

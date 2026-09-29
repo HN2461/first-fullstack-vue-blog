@@ -18,8 +18,8 @@ originalId: "6a2d291f8a2b1c68f2cac432"
 originalSlug: "javascript-js-fc6f3322"
 originalStatus: "published"
 publishedAt: "2026-05-09T12:50:17.705Z"
-updatedAt: "2026-07-31T11:16:24.512Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 25 篇：绝对路径与相对路径详解：根路径、相对层级、URL、模块引用
 

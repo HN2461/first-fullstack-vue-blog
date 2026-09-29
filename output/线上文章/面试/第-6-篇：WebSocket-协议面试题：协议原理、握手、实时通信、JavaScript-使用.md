@@ -7,8 +7,8 @@ categoryPath:
   - "面试"
 tags:
   - "WebSocket"
-  - "实时通信"
   - "网络协议"
+  - "实时通信"
   - "前端"
 status: "published"
 sortOrder: 60
@@ -17,10 +17,9 @@ originalId: "6a2d291f8a2b1c68f2cac68a"
 originalSlug: "websocket-a1cbc328"
 originalStatus: "published"
 publishedAt: "2026-05-10T14:38:27.761Z"
-updatedAt: "2026-08-27T14:34:49.476Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-28T10:25:51.630Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
-
 # 第 6 篇：WebSocket 协议面试题：协议原理、握手、实时通信、JavaScript 使用
 
 这篇文章不是只背几个 API 的速记，而是一份可以用来理解、复习和组织面试语言的 WebSocket 知识框架。

@@ -20,8 +20,8 @@ originalId: "6a2d29208a2b1c68f2cac718"
 originalSlug: "websocket-stompclient-8bcbb8a6"
 originalStatus: "published"
 publishedAt: "2026-05-14T13:01:59.598Z"
-updatedAt: "2026-07-31T11:16:25.022Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 4 篇：StompClient 封装实战：connect、订阅表、心跳协商、回调分发
 

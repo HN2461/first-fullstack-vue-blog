@@ -19,8 +19,8 @@ originalId: "6a2d291f8a2b1c68f2cac4a6"
 originalSlug: "vue-vue-class-style-eb3555df"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:54:35.414Z"
-updatedAt: "2026-07-31T11:16:24.601Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：class 与 style 绑定：对象语法、数组语法、动态样式
 

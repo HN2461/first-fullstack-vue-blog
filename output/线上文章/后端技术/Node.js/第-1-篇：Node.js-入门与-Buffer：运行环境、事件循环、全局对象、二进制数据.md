@@ -21,8 +21,8 @@ originalId: "6a2d291e8a2b1c68f2cac1ba"
 originalSlug: "node-js-node-js-buffer-52d2c595"
 originalStatus: "published"
 publishedAt: "2026-06-05T11:32:01.047Z"
-updatedAt: "2026-07-31T11:16:21.712Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：Node.js 入门与 Buffer：运行环境、事件循环、全局对象、二进制数据
 

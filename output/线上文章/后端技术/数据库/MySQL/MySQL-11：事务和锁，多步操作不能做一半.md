@@ -19,7 +19,7 @@ originalSlug: "mysql-11-transaction-lock"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.237Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 11 事务和锁，多步操作不能做一半
 

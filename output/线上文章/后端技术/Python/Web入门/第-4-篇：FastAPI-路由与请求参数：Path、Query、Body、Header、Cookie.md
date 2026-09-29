@@ -20,7 +20,7 @@ originalSlug: "fastapi-routing-request-parameters"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.188Z"
 updatedAt: "2026-07-31T11:16:22.051Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 4 篇：FastAPI 路由与请求参数：Path、Query、Body、Header、Cookie
 

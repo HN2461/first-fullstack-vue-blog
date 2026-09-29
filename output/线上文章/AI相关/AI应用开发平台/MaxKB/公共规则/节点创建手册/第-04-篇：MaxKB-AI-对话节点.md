@@ -22,7 +22,7 @@ originalSlug: "maxkb-03-ai-94d77b3d"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.457Z"
 updatedAt: "2026-07-31T11:16:25.795Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 04 篇：MaxKB AI 对话节点
 > 文档状态（2026-07-19）：根据空白高级智能体验证截图和 MaxKB v2.10.4 官方高级智能体文档，记录 AI 对话节点配置、输出参数和易错点。

@@ -21,8 +21,8 @@ originalId: "6a2d291f8a2b1c68f2cac5b8"
 originalSlug: "legacy-dee56a61-dee56a61"
 originalStatus: "published"
 publishedAt: "2026-06-08T11:18:52.813Z"
-updatedAt: "2026-07-31T11:16:21.623Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙
 

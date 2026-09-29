@@ -14,8 +14,8 @@ originalId: "6a2d291f8a2b1c68f2cac34a"
 originalSlug: "tcp-3213f070"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.374Z"
-updatedAt: "2026-07-31T11:16:21.404Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 2 篇：TCP 三次握手详解：连接建立、SYN/ACK、两次与四次问题
 

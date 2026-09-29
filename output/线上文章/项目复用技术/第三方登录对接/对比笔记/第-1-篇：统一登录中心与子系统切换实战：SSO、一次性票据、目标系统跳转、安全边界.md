@@ -20,8 +20,8 @@ originalId: "6a2d29208a2b1c68f2cac7e6"
 originalSlug: "legacy-a7fe5afb-a7fe5afb"
 originalStatus: "published"
 publishedAt: "2026-05-19T13:52:10.436Z"
-updatedAt: "2026-07-31T11:16:24.822Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：统一登录中心与子系统切换实战：SSO、一次性票据、目标系统跳转、安全边界
 

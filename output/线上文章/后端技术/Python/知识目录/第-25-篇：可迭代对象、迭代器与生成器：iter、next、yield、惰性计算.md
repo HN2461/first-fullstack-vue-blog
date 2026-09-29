@@ -20,7 +20,7 @@ originalSlug: "python-zero-iterable-iterator-generator"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.159Z"
 updatedAt: "2026-07-31T11:16:22.419Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 25 篇：可迭代对象、迭代器与生成器：iter、next、yield、惰性计算
 

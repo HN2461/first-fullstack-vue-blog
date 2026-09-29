@@ -15,8 +15,8 @@ originalId: "6a2d291e8a2b1c68f2cac290"
 originalSlug: "vue-ai-vue-a-vue2-e1001ab4"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:21:58.710Z"
-updatedAt: "2026-07-31T11:16:23.868Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 附录 A：Vue 2 生命周期图
 

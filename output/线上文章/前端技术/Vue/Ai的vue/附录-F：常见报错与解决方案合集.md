@@ -15,8 +15,8 @@ originalId: "6a2d291e8a2b1c68f2cac29a"
 originalSlug: "vue-ai-vue-f-fa05c4ac"
 originalStatus: "published"
 publishedAt: "2026-02-02T13:22:00.012Z"
-updatedAt: "2026-07-31T11:16:23.880Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 附录 F：常见报错与解决方案合集
 

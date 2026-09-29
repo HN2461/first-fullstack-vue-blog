@@ -19,8 +19,8 @@ originalId: "6a2d29208a2b1c68f2cac6ce"
 originalSlug: "js-cryptojs-aes-81b77601"
 originalStatus: "published"
 publishedAt: "2026-05-21T13:28:44.993Z"
-updatedAt: "2026-07-31T11:16:24.912Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 5 篇：CryptoJS 前端加密库实战：MD5、SHA256、HMAC、AES、参数签名
 

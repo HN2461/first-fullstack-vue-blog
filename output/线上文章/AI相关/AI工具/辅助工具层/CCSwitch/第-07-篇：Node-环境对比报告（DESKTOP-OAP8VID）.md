@@ -21,8 +21,8 @@ originalId: "6a2d291d8a2b1c68f2cac04a"
 originalSlug: "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.040Z"
-updatedAt: "2026-07-31T11:16:25.156Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 07 篇：Node 环境对比报告（DESKTOP-OAP8VID）
 

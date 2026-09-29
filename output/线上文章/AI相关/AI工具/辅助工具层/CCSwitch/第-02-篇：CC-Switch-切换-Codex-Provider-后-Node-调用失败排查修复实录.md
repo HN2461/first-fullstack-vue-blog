@@ -23,8 +23,8 @@ originalId: "6a2d291d8a2b1c68f2cac050"
 originalSlug: "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb"
 originalStatus: "published"
 publishedAt: "2026-05-30T10:00:56.019Z"
-updatedAt: "2026-07-31T11:16:25.120Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 02 篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录
 

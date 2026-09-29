@@ -19,7 +19,7 @@ originalSlug: "mysql-03-install-connect-database"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.213Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 03 安装、连接和第一次输入 SQL
 

@@ -19,8 +19,8 @@ originalId: "6a2d291f8a2b1c68f2cac39c"
 originalSlug: "js-js-51b18143"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.656Z"
-updatedAt: "2026-07-31T11:16:24.365Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 03 篇：JavaScript 闭包与垃圾回收机制：词法作用域、引用保留、内存释放
 ### 一、内存管理、垃圾回收与内存泄漏

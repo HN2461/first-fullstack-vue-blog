@@ -15,8 +15,8 @@ originalId: "6a2d291e8a2b1c68f2cac10c"
 originalSlug: "js-javascript-44c8511b"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.499Z"
-updatedAt: "2026-07-31T11:16:23.214Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 2 章：JavaScript 的运行机制
 

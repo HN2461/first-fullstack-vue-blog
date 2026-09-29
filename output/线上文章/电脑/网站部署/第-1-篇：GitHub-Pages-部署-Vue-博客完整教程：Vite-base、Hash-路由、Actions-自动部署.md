@@ -19,8 +19,8 @@ originalId: "6a2d291f8a2b1c68f2cac58a"
 originalSlug: "github-pages-vue-f7e9371a"
 originalStatus: "published"
 publishedAt: "2026-04-16T14:22:08.318Z"
-updatedAt: "2026-07-31T11:16:21.583Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署
 

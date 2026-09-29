@@ -15,8 +15,8 @@ originalId: "6a2d291f8a2b1c68f2cac2dc"
 originalSlug: "vue-vue-vue2-979be5aa"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:29:24.443Z"
-updatedAt: "2026-07-31T11:16:24.287Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 2 篇：Vue 2 面试题
 

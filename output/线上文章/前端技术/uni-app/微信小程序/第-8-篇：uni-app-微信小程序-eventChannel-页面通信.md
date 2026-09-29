@@ -21,8 +21,8 @@ originalId: "6a2d291e8a2b1c68f2cac236"
 originalSlug: "uni-app-uni-app-eventchannel-bc3b226b"
 originalStatus: "published"
 publishedAt: "2026-05-19T12:30:25.024Z"
-updatedAt: "2026-07-31T11:16:23.757Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 8 篇：uni-app 微信小程序 eventChannel 页面通信
 

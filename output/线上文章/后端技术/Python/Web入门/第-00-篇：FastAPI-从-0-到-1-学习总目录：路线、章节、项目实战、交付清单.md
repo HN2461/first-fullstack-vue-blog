@@ -20,7 +20,7 @@ originalSlug: "fastapi-zero-to-enterprise-index"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.216Z"
 updatedAt: "2026-07-31T11:16:22.210Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 00 篇：FastAPI 从 0 到 1 学习总目录：路线、章节、项目实战、交付清单
 

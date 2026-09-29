@@ -19,7 +19,7 @@ originalSlug: "mysql-10-index-explain"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.234Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 10 索引和 EXPLAIN，为什么查询会快或慢
 

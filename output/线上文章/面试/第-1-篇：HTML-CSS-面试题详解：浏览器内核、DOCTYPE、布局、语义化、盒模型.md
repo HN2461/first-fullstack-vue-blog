@@ -18,7 +18,7 @@ originalSlug: "html-css-adfc1aa8"
 originalStatus: "published"
 publishedAt: "2026-05-12T13:10:54.706Z"
 updatedAt: "2026-08-25T14:30:11.042Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：HTML CSS 面试题详解：浏览器内核、DOCTYPE、布局、语义化、盒模型
 

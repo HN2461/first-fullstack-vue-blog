@@ -20,8 +20,8 @@ originalId: "6a2d291f8a2b1c68f2cac4c8"
 originalSlug: "vue-vue-axios-4d3d1aab"
 originalStatus: "published"
 publishedAt: "2026-05-08T14:07:54.712Z"
-updatedAt: "2026-07-31T11:16:24.629Z"
-exportedAt: "2026-08-03T10:17:08.920Z"
+updatedAt: "2026-08-16T14:39:48.203Z"
+exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 09 篇：Axios 请求库：实例、拦截器、取消请求、错误处理
 > 本文档基于 Vue 开发场景，从入门原理到企业级封装，涵盖所有核心细节。
