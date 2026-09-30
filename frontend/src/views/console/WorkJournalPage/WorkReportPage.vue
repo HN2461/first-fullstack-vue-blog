@@ -49,14 +49,14 @@
           <a-select-option value="final">已定稿</a-select-option>
         </a-select>
         <label v-if="employments.length" class="work-report-page__date-label">
-          <span>生成日期</span>
+          <span>周期日期</span>
           <a-input v-model:value="anchorDate" type="date" class="work-report-page__date" aria-label="选择汇总周期日期" />
-          <a-tooltip title="选择某一天，生成其所在自然周或自然月的汇总"><a-button type="text" aria-label="查看汇总周期日期说明"><QuestionCircleOutlined /></a-button></a-tooltip>
+          <a-tooltip :title="`选择某一天，生成它所在自然${period === 'week' ? '周（周一至周日）' : '月（1 号至月末）'}的${reportLabel}`"><a-button type="text" aria-label="查看汇总周期日期说明"><QuestionCircleOutlined /></a-button></a-tooltip>
         </label>
         <a-button v-if="hasActiveFilters" class="work-report-page__reset" @click="clearFilters">重置全部</a-button>
         <a-button v-if="employments.length" type="primary" :disabled="!employmentId" :loading="creating" @click="createReport">
           <template #icon><Plus :size="15" /></template>
-          新建{{ reportLabel }}
+          从日报生成{{ reportLabel }}
         </a-button>
         <a-button v-else @click="router.push('/console/work-journal/employments')">新增工作经历</a-button>
       </template>
@@ -134,7 +134,7 @@ const filterParams = reactive({ period: period.value, employmentId: undefined, k
 const employmentOptions = computed(() => employments.value.map((item) => ({ value: item.id, label: `${item.company} · ${item.position}` })))
 const hasActiveFilters = computed(() => Boolean(employmentId.value || keyword.value.trim() || (status.value && status.value !== 'all')))
 const helpSections = computed(() => [
-  { heading: '生成与编辑', items: [`先选择工作经历和日期，再生成该周或该月的${reportLabel.value}草稿。`, '系统会把周期内已保存的日报整理成初稿；生成后内容独立保存，后续修改不会反向改写日报。', '查看按钮只读浏览，编辑按钮进入 Markdown 编辑器；定稿与重新打开在编辑器内完成。'] },
+  { heading: '生成与编辑', items: [`先选择工作经历和周期日期，再点击“从日报生成${reportLabel.value}”。周报按日期所在自然周（周一至周日）汇总，月报按日期所在自然月（1 号至月末）汇总。`, '系统会把周期内已保存的日报按日期整理成一篇草稿；生成后内容独立保存，后续修改不会反向改写日报。', '查看按钮只读浏览，编辑按钮进入 Markdown 编辑器；定稿与重新打开在编辑器内完成。'] },
   { heading: '状态和删除', items: ['草稿可以继续编辑；已定稿表示汇总当前版本已确认。', '删除仅影响这篇周期汇总，不会删除来源日报、工作经历或图片凭证。'] }
 ])
 const columns = [

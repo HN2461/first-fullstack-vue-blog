@@ -12,22 +12,24 @@
     @cancel="close"
   >
     <div class="work-log-editor">
-      <a-form layout="vertical">
+      <a-form ref="formRef" :model="form" :rules="rules" layout="vertical" class="work-log-editor__form">
+        <div class="work-log-editor__section-title">基础信息</div>
         <div class="work-log-editor__meta">
-          <a-form-item label="工作经历" required>
+          <a-form-item label="工作经历" name="employmentId" required>
             <a-select v-model:value="form.employmentId" :options="employmentOptions" show-search option-filter-prop="label" placeholder="选择公司与岗位" :disabled="Boolean(log?.id)" />
           </a-form-item>
-          <a-form-item label="工作日期" required>
-            <a-input v-model:value="form.workDate" type="date" :disabled="Boolean(log?.id)" />
-          </a-form-item>
-          <a-form-item label="日记标题" required>
-            <a-input v-model:value.trim="form.title" :maxlength="160" placeholder="例如：完成订单列表筛选与联调" />
-          </a-form-item>
-          <a-form-item label="今日摘要" class="work-log-editor__summary">
-            <a-input v-model:value.trim="form.summary" :maxlength="500" placeholder="用一句话概括今天的主要进展" />
+          <a-form-item label="工作日期" name="workDate" required>
+            <a-date-picker v-model:value="form.workDate" value-format="YYYY-MM-DD" format="YYYY-MM-DD" placeholder="选择工作日期" :disabled="Boolean(log?.id)" />
           </a-form-item>
         </div>
+        <a-form-item label="日报标题" name="title" required>
+          <a-input v-model:value.trim="form.title" :maxlength="160" placeholder="例如：完成订单列表筛选与联调" />
+        </a-form-item>
+        <a-form-item label="今日摘要">
+          <a-textarea v-model:value="form.summary" :maxlength="500" show-count :auto-size="{ minRows: 2, maxRows: 4 }" placeholder="用一到两句话概括今天的主要进展" />
+        </a-form-item>
 
+        <div class="work-log-editor__section-title">工作记录</div>
         <a-form-item label="今日完成">
           <a-textarea v-model:value="form.accomplishments" :maxlength="10000" :auto-size="{ minRows: 3, maxRows: 7 }" placeholder="记录完成事项、交付结果和相关沟通" />
         </a-form-item>
@@ -88,8 +90,14 @@ const props = defineProps({
 })
 const emit = defineEmits(['update:open', 'saved'])
 const saving = ref(false)
+const formRef = ref(null)
 const appStore = useAppStore()
 const form = reactive(createEmptyForm())
+const rules = {
+  employmentId: [{ required: true, message: '请选择工作经历', trigger: 'change' }],
+  workDate: [{ required: true, message: '请选择工作日期', trigger: 'change' }],
+  title: [{ required: true, whitespace: true, message: '请输入日报标题', trigger: 'blur' }]
+}
 const employment = computed(() => props.employments.find((item) => item.id === form.employmentId) || null)
 const employmentOptions = computed(() => props.employments.map((item) => ({
   value: item.id,
@@ -121,7 +129,11 @@ function populateForm() {
 }
 
 async function save(status) {
-  if (!form.title.trim() || !form.workDate) return
+  try {
+    await formRef.value?.validate()
+  } catch {
+    return
+  }
   saving.value = true
   try {
     const payload = { ...form }
@@ -155,26 +167,51 @@ watch(() => [props.open, props.log], ([visible]) => {
 
 <style scoped>
 .work-log-editor {
-  max-height: calc(70vh - 40px);
+  max-height: calc(70vh - 24px);
   display: flex;
   flex-direction: column;
   min-height: 0;
 }
 
 .work-log-editor > .ant-form {
+  flex: 1 1 auto;
   min-height: 0;
   overflow-y: auto;
-  padding: 2px 5px 0 1px;
+  padding: 2px 8px 4px 2px;
+}
+
+.work-log-editor__section-title {
+  margin: 2px 0 12px;
+  color: var(--console-text, #303133);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .work-log-editor__meta {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(210px, 0.65fr);
   column-gap: 14px;
 }
 
-.work-log-editor__summary {
-  grid-column: 1 / -1;
+.work-log-editor :deep(.ant-form-item) {
+  margin-bottom: 16px;
+}
+
+.work-log-editor :deep(.ant-select),
+.work-log-editor :deep(.ant-picker),
+.work-log-editor :deep(.ant-input),
+.work-log-editor :deep(.ant-input-affix-wrapper) {
+  width: 100%;
+}
+
+.work-log-editor :deep(.ant-form-item-label) {
+  padding-bottom: 6px;
+}
+
+.work-log-editor :deep(.ant-form-item-label > label) {
+  color: var(--console-text, #303133);
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .work-log-editor__grid {
@@ -184,7 +221,7 @@ watch(() => [props.open, props.log], ([visible]) => {
 }
 
 .work-log-editor__markdown {
-  height: 260px;
+  height: 280px;
   overflow: hidden;
   border: 1px solid var(--console-border, #e5e7eb);
   border-radius: 6px;
@@ -208,10 +245,6 @@ watch(() => [props.open, props.log], ([visible]) => {
   .work-log-editor__meta,
   .work-log-editor__grid {
     grid-template-columns: 1fr;
-  }
-
-  .work-log-editor__summary {
-    grid-column: auto;
   }
 
   .work-log-editor__footer {
