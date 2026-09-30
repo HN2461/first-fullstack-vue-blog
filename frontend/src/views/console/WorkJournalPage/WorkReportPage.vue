@@ -24,14 +24,14 @@
         <WorkJournalEmptyState
           v-else
           :title="`还没有保存的${reportLabel}`"
-          :description="`完善本周期日报后，即可从日报生成${reportLabel}并继续编辑。`"
+          :description="`先在上方选择工作经历和周期日期，再点击“从日报生成${reportLabel}”；系统会把该周期已保存的日报整理成草稿。`"
         >
           <a-button type="primary" @click="goToDailyLogs">查看日报</a-button>
         </WorkJournalEmptyState>
       </template>
       <template #toolbar>
         <span class="work-report-page__title">{{ reportLabel }}</span>
-        <WorkJournalHelpButton :title="reportLabel" :intro="`${reportLabel}从已保存的日报整理为独立文档，生成后可继续编辑、定稿和导出。`" :sections="helpSections" />
+        <WorkJournalHelpButton :title="reportLabel" :intro="`${reportLabel}按已保存的日报自动整理为独立文档，不需要配置 AI；生成后可继续编辑、定稿和导出。`" :sections="helpSections" />
         <a-select
           v-model:value="employmentId"
           :options="employmentOptions"
@@ -53,8 +53,9 @@
           <a-input v-model:value="anchorDate" type="date" class="work-report-page__date" aria-label="选择汇总周期日期" />
           <a-tooltip :title="`选择某一天，生成它所在自然${period === 'week' ? '周（周一至周日）' : '月（1 号至月末）'}的${reportLabel}`"><a-button type="text" aria-label="查看汇总周期日期说明"><QuestionCircleOutlined /></a-button></a-tooltip>
         </label>
+        <span v-if="employments.length" class="work-report-page__flow-hint">先选工作经历，再选择周期日期，最后从日报生成</span>
         <a-button v-if="hasActiveFilters" class="work-report-page__reset" @click="clearFilters">重置全部</a-button>
-        <a-button v-if="employments.length" type="primary" :disabled="!employmentId" :loading="creating" @click="createReport">
+        <a-button v-if="employments.length" type="primary" :loading="creating" @click="createReport">
           <template #icon><Plus :size="15" /></template>
           从日报生成{{ reportLabel }}
         </a-button>
@@ -134,7 +135,7 @@ const filterParams = reactive({ period: period.value, employmentId: undefined, k
 const employmentOptions = computed(() => employments.value.map((item) => ({ value: item.id, label: `${item.company} · ${item.position}` })))
 const hasActiveFilters = computed(() => Boolean(employmentId.value || keyword.value.trim() || (status.value && status.value !== 'all')))
 const helpSections = computed(() => [
-  { heading: '生成与编辑', items: [`先选择工作经历和周期日期，再点击“从日报生成${reportLabel.value}”。周报按日期所在自然周（周一至周日）汇总，月报按日期所在自然月（1 号至月末）汇总。`, '系统会把周期内已保存的日报按日期整理成一篇草稿；生成后内容独立保存，后续修改不会反向改写日报。', '查看按钮只读浏览，编辑按钮进入 Markdown 编辑器；定稿与重新打开在编辑器内完成。'] },
+  { heading: '生成与编辑', items: [`先选择工作经历和周期日期，再点击“从日报生成${reportLabel.value}”。周报按日期所在自然周（周一至周日）汇总，月报按日期所在自然月（1 号至月末）汇总。`, '系统会用固定规则把周期内已保存的日报按日期拼成一篇 Markdown 草稿，不调用 AI；生成后内容独立保存，后续修改不会反向改写日报。', '查看按钮只读浏览，编辑按钮进入 Markdown 编辑器；定稿与重新打开在编辑器内完成。'] },
   { heading: '状态和删除', items: ['草稿可以继续编辑；已定稿表示汇总当前版本已确认。', '删除仅影响这篇周期汇总，不会删除来源日报、工作经历或图片凭证。'] }
 ])
 const columns = [
@@ -187,7 +188,10 @@ async function loadRows(params) {
 }
 
 async function createReport() {
-  if (!employmentId.value) return
+  if (!employmentId.value) {
+    message.warning(`请先选择工作经历，再生成${reportLabel.value}`)
+    return
+  }
   creating.value = true
   try {
     activeReport.value = await createWorkReport({ employmentId: employmentId.value, period: period.value, date: anchorDate.value })
@@ -285,6 +289,14 @@ watch(period, async (value) => {
   font-size: 12px;
 }
 
+.work-report-page__flow-hint {
+  flex: 1 1 260px;
+  min-width: 220px;
+  color: var(--console-text-secondary, #606266);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 .work-report-page__range {
   display: grid;
   gap: 3px;
@@ -322,6 +334,11 @@ watch(period, async (value) => {
 
   .work-report-page__status {
     flex: 0 0 142px;
+  }
+
+  .work-report-page__flow-hint {
+    flex: 1 1 100%;
+    min-width: 0;
   }
 }
 </style>
