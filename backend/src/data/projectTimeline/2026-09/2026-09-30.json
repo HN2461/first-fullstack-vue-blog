@@ -6,7 +6,7 @@
     {
       "id": "format-html-css-yuque-markdown-20260930",
       "title": "整理语雀 HTML 与 CSS 笔记的 Markdown 渲染格式",
-      "detail": "1. 以整理前备份为源重新生成文章，仅调整 Markdown 标题层级和 HTML 示例的展示方式，不改正文语义、乱码、媒体引用或 Front Matter。\n2. 保留语雀导出的 <font style=\"...\"> 颜色标注；将正文中的 HTML 标签和注释示例放入 Markdown 行内代码或原有代码块，避免阅读器把示例当作真实 DOM。\n3. 完成渲染审计：目录生成 80 项，文章末尾内容保留，渲染结果中没有可执行的 style、iframe、html、body、head 标签；整理前后正文字符序列核对通过。",
+      "detail": "1. 以整理前备份为源重新生成文章，仅调整 Markdown 标题层级和 HTML/CSS/Less 示例的展示方式，不改正文语义、乱码、媒体引用或 Front Matter。\n2. 保留语雀导出的 <font style=\"...\"> 颜色标注；将正文中的 HTML 标签和注释示例放入 Markdown 行内代码或原有代码块，并为末尾 Less 示例补充明确的 less 代码围栏，避免阅读器把示例当作真实 DOM。\n3. 完成渲染审计：目录生成 80 项，文章末尾内容保留，渲染结果中没有可执行的 style、iframe、html、body、head 标签；整理前后正文字符序列核对通过。",
       "occurredAt": "2026-09-30T00:00:00+08:00",
       "category": "问题修复"
     },

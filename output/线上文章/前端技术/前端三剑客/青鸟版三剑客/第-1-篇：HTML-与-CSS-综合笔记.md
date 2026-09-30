@@ -20,7 +20,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 1 篇：HTML 与 CSS 综合笔记
 
-**网页架构**
+## 网页架构
 
 了解h5规范 
 
@@ -86,9 +86,9 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**<font style="color:#FF0000;"><!-- 声明用什么编码方式 --></font>**
+**<font style="color:#FF0000;">`<!--` 声明用什么编码方式 `-->`</font>**
 
-<!-- meta 设置元数据 --><!-- **<font style="color:#FF0000;">meta标签用来设置网页的元数据</font>**，不会变的数据，给浏览器看的
+`<!--` meta 设置元数据 `--><!--` **<font style="color:#FF0000;">meta标签用来设置网页的元数据</font>**，不会变的数据，给浏览器看的
 
 
 
@@ -102,11 +102,11 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 	<!-- 1.存储时，务必采用合适的字符编码，否则无法存储，数据丢失
 
-1. 存储时采用那种方式编码，读取时就采用那种方式解码，否则乱码 -->
+1. 存储时采用那种方式编码，读取时就采用那种方式解码，否则乱码 `-->`
 
 
 
-	**<font style="color:#FF0000;"><!-- 重定向，描述，关键字 --></font>**
+**<font style="color:#FF0000;">`<!--` 重定向，描述，关键字 `-->`</font>**
 
 	<!-- 重定向  http-equiv定义重定向，content=时间 url--链接-->
 
@@ -114,13 +114,13 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-	 **<font style="color:#FF0000;"><!-- 描述 --></font>**
+**<font style="color:#FF0000;">`<!--` 描述 `-->`</font>**
 
 	 <meta name="description" content="淘宝网 - 亚洲较大的网上交易平台，提供各类服饰、美容、家居、数码、话费/点卡充值… 数亿优质商品，同时提供担保交易(先收货后付款)等安全交易保障服务，并由商家提供退货承诺、破损补寄等消费者保障服务，让你安心享受网上购物乐趣！">
 
 
 
-**<font style="color:#FF0000;"> <!-- 关键字 --></font>**
+**<font style="color:#FF0000;"> `<!--` 关键字 `-->`</font>**
 
 	 <meta name="keywords" content="淘宝,掏宝,网上购物,C2C,在线交易,交易市场,网上交易,交易市场,网上买,网上卖,购物网站,团购,网上贸易,安全购物,电子商务,放心买,供应,买卖信息,网店,一口价,拍卖,网上开店,网络购物,打折,免费开店,网购,频道,店铺">
 
@@ -136,7 +136,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**实体**
+## 实体
 
 在网页中编写的多个空格默认会自动被浏览器解析为一个空格
 
@@ -150,7 +150,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-           **<font style="color:#FF0000;"> 实体的语法</font>**
+**<font style="color:#FF0000;"> 实体的语法</font>**
 
 **<font style="color:#FF0000;">                &实体的名字;</font>**
 
@@ -170,19 +170,19 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**常用标签： **
+## 常用标签：
 
-**<font style="color:#FF0000;">  <h1> </h1>//不同字号，标题标签 h1 ~ h6,从大到小 ，加粗变大 </font>**
+**<font style="color:#FF0000;">  `<h1> </h1>`//不同字号，标题标签 h1 ~ h6,从大到小 ，加粗变大 </font>**
 
     <h2> </h2>
 
     <h3> </h3>
 
-**<font style="color:#FF0000;"><p> </p>// 段落标签</font>**，段落标签用于表示内容中的一个自然段，特殊的块元素  一般只用来**<font style="color:#FF0000;">包裹文字或图片</font>**，它**<font style="color:#FF0000;">里面不能放块元素</font>**
+**<font style="color:#FF0000;">`<p> </p>`// 段落标签</font>**，段落标签用于表示内容中的一个自然段，特殊的块元素  一般只用来**<font style="color:#FF0000;">包裹文字或图片</font>**，它**<font style="color:#FF0000;">里面不能放块元素</font>**
 
 像上面的每个标签，独占一行，称块元素
 
-像 <em> </em>，不独占一行，称行内元素
+像 `<em> </em>`，不独占一行，称行内元素
 
 行内元素通常在同一行显示，不能设置宽度和高度，而块级元素则独占一行，可以设置宽度和高度
 
@@ -190,15 +190,15 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**<font style="color:#FF0000;"><em> </em> //倾斜字体，行内元素 </font>**
+**<font style="color:#FF0000;">`<em> </em>` //倾斜字体，行内元素 </font>**
 
 **<font style="color:#FF0000;">   </font>**
 
-**<font style="color:#FF0000;">   <strong> </strong>//加粗，行内元素</font>**
+**<font style="color:#FF0000;">   `<strong> </strong>`//加粗，行内元素</font>**
 
      <s> </s>
 
-**<font style="color:#FF0000;"><del> </del></font>**//都表示一个删除的内容,字体中间加横线，**<font style="color:#FF0000;">表删除</font>**，例如打折页面 ，行内元素 
+**<font style="color:#FF0000;">`<del> </del>`</font>**//都表示一个删除的内容,字体中间加横线，**<font style="color:#FF0000;">表删除</font>**，例如打折页面 ，行内元素 
 
     <hgroup>
 
@@ -212,21 +212,21 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
       之老到能躲薪五严得灰报力一反秦为不订疾。
 
-**<font style="color:#FF0000;"></blockquote></font>**//引用别人说的话 **<font style="color:#FF0000;">长引用 会换行 块元素,前面会空2个多点</font>**
+**<font style="color:#FF0000;">`</blockquote>`</font>**//引用别人说的话 **<font style="color:#FF0000;">长引用 会换行 块元素,前面会空2个多点</font>**
 
     <!--  -->//注释符号，**<font style="color:#FF0000;">注释化：ctrl加 /</font>**  解除注释化，同理 
 
-**<font style="color:#FF0000;"><q>病的子韩死故游六身。</q>//表示短引用，加引号，行内</font>**
+**<font style="color:#FF0000;">`<q>病的子韩死故游六身。</q>`//表示短引用，加引号，行内</font>**
 
-有些标签是没尾标签的，如 <meta charset="utf-8">
-
-
-
-**<font style="color:#FF0000;"><br />//换行</font>**，插哪里，哪里换行，行内
+有些标签是没尾标签的，如 `<meta charset="utf-8">`
 
 
 
-	**<font style="color:#FF0000;"><hr /></font>**//页面上显示一个**<font style="color:#FF0000;">分割线</font>**，独占一行，块元素 
+**<font style="color:#FF0000;">`<br />`//换行</font>**，插哪里，哪里换行，行内
+
+
+
+**<font style="color:#FF0000;">`<hr />`</font>**//页面上显示一个**<font style="color:#FF0000;">分割线</font>**，独占一行，块元素 
 
 
 
@@ -236,15 +236,15 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
       <p>我下落一死落子自明。</p>
 
-**<font style="color:#FF0000;">    </center>  //居中效果</font>**
+**<font style="color:#FF0000;">    `</center>`  //居中效果</font>**
 
 
 
-	**<font style="color:#FF0000;"><div></font>**计划管控就好了</div>//没有任何语义，**<font style="color:#FF0000;">只表示一个块元素</font>**，没效果，制造出一个块元素
+**<font style="color:#FF0000;">`<div>`</font>**计划管控就好了`</div>`//没有任何语义，**<font style="color:#FF0000;">只表示一个块元素</font>**，没效果，制造出一个块元素
 
 
 
-	**<font style="color:#FF0000;"><span></font>**为疾为战都他，后宋。</span>//没有任何语义，**<font style="color:#FF0000;">表示一个行内元素</font>**,一般就用来包裹文字 
+**<font style="color:#FF0000;">`<span>`</font>**为疾为战都他，后宋。`</span>`//没有任何语义，**<font style="color:#FF0000;">表示一个行内元素</font>**,一般就用来包裹文字 
 
 
 
@@ -318,7 +318,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**结构化标签**
+## 结构化标签
 
     <!-- 布局标签（结构化标签） 
 
@@ -370,7 +370,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**列表**
+## 列表
 
     <!-- 列表（list） 一组一组  
 
@@ -382,9 +382,9 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
                 项目符号： **<font style="color:#FF0000;"> disc，默认值，实心的圆点</font>**
 
-				        	**<font style="color:#FF0000;">square</font>**，**<font style="color:#FF0000;">实心的方块</font>**
+**<font style="color:#FF0000;">square</font>**，**<font style="color:#FF0000;">实心的方块</font>**
 
-				        	**<font style="color:#FF0000;">circle，空心的圆</font>**
+**<font style="color:#FF0000;">circle，空心的圆</font>**
 
      3:定义列表  用**<font style="color:#FF0000;">dl</font>**标签创建，使用**<font style="color:#FF0000;">dt</font>**对内容进行定义，使用**<font style="color:#FF0000;">dd</font>**对内容进行解释说明
 
@@ -422,9 +422,9 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
     <dl>
 
-**<font style="color:#FF0000;"><dt>html</dt>//列表小标题 ，下定义 </font>**
+**<font style="color:#FF0000;">`<dt>html</dt>`//列表小标题 ，下定义 </font>**
 
-**<font style="color:#FF0000;">      <dd>html5</dd>//对定义的解释 </font>**
+**<font style="color:#FF0000;">      `<dd>html5</dd>`//对定义的解释 </font>**
 
       <dd>css3</dd>
 
@@ -448,9 +448,9 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**<a>超链接**
+## `<a>`超链接
 
-<!-- 2个属性，2个功能，1个补充 -->
+`<!--` 2个属性，2个功能，1个补充 `-->`
 
 **<font style="color:#FF0000;">属性 href（跳转地址），target（在哪里显示）</font>**
 
@@ -460,7 +460,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-<!-- HTML页面使用超链接与网络上的另一个HTML页面相连。几乎可以在所有的网页中找到超链接，点击超链接会出现很多效果：
+`<!--` HTML页面使用超链接与网络上的另一个HTML页面相连。几乎可以在所有的网页中找到超链接，点击超链接会出现很多效果：
 
 **<font style="color:#FF0000;">1：可以让我们从一个页面跳转到另一个页面，</font>**
 
@@ -478,7 +478,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
     <!-- 属性：
 
-			   **<font style="color:#FF0000;">1: href属性: 指向链接跳转的目标地址</font>**
+**<font style="color:#FF0000;">1: href属性: 指向链接跳转的目标地址</font>**
 
 			        -值可以是一个外部的网站的地址    绝对路径
 
@@ -490,7 +490,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 （2）：相对路径 就是指由这个文件所在的路径引起的跟其它文件（或文件夹）的路径关系。
 
- 简单来说，相对路径和你所在的位置是有关系的，你所在位置的不同会导致相对路径也会不同。-->
+ 简单来说，相对路径和你所在的位置是有关系的，你所在位置的不同会导致相对路径也会不同。`-->`
 
 
 
@@ -500,7 +500,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 		可选值：
 
-		**<font style="color:#FF0000;">_self，表示在当前窗口中打开（默认值）</font>**
+**<font style="color:#FF0000;">_self，表示在当前窗口中打开（默认值）</font>**
 
 **<font style="color:#FF0000;">		_blank，在新的一个新的页面中打开链接 </font>**
 
@@ -590,11 +590,11 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-  <!-- 在开发中可以将#作为超链接的路径的占位符使用 -->
+  `<!--` 在开发中可以将#作为超链接的路径的占位符使用 `-->`
 
          <a href="#">我还想好链接到哪里，先占个位子</a>
 
-**<font style="color:#FF0000;"><!-- javascript:;，此时点击，没有任何反应</font>** -->
+**<font style="color:#FF0000;">`<!--` javascript:;，此时点击，没有任何反应</font>** `-->`
 
          <a href="javascript:;">我还想好链接到哪里，先占个位子</a>
 
@@ -606,11 +606,11 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**<img>引入图片**
+## `<img>`引入图片
 
 
 
-<!-- 使用img标签来向网页中**<font style="color:#FF0000;">引入</font>**一个外部**<font style="color:#FF0000;">图片</font>**，img标签也是一个自结束标签，img这种元素属于替换元素（基于块和行内元素之间，具有两种元素的特点）
+`<!--` 使用img标签来向网页中**<font style="color:#FF0000;">引入</font>**一个外部**<font style="color:#FF0000;">图片</font>**，img标签也是一个自结束标签，img这种元素属于替换元素（基于块和行内元素之间，具有两种元素的特点）
 
 
 
@@ -638,17 +638,17 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-<!-- **<font style="color:#FF0000;">行内块元素 具备块元素的可设置宽高同时具备行内元素的不独占一行</font>** -->
+`<!--` **<font style="color:#FF0000;">行内块元素 具备块元素的可设置宽高同时具备行内元素的不独占一行</font>** `-->`
 
 
 
-<!-- 内部图片的引入 -->
+`<!--` 内部图片的引入 `-->`
 
-<img src="./img/img/bl.gif" alt="这是一张图片">
+`<img src="./img/img/bl.gif" alt="这是一张图片">`
 
-<img src="./img/img/bl.gif" alt="这是一张图片" width="300" height="400">
+`<img src="./img/img/bl.gif" alt="这是一张图片" width="300" height="400">`
 
-<img src="./img/京东logo.png" alt="">
+`<img src="./img/京东logo.png" alt="">`
 
 
 
@@ -662,7 +662,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**图片格式（jpg gif png webp base64）		**		
+## 图片格式（jpg gif png webp base64）
 
 和油漆是一个道理，不同的图片格式特性不一样，使用场合也有所不同。
 
@@ -742,13 +742,13 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**内联框架**
+## 内联框架
 
-<!-- **<font style="color:#FF0000;">用iframe来定义一个内联框架</font>** -->
+`<!--` **<font style="color:#FF0000;">用iframe来定义一个内联框架</font>** `-->`
 
 
 
-<!-- **<font style="color:#FF0000;">iframe:</font>**
+`<!--` **<font style="color:#FF0000;">iframe:</font>**
 
 **<font style="color:#FF0000;">src：引入外部网址，全路径/内部链接，相对路径</font>**
 
@@ -766,37 +766,37 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 **<font style="color:#FF0000;">    链接的 target 属性必须引用 iframe 的 name 属性：</font>**
 
-  -->
+  `-->`
 
 
 
 
 
-  <!-- **<font style="color:#FF0000;">链接跳转</font>** -->
+  `<!--` **<font style="color:#FF0000;">链接跳转</font>** `-->`
 
-  <iframe src="https://www.w3school.com.cn/" frameborder="0" width="800" height="600"> </iframe>
+  `<iframe src="https://www.w3school.com.cn/" frameborder="0" width="800" height="600"> </iframe>`
 
-  <!-- <iframe src="./02.结构标签.html" width="800" height="600"></iframe> -->
+  `<!-- <iframe src="./02.结构标签.html" width="800" height="600"></iframe> -->`
 
-  <!-- **<font style="color:#FF0000;">内嵌内部页面</font>** -->
+  `<!--` **<font style="color:#FF0000;">内嵌内部页面</font>** `-->`
 
 **<font style="color:#FF0000;">// 定义一个内联框架，实现在网页里出现多个网页</font>**
 
-<font style="color:#6A9955;"><!-- 引入外部网址，全路径，并装饰框架 --></font>
+<font style="color:#6A9955;">`<!--` 引入外部网址，全路径，并装饰框架 `-->`</font>
 
 
 
 
 
-  <!-- **<font style="color:#FF0000;">链接跳转内部展示/不刷新浏览器</font>** name="iframe_a" target="iframe_a"-->
+  `<!--` **<font style="color:#FF0000;">链接跳转内部展示/不刷新浏览器</font>** name="iframe_a" target="iframe_a"`-->`
 
-  <!-- **<font style="color:#FF0000;">在内部更新盒子内容</font>** -->
+  `<!--` **<font style="color:#FF0000;">在内部更新盒子内容</font>** `-->`
 
-  <iframe src="./02.结构标签.html" width="800" height="600" name="iframe_a"></iframe>
+  `<iframe src="./02.结构标签.html" width="800" height="600" name="iframe_a"></iframe>`
 
-  <a href="https://www.w3school.com.cn/" target="iframe_a">点击更新</a>
+  `<a href="https://www.w3school.com.cn/" target="iframe_a">`点击更新`</a>`
 
-**<font style="color:#FF0000;">//定义一个内联框架，用name命名框架，再用<a>链接其他网址，实现内部更新框架内容</font>**
+**<font style="color:#FF0000;">//定义一个内联框架，用name命名框架，再用`<a>`链接其他网址，实现内部更新框架内容</font>**
 
 <font style="color:#6A9955;">先做框架并起名，再用超链接的target属性指定在该框架，进行跳转</font>
 
@@ -812,7 +812,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 
 
-**音视频引入**
+## 音视频引入
 
 音乐：
 
@@ -836,33 +836,33 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
      <!-- 第一种方式 -->
 
-<!-- <audio src="./source/BABYDOLL .mp3" controls autoplay loop></audio> -->
+`<!-- <audio src="./source/BABYDOLL .mp3" controls autoplay loop></audio> -->`
 
 
 
 **<font style="color:#FF0000;">source引入资源  //在audio中引入</font>**
 
-<!-- 第二种方式 -->
+`<!--` 第二种方式 `-->`
 
     <!-- <audio controls autoplay loop >
 
-**<font style="color:#FF0000;"><source src="./source/Hurt.mp3"></font>**
+**<font style="color:#FF0000;">`<source src="./source/Hurt.mp3">`</font>**
 
-</audio> -->
+`</audio> -->`
 
 
 
-**<font style="color:#FF0000;"><!-- embed引入资源：src  type  --></font>**
+**<font style="color:#FF0000;">`<!--` embed引入资源：src  type  `-->`</font>**
 
      <!-- <embed src="./source/Hurt.mp3" type="audio/mp3"> -->
 
 视频：
 
-<!-- **<font style="color:#FF0000;">video标签</font>**来向页面中**<font style="color:#FF0000;">引入</font>**一个**<font style="color:#FF0000;">视频</font>**，**<font style="color:#FF0000;">使用方式跟音频基本上一样的</font>** -->
+`<!--` **<font style="color:#FF0000;">video标签</font>**来向页面中**<font style="color:#FF0000;">引入</font>**一个**<font style="color:#FF0000;">视频</font>**，**<font style="color:#FF0000;">使用方式跟音频基本上一样的</font>** `-->`
 
 
 
-<video src="./source/蜗居.mp4" controls autoplay loop ></video>
+`<video src="./source/蜗居.mp4" controls autoplay loop ></video>`
 
 
 
@@ -903,7 +903,7 @@ css
 
 
 
-**CSS书写位置：**
+## CSS书写位置：
 
 **<font style="color:#FF0000;">CSS样式：名值对的结构   样式名:样式值;</font>**
 
@@ -919,7 +919,7 @@ css
 
 **<font style="color:#FF0000;">第二种方式：内部样式表</font>**
 
-**<font style="color:#FF0000;">写在<head>里，在<style>标签里写样式 </font>**
+**<font style="color:#FF0000;">写在`<head>`里，在`<style>`标签里写样式 </font>**
 
     在head标签里配置style标签，通过选择器选中对应html结构，
 
@@ -941,7 +941,7 @@ css
 
 
 
-<head>  
+`<head>`  
 
     <style>
 
@@ -955,9 +955,9 @@ css
 
       }
 
-</style>
+`</style>`
 
-</head>
+`</head>`
 
 
 
@@ -979,7 +979,7 @@ css
 
     <link rel="stylesheet" href="./03peiqi.css" />
 
-<font style="color:#6A9955;"><!-- link在head，但不在style --></font>
+<font style="color:#6A9955;">`<!--` link在head，但不在style `-->`</font>
 
 
 
@@ -987,7 +987,7 @@ css
 
 
 
-**<font style="color:#FF0000;">//在<body>标签里进行，样式写在开始标签里</font>**
+**<font style="color:#FF0000;">//在`<body>`标签里进行，样式写在开始标签里</font>**
 
 **<font style="color:#FF0000;">在开始标签内，配置style属性，在style属性值里写css样式 </font>**
 
@@ -1031,23 +1031,23 @@ css
 
 
 
-**CSS的语法**
+## CSS的语法
 
 html和css是两种不同的语言，所以有不同的书写位置，也有不同的语法
 
-				**<font style="color:#FF0000;">CSS的语法：</font>**
+**<font style="color:#FF0000;">CSS的语法：</font>**
 
 **<font style="color:#FF0000;">					选择器  声明块</font>**
 
 
 
-				**<font style="color:#FF0000;">选择器：如何选中对应的html标签	</font>**
+**<font style="color:#FF0000;">选择器：如何选中对应的html标签	</font>**
 
 **<font style="color:#FF0000;">				声明块：就是对应的css样式    名值对结构</font>**				
 
 
 
-			**<font style="color:#FF0000;">标签{名值对}  </font>**** //地方{妆容}**
+**<font style="color:#FF0000;">标签{名值对}  </font>**** //地方{妆容}**
 
   //CSS的注释必须写在style里，或者是CSS文件中 
 
@@ -1061,7 +1061,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**CSS常用选择器（元素、id、class、*）**
+## CSS常用选择器（元素、id、class、*）
 
     <style>
 
@@ -1183,9 +1183,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <div>
 
@@ -1203,11 +1203,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </div>
 
-  </body>
+  `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
@@ -1215,7 +1213,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**CSS复合选择器（交集、并集）**
+
+
+## CSS复合选择器（交集、并集）
 
 
 
@@ -1271,9 +1271,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <h1>满江红·写怀</h1>
 
@@ -1295,7 +1295,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     <p>待从头、收拾旧山河，朝天阙。</p>
 
-  </body>
+  `</body>`
 
 
 
@@ -1327,7 +1327,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
       /* 需求二：div里的span元素字体都变为30px */
 
-	**<font style="color:#FF0000;"> </font>****<font style="color:#FF0000;">2、后代选择器</font>**
+**<font style="color:#FF0000;"> </font>****<font style="color:#FF0000;">2、后代选择器</font>**
 
 **<font style="color:#FF0000;">  作用：通过指定的祖先元素找到指定的后代元素</font>**
 
@@ -1379,9 +1379,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <div id="cs">
 
@@ -1429,7 +1429,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
    /* 
 
-**<font style="color:#FF0000;"><!-- 元素之间的关系</font>**
+**<font style="color:#FF0000;">`<!--` 元素之间的关系</font>**
 
 **<font style="color:#FF0000;">    父子关系</font>**
 
@@ -1443,9 +1443,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 **<font style="color:#FF0000;">      拥有共同父元素的元素</font>**
 
--->  */
+`-->`  */
 
-<!-- 	<div>
+`<!-- 	<div>`
 
 		<div>
 
@@ -1457,11 +1457,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 	</div> -->
 
-  </body>
+  `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
@@ -1471,7 +1469,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**CSS属性选择器**
+
+
+## CSS属性选择器
 
 **<font style="color:#0000FF;">    </font>**
 
@@ -1523,9 +1523,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <h1 title="a" id="abcd">满江红·写怀</h1>  //title属性，鼠标点哪，会显示属性值 
 
@@ -1541,17 +1541,17 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     <p>待从头、收拾旧山河，朝天阙。</p>
 
-  </body>
+  `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
 
 
-**伪类选择器  **
+
+
+## 伪类选择器
 
 
 
@@ -1633,9 +1633,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**a元素的伪类**
+## a元素的伪类
 
-	**<font style="color:#FF0000;">a元素的伪类  访问过、未访问过、鼠标移入/点击的状态等</font>**
+**<font style="color:#FF0000;">a元素的伪类  访问过、未访问过、鼠标移入/点击的状态等</font>**
 
 
 
@@ -1715,9 +1715,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <strong>百度</strong>
 
@@ -1729,15 +1729,15 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     <a href="#">空链接</a>
 
-  </body>
+  `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
-**伪元素选择器**
+
+
+## 伪元素选择器
 
     <style>
 
@@ -1823,11 +1823,11 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-   </style>
+   `</style>`
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <div>Lorem ipsum dolor sit amet.</div>
 
@@ -1839,17 +1839,17 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </p>
 
-  </body>
+  `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
 
 
-**样式的继承（继承祖先的资产）**
+
+
+## 样式的继承（继承祖先的资产）
 
 定义：**<font style="color:#FF0000;">为一个元素设置的样式，同时也会应用到它的后代元素上</font>**
 
@@ -1875,7 +1875,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**选择器的权重**
+## 选择器的权重
 
 
 
@@ -1953,7 +1953,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 **<font style="color:#FF0000;">        类和伪类选择器          10</font>**
 
-		**<font style="color:#FF0000;">属性选择器              10</font>**
+**<font style="color:#FF0000;">属性选择器              10</font>**
 
 **<font style="color:#FF0000;">        元素选择器               1           </font>**
 
@@ -1995,9 +1995,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <!--  -->
 
@@ -2009,11 +2009,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
     </div>
 
-  </body>
+  `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
@@ -2021,7 +2019,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**长度单位**
+
+
+## 长度单位
 
 
 
@@ -2039,9 +2039,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
      			- 不同显示器一个像素的大小也不相同，
 
-				**<font style="color:#FF0000;">显示效果越好越清晰，像素就越小，反之像素越大</font>**。
+**<font style="color:#FF0000;">显示效果越好越清晰，像素就越小，反之像素越大</font>**。
 
-		**<font style="color:#FF0000;">2:百分比 %</font>**
+**<font style="color:#FF0000;">2:百分比 %</font>**
 
      			- 也可以将单位设置为一个百分比的形式，
 
@@ -2053,7 +2053,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
      			- 在我们创建一个自适应的页面时，经常使用百分比作为单位
 
-	  **<font style="color:#FF0000;">em</font>**
+**<font style="color:#FF0000;">em</font>**
 
      			- em和百分比类似，它是**<font style="color:#FF0000;">相对于当前元素的字体大小来计算的</font>**
 
@@ -2129,9 +2129,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**颜色单位：**
+## 颜色单位：
 
-	**<font style="color:#FF0000;">1:</font>**在CSS可以**<font style="color:#FF0000;">直接</font>**使**<font style="color:#FF0000;">用</font>**颜色的**<font style="color:#FF0000;">单词</font>**来表示不同的颜色
+**<font style="color:#FF0000;">1:</font>**在CSS可以**<font style="color:#FF0000;">直接</font>**使**<font style="color:#FF0000;">用</font>**颜色的**<font style="color:#FF0000;">单词</font>**来表示不同的颜色
 
 	 	红色：red  蓝色：blue  绿色：green
 
@@ -2167,13 +2167,13 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 **<font style="color:#FF0000;">	3:RGBA</font>**
 
-		    **<font style="color:#FF0000;">-语法：RGBA(红色，绿色，蓝色，透明度)</font>**
+**<font style="color:#FF0000;">-语法：RGBA(红色，绿色，蓝色，透明度)</font>**
 
-			**<font style="color:#FF0000;">a:透明度（0-1） 1不透明，0透明</font>**
+**<font style="color:#FF0000;">a:透明度（0-1） 1不透明，0透明</font>**
 
 
 
-	**<font style="color:#FF0000;">4:</font>**使用**<font style="color:#FF0000;">十六进制的rgb值</font>**来表示颜色，原理和上边RGB原理一样，
+**<font style="color:#FF0000;">4:</font>**使用**<font style="color:#FF0000;">十六进制的rgb值</font>**来表示颜色，原理和上边RGB原理一样，
 
 		   十六进制：
 
@@ -2195,7 +2195,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 	 					第三组表示**<font style="color:#FF0000;">蓝色</font>**的浓度，范围00-ff
 
-	 		**<font style="color:#FF0000;">语法：#红色绿色蓝色;</font>**
+**<font style="color:#FF0000;">语法：#红色绿色蓝色;</font>**
 
 	 		红色：
 
@@ -2213,7 +2213,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-	      **<font style="color:#FF0000;">5:HSL值  HSLA值</font>**
+**<font style="color:#FF0000;">5:HSL值  HSLA值</font>**
 
 		     H 色相 （0-360）hue  [hju:]
 
@@ -2231,7 +2231,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 				height: 300px;
 
-				**<font style="color:#FF0000;">/* 透明度 */</font>**
+**<font style="color:#FF0000;">/* 透明度 */</font>**
 
 **<font style="color:#FF0000;">				/* opacity:0.5; */</font>**
 
@@ -2259,7 +2259,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 			} 
 
-**字体样式**
+## 字体样式
 
 **<font style="color:#FF0000;">1:color</font>**   **<font style="color:#FF0000;">设置字体颜色</font>**,也可以设置其他颜色*/
 
@@ -2365,9 +2365,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**字体分类**
+## 字体分类
 
-  <body>
+  `<body>`
 
     <!-- 
 
@@ -2399,7 +2399,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**字体其他样式**			
+## 字体其他样式
 
 
 
@@ -2421,7 +2421,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-				**<font style="color:#FF0000;">font-style: italic;</font>**
+**<font style="color:#FF0000;">font-style: italic;</font>**
 
 
 
@@ -2443,7 +2443,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-				**<font style="color:#FF0000;"> font-weight:bold; </font>**
+**<font style="color:#FF0000;"> font-weight:bold; </font>**
 
 **<font style="color:#FF0000;">				font-weight:bolder;</font>**
 
@@ -2451,7 +2451,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-***<font style="color:#FF0000;"> 3:font-variant ['vεəriənt] 可以用来设置小型大写字母</font>**
+## *<font style="color:#FF0000;"> 3:font-variant ['vεəriənt] 可以用来设置小型大写字母</font>
 
 * 	可选值：
 
@@ -2465,7 +2465,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-				 **<font style="color:#FF0000;">font-variant: small-caps;</font>**
+**<font style="color:#FF0000;">font-variant: small-caps;</font>**
 
 
 
@@ -2475,7 +2475,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 				color: red;
 
-				**<font style="color:#FF0000;">/*设置一个文字大小*/</font>**
+**<font style="color:#FF0000;">/*设置一个文字大小*/</font>**
 
 **<font style="color:#FF0000;">				/* font-size: 18px; */</font>**
 
@@ -2517,7 +2517,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-				**<font style="color:#FF0000;">/* font: small-caps bold italic 60px "微软雅黑"; */</font>**
+**<font style="color:#FF0000;">/* font: small-caps bold italic 60px "微软雅黑"; */</font>**
 
 				/* font: 60px "微软雅黑"; */
 
@@ -2531,7 +2531,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 
 
-**行间距**
+## 行间距
 
 **<font style="color:#FF0000;">行高（line height）--文字占有的实际高度</font>**
 
@@ -2551,7 +2551,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 —— 行高经常还用来设置文字的行间距  
 
-			    **<font style="color:#FF0000;">行高=上间距+文字高度+下间距</font>**
+**<font style="color:#FF0000;">行高=上间距+文字高度+下间距</font>**
 
 				  行间距 = 行高 - 字体大小
 
@@ -2565,7 +2565,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 			总结：
 
-				**<font style="color:#FF0000;">行高会在字体框的上下平均分配</font>**
+**<font style="color:#FF0000;">行高会在字体框的上下平均分配</font>**
 
       .p1 {
 
@@ -2613,7 +2613,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
      
 
-**文本样式**
+## 文本样式
 
 **<font style="color:#FF0000;"> 1: text-transform</font>** 可以用来**<font style="color:#FF0000;">设置文本的大小写</font>**
 
@@ -2621,11 +2621,11 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 			可选值：
 
-			**<font style="color:#FF0000;">none 默认值</font>**，该怎么显示就怎么显示，**<font style="color:#FF0000;">不做任何处理</font>**
+**<font style="color:#FF0000;">none 默认值</font>**，该怎么显示就怎么显示，**<font style="color:#FF0000;">不做任何处理</font>**
 
-			**<font style="color:#FF0000;">capitalize </font>**[ˈkæpɪtəlaɪz] 单词的**<font style="color:#FF0000;">首字母大写</font>**，通过空格来识别单词
+**<font style="color:#FF0000;">capitalize </font>**[ˈkæpɪtəlaɪz] 单词的**<font style="color:#FF0000;">首字母大写</font>**，通过空格来识别单词
 
-			**<font style="color:#FF0000;">uppercase  [ˈʌpəˌkeɪs] 所有的字母都大写</font>**
+**<font style="color:#FF0000;">uppercase  [ˈʌpəˌkeɪs] 所有的字母都大写</font>**
 
 **<font style="color:#FF0000;">			lowercase  ['ləuə,keis] 所有的字母都小写</font>**
 
@@ -2639,13 +2639,13 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 	可选值：
 
-		**<font style="color:#FF0000;">none：默认值</font>**，不添加任何修饰，**<font style="color:#FF0000;">正常显示</font>**
+**<font style="color:#FF0000;">none：默认值</font>**，不添加任何修饰，**<font style="color:#FF0000;">正常显示</font>**
 
-		**<font style="color:#FF0000;">underline </font>**为文本添加**<font style="color:#FF0000;">下划线</font>**
+**<font style="color:#FF0000;">underline </font>**为文本添加**<font style="color:#FF0000;">下划线</font>**
 
-		**<font style="color:#FF0000;">overline</font>** 为文本添加**<font style="color:#FF0000;">上划线</font>**
+**<font style="color:#FF0000;">overline</font>** 为文本添加**<font style="color:#FF0000;">上划线</font>**
 
-		**<font style="color:#FF0000;">line-through</font>** 为文本添加**<font style="color:#FF0000;">删除线</font>**
+**<font style="color:#FF0000;">line-through</font>** 为文本添加**<font style="color:#FF0000;">删除线</font>**
 
 			
 
@@ -2661,7 +2661,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 				  */
 
-          **<font style="color:#FF0000;">text-decoration: none;</font>**
+**<font style="color:#FF0000;">text-decoration: none;</font>**
 
       }
 
@@ -2679,7 +2679,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 		可选值：
 
-		**<font style="color:#FF0000;">left 默认值，文本靠左对齐</font>**
+**<font style="color:#FF0000;">left 默认值，文本靠左对齐</font>**
 
 **<font style="color:#FF0000;">		right ， 文本靠右对齐</font>**
 
@@ -2689,7 +2689,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 				  	- 通过调整文本之间的空格的大小，来达到一个两端对齐的目的
 
-				      **<font style="color:#FF0000;">也可以让图片水平居中</font>**
+**<font style="color:#FF0000;">也可以让图片水平居中</font>**
 
   
 
@@ -2715,9 +2715,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
                 可选值：
 
-                  **<font style="color:#FF0000;">x` 正常</font>**
+**<font style="color:#FF0000;">x` 正常</font>**
 
-                  **<font style="color:#FF0000;">nowrap 不换行</font>**
+**<font style="color:#FF0000;">nowrap 不换行</font>**
 
 **<font style="color:#FF0000;">                  per 保留空白 </font>**
 
@@ -2727,7 +2727,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
              可选值：
 
-               **<font style="color:#FF0000;">  clip	修剪文本。</font>**
+**<font style="color:#FF0000;">  clip	修剪文本。</font>**
 
 **<font style="color:#FF0000;">                ellipsis</font>**	  [i'lipsis] **<font style="color:#FF0000;">显示省略符号来代表被修剪的文本。</font>**
 
@@ -2739,7 +2739,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
        text-overflow: clip;
 
- **<font style="color:#FF0000;">单行文本省略号</font>**，white-space:nowrap; 设置网页**<font style="color:#FF0000;">不换行，隐藏溢出的，显示省略号</font>** 
+**<font style="color:#FF0000;">单行文本省略号</font>**，white-space:nowrap; 设置网页**<font style="color:#FF0000;">不换行，隐藏溢出的，显示省略号</font>** 
 
 /* vertical-align:middle; */
 
@@ -2747,9 +2747,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
               可选值：
 
-                  **<font style="color:#FF0000;">baseline 默认值 基线对齐</font>**
+**<font style="color:#FF0000;">baseline 默认值 基线对齐</font>**
 
-                  **<font style="color:#FF0000;">top 顶部对齐</font>**
+**<font style="color:#FF0000;">top 顶部对齐</font>**
 
 **<font style="color:#FF0000;">                 bottom 底部对齐</font>**
 
@@ -2815,9 +2815,9 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
 **<font style="color:#FF0000;">10: text-shadow: h-shadow v-shadow blur color;</font>**
 
-                **<font style="color:#FF0000;">参数1:必需。水平阴影</font>**的位置。允许负值。
+**<font style="color:#FF0000;">参数1:必需。水平阴影</font>**的位置。允许负值。
 
-                **<font style="color:#FF0000;">参数2:必需。垂直阴影</font>**的位置。允许负值。
+**<font style="color:#FF0000;">参数2:必需。垂直阴影</font>**的位置。允许负值。
 
                 参数3**<font style="color:#FF0000;">:可选</font>**。模糊的距离。
 
@@ -2827,7 +2827,7 @@ html和css是两种不同的语言，所以有不同的书写位置，也有不�
 
  
 
-**多行文本省略号**
+## 多行文本省略号
 
     
 
@@ -2865,7 +2865,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">vertical 从上到下垂直排列子元素</font>**
 
-**文档流**
+## 文档流
 
 文档流（normal flow）
 
@@ -2883,7 +2883,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 元素在文档流中的特点
 
-		**<font style="color:#FF0000;">块元素</font>**
+**<font style="color:#FF0000;">块元素</font>**
 
 			1.块元素在文档流中会**<font style="color:#FF0000;">独占一行</font>**，块元素会**<font style="color:#FF0000;">自上向下排列</font>**。
 
@@ -2897,7 +2897,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 			2.在文档流中，内联元素的**<font style="color:#FF0000;">宽度和高度默认都被内容撑开</font>**	
 
-**盒子模型**
+## 盒子模型
 
 把元素布局到页面，就像想买个桌子，放到家里，要知道桌子的大小，形状，然后才能放到家里，所以我们把所有的元素都想成盒子，矩形
 
@@ -2909,7 +2909,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 	-每一个盒子，都有以下几个部分组成  
 
-				**<font style="color:#FF0000;">内容区(content) </font>**
+**<font style="color:#FF0000;">内容区(content) </font>**
 
 **<font style="color:#FF0000;">				内边距(padding)</font>**
 
@@ -2945,7 +2945,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">设置边框必须指定三个样式</font>**
 
-		**<font style="color:#FF0000;">*</font>** 		**<font style="color:#FF0000;">border-width:边框的宽度  </font>**
+**<font style="color:#FF0000;">*</font>** 		**<font style="color:#FF0000;">border-width:边框的宽度  </font>**
 
 **<font style="color:#FF0000;">		* 		border-color:边框颜色  </font>**
 
@@ -2965,7 +2965,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 		margin: 10px;
 
-**盒子边框**			
+## 盒子边框
 
 			.box{
 
@@ -3039,11 +3039,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">2:border-color</font>**
 
-			**<font style="color:#FF0000;">设置边框的颜色  默认值是黑色</font>**
+**<font style="color:#FF0000;">设置边框的颜色  默认值是黑色</font>**
 
 			和宽度一样，**<font style="color:#FF0000;">color也提供四个方向</font>**的样式，可以分别指定颜色
 
-			 **<font style="color:#FF0000;">border-xxx-color</font>**
+**<font style="color:#FF0000;">border-xxx-color</font>**
 
 				
 
@@ -3051,11 +3051,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">3:border-style</font>**
 
-			**<font style="color:#FF0000;">设置边框的样式</font>**
+**<font style="color:#FF0000;">设置边框的样式</font>**
 
 				 可选值：
 
-				**<font style="color:#FF0000;"> * 	</font>**	**<font style="color:#FF0000;">none，默认值，没有边框</font>**
+**<font style="color:#FF0000;"> * 	</font>**	**<font style="color:#FF0000;">none，默认值，没有边框</font>**
 
 **<font style="color:#FF0000;">				 * 		solid 实线</font>**
 
@@ -3071,7 +3071,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 				 	/* **<font style="color:#FF0000;">统一设置 </font>***/
 
-					**<font style="color:#FF0000;">border: 1px dotted #f00;</font>**
+**<font style="color:#FF0000;">border: 1px dotted #f00;</font>**
 
 					/* 单独设置 */
 
@@ -3109,7 +3109,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 			
 
-**内边距（padding）：**
+## 内边距（padding）：
 
 内容区和边框之间的距离，它会影响到盒子的大小
 
@@ -3117,7 +3117,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 （1）、分别给**<font style="color:#FF0000;">每边设置内边距</font>**
 
-        **<font style="color:#FF0000;">padding-top: ;</font>**
+**<font style="color:#FF0000;">padding-top: ;</font>**
 
 **<font style="color:#FF0000;">        padding-right: ;</font>**
 
@@ -3139,7 +3139,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
           1个值
 
-          **<font style="color:#FF0000;">规则跟之前讲的border-width是一样</font>**
+**<font style="color:#FF0000;">规则跟之前讲的border-width是一样</font>**
 
       .box1 {
 
@@ -3181,7 +3181,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 	  
 
-**外边距**
+## 外边距
 
 		* **<font style="color:#FF0000;">外边距指的是当前盒子与其他盒子之间的距离</font>**，
 
@@ -3193,19 +3193,19 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 				 * 	**<font style="color:#FF0000;">margin-top</font>**
 
-				         **<font style="color:#FF0000;">上外边距</font>**，设置一个正值，元素会向下移动
+**<font style="color:#FF0000;">上外边距</font>**，设置一个正值，元素会向下移动
 
 				 * 	**<font style="color:#FF0000;">margin-right</font>**
 
-				         **<font style="color:#FF0000;">默认情况下</font>**设置margin-right**<font style="color:#FF0000;">不会产生任何效果</font>**
+**<font style="color:#FF0000;">默认情况下</font>**设置margin-right**<font style="color:#FF0000;">不会产生任何效果</font>**
 
 				 * 	**<font style="color:#FF0000;">margin-bottom</font>**
 
-				         **<font style="color:#FF0000;">下外边距</font>**，设置一个正值，其下边的元素会向下移动，**<font style="color:#FF0000;">挤别人</font>**
+**<font style="color:#FF0000;">下外边距</font>**，设置一个正值，其下边的元素会向下移动，**<font style="color:#FF0000;">挤别人</font>**
 
 				 * 	**<font style="color:#FF0000;">margin-left</font>**
 
-				         **<font style="color:#FF0000;">左外边距</font>**，设置一个正值，元素会向右移动
+**<font style="color:#FF0000;">左外边距</font>**，设置一个正值，元素会向右移动
 
 				 
 
@@ -3237,7 +3237,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**元素的水平方向的布局**
+## 元素的水平方向的布局
 
     元素的水平方向的布局
 
@@ -3247,7 +3247,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-    **<font style="color:#FF0000;">一个元素在其父元素中</font>**，水平布局必须要满足以下的等式
+**<font style="color:#FF0000;">一个元素在其父元素中</font>**，水平布局必须要满足以下的等式
 
     margin-left + border-left + padding-left + width + padding-right + border-right + margin-right
 
@@ -3293,7 +3293,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
         width: 200px;
 
-        **<font style="color:#0000FF;">margin:0  auto; </font>**
+**<font style="color:#0000FF;">margin:0  auto; </font>**
 
         height: 200px;
 
@@ -3311,7 +3311,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-<style>
+`<style>`
 
       .outer {
 
@@ -3363,19 +3363,19 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
             可选值：
 
-              **<font style="color:#FF0000;"> visible  默认值</font>**  子元素会从父元素中溢出，**<font style="color:#FF0000;">在父元素外部的位置显示</font>**
+**<font style="color:#FF0000;"> visible  默认值</font>**  子元素会从父元素中溢出，**<font style="color:#FF0000;">在父元素外部的位置显示</font>**
 
-              **<font style="color:#FF0000;"> hidden</font>**   **<font style="color:#FF0000;">溢出</font>**的内容将会被裁剪**<font style="color:#FF0000;">不会显示</font>**
+**<font style="color:#FF0000;"> hidden</font>**   **<font style="color:#FF0000;">溢出</font>**的内容将会被裁剪**<font style="color:#FF0000;">不会显示</font>**
 
-               **<font style="color:#FF0000;">scroll</font>**   **<font style="color:#FF0000;">生成两个滚动条</font>**，通过滚动条来查看完整的内容
+**<font style="color:#FF0000;">scroll</font>**   **<font style="color:#FF0000;">生成两个滚动条</font>**，通过滚动条来查看完整的内容
 
-               **<font style="color:#FF0000;">auto </font>**    **<font style="color:#FF0000;">根据需要生成滚动条</font>**
+**<font style="color:#FF0000;">auto </font>**    **<font style="color:#FF0000;">根据需要生成滚动条</font>**
 
                
 
          额外两个属性，了解一下   
 
-         **<font style="color:#FF0000;">overflow-x    生横轴时注意换行</font>**
+**<font style="color:#FF0000;">overflow-x    生横轴时注意换行</font>**
 
 **<font style="color:#FF0000;">         overflow-y</font>**
 
@@ -3383,9 +3383,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <!-- <div class="outer">
 
@@ -3399,7 +3399,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
     </div>
 
-  </body>
+  `</body>`
 
 
 
@@ -3411,7 +3411,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**外边距的重叠**
+## 外边距的重叠
 
     <style type="text/css">
 
@@ -3425,7 +3425,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 				 * 为上边的元素设置一个下外边距
 
-         **<font style="color:#FF0000;">margin-bottom:10px;</font>**
+**<font style="color:#FF0000;">margin-bottom:10px;</font>**
 
       }
 
@@ -3439,7 +3439,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 				 * 为下边的元素设置一个上外边距
 
-         **<font style="color:#FF0000;">margin-top: -10px;</font>**
+**<font style="color:#FF0000;">margin-top: -10px;</font>**
 
       }
 
@@ -3465,15 +3465,15 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-    **<font style="color:#FF0000;">-父子元素</font>**
+**<font style="color:#FF0000;">-父子元素</font>**
 
- 		**<font style="color:#FF0000;">如果父子元素的垂直外边距相邻了，则子元素的外边距会传递给父元素</font>**
+**<font style="color:#FF0000;">如果父子元素的垂直外边距相邻了，则子元素的外边距会传递给父元素</font>**
 
 **<font style="color:#FF0000;">     </font>**
 
 **<font style="color:#FF0000;">暂时解决方案：</font>**
 
-         **<font style="color:#FF0000;">1:不用外边距  </font>**
+**<font style="color:#FF0000;">1:不用外边距  </font>**
 
 **<font style="color:#FF0000;">         2:使不相邻</font>**
 
@@ -3535,30 +3535,30 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
       
 
-**添加边框（border）**
+## 添加边框（border）
 
 + 原理：通过给父元素添加边框，可以将父元素和子元素在视觉上和布局逻辑上分隔开，阻止外边距的塌陷。
 + **<font style="color:#FF0000;">给父元素添加了一个透明的边框</font>**（border: 1px solid transparent），这样就防止了子元素的上外边距使父元素一起向下移动。边框的宽度和样式可以根据实际设计需求进行调整。
 
-**添加内边距（padding）**
+## 添加内边距（padding）
 
 + 原理：内边距在父元素内部创造了一个空间，使得子元素的外边距不会直接与父元素的外边距相互影响，从而避免塌陷。
 + **<font style="color:#FF0000;">这里给父元素添加了 1px 的上内边距</font>**<font style="color:#222222;">（</font><font style="color:#222222;">padding - top: 1px</font><font style="color:#222222;">），这就有效地分隔了父元素和子元素的外边距，解决了塌陷问题。内边距的大小可以根据具体情况进行调整，不过要注意它会影响元素内部的空间布局。</font>
 
-**触发块格式化上下文（BFC）**
+## 触发块格式化上下文（BFC）
 
 + 原理：**<font style="color:#FF0000;">BFC </font>**是 CSS 中的一个概念，它是一个**<font style="color:#FF0000;">独立的布局环境</font>**，其中的**<font style="color:#FF0000;">元素布局不会影响到外面的元素，也不会被外面的元素所影响</font>**。通过触发父元素的 BFC，可以避免外边距塌陷。
 + **<font style="color:#FF0000;">给父元素设置了overflow: auto，</font>**这就触发了父元素的 BFC，使得子元素的外边距不会与父元素的外边距塌陷。除了auto，**<font style="color:#FF0000;">overflow:hidden</font>**等其他非visible的值**<font style="color:#FF0000;">也可以</font>**<font style="color:#FF0000;">触发 BFC。</font>
 
 
 
-**行内元素的盒模型**
+## 行内元素的盒模型
 
 	从这几点分析：内容区、内边距 、边框 、外边距
 
-		**<font style="color:#FF0000;">行内元素的盒模型</font>**
+**<font style="color:#FF0000;">行内元素的盒模型</font>**
 
-		**<font style="color:#FF0000;">1: 不能设置width和height，被内容撑开</font>**
+**<font style="color:#FF0000;">1: 不能设置width和height，被内容撑开</font>**
 
 		2: 可以设置padding，但**<font style="color:#FF0000;">垂直方向padding不会影响页面的布局</font>**，不会挤别人
 
@@ -3578,7 +3578,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 				height: 100px;
 
-				**<font style="color:#FF0000;">display: block;</font>**
+**<font style="color:#FF0000;">display: block;</font>**
 
 				background-color: #f60;
 
@@ -3594,7 +3594,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 				/***<font style="color:#FF0000;">占空间 </font>** */
 
-				**<font style="color:#FF0000;">visibility: hidden;</font>**
+**<font style="color:#FF0000;">visibility: hidden;</font>**
 
 			}
 
@@ -3604,25 +3604,25 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 			可选值：
 
-			**<font style="color:#FF0000;">inline</font>**  将元素设置为**<font style="color:#FF0000;">行内</font>**元素
+**<font style="color:#FF0000;">inline</font>**  将元素设置为**<font style="color:#FF0000;">行内</font>**元素
 
-			**<font style="color:#FF0000;">block </font>**  将元素设置为**<font style="color:#FF0000;">块</font>**元素
+**<font style="color:#FF0000;">block </font>**  将元素设置为**<font style="color:#FF0000;">块</font>**元素
 
-			**<font style="color:#FF0000;">inline-block</font>**  **<font style="color:#FF0000;">行内块</font>**元素（即**<font style="color:#FF0000;">可以设置宽高，又不会独占一行</font>**）
+**<font style="color:#FF0000;">inline-block</font>**  **<font style="color:#FF0000;">行内块</font>**元素（即**<font style="color:#FF0000;">可以设置宽高，又不会独占一行</font>**）
 
-			**<font style="color:#FF0000;">table</font>**   将元素设置为一个**<font style="color:#FF0000;">表格</font>**
+**<font style="color:#FF0000;">table</font>**   将元素设置为一个**<font style="color:#FF0000;">表格</font>**
 
-			**<font style="color:#FF0000;">none</font>**    元素**<font style="color:#FF0000;">不在页面中显示</font>**（**<font style="color:#FF0000;">隐藏</font>**一个元素）
+**<font style="color:#FF0000;">none</font>**    元素**<font style="color:#FF0000;">不在页面中显示</font>**（**<font style="color:#FF0000;">隐藏</font>**一个元素）
 
 		  
 
- **<font style="color:#FF0000;">visibility </font>**用来**<font style="color:#FF0000;">设置元素的显示状态</font>**
+**<font style="color:#FF0000;">visibility </font>**用来**<font style="color:#FF0000;">设置元素的显示状态</font>**
 
 			可选值：
 
-			**<font style="color:#FF0000;">visible 默认值</font>**  元素在页面中**<font style="color:#FF0000;">正常显示</font>**
+**<font style="color:#FF0000;">visible 默认值</font>**  元素在页面中**<font style="color:#FF0000;">正常显示</font>**
 
-			**<font style="color:#FF0000;">hidden </font>** 元素不在页面中显示（**<font style="color:#FF0000;">隐藏</font>**一个元素），**<font style="color:#FF0000;">位置依然保留</font>**
+**<font style="color:#FF0000;">hidden </font>** 元素不在页面中显示（**<font style="color:#FF0000;">隐藏</font>**一个元素），**<font style="color:#FF0000;">位置依然保留</font>**
 
 		
 
@@ -3636,9 +3636,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**重置样式表**
+## 重置样式表
 
-<!-- 重置样式表，专门用来对浏览器的样式进行重置 -->
+`<!--` 重置样式表，专门用来对浏览器的样式进行重置 `-->`
 
  
 
@@ -3652,7 +3652,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 方式一：
 
-  **<font style="color:#FF0000;"> 1:清除浏览器的默认样式</font>**
+**<font style="color:#FF0000;"> 1:清除浏览器的默认样式</font>**
 
 **<font style="color:#FF0000;">*{</font>**
 
@@ -3668,7 +3668,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 方式二：
 
-	**<font style="color:#FF0000;">2:引入重置样式表 */</font>**
+**<font style="color:#FF0000;">2:引入重置样式表 */</font>**
 
        
 
@@ -3680,7 +3680,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**盒子大小**
+## 盒子大小
 
  
 
@@ -3708,11 +3708,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**阴影和圆角**
+## 阴影和圆角
 
    知识点1:
 
-          **<font style="color:#FF0000;">box-shadow</font>** 
+**<font style="color:#FF0000;">box-shadow</font>** 
 
              用来**<font style="color:#FF0000;">设置元素的阴影效果</font>**，**<font style="color:#FF0000;">不会影响到页面布局</font>** 
 
@@ -3724,7 +3724,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
                 第四个值：**<font style="color:#FF0000;">颜色</font>**
 
-       <font style="color:#9CDCFE;">box-shadow</font><font style="color:#D4D4D4;">: </font><font style="color:#B5CEA8;">-4px</font><font style="color:#D4D4D4;"> </font><font style="color:#B5CEA8;">6px</font><font style="color:#D4D4D4;"> </font><font style="color:#B5CEA8;">30px</font><font style="color:#D4D4D4;"> </font><font style="color:#DCDCAA;">rgba</font><font style="color:#D4D4D4;">(</font><font style="color:#B5CEA8;">0</font><font style="color:#D4D4D4;">, </font><font style="color:#B5CEA8;">0</font><font style="color:#D4D4D4;">, </font><font style="color:#B5CEA8;">0</font><font style="color:#D4D4D4;">, </font><font style="color:#B5CEA8;">.5</font><font style="color:#D4D4D4;">);</font>
+<font style="color:#9CDCFE;">box-shadow</font><font style="color:#D4D4D4;">: </font><font style="color:#B5CEA8;">-4px</font><font style="color:#D4D4D4;"> </font><font style="color:#B5CEA8;">6px</font><font style="color:#D4D4D4;"> </font><font style="color:#B5CEA8;">30px</font><font style="color:#D4D4D4;"> </font><font style="color:#DCDCAA;">rgba</font><font style="color:#D4D4D4;">(</font><font style="color:#B5CEA8;">0</font><font style="color:#D4D4D4;">, </font><font style="color:#B5CEA8;">0</font><font style="color:#D4D4D4;">, </font><font style="color:#B5CEA8;">0</font><font style="color:#D4D4D4;">, </font><font style="color:#B5CEA8;">.5</font><font style="color:#D4D4D4;">);</font>
 
 
 
@@ -3734,9 +3734,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">  知识点</font>**2:
 
-             **<font style="color:#FF0000;">border-radius 用来设置圆角</font>**  以10px为半径画圆
+**<font style="color:#FF0000;">border-radius 用来设置圆角</font>**  以10px为半径画圆
 
-             **<font style="color:#FF0000;">borde-top-right-radius</font>**
+**<font style="color:#FF0000;">borde-top-right-radius</font>**
 
 **<font style="color:#FF0000;">             border-top-left-radius</font>**
 
@@ -3766,7 +3766,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**浮动**
+## 浮动
 
   
 
@@ -3778,7 +3778,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 	 	可选值：
 
-	 		**<font style="color:#FF0000;">none，默认值，元素默认在文档流中排列</font>**
+**<font style="color:#FF0000;">none，默认值，元素默认在文档流中排列</font>**
 
 **<font style="color:#FF0000;">	 		left，，向页面的左侧浮动</font>**
 
@@ -3814,7 +3814,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**浮动特点**
+## 浮动特点
 
 特点1:
 
@@ -3832,7 +3832,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">脱离文档流的特点</font>**
 
-			**<font style="color:#FF0000;">块元素：</font>**
+**<font style="color:#FF0000;">块元素：</font>**
 
 				1:块元素**<font style="color:#FF0000;">不</font>**再**<font style="color:#FF0000;">独占</font>**页面的**<font style="color:#FF0000;">一行</font>**
 
@@ -3860,7 +3860,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**导航条**
+## 导航条
 
     <title>w3导航条</title>
 
@@ -3892,9 +3892,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
     </style>
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
     <ul class="nav">
 
@@ -3916,7 +3916,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-**高度塌陷**
+## 高度塌陷
 
 在文档流中，父元素的高度默认是被子元素撑开的，
 
@@ -3956,11 +3956,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
       开启BFC后，元素将会具有如下的特性：
 
-      **<font style="color:#FF0000;">1.父元素的垂直外边距不会和子元素重叠 </font>**
+**<font style="color:#FF0000;">1.父元素的垂直外边距不会和子元素重叠 </font>**
 
-      **<font style="color:#FF0000;">2.开启BFC的元素不会被浮动元素所覆盖</font>**
+**<font style="color:#FF0000;">2.开启BFC的元素不会被浮动元素所覆盖</font>**
 
-      **<font style="color:#FF0000;">3.开启BFC的元素可以包含浮动的子元素（可解决高度塌陷）</font>**
+**<font style="color:#FF0000;">3.开启BFC的元素可以包含浮动的子元素（可解决高度塌陷）</font>**
 
       
 
@@ -3976,7 +3976,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
         - 可以解决问题，但是会导致宽度丢失，不推荐使用这种方式
 
-     **<font style="color:#FF0000;"> 3.将元素的overflow设置为一个非visible的值 </font>**
+**<font style="color:#FF0000;"> 3.将元素的overflow设置为一个非visible的值 </font>**
 
       4.设置元素绝对定位(暂时没学习)
 
@@ -3998,11 +3998,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 我们有时希望**<font style="color:#FF0000;">清除掉其他元素浮动对当前元素产生的影响</font>**，这时可以**<font style="color:#FF0000;">使用clear来完成功能</font>**
 
-            **<font style="color:#FF0000;">clear可以用来清除其他浮动元素对当前元素的影响</font>**
+**<font style="color:#FF0000;">clear可以用来清除其他浮动元素对当前元素的影响</font>**
 
             可选值：
 
-                **<font style="color:#FF0000;">none，默认值，不清除浮动</font>**
+**<font style="color:#FF0000;">none，默认值，不清除浮动</font>**
 
 **<font style="color:#FF0000;">                left，清除左侧浮动元素对当前元素的影响</font>**
 
@@ -4016,9 +4016,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 原理：
 
-    **<font style="color:#FF0000;">设置了 clear 的元素，通过调整自身来使自己不要和浮动元素排列在一起。</font>**
+**<font style="color:#FF0000;">设置了 clear 的元素，通过调整自身来使自己不要和浮动元素排列在一起。</font>**
 
-               **<font style="color:#FF0000;">类似于给自己加个margin-top</font>**
+**<font style="color:#FF0000;">类似于给自己加个margin-top</font>**
 
 
 
@@ -4050,7 +4050,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">解决高度塌陷方案三：</font>**
 
-             **<font style="color:#FF0000;">.box1::after{</font>**
+**<font style="color:#FF0000;">.box1::after{</font>**
 
 **<font style="color:#FF0000;">                /* 空内容 */</font>**
 
@@ -4066,7 +4066,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">             }</font>**
 
-**表格**   
+## 表格
 
   表格在日常生活中使用的非常的多，比如excel就是专门用来创建表格的工具，表格就是用来表示一些格式化的数据的，比如：课程表、银行对账单
 
@@ -4074,61 +4074,61 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 在网页中也可以来创建出不同的表格。   
 
-        <!-- **<font style="color:#FF0000;">html表格的书写</font>** -->
+        `<!--` **<font style="color:#FF0000;">html表格的书写</font>** `-->`
 
-        <table border="1" width="50%" align="center">
+        `<table border="1" width="50%" align="center">`
 
-            <!-- **<font style="color:#FF0000;">tr表示行，td表示列，有几个tr就有几列</font>** -->
+            `<!--` **<font style="color:#FF0000;">tr表示行，td表示列，有几个tr就有几列</font>** `-->`
 
-            <tr>
+            `<tr>`
 
-                **<font style="color:#FF0000;"><!-- colspan 合并列--></font>**合并同一行中的多个列
+**<font style="color:#FF0000;">`<!--` colspan 合并列`-->`</font>**合并同一行中的多个列
 
-                <td colspan="2">1</td>
+                `<td colspan="2">`1`</td>`
 
-                <!-- <td>2</td> -->
+                `<!--` `<td>2</td>` `-->`
 
-                <td>3</td>
+                `<td>3</td>`
 
-            </tr>
+            `</tr>`
 
-            <tr>
+            `<tr>`
 
-                <td>1</td>
+                `<td>1</td>`
 
-                <td>2</td>
+                `<td>2</td>`
 
-                **<font style="color:#FF0000;"><!-- rowspan合并行--></font>**合并同一列中的多个行
+**<font style="color:#FF0000;">`<!--` rowspan合并行`-->`</font>**合并同一列中的多个行
 
-                <td rowspan="2">3</td>
+                `<td rowspan="2">`3`</td>`
 
-            </tr>
+            `</tr>`
 
-            <tr>
+            `<tr>`
 
-                <td>1</td>
+                `<td>1</td>`
 
-                <td>2</td>
+                `<td>2</td>`
 
-                <!-- <td>3</td> -->
+                `<!--` `<td>3</td>` `-->`
 
-            </tr>
+            `</tr>`
 
-        </table>
+        `</table>`
 
-    </body>
+    `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
-**表格样式**
+
+
+## 表格样式
 
    
 
-        <style type="text/css">     
+        `<style type="text/css">`     
 
               /*设置表格的宽度 */  
 
@@ -4146,9 +4146,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
                 /*
 
-       **<font style="color:#FF0000;">table和td边框之间默认有一个距离</font>**
+**<font style="color:#FF0000;">table和td边框之间默认有一个距离</font>**
 
-              **<font style="color:#FF0000;">通过border-spacing属性可以设置这个距离</font>**
+**<font style="color:#FF0000;">通过border-spacing属性可以设置这个距离</font>**
 
                  */
 
@@ -4166,7 +4166,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">border-collapse [kə'læps] 可以用来设置表格的边框合并</font>**
 
-     **<font style="color:#FF0000;">如果设置了边框合并，则border-spacing自动失效</font>**
+**<font style="color:#FF0000;">如果设置了边框合并，则border-spacing自动失效</font>**
 
                  */
 
@@ -4178,7 +4178,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 
 
-    **<font style="color:#FF0000;">/*需求二：设置背景色样式*/</font>**
+**<font style="color:#FF0000;">/*需求二：设置背景色样式*/</font>**
 
             background-color: skyblue;
 
@@ -4202,11 +4202,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
         
 
-          **<font style="color:#FF0000;">  </font>**
+**<font style="color:#FF0000;">  </font>**
 
 **<font style="color:#FF0000;"> 需求三： 设置隔行变色*/</font>**
 
-    **<font style="color:#FF0000;">tr:nth-child(even){</font>**
+**<font style="color:#FF0000;">tr:nth-child(even){</font>**
 
 **<font style="color:#FF0000;">        background-color: yellowgreen;</font>**
 
@@ -4216,7 +4216,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
   
 
-   **<font style="color:#FF0000;">需求四：鼠标移入到tr以后，改变颜色</font>**
+**<font style="color:#FF0000;">需求四：鼠标移入到tr以后，改变颜色</font>**
 
         */
 
@@ -4226,7 +4226,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
     }
 
-      **<font style="color:#FF0000;"> </font>**
+**<font style="color:#FF0000;"> </font>**
 
 
 
@@ -4234,7 +4234,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 需求五：**<font style="color:#FF0000;">调整td文字在表格中的位置</font>**
 
-        **<font style="color:#FF0000;">vertical-align:可选值：top,bottom,middle </font>**
+**<font style="color:#FF0000;">vertical-align:可选值：top,bottom,middle </font>**
 
 **<font style="color:#FF0000;">      text-align；可选值：left，center，right</font>**
 
@@ -4250,15 +4250,15 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
          }
 
-        </style>
+        `</style>`
 
-    </head>
+    `</head>`
 
-    <body>
+    `<body>`
 
-        <!--
+        `<!--`
 
-            **<font style="color:#FF0000;">table是一个块元素</font>**
+**<font style="color:#FF0000;">table是一个块元素</font>**
 
             学号 姓名 性别 住址
 
@@ -4270,49 +4270,49 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
             4   唐僧   男  女儿国
 
-   **<font style="color:#FF0000;">可以使用th标签来表示表头中的内容，它的用法和td一样，不同的是它会有一些默认效果，如加粗</font>**
+**<font style="color:#FF0000;">可以使用th标签来表示表头中的内容，它的用法和td一样，不同的是它会有一些默认效果，如加粗</font>**
 
                
 
-        <table>
+        `<table>`
 
-            <tr>
+            `<tr>`
 
-                <th>学号</th>
+                `<th>学号</th>`
 
-                <th>姓名</th>
+                `<th>姓名</th>`
 
-                <th>性别</th>
+                `<th>性别</th>`
 
-                <th>住址</th>
+                `<th>住址</th>`
 
-            </tr>
+            `</tr>`
 
                    ......
 
-        </table>
+        `</table>`
 
         
 
-    </body>
+    `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
 
 
-**长表格**
 
-        <table>
+
+## 长表格
+
+        `<table>`
 
    有一些情况下表格是非常的长的，这时就需要将**<font style="color:#FF0000;">表格分为三个部分</font>**，**<font style="color:#FF0000;">表头，表格的主体，表格底部</font>**
 
                 在HTML中为我们提供了三个标签：
 
-                   **<font style="color:#FF0000;"> thead 表头</font>**
+**<font style="color:#FF0000;"> thead 表头</font>**
 
 **<font style="color:#FF0000;">                tbody 表格主体</font>**
 
@@ -4326,7 +4326,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
                     
 
-          **<font style="color:#FF0000;">thead中的内容，永远会显示在表格的头部</font>**
+**<font style="color:#FF0000;">thead中的内容，永远会显示在表格的头部</font>**
 
 **<font style="color:#FF0000;">        tfoot中的内容，永远都会显示表格的底部</font>**
 
@@ -4342,7 +4342,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
    
 
-   <!-- 需求：表头：日期 收入 支出 合计
+   `<!--` 需求：表头：日期 收入 支出 合计
 
                    12.2 200  10  180
 
@@ -4354,71 +4354,71 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
    
 
-            **<font style="color:#FF0000;"><thead></font>**
+**<font style="color:#FF0000;">`<thead>`</font>**
 
-                <tr>
+                `<tr>`
 
-                    <td>日期</td>
+                    `<td>日期</td>`
 
-                    <td>收入</td>
+                    `<td>收入</td>`
 
-                    <td>支出</td>
+                    `<td>支出</td>`
 
-                    <td>合计</td>
+                    `<td>合计</td>`
 
-                </tr>
+                `</tr>`
 
-           **<font style="color:#FF0000;"> </thead></font>**
+**<font style="color:#FF0000;"> `</thead>`</font>**
 
-            **<font style="color:#FF0000;"><tfoot></font>**
+**<font style="color:#FF0000;">`<tfoot>`</font>**
 
-                <tr>
+                `<tr>`
 
-                    <td></td>
+                    `<td></td>`
 
-                    <td></td>
+                    `<td></td>`
 
-                    <td>合计：</td>
+                    `<td>合计：</td>`
 
-                    <td>70000</td>
+                    `<td>70000</td>`
 
-                </tr>
+                `</tr>`
 
-            **<font style="color:#FF0000;"></tfoot></font>**
+**<font style="color:#FF0000;">`</tfoot>`</font>**
 
-           **<font style="color:#FF0000;"> <tbody></font>**
+**<font style="color:#FF0000;"> `<tbody>`</font>**
 
-                <tr>
+                `<tr>`
 
-                    <td>12.3</td>
+                    `<td>12.3</td>`
 
-                    <td>10000</td>
+                    `<td>10000</td>`
 
-                    <td>500</td>
+                    `<td>500</td>`
 
-                    <td>9500</td>
+                    `<td>9500</td>`
 
-                </tr>
+                `</tr>`
 
                ......
 
-           **<font style="color:#FF0000;"> </tbody></font>**
+**<font style="color:#FF0000;"> `</tbody>`</font>**
 
             
 
-        </table>
+        `</table>`
 
         
 
-    </body>
+    `</body>`
 
-</html>
-
-
+`</html>`
 
 
 
-**父子外边距重叠**
+
+
+## 父子外边距重叠
 
             .box1{
 
@@ -4460,11 +4460,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
          添加伪类box1 before
 
-          **<font style="color:#FF0000;">display:table可以将一个元素设置为表格显示</font>**
+**<font style="color:#FF0000;">display:table可以将一个元素设置为表格显示</font>**
 
         
 
-            **<font style="color:#FF0000;">.box1::before{</font>**
+**<font style="color:#FF0000;">.box1::before{</font>**
 
 **<font style="color:#FF0000;">                content: " ";</font>**
 
@@ -4500,7 +4500,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
             
 
- **<font style="color:#FF0000;">解决父元素高度塌陷(转化成块元素，清除浮动)</font>**
+**<font style="color:#FF0000;">解决父元素高度塌陷(转化成块元素，清除浮动)</font>**
 
 **<font style="color:#FF0000;">    </font>**
 
@@ -4522,7 +4522,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
              
 
-             **<font style="color:#FF0000;">.clearfix::before,</font>**
+**<font style="color:#FF0000;">.clearfix::before,</font>**
 
 **<font style="color:#FF0000;">             .clearfix::after{</font>**
 
@@ -4534,45 +4534,45 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">             }</font>**
 
-        </style>
+        `</style>`
 
-    </head>
+    `</head>`
 
-    <body>
-
-        
-
-            <div class="box3 clearfix">
-
-                <div class="box4"></div>
-
-            </div>
+    `<body>`
 
         
 
-        <!-- <div class="box1">
+            `<div class="box3 clearfix">`
 
-            <div class="box2"></div>
+                `<div class="box4"></div>`
 
-        </div> -->
+            `</div>`
 
         
 
-    </body>
+        `<!-- <div class="box1">`
 
-</html>
+            `<div class="box2"></div>`
+
+        `</div> -->`
+
+        
+
+    `</body>`
+
+`</html>`
 
 
 
 
 
-**表单**
+## 表单
 
-<body>
+`<body>`
 
 
 
-      **<font style="color:#FF0000;">表单：</font>**
+**<font style="color:#FF0000;">表单：</font>**
 
 **<font style="color:#FF0000;">      将用户信息等本地的数据信息提交给服务器的</font>**
 
@@ -4582,9 +4582,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
   
 
-       **<font style="color:#FF0000;">1:创建表单  form标签</font>**
+**<font style="color:#FF0000;">1:创建表单  form标签</font>**
 
-           **<font style="color:#FF0000;">属性：action属性（必须要写）</font>**
+**<font style="color:#FF0000;">属性：action属性（必须要写）</font>**
 
 指向的是一个服务器的地址，当我们提交表单时将会提交到action属性对应的地址
 
@@ -4592,7 +4592,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
    
 
-        **<font style="color:#FF0000;"><form action="./target.html"></font>**
+**<font style="color:#FF0000;">`<form action="./target.html">`</font>**
 
       
 
@@ -4612,29 +4612,29 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">（1）input来创建一个文本框，</font>**
 
-            **<font style="color:#FF0000;">type属性是text</font>**
+**<font style="color:#FF0000;">type属性是text</font>**
 
-            **<font style="color:#FF0000;">name属性：提交内容的名字</font>**
+**<font style="color:#FF0000;">name属性：提交内容的名字</font>**
 
 **<font style="color:#FF0000;">如果</font>**希望表单项中的**<font style="color:#FF0000;">数据会提交到服务器</font>**中，**<font style="color:#FF0000;">必须指定一个name属性 </font>**    
 
-  **<font style="color:#FF0000;">value属性值：作为文本框的默认值显示 </font>**   
+**<font style="color:#FF0000;">value属性值：作为文本框的默认值显示 </font>**   
 
        
 
     用户名
 
-    <input type="text" name="username" id="user" value="">
+    `<input type="text" name="username" id="user" value="">`
 
-                <br>
+                `<br>`
 
-                <br>
+                `<br>`
 
     
 
 **<font style="color:#FF0000;">（2）input创建一个密码框</font>**
 
-            **<font style="color:#FF0000;">type属性值是password</font>**
+**<font style="color:#FF0000;">type属性值是password</font>**
 
 **<font style="color:#FF0000;">          name属性：提交密码的名字</font>**
 
@@ -4642,11 +4642,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
         密码
 
-            <input type="password" name="password" id="">
+            `<input type="password" name="password" id="">`
 
-                <br>
+                `<br>`
 
-                <br>
+                `<br>`
 
             
 
@@ -4672,13 +4672,13 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 性别  
 
-    <input type="radio" name="gender" value="man">男
+    `<input type="radio" name="gender" value="man">`男
 
-    <input type="radio" name="gender" value="woman" checked="checked">女
+    `<input type="radio" name="gender" value="woman" checked="checked">`女
 
-            <br>
+            `<br>`
 
-            <br>
+            `<br>`
 
             
 
@@ -4694,17 +4694,17 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
  爱好 
 
-  <input type="checkbox" name="hobby" value="1">篮球
+  `<input type="checkbox" name="hobby" value="1">`篮球
 
-  <input type="checkbox" name="hobby" value="2" checked="checked">跳舞
+  `<input type="checkbox" name="hobby" value="2" checked="checked">`跳舞
 
-  <input type="checkbox" name="hobby" value="3"  checked="checked">唱歌
+  `<input type="checkbox" name="hobby" value="3"  checked="checked">`唱歌
 
-  <input type="checkbox" name="hobby" value="4">游戏
+  `<input type="checkbox" name="hobby" value="4">`游戏
 
                
 
-            <br /><br />
+            `<br /><br />`
 
             
 
@@ -4714,7 +4714,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;"> (5)select来创建一个下拉列表</font>**
 
- **<font style="color:#FF0000;">-name属性设置给select，</font>**
+**<font style="color:#FF0000;">-name属性设置给select，</font>**
 
 **<font style="color:#FF0000;"> -value属性设置给option</font>**
 
@@ -4724,21 +4724,21 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 你喜欢的明星
 
-          <select name="star" id="">
+          `<select name="star" id="">`
 
-          <option value="1">鹿晗</option>
+          `<option value="1">`鹿晗`</option>`
 
-          <option value="2" selected="selected">黄子韬</option>
+          `<option value="2" selected="selected">`黄子韬`</option>`
 
-          <option value="3">丁真</option>
+          `<option value="3">`丁真`</option>`
 
-           </select> 
+           `</select>` 
 
                 
 
             
 
-            <br /><br />
+            `<br /><br />`
 
             
 
@@ -4754,7 +4754,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
             
 
-            <br /><br />
+            `<br /><br />`
 
             
 
@@ -4768,9 +4768,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
            
 
-            <input type="submit" value="注册">
+            `<input type="submit" value="注册">`
 
-            <!-- <input type="submit"> -->
+            `<!-- <input type="submit"> -->`
 
             
 
@@ -4778,11 +4778,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">（8）创建一个重置按钮，type="reset" </font>**
 
-            **<font style="color:#FF0000;">点击重置按钮以后表单中内容将会恢复为默认值</font>**
+**<font style="color:#FF0000;">点击重置按钮以后表单中内容将会恢复为默认值</font>**
 
      
 
-            <input type="reset" >
+            `<input type="reset" >`
 
             
 
@@ -4790,11 +4790,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">（9）创建一个单纯的按钮，button</font>**
 
-           **<font style="color:#FF0000;"> 这个按钮没有任何功能，只能被点击</font>**
+**<font style="color:#FF0000;"> 这个按钮没有任何功能，只能被点击</font>**
 
           
 
-            <input type="button" value="点击">
+            `<input type="button" value="点击">`
 
             
 
@@ -4802,29 +4802,29 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">（10）button标签来创建按钮</font>**
 
-   **<font style="color:#FF0000;">方式和使用input类似，它是成对出现的标签，使用起来更加的灵活 </font>**
+**<font style="color:#FF0000;">方式和使用input类似，它是成对出现的标签，使用起来更加的灵活 </font>**
 
           
 
-            <br /><br />
+            `<br /><br />`
 
-            **<font style="color:#FF0000;"><button type="submit">提交</button></font>**
+**<font style="color:#FF0000;">`<button type="submit">`提交`</button>`</font>**
 
-            <button type="reset">重置</button>
+            `<button type="reset">`重置`</button>`
 
-            <button type="button">点击</button>
+            `<button type="button">`点击`</button>`
 
-        </form>
+        `</form>`
 
-    </body>
+    `</body>`
 
-</html>
+`</html>`
 
 
 
-**input属性补充**
+## input属性补充
 
-       **<font style="color:#FF0000;">1: autocomplete="off"  关闭自动补全</font>**
+**<font style="color:#FF0000;">1: autocomplete="off"  关闭自动补全</font>**
 
 **<font style="color:#FF0000;">      2: readonly 设置为只读，不能修改</font>**
 
@@ -4836,31 +4836,31 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
  
 
-      <input type="text" autocomplete="off" autofocus    name="username" placeholder="请输入姓名" value="" />
+      `<input type="text" autocomplete="off" autofocus    name="username" placeholder="请输入姓名" value="" />`
 
 
 
 + 在 HTML **<font style="color:#FF0000;">表单中，value属性</font>**非常重要。对于不同的表单元素，它有不同的用途。
-+ **文本框（input type="text"）和密码框（input type="password"）**：value属性用于**<font style="color:#FF0000;">设置文本框或密码框的初始值</font>**。例如，<input type="text" value="初始文本">，在页面加载时，文本框中就会显示 “初始文本”。用户可以对这个值进行修改，当表单提交时，提交的是用户修改后的值。
-+ **单选按钮（input type="radio"）和复选框（input type="checkbox"）**：value属性用于**<font style="color:#FF0000;">定义当该选项被选中并提交表单时所传递的值</font>**。比如对于单选按钮<input type="radio" name="gender" value="male">男</input>和<input type="radio" name="gender" value="female">女</input>，当用户选择 “男” 这个选项并提交表单时，传递给服务器的值就是 “male”。
-+ **下拉菜单（select）**：**<font style="color:#FF0000;">在<select>标签内部的<option>标签中有value属性</font>**。例如<select><option value="option1">选项1</option><option value="option2">选项2</option></select>，当用户选择 “选项 1” 并**<font style="color:#FF0000;">提交表单时，传递的值是 “option1”</font>**。
++ **文本框（input type="text"）和密码框（input type="password"）**：value属性用于**<font style="color:#FF0000;">设置文本框或密码框的初始值</font>**。例如，`<input type="text" value="初始文本">`，在页面加载时，文本框中就会显示 “初始文本”。用户可以对这个值进行修改，当表单提交时，提交的是用户修改后的值。
++ **单选按钮（input type="radio"）和复选框（input type="checkbox"）**：value属性用于**<font style="color:#FF0000;">定义当该选项被选中并提交表单时所传递的值</font>**。比如对于单选按钮`<input type="radio" name="gender" value="male">`男`</input>`和`<input type="radio" name="gender" value="female">`女`</input>`，当用户选择 “男” 这个选项并提交表单时，传递给服务器的值就是 “male”。
++ **下拉菜单（select）**：**<font style="color:#FF0000;">在`<select>`标签内部的`<option>`标签中有value属性</font>**。例如`<select><option value="option1">`选项1`</option><option value="option2">`选项2`</option></select>`，当用户选择 “选项 1” 并**<font style="color:#FF0000;">提交表单时，传递的值是 “option1”</font>**。
 
-**Name**
+## Name
 
 + **<font style="color:#222222;">表单元素方面</font>**<font style="color:#222222;">：</font>
     - **<font style="color:#222222;">文本框（input type="text"）、密码框（input type="password"）等</font>**<font style="color:#222222;">：“name” 属性用于</font>**<font style="color:#FF0000;">给这些输入框命名，以便在表单提交时，服务器能够通过这个名称准确识别接收到的是哪个输入框的值</font>**<font style="color:#222222;">。例如：</font><font style="color:#222222;"><input type="text" name="username"></font><font style="color:#222222;">，这里的 “username” 就是给文本框设定的名称，当用户在该文本框输入内容并提交表单后，服务器端就可以根据 “username” 这个名称获取到用户输入的具体值。</font>
     - **<font style="color:#222222;">单选按钮（input type="radio"）和复选框（input type="checkbox"）</font>**<font style="color:#222222;">：对于单选按钮组和复选框组，</font>**<font style="color:#FF0000;">相同组内的元素需要设置相同的 “name” 属性值，以确保它们在逻辑上是相互关联的一组选项。</font>**<font style="color:#222222;">比如对于单选按钮选择性别：</font><font style="color:#222222;"><input type="radio" name="gender" value="male">男</input></font><font style="color:#222222;">  
-</font><font style="color:#222222;"><input type="radio" name="gender" value="female">女</input></font><font style="color:#222222;">这里 “gender” 就是这两个单选按钮共同的名称，保证了用户只能从 “男”“女” 中选择其一，并且在表单提交时，服务器能通过 “gender” 这个名称知道用户选择的性别对应的 “value” 值。</font>
+</font><font style="color:#222222;">`<input type="radio" name="gender" value="female">`女`</input>`</font><font style="color:#222222;">这里 “gender” 就是这两个单选按钮共同的名称，保证了用户只能从 “男”“女” 中选择其一，并且在表单提交时，服务器能通过 “gender” 这个名称知道用户选择的性别对应的 “value” 值。</font>
     - **<font style="color:#222222;">下拉菜单（select）</font>**<font style="color:#222222;">：</font>**<font style="color:#FF0000;">在下拉菜单中，“name” 属性同样用于给整个下拉菜单元素命名，以便在表单提交时能正确识别其选择的值。</font>**<font style="color:#222222;">例如：</font><font style="color:#222222;"><select name="country"></font><font style="color:#222222;">  
-</font><font style="color:#222222;"><option value="china">中国</option></font><font style="color:#222222;">  
-</font><font style="color:#222222;"><option value="usa">美国</option></font><font style="color:#222222;">  
-</font><font style="color:#222222;"></select></font><font style="color:#222222;">这里 “country” 就是下拉菜单的名称，当用户选择一个国家并提交表单后，服务器可依据 “country” 获取到对应的国家值（即所选选项的 “value” 值）。</font>
+</font><font style="color:#222222;">`<option value="china">`中国`</option>`</font><font style="color:#222222;">  
+</font><font style="color:#222222;">`<option value="usa">`美国`</option>`</font><font style="color:#222222;">  
+</font><font style="color:#222222;">`</select>`</font><font style="color:#222222;">这里 “country” 就是下拉菜单的名称，当用户选择一个国家并提交表单后，服务器可依据 “country” 获取到对应的国家值（即所选选项的 “value” 值）。</font>
 
 
 
     - **<font style="color:#FF0000;">Name相当于坐标，提交表单时，服务器可以精确找到，在通过value确定最终要上传哪个值。</font>**
 
-**定位： **
+## 定位：
 
         更加高级的布局手段
 
@@ -4872,7 +4872,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
         -可选值：
 
-          **<font style="color:#FF0000;">static： ['stætik] 默认值，元素没有开启定位</font>**
+**<font style="color:#FF0000;">static： ['stætik] 默认值，元素没有开启定位</font>**
 
 **<font style="color:#FF0000;">          relative： ['relətiv] 开启元素的相对定位</font>**
 
@@ -4902,7 +4902,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
       可以通过left right top bottom四个属性来设置元素的偏移量，越大越向反方向移动
 
-      **<font style="color:#FF0000;">left：元素相对于其定位位置的左侧偏移量，</font>**
+**<font style="color:#FF0000;">left：元素相对于其定位位置的左侧偏移量，</font>**
 
 **<font style="color:#FF0000;">      right：元素相对于其定位位置的右侧偏移量</font>**
 
@@ -4916,9 +4916,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
       一般选择水平方向的一个偏移量和垂直方向的偏移量来为一个元素进行定位
 
- -->
+ `-->`
 
-**绝对定位**
+## 绝对定位
 
 当position属性值设置为**<font style="color:#FF0000;">absolute</font>**时，则开启了元素的绝对定位
 
@@ -4954,7 +4954,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">    html （根元素，初始包含块） </font>**
 
-**固定定位**
+## 固定定位
 
 当元素的position属性设置**<font style="color:#FF0000;">fixed</font>**时，则开启了元素的固定定位
 
@@ -4972,13 +4972,13 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
         - 广告  
 
- -->
+ `-->`
 
 粘滞定位 （一般用于页面导航的吸顶效果)
 
     -当元素的position属性设置为**<font style="color:#FF0000;">sticky</font>**时，则开启了元素的粘滞定位
 
-    **<font style="color:#FF0000;">（1）以浏览器为参照物（体现固定定位特点）；</font>**
+**<font style="color:#FF0000;">（1）以浏览器为参照物（体现固定定位特点）；</font>**
 
 **<font style="color:#FF0000;">   （2）占有原来位置（体现相对定位特点）；</font>**
 
@@ -4986,7 +4986,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">     (4)没有达到top值之前正常显示，达到top值之后类似于固定定位，不会跟随滚动条滚动而滚动 </font>**
 
- -->
+ `-->`
 
  水平布局
 
@@ -5038,7 +5038,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
   top+margin-top+····+botoom
 
- -->
+ `-->`
 
 **<font style="color:#FF0000;">Right>left>width</font>**
 
@@ -5060,13 +5060,13 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
   可以为z-index指定一个正整数作为值，该值将会作为当前元素的层级
 
-    **<font style="color:#FF0000;">层级越高，越优先显示</font>**
+**<font style="color:#FF0000;">层级越高，越优先显示</font>**
 
-  **<font style="color:#FF0000;">对于没有开启定位的元素不能使用z-index </font>**
+**<font style="color:#FF0000;">对于没有开启定位的元素不能使用z-index </font>**
 
--->
+`-->`
 
-**透明背景 opacity**
+## 透明背景 opacity
 
 2、设置元素的透明背景
 
@@ -5074,13 +5074,13 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
    它需要一个0-1之间的值
 
-    **<font style="color:#FF0000;"> 0 表示完全透明</font>**
+**<font style="color:#FF0000;"> 0 表示完全透明</font>**
 
 **<font style="color:#FF0000;">     1 表示完全不透明</font>**
 
 **<font style="color:#FF0000;">     0.5 表示半透明 </font>**
 
--->
+`-->`
 
 1、opacity用来**<font style="color:#FF0000;">设置元素的不透明级别</font>**，从 0.0 （完全透明）到 1.0（完全不透明）。
 
@@ -5092,7 +5092,7 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
         取值0~1之间。0表示完全透明的像素，1表示完全不透明的像素。
 
- -->
+ `-->`
 
 1、opacity是作为一个完整属性出现的。transparent和rgba都是作为属性值出现的。
 
@@ -5110,11 +5110,11 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 3、由于opacity和alpha设置的透明程度可调，就引出一个继承的问题。
 
-  **<font style="color:#FF0000;">如果一个元素未设置opacity属性，</font>**
+**<font style="color:#FF0000;">如果一个元素未设置opacity属性，</font>**
 
 **<font style="color:#FF0000;">    那么它会从它的父元素继承opacity属性的值。而alpha不存在继承</font>**。
 
--->
+`-->`
 
        
 
@@ -5122,9 +5122,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **:target选择器称为目标选择器**，
 
-      用来匹配文档(页面)的url的某个标志符的目标元素。 -->
+      用来匹配文档(页面)的url的某个标志符的目标元素。 `-->`
 
-    <style>
+    `<style>`
 
       /***<font style="color:#FF0000;">这里的:target就是指id="brand"的div对象</font>***/
 
@@ -5132,9 +5132,9 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
      
 
-   <h2><a href="#brand">页签1</a></h2>
+   `<h2><a href="#brand">`页签1`</a></h2>`
 
-   <div id="brand">非居不锐君要命作使落出不败而性善，若云了脱鲜程商哥性我选路国活，后弟得放哉在与，丰世下。</div>
+   `<div id="brand">`非居不锐君要命作使落出不败而性善，若云了脱鲜程商哥性我选路国活，后弟得放哉在与，丰世下。`</div>`
 
 + **:target****选择器在 CSS 中是一个非常有用的选择器。它用于选择当前活动的目标元素，通常是在 URL 中有一个片段标识符（以****#****开头的部分）指向的元素。例如，当页面的 URL 是**[**https://example.com/page.html#section**](https://example.com/page.html#section)** - 1****时，****#section - 1****对应的元素就会被****:target****选择器选中**。
 
@@ -5142,51 +5142,51 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
 **<font style="color:#FF0000;">① 每个a标签的href属性须与其兄弟节点.content元素的id值一致</font>**
 
-**<font style="color:#FF0000;">② .content元素与a标签的顺序不能更改 --></font>**
+**<font style="color:#FF0000;">② .content元素与a标签的顺序不能更改 `-->`</font>**
 
-    <ul>
+    `<ul>`
 
-      <li>
+      `<li>`
 
-        <div class="content" id="content1">选项一内容</div>
+        `<div class="content" id="content1">`选项一内容`</div>`
 
-        <a href="#content1">选项一</a>
+        `<a href="#content1">`选项一`</a>`
 
-      </li>
+      `</li>`
 
-      <li>
+      `<li>`
 
-        <div class="content" id="content2">选项二内容</div>
+        `<div class="content" id="content2">`选项二内容`</div>`
 
-        <a href="#content2">选项二</a>
+        `<a href="#content2">`选项二`</a>`
 
-      </li>
+      `</li>`
 
-      <li>
+      `<li>`
 
-        <div class="content" id="content3">选项三内容</div>
+        `<div class="content" id="content3">`选项三内容`</div>`
 
-        <a href="#content3">选项三</a>
+        `<a href="#content3">`选项三`</a>`
 
-      </li>
+      `</li>`
 
-    </ul>
+    `</ul>`
 
  
 
-**label **
+## label
 
-<label>标签的作用是为鼠标用户改进了可用性，
+`<label>`标签的作用是为鼠标用户改进了可用性，
 
-        当用户点击<label>标签中的文本时，浏览器就会自动将焦点转到和该标签相关联的控件上；//**<font style="color:#FF0000;">增大控件作用范围</font>**
+        当用户点击`<label>`标签中的文本时，浏览器就会自动将焦点转到和该标签相关联的控件上；//**<font style="color:#FF0000;">增大控件作用范围</font>**
 
-        <label **<font style="color:#FF0000;">for="username"</font>**>用户名：</label>
+        <label **<font style="color:#FF0000;">for="username"</font>**>用户名：`</label>`
 
         <input type="text" name="" **<font style="color:#FF0000;">id="username"</font>**>
 
  
 
-**lable实现tab栏切换**
+## lable实现tab栏切换
 
        原理： **<font style="color:#FF0000;">当用户点击label元素时，该label所绑定的input单选框就会被选中</font>**，
 
@@ -5240,45 +5240,45 @@ overflow: hidden用于**<font style="color:#FF0000;">隐藏溢出的文本</font
 
  
 
-    <!--① label需要绑定input，方法就是label的for属性值与input的id一致，
+    `<!--`① label需要绑定input，方法就是label的for属性值与input的id一致，
 
       这样当点击label元素时input单选框就会被选中
 
-        ② input、label和div三者是有顺序的，不能随意调换顺序-->
+        ② input、label和div三者是有顺序的，不能随意调换顺序`-->`
 
-   <ul>
+   `<ul>`
 
-      <li>
+      `<li>`
 
-        <input id="tab1" type="radio" name="tab" checked />
+        `<input id="tab1" type="radio" name="tab" checked />`
 
-        <label for="tab1">选项一</label>
+        `<label for="tab1">`选项一`</label>`
 
-        <div class="content">选项一内容</div>
+        `<div class="content">`选项一内容`</div>`
 
-      </li>
+      `</li>`
 
-      <li>
+      `<li>`
 
-        <input id="tab2" type="radio" name="tab" />
+        `<input id="tab2" type="radio" name="tab" />`
 
-        <label for="tab2">选项二</label>
+        `<label for="tab2">`选项二`</label>`
 
-        <div class="content">选项二内容</div>
+        `<div class="content">`选项二内容`</div>`
 
-      </li>
+      `</li>`
 
-      <li>
+      `<li>`
 
-        <input id="tab3" type="radio" name="tab" />
+        `<input id="tab3" type="radio" name="tab" />`
 
-        <label for="tab3">选项三</label>
+        `<label for="tab3">`选项三`</label>`
 
-        <div class="content">选项三内容</div>
+        `<div class="content">`选项三内容`</div>`
 
-      </li>
+      `</li>`
 
-    </ul>
+    `</ul>`
 
      
 
@@ -5288,41 +5288,41 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 <font style="color:#000000;"> <link rel="stylesheet" href="path/to/</font>**<font style="color:#000000;">swiper.min.css</font>**<font style="color:#000000;">"></font>
 
-<font style="color:#000000;"> <script src="path/to/</font>**<font style="color:#000000;">swiper.min.js</font>**<font style="color:#000000;">"></script></font>
+<font style="color:#000000;"> <script src="path/to/</font>**<font style="color:#000000;">swiper.min.js</font>**<font style="color:#000000;">">`</script>`</font>
 
 1. <font style="color:#000000;">HTML内容。</font>
 
-<font style="color:#000000;"><div class="swiper-container"></font>
+<font style="color:#000000;">`<div class="swiper-container">`</font>
 
-<font style="color:#000000;">    <div class="swiper-wrapper"></font>
+<font style="color:#000000;">    `<div class="swiper-wrapper">`</font>
 
-<font style="color:#000000;">        <div class="swiper-slide">Slide 1</div></font>
+<font style="color:#000000;">        `<div class="swiper-slide">`Slide 1`</div>`</font>
 
-<font style="color:#000000;">        <div class="swiper-slide">Slide 2</div></font>
+<font style="color:#000000;">        `<div class="swiper-slide">`Slide 2`</div>`</font>
 
-<font style="color:#000000;">        <div class="swiper-slide">Slide 3</div></font>
+<font style="color:#000000;">        `<div class="swiper-slide">`Slide 3`</div>`</font>
 
-<font style="color:#000000;">    </div></font>
+<font style="color:#000000;">    `</div>`</font>
 
-<font style="color:#000000;">    <!-- 如果需要分页器 --></font>
+<font style="color:#000000;">    `<!--` 如果需要分页器 `-->`</font>
 
-<font style="color:#000000;">    <div class="swiper-pagination"></div></font>
-
-<font style="color:#000000;">    </font>
-
-<font style="color:#000000;">    <!-- 如果需要导航按钮 --></font>
-
-<font style="color:#000000;">    <div class="swiper-button-prev"></div></font>
-
-<font style="color:#000000;">    <div class="swiper-button-next"></div></font>
+<font style="color:#000000;">    `<div class="swiper-pagination"></div>`</font>
 
 <font style="color:#000000;">    </font>
 
-<font style="color:#000000;">    <!-- 如果需要滚动条 --></font>
+<font style="color:#000000;">    `<!--` 如果需要导航按钮 `-->`</font>
 
-<font style="color:#000000;">    <div class="swiper-scrollbar"></div></font>
+<font style="color:#000000;">    `<div class="swiper-button-prev"></div>`</font>
 
-<font style="color:#000000;"></div></font><font style="color:#A9A9A9;">导航等组件可以放在container之外</font>
+<font style="color:#000000;">    `<div class="swiper-button-next"></div>`</font>
+
+<font style="color:#000000;">    </font>
+
+<font style="color:#000000;">    `<!--` 如果需要滚动条 `-->`</font>
+
+<font style="color:#000000;">    `<div class="swiper-scrollbar"></div>`</font>
+
+<font style="color:#000000;">`</div>`</font><font style="color:#A9A9A9;">导航等组件可以放在container之外</font>
 
 1. <font style="color:#000000;">你可能想要给Swiper定义一个大小，当然不要也行。</font>
 
@@ -5334,9 +5334,9 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 <font style="color:#000000;">}  </font>
 
-<font style="color:#000000;">4.初始化Swiper：最好是挨着</body>标签</font>
+<font style="color:#000000;">4.初始化Swiper：最好是挨着`</body>`标签</font>
 
-<font style="color:#000000;"><script>        </font>
+<font style="color:#000000;">`<script>`        </font>
 
 <font style="color:#000000;">  var mySwiper = new Swiper ('.swiper-container', {</font>
 
@@ -5366,13 +5366,13 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 <font style="color:#000000;">  })        </font>
 
-<font style="color:#000000;">  </script></font>
+<font style="color:#000000;">  `</script>`</font>
 
-<font style="color:#000000;"></body></font>
+<font style="color:#000000;">`</body>`</font>
 
 <font style="color:#000000;">5.完成。恭喜你，现在你的Swiper应该已经能正常切换了。现在开始添加各种</font>[<font style="color:#4183C4;">选项和参数</font>](https://3.swiper.com.cn/api/index.html" \t "https://3.swiper.com.cn/usage/_blank)<font style="color:#000000;">丰富你的Swiper，开启华丽移动前端创作之旅。</font>
 
-** 图标字体（iconfont）**
+## 图标字体（iconfont）
 
            -在网页中经常需要使用一些图标，可以通过图片来引入图标
 
@@ -5386,45 +5386,45 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 <font style="color:#000000;"><link rel="stylesheet" href="</font>./font_4771251_qzjb1gs6u3i/iconfont.css<font style="color:#000000;">"></font>
 
-<font style="color:#000000;"><script src="</font>./font_4771251_qzjb1gs6u3i/iconfont.js<font style="color:#000000;">"></script></font>
+<font style="color:#000000;"><script src="</font>./font_4771251_qzjb1gs6u3i/iconfont.js<font style="color:#000000;">">`</script>`</font>
 
    
 
- <!-- **<font style="color:#FF0000;">第一种方式  转义字符形式</font>**-->
+ `<!--` **<font style="color:#FF0000;">第一种方式  转义字符形式</font>**`-->`
 
-    <!-- <span class="iconfont">**<font style="color:#FF0000;">&#xe611;</font>**</span>
+    `<!-- <span class="iconfont">`**<font style="color:#FF0000;">&#xe611;</font>**`</span>`
 
-    <span class="iconfont">&#xe60e;</span> -->
+    `<span class="iconfont">`&#xe60e;`</span> -->`
 
-    <span class="iconfont">&#xe600;</span>
+    `<span class="iconfont">`&#xe600;`</span>`
 
-    <!-- **<font style="color:#FF0000;">第二种方式  类名形式 （常用）</font>**-->
+    `<!--` **<font style="color:#FF0000;">第二种方式  类名形式 （常用）</font>**`-->`
 
-    <!-- <i class="**<font style="color:#FF0000;">iconfont icon-jishuzhuanyi s1</font>**">1</i>
+    `<!--` <i class="**<font style="color:#FF0000;">iconfont icon-jishuzhuanyi s1</font>**">1`</i>`
 
-    <i class="iconfont icon-zhijiao-copy-copy3"></i> -->
+    `<i class="iconfont icon-zhijiao-copy-copy3"></i> -->`
 
-    <i class="iconfont icon-gouwuchekong"></i>
+    `<i class="iconfont icon-gouwuchekong"></i>`
 
-    <!--**<font style="color:#FF0000;">第三种方式 （了解）</font>**-->
+    `<!--`**<font style="color:#FF0000;">第三种方式 （了解）</font>**`-->`
 
-    <p>一朵花</p>
+    `<p>一朵花</p>`
 
-    <!-- **<font style="color:#FF0000;">第四种 </font>**-->
+    `<!--` **<font style="color:#FF0000;">第四种 </font>**`-->`
 
-    **<font style="color:#FF0000;"><svg class="icon" aria-hidden="true"></font>**
+**<font style="color:#FF0000;">`<svg class="icon" aria-hidden="true">`</font>**
 
-      <use xlink:href="#icon-gouwuchekong"></use>
+      `<use xlink:href="#icon-gouwuchekong"></use>`
 
-    </svg>
+    `</svg>`
 
  
 
 
 
-**背景**
+## 背景
 
-  **<font style="color:#FF0000;">1: background-color  设置背景颜色</font>**
+**<font style="color:#FF0000;">1: background-color  设置背景颜色</font>**
 
                 background-color: blueviolet;
 
@@ -5458,7 +5458,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
                     可选值：
 
-                        **<font style="color:#FF0000;">repeat，默认值，背景图片会双方向重复（平铺）</font>**
+**<font style="color:#FF0000;">repeat，默认值，背景图片会双方向重复（平铺）</font>**
 
 **<font style="color:#FF0000;">                        no-repeat ，背景图片不会重复，有多大就显示多大</font>**
 
@@ -5486,7 +5486,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
                             bottom right 右下
 
-                            **<font style="color:#FF0000;">如果只给出一个值，则第二个值默认是center</font>**
+**<font style="color:#FF0000;">如果只给出一个值，则第二个值默认是center</font>**
 
                  
 
@@ -5516,11 +5516,11 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 **<font style="color:#FF0000;"> 5:background-clip</font>**
 
-            **<font style="color:#FF0000;">设置背景的范围</font>**
+**<font style="color:#FF0000;">设置背景的范围</font>**
 
               可选值：
 
-                 **<font style="color:#FF0000;">border-box 默认值，背景颜色会出现在边框的下边</font>**
+**<font style="color:#FF0000;">border-box 默认值，背景颜色会出现在边框的下边</font>**
 
 **<font style="color:#FF0000;">                 padding-box  背景不会出现在边框，只会出现在内容区和内边距</font>**
 
@@ -5542,9 +5542,9 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 **<font style="color:#FF0000;">6:background-origin </font>**
 
-                **<font style="color:#FF0000;">设置背景图片的偏移量计算的原点,配合偏移量使用的</font>**
+**<font style="color:#FF0000;">设置背景图片的偏移量计算的原点,配合偏移量使用的</font>**
 
-                 **<font style="color:#FF0000;">padding-box  从内部距处开始计算</font>**
+**<font style="color:#FF0000;">padding-box  从内部距处开始计算</font>**
 
 **<font style="color:#FF0000;">                 content-box  背景图片的偏移量从内容区处计算</font>**
 
@@ -5584,11 +5584,11 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 **<font style="color:#FF0000;">7:background-size</font>**
 
-  **<font style="color:#FF0000;">           设置图片的大小</font>**
+**<font style="color:#FF0000;">           设置图片的大小</font>**
 
             参数：
 
-              **<font style="color:#FF0000;">第一个值：宽度</font>**
+**<font style="color:#FF0000;">第一个值：宽度</font>**
 
 **<font style="color:#FF0000;">              第二个值：高度</font>**
 
@@ -5596,7 +5596,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
                  
 
-              **<font style="color:#FF0000;">cover  图片的比例不变，将元素铺满，</font>**
+**<font style="color:#FF0000;">cover  图片的比例不变，将元素铺满，</font>**
 
 **<font style="color:#333333;">图片将被缩放到足够大，以完全覆盖元素的背景区域，即使图片会被裁剪</font>**<font style="color:#333333;">‌</font>
 
@@ -5638,7 +5638,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
         /* background-clip: border-box; */
 
-**background**
+## background
 
             - 通过该属性可以同时设置所有背景相关的样式
 
@@ -5646,13 +5646,13 @@ swiper插件  轮播图（会引用，会修改即可） 
 
               也没有数量的要求，不写的样式就使用默认值
 
-            **<font style="color:#FF0000;">-background-size要写在background-position后面</font>**
+**<font style="color:#FF0000;">-background-size要写在background-position后面</font>**
 
    
 
        background:brown url('./img/小图.webp')  **<font style="color:#FF0000;">center center/200px</font>** no-repeat; 
 
-**雪碧图**
+## 雪碧图
 
         图片整合技术（CSS-Sprite）
 
@@ -5668,7 +5668,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
        雪碧图使用步骤
 
-        **<font style="color:#FF0000;"> 1:先确定要使用的图标</font>**
+**<font style="color:#FF0000;"> 1:先确定要使用的图标</font>**
 
 **<font style="color:#FF0000;">         2:测量图标的大小</font>**
 
@@ -5732,21 +5732,21 @@ swiper插件  轮播图（会引用，会修改即可） 
 
       }
 
-    </style>
+    `</style>`
 
-  </head>
+  `</head>`
 
-  <body>
+  `<body>`
 
-    <!-- 创建一个超链接 -->
+    `<!--` 创建一个超链接 `-->`
 
-    <a class="btn" href="#"></a>
+    `<a class="btn" href="#"></a>`
 
-  </body>
+  `</body>`
 
-</html>
+`</html>`
 
-** 渐变**
+## 渐变
 
        渐变：通过渐变可以设置一些复杂的背景颜色，可以从实现一个颜色向其他颜色过渡的效果
 
@@ -5754,11 +5754,11 @@ swiper插件  轮播图（会引用，会修改即可） 
 
                可选值
 
-               **<font style="color:#FF0000;">  1：linear-gradient(方位,)颜色1,颜色2  </font>**['ɡreidiənt]
+**<font style="color:#FF0000;">  1：linear-gradient(方位,)颜色1,颜色2  </font>**['ɡreidiənt]
 
                   **  线性渐变**，颜色沿着一条直线发生变化  
 
-                        **<font style="color:#FF0000;">参数1:表示方位，（可选值，不写默认是to bottom）</font>**
+**<font style="color:#FF0000;">参数1:表示方位，（可选值，不写默认是to bottom）</font>**
 
 **<font style="color:#FF0000;">                                (1)to left，to right, to bottom, to top</font>**
 
@@ -5780,7 +5780,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
                                颜色后直接跟占比
 
-                **<font style="color:#FF0000;"> 2:repeating-linear-gradient()</font>**
+**<font style="color:#FF0000;"> 2:repeating-linear-gradient()</font>**
 
 **<font style="color:#FF0000;">                    可以平铺的线性渐变</font>**
 
@@ -5788,7 +5788,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
                       参数跟linear-gradient是一样的
 
-                    **<font style="color:#FF0000;">参数2-参数1，中间部分是渐变的颜色，拿总高度/差值，就是颜色重复出现的次数</font>**
+**<font style="color:#FF0000;">参数2-参数1，中间部分是渐变的颜色，拿总高度/差值，就是颜色重复出现的次数</font>**
 
      
 
@@ -5806,11 +5806,11 @@ swiper插件  轮播图（会引用，会修改即可） 
 
                  **经向渐变**（放射性的效果）
 
-                    **<font style="color:#FF0000;">默认情况下，圆心是根据元素的形状来计算的</font>**
+**<font style="color:#FF0000;">默认情况下，圆心是根据元素的形状来计算的</font>**
 
-**<font style="color:#FF0000;">                               正方形-->圆形</font>**
+**<font style="color:#FF0000;">                               正方形`-->`圆形</font>**
 
-**<font style="color:#FF0000;">                               长方形-->椭圆型</font>**
+**<font style="color:#FF0000;">                               长方形`-->`椭圆型</font>**
 
 **<font style="color:#FF0000;">                    参数1:圆心的形状</font>**
 
@@ -5828,7 +5828,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
          
 
-**过渡transition**
+## 过渡transition
 
  .box1>div{
 
@@ -5880,7 +5880,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 **<font style="color:#FF0000;">                         指定过渡的执行的方式</font>**
 
-              **<font style="color:#FF0000;">可选值：ease  [i:z] 默认值，慢速开始，先加速，然后再减速</font>**
+**<font style="color:#FF0000;">可选值：ease  [i:z] 默认值，慢速开始，先加速，然后再减速</font>**
 
 **<font style="color:#FF0000;">                         linear 匀速运动</font>**
 
@@ -5924,31 +5924,31 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 **<font style="color:#FF0000;">设置动画</font>**效果，必须**<font style="color:#FF0000;">先要设置一个关键帧</font>**，关键帧设置了动画每一个步骤
 
-             **<font style="color:#FF0000;">@keyframes 动画名 {}</font>**
+**<font style="color:#FF0000;">@keyframes 动画名 {}</font>**
 
            
 
 **<font style="color:#FF0000;">第一步：设置关键帧</font>**
 
-      **<font style="color:#FF0000;">@keyframes move{</font>**
+**<font style="color:#FF0000;">@keyframes move{</font>**
 
-       **<font style="color:#FF0000;"> from{</font>**
+**<font style="color:#FF0000;"> from{</font>**
 
           margin-left: 0;
 
         }
 
-        **<font style="color:#FF0000;">to{</font>**
+**<font style="color:#FF0000;">to{</font>**
 
           margin-left: 500px;
 
         }
 
-     **<font style="color:#FF0000;"> }</font>**
+**<font style="color:#FF0000;"> }</font>**
 
      
 
-    **<font style="color:#FF0000;"> </font>**
+**<font style="color:#FF0000;"> </font>**
 
 **<font style="color:#FF0000;"> </font>**
 
@@ -6006,7 +6006,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 **<font style="color:#FF0000;">             指定动画运行的方向</font>**
 
-                 **<font style="color:#FF0000;">可选值</font>**
+**<font style="color:#FF0000;">可选值</font>**
 
 **<font style="color:#FF0000;">                    normal  默认值： 从from向to运行，每次都是这样</font>**
 
@@ -6052,7 +6052,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
         animation: move 2s 2 2s alternate-reverse both;
 
-**变形transform**
+## 变形transform
 
       .box1 {
 
@@ -6070,7 +6070,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
              -**<font style="color:#FF0000;">变形不会影响到页面的布局(只折腾自己)</font>**
 
-             **<font style="color:#FF0000;">-transform: ;</font>**用来设置元素的变形效果 ,尽量变形写在一个transform里，不然下面再写一个，就会覆盖上面           
+**<font style="color:#FF0000;">-transform: ;</font>**用来设置元素的变形效果 ,尽量变形写在一个transform里，不然下面再写一个，就会覆盖上面           
 
 **<font style="color:#FF0000;">可</font>**选值：
 
@@ -6120,7 +6120,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
         /* 第二种居中方式动画形式 */
 
-        **<font style="color:#FF0000;">left: 50%;</font>**
+**<font style="color:#FF0000;">left: 50%;</font>**
 
 **<font style="color:#FF0000;">        top: 50%;</font>**
 
@@ -6150,7 +6150,7 @@ swiper插件  轮播图（会引用，会修改即可） 
 
       .box5:hover {
 
-      **<font style="color:#FF0000;"> transform: translateY(-3px);</font>**
+**<font style="color:#FF0000;"> transform: translateY(-3px);</font>**
 
 **<font style="color:#FF0000;">       box-shadow:0 0 10px rgba(0, 0, 0,.5);</font>**
 
@@ -6170,13 +6170,13 @@ swiper插件  轮播图（会引用，会修改即可） 
 
 **视距** ** perspective**
 
-     **<font style="color:#FF0000;">perspective </font>**[pə'spektiv] **<font style="color:#FF0000;">设置当前网页的视距为800px</font>**，人眼距离网页的距离，一般不小于600px
+**<font style="color:#FF0000;">perspective </font>**[pə'spektiv] **<font style="color:#FF0000;">设置当前网页的视距为800px</font>**，人眼距离网页的距离，一般不小于600px
 
      
 
 z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼之间的距离，距离越大，元素离人越近 
 
-                **<font style="color:#FF0000;">z轴平移</font>**属于立体效果（近大远小），默认情况下网页不支持透视
+**<font style="color:#FF0000;">z轴平移</font>**属于立体效果（近大远小），默认情况下网页不支持透视
 
                   如果需要**<font style="color:#FF0000;">看到效果，必须要设置网页的视距</font>**
 
@@ -6186,7 +6186,7 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
         /*perspective(800px)  谷歌要直接设置在transform里面 */
 
-       **<font style="color:#FF0000;"> transform: perspective(800px) translateZ(100px);</font>**
+**<font style="color:#FF0000;"> transform: perspective(800px) translateZ(100px);</font>**
 
         box-shadow: 0 0 10px rgba(0,0, 0, .5);
 
@@ -6194,7 +6194,7 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
    
 
-**旋转rotate**
+## 旋转rotate
 
         /* 设置当前网页的视距为800px，人眼距离网页的距离，一般不小于600px */
 
@@ -6220,9 +6220,9 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
         body:hover .box1{
 
-             **<font style="color:#FF0000;">通过旋转可以使元素沿着x y或者z旋转指定的角度</font>**
+**<font style="color:#FF0000;">通过旋转可以使元素沿着x y或者z旋转指定的角度</font>**
 
-            **<font style="color:#FF0000;">      rotateX() 沿着x轴旋转</font>**
+**<font style="color:#FF0000;">      rotateX() 沿着x轴旋转</font>**
 
 **<font style="color:#FF0000;">                  rotateY() 沿着y轴旋转</font>**
 
@@ -6236,11 +6236,11 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
             transform: rotateY(1turn);
 
-          **<font style="color:#FF0000;">设置是否显示元素的背面 </font>**
+**<font style="color:#FF0000;">设置是否显示元素的背面 </font>**
 
 **<font style="color:#FF0000;">            backface-visibility: ;</font>**
 
-                 **<font style="color:#FF0000;">可选值：visible 默认值，显示</font>**
+**<font style="color:#FF0000;">可选值：visible 默认值，显示</font>**
 
 **<font style="color:#FF0000;">                        hidden  不显示</font>**
 
@@ -6250,9 +6250,9 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
         }
 
-**缩放scale**
+## 缩放scale
 
-                   **<font style="color:#FF0000;">对元素进行缩放的函数</font>**
+**<font style="color:#FF0000;">对元素进行缩放的函数</font>**
 
 **<font style="color:#FF0000;">                     scale（）双方向缩放</font>**
 
@@ -6264,13 +6264,13 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
 **<font style="color:#FF0000;">默认效果1，小于1，缩小，大于1放大</font>**
 
-            		**<font style="color:#FF0000;">transform: scale(1.2);</font>**
+**<font style="color:#FF0000;">transform: scale(1.2);</font>**
 
          
 
-         **<font style="color:#FF0000;"> 			变形的原点  默认值center</font>**
+**<font style="color:#FF0000;"> 			变形的原点  默认值center</font>**
 
-            **<font style="color:#FF0000;"> 		transform-origin: 30px 30px</font>**; 
+**<font style="color:#FF0000;"> 		transform-origin: 30px 30px</font>**; 
 
            
 
@@ -6306,7 +6306,7 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
         }
 
-**flex(弹性盒子，伸缩盒)**
+## flex(弹性盒子，伸缩盒)
 
              -是css中的又一种布局手段，它主要用来**<font style="color:#FF0000;">代替浮动</font>**来完成页面的布局
 
@@ -6318,9 +6318,9 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
                 -通过display来设置弹性容器
 
-                    **<font style="color:#FF0000;">display:flex  设置块级弹性容器</font>**
+**<font style="color:#FF0000;">display:flex  设置块级弹性容器</font>**
 
-                   **<font style="color:#FF0000;"> display:inline-flex 设置为行内的弹性容器</font>**
+**<font style="color:#FF0000;"> display:inline-flex 设置为行内的弹性容器</font>**
 
              -弹性元素
 
@@ -6338,7 +6338,7 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
       ** ****一:弹性容器的属性**
 
-            **<font style="color:#FF0000;">1:flex-direction    2:flex-wrap </font>**
+**<font style="color:#FF0000;">1:flex-direction    2:flex-wrap </font>**
 
 **<font style="color:#FF0000;">            3:flex-flow   4:justify-content</font>**
 
@@ -6346,9 +6346,9 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
                  
 
-            **<font style="color:#FF0000;">1:flex-direction: ; 指定容器中弹性元素的排列方式</font>**
+**<font style="color:#FF0000;">1:flex-direction: ; 指定容器中弹性元素的排列方式</font>**
 
-             **<font style="color:#FF0000;">可选值：</font>**
+**<font style="color:#FF0000;">可选值：</font>**
 
 **<font style="color:#FF0000;">                row  默认值，弹性元素在容器中水平排列（左向右）</font>**
 
@@ -6368,13 +6368,13 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
            
 
-            **<font style="color:#FF0000;">主轴：弹性元素的排列方向称为主轴</font>**
+**<font style="color:#FF0000;">主轴：弹性元素的排列方向称为主轴</font>**
 
 **<font style="color:#FF0000;">            侧轴：与主轴垂直方向的称为侧轴</font>**
 
 **<font style="color:#FF0000;">2: flex-wrap: ;设置弹性元素是否在弹性容器中是否自动换行</font>**
 
-                  **<font style="color:#FF0000;">可选值： </font>**
+**<font style="color:#FF0000;">可选值： </font>**
 
 **<font style="color:#FF0000;">                    nowrap 默认值，元素不会自动换行</font>**
 
@@ -6470,7 +6470,7 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
            
 
-**二：弹性元素的属性 **
+## 二：弹性元素的属性
 
 **<font style="color:#FF0000;">                align-self</font>**
 
@@ -6560,7 +6560,7 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
 **<font style="color:#FF0000;">      </font>**
 
-**移动端**
+## 移动端
 
 屏幕
 
@@ -6580,7 +6580,7 @@ z轴平移，调整元素在z轴的位置，正常情况下调整元素和人眼
 
 ppi值才是真正衡量一块屏幕是否清晰的核心指标
 
-**PPI的计算方法是:PPI=开平方(X*X+Y*Y)/Z**
+## PPI的计算方法是:PPI=开平方(X*X+Y*Y)/Z
 
 (其中X,Y指长,宽像素数,Z指屏幕大小)。
 
@@ -6590,17 +6590,17 @@ ppi值才是真正衡量一块屏幕是否清晰的核心指标
 
 像素
 
-**3、设备独立像素**
+## 3、设备独立像素
 
-**设备独立像素简称DIP或DP,又称屏幕密度无关像素**
+## 设备独立像素简称DIP或DP,又称屏幕密度无关像素
 
 设备独立像素于物理像素关系
 
-**普通屏幕下1个设备独立像素对应1个物理像素**
+## 普通屏幕下1个设备独立像素对应1个物理像素
 
-**高清屏幕下1个设备独立像素对应N个物理像素**
+## 高清屏幕下1个设备独立像素对应N个物理像素
 
-**4、像素比**
+## 4、像素比
 
 像素比(dpr):单一方向设备【物理像素】和【设备独立像素】的比例
 
@@ -6626,7 +6626,7 @@ ppi值才是真正衡量一块屏幕是否清晰的核心指标
 
 (四)、视口的概念
 
-**视口(viewport)就是浏览器显示页面内容的屏幕区域**
+## 视口(viewport)就是浏览器显示页面内容的屏幕区域
 
 PC端视口:
 
@@ -6678,11 +6678,11 @@ PC端视口:
 
 开启理想视口的方法
 
-<meta name='viewport'content='width=device-width' /> 
+`<meta name='viewport'content='width=device-width' />` 
 
 (五)、meta标签设置
 
-<!--**<font style="color:#FF0000;">设置完美视口大小</font>**
+`<!--`**<font style="color:#FF0000;">设置完美视口大小</font>**
 
 **<font style="color:#FF0000;">device-width视口宽度和设备保持一致</font>**
 
@@ -7034,33 +7034,33 @@ rem,px之间的关系
 
       所以浏览器无法直接执行less代码，要执行必须将less转换为css，然后由浏览器执行
 
-         **<font style="color:#FF0000;">   -less即可以在客户端上运行，也可以借助Node.js在服务端运行</font>**
+**<font style="color:#FF0000;">   -less即可以在客户端上运行，也可以借助Node.js在服务端运行</font>**
 
-    <!-**<font style="color:#FF0000;">-第二种 easy less 引入我的css --></font>**
+    <!-**<font style="color:#FF0000;">-第二种 easy less 引入我的css `-->`</font>**
 
-    <!-- <link rel="stylesheet" href="./less语法.css"> -->
+    `<!-- <link rel="stylesheet" href="./less语法.css"> -->`
 
-    <!-- **<font style="color:#FF0000;">第三种外部引入less --></font>**
+    `<!--` **<font style="color:#FF0000;">第三种外部引入less `-->`</font>**
 
-    <link rel="stylesheet/less" type="text/less" href="./less语法.less">
+    `<link rel="stylesheet/less" type="text/less" href="./less语法.less">`
 
-    <!**<font style="color:#FF0000;">-- 第一种方式直接在内容写，要引入less.js --></font>**
+    <!**<font style="color:#FF0000;">-- 第一种方式直接在内容写，要引入less.js `-->`</font>**
 
-    <!-- <style type="text/less">
+    `<!-- <style type="text/less">`
 
      
 
-    </style> -->
+    `</style> -->`
 
  
 
-  <!-- 第三种引入方法 -->
+  `<!--` 第三种引入方法 `-->`
 
-  <!--运行时编译 -->
+  `<!--`运行时编译 `-->`
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.11.1/less.min.js"></script>
+  `<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.11.1/less.min.js"></script>`
 
-  <!-- vscode 插件 Easy LESS 插件 -->
+  `<!--` vscode 插件 Easy LESS 插件 `-->`
 
  
 
@@ -7070,6 +7070,7 @@ rem,px之间的关系
 
 **<font style="color:#FF0000;">@width:300px;</font>**
 
+```less
 @border:1px solid #000;
 
 #wrap{
@@ -7091,6 +7092,7 @@ rem,px之间的关系
 @color:red;
 
 @border:10px double black;
+```
 
 **<font style="color:#FF0000;">//声明一个变量</font>**
 
@@ -7104,6 +7106,7 @@ rem,px之间的关系
 
 **<font style="color:#FF0000;">    @{w}:@width;</font>**
 
+```less
     @{h}:@height;
 
     border:@border;
@@ -7117,9 +7120,11 @@ rem,px之间的关系
 @url:"../img/img1.png";
 
 // .warp{
+```
 
 **<font style="color:#FF0000;">background: url(../img.png) no-repeat;</font>**
 
+```less
  border: 1px solid @color;
 
 // }
@@ -7129,17 +7134,21 @@ rem,px之间的关系
     width: 100px;
 
     height: 100px;
+```
 
-   **<font style="color:#FF0000;"> background: url(@url) no-repeat;</font>**
+**<font style="color:#FF0000;"> background: url(@url) no-repeat;</font>**
 
+```less
     border: 1px solid @color;
 
 }
 
 @var: 0px;
+```
 
 **<font style="color:#FF0000;">// 变量是块级作用域</font>**
 
+```less
 .class {
 
   @var: 10px;
@@ -7147,15 +7156,19 @@ rem,px之间的关系
     .brass {
 
       @var: 20px;
+```
 
       width: @var;  //30 **<font style="color:#FF0000;"> 读完块级作用域后，再去确定变量值</font>**
 
+```less
       @var: 30px; 
 
     }
+```
 
- **<font style="color:#FF0000;"> width: @var;  //10</font>**
+**<font style="color:#FF0000;"> width: @var;  //10</font>**
 
+```less
 }
 
 *{
@@ -7197,14 +7210,17 @@ ul{
             color: white;
 
         }
+```
 
-       **<font style="color:#FF0000;"> // &表示上一级选择器</font>**
+**<font style="color:#FF0000;"> // &表示上一级选择器</font>**
 
+```less
         &:hover{
 
             background-color:tomato;
 
         }
+```
 
 **<font style="color:#FF0000;">//带参数的混合 </font>**
 
@@ -7212,6 +7228,7 @@ ul{
 
 **<font style="color:#FF0000;">.base(@w,@h,@color</font>**){
 
+```less
     width: @w;
 
     height: @h;
@@ -7221,13 +7238,17 @@ ul{
     margin-bottom: 10px
 
 }
+```
 
 // **<font style="color:#FF0000;">以下传入实参</font>**
 
+```less
 #box1{
+```
 
-  **<font style="color:#FF0000;">  .base(100px,100px,red);</font>**
+**<font style="color:#FF0000;">  .base(100px,100px,red);</font>**
 
+```less
 }
 
 #box2{
@@ -7235,6 +7256,7 @@ ul{
     .base(200px,200px,pink);
 
 }
+```
 
 **<font style="color:#FF0000;">//带参数的混合 </font>**
 
@@ -7242,6 +7264,7 @@ ul{
 
 **<font style="color:#FF0000;">.base(@w:100px,@h:100px,@color:yellow)</font>**{
 
+```less
     width: @w;
 
     height: @h;
@@ -7251,13 +7274,17 @@ ul{
     margin-bottom: 10px
 
 }
+```
 
 **<font style="color:#FF0000;">// 以下传入实参</font>**
 
+```less
 #box1{
+```
 
-   **<font style="color:#FF0000;"> .base(100px,100px,red);</font>**
+**<font style="color:#FF0000;"> .base(100px,100px,red);</font>**
 
+```less
 }
 
 #box2{
@@ -7265,3 +7292,4 @@ ul{
     .base(200px,200px,pink);
 
 }
+```
