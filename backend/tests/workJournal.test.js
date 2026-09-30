@@ -53,9 +53,37 @@ describe('work journal routes', () => {
     const response = await request(app)
       .post('/api/work-journal/employments')
       .set('Authorization', `Bearer ${token}`)
-      .send({ company: '甲方科技', position: '前端工程师', startedOn: '2026-01-05' })
+      .send({
+        company: '甲方科技',
+        position: '前端工程师',
+        startedOn: '2026-01-05',
+        probationSalary: '8K',
+        regularSalary: '10K',
+        salaryUnit: '月薪',
+        workSchedule: '大小周',
+        workStartTime: '09:00',
+        workEndTime: '18:00',
+        departureContactName: '李 HR',
+        departureContactPhone: '13800001234',
+        departureContactEmail: 'hr@example.com',
+        workContent: '负责管理后台和数据看板开发',
+        companyAddress: '深圳市南山区科技园 1 号楼'
+      })
       .expect(201)
     employment = response.body.data
+    expect(employment).toMatchObject({
+      probationSalary: '8K',
+      regularSalary: '10K',
+      salaryUnit: '月薪',
+      workSchedule: '大小周',
+      workStartTime: '09:00',
+      workEndTime: '18:00',
+      departureContactName: '李 HR',
+      departureContactPhone: '13800001234',
+      departureContactEmail: 'hr@example.com',
+      workContent: '负责管理后台和数据看板开发',
+      companyAddress: '深圳市南山区科技园 1 号楼'
+    })
   })
 
   afterAll(async () => {
@@ -88,6 +116,23 @@ describe('work journal routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({ note: '越权' })
       .expect(404)
+  })
+
+  it('updates extended employment details independently', async () => {
+    const response = await request(app)
+      .patch(`/api/work-journal/employments/${employment.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ regularSalary: '11K', workSchedule: '双休', workStartTime: '08:30', companyAddress: '深圳市南山区新地址' })
+      .expect(200)
+
+    expect(response.body.data).toMatchObject({
+      probationSalary: '8K',
+      regularSalary: '11K',
+      workSchedule: '双休',
+      workStartTime: '08:30',
+      companyAddress: '深圳市南山区新地址'
+    })
+    expect(await Employment.findById(employment.id)).toMatchObject({ regularSalary: '11K', workSchedule: '双休' })
   })
 
   it('creates one daily log per employment and rejects duplicate dates', async () => {

@@ -1,6 +1,9 @@
 import { z } from 'zod'
 
 const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '日期格式应为 YYYY-MM-DD')
+const timeSchema = z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/, '时间格式应为 HH:mm')
+const optionalTimeSchema = z.union([z.literal(''), timeSchema]).optional()
+const optionalText = (max) => z.string().trim().max(max).optional()
 
 export const employmentCreateSchema = z.object({
   company: z.string().trim().min(1, '请输入公司名称').max(120),
@@ -8,6 +11,17 @@ export const employmentCreateSchema = z.object({
   position: z.string().trim().min(1, '请输入岗位名称').max(120),
   startedOn: dateSchema,
   endedOn: z.union([z.literal(''), dateSchema]).optional(),
+  probationSalary: optionalText(80),
+  regularSalary: optionalText(80),
+  salaryUnit: z.enum(['', '月薪', '年薪', '时薪', '面议', '其他']).optional(),
+  workSchedule: z.enum(['', '双休', '单休', '大小周', '轮班制', '不固定', '其他']).optional(),
+  workStartTime: optionalTimeSchema,
+  workEndTime: optionalTimeSchema,
+  departureContactName: optionalText(80),
+  departureContactPhone: optionalText(40),
+  departureContactEmail: z.string().trim().email('请输入正确的联系人邮箱').max(160).optional().or(z.literal('')),
+  workContent: optionalText(5000),
+  companyAddress: optionalText(300),
   note: z.string().trim().max(1000).optional()
 }).strict()
 

@@ -19,6 +19,7 @@
           <a-button v-if="editingId" size="small" @click="resetForm">新建</a-button>
         </div>
         <a-form layout="vertical">
+          <div class="employment-manager__section-title">基本信息</div>
           <div class="employment-manager__grid">
             <a-form-item label="公司名称" required>
               <a-input v-model:value.trim="form.company" :maxlength="120" placeholder="公司或组织名称" />
@@ -36,6 +37,47 @@
               <a-input v-model:value="form.endedOn" type="date" />
             </a-form-item>
           </div>
+          <div class="employment-manager__section-title">薪资与工作制度</div>
+          <div class="employment-manager__grid">
+            <a-form-item label="试用期工资">
+              <a-input v-model:value.trim="form.probationSalary" :maxlength="80" placeholder="例如 8K、8000 元" />
+            </a-form-item>
+            <a-form-item label="转正后工资">
+              <a-input v-model:value.trim="form.regularSalary" :maxlength="80" placeholder="例如 10K、10000 元" />
+            </a-form-item>
+            <a-form-item label="薪资周期">
+              <a-select v-model:value="form.salaryUnit" :options="salaryUnitOptions" show-search option-filter-prop="label" allow-clear placeholder="选择薪资周期" />
+            </a-form-item>
+            <a-form-item label="休息制度">
+              <a-select v-model:value="form.workSchedule" :options="workScheduleOptions" show-search option-filter-prop="label" allow-clear placeholder="单双休、大小周等" />
+            </a-form-item>
+            <a-form-item label="上班时间">
+              <div class="employment-manager__time-range">
+                <a-input v-model:value="form.workStartTime" type="time" aria-label="上班开始时间" />
+                <span>至</span>
+                <a-input v-model:value="form.workEndTime" type="time" aria-label="下班结束时间" />
+              </div>
+            </a-form-item>
+          </div>
+          <div class="employment-manager__section-title">离职联系人</div>
+          <div class="employment-manager__grid">
+            <a-form-item label="联系人姓名">
+              <a-input v-model:value.trim="form.departureContactName" :maxlength="80" placeholder="离职后仍可联系的同事或 HR" />
+            </a-form-item>
+            <a-form-item label="联系电话">
+              <a-input v-model:value.trim="form.departureContactPhone" :maxlength="40" placeholder="手机号或座机" />
+            </a-form-item>
+            <a-form-item label="联系邮箱">
+              <a-input v-model:value.trim="form.departureContactEmail" :maxlength="160" placeholder="选填" />
+            </a-form-item>
+          </div>
+          <div class="employment-manager__section-title">工作内容与公司地址</div>
+          <a-form-item label="具体工作内容">
+            <a-textarea v-model:value="form.workContent" :maxlength="5000" :auto-size="{ minRows: 3, maxRows: 7 }" placeholder="记录主要负责的项目、职责、技术栈或交付内容" />
+          </a-form-item>
+          <a-form-item label="公司地址">
+            <a-textarea v-model:value="form.companyAddress" :maxlength="300" :auto-size="{ minRows: 2, maxRows: 4 }" placeholder="填写实际办公地址，便于面试和回顾" />
+          </a-form-item>
           <a-form-item label="备注">
             <a-textarea v-model:value="form.note" :maxlength="1000" :auto-size="{ minRows: 2, maxRows: 4 }" />
           </a-form-item>
@@ -94,9 +136,17 @@ const saving = ref(false)
 const deletingId = ref('')
 const editingId = ref('')
 const form = reactive(createEmptyForm())
+const salaryUnitOptions = ['月薪', '年薪', '时薪', '面议', '其他'].map((value) => ({ value, label: value }))
+const workScheduleOptions = ['双休', '单休', '大小周', '轮班制', '不固定', '其他'].map((value) => ({ value, label: value }))
 
 function createEmptyForm() {
-  return { company: '', department: '', position: '', startedOn: '', endedOn: '', note: '' }
+  return {
+    company: '', department: '', position: '', startedOn: '', endedOn: '',
+    probationSalary: '', regularSalary: '', salaryUnit: '', workSchedule: '',
+    workStartTime: '', workEndTime: '', departureContactName: '',
+    departureContactPhone: '', departureContactEmail: '', workContent: '',
+    companyAddress: '', note: ''
+  }
 }
 
 function resetForm() {
@@ -112,6 +162,17 @@ function edit(item) {
     position: item.position,
     startedOn: item.startedOn,
     endedOn: item.endedOn || '',
+    probationSalary: item.probationSalary || '',
+    regularSalary: item.regularSalary || '',
+    salaryUnit: item.salaryUnit || '',
+    workSchedule: item.workSchedule || '',
+    workStartTime: item.workStartTime || '',
+    workEndTime: item.workEndTime || '',
+    departureContactName: item.departureContactName || '',
+    departureContactPhone: item.departureContactPhone || '',
+    departureContactEmail: item.departureContactEmail || '',
+    workContent: item.workContent || '',
+    companyAddress: item.companyAddress || '',
     note: item.note || ''
   })
 }
@@ -170,6 +231,20 @@ watch(() => props.open, (visible) => {
   padding-bottom: 4px;
 }
 
+.employment-manager__section-title {
+  margin: 4px 0 12px;
+  padding-top: 4px;
+  border-top: 1px solid var(--console-border, #e5e7eb);
+  color: var(--console-text, #303133);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.employment-manager__section-title:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
 .employment-manager__heading,
 .employment-manager__list-heading,
 .employment-manager__row {
@@ -188,6 +263,17 @@ watch(() => props.open, (visible) => {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 14px;
+}
+
+.employment-manager__time-range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.employment-manager__time-range span {
+  color: var(--console-text-secondary, #667085);
 }
 
 .employment-manager__list {
