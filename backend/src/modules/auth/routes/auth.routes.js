@@ -7,6 +7,7 @@ import { logoutLoginSession, touchLoginSession } from '#modules/auth/services/lo
 import { consumePasswordResetLink, inspectPasswordResetLink } from '#modules/passwordReset/services/passwordReset.service.js'
 import { passwordResetConsumeSchema, passwordResetCredentialSchema, passwordResetTokenSchema } from '#modules/passwordReset/validators/passwordReset.validator.js'
 import { hydrateUserPermissions } from '#modules/rbac/services/rbac.service.js'
+import { revokeMediaVaultSession } from '#modules/media/services/mediaVault.service.js'
 import { clearAuthCookie, decryptCredential, issueCredentialChallenge, setAuthCookie } from '#utils/authSecurity.js'
 import {
   credentialChallengeSchema,
@@ -88,6 +89,7 @@ authRouter.post('/reset-password', (req, res) => {
 
 authRouter.post('/logout', optionalAuth, asyncHandler(async (req, res) => {
   await logoutLoginSession({ userId: req.user?._id, sessionId: req.authSessionId })
+  await revokeMediaVaultSession(req.user, req, res)
   clearAuthCookie(res)
   res.json(ok(null, '退出成功'))
 }))

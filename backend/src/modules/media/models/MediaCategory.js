@@ -17,6 +17,18 @@ const mediaCategorySchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    builtinKey: {
+      type: String,
+      trim: true,
+      default: '',
+      maxlength: 40
+    },
+    accessMode: {
+      type: String,
+      enum: ['public', 'vault'],
+      default: 'public',
+      index: true
+    },
     description: {
       type: String,
       trim: true,
@@ -42,6 +54,8 @@ mediaCategorySchema.methods.toSafeJSON = function toSafeJSON() {
     name: this.name,
     owner: this.owner?.toString?.() || null,
     system: this.system === true,
+    builtinKey: this.builtinKey || '',
+    accessMode: this.accessMode || 'public',
     description: this.description || '',
     sortOrder: this.sortOrder || 0,
     createdAt: this.createdAt,

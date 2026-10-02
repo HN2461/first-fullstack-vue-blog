@@ -4,6 +4,7 @@ import archiver from 'archiver'
 import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
+import { getVaultStorageRoot, requireMediaVaultAccess } from './mediaVault.service.js'
 
 const DEFAULT_ARCHIVE_PREFIX = '媒体资源'
 
@@ -19,11 +20,17 @@ function canManageAllMedia(actor) {
 }
 
 function getMediaAccessQuery(actor) {
-  if (!actor || canManageAllMedia(actor)) {
-    return {}
+  const query = !actor || canManageAllMedia(actor)
+    ? {}
+    : { uploader: actor._id || actor.id }
+  if (!actor || actor?.mediaVaultUnlocked !== true) query.accessScope = { $ne: 'vault' }
+  else if (canManageAllMedia(actor)) {
+    query.$or = [
+      { accessScope: { $ne: 'vault' } },
+      { accessScope: 'vault', uploader: actor._id || actor.id }
+    ]
   }
-
-  return { uploader: actor._id || actor.id }
+  return query
 }
 
 function isPathInside(parent, target) {
@@ -31,9 +38,10 @@ function isPathInside(parent, target) {
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative))
 }
 
-function getAllowedUploadRoots(includePrivate = false) {
+function getAllowedUploadRoots(includePrivate = false, includeVault = false) {
   const roots = [resolveUploadRoot(), resolveLegacyUploadRoot()]
   if (includePrivate) roots.push(path.resolve(resolveUploadRoot(), 'work-journal'))
+  if (includeVault) roots.push(getVaultStorageRoot())
   return [...new Set(roots.map((item) => path.resolve(item)))]
 }
 
@@ -50,14 +58,14 @@ function collectCandidatePaths(media) {
   const normalizedUrl = String(media.url || '').trim()
   if (normalizedUrl.startsWith('/uploads/')) {
     const relativePath = normalizedUrl.replace(/^\/uploads\//, '').replace(/\//g, path.sep)
-  getAllowedUploadRoots(media.accessScope === 'private').forEach((root) => addCandidate(path.join(root, relativePath)))
+    getAllowedUploadRoots(media.accessScope === 'private', media.accessScope === 'vault').forEach((root) => addCandidate(path.join(root, relativePath)))
   }
 
   return candidates
 }
 
 function resolveManagedFilePath(media) {
-  const allowedRoots = getAllowedUploadRoots(media.accessScope === 'private')
+  const allowedRoots = getAllowedUploadRoots(media.accessScope === 'private', media.accessScope === 'vault')
   const targetPath = collectCandidatePaths(media).find((candidate) => (
     allowedRoots.some((root) => isPathInside(root, candidate)) &&
     fs.existsSync(candidate) &&
@@ -162,6 +170,7 @@ async function resolveDownloadItems(ids, actor) {
   const mediaMap = new Map(mediaList.map((media) => [media._id.toString(), media]))
   return uniqueIds.map((id) => {
     const media = mediaMap.get(id)
+    if (media.accessScope === 'vault') requireMediaVaultAccess(actor)
     return {
       media,
       filePath: resolveManagedFilePath(media)

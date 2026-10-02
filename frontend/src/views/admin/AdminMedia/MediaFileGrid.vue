@@ -14,7 +14,7 @@
         <div class="media-file-card__select">
           <a-checkbox
             :checked="selectedKeys.includes(record.id)"
-            :aria-label="`选择 ${record.originalName}`"
+            :aria-label="isVaultRecord(record) && !vaultDetailsVisible ? '选择密码箱文件' : `选择 ${record.originalName}`"
             @click.stop
             @change="toggleSelection(record)"
           />
@@ -22,23 +22,34 @@
         <button
           type="button"
           class="media-file-card__preview"
-          :aria-label="`预览 ${record.originalName}`"
-          @click="emit('view', record)"
+          :aria-label="isVaultRecord(record) && !vaultDetailsVisible ? '密码箱文件已隐藏' : `预览 ${record.originalName}`"
+          @click="isMaskedVaultRecord(record) ? emit('reveal-vault') : emit('view', record)"
         >
-          <img v-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
+          <template v-if="isMaskedVaultRecord(record)">
+            <LockOutlined class="media-file-card__vault-icon" />
+            <span class="media-file-card__vault-label">已隐藏</span>
+          </template>
+          <img v-else-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
           <span v-else class="media-file-card__badge" :class="`is-${record.fileClass || 'other'}`">
             {{ getFileBadge(record) }}
           </span>
         </button>
         <div class="media-file-card__info">
-          <strong :title="record.originalName">{{ record.originalName }}</strong>
-          <span>{{ formatFileSize(record.size) }} · {{ getFileClassLabel(record.fileClass) }}</span>
-          <a-badge
-            :status="record.usage?.referenceCount > 0 ? 'success' : 'warning'"
-            :text="`${record.usage?.usageStatusLabel || '待扫描'} · ${record.usage?.referenceCount || 0}`"
-          />
+          <template v-if="isMaskedVaultRecord(record)">
+            <strong>密码箱文件</strong>
+            <span>点击上方“显示文件信息”后查看</span>
+            <span>文件内容仍受密码箱会话保护</span>
+          </template>
+          <template v-else>
+            <strong :title="record.originalName">{{ record.originalName }}</strong>
+            <span>{{ formatFileSize(record.size) }} · {{ getFileClassLabel(record.fileClass) }}</span>
+            <a-badge
+              :status="record.usage?.referenceCount > 0 ? 'success' : 'warning'"
+              :text="`${record.usage?.usageStatusLabel || '待扫描'} · ${record.usage?.referenceCount || 0}`"
+            />
+          </template>
         </div>
-        <div class="media-file-card__actions-wrap">
+        <div v-if="!isMaskedVaultRecord(record)" class="media-file-card__actions-wrap">
           <MediaRowActions
             class="media-file-card__actions"
             @view="emit('view', record)"
@@ -70,6 +81,7 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
+import { LockOutlined } from '@ant-design/icons-vue'
 import MediaRowActions from './MediaRowActions.vue'
 
 const props = defineProps({
@@ -78,7 +90,8 @@ const props = defineProps({
   total: { type: Number, default: 0 },
   page: { type: Number, default: 1 },
   pageSize: { type: Number, default: 24 },
-  selectedKeys: { type: Array, default: () => [] }
+  selectedKeys: { type: Array, default: () => [] },
+  vaultDetailsVisible: { type: Boolean, default: false }
 })
 
 const emit = defineEmits([
@@ -89,13 +102,22 @@ const emit = defineEmits([
   'rename',
   'move',
   'references',
-  'delete'
+  'delete',
+  'reveal-vault'
 ])
 
 const currentPage = ref(props.page)
 const currentPageSize = ref(props.pageSize)
 
 const selectedKeys = computed(() => props.selectedKeys.map(String))
+
+function isVaultRecord(record) {
+  return record?.accessScope === 'vault'
+}
+
+function isMaskedVaultRecord(record) {
+  return isVaultRecord(record) && !props.vaultDetailsVisible
+}
 
 watch(() => props.page, (value) => {
   currentPage.value = value
@@ -206,6 +228,17 @@ function handlePageSizeChange(page, pageSize) {
   border-bottom: 1px solid var(--console-border);
   background: var(--console-surface-muted);
   cursor: pointer;
+}
+
+.media-file-card__vault-icon {
+  color: var(--console-text-secondary);
+  font-size: 26px;
+}
+
+.media-file-card__vault-label {
+  margin-left: 6px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
 }
 
 .media-file-card__preview img {

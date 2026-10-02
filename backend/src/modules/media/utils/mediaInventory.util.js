@@ -97,6 +97,16 @@ export function buildUrlFromRelativePath(relativePath) {
 
 export function inferInventorySource(relativePath) {
   const normalizedPath = String(relativePath || '').replace(/\\/g, '/')
+  // 密码箱目录不属于普通媒体库存，即使历史文件误放进 uploads，也不能公开登记、预览或清理。
+  if (normalizedPath.startsWith('vault/') || normalizedPath.startsWith('uploads-private/')) {
+    return {
+      type: 'protectedVault',
+      label: '密码箱受保护目录',
+      description: '密码箱资源由独立的私有访问链路管理，不属于公开媒体资产。',
+      registerable: false,
+      protectedReason: '密码箱文件必须通过密码箱会话访问，禁止登记为公开媒体或按未登记资源清理'
+    }
+  }
   if (normalizedPath.startsWith('avatars/')) {
     return {
       type: 'avatar',

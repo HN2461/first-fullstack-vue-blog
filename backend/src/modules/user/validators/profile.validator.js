@@ -74,6 +74,11 @@ export const passwordUpdateSchema = z.object({
   newPassword: z.string().min(8, '新密码至少需要 8 个字符').max(72, '新密码不能超过 72 个字符')
 }).strict('存在不支持的密码字段')
 
+export const vaultPasswordUpdateSchema = z.object({
+  oldPassword: z.string().optional().default(''),
+  newPassword: z.string().min(8, '密码箱密码至少需要 8 个字符').max(72, '密码箱密码不能超过 72 个字符')
+}).strict('存在不支持的密码箱密码字段')
+
 export const notificationSettingsSchema = z.object({
   email: z.boolean({ invalid_type_error: '邮件通知开关必须是布尔值' }).optional(),
   site: z.boolean({ invalid_type_error: '站内消息开关必须是布尔值' }).optional(),

@@ -11,7 +11,8 @@ import { batchDeleteAdminUsers, batchReviewComments, batchUpdateUserRoles, batch
 import { createPasswordResetLink, deletePasswordResetRecord, listPasswordResetRecords, resetPasswordDirectly, revokePasswordResetLink } from '#modules/passwordReset/services/passwordReset.service.js'
 import { directPasswordResetSchema, passwordResetCredentialSchema, passwordResetLinkCreateSchema } from '#modules/passwordReset/validators/passwordReset.validator.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
-import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaContent, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { attachMediaVaultAccess, changeMediaVaultPassword, getMediaVaultStatus, lockMediaVault, setupMediaVault, unlockMediaVault } from '#modules/media/services/mediaVault.service.js'
 import { handleMediaUpload } from '#modules/media/handlers/mediaUpload.handler.js'
 import { clearSuspectedUntrackedMedia, getUnregisteredMediaFileDetail, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
@@ -156,6 +157,9 @@ adminRouter.use('/articles', (req, res, next) => {
 adminRouter.use('/comments', canAccessComments)
 adminRouter.use('/media/trash', canAccessTrash)
 adminRouter.use('/media', canAccessMedia)
+adminRouter.use('/media', (req, _res, next) => {
+  attachMediaVaultAccess(req).then(() => next()).catch(next)
+})
 adminRouter.use('/monitor', canAccessMonitor)
 adminRouter.use('/announcements', canAccessNotifications)
 adminRouter.use('/project-timeline', canAccessProjectTimeline)
@@ -669,6 +673,34 @@ adminRouter.get('/media/trash', asyncHandler(async (req, res) => {
 
 adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
   res.json(ok(await listMediaCategories(req.user, { scope: req.query.scope })))
+}))
+
+adminRouter.get('/media-vault/status', asyncHandler(async (req, res) => {
+  res.json(ok(await getMediaVaultStatus(req.user, req)))
+}))
+
+adminRouter.post('/media-vault/setup', asyncHandler(async (req, res) => {
+  const password = String(req.body?.password || '')
+  if (password.length < 8 || password.length > 72) {
+    const error = new Error('密码箱密码长度应为 8-72 位')
+    error.statusCode = 400
+    throw error
+  }
+  res.status(201).json(ok(await setupMediaVault(req.user, password, res), '密码箱已设置并解锁'))
+}))
+
+adminRouter.post('/media-vault/unlock', asyncHandler(async (req, res) => {
+  const password = String(req.body?.password || '')
+  if (!password) {
+    const error = new Error('请输入密码箱密码')
+    error.statusCode = 400
+    throw error
+  }
+  res.json(ok(await unlockMediaVault(req.user, password, req, res), '密码箱已解锁'))
+}))
+
+adminRouter.post('/media-vault/lock', asyncHandler(async (req, res) => {
+  res.json(ok(await lockMediaVault(req.user, req, res), '已结束本次密码箱验证'))
 }))
 
 adminRouter.get('/media/delete-risk', asyncHandler(async (req, res) => {

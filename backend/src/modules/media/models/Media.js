@@ -49,7 +49,7 @@ const mediaSchema = new mongoose.Schema(
     },
     accessScope: {
       type: String,
-      enum: ['public', 'private'],
+      enum: ['public', 'private', 'vault'],
       default: 'public',
       index: true
     },

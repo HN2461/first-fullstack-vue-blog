@@ -4,6 +4,25 @@
     <div class="media-cloud__topbar">
       <div class="media-cloud__identity">
         <h2 class="media-cloud__title">媒体资产</h2>
+        <div v-if="vaultContext" class="media-vault-session">
+          <a-tooltip :title="vaultStatus.unlocked ? '本次验证从密码输入成功时开始计时，固定 30 分钟，期间操作不会重置' : '输入密码后才能查看密码箱内容'">
+            <a-tag :color="vaultStatus.unlocked ? 'green' : 'orange'" :bordered="false">
+              <LockOutlined />
+              {{ vaultStatus.unlocked ? `密码箱已验证 · 本次剩余 ${vaultRemainingLabel}` : '密码箱内容已隐藏' }}
+            </a-tag>
+          </a-tooltip>
+          <a-tooltip v-if="viewMode === 'list'" :title="vaultStatus.unlocked ? (vaultDetailsVisible ? '隐藏密码箱文件信息' : '显示密码箱文件信息') : '解除密码箱隐藏'">
+            <a-button type="text" size="small" aria-label="切换密码箱文件信息显示" @click="toggleVaultDetails">
+              <template #icon><EyeInvisibleOutlined v-if="vaultDetailsVisible" /><EyeOutlined v-else /></template>
+            </a-button>
+          </a-tooltip>
+          <a-tooltip v-if="vaultStatus.unlocked" title="结束本次密码箱验证">
+            <a-button type="text" size="small" aria-label="结束本次密码箱验证" @click="lockVault">
+              <template #icon><LockOutlined /></template>
+              <span class="media-vault-session__end-label">结束验证</span>
+            </a-button>
+          </a-tooltip>
+        </div>
       </div>
       <div class="media-cloud__topbar-actions">
         <MediaViewSwitcher v-model="viewMode" @update:model-value="changeViewMode" />
@@ -41,6 +60,7 @@
           size="middle"
           :options="filterCategoryOptions"
           :filter-option="filterSelectOption"
+          @change="handleCategoryFilterChange"
         />
         <a-select
           v-model:value="filterFileClass"
@@ -108,18 +128,27 @@
           <template v-if="column.key === 'asset'">
             <div class="media-file">
               <div class="media-file__thumb" :class="`is-${record.fileClass || 'other'}`">
-                <img v-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
+                <template v-if="isMaskedVaultRecord(record)">
+                  <LockOutlined class="media-file__vault-icon" />
+                </template>
+                <img v-else-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
                 <span v-else class="media-file__ext">{{ getFileBadge(record) }}</span>
               </div>
               <div class="media-file__info">
-                <div class="media-file__name" :title="record.originalName">{{ record.originalName }}</div>
-                <a-typography-text
-                  :content="record.url"
-                  :copyable="{ text: record.url, tooltips: ['复制地址', '已复制'] }"
-                  class="media-file__url"
-                >
-                  {{ record.url }}
-                </a-typography-text>
+                <template v-if="isMaskedVaultRecord(record)">
+                  <div class="media-file__name">密码箱文件</div>
+                  <span class="media-file__url">点击顶部眼睛按钮显示</span>
+                </template>
+                <template v-else>
+                  <div class="media-file__name" :title="record.originalName">{{ record.originalName }}</div>
+                  <a-typography-text
+                    :content="record.url"
+                    :copyable="{ text: record.url, tooltips: ['复制地址', '已复制'] }"
+                    class="media-file__url"
+                  >
+                    {{ record.url }}
+                  </a-typography-text>
+                </template>
               </div>
             </div>
           </template>
@@ -127,23 +156,24 @@
           <!-- 类型标签 -->
           <template v-else-if="column.key === 'fileClass'">
             <a-tag :bordered="false" :color="getFileClassColor(record.fileClass)" class="media-type-tag">
-              {{ getFileClassLabel(record.fileClass) }}
+              {{ isMaskedVaultRecord(record) ? '已隐藏' : getFileClassLabel(record.fileClass) }}
             </a-tag>
           </template>
 
           <!-- 文件大小 -->
           <template v-else-if="column.key === 'size'">
-            <span class="media-size">{{ formatFileSize(record.size) }}</span>
+            <span class="media-size">{{ isMaskedVaultRecord(record) ? '—' : formatFileSize(record.size) }}</span>
           </template>
 
           <!-- 分类 -->
           <template v-else-if="column.key === 'category'">
-            <span class="media-category-label">{{ record.category || '未分类' }}</span>
+            <span class="media-category-label">{{ isMaskedVaultRecord(record) ? '密码箱' : (record.category || '未分类') }}</span>
           </template>
 
           <!-- 引用状态 -->
           <template v-else-if="column.key === 'usage'">
             <a-button
+              v-if="!isMaskedVaultRecord(record)"
               type="link"
               size="small"
               class="media-usage-link"
@@ -158,12 +188,13 @@
 
           <!-- 上传时间 -->
           <template v-else-if="column.key === 'createdAt'">
-            <span class="media-time">{{ formatDate(record.createdAt) }}</span>
+            <span class="media-time">{{ isMaskedVaultRecord(record) ? '—' : formatDate(record.createdAt) }}</span>
           </template>
 
           <!-- 操作按钮 -->
           <template v-else-if="column.key === 'action'">
-            <MediaRowActions
+            <a-tag v-if="isMaskedVaultRecord(record)" :bordered="false" color="orange">已隐藏</a-tag>
+            <MediaRowActions v-else
               @view="handleView(record)"
               @download="downloadSingleMedia(record)"
               @rename="handleRename(record)"
@@ -318,6 +349,7 @@
                 <div class="media-category-item__title">
                   <strong>{{ item.name }}</strong>
                   <a-tag v-if="item.system" :bordered="false" color="blue">系统</a-tag>
+                  <a-tag v-else-if="isVaultCategory(item)" :bordered="false" color="orange">内置密码箱</a-tag>
                   <a-tag v-else-if="!item.id" :bordered="false" color="orange">待归档</a-tag>
                 </div>
                 <p>{{ item.description || '未填写分类说明' }}</p>
@@ -354,7 +386,7 @@
           <div class="media-category-panel__form-header">
             <div>
               <strong>{{ editingCategoryId ? '编辑自定义分类' : '新建自定义分类' }}</strong>
-              <span>系统分类由业务链路维护，不能修改或删除。</span>
+              <span>系统分类由业务链路维护，不能修改或删除；密码箱是每个账号固定拥有的内置分类，只能在个人信息中设置或修改密码。</span>
             </div>
             <a-button v-if="editingCategoryId" type="text" size="small" @click="resetCategoryDraft">取消编辑</a-button>
           </div>
@@ -376,15 +408,44 @@
     </a-modal>
 
     <MediaGuideModal v-model:open="mediaGuideVisible" :topic="mediaGuideTopic" />
+
+    <a-modal
+      v-model:open="vaultModalVisible"
+      :title="vaultModalMode === 'setup' ? '设置密码箱密码' : '解锁密码箱'"
+      ok-text="确认"
+      cancel-text="取消"
+      :confirm-loading="vaultSubmitting"
+      :destroy-on-close="true"
+      :body-style="{ maxHeight: '48vh', overflow: 'auto' }"
+      @ok="submitVaultAccess"
+    >
+      <a-form layout="vertical" @submit.prevent="submitVaultAccess">
+        <a-form-item :label="vaultModalMode === 'setup' ? '设置密码' : '密码箱密码'">
+          <a-input-password
+            v-model:value="vaultPassword"
+            autofocus
+            :placeholder="vaultModalMode === 'setup' ? '请输入 8-72 位密码' : '请输入密码箱密码'"
+            @press-enter="submitVaultAccess"
+          />
+        </a-form-item>
+        <p class="media-vault-modal__hint">
+          {{ vaultModalMode === 'setup' ? '密码设置后会立即解锁当前密码箱。' : '验证通过后才能查看、上传和管理密码箱内的资源。' }}
+        </p>
+      </a-form>
+    </a-modal>
   </section>
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
 import {
   EditOutlined,
   DeleteOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  LockOutlined,
   QuestionCircleOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
@@ -421,7 +482,11 @@ import {
   moveAdminMediaCategory,
   renameAdminMedia,
   updateAdminMediaCategory,
-  updateAdminSettings
+  updateAdminSettings,
+  getAdminMediaVaultStatus,
+  lockAdminMediaVault,
+  setupAdminMediaVault,
+  unlockAdminMediaVault
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAuthStore } from '@/stores/auth'
@@ -483,6 +548,17 @@ const folderLoading = ref(false)
 const folderSelectedKeys = ref([])
 const folderSelectedRecords = ref([])
 const uploadCategoryId = ref('')
+const vaultModalVisible = ref(false)
+const vaultModalMode = ref('unlock')
+const vaultPassword = ref('')
+const vaultSubmitting = ref(false)
+const vaultTargetFolder = ref(null)
+const vaultStatus = ref({ configured: false, unlocked: false, remainingSeconds: 0, expiresAt: null })
+const vaultDetailsVisible = ref(false)
+const vaultRecordsPresent = ref(false)
+const vaultNow = ref(Date.now())
+const vaultRemainingSeconds = ref(0)
+let vaultTimer = null
 const categoryDraft = ref({
   name: '',
   description: ''
@@ -490,6 +566,26 @@ const categoryDraft = ref({
 const { runAction, confirmAction } = useAdminActions()
 const authStore = useAuthStore()
 const canManageMediaShares = computed(() => authStore.canAccessPath('/console/manage/media-shares'))
+const activeFolder = computed(() => folderCategories.value.find((item) => String(item.id) === String(activeFolderId.value)) || null)
+const vaultContext = computed(() => (
+  activeFolder.value?.accessMode === 'vault' || activeFolder.value?.builtinKey === 'vault' ||
+  (viewMode.value === 'list' && (
+    vaultStatus.value.configured ||
+    categories.value.find((item) => String(item.id) === String(filterCategory.value))?.accessMode === 'vault' ||
+    vaultRecordsPresent.value
+  ))
+))
+function calculateVaultRemainingSeconds(status = vaultStatus.value, now = Date.now()) {
+  if (!status.unlocked || !status.expiresAt) return 0
+  return Math.max(0, Math.ceil((new Date(status.expiresAt).getTime() - now) / 1000))
+}
+const vaultRemainingLabel = computed(() => {
+  const seconds = vaultRemainingSeconds.value
+  if (seconds <= 0) return '已到期'
+  const minutes = Math.floor(seconds / 60)
+  const remainder = seconds % 60
+  return minutes > 0 ? `${minutes} 分 ${String(remainder).padStart(2, '0')} 秒` : `${remainder} 秒`
+})
 const {
   downloadModalVisible,
   downloadSubmitting,
@@ -646,6 +742,12 @@ function getFileBadge(record) {
   return record.originalName?.split('.').at(-1)?.toUpperCase() || 'FILE'
 }
 
+function isMaskedVaultRecord(record) {
+  return viewMode.value === 'list' && record?.accessScope === 'vault' && (
+    !vaultStatus.value.unlocked || !vaultDetailsVisible.value
+  )
+}
+
 function getFileClassLabel(fileClass) {
   return fileClassOptions.find((item) => item.value === fileClass)?.label || '其他'
 }
@@ -671,6 +773,7 @@ async function loadMedia(params) {
     category: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? undefined : filterCategory.value,
     usageStatus: filterUsageStatus.value || undefined
   })
+  vaultRecordsPresent.value = statsSource.items.some((item) => item.accessScope === 'vault')
   mediaStats.value = statsSource.items.reduce((acc, item) => {
     const key = item.fileClass || 'other'
     acc[key] = (acc[key] || 0) + 1
@@ -711,13 +814,164 @@ function changeViewMode(value) {
   updateFolderRoute()
 }
 
-function openFolder(folder) {
+function applyVaultStatus(status = {}) {
+  vaultStatus.value = {
+    configured: status.configured === true,
+    unlocked: status.unlocked === true,
+    enabled: status.enabled !== false,
+    categoryId: status.categoryId || null,
+    expiresAt: status.expiresAt || null,
+    remainingSeconds: Number(status.remainingSeconds) || 0
+  }
+  vaultNow.value = Date.now()
+  vaultRemainingSeconds.value = calculateVaultRemainingSeconds(vaultStatus.value, vaultNow.value)
+  if (!vaultStatus.value.unlocked) {
+    vaultDetailsVisible.value = false
+    vaultRecordsPresent.value = false
+    if (activeFolder.value?.accessMode === 'vault') {
+      folderItems.value = []
+      folderTotal.value = 0
+      clearFolderSelection()
+    }
+    if (viewMode.value === 'list') tableRef.value?.refresh()
+  }
+}
+
+async function syncVaultStatus() {
+  try {
+    applyVaultStatus(await getAdminMediaVaultStatus())
+  } catch {
+    // 状态同步失败时保留锁定视图，后续进入密码箱时仍会重新校验。
+    applyVaultStatus()
+  }
+}
+
+function startVaultClock() {
+  if (vaultTimer) clearInterval(vaultTimer)
+  vaultTimer = window.setInterval(() => {
+    vaultNow.value = Date.now()
+    vaultRemainingSeconds.value = calculateVaultRemainingSeconds(vaultStatus.value, vaultNow.value)
+    if (vaultStatus.value.unlocked && vaultRemainingSeconds.value <= 0) {
+      applyVaultStatus()
+      void syncVaultStatus()
+    }
+  }, 1000)
+}
+
+function toggleVaultDetails() {
+  if (!vaultStatus.value.unlocked) {
+    openVaultRevealModal()
+    return
+  }
+  vaultDetailsVisible.value = !vaultDetailsVisible.value
+}
+
+async function openVaultRevealModal() {
+  vaultTargetFolder.value = null
+  try {
+    const status = await getAdminMediaVaultStatus()
+    applyVaultStatus(status)
+    vaultModalMode.value = status?.configured ? (status.unlocked ? 'open' : 'unlock') : 'setup'
+    if (vaultModalMode.value === 'open') {
+      vaultDetailsVisible.value = true
+      refreshTable()
+      return
+    }
+    vaultPassword.value = ''
+    vaultModalVisible.value = true
+  } catch (error) {
+    message.error(error.message || '密码箱状态获取失败')
+  }
+}
+
+async function lockVault() {
+  try {
+    applyVaultStatus(await lockAdminMediaVault())
+    tableRef.value?.refresh()
+    if (activeFolder.value?.accessMode === 'vault') await loadFolderItems()
+    message.success('已结束本次密码箱验证')
+  } catch (error) {
+    message.error(error.message || '结束密码箱验证失败')
+  }
+}
+
+async function handleCategoryFilterChange(value) {
+  const category = categories.value.find((item) => String(item.id || item.name) === String(value || ''))
+  if (category?.accessMode !== 'vault' && category?.builtinKey !== 'vault') return
+  vaultTargetFolder.value = category
+  await openFolder(category)
+}
+
+async function openFolder(folder) {
+  if (folder?.accessMode === 'vault' || folder?.builtinKey === 'vault') {
+    const currentUserId = String(authStore.user?.id || authStore.user?._id || '')
+    if (folder.owner && currentUserId && String(folder.owner) !== currentUserId) {
+      message.error('密码箱只能由所属用户使用自己的密码解锁')
+      return
+    }
+    vaultTargetFolder.value = folder
+    try {
+      const status = await getAdminMediaVaultStatus()
+      applyVaultStatus(status)
+      vaultModalMode.value = status?.configured ? (status.unlocked ? 'open' : 'unlock') : 'setup'
+      if (vaultModalMode.value === 'open') {
+        enterVaultFolder(folder)
+        return
+      }
+      vaultPassword.value = ''
+      vaultModalVisible.value = true
+    } catch (error) {
+      errorMessage.value = error.message || '密码箱状态获取失败'
+    }
+    return
+  }
+
+  enterVaultFolder(folder)
+}
+
+function enterVaultFolder(folder) {
   activeFolderId.value = folder?.id || folder?.name || ''
   folderPage.value = 1
   folderKeyword.value = ''
+  // 文件夹视图在密码验证通过后直接展示内容；眼睛按钮只服务于列表视图。
+  vaultDetailsVisible.value = true
   clearFolderSelection()
   updateFolderRoute()
   loadFolderItems()
+}
+
+async function submitVaultAccess() {
+  const password = String(vaultPassword.value || '')
+  if (!password) {
+    message.error('请输入密码箱密码')
+    return
+  }
+  if (vaultModalMode.value === 'setup' && (password.length < 8 || password.length > 72)) {
+    message.error('密码箱密码长度应为 8-72 位')
+    return
+  }
+
+  vaultSubmitting.value = true
+  try {
+    const status = vaultModalMode.value === 'setup'
+      ? await setupAdminMediaVault(password)
+      : await unlockAdminMediaVault(password)
+    applyVaultStatus(status)
+    vaultModalVisible.value = false
+    vaultPassword.value = ''
+    if (vaultTargetFolder.value) {
+      enterVaultFolder(vaultTargetFolder.value)
+    } else if (status?.unlocked) {
+      vaultDetailsVisible.value = true
+      refreshTable()
+    }
+    await loadFolderCategories()
+    if (status?.unlocked) await loadFolderItems()
+  } catch (error) {
+    message.error(error.message || '密码箱验证失败')
+  } finally {
+    vaultSubmitting.value = false
+  }
 }
 
 function backToFolderRoot() {
@@ -820,6 +1074,7 @@ async function loadFolderItems() {
     })
     folderItems.value = result.items
     folderTotal.value = result.total
+    vaultRecordsPresent.value = activeFolder?.accessMode === 'vault' && result.items.some((item) => item.accessScope === 'vault')
   } catch (error) {
     errorMessage.value = error.message || '文件夹资源加载失败'
   } finally {
@@ -1084,8 +1339,12 @@ function resetCategoryDraft() {
   }
 }
 
+function isVaultCategory(item) {
+  return item?.accessMode === 'vault' || item?.builtinKey === 'vault'
+}
+
 function canEditCategory(item) {
-  return Boolean(item?.id) && !item.system
+  return Boolean(item?.id) && !item.system && !isVaultCategory(item)
 }
 
 function editCategory(item) {
@@ -1145,10 +1404,13 @@ function removeCategory(item) {
 }
 
 onMounted(async () => {
+  // 从组件挂载时就开始刷新，避免初始化请求较慢时倒计时迟迟不动。
+  startVaultClock()
   try {
     await Promise.all([
       loadCategories(),
       loadUploadRules(),
+      syncVaultStatus(),
       viewMode.value === 'folders' ? loadFolderCategoriesAndItems() : Promise.resolve()
     ])
     if (viewMode.value === 'list' && typeof route.query.category === 'string') {
@@ -1161,9 +1423,20 @@ onMounted(async () => {
     errorMessage.value = error.message || '媒体页初始化失败'
   }
 })
+
+onUnmounted(() => {
+  if (vaultTimer) clearInterval(vaultTimer)
+})
 </script>
 
 <style scoped>
+.media-vault-modal__hint {
+  margin: 0;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 /* ===== 页面容器：表格是绝对主角 ===== */
 .media-cloud {
   display: flex;

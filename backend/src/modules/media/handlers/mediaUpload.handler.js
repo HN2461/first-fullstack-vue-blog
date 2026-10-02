@@ -2,7 +2,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import multer, { MulterError } from 'multer'
 import { getMediaFileExtension, isMediaExtensionAllowed, normalizeAllowedMediaExtensions } from '#modules/media/constants/mediaUpload.constants.js'
-import { createMediaFromFiles, getUploadSubdir } from '#modules/media/services/media.service.js'
+import { createMediaFromFiles } from '#modules/media/services/media.service.js'
+import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { acquireMediaUpload, assertMediaUploadTotalSize, cleanupMediaUploadPaths } from '#modules/media/services/mediaUploadGuard.service.js'
 import { getSettings } from '#modules/settings/services/setting.service.js'
 import { ok } from '#utils/apiResponse.js'
@@ -11,9 +12,13 @@ import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
 const ABSOLUTE_MAX_MEDIA_FILES = 20
 const ABSOLUTE_MAX_MEDIA_FILE_SIZE_MB = 1024
 
+function getTemporaryUploadDir() {
+  return path.resolve(resolveUploadRoot(), '..', '.media-tmp')
+}
+
 const storage = multer.diskStorage({
   destination(req, file, callback) {
-    const uploadDir = req.mediaUploadDir || getUploadSubdir()
+    const uploadDir = req.mediaUploadDir || getTemporaryUploadDir()
     req.mediaUploadDir = uploadDir
     fs.mkdirSync(uploadDir, { recursive: true })
     callback(null, uploadDir)

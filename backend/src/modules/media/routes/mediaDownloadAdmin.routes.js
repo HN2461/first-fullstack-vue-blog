@@ -7,6 +7,8 @@ import {
   getBatchMediaDownload,
   getSingleMediaDownload
 } from '#modules/media/services/mediaDownload.service.js'
+import { getMediaContent } from '#modules/media/services/media.service.js'
+import { attachMediaVaultAccess } from '#modules/media/services/mediaVault.service.js'
 import {
   mediaBatchDownloadSchema,
   mediaIdSchema,
@@ -21,6 +23,22 @@ mediaDownloadAdminRouter.use(
   requireAdmin,
   requireMenuAccess('/console/manage/media')
 )
+mediaDownloadAdminRouter.use((req, _res, next) => {
+  attachMediaVaultAccess(req).then(() => next()).catch(next)
+})
+
+mediaDownloadAdminRouter.get('/content/:id', asyncHandler(async (req, res) => {
+  const id = parseMediaPayload(mediaIdSchema, req.params.id)
+  const content = await getMediaContent(id, req.user)
+  res.set({
+    'Content-Type': content.media.mimeType || 'application/octet-stream',
+    'Content-Length': String(content.size),
+    'Cache-Control': 'private, no-store',
+    'X-Content-Type-Options': 'nosniff',
+    'Content-Disposition': 'inline'
+  })
+  await pipeline(fs.createReadStream(content.filePath), res)
+}))
 
 mediaDownloadAdminRouter.get('/:id', asyncHandler(async (req, res) => {
   const id = parseMediaPayload(mediaIdSchema, req.params.id)

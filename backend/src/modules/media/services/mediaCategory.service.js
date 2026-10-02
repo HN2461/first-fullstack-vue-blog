@@ -79,6 +79,30 @@ function normalizeCategoryName(name) {
   return String(name || '').trim()
 }
 
+export async function ensureUserVaultCategory(owner) {
+  const ownerId = getActorId(owner)
+  if (!ownerId) throw createHttpError(401, 'MEDIA_CATEGORY_OWNER_REQUIRED', '请先登录后再使用密码箱')
+  const existing = await MediaCategory.findOne({
+    owner: ownerId,
+    $or: [{ builtinKey: 'vault' }, { name: '密码箱' }]
+  })
+  return MediaCategory.findOneAndUpdate(
+    existing ? { _id: existing._id } : { owner: ownerId, builtinKey: 'vault' },
+    {
+      $set: {
+        name: '密码箱',
+        owner: ownerId,
+        system: false,
+        builtinKey: 'vault',
+        accessMode: 'vault',
+        description: '需要密码验证后才能访问的私有资源空间',
+        sortOrder: 0
+      }
+    },
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  )
+}
+
 export async function ensureDefaultMediaCategory() {
   const [defaultCategory] = await Promise.all(SYSTEM_MEDIA_CATEGORIES.map(async (item) => {
     return MediaCategory.findOneAndUpdate(
@@ -94,18 +118,33 @@ export async function ensureDefaultMediaCategory() {
 export async function listMediaCategoryEntities(actor, options = {}) {
   await ensureDefaultMediaCategory()
   const actorId = getActorId(actor)
+  // 密码箱是每个账号固定拥有的内置入口。首次打开资源管理页时就创建分类，
+  // 这样用户可以直接看到密码箱并完成首次设置，而不需要先调用密码箱状态接口。
+  if (actorId) await ensureUserVaultCategory(actorId)
   const includeAllOwners = options.scope === 'all' && canManageAllMediaCategories(actor)
   const ownerFilters = includeAllOwners
     ? [{ system: false }]
     : actorId
       ? [{ system: false, owner: actorId }]
       : []
-  const query = MediaCategory.find({
-    $or: [
-      { system: true },
-      ...ownerFilters
-    ]
-  })
+  const categoryQuery = {
+    $and: [{
+      $or: [
+        { system: true },
+        ...ownerFilters
+      ]
+    }]
+  }
+  if (actorId) {
+    categoryQuery.$and.push({
+      $or: [
+        { accessMode: { $ne: 'vault' } },
+        // 密码箱入口始终可见；未解锁时只隐藏其中资源和数量，避免用户无法完成首次设置或解锁。
+        { accessMode: 'vault', owner: actorId }
+      ]
+    })
+  }
+  const query = MediaCategory.find(categoryQuery)
   if (includeAllOwners) query.populate('owner', 'username email')
   return query.sort({ system: -1, sortOrder: 1, createdAt: 1 })
 }
@@ -141,8 +180,11 @@ export async function listMediaCategories(actor, options = {}) {
   const includeAllOwners = options.scope === 'all' && canManageAllMediaCategories(actor)
   const entities = await listMediaCategoryEntities(actor, options)
   const mediaMatch = includeAllOwners || !actorId ? {} : { uploader: actorId }
+  const vaultMatch = actor?.mediaVaultUnlocked === true && actorId
+    ? { $or: [{ accessScope: { $ne: 'vault' } }, { accessScope: 'vault', uploader: actorId }] }
+    : { accessScope: { $ne: 'vault' } }
   const counts = await Media.aggregate([
-    { $match: { ...mediaMatch, deletedAt: null } },
+    { $match: { ...mediaMatch, deletedAt: null, ...vaultMatch } },
     {
       $group: {
         _id: {
@@ -215,7 +257,7 @@ export async function createMediaCategory(input, actor) {
   if (!name) {
     throw createHttpError(400, 'MEDIA_CATEGORY_NAME_REQUIRED', '分类名称不能为空')
   }
-  if (isSystemMediaCategory(name)) {
+  if (isSystemMediaCategory(name) || name === '密码箱') {
     throw createHttpError(409, 'MEDIA_CATEGORY_RESERVED', '该名称属于系统资源分类')
   }
 
@@ -245,6 +287,9 @@ export async function updateMediaCategory(id, input, actor) {
   const category = await MediaCategory.findOne({ _id: id, owner, system: false })
   if (!category) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
+  }
+  if (category.accessMode === 'vault' || category.builtinKey === 'vault') {
+    throw createHttpError(403, 'MEDIA_VAULT_CATEGORY_IMMUTABLE', '密码箱是内置分类，不能修改')
   }
 
   if (input.name !== undefined) {
@@ -294,6 +339,9 @@ export async function deleteMediaCategory(id, actor) {
   const category = await MediaCategory.findOne({ _id: id, owner, system: false })
   if (!category) {
     throw createHttpError(404, 'MEDIA_CATEGORY_NOT_FOUND', '资源分类不存在')
+  }
+  if (category.accessMode === 'vault' || category.builtinKey === 'vault') {
+    throw createHttpError(403, 'MEDIA_VAULT_CATEGORY_IMMUTABLE', '密码箱是内置分类，不能删除')
   }
 
   const defaultCategory = await assertMediaCategoryExists('默认素材', actor)

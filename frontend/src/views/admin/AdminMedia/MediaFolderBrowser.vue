@@ -78,6 +78,7 @@
         :page="page"
         :page-size="pageSize"
         :selected-keys="selectedKeys"
+        :vault-details-visible="true"
         @page-change="emit('page-change', $event)"
         @selection-change="handleSelectionChange"
         @view="emit('view', $event)"
@@ -138,8 +139,9 @@ const activeFolder = computed(() => props.categories.find((item) => (
   (item.id && String(item.id) === String(props.activeFolderId)) ||
   ((!item.id || item.system) && item.name === props.activeFolderId)
 )) || null)
-const customFolders = computed(() => props.categories.filter((item) => !item.system && item.id))
-const systemFolders = computed(() => props.categories.filter((item) => item.system || !item.id))
+const isVaultCategory = (item) => item?.accessMode === 'vault' || item?.builtinKey === 'vault'
+const customFolders = computed(() => props.categories.filter((item) => !item.system && item.id && !isVaultCategory(item)))
+const systemFolders = computed(() => props.categories.filter((item) => item.system || !item.id || isVaultCategory(item)))
 const selectedKeys = computed(() => props.selectedKeys.map(String))
 const canUploadCurrentFolder = computed(() => (
   !activeFolder.value || (

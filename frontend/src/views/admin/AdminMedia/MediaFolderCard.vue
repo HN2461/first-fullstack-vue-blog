@@ -9,7 +9,8 @@
     @keydown.space.prevent="emit('open', folder)"
   >
     <div class="media-folder-card__icon" aria-hidden="true">
-      <FolderOpenOutlined />
+      <LockOutlined v-if="folder.accessMode === 'vault' || folder.builtinKey === 'vault'" />
+      <FolderOpenOutlined v-else />
     </div>
     <div class="media-folder-card__body">
       <div class="media-folder-card__title" :title="folder.name">
@@ -18,6 +19,7 @@
       <div class="media-folder-card__meta">
         <span>{{ folder.count || 0 }} 个资源</span>
         <a-tag v-if="folder.system" class="media-folder-card__system-tag" :bordered="true" color="blue">系统</a-tag>
+        <a-tag v-else-if="folder.accessMode === 'vault' || folder.builtinKey === 'vault'" class="media-folder-card__system-tag" :bordered="true" color="orange">密码保护</a-tag>
       </div>
       <small class="media-folder-card__description" :title="folder.ownerName ? `归属：${folder.ownerName}` : (folder.description || '资源分类文件夹')">
         {{ folder.ownerName ? `归属：${folder.ownerName}` : (folder.description || '资源分类文件夹') }}
@@ -28,7 +30,7 @@
 </template>
 
 <script setup>
-import { FolderOpenOutlined, RightOutlined } from '@ant-design/icons-vue'
+import { FolderOpenOutlined, LockOutlined, RightOutlined } from '@ant-design/icons-vue'
 
 defineProps({
   folder: {

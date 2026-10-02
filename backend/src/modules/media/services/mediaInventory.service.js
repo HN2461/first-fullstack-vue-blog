@@ -69,6 +69,7 @@ async function attachInventoryUsages(files = [], { includeAllReferences = false 
     const { storagePath, ...safeItem } = item
     return {
       ...safeItem,
+      url: source.type === 'protectedVault' ? '' : safeItem.url,
       source,
       usage,
       references: includeAllReferences ? references : references.slice(0, 5),

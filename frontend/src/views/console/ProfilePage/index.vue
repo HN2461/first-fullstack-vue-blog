@@ -271,6 +271,40 @@
             </a-form-item>
           </a-form>
 
+          <div class="vault-password-panel">
+            <div class="vault-password-panel__heading">
+              <div>
+                <h3 class="content-title">密码箱密码修改</h3>
+                <p>{{ vaultPasswordStatus.configured ? '修改后当前密码箱会话会立即失效，需要重新解锁。' : '当前还没有设置密码，设置后即可保护密码箱资源。' }}</p>
+              </div>
+              <a-tag :color="vaultPasswordStatus.configured ? 'green' : 'orange'" :bordered="false">
+                {{ vaultPasswordStatus.configured ? '已设置' : '未设置' }}
+              </a-tag>
+            </div>
+            <a-form
+              :model="vaultPasswordForm"
+              :rules="vaultPasswordRules"
+              layout="vertical"
+              class="password-form"
+              @finish="handleChangeVaultPassword"
+            >
+              <a-form-item v-if="vaultPasswordStatus.configured" label="当前密码" name="oldPassword">
+                <a-input-password v-model:value="vaultPasswordForm.oldPassword" placeholder="请输入当前密码箱密码" />
+              </a-form-item>
+              <a-form-item label="新密码" name="newPassword">
+                <a-input-password v-model:value="vaultPasswordForm.newPassword" placeholder="请输入密码箱密码（至少 8 位）" />
+              </a-form-item>
+              <a-form-item label="确认新密码" name="confirmPassword">
+                <a-input-password v-model:value="vaultPasswordForm.confirmPassword" placeholder="请再次输入密码箱密码" />
+              </a-form-item>
+              <a-form-item>
+                <a-button type="primary" html-type="submit" :loading="changingVaultPassword">
+                  {{ vaultPasswordStatus.configured ? '修改密码箱密码' : '设置密码箱密码' }}
+                </a-button>
+              </a-form-item>
+            </a-form>
+          </div>
+
           <!-- 登录记录 -->
           <h3 class="content-title" style="margin-top: 32px">登录记录</h3>
           <div v-if="loadingLoginRecords" class="record-loading">正在加载登录记录...</div>
@@ -477,9 +511,11 @@ import { useAuthStore } from '@/stores/auth'
 import { useAppStore } from '@/stores/app'
 import {
   changePassword,
+  changeMediaVaultPassword,
   createMyPermissionRequest,
   deleteAvatar,
   getLoginRecords,
+  getMediaVaultStatus,
   getNotificationSettings,
   getProfile,
   getUserStats,
@@ -564,6 +600,13 @@ const passwordForm = reactive({
   confirmPassword: ''
 })
 
+const vaultPasswordForm = reactive({
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+})
+const vaultPasswordStatus = reactive({ configured: false, unlocked: false })
+
 const bindings = [
   { key: 'github', name: 'GitHub', desc: '用于快捷登录', icon: GithubOutlined, color: '#333', bound: false },
   { key: 'qq', name: 'QQ', desc: '用于快捷登录', icon: QqOutlined, color: '#12B7F5', bound: false },
@@ -579,6 +622,7 @@ const notificationSettings = reactive({
 
 const saving = ref(false)
 const changingPassword = ref(false)
+const changingVaultPassword = ref(false)
 const savingNotifications = ref(false)
 const loadingLoginRecords = ref(false)
 const loadingPermissionRequests = ref(false)
@@ -642,6 +686,28 @@ const passwordRules = {
     }
   ]
 }
+
+const vaultPasswordRules = computed(() => ({
+  oldPassword: vaultPasswordStatus.configured ? [{ required: true, message: '请输入当前密码箱密码' }] : [],
+  newPassword: [
+    { required: true, message: '请输入新密码箱密码' },
+    { min: 8, message: '密码箱密码至少需要 8 个字符' },
+    { max: 72, message: '密码箱密码不能超过 72 个字符' },
+    {
+      validator: async (_rule, value) => {
+        if (value && value === vaultPasswordForm.oldPassword) throw new Error('新密码不能与当前密码相同')
+      }
+    }
+  ],
+  confirmPassword: [
+    { required: true, message: '请确认新密码箱密码' },
+    {
+      validator: async (_rule, value) => {
+        if (value && value !== vaultPasswordForm.newPassword) throw new Error('两次输入的密码箱密码不一致')
+      }
+    }
+  ]
+}))
 
 function triggerAvatarUpload() {
   avatarInputRef.value?.click()
@@ -825,6 +891,36 @@ async function handleChangePassword() {
   }
 }
 
+async function loadVaultPasswordStatus() {
+  try {
+    const result = await getMediaVaultStatus()
+    vaultPasswordStatus.configured = result?.configured === true
+    vaultPasswordStatus.unlocked = result?.unlocked === true
+  } catch (error) {
+    console.error('获取密码箱状态失败:', error)
+  }
+}
+
+async function handleChangeVaultPassword() {
+  changingVaultPassword.value = true
+  try {
+    await changeMediaVaultPassword({
+      oldPassword: vaultPasswordForm.oldPassword,
+      newPassword: vaultPasswordForm.newPassword
+    })
+    vaultPasswordStatus.configured = true
+    vaultPasswordStatus.unlocked = false
+    vaultPasswordForm.oldPassword = ''
+    vaultPasswordForm.newPassword = ''
+    vaultPasswordForm.confirmPassword = ''
+    message.success('密码箱密码已更新，请重新解锁密码箱')
+  } catch (error) {
+    message.error(error.message || '密码箱密码更新失败')
+  } finally {
+    changingVaultPassword.value = false
+  }
+}
+
 async function loadPermissionRequests() {
   loadingPermissionRequests.value = true
   try {
@@ -890,7 +986,8 @@ onMounted(async () => {
   const [profileResult, notificationResult, recordResult] = await Promise.allSettled([
     getProfile(),
     getNotificationSettings(),
-    getLoginRecords()
+    getLoginRecords(),
+    loadVaultPasswordStatus()
   ])
 
   if (profileResult.status === 'fulfilled') {
@@ -1119,6 +1216,32 @@ onMounted(async () => {
   margin: 0 0 24px;
   padding-bottom: 16px;
   border-bottom: 1px solid var(--console-border);
+}
+
+.vault-password-panel {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--console-border);
+}
+
+.vault-password-panel__heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.vault-password-panel__heading .content-title {
+  margin-bottom: 8px;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.vault-password-panel__heading p {
+  margin: 0 0 18px;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .profile-avatar-panel {

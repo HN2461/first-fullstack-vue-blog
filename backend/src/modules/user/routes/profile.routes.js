@@ -19,11 +19,12 @@ import {
   listPermissionRequests
 } from '#modules/rbac/services/rbac.service.js'
 import { decryptCredential } from '#utils/authSecurity.js'
-import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema, themePreferenceSchema } from '#modules/user/validators/profile.validator.js'
+import { festivalEffectActionSchema, notificationSettingsSchema, parseBody, passwordUpdateSchema, profileUpdateSchema, quickActionsSchema, themePreferenceSchema, vaultPasswordUpdateSchema } from '#modules/user/validators/profile.validator.js'
 import { permissionRequestQuerySchema, permissionRequestSchema } from '#modules/rbac/validators/rbac.validator.js'
 import { isBirthdayOnDate } from '#modules/user/utils/birthday.js'
 import { getFestivalCalendar } from '#modules/festival/services/festival.service.js'
 import { listMyLoginSessions } from '#modules/auth/services/loginSession.service.js'
+import { changeMediaVaultPassword, getMediaVaultStatus } from '#modules/media/services/mediaVault.service.js'
 
 const router = Router()
 
@@ -341,6 +342,18 @@ router.put('/password', requireAuth, asyncHandler(async (req, res) => {
   })
 
   res.json(ok(null, '密码修改成功'))
+}))
+
+router.get('/media-vault/status', requireAuth, asyncHandler(async (req, res) => {
+  res.json(ok(await getMediaVaultStatus(req.user, req)))
+}))
+
+router.put('/media-vault/password', requireAuth, asyncHandler(async (req, res) => {
+  const input = req.body.credential
+    ? decryptCredential(req.body.credential, 'change-vault-password')
+    : req.body
+  const parsed = parseBody(vaultPasswordUpdateSchema, input)
+  res.json(ok(await changeMediaVaultPassword(req.user, parsed, req), '密码箱密码已更新，旧的解锁状态已失效'))
 }))
 
 export default router

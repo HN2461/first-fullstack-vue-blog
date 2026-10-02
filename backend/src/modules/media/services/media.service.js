@@ -8,6 +8,7 @@ import { inferMediaFileClass } from '#modules/media/constants/mediaUpload.consta
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCategory.service.js'
+import { getVaultStorageRoot } from './mediaVault.service.js'
 import { attachMediaReferenceSummaries, findMediaReferences, getMediaReferenceDetail } from './mediaReference.service.js'
 import { findBlockingMediaShares } from '#modules/mediaShare/services/mediaShareReference.service.js'
 
@@ -21,11 +22,64 @@ function canManageAllMedia(actor) {
 }
 
 function getMediaAccessQuery(actor) {
-  if (!actor || canManageAllMedia(actor)) {
-    return {}
+  const query = !actor || canManageAllMedia(actor)
+    ? {}
+    : { uploader: actor._id || actor.id }
+  if (!actor || actor?.mediaVaultUnlocked !== true) {
+    query.accessScope = { $ne: 'vault' }
+  } else if (canManageAllMedia(actor)) {
+    query.$or = [
+      { accessScope: { $ne: 'vault' } },
+      { accessScope: 'vault', uploader: actor._id || actor.id }
+    ]
+  }
+  return query
+}
+
+function getMediaListAccessQuery(actor) {
+  if (!actor || actor?.mediaVaultUnlocked === true) return getMediaAccessQuery(actor)
+
+  const ownerId = actor._id || actor.id
+  if (!ownerId) return getMediaAccessQuery(actor)
+
+  if (canManageAllMedia(actor)) {
+    return {
+      $or: [
+        { accessScope: { $ne: 'vault' } },
+        { accessScope: 'vault', uploader: ownerId }
+      ]
+    }
   }
 
-  return { uploader: actor._id || actor.id }
+  return {
+    uploader: ownerId,
+    accessScope: { $in: ['public', 'private', 'vault'] }
+  }
+}
+
+function maskLockedVaultMedia(items = [], actor) {
+  if (actor?.mediaVaultUnlocked === true) return items
+  return items.map((item) => {
+    if (item.accessScope !== 'vault') return item
+    return {
+      ...item,
+      originalName: '密码箱文件',
+      filename: '',
+      mimeType: 'application/octet-stream',
+      size: 0,
+      url: '',
+      storagePath: '',
+      kind: 'attachment',
+      category: '密码箱',
+      fileClass: 'other',
+      usage: {
+        usageStatus: 'protected',
+        usageStatusLabel: '已隐藏',
+        referenceCount: 0,
+        countByType: {}
+      }
+    }
+  })
 }
 
 function normalizeRenamedOriginalName(value, fallbackName = '') {
@@ -53,6 +107,12 @@ export async function createMediaFromFile(file, user, metadata = {}) {
     user,
     metadata.categoryId
   )
+  if (category.accessMode === 'vault') {
+    const error = new Error('密码箱资源必须通过资源管理页面上传')
+    error.statusCode = 400
+    error.code = 'MEDIA_VAULT_UPLOAD_FLOW_REQUIRED'
+    throw error
+  }
   const kind = file.mimetype.startsWith('image/') ? 'image' : 'attachment'
   const normalizedPath = file.path.replace(/\\/g, '/')
   const uploadsIndex = normalizedPath.lastIndexOf('uploads/')
@@ -69,7 +129,8 @@ export async function createMediaFromFile(file, user, metadata = {}) {
     category: category.name,
     categoryId: category._id,
     fileClass: inferMediaFileClass(file.originalname, file.mimetype),
-    uploader: user._id
+    uploader: user._id,
+    accessScope: category.accessMode === 'vault' ? 'vault' : 'public'
   })
 
   return media.toSafeJSON()
@@ -82,25 +143,37 @@ export async function createMediaFromFiles(files, user, metadata = {}) {
     user,
     metadata.categoryId
   )
-  const documents = files.map((file) => {
-    const normalizedPath = file.path.replace(/\\/g, '/')
-    const uploadsIndex = normalizedPath.lastIndexOf('uploads/')
-    const relativePath = uploadsIndex >= 0 ? normalizedPath.slice(uploadsIndex) : normalizedPath
-
-    return {
-      filename: file.filename,
-      originalName: decodeUploadFilename(file.originalname),
-      mimeType: file.mimetype,
-      size: file.size,
-      url: `/${relativePath}`,
-      storagePath: normalizedPath,
-      kind: file.mimetype.startsWith('image/') ? 'image' : 'attachment',
-      category: category.name,
-      categoryId: category._id,
-      fileClass: inferMediaFileClass(file.originalname, file.mimetype),
-      uploader: user._id
+  const targetDir = category.accessMode === 'vault'
+    ? path.join(getVaultStorageRoot(), String(user._id), String(new Date().getFullYear()), String(new Date().getMonth() + 1).padStart(2, '0'))
+    : getUploadSubdir()
+  await fs.mkdir(targetDir, { recursive: true })
+  const movedFiles = []
+  const documents = []
+  try {
+    for (const file of files) {
+      const targetPath = path.join(targetDir, file.filename)
+      await fs.rename(file.path, targetPath)
+      movedFiles.push(targetPath)
+      const normalizedPath = targetPath.replace(/\\/g, '/')
+      documents.push({
+        filename: file.filename,
+        originalName: decodeUploadFilename(file.originalname),
+        mimeType: file.mimetype,
+        size: file.size,
+        url: category.accessMode === 'vault' ? '/api/admin/media-downloads/content/pending' : `/${normalizedPath.slice(normalizedPath.lastIndexOf('uploads/'))}`,
+        storagePath: normalizedPath,
+        kind: file.mimetype.startsWith('image/') ? 'image' : 'attachment',
+        category: category.name,
+        categoryId: category._id,
+        fileClass: inferMediaFileClass(file.originalname, file.mimetype),
+        uploader: user._id,
+        accessScope: category.accessMode === 'vault' ? 'vault' : 'public'
+      })
     }
-  })
+  } catch (error) {
+    await Promise.allSettled(movedFiles.map((targetPath) => fs.unlink(targetPath)))
+    throw error
+  }
   let created = []
   try {
     created = await Media.insertMany(documents)
@@ -109,7 +182,15 @@ export async function createMediaFromFiles(files, user, metadata = {}) {
     if (insertedIds.length > 0) {
       await Media.deleteMany({ _id: { $in: insertedIds } })
     }
+    await Promise.allSettled(movedFiles.map((targetPath) => fs.unlink(targetPath)))
     throw error
+  }
+  if (category.accessMode === 'vault') {
+    await Promise.all(created.map((item) => Media.updateOne(
+      { _id: item._id },
+      { $set: { url: `/api/admin/media-downloads/content/${item._id}` } }
+    )))
+    created = await Media.find({ _id: { $in: created.map((item) => item._id) } })
   }
   const items = created.map((item) => item.toSafeJSON())
 
@@ -127,7 +208,7 @@ export async function listMedia(options = {}) {
   const query = options.deleted === 'true' || options.scope === 'trash'
     ? { deletedAt: { $exists: true, $ne: null } }
     : { deletedAt: null }
-  Object.assign(query, getMediaAccessQuery(options.actor))
+  Object.assign(query, getMediaListAccessQuery(options.actor))
 
   if (kind) {
     query.kind = kind
@@ -193,7 +274,7 @@ export async function listMedia(options = {}) {
     const skip = (page - 1) * pageSize
 
     return {
-      items: filtered.slice(skip, skip + pageSize),
+      items: maskLockedVaultMedia(filtered.slice(skip, skip + pageSize), options.actor),
       total: filtered.length,
       page,
       pageSize
@@ -211,7 +292,7 @@ export async function listMedia(options = {}) {
     Media.countDocuments(query)
   ])
 
-  const items = await attachMediaReferenceSummaries(media)
+  const items = maskLockedVaultMedia(await attachMediaReferenceSummaries(media), options.actor)
 
   return {
     items,
@@ -299,8 +380,46 @@ export async function moveMediaCategory(id, categoryName, actor = null, category
 
   const category = await assertMediaCategoryExists(categoryName, media.uploader, categoryId)
   assertActorCanUseCategory(category, actor, media.uploader)
+  const nextAccessScope = category.accessMode === 'vault' ? 'vault' : (media.accessScope === 'private' ? 'private' : 'public')
+  if (nextAccessScope === 'vault' && actor?.mediaVaultUnlocked !== true) {
+    const error = new Error('请先解锁密码箱后再迁移资源')
+    error.statusCode = 403
+    error.code = 'MEDIA_VAULT_UNLOCK_REQUIRED'
+    throw error
+  }
+  if (media.accessScope === 'vault' && nextAccessScope !== 'vault' && actor?.mediaVaultUnlocked !== true) {
+    const error = new Error('请先解锁密码箱后再迁出资源')
+    error.statusCode = 403
+    error.code = 'MEDIA_VAULT_UNLOCK_REQUIRED'
+    throw error
+  }
+  if (media.accessScope === 'private' && nextAccessScope === 'vault') {
+    const error = new Error('工作日志私有凭证不能迁移到密码箱')
+    error.statusCode = 409
+    error.code = 'MEDIA_PRIVATE_CATEGORY_CONFLICT'
+    throw error
+  }
+  if (media.accessScope !== nextAccessScope) {
+    const currentPath = path.resolve(media.storagePath)
+    const targetDir = nextAccessScope === 'vault'
+      ? path.join(getVaultStorageRoot(), String(media.uploader), String(new Date().getFullYear()), String(new Date().getMonth() + 1).padStart(2, '0'))
+      : getUploadSubdir()
+    const targetPath = path.join(targetDir, media.filename)
+    const currentRoots = getAllowedUploadRoots(media.accessScope === 'private', media.accessScope === 'vault')
+    if (!currentRoots.some((root) => isPathInside(root, currentPath))) {
+      const error = new Error('资源存储路径无效，已阻止迁移')
+      error.statusCode = 409
+      error.code = 'MEDIA_STORAGE_PATH_INVALID'
+      throw error
+    }
+    await fs.mkdir(targetDir, { recursive: true })
+    await fs.rename(currentPath, targetPath)
+    media.storagePath = targetPath.replace(/\\/g, '/')
+    media.url = nextAccessScope === 'vault' ? `/api/admin/media-downloads/content/${media._id}` : `/${media.storagePath.slice(media.storagePath.lastIndexOf('uploads/'))}`
+  }
   media.category = category.name
   media.categoryId = category._id
+  media.accessScope = nextAccessScope
   await media.save()
 
   return media.toSafeJSON()
@@ -328,7 +447,7 @@ export async function moveMediaCategories(ids = [], categoryName, actor = null, 
     throw error
   }
 
-  const mediaList = await Media.find(query).select('uploader')
+  const mediaList = await Media.find(query).select('uploader category categoryId accessScope')
   const ownerIds = [...new Set(mediaList.map((item) => item.uploader.toString()))]
   const requestedCategory = await assertMediaCategoryExists(categoryName, ownerIds[0], categoryId)
   ownerIds.forEach((ownerId) => assertActorCanUseCategory(requestedCategory, actor, ownerId))
@@ -339,12 +458,28 @@ export async function moveMediaCategories(ids = [], categoryName, actor = null, 
     throw error
   }
 
-  const result = await Media.updateMany(query, {
-    $set: { category: requestedCategory.name, categoryId: requestedCategory._id }
-  })
+  let changedCount = 0
+  for (const media of mediaList) {
+    const previousCategory = media.category || ''
+    const previousCategoryId = media.categoryId?.toString?.() || ''
+    const previousAccessScope = media.accessScope || 'public'
+    const expectedAccessScope = requestedCategory.accessMode === 'vault'
+      ? 'vault'
+      : previousAccessScope === 'private'
+        ? 'private'
+        : 'public'
+    await moveMediaCategory(media._id, requestedCategory.name, actor, requestedCategory._id)
+    if (
+      previousCategory !== requestedCategory.name ||
+      previousCategoryId !== requestedCategory._id.toString() ||
+      previousAccessScope !== expectedAccessScope
+    ) {
+      changedCount += 1
+    }
+  }
   return {
     movedCount: matchedCount,
-    changedCount: result.modifiedCount || 0,
+    changedCount,
     category: requestedCategory.name,
     categoryId: requestedCategory._id.toString()
   }
@@ -367,7 +502,7 @@ function getLegacyUploadsRoot() {
   return resolveLegacyUploadRoot()
 }
 
-function getAllowedUploadRoots(includePrivate = false) {
+function getAllowedUploadRoots(includePrivate = false, includeVault = false) {
   const roots = [getUploadsRoot()]
   const legacyRoot = getLegacyUploadsRoot()
 
@@ -375,8 +510,39 @@ function getAllowedUploadRoots(includePrivate = false) {
     roots.push(legacyRoot)
   }
   if (includePrivate) roots.push(path.resolve(resolveUploadRoot(), 'work-journal'))
+  if (includeVault) roots.push(getVaultStorageRoot())
 
   return roots
+}
+
+export async function getMediaContent(id, actor) {
+  const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(actor) }).lean()
+  if (!media || media.accessScope !== 'vault') {
+    const error = new Error('媒体文件不存在')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+  const filePath = path.resolve(media.storagePath)
+  if (!isPathInside(getVaultStorageRoot(), filePath)) {
+    const error = new Error('密码箱文件路径无效')
+    error.statusCode = 409
+    error.code = 'MEDIA_VAULT_PATH_INVALID'
+    throw error
+  }
+  try {
+    const stats = await fs.stat(filePath)
+    if (!stats.isFile()) throw new Error('not_file')
+    return { media, filePath, size: stats.size }
+  } catch (error) {
+    if (error.code === 'ENOENT' || error.message === 'not_file') {
+      const missing = new Error('媒体文件不存在')
+      missing.statusCode = 404
+      missing.code = 'MEDIA_FILE_MISSING'
+      throw missing
+    }
+    throw error
+  }
 }
 
 function isPathInside(parent, target) {
@@ -412,7 +578,7 @@ function collectCandidateStoragePaths(storagePath, fileUrl = '') {
 }
 
 async function removeStoredFile(storagePath, fileUrl = '', media = null) {
-  const allowedUploadRoots = getAllowedUploadRoots(media?.accessScope === 'private')
+  const allowedUploadRoots = getAllowedUploadRoots(media?.accessScope === 'private', media?.accessScope === 'vault')
   const candidates = collectCandidateStoragePaths(storagePath, fileUrl)
   let sawUnsafePath = false
 

@@ -310,6 +310,32 @@ export async function changePassword(data) {
   })
 }
 
+export function getMediaVaultStatus() {
+  return http.get('/api/profile/media-vault/status')
+}
+
+export async function changeMediaVaultPassword(data) {
+  if (!canEncryptCredentialInBrowser()) {
+    return http.put('/api/profile/media-vault/password', data)
+  }
+
+  const challenge = await getAuthChallenge('change-vault-password')
+  const encryptedPayload = await encryptAuthCredential(challenge.publicKey, {
+    purpose: 'change-vault-password',
+    challengeId: challenge.challengeId,
+    nonce: challenge.nonce,
+    oldPassword: data.oldPassword || '',
+    newPassword: data.newPassword
+  })
+
+  return http.put('/api/profile/media-vault/password', {
+    credential: {
+      challengeId: challenge.challengeId,
+      payload: encryptedPayload
+    }
+  })
+}
+
 /**
  * 获取用户统计数据
  * @returns {Promise<{articles: number, comments: number, likes: number}>}

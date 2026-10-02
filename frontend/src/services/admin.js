@@ -471,6 +471,22 @@ export function listAdminMediaCategories(params = {}) {
   return http.get('/api/admin/media/categories', { params })
 }
 
+export function getAdminMediaVaultStatus() {
+  return http.get('/api/admin/media-vault/status')
+}
+
+export function setupAdminMediaVault(password) {
+  return http.post('/api/admin/media-vault/setup', { password })
+}
+
+export function unlockAdminMediaVault(password) {
+  return http.post('/api/admin/media-vault/unlock', { password })
+}
+
+export function lockAdminMediaVault() {
+  return http.post('/api/admin/media-vault/lock')
+}
+
 export function createAdminMediaCategory(data) {
   return http.post('/api/admin/media/categories', data)
 }
