@@ -1,13 +1,13 @@
 {
   "formatVersion": 3,
-  "exportedAt": "2026-09-29T13:16:41.461Z",
+  "exportedAt": "2026-10-02T10:18:25.336Z",
   "scope": "all",
   "slugStrategy": "keep",
   "filters": {
     "categoryId": null,
     "keyword": ""
   },
-  "total": 539,
+  "total": 547,
   "categories": [
     {
       "name": "默认分类",
@@ -1290,7 +1290,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.935Z",
-      "updatedAt": "2026-09-28T09:00:24.029Z"
+      "updatedAt": "2026-10-02T10:01:22.526Z"
     },
     {
       "name": "网络排障",
@@ -15505,6 +15505,216 @@
       "publishedAt": "2026-01-25T13:23:07.468Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/前端三剑客/AI版CSS/第-7-篇：综合实战：从风格到产品.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c25f",
+      "originalSlug": "uniapp-wechat-mini-program-project-skeleton",
+      "exportedSlug": "uniapp-wechat-mini-program-project-skeleton",
+      "title": "第 6 篇：uni-app 微信小程序通用工程骨架：会话、请求、路由与分包职责",
+      "summary": "从微信小程序项目落地出发，梳理 uni-app 工程目录、配置、存储、会话、请求、Pinia、路由与分包的职责边界，并附迁移步骤和验收清单。",
+      "cover": "",
+      "contentHash": "2ff178a61ff0b27e928fdbf3b8e84a718dda482e7ad8673bda45b214cf330879",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "Vue 3",
+        "工程结构",
+        "请求封装",
+        "登录态"
+      ],
+      "sortOrder": 60,
+      "sourcePath": "uni-app开发经验包/01-uni-app微信小程序-通用骨架方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.443Z",
+      "fileName": "项目复用技术/uni-app/第-6-篇：uni-app-微信小程序通用工程骨架：会话、请求、路由与分包职责.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c261",
+      "originalSlug": "uniapp-keyboard-input-viewport-adaptation",
+      "exportedSlug": "uniapp-keyboard-input-viewport-adaptation",
+      "title": "第 7 篇：uni-app 键盘弹起与输入框遮挡适配：H5、App、小程序处理方案",
+      "summary": "围绕软键盘弹起后输入框被遮挡、页面回弹和底部面板错位，比较小程序、App 与 H5 的处理边界，给出布局、监听清理和排查步骤。",
+      "cover": "",
+      "contentHash": "a96d2052676865703656bae973a6e210be72ab1cd81f5fdff9074ef7b2209c34",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "软键盘",
+        "H5",
+        "微信小程序"
+      ],
+      "sortOrder": 70,
+      "sourcePath": "uni-app开发经验包/02-键盘弹起-输入遮挡与回弹-适配方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.464Z",
+      "fileName": "项目复用技术/uni-app/第-7-篇：uni-app-键盘弹起与输入框遮挡适配：H5、App、小程序处理方案.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c263",
+      "originalSlug": "uniapp-cross-platform-navigation-bar",
+      "exportedSlug": "uniapp-cross-platform-navigation-bar",
+      "title": "第 8 篇：uni-app 跨端导航栏适配：默认导航、自定义导航与胶囊尺寸",
+      "summary": "对比 uni-app 默认导航栏与自定义导航栏的适用条件，说明胶囊尺寸、安全区、窗口变量、tabBar 和业务吸顶栏的计算方式与常见冲突。",
+      "cover": "",
+      "contentHash": "4c8d2325106307b3fd07873ee3d2d0faf6eb5d6cd25e5078834c7bb6e4dcb97d",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "导航",
+        "微信小程序",
+        "H5"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "uni-app开发经验包/03-跨端导航栏-平台差异-适配方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.473Z",
+      "fileName": "项目复用技术/uni-app/第-8-篇：uni-app-跨端导航栏适配：默认导航、自定义导航与胶囊尺寸.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c265",
+      "originalSlug": "wechat-mini-program-runtime-dynamic-import-alternatives",
+      "exportedSlug": "wechat-mini-program-runtime-dynamic-import-alternatives",
+      "title": "第 9 篇：微信小程序运行时动态导入失效：静态映射与分包方案",
+      "summary": "分析微信小程序中运行时 import() 无法按预期工作的原因，整理静态导入、显式 require、静态映射与分包异步化的选择及真机验证方法。",
+      "cover": "",
+      "contentHash": "995d4f54f7ee5ee2a4e0b746b39c55369b92abc0c64ff08ab01e2c007e047a9b",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "按需导入",
+        "分包"
+      ],
+      "sortOrder": 90,
+      "sourcePath": "uni-app开发经验包/04-微信小程序-动态导入import失效-替代方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.482Z",
+      "fileName": "项目复用技术/uni-app/第-9-篇：微信小程序运行时动态导入失效：静态映射与分包方案.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c267",
+      "originalSlug": "uniapp-app-phone-and-sms-capabilities",
+      "exportedSlug": "uniapp-app-phone-and-sms-capabilities",
+      "title": "第 10 篇：uni-app App 拨号与短信能力适配：平台边界、权限与原生模块",
+      "summary": "梳理 uni-app App 端拨号和短信能力的平台差异，涵盖号码处理、条件编译、原生模块、权限最小化与真机故障定位。",
+      "cover": "",
+      "contentHash": "e1819d244435cbe4926170ac49e742691e0d303b25cad49033b907861989ca1f",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "App",
+        "原生模块"
+      ],
+      "sortOrder": 100,
+      "sourcePath": "uni-app开发经验包/05-App端-拨号与短信-适配方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.492Z",
+      "fileName": "项目复用技术/uni-app/第-10-篇：uni-app-App-拨号与短信能力适配：平台边界、权限与原生模块.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c269",
+      "originalSlug": "uniapp-vue3-canvas-business-card-export",
+      "exportedSlug": "uniapp-vue3-canvas-business-card-export",
+      "title": "第 11 篇：uni-app Vue 3 Canvas 名片生成：组件作用域、多实例与图片导出",
+      "summary": "以 uni-app Vue 3 名片图片生成为例，处理 Canvas 组件作用域、多实例标识、网络图片预加载、绘制时机、弹窗交互与导出验证。",
+      "cover": "",
+      "contentHash": "b6145206119bb4ba51a665debb8dda574069d9cac545f3a2af9d9d5636532ea6",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "Canvas",
+        "名片生成",
+        "Vue 3"
+      ],
+      "sortOrder": 110,
+      "sourcePath": "uni-app开发经验包/06-Canvas名片生成-组件兼容-解决方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.500Z",
+      "fileName": "项目复用技术/uni-app/第-11-篇：uni-app-Vue-3-Canvas-名片生成：组件作用域、多实例与图片导出.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c26b",
+      "originalSlug": "uniapp-scroll-view-layout-troubleshooting",
+      "exportedSlug": "uniapp-scroll-view-layout-troubleshooting",
+      "title": "第 12 篇：uni-app scroll-view 滚动异常排查：容器高度、触底刷新与聊天滚动",
+      "summary": "从固定高度和 Flex 约束入手排查 uni-app scroll-view 滚动异常，覆盖 tabBar 页面、聊天消息、触底加载、下拉刷新、滚动定位与多余空白。",
+      "cover": "",
+      "contentHash": "8fb25670b5d25924456ea1b9b2b7646c8f3949eb16de882ade7866e7d80d0473",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "scroll",
+        "布局",
+        "实时聊天"
+      ],
+      "sortOrder": 120,
+      "sourcePath": "uni-app开发经验包/07-scroll-view-滚动异常-解决方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.507Z",
+      "fileName": "项目复用技术/uni-app/第-12-篇：uni-app-scroll-view-滚动异常排查：容器高度、触底刷新与聊天滚动.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c26d",
+      "originalSlug": "uniapp-h5-session-route-recovery",
+      "exportedSlug": "uniapp-h5-session-route-recovery",
+      "title": "第 13 篇：uni-app H5 刷新返回登录页排查：会话恢复与深路由处理",
+      "summary": "排查 H5 刷新或返回登录页但会话仍有效的问题，整理会话就绪、登录页自恢复、深路由还原、缓存合并写入与退出流程验证。",
+      "cover": "",
+      "contentHash": "ab89fa42f552a94ec7f814145892e5283b11d04986710c3219a1de8d9f4685ea",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "H5",
+        "会话控制",
+        "路由",
+        "路由守卫"
+      ],
+      "sortOrder": 130,
+      "sourcePath": "uni-app开发经验包/08-H5刷新返回登录页-会话未失效-解决方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.515Z",
+      "fileName": "项目复用技术/uni-app/第-13-篇：uni-app-H5-刷新返回登录页排查：会话恢复与深路由处理.md"
     }
   ]
 }

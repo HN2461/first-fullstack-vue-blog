@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-02",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "publish-and-sync-uniapp-experience-notes-20261002",
+      "title": "分类发布 uni-app 笔记并同步本地文章仓库",
+      "detail": "1. 将 uni-app 小程序开发经验包中的 8 篇笔记整理并发布到线上“项目复用技术 / uni-app”分类，排序衔接已有篇目，并补充软键盘、原生模块、名片生成等标签。\n2. 发布后从线上读取文章快照，逐篇核验新增文章状态、分类和正文哈希；确认本地原有 539 篇正文与线上一致后，将 8 篇新文章合入 output/线上文章，更新 manifest.json 和 README.md，使本地权威快照共 547 篇。原有文章文件和两篇文档型文章均保留。\n3. 本次只完成线上文章整理发布与本地快照同步，线上网站部署另行研究；发现 4 篇既有文章的线上 sourceHash 与实际正文不一致、1 篇 updatedAt 与本地快照不同，均未在本次同步中改写。",
+      "occurredAt": "2026-10-02T00:00:00+08:00",
+      "category": "内容上新"
+    }
+  ]
+}
