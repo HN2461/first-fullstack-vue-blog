@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-08-05T03:20:27.119Z",
+  "generatedAt": "2026-10-03T08:05:20.578Z",
   "export": {
-    "exportedAt": "2026-08-05T02:03:41.304Z",
-    "total": 534
+    "exportedAt": "2026-10-02T10:18:25.336Z",
+    "total": 547
   },
   "repositoryCategoryAliases": [
     {
@@ -16,7 +16,7 @@
     }
   ],
   "summary": {
-    "repositoryMarkdown": 0,
+    "repositoryMarkdown": 2,
     "matched": 0,
     "uniqueOnlineMatched": 0,
     "duplicateRepositoryFiles": 0,
@@ -26,15 +26,104 @@
     "mediumRefactor": 0,
     "closeRevision": 0,
     "categoryUpdateRecommended": 0,
-    "repositoryOnly": 0,
+    "repositoryOnly": 2,
     "previousExportOnly": 0,
-    "localNew": 0,
-    "onlineOnly": 534
+    "localNew": 2,
+    "onlineOnly": 547
   },
   "matched": [],
   "duplicateRepositoryMatches": [],
-  "repositoryOnly": [],
+  "repositoryOnly": [
+    {
+      "repositoryPath": "未导入线上/项目复用技术/uni-app/第-6-篇：uni-app-移动端定位实战：高精度定位、权限判断与失败恢复.md",
+      "repositoryCategoryPath": [
+        "未导入线上",
+        "项目复用技术",
+        "uni-app"
+      ],
+      "title": "第 6 篇：uni-app 移动端定位实战：高精度定位、权限判断与失败恢复",
+      "slug": "uni-app-high-accuracy-location-permission-recovery",
+      "originalId": "",
+      "originalSlug": "",
+      "exportedAt": "",
+      "frontMatterCategory": "uni-app",
+      "bodyHash": "cdbcb06e0292ae4e554b41b5c2ac01b42a1f5f51d418513eed0a990c6b229688",
+      "originStatus": "local-new"
+    },
+    {
+      "repositoryPath": "未导入线上/项目复用技术/Vue后台管理/第-2-篇：Vue-后台暗黑模式改造实战：CSS-变量、遗留页面、Teleport-与图表.md",
+      "repositoryCategoryPath": [
+        "未导入线上",
+        "项目复用技术",
+        "Vue后台管理"
+      ],
+      "title": "第 2 篇：Vue 后台暗黑模式改造实战：CSS 变量、遗留页面、Teleport 与图表",
+      "slug": "vue-admin-dark-mode-migration-guide",
+      "originalId": "",
+      "originalSlug": "",
+      "exportedAt": "",
+      "frontMatterCategory": "Vue后台管理",
+      "bodyHash": "3771b8f3fe46c3d644a076640ae9cb835b7c6faa0a74815035b2526c4f7e8bed",
+      "originStatus": "local-new"
+    }
+  ],
   "onlineOnly": [
+    {
+      "originalId": "6aba2ca7ed2c7796bd5f5564",
+      "originalSlug": "typescript-applications",
+      "title": "TypeScript 应用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "TypeScript"
+      ],
+      "onlineFile": "前端技术/TypeScript/TypeScript-应用.md"
+    },
+    {
+      "originalId": "6aba2ca7ed2c7796bd5f5562",
+      "originalSlug": "typescript-quick-start",
+      "title": "TypeScript 快速上手",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "TypeScript"
+      ],
+      "onlineFile": "前端技术/TypeScript/TypeScript-快速上手.md"
+    },
+    {
+      "originalId": "6aba2ca7ed2c7796bd5f5560",
+      "originalSlug": "typescript-decorators",
+      "title": "TypeScript 装饰器",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "TypeScript"
+      ],
+      "onlineFile": "前端技术/TypeScript/TypeScript-装饰器.md"
+    },
+    {
+      "originalId": "6aa6a8afeea462382bcdf5a3",
+      "originalSlug": "ai-agent-codex-current-feature-radar-20260913",
+      "title": "第 09 篇：Codex 近期功能雷达与三端快速上手",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "终端Agent流",
+        "Codex"
+      ],
+      "onlineFile": "AI相关/AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md"
+    },
+    {
+      "originalId": "6a993354b4b7d341cfbab078",
+      "originalSlug": "chen-haonan-frontend-interview-qa-beginner",
+      "title": "陈浩南前端开发工程师简历面试问答：小白背诵版",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "面试"
+      ],
+      "onlineFile": "面试/陈浩南前端开发工程师简历面试问答：小白背诵版.md"
+    },
     {
       "originalId": "6a7297bdaa75b420fbbaf295",
       "originalSlug": "redis-08-security-monitoring-ioredis-case",
@@ -1707,16 +1796,16 @@
       "onlineFile": "后端技术/Node.js/接口与会话控制详解/第-8-篇：前后端联调与常见问题排查：CORS、Token-存储、Axios-拦截器、Refresh-Token.md"
     },
     {
-      "originalId": "6a2d291e8a2b1c68f2cac136",
-      "originalSlug": "node-js-mongodb-f251a01d",
-      "title": "第 7 篇：Express + MongoDB 完整项目实战：建模、鉴权、分页搜索、软删除",
+      "originalId": "6a2d291e8a2b1c68f2cac148",
+      "originalSlug": "node-js-mongodb-mongodb-crud-85922e88",
+      "title": "第 2 篇：MongoDB 原生 CRUD：mongosh、Node.js Driver、过滤、分页、更新操作符",
       "contentMode": "markdown",
       "categoryPath": [
         "后端技术",
         "Node.js",
         "MongoDB详解"
       ],
-      "onlineFile": "后端技术/Node.js/MongoDB详解/第-7-篇：Express-+-MongoDB-完整项目实战：建模、鉴权、分页搜索、软删除.md"
+      "onlineFile": "后端技术/Node.js/MongoDB详解/第-2-篇：MongoDB-原生-CRUD：mongosh、Node.js-Driver、过滤、分页、更新操作符.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac13e",
@@ -1731,16 +1820,16 @@
       "onlineFile": "后端技术/Node.js/MongoDB详解/第-3-篇：Mongoose-连接与-Schema-建模：Model、字段校验、默认值、索引.md"
     },
     {
-      "originalId": "6a2d291e8a2b1c68f2cac148",
-      "originalSlug": "node-js-mongodb-mongodb-crud-85922e88",
-      "title": "第 2 篇：MongoDB 原生 CRUD：mongosh、Node.js Driver、过滤、分页、更新操作符",
+      "originalId": "6a2d291e8a2b1c68f2cac136",
+      "originalSlug": "node-js-mongodb-f251a01d",
+      "title": "第 7 篇：Express + MongoDB 完整项目实战：建模、鉴权、分页搜索、软删除",
       "contentMode": "markdown",
       "categoryPath": [
         "后端技术",
         "Node.js",
         "MongoDB详解"
       ],
-      "onlineFile": "后端技术/Node.js/MongoDB详解/第-2-篇：MongoDB-原生-CRUD：mongosh、Node.js-Driver、过滤、分页、更新操作符.md"
+      "onlineFile": "后端技术/Node.js/MongoDB详解/第-7-篇：Express-+-MongoDB-完整项目实战：建模、鉴权、分页搜索、软删除.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac12a",
@@ -2683,19 +2772,6 @@
       "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第-05-篇：Cursor-协作自动化：Background-Agents、Bugbot、GitHub-与-Slack（2026-04）.md"
     },
     {
-      "originalId": "6a2d291d8a2b1c68f2cabe96",
-      "originalSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
-      "title": "第 03 篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "AI相关",
-        "AI工具",
-        "AI编辑器流",
-        "Cursor"
-      ],
-      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第-03-篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md"
-    },
-    {
       "originalId": "6a2d291d8a2b1c68f2cabe9c",
       "originalSlug": "ai-ai-cursor-cursor-agentasktabinlineedit-8e8d1620",
       "title": "第 02 篇：Cursor 核心交互：Agent、Ask、Tab 与 Inline Edit（2026-04）",
@@ -2707,6 +2783,19 @@
         "Cursor"
       ],
       "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第-02-篇：Cursor-核心交互：Agent、Ask、Tab-与-Inline-Edit（2026-04）.md"
+    },
+    {
+      "originalId": "6a2d291d8a2b1c68f2cabe96",
+      "originalSlug": "ai-ai-cursor-cursor-rulesmemoriesnotepads-78dca392",
+      "title": "第 03 篇：Cursor 上下文管理：Rules、Memories 与 Notepads（2026-04）",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "AI相关",
+        "AI工具",
+        "AI编辑器流",
+        "Cursor"
+      ],
+      "onlineFile": "AI相关/AI工具/AI编辑器流/Cursor/第-03-篇：Cursor-上下文管理：Rules、Memories-与-Notepads（2026-04）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabe90",
@@ -4191,18 +4280,6 @@
       "onlineFile": "项目复用技术/第三方登录对接/企业微信/第-3-篇：企业微信-H5-微应用开发指南：后台配置、OAuth2、授权登录、后端接口.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac7be",
-      "originalSlug": "0-1-f01367dd",
-      "title": "第 1 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "企业微信"
-      ],
-      "onlineFile": "项目复用技术/第三方登录对接/企业微信/第-1-篇：企业微信开发从-0-到-1：开放平台、应用类型、corpId、agentId、服务端调用.md"
-    },
-    {
       "originalId": "6a2d29208a2b1c68f2cac7c0",
       "originalSlug": "id-corpid-agentid-appid-userid-openid-unionid-e704ba37",
       "title": "第 2 篇：企业微信常见 ID 速查：corpId、agentId、appId、userId、openId、unionId",
@@ -4213,6 +4290,18 @@
         "企业微信"
       ],
       "onlineFile": "项目复用技术/第三方登录对接/企业微信/第-2-篇：企业微信常见-ID-速查：corpId、agentId、appId、userId、openId、unionId.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac7be",
+      "originalSlug": "0-1-f01367dd",
+      "title": "第 1 篇：企业微信开发从 0 到 1：开放平台、应用类型、corpId、agentId、服务端调用",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "企业微信"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/企业微信/第-1-篇：企业微信开发从-0-到-1：开放平台、应用类型、corpId、agentId、服务端调用.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac7b4",
@@ -4287,18 +4376,6 @@
       "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-12-篇：uni-app-项目改造钉钉小程序清单：排查、编译接入、代码改造、联调发布.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac794",
-      "originalSlug": "uni-app-0-1-a387b249",
-      "title": "第 10 篇：钉钉小程序前端开发从 0 到 1：开放平台、第三方企业应用、页面开发、上传发布",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "钉钉"
-      ],
-      "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-10-篇：钉钉小程序前端开发从-0-到-1：开放平台、第三方企业应用、页面开发、上传发布.md"
-    },
-    {
       "originalId": "6a2d29208a2b1c68f2cac798",
       "originalSlug": "uni-app-uni-app-81c6612d",
       "title": "第 11 篇：uni-app 微信小程序迁移钉钉小程序指南：路线选型、编译目标、适配层、登录链路、联调发布",
@@ -4309,6 +4386,18 @@
         "钉钉"
       ],
       "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-11-篇：uni-app-微信小程序迁移钉钉小程序指南：路线选型、编译目标、适配层、登录链路、联调发布.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac794",
+      "originalSlug": "uni-app-0-1-a387b249",
+      "title": "第 10 篇：钉钉小程序前端开发从 0 到 1：开放平台、第三方企业应用、页面开发、上传发布",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-10-篇：钉钉小程序前端开发从-0-到-1：开放平台、第三方企业应用、页面开发、上传发布.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac78c",
@@ -4347,18 +4436,6 @@
       "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-7-篇：PC-多租户钉钉扫码登录接入方案：一套代码、多学校部署、租户配置、前后端清单.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac77a",
-      "originalSlug": "h5-9277dde7",
-      "title": "第 5 篇：钉钉微应用登录项目核验结论：移动端仓库、官方依据、实现对照、风险点",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "项目复用技术",
-        "第三方登录对接",
-        "钉钉"
-      ],
-      "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-5-篇：钉钉微应用登录项目核验结论：移动端仓库、官方依据、实现对照、风险点.md"
-    },
-    {
       "originalId": "6a2d29208a2b1c68f2cac77c",
       "originalSlug": "h5-h5-jsapi-d670249e",
       "title": "第 6 篇：钉钉 H5 微应用 JSAPI 对接清单：能力调用、前后端协议、签名、常用 JSAPI",
@@ -4369,6 +4446,18 @@
         "钉钉"
       ],
       "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-6-篇：钉钉-H5-微应用-JSAPI-对接清单：能力调用、前后端协议、签名、常用-JSAPI.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac77a",
+      "originalSlug": "h5-9277dde7",
+      "title": "第 5 篇：钉钉微应用登录项目核验结论：移动端仓库、官方依据、实现对照、风险点",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "第三方登录对接",
+        "钉钉"
+      ],
+      "onlineFile": "项目复用技术/第三方登录对接/钉钉/第-5-篇：钉钉微应用登录项目核验结论：移动端仓库、官方依据、实现对照、风险点.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac778",
@@ -4596,17 +4685,6 @@
       "onlineFile": "常用缺易忘/数据类型/第-7-篇：IndexedDB-什么时候该上：大容量缓存、离线数据、事务与复杂度取舍.md"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac31e",
-      "originalSlug": "blob-2000f47d",
-      "title": "第 5 篇：Blob 的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "常用缺易忘",
-        "数据类型"
-      ],
-      "onlineFile": "常用缺易忘/数据类型/第-5-篇：Blob-的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览.md"
-    },
-    {
       "originalId": "6a2d291f8a2b1c68f2cac32c",
       "originalSlug": "file-blob-arraybuffer-base64-537d7c38",
       "title": "第 4 篇：File、Blob、ArrayBuffer、Base64 区别：上传、下载、预览、二进制处理",
@@ -4616,6 +4694,17 @@
         "数据类型"
       ],
       "onlineFile": "常用缺易忘/数据类型/第-4-篇：File、Blob、ArrayBuffer、Base64-区别：上传、下载、预览、二进制处理.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac31e",
+      "originalSlug": "blob-2000f47d",
+      "title": "第 5 篇：Blob 的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "常用缺易忘",
+        "数据类型"
+      ],
+      "onlineFile": "常用缺易忘/数据类型/第-5-篇：Blob-的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac31a",
@@ -4924,26 +5013,15 @@
       "onlineFile": "项目复用技术/WebSocket/第-6-篇：消息解析与服务层封装：消息标准化、类型解析、订阅分发、页面薄消费.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac6d6",
-      "originalSlug": "uni-app-uni-app-b0f67933",
-      "title": "第 1 篇：uni-app 人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板",
+      "originalId": "6a2d29208a2b1c68f2cac6f4",
+      "originalSlug": "uni-app-uni-app-tabbar-a0f11cca",
+      "title": "第 4 篇：uni-app 自定义 tabBar 与角标同步封装：角色配置、安全区适配、页面路径、全局刷新",
       "contentMode": "markdown",
       "categoryPath": [
         "项目复用技术",
         "uni-app"
       ],
-      "onlineFile": "项目复用技术/uni-app/第-1-篇：uni-app-人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板.md"
-    },
-    {
-      "originalId": "6a2d29208a2b1c68f2cac6e0",
-      "originalSlug": "uni-app-uni-app-h5-67daf64f",
-      "title": "第 2 篇：uni-app 语音输入与语音转文字封装：按住说话、上滑取消、H5 兼容、自动发送",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "onlineFile": "项目复用技术/uni-app/第-2-篇：uni-app-语音输入与语音转文字封装：按住说话、上滑取消、H5-兼容、自动发送.md"
+      "onlineFile": "项目复用技术/uni-app/第-4-篇：uni-app-自定义-tabBar-与角标同步封装：角色配置、安全区适配、页面路径、全局刷新.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac6ea",
@@ -4957,26 +5035,37 @@
       "onlineFile": "项目复用技术/uni-app/第-3-篇：uni-app-附件上传与智能预览封装：图片、文件、视频、图标映射、大小格式化.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac6f4",
-      "originalSlug": "uni-app-uni-app-tabbar-a0f11cca",
-      "title": "第 4 篇：uni-app 自定义 tabBar 与角标同步封装：角色配置、安全区适配、页面路径、全局刷新",
+      "originalId": "6a2d29208a2b1c68f2cac6e0",
+      "originalSlug": "uni-app-uni-app-h5-67daf64f",
+      "title": "第 2 篇：uni-app 语音输入与语音转文字封装：按住说话、上滑取消、H5 兼容、自动发送",
       "contentMode": "markdown",
       "categoryPath": [
         "项目复用技术",
         "uni-app"
       ],
-      "onlineFile": "项目复用技术/uni-app/第-4-篇：uni-app-自定义-tabBar-与角标同步封装：角色配置、安全区适配、页面路径、全局刷新.md"
+      "onlineFile": "项目复用技术/uni-app/第-2-篇：uni-app-语音输入与语音转文字封装：按住说话、上滑取消、H5-兼容、自动发送.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac71e",
-      "originalSlug": "websocket-ebe2285a",
-      "title": "第 5 篇：连接管理与自动重连封装：状态机、指数退避、手动重连、暂停策略",
+      "originalId": "6a2d29208a2b1c68f2cac6d6",
+      "originalSlug": "uni-app-uni-app-b0f67933",
+      "title": "第 1 篇：uni-app 人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-1-篇：uni-app-人脸摄像机封装实战：能力边界、权限、图片转换、可复用模板.md"
+    },
+    {
+      "originalId": "6a2d29208a2b1c68f2cac736",
+      "originalSlug": "websocket-websocket-uni-app-pcvue-dc468cc2",
+      "title": "第 9 篇：WebSocket 跨运行时适配：uni-app、PC Vue、runtime adapter、服务挂载",
       "contentMode": "markdown",
       "categoryPath": [
         "项目复用技术",
         "WebSocket"
       ],
-      "onlineFile": "项目复用技术/WebSocket/第-5-篇：连接管理与自动重连封装：状态机、指数退避、手动重连、暂停策略.md"
+      "onlineFile": "项目复用技术/WebSocket/第-9-篇：WebSocket-跨运行时适配：uni-app、PC-Vue、runtime-adapter、服务挂载.md"
     },
     {
       "originalId": "6a2d29208a2b1c68f2cac72c",
@@ -4990,15 +5079,15 @@
       "onlineFile": "项目复用技术/WebSocket/第-7-篇：MessageServiceAdapter-与页面接入：统一入口、事件桥接、回调注册、初始化时机.md"
     },
     {
-      "originalId": "6a2d29208a2b1c68f2cac736",
-      "originalSlug": "websocket-websocket-uni-app-pcvue-dc468cc2",
-      "title": "第 9 篇：WebSocket 跨运行时适配：uni-app、PC Vue、runtime adapter、服务挂载",
+      "originalId": "6a2d29208a2b1c68f2cac71e",
+      "originalSlug": "websocket-ebe2285a",
+      "title": "第 5 篇：连接管理与自动重连封装：状态机、指数退避、手动重连、暂停策略",
       "contentMode": "markdown",
       "categoryPath": [
         "项目复用技术",
         "WebSocket"
       ],
-      "onlineFile": "项目复用技术/WebSocket/第-9-篇：WebSocket-跨运行时适配：uni-app、PC-Vue、runtime-adapter、服务挂载.md"
+      "onlineFile": "项目复用技术/WebSocket/第-5-篇：连接管理与自动重连封装：状态机、指数退避、手动重连、暂停策略.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac534",
@@ -5025,17 +5114,6 @@
       "onlineFile": "电脑/电脑网络/网络基础/第-3-篇：Windows-hosts、DNS-缓存、网络类型与防火墙基础.md"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac556",
-      "originalSlug": "windows-msconfig-3392836b",
-      "title": "第 5 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "电脑",
-        "系统与文件"
-      ],
-      "onlineFile": "电脑/系统与文件/第-5-篇：Windows-启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动.md"
-    },
-    {
       "originalId": "6a2d291f8a2b1c68f2cac578",
       "originalSlug": "windows-uac-9d17ce33",
       "title": "第 4 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界",
@@ -5045,6 +5123,17 @@
         "系统与文件"
       ],
       "onlineFile": "电脑/系统与文件/第-4-篇：Windows-管理员权限与-UAC：标准权限、提权运行、安全边界.md"
+    },
+    {
+      "originalId": "6a2d291f8a2b1c68f2cac556",
+      "originalSlug": "windows-msconfig-3392836b",
+      "title": "第 5 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "电脑",
+        "系统与文件"
+      ],
+      "onlineFile": "电脑/系统与文件/第-5-篇：Windows-启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac524",
@@ -5070,15 +5159,15 @@
       "onlineFile": "电脑/系统与文件/第-6-篇：Windows-常见系统路径与环境变量：USERPROFILE、APPDATA、ProgramData、ProgramFiles.md"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac54c",
-      "originalSlug": "windows-c-storage-sense-windows-old-4fcfcbe9",
-      "title": "第 9 篇：Windows C 盘空间清理：Storage Sense、临时文件、Windows.old",
+      "originalId": "6a2d291f8a2b1c68f2cac570",
+      "originalSlug": "windows-public-appdata-programdata-d717719e",
+      "title": "第 7 篇：Windows 用户目录体系：Users、Public、AppData、ProgramData",
       "contentMode": "markdown",
       "categoryPath": [
         "电脑",
         "系统与文件"
       ],
-      "onlineFile": "电脑/系统与文件/第-9-篇：Windows-C-盘空间清理：Storage-Sense、临时文件、Windows.old.md"
+      "onlineFile": "电脑/系统与文件/第-7-篇：Windows-用户目录体系：Users、Public、AppData、ProgramData.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac568",
@@ -5092,15 +5181,15 @@
       "onlineFile": "电脑/系统与文件/第-8-篇：Windows-文件显示设置：扩展名、隐藏文件、资源管理器、默认应用.md"
     },
     {
-      "originalId": "6a2d291f8a2b1c68f2cac570",
-      "originalSlug": "windows-public-appdata-programdata-d717719e",
-      "title": "第 7 篇：Windows 用户目录体系：Users、Public、AppData、ProgramData",
+      "originalId": "6a2d291f8a2b1c68f2cac54c",
+      "originalSlug": "windows-c-storage-sense-windows-old-4fcfcbe9",
+      "title": "第 9 篇：Windows C 盘空间清理：Storage Sense、临时文件、Windows.old",
       "contentMode": "markdown",
       "categoryPath": [
         "电脑",
         "系统与文件"
       ],
-      "onlineFile": "电脑/系统与文件/第-7-篇：Windows-用户目录体系：Users、Public、AppData、ProgramData.md"
+      "onlineFile": "电脑/系统与文件/第-9-篇：Windows-C-盘空间清理：Storage-Sense、临时文件、Windows.old.md"
     },
     {
       "originalId": "6a2d291f8a2b1c68f2cac540",
@@ -6098,18 +6187,6 @@
       "onlineFile": "前端技术/前端三剑客/AI版JS/第-30-章：使用-Express-开发后端.md"
     },
     {
-      "originalId": "6a2d291e8a2b1c68f2cac10a",
-      "originalSlug": "js-node-js-ff8ab72b",
-      "title": "第 29 章：Node.js 基础",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客",
-        "AI版JS"
-      ],
-      "onlineFile": "前端技术/前端三剑客/AI版JS/第-29-章：Node.js-基础.md"
-    },
-    {
       "originalId": "6a2d291e8a2b1c68f2cac10c",
       "originalSlug": "js-javascript-44c8511b",
       "title": "第 2 章：JavaScript 的运行机制",
@@ -6120,6 +6197,18 @@
         "AI版JS"
       ],
       "onlineFile": "前端技术/前端三剑客/AI版JS/第-2-章：JavaScript-的运行机制.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac10a",
+      "originalSlug": "js-node-js-ff8ab72b",
+      "title": "第 29 章：Node.js 基础",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版JS"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版JS/第-29-章：Node.js-基础.md"
     },
     {
       "originalId": "6a2d291e8a2b1c68f2cac108",
@@ -6398,18 +6487,6 @@
       "onlineFile": "前端技术/前端三剑客/AI版HTML/第-6-篇：HTML-实战与进阶方向.md"
     },
     {
-      "originalId": "6a2d291e8a2b1c68f2cac0ce",
-      "originalSlug": "html-html-67ef3a27",
-      "title": "第 5 篇：现代 HTML 实践",
-      "contentMode": "markdown",
-      "categoryPath": [
-        "前端技术",
-        "前端三剑客",
-        "AI版HTML"
-      ],
-      "onlineFile": "前端技术/前端三剑客/AI版HTML/第-5-篇：现代-HTML-实践.md"
-    },
-    {
       "originalId": "6a2d30eeb480df92ce002e47",
       "originalSlug": "html-html-de7f4404",
       "title": "第 2 篇：HTML 基础语法",
@@ -6420,6 +6497,18 @@
         "AI版HTML"
       ],
       "onlineFile": "前端技术/前端三剑客/AI版HTML/第-2-篇：HTML-基础语法.md"
+    },
+    {
+      "originalId": "6a2d291e8a2b1c68f2cac0ce",
+      "originalSlug": "html-html-67ef3a27",
+      "title": "第 5 篇：现代 HTML 实践",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "前端技术",
+        "前端三剑客",
+        "AI版HTML"
+      ],
+      "onlineFile": "前端技术/前端三剑客/AI版HTML/第-5-篇：现代-HTML-实践.md"
     },
     {
       "originalId": "6a2d30eeb480df92ce002e42",
@@ -6480,6 +6569,94 @@
         "AI版CSS"
       ],
       "onlineFile": "前端技术/前端三剑客/AI版CSS/第-7-篇：综合实战：从风格到产品.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c25f",
+      "originalSlug": "uniapp-wechat-mini-program-project-skeleton",
+      "title": "第 6 篇：uni-app 微信小程序通用工程骨架：会话、请求、路由与分包职责",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-6-篇：uni-app-微信小程序通用工程骨架：会话、请求、路由与分包职责.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c261",
+      "originalSlug": "uniapp-keyboard-input-viewport-adaptation",
+      "title": "第 7 篇：uni-app 键盘弹起与输入框遮挡适配：H5、App、小程序处理方案",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-7-篇：uni-app-键盘弹起与输入框遮挡适配：H5、App、小程序处理方案.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c263",
+      "originalSlug": "uniapp-cross-platform-navigation-bar",
+      "title": "第 8 篇：uni-app 跨端导航栏适配：默认导航、自定义导航与胶囊尺寸",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-8-篇：uni-app-跨端导航栏适配：默认导航、自定义导航与胶囊尺寸.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c265",
+      "originalSlug": "wechat-mini-program-runtime-dynamic-import-alternatives",
+      "title": "第 9 篇：微信小程序运行时动态导入失效：静态映射与分包方案",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-9-篇：微信小程序运行时动态导入失效：静态映射与分包方案.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c267",
+      "originalSlug": "uniapp-app-phone-and-sms-capabilities",
+      "title": "第 10 篇：uni-app App 拨号与短信能力适配：平台边界、权限与原生模块",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-10-篇：uni-app-App-拨号与短信能力适配：平台边界、权限与原生模块.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c269",
+      "originalSlug": "uniapp-vue3-canvas-business-card-export",
+      "title": "第 11 篇：uni-app Vue 3 Canvas 名片生成：组件作用域、多实例与图片导出",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-11-篇：uni-app-Vue-3-Canvas-名片生成：组件作用域、多实例与图片导出.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c26b",
+      "originalSlug": "uniapp-scroll-view-layout-troubleshooting",
+      "title": "第 12 篇：uni-app scroll-view 滚动异常排查：容器高度、触底刷新与聊天滚动",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-12-篇：uni-app-scroll-view-滚动异常排查：容器高度、触底刷新与聊天滚动.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c26d",
+      "originalSlug": "uniapp-h5-session-route-recovery",
+      "title": "第 13 篇：uni-app H5 刷新返回登录页排查：会话恢复与深路由处理",
+      "contentMode": "markdown",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "onlineFile": "项目复用技术/uni-app/第-13-篇：uni-app-H5-刷新返回登录页排查：会话恢复与深路由处理.md"
     }
   ]
 }

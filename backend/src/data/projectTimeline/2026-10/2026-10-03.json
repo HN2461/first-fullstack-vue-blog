@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-03",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "sync-online-menu-and-articles-to-local-20261003",
+      "title": "同步线上菜单与文章到本地数据库",
+      "detail": "1. 从线上服务器读取菜单快照并按稳定 code 对本地菜单执行 dry-run 与同步，更新 59 项线上菜单配置，保留本地专用的 knowledge.workjournal.evidence 菜单，不删除本地额外菜单。\n2. 核对 output/线上文章 manifest.json 与线上未删除文章的 547 个 originalId/originalSlug 全部对应后，使用本地权威快照重建本地文章数据，新增 8 篇文章，文章总数从 539 恢复到 547，分类 99 条、标签 859 条，547 篇均为已发布。\n3. 同步前完成本地 MongoDB 全量备份，保留菜单 JSON、文章 EJSON 和数据库 BSON 备份；同步后菜单与文章 dry-run 均显示无待变更，确认重复执行幂等。\n4. 按超级管理员日常使用频率调整本地菜单：知识库、账本、资源管理前置；个人工作台按日常事务、资料与协作、学习与职业、工具分组，题库与简历模块继续保留完整入口；分类和标签归入内容管理，迁移配置归入系统运维。变更前备份本地菜单数据，保留既有页面菜单 ID 与路由。",
+      "occurredAt": "2026-10-03T16:05:00+08:00",
+      "category": "内容上新"
+    }
+  ]
+}
