@@ -172,6 +172,10 @@
   background: #fff;
 }
 
+.media-preview-workspace__stage.is-html {
+  background: #fff;
+}
+
 .media-preview-workspace__frame-loading {
   position: absolute;
   z-index: 1;

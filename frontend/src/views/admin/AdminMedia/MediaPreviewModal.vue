@@ -88,6 +88,23 @@
             </div>
           </template>
 
+          <template v-else-if="previewType === 'html'">
+            <a-spin v-if="textLoading" tip="加载页面中" />
+            <div v-else-if="textError" class="media-preview-workspace__fallback">
+              <strong>HTML 预览失败</strong>
+              <p>{{ textError }}</p>
+              <a-button size="small" @click="loadTextPreview(record)">重新加载</a-button>
+            </div>
+            <iframe
+              v-else
+              :srcdoc="htmlPreviewContent"
+              class="media-preview-workspace__frame"
+              sandbox=""
+              referrerpolicy="no-referrer"
+              title="HTML 文件预览"
+            />
+          </template>
+
           <template v-else-if="previewType === 'spreadsheet'">
             <MediaSpreadsheetPreview :open="open" :url="previewOpenUrl" :file-name="record.originalName" />
           </template>
@@ -199,8 +216,13 @@ const markdownAssetBase = computed(() => {
     return ''
   }
 })
-const previewTypeLabel = computed(() => ({ image: '图片', video: '视频', audio: '音频', pdf: 'PDF', docx: 'Word', spreadsheet: '表格', presentation: 'PPTX', markdown: 'Markdown', text: '文本', 'unsupported-office': 'Office 文件', other: '文件' }[previewType.value]))
-const fileTypeColor = computed(() => ({ image: 'blue', video: 'purple', audio: 'cyan', pdf: 'red', docx: 'blue', spreadsheet: 'green', presentation: 'orange', markdown: 'geekblue', text: 'geekblue', 'unsupported-office': 'default', other: 'default' }[previewType.value]))
+const previewTypeLabel = computed(() => ({ image: '图片', video: '视频', audio: '音频', pdf: 'PDF', docx: 'Word', spreadsheet: '表格', presentation: 'PPTX', markdown: 'Markdown', html: 'HTML', text: '文本', 'unsupported-office': 'Office 文件', other: '文件' }[previewType.value]))
+const fileTypeColor = computed(() => ({ image: 'blue', video: 'purple', audio: 'cyan', pdf: 'red', docx: 'blue', spreadsheet: 'green', presentation: 'orange', markdown: 'geekblue', html: 'cyan', text: 'geekblue', 'unsupported-office': 'default', other: 'default' }[previewType.value]))
+const htmlPreviewContent = computed(() => {
+  const content = String(textContent.value || '')
+  if (/<\s*html[\s>]/i.test(content)) return content
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body>${content}</body></html>`
+})
 
 watch(() => [props.open, props.record], ([visible]) => {
   if (visible && props.record) initializePreview()
@@ -219,6 +241,7 @@ function getPreviewType(record) {
   if (mime === 'application/vnd.openxmlformats-officedocument.presentationml.presentation' || ext === 'pptx') return 'presentation'
   if (['doc', 'xls', 'ppt'].includes(ext)) return 'unsupported-office'
   if (mime === 'text/markdown' || ['md', 'markdown', 'mdown', 'mkdn'].includes(ext)) return 'markdown'
+  if (['text/html', 'application/xhtml+xml'].includes(mime) || ['html', 'htm', 'xhtml'].includes(ext)) return 'html'
   if (mime.startsWith('text/') || ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs', 'mts', 'cts', 'vue', 'svelte', 'astro', 'json', 'map', 'yml', 'yaml', 'xml', 'html', 'xhtml', 'css', 'scss', 'less', 'txt', 'log', 'mdx', 'sh', 'bat', 'ps1', 'py', 'java', 'go', 'rb', 'php', 'sql', 'graphql', 'gql', 'proto', 'c', 'cpp', 'h', 'cs', 'kt', 'swift', 'rs', 'dart', 'ex', 'exs', 'pl', 'r', 'asm', 'ini', 'conf', 'properties', 'toml', 'env', 'lock', 'diff', 'patch', 'gitignore', 'editorconfig', 'npmrc', 'prettierrc', 'eslintrc', 'dockerfile'].includes(ext)) return 'text'
   return 'other'
 }
@@ -226,7 +249,7 @@ function getPreviewType(record) {
 function initializePreview() {
   resetPreview()
   if (previewType.value === 'pdf') startFramePreview()
-  if (['markdown', 'text'].includes(previewType.value)) loadTextPreview(props.record)
+  if (['html', 'markdown', 'text'].includes(previewType.value)) loadTextPreview(props.record)
 }
 
 function resetPreview() {

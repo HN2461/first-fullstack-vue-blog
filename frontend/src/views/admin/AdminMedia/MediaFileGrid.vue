@@ -10,6 +10,7 @@
         :key="record.id"
         class="media-file-card"
         :class="{ 'is-selected': selectedKeys.includes(record.id) }"
+        @click="toggleSelection(record)"
       >
         <div class="media-file-card__select">
           <a-checkbox
@@ -23,7 +24,7 @@
           type="button"
           class="media-file-card__preview"
           :aria-label="isVaultRecord(record) && !vaultDetailsVisible ? '密码箱文件已隐藏' : `预览 ${record.originalName}`"
-          @click="isMaskedVaultRecord(record) ? emit('reveal-vault') : emit('view', record)"
+          @click.stop="isMaskedVaultRecord(record) ? emit('reveal-vault') : emit('view', record)"
         >
           <template v-if="isMaskedVaultRecord(record)">
             <LockOutlined class="media-file-card__vault-icon" />
@@ -34,7 +35,7 @@
             {{ getFileBadge(record) }}
           </span>
         </button>
-        <div class="media-file-card__info">
+        <div class="media-file-card__info" @click.stop="toggleSelection(record)">
           <template v-if="isMaskedVaultRecord(record)">
             <strong>密码箱文件</strong>
             <span>点击上方“显示文件信息”后查看</span>
@@ -49,7 +50,7 @@
             />
           </template>
         </div>
-        <div v-if="!isMaskedVaultRecord(record)" class="media-file-card__actions-wrap">
+        <div v-if="!isMaskedVaultRecord(record)" class="media-file-card__actions-wrap" @click.stop>
           <MediaRowActions
             class="media-file-card__actions"
             @view="emit('view', record)"
@@ -148,10 +149,11 @@ function formatFileSize(size = 0) {
 }
 
 function toggleSelection(record) {
-  const next = selectedKeys.value.includes(record.id)
-    ? selectedKeys.value.filter((id) => id !== record.id)
-    : [...selectedKeys.value, record.id]
-  const rows = props.items.filter((item) => next.includes(item.id))
+  const recordId = String(record.id)
+  const next = selectedKeys.value.includes(recordId)
+    ? selectedKeys.value.filter((id) => id !== recordId)
+    : [...selectedKeys.value, recordId]
+  const rows = props.items.filter((item) => next.includes(String(item.id)))
   emit('selection-change', next, rows)
 }
 

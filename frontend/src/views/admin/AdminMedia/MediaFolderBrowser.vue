@@ -61,6 +61,17 @@
 
     <template v-else>
       <div v-if="selectedKeys.length" class="media-folder-browser__selection-heading">
+        <div class="media-folder-browser__selection-scope">
+          <a-button
+            v-if="items.length"
+            size="small"
+            type="default"
+            @click="toggleSelectAll"
+          >
+            <template #icon><CheckSquareOutlined /></template>
+            {{ allItemsSelected ? '取消全选' : '全选当前页' }}
+          </a-button>
+        </div>
         <MediaBatchActions
           :count="selectedKeys.length"
           :can-manage-shares="canManageShares"
@@ -94,7 +105,7 @@
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { FolderOutlined, RightOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { CheckSquareOutlined, FolderOutlined, RightOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import MediaBatchActions from './MediaBatchActions.vue'
 import MediaFileGrid from './MediaFileGrid.vue'
 import MediaFolderCard from './MediaFolderCard.vue'
@@ -143,6 +154,8 @@ const isVaultCategory = (item) => item?.accessMode === 'vault' || item?.builtinK
 const customFolders = computed(() => props.categories.filter((item) => !item.system && item.id && !isVaultCategory(item)))
 const systemFolders = computed(() => props.categories.filter((item) => item.system || !item.id || isVaultCategory(item)))
 const selectedKeys = computed(() => props.selectedKeys.map(String))
+const itemKeys = computed(() => props.items.map((item) => String(item.id)))
+const allItemsSelected = computed(() => itemKeys.value.length > 0 && itemKeys.value.every((id) => selectedKeys.value.includes(id)))
 const canUploadCurrentFolder = computed(() => (
   !activeFolder.value || (
     !activeFolder.value.virtual && (
@@ -164,6 +177,12 @@ function submitKeyword() {
 
 function handleSelectionChange(keys, rows) {
   emit('selection-change', keys, rows)
+}
+
+function toggleSelectAll() {
+  const nextKeys = allItemsSelected.value ? [] : itemKeys.value
+  const rows = allItemsSelected.value ? [] : props.items
+  emit('selection-change', nextKeys, rows)
 }
 
 function openFolder(folder) {
@@ -308,6 +327,13 @@ function openFolder(folder) {
   padding: 0 2px;
 }
 
+.media-folder-browser__selection-scope {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
 .media-folder-browser__selection-heading :deep(.media-batch-actions) {
   margin-left: auto;
 }
@@ -349,9 +375,13 @@ function openFolder(folder) {
   }
 
   .media-folder-browser__selection-heading {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: wrap;
     gap: 6px;
+  }
+
+  .media-folder-browser__selection-scope {
+    justify-content: space-between;
   }
 
   .media-folder-browser__selection-heading :deep(.media-batch-actions) {
