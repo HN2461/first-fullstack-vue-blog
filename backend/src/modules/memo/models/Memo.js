@@ -50,6 +50,11 @@ const memoSchema = new mongoose.Schema(
       type: [memoFieldSchema],
       default: []
     },
+    migrationSourceId: {
+      type: String,
+      default: '',
+      select: false
+    },
     type: {
       type: String,
       enum: MEMO_TYPES,

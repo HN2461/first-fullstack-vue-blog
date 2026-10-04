@@ -6,7 +6,7 @@
       :api-fn="loadTableData"
       :columns="columns"
       :params="requestParams"
-      :scroll="{ x: 1120 }"
+      :scroll="{ x: 1284 }"
       :page-size="12"
       :show-column-setting="true"
       row-key="id"
@@ -41,7 +41,7 @@
               v-model:value="keywordInput"
               class="memo-filter-keyword"
               allow-clear
-              :placeholder="activeView === 'library' ? '搜索资料名称、字段或标签' : '搜索记录、资料或标签'"
+              :placeholder="activeView === 'library' ? '搜索资料名称、非敏感字段或标签' : '搜索记录、资料名称、非敏感字段或标签'"
               @change="scheduleTextFilters"
               @press-enter="applyTextFilters"
             >
@@ -106,7 +106,7 @@
               <Pin v-if="record.isPinned" class="memo-record-title__pin" :size="14" aria-label="已置顶" />
               <span>{{ record.title }}</span>
             </button>
-            <span class="memo-record-subtitle">{{ getRecordPreview(record) }}</span>
+            <span v-if="getRecordPreview(record)" class="memo-record-subtitle">{{ getRecordPreview(record) }}</span>
           </div>
         </template>
 
@@ -154,7 +154,7 @@
               </a-button>
             </a-tooltip>
             <a-tooltip title="编辑记录">
-              <a-button type="text" size="small" :aria-label="`编辑${record.title}`" @click="openEditRecord(record)">
+              <a-button type="text" size="small" :loading="loadingEditId === record.id" :aria-label="`编辑${record.title}`" @click="openEditRecord(record)">
                 <template #icon><Pencil :size="15" /></template>
               </a-button>
             </a-tooltip>
@@ -273,7 +273,7 @@ import {
   Trash2
 } from 'lucide-vue-next'
 import BlogTable from '@/components/BlogTable.vue'
-import { createMemo, deleteMemo, listMemos, updateMemo } from '@/services/memo'
+import { createMemo, deleteMemo, getMemo, listMemos, updateMemo } from '@/services/memo'
 import MemoRecordDetails from './MemoRecordDetails.vue'
 import MemoRecordEditor from './MemoRecordEditor.vue'
 
@@ -293,10 +293,12 @@ const activeRecord = ref(null)
 const detailsOpen = ref(false)
 const helpOpen = ref(false)
 const saving = ref(false)
+const loadingEditId = ref('')
 const errorMessage = ref('')
 const tableLoaded = ref(false)
 const filters = reactive({ status: undefined, type: undefined, priority: undefined })
 let textFilterTimer = null
+let editRequestToken = 0
 
 const viewOptions = [
   { label: '全部', value: 'all' },
@@ -386,9 +388,7 @@ async function loadTableData(params) {
 }
 
 function getRecordPreview(record) {
-  if (record.kind === 'reference') return '结构化参考资料'
-  const tags = record.tags?.length ? ` · ${record.tags.join('、')}` : ''
-  return `${record.summary || '暂无内容'}${tags}`
+  return record.tags?.length ? `标签：${record.tags.join('、')}` : ''
 }
 
 function getEmptyTitle() {
@@ -437,15 +437,33 @@ function formatTime(value) {
 }
 
 function openCreateRecord(kind) {
+  editRequestToken += 1
+  loadingEditId.value = ''
   editingRecord.value = null
   editorKind.value = kind
   editorOpen.value = true
 }
 
-function openEditRecord(record) {
-  editingRecord.value = record
-  editorKind.value = record.kind || 'capture'
-  editorOpen.value = true
+async function openEditRecord(record) {
+  if (!record?.id) return
+
+  const requestToken = ++editRequestToken
+  loadingEditId.value = record.id
+
+  try {
+    const detail = Array.isArray(record.fields) && typeof record.content === 'string'
+      ? record
+      : await getMemo(record.id)
+
+    if (requestToken !== editRequestToken) return
+    editingRecord.value = detail
+    editorKind.value = detail.kind || 'capture'
+    editorOpen.value = true
+  } catch (error) {
+    if (requestToken === editRequestToken) message.error(error.message || '读取记录失败')
+  } finally {
+    if (requestToken === editRequestToken) loadingEditId.value = ''
+  }
 }
 
 function openDetails(record) {
