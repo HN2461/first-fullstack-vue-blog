@@ -242,7 +242,7 @@ function getPreviewType(record) {
   if (['doc', 'xls', 'ppt'].includes(ext)) return 'unsupported-office'
   if (mime === 'text/markdown' || ['md', 'markdown', 'mdown', 'mkdn'].includes(ext)) return 'markdown'
   if (['text/html', 'application/xhtml+xml'].includes(mime) || ['html', 'htm', 'xhtml'].includes(ext)) return 'html'
-  if (mime.startsWith('text/') || ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs', 'mts', 'cts', 'vue', 'svelte', 'astro', 'json', 'map', 'yml', 'yaml', 'xml', 'html', 'xhtml', 'css', 'scss', 'less', 'txt', 'log', 'mdx', 'sh', 'bat', 'ps1', 'py', 'java', 'go', 'rb', 'php', 'sql', 'graphql', 'gql', 'proto', 'c', 'cpp', 'h', 'cs', 'kt', 'swift', 'rs', 'dart', 'ex', 'exs', 'pl', 'r', 'asm', 'ini', 'conf', 'properties', 'toml', 'env', 'lock', 'diff', 'patch', 'gitignore', 'editorconfig', 'npmrc', 'prettierrc', 'eslintrc', 'dockerfile'].includes(ext)) return 'text'
+  if (mime.startsWith('text/') || ['js', 'jsx', 'ts', 'tsx', 'mjs', 'cjs', 'mts', 'cts', 'vue', 'svelte', 'astro', 'json', 'map', 'yml', 'yaml', 'xml', 'html', 'xhtml', 'css', 'scss', 'less', 'txt', 'log', 'mdx', 'sh', 'bat', 'ps1', 'py', 'java', 'go', 'rb', 'php', 'sql', 'graphql', 'gql', 'proto', 'c', 'cpp', 'h', 'cs', 'kt', 'swift', 'rs', 'dart', 'ex', 'exs', 'pl', 'r', 'asm', 'ini', 'conf', 'properties', 'toml', 'env', 'lock', 'diff', 'patch', 'gitignore', 'editorconfig', 'npmrc', 'prettierrc', 'eslintrc', 'dockerfile', 'code-profile'].includes(ext)) return 'text'
   return 'other'
 }
 

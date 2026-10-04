@@ -12,7 +12,7 @@ export const MEDIA_EXTENSION_GROUPS = [
   {
     key: 'code',
     label: '代码与文本',
-    extensions: ['.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.vue', '.java', '.py', '.go', '.rb', '.php', '.sql', '.yml', '.yaml', '.xml', '.html', '.css', '.scss', '.less', '.sh', '.ps1', '.bat', '.c', '.cpp', '.h', '.hpp', '.cs', '.kt', '.swift', '.rs']
+    extensions: ['.txt', '.md', '.json', '.js', '.jsx', '.ts', '.tsx', '.vue', '.java', '.py', '.go', '.rb', '.php', '.sql', '.yml', '.yaml', '.xml', '.html', '.css', '.scss', '.less', '.sh', '.ps1', '.bat', '.c', '.cpp', '.h', '.hpp', '.cs', '.kt', '.swift', '.rs', '.code-profile']
   },
   {
     key: 'archive',
