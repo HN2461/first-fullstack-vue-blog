@@ -23,6 +23,7 @@ export const env = Object.freeze({
   mongodbUri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/personal_fullstack_blog',
   jwtSecret: process.env.JWT_SECRET || 'development-only-secret',
   mediaShareEncryptionKey: process.env.MEDIA_SHARE_ENCRYPTION_KEY || process.env.JWT_SECRET || 'development-only-secret',
+  memoEncryptionKey: process.env.MEMO_ENCRYPTION_KEY || (process.env.NODE_ENV === 'production' ? '' : process.env.JWT_SECRET || 'development-only-secret'),
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '2h',
   sessionCookieMaxAgeMs: readNumber('SESSION_COOKIE_MAX_AGE_MS', 2 * 60 * 60 * 1000),
   uploadDir: process.env.UPLOAD_DIR || 'uploads',

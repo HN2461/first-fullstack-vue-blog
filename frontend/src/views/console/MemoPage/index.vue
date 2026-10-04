@@ -1,679 +1,541 @@
 <template>
   <section class="memo-page">
-    <!-- 指标卡片 -->
-    <div class="memo-metrics">
-      <div class="memo-metric">
-        <div class="memo-metric__icon memo-metric__icon--blue">
-          <ClockCircleOutlined />
-        </div>
-        <div class="memo-metric__body">
-          <span class="memo-metric__label">待推进</span>
-          <strong class="memo-metric__value">{{ stats.open }}</strong>
-        </div>
-      </div>
-      <div class="memo-metric">
-        <div class="memo-metric__icon memo-metric__icon--pinned">
-          <PushpinOutlined />
-        </div>
-        <div class="memo-metric__body">
-          <span class="memo-metric__label">已置顶</span>
-          <strong class="memo-metric__value">{{ stats.pinned }}</strong>
-        </div>
-      </div>
-      <div class="memo-metric">
-        <div class="memo-metric__icon memo-metric__icon--amber">
-          <AlertOutlined />
-        </div>
-        <div class="memo-metric__body">
-          <span class="memo-metric__label">近期待办</span>
-          <strong class="memo-metric__value">{{ stats.dueSoon }}</strong>
-        </div>
-      </div>
-      <div class="memo-metric">
-        <div class="memo-metric__icon memo-metric__icon--green">
-          <CheckCircleOutlined />
-        </div>
-        <div class="memo-metric__body">
-          <span class="memo-metric__label">已完成</span>
-          <strong class="memo-metric__value">{{ stats.completed }}</strong>
-        </div>
-      </div>
-    </div>
-
-    <!-- 工具栏 -->
-    <div class="memo-toolbar">
-      <a-input-search
-        v-model:value="filters.keyword"
-        class="memo-search"
-        placeholder="搜索标题、内容或标签"
-        allow-clear
-        @search="refreshMemos"
-        @change="handleFilterInput"
-      />
-      <a-segmented v-model:value="filters.status" :options="statusFilterOptions" @change="refreshMemos" />
-      <a-select
-        v-model:value="filters.type"
-        class="memo-filter-select"
-        :options="typeFilterOptions"
-        placeholder="类型"
-        allow-clear
-        show-search
-        option-filter-prop="label"
-        @change="refreshMemos"
-      />
-      <a-select
-        v-model:value="filters.priority"
-        class="memo-filter-select"
-        :options="priorityFilterOptions"
-        placeholder="优先级"
-        allow-clear
-        show-search
-        option-filter-prop="label"
-        @change="refreshMemos"
-      />
-      <a-tooltip title="刷新">
-        <a-button class="memo-icon-btn" aria-label="刷新备忘录" @click="refreshMemos">
-          <template #icon><ReloadOutlined /></template>
-        </a-button>
-      </a-tooltip>
-      <a-button type="primary" @click="openCreateModal">
-        <template #icon><PlusOutlined /></template>
-        新增备忘
-      </a-button>
-    </div>
-
-    <a-alert v-if="errorMessage" class="memo-alert" type="error" show-icon :message="errorMessage" />
-
-    <!-- 备忘列表 -->
-    <a-spin :spinning="loading">
-      <div v-if="memos.length > 0" class="memo-list">
-        <article
-          v-for="memo in memos"
-          :key="memo.id"
-          :class="[
-            'memo-card',
-            `memo-card--${memo.priority}`,
-            { 'memo-card--done': memo.status === 'completed', 'memo-card--archived': memo.status === 'archived' }
-          ]"
-        >
-          <div class="memo-card__marker" aria-hidden="true"></div>
-          <div class="memo-card__body">
-            <div class="memo-card__head">
-              <div class="memo-card__title-row">
-                <a-tag class="memo-card__type" :color="getTypeMeta(memo.type).color" :bordered="false">
-                  {{ getTypeMeta(memo.type).label }}
-                </a-tag>
-                <h3 class="memo-card__title">{{ memo.title }}</h3>
-              </div>
-              <div class="memo-card__badges">
-                <span v-if="memo.isPinned" class="memo-badge memo-badge--pinned">
-                  <PushpinOutlined /> 置顶
-                </span>
-                <span v-if="memo.status === 'completed'" class="memo-badge memo-badge--done">
-                  <CheckCircleOutlined /> 已完成
-                </span>
-                <span v-else-if="memo.status === 'archived'" class="memo-badge memo-badge--archived">
-                  <InboxOutlined /> 已归档
-                </span>
-                <span v-if="memo.dueAt && memo.status === 'open'" class="memo-badge memo-badge--due">
-                  <CalendarOutlined /> {{ formatDate(memo.dueAt) }}
-                </span>
-              </div>
+    <BlogTable
+      ref="tableRef"
+      class="memo-table"
+      :api-fn="loadTableData"
+      :columns="columns"
+      :params="requestParams"
+      :scroll="{ x: 1120 }"
+      :page-size="12"
+      :show-column-setting="true"
+      row-key="id"
+      empty-text="暂无个人记录"
+    >
+      <template #toolbar>
+        <div class="memo-toolbar">
+          <div class="memo-toolbar__top">
+            <div class="memo-toolbar__identity">
+              <h1>个人记录</h1>
+              <a-tooltip title="查看个人记录说明">
+                <a-button type="text" aria-label="查看个人记录说明" @click="helpOpen = true">
+                  <template #icon><CircleHelp :size="16" /></template>
+                </a-button>
+              </a-tooltip>
+              <a-segmented v-model:value="activeView" :options="viewOptions" @change="handleViewChange" />
             </div>
-            <button type="button" class="memo-card__preview" @click="openDetailModal(memo)">
-              {{ memo.content }}
-            </button>
-            <div class="memo-card__foot">
-              <div class="memo-card__meta">
-                <span class="memo-card__time">
-                  <ClockCircleOutlined /> {{ formatTime(memo.updatedAt) }}
-                </span>
-                <a-tag v-for="tag in memo.tags" :key="tag" class="memo-card__tag" :bordered="false">{{ tag }}</a-tag>
-              </div>
-              <div class="memo-card__actions">
-                <a-tooltip title="查看详情">
-                  <a-button size="small" aria-label="查看备忘详情" @click="openDetailModal(memo)">
-                    <template #icon><EyeOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-                <a-tooltip :title="memo.isPinned ? '取消置顶' : '置顶'">
-                  <a-button size="small" :aria-label="memo.isPinned ? '取消置顶备忘' : '置顶备忘'" :class="{ 'memo-icon-btn--active': memo.isPinned }" @click="togglePinned(memo)">
-                    <template #icon><PushpinOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-                <a-tooltip :title="memo.status === 'completed' ? '重新打开' : '标记完成'">
-                  <a-button size="small" :aria-label="memo.status === 'completed' ? '重新打开备忘' : '标记备忘完成'" @click="toggleCompleted(memo)">
-                    <template #icon><CheckOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-                <a-tooltip :title="memo.status === 'archived' ? '取消归档' : '归档'">
-                  <a-button size="small" :aria-label="memo.status === 'archived' ? '取消归档备忘' : '归档备忘'" @click="toggleArchive(memo)">
-                    <template #icon><InboxOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-                <a-tooltip title="编辑">
-                  <a-button size="small" aria-label="编辑备忘" @click="openEditModal(memo)">
-                    <template #icon><EditOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-                <a-tooltip title="删除">
-                  <a-button size="small" danger aria-label="删除备忘" @click="confirmDelete(memo)">
-                    <template #icon><DeleteOutlined /></template>
-                  </a-button>
-                </a-tooltip>
-              </div>
+            <div class="memo-toolbar__actions">
+              <a-button @click="openCreateRecord('capture')">
+                <template #icon><Plus :size="15" /></template>
+                快速记录
+              </a-button>
+              <a-button type="primary" @click="openCreateRecord('reference')">
+                <template #icon><FilePlus2 :size="15" /></template>
+                添加资料
+              </a-button>
             </div>
           </div>
-        </article>
-      </div>
 
-      <!-- 空状态 -->
-      <div v-else class="memo-empty">
-        <InboxOutlined class="memo-empty__icon" />
-        <p class="memo-empty__text">暂无备忘录</p>
-        <p class="memo-empty__hint">记录灵感、计划、待办事项，让想法不丢失</p>
-        <a-button type="primary" @click="openCreateModal">
-          <template #icon><PlusOutlined /></template>
-          新建备忘
-        </a-button>
-      </div>
-    </a-spin>
+          <div class="memo-toolbar__filters">
+            <a-input
+              v-model:value="keywordInput"
+              class="memo-filter-keyword"
+              allow-clear
+              :placeholder="activeView === 'library' ? '搜索资料名称、字段或标签' : '搜索记录、资料或标签'"
+              @change="scheduleTextFilters"
+              @press-enter="applyTextFilters"
+            >
+              <template #prefix><Search :size="15" /></template>
+            </a-input>
 
-    <!-- 分页 -->
-    <div v-if="pagination.total > pagination.pageSize" class="memo-pagination">
-      <a-pagination
-        v-model:current="pagination.page"
-        :page-size="pagination.pageSize"
-        :total="pagination.total"
-        show-less-items
-        @change="refreshMemos"
-      />
-    </div>
-
-    <!-- 新增弹窗 -->
-    <a-modal
-      v-model:open="createVisible"
-      title="新增备忘"
-      :width="640"
-      :confirm-loading="submitting"
-      :destroy-on-close="true"
-      ok-text="保存"
-      cancel-text="取消"
-      @ok="submitCreateMemo"
-      @cancel="closeCreateModal"
-    >
-      <div class="memo-modal-body">
-        <a-form layout="vertical">
-          <a-form-item label="标题">
-            <a-input v-model:value.trim="createForm.title" :maxlength="80" placeholder="给备忘起个名字（可选）" />
-          </a-form-item>
-          <a-form-item label="内容" required>
-            <a-textarea
-              v-model:value="createForm.content"
-              :auto-size="{ minRows: 6, maxRows: 12 }"
-              :maxlength="5000"
-              show-count
-              placeholder="记录灵感、问题、计划或待处理的线索..."
-              @keydown.ctrl.enter.prevent="submitCreateMemo"
-              @keydown.meta.enter.prevent="submitCreateMemo"
+            <a-select
+              v-if="activeView === 'all' || activeView === 'inbox'"
+              v-model:value="filters.status"
+              class="memo-filter-select"
+              :options="statusOptions"
+              allow-clear
+              show-search
+              option-filter-prop="label"
+              placeholder="记录状态"
             />
-          </a-form-item>
-          <div class="memo-modal-grid">
-            <a-form-item label="类型">
-              <a-select v-model:value="createForm.type" :options="typeOptions" show-search option-filter-prop="label" />
-            </a-form-item>
-            <a-form-item label="优先级">
-              <a-select v-model:value="createForm.priority" :options="priorityOptions" show-search option-filter-prop="label" />
-            </a-form-item>
-            <a-form-item label="计划日期">
-              <a-input v-model:value.trim="createForm.dueAt" type="date" />
-            </a-form-item>
-            <a-form-item label="标签">
-              <a-input v-model:value="createForm.tagsText" placeholder="多个标签用逗号分隔" :maxlength="120" />
-            </a-form-item>
+            <a-select
+              v-if="activeView === 'all' || activeView === 'inbox'"
+              v-model:value="filters.type"
+              class="memo-filter-select"
+              :options="typeOptions"
+              allow-clear
+              show-search
+              option-filter-prop="label"
+              placeholder="记录类型"
+            />
+            <a-select
+              v-if="activeView === 'all' || activeView === 'inbox'"
+              v-model:value="filters.priority"
+              class="memo-filter-select"
+              :options="priorityOptions"
+              allow-clear
+              show-search
+              option-filter-prop="label"
+              placeholder="优先级"
+            />
+            <a-input
+              v-if="activeView === 'all' || activeView === 'library'"
+              v-model:value="categoryInput"
+              class="memo-filter-category"
+              allow-clear
+              placeholder="资料分类"
+              @change="scheduleTextFilters"
+              @press-enter="applyTextFilters"
+            />
+            <a-button v-if="hasActiveFilters" type="link" class="memo-filter-reset" @click="resetFilters">
+              清除筛选
+            </a-button>
           </div>
-          <a-checkbox v-model:checked="createForm.isPinned">置顶这条备忘</a-checkbox>
-        </a-form>
-      </div>
-    </a-modal>
+          <a-alert v-if="errorMessage" class="memo-request-error" type="error" show-icon :message="errorMessage">
+            <template #action>
+              <a-button size="small" @click="tableRef?.reload()">重试</a-button>
+            </template>
+          </a-alert>
+        </div>
+      </template>
 
-    <!-- 编辑弹窗 -->
-    <a-modal
-      v-model:open="editVisible"
-      title="编辑备忘"
-      :width="640"
-      :confirm-loading="submitting"
-      :destroy-on-close="true"
-      ok-text="保存"
-      cancel-text="取消"
-      @ok="submitEditMemo"
-      @cancel="closeEditModal"
-    >
-      <div class="memo-modal-body">
-        <a-form layout="vertical">
-          <a-form-item label="标题">
-            <a-input v-model:value.trim="editForm.title" :maxlength="80" placeholder="给备忘起个名字（可选）" />
-          </a-form-item>
-          <a-form-item label="内容" required>
-            <a-textarea v-model:value="editForm.content" :auto-size="{ minRows: 6, maxRows: 12 }" :maxlength="5000" show-count />
-          </a-form-item>
-          <div class="memo-modal-grid">
-            <a-form-item label="类型">
-              <a-select v-model:value="editForm.type" :options="typeOptions" show-search option-filter-prop="label" />
-            </a-form-item>
-            <a-form-item label="优先级">
-              <a-select v-model:value="editForm.priority" :options="priorityOptions" show-search option-filter-prop="label" />
-            </a-form-item>
-            <a-form-item label="状态">
-              <a-select v-model:value="editForm.status" :options="statusOptions" show-search option-filter-prop="label" />
-            </a-form-item>
-            <a-form-item label="计划日期">
-              <a-input v-model:value.trim="editForm.dueAt" type="date" />
-            </a-form-item>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'title'">
+          <div class="memo-record-title-cell">
+            <button type="button" class="memo-record-title" @click="openDetails(record)">
+              <Pin v-if="record.isPinned" class="memo-record-title__pin" :size="14" aria-label="已置顶" />
+              <span>{{ record.title }}</span>
+            </button>
+            <span class="memo-record-subtitle">{{ getRecordPreview(record) }}</span>
           </div>
-          <a-form-item label="标签">
-            <a-input v-model:value="editForm.tagsText" placeholder="多个标签用逗号分隔" :maxlength="120" />
-          </a-form-item>
-          <a-checkbox v-model:checked="editForm.isPinned">置顶这条备忘</a-checkbox>
-        </a-form>
-      </div>
-    </a-modal>
+        </template>
 
-    <!-- 详情弹窗 -->
-    <a-modal
-      v-model:open="detailVisible"
-      :title="detailMemo?.title || '备忘详情'"
-      :width="720"
-      :footer="null"
-      class="memo-detail-modal"
-      destroy-on-close
-    >
-      <div v-if="detailMemo" class="memo-detail">
-        <div class="memo-detail__badges">
-          <a-tag :color="getTypeMeta(detailMemo.type).color" :bordered="false">
-            {{ getTypeMeta(detailMemo.type).label }}
+        <template v-else-if="column.key === 'kind'">
+          <a-tag :color="record.kind === 'reference' ? 'cyan' : 'blue'" :bordered="false">
+            {{ record.kind === 'reference' ? '资料' : '收集箱' }}
           </a-tag>
-          <a-tag :color="getPriorityMeta(detailMemo.priority).color">{{ getPriorityMeta(detailMemo.priority).label }}</a-tag>
-          <a-tag v-if="detailMemo.status === 'completed'" color="success">已完成</a-tag>
-          <a-tag v-else-if="detailMemo.status === 'archived'">已归档</a-tag>
-          <a-tag v-if="detailMemo.isPinned" color="blue" :bordered="false">置顶</a-tag>
+        </template>
+
+        <template v-else-if="column.key === 'category'">
+          <span class="memo-table-muted">{{ record.category || '未分类' }}</span>
+        </template>
+
+        <template v-else-if="column.key === 'summary'">
+          <template v-if="record.kind === 'reference'">
+            <span class="memo-reference-summary">
+              {{ record.fieldCount }} 个字段
+              <span v-if="record.sensitiveFieldCount">· {{ record.sensitiveFieldCount }} 项敏感</span>
+            </span>
+          </template>
+          <div v-else class="memo-record-summary">{{ record.summary || '暂无内容' }}</div>
+        </template>
+
+        <template v-else-if="column.key === 'status'">
+          <div v-if="record.kind === 'capture'" class="memo-status-cell">
+            <a-tag :color="getStatusMeta(record.status).color" :bordered="false">
+              {{ getStatusMeta(record.status).label }}
+            </a-tag>
+            <span :class="['memo-priority', `memo-priority--${record.priority}`]">
+              {{ getPriorityLabel(record.priority) }}
+            </span>
+          </div>
+          <span v-else class="memo-table-muted">结构化资料</span>
+        </template>
+
+        <template v-else-if="column.key === 'updatedAt'">
+          <span class="memo-table-time">{{ formatTime(record.updatedAt) }}</span>
+        </template>
+
+        <template v-else-if="column.key === 'actions'">
+          <div class="memo-row-actions">
+            <a-tooltip title="查看详情">
+              <a-button type="text" size="small" :aria-label="`查看${record.title}`" @click="openDetails(record)">
+                <template #icon><Eye :size="15" /></template>
+              </a-button>
+            </a-tooltip>
+            <a-tooltip title="编辑记录">
+              <a-button type="text" size="small" :aria-label="`编辑${record.title}`" @click="openEditRecord(record)">
+                <template #icon><Pencil :size="15" /></template>
+              </a-button>
+            </a-tooltip>
+            <a-dropdown trigger="click" placement="bottomRight">
+              <a-tooltip title="更多操作">
+                <a-button type="text" size="small" :aria-label="`${record.title}更多操作`">
+                  <template #icon><MoreHorizontal :size="16" /></template>
+                </a-button>
+              </a-tooltip>
+              <template #overlay>
+                <a-menu @click="({ key }) => handleRecordMenuAction(key, record)">
+                  <a-menu-item key="pin">
+                    <Pin :size="14" /> {{ record.isPinned ? '取消置顶' : '置顶' }}
+                  </a-menu-item>
+                  <a-menu-item v-if="record.kind !== 'reference'" key="complete">
+                    <Check :size="14" /> {{ record.status === 'completed' ? '重新打开' : '标记完成' }}
+                  </a-menu-item>
+                  <a-menu-item key="archive">
+                    <Archive :size="14" /> {{ record.status === 'archived' ? '取消归档' : '归档' }}
+                  </a-menu-item>
+                  <a-menu-divider />
+                  <a-menu-item key="delete" danger>
+                    <Trash2 :size="14" /> 删除
+                  </a-menu-item>
+                </a-menu>
+              </template>
+            </a-dropdown>
+          </div>
+        </template>
+      </template>
+
+      <template #empty>
+        <div v-if="errorMessage" class="memo-table-empty">
+          <Inbox :size="24" />
+          <strong>记录加载失败</strong>
+          <span>{{ errorMessage }}</span>
+          <a-button @click="tableRef?.reload()">重试</a-button>
         </div>
-        <div class="memo-detail__content">{{ detailMemo.content }}</div>
-        <div class="memo-detail__meta">
-          <span><ClockCircleOutlined /> 更新于 {{ formatTime(detailMemo.updatedAt) }}</span>
-          <span v-if="detailMemo.createdAt"><FormOutlined /> 创建于 {{ formatTime(detailMemo.createdAt) }}</span>
-          <span v-if="detailMemo.dueAt"><CalendarOutlined /> 计划 {{ formatDate(detailMemo.dueAt) }}</span>
-        </div>
-        <div v-if="detailMemo.tags?.length" class="memo-detail__tags">
-          <a-tag v-for="tag in detailMemo.tags" :key="tag" :bordered="false">{{ tag }}</a-tag>
-        </div>
-        <div class="memo-detail__footer">
-          <a-button @click="openEditFromDetail">
-            <template #icon><EditOutlined /></template>
-            编辑
-          </a-button>
-          <a-button @click="togglePinned(detailMemo)">
-            <template #icon><PushpinOutlined /></template>
-            {{ detailMemo.isPinned ? '取消置顶' : '置顶' }}
-          </a-button>
-          <a-button @click="toggleCompleted(detailMemo)">
-            <template #icon><CheckOutlined /></template>
-            {{ detailMemo.status === 'completed' ? '重新打开' : '标记完成' }}
-          </a-button>
-          <a-button @click="toggleArchive(detailMemo)">
-            <template #icon><InboxOutlined /></template>
-            {{ detailMemo.status === 'archived' ? '取消归档' : '归档' }}
+        <div v-else-if="tableLoaded" class="memo-table-empty">
+          <Inbox :size="24" />
+          <strong>{{ hasActiveFilters ? '没有匹配的记录' : getEmptyTitle() }}</strong>
+          <span>{{ hasActiveFilters ? '调整搜索词或清除筛选条件后重试。' : getEmptyDescription() }}</span>
+          <a-button v-if="hasActiveFilters" @click="resetFilters">清除筛选</a-button>
+          <a-button v-else type="primary" @click="openCreateRecord(activeView === 'library' ? 'reference' : 'capture')">
+            <template #icon><Plus :size="15" /></template>
+            {{ activeView === 'library' ? '添加资料' : '快速记录' }}
           </a-button>
         </div>
-      </div>
+        <span v-else class="memo-table-loading">正在读取个人记录…</span>
+      </template>
+    </BlogTable>
+
+    <MemoRecordEditor
+      v-model:open="editorOpen"
+      :record="editingRecord"
+      :initial-kind="editorKind"
+      :saving="saving"
+      @save="saveRecord"
+    />
+
+    <MemoRecordDetails
+      ref="detailsRef"
+      :open="detailsOpen"
+      :record="activeRecord"
+      @close="detailsOpen = false"
+      @edit="openEditFromDetails"
+      @action="handleDetailsAction"
+    />
+
+    <a-modal
+      :open="helpOpen"
+      title="个人记录使用说明"
+      :footer="null"
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
+      wrap-class-name="memo-help-dialog"
+      @update:open="helpOpen = $event"
+    >
+      <dl class="memo-help-list">
+        <div>
+          <dt>收集箱</dt>
+          <dd>记录灵感、问题和待处理线索，可设置优先级、计划日期，并在完成后归档。</dd>
+        </div>
+        <div>
+          <dt>资料库</dt>
+          <dd>按字段保存经常查阅的个人资料，可自定义字段、类型和分类。</dd>
+        </div>
+        <div>
+          <dt>敏感信息</dt>
+          <dd>电话、证件号码、地址等字段加密保存。详情默认隐藏内容，点击眼睛图标后才读取单个字段。</dd>
+        </div>
+        <div>
+          <dt>归档与删除</dt>
+          <dd>归档记录仍可在“已归档”中找回；删除会永久移除记录及其加密字段。</dd>
+        </div>
+      </dl>
     </a-modal>
   </section>
 </template>
 
 <script setup>
-import { onMounted, reactive, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import {
-  AlertOutlined,
-  CalendarOutlined,
-  CheckCircleOutlined,
-  CheckOutlined,
-  ClockCircleOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-  FormOutlined,
-  InboxOutlined,
-  PlusOutlined,
-  PushpinOutlined,
-  ReloadOutlined
-} from '@ant-design/icons-vue'
-import { createMemo, deleteMemo, getMemoStats, listMemos, updateMemo } from '@/services/memo'
+  Archive,
+  Check,
+  CircleHelp,
+  Eye,
+  FilePlus2,
+  Inbox,
+  MoreHorizontal,
+  Pencil,
+  Pin,
+  Plus,
+  Search,
+  Trash2
+} from 'lucide-vue-next'
+import BlogTable from '@/components/BlogTable.vue'
+import { createMemo, deleteMemo, listMemos, updateMemo } from '@/services/memo'
+import MemoRecordDetails from './MemoRecordDetails.vue'
+import MemoRecordEditor from './MemoRecordEditor.vue'
 
 const route = useRoute()
 const router = useRouter()
-const typeOptions = [
-  { label: '灵感', value: 'idea', color: 'blue' },
-  { label: '计划', value: 'plan', color: 'cyan' },
-  { label: '研究', value: 'study', color: 'geekblue' },
-  { label: '工作', value: 'work', color: 'gold' }
+const tableRef = ref(null)
+const detailsRef = ref(null)
+const activeView = ref('all')
+const keywordInput = ref('')
+const categoryInput = ref('')
+const searchKeyword = ref('')
+const searchCategory = ref('')
+const editorOpen = ref(false)
+const editorKind = ref('capture')
+const editingRecord = ref(null)
+const activeRecord = ref(null)
+const detailsOpen = ref(false)
+const helpOpen = ref(false)
+const saving = ref(false)
+const errorMessage = ref('')
+const tableLoaded = ref(false)
+const filters = reactive({ status: undefined, type: undefined, priority: undefined })
+let textFilterTimer = null
+
+const viewOptions = [
+  { label: '全部', value: 'all' },
+  { label: '收集箱', value: 'inbox' },
+  { label: '资料库', value: 'library' },
+  { label: '已归档', value: 'archived' }
 ]
 const statusOptions = [
   { label: '待推进', value: 'open' },
-  { label: '已完成', value: 'completed' },
-  { label: '已归档', value: 'archived' }
+  { label: '已完成', value: 'completed' }
+]
+const typeOptions = [
+  { label: '灵感', value: 'idea' },
+  { label: '计划', value: 'plan' },
+  { label: '研究', value: 'study' },
+  { label: '工作', value: 'work' }
 ]
 const priorityOptions = [
   { label: '低优先级', value: 'low' },
   { label: '中优先级', value: 'medium' },
   { label: '高优先级', value: 'high' }
 ]
-const statusFilterOptions = [
-  { label: '全部', value: '' },
-  ...statusOptions
-]
-const typeFilterOptions = [
-  { label: '全部类型', value: '' },
-  ...typeOptions
-]
-const priorityFilterOptions = [
-  { label: '全部优先级', value: '' },
-  ...priorityOptions
+const columns = [
+  { title: '标题', key: 'title', dataIndex: 'title', width: 300 },
+  { title: '记录类型', key: 'kind', dataIndex: 'kind', width: 110 },
+  { title: '分类', key: 'category', dataIndex: 'category', width: 140 },
+  { title: '内容摘要', key: 'summary', dataIndex: 'summary', width: 300 },
+  { title: '状态', key: 'status', dataIndex: 'status', width: 150 },
+  { title: '最近更新', key: 'updatedAt', dataIndex: 'updatedAt', width: 160 },
+  { title: '操作', key: 'actions', width: 124, fixed: 'right' }
 ]
 
-const loading = ref(false)
-const submitting = ref(false)
-const errorMessage = ref('')
-const memos = ref([])
-const createVisible = ref(false)
-const editVisible = ref(false)
-const detailVisible = ref(false)
-const detailMemo = ref(null)
-const editingId = ref('')
-let filterTimer = null
+const requestParams = computed(() => ({
+  keyword: searchKeyword.value || undefined,
+  category: searchCategory.value || undefined,
+  kind: activeView.value === 'inbox' ? 'capture' : activeView.value === 'library' ? 'reference' : undefined,
+  status: activeView.value === 'archived' ? 'archived' : filters.status || 'active',
+  type: activeView.value === 'all' || activeView.value === 'inbox' ? filters.type : undefined,
+  priority: activeView.value === 'all' || activeView.value === 'inbox' ? filters.priority : undefined
+}))
 
-const stats = reactive({
-  open: 0,
-  completed: 0,
-  archived: 0,
-  pinned: 0,
-  dueSoon: 0,
-  total: 0
-})
-const pagination = reactive({
-  page: 1,
-  pageSize: 12,
-  total: 0
-})
-const filters = reactive({
-  keyword: '',
-  status: '',
-  type: '',
-  priority: ''
-})
-const createForm = reactive({
-  title: '',
-  content: '',
-  type: 'idea',
-  priority: 'medium',
-  dueAt: '',
-  tagsText: '',
-  isPinned: false
-})
-const editForm = reactive({
-  title: '',
-  content: '',
-  type: 'idea',
-  status: 'open',
-  priority: 'medium',
-  dueAt: '',
-  tagsText: '',
-  isPinned: false
-})
+const hasActiveFilters = computed(() => Boolean(
+  searchKeyword.value || searchCategory.value || filters.status || filters.type || filters.priority
+))
 
-function getTypeMeta(type) {
-  return typeOptions.find((item) => item.value === type) || typeOptions[0]
+function scheduleTextFilters() {
+  clearTimeout(textFilterTimer)
+  textFilterTimer = setTimeout(applyTextFilters, 300)
 }
 
-function getPriorityMeta(priority) {
-  const map = {
-    low: { label: '低优先级', color: 'default' },
-    medium: { label: '中优先级', color: 'processing' },
-    high: { label: '高优先级', color: 'warning' }
+function applyTextFilters() {
+  clearTimeout(textFilterTimer)
+  searchKeyword.value = keywordInput.value.trim()
+  searchCategory.value = categoryInput.value.trim()
+}
+
+function resetFilters() {
+  clearTimeout(textFilterTimer)
+  keywordInput.value = ''
+  categoryInput.value = ''
+  searchKeyword.value = ''
+  searchCategory.value = ''
+  filters.status = undefined
+  filters.type = undefined
+  filters.priority = undefined
+}
+
+function handleViewChange() {
+  filters.status = undefined
+  filters.type = undefined
+  filters.priority = undefined
+  categoryInput.value = ''
+  searchCategory.value = ''
+}
+
+async function loadTableData(params) {
+  errorMessage.value = ''
+  try {
+    const result = await listMemos(params)
+    tableLoaded.value = true
+    return result
+  } catch (error) {
+    errorMessage.value = error.message || '记录加载失败'
+    tableLoaded.value = true
+    return { items: [], total: 0 }
   }
-  return map[priority] || map.medium
 }
 
-function parseTags(text) {
-  const seen = new Set()
-  return String(text || '')
-    .split(/[,，\s]+/)
-    .map((tag) => tag.trim())
-    .filter(Boolean)
-    .filter((tag) => {
-      const key = tag.toLowerCase()
-      if (seen.has(key)) return false
-      seen.add(key)
-      return true
-    })
-    .slice(0, 8)
+function getRecordPreview(record) {
+  if (record.kind === 'reference') return '结构化参考资料'
+  const tags = record.tags?.length ? ` · ${record.tags.join('、')}` : ''
+  return `${record.summary || '暂无内容'}${tags}`
 }
 
-function toDateInputValue(value) {
-  if (!value) return ''
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return ''
-  const pad = (num) => String(num).padStart(2, '0')
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+function getEmptyTitle() {
+  if (activeView.value === 'library') return '资料库还是空的'
+  if (activeView.value === 'archived') return '暂无已归档记录'
+  if (activeView.value === 'inbox') return '收集箱还是空的'
+  return '暂无个人记录'
 }
 
-function buildPayload(form) {
+function getEmptyDescription() {
+  if (activeView.value === 'library') return '把经常需要查阅的信息整理成字段资料。'
+  if (activeView.value === 'archived') return '完成或暂时不需要的记录可以归档保存。'
+  if (activeView.value === 'inbox') return '随手保存灵感、问题和下一步线索。'
+  return '用收集箱记录想法，或将长期信息整理进资料库。'
+}
+
+function getStatusMeta(status) {
+  const values = {
+    open: { label: '待推进', color: 'processing' },
+    completed: { label: '已完成', color: 'success' },
+    archived: { label: '已归档', color: 'default' }
+  }
+  return values[status] || values.open
+}
+
+function getPriorityLabel(priority) {
   return {
-    title: form.title.trim(),
-    content: form.content.trim(),
-    type: form.type,
-    status: form.status,
-    priority: form.priority,
-    tags: parseTags(form.tagsText),
-    dueAt: form.dueAt || null,
-    isPinned: form.isPinned === true
-  }
-}
-
-function formatDate(value) {
-  if (!value) return '-'
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) return '-'
-  return toDateInputValue(value)
+    low: '低',
+    medium: '中',
+    high: '高'
+  }[priority] || '中'
 }
 
 function formatTime(value) {
   if (!value) return '-'
   const date = new Date(value)
   if (Number.isNaN(date.getTime())) return '-'
-  const pad = (num) => String(num).padStart(2, '0')
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`
+  return new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  }).format(date)
 }
 
-async function refreshStats() {
-  const data = await getMemoStats()
-  Object.assign(stats, {
-    open: data?.open || 0,
-    completed: data?.completed || 0,
-    archived: data?.archived || 0,
-    pinned: data?.pinned || 0,
-    dueSoon: data?.dueSoon || 0,
-    total: data?.total || 0
-  })
+function openCreateRecord(kind) {
+  editingRecord.value = null
+  editorKind.value = kind
+  editorOpen.value = true
 }
 
-async function refreshMemos(page = pagination.page) {
-  loading.value = true
-  errorMessage.value = ''
+function openEditRecord(record) {
+  editingRecord.value = record
+  editorKind.value = record.kind || 'capture'
+  editorOpen.value = true
+}
 
+function openDetails(record) {
+  activeRecord.value = record
+  detailsOpen.value = true
+}
+
+function closeDetails() {
+  detailsOpen.value = false
+  activeRecord.value = null
+}
+
+function openEditFromDetails(record) {
+  detailsOpen.value = false
+  activeRecord.value = null
+  openEditRecord(record)
+}
+
+async function saveRecord(payload) {
+  saving.value = true
   try {
-    pagination.page = typeof page === 'number' ? page : pagination.page
-    const result = await listMemos({
-      page: pagination.page,
-      pageSize: pagination.pageSize,
-      keyword: filters.keyword.trim() || undefined,
-      status: filters.status || undefined,
-      type: filters.type || undefined,
-      priority: filters.priority || undefined
-    })
-
-    memos.value = result.items
-    pagination.total = result.total
-    pagination.page = result.page
-    pagination.pageSize = result.pageSize
-    await refreshStats()
-  } catch (error) {
-    errorMessage.value = error.message || '备忘录加载失败'
-  } finally {
-    loading.value = false
-  }
-}
-
-function handleFilterInput() {
-  clearTimeout(filterTimer)
-  filterTimer = setTimeout(() => {
-    pagination.page = 1
-    refreshMemos(1)
-  }, 300)
-}
-
-function resetCreateForm() {
-  createForm.title = ''
-  createForm.content = ''
-  createForm.type = 'idea'
-  createForm.priority = 'medium'
-  createForm.dueAt = ''
-  createForm.tagsText = ''
-  createForm.isPinned = false
-}
-
-function openCreateModal() {
-  resetCreateForm()
-  createVisible.value = true
-}
-
-function closeCreateModal() {
-  createVisible.value = false
-}
-
-async function submitCreateMemo() {
-  if (!createForm.content.trim()) {
-    message.warning('先写一点内容再保存')
-    return
-  }
-
-  submitting.value = true
-  try {
-    await createMemo(buildPayload({ ...createForm, status: 'open' }))
-    message.success('备忘录已保存')
-    closeCreateModal()
-    pagination.page = 1
-    await refreshMemos(1)
+    if (editingRecord.value?.id) {
+      await updateMemo(editingRecord.value.id, payload)
+      message.success('记录已更新')
+    } else {
+      await createMemo(payload)
+      message.success(payload.kind === 'reference' ? '资料已保存' : '记录已保存')
+    }
+    editorOpen.value = false
+    editingRecord.value = null
+    await tableRef.value?.reload()
   } catch (error) {
     message.error(error.message || '保存失败')
   } finally {
-    submitting.value = false
+    saving.value = false
   }
 }
 
-function openEditModal(memo) {
-  editingId.value = memo.id
-  editForm.title = memo.title || ''
-  editForm.content = memo.content || ''
-  editForm.type = memo.type || 'idea'
-  editForm.status = memo.status || 'open'
-  editForm.priority = memo.priority || 'medium'
-  editForm.dueAt = toDateInputValue(memo.dueAt)
-  editForm.tagsText = (memo.tags || []).join('，')
-  editForm.isPinned = memo.isPinned === true
-  editVisible.value = true
-}
-
-function openDetailModal(memo) {
-  detailMemo.value = memo
-  detailVisible.value = true
-}
-
-function closeDetailModal() {
-  detailVisible.value = false
-  detailMemo.value = null
-}
-
-function openEditFromDetail() {
-  if (!detailMemo.value) return
-  openEditModal(detailMemo.value)
-}
-
-function closeEditModal() {
-  editVisible.value = false
-  editingId.value = ''
-}
-
-async function submitEditMemo() {
-  if (!editForm.content.trim()) {
-    message.warning('备忘内容不能为空')
+function handleRecordMenuAction(action, record) {
+  if (action === 'delete') {
+    confirmDelete(record)
     return
   }
-
-  submitting.value = true
-  try {
-    await updateMemo(editingId.value, buildPayload(editForm))
-    message.success('备忘录已更新')
-    closeEditModal()
-    closeDetailModal()
-    await refreshMemos()
-  } catch (error) {
-    message.error(error.message || '更新失败')
-  } finally {
-    submitting.value = false
-  }
+  applyRecordAction(action, record)
 }
 
-async function patchMemo(memo, payload, successMessage) {
+function handleDetailsAction({ action, record }) {
+  applyRecordAction(action, record)
+}
+
+async function applyRecordAction(action, record) {
+  if (!record?.id) return
+  let payload = {}
+  let successText = ''
+
+  if (action === 'pin') {
+    payload = { isPinned: !record.isPinned }
+    successText = payload.isPinned ? '已置顶' : '已取消置顶'
+  } else if (action === 'complete') {
+    payload = { status: record.status === 'completed' ? 'open' : 'completed' }
+    successText = payload.status === 'completed' ? '已标记完成' : '已重新打开'
+  } else if (action === 'archive') {
+    const restoring = record.status === 'archived'
+    payload = restoring ? { status: 'open' } : { status: 'archived', isPinned: false }
+    successText = restoring ? '已取消归档' : '已归档'
+  }
+
   try {
-    await updateMemo(memo.id, payload)
-    message.success(successMessage)
-    await refreshMemos()
+    await updateMemo(record.id, payload)
+    message.success(successText)
+    await tableRef.value?.reload()
+    if (detailsOpen.value) await detailsRef.value?.loadDetail()
   } catch (error) {
     message.error(error.message || '操作失败')
   }
 }
 
-function togglePinned(memo) {
-  patchMemo(memo, { isPinned: !memo.isPinned }, memo.isPinned ? '已取消置顶' : '已置顶')
-}
-
-function toggleCompleted(memo) {
-  const status = memo.status === 'completed' ? 'open' : 'completed'
-  patchMemo(memo, { status }, status === 'completed' ? '已标记完成' : '已重新打开')
-}
-
-function toggleArchive(memo) {
-  if (memo.status === 'archived') {
-    patchMemo(memo, { status: 'open' }, '已取消归档')
-  } else {
-    patchMemo(memo, { status: 'archived', isPinned: false }, '已归档')
-  }
-}
-
-function confirmDelete(memo) {
+function confirmDelete(record) {
   Modal.confirm({
-    title: '删除备忘录',
-    content: `确定删除「${memo.title}」吗？删除后无法恢复。`,
+    title: '删除个人记录',
+    content: `确定永久删除“${record.title}”吗？该记录及其中加密的资料字段都会被删除。`,
     okText: '删除',
     okType: 'danger',
     cancelText: '取消',
     async onOk() {
       try {
-        await deleteMemo(memo.id)
-        message.success('备忘录已删除')
-        await refreshMemos()
+        await deleteMemo(record.id)
+        if (activeRecord.value?.id === record.id) closeDetails()
+        message.success('记录已删除')
+        await tableRef.value?.reload()
       } catch (error) {
         message.error(error.message || '删除失败')
       }
@@ -682,9 +544,8 @@ function confirmDelete(memo) {
 }
 
 onMounted(() => {
-  refreshMemos(1)
   if (route.query.create === '1') {
-    openCreateModal()
+    openCreateRecord('capture')
     router.replace({ path: route.path, query: { ...route.query, create: undefined } })
   }
 })
@@ -693,543 +554,351 @@ watch(
   () => route.query.create,
   (value) => {
     if (value === '1') {
-      openCreateModal()
+      openCreateRecord('capture')
       router.replace({ path: route.path, query: { ...route.query, create: undefined } })
     }
   }
 )
+
+onBeforeUnmount(() => clearTimeout(textFilterTimer))
 </script>
 
 <style scoped>
 .memo-page {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.memo-table {
   width: 100%;
   min-width: 0;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+
+.memo-toolbar {
   display: grid;
+  width: 100%;
+  gap: 12px;
+}
+
+.memo-toolbar__top,
+.memo-toolbar__identity,
+.memo-toolbar__actions,
+.memo-toolbar__filters {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.memo-toolbar__top {
+  justify-content: space-between;
   gap: 16px;
 }
 
-/* ── 指标卡片 ── */
-.memo-metrics {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.memo-metric {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.memo-metric:hover {
-  border-color: var(--console-border-strong);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-}
-
-.memo-metric__icon {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  font-size: 18px;
-  flex-shrink: 0;
-}
-
-.memo-metric__icon--blue {
-  background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
-}
-
-.memo-metric__icon--pinned {
-  background: color-mix(in srgb, #13c2c2 12%, transparent);
-  color: #13c2c2;
-}
-
-.memo-metric__icon--amber {
-  background: rgba(245, 158, 11, 0.1);
-  color: #f59e0b;
-}
-
-.memo-metric__icon--green {
-  background: rgba(34, 197, 94, 0.1);
-  color: #22c55e;
-}
-
-.memo-metric__body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.memo-metric__label {
-  color: var(--console-text-secondary);
-  font-size: 13px;
-  line-height: 20px;
-}
-
-.memo-metric__value {
-  color: var(--console-text);
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-/* ── 工具栏 ── */
-.memo-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface);
+.memo-toolbar__identity {
   flex-wrap: wrap;
 }
 
-.memo-search {
-  width: 240px;
-  flex-shrink: 0;
+.memo-toolbar__identity h1 {
+  margin: 0 2px 0 0;
+  color: var(--console-text);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.memo-toolbar__actions {
+  flex: 0 0 auto;
+}
+
+.memo-toolbar__filters {
+  flex-wrap: wrap;
+}
+
+.memo-filter-keyword {
+  width: min(300px, 100%);
 }
 
 .memo-filter-select {
-  width: 130px;
-  flex-shrink: 0;
+  width: 132px;
 }
 
-.memo-toolbar :deep(.ant-input),
-.memo-toolbar :deep(.ant-input-affix-wrapper),
-.memo-toolbar :deep(.ant-select-selector) {
-  border-radius: 6px;
+.memo-filter-category {
+  width: 160px;
 }
 
-.memo-toolbar :deep(.ant-segmented) {
-  border-radius: 6px;
+.memo-filter-reset {
+  padding-inline: 6px;
 }
 
-.memo-icon-btn--active {
-  color: var(--console-primary) !important;
-  border-color: var(--console-primary) !important;
+.memo-request-error {
+  margin-top: 2px;
 }
 
-.memo-alert {
-  border-radius: 8px;
-}
-
-/* ── 备忘卡片列表 ── */
-.memo-list {
+.memo-record-title-cell {
   display: grid;
-  gap: 8px;
-}
-
-.memo-card {
-  position: relative;
-  display: grid;
-  grid-template-columns: 5px 1fr;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface);
-  overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.memo-card:hover {
-  border-color: var(--console-border-strong);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.memo-card--done {
-  opacity: 0.7;
-}
-
-.memo-card--archived {
-  opacity: 0.55;
-}
-
-.memo-card__marker {
-  width: 5px;
-  min-height: 100%;
-  background: #52c41a;
-}
-
-.memo-card--medium .memo-card__marker {
-  background: #1677ff;
-}
-
-.memo-card--high .memo-card__marker {
-  background: #fa8c16;
-}
-
-.memo-card__body {
   min-width: 0;
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow: hidden;
+  gap: 4px;
 }
 
-.memo-card__head {
+.memo-record-title {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
   min-width: 0;
-}
-
-.memo-card__title-row {
-  display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: 0;
-  flex: 1;
+  gap: 6px;
+  border: 0;
+  padding: 0;
   overflow: hidden;
-}
-
-.memo-card__type {
-  flex-shrink: 0;
-  border-radius: 4px;
-  font-size: 12px;
-  line-height: 20px;
-}
-
-.memo-card__title {
-  min-width: 0;
-  margin: 0;
   color: var(--console-text);
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 22px;
-  overflow: hidden;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 550;
+  text-align: left;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.memo-card--done .memo-card__title {
-  text-decoration: line-through;
-  text-decoration-color: var(--console-text-secondary);
+.memo-record-title:hover {
+  color: var(--console-primary);
 }
 
-.memo-card__badges {
+.memo-record-title > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.memo-record-title__pin {
+  flex: 0 0 auto;
+  color: var(--console-primary);
+}
+
+.memo-record-subtitle,
+.memo-record-summary,
+.memo-reference-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.memo-record-summary {
+  max-width: 280px;
+}
+
+.memo-reference-summary {
+  display: block;
+  white-space: nowrap;
+}
+
+.memo-status-cell {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-shrink: 0;
-  flex-wrap: wrap;
 }
 
-.memo-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 1px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  line-height: 20px;
-  white-space: nowrap;
-}
-
-.memo-badge--pinned {
-  color: #3b82f6;
-  background: rgba(59, 130, 246, 0.08);
-}
-
-.memo-badge--done {
-  color: #22c55e;
-  background: rgba(34, 197, 94, 0.08);
-}
-
-.memo-badge--archived {
-  color: var(--console-text-secondary);
-  background: var(--console-surface-muted);
-}
-
-.memo-badge--due {
-  color: #f59e0b;
-  background: rgba(245, 158, 11, 0.08);
-}
-
-.memo-card__preview {
-  display: -webkit-box;
-  width: 100%;
-  max-height: 44px;
-  overflow: hidden;
-  border: 0;
-  padding: 0;
+.memo-status-cell :deep(.ant-tag) {
   margin: 0;
-  color: var(--console-text-secondary);
-  background: transparent;
-  cursor: pointer;
-  font: inherit;
-  font-size: 13px;
-  line-height: 1.6;
-  text-align: left;
-  word-break: break-all;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  transition: color 0.15s;
 }
 
-.memo-card__preview:hover {
-  color: var(--console-text);
-}
-
-.memo-card__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  min-width: 0;
-}
-
-.memo-card__meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-width: 0;
-  overflow: hidden;
-}
-
-.memo-card__time {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--console-text-secondary);
+.memo-priority {
   font-size: 12px;
+}
+
+.memo-priority--high {
+  color: #d4380d;
+}
+
+.memo-priority--medium {
+  color: var(--console-text-secondary);
+}
+
+.memo-priority--low {
+  color: #237804;
+}
+
+.memo-table-muted,
+.memo-table-time {
+  color: var(--console-text-secondary);
+  font-size: 13px;
   white-space: nowrap;
 }
 
-.memo-card__tag {
-  flex-shrink: 0;
-  margin-inline-end: 0;
-  border-radius: 4px;
-  font-size: 12px;
-  color: var(--console-text-secondary);
-  background: var(--console-surface-muted);
-}
-
-.memo-card__actions {
+.memo-row-actions {
   display: flex;
   align-items: center;
-  gap: 4px;
-  flex-shrink: 0;
-  opacity: 0;
-  transition: opacity 0.15s;
+  justify-content: flex-end;
+  gap: 1px;
 }
 
-.memo-card:hover .memo-card__actions {
-  opacity: 1;
-}
-
-/* ── 空状态 ── */
-.memo-empty {
-  display: flex;
-  flex-direction: column;
+.memo-row-actions :deep(.ant-btn) {
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 80px 20px;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  background: var(--console-surface);
-}
-
-.memo-empty__icon {
-  font-size: 48px;
+  padding: 0;
   color: var(--console-text-secondary);
-  opacity: 0.3;
 }
 
-.memo-empty__text {
-  margin: 0;
+.memo-row-actions :deep(.ant-btn:hover) {
+  color: var(--console-primary);
+  background: var(--console-surface-hover);
+}
+
+.memo-table-empty {
+  display: flex;
+  min-height: 260px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 18px;
+  color: var(--console-text-secondary);
+}
+
+.memo-table-empty > svg {
+  color: var(--console-text-tertiary);
+}
+
+.memo-table-empty strong {
   color: var(--console-text);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
 }
 
-.memo-empty__hint {
+.memo-table-empty span {
+  max-width: 420px;
+  font-size: 13px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.memo-table-loading {
+  display: block;
+  padding: 48px 12px;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+  text-align: center;
+}
+
+.memo-help-list {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+}
+
+.memo-help-list > div {
+  display: grid;
+  gap: 4px;
+}
+
+.memo-help-list dt {
+  color: var(--console-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.memo-help-list dd {
   margin: 0;
   color: var(--console-text-secondary);
   font-size: 13px;
+  line-height: 1.7;
 }
 
-/* ── 分页 ── */
-.memo-pagination {
-  display: flex;
-  justify-content: flex-end;
+:deep(.memo-table .blog-table__toolbar) {
+  padding: 12px 16px;
 }
 
-/* ── 弹窗表单 ── */
-.memo-modal-body {
-  max-height: min(68vh, 640px);
-  overflow-y: auto;
-  padding-right: 4px;
+:global(.memo-help-dialog .ant-modal) {
+  top: 24px;
+  padding-bottom: 48px;
 }
 
-.memo-modal-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 12px;
-}
-
-/* ── 详情弹窗 ── */
-.memo-detail {
-  display: grid;
-  gap: 16px;
-}
-
-.memo-detail__badges {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.memo-detail__content {
-  max-height: min(48vh, 480px);
-  overflow-y: auto;
-  border: 1px solid var(--console-border);
-  border-radius: 8px;
-  padding: 16px 18px;
-  color: var(--console-text);
-  background: var(--console-surface-muted);
-  font-size: 14px;
-  line-height: 1.85;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-.memo-detail__meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  color: var(--console-text-secondary);
-  font-size: 13px;
-}
-
-.memo-detail__meta span {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.memo-detail__tags {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.memo-detail__footer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  padding-top: 14px;
-  border-top: 1px solid var(--console-border);
-}
-
-.memo-detail-modal :deep(.ant-modal-body) {
-  max-height: 76vh;
-  overflow: hidden;
-}
-
-/* ── 响应式 ── */
-@media (max-width: 1200px) {
-  .memo-metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+:deep(.memo-row-actions .ant-dropdown-menu-item > svg) {
+  margin-inline-end: 8px;
+  vertical-align: -2px;
 }
 
 @media (max-width: 900px) {
-  .memo-toolbar {
-    flex-wrap: wrap;
+  .memo-page {
+    height: auto;
   }
 
-  .memo-search {
+  .memo-table {
+    flex: 0 0 auto;
+  }
+
+  .memo-toolbar__top {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .memo-toolbar__identity {
+    width: 100%;
+  }
+
+  .memo-toolbar__actions {
+    width: 100%;
+  }
+
+  .memo-toolbar__actions :deep(.ant-btn) {
+    flex: 1 1 0;
+  }
+
+  .memo-filter-keyword,
+  .memo-filter-category {
     width: 100%;
     flex: 1 1 100%;
   }
 
   .memo-filter-select {
-    flex: 1 1 calc(50% - 5px);
-    min-width: 0;
-  }
-
-  .memo-toolbar :deep(.ant-segmented) {
-    width: 100%;
-    overflow-x: auto;
-  }
-
-  .memo-card__actions {
-    opacity: 1;
+    flex: 1 1 calc(33.333% - 8px);
+    min-width: 110px;
   }
 }
 
 @media (max-width: 640px) {
-  .memo-metrics {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+  .memo-toolbar__identity {
+    align-items: center;
   }
 
-  .memo-metric {
-    padding: 12px 14px;
-    gap: 10px;
+  .memo-toolbar__identity h1 {
+    flex: 0 0 auto;
+    font-size: 17px;
   }
 
-  .memo-metric__icon {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-
-  .memo-metric__value {
-    font-size: 20px;
-  }
-
-  .memo-toolbar > .ant-btn-primary {
+  .memo-toolbar__identity :deep(.ant-segmented) {
     width: 100%;
+    overflow-x: auto;
   }
 
-  .memo-card__head,
-  .memo-card__foot {
-    align-items: flex-start;
-    flex-direction: column;
+  .memo-toolbar__filters {
+    align-items: stretch;
   }
 
-  .memo-card__badges,
-  .memo-card__actions {
-    width: 100%;
+  .memo-filter-select {
+    flex: 1 1 calc(50% - 8px);
   }
 
-  .memo-card__actions {
-    display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
+  .memo-filter-reset {
+    min-height: 32px;
   }
 
-  .memo-card__actions :deep(.ant-btn) {
-    width: 100%;
-  }
-
-  .memo-modal-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .memo-detail__footer {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .memo-detail__footer :deep(.ant-btn) {
-    width: 100%;
+  :global(.memo-help-dialog .ant-modal) {
+    top: 12px;
+    padding-bottom: 32px;
   }
 }
 </style>

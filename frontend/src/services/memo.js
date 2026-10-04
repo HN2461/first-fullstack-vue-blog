@@ -9,6 +9,14 @@ export function getMemoStats() {
   return http.get('/api/memos/stats')
 }
 
+export function getMemo(id) {
+  return http.get(`/api/memos/${id}`)
+}
+
+export function getMemoSensitiveField(id, fieldKey) {
+  return http.get(`/api/memos/${id}/sensitive-fields/${encodeURIComponent(fieldKey)}`)
+}
+
 export function createMemo(data) {
   return http.post('/api/memos', data)
 }

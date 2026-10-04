@@ -193,7 +193,7 @@ export const router = createRouter({
           path: 'memos',
           name: 'ConsoleMemos',
           component: MemoPage,
-          meta: { title: '备忘录', requiresAuth: true, requiresMenuAccess: true }
+          meta: { title: '个人记录', requiresAuth: true, requiresMenuAccess: true }
         },
         {
           path: 'work-journal',

@@ -2,6 +2,7 @@ import request from 'supertest'
 import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
+import { Memo } from '#modules/memo/models/Memo.js'
 import { User } from '#modules/user/models/User.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
@@ -62,7 +63,7 @@ describe('memo routes', () => {
 
     expect(createResponse.body.data).toMatchObject({
       title: '研究 Vue 组件编辑器的快捷记录交互',
-      content: '研究 Vue 组件编辑器的快捷记录交互',
+      summary: '研究 Vue 组件编辑器的快捷记录交互',
       type: 'study',
       priority: 'high',
       tags: ['Vue', '交互'],
@@ -160,6 +161,116 @@ describe('memo routes', () => {
       .set('Authorization', `Bearer ${otherToken}`)
       .send({ status: 'archived' })
       .expect(404)
+  })
+
+  it('stores reference fields encrypted and reveals sensitive values only to their owner', async () => {
+    const createResponse = await request(app)
+      .post('/api/memos')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        kind: 'reference',
+        title: '联系资料',
+        category: '个人信息',
+        fields: [
+          { key: 'phone', label: '联系电话', type: 'phone', isSensitive: true, value: '13900001234' },
+          { key: 'city', label: '常住城市', type: 'text', value: '宁波' }
+        ]
+      })
+      .expect(201)
+
+    const memoId = createResponse.body.data.id
+    const storedMemo = await Memo.findById(memoId).select('+fields.encryptedValue')
+    const storedPhone = storedMemo.fields.find((field) => field.key === 'phone')
+    expect(storedPhone.value).toBe('')
+    expect(storedPhone.encryptedValue).toMatch(/^v1\./)
+    expect(storedPhone.encryptedValue).not.toContain('13900001234')
+
+    const detailResponse = await request(app)
+      .get(`/api/memos/${memoId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(detailResponse.body.data.fields).toEqual(expect.arrayContaining([
+      expect.objectContaining({ key: 'phone', value: '', isSensitive: true, hasValue: true }),
+      expect.objectContaining({ key: 'city', value: '宁波', isSensitive: false })
+    ]))
+
+    const searchableFieldResponse = await request(app)
+      .get('/api/memos')
+      .query({ keyword: '常住城市' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(searchableFieldResponse.body.data.total).toBe(1)
+
+    const encryptedValueSearchResponse = await request(app)
+      .get('/api/memos')
+      .query({ keyword: '13900001234' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(encryptedValueSearchResponse.body.data.total).toBe(0)
+
+    const fieldResponse = await request(app)
+      .get(`/api/memos/${memoId}/sensitive-fields/phone`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(fieldResponse.body.data.value).toBe('13900001234')
+
+    await request(app)
+      .get(`/api/memos/${memoId}/sensitive-fields/phone`)
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(404)
+
+    const encryptedBeforeUpdate = storedPhone.encryptedValue
+    await request(app)
+      .patch(`/api/memos/${memoId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        fields: [
+          { key: 'phone', label: '联系电话', type: 'phone', isSensitive: true },
+          { key: 'city', label: '常住城市', type: 'text', value: '杭州' }
+        ]
+      })
+      .expect(200)
+
+    const updatedMemo = await Memo.findById(memoId).select('+fields.encryptedValue')
+    expect(updatedMemo.fields.find((field) => field.key === 'phone').encryptedValue).toBe(encryptedBeforeUpdate)
+  })
+
+  it('keeps legacy memos in the inbox and supports an active-record filter', async () => {
+    await Memo.collection.insertOne({
+      title: '旧版记录',
+      content: '升级前创建的备忘内容',
+      type: 'idea',
+      status: 'open',
+      priority: 'medium',
+      tags: [],
+      isPinned: false,
+      createdBy: user._id,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
+
+    await request(app)
+      .post('/api/memos')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ content: '已归档的旧线索' })
+      .then(({ body }) => request(app)
+        .patch(`/api/memos/${body.data.id}`)
+        .set('Authorization', `Bearer ${token}`)
+        .send({ status: 'archived' })
+        .expect(200))
+
+    const inboxResponse = await request(app)
+      .get('/api/memos')
+      .query({ kind: 'capture', status: 'active' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+
+    expect(inboxResponse.body.data.total).toBe(1)
+    expect(inboxResponse.body.data.items[0]).toMatchObject({
+      title: '旧版记录',
+      kind: 'capture'
+    })
   })
 
   it('deletes owned memos', async () => {

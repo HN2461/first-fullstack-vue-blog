@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { requireAuth, requireMenuAccess } from '#middlewares/auth.js'
-import { createMemo, deleteMemo, getMemoStats, listMemos, updateMemo } from '#modules/memo/services/memo.service.js'
+import { createMemo, deleteMemo, getMemo, getMemoSensitiveField, getMemoStats, listMemos, updateMemo } from '#modules/memo/services/memo.service.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
 import { memoCreateSchema, memoUpdateSchema, parseBody } from '#modules/memo/validators/memo.validator.js'
@@ -16,6 +16,14 @@ memoRouter.get('/', asyncHandler(async (req, res) => {
 
 memoRouter.get('/stats', asyncHandler(async (req, res) => {
   res.json(ok(await getMemoStats(req.user._id)))
+}))
+
+memoRouter.get('/:id/sensitive-fields/:fieldKey', asyncHandler(async (req, res) => {
+  res.json(ok(await getMemoSensitiveField(req.params.id, req.params.fieldKey, req.user._id)))
+}))
+
+memoRouter.get('/:id', asyncHandler(async (req, res) => {
+  res.json(ok(await getMemo(req.params.id, req.user._id)))
 }))
 
 memoRouter.post('/', asyncHandler(async (req, res) => {
