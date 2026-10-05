@@ -249,7 +249,8 @@ watch(
   () => [props.open, props.record?.id],
   ([open]) => {
     if (open) resetForm(props.record)
-  }
+  },
+  { immediate: true }
 )
 
 function switchKind(kind) {
