@@ -282,8 +282,8 @@ defineExpose({ loadDetail })
 
 <style scoped>
 .memo-detail-scroll {
-  height: 100%;
-  max-height: calc(100vh - 160px);
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   padding: 18px 22px 28px;
 }
@@ -402,6 +402,16 @@ defineExpose({ loadDetail })
 
 :global(.memo-detail-drawer .ant-drawer-content-wrapper) {
   max-width: 100vw;
+}
+
+:global(.memo-detail-drawer .ant-drawer-wrapper-body) {
+  min-height: 0;
+}
+
+:global(.memo-detail-drawer .ant-drawer-body) {
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
 }
 
 @media (max-width: 640px) {
