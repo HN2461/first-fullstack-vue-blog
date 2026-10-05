@@ -3,7 +3,7 @@
     :open="open"
     :title="detail?.title || record?.title || '记录详情'"
     :width="560"
-    :style="{ top: '24px', height: 'calc(100vh - 48px)' }"
+    :content-wrapper-style="{ top: '24px', height: 'calc(100vh - 48px)' }"
     :body-style="{ padding: 0, overflow: 'hidden' }"
     :footer-style="{ padding: '12px 20px', borderTop: '1px solid var(--console-border)' }"
     class="memo-detail-drawer"
