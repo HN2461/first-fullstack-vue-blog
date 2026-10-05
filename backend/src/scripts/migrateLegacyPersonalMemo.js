@@ -1,7 +1,7 @@
 import { connectDatabase, disconnectDatabase } from '#config/database'
-import { Memo } from '#modules/memo/models/Memo'
-import { encryptMemoField, decryptMemoField } from '#utils/memoFieldEncryption'
-import { LEGACY_PERSONAL_MEMO_FIELDS, parseLegacyPersonalMemo } from '#utils/legacyPersonalMemoMigration'
+import { Memo } from '#modules/memo/models/Memo.js'
+import { encryptMemoField, decryptMemoField } from '#utils/memoFieldEncryption.js'
+import { LEGACY_PERSONAL_MEMO_FIELDS, parseLegacyPersonalMemo } from '#utils/legacyPersonalMemoMigration.js'
 
 const LEGACY_MEMO_ID = '6ac10942806a4706d34cec9e'
 const APPLY = process.argv.includes('--apply')
