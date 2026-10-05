@@ -15,7 +15,7 @@
     <div class="memo-editor-scroll">
       <a-form layout="vertical">
         <a-form-item v-if="!record" label="记录方式">
-          <a-segmented v-model:value="form.kind" :options="kindOptions" @change="switchKind" />
+          <a-segmented :value="form.kind" :options="kindOptions" @change="switchKind" />
         </a-form-item>
 
         <template v-if="form.kind === 'capture'">
@@ -201,7 +201,7 @@ const form = reactive({
   dueAt: '',
   tagsText: '',
   isPinned: false,
-  template: 'personal',
+  template: 'blank',
   fields: []
 })
 
@@ -220,7 +220,7 @@ function applyTemplate(template) {
   form.template = template
   form.fields = template === 'personal'
     ? personalFields.map(([key, label, type, isSensitive]) => newField(label, type, isSensitive, key))
-    : []
+    : [newField('字段名称1'), newField('字段名称2')]
 }
 
 function resetForm(record) {
@@ -234,7 +234,7 @@ function resetForm(record) {
   form.dueAt = record?.dueAt ? new Date(record.dueAt).toISOString().slice(0, 10) : ''
   form.tagsText = (record?.tags || []).join('，')
   form.isPinned = record?.isPinned === true
-  form.template = record || form.kind !== 'reference' ? 'blank' : 'personal'
+  form.template = 'blank'
   form.fields = record?.kind === 'reference'
     ? (record.fields || []).map((field) => ({
       ...field,
@@ -242,7 +242,7 @@ function resetForm(record) {
       preserveExisting: field.isSensitive === true && field.hasValue === true
     }))
     : []
-  if (!record && form.kind === 'reference') applyTemplate('personal')
+  if (!record && form.kind === 'reference') applyTemplate('blank')
 }
 
 watch(
@@ -255,18 +255,21 @@ watch(
 
 function switchKind(kind) {
   if (props.record) return
+  if (kind === form.kind) return
+  form.kind = kind
   if (kind === 'reference') {
-    form.content = ''
-    form.title = ''
-    applyTemplate('personal')
-  } else {
-    form.fields = []
-    form.template = 'blank'
+    if (!form.fields.length) applyTemplate('blank')
   }
 }
 
 function changeTemplate(template) {
-  const hasValues = form.fields.some((field) => field.value.trim())
+  if (template === form.template) return
+  const previousTemplate = form.template
+  const hasValues = form.fields.some((field) => (
+    field.value.trim() ||
+    field.preserveExisting ||
+    (field.label.trim() && !/^字段名称\d+$/.test(field.label))
+  ))
   if (!hasValues) {
     applyTemplate(template)
     return
@@ -277,12 +280,15 @@ function changeTemplate(template) {
     content: '切换模板会清除当前已填写的字段。',
     okText: '替换',
     cancelText: '取消',
-    onOk: () => applyTemplate(template)
+    onOk: () => applyTemplate(template),
+    onCancel: () => {
+      form.template = previousTemplate
+    }
   })
 }
 
 function addField() {
-  form.fields.push(newField())
+  form.fields.push(newField(`字段名称${form.fields.length + 1}`))
 }
 
 function removeField(index) {

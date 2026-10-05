@@ -1013,6 +1013,12 @@ body:has(.enterprise-admin-shell) {
   background: var(--console-primary-soft);
 }
 
+/* Ant Design Vue 的悬浮遮罩通过 item::after 绘制，标签需要提升层级以免被遮住。 */
+.ant-segmented .ant-segmented-item-label {
+  position: relative;
+  z-index: 1;
+}
+
 .dark-theme .ant-segmented {
   color: var(--console-menu-text);
   background: var(--console-surface-muted);
