@@ -5,14 +5,17 @@ function normalize(item) {
   const type = item.type === 'project' ? 'system-broadcast' : item.type
   const visual = getFestivalVisual(item.name, type, item.effect)
   const effect = visual.effect || item.effect || 'new-year'
+  // 节假日源会把调休日期也命名为对应节日；按类型补充显示名称，避免与放假日期看起来重复。
+  const isMakeUpWorkday = type === 'make-up-workday' || Boolean(item.isWorkday)
   const displaySource = item.isHoliday
     ? '法定假期'
-    : item.isWorkday
+    : isMakeUpWorkday
       ? '调休补班'
-      : ({ traditional: '传统节日', 'solar-term': '二十四节气', national: '国家纪念日', industry: '行业纪念日', international: '国际纪念日', social: '社会节日', 'system-broadcast': '系统广播纪念日', project: '系统广播纪念日', personal: '我的日期', birthday: '我的生日' }[type] || '纪念日')
+    : ({ traditional: '农历民俗日', 'solar-term': '二十四节气', national: '国家纪念日', industry: '行业纪念日', international: '国际纪念日', social: '社会节日', 'system-broadcast': '系统广播纪念日', project: '系统广播纪念日', personal: '我的日期', birthday: '我的生日' }[type] || '纪念日')
   return {
     ...item,
     type,
+    displayName: isMakeUpWorkday && !String(item.name || '').includes('补班') ? `${item.name}（补班）` : item.name,
     key: `${item.date}-${item.name}`,
     effect,
     level: item.isMajor ? 'major' : 'normal',

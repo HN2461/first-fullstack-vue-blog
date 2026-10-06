@@ -159,6 +159,13 @@
   background: color-mix(in srgb, var(--festival-countdown-accent) 12%, var(--console-surface));
   color: var(--festival-countdown-accent);
   font-size: 28px;
+  line-height: 1;
+}
+
+.festival-countdown__orbit .festival-icon {
+  width: 42px;
+  height: 42px;
+  transform: translateY(-2px);
 }
 
 .festival-countdown__orbit::before {
@@ -337,6 +344,12 @@
   border-radius: 8px;
   background: color-mix(in srgb, var(--festival-countdown-accent) 9%, transparent);
   font-size: 18px;
+  line-height: 1;
+}
+
+.festival-countdown__icon .festival-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .festival-countdown__body {

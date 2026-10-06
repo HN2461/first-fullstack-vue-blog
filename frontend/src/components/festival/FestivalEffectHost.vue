@@ -22,7 +22,7 @@
 
   <a-modal
     v-model:open="celebrationOpen"
-    :title="celebrationFestival?.name || '节日快乐'"
+    :title="celebrationFestival?.displayName || celebrationFestival?.name || '节日快乐'"
     centered
     :width="appStore.isMobile ? '92vw' : 420"
     :footer="null"
@@ -31,7 +31,7 @@
   >
     <div v-if="celebrationFestival" class="festival-celebration" :style="celebrationStyle">
       <div class="festival-celebration__icon">
-        {{ celebrationFestival.icons?.[0] || '✨' }}
+        <FestivalIcon :icon="celebrationFestival.icons?.[0] || '✨'" />
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
       <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
@@ -50,6 +50,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import FestivalAtmosphere from './FestivalAtmosphere.vue'
 import FestivalCountdownPanel from './FestivalCountdownPanel.vue'
+import FestivalIcon from './FestivalIcon.vue'
 import { getFestivalEffectState, updateFestivalEffectState } from '@/services/http'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
@@ -218,10 +219,15 @@ async function loadFestivalState() {
       openCelebration(birthdayFestival)
       await updateFestivalEffectState('birth-shown')
     }
-    return
   }
 
-  // 控制台是工作台环境，普通节日祝福保留在顶部日历中，由用户主动打开，避免登录后反复弹窗打断操作。
+  // 重大节日提醒遵循个人资料中的网站入场欢迎屏蔽开关，并按日期和节日键每天只自动展示一次。
+  const majorFestival = activeFestival.value && activeFestival.value.daysUntil === 0
+    ? activeFestival.value
+    : null
+  if (majorFestival && !authStore.user?.closeSiteEntranceEffect && !hasShownCelebration(majorFestival.key)) {
+    openCelebration(majorFestival)
+  }
 }
 
 function applyFestivalClass(nextClass, previousClass = '') {
@@ -334,6 +340,12 @@ onUnmounted(() => {
 .festival-celebration span {
   color: var(--console-text-secondary);
   font-size: 13px;
+}
+
+.festival-celebration__icon .festival-icon {
+  width: 42px;
+  height: 42px;
+  transform: translateY(-2px);
 }
 
 .festival-celebration__actions {

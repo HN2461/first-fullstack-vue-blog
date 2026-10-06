@@ -298,14 +298,14 @@ export const EFFECT_META = {
 }
 
 const FESTIVAL_NAME_VISUALS = {
-  元旦: { effect: 'new-year', icons: ['🎊', '🧨', '✨'], accent: '#c2410c', tint: '#fff7ed' },
-  春节: { effect: 'spring', icons: ['🏮', '🧧', '🎊'], accent: '#b91c1c', tint: '#fff1f2' },
-  除夕: { effect: 'spring', icons: ['🏮', '🧧', '🎊'], accent: '#b91c1c', tint: '#fff1f2' },
-  元宵节: { effect: 'lantern', icons: ['🏮', '🎉', '✨'], accent: '#dc2626', tint: '#fff1f2' },
+  元旦: { effect: 'new-year', icons: ['🥂', '🧨', '✨'], accent: '#c2410c', tint: '#fff7ed' },
+  春节: { effect: 'spring', icons: ['🐲', '🧧', '🎊'], accent: '#b91c1c', tint: '#fff1f2' },
+  除夕: { effect: 'spring', icons: ['🌙', '🧨', '🍲'], accent: '#b91c1c', tint: '#fff1f2' },
+  元宵节: { effect: 'lantern', icons: ['🏮', '🍡', '🌕'], accent: '#dc2626', tint: '#fff1f2' },
   情人节: { effect: 'love', icons: ['💗', '🌹', '🎁'], accent: '#db2777', tint: '#fdf2f8' },
   妇女节: { effect: 'love', icons: ['🌷', '💐', '✨'], accent: '#db2777', tint: '#fdf2f8' },
   植树节: { effect: 'labor', icons: ['🌱', '🌿', '🌳'], accent: '#15803d', tint: '#f0fdf4' },
-  清明节: { effect: 'qingming', icons: ['🌿', '☔', '🕊️'], accent: '#4d7c0f', tint: '#f7fee7' },
+  清明节: { effect: 'qingming', icons: ['🪦', '☔', '🕊️'], accent: '#4d7c0f', tint: '#f7fee7' },
   劳动节: { effect: 'labor', icons: ['🎉', '🛠️', '🌿'], accent: '#047857', tint: '#ecfdf5' },
   青年节: { effect: 'labor', icons: ['🔥', '🚩', '✨'], accent: '#c2410c', tint: '#fff7ed' },
   儿童节: { effect: 'love', icons: ['🎈', '🎁', '🎉'], accent: '#ea580c', tint: '#fff7ed' },
@@ -313,10 +313,33 @@ const FESTIVAL_NAME_VISUALS = {
   建军节: { effect: 'national', icons: ['⭐', '🛡️', '🎖️'], accent: '#b91c1c', tint: '#fff1f2' },
   教师节: { effect: 'love', icons: ['📖', '🍎', '💐'], accent: '#c2410c', tint: '#fff7ed' },
   国庆节: { effect: 'national', icons: ['🇨🇳', '🎉', '🎊'], accent: '#dc2626', tint: '#fff1f2' },
-  端午节: { effect: 'duanwu', icons: ['🥟', '🌿', '🚣'], accent: '#15803d', tint: '#f0fdf4' },
-  七夕: { effect: 'qixi', icons: ['💗', '🌹', '🎁'], accent: '#c2410c', tint: '#fff7ed' },
+  世界湿地日: { effect: 'solar-term', icons: ['🪷', '🦆', '🌿'], accent: '#0f766e', tint: '#ecfdf5' },
+  国际妇女节: { effect: 'love', icons: ['🌷', '💐', '✨'], accent: '#db2777', tint: '#fdf2f8' },
+  消费者权益日: { effect: 'national', icons: ['⚖️', '🛡️', '✅'], accent: '#2563eb', tint: '#eff6ff' },
+  世界水日: { effect: 'solar-term', icons: ['💧', '🌊', '🌍'], accent: '#2563eb', tint: '#eff6ff' },
+  世界气象日: { effect: 'solar-term', icons: ['🌦️', '🌤️', '🌍'], accent: '#0f766e', tint: '#ecfdf5' },
+  愚人节: { effect: 'love', icons: ['🤡', '🎭', '✨'], accent: '#7c3aed', tint: '#f5f3ff' },
+  世界卫生日: { effect: 'national', icons: ['🩺', '🫶', '🌍'], accent: '#0f766e', tint: '#ecfdf5' },
+  世界读书日: { effect: 'love', icons: ['📚', '📖', '✨'], accent: '#c2410c', tint: '#fff7ed' },
+  世界地球日: { effect: 'solar-term', icons: ['🌍', '🌱', '♻️'], accent: '#15803d', tint: '#f0fdf4' },
+  护士节: { effect: 'love', icons: ['🩹', '💗', '🩺'], accent: '#db2777', tint: '#fdf2f8' },
+  国际博物馆日: { effect: 'love', icons: ['🏛️', '🖼️', '✨'], accent: '#b45309', tint: '#fffbeb' },
+  世界环境日: { effect: 'solar-term', icons: ['🌳', '🌱', '♻️'], accent: '#15803d', tint: '#f0fdf4' },
+  世界献血者日: { effect: 'national', icons: ['🩸', '❤️', '🫶'], accent: '#dc2626', tint: '#fff1f2' },
+  中国医师节: { effect: 'national', icons: ['🩺', '⚕️', '🫶'], accent: '#2563eb', tint: '#eff6ff' },
+  国际和平日: { effect: 'love', icons: ['🕊️', '☮️', '🌍'], accent: '#2563eb', tint: '#eff6ff' },
+  烈士纪念日: { effect: 'national', icons: ['🕯️', '🌹', '🕊️'], accent: '#b91c1c', tint: '#fff1f2' },
+  世界粮食日: { effect: 'labor', icons: ['🌾', '🍞', '🌍'], accent: '#b45309', tint: '#fffbeb' },
+  联合国日: { effect: 'national', icons: ['🌐', '🕊️', '🤝'], accent: '#2563eb', tint: '#eff6ff' },
+  记者节: { effect: 'labor', icons: ['📰', '🎙️', '📸'], accent: '#c2410c', tint: '#fff7ed' },
+  消防宣传日: { effect: 'national', icons: ['🚒', '🧯', '🔥'], accent: '#dc2626', tint: '#fff1f2' },
+  世界艾滋病日: { effect: 'national', icons: ['🎗️', '❤️', '🫶'], accent: '#dc2626', tint: '#fff1f2' },
+  国家宪法日: { effect: 'national', icons: ['⚖️', '📜', '🛡️'], accent: '#2563eb', tint: '#eff6ff' },
+  南京大屠杀死难者国家公祭日: { effect: 'national', icons: ['🕯️', '🕊️', '🌹'], accent: '#475569', tint: '#f1f5f9' },
+  端午节: { effect: 'duanwu', icons: ['🚣', '🌿', '🐉'], accent: '#15803d', tint: '#f0fdf4' },
+  七夕: { effect: 'qixi', icons: ['🧵', '🌌', '💫'], accent: '#c2410c', tint: '#fff7ed' },
   中秋节: { effect: 'mid-autumn', icons: ['🥮', '🌕', '🏮'], accent: '#b45309', tint: '#fffbeb' },
-  重阳节: { effect: 'chongyang', icons: ['🍂', '🌼', '🎉'], accent: '#b45309', tint: '#fffbeb' },
+  重阳节: { effect: 'chongyang', icons: ['🧗', '🌼', '🍂'], accent: '#b45309', tint: '#fffbeb' },
   圣诞节: { effect: 'christmas', icons: ['🎄', '🎁', '🔔'], accent: '#0f766e', tint: '#ecfdf5' },
   网站首次成功部署纪念日: { effect: 'new-year', icons: ['🎊', '🎁', '🌟'], accent: '#c2410c', tint: '#fff7ed' }
 }
@@ -331,6 +354,37 @@ const FESTIVAL_TYPE_VISUALS = {
   international: { effect: 'national', icons: ['🌐', '🎉', '✨'], accent: '#2563eb', tint: '#eff6ff' },
   social: { effect: 'love', icons: ['🎉', '🎁', '✨'], accent: '#db2777', tint: '#fdf2f8' },
   birthday: { effect: 'birthday', icons: ['🎂', '🎁', '🎉'], accent: '#db2777', tint: '#fdf2f8' }
+}
+
+// The API returns the complete chinese-days festival names; map each lunar observance and solar term
+// to its own subject icon so uncommon entries do not all inherit the lantern fallback.
+const FESTIVAL_NAME_ICONS = {
+  腊八节: '🥣', 官家送灶: '🍳', 民间送灶: '🧹', 接玉皇: '👑',
+  封井: '🪣', 祭井神: '⛲', 贴春联: '📜', 迎财神: '💰',
+  鸡日: '🐓', 犬日: '🐕', 猪日: '🐖', 羊日: '🐐', 牛日: '🐂', 马日: '🐎',
+  元始天尊诞辰: '☯️', 孙天医诞辰: '🩺', 开市: '🏪', 路神诞辰: '🛣️',
+  人日: '🧑', 送火神: '🔥', 谷日: '🌾', 阎王诞辰: '👹', 天日: '☀️',
+  玉皇诞辰: '🎎', 地日: '🌍', 石头生日: '🪨', '上(试)灯日': '🪔', 上试灯日: '🪔',
+  上灯日: '🎐', 关公升天日: '🎖️', 上元节: '🌕', 正灯日: '💡', 天官诞辰: '🎭', 落灯日: '🕯️',
+  '天仓(填仓)节': '🏺', 天仓节: '🏺', 填仓节: '🏺', 太阳生日: '🌞', 春龙节: '🐉',
+  土地公生日: '🏞️', 济公活佛生日: '🍶', 文昌帝君诞辰: '📚',
+  '百花生日(花朝节)': '🌸', 花朝节: '🌸', 九天玄女诞辰: '🪶', 太上老君诞辰: '🎐',
+  精忠岳王诞辰: '🛡️', 寒食节: '🍃', 观音菩萨诞辰: '🙏', 普贤菩萨诞辰: '🐘',
+  上巳节: '🪭', 赵公元帅诞辰: '🪙', 泰山老母诞辰: '🧿', 祭雹神: '🌨️',
+  文殊菩萨诞辰: '🦁', '浴佛节(龙华会)': '🪷', 浴佛节: '🪷', 龙华会: '🪷',
+  蛇王诞辰: '🐍', 吕洞宾诞辰: '⚔️', 华佗诞辰: '🧪', '药王(神农)诞辰': '💊',
+  药王诞辰: '💊', 神农诞辰: '🌱', 端午节: '🐉', 雨节: '🌧️', 黄帝诞辰: '🏯',
+  半年节: '📅', 晒衣节: '👘', 观音菩萨得道: '☸️', 雷神诞辰: '⚡',
+  荷花生日: '🌺', 关公诞辰: '🗡️', 祭海神: '🐚', 乞巧节: '🧵',
+  '中元(鬼)节': '👻', 中元节: '👻', 地官诞辰: '🎑', 孟兰盆会: '🪷',
+  西王母诞辰: '🍑', 棉花生日: '☁️', 诸葛亮诞辰: '🏹', 地藏菩萨诞辰: '🧎',
+  天医节: '⚕️', 灶君生日: '🍲', 瑶池大会: '🍽️', 水稻生日: '🌽',
+  孔子诞辰: '🎓', 观音菩萨出家: '🧘', 十月朝: '🧥', 寒衣节: '🧣',
+  下元节: '💧', 水官诞辰: '🫗', 小年朝: '🧨', 破五日: '🎆',
+  立春: '🌱', 雨水: '🌧️', 惊蛰: '⚡', 春分: '🌗', 清明: '🌿', 清明节: '🌿',
+  谷雨: '🌾', 立夏: '☀️', 小满: '🍚', 芒种: '🚜', 夏至: '🌞', 小暑: '🌡️',
+  大暑: '🧊', 立秋: '🍂', 处暑: '🍃', 白露: '💧', 秋分: '⚖️', 寒露: '🌫️',
+  霜降: '🍁', 立冬: '🧣', 小雪: '🌨️', 大雪: '❄️', 冬至: '🥟', 小寒: '🧤', 大寒: '🥶'
 }
 
 const SYSTEM_BROADCAST_VISUALS = [
@@ -349,6 +403,13 @@ function visualIndex(value, length) {
 export function getFestivalVisual(name = '', type = '', effect = '') {
   const nameMatch = Object.entries(FESTIVAL_NAME_VISUALS).find(([key]) => String(name).includes(key))
   if (nameMatch) return nameMatch[1]
+  const nameIcon = Object.entries(FESTIVAL_NAME_ICONS)
+    .sort(([left], [right]) => right.length - left.length)
+    .find(([key]) => String(name).includes(key))?.[1]
+  if (nameIcon) {
+    const visual = type === 'solar-term' ? EFFECT_META['solar-term'] : EFFECT_META['lunar-folk']
+    return { ...visual, icons: [nameIcon] }
+  }
   if (type === 'system-broadcast' || type === 'project') {
     return SYSTEM_BROADCAST_VISUALS[visualIndex(name, SYSTEM_BROADCAST_VISUALS.length)]
   }

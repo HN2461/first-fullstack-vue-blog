@@ -11,7 +11,7 @@
             aria-label="预览头像"
             @click="openAvatarPreview"
           >
-            <a-avatar :size="80" :src="userAvatar" class="user-avatar">
+            <a-avatar :size="72" :src="userAvatar" class="user-avatar">
               {{ userInitial }}
             </a-avatar>
             <div class="avatar-overlay">
@@ -1058,8 +1058,14 @@ onMounted(async () => {
 }
 
 .avatar-section {
-  padding: 32px 24px 24px;
-  text-align: center;
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: auto auto auto;
+  column-gap: 14px;
+  row-gap: 2px;
+  align-items: center;
+  padding: 20px;
+  text-align: left;
   background: linear-gradient(135deg, #f0f7ff 0%, #e6f4ff 100%);
 }
 
@@ -1071,7 +1077,8 @@ onMounted(async () => {
   color: inherit;
   background: transparent;
   cursor: pointer;
-  margin-bottom: 12px;
+  grid-row: 1 / -1;
+  margin: 0;
 }
 
 .user-avatar {
@@ -1101,16 +1108,25 @@ onMounted(async () => {
 .user-name {
   font-size: 16px;
   font-weight: 600;
-  margin: 0 0 4px;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .user-email {
   color: var(--console-text-secondary);
   font-size: 13px;
-  margin: 0 0 8px;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .role-tag {
+  justify-self: start;
   font-size: 12px;
 }
 
@@ -1118,7 +1134,7 @@ onMounted(async () => {
 .stats-section {
   display: flex;
   justify-content: space-around;
-  padding: 16px 24px;
+  padding: 12px 16px;
   border-bottom: 1px solid var(--console-border);
 }
 
@@ -1153,7 +1169,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
+  padding: 10px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;

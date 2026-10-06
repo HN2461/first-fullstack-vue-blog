@@ -27,12 +27,12 @@ async function fetchTimor(year) {
   return Object.values(payload.holiday || {}).map((day) => ({ date: day.date, name: day.name, holiday: day.holiday, after: day.after }))
 }
 
-function normalizeRemote(year, source, payload) {
+export function normalizeRemote(year, source, payload) {
   const records = Array.isArray(payload) ? payload : (payload.days || Object.values(payload))
   return records.map((day) => ({
     year, date: day.date || key(year, ...String(day.date || '').split('-').slice(1).map(Number)), name: day.name || '法定安排',
     isHoliday: Boolean(day.isOffDay ?? day.holiday),
-    isWorkday: Boolean(day.isWorkDay ?? (day.holiday === false)), source, syncedAt: new Date(), raw: day
+    isWorkday: Boolean(day.isWorkDay ?? (day.isOffDay === false || day.holiday === false)), source, syncedAt: new Date(), raw: day
   })).filter((day) => /^\d{4}-\d{2}-\d{2}$/.test(day.date))
 }
 
@@ -65,8 +65,12 @@ async function annualItems(year) {
   ])
   const fixed = FIXED_FESTIVALS.map((festival) => item({ ...festival, date: key(year, festival.month, festival.day), type: festival.category }))
   const manual = custom.map((festival) => item({ id: festival._id.toString(), name: festival.name, date: key(year, festival.month, festival.day), type: festival.category === 'project' ? SYSTEM_BROADCAST_FESTIVAL_CATEGORY : festival.category, source: festival.source, greeting: festival.greeting, effect: festival.effect, isMajor: festival.isMajor, isCustom: true }))
-  const legal = remote.map((day) => item({ name: day.name, date: day.date, type: day.isHoliday ? 'legal-holiday' : 'make-up-workday', source: day.source, isHoliday: day.isHoliday, isWorkday: day.isWorkday, isMajor: day.isHoliday }))
-  const lunar = getLunarFestivals(`${year}-01-01`, `${year}-12-31`).flatMap((day) => day.name.map((name) => item({ name, date: day.date, type: 'traditional', source: '农历传统节日' })))
+  const legal = remote.map((day) => {
+    // 兼容同步修复前已经写入数据库的记录，避免等待缓存过期才恢复补班标记。
+    const isWorkday = Boolean(day.isWorkday || day.raw?.isWorkDay || day.raw?.isOffDay === false || day.raw?.holiday === false)
+    return item({ name: day.name, date: day.date, type: day.isHoliday ? 'legal-holiday' : 'make-up-workday', source: day.source, isHoliday: day.isHoliday, isWorkday, isMajor: day.isHoliday })
+  })
+  const lunar = getLunarFestivals(`${year}-01-01`, `${year}-12-31`).flatMap((day) => day.name.map((name) => item({ name, date: day.date, type: 'traditional', source: '农历民俗日' })))
   const terms = getSolarTerms(`${year}-01-01`, `${year}-12-31`).map((day) => item({ name: day.name, date: day.date, type: 'solar-term', source: '二十四节气' }))
   const map = new Map()
   ;[...fixed, ...lunar, ...terms, ...legal, ...manual].forEach((festival) => map.set(`${festival.date}:${festival.name}`, festival))

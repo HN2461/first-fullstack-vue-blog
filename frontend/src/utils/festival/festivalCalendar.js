@@ -103,7 +103,7 @@ function buildYearFestivals(year) {
         .map((festival) => normalizeFestival({
           ...festival,
           type: 'lunar'
-        }, day.date, '农历传统节日'))
+        }, day.date, '农历民俗日'))
     })
   const terms = getSolarTerms(`${year}-01-01`, `${year}-12-31`)
     .map((term) => normalizeFestival({

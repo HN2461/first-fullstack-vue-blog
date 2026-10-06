@@ -5,6 +5,7 @@ import { FestivalDay } from '#modules/festival/models/FestivalDay.js'
 import { User } from '#modules/user/models/User.js'
 import { USER_ROLES } from '#constants/domain'
 import { signAccessToken } from '../src/utils/jwt.js'
+import { normalizeRemote } from '#modules/festival/services/festival.service.js'
 import { clearTestDatabase, connectTestDatabase, disconnectTestDatabase } from './helpers/testDatabase.js'
 
 describe('festival calendar routes', () => {
@@ -12,11 +13,21 @@ describe('festival calendar routes', () => {
   beforeEach(clearTestDatabase)
   afterAll(disconnectTestDatabase)
 
+  it('marks an official date with isOffDay false as a make-up workday', () => {
+    const [day] = normalizeRemote(2026, 'holiday-cn', [{ date: '2026-10-10', name: '国庆节', isOffDay: false }])
+    expect(day).toMatchObject({ date: '2026-10-10', isHoliday: false, isWorkday: true })
+  })
+
   it('returns cached holiday and make-up workday in the public calendar', async () => {
-    await FestivalDay.create([{ year: 2026, date: '2026-05-01', name: '劳动节', isHoliday: true, source: 'test' }, { year: 2026, date: '2026-05-09', name: '劳动节后补班', isWorkday: true, source: 'test' }])
+    await FestivalDay.create([
+      { year: 2026, date: '2026-05-01', name: '劳动节', isHoliday: true, source: 'test' },
+      { year: 2026, date: '2026-05-09', name: '劳动节后补班', isWorkday: true, source: 'test' },
+      { year: 2026, date: '2026-05-10', name: '劳动节', isHoliday: false, isWorkday: false, raw: { isOffDay: false }, source: 'test' }
+    ])
     const response = await request(createApp()).get('/api/public/festivals?date=2026-05-01').expect(200)
     expect(response.body.data.dayStatus.isHoliday).toBe(true)
     expect(response.body.data.upcoming.some((item) => item.type === 'make-up-workday')).toBe(true)
+    expect(response.body.data.upcoming.find((item) => item.date === '2026-05-10')).toMatchObject({ isWorkday: true, type: 'make-up-workday' })
   })
 
   it('allows only a super administrator to create custom festivals', async () => {

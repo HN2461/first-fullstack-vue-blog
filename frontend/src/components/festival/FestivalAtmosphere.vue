@@ -5,8 +5,8 @@
         <span>{{ activeFestival.text }}</span>
       </template>
       <div class="festival-ribbon">
-        <span class="festival-ribbon__icon">{{ activeFestival.icons?.[0] || '✨' }}</span>
-        <span class="festival-ribbon__meta">{{ activeFestival.name }}</span>
+        <span class="festival-ribbon__icon"><FestivalIcon :icon="activeFestival.icons?.[0] || '✨'" /></span>
+        <span class="festival-ribbon__meta">{{ activeFestival.displayName || activeFestival.name }}</span>
         <a-tooltip title="关闭本端节日氛围">
           <button class="festival-ribbon__close" type="button" aria-label="关闭节日氛围" @click="$emit('close')">
             ×
@@ -29,6 +29,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import FestivalIcon from './FestivalIcon.vue'
 import { getParticleItems } from '@/utils/festival/festivalCalendar'
 
 const props = defineProps({
@@ -81,8 +82,9 @@ const festivalStyle = computed(() => ({
 
 .festival-ribbon__icon {
   flex: 0 0 auto;
-  font-size: 14px;
-  line-height: 1;
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
 }
 
 .festival-ribbon__meta {

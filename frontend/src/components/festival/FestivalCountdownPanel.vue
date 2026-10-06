@@ -25,7 +25,7 @@
               <small>{{ lunarSummary || '农历日期' }}</small>
             </div>
             <div class="festival-countdown__hero-next">
-              <strong>{{ nextFestival?.name || '节日倒计时' }}</strong>
+              <strong>{{ nextFestival?.displayName || nextFestival?.name || '节日倒计时' }}</strong>
               <small>{{ nextFestivalSummary }}</small>
             </div>
             <button
@@ -40,7 +40,7 @@
 
           <div v-if="nextFestival" class="festival-countdown__focus">
             <div class="festival-countdown__orbit" aria-hidden="true">
-              <span>{{ nextFestival.icons?.[0] || '✨' }}</span>
+              <FestivalIcon :icon="nextFestival.icons?.[0] || '✨'" />
             </div>
             <div class="festival-countdown__focus-copy">
               <strong>{{ nextFestival.daysUntil === 0 ? '就是今天' : `还有 ${nextFestival.daysUntil} 天` }}</strong>
@@ -105,9 +105,11 @@
               type="button"
               @click="$emit('select', item)"
             >
-              <span class="festival-countdown__icon">{{ item.icons?.[0] || '✨' }}</span>
+              <span class="festival-countdown__icon">
+                <FestivalIcon :icon="item.icons?.[0] || '✨'" />
+              </span>
               <span class="festival-countdown__body">
-                <strong>{{ item.name }}</strong>
+                <strong>{{ item.displayName || item.name }}</strong>
                 <small>{{ getFestivalLabel(item) }} · {{ formatFestivalDate(item) }}</small>
               </span>
               <span class="festival-countdown__days">
@@ -126,6 +128,7 @@
 import { computed, ref, watch } from 'vue'
 import { CalendarOutlined } from '@ant-design/icons-vue'
 import { MAJOR_FESTIVAL_LABEL } from '@/utils/festival/festivalCalendar'
+import FestivalIcon from './FestivalIcon.vue'
 import './FestivalCountdownPanel.css'
 
 const props = defineProps({
@@ -147,7 +150,7 @@ const filterDefinitions = [
   { key: 'all', label: '全部' },
   { key: 'legal-holiday', label: '法定假期' },
   { key: 'make-up-workday', label: '补班' },
-  { key: 'traditional', label: '传统' },
+  { key: 'traditional', label: '民俗纪日' },
   { key: 'solar-term', label: '节气' },
   { key: 'national', label: '国家纪念日' },
   { key: 'industry', label: '行业纪念日' },
@@ -188,8 +191,8 @@ const nextFestivalSummary = computed(() => {
 const tooltipTitle = computed(() => {
   if (!nextFestival.value) return '节日倒计时'
   return nextFestival.value.daysUntil === 0
-    ? `${nextFestival.value.name} · 今天`
-    : `${nextFestival.value.name} · 还有 ${nextFestival.value.daysUntil} 天`
+    ? `${nextFestival.value.displayName || nextFestival.value.name} · 今天`
+    : `${nextFestival.value.displayName || nextFestival.value.name} · 还有 ${nextFestival.value.daysUntil} 天`
 })
 
 watch(availableFilters, (nextFilters) => {
@@ -243,10 +246,10 @@ function groupHolidayRanges(items, history) {
 
 function getFestivalLabel(item) {
   if (item.isHoliday) return '法定假期'
-  if (item.isWorkday) return '调休补班'
+  if (item.type === 'make-up-workday' || item.isWorkday) return '调休补班'
   const labels = {
-    traditional: '传统节日',
-    lunar: '传统节日',
+    traditional: '农历民俗日',
+    lunar: '农历民俗日',
     'solar-term': '二十四节气',
     national: '国家纪念日',
     industry: '行业纪念日',

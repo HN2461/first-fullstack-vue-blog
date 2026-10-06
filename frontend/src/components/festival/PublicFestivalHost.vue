@@ -8,7 +8,7 @@
 
   <a-modal
     v-model:open="celebrationOpen"
-    :title="celebrationFestival?.name || '节日快乐'"
+    :title="celebrationFestival?.displayName || celebrationFestival?.name || '节日快乐'"
     centered
     :width="appStore.isMobile ? '92vw' : 420"
     :footer="null"
@@ -17,7 +17,7 @@
   >
     <div v-if="celebrationFestival" class="public-festival-celebration" :style="celebrationStyle">
       <div class="public-festival-celebration__icon">
-        {{ celebrationFestival.icons?.[0] || '✨' }}
+        <FestivalIcon :icon="celebrationFestival.icons?.[0] || '✨'" />
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
       <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
@@ -31,6 +31,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import FestivalAtmosphere from './FestivalAtmosphere.vue'
+import FestivalIcon from './FestivalIcon.vue'
 import { getPublicFestivalEffectState } from '@/services/public'
 import { useAppStore } from '@/stores/app'
 import {
@@ -252,5 +253,11 @@ onUnmounted(() => {
 .public-festival-celebration span {
   color: var(--console-text-secondary, #667085);
   font-size: 13px;
+}
+
+.public-festival-celebration__icon .festival-icon {
+  width: 42px;
+  height: 42px;
+  transform: translateY(-2px);
 }
 </style>
