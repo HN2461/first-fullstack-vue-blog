@@ -90,6 +90,13 @@ describe('media vault protection', () => {
     expect(status.body.data).toMatchObject({ configured: false, unlocked: false, enabled: true })
     const media = await createVaultMedia(owner)
 
+    const lockedCategories = await agent
+      .get('/api/admin/media/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const lockedVaultCategory = lockedCategories.body.data.find((item) => item.builtinKey === 'vault')
+    expect(lockedVaultCategory).toMatchObject({ count: 1, accessMode: 'vault' })
+
     const lockedList = await agent
       .get('/api/admin/media')
       .set('Authorization', `Bearer ${token}`)

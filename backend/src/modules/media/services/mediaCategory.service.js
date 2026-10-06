@@ -139,7 +139,7 @@ export async function listMediaCategoryEntities(actor, options = {}) {
     categoryQuery.$and.push({
       $or: [
         { accessMode: { $ne: 'vault' } },
-        // 密码箱入口始终可见；未解锁时只隐藏其中资源和数量，避免用户无法完成首次设置或解锁。
+        // 密码箱入口始终可见；未解锁时仍隐藏文件详情，避免用户无法完成首次设置或解锁。
         { accessMode: 'vault', owner: actorId }
       ]
     })
@@ -180,7 +180,9 @@ export async function listMediaCategories(actor, options = {}) {
   const includeAllOwners = options.scope === 'all' && canManageAllMediaCategories(actor)
   const entities = await listMediaCategoryEntities(actor, options)
   const mediaMatch = includeAllOwners || !actorId ? {} : { uploader: actorId }
-  const vaultMatch = actor?.mediaVaultUnlocked === true && actorId
+  // 密码箱的资源详情在未解锁时仍由媒体列表脱敏返回，因此分类数量也应保持一致。
+  // 只统计当前账号自己的密码箱，避免超级管理员查看全部分类时泄露其他账号的资源数量。
+  const vaultMatch = actorId
     ? { $or: [{ accessScope: { $ne: 'vault' } }, { accessScope: 'vault', uploader: actorId }] }
     : { accessScope: { $ne: 'vault' } }
   const counts = await Media.aggregate([
