@@ -297,6 +297,74 @@ export const EFFECT_META = {
   birthday: { accent: '#db2777', tint: '#fdf2f8', particle: ['🎂', '💗', '🎉'] }
 }
 
+// Each atmosphere has a distinct motion language so the same falling-emoji
+// animation is not reused for every holiday. The values stay lightweight and
+// are consumed by both the ambient layer and the celebration confetti.
+const ATMOSPHERE_PROFILES = {
+  spring: { theme: 'lantern', secondary: '#f59e0b', particleCount: 12, duration: 17, drift: 28, glow: 'rgba(220, 38, 38, .18)', confettiColors: ['#b91c1c', '#dc2626', '#f59e0b'] },
+  lantern: { theme: 'lantern', secondary: '#fbbf24', particleCount: 10, duration: 15, drift: 18, glow: 'rgba(245, 158, 11, .2)', confettiColors: ['#dc2626', '#f59e0b', '#fef3c7'] },
+  'new-year-eve': { theme: 'night-fire', secondary: '#f59e0b', particleCount: 8, duration: 19, drift: 16, glow: 'rgba(245, 158, 11, .16)', confettiColors: ['#991b1b', '#f59e0b', '#fef3c7'] },
+  'mid-autumn': { theme: 'moon', secondary: '#fbbf24', particleCount: 8, duration: 21, drift: 12, glow: 'rgba(251, 191, 36, .18)', confettiColors: ['#b45309', '#f59e0b', '#fef3c7'] },
+  qixi: { theme: 'starfield', secondary: '#a78bfa', particleCount: 9, duration: 23, drift: 10, glow: 'rgba(124, 58, 237, .16)', confettiColors: ['#7c3aed', '#db2777', '#f5d0fe'] },
+  national: { theme: 'radiant', secondary: '#fbbf24', particleCount: 10, duration: 16, drift: 20, glow: 'rgba(220, 38, 38, .18)', confettiColors: ['#b91c1c', '#dc2626', '#fbbf24'] },
+  'new-year': { theme: 'spark', secondary: '#f59e0b', particleCount: 10, duration: 14, drift: 26, glow: 'rgba(234, 88, 12, .18)', confettiColors: ['#c2410c', '#f59e0b', '#fef3c7'] },
+  duanwu: { theme: 'river', secondary: '#0f766e', particleCount: 8, duration: 24, drift: 14, glow: 'rgba(15, 118, 110, .14)', confettiColors: ['#15803d', '#0f766e', '#bef264'] },
+  qingming: { theme: 'drizzle', secondary: '#60a5fa', particleCount: 8, duration: 26, drift: 8, glow: 'rgba(14, 116, 144, .12)', confettiColors: ['#4d7c0f', '#0f766e', '#bae6fd'] },
+  christmas: { theme: 'snow', secondary: '#ef4444', particleCount: 12, duration: 20, drift: 30, glow: 'rgba(15, 118, 110, .16)', confettiColors: ['#0f766e', '#dc2626', '#f8fafc'] },
+  winter: { theme: 'snow', secondary: '#38bdf8', particleCount: 10, duration: 24, drift: 24, glow: 'rgba(3, 105, 161, .14)', confettiColors: ['#0369a1', '#38bdf8', '#f8fafc'] },
+  chongyang: { theme: 'autumn', secondary: '#f97316', particleCount: 9, duration: 22, drift: 34, glow: 'rgba(180, 83, 9, .16)', confettiColors: ['#b45309', '#f97316', '#facc15'] },
+  labor: { theme: 'breeze', secondary: '#84cc16', particleCount: 8, duration: 25, drift: 42, glow: 'rgba(4, 120, 87, .12)', confettiColors: ['#047857', '#84cc16', '#fef08a'] },
+  love: { theme: 'petal', secondary: '#f9a8d4', particleCount: 9, duration: 20, drift: 28, glow: 'rgba(219, 39, 119, .16)', confettiColors: ['#db2777', '#fb7185', '#fbcfe8'] },
+  birthday: { theme: 'balloon', secondary: '#fbbf24', particleCount: 10, duration: 18, drift: 22, glow: 'rgba(219, 39, 119, .16)', confettiColors: ['#db2777', '#f59e0b', '#34d399'] },
+  'solar-term': { theme: 'breeze', secondary: '#5eead4', particleCount: 7, duration: 27, drift: 36, glow: 'rgba(15, 118, 110, .12)', confettiColors: ['#0f766e', '#16a34a', '#a7f3d0'] },
+  'term-spring': { theme: 'breeze', secondary: '#86efac', particleCount: 8, duration: 24, drift: 38, glow: 'rgba(22, 163, 74, .12)', confettiColors: ['#16a34a', '#84cc16', '#dcfce7'] },
+  'term-summer': { theme: 'spark', secondary: '#fde047', particleCount: 7, duration: 22, drift: 24, glow: 'rgba(202, 138, 4, .16)', confettiColors: ['#ca8a04', '#f59e0b', '#fef08a'] },
+  'term-autumn': { theme: 'autumn', secondary: '#fbbf24', particleCount: 8, duration: 23, drift: 36, glow: 'rgba(180, 83, 9, .14)', confettiColors: ['#b45309', '#f97316', '#fde68a'] },
+  'term-winter': { theme: 'snow', secondary: '#bae6fd', particleCount: 9, duration: 25, drift: 26, glow: 'rgba(3, 105, 161, .12)', confettiColors: ['#0369a1', '#7dd3fc', '#f8fafc'] },
+  'lunar-folk': { theme: 'moon', secondary: '#fbbf24', particleCount: 7, duration: 24, drift: 16, glow: 'rgba(180, 83, 9, .12)', confettiColors: ['#b45309', '#f59e0b', '#fef3c7'] },
+  'system-broadcast': { theme: 'spark', secondary: '#fbbf24', particleCount: 8, duration: 20, drift: 24, glow: 'rgba(37, 99, 235, .14)', confettiColors: ['#2563eb', '#7c3aed', '#fbbf24'] },
+  fireworks: { theme: 'fireworks', secondary: '#fbbf24', particleCount: 11, duration: 13, drift: 22, glow: 'rgba(234, 88, 12, .2)', confettiColors: ['#c2410c', '#f59e0b', '#fef3c7'] },
+  blossom: { theme: 'petal', secondary: '#f9a8d4', particleCount: 10, duration: 22, drift: 30, glow: 'rgba(219, 39, 119, .14)', confettiColors: ['#db2777', '#fb7185', '#fbcfe8'] },
+  playful: { theme: 'balloon', secondary: '#38bdf8', particleCount: 11, duration: 17, drift: 25, glow: 'rgba(234, 88, 12, .15)', confettiColors: ['#ea580c', '#38bdf8', '#facc15'] },
+  tribute: { theme: 'candle', secondary: '#94a3b8', particleCount: 5, duration: 28, drift: 8, glow: 'rgba(71, 85, 105, .12)', confettiColors: ['#475569', '#94a3b8', '#e2e8f0'] },
+  growth: { theme: 'breeze', secondary: '#86efac', particleCount: 9, duration: 26, drift: 40, glow: 'rgba(22, 163, 74, .14)', confettiColors: ['#15803d', '#84cc16', '#dcfce7'] },
+  harvest: { theme: 'autumn', secondary: '#fbbf24', particleCount: 8, duration: 23, drift: 32, glow: 'rgba(180, 83, 9, .14)', confettiColors: ['#b45309', '#f59e0b', '#fde68a'] },
+  honor: { theme: 'radiant', secondary: '#fbbf24', particleCount: 8, duration: 20, drift: 14, glow: 'rgba(185, 28, 28, .14)', confettiColors: ['#991b1b', '#dc2626', '#fbbf24'] },
+  'dragon-boat': { theme: 'river', secondary: '#2dd4bf', particleCount: 9, duration: 25, drift: 16, glow: 'rgba(15, 118, 110, .14)', confettiColors: ['#15803d', '#0f766e', '#5eead4'] }
+}
+
+const FESTIVAL_NAME_ATMOSPHERES = {
+  春节: 'spring',
+  元宵: 'lantern',
+  除夕: 'new-year-eve',
+  元宵节: 'lantern',
+  七夕: 'qixi',
+  端午节: 'duanwu',
+  端午: 'dragon-boat',
+  清明节: 'qingming',
+  清明: 'qingming',
+  中秋节: 'mid-autumn',
+  国庆节: 'national',
+  圣诞节: 'christmas',
+  重阳节: 'chongyang',
+  元旦: 'fireworks',
+  情人节: 'blossom',
+  妇女节: 'blossom',
+  国际妇女节: 'blossom',
+  植树节: 'growth',
+  劳动节: 'labor',
+  儿童节: 'playful',
+  青年节: 'fireworks',
+  建党节: 'honor',
+  建军节: 'honor',
+  教师节: 'blossom',
+  烈士纪念日: 'tribute',
+  南京大屠杀死难者国家公祭日: 'tribute',
+  世界粮食日: 'harvest',
+  生日: 'birthday',
+  生日快乐: 'birthday'
+}
+
 const FESTIVAL_NAME_VISUALS = {
   元旦: { effect: 'new-year', icons: ['🥂', '🧨', '✨'], accent: '#c2410c', tint: '#fff7ed' },
   春节: { effect: 'spring', icons: ['🐲', '🧧', '🎊'], accent: '#b91c1c', tint: '#fff1f2' },
@@ -414,4 +482,17 @@ export function getFestivalVisual(name = '', type = '', effect = '') {
     return SYSTEM_BROADCAST_VISUALS[visualIndex(name, SYSTEM_BROADCAST_VISUALS.length)]
   }
   return FESTIVAL_TYPE_VISUALS[type] || EFFECT_META[effect] || EFFECT_META['new-year']
+}
+
+export function getFestivalAtmosphereProfile(festival = {}) {
+  const name = String(festival.name || festival.displayName || '')
+  const matchedName = Object.entries(FESTIVAL_NAME_ATMOSPHERES)
+    .sort(([left], [right]) => right.length - left.length)
+    .find(([key]) => name.includes(key))?.[1]
+  const profile = ATMOSPHERE_PROFILES[matchedName || festival.effect] || ATMOSPHERE_PROFILES['new-year']
+  return {
+    ...profile,
+    key: matchedName || festival.effect || 'new-year',
+    particle: festival.particle?.length ? festival.particle : ['✨']
+  }
 }

@@ -1,6 +1,7 @@
 import chineseDays from 'chinese-days'
 import {
   EFFECT_META,
+  getFestivalAtmosphereProfile,
   LUNAR_FESTIVAL_META,
   MAJOR_FESTIVAL_LABEL,
   SOLAR_FESTIVALS
@@ -77,6 +78,7 @@ function normalizeFestival(festival, date, source = festival.type) {
   const meta = EFFECT_META[festival.effect] || EFFECT_META['new-year']
   const greetings = festival.greetings || [festival.text || `${festival.name}快乐`]
   const text = greetings[stableIndex(`${festival.key}:${date}`, greetings.length)]
+  const atmosphere = getFestivalAtmosphereProfile({ ...festival, ...meta })
   return {
     ...festival,
     date,
@@ -86,6 +88,7 @@ function normalizeFestival(festival, date, source = festival.type) {
     accent: meta.accent,
     tint: meta.tint,
     particle: meta.particle,
+    atmosphere,
     duration: festival.duration || (festival.level === 'major' ? [-2, 2] : [-1, 1])
   }
 }
@@ -257,14 +260,18 @@ export function getDeviceType(isMobile) {
 
 export function getParticleItems(festival, isMobile) {
   const items = festival?.particle || ['✨']
-  const amount = isMobile ? 0 : 10
-  const lanes = ['3%', '7%', '11%', '15%', '85%', '89%', '93%', '97%']
+  const profile = festival?.atmosphere || getFestivalAtmosphereProfile(festival)
+  const amount = isMobile ? 0 : profile.particleCount
+  const lanes = ['3%', '7%', '11%', '15%', '20%', '80%', '85%', '89%', '93%', '97%']
   return Array.from({ length: amount }, (_, index) => ({
     id: `${festival?.key || 'festival'}-${index}`,
     text: items[index % items.length],
     left: lanes[index % lanes.length],
-    delay: `${(index % 6) * 0.8}s`,
-    duration: `${12 + (index % 5)}s`
+    delay: `${(index % 7) * 0.9}s`,
+    duration: `${profile.duration + (index % 5) * 1.5}s`,
+    size: `${14 + (index % 4) * 2}px`,
+    drift: `${profile.drift + (index % 4) * 6}px`,
+    rotation: `${index % 2 === 0 ? 1 : -1}`
   }))
 }
 

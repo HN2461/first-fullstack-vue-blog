@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { access } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { normalizeCalendar, selectPrimaryFestival } from './festivalApi'
-import { getFestivalVisual } from './festivalCatalog'
+import { getFestivalAtmosphereProfile, getFestivalVisual } from './festivalCatalog'
 
 describe('festival calendar server data', () => {
   it('normalizes custom broadcast festivals with their configured greeting and scope', () => {
@@ -82,6 +82,18 @@ describe('festival calendar server data', () => {
     expect(calendar.upcoming[2].icons).toEqual(['🎊', '🎁', '🌟'])
     expect(calendar.upcoming.every((item) => item.icons[0] !== '🎆')).toBe(true)
     expect(calendar.upcoming.every((item) => item.accent !== '#7c3aed')).toBe(true)
+  })
+
+  it('assigns a distinct atmosphere profile to each signature festival', () => {
+    const spring = getFestivalAtmosphereProfile({ name: '春节', effect: 'spring', particle: ['🏮'] })
+    const moon = getFestivalAtmosphereProfile({ name: '中秋节', effect: 'mid-autumn', particle: ['🌕'] })
+    const qixi = getFestivalAtmosphereProfile({ name: '七夕', effect: 'qixi', particle: ['💫'] })
+
+    expect(spring.theme).toBe('lantern')
+    expect(moon.theme).toBe('moon')
+    expect(qixi.theme).toBe('starfield')
+    expect(new Set([spring.duration, moon.duration, qixi.duration]).size).toBe(3)
+    expect(spring.particle).toEqual(['🏮'])
   })
 
   it('uses the national day visual when the holiday API supplies the day name', () => {

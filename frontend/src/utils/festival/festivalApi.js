@@ -1,10 +1,11 @@
 import { getPublicFestivalCalendar } from '@/services/public'
-import { getFestivalVisual } from './festivalCatalog'
+import { getFestivalAtmosphereProfile, getFestivalVisual } from './festivalCatalog'
 
 function normalize(item) {
   const type = item.type === 'project' ? 'system-broadcast' : item.type
   const visual = getFestivalVisual(item.name, type, item.effect)
   const effect = visual.effect || item.effect || 'new-year'
+  const atmosphere = getFestivalAtmosphereProfile({ ...item, ...visual, effect })
   // 节假日源会把调休日期也命名为对应节日；按类型补充显示名称，避免与放假日期看起来重复。
   const isMakeUpWorkday = type === 'make-up-workday' || Boolean(item.isWorkday)
   const displaySource = item.isHoliday
@@ -24,6 +25,7 @@ function normalize(item) {
     accent: item.isHoliday ? '#dc2626' : item.isWorkday ? '#b45309' : visual.accent,
     tint: item.isHoliday ? '#fff1f2' : visual.tint,
     particle: visual.particle || visual.icons || ['🎊', '✨'],
+    atmosphere,
     duration: item.isMajor ? [-2, 2] : [-1, 1],
     displaySource,
     visibilityLabel: item.isPersonal ? '仅你可见' : '全站公开'

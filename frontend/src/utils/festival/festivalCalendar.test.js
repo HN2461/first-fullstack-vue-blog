@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { getFestivalHistory, getFestivalSchedule } from './festivalCalendar'
+import { getFestivalHistory, getFestivalSchedule, getParticleItems } from './festivalCalendar'
 
 describe('festival calendar birthday schedule', () => {
   it('keeps a later birthday when the full upcoming schedule is requested', () => {
@@ -18,5 +18,14 @@ describe('festival calendar birthday schedule', () => {
     })
 
     expect(history.some((item) => item.key === 'birthday-solar')).toBe(true)
+  })
+
+  it('uses festival-specific particle counts and keeps mobile atmosphere particle-free', () => {
+    const schedule = getFestivalSchedule('2026-02-17', Number.POSITIVE_INFINITY)
+    const springFestival = schedule.find((item) => item.key === 'spring-festival')
+
+    expect(springFestival.atmosphere.theme).toBe('lantern')
+    expect(getParticleItems(springFestival, false)).toHaveLength(springFestival.atmosphere.particleCount)
+    expect(getParticleItems(springFestival, true)).toHaveLength(0)
   })
 })

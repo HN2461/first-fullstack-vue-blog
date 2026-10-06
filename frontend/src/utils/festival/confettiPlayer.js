@@ -1,3 +1,5 @@
+import { getFestivalAtmosphereProfile } from './festivalCatalog'
+
 let confettiModulePromise = null
 
 async function loadConfetti() {
@@ -15,18 +17,24 @@ export async function playFestivalConfetti(festival, options = {}) {
   if (typeof window === 'undefined' || !festival) return
   const confetti = await loadConfetti()
   const isMobile = Boolean(options.isMobile)
-  const scalar = isMobile ? 1.4 : 1.8
+  const profile = getFestivalAtmosphereProfile(festival)
+  const scalar = isMobile ? 1.05 : 1.35
   const shapes = makeShapes(confetti, festival.particle || ['✨'], scalar)
-  const particleCount = isMobile ? 36 : 72
+  const particleCount = isMobile
+    ? Math.max(16, Math.round(profile.particleCount * 1.8))
+    : Math.max(24, profile.particleCount * 4)
+  const isSoftTheme = ['drizzle', 'snow', 'moon'].includes(profile.theme)
+  const isRadiantTheme = ['radiant', 'spark', 'night-fire'].includes(profile.theme)
 
   await confetti({
     particleCount,
-    spread: festival.level === 'major' ? 80 : 58,
-    startVelocity: festival.level === 'major' ? 36 : 24,
-    ticks: isMobile ? 150 : 220,
-    gravity: 0.75,
+    spread: isRadiantTheme ? 82 : isSoftTheme ? 105 : 68,
+    startVelocity: isRadiantTheme ? 34 : isSoftTheme ? 16 : 26,
+    ticks: isMobile ? 120 : 175,
+    gravity: isSoftTheme ? 0.42 : 0.68,
     scalar,
     shapes,
+    colors: profile.confettiColors,
     origin: { y: 0.35 },
     disableForReducedMotion: true
   })
