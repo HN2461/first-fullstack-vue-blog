@@ -28,8 +28,8 @@
       <div class="brand-logo">
         <img class="logo-icon" src="/favicon.svg" alt="" aria-hidden="true">
         <div class="logo-text">
-          <h3>{{ lang === 'zh' ? '知识库' : 'Knowledge' }}</h3>
-          <p>Knowledge OS</p>
+          <h3>{{ siteStore.siteTitle }}</h3>
+          <p v-if="siteStore.profile.authorName">{{ siteStore.profile.authorName }}</p>
         </div>
       </div>
 
@@ -37,12 +37,12 @@
       <div class="left-content">
         <div class="hero-text">
           <h1>
-            <span class="line">{{ lang === 'zh' ? '创建您的' : 'Create Your' }}</span>
-            <span class="line highlight">{{ lang === 'zh' ? '知识库账号' : 'Account' }}</span>
-            <span class="line">{{ lang === 'zh' ? '开启学习之旅' : 'Start Learning' }}</span>
+            <span class="line">{{ lang === 'zh' ? '加入你的' : 'Join Your' }}</span>
+            <span class="line highlight">{{ lang === 'zh' ? '个人超级工作台' : 'Personal Workspace' }}</span>
+            <span class="line">{{ lang === 'zh' ? '把想法持续留下来' : 'Keep Ideas Moving' }}</span>
           </h1>
           <p class="hero-desc">
-            {{ lang === 'zh' ? '注册后可阅读文章、参与评论、收藏内容，构建属于您的知识体系。' : 'Register to read articles, comment, and build your knowledge base.' }}
+            {{ siteStore.siteDescription }}
           </p>
         </div>
 
@@ -60,16 +60,16 @@
 
         <div class="stats">
           <div class="stat-item">
-            <span class="stat-num">1000+</span>
-            <span class="stat-label">{{ lang === 'zh' ? '文章' : 'Articles' }}</span>
+            <span class="stat-num">{{ formatStat(publicStats.articleCount) }}</span>
+            <span class="stat-label">{{ lang === 'zh' ? '已发布文章' : 'Published articles' }}</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num">50+</span>
-            <span class="stat-label">{{ lang === 'zh' ? '分类' : 'Categories' }}</span>
+            <span class="stat-num">{{ formatStat(publicStats.categoryCount) }}</span>
+            <span class="stat-label">{{ lang === 'zh' ? '内容分类' : 'Categories' }}</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num">99%</span>
-            <span class="stat-label">{{ lang === 'zh' ? '可用性' : 'Uptime' }}</span>
+            <span class="stat-num">{{ formatStat(publicStats.tagCount) }}</span>
+            <span class="stat-label">{{ lang === 'zh' ? '内容标签' : 'Tags' }}</span>
           </div>
         </div>
       </div>
@@ -173,12 +173,16 @@ import { useAuthStore } from '@/stores/auth'
 import AuthSettings from '@/components/AuthSettings.vue'
 import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
+import { usePublicHomeStats } from '@/composables/usePublicHomeStats'
+import { useSiteStore } from '@/stores/site'
 
 const router = useRouter()
 const authStore = useAuthStore()
+const siteStore = useSiteStore()
 
 // 设置状态
 const { theme, lang, layout } = useAuthPageSettings()
+const { stats: publicStats, formatStat } = usePublicHomeStats()
 
 const form = reactive({ username: '', email: '', password: '', gender: undefined, applyAdmin: false, permissionRequestReason: '' })
 const submitting = ref(false)
@@ -207,10 +211,10 @@ const permissionReasonRules = computed(() => [
 ])
 
 const featureItems = computed(() => [
-  { icon: ReadOutlined, title: lang.value === 'zh' ? '知识阅读' : 'Reading', desc: lang.value === 'zh' ? '浏览技术文章' : 'Browse articles' },
-  { icon: CommentOutlined, title: lang.value === 'zh' ? '评论互动' : 'Comments', desc: lang.value === 'zh' ? '参与讨论交流' : 'Join discussions' },
-  { icon: StarOutlined, title: lang.value === 'zh' ? '内容收藏' : 'Favorites', desc: lang.value === 'zh' ? '收藏优质内容' : 'Save content' },
-  { icon: SafetyOutlined, title: lang.value === 'zh' ? '账号安全' : 'Security', desc: lang.value === 'zh' ? '数据安全保障' : 'Data protection' }
+  { icon: ReadOutlined, title: lang.value === 'zh' ? '知识阅读' : 'Reading', desc: lang.value === 'zh' ? '文章、目录与全文检索' : 'Articles, directories and search' },
+  { icon: CommentOutlined, title: lang.value === 'zh' ? '互动交流' : 'Discussion', desc: lang.value === 'zh' ? '评论、反馈与内容共建' : 'Comments, feedback and sharing' },
+  { icon: StarOutlined, title: lang.value === 'zh' ? '个人沉淀' : 'Personal Space', desc: lang.value === 'zh' ? '收藏、备忘与阅读记录' : 'Bookmarks, memos and history' },
+  { icon: SafetyOutlined, title: lang.value === 'zh' ? '安全账户' : 'Security', desc: lang.value === 'zh' ? '权限清晰，资料可控' : 'Clear access and control' }
 ])
 
 async function handleSubmit() {

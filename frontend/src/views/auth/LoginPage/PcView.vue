@@ -26,20 +26,20 @@
       <div class="brand-logo">
         <img class="logo-icon" src="/favicon.svg" alt="" aria-hidden="true">
         <div class="logo-text">
-          <h3>{{ lang === 'zh' ? '知识库' : 'Knowledge' }}</h3>
-          <p>Knowledge OS</p>
+          <h3>{{ siteStore.siteTitle }}</h3>
+          <p v-if="siteStore.profile.authorName">{{ siteStore.profile.authorName }}</p>
         </div>
       </div>
 
       <div class="left-content">
         <div class="hero-text">
           <h1>
-            <span class="line">{{ lang === 'zh' ? '面向长期维护的' : 'Long-term' }}</span>
-            <span class="line highlight">{{ lang === 'zh' ? '个人技术知识库' : 'Personal Tech' }}</span>
-            <span class="line">{{ lang === 'zh' ? '后台管理系统' : 'Knowledge Base' }}</span>
+            <span class="line">{{ lang === 'zh' ? '一个持续生长的' : 'A Growing' }}</span>
+            <span class="line highlight">{{ lang === 'zh' ? '个人超级工作台' : 'Personal Workspace' }}</span>
+            <span class="line">{{ lang === 'zh' ? '从知识到日常运营' : 'For Knowledge and Life' }}</span>
           </h1>
           <p class="hero-desc">
-            {{ lang === 'zh' ? '统一管理文章、媒体、评论与站点配置，高效构建个人知识体系。' : 'Manage articles, media, comments and site settings efficiently.' }}
+            {{ siteStore.siteDescription }}
           </p>
         </div>
 
@@ -57,16 +57,16 @@
 
         <div class="stats">
           <div class="stat-item">
-            <span class="stat-num">1000+</span>
-            <span class="stat-label">{{ lang === 'zh' ? '文章' : 'Articles' }}</span>
+            <span class="stat-num">{{ formatStat(publicStats.articleCount) }}</span>
+            <span class="stat-label">{{ lang === 'zh' ? '已发布文章' : 'Published articles' }}</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num">50+</span>
-            <span class="stat-label">{{ lang === 'zh' ? '分类' : 'Categories' }}</span>
+            <span class="stat-num">{{ formatStat(publicStats.categoryCount) }}</span>
+            <span class="stat-label">{{ lang === 'zh' ? '内容分类' : 'Categories' }}</span>
           </div>
           <div class="stat-item">
-            <span class="stat-num">99%</span>
-            <span class="stat-label">{{ lang === 'zh' ? '可用性' : 'Uptime' }}</span>
+            <span class="stat-num">{{ formatStat(publicStats.tagCount) }}</span>
+            <span class="stat-label">{{ lang === 'zh' ? '内容标签' : 'Tags' }}</span>
           </div>
         </div>
       </div>
@@ -153,12 +153,16 @@ import SiteBeianLinks from '@/components/SiteBeianLinks.vue'
 import AccountRecoveryModal from './AccountRecoveryModal.vue'
 import SocialLoginButtons from './SocialLoginButtons.vue'
 import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
+import { usePublicHomeStats } from '@/composables/usePublicHomeStats'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const siteStore = useSiteStore()
 
 const { theme, lang, layout } = useAuthPageSettings()
+const { stats: publicStats, formatStat } = usePublicHomeStats()
 
 // 计算页面类名
 const pageClasses = computed(() => [
@@ -183,10 +187,10 @@ const passwordRules = computed(() => [
 ])
 
 const featureItems = computed(() => [
-  { icon: FileTextOutlined, title: lang.value === 'zh' ? '内容发布' : 'Content', desc: lang.value === 'zh' ? '文章管理与发布' : 'Article management' },
-  { icon: AuditOutlined, title: lang.value === 'zh' ? '评论审核' : 'Comments', desc: lang.value === 'zh' ? '互动内容管理' : 'Interaction management' },
-  { icon: PictureOutlined, title: lang.value === 'zh' ? '媒体资产' : 'Media', desc: lang.value === 'zh' ? '图片文件管理' : 'File management' },
-  { icon: SettingOutlined, title: lang.value === 'zh' ? '站点运营' : 'Settings', desc: lang.value === 'zh' ? '配置数据分析' : 'Configuration' }
+  { icon: FileTextOutlined, title: lang.value === 'zh' ? '知识内容' : 'Knowledge', desc: lang.value === 'zh' ? '文章、目录与全文检索' : 'Articles, directories and search' },
+  { icon: AuditOutlined, title: lang.value === 'zh' ? '个人工作台' : 'Workspace', desc: lang.value === 'zh' ? '备忘、收藏与阅读进度' : 'Memos, bookmarks and reading' },
+  { icon: PictureOutlined, title: lang.value === 'zh' ? '媒体与资料' : 'Media', desc: lang.value === 'zh' ? '图片、附件与工作凭证' : 'Images, files and evidence' },
+  { icon: SettingOutlined, title: lang.value === 'zh' ? '站点运营' : 'Operations', desc: lang.value === 'zh' ? '评论、用户与系统配置' : 'Comments, users and settings' }
 ])
 
 function onCaptchaSuccess() {

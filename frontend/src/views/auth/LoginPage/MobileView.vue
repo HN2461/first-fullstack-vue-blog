@@ -4,7 +4,7 @@
       <div class="mobile-auth__topbar">
         <router-link class="mobile-auth__brand" to="/">
           <img src="/favicon.svg" alt="" aria-hidden="true">
-          <span>Knowledge OS</span>
+          <span>{{ siteStore.siteTitle }}</span>
         </router-link>
         <AuthSettings
           v-model:theme="theme"
@@ -75,10 +75,12 @@ import AccountRecoveryModal from './AccountRecoveryModal.vue'
 import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 import SocialLoginButtons from './SocialLoginButtons.vue'
 import { useAuthStore } from '@/stores/auth'
+import { useSiteStore } from '@/stores/site'
 
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const siteStore = useSiteStore()
 const { theme, lang, layout } = useAuthPageSettings()
 const form = reactive({ email: '', password: '', remember: false })
 const submitting = ref(false)

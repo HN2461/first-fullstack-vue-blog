@@ -1,6 +1,6 @@
 <template>
   <div class="site-beian-links" :class="`site-beian-links--${tone}`">
-    <span v-if="showCopyright" class="site-beian-links__copy">© 2026 Knowledge OS</span>
+    <span v-if="showCopyright" class="site-beian-links__copy">© {{ currentYear }} {{ siteStore.siteTitle }}</span>
     <a
       class="site-beian-links__link"
       href="https://beian.miit.gov.cn/"
@@ -23,6 +23,12 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useSiteStore } from '@/stores/site'
+
+const siteStore = useSiteStore()
+const currentYear = computed(() => new Date().getFullYear())
+
 defineProps({
   showCopyright: {
     type: Boolean,
