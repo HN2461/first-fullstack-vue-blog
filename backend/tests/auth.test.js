@@ -525,6 +525,7 @@ describe('auth routes', () => {
       .expect(200)
 
     expect(meResponse.body.data.closeSiteEntranceEffect).toBe(false)
+    expect(meResponse.body.data.closeMajorFestivalEffect).toBe(false)
     expect(meResponse.body.data.articleAuthorCardEnabled).toBe(false)
 
     const profileResponse = await request(app)
@@ -532,11 +533,13 @@ describe('auth routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         closeSiteEntranceEffect: true,
+        closeMajorFestivalEffect: true,
         articleAuthorCardEnabled: true
       })
       .expect(200)
 
     expect(profileResponse.body.data.closeSiteEntranceEffect).toBe(true)
+    expect(profileResponse.body.data.closeMajorFestivalEffect).toBe(true)
     expect(profileResponse.body.data.articleAuthorCardEnabled).toBe(true)
 
     const updatedMeResponse = await request(app)
@@ -545,6 +548,7 @@ describe('auth routes', () => {
       .expect(200)
 
     expect(updatedMeResponse.body.data.closeSiteEntranceEffect).toBe(true)
+    expect(updatedMeResponse.body.data.closeMajorFestivalEffect).toBe(true)
     expect(updatedMeResponse.body.data.articleAuthorCardEnabled).toBe(true)
   })
 })

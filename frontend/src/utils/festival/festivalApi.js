@@ -43,3 +43,23 @@ export function normalizeCalendar(calendar = {}) {
     history: (calendar.history || []).map(normalize)
   }
 }
+
+/**
+ * Selects the single festival used for a day's automatic atmosphere and celebration.
+ * Site broadcast anniversaries keep their configured greeting when they share a date
+ * with a legal holiday; ordinary calendar entries remain available in the countdown.
+ */
+export function selectPrimaryFestival(items = []) {
+  return items
+    .filter((item) => item?.isHoliday || item?.level === 'major')
+    .sort((left, right) => {
+      const priority = (item) => {
+        if (item.type === 'system-broadcast' && item.level === 'major') return 0
+        if (item.isHoliday) return 1
+        if (item.level === 'major') return 2
+        return 3
+      }
+      return priority(left) - priority(right) || String(left.date || '').localeCompare(String(right.date || ''))
+    })
+    .at(0) || null
+}

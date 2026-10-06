@@ -14,6 +14,7 @@ export const EFFECT_PRIORITIES = Object.freeze({
   birthday: 100,
   personalEntrance: 80,
   siteWelcome: 70,
+  announcement: 60,
   majorFestival: 40
 })
 

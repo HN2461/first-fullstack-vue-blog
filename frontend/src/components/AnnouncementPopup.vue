@@ -40,6 +40,7 @@ import { LinkOutlined } from '@ant-design/icons-vue'
 import { useNotificationStore } from '@/stores/notification'
 import { useAuthStore } from '@/stores/auth'
 import AnnouncementContent from '@/components/announcement/AnnouncementContent.vue'
+import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
 const notificationStore = useNotificationStore()
 const authStore = useAuthStore()
@@ -50,6 +51,9 @@ const queue = ref([])
 
 let pollTimer = null
 let firstCheckTimer = null
+let announcementEffectFinish = null
+let announcementEffectPending = false
+let destroyed = false
 const POPUP_POLL_INTERVAL = 600000
 const POPUP_REFRESH_EVENT = 'announcement-popup-refresh'
 
@@ -105,7 +109,7 @@ function markShown(announcement) {
 }
 
 async function checkPopupAnnouncements() {
-  if (!authStore.isLoggedIn || visible.value) return
+  if (!authStore.isLoggedIn || visible.value || announcementEffectPending || queue.value.length > 0) return
 
   try {
     await notificationStore.fetchPopupAnnouncements()
@@ -114,7 +118,7 @@ async function checkPopupAnnouncements() {
 
     if (popups.length > 0) {
       queue.value = [...popups]
-      showNext()
+      enqueueAnnouncementEffect()
     }
   } catch {
     // 静默失败
@@ -133,20 +137,55 @@ function showNext() {
   visible.value = true
 }
 
+function enqueueAnnouncementEffect() {
+  if (announcementEffectPending || queue.value.length === 0) return
+  announcementEffectPending = true
+  enqueueEffect({
+    id: `announcement:${queue.value[0].id}`,
+    priority: EFFECT_PRIORITIES.announcement,
+    start: (finish) => {
+      announcementEffectPending = false
+      announcementEffectFinish = finish
+      showNext()
+
+      return () => {
+        if (destroyed) return
+        // 欢迎或生日效果抢占公告时，把未完成的公告放回本地队列，待阻塞效果结束后继续。
+        if (currentAnnouncement.value) {
+          queue.value.unshift(currentAnnouncement.value)
+          currentAnnouncement.value = null
+        }
+        visible.value = false
+        announcementEffectFinish = null
+        announcementEffectPending = false
+        enqueueAnnouncementEffect()
+      }
+    }
+  })
+}
+
 async function handleClose() {
-  if (currentAnnouncement.value) {
-    await notificationStore.markRead(currentAnnouncement.value.id)
+  const announcement = currentAnnouncement.value
+  if (announcement) {
+    try {
+      await notificationStore.markRead(announcement.id)
+    } catch {
+      // 已读同步失败不阻塞本地公告队列的继续展示。
+    }
   }
 
   if (queue.value.length > 0) {
+    currentAnnouncement.value = null
     showNext()
   } else {
     visible.value = false
     currentAnnouncement.value = null
+    announcementEffectFinish?.()
   }
 }
 
 onMounted(() => {
+  destroyed = false
   // 公告属于正式通知，但自动弹出仍应低打扰；当天已弹过的公告由通知中心承接后续查看。
   firstCheckTimer = setTimeout(checkPopupAnnouncements, 5000)
 
@@ -155,9 +194,13 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  destroyed = true
   if (firstCheckTimer) clearTimeout(firstCheckTimer)
   if (pollTimer) clearInterval(pollTimer)
   window.removeEventListener(POPUP_REFRESH_EVENT, checkPopupAnnouncements)
+  announcementEffectFinish?.()
+  announcementEffectFinish = null
+  announcementEffectPending = false
 })
 </script>
 

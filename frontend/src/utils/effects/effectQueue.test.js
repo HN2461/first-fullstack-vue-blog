@@ -74,4 +74,41 @@ describe('effect queue', () => {
       'festival:start'
     ])
   })
+
+  it('keeps announcements ahead of festival celebrations without overtaking welcome effects', async () => {
+    const events = []
+    let finishWelcome
+    let finishAnnouncement
+
+    enqueueEffect({
+      id: 'welcome',
+      priority: EFFECT_PRIORITIES.siteWelcome,
+      start: (finish) => {
+        events.push('welcome:start')
+        finishWelcome = finish
+      }
+    })
+    const announcement = enqueueEffect({
+      id: 'announcement',
+      priority: EFFECT_PRIORITIES.announcement,
+      start: (finish) => {
+        events.push('announcement:start')
+        finishAnnouncement = finish
+      }
+    })
+    const festival = enqueueEffect({
+      id: 'festival',
+      priority: EFFECT_PRIORITIES.majorFestival,
+      start: (finish) => {
+        events.push('festival:start')
+        finish()
+      }
+    })
+
+    finishWelcome()
+    expect(events).toEqual(['welcome:start', 'announcement:start'])
+    finishAnnouncement()
+    await Promise.all([announcement, festival])
+    expect(events).toEqual(['welcome:start', 'announcement:start', 'festival:start'])
+  })
 })

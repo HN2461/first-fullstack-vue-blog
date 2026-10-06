@@ -40,7 +40,7 @@ import {
   getEffectStorageKey,
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
-import { loadFestivalCalendar } from '@/utils/festival/festivalApi'
+import { loadFestivalCalendar, selectPrimaryFestival } from '@/utils/festival/festivalApi'
 import { playFestivalConfetti } from '@/utils/festival/confettiPlayer'
 import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
@@ -146,7 +146,7 @@ async function loadFestivalState() {
   const state = await getPublicFestivalEffectState()
   serverDate.value = state.serverDate || getTodayKeyFromServer(state.serverTime)
   const calendar = await loadFestivalCalendar(serverDate.value)
-  activeFestival.value = calendar.today.find((item) => item.isHoliday || item.level === 'major') || null
+  activeFestival.value = selectPrimaryFestival(calendar.today)
 
   if (
     activeFestival.value?.daysUntil === 0 &&

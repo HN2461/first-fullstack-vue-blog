@@ -163,6 +163,7 @@ router.get('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
     birthday: safeUser.birthday,
     birthdayCalendar: safeUser.birthdayCalendar,
     closeBirthEffect: safeUser.closeBirthEffect,
+    closeMajorFestivalEffect: safeUser.closeMajorFestivalEffect,
     lastBirthEffectDate: safeUser.lastBirthEffectDate,
     isBirthdayToday,
     shouldShowBirthEffect: isBirthdayToday && !safeUser.closeBirthEffect && safeUser.lastBirthEffectDate !== today,

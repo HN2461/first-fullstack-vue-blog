@@ -25,7 +25,6 @@ import { useSiteStore } from '@/stores/site'
 import EntranceEffectPlayer from './EntranceEffectPlayer.vue'
 import SiteEntranceWelcome from './SiteEntranceWelcome.vue'
 import { normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
-import { readEntranceEffectCache } from '@/utils/entranceEffects/entranceEffectStorage'
 import {
   normalizeSiteEntranceEffectConfig,
   renderSiteEntranceTitle
@@ -53,7 +52,7 @@ let effectFinish = null
 let siteFinish = null
 
 const userConfig = computed(() => {
-  const config = authStore.user?.entranceEffect || readEntranceEffectCache()
+  const config = authStore.user?.entranceEffect
   return config ? normalizeEntranceEffectConfig(config) : null
 })
 const siteConfig = computed(() => normalizeSiteEntranceEffectConfig(siteStore.profile?.siteEntranceEffect))

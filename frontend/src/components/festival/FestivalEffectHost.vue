@@ -64,7 +64,7 @@ import {
   getSolarSummary,
   getTodayKeyFromServer
 } from '@/utils/festival/festivalCalendar'
-import { loadFestivalCalendar, normalizeCalendar } from '@/utils/festival/festivalApi'
+import { loadFestivalCalendar, normalizeCalendar, selectPrimaryFestival } from '@/utils/festival/festivalApi'
 import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/confettiPlayer'
 import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
@@ -107,7 +107,7 @@ const celebrationStyle = computed(() => ({
 const rootFestivalClass = computed(() => activeFestival.value ? `festival-${activeFestival.value.effect}` : '')
 
 function isFestivalEnabled() {
-  return localStorage.getItem(festivalEnabledKey.value) === 'on'
+  return localStorage.getItem(festivalEnabledKey.value) !== 'off'
 }
 
 function closeFestivalForDevice() {
@@ -203,7 +203,7 @@ async function loadFestivalState() {
     birthdayCalendar: state.birthdayCalendar || 'solar'
   }
   const calendar = normalizeCalendar(state.calendar || await loadFestivalCalendar(serverDate.value))
-  activeFestival.value = calendar.today.find((item) => item.isHoliday || item.level === 'major') || null
+  activeFestival.value = selectPrimaryFestival(calendar.today)
   festivalEnabled.value = isFestivalEnabled()
   // 先保留当前年度完整数据，再由弹框内部滚动展示，避免生日等较晚节日被前置截断。
   const birthdaySchedule = getFestivalSchedule(serverDate.value, Number.POSITIVE_INFINITY, birthdayOptions).filter((item) => item.type === 'birthday')
@@ -221,11 +221,11 @@ async function loadFestivalState() {
     }
   }
 
-  // 重大节日提醒遵循个人资料中的网站入场欢迎屏蔽开关，并按日期和节日键每天只自动展示一次。
+  // 重大节日提醒使用独立偏好，不再复用管理员配置的网站入场欢迎开关。
   const majorFestival = activeFestival.value && activeFestival.value.daysUntil === 0
     ? activeFestival.value
     : null
-  if (majorFestival && !authStore.user?.closeSiteEntranceEffect && !hasShownCelebration(majorFestival.key)) {
+  if (majorFestival && !authStore.user?.closeMajorFestivalEffect && !hasShownCelebration(majorFestival.key)) {
     openCelebration(majorFestival)
   }
 }
@@ -280,7 +280,8 @@ watch(() => [
   authStore.user?.birthday,
   authStore.user?.birthdayCalendar,
   authStore.user?.personalDates,
-  authStore.user?.closeBirthEffect
+  authStore.user?.closeBirthEffect,
+  authStore.user?.closeMajorFestivalEffect
 ], () => {
   if (!authStore.ready || !authStore.isLoggedIn) return
   initialized = false

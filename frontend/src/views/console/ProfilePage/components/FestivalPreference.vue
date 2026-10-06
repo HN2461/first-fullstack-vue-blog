@@ -1,8 +1,8 @@
 <template>
-  <div class="site-entrance-preference">
+  <div class="festival-preference">
     <div>
-      <strong>网站入场欢迎</strong>
-      <span>关闭屏蔽后，会接收管理员设置的网站入场欢迎。个人页面动效开启时，个人效果优先展示。</span>
+      <strong>重大节日提醒</strong>
+      <span>控制生日以外的重大节日庆祝弹框；节日氛围仍可在控制台顶部单独开关。</span>
     </div>
     <a-switch
       :checked="value"
@@ -25,7 +25,7 @@ defineEmits(['update:value'])
 </script>
 
 <style scoped>
-.site-entrance-preference {
+.festival-preference {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -37,25 +37,25 @@ defineEmits(['update:value'])
   background: var(--console-surface-muted);
 }
 
-.site-entrance-preference > div {
+.festival-preference > div {
   display: grid;
   gap: 4px;
   min-width: 0;
 }
 
-.site-entrance-preference strong {
+.festival-preference strong {
   color: var(--console-text);
   font-size: 14px;
 }
 
-.site-entrance-preference span {
+.festival-preference span {
   color: var(--console-text-secondary);
   font-size: 12px;
   line-height: 1.6;
 }
 
 @media (max-width: 640px) {
-  .site-entrance-preference {
+  .festival-preference {
     align-items: flex-start;
     flex-direction: column;
   }

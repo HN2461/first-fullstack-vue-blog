@@ -49,6 +49,7 @@ export const profileUpdateSchema = z.object({
   personalDates: z.array(personalDateSchema).max(30, '个人日期最多设置 30 条').optional(),
   closeBirthEffect: z.boolean({ invalid_type_error: '生日特效开关必须是布尔值' }).optional(),
   closeSiteEntranceEffect: z.boolean({ invalid_type_error: '网站入场欢迎屏蔽开关必须是布尔值' }).optional(),
+  closeMajorFestivalEffect: z.boolean({ invalid_type_error: '重大节日提醒开关必须是布尔值' }).optional(),
   consoleTabsEnabled: z.boolean({ invalid_type_error: '多标签页开关必须是布尔值' }).optional(),
   articleAuthorCardEnabled: z.boolean({ invalid_type_error: '文章阅读底栏开关必须是布尔值' }).optional(),
   themePreference: z.enum(['default', 'light', 'dark'], {

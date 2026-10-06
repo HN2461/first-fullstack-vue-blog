@@ -242,7 +242,7 @@ echo "[20/20] Remove expired rollback copies"
 PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
 find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
   | sort -z -nr \
-  | tail -z -n +5 \
+  | tail -z -n +3 \
   | cut -z -d' ' -f2- \
   | xargs -0 -r rm -rf --
 PROJECT_BYTES_AFTER=$(du -sb /www/personal-blog | awk '{print $1}')

@@ -226,6 +226,7 @@
             <WorkspaceTabsPreference v-model="profileForm.consoleTabsEnabled" />
             <EntranceEffectSettings v-model:value="profileForm.entranceEffect" />
             <SiteEntrancePreference v-model:value="profileForm.closeSiteEntranceEffect" />
+            <FestivalPreference v-model:value="profileForm.closeMajorFestivalEffect" />
             <ArticleAuthorPreference v-model="profileForm.articleAuthorCardEnabled" />
             <a-form-item>
               <a-button type="primary" html-type="submit" :loading="saving">
@@ -528,6 +529,7 @@ import {
 import AvatarCropper from '@/components/AvatarCropper.vue'
 import EntranceEffectSettings from './components/EntranceEffectSettings.vue'
 import SiteEntrancePreference from './components/SiteEntrancePreference.vue'
+import FestivalPreference from './components/FestivalPreference.vue'
 import BirthdayPreference from './components/BirthdayPreference.vue'
 import PersonalDateSettings from './components/PersonalDateSettings.vue'
 import WorkspaceTabsPreference from './components/WorkspaceTabsPreference.vue'
@@ -535,7 +537,6 @@ import ArticleAuthorPreference from './components/ArticleAuthorPreference.vue'
 import ThemePreference from './components/ThemePreference.vue'
 import GenderPreference from './components/GenderPreference.vue'
 import { DEFAULT_ENTRANCE_EFFECT, normalizeEntranceEffectConfig } from '@/utils/entranceEffects/effectCatalog'
-import { cacheEntranceEffectConfig } from '@/utils/entranceEffects/entranceEffectStorage'
 import { getUserAvatar, normalizeGender } from '@/utils/avatar'
 
 const authStore = useAuthStore()
@@ -588,6 +589,7 @@ const profileForm = reactive({
   closeBirthEffect: false,
   personalDates: [],
   closeSiteEntranceEffect: false,
+  closeMajorFestivalEffect: false,
   consoleTabsEnabled: true,
   articleAuthorCardEnabled: false,
   themePreference: 'default',
@@ -729,6 +731,7 @@ function syncProfileForm(user = {}) {
   profileForm.closeBirthEffect = Boolean(user.closeBirthEffect)
   profileForm.personalDates = Array.isArray(user.personalDates) ? user.personalDates.map((item) => ({ ...item })) : []
   profileForm.closeSiteEntranceEffect = Boolean(user.closeSiteEntranceEffect)
+  profileForm.closeMajorFestivalEffect = Boolean(user.closeMajorFestivalEffect)
   profileForm.consoleTabsEnabled = user.consoleTabsEnabled !== false
   profileForm.articleAuthorCardEnabled = user.articleAuthorCardEnabled === true
   profileForm.themePreference = ['light', 'dark'].includes(user.themePreference) ? user.themePreference : 'default'
@@ -820,6 +823,7 @@ async function handleSaveProfile() {
       closeBirthEffect: profileForm.closeBirthEffect,
       personalDates: profileForm.personalDates,
       closeSiteEntranceEffect: profileForm.closeSiteEntranceEffect,
+      closeMajorFestivalEffect: profileForm.closeMajorFestivalEffect,
       consoleTabsEnabled: profileForm.consoleTabsEnabled,
       articleAuthorCardEnabled: profileForm.articleAuthorCardEnabled,
       themePreference: profileForm.themePreference,
@@ -827,7 +831,6 @@ async function handleSaveProfile() {
     })
     authStore.user = { ...authStore.user, ...result }
     appStore.syncUserThemePreference(authStore.user)
-    cacheEntranceEffectConfig(result.entranceEffect)
     syncProfileForm(result)
     message.success('个人资料更新成功')
   } catch (error) {

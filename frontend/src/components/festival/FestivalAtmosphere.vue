@@ -9,7 +9,7 @@
         <span class="festival-ribbon__meta">{{ activeFestival.displayName || activeFestival.name }}</span>
         <a-tooltip title="关闭本端节日氛围">
           <button class="festival-ribbon__close" type="button" aria-label="关闭节日氛围" @click="$emit('close')">
-            ×
+            <X :size="14" :stroke-width="2" aria-hidden="true" />
           </button>
         </a-tooltip>
       </div>
@@ -29,6 +29,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { X } from 'lucide-vue-next'
 import FestivalIcon from './FestivalIcon.vue'
 import { getParticleItems } from '@/utils/festival/festivalCalendar'
 
@@ -69,7 +70,7 @@ const festivalStyle = computed(() => ({
   border: 1px solid color-mix(in srgb, var(--festival-accent) 28%, transparent);
   border-radius: 8px;
   background: color-mix(in srgb, var(--festival-tint) 80%, var(--console-surface));
-  box-shadow: 0 8px 20px rgba(16, 24, 40, 0.1);
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.1);
   color: var(--console-text);
   opacity: 0.92;
   transition: opacity 0.2s ease, box-shadow 0.2s ease;
@@ -105,6 +106,9 @@ const festivalStyle = computed(() => ({
   background: transparent;
   color: var(--console-text-secondary);
   cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
 }
 
 .festival-ribbon__close:hover {
@@ -116,8 +120,11 @@ const festivalStyle = computed(() => ({
   position: absolute;
   top: -32px;
   font-size: 15px;
-  opacity: 0.32;
+  color: var(--festival-accent);
+  opacity: 0.24;
+  text-shadow: 0 1px 8px color-mix(in srgb, var(--festival-accent) 26%, transparent);
   animation: festivalFall linear infinite;
+  will-change: transform;
 }
 
 @keyframes festivalFall {
@@ -139,6 +146,16 @@ const festivalStyle = computed(() => ({
 
   .festival-ribbon__meta {
     max-width: 108px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .festival-particles {
+    display: none;
+  }
+
+  .festival-ribbon {
+    transition: none;
   }
 }
 </style>

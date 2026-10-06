@@ -73,6 +73,10 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
+    closeMajorFestivalEffect: {
+      type: Boolean,
+      default: false
+    },
     consoleTabsEnabled: {
       type: Boolean,
       default: true
@@ -220,6 +224,7 @@ userSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     birthdayCalendar: this.birthdayCalendar || 'solar',
     closeBirthEffect: !!this.closeBirthEffect,
     closeSiteEntranceEffect: !!this.closeSiteEntranceEffect,
+    closeMajorFestivalEffect: !!this.closeMajorFestivalEffect,
     // 兼容字段上线前的存量用户：只有明确保存 false 时才关闭标签页。
     consoleTabsEnabled: this.consoleTabsEnabled !== false,
     // 复用原作者栏字段保存登录用户的文章阅读底栏偏好，存量用户默认隐藏整块底栏。

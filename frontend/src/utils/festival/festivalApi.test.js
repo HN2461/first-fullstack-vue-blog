@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { access } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { normalizeCalendar } from './festivalApi'
+import { normalizeCalendar, selectPrimaryFestival } from './festivalApi'
 import { getFestivalVisual } from './festivalCatalog'
 
 describe('festival calendar server data', () => {
@@ -24,6 +24,22 @@ describe('festival calendar server data', () => {
       displaySource: '系统广播纪念日',
       text: '愿每一次记录都有回响。',
       visibilityLabel: '全站公开'
+    })
+  })
+
+  it('keeps a major site broadcast greeting when it shares a date with a legal holiday', () => {
+    const calendar = normalizeCalendar({
+      today: [
+        { name: '国庆节', date: '2026-10-06', type: 'legal-holiday', isHoliday: true, isMajor: true },
+        { name: '网站纪念日', date: '2026-10-06', type: 'system-broadcast', isMajor: true, greeting: '感谢你一直在这里。' }
+      ],
+      upcoming: [],
+      history: []
+    })
+
+    expect(selectPrimaryFestival(calendar.today)).toMatchObject({
+      type: 'system-broadcast',
+      text: '感谢你一直在这里。'
     })
   })
 
