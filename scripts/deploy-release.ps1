@@ -1,6 +1,7 @@
 param(
   [switch]$SkipChecks,
   [switch]$SkipPackage,
+  [switch]$RunDatabaseTasks,
   [switch]$ResetBookmarkData,
   [switch]$ClearQuestionBankHistory
 )
@@ -67,6 +68,7 @@ $backendZip = Join-Path $root 'release\backend-release.zip'
 $env:DEPLOY_PROJECT_ROOT = $root.Path
 $env:DEPLOY_RESET_BOOKMARK_DATA = $(if ($ResetBookmarkData) { '1' } else { '0' })
 $env:DEPLOY_CLEAR_QUESTION_BANK_HISTORY = $(if ($ClearQuestionBankHistory) { '1' } else { '0' })
+$env:DEPLOY_RUN_DATABASE_TASKS = $(if ($RunDatabaseTasks) { '1' } else { '0' })
 
 if (-not (Test-Path -LiteralPath $frontendZip) -or -not (Test-Path -LiteralPath $backendZip)) {
   throw '未找到发布包，请先执行 scripts/package-release.ps1。'
@@ -133,44 +135,7 @@ echo "[5/20] Install backend dependencies"
 cd /www/personal-blog/backend
 npm install --omit=dev
 
-echo "[5b/20] Ensure work journal indexes"
-npm run work-journal:indexes:apply
-npm run work-journal:indexes:verify
-
-echo "[5c/20] Migrate legacy work journal evidence into media assets"
-npm run work-journal:media-migrate -- --apply
-
-echo "[6/20] Preview media category ownership migration"
-npm run media-categories:dry-run
-
-echo "[7/20] Apply and verify media category ownership migration"
-npm run media-categories:apply
-npm run media-categories:verify
-
-echo "[7b/20] Reconcile saved article content images"
-npm run article-media-bindings:dry-run
-npm run article-media-bindings:apply
-npm run article-media-bindings:dry-run
-
-echo "[8/20] Ensure reading progress indexes"
-npm run reading-progress:indexes:apply
-npm run reading-progress:indexes:verify
-
-echo "[9/20] Ensure article share indexes"
-npm run article-share:indexes:apply
-npm run article-share:indexes:verify
-
-echo "[9b/20] Ensure site profile and first deployment anniversary"
-npm run site-profile:dry-run
-npm run site-profile:apply
-npm run site-profile:dry-run
-
-echo "[10/20] Seed question bank"
-npm run question-bank:seed:apply
-
-echo "[11/20] Configure menu page cache"
-npm run menu:page-cache:apply
-npm run menu:page-cache:dry-run
+__DATABASE_TASKS__
 
 echo "[12/20] Optional question bank history cleanup"
 __QUESTION_BANK_HISTORY_STEP__
@@ -258,6 +223,46 @@ bookmark_reset_step = 'npm run bookmark:reset:apply' if reset_bookmark_data else
 script = script.replace('__BOOKMARK_RESET_STEP__', bookmark_reset_step)
 question_bank_history_step = 'npm run question-bank:history:clear:apply' if clear_question_bank_history else "echo 'Question bank history cleanup skipped'"
 script = script.replace('__QUESTION_BANK_HISTORY_STEP__', question_bank_history_step)
+run_database_tasks = os.environ.get('DEPLOY_RUN_DATABASE_TASKS') == '1'
+database_steps = r'''echo "[5b/11] Ensure work journal indexes"
+npm run work-journal:indexes:apply
+npm run work-journal:indexes:verify
+
+echo "[5c/11] Migrate legacy work journal evidence into media assets"
+npm run work-journal:media-migrate -- --apply
+
+echo "[6/11] Preview and apply media category ownership migration"
+npm run media-categories:dry-run
+npm run media-categories:apply
+npm run media-categories:verify
+
+echo "[7/11] Reconcile saved article content images"
+npm run article-media-bindings:dry-run
+npm run article-media-bindings:apply
+npm run article-media-bindings:dry-run
+
+echo "[8/11] Ensure reading progress indexes"
+npm run reading-progress:indexes:apply
+npm run reading-progress:indexes:verify
+
+echo "[9/11] Ensure article share indexes"
+npm run article-share:indexes:apply
+npm run article-share:indexes:verify
+
+echo "[9b/11] Ensure site profile and first deployment anniversary"
+npm run site-profile:dry-run
+npm run site-profile:apply
+npm run site-profile:dry-run
+
+echo "[10/11] Seed question bank"
+npm run question-bank:seed:apply
+
+echo "[11/11] Configure menu page cache"
+npm run menu:page-cache:apply
+npm run menu:page-cache:dry-run'''
+if not run_database_tasks:
+    database_steps = "echo 'Database tasks skipped; use -RunDatabaseTasks for migrations and idempotent seed operations'"
+script = script.replace('__DATABASE_TASKS__', database_steps)
 
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
