@@ -1,14 +1,33 @@
 $ErrorActionPreference = 'Stop'
 
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
-$extensions = @('*.js', '*.vue', '*.json', '*.md', '*.css', '*.html', '*.env', '*.example')
-$files = foreach ($extension in $extensions) {
-  Get-ChildItem -LiteralPath $root -Recurse -File -Filter $extension |
-    Where-Object {
-      $_.FullName -notmatch '\\node_modules\\' -and
-      $_.FullName -notmatch '\\dist\\' -and
-      $_.FullName -notmatch '\\coverage\\'
-    }
+$extensions = @(
+  '.js', '.cjs', '.mjs', '.ts', '.tsx', '.jsx', '.vue',
+  '.json', '.md', '.css', '.html', '.env', '.example',
+  '.ps1', '.sh', '.yaml', '.yml', '.toml', '.xml', '.properties', '.sql'
+)
+
+# 只扫描 Git 工作集中的相关文本文件，避免把 uploads、backups、构建产物和历史临时目录
+# 每次都递归读一遍。--others 让尚未提交的新文件也会被检查，--exclude-standard 遵循 .gitignore。
+$trackedPaths = & git -C $root.Path ls-files --cached --others --exclude-standard
+if ($LASTEXITCODE -ne 0) {
+  throw '无法读取 Git 工作集，编码检查未执行。'
+}
+
+$files = foreach ($relativePath in $trackedPaths) {
+  if ([string]::IsNullOrWhiteSpace($relativePath)) {
+    continue
+  }
+
+  $extension = [System.IO.Path]::GetExtension($relativePath).ToLowerInvariant()
+  if ($extensions -notcontains $extension) {
+    continue
+  }
+
+  $absolutePath = Join-Path $root.Path $relativePath
+  if (Test-Path -LiteralPath $absolutePath -PathType Leaf) {
+    Get-Item -LiteralPath $absolutePath
+  }
 }
 
 $bomFiles = @()

@@ -1,3 +1,8 @@
+param(
+  [ValidateSet('full', 'backend', 'frontend')]
+  [string]$Target = 'full'
+)
+
 $ErrorActionPreference = 'Stop'
 
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
@@ -7,6 +12,8 @@ $releaseDir = Join-Path $root 'release'
 $backendStageDir = Join-Path $releaseDir 'backend-release'
 $frontendZip = Join-Path $releaseDir 'frontend-dist.zip'
 $backendZip = Join-Path $releaseDir 'backend-release.zip'
+$includeFrontend = $Target -in @('full', 'frontend')
+$includeBackend = $Target -in @('full', 'backend')
 
 function Copy-RequiredItem {
   param(
@@ -43,51 +50,58 @@ function Assert-ExcludedPathMissing {
   }
 }
 
-if (-not (Test-Path -LiteralPath (Join-Path $frontendDir 'dist\index.html'))) {
+if ($includeFrontend -and -not (Test-Path -LiteralPath (Join-Path $frontendDir 'dist\index.html'))) {
   throw "未找到 frontend/dist/index.html。请先执行：cd frontend; npm run build"
 }
 
-$frontendIndex = Get-Item -LiteralPath (Join-Path $frontendDir 'dist\index.html')
-$staleFrontendAssets = Get-ChildItem -LiteralPath (Join-Path $frontendDir 'dist\assets') -File |
-  Where-Object {
-    $_.Extension -in @('.js', '.css') -and
-    $_.LastWriteTimeUtc -lt $frontendIndex.LastWriteTimeUtc.AddMinutes(-2)
+if ($includeFrontend) {
+  $frontendIndex = Get-Item -LiteralPath (Join-Path $frontendDir 'dist\index.html')
+  $staleFrontendAssets = Get-ChildItem -LiteralPath (Join-Path $frontendDir 'dist\assets') -File |
+    Where-Object {
+      $_.Extension -in @('.js', '.css') -and
+      $_.LastWriteTimeUtc -lt $frontendIndex.LastWriteTimeUtc.AddMinutes(-2)
+    }
+  if ($staleFrontendAssets) {
+    $staleNames = ($staleFrontendAssets | Select-Object -First 5 -ExpandProperty Name) -join '、'
+    throw "检测到旧前端构建分块（$staleNames）。请删除 frontend/dist 后重新执行 npm run build，禁止混合发布多次构建产物。"
   }
-if ($staleFrontendAssets) {
-  $staleNames = ($staleFrontendAssets | Select-Object -First 5 -ExpandProperty Name) -join '、'
-  throw "检测到旧前端构建分块（$staleNames）。请删除 frontend/dist 后重新执行 npm run build，禁止混合发布多次构建产物。"
 }
 
 Remove-Item -LiteralPath $releaseDir -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path $releaseDir | Out-Null
 New-Item -ItemType Directory -Path $backendStageDir | Out-Null
 
-Write-Host '正在打包前端发布包...'
-Compress-Archive -Path (Join-Path $frontendDir 'dist\*') -DestinationPath $frontendZip -Force
+if ($includeFrontend) {
+  Write-Host "正在打包前端发布包（目标：$Target）..."
+  Compress-Archive -Path (Join-Path $frontendDir 'dist\*') -DestinationPath $frontendZip -Force
+}
 
-Write-Host '正在准备后端发布暂存目录...'
-Copy-RequiredItem -Source (Join-Path $backendDir 'package.json') -Destination $backendStageDir
-Copy-RequiredItem -Source (Join-Path $backendDir 'package-lock.json') -Destination $backendStageDir
-Copy-RequiredItem -Source (Join-Path $backendDir 'ecosystem.config.cjs') -Destination $backendStageDir
-Copy-RequiredItem -Source (Join-Path $backendDir 'src') -Destination (Join-Path $backendStageDir 'src')
+if ($includeBackend) {
+  Write-Host "正在准备后端发布暂存目录（目标：$Target）..."
+  Copy-RequiredItem -Source (Join-Path $backendDir 'package.json') -Destination $backendStageDir
+  Copy-RequiredItem -Source (Join-Path $backendDir 'package-lock.json') -Destination $backendStageDir
+  Copy-RequiredItem -Source (Join-Path $backendDir 'ecosystem.config.cjs') -Destination $backendStageDir
+  Copy-RequiredItem -Source (Join-Path $backendDir 'src') -Destination (Join-Path $backendStageDir 'src')
 
-Copy-OptionalItem -Source (Join-Path $backendDir '.env.example') -Destination $backendStageDir
-Copy-OptionalItem -Source (Join-Path $backendDir 'README.md') -Destination $backendStageDir
-Copy-OptionalItem -Source (Join-Path $backendDir 'vitest.config.js') -Destination $backendStageDir
-Copy-OptionalItem -Source (Join-Path $backendDir 'tests') -Destination (Join-Path $backendStageDir 'tests')
-Remove-Item -LiteralPath (Join-Path $backendStageDir 'tests\.tmp') -Recurse -Force -ErrorAction SilentlyContinue
+  Copy-OptionalItem -Source (Join-Path $backendDir '.env.example') -Destination $backendStageDir
+  Copy-OptionalItem -Source (Join-Path $backendDir 'README.md') -Destination $backendStageDir
+  Copy-OptionalItem -Source (Join-Path $backendDir 'vitest.config.js') -Destination $backendStageDir
+  Copy-OptionalItem -Source (Join-Path $backendDir 'tests') -Destination (Join-Path $backendStageDir 'tests')
+  Remove-Item -LiteralPath (Join-Path $backendStageDir 'tests\.tmp') -Recurse -Force -ErrorAction SilentlyContinue
 
-Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir '.env') -Name '.env'
-Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'node_modules') -Name 'node_modules'
-Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'uploads') -Name 'uploads'
-Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'tests\.tmp') -Name 'tests/.tmp'
+  Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir '.env') -Name '.env'
+  Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'node_modules') -Name 'node_modules'
+  Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'uploads') -Name 'uploads'
+  Assert-ExcludedPathMissing -Path (Join-Path $backendStageDir 'tests\.tmp') -Name 'tests/.tmp'
 
-Write-Host '正在打包后端发布包...'
-Compress-Archive -Path (Join-Path $backendStageDir '*') -DestinationPath $backendZip -Force
-Remove-Item -LiteralPath $backendStageDir -Recurse -Force
+  Write-Host '正在打包后端发布包...'
+  Compress-Archive -Path (Join-Path $backendStageDir '*') -DestinationPath $backendZip -Force
+}
+
+Remove-Item -LiteralPath $backendStageDir -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host ''
 Write-Host '发布包生成完成：'
-Get-Item -LiteralPath $frontendZip, $backendZip | Select-Object FullName, Length, LastWriteTime | Format-Table -AutoSize
+Get-ChildItem -LiteralPath $releaseDir -File -Filter '*.zip' | Select-Object FullName, Length, LastWriteTime | Format-Table -AutoSize
 Write-Host ''
 Write-Host '上传到服务器目录：/www/personal-blog/backups/'

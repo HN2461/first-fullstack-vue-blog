@@ -189,9 +189,17 @@
 - 服务器生产 `.env` 必须由服务器独立维护，本地 `.env` 不得进入发布包，也不得覆盖服务器 `.env`。
 - 线上上传文件属于运行数据，不能通过本地发布包覆盖。
 
+## 发布目标与验证分层
+
+- `scripts/deploy-release.ps1` 支持 `-Target full|backend|frontend`；普通问题修复必须按实际变更范围选择目标，避免无关前端构建、后端测试、发布包上传和服务重启。
+- `-Target backend` 只发布后端，保留线上前端静态文件和上传目录；`-Target frontend` 只发布前端静态文件，不安装后端依赖、不重启 PM2。
+- `-RunDatabaseTasks` 只允许在确认存在数据库索引、权限种子、历史数据回填或迁移需求时使用；backend/full 发布默认只备份数据库，不执行数据库写入任务；frontend-only 发布不访问数据库。
+- `scripts/check-encoding.ps1` 应优先扫描 Git 工作集中的源码、配置和文档，遵循 `.gitignore`，不得因扫描历史备份、上传目录或构建产物拖慢日常发布。
+- `-SkipChecks` 只用于已经单独完成等价验证、且需要复用现有发布包的发布；不得作为普通问题修复的默认提速方式。
+
 ## 数据库发布与迁移规则
 
-- 数据库发布默认不是整库覆盖；普通发布只做 MongoDB 备份，不迁移、不恢复。
+- 数据库发布默认不是整库覆盖；backend/full 发布只做 MongoDB 备份，不迁移、不恢复；纯 frontend 发布不访问数据库。
 - 发布前必须先判断 `backend/src/models`、`backend/src/services`、`backend/src/scripts`、`backend/src/validators`、`backend/src/constants` 是否存在数据结构、枚举、权限、关联关系变化。
 - 需要迁移数据库时，优先新增一次性脚本到 `backend/src/scripts`，脚本默认 dry-run，只有传入 `--apply` 才允许写库。
 - 迁移脚本必须先明确筛选范围、打印影响数量，并在发布前确认已有 `mongodump` 备份。

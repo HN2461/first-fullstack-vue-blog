@@ -1,4 +1,7 @@
 param(
+  [ValidateSet('full', 'backend', 'frontend')]
+  [string]$Target = 'full',
+  [string[]]$BackendTestFiles = @(),
   [switch]$SkipChecks,
   [switch]$SkipPackage,
   [switch]$RunDatabaseTasks,
@@ -9,6 +12,15 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $root = Resolve-Path (Join-Path $PSScriptRoot '..')
+$includeFrontend = $Target -in @('full', 'frontend')
+$includeBackend = $Target -in @('full', 'backend')
+
+if (($RunDatabaseTasks -or $ResetBookmarkData -or $ClearQuestionBankHistory) -and -not $includeBackend) {
+  throw '数据库任务、书签重置和题库历史清理必须和 backend 或 full 发布目标一起使用。'
+}
+if ($BackendTestFiles.Count -gt 0 -and -not $includeBackend) {
+  throw '-BackendTestFiles 只能与 backend 或 full 发布目标一起使用。'
+}
 $localConfig = Join-Path $PSScriptRoot 'deploy.local.ps1'
 
 if (Test-Path -LiteralPath $localConfig) {
@@ -31,25 +43,42 @@ function Invoke-Step {
 }
 
 if (-not $SkipChecks) {
-  Invoke-Step -Title '前端构建' -Action {
-    if (Test-Path -LiteralPath (Join-Path $root 'frontend\dist')) {
-      Remove-Item -LiteralPath (Join-Path $root 'frontend\dist') -Recurse -Force
+  if ($includeFrontend) {
+    Invoke-Step -Title '前端构建' -Action {
+      if (Test-Path -LiteralPath (Join-Path $root 'frontend\dist')) {
+        Remove-Item -LiteralPath (Join-Path $root 'frontend\dist') -Recurse -Force
+      }
+      Push-Location (Join-Path $root 'frontend')
+      try {
+        npm run build
+      } finally {
+        Pop-Location
+      }
     }
-    Push-Location (Join-Path $root 'frontend')
-    try {
-      npm run build
-    } finally {
-      Pop-Location
-    }
+  } else {
+    Write-Host '跳过前端构建：当前发布目标为 backend。'
   }
 
-  Invoke-Step -Title '后端测试' -Action {
-    Push-Location (Join-Path $root 'backend')
-    try {
-      npm run test
-    } finally {
-      Pop-Location
+  if ($includeBackend) {
+    Invoke-Step -Title '后端测试' -Action {
+      Push-Location (Join-Path $root 'backend')
+      try {
+        if ($BackendTestFiles.Count -gt 0) {
+          foreach ($testFile in $BackendTestFiles) {
+            if (-not (Test-Path -LiteralPath (Join-Path (Get-Location) $testFile))) {
+              throw "指定的后端测试文件不存在：$testFile"
+            }
+          }
+          npm run test -- --run @BackendTestFiles
+        } else {
+          npm run test
+        }
+      } finally {
+        Pop-Location
+      }
     }
+  } else {
+    Write-Host '跳过后端测试：当前发布目标为 frontend。'
   }
 
   Invoke-Step -Title '编码检查' -Action {
@@ -59,19 +88,21 @@ if (-not $SkipChecks) {
 
 if (-not $SkipPackage) {
   Invoke-Step -Title '生成发布包' -Action {
-    & (Join-Path $root 'scripts\package-release.ps1')
+    & (Join-Path $root 'scripts\package-release.ps1') -Target $Target
   }
 }
 
 $frontendZip = Join-Path $root 'release\frontend-dist.zip'
 $backendZip = Join-Path $root 'release\backend-release.zip'
 $env:DEPLOY_PROJECT_ROOT = $root.Path
+$env:DEPLOY_TARGET = $Target
 $env:DEPLOY_RESET_BOOKMARK_DATA = $(if ($ResetBookmarkData) { '1' } else { '0' })
 $env:DEPLOY_CLEAR_QUESTION_BANK_HISTORY = $(if ($ClearQuestionBankHistory) { '1' } else { '0' })
 $env:DEPLOY_RUN_DATABASE_TASKS = $(if ($RunDatabaseTasks) { '1' } else { '0' })
 
-if (-not (Test-Path -LiteralPath $frontendZip) -or -not (Test-Path -LiteralPath $backendZip)) {
-  throw '未找到发布包，请先执行 scripts/package-release.ps1。'
+if (($includeFrontend -and -not (Test-Path -LiteralPath $frontendZip)) -or
+    ($includeBackend -and -not (Test-Path -LiteralPath $backendZip))) {
+  throw "未找到 $Target 发布目标所需的发布包，请先执行 scripts/package-release.ps1 -Target $Target。"
 }
 
 Invoke-Step -Title '上传并部署到服务器' -Action {
@@ -85,55 +116,92 @@ host = os.environ['DEPLOY_HOST']
 user = os.environ['DEPLOY_USER']
 password = os.environ['DEPLOY_PASSWORD']
 root = os.environ['DEPLOY_PROJECT_ROOT']
+target = os.environ.get('DEPLOY_TARGET', 'full')
+publish_frontend = target in ('full', 'frontend')
+publish_backend = target in ('full', 'backend')
 reset_bookmark_data = os.environ.get('DEPLOY_RESET_BOOKMARK_DATA') == '1'
 clear_question_bank_history = os.environ.get('DEPLOY_CLEAR_QUESTION_BANK_HISTORY') == '1'
+run_database_tasks = publish_backend and os.environ.get('DEPLOY_RUN_DATABASE_TASKS') == '1'
 
-local_files = [
-    (os.path.join(root, 'release', 'frontend-dist.zip'), '/www/personal-blog/backups/frontend-dist.zip'),
-    (os.path.join(root, 'release', 'backend-release.zip'), '/www/personal-blog/backups/backend-release.zip'),
-]
+local_files = []
+if publish_frontend:
+    local_files.append((os.path.join(root, 'release', 'frontend-dist.zip'), '/www/personal-blog/backups/frontend-dist.zip'))
+if publish_backend:
+    local_files.append((os.path.join(root, 'release', 'backend-release.zip'), '/www/personal-blog/backups/backend-release.zip'))
 
 script = r"""set -euo pipefail
 
 RELEASE_DIR=/www/personal-blog/backups/release-$(date +%Y%m%d-%H%M%S)
 mkdir -p "$RELEASE_DIR"
+PUBLISH_FRONTEND=__PUBLISH_FRONTEND__
+PUBLISH_BACKEND=__PUBLISH_BACKEND__
+BACKUP_RUNTIME_DATA=__BACKUP_RUNTIME_DATA__
 echo "RELEASE_DIR=$RELEASE_DIR"
 
-echo "[1/20] MongoDB backup"
-mongodump --uri="mongodb://127.0.0.1:27017/personal_fullstack_blog" --out="$RELEASE_DIR/mongodb-before"
-test -d "$RELEASE_DIR/mongodb-before/personal_fullstack_blog"
+if [ "$PUBLISH_BACKEND" = "1" ]; then
+  echo "[1/20] MongoDB backup"
+  mongodump --uri="mongodb://127.0.0.1:27017/personal_fullstack_blog" --out="$RELEASE_DIR/mongodb-before"
+  test -d "$RELEASE_DIR/mongodb-before/personal_fullstack_blog"
+else
+  echo "[1/20] MongoDB backup skipped; frontend-only deployment cannot modify the database"
+fi
 
 echo "[2/20] File backups"
-cp -a /www/personal-blog/frontend "$RELEASE_DIR/frontend-before"
-cp -a /www/personal-blog/backend "$RELEASE_DIR/backend-before"
-cp -a /www/personal-blog/uploads "$RELEASE_DIR/uploads-before"
-if [ -d /www/personal-blog/work-journal-private ]; then
-  cp -a /www/personal-blog/work-journal-private "$RELEASE_DIR/work-journal-private-before"
-else
-  mkdir -p "$RELEASE_DIR/work-journal-private-before"
+if [ "$PUBLISH_FRONTEND" = "1" ]; then
+  cp -a /www/personal-blog/frontend "$RELEASE_DIR/frontend-before"
 fi
-test -f /www/personal-blog/backend/.env
-cp /www/personal-blog/backend/.env "$RELEASE_DIR/backend.env.before-release"
-test -f /etc/nginx/conf.d/personal-blog.conf
-cp /etc/nginx/conf.d/personal-blog.conf "$RELEASE_DIR/personal-blog.nginx.before-release.conf"
+if [ "$BACKUP_RUNTIME_DATA" = "1" ]; then
+  cp -a /www/personal-blog/uploads "$RELEASE_DIR/uploads-before"
+  if [ -d /www/personal-blog/work-journal-private ]; then
+    cp -a /www/personal-blog/work-journal-private "$RELEASE_DIR/work-journal-private-before"
+  else
+    mkdir -p "$RELEASE_DIR/work-journal-private-before"
+  fi
+fi
+if [ "$PUBLISH_BACKEND" = "1" ]; then
+  test -f /www/personal-blog/backend/.env
+  cp /www/personal-blog/backend/.env "$RELEASE_DIR/backend.env.before-release"
+fi
+if [ "$PUBLISH_BACKEND" = "1" ]; then
+  test -f /etc/nginx/conf.d/personal-blog.conf
+  cp /etc/nginx/conf.d/personal-blog.conf "$RELEASE_DIR/personal-blog.nginx.before-release.conf"
+fi
 
-echo "[3/20] Verify frontend release archive"
-unzip -tq /www/personal-blog/backups/frontend-dist.zip >/dev/null
+if [ "$PUBLISH_FRONTEND" = "1" ]; then
+  echo "[3/20] Verify frontend release archive"
+  unzip -tq /www/personal-blog/backups/frontend-dist.zip >/dev/null
+fi
 
-echo "[4/20] Publish backend"
-OLD_BACKEND=/www/personal-blog/backend_old_$(date +%Y%m%d_%H%M%S)
-mv /www/personal-blog/backend "$OLD_BACKEND"
-mkdir -p /www/personal-blog/backend
-unzip -oq /www/personal-blog/backups/backend-release.zip -d /www/personal-blog/backend
-cp "$RELEASE_DIR/backend.env.before-release" /www/personal-blog/backend/.env
-chmod 600 /www/personal-blog/backend/.env
-test -f /www/personal-blog/backend/package.json
+if [ "$PUBLISH_BACKEND" = "1" ]; then
+  echo "[4/20] Publish backend"
+  unzip -tq /www/personal-blog/backups/backend-release.zip >/dev/null
+  BACKEND_BEFORE="$RELEASE_DIR/backend-before"
+  mv /www/personal-blog/backend "$BACKEND_BEFORE"
+  rollback_backend() {
+    code=$?
+    if [ "$code" -ne 0 ] && [ -d "$BACKEND_BEFORE" ]; then
+      echo "Backend deployment failed; restoring the previous backend"
+      pm2 delete personal-blog-api >/dev/null 2>&1 || true
+      rm -rf /www/personal-blog/backend
+      mv "$BACKEND_BEFORE" /www/personal-blog/backend
+      (cd /www/personal-blog/backend && pm2 startOrReload ecosystem.config.cjs --update-env)
+    fi
+    exit "$code"
+  }
+  trap rollback_backend EXIT
+  mkdir -p /www/personal-blog/backend
+  unzip -oq /www/personal-blog/backups/backend-release.zip -d /www/personal-blog/backend
+  cp "$RELEASE_DIR/backend.env.before-release" /www/personal-blog/backend/.env
+  chmod 600 /www/personal-blog/backend/.env
+  test -f /www/personal-blog/backend/package.json
+  echo "BACKEND_BEFORE=$BACKEND_BEFORE"
+fi
 
-echo "OLD_BACKEND=$OLD_BACKEND"
-
-echo "[5/20] Install backend dependencies"
-cd /www/personal-blog/backend
-npm install --omit=dev
+if [ "$PUBLISH_BACKEND" = "1" ]; then
+  echo "[5/20] Install backend dependencies"
+  cd /www/personal-blog/backend
+  npm install --omit=dev --no-audit --no-fund
+fi
 
 __DATABASE_TASKS__
 
@@ -143,7 +211,62 @@ __QUESTION_BANK_HISTORY_STEP__
 echo "[13/20] Optional bookmark data reset"
 __BOOKMARK_RESET_STEP__
 
-echo "[14/20] Enable streaming request proxy for large uploads"
+__NGINX_SETUP__
+
+if [ "$PUBLISH_BACKEND" = "1" ]; then
+  echo "[15/20] Start or reload PM2"
+  pm2 startOrReload ecosystem.config.cjs --update-env
+
+  echo "[16/20] PM2 status"
+  pm2 jlist | node -e "let s=''; process.stdin.on('data',d=>s+=d); process.stdin.on('end',()=>{const apps=JSON.parse(s); const app=apps.find(a=>a.name==='personal-blog-api'); if(!app){console.error('PM2 app missing'); process.exit(2)} const status={name:app.name,status:app.pm2_env.status,restarts:app.pm2_env.restart_time,pid:app.pid,maxMemoryRestart:app.pm2_env.max_memory_restart}; console.log(JSON.stringify(status, null, 2)); if(app.pm2_env.status!=='online') process.exit(3); if(Number(app.pm2_env.max_memory_restart)!==536870912){console.error('PM2 memory restart threshold missing');process.exit(5)}})"
+
+  echo "[17/20] Local health"
+  for i in 1 2 3 4 5; do
+    if curl -fsS http://127.0.0.1:3001/api/health; then echo; break; fi
+    sleep 2
+    if [ "$i" = "5" ]; then exit 4; fi
+  done
+  trap - EXIT
+fi
+
+if [ "$PUBLISH_FRONTEND" = "1" ]; then
+  echo "[18/20] Publish frontend"
+  rm -rf /www/personal-blog/frontend/*
+  unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
+  test -f /www/personal-blog/frontend/index.html
+fi
+
+__POST_DATABASE_CHECKS__
+
+echo "[20/20] Remove expired rollback copies"
+PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
+find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
+  | sort -z -nr \
+  | tail -z -n +5 \
+  | cut -z -d' ' -f2- \
+  | xargs -0 -r rm -rf --
+PROJECT_BYTES_AFTER=$(du -sb /www/personal-blog | awk '{print $1}')
+echo "CLEANUP_BYTES=$((PROJECT_BYTES_BEFORE - PROJECT_BYTES_AFTER))"
+echo "RETAINED_RELEASES"
+find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
+echo "[20/20] Finalize deployment and sizes"
+if [ "$PUBLISH_BACKEND" = "1" ]; then
+  pm2 save
+  nginx -T 2>&1 | grep -A12 'location = /api/admin/media {'
+fi
+ls -lh /www/personal-blog/frontend/index.html /www/personal-blog/backend/package.json
+df -h /www
+echo "DONE_RELEASE_DIR=$RELEASE_DIR"
+"""
+
+bookmark_reset_step = 'npm run bookmark:reset:apply' if reset_bookmark_data else "echo 'Bookmark reset skipped'"
+script = script.replace('__BOOKMARK_RESET_STEP__', bookmark_reset_step)
+question_bank_history_step = 'npm run question-bank:history:clear:apply' if clear_question_bank_history else "echo 'Question bank history cleanup skipped'"
+script = script.replace('__QUESTION_BANK_HISTORY_STEP__', question_bank_history_step)
+script = script.replace('__PUBLISH_FRONTEND__', '1' if publish_frontend else '0')
+script = script.replace('__PUBLISH_BACKEND__', '1' if publish_backend else '0')
+script = script.replace('__BACKUP_RUNTIME_DATA__', '1' if run_database_tasks else '0')
+nginx_setup = r"""echo "[14/20] Ensure large upload proxy configuration"
 python3 - <<'PY'
 from pathlib import Path
 
@@ -169,61 +292,10 @@ if 'location = /api/admin/media {' not in content:
     path.write_text(content.replace(marker, location + marker, 1), encoding='utf-8')
 PY
 nginx -t
-systemctl reload nginx
-
-echo "[15/20] Start or reload PM2"
-pm2 startOrReload ecosystem.config.cjs --update-env
-
-echo "[16/20] PM2 status"
-pm2 jlist | node -e "let s=''; process.stdin.on('data',d=>s+=d); process.stdin.on('end',()=>{const apps=JSON.parse(s); const app=apps.find(a=>a.name==='personal-blog-api'); if(!app){console.error('PM2 app missing'); process.exit(2)} const status={name:app.name,status:app.pm2_env.status,restarts:app.pm2_env.restart_time,pid:app.pid,maxMemoryRestart:app.pm2_env.max_memory_restart}; console.log(JSON.stringify(status, null, 2)); if(app.pm2_env.status!=='online') process.exit(3); if(Number(app.pm2_env.max_memory_restart)!==536870912){console.error('PM2 memory restart threshold missing');process.exit(5)}})"
-
-echo "[17/20] Local health"
-for i in 1 2 3 4 5; do
-  if curl -fsS http://127.0.0.1:3001/api/health; then echo; break; fi
-  sleep 2
-  if [ "$i" = "5" ]; then exit 4; fi
-done
-
-echo "[18/20] Publish frontend"
-rm -rf /www/personal-blog/frontend/*
-unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
-test -f /www/personal-blog/frontend/index.html
-
-echo "[19/20] Verify idempotent data operations"
-npm run question-bank:seed
-npm run media-categories:verify
-
-echo "[20/20] Remove expired rollback copies"
-PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
-find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
-  | sort -z -nr \
-  | tail -z -n +5 \
-  | cut -z -d' ' -f2- \
-  | xargs -0 -r rm -rf --
-# 发布成功后，RELEASE_DIR 已保留 backend-before 和 .env，可承担后端回滚。
-# backend_old_* 仅供发布过程中应急使用，成功后继续保留会形成重复备份。
-find /www/personal-blog -mindepth 1 -maxdepth 1 -type d -name 'backend_old_*' -print0 \
-  | xargs -0 -r rm -rf --
-PROJECT_BYTES_AFTER=$(du -sb /www/personal-blog | awk '{print $1}')
-echo "CLEANUP_BYTES=$((PROJECT_BYTES_BEFORE - PROJECT_BYTES_AFTER))"
-echo "RETAINED_RELEASES"
-find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
-echo "RETAINED_OLD_BACKENDS"
-find /www/personal-blog -mindepth 1 -maxdepth 1 -type d -name 'backend_old_*' -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
-
-echo "[20/20] Save PM2 and sizes"
-pm2 save
-nginx -T 2>&1 | grep -A12 'location = /api/admin/media {'
-ls -lh /www/personal-blog/frontend/index.html /www/personal-blog/backend/package.json /www/personal-blog/backups/frontend-dist.zip /www/personal-blog/backups/backend-release.zip
-df -h /www
-echo "DONE_RELEASE_DIR=$RELEASE_DIR"
-"""
-
-bookmark_reset_step = 'npm run bookmark:reset:apply' if reset_bookmark_data else "echo 'Bookmark reset skipped'"
-script = script.replace('__BOOKMARK_RESET_STEP__', bookmark_reset_step)
-question_bank_history_step = 'npm run question-bank:history:clear:apply' if clear_question_bank_history else "echo 'Question bank history cleanup skipped'"
-script = script.replace('__QUESTION_BANK_HISTORY_STEP__', question_bank_history_step)
-run_database_tasks = os.environ.get('DEPLOY_RUN_DATABASE_TASKS') == '1'
+systemctl reload nginx"""
+if not publish_backend:
+    nginx_setup = "echo 'Nginx configuration unchanged; backend was not published'"
+script = script.replace('__NGINX_SETUP__', nginx_setup)
 database_steps = r'''echo "[5b/11] Ensure work journal indexes"
 npm run work-journal:indexes:apply
 npm run work-journal:indexes:verify
@@ -263,6 +335,12 @@ npm run menu:page-cache:dry-run'''
 if not run_database_tasks:
     database_steps = "echo 'Database tasks skipped; use -RunDatabaseTasks for migrations and idempotent seed operations'"
 script = script.replace('__DATABASE_TASKS__', database_steps)
+post_database_checks = r'''echo "[19/20] Verify idempotent data operations"
+npm run question-bank:seed
+npm run media-categories:verify'''
+if not run_database_tasks:
+    post_database_checks = "echo 'Post-deploy database verification skipped; database tasks were not requested'"
+script = script.replace('__POST_DATABASE_CHECKS__', post_database_checks)
 
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -276,7 +354,7 @@ try:
     finally:
         sftp.close()
 
-    stdin, stdout, stderr = client.exec_command('bash -se', get_pty=False, timeout=300)
+    stdin, stdout, stderr = client.exec_command('bash -se', get_pty=False, timeout=1800)
     stdin.write(script)
     stdin.channel.shutdown_write()
 
