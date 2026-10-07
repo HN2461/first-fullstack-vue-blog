@@ -111,4 +111,30 @@ describe('effect queue', () => {
     await Promise.all([announcement, festival])
     expect(events).toEqual(['welcome:start', 'announcement:start', 'festival:start'])
   })
+
+  it('replaces a queued or active preview instead of accumulating repeated effects', async () => {
+    const events = []
+
+    const first = enqueueEffect({
+      id: 'festival:first',
+      priority: EFFECT_PRIORITIES.manual,
+      replaceKey: 'festival-preview',
+      start: () => {
+        events.push('first:start')
+        return () => events.push('first:stop')
+      }
+    })
+    const second = enqueueEffect({
+      id: 'festival:second',
+      priority: EFFECT_PRIORITIES.manual,
+      replaceKey: 'festival-preview',
+      start: (finish) => {
+        events.push('second:start')
+        finish()
+      }
+    })
+
+    await Promise.all([first, second])
+    expect(events).toEqual(['first:start', 'first:stop', 'second:start'])
+  })
 })

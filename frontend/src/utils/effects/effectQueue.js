@@ -43,12 +43,22 @@ function pump() {
  * Serializes blocking effects. A higher-priority effect preempts a lower one
  * so birthday reminders cannot wait behind a welcome animation.
  */
-export function enqueueEffect({ id, priority = 0, start }) {
+export function enqueueEffect({ id, priority = 0, start, replaceKey = '' }) {
   return new Promise((resolve) => {
-    const item = { id, type: id, priority, start, resolve, sequence: sequence += 1 }
+    const item = { id, type: id, priority, start, resolve, replaceKey, sequence: sequence += 1 }
+
+    // 手动预览类效果只保留最后一次选择，避免快速点击把多个彩带动画堆在队列里。
+    if (replaceKey) {
+      for (let index = queue.length - 1; index >= 0; index -= 1) {
+        if (queue[index].replaceKey !== replaceKey) continue
+        queue[index].resolve()
+        queue.splice(index, 1)
+      }
+    }
+
     queue.push(item)
 
-    if (active && priority > active.item.priority) {
+    if (active && (priority > active.item.priority || (replaceKey && active.item.replaceKey === replaceKey))) {
       active.finish()
       return
     }

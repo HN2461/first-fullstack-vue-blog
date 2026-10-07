@@ -261,15 +261,17 @@ export function getDeviceType(isMobile) {
 export function getParticleItems(festival, isMobile) {
   const items = festival?.particle || ['✨']
   const profile = festival?.atmosphere || getFestivalAtmosphereProfile(festival)
-  const amount = isMobile ? 0 : profile.particleCount
-  const lanes = ['3%', '7%', '11%', '15%', '20%', '80%', '85%', '89%', '93%', '97%']
+  // 粒子从全宽进入视口；移动端减少密度但保留氛围，避免只在左右两侧出现。
+  const amount = isMobile
+    ? Math.max(5, Math.round(profile.particleCount * 0.55))
+    : Math.max(10, Math.round(profile.particleCount * 1.25))
   return Array.from({ length: amount }, (_, index) => ({
     id: `${festival?.key || 'festival'}-${index}`,
     text: items[index % items.length],
-    left: lanes[index % lanes.length],
-    delay: `${(index % 7) * 0.9}s`,
+    left: `${4 + ((index * 37) % 92)}%`,
+    delay: `${-((index % 11) * 1.7)}s`,
     duration: `${profile.duration + (index % 5) * 1.5}s`,
-    size: `${14 + (index % 4) * 2}px`,
+    size: `${15 + (index % 5) * 2}px`,
     drift: `${profile.drift + (index % 4) * 6}px`,
     rotation: `${index % 2 === 0 ? 1 : -1}`
   }))

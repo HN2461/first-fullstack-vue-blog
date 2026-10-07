@@ -1,6 +1,7 @@
 import { getFestivalAtmosphereProfile } from './festivalCatalog'
 
 let confettiModulePromise = null
+let playbackVersion = 0
 
 async function loadConfetti() {
   if (!confettiModulePromise) {
@@ -16,6 +17,10 @@ function makeShapes(confetti, emojis, scalar) {
 export async function playFestivalConfetti(festival, options = {}) {
   if (typeof window === 'undefined' || !festival) return
   const confetti = await loadConfetti()
+  const version = ++playbackVersion
+  // canvas-confetti 会把粒子挂在同一个全局 canvas 上；新预览开始前先清理旧实例，
+  // 否则连续点击节日会让多个动画同时存在并持续占用主线程。
+  confetti.reset?.()
   const isMobile = Boolean(options.isMobile)
   const profile = getFestivalAtmosphereProfile(festival)
   const scalar = isMobile ? 1.05 : 1.35
@@ -38,10 +43,13 @@ export async function playFestivalConfetti(festival, options = {}) {
     origin: { y: 0.35 },
     disableForReducedMotion: true
   })
+  if (version !== playbackVersion) return
 }
 
 export async function playBirthdayConfetti(isMobile = false) {
   const confetti = await loadConfetti()
+  const version = ++playbackVersion
+  confetti.reset?.()
   const count = isMobile ? 42 : 90
   const defaults = {
     particleCount: Math.round(count / 3),
@@ -57,4 +65,5 @@ export async function playBirthdayConfetti(isMobile = false) {
     confetti({ ...defaults, origin: { x: 0.5, y: 0.35 }, shapes: makeShapes(confetti, ['🎂', '💗'], isMobile ? 1.3 : 1.7) }),
     confetti({ ...defaults, origin: { x: 0.8, y: 0.45 }, colors: ['#f97316', '#fbbf24', '#34d399'] })
   ])
+  if (version !== playbackVersion) return
 }

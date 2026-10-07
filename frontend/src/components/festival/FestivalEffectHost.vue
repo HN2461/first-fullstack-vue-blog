@@ -1,6 +1,6 @@
 <template>
   <FestivalAtmosphere
-    :active-festival="activeFestival"
+    :active-festival="displayFestival"
     :is-mobile="appStore.isMobile"
     :visible="atmosphereVisible"
     @close="closeFestivalForDevice"
@@ -35,6 +35,7 @@
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
       <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
+      <small class="festival-celebration__effect">{{ getCelebrationEffectLabel(celebrationFestival) }}</small>
       <div class="festival-celebration__actions">
         <a-button @click="celebrationOpen = false">关闭本次</a-button>
         <a-button v-if="celebrationFestival.type === 'birthday'" danger @click="closeBirthdayForever">
@@ -83,14 +84,18 @@ const festivalEnabled = ref(false)
 const closedKey = ref('')
 const appliedFestivalClass = ref('')
 const countdownTargetReady = ref(false)
+const manualPreviewActive = ref(false)
 let initialized = false
 let activeCelebrationFinish = null
+let celebrationEffectToken = 0
 
 const device = computed(() => getDeviceType(appStore.isMobile))
 const userId = computed(() => authStore.user?.id || 'guest')
 const festivalEnabledKey = computed(() => getEffectStorageKey(device.value, userId.value, 'enabled'))
 const celebrationKey = computed(() => getEffectStorageKey(device.value, userId.value, `${serverDate.value}:celebration`))
+const displayFestival = computed(() => celebrationFestival.value || activeFestival.value)
 const atmosphereVisible = computed(() => {
+  if (celebrationOpen.value && displayFestival.value && (festivalEnabled.value || manualPreviewActive.value)) return true
   return Boolean(
     // 普通节日/节气也支持由用户在倒计时面板手动打开；重点节日只影响自动庆祝弹窗。
     activeFestival.value &&
@@ -104,7 +109,7 @@ const celebrationStyle = computed(() => ({
   '--festival-accent': celebrationFestival.value?.accent || '#2563eb',
   '--festival-tint': celebrationFestival.value?.tint || '#eff6ff'
 }))
-const rootFestivalClass = computed(() => activeFestival.value ? `festival-${activeFestival.value.effect}` : '')
+const rootFestivalClass = computed(() => displayFestival.value ? `festival-${displayFestival.value.effect}` : '')
 
 function isFestivalEnabled() {
   return localStorage.getItem(festivalEnabledKey.value) !== 'off'
@@ -141,16 +146,20 @@ function hasShownCelebration(key) {
   return localStorage.getItem(celebrationKey.value) === key
 }
 
-function openCelebration(festival, autoMark = true) {
+function openCelebration(festival, autoMark = true, manualPreview = false) {
   if (!festival) return
   enqueueEffect({
     id: `${festival.type === 'birthday' ? 'birthday' : 'festival'}:${festival.key}:${festival.date}`,
-    priority: festival.type === 'birthday' ? EFFECT_PRIORITIES.birthday : EFFECT_PRIORITIES.majorFestival,
+    priority: manualPreview
+      ? EFFECT_PRIORITIES.manual
+      : festival.type === 'birthday' ? EFFECT_PRIORITIES.birthday : EFFECT_PRIORITIES.majorFestival,
+    replaceKey: manualPreview ? 'festival-preview' : '',
     start: (finish) => {
       let cancelled = false
       activeCelebrationFinish = finish
       celebrationFestival.value = festival
       celebrationOpen.value = true
+      manualPreviewActive.value = manualPreview
       if (autoMark) markCelebrationShown(festival.key)
 
       const closeTimer = window.setTimeout(() => {
@@ -164,6 +173,7 @@ function openCelebration(festival, autoMark = true) {
         window.clearTimeout(closeTimer)
         celebrationOpen.value = false
         celebrationFestival.value = null
+        manualPreviewActive.value = false
         activeCelebrationFinish = null
       }
     }
@@ -171,16 +181,28 @@ function openCelebration(festival, autoMark = true) {
 }
 
 async function handleCelebrationVisibleChange(visible) {
-  if (!visible || !celebrationFestival.value) return
-  if (celebrationFestival.value.type === 'birthday') {
-    await playBirthdayConfetti(appStore.isMobile)
-    return
-  }
-  await playFestivalConfetti(celebrationFestival.value, { isMobile: appStore.isMobile })
+  if (!visible) celebrationEffectToken += 1
 }
 
 function openScheduleFestival(item) {
-  openCelebration(item, false)
+  openCelebration(item, false, true)
+}
+
+function getCelebrationEffectLabel(festival) {
+  const labels = {
+    lantern: '灯笼灯串', 'night-fire': '新年火花', moon: '月影微光', starfield: '星河闪烁',
+    radiant: '节庆光芒', spark: '暖色火花', river: '水波流光', drizzle: '清明细雨',
+    snow: '冰雪微光', autumn: '秋叶暖光', breeze: '春风绿意', petal: '花瓣轻舞',
+    balloon: '彩色气球', candle: '烛光追思'
+  }
+  return `对应氛围：${labels[festival?.atmosphere?.theme] || '节日微光'}`
+}
+
+async function playCelebrationEffect(festival) {
+  const token = ++celebrationEffectToken
+  if (festival.type === 'birthday') await playBirthdayConfetti(appStore.isMobile)
+  else await playFestivalConfetti(festival, { isMobile: appStore.isMobile })
+  if (token !== celebrationEffectToken) return
 }
 
 async function closeBirthdayForever() {
@@ -276,6 +298,10 @@ watch(celebrationOpen, (visible) => {
   finish?.()
 })
 
+watch([celebrationOpen, celebrationFestival], ([visible, festival]) => {
+  if (visible && festival) playCelebrationEffect(festival)
+})
+
 watch(() => [
   authStore.user?.birthday,
   authStore.user?.birthdayCalendar,
@@ -341,6 +367,12 @@ onUnmounted(() => {
 .festival-celebration span {
   color: var(--console-text-secondary);
   font-size: 13px;
+}
+
+.festival-celebration__effect {
+  color: var(--festival-accent);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .festival-celebration__icon .festival-icon {

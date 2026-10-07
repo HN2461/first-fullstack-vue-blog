@@ -1,6 +1,6 @@
 <template>
   <FestivalAtmosphere
-    :active-festival="activeFestival"
+    :active-festival="displayFestival"
     :is-mobile="appStore.isMobile"
     :visible="atmosphereVisible"
     @close="closeFestivalForDevice"
@@ -21,6 +21,7 @@
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
       <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
+      <small class="public-festival-celebration__effect">{{ getCelebrationEffectLabel(celebrationFestival) }}</small>
       <a-button @click="celebrationOpen = false">知道了</a-button>
     </div>
   </a-modal>
@@ -55,13 +56,16 @@ const closedKey = ref('')
 const appliedFestivalClass = ref('')
 let initialized = false
 let activeCelebrationFinish = null
+let celebrationEffectToken = 0
 
 const isConsoleRoute = computed(() => route.path.startsWith('/console'))
 const device = computed(() => getDeviceType(appStore.isMobile))
 const festivalEnabledKey = computed(() => getEffectStorageKey(device.value, 'public', 'enabled'))
 const celebrationKey = computed(() => getEffectStorageKey(device.value, 'public', `${serverDate.value}:celebration`))
 const celebrationQuietKey = computed(() => getEffectStorageKey(device.value, 'public', 'celebration-quiet-until'))
+const displayFestival = computed(() => celebrationFestival.value || activeFestival.value)
 const atmosphereVisible = computed(() => {
+  if (celebrationOpen.value && displayFestival.value && isFestivalEnabled()) return true
   return Boolean(
     !isConsoleRoute.value &&
     activeFestival.value?.level === 'major' &&
@@ -75,7 +79,7 @@ const celebrationStyle = computed(() => ({
   '--festival-accent': celebrationFestival.value?.accent || '#2563eb',
   '--festival-tint': celebrationFestival.value?.tint || '#eff6ff'
 }))
-const rootFestivalClass = computed(() => activeFestival.value ? `festival-${activeFestival.value.effect}` : '')
+const rootFestivalClass = computed(() => displayFestival.value ? `festival-${displayFestival.value.effect}` : '')
 
 function isFestivalEnabled() {
   return localStorage.getItem(festivalEnabledKey.value) !== 'off'
@@ -138,8 +142,23 @@ function openCelebration(festival) {
 }
 
 async function handleCelebrationVisibleChange(visible) {
-  if (!visible || !celebrationFestival.value) return
-  await playFestivalConfetti(celebrationFestival.value, { isMobile: appStore.isMobile })
+  if (!visible) celebrationEffectToken += 1
+}
+
+function getCelebrationEffectLabel(festival) {
+  const labels = {
+    lantern: '灯笼灯串', 'night-fire': '新年火花', moon: '月影微光', starfield: '星河闪烁',
+    radiant: '节庆光芒', spark: '暖色火花', river: '水波流光', drizzle: '清明细雨',
+    snow: '冰雪微光', autumn: '秋叶暖光', breeze: '春风绿意', petal: '花瓣轻舞',
+    balloon: '彩色气球', candle: '烛光追思'
+  }
+  return `对应氛围：${labels[festival?.atmosphere?.theme] || '节日微光'}`
+}
+
+async function playCelebrationEffect(festival) {
+  const token = ++celebrationEffectToken
+  await playFestivalConfetti(festival, { isMobile: appStore.isMobile })
+  if (token !== celebrationEffectToken) return
 }
 
 async function loadFestivalState() {
@@ -202,6 +221,10 @@ watch(celebrationOpen, (visible) => {
   finish?.()
 })
 
+watch([celebrationOpen, celebrationFestival], ([visible, festival]) => {
+  if (visible && festival) playCelebrationEffect(festival)
+})
+
 function handleEffectQueueChange(event) {
   blockingEffectActive.value = Boolean(event.detail?.activeType)
 }
@@ -253,6 +276,12 @@ onUnmounted(() => {
 .public-festival-celebration span {
   color: var(--console-text-secondary, #667085);
   font-size: 13px;
+}
+
+.public-festival-celebration__effect {
+  color: var(--festival-accent);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .public-festival-celebration__icon .festival-icon {

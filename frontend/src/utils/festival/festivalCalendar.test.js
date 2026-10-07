@@ -20,12 +20,14 @@ describe('festival calendar birthday schedule', () => {
     expect(history.some((item) => item.key === 'birthday-solar')).toBe(true)
   })
 
-  it('uses festival-specific particle counts and keeps mobile atmosphere particle-free', () => {
+  it('uses a denser full-width particle field on desktop and a lighter mobile field', () => {
     const schedule = getFestivalSchedule('2026-02-17', Number.POSITIVE_INFINITY)
     const springFestival = schedule.find((item) => item.key === 'spring-festival')
 
     expect(springFestival.atmosphere.theme).toBe('lantern')
-    expect(getParticleItems(springFestival, false)).toHaveLength(springFestival.atmosphere.particleCount)
-    expect(getParticleItems(springFestival, true)).toHaveLength(0)
+    expect(getParticleItems(springFestival, false)).toHaveLength(Math.max(10, Math.round(springFestival.atmosphere.particleCount * 1.25)))
+    expect(getParticleItems(springFestival, true)).toHaveLength(Math.max(5, Math.round(springFestival.atmosphere.particleCount * 0.55)))
+    expect(Number.parseFloat(getParticleItems(springFestival, false)[0].left)).toBeGreaterThanOrEqual(4)
+    expect(Number.parseFloat(getParticleItems(springFestival, false).at(-1).left)).toBeLessThanOrEqual(96)
   })
 })
