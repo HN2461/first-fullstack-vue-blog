@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760">
+  <rect width="1400" height="760" rx="16" fill="#111827"/>
+  <rect x="24" y="24" width="1352" height="52" rx="10" fill="#1f2937"/>
+  <circle cx="54" cy="50" r="9" fill="#f87171"/><circle cx="82" cy="50" r="9" fill="#fbbf24"/><circle cx="110" cy="50" r="9" fill="#34d399"/>
+  <text x="142" y="57" font-family="Consolas, monospace" font-size="22" fill="#d1d5db">SSH — deployment verification (脱敏示意)</text>
+  <text x="52" y="126" font-family="Consolas, monospace" font-size="24" fill="#93c5fd">[root@server ~]# systemctl is-active mongod</text>
+  <text x="52" y="163" font-family="Consolas, monospace" font-size="24" fill="#86efac">active</text>
+  <text x="52" y="218" font-family="Consolas, monospace" font-size="24" fill="#93c5fd">[root@server ~]# pm2 status</text>
+  <text x="52" y="255" font-family="Consolas, monospace" font-size="23" fill="#f9fafb">personal-blog-api  online  0  1m</text>
+  <text x="52" y="310" font-family="Consolas, monospace" font-size="24" fill="#93c5fd">[root@server ~]# curl http://127.0.0.1:3001/api/health</text>
+  <text x="52" y="347" font-family="Consolas, monospace" font-size="24" fill="#86efac">{"success":true}</text>
+  <text x="52" y="402" font-family="Consolas, monospace" font-size="24" fill="#93c5fd">[root@server ~]# nginx -t</text>
+  <text x="52" y="439" font-family="Consolas, monospace" font-size="23" fill="#86efac">syntax is ok</text>
+  <text x="52" y="474" font-family="Consolas, monospace" font-size="23" fill="#86efac">test is successful</text>
+  <text x="52" y="529" font-family="Consolas, monospace" font-size="24" fill="#93c5fd">[root@server ~]# ss -lntp | grep -E ':80|:443|:3001|:27017'</text>
+  <text x="52" y="566" font-family="Consolas, monospace" font-size="22" fill="#f9fafb">LISTEN 0  511  127.0.0.1:3001   node</text>
+  <text x="52" y="600" font-family="Consolas, monospace" font-size="22" fill="#f9fafb">LISTEN 0  128  0.0.0.0:80     nginx</text>
+  <text x="52" y="634" font-family="Consolas, monospace" font-size="22" fill="#f9fafb">LISTEN 0  128  0.0.0.0:443    nginx</text>
+  <text x="52" y="702" font-family="Arial, sans-serif" font-size="19" fill="#9ca3af">这是阅读辅助图，不是某台服务器的原始日志；实际字段和 PID 会不同，重点看 active、online、200/成功 JSON 和 nginx -t 两行成功提示。</text>
+</svg>

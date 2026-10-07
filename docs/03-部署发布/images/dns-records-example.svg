@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430">
+  <rect width="1200" height="430" rx="18" fill="#f5f8fc"/>
+  <text x="600" y="54" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#18324f">DNS A 记录把域名指向服务器公网 IPv4</text>
+  <rect x="88" y="125" width="330" height="96" rx="12" fill="#ffffff" stroke="#9bb5d1" stroke-width="2"/>
+  <text x="253" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#18324f">主域名</text>
+  <text x="253" y="197" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#39536f">@  →  A  →  121.41.11.78*</text>
+  <rect x="88" y="250" width="330" height="96" rx="12" fill="#ffffff" stroke="#9bb5d1" stroke-width="2"/>
+  <text x="253" y="289" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#18324f">www 子域名</text>
+  <text x="253" y="322" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#39536f">www  →  A  →  121.41.11.78*</text>
+  <path d="M 445 173 C 555 173 555 222 655 222" fill="none" stroke="#3978bd" stroke-width="5" marker-end="url(#arrow)"/>
+  <path d="M 445 298 C 555 298 555 244 655 244" fill="none" stroke="#3978bd" stroke-width="5" marker-end="url(#arrow)"/>
+  <rect x="680" y="156" width="420" height="150" rx="16" fill="#e4f2ff" stroke="#3978bd" stroke-width="3"/>
+  <text x="890" y="207" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="700" fill="#18324f">同一台云服务器</text>
+  <text x="890" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="21" fill="#39536f">公网 IPv4：121.41.11.78*</text>
+  <text x="890" y="279" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#39536f">80/443 进入 Nginx，再由 Nginx 分流</text>
+  <text x="600" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" fill="#6b7785">* 图中 IP 是原项目历史示例。请将两条 A 记录的值换成你自己的服务器公网 IP。</text>
+  <defs><marker id="arrow" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#3978bd"/></marker></defs>
+</svg>
