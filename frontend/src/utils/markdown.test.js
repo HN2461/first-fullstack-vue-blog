@@ -72,6 +72,26 @@ describe('markdown rendering', () => {
     expect(html).toContain('id="1今非昔比的-javascript"')
   })
 
+  it('removes Yuque font wrappers from inline code while preserving code text', () => {
+    const html = renderMarkdown([
+      '> 联合类型中的 `<font style="color:rgb(38,38,38);"> | </font>` 管道符。',
+      '',
+      '`abstract class 类名 { <font style="background-color:#FBDE28;">abstract 抽象方法</font> }`',
+      '',
+      '`**<u>语雀强调文本</u>**`',
+      '',
+      '字面量标签 `<u>` 应保留。'
+    ].join('\n'))
+
+    expect(html).toContain('<code> | </code>')
+    expect(html).toContain('<blockquote>')
+    expect(html).toContain('<code>abstract class 类名 { abstract 抽象方法 }</code>')
+    expect(html).toContain('<code>**语雀强调文本**</code>')
+    expect(html).toContain('字面量标签 <code>&lt;u&gt;</code> 应保留。')
+    expect(html).not.toContain('<code> &lt;font')
+    expect(html).not.toContain('abstract 抽象方法&lt;/font&gt;')
+  })
+
   it('renders Yuque info, tips and legacy color containers as formatted callouts', () => {
     const html = renderMarkdown([
       ':::info',

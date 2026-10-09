@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-09",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "markdown-yuque-inline-tags-20261009",
+      "title": "修复 Markdown 引用内容中的语雀标签泄漏",
+      "detail": "1. 定位到语雀导出的 <font>、<u> 等格式标签被包在反引号行内代码中，Markdown 渲染器会按代码原样转义，导致文章中直接显示标签文本。\n2. 在统一 Markdown 渲染器增加行内代码专用处理：仅剥离带 style 属性的语雀 <font> 包裹和 <u> 包裹，保留实际代码文字，并继续执行 HTML 转义；代码围栏和普通正文 HTML 处理保持不变。\n3. 增加联合类型、抽象类和强调文本回归用例；前端 22 个测试文件共 96 个测试、Vite 构建和 UTF-8 无 BOM 检查通过。后端全量测试并行运行时出现测试临时上传目录的 Windows EPERM 竞争，单独串行重跑 article-import-limit.test.js 已通过。",
+      "occurredAt": "2026-10-09T19:50:00+08:00",
+      "category": "问题修复"
+    }
+  ]
+}

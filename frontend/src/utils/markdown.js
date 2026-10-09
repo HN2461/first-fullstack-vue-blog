@@ -241,6 +241,14 @@ md.renderer.rules.fence = (tokens, index) => {
 
 md.renderer.rules.code_block = (tokens, index) => renderCodeBlock(tokens[index].content)
 
+// 语雀导出的行内代码偶尔会把颜色标签一起包进反引号，例如
+// `` `<font style="color:...">内容</font>` ``。行内代码会按原文转义，
+// 因而普通 HTML 清理无法移除这些标签；这里只剥离语雀的 font/u 格式包裹，保留代码文本本身。
+md.renderer.rules.code_inline = (tokens, index) => {
+  const content = stripYuqueInlineFormatting(tokens[index]?.content)
+  return `<code>${escapeHtml(content)}</code>`
+}
+
 const defaultLinkOpen = md.renderer.rules.link_open || ((tokens, index, options, env, self) => self.renderToken(tokens, index, options))
 
 md.renderer.rules.link_open = (tokens, index, options, env, self) => {
@@ -334,6 +342,21 @@ function stripEmbeddedTocMarkers(content = '') {
 
 function sanitizeRenderedHtml(html = '') {
   return sanitizeHtmlAttributes(stripUnsafeHtmlTags(html))
+}
+
+function stripYuqueInlineFormatting(value = '') {
+  const source = String(value || '')
+  const hasYuqueFont = /<font\b[^>]*\bstyle\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)[^>]*>/i.test(source)
+  const hasYuqueUnderline = /(?:\*\*|__)\s*<u\b[^>]*>[\s\S]*?<\/u>\s*(?:\*\*|__)/i.test(source)
+
+  if (!hasYuqueFont && !hasYuqueUnderline) {
+    return source
+  }
+
+  return source
+    .replace(/<font\b[^>]*\bstyle\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)[^>]*>/gi, '')
+    .replace(/<\/font\s*>/gi, '')
+    .replace(/<\/?u\s*>/gi, '')
 }
 
 function stripUnsafeHtmlTags(html = '') {
