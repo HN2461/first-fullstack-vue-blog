@@ -1,7 +1,7 @@
 <template>
   <a-modal
     :open="open"
-    :title="`${log?.id ? '编辑日报' : '新增日报'} · ${employment?.company || ''}`"
+    :title="`${log?.id ? '编辑日报' : sourceLog?.id ? '复制日报' : '新增日报'} · ${employment?.company || ''}`"
     :width="820"
     :confirm-loading="saving"
     :body-style="{ maxHeight: '70vh', overflow: 'hidden' }"
@@ -60,7 +60,7 @@
       </a-form>
 
       <div class="work-log-editor__footer">
-        <span>保存后默认是草稿，可在详情中确认并定稿。</span>
+        <span>{{ sourceLog?.id ? '已复制日报内容，图片凭证不会复制；保存后默认是草稿。' : '保存后默认是草稿，可在详情中确认并定稿。' }}</span>
         <a-button type="primary" :loading="saving" :disabled="!canFinalize" @click="save('final')">
           <template #icon><CircleCheck :size="16" /></template>
           保存并定稿
@@ -86,7 +86,8 @@ const props = defineProps({
   open: { type: Boolean, default: false },
   employmentId: { type: String, default: '' },
   employments: { type: Array, default: () => [] },
-  log: { type: Object, default: null }
+  log: { type: Object, default: null },
+  sourceLog: { type: Object, default: null }
 })
 const emit = defineEmits(['update:open', 'saved'])
 const saving = ref(false)
@@ -116,16 +117,19 @@ function createEmptyForm() {
 }
 
 function populateForm() {
+  // 复制只预填可编辑内容；独立来源属性避免沿用原 ID 更新旧日报。
+  const source = props.log || props.sourceLog
   Object.assign(form, {
-    employmentId: props.log?.employment || props.employmentId,
+    employmentId: source?.employment || props.employmentId,
     workDate: props.log?.workDate || today(),
-    title: props.log?.title || '',
-    summary: props.log?.summary || '',
-    accomplishments: props.log?.accomplishments || '',
-    blockers: props.log?.blockers || '',
-    nextPlan: props.log?.nextPlan || '',
-    contentMarkdown: props.log?.contentMarkdown || ''
+    title: source?.title || '',
+    summary: source?.summary || '',
+    accomplishments: source?.accomplishments || '',
+    blockers: source?.blockers || '',
+    nextPlan: source?.nextPlan || '',
+    contentMarkdown: source?.contentMarkdown || ''
   })
+  formRef.value?.clearValidate()
 }
 
 async function save(status) {
@@ -159,7 +163,7 @@ function close() {
   emit('update:open', false)
 }
 
-watch(() => [props.open, props.log], ([visible]) => {
+watch(() => [props.open, props.log, props.sourceLog], ([visible]) => {
   if (visible) populateForm()
 }, { immediate: true })
 

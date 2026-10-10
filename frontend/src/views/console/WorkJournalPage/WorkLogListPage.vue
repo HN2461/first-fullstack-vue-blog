@@ -8,7 +8,7 @@
       :height="'100%'"
       :page-size="20"
       :show-column-setting="true"
-      :scroll="{ x: 1040 }"
+      :scroll="{ x: trash ? 1040 : 1110 }"
     >
       <template #emptyText>
         <WorkJournalEmptyState
@@ -99,6 +99,9 @@
             <a-tooltip v-if="!trash" title="编辑日报">
               <a-button type="text" size="small" aria-label="编辑日报" @click="openEdit(record)"><template #icon><PencilLine :size="15" /></template></a-button>
             </a-tooltip>
+            <a-tooltip v-if="!trash" title="复制为新日报">
+              <a-button type="text" size="small" aria-label="复制日报" @click="openCopy(record)"><template #icon><Copy :size="15" /></template></a-button>
+            </a-tooltip>
             <a-tooltip v-if="trash" title="恢复日报">
               <a-button type="text" size="small" aria-label="恢复日报" :loading="busyId === record.id" @click="restore(record)"><template #icon><ArchiveRestore :size="15" /></template></a-button>
             </a-tooltip>
@@ -112,7 +115,7 @@
       </template>
     </BlogTable>
 
-    <WorkLogEditorModal v-model:open="editorOpen" :employments="employments" :employment-id="filterParams.employmentId" :log="editingLog" @saved="handleSaved" />
+    <WorkLogEditorModal v-model:open="editorOpen" :employments="employments" :employment-id="filterParams.employmentId" :log="editingLog" :source-log="copyingLog" @saved="handleSaved" />
     <a-modal
       :open="Boolean(detailLog)"
       :title="detailLog?.title || '日报详情'"
@@ -130,6 +133,7 @@
           <a-tag v-else :color="detailLog.status === 'final' ? 'green' : 'default'" :bordered="false">{{ detailLog.status === 'final' ? '已定稿' : '草稿' }}</a-tag>
           <a-space v-if="!trash">
             <a-button size="small" @click="editFromDetail"><template #icon><PencilLine :size="14" /></template>编辑</a-button>
+            <a-button size="small" @click="openCopy(detailLog)"><template #icon><Copy :size="14" /></template>复制</a-button>
             <a-button v-if="detailLog.status === 'draft'" size="small" type="primary" :loading="busyId === detailLog.id" @click="finalize">定稿</a-button>
             <a-tooltip v-if="detailLog.revisionCount" title="查看日报历史版本">
               <a-button size="small" aria-label="查看日报历史版本" @click="revisionModalOpen = true"><template #icon><History :size="14" /></template></a-button>
@@ -160,7 +164,7 @@ import { computed, defineAsyncComponent, onMounted, reactive, ref, watch } from 
 import { message } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { ArchiveRestore, Eye, History, PencilLine, Plus, RefreshCw, Trash2 } from 'lucide-vue-next'
+import { ArchiveRestore, Copy, Eye, History, PencilLine, Plus, RefreshCw, Trash2 } from 'lucide-vue-next'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteWorkLog, listEmployments, listTrashedWorkLogs, listWorkLogs, restoreWorkLog, updateWorkLog } from '@/services/workJournal'
 import WorkJournalEmptyState from './WorkJournalEmptyState.vue'
@@ -179,6 +183,7 @@ const tableRef = ref(null)
 const employments = ref([])
 const editorOpen = ref(false)
 const editingLog = ref(null)
+const copyingLog = ref(null)
 const detailLog = ref(null)
 const revisionModalOpen = ref(false)
 const busyId = ref('')
@@ -198,6 +203,7 @@ const hasActiveFilters = computed(() => Boolean(
 ))
 const dailyHelpSections = [
   { heading: '记录与状态', items: ['每个工作经历每天只能有一篇日报，草稿可以持续修改。', '定稿表示当前版本已确认；之后修改会留下历史版本，可从详情查看。', '工作经历筛选会限定公司和岗位范围，关键词同时搜索标题与正文。'] },
+  { heading: '复制日报', items: ['点击列表操作栏或详情中的“复制”，可沿用原日报的工作经历、标题、摘要、今日完成、阻塞与风险、后续计划和补充记录。', '复制时工作日期默认今天，可调整日期和工作经历；确认或修改内容后再保存为新日报，取消不会创建记录。', '图片凭证、定稿状态和历史版本不会复制；如果所选工作经历在目标日期已有日报（含回收站记录），请选择其他日期或编辑、恢复已有记录。'] },
   { heading: '图片凭证', items: ['支持 JPG、PNG、GIF、WEBP，每篇日报最多 20 张，单张不超过 15 MB。', '图片会登记在媒体资产的“工作日志”系统分类中，同时保留所属日报关系；工作截图不会以公开地址提供。', '从日报详情的外链图标可跳转到媒体资产统一管理分类，查看引用来源、预览或清理文件。'] }
 ]
 const trashHelpSections = [
@@ -209,7 +215,7 @@ const columns = computed(() => [
   { title: '工作经历', key: 'employment', width: 190 },
   { title: '状态', key: 'status', width: 105 },
   { title: '图片凭证', key: 'evidence', width: 110 },
-  { title: '操作', key: 'action', width: props.trash ? 120 : 150, fixed: 'right' }
+  { title: '操作', key: 'action', width: props.trash ? 120 : 185, fixed: 'right' }
 ])
 const detailSections = computed(() => [
   { label: '今日完成', value: detailLog.value?.accomplishments },
@@ -270,11 +276,25 @@ function handleDateRangeChange(value = []) {
 
 function openCreate() {
   editingLog.value = null
+  copyingLog.value = null
   editorOpen.value = true
 }
 
 function openEdit(log) {
   editingLog.value = log
+  copyingLog.value = null
+  editorOpen.value = true
+}
+
+/**
+ * 用已有日报预填新建表单，不立即写库。
+ * @param {Object} log 当前用户列表或详情中的来源日报。
+ * @returns {void} 关闭详情并打开复制表单，保存时由新建接口校验日期冲突。
+ */
+function openCopy(log) {
+  editingLog.value = null
+  copyingLog.value = log
+  detailLog.value = null
   editorOpen.value = true
 }
 
