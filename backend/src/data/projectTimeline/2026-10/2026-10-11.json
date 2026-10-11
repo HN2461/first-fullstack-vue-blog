@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "ccswitch-v408-articles-online-sync",
+      "title": "复核并发布 CC Switch v4.0.8 专题文章",
+      "detail": "1. 重新核对 CC Switch 官方 GitHub Releases、v4.0.8 发布说明、v4.0 中文发布说明及设置/配置 FAQ，确认正式版已从 v4.0.7 更新到 v4.0.8；补充 Codex 桌面版聚合回退、模型列表失败原因提示与自动恢复、获取模型列表时透传额外请求头、设置页打开诊断日志等变化，并更新专题 6 篇文章。\n2. 生产库只读核验 6 篇目标文章均存在且为 published，文章 ID、分类、标签、排序和发布时间保持原值。修复旧 manifest 正文哈希与当前换行规范不一致导致的假冲突，以生产库现有正文哈希为基线规范化 CC Switch 目录 8 条 manifest 记录；另外 3 篇全局阻断均在目标范围外，目标 6 篇三方对比无冲突、无运营字段待回写。\n3. 确认生产端文章同步脚本及合并服务与本地 SHA-256 完全一致；生产预览为 6 篇待更新、0 阻断。按 6 个固定 slug 执行正文增量同步，不改分类、标签、排序或发布状态。生产写入前脚本备份位于 /www/personal-blog/backend/backups/article-content-before-2026-10-11T13-24-34-178Z.ejson；写入后目标 6 篇全部对齐，复跑 dry-run 为 0 待更新、0 阻断。\n4. 使用相同 6 个 slug 同步本地开发数据库，备份位于 backend/backups/article-content-before-2026-10-11T13-26-27-142Z.ejson；本地目标 dry-run 亦为 0 待更新、0 阻断。更新本地 Front Matter 与 manifest 中的线上更新时间，最终校验 548 条 manifest、6 篇目标文章身份/运营字段/正文哈希、更新时间和 UTF-8 无 BOM 均通过。",
+      "occurredAt": "2026-10-11T21:29:26+08:00",
+      "category": "内容上新"
+    }
+  ]
+}
