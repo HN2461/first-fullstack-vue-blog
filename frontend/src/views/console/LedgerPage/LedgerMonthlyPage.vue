@@ -31,12 +31,11 @@
             <template #icon><LeftOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-select
+        <LedgerBookSelect
           :value="bookId"
           class="ledger-inline-book-select"
           :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
-          show-search
-          option-filter-prop="label"
+          allow-clear
           @change="$emit('update-book-id', $event)"
         />
         <a-date-picker
@@ -121,6 +120,7 @@
 import { computed, ref, watch } from 'vue'
 import { CalendarOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import LedgerBookSelect from './LedgerBookSelect.vue'
 import { getLedgerDaily } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import LedgerDailyCards from './LedgerDailyCards.vue'
@@ -282,7 +282,7 @@ function getCategoryNote(record, categoryId) {
 }
 
 .ledger-inline-book-select {
-  width: 138px;
+  width: 220px;
   flex: 0 0 auto;
 }
 .ledger-monthly-date { display: grid; gap: 2px; justify-items: center; }
@@ -304,30 +304,34 @@ function getCategoryNote(record, categoryId) {
   }
 
   .ledger-monthly-header__controls {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) minmax(0, 1fr) 32px;
     width: 100%;
     min-width: 0;
     gap: 6px;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    overflow: hidden;
+    justify-content: stretch;
+    overflow: visible;
   }
 
   .ledger-monthly-header__controls .ant-picker {
-    min-width: 120px;
-    width: auto;
-    flex: 1 1 120px;
+    min-width: 0;
+    width: 100%;
+    flex: none;
   }
 
   .ledger-monthly-header__controls .ledger-inline-book-select {
-    width: 120px;
+    width: 100% !important;
+    min-width: 0;
+    flex: none;
   }
 
   .ledger-monthly-header__controls > .ant-btn {
-    flex: 0 0 32px;
+    width: 32px;
+    flex: none;
   }
 
   .ledger-monthly-header__controls > .ant-btn:last-child {
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .ledger-monthly-stats {
@@ -372,28 +376,32 @@ function getCategoryNote(record, categoryId) {
   }
 
   .ledger-monthly-header__controls {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) minmax(0, 1fr) 32px;
     width: 100%;
     gap: 6px;
-    justify-content: flex-start;
-    overflow: hidden;
+    justify-content: stretch;
+    overflow: visible;
   }
 
   .ledger-monthly-header__controls .ant-picker {
     min-width: 0;
-    flex: 1;
-    width: auto;
+    flex: none;
+    width: 100%;
   }
 
   .ledger-monthly-header__controls .ledger-inline-book-select {
-    width: 120px;
+    width: 100% !important;
+    flex: none;
   }
 
   .ledger-monthly-header__controls > .ant-btn {
-    flex: 0 0 32px;
+    width: 32px;
+    flex: none;
   }
 
   .ledger-monthly-header__controls > .ant-btn:last-child {
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .ledger-monthly-stats {

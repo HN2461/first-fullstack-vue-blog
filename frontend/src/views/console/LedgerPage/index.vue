@@ -1,7 +1,7 @@
 <template>
   <section class="ledger-page">
     <LedgerPageToolbar
-      v-if="isOverviewRoute"
+      v-if="isOverviewRoute && booksLoaded && books.length"
       :book-id="selectedBookId"
       :book-options="allBookOptions"
       :period="activePeriod"
@@ -15,7 +15,17 @@
       @action="handleMenuAction"
     />
 
+    <a-spin v-if="!booksLoaded && !isMomentsRoute" />
+    <a-empty
+      v-else-if="!books.length && !isMomentsRoute"
+      class="ledger-books-empty"
+      :description="canManageBooks ? '暂无账本，请先新建一个账本' : '暂无账本'"
+    >
+      <a-button v-if="canManageBooks" type="primary" @click="openBookEditor()">新建账本</a-button>
+    </a-empty>
+
     <RouterView
+      v-else
       :book-id="contentBookId"
       :book-name="contentBookName"
       :book-options="bookOptions"
@@ -85,6 +95,7 @@
       :confirm-loading="bookSubmitting"
       ok-text="保存"
       cancel-text="取消"
+      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
       @ok="saveBook"
     >
       <a-form layout="vertical">
@@ -95,7 +106,7 @@
           <a-textarea v-model:value="bookForm.description" maxlength="240" show-count :rows="3" />
         </a-form-item>
         <a-form-item v-if="editingBook" label="状态">
-          <a-select v-model:value="bookForm.status" :options="bookStatusOptions" />
+          <a-select v-model:value="bookForm.status" :options="bookStatusOptions" show-search option-filter-prop="label" />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -162,6 +173,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
+import { useAuthStore } from '@/stores/auth'
 import LedgerCategoryDrawer from './LedgerCategoryDrawer.vue'
 import LedgerCategoryModal from './LedgerCategoryModal.vue'
 import LedgerEntryModal from './LedgerEntryModal.vue'
@@ -179,9 +191,11 @@ import {
 } from '@/services/ledger'
 
 const loading = ref(false)
+const auth = useAuthStore()
 const route = useRoute()
 const router = useRouter()
 const books = ref([])
+const booksLoaded = ref(false)
 const categories = ref([])
 const selectedBookId = ref('')
 const activePeriod = ref('thisMonth')
@@ -233,6 +247,7 @@ const selectedBookName = computed(() => selectedBookId.value === 'all'
   : bookOptions.value.find((item) => item.value === selectedBookId.value)?.label || '')
 const isOverviewRoute = computed(() => route.name === 'ConsoleLedgerOverview')
 const isMomentsRoute = computed(() => route.name === 'ConsoleLedgerMoments')
+const canManageBooks = computed(() => auth.canAccessPath('/console/ledger/entries') || auth.canAccessPath('/console/ledger/daily'))
 const contentBookId = computed(() => selectedBookId.value)
 const contentBookName = computed(() => selectedBookName.value)
 const contentRange = computed(() => isOverviewRoute.value ? queryRange.value : [])
@@ -273,11 +288,12 @@ function selectPeriod(value) {
 }
 
 function handleBookChange(value) {
-  selectedBookId.value = value
+  const nextBookId = value || 'all'
+  selectedBookId.value = nextBookId
   router.replace({
     query: {
       ...route.query,
-      bookId: value
+      bookId: nextBookId
     }
   })
   reloadAll()
@@ -289,11 +305,15 @@ function handleCustomRangeChange(value) {
 }
 
 async function loadBooks() {
-  books.value = await listLedgerBooks()
-  const queryBookId = String(route.query.bookId || '')
-  const validBookIds = new Set(books.value.map((book) => book.id))
-  if (queryBookId === 'all' || validBookIds.has(queryBookId)) selectedBookId.value = queryBookId
-  else if (books.value.length) selectedBookId.value = 'all'
+  try {
+    books.value = await listLedgerBooks()
+    const queryBookId = String(route.query.bookId || '')
+    const validBookIds = new Set(books.value.map((book) => book.id))
+    if (queryBookId === 'all' || validBookIds.has(queryBookId)) selectedBookId.value = queryBookId
+    else selectedBookId.value = books.value.length ? 'all' : ''
+  } finally {
+    booksLoaded.value = true
+  }
 }
 
 async function loadCategories() {
@@ -332,6 +352,10 @@ async function reloadAll() {
 }
 
 function openEntryModal(entry = null) {
+  if (!books.value.length && !entry?.id) {
+    if (canManageBooks.value) openBookEditor()
+    return
+  }
   currentEntry.value = entry
   entryModalOpen.value = true
 }
@@ -367,7 +391,11 @@ async function saveBook() {
     bookEditorOpen.value = false
     bookManageOpen.value = false
     await loadBooks()
-    if (!editingBook.value) selectedBookId.value = saved.id
+    if (!editingBook.value) {
+      selectedBookId.value = saved.id
+      // 首次创建后同步路由范围，刷新页面仍进入刚创建的账本。
+      await router.replace({ query: { ...route.query, bookId: saved.id } })
+    }
     message.success(editingBook.value ? '账本已更新' : '账本已创建')
     await reloadAll()
   } catch (error) {
@@ -494,6 +522,14 @@ onMounted(async () => {
   display: grid;
   gap: 12px;
   min-width: 0;
+}
+
+.ledger-books-empty {
+  margin: 0;
+  padding: 48px 16px;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
 }
 
 .ledger-book-manage {

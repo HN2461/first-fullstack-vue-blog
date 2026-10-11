@@ -43,6 +43,11 @@ describe('ledger moment routes', () => {
       email: 'ledger-moment-user@example.com'
     })
     token = signAccessToken(user)
+    await request(app)
+      .post('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '重要记录测试账本' })
+      .expect(201)
   })
 
   afterAll(async () => {

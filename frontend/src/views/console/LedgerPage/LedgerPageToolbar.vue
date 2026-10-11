@@ -3,14 +3,13 @@
     <div class="ledger-toolbar__left">
       <div class="ledger-toolbar__book">
         <BookOpen :size="14" class="ledger-toolbar__book-icon" />
-        <a-select
+        <LedgerBookSelect
           :value="bookId"
           class="ledger-toolbar__book-select"
           :options="bookOptions"
           :bordered="false"
-          show-search
-          option-filter-prop="label"
-          @change="$emit('update:bookId', $event)"
+          allow-clear
+          @change="emit('update:bookId', $event)"
         />
       </div>
 
@@ -82,6 +81,7 @@
 import { computed } from 'vue'
 import { AppstoreOutlined, BookOutlined, DownloadOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { BookOpen, MoreHorizontal, RefreshCw } from 'lucide-vue-next'
+import LedgerBookSelect from './LedgerBookSelect.vue'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
@@ -150,7 +150,7 @@ function handleRangeChange(value) {
 }
 
 .ledger-toolbar__book-select {
-  width: 140px;
+  width: 220px;
   font-weight: 600;
 }
 

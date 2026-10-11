@@ -45,23 +45,56 @@ describe('ledger routes', () => {
       email: 'ledger-user@example.com'
     })
     token = signAccessToken(user)
+    await request(app)
+      .post('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '测试账本' })
+      .expect(201)
   })
 
   afterAll(async () => {
     await disconnectTestDatabase()
   })
 
-  it('creates a private default book and default categories for the current user', async () => {
+  it('does not create a default book during read-only requests', async () => {
+    const other = await createUserWithRole(BUILTIN_ROLE_CODES.VISITOR, {
+      username: 'ledger-empty-user',
+      email: 'ledger-empty-user@example.com'
+    })
+    const otherToken = signAccessToken(other)
+    const response = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(200)
+
+    expect(response.body.data).toEqual([])
+
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(200)
+
+    expect(categoriesResponse.body.data).toEqual([])
+
+    const summaryResponse = await request(app)
+      .get('/api/ledger/summary')
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(200)
+
+    expect(summaryResponse.body.data).toMatchObject({
+      book: { id: 'all', name: '全部账本' },
+      overview: { income: 0, expense: 0, balance: 0 }
+    })
+  })
+
+  it('seeds default categories only when a book is explicitly created', async () => {
     const response = await request(app)
       .get('/api/ledger/books')
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
 
     expect(response.body.data).toHaveLength(1)
-    expect(response.body.data[0]).toMatchObject({
-      name: '默认账本',
-      currency: 'CNY'
-    })
+    expect(response.body.data[0]).toMatchObject({ name: '测试账本', currency: 'CNY' })
 
     const categoriesResponse = await request(app)
       .get('/api/ledger/categories')

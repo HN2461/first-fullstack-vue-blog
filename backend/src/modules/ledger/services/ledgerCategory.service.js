@@ -1,7 +1,7 @@
 import { LedgerCategory } from '#modules/ledger/models/LedgerCategory.js'
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { createError, normalizeAliases, slugifyName, toObjectId } from './ledger.utils.js'
-import { ensureDefaultBook, findOwnedBook, findWritableBook } from './ledgerBook.service.js'
+import { findOwnedBook, findWritableBook } from './ledgerBook.service.js'
 
 async function findOwnedCategory(categoryId, userId, bookId) {
   const id = toObjectId(categoryId, 'LEDGER_CATEGORY_NOT_FOUND', '分类不存在')
@@ -53,8 +53,9 @@ export async function getOrCreateCategoryByName(userId, bookId, name, type) {
 }
 
 export async function listLedgerCategories(userId, options = {}) {
-  const book = options.bookId ? await findOwnedBook(options.bookId, userId) : await ensureDefaultBook(userId)
-  // ensureDefaultBook 内部已调用 seedDefaultCategories
+  // 分类属于具体账本，未选择账本时返回空列表，不能用读取请求初始化数据。
+  if (!options.bookId) return []
+  const book = await findOwnedBook(options.bookId, userId)
   const categories = await LedgerCategory.find({ userId, bookId: book._id }).sort({ type: 1, sortOrder: 1, createdAt: 1 })
   return categories.map((category) => category.toSafeJSON())
 }

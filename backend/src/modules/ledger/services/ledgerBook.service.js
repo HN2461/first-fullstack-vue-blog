@@ -77,23 +77,8 @@ async function seedDefaultCategories(userId, bookId) {
   return items.length
 }
 
-export async function ensureDefaultBook(userId) {
-  let book = await LedgerBook.findOne({ userId }).sort({ sortOrder: 1, createdAt: 1 })
-  if (!book) {
-    book = await LedgerBook.create({
-      userId,
-      name: '默认账本',
-      currency: 'CNY',
-      description: '日常收支记录',
-      sortOrder: 10
-    })
-  }
-  await seedDefaultCategories(userId, book._id)
-  return book
-}
-
 export async function listLedgerBooks(userId, options = {}) {
-  await ensureDefaultBook(userId)
+  // 查询不创建账本；首次记账由用户明确命名，历史账本仍按原 id 保留。
   const books = await LedgerBook.find(normalizeBookQuery(userId, options)).sort({ sortOrder: 1, createdAt: 1 })
   return books.map((book) => book.toSafeJSON())
 }

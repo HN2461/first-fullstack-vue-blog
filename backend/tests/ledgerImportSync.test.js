@@ -69,11 +69,12 @@ describe('ledger Excel import synchronization', () => {
       roles: [role._id]
     })
     token = signAccessToken(user)
-    const booksResponse = await request(app)
-      .get('/api/ledger/books')
+    const bookResponse = await request(app)
+      .post('/api/ledger/books')
       .set('Authorization', `Bearer ${token}`)
-      .expect(200)
-    bookId = booksResponse.body.data[0].id
+      .send({ name: '导入测试账本' })
+      .expect(201)
+    bookId = bookResponse.body.data.id
   })
 
   afterAll(disconnectTestDatabase)

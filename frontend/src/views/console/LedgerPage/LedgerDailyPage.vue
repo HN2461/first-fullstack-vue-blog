@@ -16,12 +16,11 @@
     >
       <template #toolbar>
         <span class="ledger-table-title">日表格</span>
-        <a-select
+        <LedgerBookSelect
           :value="bookId"
           class="ledger-inline-book-select"
           :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
-          show-search
-          option-filter-prop="label"
+          allow-clear
           @change="$emit('update-book-id', $event)"
         />
         <span class="ledger-toolbar-spacer" />
@@ -74,12 +73,11 @@
     <section v-else class="ledger-daily-card-panel">
       <div class="ledger-daily-card-panel__head">
         <span class="ledger-table-title">日表格</span>
-        <a-select
+        <LedgerBookSelect
           :value="bookId"
           class="ledger-inline-book-select"
           :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
-          show-search
-          option-filter-prop="label"
+          allow-clear
           @change="$emit('update-book-id', $event)"
         />
         <span class="ledger-toolbar-spacer" />
@@ -112,6 +110,7 @@
 import { computed, ref, watch } from 'vue'
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import LedgerBookSelect from './LedgerBookSelect.vue'
 import { getLedgerDaily } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import LedgerDailyCards from './LedgerDailyCards.vue'
@@ -286,7 +285,7 @@ watch(viewMode, (mode) => {
 }
 
 .ledger-inline-book-select {
-  width: 138px;
+  width: 220px;
   flex: 0 0 auto;
 }
 
@@ -330,6 +329,10 @@ watch(viewMode, (mode) => {
 
   .ledger-toolbar-spacer {
     display: none;
+  }
+
+  .ledger-inline-book-select {
+    width: 100% !important;
   }
 }
 </style>

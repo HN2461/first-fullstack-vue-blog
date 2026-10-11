@@ -16,11 +16,9 @@
         <a-input v-model:value="form.occurredAt" type="date" />
       </a-form-item>
       <a-form-item v-if="!entry?.id" label="所属账本" name="bookId">
-        <a-select
+        <LedgerBookSelect
           v-model:value="form.bookId"
           :options="bookOptions"
-          show-search
-          option-filter-prop="label"
           placeholder="请选择所属账本"
         />
       </a-form-item>
@@ -65,6 +63,7 @@
 import { computed, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { createLedgerEntry, updateLedgerEntry } from '@/services/ledger'
+import LedgerBookSelect from './LedgerBookSelect.vue'
 
 const props = defineProps({
   open: { type: Boolean, default: false },

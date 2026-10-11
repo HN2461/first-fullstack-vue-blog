@@ -17,14 +17,13 @@
     @selection-change="handleSelectionChange"
   >
     <template #toolbar>
-      <a-space wrap size="small">
-        <a-select
+      <a-space wrap size="small" class="ledger-entry-toolbar">
+        <LedgerBookSelect
           :value="bookId"
           class="ledger-filter ledger-filter-book"
           :options="[{ label: '全部账本', value: 'all' }, ...bookOptions]"
-          show-search
-          option-filter-prop="label"
-          @change="$emit('update-book-id', $event)"
+          allow-clear
+          @change="emit('update-book-id', $event)"
         />
         <a-select
           v-model:value="filters.type"
@@ -176,6 +175,7 @@
 import { computed, onUnmounted, reactive, ref, watch } from 'vue'
 import { DeleteOutlined, DownloadOutlined, EditOutlined, MoreOutlined, PlusOutlined, SortAscendingOutlined, SortDescendingOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import LedgerBookSelect from './LedgerBookSelect.vue'
 import { listLedgerEntries } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import { formatDate, formatTime } from './ledgerUtils'
@@ -379,7 +379,7 @@ defineExpose({ reload, refresh, clearSelection, getSelectedKeys, getExportParams
 }
 
 .ledger-filter-book {
-  width: 128px;
+  width: 220px;
 }
 
 .ledger-filter-tags {
@@ -445,22 +445,34 @@ defineExpose({ reload, refresh, clearSelection, getSelectedKeys, getExportParams
 }
 
 @media (max-width: 760px) {
-  .ledger-filter,
-  .ledger-filter-tags,
-  .ledger-search {
+  :deep(.ledger-entry-toolbar) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
     width: 100%;
+    gap: 8px;
   }
 
-  .ledger-sort-button {
-    flex: 1;
-  }
-
-  :deep(.ant-space) {
-    width: 100%;
-  }
-
-  :deep(.ant-space-item) {
+  :deep(.ledger-entry-toolbar .ant-space-item) {
     min-width: 0;
+    width: 100%;
+  }
+
+  :deep(.ledger-entry-toolbar .ant-space-item:nth-child(1)),
+  :deep(.ledger-entry-toolbar .ant-space-item:nth-child(4)),
+  :deep(.ledger-entry-toolbar .ant-space-item:nth-child(5)) {
+    grid-column: 1 / -1;
+  }
+
+  :deep(.ledger-entry-toolbar .ledger-filter),
+  :deep(.ledger-entry-toolbar .ledger-filter-tags),
+  :deep(.ledger-entry-toolbar .ledger-search) {
+    width: 100%;
+  }
+
+  :deep(.ledger-entry-toolbar .ledger-sort-button),
+  :deep(.ledger-entry-toolbar .ant-dropdown-button) {
+    width: 100%;
   }
 }
 </style>

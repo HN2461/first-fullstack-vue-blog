@@ -1,6 +1,6 @@
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { addMoney, buildEntryQuery, endOfDay, formatDay, formatMonth, formatYear, formatTrendKey, roundMoney, startOfDay } from './ledger.utils.js'
-import { ensureDefaultBook, findOwnedBook } from './ledgerBook.service.js'
+import { findOwnedBook } from './ledgerBook.service.js'
 import { buildPeriodComparison, computePreviousRange } from './ledgerComparison.js'
 
 function isAllBooks(bookId) {
@@ -8,7 +8,7 @@ function isAllBooks(bookId) {
 }
 
 function getSummaryBook(userId, bookId) {
-  if (isAllBooks(bookId)) {
+  if (!bookId || isAllBooks(bookId)) {
     return Promise.resolve({
       id: 'all',
       userId: userId?.toString?.(),
@@ -19,11 +19,11 @@ function getSummaryBook(userId, bookId) {
       sortOrder: 0
     })
   }
-  return bookId ? findOwnedBook(bookId, userId) : ensureDefaultBook(userId)
+  return findOwnedBook(bookId, userId)
 }
 
 function buildSummaryEntryQuery(userId, options, book) {
-  const scopedOptions = isAllBooks(options.bookId)
+  const scopedOptions = !options.bookId || isAllBooks(options.bookId)
     ? { ...options, bookId: undefined }
     : { ...options, bookId: book._id.toString() }
   return buildEntryQuery(userId, scopedOptions)

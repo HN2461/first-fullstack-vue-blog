@@ -1,14 +1,14 @@
 import { LedgerCategory } from '#modules/ledger/models/LedgerCategory.js'
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { addMoney, buildEntryQuery, formatDay, roundMoney } from './ledger.utils.js'
-import { ensureDefaultBook, findOwnedBook } from './ledgerBook.service.js'
+import { findOwnedBook } from './ledgerBook.service.js'
 
 function isAllBooks(bookId) {
   return bookId === 'all'
 }
 
 function getDailyBook(userId, bookId) {
-  if (isAllBooks(bookId)) {
+  if (!bookId || isAllBooks(bookId)) {
     return Promise.resolve({
       id: 'all',
       userId: userId?.toString?.(),
@@ -19,7 +19,7 @@ function getDailyBook(userId, bookId) {
       sortOrder: 0
     })
   }
-  return bookId ? findOwnedBook(bookId, userId) : ensureDefaultBook(userId)
+  return findOwnedBook(bookId, userId)
 }
 
 /**
@@ -30,10 +30,10 @@ function getDailyBook(userId, bookId) {
  */
 export async function getLedgerDailyMatrix(userId, options = {}) {
   const book = await getDailyBook(userId, options.bookId)
-  const entryOptions = isAllBooks(options.bookId)
+  const entryOptions = !options.bookId || isAllBooks(options.bookId)
     ? { ...options, bookId: undefined }
     : { ...options, bookId: book._id.toString() }
-  const categoryQuery = isAllBooks(options.bookId)
+  const categoryQuery = !options.bookId || isAllBooks(options.bookId)
     ? { userId, archived: false }
     : { userId, bookId: book._id, archived: false }
   const [categories, entries] = await Promise.all([

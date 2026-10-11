@@ -13,12 +13,11 @@
   >
     <a-form layout="vertical" class="ledger-import-form">
       <a-form-item label="导入目标账本" required>
-        <a-select
+        <LedgerBookSelect
           v-model:value="selectedBookId"
           :options="bookOptions"
+          class="ledger-book-select--form"
           :disabled="Boolean(previewResult)"
-          show-search
-          option-filter-prop="label"
           placeholder="请选择本次导入要更新的账本"
         />
         <div class="ledger-import-help">当前页面选中的账本只作为默认值，本次导入以这里的选择为准。</div>
@@ -103,6 +102,7 @@ import { computed, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { UploadOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import LedgerBookSelect from './LedgerBookSelect.vue'
 import { commitLedgerImport, previewLedgerImport } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
 import { formatDate } from './ledgerUtils'

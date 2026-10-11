@@ -33,6 +33,11 @@ describe('ledger summary comparison route', () => {
       roles: [role._id]
     })
     token = signAccessToken(user)
+    await request(app)
+      .post('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '对比测试账本' })
+      .expect(201)
   })
 
   afterAll(disconnectTestDatabase)
