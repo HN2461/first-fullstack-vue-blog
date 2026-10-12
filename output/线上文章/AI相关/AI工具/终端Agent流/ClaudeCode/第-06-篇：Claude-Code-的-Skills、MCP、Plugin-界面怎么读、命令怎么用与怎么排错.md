@@ -101,8 +101,9 @@ claude --debug=mcp
 | `locked by plugin` | 由插件管理，不能用普通 `skillOverrides` 修改 |
 | `~40 tok`、`~80 tok` | Skill 描述加载到每次请求的估算上下文成本 |
 | `name-only` | 只把名字/描述展示给模型，不载入正文 |
+| `user-only` / `user-invocable-only` | 从 Claude 的 Skill 上下文隐藏，但保留用户在 `/` 菜单中的显式调用入口 |
 | `off` | 关闭该 Skill 的发现或调用 |
-| `Space to cycle` | 在可见、仅名、关闭之间切换；保存前按 Esc 取消 |
+| `Space to cycle` | 在可见、仅名、仅用户、关闭之间切换；保存前按 Esc 取消 |
 
 `disable-model-invocation: true` 的 Skill 仍可由用户显式 `/name` 调用；`user-invocable: false` 则不会作为用户命令出现，但模型可在相关任务中使用。安装很多 Skill 后，优先用 `/skill-doctor` 查上下文成本和使用频率。
 

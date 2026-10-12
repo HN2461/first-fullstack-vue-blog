@@ -224,7 +224,7 @@ effort: high
 - `$ARGUMENTS`、`$0`、`${CLAUDE_SESSION_ID}`、`${CLAUDE_SKILL_DIR}` 等替换变量应按官方 Skill 文档写法使用。
 - `!` 命令注入可把 shell 输出放入 Skill 上下文；不要在 Skill 中打印 Key、Cookie 或完整环境变量。
 - `disableSkillShellExecution` 可以在需要时阻止 Skill 的 shell 注入。
-- `skillOverrides` 可以把个人/项目 Skill 设为 `off` 或 `name-only`；插件 Skill 不由该键覆盖。
+- `skillOverrides` 可以把个人/项目 Skill 设为 `on`、`name-only`、`user-invocable-only` 或 `off`；其中 `user-invocable-only` 只保留用户显式调用入口，插件 Skill 不由该键覆盖。
 
 官方 bundled skill 现在包括 `/doctor`、`/run`、`/verify`、`/simplify`、`/code-review`、`/deep-research`、`/batch`、`/workflow-authoring` 等，但是否出现取决于版本、Provider、账号和组织策略。用 `/skills` 查看本机会加载什么，用 `/skill-doctor` 观察 Skill 的上下文成本和使用情况。
 
