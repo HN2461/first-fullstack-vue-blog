@@ -2189,7 +2189,7 @@
       "title": "第 08 篇：Codex 桌面 App 当前功能与 Windows 实战",
       "summary": "面向高频使用 ChatGPT 桌面 App 中 Codex 的 Windows 开发者，集中说明版本检查、多文件夹项目、Local、Worktree、Git、PR Chat、Voice、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows-native / WSL 工作流。",
       "cover": "",
-      "contentHash": "3495af13d7004557764c86e3f8dd0771b6168260b75f84cee38499b32196ca25",
+      "contentHash": "326881165e8742ca69e3dca2795b9e9b6a153a19d032e14fc26fcd2e334ab51c",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5413,7 +5413,7 @@
       "title": "第 04 篇：Codex 多线路接入与迁移总手册",
       "summary": "将官方、Packy、yunyi、rpcod 等线路统一收进一篇完整的线路选择与迁移总手册，集中解决多线路怎么选、怎么配、怎么迁移、怎么排错。",
       "cover": "",
-      "contentHash": "b5324d53179de9c01fd83999144549a883b9b45014b7d7e922283da103453817",
+      "contentHash": "8fa387882d97e826b91ebbdaa728a78a28bd36c40e3e09864b57a1145e874e7b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5443,7 +5443,7 @@
       "title": "第 01 篇：Codex CLI 第一日开发实战",
       "summary": "面向平时主要用 Codex 开发的程序员，按安装确认、进入真实仓库、看懂英文终端、完成第一轮小任务、再扩展到 VS Code 插件和桌面 App 的顺序重写 Codex 第一日上手路线。",
       "cover": "",
-      "contentHash": "fb61ad3c54d28d6e2b167072e63891355946b25795cb576146828e323573afea",
+      "contentHash": "0cd94567a50b967b9129e159a7283fffd3c6752bd57ed0bc7ded69d914827c83",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5472,7 +5472,7 @@
       "title": "第 07 篇：Codex 当前常用功能与进阶工作流手册",
       "summary": "面向日常开发高频场景系统梳理 Codex 当前仍在主线中的常用功能、进阶工作流与最近该升级的认知，减少多篇重复查阅。",
       "cover": "",
-      "contentHash": "17d32abaa14b61376767970944bc99576db1b0358626a589e4f3d073ba3f3bb2",
+      "contentHash": "7588f39a6d59c6f741e24e60906090ffba5674bdffed97cbbf7997b17644fe5f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5502,7 +5502,7 @@
       "title": "第 06 篇：Codex 命令与配置文件速查",
       "summary": "统一说明 Codex 常用命令、config.toml、auth.json 与 AGENTS.md 的职责边界，适合作为整套 Codex 系列文章的底座速查文档。",
       "cover": "",
-      "contentHash": "7a6b9274e8010bb82024d0e8105ce964215f9eaca6cb1c7b64c724678715498b",
+      "contentHash": "8536329ea0228c7808e770979589de07333cd5968e517ab5790af1a6fbd6156e",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5531,7 +5531,7 @@
       "title": "第 05 篇：Codex CLI、插件、App 三端联动实战",
       "summary": "详细讲解 Codex CLI、插件和 App 三端共用配置、认证与规则的关系，帮助排查“CLI 能用但插件或 App 不同步”的典型问题。",
       "cover": "",
-      "contentHash": "c96d57e7e0c3441402968223a656963b666442865fa1711a00f2104f757e335b",
+      "contentHash": "6fc6a1aa830f84eec6d6e7608ce7863a2bb54a49ca038bfe2a93178eab3a78bf",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5560,7 +5560,7 @@
       "title": "第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）",
       "summary": "将 Codex 配置心智、字段字典、HN246 本机配置模板、CCSwitch 路径排查和替换验证流程合成一篇完整配置总手册，避免多篇重复讲 config.toml。",
       "cover": "",
-      "contentHash": "c06dfbe3c98b8569084c2662d4615db3d01b52b6df4cd55d059184c15494c8e3",
+      "contentHash": "b6b8524569e79f387b4a0ca336710d4aae7e5d457d40817feb102353a06c41c1",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5589,7 +5589,7 @@
       "title": "第 02 篇：Codex CLI 英文终端界面翻译与排错",
       "summary": "基于主人整理的 Codex CLI 终端界面线索，用文字图逐屏解释首页、模型选择、推理强度、权限、状态页、MCP、插件、skills、experimental 与错误提示，帮助把英文终端界面读成可操作的开发判断。",
       "cover": "",
-      "contentHash": "2f6ff4528468a55a33e46beb02cd19bfbfb1797e9342c3592cb6caafbc13e5b8",
+      "contentHash": "acac1034fa16554cbdc8c86101af7db09a4daad7800db39adead71a590f088b8",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
