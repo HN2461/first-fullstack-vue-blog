@@ -27,11 +27,12 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 08 篇：Codex 桌面 App 当前功能与 Windows 实战
 
-> 更新时间：2026-09-13。
-> 本机复核基线：Windows Store 包 `OpenAI.Codex 26.908.4834.0`，当前可调用 CLI 为 `codex-cli 0.154.0`。
+> 更新时间：2026-10-12。
+> 本机版本复核：Windows Store 包 `OpenAI.Codex 26.1007.2314.0`，PATH 当前 CLI 为 `codex-cli 0.162.1`。只读取包信息和帮助，未打开 App 或执行界面操作。
+> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 产品名称：从桌面版 `26.707` 起，Codex 已并入 macOS 和 Windows 的 **ChatGPT desktop app**；原 Codex App 用户正常更新即可保留项目、设置和工作流。
 > 定位：桌面 App 主手册。以后 App 的版本、多文件夹项目、Voice、Local / Worktree / Cloud、PR Chat、Browser、Computer Use、Scheduled tasks、Remote、插件和 Windows 差异统一在本篇维护。
-> 时效边界：官方 Changelog 已进入 2026 年 9 月，桌面 App 与 CLI 都在快速迭代；账号、平台、地区和组织策略仍会影响实际界面。本文的版本号只代表本机复核时点，不是读者必须追齐的固定版本。
+> 时效边界：CLI 发布资料已核对到 2026 年 10 月；本篇既有桌面功能时间表保留为历史功能索引，最新界面未逐项实测。账号、平台、地区和组织策略仍会影响实际界面。本文的版本号只代表本机复核时点，不是读者必须追齐的固定版本。
 
 [[toc]]
 
@@ -71,7 +72,7 @@ Get-AppxPackage -Name OpenAI.Codex |
 
 ```text
 Name: OpenAI.Codex
-Version: 26.908.4834.0
+Version: 26.1007.2314.0
 ```
 
 不要把 `ChatGPT.exe` 显示的 Chromium 文件版本当成桌面产品版本。Windows Store 包的 `Version` 才适合记录本机安装基线。
@@ -364,7 +365,7 @@ Scheduled tasks 无人值守运行，并使用默认 sandbox 设置。组织允�
 
 Plugin 是可安装能力包，可以包含 skills、connectors、MCP servers、browser extensions、hooks 和 scheduled task templates。ChatGPT Work 与 Codex 使用统一的公开 plugin directory；桌面端的管理入口在 Settings / Plugins 一带，具体位置会随版本调整。
 
-公开目录通常分为 OpenAI、workspace 和 Personal 等来源。安装或卸载后应新开 chat，CLI 侧则应新开 session，确保新能力完整加载。通过 API key 登录时可以使用部分 OpenAI-curated plugins，但依赖不受支持 OAuth 流程的插件可能不可用。
+公开目录通常分为 OpenAI、workspace 和 Personal 等来源。安装或卸载后先核对当前可用目录；CLI 已支持刷新部分插件能力，App 若提示重开或能力未刷新，再新开 chat/session。通过 API key 登录时可以使用部分 OpenAI-curated plugins，但依赖不受支持 OAuth 流程的插件可能不可用。
 
 当前 CLI 可用：
 
@@ -450,7 +451,7 @@ Voice 可以：
 4. 给其他线程发送 follow-up，实时改变任务方向
 5. 把并行线程的进度、阻塞和结果带回当前语音对话
 
-Voice 当前面向 Plus、Pro、Business、Edu 和 Enterprise 桌面版，并可通过配对后的 iOS Remote 使用；最终可用性仍取决于 rollout 和 workspace settings。任务权限不会因为改用语音而放宽，Voice 启动的 Codex 任务仍消耗对应 Codex 用量。
+旧版资料记录 Voice 面向 Plus、Pro、Business、Edu 和 Enterprise 桌面版，并可通过配对后的 iOS Remote 使用；本次未逐项核实套餐资格，当前是否开放应以账号与 workspace settings 为准。任务权限不会因为改用语音而放宽，Voice 启动的 Codex 任务仍消耗对应 Codex 用量。
 
 ---
 
@@ -645,6 +646,15 @@ codex app-server daemon --help
 - Troubleshooting：<https://learn.chatgpt.com/docs/reference/troubleshooting>
 - Plugins：<https://learn.chatgpt.com/docs/plugins?surface=app>
 
-近期功能总览与 IDE/CLI 对照见[第九篇：Codex 近期功能雷达与三端快速上手](#/note/AI工具/02_终端Agent流/Codex/09_Codex近期功能雷达与三端快速上手)。
+近期功能总览与 IDE/CLI 对照见[第九篇：Codex 近期功能雷达与三端快速上手](/console/articles/ai-agent-codex-current-feature-radar-20260913)。
 
-本次已通过官方 Changelog 和上述实时页面逐项复核。命令行直接抓取 `developers.openai.com` 仍可能返回 403，但浏览器访问会跳转到当前 `learn.chatgpt.com` 文档体系；这属于访问方式差异，不再是本文资料未核实的理由。
+本次官方网页直接抓取返回 403，未启动浏览器；CLI 的事实采用稳定版发布记录、schema 和本机帮助，桌面版本采用 Get-AppxPackage。既有桌面功能说明参照官方文档索引保留，精确按钮、套餐和 rollout 状态尚未在本次运行中逐项实测，不据此承诺所有账号可见。
+
+
+## 17. 2026-10 开发者版本联动检查
+
+新版 App 的包版本与全局 CLI 版本分开记录。CLI 0.156 起引入 `/tui`、语音设置、`/usage`、`/daemon`；0.157 起自动启动共享后台 server 和默认全屏 transcript；0.162 改善工作树工具、复制和自定义 provider。它们属于 CLI/共享核心更新，不能把它们的发布号直接当成桌面 App 某按钮上线日期。
+
+如果“CLI 能用，App 不同步”，按第五篇检查项目目录、Windows/WSL、Codex home、登录态、内置 server 来源和模型目录。然后使用当前 App 设置提供的更新/重启入口；只在 CLI 层用 `/daemon` 管理对应后台 server，不自行删除 App 的状态数据库。
+
+作为日常跟进入口，第三篇给出全量配置与 lifecycle，第六篇给出完整命令，第九篇列出稳定版升级差异。本篇 Appshots、Site tools、Remote、Scheduled tasks 的平台/组织限制都需要继续在实际账号设置中核对，保留原功能说明不会等于已验证 26.1007 每一处界面。

@@ -27,7 +27,8 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 04 篇：Codex 多线路接入与迁移总手册
 
-> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、GPT-5.6 模型目录与既有服务商样例复核）
+> 更新时间：2026-10-12。
+> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：线路总手册。专门解决“我要走哪条线路、配置该怎么落、切线路时最容易在哪翻车”这些问题。
 > 前置建议：先读第一篇、第三篇、第五篇。先把 CLI 主线、配置层级和三端差异搞清，再来看线路，判断会稳很多。
 > 精简说明：rpcod 线路补充内容已经合并到本篇，专题不再单独保留历史跳转页。
@@ -273,7 +274,7 @@ flowchart LR
 
 ```toml
 model_provider = 'openai'
-model = 'gpt-5.6-terra'
+model = 'gpt-6.1-sol'
 model_reasoning_effort = 'medium'
 approval_policy = 'on-request'
 sandbox_mode = 'workspace-write'
@@ -291,7 +292,7 @@ Codex 当前本地聊天默认使用 OpenAI 维护的 web search cache。需要�
 
 ```toml
 model_provider = 'packy'
-model = 'gpt-5.6-terra' # 仅作示例，第三方线路以后台实际开放模型为准
+model = 'gpt-6.1-sol' # 仅作示例，第三方线路以后台实际开放模型为准
 model_reasoning_effort = 'high'
 
 [model_providers.packy]
@@ -316,9 +317,9 @@ PowerShell 环境变量示例：
 
 ```toml
 model_provider = 'yunyi'
-model = 'gpt-5.6-terra' # 仅作示例，第三方线路以后台实际开放模型为准
+model = 'gpt-6.1-sol' # 仅作示例，第三方线路以后台实际开放模型为准
 model_reasoning_effort = 'medium'
-disable_response_storage = true
+# disable_response_storage 已不在当前 schema 中，旧模板应删除。
 preferred_auth_method = 'apikey'
 
 [model_providers.yunyi]
@@ -348,9 +349,9 @@ rpcod 这部分现在直接并入本篇，不再单独放一篇长文重复讲�
 更稳的最小写法建议是：
 
 ```toml
-model = 'gpt-5.6-terra' # 仅作示例，第三方线路以后台实际开放模型为准
+model = 'gpt-6.1-sol' # 仅作示例，第三方线路以后台实际开放模型为准
 model_reasoning_effort = 'xhigh'
-disable_response_storage = true
+# disable_response_storage 已不在当前 schema 中，旧模板应删除。
 approval_policy = 'on-request'
 sandbox_mode = 'workspace-write'
 file_opener = 'vscode'
@@ -587,3 +588,14 @@ rpcod 线路补充内容已经并到这里。
    <https://dcnp82fx8qqw.feishu.cn/wiki/Iq8KwRLF7i9pg4kN83HckdOVnUc>
 
 第三方资料只作为服务商样例和排障参考；只要涉及价格、模型开放、域名、激活方式和认证方式，必须以服务商当前后台为准。
+
+
+## 2026-10 多线路补充与核验边界
+
+当前官方模型示例改为 `gpt-6.1-sol`；Packy、yunyi、rpcod 的旧地址/套餐/模型清单是历史接入样例，本次未登录这些平台或验证余额、可用性。迁移先核对服务商实际 model ID、Responses 协议、凭据存储和 streaming 支持，不能因为官方推出模型就推断所有网关可用。
+
+0.162.0 新增 `[model_providers.<id>.capabilities]`，可声明 `external_web_access` 与 `remote_compaction`。后者为 `unsupported` / `v2`；声明必须和服务端实现一致。重试会尊重 Responses/WebSocket 的 `Retry-After`，先查 HTTP 状态与重试建议，不通过无限增大 retry 次数掩盖限流。完整 provider 子字段（含 OAuth、AWS、headers、auth helper、catalog 和超时）统一见第三篇。
+
+内置 provider 包括 OpenAI、Amazon Bedrock Mantle/Runtime，以及本地 Ollama/LM Studio。Amazon Bedrock Runtime 的模型 ID 可采用官方文档中的 `global.openai.gpt-6-astra` 等 inference profile；AWS 区域、profile 与凭据发现独立配置，不能把 OpenAI key 直接当 AWS 凭据。
+
+来源：[Amazon Bedrock](https://learn.chatgpt.com/docs/amazon-bedrock)、[配置参考](https://learn.chatgpt.com/docs/config-file/config-reference)。

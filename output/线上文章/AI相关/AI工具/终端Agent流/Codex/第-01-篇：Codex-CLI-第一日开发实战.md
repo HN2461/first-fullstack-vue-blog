@@ -26,7 +26,8 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 01 篇：Codex CLI 第一日开发实战
 
-> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
+> 更新时间：2026-10-12。
+> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 这篇只解决 4 件事：怎么确认装对、怎么进仓库、怎么看第一屏、怎么完成第一轮真实开发。
 > 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查；桌面 App 高频使用请直接看第八篇。
 
@@ -58,6 +59,13 @@ Codex CLI 对程序员来说，不是“聊天工具”，而是一个会读仓�
 ```bash
 npm i -g @openai/codex@latest
 codex --version
+```
+
+当前稳定版为 `0.162.1`（2026-10-12 检索时 npm latest），预发布 tag 为 `0.163.0-alpha.5`，日常开发先按稳定版维护。可查询版本后再决定升级；本文没有执行升级：
+
+```powershell
+npm view @openai/codex version
+npm view @openai/codex dist-tags --json
 ```
 
 当前版本也提供内置升级入口：
@@ -384,13 +392,13 @@ flowchart LR
 
 如果主人刚跑通第一轮任务，下一步按这个顺序：
 
-1. [第二篇：Codex CLI 英文终端界面翻译与排错](#/note/AI工具/02_终端Agent流/Codex/02_Codex_CLI英文终端界面翻译与排错)
+1. [第二篇：Codex CLI 英文终端界面翻译与排错](/console/articles/ai-agent-codex-codex-cli-64e9fd24)
    解决“终端里这些英文、菜单、插件、skills、错误提示到底怎么看”。
-2. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)
+2. [第三篇：Codex 配置总手册](/console/articles/ai-agent-codex-codex-edeadb5e)
    解决“为什么配置会覆盖、为什么改了不生效”。
-3. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)
+3. [第六篇：Codex 命令与配置文件速查](/console/articles/ai-agent-codex-codex-9cf3fc01)
    当命令和字段速查表用。
-4. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)
+4. [第五篇：Codex CLI / 插件 / App 三端联动实战](/console/articles/ai-agent-codex-codex-cli-app-afad6d17)
    解决 CLI、VS Code 插件、桌面 App 之间怎么联动。
 5. 第八篇：Codex 桌面 App 当前功能与 Windows 实战
    解决 ChatGPT desktop app 中 Codex 的多文件夹项目、Voice、Local / Worktree、PR Chat、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows 工作流。
@@ -408,3 +416,8 @@ flowchart LR
 - Codex MCP：<https://developers.openai.com/codex/mcp>
 - AGENTS.md：<https://developers.openai.com/codex/guides/agents-md>
 - Codex use cases：<https://developers.openai.com/codex/use-cases>
+
+
+## 2026-10 第一日使用补充
+
+当前默认模型目录已更新为 GPT-6.1 Sol，但先看自己账号的 `/model`。长输出可用 `/tui` 选择下次启动模式，`/copy` 或 Ctrl+Insert 复制选中内容；续读会话用 `/recap`，清理上下文用 `/compact`。安装异常检查 doctor，后台服务器异常查 `/daemon` / `/warnings`。第一天不必手工设置 1M 窗口，也不必开启全表实验开关。

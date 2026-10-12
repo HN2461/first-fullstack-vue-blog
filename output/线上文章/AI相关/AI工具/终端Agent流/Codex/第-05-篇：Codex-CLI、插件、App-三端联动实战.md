@@ -26,7 +26,8 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：Codex CLI、插件、App 三端联动实战
 
-> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
+> 更新时间：2026-10-12。
+> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：主线 03（三端统一与联动排障）。
 > 前置：第三篇（先懂配置原理和字段，再做联动最稳）。
 > 下一篇建议：第六篇（命令与配置速查）。
@@ -103,7 +104,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 按官方优先级（高 -> 低）：
 
 1. CLI 参数（如 `-c`、`--model`、`--sandbox`）
-2. 项目 `.codex/config.toml`（仅信任项目加载；不能覆盖 provider、认证、通知、profile 选择等本机字段）
+2. 项目 `.codex/config.toml`（仅信任项目加载；会过滤明确列出的宿主字段；精确名单见第三篇 19.5 节）
 3. `--profile <name>` 加载的 `$CODEX_HOME/profile-name.config.toml`
 4. 用户 `~/.codex/config.toml`
 5. 系统级配置
@@ -156,7 +157,7 @@ codex login status
 
 ```toml
 model_provider = "openai"
-model = "gpt-5.6-terra"
+model = "gpt-6.1-sol"
 model_reasoning_effort = "medium"
 approval_policy = "on-request"
 sandbox_mode = "workspace-write"
@@ -168,7 +169,7 @@ persistence = "save-all"
 逐字段解释：
 
 1. `model_provider = "openai"`：默认走官方 OpenAI 提供方。
-2. `model = "gpt-5.6-terra"`：日常开发使用平衡档；最难的质量优先任务再切 `gpt-5.6-sol`。
+2. `model = "gpt-6.1-sol"`：当前官方示例主力；实际可用性先在各入口确认，困难任务再评估 Astra。
 3. `model_reasoning_effort = "medium"`：推理强度中档，平衡速度与质量。
 4. `approval_policy = "on-request"`：风险动作需人工确认。
 5. `sandbox_mode = "workspace-write"`：只允许改当前工作区。
@@ -276,14 +277,14 @@ OpenAI 官方文档给出的主要设置包括：
 
 ## 5. App 端：这里只讲三端联动边界
 
-从桌面版 `26.707` 起，Codex 已并入 macOS 和 Windows 的 ChatGPT desktop app。桌面 App 的版本更新、Voice、多文件夹项目、Local / Worktree / Cloud、Git / PR Chat、Browser、Computer Use、Scheduled tasks、Remote 和 Windows / WSL 实战，统一看[第八篇：Codex 桌面 App 当前功能与 Windows 实战](#/note/AI工具/02_终端Agent流/Codex/08_Codex桌面App当前功能与Windows实战)，本篇不重复维护。
+从桌面版 `26.707` 起，Codex 已并入 macOS 和 Windows 的 ChatGPT desktop app。桌面 App 的版本更新、Voice、多文件夹项目、Local / Worktree / Cloud、Git / PR Chat、Browser、Computer Use、Scheduled tasks、Remote 和 Windows / WSL 实战，统一看[第八篇：Codex 桌面 App 当前功能与 Windows 实战](/console/articles/ai-agent-codex-desktop-app-windows-workflow-20260726)，本篇不重复维护。
 
 ## 5.1 哪些内容可以共用
 
 1. 同一项目里的 `AGENTS.md`、项目 `.codex/config.toml`、skills 和 MCP 配置，仍然是跨入口协作的基础
 2. Windows-native App 与 Windows CLI 默认都从 `%USERPROFILE%\.codex` 读取本机 Codex 状态
 3. Git 仓库、分支、工作树和磁盘文件是共同事实，任何入口修改后都应重新检查 `git status`
-4. 插件安装后通常要新开 chat 或 CLI session，新的 skill、connector 和 MCP 工具才会完整进入上下文
+4. 插件安装后先确认 /plugins、/skills、/mcp 的目录与状态；当前 CLI 支持拾取新工具和刷新更新后的 skills/hooks，具体宿主要求或未刷新时再重开会话
 
 多文件夹项目要额外注意：新 chat、Git 操作，以及 `AGENTS.md`、skills、`config.toml` 的自动发现都以 **primary folder** 为准；secondary folders 可以搜索、读取和编辑，但不会替代主目录的配置根。
 
@@ -316,8 +317,8 @@ codex mcp list
 普通线路示例：
 
 ```toml
-disable_response_storage = true
-model = "gpt-5.6-terra" # 仅作示例，第三方线路以后台实际开放模型为准
+# disable_response_storage 已不在当前 schema 中，旧模板应删除。
+model = "gpt-6.1-sol" # 仅作示例，第三方线路以后台实际开放模型为准
 model_provider = "packycode"
 model_reasoning_effort = "high"
 model_verbosity = "high"
@@ -331,8 +332,8 @@ wire_api = "responses"
 
 逐字段解释：
 
-1. `disable_response_storage = true`：减少响应持久化，偏隐私场景。
-2. `model = "gpt-5.6-terra"`：当前示例模型名，具体可用性取决于服务商后台；第三方线路不要把示例当成长期保证。
+1. `disable_response_storage`：旧字段，已不在 0.162.1 schema 中，不再作为隐私配置推荐。
+2. `model = "gpt-6.1-sol"`：当前示例模型名，具体可用性取决于服务商后台；第三方线路不要把示例当成长期保证。
 3. `model_provider = "packycode"`：默认 provider 指向 `packycode`。
 4. `model_reasoning_effort = "high"`：高强度推理，质量高但更慢；`xhigh` 是否可用取决于模型。
 5. `model_verbosity = "high"`：输出更详细。
@@ -466,3 +467,12 @@ wire_api = "responses"
 2. <https://ncnnujysujcj.feishu.cn/wiki/KaQZwRaE6ivzlOku5rwcRdTHnPf>
 3. <https://dcnp82fx8qqw.feishu.cn/wiki/Iq8KwRLF7i9pg4kN83HckdOVnUc>
 4. <https://www.bilibili.com/video/BV11erUBUEEX>
+
+
+## 2026-10 三端联动补充
+
+本机 CLI 为 `0.162.1`，Windows Store 包为 `OpenAI.Codex 26.1007.2314.0`；两个版本号独立，App/IDE 还可能连接自己的内置或共享 server。全局 CLI 升级不等于扩展内置二进制和 App server 同步升级。
+
+新排错入口是 `/daemon`、`/warnings`、`codex doctor --summary`，MCP OAuth 可以 `/mcp login <name>`。0.162.1 已修复“后台 server feature 与 CLI 默认差异导致启动失败”的问题，兼容检查只比较显式命令行 feature 覆盖；遇到新旧 server 并存时先确认来源再更新。
+
+CLI 使用 `/ide` 带入编辑器上下文，IDE 文章中的 `/ide-context` 属于另一端入口；不能假设同名命令三端完全互通。完整 CLI slash 和本机全部子命令参数统一看第六篇。

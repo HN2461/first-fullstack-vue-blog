@@ -1,7 +1,7 @@
 ---
 title: "第 07 篇：Codex 当前常用功能与进阶工作流手册"
 slug: "ai-agent-codex-codex-1c9633e1"
-summary: "面向日常开发高频场景系统梳理 Codex 当前仍在主线中的常用功能、进阶工作流与最近该升级的认知，减少多篇重复查阅。"
+summary: "按当前稳定版梳理 GPT-6.1 Sol、GPT-6 Astra 与 Luna 的模型选择、推理强度和开发工作流，并串联完整配置、命令与近期版本动态。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -27,7 +27,8 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 07 篇：Codex 当前常用功能与进阶工作流手册
 
-> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
+> 更新时间：2026-10-12。
+> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：主线大总手册。专门解决“我知道 Codex 大概能做什么，但开发时到底该用哪个入口、哪些旧说法该删、哪些进阶能力该什么时候补”的问题。
 > 适合谁看：主人已经开始真正把 Codex 用进日常开发，希望文档既能查功能，也能防止自己继续按旧认知误用。
 > 本篇原则：把原本分散在“当前常用功能”“官方进阶补充”“最近更新差异”里的重复内容合成一篇，主线只保留真正值得长期查的东西。
@@ -57,83 +58,50 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 ---
 
-## 1. 模型：GPT-5.6 要按任务角色选，不再固定一个默认名
+## 1. 模型：当前以 GPT-6.1 Sol 为目录默认
 
-当前 Codex CLI 模型目录已经进入 GPT-5.6 分层：
+0.161.0 发布记录明确更新了 bundled 与 Amazon Bedrock 目录默认值。下表来自 **0.162.1 随包模型目录**，列出保留的全部 ID；它是客户端能力快照，不是对订阅套餐、API 价格、地区或第三方网关可用性的保证。新线程还可能使用 server 下发默认值或显式启动覆盖。
 
-| 模型 | 定位 | 适合场景 |
-|---|---|---|
-| `gpt-5.6-sol` | 最新旗舰 Agent 编码模型 | 最难的重构、复杂排错、研究和质量优先任务 |
-| `gpt-5.6-terra` | 日常平衡档 | 常规读仓库、改代码、补测试、写文档和多数桌面 App 任务 |
-| `gpt-5.6-luna` | 快速轻量档 | 高吞吐整理、分类、简单检查和严格延迟任务 |
-| `gpt-6-astra` | 最强端到端工作档 | 跨代码、应用和研究的多步骤任务，需要持续判断和高完成度时优先评估 |
-| `gpt-5.5` | 上一代旗舰 | 既有配置、第三方 provider 或兼容场景 |
-
-更稳妥的选择顺序是：
-
-1. 端到端跨工具、长链路且需要持续判断时评估 `gpt-6-astra`
-2. 任务很难、失败代价高或质量优先时切 `gpt-5.6-sol`
-3. 日常任务先评估 `gpt-5.6-terra`
-4. 任务简单、量大、延迟敏感时评估 `gpt-5.6-luna`
-5. 既有第三方线路不要只因为名字旧就机械升级，先看后台是否真实支持 GPT-5.6
-
-官方模型页还提醒：GPT-5.4 与 GPT-5.4 mini 已于 2026-08-31 从 ChatGPT 登录的 Codex 中退役；对应替代项分别是 Terra 与 Luna。API key 认证的 Codex 和 OpenAI API 不受这次退役影响。模型名称、可见档位和账号权限仍以当前 `/model` 为准。
-
-### 1.3 2026 年 9 月 CLI 复核要点
-
-本机 `codex --version` 为 `codex-cli 0.154.0`。官方 Changelog 记录了几个会影响旧笔记的升级点：
-
-1. `codex mcp-server` 命令及独立 `codex-mcp-server` 已于 2026-09-05 移除；需要构建集成时改看实验性的 `codex app-server`，日常接外部 MCP 仍使用 `codex mcp`。
-2. `approval_policy = "untrusted"` 已不再支持；项目 `trust_level = "untrusted"` 仍是另一回事。
-3. CLI 继续提供 `codex cloud`、`codex app`、`codex review`、`codex exec`、plugins、hooks、Goals 和本地/云端工作流，但成熟度以当前 `codex --help` 与官方命令参考为准。
-
-### 1.4 近期新增功能雷达：哪些值得开发者马上熟悉
-
-下面只收录近几个月已经进入官方文档或 Changelog、并且会改变日常开发工作流的能力。具体是否出现，仍取决于账号、地区、工作区策略和客户端版本。
-
-| 能力 | 近期状态 | 最值得用在哪 | 最短上手动作 |
+| 模型 ID | 用途 / 边界 | 随包默认 effort | 目录中的 reasoning efforts |
 |---|---|---|---|
-| `gpt-6-astra` 与 Ultra reasoning | 模型页已列为最强端到端档；Ultra 会委派 subagents | 跨代码、应用、研究的长链路任务 | `/model` 先确认 Astra/Ultra 是否对账号开放，再用一个可验收的小任务试跑 |
-| Site tools（WebMCP） | 2026-08-25 加入桌面内置浏览器 | 网站提供结构化工具时，优先用站点工具完成操作 | 更新桌面 App，在内置 Browser 打开支持 WebMCP 的站点；不要把它和普通网页搜索混为一谈 |
-| 事件触发 Scheduled tasks | 可由 Gmail、Slack、GitHub 事件触发 | PR 评论、合并、指定邮件或 Slack 频道出现时自动启动处理 | 先连接对应 App，创建一个只读/草稿型任务；事件触发与时间计划不能同时使用 |
-| GitLab Codex cloud | 2026-08-19 Beta | Issue、Merge Request、自动 MR review | 连接 GitLab 项目并创建 Cloud environment；大型/折叠 diff 可能无法完成 review |
-| CLI `codex agents` / `codex queue` | 0.154.0 help 已提供 | 观察共享本地会话、给长任务追加排队消息 | 先运行 `codex agents` 找到目标 session，再用 `codex queue --help` 确认参数 |
-| App server | `codex app-server` 仍为 experimental | 本地协议客户端、IDE 或自动化集成 | 先用 `codex app-server --stdio` 做本地调试；生产集成不要依赖实验接口 |
-| 浏览器扩展多浏览器 | 2026-08-25 扩展到 Edge、Brave、Opera、Vivaldi | 需要引用已有浏览器标签页、选中文本或 YouTube 上下文 | 在桌面 App 的 Computer Use 设置中配置扩展；浏览器登录态仍与内置 Browser 分离 |
-| Linux 桌面预览与 Agent 导入 | 2026-08-11 开放 Linux 预览，并支持从 Claude Code/Cursor 导入 | Linux 本地项目、迁移已有 agent 规则/skills/近期工作 | 先导入一份非关键项目，核对 `AGENTS.md`、skills、plugins 和最近会话后再启用自动同步 |
+| `gpt-6-astra` | 最困难的复杂工作 | low | low / medium / high / xhigh / max / ultra |
+| `gpt-6.1-sol` | 当前目录默认；最新日常编码主力 | low | low / medium / high / xhigh / max / ultra |
+| `gpt-6-sol` | 上一代主力 | medium | low / medium / high / xhigh / max / ultra |
+| `gpt-6-luna` | 轻量快速任务 | medium | low / medium / high / xhigh / max |
+| `gpt-5.6-sol` | 旧主力，兼容配置 | low | low / medium / high / xhigh / max / ultra |
+| `gpt-5.6-terra` | 旧平衡档 | medium | low / medium / high / xhigh / max / ultra |
+| `gpt-5.6-luna` | 旧轻量档 | medium | low / medium / high / xhigh / max |
+| `gpt-daybreak-blue-latest` | 专项访问程序，需 eligible opt-in | low | low / medium / high / xhigh / max / ultra |
+| `gpt-daybreak-red-latest` | 专项访问程序，需 eligible opt-in | medium | low / medium / high / xhigh / max / ultra |
+| `gpt-5.5` | 历史兼容模型 | medium | low / medium / high / xhigh |
+| `codex-auto-review` | 审核专用，不作为普通编码模型 | medium | low / medium / high / xhigh / max |
 
-这张表的共同原则是：先用最小任务验证权限、上下文和产物，再把能力接进长期自动化。尤其是 Site tools、事件触发任务、Cloud 和 App server，它们的可用性与数据边界都明显不同，不能只看到菜单就默认已经具备完整权限。
+### 1.1 选择与推理强度
 
-### 1.5 一周内熟练的练习顺序
+一般编码任务先使用账号可用的 `gpt-6.1-sol`，困难研究/跨工具任务评估 Astra，轻量任务评估 Luna。先查看 `/model` 和 `/status`，不要把随包目录视为账号授权目录。`ultra` 在支持的模型目录中描述为自动任务委派；是否允许并行仍受任务指令与运行环境限制。
 
-按下面顺序练，每一步都留下可复用的命令或项目配置：
+以前建议统一写 `medium` 只是任务建议；当前 GPT-6.1 Sol 与 Astra 的随包默认为 `low`，GPT-6 Sol/Luna 为 `medium`。不设置覆盖时尊重模型/server 默认，难任务再显式提高 effort。ChatGPT 登录模型退役与 OpenAI API 生命周期是不同范围，本文不凭旧发布日期推断 API 模型已退役。
 
-1. **第 1 次**：在测试仓库用 `/model` 试 Terra、Sol 和可见的 Ultra，记录同一个小 bug 在速度、修改范围和验证完整度上的差异。
-2. **第 2 次**：用 `codex exec --json` 跑一次只读仓库盘点，再用 `codex review --uncommitted` 审查一个人为制造的小改动。
-3. **第 3 次**：用 `codex --worktree`（或 App 的 Worktree）并行处理两个独立任务，练会查看分支、diff、依赖和清理策略。
-4. **第 4 次**：在内置 Browser 中试 Site tools 或浏览器扩展标签页引用，只做查询、提取和草稿，不做发布与删除。
-5. **第 5 次**：创建一个 GitHub/Slack 事件触发的 Scheduled task，让它只生成报告或草稿，观察失败重试和通知。
-6. **第 6-7 次**：用 GitLab Cloud Beta 或 Cloud delegation 跑一个低风险分支，练习从云端结果回到本地 review、修改和提交。
+### 1.2 上下文不能照抄 1M 模板
 
-每次练习都记录四个结果：实际模型、权限/沙箱、输入上下文来源、最终验证命令。这样功能升级时只需替换其中一项，不会把“新按钮出现了”误当成“工作流已经掌握”。
+随包目录中的 GPT-6.1 Sol 默认 `context_window=272000`，`max_context_window=872000`；当前 server、认证方式、模型和 provider 可以进一步影响预算。手工写 `model_context_window=1050000` 不会让服务端支持 1M。默认沿用模型元数据，显式覆盖前核实线路支持，并确保压缩阈值在可用预算内。
 
-### 1.1 推理强度也要跟模型一起看
+### 1.3 2026 年 10 月的开发者更新
 
-当前 CLI 中，Sol 和 Terra 可见 `low / medium / high / xhigh / max / ultra`，Luna 可见到 `max`，旧模型通常只到 `xhigh`。不同版本和账号仍可能不同，所以：
+| 更新 | 当前含义 | 建议练习 |
+|---|---|---|
+| `/tui` 与默认全屏 transcript | 模式、选择、搜索、复制、原生 Mermaid/公式渲染 | 阅读长输出后练习 /copy、Ctrl+Insert 和 /raw |
+| `/daemon` 与后台自动启动 | CLI 与共享 server 版本/显式 features 要兼容 | 遇到启动异常先看 doctor、/warnings、/daemon |
+| `/usage` 与 Command Center | 账号用量、活动统计、任务状态与 pin | 用 /agents 管理任务，检查跨线程工作目录 |
+| `/mcp login <name>` | 可在当前 terminal session 中完成 MCP OAuth | 区分 ChatGPT 登录和 MCP 授权 |
+| Provider capabilities | 显式声明托管 live search 和 remote_compaction | 只按网关真实实现填写 |
+| `instant_interrupt` | 0.159 新增 opt-in；当前本机状态可能由覆盖改变 | 区分 steer 与 queue，不照抄 true 给全部项目 |
+| CRLF 保留 | 0.162 默认保留已有行尾 | 删除旧 preserve_line_endings feature override |
+| 内置 plugin-creator 移除 | 0.159 不再内置这个 skill | 先查 /skills；按插件规范维护清单 |
 
-1. 以当前 `/model` 列表为准
-2. 日常任务从模型默认档或 `medium` 起步
-3. Sol 当前默认可以从较低 effort 开始，难任务再逐级提高
-4. `max` 和 `ultra` 不是长期默认；只有代表性任务证明质量收益时才使用
-5. CLI 档位和 API 的 `reasoning.effort` 不能直接混写
+### 1.4 工具动态的固定核对入口
 
-### 1.2 第三方线路该怎么写模型，才不会过时
-
-任何第三方线路都建议统一用这句模板：
-
-1. “以下模型名仅作当前示例，更新前请先核对该服务商后台当前开放模型”
-2. “如果服务商未开放官方当前默认示例，请直接以后台真实可选模型为准”
-3. “不要把历史线路样例模型名当长期固定默认答案”
+第三篇维护全部配置与 feature 生命周期，第六篇维护全部内置 slash、aliases、CLI 命令和参数，第九篇维护版本差异。第三方 provider 模型名、桌面按钮和 IDE rollout 应单独标注版本，避免与 CLI 定义混写。
 
 ---
 
@@ -154,7 +122,7 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 | 跨设备继续工作 | Remote | 手机或其他受支持设备连接 Mac/Windows host |
 | 口头协调多个线程 | ChatGPT Voice | 在 Chat、Work、Codex 中启动、检查和 steer 任务 |
 
-当前 App 的版本检查、账号与灰度边界、工作流步骤、Computer Use 的 Windows 前台限制，以及 Remote、Voice、Record & Replay 的平台差异，全部集中在[第八篇：Codex 桌面 App 当前功能与 Windows 实战](#/note/AI工具/02_终端Agent流/Codex/08_Codex桌面App当前功能与Windows实战)。后续 App 更新也只维护第八篇，避免同一事实散落在多篇文章里。
+当前 App 的版本检查、账号与灰度边界、工作流步骤、Computer Use 的 Windows 前台限制，以及 Remote、Voice、Record & Replay 的平台差异，全部集中在[第八篇：Codex 桌面 App 当前功能与 Windows 实战](/console/articles/ai-agent-codex-desktop-app-windows-workflow-20260726)。后续 App 更新也只维护第八篇，避免同一事实散落在多篇文章里。
 
 ---
 
@@ -420,7 +388,7 @@ MCP 的“怎么连上”，第一篇、第六篇、第二篇已经够用了。
 1. `required = true`
 2. `enabled_tools`
 3. `disabled_tools`
-4. `startup_timeout_ms`
+4. `startup_timeout_sec`（旧版也接受 startup_timeout_ms，注意单位）
 5. `tool_timeout_ms`
 
 ### 5.3 `AGENTS.md` 进阶
@@ -567,13 +535,13 @@ sandbox_mode = 'read-only'
 
 为了避免以后内容再打架，主人可以这样记：
 
-1. [第三篇：Codex 配置总手册](#/note/AI工具/02_终端Agent流/Codex/03_Codex配置总手册)
+1. [第三篇：Codex 配置总手册](/console/articles/ai-agent-codex-codex-edeadb5e)
    负责配置心智模型。
-2. [第五篇：Codex CLI / 插件 / App 三端联动实战](#/note/AI工具/02_终端Agent流/Codex/05_Codex_CLI插件App三端联动实战)
+2. [第五篇：Codex CLI / 插件 / App 三端联动实战](/console/articles/ai-agent-codex-codex-cli-app-afad6d17)
    负责三端联动与排障。
-3. [第四篇：Codex 多线路接入与迁移总手册](#/note/AI工具/02_终端Agent流/Codex/04_Codex多线路接入与迁移总手册)
+3. [第四篇：Codex 多线路接入与迁移总手册](/console/articles/ai-agent-codex-codex-94189641)
    负责官方、Packy、yunyi、rpcod 等线路选择与迁移。
-4. [第六篇：Codex 命令与配置文件速查](#/note/AI工具/02_终端Agent流/Codex/06_Codex命令与配置文件速查)
+4. [第六篇：Codex 命令与配置文件速查](/console/articles/ai-agent-codex-codex-9cf3fc01)
    负责命令、配置文件和 slash command 速查。
 5. **第七篇（本篇）**
    负责当前常用功能、官方进阶能力和最近该升级的产品认知。

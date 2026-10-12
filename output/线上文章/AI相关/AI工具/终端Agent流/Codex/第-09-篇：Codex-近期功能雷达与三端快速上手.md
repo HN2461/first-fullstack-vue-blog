@@ -1,7 +1,7 @@
 ---
 title: "第 09 篇：Codex 近期功能雷达与三端快速上手"
 slug: "ai-agent-codex-current-feature-radar-20260913"
-summary: "面向开发者持续跟进 Codex 的功能雷达，按桌面 App、VS Code/兼容 IDE、CLI 与 Cloud 拆解近期新增能力、稳定性边界和最小练习路径。"
+summary: "集中追踪 Codex 0.154 至 0.162.1 的开发者更新，区分稳定版、预发布和开发分支，说明模型、MCP OAuth、终端界面、Provider 能力、弃用项和固定复核流程。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -27,11 +27,47 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 09 篇：Codex 近期功能雷达与三端快速上手
 
-> 更新时间：2026-09-13。
-> 复核基线：本机 `codex-cli 0.154.0`、Windows Store 包 `OpenAI.Codex 26.908.4834.0`；功能是否可见仍取决于账号、地区、工作区策略、客户端版本和灰度 rollout。
+> 更新时间：2026-10-12。
+> 当前稳定基线：本机 `codex-cli 0.162.1`、Windows Store 包 `OpenAI.Codex 26.1007.2314.0`；npm alpha 为 `0.163.0-alpha.5`。
+> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 这篇把“最近推出了什么、我应该先学什么”单独维护，不替代第 03 篇配置手册、第 06 篇命令速查和第 08 篇 Windows App 实战。
 
 [[toc]]
+
+## 0. 从 0.154 到 0.162.1：当前应关注的变化
+
+本次于 **2026-10-12** 查询 npm dist-tags：`latest=0.162.1`，`alpha=0.163.0-alpha.5`。当前机器已安装稳定版，未执行升级；App 包版本读取为 `26.1007.2314.0`。以下只采用已发布稳定版的功能摘要，不把 main 提交或 alpha 自动写成稳定事实。
+
+| 稳定版本 | 开发者相关变化 | 使用动作 |
+|---|---|---|
+| 0.154.0 | Astra；实验 worktree；Windows 共享 server；异步问题；会话内刷新新安装插件工具与更新的 skills/hooks；移除 mcp-server | 不再把“安装后必须新建会话”当固定规则，先检查当前工具与 skill 目录 |
+| 0.155.0 / 0.155.1 | 实验语音；Agent 隐藏/归档/删除；daemon update 与恢复；AWS 凭据命令；新本地线程默认关闭 reasoning summaries | 第三方 provider 不支持推理摘要时先查显式 model_reasoning_summary 覆盖 |
+| 0.156.0 | `/tui` 全屏 transcript；F8/`/voice settings`；`/usage`；工作树任务和主题；`/daemon`；personality 风格弃用说明 | 学会终端模式、用量与后台服务器诊断 |
+| 0.156.1 / 0.157.0 | GPT-6 Sol/Luna；默认全屏；合格会话自动启动共享 server；Agent fork 快捷键；remote /import | 分开确认模型、线程和工作树；安装方式不会保证 server 已更新 |
+| 0.158.0 | copy-on-select/right-click-paste；MCP 注册 OAuth client secret；exec-server bearer token；透明图像背景；终端输入审批 | 改配置前查默认值，MCP OAuth 与模型登录分开 |
+| 0.159.0 | instant_interrupt opt-in；警告保留；Mermaid 渲染；复制保留 Markdown；移除 tui.prompt_suggestions 和内置 plugin-creator | 清理旧模板与过时 skill 调用 |
+| 0.159.1 / 0.161.0 | GPT-6.1 Sol 成为随包/Bedrock 目录默认；`/mcp login`；语音设备/声道；Daybreak 明确 opt-in | 先查 /model 与 provider 列表，按需选择 effort |
+| 0.159.2 / 0.160.0 / 0.160.1 | Windows 后台窗口、长路径/沙箱修复；重连消息避免重复；provider catalog 与 MCP Windows 环境变量修复 | 更新客户端后复查旧排障结论，保留未发送消息和原线程权限 |
+| 0.162.0 | 受信任项目的托管 worktree 工具；Command Center pin；/copy 和 Ctrl+Insert；滚轮速度；provider capabilities；CRLF 默认保留；Retry-After；签名 PowerShell 安装器 | 更新第三篇配置并练习第六篇命令 |
+| 0.162.1 | 修复多行异步问题导致 TUI 崩溃；修复后台 server feature 与 CLI 默认差异导致启动失败 | 当前稳定验证基线，优先检查显式 --enable/--disable 覆盖 |
+
+### 0.1 最新模型与工作流
+
+当前完整随包模型表放在第七篇：`gpt-6.1-sol` 是新主力，`gpt-6-astra` 面向最困难任务，`gpt-6-luna` 面向轻任务；GPT-6 Sol 与 GPT-5.6 目录仍有兼容项。默认 effort 是目录元数据，不能把全体模型统一写成 medium。
+
+源码中提供的窗口不是“所有线路保证”；不再使用 1M 窗口作为通用模板。新模型访问、价格和用量要按账号/provider 的实际支持核对。
+
+### 0.2 稳定、预发布和开发分支如何分开
+
+`latest` 是本次稳定基准，`alpha` 为 opt-in 测试；`main` 是开发源码。2026-10-12 的 main 新增 `/config` 偏好入口，当前 0.162.1 枚举没有它。本篇记录这个动态，但不把它加入稳定命令表，也不推断 alpha.5 一定包含它。
+
+同样，Daybreak 需要 `--enable cli_daybreak` 或 `features.cli_daybreak=true`，单写 `daybreak=true` 不足以开启 CLI 控制；访问仍要求 eligible ChatGPT 登录、OpenAI provider 与模型/程序支持。没有明确场景时保留默认关闭。exec 显式 `--cyber-access-program` 是独立入口，不等于自动获得某个程序访问权。
+
+### 0.3 完整配置与命令在哪里维护
+
+第三篇新增全量 schema 索引、feature 生命周期、provider capabilities、permissions、Hooks 与 requirements 顶层约束；第六篇新增全部稳定内置 slash、别名、参数/忙碌行为、CLI 全命令树与每个子命令的专属参数。这些内容适合用浏览器页内搜索字段，而不是每次照抄整份本机模板。
+
+---
 
 ## 1. 先记住四条主线
 
@@ -108,7 +144,7 @@ Codex agent 设置仍来自共享的 `config.toml`；扩展行为设置使用编
 | `chatgpt.reviewDelivery` | `/review` 内联显示或独立 review chat |
 | `chatgpt.runCodexInWindowsSubsystemForLinux` | Windows 下让 agent 在 WSL2 中运行，修改后需要 reload |
 
-`chatgpt.*` 不要写进 `config.toml`。共享模型、审批、沙箱、MCP 和 personalization 才写入 Codex 配置层。
+`chatgpt.*` 不要写进 `config.toml`。共享模型、审批、沙箱和 MCP 写入 Codex 配置层；personality 旧字段已弃用，不能继续作为当前回复风格设置。
 
 ### 2.5 IDE 里最快的练习
 
@@ -172,7 +208,7 @@ Site tools 允许内置 Browser 使用网站提供的结构化工具。它比单
 | MCP server | 结构化工具和外部数据连接 |
 | Connector/App | 负责 GitHub、Slack、Drive 等外部账号授权 |
 
-安装插件后新开 chat 或 CLI session，才能确保 bundled skills 完整加载。IDE 扩展当前不支持插件浏览器，不能把桌面 App/CLI 的 `/plugins` 经验直接套到 IDE。
+0.154.0 起，已有会话支持拾取新安装插件工具，并在外部更新/回滚后刷新 skills 和 hooks；先用 /plugins、/skills、/mcp 检查当前目录，未刷新或界面要求时再新开 chat/CLI session。IDE 扩展当前不支持插件浏览器，不能把桌面 App/CLI 的 `/plugins` 经验直接套到 IDE。
 
 ### 3.6 Agent 导入与 Linux 桌面预览
 
@@ -198,10 +234,10 @@ Site tools 允许内置 Browser 使用网站提供的结构化工具。它比单
 适合的沉淀顺序是：
 
 1. 先在项目 `.agents/skills` 中写一个单职责 Skill，验证触发描述和输出格式。
-2. 需要给团队安装、绑定多个 Skill 或连接外部服务时，再用 `$plugin-creator` 生成插件脚手架，并检查 `.codex-plugin/plugin.json`。
+2. 需要给团队安装、绑定多个 Skill 或连接外部服务时，按当前插件规范创建/维护 `.codex-plugin/plugin.json`；0.159 已移除内置 `plugin-creator`，只有当前 /skills 实际安装了同名第三方 skill 时才可调用。
 3. 需要让每个 Worktree 自动安装依赖、构建或启动服务时，再在桌面 App 的 Local environment 中配置 setup scripts 和 Actions。
 
-Skill 支持显式调用（CLI/IDE 中使用 `/skills` 或 `$skill-name`）和隐式调用；如果工作流有副作用，优先设置为显式调用。插件安装后要新开会话，Local environment 则要确认 primary folder 和项目根目录正确。
+Skill 支持显式调用（CLI/IDE 中使用 `/skills` 或 `$skill-name`）和隐式调用；如果工作流有副作用，优先设置为显式调用。插件安装后先检查当前目录是否刷新，必要时按提示新开会话，Local environment 则要确认 primary folder 和项目根目录正确。
 
 一个最小的项目级 Skill 目录可以是：
 
@@ -218,7 +254,7 @@ Skill 支持显式调用（CLI/IDE 中使用 `/skills` 或 `$skill-name`）和�
 
 ## 4. CLI 与 Cloud：近期新增的工程化入口
 
-### 4.1 CLI 0.154.0 需要记住的入口
+### 4.1 当前稳定 CLI 需要记住的入口
 
 ```powershell
 codex --version
@@ -309,3 +345,27 @@ GitLab 当前仍是 Beta；GitLab 省略折叠或超大 diff 时，Codex 可能�
 - CLI 命令参考：<https://learn.chatgpt.com/docs/developer-commands?surface=cli>
 - 配置基础：<https://learn.chatgpt.com/docs/config-file/config-basic>
 - Changelog：<https://learn.chatgpt.com/docs/changelog>
+
+
+## 9. 开发者固定跟进流程
+
+```powershell
+codex --version
+npm view @openai/codex version
+npm view @openai/codex dist-tags --json
+codex --help
+codex features list
+codex debug models --bundled
+Get-AppxPackage -Name OpenAI.Codex | Select-Object Name,Version
+```
+
+更新前记录安装来源和版本、查看 stable release notes，再核对第三篇中的弃用字段。需要升级时执行对应安装渠道或 `codex update`；升级后新开会话，检查 `/model`、`/status`、`/debug-config`、`/warnings`、`/daemon` 与 MCP 授权。`features list` 是当前机器最终状态，不等于官方源码默认。
+
+每周复核一个可验收的小任务：read → change → review → test。新命令若未出现在当前菜单，先确定自己在 CLI、IDE 还是桌面 App，再查是否 platform/feature/server/account 门控；不要为了找按钮切到 alpha 或手工启用所有开发中开关。
+
+- [稳定版发布记录](https://github.com/openai/codex/releases/tag/rust-v0.162.1)
+- [0.162.0](https://github.com/openai/codex/releases/tag/rust-v0.162.0)
+- [0.161.0](https://github.com/openai/codex/releases/tag/rust-v0.161.0)
+- [0.159.0](https://github.com/openai/codex/releases/tag/rust-v0.159.0)
+- [0.156.0](https://github.com/openai/codex/releases/tag/rust-v0.156.0)
+- [模型目录](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/models-manager/models.json)

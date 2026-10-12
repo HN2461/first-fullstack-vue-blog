@@ -26,7 +26,8 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 02 篇：Codex CLI 英文终端界面翻译与排错
 
-> 更新时间：2026-09-13（按本机 Codex CLI 0.154.0、Windows App 26.908.4834.0 与官方 2026 年 9 月资料复核）
+> 更新时间：2026-10-12。
+> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 这一篇不是再讲 Codex 是什么。
 > 它专门解决一个真实问题：终端里全是英文菜单、状态词、权限词、插件词和错误词，看着都认识，合起来却不知道下一步该怎么判断。
 
@@ -576,3 +577,20 @@ pwsh -File scripts/checkNodeRuntime.ps1
 - AGENTS.md：<https://developers.openai.com/codex/guides/agents-md>
 
 `/plugins`、`/skills`、`/apps`、`/hooks` 这类入口的具体显示会跟 CLI 版本、插件安装状态和账号能力有关。最稳的核对方式不是记某个静态截图，而是在当前 Codex CLI 里用 `/`、`/status`、`/plugins`、`/skills`、`/mcp` 反查实际可用项。
+
+
+## 2026-10 新终端界面词汇与排错
+
+| 英文 | 中文含义 | 当前动作 |
+|---|---|---|
+| Fullscreen transcript | 全屏会话记录 | /tui 选择下次启动模式；可搜索、选择和复制 |
+| Background server / Daemon | 共享后台服务器 | /daemon 管理；版本不同先看 doctor，不能只更新 npm 就推断 server 已更新 |
+| Command Center / Pinned | Agent 任务中心 / 固定任务 | /agents 进入；0.162 支持 p 固定，服务端需支持 |
+| Recap / Compact | 当前任务回顾 / 上下文压缩 | /recap 与 /compact 的目的不同 |
+| Raw scrollback | 便于终端原生选择的输出 | /raw；与“显示私有推理”无关 |
+| Usage / Reset | 账号用量 / 可用限额重置 | /usage；展示内容依账号/server |
+| Retained warnings | 保留的警告 | /warnings；0.159 起关闭已审阅项后清除，k 保留 |
+| Title / Rename | 终端标题 / 线程名称 | /title 配置终端标题字段，/rename 改线程名 |
+| MCP OAuth login | 外部工具授权 | /mcp login &lt;name&gt;；不等同于 codex login |
+
+完整命令不要按旧截图补齐，统一查第六篇的稳定版枚举和门控说明。
