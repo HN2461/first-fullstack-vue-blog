@@ -1,7 +1,7 @@
 ---
 title: "第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错"
 slug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
-summary: "基于 2026-07-04 Claude Code 官方 Skills、MCP、Plugins、Commands 与 Debug 文档复核更新，专门解决“装了很多 skill、MCP、plugin，但终端里全是英文，看不懂也不会调用”的程序员实战问题，按 `/mcp`、`/skills`、`/plugin` 与斜杠命令列表逐屏拆解。"
+summary: "按 2026-10-12 Claude Code 2.1.296 官方 Commands、Skills、MCP、Plugins、Interactive Mode、Agent View 与 Changelog 更新，重新整理 /mcp、/skills、/plugin、权限提示、后台会话、全量斜杠命令和常见排错路径。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,13 +22,12 @@ originalId: "6a2d291d8a2b1c68f2cabf3e"
 originalSlug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
 originalStatus: "published"
 publishedAt: "2026-05-30T09:36:22.756Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-12T21:50:00.000Z"
 exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错
 
-> 这一篇不是再给你讲一遍抽象概念。  
-> 这一篇是专门解决一种很真实的程序员状态：东西装上了，终端也能打开，但满屏英文、状态词、命令名、插件名，看着像都认识，合起来就是不知道自己现在到底能不能用、该怎么用。
+> 本文按 2026-10-12 官方页面和 Claude Code `2.1.296` 核验。终端里的英文词、命令和状态项会随版本、账号、Provider、插件和组织策略变化；本文先解释判断方法，再给当前 Commands 页面抓到的完整命令索引。
 
 [[toc]]
 
@@ -36,1327 +35,449 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 ## 这篇到底帮你解决什么
 
-如果主人现在的感受是下面这种：
+你看到一个名字时，先判断它的来源：
 
-- 我装了 MCP、skills、plugins
-- `/` 一敲出来一堆命令，但不知道哪些是官方内置，哪些是我后来装出来的
-- `/mcp` 里看见 `connected`、`failed`、`2 tools`，不知道分别说明什么
-- `/skills` 里看见 `plugin`、`locked by plugin`、`~40 tok`，不知道这些英文到底在表达什么
-- `/plugin` 里又有 `Discover`、`Installed`、`Marketplaces`、`Errors`，更懵
+```text
+内置命令/别名 → Claude Code 本体
+Skill / Workflow → 可复用提示或编排流程
+MCP prompt/tool → 外部 MCP server 提供
+Plugin → 打包 Skills、agents、hooks、MCP、LSP 的分发单元
+```
 
-那这篇就是给这个状态写的。
-
-你先记住一句总判断：
-
-- `/mcp` 看“外部工具连没连上”
-- `/skills` 看“Claude 现在知道哪些技能”
-- `/plugin` 看“这些能力是从哪装进来的、有没有启用、有没有报错”
-- `/` 命令列表看“这一局会话里你现在到底能直接敲什么”
-
----
-
-## 先用一句人话，把这三层分开
-
-你之前并不是不懂概念，而是实际界面里它们挤在一起了。
-
-### MCP
-
-MCP 可以理解成“Claude 新接上的外部工具接口”。
-
-比如：
-
-- 查官方文档
-- 连浏览器
-- 连 GitHub
-- 连数据库
-
-所以 `/mcp` 本质上是在看：这些外部能力活没活着。
-
-### Skill
-
-Skill 可以理解成“Claude 的一套可复用工作套路”。
-
-比如：
-
-- 前端重构怎么拆步骤
-- 系统化排错怎么问
-- 验证完成前该检查什么
-
-所以 `/skills` 本质上是在看：Claude 当前有哪些“套路卡片”可用。
-
-### Plugin
-
-Plugin 可以理解成“把 skill、MCP、hooks、agents 打包安装进来的容器”。
-
-所以 `/plugin` 本质上是在看：这些扩展是谁带进来的、是否启用、是否有错误。
+同一个 `/name` 可能来自 Skill、Plugin 或 MCP prompt；“在菜单里出现”只代表当前会话发现了它，不代表 Claude 一定会主动调用，也不代表你有权执行它。
 
 ---
 
 ## 一、`/mcp` 页面怎么读
 
-你截图里最关键的几行，实际上已经把信息说得很清楚了，只是它用的是终端式英文。
+### 1. 状态词
 
-先用一张文字图，把 `/mcp` 页面真正的阅读顺序固定下来：
+| 状态/标签 | 解释 | 下一步 |
+| --- | --- | --- |
+| `connected` | server 连接成功 | 看工具数量，调用一个最小工具验证 |
+| `failed` | 启动、认证或协议失败 | `/mcp reconnect <server>`，再看 `claude --debug=mcp` |
+| `needs auth` / OAuth | 需要登录或重新授权 | 按提示授权，检查远程 URL 和回调 |
+| `deferred` | 工具 schema 按需加载 | 第一次调用会加载；不是失败 |
+| `disabled` | 被 `/mcp disable` 或设置键关闭 | 检查 `enabledMcpjsonServers/disabledMcpjsonServers` |
+| `2 tools` | 当前已加载的工具数 | server 可能还有延迟工具 |
 
-```mermaid
-flowchart TD
-  A["/mcp 页面"] --> B["先看作用域<br/>User / Project / Local"]
-  A --> C["再看状态<br/>connected / failed / pending / needs-auth"]
-  A --> D["最后看工具数<br/>2 tools / 0 tools"]
-  C --> E["failed = 先排错<br/>不要指望它自动工作"]
-  D --> F["0 tools = 进程可能起来了<br/>但能力还没真正交给 Claude"]
-```
+### 2. MCP 的作用域
 
-### `Manage MCP servers`
+- `~/.claude.json`：个人本地配置。
+- 项目根 `.mcp.json`：可以随 Git 共享。
+- Plugin manifest：随插件加载。
+- `--mcp-config`：当前启动会话；配合 `--strict-mcp-config` 可以只使用显式文件。
+- Managed MCP：组织控制的 allow/deny、OAuth 和服务器清单。
 
-意思是：
+`.mcp.json` 中不要提交 token、本机绝对路径和个人数据库地址。需要认证时优先 OAuth、环境变量或凭据 helper。
 
-- 管理 MCP 服务器
-
-这里的 server 不要脑补成“远程大服务器”。  
-在 Claude Code 语境里，它就是一个对外能力入口。它可以是：
-
-- 本地启动的进程
-- 远程 HTTP 服务
-- 需要 OAuth 登录的连接器
-
-### `2 servers`
-
-意思是：
-
-- 当前 Claude Code 发现了 2 个 MCP 服务
-
-注意这是“发现了两个服务”，不是“两个命令”，更不是“两次连接”。
-
-### `User MCPs (C:\Users\HN246\.claude.json)`
-
-这行特别重要。
-
-它告诉你两件事：
-
-- 这一组 MCP 是 `User` 作用域，不是项目级
-- 它们的配置来自你的用户配置文件 `C:\Users\HN246\.claude.json`
-
-按 Claude Code 官方文档，MCP 常见有三种作用域：
-
-- `User`：你这个账号下所有项目都能用
-- `Project`：当前仓库可用，通常会写进项目根目录的 `.mcp.json`
-- `Local`：只对你当前这个项目私有可见
-
-所以以后你看见这一行，第一反应就该是：
-
-- 原来这不是项目自带的，是我自己账户层装进去的
-
-### `chrome-devtools · failed`
-
-这行的意思不是“你装错了”，而是：
-
-- 这个 MCP 项已经被识别到了
-- 但当前会话里它没有成功连上或启动成功
-
-`failed` 在这里可以简单理解成：
-
-- 启动失败
-- 连接失败
-- 初始化失败
-
-按官方排障文档，最常见的几类原因是：
-
-- 启动命令本身有问题
-- 路径写错了
-- 相对路径是相对你启动 `claude` 的目录，而不是相对 `.mcp.json`
-- 服务进程起来了，但没正确返回工具列表
-
-如果你看到的是浏览器类 MCP 失败，那对你最直接的影响就是：
-
-- 页面打开
-- DOM 检查
-- 截图
-- 浏览器自动化验收
-
-这类能力这局基本就别指望它正常出手了，先修连接问题。
-
-### `context7 · connected · 2 tools`
-
-这一行是“好消息”。
-
-它表示：
-
-- `context7` 这个 MCP 已经连接成功
-- 它当前向 Claude 暴露了 2 个可调用工具
-
-`2 tools` 不要理解成“两个页面”或“两个插件功能页”，它更准确的意思是：
-
-- 这个 MCP server 现在提供了 2 个工具能力给 Claude 调用
-
-所以这行翻成大白话就是：
-
-- `context7` 现在是活的，而且 Claude 已经拿到它的两个可用工具了
-
-如果你的目标是“查官方文档再改代码”，那看到 `context7 · connected`，就说明这一类能力已经通了。
-
-### `Run claude --debug to see error logs`
-
-这句的意思是：
-
-- 用调试模式启动 Claude Code，去看更详细的错误日志
-
-对程序员来说，这句话很实用，因为它不是废话提示，它是在告诉你：
-
-- 现在这个 UI 只告诉你“失败了”
-- 真正失败原因要去 debug log 里看
-
-最常用的就是：
-
-```bash
-claude --debug
-```
-
-如果你怀疑就是 MCP 层的问题，官方排障文档也建议进一步看：
-
-```bash
-claude --debug mcp
-```
-
-### `/mcp` 里常见状态词速读
-
-- `connected`：已连上，可以用了
-- `failed`：没连成，先排错，别指望它自动工作
-- `pending`：正在连接中，别急着下结论
-- `needs-auth`：服务本身没坏，但还缺登录或 OAuth 授权
-- `disabled`：当前被禁用，Claude 不会用它
-
-### 你看到 `/mcp` 后最该怎么判断
-
-只看三件事就够了：
-
-1. 它在哪个作用域
-2. 它现在是 `connected` 还是 `failed`
-3. 它后面有没有工具数量，比如 `2 tools`
-
-如果一项是：
+### 3. 最小排障链
 
 ```text
-server-name · connected · 0 tools
+/mcp
+/mcp reconnect all
+claude --debug=mcp
 ```
 
-那就说明：
-
-- 服务进程可能起来了
-- 但没有把工具列表正确交给 Claude
-
-这时不要误以为“已经好了”，它其实还是半残状态。
+然后检查：server 进程是否退出、URL 是否可达、`stdio` command 是否在 PATH、环境变量是否传入、工具 schema 是否超过限制、组织 `allowedMcpServers/deniedMcpServers` 是否拦截。MCP 连接成功但工具不可用时，先确认工具是否 deferred 和当前模型/Provider 是否支持 tool search。
 
 ---
 
 ## 二、`/skills` 页面怎么读
 
-`/skills` 不是“我安装了哪些插件”的页面。  
-它更像是：
+### 1. Skill、bundled skill 和 plugin skill
 
-- Claude 当前能看到哪些技能
-- 这些技能现在对 Claude 可见到什么程度
+- **Project/User Skill**：`.claude/skills/` 或 `~/.claude/skills/`，你可以编辑。
+- **Bundled skill**：Claude Code 随版本提供，例如 `/doctor`、`/run`、`/verify`、`/simplify`、`/code-review`、`/deep-research`、`/batch`。
+- **Plugin skill**：由插件提供，通常显示 namespace 或 `locked by plugin`。
+- **Synced skill**：从 claude.ai 账户同步，受账户和组织策略控制。
 
-### `14 skills`
+### 2. 看到的字段
 
-意思是：
+| 页面文字 | 解释 |
+| --- | --- |
+| `N skills` | 当前会话发现的 Skill 数量，不是你安装过的总数 |
+| `plugin` / `bundled` / `project` / `user` | Skill 来源 |
+| `locked by plugin` | 由插件管理，不能用普通 `skillOverrides` 修改 |
+| `~40 tok`、`~80 tok` | Skill 描述加载到每次请求的估算上下文成本 |
+| `name-only` | 只把名字/描述展示给模型，不载入正文 |
+| `off` | 关闭该 Skill 的发现或调用 |
+| `Space to cycle` | 在可见、仅名、关闭之间切换；保存前按 Esc 取消 |
 
-- 当前会话一共发现了 14 个 skills
+`disable-model-invocation: true` 的 Skill 仍可由用户显式 `/name` 调用；`user-invocable: false` 则不会作为用户命令出现，但模型可在相关任务中使用。安装很多 Skill 后，优先用 `/skill-doctor` 查上下文成本和使用频率。
 
-这里的 14，不一定都来自你手动写的 `.claude/skills`。
+### 3. Skill 不触发的排查
 
-它们可能来自：
-
-- Claude 自带
-- 你用户目录下的 skill
-- 当前项目里的 skill
-- 某个 plugin 打包带进来的 skill
-
-### `superpowers:brainstorming`
-
-这类带冒号的名字，程序员一眼就该警觉：
-
-- 这是带命名空间的 skill
-
-按官方插件文档，plugin 提供的 skill 会带上插件命名空间，例如：
-
-```text
-/my-plugin:hello
-```
-
-所以你这里的：
-
-```text
-superpowers:brainstorming
-```
-
-基本就表示：
-
-- 这是 `superpowers` 这个插件带进来的一个 skill
-- skill 名是 `brainstorming`
-
-也就是说，它不是 Claude Code 原生内置命令。
-
-### `plugin`
-
-这不是让你“安装插件”的按钮说明，而是在告诉你这个 skill 的来源：
-
-- 这个 skill 来自 plugin
-
-你可以把它理解成一个来源标签。
-
-它在回答的问题是：
-
-- 这是系统自带的，还是插件带来的
-
-### `locked by plugin`
-
-这句是很多人第一次看最懵的地方。
-
-把它翻译成人话就是：
-
-- 这个 skill 不归 `/skills` 单独管理
-- 它是由 plugin 托管的
-- 你如果要启用、禁用、卸载它，要去 `/plugin`
-
-Claude Code 官方文档明确说了：
-
-- `/skills` 里对 skill 可见性的切换，会写入 `skillOverrides`
-- 但 plugin skills 不受这个机制控制
-- plugin skills 要通过 `/plugin` 去管理
-
-所以你看到 `locked by plugin` 时，不要继续在 `/skills` 里折腾，它已经在提示你“去上层容器处理”了。
-
-### `~40 tok`、`~80 tok` 到底什么意思
-
-这个词官方没有在 `/skills` 页面说明里逐字解释到每一行，但结合官方两处文档可以基本确定它的用途：
-
-- `/skills` 支持按 `token count` 排序
-- `/plugin details` 会展示插件组件的大致 token 成本
-
-所以这里更合理的理解是：
-
-- 这是这个 skill 的大致上下文成本估算
-
-你可以把它先粗暴理解成：
-
-- 这个 skill 被 Claude 认识和使用时，大概会占掉多少上下文预算
-
-它不是：
-
-- 你手动输入这条命令要额外充值多少
-- 最终回答一定输出多少 token
-
-它更像一个“这张技能卡有多重”的估算值。
-
-### `Space to cycle, Enter to save, / to search, t to sort, Esc to cancel`
-
-这行是终端交互提示，不是正文说明。
-
-逐项读就行：
-
-- `Space to cycle`：按空格，在几种可见性状态之间切换
-- `Enter to save`：按回车，保存你刚才的切换
-- `/ to search`：按 `/`，搜索 skill
-- `t to sort`：按 `t`，按 token 成本排序
-- `Esc to cancel`：按 `Esc`，取消退出
-
-对于程序员来说，这一行真正有价值的是：
-
-- `/skills` 不是只读页面，它是可配置页面
-
-### 你按空格切换时，实际在改什么
-
-按官方文档，`/skills` 会把结果写进：
-
-```text
-.claude/settings.local.json
-```
-
-对应的是 `skillOverrides` 配置。
-
-常见状态有四种：
-
-- `on`：名字和描述都对 Claude 可见，也会出现在 `/` 菜单里
-- `name-only`：Claude 只看到名字，看不到完整描述
-- `user-invocable-only`：Claude 不会自动调用，但你还能手动从 `/` 菜单里调用
-- `off`：Claude 看不到，你也不能从 `/` 菜单里调
-
-所以 `/skills` 不是拿来看热闹的，而是在调“Claude 平时能看到多少技能上下文”。
-
-### `Plugin skills are managed via /plugin`
-
-这句其实就是上面那句 `locked by plugin` 的正式说明版。
-
-翻成大白话：
-
-- 这些由插件带进来的 skills，不归 `/skills` 这个页面管
-- 你要管它们，去 `/plugin`
-
-所以你如果装了一个前端插件，然后在 `/skills` 里看见它的 skill，但怎么按都不对，那大概率不是你手残，是你找错入口了。
+1. 描述是否写了自然语言触发场景。
+2. 是否被 `disable-model-invocation`、`skillOverrides`、Managed policy 或 `--disable-slash-commands` 关闭。
+3. Skill 是否位于当前作用域，或被错误放在旧的 `.claude/commands/` 路径。
+4. front matter 是否有不支持的键，`SKILL.md` 是否 UTF-8、YAML 可解析。
+5. Skill 是否需要 `context: fork`、Agent 或额外文件，当前 Provider 是否允许。
 
 ---
 
 ## 三、`/plugin` 页面怎么读
 
-`/plugin` 是主人现在最该熟的页面，因为它正好处在“我明明装了很多东西但不知道它们有没有真的进入工作流”的交界层。
-
-先看这一张文字图，先把 `/plugin` 里几块最容易混的入口拆开：
-
-```mermaid
-flowchart TD
-  A["/plugin 页面"] --> B["Discover<br/>看还能装什么"]
-  A --> C["Installed<br/>看已经装了什么"]
-  A --> D["Details<br/>Will install / Installed components"]
-  A --> E["Errors<br/>看哪一项失败了"]
-  D --> F["Will install<br/>装之前判断以后去 /skills、/mcp 还是 / 命令列表"]
-  D --> G["Installed components<br/>装之后确认已经多了哪些 skill、hooks、MCP"]
-```
-
-### `Discover`
-
-意思是：
-
-- 浏览可安装插件
-
-注意：
-
-- 这不是“已安装列表”
-- 这是“插件市场浏览页”
-
-官方文档里把 marketplace 类比成 app store。  
-你加了市场，不等于你装了里面所有插件。
-
-### `Installed`
-
-意思是：
-
-- 已安装插件列表
-
-这个页最适合回答三个问题：
-
-- 这个插件到底装没装
-- 当前是不是启用状态
-- 它带来的 MCP 或 skill 有没有报错
-
-### `Marketplaces`
-
-意思是：
-
-- 你当前加了哪些插件市场目录
-
-这一页管的是“商店来源”，不是具体插件本体。
-
-所以程序员要分清两个动作：
-
-- `add marketplace`：只是加一个可浏览的插件目录
-- `install plugin`：才是真把某个插件装进来
-
-### `Errors`
-
-意思是：
-
-- 插件加载错误列表
-
-这页非常值得看，因为很多时候你以为“插件装好了但不会用”，实际情况是：
-
-- 插件装上了
-- 但其中某个 MCP server 或依赖没正常启动
-
-于是最后表现出来就是：
-
-- 你能看见插件名字
-- 但实际能力失灵
-
-### `chrome-devtools MCP · failed`
-
-这一行很容易被误读成“chrome-devtools 这个插件彻底坏了”。  
-更准确的读法是：
-
-- 这个插件或插件组件里带来的 MCP 服务，目前失败了
-
-所以你该想到的是：
-
-- 问题可能在这个 MCP 组件
-- 不一定是整个插件完全不可见
-
-### `superpowers Plugin · enabled`
-
-这一行就比较直接：
-
-- `superpowers` 这个 plugin 已安装
-- 当前是启用状态
-
-如果你前面在 `/skills` 里看到了很多 `superpowers:*`，那这里就是来源对上了。
-
-### `context7 MCP · connected`
-
-这说明：
-
-- `context7` 这一项在插件管理视角里也是正常的
-- 它的 MCP 连接已经建立成功
-
-如果你是做开发时想先查官方文档，这一项正常，就意味着这一类工作流可以放心写进 prompt 里。
-
-### `claude-plugins-official`
-
-这是官方插件市场。
-
-按 Claude Code 官方文档，它默认就会出现在安装里。  
-所以你看到它，不是异常，而是正常。
-
-它的意思是：
-
-- 这是 Anthropic 官方提供的插件市场目录
-- 你可以在 `Discover` 里直接浏览官方维护的插件
-
-### `/plugin` 页面真正该怎么用
-
-如果你安装完一个插件，却不知道“到底多了什么能力”，最稳的顺序是：
-
-1. 进 `Discover` 或 `Installed`
-2. 选中这个插件，按 `Enter`
-3. 看它的详情页
-
-官方文档明确说，插件详情页会展示：
-
-- `Context cost`：大致会增加多少上下文成本
-- `Will install`：它会带来哪些 commands、agents、skills、hooks、MCP、LSP
-
-这一步特别关键，因为它能直接回答：
-
-- 这个插件安装后，我以后到底该敲什么命令
-- 它是给我加了 skill，还是加了 MCP，还是只加了某个 LSP
-
-这里正好对应你截图里的两个高频判断：
-
-- `Will install`：这是装之前最该看的，决定你后面到底去 `/skills`、`/mcp` 还是 `/` 命令列表
-- `Installed components`：这是装之后最该看的，决定你现在已经多了哪些 skill、hooks、MCP 组件
-
-### 什么时候需要 `/reload-plugins`
-
-按官方文档：
-
-- 你在会话中途安装、启用、禁用插件后
-- 要运行 `/reload-plugins`
-
-这样 Claude Code 才会在不重启终端的情况下把变化重新载入。
-
-所以如果你刚装完插件就说“怎么没出来”，先别急着怀疑人生，先看看有没有 reload。
-
----
-
-## 四、斜杠命令列表到底怎么看
-
-你最容易混乱的地方，恰恰就是 `/` 一敲出来的那一大坨命令。
-
-其实你只要先分来源，就不难了。
-
-先把 `/` 命令列表按来源看成这 4 类：
-
-```mermaid
-flowchart LR
-  A["/ 命令列表"] --> B["内置命令<br/>/mcp /plugin /skills /background"]
-  A --> C["官方 bundled skill<br/>/batch /debug /loop /run /simplify /verify"]
-  A --> D["Plugin 带来的能力<br/>/superpowers:brainstorming"]
-  A --> E["MCP 暴露的 prompt<br/>/mcp__github__list_prs"]
-```
-
-### 第一类：Claude Code 内置命令
-
-这类命令是 CLI 自己写死的功能。
-
-典型例子：
-
-- `/mcp`
-- `/plugin`
-- `/skills`
-- `/agents`
-- `/background`
-- `/effort`
-- `/export`
-- `/status`
-- `/permissions`
-- `/doctor`
-- `/init`
-- `/model`
-- `/context`
-- `/memory`
-
-这类命令的特点是：
-
-- 它们本身不是你后来安装某个插件才出现的
-- 它们主要负责“管理、查看、切换、诊断”
-
-### 第二类：Claude 官方自带的 skill 或 workflow
-
-官方命令文档里会把一批命令标成 `Skill`。  
-意思是有些看起来像命令的东西，本质上是官方内置的 prompt-based skill，不是硬编码管理功能。比如 review、debug、run、verify、batch 这类能力，就属于这一路。
-
-所以你看到一个命令，不要默认它全都是“硬编码内置功能”。
-
-### 第三类：插件带进来的命令或 skill
-
-这类最常见的识别特征是：
-
-- 名字带插件命名空间
-- 或者你能在 `/plugin` 里找到它的来源
-
-例如：
+### 1. 四个常见标签
+
+| 标签 | 重点 |
+| --- | --- |
+| `Discover` | 当前 marketplace 可安装的插件 |
+| `Installed` | 已安装、启用/禁用状态和来源 |
+| `Marketplaces` | marketplace 来源、更新和策略 |
+| `Errors` | Plugin、Hook、MCP、依赖或 manifest 加载错误 |
+
+### 2. 常用操作
 
 ```text
-/superpowers:brainstorming
+/plugin list
+/plugin install skill-creator@claude-plugins-official
+/plugin enable <name>@<marketplace>
+/plugin disable <name>@<marketplace>
+/plugin configure <name>@<marketplace>
+/plugin update <name>@<marketplace>
+/reload-plugins
 ```
 
-这种一看就是插件技能，不是 Claude Code 原生命令。
+CLI 等价操作：
 
-### 第四类：MCP 暴露出来的 prompt 命令
+```bash
+claude plugin marketplace add anthropics/claude-plugins-official
+claude plugin install skill-creator@claude-plugins-official
+claude plugin validate ./my-plugin
+claude plugin list --json
+claude --plugin-dir ./my-plugin
+```
 
-官方 MCP 文档明确说：
+`/reload-plugins` 会重新扫描已启用插件；如果 MCP 工具变化会使 prompt cache 失效，当前版本会先提示，必要时使用 `/reload-plugins --force`。看到插件“安装成功”但命令不见，先检查是否启用、命令是否带命名空间、组件是否在 Errors 中失败。
 
-- MCP server 可以暴露 prompts
-- 这些 prompt 会出现在 `/` 命令列表里
-- 格式通常是 `/mcp__servername__promptname`
+### 3. 安装前检查
 
-所以如果你以后看到这种名字：
+- marketplace 来源是否是组织允许的 `strictKnownMarketplaces`。
+- manifest 中的 hooks、MCP、agents、skills 是否符合预期。
+- 是否会执行 shell、读取凭据或访问外部网络。
+- Plugin 是否锁定了某个 Skill，使得普通 `skillOverrides` 不生效。
+- 团队是否应该把 Plugin 声明提交到 `.claude/settings.json`，而不是每个人私下安装。
+
+---
+
+## 四、权限提示和后台转录怎么看
+
+### `Skill(update-config)` 或 `Skill(deploy)`
+
+这表示 Claude 准备调用一个 Skill，括号里是 Skill 名称，不是 shell 命令。看它的描述、front matter、`allowed-tools` 和当前权限模式；部署/提交等副作用 Skill 通常应设置 `disable-model-invocation: true`，由人显式调用。
+
+### `Bash(...)`、`Read(...)`、`MCP(...)`
+
+- `Bash(...)`：显示实际 shell 命令和工作目录，确认是否会写入、删除、联网或触碰敏感文件。
+- `Read(...)`：确认路径、是否超出工作目录和是否包含 `.env`/凭据。
+- `mcp__server__tool`：确认 server、工具名、参数、外部目标和组织策略。
+
+`allow`、`ask`、`deny` 规则按作用域合并；看到重复确认时不要立刻开启 bypass，先用 `/permissions` 查看规则来源。
+
+### `Backgrounded agent`、`Waiting for ... background agent`
+
+这是 Agent View 的会话状态：主会话把 subagent、后台会话或长命令移出前景。用下面的入口查看：
 
 ```text
-/mcp__github__list_prs
+/agents
+/list-agents
+/tasks
 ```
 
-你就应该立刻知道：
-
-- 这不是内置命令
-- 这是某个 MCP server 暴露出来的 prompt 入口
-
-### 你现在这批奇怪命令，大概率是什么来路
-
-你截图里像下面这类：
-
-- `/using-superpowers`
-- `/dispatching-parallel-agents`
-- `/systematic-debugging`
-- `/verification-before-completion`
-
-它们大概率不是 `/mcp` 这种 CLI 管理命令。  
-更像是：
-
-- 某个插件带来的 skill / command
-- 或某套工作流型能力暴露出来的入口
-
-这时最稳的排查方式不是猜，而是反查来源：
-
-1. 先到 `/plugin` 里看当前安装了哪些插件
-2. 再到 `/skills` 里看有没有同名或同一命名空间的 skill
-3. 再到 `/` 命令列表里搜索这个名字
-
-只要这三处能对上，你就知道这条命令是谁带进来的了。
+`Ctrl+O` 切换详细转录；`/focus` 只显示当前提示、工具摘要和最终结果；`/tui fullscreen` 使用全屏渲染器。后台 session 可以用 `/resume` 或 shell 的 `claude agents` 查看和重新连接。
 
 ---
 
-## 四点五、主人截图里这些命令哪些是官方的
+## 五、终端斜杠命令的四个来源
 
-这一段我专门去对了 2026-07-04 的 Claude Code 官方文档，主要看的就是：
+1. **Built-in command**：Claude Code 本体直接实现，例如 `/help`、`/status`、`/model`、`/config`。
+2. **Bundled Skill/Workflow**：随版本提供，例如 `/verify`、`/deep-research`、`/batch`。
+3. **Plugin skill/command**：安装 Plugin 后出现，可能带 namespace。
+4. **MCP prompt**：服务器提供的 prompt，通常以服务器命名空间出现。
 
-- `commands`
-- `sub-agents`
-- `agents`
-- `agent-view`
-- `interactive-mode`
-
-先给结论，不绕：
-
-- 你截图里这批东西，大部分确实是官方的
-- 但它们不全属于同一层
-- 有的是官方内置命令
-- 有的是官方自带 bundled skill
-- 有的是后台会话的 shell 子命令
-
-官方命令页还特别提醒了一句：
-
-- 不是每个用户都会看到完全一样的命令列表
-- 是否显示，取决于平台、套餐、环境和当前能力开关
-
-所以你以后看见“我这里有，别人那里没有”，先别急着怀疑是插件冲突，也可能只是官方按环境做了显隐。
-
-### 第一类：这些是官方内置命令
-
-下面这些，官方命令总表里都能直接对上：
-
-- `/add-dir <path>`
-- `/background [prompt]`
-- `/effort [level|auto]`
-- `/export [filename]`
-- `/insights`
-- `/tasks`
-
-你可以这样理解它们：
-
-### `/add-dir <path>`
-
-这是官方内置命令，不是插件命令。
-
-它的作用是：
-
-- 给当前会话额外添加一个可访问目录
-
-但这里有一个很容易踩坑的官方细节：
-
-- 它主要增加的是文件访问权限
-- 不是说你加了这个目录，里面的 `.claude/` 配置、subagent、skill 就会自动被发现
-
-所以你看到它弹出输入路径的界面，本质上就是在问：
-
-- 你要再给 Claude 临时开放哪个目录
-
-### `/agents`
-
-这是官方内置命令，不是第三方插件命令，但它的行为已经变过一次。
-
-按 2026-07-04 官方命令页，Claude Code `v2.1.198` 起 `/agents` 不再打开旧版交互式 subagent 管理界面，而是提示你直接让 Claude 创建、管理 subagents，或者手动编辑：
-
-- `.claude/agents/`
-- `~/.claude/agents/`
-
-所以如果你在旧截图里看到 `Running`、`Library`、`Built-in (always available)` 这类栏位，可以按下面的旧界面含义理解；但复习当前版本时，不要再把它当成一定会出现的新版界面。
-
-### `/background [prompt]`
-
-这是官方内置命令，别把它归到 skill 里。
-
-官方命令页的定义很直接：
-
-- 把当前会话脱离当前终端，作为 background agent 继续运行
-- 释放你当前这个终端
-
-而且官方还明确写了：
-
-- 它的别名是 `/bg`
-- 后续用 `claude agents` 去监控这个后台会话
-
-所以你截图里的：
-
-- `Backgrounded agent`
-- 后面出现一串 session id
-
-这不是某个神秘插件行为，而是官方后台会话机制本身。
-
-### `/effort [level|auto]`
-
-这也是官方内置命令。
-
-主人截图里那几个档位，官方命令页是直接写出来的：
-
-- `low`
-- `medium`
-- `high`
-- `xhigh`
-- `max`
-- `ultracode`
-
-所以你看到 `low / medium / high / xhigh / max` 这种选择器，不是第三方扩展乱加的，是官方 effort 控制界面。
-
-程序员最该记住两点：
-
-- 它本质上是在调 Claude 这轮推理投入多少
-- 不带参数时，官方会打开一个交互式 slider，让你左右切换档位
-
-`auto` 的意思则是：
-
-- 恢复模型默认 effort
-
-### `/export [filename]`
-
-这也是官方内置命令。
-
-官方命令页写得很清楚：
-
-- 它把当前对话导出为纯文本
-- 如果你直接给文件名，就直接写入文件
-- 如果你不带文件名，就会打开一个对话框，让你选择复制到剪贴板或保存到文件
-
-所以你截图里 `/export` 下面那两个选项，正好就是官方这条命令的标准行为。
-
-### `/insights`
-
-这同样是官方内置命令。
-
-官方给它的定义是：
-
-- 生成一份 Claude Code 会话分析报告
-- 里面会看项目区域、交互模式、摩擦点
-
-所以它不是“灵感面板”那种泛泛概念，而是一个官方分析入口。
-
-### `/tasks`
-
-这也是官方内置命令。
-
-它的定位是：
-
-- 查看并管理当前会话里已经转到后台的任务
-
-如果你前面已经用了：
-
-- `/background`
-- 后台 subagent
-- 某些持续运行的任务
-
-那 `/tasks` 就是当前会话层的观察口。
+命令菜单会根据当前环境过滤不可用项。输入 `/` 后，起始匹配会高亮；输入拼写错误时不会自动替你执行近似命令。完整命令在当前 CLI 的 `/help` 里优先级最高；本文的完整表按官方 Commands 页面在核验日抓取。
 
 ---
 
-### 第二类：这些也是官方，但它们属于 bundled skill
+## 六、当前官方斜杠命令完整索引
 
-下面这些，官方命令页明确标成了 `Skill`，所以它们不是“第三方插件技能”，但也不完全等同于硬编码内置命令：
+以下 119 条来自 2026-10-12 访问的官方 Commands 页面。`Purpose` 保留官方原文摘要，便于用英文命令名和官方页面交叉检索；是否显示仍受版本、账号、Provider、Plugin 和组织策略影响。已移除的命令也可能出现在旧教程中，文末另列。
 
-- `/batch <instruction>`
-- `/code-review [focus]`
-- `/debug [issue]`
-- `/loop [interval] [prompt]`
-- `/run <command> [--fix]`
-- `/simplify [target]`
-- `/verify [target]`
+| Command | Purpose（官方原文摘要） |
+| --- | --- |
+| `/add-dir <path>` | Add a working directory for file access during the current session. Type a partial path to see matching directory suggestions; press Tab to accept one. Most .claude/ configuration isn’t discovered from the added directory. You can’t add most network paths, such as \\server\share. After a successful add, your DirectoryAdded hooks run. When you run it while Claude is responding, Claude Code asks you to confirm the directory right away, and once you confirm, Claude’s next tool call in the same turn can access it. Before v2.1.234, Claude Code queued the command until the turn finished |
+| `/advisor [model\|off]` | Enable or disable the advisor tool, which consults a second model for guidance at key moments during a task. Accepts fable, opus, sonnet, or a full model ID. fable requires Fable access. Without an argument, opens a picker. In a session without an interactive terminal, or over Remote Control, pass the model or off as an argument; with no argument there, the command prints the current advisor as text. These forms require Claude Code v2.1.260 or later |
+| `/agents` | Print a reminder to ask Claude to create or manage subagents, or to edit .claude/agents/ or ~/.claude/agents/ directly. On v2.1.197 and earlier, opens an interactive interface for creating and managing subagent configurations |
+| `/artifact-capabilities` | Skill. Load the reference for the runtime capabilities a published artifact can use, such as calling your connectors or offering a file download, including which ones your account has. Claude normally loads it on its own before building a page that uses one. Available where artifacts are |
+| `/artifact-diagramming` | Skill. Load diagramming guidance for Claude to follow in artifacts: when a diagram helps, what to draw, and how to write inline SVG that stays legible in light and dark themes. Requires Claude Code v2.1.221 or later |
+| `/artifacts` | List the artifacts you own or that are shared with you, then attach one to the session, open it in your browser, or copy its link. Available where artifacts are. Requires Claude Code v2.1.208 or later; attaching with Enter requires v2.1.216 |
+| `/auto-mode-setup` | Draft autoMode.environment entries from your project and recent sessions, then review the draft and save it to your user settings. Requires a Pro, Max, or Team plan and Claude Code v2.1.228 or later. On native Windows, requires v2.1.233 or later |
+| `/autocompact [auto\|<tokens>]` | Set the auto-compact window: how full the context window gets before Claude Code compacts automatically. Pass a size such as 500k, or auto to return to the window tuned for your model. Claude Code saves the value to user settings and applies it to the current session. See Set the auto-compact window for accepted values and what overrides it. Without an argument, opens a dialog that shows the current window. Requires Claude Code v2.1.221 or later |
+| `/autofix-pr [prompt]` | Spawn a cloud session that watches the current branch’s PR and pushes fixes when CI fails or reviewers leave comments. Detects the open PR from your checked-out branch with gh pr view; to watch a different PR, check out its branch first. By default the cloud session is told to fix every CI failure and review comment; pass a prompt to give it different instructions, for example /autofix-pr only fix lint and type errors. Requires the gh CLI and access to cloud sessions |
+| `/background [prompt]` | Detach the current session to run as a background agent and free this terminal. Pass a prompt to send one more instruction before detaching. Monitor the session with claude agents. To copy the conversation into a new background session while this one keeps running, use /fork. Alias: /bg |
+| `/batch <instruction>` | Skill. Orchestrate large-scale changes across a codebase in parallel. Researches the codebase, decomposes the work into 5 to 30 independent units, and presents a plan. Once approved, spawns one background subagent per unit in an isolated worktree. Each subagent implements its unit, runs tests, and publishes its change. Requires a git repository or a WorktreeCreate hook that creates the worktrees. Outside a git repository, /batch requires Claude Code v2.1.281 or later. Example: /batch migrate src/ from JavaScript to TypeScript |
+| `/branch [name]` | Create a branch of the current conversation at this point, so you can try a different direction without losing the conversation as it stands. Switches you into the branch and preserves the original, which you can return to with /resume. To run a copy as a separate background session instead of switching into it, use /fork; to hand a side task to a subagent that reports back into this conversation, use /subtask |
+| `/btw [question]` | Ask a side question about the current session without adding to the conversation. If you run /btw without a question, Claude Code shows your most recent side question so you can browse earlier answers; if you haven’t asked one yet, Claude Code prints a usage line. Before v2.1.212, /btw required a question |
+| `/bug [report]` | Report a bug or share your conversation. You choose how much session history to include and confirm on a consent screen before anything is sent. When you’re signed in to Anthropic on a first-party connection, the report goes to Anthropic; on a third-party provider, or without Anthropic credentials, Claude Code writes the report to a local archive under ~/.claude/feedback-bundles/ that you forward yourself. In the VS Code extension, /bug opens the extension’s own feedback dialog instead; requires Claude Code v2.1.229 or later. When you run it while Claude is responding, Claude Code opens the dialog immediately. Before v2.1.232, Claude Code queued the command until the turn finished. Alias: /share. Before v2.1.212, /bug and /share were aliases of /feedback |
+| `/cd <path>` | Move this session to a new working directory, keeping the conversation. Type a partial path to see matching directory suggestions; press Tab to accept one. The suggestions require Claude Code v2.1.206 or later. For what Claude Code applies from the new directory as soon as you move, and how /cd differs from /add-dir, see Move the session to another directory |
+| `/chrome` | Configure Claude in Chrome settings |
+| `/claude-api [migrate\|upgrade\|managed-agents-onboard\|prompt-audit\|cost-optimize\|build-eval\|hillclimb\|preserved-thinking-migration]` | Skill. Load Claude API and Managed Agents reference material for your project’s language. Also activates automatically when your code imports anthropic or @anthropic-ai/sdk. For what each subcommand does and the version it requires, see Work on Claude API projects |
+| `/claude-in-chrome [task]` | Skill. Have Claude carry out a task in your browser, such as testing a page, filling a form, or reading console logs, through Claude in Chrome. Available when Chrome integration is enabled for the session, for example with claude --chrome, or when Claude Code can offer to install the extension |
+| `/clear [name]` | Start a new conversation with empty context. Pass a name to label the previous conversation in the /resume picker. To free up context while continuing the same conversation, use /compact instead. Resume the previous conversation with /resume, or, in the same Claude Code process, restore it from the rewind menu’s previous-session entry. Aliases: /reset, /new |
+| `/code-review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | Skill. Review the current diff, or a PR number, branch, or path you pass, for correctness bugs. Depending on your model and effort level, the review also covers cleanup opportunities. Pass --fix to apply findings, --comment to post them on the GitHub PR or GitLab merge request, or ultra to run a deep cloud review. Posting to a GitLab merge request requires Claude Code v2.1.257 or later. With ultra on a github.com PR target, pass --post to preselect posting the finished findings to the PR in the launch dialog; --post requires Claude Code v2.1.227 or later. See Review a diff locally for the effort levels, targeting, and how it relates to /simplify. Alias: /review |
+| `/color [color\|default]` | Set the prompt bar color for the current session. Available colors: red, blue, green, yellow, purple, orange, pink, cyan. Use default to reset, or run with no argument to pick a random color. When Remote Control is connected, the color syncs to claude.ai/code. Also available in non-interactive mode (-p); requires Claude Code v2.1.205 or later |
+| `/compact [instructions]` | Free up context by summarizing the conversation so far. Optionally pass focus instructions for the summary. See how compaction handles rules, skills, and memory files |
+| `/config [key=value ...]` | Open the Settings interface to adjust theme, model, output style, and other preferences. Pass one or more key=value pairs to set a setting directly without opening the interface, for example /config thinking=false, /config theme=dark, or /config model=sonnet. The key=value form also works in non-interactive mode (-p) and from the Claude mobile app via Remote Control. The key=value form can’t turn on a setting that needs your confirmation in the panel, such as autoContinueAtUsageLimit, though it can turn one off. Run /config --help to list the keys it accepts. Alias: /settings |
+| `/context [all]` | Visualize current context usage as a colored grid. Shows optimization suggestions for context-heavy tools, memory bloat, and capacity warnings. When the conversation exceeds the context window, the output includes a warning showing how far over the limit you are and which command frees space. In fullscreen mode, /context collapses the per-item breakdown to keep the grid visible. Pass all to expand it |
+| `/copy [N]` | Copy the last assistant response to clipboard. Pass a number N to copy the Nth-latest response: /copy 2 copies the second-to-last. When code blocks or blockquotes are present, shows an interactive picker to select individual blocks or the full response. Press w in the picker to write the selection to a file instead of the clipboard, which is useful over SSH |
+| `/cost` | Alias for /usage |
+| `/dataviz [request]` | Skill. Design guidance for charts, graphs, and dashboards. Claude picks the chart form for the data, assigns color by role, validates the palette for colorblind safety and contrast with a bundled script, and applies mark, interaction, and accessibility rules. Uses a brand-neutral placeholder palette that you replace with your own |
+| `/debug [description]` | Skill. Enable debug logging for the current session and troubleshoot issues by reading the session debug log. Debug logging is off by default unless you started with claude --debug, so running /debug mid-session starts capturing logs from that point forward. Optionally describe the issue to focus the analysis |
+| `/deep-research <question>` | Workflow. Fan out web searches on a question, fetch and cross-check sources, and synthesize a cited report |
+| `/design [brief]` | Skill. Draft UI mockups, screen flows, landing pages, or posters as artboards on one canvas, published as a Claude Design artifact, for example /design a settings screen for a mobile banking app. You edit the artboards in a desktop browser, and your edits save automatically. You can export each artboard as PNG or PDF. Requires Claude Code v2.1.265 or later, a session where artifacts are available, and an account where the Design template is available; if your organization has turned that template off, /design doesn’t draft designs. Available on the Anthropic API. On Amazon Bedrock, Google Cloud’s Agent Platform, Microsoft Foundry, and Claude Platform on AWS, artifacts aren’t available, so the command is unavailable there |
+| `/design-login` | Authorize design-system access for /design-sync with your claude.ai account |
+| `/design-sync [hint]` | Skill. Convert your repo’s React design system and upload it to Claude Design, so designs it produces use your real components. Optionally name the design system, for example /design-sync Acme DS. A first-time sync verifies every component and can take a few hours on a large repo. Available on the Anthropic API. It needs claude.ai, which the CLI doesn’t contact on Amazon Bedrock, Google Cloud’s Agent Platform, Microsoft Foundry, or Claude Platform on AWS, or through a Claude apps gateway, so the command is unavailable there |
+| `/desktop` | Continue the current session in the Claude Code Desktop app. Requires macOS or x64 Windows and a Claude subscription. Alias: /app |
+| `/diff` | Review the changes in your working tree, including the edits Claude has made so far. See Review changes with /diff |
+| `/doctor [prompt-audit [path]]` | Skill. Run a setup checkup that diagnoses installation, settings, extension, and CLAUDE.md problems and proposes fixes that Claude applies after you confirm. For what the checkup covers, or to audit your instructions with prompt-audit instead, see Check your setup with /doctor. The prompt-audit subcommand requires Claude Code v2.1.283 or later. Alias: /checkup |
+| `/effort [level\|auto\|status\|ultracode [on\|off]]` | Set the effort level: low to xhigh, max, or auto; status prints it. ultracode or ultracode on turns ultracode on for the session at the current level, and ultracode off turns it off; the ultracode key persists. max is session-only. The on and off arguments and keeping the current level require Claude Code v2.1.284 or later. Before v2.1.284, /effort ultracode set the session to xhigh, and /effort ultracode off failed with Invalid argument. Run it while Claude is responding and, once you confirm the cache warning, if Claude Code shows one, Claude Code applies the new level to the next request in that turn. Before v2.1.242, Claude Code decided from a feature flag it fetched from Anthropic whether to run the command mid-turn or queue it until the turn finished, and always queued it in a session that doesn’t fetch feature flags, such as on a third-party provider. Works in -p |
+| `/exit` | Exit the CLI. In an attached background session, this detaches and the session keeps running. Alias: /quit |
+| `/export [filename]` | Export the current conversation as plain text. With a filename, writes directly to that file. Without, opens a dialog to copy to clipboard or save to a file |
+| `/fast [on\|off]` | Toggle fast mode on or off. Run it while Claude is responding and Claude Code toggles fast mode without waiting for the turn to end, though the running turn finishes at its original speed. Before v2.1.242, Claude Code decided from a feature flag it fetched from Anthropic whether to run the command mid-turn or queue it until the turn finished, and always queued it in a session that doesn’t fetch feature flags. Availability in non-interactive mode with -p is limited; see Toggle fast mode. Requires Claude Code v2.1.205 or later |
+| `/feedback [report]` | Send product feedback about Claude Code. Opens the same dialog as /bug, with the same consent step, sending rules, and mid-turn behavior. In sessions with Claude-drafted feedback, /feedback with no argument opens the drafts queue instead, where you review, edit, send, or discard the drafts Claude queued; the queue includes an option to write a new report in the dialog. With an argument, and for /bug always, the dialog opens directly |
+| `/fewer-permission-prompts` | Skill. Scan your transcripts for common read-only Bash and MCP tool calls, then add a prioritized allowlist to project .claude/settings.json to reduce permission prompts |
+| `/focus` | Toggle the focus view, which shows only your last prompt, a one-line tool-call summary with edit diffstats, and the final response. The tool-call summary also counts the subagents launched in the turn and collapses completed background-task notifications into a single count. The selection persists across sessions; set viewMode in settings to override it. Only available in fullscreen rendering. From a Remote Control client, run /focus [on/off] to turn the focus view on or off for the current session only, without changing your saved selection; this requires Claude Code v2.1.281 or later. The VS Code extension offers its own Focus view as a command-menu toggle, stored as an extension setting, independent of viewMode |
+| `/fork [prompt]` | Copy the current conversation into a new background session and keep working here. Pass a prompt and the copy starts working on it immediately; without one it waits in agent view for its first prompt. Except when the copy edits in place, Claude Code instructs it to create a worktree of its own before making code changes; the isolation instruction requires Claude Code v2.1.221 or later. To hand a side task to a subagent whose result comes back into this conversation, use /subtask; to switch into a copy yourself, use /branch. Requires Claude Code v2.1.212 or later; on v2.1.161 through v2.1.211, and whenever agent view is turned off, /fork starts a forked subagent instead |
+| `/goal [condition\|clear]` | Set a goal: Claude keeps working across turns until the condition is met or the goal clears for another reason. With no argument, shows the current or most recently achieved goal. clear, stop, off, reset, none, or cancel removes an active goal early |
+| `/heapdump` | Write a JavaScript heap snapshot and a memory breakdown to ~/Desktop, or your home directory on Linux without a Desktop folder, for diagnosing high memory usage. Attach only the -diagnostics.json file when reporting a memory issue; the .heapsnapshot contains your full conversation and credentials, so don’t share it. Hidden from the command menu; type it in full. See what to do with the output |
+| `/help` | Show help and available commands |
+| `/hooks` | View hook configurations |
+| `/ide` | Manage IDE integrations and show status |
+| `/import [codex\|gemini\|cursor] [--dry-run] [--yes]` | Bring configuration from OpenAI Codex, Google Gemini CLI, or Cursor on your machine into Claude Code, including instruction files, MCP servers, commands, subagents, and skills. In non-interactive mode with -p, /import lists what it found and gives you the command that confirms the import. Add --dry-run to preview without writing anything, or --yes to skip the interactive picker. Not available on Amazon Bedrock, Google Cloud’s Agent Platform, Microsoft Foundry, or Claude Platform on AWS, or through a Claude apps gateway. Also unavailable when you turn off feature-flag fetching. Requires Claude Code v2.1.213 or later. Importing from Cursor requires v2.1.265 or later |
+| `/init` | Initialize project with a CLAUDE.md guide. Set CLAUDE_CODE_NEW_INIT=1 for an interactive flow that also walks through skills, hooks, and personal memory files. If /init finds OpenAI Codex or Google Gemini CLI configuration, it offers to carry it over with /import |
+| `/insights` | Generate an HTML report analyzing your recent sessions on this machine: which projects you work in, how you use Claude Code, where things go wrong, and features to try. Not available in cloud sessions. See Analyze your usage patterns for the report location, retention, and cost |
+| `/install-github-app` | Install the Claude GitHub App for a repository, with an optional step to set up GitHub Actions workflows and secrets. Walks you through selecting a repo and configuring the integration. Works only with github.com repositories. When your repository’s git remote is on gitlab.com or bitbucket.org, the command prints a notice and exits instead of starting setup. To run Claude Code from GitLab pipelines, see GitLab CI/CD |
+| `/install-slack-app` | Install the Claude Slack app. Opens a browser to complete the OAuth flow |
+| `/keybindings` | Open your keyboard shortcuts file |
+| `/list-agents` | List the subagents, agent team teammates, and other Claude Code sessions Claude can message, with the name to use for each. See cross-session messaging. Also available as /peers. Requires Claude Code v2.1.224 or later; earlier versions report Unknown command: /list-agents. Teammate rows and the first line showing this session’s own name require v2.1.239 or later. Available only in sessions where cross-session messaging is enabled |
+| `/login` | Sign in to your Anthropic account |
+| `/logout` | Sign out from your Anthropic account |
+| `/loop [interval] [prompt]` | Skill. Run a prompt repeatedly while the session stays open. Omit the interval and Claude self-paces between iterations. Omit the prompt and Claude runs the built-in maintenance prompt or your loop.md. Example: /loop 5m check if the deploy finished. See Run prompts on a schedule. Alias: /proactive |
+| `/mcp [reconnect (<server>\|all)\|enable\|disable [<server>\|all]]` | Manage MCP server connections and OAuth authentication. Run with no argument to open the interactive list, or pass reconnect, enable, or disable with a server name or all to change connection state without opening it. reconnect all retries every server that failed or needs authentication. In non-interactive mode (-p), running it with no argument prints a text summary of server status instead of opening the list; requires Claude Code v2.1.205 or later |
+| `/memory` | Edit CLAUDE.md files, enable or disable auto memory, and view auto memory entries |
+| `/mobile` | Show QR code to download the Claude mobile app. Aliases: /ios, /android |
+| `/model [model]` | Switch the AI model and save it as your default for new sessions. For models that support it, use left/right arrows to adjust effort level. With no argument, opens a picker; press s on a row to switch for the current session only. See when Claude Code asks you to confirm the switch. Once you confirm the switch, if Claude Code asks, Claude Code applies the change without waiting for the current response to finish. Before v2.1.242, Claude Code decided from a feature flag it fetched from Anthropic whether to run the command mid-turn or queue it until the turn finished, and always queued it in a session that doesn’t fetch feature flags, such as on a third-party provider. Also available in non-interactive mode (-p) with a model argument instead of the picker, where it applies to the current session only and isn’t saved as your default; requires Claude Code v2.1.205 or later |
+| `/output-style [style]` | List output styles or switch to one, for example /output-style concise. See Change your output style. Requires Claude Code v2.1.269 or later |
+| `/passes` | Share a free week of Claude Code with friends. Only visible if your account is eligible |
+| `/permissions` | Manage allow, ask, and deny rules for tool permissions. Opens an interactive dialog where you can view rules by scope, add or remove rules, manage working directories, and review recent auto mode denials. You can also view and edit auto mode classifier rules from the dialog’s Auto mode tab. When you run it while Claude is responding, Claude Code opens the dialog immediately and applies your changes starting with Claude’s next tool call in the same turn. Before v2.1.234, Claude Code queued the command until the turn finished. Alias: /allowed-tools |
+| `/plan [description]` | Enter plan mode directly from the prompt. Pass an optional description to enter plan mode and immediately start with that task, for example /plan fix the auth bug |
+| `/plugin [subcommand]` | Manage Claude Code plugins. Run with no argument to open the plugin menu, or pass a subcommand such as list, install, enable, or disable to act directly. Claude Code can activate a plugin during the install; the install summary tells you whether it did or whether to run /reload-plugins |
+| `/plugin-authoring` | Load the reference Claude works from to write a mod. Claude can load it on its own when you ask for a mod. This is a skill from a built-in plugin, which you can turn off in /plugin. Requires Claude Code v2.1.287 or later |
+| `/powerup` | Discover Claude Code features through quick interactive lessons with animated demos |
+| `/pr-comments [PR]` | Removed in v2.1.91. Ask Claude directly to view pull request comments instead. On earlier versions, fetches and displays comments from a GitHub pull request; automatically detects the PR for the current branch, or pass a PR URL or number. Requires the gh CLI |
+| `/privacy-settings` | View and update your privacy settings. Only available for Pro and Max plan subscribers |
+| `/radio` | Open Claude FM lo-fi radio in your browser. Prints the stream URL when no browser is available |
+| `/rate-limit-options` | Show ways to keep working when a claude.ai usage limit blocks a request: wait and continue automatically when the limit resets, add usage credits, or upgrade your plan. Claude Code can also open this menu on its own when you hit a limit at your own terminal. See Turn automatic continue off. Requires a claude.ai subscription. The wait-and-continue rows require Claude Code v2.1.234 or later |
+| `/recap` | Generate a one-line summary of the current session on demand. See Session recap for the automatic recap that appears after you’ve been away |
+| `/release-notes` | View the changelog in an interactive version picker. Select a specific version to see its release notes, or choose to show all versions. The notes appear in your transcript without entering the conversation Claude sees |
+| `/reload-plugins [--force]` | Reload all active plugins to apply pending changes without restarting. Reports counts for each reloaded component and flags any load errors. When the reload would change which MCP tools are loaded and invalidate the prompt cache, the command warns and skips unless you pass --force. Also available in non-interactive mode (-p), the Agent SDK, and the desktop app, where it runs only on input typed directly into the session and doesn’t apply plugin MCP server changes; requires Claude Code v2.1.260 or later. See Apply plugin changes without restarting |
+| `/reload-skills` | Re-scan skill and command directories so skills added or changed on disk during the session become available without restarting. Reports how many skills are available and how many were added or removed |
+| `/remote-control` | Make this session available for Remote Control from claude.ai. Running it while signed out prints that Remote Control requires a claude.ai subscription and tells you how to sign in; before v2.1.206 it reported Unknown command: /remote-control. Alias: /rc |
+| `/remote-env` | Choose the default cloud environment for cloud sessions you start from the CLI |
+| `/rename [name]` | Rename the current session and show the name on the prompt bar. Without a name, auto-generates one from conversation history. Also available in non-interactive mode (-p); requires Claude Code v2.1.205 or later. From every rename surface, including claude.ai and the desktop app, Claude Code replaces control and invisible characters in the new name with spaces and caps the name at 200 characters. If the name is empty once invisible characters are removed, Claude Code rejects it and shows That name is empty once invisible characters are removed. Usage: /rename <name>. The character replacement and length cap require Claude Code v2.1.221 or later |
+| `/resume [session]` | Resume a conversation by ID or name, or open the session picker. Background sessions appear in the picker marked with bg. Resuming one that is still running, from the picker or by ID or name, opens that session: your current conversation moves to the background and this terminal attaches to the running one. Press ← on an empty prompt to return to agent view, which also lists the conversation you left. Before v2.1.285, Claude Code refused and told you to open the session with claude attach or stop it first. Alias: /continue |
+| `/review [low\|medium\|high\|xhigh\|max\|ultra] [--fix] [--comment] [--max-findings n\|all\|default] [pr#\|branch\|path]` | Alias of /code-review: reviews the current diff, or a PR number, branch, or path you pass, such as /review 1234, and takes the same effort levels and flags. With no level given, the review reuses the last low through max level you typed; see Review a diff locally for the exact rules. For a deep cloud review, use /code-review ultra. Before v2.1.223, /review was a separate command that ran a single-pass, read-only review of a GitHub pull request by number, listing open PRs to pick from when run with no argument; from v2.1.186 through v2.1.201, it ran the same multi-agent engine as /code-review medium |
+| `/rewind` | Rewind the conversation and/or code to a previous point, or summarize from a selected message. See checkpointing. Aliases: /checkpoint, /undo |
+| `/run` | Skill. Launch and drive your project’s app to see a change working, not only passing tests. See Run and verify your app |
+| `/run-skill-generator` | Skill. Teach /run and /verify how to build, launch, and drive your project’s app from a clean environment by writing a per-project skill |
+| `/sandbox` | Toggle sandbox mode. Available on supported platforms only |
+| `/schedule [description]` | Create, update, list, or run routines, which execute in the cloud. Claude walks you through the setup conversationally. You can also ask about a routine’s recent runs. Alias: /routines |
+| `/scroll-speed` | Adjust mouse wheel scroll speed interactively. Available in fullscreen rendering only and not in the JetBrains IDE terminal |
+| `/security-review` | Analyze the changes on your current branch for security vulnerabilities. Reviews the diff between your branch and origin’s default branch, identifying risks like injection, auth issues, and data exposure. Needs an origin remote; if the review fails with an ambiguous argument error, see the error reference |
+| `/setup-bedrock` | Configure Amazon Bedrock authentication, region, and model pins through an interactive wizard. Hidden from the command menu until CLAUDE_CODE_USE_BEDROCK=1 is set; type it in full. First-time Amazon Bedrock users can also access this wizard from the login screen |
+| `/setup-vertex` | Configure Google Cloud’s Agent Platform authentication, project, region, and model pins through an interactive wizard. Hidden from the command menu until CLAUDE_CODE_USE_VERTEX=1 is set; type it in full. First-time Google Cloud’s Agent Platform users can also access this wizard from the login screen |
+| `/simplify [target]` | Skill. Review the changed code for cleanup opportunities and apply the fixes. Four review agents run in parallel, covering reuse of existing helpers, simplification, efficiency, and whether the change is at the right level of abstraction. The review doesn’t look for correctness bugs. Use /code-review to find bugs. Pass a path or PR reference to review a specific target |
+| `/skill-doctor` | Show what each of your skills costs in context and how often it gets used, so you can find skills to turn off. Requires Claude Code v2.1.252 or later and feature-flag fetching |
+| `/skills` | List available skills. Type to filter the list by name, description, or source. Press t to sort by token count, Space or Enter to cycle a skill’s visibility to Claude and the / menu, and Esc to save and close. You can’t cycle plugin skills, skills whose frontmatter sets disable-model-invocation: true, or skills with a skillOverrides entry in managed settings or the --settings flag |
+| `/slides [brief]` | Skill. Make a new presentation as a Claude Slides artifact filled from your brief, for example /slides a quarterly review of the platform team. Requires Claude Code v2.1.265 or later, a session where artifacts are available, and an account where the Slides template is available; otherwise the command doesn’t appear. Available on the Anthropic API. On Amazon Bedrock, Google Cloud’s Agent Platform, Microsoft Foundry, and Claude Platform on AWS, artifacts aren’t available, so the command is unavailable there |
+| `/stats` | Alias for /usage. Opens on the Stats tab |
+| `/status` | Open the Settings interface on the Status tab, showing version, model, account, and connectivity. A Session kind row reads background job · attached or background job · unattended in a background session, depending on whether a terminal is attached, and interactive in any other session. Before v2.1.221, /status didn’t show this row. Works while Claude is responding |
+| `/statusline` | Configure Claude Code’s status line. Describe what you want, or run without arguments to auto-configure from your shell prompt |
+| `/stickers` | Order Claude Code stickers |
+| `/stop` | Stop the background session you’re attached to, or the one you send it to as a peek reply; the transcript and any worktree are kept. To detach without stopping, use /exit or press ← |
+| `/subtask <task>` | Spawn a forked subagent: a background subagent that inherits the full conversation and works on the task while you keep working. Its result returns to this conversation when it finishes. To copy the conversation into a separate background session instead, use /fork. Requires Claude Code v2.1.212 or later; on v2.1.161 through v2.1.211 this command is /fork. When agent view is turned off, /subtask isn’t available and /fork keeps the forked-subagent behavior |
+| `/tasks` | View and manage background work in the current session, including subagents that have finished. Also available as /bashes |
+| `/team-onboarding` | Generate a team onboarding guide from your Claude Code usage history. Claude analyzes your sessions, commands, and MCP server usage from the past 30 days and produces a markdown guide a teammate can paste as a first message to get set up quickly. For claude.ai subscribers on Pro, Max, Team, and Enterprise plans, also returns a share link teammates can open directly in Claude Code |
+| `/teleport` | Pull a cloud session into this terminal. Opens a picker, then fetches the branch and conversation. Also available as /tp. Requires a claude.ai subscription |
+| `/terminal-setup` | Install a Shift+Enter keybinding for newlines in VS Code, Cursor, Devin Desktop, Alacritty, or Zed. In Apple Terminal, enable Option+Enter for newlines and turn off the audible bell instead. In iTerm2, turn on clipboard access so that /copy works |
+| `/theme` | Change the color theme. Includes an auto option that matches your terminal’s light or dark background, light and dark variants, colorblind-accessible (daltonized) themes, ANSI themes that use your terminal’s color palette, and any custom themes from ~/.claude/themes/ or plugins. Select New custom theme… to create one |
+| `/tui [default\|fullscreen]` | Set the terminal UI renderer and relaunch into it with your conversation intact. fullscreen enables the flicker-free alt-screen renderer. With no argument, prints the active renderer |
+| `/ultraplan <prompt>` | Removed. Use plan mode instead. Previously sent a planning task to a cloud session for review in your browser |
+| `/ultrareview [PR or branch]` | Run a deep, multi-agent code review in a cloud sandbox with ultrareview. Pass a PR reference to review that pull request, or a base branch or commit to change the comparison base. The preferred invocation is /code-review ultra, and /ultrareview is an alias. Includes 3 free runs on Pro and Max, then requires usage credits |
+| `/update-config [request]` | Skill. Describe a settings change, such as allowing a command, setting an environment variable, or adding a hook, and Claude edits the matching settings.json file. For options such as theme and model, use /config instead |
+| `/upgrade` | Open the upgrade page in your browser to switch to a higher plan tier. When the browser fails to open, the command shows a sign-in prompt without printing the URL |
+| `/usage` | Show session cost, plan usage limits, and activity stats. On a Pro, Max, Team, or Enterprise plan, includes a breakdown of what counts against your plan limits. /cost and /stats are aliases |
+| `/usage-credits` | Configure usage credits, or request them from your admin, when you hit a limit. Opens your usage-credits billing settings in the browser, except that Team and Enterprise members without billing access instead send a usage-credits request to their admin from the CLI, after confirming in a dialog that the request notifies their admins. When no browser can open the billing page, for example over SSH, the command prints the URL to visit instead; this requires Claude Code v2.1.205 or later, and earlier versions showed nothing in that case. Previously /extra-usage |
+| `/verify` | Skill. Confirm a code change does what it should by building your project’s app, running it, and observing the result, rather than relying on tests or type checks. See Run and verify your app |
+| `/vim` | Removed in v2.1.92. To toggle between Vim and Normal editing modes, use /config → Editor mode |
+| `/voice [hold\|tap\|off]` | Toggle voice dictation, or enable it in a specific mode. Requires a Claude.ai account |
+| `/web-setup` | Connect your GitHub account for cloud sessions using your local gh CLI credentials |
+| `/workflow-authoring` | Skill. Load the reference for writing dynamic workflow scripts: the script API, resume behavior, quality patterns, and worked examples. Claude normally loads it on its own before writing a script; run it yourself before editing a saved script by hand. Available when dynamic workflows are enabled, and requires Claude Code v2.1.248 or later |
+| `/workflows` | Open the workflow progress view to watch, pause, resume, or save running and completed workflows |
 
-### `/batch <instruction>`
+### 不能从旧教程直接抄的例子
 
-这是官方 bundled skill。  
-它适合大规模、可拆分的代码库任务：先让 Claude 研究并拆任务，你确认计划后，它会用隔离 worktree 和后台 subagent 并行推进。
+- `/ultraplan` 已移除，应使用 `/plan`。
+- `/pr-comments` 已移除，改为直接让 Claude 查看 PR/MR 评论。
+- `/vim` 已移除，使用 `/config` → Editor mode 或 `editorMode`。
+- `/extra-usage` 已改名为 `/usage-credits`。
+- `/review` 现在是 `/code-review` 的别名；深度云审查优先使用 `/code-review ultra`。
+- `/fork` 与 `/subtask` 在新版本中分工不同：前者复制到独立后台会话，后者把 forked subagent 结果回传当前会话。
 
-### `/debug [issue]`
+---
 
-这是官方 bundled skill。  
-它用于系统化排错，会先理解症状、复现路径和调用链，再给出假设、检查顺序和修复建议。它不是 `claude --debug` 这种启动调试日志，两者不要混。
+## 七、重点命令的中文速查
 
-### `/run <command> [--fix]`
-
-这是官方 bundled skill。  
-它会运行 shell 命令、分析输出；带 `--fix` 时，会尝试修复命令暴露的问题。
-
-### `/verify [target]`
-
-这是官方 bundled skill。  
-它的重点是验证功能、测试、日志、行为是否满足预期，适合收尾前跑一遍“到底有没有真完成”。
-
-### `/loop [interval] [prompt]`
-
-这是官方 bundled skill。
-
-官方定义很明确：
-
-- 让一个 prompt 在当前会话里重复运行
-
-几个实战点你最该记：
-
-- 不写 `interval`，Claude 会自己控制两轮之间的节奏
-- 不写 `prompt`，在支持的场景里，它会跑内置 maintenance prompt，或者去读 `.claude/loop.md`
-- 官方示例就是：
+### 会话和上下文
 
 ```text
-/loop 5m check if the deploy finished
+/config [key=value ...]   设置主题、模型、输出风格等
+/model [model]            切换模型；s 只切当前会话
+/effort [level|auto]      调整 effort；支持 ultracode
+/autocompact [tokens]     设置当前模型的压缩窗口
+/context [all]            检查上下文用量
+/compact [instructions]   压缩上下文
+/clear [name]             开始空会话
+/resume [session]         恢复会话
+/rewind                   回到对话或代码检查点
+/export [filename]        导出纯文本转录
 ```
 
-所以你截图里那种：
-
-- `/loop 5m check the deploy`
-
-不是野生插件语法，而是官方 skill 的标准用法思路。
-
-### `/simplify [target]`
-
-这也是官方 bundled skill。
-
-官方命令页对它的描述是：
-
-- 对你改过的代码做一次“清理型 review”
-- 会并行跑多个 review agent
-- 重点看复用、简化、效率、抽象层次
-
-还有一个非常关键的官方更新点：
-
-- 当前官方文档明确把 `/simplify` 定位为清理和简化，不再把它当 correctness bug review
-- 如果你要查 bug，应该用 `/code-review`
-
-所以程序员阅读它时，脑子里要分开：
-
-- `/simplify`：更偏整理、瘦身、抽象层级
-- `/code-review`：更偏 correctness 和问题发现
-
----
-
-### 第三类：这些是官方后台会话的 shell 子命令
-
-你截图里这一组：
-
-- `claude agents`
-- `claude attach <id>`
-- `claude logs <id>`
-- `claude stop <id>`
-
-也是官方，不是插件产物。
-
-官方 `agent-view` 文档甚至直接给了和你截图几乎同样的示例块。
-
-它们分别表示：
-
-- `claude agents`：打开 agent view，看所有后台会话
-- `claude attach <id>`：把某个后台会话重新接回当前终端
-- `claude logs <id>`：查看这个后台会话最近输出
-- `claude stop <id>`：停止这个后台会话
-
-这一组最容易和 `/agents` 混。
-
-你一定要硬记住这个区别：
-
-- `/agents`：当前会话里的 subagent 面板
-- `claude agents`：全局后台 session 的 agent view
-
-它们名字像，但官方文档明确说了：
-
-- 这是两套不同入口
-
----
-
-### 第四类：主人截图里这些英文标签到底是什么意思
-
-有几组词，主人以后看到可以直接秒翻译。
-
-### `Running`
-
-在 `/agents` 里表示：
-
-- 当前这局会话里，正在运行的 subagent
-
-### `Library`
-
-在 `/agents` 里表示：
-
-- 你当前可用的 subagent 总库
-
-这库里会混着：
-
-- 内置的
-- 用户级的
-- 项目级的
-- 插件带来的
-
-### `Built-in (always available)`
-
-这句最关键。
-
-它的意思不是：
-
-- 官方推荐你一直打开它们
-
-而是：
-
-- 这些 subagent 属于 Claude Code 自带
-- 不依赖插件安装
-- 默认总是可用
-
----
-
-### 第五类：`Skill(update-config)` 这种权限提示到底该怎么读
-
-这一项我得说得诚实一点：
-
-- 我本轮没有在官方命令总表里找到一个公开给用户直接敲的 `/update-config`
-
-所以它不适合被你记成：
-
-- “又一个我要背的斜杠命令”
-
-更稳的理解是：
-
-- 这是某个 skill 在执行过程中触发的“更新配置”动作名
-- Claude 现在正因为它要写配置文件，所以向你申请权限
-
-这是我根据截图行为和官方配置相关文档做的推断。  
-为什么这么推断？因为官方确实存在会改配置的 skill，例如：
-
-- `/fewer-permission-prompts`
-
-官方命令页明确写了它会：
-
-- 扫描你的 transcript
-- 然后往项目 `.claude/settings.json` 里添加 allowlist
-- 用来减少权限弹窗
-
-所以你以后再看到类似：
-
-- `Skill(update-config)`
-
-不要先把它理解成“我又安装了个我不会调用的新东西”，而更应该理解成：
-
-- 某个 skill 现在想改配置
-- Claude 正在问你允不允许它写设置文件
-
----
-
-### 主人以后怎么最快判断“这个到底是不是官方”
-
-现在你可以用一个很稳的四步法：
-
-1. 先看它能不能在官方 `commands` 页直接搜到
-2. 如果能搜到，再看它后面有没有被标成 `Skill` 或 `Workflow`
-3. 如果是 `agents` 相关，再去 `sub-agents` 或 `agent-view` 对照它属于哪一层
-4. 如果官方页有定义，但你当前机器没显示，不要先下结论，先想想是不是平台、套餐或环境开关不同
-
-这样你以后看到一个新命令，就不会再停留在：
-
-- 我大概见过
-- 但我不知道这是官方的，还是插件加的
-
-而能比较快地落到：
-
-- 这是官方内置命令
-- 这是官方 bundled skill
-- 这是后台会话 shell 子命令
-- 这只是某个 plugin 或 MCP 暴露出来的能力
-
----
-
-## 五、`Ctrl+O` 详细转录、后台 agent 和 `verbose` 到底在看什么
-
-这是主人这次补图里另一个特别有价值的点。  
-很多人会用 Claude Code，但从来不看详细转录，所以总觉得它“像玄学”。
-
-先把这一屏的阅读逻辑压成一张文字图：
-
-```mermaid
-flowchart TD
-  A["详细转录 / 后台 agent 这一屏"] --> B["Backgrounded agent<br/>任务已经转后台继续跑"]
-  A --> C["Waiting for 1 background agent to finish<br/>前台不用死等"]
-  A --> D["Ctrl+O<br/>切换详细转录视图"]
-  D --> E["Ctrl+E<br/>展开 show all 内容"]
-  A --> F["verbose<br/>当前展示更细，适合排错和核对过程"]
-```
-
-这张图里最重要的几行，按官方 `interactive-mode`、`commands` 和 `fullscreen` 文档，可以这样理解：
-
-### `Backgrounded agent`
-
-意思是：
-
-- 这个任务已经不在前台死等了
-- 它正在后台继续跑
-
-对应的官方命令主线一般是：
-
-- `/background`
-- 或把当前运行中的任务放后台
-
-### `Waiting for 1 background agent to finish`
-
-意思是：
-
-- 当前还有 1 个后台 agent 没跑完
-- 你现在可以继续做别的事，不必盯着这一屏
-
-### `Showing detailed transcript`
-
-意思是：
-
-- 你现在看到的是详细过程视图
-- 不是只看最终答案的简版视图
-
-这是主人最该养成的习惯之一。  
-因为很多“它到底有没有调用 skill / MCP / plugin”这种问题，只有在详细转录里最容易看清。
-
-### `ctrl+o to toggle`
-
-按官方 `interactive-mode` 文档：
-
-- `Ctrl+O` 用来切换 transcript viewer
-
-你可以把它简单理解成：
-
-- 在“简版会话视图”和“详细过程视图”之间来回切
-
-### `ctrl+e to show all`
-
-按官方 `interactive-mode` 文档：
-
-- `Ctrl+E` 用来在 transcript viewer 里切换 `show all content`
-
-翻成人话就是：
-
-- 本来折叠的过程内容，再给我展开一点
-
-所以主人以后如果觉得：
-
-- 我好像还是没看全
-- 只看到摘要，没看到全部细节
-
-那就先按：
-
-- `Ctrl+O`
-- 再按 `Ctrl+E`
-
-### `verbose`
-
-这不是单独一个插件名。  
-你这里更适合理解成：
-
-- 当前展示粒度偏详细
-- 这屏更适合排错、核对过程、看 agent 真做了什么
-
----
-
-## 六、你看到英文后，最快的三步判断法
-
----
-
-以后不要一屏一屏地发愣，直接按这三步走。
-
-### 第一步：先看“状态词”
-
-先看它后面跟的是不是这些词：
-
-- `connected`
-- `failed`
-- `enabled`
-- `disabled`
-- `needs-auth`
-- `pending`
-
-这一步回答的是：
-
-- 它现在活不活
-
-### 第二步：再看“来源词”
-
-再看它旁边是不是这些词：
-
-- `plugin`
-- `MCP`
-- `Skill`
-- `Workflow`
-- `marketplace`
-
-这一步回答的是：
-
-- 它到底属于哪一层
-
-### 第三步：最后看“操作入口”
-
-再看底部提示或页面说明，判断它该在哪一层处理：
-
-- `/mcp` 里报错，就去看连接和授权
-- `/skills` 里锁住，就去 `/plugin`
-- `/plugin` 里装完没生效，就 `/reload-plugins`
-- `/` 列表里能搜到，就代表你可以直接手动调用
-
-这三步一走，大部分“这到底是啥”的焦虑就会立刻下降很多。
-
----
-
-## 七、结合你这几张图，你当前真实状态是什么
-
-这个部分我直接替你翻译成结论。
-
-### 结论一：你的文档检索能力其实已经通了
-
-因为你这里有：
+### 研究、实现、审查
 
 ```text
-context7 · connected · 2 tools
+/plan [description]       进入计划模式
+/deep-research <question> 多角度搜索并交叉核验来源
+/batch <instruction>      拆分 5～30 个独立单元并行执行
+/run <command>            启动应用/命令并观察结果
+/verify [target]          构建、启动并实际验证
+/code-review [level]      审查 diff、PR 或分支
+/security-review           查安全风险
+/simplify [target]        查重复和不必要复杂度
 ```
 
-这表示：
-
-- `context7` 当前是可用的
-- 它已经给 Claude 暴露了工具
-
-所以以后你完全可以在 prompt 里明确写：
+### 并行和会话
 
 ```text
-先用 context7 查官方文档，再结合当前仓库给我修改方案。
+/background [prompt]      当前会话后台运行
+/fork [prompt]            复制成新的后台会话
+/subtask <task>           forked subagent，结果回主会话
+/agents                   管理 subagent 定义提示
+/list-agents              列出可通信会话/teammate
+/tasks                    管理当前后台任务
+/workflows                查看 workflow 进度
+/goal [condition|clear]   跨 turn 持续到目标完成
 ```
 
-### 结论二：你的浏览器能力当前没通
-
-因为你这里有：
+### 扩展与连接
 
 ```text
-chrome-devtools · failed
+/mcp [reconnect|enable|disable] 管理 MCP server
+/skills                   查看 Skill、成本和可见性
+/plugin [subcommand]      安装、启用、配置 Plugin
+/reload-plugins           热加载 Plugin
+/hooks                    查看 Hook 配置
+/import [codex|gemini|cursor] 导入其他 CLI 配置
+/ide                      管理 IDE 集成
 ```
-
-这表示：
-
-- 浏览器相关 MCP 至少在当前会话没成功接起来
-
-所以如果你让 Claude：
-
-- 打开页面
-- 看 DOM
-- 做浏览器验收
-- 截图
-
-这类动作大概率不会顺畅，或者压根用不了。
-
-### 结论三：你确实已经装了插件型技能，不是错觉
-
-因为你在 `/skills` 里看到了很多：
-
-```text
-superpowers:xxx
-```
-
-而且旁边还有：
-
-- `plugin`
-- `locked by plugin`
-
-这就说明：
-
-- 这些不是你脑补出来的“概念”
-- 它们确实已经进入 Claude Code 了
-- 只是它们受插件层管理，不该在 `/skills` 里单独折腾
-
-### 结论四：你现在真正缺的不是“继续安装”，而是“学会反查来源”
-
-因为你眼前的问题已经不是“有没有扩展能力”，而是：
-
-- 这个能力是哪来的
-- 当前活没活
-- 该去哪一层调用
-
-这才是你说的那种“装完一脸懵”的本质。
 
 ---
 
-## 八、装完之后，到底该怎么调用
+## 八、遇到英文界面时的三步判断法
 
-这一段最重要，我尽量写成你以后可以直接照做的动作。
+1. **先看来源**：built-in、Skill、Plugin、MCP 还是 Agent。
+2. **再看状态**：connected、deferred、failed、running、blocked、waiting 的含义不同。
+3. **最后看动作**：它是查看、读取、写文件、执行命令、访问外部服务，还是请求权限。
 
-### 场景一：我想知道一个插件装完后到底多了什么
-
-直接这样走：
-
-1. `/plugin`
-2. 进 `Installed`
-3. 选中插件按 `Enter`
-4. 看详情里的 `Will install`
-
-如果里面写的是：
-
-- skills
-- commands
-
-那你后面主要是在 `/` 命令列表里调用。
-
-如果里面写的是：
-
-- MCP servers
-
-那你后面主要是在 `/mcp` 里确认连接状态，然后在自然语言 prompt 里让 Claude 用它。
-
-### 场景二：我知道装了 skill，但不知道怎么叫它出来
-
-直接这样走：
-
-1. `/skills`
-2. 搜这个 skill 名字
-3. 看它是不是 `on`
-4. 再回到 `/` 命令列表里搜索它
-
-如果它是 plugin skill，注意名字可能带命名空间，例如：
-
-```text
-/plugin-name:skill-name
-```
-
-不要只搜后半截。
-
-### 场景三：我知道装了 MCP，但不知道有没有真的能用
-
-直接这样走：
-
-1. `/mcp`
-2. 看状态是不是 `connected`
-3. 看后面有没有 `N tools`
-
-只要不是 `connected`，就不要再指望它自动发挥。  
-先修连接，再谈调用。
-
-### 场景四：我就是不知道该怎么在 prompt 里说
-
-这时不要只说：
-
-```text
-帮我改一下这个页面
-```
-
-你应该把“先用什么能力”说出来。
-
-比如查文档：
-
-```text
-先用 context7 查这个库的官方文档，再结合当前仓库给我修改方案。
-```
-
-比如做页面验收：
-
-```text
-先用浏览器相关能力打开页面并检查首屏布局，再给我修改建议。
-```
-
-比如想强行触发某个 skill：
-
-```text
-请优先使用 systematic-debugging 这一类排错 skill，先列出假设，再给我最小验证步骤。
-```
-
-对你现在这个阶段来说，显式说出来，远比赌它自动猜中要稳得多。
+不要仅凭颜色或图标判断安全性；展开详细转录，确认完整路径、命令、参数和权限规则。
 
 ---
 
-## 九、主人现在最该背下来的英文词对照
+## 九、常见排错流程
 
-- `connected`：连上了，可以用
-- `failed`：失败了，先排错
-- `pending`：还在连，先等等
-- `needs-auth`：缺授权，不是功能坏了
-- `disabled`：被关掉了
-- `enabled`：已经启用
-- `plugin`：来源是插件
-- `marketplace`：插件市场目录
-- `Discover`：浏览可安装项
-- `Installed`：已安装列表
-- `Errors`：错误列表
-- `tools`：这个 MCP 暴露给 Claude 的工具数
-- `locked by plugin`：这项不归 `/skills` 单独管，要去 `/plugin`
-- `~40 tok`：大致上下文成本估算，不是“收费按钮”
-- `Will install`：这个插件准备带进来什么能力
-- `Installed components`：这个插件现在已经带进来什么能力
-- `verbose`：当前过程展示更细，适合排错
+### 命令显示 Unknown command
+
+```text
+claude --version
+/help
+```
+
+再检查命令是否是旧版本、插件命令、MCP prompt、被 `--disable-slash-commands` 关闭，或因组织策略/Provider 不可用。`/help` 和官方 Commands 页都没有时，不要继续尝试旧别名。
+
+### Skill 列表为空或数量突然变化
+
+检查作用域、front matter、`skillOverrides`、Plugin 是否启用、是否处于 `--safe-mode`/`--bare`、是否禁用了 feature flags 或 Claude.ai 同步。运行 `/doctor`、`/skill-doctor`，必要时重启或 `/reload-skills`。
+
+### Plugin 载入失败
+
+```text
+/plugin errors
+claude plugin validate ./my-plugin
+claude plugin list --json
+/reload-plugins
+```
+
+确认 manifest、依赖版本、hook 退出码、MCP 连接和 marketplace policy。
+
+### MCP failed 或认证循环
+
+```text
+/mcp reconnect <server>
+claude --debug=mcp
+```
+
+不要先删除 `~/.claude.json`。先检查 OAuth 缓存、环境变量、URL、stdio 进程输出、组织 allow/deny 和服务器日志。
+
+### 后台 agent 一直等待
+
+查看 `/tasks`、`/agents`，确认是等待工具权限、等待用户问题、被 usage limit 暂停，还是 subagent 本身失败。可用 `/stop` 停止并保留 transcript，用 `/resume` 重新连接。
+
+### 输出太多、上下文迅速上涨
+
+先 `/focus` 或 `/context`，再关闭不用的 MCP/Skill；把研究交给 subagent；在阶段边界 `/compact`。不要用 `--verbose` 作为日常模式，它适合排障和 headless stream-json。
 
 ---
 
-## 十、以后你每次装完新东西，最小检查清单就按这个跑
+## 十、建议的安装后检查清单
 
-1. 先去 `/plugin` 看它到底装进来了什么
-2. 如果它带 skill，就去 `/skills` 看名字、状态和命名空间
-3. 如果它带 MCP，就去 `/mcp` 看是否 `connected`
-4. 回到 `/` 命令列表里搜一遍，确认有没有直接可调用命令
-5. 真正开工时，把“先用哪个能力做什么”写进 prompt
-
-你只要把这 5 步养成习惯，以后装 skill、MCP、plugin 就不会再是“看上去很强，但我不知道怎么调”的状态。
+```text
+1. claude --version 与 npm/原生安装来源一致
+2. /status 能说明当前 provider、模型和凭据来源
+3. /context 能看到预期 CLAUDE.md/rules/memory
+4. /mcp 只启用必要 server，并能成功调用一个工具
+5. /skills 能看到需要的 Skill，成本可接受
+6. /plugin Errors 为空或每条错误都已理解
+7. /permissions 的 allow/ask/deny 符合项目边界
+8. 用一个只读任务 + 一个小编辑 + 一个测试完成闭环
+```
 
 ---
 
-## 参考资料
+## 十一、参考资料
 
-- Claude Code 官方命令文档：https://code.claude.com/docs/en/commands
-- Claude Code 官方 Skills 文档：https://code.claude.com/docs/en/skills
-- Claude Code 官方 MCP 文档：https://code.claude.com/docs/en/mcp
-- Claude Code 官方插件文档：https://code.claude.com/docs/en/plugins
-- Claude Code 官方插件市场文档：https://code.claude.com/docs/en/discover-plugins
-- Claude Code 官方 Subagents 文档：https://code.claude.com/docs/en/sub-agents
-- Claude Code 官方并行 Agents 总览：https://code.claude.com/docs/en/agents
-- Claude Code 官方 Agent View 文档：https://code.claude.com/docs/en/agent-view
-- Claude Code 官方交互模式文档：https://code.claude.com/docs/en/interactive-mode
-- Claude Code 官方 Model / Effort 文档：https://code.claude.com/docs/en/model-config
-- Claude Code 官方 Scheduled Tasks 与 `/loop` 文档：https://code.claude.com/docs/en/scheduled-tasks
-- Claude Code 官方配置排障文档：https://code.claude.com/docs/en/debug-your-config
+本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+
+- 官方 Commands：https://code.claude.com/docs/en/commands
+- 官方 CLI Reference：https://code.claude.com/docs/en/cli-reference
+- Interactive mode：https://code.claude.com/docs/en/interactive-mode
+- Skills：https://code.claude.com/docs/en/skills
+- MCP：https://code.claude.com/docs/en/mcp
+- Plugins overview：https://code.claude.com/docs/en/plugins/overview
+- Plugin CLI reference：https://code.claude.com/docs/en/plugins/cli-reference
+- Agent View：https://code.claude.com/docs/en/agent-view
+- Permissions：https://code.claude.com/docs/en/permissions
+- Changelog：https://code.claude.com/docs/en/changelog
+- Claude Code GitHub Releases：https://github.com/anthropics/claude-code/releases
+
+第三方 Skill、MCP server、Plugin 和配置切换器的界面可能不同；排障时永远保留 `claude --version`、`/status`、`/mcp`、`/skills` 和错误日志，方便对照版本与来源。

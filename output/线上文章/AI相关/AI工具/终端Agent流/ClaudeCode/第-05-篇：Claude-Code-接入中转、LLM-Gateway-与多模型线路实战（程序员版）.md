@@ -1,7 +1,7 @@
 ---
 title: "第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）"
 slug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
-summary: "基于 2026-07-04 Claude Code 官方 Model Config、Settings 与第三方接入资料复核更新，面向程序员说明 Claude Code 如何接入中转、LLM Gateway 和多模型线路，重点讲清 Base URL、Key、模型映射、最小配置模板、验证顺序与高频排障。"
+summary: "按 2026-10-12 Claude Code 2.1.296 官方 LLM Gateway Connect、Gateway Protocol、Model Config、Settings 与第三方 Provider 文档更新，覆盖 Anthropic 兼容中转、Bedrock/Vertex/Foundry/Claude Platform on AWS 路由、模型映射、网关凭据、各运行界面和排障。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,13 +22,12 @@ originalId: "6a2d291d8a2b1c68f2cabf36"
 originalSlug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.824Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-12T21:50:00.000Z"
 exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）
 
-> 这一篇直接讲真实使用场景。  
-> 主人如果已经开始折腾 MiMo、GLM、各种 Anthropic 兼容中转，或者用 CC Switch 切来切去，那这篇就该解决你最常见的那类问题：明明感觉只是换个 `Base URL` 和 `Key`，为什么实际还会卡在模型映射、旧环境变量和回写覆盖上。
+> 本文按 2026-10-12 官方 Gateway Connect、Gateway Protocol、Model Config 和各 Provider 文档更新。中转、网关、包月线路和 Claude Code 订阅是不同概念；先确认请求到底发给谁，再谈模型、计费、上下文和权限。
 
 [[toc]]
 
@@ -36,343 +35,354 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 ## 先给结论
 
-Claude Code 接中转、Gateway、多模型线路，核心通常就是这 3 件事：
+Claude Code 接入中转或 LLM Gateway，最小闭环是：
 
-1. 改 `ANTHROPIC_BASE_URL`
-2. 改 `ANTHROPIC_AUTH_TOKEN`
-3. 补模型映射
-
-但真正容易出错的地方，不在“会不会填字段”，而在：
-
-- 协议是不是 Anthropic 兼容
-- 旧环境变量有没有残留
-- `ANTHROPIC_MODEL` 和默认模型映射有没有配齐
-- 终端是不是已经重新读到了新配置
-- CC Switch 之类工具有没有把旧快照写回来
-
-所以这篇不想写成泛泛而谈的“第三方线路判断”，而是直接给你可抄的模板和排障顺序。
-
----
-
-## 1. Claude Code 接中转时，实际在改哪些东西
-
-常见改动点主要是这些环境变量：
-
-- `ANTHROPIC_BASE_URL`
-- `ANTHROPIC_AUTH_TOKEN`
-- `ANTHROPIC_MODEL`
-- `ANTHROPIC_DEFAULT_SONNET_MODEL`
-- `ANTHROPIC_DEFAULT_OPUS_MODEL`
-- `ANTHROPIC_DEFAULT_HAIKU_MODEL`
-- `ANTHROPIC_DEFAULT_FABLE_MODEL`
-
-你可以这样记：
-
-- `Base URL` 决定请求发到哪
-- `Auth Token` 决定你用什么身份去调
-- 模型映射决定 Claude Code 里的模型别名最终落到哪个真实模型
-
-很多人只改前两项，最后 CLI 能启动，但一做真实任务就报：
-
-- 模型不支持
-- 找不到模型
-- 返回值不符合预期
-
-这时候根因往往不是线路没通，而是模型映射没配。
-
-按 2026-07-04 官方 `model-config` 文档，Claude Code 当前模型别名不只 Sonnet / Opus / Haiku，还包括 `fable` 和 `best`。其中 `fable` 偏文档、写作、清晰沟通类任务；如果你的第三方网关支持这类映射，建议一起配齐。`best` 是自动选择别名，通常不直接映射成某个固定环境变量。
-
----
-
-## 2. 第三方线路最常见的 4 种形态
-
-### 第一类：Anthropic 兼容中转
-
-它通常给你：
-
-- 一个 `Base URL`
-- 一个 `Key`
-- 一句“兼容 Claude / Anthropic”
-
-这类最常见，也最适合先从最小模板跑通。
-
-### 第二类：包月 / 订阅型线路
-
-例如 MiMo Token Plan。  
-特点通常是：
-
-- Key 形式和按量 API 不一样
-- `Base URL` 可能有区域差异
-- 建议把模型映射一次配齐
-
-### 第三类：多模型 Gateway
-
-这类最容易出模型别名问题。  
-因为一个入口下面可能挂多个真实模型，你得自己决定：
-
-- Sonnet 指向谁
-- Opus 指向谁
-- Haiku 指向谁
-- Fable 指向谁
-
-### 第四类：通过 CC Switch 等工具统一管理
-
-这种情况下，Claude Code 最终吃到的仍然是：
-
-- `Base URL`
-- `Key`
-- 模型映射
-
-只是这些值可能是被外部工具回写进去，而不是你手改文件。
-
----
-
-## 3. 最小模板一：只手改 `settings.json`
-
-如果一条线路本身就是 Anthropic 兼容入口，那 Claude Code 最小可用配置可以先从下面这个模板开始：
-
-```json
-{
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://你的中转或网关地址",
-    "ANTHROPIC_AUTH_TOKEN": "你的Key",
-    "ANTHROPIC_MODEL": "你的真实模型名",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "你的真实模型名",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "你的真实模型名",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "你的真实模型名",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "你的真实模型名"
-  }
-}
+```text
+确认网关协议 → 设置 Base URL → 设置凭据 → 用 /status 验证 → 发一条最小请求 → 再配置模型映射和长期存储
 ```
 
-### 什么时候适合先全都指向同一个模型
+有五条当前规则：
 
-如果这条线路只提供一个主模型，或者你当前只是想先验证“这条线路到底通不通”，最稳的做法就是先把 `ANTHROPIC_MODEL` 和 4 个默认模型映射字段都统一指过去。
-
-例如：
-
-```json
-{
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://example.com/anthropic",
-    "ANTHROPIC_AUTH_TOKEN": "tp-or-sk-替换成你的Key",
-    "ANTHROPIC_MODEL": "my-main-model",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "my-main-model",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "my-main-model",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "my-main-model",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "my-main-model"
-  }
-}
-```
-
-先跑通，再做细分，比一上来就追求“完美映射”更稳。
+1. Anthropic 兼容网关通常需要 `ANTHROPIC_BASE_URL` 加一个凭据变量；只改 Base URL 不会自动完成认证。
+2. `ANTHROPIC_AUTH_TOKEN` 会作为 `Authorization: Bearer ...` 使用；`ANTHROPIC_API_KEY` 走 `x-api-key`，不要混用后再猜网关需要哪个 header。
+3. Bedrock、Vertex、Foundry、Claude Platform on AWS 有自己的 `*_BASE_URL` 和认证开关，不能把 Anthropic 兼容示例原样复制过去。
+4. 网关必须正确转发 Anthropic Messages API、流式响应、版本 header、工具调用、缓存/上下文能力和错误码；“能返回一句话”不等于适合 Claude Code。
+5. CC Switch、LiteLLM、One API 等第三方工具可以切换或路由配置，但它们不改变 Claude Code 官方的权限、设置优先级和模型能力判断。
 
 ---
 
-## 4. 最小模板二：分开映射 Sonnet / Opus / Haiku / Fable
+## 1. 先判断你属于哪种线路
 
-如果你接的是多模型 Gateway，这种模板更接近真实生产用法：
+| 线路 | Claude Code 入口 | 主要差异 |
+| --- | --- | --- |
+| Anthropic API/订阅直连 | OAuth、`ANTHROPIC_API_KEY` | 官方能力和文档最完整 |
+| Anthropic 兼容 Gateway | `ANTHROPIC_BASE_URL` + token/key | 网关负责上游 Provider、计费和审计 |
+| Amazon Bedrock | `CLAUDE_CODE_USE_BEDROCK=1` | AWS 凭据、region、inference profile |
+| Google Cloud Agent Platform | `CLAUDE_CODE_USE_VERTEX=1` | GCP project、region、模型版本 |
+| Microsoft Foundry | `CLAUDE_CODE_USE_FOUNDRY=1` | Foundry endpoint 和 API key |
+| Claude Platform on AWS | `CLAUDE_CODE_USE_ANTHROPIC_AWS=1` | workspace 和 AWS 平台认证 |
+| 本地切换器/桌面管理器 | 写入上述变量或 settings | 必须确认它实际写了哪个文件/进程环境 |
 
-```json
-{
-  "env": {
-    "ANTHROPIC_BASE_URL": "https://你的网关地址",
-    "ANTHROPIC_AUTH_TOKEN": "你的Key",
-    "ANTHROPIC_MODEL": "sonnet-like-model",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "sonnet-like-model",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "opus-like-model",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "haiku-like-model",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "writing-like-model"
-  }
-}
-```
+先在 Claude Code 里运行 `/status`：
 
-这种写法适合：
-
-- 网关下挂了多个真实模型
-- 你希望不同别名落到不同档位
-- 你清楚这几个模型各自支持什么上下文和计费策略
-
-但前提是你真的知道服务商给你的模型名是“真实模型名”，不是营销名。
-
-这里千万不要直接把官方别名当真实模型名照抄给第三方线路。第三方 Gateway 可能要求 `claude-sonnet-5-20260229`、`glm-xxx`、`mimo-xxx` 这类服务商自己的模型 ID；每次发布或复习配置前，都要以服务商后台当前文档为准。
+- `Anthropic base URL` 出现且指向你的网关，说明 Base URL 已生效。
+- `Auth token`、`API key` 或 `apiKeyHelper` 行说明凭据来源。
+- 如果显示 `Login method` 为 claude.ai 账号而不是网关凭据，说明环境变量可能被登录凭据覆盖或尚未加载。
 
 ---
 
-## 5. 最小模板三：通过 CC Switch 管理时该看什么
+## 2. Anthropic 兼容网关的最小配置
 
-主人前面说的“利润 CC 不就是改个配置文件和换一下 key 吗”，如果说的是这类工具的体感，其实很贴切。  
-但要补一句：
-
-- **你感知到的是切换动作简单，不代表底层配置层就没有坑**
-
-如果你是通过 CC Switch 切 Claude Code Provider，真正要确认的是：
-
-1. 它最终写回了什么 `Base URL`
-2. 它最终写回了什么 `Key`
-3. 它有没有把模型映射一起写对
-
-也就是说，你不能只看界面里“当前 Provider 已切换”，还要回到 Claude Code 实际吃的配置去验证。
-
-### CC Switch 场景下最值得自查的三件事
-
-1. 你手改的本地配置有没有被它覆盖
-2. 当前 Provider 用的是真实模型名还是展示名
-3. 切换后旧终端有没有完全退出重开
-
----
-
-## 6. 为什么“只改个配置文件和换个 Key”还是经常出问题
-
-最常见的坑基本就 4 类：
-
-### 旧环境变量残留
-
-如果系统里还留着旧的：
-
-- `ANTHROPIC_BASE_URL`
-- `ANTHROPIC_AUTH_TOKEN`
-
-那你文件里虽然改了，CLI 实际未必读的是这套。
-
-### 终端没重开
-
-你改完配置文件，但当前终端还拿着旧环境。  
-最后就会形成“我明明改了，为什么没生效”的错觉。
-
-### 模型映射没配
-
-这是最常见的大坑。  
-尤其是第三方线路只支持自定义模型 ID 时，如果你没配：
-
-- `ANTHROPIC_MODEL`
-- `ANTHROPIC_DEFAULT_*`
-
-CLI 很可能在实际请求阶段才炸。
-
-### 外部工具回写覆盖
-
-手改本地文件之后，CC Switch 或别的脚本又把旧配置写回去了。  
-这种时候如果你没回头核最终配置，很容易一直怀疑是线路服务商的问题。
-
----
-
-## 7. 最小自检流程：先别上复杂项目
-
-中转接完以后，不要直接拿一个大重构去赌。  
-最稳的自检顺序是：
-
-### 第一步：确认 CLI 本体正常
-
-先确认：
+### 2.1 Bash/Zsh
 
 ```bash
+export ANTHROPIC_BASE_URL='https://llm-gateway.example.com'
+export ANTHROPIC_AUTH_TOKEN='sk-gateway-key'
 claude
 ```
 
-至少能正常进入交互。
+### 2.2 PowerShell
 
-### 第二步：看当前状态
+```powershell
+$env:ANTHROPIC_BASE_URL = 'https://llm-gateway.example.com'
+$env:ANTHROPIC_AUTH_TOKEN = 'sk-gateway-key'
+claude
+```
+
+### 2.3 通过 settings.json 配置
+
+```json
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "https://llm-gateway.example.com",
+    "ANTHROPIC_AUTH_TOKEN": "sk-gateway-key"
+  }
+}
+```
+
+个人长期配置放 `~/.claude/settings.json`；单项目测试放 `.claude/settings.local.json`，并确认它不会进入 Git。团队共享 Base URL 可以放项目 `settings.json`，真实 token 必须由环境变量、密钥管理或 `apiKeyHelper` 注入，不要提交。
+
+### 2.4 Key 和 Token 怎么选
+
+| 变量 | 默认发送方式 | 适合 |
+| --- | --- | --- |
+| `ANTHROPIC_API_KEY` | `x-api-key` | 网关模拟 Anthropic API Key |
+| `ANTHROPIC_AUTH_TOKEN` | `Authorization: Bearer` | 网关发放 Bearer token |
+| `apiKeyHelper` | 运行脚本取回凭据 | Vault、短期 token、轮换密钥 |
+| `ANTHROPIC_CUSTOM_HEADERS` | 额外自定义 header | 组织路由、租户、非标准认证 |
+
+如果同时存在订阅登录和 API Key，交互模式会提示是否用 Key 覆盖订阅；`-p` 非交互模式中，存在 `ANTHROPIC_API_KEY` 时会直接使用它。排查时先明确当前凭据来源。
+
+---
+
+## 3. 先验证网关协议，再启动复杂任务
+
+### 3.1 最小 Messages API 请求
+
+```bash
+curl -sS -w '\n%{http_code}\n' -X POST "$ANTHROPIC_BASE_URL/v1/messages" \
+  -H "Authorization: Bearer $ANTHROPIC_AUTH_TOKEN" \
+  -H 'anthropic-version: 2023-06-01' \
+  -H 'content-type: application/json' \
+  -d '{"model":"claude-sonnet-4-6","max_tokens":1,"messages":[{"role":"user","content":"."}]}'
+```
+
+PowerShell：
+
+```powershell
+Invoke-RestMethod -Method Post -Uri "$env:ANTHROPIC_BASE_URL/v1/messages" `
+  -Headers @{ Authorization = "Bearer $env:ANTHROPIC_AUTH_TOKEN"; 'anthropic-version' = '2023-06-01' } `
+  -ContentType 'application/json' `
+  -Body '{"model":"claude-sonnet-4-6","max_tokens":1,"messages":[{"role":"user","content":"."}]}'
+```
+
+然后在 Claude Code 中：
+
+```text
+/status
+请只读列出当前目录的顶层文件，不要修改任何内容。
+```
+
+### 3.2 网关兼容性检查清单
+
+- `/v1/messages` 路径和 Anthropic Messages schema。
+- `Authorization`/`x-api-key`、`anthropic-version`、`anthropic-beta` 和 `content-type` 正确转发。
+- 流式 SSE 事件顺序、工具调用、图片/文档内容块、extended thinking、prompt caching 不被吞掉。
+- 429、529、5xx、超时和 `retry-after` 能被网关保留；不要把所有错误改成 200。
+- 1M context、effort、fast mode、自动 fallback 等能力必须有明确的模型能力映射。
+- 模型 discovery 或 `/model` picker 需要稳定的模型列表接口时，按官方 Gateway Protocol 实现。
+- 审计日志要脱敏 prompt、Key、Cookie 和项目机密。
+
+只返回一段文本的“兼容接口”通常无法稳定支持 MCP、工具调用、流式输出和长上下文。
+
+---
+
+## 4. 多模型映射：alias、真实 ID、能力声明分开
+
+### 4.1 Anthropic API 或兼容网关
+
+```json
+{
+  "model": "sonnet",
+  "fallbackModel": ["haiku", "sonnet"],
+  "env": {
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "gateway/claude-opus-5-5",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "gateway/claude-sonnet-5-5",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gateway/claude-haiku-5-5",
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "gateway/claude-fable-5-1"
+  }
+}
+```
+
+真实 ID 必须是网关可识别并接受的名称。`opus`、`sonnet`、`haiku`、`fable` 是 Claude Code alias；它们不会因为你设置了 Base URL 就自动映射到网关的任意字符串。
+
+### 4.2 Provider 专用映射
+
+Amazon Bedrock：
+
+```bash
+export CLAUDE_CODE_USE_BEDROCK=1
+export ANTHROPIC_BEDROCK_BASE_URL='https://llm-gateway.example.com/bedrock'
+export CLAUDE_CODE_SKIP_BEDROCK_AUTH=1
+export ANTHROPIC_DEFAULT_OPUS_MODEL='us.anthropic.claude-opus-5-5'
+```
+
+Google Cloud 的 Agent Platform：
+
+```bash
+export CLAUDE_CODE_USE_VERTEX=1
+export ANTHROPIC_VERTEX_BASE_URL='https://llm-gateway.example.com/vertex'
+export ANTHROPIC_VERTEX_PROJECT_ID='your-gcp-project-id'
+export CLOUD_ML_REGION='us-east5'
+export CLAUDE_CODE_SKIP_VERTEX_AUTH=1
+```
+
+Vertex 各模型可以使用对应 `VERTEX_REGION_CLAUDE_*` 变量；无法被当前 Claude Code 识别的模型 ID，需要用 `ANTHROPIC_DEFAULT_*_MODEL_SUPPORTED_CAPABILITIES` 声明 `effort`、`xhigh_effort`、`thinking`、`adaptive_thinking` 等能力。
+
+Microsoft Foundry：
+
+```bash
+export CLAUDE_CODE_USE_FOUNDRY=1
+export ANTHROPIC_FOUNDRY_BASE_URL='https://llm-gateway.example.com/foundry'
+export ANTHROPIC_FOUNDRY_API_KEY='sk-gateway-key'
+```
+
+Claude Platform on AWS：
+
+```bash
+export CLAUDE_CODE_USE_ANTHROPIC_AWS=1
+export ANTHROPIC_AWS_BASE_URL='https://llm-gateway.example.com/anthropic-aws'
+export ANTHROPIC_AWS_WORKSPACE_ID='wrkspc_01ABCDEFGHIJKLMN'
+export CLAUDE_CODE_SKIP_ANTHROPIC_AWS_AUTH=1
+```
+
+每种 Provider 的环境变量、region、认证和模型 ID 要以当前官方 Provider 页面为准；不要把 Bedrock inference profile ARN 当成 Anthropic API 的 model ID。
+
+### 4.3 1M context 和自定义模型
+
+只有底层模型确实支持 1M context 时才使用：
+
+```text
+/model claude-sonnet-4-6[1m]
+```
+
+自定义模型可加入 `/model` picker：
+
+```bash
+export ANTHROPIC_CUSTOM_MODEL_OPTION='gateway/claude-opus-5-5'
+export ANTHROPIC_CUSTOM_MODEL_OPTION_NAME='Opus via Gateway'
+export ANTHROPIC_CUSTOM_MODEL_OPTION_DESCRIPTION='Internal gateway deployment'
+```
+
+未被 Claude Code 识别的模型，effort、thinking、context 和 fallback 可能默认关闭；用 `modelOverrides` 或 `*_SUPPORTED_CAPABILITIES` 明确声明，不要只靠模型名猜。
+
+---
+
+## 5. 各使用界面的配置差异
+
+| 界面 | 推荐方式 | 易错点 |
+| --- | --- | --- |
+| 终端 CLI | shell 环境变量或 settings | 新终端不会继承临时 `$env:`，检查 `/status` |
+| VS Code | `claudeCode.environmentVariables` | 扩展终端和系统终端环境不同 |
+| Desktop | 管理员下发；本地开发者模式配置 | SSH 会话需要 `sshHostAllowlist`，远端主机访问网关 |
+| GitHub Actions | `ANTHROPIC_BASE_URL` + Secret | 不把 token 写进 YAML；Action 的 `anthropic_api_key` 也要指向网关 secret |
+| Agent SDK | TypeScript 合并 `process.env`；Python `env` 继承 | TS 的 `options.env` 会替换整个环境，忘记展开会丢 PATH/凭据 |
+| Cloud/Slack/Remote Control | 通常不能依赖本机网关变量 | 按官方 surface 说明配置；需要远端能访问网关 |
+
+VS Code 示例：
+
+```json
+{
+  "claudeCode.environmentVariables": [
+    { "name": "ANTHROPIC_BASE_URL", "value": "https://llm-gateway.example.com" },
+    { "name": "ANTHROPIC_AUTH_TOKEN", "value": "${env:GATEWAY_KEY}" }
+  ]
+}
+```
+
+Agent SDK TypeScript：
+
+```ts
+const result = query({
+  prompt: '...',
+  options: {
+    env: {
+      ...process.env,
+      ANTHROPIC_BASE_URL: 'https://llm-gateway.example.com',
+      ANTHROPIC_AUTH_TOKEN: process.env.GATEWAY_KEY
+    }
+  }
+})
+```
+
+---
+
+## 6. 额外配置：只在网关管理员要求时使用
+
+### 自定义 header
+
+```bash
+export ANTHROPIC_CUSTOM_HEADERS='X-Org-Route: prod
+X-Tenant: example'
+```
+
+### 凭据轮换
+
+```json
+{
+  "apiKeyHelper": "powershell -NoProfile -File C:\\scripts\\get-gateway-key.ps1"
+}
+```
+
+脚本只输出凭据，不要输出日志；设置合理权限和超时，轮换失败要让 Claude Code 明确报错。
+
+### 关闭网关以外的非必要流量
+
+```bash
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+```
+
+该变量会关闭自动更新、部分 fast mode 可用性检查和非必要遥测/feature flags；它不等于“所有请求都只走网关”，例如 WebFetch 的域名安全预检仍可能访问 Anthropic。关闭后要建立自己的升级路径，并确认你需要的 `/skills` 同步、功能开关和模型 discovery 不会受影响。
+
+### 路由确认
 
 ```text
 /status
 ```
 
-先确认没有明显异常。
-
-### 第三步：最小解释任务
+Provider 专用路由应看到类似：
 
 ```text
-先不要修改文件。
-请解释这个仓库的结构和主要入口。
+API provider: Amazon Bedrock
+Bedrock base URL: https://llm-gateway.example.com/bedrock
+AWS auth skipped
 ```
 
-先确认基本对话、上下文处理和模型链路没问题。
+---
 
-### 第四步：最小修改任务
+## 7. 用 CC Switch、LiteLLM 等工具时的自查
 
-```text
-请只修改一个很小的文案，并告诉我如何验证。
-```
+第三方切换器常见职责：保存多个 provider 配置、写入 settings/env、做模型映射、测速和故障切换。使用它们时每次切换后都检查：
 
-再确认：
+1. 它写入了哪个 `settings.json`、哪个 shell profile 或哪个进程环境。
+2. 旧的 `ANTHROPIC_*`、`CLAUDE_CODE_USE_*`、`BASE_URL` 是否仍然残留。
+3. 当前 CLI 实际版本、`/status` 的 provider、模型和 auth 来源。
+4. 它是否会把项目配置、凭据或自定义 header 回写到 Git 工作树。
+5. 失败重试、fallback、计费和上下文窗口是否由网关实现，而不是 Claude Code 本身保证。
 
-- 文件修改正常
-- 工具调用正常
-- 真实动作阶段不会炸模型映射
+CC Switch 官方仓库：https://github.com/farion1231/cc-switch
+
+LiteLLM、One API 等兼容层适合统一多 Provider，但其模型名、Responses/Messages 转换和工具调用支持会随版本变化；部署前用真实 MCP/tool-use、流式和长上下文请求验证。第三方工具不能绕过组织的 `allowedProviders`、`availableModels`、权限模式和 Managed settings。
 
 ---
 
-## 8. 最常见的 6 个排障点
+## 8. 高频排障
 
-### 问题一：CLI 能启动，但一做任务就报模型不支持
+| 症状 | 可能原因 | 处理顺序 |
+| --- | --- | --- |
+| CLI 能启动但首个请求 401 | token header 错、旧登录覆盖、网关需要 API key | `/status` → 清理冲突变量 → curl 验证 header |
+| 改了 Base URL 仍走旧线路 | 终端未重开、设置层级被覆盖、切换器回写 | `Get-Command/which`、`/status`、检查 User/Project/Managed |
+| 模型不支持 | 网关只接受自定义 ID、alias 未映射、Provider 需要 ARN/部署名 | 直接用真实 ID → `ANTHROPIC_DEFAULT_*_MODEL` → `modelOverrides` |
+| 工具调用失败 | 网关丢 tool schema、流式事件或 beta header | Gateway Protocol 检查，先用最小 tool-use 请求 |
+| 1M/effort 不可用 | 上游不支持、网关丢 beta、能力未声明 | 去掉 `[1m]` 对比，声明 `SUPPORTED_CAPABILITIES` |
+| 频繁 529/429 | 上游过载或网关限流 | 保留 429/529 和 retry-after，配置 fallback/重试预算 |
+| Remote Control/Cloud 不能走本机网关 | 远端环境看不到本机 `localhost` 和 shell 变量 | 给远端配置可达 URL，或明确使用官方登录线路 |
+| 费用和订阅显示不一致 | 网关按自己的计费；API Key 覆盖订阅 | `/usage` 与网关账单分开核对 |
+| 切换后设置又被改回 | CC Switch/MDM/登录同步回写 | 关闭自动回写，确认最终生效文件和优先级 |
 
-先查模型映射，不要先怀疑安装。
-
-### 问题二：明明改了 `Base URL`，实际还是走旧线路
-
-先查旧环境变量和终端是否重开。
-
-### 问题三：系统终端能用，工具内终端不能用
-
-先查不同终端环境是不是不一致。
-
-### 问题四：手改好了，过一会儿又被改回去
-
-先查 CC Switch 或其他配置管理工具是否回写。
-
-### 问题五：中转站说支持 Claude，实际 Claude Code 不稳
-
-先确认它支持的是：
-
-- Anthropic 兼容协议
-- 还是只是“网页能聊天”
-
-这两件事不是一回事。
-
-### 问题六：切了中转以后费用或额度表现不符合预期
-
-这时问题往往不在 Claude Code，而在：
-
-- 中转计费规则
-- 模型真实映射
-- 长上下文档位
+不要用 `--dangerously-skip-permissions` 来修复网关问题；权限模式和网络认证是两条独立链路。
 
 ---
 
-## 9. 一句话判断：这条线路值不值得先接
+## 9. 推荐的安全上线顺序
 
-如果主人手上的线路满足这 4 条，就很值得先拿来试：
-
-1. 它明确说自己兼容 Anthropic 协议
-2. 它能给出真实 `Base URL`
-3. 它能给出真实模型名
-4. 你能说清楚自己是在按量、包月还是 Gateway 场景
-
-如果连这 4 条都说不清，那先别急着配，先回去问清服务商。
-
----
-
-## 10. 这篇读完后，主人最该做什么
-
-如果你接下来就要给 Claude Code 接中转，我最建议你按这 5 步直接做：
-
-1. 先确认是不是 Anthropic 兼容协议
-2. 准备好 `Base URL`、`Key`、真实模型名
-3. 用这篇的最小模板先配齐 `ANTHROPIC_MODEL` 和 `ANTHROPIC_DEFAULT_*`
-4. 重开终端后用 `/status` 验证
-5. 只跑最小解释任务和最小修改任务，不要直接上复杂项目
-
-如果你还想继续往细里看：
-
-- MiMo 包月线路，去看 [第三篇：Claude Code 对接小米 MiMo Token Plan 配置说明](#/note/AI工具/05_辅助工具层/CCSwitch/第三篇_ClaudeCode对接小米MiMoTokenPlan配置说明_2026-05)
-- 中转计费和 Provider 思路，去看 CC Switch 与基础计费专题
+1. 让网关管理员提供 Base URL、凭据类型、支持的 model ID、上下文/工具/流式能力和审计策略。
+2. 在临时 shell 环境设置变量，用 curl 验证 `/v1/messages`。
+3. 启动 Claude Code，确认 `/status` 的 provider、Base URL、模型和 auth 来源。
+4. 先做只读任务，再做一个小编辑和 MCP/tool-use 任务。
+5. 验证 429/529、超时、fallback、1M/effort、图片/文档和长响应。
+6. 确认日志脱敏、密钥轮换和关闭线路后的恢复方式。
+7. 个人配置稳定后再写 settings；团队配置用 Managed settings 或安全分发，不把 token 提交进仓库。
 
 ---
 
-## 参考资料
+## 10. 参考资料
 
-- https://docs.anthropic.com/en/docs/claude-code/model-config
-- https://docs.anthropic.com/en/docs/claude-code/settings
-- https://platform.xiaomimimo.com/docs/integration/claudecode
-- https://docs.bigmodel.cn/cn/guide/develop/claude
+本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+
+- Connect Claude Code to an LLM gateway：https://code.claude.com/docs/en/llm-gateway-connect
+- Gateway compatibility guide：https://code.claude.com/docs/en/llm-gateway-protocol
+- LLM gateway overview：https://code.claude.com/docs/en/llm-gateway
+- Model configuration：https://code.claude.com/docs/en/model-config
+- Environment variables：https://code.claude.com/docs/en/env-vars
+- Settings reference：https://code.claude.com/docs/en/settings-reference
+- Amazon Bedrock：https://code.claude.com/docs/en/amazon-bedrock
+- Google Cloud Agent Platform：https://code.claude.com/docs/en/google-vertex-ai
+- Microsoft Foundry：https://code.claude.com/docs/en/microsoft-foundry
+- Claude Platform on AWS：https://code.claude.com/docs/en/claude-platform-on-aws
+- Enterprise deployment overview：https://code.claude.com/docs/en/third-party-integrations
+- Claude Code GitHub Releases：https://github.com/anthropics/claude-code/releases
+- CC Switch（第三方配置管理）：https://github.com/farion1231/cc-switch
+- LiteLLM：https://github.com/BerriAI/litellm
+
+Gateway 是基础设施，不是“换一个 URL 就完成的模型兼容层”。请以网关实际协议、日志和计费为准，并定期按官方 changelog 复核变量名和 Provider 行为。

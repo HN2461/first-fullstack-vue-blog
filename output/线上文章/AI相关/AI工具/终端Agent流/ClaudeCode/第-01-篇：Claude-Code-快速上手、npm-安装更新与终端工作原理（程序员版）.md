@@ -1,7 +1,7 @@
 ---
 title: "第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）"
 slug: "ai-agent-claudecode-claudecode-4c9d5bfe"
-summary: "基于 2026-07-04 Claude Code 官方 Setup、Interactive Mode、Commands、Permission Modes 与 How Claude Code Works 文档复核更新，聚焦程序员真正需要的安装更新、终端读屏、权限模式与第一轮最小工作流。"
+summary: "按 2026-10-12 可查到的 Claude Code 2.1.296、官方 Setup、Quickstart、Interactive Mode、Commands、Permission Modes 与 Changelog 更新，覆盖原生安装、npm 更新、Windows/WSL、终端状态、权限模式、会话管理和第一轮可验证工作流。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,13 +22,12 @@ originalId: "6a2d291d8a2b1c68f2cabf18"
 originalSlug: "ai-agent-claudecode-claudecode-4c9d5bfe"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.833Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-12T21:50:00.000Z"
 exportedAt: "2026-09-29T13:16:41.461Z"
 ---
 # 第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）
 
-> 这篇只解决 4 件事：怎么装、怎么更新、怎么看终端、怎么开始第一轮真实任务。  
-> 如果主人是程序员，先把这 4 件事跑顺，比先学一堆高级能力更重要。
+> 本文按 2026-10-12 能查到的官方资料复核，示例以 Claude Code `2.1.296` 为当前版本快照。Claude Code 是会读代码、修改文件、运行命令并连接开发工具的终端代理；安装成功只是起点，真正稳定的使用依赖“版本可确认、目录正确、权限可控、结果可验证”。
 
 [[toc]]
 
@@ -36,353 +35,369 @@ exportedAt: "2026-09-29T13:16:41.461Z"
 
 ## 先给结论
 
-把 Claude Code 理解成一个会读仓库、会调工具、会改文件的终端代码代理就够了。  
-第一天最重要的不是背命令，而是先跑顺这条主线：
+程序员第一次使用 Claude Code，先把下面这条最小链路跑通：
 
-1. 用 `npm` 装好
-2. 知道怎么更新
-3. 看得懂终端提示
-4. 先让它读项目，再做一个小改动
+```text
+安装 → claude --version → 在仓库根目录启动 → 先让 Claude 解释 → 再让它做一个小改动 → 查看 diff → 运行验证命令
+```
+
+有四个容易过时的认知需要先纠正：
+
+1. 官方现在优先推荐原生安装器；npm 仍然支持，适合已经统一用 Node.js 包管理或需要显式锁版本的团队。
+2. `--permission-mode`、`/model`、`/effort`、`/config` 都可能被组织策略、当前 Provider 和模型能力限制，不能把网上旧截图当成当前行为。
+3. `/batch`、`/deep-research`、`/code-review`、`/run`、`/verify`、`/workflows` 等有些是 bundled skill 或 workflow，不一定在每个账号、Provider 或版本中出现。
+4. 看到“connected”只能说明连接建立，不能说明模型、权限、MCP 工具和项目规则都可用；收尾必须看 diff 和测试结果。
 
 ---
 
-## 1. 程序员最常用的主线：`npm` 安装与更新
+## 1. 先确认版本和发布渠道
 
-如果面向程序员写 Claude Code，`npm` 不能只是顺带一提。  
-按 2026-07-04 我复核的官方文档，Claude Code 现在更推荐优先使用官方原生安装器、Homebrew 或 WinGet；`npm` 仍然是官方支持的全局安装方式之一，尤其适合已经习惯 Node/npm 工具链的程序员。
+截至本文核验时间，npm `@anthropic-ai/claude-code` 与 GitHub Releases 的最新公开版本均为 `2.1.296`，对应 2026-10-09 的发布记录。版本会快速迭代，文章中的版本号是核验基线，不是永久固定值。
 
-如果你是第一次安装，先记住这条最新主线：
+```bash
+claude --version
+claude -v
+npm view @anthropic-ai/claude-code version
+```
 
-- 原生安装器：自动后台更新，官方当前推荐优先使用
-- Homebrew / WinGet / Linux 包管理器：由包管理器负责升级
-- npm：仍可用，但要注意 Node 版本和 optional dependencies
+需要排查“到底运行了哪一份程序”时，按系统检查路径：
 
-### 安装
+```bash
+# macOS / Linux / WSL
+which claude
+command -v claude
+
+# Windows PowerShell
+Get-Command claude | Format-List Source,Version
+where.exe claude
+```
+
+如果 `npm view` 显示的新版本和 `claude --version` 不一致，优先检查 PATH 中是否同时存在原生安装、npm 全局安装、Homebrew 或 WinGet 安装。一次只保留一个主安装来源，能显著减少“更新了但版本不变”和“终端 A、IDE 终端 B 版本不同”的问题。
+
+---
+
+## 2. 官方安装方式与 npm 安装方式
+
+### 2.1 官方推荐的原生安装
+
+官方 Setup 当前把 Native Install 标为推荐方式：
+
+```bash
+# macOS、Linux、WSL
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+```powershell
+# Windows PowerShell 原生安装
+irm https://claude.ai/install.ps1 | iex
+```
+
+```cmd
+:: Windows CMD
+curl -fsSL https://claude.ai/install.cmd -o install.cmd && install.cmd && del install.cmd
+```
+
+也可以使用系统包管理器：
+
+```bash
+brew install --cask claude-code
+```
+
+```powershell
+winget install Anthropic.ClaudeCode
+```
+
+原生安装器把版本放在用户目录下并负责更新；如果团队已经通过镜像、软件分发或包管理系统管理二进制，使用原生安装器前先确认不会和既有安装互相覆盖。
+
+### 2.2 npm 安装、更新与卸载
+
+npm 方式仍然有效，包名是 `@anthropic-ai/claude-code`：
 
 ```bash
 npm install -g @anthropic-ai/claude-code
+claude --version
 ```
 
-官方当前 npm 包从 `v2.1.198` 起要求 `Node.js 22+`。  
-如果你的 Node 版本更旧，npm 可能只给 `EBADENGINE` 警告而不是直接失败，因为 npm 包最终下载的是对应平台的原生 Claude Code 二进制，`claude` 运行时并不靠 Node 执行。
-
-另外有两个关键点要知道：
-
-- npm 必须允许安装 optional dependencies，否则平台二进制可能缺失
-- 不要用 `sudo npm install -g`，权限问题和安全风险都更高
-
-### 更新
-
-如果你走的是原生安装器，Claude Code 会自动后台更新；如果想立刻更新，可以用：
+锁定某个版本用于复现问题：
 
 ```bash
-claude update
+npm install -g @anthropic-ai/claude-code@2.1.296
 ```
 
-如果你走的是 npm 线路，最稳的更新命令仍然是：
+卸载 npm 安装：
+
+```bash
+npm uninstall -g @anthropic-ai/claude-code
+```
+
+npm 安装需要 Node.js 22 或更高版本；Claude Code 本体是原生二进制，运行时不依赖 Node.js，但安装器会检查 npm 的 Node.js 引擎版本。升级 npm 安装时使用：
 
 ```bash
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
-不要默认用：
+官方不建议用 `npm update -g`，因为它会遵循最初安装时的 semver 范围，可能不会移动到最新版本；也不要使用 `sudo npm install -g`，应按 npm 权限排障文档修复全局目录权限。更新后仍旧显示旧版本，执行 `npm prefix -g`、`npm bin -g`（具体命令随 npm 版本而异）或 `Get-Command claude` 检查实际 PATH。不要在同一个终端里混用“原生安装器更新”和“npm 全局更新”来判断是否成功。
 
-```bash
-npm update -g @anthropic-ai/claude-code
+### 2.3 固定发布渠道和最低版本
+
+官方支持 `latest`（默认，较快获得新功能）与 `stable`（通常滞后一周左右，避开明显回归）两个更新通道：
+
+```json
+{
+  "autoUpdatesChannel": "stable",
+  "minimumVersion": "2.1.280"
+}
 ```
 
-因为它不一定把你带到最新版本。
+临时关闭自动更新可使用环境变量：
 
-### 实战提醒
+```bash
+export DISABLE_AUTOUPDATER=1
+```
 
-1. 不要混用多种安装渠道
-2. 更新异常先看 `claude doctor`
-3. 如果版本不对，先查 PATH 里到底哪一份 `claude` 在生效
-4. npm 线路遇到二进制缺失，先查 optional dependencies 是否被禁用
+更新命令：
+
+```bash
+claude update
+```
+
+`DISABLE_AUTOUPDATER` 只影响自动更新；如果要阻止 `claude update`、`claude install` 等主动更新，还要按官方说明设置 `DISABLE_UPDATES`，并通过团队的版本分发流程管理升级。网络存储、多机器共享 home 目录时不要原地替换正在运行的二进制，应让新旧版本并存，确认没有其他机器仍在运行旧文件后再清理。
+
+### 2.4 Windows 原生安装、Git Bash 与 WSL
+
+官方支持 Windows 10 1809+、Windows Server 2019+，也支持 WSL。原生 Windows 没有 Git for Windows 时，Bash 工具会通过 PowerShell 执行；安装 Git for Windows 后，Bash 工具优先使用 Git Bash。找不到 Git Bash 时，在设置中指定：
+
+```json
+{
+  "env": {
+    "CLAUDE_CODE_GIT_BASH_PATH": "C:\\Program Files\\Git\\bin\\bash.exe"
+  }
+}
+```
+
+WSL 中按 Linux 方式安装；Windows 原生目录和 WSL 路径、凭据、`claude` 可执行文件不是同一个环境。遇到“Windows 终端可用、WSL 不可用”或相反的情况，先在对应环境分别执行 `which/where claude` 和 `claude --version`。
+
+Alpine/musl 系统需要额外依赖：
+
+```bash
+apk add bash curl libgcc libstdc++ ripgrep
+```
+
+如果要使用系统 ripgrep，可在设置中关闭内置版本：
+
+```json
+{
+  "env": {
+    "USE_BUILTIN_RIPGREP": "0"
+  }
+}
+```
 
 ---
 
-## 2. 装完先确认：当前跑的是哪一份 Claude
-
-这一步很程序员，也很有必要。
-
-Windows：
-
-```powershell
-where.exe claude
-```
-
-macOS / Linux / WSL：
+## 3. 安装后立即做三项检查
 
 ```bash
-which claude
+claude --version
+claude doctor
+claude --help
 ```
 
-然后进 Claude Code 里看：
+`claude doctor` 当前会检查安装、PATH、设置文件、扩展、技能、MCP、插件以及部分上下文成本问题。`claude --help` 用于确认本机版本实际支持的 CLI 参数，不要只抄旧文章里的参数。
 
-```text
-/status
-```
+登录方式取决于连接类型：
 
-这样可以避免后面出现这种错觉：
+- Claude.ai 订阅：运行 `claude`，按登录流程授权。
+- Anthropic API：使用 `ANTHROPIC_API_KEY` 或 `ANTHROPIC_AUTH_TOKEN`。
+- Amazon Bedrock、Google Cloud 的 Agent Platform、Microsoft Foundry、Claude Platform on AWS：使用对应 Provider 的环境变量和认证流程。
+- LLM Gateway：通常设置 `ANTHROPIC_BASE_URL` 与网关凭据；如果是 Provider 专用路由，使用对应的 `ANTHROPIC_*_BASE_URL` 和认证变量。
 
-- 你以为更新了，其实跑的还是旧版本
-- 你以为自己用的是 npm 安装，结果 PATH 指到了别的渠道
+不要把真实 Key 写进 `CLAUDE.md`、仓库 `settings.json` 或文章。环境变量、`apiKeyHelper`、系统密钥管理和组织托管设置都应遵循自己的密钥生命周期。
 
 ---
 
-## 3. 第一次启动：别在空目录里学
+## 4. 第一次启动要在什么目录
 
-Claude Code 真正的价值在真实仓库里。  
-所以别只在桌面空文件夹里敲：
+推荐进入真实仓库根目录后启动：
 
 ```bash
+cd /path/to/your/repository
 claude
 ```
 
-更推荐这样：
+空目录里也能启动，但 Claude 没有项目上下文，`/init` 生成的 `CLAUDE.md` 也缺少架构、脚本和验证命令。第一次进入仓库，建议先问：
+
+```text
+请先只读检查这个仓库：说明技术栈、入口、主要目录、测试命令、构建命令和当前 git 状态。先不要修改任何文件。
+```
+
+需要临时增加目录时：
+
+```text
+/add-dir ../shared-package
+```
+
+`/add-dir` 只给当前会话增加文件访问目录；它不会自动把该目录的大部分 `.claude/` 配置加载进来。要移动整个会话的工作目录，用 `/cd <path>`；这两个命令的语义不能混用。
+
+---
+
+## 5. 终端界面里常见状态词怎么读
+
+| 看到的词 | 实际含义 | 你要检查什么 |
+| --- | --- | --- |
+| `thinking` | 模型正在生成或整理下一步 | 不代表已经修改文件 |
+| `Read`、`Glob`、`Grep` | 正在读取或检索文件 | 路径是否在预期目录、是否读到敏感文件 |
+| `Bash` | 准备运行 shell 命令 | 命令、工作目录、是否会写入/删除 |
+| `Edit`、`Write` | 准备修改或创建文件 | diff 范围、编码、是否误改旁支文件 |
+| `permission` | 当前动作需要你的授权或被权限规则拦截 | 看完整命令和规则来源 |
+| `background` | 命令、会话或 subagent 被移到后台 | 用 `/tasks`、`/agents` 或 shell 的 `claude agents` 查看 |
+| `connected` | MCP/远程服务连接建立 | 还要确认目标工具存在且调用成功 |
+| `deferred` | MCP 工具 schema 按需加载，减少上下文占用 | 第一次调用时可能出现加载延迟 |
+| `compact` | 对话被压缩成摘要以释放上下文 | 关键约束是否已经写入 `CLAUDE.md` 或任务清单 |
+
+按 `Ctrl+O` 可以查看详细转录；`/tui fullscreen` 可切换到全屏渲染器。`/diff` 用于检查工作树变化，满足条件时全屏模式会显示持续更新的 diff 面板。
+
+---
+
+## 6. 权限模式：先理解边界，再决定放权
+
+当前常见模式如下：
+
+| 模式 | 适合场景 | 关键边界 |
+| --- | --- | --- |
+| `default` / Manual | 日常开发、陌生仓库 | 修改文件、执行命令时按规则询问 |
+| `acceptEdits` | 你信任改文件流程，但仍要审命令 | 自动批准文件编辑，命令仍按权限处理 |
+| `plan` | 需求不清、重构、架构变更 | 先分析并给计划，批准后再执行 |
+| `auto` | 有明确范围、希望减少重复确认 | 使用分类器审查动作；组织、Provider、模型可能决定是否可用 |
+| `dontAsk` | 无人值守但只允许预批准工具 | 未匹配 allow 的动作直接拒绝 |
+| `bypassPermissions` | 受控隔离环境、明确接受风险 | 跳过大部分权限检查；需要显式启动或策略允许 |
+
+启动时指定：
 
 ```bash
-cd your-project
-claude
+claude --permission-mode plan
+claude --permission-mode acceptEdits
+claude --permission-mode auto
 ```
 
-### 先认欢迎页，不然第一屏信息白白浪费了
+在交互会话中按 `Shift+Tab` 循环模式。`plan` 并不等于“模型只读”：如果你在计划审核时选择继续执行，后续会切换到你选择的权限行为。`auto` 也不是无条件放行，生产部署、密钥外传、强制推送、批量删除等高风险动作仍可能被分类器拒绝。
 
-> 下面不用截图，直接用一张 Mermaid 文字图把欢迎页最该看的信息抽出来。  
-> 主人以后复习时，看这几块就能立刻想起官方界面在说什么。
+项目设置中可以配置默认模式：
 
-```mermaid
-flowchart LR
-  A["Claude Code 欢迎页"] --> B["左上版本号<br/>先确认是不是你以为的那一版"]
-  A --> C["右侧 Tips for getting started<br/>告诉你下一步最该做什么"]
-  A --> D["What's new<br/>最近新增了什么能力"]
-  A --> E["底部模型 / 计费线路 / 当前目录<br/>确认你现在到底在什么仓库和线路里"]
+```json
+{
+  "permissions": {
+    "defaultMode": "plan"
+  }
+}
 ```
 
-你以后看到欢迎页，先抓 3 个点：
+项目或本地设置不能把 `auto`、`bypassPermissions` 作为组织范围的强制默认；这类值应放在用户/托管设置或用启动参数临时指定。详见第 04 篇的配置优先级。
 
-- 左上：版本号，排查问题和确认更新时先看它
-- 右侧：`Tips for getting started` 和 `What's new`，告诉你下一步做什么、最近刚加了什么
-- 底部：当前模型 / 计费线路 / 当前目录，决定你到底在哪个仓库、哪条线路里工作
+---
 
-第一轮不要让它直接大改，先让它解释项目：
+## 7. 第一天最值得记住的命令和快捷键
+
+### 会话和上下文
 
 ```text
-先不要修改任何文件。
-请先阅读这个仓库，然后告诉我：
-1. 这是个什么项目
-2. 主要目录怎么分工
-3. 入口文件在哪里
-4. 如果我是第一次接手，先看哪几个文件
+/help                         查看当前可用命令
+/status                       查看版本、模型、账号和连接状态
+/config                       打开设置
+/model sonnet                 切换模型；/model 无参数打开选择器
+/effort medium                设置当前会话的 effort
+/compact                      压缩上下文，可附带关注点
+/context                      查看上下文占用
+/clear                        清空当前会话并开始新会话
+/resume                       恢复历史会话
+/rename feature-auth         修改会话名
+/exit                         退出；后台会话可用 ← 返回 agent view
+/diff                         查看工作树差异
 ```
 
----
-
-## 4. 终端里常见英文提示，主人至少要看懂这些
-
-很多人不是不会用，而是根本没读懂终端在说什么。
-
-先看这一张文字图，先把“过程提示”和“真实动作”分开：
-
-```mermaid
-flowchart TD
-  A["终端状态词"] --> B["过程提示<br/>thinking / reading / searching / tool use"]
-  A --> C["真实动作<br/>permission required / running command / applying edit"]
-  B --> D["说明 Claude 在组织上下文、读代码、准备调用工具"]
-  C --> E["说明它要你确认、已经跑命令，或者已经开始改文件"]
-```
-
-### `thinking`
-
-表示 Claude 在组织回答或规划，不代表已经执行了动作。
-
-### `reading` / `searching`
-
-表示它在读文件、查代码、建上下文。
-
-### `tool use`
-
-表示它准备调用工具，比如读文件、搜代码、跑命令、改文件。
-
-### `permission required`
-
-表示这一步需要你确认。  
-这不是“卡你”，而是在告诉你：它要开始做真实动作了。
-
-### `running command`
-
-表示它正在执行终端命令。
-
-### `applying edit`
-
-表示它已经开始改文件。
-
-你真正要养成的习惯是：  
-不要只看它“说了什么”，也要看它“做了什么”。
-
-记忆法可以压成一句话：
-
-- `thinking`、`reading`、`tool use` 更像过程提示
-- `running command`、`applying edit` 才是已经进入真实动作
-
----
-
-## 5. 权限模式，前期先记这几个就够
-
-前期不用把所有模式都记全，先知道这 4 个就够：
-
-### `default` / Manual
-
-最稳，适合第一次进项目和先分析后改动。  
-官方配置值仍然叫 `default`，但在 CLI、IDE 插件和帮助信息里现在通常显示为 `Manual`。新版 CLI 也接受 `manual` 作为别名。
-
-### `acceptEdits`
-
-适合已经愿意让它频繁改文件，但还不想放得太开的时候。
-
-### `plan`
-
-适合大改前只做分析和计划，这个模式很值得长期保留。
-
-### `auto`
-
-更偏效率推进，但不是每个人都会看到。  
-官方当前把它定义成带后台安全检查的自动模式，适合方向明确、验证路径清楚、你愿意减少权限弹窗的长任务。它受账号、组织设置、模型和 provider 限制影响；如果主人平时没见过 `auto`，大概率是当前环境本来就不满足显示条件。
-
-### `dontAsk`
-
-只允许预先批准过的工具自动执行，更适合 CI、脚本化和锁得很紧的环境。普通交互开发第一天不用急着碰它。
-
-再补一个非常实用的官方快捷键：
-
-- `Shift+Tab`：循环切换权限模式
-
-按 Claude Code 官方 `permission-modes` 和 `interactive-mode` 文档，CLI 里可以直接用 `Shift+Tab` 在：
-
-- `default` / Manual
-- `acceptEdits`
-- `plan`
-- 以及当前环境启用过的 `bypassPermissions`、`auto`
-
-这些模式之间切换。
-
-注意两个最新边界：
-
-- `dontAsk` 不进入 `Shift+Tab` 循环，需要显式用 `--permission-mode dontAsk`
-- `bypassPermissions` 只适合隔离容器或虚拟机，不适合日常真实仓库
-
----
-
-## 6. 第一天最该会的命令
-
-前期先记最有用的几条：
-
-- `/help`：看命令列表
-- `/status`：看当前状态
-- `/resume`：恢复会话
-- `/compact`：压缩上下文
-- `/doctor`：排查安装和环境问题
-- `/debug`：诊断运行时或配置问题
-- `/model`：切模型，当前官方别名包括 `sonnet`、`opus`、`haiku`、`fable`、`best` 等
-- `/effort`：切推理投入，当前常见档位包括 `low`、`medium`、`high`、`xhigh`、`max`、`ultracode`
-- `/skills`：看当前能发现的 skills / commands
-- `/mcp`：看当前 MCP 状态
-
-你不需要第一天把命令背全，但至少要知道遇到问题先去哪看。
-
-### 再记一组最常用快捷键，真的能省很多事
-
-先不要背整本键位表，先记这几类最高频动作：
-
-```mermaid
-flowchart TD
-  A["高频快捷键"] --> B["看过程<br/>Ctrl+O 详细转录<br/>Ctrl+E show all"]
-  A --> C["找历史 / 改长输入<br/>Ctrl+R 历史<br/>Ctrl+G 或 Ctrl+X Ctrl+E 外部编辑器"]
-  A --> D["并行与任务<br/>Ctrl+B 放后台<br/>Ctrl+T 看任务列表"]
-  A --> E["切模式 / 模型<br/>Shift+Tab 权限模式<br/>Alt/Option+P/T/O 切模型和思考强度"]
-```
-
-我建议先记这几组：
-
-- `Ctrl+O`：打开详细转录，专门看工具调用过程、MCP 调用和执行细节
-- `Ctrl+E`：在转录视图里切换 `show all`，把隐藏内容展开
-- `Ctrl+R`：搜索你过去写过的命令和 prompt
-- `Ctrl+B`：把 bash 命令或 agent 放到后台继续跑
-- `Ctrl+T`：显示或隐藏任务列表
-- `Ctrl+G` 或 `Ctrl+X Ctrl+E`：把当前 prompt 打开到外部编辑器里
-- `Alt+P` / `Option+P`：切模型
-- `Alt+T`、`Alt+O` / `Option+T`、`Option+O`：切 extended thinking、切 fast mode
-
-再强调两个边界：
-
-- `Ctrl+E` 不是任何时候都能按，它主要是你已经进入 `Ctrl+O` 的详细转录视图后才有意义
-- macOS 下部分 `Option` 快捷键要先把终端的 `Option` 配成 `Meta`
-
----
-
-## 7. 第一轮最小任务，怎么练最有手感
-
-第一轮别做大任务，按这个顺序练：
-
-### 先让它解释
+### 工作目录、并行和后台
 
 ```text
-先不要修改文件。
-请解释首页是从哪里渲染出来的，涉及哪些组件、路由和数据来源。
+/add-dir <path>               临时增加可访问目录
+/cd <path>                    移动当前会话目录
+/plan <description>           进入计划模式并开始一项任务
+/background [prompt]          将当前会话放到后台
+/fork [prompt]                复制会话到新的后台会话
+/subtask <task>               创建结果回传主会话的后台 subagent
+/agents                       查看 subagent/agent team 提示
+/tasks                        查看后台任务
 ```
 
-### 再让它定位一个小改动
+### 高频快捷键
+
+- `Ctrl+C`：取消当前输入或当前动作。
+- `Ctrl+B`：把正在执行的 Bash 命令放到后台；tmux 中通常需要按两次。
+- `Ctrl+O`：切换详细转录。
+- `Ctrl+T`：显示任务清单。
+- `Ctrl+R`：反向搜索输入历史。
+- `Shift+Tab`：切换权限模式。
+- `Esc`：取消建议、关闭面板或中止当前编辑动作。
+- `/loop`：当前会话内周期执行提示；需要无人值守云任务时看 Routines/Workflows，而不是把终端永久开着。
+
+命令是否出现取决于版本、账号、Provider、插件和组织策略；`/help` 是本机最终清单。完整斜杠命令表见第 06 篇。
+
+---
+
+## 8. 第一轮最小任务：从只读到可验证修改
+
+### 8.1 只读了解仓库
 
 ```text
-请只定位首页标题和副标题的来源，先不要修改。
-告诉我应该改哪几个文件。
+先只读检查当前仓库。请输出：1. 技术栈；2. 启动和测试命令；3. 主要模块关系；4. 当前 git 状态。不要修改文件，也不要运行会写入磁盘的命令。
 ```
 
-### 最后再放权给一个小改动
+### 8.2 先计划再实施
 
 ```text
-现在开始修改：
-1. 只改首页标题文案
-2. 不要顺手改样式
-3. 改完后告诉我如何验证
+请先分析登录超时问题，定位相关文件和复现命令。先给出最小改动计划、风险和验证方式，等待我批准后再修改。
 ```
 
-然后你自己再做一轮验证。  
-这是第一天最值得练的节奏。
+或者启动时直接进入计划模式：
+
+```bash
+claude --permission-mode plan
+```
+
+### 8.3 小范围改动和验证
+
+```text
+按刚才批准的计划，只修改 src/auth/ 下解决超时问题所需的文件。保持现有 API 行为，修改后运行 npm test -- --run auth，并展示 git diff --stat、测试输出和仍未验证的风险。
+```
+
+这套写法把目标、范围、约束和验证一起交给 Claude，比只说“帮我修一下”更容易得到可审查结果。
 
 ---
 
-## 8. 程序员第一周最容易踩的坑
+## 9. 程序员第一周最容易踩的坑
 
-1. 装了多个渠道，自己不知道哪份在生效
-2. 第一轮就让它大改
-3. 没看懂终端提示，就一路确认
-4. 只看回答，不看真实改动和验证
-5. 一上来沉迷 skills、MCP、plugins，却没跑通基础主线
-
----
-
-## 9. 读完这篇后，主人马上该做什么
-
-1. 新用户优先考虑官方原生安装器；如果走 npm，先确认 Node.js 22+
-2. 记住原生安装可用 `claude update`，npm 更新用 `npm install -g @anthropic-ai/claude-code@latest`
-3. 用 `where.exe claude` 或 `which claude` 看当前生效路径
-4. 进一个真实仓库运行 `claude`
-5. 先解释、再小改、再验证，做完第一轮最小任务
-
-如果这一步已经跑顺，下一篇最值得读的是：
-
-- [第三篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）](#/note/AI工具/02_终端Agent流/ClaudeCode/第三篇_ClaudeCode常见工作流与最佳实践_2026-03)
-- [第四篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）](#/note/AI工具/02_终端Agent流/ClaudeCode/第四篇_ClaudeCode设置与个性化_2026-03)
+1. **同时安装多份 CLI**：先清理 PATH 和安装来源，再讨论版本问题。
+2. **在错误目录启动**：`pwd`/`Get-Location`、git root 和 `/status` 一起确认。
+3. **把 `CLAUDE.md` 当秘密存储**：规则文件会进入上下文，Key、Cookie、生产密码绝不能写进去。
+4. **只看“connected”不看真实调用**：对 MCP、Gateway、IDE 都要执行一条最小验证请求。
+5. **一上来就 `bypassPermissions`**：先用 `plan` 或 `default`，把长期 allow 规则写清楚。
+6. **长会话不压缩**：在任务切换点使用 `/compact`，并把持续约束写入规则或任务清单。
+7. **把旧截图当命令清单**：版本变化会移除、改名或增加 bundled skill；以 `/help` 和官方 Commands 页为准。
+8. **跳过 diff 和测试**：Claude Code 能执行命令不等于变更正确，收尾必须由人审差异和验证证据。
 
 ---
 
-## 参考资料
+## 10. 参考资料与核验范围
 
-- https://docs.anthropic.com/en/docs/claude-code/getting-started
-- https://docs.anthropic.com/en/docs/claude-code/installation
-- https://code.claude.com/docs/en/interactive-mode
-- https://code.claude.com/docs/en/commands
-- https://code.claude.com/docs/en/permission-modes
-- https://code.claude.com/docs/en/how-claude-code-works
+本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+
+- 官方 Overview：https://code.claude.com/docs/en/overview
+- 官方 Setup：https://code.claude.com/docs/en/setup
+- 官方 Quickstart：https://code.claude.com/docs/en/quickstart
+- 官方 Interactive mode：https://code.claude.com/docs/en/interactive-mode
+- 官方 Commands：https://code.claude.com/docs/en/commands
+- 官方 Permission modes：https://code.claude.com/docs/en/permission-modes
+- 官方 Changelog：https://code.claude.com/docs/en/changelog
+- npm 包元数据：https://registry.npmjs.org/@anthropic-ai/claude-code/latest
+- GitHub Releases：https://github.com/anthropics/claude-code/releases
+
+如果官方文档和第三方教程冲突，优先采用当前官方文档、当前 CLI 的 `/help` 与 `claude --help`；第三方资料只用于理解真实部署、网关和团队工作流，不能替代版本核验。

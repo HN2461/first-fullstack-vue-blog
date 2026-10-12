@@ -4,6 +4,13 @@
   "source": "collaboration_daily",
   "records": [
     {
+      "id": "claude-code-docs-refresh-2026-10-12",
+      "title": "全面更新 Claude Code 终端 Agent 文档",
+      "detail": "1. 基于 Claude Code 2.1.296、官方 Setup、Commands、Settings Reference、Environment Variables、Model Config、Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams、Workflows 和 Changelog，重写 ClaudeCode 目录下 6 篇文章。\n2. 补齐原生/npm 安装、Windows/WSL、权限模式、Sandbox、模型与 effort、1M 上下文、Gateway/多 Provider、规则与 auto memory、Skills/MCP/Plugin、并行工作流和 headless 使用说明。\n3. 从官方当前索引整理 244 个设置键和 119 条斜杠命令，加入作用域、版本门槛、状态词、排障流程及 npm/GitHub/CC Switch/LiteLLM 等核验来源，并统一更新文章时间与版本基线。",
+      "occurredAt": "2026-10-12T21:50:00+08:00",
+      "category": "内容上新"
+    },
+    {
       "id": "codex-documentation-20261012",
       "title": "更新并复核 Codex 系列资料与完整配置命令索引",
       "detail": "1. 基于 2026-10-12 Codex CLI 稳定版 0.162.1、npm tag、官方发布记录和本机 App 包版本更新 9 篇文章，补齐 102 个顶层键、1327 个嵌套路径、166 个功能开关、63 个内置 slash 定义和 74 份 CLI 帮助对应的命令树及参数。2. 修正过时模型、personality、MCP type、1M 窗口模板、已移除 plugin-creator 和插件刷新说明，明确桌面/IDE 未实测边界；深度复查后进一步修复旧静态互链、表格竖线和项目配置限制说明。3. 独立核验 115 组 schema 枚举，9 篇实际 Markdown 渲染、43 个 TOML 和 2 个 JSON 示例通过；前端构建、53 个后端测试文件/338 个串行测试、Markdown 专项 12 个测试、文章同步专项 4 个测试、编码与差异检查通过。",
