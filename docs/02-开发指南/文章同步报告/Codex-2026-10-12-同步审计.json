@@ -2,7 +2,7 @@
   "date": "2026-10-12",
   "sourceCommit": "427151a62ad059caef99df30a1ffcfde2258b076",
   "stage": "/www/personal-blog/article-staging/codex-20261012-427151a-1791816912",
-  "phase": "baseline-reviewed",
+  "phase": "complete",
   "reason": "旧 manifest 对混合 CRLF/LF 原文计算哈希，三方比较对正文统一 LF；逐字验证原提交与线上正文一致后，只规范化本次 Codex 内容哈希。",
   "normalizedArticles": 8,
   "baselineEvidence": [
@@ -96,5 +96,129 @@
       "baselineMatchesRawRemote": true,
       "updatedAt": "2026-09-13T13:44:41.256Z"
     }
-  ]
+  ],
+  "deploymentSourceCommit": "8c317eafa9ab3d32a96d73b4d1a1673a34d081c2",
+  "deploymentSourceSha256": "d1cb627c9153fc562acc4d8d52b554daeec8e372000843bd2b266ab61d0e3169",
+  "productionStage": "/www/personal-blog/article-staging/codex-20261012-8c317ea-1791817243",
+  "productionMongoBackup": "/www/personal-blog/article-staging/codex-20261012-8c317ea-1791817243/mongodb-before",
+  "productionArticleBackup": "/www/personal-blog/article-staging/codex-20261012-8c317ea-1791817243/source/backend/backups/article-content-before-2026-10-12T15-03-18-981Z.ejson",
+  "productionAuthorityBackup": "/www/personal-blog/article-staging/codex-20261012-8c317ea-1791817243/authority-before",
+  "updatedProductionArticles": 9,
+  "updatedLocalArticles": 9,
+  "productionDryRunAfter": {
+    "pending": 0,
+    "blocked": 0
+  },
+  "localDryRunAfter": {
+    "pending": 0,
+    "blocked": 0
+  },
+  "verification": {
+    "database": "personal_fullstack_blog",
+    "countsBefore": {
+      "articles": 548,
+      "categories": 99,
+      "tags": 859,
+      "users": 6,
+      "comments": 4,
+      "likes": 0,
+      "favorites": 0
+    },
+    "countsAfter": {
+      "articles": 548,
+      "categories": 99,
+      "tags": 859,
+      "users": 6,
+      "comments": 4,
+      "likes": 0,
+      "favorites": 0
+    },
+    "articles": [
+      {
+        "slug": "ai-agent-codex-codex-cli-10e9408b",
+        "originalId": "6a2d291d8a2b1c68f2cabf4c",
+        "contentHash": "44a8b2d102775cedf6a93265556d01d8306659ed9f3d663a238f70ccde52ee08",
+        "updatedAt": "2026-10-12T15:03:19.097Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-codex-cli-64e9fd24",
+        "originalId": "6a2d291d8a2b1c68f2cabf50",
+        "contentHash": "942d4de4288320aca6086749b64a36c00523c6d40a6b7a56faaa623dff0b4320",
+        "updatedAt": "2026-10-12T15:03:19.186Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-codex-edeadb5e",
+        "originalId": "6a2d291d8a2b1c68f2cabf5a",
+        "contentHash": "1e048333918dac4f34bf860bdff91fee025376a893f963e0bf747fe67c6a00dd",
+        "updatedAt": "2026-10-12T15:03:19.151Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-codex-94189641",
+        "originalId": "6a2d291d8a2b1c68f2cabf66",
+        "contentHash": "62546387d4ae9e9dede8d99349b3ba3e9d8bc7faa5b6d28ff179c9f7209fe170",
+        "updatedAt": "2026-10-12T15:03:19.083Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-codex-cli-app-afad6d17",
+        "originalId": "6a2d291d8a2b1c68f2cabf6e",
+        "contentHash": "6361fc7578bb84bcf0d915140f6de495a55d63812aba5de11ceb4ea151916651",
+        "updatedAt": "2026-10-12T15:03:19.141Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-codex-9cf3fc01",
+        "originalId": "6a2d291d8a2b1c68f2cabf78",
+        "contentHash": "196d518cf255c2069ae8d0c5105679fa240829ddf36f61096c8a16bbab720d63",
+        "updatedAt": "2026-10-12T15:03:19.122Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-codex-1c9633e1",
+        "originalId": "6a2d291d8a2b1c68f2cabf80",
+        "contentHash": "7213b2b00e379f588e4f8e3c3ff75312c8dc5eba3c1214f76aa775718084ad08",
+        "updatedAt": "2026-10-12T15:03:19.108Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+        "originalId": "6a6b691f4bf50146e9b95e6c",
+        "contentHash": "83b77cdf147d5dd553aca73f0a748155146c515d613920a5de914d34eeaf951a",
+        "updatedAt": "2026-10-12T15:03:19.053Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      },
+      {
+        "slug": "ai-agent-codex-current-feature-radar-20260913",
+        "originalId": "6aa6a8afeea462382bcdf5a3",
+        "contentHash": "f579d314da205ba3e708da925ae25600361f029bf5ff73f961d736ff6d1be078",
+        "updatedAt": "2026-10-12T15:03:18.995Z",
+        "nonContentFieldsUnchanged": true,
+        "committedBodyMatches": true,
+        "authorityFileMatches": true
+      }
+    ],
+    "health": "ok",
+    "verified": true
+  },
+  "unrelatedHistoricalConflictsExcluded": 2,
+  "productionSourceNote": "常驻 output/线上文章 的旧导出缺少 前端技术/TypeScript/TypeScript-应用.md，无法直接全量解析。本次按部署规则使用完整 Git 提交源执行同步与幂等预览，并逐字验证已发布的 9 篇常驻权威文件；未改写无关文章。"
 }

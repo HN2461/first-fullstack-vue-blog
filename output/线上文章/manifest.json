@@ -1552,9 +1552,9 @@
       "originalSlug": "ai-agent-codex-current-feature-radar-20260913",
       "exportedSlug": "ai-agent-codex-current-feature-radar-20260913",
       "title": "第 09 篇：Codex 近期功能雷达与三端快速上手",
-      "summary": "面向开发者持续跟进 Codex 的功能雷达，按桌面 App、VS Code/兼容 IDE、CLI 与 Cloud 拆解近期新增能力、稳定性边界和最小练习路径。",
+      "summary": "集中追踪 Codex 0.154 至 0.162.1 的开发者更新，区分稳定版、预发布和开发分支，说明模型、MCP OAuth、终端界面、Provider 能力、弃用项和固定复核流程。",
       "cover": "",
-      "contentHash": "f684027275bd2e0540defb583e24a3e004b909bf5ddc914dbff0e54ce391cd22",
+      "contentHash": "f579d314da205ba3e708da925ae25600361f029bf5ff73f961d736ff6d1be078",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2189,7 +2189,7 @@
       "title": "第 08 篇：Codex 桌面 App 当前功能与 Windows 实战",
       "summary": "面向高频使用 ChatGPT 桌面 App 中 Codex 的 Windows 开发者，集中说明版本检查、多文件夹项目、Local、Worktree、Git、PR Chat、Voice、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows-native / WSL 工作流。",
       "cover": "",
-      "contentHash": "326881165e8742ca69e3dca2795b9e9b6a153a19d032e14fc26fcd2e334ab51c",
+      "contentHash": "83b77cdf147d5dd553aca73f0a748155146c515d613920a5de914d34eeaf951a",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5413,7 +5413,7 @@
       "title": "第 04 篇：Codex 多线路接入与迁移总手册",
       "summary": "将官方、Packy、yunyi、rpcod 等线路统一收进一篇完整的线路选择与迁移总手册，集中解决多线路怎么选、怎么配、怎么迁移、怎么排错。",
       "cover": "",
-      "contentHash": "8fa387882d97e826b91ebbdaa728a78a28bd36c40e3e09864b57a1145e874e7b",
+      "contentHash": "62546387d4ae9e9dede8d99349b3ba3e9d8bc7faa5b6d28ff179c9f7209fe170",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5443,7 +5443,7 @@
       "title": "第 01 篇：Codex CLI 第一日开发实战",
       "summary": "面向平时主要用 Codex 开发的程序员，按安装确认、进入真实仓库、看懂英文终端、完成第一轮小任务、再扩展到 VS Code 插件和桌面 App 的顺序重写 Codex 第一日上手路线。",
       "cover": "",
-      "contentHash": "0cd94567a50b967b9129e159a7283fffd3c6752bd57ed0bc7ded69d914827c83",
+      "contentHash": "44a8b2d102775cedf6a93265556d01d8306659ed9f3d663a238f70ccde52ee08",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5470,9 +5470,9 @@
       "originalSlug": "ai-agent-codex-codex-1c9633e1",
       "exportedSlug": "ai-agent-codex-codex-1c9633e1",
       "title": "第 07 篇：Codex 当前常用功能与进阶工作流手册",
-      "summary": "面向日常开发高频场景系统梳理 Codex 当前仍在主线中的常用功能、进阶工作流与最近该升级的认知，减少多篇重复查阅。",
+      "summary": "按当前稳定版梳理 GPT-6.1 Sol、GPT-6 Astra 与 Luna 的模型选择、推理强度和开发工作流，并串联完整配置、命令与近期版本动态。",
       "cover": "",
-      "contentHash": "7588f39a6d59c6f741e24e60906090ffba5674bdffed97cbbf7997b17644fe5f",
+      "contentHash": "7213b2b00e379f588e4f8e3c3ff75312c8dc5eba3c1214f76aa775718084ad08",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5500,9 +5500,9 @@
       "originalSlug": "ai-agent-codex-codex-9cf3fc01",
       "exportedSlug": "ai-agent-codex-codex-9cf3fc01",
       "title": "第 06 篇：Codex 命令与配置文件速查",
-      "summary": "统一说明 Codex 常用命令、config.toml、auth.json 与 AGENTS.md 的职责边界，适合作为整套 Codex 系列文章的底座速查文档。",
+      "summary": "按 Codex CLI 0.162.1 完整列出内置斜杠命令、别名、行内参数与任务状态限制，以及公开 CLI 命令树和全部子命令专属参数，修正旧版命令及配置说明。",
       "cover": "",
-      "contentHash": "8536329ea0228c7808e770979589de07333cd5968e517ab5790af1a6fbd6156e",
+      "contentHash": "196d518cf255c2069ae8d0c5105679fa240829ddf36f61096c8a16bbab720d63",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5531,7 +5531,7 @@
       "title": "第 05 篇：Codex CLI、插件、App 三端联动实战",
       "summary": "详细讲解 Codex CLI、插件和 App 三端共用配置、认证与规则的关系，帮助排查“CLI 能用但插件或 App 不同步”的典型问题。",
       "cover": "",
-      "contentHash": "6fc6a1aa830f84eec6d6e7608ce7863a2bb54a49ca038bfe2a93178eab3a78bf",
+      "contentHash": "6361fc7578bb84bcf0d915140f6de495a55d63812aba5de11ceb4ea151916651",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5558,9 +5558,9 @@
       "originalSlug": "ai-agent-codex-codex-edeadb5e",
       "exportedSlug": "ai-agent-codex-codex-edeadb5e",
       "title": "第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）",
-      "summary": "将 Codex 配置心智、字段字典、HN246 本机配置模板、CCSwitch 路径排查和替换验证流程合成一篇完整配置总手册，避免多篇重复讲 config.toml。",
+      "summary": "按 Codex CLI 0.162.1 稳定版核对配置层级与脱敏模板，补齐 102 个顶层配置键、全部嵌套字段、功能开关生命周期、权限 profile、MCP/Provider、TUI、Hooks 和管理员约束索引。",
       "cover": "",
-      "contentHash": "b6b8524569e79f387b4a0ca336710d4aae7e5d457d40817feb102353a06c41c1",
+      "contentHash": "1e048333918dac4f34bf860bdff91fee025376a893f963e0bf747fe67c6a00dd",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5589,7 +5589,7 @@
       "title": "第 02 篇：Codex CLI 英文终端界面翻译与排错",
       "summary": "基于主人整理的 Codex CLI 终端界面线索，用文字图逐屏解释首页、模型选择、推理强度、权限、状态页、MCP、插件、skills、experimental 与错误提示，帮助把英文终端界面读成可操作的开发判断。",
       "cover": "",
-      "contentHash": "acac1034fa16554cbdc8c86101af7db09a4daad7800db39adead71a590f088b8",
+      "contentHash": "942d4de4288320aca6086749b64a36c00523c6d40a6b7a56faaa623dff0b4320",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
