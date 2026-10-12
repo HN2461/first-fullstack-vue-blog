@@ -11,7 +11,6 @@ categoryPath:
 tags:
   - "Claude Code"
   - "CLAUDE.md"
-  - "AGENTS.md"
   - "Memory"
   - "Skills"
   - "MCP"
