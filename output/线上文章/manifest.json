@@ -5824,7 +5824,7 @@
       "title": "第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
       "summary": "按 2026-10-12 Claude Code 2.1.296 官方 Commands、Skills、MCP、Plugins、Interactive Mode、Agent View 与 Changelog 更新，重新整理 /mcp、/skills、/plugin、权限提示、后台会话、全量斜杠命令和常见排错路径。",
       "cover": "",
-      "contentHash": "f510a5f10519f99dc8dc807cb5cfe9687ff7beb766ed9639295368781a780393",
+      "contentHash": "befe14ccd3b75e3b1de47c4c2ae8bb8aa1484bdd14d7745ce67bc3aeceea74d8",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5884,7 +5884,7 @@
       "title": "第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
       "summary": "按 2026-10-12 Claude Code 2.1.296 官方 Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams 与 Workflows 文档更新，重新厘清 CLAUDE.md、AGENTS.md、rules、auto memory、权限、扩展和上下文成本的边界。",
       "cover": "",
-      "contentHash": "860f04d394d28fcf74912c021a61d3e7bcfafb5fe86487bc644663f2aac28f7e",
+      "contentHash": "346b31b602e4b26b7c65100cffe71a13bda130441ad4399aaa7b3280d422fa21",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [

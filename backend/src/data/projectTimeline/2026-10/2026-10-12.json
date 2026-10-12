@@ -6,7 +6,7 @@
     {
       "id": "claude-code-docs-refresh-2026-10-12",
       "title": "全面更新 Claude Code 终端 Agent 文档",
-      "detail": "1. 基于 Claude Code 2.1.296、官方 Setup、Commands、Settings Reference、Environment Variables、Model Config、Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams、Workflows 和 Changelog，重写 ClaudeCode 目录下 6 篇文章。\n2. 补齐原生/npm 安装、Windows/WSL、权限模式、Sandbox、模型与 effort、1M 上下文、Gateway/多 Provider、规则与 auto memory、Skills/MCP/Plugin、并行工作流和 headless 使用说明。\n3. 从官方当前索引整理 244 个设置键和 119 条斜杠命令，加入作用域、版本门槛、状态词、排障流程及 npm/GitHub/CC Switch/LiteLLM 等核验来源，并统一更新文章时间与版本基线。",
+      "detail": "1. 基于 Claude Code 2.1.296、官方 Setup、Commands、Settings Reference、Environment Variables、Model Config、Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams、Workflows 和 Changelog，重写 ClaudeCode 目录下 6 篇文章。\n2. 补齐原生/npm 安装、Windows/WSL、权限模式、Sandbox、模型与 effort、1M 上下文、Gateway/多 Provider、规则与 auto memory、Skills/MCP/Plugin、并行工作流和 headless 使用说明。\n3. 从官方当前索引整理 244 个设置键和 119 条斜杠命令，加入作用域、版本门槛、状态词、排障流程及 npm/GitHub/CC Switch/LiteLLM 等核验来源，并统一更新文章时间与版本基线。\n4. 完成深度复核，修正 npm Node.js 22+ 与升级命令、Auto mode 开关键、原生 Windows sandbox 限制和 Skill 可见性状态；提交 df6afeb、359f2ec、5cee241 已推送到 origin/main。\n5. 后端目标发布完成并通过服务器健康检查，MongoDB 发布前备份位于 /www/personal-blog/backups/release-20261012-230445；生产完整文章源备份位于 /www/personal-blog/backups/article-source-before-full-20261012-230900。生产先 dry-run 后 apply 同步 6 篇正文，脚本为目标文章生成正文备份；最终目标 6 篇标题、摘要、正文哈希、分类、标签、状态、排序和发布时间全部对齐，复跑 dry-run 为 0 待更新、0 阻断。全库报告剩余 2 个冲突为既有文档型文章，均不在本次 ClaudeCode 范围内。",
       "occurredAt": "2026-10-12T21:50:00+08:00",
       "category": "内容上新"
     },
