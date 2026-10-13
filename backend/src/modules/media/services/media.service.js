@@ -615,11 +615,36 @@ export async function deleteMedia(id, user) {
     throw error
   }
 
+  await assertMediaHasNoBusinessReferences(media)
+
   media.deletedAt = new Date()
   media.deletedBy = user?._id || null
   await media.save()
 
   return { id, deleted: true, mode: 'soft' }
+}
+
+async function assertMediaHasNoBusinessReferences(media) {
+  const activeShares = await findBlockingMediaShares(media._id)
+  if (activeShares.length > 0) {
+    const error = new Error(`该资源仍被 ${activeShares.length} 个有效资源分享引用，不能删除`)
+    error.statusCode = 409
+    error.code = 'MEDIA_ACTIVE_SHARE_REFERENCE'
+    throw error
+  }
+
+  const references = (await findMediaReferences(media))
+    .filter((reference) => reference.type !== 'resourceShare')
+  if (references.length === 0) return
+
+  const error = new Error(`该资源仍被 ${references.length} 处业务引用，不能删除`)
+  error.statusCode = 409
+  error.code = 'MEDIA_REFERENCED'
+  error.details = {
+    referenceCount: references.length,
+    references: references.slice(0, 10)
+  }
+  throw error
 }
 
 export async function batchDeleteMedia(ids, user) {
@@ -628,6 +653,11 @@ export async function batchDeleteMedia(ids, user) {
     error.statusCode = 400
     error.code = 'MEDIA_IDS_REQUIRED'
     throw error
+  }
+
+  const mediaList = await Media.find({ _id: { $in: ids }, deletedAt: null, ...getMediaAccessQuery(user) })
+  for (const media of mediaList) {
+    await assertMediaHasNoBusinessReferences(media)
   }
 
   let deletedCount = 0
@@ -672,7 +702,7 @@ export async function batchRestoreMedia(ids, actor = null) {
   return { restoredCount }
 }
 
-export async function permanentDeleteMedia(id, actor = null) {
+export async function permanentDeleteMedia(id, actor = null, { skipBusinessReferenceCheck = false } = {}) {
   const media = await Media.findOne({ _id: id, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('媒体文件不存在')
@@ -694,6 +724,10 @@ export async function permanentDeleteMedia(id, actor = null) {
       }))
     }
     throw error
+  }
+
+  if (!skipBusinessReferenceCheck) {
+    await assertMediaHasNoBusinessReferences(media)
   }
 
   if (media.accessScope === 'private') {
@@ -743,7 +777,8 @@ export async function permanentlyDeleteWorkJournalMedia(id, actor) {
       throw error
     }
   }
-  return permanentDeleteMedia(media._id, actor)
+  // 工作日志删除流程负责先移除或级联删除凭证关系，再由此专用入口清理私有文件。
+  return permanentDeleteMedia(media._id, actor, { skipBusinessReferenceCheck: true })
 }
 
 export async function batchPermanentDeleteMedia(ids, actor = null) {
@@ -752,6 +787,18 @@ export async function batchPermanentDeleteMedia(ids, actor = null) {
     error.statusCode = 400
     error.code = 'MEDIA_IDS_REQUIRED'
     throw error
+  }
+
+  const mediaList = await Media.find({ _id: { $in: ids }, ...getMediaAccessQuery(actor) })
+  for (const media of mediaList) {
+    const blockingShares = await findBlockingMediaShares(media._id)
+    if (blockingShares.length > 0) {
+      const error = new Error('所选资源中仍有资源被未撤销分享引用，请先撤销相关分享')
+      error.statusCode = 409
+      error.code = 'MEDIA_ACTIVE_SHARE_REFERENCE'
+      throw error
+    }
+    await assertMediaHasNoBusinessReferences(media)
   }
 
   let deletedCount = 0
@@ -770,6 +817,7 @@ export async function batchPermanentDeleteMedia(ids, actor = null) {
 export async function emptyMediaTrash(actor = null) {
   const mediaList = await Media.find({ deletedAt: { $exists: true, $ne: null }, ...getMediaAccessQuery(actor) })
   for (const media of mediaList) {
+    await assertMediaHasNoBusinessReferences(media)
     if ((await findBlockingMediaShares(media._id)).length > 0) {
       const error = new Error('回收站中仍有资源被未撤销分享引用，请先撤销相关分享')
       error.statusCode = 409

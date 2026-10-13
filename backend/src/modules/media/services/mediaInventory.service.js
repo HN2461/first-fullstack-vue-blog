@@ -65,12 +65,14 @@ async function attachInventoryUsages(files = [], { includeAllReferences = false 
     const protectedReason = source.protectedReason || (references.length > 0
       ? `仍被 ${references.length} 处业务引用`
       : '')
+    const registerable = source.registerable !== false && references.length === 0
 
     const { storagePath, ...safeItem } = item
     return {
       ...safeItem,
       url: source.type === 'protectedVault' ? '' : safeItem.url,
       source,
+      registerable,
       usage,
       references: includeAllReferences ? references : references.slice(0, 5),
       protected: Boolean(protectedReason),
@@ -132,7 +134,7 @@ export async function listUnregisteredMediaFiles(options = {}) {
     total: files.length,
     page,
     pageSize,
-    registerableCount: files.filter((item) => item.source?.registerable !== false).length,
+    registerableCount: files.filter((item) => item.registerable).length,
     protectedCount: files.filter((item) => item.protected).length,
     suspectedTestCount: files.filter((item) => item.suspectedTest).length,
     unreferencedAvatarCount: files.filter((item) => item.source?.type === 'avatar' && item.usage?.referenceCount === 0).length,
@@ -247,6 +249,17 @@ async function createMediaFromDiskFile(item, user, category) {
       reason: `${source.type}_resource`,
       relativePath,
       message: source.protectedReason
+    }
+  }
+
+  const references = await findMediaReferences({ url })
+  if (references.length > 0) {
+    return {
+      media: null,
+      skipped: true,
+      reason: 'referenced_resource',
+      relativePath,
+      message: `仍被 ${references.length} 处业务引用，不能登记`
     }
   }
 

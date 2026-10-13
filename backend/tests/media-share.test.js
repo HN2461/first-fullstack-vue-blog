@@ -412,7 +412,11 @@ describe('media resource package sharing', () => {
       .expect(200)
     expect(references.body.data.references.some((item) => item.type === 'resourceShare')).toBe(true)
 
-    await request(app).delete(`/api/admin/media/${media._id}`).set('Authorization', `Bearer ${superToken}`).expect(200)
+    const softDeleteBlocked = await request(app)
+      .delete(`/api/admin/media/${media._id}`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(409)
+    expect(softDeleteBlocked.body.code).toBe('MEDIA_ACTIVE_SHARE_REFERENCE')
     await visitor.get(`/api/public/media-shares/${created.publicId}/entries/${entryId}/content`).expect(200)
     const blocked = await request(app)
       .delete(`/api/admin/media/${media._id}/permanent`)

@@ -21,7 +21,7 @@
           <div class="inventory-row__select">
             <a-checkbox
               :checked="selectedKeySet.has(record.id)"
-              :disabled="record.source?.registerable === false"
+              :disabled="record.registerable !== true"
               :aria-label="`选择 ${record.originalName}`"
               @change="emit('selection-change', { id: record.id, checked: $event.target.checked })"
             />
@@ -42,7 +42,10 @@
                 <a-tag v-if="record.usage?.referenceCount > 0" :bordered="false" color="green">
                   引用 {{ record.usage.referenceCount }}
                 </a-tag>
-                <a-tag v-if="record.protected" :bordered="false" color="orange">清理受保护</a-tag>
+                <a-tag v-if="record.usage?.referenceCount > 0" :bordered="false" color="orange">
+                  已引用，不可登记或删除
+                </a-tag>
+                <a-tag v-else-if="record.protected" :bordered="false" color="orange">业务目录保护</a-tag>
               </div>
               <span class="inventory-row__path">{{ record.relativePath }}</span>
             </div>
@@ -84,7 +87,7 @@ const props = defineProps({
 const emit = defineEmits(['selection-change', 'select-all', 'open-detail'])
 
 const selectedKeySet = computed(() => new Set(props.selectedKeys))
-const selectableItems = computed(() => props.items.filter((item) => item.source?.registerable !== false))
+const selectableItems = computed(() => props.items.filter((item) => item.registerable === true))
 const allSelectableSelected = computed(() => (
   selectableItems.value.length > 0 && selectableItems.value.every((item) => selectedKeySet.value.has(item.id))
 ))

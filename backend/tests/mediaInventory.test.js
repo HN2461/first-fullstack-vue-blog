@@ -5,6 +5,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { USER_ROLES } from '#constants/domain'
 import { User } from '#modules/user/models/User.js'
+import { Media } from '#modules/media/models/Media.js'
 import { inferInventorySource } from '#modules/media/utils/mediaInventory.util.js'
 import { signAccessToken } from '../src/utils/jwt.js'
 import { resolveUploadRoot } from '../src/utils/uploadPath.js'
@@ -70,6 +71,7 @@ describe('media inventory source rules', () => {
     })
     expect(scanResponse.body.data.items[0]).toMatchObject({
       relativePath: relativePath.replace(/\\/g, '/'),
+      registerable: false,
       suspectedTest: true,
       protected: true,
       source: {
@@ -128,9 +130,25 @@ describe('media inventory source rules', () => {
     expect(scanResponse.body.data.items[0]).toMatchObject({
       relativePath: activeRelativePath.replace(/\\/g, '/'),
       source: { type: 'avatar', registerable: true },
+      registerable: false,
       protected: true,
       usage: { referenceCount: 1 }
     })
+
+    expect(scanResponse.body.data.registerableCount).toBe(0)
+
+    const activeRegisterResponse = await request(app)
+      .post('/api/admin/media/register-untracked')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ items: [{ relativePath: activeRelativePath }] })
+      .expect(201)
+
+    expect(activeRegisterResponse.body.data).toMatchObject({ createdCount: 0, skippedCount: 1 })
+    expect(activeRegisterResponse.body.data.skipped[0]).toMatchObject({
+      reason: 'referenced_resource',
+      relativePath: activeRelativePath.replace(/\\/g, '/')
+    })
+    expect(await Media.countDocuments({ url: `/uploads/${activeRelativePath}` })).toBe(0)
 
     const clearResponse = await request(app)
       .delete('/api/admin/media/unregistered/old-avatars')

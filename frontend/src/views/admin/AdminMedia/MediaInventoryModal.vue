@@ -235,7 +235,7 @@ function handleSelectionChange({ id, checked }) {
 
 function handleSelectAll(checked) {
   const selectableIds = items.value
-    .filter((item) => item.source?.registerable !== false)
+    .filter((item) => item.registerable)
     .map((item) => item.id)
   const nextKeys = new Set(selectedRowKeys.value)
   selectableIds.forEach((id) => {
@@ -260,7 +260,7 @@ function openDetail(record) {
 function getSelectedItems() {
   const selectedSet = new Set(selectedRowKeys.value)
   return items.value.filter((item) => (
-    selectedSet.has(item.id) && item.source?.registerable !== false
+    selectedSet.has(item.id) && item.registerable
   ))
 }
 

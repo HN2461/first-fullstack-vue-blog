@@ -379,6 +379,57 @@ describe('operations routes', () => {
     expect(riskResponse.body.data.items[0].referenceCount).toBe(3)
   })
 
+  it('blocks media deletion while referenced and rechecks references in the trash', async () => {
+    const uploadResponse = await request(app)
+      .post('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .attach('file', Buffer.from('referenced-avatar'), {
+        filename: `${Date.now()}-avatar-guard.png`,
+        contentType: 'image/png'
+      })
+      .expect(201)
+    const media = uploadResponse.body.data
+
+    await User.findByIdAndUpdate(admin._id, { $set: { avatar: media.url } })
+
+    const softDeleteResponse = await request(app)
+      .delete(`/api/admin/media/${media.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(409)
+    expect(softDeleteResponse.body.code).toBe('MEDIA_REFERENCED')
+    expect((await Media.findById(media.id)).deletedAt).toBeNull()
+
+    await User.findByIdAndUpdate(admin._id, { $set: { avatar: '' } })
+    await request(app)
+      .delete(`/api/admin/media/${media.id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    await User.findByIdAndUpdate(admin._id, { $set: { avatar: media.url } })
+
+    const permanentResponse = await request(app)
+      .delete(`/api/admin/media/${media.id}/permanent`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(409)
+    expect(permanentResponse.body.code).toBe('MEDIA_REFERENCED')
+    expect(await Media.findById(media.id)).toBeTruthy()
+    expect(fs.existsSync(media.storagePath)).toBe(true)
+
+    const emptyTrashResponse = await request(app)
+      .delete('/api/admin/media/trash/empty')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(409)
+    expect(emptyTrashResponse.body.code).toBe('MEDIA_REFERENCED')
+    expect(await Media.findById(media.id)).toBeTruthy()
+
+    await User.findByIdAndUpdate(admin._id, { $set: { avatar: '' } })
+    await request(app)
+      .delete(`/api/admin/media/${media.id}/permanent`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    expect(await Media.findById(media.id)).toBeNull()
+  })
+
   it('promotes saved editor images and keeps article bindings aligned with current content', async () => {
     const first = await Media.create({
       filename: 'first-content.png',

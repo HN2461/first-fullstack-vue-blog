@@ -110,11 +110,11 @@ function getFileClassLabel(value) {
 }
 
 function getRegistrationStatus(record) {
+  if (record.usage?.referenceCount > 0) {
+    return '该资源仍被业务引用，不能登记或清理'
+  }
   if (record.source?.registerable === false) {
     return record.source?.protectedReason || '该业务专用资源不可登记为普通媒体资产'
-  }
-  if (record.usage?.referenceCount > 0) {
-    return '可以登记；登记不会改变现有文件或业务引用'
   }
   return '可以登记到媒体资产库统一管理'
 }
