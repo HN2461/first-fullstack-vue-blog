@@ -439,6 +439,10 @@ export function clearSuspectedUntrackedAdminMedia(params = {}) {
   return http.delete('/api/admin/media/unregistered/suspected-tests', { params })
 }
 
+export function clearUnreferencedAvatarAdminMedia(params = {}) {
+  return http.delete('/api/admin/media/unregistered/old-avatars', { params })
+}
+
 export function batchDeleteAdminMedia(ids) {
   return http.post('/api/admin/media/batch/delete', { ids })
 }

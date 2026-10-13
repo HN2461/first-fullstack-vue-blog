@@ -39,7 +39,7 @@ describe('media inventory source rules', () => {
   })
 
   it.each([
-    ['avatars/user.jpg', 'avatar', false],
+    ['avatars/user.jpg', 'avatar', true],
     ['resumes/profile.jpg', 'resume', false],
     ['discussions/2026/08/file.png', 'discussion', false],
     ['article-snapshot/20260812/source.md', 'articleSnapshot', false],
@@ -104,5 +104,68 @@ describe('media inventory source rules', () => {
     ]))
     expect(fs.existsSync(targetPath)).toBe(true)
     fs.rmSync(targetPath, { force: true })
+  })
+
+  it('allows registering untracked avatar files while keeping active avatars protected from cleanup', async () => {
+    const activeRelativePath = `avatars/${Date.now()}-active-avatar.jpg`
+    const activeTargetPath = path.join(resolveUploadRoot(), activeRelativePath)
+    fs.mkdirSync(path.dirname(activeTargetPath), { recursive: true })
+    fs.writeFileSync(activeTargetPath, Buffer.from('active-avatar'))
+    const user = await User.create({
+      username: 'avatar-owner',
+      email: `avatar-owner-${Date.now()}@example.com`,
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.USER,
+      avatar: `/uploads/${activeRelativePath.replace(/\\/g, '/')}`
+    })
+
+    const scanResponse = await request(app)
+      .get('/api/admin/media/unregistered')
+      .query({ keyword: path.basename(activeTargetPath), pageSize: 10 })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(scanResponse.body.data.items[0]).toMatchObject({
+      relativePath: activeRelativePath.replace(/\\/g, '/'),
+      source: { type: 'avatar', registerable: true },
+      protected: true,
+      usage: { referenceCount: 1 }
+    })
+
+    const clearResponse = await request(app)
+      .delete('/api/admin/media/unregistered/old-avatars')
+      .query({ keyword: path.basename(activeTargetPath) })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(clearResponse.body.data.deletedCount).toBe(0)
+    expect(fs.existsSync(activeTargetPath)).toBe(true)
+
+    await User.findByIdAndUpdate(user._id, { $set: { avatar: '' } })
+    const registerResponse = await request(app)
+      .post('/api/admin/media/register-untracked')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ items: [{ relativePath: activeRelativePath }] })
+      .expect(201)
+
+    expect(registerResponse.body.data.createdCount).toBe(1)
+    expect(fs.existsSync(activeTargetPath)).toBe(true)
+    fs.rmSync(activeTargetPath, { force: true })
+  })
+
+  it('cleans only unregistered avatars with no remaining business references', async () => {
+    const relativePath = `avatars/${Date.now()}-old-avatar.jpg`
+    const targetPath = path.join(resolveUploadRoot(), relativePath)
+    fs.mkdirSync(path.dirname(targetPath), { recursive: true })
+    fs.writeFileSync(targetPath, Buffer.from('old-avatar'))
+
+    const response = await request(app)
+      .delete('/api/admin/media/unregistered/old-avatars')
+      .query({ keyword: path.basename(targetPath) })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+
+    expect(response.body.data).toMatchObject({ deletedCount: 1, skippedCount: 0 })
+    expect(fs.existsSync(targetPath)).toBe(false)
   })
 })

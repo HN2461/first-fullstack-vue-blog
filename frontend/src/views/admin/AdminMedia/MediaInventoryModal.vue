@@ -51,6 +51,7 @@
         <span>未登记 {{ pageState.total }} 个</span>
         <span>可登记 {{ pageState.registerableCount }} 个</span>
         <span>受保护 {{ pageState.protectedCount }} 个</span>
+        <span>可清理旧头像 {{ pageState.unreferencedAvatarCount }} 个</span>
         <span>合计 {{ formatFileSize(totalSize) }}</span>
         <span class="media-inventory__path">扫描范围：上传存储目录</span>
       </div>
@@ -99,6 +100,17 @@
           </a-button>
         </a-popconfirm>
         <a-popconfirm
+          title="只会清理 avatars/ 目录中未登记且当前没有任何业务引用的头像；仍被账号资料使用的头像会跳过。此操作不可恢复。"
+          ok-text="清理旧头像"
+          cancel-text="取消"
+          ok-type="danger"
+          @confirm="clearUnreferencedAvatars"
+        >
+          <a-button danger :disabled="pageState.unreferencedAvatarCount === 0" :loading="clearingAvatars">
+            清理未引用旧头像
+          </a-button>
+        </a-popconfirm>
+        <a-popconfirm
           title="将当前筛选下的全部未登记文件纳入媒体库？"
           ok-text="登记全部"
           cancel-text="取消"
@@ -121,7 +133,7 @@
 import { computed, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { QuestionCircleOutlined, ReloadOutlined } from '@ant-design/icons-vue'
-import { clearSuspectedUntrackedAdminMedia, listUnregisteredAdminMedia, registerUntrackedAdminMedia } from '@/services/admin'
+import { clearSuspectedUntrackedAdminMedia, clearUnreferencedAvatarAdminMedia, listUnregisteredAdminMedia, registerUntrackedAdminMedia } from '@/services/admin'
 import MediaInventoryDetailModal from './MediaInventoryDetailModal.vue'
 import MediaGuideModal from './MediaGuideModal.vue'
 import MediaInventoryList from './MediaInventoryList.vue'
@@ -135,6 +147,7 @@ const emit = defineEmits(['update:open', 'changed'])
 const loading = ref(false)
 const registering = ref(false)
 const clearing = ref(false)
+const clearingAvatars = ref(false)
 const keyword = ref('')
 const fileClass = ref(undefined)
 const suspectOnly = ref(false)
@@ -149,10 +162,12 @@ const pageState = ref({
   pageSize: 20,
   total: 0,
   registerableCount: 0,
-  protectedCount: 0
+  protectedCount: 0,
+  suspectedTestCount: 0,
+  unreferencedAvatarCount: 0
 })
 
-const suspectedCount = computed(() => items.value.filter((item) => item.suspectedTest).length)
+const suspectedCount = computed(() => pageState.value.suspectedTestCount)
 
 const fileClassOptions = [
   { label: '图片', value: 'image' },
@@ -192,6 +207,8 @@ async function loadItems() {
     pageState.value.total = result.total
     pageState.value.registerableCount = result.registerableCount || 0
     pageState.value.protectedCount = result.protectedCount || 0
+    pageState.value.suspectedTestCount = result.suspectedTestCount || 0
+    pageState.value.unreferencedAvatarCount = result.unreferencedAvatarCount || 0
     totalSize.value = result.totalSize || 0
   } catch (error) {
     message.error(error.message || '未登记资源扫描失败')
@@ -302,6 +319,28 @@ async function clearSuspected() {
     message.error(error.message || '疑似测试资源清理失败')
   } finally {
     clearing.value = false
+  }
+}
+
+async function clearUnreferencedAvatars() {
+  clearingAvatars.value = true
+  try {
+    const result = await clearUnreferencedAvatarAdminMedia({
+      keyword: keyword.value || undefined,
+      fileClass: fileClass.value || undefined,
+      suspectOnly: suspectOnly.value || undefined
+    })
+    message.success(`已清理 ${result.deletedCount} 个未引用旧头像`)
+    if (result.skippedCount > 0) {
+      message.info(`另有 ${result.skippedCount} 个头像因仍有业务引用而跳过`)
+    }
+    clearSelection()
+    emit('changed')
+    await reload()
+  } catch (error) {
+    message.error(error.message || '旧头像清理失败')
+  } finally {
+    clearingAvatars.value = false
   }
 }
 

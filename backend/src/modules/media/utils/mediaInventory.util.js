@@ -111,9 +111,9 @@ export function inferInventorySource(relativePath) {
     return {
       type: 'avatar',
       label: '用户头像目录',
-      description: '由个人资料模块管理的用户头像，不属于普通媒体资产。',
-      registerable: false,
-      protectedReason: '用户头像由账号资料独立管理，不可登记或按未登记资源清理'
+      description: '超级管理员可将未登记头像纳入媒体资产；仍被用户资料引用的头像受清理保护。',
+      registerable: true,
+      protectedReason: ''
     }
   }
   if (normalizedPath.startsWith('resumes/')) {

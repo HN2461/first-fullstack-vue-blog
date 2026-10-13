@@ -14,7 +14,7 @@ import { createMediaCategory, deleteMediaCategory, listMediaCategories, updateMe
 import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaContent, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
 import { attachMediaVaultAccess, changeMediaVaultPassword, getMediaVaultStatus, lockMediaVault, setupMediaVault, unlockMediaVault } from '#modules/media/services/mediaVault.service.js'
 import { handleMediaUpload } from '#modules/media/handlers/mediaUpload.handler.js'
-import { clearSuspectedUntrackedMedia, getUnregisteredMediaFileDetail, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
+import { clearSuspectedUntrackedMedia, clearUnreferencedAvatarFiles, getUnregisteredMediaFileDetail, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
 import { getMonitorOverview } from '#modules/operations/services/monitor.service.js'
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
 import { createProjectTimelineRecord, exportProjectTimelineRecords, importProjectTimelinePayloads, importProjectTimelineRecords, listProjectTimelineRecords, updateProjectTimelineRecord } from '#modules/projectTimeline/services/projectTimeline.service.js'
@@ -728,6 +728,11 @@ adminRouter.post('/media/register-untracked', requireSuperAdmin, asyncHandler(as
 adminRouter.delete('/media/unregistered/suspected-tests', requireSuperAdmin, asyncHandler(async (req, res) => {
   const result = await clearSuspectedUntrackedMedia(req.query)
   res.json(ok(result, `已清理 ${result.deletedCount} 个疑似测试资源`))
+}))
+
+adminRouter.delete('/media/unregistered/old-avatars', requireSuperAdmin, asyncHandler(async (req, res) => {
+  const result = await clearUnreferencedAvatarFiles(req.query)
+  res.json(ok(result, `已清理 ${result.deletedCount} 个未被引用的旧头像`))
 }))
 
 adminRouter.get('/media/:id/references', asyncHandler(async (req, res) => {

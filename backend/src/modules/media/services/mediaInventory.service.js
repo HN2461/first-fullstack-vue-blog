@@ -134,6 +134,8 @@ export async function listUnregisteredMediaFiles(options = {}) {
     pageSize,
     registerableCount: files.filter((item) => item.source?.registerable !== false).length,
     protectedCount: files.filter((item) => item.protected).length,
+    suspectedTestCount: files.filter((item) => item.suspectedTest).length,
+    unreferencedAvatarCount: files.filter((item) => item.source?.type === 'avatar' && item.usage?.referenceCount === 0).length,
     totalSize: files.reduce((sum, item) => sum + item.size, 0)
   }
 }
@@ -333,4 +335,44 @@ export async function clearSuspectedUntrackedMedia(options = {}) {
     deletedSize,
     skipped
   }
+}
+
+/**
+ * 清理已被替换且不再被任何业务数据引用的旧头像。
+ * 路径范围固定为 avatars/，并在删除前重新检查引用，避免沿用测试文件清理规则删除其他资源。
+ */
+export async function clearUnreferencedAvatarFiles(options = {}) {
+  const files = await scanUnregisteredMediaFiles(options)
+  const candidates = files.filter((file) => file.source?.type === 'avatar' && file.usage?.referenceCount === 0)
+  let deletedCount = 0
+  let skippedCount = 0
+  let deletedSize = 0
+  const skipped = []
+
+  for (const file of candidates) {
+    const { targetPath, relativePath } = resolveUnregisteredFilePath(file.relativePath)
+    const url = buildUrlFromRelativePath(relativePath)
+    // 引用在初次扫描后可能变化，删除前重新核对用户资料及其他业务引用。
+    const references = await findMediaReferences({ url })
+    if (references.length > 0) {
+      skippedCount += 1
+      skipped.push({ relativePath, reason: `仍被 ${references.length} 处业务引用` })
+      continue
+    }
+
+    try {
+      await fs.unlink(targetPath)
+      deletedCount += 1
+      deletedSize += file.size || 0
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        skippedCount += 1
+        skipped.push({ relativePath, reason: '文件已不存在' })
+        continue
+      }
+      throw error
+    }
+  }
+
+  return { deletedCount, skippedCount, deletedSize, skipped }
 }
