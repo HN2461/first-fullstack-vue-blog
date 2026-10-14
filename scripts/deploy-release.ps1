@@ -252,7 +252,7 @@ find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*
 echo "[20/20] Finalize deployment and sizes"
 if [ "$PUBLISH_BACKEND" = "1" ]; then
   pm2 save
-  nginx -T 2>&1 | grep -A12 'location = /api/admin/media {'
+  nginx -T 2>&1 | grep -A24 'location = /api/admin/media {'
 fi
 ls -lh /www/personal-blog/frontend/index.html /www/personal-blog/backend/package.json
 df -h /www
@@ -272,12 +272,24 @@ from pathlib import Path
 
 path = Path('/etc/nginx/conf.d/personal-blog.conf')
 content = path.read_text(encoding='utf-8')
-if 'location = /api/admin/media {' not in content:
+if 'location = /api/admin/media {' not in content or 'location = /api/admin/media-uploads {' not in content:
     marker = '    location /api/ {'
     if marker not in content:
         raise SystemExit('Cannot find generic API location in Nginx config')
     location = '''    location = /api/admin/media {
         proxy_pass http://127.0.0.1:3001/api/admin/media;
+        proxy_http_version 1.1;
+        proxy_request_buffering off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+    }
+
+    location = /api/admin/media-uploads {
+        proxy_pass http://127.0.0.1:3001/api/admin/media-uploads;
         proxy_http_version 1.1;
         proxy_request_buffering off;
         proxy_set_header Host $host;
