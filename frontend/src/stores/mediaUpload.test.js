@@ -102,11 +102,14 @@ describe('global media upload queue', () => {
 
   it('stops and clears private task state when the user changes', async () => {
     const store = setup()
+    const uploadIds = store.tasks.map((task) => task.uploadId)
     uploadMediaFile.mockImplementationOnce((_file, _task, options) => new Promise((_resolve, reject) => {
       options.signal.addEventListener('abort', () => reject(new DOMException('停止', 'AbortError')))
     }))
     store.start()
-    await store.resetForUser()
+    await store.resetForUser({ accessToken: 'old-token' })
+    expect(discardMediaUpload).toHaveBeenCalledTimes(uploadIds.length)
+    uploadIds.forEach((uploadId) => expect(discardMediaUpload).toHaveBeenCalledWith(uploadId, { accessToken: 'old-token' }))
     expect(store.tasks).toHaveLength(0)
     expect(store.running).toBe(false)
     expect(store.modalOpen).toBe(false)

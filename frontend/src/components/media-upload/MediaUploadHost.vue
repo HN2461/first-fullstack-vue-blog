@@ -12,10 +12,11 @@ import MediaUploadModal from '@/views/admin/AdminMedia/MediaUploadModal.vue'
 const authStore = useAuthStore()
 const store = useMediaUploadStore()
 
-watch(() => authStore.user?.id, (id) => {
+watch(() => [authStore.user?.id || '', authStore.token || ''], ([id], [previousId, previousToken] = []) => {
   if (store.ownerId && store.ownerId !== id) {
     notification.destroy('media-upload-result')
-    store.resetForUser()
+    // 账号状态清空后 token 也会同步移除，使用本次变更前的 token 确保退出登录时仍能删除服务器临时会话。
+    store.resetForUser({ accessToken: previousToken || '' })
   }
 })
 

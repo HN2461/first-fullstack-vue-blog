@@ -6,13 +6,17 @@ import { buildSingleMediaDownloadName, normalizeArchiveName } from './mediaDownl
 
 function saveBlob(blob, fileName) {
   const url = URL.createObjectURL(blob)
-  const link = document.createElement('a')
-  link.href = url
-  link.download = fileName
-  document.body.appendChild(link)
-  link.click()
-  link.remove()
-  setTimeout(() => URL.revokeObjectURL(url), 1000)
+  try {
+    const link = document.createElement('a')
+    link.href = url
+    link.download = fileName
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+  } finally {
+    // 无论点击是否抛错，都回收对象 URL，避免大文件 Blob 长时间占用浏览器内存。
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  }
 }
 
 function createDownloadRequest(request) {

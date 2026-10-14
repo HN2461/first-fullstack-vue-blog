@@ -212,11 +212,14 @@ export const useMediaUploadStore = defineStore('mediaUpload', () => {
     }
   }
 
-  async function resetForUser() {
+  async function resetForUser(options = {}) {
     // 账号切换时先停止网络请求，再释放源文件引用；旧账号临时数据由 TTL 兜底。
     stopMode = 'cancelled'
     controller?.abort()
     await runPromise
+    // 账号退出或切换时主动删除全部上传会话，避免只清理前端状态而让服务器临时分片继续保留。
+    const uploadIds = tasks.value.map((task) => task.uploadId).filter(Boolean)
+    await Promise.allSettled(uploadIds.map((uploadId) => discardMediaUpload(uploadId, options)))
     tasks.value = []
     started.value = false
     modalOpen.value = false

@@ -214,13 +214,25 @@ export async function getBatchMediaDownload(input, actor) {
           settled = true
           reject(error)
         }
+        const abortArchive = () => {
+          // 客户端中途断开时，停止继续读取源文件和压缩剩余条目，避免无效下载继续消耗磁盘句柄与 CPU。
+          if (settled) return
+          archive.abort()
+        }
 
         archive.once('warning', (error) => {
           if (error.code !== 'ENOENT') fail(error)
         })
         archive.once('error', fail)
+        writable.once('error', (error) => {
+          abortArchive()
+          fail(error)
+        })
+        writable.once('close', () => {
+          abortArchive()
+          finish()
+        })
         writable.once('finish', finish)
-        writable.once('close', finish)
         archive.pipe(writable)
         items.forEach((item, index) => {
           archive.file(item.filePath, {

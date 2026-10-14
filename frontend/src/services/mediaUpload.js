@@ -133,6 +133,9 @@ export async function uploadMediaFile(file, task, options = {}) {
  * @returns {Promise<null>} 清理成功
  * @throws {Error} 网络或权限错误时抛出；服务器另有 24 小时过期清理兜底。
  */
-export function discardMediaUpload(uploadId) {
-  return retryRequest(() => http.delete(`${BASE_PATH}/${uploadId}`, { timeout: 10000 }), {})
+export function discardMediaUpload(uploadId, options = {}) {
+  const headers = options.accessToken
+    ? { Authorization: `Bearer ${options.accessToken}` }
+    : undefined
+  return retryRequest(() => http.delete(`${BASE_PATH}/${uploadId}`, { timeout: 10000, headers }), {})
 }
