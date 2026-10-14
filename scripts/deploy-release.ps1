@@ -272,11 +272,13 @@ from pathlib import Path
 
 path = Path('/etc/nginx/conf.d/personal-blog.conf')
 content = path.read_text(encoding='utf-8')
-if 'location = /api/admin/media {' not in content or 'location = /api/admin/media-uploads {' not in content:
+missing_media = 'location = /api/admin/media {' not in content
+missing_media_uploads = 'location = /api/admin/media-uploads {' not in content
+if missing_media or missing_media_uploads:
     marker = '    location /api/ {'
     if marker not in content:
         raise SystemExit('Cannot find generic API location in Nginx config')
-    location = '''    location = /api/admin/media {
+    media_location = '''    location = /api/admin/media {
         proxy_pass http://127.0.0.1:3001/api/admin/media;
         proxy_http_version 1.1;
         proxy_request_buffering off;
@@ -288,7 +290,7 @@ if 'location = /api/admin/media {' not in content or 'location = /api/admin/medi
         proxy_send_timeout 3600s;
     }
 
-    location = /api/admin/media-uploads {
+    upload_location = '''    location = /api/admin/media-uploads {
         proxy_pass http://127.0.0.1:3001/api/admin/media-uploads;
         proxy_http_version 1.1;
         proxy_request_buffering off;
@@ -301,7 +303,8 @@ if 'location = /api/admin/media {' not in content or 'location = /api/admin/medi
     }
 
 '''
-    path.write_text(content.replace(marker, location + marker, 1), encoding='utf-8')
+    additions = (media_location if missing_media else '') + (upload_location if missing_media_uploads else '')
+    path.write_text(content.replace(marker, additions + marker, 1), encoding='utf-8')
 PY
 nginx -t
 systemctl reload nginx"""
