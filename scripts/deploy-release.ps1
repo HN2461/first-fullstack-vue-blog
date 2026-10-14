@@ -269,16 +269,16 @@ script = script.replace('__BACKUP_RUNTIME_DATA__', '1' if run_database_tasks els
 nginx_setup = r"""echo "[14/20] Ensure large upload proxy configuration"
 python3 - <<'PY'
 from pathlib import Path
+import re
 
 path = Path('/etc/nginx/conf.d/personal-blog.conf')
 content = path.read_text(encoding='utf-8')
-missing_media = 'location = /api/admin/media {' not in content
-missing_media_uploads = 'location = /api/admin/media-uploads {' not in content
-if missing_media or missing_media_uploads:
-    marker = '    location /api/ {'
-    if marker not in content:
-        raise SystemExit('Cannot find generic API location in Nginx config')
-    media_location = '''    location = /api/admin/media {
+# 这两个 location 由本脚本独占维护：先删除旧版本（包括上次失败留下的重复块），再一次性写入标准配置。
+content = re.sub(r'    location = /api/admin/media(?:-uploads)? \{.*?    \}\n\n', '', content, flags=re.S)
+marker = '    location /api/ {'
+if marker not in content:
+    raise SystemExit('Cannot find generic API location in Nginx config')
+locations = '''    location = /api/admin/media {
         proxy_pass http://127.0.0.1:3001/api/admin/media;
         proxy_http_version 1.1;
         proxy_request_buffering off;
@@ -290,7 +290,7 @@ if missing_media or missing_media_uploads:
         proxy_send_timeout 3600s;
     }
 
-    upload_location = '''    location = /api/admin/media-uploads {
+    location = /api/admin/media-uploads {
         proxy_pass http://127.0.0.1:3001/api/admin/media-uploads;
         proxy_http_version 1.1;
         proxy_request_buffering off;
@@ -303,8 +303,7 @@ if missing_media or missing_media_uploads:
     }
 
 '''
-    additions = (media_location if missing_media else '') + (upload_location if missing_media_uploads else '')
-    path.write_text(content.replace(marker, additions + marker, 1), encoding='utf-8')
+path.write_text(content.replace(marker, locations + marker, 1), encoding='utf-8')
 PY
 nginx -t
 systemctl reload nginx"""
