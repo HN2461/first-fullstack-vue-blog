@@ -19,7 +19,7 @@
       </div>
     </template>
     <a-tooltip :title="`资源上传：${store.statusText}${store.running ? ` ${store.progress.percent}%` : ''}，点击查看`">
-      <a-button class="enterprise-icon-action media-upload-indicator" :aria-label="`资源上传：${store.statusText}，${store.progress.percent}%`">
+      <a-button class="enterprise-icon-action media-upload-indicator" :aria-label="`资源上传：${store.statusText}，${store.progress.percent}%`" @click="handleIndicatorClick">
         <a-progress type="circle" :size="30" :stroke-width="7" :percent="store.progress.percent" :status="store.state === 'error' ? 'exception' : store.state === 'success' ? 'success' : 'normal'">
           <template #format>
             <CheckOutlined v-if="store.state === 'success'" />
@@ -41,6 +41,15 @@ import { useMediaUploadStore } from '@/stores/mediaUpload'
 
 const authStore = useAuthStore()
 const store = useMediaUploadStore()
+
+function handleIndicatorClick() {
+  if (!store.running && store.state === 'success') {
+    // 成功任务已被用户查看，清除右上角的防误关提醒；失败任务保留以便重试。
+    store.clear()
+  } else {
+    store.open()
+  }
+}
 </script>
 
 <style scoped>

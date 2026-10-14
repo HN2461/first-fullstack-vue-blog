@@ -447,17 +447,21 @@ export function batchDeleteAdminMedia(ids) {
   return http.post('/api/admin/media/batch/delete', { ids })
 }
 
-export function downloadAdminMedia(id) {
+export function downloadAdminMedia(id, metadata = {}) {
   return http.get(`/api/admin/media-downloads/${id}`, {
     responseType: 'blob',
-    timeout: 0
+    timeout: 0,
+    signal: metadata.signal,
+    onDownloadProgress: metadata.onDownloadProgress
   })
 }
 
-export function downloadAdminMediaBatch(data) {
+export function downloadAdminMediaBatch(data, metadata = {}) {
   return http.post('/api/admin/media-downloads/batch/archive', data, {
     responseType: 'blob',
-    timeout: 0
+    timeout: 0,
+    signal: metadata.signal,
+    onDownloadProgress: metadata.onDownloadProgress
   })
 }
 

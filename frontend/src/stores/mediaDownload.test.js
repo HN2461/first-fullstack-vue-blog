@@ -1,0 +1,52 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { createPinia, setActivePinia } from 'pinia'
+import { useMediaDownloadStore } from './mediaDownload'
+
+function createBlobRequest(content, delay = 0) {
+  return ({ onProgress }) => new Promise((resolve) => {
+    onProgress(content.length / 2, content.length)
+    setTimeout(() => {
+      onProgress(content.length, content.length)
+      resolve(new Blob([content]))
+    }, delay)
+  })
+}
+
+describe('global media download queue', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia())
+    vi.useFakeTimers()
+  })
+
+  it('shows progress and downloads queued files sequentially', async () => {
+    const store = useMediaDownloadStore()
+    const first = store.enqueue({ fileName: 'a.zip', label: '下载：a.zip', request: createBlobRequest('abcdef', 100) })
+    const second = store.enqueue({ fileName: 'b.zip', label: '下载：b.zip', request: createBlobRequest('123456', 100) })
+    await vi.waitFor(() => expect(store.running).toBe(true))
+    expect(store.currentTask.label).toBe('下载：a.zip')
+    expect(store.progress.percent).toBe(50)
+    expect(store.queuedCount).toBe(1)
+    vi.advanceTimersByTime(100)
+    await first
+    vi.advanceTimersByTime(100)
+    await second
+    expect(store.successCount).toBe(2)
+    expect(store.state).toBe('success')
+    expect(store.progress.percent).toBe(100)
+  })
+
+  it('keeps a failed task visible and lets the user clear completed history', async () => {
+    const store = useMediaDownloadStore()
+    const failed = store.enqueue({ fileName: 'bad.zip', request: () => Promise.reject(new Error('网络失败')) })
+    await expect(failed).rejects.toThrow('网络失败')
+    expect(store.errorCount).toBe(1)
+    const success = store.enqueue({ fileName: 'ok.zip', request: createBlobRequest('ok') })
+    vi.advanceTimersByTime(0)
+    await success
+    expect(store.successCount).toBe(1)
+    expect(store.lastCompletedStatus).toBe('success')
+    store.clearCompleted()
+    expect(store.errorCount).toBe(1)
+    expect(store.tasks).toHaveLength(1)
+  })
+})

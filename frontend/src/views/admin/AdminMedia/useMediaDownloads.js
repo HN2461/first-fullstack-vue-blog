@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { downloadAdminMedia, downloadAdminMediaBatch } from '@/services/admin'
+import { useMediaDownloadStore } from '@/stores/mediaDownload'
 import { buildSingleMediaDownloadName, normalizeArchiveName } from './mediaDownloadOptions'
 
 function saveBlob(blob, fileName) {
@@ -14,16 +15,34 @@ function saveBlob(blob, fileName) {
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
+function createDownloadRequest(request) {
+  return ({ onProgress }) => request({
+    onDownloadProgress: (event) => onProgress(event.loaded, event.total || 0)
+  })
+}
+
 export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
+  const downloadStore = useMediaDownloadStore()
   const downloadModalVisible = ref(false)
   const downloadSubmitting = ref(false)
 
+  function enqueueDownload(fileName, label, request) {
+    return downloadStore.enqueue({
+      fileName,
+      label,
+      request: async ({ onProgress }) => {
+        const blob = await createDownloadRequest(request)({ onProgress })
+        saveBlob(blob, fileName)
+        return blob
+      }
+    })
+  }
+
   async function downloadSingleMedia(record) {
     if (!record?.id) return
-
+    const fileName = buildSingleMediaDownloadName(record)
     try {
-      const blob = await downloadAdminMedia(record.id)
-      saveBlob(blob, buildSingleMediaDownloadName(record))
+      await enqueueDownload(fileName, `下载：${record.originalName || fileName}`, (metadata) => downloadAdminMedia(record.id, metadata))
     } catch (error) {
       message.error(error.message || '资源下载失败')
     }
@@ -41,15 +60,14 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
     downloadSubmitting.value = true
     try {
       const archiveName = normalizeArchiveName(options.archiveName)
-      const blob = await downloadAdminMediaBatch({
+      downloadModalVisible.value = false
+      clearSelection()
+      await enqueueDownload(archiveName, `打包下载：${records.length} 个资源`, (metadata) => downloadAdminMediaBatch({
         ids: records.map((item) => item.id),
         namingMode: options.namingMode,
         prefix: options.prefix || undefined,
         archiveName
-      })
-      saveBlob(blob, archiveName)
-      downloadModalVisible.value = false
-      clearSelection()
+      }, metadata))
       message.success(`已生成 ${records.length} 个资源的下载包`)
     } catch (error) {
       message.error(error.message || '批量下载失败')
@@ -58,11 +76,5 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
     }
   }
 
-  return {
-    downloadModalVisible,
-    downloadSubmitting,
-    downloadSingleMedia,
-    openBatchDownload,
-    submitBatchDownload
-  }
+  return { downloadModalVisible, downloadSubmitting, downloadSingleMedia, openBatchDownload, submitBatchDownload }
 }
