@@ -4,6 +4,7 @@
     <DiscussionRealtimeBridge />
     <EntranceEffectHost />
     <PublicFestivalHost />
+    <MediaUploadHost />
   </a-config-provider>
 </template>
 
@@ -17,6 +18,7 @@ import { useSiteStore } from '@/stores/site'
 import EntranceEffectHost from '@/components/entrance/EntranceEffectHost.vue'
 import DiscussionRealtimeBridge from '@/components/notification/DiscussionRealtimeBridge.vue'
 import PublicFestivalHost from '@/components/festival/PublicFestivalHost.vue'
+import MediaUploadHost from '@/components/media-upload/MediaUploadHost.vue'
 import '@/styles/festival.css'
 
 const appStore = useAppStore()

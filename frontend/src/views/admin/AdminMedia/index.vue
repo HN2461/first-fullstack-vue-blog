@@ -4,6 +4,11 @@
     <div class="media-cloud__topbar">
       <div class="media-cloud__identity">
         <h2 class="media-cloud__title">媒体资产</h2>
+        <a-tooltip title="查看资源管理与传输说明">
+          <a-button type="text" size="small" aria-label="查看资源管理与传输说明" @click="openMediaGuide('upload')">
+            <template #icon><QuestionCircleOutlined /></template>
+          </a-button>
+        </a-tooltip>
         <div v-if="vaultContext" class="media-vault-session">
           <a-tooltip :title="vaultStatus.unlocked ? '本次验证从密码输入成功时开始计时，固定 30 分钟，期间操作不会重置' : '输入密码后才能查看密码箱内容'">
             <a-tag :color="vaultStatus.unlocked ? 'green' : 'orange'" :bordered="false">
@@ -241,15 +246,6 @@
       />
     </div>
 
-    <MediaUploadModal
-      ref="uploadModalRef"
-      v-model:open="uploadModalVisible"
-      :rules="uploadRules"
-      :category-options="filterCategoryOptions"
-      :default-category-id="uploadCategoryId"
-      @uploaded="handleUploadCompleted"
-    />
-
     <MediaUploadSettingsModal
       v-model:open="settingsModalVisible"
       :value="settingsDraft"
@@ -437,7 +433,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
@@ -460,7 +456,7 @@ import MediaPreviewModal from './MediaPreviewModal.vue'
 import MediaReferenceModal from './MediaReferenceModal.vue'
 import MediaInventoryModal from './MediaInventoryModal.vue'
 import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
-import MediaUploadModal from './MediaUploadModal.vue'
+import { useMediaUploadStore } from '@/stores/mediaUpload'
 import MediaGuideModal from './MediaGuideModal.vue'
 import MediaShareCreateModal from './MediaShareCreateModal.vue'
 import MediaFolderBrowser from './MediaFolderBrowser.vue'
@@ -496,7 +492,7 @@ import { useMediaDownloads } from './useMediaDownloads'
 const tableRef = ref(null)
 const router = useRouter()
 const route = useRoute()
-const uploadModalRef = ref(null)
+const uploadStore = useMediaUploadStore()
 const errorMessage = ref('')
 const categories = ref([])
 const folderCategories = ref([])
@@ -504,7 +500,6 @@ const keyword = ref('')
 const filterCategory = ref(undefined)
 const filterFileClass = ref(undefined)
 const filterUsageStatus = ref(undefined)
-const uploadModalVisible = ref(false)
 const categoryModalVisible = ref(false)
 const categorySubmitting = ref(false)
 const editingCategoryId = ref('')
@@ -1011,7 +1006,12 @@ function openUploadModal(category = '') {
     ? category?.id || categories.value.find((item) => item.name === category?.name && item.system)?.id || ''
     : category
   uploadCategoryId.value = /^[a-f\d]{24}$/i.test(categoryId || '') ? categoryId : ''
-  uploadModalVisible.value = true
+  uploadStore.open({
+    ownerId: authStore.user?.id,
+    rules: uploadRules.value,
+    categoryOptions: filterCategoryOptions.value,
+    categoryId: uploadCategoryId.value
+  })
 }
 
 function openFolderBatchCategoryMove() {
@@ -1128,7 +1128,7 @@ async function saveUploadSettings(payload) {
       mediaAllowedExtensions: uploadRules.value.allowedExtensions
     }
     settingsModalVisible.value = false
-    uploadModalRef.value?.reset()
+    if (!uploadStore.started) uploadStore.rules = { ...uploadRules.value }
   } finally {
     settingsSaving.value = false
   }
@@ -1139,6 +1139,10 @@ async function handleUploadCompleted() {
   await loadFolderCategoriesAndItems()
   tableRef.value?.refresh()
 }
+
+watch(() => uploadStore.completedVersion, () => {
+  if (uploadStore.ownerId === authStore.user?.id) handleUploadCompleted()
+})
 
 const previewVisible = ref(false)
 const previewRecord = ref(null)

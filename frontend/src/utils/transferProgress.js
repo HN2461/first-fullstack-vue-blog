@@ -19,10 +19,11 @@ export function formatRemainingTime(seconds = 0) {
   return `约 ${(value / 3600).toFixed(1)} 小时`
 }
 
-export function createTransferTracker(onUpdate) {
+export function createTransferTracker(onUpdate, initialLoaded = 0) {
   const startedAt = performance.now()
   let lastAt = startedAt
-  let lastLoaded = 0
+  // 续传或批量任务中的已完成字节不属于本轮网络流量，不能计入瞬时速度。
+  let lastLoaded = Math.max(0, Number(initialLoaded) || 0)
   let smoothedSpeed = 0
 
   return (loaded = 0, total = 0) => {

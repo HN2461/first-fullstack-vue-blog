@@ -4,8 +4,8 @@
     :title="title"
     :footer="null"
     width="760px"
-    centered
-    :body-style="{ maxHeight: '72vh', overflow: 'hidden' }"
+    wrap-class-name="media-guide-modal-wrap"
+    :body-style="{ maxHeight: 'calc(100dvh - 180px)', overflow: 'hidden' }"
     @update:open="emit('update:open', $event)"
     @cancel="emit('update:open', false)"
   >
@@ -46,9 +46,56 @@
         </section>
       </template>
 
+      <template v-else-if="topic === 'upload'">
+        <section class="media-guide__lead">
+          <strong>确认文件清单后开始上传；关闭弹窗，任务仍会继续。</strong>
+          <p>媒体资产用于上传、分类、查看、下载和整理资源。右上角的上传进度入口可随时查看任务结果。</p>
+        </section>
+
+        <section class="media-guide__section">
+          <h3>上传操作与进度</h3>
+          <dl class="media-guide__definitions">
+            <div><dt>开始上传</dt><dd>先选择目标分类，再选择或拖入文件。上传前可移除文件或清空清单；文件数量、类型和大小以管理员配置及服务器校验为准。</dd></div>
+            <div><dt>后台上传</dt><dd>点击“后台上传”或右上角关闭按钮，只隐藏弹窗；在当前浏览器标签页中切换页面仍可继续上传。控制台右上角显示实时进度，点击可重新打开清单。</dd></div>
+            <div><dt>暂停与继续</dt><dd>暂停会停止当前传输并保留服务器已确认的部分。继续时从已确认位置恢复；网络波动会自动有限重试，重试失败后可手动继续。</dd></div>
+            <div><dt>确认中与完成</dt><dd>字节发送完毕后还需要服务器确认入库。“确认中”不等于成功；全部资源入库后才显示 100%。最终清单会逐个显示完成或失败。</dd></div>
+            <div><dt>部分失败</dt><dd>每个文件独立上传和入库。成功文件已在媒体库中；继续上传只处理未完成文件，不会重复上传已成功文件。</dd></div>
+            <div><dt>取消上传</dt><dd>取消会停止后续任务并清理未完成的临时数据，已入库资源保留。正在确认入库的文件会先确认真实结果，再停止后续文件。</dd></div>
+          </dl>
+          <p>后台上传需要保持当前浏览器标签页打开。刷新、关闭标签页或退出登录会中断任务；不支持关闭浏览器后继续传输。密码箱上传需要保持密码箱验证有效。</p>
+        </section>
+
+        <section class="media-guide__section">
+          <h3>小白释疑：上传到一半，服务器会多出垃圾文件吗？</h3>
+          <p>已发送的内容可能已经到达服务器，并暂存在磁盘上，所以传输期间会占用空间。但未完成内容属于临时数据，不会作为完整资源出现在媒体库里。</p>
+          <ul>
+            <li>完整上传并校验、入库成功后，才成为正式资源。</li>
+            <li>暂停、网络失败时保留已确认部分，以便继续上传；明确取消或移除未完成任务时，后端会尝试清理。</li>
+            <li>服务启动及每小时检查过期临时数据，清理超过 24 小时未活动的任务，兜底处理断网、关页或进程崩溃留下的文件。</li>
+            <li>临时占用无法完全避免；磁盘或权限异常可能使清理失败。系统还会限制并发和未完成总量，并检查磁盘安全余量。</li>
+          </ul>
+          <p>上传过程的临时数据与“文章正文临时图片”分类不同：后者已经是媒体库资源，需要按引用状态管理，不会被上传任务的过期清理删除。</p>
+        </section>
+
+        <section class="media-guide__section">
+          <h3>小白释疑：下载到一半，本地会留下半截文件吗？</h3>
+          <p>可能会。浏览器或下载工具通常边接收边写入临时存储，例如 Chrome / Edge 使用 <code>.crdownload</code>，一些下载工具使用 <code>.part</code>。完成后才改为正式文件名。</p>
+          <ul>
+            <li>取消或失败后，有些工具会自动清理，有些会保留半截文件用于继续下载；浏览器崩溃后也可能残留。</li>
+            <li>确认不再继续下载时，可以在下载工具中取消并删除，或手动删除对应临时文件。不要把半截文件当成完整文件使用。</li>
+            <li>本页面的媒体下载会在完整接收后触发保存；接收失败会提示错误。浏览器内部临时存储由浏览器管理，网站不能替你扫描或删除本地下载目录。</li>
+          </ul>
+        </section>
+
+        <section class="media-guide__section">
+          <h3>资源整理与删除</h3>
+          <p>分类帮助归档，引用详情用于判断资源是否被文章、头像等业务使用。移入回收站保留文件和记录；永久删除才会移除文件，并由后端校验引用保护。普通分类调整不改变资源内容；密码箱具有单独的访问保护。</p>
+        </section>
+      </template>
+
       <template v-else>
         <section class="media-guide__lead">
-          <strong>资源分类用于帮助媒体库检索和归档，不改变文件本身的访问地址。</strong>
+          <strong>普通资源分类用于检索和归档；密码箱分类还控制访问保护。</strong>
           <p>系统分类由业务流程共享使用；自定义分类只属于创建者，不会出现在其他账号的上传和迁移选项中。</p>
         </section>
 
@@ -92,19 +139,26 @@ const props = defineProps({
   topic: {
     type: String,
     default: 'inventory',
-    validator: (value) => ['inventory', 'category'].includes(value)
+    validator: (value) => ['inventory', 'category', 'upload'].includes(value)
   }
 })
 
 const emit = defineEmits(['update:open'])
-const title = computed(() => props.topic === 'category' ? '资源分类说明' : '扫描未登记资源说明')
+const title = computed(() => ({ category: '资源分类说明', inventory: '扫描未登记资源说明', upload: '资源管理与传输说明' }[props.topic]))
 </script>
+
+<style>
+.media-guide-modal-wrap .ant-modal { top: 32px; max-width: calc(100vw - 32px); padding-bottom: 48px; }
+@media (max-width: 600px) {
+  .media-guide-modal-wrap .ant-modal { top: 16px; padding-bottom: 32px; }
+}
+</style>
 
 <style scoped>
 .media-guide {
   display: grid;
   gap: 18px;
-  max-height: min(62vh, 560px);
+  max-height: min(62vh, 560px, calc(100dvh - 180px));
   overflow-y: auto;
   padding-right: 2px;
   color: var(--text-primary);

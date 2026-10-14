@@ -18,6 +18,7 @@ export const env = Object.freeze({
   nodeEnv: process.env.NODE_ENV || 'development',
   trustProxy: process.env.TRUST_PROXY || (process.env.NODE_ENV === 'production' ? 'loopback' : false),
   port: readNumber('SERVER_PORT', 3001),
+  httpRequestTimeoutMs: Math.max(60 * 1000, readNumber('HTTP_REQUEST_TIMEOUT_MS', 30 * 60 * 1000)),
   businessTimeZone: process.env.APP_TIME_ZONE || 'Asia/Shanghai',
   clientOrigin: process.env.CLIENT_ORIGIN || 'http://127.0.0.1:5173',
   mongodbUri: process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/personal_fullstack_blog',

@@ -38,7 +38,8 @@ const props = defineProps({
   percent: { type: Number, default: 0 },
   speed: { type: Number, default: 0 },
   remainingSeconds: { type: Number, default: 0 },
-  status: { type: String, default: 'active' }
+  status: { type: String, default: 'active' },
+  statusText: { type: String, default: '' }
 })
 
 const hasTotal = computed(() => props.total > 0)
@@ -48,11 +49,12 @@ const progressStatus = computed(() => {
   if (props.status === 'success') return 'success'
   return 'active'
 })
-const stateLabel = computed(() => ({
+const stateLabel = computed(() => props.statusText || ({
   active: '传输中',
   success: '已完成',
   error: '失败',
   cancelled: '已取消',
+  paused: '已暂停',
   browser: '浏览器下载'
 }[props.status] || '传输中'))
 const sizeLabel = computed(() => hasTotal.value

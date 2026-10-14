@@ -23,4 +23,5 @@ backend/uploads-private/
 backend/logs/
 backend/legacy-notes/
 backend/tests/.tmp/
+.media-tmp/
 .playwright-cli/

@@ -150,12 +150,14 @@ export async function createMediaFromFiles(files, user, metadata = {}) {
   const movedFiles = []
   const documents = []
   try {
-    for (const file of files) {
+    for (const [index, file] of files.entries()) {
       const targetPath = path.join(targetDir, file.filename)
       await fs.rename(file.path, targetPath)
       movedFiles.push(targetPath)
       const normalizedPath = targetPath.replace(/\\/g, '/')
       documents.push({
+        // 分片完成请求使用预分配 ID，响应丢失后的重试可以找回同一资源。
+        ...(metadata.mediaIds?.[index] ? { _id: metadata.mediaIds[index] } : {}),
         filename: file.filename,
         originalName: decodeUploadFilename(file.originalname),
         mimeType: file.mimetype,
