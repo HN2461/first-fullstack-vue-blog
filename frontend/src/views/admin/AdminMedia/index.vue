@@ -298,7 +298,7 @@
       @changed="handleInventoryChanged"
     />
 
-    <MediaPreviewModal v-model:open="previewVisible" :record="previewRecord" />
+    <MediaPreviewModal v-model:open="previewVisible" :record="previewRecord" @download="downloadSingleMedia" />
 
     <MediaShareCreateModal
       v-model:open="shareCreateVisible"

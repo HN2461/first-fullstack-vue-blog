@@ -1,26 +1,27 @@
 import { ref } from 'vue'
-import { message } from 'ant-design-vue'
 import { downloadAdminMedia, downloadAdminMediaBatch } from '@/services/admin'
 import { useMediaDownloadStore } from '@/stores/mediaDownload'
 import { buildSingleMediaDownloadName, normalizeArchiveName } from './mediaDownloadOptions'
 
 function saveBlob(blob, fileName) {
   const url = URL.createObjectURL(blob)
+  let link
   try {
-    const link = document.createElement('a')
+    link = document.createElement('a')
     link.href = url
     link.download = fileName
     document.body.appendChild(link)
     link.click()
-    link.remove()
   } finally {
+    link?.remove()
     // 无论点击是否抛错，都回收对象 URL，避免大文件 Blob 长时间占用浏览器内存。
     setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 }
 
 function createDownloadRequest(request) {
-  return ({ onProgress }) => request({
+  return ({ onProgress, signal }) => request({
+    signal,
     onDownloadProgress: (event) => onProgress(event.loaded, event.total || 0)
   })
 }
@@ -32,17 +33,18 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
 
   function enqueueDownload(fileName, label, request, dedupeKey) {
     if (downloadStore.hasActiveTask(dedupeKey)) {
-      message.warning('该下载任务正在进行中，请勿重复点击')
-      const duplicate = Promise.resolve(null)
-      duplicate.duplicate = true
-      return duplicate
+      downloadStore.showFeedback('warning', '该下载任务正在进行中，请勿重复点击', label)
+      return Promise.resolve(null)
     }
     return downloadStore.enqueue({
       fileName,
       label,
       dedupeKey,
-      request: async ({ onProgress }) => {
-        const blob = await createDownloadRequest(request)({ onProgress })
+      request: async ({ onProgress, signal }) => {
+        const blob = await createDownloadRequest(request)({ onProgress, signal })
+        // 请求刚结束时仍可能被用户终止，必须在触发浏览器保存前再次检查。
+        signal.throwIfAborted()
+        if (!blob) return null
         saveBlob(blob, fileName)
         return blob
       }
@@ -54,8 +56,8 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
     const fileName = buildSingleMediaDownloadName(record)
     try {
       await enqueueDownload(fileName, `下载：${record.originalName || fileName}`, (metadata) => downloadAdminMedia(record.id, metadata), `media:${record.id}`)
-    } catch (error) {
-      message.error(error.message || '资源下载失败')
+    } catch {
+      // 队列统一记录错误并在下载中心反馈，避免多个通知分散用户注意力。
     }
   }
 
@@ -80,10 +82,8 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
         archiveName
       }, metadata), `batch:${records.map((item) => item.id).sort().join(',')}|${archiveName}|${options.namingMode}|${options.prefix || ''}`)
       await downloadPromise
-      if (downloadPromise.duplicate) return
-      message.success(`已生成 ${records.length} 个资源的下载包`)
-    } catch (error) {
-      message.error(error.message || '批量下载失败')
+    } catch {
+      // 失败由下载中心展示，结束表单提交态即可。
     } finally {
       downloadSubmitting.value = false
     }

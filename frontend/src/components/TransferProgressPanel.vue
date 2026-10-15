@@ -14,7 +14,7 @@
       :show-info="hasTotal"
       :stroke-width="7"
     />
-    <div v-else class="transfer-progress__indeterminate" aria-label="传输进行中"><span /></div>
+    <div v-else-if="status === 'active'" class="transfer-progress__indeterminate" aria-label="传输进行中"><span /></div>
     <div class="transfer-progress__meta">
       <span>{{ sizeLabel }}</span>
       <span>{{ speedLabel }}</span>
@@ -47,7 +47,7 @@ const displayPercent = computed(() => hasTotal.value ? Math.max(0, Math.min(100,
 const progressStatus = computed(() => {
   if (props.status === 'error') return 'exception'
   if (props.status === 'success') return 'success'
-  return 'active'
+  return props.status === 'active' ? 'active' : 'normal'
 })
 const stateLabel = computed(() => props.statusText || ({
   active: '传输中',

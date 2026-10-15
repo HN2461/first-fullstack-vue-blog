@@ -54,7 +54,7 @@
             <span v-if="previewType !== 'image' && (previewType === 'text' || previewType === 'markdown' || previewType === 'html')" class="media-preview-workspace__content-count">{{ formatCharacterCount(textContent.length) }}</span>
             <span class="media-preview-workspace__command-divider" aria-hidden="true" />
             <a-tooltip title="新页面打开"><a-button type="text" aria-label="新页面打开资源" :href="previewOpenUrl" target="_blank" rel="noopener noreferrer"><template #icon><ExportOutlined /></template></a-button></a-tooltip>
-            <a-tooltip title="下载资源"><a-button type="text" aria-label="下载资源" :href="previewOpenUrl" download><template #icon><DownloadOutlined /></template></a-button></a-tooltip>
+            <a-tooltip title="下载资源"><a-button type="text" aria-label="下载资源" @click="requestDownload"><template #icon><DownloadOutlined /></template></a-button></a-tooltip>
             <a-tooltip :title="inspectorVisible ? '隐藏资源信息' : '显示资源信息'"><a-button class="media-preview-workspace__info-trigger" type="text" :aria-label="inspectorVisible ? '隐藏资源信息' : '显示资源信息'" @click="toggleInspector"><template #icon><InfoCircleOutlined /></template></a-button></a-tooltip>
           </div>
         </div>
@@ -169,7 +169,7 @@
             <strong>暂不支持本地预览</strong>
             <p>旧式 Office 文件或复杂演示文稿无法在浏览器中稳定还原，请使用下载或新页面打开。</p>
             <div class="media-preview-workspace__fallback-actions">
-              <a-button type="primary" :href="previewOpenUrl" download><template #icon><DownloadOutlined /></template>下载文件</a-button>
+              <a-button type="primary" @click="requestDownload"><template #icon><DownloadOutlined /></template>下载文件</a-button>
             </div>
           </div>
 
@@ -178,7 +178,7 @@
             <FileUnknownOutlined v-else class="media-preview-workspace__fallback-icon" />
             <strong>暂不支持在线预览</strong><p>可下载文件后使用本地应用查看。</p>
             <div class="media-preview-workspace__fallback-actions">
-              <a-button type="primary" :href="previewOpenUrl" download><template #icon><DownloadOutlined /></template>下载文件</a-button>
+              <a-button type="primary" @click="requestDownload"><template #icon><DownloadOutlined /></template>下载文件</a-button>
             </div>
           </div>
         </section>
@@ -225,7 +225,14 @@ import MediaPptxPreview from './MediaPptxPreview.vue'
 import MediaSpreadsheetPreview from './MediaSpreadsheetPreview.vue'
 
 const props = defineProps({ open: { type: Boolean, default: false }, record: { type: Object, default: null } })
-const emit = defineEmits(['update:open'])
+const emit = defineEmits(['update:open', 'download'])
+
+function requestDownload() {
+  if (!props.record?.id) return
+  // 预览入口也进入全局任务队列，关闭预览后让用户直接看到顶部下载中心。
+  emit('download', props.record)
+  emit('update:open', false)
+}
 const imageScale = ref(1)
 const imagePosition = ref({ x: 0, y: 0 })
 const imageRotation = ref(0)

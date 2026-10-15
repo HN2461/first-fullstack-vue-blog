@@ -53,6 +53,7 @@
         </a-tooltip>
         <span class="enterprise-topnav-notifications"><NotificationBell /></span>
         <MediaUploadIndicator />
+        <MediaDownloadIndicator />
         <a-tooltip v-if="!appStore.isMobile" :title="appStore.isDark ? '切换浅色模式' : '切换深色模式'">
           <a-button class="enterprise-icon-action" @click="handleThemeToggle">
             <template #icon>
@@ -378,6 +379,7 @@ import {
 } from '@ant-design/icons-vue'
 import NotificationBell from '@/components/NotificationBell.vue'
 import MediaUploadIndicator from '@/components/media-upload/MediaUploadIndicator.vue'
+import MediaDownloadIndicator from '@/components/media-upload/MediaDownloadIndicator.vue'
 import AnnouncementPopup from '@/components/AnnouncementPopup.vue'
 import FestivalEffectHost from '@/components/festival/FestivalEffectHost.vue'
 import ArticleExportModal from './ArticleExportModal.vue'
