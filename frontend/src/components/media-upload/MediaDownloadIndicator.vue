@@ -3,8 +3,8 @@
     <template #content>
       <div class="media-download-indicator__panel">
         <TransferProgressPanel
-          :title="store.currentTask?.label || store.statusText"
-          :subtitle="store.running && !store.progress.loaded ? '已触发，正在等待服务器响应' : `${store.queuedCount ? `${store.queuedCount} 个排队中 · ` : ''}${store.errorCount ? `${store.errorCount} 个失败` : '下载任务'}`"
+          :title="store.latestTask?.label || store.statusText"
+          :subtitle="downloadSubtitle"
           v-bind="store.progress"
           :status="store.running ? 'active' : store.state"
           :status-text="store.statusText"
@@ -30,11 +30,20 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { CheckOutlined, DownloadOutlined, ExclamationOutlined } from '@ant-design/icons-vue'
 import TransferProgressPanel from '@/components/TransferProgressPanel.vue'
 import { useMediaDownloadStore } from '@/stores/mediaDownload'
 
 const store = useMediaDownloadStore()
+const downloadSubtitle = computed(() => {
+  const activeLabel = store.currentTask?.label || '下载任务'
+  const latestIsQueued = store.latestTask && store.latestTask.id !== store.currentTask?.id
+  const waiting = store.running && !store.progress.loaded ? '已触发，正在等待服务器响应' : ''
+  const queue = store.queuedCount ? `${store.queuedCount} 个排队中` : ''
+  const failure = store.errorCount ? `${store.errorCount} 个失败` : ''
+  return [waiting, latestIsQueued ? `当前下载：${activeLabel}` : '', queue, failure].filter(Boolean).join(' · ') || '下载任务'
+})
 </script>
 
 <style scoped>

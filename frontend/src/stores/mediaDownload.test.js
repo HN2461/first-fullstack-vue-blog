@@ -58,7 +58,21 @@ describe('global media download queue', () => {
     const duplicate = store.enqueue({ fileName: 'large.zip', request, dedupeKey: 'media:1' })
     expect(store.tasks).toHaveLength(1)
     expect(store.queuedVersion).toBe(1)
+    expect(store.latestTask.fileName).toBe('large.zip')
     resolveRequest(new Blob(['done']))
     await first
+  })
+
+  it('shows the newest queued file while keeping the active file visible as current', async () => {
+    const store = useMediaDownloadStore()
+    let resolveFirst
+    const first = store.enqueue({ fileName: 'first.zip', label: '下载：first.zip', request: () => new Promise((resolve) => { resolveFirst = resolve }) })
+    const second = store.enqueue({ fileName: 'second.zip', label: '下载：second.zip', request: createBlobRequest('second') })
+    expect(store.currentTask.fileName).toBe('first.zip')
+    expect(store.latestTask.fileName).toBe('second.zip')
+    resolveFirst(new Blob(['first']))
+    await first
+    vi.advanceTimersByTime(0)
+    await second
   })
 })

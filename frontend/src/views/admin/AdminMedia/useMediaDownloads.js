@@ -31,6 +31,12 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
   const downloadSubmitting = ref(false)
 
   function enqueueDownload(fileName, label, request, dedupeKey) {
+    if (downloadStore.hasActiveTask(dedupeKey)) {
+      message.warning('该下载任务正在进行中，请勿重复点击')
+      const duplicate = Promise.resolve(null)
+      duplicate.duplicate = true
+      return duplicate
+    }
     return downloadStore.enqueue({
       fileName,
       label,
@@ -67,12 +73,14 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
       const archiveName = normalizeArchiveName(options.archiveName)
       downloadModalVisible.value = false
       clearSelection()
-      await enqueueDownload(archiveName, `打包下载：${records.length} 个资源`, (metadata) => downloadAdminMediaBatch({
+      const downloadPromise = enqueueDownload(archiveName, `打包下载：${records.length} 个资源`, (metadata) => downloadAdminMediaBatch({
         ids: records.map((item) => item.id),
         namingMode: options.namingMode,
         prefix: options.prefix || undefined,
         archiveName
       }, metadata), `batch:${records.map((item) => item.id).sort().join(',')}|${archiveName}|${options.namingMode}|${options.prefix || ''}`)
+      await downloadPromise
+      if (downloadPromise.duplicate) return
       message.success(`已生成 ${records.length} 个资源的下载包`)
     } catch (error) {
       message.error(error.message || '批量下载失败')

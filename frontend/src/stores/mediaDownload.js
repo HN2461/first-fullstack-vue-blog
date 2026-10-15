@@ -16,6 +16,7 @@ export const useMediaDownloadStore = defineStore('mediaDownload', () => {
   let runPromise = null
 
   const currentTask = computed(() => tasks.value.find((task) => task.id === currentTaskId.value) || null)
+  const latestTask = computed(() => [...tasks.value].reverse().find((task) => ['queued', 'downloading'].includes(task.status)) || currentTask.value)
   const queuedCount = computed(() => tasks.value.filter((task) => task.status === 'queued').length)
   const successCount = computed(() => tasks.value.filter((task) => task.status === 'success').length)
   const errorCount = computed(() => tasks.value.filter((task) => task.status === 'error').length)
@@ -42,6 +43,10 @@ export const useMediaDownloadStore = defineStore('mediaDownload', () => {
     queuedVersion.value += 1
     start()
     return task.promise
+  }
+
+  function hasActiveTask(dedupeKey) {
+    return Boolean(dedupeKey && tasks.value.some((task) => task.dedupeKey === dedupeKey && ['queued', 'downloading'].includes(task.status)))
   }
 
   function start() {
@@ -98,5 +103,5 @@ export const useMediaDownloadStore = defineStore('mediaDownload', () => {
     progress.value = { loaded: 0, total: 0, percent: 0, speed: 0, remainingSeconds: 0 }
   }
 
-  return { tasks, running, currentTask, queuedCount, successCount, errorCount, hasHistory, statusText, progress, state, lastCompletedStatus, queuedVersion, completedVersion, enqueue, start, clearCompleted, clearAll }
+  return { tasks, running, currentTask, latestTask, queuedCount, successCount, errorCount, hasHistory, statusText, progress, state, lastCompletedStatus, queuedVersion, completedVersion, enqueue, hasActiveTask, start, clearCompleted, clearAll }
 })
