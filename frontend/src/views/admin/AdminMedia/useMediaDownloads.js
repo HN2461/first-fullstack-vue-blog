@@ -30,10 +30,11 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
   const downloadModalVisible = ref(false)
   const downloadSubmitting = ref(false)
 
-  function enqueueDownload(fileName, label, request) {
+  function enqueueDownload(fileName, label, request, dedupeKey) {
     return downloadStore.enqueue({
       fileName,
       label,
+      dedupeKey,
       request: async ({ onProgress }) => {
         const blob = await createDownloadRequest(request)({ onProgress })
         saveBlob(blob, fileName)
@@ -46,7 +47,7 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
     if (!record?.id) return
     const fileName = buildSingleMediaDownloadName(record)
     try {
-      await enqueueDownload(fileName, `下载：${record.originalName || fileName}`, (metadata) => downloadAdminMedia(record.id, metadata))
+      await enqueueDownload(fileName, `下载：${record.originalName || fileName}`, (metadata) => downloadAdminMedia(record.id, metadata), `media:${record.id}`)
     } catch (error) {
       message.error(error.message || '资源下载失败')
     }
@@ -71,7 +72,7 @@ export function useMediaDownloads({ selectedMediaRecords, clearSelection }) {
         namingMode: options.namingMode,
         prefix: options.prefix || undefined,
         archiveName
-      }, metadata))
+      }, metadata), `batch:${records.map((item) => item.id).sort().join(',')}|${archiveName}|${options.namingMode}|${options.prefix || ''}`)
       message.success(`已生成 ${records.length} 个资源的下载包`)
     } catch (error) {
       message.error(error.message || '批量下载失败')

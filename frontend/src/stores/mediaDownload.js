@@ -11,6 +11,7 @@ export const useMediaDownloadStore = defineStore('mediaDownload', () => {
   const progress = ref({ loaded: 0, total: 0, percent: 0, speed: 0, remainingSeconds: 0 })
   const state = ref('idle')
   const lastCompletedStatus = ref('')
+  const queuedVersion = ref(0)
   const completedVersion = ref(0)
   let runPromise = null
 
@@ -26,14 +27,19 @@ export const useMediaDownloadStore = defineStore('mediaDownload', () => {
     return '下载任务'
   })
 
-  function enqueue({ fileName, label, request }) {
+  function enqueue({ fileName, label, request, dedupeKey = '' }) {
+    if (dedupeKey) {
+      const existing = tasks.value.find((task) => task.dedupeKey === dedupeKey && ['queued', 'downloading'].includes(task.status))
+      if (existing) return existing.promise
+    }
     const task = {
       id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      fileName: fileName || '下载文件', label: label || fileName || '下载文件', request: markRaw(request),
+      fileName: fileName || '下载文件', label: label || fileName || '下载文件', dedupeKey, request: markRaw(request),
       status: 'queued', loaded: 0, total: 0, error: ''
     }
     task.promise = new Promise((resolve, reject) => { task.resolve = resolve; task.reject = reject })
     tasks.value.push(task)
+    queuedVersion.value += 1
     start()
     return task.promise
   }
@@ -92,5 +98,5 @@ export const useMediaDownloadStore = defineStore('mediaDownload', () => {
     progress.value = { loaded: 0, total: 0, percent: 0, speed: 0, remainingSeconds: 0 }
   }
 
-  return { tasks, running, currentTask, queuedCount, successCount, errorCount, hasHistory, statusText, progress, state, lastCompletedStatus, completedVersion, enqueue, start, clearCompleted, clearAll }
+  return { tasks, running, currentTask, queuedCount, successCount, errorCount, hasHistory, statusText, progress, state, lastCompletedStatus, queuedVersion, completedVersion, enqueue, start, clearCompleted, clearAll }
 })

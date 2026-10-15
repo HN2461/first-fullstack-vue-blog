@@ -123,6 +123,7 @@ describe('media downloads', () => {
       .expect(200)
 
     expect(response.headers['content-type']).toContain('image/png')
+    expect(response.headers['x-accel-buffering']).toBe('no')
     expect(response.headers['content-disposition']).toContain(encodeURIComponent('项目-封面图.png'))
     expect(response.body.toString('utf8')).toBe('image-content')
   })
@@ -156,6 +157,7 @@ describe('media downloads', () => {
       .expect(200)
 
     expect(response.headers['content-type']).toContain('application/zip')
+    expect(response.headers['x-accel-buffering']).toBe('no')
     expect(response.headers['content-disposition']).toContain(encodeURIComponent('交付资料.zip'))
     const archiveText = response.body.toString('utf8')
     expect(archiveText).toContain('项目-截图-01.png')

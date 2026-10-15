@@ -251,6 +251,8 @@ export function buildMediaDownloadHeaders(fileName, contentType, contentLength) 
     'Content-Type': contentType,
     'Content-Disposition': buildContentDisposition(fileName),
     'Cache-Control': 'private, no-store',
+    // 批量 ZIP 没有固定 Content-Length；禁止 Nginx 缓冲响应，浏览器才能持续收到下载进度事件。
+    'X-Accel-Buffering': 'no',
     'X-Content-Type-Options': 'nosniff'
   }
   if (Number.isFinite(contentLength)) {

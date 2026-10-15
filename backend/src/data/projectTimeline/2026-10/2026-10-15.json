@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-15",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "media-download-immediate-feedback-and-proxy-streaming",
+      "title": "修复大文件下载无反馈并关闭下载响应缓冲",
+      "detail": "1. 排查批量 ZIP 下载在大文件、无 Content-Length 和慢网络条件下首个进度事件迟迟不到达的问题，前端点击后立即显示下载已开始提示，并在右上角显示等待服务器响应的不定进度状态。2. 为同一媒体或相同批量选择增加进行中去重，重复点击不会创建多个并行下载请求，避免重复消耗带宽。3. 为媒体下载响应增加 X-Accel-Buffering: no，并在 Nginx 为媒体下载接口配置 proxy_buffering off，让流式 ZIP 数据及时传递到浏览器。4. 补充下载响应头和下载队列重复触发测试。",
+      "category": "问题修复"
+    }
+  ]
+}

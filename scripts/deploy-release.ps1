@@ -274,7 +274,7 @@ import re
 path = Path('/etc/nginx/conf.d/personal-blog.conf')
 content = path.read_text(encoding='utf-8')
 # 这两个 location 由本脚本独占维护：先删除旧版本（包括上次失败留下的重复块），再一次性写入标准配置。
-content = re.sub(r'    location = /api/admin/media(?:-uploads)? \{.*?    \}\n\n', '', content, flags=re.S)
+content = re.sub(r'    location(?: =)? /api/admin/media(?:-uploads|-downloads)?/? \{.*?    \}\n\n', '', content, flags=re.S)
 marker = '    location /api/ {'
 if marker not in content:
     raise SystemExit('Cannot find generic API location in Nginx config')
@@ -293,6 +293,19 @@ locations = '''    location = /api/admin/media {
     location = /api/admin/media-uploads {
         proxy_pass http://127.0.0.1:3001/api/admin/media-uploads;
         proxy_http_version 1.1;
+        proxy_request_buffering off;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 3600s;
+        proxy_send_timeout 3600s;
+    }
+
+    location /api/admin/media-downloads/ {
+        proxy_pass http://127.0.0.1:3001/api/admin/media-downloads/;
+        proxy_http_version 1.1;
+        proxy_buffering off;
         proxy_request_buffering off;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;

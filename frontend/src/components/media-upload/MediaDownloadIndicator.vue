@@ -4,7 +4,7 @@
       <div class="media-download-indicator__panel">
         <TransferProgressPanel
           :title="store.currentTask?.label || store.statusText"
-          :subtitle="`${store.queuedCount ? `${store.queuedCount} 个排队中 · ` : ''}${store.errorCount ? `${store.errorCount} 个失败` : '下载任务'}`"
+          :subtitle="store.running && !store.progress.loaded ? '已触发，正在等待服务器响应' : `${store.queuedCount ? `${store.queuedCount} 个排队中 · ` : ''}${store.errorCount ? `${store.errorCount} 个失败` : '下载任务'}`"
           v-bind="store.progress"
           :status="store.running ? 'active' : store.state"
           :status-text="store.statusText"

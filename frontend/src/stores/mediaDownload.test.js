@@ -49,4 +49,16 @@ describe('global media download queue', () => {
     expect(store.errorCount).toBe(1)
     expect(store.tasks).toHaveLength(1)
   })
+
+  it('does not start duplicate requests while the same download is active', async () => {
+    const store = useMediaDownloadStore()
+    let resolveRequest
+    const request = () => new Promise((resolve) => { resolveRequest = resolve })
+    const first = store.enqueue({ fileName: 'large.zip', request, dedupeKey: 'media:1' })
+    const duplicate = store.enqueue({ fileName: 'large.zip', request, dedupeKey: 'media:1' })
+    expect(store.tasks).toHaveLength(1)
+    expect(store.queuedVersion).toBe(1)
+    resolveRequest(new Blob(['done']))
+    await first
+  })
 })
