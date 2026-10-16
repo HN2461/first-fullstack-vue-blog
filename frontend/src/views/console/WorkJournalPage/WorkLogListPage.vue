@@ -1,14 +1,63 @@
 <template>
   <section class="work-log-list-page">
+    <div class="work-log-list-page__toolbar">
+      <div class="work-log-list-page__toolbar-left">
+        <span class="work-log-list-page__title">{{ trash ? '回收站' : '日报' }}</span>
+        <WorkJournalHelpButton
+          :title="trash ? '回收站' : '日报和图片凭证'"
+          :intro="trash ? '回收站保存你移除的日报，直到恢复或永久删除。' : '日报是工作日记的主要记录，按工作经历和工作日期留存当日事实及凭证。'"
+          :sections="trash ? trashHelpSections : dailyHelpSections"
+        />
+        <a-radio-group v-if="!trash" v-model:value="viewMode" size="small" button-style="solid" class="work-log-list-page__view-switch" aria-label="日报视图">
+          <a-radio-button value="list"><List :size="14" />列表</a-radio-button>
+          <a-radio-button value="calendar"><CalendarDays :size="14" />月历</a-radio-button>
+        </a-radio-group>
+        <template v-if="employments.length">
+          <a-select v-model:value="employmentId" :options="employmentOptions" class="work-log-list-page__employment" show-search option-filter-prop="label" placeholder="全部工作经历" allow-clear @change="applyFilters" />
+          <a-input-search v-model:value="keyword" class="work-log-list-page__search" placeholder="搜索标题和工作内容" allow-clear @change="handleKeywordChange" @search="applyFilters" />
+          <a-select v-if="!trash" v-model:value="status" class="work-log-list-page__status" show-search option-filter-prop="label" placeholder="全部状态" allow-clear @change="applyFilters">
+            <a-select-option value="all">全部状态</a-select-option>
+            <a-select-option value="draft">草稿</a-select-option>
+            <a-select-option value="final">已定稿</a-select-option>
+          </a-select>
+          <a-range-picker
+            v-model:value="dateRange"
+            class="work-log-list-page__date-range"
+            :placeholder="['开始日期', '结束日期']"
+            format="YYYY-MM-DD"
+            value-format="YYYY-MM-DD"
+            allow-clear
+            aria-label="工作日期范围"
+            @change="handleDateRangeChange"
+          />
+          <a-button v-if="hasActiveFilters" class="work-log-list-page__reset" @click="clearFilters">重置全部</a-button>
+        </template>
+      </div>
+      <div class="work-log-list-page__toolbar-right">
+        <a-button v-if="!trash && employments.length" type="primary" @click="openCreate">
+          <template #icon><Plus :size="15" /></template>
+          新增日报
+        </a-button>
+        <a-button v-else-if="!trash" type="primary" @click="router.push('/console/work-journal/employments')">
+          <template #icon><Plus :size="15" /></template>
+          新增工作经历
+        </a-button>
+        <a-tooltip :title="viewMode === 'calendar' ? '刷新日历' : trash ? '刷新回收站' : '刷新日报'">
+          <a-button aria-label="刷新日报" :loading="calendarLoading" @click="refreshCurrentView"><template #icon><RefreshCw :size="15" /></template></a-button>
+        </a-tooltip>
+      </div>
+    </div>
+
     <BlogTable
+      v-if="viewMode === 'list'"
       ref="tableRef"
       :api-fn="loadLogs"
       :columns="columns"
       :params="filterParams"
-      :height="'100%'"
+      :height="'auto'"
       :page-size="20"
       :show-column-setting="true"
-      :scroll="{ x: trash ? 1040 : 1110 }"
+      :scroll="{ x: trash ? 1040 : 1180 }"
     >
       <template #emptyText>
         <WorkJournalEmptyState
@@ -34,52 +83,15 @@
           description="从一次工作进展开始留痕，图片凭证也可以稍后补充。"
         />
       </template>
-      <template #toolbar>
-        <span class="work-log-list-page__title">{{ trash ? '回收站' : '日报' }}</span>
-        <WorkJournalHelpButton
-          :title="trash ? '回收站' : '日报和图片凭证'"
-          :intro="trash ? '回收站保存你移除的日报，直到恢复或永久删除。' : '日报是工作日记的主要记录，按工作经历和工作日期留存当日事实及凭证。'"
-          :sections="trash ? trashHelpSections : dailyHelpSections"
-        />
-        <template v-if="employments.length">
-          <a-select v-model:value="employmentId" :options="employmentOptions" class="work-log-list-page__employment" show-search option-filter-prop="label" placeholder="全部工作经历" allow-clear @change="applyFilters" />
-          <a-input-search v-model:value="keyword" class="work-log-list-page__search" placeholder="搜索标题和工作内容" allow-clear @change="handleKeywordChange" @search="applyFilters" />
-          <a-select v-if="!trash" v-model:value="status" class="work-log-list-page__status" show-search option-filter-prop="label" placeholder="全部状态" allow-clear @change="applyFilters">
-            <a-select-option value="all">全部状态</a-select-option>
-            <a-select-option value="draft">草稿</a-select-option>
-            <a-select-option value="final">已定稿</a-select-option>
-          </a-select>
-          <a-range-picker
-            v-model:value="dateRange"
-            class="work-log-list-page__date-range"
-            :placeholder="['开始日期', '结束日期']"
-            format="YYYY-MM-DD"
-            value-format="YYYY-MM-DD"
-            allow-clear
-            aria-label="工作日期范围"
-            @change="handleDateRangeChange"
-          />
-          <a-button v-if="hasActiveFilters" class="work-log-list-page__reset" @click="clearFilters">重置全部</a-button>
-        </template>
-        <a-button v-if="!trash && employments.length" type="primary" @click="openCreate">
-          <template #icon><Plus :size="15" /></template>
-          新增日报
-        </a-button>
-        <a-button v-else-if="!trash" type="primary" @click="router.push('/console/work-journal/employments')">
-          <template #icon><Plus :size="15" /></template>
-          新增工作经历
-        </a-button>
-        <a-tooltip v-else title="刷新回收站">
-          <a-button aria-label="刷新回收站" @click="tableRef?.refresh()"><template #icon><RefreshCw :size="15" /></template></a-button>
-        </a-tooltip>
-      </template>
-
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'entry'">
           <button class="work-log-list-page__entry" type="button" @click="openDetail(record)">
             <strong>{{ record.title }}</strong>
             <span>{{ record.summary || record.accomplishments || '暂无摘要' }}</span>
           </button>
+        </template>
+        <template v-else-if="column.key === 'weekday'">
+          <span class="work-log-list-page__weekday">{{ weekdayLabel(record.workDate) }}</span>
         </template>
         <template v-else-if="column.key === 'employment'">
           <div class="work-log-list-page__cell-stack"><strong>{{ employmentName(record.employment) }}</strong><span>{{ employmentPosition(record.employment) }}</span></div>
@@ -114,6 +126,23 @@
         </template>
       </template>
     </BlogTable>
+
+    <section v-else class="work-log-list-page__calendar">
+      <a-spin :spinning="calendarLoading" tip="加载当月日报…">
+        <a-calendar v-model:value="calendarDate" @panel-change="handleCalendarPanelChange">
+          <template #dateCellRender="{ current }">
+            <div class="work-log-list-page__calendar-cell">
+              <template v-for="log in logsByDate[current.format('YYYY-MM-DD')] || []" :key="log.id">
+                <button class="work-log-list-page__calendar-entry" type="button" @click.stop="openDetail(log)">
+                  <span>{{ employmentName(log.employment) }}</span>
+                  <strong>{{ log.title }}</strong>
+                </button>
+              </template>
+            </div>
+          </template>
+        </a-calendar>
+      </a-spin>
+    </section>
 
     <WorkLogEditorModal v-model:open="editorOpen" :employments="employments" :employment-id="filterParams.employmentId" :log="editingLog" :source-log="copyingLog" @saved="handleSaved" />
     <a-modal
@@ -162,9 +191,10 @@
 <script setup>
 import { computed, defineAsyncComponent, onMounted, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
+import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
-import { ArchiveRestore, Copy, Eye, History, PencilLine, Plus, RefreshCw, Trash2 } from 'lucide-vue-next'
+import { ArchiveRestore, CalendarDays, Copy, Eye, History, List, PencilLine, Plus, RefreshCw, Trash2 } from 'lucide-vue-next'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteWorkLog, listEmployments, listTrashedWorkLogs, listWorkLogs, restoreWorkLog, updateWorkLog } from '@/services/workJournal'
 import WorkJournalEmptyState from './WorkJournalEmptyState.vue'
@@ -190,6 +220,10 @@ const busyId = ref('')
 const initialEmploymentId = typeof route.query.employmentId === 'string' ? route.query.employmentId : undefined
 const initialFrom = typeof route.query.from === 'string' ? route.query.from : ''
 const initialTo = typeof route.query.to === 'string' ? route.query.to : ''
+const viewMode = ref('list')
+const calendarDate = ref(dayjs(initialFrom || initialTo || undefined))
+const calendarLogs = ref([])
+const calendarLoading = ref(false)
 const filterParams = reactive({ employmentId: initialEmploymentId || undefined, keyword: '', status: undefined, from: initialFrom, to: initialTo })
 const employmentId = ref(initialEmploymentId || undefined)
 const keyword = ref('')
@@ -198,11 +232,17 @@ const from = ref(initialFrom)
 const to = ref(initialTo)
 const dateRange = ref(initialFrom || initialTo ? [initialFrom, initialTo] : [])
 const employmentOptions = computed(() => employments.value.map((item) => ({ value: item.id, label: `${item.company} · ${item.position}` })))
+const logsByDate = computed(() => calendarLogs.value.reduce((result, log) => {
+  if (!result[log.workDate]) result[log.workDate] = []
+  result[log.workDate].push(log)
+  return result
+}, {}))
 const hasActiveFilters = computed(() => Boolean(
   employmentId.value || keyword.value.trim() || (status.value && status.value !== 'all') || from.value || to.value
 ))
 const dailyHelpSections = [
   { heading: '记录与状态', items: ['每个工作经历每天只能有一篇日报，草稿可以持续修改。', '定稿表示当前版本已确认；之后修改会留下历史版本，可从详情查看。', '工作经历筛选会限定公司和岗位范围，关键词同时搜索标题与正文。'] },
+  { heading: '月历视图', items: ['切换到月历后，可以按月份查看哪些日期留有日报；带有记录的日期会显示在对应日期格内。', '点击日期格中的日报标题可直接打开详情；筛选条件会同步应用到月历。'] },
   { heading: '复制日报', items: ['点击列表操作栏或详情中的“复制”，可沿用原日报的工作经历、标题、摘要、今日完成、阻塞与风险、后续计划和补充记录。', '复制时工作日期默认今天，可调整日期和工作经历；确认或修改内容后再保存为新日报，取消不会创建记录。', '图片凭证、定稿状态和历史版本不会复制；如果所选工作经历在目标日期已有日报（含回收站记录），请选择其他日期或编辑、恢复已有记录。'] },
   { heading: '图片凭证', items: ['支持 JPG、PNG、GIF、WEBP，每篇日报最多 20 张，单张不超过 15 MB。', '图片会登记在媒体资产的“工作日志”系统分类中，同时保留所属日报关系；工作截图不会以公开地址提供。', '从日报详情的外链图标可跳转到媒体资产统一管理分类，查看引用来源、预览或清理文件。'] }
 ]
@@ -211,6 +251,7 @@ const trashHelpSections = [
 ]
 const columns = computed(() => [
   { title: '工作日期', dataIndex: 'workDate', key: 'workDate', width: 140, sorter: (a, b) => a.workDate.localeCompare(b.workDate) },
+  { title: '星期', key: 'weekday', width: 78 },
   { title: '日报内容', key: 'entry', width: 380, ellipsis: true },
   { title: '工作经历', key: 'employment', width: 190 },
   { title: '状态', key: 'status', width: 105 },
@@ -228,6 +269,36 @@ async function loadLogs(params) {
   return list({ ...params, ...filterParams })
 }
 
+async function loadCalendarLogs() {
+  if (props.trash) return
+  const monthStart = calendarDate.value.startOf('month').format('YYYY-MM-DD')
+  const monthEnd = calendarDate.value.endOf('month').format('YYYY-MM-DD')
+  const queryFrom = from.value && from.value > monthStart ? from.value : monthStart
+  const queryTo = to.value && to.value < monthEnd ? to.value : monthEnd
+  if (queryFrom > queryTo) {
+    calendarLogs.value = []
+    return
+  }
+
+  calendarLoading.value = true
+  try {
+    const result = await listWorkLogs({
+      employmentId: employmentId.value || undefined,
+      keyword: keyword.value.trim() || undefined,
+      status: status.value && status.value !== 'all' ? status.value : undefined,
+      from: queryFrom,
+      to: queryTo,
+      page: 1,
+      pageSize: 100
+    })
+    calendarLogs.value = result?.items || []
+  } catch (error) {
+    message.error(error.message || '加载月历日报失败')
+  } finally {
+    calendarLoading.value = false
+  }
+}
+
 async function loadEmployments() {
   try {
     employments.value = await listEmployments()
@@ -236,13 +307,13 @@ async function loadEmployments() {
   }
 }
 
-function reload() {
+async function reload() {
   filterParams.employmentId = employmentId.value || undefined
   filterParams.keyword = keyword.value.trim()
   filterParams.status = status.value === 'all' ? undefined : status.value
   filterParams.from = from.value
   filterParams.to = to.value
-  return tableRef.value?.reload()
+  return viewMode.value === 'calendar' ? loadCalendarLogs() : tableRef.value?.reload()
 }
 
 function applyFilters() {
@@ -272,6 +343,15 @@ function handleDateRangeChange(value = []) {
   from.value = value?.[0] || ''
   to.value = value?.[1] || ''
   return applyFilters()
+}
+
+function handleCalendarPanelChange(value) {
+  calendarDate.value = value
+  return loadCalendarLogs()
+}
+
+function refreshCurrentView() {
+  return viewMode.value === 'calendar' ? loadCalendarLogs() : tableRef.value?.refresh()
 }
 
 function openCreate() {
@@ -310,14 +390,16 @@ function editFromDetail() {
 
 async function handleSaved(log) {
   editorOpen.value = false
-  await tableRef.value?.refresh()
+  await refreshCurrentView()
   detailLog.value = log
 }
 
 async function reloadDetail() {
   const id = detailLog.value?.id
-  await tableRef.value?.refresh()
-  detailLog.value = tableRef.value?.getData().find((item) => item.id === id) || detailLog.value
+  await refreshCurrentView()
+  detailLog.value = viewMode.value === 'calendar'
+    ? calendarLogs.value.find((item) => item.id === id) || detailLog.value
+    : tableRef.value?.getData().find((item) => item.id === id) || detailLog.value
 }
 
 async function finalize() {
@@ -326,7 +408,7 @@ async function finalize() {
   try {
     detailLog.value = await updateWorkLog(detailLog.value.id, { status: 'final' })
     message.success('日报已定稿')
-    await tableRef.value?.refresh()
+    await refreshCurrentView()
   } catch (error) {
     message.error(error.message || '日报定稿失败')
   } finally {
@@ -340,7 +422,7 @@ async function remove(log) {
     await deleteWorkLog(log.id)
     message.success('日报已移入回收站，图片凭证已保留')
     if (detailLog.value?.id === log.id) detailLog.value = null
-    await tableRef.value?.refresh()
+    await refreshCurrentView()
   } catch (error) {
     message.error(error.message || '移入回收站失败')
   } finally {
@@ -353,7 +435,7 @@ async function restore(log) {
   try {
     await restoreWorkLog(log.id)
     message.success('日报已恢复')
-    await tableRef.value?.refresh()
+    await refreshCurrentView()
   } catch (error) {
     message.error(error.message || '恢复日报失败')
   } finally {
@@ -366,7 +448,7 @@ async function purge(log) {
   try {
     await deleteWorkLog(log.id, { permanent: true })
     message.success('日报及图片凭证已永久删除')
-    await tableRef.value?.refresh()
+    await refreshCurrentView()
   } catch (error) {
     message.error(error.message || '永久删除日报失败')
   } finally {
@@ -382,11 +464,20 @@ function employmentPosition(id) {
   return employments.value.find((item) => item.id === id)?.position || ''
 }
 
+function weekdayLabel(value) {
+  const date = new Date(`${value}T00:00:00.000Z`)
+  return ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'][date.getUTCDay()] || ''
+}
+
 function formatDateTime(value) {
   return value ? new Intl.DateTimeFormat('zh-CN', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value)) : ''
 }
 
 onMounted(loadEmployments)
+
+watch(viewMode, (mode) => {
+  if (mode === 'calendar') loadCalendarLogs()
+})
 
 watch(() => props.trash, async () => {
   if (props.trash) status.value = ''
@@ -397,14 +488,53 @@ watch(() => props.trash, async () => {
 
 <style scoped>
 .work-log-list-page {
+  display: flex;
+  flex-direction: column;
   height: var(--console-page-available-height, calc(100vh - 190px));
   min-height: 0;
   overflow: hidden;
 }
 
-.work-log-list-page :deep(.blog-table__toolbar-left) {
+.work-log-list-page__toolbar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--console-border, #f0f0f0);
+  border-bottom: 0;
+  border-radius: 8px 8px 0 0;
+  background: var(--console-surface, #fff);
+}
+
+.work-log-list-page__toolbar-left,
+.work-log-list-page__toolbar-right {
+  display: flex;
+  align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.work-log-list-page__toolbar-left {
+  min-width: 0;
+  flex: 1;
+}
+
+.work-log-list-page__toolbar-right {
+  flex: 0 0 auto;
+}
+
+.work-log-list-page > :deep(.blog-table) {
+  min-height: 0;
+  flex: 1 1 0;
+  border-radius: 0 0 8px 8px;
+}
+
+.work-log-list-page__view-switch :deep(.ant-radio-button-wrapper) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .work-log-list-page__employment {
@@ -435,6 +565,75 @@ watch(() => props.trash, async () => {
 
 .work-log-list-page__reset {
   flex: 0 0 auto;
+}
+
+.work-log-list-page__weekday {
+  color: var(--console-text-secondary, #606266);
+  font-size: 12px;
+}
+
+.work-log-list-page__calendar {
+  min-height: 0;
+  flex: 1 1 auto;
+  overflow: auto;
+  border: 1px solid var(--console-border, #f0f0f0);
+  border-radius: 0 0 8px 8px;
+  background: var(--console-surface, #fff);
+}
+
+.work-log-list-page__calendar :deep(.ant-spin-nested-loading),
+.work-log-list-page__calendar :deep(.ant-spin-container) {
+  min-height: 100%;
+}
+
+.work-log-list-page__calendar :deep(.ant-picker-calendar) {
+  padding: 8px 16px 16px;
+  background: transparent;
+}
+
+.work-log-list-page__calendar :deep(.ant-picker-calendar-date-content) {
+  overflow-y: auto;
+  max-height: 82px;
+}
+
+.work-log-list-page__calendar-cell {
+  display: grid;
+  gap: 4px;
+}
+
+.work-log-list-page__calendar-entry {
+  display: grid;
+  width: 100%;
+  gap: 2px;
+  padding: 4px 6px;
+  border: 0;
+  border-left: 3px solid var(--console-primary, #409eff);
+  border-radius: 4px;
+  background: var(--console-primary-soft, #ecf5ff);
+  color: var(--console-text, #303133);
+  cursor: pointer;
+  text-align: left;
+}
+
+.work-log-list-page__calendar-entry:hover {
+  background: var(--console-primary-soft-hover, #d9ecff);
+}
+
+.work-log-list-page__calendar-entry span,
+.work-log-list-page__calendar-entry strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.work-log-list-page__calendar-entry span {
+  color: var(--console-text-secondary, #606266);
+  font-size: 11px;
+}
+
+.work-log-list-page__calendar-entry strong {
+  font-size: 12px;
+  font-weight: 550;
 }
 
 .work-log-list-page__entry,
@@ -544,6 +743,23 @@ watch(() => props.trash, async () => {
   .work-log-list-page__status {
     width: 142px;
     flex-basis: 142px;
+  }
+
+  .work-log-list-page__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .work-log-list-page__toolbar-right {
+    justify-content: flex-end;
+  }
+
+  .work-log-list-page__calendar :deep(.ant-picker-calendar) {
+    padding: 4px 8px 12px;
+  }
+
+  .work-log-list-page__calendar :deep(.ant-picker-calendar-date-content) {
+    max-height: 60px;
   }
 
   .work-log-list-page__detail-meta {
