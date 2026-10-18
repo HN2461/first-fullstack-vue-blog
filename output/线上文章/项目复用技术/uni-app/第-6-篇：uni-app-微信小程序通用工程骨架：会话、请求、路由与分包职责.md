@@ -21,7 +21,7 @@ originalSlug: "uniapp-wechat-mini-program-project-skeleton"
 originalStatus: "published"
 publishedAt: "2026-10-02T10:01:22.438Z"
 updatedAt: "2026-10-02T10:01:22.443Z"
-exportedAt: "2026-10-02T10:18:25.336Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 6 篇：uni-app 微信小程序通用工程骨架：会话、请求、路由与分包职责
 

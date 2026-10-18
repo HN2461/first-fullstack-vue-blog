@@ -22,8 +22,8 @@ originalId: "6a2d291d8a2b1c68f2cabf66"
 originalSlug: "ai-agent-codex-codex-94189641"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.298Z"
-updatedAt: "2026-09-13T13:42:49.728Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+updatedAt: "2026-10-12T15:03:19.083Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Codex 多线路接入与迁移总手册
 

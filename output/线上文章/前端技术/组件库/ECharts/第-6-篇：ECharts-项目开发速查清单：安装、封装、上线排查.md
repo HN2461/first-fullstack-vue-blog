@@ -22,7 +22,7 @@ originalSlug: "echarts-echarts-echarts-be0b5cbd"
 originalStatus: "published"
 publishedAt: "2026-05-03T11:54:59.254Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 6 篇：ECharts 项目开发速查清单：安装、封装、上线排查
 

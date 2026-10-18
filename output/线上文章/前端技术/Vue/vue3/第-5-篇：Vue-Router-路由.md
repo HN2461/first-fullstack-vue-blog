@@ -16,7 +16,7 @@ originalSlug: "vue-vue3-21013aa4"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:28:53.676Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 5 篇：Vue Router 路由
 

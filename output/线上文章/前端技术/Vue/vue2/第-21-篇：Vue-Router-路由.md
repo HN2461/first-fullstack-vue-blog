@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-route-e54b9784"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:27:31.194Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 21 篇：Vue Router 路由
 

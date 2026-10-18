@@ -16,7 +16,7 @@ originalSlug: "h5-h5-0-1-9053e9e2"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.428Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 2 篇：钉钉 H5 微应用开发指南：开放平台配置、uni-app H5、免登、发布流程
 

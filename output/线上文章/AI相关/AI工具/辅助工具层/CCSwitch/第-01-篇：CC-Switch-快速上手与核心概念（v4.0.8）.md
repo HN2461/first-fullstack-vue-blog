@@ -23,7 +23,7 @@ originalSlug: "ai-ccswitch-ccswitch-82653641"
 originalStatus: "published"
 publishedAt: "2026-05-30T11:24:47.588Z"
 updatedAt: "2026-10-11T13:24:34.301Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：CC Switch 快速上手与核心概念（v4.0.8）
 

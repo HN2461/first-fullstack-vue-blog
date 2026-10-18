@@ -22,7 +22,7 @@ originalSlug: "ai-mcp-mcp-067b747a"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:08:06.903Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：MCP 是什么与开放标准核心认知
 

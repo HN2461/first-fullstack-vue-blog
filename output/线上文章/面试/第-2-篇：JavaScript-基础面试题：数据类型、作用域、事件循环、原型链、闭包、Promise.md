@@ -18,7 +18,7 @@ originalSlug: "js-8a2a9c20"
 originalStatus: "published"
 publishedAt: "2026-05-12T14:26:37.718Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 2 篇：JavaScript 基础面试题：数据类型、作用域、事件循环、原型链、闭包、Promise
 

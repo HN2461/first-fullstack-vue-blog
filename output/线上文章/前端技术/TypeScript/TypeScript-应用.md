@@ -18,7 +18,7 @@ originalSlug: "typescript-applications"
 originalStatus: "published"
 publishedAt: "2026-09-28T09:00:23.766Z"
 updatedAt: "2026-09-28T09:00:23.827Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 1、TS介绍
 ## 1.1、JavaScript应用与不足

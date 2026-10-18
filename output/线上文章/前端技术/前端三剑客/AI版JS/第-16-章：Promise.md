@@ -16,7 +16,7 @@ originalSlug: "js-promise-30f7cae5"
 originalStatus: "published"
 publishedAt: "2026-01-25T13:23:07.488Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 16 章：Promise
 

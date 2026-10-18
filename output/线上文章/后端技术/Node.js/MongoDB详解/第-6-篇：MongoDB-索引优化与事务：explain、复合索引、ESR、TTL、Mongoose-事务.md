@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-5c500e8d"
 originalStatus: "published"
 publishedAt: "2026-06-07T06:13:44.590Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 6 篇：MongoDB 索引优化与事务：explain、复合索引、ESR、TTL、Mongoose 事务
 

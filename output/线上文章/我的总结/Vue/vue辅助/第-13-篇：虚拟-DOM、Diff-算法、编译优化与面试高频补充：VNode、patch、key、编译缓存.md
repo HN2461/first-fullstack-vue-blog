@@ -25,7 +25,7 @@ originalSlug: "vue-vue-dom-diff-05a2bbc3"
 originalStatus: "published"
 publishedAt: "2026-05-10T11:48:57.152Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 13 篇：虚拟 DOM、Diff 算法、编译优化与面试高频补充：VNode、patch、key、编译缓存
 

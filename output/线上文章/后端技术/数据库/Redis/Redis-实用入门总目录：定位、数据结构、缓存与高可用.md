@@ -19,7 +19,7 @@ originalSlug: "redis-practical-beginner-guide"
 originalStatus: "published"
 publishedAt: "2026-08-05T01:57:25.524Z"
 updatedAt: "2026-08-05T01:57:25.533Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # Redis 实用入门总目录：定位、数据结构、缓存与高可用
 

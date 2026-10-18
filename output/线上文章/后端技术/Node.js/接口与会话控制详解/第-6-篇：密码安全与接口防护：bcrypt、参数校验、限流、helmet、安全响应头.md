@@ -23,7 +23,7 @@ originalSlug: "node-js-7fbfa4ae"
 originalStatus: "published"
 publishedAt: "2026-04-21T13:24:04.466Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 6 篇：密码安全与接口防护：bcrypt、参数校验、限流、helmet、安全响应头
 

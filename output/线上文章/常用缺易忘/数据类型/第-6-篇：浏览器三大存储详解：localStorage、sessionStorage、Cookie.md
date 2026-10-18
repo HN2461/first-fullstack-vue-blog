@@ -15,7 +15,7 @@ originalSlug: "3-c11c6248"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.369Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 6 篇：浏览器三大存储详解：localStorage、sessionStorage、Cookie
 ## 目录

@@ -16,7 +16,7 @@ originalSlug: "docker-learning-notes-for-beginners"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:56:11.345Z"
 updatedAt: "2026-07-31T11:16:25.904Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 1 篇：Docker 学习笔记纯小白版：镜像、容器、端口映射、数据挂载、Dockerfile、Compose
 

@@ -22,7 +22,7 @@ originalSlug: "ai-ccswitch-codex-node-node-laptop-5ap3767k-2026-04-30-525003e4"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.039Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 08 篇：Node 环境对比报告（LAPTOP-5AP3767K）
 

@@ -24,7 +24,7 @@ originalSlug: "ai-plugin-plugin-da2ad951"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:18:17.434Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Plugin 插件是什么，为什么需要它
 

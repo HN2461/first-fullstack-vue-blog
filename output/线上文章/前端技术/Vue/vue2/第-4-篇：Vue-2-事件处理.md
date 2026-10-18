@@ -16,7 +16,7 @@ originalSlug: "vue-vue2-3-eb141f48"
 originalStatus: "published"
 publishedAt: "2026-03-27T13:24:59.557Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 4 篇：Vue 2 事件处理
 

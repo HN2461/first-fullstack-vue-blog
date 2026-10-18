@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-h5-67daf64f"
 originalStatus: "published"
 publishedAt: "2026-04-16T12:41:50.147Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 2 篇：uni-app 语音输入与语音转文字封装：按住说话、上滑取消、H5 兼容、自动发送
 

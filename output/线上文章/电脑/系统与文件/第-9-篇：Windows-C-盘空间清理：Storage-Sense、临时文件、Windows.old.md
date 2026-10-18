@@ -21,7 +21,7 @@ originalSlug: "windows-c-storage-sense-windows-old-4fcfcbe9"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.791Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 9 篇：Windows C 盘空间清理：Storage Sense、临时文件、Windows.old
 

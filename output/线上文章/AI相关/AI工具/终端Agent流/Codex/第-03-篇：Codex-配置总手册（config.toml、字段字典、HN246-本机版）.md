@@ -21,8 +21,8 @@ originalId: "6a2d291d8a2b1c68f2cabf5a"
 originalSlug: "ai-agent-codex-codex-edeadb5e"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.777Z"
-updatedAt: "2026-09-13T13:42:49.803Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+updatedAt: "2026-10-12T15:03:19.151Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）
 

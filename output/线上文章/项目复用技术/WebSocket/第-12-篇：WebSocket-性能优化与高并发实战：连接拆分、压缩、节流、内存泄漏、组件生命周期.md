@@ -22,7 +22,7 @@ originalSlug: "websocket-websocket-1b7cd930"
 originalStatus: "published"
 publishedAt: "2026-05-14T13:07:57.248Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 12 篇：WebSocket 性能优化与高并发实战：连接拆分、压缩、节流、内存泄漏、组件生命周期
 

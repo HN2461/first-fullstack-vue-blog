@@ -18,7 +18,7 @@ originalSlug: "vue-vue-1cec562a"
 originalStatus: "published"
 publishedAt: "2026-05-10T11:49:15.106Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 总览：Vue 目录：建议阅读顺序、核心概念、辅助资料
 

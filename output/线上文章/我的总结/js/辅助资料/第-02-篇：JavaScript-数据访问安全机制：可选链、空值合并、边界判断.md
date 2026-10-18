@@ -20,7 +20,7 @@ originalSlug: "js-js-f6bc0394"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.655Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：JavaScript 数据访问安全机制：可选链、空值合并、边界判断
 ### 一、可选链操作符（`?.`）

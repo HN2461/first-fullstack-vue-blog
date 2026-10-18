@@ -22,7 +22,7 @@ originalSlug: "window-api-3e74acb4"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.359Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 3 篇：window 对象常用 API 速查：location、history、navigator、postMessage
 

@@ -23,7 +23,7 @@ originalSlug: "element-plus-elementplus-tooltip-popover-popconfirm-notification-
 originalStatus: "published"
 publishedAt: "2026-04-29T11:27:17.337Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 10 篇：Element Plus 反馈、浮层与虚拟化：Tooltip、Popover、Popconfirm、Notification
 

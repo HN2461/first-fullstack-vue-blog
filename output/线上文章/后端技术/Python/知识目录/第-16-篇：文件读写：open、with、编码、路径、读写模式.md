@@ -18,7 +18,7 @@ originalSlug: "python-zero-file-read-write"
 originalStatus: "published"
 publishedAt: "2026-07-05T11:47:18.508Z"
 updatedAt: "2026-07-31T11:16:22.338Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 16 篇：文件读写：open、with、编码、路径、读写模式
 

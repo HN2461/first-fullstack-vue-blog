@@ -22,7 +22,7 @@ originalSlug: "uv-ui-uvui-uv-ui-4162c705"
 originalStatus: "published"
 publishedAt: "2026-05-03T12:31:10.920Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 1 篇：快速认识 uv-ui：安装、扩展配置、组件地图与项目路线
 

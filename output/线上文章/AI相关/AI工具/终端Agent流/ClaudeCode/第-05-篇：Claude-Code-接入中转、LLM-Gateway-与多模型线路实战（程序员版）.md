@@ -22,8 +22,8 @@ originalId: "6a2d291d8a2b1c68f2cabf36"
 originalSlug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.824Z"
-updatedAt: "2026-10-12T21:50:00.000Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+updatedAt: "2026-10-12T15:13:40.122Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）
 

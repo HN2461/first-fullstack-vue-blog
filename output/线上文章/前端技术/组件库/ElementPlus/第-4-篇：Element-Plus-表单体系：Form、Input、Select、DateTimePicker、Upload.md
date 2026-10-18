@@ -21,7 +21,7 @@ originalSlug: "element-plus-elementplus-form-input-select-datetimepicker-upload-
 originalStatus: "published"
 publishedAt: "2026-04-28T13:45:18.642Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 4 篇：Element Plus 表单体系：Form、Input、Select、DateTimePicker、Upload
 

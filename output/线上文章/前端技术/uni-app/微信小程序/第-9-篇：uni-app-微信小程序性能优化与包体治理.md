@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-setdata-9f031d07"
 originalStatus: "published"
 publishedAt: "2026-04-03T13:52:36.831Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 9 篇：uni-app 微信小程序性能优化与包体治理
 

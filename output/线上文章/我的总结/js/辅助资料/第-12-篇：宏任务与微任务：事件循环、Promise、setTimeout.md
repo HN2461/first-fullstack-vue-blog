@@ -20,7 +20,7 @@ originalSlug: "js-js-0a88db30"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.666Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 12 篇：宏任务与微任务：事件循环、Promise、setTimeout
 ## 🎯 最关键认知：Script 本身就是一个宏任务

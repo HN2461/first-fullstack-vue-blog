@@ -22,7 +22,7 @@ originalSlug: "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.040Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 07 篇：Node 环境对比报告（DESKTOP-OAP8VID）
 

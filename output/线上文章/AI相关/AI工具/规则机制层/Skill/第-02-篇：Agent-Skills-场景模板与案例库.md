@@ -24,7 +24,7 @@ originalSlug: "ai-skill-agentskills-a705fbb5"
 originalStatus: "published"
 publishedAt: "2026-05-24T15:07:50.715Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Agent Skills 场景模板与案例库
 

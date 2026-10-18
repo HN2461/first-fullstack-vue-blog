@@ -21,7 +21,7 @@ originalSlug: "node-js-http-http-41474b0d"
 originalStatus: "published"
 publishedAt: "2026-04-18T13:21:53.791Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 3 篇：HTTP 协议与 http 模块：请求响应、状态码、GET/POST、原生服务器
 

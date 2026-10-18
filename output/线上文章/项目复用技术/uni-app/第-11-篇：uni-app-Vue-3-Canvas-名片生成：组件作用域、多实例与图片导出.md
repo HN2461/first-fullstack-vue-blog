@@ -19,7 +19,7 @@ originalSlug: "uniapp-vue3-canvas-business-card-export"
 originalStatus: "published"
 publishedAt: "2026-10-02T10:01:22.438Z"
 updatedAt: "2026-10-02T10:01:22.500Z"
-exportedAt: "2026-10-02T10:18:25.336Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 11 篇：uni-app Vue 3 Canvas 名片生成：组件作用域、多实例与图片导出
 

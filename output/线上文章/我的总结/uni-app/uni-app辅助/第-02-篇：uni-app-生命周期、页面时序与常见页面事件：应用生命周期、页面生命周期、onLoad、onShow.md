@@ -21,7 +21,7 @@ originalSlug: "uni-app-uni-app-8c6d7ba1"
 originalStatus: "published"
 publishedAt: "2026-05-08T13:22:12.473Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：uni-app 生命周期、页面时序与常见页面事件：应用生命周期、页面生命周期、onLoad、onShow
 

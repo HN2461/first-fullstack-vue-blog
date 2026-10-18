@@ -21,7 +21,7 @@ originalSlug: "uv-ui-uvui-uv-ui-0ffe625b"
 originalStatus: "published"
 publishedAt: "2026-05-03T12:31:10.921Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 2 篇：uv-ui 入门安装与小程序配置：easycom、SCSS、扩展配置
 

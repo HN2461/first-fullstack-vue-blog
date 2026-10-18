@@ -22,8 +22,8 @@ originalId: "6a2d291d8a2b1c68f2cabf2a"
 originalSlug: "ai-agent-claudecode-claudecode-083e790a"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.835Z"
-updatedAt: "2026-10-12T21:50:00.000Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+updatedAt: "2026-10-12T15:17:34.457Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）
 

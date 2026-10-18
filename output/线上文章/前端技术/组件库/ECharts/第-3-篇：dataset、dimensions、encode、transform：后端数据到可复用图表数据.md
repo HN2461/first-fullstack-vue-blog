@@ -22,7 +22,7 @@ originalSlug: "echarts-echarts-dataset-dimensions-encode-transform-a720d0bd"
 originalStatus: "published"
 publishedAt: "2026-05-02T08:17:05.606Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 3 篇：dataset、dimensions、encode、transform：后端数据到可复用图表数据
 

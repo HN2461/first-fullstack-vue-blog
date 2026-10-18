@@ -18,7 +18,7 @@ originalSlug: "typescript-quick-start"
 originalStatus: "published"
 publishedAt: "2026-09-28T09:00:23.766Z"
 updatedAt: "2026-09-28T09:00:23.803Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # <font style="color:rgb(38,38,38);">⼀、TypeScript 简介</font>
 <!-- 这是一张图片，ocr 内容为： -->

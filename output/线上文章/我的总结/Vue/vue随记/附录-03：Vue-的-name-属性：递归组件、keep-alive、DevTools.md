@@ -21,7 +21,7 @@ originalSlug: "vue-vue-03-vue-name-5f5217ee"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:57:10.030Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 附录 03：Vue 的 name 属性：递归组件、keep-alive、DevTools
 ## 核心总览

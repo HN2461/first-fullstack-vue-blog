@@ -20,7 +20,7 @@ originalSlug: "github-pages-vue-f7e9371a"
 originalStatus: "published"
 publishedAt: "2026-04-16T14:22:08.318Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 1 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署
 

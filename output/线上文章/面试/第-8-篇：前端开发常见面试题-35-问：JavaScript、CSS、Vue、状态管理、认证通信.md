@@ -18,7 +18,7 @@ originalSlug: "35-9db8f3f8"
 originalStatus: "published"
 publishedAt: "2026-05-11T14:51:50.348Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 8 篇：前端开发常见面试题 35 问：JavaScript、CSS、Vue、状态管理、认证通信
 

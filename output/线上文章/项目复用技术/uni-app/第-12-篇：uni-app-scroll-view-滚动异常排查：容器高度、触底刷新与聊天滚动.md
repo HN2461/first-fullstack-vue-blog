@@ -19,7 +19,7 @@ originalSlug: "uniapp-scroll-view-layout-troubleshooting"
 originalStatus: "published"
 publishedAt: "2026-10-02T10:01:22.438Z"
 updatedAt: "2026-10-02T10:01:22.507Z"
-exportedAt: "2026-10-02T10:18:25.336Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 12 篇：uni-app scroll-view 滚动异常排查：容器高度、触底刷新与聊天滚动
 

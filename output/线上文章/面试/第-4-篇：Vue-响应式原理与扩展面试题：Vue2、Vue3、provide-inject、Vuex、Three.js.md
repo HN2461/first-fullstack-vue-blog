@@ -18,7 +18,7 @@ originalSlug: "legacy-c16e0589-c16e0589"
 originalStatus: "published"
 publishedAt: "2026-05-11T14:44:26.726Z"
 updatedAt: "2026-08-27T14:19:03.170Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 4 篇：Vue 响应式原理与扩展面试题：Vue2、Vue3、provide/inject、Vuex、Three.js
 

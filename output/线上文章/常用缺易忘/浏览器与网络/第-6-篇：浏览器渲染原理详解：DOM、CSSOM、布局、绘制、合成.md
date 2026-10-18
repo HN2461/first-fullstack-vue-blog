@@ -15,7 +15,7 @@ originalSlug: "legacy-ffc99f19-ffc99f19"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.375Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 6 篇：浏览器渲染原理详解：DOM、CSSOM、布局、绘制、合成
 

@@ -19,7 +19,7 @@ originalSlug: "uniapp-keyboard-input-viewport-adaptation"
 originalStatus: "published"
 publishedAt: "2026-10-02T10:01:22.438Z"
 updatedAt: "2026-10-02T10:01:22.464Z"
-exportedAt: "2026-10-02T10:18:25.336Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 7 篇：uni-app 键盘弹起与输入框遮挡适配：H5、App、小程序处理方案
 

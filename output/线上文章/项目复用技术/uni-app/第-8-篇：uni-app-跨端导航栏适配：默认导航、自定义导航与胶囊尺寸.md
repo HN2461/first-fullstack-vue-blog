@@ -19,7 +19,7 @@ originalSlug: "uniapp-cross-platform-navigation-bar"
 originalStatus: "published"
 publishedAt: "2026-10-02T10:01:22.438Z"
 updatedAt: "2026-10-02T10:01:22.473Z"
-exportedAt: "2026-10-02T10:18:25.336Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 8 篇：uni-app 跨端导航栏适配：默认导航、自定义导航与胶囊尺寸
 

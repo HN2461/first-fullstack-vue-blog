@@ -19,7 +19,7 @@ originalSlug: "mysql-06-insert-update-delete"
 originalStatus: "published"
 publishedAt: "2026-08-03T10:16:37.195Z"
 updatedAt: "2026-08-03T10:16:37.222Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 06 添加、修改、删除数据
 

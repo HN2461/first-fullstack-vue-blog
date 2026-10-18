@@ -21,7 +21,7 @@ originalSlug: "js-js-f451ed2d"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:25:33.673Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 20 篇：数组创建方法对比指南：Array.from、fill、map、稀疏数组
 ## 📊 三者的核心区别对比表

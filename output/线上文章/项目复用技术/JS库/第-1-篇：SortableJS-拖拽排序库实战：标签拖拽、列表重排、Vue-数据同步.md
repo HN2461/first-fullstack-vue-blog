@@ -20,7 +20,7 @@ originalSlug: "js-sortablejs-vue-0390c773"
 originalStatus: "published"
 publishedAt: "2026-05-21T13:04:46.568Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 1 篇：SortableJS 拖拽排序库实战：标签拖拽、列表重排、Vue 数据同步
 

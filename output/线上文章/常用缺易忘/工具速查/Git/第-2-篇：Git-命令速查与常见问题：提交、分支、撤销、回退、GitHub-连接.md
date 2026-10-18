@@ -21,7 +21,7 @@ originalSlug: "git-5aba4c87"
 originalStatus: "published"
 publishedAt: "2026-06-02T12:58:59.971Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 2 篇：Git 命令速查与常见问题：提交、分支、撤销、回退、GitHub 连接
 

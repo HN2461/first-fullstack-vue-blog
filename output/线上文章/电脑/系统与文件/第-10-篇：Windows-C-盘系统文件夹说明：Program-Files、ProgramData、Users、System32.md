@@ -21,7 +21,7 @@ originalSlug: "windows-c-1552bf32"
 originalStatus: "published"
 publishedAt: "2026-04-12T13:45:49.789Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 10 篇：Windows C 盘系统文件夹说明：Program Files、ProgramData、Users、System32
 

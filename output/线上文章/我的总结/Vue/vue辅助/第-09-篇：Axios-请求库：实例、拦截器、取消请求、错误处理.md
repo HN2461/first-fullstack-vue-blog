@@ -21,7 +21,7 @@ originalSlug: "vue-vue-axios-4d3d1aab"
 originalStatus: "published"
 publishedAt: "2026-05-08T14:07:54.712Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 09 篇：Axios 请求库：实例、拦截器、取消请求、错误处理
 > 本文档基于 Vue 开发场景，从入门原理到企业级封装，涵盖所有核心细节。

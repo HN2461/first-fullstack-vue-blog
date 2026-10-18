@@ -25,7 +25,7 @@ originalSlug: "ai-plugin-plugin-a8202a00"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:25:23.674Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地
 

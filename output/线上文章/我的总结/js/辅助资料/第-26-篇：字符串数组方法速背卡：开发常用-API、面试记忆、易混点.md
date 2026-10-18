@@ -21,7 +21,7 @@ originalSlug: "js-516c7d40"
 originalStatus: "published"
 publishedAt: "2026-05-07T13:31:33.250Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 26 篇：字符串数组方法速背卡：开发常用 API、面试记忆、易混点
 

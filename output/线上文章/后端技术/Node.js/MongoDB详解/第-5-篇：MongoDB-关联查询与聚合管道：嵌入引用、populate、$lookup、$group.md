@@ -22,7 +22,7 @@ originalSlug: "node-js-mongodb-fbe72b64"
 originalStatus: "published"
 publishedAt: "2026-06-07T06:40:12.479Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 5 篇：MongoDB 关联查询与聚合管道：嵌入引用、populate、$lookup、$group
 

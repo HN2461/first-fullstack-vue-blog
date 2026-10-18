@@ -18,7 +18,7 @@ originalSlug: "legacy-a87b199b-a87b199b"
 originalStatus: "published"
 publishedAt: "2026-05-11T14:43:12.581Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 ### 1. let、var、const 的区别
 | 特性 | var | let | const |

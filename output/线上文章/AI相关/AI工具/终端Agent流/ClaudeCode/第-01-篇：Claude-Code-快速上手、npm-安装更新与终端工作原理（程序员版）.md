@@ -22,8 +22,8 @@ originalId: "6a2d291d8a2b1c68f2cabf18"
 originalSlug: "ai-agent-claudecode-claudecode-4c9d5bfe"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.833Z"
-updatedAt: "2026-10-12T21:50:00.000Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+updatedAt: "2026-10-12T15:13:40.112Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）
 

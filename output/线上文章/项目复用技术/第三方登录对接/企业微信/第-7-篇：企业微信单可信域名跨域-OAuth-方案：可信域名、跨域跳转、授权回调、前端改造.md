@@ -16,7 +16,7 @@ originalSlug: "h5-oauth-e33b6d35"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.462Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 7 篇：企业微信单可信域名跨域 OAuth 方案：可信域名、跨域跳转、授权回调、前端改造
 

@@ -18,7 +18,7 @@ originalSlug: "uniapp-app-phone-and-sms-capabilities"
 originalStatus: "published"
 publishedAt: "2026-10-02T10:01:22.438Z"
 updatedAt: "2026-10-02T10:01:22.492Z"
-exportedAt: "2026-10-02T10:18:25.336Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 10 篇：uni-app App 拨号与短信能力适配：平台边界、权限与原生模块
 

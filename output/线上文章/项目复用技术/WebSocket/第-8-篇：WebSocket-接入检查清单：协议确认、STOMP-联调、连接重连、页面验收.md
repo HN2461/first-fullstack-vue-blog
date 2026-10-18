@@ -21,7 +21,7 @@ originalSlug: "websocket-websocket-de1a1d83"
 originalStatus: "published"
 publishedAt: "2026-04-16T13:25:08.650Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 8 篇：WebSocket 接入检查清单：协议确认、STOMP 联调、连接重连、页面验收
 

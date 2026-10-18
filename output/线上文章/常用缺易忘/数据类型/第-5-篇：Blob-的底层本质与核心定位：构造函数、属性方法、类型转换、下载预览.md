@@ -15,7 +15,7 @@ originalSlug: "blob-2000f47d"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.362Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 5 篇：Blob 的底层本质与核心定位：构造函数、属性方法、类型转换、下载预览
 

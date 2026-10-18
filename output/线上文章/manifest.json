@@ -1,13 +1,13 @@
 {
   "formatVersion": 3,
-  "exportedAt": "2026-10-02T10:18:25.336Z",
+  "exportedAt": "2026-10-18T11:58:42.583Z",
   "scope": "all",
   "slugStrategy": "keep",
   "filters": {
     "categoryId": null,
     "keyword": ""
   },
-  "total": 548,
+  "total": 563,
   "categories": [
     {
       "name": "默认分类",
@@ -153,7 +153,7 @@
       "sortOrder": 30,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-07-30T15:12:00.98Z",
+      "createdAt": "2026-07-30T15:12:00.980Z",
       "updatedAt": "2026-09-28T09:00:23.917Z"
     },
     {
@@ -187,7 +187,7 @@
       "sortOrder": 40,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-07-30T15:12:00.97Z",
+      "createdAt": "2026-07-30T15:12:00.970Z",
       "updatedAt": "2026-09-28T09:00:23.921Z"
     },
     {
@@ -275,7 +275,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-22T06:14:51.935Z",
-      "updatedAt": "2026-09-28T09:00:23.93Z"
+      "updatedAt": "2026-09-28T09:00:23.930Z"
     },
     {
       "name": "Web入门",
@@ -332,7 +332,7 @@
       "sortOrder": 100,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-07-30T01:57:38.02Z",
+      "createdAt": "2026-07-30T01:57:38.020Z",
       "updatedAt": "2026-09-28T09:00:23.937Z"
     },
     {
@@ -406,7 +406,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:29.352Z",
-      "updatedAt": "2026-09-28T09:00:24.03Z"
+      "updatedAt": "2026-09-28T09:00:24.030Z"
     },
     {
       "name": "全栈部署入门",
@@ -420,8 +420,8 @@
       "sortOrder": 10,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.37Z",
-      "updatedAt": "2026-09-28T09:00:23.947Z"
+      "createdAt": "2026-06-13T10:28:29.370Z",
+      "updatedAt": "2026-10-07T10:25:40.893Z"
     },
     {
       "name": "Node.js",
@@ -465,7 +465,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:27.633Z",
-      "updatedAt": "2026-09-28T09:00:23.95Z"
+      "updatedAt": "2026-09-28T09:00:23.950Z"
     },
     {
       "name": "常用缺易忘",
@@ -537,7 +537,7 @@
       "sortOrder": 10,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:27.19Z",
+      "createdAt": "2026-06-13T10:28:27.190Z",
       "updatedAt": "2026-09-28T09:00:23.955Z"
     },
     {
@@ -663,7 +663,7 @@
       "sortOrder": 30,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:26.73Z",
+      "createdAt": "2026-06-13T10:28:26.730Z",
       "updatedAt": "2026-09-28T09:00:23.965Z"
     },
     {
@@ -727,7 +727,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:26.476Z",
-      "updatedAt": "2026-09-28T09:00:23.97Z"
+      "updatedAt": "2026-09-28T09:00:23.970Z"
     },
     {
       "name": "Kiro",
@@ -845,7 +845,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T10:28:30.599Z",
-      "updatedAt": "2026-09-28T09:00:23.98Z"
+      "updatedAt": "2026-09-28T09:00:23.980Z"
     },
     {
       "name": "我的总结",
@@ -872,7 +872,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-15T14:48:44.292Z",
-      "updatedAt": "2026-09-28T09:00:23.99Z"
+      "updatedAt": "2026-09-28T09:00:23.990Z"
     },
     {
       "name": "辅助资料",
@@ -928,7 +928,7 @@
       "sortOrder": 10,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:27.8Z",
+      "createdAt": "2026-06-13T10:28:27.800Z",
       "updatedAt": "2026-09-28T09:00:23.983Z"
     },
     {
@@ -956,7 +956,7 @@
       "sortOrder": 60,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.03Z",
+      "createdAt": "2026-06-13T10:28:30.030Z",
       "updatedAt": "2026-09-28T09:00:23.987Z"
     },
     {
@@ -1072,7 +1072,7 @@
       "sortOrder": 20,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:29.2Z",
+      "createdAt": "2026-06-13T10:28:29.200Z",
       "updatedAt": "2026-09-28T09:00:24.003Z"
     },
     {
@@ -1205,7 +1205,7 @@
       "sortOrder": 10,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.25Z",
+      "createdAt": "2026-06-13T10:28:30.250Z",
       "updatedAt": "2026-09-28T09:00:24.018Z"
     },
     {
@@ -1220,8 +1220,8 @@
       "sortOrder": 30,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:30.22Z",
-      "updatedAt": "2026-09-28T09:00:24.02Z"
+      "createdAt": "2026-06-13T10:28:30.220Z",
+      "updatedAt": "2026-09-28T09:00:24.020Z"
     },
     {
       "name": "网络请求",
@@ -1234,7 +1234,7 @@
       "sortOrder": 40,
       "status": "active",
       "isSystem": false,
-      "createdAt": "2026-06-13T10:28:28.5Z",
+      "createdAt": "2026-06-13T10:28:28.500Z",
       "updatedAt": "2026-09-28T09:00:24.021Z"
     },
     {
@@ -1394,7 +1394,7 @@
       "status": "active",
       "isSystem": false,
       "createdAt": "2026-06-13T09:55:42.125Z",
-      "updatedAt": "2026-09-28T09:00:24.04Z"
+      "updatedAt": "2026-09-28T09:00:24.040Z"
     },
     {
       "name": "AI版JS",
@@ -1468,9 +1468,695 @@
       "isSystem": false,
       "createdAt": "2026-09-28T09:00:23.755Z",
       "updatedAt": "2026-09-28T09:00:24.045Z"
+    },
+    {
+      "name": "Ant Design X Vue",
+      "slug": "ant-design-x-vue-cad37708",
+      "description": "Ant Design X Vue 组件、对话界面与模型接入实践。",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design X Vue"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-10-18T11:57:58.586Z",
+      "updatedAt": "2026-10-18T11:57:58.735Z"
+    },
+    {
+      "name": "markdown-it",
+      "slug": "js-markdown-it-c4d1ce10",
+      "description": "Markdown 语法、markdown-it、代码高亮、Mermaid、数学公式与 AI 渲染实践。",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "sortOrder": 40,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-10-18T11:57:59.880Z",
+      "updatedAt": "2026-10-18T11:58:00.105Z"
     }
   ],
   "articles": [
+    {
+      "originalId": "6ad4b44801881c9ee2404ebb",
+      "originalSlug": "markdown-it-complete-learning-roadmap",
+      "exportedSlug": "markdown-it-complete-learning-roadmap",
+      "title": "Markdown 与 markdown-it 全面入门：从语法原理到 Vue、代码高亮、Mermaid、数学公式和 AI 渲染",
+      "summary": "面向前端初学者系统学习 Markdown 与 markdown-it，理解文本如何变成 Token 和 HTML，并完成 Vue 安全渲染、代码高亮、Mermaid、KaTeX 数学公式与 AI 流式输出。",
+      "cover": "",
+      "contentHash": "3d9ea061de47aa7e100840bc0bf51bf83f48b225f6d73bc4eeb7fc2de8d8041b",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "Markdown",
+        "markdown-it",
+        "Vue 3",
+        "代码高亮",
+        "Mermaid",
+        "KaTeX",
+        "AI 对话",
+        "前端安全"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "项目复用技术/JS库/markdown-it/README.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.090Z",
+      "fileName": "项目复用技术/JS库/markdown-it/Markdown-与-markdown-it-全面入门：从语法原理到-Vue、代码高亮、Mermaid、数学公式和-AI-渲染.md"
+    },
+    {
+      "originalId": "6ad4b44801881c9ee2404eb9",
+      "originalSlug": "markdown-it-vue-ai-markdown-complete-project",
+      "exportedSlug": "markdown-it-vue-ai-markdown-complete-project",
+      "title": "第 8 篇：Vue 与 AI 的 Markdown 综合实践：安全组件、插件装配和上线验收",
+      "summary": "将 markdown-it、DOMPurify、代码高亮、Mermaid 和 KaTeX 组合成可维护的 Vue 渲染方案，并从组件边界、测试、主题、性能到上线逐项验收。",
+      "cover": "",
+      "contentHash": "d6306ca688e9323440e574d9969907bd27b03a1c0fb5feae356effcd801b4b41",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "markdown-it",
+        "Vue 3",
+        "AI 对话",
+        "代码高亮",
+        "Mermaid",
+        "KaTeX"
+      ],
+      "sortOrder": 90,
+      "sourcePath": "项目复用技术/JS库/markdown-it/08-Vue与AI的Markdown综合实践.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.083Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-8-篇：Vue-与-AI-的-Markdown-综合实践：安全组件、插件装配和上线验收.md"
+    },
+    {
+      "originalId": "6ad4b44801881c9ee2404eb7",
+      "originalSlug": "markdown-it-ai-streaming-markdown-rendering",
+      "exportedSlug": "markdown-it-ai-streaming-markdown-rendering",
+      "title": "第 7 篇：AI 对话中的流式 Markdown：增量文本、未闭合语法、节流和取消",
+      "summary": "处理 AI 分片输出中的半截 Markdown、未闭合代码围栏和公式，设计消息状态机、节流渲染、自动滚动、取消请求与完成后增强。",
+      "cover": "",
+      "contentHash": "4ae745cbc5b7e1bb0ea4b4616c8a39829dd3b1f35aa5cbaa0c1aa8fea5583353",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "AI 对话",
+        "SSE",
+        "Markdown",
+        "markdown-it",
+        "流式响应"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "项目复用技术/JS库/markdown-it/07-AI流式Markdown渲染.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.075Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-7-篇：AI-对话中的流式-Markdown：增量文本、未闭合语法、节流和取消.md"
+    },
+    {
+      "originalId": "6ad4b44801881c9ee2404eb5",
+      "originalSlug": "markdown-it-math-katex-formulas",
+      "exportedSlug": "markdown-it-math-katex-formulas",
+      "title": "第 6 篇：Markdown 数学公式与 KaTeX：行内公式、块级公式、分隔符和安全配置",
+      "summary": "理解 TeX 数学表达式与 Markdown 的边界，接入 KaTeX 插件，掌握行内和块级分隔符、转义、公式错误、字体加载和无障碍输出。",
+      "cover": "",
+      "contentHash": "b6fb4be79e54645e87a18e8977769fb5e296d5b6de179133af44a69a4588e642",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "KaTeX",
+        "LaTeX",
+        "数学公式",
+        "markdown-it",
+        "前端渲染"
+      ],
+      "sortOrder": 70,
+      "sourcePath": "项目复用技术/JS库/markdown-it/06-数学公式与KaTeX.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.069Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-6-篇：Markdown-数学公式与-KaTeX：行内公式、块级公式、分隔符和安全配置.md"
+    },
+    {
+      "originalId": "6ad4b44801881c9ee2404eb3",
+      "originalSlug": "markdown-it-mermaid-diagrams-vue",
+      "exportedSlug": "markdown-it-mermaid-diagrams-vue",
+      "title": "第 5 篇：Markdown 中的 Mermaid 图表：流程图、时序图、安全渲染与 Vue 生命周期",
+      "summary": "学会用 Mermaid 文本绘制流程图、时序图和类图，使用 markdown-it 识别 mermaid 围栏，在 Vue 中异步绘制、清理旧图并处理语法错误。",
+      "cover": "",
+      "contentHash": "072cbd8c9d486a177468b5eb936e6951b14ef3981fdde6b45664f7cdda9dab6a",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "Mermaid",
+        "markdown-it",
+        "流程图",
+        "Vue 3",
+        "图表渲染"
+      ],
+      "sortOrder": 60,
+      "sourcePath": "项目复用技术/JS库/markdown-it/05-Mermaid图表.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.060Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-5-篇：Markdown-中的-Mermaid-图表：流程图、时序图、安全渲染与-Vue-生命周期.md"
+    },
+    {
+      "originalId": "6ad4b44801881c9ee2404eb1",
+      "originalSlug": "markdown-it-code-highlight-highlightjs-shiki",
+      "exportedSlug": "markdown-it-code-highlight-highlightjs-shiki",
+      "title": "第 4 篇：Markdown 代码块与语法高亮：highlight.js、Shiki、复制和长代码处理",
+      "summary": "理解 fenced code token、语言标识与语法高亮的关系，使用 highlight.js 接入 markdown-it，并比较 Shiki、代码复制、行号和长代码性能。",
+      "cover": "",
+      "contentHash": "dd4759d63824a7cc7d0a57fe3d528ec2d53bb2cc3d86340adaf3edaa25161729",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "markdown-it",
+        "highlight.js",
+        "Shiki",
+        "代码高亮",
+        "Vue 3"
+      ],
+      "sortOrder": 50,
+      "sourcePath": "项目复用技术/JS库/markdown-it/04-代码块与语法高亮.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.049Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-4-篇：Markdown-代码块与语法高亮：highlight.js、Shiki、复制和长代码处理.md"
+    },
+    {
+      "originalId": "6ad4b44801881c9ee2404eaf",
+      "originalSlug": "markdown-it-vue3-safe-rendering",
+      "exportedSlug": "markdown-it-vue3-safe-rendering",
+      "title": "第 3 篇：Vue 3 安全渲染 Markdown：v-html、XSS、链接策略和可复用组件",
+      "summary": "在 Vue 3 中创建统一的 Markdown 渲染组件，理解 v-html 风险、关闭原始 HTML、清理器顺序、URL 协议过滤和主题样式隔离。",
+      "cover": "",
+      "contentHash": "aa5f547370dd50ea45049e7eb4d5fde68c6f60479d7bfdc1a69253fd661d22d0",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "Vue 3",
+        "markdown-it",
+        "DOMPurify",
+        "XSS",
+        "前端安全"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "项目复用技术/JS库/markdown-it/03-Vue3安全渲染Markdown.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.038Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-3-篇：Vue-3-安全渲染-Markdown：v-html、XSS、链接策略和可复用组件.md"
+    },
+    {
+      "originalId": "6ad4b44801881c9ee2404ead",
+      "originalSlug": "markdown-it-core-api-plugin-development",
+      "exportedSlug": "markdown-it-core-api-plugin-development",
+      "title": "第 2 篇：markdown-it 核心 API 与插件机制：配置、Token、Renderer 和自定义规则",
+      "summary": "用可运行代码学习 MarkdownIt 实例、render 与 parse、Token 属性、Renderer 覆盖和插件规则，理解何时应该写插件、何时应该使用现成扩展。",
+      "cover": "",
+      "contentHash": "bb9e75d704abb738f094c87f41bcce401f1834cdd072240f9761cea6152af631",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "markdown-it",
+        "Token",
+        "Renderer",
+        "插件开发",
+        "JavaScript"
+      ],
+      "sortOrder": 30,
+      "sourcePath": "项目复用技术/JS库/markdown-it/02-markdown-it核心API与插件机制.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:58:00.009Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-2-篇：markdown-it-核心-API-与插件机制：配置、Token、Renderer-和自定义规则.md"
+    },
+    {
+      "originalId": "6ad4b44701881c9ee2404eab",
+      "originalSlug": "markdown-syntax-parser-principles",
+      "exportedSlug": "markdown-syntax-parser-principles",
+      "title": "第 1 篇：Markdown 语法与解析原理：从纯文本到 Token 和 HTML",
+      "summary": "从标题、段落、列表、链接和代码块开始，理解 Markdown 的区块解析、行内解析、Token、中间树和 HTML 渲染过程。",
+      "cover": "",
+      "contentHash": "d00b1b0e2795aa8230ec9347964632cccf92eced5dfe3102e76b2c13776ec013",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "JS库",
+        "markdown-it"
+      ],
+      "tags": [
+        "Markdown",
+        "CommonMark",
+        "解析器原理",
+        "前端基础"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "项目复用技术/JS库/markdown-it/01-Markdown语法与解析原理.md",
+      "publishedAt": "2026-10-18T11:57:59.988Z",
+      "updatedAt": "2026-10-18T11:57:59.993Z",
+      "fileName": "项目复用技术/JS库/markdown-it/第-1-篇：Markdown-语法与解析原理：从纯文本到-Token-和-HTML.md"
+    },
+    {
+      "originalId": "6ad4b44660ceaba3ef6d31f2",
+      "originalSlug": "ant-design-x-vue-learning-roadmap",
+      "exportedSlug": "ant-design-x-vue-learning-roadmap",
+      "title": "Ant Design X Vue 入门与豆包式 AI 对话页面开发路线",
+      "summary": "面向 Vue 初学者，从组件库定位、环境检查、页面分层到消息流和安全接入，逐步搭建可扩展的 AI 对话网页。",
+      "cover": "",
+      "contentHash": "c07a9e4be68f391b70b1331ea3bc4a4959cdb13722e4666b31c2fd623651949b",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design X Vue"
+      ],
+      "tags": [
+        "Ant Design X Vue",
+        "Vue 3",
+        "AI 对话",
+        "前端组件库"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "前端技术/组件库/Ant Design X Vue/README.md",
+      "publishedAt": "2026-10-18T11:57:58.676Z",
+      "updatedAt": "2026-10-18T11:57:58.722Z",
+      "fileName": "前端技术/组件库/Ant-Design-X-Vue/Ant-Design-X-Vue-入门与豆包式-AI-对话页面开发路线.md"
+    },
+    {
+      "originalId": "6ad4b44660ceaba3ef6d31f0",
+      "originalSlug": "ant-design-x-vue-streaming-chat-api-security",
+      "exportedSlug": "ant-design-x-vue-streaming-chat-api-security",
+      "title": "第 5 篇：Ant Design X Vue AI 消息状态与流式接入：useXChat、SSE、后端代理和安全边界",
+      "summary": "将 Ant Design X Vue 的消息组件连接到自有后端，理解 useXAgent、useXChat、流式响应、SSE、鉴权、取消和重试，并避免在前端泄露模型密钥。",
+      "cover": "",
+      "contentHash": "65db3a607163471b841501f0289e8f23c399be1616e7746f32999e48e1e8a532",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design X Vue"
+      ],
+      "tags": [
+        "Ant Design X Vue",
+        "useXChat",
+        "SSE",
+        "AI 接口安全"
+      ],
+      "sortOrder": 60,
+      "sourcePath": "前端技术/组件库/Ant Design X Vue/05-消息状态流式响应与模型安全接入.md",
+      "publishedAt": "2026-10-18T11:57:58.676Z",
+      "updatedAt": "2026-10-18T11:57:58.715Z",
+      "fileName": "前端技术/组件库/Ant-Design-X-Vue/第-5-篇：Ant-Design-X-Vue-AI-消息状态与流式接入：useXChat、SSE、后端代理和安全边界.md"
+    },
+    {
+      "originalId": "6ad4b44660ceaba3ef6d31ee",
+      "originalSlug": "ant-design-x-vue-sender-attachments-submit",
+      "exportedSlug": "ant-design-x-vue-sender-attachments-submit",
+      "title": "第 4 篇：Ant Design X Vue Sender 输入框实战：回车发送、附件上传、停止生成与状态反馈",
+      "summary": "学会管理 Sender 草稿、快捷键、发送中状态和附件生命周期，避免重复提交、误删内容、上传过大文件以及取消生成后界面仍锁定。",
+      "cover": "",
+      "contentHash": "bb8f0cbb744a7529eab43adfdefad5ec2e6cbf4e92f8f8cf211c69c3acbfb9ac",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design X Vue"
+      ],
+      "tags": [
+        "Ant Design X Vue",
+        "Sender",
+        "Attachments",
+        "文件上传"
+      ],
+      "sortOrder": 50,
+      "sourcePath": "前端技术/组件库/Ant Design X Vue/04-Sender输入框附件与发送体验.md",
+      "publishedAt": "2026-10-18T11:57:58.676Z",
+      "updatedAt": "2026-10-18T11:57:58.708Z",
+      "fileName": "前端技术/组件库/Ant-Design-X-Vue/第-4-篇：Ant-Design-X-Vue-Sender-输入框实战：回车发送、附件上传、停止生成与状态反馈.md"
+    },
+    {
+      "originalId": "6ad4b44660ceaba3ef6d31ec",
+      "originalSlug": "ant-design-x-vue-bubble-markdown-actions",
+      "exportedSlug": "ant-design-x-vue-bubble-markdown-actions",
+      "title": "第 3 篇：Ant Design X Vue 消息展示实战：Bubble、Markdown、代码块与 Actions",
+      "summary": "设计可靠的消息数据模型，使用 Bubble 与 Bubble.List 呈现对话，安全渲染 Markdown 和代码，并处理复制、重试、反馈等消息操作。",
+      "cover": "",
+      "contentHash": "630635de1c34a6fe5d298ac79d25e5858763449dbd70b3562b9a225a5f5dbe70",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design X Vue"
+      ],
+      "tags": [
+        "Ant Design X Vue",
+        "Bubble",
+        "Markdown",
+        "流式消息"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "前端技术/组件库/Ant Design X Vue/03-消息展示Markdown与操作.md",
+      "publishedAt": "2026-10-18T11:57:58.676Z",
+      "updatedAt": "2026-10-18T11:57:58.697Z",
+      "fileName": "前端技术/组件库/Ant-Design-X-Vue/第-3-篇：Ant-Design-X-Vue-消息展示实战：Bubble、Markdown、代码块与-Actions.md"
+    },
+    {
+      "originalId": "6ad4b44660ceaba3ef6d31ea",
+      "originalSlug": "ant-design-x-vue-page-layout-conversations-prompts",
+      "exportedSlug": "ant-design-x-vue-page-layout-conversations-prompts",
+      "title": "第 2 篇：豆包式 AI 页面布局实战：Conversations、Welcome、Prompts 与 Suggestion",
+      "summary": "将 AI 助手拆成侧栏、主对话区和输入区，使用 Conversations、Welcome、Prompts、Suggestion 组织新会话、历史会话和推荐提问。",
+      "cover": "",
+      "contentHash": "9820948ccdb001d00e9f497a01c740fc60af66d38d590b39be5aba9562dd5b00",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design X Vue"
+      ],
+      "tags": [
+        "Ant Design X Vue",
+        "Conversations",
+        "Prompts",
+        "AI 产品设计"
+      ],
+      "sortOrder": 30,
+      "sourcePath": "前端技术/组件库/Ant Design X Vue/02-页面布局会话列表与提示词.md",
+      "publishedAt": "2026-10-18T11:57:58.676Z",
+      "updatedAt": "2026-10-18T11:57:58.691Z",
+      "fileName": "前端技术/组件库/Ant-Design-X-Vue/第-2-篇：豆包式-AI-页面布局实战：Conversations、Welcome、Prompts-与-Suggestion.md"
+    },
+    {
+      "originalId": "6ad4b44660ceaba3ef6d31e8",
+      "originalSlug": "ant-design-x-vue-install-first-chat-page",
+      "exportedSlug": "ant-design-x-vue-install-first-chat-page",
+      "title": "第 1 篇：Ant Design X Vue 安装与第一个对话页面：Vue 版本、Vite、XProvider、Sender",
+      "summary": "从检查 Vue 3.5 与 Ant Design Vue 版本开始，安装 Ant Design X Vue，理解入口配置，并用 Bubble 和 Sender 搭出一个可运行的静态对话页面。",
+      "cover": "",
+      "contentHash": "180d7bead455da4d74dd30c46d2779400b3220b08220e8c7455b3d9e0b16d400",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design X Vue"
+      ],
+      "tags": [
+        "Ant Design X Vue",
+        "Vue 3",
+        "Vite",
+        "环境搭建"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "前端技术/组件库/Ant Design X Vue/01-安装与第一个对话页面.md",
+      "publishedAt": "2026-10-18T11:57:58.676Z",
+      "updatedAt": "2026-10-18T11:57:58.681Z",
+      "fileName": "前端技术/组件库/Ant-Design-X-Vue/第-1-篇：Ant-Design-X-Vue-安装与第一个对话页面：Vue-版本、Vite、XProvider、Sender.md"
+    },
+    {
+      "originalId": "6ac61e2472e3dac3cb2fccb2",
+      "originalSlug": "personal-blog-aliyun-fullstack-deployment",
+      "exportedSlug": "personal-blog-aliyun-fullstack-deployment",
+      "title": "第 8 篇：全栈博客系统从开发到上线：阿里云真实部署实操",
+      "summary": "以现有 Vue、Express、MongoDB 博客和一台 2 GiB 阿里云轻量服务器为实例，从本机安装、验证、构建、DNS、备案、环境安装到 Nginx、HTTPS、验收和回滚逐步上线。",
+      "cover": "",
+      "contentHash": "583e676e96fd271b2f569d0c38ff9083fc6d1b02b3db69fbc8be88ef591fb321",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "电脑",
+        "网站部署",
+        "全栈部署入门"
+      ],
+      "tags": [
+        "上线实战",
+        "Vue",
+        "Express",
+        "MongoDB",
+        "Nginx",
+        "HTTPS"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "第-8-篇：全栈博客系统从开发到上线：阿里云真实部署实操.md",
+      "publishedAt": "2026-10-07T10:28:38.544Z",
+      "updatedAt": "2026-10-07T10:28:38.545Z",
+      "fileName": "电脑/网站部署/全栈部署入门/第-8-篇：全栈博客系统从开发到上线：阿里云真实部署实操.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c26d",
+      "originalSlug": "uniapp-h5-session-route-recovery",
+      "exportedSlug": "uniapp-h5-session-route-recovery",
+      "title": "第 13 篇：uni-app H5 刷新返回登录页排查：会话恢复与深路由处理",
+      "summary": "排查 H5 刷新或返回登录页但会话仍有效的问题，整理会话就绪、登录页自恢复、深路由还原、缓存合并写入与退出流程验证。",
+      "cover": "",
+      "contentHash": "ab89fa42f552a94ec7f814145892e5283b11d04986710c3219a1de8d9f4685ea",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "H5",
+        "会话控制",
+        "路由",
+        "路由守卫"
+      ],
+      "sortOrder": 130,
+      "sourcePath": "uni-app开发经验包/08-H5刷新返回登录页-会话未失效-解决方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.515Z",
+      "fileName": "项目复用技术/uni-app/第-13-篇：uni-app-H5-刷新返回登录页排查：会话恢复与深路由处理.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c26b",
+      "originalSlug": "uniapp-scroll-view-layout-troubleshooting",
+      "exportedSlug": "uniapp-scroll-view-layout-troubleshooting",
+      "title": "第 12 篇：uni-app scroll-view 滚动异常排查：容器高度、触底刷新与聊天滚动",
+      "summary": "从固定高度和 Flex 约束入手排查 uni-app scroll-view 滚动异常，覆盖 tabBar 页面、聊天消息、触底加载、下拉刷新、滚动定位与多余空白。",
+      "cover": "",
+      "contentHash": "8fb25670b5d25924456ea1b9b2b7646c8f3949eb16de882ade7866e7d80d0473",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "scroll",
+        "布局",
+        "实时聊天"
+      ],
+      "sortOrder": 120,
+      "sourcePath": "uni-app开发经验包/07-scroll-view-滚动异常-解决方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.507Z",
+      "fileName": "项目复用技术/uni-app/第-12-篇：uni-app-scroll-view-滚动异常排查：容器高度、触底刷新与聊天滚动.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c269",
+      "originalSlug": "uniapp-vue3-canvas-business-card-export",
+      "exportedSlug": "uniapp-vue3-canvas-business-card-export",
+      "title": "第 11 篇：uni-app Vue 3 Canvas 名片生成：组件作用域、多实例与图片导出",
+      "summary": "以 uni-app Vue 3 名片图片生成为例，处理 Canvas 组件作用域、多实例标识、网络图片预加载、绘制时机、弹窗交互与导出验证。",
+      "cover": "",
+      "contentHash": "b6145206119bb4ba51a665debb8dda574069d9cac545f3a2af9d9d5636532ea6",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "Canvas",
+        "名片生成",
+        "Vue 3"
+      ],
+      "sortOrder": 110,
+      "sourcePath": "uni-app开发经验包/06-Canvas名片生成-组件兼容-解决方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.500Z",
+      "fileName": "项目复用技术/uni-app/第-11-篇：uni-app-Vue-3-Canvas-名片生成：组件作用域、多实例与图片导出.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c267",
+      "originalSlug": "uniapp-app-phone-and-sms-capabilities",
+      "exportedSlug": "uniapp-app-phone-and-sms-capabilities",
+      "title": "第 10 篇：uni-app App 拨号与短信能力适配：平台边界、权限与原生模块",
+      "summary": "梳理 uni-app App 端拨号和短信能力的平台差异，涵盖号码处理、条件编译、原生模块、权限最小化与真机故障定位。",
+      "cover": "",
+      "contentHash": "e1819d244435cbe4926170ac49e742691e0d303b25cad49033b907861989ca1f",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "App",
+        "原生模块"
+      ],
+      "sortOrder": 100,
+      "sourcePath": "uni-app开发经验包/05-App端-拨号与短信-适配方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.492Z",
+      "fileName": "项目复用技术/uni-app/第-10-篇：uni-app-App-拨号与短信能力适配：平台边界、权限与原生模块.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c265",
+      "originalSlug": "wechat-mini-program-runtime-dynamic-import-alternatives",
+      "exportedSlug": "wechat-mini-program-runtime-dynamic-import-alternatives",
+      "title": "第 9 篇：微信小程序运行时动态导入失效：静态映射与分包方案",
+      "summary": "分析微信小程序中运行时 import() 无法按预期工作的原因，整理静态导入、显式 require、静态映射与分包异步化的选择及真机验证方法。",
+      "cover": "",
+      "contentHash": "995d4f54f7ee5ee2a4e0b746b39c55369b92abc0c64ff08ab01e2c007e047a9b",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "按需导入",
+        "分包"
+      ],
+      "sortOrder": 90,
+      "sourcePath": "uni-app开发经验包/04-微信小程序-动态导入import失效-替代方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.482Z",
+      "fileName": "项目复用技术/uni-app/第-9-篇：微信小程序运行时动态导入失效：静态映射与分包方案.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c263",
+      "originalSlug": "uniapp-cross-platform-navigation-bar",
+      "exportedSlug": "uniapp-cross-platform-navigation-bar",
+      "title": "第 8 篇：uni-app 跨端导航栏适配：默认导航、自定义导航与胶囊尺寸",
+      "summary": "对比 uni-app 默认导航栏与自定义导航栏的适用条件，说明胶囊尺寸、安全区、窗口变量、tabBar 和业务吸顶栏的计算方式与常见冲突。",
+      "cover": "",
+      "contentHash": "4c8d2325106307b3fd07873ee3d2d0faf6eb5d6cd25e5078834c7bb6e4dcb97d",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "导航",
+        "微信小程序",
+        "H5"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "uni-app开发经验包/03-跨端导航栏-平台差异-适配方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.473Z",
+      "fileName": "项目复用技术/uni-app/第-8-篇：uni-app-跨端导航栏适配：默认导航、自定义导航与胶囊尺寸.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c261",
+      "originalSlug": "uniapp-keyboard-input-viewport-adaptation",
+      "exportedSlug": "uniapp-keyboard-input-viewport-adaptation",
+      "title": "第 7 篇：uni-app 键盘弹起与输入框遮挡适配：H5、App、小程序处理方案",
+      "summary": "围绕软键盘弹起后输入框被遮挡、页面回弹和底部面板错位，比较小程序、App 与 H5 的处理边界，给出布局、监听清理和排查步骤。",
+      "cover": "",
+      "contentHash": "a96d2052676865703656bae973a6e210be72ab1cd81f5fdff9074ef7b2209c34",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "软键盘",
+        "H5",
+        "微信小程序"
+      ],
+      "sortOrder": 70,
+      "sourcePath": "uni-app开发经验包/02-键盘弹起-输入遮挡与回弹-适配方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.464Z",
+      "fileName": "项目复用技术/uni-app/第-7-篇：uni-app-键盘弹起与输入框遮挡适配：H5、App、小程序处理方案.md"
+    },
+    {
+      "originalId": "6abf80f2b29038327447c25f",
+      "originalSlug": "uniapp-wechat-mini-program-project-skeleton",
+      "exportedSlug": "uniapp-wechat-mini-program-project-skeleton",
+      "title": "第 6 篇：uni-app 微信小程序通用工程骨架：会话、请求、路由与分包职责",
+      "summary": "从微信小程序项目落地出发，梳理 uni-app 工程目录、配置、存储、会话、请求、Pinia、路由与分包的职责边界，并附迁移步骤和验收清单。",
+      "cover": "",
+      "contentHash": "2ff178a61ff0b27e928fdbf3b8e84a718dda482e7ad8673bda45b214cf330879",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "项目复用技术",
+        "uni-app"
+      ],
+      "tags": [
+        "uni-app",
+        "微信小程序",
+        "Vue 3",
+        "工程结构",
+        "请求封装",
+        "登录态"
+      ],
+      "sortOrder": 60,
+      "sourcePath": "uni-app开发经验包/01-uni-app微信小程序-通用骨架方案.md",
+      "publishedAt": "2026-10-02T10:01:22.438Z",
+      "updatedAt": "2026-10-02T10:01:22.443Z",
+      "fileName": "项目复用技术/uni-app/第-6-篇：uni-app-微信小程序通用工程骨架：会话、请求、路由与分包职责.md"
+    },
     {
       "originalId": "6aba2ca7ed2c7796bd5f5564",
       "originalSlug": "typescript-applications",
@@ -1554,7 +2240,7 @@
       "title": "第 09 篇：Codex 近期功能雷达与三端快速上手",
       "summary": "集中追踪 Codex 0.154 至 0.162.1 的开发者更新，区分稳定版、预发布和开发分支，说明模型、MCP OAuth、终端界面、Provider 能力、弃用项和固定复核流程。",
       "cover": "",
-      "contentHash": "f579d314da205ba3e708da925ae25600361f029bf5ff73f961d736ff6d1be078",
+      "contentHash": "ba4aae5687a32ca92639c1bf4c35c1973f65d743f39f93ed4153c90fbcc3dbdf",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -1574,7 +2260,7 @@
       "sortOrder": 90,
       "sourcePath": "AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md",
       "publishedAt": "2026-09-13T13:44:41.251Z",
-      "updatedAt": "2026-09-13T13:44:41.256Z",
+      "updatedAt": "2026-10-12T15:03:18.995Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md"
     },
     {
@@ -1601,7 +2287,7 @@
       ],
       "sortOrder": 1,
       "sourcePath": "面试/陈浩南前端开发工程师简历面试问答小白背诵版.md",
-      "publishedAt": "2026-09-03T08:44:04.22Z",
+      "publishedAt": "2026-09-03T08:44:04.220Z",
       "updatedAt": "2026-09-03T09:02:48.722Z",
       "fileName": "面试/陈浩南前端开发工程师简历面试问答：小白背诵版.md"
     },
@@ -1683,7 +2369,7 @@
       "sortOrder": 70,
       "sourcePath": "Redis/notes/06-常见业务场景分布式锁与幂等.md",
       "publishedAt": "2026-08-05T01:57:25.524Z",
-      "updatedAt": "2026-08-05T01:57:25.57Z",
+      "updatedAt": "2026-08-05T01:57:25.570Z",
       "fileName": "后端技术/数据库/Redis/第-06-篇：业务场景与并发控制：会话、限流、分布式锁与幂等.md"
     },
     {
@@ -1893,7 +2579,7 @@
       "sortOrder": 120,
       "sourcePath": "MySQL/notes/12-小白毕业项目博客系统MySQL设计.md",
       "publishedAt": "2026-08-03T10:16:37.195Z",
-      "updatedAt": "2026-08-03T10:16:37.24Z",
+      "updatedAt": "2026-08-03T10:16:37.240Z",
       "fileName": "后端技术/数据库/MySQL/MySQL-12：毕业项目，博客系统-MySQL-设计.md"
     },
     {
@@ -2189,7 +2875,7 @@
       "title": "第 08 篇：Codex 桌面 App 当前功能与 Windows 实战",
       "summary": "面向高频使用 ChatGPT 桌面 App 中 Codex 的 Windows 开发者，集中说明版本检查、多文件夹项目、Local、Worktree、Git、PR Chat、Voice、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows-native / WSL 工作流。",
       "cover": "",
-      "contentHash": "83b77cdf147d5dd553aca73f0a748155146c515d613920a5de914d34eeaf951a",
+      "contentHash": "0445200ae5f5ef17ed28446d18ed008b7a67bbfa75383e14a6310419423d7021",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2209,7 +2895,7 @@
       "sortOrder": 80,
       "sourcePath": "AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
       "publishedAt": "2026-07-30T15:09:19.559Z",
-      "updatedAt": "2026-09-13T13:42:49.643Z",
+      "updatedAt": "2026-10-12T15:03:19.053Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-08-篇：Codex-桌面-App-当前功能与-Windows-实战.md"
     },
     {
@@ -2238,7 +2924,7 @@
       "sortOrder": 20,
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/04-接入与展示/02-MaxKB前端接入与原生API调用规则.md",
       "publishedAt": "2026-07-30T15:09:19.554Z",
-      "updatedAt": "2026-07-31T11:16:25.77Z",
+      "updatedAt": "2026-07-31T11:16:25.770Z",
       "fileName": "AI相关/AI应用开发平台/MaxKB/公共规则/接入与展示/第-02-篇：MaxKB-前端接入与原生-API-调用规则.md"
     },
     {
@@ -2642,7 +3328,7 @@
       ],
       "sortOrder": 100,
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/08-知识库相关节点速查.md",
-      "publishedAt": "2026-07-30T15:09:19.48Z",
+      "publishedAt": "2026-07-30T15:09:19.480Z",
       "updatedAt": "2026-07-31T11:16:25.816Z",
       "fileName": "AI相关/AI应用开发平台/MaxKB/公共规则/节点创建手册/第-09-篇：MaxKB-知识库相关节点速查.md"
     },
@@ -2874,7 +3560,7 @@
       "sortOrder": 20,
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/02-节点创建手册/00-空白高级智能体创建说明.md",
       "publishedAt": "2026-07-30T15:09:19.442Z",
-      "updatedAt": "2026-07-31T11:16:25.78Z",
+      "updatedAt": "2026-07-31T11:16:25.780Z",
       "fileName": "AI相关/AI应用开发平台/MaxKB/公共规则/节点创建手册/第-01-篇：MaxKB-空白高级智能体创建说明.md"
     },
     {
@@ -2985,7 +3671,7 @@
       ],
       "sortOrder": 10,
       "sourcePath": "AI应用开发平台/MaxKB/02-公共规则/00-规范包使用说明.md",
-      "publishedAt": "2026-07-30T15:09:19.42Z",
+      "publishedAt": "2026-07-30T15:09:19.420Z",
       "updatedAt": "2026-07-31T11:16:25.735Z",
       "fileName": "AI相关/AI应用开发平台/MaxKB/公共规则/总览：MaxKB-公共规则规范包使用说明.md"
     },
@@ -3122,7 +3808,7 @@
       ],
       "sortOrder": 20,
       "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/02-智能体编排与状态设计规范.md",
-      "publishedAt": "2026-07-30T15:09:19.39Z",
+      "publishedAt": "2026-07-30T15:09:19.390Z",
       "updatedAt": "2026-07-31T11:16:25.875Z",
       "fileName": "AI相关/AI应用开发平台/MaxKB/实战开发指南/第-02-篇：MaxKB-智能体编排与状态设计规范：节点结构、状态流转、异常边界.md"
     },
@@ -3150,7 +3836,7 @@
       "sortOrder": 10,
       "sourcePath": "AI应用开发平台/MaxKB/01-实战开发指南/01-从接手环境到发布的标准流程.md",
       "publishedAt": "2026-07-30T15:09:19.383Z",
-      "updatedAt": "2026-07-31T11:16:25.87Z",
+      "updatedAt": "2026-07-31T11:16:25.870Z",
       "fileName": "AI相关/AI应用开发平台/MaxKB/实战开发指南/第-01-篇：MaxKB-从接手环境到发布的标准流程：环境接手、配置核验、发布链路.md"
     },
     {
@@ -3255,7 +3941,7 @@
       "sortOrder": 10,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/README.md",
       "publishedAt": "2026-07-30T14:44:46.216Z",
-      "updatedAt": "2026-07-31T11:16:22.21Z",
+      "updatedAt": "2026-07-31T11:16:22.210Z",
       "fileName": "后端技术/Python/Web入门/第-00-篇：FastAPI-从-0-到-1-学习总目录：路线、章节、项目实战、交付清单.md"
     },
     {
@@ -3310,7 +3996,7 @@
       ],
       "sortOrder": 170,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/15-FastAPI从0到1-高频问题面试与交付清单.md",
-      "publishedAt": "2026-07-30T14:44:46.21Z",
+      "publishedAt": "2026-07-30T14:44:46.210Z",
       "updatedAt": "2026-07-31T11:16:22.197Z",
       "fileName": "后端技术/Python/Web入门/第-16-篇：高频问题、面试与交付清单：故障排查、命令速查、验收项、上线检查.md"
     },
@@ -3449,8 +4135,8 @@
       ],
       "sortOrder": 120,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/10-FastAPI从0到1-文件后台任务HTTPX与Redis.md",
-      "publishedAt": "2026-07-30T14:44:46.2Z",
-      "updatedAt": "2026-07-31T11:16:22.13Z",
+      "publishedAt": "2026-07-30T14:44:46.200Z",
+      "updatedAt": "2026-07-31T11:16:22.130Z",
       "fileName": "后端技术/Python/Web入门/第-11-篇：文件、后台任务、HTTPX-与-Redis：UploadFile、BackgroundTasks、外部请求、缓存限流.md"
     },
     {
@@ -3478,7 +4164,7 @@
       "sortOrder": 110,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/09-FastAPI从0到1-登录JWT-RBAC与安全.md",
       "publishedAt": "2026-07-30T14:44:46.198Z",
-      "updatedAt": "2026-07-31T11:16:22.11Z",
+      "updatedAt": "2026-07-31T11:16:22.110Z",
       "fileName": "后端技术/Python/Web入门/第-10-篇：登录、JWT、RBAC-与安全：密码哈希、OAuth2、Token、角色权限.md"
     },
     {
@@ -3614,7 +4300,7 @@
       ],
       "sortOrder": 60,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/04-FastAPI从0到1-Pydantic-v2与数据建模.md",
-      "publishedAt": "2026-07-30T14:44:46.19Z",
+      "publishedAt": "2026-07-30T14:44:46.190Z",
       "updatedAt": "2026-07-31T11:16:22.061Z",
       "fileName": "后端技术/Python/Web入门/第-5-篇：Pydantic-v2-与数据建模：BaseModel、字段校验、可选字段、响应模型.md"
     },
@@ -3720,8 +4406,8 @@
       ],
       "sortOrder": 20,
       "sourcePath": "Python/02-应用实例/Web入门/FastAPI从0到1/00-FastAPI从0到1-学习路线与开发环境.md",
-      "publishedAt": "2026-07-30T14:44:46.18Z",
-      "updatedAt": "2026-07-31T11:16:22.03Z",
+      "publishedAt": "2026-07-30T14:44:46.180Z",
+      "updatedAt": "2026-07-31T11:16:22.030Z",
       "fileName": "后端技术/Python/Web入门/第-1-篇：FastAPI-学习路线与开发环境：后端能力地图、虚拟环境、依赖安装.md"
     },
     {
@@ -3857,7 +4543,7 @@
       "sortOrder": 270,
       "sourcePath": "Python/01-知识目录/26-Python零基础入门-Unicode-str与bytes.md",
       "publishedAt": "2026-07-30T14:44:46.162Z",
-      "updatedAt": "2026-07-31T11:16:22.43Z",
+      "updatedAt": "2026-07-31T11:16:22.430Z",
       "fileName": "后端技术/Python/知识目录/第-27-篇：Unicode、str-与-bytes：编码解码、UTF-8、文件编码.md"
     },
     {
@@ -3883,7 +4569,7 @@
       ],
       "sortOrder": 260,
       "sourcePath": "Python/01-知识目录/25-Python零基础入门-函数进阶闭包与装饰器.md",
-      "publishedAt": "2026-07-30T14:44:46.16Z",
+      "publishedAt": "2026-07-30T14:44:46.160Z",
       "updatedAt": "2026-07-31T11:16:22.424Z",
       "fileName": "后端技术/Python/知识目录/第-26-篇：函数进阶、闭包与装饰器：高阶函数、闭包、装饰器、参数透传.md"
     },
@@ -4152,7 +4838,7 @@
       "sortOrder": 40,
       "sourcePath": "03-IP类型与风控判断.md",
       "publishedAt": "2026-07-05T11:51:14.532Z",
-      "updatedAt": "2026-07-31T11:16:21.55Z",
+      "updatedAt": "2026-07-31T11:16:21.550Z",
       "fileName": "电脑/电脑网络/代理与VPN/第-4-篇：IP-类型与风控判断：家宽、机房、ISP、住宅代理怎么分.md"
     },
     {
@@ -4174,7 +4860,7 @@
       "sortOrder": 20,
       "sourcePath": "04-线路与代理协议基础.md",
       "publishedAt": "2026-07-05T11:51:14.526Z",
-      "updatedAt": "2026-07-31T11:16:21.54Z",
+      "updatedAt": "2026-07-31T11:16:21.540Z",
       "fileName": "电脑/电脑网络/代理与VPN/第-2-篇：线路与代理协议基础：直连、中转、专线、VLESS-Reality、Hysteria2.md"
     },
     {
@@ -4201,7 +4887,7 @@
       "sortOrder": 10,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/00-Python网络爬虫入门-基础概念.md",
       "publishedAt": "2026-07-05T11:49:33.224Z",
-      "updatedAt": "2026-07-31T11:16:21.96Z",
+      "updatedAt": "2026-07-31T11:16:21.960Z",
       "fileName": "后端技术/Python/网络爬虫与数据分析/第-1-篇：Python-网络爬虫基础概念：URL、HTTP、robots.txt、HTML、解析、数据保存.md"
     },
     {
@@ -4257,7 +4943,7 @@
       "sortOrder": 30,
       "sourcePath": "Python/02-应用实例/网络爬虫与数据分析/02-Python网络爬虫入门-lxml解析HTML并保存CSV.md",
       "publishedAt": "2026-07-05T11:49:33.213Z",
-      "updatedAt": "2026-07-31T11:16:21.98Z",
+      "updatedAt": "2026-07-31T11:16:21.980Z",
       "fileName": "后端技术/Python/网络爬虫与数据分析/第-3-篇：XPath-解析-HTML-并保存-CSV：lxml、文本提取、属性筛选、urljoin.md"
     },
     {
@@ -4582,7 +5268,7 @@
       ],
       "sortOrder": 120,
       "sourcePath": "Python/01-知识目录/11-Python零基础入门-元组tuple.md",
-      "publishedAt": "2026-07-05T11:47:18.52Z",
+      "publishedAt": "2026-07-05T11:47:18.520Z",
       "updatedAt": "2026-07-31T11:16:22.311Z",
       "fileName": "后端技术/Python/知识目录/第-12-篇：元组-tuple：不可变序列、解包、返回多个值.md"
     },
@@ -4757,7 +5443,7 @@
       ],
       "sortOrder": 190,
       "sourcePath": "Python/01-知识目录/18-Python零基础入门-模块包pip和虚拟环境.md",
-      "publishedAt": "2026-07-05T11:47:18.5Z",
+      "publishedAt": "2026-07-05T11:47:18.500Z",
       "updatedAt": "2026-07-31T11:16:22.363Z",
       "fileName": "后端技术/Python/知识目录/第-19-篇：模块、包、pip-和虚拟环境：import、venv、requirements、包管理.md"
     },
@@ -4833,7 +5519,7 @@
       "sortOrder": 220,
       "sourcePath": "Python/01-知识目录/21-Python零基础入门-面试复盘与项目表达.md",
       "publishedAt": "2026-07-05T11:47:18.491Z",
-      "updatedAt": "2026-07-31T11:16:22.39Z",
+      "updatedAt": "2026-07-31T11:16:22.390Z",
       "fileName": "后端技术/Python/知识目录/第-22-篇：面试复盘与项目表达：知识串联、项目讲解、简历表达.md"
     },
     {
@@ -5139,7 +5825,7 @@
       ],
       "sortOrder": 60,
       "sourcePath": "Node.js/MongoDB详解/第六篇_索引优化与事务.md",
-      "publishedAt": "2026-06-07T06:13:44.59Z",
+      "publishedAt": "2026-06-07T06:13:44.590Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "后端技术/Node.js/MongoDB详解/第-6-篇：MongoDB-索引优化与事务：explain、复合索引、ESR、TTL、Mongoose-事务.md"
     },
@@ -5413,7 +6099,7 @@
       "title": "第 04 篇：Codex 多线路接入与迁移总手册",
       "summary": "将官方、Packy、yunyi、rpcod 等线路统一收进一篇完整的线路选择与迁移总手册，集中解决多线路怎么选、怎么配、怎么迁移、怎么排错。",
       "cover": "",
-      "contentHash": "62546387d4ae9e9dede8d99349b3ba3e9d8bc7faa5b6d28ff179c9f7209fe170",
+      "contentHash": "c455aba4e6c77b32c018ab11431514b417f1dbf53904a46895b52ad13c2cb7d2",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5433,7 +6119,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md",
       "publishedAt": "2026-06-04T13:41:34.298Z",
-      "updatedAt": "2026-09-13T13:42:49.728Z",
+      "updatedAt": "2026-10-12T15:03:19.083Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-04-篇：Codex-多线路接入与迁移总手册.md"
     },
     {
@@ -5443,7 +6129,7 @@
       "title": "第 01 篇：Codex CLI 第一日开发实战",
       "summary": "面向平时主要用 Codex 开发的程序员，按安装确认、进入真实仓库、看懂英文终端、完成第一轮小任务、再扩展到 VS Code 插件和桌面 App 的顺序重写 Codex 第一日上手路线。",
       "cover": "",
-      "contentHash": "44a8b2d102775cedf6a93265556d01d8306659ed9f3d663a238f70ccde52ee08",
+      "contentHash": "35a753f0df4f0cef592f1d324a1e412615a00b68a484078a89dc6256647574aa",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5462,7 +6148,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md",
       "publishedAt": "2026-06-04T13:41:34.297Z",
-      "updatedAt": "2026-09-13T13:42:49.747Z",
+      "updatedAt": "2026-10-12T15:03:19.097Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-01-篇：Codex-CLI-第一日开发实战.md"
     },
     {
@@ -5472,7 +6158,7 @@
       "title": "第 07 篇：Codex 当前常用功能与进阶工作流手册",
       "summary": "按当前稳定版梳理 GPT-6.1 Sol、GPT-6 Astra 与 Luna 的模型选择、推理强度和开发工作流，并串联完整配置、命令与近期版本动态。",
       "cover": "",
-      "contentHash": "7213b2b00e379f588e4f8e3c3ff75312c8dc5eba3c1214f76aa775718084ad08",
+      "contentHash": "958e27c3bea5ff9a5e68a1c309c78cb30501a8b2b8c8aa1331f513915a3da61b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5492,7 +6178,7 @@
       "sortOrder": 70,
       "sourcePath": "AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md",
       "publishedAt": "2026-06-04T13:41:34.296Z",
-      "updatedAt": "2026-09-13T13:42:49.761Z",
+      "updatedAt": "2026-10-12T15:03:19.108Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-07-篇：Codex-当前常用功能与进阶工作流手册.md"
     },
     {
@@ -5502,7 +6188,7 @@
       "title": "第 06 篇：Codex 命令与配置文件速查",
       "summary": "按 Codex CLI 0.162.1 完整列出内置斜杠命令、别名、行内参数与任务状态限制，以及公开 CLI 命令树和全部子命令专属参数，修正旧版命令及配置说明。",
       "cover": "",
-      "contentHash": "196d518cf255c2069ae8d0c5105679fa240829ddf36f61096c8a16bbab720d63",
+      "contentHash": "10f369973e0e8092c113848cda8f599f80cab4df84bd0432658b56bef9ac8771",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5521,7 +6207,7 @@
       "sortOrder": 60,
       "sourcePath": "AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md",
       "publishedAt": "2026-06-04T13:41:34.294Z",
-      "updatedAt": "2026-09-13T13:42:49.78Z",
+      "updatedAt": "2026-10-12T15:03:19.122Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-06-篇：Codex-命令与配置文件速查.md"
     },
     {
@@ -5531,7 +6217,7 @@
       "title": "第 05 篇：Codex CLI、插件、App 三端联动实战",
       "summary": "详细讲解 Codex CLI、插件和 App 三端共用配置、认证与规则的关系，帮助排查“CLI 能用但插件或 App 不同步”的典型问题。",
       "cover": "",
-      "contentHash": "6361fc7578bb84bcf0d915140f6de495a55d63812aba5de11ceb4ea151916651",
+      "contentHash": "5731faa2ab4bdb810a7c13155ba86700add791e548ba35db12ee76e8a076f78f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5550,7 +6236,7 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
       "publishedAt": "2026-06-04T13:41:34.293Z",
-      "updatedAt": "2026-09-13T13:42:49.789Z",
+      "updatedAt": "2026-10-12T15:03:19.141Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-05-篇：Codex-CLI、插件、App-三端联动实战.md"
     },
     {
@@ -5560,7 +6246,7 @@
       "title": "第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）",
       "summary": "按 Codex CLI 0.162.1 稳定版核对配置层级与脱敏模板，补齐 102 个顶层配置键、全部嵌套字段、功能开关生命周期、权限 profile、MCP/Provider、TUI、Hooks 和管理员约束索引。",
       "cover": "",
-      "contentHash": "1e048333918dac4f34bf860bdff91fee025376a893f963e0bf747fe67c6a00dd",
+      "contentHash": "eb1746f6e9aeb76fe6365376117211e245c3190ca759743d2aaa0ab6d59c7cd9",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5579,7 +6265,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
       "publishedAt": "2026-06-04T13:38:33.777Z",
-      "updatedAt": "2026-09-13T13:42:49.803Z",
+      "updatedAt": "2026-10-12T15:03:19.151Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-03-篇：Codex-配置总手册（config.toml、字段字典、HN246-本机版）.md"
     },
     {
@@ -5589,7 +6275,7 @@
       "title": "第 02 篇：Codex CLI 英文终端界面翻译与排错",
       "summary": "基于主人整理的 Codex CLI 终端界面线索，用文字图逐屏解释首页、模型选择、推理强度、权限、状态页、MCP、插件、skills、experimental 与错误提示，帮助把英文终端界面读成可操作的开发判断。",
       "cover": "",
-      "contentHash": "942d4de4288320aca6086749b64a36c00523c6d40a6b7a56faaa623dff0b4320",
+      "contentHash": "57e3002d57d103f636815b35d16528179a83a95341e9e6918ecdbe32eb75db72",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5608,7 +6294,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md",
       "publishedAt": "2026-06-04T13:38:33.774Z",
-      "updatedAt": "2026-09-13T13:42:49.812Z",
+      "updatedAt": "2026-10-12T15:03:19.186Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-02-篇：Codex-CLI-英文终端界面翻译与排错.md"
     },
     {
@@ -5694,7 +6380,7 @@
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第五篇_CCSwitch跨机同步后绝对路径污染排障手册_2026-05.md",
       "publishedAt": "2026-05-30T11:26:29.663Z",
       "updatedAt": "2026-10-11T13:24:34.191Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-06-篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-05-30复核）.md"
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-06-篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-10复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac078",
@@ -5703,7 +6389,7 @@
       "title": "第 05 篇：CC Switch 跨电脑导出导入与云同步实战（2026-10复核）",
       "summary": "基于 CC Switch v4.0.8 官方发布说明、Settings 手册与 Configuration Files FAQ，重新梳理跨电脑迁移边界：配置导入、SQL 数据库备份、配置目录、WebDAV/S3 云同步分别能带走什么，哪些设备状态和账号凭据必须留在本机。",
       "cover": "",
-      "contentHash": "1991e053265f657455f19af71fc6573972b2293babad62c8ad6ac6bf3a444f73",
+      "contentHash": "2213c75745ab0d0ff6e4691fc26c61e5bbe1c20f0bcd5495387fc2a5ea4d0af8",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5724,7 +6410,7 @@
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第四篇_CCSwitch跨电脑导出导入与云同步实战_2026-05.md",
       "publishedAt": "2026-05-30T11:24:47.591Z",
       "updatedAt": "2026-10-11T13:24:34.261Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-05-篇：CC-Switch-跨电脑导出导入与云同步实战（2026-05-30复核）.md"
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-05-篇：CC-Switch-跨电脑导出导入与云同步实战（2026-10复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac06a",
@@ -5733,7 +6419,7 @@
       "title": "第 03 篇：CC Switch 接入中转站与计费排查实战（2026-10复核）",
       "summary": "结合 CC Switch v4.0.8 官方发布说明、Provider 手册和用量文档，面向同时使用 Codex、Claude、Gemini CLI 等工具的开发者，讲清直连/路由/聚合模式下如何接入中转站、验证模型、判断计费与排查缓存和额度差异。",
       "cover": "",
-      "contentHash": "1bfa238a2d2002f94b9a5926778ea65b79d9b2eb372a541f3da45cf5727575a6",
+      "contentHash": "fe585d9164649e644acdb33dbe744e3732c55e54d0a56bdc6354262c4ee508b6",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5752,9 +6438,9 @@
       ],
       "sortOrder": 30,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第二篇_CCSwitch接入中转站与计费排查_2026-04.md",
-      "publishedAt": "2026-05-30T11:24:47.59Z",
+      "publishedAt": "2026-05-30T11:24:47.590Z",
       "updatedAt": "2026-10-11T13:24:34.285Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-03-篇：CC-Switch-接入中转站与计费排查实战（2026-05复核）.md"
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-03-篇：CC-Switch-接入中转站与计费排查实战（2026-10复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac05a",
@@ -5763,7 +6449,7 @@
       "title": "第 01 篇：CC Switch 快速上手与核心概念（v4.0.8）",
       "summary": "CC Switch 是跨平台桌面 AI 编程工具配置中控台。v4.0 重做侧栏、直连/路由/聚合模式、用量与会话管理，并改为只替换供应商关键字段、保留用户配置；本篇按 v4.0.8（2026-10-10）官方发布说明、用户手册与 FAQ 更新安装、Provider、聚合、MCP、同步和升级边界。",
       "cover": "",
-      "contentHash": "cfb2a6a93cf4bc5e8a862cb358e71fcc34dfab8dbcf49fa863f1d01350a297f7",
+      "contentHash": "72335d31db7e1fbd63eada3318321005798dae2ac347dbfb5ca6358beaeab598",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5784,7 +6470,7 @@
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第一篇_CCSwitch快速上手与核心概念_2026-04.md",
       "publishedAt": "2026-05-30T11:24:47.588Z",
       "updatedAt": "2026-10-11T13:24:34.301Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-01-篇：CC-Switch-快速上手与核心概念（v3.16.0）.md"
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-01-篇：CC-Switch-快速上手与核心概念（v4.0.8）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac050",
@@ -5793,7 +6479,7 @@
       "title": "第 02 篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
       "summary": "记录一次发生在 CC Switch 3.x 时期的真实排查：症状爆在 Codex，根因落在 Provider 配置与 shell_environment_policy。文章保留历史证据，同时补充 v4.0.x 已改为只替换关键字段，升级到 v4.0.8 后应按新版配置写入和诊断日志机制复核。",
       "cover": "",
-      "contentHash": "6d8c164a976955ca81629979cb0e0c2819601ff02d3a45f1d083a2b7d6292f88",
+      "contentHash": "4264e968636fbcde0a875e227b47224909cf4d728019eff304804832fbecdcf4",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5844,7 +6530,7 @@
       "sortOrder": 60,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md",
       "publishedAt": "2026-05-30T09:36:22.756Z",
-      "updatedAt": "2026-10-12T21:50:00.000Z",
+      "updatedAt": "2026-10-12T15:17:34.433Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-06-篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md"
     },
     {
@@ -5874,7 +6560,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.838Z",
-      "updatedAt": "2026-10-12T21:50:00.000Z",
+      "updatedAt": "2026-10-12T15:13:40.092Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-03-篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md"
     },
     {
@@ -5904,7 +6590,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.835Z",
-      "updatedAt": "2026-10-12T21:50:00.000Z",
+      "updatedAt": "2026-10-12T15:17:34.457Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-02-篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md"
     },
     {
@@ -5934,7 +6620,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md",
       "publishedAt": "2026-05-30T08:58:26.833Z",
-      "updatedAt": "2026-10-12T21:50:00.000Z",
+      "updatedAt": "2026-10-12T15:13:40.112Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-01-篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md"
     },
     {
@@ -5964,7 +6650,7 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md",
       "publishedAt": "2026-05-30T08:58:26.824Z",
-      "updatedAt": "2026-10-12T21:50:00.000Z",
+      "updatedAt": "2026-10-12T15:13:40.122Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-05-篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md"
     },
     {
@@ -5994,7 +6680,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.821Z",
-      "updatedAt": "2026-10-12T21:50:00.000Z",
+      "updatedAt": "2026-10-12T15:13:40.130Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-04-篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md"
     },
     {
@@ -6426,7 +7112,7 @@
       "title": "第 04 篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
       "summary": "基于小米 MiMo 官方 Claude Code 与 Token Plan 文档，整理 tp/sk 区分、区域 Base URL、模型映射、Windows 配置路径、1M 长上下文启用方式和 CC Switch 4.x 下的 Provider 保存边界。",
       "cover": "",
-      "contentHash": "26ee0581334c499f07df70a812e33e49163efb08a0e085bdecbd092b1e4957c4",
+      "contentHash": "073d5cdb4a0fca1f85da4ed9935dbc630993a499513876bb969cd9825fdc7e1e",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6445,7 +7131,7 @@
       ],
       "sortOrder": 40,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第三篇_ClaudeCode对接小米MiMoTokenPlan配置说明_2026-05.md",
-      "publishedAt": "2026-05-24T14:10:38.11Z",
+      "publishedAt": "2026-05-24T14:10:38.110Z",
       "updatedAt": "2026-10-11T13:24:34.342Z",
       "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-04-篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md"
     },
@@ -6644,7 +7330,7 @@
       ],
       "sortOrder": 10,
       "sourcePath": "AI工具/04_Agent框架层/龙虾/第一篇_OpenClaw本地部署实战_从安装到龙虾内容生产.md",
-      "publishedAt": "2026-05-24T13:49:15.05Z",
+      "publishedAt": "2026-05-24T13:49:15.050Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "AI相关/AI工具/Agent框架层/龙虾/第-01-篇：OpenClaw-本地部署实战（从安装到龙虾内容生产）.md"
     },
@@ -6712,7 +7398,7 @@
       "title": "第 07 篇：Node 环境对比报告（DESKTOP-OAP8VID）",
       "summary": "公司电脑环境下采集的 Node / npm / PATH / PowerShell / 加密初始化对比报告，用于和个人电脑样本交叉比对 Codex 终端中的异常表现。",
       "cover": "",
-      "contentHash": "4b30e95ed5a5137aa685663de42bfc7955b3feb4e4b1de6f5c886e47e686fa3c",
+      "contentHash": "8c274d5a29babc90cbdc4570701201e8325fb65be1b90467a06e6267687f1111",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6730,7 +7416,7 @@
       ],
       "sortOrder": 70,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/Codex切换后Node排障/对比报告/公司电脑/Node环境对比报告-DESKTOP-OAP8VID-2026-04-30-093055.md",
-      "publishedAt": "2026-05-24T13:49:15.04Z",
+      "publishedAt": "2026-05-24T13:49:15.040Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-07-篇：Node-环境对比报告（DESKTOP-OAP8VID）.md"
     },
@@ -6741,7 +7427,7 @@
       "title": "第 08 篇：Node 环境对比报告（LAPTOP-5AP3767K）",
       "summary": "个人电脑环境下采集的 Node / npm / PATH / PowerShell / 加密初始化对比报告，用于辅助定位 Codex 终端和外部终端表现不一致的问题。",
       "cover": "",
-      "contentHash": "9b3fa191fc124ca5eba1b0260fbfcfae80887cbbbc3775b6ae57cac42704f380",
+      "contentHash": "954a7a5f189810b6b664e3ab8dded9b6d0be1bad3fe156fa629d71844c393fc8",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6877,7 +7563,7 @@
       ],
       "sortOrder": 40,
       "sourcePath": "AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md",
-      "publishedAt": "2026-05-24T12:56:24.68Z",
+      "publishedAt": "2026-05-24T12:56:24.680Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第-04-篇：Cursor-Rules、Devin-Windsurf-Rules、Kiro-Steering-实战.md"
     },
@@ -6993,7 +7679,7 @@
       ],
       "sortOrder": 10,
       "sourcePath": "AI工具/规则机制层/MCP/00-MCP-学习导航与维护路线.md",
-      "publishedAt": "2026-05-24T12:56:24.66Z",
+      "publishedAt": "2026-05-24T12:56:24.660Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-00-篇：MCP-学习导航与维护路线.md"
     },
@@ -7251,7 +7937,7 @@
       ],
       "sortOrder": 20,
       "sourcePath": "AI工具/AI编辑器流/Kiro/第二篇：Kiro-Specs-规格系统详解（2026-07）.md",
-      "publishedAt": "2026-05-24T12:56:24.59Z",
+      "publishedAt": "2026-05-24T12:56:24.590Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "AI相关/AI工具/AI编辑器流/Kiro/第-02-篇：Kiro-Specs-规格系统详解（2026-07）.md"
     },
@@ -7531,7 +8217,7 @@
       ],
       "sortOrder": 10,
       "sourcePath": "AI工具/01_AI编辑器流/Cursor/第一篇_Cursor上手_迁移与索引配置_2026-04.md",
-      "publishedAt": "2026-05-24T12:56:24.58Z",
+      "publishedAt": "2026-05-24T12:56:24.580Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "AI相关/AI工具/AI编辑器流/Cursor/第-01-篇：Cursor-上手、迁移与索引配置（2026-04）.md"
     },
@@ -7781,7 +8467,7 @@
       ],
       "sortOrder": 30,
       "sourcePath": "项目复用技术/JS库/03-Axios请求库实战说明_请求封装拦截器与文件上传.md",
-      "publishedAt": "2026-05-21T13:22:10.96Z",
+      "publishedAt": "2026-05-21T13:22:10.960Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "项目复用技术/JS库/第-3-篇：Axios-请求库实战：实例封装、拦截器、文件上传、Vue-接入.md"
     },
@@ -8297,7 +8983,7 @@
       "sortOrder": 40,
       "sourcePath": "面试/面试问题新.md",
       "publishedAt": "2026-05-11T14:44:26.726Z",
-      "updatedAt": "2026-08-27T14:19:03.17Z",
+      "updatedAt": "2026-08-27T14:19:03.170Z",
       "fileName": "面试/第-4-篇：Vue-响应式原理与扩展面试题：Vue2、Vue3、provide-inject、Vuex、Three.js.md"
     },
     {
@@ -8425,7 +9111,7 @@
       "sortOrder": 60,
       "sourcePath": "面试/WebSocket.md",
       "publishedAt": "2026-05-10T14:38:27.761Z",
-      "updatedAt": "2026-08-28T10:25:51.63Z",
+      "updatedAt": "2026-08-28T10:25:51.630Z",
       "fileName": "面试/第-6-篇：WebSocket-协议面试题：协议原理、握手、实时通信、JavaScript-使用.md"
     },
     {
@@ -8899,7 +9585,7 @@
       ],
       "sortOrder": 10,
       "sourcePath": "uni-app/通用基础/01-uni-app到底是什么_跨端编译运行时与平台边界.md",
-      "publishedAt": "2026-05-09T12:50:17.7Z",
+      "publishedAt": "2026-05-09T12:50:17.700Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/uni-app/通用基础/第-1-篇：uni-app-到底是什么：跨端编译、运行时与平台边界.md"
     },
@@ -8955,7 +9641,7 @@
       ],
       "sortOrder": 60,
       "sourcePath": "我的总结/uni-app/uni-app辅助/06_高频技术短答.md",
-      "publishedAt": "2026-05-08T13:22:12.48Z",
+      "publishedAt": "2026-05-08T13:22:12.480Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "我的总结/uni-app/uni-app辅助/第-06-篇：uni-app-高频问题补充问答：跨端差异、调试、发布、兼容处理.md"
     },
@@ -9287,7 +9973,7 @@
       ],
       "sortOrder": 30,
       "sourcePath": "我的总结/Vue/vue随记/附录03_Vue的name属性.md",
-      "publishedAt": "2026-05-07T13:57:10.03Z",
+      "publishedAt": "2026-05-07T13:57:10.030Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "我的总结/Vue/vue随记/附录-03：Vue-的-name-属性：递归组件、keep-alive、DevTools.md"
     },
@@ -9426,7 +10112,7 @@
       ],
       "sortOrder": 260,
       "sourcePath": "我的总结/JS/辅助资料/字符串数组方法对比记忆手册.md",
-      "publishedAt": "2026-05-07T13:31:33.25Z",
+      "publishedAt": "2026-05-07T13:31:33.250Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "我的总结/js/辅助资料/第-26-篇：字符串数组方法速背卡：开发常用-API、面试记忆、易混点.md"
     },
@@ -9563,7 +10249,7 @@
       ],
       "sortOrder": 170,
       "sourcePath": "我的总结/JS/辅助资料/17_Promise.md",
-      "publishedAt": "2026-05-07T13:25:33.67Z",
+      "publishedAt": "2026-05-07T13:25:33.670Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "我的总结/js/辅助资料/第-17-篇：Promise-完全指南：状态流转、then、catch、finally、链式调用.md"
     },
@@ -9814,7 +10500,7 @@
       ],
       "sortOrder": 70,
       "sourcePath": "我的总结/JS/辅助资料/07_es5构造函数与es6语法糖Class.md",
-      "publishedAt": "2026-05-07T13:25:33.66Z",
+      "publishedAt": "2026-05-07T13:25:33.660Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "我的总结/js/辅助资料/第-07-篇：ES5-构造函数与-ES6-Class-详解：new、继承、super、静态方法.md"
     },
@@ -10091,7 +10777,7 @@
       ],
       "sortOrder": 10,
       "sourcePath": "组件库/uvui/第一篇_快速认识uv-ui_安装_扩展配置_组件地图与项目开发路线.md",
-      "publishedAt": "2026-05-03T12:31:10.92Z",
+      "publishedAt": "2026-05-03T12:31:10.920Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/组件库/uvui/第-1-篇：快速认识-uv-ui：安装、扩展配置、组件地图与项目路线.md"
     },
@@ -10348,7 +11034,7 @@
       ],
       "sortOrder": 30,
       "sourcePath": "组件库/ElementPlus/第三篇_基础组件_Button_Icon_Container_Space_Text.md",
-      "publishedAt": "2026-04-29T12:51:05.55Z",
+      "publishedAt": "2026-04-29T12:51:05.550Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/组件库/ElementPlus/第-3-篇：Element-Plus-基础组件：Button、Icon、Container、Space、Text.md"
     },
@@ -10839,7 +11525,7 @@
       "tags": [],
       "sortOrder": 50,
       "sourcePath": "项目复用技术/第三方登录对接/02-企业微信/01-H5微应用/01-知识文档/企业微信H5微应用-扫一扫JSAPI-后端签名对接清单.md",
-      "publishedAt": "2026-04-28T11:18:24.46Z",
+      "publishedAt": "2026-04-28T11:18:24.460Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "项目复用技术/第三方登录对接/企业微信/第-5-篇：企业微信-H5-扫一扫-JSAPI-对接：后端签名、wx.scanQRCode、接口协议、联调清单.md"
     },
@@ -11293,7 +11979,7 @@
       "tags": [],
       "sortOrder": 40,
       "sourcePath": "项目复用技术/第三方登录对接/01-钉钉/01-H5微应用/01-知识文档/03-研究-钉钉登录-H5微应用双链路实现梳理（移动端仓库）.md",
-      "publishedAt": "2026-04-28T11:18:24.43Z",
+      "publishedAt": "2026-04-28T11:18:24.430Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "项目复用技术/第三方登录对接/钉钉/第-4-篇：钉钉-H5-微应用双链路实现梳理：入口分流、移动端仓库、免登链路、项目对照.md"
     },
@@ -11413,7 +12099,7 @@
       ],
       "sortOrder": 40,
       "sourcePath": "常用缺易忘/网络请求/前端认证、安全与文件上传协作手册.md",
-      "publishedAt": "2026-04-28T11:18:24.38Z",
+      "publishedAt": "2026-04-28T11:18:24.380Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "常用缺易忘/网络请求/第-4-篇：前端认证、安全与文件上传协作手册：Token、Cookie、CORS、OAuth2、FormData.md"
     },
@@ -11614,7 +12300,7 @@
       "tags": [],
       "sortOrder": 10,
       "sourcePath": "常用缺易忘/浏览器与网络/DNS域名解析详解.md",
-      "publishedAt": "2026-04-28T11:18:24.37Z",
+      "publishedAt": "2026-04-28T11:18:24.370Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "常用缺易忘/浏览器与网络/第-1-篇：DNS-域名解析详解：分层查询、记录类型、缓存与排障.md"
     },
@@ -11794,7 +12480,7 @@
       "tags": [],
       "sortOrder": 20,
       "sourcePath": "常用缺易忘/工具速查/时间戳完全指南.md",
-      "publishedAt": "2026-04-28T11:18:24.36Z",
+      "publishedAt": "2026-04-28T11:18:24.360Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "常用缺易忘/工具速查/第-2-篇：JavaScript-时间戳完全指南：获取、转换、格式化与时区问题.md"
     },
@@ -12313,7 +12999,7 @@
       ],
       "sortOrder": 40,
       "sourcePath": "Node.js/第四篇_模块化系统详解_2026-04.md",
-      "publishedAt": "2026-04-18T10:29:49.7Z",
+      "publishedAt": "2026-04-18T10:29:49.700Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "后端技术/Node.js/第-4-篇：Node.js-模块化系统：CommonJS、require、module.exports、ESM.md"
     },
@@ -12395,7 +13081,7 @@
       ],
       "sortOrder": 80,
       "sourcePath": "项目复用技术/WebSocket/07-WebSocket接入检查清单_从协议确认到页面联调.md",
-      "publishedAt": "2026-04-16T13:25:08.65Z",
+      "publishedAt": "2026-04-16T13:25:08.650Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "项目复用技术/WebSocket/第-8-篇：WebSocket-接入检查清单：协议确认、STOMP-联调、连接重连、页面验收.md"
     },
@@ -13214,7 +13900,7 @@
       "tags": [],
       "sortOrder": 30,
       "sourcePath": "Vue/vue面试题/vue3面试题.md",
-      "publishedAt": "2026-03-27T13:29:28.86Z",
+      "publishedAt": "2026-03-27T13:29:28.860Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/Vue/vue面试题/第-3-篇：Vue-3-面试题.md"
     },
@@ -13346,7 +14032,7 @@
       "tags": [],
       "sortOrder": 20,
       "sourcePath": "Vue/vue3/《2、Vue3基本语法》.md",
-      "publishedAt": "2026-03-27T13:28:44.18Z",
+      "publishedAt": "2026-03-27T13:28:44.180Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/Vue/vue3/第-2-篇：Vue-3-基本语法.md"
     },
@@ -14006,7 +14692,7 @@
       "tags": [],
       "sortOrder": 250,
       "sourcePath": "Vue/Ai的vue/附录A Vue2 生命周期图（建议配图）.md",
-      "publishedAt": "2026-02-02T13:21:58.71Z",
+      "publishedAt": "2026-02-02T13:21:58.710Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/Vue/Ai的vue/附录-A：Vue-2-生命周期图.md"
     },
@@ -14160,7 +14846,7 @@
       "tags": [],
       "sortOrder": 180,
       "sourcePath": "Vue/Ai的vue/第18章 Vuex 进阶（项目组织方式）.md",
-      "publishedAt": "2026-02-02T13:14:12.32Z",
+      "publishedAt": "2026-02-02T13:14:12.320Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/Vue/Ai的vue/第-18-章：Vuex-进阶.md"
     },
@@ -14182,7 +14868,7 @@
       "tags": [],
       "sortOrder": 170,
       "sourcePath": "Vue/Ai的vue/第17章 Vuex 基础（掌握核心概念）.md",
-      "publishedAt": "2026-02-02T13:14:11.77Z",
+      "publishedAt": "2026-02-02T13:14:11.770Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/Vue/Ai的vue/第-17-章：Vuex-基础.md"
     },
@@ -14248,7 +14934,7 @@
       "tags": [],
       "sortOrder": 140,
       "sourcePath": "Vue/Ai的vue/第14章 插槽 slot（封装组件必备）.md",
-      "publishedAt": "2026-02-02T13:12:19.63Z",
+      "publishedAt": "2026-02-02T13:12:19.630Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/Vue/Ai的vue/第-14-章：插槽-slot.md"
     },
@@ -14292,7 +14978,7 @@
       "tags": [],
       "sortOrder": 120,
       "sourcePath": "Vue/Ai的vue/第12章 组件基础（从零写组件）.md",
-      "publishedAt": "2026-02-02T13:09:10.79Z",
+      "publishedAt": "2026-02-02T13:09:10.790Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/Vue/Ai的vue/第-12-章：组件基础.md"
     },
@@ -14601,7 +15287,7 @@
       "sortOrder": 10,
       "sourcePath": "JavaScriptES6+/html+css笔记.md",
       "publishedAt": "2026-01-25T13:23:07.511Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-09-30T15:19:21.541Z",
       "fileName": "前端技术/前端三剑客/青鸟版三剑客/第-1-篇：HTML-与-CSS-综合笔记.md"
     },
     {
@@ -14622,7 +15308,7 @@
       "tags": [],
       "sortOrder": 30,
       "sourcePath": "JavaScriptES6+/ess.md",
-      "publishedAt": "2026-01-25T13:23:07.51Z",
+      "publishedAt": "2026-01-25T13:23:07.510Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/前端三剑客/青鸟版三剑客/第-3-篇：ES6+-语法笔记.md"
     },
@@ -14798,7 +15484,7 @@
       "tags": [],
       "sortOrder": 310,
       "sourcePath": "JS/第30章 使用Express开发后端.md",
-      "publishedAt": "2026-01-25T13:23:07.5Z",
+      "publishedAt": "2026-01-25T13:23:07.500Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/前端三剑客/AI版JS/第-30-章：使用-Express-开发后端.md"
     },
@@ -15084,7 +15770,7 @@
       "tags": [],
       "sortOrder": 200,
       "sourcePath": "JS/第19章 ES6核心语法.md",
-      "publishedAt": "2026-01-25T13:23:07.49Z",
+      "publishedAt": "2026-01-25T13:23:07.490Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/前端三剑客/AI版JS/第-19-章：ES6-核心语法.md"
     },
@@ -15106,7 +15792,7 @@
       "tags": [],
       "sortOrder": 190,
       "sourcePath": "JS/第18章 网络请求与跨域.md",
-      "publishedAt": "2026-01-25T13:23:07.49Z",
+      "publishedAt": "2026-01-25T13:23:07.490Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/前端三剑客/AI版JS/第-18-章：网络请求与跨域.md"
     },
@@ -15348,7 +16034,7 @@
       "tags": [],
       "sortOrder": 70,
       "sourcePath": "HTML/第六篇：实战与未来——从学会到用好.md",
-      "publishedAt": "2026-01-25T13:23:07.48Z",
+      "publishedAt": "2026-01-25T13:23:07.480Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/前端三剑客/AI版HTML/第-6-篇：HTML-实战与进阶方向.md"
     },
@@ -15505,245 +16191,6 @@
       "publishedAt": "2026-01-25T13:23:07.468Z",
       "updatedAt": "2026-08-16T14:39:48.203Z",
       "fileName": "前端技术/前端三剑客/AI版CSS/第-7-篇：综合实战：从风格到产品.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c25f",
-      "originalSlug": "uniapp-wechat-mini-program-project-skeleton",
-      "exportedSlug": "uniapp-wechat-mini-program-project-skeleton",
-      "title": "第 6 篇：uni-app 微信小程序通用工程骨架：会话、请求、路由与分包职责",
-      "summary": "从微信小程序项目落地出发，梳理 uni-app 工程目录、配置、存储、会话、请求、Pinia、路由与分包的职责边界，并附迁移步骤和验收清单。",
-      "cover": "",
-      "contentHash": "2ff178a61ff0b27e928fdbf3b8e84a718dda482e7ad8673bda45b214cf330879",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "微信小程序",
-        "Vue 3",
-        "工程结构",
-        "请求封装",
-        "登录态"
-      ],
-      "sortOrder": 60,
-      "sourcePath": "uni-app开发经验包/01-uni-app微信小程序-通用骨架方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.443Z",
-      "fileName": "项目复用技术/uni-app/第-6-篇：uni-app-微信小程序通用工程骨架：会话、请求、路由与分包职责.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c261",
-      "originalSlug": "uniapp-keyboard-input-viewport-adaptation",
-      "exportedSlug": "uniapp-keyboard-input-viewport-adaptation",
-      "title": "第 7 篇：uni-app 键盘弹起与输入框遮挡适配：H5、App、小程序处理方案",
-      "summary": "围绕软键盘弹起后输入框被遮挡、页面回弹和底部面板错位，比较小程序、App 与 H5 的处理边界，给出布局、监听清理和排查步骤。",
-      "cover": "",
-      "contentHash": "a96d2052676865703656bae973a6e210be72ab1cd81f5fdff9074ef7b2209c34",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "软键盘",
-        "H5",
-        "微信小程序"
-      ],
-      "sortOrder": 70,
-      "sourcePath": "uni-app开发经验包/02-键盘弹起-输入遮挡与回弹-适配方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.464Z",
-      "fileName": "项目复用技术/uni-app/第-7-篇：uni-app-键盘弹起与输入框遮挡适配：H5、App、小程序处理方案.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c263",
-      "originalSlug": "uniapp-cross-platform-navigation-bar",
-      "exportedSlug": "uniapp-cross-platform-navigation-bar",
-      "title": "第 8 篇：uni-app 跨端导航栏适配：默认导航、自定义导航与胶囊尺寸",
-      "summary": "对比 uni-app 默认导航栏与自定义导航栏的适用条件，说明胶囊尺寸、安全区、窗口变量、tabBar 和业务吸顶栏的计算方式与常见冲突。",
-      "cover": "",
-      "contentHash": "4c8d2325106307b3fd07873ee3d2d0faf6eb5d6cd25e5078834c7bb6e4dcb97d",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "导航",
-        "微信小程序",
-        "H5"
-      ],
-      "sortOrder": 80,
-      "sourcePath": "uni-app开发经验包/03-跨端导航栏-平台差异-适配方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.473Z",
-      "fileName": "项目复用技术/uni-app/第-8-篇：uni-app-跨端导航栏适配：默认导航、自定义导航与胶囊尺寸.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c265",
-      "originalSlug": "wechat-mini-program-runtime-dynamic-import-alternatives",
-      "exportedSlug": "wechat-mini-program-runtime-dynamic-import-alternatives",
-      "title": "第 9 篇：微信小程序运行时动态导入失效：静态映射与分包方案",
-      "summary": "分析微信小程序中运行时 import() 无法按预期工作的原因，整理静态导入、显式 require、静态映射与分包异步化的选择及真机验证方法。",
-      "cover": "",
-      "contentHash": "995d4f54f7ee5ee2a4e0b746b39c55369b92abc0c64ff08ab01e2c007e047a9b",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "微信小程序",
-        "按需导入",
-        "分包"
-      ],
-      "sortOrder": 90,
-      "sourcePath": "uni-app开发经验包/04-微信小程序-动态导入import失效-替代方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.482Z",
-      "fileName": "项目复用技术/uni-app/第-9-篇：微信小程序运行时动态导入失效：静态映射与分包方案.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c267",
-      "originalSlug": "uniapp-app-phone-and-sms-capabilities",
-      "exportedSlug": "uniapp-app-phone-and-sms-capabilities",
-      "title": "第 10 篇：uni-app App 拨号与短信能力适配：平台边界、权限与原生模块",
-      "summary": "梳理 uni-app App 端拨号和短信能力的平台差异，涵盖号码处理、条件编译、原生模块、权限最小化与真机故障定位。",
-      "cover": "",
-      "contentHash": "e1819d244435cbe4926170ac49e742691e0d303b25cad49033b907861989ca1f",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "App",
-        "原生模块"
-      ],
-      "sortOrder": 100,
-      "sourcePath": "uni-app开发经验包/05-App端-拨号与短信-适配方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.492Z",
-      "fileName": "项目复用技术/uni-app/第-10-篇：uni-app-App-拨号与短信能力适配：平台边界、权限与原生模块.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c269",
-      "originalSlug": "uniapp-vue3-canvas-business-card-export",
-      "exportedSlug": "uniapp-vue3-canvas-business-card-export",
-      "title": "第 11 篇：uni-app Vue 3 Canvas 名片生成：组件作用域、多实例与图片导出",
-      "summary": "以 uni-app Vue 3 名片图片生成为例，处理 Canvas 组件作用域、多实例标识、网络图片预加载、绘制时机、弹窗交互与导出验证。",
-      "cover": "",
-      "contentHash": "b6145206119bb4ba51a665debb8dda574069d9cac545f3a2af9d9d5636532ea6",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "Canvas",
-        "名片生成",
-        "Vue 3"
-      ],
-      "sortOrder": 110,
-      "sourcePath": "uni-app开发经验包/06-Canvas名片生成-组件兼容-解决方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.5Z",
-      "fileName": "项目复用技术/uni-app/第-11-篇：uni-app-Vue-3-Canvas-名片生成：组件作用域、多实例与图片导出.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c26b",
-      "originalSlug": "uniapp-scroll-view-layout-troubleshooting",
-      "exportedSlug": "uniapp-scroll-view-layout-troubleshooting",
-      "title": "第 12 篇：uni-app scroll-view 滚动异常排查：容器高度、触底刷新与聊天滚动",
-      "summary": "从固定高度和 Flex 约束入手排查 uni-app scroll-view 滚动异常，覆盖 tabBar 页面、聊天消息、触底加载、下拉刷新、滚动定位与多余空白。",
-      "cover": "",
-      "contentHash": "8fb25670b5d25924456ea1b9b2b7646c8f3949eb16de882ade7866e7d80d0473",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "scroll",
-        "布局",
-        "实时聊天"
-      ],
-      "sortOrder": 120,
-      "sourcePath": "uni-app开发经验包/07-scroll-view-滚动异常-解决方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.507Z",
-      "fileName": "项目复用技术/uni-app/第-12-篇：uni-app-scroll-view-滚动异常排查：容器高度、触底刷新与聊天滚动.md"
-    },
-    {
-      "originalId": "6abf80f2b29038327447c26d",
-      "originalSlug": "uniapp-h5-session-route-recovery",
-      "exportedSlug": "uniapp-h5-session-route-recovery",
-      "title": "第 13 篇：uni-app H5 刷新返回登录页排查：会话恢复与深路由处理",
-      "summary": "排查 H5 刷新或返回登录页但会话仍有效的问题，整理会话就绪、登录页自恢复、深路由还原、缓存合并写入与退出流程验证。",
-      "cover": "",
-      "contentHash": "ab89fa42f552a94ec7f814145892e5283b11d04986710c3219a1de8d9f4685ea",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "项目复用技术",
-        "uni-app"
-      ],
-      "tags": [
-        "uni-app",
-        "H5",
-        "会话控制",
-        "路由",
-        "路由守卫"
-      ],
-      "sortOrder": 130,
-      "sourcePath": "uni-app开发经验包/08-H5刷新返回登录页-会话未失效-解决方案.md",
-      "publishedAt": "2026-10-02T10:01:22.438Z",
-      "updatedAt": "2026-10-02T10:01:22.515Z",
-      "fileName": "项目复用技术/uni-app/第-13-篇：uni-app-H5-刷新返回登录页排查：会话恢复与深路由处理.md"
-    },
-    {
-      "originalId": "6ac61e2472e3dac3cb2fccb2",
-      "originalSlug": "personal-blog-aliyun-fullstack-deployment",
-      "exportedSlug": "personal-blog-aliyun-fullstack-deployment",
-      "title": "第 8 篇：全栈博客系统从开发到上线：阿里云真实部署实操",
-      "summary": "以现有 Vue、Express、MongoDB 博客和一台 2 GiB 阿里云轻量服务器为实例，从本机安装、验证、构建、DNS、备案、环境安装到 Nginx、HTTPS、验收和回滚逐步上线。",
-      "cover": "",
-      "contentHash": "583e676e96fd271b2f569d0c38ff9083fc6d1b02b3db69fbc8be88ef591fb321",
-      "contentMode": "markdown",
-      "status": "published",
-      "categoryPath": [
-        "电脑",
-        "网站部署",
-        "全栈部署入门"
-      ],
-      "tags": [
-        "上线实战",
-        "Vue",
-        "Express",
-        "MongoDB",
-        "Nginx",
-        "HTTPS"
-      ],
-      "sortOrder": 80,
-      "sourcePath": "第-8-篇：全栈博客系统从开发到上线：阿里云真实部署实操.md",
-      "publishedAt": "2026-10-07T10:28:38.544Z",
-      "updatedAt": "2026-10-07T10:28:38.545Z",
-      "fileName": "电脑/网站部署/全栈部署入门/第-8-篇：全栈博客系统从开发到上线：阿里云真实部署实操.md"
     }
   ]
 }

@@ -21,7 +21,7 @@ originalSlug: "pc-pc-f80d8c7b"
 originalStatus: "published"
 publishedAt: "2026-04-28T11:18:24.435Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 7 篇：PC 多租户钉钉扫码登录接入方案：一套代码、多学校部署、租户配置、前后端清单
 

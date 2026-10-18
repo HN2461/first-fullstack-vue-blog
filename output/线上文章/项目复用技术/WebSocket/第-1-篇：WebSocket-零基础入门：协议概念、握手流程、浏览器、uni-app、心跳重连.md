@@ -20,7 +20,7 @@ originalSlug: "websocket-websocket-uni-app-8118619a"
 originalStatus: "published"
 publishedAt: "2026-04-29T14:07:07.239Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 1 篇：WebSocket 零基础入门：协议概念、握手流程、浏览器、uni-app、心跳重连
 

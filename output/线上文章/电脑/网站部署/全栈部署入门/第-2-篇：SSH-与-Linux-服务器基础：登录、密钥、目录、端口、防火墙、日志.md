@@ -20,7 +20,7 @@ originalSlug: "ssh-linux-8e509843"
 originalStatus: "published"
 publishedAt: "2026-06-08T11:09:58.534Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 2 篇：SSH 与 Linux 服务器基础：登录、密钥、目录、端口、防火墙、日志
 

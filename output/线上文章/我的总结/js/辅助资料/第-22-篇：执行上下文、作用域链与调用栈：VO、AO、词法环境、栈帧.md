@@ -21,7 +21,7 @@ originalSlug: "js-js-8c9811b5"
 originalStatus: "published"
 publishedAt: "2026-05-10T11:51:43.089Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 22 篇：执行上下文、作用域链与调用栈：VO、AO、词法环境、栈帧
 这篇不是为了多背一个名词，而是为了补上 JavaScript 面试里最容易断层的底层主线。

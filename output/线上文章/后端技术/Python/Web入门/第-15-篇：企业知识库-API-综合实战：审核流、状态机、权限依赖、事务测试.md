@@ -20,7 +20,7 @@ originalSlug: "fastapi-enterprise-knowledge-api-capstone"
 originalStatus: "published"
 publishedAt: "2026-07-30T14:44:46.209Z"
 updatedAt: "2026-07-31T11:16:22.184Z"
-exportedAt: "2026-09-29T13:16:41.461Z"
+exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 15 篇：企业知识库 API 综合实战：审核流、状态机、权限依赖、事务测试
 
