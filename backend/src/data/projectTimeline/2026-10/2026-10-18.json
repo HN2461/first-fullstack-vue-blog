@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-18",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "frontend-ai-ui-markdown-tutorials",
+      "title": "新增 Ant Design X Vue 与 Markdown 开发教程",
+      "detail": "1. 整理 Ant Design X Vue 入门系列，覆盖安装、豆包式页面布局、消息 Markdown 展示、Sender 输入与附件、流式响应和服务端模型安全接入，共 6 篇。2. 新增 Markdown 与 markdown-it 系列，讲解语法和解析原理、Token 与插件、Vue 安全渲染、代码高亮、Mermaid、KaTeX 数学公式、AI 流式 Markdown 和综合实践，共 9 篇；补充可操作的 SSE 分片解码示例并修正嵌套代码围栏。3. 增加两套默认 dry-run 的专项文章发布脚本，校验 Front Matter、分类路径、slug、重复标题和发布完整性。4. 完成前端构建、后端 353 项测试、UTF-8 无 BOM、文章代码围栏、专题内链和两套本地发布预览检查。",
+      "category": "内容上新"
+    }
+  ]
+}
