@@ -1050,9 +1050,28 @@ async function loadFolderCategoriesAndItems() {
 
 async function loadFolderItems() {
   if (!activeFolderId.value) {
-    folderItems.value = []
-    folderTotal.value = 0
-    return
+    if (!folderKeyword.value.trim()) {
+      folderItems.value = []
+      folderTotal.value = 0
+      return
+    }
+
+    folderLoading.value = true
+    try {
+      const result = await listAdminMedia({
+        keyword: folderKeyword.value.trim(),
+        page: folderPage.value,
+        pageSize: folderPageSize.value
+      })
+      folderItems.value = result.items
+      folderTotal.value = result.total
+      return
+    } catch (error) {
+      errorMessage.value = error.message || '资源搜索失败'
+      return
+    } finally {
+      folderLoading.value = false
+    }
   }
 
   folderLoading.value = true

@@ -3,7 +3,7 @@
     <div v-if="loading" class="media-file-grid__state">
       <a-spin tip="正在加载资源" />
     </div>
-    <a-empty v-else-if="items.length === 0" class="media-file-grid__state" description="当前文件夹暂无资源" />
+    <a-empty v-else-if="items.length === 0" class="media-file-grid__state" :description="emptyText" />
     <div v-else class="media-file-grid" :class="{ 'is-selecting': selectedKeys.length > 0 }">
       <article
         v-for="record in items"
@@ -91,6 +91,7 @@ const props = defineProps({
   total: { type: Number, default: 0 },
   page: { type: Number, default: 1 },
   pageSize: { type: Number, default: 24 },
+  emptyText: { type: String, default: '当前文件夹暂无资源' },
   selectedKeys: { type: Array, default: () => [] },
   vaultDetailsVisible: { type: Boolean, default: false }
 })

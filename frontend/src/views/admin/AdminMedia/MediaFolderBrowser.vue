@@ -19,7 +19,7 @@
           v-model:value="keywordDraft"
           allow-clear
           size="small"
-          :placeholder="activeFolder ? '搜索当前文件夹' : '搜索文件夹名称'"
+          :placeholder="activeFolder ? '搜索当前文件夹' : '搜索文件夹或资源名称'"
           @search="submitKeyword"
           @press-enter="submitKeyword"
         />
@@ -36,6 +36,42 @@
     </div>
 
     <div v-if="!activeFolder" class="media-folder-browser__root">
+      <section v-if="keyword" class="media-folder-browser__search-results">
+        <div class="media-folder-browser__section-heading">
+          <div>
+            <strong>匹配的资源</strong>
+            <span>跨分类搜索文件名和资源分类 · {{ total }} 个</span>
+          </div>
+          <MediaBatchActions
+            v-if="selectedKeys.length"
+            :count="selectedKeys.length"
+            :can-manage-shares="canManageShares"
+            @download="emit('batch-download')"
+            @move="emit('batch-move')"
+            @share="emit('batch-share')"
+            @delete="emit('batch-delete')"
+            @clear="emit('clear-selection')"
+          />
+        </div>
+        <MediaFileGrid
+          :items="items"
+          :loading="loading"
+          :total="total"
+          :page="page"
+          :page-size="pageSize"
+          :selected-keys="selectedKeys"
+          empty-text="没有匹配的资源"
+          :vault-details-visible="true"
+          @page-change="emit('page-change', $event)"
+          @selection-change="handleSelectionChange"
+          @view="emit('view', $event)"
+          @download="emit('download', $event)"
+          @rename="emit('rename', $event)"
+          @move="emit('move', $event)"
+          @references="emit('references', $event)"
+          @delete="emit('delete', $event)"
+        />
+      </section>
       <div class="media-folder-browser__section-heading">
         <div>
           <strong>自定义资源分类</strong>
@@ -46,7 +82,7 @@
       <div v-if="visibleCustomFolders.length" class="media-folder-browser__folder-grid">
         <MediaFolderCard v-for="folder in visibleCustomFolders" :key="folder.id || `${folder.owner || 'system'}-${folder.name}`" :folder="folder" @open="openFolder" />
       </div>
-      <a-empty v-else class="media-folder-browser__empty" description="还没有自定义分类" />
+      <a-empty v-else class="media-folder-browser__empty" :description="keyword ? '没有匹配的自定义文件夹' : '还没有自定义分类'" />
 
       <div class="media-folder-browser__section-heading media-folder-browser__section-heading--system">
         <div>
@@ -57,6 +93,7 @@
       <div class="media-folder-browser__folder-grid">
         <MediaFolderCard v-for="folder in visibleSystemFolders" :key="folder.id || `${folder.owner || 'system'}-${folder.name}`" :folder="folder" @open="openFolder" />
       </div>
+      <a-empty v-if="keyword && !visibleSystemFolders.length" class="media-folder-browser__empty" description="没有匹配的系统文件夹" />
     </div>
 
     <template v-else>
@@ -276,6 +313,17 @@ function openFolder(folder) {
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: thin;
+}
+
+.media-folder-browser__search-results {
+  display: flex;
+  height: min(60vh, 600px);
+  min-height: 280px;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  padding: 2px;
+  border-bottom: 1px solid var(--console-border);
 }
 
 .media-folder-browser__root {
