@@ -39,7 +39,7 @@
           </div>
 
           <div v-if="detail.references.length === 0" class="media-reference__empty">
-            当前没有扫描到文章、用户头像或系统设置引用，可结合业务确认后移入回收站。
+            当前没有扫描到业务引用，可结合用途确认后移入回收站。
           </div>
 
           <div v-else class="media-reference__list">
@@ -56,13 +56,17 @@
                 </div>
               </div>
               <a-button
-                v-if="item.routePath"
+                v-if="canOpenReference(item)"
                 type="link"
                 size="small"
-                @click="goTo(item.routePath)"
+                @click="goTo(item)"
               >
                 打开
               </a-button>
+              <span v-else-if="item.routePath" class="media-reference__unavailable">
+                {{ item.type === 'workJournalEvidence' ? '仅记录所有者可查看' : '当前账号无访问权限' }}
+              </span>
+              <span v-else class="media-reference__unavailable">没有对应的管理入口</span>
             </article>
           </div>
         </div>
@@ -76,6 +80,7 @@ import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { getAdminMediaReferences } from '@/services/admin'
+import { useAuthStore } from '@/stores/auth'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -84,6 +89,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:open'])
 const router = useRouter()
+const authStore = useAuthStore()
 const loading = ref(false)
 const detail = ref(null)
 
@@ -107,9 +113,21 @@ watch(
   { immediate: true }
 )
 
-function goTo(path) {
+function canOpenReference(item) {
+  if (!item.routePath || !authStore.canAccessPath(item.routePath)) return false
+  if (item.type === 'resourceShare' && !authStore.isSuperAdmin) {
+    return String(item.ownerUserId || '') === String(authStore.user?.id || '')
+  }
+  if (item.type === 'workJournalEvidence') {
+    return String(item.ownerUserId || '') === String(authStore.user?.id || '')
+  }
+  return true
+}
+
+function goTo(item) {
   emit('update:open', false)
-  router.push(path)
+  const query = Object.fromEntries(Object.entries(item.routeQuery || {}).filter(([, value]) => value !== '' && value !== null && value !== undefined))
+  router.push({ path: item.routePath, query })
 }
 
 function formatFileSize(size = 0) {
@@ -224,6 +242,12 @@ function formatFileSize(size = 0) {
   display: grid;
   gap: 2px;
   min-width: 0;
+}
+
+.media-reference__unavailable {
+  flex: 0 0 auto;
+  color: var(--text-secondary);
+  font-size: 12px;
 }
 
 @media (max-width: 576px) {

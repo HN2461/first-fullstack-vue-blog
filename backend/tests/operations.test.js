@@ -5,6 +5,7 @@ import { USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { Media } from '#modules/media/models/Media.js'
+import { Setting } from '#modules/settings/models/Setting.js'
 import { User } from '#modules/user/models/User.js'
 import { createArticle, updateArticle } from '#modules/content/services/article.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
@@ -207,6 +208,13 @@ describe('operations routes', () => {
       }
     })
 
+    const exactUserResponse = await request(app)
+      .get('/api/admin/users')
+      .query({ userId: admin._id.toString(), keyword: admin.username })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    expect(exactUserResponse.body.data.items.map((item) => item.id)).toEqual([admin._id.toString()])
+
     const recordsResponse = await request(app)
       .get('/api/profile/login-records')
       .set('Authorization', `Bearer ${adminToken}`)
@@ -348,6 +356,13 @@ describe('operations routes', () => {
       }],
       status: 'published'
     }, admin)
+    const setting = await Setting.create({
+      key: 'accountRecovery',
+      group: 'system',
+      value: { qq: { qrCode: { url: media.url } } }
+    })
+    admin.avatar = media.url
+    await admin.save()
 
     const listResponse = await request(app)
       .get('/api/admin/media')
@@ -357,7 +372,7 @@ describe('operations routes', () => {
 
     expect(listResponse.body.data.items[0].usage).toMatchObject({
       usageStatus: 'referenced',
-      referenceCount: 3
+      referenceCount: 5
     })
 
     const referencesResponse = await request(app)
@@ -366,8 +381,20 @@ describe('operations routes', () => {
       .expect(200)
 
     expect(referencesResponse.body.data.references.map((item) => item.type)).toEqual(
-      expect.arrayContaining(['articleContent', 'articleCover', 'articleResource'])
+      expect.arrayContaining(['articleContent', 'articleCover', 'articleResource', 'setting', 'userAvatar'])
     )
+    const articleContentReference = referencesResponse.body.data.references.find((item) => item.type === 'articleContent')
+    expect(articleContentReference.routePath).toMatch(/^\/console\/manage\/articles\/[a-f\d]{24}$/i)
+    expect(referencesResponse.body.data.references.find((item) => item.type === 'setting')).toMatchObject({
+      ownerId: setting._id.toString(),
+      routePath: '/console/manage/settings',
+      routeQuery: { section: 'recovery', settingKey: 'accountRecovery' }
+    })
+    expect(referencesResponse.body.data.references.find((item) => item.type === 'userAvatar')).toMatchObject({
+      ownerId: admin._id.toString(),
+      routePath: '/console/manage/users',
+      routeQuery: { userId: admin._id.toString(), keyword: admin.username }
+    })
 
     const riskResponse = await request(app)
       .get('/api/admin/media/delete-risk')
@@ -376,7 +403,7 @@ describe('operations routes', () => {
       .expect(200)
 
     expect(riskResponse.body.data.referencedCount).toBe(1)
-    expect(riskResponse.body.data.items[0].referenceCount).toBe(3)
+    expect(riskResponse.body.data.items[0].referenceCount).toBe(5)
   })
 
   it('blocks media deletion while referenced and rechecks references in the trash', async () => {

@@ -4,7 +4,7 @@ import { MediaSharePackage } from '../models/MediaSharePackage.js'
 export async function findMediaShareReferences(mediaId) {
   if (!mediaId) return []
   const shares = await MediaSharePackage.find({ 'entries.media': mediaId })
-    .select('name publicId status updatedAt')
+    .select('name publicId status createdBy updatedAt')
     .sort({ updatedAt: -1 })
     .lean()
 
@@ -12,9 +12,14 @@ export async function findMediaShareReferences(mediaId) {
     type: 'resourceShare',
     typeLabel: '资源分享',
     ownerId: share._id.toString(),
+    ownerUserId: share.createdBy?.toString?.() || '',
     ownerTitle: share.name,
     ownerSubtitle: share.publicId,
     routePath: '/console/manage/media-shares',
+    routeQuery: {
+      shareId: share._id.toString(),
+      keyword: share.name
+    },
     status: share.status,
     updatedAt: share.updatedAt
   }))

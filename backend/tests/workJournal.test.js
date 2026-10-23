@@ -10,6 +10,7 @@ import { WorkReport } from '#modules/workJournal/models/WorkReport.js'
 import { Media } from '#modules/media/models/Media.js'
 import { MediaCategory } from '#modules/media/models/MediaCategory.js'
 import { listMedia } from '#modules/media/services/media.service.js'
+import { findMediaReferences } from '#modules/media/services/mediaReference.service.js'
 import { resolvePrivateWorkJournalRoot } from '#modules/workJournal/services/workJournal.service.js'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { Menu } from '#modules/rbac/models/Menu.js'
@@ -259,6 +260,16 @@ describe('work journal routes', () => {
       usageStatus: 'referenced',
       referenceCount: 1
     })
+    const references = await findMediaReferences(media)
+    expect(references).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        type: 'workJournalEvidence',
+        ownerId: created.body.data.id,
+        ownerUserId: user._id.toString(),
+        routePath: '/console/work-journal/daily',
+        routeQuery: { logId: created.body.data.id }
+      })
+    ]))
     expect(await fs.readFile(storedPath)).toEqual(Buffer.from([0xff, 0xd8, 0xff, 0xd9]))
     const publicRelativePath = path.relative(resolveUploadRoot(), storedPath).replace(/\\/g, '/')
     await request(app).get(`/uploads/${publicRelativePath}`).expect(404)

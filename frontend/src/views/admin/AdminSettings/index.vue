@@ -45,7 +45,7 @@
               <span>站点身份、公开描述和版本信息</span>
             </div>
             <a-form layout="vertical" class="settings-form">
-              <div class="form-item">
+              <div id="setting-siteTitle" class="form-item">
                 <div class="field-header">
                   <label for="siteTitle">站点标题</label>
                   <a-tooltip :title="settingHelp.siteTitle">
@@ -64,7 +64,7 @@
                 <span class="form-hint">用于浏览器标题栏和 SEO 标题</span>
               </div>
 
-              <div class="form-item">
+              <div id="setting-siteDescription" class="form-item">
                 <div class="field-header">
                   <label for="siteDescription">站点描述</label>
                   <a-tooltip :title="settingHelp.siteDescription">
@@ -83,7 +83,7 @@
               </div>
 
               <div class="form-row">
-                <div class="form-item form-item--half">
+                <div id="setting-authorName" class="form-item form-item--half">
                   <div class="field-header">
                     <label for="authorName">作者名称</label>
                     <a-tooltip :title="settingHelp.authorName">
@@ -99,7 +99,7 @@
                     <template #prefix><UserOutlined /></template>
                   </a-input>
                 </div>
-                <div class="form-item form-item--half">
+                <div id="setting-systemVersion" class="form-item form-item--half">
                   <div class="field-header">
                     <label for="systemVersion">系统版本</label>
                     <a-tooltip :title="settingHelp.systemVersion">
@@ -128,7 +128,7 @@
             </div>
             <a-form layout="vertical" class="settings-form">
               <div class="form-row form-row--preferences">
-                <div class="form-item form-item--half">
+                <div id="setting-defaultTheme" class="form-item form-item--half">
                   <div class="field-header">
                     <label>默认主题</label>
                     <a-tooltip :title="settingHelp.defaultTheme">
@@ -146,7 +146,7 @@
                   <span class="form-hint">用于访客和选择“跟随站点默认”的用户</span>
                 </div>
 
-                <div class="form-item form-item--half">
+                <div id="setting-commentEnabled" class="form-item form-item--half">
                   <div class="field-header">
                     <label>评论功能</label>
                     <a-tooltip :title="settingHelp.commentEnabled">
@@ -164,7 +164,9 @@
               </div>
 
               <div class="section-divider"></div>
-              <SiteEntranceEffectSettings v-model:value="form.siteEntranceEffect" />
+              <div id="setting-siteEntranceEffect">
+                <SiteEntranceEffectSettings v-model:value="form.siteEntranceEffect" />
+              </div>
             </a-form>
           </section>
         </a-tab-pane>
@@ -175,7 +177,9 @@
               <h3>账号服务</h3>
               <span>配置登录页展示的人工找回渠道</span>
             </div>
-            <AccountRecoverySettings v-model:value="form.accountRecovery" />
+            <div id="setting-accountRecovery">
+              <AccountRecoverySettings v-model:value="form.accountRecovery" />
+            </div>
           </section>
         </a-tab-pane>
 
@@ -190,7 +194,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, computed, nextTick, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import {
   ExclamationCircleOutlined,
   LoadingOutlined,
@@ -261,12 +266,32 @@ function normalizeSettings(settings = {}) {
 const saving = ref(false)
 const loading = ref(false)
 const activeSection = ref('site')
+const route = useRoute()
 const currentTime = ref('')
 const loadError = ref('')
 const { runAction, toMessage } = useAdminActions()
 const siteStore = useSiteStore()
 
 const form = reactive(normalizeSettings())
+watch(() => [route.query.section, route.query.settingKey], async ([section, key]) => {
+  const settingSection = typeof section === 'string' ? section : ''
+  const validSections = ['site', 'experience', 'recovery', 'calendar']
+  const sectionByKey = {
+    accountRecovery: 'recovery',
+    commentEnabled: 'experience',
+    defaultTheme: 'experience',
+    siteEntranceEffect: 'experience'
+  }
+  if (validSections.includes(settingSection)) {
+    activeSection.value = settingSection
+  } else if (typeof key === 'string') {
+    activeSection.value = sectionByKey[key] || (key.startsWith('site') || key.startsWith('author') || key === 'systemVersion' ? 'site' : activeSection.value)
+  }
+
+  if (typeof key !== 'string' || !/^[\w.-]+$/.test(key)) return
+  await nextTick()
+  document.getElementById(`setting-${key}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+})
 const { markClean } = useUnsavedChanges({
   getSnapshot: () => ({ ...form }),
   enabled: computed(() => !loading.value && !saving.value),

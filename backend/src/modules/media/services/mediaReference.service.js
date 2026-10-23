@@ -75,25 +75,49 @@ function buildUserReference(user) {
     ownerTitle: user.username,
     ownerSubtitle: user.email,
     routePath: '/console/manage/users',
+    routeQuery: {
+      userId: user._id.toString(),
+      keyword: user.username
+    },
     status: user.status || '',
     updatedAt: user.updatedAt
   }
 }
 
-function collectSettingReferences(setting, url) {
+function buildSettingReference(setting, url) {
   const valueText = JSON.stringify(setting.value ?? '')
-  if (!includesUrl(valueText, url)) return []
+  if (!includesUrl(valueText, url)) return null
 
-  return [{
+  const key = String(setting.key || '')
+  const sectionByKey = {
+    accountRecovery: 'recovery',
+    commentEnabled: 'experience',
+    defaultTheme: 'experience',
+    siteEntranceEffect: 'experience',
+    siteTitle: 'site',
+    siteDescription: 'site',
+    authorName: 'site',
+    systemVersion: 'site'
+  }
+  const section = sectionByKey[key] || ''
+  const routeQuery = section ? { section, settingKey: key } : {}
+
+  return {
     type: 'setting',
     typeLabel: getReferenceLabel('setting'),
     ownerId: setting._id.toString(),
-    ownerTitle: setting.key,
+    ownerTitle: key,
     ownerSubtitle: setting.group || 'system',
-    routePath: '/console/manage/settings',
+    routePath: section ? '/console/manage/settings' : '',
+    routeQuery,
     status: '',
     updatedAt: setting.updatedAt
-  }]
+  }
+}
+
+function collectSettingReferences(setting, url) {
+  const reference = buildSettingReference(setting, url)
+  return reference ? [reference] : []
 }
 
 export function summarizeMediaReferences(references = []) {
@@ -130,7 +154,7 @@ export async function findMediaReferences(media) {
     const [shares, workJournalLogs] = await Promise.all([
       shareReferencesPromise,
       media?._id
-        ? WorkLog.find({ 'evidence.mediaId': media._id }).select('title workDate deletedAt updatedAt').lean()
+        ? WorkLog.find({ 'evidence.mediaId': media._id }).select('title workDate deletedAt createdBy updatedAt').lean()
         : []
     ])
     return [
@@ -141,7 +165,9 @@ export async function findMediaReferences(media) {
         ownerId: log._id.toString(),
         ownerTitle: log.title,
         ownerSubtitle: log.workDate,
+        ownerUserId: log.createdBy?.toString?.() || '',
         routePath: log.deletedAt ? '/console/work-journal/trash' : '/console/work-journal/daily',
+        routeQuery: { logId: log._id.toString() },
         status: log.deletedAt ? 'trash' : '',
         updatedAt: log.updatedAt
       }))
@@ -220,7 +246,9 @@ export async function findMediaReferences(media) {
     ownerId: log._id.toString(),
     ownerTitle: log.title,
     ownerSubtitle: log.workDate,
+    ownerUserId: log.createdBy?.toString?.() || '',
     routePath: log.deletedAt ? '/console/work-journal/trash' : '/console/work-journal/daily',
+    routeQuery: { logId: log._id.toString() },
     status: log.deletedAt ? 'trash' : '',
     updatedAt: log.updatedAt
   }))

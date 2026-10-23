@@ -388,6 +388,8 @@ export async function listUsers(options = {}) {
 
   // 构建筛选条件
   const query = {}
+  const userId = String(options.userId || '')
+  if (/^[a-f\d]{24}$/i.test(userId)) query._id = userId
   if (options.keyword) {
     const keyword = options.keyword.trim()
     const regex = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i')

@@ -20,6 +20,16 @@ export function listWorkLogs(params = {}) {
   return http.get('/api/work-journal/logs', { params })
 }
 
+/**
+ * 按当前登录用户读取单条日报，用于从媒体引用定位到日报详情。
+ * @param {string} id 日报 ID。
+ * @returns {Promise<object>} 日报详情。
+ * @throws {Error} 日报不存在或不属于当前用户时由接口返回访问错误。
+ */
+export function getWorkLog(id) {
+  return http.get(`/api/work-journal/logs/${id}`)
+}
+
 export function listTrashedWorkLogs(params = {}) {
   return http.get('/api/work-journal/trash', { params })
 }

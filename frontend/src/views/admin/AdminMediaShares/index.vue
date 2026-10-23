@@ -21,7 +21,7 @@
               <QuestionCircleOutlined aria-label="查看资源分享说明" />
             </a-tooltip>
           </div>
-          <a-input-search v-model:value="keyword" allow-clear placeholder="搜索名称或说明" class="media-shares-toolbar__search" @search="reloadTable" />
+          <a-input-search v-model:value="keyword" allow-clear placeholder="搜索名称或说明" class="media-shares-toolbar__search" @change="clearReferenceShareTargetIfEdited" @search="reloadTable" />
           <a-select v-model:value="mode" allow-clear show-search option-filter-prop="label" placeholder="分享方式" :options="shareModeOptions" class="media-shares-toolbar__select" />
           <a-range-picker v-model:value="createdRange" class="media-shares-toolbar__date" />
           <a-button v-if="canCreateShare" type="primary" @click="router.push('/console/manage/media')"><template #icon><PlusOutlined /></template>创建分享</a-button>
@@ -86,8 +86,8 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import {
   CopyOutlined,
@@ -114,9 +114,13 @@ import {
 import './media-share-page.css'
 
 const router = useRouter()
+const route = useRoute()
 const authStore = useAuthStore()
 const tableRef = ref(null)
 const keyword = ref('')
+const referenceShareId = ref('')
+const referenceShareKeyword = ref('')
+const openedReferenceShareId = ref('')
 const mode = ref(undefined)
 const status = ref('')
 const createdRange = ref([])
@@ -126,11 +130,26 @@ const currentRecord = ref(null)
 const editVisible = ref(false)
 const editRecord = ref(null)
 const canCreateShare = computed(() => authStore.canAccessPath('/console/manage/media'))
+watch(() => [route.query.shareId, route.query.keyword], ([shareId, search]) => {
+  const id = String(shareId || '')
+  referenceShareId.value = /^[a-f\d]{24}$/i.test(id) ? id : ''
+  referenceShareKeyword.value = referenceShareId.value && typeof search === 'string' ? search : ''
+  if (referenceShareId.value) {
+    keyword.value = referenceShareKeyword.value
+    mode.value = undefined
+    status.value = ''
+    createdRange.value = []
+    openedReferenceShareId.value = ''
+  } else {
+    keyword.value = typeof search === 'string' ? search : ''
+  }
+}, { immediate: true })
 const statusTrack = computed(() => shareStatusOptions.map((item) => ({
   ...item,
   count: counts.value[item.value || 'all'] || 0
 })))
 const tableParams = computed(() => ({
+  shareId: referenceShareId.value || undefined,
   keyword: keyword.value.trim() || undefined,
   mode: mode.value || undefined,
   status: status.value || undefined,
@@ -159,12 +178,28 @@ async function loadShares(params) {
   }
 }
 
-function handleDataChange({ raw }) {
+function handleDataChange({ items = [], raw }) {
   counts.value = { ...counts.value, ...(raw?.counts || {}) }
+  if (!referenceShareId.value || openedReferenceShareId.value === referenceShareId.value) return
+  const record = items.find((item) => item.id === referenceShareId.value)
+  if (!record) return
+  openedReferenceShareId.value = referenceShareId.value
+  openDetail(record)
 }
 
 function reloadTable() {
   tableRef.value?.reload()
+}
+
+function clearReferenceShareTargetIfEdited() {
+  if (!referenceShareId.value || keyword.value.trim() === referenceShareKeyword.value.trim()) return
+  referenceShareId.value = ''
+  openedReferenceShareId.value = ''
+  const query = { ...route.query }
+  delete query.shareId
+  if (keyword.value.trim()) query.keyword = keyword.value.trim()
+  else delete query.keyword
+  router.replace({ query })
 }
 
 function openDetail(record) {

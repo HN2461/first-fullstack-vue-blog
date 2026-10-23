@@ -38,6 +38,8 @@ export function buildMediaShareStatusQuery(status, now = new Date()) {
 
 export function buildMediaShareListQuery(input = {}, actorQuery = {}, now = new Date()) {
   const conditions = [actorQuery]
+  const shareId = String(input.shareId || '')
+  if (/^[a-f\d]{24}$/i.test(shareId)) conditions.push({ _id: shareId })
   const keyword = String(input.keyword || '').trim()
   if (keyword) {
     const matcher = new RegExp(escapeRegex(keyword), 'i')

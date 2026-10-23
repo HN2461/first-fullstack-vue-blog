@@ -319,8 +319,8 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
   DeleteOutlined,
@@ -352,8 +352,11 @@ import { useAuthStore } from '@/stores/auth'
 import { getGenderLabel, getUserAvatar } from '@/utils/avatar'
 
 const tableRef = ref(null)
+const route = useRoute()
+const router = useRouter()
 const searchKeyword = ref('')
 const debouncedKeyword = ref('')
+const referenceUserId = ref('')
 const filterRole = ref('all')
 const filterStatus = ref('all')
 const selectedUserIds = ref([])
@@ -376,8 +379,26 @@ const genderRecord = ref(null)
 const createUserFormRef = ref(null)
 const { runAction, confirmAction } = useAdminActions()
 const authStore = useAuthStore()
-const router = useRouter()
 const viewportWidth = ref(typeof window === 'undefined' ? 1280 : window.innerWidth)
+
+watch(() => [route.query.userId, route.query.keyword], ([userId, keyword]) => {
+  const id = String(userId || '')
+  if (!/^[a-f\d]{24}$/i.test(id)) {
+    referenceUserId.value = ''
+    const search = typeof keyword === 'string' ? keyword : ''
+    searchKeyword.value = search
+    debouncedKeyword.value = search
+    return
+  }
+
+  const search = typeof keyword === 'string' ? keyword : ''
+  referenceUserId.value = id
+  searchKeyword.value = search
+  debouncedKeyword.value = search
+  filterRole.value = 'all'
+  filterStatus.value = 'all'
+  clearSelection()
+}, { immediate: true })
 
 const roleForm = reactive({ roleIds: [] })
 const remarkForm = reactive({ remarkName: '' })
@@ -408,6 +429,7 @@ const createUserRules = {
 
 const assignableRoles = computed(() => roles.value.filter((role) => !role.isSuperAdmin && role.status === 'active'))
 const filterParams = computed(() => ({
+  userId: referenceUserId.value || undefined,
   keyword: debouncedKeyword.value || undefined,
   role: filterRole.value === 'all' ? undefined : filterRole.value,
   status: filterStatus.value === 'all' ? undefined : filterStatus.value
@@ -496,14 +518,26 @@ async function loadUsers(params) {
 let searchTimer = null
 function handleSearch() {
   clearTimeout(searchTimer)
+  clearReferenceUserTarget()
   debouncedKeyword.value = searchKeyword.value.trim()
 }
 
 function handleSearchChange() {
+  clearReferenceUserTarget()
   clearTimeout(searchTimer)
   searchTimer = setTimeout(() => {
     debouncedKeyword.value = searchKeyword.value.trim()
   }, 300)
+}
+
+function clearReferenceUserTarget() {
+  if (!referenceUserId.value) return
+  referenceUserId.value = ''
+  const query = { ...route.query }
+  delete query.userId
+  if (searchKeyword.value.trim()) query.keyword = searchKeyword.value.trim()
+  else delete query.keyword
+  router.replace({ query })
 }
 
 function handleSelectionChange(keys, rows) {

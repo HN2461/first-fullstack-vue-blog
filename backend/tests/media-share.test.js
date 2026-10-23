@@ -394,6 +394,13 @@ describe('media resource package sharing', () => {
       .expect(200)
     expect(passwordOnly.body.data.items.map((item) => item.id)).toEqual([expired.id])
 
+    const exactShare = await request(app)
+      .get('/api/admin/media-shares')
+      .query({ shareId: expired.id, keyword: '过期' })
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+    expect(exactShare.body.data.items.map((item) => item.id)).toEqual([expired.id])
+
     await request(app).delete(`/api/admin/media-shares/${revoked.id}`).set('Authorization', `Bearer ${superToken}`).expect(200)
     await request(app).get(`/api/public/media-shares/${revoked.publicId}`).expect(404)
     expect(await Media.findById(media._id)).not.toBeNull()
@@ -410,7 +417,14 @@ describe('media resource package sharing', () => {
       .get(`/api/admin/media/${media._id}/references`)
       .set('Authorization', `Bearer ${superToken}`)
       .expect(200)
-    expect(references.body.data.references.some((item) => item.type === 'resourceShare')).toBe(true)
+    expect(references.body.data.references).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        type: 'resourceShare',
+        ownerId: created.id,
+        ownerUserId: superAdmin._id.toString(),
+        routeQuery: { shareId: created.id, keyword: created.name }
+      })
+    ]))
 
     const softDeleteBlocked = await request(app)
       .delete(`/api/admin/media/${media._id}`)

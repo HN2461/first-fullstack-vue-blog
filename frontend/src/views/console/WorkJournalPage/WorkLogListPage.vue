@@ -198,7 +198,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
 import { ArchiveRestore, CalendarDays, Copy, Eye, History, List, PencilLine, Plus, RefreshCw, Trash2 } from 'lucide-vue-next'
 import BlogTable from '@/components/BlogTable.vue'
-import { deleteWorkLog, listEmployments, listTrashedWorkLogs, listWorkLogs, restoreWorkLog, updateWorkLog } from '@/services/workJournal'
+import { deleteWorkLog, getWorkLog, listEmployments, listTrashedWorkLogs, listWorkLogs, restoreWorkLog, updateWorkLog } from '@/services/workJournal'
 import WorkJournalEmptyState from './WorkJournalEmptyState.vue'
 import WorkEvidenceGallery from './WorkEvidenceGallery.vue'
 import WorkLogEditorModal from './WorkLogEditorModal.vue'
@@ -217,6 +217,7 @@ const editorOpen = ref(false)
 const editingLog = ref(null)
 const copyingLog = ref(null)
 const detailLog = ref(null)
+const routeOpenedLogId = ref('')
 const revisionModalOpen = ref(false)
 const busyId = ref('')
 const initialEmploymentId = typeof route.query.employmentId === 'string' ? route.query.employmentId : undefined
@@ -233,6 +234,27 @@ const status = ref(undefined)
 const from = ref(initialFrom)
 const to = ref(initialTo)
 const dateRange = ref(initialFrom || initialTo ? [initialFrom, initialTo] : [])
+
+watch(() => route.query.logId, async (value, _previousValue, onCleanup) => {
+  let active = true
+  onCleanup(() => { active = false })
+  const logId = typeof value === 'string' && /^[a-f\d]{24}$/i.test(value) ? value : ''
+  if (!logId) {
+    if (routeOpenedLogId.value && detailLog.value?.id === routeOpenedLogId.value) detailLog.value = null
+    routeOpenedLogId.value = ''
+    return
+  }
+
+  try {
+    const log = await getWorkLog(logId)
+    if (!active) return
+    routeOpenedLogId.value = logId
+    detailLog.value = log
+  } catch (error) {
+    if (!active) return
+    message.error(error.message || '日报不存在或当前账号无权查看')
+  }
+}, { immediate: true })
 const employmentOptions = computed(() => employments.value.map((item) => ({ value: item.id, label: `${item.company} · ${item.position}` })))
 const logsByDate = computed(() => calendarLogs.value.reduce((result, log) => {
   if (!result[log.workDate]) result[log.workDate] = []
