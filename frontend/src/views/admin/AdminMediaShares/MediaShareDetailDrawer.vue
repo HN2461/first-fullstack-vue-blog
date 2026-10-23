@@ -3,7 +3,7 @@
     :open="open"
     :width="drawerWidth"
     class="share-detail-drawer"
-    :body-style="{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 0 }"
+    :body-style="{ padding: 0, overflowY: 'auto', overscrollBehavior: 'contain' }"
     @close="emit('update:open', false)"
   >
     <template #title>
