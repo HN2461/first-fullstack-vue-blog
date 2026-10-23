@@ -574,6 +574,10 @@ export function updateAdminMediaShare(id, data) {
   return http.patch(`/api/admin/media-shares/${id}`, data)
 }
 
+export function removeAdminMediaShareEntry(id, entryId) {
+  return http.delete(`/api/admin/media-shares/${id}/entries/${entryId}`)
+}
+
 export function revokeAdminMediaShare(id) {
   return http.post(`/api/admin/media-shares/${id}/revoke`)
 }

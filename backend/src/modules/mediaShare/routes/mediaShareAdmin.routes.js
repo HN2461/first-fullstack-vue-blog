@@ -8,6 +8,7 @@ import {
   deleteRevokedMediaShare,
   getMediaShareDetail,
   listMediaShares,
+  removeMediaShareEntry,
   resetMediaShareCode,
   revealMediaShareCode,
   revokeMediaShare,
@@ -35,6 +36,10 @@ mediaShareAdminRouter.post('/', asyncHandler(async (req, res) => {
 mediaShareAdminRouter.patch('/:id', asyncHandler(async (req, res) => {
   const input = parseMediaShareBody(mediaShareUpdateSchema, req.body)
   res.json(ok(await updateMediaShare(req.params.id, input, req.user), '分享配置已更新'))
+}))
+
+mediaShareAdminRouter.delete('/:id/entries/:entryId', asyncHandler(async (req, res) => {
+  res.json(ok(await removeMediaShareEntry(req.params.id, req.params.entryId, req.user), '已从分享中移除该资源'))
 }))
 
 mediaShareAdminRouter.post('/:id/revoke', asyncHandler(async (req, res) => {

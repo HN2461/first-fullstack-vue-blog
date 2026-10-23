@@ -3,7 +3,7 @@
     :open="open"
     :width="drawerWidth"
     class="share-detail-drawer"
-    :body-style="{ padding: 0, overflow: 'hidden' }"
+    :body-style="{ padding: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: 0 }"
     @close="emit('update:open', false)"
   >
     <template #title>
@@ -67,6 +67,18 @@
               <FileOutlined />
               <div><strong :title="entry.originalName">{{ entry.originalName }}</strong><span>{{ entry.mimeType }} · {{ formatFileSize(entry.size) }}</span></div>
               <a-tag :color="entry.available ? 'success' : 'error'">{{ entry.available ? '可用' : '不可用' }}</a-tag>
+              <a-tooltip :title="share.entries.length <= 1 ? '资源包至少保留一个资源，请撤销并删除整个分享' : '仅从此分享中移除，不会删除媒体文件'">
+                <a-button
+                  type="text"
+                  danger
+                  aria-label="从分享中移除资源"
+                  :disabled="share.status === 'revoked' || share.entries.length <= 1"
+                  :loading="removingEntryId === entry.entryId"
+                  @click="confirmRemoveEntry(entry)"
+                >
+                  <template #icon><DeleteOutlined /></template>
+                </a-button>
+              </a-tooltip>
             </div>
           </div>
         </section>
@@ -94,13 +106,14 @@ import {
   ReloadOutlined,
   StopOutlined
 } from '@ant-design/icons-vue'
-import { getAdminMediaShare, getAdminMediaShareCode, resetAdminMediaShareCode } from '@/services/admin'
+import { getAdminMediaShare, getAdminMediaShareCode, removeAdminMediaShareEntry, resetAdminMediaShareCode } from '@/services/admin'
 import { buildShareUrl, formatDate, formatFileSize, getAccessLabel, getShareStatusMeta } from './mediaShareDisplay'
 
 const props = defineProps({ open: { type: Boolean, default: false }, record: { type: Object, default: null } })
-const emit = defineEmits(['update:open', 'edit', 'revoke', 'delete'])
+const emit = defineEmits(['update:open', 'edit', 'revoke', 'delete', 'entry-removed'])
 const loading = ref(false)
 const codeLoading = ref(false)
+const removingEntryId = ref('')
 const share = ref(null)
 const revealedCode = ref('')
 const drawerWidth = computed(() => window.innerWidth <= 720 ? 'calc(100vw - 16px)' : 680)
@@ -150,6 +163,25 @@ function confirmResetCode() {
       revealedCode.value = result.extractionCode
       message.success('提取码已重新生成')
       await loadDetail()
+    }
+  })
+}
+
+function confirmRemoveEntry(entry) {
+  Modal.confirm({
+    title: '从分享中移除资源',
+    content: `移除「${entry.originalName}」后，访客将无法再通过此分享访问该资源；媒体文件本身不会删除。`,
+    okText: '确认移除',
+    okType: 'danger',
+    async onOk() {
+      removingEntryId.value = entry.entryId
+      try {
+        share.value = await removeAdminMediaShareEntry(share.value.id, entry.entryId)
+        emit('entry-removed', share.value)
+        message.success('已从分享中移除该资源')
+      } finally {
+        removingEntryId.value = ''
+      }
     }
   })
 }

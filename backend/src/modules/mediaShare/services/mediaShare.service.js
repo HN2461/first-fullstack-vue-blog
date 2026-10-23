@@ -277,6 +277,25 @@ export async function updateMediaShare(id, input, actor) {
   return serializeAdminShare(share)
 }
 
+export async function removeMediaShareEntry(id, entryId, actor) {
+  const share = await findAdminShare(id, actor)
+  if (share.status === 'revoked') {
+    throw shareError('已撤销的分享不能修改资源清单', 409, 'SHARE_REVOKED')
+  }
+
+  const entryIndex = share.entries.findIndex((entry) => entry.entryId === entryId)
+  if (entryIndex < 0) {
+    throw shareError('分享资源不存在', 404, 'SHARE_ENTRY_NOT_FOUND')
+  }
+  if (share.entries.length <= 1) {
+    throw shareError('资源包至少保留一个资源；如需解除最后一项引用，请撤销并删除分享记录', 409, 'SHARE_ENTRY_MINIMUM')
+  }
+
+  share.entries.splice(entryIndex, 1)
+  await share.save()
+  return getMediaShareDetail(share._id, actor)
+}
+
 export async function revokeMediaShare(id, actor) {
   const share = await findAdminShare(id, actor)
   if (share.status !== 'revoked') {

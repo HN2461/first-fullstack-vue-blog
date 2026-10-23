@@ -429,4 +429,28 @@ describe('media resource package sharing', () => {
     expect(await Media.findById(media._id)).toBeNull()
     expect(fs.existsSync(media.storagePath)).toBe(false)
   })
+
+  it('removes an individual media reference from a share without deleting its media or emptying a package', async () => {
+    const firstMedia = await createMedia(superAdmin, 'first-share-item.txt')
+    const secondMedia = await createMedia(superAdmin, 'second-share-item.txt')
+    const created = await createShare(app, superToken, [firstMedia._id, secondMedia._id])
+    const removedEntryId = created.entries[0].entryId
+
+    const updated = await request(app)
+      .delete(`/api/admin/media-shares/${created.id}/entries/${removedEntryId}`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(200)
+
+    expect(updated.body.data.entryCount).toBe(1)
+    expect(updated.body.data.entries.map((entry) => entry.originalName)).toEqual(['second-share-item.txt'])
+    expect(await Media.findById(firstMedia._id)).not.toBeNull()
+    const savedShare = await MediaSharePackage.findById(created.id).lean()
+    expect(savedShare.entries.map((entry) => entry.entryId)).toEqual([created.entries[1].entryId])
+
+    const singleEntryRemoval = await request(app)
+      .delete(`/api/admin/media-shares/${created.id}/entries/${created.entries[1].entryId}`)
+      .set('Authorization', `Bearer ${superToken}`)
+      .expect(409)
+    expect(singleEntryRemoval.body.code).toBe('SHARE_ENTRY_MINIMUM')
+  })
 })

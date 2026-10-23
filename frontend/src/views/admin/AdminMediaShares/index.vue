@@ -79,6 +79,7 @@
       @edit="openEdit"
       @revoke="confirmRevoke"
       @delete="confirmDelete"
+      @entry-removed="handleEntryRemoved"
     />
     <MediaShareEditModal v-model:open="editVisible" :record="editRecord" @saved="handleSaved" />
   </section>
@@ -177,6 +178,11 @@ function openEdit(record) {
 }
 
 function handleSaved(result) {
+  currentRecord.value = result
+  tableRef.value?.refresh()
+}
+
+function handleEntryRemoved(result) {
   currentRecord.value = result
   tableRef.value?.refresh()
 }
