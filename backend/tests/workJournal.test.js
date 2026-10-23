@@ -142,7 +142,7 @@ describe('work journal routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .send(payload)
       .expect(201)
-    expect(created.body.data).toMatchObject({ status: 'draft', version: 1, workDate: payload.workDate })
+    expect(created.body.data).toMatchObject({ status: 'draft', version: 1, workDate: payload.workDate, workHours: 8 })
 
     await request(app)
       .post('/api/work-journal/logs')
@@ -151,6 +151,36 @@ describe('work journal routes', () => {
       .expect(409)
 
     expect(await WorkLog.countDocuments({ createdBy: user._id })).toBe(1)
+  })
+
+  it('validates daily work hours and preserves them in revision snapshots', async () => {
+    const created = await request(app)
+      .post('/api/work-journal/logs')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ employmentId: employment.id, workDate: '2026-06-02', title: '工时记录', workHours: 7.5, accomplishments: '完成工作' })
+      .expect(201)
+    expect(created.body.data.workHours).toBe(7.5)
+
+    const finalized = await request(app)
+      .patch(`/api/work-journal/logs/${created.body.data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ status: 'final' })
+      .expect(200)
+    expect(finalized.body.data.workHours).toBe(7.5)
+
+    const updated = await request(app)
+      .patch(`/api/work-journal/logs/${created.body.data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ workHours: 6.5 })
+      .expect(200)
+    expect(updated.body.data).toMatchObject({ workHours: 6.5, revisionCount: 1 })
+    expect(updated.body.data.revisions[0].workHours).toBe(7.5)
+
+    await request(app)
+      .post('/api/work-journal/logs')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ employmentId: employment.id, workDate: '2026-06-03', title: '非法工时', workHours: 24.5 })
+      .expect(400)
   })
 
   it('snapshots finalized versions and returns a date range report', async () => {

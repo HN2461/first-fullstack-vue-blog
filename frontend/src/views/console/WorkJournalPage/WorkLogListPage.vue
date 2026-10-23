@@ -93,6 +93,7 @@
         <template v-else-if="column.key === 'weekday'">
           <span class="work-log-list-page__weekday">{{ weekdayLabel(record.workDate) }}</span>
         </template>
+        <template v-else-if="column.key === 'workHours'">{{ formatWorkHours(record.workHours) }}</template>
         <template v-else-if="column.key === 'employment'">
           <div class="work-log-list-page__cell-stack"><strong>{{ employmentName(record.employment) }}</strong><span>{{ employmentPosition(record.employment) }}</span></div>
         </template>
@@ -157,6 +158,7 @@
       <div v-if="detailLog" class="work-log-list-page__detail">
         <div class="work-log-list-page__detail-meta">
           <time>{{ detailLog.workDate }}</time>
+          <span>{{ formatWorkHours(detailLog.workHours) }}</span>
           <span>{{ employmentName(detailLog.employment) }} · {{ employmentPosition(detailLog.employment) }}</span>
           <a-tag v-if="trash" color="orange" :bordered="false">回收站</a-tag>
           <a-tag v-else :color="detailLog.status === 'final' ? 'green' : 'default'" :bordered="false">{{ detailLog.status === 'final' ? '已定稿' : '草稿' }}</a-tag>
@@ -251,6 +253,7 @@ const trashHelpSections = [
 ]
 const columns = computed(() => [
   { title: '工作日期', dataIndex: 'workDate', key: 'workDate', width: 140, sorter: (a, b) => a.workDate.localeCompare(b.workDate) },
+  { title: '工作时长', dataIndex: 'workHours', key: 'workHours', width: 110 },
   { title: '星期', key: 'weekday', width: 78 },
   { title: '日报内容', key: 'entry', width: 380, ellipsis: true },
   { title: '工作经历', key: 'employment', width: 190 },
@@ -462,6 +465,11 @@ function employmentName(id) {
 
 function employmentPosition(id) {
   return employments.value.find((item) => item.id === id)?.position || ''
+}
+
+function formatWorkHours(hours) {
+  const value = Number(hours ?? 8)
+  return `${Number.isInteger(value) ? value : value.toFixed(1)} 小时`
 }
 
 function weekdayLabel(value) {

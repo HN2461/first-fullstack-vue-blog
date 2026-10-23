@@ -22,6 +22,9 @@
             <a-date-picker v-model:value="form.workDate" value-format="YYYY-MM-DD" format="YYYY-MM-DD" placeholder="选择工作日期" :disabled="Boolean(log?.id)" />
           </a-form-item>
         </div>
+        <a-form-item label="每天的工作时长（小时）" name="workHours">
+          <a-input-number v-model:value="form.workHours" :min="0" :max="24" :step="0.5" :precision="1" />
+        </a-form-item>
         <a-form-item label="日报标题" name="title" required>
           <a-input v-model:value.trim="form.title" :maxlength="160" placeholder="例如：完成订单列表筛选与联调" />
         </a-form-item>
@@ -113,7 +116,7 @@ function today() {
 }
 
 function createEmptyForm() {
-  return { employmentId: props.employmentId, workDate: today(), title: '', summary: '', accomplishments: '', blockers: '', nextPlan: '', contentMarkdown: '' }
+  return { employmentId: props.employmentId, workDate: today(), workHours: 8, title: '', summary: '', accomplishments: '', blockers: '', nextPlan: '', contentMarkdown: '' }
 }
 
 function populateForm() {
@@ -125,6 +128,7 @@ function populateForm() {
     title: source?.title || '',
     summary: source?.summary || '',
     accomplishments: source?.accomplishments || '',
+    workHours: source?.workHours ?? 8,
     blockers: source?.blockers || '',
     nextPlan: source?.nextPlan || '',
     contentMarkdown: source?.contentMarkdown || ''
@@ -202,6 +206,7 @@ watch(() => [props.open, props.log, props.sourceLog], ([visible]) => {
 }
 
 .work-log-editor :deep(.ant-select),
+.work-log-editor :deep(.ant-input-number),
 .work-log-editor :deep(.ant-picker),
 .work-log-editor :deep(.ant-input),
 .work-log-editor :deep(.ant-input-affix-wrapper) {

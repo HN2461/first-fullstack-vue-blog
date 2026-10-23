@@ -35,7 +35,7 @@
         <template v-if="column.key === 'company'">
           <div class="work-employment-page__identity"><strong>{{ record.company }}</strong><span>{{ record.department || '未填写部门' }}</span></div>
         </template>
-        <template v-else-if="column.key === 'period'">{{ record.startedOn }} 至 {{ record.endedOn || '至今' }}</template>
+        <template v-else-if="column.key === 'period'">{{ record.startedOn }} 至 {{ record.endedOn || '至今' }}<span class="work-employment-page__duration">{{ employmentDays(record) }} 天</span></template>
         <template v-else-if="column.key === 'salary'">{{ salarySummary(record) }}</template>
         <template v-else-if="column.key === 'schedule'">{{ scheduleSummary(record) }}</template>
         <template v-else-if="column.key === 'address'">{{ record.companyAddress || '—' }}</template>
@@ -83,7 +83,7 @@
       <dl v-if="detailEmployment" class="work-employment-page__detail">
         <div><dt>岗位</dt><dd>{{ detailEmployment.position }}</dd></div>
         <div><dt>部门</dt><dd>{{ detailEmployment.department || '未填写' }}</dd></div>
-        <div><dt>任职时间</dt><dd>{{ detailEmployment.startedOn }} 至 {{ detailEmployment.endedOn || '至今' }}</dd></div>
+        <div><dt>任职时间</dt><dd>{{ detailEmployment.startedOn }} 至 {{ detailEmployment.endedOn || '至今' }}（{{ employmentDays(detailEmployment) }} 天）</dd></div>
         <div><dt>试用期工资</dt><dd>{{ detailEmployment.probationSalary || '未填写' }}</dd></div>
         <div><dt>转正后工资</dt><dd>{{ detailEmployment.regularSalary || '未填写' }}</dd></div>
         <div><dt>薪资周期</dt><dd>{{ detailEmployment.salaryUnit || '未填写' }}</dd></div>
@@ -159,6 +159,20 @@ function scheduleSummary(item) {
 function workTimeSummary(item) {
   if (!item.workStartTime && !item.workEndTime) return '未填写'
   return `${item.workStartTime || '--:--'} 至 ${item.workEndTime || '--:--'}`
+}
+
+function employmentDays(item) {
+  if (!item?.startedOn) return 0
+  const endDate = item.endedOn || todayDate()
+  const start = Date.parse(`${item.startedOn}T00:00:00Z`)
+  const end = Date.parse(`${endDate}T00:00:00Z`)
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return 0
+  return Math.floor((end - start) / 86400000) + 1
+}
+
+function todayDate() {
+  const now = new Date()
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 }
 
 function reload() {
@@ -272,6 +286,12 @@ onMounted(reload)
 }
 
 .work-employment-page__identity span {
+  color: var(--console-text-secondary, #606266);
+  font-size: 12px;
+}
+
+.work-employment-page__duration {
+  display: block;
   color: var(--console-text-secondary, #606266);
   font-size: 12px;
 }

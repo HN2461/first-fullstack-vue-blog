@@ -197,6 +197,7 @@ function captureRevision(log) {
     title: log.title,
     summary: log.summary,
     accomplishments: log.accomplishments,
+    workHours: log.workHours ?? 8,
     blockers: log.blockers,
     nextPlan: log.nextPlan,
     contentMarkdown: log.contentMarkdown,
@@ -216,6 +217,7 @@ export async function updateWorkLog(id, userId, input) {
       title: input.title ?? log.title,
       summary: input.summary ?? log.summary,
       accomplishments: input.accomplishments ?? log.accomplishments,
+      workHours: input.workHours ?? log.workHours ?? 8,
       contentMarkdown: input.contentMarkdown ?? log.contentMarkdown
     }
     if (!finalContent.summary?.trim() && !finalContent.accomplishments?.trim() && !finalContent.contentMarkdown?.trim()) {

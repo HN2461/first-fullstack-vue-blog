@@ -35,6 +35,7 @@ export const workLogCreateSchema = z.object({
   title: z.string().trim().min(1, '请输入日记标题').max(160),
   summary: z.string().trim().max(500).optional(),
   accomplishments: z.string().max(10000).optional(),
+  workHours: z.number().min(0).max(24).optional(),
   blockers: z.string().max(5000).optional(),
   nextPlan: z.string().max(5000).optional(),
   contentMarkdown: z.string().max(30000).optional(),
