@@ -12,7 +12,8 @@ import { createPasswordResetLink, deletePasswordResetRecord, listPasswordResetRe
 import { directPasswordResetSchema, passwordResetCredentialSchema, passwordResetLinkCreateSchema } from '#modules/passwordReset/validators/passwordReset.validator.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
 import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaContent, getMediaDeleteRisk, getMediaReferences, getMediaStatistics, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
-import { getMediaStorageUsage } from '#modules/media/services/mediaStorage.service.js'
+import { getMediaStorageUsage, invalidateMediaStorageUsageCache } from '#modules/media/services/mediaStorage.service.js'
+import { clearMediaThumbnailCache, getMediaThumbnailCacheOverview } from '#modules/media/services/mediaThumbnail.service.js'
 import { attachMediaVaultAccess, changeMediaVaultPassword, getMediaVaultStatus, lockMediaVault, setupMediaVault, unlockMediaVault } from '#modules/media/services/mediaVault.service.js'
 import { handleMediaUpload } from '#modules/media/handlers/mediaUpload.handler.js'
 import { clearSuspectedUntrackedMedia, clearUnreferencedAvatarFiles, getUnregisteredMediaFileDetail, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
@@ -675,6 +676,22 @@ adminRouter.get('/media/statistics', asyncHandler(async (req, res) => {
 
 adminRouter.get('/media/storage', asyncHandler(async (req, res) => {
   res.json(ok(await getMediaStorageUsage({ refresh: req.query.refresh === 'true' })))
+}))
+
+adminRouter.get('/media/thumbnail-cache', requireSuperAdmin, asyncHandler(async (req, res) => {
+  res.json(ok(await getMediaThumbnailCacheOverview(req.query)))
+}))
+
+adminRouter.delete('/media/thumbnail-cache/orphans', requireSuperAdmin, asyncHandler(async (_req, res) => {
+  const result = await clearMediaThumbnailCache('orphans')
+  invalidateMediaStorageUsageCache()
+  res.json(ok(result, '孤儿缩略图缓存已清理'))
+}))
+
+adminRouter.delete('/media/thumbnail-cache/all', requireSuperAdmin, asyncHandler(async (_req, res) => {
+  const result = await clearMediaThumbnailCache('all')
+  invalidateMediaStorageUsageCache()
+  res.json(ok(result, '图片预览缩略图缓存已清空'))
 }))
 
 adminRouter.get('/media/trash', asyncHandler(async (req, res) => {

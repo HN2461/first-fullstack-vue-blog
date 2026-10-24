@@ -4,8 +4,8 @@
     <div class="media-cloud__topbar">
       <div class="media-cloud__identity">
         <h2 class="media-cloud__title">媒体资产</h2>
-        <a-tooltip title="查看资源管理与传输说明">
-          <a-button type="text" size="small" aria-label="查看资源管理与传输说明" @click="openMediaGuide('upload')">
+        <a-tooltip title="查看资源管理使用指南">
+          <a-button type="text" size="small" aria-label="查看资源管理使用指南" @click="openMediaGuide('overview')">
             <template #icon><QuestionCircleOutlined /></template>
           </a-button>
         </a-tooltip>
@@ -51,6 +51,7 @@
           @trash="openTrashModal"
           @categories="categoryModalVisible = true"
           @shares="router.push('/console/manage/media-shares')"
+          @thumbnail-cache="thumbnailCacheVisible = true"
         />
       </div>
     </div>
@@ -422,6 +423,11 @@
     </a-modal>
 
     <MediaGuideModal v-model:open="mediaGuideVisible" :topic="mediaGuideTopic" />
+    <MediaThumbnailCacheModal
+      v-if="authStore.isSuperAdmin"
+      v-model:open="thumbnailCacheVisible"
+      @changed="loadMediaStorage(true)"
+    />
 
     <a-modal
       v-model:open="vaultModalVisible"
@@ -477,6 +483,7 @@ import MediaInventoryModal from './MediaInventoryModal.vue'
 import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
 import { useMediaUploadStore } from '@/stores/mediaUpload'
 import MediaGuideModal from './MediaGuideModal.vue'
+import MediaThumbnailCacheModal from './MediaThumbnailCacheModal.vue'
 import MediaShareCreateModal from './MediaShareCreateModal.vue'
 import MediaFolderBrowser from './MediaFolderBrowser.vue'
 import MediaViewSwitcher from './MediaViewSwitcher.vue'
@@ -539,7 +546,8 @@ const referenceModalVisible = ref(false)
 const referenceRecord = ref(null)
 const inventoryModalVisible = ref(false)
 const mediaGuideVisible = ref(false)
-const mediaGuideTopic = ref('inventory')
+const mediaGuideTopic = ref('overview')
+const thumbnailCacheVisible = ref(false)
 const shareCreateVisible = ref(false)
 const uploadRules = ref({
   maxFiles: 5,
@@ -717,7 +725,7 @@ const mediaStorageTooltip = computed(() => {
   if (!usage) return '正在统计上传资源目录占用'
   const detail = (usage.areas || []).map((area) => `${area.label} ${formatStorageSize(area.bytes)}`).join(' · ')
   const status = usage.status === 'partial' ? '部分目录无法读取，当前值不完整。' : ''
-  return `服务器磁盘文件占用（非运行内存）· ${detail} · ${usage.fileCount} 个文件 · ${status}统计时间 ${new Date(usage.scannedAt).toLocaleString('zh-CN')}`
+  return `服务器磁盘文件占用（非运行内存，包含原图和图片预览小图）· ${detail} · ${usage.fileCount} 个文件 · ${status}小图明细与清理入口：资源工具 > 缩略图缓存。统计时间 ${new Date(usage.scannedAt).toLocaleString('zh-CN')}`
 })
 
 const activeSelectedMediaKeys = computed(() => (

@@ -6,6 +6,7 @@ const CACHE_TTL_MS = 60_000
 const FILE_STAT_BATCH_SIZE = 128
 let cachedUsage = null
 let pendingScan = null
+let storageVersion = 0
 
 async function measureDirectory(rootPath, label) {
   const result = { label, path: rootPath, exists: false, status: 'missing', bytes: 0, fileCount: 0 }
@@ -77,15 +78,22 @@ export async function getMediaStorageUsage({ refresh = false } = {}) {
   if (!refresh && cachedUsage && Date.now() - cachedUsage.scannedAtMs < CACHE_TTL_MS) {
     return cachedUsage.value
   }
-  if (pendingScan) return pendingScan
+  if (pendingScan?.version === storageVersion) return pendingScan.promise
 
-  pendingScan = scanMediaStorage()
+  const version = storageVersion
+  const promise = scanMediaStorage()
     .then((value) => {
-      cachedUsage = { value, scannedAtMs: Date.now() }
+      if (version === storageVersion) cachedUsage = { value, scannedAtMs: Date.now() }
       return value
     })
     .finally(() => {
-      pendingScan = null
+      if (pendingScan?.promise === promise) pendingScan = null
     })
-  return pendingScan
+  pendingScan = { version, promise }
+  return promise
+}
+
+export function invalidateMediaStorageUsageCache() {
+  storageVersion += 1
+  cachedUsage = null
 }

@@ -85,6 +85,92 @@ describe('media performance endpoints', () => {
       .expect(404)
   })
 
+  it('reports cached thumbnails and clears caches without deleting originals', async () => {
+    const original = await sharp({
+      create: { width: 1200, height: 900, channels: 3, background: { r: 30, g: 140, b: 100 } }
+    }).png().toBuffer()
+    const filePath = path.join(resolveUploadRoot(), 'performance-cache-test', 'cache-image.png')
+    const missingOriginalPath = path.join(resolveUploadRoot(), 'performance-cache-test', 'missing-original.png')
+    const thumbnailDirectory = path.join(resolveUploadRoot(), '.generated-thumbnails')
+    fs.mkdirSync(path.dirname(filePath), { recursive: true })
+    fs.mkdirSync(thumbnailDirectory, { recursive: true })
+    fs.writeFileSync(filePath, original)
+    const media = await Media.create({
+      filename: 'cache-image.png',
+      originalName: 'cache-image.png',
+      mimeType: 'image/png',
+      size: original.length,
+      url: '/uploads/performance-cache-test/cache-image.png',
+      storagePath: filePath.replace(/\\/g, '/'),
+      kind: 'image',
+      category: '默认素材',
+      fileClass: 'image',
+      uploader: admin._id
+    })
+    fs.writeFileSync(missingOriginalPath, original)
+    const missingOriginalMedia = await Media.create({
+      filename: 'missing-original.png',
+      originalName: 'missing-original.png',
+      mimeType: 'image/png',
+      size: original.length,
+      url: '/uploads/performance-cache-test/missing-original.png',
+      storagePath: missingOriginalPath.replace(/\\/g, '/'),
+      kind: 'image',
+      category: '默认素材',
+      fileClass: 'image',
+      uploader: admin._id
+    })
+    const thumbnailPath = path.join(thumbnailDirectory, `${media._id}.webp`)
+    const missingOriginalThumbnailPath = path.join(thumbnailDirectory, `${missingOriginalMedia._id}.webp`)
+    const orphanPath = path.join(thumbnailDirectory, 'ffffffffffffffffffffffff.webp')
+
+    await request(app)
+      .get(`/api/admin/media-downloads/thumbnail/${media._id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    await request(app)
+      .get(`/api/admin/media-downloads/thumbnail/${missingOriginalMedia._id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    fs.unlinkSync(missingOriginalPath)
+    fs.writeFileSync(orphanPath, Buffer.alloc(48, 7))
+
+    const overview = await request(app)
+      .get('/api/admin/media/thumbnail-cache')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    expect(overview.body.data).toMatchObject({ thumbnailCount: 3, orphanCount: 2 })
+    expect(overview.body.data.items).toEqual(expect.arrayContaining([
+      expect.objectContaining({ mediaId: media._id.toString(), originalName: 'cache-image.png', status: 'active' }),
+      expect.objectContaining({ mediaId: missingOriginalMedia._id.toString(), status: 'missingSource', isOrphan: true }),
+      expect.objectContaining({ mediaId: 'ffffffffffffffffffffffff', status: 'orphan' })
+    ]))
+
+    const orphanCleanup = await request(app)
+      .delete('/api/admin/media/thumbnail-cache/orphans')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    expect(orphanCleanup.body.data).toMatchObject({ thumbnailCount: 2, deletedCount: 2 })
+    expect(fs.existsSync(orphanPath)).toBe(false)
+    expect(fs.existsSync(missingOriginalThumbnailPath)).toBe(false)
+    expect(fs.existsSync(thumbnailPath)).toBe(true)
+    expect(fs.readFileSync(filePath)).toEqual(original)
+
+    const allCleanup = await request(app)
+      .delete('/api/admin/media/thumbnail-cache/all')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    expect(allCleanup.body.data).toMatchObject({ thumbnailCount: 1, deletedCount: 1 })
+    expect(fs.existsSync(thumbnailPath)).toBe(false)
+    expect(fs.readFileSync(filePath)).toEqual(original)
+
+    await request(app)
+      .get(`/api/admin/media-downloads/thumbnail/${media._id}`)
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    expect(fs.existsSync(thumbnailPath)).toBe(true)
+  })
+
   it('aggregates file classes and reports actual upload directory usage', async () => {
     const uploadRoot = resolveUploadRoot()
     const category = await MediaCategory.create({ name: '性能统计分类', owner: admin._id })

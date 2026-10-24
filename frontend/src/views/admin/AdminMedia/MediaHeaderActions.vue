@@ -23,6 +23,10 @@
               <SearchOutlined />
               <span>扫描未登记资源</span>
             </a-menu-item>
+            <a-menu-item v-if="superAdmin" key="thumbnail-cache">
+              <PictureOutlined />
+              <span>缩略图缓存</span>
+            </a-menu-item>
             <a-menu-item key="trash">
               <RestOutlined />
               <span>媒体回收站</span>
@@ -49,6 +53,7 @@ import {
   FolderOpenOutlined,
   InboxOutlined,
   MoreOutlined,
+  PictureOutlined,
   RestOutlined,
   SearchOutlined,
   SettingOutlined,
@@ -66,7 +71,7 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['upload', 'inventory', 'settings', 'trash', 'categories', 'shares'])
+const emit = defineEmits(['upload', 'inventory', 'settings', 'trash', 'categories', 'shares', 'thumbnail-cache'])
 
 function handleMenuClick({ key }) {
   emit(key)

@@ -421,6 +421,15 @@ export function getAdminMediaStorageUsage({ refresh = false } = {}) {
   return http.get('/api/admin/media/storage', { params: refresh ? { refresh: 'true' } : undefined })
 }
 
+export function getAdminMediaThumbnailCache(params = {}) {
+  return http.get('/api/admin/media/thumbnail-cache', { params })
+}
+
+export function clearAdminMediaThumbnailCache(scope = 'orphans') {
+  const endpoint = scope === 'all' ? 'all' : 'orphans'
+  return http.delete(`/api/admin/media/thumbnail-cache/${endpoint}`)
+}
+
 export function getAdminMediaReferences(id) {
   return http.get(`/api/admin/media/${id}/references`)
 }

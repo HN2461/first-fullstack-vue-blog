@@ -3,14 +3,173 @@
     :open="open"
     :title="title"
     :footer="null"
-    width="760px"
+    width="min(940px, calc(100vw - 32px))"
     wrap-class-name="media-guide-modal-wrap"
     :body-style="{ maxHeight: 'calc(100dvh - 180px)', overflow: 'hidden' }"
     @update:open="emit('update:open', $event)"
     @cancel="emit('update:open', false)"
   >
     <div class="media-guide">
-      <template v-if="topic === 'inventory'">
+      <div class="media-guide__tabs" role="tablist" aria-orientation="horizontal" aria-label="资源管理说明主题">
+        <button
+          v-for="item in topics"
+          :key="item.key"
+          type="button"
+          role="tab"
+          class="media-guide__tab"
+          :data-topic="item.key"
+          :class="{ 'is-active': activeTopic === item.key }"
+          :aria-selected="activeTopic === item.key"
+          :tabindex="activeTopic === item.key ? 0 : -1"
+          @click="activeTopic = item.key"
+          @keydown.left.prevent="moveTopic($event, -1)"
+          @keydown.right.prevent="moveTopic($event, 1)"
+        >
+          {{ item.label }}
+        </button>
+      </div>
+
+      <div class="media-guide__content" role="tabpanel">
+      <template v-if="activeTopic === 'overview'">
+        <section class="media-guide__lead">
+          <strong>资源管理保存和整理网站文件，文章、头像等业务会引用其中的资源。</strong>
+          <p>这里可以上传、搜索、预览、下载、分类和分享文件。资源能否彻底删除，还要看它有没有被文章或其他业务使用。</p>
+        </section>
+        <section class="media-guide__section">
+          <h3>先看这几件事</h3>
+          <dl class="media-guide__definitions">
+            <div><dt>原始文件</dt><dd>上传的图片、文档或压缩包。预览和分类不会改写原始文件。</dd></div>
+            <div><dt>资源记录</dt><dd>媒体库中显示的文件信息，包含文件名、分类、上传人、访问地址和业务引用情况。</dd></div>
+            <div><dt>图片小图</dt><dd>只为图片生成的较小预览文件，帮助列表更快显示；它与原图分开存放，清理小图不会删除原图。</dd></div>
+            <div><dt>回收站</dt><dd>普通删除会先移入回收站，文件仍保留。彻底删除才会移除原始文件，并先检查业务引用。</dd></div>
+          </dl>
+        </section>
+        <section class="media-guide__section">
+          <h3>可以从哪里开始</h3>
+          <ul>
+            <li>上传文件：查看“上传与传输”。</li>
+            <li>找文件或查看大图：查看“搜索与预览”和“图片小图”。</li>
+            <li>了解空间使用和释放空间：查看“占用统计”。</li>
+            <li>删除被保护或被分享的资源：查看“引用与分享”。</li>
+            <li>处理历史文件：查看“分类与未登记资源”或“回收站”。</li>
+          </ul>
+        </section>
+      </template>
+
+      <template v-else-if="activeTopic === 'browse'">
+        <section class="media-guide__lead">
+          <strong>列表视图适合筛选和批量管理；文件夹视图适合按分类浏览。</strong>
+          <p>两种视图查看的是同一批媒体资源。切换视图不会复制、移动或删除文件。</p>
+        </section>
+        <section class="media-guide__section">
+          <h3>搜索与浏览</h3>
+          <ul>
+            <li>列表视图可按文件名、分类、类型和引用状态筛选；适合核对资源信息和批量操作。</li>
+            <li>文件夹视图按资源分类组织文件；搜索范围是当前打开的文件夹，返回根目录后可以搜索其他分类。</li>
+            <li>分类是管理标签，不代表文件在硬盘上真的被移动到同名文件夹。</li>
+            <li>点击预览可查看图片或受支持的文档；下载始终使用原始文件。</li>
+          </ul>
+        </section>
+        <section class="media-guide__section">
+          <h3>图片预览</h3>
+          <p>列表中的小图用于快速扫看。打开预览时先显示小图；放大、选择 100% 或查看原始尺寸时，系统会再读取原图。原图加载完成后会叠在小图上，所以可能看到画面从模糊变清晰。</p>
+          <p>预览、旋转和缩放只改变当前屏幕中的显示效果，不会编辑或覆盖原始图片。</p>
+        </section>
+      </template>
+
+      <template v-else-if="activeTopic === 'images'">
+        <section class="media-guide__lead">
+          <strong>图片小图是为了列表预览额外生成的较小文件，不是原图的替代品。</strong>
+          <p>它只影响图片预览；PDF、文档、压缩包等其他格式不会因此生成图片小图。</p>
+        </section>
+        <section class="media-guide__section">
+          <h3>打开图片时会发生什么</h3>
+          <ol>
+            <li>列表需要显示图片时，服务器首次生成一张最长边不超过 640 像素的小图，并保存在专用缓存目录。</li>
+            <li>同一条资源记录再次显示时会复用这张小图；不会每打开一次就多生成一份。</li>
+            <li>预览弹框先用小图快速显示。用户放大或要求原始尺寸后，才加载原图；加载完成后原图覆盖小图显示。</li>
+            <li>下载、分享和文章引用仍使用原始文件，不会把小图当成原图发送。</li>
+          </ol>
+        </section>
+        <section class="media-guide__section">
+          <h3>小图会不会自动消失</h3>
+          <p>小图保存在服务器硬盘上，不会因为程序重启或进程结束自动清理。它不会长期占用运行内存，但会占用一部分磁盘空间。</p>
+          <ul>
+            <li>移入回收站时保留小图，方便恢复资源。</li>
+            <li>资源彻底删除时，正常删除流程会一并清理对应小图。</li>
+            <li>超级管理员可在“资源工具 → 缩略图缓存”查看和清理小图；清理后不影响原图，下次预览时会重新生成。</li>
+          </ul>
+        </section>
+      </template>
+
+      <template v-else-if="activeTopic === 'storage'">
+        <section class="media-guide__lead">
+          <strong>资源存储数字表示服务器硬盘文件占用，不是服务器运行内存。</strong>
+          <p>数字会统计上传文件和相关缓存，所以原图和图片小图都会计入总量。</p>
+        </section>
+        <section class="media-guide__section">
+          <h3>占用统计范围</h3>
+          <dl class="media-guide__definitions">
+            <div><dt>公开上传目录</dt><dd>普通媒体文件，以及图片预览小图等辅助文件。</dd></div>
+            <div><dt>密码箱及私有资源</dt><dd>受密码箱或私有访问保护的文件。</dd></div>
+            <div><dt>临时上传文件</dt><dd>尚未完成确认入库的分片上传数据；过期临时任务会由后台定期检查清理。</dd></div>
+            <div><dt>运行内存</dt><dd>只有图片转换时会临时使用处理资源；生成后的小图存放在硬盘，不会一直留在运行内存。</dd></div>
+          </dl>
+        </section>
+        <section class="media-guide__section">
+          <h3>查看或释放图片小图空间</h3>
+          <p>点击资源工具中的“缩略图缓存”，可以查看小图总数、占用空间、对应图片，以及找不到可用原图的小图数量。</p>
+          <ul>
+            <li>“清理孤儿小图”只清理找不到可用原图的小图，并清理超过 24 小时的生成临时残留。</li>
+            <li>“清理全部小图”会移除现有图片预览小图和缓存临时文件，但不会删除任何原始资源或媒体记录。</li>
+            <li>全部清理后，图片再次显示时会按需重新生成小图；第一次生成会多花一些处理时间。</li>
+            <li>清理后刷新资源占用数字，可以确认磁盘占用变化。</li>
+          </ul>
+        </section>
+      </template>
+
+      <template v-else-if="activeTopic === 'references'">
+        <section class="media-guide__lead">
+          <strong>引用表示其他业务正在使用这份资源，是删除保护的重要依据。</strong>
+          <p>资源管理负责展示引用来源；取消引用通常要回到引用它的文章、账号资料或分享记录中操作。</p>
+        </section>
+        <section class="media-guide__section">
+          <h3>引用与删除</h3>
+          <ul>
+            <li>点击引用状态可以查看系统找到的使用位置。文章正文、封面、附件和账号头像等都可能引用媒体资源。</li>
+            <li>被文章或账号资料使用的资源不能直接彻底删除；需要先在对应业务中替换或移除引用，再回来删除。</li>
+            <li>移入回收站和彻底删除是两步操作。彻底删除会再次检查引用，避免只凭列表上的旧状态误删。</li>
+            <li>不同业务的引用不能统一在资源管理页取消，否则可能让文章图片或账号资料变成失效地址。</li>
+          </ul>
+        </section>
+        <section class="media-guide__section">
+          <h3>资源分享</h3>
+          <p>分享记录和文章引用不同。分享过期会停止访问，但不会自动删除分享记录；如果要解除分享对资源删除的保护，需要进入“资源分享管理”撤销对应分享。</p>
+          <p>撤销分享只解除该分享关系，不会删除原文件；原文件仍受文章、头像等其他业务引用保护。</p>
+        </section>
+      </template>
+
+      <template v-else-if="activeTopic === 'recovery'">
+        <section class="media-guide__lead">
+          <strong>回收站用于撤回误删；彻底删除才会真正清除服务器文件。</strong>
+          <p>删除资源前先查看引用状态。被业务引用或被未撤销分享保护的资源，需要先处理相应关系。</p>
+        </section>
+        <section class="media-guide__section">
+          <h3>删除分两步</h3>
+          <dl class="media-guide__definitions">
+            <div><dt>移入回收站</dt><dd>隐藏正常列表中的资源，但保留媒体记录、原始文件和图片小图；可以恢复。</dd></div>
+            <div><dt>恢复资源</dt><dd>将回收站中的记录恢复到媒体库。原始文件和已有小图仍在。</dd></div>
+            <div><dt>彻底删除</dt><dd>删除媒体记录和原始文件，并清理对应图片小图；操作不可通过本站回收站恢复。</dd></div>
+            <div><dt>清空回收站</dt><dd>批量彻底删除其中符合条件的资源；后端会再次检查引用和分享保护。</dd></div>
+          </dl>
+        </section>
+        <section class="media-guide__section">
+          <h3>密码箱</h3>
+          <p>密码箱资源受账号权限和单独的解锁状态保护。解锁有效期为固定 30 分钟，翻页或查看文件不会延长时间；缓存管理只对图片预览小图生效，不会绕过密码箱访问限制。</p>
+        </section>
+      </template>
+
+      <template v-else-if="activeTopic === 'inventory'">
         <section class="media-guide__lead">
           <strong>扫描只用于核对“磁盘文件”和“媒体库记录”是否一致。</strong>
           <p>它不会自动删除文件，也不会改动文章、用户资料或系统设置中的既有引用。</p>
@@ -46,7 +205,7 @@
         </section>
       </template>
 
-      <template v-else-if="topic === 'upload'">
+      <template v-else-if="activeTopic === 'upload'">
         <section class="media-guide__lead">
           <strong>确认文件清单后开始上传；关闭弹窗，任务仍会继续。</strong>
           <p>媒体资产用于上传、分类、查看、下载和整理资源。右上角的上传进度入口可随时查看任务结果。</p>
@@ -90,6 +249,16 @@
         </section>
 
         <section class="media-guide__section">
+          <h3>批量下载文件命名</h3>
+          <dl class="media-guide__definitions">
+            <div><dt>媒体库名称</dt><dd>使用当前资源名称；如果压缩包内有重名文件，会自动追加序号。</dd></div>
+            <div><dt>统一前缀 + 序号</dt><dd>给压缩包内的文件统一加前缀并编号，例如“项目截图-01.png”。</dd></div>
+            <div><dt>仅序号</dt><dd>只使用编号和原文件扩展名，例如“01.png”“02.docx”。</dd></div>
+          </dl>
+          <p>这些选项只调整这次 ZIP 下载包内的文件名，不会修改媒体库名称、服务器文件或资源访问地址。</p>
+        </section>
+
+        <section class="media-guide__section">
           <h3>小白释疑：下载到一半，本地会留下半截文件吗？</h3>
           <p>可能会。浏览器或下载工具通常边接收边写入临时存储，例如 Chrome / Edge 使用 <code>.crdownload</code>，一些下载工具使用 <code>.part</code>。完成后才改为正式文件名。</p>
           <ul>
@@ -105,7 +274,7 @@
         </section>
       </template>
 
-      <template v-else>
+      <template v-else-if="activeTopic === 'category'">
         <section class="media-guide__lead">
           <strong>普通资源分类用于检索和归档；密码箱分类还控制访问保护。</strong>
           <p>系统分类由业务流程共享使用；自定义分类只属于创建者，不会出现在其他账号的上传和迁移选项中。</p>
@@ -139,24 +308,49 @@
           </ul>
         </section>
       </template>
+      </div>
     </div>
   </a-modal>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
   topic: {
     type: String,
-    default: 'inventory',
-    validator: (value) => ['inventory', 'category', 'upload'].includes(value)
+    default: 'overview',
+    validator: (value) => ['overview', 'upload', 'browse', 'images', 'storage', 'references', 'category', 'inventory', 'recovery'].includes(value)
   }
 })
 
 const emit = defineEmits(['update:open'])
-const title = computed(() => ({ category: '资源分类说明', inventory: '扫描未登记资源说明', upload: '资源管理与传输说明' }[props.topic]))
+const topics = [
+  { key: 'overview', label: '总览' },
+  { key: 'upload', label: '上传与传输' },
+  { key: 'browse', label: '搜索与预览' },
+  { key: 'images', label: '图片小图' },
+  { key: 'storage', label: '占用统计' },
+  { key: 'references', label: '引用与分享' },
+  { key: 'category', label: '分类' },
+  { key: 'inventory', label: '未登记资源' },
+  { key: 'recovery', label: '回收站' }
+]
+const activeTopic = ref(props.topic)
+const title = computed(() => '资源管理使用指南')
+
+watch(() => props.topic, (value) => {
+  activeTopic.value = topics.some((item) => item.key === value) ? value : 'overview'
+}, { immediate: true })
+
+function moveTopic(event, direction) {
+  const currentIndex = topics.findIndex((item) => item.key === activeTopic.value)
+  const nextIndex = (currentIndex + direction + topics.length) % topics.length
+  const nextTopic = topics[nextIndex]
+  activeTopic.value = nextTopic.key
+  event.currentTarget.parentElement?.querySelector(`[data-topic="${nextTopic.key}"]`)?.focus()
+}
 </script>
 
 <style>
@@ -169,16 +363,57 @@ const title = computed(() => ({ category: '资源分类说明', inventory: '扫�
 <style scoped>
 .media-guide {
   display: grid;
-  gap: 18px;
-  max-height: min(62vh, 560px, calc(100dvh - 180px));
-  overflow-y: auto;
-  padding-right: 2px;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0;
+  height: min(68vh, 680px, calc(100dvh - 180px));
+  min-height: 0;
+  overflow: hidden;
   color: var(--text-primary);
-  scrollbar-width: none;
 }
 
-.media-guide::-webkit-scrollbar {
-  display: none;
+.media-guide__tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--border-color);
+  scrollbar-width: thin;
+}
+
+.media-guide__tab {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-secondary);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.media-guide__tab:hover,
+.media-guide__tab:focus-visible {
+  color: var(--console-primary-strong, #337ecc);
+  background: var(--console-primary-soft, #ecf5ff);
+  outline: none;
+}
+
+.media-guide__tab.is-active {
+  color: var(--console-primary-strong, #337ecc);
+  background: var(--console-primary-soft, #ecf5ff);
+  font-weight: 600;
+}
+
+.media-guide__content {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px 4px 4px 0;
+  scrollbar-width: thin;
 }
 
 .media-guide__lead {
@@ -226,6 +461,19 @@ const title = computed(() => ({ category: '资源分类说明', inventory: '扫�
   padding-left: 20px;
 }
 
+.media-guide__section ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+}
+
+.media-guide__section ol li {
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
 .media-guide__definitions {
   display: grid;
   gap: 8px;
@@ -250,6 +498,15 @@ const title = computed(() => ({ category: '资源分类说明', inventory: '扫�
 }
 
 @media (max-width: 576px) {
+  .media-guide {
+    height: min(72vh, 680px, calc(100dvh - 150px));
+  }
+
+  .media-guide__tab {
+    padding-inline: 8px;
+    font-size: 12px;
+  }
+
   .media-guide__definitions > div {
     grid-template-columns: 1fr;
     gap: 2px;
