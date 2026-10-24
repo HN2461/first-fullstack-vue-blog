@@ -618,6 +618,120 @@ describe('ledger routes', () => {
     expect(saved.tags).toEqual(['工作'])
   })
 
+  it('filters entries by one or more tags and combines filters with AND semantics', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const breakfast = categoriesResponse.body.data.find((item) => item.name === '早餐')
+    const lunch = categoriesResponse.body.data.find((item) => item.name === '午餐')
+
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        bookId,
+        occurredAt: '2026-08-01',
+        type: 'expense',
+        categoryId: breakfast.id,
+        amount: 10,
+        note: '地铁早餐',
+        tags: ['通勤', '生活']
+      })
+      .expect(201)
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        bookId,
+        occurredAt: '2026-08-02',
+        type: 'expense',
+        categoryId: lunch.id,
+        amount: 20,
+        note: '工作午餐',
+        tags: ['工作']
+      })
+      .expect(201)
+
+    const singleTagResponse = await request(app)
+      .get('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, tags: ['通勤'] })
+      .expect(200)
+    expect(singleTagResponse.body.data.items.map((item) => item.note)).toEqual(['地铁早餐'])
+
+    const legacyTagResponse = await request(app)
+      .get(`/api/ledger/entries?bookId=${bookId}&tags%5B%5D=%E9%80%9A%E5%8B%A4`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(legacyTagResponse.body.data.items.map((item) => item.note)).toEqual(['地铁早餐'])
+
+    const multipleTagsResponse = await request(app)
+      .get('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, tags: ['通勤', '工作'] })
+      .expect(200)
+    expect(multipleTagsResponse.body.data.items.map((item) => item.note)).toEqual(['工作午餐', '地铁早餐'])
+
+    const combinedResponse = await request(app)
+      .get('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .query({
+        bookId,
+        type: 'expense',
+        categoryId: breakfast.id,
+        from: '2026-08-01',
+        to: '2026-08-01',
+        keyword: '地铁',
+        tags: ['通勤']
+      })
+      .expect(200)
+    expect(combinedResponse.body.data.items.map((item) => item.note)).toEqual(['地铁早餐'])
+  })
+
+  it('searches both the saved category name and its current displayed name', async () => {
+    const booksResponse = await request(app)
+      .get('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const bookId = booksResponse.body.data[0].id
+    const categoriesResponse = await request(app)
+      .get('/api/ledger/categories')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    const breakfast = categoriesResponse.body.data.find((item) => item.name === '早餐')
+
+    await request(app)
+      .post('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ bookId, occurredAt: '2026-08-01', type: 'expense', categoryId: breakfast.id, amount: 10 })
+      .expect(201)
+    await request(app)
+      .patch(`/api/ledger/categories/${breakfast.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '早午餐' })
+      .expect(200)
+
+    const response = await request(app)
+      .get('/api/ledger/entries')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, keyword: '早午餐' })
+      .expect(200)
+
+    expect(response.body.data.items).toHaveLength(1)
+    expect(response.body.data.items[0]).toMatchObject({
+      categoryNameSnapshot: '早餐',
+      category: { name: '早午餐' }
+    })
+  })
+
   it('treats regular-expression characters in ledger search as literal text', async () => {
     const response = await request(app)
       .get('/api/ledger/entries')

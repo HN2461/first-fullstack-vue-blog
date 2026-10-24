@@ -61,7 +61,10 @@ export const ledgerEntryQuerySchema = z.object({
   type: z.enum(LEDGER_ENTRY_TYPES).optional(),
   categoryId: z.string().regex(objectIdPattern, '分类 id 不正确').optional(),
   keyword: z.string().trim().max(80).optional(),
-  tags: z.array(z.string().trim().max(24)).max(12).optional(),
+  tags: z.preprocess(
+    (value) => (value === undefined || Array.isArray(value) ? value : [value]),
+    z.array(z.string().trim().max(24)).max(12).optional()
+  ),
   sortField: z.enum(['occurredAt', 'amount', 'updatedAt']).optional(),
   sortOrder: z.enum(['asc', 'desc']).optional(),
   page: z.coerce.number().int().min(1).optional(),

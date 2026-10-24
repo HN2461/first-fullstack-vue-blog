@@ -232,8 +232,8 @@ const typeOptions = [
 
 const categoryOptions = computed(() => [
   { label: '全部分类', value: '' },
-  ...props.categories.filter((item) => !item.archived).map((item) => ({
-    label: item.name,
+  ...props.categories.map((item) => ({
+    label: item.archived ? `${item.name}（已归档）` : item.name,
     value: item.id
   }))
 ])

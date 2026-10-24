@@ -178,9 +178,19 @@ const weekdayText = computed(() => {
 
 .ledger-search-entry__category {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  align-content: flex-start;
   gap: 6px;
   min-width: 0;
+}
+
+.ledger-search-entry__category :deep(.ant-tag) {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ledger-search-entry__category > span {

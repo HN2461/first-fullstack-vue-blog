@@ -26,7 +26,10 @@ export function updateLedgerCategory(id, data) {
 }
 
 export async function listLedgerEntries(params = {}) {
-  return toPageResult(await http.get('/api/ledger/entries', { params }), params.pageSize || 20)
+  return toPageResult(await http.get('/api/ledger/entries', {
+    params,
+    paramsSerializer: { indexes: null }
+  }), params.pageSize || 20)
 }
 
 export function createLedgerEntry(data) {

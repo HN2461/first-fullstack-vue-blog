@@ -1,5 +1,6 @@
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
-import { buildEntryQuery, createError, formatDay, normalizeTags, startOfDay, toObjectId } from './ledger.utils.js'
+import { LedgerCategory } from '#modules/ledger/models/LedgerCategory.js'
+import { buildEntryQuery, createError, escapeRegex, formatDay, normalizeTags, startOfDay, toObjectId } from './ledger.utils.js'
 import { findOwnedBook, findWritableBook } from './ledgerBook.service.js'
 import { findOwnedCategory } from './ledgerCategory.service.js'
 
@@ -17,6 +18,14 @@ export async function listLedgerEntries(userId, options = {}) {
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
   const query = buildEntryQuery(userId, options)
+  const keyword = String(options.keyword || '').trim()
+  if (keyword) {
+    const matchingCategoryIds = await LedgerCategory.find({
+      userId,
+      name: { $regex: escapeRegex(keyword), $options: 'i' }
+    }).distinct('_id')
+    query.$or.push({ categoryId: { $in: matchingCategoryIds } })
+  }
   const skip = (page - 1) * pageSize
 
   // 支持排序

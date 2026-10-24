@@ -124,7 +124,11 @@ ledgerRouter.patch('/categories/:id', canAccessLedgerCategories, asyncHandler(as
 }))
 
 ledgerRouter.get('/entries', canAccessLedgerEntries, asyncHandler(async (req, res) => {
-  const input = parseBody(ledgerEntryQuerySchema, req.query)
+  // 兼容旧版 Axios 默认的 tags[]=value 编码，同时统一为校验器使用的 tags 字段。
+  const query = { ...req.query }
+  if (query.tags === undefined && query['tags[]'] !== undefined) query.tags = query['tags[]']
+  delete query['tags[]']
+  const input = parseBody(ledgerEntryQuerySchema, query)
   res.json(ok(await listLedgerEntries(req.user._id, input)))
 }))
 
