@@ -53,7 +53,7 @@ async function applyChanges(current) {
         group: key === 'authorName' || key.startsWith('site') ? 'site' : 'system',
         ...(updatedBy ? { updatedBy } : {})
       },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: 'after' }
     )
   }
 
@@ -72,7 +72,7 @@ async function applyChanges(current) {
       $set: FIRST_DEPLOYMENT_FESTIVAL,
       $setOnInsert: { ...(updatedBy ? { createdBy: updatedBy } : {}) }
     },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: 'after' }
   )
 }
 

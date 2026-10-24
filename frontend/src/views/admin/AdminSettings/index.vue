@@ -207,7 +207,7 @@ import {
   UndoOutlined,
   SaveOutlined
 } from '@ant-design/icons-vue'
-import { Sun, Moon } from 'lucide-vue-next'
+import { Sun, Moon } from '@lucide/vue'
 import { getAdminSettings, updateAdminSettings } from '@/services/admin'
 import { setCachedSiteProfile } from '@/utils/siteProfile'
 import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'

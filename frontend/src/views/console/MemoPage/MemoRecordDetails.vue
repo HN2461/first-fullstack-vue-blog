@@ -123,7 +123,7 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { Archive, CalendarDays, Check, Copy, Eye, EyeOff, LockKeyhole, Pencil, Pin } from 'lucide-vue-next'
+import { Archive, CalendarDays, Check, Copy, Eye, EyeOff, LockKeyhole, Pencil, Pin } from '@lucide/vue'
 import { getMemo, getMemoSensitiveField } from '@/services/memo'
 
 const props = defineProps({

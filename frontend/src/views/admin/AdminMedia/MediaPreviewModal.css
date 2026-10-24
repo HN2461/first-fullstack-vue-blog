@@ -17,7 +17,7 @@
   white-space: nowrap;
 }
 
-.media-preview-modal__title :deep(.ant-tag) {
+.media-preview-modal__title .ant-tag {
   flex: 0 0 auto;
   margin-inline-end: 0;
   border-radius: 4px;
@@ -106,8 +106,8 @@
   vertical-align: middle;
 }
 
-.media-preview-workspace__commands > :deep(.ant-dropdown),
-.media-preview-workspace__commands > :deep(.ant-tooltip) {
+.media-preview-workspace__commands > .ant-dropdown,
+.media-preview-workspace__commands > .ant-tooltip {
   line-height: 1;
 }
 
@@ -121,7 +121,7 @@
   background: var(--console-text-tertiary);
 }
 
-.media-preview-workspace__commands :deep(.ant-btn) {
+.media-preview-workspace__commands .ant-btn {
   display: inline-flex;
   flex: 0 0 30px;
   align-items: center;
@@ -137,30 +137,30 @@
   transition: color 120ms ease, background-color 120ms ease;
 }
 
-.media-preview-workspace__commands :deep(.ant-btn .ant-btn-icon),
-.media-preview-workspace__commands :deep(.ant-btn .anticon) {
+.media-preview-workspace__commands .ant-btn .ant-btn-icon,
+.media-preview-workspace__commands .ant-btn .anticon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
 }
 
-.media-preview-workspace__commands :deep(.ant-btn .anticon) {
+.media-preview-workspace__commands .ant-btn .anticon {
   margin-inline-end: 0;
   font-size: 16px;
 }
 
-.media-preview-workspace__commands :deep(.ant-btn .anticon svg) {
+.media-preview-workspace__commands .ant-btn .anticon svg {
   display: block;
 }
 
-.media-preview-workspace__commands :deep(.ant-btn:hover),
-.media-preview-workspace__commands :deep(.ant-btn:focus-visible) {
+.media-preview-workspace__commands .ant-btn:hover,
+.media-preview-workspace__commands .ant-btn:focus-visible {
   color: var(--console-primary-strong);
   background: var(--console-primary-soft);
 }
 
-.media-preview-workspace__commands :deep(.ant-btn[disabled]) {
+.media-preview-workspace__commands .ant-btn[disabled] {
   color: var(--console-text-tertiary);
   background: transparent;
 }
@@ -246,6 +246,7 @@
 }
 
 .media-preview-workspace__image-viewport {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -271,16 +272,32 @@
 }
 
 .media-preview-workspace__image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  z-index: 1;
   display: block;
   max-width: 94%;
   max-height: 94%;
   object-fit: contain;
   transform-origin: center;
   transition: transform 120ms ease;
+  opacity: 0;
   user-select: none;
   pointer-events: none;
   border-radius: 2px;
   box-shadow: 0 8px 24px rgba(16, 24, 40, 0.16);
+}
+
+.media-preview-workspace__image.is-placeholder {
+  z-index: 0;
+  opacity: 1;
+}
+
+.media-preview-workspace__image.is-full-resolution.is-loaded {
+  opacity: 1;
+  transition: opacity 140ms ease, transform 120ms ease;
 }
 
 .media-preview-workspace__image-viewport.is-dragging .media-preview-workspace__image {
@@ -464,7 +481,7 @@
   text-overflow: ellipsis;
 }
 
-.media-preview-inspector__url :deep(.ant-btn) {
+.media-preview-inspector__url .ant-btn {
   width: 28px;
   min-width: 28px;
   padding: 0;
@@ -479,7 +496,7 @@
   line-height: 1.7;
 }
 
-.media-preview-inspector__hint :deep(.anticon) {
+.media-preview-inspector__hint .anticon {
   margin-top: 3px;
   color: var(--console-primary-strong);
 }
@@ -575,10 +592,10 @@
   background: var(--console-primary-soft);
 }
 
-:deep(.dark-theme) .media-preview-workspace__stage,
-:deep(.dark-theme) .media-preview-workspace__stage.is-image,
-:deep(.dark-theme) .media-preview-workspace__stage.is-video,
-:deep(.dark-theme) .media-preview-workspace__code {
+.dark-theme .media-preview-workspace__stage,
+.dark-theme .media-preview-workspace__stage.is-image,
+.dark-theme .media-preview-workspace__stage.is-video,
+.dark-theme .media-preview-workspace__code {
   background: #101827;
 }
 
@@ -720,7 +737,7 @@
     color: var(--console-text);
   }
 
-  .media-preview-inspector__mobile-header :deep(.ant-btn) {
+  .media-preview-inspector__mobile-header .ant-btn {
     width: 36px;
     min-width: 36px;
     padding: 0;
@@ -769,7 +786,7 @@
     padding-inline: 0;
   }
 
-  .media-preview-workspace__commands :deep(.ant-btn) {
+  .media-preview-workspace__commands .ant-btn {
     flex-basis: 28px;
     width: 28px;
     min-width: 28px;

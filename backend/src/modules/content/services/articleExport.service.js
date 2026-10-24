@@ -1,4 +1,4 @@
-import archiver from 'archiver'
+import { ZipArchive } from 'archiver'
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 import { once } from 'node:events'
@@ -298,7 +298,7 @@ export async function exportArticlesAsMarkdownZip(input = {}) {
     filename: `articles-markdown-${formatDateCompact()}.zip`,
     total,
     async writeTo(writable) {
-      const archive = archiver('zip', { store: true })
+      const archive = new ZipArchive({ store: true })
       const usedNames = new Set()
       const usedDocumentRoots = new Set()
       const manifestArticles = []

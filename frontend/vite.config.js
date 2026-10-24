@@ -28,7 +28,7 @@ export default defineConfig({
             return 'antd-vendor'
           }
 
-          if (id.includes('lucide-vue-next')) {
+          if (id.includes('@lucide/vue')) {
             return 'icon-vendor'
           }
 

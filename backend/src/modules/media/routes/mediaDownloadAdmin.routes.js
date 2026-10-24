@@ -7,7 +7,7 @@ import {
   getBatchMediaDownload,
   getSingleMediaDownload
 } from '#modules/media/services/mediaDownload.service.js'
-import { getMediaContent } from '#modules/media/services/media.service.js'
+import { getMediaContent, getMediaThumbnail } from '#modules/media/services/media.service.js'
 import { attachMediaVaultAccess } from '#modules/media/services/mediaVault.service.js'
 import {
   mediaBatchDownloadSchema,
@@ -38,6 +38,19 @@ mediaDownloadAdminRouter.get('/content/:id', asyncHandler(async (req, res) => {
     'Content-Disposition': 'inline'
   })
   await pipeline(fs.createReadStream(content.filePath), res)
+}))
+
+mediaDownloadAdminRouter.get('/thumbnail/:id', asyncHandler(async (req, res) => {
+  const id = parseMediaPayload(mediaIdSchema, req.params.id)
+  const thumbnail = await getMediaThumbnail(id, req.user)
+  res.set({
+    'Content-Type': 'image/webp',
+    'Content-Length': String(thumbnail.size),
+    // Media visibility is account-scoped even when accessScope is public; don't share browser cache across logins.
+    'Cache-Control': 'private, no-store',
+    'X-Content-Type-Options': 'nosniff'
+  })
+  await pipeline(fs.createReadStream(thumbnail.filePath), res)
 }))
 
 mediaDownloadAdminRouter.get('/:id', asyncHandler(async (req, res) => {

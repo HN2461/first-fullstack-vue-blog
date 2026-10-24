@@ -41,7 +41,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { KeyRound, ShieldCheck } from 'lucide-vue-next'
+import { KeyRound, ShieldCheck } from '@lucide/vue'
 import AuthSettings from '@/components/AuthSettings.vue'
 import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 import { consumePasswordResetLink, inspectPasswordResetLink } from '@/services/http'

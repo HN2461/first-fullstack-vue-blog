@@ -231,7 +231,7 @@ async function importStructuredResume(ownerId, materials, apply) {
   const resume = await Resume.findOneAndUpdate(
     { ownerId, title: payload.title },
     { $set: { ...payload, ownerId } },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
+    { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true }
   )
   return { id: resume._id.toString(), title: resume.title, projects: resume.sections.projects.length, skipped: false }
 }

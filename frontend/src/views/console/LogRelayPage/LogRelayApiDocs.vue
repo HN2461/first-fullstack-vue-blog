@@ -33,7 +33,7 @@
 <script setup>
 import { computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { Code2, Copy, Smartphone, Terminal } from 'lucide-vue-next'
+import { Code2, Copy, Smartphone, Terminal } from '@lucide/vue'
 
 const props = defineProps({
   open: {

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 import {
   PROJECT_TIMELINE_CATEGORIES,
   PROJECT_TIMELINE_SOURCES
@@ -61,12 +62,12 @@ export const projectTimelineCreateSchema = z.object({
   legacyId: z.string().trim().optional().default('')
 })
 
-export const projectTimelineUpdateSchema = projectTimelineCreateSchema.pick({
+export const projectTimelineUpdateSchema = partialObjectSchema(projectTimelineCreateSchema.pick({
   title: true,
   detail: true,
   occurredAt: true,
   category: true
-}).partial().refine((value) => Object.keys(value).length > 0, {
+})).refine((value) => Object.keys(value).length > 0, {
   message: '请至少填写一个要更新的字段'
 })
 

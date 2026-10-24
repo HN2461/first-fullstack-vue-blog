@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 
 const dateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, '日期格式应为 YYYY-MM-DD')
 const timeSchema = z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/, '时间格式应为 HH:mm')
@@ -25,7 +26,7 @@ export const employmentCreateSchema = z.object({
   note: z.string().trim().max(1000).optional()
 }).strict()
 
-export const employmentUpdateSchema = employmentCreateSchema.partial().refine((value) => Object.keys(value).length > 0, {
+export const employmentUpdateSchema = partialObjectSchema(employmentCreateSchema).refine((value) => Object.keys(value).length > 0, {
   message: '请提供需要更新的字段'
 })
 
@@ -42,7 +43,7 @@ export const workLogCreateSchema = z.object({
   status: z.enum(['draft', 'final']).optional()
 }).strict()
 
-export const workLogUpdateSchema = workLogCreateSchema.omit({ employmentId: true, workDate: true }).partial().extend({
+export const workLogUpdateSchema = partialObjectSchema(workLogCreateSchema.omit({ employmentId: true, workDate: true })).extend({
   status: z.enum(['draft', 'final']).optional()
 }).strict().refine((value) => Object.keys(value).length > 0, { message: '请提供需要更新的字段' })
 

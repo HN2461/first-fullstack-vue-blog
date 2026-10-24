@@ -29,6 +29,7 @@ async function walkFiles(rootDir, currentDir = rootDir, items = []) {
   for (const entry of entries) {
     const targetPath = path.join(currentDir, entry.name)
     if (entry.isDirectory()) {
+      if (currentDir === rootDir && entry.name === '.generated-thumbnails') continue
       await walkFiles(rootDir, targetPath, items)
     } else if (entry.isFile()) {
       const stats = await fs.stat(targetPath)

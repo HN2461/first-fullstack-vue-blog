@@ -11,6 +11,7 @@ import { assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCa
 import { getVaultStorageRoot } from './mediaVault.service.js'
 import { attachMediaReferenceSummaries, findMediaReferences, getMediaReferenceDetail } from './mediaReference.service.js'
 import { findBlockingMediaShares } from '#modules/mediaShare/services/mediaShareReference.service.js'
+import { getMediaThumbnailFile, removeMediaThumbnail } from './mediaThumbnail.service.js'
 
 function normalizeMediaCategory(value) {
   const category = String(value || '').trim()
@@ -202,8 +203,7 @@ export async function createMediaFromFiles(files, user, metadata = {}) {
   }
 }
 
-export async function listMedia(options = {}) {
-  await ensureDefaultMediaCategory()
+function buildMediaListQuery(options = {}) {
   const { kind, fileClass, keyword, usageStatus } = options
   const page = Math.max(1, Number(options.page) || 1)
   const pageSize = Math.min(100, Math.max(1, Number(options.pageSize) || 20))
@@ -248,12 +248,7 @@ export async function listMedia(options = {}) {
 
     if (query.category) {
       if (excludedCategories.includes(query.category)) {
-        return {
-          items: [],
-          total: 0,
-          page,
-          pageSize
-        }
+        return { query: null, page, pageSize, usageStatus }
       }
     } else {
       query.category = { $nin: excludedCategories }
@@ -268,6 +263,62 @@ export async function listMedia(options = {}) {
       { category: { $regex: keyword, $options: 'i' } }
     ] })
   }
+
+  return { query, page, pageSize, usageStatus }
+}
+
+const mediaAggregateObjectIdFields = new Set(['categoryId', 'uploader'])
+
+function castMediaAggregateObjectIds(value, field = '') {
+  if (Array.isArray(value)) {
+    return value.map((item) => castMediaAggregateObjectIds(item, field))
+  }
+  if (mediaAggregateObjectIdFields.has(field) && mongoose.isObjectIdOrHexString(value)) {
+    return new mongoose.Types.ObjectId(value.toString())
+  }
+  if (!value || typeof value !== 'object') {
+    return value
+  }
+  return Object.fromEntries(Object.entries(value).map(([key, item]) => [
+    key,
+    castMediaAggregateObjectIds(item, key.startsWith('$') ? field : key)
+  ]))
+}
+
+/**
+ * 按当前媒体访问范围及列表筛选条件聚合资源类型数量。
+ * @param {object} options 兼容媒体列表查询条件，并通过 actor 限定可见资源。
+ * @returns {Promise<{byFileClass: object, vaultRecordsPresent: boolean}>} 类型计数和当前筛选范围内的密码箱标记。
+ * @throws {Error} 数据库聚合失败时透传 Mongoose 错误；排除条件冲突时返回零计数。
+ */
+export async function getMediaStatistics(options = {}) {
+  const { query } = buildMediaListQuery(options)
+  if (!query) {
+    return {
+      byFileClass: { image: 0, code: 0, document: 0, archive: 0, other: 0 },
+      vaultRecordsPresent: false
+    }
+  }
+
+  const [groups, vaultCount] = await Promise.all([
+    Media.aggregate([
+      { $match: castMediaAggregateObjectIds(query) },
+      { $group: { _id: { $ifNull: ['$fileClass', 'other'] }, count: { $sum: 1 } } }
+    ]),
+    Media.exists({ ...query, accessScope: 'vault' })
+  ])
+  const byFileClass = { image: 0, code: 0, document: 0, archive: 0, other: 0 }
+  groups.forEach(({ _id, count }) => {
+    byFileClass[_id] = count
+  })
+
+  return { byFileClass, vaultRecordsPresent: Boolean(vaultCount) }
+}
+
+export async function listMedia(options = {}) {
+  await ensureDefaultMediaCategory()
+  const { query, page, pageSize, usageStatus } = buildMediaListQuery(options)
+  if (!query) return { items: [], total: 0, page, pageSize }
 
   if (usageStatus === 'referenced' || usageStatus === 'unreferenced') {
     const candidates = await Media.find(query).populate('uploader', 'username email role').sort({ createdAt: -1 })
@@ -314,6 +365,33 @@ export async function getMediaReferences(id, actor = null) {
   }
 
   return getMediaReferenceDetail(media)
+}
+
+/**
+ * 校验访问范围后取得媒体图片的 WebP 缩略图。
+ * @param {string|object} id 媒体 ID。
+ * @param {object|null} actor 当前登录用户及其密码箱会话状态。
+ * @returns {Promise<{media: object, filePath: string, size: number}>} 授权媒体记录、缩略图路径和字节数。
+ * @throws {Error} 媒体不存在、不可见或不是图片时抛出对应 HTTP 业务错误。
+ */
+export async function getMediaThumbnail(id, actor = null) {
+  const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(actor) }).lean()
+  if (!media) {
+    const error = new Error('媒体文件不存在')
+    error.statusCode = 404
+    error.code = 'MEDIA_NOT_FOUND'
+    throw error
+  }
+  if (media.kind !== 'image' || !String(media.mimeType || '').startsWith('image/')) {
+    const error = new Error('该资源不是可预览的图片')
+    error.statusCode = 415
+    error.code = 'MEDIA_THUMBNAIL_UNSUPPORTED'
+    throw error
+  }
+
+  const filePath = await getMediaThumbnailFile(media)
+  const stats = await fs.stat(filePath)
+  return { media, filePath, size: stats.size }
 }
 
 export async function getMediaDeleteRisk(ids = [], actor = null) {
@@ -745,6 +823,7 @@ export async function permanentDeleteMedia(id, actor = null, { skipBusinessRefer
   }
 
   const fileRemoved = await removeStoredFile(media.storagePath, media.url, media)
+  await removeMediaThumbnail(id)
 
   if (media.workJournalEvidence) {
     await WorkLog.updateOne(
@@ -833,6 +912,7 @@ export async function emptyMediaTrash(actor = null) {
     if (await removeStoredFile(media.storagePath, media.url, media)) {
       removedFileCount += 1
     }
+    await removeMediaThumbnail(media._id)
     if (media.workJournalEvidence) {
       await WorkLog.updateOne(
         { _id: media.workJournalLog, 'evidence._id': media.workJournalEvidence },

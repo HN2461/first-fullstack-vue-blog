@@ -105,32 +105,33 @@
     "question-bank:seed:apply": "node src/scripts/seedQuestionBank.js --apply"
   },
   "dependencies": {
-    "archiver": "^7.0.1",
-    "bcryptjs": "^2.4.3",
+    "archiver": "^8.0.0",
+    "bcryptjs": "^3.0.3",
     "chinese-days": "^1.5.9",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
-    "express": "^5.1.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
     "gray-matter": "^4.0.3",
-    "helmet": "^8.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mammoth": "^1.12.0",
-    "mongoose": "^8.18.1",
-    "morgan": "^1.10.1",
-    "multer": "^2.0.2",
-    "pdfkit": "^0.19.1",
-    "socket.io": "^4.8.3",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mammoth": "^1.13.0",
+    "mongoose": "^9.11.4",
+    "morgan": "^1.12.1",
+    "multer": "^2.5.0",
+    "pdfkit": "^0.20.2",
+    "sharp": "^0.35.5",
+    "socket.io": "^4.8.4",
     "svg-captcha": "^1.4.0",
     "xlsx": "^0.18.5",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "mongodb-memory-server": "^10.2.0",
-    "nodemon": "^3.1.10",
-    "supertest": "^7.1.4",
-    "vitest": "^3.2.4"
+    "mongodb-memory-server": "^11.3.0",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.3.1",
+    "vitest": "^5.0.5"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=20.19.0"
   }
 }

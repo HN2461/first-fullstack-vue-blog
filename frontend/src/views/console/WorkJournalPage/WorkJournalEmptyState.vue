@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import { ClipboardList } from 'lucide-vue-next'
+import { ClipboardList } from '@lucide/vue'
 
 defineProps({
   title: { type: String, required: true },

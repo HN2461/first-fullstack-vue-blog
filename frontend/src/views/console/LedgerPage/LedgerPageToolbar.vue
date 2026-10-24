@@ -80,7 +80,7 @@
 <script setup>
 import { computed } from 'vue'
 import { AppstoreOutlined, BookOutlined, DownloadOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from '@ant-design/icons-vue'
-import { BookOpen, MoreHorizontal, RefreshCw } from 'lucide-vue-next'
+import { BookOpen, MoreHorizontal, RefreshCw } from '@lucide/vue'
 import LedgerBookSelect from './LedgerBookSelect.vue'
 
 const props = defineProps({

@@ -45,7 +45,7 @@ export async function updateSettings(input, user) {
       },
       {
         upsert: true,
-        new: true
+        returnDocument: 'after'
       }
     )
   }

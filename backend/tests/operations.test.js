@@ -341,6 +341,18 @@ describe('operations routes', () => {
       .expect(201)
 
     const media = uploadResponse.body.data
+    const unrelatedMedia = await Media.create({
+      filename: 'unrelated-image.png',
+      originalName: 'unrelated-image.png',
+      mimeType: 'image/png',
+      size: 24,
+      url: '/uploads/2026/10/unrelated-image.png',
+      storagePath: '/uploads/2026/10/unrelated-image.png',
+      kind: 'image',
+      category: '默认素材',
+      fileClass: 'image',
+      uploader: admin._id
+    })
     await createArticle({
       title: '引用媒体文章',
       slug: 'media-reference-post',
@@ -375,6 +387,14 @@ describe('operations routes', () => {
       referenceCount: 5
     })
 
+    const fullListResponse = await request(app)
+      .get('/api/admin/media')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .expect(200)
+    const usageById = new Map(fullListResponse.body.data.items.map((item) => [item.id, item.usage]))
+    expect(usageById.get(media.id)).toMatchObject({ usageStatus: 'referenced', referenceCount: 5 })
+    expect(usageById.get(unrelatedMedia._id.toString())).toMatchObject({ usageStatus: 'unreferenced', referenceCount: 0 })
+
     const referencesResponse = await request(app)
       .get(`/api/admin/media/${media.id}/references`)
       .set('Authorization', `Bearer ${adminToken}`)
@@ -384,7 +404,7 @@ describe('operations routes', () => {
       expect.arrayContaining(['articleContent', 'articleCover', 'articleResource', 'setting', 'userAvatar'])
     )
     const articleContentReference = referencesResponse.body.data.references.find((item) => item.type === 'articleContent')
-    expect(articleContentReference.routePath).toMatch(/^\/console\/manage\/articles\/[a-f\d]{24}$/i)
+    expect(articleContentReference.routePath).toMatch(/^\/console\/manage\/articles\/[a-f\d]{24}\/read$/i)
     expect(referencesResponse.body.data.references.find((item) => item.type === 'setting')).toMatchObject({
       ownerId: setting._id.toString(),
       routePath: '/console/manage/settings',

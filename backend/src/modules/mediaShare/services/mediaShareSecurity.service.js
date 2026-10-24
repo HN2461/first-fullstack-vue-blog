@@ -110,11 +110,11 @@ async function recordBucketFailure(definition) {
   ]
 
   try {
-    await MediaShareRateLimit.updateOne({ key: definition.key }, update, { upsert: true })
+    await MediaShareRateLimit.updateOne({ key: definition.key }, update, { upsert: true, updatePipeline: true })
   } catch (error) {
     // 并发首次写入可能争抢唯一键；落败请求改为普通更新，计数仍不会丢失。
     if (error.code !== 11000) throw error
-    await MediaShareRateLimit.updateOne({ key: definition.key }, update)
+    await MediaShareRateLimit.updateOne({ key: definition.key }, update, { updatePipeline: true })
   }
 }
 

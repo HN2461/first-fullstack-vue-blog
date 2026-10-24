@@ -44,7 +44,7 @@ export async function ensureResumeTemplates() {
           enabled: true
         }
       },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: 'after' }
     )
   }
 }

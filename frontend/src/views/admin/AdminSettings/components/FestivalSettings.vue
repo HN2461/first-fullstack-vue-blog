@@ -148,7 +148,7 @@
 import { computed, onMounted, reactive, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
-import { Pencil, Plus, RefreshCw, Trash2 } from 'lucide-vue-next'
+import { Pencil, Plus, RefreshCw, Trash2 } from '@lucide/vue'
 import {
   createAdminFestival,
   deleteAdminFestival,

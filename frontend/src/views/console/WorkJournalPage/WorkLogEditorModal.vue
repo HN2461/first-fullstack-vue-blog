@@ -76,7 +76,7 @@
 <script setup>
 import { computed, defineAsyncComponent, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { CircleCheck } from 'lucide-vue-next'
+import { CircleCheck } from '@lucide/vue'
 import { useAppStore } from '@/stores/app'
 import { createWorkLog, updateWorkLog } from '@/services/workJournal'
 import 'md-editor-v3/lib/style.css'

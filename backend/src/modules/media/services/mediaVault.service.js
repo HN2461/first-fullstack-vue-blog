@@ -94,7 +94,7 @@ export async function ensureMediaVault(owner) {
   return MediaVault.findOneAndUpdate(
     { owner: ownerId },
     { $setOnInsert: { owner: ownerId, category: category._id } },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
+    { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true }
   )
 }
 

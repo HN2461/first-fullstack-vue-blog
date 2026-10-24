@@ -11,7 +11,8 @@ import { batchDeleteAdminUsers, batchReviewComments, batchUpdateUserRoles, batch
 import { createPasswordResetLink, deletePasswordResetRecord, listPasswordResetRecords, resetPasswordDirectly, revokePasswordResetLink } from '#modules/passwordReset/services/passwordReset.service.js'
 import { directPasswordResetSchema, passwordResetCredentialSchema, passwordResetLinkCreateSchema } from '#modules/passwordReset/validators/passwordReset.validator.js'
 import { createMediaCategory, deleteMediaCategory, listMediaCategories, updateMediaCategory } from '#modules/media/services/mediaCategory.service.js'
-import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaContent, getMediaDeleteRisk, getMediaReferences, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { batchDeleteMedia, batchPermanentDeleteMedia, batchRestoreMedia, deleteMedia, emptyMediaTrash, getMediaContent, getMediaDeleteRisk, getMediaReferences, getMediaStatistics, getUploadSubdir, listMedia, moveMediaCategories, moveMediaCategory, permanentDeleteMedia, renameMedia, restoreMedia } from '#modules/media/services/media.service.js'
+import { getMediaStorageUsage } from '#modules/media/services/mediaStorage.service.js'
 import { attachMediaVaultAccess, changeMediaVaultPassword, getMediaVaultStatus, lockMediaVault, setupMediaVault, unlockMediaVault } from '#modules/media/services/mediaVault.service.js'
 import { handleMediaUpload } from '#modules/media/handlers/mediaUpload.handler.js'
 import { clearSuspectedUntrackedMedia, clearUnreferencedAvatarFiles, getUnregisteredMediaFileDetail, listUnregisteredMediaFiles, registerUntrackedMedia } from '#modules/media/services/mediaInventory.service.js'
@@ -38,6 +39,7 @@ import { mediaCategoryBatchMoveSchema, mediaCategoryMoveSchema, mediaRegisterUnt
 import { archiveCustomFestival, listCustomFestivals, restoreCustomFestival, saveCustomFestival, syncHolidayYear, updateCustomFestival } from '#modules/festival/services/festival.service.js'
 import { z } from 'zod'
 import { getBusinessDate } from '#utils/businessDate.js'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 import { listLoginSessions, revokeLoginSession } from '#modules/auth/services/loginSession.service.js'
 
 export const adminRouter = Router()
@@ -667,6 +669,14 @@ adminRouter.get('/media', asyncHandler(async (req, res) => {
   res.json(ok(await listMedia({ ...req.query, actor: req.user })))
 }))
 
+adminRouter.get('/media/statistics', asyncHandler(async (req, res) => {
+  res.json(ok(await getMediaStatistics({ ...req.query, actor: req.user })))
+}))
+
+adminRouter.get('/media/storage', asyncHandler(async (req, res) => {
+  res.json(ok(await getMediaStorageUsage({ refresh: req.query.refresh === 'true' })))
+}))
+
 adminRouter.get('/media/trash', asyncHandler(async (req, res) => {
   res.json(ok(await listMedia({ ...req.query, scope: 'trash', actor: req.user })))
 }))
@@ -874,7 +884,7 @@ adminRouter.post('/festivals', requireSuperAdmin, asyncHandler(async (req, res) 
   res.status(201).json(ok(await saveCustomFestival(parseBody(festivalSchema, req.body), req.user), '纪念日已创建'))
 }))
 adminRouter.patch('/festivals/:id', requireSuperAdmin, asyncHandler(async (req, res) => {
-  res.json(ok(await updateCustomFestival(req.params.id, parseBody(festivalSchema.partial(), req.body)), '纪念日已更新'))
+  res.json(ok(await updateCustomFestival(req.params.id, parseBody(partialObjectSchema(festivalSchema), req.body)), '纪念日已更新'))
 }))
 adminRouter.delete('/festivals/:id', requireSuperAdmin, asyncHandler(async (req, res) => {
   res.json(ok(await archiveCustomFestival(req.params.id), '纪念日已移入停用列表'))

@@ -74,7 +74,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { Expand, ExternalLink, Paperclip, Trash2 } from 'lucide-vue-next'
+import { Expand, ExternalLink, Paperclip, Trash2 } from '@lucide/vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { deleteWorkEvidence, getWorkEvidence, uploadWorkEvidence } from '@/services/workJournal'

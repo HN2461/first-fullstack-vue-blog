@@ -13,6 +13,7 @@ import {
   QUESTION_ATTEMPT_MODES,
   QUESTION_SELF_ASSESSMENTS
 } from '#modules/questionBank/models/QuestionAttempt.js'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 
 const objectIdSchema = z.string().regex(/^[a-f\d]{24}$/i, '数据 id 不正确')
 const tagSchema = z.string().trim().min(1, '标签不能为空').max(30, '单个标签不能超过 30 个字符')
@@ -25,9 +26,7 @@ export const questionCategoryCreateSchema = z.object({
   enabled: z.boolean().optional().default(true)
 }).strict('存在不支持的分类字段')
 
-export const questionCategoryUpdateSchema = questionCategoryCreateSchema
-  .pick({ name: true, sortOrder: true, enabled: true })
-  .partial()
+export const questionCategoryUpdateSchema = partialObjectSchema(questionCategoryCreateSchema.pick({ name: true, sortOrder: true, enabled: true }))
   .refine((value) => Object.keys(value).length > 0, '请提供需要更新的分类字段')
 
 const questionOptionSchema = z.object({
@@ -51,9 +50,7 @@ export const questionCreateSchema = z.object({
   defaultScore: z.coerce.number().int().min(1).max(100).optional().default(1)
 }).strict('存在不支持的题目字段')
 
-export const questionUpdateSchema = questionCreateSchema
-  .omit({ code: true, source: true })
-  .partial()
+export const questionUpdateSchema = partialObjectSchema(questionCreateSchema.omit({ code: true, source: true }))
   .refine((value) => Object.keys(value).length > 0, '请提供需要更新的题目字段')
 
 export const questionQuerySchema = z.object({
@@ -87,8 +84,7 @@ export const paperCreateSchema = z.object({
   status: z.enum(QUESTION_PAPER_STATUSES).optional().default('ready')
 }).strict('存在不支持的试卷字段')
 
-export const paperUpdateSchema = paperCreateSchema
-  .partial()
+export const paperUpdateSchema = partialObjectSchema(paperCreateSchema)
   .refine((value) => Object.keys(value).length > 0, '请提供需要更新的试卷字段')
 
 export const paperQuerySchema = z.object({

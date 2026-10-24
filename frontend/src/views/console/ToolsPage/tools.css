@@ -74,7 +74,7 @@
 .tools-breadcrumb { margin-bottom: 4px; color: var(--console-primary, #1677ff); font-size: 12px; }
 .tools-content__actions { display: flex; gap: 4px; }
 .tools-tool-surface { max-width: 980px; padding-top: 22px; }
-.tools-tool-surface :deep(.tool-panel) { width: 100%; }
+.tools-tool-surface .tool-panel { width: 100%; }
 
 .tools-overview { max-width: 1180px; }
 .tools-overview__section-head { margin: 0 0 12px; }

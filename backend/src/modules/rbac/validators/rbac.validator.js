@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { PERMISSION_REQUEST_STATUS, USER_GENDERS } from '#constants/domain'
 import { encryptedCredentialSchema } from '#modules/auth/validators/auth.validator.js'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 
 const objectIdPattern = /^[a-f\d]{24}$/i
 
@@ -19,7 +20,7 @@ export const roleSchema = z.object({
   sortOrder: z.coerce.number({ invalid_type_error: '排序必须是数字' }).int('排序必须是整数').min(0, '排序不能小于 0').max(9999, '排序不能超过 9999').optional().default(0)
 }).strict('存在不支持的角色字段')
 
-export const roleUpdateSchema = roleSchema.partial().extend({
+export const roleUpdateSchema = partialObjectSchema(roleSchema).extend({
   code: z.string().trim().toLowerCase().regex(roleCodePattern, '角色编码只能包含小写字母、数字和连字符').optional()
 }).strict('存在不支持的角色字段')
 
@@ -99,7 +100,7 @@ function normalizeMenuPayload(data, options = {}) {
 
 export const menuSchema = menuBaseSchema.transform((data) => normalizeMenuPayload(data))
 
-export const menuUpdateSchema = menuBaseSchema.partial().extend({
+export const menuUpdateSchema = partialObjectSchema(menuBaseSchema).extend({
   code: z.string().trim().toLowerCase().regex(menuCodePattern, '菜单编码只能包含小写字母、数字、点号和连字符').optional()
 }).strict('存在不支持的菜单字段').transform((data) => normalizeMenuPayload(data, { partial: true }))
 

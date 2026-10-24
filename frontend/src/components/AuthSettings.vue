@@ -73,7 +73,7 @@ import {
   AlignLeftOutlined,
   AlignRightOutlined
 } from '@ant-design/icons-vue'
-import { Moon, Sun } from 'lucide-vue-next'
+import { Moon, Sun } from '@lucide/vue'
 
 const props = defineProps({
   theme: { type: String, default: 'dark' },

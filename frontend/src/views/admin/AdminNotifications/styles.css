@@ -60,7 +60,7 @@
   min-height: 0;
 }
 
-.announce-table :deep(.blog-table) {
+.announce-table .blog-table {
   border: 1px solid var(--console-border);
   border-radius: 8px;
   overflow: hidden;
@@ -271,7 +271,7 @@
 }
 
 /* 表单弹窗 */
-.announce-form-modal :deep(.ant-modal-body) {
+.announce-form-modal .ant-modal-body {
   padding: 24px 28px;
 }
 
@@ -299,7 +299,7 @@
 }
 
 /* 详情弹窗 */
-.announce-detail-modal :deep(.ant-modal-body) {
+.announce-detail-modal .ant-modal-body {
   padding: 24px 28px;
 }
 
@@ -339,7 +339,7 @@
 }
 
 /* ===== 表格行细节 ===== */
-.announce-table :deep(.ant-table-thead > tr > th) {
+.announce-table .ant-table-thead > tr > th {
   height: 46px;
   padding: 10px 16px;
   font-weight: 600;
@@ -351,18 +351,18 @@
   border-bottom: 1px solid var(--console-border);
 }
 
-.announce-table :deep(.ant-table-tbody > tr > td) {
+.announce-table .ant-table-tbody > tr > td {
   padding: 12px 16px;
   vertical-align: top;
   border-bottom: 1px solid var(--console-border-light, #f0f0f0);
   transition: background 0.15s ease;
 }
 
-.announce-table :deep(.ant-table-tbody > tr:hover > td) {
+.announce-table .ant-table-tbody > tr:hover > td {
   background: var(--console-surface-hover, #fafafa);
 }
 
-.announce-table :deep(.ant-tag) {
+.announce-table .ant-tag {
   border-radius: 4px;
   font-size: 12px;
   font-weight: 500;

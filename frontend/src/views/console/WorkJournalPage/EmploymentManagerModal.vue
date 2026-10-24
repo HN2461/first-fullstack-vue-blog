@@ -122,7 +122,7 @@
 <script setup>
 import { reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { PencilLine, Trash2 } from 'lucide-vue-next'
+import { PencilLine, Trash2 } from '@lucide/vue'
 import { createEmployment, deleteEmployment, updateEmployment } from '@/services/workJournal'
 
 const props = defineProps({

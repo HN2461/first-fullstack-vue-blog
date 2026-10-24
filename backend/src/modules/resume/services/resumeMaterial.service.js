@@ -80,7 +80,7 @@ export async function upsertResumeMaterial(userId, input) {
         importedAt: new Date()
       }
     },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
+    { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true }
   )
 
   return material.toSafeJSON()

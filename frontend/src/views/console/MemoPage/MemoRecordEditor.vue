@@ -126,7 +126,7 @@
 <script setup>
 import { reactive, watch } from 'vue'
 import { message, Modal } from 'ant-design-vue'
-import { Plus, Trash2 } from 'lucide-vue-next'
+import { Plus, Trash2 } from '@lucide/vue'
 
 const props = defineProps({
   open: { type: Boolean, default: false },

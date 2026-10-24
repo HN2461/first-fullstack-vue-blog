@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import archiver from 'archiver'
+import { ZipArchive } from 'archiver'
 import { MediaSharePackage } from '../models/MediaSharePackage.js'
 import { getPublicShareContent, getPublicShareDownloadEntries } from './mediaShare.service.js'
 
@@ -129,7 +129,7 @@ export async function streamPublicMediaShareArchive({ publicId, req, res }) {
   )
 
   await new Promise((resolve, reject) => {
-    const archive = archiver('zip', { zlib: { level: 6 } })
+    const archive = new ZipArchive({ zlib: { level: 6 } })
     let settled = false
     const finish = () => {
       if (settled) return

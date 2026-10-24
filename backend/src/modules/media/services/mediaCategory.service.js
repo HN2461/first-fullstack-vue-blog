@@ -99,7 +99,7 @@ export async function ensureUserVaultCategory(owner) {
         sortOrder: 0
       }
     },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
+    { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true }
   )
 }
 
@@ -108,7 +108,7 @@ export async function ensureDefaultMediaCategory() {
     return MediaCategory.findOneAndUpdate(
       { name: item.name, owner: null },
       { $set: { ...item, owner: null, system: true } },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
+      { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true }
     )
   }))
 

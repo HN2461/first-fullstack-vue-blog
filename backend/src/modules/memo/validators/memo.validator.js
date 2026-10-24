@@ -6,6 +6,7 @@ import {
   MEMO_STATUSES,
   MEMO_TYPES
 } from '#modules/memo/models/Memo.js'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 
 const tagSchema = z.string().trim().min(1, '标签不能为空').max(20, '单个标签不能超过 20 个字符')
 const dueAtSchema = z.union([
@@ -56,7 +57,7 @@ export const memoCreateSchema = memoInputSchema.superRefine((data, context) => {
   }
 })
 
-export const memoUpdateSchema = memoInputSchema.partial().refine(
+export const memoUpdateSchema = partialObjectSchema(memoInputSchema).refine(
   (data) => Object.keys(data).length > 0,
   { message: '请提供需要更新的字段' }
 )

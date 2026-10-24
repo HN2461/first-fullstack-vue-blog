@@ -1,4 +1,4 @@
-import archiver from 'archiver'
+import { ZipArchive } from 'archiver'
 import request from 'supertest'
 import { once } from 'node:events'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
@@ -16,7 +16,7 @@ import {
 } from './helpers/testDatabase.js'
 
 async function buildDocxBuffer(text) {
-  const archive = archiver('zip', { store: true })
+  const archive = new ZipArchive({ store: true })
   const chunks = []
   archive.on('data', (chunk) => chunks.push(chunk))
   const ended = once(archive, 'end')

@@ -7,7 +7,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { createWriteStream } from 'node:fs'
 import { once } from 'node:events'
-import archiver from 'archiver'
+import { ZipArchive } from 'archiver'
 import { env } from '../config/env.js'
 import {
   buildNormalizedArticleOrder,
@@ -157,7 +157,7 @@ async function createBackup() {
   const backupPath = path.join(env.rootDir, 'backups', `output-online-before-authority-preparation-${stamp}.zip`)
   fs.mkdirSync(path.dirname(backupPath), { recursive: true })
   const output = createWriteStream(backupPath, { flags: 'wx' })
-  const archive = archiver('zip', { store: true })
+      const archive = new ZipArchive({ store: true })
   archive.on('error', (error) => output.destroy(error))
   archive.pipe(output)
   archive.directory(EXPORT_ROOT, false)

@@ -142,7 +142,7 @@ import { BarChart, LineChart, PieChart } from 'echarts/charts'
 import { GridComponent, LegendComponent, TooltipComponent } from 'echarts/components'
 import VChart from 'vue-echarts'
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
-import { TrendingDown, TrendingUp, Wallet } from 'lucide-vue-next'
+import { TrendingDown, TrendingUp, Wallet } from '@lucide/vue'
 import {
   buildCategoryBarOption,
   buildCategoryOption,

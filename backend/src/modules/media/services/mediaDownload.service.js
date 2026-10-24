@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import archiver from 'archiver'
+import { ZipArchive } from 'archiver'
 import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
@@ -202,7 +202,7 @@ export async function getBatchMediaDownload(input, actor) {
     total: items.length,
     async writeTo(writable) {
       await new Promise((resolve, reject) => {
-        const archive = archiver('zip', { zlib: { level: 6 } })
+        const archive = new ZipArchive({ zlib: { level: 6 } })
         let settled = false
         const finish = () => {
           if (settled) return

@@ -271,7 +271,7 @@ import {
   Plus,
   Search,
   Trash2
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { createMemo, deleteMemo, getMemo, listMemos, updateMemo } from '@/services/memo'
 import MemoRecordDetails from './MemoRecordDetails.vue'

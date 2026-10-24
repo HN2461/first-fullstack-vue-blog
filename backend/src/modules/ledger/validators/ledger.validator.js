@@ -3,6 +3,7 @@ import { LEDGER_BOOK_STATUSES } from '#modules/ledger/models/LedgerBook.js'
 import { LEDGER_CATEGORY_TYPES } from '#modules/ledger/models/LedgerCategory.js'
 import { LEDGER_ENTRY_TYPES } from '#modules/ledger/models/LedgerEntry.js'
 import { LEDGER_MOMENT_SCOPES } from '#modules/ledger/models/LedgerMoment.js'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 
 const objectIdPattern = /^[a-f\d]{24}$/i
 const colorPattern = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i
@@ -19,7 +20,7 @@ export const ledgerBookCreateSchema = z.object({
   sortOrder: z.coerce.number().int().min(0).max(9999).optional().default(0)
 }).strict('存在不支持的账本字段')
 
-export const ledgerBookUpdateSchema = ledgerBookCreateSchema.partial().strict('存在不支持的账本字段')
+export const ledgerBookUpdateSchema = partialObjectSchema(ledgerBookCreateSchema).strict('存在不支持的账本字段')
 
 export const ledgerCategoryCreateSchema = z.object({
   bookId: z.string().regex(objectIdPattern, '账本 id 不正确'),
@@ -34,9 +35,7 @@ export const ledgerCategoryCreateSchema = z.object({
   archived: z.boolean().optional().default(false)
 }).strict('存在不支持的分类字段')
 
-export const ledgerCategoryUpdateSchema = ledgerCategoryCreateSchema
-  .omit({ bookId: true })
-  .partial()
+export const ledgerCategoryUpdateSchema = partialObjectSchema(ledgerCategoryCreateSchema.omit({ bookId: true }))
   .strict('存在不支持的分类字段')
 
 export const ledgerEntryCreateSchema = z.object({
@@ -52,9 +51,7 @@ export const ledgerEntryCreateSchema = z.object({
   tags: z.array(z.string().trim().max(24, '标签不能超过 24 个字符')).max(12, '最多 12 个标签').optional().default([])
 }).strict('存在不支持的流水字段')
 
-export const ledgerEntryUpdateSchema = ledgerEntryCreateSchema
-  .omit({ bookId: true })
-  .partial()
+export const ledgerEntryUpdateSchema = partialObjectSchema(ledgerEntryCreateSchema.omit({ bookId: true }))
   .strict('存在不支持的流水字段')
 
 export const ledgerEntryQuerySchema = z.object({
@@ -149,8 +146,7 @@ export const ledgerMomentCreateSchema = z.object(ledgerMomentFields)
   .strict('存在不支持的重要记录字段')
   .superRefine(validateMomentRange)
 
-export const ledgerMomentUpdateSchema = z.object(ledgerMomentFields)
-  .partial()
+export const ledgerMomentUpdateSchema = partialObjectSchema(z.object(ledgerMomentFields))
   .strict('存在不支持的重要记录字段')
   .superRefine(validateMomentRange)
 

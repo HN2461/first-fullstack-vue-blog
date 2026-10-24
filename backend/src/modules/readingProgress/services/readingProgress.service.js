@@ -193,7 +193,7 @@ export async function saveReadingProgress(articleId, userId, input) {
         completedAt
       }
     },
-    { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
+    { returnDocument: 'after', upsert: true, runValidators: true, setDefaultsOnInsert: true }
   )
 
   return progress.toSafeJSON()

@@ -524,7 +524,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
         sortOrder: 0
       }
     },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: 'after' }
   )
 
   await Role.findOneAndUpdate(
@@ -543,7 +543,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
         status: 'active'
       }
     },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: 'after' }
   )
 
   await Role.findOneAndUpdate(
@@ -562,7 +562,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
         status: 'active'
       }
     },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: 'after' }
   )
 
   if (env.nodeEnv !== 'test' && env.adminEmail && env.adminPassword && env.adminUsername) {
@@ -582,7 +582,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
           status: USER_STATUS.ACTIVE
         }
       },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: 'after' }
     )
   }
 }

@@ -103,7 +103,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { Eye, PencilLine, Plus, Trash2 } from 'lucide-vue-next'
+import { Eye, PencilLine, Plus, Trash2 } from '@lucide/vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteEmployment, listEmployments } from '@/services/workJournal'
 import WorkJournalEmptyState from './WorkJournalEmptyState.vue'

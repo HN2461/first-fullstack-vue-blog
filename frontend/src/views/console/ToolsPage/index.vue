@@ -67,7 +67,7 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { LayoutGrid, Star } from 'lucide-vue-next'
+import { LayoutGrid, Star } from '@lucide/vue'
 import { TOOL_CATALOG, TOOL_CATEGORIES, getCategoryByKey, getToolByKey } from './toolCatalog'
 import './tools.css'
 

@@ -298,7 +298,7 @@ import {
   ShareAltOutlined,
   StarOutlined
 } from '@ant-design/icons-vue'
-import { ListTree, X } from 'lucide-vue-next'
+import { ListTree, X } from '@lucide/vue'
 import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
 import ArticleShareCreateModal from '@/components/article-share/ArticleShareCreateModal.vue'
 import ReadingToolbar from '@/components/ReadingToolbar.vue'

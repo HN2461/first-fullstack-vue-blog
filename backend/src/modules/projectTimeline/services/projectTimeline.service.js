@@ -98,7 +98,7 @@ export async function updateProjectTimelineRecord(id, input) {
   const record = await ProjectTimelineRecord.findByIdAndUpdate(
     id,
     { $set: updates },
-    { new: true, runValidators: true }
+    { returnDocument: 'after', runValidators: true }
   )
 
   if (!record) {

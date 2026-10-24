@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { BOOKMARK_BROWSER_TYPES } from '../models/BookmarkWorkspace.js'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 
 const objectIdPattern = /^[a-f\d]{24}$/i
 const objectIdSchema = z.string().regex(objectIdPattern, '数据 id 不正确')
@@ -17,7 +18,7 @@ export const bookmarkWorkspaceCreateSchema = z.object({
   sortOrder: z.coerce.number().int().min(0).max(999999).optional()
 }).strict('存在不支持的书签库字段')
 
-export const bookmarkWorkspaceUpdateSchema = bookmarkWorkspaceCreateSchema.partial().strict('存在不支持的书签库字段')
+export const bookmarkWorkspaceUpdateSchema = partialObjectSchema(bookmarkWorkspaceCreateSchema).strict('存在不支持的书签库字段')
 
 export const bookmarkWorkspaceReorderSchema = z.object({
   ids: z.array(objectIdSchema).min(1, '请选择要排序的书签库').max(30, '单次最多排序 30 个书签库')
@@ -29,7 +30,7 @@ export const bookmarkFolderCreateSchema = z.object({
   sortOrder: z.coerce.number().int().min(0).max(999999).optional()
 }).strict('存在不支持的文件夹字段')
 
-export const bookmarkFolderUpdateSchema = bookmarkFolderCreateSchema.partial().strict('存在不支持的文件夹字段')
+export const bookmarkFolderUpdateSchema = partialObjectSchema(bookmarkFolderCreateSchema).strict('存在不支持的文件夹字段')
 
 export const bookmarkCreateSchema = z.object({
   title: z.string().trim().max(240, '书签名称不能超过 240 个字符').optional().default(''),
@@ -40,7 +41,7 @@ export const bookmarkCreateSchema = z.object({
   sortOrder: z.coerce.number().int().min(0).max(999999).optional()
 }).strict('存在不支持的书签字段')
 
-export const bookmarkUpdateSchema = bookmarkCreateSchema.partial().strict('存在不支持的书签字段')
+export const bookmarkUpdateSchema = partialObjectSchema(bookmarkCreateSchema).strict('存在不支持的书签字段')
 
 export const bookmarkQuerySchema = z.object({
   folderId: z.union([objectIdSchema, z.literal('')]).optional(),

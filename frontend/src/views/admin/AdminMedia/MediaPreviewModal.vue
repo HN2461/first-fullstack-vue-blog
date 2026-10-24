@@ -72,14 +72,27 @@
               @pointercancel="handleImagePointerEnd"
               @dblclick="handleImageDoubleClick"
             >
-              <a-spin v-if="imageLoading" class="media-preview-workspace__image-loading" tip="正在加载图片" />
+              <a-spin v-if="imageLoading && !imageThumbnailLoaded" class="media-preview-workspace__image-loading" tip="正在加载图片" />
               <img
+                v-if="!imageThumbnailError"
+                :key="imageThumbnailKey"
+                :src="previewThumbnailUrl"
+                :alt="record.originalName"
+                class="media-preview-workspace__image is-placeholder"
+                :style="imageTransformStyle"
+                draggable="false"
+                @load="imageThumbnailLoaded = true"
+                @error="handleThumbnailError"
+              >
+              <img
+                v-if="imageOriginalRequested"
                 :key="imageKey"
                 ref="imageElementRef"
                 :src="record.url"
                 :alt="record.originalName"
-                class="media-preview-workspace__image"
-                :style="{ transform: `translate3d(${imagePosition.x}px, ${imagePosition.y}px, 0) scale(${imageScale}) rotate(${imageRotation}deg)` }"
+                class="media-preview-workspace__image is-full-resolution"
+                :class="{ 'is-loaded': imageFullLoaded }"
+                :style="imageTransformStyle"
                 draggable="false"
                 @load="handleImageLoad"
                 @error="handleImageError"
@@ -223,6 +236,7 @@ import MediaDocxPreview from './MediaDocxPreview.vue'
 import MediaMarkdownPreview from './MediaMarkdownPreview.vue'
 import MediaPptxPreview from './MediaPptxPreview.vue'
 import MediaSpreadsheetPreview from './MediaSpreadsheetPreview.vue'
+import { getMediaThumbnailUrl } from './mediaThumbnailUrl'
 
 const props = defineProps({ open: { type: Boolean, default: false }, record: { type: Object, default: null } })
 const emit = defineEmits(['update:open', 'download'])
@@ -240,6 +254,12 @@ const imageDragging = ref(false)
 const imageLoadError = ref(false)
 const imageLoading = ref(false)
 const imageKey = ref(0)
+const imageThumbnailKey = ref(0)
+const imageThumbnailLoaded = ref(false)
+const imageThumbnailError = ref(false)
+const imageFullLoaded = ref(false)
+const imageOriginalRequested = ref(false)
+const originalSizeRequested = ref(false)
 const imageElementRef = ref(null)
 const imageNaturalSize = ref(null)
 const mediaElementRef = ref(null)
@@ -266,6 +286,10 @@ const imagePointers = new Map()
 let imagePinchStart = null
 
 const previewType = computed(() => getPreviewType(props.record))
+const previewThumbnailUrl = computed(() => getMediaThumbnailUrl(props.record))
+const imageTransformStyle = computed(() => ({
+  transform: `translate3d(${imagePosition.value.x}px, ${imagePosition.value.y}px, 0) scale(${imageScale.value}) rotate(${imageRotation.value}deg)`
+}))
 const previewOpenUrl = computed(() => props.record?.url ? new URL(props.record.url, window.location.origin).href : '')
 const markdownAssetBase = computed(() => {
   try {
@@ -329,7 +353,13 @@ function resetPreview() {
   resetImageViewport()
   imageLoadError.value = false
   imageLoading.value = previewType.value === 'image'
+  imageThumbnailLoaded.value = false
+  imageThumbnailError.value = false
+  imageFullLoaded.value = false
+  imageOriginalRequested.value = false
+  originalSizeRequested.value = false
   imageKey.value += 1
+  imageThumbnailKey.value += 1
   imageNaturalSize.value = null
   textContent.value = ''
   textLoading.value = false
@@ -436,6 +466,7 @@ async function loadTextPreview(record) {
 function changeImageScale(delta) {
   const nextScale = clampImageScale(imageScale.value + delta)
   imageScale.value = nextScale
+  if (nextScale > 1) requestOriginalImage()
   if (nextScale <= 1) imagePosition.value = { x: 0, y: 0 }
 }
 
@@ -445,14 +476,26 @@ function selectImageScale({ key }) {
     return
   }
   imageScale.value = clampImageScale(Number(key))
+  if (imageScale.value >= 1) requestOriginalImage()
   if (imageScale.value <= 1) imagePosition.value = { x: 0, y: 0 }
 }
 
 function showImageOriginalSize() {
   const image = imageElementRef.value
-  if (!image?.naturalWidth || !image.clientWidth) return
+  if (!image?.naturalWidth || !image.clientWidth) {
+    originalSizeRequested.value = true
+    requestOriginalImage()
+    return
+  }
   imageScale.value = clampImageScale(image.naturalWidth / image.clientWidth)
   imagePosition.value = { x: 0, y: 0 }
+}
+
+function requestOriginalImage() {
+  if (imageOriginalRequested.value) return
+  imageLoading.value = true
+  imageOriginalRequested.value = true
+  imageKey.value += 1
 }
 
 function clampImageScale(value) {
@@ -583,18 +626,35 @@ function handleImageDoubleClick() {
 function handleImageLoad() {
   imageLoadError.value = false
   imageLoading.value = false
+  imageFullLoaded.value = true
   imageNaturalSize.value = { width: imageElementRef.value?.naturalWidth || 0, height: imageElementRef.value?.naturalHeight || 0 }
+  if (originalSizeRequested.value) {
+    originalSizeRequested.value = false
+    showImageOriginalSize()
+  }
 }
 
 function handleImageError() {
   imageLoading.value = false
-  imageLoadError.value = true
+  imageFullLoaded.value = false
+  imageLoadError.value = imageThumbnailError.value && !imageThumbnailLoaded.value
+}
+
+function handleThumbnailError() {
+  imageThumbnailError.value = true
+  requestOriginalImage()
 }
 
 function retryImage() {
   imageLoadError.value = false
   imageLoading.value = true
+  imageThumbnailLoaded.value = false
+  imageThumbnailError.value = false
+  imageFullLoaded.value = false
+  imageOriginalRequested.value = true
+  originalSizeRequested.value = false
   imageKey.value += 1
+  imageThumbnailKey.value += 1
 }
 
 function handleFrameLoad() {

@@ -6,6 +6,7 @@ import { promisify } from 'node:util'
 import mongoose from 'mongoose'
 import { env } from '#config/env'
 import { getRecentRequestMetrics } from '#middlewares/requestMetrics.js'
+import { getMediaStorageUsage } from '#modules/media/services/mediaStorage.service.js'
 
 const execFileAsync = promisify(execFile)
 const packageJson = JSON.parse(fs.readFileSync(path.join(env.rootDir, 'package.json'), 'utf8'))
@@ -54,30 +55,6 @@ function formatBytes(bytes) {
   return bytes
 }
 
-async function getDirectorySize(targetPath) {
-  const entries = await fs.promises.readdir(targetPath, { withFileTypes: true })
-  const sizes = await Promise.all(entries.map(async (entry) => {
-    const entryPath = path.join(targetPath, entry.name)
-
-    try {
-      if (entry.isDirectory()) {
-        return getDirectorySize(entryPath)
-      }
-
-      if (entry.isFile()) {
-        const stats = await fs.promises.stat(entryPath)
-        return stats.size
-      }
-    } catch {
-      return 0
-    }
-
-    return 0
-  }))
-
-  return sizes.reduce((sum, size) => sum + size, 0)
-}
-
 async function getUploadsHealth() {
   const uploadsPath = path.resolve(env.rootDir, env.uploadDir)
   const pathLabel = env.uploadDir || 'uploads'
@@ -107,7 +84,19 @@ async function getUploadsHealth() {
       writable = false
     }
 
-    size = await getDirectorySize(uploadsPath)
+    const usage = await getMediaStorageUsage()
+    const uploadArea = usage.areas.find((area) => area.label === '公开上传目录')
+    size = uploadArea?.bytes || 0
+    if (uploadArea?.status === 'unavailable') {
+      return {
+        status: 'degraded',
+        exists,
+        writable,
+        size,
+        pathLabel,
+        message: '上传目录无法完整读取'
+      }
+    }
 
     return {
       status: writable ? 'up' : 'degraded',

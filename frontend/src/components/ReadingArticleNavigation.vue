@@ -53,7 +53,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { BookOpen, ChevronDown, ChevronUp } from 'lucide-vue-next'
+import { BookOpen, ChevronDown, ChevronUp } from '@lucide/vue'
 
 const props = defineProps({
   neighbors: {

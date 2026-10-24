@@ -92,14 +92,14 @@ async function assertRateLimit(action, key, maxAttempts, windowMs) {
           expiresAt
         }
       }],
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: 'after', updatePipeline: true }
     )
   } catch (error) {
     if (error?.code !== 11000) throw error
     record = await PasswordResetRateLimit.findOneAndUpdate(
       { action, key: compositeKey },
       { $inc: { count: 1 }, $set: { expiresAt } },
-      { new: true }
+      { returnDocument: 'after' }
     )
   }
 
@@ -172,7 +172,7 @@ export async function revokePasswordResetLink(recordId, operator) {
   const record = await PasswordResetRecord.findOneAndUpdate(
     { _id: recordId, mode: 'link', usedAt: null, revokedAt: null, expiresAt: { $gt: now } },
     { $set: { revokedAt: now, revokedBy: operator._id } },
-    { new: true }
+    { returnDocument: 'after' }
   ).populate('createdBy', 'username email').populate('revokedBy', 'username email')
   if (!record) throw createHttpError(409, 'PASSWORD_RESET_LINK_NOT_ACTIVE', '重置链接已失效，无法撤销')
   return serializeRecord(record)
@@ -231,7 +231,7 @@ export async function consumePasswordResetLink(token, newPassword, ip = '') {
   const claimed = await PasswordResetRecord.findOneAndUpdate(
     { _id: record._id, usedAt: null, revokedAt: null, expiresAt: { $gt: now } },
     { $set: { usedAt: now, usedIp: ip } },
-    { new: true }
+    { returnDocument: 'after' }
   )
   if (!claimed) throw invalidLinkError()
 

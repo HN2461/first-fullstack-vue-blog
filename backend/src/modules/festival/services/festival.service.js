@@ -120,13 +120,13 @@ export async function saveCustomFestival(input, user) {
 export async function updateCustomFestival(id, input) {
   const next = { ...input, category: SYSTEM_BROADCAST_FESTIVAL_CATEGORY }
   if (next.enabled === true) next.deletedAt = null
-  return CustomFestival.findByIdAndUpdate(id, next, { new: true })
+  return CustomFestival.findByIdAndUpdate(id, next, { returnDocument: 'after' })
 }
 
 export async function archiveCustomFestival(id) {
-  return CustomFestival.findByIdAndUpdate(id, { enabled: false, deletedAt: new Date() }, { new: true })
+  return CustomFestival.findByIdAndUpdate(id, { enabled: false, deletedAt: new Date() }, { returnDocument: 'after' })
 }
 
 export async function restoreCustomFestival(id) {
-  return CustomFestival.findByIdAndUpdate(id, { enabled: true, deletedAt: null, category: SYSTEM_BROADCAST_FESTIVAL_CATEGORY }, { new: true })
+  return CustomFestival.findByIdAndUpdate(id, { enabled: true, deletedAt: null, category: SYSTEM_BROADCAST_FESTIVAL_CATEGORY }, { returnDocument: 'after' })
 }

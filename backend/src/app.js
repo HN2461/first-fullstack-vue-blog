@@ -57,6 +57,7 @@ export function createApp() {
   // 历史上可能误放在公开 uploads 目录中的密码箱文件也必须拒绝静态访问。
   // 当前密码箱文件存放在 uploads-private，但保留这层拦截可以避免旧路径重新暴露。
   app.use(['/uploads/vault', '/uploads/uploads-private'], (_req, res) => res.sendStatus(404))
+  app.use('/uploads/.generated-thumbnails', (_req, res) => res.sendStatus(404))
   app.use('/uploads', express.static(resolveUploadRoot()))
   app.use('/legacy-notes', express.static(env.legacyNotesDir))
   app.use(requestMetricsMiddleware)

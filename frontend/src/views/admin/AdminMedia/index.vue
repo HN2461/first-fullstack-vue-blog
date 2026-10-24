@@ -9,6 +9,16 @@
             <template #icon><QuestionCircleOutlined /></template>
           </a-button>
         </a-tooltip>
+        <a-tooltip :title="mediaStorageTooltip">
+          <a-tag class="media-storage-indicator" :color="storageError ? 'orange' : 'default'" :bordered="false">
+            {{ mediaStorageLabel }}
+          </a-tag>
+        </a-tooltip>
+        <a-tooltip title="刷新上传目录占用">
+          <a-button type="text" size="small" aria-label="刷新上传目录占用" :loading="storageLoading" @click="loadMediaStorage(true)">
+            <template #icon><ReloadOutlined /></template>
+          </a-button>
+        </a-tooltip>
         <div v-if="vaultContext" class="media-vault-session">
           <a-tooltip :title="vaultStatus.unlocked ? '本次验证从密码输入成功时开始计时，固定 30 分钟，期间操作不会重置' : '输入密码后才能查看密码箱内容'">
             <a-tag :color="vaultStatus.unlocked ? 'green' : 'orange'" :bordered="false">
@@ -136,7 +146,15 @@
                 <template v-if="isMaskedVaultRecord(record)">
                   <LockOutlined class="media-file__vault-icon" />
                 </template>
-                <img v-else-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
+                <img
+                  v-else-if="record.kind === 'image'"
+                  :src="getMediaThumbnailUrl(record)"
+                  :alt="record.originalName"
+                  loading="lazy"
+                  decoding="async"
+                  fetchpriority="low"
+                  @error="hideFailedThumbnail"
+                >
                 <span v-else class="media-file__ext">{{ getFileBadge(record) }}</span>
               </div>
               <div class="media-file__info">
@@ -442,7 +460,8 @@ import {
   EyeInvisibleOutlined,
   EyeOutlined,
   LockOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  ReloadOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import MediaBatchActions from './MediaBatchActions.vue'
@@ -469,6 +488,8 @@ import {
   createAdminMediaCategory,
   deleteAdminMedia,
   deleteAdminMediaCategory,
+  getAdminMediaStatistics,
+  getAdminMediaStorageUsage,
   getAdminMediaDeleteRisk,
   getAdminSettings,
   listAdminMedia,
@@ -487,6 +508,7 @@ import {
 import { useAdminActions } from '@/composables/useAdminUi'
 import { useAuthStore } from '@/stores/auth'
 import { getMovableMediaCategories } from './mediaCategoryOptions'
+import { getMediaThumbnailUrl, hideFailedThumbnail } from './mediaThumbnailUrl'
 import { useMediaDownloads } from './useMediaDownloads'
 
 const tableRef = ref(null)
@@ -681,6 +703,22 @@ const mediaStats = ref({
   archive: 0,
   other: 0
 })
+const mediaStorageUsage = ref(null)
+const storageError = ref(false)
+const storageLoading = ref(false)
+const mediaStorageLabel = computed(() => {
+  if (storageError.value) return '上传占用不可用'
+  if (!mediaStorageUsage.value) return '统计上传占用中'
+  return `资源存储 ${formatStorageSize(mediaStorageUsage.value.totalBytes)}`
+})
+const mediaStorageTooltip = computed(() => {
+  if (storageError.value) return '上传目录占用统计暂时不可用，页面刷新后会重试'
+  const usage = mediaStorageUsage.value
+  if (!usage) return '正在统计上传资源目录占用'
+  const detail = (usage.areas || []).map((area) => `${area.label} ${formatStorageSize(area.bytes)}`).join(' · ')
+  const status = usage.status === 'partial' ? '部分目录无法读取，当前值不完整。' : ''
+  return `服务器磁盘文件占用（非运行内存）· ${detail} · ${usage.fileCount} 个文件 · ${status}统计时间 ${new Date(usage.scannedAt).toLocaleString('zh-CN')}`
+})
 
 const activeSelectedMediaKeys = computed(() => (
   viewMode.value === 'folders' ? folderSelectedKeys.value : selectedMediaKeys.value
@@ -729,6 +767,15 @@ function formatFileSize(size = 0) {
   return `${Math.ceil(size / 1024)} KB`
 }
 
+function formatStorageSize(size = 0) {
+  const bytes = Math.max(0, Number(size) || 0)
+  if (bytes >= 1024 ** 4) return `${(bytes / 1024 ** 4).toFixed(1)} TB`
+  if (bytes >= 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(1)} GB`
+  if (bytes >= 1024 ** 2) return `${(bytes / 1024 ** 2).toFixed(1)} MB`
+  if (bytes >= 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${Math.round(bytes)} B`
+}
+
 function formatDate(value) {
   return value ? new Date(value).toLocaleString('zh-CN') : '-'
 }
@@ -759,22 +806,28 @@ function getFileClassColor(fileClass) {
 }
 
 async function loadMedia(params) {
-  const result = await listAdminMedia(params)
-  const statsSource = await listAdminMedia({
-    page: 1,
-    pageSize: 200,
-    keyword: keyword.value || undefined,
-    categoryId: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? filterCategory.value : undefined,
-    category: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? undefined : filterCategory.value,
-    usageStatus: filterUsageStatus.value || undefined
-  })
-  vaultRecordsPresent.value = statsSource.items.some((item) => item.accessScope === 'vault')
-  mediaStats.value = statsSource.items.reduce((acc, item) => {
-    const key = item.fileClass || 'other'
-    acc[key] = (acc[key] || 0) + 1
-    return acc
-  }, { image: 0, code: 0, document: 0, archive: 0, other: 0 })
+  const statsParams = { ...params }
+  delete statsParams.fileClass
+  delete statsParams.usageStatus
+  const [result, statistics] = await Promise.all([
+    listAdminMedia(params),
+    getAdminMediaStatistics(statsParams)
+  ])
+  vaultRecordsPresent.value = statistics.vaultRecordsPresent
+  mediaStats.value = statistics.byFileClass
   return result
+}
+
+async function loadMediaStorage(refresh = false) {
+  storageLoading.value = true
+  try {
+    mediaStorageUsage.value = await getAdminMediaStorageUsage({ refresh })
+    storageError.value = false
+  } catch {
+    storageError.value = true
+  } finally {
+    storageLoading.value = false
+  }
 }
 
 async function loadCategories() {
@@ -1154,7 +1207,7 @@ async function saveUploadSettings(payload) {
 }
 
 async function handleUploadCompleted() {
-  await loadCategories()
+  await Promise.all([loadCategories(), loadMediaStorage(true)])
   await loadFolderCategoriesAndItems()
   tableRef.value?.refresh()
 }
@@ -1433,6 +1486,7 @@ onMounted(async () => {
     await Promise.all([
       loadCategories(),
       loadUploadRules(),
+      loadMediaStorage(),
       syncVaultStatus(),
       viewMode.value === 'folders' ? loadFolderCategoriesAndItems() : Promise.resolve()
     ])
@@ -1483,7 +1537,16 @@ onUnmounted(() => {
 .media-cloud__identity {
   display: flex;
   align-items: center;
+  gap: 4px;
   min-width: 0;
+}
+
+.media-storage-indicator {
+  max-width: 190px;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .media-cloud__title {
@@ -1906,82 +1969,82 @@ onUnmounted(() => {
   gap: 2px;
 }
 
-:deep(.dark-theme) .media-cloud__toolbar,
-:deep(.dark-theme) .media-cloud__filters,
-:deep(.dark-theme) .media-cloud__actions {
+.dark-theme .media-cloud__toolbar,
+.dark-theme .media-cloud__filters,
+.dark-theme .media-cloud__actions {
   color: var(--console-text-secondary);
 }
 
-:deep(.dark-theme) .media-cloud__list-toolbar {
+.dark-theme .media-cloud__list-toolbar {
   border-color: var(--console-border);
 }
 
-:deep(.dark-theme) .media-cloud__topbar,
-:deep(.dark-theme) .media-cloud__type-filter,
-:deep(.dark-theme) .media-batch-actions {
+.dark-theme .media-cloud__topbar,
+.dark-theme .media-cloud__type-filter,
+.dark-theme .media-batch-actions {
   border-color: var(--console-border);
 }
 
-:deep(.dark-theme) .media-batch-actions__count {
+.dark-theme .media-batch-actions__count {
   color: var(--console-text-secondary);
 }
 
-:deep(.dark-theme) .media-type-chip {
+.dark-theme .media-type-chip {
   color: var(--console-menu-text);
   border-color: transparent;
   background: transparent;
 }
 
-:deep(.dark-theme) .media-type-chip:hover {
+.dark-theme .media-type-chip:hover {
   color: var(--console-primary-strong);
   border-color: var(--console-primary-strong);
   background: var(--console-surface-hover);
 }
 
-:deep(.dark-theme) .media-type-chip.is-active {
+.dark-theme .media-type-chip.is-active {
   color: var(--console-primary-strong);
   border-color: var(--console-primary-strong);
   background: var(--console-primary-soft);
 }
 
-:deep(.dark-theme) .media-file__thumb,
-:deep(.dark-theme) .media-category-label,
-:deep(.dark-theme) .media-cloud__file-chip,
-:deep(.dark-theme) .media-category-item {
+.dark-theme .media-file__thumb,
+.dark-theme .media-category-label,
+.dark-theme .media-cloud__file-chip,
+.dark-theme .media-category-item {
   color: var(--console-menu-text);
   border-color: var(--console-border);
   background: var(--console-surface-muted);
 }
 
-:deep(.dark-theme) .media-category-item:hover {
+.dark-theme .media-category-item:hover {
   border-color: var(--console-border-strong);
   background: var(--console-surface-hover);
 }
 
-:deep(.dark-theme) .media-file__name,
-:deep(.dark-theme) .media-cloud__title,
-:deep(.dark-theme) .media-category-item strong {
+.dark-theme .media-file__name,
+.dark-theme .media-cloud__title,
+.dark-theme .media-category-item strong {
   color: var(--console-text);
 }
 
-:deep(.dark-theme) .media-file__url,
-:deep(.dark-theme) .media-size,
-:deep(.dark-theme) .media-time,
-:deep(.dark-theme) .media-usage-link :deep(.ant-badge-status-text),
-:deep(.dark-theme) .media-category-item span,
-:deep(.dark-theme) .media-category-panel__empty {
+.dark-theme .media-file__url,
+.dark-theme .media-size,
+.dark-theme .media-time,
+.dark-theme .media-usage-link :deep(.ant-badge-status-text),
+.dark-theme .media-category-item span,
+.dark-theme .media-category-panel__empty {
   color: var(--console-text-secondary) !important;
 }
 
-:deep(.dark-theme) .media-file__thumb.is-image,
-:deep(.dark-theme) .media-file__thumb.is-code,
-:deep(.dark-theme) .media-file__thumb.is-document,
-:deep(.dark-theme) .media-file__thumb.is-archive {
+.dark-theme .media-file__thumb.is-image,
+.dark-theme .media-file__thumb.is-code,
+.dark-theme .media-file__thumb.is-document,
+.dark-theme .media-file__thumb.is-archive {
   border-color: var(--console-border);
   background: color-mix(in srgb, var(--console-primary) 10%, var(--console-surface-muted));
 }
 
-:deep(.dark-theme) .media-category-panel__form {
+.dark-theme .media-category-panel__form {
   border-bottom-color: var(--console-border);
 }
 
@@ -2028,6 +2091,10 @@ onUnmounted(() => {
 
   .media-cloud__title {
     font-size: 16px;
+  }
+
+  .media-cloud__identity {
+    flex-wrap: wrap;
   }
 
   .media-cloud__filters {

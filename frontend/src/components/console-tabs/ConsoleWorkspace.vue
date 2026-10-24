@@ -44,7 +44,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Minimize2 } from 'lucide-vue-next'
+import { Minimize2 } from '@lucide/vue'
 import { useAuthStore } from '@/stores/auth'
 import { useConsoleTabsStore } from '@/stores/consoleTabs'
 import { buildConsoleTabKey } from '@/utils/consoleTabs'

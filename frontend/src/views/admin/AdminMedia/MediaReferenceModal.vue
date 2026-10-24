@@ -5,12 +5,19 @@
     :footer="null"
     width="760px"
     centered
-    :body-style="{ maxHeight: '72vh', overflow: 'hidden' }"
+    :body-style="{ height: 'min(62vh, 560px)', minHeight: '220px', overflow: 'hidden' }"
     @update:open="emit('update:open', $event)"
     @cancel="emit('update:open', false)"
   >
-    <a-spin :spinning="loading" tip="正在扫描引用...">
-      <div v-if="detail" class="media-reference__scroll">
+    <div class="media-reference__content">
+      <div v-if="loading" class="media-reference__loading">
+        <a-spin tip="正在扫描引用..." />
+      </div>
+      <div v-else-if="loadError" class="media-reference__error">
+        <span>{{ loadError }}</span>
+        <a-button size="small" @click="loadDetail">重试</a-button>
+      </div>
+      <div v-else-if="detail" class="media-reference__scroll">
         <div class="media-reference">
           <div class="media-reference__summary">
             <div>
@@ -71,14 +78,13 @@
           </div>
         </div>
       </div>
-    </a-spin>
+    </div>
   </a-modal>
 </template>
 
 <script setup>
 import { ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { message } from 'ant-design-vue'
 import { getAdminMediaReferences } from '@/services/admin'
 import { useAuthStore } from '@/stores/auth'
 
@@ -92,26 +98,41 @@ const router = useRouter()
 const authStore = useAuthStore()
 const loading = ref(false)
 const detail = ref(null)
+const loadError = ref('')
+let requestVersion = 0
 
 watch(
   () => [props.open, props.record?.id],
-  async ([visible, id]) => {
+  ([visible, id]) => {
+    requestVersion += 1
     if (!visible || !id) {
       detail.value = null
+      loading.value = false
+      loadError.value = ''
       return
     }
 
-    loading.value = true
-    try {
-      detail.value = await getAdminMediaReferences(id)
-    } catch (error) {
-      message.error(error.message || '引用详情加载失败')
-    } finally {
-      loading.value = false
-    }
+    void loadDetail()
   },
   { immediate: true }
 )
+
+async function loadDetail() {
+  const id = props.record?.id
+  if (!props.open || !id) return
+  const currentVersion = ++requestVersion
+  detail.value = null
+  loadError.value = ''
+  loading.value = true
+  try {
+    const result = await getAdminMediaReferences(id)
+    if (currentVersion === requestVersion) detail.value = result
+  } catch (error) {
+    if (currentVersion === requestVersion) loadError.value = error.message || '引用详情加载失败'
+  } finally {
+    if (currentVersion === requestVersion) loading.value = false
+  }
+}
 
 function canOpenReference(item) {
   if (!item.routePath || !authStore.canAccessPath(item.routePath)) return false
@@ -138,13 +159,36 @@ function formatFileSize(size = 0) {
 </script>
 
 <style scoped>
+.media-reference__content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.media-reference__loading,
+.media-reference__error {
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  gap: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.media-reference__error {
+  align-content: center;
+}
+
 .media-reference {
   display: grid;
   gap: 14px;
 }
 
 .media-reference__scroll {
-  max-height: min(62vh, 560px);
+  flex: 1 1 auto;
+  min-height: 0;
   overflow-y: auto;
   padding-right: 2px;
   scrollbar-width: none;

@@ -153,7 +153,7 @@ import {
   SoundOutlined,
   VideoCameraOutlined
 } from '@ant-design/icons-vue'
-import { Moon, Sun } from 'lucide-vue-next'
+import { Moon, Sun } from '@lucide/vue'
 import { useAppStore } from '@/stores/app'
 import {
   claimPublicMediaShare,

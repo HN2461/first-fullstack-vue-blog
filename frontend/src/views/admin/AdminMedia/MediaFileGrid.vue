@@ -30,7 +30,15 @@
             <LockOutlined class="media-file-card__vault-icon" />
             <span class="media-file-card__vault-label">已隐藏</span>
           </template>
-          <img v-else-if="record.kind === 'image'" :src="record.url" :alt="record.originalName" loading="lazy">
+          <img
+            v-else-if="record.kind === 'image'"
+            :src="getMediaThumbnailUrl(record)"
+            :alt="record.originalName"
+            loading="lazy"
+            decoding="async"
+            fetchpriority="low"
+            @error="hideFailedThumbnail"
+          >
           <span v-else class="media-file-card__badge" :class="`is-${record.fileClass || 'other'}`">
             {{ getFileBadge(record) }}
           </span>
@@ -84,6 +92,7 @@
 import { computed, ref, watch } from 'vue'
 import { LockOutlined } from '@ant-design/icons-vue'
 import MediaRowActions from './MediaRowActions.vue'
+import { getMediaThumbnailUrl, hideFailedThumbnail } from './mediaThumbnailUrl'
 
 const props = defineProps({
   items: { type: Array, default: () => [] },

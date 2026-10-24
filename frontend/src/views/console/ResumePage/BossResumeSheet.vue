@@ -85,7 +85,7 @@
 import { computed, defineComponent, h } from 'vue'
 import { Button } from 'ant-design-vue'
 import { EditOutlined } from '@ant-design/icons-vue'
-import { Mail, Phone, UserRound } from 'lucide-vue-next'
+import { Mail, Phone, UserRound } from '@lucide/vue'
 
 const props = defineProps({
   resume: { type: Object, default: () => ({}) },

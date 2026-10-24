@@ -52,7 +52,7 @@ export async function replaceBossResume(options = {}) {
         version: 1
       }
     },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
+    { returnDocument: 'after', upsert: true, setDefaultsOnInsert: true }
   )
   const staleResumeIds = oldResumeIds.filter((id) => !id.equals(target._id))
 

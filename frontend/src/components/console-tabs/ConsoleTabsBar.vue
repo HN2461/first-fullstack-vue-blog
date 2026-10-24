@@ -122,7 +122,7 @@ import {
   PinOff,
   RefreshCw,
   X
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 import { useAuthStore } from '@/stores/auth'
 import { useConsoleTabsStore } from '@/stores/consoleTabs'
 import { buildConsoleTabKey, shouldConfirmConsoleTabClose } from '@/utils/consoleTabs'

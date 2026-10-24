@@ -74,7 +74,7 @@
 
 <script setup>
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import { Download, FileText } from 'lucide-vue-next'
+import { Download, FileText } from '@lucide/vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 
 const props = defineProps({

@@ -71,7 +71,7 @@ async function seedCategories(items) {
       if (!existing) {
         category = await QuestionCategory.create({ ...data, key: input.key, enabled: true })
       } else if (changed) {
-        category = await QuestionCategory.findByIdAndUpdate(existing._id, { $set: data }, { new: true })
+        category = await QuestionCategory.findByIdAndUpdate(existing._id, { $set: data }, { returnDocument: 'after' })
       }
       categoryMap.set(input.key, category)
     } else {

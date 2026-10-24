@@ -153,7 +153,7 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import { Eye, Focus, ListTree, RotateCcw, SlidersHorizontal, X } from 'lucide-vue-next'
+import { Eye, Focus, ListTree, RotateCcw, SlidersHorizontal, X } from '@lucide/vue'
 import ReadingArticleNavigation from './ReadingArticleNavigation.vue'
 import TableOfContents from './TableOfContents.vue'
 import { getDefaultFontSize, getFontSize, MAX_FONT_SIZE, MIN_FONT_SIZE, setFontSize } from '@/utils/fontSizeStorage'

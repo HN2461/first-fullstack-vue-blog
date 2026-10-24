@@ -307,7 +307,7 @@ export async function commitLedgerImport(userId, id) {
   const batch = await LedgerImportBatch.findOneAndUpdate(
     { _id: batchId, userId, status: 'previewed' },
     { $set: { status: 'committing', errorMessage: '' } },
-    { new: true }
+    { returnDocument: 'after' }
   )
   if (!batch) throw createError(409, 'LEDGER_IMPORT_COMMITTING', '该导入批次正在同步，请稍后查看结果')
 

@@ -124,7 +124,7 @@ import {
   RefreshCw,
   Send,
   Trash2
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 import { clearLogRelayEntries, getLogRelayEntries, sendLogRelay } from '@/services/logRelay'
 import LogRelayApiDocs from './LogRelayApiDocs.vue'
 

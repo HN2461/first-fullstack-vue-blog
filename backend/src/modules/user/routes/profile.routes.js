@@ -122,7 +122,7 @@ router.put('/', requireAuth, asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $set: updates },
-    { new: true }
+    { returnDocument: 'after' }
   )
 
   res.json(ok(await hydrateUserPermissions(user), '个人信息更新成功'))
@@ -140,7 +140,7 @@ router.put('/theme', requireAuth, asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $set: { themePreference } },
-    { new: true }
+    { returnDocument: 'after' }
   )
 
   res.json(ok(await hydrateUserPermissions(user), '主题偏好已保存'))
@@ -186,7 +186,7 @@ router.put('/festival-effect', requireAuth, asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $set: updates },
-    { new: true }
+    { returnDocument: 'after' }
   )
 
   res.json(ok(await hydrateUserPermissions(user), '节日特效状态已保存'))
@@ -208,7 +208,7 @@ router.post('/avatar', requireAuth, handleAvatarUpload, asyncHandler(async (req,
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $set: { avatar: avatarUrl } },
-    { new: true }
+    { returnDocument: 'after' }
   )
 
   res.json(ok(await hydrateUserPermissions(user), '头像上传成功'))
@@ -222,7 +222,7 @@ router.delete('/avatar', requireAuth, asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $set: { avatar: '' } },
-    { new: true }
+    { returnDocument: 'after' }
   )
 
   res.json(ok(await hydrateUserPermissions(user), '头像已删除'))
@@ -251,7 +251,7 @@ router.put('/notifications', requireAuth, asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $set: { notificationSettings } },
-    { new: true }
+    { returnDocument: 'after' }
   )
 
   res.json(ok(user.toSafeJSON().notificationSettings, '通知设置已保存'))
@@ -276,7 +276,7 @@ router.put('/quick-actions', requireAuth, asyncHandler(async (req, res) => {
   const user = await User.findByIdAndUpdate(
     req.user._id,
     { $set: { quickActions: routes } },
-    { new: true }
+    { returnDocument: 'after' }
   )
 
   res.json(ok((await hydrateUserPermissions(user)).quickActions || [], '快捷功能已保存'))

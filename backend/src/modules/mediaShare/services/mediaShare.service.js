@@ -173,7 +173,7 @@ async function reserveAccess(share) {
   const updated = await MediaSharePackage.findOneAndUpdate(
     filter,
     { $inc: { accessCount: 1 }, $set: { lastAccessAt: new Date() } },
-    { new: true }
+    { returnDocument: 'after' }
   )
   if (!updated) {
     assertShareUsable(share)

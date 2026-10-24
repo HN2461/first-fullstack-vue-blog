@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { partialObjectSchema } from '#utils/zodUpdateSchema.js'
 import { RESUME_EXPORT_FORMATS } from '#modules/resume/models/ResumeExportRecord.js'
 import { RESUME_STATUSES } from '#modules/resume/models/Resume.js'
 
@@ -98,7 +99,7 @@ export const resumeCreateSchema = z.object({
   sections: sectionsSchema.optional()
 }).strict('存在不支持的简历字段')
 
-export const resumeUpdateSchema = resumeCreateSchema.partial().refine(
+export const resumeUpdateSchema = partialObjectSchema(resumeCreateSchema).refine(
   (data) => Object.keys(data).length > 0,
   { message: '请提供需要更新的简历字段' }
 )
@@ -128,7 +129,7 @@ export const interviewCreateSchema = z.object({
   links: z.array(interviewLinkSchema).max(20, '最多关联 20 条简历原文').optional().default([])
 }).strict('存在不支持的问答字段')
 
-export const interviewUpdateSchema = interviewCreateSchema.partial().refine(
+export const interviewUpdateSchema = partialObjectSchema(interviewCreateSchema).refine(
   (data) => Object.keys(data).length > 0,
   { message: '请提供需要更新的问答字段' }
 )

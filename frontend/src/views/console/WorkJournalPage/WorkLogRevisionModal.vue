@@ -33,7 +33,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { History } from 'lucide-vue-next'
+import { History } from '@lucide/vue'
 
 const props = defineProps({
   open: { type: Boolean, default: false },

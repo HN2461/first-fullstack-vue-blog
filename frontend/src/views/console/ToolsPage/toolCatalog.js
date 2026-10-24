@@ -29,7 +29,7 @@ import {
   CalendarDays,
   FileSpreadsheet,
   Sparkles
-} from 'lucide-vue-next'
+} from '@lucide/vue'
 
 export const TOOL_CATEGORIES = [
   { key: 'all', label: '全部工具' },

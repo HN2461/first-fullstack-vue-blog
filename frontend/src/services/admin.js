@@ -413,6 +413,14 @@ export async function listAdminMedia(params = {}) {
   return toPageResult(await http.get('/api/admin/media', { params }), params.pageSize || 20)
 }
 
+export function getAdminMediaStatistics(params = {}) {
+  return http.get('/api/admin/media/statistics', { params })
+}
+
+export function getAdminMediaStorageUsage({ refresh = false } = {}) {
+  return http.get('/api/admin/media/storage', { params: refresh ? { refresh: 'true' } : undefined })
+}
+
 export function getAdminMediaReferences(id) {
   return http.get(`/api/admin/media/${id}/references`)
 }

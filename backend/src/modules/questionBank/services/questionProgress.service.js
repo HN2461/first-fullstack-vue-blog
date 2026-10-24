@@ -115,7 +115,7 @@ export async function setQuestionFavorite(userId, questionId, isFavorite) {
   const progress = await QuestionProgress.findOneAndUpdate(
     { userId, questionId },
     { $set: { isFavorite }, $setOnInsert: { attempts: 0, correctCount: 0, wrongCount: 0, masteryLevel: 0 } },
-    { upsert: true, new: true }
+    { upsert: true, returnDocument: 'after' }
   )
   return { questionId: questionId.toString(), isFavorite: progress.isFavorite }
 }

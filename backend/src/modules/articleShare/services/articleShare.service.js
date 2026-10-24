@@ -344,7 +344,7 @@ async function getPublicWithSession(publicId, req) {
 async function establishAccess(share, mode, req, res) {
   const current = await findValidArticleShareSession(share, req)
   if (current) return { share, session: current }
-  const updated = await ArticleSharePackage.findOneAndUpdate({ _id: share._id, status: 'active', $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date() } }] }, { $inc: { accessCount: 1 }, $set: { lastAccessAt: new Date() } }, { new: true })
+  const updated = await ArticleSharePackage.findOneAndUpdate({ _id: share._id, status: 'active', $or: [{ expiresAt: null }, { expiresAt: { $gt: new Date() } }] }, { $inc: { accessCount: 1 }, $set: { lastAccessAt: new Date() } }, { returnDocument: 'after' })
   if (!updated) throw shareError('共享阅读链接已过期或被撤销', 410, 'ARTICLE_SHARE_UNAVAILABLE')
   return { share: updated, session: await createArticleShareSession(updated, mode, req, res) }
 }

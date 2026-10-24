@@ -1,4 +1,4 @@
-import archiver from 'archiver'
+import { ZipArchive } from 'archiver'
 import multer, { MulterError } from 'multer'
 import { Router } from 'express'
 import { requireAnyMenuAccess, requireAuth } from '#middlewares/auth.js'
@@ -154,7 +154,7 @@ workJournalRouter.get('/export', requireDailyAccess, asyncHandler(async (req, re
   res.setHeader('Content-Type', 'application/zip')
   res.setHeader('Content-Disposition', `attachment; filename="${fallback}.zip"; filename*=UTF-8''${encodeURIComponent(`${baseName}.zip`)}`)
   res.setHeader('Cache-Control', 'private, no-store')
-  const archive = archiver('zip', { zlib: { level: 6 } })
+  const archive = new ZipArchive({ zlib: { level: 6 } })
   archive.on('error', (error) => res.destroy(error))
   archive.pipe(res)
   const manifest = []

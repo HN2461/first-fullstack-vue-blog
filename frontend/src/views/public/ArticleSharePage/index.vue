@@ -58,7 +58,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { AlertCircle, ArrowUpRight, Copy, ExternalLink, LockKeyhole } from 'lucide-vue-next'
+import { AlertCircle, ArrowUpRight, Copy, ExternalLink, LockKeyhole } from '@lucide/vue'
 import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
 import { useAuthStore } from '@/stores/auth'
 import { claimPublicArticleShare, getPublicArticleShare, getPublicSharedArticle, verifyPublicArticleShare } from '@/services/articleShare'
