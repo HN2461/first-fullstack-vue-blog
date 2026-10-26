@@ -5,6 +5,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { User } from '#modules/user/models/User.js'
 import { Employment } from '#modules/workJournal/models/Employment.js'
+import { WorkMaterial } from '#modules/workJournal/models/WorkMaterial.js'
 import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
 import { WorkReport } from '#modules/workJournal/models/WorkReport.js'
 import { Media } from '#modules/media/models/Media.js'
@@ -134,6 +135,57 @@ describe('work journal routes', () => {
       companyAddress: '深圳市南山区新地址'
     })
     expect(await Employment.findById(employment.id)).toMatchObject({ regularSalary: '11K', workSchedule: '双休' })
+  })
+
+  it('manages employment materials and protects credential passwords', async () => {
+    const created = await request(app)
+      .post(`/api/work-journal/employments/${employment.id}/materials`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: '公司后台账号',
+        type: 'credential',
+        url: 'https://admin.example.com',
+        username: 'journal-user',
+        password: 'secret-password',
+        note: '生产后台'
+      })
+      .expect(201)
+
+    expect(created.body.data).toMatchObject({ title: '公司后台账号', type: 'credential', username: 'journal-user', passwordConfigured: true })
+    expect(created.body.data.password).toBeUndefined()
+    const stored = await WorkMaterial.findById(created.body.data.id).select('+passwordCiphertext')
+    expect(stored.passwordCiphertext).toBeTruthy()
+    expect(stored.passwordCiphertext).not.toContain('secret-password')
+
+    const listed = await request(app)
+      .get(`/api/work-journal/employments/${employment.id}/materials`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(listed.body.data.total).toBe(1)
+    expect(listed.body.data.items[0]).toMatchObject({ title: '公司后台账号', passwordConfigured: true })
+    expect(listed.body.data.items[0].password).toBeUndefined()
+
+    await request(app)
+      .get(`/api/work-journal/materials/${created.body.data.id}`)
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(404)
+
+    const revealed = await request(app)
+      .post(`/api/work-journal/materials/${created.body.data.id}/reveal`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(revealed.body.data.password).toBe('secret-password')
+
+    const updated = await request(app)
+      .patch(`/api/work-journal/materials/${created.body.data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: '公司后台账号（已更新）', password: '' })
+      .expect(200)
+    expect(updated.body.data).toMatchObject({ title: '公司后台账号（已更新）', passwordConfigured: false })
+    expect((await request(app)
+      .post(`/api/work-journal/materials/${created.body.data.id}/reveal`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)).body.data.password).toBe('')
   })
 
   it('creates one daily log per employment and rejects duplicate dates', async () => {
@@ -493,6 +545,11 @@ describe('work journal routes', () => {
   })
 
   it('deletes a work experience with its logs, reports, and private evidence', async () => {
+    await request(app)
+      .post(`/api/work-journal/employments/${employment.id}/materials`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ title: '交接资料', type: 'note', content: '删除级联验证' })
+      .expect(201)
     const created = await request(app)
       .post('/api/work-journal/logs')
       .set('Authorization', `Bearer ${token}`)
@@ -517,12 +574,14 @@ describe('work journal routes', () => {
       .set('Authorization', `Bearer ${otherToken}`)
       .expect(404)
 
-    await request(app)
+    const deleted = await request(app)
       .delete(`/api/work-journal/employments/${employment.id}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
 
+    expect(deleted.body.data.deletedMaterials).toBe(1)
     expect(await Employment.countDocuments({ _id: employment.id })).toBe(0)
+    expect(await WorkMaterial.countDocuments({ employment: employment.id })).toBe(0)
     expect(await WorkLog.countDocuments({ employment: employment.id })).toBe(0)
     expect(await fs.access(filePath).then(() => true, () => false)).toBe(false)
     const reports = await request(app)

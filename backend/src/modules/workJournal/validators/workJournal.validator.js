@@ -30,6 +30,27 @@ export const employmentUpdateSchema = partialObjectSchema(employmentCreateSchema
   message: '请提供需要更新的字段'
 })
 
+const materialTypeSchema = z.enum(['website', 'credential', 'contact', 'note'])
+const materialUrlSchema = z.string().trim().max(1000).refine((value) => !value || /^https?:\/\//i.test(value), '网址必须以 http:// 或 https:// 开头')
+
+export const workMaterialCreateSchema = z.object({
+  title: z.string().trim().min(1, '请输入资料名称').max(160),
+  type: materialTypeSchema,
+  url: materialUrlSchema.optional(),
+  username: optionalText(240),
+  password: optionalText(500),
+  contactName: optionalText(120),
+  contactPhone: optionalText(80),
+  contactEmail: z.string().trim().email('请输入正确的资料邮箱').max(160).optional().or(z.literal('')),
+  content: z.string().trim().max(10000).optional(),
+  note: z.string().trim().max(2000).optional(),
+  isPinned: z.boolean().optional()
+}).strict()
+
+export const workMaterialUpdateSchema = partialObjectSchema(workMaterialCreateSchema).refine((value) => Object.keys(value).length > 0, {
+  message: '请提供需要更新的资料字段'
+})
+
 export const workLogCreateSchema = z.object({
   employmentId: z.string().min(1),
   workDate: dateSchema,

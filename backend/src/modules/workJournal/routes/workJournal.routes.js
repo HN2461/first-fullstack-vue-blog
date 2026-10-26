@@ -5,28 +5,34 @@ import { requireAnyMenuAccess, requireAuth } from '#middlewares/auth.js'
 import {
   addWorkEvidence,
   createEmployment,
+  createWorkMaterial,
   createWorkReport,
   createWorkLog,
   deleteEmployment,
+  deleteWorkMaterial,
   deleteWorkEvidence,
   deleteWorkLog,
   deleteWorkReport,
   findOwnedWorkLog,
   getWorkEvidence,
+  getWorkMaterial,
   getWorkJournalExport,
   getWorkReport,
   listEmployments,
+  listWorkMaterials,
   getWorkLog,
   getWorkJournalMediaContent,
   listWorkReports,
   listWorkLogs,
   permanentlyDeleteWorkLog,
   restoreWorkLog,
+  revealWorkMaterialPassword,
   updateEmployment,
+  updateWorkMaterial,
   updateWorkReport,
   updateWorkLog
 } from '#modules/workJournal/services/workJournal.service.js'
-import { employmentCreateSchema, employmentUpdateSchema, parseWorkJournalPayload, workLogCreateSchema, workLogUpdateSchema, workReportCreateSchema, workReportUpdateSchema } from '#modules/workJournal/validators/workJournal.validator.js'
+import { employmentCreateSchema, employmentUpdateSchema, parseWorkJournalPayload, workLogCreateSchema, workLogUpdateSchema, workMaterialCreateSchema, workMaterialUpdateSchema, workReportCreateSchema, workReportUpdateSchema } from '#modules/workJournal/validators/workJournal.validator.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
@@ -99,6 +105,33 @@ workJournalRouter.get('/employments', requireAnyMenuAccess([
   '/console/manage/media'
 ]), asyncHandler(async (req, res) => {
   res.json(ok(await listEmployments(req.user._id)))
+}))
+
+workJournalRouter.get('/employments/:employmentId/materials', requireEmploymentAccess, asyncHandler(async (req, res) => {
+  res.json(ok(await listWorkMaterials(req.user._id, req.params.employmentId, req.query)))
+}))
+
+workJournalRouter.post('/employments/:employmentId/materials', requireEmploymentAccess, asyncHandler(async (req, res) => {
+  const input = parseWorkJournalPayload(workMaterialCreateSchema, req.body)
+  res.status(201).json(ok(await createWorkMaterial(req.user._id, req.params.employmentId, input), '补充资料已创建'))
+}))
+
+workJournalRouter.get('/materials/:id', requireEmploymentAccess, asyncHandler(async (req, res) => {
+  res.json(ok(await getWorkMaterial(req.params.id, req.user._id)))
+}))
+
+workJournalRouter.post('/materials/:id/reveal', requireEmploymentAccess, asyncHandler(async (req, res) => {
+  res.setHeader('Cache-Control', 'private, no-store')
+  res.json(ok(await revealWorkMaterialPassword(req.params.id, req.user._id)))
+}))
+
+workJournalRouter.patch('/materials/:id', requireEmploymentAccess, asyncHandler(async (req, res) => {
+  const input = parseWorkJournalPayload(workMaterialUpdateSchema, req.body)
+  res.json(ok(await updateWorkMaterial(req.params.id, req.user._id, input), '补充资料已更新'))
+}))
+
+workJournalRouter.delete('/materials/:id', requireEmploymentAccess, asyncHandler(async (req, res) => {
+  res.json(ok(await deleteWorkMaterial(req.params.id, req.user._id), '补充资料已删除'))
 }))
 
 workJournalRouter.post('/employments', requireEmploymentAccess, asyncHandler(async (req, res) => {

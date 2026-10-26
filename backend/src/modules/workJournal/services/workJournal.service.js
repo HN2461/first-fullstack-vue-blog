@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import mongoose from 'mongoose'
 import { Employment } from '#modules/workJournal/models/Employment.js'
+import { WorkMaterial } from '#modules/workJournal/models/WorkMaterial.js'
 import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
 import { WorkReport } from '#modules/workJournal/models/WorkReport.js'
 import { resolvePrivateWorkJournalPath, resolvePrivateWorkJournalRoot as getPrivateWorkJournalRoot } from '#modules/workJournal/utils/workEvidenceStorage.js'
@@ -11,6 +12,7 @@ import { assertMediaCategoryExists, ensureDefaultMediaCategory } from '#modules/
 import { permanentlyDeleteWorkJournalMedia } from '#modules/media/services/media.service.js'
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
+import { decryptWorkMaterialField, encryptWorkMaterialField } from '#utils/workMaterialFieldEncryption.js'
 
 const MAX_REVISIONS = 20
 const MIME_EXTENSIONS = Object.freeze({
@@ -79,7 +81,12 @@ export async function findOwnedWorkLog(id, userId, options = {}) {
 
 export async function listEmployments(userId) {
   const items = await Employment.find({ createdBy: userId }).sort({ startedOn: -1, createdAt: -1 })
-  return items.map((item) => item.toSafeJSON())
+  const materialCounts = await WorkMaterial.aggregate([
+    { $match: { createdBy: userId, employment: { $in: items.map((item) => item._id) } } },
+    { $group: { _id: '$employment', count: { $sum: 1 } } }
+  ])
+  const countMap = new Map(materialCounts.map((item) => [item._id.toString(), item.count]))
+  return items.map((item) => ({ ...item.toSafeJSON(), materialCount: countMap.get(item._id.toString()) || 0 }))
 }
 
 export async function createEmployment(userId, input) {
@@ -110,9 +117,11 @@ export async function deleteEmployment(id, userId) {
   const employment = await findOwnedEmployment(id, userId)
   const logs = await WorkLog.find({ employment: employment._id, createdBy: userId }).select('evidence.storedName evidence.mediaId')
   const reportCount = await WorkReport.countDocuments({ employment: employment._id, createdBy: userId })
+  const materialCount = await WorkMaterial.countDocuments({ employment: employment._id, createdBy: userId })
 
   await WorkLog.deleteMany({ employment: employment._id, createdBy: userId })
   await WorkReport.deleteMany({ employment: employment._id, createdBy: userId })
+  await WorkMaterial.deleteMany({ employment: employment._id, createdBy: userId })
   await employment.deleteOne()
 
   for (const log of logs) {
@@ -126,7 +135,92 @@ export async function deleteEmployment(id, userId) {
     }
   }
 
-  return { id: employment._id.toString(), deletedLogs: logs.length, deletedReports: reportCount }
+  return { id: employment._id.toString(), deletedLogs: logs.length, deletedReports: reportCount, deletedMaterials: materialCount }
+}
+
+function materialContext(material, userId) {
+  return { ownerId: userId, materialId: material._id, fieldKey: 'password' }
+}
+
+function materialSearchQuery(userId, employmentId, filters = {}) {
+  const query = { createdBy: userId, employment: employmentId }
+  if (['website', 'credential', 'contact', 'note'].includes(filters.type)) query.type = filters.type
+  const keyword = String(filters.keyword || '').trim()
+  if (keyword) {
+    const regex = new RegExp(escapeRegExp(keyword), 'i')
+    query.$or = ['title', 'url', 'username', 'contactName', 'contactPhone', 'contactEmail', 'content', 'note']
+      .map((field) => ({ [field]: regex }))
+  }
+  return query
+}
+
+export async function listWorkMaterials(userId, employmentId, filters = {}) {
+  const employment = await findOwnedEmployment(employmentId, userId)
+  const page = Math.max(1, parseInt(filters.page, 10) || 1)
+  const pageSize = Math.min(100, Math.max(1, parseInt(filters.pageSize, 10) || 50))
+  const query = materialSearchQuery(userId, employment._id, filters)
+  const [items, total] = await Promise.all([
+    WorkMaterial.find(query).sort({ isPinned: -1, updatedAt: -1 }).skip((page - 1) * pageSize).limit(pageSize),
+    WorkMaterial.countDocuments(query)
+  ])
+  return { employment: employment.toSafeJSON(), items: items.map((item) => item.toSafeJSON()), total, page, pageSize }
+}
+
+export async function createWorkMaterial(userId, employmentId, input) {
+  const employment = await findOwnedEmployment(employmentId, userId)
+  const password = input.password || ''
+  const data = { ...input, employment: employment._id, createdBy: userId, passwordConfigured: Boolean(password) }
+  delete data.password
+  const material = await WorkMaterial.create(data)
+  if (password) {
+    try {
+      material.passwordCiphertext = encryptWorkMaterialField(password, materialContext(material, userId))
+      await material.save()
+    } catch (error) {
+      await material.deleteOne()
+      throw error
+    }
+  }
+  return material.toSafeJSON()
+}
+
+export async function findOwnedWorkMaterial(id, userId, options = {}) {
+  assertObjectId(id, 'WORK_MATERIAL_NOT_FOUND', '补充资料不存在')
+  const query = WorkMaterial.findOne({ _id: id, createdBy: userId })
+  if (options.includeSensitive) query.select('+passwordCiphertext')
+  const material = await query
+  if (!material) throw createError(404, 'WORK_MATERIAL_NOT_FOUND', '补充资料不存在')
+  return material
+}
+
+export async function getWorkMaterial(id, userId) {
+  return (await findOwnedWorkMaterial(id, userId)).toSafeJSON()
+}
+
+export async function revealWorkMaterialPassword(id, userId) {
+  const material = await findOwnedWorkMaterial(id, userId, { includeSensitive: true })
+  return { id: material._id.toString(), password: material.passwordCiphertext ? decryptWorkMaterialField(material.passwordCiphertext, materialContext(material, userId)) : '' }
+}
+
+export async function updateWorkMaterial(id, userId, input) {
+  const material = await findOwnedWorkMaterial(id, userId, { includeSensitive: true })
+  const hasPassword = Object.prototype.hasOwnProperty.call(input, 'password')
+  const password = hasPassword ? input.password || '' : null
+  const data = { ...input }
+  delete data.password
+  Object.assign(material, data)
+  if (hasPassword) {
+    material.passwordConfigured = Boolean(password)
+    material.passwordCiphertext = password ? encryptWorkMaterialField(password, materialContext(material, userId)) : ''
+  }
+  await material.save()
+  return material.toSafeJSON()
+}
+
+export async function deleteWorkMaterial(id, userId) {
+  const material = await findOwnedWorkMaterial(id, userId)
+  await material.deleteOne()
+  return { id: material._id.toString() }
 }
 
 function buildWorkLogQuery(userId, filters = {}) {

@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import { env } from '#config/env'
 import { Employment } from '#modules/workJournal/models/Employment.js'
 import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
+import { WorkMaterial } from '#modules/workJournal/models/WorkMaterial.js'
 import { WorkReport } from '#modules/workJournal/models/WorkReport.js'
 
 const applyChanges = process.argv.includes('--apply')
@@ -31,6 +32,20 @@ const INDEX_PLANS = [
       {
         key: { createdBy: 1, employment: 1, status: 1, workDate: -1 },
         options: { name: 'createdBy_1_employment_1_status_1_workDate_-1' }
+      }
+    ]
+  },
+  {
+    model: WorkMaterial,
+    collection: WorkMaterial.collection,
+    indexes: [
+      { key: { employment: 1 }, options: { name: 'employment_1' } },
+      { key: { createdBy: 1 }, options: { name: 'createdBy_1' } },
+      { key: { type: 1 }, options: { name: 'type_1' } },
+      { key: { isPinned: 1 }, options: { name: 'isPinned_1' } },
+      {
+        key: { createdBy: 1, employment: 1, isPinned: -1, updatedAt: -1 },
+        options: { name: 'createdBy_1_employment_1_isPinned_-1_updatedAt_-1' }
       }
     ]
   },

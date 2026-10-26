@@ -39,18 +39,27 @@
         <template v-else-if="column.key === 'salary'">{{ salarySummary(record) }}</template>
         <template v-else-if="column.key === 'schedule'">{{ scheduleSummary(record) }}</template>
         <template v-else-if="column.key === 'address'">{{ record.companyAddress || '—' }}</template>
+        <template v-else-if="column.key === 'materials'">
+          <a-button type="link" size="small" class="work-employment-page__materials" @click="openMaterials(record)">
+            <FolderOpen :size="14" />
+            {{ record.materialCount || 0 }} 条
+          </a-button>
+        </template>
         <template v-else-if="column.key === 'note'">{{ record.note || '—' }}</template>
         <template v-else-if="column.key === 'action'">
           <a-space size="small">
             <a-tooltip title="查看工作经历">
               <a-button type="text" size="small" aria-label="查看工作经历" @click="openDetail(record)"><template #icon><Eye :size="15" /></template></a-button>
             </a-tooltip>
+            <a-tooltip title="管理补充资料">
+              <a-button type="text" size="small" :aria-label="`管理 ${record.company} 补充资料`" @click="openMaterials(record)"><template #icon><FolderOpen :size="15" /></template></a-button>
+            </a-tooltip>
             <a-tooltip title="编辑工作经历">
               <a-button type="text" size="small" aria-label="编辑工作经历" @click="openEdit(record)"><template #icon><PencilLine :size="15" /></template></a-button>
             </a-tooltip>
             <a-popconfirm
               title="删除这段工作经历？"
-              description="关联日报、周报、月报和图片凭证都会一并永久删除。"
+              description="关联日报、周报、月报、图片凭证和补充资料都会一并永久删除。"
               ok-text="删除经历"
               cancel-text="取消"
               @confirm="remove(record)"
@@ -95,20 +104,23 @@
         <div class="work-employment-page__detail-full"><dt>具体工作内容</dt><dd>{{ detailEmployment.workContent || '未填写' }}</dd></div>
         <div class="work-employment-page__detail-full"><dt>公司地址</dt><dd>{{ detailEmployment.companyAddress || '未填写' }}</dd></div>
         <div class="work-employment-page__detail-note"><dt>备注</dt><dd>{{ detailEmployment.note || '暂无备注' }}</dd></div>
+        <div class="work-employment-page__detail-full"><dt>补充资料</dt><dd><a-button size="small" @click="openMaterials(detailEmployment)"><template #icon><FolderOpen :size="14" /></template>管理补充资料（{{ detailEmployment.materialCount || 0 }}）</a-button></dd></div>
       </dl>
     </a-modal>
+    <WorkMaterialDrawer v-model:open="materialDrawerOpen" :employment="activeEmployment" @changed="handleMaterialsChanged" />
   </section>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
-import { Eye, PencilLine, Plus, Trash2 } from '@lucide/vue'
+import { Eye, FolderOpen, PencilLine, Plus, Trash2 } from '@lucide/vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteEmployment, listEmployments } from '@/services/workJournal'
 import WorkJournalEmptyState from './WorkJournalEmptyState.vue'
 import EmploymentManagerModal from './EmploymentManagerModal.vue'
 import WorkJournalHelpButton from './WorkJournalHelpButton.vue'
+import WorkMaterialDrawer from './WorkMaterialDrawer.vue'
 
 const tableRef = ref(null)
 const keyword = ref('')
@@ -117,9 +129,12 @@ const editorOpen = ref(false)
 const editingEmployment = ref(null)
 const deletingId = ref('')
 const detailEmployment = ref(null)
+const materialDrawerOpen = ref(false)
+const activeEmployment = ref(null)
 const helpSections = [
   { heading: '关联范围', items: ['每段经历代表一家公司的一个任职阶段，日报和周报/月报都会关联到对应经历。', '公司、岗位、工作条件和联系人可以编辑；修正经历信息不会改写日报内容。'] },
-  { heading: '删除影响', items: ['删除经历会永久删除该经历下的日报、历史版本、周期汇总及图片资源文件，无法恢复。', '删除前请先通过日报和汇总查看关联记录，确认确实需要整组清理。'] }
+  { heading: '补充资料', items: ['补充资料用于保存官网、账号凭证、联系人和交接说明等独立信息；密码默认隐藏，只有明确点击查看才会读取。', '资料通过工作经历关联，列表会显示资料数量；搜索和筛选只作用于当前经历。'] },
+  { heading: '删除影响', items: ['删除经历会永久删除该经历下的日报、历史版本、周期汇总、图片资源文件及补充资料，无法恢复。', '删除前请先通过日报、汇总和补充资料查看关联记录，确认确实需要整组清理。'] }
 ]
 const columns = [
   { title: '公司', key: 'company', dataIndex: 'company', width: 250 },
@@ -128,6 +143,7 @@ const columns = [
   { title: '薪资', key: 'salary', width: 170 },
   { title: '工作制度', key: 'schedule', width: 150 },
   { title: '公司地址', key: 'address', dataIndex: 'companyAddress', width: 220, ellipsis: true },
+  { title: '补充资料', key: 'materials', width: 110 },
   { title: '备注', key: 'note', dataIndex: 'note', ellipsis: true },
   { title: '操作', key: 'action', width: 128, fixed: 'right' }
 ]
@@ -202,15 +218,29 @@ function openDetail(record) {
   detailEmployment.value = record
 }
 
+function openMaterials(record) {
+  activeEmployment.value = record
+  materialDrawerOpen.value = true
+}
+
 async function handleSaved() {
   await reload()
+}
+
+async function handleMaterialsChanged() {
+  await reload()
+  if (activeEmployment.value) {
+    const refreshed = employments.value.find((item) => item.id === activeEmployment.value.id)
+    if (refreshed) activeEmployment.value = refreshed
+    if (detailEmployment.value?.id === activeEmployment.value?.id) detailEmployment.value = refreshed || detailEmployment.value
+  }
 }
 
 async function remove(record) {
   deletingId.value = record.id
   try {
     await deleteEmployment(record.id)
-    message.success('工作经历及其关联记录、图片凭证已删除')
+    message.success('工作经历及其关联记录、图片凭证和补充资料已删除')
     await reload()
   } catch (error) {
     message.error(error.message || '删除工作经历失败')
@@ -294,6 +324,13 @@ onMounted(reload)
   display: block;
   color: var(--console-text-secondary, #606266);
   font-size: 12px;
+}
+
+.work-employment-page__materials {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding-inline: 0;
 }
 
 @media (max-width: 850px) {

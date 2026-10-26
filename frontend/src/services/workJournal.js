@@ -16,6 +16,30 @@ export function deleteEmployment(id) {
   return http.delete(`/api/work-journal/employments/${id}`)
 }
 
+export function listWorkMaterials(employmentId, params = {}) {
+  return http.get(`/api/work-journal/employments/${employmentId}/materials`, { params })
+}
+
+export function createWorkMaterial(employmentId, data) {
+  return http.post(`/api/work-journal/employments/${employmentId}/materials`, data)
+}
+
+export function getWorkMaterial(id) {
+  return http.get(`/api/work-journal/materials/${id}`)
+}
+
+export function revealWorkMaterialPassword(id) {
+  return http.post(`/api/work-journal/materials/${id}/reveal`)
+}
+
+export function updateWorkMaterial(id, data) {
+  return http.patch(`/api/work-journal/materials/${id}`, data)
+}
+
+export function deleteWorkMaterial(id) {
+  return http.delete(`/api/work-journal/materials/${id}`)
+}
+
 export function listWorkLogs(params = {}) {
   return http.get('/api/work-journal/logs', { params })
 }
