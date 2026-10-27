@@ -1,13 +1,13 @@
 {
   "formatVersion": 3,
-  "exportedAt": "2026-10-18T11:58:42.583Z",
+  "exportedAt": "2026-10-27T13:37:05.301Z",
   "scope": "all",
   "slugStrategy": "keep",
   "filters": {
     "categoryId": null,
     "keyword": ""
   },
-  "total": 563,
+  "total": 573,
   "categories": [
     {
       "name": "默认分类",
@@ -1498,9 +1498,305 @@
       "isSystem": false,
       "createdAt": "2026-10-18T11:57:59.880Z",
       "updatedAt": "2026-10-18T11:58:00.105Z"
+    },
+    {
+      "name": "Ant Design Vue",
+      "slug": "ant-design-vue-12c2d95c",
+      "description": "Ant Design Vue 4.x 组件库入门、常用组件与 Vue 项目实践。",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "sortOrder": 50,
+      "status": "active",
+      "isSystem": false,
+      "createdAt": "2026-10-27T13:36:26.337Z",
+      "updatedAt": "2026-10-27T13:36:26.539Z"
     }
   ],
   "articles": [
+    {
+      "originalId": "6ae0a8dad7963ed85be766b4",
+      "originalSlug": "ant-design-vue-project-practices-exercises",
+      "exportedSlug": "ant-design-vue-project-practices-exercises",
+      "title": "第 10 篇：Ant Design Vue 项目落地规范、常见错误与实战练习",
+      "summary": "把 Ant Design Vue 4 的组件知识转化为团队可维护的页面实践，检查项目约束、主题、选择器、表格复用和交互边界，并通过文章管理页练习巩固。",
+      "cover": "",
+      "contentHash": "833e6e17a804cc2a60db17ea79d86a4b773fdca51f3b6adafd87e41c781ad32a",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue 3",
+        "项目规范",
+        "实战练习",
+        "前端开发"
+      ],
+      "sortOrder": 100,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/10-项目落地规范常见错误与练习.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.526Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-10-篇：Ant-Design-Vue-项目落地规范、常见错误与实战练习.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766b3",
+      "originalSlug": "ant-design-vue-data-display-components",
+      "exportedSlug": "ant-design-vue-data-display-components",
+      "title": "第 9 篇：Ant Design Vue 常用数据展示组件：详情、状态、空态与加载态",
+      "summary": "通过管理页面案例认识 Descriptions、Tag、Badge、Statistic、Alert、Empty 和 Skeleton，学会把业务数据、状态与加载反馈表达清楚。",
+      "cover": "",
+      "contentHash": "ccab3a09fe1bd062417fb427ff4af2957bc78130abe1d9f5e10123d1f37c6708",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue 3",
+        "数据展示",
+        "Empty",
+        "Skeleton"
+      ],
+      "sortOrder": 90,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/09-常用数据展示组件指南.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.518Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-9-篇：Ant-Design-Vue-常用数据展示组件：详情、状态、空态与加载态.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766b2",
+      "originalSlug": "ant-design-vue-modal-drawer-form",
+      "exportedSlug": "ant-design-vue-modal-drawer-form",
+      "title": "第 8 篇：Ant Design Vue Modal 与 Drawer：交互状态和表单组合",
+      "summary": "说明 Modal 和 Drawer 的场景差异、open 状态、异步确认、关闭与重置策略，并通过完整抽屉编辑示例处理校验、保存和滚动区域。",
+      "cover": "",
+      "contentHash": "22290695a17ab00e12e98f11e3c1fe72dd98245f68f611f649943812c32822c3",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue 3",
+        "Modal",
+        "Drawer",
+        "表单交互"
+      ],
+      "sortOrder": 80,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/08-Modal与Drawer交互和表单组合.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.510Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-8-篇：Ant-Design-Vue-Modal-与-Drawer：交互状态和表单组合.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766b1",
+      "originalSlug": "ant-design-vue-table-pagination-filter-sort",
+      "exportedSlug": "ant-design-vue-table-pagination-filter-sort",
+      "title": "第 7 篇：Ant Design Vue 表格分页、筛选与排序：从本地数据到服务端查询",
+      "summary": "用一张文章列表讲清楚 Table 的行键、列配置、受控分页、筛选和排序，并进一步理解大型数据为什么应该由服务端分页查询。",
+      "cover": "",
+      "contentHash": "ce4f4326e033cdb97c9478cca5fb4a8e5cb4ffcd77aa11f7e9ef3997ea7629bc",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue 3",
+        "Table",
+        "分页",
+        "数据筛选"
+      ],
+      "sortOrder": 70,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/07-表格分页筛选与排序.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.502Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-7-篇：Ant-Design-Vue-表格分页、筛选与排序：从本地数据到服务端查询.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766b0",
+      "originalSlug": "ant-design-vue-form-validation-submit",
+      "exportedSlug": "ant-design-vue-form-validation-submit",
+      "title": "第 6 篇：Ant Design Vue 表单校验与提交流程：从字段绑定到安全提交",
+      "summary": "面向 Vue 初学者，拆解 Ant Design Vue 4 表单的 model、Form.Item、规则校验、异步提交、错误处理和重置流程，并用完整示例串起一次真实的数据录入。",
+      "cover": "",
+      "contentHash": "ee1617cdaec85378ab818bcf31bb7ae933bd0d9e7bf06f7b5523f5194d4df633",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue 3",
+        "Form",
+        "表单校验",
+        "前端开发"
+      ],
+      "sortOrder": 60,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/06-表单校验与提交流程.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.493Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-6-篇：Ant-Design-Vue-表单校验与提交流程：从字段绑定到安全提交.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766af",
+      "originalSlug": "ant-design-vue-app-useapp-context-feedback",
+      "exportedSlug": "ant-design-vue-app-useapp-context-feedback",
+      "title": "第 5 篇：App 组件与上下文反馈：message、modal、notification 的正确用法",
+      "summary": "深入解释 Ant Design Vue App 与 App.useApp：静态反馈方法为什么会丢失 Vue 上下文、正确的根组件层级、消息弹窗通知示例、生命周期边界与逐步排错。",
+      "cover": "",
+      "contentHash": "af9fdb950a4fd4e55fe3b80d973d163a1feb9f550d1952c43a1a808ea1ab6e31",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "App",
+        "App.useApp",
+        "message",
+        "上下文",
+        "Modal"
+      ],
+      "sortOrder": 50,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/05-App组件与上下文消息弹窗通知.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.482Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-5-篇：App-组件与上下文反馈：message、modal、notification-的正确用法.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766ae",
+      "originalSlug": "ant-design-vue-config-provider-locale-theme",
+      "exportedSlug": "ant-design-vue-config-provider-locale-theme",
+      "title": "第 4 篇：ConfigProvider 全局配置：中文国际化、日期语言与主题定制",
+      "summary": "用 ConfigProvider 统一 Ant Design Vue 组件的语言和主题，分别配置中文组件文案、Day.js 日期语言、设计 token、暗色算法和动态切换。",
+      "cover": "",
+      "contentHash": "d9e994911feac69af0efebfb7f237f2cf7a311d8430f92fbeef620ed0b10cbba",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "ConfigProvider",
+        "国际化",
+        "主题定制",
+        "暗色模式"
+      ],
+      "sortOrder": 40,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/04-ConfigProvider国际化与主题.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.475Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-4-篇：ConfigProvider-全局配置：中文国际化、日期语言与主题定制.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766ad",
+      "originalSlug": "ant-design-vue-template-props-events-data-binding",
+      "exportedSlug": "ant-design-vue-template-props-events-data-binding",
+      "title": "第 3 篇：Ant Design Vue 组件用法：模板、属性、事件与数据绑定",
+      "summary": "用 Vue 3 JavaScript 示例讲清 Ant Design Vue 组件标签、动态属性、事件、v-model、插槽和受控数据流，并组合成一个可理解的查询表单。",
+      "cover": "",
+      "contentHash": "f98beb82af46e6a18f885f9803a46366d577c1fe793e37d9810c84714f96f85a",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue3",
+        "模板语法",
+        "数据绑定",
+        "表单"
+      ],
+      "sortOrder": 30,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/03-组件模板语法与数据绑定.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.462Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-3-篇：Ant-Design-Vue-组件用法：模板、属性、事件与数据绑定.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766ac",
+      "originalSlug": "ant-design-vue-install-registration-on-demand",
+      "exportedSlug": "ant-design-vue-install-registration-on-demand",
+      "title": "第 2 篇：Ant Design Vue 安装与注册：Vite、完整引入和按需导入",
+      "summary": "一步步在 Vue 3 + Vite 项目安装 Ant Design Vue，比较完整引入和自动按需导入，解释组件解析器、reset 样式、启动验证与常见安装故障。",
+      "cover": "",
+      "contentHash": "899ddca0723b11475932fb61df84a7e5e32cc896f2e4dd67ae6245a3ab4a11ae",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue3",
+        "Vite",
+        "按需导入",
+        "组件注册"
+      ],
+      "sortOrder": 20,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/02-安装注册与按需导入.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.452Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-2-篇：Ant-Design-Vue-安装与注册：Vite、完整引入和按需导入.md"
+    },
+    {
+      "originalId": "6ae0a8dad7963ed85be766ab",
+      "originalSlug": "ant-design-vue-overview-learning-roadmap",
+      "exportedSlug": "ant-design-vue-overview-learning-roadmap",
+      "title": "第 1 篇：快速认识 Ant Design Vue：定位、核心概念与学习路线",
+      "summary": "从零认识 Ant Design Vue：弄清它与 Vue、Ant Design、Ant Design X 的关系，了解适用场景、组件库工作方式、官方文档入口和循序渐进的学习路线。",
+      "cover": "",
+      "contentHash": "702e2bed9cbf6a6ea24d07cd3d7dc0dd65ea90b0d95e56ba09a8049b357ca316",
+      "contentMode": "markdown",
+      "status": "published",
+      "categoryPath": [
+        "前端技术",
+        "组件库",
+        "Ant Design Vue"
+      ],
+      "tags": [
+        "Ant Design Vue",
+        "Vue3",
+        "Vite",
+        "组件库",
+        "前端入门"
+      ],
+      "sortOrder": 10,
+      "sourcePath": "前端技术/组件库/Ant Design Vue/01-快速认识与学习路线.md",
+      "publishedAt": "2026-10-27T13:36:26.423Z",
+      "updatedAt": "2026-10-27T13:36:26.428Z",
+      "fileName": "前端技术/组件库/Ant-Design-Vue/第-1-篇：快速认识-Ant-Design-Vue：定位、核心概念与学习路线.md"
+    },
     {
       "originalId": "6ad4b44801881c9ee2404ebb",
       "originalSlug": "markdown-it-complete-learning-roadmap",
