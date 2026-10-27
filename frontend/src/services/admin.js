@@ -404,6 +404,10 @@ export function getAdminStats() {
   return http.get('/api/admin/stats')
 }
 
+export function getAdminDashboardContext() {
+  return http.get('/api/admin/dashboard/context')
+}
+
 export function getAdminMonitorOverview() {
   return http.get('/api/admin/monitor/overview')
 }

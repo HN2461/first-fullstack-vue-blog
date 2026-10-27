@@ -21,7 +21,7 @@ import { getMonitorOverview } from '#modules/operations/services/monitor.service
 import { batchDeleteAnnouncements, batchToggleAnnouncement, createAnnouncement, deleteAnnouncement, getAnnouncementById, listAnnouncements, updateAnnouncement } from '#modules/notification/services/notification.service.js'
 import { createProjectTimelineRecord, exportProjectTimelineRecords, importProjectTimelinePayloads, importProjectTimelineRecords, listProjectTimelineRecords, updateProjectTimelineRecord } from '#modules/projectTimeline/services/projectTimeline.service.js'
 import { getSettings, updateSettings } from '#modules/settings/services/setting.service.js'
-import { getAdminStats } from '#modules/dashboard/services/stats.service.js'
+import { getAdminDashboardContext, getAdminStats } from '#modules/dashboard/services/stats.service.js'
 import { getMediaFileExtension, isMediaExtensionAllowed, normalizeAllowedMediaExtensions } from '#modules/media/constants/mediaUpload.constants.js'
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
 import { MAX_IMPORT_FILES, buildArticleImportTemplate, commitMarkdownArticleImport, previewMarkdownArticleImport } from '#modules/content/services/articleImport.service.js'
@@ -168,6 +168,7 @@ adminRouter.use('/announcements', canAccessNotifications)
 adminRouter.use('/project-timeline', canAccessProjectTimeline)
 adminRouter.use('/settings', requireSuperAdmin)
 adminRouter.use('/stats', requireMenuAccess('/console'))
+adminRouter.use('/dashboard', requireMenuAccess('/console'))
 adminRouter.use('/tags', canAccessTags)
 adminRouter.use('/users', canAccessUsers)
 adminRouter.use('/online-users', canAccessOnlineUsers)
@@ -660,6 +661,10 @@ adminRouter.delete('/users/:id', requireSuperAdmin, asyncHandler(async (req, res
 
 adminRouter.get('/stats', asyncHandler(async (req, res) => {
   res.json(ok(await getAdminStats()))
+}))
+
+adminRouter.get('/dashboard/context', asyncHandler(async (req, res) => {
+  res.json(ok(await getAdminDashboardContext()))
 }))
 
 adminRouter.get('/monitor/overview', asyncHandler(async (req, res) => {

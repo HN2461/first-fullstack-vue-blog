@@ -320,8 +320,8 @@ import { useAuthStore } from '@/stores/auth'
 import ContinueReadingButton from '@/components/reading-history/ContinueReadingButton.vue'
 import { updateQuickActions } from '@/services/http'
 import {
+  getAdminDashboardContext,
   getAdminStats,
-  getAdminSettings,
   listRecentAdminAnnouncements,
   listRecentAdminArticles
 } from '@/services/admin'
@@ -733,16 +733,21 @@ async function loadData() {
   loadError.value = ''
 
   try {
-    const [s, a, n, st] = await Promise.all([
+    const [statsResult, articlesResult, announcementsResult, contextResult] = await Promise.allSettled([
       authStore.canAccessPath('/console') ? getAdminStats() : Promise.resolve({}),
       canManageArticles.value ? listRecentAdminArticles(5) : Promise.resolve([]),
       canManageNotifications.value ? listRecentAdminAnnouncements(5) : Promise.resolve([]),
-      authStore.canAccessPath('/console/manage/settings') ? getAdminSettings() : Promise.resolve({})
+      authStore.canAccessPath('/console') ? getAdminDashboardContext() : Promise.resolve({})
     ])
-    stats.value = s || {}
-    recentArticles.value = a || []
-    announcements.value = n || []
-    settings.value = st || {}
+
+    if (statsResult.status === 'rejected') {
+      throw statsResult.reason
+    }
+
+    stats.value = statsResult.value || {}
+    recentArticles.value = articlesResult.status === 'fulfilled' ? (articlesResult.value || []) : []
+    announcements.value = announcementsResult.status === 'fulfilled' ? (announcementsResult.value || []) : []
+    settings.value = contextResult.status === 'fulfilled' ? (contextResult.value || {}) : {}
     hasLoaded.value = true
   } catch (e) {
     loadError.value = e?.message || '工作台数据加载失败，请稍后重试。'

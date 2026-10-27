@@ -122,6 +122,18 @@ describe('operations routes', () => {
       .expect(403)
 
     expect(writeResponse.body.code).toBe('SUPER_ADMIN_REQUIRED')
+
+    const dashboardContextResponse = await request(app)
+      .get('/api/admin/dashboard/context')
+      .set('Authorization', `Bearer ${managerToken}`)
+      .expect(200)
+
+    expect(dashboardContextResponse.body.data).toMatchObject({
+      siteTitle: expect.any(String),
+      authorName: expect.any(String),
+      systemVersion: expect.any(String)
+    })
+    expect(dashboardContextResponse.body.data).not.toHaveProperty('accountRecovery')
   })
 
   it('blocks new comments when comment setting is disabled', async () => {

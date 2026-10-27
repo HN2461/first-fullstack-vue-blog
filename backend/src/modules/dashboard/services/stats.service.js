@@ -4,6 +4,7 @@ import { Comment } from '#modules/interaction/models/Comment.js'
 import { Media } from '#modules/media/models/Media.js'
 import { Tag } from '#modules/content/models/Tag.js'
 import { User } from '#modules/user/models/User.js'
+import { getSettings } from '#modules/settings/services/setting.service.js'
 
 export async function getAdminStats() {
   const now = new Date()
@@ -59,5 +60,21 @@ export async function getAdminStats() {
     articleTrend: calcTrend(articleCount, lastWeekArticleCount),
     publishedTrend: calcTrend(publishedCount, lastWeekPublishedCount),
     userTrend: calcTrend(userCount, lastWeekUserCount)
+  }
+}
+
+/**
+ * 返回管理工作台需要展示的最小站点信息。
+ *
+ * 工作台只需要站点名称、作者和版本，不应直接读取完整系统设置；
+ * 完整设置包含账号找回、媒体限制和入口效果等超级管理员专属配置。
+ */
+export async function getAdminDashboardContext() {
+  const settings = await getSettings()
+
+  return {
+    siteTitle: settings.siteTitle,
+    authorName: settings.authorName,
+    systemVersion: settings.systemVersion
   }
 }
