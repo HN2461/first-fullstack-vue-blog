@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录"
 slug: "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb"
-summary: "记录一次发生在 CC Switch 3.x 时期的真实排查：症状爆在 Codex，根因落在 Provider 配置与 shell_environment_policy。文章保留历史证据，同时补充 v4.0.x 已改为只替换关键字段，升级到 v4.0.8 后应按新版配置写入和诊断日志机制复核。"
+summary: "记录一次发生在 CC Switch 3.x 时期的真实排查：症状爆在 Codex，根因落在 Provider 配置与 shell_environment_policy。文章保留历史证据，同时补充 v4.0.x 已改为只替换关键字段，升级到 v4.0.21 后应按新版配置写入和诊断日志机制复核。"
 category: "CCSwitch"
 categoryPath:
   - "AI相关"
@@ -23,16 +23,24 @@ originalId: "6a2d291d8a2b1c68f2cac050"
 originalSlug: "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb"
 originalStatus: "published"
 publishedAt: "2026-05-30T10:00:56.019Z"
-updatedAt: "2026-10-11T13:24:34.323Z"
+updatedAt: "2026-10-28T16:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录
 
-> 版本范围说明：本文记录的是 2026 年 4 月至 5 月、CC Switch 3.x 的真实故障链。当前 v4.0.x（本文核对到 v4.0.8）已把 Codex 切换从整份 Provider 快照覆盖改为关键字段替换，并增加 `live-state.json` 记录本机模式与最近写入状态；因此本文的“完整快照”描述用于解释历史样本，不应直接当作 4.x 的当前实现。若模型列表或 Codex 聚合异常，优先查看 v4.0.8 的具体失败提示和 `cc-switch.log`。
+> 版本范围说明：本文记录的是 2026 年 4 月至 5 月、CC Switch 3.x 的真实故障链。当前 v4.0.21 已把 Codex 切换从整份 Provider 快照覆盖改为关键字段替换，并增加 `live-state.json` 记录本机模式与最近写入状态；因此本文的“完整快照”描述用于解释历史样本，不应直接当作 4.x 的当前实现。若模型列表或 Codex 聚合异常，优先查看 v4.0.21 的具体失败提示和 `cc-switch.log`。
 
 > 这篇不是普通的 Node 安装教程，而是一次 **CC Switch 切换 Codex Provider** 之后，Node 只在 Codex 终端里调用失败的真实排障实录。重点不是“怎么装 Node”，而是“为什么系统终端正常、Codex 终端却会崩”，以及为什么根因最后会追到 `CC Switch` 的 provider 快照与数据库源数据。
 
 ---
+
+## 零点五、当前 v4.0.21 与历史故障的差异
+
+这篇仍然保留 3.x 时代的 Node/PATH/Provider 故障证据，但当前复核应先检查：
+
+1. Codex 路由会按选中的 `model_provider` 读取对应 `base_url`，不要再用配置文本中遇到的第一个地址判断实际请求目标。
+2. 写入 Codex MCP 时，CC Switch 会过滤不属于 Codex schema 的 `timeout` 和 `autoApprove` 字段；如果旧配置仍有这两个字段，先清理旧文件再重新写入。
+3. `live-state.json` 只表示本机最近写入模式和状态，不是 Provider 数据库，也不等同于 Claude Code、Codex 或 Node 的运行环境。
 
 ## 零、先把样本身份说清楚
 

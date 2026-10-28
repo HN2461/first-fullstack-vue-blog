@@ -21,10 +21,12 @@ originalId: "6a2d291d8a2b1c68f2cac04a"
 originalSlug: "ai-ccswitch-codex-node-node-desktop-oap8vid-2026-04-30-69678b25"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.040Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-28T16:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 07 篇：Node 环境对比报告（DESKTOP-OAP8VID）
+
+> 历史快照边界：本篇采样于 2026-04-30，只用于还原当时两台 Windows/Node 环境差异；不能把其中的 Node、npm、PATH、机器路径或 CC Switch 版本当作 2026-10 的当前环境结论。
 
 生成时间：2026-04-30 09:30:55 +08:00
 用户名：Administrator

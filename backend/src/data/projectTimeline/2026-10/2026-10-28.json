@@ -16,6 +16,13 @@
       "detail": "1. 审阅 ClaudeCode 目录下 6 篇线上权威 Markdown，保留 originalId、originalSlug 和分类路径，统一更新核验时间；区分本机 Claude Code 2.1.296、npm latest/next 2.1.312 与 stable 2.1.308。\n2. 根据 Anthropic 官方 Claude Code 文档、官方 Changelog 和 v2.1.312 发布记录补充 Native install、Node.js 22+ npm 边界、Windows/WSL、VS Code 扩展、Desktop、Remote Control、Cloud、Projects、Teleport、Scheduled tasks、/loop、Channels、Chrome 与 Provider 变化。\n3. 重点扩充 VS Code 官方扩展 anthropic.claude-code 的 inline diff、@mentions、Plan review、权限模式、共享 settings/MCP 与 CLI 历史；补充 Desktop 的并行 sessions、Git isolation、Cloud/SSH、Browser、Computer Use、Dispatch 和平台差异。\n4. 更新官方文档链接、2.1.312 变更、Provider 的未知模型名兼容策略、hooks 并发限制和 Cloud setup script；完成 UTF-8 无 BOM 抽查，manifest 身份字段保持不变。",
       "occurredAt": "2026-10-28T23:00:00+08:00",
       "category": "内容上新"
+    },
+    {
+      "id": "ccswitch-series-current-research-update",
+      "title": "深度核验并更新 CC Switch v4.0.21 系列文章并同步线上内容",
+      "detail": "1. 审阅辅助工具层 CCSwitch 目录 8 篇文章，区分 v4.0.21 主专题与 2026-04-30 Node 环境历史快照，保留原有文章身份和历史证据。\n2. 根据 farion1231/cc-switch 官方 v4.0.18–v4.0.21 发布记录补充 Antigravity CLI、Kimi Code、Oh My Pi、多 Claude 官方订阅账号、CLAUDE_CONFIG_DIR、Codex 路由/MCP 修复、MCP SSE 边界、npm 12 Windows 安装脚本和多应用配置目录。\n3. 完成 CCSwitch 8 篇指定文章的本地数据库补丁同步，写入前生成备份；同步后 dry-run 显示正文待推送 0、阻断 0，并更新文章 manifest 的摘要与正文 hash。",
+      "occurredAt": "2026-10-28T16:30:00+08:00",
+      "category": "内容上新"
     }
   ]
 }

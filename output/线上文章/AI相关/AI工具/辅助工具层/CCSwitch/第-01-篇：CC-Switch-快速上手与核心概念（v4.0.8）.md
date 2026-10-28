@@ -1,7 +1,7 @@
 ---
-title: "第 01 篇：CC Switch 快速上手与核心概念（v4.0.8）"
+title: "第 01 篇：CC Switch 快速上手与核心概念（v4.0.21）"
 slug: "ai-ccswitch-ccswitch-82653641"
-summary: "CC Switch 是跨平台桌面 AI 编程工具配置中控台。v4.0 重做侧栏、直连/路由/聚合模式、用量与会话管理，并改为只替换供应商关键字段、保留用户配置；本篇按 v4.0.8（2026-10-10）官方发布说明、用户手册与 FAQ 更新安装、Provider、聚合、MCP、同步和升级边界。"
+summary: "CC Switch 是跨平台桌面 AI 编程工具配置中控台。v4.0 重做侧栏、直连/路由/聚合模式、用量与会话管理，并改为只替换供应商关键字段、保留用户配置；本篇按 v4.0.21（2026-10-26）官方发布说明、用户手册与 FAQ 更新安装、Provider、聚合、MCP、同步和升级边界。"
 category: "CCSwitch"
 categoryPath:
   - "AI相关"
@@ -22,18 +22,29 @@ originalId: "6a2d291d8a2b1c68f2cac05a"
 originalSlug: "ai-ccswitch-ccswitch-82653641"
 originalStatus: "published"
 publishedAt: "2026-05-30T11:24:47.588Z"
-updatedAt: "2026-10-11T13:24:34.301Z"
+updatedAt: "2026-10-28T16:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
-# 第 01 篇：CC Switch 快速上手与核心概念（v4.0.8）
+# 第 01 篇：CC Switch 快速上手与核心概念（v4.0.21）
 
 > 官方仓库：[github.com/farion1231/cc-switch](https://github.com/farion1231/cc-switch)  
-> 当前版本：v4.0.8（2026-10-10）
-> 资料核对时间：2026-10-11
+> 当前版本：v4.0.21（2026-10-26）
+> 资料核对时间：2026-10-28
 > 技术栈：Tauri 2 + Rust（后端）+ React 18 + TypeScript（前端）
-> 口径说明：4.0 是一次结构性升级。涉及当前版本、模式、配置写入和同步边界时，本文以 v4.0.8 release、v4.0 中文发布说明、用户手册与 Configuration Files FAQ 为准；旧版“通用配置片段”和整份供应商快照覆盖的说法不再适用于 4.0。
+> 口径说明：4.0 是一次结构性升级。涉及当前版本、模式、配置写入和同步边界时，本文以 v4.0.21 release、v4.0 中文发布说明、用户手册与 Configuration Files FAQ 为准；旧版“通用配置片段”和整份供应商快照覆盖的说法不再适用于 4.0。
 
 ---
+
+## 一点五、v4.0.18–v4.0.21 新增内容
+
+| 版本 | 当前影响 |
+|---|---|
+| v4.0.18 | 增加 Antigravity CLI（`agy`）应用管理、MCP、Skills、提示词、会话和用量入口；支持 macOS 多账号场景 |
+| v4.0.19 | 增加 Kimi Code 应用管理、供应商、MCP、Skills、提示词、会话、用量和多账号；共享 `~/.kimi-code` 配置边界 |
+| v4.0.20 | 增加 Oh My Pi（`omp`）应用管理和供应商能力；轻量模式、应用分组与托盘体验继续调整 |
+| v4.0.21 | 授权中心支持多个 Claude 官方订阅账号；官方卡可以绑定账号，卡片可打开固定账号终端；Codex 模型列表支持拖动排序；修复 Codex 路由地址、MCP `timeout/autoApprove` 污染、npm 12 Windows 安装脚本、Kimi 用量和 Oh My Pi YAML 特殊字符问题 |
+
+Claude 多账号功能使用 Claude Code 官方授权流程（`claude auth login --claudeai`），通过独立 `CLAUDE_CONFIG_DIR` 区分账号。令牌继续由 Claude Code 保存在本机，CC Switch 不上传、不云同步、不自动轮换订阅账号；需要同时使用多个账号时，使用绑定账号卡片上的“打开终端”创建隔离终端。
 
 ## 一、CC Switch 是什么？
 
@@ -173,7 +184,7 @@ Provider 即 API 服务商/中转商配置，是 CC Switch 最核心的功能。
 - Full URL Endpoint Mode：兼容路径结构不标准的第三方接口
 - Codex OAuth Provider 支持实时拉取模型列表
 - Claude Code 支持按角色映射模型，并可标记 `supports1m`
-- v4.0.8 获取模型列表时会带上 Provider 的额外请求头；Claude Code、Codex 和 Grok Build 使用「Header 覆盖」，OpenCode 使用其供应商请求头配置
+- v4.0.21 获取模型列表时会带上 Provider 的额外请求头；Claude Code、Codex 和 Grok Build 使用「Header 覆盖」，OpenCode 使用其供应商请求头配置
 
 **新增 Provider 操作步骤：**
 1. 点击右上角橙色「+」按钮
@@ -187,7 +198,7 @@ Provider 即 API 服务商/中转商配置，是 CC Switch 最核心的功能。
 - 系统托盘可按应用、模式和供应商快速切换
 - 4.0 起切换只替换地址、凭据、模型、协议等关键字段；配置文件中的 MCP、Hooks、权限、项目设置、注释和未涉及字段保留
 - Codex、Gemini CLI、Grok Build 等模型目录变化后按提示重启；Claude Code 聚合模型变化无需重启
-- v4.0.8 只安装 Codex 桌面版时也可以使用 Codex 聚合模式；官方模型列表不可用时会回退到桌面版内置命令行，并在提示中列出失败原因
+- v4.0.21 只安装 Codex 桌面版时也可以使用 Codex 聚合模式；官方模型列表不可用时会回退到桌面版内置命令行，并在提示中列出失败原因
 
 ### 功能四：本地路由（Local Routing）
 
@@ -409,7 +420,7 @@ claude  # 重新登录官方账号
 3. [CC Switch CHANGELOG（完整版本历史）](https://github.com/farion1231/cc-switch/blob/main/CHANGELOG.md)
 4. [CC Switch Releases（下载最新版本）](https://github.com/farion1231/cc-switch/releases)
 5. [CC Switch v4.0 中文发布说明](https://github.com/farion1231/cc-switch/blob/main/docs/release-notes/v4.0.4-zh.md)
-6. [CC Switch v4.0.8 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.8)
+6. [CC Switch v4.0.21 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.21)
 7. [CC Switch v4.0.7 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.7)
 8. [CC Switch 用户手册｜设置](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/zh/1-getting-started/1.5-settings.md)
 9. [CC Switch FAQ｜Configuration Files](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/en/5-faq/5.1-config-files.md)

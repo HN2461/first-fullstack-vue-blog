@@ -22,20 +22,27 @@ originalId: "6a2d291d8a2b1c68f2cac062"
 originalSlug: "ai-ccswitch-claudecode-mimotokenplan-736772f0"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:10:38.110Z"
-updatedAt: "2026-10-11T13:24:34.342Z"
+updatedAt: "2026-10-28T16:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）
 
-> CC Switch 版本补充：本文的 MiMo 参数仍按官方接口文档执行；截至 2026-10-11，当前 v4.0.x（本文核对到 v4.0.8）切换 Provider 时只替换连接、认证和模型等关键字段，Claude Code 配置中的全局字段、Hooks、MCP 和权限会保留。不要再按 3.x 的“整份配置快照覆盖”理解升级后的行为。v4.0.8 还会在获取模型列表时带上 Claude Code Provider 的 Header 覆盖，使用额外请求头的网关应在 CC Switch 中一并填写。
+> CC Switch 版本补充：本文的 MiMo 参数仍按官方接口文档执行；截至 2026-10-28，当前 v4.0.21切换 Provider 时只替换连接、认证和模型等关键字段，Claude Code 配置中的全局字段、Hooks、MCP 和权限会保留。不要再按 3.x 的“整份配置快照覆盖”理解升级后的行为。v4.0.21 还会在获取模型列表时带上 Claude Code Provider 的 Header 覆盖，使用额外请求头的网关应在 CC Switch 中一并填写。
 
 > 资料核对时间：2026-05-24
 > 说明：本文以 MiMo 官方 `Claude Code Configuration`、`Quick Access`、`Subscription Instructions` 为准，适合已经购买 `Token Plan`、想让 Claude Code 走 MiMo 线路的人。  
 > 放在 `CC Switch` 专题里，是因为它本质上仍是一份 Provider / 中转配置文；即使你最后不用 CC Switch，只手改 `.claude/settings.json` 也能照着做。
 
+
+> 版本边界（2026-10-28）：CC Switch 官方最新发布为 `v4.0.21`（2026-10-26）。本文把 v4.0.18–v4.0.21 的新增能力与旧版历史故障分开；当前 Provider、应用目录、账号授权和配置写入行为应以 v4.0.21 release、用户手册和本机日志为准。
+
 [[toc]]
 
 ---
+
+## 0.1 当前安装器与 CC Switch 写入边界
+
+Claude Code 当前优先推荐原生安装器，原生安装不依赖 Node；只有 npm 安装 Claude Code 时才需要 Node.js 22+。CC Switch 负责写 Provider 连接、认证和模型等关键字段，不负责替代 Claude Code 的官方登录流程，也不会把 MiMo Token Plan 令牌变成 CC Switch 自己管理的凭据。
 
 ## 1. 先说结论
 
@@ -83,7 +90,7 @@ MiMo 官方把 Claude Code 接入分成两条：
 
 ### 4.1 官方前置条件
 
-- Claude Code 需要 `Node.js 18+`
+- Claude Code 需要 `Node.js 22+（仅 npm 安装 Claude Code）`
 - Windows 官方建议先安装 `WSL` 或 `Git for Windows`，然后在 `WSL` / `Git Bash` 里执行安装命令
 
 安装命令：
