@@ -1,7 +1,7 @@
 ---
 title: "第 04 篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-76aa3c89"
-summary: "按 2026-10-12 Claude Code 2.1.296 官方 Settings、Settings Reference、Environment Variables、Model Config、Permission Modes、Sandboxing、Statusline、Keybindings 与 Memory 文档更新，并从当前官方索引整理 244 个配置键的主题、作用域和排障方法。"
+summary: "按 2026-10-28 Claude Code 2.1.312 官方 Settings、Settings Reference、Environment Variables、Model Config、Permission Modes、Sandboxing、Statusline、Keybindings 与 Memory 文档更新，并从当前官方索引整理 244 个配置键的主题、作用域和排障方法。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,12 +22,15 @@ originalId: "6a2d291d8a2b1c68f2cabf46"
 originalSlug: "ai-agent-claudecode-claudecode-76aa3c89"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.821Z"
-updatedAt: "2026-10-12T15:13:40.130Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）
 
-> 本文按 2026-10-12 官方 `settings-reference` 与 Claude Code `2.1.296` 复核。重点是“设置放在哪里、谁能覆盖谁、为什么不生效、配置项现在叫什么”。文末的全量索引从官方页面实时整理，覆盖当前 244 个设置键；键的精确类型、默认值和版本门槛仍以官方链接为准。
+> 本文按 2026-10-28 官方 `settings-reference` 与 Claude Code `2.1.312` 复核。重点是“设置放在哪里、谁能覆盖谁、为什么不生效、配置项现在叫什么”。文末的全量索引从官方页面实时整理，覆盖当前 244 个设置键；键的精确类型、默认值和版本门槛仍以官方链接为准。
+
+
+> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
 
 [[toc]]
 
@@ -393,7 +396,7 @@ claude --effort high
 
 ## 12. 全量配置索引说明
 
-下表由 2026-10-12 抓取的官方 `settings-reference` 页面生成，覆盖当前页面索引中的 244 个键。官方索引会保留少量历史条目，若“官方用途”以 `Removed in` 开头，表示该键已在对应版本移除，只用于识别旧配置，不能继续写入新配置。`Any file` 表示可在普通 settings 文件中配置；`User or managed`、`Managed`、`Global config` 等是官方作用域限制。下表用于快速检索键名和职责主题；默认值、JSON 类型、枚举、版本门槛和安全例外请点击官方页面对应锚点查看。
+下表由 2026-10-28 抓取的官方 `settings-reference` 页面生成，覆盖当前页面索引中的 244 个键。官方索引会保留少量历史条目，若“官方用途”以 `Removed in` 开头，表示该键已在对应版本移除，只用于识别旧配置，不能继续写入新配置。`Any file` 表示可在普通 settings 文件中配置；`User or managed`、`Managed`、`Global config` 等是官方作用域限制。下表用于快速检索键名和职责主题；默认值、JSON 类型、枚举、版本门槛和安全例外请点击官方页面对应锚点查看。
 
 ### Model and responses（23 项）
 | 配置键 | 作用域 | 官方用途（原文摘要） |
@@ -711,7 +714,7 @@ claude --effort high
 
 ## 13. 参考资料
 
-本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
 
 - Settings files and precedence：https://code.claude.com/docs/en/settings
 - 全量 Settings Reference：https://code.claude.com/docs/en/settings-reference
@@ -726,3 +729,7 @@ claude --effort high
 - 官方 Changelog：https://code.claude.com/docs/en/changelog
 
 Settings Reference 会随着 Claude Code 发布持续增加配置键；更新本文时应重新抓取官方索引，而不是沿用旧文章中的“完整配置表”。
+
+- https://code.claude.com/docs/en/settings
+- https://code.claude.com/docs/en/settings-reference
+- https://code.claude.com/docs/en/remote-control

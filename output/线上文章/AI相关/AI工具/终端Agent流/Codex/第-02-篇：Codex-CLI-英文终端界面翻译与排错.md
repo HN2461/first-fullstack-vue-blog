@@ -21,13 +21,13 @@ originalId: "6a2d291d8a2b1c68f2cabf50"
 originalSlug: "ai-agent-codex-codex-cli-64e9fd24"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.774Z"
-updatedAt: "2026-10-12T15:03:19.186Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Codex CLI 英文终端界面翻译与排错
 
-> 更新时间：2026-10-12。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 这一篇不是再讲 Codex 是什么。
 > 它专门解决一个真实问题：终端里全是英文菜单、状态词、权限词、插件词和错误词，看着都认识，合起来却不知道下一步该怎么判断。
 
@@ -571,10 +571,10 @@ pwsh -File scripts/checkNodeRuntime.ps1
 ## 参考资料
 
 - Codex CLI：<https://developers.openai.com/codex/cli>
-- CLI Slash Commands：<https://developers.openai.com/codex/cli/slash-commands>
-- Codex 配置：<https://developers.openai.com/codex/config-basic>
-- Codex MCP：<https://developers.openai.com/codex/mcp>
-- AGENTS.md：<https://developers.openai.com/codex/guides/agents-md>
+- CLI Slash Commands：<https://developers.openai.com/codex/developer-commands?surface=cli>
+- Codex 配置：<https://developers.openai.com/codex/config-file/config-basic>
+- Codex MCP：<https://developers.openai.com/codex/extend/mcp>
+- AGENTS.md：<https://developers.openai.com/codex/agent-configuration/agents-md>
 
 `/plugins`、`/skills`、`/apps`、`/hooks` 这类入口的具体显示会跟 CLI 版本、插件安装状态和账号能力有关。最稳的核对方式不是记某个静态截图，而是在当前 Codex CLI 里用 `/`、`/status`、`/plugins`、`/skills`、`/mcp` 反查实际可用项。
 

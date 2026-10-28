@@ -22,13 +22,13 @@ originalId: "6a2d291d8a2b1c68f2cabf66"
 originalSlug: "ai-agent-codex-codex-94189641"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.298Z"
-updatedAt: "2026-10-12T15:03:19.083Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Codex 多线路接入与迁移总手册
 
-> 更新时间：2026-10-12。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：线路总手册。专门解决“我要走哪条线路、配置该怎么落、切线路时最容易在哪翻车”这些问题。
 > 前置建议：先读第一篇、第三篇、第五篇。先把 CLI 主线、配置层级和三端差异搞清，再来看线路，判断会稳很多。
 > 精简说明：rpcod 线路补充内容已经合并到本篇，专题不再单独保留历史跳转页。
@@ -577,7 +577,7 @@ rpcod 线路补充内容已经并到这里。
 1. OpenAI Codex 官方文档
    <https://developers.openai.com/codex/>
 2. OpenAI Codex 配置参考
-   <https://developers.openai.com/codex/config-reference>
+   <https://developers.openai.com/codex/config-file/config-reference>
 3. OpenAI Codex 模型页
    <https://developers.openai.com/codex/models>
 4. PackyAPI Codex 配置文档

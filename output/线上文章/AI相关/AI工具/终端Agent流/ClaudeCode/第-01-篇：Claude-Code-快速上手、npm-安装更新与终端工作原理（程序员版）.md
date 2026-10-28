@@ -1,7 +1,7 @@
 ---
 title: "第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）"
 slug: "ai-agent-claudecode-claudecode-4c9d5bfe"
-summary: "按 2026-10-12 可查到的 Claude Code 2.1.296、官方 Setup、Quickstart、Interactive Mode、Commands、Permission Modes 与 Changelog 更新，覆盖原生安装、npm 更新、Windows/WSL、终端状态、权限模式、会话管理和第一轮可验证工作流。"
+summary: "按 2026-10-28 可查到的 Claude Code 2.1.312、官方 Setup、Quickstart、Interactive Mode、Commands、Permission Modes 与 Changelog 更新，覆盖原生安装、npm 更新、Windows/WSL、终端状态、权限模式、会话管理和第一轮可验证工作流。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,12 +22,15 @@ originalId: "6a2d291d8a2b1c68f2cabf18"
 originalSlug: "ai-agent-claudecode-claudecode-4c9d5bfe"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.833Z"
-updatedAt: "2026-10-12T15:13:40.112Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）
 
-> 本文按 2026-10-12 能查到的官方资料复核，示例以 Claude Code `2.1.296` 为当前版本快照。Claude Code 是会读代码、修改文件、运行命令并连接开发工具的终端代理；安装成功只是起点，真正稳定的使用依赖“版本可确认、目录正确、权限可控、结果可验证”。
+> 本文按 2026-10-28 能查到的官方资料复核，示例以 Claude Code `2.1.312` 为当前版本快照。Claude Code 是会读代码、修改文件、运行命令并连接开发工具的终端代理；安装成功只是起点，真正稳定的使用依赖“版本可确认、目录正确、权限可控、结果可验证”。
+
+
+> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
 
 [[toc]]
 
@@ -52,7 +55,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ## 1. 先确认版本和发布渠道
 
-截至本文核验时间，npm `@anthropic-ai/claude-code` 与 GitHub Releases 的最新公开版本均为 `2.1.296`，对应 2026-10-09 的发布记录。版本会快速迭代，文章中的版本号是核验基线，不是永久固定值。
+截至 2026-10-28，npm `@anthropic-ai/claude-code` 的 `latest/next` 为 `2.1.312`，`stable` 为 `2.1.308`；本机 PATH 中的 `claude` 仍是 `2.1.296`。原生安装器会自动更新，npm、Homebrew 和 WinGet 的更新策略不同，文章中的版本号不能替代本机 `claude --version`。
 
 ```bash
 claude --version
@@ -121,7 +124,7 @@ claude --version
 锁定某个版本用于复现问题：
 
 ```bash
-npm install -g @anthropic-ai/claude-code@2.1.296
+npm install -g @anthropic-ai/claude-code@2.1.312
 ```
 
 卸载 npm 安装：
@@ -388,16 +391,20 @@ claude --permission-mode plan
 
 ## 10. 参考资料与核验范围
 
-本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
 
 - 官方 Overview：https://code.claude.com/docs/en/overview
-- 官方 Setup：https://code.claude.com/docs/en/setup
+- 官方 Setup：https://code.claude.com/docs/en/installation
 - 官方 Quickstart：https://code.claude.com/docs/en/quickstart
 - 官方 Interactive mode：https://code.claude.com/docs/en/interactive-mode
-- 官方 Commands：https://code.claude.com/docs/en/commands
+- 官方 Commands：https://code.claude.com/docs/en/cli-reference
 - 官方 Permission modes：https://code.claude.com/docs/en/permission-modes
 - 官方 Changelog：https://code.claude.com/docs/en/changelog
 - npm 包元数据：https://registry.npmjs.org/@anthropic-ai/claude-code/latest
 - GitHub Releases：https://github.com/anthropics/claude-code/releases
+- v2.1.312 发布记录：https://github.com/anthropics/claude-code/releases/tag/v2.1.312
+- VS Code 集成：https://code.claude.com/docs/en/vs-code
+- Desktop：https://code.claude.com/docs/en/desktop
+- Remote Control：https://code.claude.com/docs/en/remote-control
 
 如果官方文档和第三方教程冲突，优先采用当前官方文档、当前 CLI 的 `/help` 与 `claude --help`；第三方资料只用于理解真实部署、网关和团队工作流，不能替代版本核验。

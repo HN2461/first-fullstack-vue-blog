@@ -1,7 +1,7 @@
 ---
 title: "第 07 篇：Codex 当前常用功能与进阶工作流手册"
 slug: "ai-agent-codex-codex-1c9633e1"
-summary: "按当前稳定版梳理 GPT-6.1 Sol、GPT-6 Astra 与 Luna 的模型选择、推理强度和开发工作流，并串联完整配置、命令与近期版本动态。"
+summary: "按当前稳定版梳理 GPT-6.1 Sol、GPT-6.1 Terra、GPT-6 Astra 与 Luna 的模型选择、推理强度和开发工作流，并串联完整配置、命令与近期版本动态。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -22,13 +22,13 @@ originalId: "6a2d291d8a2b1c68f2cabf80"
 originalSlug: "ai-agent-codex-codex-1c9633e1"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.296Z"
-updatedAt: "2026-10-12T15:03:19.108Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 07 篇：Codex 当前常用功能与进阶工作流手册
 
-> 更新时间：2026-10-12。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：主线大总手册。专门解决“我知道 Codex 大概能做什么，但开发时到底该用哪个入口、哪些旧说法该删、哪些进阶能力该什么时候补”的问题。
 > 适合谁看：主人已经开始真正把 Codex 用进日常开发，希望文档既能查功能，也能防止自己继续按旧认知误用。
 > 本篇原则：把原本分散在“当前常用功能”“官方进阶补充”“最近更新差异”里的重复内容合成一篇，主线只保留真正值得长期查的东西。
@@ -60,12 +60,13 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ## 1. 模型：当前以 GPT-6.1 Sol 为目录默认
 
-0.161.0 发布记录明确更新了 bundled 与 Amazon Bedrock 目录默认值。下表来自 **0.162.1 随包模型目录**，列出保留的全部 ID；它是客户端能力快照，不是对订阅套餐、API 价格、地区或第三方网关可用性的保证。新线程还可能使用 server 下发默认值或显式启动覆盖。
+0.161.0 发布记录明确更新了 bundled 与 Amazon Bedrock 目录默认值。下表来自 **0.165.0 随包模型目录**，列出保留的全部 ID；它是客户端能力快照，不是对订阅套餐、API 价格、地区或第三方网关可用性的保证。新线程还可能使用 server 下发默认值或显式启动覆盖。
 
 | 模型 ID | 用途 / 边界 | 随包默认 effort | 目录中的 reasoning efforts |
 |---|---|---|---|
 | `gpt-6-astra` | 最困难的复杂工作 | low | low / medium / high / xhigh / max / ultra |
 | `gpt-6.1-sol` | 当前目录默认；最新日常编码主力 | low | low / medium / high / xhigh / max / ultra |
+| `gpt-6.1-terra` | 更长上下文的平衡模型；是否可用取决于账号/provider | low | low / medium / high / xhigh / max / ultra |
 | `gpt-6-sol` | 上一代主力 | medium | low / medium / high / xhigh / max / ultra |
 | `gpt-6-luna` | 轻量快速任务 | medium | low / medium / high / xhigh / max |
 | `gpt-5.6-sol` | 旧主力，兼容配置 | low | low / medium / high / xhigh / max / ultra |
@@ -557,30 +558,30 @@ sandbox_mode = 'read-only'
 ## 10. 官方资料入口
 
 - Codex 模型页：<https://developers.openai.com/codex/models>
-- App 功能：<https://developers.openai.com/codex/app/features>
-- App Review：<https://developers.openai.com/codex/app/review>
-- App Worktrees：<https://developers.openai.com/codex/app/worktrees>
-- App Local Environments：<https://developers.openai.com/codex/app/local-environments>
-- App Scheduled tasks：<https://developers.openai.com/codex/app/automations>
+- App 功能：<https://developers.openai.com/codex/app>
+- App Review：<https://developers.openai.com/codex/code-review>
+- App Worktrees：<https://developers.openai.com/codex/environments/git-worktrees>
+- App Local Environments：<https://developers.openai.com/codex/environments/local-environment>
+- App Scheduled tasks：<https://developers.openai.com/codex/automations>
 - App Browser：<https://learn.chatgpt.com/docs/browser?surface=app>
 - App Computer Use：<https://learn.chatgpt.com/docs/computer-use>
 - App Voice：<https://learn.chatgpt.com/docs/features/voice>
 - App Remote：<https://learn.chatgpt.com/docs/remote-connections>
-- App Windows：<https://developers.openai.com/codex/app/windows>
+- App Windows：<https://developers.openai.com/codex/windows/windows-app>
 - Codex Changelog：<https://learn.chatgpt.com/docs/changelog>
 - Codex Models：<https://learn.chatgpt.com/docs/models?surface=cli>
 - Site tools / WebMCP：<https://learn.chatgpt.com/docs/webmcp>
 - Scheduled tasks：<https://learn.chatgpt.com/docs/automations>
 - GitLab integration：<https://learn.chatgpt.com/docs/third-party/gitlab>
 - Codex Plugins：<https://developers.openai.com/codex/plugins>
-- IDE 功能：<https://developers.openai.com/codex/ide/features>
-- IDE 设置：<https://developers.openai.com/codex/ide/settings>
+- IDE 功能：<https://developers.openai.com/codex/ide>
+- IDE 设置：<https://developers.openai.com/codex/developer-settings?surface=ide>
 - CLI 概览：<https://developers.openai.com/codex/cli>
-- CLI 功能：<https://developers.openai.com/codex/cli/features>
-- CLI 参数参考：<https://developers.openai.com/codex/cli/reference>
-- CLI Slash Commands：<https://developers.openai.com/codex/cli/slash-commands>
-- Config Basics：<https://developers.openai.com/codex/config-basic>
-- Config Reference：<https://developers.openai.com/codex/config-reference>
-- AGENTS.md：<https://developers.openai.com/codex/guides/agents-md>
-- Non-interactive：<https://developers.openai.com/codex/noninteractive>
-- MCP：<https://developers.openai.com/codex/mcp>
+- CLI 功能：<https://developers.openai.com/codex/cli>
+- CLI 参数参考：<https://developers.openai.com/codex/developer-commands?surface=cli>
+- CLI Slash Commands：<https://developers.openai.com/codex/developer-commands?surface=cli>
+- Config Basics：<https://developers.openai.com/codex/config-file/config-basic>
+- Config Reference：<https://developers.openai.com/codex/config-file/config-reference>
+- AGENTS.md：<https://developers.openai.com/codex/agent-configuration/agents-md>
+- Non-interactive：<https://developers.openai.com/codex/non-interactive-mode>
+- MCP：<https://developers.openai.com/codex/extend/mcp>

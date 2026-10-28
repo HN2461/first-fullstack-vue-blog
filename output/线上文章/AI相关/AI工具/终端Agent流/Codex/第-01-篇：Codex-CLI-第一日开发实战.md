@@ -21,13 +21,13 @@ originalId: "6a2d291d8a2b1c68f2cabf4c"
 originalSlug: "ai-agent-codex-codex-cli-10e9408b"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.297Z"
-updatedAt: "2026-10-12T15:03:19.097Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Codex CLI 第一日开发实战
 
-> 更新时间：2026-10-12。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 这篇只解决 4 件事：怎么确认装对、怎么进仓库、怎么看第一屏、怎么完成第一轮真实开发。
 > 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查；桌面 App 高频使用请直接看第八篇。
 
@@ -61,7 +61,21 @@ npm i -g @openai/codex@latest
 codex --version
 ```
 
-当前稳定版为 `0.162.1`（2026-10-12 检索时 npm latest），预发布 tag 为 `0.163.0-alpha.5`，日常开发先按稳定版维护。可查询版本后再决定升级；本文没有执行升级：
+官方安装器当前还提供按平台的入口；Windows PowerShell 可直接执行：
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+```
+
+macOS / Linux：
+
+```bash
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+```
+
+安装器和 npm 都会把 CLI 放入 PATH，但不会把 ChatGPT 登录、企业 MCP 授权或桌面 App 的灰度能力自动变成可用状态。安装后先运行 `codex` 选择 **Sign in with ChatGPT**，再用 `codex login status` 和 `codex doctor --summary` 验证身份与运行环境。
+
+截至 2026-10-28，远端 npm `latest` 已是 `0.165.0`，`alpha` 为 `0.166.0-alpha.5`；本机仍实测 `codex-cli 0.162.1`，没有为了写文章自动升级。0.163 引入 `/config`、即时 steer、`/keymap` 和 Windows 图片粘贴，0.164 引入 `/presets`、`/model`/`/permissions` 行内参数、Kitty/Sixel 图片预览、企业 MCP OAuth 和默认 Bedrock 向导，0.165 又加入 Vertex AI provider、GPT-6.1 Terra、会话筛选和默认 reasoning effort 动态调整。读者安装 `latest` 后应以自己的 `codex --version`、`codex --help` 和 `codex features list` 为准。
 
 ```powershell
 npm view @openai/codex version
@@ -411,10 +425,12 @@ flowchart LR
 ## 参考资料
 
 - Codex CLI：<https://developers.openai.com/codex/cli>
-- CLI Slash Commands：<https://developers.openai.com/codex/cli/slash-commands>
-- Codex 配置：<https://developers.openai.com/codex/config-basic>
-- Codex MCP：<https://developers.openai.com/codex/mcp>
-- AGENTS.md：<https://developers.openai.com/codex/guides/agents-md>
+- Codex CLI 稳定发布：<https://github.com/openai/codex/releases/tag/rust-v0.165.0>
+- Codex CLI npm 包：<https://www.npmjs.com/package/@openai/codex>
+- CLI Slash Commands：<https://developers.openai.com/codex/developer-commands?surface=cli>
+- Codex 配置：<https://developers.openai.com/codex/config-file/config-basic>
+- Codex MCP：<https://developers.openai.com/codex/extend/mcp>
+- AGENTS.md：<https://developers.openai.com/codex/agent-configuration/agents-md>
 - Codex use cases：<https://developers.openai.com/codex/use-cases>
 
 

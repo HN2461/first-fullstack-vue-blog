@@ -1,7 +1,7 @@
 ---
 title: "第 06 篇：Codex 命令与配置文件速查"
 slug: "ai-agent-codex-codex-9cf3fc01"
-summary: "按 Codex CLI 0.162.1 完整列出内置斜杠命令、别名、行内参数与任务状态限制，以及公开 CLI 命令树和全部子命令专属参数，修正旧版命令及配置说明。"
+summary: "以本机 Codex CLI 0.162.1 命令快照为底，补充远端 0.163–0.165 的内置斜杠命令、行内参数和配置变化，修正旧版命令说明。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -21,13 +21,13 @@ originalId: "6a2d291d8a2b1c68f2cabf78"
 originalSlug: "ai-agent-codex-codex-9cf3fc01"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.294Z"
-updatedAt: "2026-10-12T15:03:19.122Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 06 篇：Codex 命令与配置文件速查
 
-> 更新时间：2026-10-12。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：工具底座（全系列命令与配置文件统一说明）。
 > 使用方式：读任何一篇时，遇到“这条命令是干嘛的”就回查本篇。
 > 小白读完目标：你应该能分清“命令层 / 配置层 / 项目规则层”，并且看到一个命令或字段名时，知道它属于哪一层。
@@ -113,7 +113,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ---
 
-## 3. 全部 CLI Slash Commands（0.162.1）
+## 3. 全部 CLI Slash Commands（本机 0.162.1 快照；远端 0.163–0.165 见下）
 
 本表逐项核对稳定版内置命令枚举及菜单门控。输入 `/` 打开菜单并搜索；命令需要放在 composer 起始位置。“允许入口”表示任务运行中允许调度此命令，不保证操作立即完成；“参数=是”只表示解析器接受行内参数，不能据此自行猜所有参数语法。side conversation 会进一步限制菜单，模型、server 能力、平台和 feature flags 也会影响可见性。
 
@@ -192,7 +192,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 `/fast` 等服务档位命令由服务端模型元数据动态提供，不在固定的 `SlashCommand` 枚举中；以当前 `/` 菜单和 `/model` 可选 tier 为准。`service_tier` 与 `model_reasoning_effort` 分别控制服务调度和思考投入，不能互相替代。不要凭旧截图声称所有账号必有 `/fast` 或某个 Ultra Fast 命令。
 
-当前稳定版没有内置 `/personality`、`/agent`、`/cloud`、`/cloud-environment`、`/local`、`/ide-context` 或 `/config`。IDE 的命令单独看第五篇/第九篇；Cloud 的 CLI 入口是 `codex cloud`；当前会话子代理入口是 `/subagents`。**2026-10-12 main 开发分支** 已出现 `/config`，但它不属于 0.162.1，本节不把开发分支当稳定版承诺。
+本机 `0.162.1` 快照没有内置 `/config`，也没有把 `/cloud`、`/cloud-environment`、`/local`、`/ide-context` 当作 CLI slash；IDE 的命令单独看第五篇/第九篇，Cloud 的 CLI 入口是 `codex cloud`，当前会话子代理入口是 `/subagents`。`/config` 已在 0.163.0 稳定版加入，不能继续沿用“只在 main 开发分支出现”的旧结论。
 
 ### 3.3 最值得练熟的更新
 
@@ -293,7 +293,7 @@ model_reasoning_effort = "medium"
 
 ---
 
-## 8. 全部 CLI 命令与参数（0.162.1）
+## 8. 全部 CLI 命令与参数（本机 0.162.1 快照）
 
 以下清单直接读取本机稳定版的 **74 个命令/子命令帮助页面**（含根入口），不执行登录、任务、升级、删除或迁移。根层有 26 个公开业务子命令，另有 `help`；隐藏内部命令不作为公共接口。别名 `exec=e`、`apply=a`、`cloud-tasks=cloud`、`--yolo`、`--not-so-yolo` 仅为兼容入口。
 
@@ -617,7 +617,7 @@ Usage: codex app-server [OPTIONS] [COMMAND]
 | `--code-mode-host <URL>` | Connect to a remote code-mode host instead of starting a local host |
 | `--listen <URL>` | Transport endpoint URL. Supported values: `stdio://` (default), `unix://`, `unix://PATH`, `ws://IP:PORT`, `off`  [default: stdio://] |
 | `--stdio` | Use stdio as the transport (equivalent to `--listen stdio://`) |
-| `--analytics-default-enabled` | Controls whether analytics are enabled by default.  Analytics are disabled by default for app-server. Users have to explicitly opt in via the `analytics` section in the config.toml file.  However, for first-party use cases like the VSCode IDE extension, we default analytics to be enabled by default by setting this flag. Users can still opt out by setting this in their config.toml:  ```toml [analytics] enabled = false ```  See https://developers.openai.com/codex/config-advanced/#metrics for more details. |
+| `--analytics-default-enabled` | Controls whether analytics are enabled by default.  Analytics are disabled by default for app-server. Users have to explicitly opt in via the `analytics` section in the config.toml file.  However, for first-party use cases like the VSCode IDE extension, we default analytics to be enabled by default by setting this flag. Users can still opt out by setting this in their config.toml:  ```toml [analytics] enabled = false ```  See https://developers.openai.com/codex/config-file/config-advanced/#metrics for more details. |
 | `--ws-auth <MODE>` | Authentication mode for incoming WebSocket connections  [possible values: capability-token, signed-bearer-token] |
 | `--ws-token-file <PATH>` | Absolute path to the capability-token file |
 | `--ws-token-sha256 <HEX>` | Hex-encoded SHA-256 digest of the capability token |
@@ -1393,7 +1393,7 @@ codex doctor --summary
 
 - [官方命令文档](https://learn.chatgpt.com/docs/developer-commands?surface=cli)
 - [官方配置基础](https://learn.chatgpt.com/docs/config-file/config-basic)
-- [0.162.1 slash 定义](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/tui/src/slash_command.rs)
-- [0.162.1 slash 门控](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/tui/src/bottom_pane/slash_commands.rs)
-- [0.162.1 CLI 定义](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/cli/src/main.rs)
-- [0.162.1 shared options](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/utils/cli/src/shared_options.rs)
+- [0.162.1 slash 定义（本机快照）](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/tui/src/slash_command.rs)
+- [0.162.1 slash 门控（本机快照）](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/tui/src/bottom_pane/slash_commands.rs)
+- [0.162.1 CLI 定义（本机快照）](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/cli/src/main.rs)
+- [0.162.1 shared options（本机快照）](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/utils/cli/src/shared_options.rs)

@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）"
 slug: "ai-agent-codex-codex-edeadb5e"
-summary: "按 Codex CLI 0.162.1 稳定版核对配置层级与脱敏模板，补齐 102 个顶层配置键、全部嵌套字段、功能开关生命周期、权限 profile、MCP/Provider、TUI、Hooks 和管理员约束索引。"
+summary: "以本机 Codex CLI 0.162.1 配置快照为主，补充远端 0.165.0 的版本边界与升级核对方法，整理 102 个顶层配置键、全部嵌套字段、功能开关生命周期、权限 profile、MCP/Provider、TUI、Hooks 和管理员约束索引。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -21,16 +21,17 @@ originalId: "6a2d291d8a2b1c68f2cabf5a"
 originalSlug: "ai-agent-codex-codex-edeadb5e"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.777Z"
-updatedAt: "2026-10-12T15:03:19.151Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）
 
-> 更新时间：2026-10-12。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：配置总手册。以后所有 `config.toml`、provider、模型、审批、沙箱、MCP、Desktop、本机路径、CCSwitch 快照污染和 HN246 本机替换版配置，都统一在这一篇维护。
 > 前置：第一篇跑通 CLI；第二篇看懂终端英文状态。
 > 下一篇建议：第四篇（多线路接入与迁移）。
+> 版本边界：本文的大型字段表和脱敏模板来自本机 `0.162.1` 的 schema 快照，不能把它当成远端 `0.165.0` 的逐字段保证。升级后先用 `codex debug-config`、`codex features list` 和对应版本的 `codex <command> --help` 复核；0.164–0.165 的新增重点是企业 MCP 授权、Bedrock 向导、Vertex AI provider、GPT-6.1 Terra 与 reasoning effort 动态更新。
 > 小白读完目标：你应该能说清 Codex 配置为什么会生效或失效，能看懂每个高频字段，能安全整理 HN246 本机配置，并能用 `/status`、`/debug-config`、`/mcp` 验证结果。
 
 [[toc]]
@@ -794,9 +795,9 @@ codex --profile deep_refactor
 1. 主人提供的 `C:\Users\HN246\Desktop\config.toml`
 2. 主人提供的 `C:\Users\HN246\Desktop\Codex-CCSwitch配置字段说明.md`
 3. 主人提供的 `C:\Users\HN246\Desktop\codex.config.hn246.toml`
-4. OpenAI Codex 配置文档：<https://developers.openai.com/codex/config-reference>
+4. OpenAI Codex 配置文档：<https://developers.openai.com/codex/config-file/config-reference>
 5. OpenAI Codex CLI 文档：<https://developers.openai.com/codex/cli>
-6. OpenAI Codex MCP 文档：<https://developers.openai.com/codex/mcp>
+6. OpenAI Codex MCP 文档：<https://developers.openai.com/codex/extend/mcp>
 
 
 ---
@@ -805,7 +806,7 @@ codex --profile deep_refactor
 
 本节按稳定版随包 schema 枚举，不把“schema 接受”解释成“当前账号已开放”。共有 **102 个顶层键**；嵌套索引列出所有可静态枚举的字段和动态映射入口。`<键>` 代表实际 provider ID、server 名、路径、域名或应用 ID；`[]` 代表 TOML 数组元素。schema 默认与客户端最终默认不同，未设字段继续受到模型、平台、server 和 managed requirements 影响。
 
-完整基准：[0.162.1 配置 schema](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core/config.schema.json)、[配置类型](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/config/src/config_toml.rs)。英文原始边界说明保留在表中，便于升级时逐项比对。
+本机快照基准：[0.162.1 配置 schema](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/core/config.schema.json)、[配置类型](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/config/src/config_toml.rs)；远端升级差异见本文版本边界和第九篇。英文原始边界说明保留在表中，便于升级时逐项比对。
 
 ### 18.1 顶层全部字段
 

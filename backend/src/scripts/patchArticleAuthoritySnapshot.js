@@ -20,6 +20,9 @@ const APPLY = rawArgs.includes('--apply')
 const TARGET = rawArgs.find((item) => item.startsWith('--target='))?.slice(9) || 'local'
 const CONFIRM = rawArgs.includes('--confirm-production-article-patch')
 const PATCH_TAGS = !rawArgs.includes('--skip-tags')
+// 只允许在明确指定 slug 且已完成 dry-run 后忽略全库 remoteOnly 阻断；默认仍保护全量快照。
+const ALLOW_REMOTE_ONLY = rawArgs.includes('--allow-remote-only')
+const UPDATE_MANIFEST = rawArgs.includes('--update-manifest')
 const SLUGS = [...new Set((rawArgs.find((item) => item.startsWith('--slugs='))?.slice(8) || '').split(',').filter(Boolean))]
 const EXPORT_ROOT = path.resolve(process.env.ARTICLE_EXPORT_DIR || path.join(env.rootDir, '../output/线上文章'))
 const REPORT_ROOT = path.resolve(
@@ -297,7 +300,7 @@ async function main() {
     return
   }
   if (blocked.length > 0) throw new Error('存在身份冲突、缺失文章或分类路径不一致，拒绝写入')
-  if (plan.remoteOnly.length > 0) throw new Error('目标数据库存在快照外文章，拒绝写入')
+  if (plan.remoteOnly.length > 0 && !ALLOW_REMOTE_ONLY) throw new Error('目标数据库存在快照外文章，拒绝写入')
   const backupPath = await backup(updates, plan.missingTags)
   const tagByName = PATCH_TAGS ? await ensureTags(tags, plan.missingTags) : new Map(tags.map((tag) => [tag.name, tag]))
   for (const item of updates) {
@@ -306,6 +309,17 @@ async function main() {
       { $set: buildPayload(item, tagByName) }
     )
     if (result.modifiedCount !== 1) throw new Error(`文章在预览后发生变化，拒绝覆盖: ${item.slug}`)
+  }
+  if (UPDATE_MANIFEST) {
+    const manifestPath = path.join(EXPORT_ROOT, 'manifest.json')
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8').replace(/^\uFEFF/, ''))
+    for (const item of updates) {
+      const manifestArticle = manifest.articles.find((record) => String(record.originalId) === item.originalId)
+      if (!manifestArticle) throw new Error(`manifest 缺少文章: ${item.slug}`)
+      manifestArticle.summary = item.local.summary
+      if (item.contentMode === 'markdown') manifestArticle.contentHash = item.local.contentHash
+    }
+    fs.writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8')
   }
   if (PATCH_TAGS) await recalculateTagCounts()
   console.log(`文章补丁完成: ${updates.length} 篇，备份: ${backupPath}`)

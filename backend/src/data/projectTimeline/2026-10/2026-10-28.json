@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-28",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "codex-series-current-research-update",
+      "title": "深度核验并更新 Codex CLI、VS Code 扩展和桌面 App 系列文章",
+      "detail": "1. 阅读并审校终端 Agent 流 Codex 目录下 9 篇线上权威 Markdown，保留 originalId、originalSlug 和分类路径，统一更新核验时间与版本边界；补充远端 npm stable 0.165.0、alpha 0.166.0-alpha.5、本机 CLI 0.162.1、Windows Store App 26.1021.3705.0 的区分说明。\n2. 根据 OpenAI Codex 官方发布记录和 OpenAI Developers / ChatGPT Learn 文档补充 0.163–0.165 变化，包括 /config、/presets、行内 /model 与 /permissions、企业 MCP OAuth、Bedrock、Vertex AI、GPT-6.1 Terra、reasoning effort 动态调整和 memory v2。\n3. 重点扩充 VS Code 官方扩展 openai.chatgpt 的安装、版本、opened/selected context、编辑/预览、Cloud 委派、账号计划与 macOS-only Work with VS Code 边界；补充 ChatGPT desktop app 的 Windows 版本核验、Local/Worktree/Cloud、Git/Review、Browser、Computer Use 和三端排错矩阵。\n4. 更新官方文档路径、发布记录和 Marketplace 参考链接，完成 UTF-8 无 BOM 抽查；manifest 身份字段保持不变，后续按文章权威仓库同步流程回写线上正文。\n5. 只读 authority compare 核验 573 篇文章：9 篇 Codex 文章因本轮正文更新触发 contentHash 冲突，另有 10 篇仅目标数据库存在；按保护规则未绕过冲突强行写入线上数据库，保留本地权威内容等待完整基线处理。",
+      "occurredAt": "2026-10-28T22:00:00+08:00",
+      "category": "内容上新"
+    },
+    {
+      "id": "claude-code-series-current-research-update",
+      "title": "深度核验并更新 Claude Code CLI、IDE、Desktop 与 Cloud 系列文章",
+      "detail": "1. 审阅 ClaudeCode 目录下 6 篇线上权威 Markdown，保留 originalId、originalSlug 和分类路径，统一更新核验时间；区分本机 Claude Code 2.1.296、npm latest/next 2.1.312 与 stable 2.1.308。\n2. 根据 Anthropic 官方 Claude Code 文档、官方 Changelog 和 v2.1.312 发布记录补充 Native install、Node.js 22+ npm 边界、Windows/WSL、VS Code 扩展、Desktop、Remote Control、Cloud、Projects、Teleport、Scheduled tasks、/loop、Channels、Chrome 与 Provider 变化。\n3. 重点扩充 VS Code 官方扩展 anthropic.claude-code 的 inline diff、@mentions、Plan review、权限模式、共享 settings/MCP 与 CLI 历史；补充 Desktop 的并行 sessions、Git isolation、Cloud/SSH、Browser、Computer Use、Dispatch 和平台差异。\n4. 更新官方文档链接、2.1.312 变更、Provider 的未知模型名兼容策略、hooks 并发限制和 Cloud setup script；完成 UTF-8 无 BOM 抽查，manifest 身份字段保持不变。",
+      "occurredAt": "2026-10-28T23:00:00+08:00",
+      "category": "内容上新"
+    }
+  ]
+}

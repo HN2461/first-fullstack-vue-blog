@@ -1,7 +1,7 @@
 ---
 title: "第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）"
 slug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
-summary: "按 2026-10-12 Claude Code 2.1.296 官方 LLM Gateway Connect、Gateway Protocol、Model Config、Settings 与第三方 Provider 文档更新，覆盖 Anthropic 兼容中转、Bedrock/Vertex/Foundry/Claude Platform on AWS 路由、模型映射、网关凭据、各运行界面和排障。"
+summary: "按 2026-10-28 Claude Code 2.1.312 官方 LLM Gateway Connect、Gateway Protocol、Model Config、Settings 与第三方 Provider 文档更新，覆盖 Anthropic 兼容中转、Bedrock/Vertex/Foundry/Claude Platform on AWS 路由、模型映射、网关凭据、各运行界面和排障。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,12 +22,15 @@ originalId: "6a2d291d8a2b1c68f2cabf36"
 originalSlug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.824Z"
-updatedAt: "2026-10-12T15:13:40.122Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）
 
-> 本文按 2026-10-12 官方 Gateway Connect、Gateway Protocol、Model Config 和各 Provider 文档更新。中转、网关、包月线路和 Claude Code 订阅是不同概念；先确认请求到底发给谁，再谈模型、计费、上下文和权限。
+> 本文按 2026-10-28 官方 Gateway Connect、Gateway Protocol、Model Config 和各 Provider 文档更新。中转、网关、包月线路和 Claude Code 订阅是不同概念；先确认请求到底发给谁，再谈模型、计费、上下文和权限。
+
+
+> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
 
 [[toc]]
 
@@ -368,7 +371,7 @@ LiteLLM、One API 等兼容层适合统一多 Provider，但其模型名、Respo
 
 ## 10. 参考资料
 
-本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
 
 - Connect Claude Code to an LLM gateway：https://code.claude.com/docs/en/llm-gateway-connect
 - Gateway compatibility guide：https://code.claude.com/docs/en/llm-gateway-protocol
@@ -386,3 +389,8 @@ LiteLLM、One API 等兼容层适合统一多 Provider，但其模型名、Respo
 - LiteLLM：https://github.com/BerriAI/litellm
 
 Gateway 是基础设施，不是“换一个 URL 就完成的模型兼容层”。请以网关实际协议、日志和计费为准，并定期按官方 changelog 复核变量名和 Provider 行为。
+
+- https://code.claude.com/docs/en/llm-gateway
+- https://code.claude.com/docs/en/amazon-bedrock
+- https://code.claude.com/docs/en/google-vertex-ai
+- https://code.claude.com/docs/en/microsoft-foundry

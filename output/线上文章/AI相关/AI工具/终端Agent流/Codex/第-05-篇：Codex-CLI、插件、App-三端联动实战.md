@@ -21,13 +21,13 @@ originalId: "6a2d291d8a2b1c68f2cabf6e"
 originalSlug: "ai-agent-codex-codex-cli-app-afad6d17"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.293Z"
-updatedAt: "2026-10-12T15:03:19.141Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：Codex CLI、插件、App 三端联动实战
 
-> 更新时间：2026-10-12。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 定位：主线 03（三端统一与联动排障）。
 > 前置：第三篇（先懂配置原理和字段，再做联动最稳）。
 > 下一篇建议：第六篇（命令与配置速查）。
@@ -135,6 +135,21 @@ codex --version
 3. `npm i -g @openai/codex`：全局安装 Codex CLI。
 4. `codex --version`：验证安装是否成功，并查看当前版本。
 
+
+### 3.1.1 官方安装器与版本核对
+
+官方 npm 包适合已经有 Node/npm 的开发机；OpenAI 当前也提供平台安装器：
+
+```powershell
+powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+```
+
+```bash
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+```
+
+截至 2026-10-28，远端 `@openai/codex@latest` 为 `0.165.0`，本机 PATH 仍为 `0.162.1`。不要只看 npm 页面就认为本机已升级；安装后同时记录 `codex --version`、`Get-Command codex`（Windows）或 `which codex`（macOS/Linux）。
+
 ## 3.2 登录
 
 常见方式：
@@ -234,6 +249,18 @@ persistence = "save-all"
 
 IDE 扩展会复用 Codex CLI、`~/.codex/config.toml` 和项目规则，但它已经不是“只包了一层 CLI 的聊天壳”。
 正确顺序仍然是先把 CLI 跑通，再在 IDE 里使用 Agent、Chat、Cloud delegation 等入口，成功率最高。
+
+### 4.1.1 VS Code 官方扩展的当前边界
+
+VS Code Marketplace 当前的官方扩展 ID 是 `openai.chatgpt`，显示名为 **Codex – OpenAI’s coding agent**，页面版本为 `26.51021.22027`（页面标记为预发布），要求 VS Code engine `^1.96.2`。安装方式：
+
+```text
+Ctrl/Cmd+Shift+P → Extensions: Install Extensions → 输入 openai.chatgpt
+```
+
+扩展登录使用 ChatGPT 账户；Marketplace 页面列出的 Plus、Pro、Business、Edu、Enterprise 计划只是产品支持范围，实际模型、Cloud、连接器和组织策略仍受账户与工作区控制。扩展侧边栏可以读取当前打开文件和选中代码，进行对话、编辑和预览；较大的任务可以选择 Cloud，随后在 IDE 内跟踪、审查并把 Cloud 任务打开到本地收尾。
+
+扩展支持 VS Code、VS Code Insiders、Cursor 和 Windsurf 等兼容编辑器。ChatGPT macOS App 的 **Work with VS Code** 是额外的 macOS 连接功能，不能据此推断 Windows App 也有同名入口。Windows 下若仓库和工具链在 WSL2，可开启 `chatgpt.runCodexInWindowsSubsystemForLinux`；Windows-native 项目则让扩展直接使用本机 CLI，并在 `codex --version` 与扩展日志中分别核对运行时。
 
 ## 4.2 官方插件设置项（重点）
 
@@ -441,25 +468,28 @@ wire_api = "responses"
 
 ### OpenAI 官方
 
-1. <https://developers.openai.com/codex/cli/features>
-2. <https://developers.openai.com/codex/cli/reference>
-3. <https://developers.openai.com/codex/cli/slash-commands>
-4. <https://developers.openai.com/codex/ide/settings>
-5. <https://developers.openai.com/codex/ide/commands>
-6. <https://developers.openai.com/codex/ide/slash-commands>
-7. <https://developers.openai.com/codex/app/features>
-8. <https://developers.openai.com/codex/app/settings>
-9. <https://developers.openai.com/codex/app/commands>
-10. <https://developers.openai.com/codex/app/windows>
-11. <https://developers.openai.com/codex/app/worktrees>
-12. <https://developers.openai.com/codex/app/local-environments>
-13. <https://developers.openai.com/codex/app/automations>
-14. <https://developers.openai.com/codex/app/review>
+1. <https://developers.openai.com/codex/cli>
+2. <https://developers.openai.com/codex/developer-commands?surface=cli>
+3. <https://developers.openai.com/codex/developer-commands?surface=cli>
+4. <https://developers.openai.com/codex/developer-settings?surface=ide>
+5. <https://developers.openai.com/codex/developer-commands?surface=ide>
+6. <https://developers.openai.com/codex/developer-commands?surface=ide>
+7. <https://developers.openai.com/codex/app>
+8. <https://developers.openai.com/codex/developer-settings?surface=app>
+9. <https://developers.openai.com/codex/developer-commands?surface=app>
+10. <https://developers.openai.com/codex/windows/windows-app>
+11. <https://developers.openai.com/codex/environments/git-worktrees>
+12. <https://developers.openai.com/codex/environments/local-environment>
+13. <https://developers.openai.com/codex/automations>
+14. <https://developers.openai.com/codex/code-review>
 15. <https://learn.chatgpt.com/docs/browser?surface=app>
-16. <https://developers.openai.com/codex/app/computer-use>
+16. <https://developers.openai.com/codex/computer-use>
 17. <https://developers.openai.com/codex/changelog>
-18. <https://developers.openai.com/codex/config-basic>
-19. <https://developers.openai.com/codex/config-reference>
+18. <https://developers.openai.com/codex/config-file/config-basic>
+19. <https://developers.openai.com/codex/config-file/config-reference>
+20. VS Code Marketplace 官方扩展：<https://marketplace.visualstudio.com/items?itemName=openai.chatgpt>
+21. Codex CLI 稳定发布：<https://github.com/openai/codex/releases/tag/rust-v0.165.0>
+22. Codex CLI npm 包：<https://www.npmjs.com/package/@openai/codex>
 
 ### 第三方/社区
 
@@ -471,7 +501,7 @@ wire_api = "responses"
 
 ## 2026-10 三端联动补充
 
-本机 CLI 为 `0.162.1`，Windows Store 包为 `OpenAI.Codex 26.1007.2314.0`；两个版本号独立，App/IDE 还可能连接自己的内置或共享 server。全局 CLI 升级不等于扩展内置二进制和 App server 同步升级。
+远端 CLI 稳定版为 `0.165.0`；本机 CLI 为 `0.162.1`、Windows Store 包为 `OpenAI.Codex 26.1021.3705.0`。两个版本号独立，App/IDE 还可能连接自己的内置或共享 server；全局 CLI 升级不等于扩展内置二进制和 App server 同步升级。
 
 新排错入口是 `/daemon`、`/warnings`、`codex doctor --summary`，MCP OAuth 可以 `/mcp login <name>`。0.162.1 已修复“后台 server feature 与 CLI 默认差异导致启动失败”的问题，兼容检查只比较显式命令行 feature 覆盖；遇到新旧 server 并存时先确认来源再更新。
 

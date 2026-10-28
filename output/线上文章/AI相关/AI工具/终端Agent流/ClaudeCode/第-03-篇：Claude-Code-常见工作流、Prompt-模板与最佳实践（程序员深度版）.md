@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-8b6661f9"
-summary: "按 2026-10-12 Claude Code 2.1.296 官方 Common Workflows、Best Practices、Agent View、Sub-agents、Agent Teams、Workflows、Headless 与 Changelog 更新，覆盖陌生仓库、修 bug、重构、测试、文档、PR、并行任务、长会话和无人值守脚本。"
+summary: "按 2026-10-28 Claude Code 2.1.312 官方 Common Workflows、Best Practices、Agent View、Sub-agents、Agent Teams、Workflows、Headless 与 Changelog 更新，覆盖陌生仓库、修 bug、重构、测试、文档、PR、并行任务、长会话和无人值守脚本。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,12 +22,15 @@ originalId: "6a2d291d8a2b1c68f2cabf22"
 originalSlug: "ai-agent-claudecode-claudecode-8b6661f9"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.838Z"
-updatedAt: "2026-10-12T15:13:40.092Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）
 
-> 好的 Claude Code 工作流不是“让模型一次写完”，而是把目标、范围、证据和批准点设计清楚。本文以当前 `2.1.296` 的 CLI、交互模式、Workflows 和并行能力为基线，给出能直接复制的程序员工作流。
+> 好的 Claude Code 工作流不是“让模型一次写完”，而是把目标、范围、证据和批准点设计清楚。本文以当前 `2.1.312` 的 CLI、交互模式、Workflows 和并行能力为基线，给出能直接复制的程序员工作流。
+
+
+> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
 
 [[toc]]
 
@@ -381,7 +384,7 @@ git diff --name-only origin/main...HEAD \
 
 ## 13. 参考资料
 
-本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
 
 - Common workflows：https://code.claude.com/docs/en/common-workflows
 - Best practices：https://code.claude.com/docs/en/best-practices
@@ -396,3 +399,10 @@ git diff --name-only origin/main...HEAD \
 - 官方 GitHub Actions：https://github.com/anthropics/claude-code-action
 
 Prompt 模板是工程约定，不是 Claude Code API；真正可用的命令和参数请以本机 `claude --help`、`/help` 和官方页面为准。
+
+- https://code.claude.com/docs/en/claude-code-on-the-web
+- https://code.claude.com/docs/en/remote-control
+- https://code.claude.com/docs/en/routines
+- https://code.claude.com/docs/en/desktop-scheduled-tasks
+- VS Code 集成：https://code.claude.com/docs/en/vs-code
+- Desktop：https://code.claude.com/docs/en/desktop

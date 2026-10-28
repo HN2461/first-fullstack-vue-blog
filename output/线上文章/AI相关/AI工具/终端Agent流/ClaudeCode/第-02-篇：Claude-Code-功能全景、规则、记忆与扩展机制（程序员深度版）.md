@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-083e790a"
-summary: "按 2026-10-12 Claude Code 2.1.296 官方 Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams 与 Workflows 文档更新，重新厘清 CLAUDE.md、AGENTS.md、rules、auto memory、权限、扩展和上下文成本的边界。"
+summary: "按 2026-10-28 Claude Code 2.1.312 官方 Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams 与 Workflows 文档更新，重新厘清 CLAUDE.md、AGENTS.md、rules、auto memory、权限、扩展和上下文成本的边界。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,12 +22,15 @@ originalId: "6a2d291d8a2b1c68f2cabf2a"
 originalSlug: "ai-agent-claudecode-claudecode-083e790a"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.835Z"
-updatedAt: "2026-10-12T15:17:34.457Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）
 
 > Claude Code 的难点不是“功能少”，而是规则、权限、记忆、工具、工作流和界面扩展同时存在。本文按当前官方文档把它们拆开，避免把 `CLAUDE.md` 当成权限文件、把 Skill 当成 MCP、把 Plugin 当成单个命令，也避免为了一次任务把所有能力都塞进上下文。
+
+
+> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
 
 [[toc]]
 
@@ -47,6 +50,24 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 Claude Code 还会通过 language server、Artifacts、Remote Control、IDE 集成等方式扩展体验。这些能力解决的是导航、展示或会话入口问题，不能代替上述六层的职责。
 
 ---
+
+## 0.1 VS Code 扩展与 Desktop 的当前能力边界
+
+### VS Code 扩展
+
+官方 VS Code 扩展 ID 为 `anthropic.claude-code`，Marketplace 页面为 <https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code>，要求 VS Code 1.94 或更高版本，支持 VS Code、Cursor 及兼容的 VS Code forks。付费 Claude Pro、Max、Team、Enterprise 或 Claude Console 账户均可登录；通过 Bedrock、Vertex 或 Foundry 等第三方 Provider 时，账号能力和云端功能会减少。
+
+官方 VS Code 扩展提供原生图形面板，当前能力包括：
+
+1. inline diff、逐文件或逐变更接受/拒绝、Plan 文档审查和会话历史。
+2. 自动附带当前打开文件和选中内容；`@` 引用可以精确到文件和行号，Windows/Linux 使用 `Alt+K` 插入引用，macOS 使用 `Option+K`。
+3. `Auto`、`Manual`、`Plan`、`Edit automatically` 等权限模式；`Plan` 会把计划打开为 Markdown，开发者可以先写 inline comments 再批准执行。
+4. `Customize` 菜单统一管理 `/mcp`、`/skills`、Memory、Instructions、Permissions、Hooks 和 Plugins；扩展与 CLI 共享 `~/.claude/settings.json`、会话历史和 MCP 配置。
+5. 扩展自带面板所需的私有 CLI，但不会把 `claude` 写入系统 PATH。要在 VS Code 集成终端运行 CLI，仍需单独安装原生 CLI；扩展会话和终端会话可以用 `claude --resume` 继续。
+
+### Desktop、Web 与 Remote Control
+
+Claude Desktop（macOS universal、Windows x64/ARM64，Linux beta）适合多个并行会话、Git isolation/worktrees、可视化 diff、Local / SSH / Cloud 环境、集成终端与文件编辑器、计划任务、Browser、Computer Use、Dispatch 和 PR 监控。Desktop Code tab 内置 CLI 与系统终端里的 `claude` 独立更新，不能用其中一个版本号推断另一个。Web/移动端适合启动 Cloud session 或 Projects，Remote Control 则让手机或浏览器控制仍在本机运行的会话。账号、组织策略、Provider 和环境凭据决定哪些入口实际出现；看到同一个 Claude Code 标志不代表它们共享同一文件系统。
 
 ## 1. `CLAUDE.md`、`AGENTS.md` 与 `.claude/rules/`
 
@@ -469,7 +490,7 @@ project/
 
 ## 12. 参考资料
 
-本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
 
 - 官方功能总览：https://code.claude.com/docs/en/features-overview
 - Memory 与规则：https://code.claude.com/docs/en/memory
@@ -486,3 +507,8 @@ project/
 - CC Switch（第三方配置管理工具）：https://github.com/farion1231/cc-switch
 
 第三方工具只能帮助切换配置或接入服务，不能替代官方权限、设置优先级和版本行为；使用前应阅读其源码、发布说明和本地写入范围。
+
+- https://code.claude.com/docs/en/vs-code
+- https://code.claude.com/docs/en/desktop
+- https://code.claude.com/docs/en/remote-control
+- https://code.claude.com/docs/en/claude-projects

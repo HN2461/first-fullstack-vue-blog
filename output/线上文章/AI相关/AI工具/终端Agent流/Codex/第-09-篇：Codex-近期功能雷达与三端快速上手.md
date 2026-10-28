@@ -1,7 +1,7 @@
 ---
 title: "第 09 篇：Codex 近期功能雷达与三端快速上手"
 slug: "ai-agent-codex-current-feature-radar-20260913"
-summary: "集中追踪 Codex 0.154 至 0.162.1 的开发者更新，区分稳定版、预发布和开发分支，说明模型、MCP OAuth、终端界面、Provider 能力、弃用项和固定复核流程。"
+summary: "集中追踪 Codex 0.154 至 0.165.0 的开发者更新，区分稳定版、预发布和开发分支，说明模型、MCP OAuth、终端界面、Provider 能力、弃用项和固定复核流程。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -22,21 +22,21 @@ originalId: "6aa6a8afeea462382bcdf5a3"
 originalSlug: "ai-agent-codex-current-feature-radar-20260913"
 originalStatus: "published"
 publishedAt: "2026-09-13T13:44:41.251Z"
-updatedAt: "2026-10-12T15:03:18.995Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 09 篇：Codex 近期功能雷达与三端快速上手
 
-> 更新时间：2026-10-12。
-> 当前稳定基线：本机 `codex-cli 0.162.1`、Windows Store 包 `OpenAI.Codex 26.1007.2314.0`；npm alpha 为 `0.163.0-alpha.5`。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 当前版本基线：远端 npm `latest=0.165.0`、`alpha=0.166.0-alpha.5`；本机 `codex-cli 0.162.1`、Windows Store 包 `OpenAI.Codex 26.1021.3705.0`。VS Code Marketplace 官方扩展 `openai.chatgpt` 页面版本为 `26.51021.22027`。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 这篇把“最近推出了什么、我应该先学什么”单独维护，不替代第 03 篇配置手册、第 06 篇命令速查和第 08 篇 Windows App 实战。
 
 [[toc]]
 
-## 0. 从 0.154 到 0.162.1：当前应关注的变化
+## 0. 从 0.154 到 0.165.0：当前应关注的变化
 
-本次于 **2026-10-12** 查询 npm dist-tags：`latest=0.162.1`，`alpha=0.163.0-alpha.5`。当前机器已安装稳定版，未执行升级；App 包版本读取为 `26.1007.2314.0`。以下只采用已发布稳定版的功能摘要，不把 main 提交或 alpha 自动写成稳定事实。
+本次于 **2026-10-28** 查询 npm dist-tags：`latest=0.165.0`，`alpha=0.166.0-alpha.5`。当前机器仍安装 `codex-cli 0.162.1`，Windows Store 包读取为 `26.1021.3705.0`，没有执行 CLI 升级或 App 界面操作。以下把远端稳定发布、本机实测和 alpha 预发布明确分开，不把 alpha 自动写成稳定事实。
 
 | 稳定版本 | 开发者相关变化 | 使用动作 |
 |---|---|---|
@@ -49,17 +49,20 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | 0.159.1 / 0.161.0 | GPT-6.1 Sol 成为随包/Bedrock 目录默认；`/mcp login`；语音设备/声道；Daybreak 明确 opt-in | 先查 /model 与 provider 列表，按需选择 effort |
 | 0.159.2 / 0.160.0 / 0.160.1 | Windows 后台窗口、长路径/沙箱修复；重连消息避免重复；provider catalog 与 MCP Windows 环境变量修复 | 更新客户端后复查旧排障结论，保留未发送消息和原线程权限 |
 | 0.162.0 | 受信任项目的托管 worktree 工具；Command Center pin；/copy 和 Ctrl+Insert；滚轮速度；provider capabilities；CRLF 默认保留；Retry-After；签名 PowerShell 安装器 | 更新第三篇配置并练习第六篇命令 |
-| 0.162.1 | 修复多行异步问题导致 TUI 崩溃；修复后台 server feature 与 CLI 默认差异导致启动失败 | 当前稳定验证基线，优先检查显式 --enable/--disable 覆盖 |
+| 0.162.1 | 修复多行异步问题导致 TUI 崩溃；修复后台 server feature 与 CLI 默认不一致导致启动失败 | 本机仍可见的历史验证基线，优先检查显式 --enable/--disable 覆盖 |
+| 0.163.0 | `/config` 分类搜索与即时设置、响应中 steer、`/keymap` leader key、`/daemon` 重启、只读工具并行、Windows 图片粘贴、退休 patched zsh | 升级后重新检查 `/config`、`/keymap`、`/daemon` 和 shell flags |
+| 0.164.0 | `/presets` 十个可复用槽位；`/model` 与 `/permissions` 行内参数；Kitty/Sixel 图片预览；企业 MCP OAuth 与机密客户端；远程凭据遮蔽；Bedrock setup wizard 默认启用 | 为团队工作流保存 presets；企业连接先核对授权方式；AWS 用户重新跑 setup wizard |
+| 0.165.0 | 内置 Google Cloud Vertex AI provider（`model_provider = "gcp"`）；加入 GPT-6.1 Terra；会话选择器支持 repository filter；reasoning effort 可在会话中动态调整；新 profile 默认 memory v2 | 先确认账号/provider 与组织策略，再启用 GCP、Terra 或 memory v2 |
 
 ### 0.1 最新模型与工作流
 
-当前完整随包模型表放在第七篇：`gpt-6.1-sol` 是新主力，`gpt-6-astra` 面向最困难任务，`gpt-6-luna` 面向轻任务；GPT-6 Sol 与 GPT-5.6 目录仍有兼容项。默认 effort 是目录元数据，不能把全体模型统一写成 medium。
+当前完整随包模型表放在第七篇：`gpt-6.1-sol` 是新主力，`gpt-6.1-terra` 提供更长上下文的平衡档，`gpt-6-astra` 面向最困难任务，`gpt-6-luna` 面向轻任务；GPT-6 Sol 与 GPT-5.6 目录仍有兼容项。默认 effort 是目录元数据，不能把全体模型统一写成 medium。
 
 源码中提供的窗口不是“所有线路保证”；不再使用 1M 窗口作为通用模板。新模型访问、价格和用量要按账号/provider 的实际支持核对。
 
 ### 0.2 稳定、预发布和开发分支如何分开
 
-`latest` 是本次稳定基准，`alpha` 为 opt-in 测试；`main` 是开发源码。2026-10-12 的 main 新增 `/config` 偏好入口，当前 0.162.1 枚举没有它。本篇记录这个动态，但不把它加入稳定命令表，也不推断 alpha.5 一定包含它。
+`latest` 是本次稳定基准，`alpha` 为 opt-in 测试；`main` 是开发源码。当前 `0.165.0` 已包含 `/config`、`/presets` 和 0.165 的 provider / 模型变化；`0.166.0-alpha.5` 仍是预发布，不能把它的新增入口写成稳定承诺。本机 `0.162.1` 的命令表和 App 操作只代表本机复核点。
 
 同样，Daybreak 需要 `--enable cli_daybreak` 或 `features.cli_daybreak=true`，单写 `daybreak=true` 不足以开启 CLI 控制；访问仍要求 eligible ChatGPT 登录、OpenAI provider 与模型/程序支持。没有明确场景时保留默认关闭。exec 显式 `--cyber-access-program` 是独立入口，不等于自动获得某个程序访问权。
 
@@ -102,7 +105,13 @@ Codex 现在不是简单的“CLI + 一个编辑器插件”。开发者需要�
 2. 处理跨模块任务时，仍然明确写出范围、约束和验收命令。
 3. 处理敏感文件时先检查当前上下文里到底附带了哪些内容。
 
-### 2.2 Local、Cloud、Worktree 可以在 IDE 内切换
+### 2.2 VS Code 官方扩展的安装与能力边界
+
+Marketplace 官方扩展 ID 为 `openai.chatgpt`，当前页面版本 `26.51021.22027`（页面标记为预发布），VS Code engine `^1.96.2`。在 VS Code 中用 `Ctrl/Cmd+Shift+P` 执行 `Extensions: Install Extensions`，搜索 `openai.chatgpt`，安装后登录 ChatGPT。扩展侧边栏可基于 opened files 和 selected code 对话、编辑和预览；Cloud 任务可以在 IDE 内跟踪、审查，完成后重新打开到本地继续。
+
+扩展支持 VS Code / Insiders，官方页面也列出 Cursor、Windsurf 等兼容编辑器。Plus、Pro、Business、Edu、Enterprise 是 Marketplace 描述中的支持计划，实际可见模型、Cloud、连接器和企业策略仍以账号与工作区为准。ChatGPT macOS App 的“Work with VS Code”是单独的 macOS 连接入口，Windows 用户不要把它当作扩展通用能力。
+
+### 2.3 Local、Cloud、Worktree 可以在 IDE 内切换
 
 当前 IDE 里值得熟练的 slash commands 是：
 
@@ -120,7 +129,7 @@ IDE 的 Cloud delegation 不是“把终端命令发到另一台机器”这么�
 本地定位问题 -> 选择 Cloud environment -> 委派长任务 -> 回 IDE 看摘要和 diff -> 本地测试/微调 -> 提交
 ```
 
-### 2.3 Queue、Steer 和 side chat 是三种不同的跟进方式
+### 2.4 Queue、Steer 和 side chat 是三种不同的跟进方式
 
 扩展设置中的 `chatgpt.followUpQueueMode` 控制后续消息是：
 
@@ -131,7 +140,7 @@ IDE 的 Cloud delegation 不是“把终端命令发到另一台机器”这么�
 
 任务不应被打断时，用 `/side` 开独立问题。需要把新约束加入下一轮时，用 queue。要纠正当前方向时，才用 steer。
 
-### 2.4 IDE 设置要分两层
+### 2.5 IDE 设置要分两层
 
 Codex agent 设置仍来自共享的 `config.toml`；扩展行为设置使用编辑器自己的 `chatgpt.*` 键。常用项包括：
 
@@ -146,7 +155,7 @@ Codex agent 设置仍来自共享的 `config.toml`；扩展行为设置使用编
 
 `chatgpt.*` 不要写进 `config.toml`。共享模型、审批、沙箱和 MCP 写入 Codex 配置层；personality 旧字段已弃用，不能继续作为当前回复风格设置。
 
-### 2.5 IDE 里最快的练习
+### 2.6 IDE 里最快的练习
 
 1. 打开一个小仓库，选中一个函数，使用 editor context 让 Codex 解释并补一个 focused test。
 2. 用 `/review` 查看当前改动，设置 `chatgpt.reviewDelivery = inline`，熟悉“摘要、diff、follow-up”闭环。
@@ -329,6 +338,8 @@ GitLab 当前仍是 Beta；GitLab 省略折叠或超大 diff 时，Codex 可能�
 ## 8. 官方资料
 
 - Codex 模型：<https://learn.chatgpt.com/docs/models?surface=cli>
+- VS Code Marketplace 官方扩展：<https://marketplace.visualstudio.com/items?itemName=openai.chatgpt>
+- 0.165.0 官方发布记录：<https://github.com/openai/codex/releases/tag/rust-v0.165.0>
 - IDE 扩展：<https://learn.chatgpt.com/docs/codex/ide>
 - IDE 命令：<https://learn.chatgpt.com/docs/developer-commands?surface=ide>
 - IDE 设置：<https://learn.chatgpt.com/docs/developer-settings?surface=ide>
@@ -363,9 +374,11 @@ Get-AppxPackage -Name OpenAI.Codex | Select-Object Name,Version
 
 每周复核一个可验收的小任务：read → change → review → test。新命令若未出现在当前菜单，先确定自己在 CLI、IDE 还是桌面 App，再查是否 platform/feature/server/account 门控；不要为了找按钮切到 alpha 或手工启用所有开发中开关。
 
-- [稳定版发布记录](https://github.com/openai/codex/releases/tag/rust-v0.162.1)
+- [稳定版发布记录](https://github.com/openai/codex/releases/tag/rust-v0.165.0)
+- [0.164.0](https://github.com/openai/codex/releases/tag/rust-v0.164.0)
+- [0.163.0](https://github.com/openai/codex/releases/tag/rust-v0.163.0)
 - [0.162.0](https://github.com/openai/codex/releases/tag/rust-v0.162.0)
 - [0.161.0](https://github.com/openai/codex/releases/tag/rust-v0.161.0)
 - [0.159.0](https://github.com/openai/codex/releases/tag/rust-v0.159.0)
 - [0.156.0](https://github.com/openai/codex/releases/tag/rust-v0.156.0)
-- [模型目录](https://github.com/openai/codex/blob/rust-v0.162.1/codex-rs/models-manager/models.json)
+- [模型目录](https://github.com/openai/codex/blob/rust-v0.165.0/codex-rs/models-manager/models.json)

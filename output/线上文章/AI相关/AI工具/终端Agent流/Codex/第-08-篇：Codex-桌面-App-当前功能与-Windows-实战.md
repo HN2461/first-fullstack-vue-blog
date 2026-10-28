@@ -22,14 +22,14 @@ originalId: "6a6b691f4bf50146e9b95e6c"
 originalSlug: "ai-agent-codex-desktop-app-windows-workflow-20260726"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.559Z"
-updatedAt: "2026-10-12T15:03:19.053Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 08 篇：Codex 桌面 App 当前功能与 Windows 实战
 
-> 更新时间：2026-10-12。
-> 本机版本复核：Windows Store 包 `OpenAI.Codex 26.1007.2314.0`，PATH 当前 CLI 为 `codex-cli 0.162.1`。只读取包信息和帮助，未打开 App 或执行界面操作。
-> 核对范围：CLI 接口与配置按稳定版 `0.162.1` 的帮助、配置 schema 和官方发布记录核实；官方网页直接抓取返回 403，产品资料另参考官方文档的检索索引。桌面/IDE 的账号权限与灰度界面不据此推定。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-10-28。
+> 本机版本复核（2026-10-28）：Windows Store 包 `OpenAI.Codex 26.1021.3705.0`，PATH 当前 CLI 为 `codex-cli 0.162.1`。只读取包信息和帮助，未打开 App 或执行界面操作；远端 npm 稳定版已到 `0.165.0`。
+> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
 > 产品名称：从桌面版 `26.707` 起，Codex 已并入 macOS 和 Windows 的 **ChatGPT desktop app**；原 Codex App 用户正常更新即可保留项目、设置和工作流。
 > 定位：桌面 App 主手册。以后 App 的版本、多文件夹项目、Voice、Local / Worktree / Cloud、PR Chat、Browser、Computer Use、Scheduled tasks、Remote、插件和 Windows 差异统一在本篇维护。
 > 时效边界：CLI 发布资料已核对到 2026 年 10 月；本篇既有桌面功能时间表保留为历史功能索引，最新界面未逐项实测。账号、平台、地区和组织策略仍会影响实际界面。本文的版本号只代表本机复核时点，不是读者必须追齐的固定版本。
@@ -59,6 +59,16 @@ CLI 仍然更适合透明排错、脚本化执行、CI 和精确检查配置来�
 
 ---
 
+## 1.1 2026-10-28 三端版本与职责矩阵
+
+| 入口 | 当前可核对版本/身份 | 适合做什么 | 版本边界 |
+|---|---|---|---|
+| CLI | 本机 `codex-cli 0.162.1`；远端 npm `0.165.0` | 脚本、CI、透明排错、精确权限和配置 | npm 升级不会自动更新 Windows Store App |
+| VS Code 扩展 | Marketplace `openai.chatgpt`，页面版本 `26.51021.22027` | 读取 opened/selected context、侧边栏对话、编辑/预览、Cloud 委派 | 扩展版本与 CLI/App 分开发布；登录和 Cloud 受账号/工作区控制 |
+| ChatGPT desktop app | 本机 `OpenAI.Codex 26.1021.3705.0` | 多文件夹、Local/Worktree/Cloud、Git/Review、Browser、Computer Use、Scheduled tasks | Windows/macOS 功能和 rollout 可能不同 |
+
+这个矩阵用于排错时先定位入口：CLI 命令缺失查 CLI，扩展侧边栏或 Cloud 任务查 Marketplace 扩展，项目/工作树/桌面操作查 App。不要因为三个入口都叫 Codex 就假设它们的版本号、登录态和功能开关相同。
+
 ## 2. 怎么确认 App 版本和更新入口
 
 ### 2.1 Windows 查看安装包版本
@@ -72,10 +82,10 @@ Get-AppxPackage -Name OpenAI.Codex |
 
 ```text
 Name: OpenAI.Codex
-Version: 26.1007.2314.0
+Version: 26.1021.3705.0
 ```
 
-不要把 `ChatGPT.exe` 显示的 Chromium 文件版本当成桌面产品版本。Windows Store 包的 `Version` 才适合记录本机安装基线。
+不要把 `ChatGPT.exe` 显示的 Chromium 文件版本当成桌面产品版本。Windows Store 包的 `Version` 才适合记录本机安装基线；CLI 则单独记录 `codex --version`，两者不要合并成一个“Codex 版本”。
 
 ### 2.2 从终端打开 App
 
@@ -633,9 +643,9 @@ codex app-server daemon --help
 
 - ChatGPT desktop app：<https://developers.openai.com/codex/app>
 - Changelog：<https://learn.chatgpt.com/docs/changelog>
-- Worktrees：<https://developers.openai.com/codex/app/worktrees>
-- Local environments：<https://developers.openai.com/codex/app/local-environments>
-- Scheduled tasks：<https://developers.openai.com/codex/app/automations>
+- Worktrees：<https://developers.openai.com/codex/environments/git-worktrees>
+- Local environments：<https://developers.openai.com/codex/environments/local-environment>
+- Scheduled tasks：<https://developers.openai.com/codex/automations>
 - Code review / PR：<https://learn.chatgpt.com/docs/code-review?surface=app>
 - Browser / Developer mode：<https://learn.chatgpt.com/docs/browser?surface=app>
 - Computer Use：<https://learn.chatgpt.com/docs/computer-use>
@@ -645,6 +655,8 @@ codex app-server daemon --help
 - Windows App：<https://learn.chatgpt.com/docs/windows/windows-app>
 - Troubleshooting：<https://learn.chatgpt.com/docs/reference/troubleshooting>
 - Plugins：<https://learn.chatgpt.com/docs/plugins?surface=app>
+- VS Code Marketplace 官方扩展：<https://marketplace.visualstudio.com/items?itemName=openai.chatgpt>
+- Codex CLI 稳定发布：<https://github.com/openai/codex/releases/tag/rust-v0.165.0>
 
 近期功能总览与 IDE/CLI 对照见[第九篇：Codex 近期功能雷达与三端快速上手](/console/articles/ai-agent-codex-current-feature-radar-20260913)。
 

@@ -1,7 +1,7 @@
 ---
 title: "第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错"
 slug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
-summary: "按 2026-10-12 Claude Code 2.1.296 官方 Commands、Skills、MCP、Plugins、Interactive Mode、Agent View 与 Changelog 更新，重新整理 /mcp、/skills、/plugin、权限提示、后台会话、全量斜杠命令和常见排错路径。"
+summary: "按 2026-10-28 Claude Code 2.1.312 官方 Commands、Skills、MCP、Plugins、Interactive Mode、Agent View 与 Changelog 更新，重新整理 /mcp、/skills、/plugin、权限提示、后台会话、全量斜杠命令和常见排错路径。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,12 +22,15 @@ originalId: "6a2d291d8a2b1c68f2cabf3e"
 originalSlug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
 originalStatus: "published"
 publishedAt: "2026-05-30T09:36:22.756Z"
-updatedAt: "2026-10-12T15:17:34.433Z"
+updatedAt: "2026-10-28T13:43:14.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错
 
-> 本文按 2026-10-12 官方页面和 Claude Code `2.1.296` 核验。终端里的英文词、命令和状态项会随版本、账号、Provider、插件和组织策略变化；本文先解释判断方法，再给当前 Commands 页面抓到的完整命令索引。
+> 本文按 2026-10-28 官方页面和 Claude Code `2.1.312` 核验。终端里的英文词、命令和状态项会随版本、账号、Provider、插件和组织策略变化；本文先解释判断方法，再给当前 Commands 页面抓到的完整命令索引。
+
+
+> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
 
 [[toc]]
 
@@ -201,9 +204,24 @@ claude --plugin-dir ./my-plugin
 
 ---
 
+## 0.1 2.1.312 之后先记住的变化
+
+现有 119 条命令表可以继续作为查表底稿，但 2.1.312 还应注意：
+
+| 变化 | 实际影响 |
+|---|---|
+| Cloud scheduled tasks 的模型选择器增加 effort | 创建或编辑 `/schedule` 任务时，模型和 effort 要一起核对；Cloud 任务不会继承本地 CLI 的模型状态 |
+| Cloud environment 的 setup script 有 Bash 编辑器 | 可在云端设置里直接查看颜色、行号和复制脚本，提交前仍应审查 secrets、网络和安装来源 |
+| Hooks 每个 session 最多 24 个并发，最多 12 个超时等待 | subagent hooks 也计入限制；不要把每个小动作都挂成并发 hook |
+| VS Code 登录后 managed settings / policy 刷新修复 | 登录后重新打开扩展或检查 Settings，确认组织策略已经到位 |
+| `/model`、`/effort` 中途切换缓存警告修复 | 中途切模型后仍要看 `/status`，不要把 UI 提示消失当成模型已经可用 |
+| Remote Control、Cloud 和 Code Review 持续修复 | 远程会话问题先区分本地 CLI、Remote Control 客户端和 Cloud environment，再查日志 |
+
+官方命令、Skills、Plugins、MCP 和账号权限会随 Provider、计划和组织策略变化；命令表适合查“这个词是什么意思”，实际可用性仍以当前 `/help`、`/status` 和官方 Changelog 为准。
+
 ## 六、当前官方斜杠命令完整索引
 
-以下 119 条来自 2026-10-12 访问的官方 Commands 页面。`Purpose` 保留官方原文摘要，便于用英文命令名和官方页面交叉检索；是否显示仍受版本、账号、Provider、Plugin 和组织策略影响。已移除的命令也可能出现在旧教程中，文末另列。
+以下 119 条来自 2026-10-28 访问的官方 Commands 页面。`Purpose` 保留官方原文摘要，便于用英文命令名和官方页面交叉检索；是否显示仍受版本、账号、Provider、Plugin 和组织策略影响。已移除的命令也可能出现在旧教程中，文末另列。
 
 | Command | Purpose（官方原文摘要） |
 | --- | --- |
@@ -467,9 +485,9 @@ claude --debug=mcp
 
 ## 十一、参考资料
 
-本文核验日期：2026-10-12；版本快照：Claude Code `2.1.296`。
+本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
 
-- 官方 Commands：https://code.claude.com/docs/en/commands
+- 官方 Commands：https://code.claude.com/docs/en/cli-reference
 - 官方 CLI Reference：https://code.claude.com/docs/en/cli-reference
 - Interactive mode：https://code.claude.com/docs/en/interactive-mode
 - Skills：https://code.claude.com/docs/en/skills
@@ -482,3 +500,10 @@ claude --debug=mcp
 - Claude Code GitHub Releases：https://github.com/anthropics/claude-code/releases
 
 第三方 Skill、MCP server、Plugin 和配置切换器的界面可能不同；排障时永远保留 `claude --version`、`/status`、`/mcp`、`/skills` 和错误日志，方便对照版本与来源。
+
+- https://code.claude.com/docs/en/cli-reference
+- https://code.claude.com/docs/en/changelog
+- https://github.com/anthropics/claude-code/releases/tag/v2.1.312
+- VS Code 扩展：https://code.claude.com/docs/en/vs-code
+- VS Code Marketplace：https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code
+- Desktop：https://code.claude.com/docs/en/desktop
