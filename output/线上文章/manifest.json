@@ -6986,7 +6986,7 @@
       "title": "第 05 篇：前端开发常用 Skills 清单与落地顺序（2026-10复核）",
       "summary": "面向前端开发者，按“现成可用 + 建议自定义”整理常用 Skills，并给出和 MCP、Rules 的协作边界、触发词示例与团队落地顺序。",
       "cover": "",
-      "contentHash": "f4627d4f5b20b74cf692c9c2c0688eed329a28a28248f3fcd4086c09f3c09256",
+      "contentHash": "2df481ed518576d58479e7072a047ec6d352978a1cc775f238fc02061c25c662",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7016,7 +7016,7 @@
       "title": "第 03 篇：前端开发常用 MCP 清单与选型建议（2026-10复核）",
       "summary": "面向前端开发者，按“资料检索、浏览器自动化、设计协作、组件生成”四类高频场景整理常用 MCP，补齐官方入口、适用边界与推荐组合。",
       "cover": "",
-      "contentHash": "f7ad47311afd4d3db757b5cb42bdebdd1b9db2b934eebb94642012d6701096b4",
+      "contentHash": "22c008bced9de03614d48a679cefd41e19d7935bca0958dd36b7161bade57b41",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7045,7 +7045,7 @@
       "title": "第 02 篇：Agent Skills 场景模板与案例库",
       "summary": "按 2026-10-30 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。",
       "cover": "",
-      "contentHash": "d5373cd07dfdb3a25a9bb0e1c12250ad5fb3415b3471a587cbde88e6baac5eb9",
+      "contentHash": "ae71f491e946cf366a66edc2c6bc957ae65afdb2f157db6f31fd2866e2610896",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7076,7 +7076,7 @@
       "title": "第 02 篇：常用 MCP 分类与选型总览",
       "summary": "以“能力分类”而不是“单个工具”来组织常用 MCP 清单，帮助前端开发者在面试和项目中快速判断该接入哪一类 MCP server。",
       "cover": "",
-      "contentHash": "e11353d7734d28fb0441e31cedcc39afb103dd59aac3936b9afc4ea05452fb40",
+      "contentHash": "970fd98067e6741ba19d793b83d1597977d85b9ba864e73475f253bb67658825",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7105,7 +7105,7 @@
       "title": "第 04 篇：Agent Skills 团队协作与社区资源",
       "summary": "按 2026-10-30 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。",
       "cover": "",
-      "contentHash": "8304ef3010dcf3c4a1af4df9502802b7986047f33b62b3a6844b1b381dd64d0b",
+      "contentHash": "fd384dbf8b1e053268699fdea6aa53ac62569563e05332fba058a7edaaaf238b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7137,7 +7137,7 @@
       "title": "第 03 篇：Agent Skills 高级用法与进阶技巧",
       "summary": "按 2026-10-30 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。",
       "cover": "",
-      "contentHash": "5aa69f7c1ec53898d9d57f8e2604db73eebfd60b9a94a5babd284fd2416650e0",
+      "contentHash": "697190f7fe10003f38e458d7d543c483f998f8534123cec1c6c4fc4179337c4a",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7168,7 +7168,7 @@
       "title": "第 01 篇：Agent Skills 开放标准与各工具兼容性全解",
       "summary": "按 2026-10-30 重新复核 Agent Skills 的通用层与工具差异，重点说明哪些属于可移植基础层、哪些是 Kiro / Codex / Cursor / Claude 当前官方支持的 skills 能力，以及哪些旧说法需要纠正。",
       "cover": "",
-      "contentHash": "2b6bc6b39ae046e93d31b5971ea9ee2b0808a538f472b8cf131238bab09e8f2e",
+      "contentHash": "d05285aaf91924a09dd34bfa29285633d62a19df5b34177088fcc5b3c3727db7",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7199,7 +7199,7 @@
       "title": "第 04 篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地",
       "summary": "通过对比矩阵、选型决策树和团队协作策略，帮助开发者在 Plugin、Skill、MCP、Rules 四大扩展机制中做出更稳妥的选择，并给出 Codex、Claude Code 与无独立 Plugin 体系工具的落地方案。",
       "cover": "",
-      "contentHash": "2a1537a17e1e4bd1883b715346fe16a1b2e313194278b1f24f3b1cc8e91fe935",
+      "contentHash": "b60b59df5a0fb0bf5bb346b492e35c15657241638e7d7ef9133321470b10d00b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7231,7 +7231,7 @@
       "title": "第 03 篇：Claude Code Plugin 体系详解与实战",
       "summary": "深入解析 Claude Code Plugin 的定位、scope、官方与社区 marketplace、manifest 规则、`/plugin` 命令族，以及前端开发者可以怎样把 Skills、Commands、Hooks、MCP 等能力打包成可安装插件。",
       "cover": "",
-      "contentHash": "be131141b6ece1dac1be391abcad65322ef56da2c35db201dffe222c4533f48b",
+      "contentHash": "1871351cbd6ec575869e2120c02573d7ed663340edb60a2402563ec5b8281473",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7262,7 +7262,7 @@
       "title": "第 02 篇：Codex Plugin 体系详解与实战",
       "summary": "深入解析 Codex Plugin 的目录结构、manifest 形态、官方 `openai/plugins` 仓库、本机实装目录，以及 `codex plugin marketplace` 的配置与管理方式，帮助开发者更稳地理解 Codex 插件体系。",
       "cover": "",
-      "contentHash": "6e39209e588182c8e1b07a54db865b29585ddd9bbe31583cb52a8efece139600",
+      "contentHash": "09c7c60dbedcca3451a2de5f6e7f80ca502e2a947e37edee74a07ce9b08d9096",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7293,7 +7293,7 @@
       "title": "第 01 篇：Plugin 插件是什么，为什么需要它",
       "summary": "从“功能分散、难以共享”的痛点出发，解释 Plugin 的本质、解决的核心问题，横向对比 Plugin 与 Skill、MCP、Rules 的区别，并速览主流 AI 编程工具的 Plugin 支持现状。",
       "cover": "",
-      "contentHash": "60b126d63cb424075327881530b5a73de17282fa7c2cd7ba3df938d8c0bcf9b3",
+      "contentHash": "0b53ffe88e4ea98b36e7de81e6bba738044a360778f94bd4787b5db853b9e999",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7324,7 +7324,7 @@
       "title": "第 06 篇：MCP 项目落地与收益评估问题",
       "summary": "围绕如何选型、如何从 0 到 1 接入、怎样评估收益与推广顺序，适合项目经验和实战追问场景。",
       "cover": "",
-      "contentHash": "2a32ce29c65c37844838eb0f57961dd2eab03cfa72ad0a21f24d7c17fe4994d6",
+      "contentHash": "d54a1ec0f52c11cb84e3acde56ac6c0300128ba77439216486e8b55a54d25284",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7352,7 +7352,7 @@
       "title": "第 05 篇：MCP 架构与安全边界问题",
       "summary": "围绕 Host、Client、Server、能力原语以及安全治理边界展开，适合二面或追问环节使用。",
       "cover": "",
-      "contentHash": "495480a3dbdd584997aff6f8e23b6e41cf8ed259b52abc1fa79baa3462417c1c",
+      "contentHash": "c50190bb64c75ea4bb0b512f04286f0926414ea5cfe994c5f7c67e5f9fbb873d",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7380,7 +7380,7 @@
       "title": "第 04 篇：MCP 概念与主流度问题",
       "summary": "聚焦 MCP 是什么、为什么火、与插件和 function calling 的区别，适合作为第一轮面试的高频基础题库。",
       "cover": "",
-      "contentHash": "9c2e6bd4105709c1ed3a37c13b00544fdda3d947a02faafeff836a62c12a1645",
+      "contentHash": "86f5be0dabbe65476e2c747f36a8da4a93470e2153b1ea89554b90111c066e43",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7438,7 +7438,7 @@
       "title": "第 01 篇：MCP 是什么与开放标准核心认知",
       "summary": "从零解释 MCP 的定义、组成、工作流程、价值边界与安全治理，建立“协议层认知”而不是“某个单一 MCP 工具教程”的视角。",
       "cover": "",
-      "contentHash": "790338bba82416728bf759805c194eada5a583b00f34258bffd274b71bd3128e",
+      "contentHash": "2209a3ec4d4458f39016d41aed2d194e29920819eed2ae07a9809d9f20ba7a9a",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7637,7 +7637,7 @@
       "title": "第 07 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）",
       "summary": "面向需要在 Windows 上快速复刻 Chrome DevTools MCP 的开发者，整理 Codex 环境下的配置、验证和排障步骤，并解释为什么这类资料应归在 MCP 分类而不是单一终端工具分类。",
       "cover": "",
-      "contentHash": "5f5329b622ef1cb0f8eda75d46e89765d32d3994d8458a890d8d3000cabb2f07",
+      "contentHash": "d35d0cfaa9c2706906c11f8756528a4f282bc34254f62726c080505299e6d56a",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7812,7 +7812,7 @@
       "title": "第 05 篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件",
       "summary": "详解 Gemini CLI 的 GEMINI.md 三层加载机制、JIT 即时上下文、/memory 命令族与模块化导入语法，以及 GitHub Copilot 的双格式指令系统（copilot-instructions.md 与 .github/instructions/）和 AGENTS.md 支持情况。",
       "cover": "",
-      "contentHash": "82ffba23cc13ecc3cb7c07423ea2523c586c89738b2d127c0b57037d1c891728",
+      "contentHash": "ff72848ce4a415020ee09f53c6d0bbfd2d77f44c2ef68c3dd0932e12bb0e2dd7",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7841,7 +7841,7 @@
       "title": "第 04 篇：Cursor Rules、Devin-Windsurf Rules、Kiro Steering 实战",
       "summary": "深度对比 Cursor、Devin Desktop / Windsurf、Kiro 三大工具的规则文档系统，包括 Cursor MDC 四种规则类型、Windsurf 到 Devin 的规则路径变化、Kiro Steering 四种 inclusion 模式与全局/团队 Steering，附完整实战配置示例。",
       "cover": "",
-      "contentHash": "cd0b3069350dec562c82e0d57e159e79efe09cec51b1f3257b82af3832866ac8",
+      "contentHash": "b2b554083d774e42546f71f6d5f6cf37d22727b97fd3cfd4c98efe9067e57212",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7870,7 +7870,7 @@
       "title": "第 03 篇：CLAUDE.md 与 Claude Code 记忆系统",
       "summary": "深度解析 Claude Code 的完整记忆系统，包括 CLAUDE.md 四层文件层级、@import 语法、.claude/rules/ 路径作用域规则、Auto Memory 自动记忆机制，以及 /memory 命令的使用与调试技巧。",
       "cover": "",
-      "contentHash": "760d8fa4d18c89cb7523a64b845b910454f01d4f0646553c093e99558a3bcd0b",
+      "contentHash": "82e8ec28bc13a215c23a1bf8c0cfdf47f39b7b9bc7dbd9d7b5e0ba977b442e8b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7899,7 +7899,7 @@
       "title": "第 02 篇：AGENTS.md 开放标准完全指南",
       "summary": "深度解析 AGENTS.md 开放标准的起源、格式规范、多级目录结构、各工具支持情况与优先级规则，附三套开箱即用的项目模板和高质量写作指南。",
       "cover": "",
-      "contentHash": "f7497b33a162196cba5d682e58671a221636c0a2759fda2f1c0c1879ea0ab26e",
+      "contentHash": "20ae3b13a3121ea081bdc493d9a06a1bb85df1a0cc27adce07b6b1afe12fd99f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7928,7 +7928,7 @@
       "title": "第 01 篇：AI 工具规则文档是什么，为什么需要它",
       "summary": "从\\",
       "cover": "",
-      "contentHash": "bab09ef31ccdb9d48fe8802dcf480464d7f3c577b8ca79778b106e1828bf0d09",
+      "contentHash": "13feb624c3a6877f263fc77cbd2b03188bed6cc8b7f1840bc435f282900ff834",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7957,7 +7957,7 @@
       "title": "第 00 篇：MCP 学习导航与维护路线",
       "summary": "面向前端开发者的 MCP 导航页，采用“概念原理 + 常用清单 + 面试题库 + 实战复盘”双线结构，先建立协议认知，再沉淀常用 MCP 库与个人实践。",
       "cover": "",
-      "contentHash": "096d9a3085e46b992551cd5277f4ee6fb98073d4687869694194782f2dfd23b0",
+      "contentHash": "a3b9e3e7caf2dd4294988fea3b430efe10b116390feb81574cab6a47f061ebb8",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
