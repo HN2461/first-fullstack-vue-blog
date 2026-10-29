@@ -1,5 +1,19 @@
 import mongoose from 'mongoose'
 
+const attendanceRuleSchema = new mongoose.Schema({
+  morningStartTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  morningEndTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  lunchBreakStartTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  lunchBreakEndTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  afternoonStartTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  afternoonEndTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  eveningBreakStartTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  eveningBreakEndTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  overtimeStartTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+  weeklyOvertimeTargetMinutes: { type: Number, default: 420, min: 0, max: 10080 },
+  workdays: { type: [Number], default: [1, 2, 3, 4, 5] }
+}, { _id: false })
+
 const employmentSchema = new mongoose.Schema(
   {
     company: { type: String, required: true, trim: true, maxlength: 120 },
@@ -13,6 +27,7 @@ const employmentSchema = new mongoose.Schema(
     workSchedule: { type: String, default: '', enum: ['', '双休', '单休', '大小周', '轮班制', '不固定', '其他'] },
     workStartTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
     workEndTime: { type: String, default: '', match: /^$|^(?:[01]\d|2[0-3]):[0-5]\d$/ },
+    attendanceRule: { type: attendanceRuleSchema, default: () => ({}) },
     departureContactName: { type: String, default: '', trim: true, maxlength: 80 },
     departureContactPhone: { type: String, default: '', trim: true, maxlength: 40 },
     departureContactEmail: { type: String, default: '', trim: true, maxlength: 160 },
@@ -40,6 +55,19 @@ employmentSchema.methods.toSafeJSON = function toSafeJSON() {
     workSchedule: this.workSchedule || '',
     workStartTime: this.workStartTime || '',
     workEndTime: this.workEndTime || '',
+    attendanceRule: {
+      morningStartTime: this.attendanceRule?.morningStartTime || this.workStartTime || '',
+      morningEndTime: this.attendanceRule?.morningEndTime || '',
+      lunchBreakStartTime: this.attendanceRule?.lunchBreakStartTime || '',
+      lunchBreakEndTime: this.attendanceRule?.lunchBreakEndTime || '',
+      afternoonStartTime: this.attendanceRule?.afternoonStartTime || '',
+      afternoonEndTime: this.attendanceRule?.afternoonEndTime || this.workEndTime || '',
+      eveningBreakStartTime: this.attendanceRule?.eveningBreakStartTime || '',
+      eveningBreakEndTime: this.attendanceRule?.eveningBreakEndTime || '',
+      overtimeStartTime: this.attendanceRule?.overtimeStartTime || this.attendanceRule?.eveningBreakEndTime || this.workEndTime || '',
+      weeklyOvertimeTargetMinutes: this.attendanceRule?.weeklyOvertimeTargetMinutes ?? 420,
+      workdays: Array.isArray(this.attendanceRule?.workdays) ? this.attendanceRule.workdays : [1, 2, 3, 4, 5]
+    },
     departureContactName: this.departureContactName || '',
     departureContactPhone: this.departureContactPhone || '',
     departureContactEmail: this.departureContactEmail || '',

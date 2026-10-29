@@ -37,6 +37,7 @@ const MemoPage = () => import('@/views/console/MemoPage/index.vue')
 const WorkLogListPage = () => import('@/views/console/WorkJournalPage/WorkLogListPage.vue')
 const WorkReportPage = () => import('@/views/console/WorkJournalPage/WorkReportPage.vue')
 const WorkEmploymentPage = () => import('@/views/console/WorkJournalPage/WorkEmploymentPage.vue')
+const WorkTimeStatsPage = () => import('@/views/console/WorkJournalPage/WorkTimeStatsPage.vue')
 const TodoPage = () => import('@/views/console/TodoPage/index.vue')
 const DiscussionPage = () => import('@/views/console/DiscussionPage/index.vue')
 const BookmarkPage = () => import('@/views/console/BookmarkPage/index.vue')
@@ -225,6 +226,12 @@ export const router = createRouter({
           name: 'ConsoleWorkJournalEmployments',
           component: WorkEmploymentPage,
           meta: { title: '工作日记 · 工作经历', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'work-journal/attendance',
+          name: 'ConsoleWorkJournalAttendance',
+          component: WorkTimeStatsPage,
+          meta: { title: '工作日记 · 工时统计', requiresAuth: true, requiresMenuAccess: true }
         },
         {
           path: 'work-journal/trash',

@@ -13,6 +13,8 @@ import { permanentlyDeleteWorkJournalMedia } from '#modules/media/services/media
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { decryptWorkMaterialField, encryptWorkMaterialField } from '#utils/workMaterialFieldEncryption.js'
+import { calculateAttendance, isAttendanceRuleConfigured, normalizeAttendanceRule, validateAttendanceRule } from '#modules/workJournal/utils/attendance.js'
+import { getBusinessDate } from '#utils/businessDate.js'
 
 const MAX_REVISIONS = 20
 const MIME_EXTENSIONS = Object.freeze({
@@ -95,6 +97,7 @@ export async function createEmployment(userId, input) {
     assertDate(input.endedOn)
     if (input.endedOn < input.startedOn) throw createError(400, 'EMPLOYMENT_DATE_ORDER_INVALID', '离职日期不能早于入职日期')
   }
+  validateAttendanceRule(input.attendanceRule)
   const employment = await Employment.create({ ...input, createdBy: userId })
   return employment.toSafeJSON()
 }
@@ -108,7 +111,15 @@ export async function updateEmployment(id, userId, input) {
     assertDate(endedOn)
     if (endedOn < startedOn) throw createError(400, 'EMPLOYMENT_DATE_ORDER_INVALID', '离职日期不能早于入职日期')
   }
-  Object.assign(employment, input)
+  const updateData = { ...input }
+  if (input.attendanceRule) {
+    updateData.attendanceRule = {
+      ...(employment.attendanceRule?.toObject?.() || employment.attendanceRule || {}),
+      ...input.attendanceRule
+    }
+    validateAttendanceRule(updateData.attendanceRule)
+  }
+  Object.assign(employment, updateData)
   await employment.save()
   return employment.toSafeJSON()
 }
@@ -254,16 +265,25 @@ export async function listWorkLogs(userId, filters = {}) {
     WorkLog.find(query).sort({ workDate: -1, updatedAt: -1 }).skip((page - 1) * pageSize).limit(pageSize),
     WorkLog.countDocuments(query)
   ])
-  return { items: items.map((item) => item.toSafeJSON()), total, page, pageSize }
+  const employmentIds = [...new Set(items.map((item) => toId(item.employment)).filter(Boolean))]
+  const employmentItems = await Employment.find({ _id: { $in: employmentIds }, createdBy: userId })
+  const employmentMap = new Map(employmentItems.map((item) => [item._id.toString(), item]))
+  return {
+    items: items.map((item) => withAttendance(item, employmentMap.get(toId(item.employment)))),
+    total,
+    page,
+    pageSize
+  }
 }
 
 export async function getWorkLog(id, userId) {
   const log = await findOwnedWorkLog(id, userId, { includeDeleted: true })
-  return log.toSafeJSON()
+  const employment = await findOwnedEmployment(log.employment, userId)
+  return withAttendance(log, employment)
 }
 
 export async function createWorkLog(userId, input) {
-  await findOwnedEmployment(input.employmentId, userId)
+  const employment = await findOwnedEmployment(input.employmentId, userId)
   assertDate(input.workDate)
   const status = input.status || 'draft'
   if (status === 'final' && !input.summary?.trim() && !input.accomplishments?.trim() && !input.contentMarkdown?.trim()) {
@@ -277,11 +297,18 @@ export async function createWorkLog(userId, input) {
       finalizedAt: status === 'final' ? new Date() : null,
       createdBy: userId
     })
-    return log.toSafeJSON()
+    return withAttendance(log, employment)
   } catch (error) {
     if (error?.code === 11000) throw createError(409, 'WORK_LOG_DATE_EXISTS', '该工作经历在这一天已有日记')
     throw error
   }
+}
+
+function withAttendance(log, employment) {
+  const data = log.toSafeJSON()
+  const rule = normalizeAttendanceRule(employment?.attendanceRule, employment || {})
+  data.attendance = calculateAttendance(log.workHours ?? 8, log.workDate, rule, employment || {})
+  return data
 }
 
 function captureRevision(log) {
@@ -337,7 +364,8 @@ export async function updateWorkLog(id, userId, input) {
   }
   if (input.status) log.status = input.status
   await log.save()
-  return log.toSafeJSON()
+  const employment = await findOwnedEmployment(log.employment, userId)
+  return withAttendance(log, employment)
 }
 
 function detectImageMime(buffer) {
@@ -543,7 +571,7 @@ function getReportRange(period, anchorDate) {
 }
 
 export async function getWorkReport(userId, filters = {}) {
-  await findOwnedEmployment(filters.employmentId, userId)
+  const employment = await findOwnedEmployment(filters.employmentId, userId)
   const { from, to } = getReportRange(filters.period, filters.date)
   const logs = await WorkLog.find({ createdBy: userId, employment: filters.employmentId, deletedAt: null, workDate: { $gte: from, $lte: to } })
     .sort({ workDate: 1 })
@@ -552,7 +580,38 @@ export async function getWorkReport(userId, filters = {}) {
     from,
     to,
     employmentId: filters.employmentId,
-    items: logs.map((item) => item.toSafeJSON())
+    items: logs.map((item) => withAttendance(item, employment))
+  }
+}
+
+export async function getAttendanceSummary(userId, filters = {}) {
+  const employment = await findOwnedEmployment(filters.employmentId, userId)
+  const { from, to } = getReportRange('week', filters.date || getBusinessDate())
+  const logs = await WorkLog.find({
+    createdBy: userId,
+    employment: employment._id,
+    deletedAt: null,
+    workDate: { $gte: from, $lte: to }
+  }).sort({ workDate: 1, updatedAt: 1 })
+  const items = logs.map((item) => withAttendance(item, employment))
+  const totals = items.reduce((result, item) => {
+    result.totalMinutes += item.attendance.totalMinutes
+    result.normalMinutes += item.attendance.normalMinutes
+    result.overtimeMinutes += item.attendance.overtimeMinutes
+    return result
+  }, { totalMinutes: 0, normalMinutes: 0, overtimeMinutes: 0 })
+  const normalizedRule = normalizeAttendanceRule(employment.attendanceRule, employment)
+  const targetMinutes = normalizedRule.weeklyOvertimeTargetMinutes
+  return {
+    employment: employment.toSafeJSON(),
+    from,
+    to,
+    targetMinutes,
+    ruleConfigured: isAttendanceRuleConfigured(normalizedRule, employment),
+    ...totals,
+    remainingMinutes: Math.max(targetMinutes - totals.overtimeMinutes, 0),
+    excessMinutes: Math.max(totals.overtimeMinutes - targetMinutes, 0),
+    items
   }
 }
 

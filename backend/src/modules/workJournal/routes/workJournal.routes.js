@@ -22,6 +22,7 @@ import {
   listWorkMaterials,
   getWorkLog,
   getWorkJournalMediaContent,
+  getAttendanceSummary,
   listWorkReports,
   listWorkLogs,
   permanentlyDeleteWorkLog,
@@ -83,6 +84,7 @@ workJournalRouter.use(requireAnyMenuAccess([
   '/console/work-journal/monthly',
   '/console/work-journal/employments',
   '/console/work-journal/trash',
+  '/console/work-journal/attendance',
   '/console/manage/media'
 ]))
 
@@ -90,9 +92,11 @@ const requireDailyAccess = requireAnyMenuAccess(['/console/work-journal/daily'])
 const requireReportAccess = requireAnyMenuAccess(['/console/work-journal/weekly', '/console/work-journal/monthly'])
 const requireEmploymentAccess = requireAnyMenuAccess(['/console/work-journal/employments'])
 const requireTrashAccess = requireAnyMenuAccess(['/console/work-journal/trash'])
+const requireAttendanceAccess = requireAnyMenuAccess(['/console/work-journal/attendance'])
 const requireEvidenceReadAccess = requireAnyMenuAccess([
   '/console/work-journal/daily',
   '/console/work-journal/trash',
+  '/console/work-journal/attendance',
   '/console/manage/media'
 ])
 
@@ -102,6 +106,7 @@ workJournalRouter.get('/employments', requireAnyMenuAccess([
   '/console/work-journal/monthly',
   '/console/work-journal/employments',
   '/console/work-journal/trash',
+  '/console/work-journal/attendance',
   '/console/manage/media'
 ]), asyncHandler(async (req, res) => {
   res.json(ok(await listEmployments(req.user._id)))
@@ -152,6 +157,13 @@ workJournalRouter.get('/reports', requireDailyAccess, asyncHandler(async (req, r
   res.json(ok(await getWorkReport(req.user._id, {
     employmentId: String(req.query.employmentId || ''),
     period: String(req.query.period || ''),
+    date: String(req.query.date || '')
+  })))
+}))
+
+workJournalRouter.get('/attendance', requireAttendanceAccess, asyncHandler(async (req, res) => {
+  res.json(ok(await getAttendanceSummary(req.user._id, {
+    employmentId: String(req.query.employmentId || ''),
     date: String(req.query.date || '')
   })))
 }))

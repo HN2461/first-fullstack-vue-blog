@@ -17,6 +17,7 @@ const DEFAULT_MENUS = [
   { code: 'knowledge.workJournal.weekly', name: '周报', icon: 'CalendarOutlined', routePath: '/console/work-journal/weekly', routeKey: 'knowledge.work-journal.weekly', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.workJournal.monthly', name: '月报', icon: 'CalendarOutlined', routePath: '/console/work-journal/monthly', routeKey: 'knowledge.work-journal.monthly', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.workJournal.employments', name: '工作经历', icon: 'ProfileOutlined', routePath: '/console/work-journal/employments', routeKey: 'knowledge.work-journal.employments', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 40, type: MENU_TYPES.SYSTEM },
+  { code: 'knowledge.workJournal.attendance', name: '工时统计', icon: 'ClockCircleOutlined', routePath: '/console/work-journal/attendance', routeKey: 'knowledge.work-journal.attendance', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 45, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.workJournal.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/work-journal/trash', routeKey: 'knowledge.work-journal.trash', parentCode: 'knowledge.workJournal', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 50, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.todos', name: '待办清单', icon: 'CheckSquareOutlined', routePath: '/console/todos', routeKey: 'knowledge.todo.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 21, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.tools', name: '工具箱', icon: 'ToolOutlined', routePath: '/console/tools', routeKey: 'knowledge.tools', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 23, type: MENU_TYPES.SYSTEM },
@@ -289,6 +290,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
   let mediaShareMenuCreated = false
   let articleShareMenuCreated = false
   let workJournalMenuCreated = false
+  let workJournalChildCreated = false
   let migrateLegacyWorkJournalGrants = false
 
   for (const menuInput of DEFAULT_MENUS) {
@@ -299,6 +301,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
     let menu = await Menu.findOne({ code: menuInput.code })
     if (!menu) {
       if (menuInput.code.toLowerCase() === 'knowledge.workjournal') workJournalMenuCreated = true
+      if (menuInput.code.toLowerCase().startsWith('knowledge.workjournal.')) workJournalChildCreated = true
       if (menuInput.code === 'content.mediaShares') mediaShareMenuCreated = true
       if (menuInput.code === 'content.articleShares') articleShareMenuCreated = true
       menu = await Menu.create({
@@ -464,7 +467,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
   }
   const workJournalMenu = allMenus.find((menu) => menu.code === 'knowledge.workjournal')
   const workJournalChildren = allMenus.filter((menu) => menu.code?.startsWith('knowledge.workjournal.'))
-  if (knowledgeRootMenu && workJournalMenu && workJournalChildren.length && (workJournalMenuCreated || migrateLegacyWorkJournalGrants)) {
+  if (knowledgeRootMenu && workJournalMenu && workJournalChildren.length && (workJournalMenuCreated || workJournalChildCreated || migrateLegacyWorkJournalGrants)) {
     await Role.updateMany(
       {
         $or: [

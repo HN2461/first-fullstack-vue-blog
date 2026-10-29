@@ -236,6 +236,85 @@ describe('work journal routes', () => {
       .expect(400)
   })
 
+  it('calculates weekly overtime from the employment attendance rule and legacy total hours', async () => {
+    const rule = {
+      morningStartTime: '08:30',
+      morningEndTime: '12:00',
+      lunchBreakStartTime: '12:00',
+      lunchBreakEndTime: '13:30',
+      afternoonStartTime: '13:30',
+      afternoonEndTime: '17:30',
+      eveningBreakStartTime: '17:30',
+      eveningBreakEndTime: '18:30',
+      overtimeStartTime: '18:30',
+      weeklyOvertimeTargetMinutes: 420,
+      workdays: [1, 2, 3, 4, 5]
+    }
+    await request(app)
+      .patch(`/api/work-journal/employments/${employment.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ attendanceRule: rule })
+      .expect(200)
+
+    const partialRuleUpdate = await request(app)
+      .patch(`/api/work-journal/employments/${employment.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ attendanceRule: { weeklyOvertimeTargetMinutes: 480 } })
+      .expect(200)
+    expect(partialRuleUpdate.body.data.attendanceRule).toMatchObject({
+      morningStartTime: '08:30',
+      afternoonEndTime: '17:30',
+      weeklyOvertimeTargetMinutes: 480
+    })
+
+    await request(app)
+      .patch(`/api/work-journal/employments/${employment.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({ attendanceRule: { ...rule, overtimeStartTime: '17:00' } })
+      .expect(400)
+
+    await request(app)
+      .post('/api/work-journal/logs')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ employmentId: employment.id, workDate: '2026-06-01', title: '周一工时', workHours: 9.5, accomplishments: '完成工作' })
+      .expect(201)
+    await request(app)
+      .post('/api/work-journal/logs')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ employmentId: employment.id, workDate: '2026-06-02', title: '周二工时', workHours: 7.5, accomplishments: '完成工作' })
+      .expect(201)
+    await request(app)
+      .post('/api/work-journal/logs')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ employmentId: employment.id, workDate: '2026-06-06', title: '周六工时', workHours: 8, accomplishments: '完成工作' })
+      .expect(201)
+
+    const summary = await request(app)
+      .get('/api/work-journal/attendance')
+      .query({ employmentId: employment.id, date: '2026-06-03' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(summary.body.data).toMatchObject({
+      from: '2026-06-01',
+      to: '2026-06-07',
+      targetMinutes: 480,
+      totalMinutes: 1500,
+      normalMinutes: 900,
+      overtimeMinutes: 600,
+      remainingMinutes: 0,
+      excessMinutes: 120
+    })
+    expect(summary.body.data.items.map((item) => item.attendance.overtimeMinutes)).toEqual([120, 0, 480])
+    expect(summary.body.data.items.every((item) => item.attendance.source === 'rule_inferred')).toBe(true)
+
+    const listed = await request(app)
+      .get('/api/work-journal/logs')
+      .query({ employmentId: employment.id, from: '2026-06-01', to: '2026-06-06' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(listed.body.data.items[0].attendance).toMatchObject({ overtimeMinutes: 480, source: 'rule_inferred' })
+  })
+
   it('snapshots finalized versions and returns a date range report', async () => {
     const first = await request(app)
       .post('/api/work-journal/logs')

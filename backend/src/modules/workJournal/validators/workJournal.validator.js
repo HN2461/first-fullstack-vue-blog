@@ -6,6 +6,20 @@ const timeSchema = z.string().regex(/^(?:[01]\d|2[0-3]):[0-5]\d$/, '时间格式
 const optionalTimeSchema = z.union([z.literal(''), timeSchema]).optional()
 const optionalText = (max) => z.string().trim().max(max).optional()
 
+const attendanceRuleSchema = z.object({
+  morningStartTime: optionalTimeSchema,
+  morningEndTime: optionalTimeSchema,
+  lunchBreakStartTime: optionalTimeSchema,
+  lunchBreakEndTime: optionalTimeSchema,
+  afternoonStartTime: optionalTimeSchema,
+  afternoonEndTime: optionalTimeSchema,
+  eveningBreakStartTime: optionalTimeSchema,
+  eveningBreakEndTime: optionalTimeSchema,
+  overtimeStartTime: optionalTimeSchema,
+  weeklyOvertimeTargetMinutes: z.number().int().min(0).max(10080).optional(),
+  workdays: z.array(z.number().int().min(0).max(6)).min(1, '至少选择一个工作日').max(7).optional()
+}).strict()
+
 export const employmentCreateSchema = z.object({
   company: z.string().trim().min(1, '请输入公司名称').max(120),
   department: z.string().trim().max(120).optional(),
@@ -18,6 +32,7 @@ export const employmentCreateSchema = z.object({
   workSchedule: z.enum(['', '双休', '单休', '大小周', '轮班制', '不固定', '其他']).optional(),
   workStartTime: optionalTimeSchema,
   workEndTime: optionalTimeSchema,
+  attendanceRule: attendanceRuleSchema.optional(),
   departureContactName: optionalText(80),
   departureContactPhone: optionalText(40),
   departureContactEmail: z.string().trim().email('请输入正确的联系人邮箱').max(160).optional().or(z.literal('')),

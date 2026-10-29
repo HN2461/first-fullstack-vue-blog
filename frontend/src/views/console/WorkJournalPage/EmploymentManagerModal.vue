@@ -51,12 +51,58 @@
             <a-form-item label="休息制度">
               <a-select v-model:value="form.workSchedule" :options="workScheduleOptions" show-search option-filter-prop="label" allow-clear placeholder="单双休、大小周等" />
             </a-form-item>
-            <a-form-item label="上班时间">
+          </div>
+          <div class="employment-manager__section-title">考勤规则</div>
+          <a-alert
+            type="info"
+            show-icon
+            message="日报中的总时长会按这里的正常工作段推算正常时长和加班时长；规则调整后可用于重新统计历史日报。"
+            class="employment-manager__attendance-tip"
+          />
+          <div class="employment-manager__grid">
+            <a-form-item label="上午工作时间">
               <div class="employment-manager__time-range">
-                <a-input v-model:value="form.workStartTime" type="time" aria-label="上班开始时间" />
+                <a-input v-model:value="form.attendanceRule.morningStartTime" type="time" aria-label="上午工作开始时间" />
                 <span>至</span>
-                <a-input v-model:value="form.workEndTime" type="time" aria-label="下班结束时间" />
+                <a-input v-model:value="form.attendanceRule.morningEndTime" type="time" aria-label="上午工作结束时间" />
               </div>
+            </a-form-item>
+            <a-form-item label="中午休息时间">
+              <div class="employment-manager__time-range">
+                <a-input v-model:value="form.attendanceRule.lunchBreakStartTime" type="time" aria-label="中午休息开始时间" />
+                <span>至</span>
+                <a-input v-model:value="form.attendanceRule.lunchBreakEndTime" type="time" aria-label="中午休息结束时间" />
+              </div>
+            </a-form-item>
+            <a-form-item label="下午工作时间">
+              <div class="employment-manager__time-range">
+                <a-input v-model:value="form.attendanceRule.afternoonStartTime" type="time" aria-label="下午工作开始时间" />
+                <span>至</span>
+                <a-input v-model:value="form.attendanceRule.afternoonEndTime" type="time" aria-label="下午工作结束时间" />
+              </div>
+            </a-form-item>
+            <a-form-item label="晚间休息时间">
+              <div class="employment-manager__time-range">
+                <a-input v-model:value="form.attendanceRule.eveningBreakStartTime" type="time" aria-label="晚间休息开始时间" />
+                <span>至</span>
+                <a-input v-model:value="form.attendanceRule.eveningBreakEndTime" type="time" aria-label="晚间休息结束时间" />
+              </div>
+            </a-form-item>
+            <a-form-item label="加班开始时间">
+              <a-input v-model:value="form.attendanceRule.overtimeStartTime" type="time" aria-label="加班开始时间" />
+            </a-form-item>
+            <a-form-item label="每周加班目标（小时）">
+              <a-input-number
+                :value="form.attendanceRule.weeklyOvertimeTargetMinutes / 60"
+                :min="0"
+                :max="168"
+                :step="0.5"
+                :precision="1"
+                @update:value="setWeeklyOvertimeTargetHours"
+              />
+            </a-form-item>
+            <a-form-item label="纳入统计的工作日" class="employment-manager__attendance-days">
+              <a-checkbox-group v-model:value="form.attendanceRule.workdays" :options="workdayOptions" />
             </a-form-item>
           </div>
           <div class="employment-manager__section-title">离职联系人</div>
@@ -138,12 +184,44 @@ const editingId = ref('')
 const form = reactive(createEmptyForm())
 const salaryUnitOptions = ['月薪', '年薪', '时薪', '面议', '其他'].map((value) => ({ value, label: value }))
 const workScheduleOptions = ['双休', '单休', '大小周', '轮班制', '不固定', '其他'].map((value) => ({ value, label: value }))
+const workdayOptions = [
+  { value: 1, label: '周一' },
+  { value: 2, label: '周二' },
+  { value: 3, label: '周三' },
+  { value: 4, label: '周四' },
+  { value: 5, label: '周五' },
+  { value: 6, label: '周六' },
+  { value: 0, label: '周日' }
+]
+
+function createBlankAttendanceRule() {
+  return {
+    morningStartTime: '', morningEndTime: '', lunchBreakStartTime: '', lunchBreakEndTime: '',
+    afternoonStartTime: '', afternoonEndTime: '', eveningBreakStartTime: '', eveningBreakEndTime: '',
+    overtimeStartTime: '', weeklyOvertimeTargetMinutes: 420, workdays: [1, 2, 3, 4, 5]
+  }
+}
+
+function createDefaultAttendanceRule() {
+  return {
+    ...createBlankAttendanceRule(),
+    morningStartTime: '08:30',
+    morningEndTime: '12:00',
+    lunchBreakStartTime: '12:00',
+    lunchBreakEndTime: '13:30',
+    afternoonStartTime: '13:30',
+    afternoonEndTime: '17:30',
+    eveningBreakStartTime: '17:30',
+    eveningBreakEndTime: '18:30',
+    overtimeStartTime: '18:30'
+  }
+}
 
 function createEmptyForm() {
   return {
     company: '', department: '', position: '', startedOn: '', endedOn: '',
     probationSalary: '', regularSalary: '', salaryUnit: '', workSchedule: '',
-    workStartTime: '', workEndTime: '', departureContactName: '',
+    workStartTime: '', workEndTime: '', attendanceRule: createDefaultAttendanceRule(), departureContactName: '',
     departureContactPhone: '', departureContactEmail: '', workContent: '',
     companyAddress: '', note: ''
   }
@@ -168,6 +246,12 @@ function edit(item) {
     workSchedule: item.workSchedule || '',
     workStartTime: item.workStartTime || '',
     workEndTime: item.workEndTime || '',
+    attendanceRule: {
+      ...createBlankAttendanceRule(),
+      ...(item.attendanceRule || {}),
+      morningStartTime: item.attendanceRule?.morningStartTime || item.workStartTime || '',
+      afternoonEndTime: item.attendanceRule?.afternoonEndTime || item.workEndTime || ''
+    },
     departureContactName: item.departureContactName || '',
     departureContactPhone: item.departureContactPhone || '',
     departureContactEmail: item.departureContactEmail || '',
@@ -181,7 +265,9 @@ async function save() {
   if (!form.company.trim() || !form.position.trim() || !form.startedOn) return
   saving.value = true
   try {
-    const payload = { ...form }
+    const payload = { ...form, attendanceRule: { ...form.attendanceRule } }
+    payload.workStartTime = payload.attendanceRule.morningStartTime || ''
+    payload.workEndTime = payload.attendanceRule.afternoonEndTime || ''
     if (editingId.value) await updateEmployment(editingId.value, payload)
     else await createEmployment(payload)
     message.success(editingId.value ? '工作经历已更新' : '工作经历已创建')
@@ -193,6 +279,10 @@ async function save() {
   } finally {
     saving.value = false
   }
+}
+
+function setWeeklyOvertimeTargetHours(value) {
+  form.attendanceRule.weeklyOvertimeTargetMinutes = Math.max(0, Math.round(Number(value || 0) * 60))
 }
 
 async function remove(item) {
@@ -243,6 +333,20 @@ watch(() => props.open, (visible) => {
 .employment-manager__section-title:first-child {
   border-top: 0;
   padding-top: 0;
+}
+
+.employment-manager__attendance-tip {
+  margin: -2px 0 16px;
+}
+
+.employment-manager__attendance-days {
+  grid-column: 1 / -1;
+}
+
+.employment-manager__attendance-days :deep(.ant-checkbox-group) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
 }
 
 .employment-manager__heading,

@@ -4,7 +4,8 @@ export default defineConfig({
   test: {
     environment: 'node',
     // Multiple suites reset the same temporary upload root, so test files must not overlap.
-    // 串行复用一个 fork worker，降低 Windows 上测试进程过量启动导致的不稳定。
+    // 串行复用线程 worker，降低 Windows 上测试进程过量启动导致的不稳定。
+    pool: 'threads',
     maxWorkers: 1,
     fileParallelism: false,
     env: {

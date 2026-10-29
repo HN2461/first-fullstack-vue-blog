@@ -98,6 +98,7 @@
         <div><dt>薪资周期</dt><dd>{{ detailEmployment.salaryUnit || '未填写' }}</dd></div>
         <div><dt>休息制度</dt><dd>{{ detailEmployment.workSchedule || '未填写' }}</dd></div>
         <div><dt>上班时间</dt><dd>{{ workTimeSummary(detailEmployment) }}</dd></div>
+        <div><dt>考勤规则</dt><dd>{{ attendanceRuleSummary(detailEmployment) }}</dd></div>
         <div><dt>离职联系人</dt><dd>{{ detailEmployment.departureContactName || '未填写' }}</dd></div>
         <div><dt>联系电话</dt><dd>{{ detailEmployment.departureContactPhone || '未填写' }}</dd></div>
         <div><dt>联系邮箱</dt><dd>{{ detailEmployment.departureContactEmail || '未填写' }}</dd></div>
@@ -115,6 +116,7 @@
 import { onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { Eye, FolderOpen, PencilLine, Plus, Trash2 } from '@lucide/vue'
+import { useRoute } from 'vue-router'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteEmployment, listEmployments } from '@/services/workJournal'
 import WorkJournalEmptyState from './WorkJournalEmptyState.vue'
@@ -123,6 +125,7 @@ import WorkJournalHelpButton from './WorkJournalHelpButton.vue'
 import WorkMaterialDrawer from './WorkMaterialDrawer.vue'
 
 const tableRef = ref(null)
+const route = useRoute()
 const keyword = ref('')
 const employments = ref([])
 const editorOpen = ref(false)
@@ -175,6 +178,19 @@ function scheduleSummary(item) {
 function workTimeSummary(item) {
   if (!item.workStartTime && !item.workEndTime) return '未填写'
   return `${item.workStartTime || '--:--'} 至 ${item.workEndTime || '--:--'}`
+}
+
+function attendanceRuleSummary(item) {
+  const rule = item?.attendanceRule
+  const hasConfiguredSegment = Boolean(
+    (rule?.morningStartTime && rule?.morningEndTime) ||
+    (rule?.afternoonStartTime && rule?.afternoonEndTime) ||
+    (item?.workStartTime && item?.workEndTime)
+  )
+  if (!hasConfiguredSegment) return '未完整配置'
+  const target = Number(rule.weeklyOvertimeTargetMinutes || 0) / 60
+  const targetLabel = Number.isInteger(target) ? `${target} 小时` : `${target.toFixed(1)} 小时`
+  return `${rule.morningStartTime}-${rule.morningEndTime || '--:--'}、${rule.afternoonStartTime || '--:--'}-${rule.afternoonEndTime} · 每周加班 ${targetLabel}`
 }
 
 function employmentDays(item) {
@@ -249,7 +265,12 @@ async function remove(record) {
   }
 }
 
-onMounted(reload)
+onMounted(async () => {
+  await reload()
+  const routeEmploymentId = typeof route.query.employmentId === 'string' ? route.query.employmentId : ''
+  const target = routeEmploymentId ? employments.value.find((item) => item.id === routeEmploymentId) : null
+  if (target) openEdit(target)
+})
 </script>
 
 <style scoped>

@@ -94,6 +94,10 @@ export function getWorkReport(params) {
   return http.get('/api/work-journal/reports', { params })
 }
 
+export function getAttendanceSummary(params = {}) {
+  return http.get('/api/work-journal/attendance', { params })
+}
+
 export function listWorkReports(params = {}) {
   return http.get('/api/work-journal/saved-reports', { params })
 }

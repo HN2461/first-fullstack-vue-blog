@@ -25,6 +25,9 @@
         <a-form-item label="每天的工作时长（小时）" name="workHours">
           <a-input-number v-model:value="form.workHours" :min="0" :max="24" :step="0.5" :precision="1" />
         </a-form-item>
+        <div v-if="employment?.attendanceRule?.afternoonEndTime" class="work-log-editor__attendance-hint">
+          当前考勤规则：正常工作至 {{ employment.attendanceRule.afternoonEndTime }}，加班从 {{ employment.attendanceRule.overtimeStartTime || employment.attendanceRule.afternoonEndTime }} 开始；工时统计页会按规则推算本日报的加班时长。
+        </div>
         <a-form-item label="日报标题" name="title" required>
           <a-input v-model:value.trim="form.title" :maxlength="160" placeholder="例如：完成订单列表筛选与联调" />
         </a-form-item>
@@ -193,6 +196,13 @@ watch(() => [props.open, props.log, props.sourceLog], ([visible]) => {
   color: var(--console-text, #303133);
   font-size: 13px;
   font-weight: 600;
+}
+
+.work-log-editor__attendance-hint {
+  margin: -6px 0 16px;
+  color: var(--console-text-secondary, #667085);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .work-log-editor__meta {
