@@ -23,12 +23,18 @@ originalId: "6a2d291d8a2b1c68f2cabfcc"
 originalSlug: "ai-plugin-plugin-da2ad951"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:18:17.434Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Plugin 插件是什么，为什么需要它
 
-> 资料来源：OpenAI Codex 官方产品页、Codex 官方文档 / Academy、`openai/plugins` 官方仓库、Claude Code 官方插件文档与官方 marketplace 说明。2026-07-04 按官方口径重校。
+## 2026-10-30 复核补充
+
+Plugin 仍然是“可分发能力包”的产品层概念，但具体组成已经明显分化：Codex 插件可组合 Skills、应用集成、MCP、agents、commands、hooks 和 assets；Claude Code 插件也可携带 skills、agents、hooks 与 MCP servers。文章中的四类扩展对比应始终标注工具范围，不能把某一个产品的 manifest 或安装命令推成跨工具标准。
+
+参考：[OpenAI Plugins](https://github.com/openai/plugins)、[Claude Code Plugins](https://code.claude.com/docs/en/plugins)。
+
+> 资料来源：OpenAI Codex 官方产品页、Codex 官方文档 / Academy、`openai/plugins` 官方仓库、Claude Code 官方插件文档与官方 marketplace 说明。2026-10-30 按官方口径重校。
 
 [[toc]]
 
@@ -238,7 +244,7 @@ Plugin 可以包含 MCP，但 Plugin 不是 MCP 的替代品。
 
 ## 八、哪些工具真正有独立 Plugin 体系
 
-截至 2026-07-04，更稳妥的结论是：
+截至 2026-10-30，更稳妥的结论是：
 
 | 工具 | 独立 Plugin 体系 | 更稳妥的说明 |
 | --- | --- | --- |

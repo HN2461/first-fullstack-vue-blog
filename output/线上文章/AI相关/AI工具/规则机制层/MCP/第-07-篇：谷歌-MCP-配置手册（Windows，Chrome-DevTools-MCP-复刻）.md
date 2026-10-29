@@ -21,14 +21,20 @@ originalId: "6a2d291d8a2b1c68f2cabfc6"
 originalSlug: "ai-mcp-mcp-79fea32a"
 originalStatus: "published"
 publishedAt: "2026-05-24T13:49:15.045Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 07 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）
 
-> 适用对象：要在另一台 Windows 电脑上快速复刻可用的 Codex + Chrome DevTools MCP。  
-> 更新时间：2026-07-04
-> 复核说明：Chrome DevTools MCP 仍以官方包和 Chrome 远程调试端口为核心；Codex 侧 MCP 配置入口请以当前 Codex 官方文档或本机 `codex mcp list` / `codex mcp get` 输出为准。
+## 2026-10-30 复核补充
+
+Chrome DevTools MCP 当前更推荐直接使用 `npx -y chrome-devtools-mcp@latest`，在首次调用需要浏览器的工具时自动启动 Chrome；`--browser-url` 或远程调试端口属于连接已有浏览器的可选路径，不应再写成默认前置条件。项目还提供随版本更新的 skills 与插件安装入口，实际使用时应先看官方 README，再按宿主的 MCP 配置格式接入。
+
+参考：[Chrome DevTools MCP 官方仓库](https://github.com/ChromeDevTools/chrome-devtools-mcp)。
+
+> 适用对象：要在另一台 Windows 电脑上快速复刻可用的 Codex + Chrome DevTools MCP。
+> 更新时间：2026-10-30
+> 复核说明：Chrome DevTools MCP 以官方包默认启动或复用浏览器；远程调试端口只是连接已有浏览器的高级方式。Codex 侧 MCP 配置入口请以当前 Codex 官方文档或本机 `codex mcp list` / `codex mcp get` 输出为准。
 
 ## 1. 目标结果
 
@@ -51,7 +57,7 @@ npx -v
 codex --version
 ```
 
-预期：以上 4 条命令都能输出版本号。  
+预期：以上 4 条命令都能输出版本号。
 如果有命令找不到，先修复 PATH，再继续。
 
 ## 3. 创建 Codex 目录

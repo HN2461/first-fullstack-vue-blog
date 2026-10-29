@@ -21,12 +21,18 @@ originalId: "6a2d291d8a2b1c68f2cabff8"
 originalSlug: "ai-rules-claude-claude-md-claudecode-ff6cd587"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.678Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：CLAUDE.md 与 Claude Code 记忆系统
 
-> 资料来源：Anthropic Claude Code 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
+## 2026-10-30 复核补充
+
+Claude Code 当前 Auto Memory 按 Git 仓库派生 `~/.claude/projects/<repo>/memory/`，同一仓库的 worktree 与子目录共享；它是本机数据，不会自动跨机器或 cloud 同步。官方还提供内置 `cc-plugin-agents-md@builtin` 读取最近的 `AGENTS.md`（可配置），因此 AGENTS.md 不应只通过 `@import` 间接支持。长期、可审阅的工程规则仍应放回仓库文件，Auto Memory 适合记录本机反复复用的经验。
+
+参考：[Claude Code Memory](https://docs.anthropic.com/en/docs/claude-code/memory)、[Claude Code Skills](https://code.claude.com/docs/en/skills)。
+
+> 资料来源：Anthropic Claude Code 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-10-30。
 
 [[toc]]
 
@@ -39,7 +45,7 @@ Claude Code 的每次会话都从空白上下文开始。为了跨会话保持�
 | 机制 | 谁来写 | 写什么 | 作用域 | 加载时机 |
 |------|--------|--------|--------|---------|
 | **CLAUDE.md 文件** | 你（手动） | 指令和规则 | 项目 / 用户 / 组织 | 每次会话开始 |
-| **Auto Memory（自动记忆）** | Claude（自动） | 学到的模式和经验 | 每个工作树 | 每次会话开始（前 200 行） |
+| **Auto Memory（自动记忆）** | Claude（自动） | 学到的模式和经验 | 同一 Git 仓库（worktree/子目录共享） | 每次会话开始（前 200 行） |
 
 两者相互补充：`CLAUDE.md` 用于你主动定义的规范，Auto Memory 用于 Claude 从对话中积累的经验。
 
@@ -173,7 +179,7 @@ Claude 会自动编辑文件。
 `CLAUDE.md` 中的 HTML 注释会在注入上下文前被自动剥离，不消耗 token：
 
 ```markdown
-<!-- 
+<!--
   这段是给人类维护者看的备注，不会被 Claude 读到。
   上次更新：2026-04-11，原因：迁移到 Vitest
 -->

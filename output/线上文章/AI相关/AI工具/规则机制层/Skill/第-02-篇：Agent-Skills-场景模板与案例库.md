@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：Agent Skills 场景模板与案例库"
 slug: "ai-skill-agentskills-a705fbb5"
-summary: "按 2026-07-04 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。"
+summary: "按 2026-10-30 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。"
 category: "Skill"
 categoryPath:
   - "AI相关"
@@ -23,10 +23,14 @@ originalId: "6a2d291d8a2b1c68f2cac01e"
 originalSlug: "ai-skill-agentskills-a705fbb5"
 originalStatus: "published"
 publishedAt: "2026-05-24T15:07:50.715Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Agent Skills 场景模板与案例库
+
+## 2026-10-30 复核补充
+
+模板继续采用最小 `SKILL.md` + `references/`、`scripts/`、`assets/` 结构；新增模板字段时可使用规范中的 `license`、`compatibility`、`metadata`，把 `allowed-tools` 标成实验性并按客户端单独适配。Cursor 新技能优先使用 `paths`，Claude Code 旧 `.claude/commands/*.md` 仍兼容但新工作流应优先按 Skills 组织。OpenAI 旧 `openai/skills` 仓库已废弃，示例来源改看 [openai/plugins](https://github.com/openai/plugins)。
 
 > 这一篇最大的更新是：**不再把所有模板都写成“所有工具可直接复制运行”。**
 >
@@ -406,13 +410,13 @@ description: Review code and configuration for auth mistakes, secret exposure, u
 
 如果主人想看**更贴近前端开发**的 skills 清单，而不是继续看抽象模板，可以直接接着看：
 
-- [补充篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）](补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md)
+- [补充篇：前端开发常用 Skills 清单与落地顺序（2026-10复核）](第-05-篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md)
 
 ## 参考资料
 
-- [Kiro Agent Skills 文档](https://kiro.dev/docs/cli/skills/)
+- [Kiro Agent Skills 文档](https://kiro.dev/docs/skills/)
 - [Cursor 2.4 更新说明](https://cursor.com/changelog/2-4)
 - [Cursor Rules 文档](https://cursor.com/docs/rules)
 - [Cursor Skills 文档](https://cursor.com/docs/skills)
 - [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
-- [OpenAI Skills 仓库](https://github.com/openai/skills)
+- [OpenAI Plugins 仓库](https://github.com/openai/plugins)

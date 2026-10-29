@@ -24,12 +24,18 @@ originalId: "6a2d291d8a2b1c68f2cabfe4"
 originalSlug: "ai-plugin-plugin-a8202a00"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:25:23.674Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地
 
-> 资料来源：本系列前三篇、OpenAI Codex 官方资料、Claude Code 官方插件文档。2026-07-04 按最新官方口径重整选型建议。
+## 2026-10-30 复核补充
+
+选型矩阵增加一条：Cursor 已把 Skills 纳入正式扩展入口，Claude Code 将 custom commands 纳入 Skills 总框架，Codex 则把插件作为组合 Skills、MCP、应用和 hooks 的分发单元。因此先按“任务流程、外部能力、长期规范、分发治理”判断载体，再按工具支持的目录和安装方式落地，不能只看名称。
+
+参考：[Cursor Skills](https://cursor.com/docs/skills)、[Claude Code Skills](https://code.claude.com/docs/en/skills)、[OpenAI Plugins](https://developers.openai.com/codex/plugins)。
+
+> 资料来源：本系列前三篇、OpenAI Codex 官方资料、Claude Code 官方插件文档。2026-10-30 按最新官方口径重整选型建议。
 
 [[toc]]
 
@@ -362,4 +368,4 @@ my-project/
 - [OpenAI Codex 官方文档：Plugins](https://developers.openai.com/codex/plugins)
 - [OpenAI Plugins 官方仓库](https://github.com/openai/plugins)
 - [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)
-- [AI 工具 Plugin 插件体系系列目录](../目录.md)
+- 本系列目录：同级 Plugin 文章按 01–04 篇排序阅读

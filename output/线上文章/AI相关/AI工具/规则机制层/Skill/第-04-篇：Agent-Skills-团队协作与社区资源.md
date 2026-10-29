@@ -1,7 +1,7 @@
 ---
 title: "第 04 篇：Agent Skills 团队协作与社区资源"
 slug: "ai-skill-agentskills-4a94dc23"
-summary: "按 2026-07-04 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。"
+summary: "按 2026-10-30 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。"
 category: "Skill"
 categoryPath:
   - "AI相关"
@@ -24,16 +24,22 @@ originalId: "6a2d291d8a2b1c68f2cac024"
 originalSlug: "ai-skill-agentskills-4a94dc23"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:29:34.184Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Agent Skills 团队协作与社区资源
+
+## 2026-10-30 复核补充
+
+团队共享时优先把可移植层放在普通 `SKILL.md`，把 Codex、Cursor、Claude Code 的目录、触发和权限扩展分开维护。OpenAI 当前插件仓库已经承载官方/合作插件与 Skills 示例，旧 `openai/skills` 不再作为新项目的首选来源；Cursor 可从 `.agents/skills`、`.cursor/skills` 以及兼容目录发现技能，Claude Code 则可通过插件与 Skills 统一分发。
+
+参考：[OpenAI Plugins](https://github.com/openai/plugins)、[Cursor Skills](https://cursor.com/docs/skills)、[Claude Code Plugins](https://code.claude.com/docs/en/plugins)。
 
 ## 一、团队协作先别急着问“放哪”，先问“用什么载体”
 
 很多团队共享失败，不是因为 skill 写得不好，而是因为一开始就选错了载体。
 
-到 2026-07-04 这次复核为止，更实用的划分是：
+到 2026-10-30 这次复核为止，更实用的划分是：
 
 | 目标 | 更推荐的载体 |
 | ---- | ------------ |
@@ -111,7 +117,7 @@ my-project/
 
 ## 2.3 安装与来源
 
-当前能明确确认的来源，是 OpenAI 官方 `openai/skills` 仓库。
+当前能明确确认的来源，是 OpenAI 官方 `openai/plugins` 仓库。
 
 它里面区分了：
 
@@ -126,7 +132,7 @@ my-project/
 
 所以如果主人问“Codex 团队从哪里拿基础 skill 最稳”，答案优先是：
 
-**先看 `openai/skills`，再考虑其他社区来源。**
+**先看 `openai/plugins`，再考虑其他社区来源。**
 
 ---
 
@@ -284,8 +290,8 @@ Claude Code 当前更稳的官方口径已经是 skills，因此团队协作时�
 
 ## 6.1 第一优先级：官方或直接产品方资源
 
-- [OpenAI Skills 仓库](https://github.com/openai/skills)
-- [Kiro Agent Skills 文档](https://kiro.dev/docs/cli/skills/)
+- [OpenAI Plugins 仓库](https://github.com/openai/plugins)
+- [Kiro Agent Skills 文档](https://kiro.dev/docs/skills/)
 - [Cursor 2.4 更新说明](https://cursor.com/changelog/2-4)
 - [Cursor Rules 文档](https://cursor.com/docs/rules)
 - [Cursor Skills 文档](https://cursor.com/docs/skills)

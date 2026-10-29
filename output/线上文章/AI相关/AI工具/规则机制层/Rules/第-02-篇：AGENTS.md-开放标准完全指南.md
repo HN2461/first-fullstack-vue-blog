@@ -21,12 +21,18 @@ originalId: "6a2d291d8a2b1c68f2cabff0"
 originalSlug: "ai-rules-agents-agents-md-908e49bb"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.676Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：AGENTS.md 开放标准完全指南
 
-> 资料来源：OpenAI / agentsmd 官方仓库、GitHub Copilot / Cursor / Devin Desktop（原 Windsurf）/ Kiro / Gemini CLI 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
+## 2026-10-30 复核补充
+
+官方 canonical 入口已经迁移到 [agentsmd/agents.md](https://github.com/agentsmd/agents.md)，旧的 `openai/agents.md` URL 会重定向。当前站点已列出 60,000+ 个开源项目与更广的兼容工具生态；规范仍保持“纯 Markdown、无强制 schema”，常见实现采用最近目录优先。不要把仓库托管方、社区项目和某个客户端的加载细节混写成同一层标准。
+
+参考：[agents.md 官方站点](https://agents.md)、[FAQ](https://agents.md/faq)。
+
+> 资料来源：agentsmd 官方仓库、GitHub Copilot / Cursor / Devin Desktop（原 Windsurf）/ Kiro / Gemini CLI 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-10-30。
 
 [[toc]]
 
@@ -57,7 +63,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ### 1.3 移交 Linux 基金会
 
-公开资料与 agents.md 社区站点都把 `AGENTS.md` 描述为由 **Linux 基金会旗下的 Agentic AI Foundation（AAIF）** 持续维护的开放格式。  
+当前 canonical 入口是 [agents.md](https://agents.md) 与 [agentsmd/agents.md](https://github.com/agentsmd/agents.md)，站点将其描述为由 Agentic AI Foundation（Linux Foundation 旗下）推动的开放格式，并列出 60,000+ 个采用项目。仓库托管地址和生态治理信息会变化，引用时应以该站点与仓库 README 为准。
 
 比起死记某个时间点的仓库数量，更值得记住两件事：
 
@@ -153,12 +159,12 @@ async def get_user(user_id: int, db: AsyncSession = Depends(get_db)):
 
 ### 3.1 基本原则
 
-从开放标准的角度看，`AGENTS.md` 很适合放在不同目录里实现**作用域隔离**。  
+从开放标准的角度看，`AGENTS.md` 很适合放在不同目录里实现**作用域隔离**。
 
-但到 2026-07-04 为止，**并不是所有工具都把这件事实现得一模一样**。更准确的理解是：
+但到 2026-10-30 为止，**并不是所有工具都把这件事实现得一模一样**。更准确的理解是：
 
 - 对 Codex、GitHub Copilot 这类工具来说，子目录 `AGENTS.md` 已经是主线能力之一
-- 对 Cursor 来说，当前官方文档仍把 `AGENTS.md` 定位为**项目根目录的简单替代方案**；复杂分层更适合 `.cursor/rules/`
+- 对 Cursor 来说，当前官方文档已支持项目根目录和子目录的 `AGENTS.md`；需要 frontmatter、团队策略和复杂激活时再使用 `.cursor/rules/`
 - 对 Kiro 来说，`AGENTS.md` 能读，但复杂 inclusion / fileMatch 仍建议交给 Steering
 - 对 Devin Desktop / Windsurf 来说，旧资料里的 `.windsurf/rules/` 需要按当前 Devin 文档复核，新写规则优先查 `.devin/rules/` 等当前路径
 
@@ -259,8 +265,8 @@ Copilot 同时支持 `AGENTS.md` 和原有的 `.github/copilot-instructions.md`�
 
 Cursor 同时支持 `AGENTS.md` 和 `.cursor/rules/` 目录，但两者定位不同：
 
-- `AGENTS.md`：官方当前文档把它当成**放在项目根目录的简单替代方案**
-- `.cursor/rules/`：Cursor 的主力规则系统，支持多文件、`globs`、`alwaysApply`、Agent Requested 等能力
+- `AGENTS.md`：Cursor 当前支持根目录和子目录的纯 Markdown 规则，适合跨工具共享
+- `.cursor/rules/`：Cursor 的主力规则系统，支持多文件、frontmatter、团队规则和更细粒度激活
 
 如果你需要路径作用域、手动触发、按描述让模型判断是否加载，优先用 `.cursor/rules/`，不要硬把这些需求塞进单个 `AGENTS.md`。
 
@@ -278,13 +284,13 @@ Windsurf 品牌和文档在 2026 年已经逐步进入 Devin Desktop / Devin Doc
 
 Kiro 官方文档明确说明原生支持 `AGENTS.md` 标准：
 
-- 放在工作区根目录：自动识别，始终包含
+- 放在工作区根目录或子目录：自动识别，按目录作用域始终包含
 - 放在 `~/.kiro/steering/`：作为全局 Steering 对所有工作区生效
 - AGENTS.md 不支持 inclusion 模式 frontmatter，始终全量加载
 
-### 4.6 Claude Code（间接支持）
+### 4.6 Claude Code（内置兼容支持）
 
-Claude Code 不直接读取 `AGENTS.md`，但可以在 `CLAUDE.md` 中用 `@` 语法引用：
+Claude Code 可通过内置 `cc-plugin-agents-md@builtin` 读取最近的 `AGENTS.md`；如果需要把共享规则和 Claude 专属设置合并，也可以在 `CLAUDE.md` 中用 `@` 语法引用：
 
 ```markdown
 # CLAUDE.md
@@ -458,7 +464,7 @@ project/
 ---
 
 > 参考资料：
-> - [AGENTS.md GitHub 官方仓库 - OpenAI/agentsmd](https://github.com/openai/agents.md)
+> - [AGENTS.md GitHub 官方仓库 - OpenAI/agentsmd](https://github.com/agentsmd/agents.md)
 > - [AGENTS.md 完整指南 2026 - vibecoding.app](https://vibecoding.app/blog/agents-md-guide)
 > - [AGENTS.md 开放标准崛起 - tessl.io](https://tessl.io/blog/the-rise-of-agents-md-an-open-standard-and-single-source-of-truth-for-ai-coding-agents/)
 > - [AAIF Linux 基金会公告 - digitalapplied.com](https://www.digitalapplied.com/blog/agentic-ai-foundation-open-source-agents)

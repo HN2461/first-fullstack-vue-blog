@@ -23,12 +23,18 @@ originalId: "6a2d291d8a2b1c68f2cabfd6"
 originalSlug: "ai-plugin-codex-codexplugin-9b9edb10"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:22:01.415Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Codex Plugin 体系详解与实战
 
-> 资料来源：OpenAI Academy、OpenAI Codex 官方文档、OpenAI Codex 官方产品页、`openai/plugins` 官方仓库、本机 `~/.codex/plugins/` 与 `~/.codex/config.toml` 实装。2026-07-04 按官方口径与本机行为重校。
+## 2026-10-30 复核补充
+
+OpenAI `openai/plugins` 当前 README 明确：每个 Codex 插件必须有 `.codex-plugin/plugin.json`，可选配 `skills/`、`.app.json`、`.mcp.json`、插件级 `agents/`、`commands/`、`hooks.json` 与 `assets/`。默认 marketplace catalog 是 `.agents/plugins/marketplace.json`，API key 登录用户还有 `.agents/plugins/api_marketplace.json`；这两个路径是仓库 catalog，不等于用户侧 `~/.codex/config.toml` 的持久化配置。Codex 仍应使用 `codex plugin marketplace ...` 管理 source，不要套用 Claude Code 的 `/plugin install`。
+
+参考：[OpenAI Plugins README](https://github.com/openai/plugins/blob/main/README.md)。
+
+> 资料来源：OpenAI Academy、OpenAI Codex 官方文档、OpenAI Codex 官方产品页、`openai/plugins` 官方仓库、本机 `~/.codex/plugins/` 与 `~/.codex/config.toml` 实装。2026-10-30 按官方口径与本机行为重校。
 
 [[toc]]
 
@@ -41,8 +47,7 @@ OpenAI 已经把 Plugin 作为 Codex 的正式能力之一来描述。
 当前可以直接对应官方资料的几条口径：
 
 - OpenAI Academy 明确把 **Plugins** 和 **Skills** 并列介绍
-- OpenAI 产品页写明：Codex 已被 **300 万+ 开发者每周使用**
-- 同一产品页写明：Codex 当前已有 **90+ additional plugins**
+- OpenAI 产品页会动态更新使用量和插件数量；阅读时以页面当前统计为准，不把某次复核的数字写成稳定事实
 
 这意味着 Codex 的插件体系已经不是"零散试验"，而是被放进官方产品叙事里的正式扩展层。
 
@@ -231,7 +236,7 @@ interface:
 
 ```toml
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-07-04T13:52:43Z"
+last_updated = "2026-07-04T13:52:43Z"  # 历史本机快照，当前配置请以本机文件为准
 source_type = "local"
 source = '\\?\C:\Users\HN246\.cache\codex-runtimes\codex-primary-runtime\plugins\openai-primary-runtime'
 

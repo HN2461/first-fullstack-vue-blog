@@ -23,12 +23,18 @@ originalId: "6a2d291d8a2b1c68f2cabfde"
 originalSlug: "ai-plugin-claudecode-claudecodeplugin-ed613976"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:23:33.381Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Claude Code Plugin 体系详解与实战
 
-> 资料来源：Claude Code 官方《Create plugins》文档与 Anthropic 官方 / 社区 marketplace 仓库。2026-07-04 按官方文档重新校对命令、Marketplace 与 manifest 规则。
+## 2026-10-30 复核补充
+
+Claude Code 官方插件文档在 2026-10-28 仍在更新。当前插件可携带 skills、agents、hooks、MCP servers 以及可选的 JS hooks module；官方文档还增加了 context cost/measure、组织 allowlist/force-install 和 `claude plugin disable` 等治理入口。阅读 manifest、marketplace 和安装命令时应以当前官方 reference 为准，并把组织策略与个人本地安装分开描述。
+
+参考：[Claude Code Plugins 官方文档](https://code.claude.com/docs/en/plugins)。
+
+> 资料来源：Claude Code 官方《Create plugins》文档与 Anthropic 官方 / 社区 marketplace 仓库。2026-10-30 按官方文档重新校对命令、Marketplace 与 manifest 规则。
 
 [[toc]]
 
@@ -144,22 +150,22 @@ Claude Code 的 Plugin 使用和其他配置一样，走统一 scope 体系：
 /plugin install github@claude-plugins-official
 ```
 
-### 4.2 社区 marketplace：`anthropics/claude-plugins-community`
+### 4.2 官方 marketplace：`claude-code-plugins`
 
 官方文档同时给出了社区市场：
 
-- 仓库是 `anthropics/claude-plugins-community`
+- Anthropic 当前官方 marketplace 还包括 `claude-code-plugins`；与 `claude-plugins-official` 同属官方 marketplace。
 - 托管第三方插件
 - 会经过自动校验与安全筛查
 - catalog 中每个插件会 pin 到特定 commit SHA
 
 这比"有个社区仓库"的说法精确得多，也比你原稿中的 `anthropics/claude-code-plugins` 更接近当前官方口径。
 
-### 4.3 demo marketplace：`anthropics/claude-code`
+### 4.3 Community marketplace：`claude-community`
 
-官方还提供一个 demo marketplace：
+官方文档将 `claude-community` 作为 Community marketplace 示例：
 
-- 来源仓库是 `anthropics/claude-code`
+- 社区示例源可使用文档中的 `claude-community`；添加前先审阅 source 和插件权限
 - 其中 `plugins/` 目录展示示例插件
 - 更偏"演示能力边界"和"给开发者看怎么做"
 
@@ -168,8 +174,8 @@ Claude Code 的 Plugin 使用和其他配置一样，走统一 scope 体系：
 | 类型 | 名称 / 来源 | 用途 |
 | --- | --- | --- |
 | 官方 | `claude-plugins-official` | 正式官方插件目录 |
-| 社区 | `anthropics/claude-plugins-community` | 第三方插件市场 |
-| Demo | `anthropics/claude-code` | 官方示例与演示 |
+| 官方 | `claude-code-plugins` | Anthropic 官方 marketplace |
+| Community | `claude-community` | 社区 marketplace 示例 |
 
 ---
 
@@ -225,13 +231,13 @@ Claude Code 官方文档对安装源的说明比很多二手文章要细：
 ### 6.2 添加社区 marketplace
 
 ```bash
-/plugin marketplace add anthropics/claude-plugins-community
+/plugin marketplace add claude-code-plugins
 ```
 
 ### 6.3 添加 demo marketplace
 
 ```bash
-/plugin marketplace add anthropics/claude-code
+/plugin marketplace add claude-community
 ```
 
 ### 6.4 本地路径开发与试装
@@ -351,8 +357,7 @@ Claude Code 官方文档对安装源的说明比很多二手文章要细：
 
 - Claude Code 官方支持插件体系
 - 官方 marketplace 名叫 `claude-plugins-official`
-- 社区 marketplace 是 `anthropics/claude-plugins-community`
-- demo marketplace 来源是 `anthropics/claude-code`
+- 官方 marketplace：`claude-plugins-official`、`claude-code-plugins`；Community 示例：`claude-community`
 - 插件支持 user / project / local / managed scope
 - `.claude-plugin/plugin.json` 是可选文件
 - 如果写 manifest，`name` 是唯一必填字段
@@ -379,5 +384,5 @@ Claude Code 官方文档对安装源的说明比很多二手文章要细：
 - [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)
 - [Claude Code: Skills](https://code.claude.com/docs/en/skills)
 - [Anthropic 官方 marketplace：claude-plugins-official](https://github.com/anthropics/claude-plugins-official)
-- [Anthropic 社区 marketplace：claude-plugins-community](https://github.com/anthropics/claude-plugins-community)
-- [Anthropic Claude Code 仓库中的 demo plugins](https://github.com/anthropics/claude-code/tree/main/plugins)
+- [Claude Code Plugins 官方文档](https://code.claude.com/docs/en/plugins)
+- 添加社区 source 前先阅读其 README、manifest 和权限声明

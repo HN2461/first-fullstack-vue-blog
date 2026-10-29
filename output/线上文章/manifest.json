@@ -6983,7 +6983,7 @@
       "originalId": "6a2d291d8a2b1c68f2cac020",
       "originalSlug": "ai-skill-skills-8158d6e4",
       "exportedSlug": "ai-skill-skills-8158d6e4",
-      "title": "第 05 篇：前端开发常用 Skills 清单与落地顺序（2026-07复核）",
+      "title": "第 05 篇：前端开发常用 Skills 清单与落地顺序（2026-10复核）",
       "summary": "面向前端开发者，按“现成可用 + 建议自定义”整理常用 Skills，并给出和 MCP、Rules 的协作边界、触发词示例与团队落地顺序。",
       "cover": "",
       "contentHash": "d68887cc3b8b96034b881cb46941ee1e26cae0a08fcf57ce6e1b70ac63f104f1",
@@ -7006,14 +7006,14 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/规则机制层/Skill/补充篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md",
       "publishedAt": "2026-05-27T12:51:31.734Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/第-05-篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cabfa6",
       "originalSlug": "ai-mcp-mcp-mcp-d20641b2",
       "exportedSlug": "ai-mcp-mcp-mcp-d20641b2",
-      "title": "第 03 篇：前端开发常用 MCP 清单与选型建议（2026-07复核）",
+      "title": "第 03 篇：前端开发常用 MCP 清单与选型建议（2026-10复核）",
       "summary": "面向前端开发者，按“资料检索、浏览器自动化、设计协作、组件生成”四类高频场景整理常用 MCP，补齐官方入口、适用边界与推荐组合。",
       "cover": "",
       "contentHash": "83c5e2f428361ffd450b54deb1fdd1d47517f6ab9ce8338f3aaf3ed3f098b939",
@@ -7035,7 +7035,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/规则机制层/MCP/03-前端开发常用-MCP-清单与选型建议（2026-07复核）.md",
       "publishedAt": "2026-05-27T12:51:31.733Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-03-篇：前端开发常用-MCP-清单与选型建议（2026-07复核）.md"
     },
     {
@@ -7043,7 +7043,7 @@
       "originalSlug": "ai-skill-agentskills-a705fbb5",
       "exportedSlug": "ai-skill-agentskills-a705fbb5",
       "title": "第 02 篇：Agent Skills 场景模板与案例库",
-      "summary": "按 2026-07-04 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。",
+      "summary": "按 2026-10-30 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。",
       "cover": "",
       "contentHash": "184702ea3d6f4c736d66d0413189a14105c3ab9bcc27f1c28a0d14eb1a2270ab",
       "contentMode": "markdown",
@@ -7066,7 +7066,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-场景模板与案例库.md",
       "publishedAt": "2026-05-24T15:07:50.715Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/第-02-篇：Agent-Skills-场景模板与案例库.md"
     },
     {
@@ -7095,7 +7095,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/规则机制层/MCP/02-常用-MCP-分类与选型总览.md",
       "publishedAt": "2026-05-24T14:31:35.923Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-02-篇：常用-MCP-分类与选型总览.md"
     },
     {
@@ -7103,7 +7103,7 @@
       "originalSlug": "ai-skill-agentskills-4a94dc23",
       "exportedSlug": "ai-skill-agentskills-4a94dc23",
       "title": "第 04 篇：Agent Skills 团队协作与社区资源",
-      "summary": "按 2026-07-04 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。",
+      "summary": "按 2026-10-30 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。",
       "cover": "",
       "contentHash": "ed74362155e5df90cdd295a74d7798ea4616392c37f7f57fa698ee795b78e2b6",
       "contentMode": "markdown",
@@ -7127,7 +7127,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-团队协作与社区资源.md",
       "publishedAt": "2026-05-24T14:29:34.184Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/第-04-篇：Agent-Skills-团队协作与社区资源.md"
     },
     {
@@ -7135,7 +7135,7 @@
       "originalSlug": "ai-skill-agentskills-b37a5530",
       "exportedSlug": "ai-skill-agentskills-b37a5530",
       "title": "第 03 篇：Agent Skills 高级用法与进阶技巧",
-      "summary": "按 2026-07-04 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。",
+      "summary": "按 2026-10-30 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。",
       "cover": "",
       "contentHash": "d18a1937aa658dfe58ca80cc1f1e601f1c5eacdd7a706e289ae1095423b3e378",
       "contentMode": "markdown",
@@ -7158,7 +7158,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-高级用法与进阶技巧.md",
       "publishedAt": "2026-05-24T14:29:34.181Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/第-03-篇：Agent-Skills-高级用法与进阶技巧.md"
     },
     {
@@ -7166,7 +7166,7 @@
       "originalSlug": "ai-skill-agentskills-8ff13a14",
       "exportedSlug": "ai-skill-agentskills-8ff13a14",
       "title": "第 01 篇：Agent Skills 开放标准与各工具兼容性全解",
-      "summary": "按 2026-07-04 重新复核 Agent Skills 的通用层与工具差异，重点说明哪些属于可移植基础层、哪些是 Kiro / Codex / Cursor / Claude 当前官方支持的 skills 能力，以及哪些旧说法需要纠正。",
+      "summary": "按 2026-10-30 重新复核 Agent Skills 的通用层与工具差异，重点说明哪些属于可移植基础层、哪些是 Kiro / Codex / Cursor / Claude 当前官方支持的 skills 能力，以及哪些旧说法需要纠正。",
       "cover": "",
       "contentHash": "c35ca0dd15b48ae973ca6a60d16f245ac2c904199583c4cfb2dad68479ae01d3",
       "contentMode": "markdown",
@@ -7189,7 +7189,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/规则机制层/Skill/Agent-Skills-开放标准与各工具兼容性全解.md",
       "publishedAt": "2026-05-24T14:29:34.177Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Skill/第-01-篇：Agent-Skills-开放标准与各工具兼容性全解.md"
     },
     {
@@ -7221,7 +7221,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/规则机制层/Plugin/第四篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md",
       "publishedAt": "2026-05-24T14:25:23.674Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第-04-篇：Plugin-vs-Skill-vs-MCP-vs-Rules-选型指南与团队落地.md"
     },
     {
@@ -7252,7 +7252,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/规则机制层/Plugin/第三篇：Claude-Code-Plugin-体系详解与实战.md",
       "publishedAt": "2026-05-24T14:23:33.381Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第-03-篇：Claude-Code-Plugin-体系详解与实战.md"
     },
     {
@@ -7283,7 +7283,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/规则机制层/Plugin/第二篇：Codex-Plugin-体系详解与实战.md",
       "publishedAt": "2026-05-24T14:22:01.415Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第-02-篇：Codex-Plugin-体系详解与实战.md"
     },
     {
@@ -7314,7 +7314,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/规则机制层/Plugin/第一篇：Plugin-插件是什么，为什么需要它.md",
       "publishedAt": "2026-05-24T14:18:17.434Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Plugin/第-01-篇：Plugin-插件是什么，为什么需要它.md"
     },
     {
@@ -7342,7 +7342,7 @@
       "sortOrder": 70,
       "sourcePath": "AI工具/规则机制层/MCP/06-MCP-项目落地与收益评估问题.md",
       "publishedAt": "2026-05-24T14:18:00.566Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-06-篇：MCP-项目落地与收益评估问题.md"
     },
     {
@@ -7370,7 +7370,7 @@
       "sortOrder": 60,
       "sourcePath": "AI工具/规则机制层/MCP/05-MCP-架构与安全边界问题.md",
       "publishedAt": "2026-05-24T14:18:00.565Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-05-篇：MCP-架构与安全边界问题.md"
     },
     {
@@ -7398,7 +7398,7 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/规则机制层/MCP/04-MCP-概念与主流度问题.md",
       "publishedAt": "2026-05-24T14:18:00.563Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-04-篇：MCP-概念与主流度问题.md"
     },
     {
@@ -7457,7 +7457,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/规则机制层/MCP/01-MCP-是什么与开放标准核心认知.md",
       "publishedAt": "2026-05-24T14:08:06.903Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-01-篇：MCP-是什么与开放标准核心认知.md"
     },
     {
@@ -7656,7 +7656,7 @@
       "sortOrder": 80,
       "sourcePath": "AI工具/规则机制层/MCP/07-谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md",
       "publishedAt": "2026-05-24T13:49:15.045Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-07-篇：谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md"
     },
     {
@@ -7831,7 +7831,7 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/规则机制层/Rules/第五篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md",
       "publishedAt": "2026-05-24T12:56:24.681Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第-05-篇：Gemini-CLI-GEMINI.md-与-GitHub-Copilot-指令文件.md"
     },
     {
@@ -7860,7 +7860,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/规则机制层/Rules/第四篇：Cursor-Rules-Windsurf-Rules-Kiro-Steering-实战.md",
       "publishedAt": "2026-05-24T12:56:24.680Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第-04-篇：Cursor-Rules、Devin-Windsurf-Rules、Kiro-Steering-实战.md"
     },
     {
@@ -7889,7 +7889,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/规则机制层/Rules/第三篇：CLAUDE.md-与-Claude-Code-记忆系统.md",
       "publishedAt": "2026-05-24T12:56:24.678Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第-03-篇：CLAUDE.md-与-Claude-Code-记忆系统.md"
     },
     {
@@ -7918,7 +7918,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/规则机制层/Rules/第二篇：AGENTS.md-开放标准完全指南.md",
       "publishedAt": "2026-05-24T12:56:24.676Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第-02-篇：AGENTS.md-开放标准完全指南.md"
     },
     {
@@ -7926,7 +7926,7 @@
       "originalSlug": "ai-rules-ai-e659b444",
       "exportedSlug": "ai-rules-ai-e659b444",
       "title": "第 01 篇：AI 工具规则文档是什么，为什么需要它",
-      "summary": "从\"AI 每次都忘了你的项目规范\"这个痛点出发，解释规则文档的本质、解决的核心问题，并横向对比 Claude Code、Codex、Cursor、Devin / Windsurf、Kiro、Gemini CLI、GitHub Copilot 七大工具的规则文件名、存放位置与加载方式。",
+      "summary": "从\\",
       "cover": "",
       "contentHash": "7cf3272dd476d622b681b943042d6fe6ab975796cee36d21dd503f4337685240",
       "contentMode": "markdown",
@@ -7947,7 +7947,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/规则机制层/Rules/第一篇：AI-工具规则文档是什么，为什么需要它.md",
       "publishedAt": "2026-05-24T12:56:24.674Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/Rules/第-01-篇：AI-工具规则文档是什么，为什么需要它.md"
     },
     {
@@ -7976,7 +7976,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/规则机制层/MCP/00-MCP-学习导航与维护路线.md",
       "publishedAt": "2026-05-24T12:56:24.660Z",
-      "updatedAt": "2026-08-16T14:39:48.203Z",
+      "updatedAt": "2026-10-30T15:00:00.000Z",
       "fileName": "AI相关/AI工具/规则机制层/MCP/第-00-篇：MCP-学习导航与维护路线.md"
     },
     {

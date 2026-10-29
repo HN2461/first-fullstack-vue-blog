@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Agent Skills 高级用法与进阶技巧"
 slug: "ai-skill-agentskills-b37a5530"
-summary: "按 2026-07-04 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。"
+summary: "按 2026-10-30 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。"
 category: "Skill"
 categoryPath:
   - "AI相关"
@@ -23,10 +23,14 @@ originalId: "6a2d291d8a2b1c68f2cac01a"
 originalSlug: "ai-skill-agentskills-b37a5530"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:29:34.181Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Agent Skills 高级用法与进阶技巧
+
+## 2026-10-30 复核补充
+
+高级用法的边界需要更新：开放规范稳定字段是 `name`、`description`、`license`、`compatibility`、`metadata`；`allowed-tools` 仍为 Experimental。Cursor 的 `paths`、`disable-model-invocation`、`icon`、`color`，Claude 的 invocation control、subagent 和 dynamic context 都属于产品扩展，不能写成跨工具通用语法。Codex 的官方插件示例请改看 [openai/plugins](https://github.com/openai/plugins)，`openai/skills` 只保留为历史参考。
 
 > 这一篇不再追求“功能列表越多越好”，而是优先回答一个更重要的问题：**哪些写法今天还稳，哪些写法已经明显带版本风险。**
 
@@ -42,7 +46,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 - `assets/` 放模板和输出资源
 - Agent Skills 规范层里的 `metadata`、`license`、`compatibility`
 - Kiro 的 `skill://...` 资源声明
-- Codex 的本地 `~/.codex/skills/` 目录与 `openai/skills` 生态
+- Codex 的本地 `~/.codex/skills/` 目录与 `openai/plugins` 生态
 
 ### 第二层：产品专属，但仍有现实价值
 
@@ -215,7 +219,7 @@ release-helper/
 当前 Codex skills 生态可以确认的是：
 
 - `.system` skills 属于预装层
-- curated / experimental skills 在 `openai/skills` 仓库里
+- 旧 curated / experimental 分层来自已废弃的 `openai/skills` 仓库；当前官方插件与 Skills 示例以 `openai/plugins` 为准
 - 通过 `skill-installer` 可以安装
 - 安装后需要重启 Codex 才会被重新发现
 
@@ -371,7 +375,7 @@ description: Audit release readiness by checking recent changes, risky areas, te
 
 ## 参考资料
 
-- [Kiro Agent Skills 文档](https://kiro.dev/docs/cli/skills/)
+- [Kiro Agent Skills 文档](https://kiro.dev/docs/skills/)
 - [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
 - [OpenAI Codex Skills 文档](https://developers.openai.com/codex/skills)
-- [OpenAI Skills 仓库](https://github.com/openai/skills)
+- [OpenAI Plugins 仓库](https://github.com/openai/plugins)

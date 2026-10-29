@@ -1,7 +1,7 @@
 ---
 title: "第 01 篇：Agent Skills 开放标准与各工具兼容性全解"
 slug: "ai-skill-agentskills-8ff13a14"
-summary: "按 2026-07-04 重新复核 Agent Skills 的通用层与工具差异，重点说明哪些属于可移植基础层、哪些是 Kiro / Codex / Cursor / Claude 当前官方支持的 skills 能力，以及哪些旧说法需要纠正。"
+summary: "按 2026-10-30 重新复核 Agent Skills 的通用层与工具差异，重点说明哪些属于可移植基础层、哪些是 Kiro / Codex / Cursor / Claude 当前官方支持的 skills 能力，以及哪些旧说法需要纠正。"
 category: "Skill"
 categoryPath:
   - "AI相关"
@@ -23,20 +23,28 @@ originalId: "6a2d291d8a2b1c68f2cac014"
 originalSlug: "ai-skill-agentskills-8ff13a14"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:29:34.177Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Agent Skills 开放标准与各工具兼容性全解
+
+## 2026-10-30 复核补充
+
+Agent Skills 规范当前明确：`name` 必填且为 1–64 个小写字母、数字和连字符，`description` 必填且不超过 1024 字符，`compatibility` 不超过 500 字符；`license`、`metadata` 属于规范字段，`allowed-tools` 仍标为 Experimental。Cursor 已支持 `paths`、`disable-model-invocation`、`icon`、`color` 等产品扩展，Claude Code Skills 页面于 2026-10-28 更新并说明与开放规范对齐，但非 Claude 实现对扩展字段的支持可能不同。
+
+另外，`openai/skills` 已标记 deprecated，当前 Codex 插件与 Skills 示例应以 [openai/plugins](https://github.com/openai/plugins) 为准，旧仓库仅作为历史迁移参考。
+
+参考：[Agent Skills 规范](https://agentskills.io/specification)、[Cursor Skills](https://cursor.com/docs/skills)、[Claude Code Skills](https://code.claude.com/docs/en/skills)。
 
 ## 一、先说结论
 
 **不要再把所有工具写成“完全一套玩法”。**
 
-到 2026-07-04 这次复核为止，更稳妥的结论是：
+到 2026-10-30 这次复核为止，更稳妥的结论是：
 
 - `一个目录 + 一个 SKILL.md` 这件事，确实已经形成了可移植的技能包思路。
 - Kiro 官方文档明确写了它遵循开放的 Agent Skills 标准。
-- Codex 这边也已经有成型的 skills 生态，本地实装目录里能直接看到 `~/.codex/skills/`、预装 `.system` skills，以及 OpenAI 官方维护的 `openai/skills` 仓库。
+- Codex 这边也已经有成型的 skills 生态，本地实装目录里能直接看到 `~/.codex/skills/`、预装 `.system` skills，以及 OpenAI 官方维护的 `openai/plugins` 仓库。
 - Cursor 当前官方已经明确支持 **Agent Skills in editor and CLI**，同时也继续强调 `Rules` 与根目录 `AGENTS.md`。
 - Claude Code 当前官方已经有完整的 **Skills** 文档，并明确说明自定义 commands 已并入 skills 体系。
 
@@ -53,7 +61,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 本篇只把以下内容当作“这轮能确认的硬依据”：
 
 - Kiro 官方 `Agent Skills` 文档
-- OpenAI 官方 `openai/skills` 仓库
+- OpenAI 官方 `openai/plugins` 仓库
 - 本机当前真实存在的 `~/.codex/skills/` 目录结构
 - Cursor 官方 `Rules / AGENTS.md` 文档与 2.4 skills 更新
 - Claude Code 官方 `skills` 文档与 `slash commands` 文档
@@ -200,7 +208,7 @@ Kiro 官方文档这轮给出的信息相对清楚：
 
 ### 官方仓库侧
 
-OpenAI 官方维护 `openai/skills` 仓库，并明确说明：
+OpenAI 官方维护 `openai/plugins` 仓库，并明确说明：
 
 - `.system` skills 会随较新的 Codex 自动安装
 - curated / experimental skills 可以通过 `skill-installer` 安装
@@ -215,7 +223,7 @@ OpenAI 官方维护 `openai/skills` 仓库，并明确说明：
 
 ## 5.3 Cursor：现在应理解为 Skills 与 Rules 并存
 
-截至 2026-07-04，Cursor 官方当前能明确确认的是：
+截至 2026-10-30，Cursor 官方当前能明确确认的是：
 
 - 2.4 已明确宣布支持 Agent Skills，覆盖 editor 和 CLI
 - `.cursor/rules`
@@ -377,10 +385,10 @@ description: Review code for bugs, edge cases, security issues, and maintainabil
 ## 十、参考资料
 
 - [Agent Skills 官方规范](https://agentskills.io/specification)
-- [Kiro Agent Skills 文档](https://kiro.dev/docs/cli/skills/)
+- [Kiro Agent Skills 文档](https://kiro.dev/docs/skills/)
 - [Cursor 2.4 更新说明](https://cursor.com/changelog/2-4)
 - [Cursor Rules 文档](https://cursor.com/docs/rules)
 - [Cursor Skills 文档](https://cursor.com/docs/skills)
 - [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
 - [OpenAI Codex Skills 文档](https://developers.openai.com/codex/skills)
-- [OpenAI Skills 仓库](https://github.com/openai/skills)
+- [OpenAI Plugins 仓库](https://github.com/openai/plugins)

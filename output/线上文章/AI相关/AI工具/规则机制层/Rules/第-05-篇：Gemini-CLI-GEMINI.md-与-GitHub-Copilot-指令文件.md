@@ -21,12 +21,18 @@ originalId: "6a2d291d8a2b1c68f2cac00c"
 originalSlug: "ai-rules-gemini-copilot-geminicli-copilot-853f4742"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.681Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件
 
-> 资料来源：Gemini CLI 官方 GitHub 文档、GitHub Copilot 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
+## 2026-10-30 复核补充
+
+Gemini CLI 仍按全局、工作区/父目录和 JIT 三层加载 `GEMINI.md`，但 `settings.json` 的 `context.fileName` 可配置 `AGENTS.md`、`CONTEXT.md` 等文件名；同时 CLI 已有 `gemini skills list/install/link` 管理入口。GitHub Copilot 文档（2026-10-16 更新）强调最近的 `AGENTS.md` 优先，仓库根目录还可用 `CLAUDE.md` 或 `GEMINI.md`，`.github/instructions/*.instructions.md` 通过 `applyTo` glob 控制范围；GitHub.com 上的路径级指令重点作用于 cloud agent 和 code review。
+
+参考：[Gemini CLI GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md)、[GitHub Copilot 仓库指令](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions)。
+
+> 资料来源：Gemini CLI 官方 GitHub 文档、GitHub Copilot 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-10-30。
 
 [[toc]]
 
@@ -328,7 +334,7 @@ project/
 | 全局个人配置 | `~/.claude/CLAUDE.md` | `~/.codex/AGENTS.md` | 设置界面 | 以 Devin / Windsurf 当前设置为准 | `~/.gemini/GEMINI.md` | IDE 设置 / 本地全局指令文件 |
 | 路径作用域 | `.claude/rules/` paths | 子目录文件 | `globs` 数组 | `globs` 字段 | JIT 自动加载 | `applyTo` frontmatter |
 | 自动记忆 | ✅ Auto Memory | ❌ | ❌ | ✅ Memories | ❌ | ❌ |
-| AGENTS.md 支持 | 间接（@import） | ✅ 原生 | ✅，但当前主线是根目录单文件 | ✅，具体加载细节按当前 Devin / Windsurf 版本复核 | 可配置 | ✅（Agent 指令类型；仓库任意目录可放，但 VS Code 子目录默认需开启） |
+| AGENTS.md 支持 | 内置 `cc-plugin-agents-md@builtin`（最近目录优先） | ✅ 原生 | ✅，根目录和子目录均可 | ✅，具体加载细节按当前 Devin / Windsurf 版本复核 | 可配置 | ✅（Agent 指令类型；仓库任意目录可放，但 VS Code 子目录默认需开启） |
 | 额外支持的跨工具文件 | — | — | — | — | — | `CLAUDE.md`、`GEMINI.md`（根目录） |
 | 文件格式 | Markdown + @import | 纯 Markdown | MDC（YAML frontmatter） | Markdown + frontmatter | Markdown + @import | Markdown + frontmatter |
 | 上下文查看命令 | `/memory` | 无 | 无 | 询问 Cascade | `/memory show` | 查看 References 列表 |

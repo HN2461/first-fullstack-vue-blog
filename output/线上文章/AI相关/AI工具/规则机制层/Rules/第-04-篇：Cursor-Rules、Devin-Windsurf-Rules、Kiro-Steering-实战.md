@@ -21,12 +21,18 @@ originalId: "6a2d291d8a2b1c68f2cac002"
 originalSlug: "ai-rules-cursor-windsurf-kiro-cursor-windsurf-kiro-e5498e74"
 originalStatus: "published"
 publishedAt: "2026-05-24T12:56:24.680Z"
-updatedAt: "2026-08-16T14:39:48.203Z"
+updatedAt: "2026-10-30T15:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Cursor Rules、Devin-Windsurf Rules、Kiro Steering 实战
 
-> 资料来源：Cursor 官方文档、Devin / Windsurf 官方文档、Kiro 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-07-04。
+## 2026-10-30 复核补充
+
+Cursor 当前文档已明确支持项目根目录和子目录的 `AGENTS.md`；Skills 支持 `.agents/skills`、`.cursor/skills` 及兼容发现 `.claude/skills`、`.codex/skills`，新技能优先使用 `paths`，`globs` 仅作旧字段兼容，并可用 `/migrate-to-skills` 迁移动态 rules/commands。Kiro Steering 文档（2026-10-21 更新）也支持工作区根、子目录和 `~/.kiro/steering/`，AGENTS.md 作为始终加载的共享入口。原文“Cursor 仅根目录单文件”的表述应按此修正。
+
+参考：[Cursor Rules](https://cursor.com/docs/rules)、[Cursor Skills](https://cursor.com/docs/skills)、[Kiro Steering](https://kiro.dev/docs/steering/)。
+
+> 资料来源：Cursor 官方文档、Devin / Windsurf 官方文档、Kiro 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-10-30。
 
 [[toc]]
 
@@ -43,9 +49,9 @@ Cursor 是最早普及"项目级 AI 规则"概念的工具之一，规则系统�
 | 第一代 | `.cursorrules`（项目根目录，单文件） | **仍可用，但已是 legacy / deprecated** |
 | 第二代 | `.cursor/rules/*.mdc`（目录，多文件） | 当前官方推荐 |
 
-> **按 2026-07-04 官方文档的稳妥说法**：`.cursorrules` 还在兼容范围内，但已经被明确标为 legacy，官方建议迁移到 `.cursor/rules/`。如果你正在新建规则，不要再围绕 `.cursorrules` 设计。
+> **按 2026-10-30 官方文档的稳妥说法**：`.cursorrules` 还在兼容范围内，但已经被明确标为 legacy，官方建议迁移到 `.cursor/rules/`。如果你正在新建规则，不要再围绕 `.cursorrules` 设计。
 
-同时，Cursor 也支持读取 `AGENTS.md`，但当前定位是：**把它当成放在项目根目录、全局生效、单文件的简单替代方案**，不是 `.cursor/rules/` 的完整替身。
+同时，Cursor 也支持读取项目根目录和子目录中的 `AGENTS.md`。它适合承载跨工具共享的纯 Markdown 约定；需要规则 frontmatter、团队强制执行或更细粒度激活时，再使用 `.cursor/rules/`。
 
 ### 1.2 MDC 格式
 
@@ -150,11 +156,7 @@ Cursor 组装 prompt 时，规则按以下顺序注入到模型上下文最前�
 
 ### 1.5 AGENTS.md 在 Cursor 里的当前边界
 
-Cursor 官方当前文档对 `AGENTS.md` 的定位非常明确：
-
-- 放在**项目根目录**
-- 作为 `.cursor/rules/` 的简单替代
-- 不支持 MDC 那样的 frontmatter、复杂激活逻辑和多文件拆分
+Cursor 当前文档允许 `AGENTS.md` 出现在项目根目录和子目录，并按目录作用域读取。它仍然是纯 Markdown 共享入口，不承载 `.cursor/rules/` 的 `alwaysApply`、团队策略和手动激活等产品专属能力。
 
 如果你的项目已经开始出现"前端一套规则、后端一套规则、测试一套规则"这种需求，就该直接上 `.cursor/rules/`，不要指望单个 `AGENTS.md` 长期扛住。
 
@@ -162,7 +164,7 @@ Cursor 官方当前文档对 `AGENTS.md` 的定位非常明确：
 
 ```
 project/
-├── AGENTS.md                    # 跨工具共享规则（Cursor 当前文档要求放根目录）
+├── AGENTS.md                    # 根目录共享规则；子目录可按模块增加 AGENTS.md
 └── .cursor/
     └── rules/
         ├── global-style.mdc     # 全局代码风格（alwaysApply: true）
@@ -230,12 +232,12 @@ alwaysApply: false
 
 2026 年复习 Windsurf 规则时，最容易过时的是路径名。Windsurf 相关产品和文档已经逐步进入 Devin Desktop / Devin Docs 口径，因此旧教程里的 `.windsurf/rules/`、`.windsurfrules`、`~/.codeium/windsurf/...` 不能再无脑照抄到新环境。
 
-更稳妥的理解是：Devin Desktop / Windsurf 的上下文管理仍然围绕 rules、AGENTS.md、memories / knowledge、workflows 这几类能力，但具体路径和 UI 名称要以当前版本为准。
+更稳妥的理解是：Devin Desktop / Windsurf 的上下文管理仍然围绕 rules、AGENTS.md、memories / knowledge、workflows 这几类能力，但当前规则 frontmatter 的 trigger 值应使用 `always_on`、`model_decision`、`glob`、`manual`；旧 Cascade Memories 和路径以当前 Devin 文档为准。
 
 | 机制 | 激活方式 | 适合场景 |
 |------|---------|---------|
 | **Rules** | 手动定义，多种激活模式 | 编码约定、风格指南、项目约束 |
-| **AGENTS.md** | 自动（根目录=始终，子目录=glob） | 零配置的目录级约定 |
+| **AGENTS.md** | 自动（根目录始终，子目录按目录作用域） | 零配置的目录级约定 |
 | **Memories** | Cascade 自动生成 | 让 AI 记住一次性事实 |
 | **Workflows** | 手动 `/workflow-name` 触发 | 可复用的多步骤任务 |
 
@@ -515,7 +517,7 @@ Steering 文件支持引用其他文件，避免重复维护：
 
 Kiro 官方文档明确说明：**Kiro 原生支持 AGENTS.md 标准**。
 
-- 可以把 `AGENTS.md` 放在工作区根目录或 `~/.kiro/steering/` 全局目录
+- 可以把 `AGENTS.md` 放在工作区根目录、子目录或 `~/.kiro/steering/` 全局目录
 - Kiro 会自动识别并加载，无需额外配置
 - AGENTS.md 不支持 inclusion 模式，始终以 `always` 模式加载
 
@@ -543,7 +545,7 @@ project/
 | 团队统一配置 | ❌ | 系统级（企业 IT 部署） | ✅（MDM/GP 推送到 `~/.kiro/steering/`） |
 | Token/字符限制 | 无明确限制（建议单文件 < 100 行） | 6000（全局）/ 12000（工作区） | 无明确限制 |
 | 自动记忆 | ❌ | ✅（Memories） | ❌ |
-| AGENTS.md 支持 | ✅，但当前主线是**根目录单文件的简单替代方案** | ✅（根目录=always，子目录=glob） | ✅ 原生支持（始终包含） |
+| AGENTS.md 支持 | ✅，根目录和子目录均可，纯 Markdown | ✅（根目录=always，子目录=glob） | ✅ 原生支持（根目录/子目录与全局 Steering） |
 | 一键生成 | ❌ | ❌ | ✅（Generate Steering Docs） |
 | .cursorrules 兼容 | ⚠️ 仍兼容，但已 deprecated | `.windsurfrules` 属历史路径，是否继续支持以当前版本为准 | 不适用 |
 
@@ -554,5 +556,5 @@ project/
 > - [Cursor MDC 完整技术指南 - morphllm.com](https://www.morphllm.com/cursor-mdc-rules)
 > - [Windsurf Cascade Memories 官方文档 - windsurf.com](https://docs.windsurf.com/windsurf/cascade/memories)
 > - [Windsurf AGENTS.md 官方文档 - windsurf.com](https://docs.windsurf.com/windsurf/cascade/agents-md)
-> - [Kiro Steering 官方文档 - kiro.dev](https://kiro.dev/docs/steering/)（页面更新：2026-02-18）
+> - [Kiro Steering 官方文档 - kiro.dev](https://kiro.dev/docs/steering/)（页面更新：2026-10-21）
 > - [Kiro 全局 Steering 发布 changelog - kiro.dev](https://kiro.dev/changelog/remote-mcp-and-global-steering/)
