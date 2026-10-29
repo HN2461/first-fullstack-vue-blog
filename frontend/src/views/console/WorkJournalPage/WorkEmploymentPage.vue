@@ -7,7 +7,7 @@
       :height="'100%'"
       :page-size="20"
       :show-column-setting="true"
-      :scroll="{ x: 1420 }"
+      :scroll="{ x: 1560 }"
     >
       <template #emptyText>
         <WorkJournalEmptyState
@@ -38,6 +38,11 @@
         <template v-else-if="column.key === 'period'">{{ record.startedOn }} 至 {{ record.endedOn || '至今' }}<span class="work-employment-page__duration">{{ employmentDays(record) }} 天</span></template>
         <template v-else-if="column.key === 'salary'">{{ salarySummary(record) }}</template>
         <template v-else-if="column.key === 'schedule'">{{ scheduleSummary(record) }}</template>
+        <template v-else-if="column.key === 'attendance'">
+          <a-tag :color="attendanceConfigured(record) ? 'green' : 'default'" :bordered="false">
+            {{ attendanceConfigured(record) ? '已配置' : '未配置' }}
+          </a-tag>
+        </template>
         <template v-else-if="column.key === 'address'">{{ record.companyAddress || '—' }}</template>
         <template v-else-if="column.key === 'materials'">
           <a-button type="link" size="small" class="work-employment-page__materials" @click="openMaterials(record)">
@@ -83,9 +88,9 @@
     <a-modal
       :open="Boolean(detailEmployment)"
       :title="detailEmployment?.company || '工作经历详情'"
-      :width="620"
+      :width="760"
       :footer="null"
-      :body-style="{ maxHeight: '64vh', overflow: 'hidden' }"
+      :body-style="{ maxHeight: '72vh', overflow: 'hidden' }"
       wrap-class-name="work-journal-dialog"
       @cancel="detailEmployment = null"
     >
@@ -145,6 +150,7 @@ const columns = [
   { title: '任职时间', key: 'period', width: 230 },
   { title: '薪资', key: 'salary', width: 170 },
   { title: '工作制度', key: 'schedule', width: 150 },
+  { title: '考勤规则', key: 'attendance', width: 140 },
   { title: '公司地址', key: 'address', dataIndex: 'companyAddress', width: 220, ellipsis: true },
   { title: '补充资料', key: 'materials', width: 110 },
   { title: '备注', key: 'note', dataIndex: 'note', ellipsis: true },
@@ -191,6 +197,14 @@ function attendanceRuleSummary(item) {
   const target = Number(rule.weeklyOvertimeTargetMinutes || 0) / 60
   const targetLabel = Number.isInteger(target) ? `${target} 小时` : `${target.toFixed(1)} 小时`
   return `${rule.morningStartTime}-${rule.morningEndTime || '--:--'}、${rule.afternoonStartTime || '--:--'}-${rule.afternoonEndTime} · 每周加班 ${targetLabel}`
+}
+
+function attendanceConfigured(item) {
+  const rule = item?.attendanceRule || {}
+  return Boolean(
+    (rule.morningStartTime && rule.morningEndTime) ||
+    (rule.afternoonStartTime && rule.afternoonEndTime)
+  )
 }
 
 function employmentDays(item) {

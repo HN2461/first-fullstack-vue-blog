@@ -2,9 +2,9 @@
   <a-modal
     :open="open"
     :title="report?.title || `${label}详情`"
-    :width="900"
+    :width="980"
     :footer="null"
-    :body-style="{ maxHeight: '68vh', overflow: 'hidden' }"
+    :body-style="{ maxHeight: '76vh', overflow: 'hidden' }"
     wrap-class-name="work-journal-dialog"
     @cancel="emit('update:open', false)"
   >

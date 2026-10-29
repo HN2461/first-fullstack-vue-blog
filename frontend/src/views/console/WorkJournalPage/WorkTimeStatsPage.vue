@@ -56,7 +56,7 @@
           <strong>{{ formatMinutes(summary.targetMinutes) }}</strong>
         </div>
         <div class="work-time-stats-page__metric">
-          <span>已完成加班</span>
+          <span>合计加班</span>
           <strong>{{ formatMinutes(summary.overtimeMinutes) }}</strong>
         </div>
         <div class="work-time-stats-page__metric">
@@ -66,6 +66,14 @@
         <div class="work-time-stats-page__metric">
           <span>总工作时长</span>
           <strong>{{ formatMinutes(summary.totalMinutes) }}</strong>
+        </div>
+        <div class="work-time-stats-page__progress">
+          <div class="work-time-stats-page__progress-heading">
+            <span>{{ summary.remainingMinutes ? '目标完成进度' : '本周目标已完成' }}</span>
+            <strong>{{ progressPercent }}%</strong>
+          </div>
+          <a-progress :percent="progressPercent" :show-info="false" :status="summary.remainingMinutes ? 'active' : 'success'" />
+          <small v-if="summary.draft?.overtimeMinutes">草稿暂计 {{ formatMinutes(summary.draft.overtimeMinutes) }}，已定稿 {{ formatMinutes(summary.confirmed?.overtimeMinutes || 0) }}</small>
         </div>
       </div>
 
@@ -132,6 +140,10 @@ const summary = ref(null)
 const loading = ref(false)
 const tableParams = reactive({ employmentId: '', date: anchorDate.value })
 const employmentOptions = computed(() => employments.value.map((item) => ({ value: item.id, label: `${item.company} · ${item.position}` })))
+const progressPercent = computed(() => {
+  if (!summary.value?.targetMinutes) return summary.value?.overtimeMinutes ? 100 : 0
+  return Math.min(100, Math.round((summary.value.overtimeMinutes / summary.value.targetMinutes) * 100))
+})
 const helpSections = [
   { heading: '统计口径', items: ['统计按周一至周日汇总，目标来自当前工作经历的考勤规则。', '历史日报只有总时长时，系统按正常工作段推算加班时长，并在明细中标记为规则推算。', '没有完整正常工作时间时只显示总时长，不会猜测加班时长。'] },
   { heading: '规则调整', items: ['工作经历中的考勤规则会作为日报统计的默认规则；修改规则后，历史统计会按新规则重新计算。', '周末是否计入统计由工作经历的工作日配置决定。'] }
@@ -290,6 +302,35 @@ onMounted(loadEmployments)
 .work-time-stats-page__summary-period strong { font-size: 14px; }
 .work-time-stats-page__summary.is-complete .work-time-stats-page__metric:nth-last-child(2) strong { color: #389e0d; }
 
+.work-time-stats-page__progress {
+  display: grid;
+  grid-column: 1 / -1;
+  gap: 6px;
+  padding: 10px 16px 12px !important;
+}
+
+.work-time-stats-page__progress-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--console-text-secondary, #667085);
+  font-size: 12px;
+}
+
+.work-time-stats-page__progress-heading strong {
+  color: var(--console-text, #303133);
+  font-size: 13px;
+}
+
+.work-time-stats-page__progress :deep(.ant-progress) {
+  line-height: 1;
+}
+
+.work-time-stats-page__progress small {
+  color: var(--console-text-secondary, #667085);
+  font-size: 11px;
+}
+
 .work-time-stats-page > :deep(.blog-table) { min-height: 0; flex: 1 1 0; border-radius: 8px; }
 .work-time-stats-page__date-cell,
 .work-time-stats-page__title-cell { display: grid; min-width: 0; gap: 3px; }
@@ -303,6 +344,7 @@ onMounted(loadEmployments)
   .work-time-stats-page__toolbar-right { justify-content: flex-end; }
   .work-time-stats-page__summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-time-stats-page__summary-period { grid-column: 1 / -1; }
+  .work-time-stats-page__progress { grid-column: 1 / -1; }
 }
 
 @media (max-width: 560px) {

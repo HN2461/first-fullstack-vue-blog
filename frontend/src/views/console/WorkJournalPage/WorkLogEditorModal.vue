@@ -2,9 +2,9 @@
   <a-modal
     :open="open"
     :title="`${log?.id ? '编辑日报' : sourceLog?.id ? '复制日报' : '新增日报'} · ${employment?.company || ''}`"
-    :width="820"
+    :width="980"
     :confirm-loading="saving"
-    :body-style="{ maxHeight: '70vh', overflow: 'hidden' }"
+    :body-style="{ maxHeight: '76vh', overflow: 'hidden' }"
     wrap-class-name="work-journal-dialog"
     ok-text="保存草稿"
     cancel-text="取消"
@@ -22,11 +22,16 @@
             <a-date-picker v-model:value="form.workDate" value-format="YYYY-MM-DD" format="YYYY-MM-DD" placeholder="选择工作日期" :disabled="Boolean(log?.id)" />
           </a-form-item>
         </div>
-        <a-form-item label="每天的工作时长（小时）" name="workHours">
+        <a-form-item label="当天总工作时长（小时）" name="workHours">
           <a-input-number v-model:value="form.workHours" :min="0" :max="24" :step="0.5" :precision="1" />
         </a-form-item>
-        <div v-if="employment?.attendanceRule?.afternoonEndTime" class="work-log-editor__attendance-hint">
-          当前考勤规则：正常工作至 {{ employment.attendanceRule.afternoonEndTime }}，加班从 {{ employment.attendanceRule.overtimeStartTime || employment.attendanceRule.afternoonEndTime }} 开始；工时统计页会按规则推算本日报的加班时长。
+        <div class="work-log-editor__attendance-preview" :class="{ 'is-muted': !attendancePreview.configured }">
+          <template v-if="attendancePreview.configured">
+            <span>当前规则每日正常时长</span><strong>{{ formatAttendanceMinutes(attendancePreview.expectedNormalMinutes) }}</strong>
+            <span>预计正常时长</span><strong>{{ formatAttendanceMinutes(attendancePreview.normalMinutes) }}</strong>
+            <span>预计加班</span><strong class="is-overtime">{{ formatAttendanceMinutes(attendancePreview.overtimeMinutes) }}</strong>
+          </template>
+          <span v-else>尚未配置完整考勤规则，保存后只记录总工时，不会推算加班时长。</span>
         </div>
         <a-form-item label="日报标题" name="title" required>
           <a-input v-model:value.trim="form.title" :maxlength="160" placeholder="例如：完成订单列表筛选与联调" />
@@ -82,6 +87,7 @@ import { message } from 'ant-design-vue'
 import { CircleCheck } from '@lucide/vue'
 import { useAppStore } from '@/stores/app'
 import { createWorkLog, updateWorkLog } from '@/services/workJournal'
+import { calculateAttendancePreview, formatAttendanceMinutes } from '@/utils/attendance'
 import 'md-editor-v3/lib/style.css'
 import 'md-editor-v3/lib/preview.css'
 
@@ -110,6 +116,12 @@ const employmentOptions = computed(() => props.employments.map((item) => ({
   value: item.id,
   label: `${item.company} · ${item.position}`
 })))
+const attendancePreview = computed(() => calculateAttendancePreview(
+  form.workHours,
+  form.workDate,
+  employment.value?.attendanceRule || {},
+  employment.value || {}
+))
 const canFinalize = computed(() => Boolean(form.title.trim() && (form.summary.trim() || form.accomplishments.trim() || form.contentMarkdown.trim())))
 
 function today() {
@@ -198,11 +210,28 @@ watch(() => [props.open, props.log, props.sourceLog], ([visible]) => {
   font-weight: 600;
 }
 
-.work-log-editor__attendance-hint {
+.work-log-editor__attendance-preview {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px 10px;
   margin: -6px 0 16px;
   color: var(--console-text-secondary, #667085);
   font-size: 12px;
   line-height: 1.6;
+}
+
+.work-log-editor__attendance-preview strong {
+  color: var(--console-text, #303133);
+  font-size: 13px;
+}
+
+.work-log-editor__attendance-preview strong.is-overtime {
+  color: #d46b08;
+}
+
+.work-log-editor__attendance-preview.is-muted {
+  display: block;
 }
 
 .work-log-editor__meta {

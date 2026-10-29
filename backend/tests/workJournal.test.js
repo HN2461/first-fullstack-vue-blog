@@ -276,7 +276,7 @@ describe('work journal routes', () => {
     await request(app)
       .post('/api/work-journal/logs')
       .set('Authorization', `Bearer ${token}`)
-      .send({ employmentId: employment.id, workDate: '2026-06-01', title: '周一工时', workHours: 9.5, accomplishments: '完成工作' })
+      .send({ employmentId: employment.id, workDate: '2026-06-01', title: '周一工时', workHours: 9.5, accomplishments: '完成工作', status: 'final' })
       .expect(201)
     await request(app)
       .post('/api/work-journal/logs')
@@ -304,6 +304,8 @@ describe('work journal routes', () => {
       remainingMinutes: 0,
       excessMinutes: 120
     })
+    expect(summary.body.data.confirmed).toMatchObject({ totalMinutes: 570, overtimeMinutes: 120 })
+    expect(summary.body.data.draft).toMatchObject({ totalMinutes: 930, overtimeMinutes: 480 })
     expect(summary.body.data.items.map((item) => item.attendance.overtimeMinutes)).toEqual([120, 0, 480])
     expect(summary.body.data.items.every((item) => item.attendance.source === 'rule_inferred')).toBe(true)
 
@@ -577,6 +579,8 @@ describe('work journal routes', () => {
       company: '甲方科技'
     })
     expect(weekly.body.data.contentMarkdown).toContain('工作记录 2026-06-01')
+    expect(weekly.body.data.contentMarkdown).toContain('## 工时统计')
+    expect(weekly.body.data.contentMarkdown).toContain('加班时长：')
 
     await request(app)
       .post('/api/work-journal/saved-reports')

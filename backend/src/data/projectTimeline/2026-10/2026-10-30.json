@@ -4,11 +4,11 @@
   "source": "collaboration_daily",
   "records": [
     {
-      "id": "ai-rules-mechanism-series-current-research-update",
-      "title": "复核并更新 AI 工具规则机制层 22 篇文章",
-      "detail": "1. 阅读并核对 MCP、Plugin、Rules、Skill 四个子系列 22 篇线上权威 Markdown，保留 originalId、originalSlug、分类路径和文章身份；统一复核时间与 manifest 内容摘要、正文 hash。2. 根据 MCP 2026-07-28 稳定规范补充无状态请求、server/discover、Tasks 扩展、MRTR、resultType 与弃用边界；更新 Chrome DevTools MCP 默认自动启动、Playwright CLI + Skills、GitHub MCP 远程服务等选型信息。3. 根据 Agent Skills、Cursor、Claude Code、Kiro、Gemini CLI、GitHub Copilot、Codex/Claude Plugin 和 agents.md 官方资料，补充当前 Skills 字段、插件组件、AGENTS.md 作用域、Auto Memory 仓库共享、Copilot/Gemini 指令加载与官方仓库迁移信息；修复系列文章相对链接，完成 UTF-8 无 BOM 与本地权威快照解析检查。4. 按文章权威仓库同步流程准备同一 Git 提交源，待提交推送后在生产端执行 compare、dry-run、生产正文同步，并在写入后复核线上线下内容一致性。",
-      "occurredAt": "2026-10-30T11:00:00+08:00",
-      "category": "内容上新"
+      "id": "work-journal-attendance-ux-optimization",
+      "title": "优化工作日记考勤统计与弹窗使用体验",
+      "detail": "1. 考勤规则配置增加时间线、每日正常工时和每周目标预览，工作经历列表增加考勤规则已配置/未配置状态。2. 日报填写时实时显示规则正常时长、预计正常时长和预计加班时长；工时统计增加目标进度条，并区分草稿暂计与已定稿加班。3. 周报/月报自动生成内容增加周期工时摘要，日报阅读、日报编辑、工作经历配置和周/月报弹窗统一扩大可读区域，继续保持弹窗内部滚动和移动端最大宽度限制。4. 新增前端考勤预览工具及测试，完成工作日记专项测试、前端全量测试、前端构建、编码检查和桌面/移动端 Playwright 验证。",
+      "occurredAt": "2026-10-30T00:20:00+08:00",
+      "category": "体验优化"
     }
   ]
 }

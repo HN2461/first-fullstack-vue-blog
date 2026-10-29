@@ -2,9 +2,9 @@
   <a-modal
     :open="open"
     title="工作经历"
-    :width="820"
+    :width="980"
     :confirm-loading="saving"
-    :body-style="{ maxHeight: '68vh', overflow: 'hidden' }"
+    :body-style="{ maxHeight: '76vh', overflow: 'hidden' }"
     wrap-class-name="work-journal-dialog"
     ok-text="保存经历"
     cancel-text="关闭"
@@ -56,9 +56,24 @@
           <a-alert
             type="info"
             show-icon
-            message="日报中的总时长会按这里的正常工作段推算正常时长和加班时长；规则调整后可用于重新统计历史日报。"
+            message="日报填写当天总工时后，系统会按这里的正常工作段推算正常时长和加班时长；修改规则后，历史统计也会按新规则重新计算。"
             class="employment-manager__attendance-tip"
           />
+          <div class="employment-manager__attendance-timeline">
+            <div v-for="item in attendanceTimeline" :key="item.label" class="employment-manager__attendance-step">
+              <span class="employment-manager__attendance-dot" :class="`is-${item.type}`" />
+              <div>
+                <strong>{{ item.label }}</strong>
+                <span>{{ item.range }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="employment-manager__attendance-preview">
+            <span>每日正常工作时长</span>
+            <strong>{{ formatAttendanceMinutes(normalWorkMinutes) }}</strong>
+            <span>每周加班目标</span>
+            <strong>{{ formatAttendanceMinutes(form.attendanceRule.weeklyOvertimeTargetMinutes) }}</strong>
+          </div>
           <div class="employment-manager__grid">
             <a-form-item label="上午工作时间">
               <div class="employment-manager__time-range">
@@ -166,10 +181,11 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { PencilLine, Trash2 } from '@lucide/vue'
 import { createEmployment, deleteEmployment, updateEmployment } from '@/services/workJournal'
+import { formatAttendanceMinutes, getNormalWorkMinutes } from '@/utils/attendance'
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -193,6 +209,19 @@ const workdayOptions = [
   { value: 6, label: '周六' },
   { value: 0, label: '周日' }
 ]
+const normalWorkMinutes = computed(() => getNormalWorkMinutes(form.attendanceRule, form))
+const attendanceTimeline = computed(() => [
+  { label: '上午正常工作', range: timeRange(form.attendanceRule.morningStartTime, form.attendanceRule.morningEndTime), type: 'work' },
+  { label: '午间休息', range: timeRange(form.attendanceRule.lunchBreakStartTime, form.attendanceRule.lunchBreakEndTime), type: 'break' },
+  { label: '下午正常工作', range: timeRange(form.attendanceRule.afternoonStartTime, form.attendanceRule.afternoonEndTime), type: 'work' },
+  { label: '晚间休息', range: timeRange(form.attendanceRule.eveningBreakStartTime, form.attendanceRule.eveningBreakEndTime), type: 'break' },
+  { label: '加班起算', range: form.attendanceRule.overtimeStartTime || '未配置', type: 'overtime' }
+])
+
+function timeRange(start, end) {
+  if (!start && !end) return '未配置'
+  return `${start || '--:--'} 至 ${end || '--:--'}`
+}
 
 function createBlankAttendanceRule() {
   return {
@@ -339,6 +368,75 @@ watch(() => props.open, (visible) => {
   margin: -2px 0 16px;
 }
 
+.employment-manager__attendance-timeline {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin: -2px 0 14px;
+  padding: 10px;
+  border: 1px solid var(--console-border, #e5e7eb);
+  border-radius: 6px;
+  background: var(--console-surface-subtle, #f8fafc);
+}
+
+.employment-manager__attendance-step {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.employment-manager__attendance-step > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+
+.employment-manager__attendance-step strong,
+.employment-manager__attendance-step span:not(.employment-manager__attendance-dot) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.employment-manager__attendance-step strong {
+  color: var(--console-text, #303133);
+  font-size: 12px;
+}
+
+.employment-manager__attendance-step span:not(.employment-manager__attendance-dot) {
+  color: var(--console-text-secondary, #667085);
+  font-size: 11px;
+}
+
+.employment-manager__attendance-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--console-text-secondary, #98a2b3);
+}
+
+.employment-manager__attendance-dot.is-work { background: var(--console-primary, #409eff); }
+.employment-manager__attendance-dot.is-break { background: #98a2b3; }
+.employment-manager__attendance-dot.is-overtime { background: #fa8c16; }
+
+.employment-manager__attendance-preview {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  margin: -2px 0 16px;
+  color: var(--console-text-secondary, #667085);
+  font-size: 12px;
+}
+
+.employment-manager__attendance-preview strong {
+  color: var(--console-text, #303133);
+  font-size: 14px;
+}
+
 .employment-manager__attendance-days {
   grid-column: 1 / -1;
 }
@@ -424,6 +522,10 @@ watch(() => props.open, (visible) => {
   .employment-manager__dates {
     max-width: 112px;
     text-align: right;
+  }
+
+  .employment-manager__attendance-timeline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 </style>

@@ -13,7 +13,7 @@ import { permanentlyDeleteWorkJournalMedia } from '#modules/media/services/media
 import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { decryptWorkMaterialField, encryptWorkMaterialField } from '#utils/workMaterialFieldEncryption.js'
-import { calculateAttendance, isAttendanceRuleConfigured, normalizeAttendanceRule, validateAttendanceRule } from '#modules/workJournal/utils/attendance.js'
+import { calculateAttendance, formatAttendanceMinutes, isAttendanceRuleConfigured, normalizeAttendanceRule, validateAttendanceRule } from '#modules/workJournal/utils/attendance.js'
 import { getBusinessDate } from '#utils/businessDate.js'
 
 const MAX_REVISIONS = 20
@@ -598,8 +598,18 @@ export async function getAttendanceSummary(userId, filters = {}) {
     result.totalMinutes += item.attendance.totalMinutes
     result.normalMinutes += item.attendance.normalMinutes
     result.overtimeMinutes += item.attendance.overtimeMinutes
+    const target = item.status === 'final' ? result.confirmed : result.draft
+    target.totalMinutes += item.attendance.totalMinutes
+    target.normalMinutes += item.attendance.normalMinutes
+    target.overtimeMinutes += item.attendance.overtimeMinutes
     return result
-  }, { totalMinutes: 0, normalMinutes: 0, overtimeMinutes: 0 })
+  }, {
+    totalMinutes: 0,
+    normalMinutes: 0,
+    overtimeMinutes: 0,
+    confirmed: { totalMinutes: 0, normalMinutes: 0, overtimeMinutes: 0 },
+    draft: { totalMinutes: 0, normalMinutes: 0, overtimeMinutes: 0 }
+  })
   const normalizedRule = normalizeAttendanceRule(employment.attendanceRule, employment)
   const targetMinutes = normalizedRule.weeklyOvertimeTargetMinutes
   return {
@@ -615,11 +625,24 @@ export async function getAttendanceSummary(userId, filters = {}) {
   }
 }
 
-function renderWorkReport(period, range, logs) {
+function renderWorkReport(period, range, logs, employment) {
+  const attendanceItems = logs.map((log) => withAttendance(log, employment))
+  const attendanceTotals = attendanceItems.reduce((result, item) => {
+    result.totalMinutes += item.attendance.totalMinutes
+    result.normalMinutes += item.attendance.normalMinutes
+    result.overtimeMinutes += item.attendance.overtimeMinutes
+    return result
+  }, { totalMinutes: 0, normalMinutes: 0, overtimeMinutes: 0 })
   const lines = [
     `# ${period === 'week' ? '周报' : '月报'}草稿`,
     '',
     `${range.from} 至 ${range.to}`,
+    '',
+    '## 工时统计',
+    '',
+    `- 总工作时长：${formatAttendanceMinutes(attendanceTotals.totalMinutes)}`,
+    `- 正常工作时长：${formatAttendanceMinutes(attendanceTotals.normalMinutes)}`,
+    `- 加班时长：${formatAttendanceMinutes(attendanceTotals.overtimeMinutes)}`,
     ''
   ]
 
@@ -671,7 +694,7 @@ export async function listWorkReports(userId, filters = {}) {
 }
 
 export async function createWorkReport(userId, input) {
-  await findOwnedEmployment(input.employmentId, userId)
+  const employment = await findOwnedEmployment(input.employmentId, userId)
   const range = getReportRange(input.period, input.date)
   const logs = await WorkLog.find({
     createdBy: userId,
@@ -690,7 +713,7 @@ export async function createWorkReport(userId, input) {
       fromDate: range.from,
       toDate: range.to,
       title: input.title?.trim() || workReportTitle(input.period, range),
-      contentMarkdown: input.contentMarkdown ?? renderWorkReport(input.period, range, logs),
+      contentMarkdown: input.contentMarkdown ?? renderWorkReport(input.period, range, logs, employment),
       sourceLogIds: logs.map((log) => log._id),
       status: 'draft',
       createdBy: userId

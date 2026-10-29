@@ -150,9 +150,9 @@
     <a-modal
       :open="Boolean(detailLog)"
       :title="detailLog?.title || '日报详情'"
-      :width="880"
+      :width="980"
       :footer="null"
-      :body-style="{ maxHeight: '70vh', overflow: 'hidden' }"
+      :body-style="{ maxHeight: '76vh', overflow: 'hidden' }"
       wrap-class-name="work-journal-dialog"
       @cancel="detailLog = null"
     >
