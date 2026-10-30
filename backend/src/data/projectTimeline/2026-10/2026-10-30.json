@@ -16,6 +16,13 @@
       "detail": "1. 阅读并核对 MCP、Plugin、Rules、Skill 四个子系列 22 篇线上权威 Markdown，保留 originalId、originalSlug、分类路径和文章身份；统一复核时间与 manifest 内容摘要、正文 hash。2. 根据 MCP 2026-07-28 稳定规范补充无状态请求、server/discover、Tasks 扩展、MRTR、resultType 与弃用边界；更新 Chrome DevTools MCP 默认自动启动、Playwright CLI + Skills、GitHub MCP 远程服务等选型信息。3. 根据 Agent Skills、Cursor、Claude Code、Kiro、Gemini CLI、GitHub Copilot、Codex/Claude Plugin 和 agents.md 官方资料，补充当前 Skills 字段、插件组件、AGENTS.md 作用域、Auto Memory 仓库共享、Copilot/Gemini 指令加载与官方仓库迁移信息；修复系列文章相对链接，完成 UTF-8 无 BOM 与本地权威快照解析检查。4. 按文章权威仓库同步流程准备同一 Git 提交源；因 GitHub 推送受本机代理连接失败影响，使用同一提交归档上传生产 staging，完成生产 compare、dry-run 和 22 篇正文同步；写后 compare 显示正文待推送 0、运营字段待回写 0，剩余 2 条为无关文档型文章阻断，目标目录线上线下已对齐。",
       "occurredAt": "2026-10-30T00:40:00+08:00",
       "category": "内容上新"
+    },
+    {
+      "id": "work-journal-attendance-week-list-layout",
+      "title": "修复工时统计明细遮挡并改为周明细布局",
+      "detail": "1. 移除工时统计页下方通用表格和内部滚动容器，改为固定展示周一至周日的 7 天明细，日报存在时展示工时数据，未记录时显示明确占位。2. 页面改为自然内容高度并由页面主体滚动，避免摘要区域和明细区域争抢固定高度导致行内容被裁切。3. 移动端将明细自动切换为两列信息卡，不再要求横向拖动查看隐藏列；桌面端保留完整明细列。4. 完成前端测试、生产构建和桌面/移动端浏览器回归。",
+      "occurredAt": "2026-10-30T08:55:00+08:00",
+      "category": "问题修复"
     }
   ]
 }

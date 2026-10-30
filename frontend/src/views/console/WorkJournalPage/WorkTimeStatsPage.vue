@@ -77,69 +77,99 @@
         </div>
       </div>
 
-      <BlogTable
-        ref="tableRef"
-        :api-fn="loadRows"
-        :params="tableParams"
-        :columns="columns"
-        :height="'100%'"
-        :page-size="20"
-        :hide-pagination="true"
-        :show-column-setting="true"
-        :scroll="{ x: 960 }"
-      >
-        <template #emptyText>
-          <WorkJournalEmptyState
-            v-if="summary?.ruleConfigured === false"
-            title="考勤规则尚未完整配置"
-            description="请在工作经历中配置至少一段正常工作时间，历史日报才能推算加班时长。"
-          >
-            <a-button type="primary" @click="goToEmploymentConfig">配置考勤规则</a-button>
-          </WorkJournalEmptyState>
-          <WorkJournalEmptyState v-else title="本周还没有日报" description="在日报中记录工作时长后，这里会自动汇总本周正常与加班时长。" />
-        </template>
-        <template #toolbar>
-          <span class="work-time-stats-page__table-title">每日明细</span>
+      <section class="work-time-stats-page__details">
+        <div class="work-time-stats-page__details-heading">
+          <div>
+            <strong>每日明细</strong>
+            <span>本周最多展示 7 天，不分页</span>
+          </div>
           <a-tag v-if="summary" :color="summary.ruleConfigured ? 'blue' : 'default'" :bordered="false">
             {{ summary.ruleConfigured ? '按考勤规则推算' : '仅记录总时长' }}
           </a-tag>
-        </template>
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'workDate'">
-            <div class="work-time-stats-page__date-cell"><strong>{{ record.workDate }}</strong><span>{{ weekdayLabel(record.workDate) }}</span></div>
-          </template>
-          <template v-else-if="column.key === 'title'">
-            <div class="work-time-stats-page__title-cell"><strong>{{ record.title }}</strong><span>{{ record.status === 'final' ? '已定稿' : '草稿' }}</span></div>
-          </template>
-          <template v-else-if="column.key === 'total'">{{ formatMinutes(record.attendance.totalMinutes) }}</template>
-          <template v-else-if="column.key === 'normal'">{{ formatMinutes(record.attendance.normalMinutes) }}</template>
-          <template v-else-if="column.key === 'overtime'"><a-tag :color="record.attendance.overtimeMinutes ? 'orange' : 'default'" :bordered="false">{{ formatMinutes(record.attendance.overtimeMinutes) }}</a-tag></template>
-          <template v-else-if="column.key === 'source'">{{ record.attendance.source === 'rule_inferred' ? '规则推算' : '未配置规则' }}</template>
-        </template>
-      </BlogTable>
+        </div>
+
+        <WorkJournalEmptyState
+          v-if="!summary?.items?.length && summary?.ruleConfigured === false"
+          title="考勤规则尚未完整配置"
+          description="请在工作经历中配置至少一段正常工作时间，历史日报才能推算加班时长。"
+        >
+          <a-button type="primary" @click="goToEmploymentConfig">配置考勤规则</a-button>
+        </WorkJournalEmptyState>
+        <WorkJournalEmptyState
+          v-else-if="!summary?.items?.length"
+          title="本周还没有日报"
+          description="在日报中记录工作时长后，这里会自动汇总本周正常与加班时长。"
+        />
+
+        <div v-else class="work-time-stats-page__week-list">
+          <div class="work-time-stats-page__week-head" aria-hidden="true">
+            <span>日期</span>
+            <span>日报</span>
+            <span>总时长</span>
+            <span>正常时长</span>
+            <span>加班时长</span>
+            <span>计算方式</span>
+          </div>
+          <div
+            v-for="item in weeklyItems"
+            :key="item.workDate"
+            class="work-time-stats-page__week-row"
+            :class="{ 'is-empty': !item.log, 'is-weekend': item.weekday === '星期六' || item.weekday === '星期日' }"
+          >
+            <div class="work-time-stats-page__date-cell">
+              <strong>{{ item.workDate }}</strong>
+              <span>{{ item.weekday }}</span>
+            </div>
+            <div class="work-time-stats-page__title-cell">
+              <template v-if="item.log">
+                <strong>{{ item.log.title }}</strong>
+                <span>{{ item.log.status === 'final' ? '已定稿' : '草稿暂计' }}</span>
+              </template>
+              <span v-else class="work-time-stats-page__not-recorded">未记录日报</span>
+            </div>
+            <span v-if="item.log">{{ formatMinutes(item.log.attendance.totalMinutes) }}</span>
+            <span v-else class="work-time-stats-page__muted">—</span>
+            <span v-if="item.log">{{ formatMinutes(item.log.attendance.normalMinutes) }}</span>
+            <span v-else class="work-time-stats-page__muted">—</span>
+            <a-tag v-if="item.log" :color="item.log.attendance.overtimeMinutes ? 'orange' : 'default'" :bordered="false">
+              {{ formatMinutes(item.log.attendance.overtimeMinutes) }}
+            </a-tag>
+            <span v-else class="work-time-stats-page__muted">—</span>
+            <span v-if="item.log">{{ item.log.attendance.source === 'rule_inferred' ? '规则推算' : '未配置规则' }}</span>
+            <span v-else class="work-time-stats-page__muted">等待日报</span>
+          </div>
+        </div>
+      </section>
     </template>
   </section>
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { RefreshCw, Settings2 } from '@lucide/vue'
-import BlogTable from '@/components/BlogTable.vue'
 import { getAttendanceSummary, listEmployments } from '@/services/workJournal'
 import WorkJournalEmptyState from './WorkJournalEmptyState.vue'
 import WorkJournalHelpButton from './WorkJournalHelpButton.vue'
 
 const router = useRouter()
-const tableRef = ref(null)
 const employments = ref([])
 const employmentId = ref('')
 const anchorDate = ref(today())
 const summary = ref(null)
 const loading = ref(false)
-const tableParams = reactive({ employmentId: '', date: anchorDate.value })
 const employmentOptions = computed(() => employments.value.map((item) => ({ value: item.id, label: `${item.company} · ${item.position}` })))
+const weeklyItems = computed(() => {
+  if (!summary.value) return []
+  const logMap = new Map((summary.value.items || []).map((item) => [item.workDate, item]))
+  const items = []
+  for (let index = 0; index < 7; index += 1) {
+    const workDate = shiftDate(summary.value.from, index)
+    items.push({ workDate, weekday: weekdayLabel(workDate), log: logMap.get(workDate) || null })
+  }
+  return items
+})
 const progressPercent = computed(() => {
   if (!summary.value?.targetMinutes) return summary.value?.overtimeMinutes ? 100 : 0
   return Math.min(100, Math.round((summary.value.overtimeMinutes / summary.value.targetMinutes) * 100))
@@ -147,14 +177,6 @@ const progressPercent = computed(() => {
 const helpSections = [
   { heading: '统计口径', items: ['统计按周一至周日汇总，目标来自当前工作经历的考勤规则。', '历史日报只有总时长时，系统按正常工作段推算加班时长，并在明细中标记为规则推算。', '没有完整正常工作时间时只显示总时长，不会猜测加班时长。'] },
   { heading: '规则调整', items: ['工作经历中的考勤规则会作为日报统计的默认规则；修改规则后，历史统计会按新规则重新计算。', '周末是否计入统计由工作经历的工作日配置决定。'] }
-]
-const columns = [
-  { title: '工作日期', key: 'workDate', width: 150 },
-  { title: '日报', key: 'title', width: 300, ellipsis: true },
-  { title: '总时长', key: 'total', width: 130 },
-  { title: '正常时长', key: 'normal', width: 130 },
-  { title: '加班时长', key: 'overtime', width: 140 },
-  { title: '计算方式', key: 'source', width: 130 }
 ]
 
 function today() {
@@ -196,40 +218,35 @@ function goToEmploymentConfig() {
   router.push({ path: '/console/work-journal/employments', query: { employmentId: employmentId.value } })
 }
 
-async function loadRows(params = {}) {
-  tableParams.employmentId = employmentId.value
-  tableParams.date = anchorDate.value
+async function loadSummary() {
   if (!employmentId.value) {
     summary.value = null
-    return { items: [], total: 0, page: 1, pageSize: params.pageSize || 20 }
+    return
   }
   loading.value = true
   try {
     summary.value = await getAttendanceSummary({ employmentId: employmentId.value, date: anchorDate.value })
-    const items = summary.value.items || []
-    return { items, total: items.length, page: 1, pageSize: items.length || 20 }
   } catch (error) {
     summary.value = null
     message.error(error.message || '加载工时统计失败')
-    return { items: [], total: 0, page: 1, pageSize: params.pageSize || 20 }
   } finally {
     loading.value = false
   }
 }
 
 function reload() {
-  return tableRef.value?.reload()
+  return loadSummary()
 }
 
 function refresh() {
-  return tableRef.value?.refresh()
+  return loadSummary()
 }
 
 async function loadEmployments() {
   try {
     employments.value = await listEmployments()
     if (!employmentId.value && employments.value.length) employmentId.value = employments.value[0].id
-    await reload()
+    await loadSummary()
   } catch (error) {
     message.error(error.message || '加载工作经历失败')
   }
@@ -244,7 +261,10 @@ onMounted(loadEmployments)
   height: var(--console-page-available-height, calc(100vh - 190px));
   min-height: 0;
   flex-direction: column;
-  overflow: hidden;
+  gap: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 16px;
 }
 
 .work-time-stats-page__toolbar {
@@ -331,12 +351,84 @@ onMounted(loadEmployments)
   font-size: 11px;
 }
 
-.work-time-stats-page > :deep(.blog-table) { min-height: 0; flex: 1 1 0; border-radius: 8px; }
+.work-time-stats-page__details {
+  flex: 0 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--console-border, #ebeef5);
+  border-radius: 8px;
+  background: var(--console-surface, #fff);
+}
+
+.work-time-stats-page__details-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 58px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--console-border, #ebeef5);
+}
+
+.work-time-stats-page__details-heading > div {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.work-time-stats-page__details-heading strong {
+  color: var(--console-text, #303133);
+  font-size: 15px;
+}
+
+.work-time-stats-page__details-heading span {
+  color: var(--console-text-secondary, #667085);
+  font-size: 12px;
+}
+
+.work-time-stats-page__week-list {
+  width: 100%;
+}
+
+.work-time-stats-page__week-head,
+.work-time-stats-page__week-row {
+  display: grid;
+  grid-template-columns: minmax(124px, 0.9fr) minmax(240px, 2fr) minmax(116px, 0.85fr) minmax(116px, 0.85fr) minmax(116px, 0.85fr) minmax(120px, 0.9fr);
+  align-items: center;
+  column-gap: 16px;
+  padding: 0 18px;
+}
+
+.work-time-stats-page__week-head {
+  min-height: 42px;
+  color: var(--console-text-secondary, #667085);
+  background: var(--console-surface-subtle, #f8fafc);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.work-time-stats-page__week-row {
+  min-height: 78px;
+  border-top: 1px solid var(--console-border, #ebeef5);
+  color: var(--console-text, #303133);
+  font-size: 13px;
+}
+
+.work-time-stats-page__week-row.is-empty {
+  color: var(--console-text-secondary, #667085);
+  background: color-mix(in srgb, var(--console-surface-subtle, #f8fafc) 55%, transparent);
+}
+
+.work-time-stats-page__week-row.is-weekend {
+  background: color-mix(in srgb, var(--console-surface-subtle, #f8fafc) 42%, transparent);
+}
+
 .work-time-stats-page__date-cell,
 .work-time-stats-page__title-cell { display: grid; min-width: 0; gap: 3px; }
 .work-time-stats-page__date-cell span,
 .work-time-stats-page__title-cell span { color: var(--console-text-secondary, #667085); font-size: 12px; }
 .work-time-stats-page__title-cell strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.work-time-stats-page__not-recorded,
+.work-time-stats-page__muted { color: var(--console-text-secondary, #98a2b3); }
 
 @media (max-width: 900px) {
   .work-time-stats-page { height: var(--console-page-available-height, calc(100vh - 130px)); }
@@ -345,6 +437,36 @@ onMounted(loadEmployments)
   .work-time-stats-page__summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-time-stats-page__summary-period { grid-column: 1 / -1; }
   .work-time-stats-page__progress { grid-column: 1 / -1; }
+  .work-time-stats-page__week-head { display: none; }
+  .work-time-stats-page__week-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: 0;
+    row-gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .work-time-stats-page__week-row > :nth-child(3),
+  .work-time-stats-page__week-row > :nth-child(4),
+  .work-time-stats-page__week-row > :nth-child(5),
+  .work-time-stats-page__week-row > :nth-child(6) {
+    display: grid;
+    min-width: 0;
+    gap: 3px;
+    align-content: start;
+  }
+
+  .work-time-stats-page__week-row > :nth-child(3)::before,
+  .work-time-stats-page__week-row > :nth-child(4)::before,
+  .work-time-stats-page__week-row > :nth-child(5)::before,
+  .work-time-stats-page__week-row > :nth-child(6)::before {
+    color: var(--console-text-secondary, #667085);
+    font-size: 11px;
+  }
+
+  .work-time-stats-page__week-row > :nth-child(3)::before { content: '总时长'; }
+  .work-time-stats-page__week-row > :nth-child(4)::before { content: '正常时长'; }
+  .work-time-stats-page__week-row > :nth-child(5)::before { content: '加班时长'; }
+  .work-time-stats-page__week-row > :nth-child(6)::before { content: '计算方式'; }
 }
 
 @media (max-width: 560px) {
@@ -352,5 +474,7 @@ onMounted(loadEmployments)
   .work-time-stats-page__date-label { width: 100%; justify-content: space-between; }
   .work-time-stats-page__date-label input { flex: 1; }
   .work-time-stats-page__summary > div { padding: 12px; }
+  .work-time-stats-page__details-heading { align-items: flex-start; flex-direction: column; }
+  .work-time-stats-page__details-heading > div { align-items: flex-start; flex-direction: column; gap: 3px; }
 }
 </style>
