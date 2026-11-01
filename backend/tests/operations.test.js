@@ -5,6 +5,7 @@ import { USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
 import { Media } from '#modules/media/models/Media.js'
+import { Article } from '#modules/content/models/Article.js'
 import { Setting } from '#modules/settings/models/Setting.js'
 import { User } from '#modules/user/models/User.js'
 import { createArticle, updateArticle } from '#modules/content/services/article.service.js'
@@ -133,6 +134,11 @@ describe('operations routes', () => {
       authorName: expect.any(String),
       systemVersion: expect.any(String)
     })
+    const releaseInfo = dashboardContextResponse.body.data.releaseInfo
+    expect(Object.keys(releaseInfo).sort()).toEqual(['lastSuccessfulReleaseAt', 'releaseId', 'target'])
+    expect(releaseInfo.lastSuccessfulReleaseAt === null || typeof releaseInfo.lastSuccessfulReleaseAt === 'string').toBe(true)
+    expect([null, 'full', 'backend', 'frontend']).toContain(releaseInfo.target)
+    expect(releaseInfo.releaseId === null || typeof releaseInfo.releaseId === 'string').toBe(true)
     expect(dashboardContextResponse.body.data).not.toHaveProperty('accountRecovery')
   })
 
@@ -290,20 +296,39 @@ describe('operations routes', () => {
   })
 
   it('returns basic admin stats', async () => {
-    await createArticle({
+    const recentArticle = await createArticle({
       title: '统计文章',
       slug: 'stats-post',
       status: 'published'
     }, admin)
+
+    const oldDate = new Date(Date.now() - 10 * 24 * 60 * 60 * 1000)
+    await Article.create({
+      title: '旧统计文章',
+      slug: 'old-stats-post',
+      status: 'published',
+      publishedAt: oldDate,
+      createdAt: oldDate,
+      createdBy: admin._id,
+      updatedBy: admin._id
+    })
+    await Article.collection.updateOne(
+      { _id: recentArticle.id },
+      { $set: { createdAt: new Date(), publishedAt: new Date() } }
+    )
 
     const response = await request(app)
       .get('/api/admin/stats')
       .set('Authorization', `Bearer ${adminToken}`)
       .expect(200)
 
-    expect(response.body.data.articleCount).toBe(1)
-    expect(response.body.data.publishedCount).toBe(1)
+    expect(response.body.data.articleCount).toBe(2)
+    expect(response.body.data.publishedCount).toBe(2)
     expect(response.body.data.userCount).toBe(1)
+    expect(response.body.data.articleCreatedLast7Days).toBe(1)
+    expect(response.body.data.articlePublishedLast7Days).toBe(1)
+    expect(response.body.data.userCreatedLast7Days).toBe(1)
+    expect(response.body.data).not.toHaveProperty('articleTrend')
   })
 
   it('returns monitor overview for admin users', async () => {

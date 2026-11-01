@@ -56,10 +56,8 @@
             <span class="stat-label">{{ item.label }}</span>
             <span class="stat-value">{{ item.value }}</span>
           </div>
-          <div class="stat-trend" v-if="item.trend !== null">
-            <span :class="['trend-num', item.trend >= 0 ? 'up' : 'down']">
-              {{ item.trend >= 0 ? '+' : '' }}{{ item.trend }}%
-            </span>
+          <div class="stat-trend" v-if="item.caption">
+            <span class="stat-caption">{{ item.caption }}</span>
           </div>
         </div>
       </template>
@@ -249,6 +247,10 @@
               <span class="info-key">版本</span>
               <span class="info-val">{{ settings.systemVersion || '-' }}</span>
             </div>
+            <div class="info-row">
+              <span class="info-key">最近成功发布</span>
+              <span class="info-val">{{ releaseInfoText }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -375,6 +377,7 @@ import {
 } from '@ant-design/icons-vue'
 import { useAuthStore } from '@/stores/auth'
 import ContinueReadingButton from '@/components/reading-history/ContinueReadingButton.vue'
+import { formatReleaseInfo } from '@/utils/releaseInfo'
 import { updateQuickActions } from '@/services/http'
 import {
   getAdminDashboardContext,
@@ -389,6 +392,7 @@ const stats = ref({})
 const recentArticles = ref([])
 const announcements = ref([])
 const settings = ref({})
+const releaseInfoText = computed(() => formatReleaseInfo(settings.value.releaseInfo))
 const loading = ref(false)
 const hasLoaded = ref(false)
 const loadError = ref('')
@@ -463,12 +467,12 @@ const todayFormatted = computed(() => {
 })
 
 const statCards = computed(() => [
-  { label: '文章', value: stats.value.articleCount || 0, icon: FileTextOutlined, iconBg: '#e6f7ff', iconColor: '#1890ff', trend: stats.value.articleTrend ?? null },
-  { label: '已发布', value: stats.value.publishedCount || 0, icon: FileDoneOutlined, iconBg: '#f6ffed', iconColor: '#52c41a', trend: stats.value.publishedTrend ?? null },
-  { label: '草稿', value: stats.value.draftCount || 0, icon: EditOutlined, iconBg: '#fff7e6', iconColor: '#faad14', trend: null },
-  { label: '用户', value: stats.value.userCount || 0, icon: TeamOutlined, iconBg: '#f9f0ff', iconColor: '#722ed1', trend: stats.value.userTrend ?? null },
-  { label: '待审评论', value: stats.value.pendingCommentCount || 0, icon: CommentOutlined, iconBg: '#fff1f0', iconColor: '#f5222d', trend: null },
-  { label: '媒体', value: stats.value.mediaCount || 0, icon: PictureOutlined, iconBg: '#e6fffb', iconColor: '#13c2c2', trend: null }
+  { label: '文章', value: stats.value.articleCount || 0, icon: FileTextOutlined, iconBg: '#e6f7ff', iconColor: '#1890ff', caption: Number.isFinite(stats.value.articleCreatedLast7Days) ? `近 7 天新增 ${stats.value.articleCreatedLast7Days} 篇` : '' },
+  { label: '已发布', value: stats.value.publishedCount || 0, icon: FileDoneOutlined, iconBg: '#f6ffed', iconColor: '#52c41a' },
+  { label: '草稿', value: stats.value.draftCount || 0, icon: EditOutlined, iconBg: '#fff7e6', iconColor: '#faad14' },
+  { label: '用户', value: stats.value.userCount || 0, icon: TeamOutlined, iconBg: '#f9f0ff', iconColor: '#722ed1' },
+  { label: '待审评论', value: stats.value.pendingCommentCount || 0, icon: CommentOutlined, iconBg: '#fff1f0', iconColor: '#f5222d' },
+  { label: '媒体', value: stats.value.mediaCount || 0, icon: PictureOutlined, iconBg: '#e6fffb', iconColor: '#13c2c2' }
 ])
 
 const canCreateArticle = computed(() => authStore.canAccessPath('/console/manage/articles/new'))
@@ -1051,13 +1055,10 @@ watch(selectedQuickActionPages, (pages) => {
   flex-shrink: 0;
 }
 
-.trend-num {
+.stat-caption {
   font-size: 12px;
-  font-weight: 600;
+  color: var(--console-text-secondary);
 }
-
-.trend-num.up { color: #52c41a; }
-.trend-num.down { color: #f5222d; }
 
 /* 主内容 */
 .main-content {

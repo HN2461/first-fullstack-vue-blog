@@ -3,6 +3,11 @@ import { canEncryptCredentialInBrowser, encryptAuthCredential } from '@/utils/cr
 
 const TOKEN_KEY = 'blog-access-token'
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+let authExpiredHandler = null
+
+export function setAuthExpiredHandler(handler) {
+  authExpiredHandler = typeof handler === 'function' ? handler : null
+}
 
 export function getStoredToken() {
   return localStorage.getItem(TOKEN_KEY) || ''
@@ -73,11 +78,10 @@ http.interceptors.response.use(
       err.code = payload?.code
       err.status = error.response.status
 
-      // 401 未授权：清除 token，跳转登录
+      // 401 未授权：清除 token 并交给应用入口同步清理会话状态。
       if (error.response.status === 401) {
         setStoredToken('')
-        // 可选：跳转到登录页
-        // window.location.href = '/login'
+        Promise.resolve(authExpiredHandler?.()).catch(() => {})
       }
 
       return Promise.reject(err)

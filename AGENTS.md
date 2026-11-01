@@ -182,7 +182,7 @@
   - `backend/uploads`
   - `backend/logs`
   - `backend/legacy-notes`
-- 新增后端业务代码时，优先放到 `backend/src` 下对应目录：`routes`、`services`、`models`、`validators`、`constants`、`middlewares`、`utils`、`scripts`。
+- 新增后端业务代码时，优先放到 `backend/src/modules/<业务模块>/` 下对应的 `routes`、`services`、`models`、`validators` 子目录；跨模块共享的配置、常量、中间件、工具和脚本放在 `backend/src/config`、`backend/src/constants`、`backend/src/middlewares`、`backend/src/utils`、`backend/src/scripts`。
 - 新增后端测试时放到 `backend/tests`。
 - 只要新增文件位于 `backend/src` 或 `backend/tests`，发布脚本会自动打进后端发布包。
 - 如果新增 `backend` 根目录下的运行必需目录，例如 `templates`、`public`、`views`、`migrations`、`prisma`、`openapi`，必须同步更新 `scripts/package-release.ps1`，把该目录加入发布白名单。
@@ -193,14 +193,14 @@
 
 - `scripts/deploy-release.ps1` 支持 `-Target full|backend|frontend`；普通问题修复必须按实际变更范围选择目标，避免无关前端构建、后端测试、发布包上传和服务重启。
 - `-Target backend` 只发布后端，保留线上前端静态文件和上传目录；`-Target frontend` 只发布前端静态文件，不安装后端依赖、不重启 PM2。
-- `-RunDatabaseTasks` 只允许在确认存在数据库索引、权限种子、历史数据回填或迁移需求时使用；backend/full 发布默认只备份数据库，不执行数据库写入任务；frontend-only 发布不访问数据库。
+- `-RunDatabaseTasks` 只允许在确认存在数据库索引、权限种子、历史数据回填或迁移需求时使用；backend/full 发布默认只备份数据库，不执行数据库写入任务；frontend-only 发布不访问数据库。成功发布时间写入服务器独立运行目录的发布元数据文件，不属于数据库任务。
 - `scripts/check-encoding.ps1` 应优先扫描 Git 工作集中的源码、配置和文档，遵循 `.gitignore`，不得因扫描历史备份、上传目录或构建产物拖慢日常发布。
 - `-SkipChecks` 只用于已经单独完成等价验证、且需要复用现有发布包的发布；不得作为普通问题修复的默认提速方式。
 
 ## 数据库发布与迁移规则
 
 - 数据库发布默认不是整库覆盖；backend/full 发布只做 MongoDB 备份，不迁移、不恢复；纯 frontend 发布不访问数据库。
-- 发布前必须先判断 `backend/src/models`、`backend/src/services`、`backend/src/scripts`、`backend/src/validators`、`backend/src/constants` 是否存在数据结构、枚举、权限、关联关系变化。
+- 发布前必须先检查 `backend/src/modules/**/models`、`backend/src/modules/**/services`、`backend/src/modules/**/validators`、`backend/src/scripts` 和 `backend/src/constants`，判断是否存在数据结构、枚举、权限或关联关系变化。
 - 需要迁移数据库时，优先新增一次性脚本到 `backend/src/scripts`，脚本默认 dry-run，只有传入 `--apply` 才允许写库。
 - 迁移脚本必须先明确筛选范围、打印影响数量，并在发布前确认已有 `mongodump` 备份。
 - 项目记录台账不通过整库迁移同步日常协作记录；日常记录优先维护 `backend/src/data/projectTimeline/YYYY-MM/YYYY-MM-DD.json`，按月份归档，不再增加 `daily` 中间层，部署后在后台“项目记录台账”页面使用“导入记录”按钮导入线上数据库。

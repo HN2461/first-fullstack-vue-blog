@@ -114,6 +114,19 @@
                   >
                     <template #prefix><TagOutlined /></template>
                   </a-input>
+                  <span class="form-hint">手动维护的产品版本或里程碑，不随每次发布自动变化</span>
+                </div>
+              </div>
+              <div class="form-row">
+                <div id="setting-releaseInfo" class="form-item form-item--half">
+                  <div class="field-header">
+                    <label for="releaseInfo">最近成功发布</label>
+                    <a-tooltip title="部署脚本全部完成并通过检查后自动更新；失败的发布不会覆盖上一次成功时间。">
+                      <QuestionCircleOutlined class="field-help" />
+                    </a-tooltip>
+                  </div>
+                  <a-input id="releaseInfo" :value="releaseInfoText" readonly />
+                  <span class="form-hint">由发布脚本自动记录，不能手动修改</span>
                 </div>
               </div>
             </a-form>
@@ -208,8 +221,9 @@ import {
   SaveOutlined
 } from '@ant-design/icons-vue'
 import { Sun, Moon } from '@lucide/vue'
-import { getAdminSettings, updateAdminSettings } from '@/services/admin'
+import { getAdminDashboardContext, getAdminSettings, updateAdminSettings } from '@/services/admin'
 import { setCachedSiteProfile } from '@/utils/siteProfile'
+import { formatReleaseInfo } from '@/utils/releaseInfo'
 import { useAdminActions, useUnsavedChanges } from '@/composables/useAdminUi'
 import { useSiteStore } from '@/stores/site'
 import SiteEntranceEffectSettings from './components/SiteEntranceEffectSettings.vue'
@@ -244,7 +258,7 @@ const settingHelp = {
   authorName: '作者名称会展示在文章页、站点品牌区和公开入口中，代表站点内容的署名主体。',
   commentEnabled: '关闭后会统一禁止新增评论，前台提交入口将直接返回“评论功能已关闭”。',
   defaultTheme: '默认主题决定新访客首次进入站点时采用的浅色或暗色外观。',
-  systemVersion: '系统版本用于后台信息展示和后续运维排查，建议与当前发布版本保持一致。'
+  systemVersion: '系统版本用于记录人工维护的产品版本或里程碑；每次发布的实际时间会单独自动记录。'
 }
 
 function normalizeSettings(settings = {}) {
@@ -269,6 +283,8 @@ const activeSection = ref('site')
 const route = useRoute()
 const currentTime = ref('')
 const loadError = ref('')
+const releaseInfo = ref(null)
+const releaseInfoText = computed(() => formatReleaseInfo(releaseInfo.value))
 const { runAction, toMessage } = useAdminActions()
 const siteStore = useSiteStore()
 
@@ -316,7 +332,15 @@ async function loadSettings() {
   loading.value = true
   loadError.value = ''
   try {
-    const settings = await getAdminSettings()
+    const [settingsResult, contextResult] = await Promise.allSettled([
+      getAdminSettings(),
+      getAdminDashboardContext()
+    ])
+    if (settingsResult.status === 'rejected') throw settingsResult.reason
+    releaseInfo.value = contextResult.status === 'fulfilled'
+      ? contextResult.value?.releaseInfo || null
+      : null
+    const settings = settingsResult.value
     Object.assign(form, normalizeSettings(settings))
     setCachedSiteProfile({ ...form })
     siteStore.setProfile({ ...form })

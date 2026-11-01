@@ -96,6 +96,7 @@ $frontendZip = Join-Path $root 'release\frontend-dist.zip'
 $backendZip = Join-Path $root 'release\backend-release.zip'
 $env:DEPLOY_PROJECT_ROOT = $root.Path
 $env:DEPLOY_TARGET = $Target
+$env:DEPLOY_RELEASE_ID = Get-Date -Format 'yyyyMMdd-HHmmss'
 $env:DEPLOY_RESET_BOOKMARK_DATA = $(if ($ResetBookmarkData) { '1' } else { '0' })
 $env:DEPLOY_CLEAR_QUESTION_BANK_HISTORY = $(if ($ClearQuestionBankHistory) { '1' } else { '0' })
 $env:DEPLOY_RUN_DATABASE_TASKS = $(if ($RunDatabaseTasks) { '1' } else { '0' })
@@ -122,6 +123,7 @@ publish_backend = target in ('full', 'backend')
 reset_bookmark_data = os.environ.get('DEPLOY_RESET_BOOKMARK_DATA') == '1'
 clear_question_bank_history = os.environ.get('DEPLOY_CLEAR_QUESTION_BANK_HISTORY') == '1'
 run_database_tasks = publish_backend and os.environ.get('DEPLOY_RUN_DATABASE_TASKS') == '1'
+release_id = os.environ.get('DEPLOY_RELEASE_ID', '')
 
 local_files = []
 if publish_frontend:
@@ -136,6 +138,8 @@ mkdir -p "$RELEASE_DIR"
 PUBLISH_FRONTEND=__PUBLISH_FRONTEND__
 PUBLISH_BACKEND=__PUBLISH_BACKEND__
 BACKUP_RUNTIME_DATA=__BACKUP_RUNTIME_DATA__
+FRONTEND_NEXT="$RELEASE_DIR/frontend-next"
+FRONTEND_CURRENT="$RELEASE_DIR/frontend-current"
 echo "RELEASE_DIR=$RELEASE_DIR"
 
 if [ "$PUBLISH_BACKEND" = "1" ]; then
@@ -230,10 +234,44 @@ if [ "$PUBLISH_BACKEND" = "1" ]; then
 fi
 
 if [ "$PUBLISH_FRONTEND" = "1" ]; then
-  echo "[18/20] Publish frontend"
-  rm -rf /www/personal-blog/frontend/*
-  unzip -oq /www/personal-blog/backups/frontend-dist.zip -d /www/personal-blog/frontend
-  test -f /www/personal-blog/frontend/index.html
+  echo "[18/20] Prepare and verify frontend"
+  mkdir -p "$FRONTEND_NEXT"
+  unzip -oq /www/personal-blog/backups/frontend-dist.zip -d "$FRONTEND_NEXT"
+  test -s "$FRONTEND_NEXT/index.html"
+  test -d "$FRONTEND_NEXT/assets"
+  python3 - "$FRONTEND_NEXT" <<'PY'
+from pathlib import Path
+import re
+import sys
+
+root = Path(sys.argv[1])
+html = (root / 'index.html').read_text(encoding='utf-8')
+assets = re.findall(r'(?:src|href)="([^" ]+\.(?:js|css))"', html)
+missing = [asset for asset in assets if not asset.startswith(('http://', 'https://', '//', 'data:')) and not (root / asset.lstrip('/')).is_file()]
+if missing:
+    raise SystemExit('Frontend release references missing assets: ' + ', '.join(missing))
+if not assets:
+    raise SystemExit('Frontend index.html does not reference any JS or CSS assets')
+print(f'FRONTEND_ASSETS_VERIFIED={len(assets)}')
+PY
+
+  echo "[18/20] Switch frontend with rollback copy"
+  rollback_frontend() {
+    code=$?
+    if [ "$code" -ne 0 ] && [ -d "$FRONTEND_CURRENT" ]; then
+      echo "Frontend deployment failed; restoring the previous frontend"
+      rm -rf /www/personal-blog/frontend
+      mv "$FRONTEND_CURRENT" /www/personal-blog/frontend
+    fi
+    exit "$code"
+  }
+  trap rollback_frontend EXIT
+  mv /www/personal-blog/frontend "$FRONTEND_CURRENT"
+  if ! mv "$FRONTEND_NEXT" /www/personal-blog/frontend; then
+    mv "$FRONTEND_CURRENT" /www/personal-blog/frontend
+    exit 1
+  fi
+  test -s /www/personal-blog/frontend/index.html
 fi
 
 __POST_DATABASE_CHECKS__
@@ -257,6 +295,7 @@ fi
 ls -lh /www/personal-blog/frontend/index.html /www/personal-blog/backend/package.json
 df -h /www
 echo "DONE_RELEASE_DIR=$RELEASE_DIR"
+trap - EXIT
 """
 
 bookmark_reset_step = 'npm run bookmark:reset:apply' if reset_bookmark_data else "echo 'Bookmark reset skipped'"
@@ -418,4 +457,100 @@ Invoke-Step -Title '公网健康检查' -Action {
   $homeResponse = Invoke-WebRequest -Uri "http://$($env:DEPLOY_HOST)/" -UseBasicParsing -TimeoutSec 20
   Write-Host $health.Content
   Write-Host "HOME_STATUS=$($homeResponse.StatusCode)"
+}
+
+Invoke-Step -Title '记录最近成功发布时间' -Action {
+  @'
+import os
+import re
+import sys
+import time
+import paramiko
+
+host = os.environ['DEPLOY_HOST']
+user = os.environ['DEPLOY_USER']
+password = os.environ['DEPLOY_PASSWORD']
+target = os.environ['DEPLOY_TARGET']
+release_id = os.environ['DEPLOY_RELEASE_ID']
+if target not in ('full', 'backend', 'frontend') or not re.fullmatch(r'[0-9]{8}-[0-9]{6}', release_id):
+    raise SystemExit('Invalid release metadata values')
+
+script = r"""set -euo pipefail
+export RELEASE_TARGET='__TARGET__'
+export RELEASE_ID='__RELEASE_ID__'
+python3 - <<'PY'
+from datetime import datetime, timezone
+from pathlib import Path
+import json
+import os
+import re
+
+target = os.environ['RELEASE_TARGET']
+release_id = os.environ['RELEASE_ID']
+if target not in ('full', 'backend', 'frontend') or not re.fullmatch(r'[0-9]{8}-[0-9]{6}', release_id):
+    raise SystemExit('Invalid release metadata values')
+
+directory = Path('/www/personal-blog/runtime')
+directory.mkdir(parents=True, exist_ok=True)
+path = directory / 'release-meta.json'
+temporary = directory / f'.release-meta-{release_id}.tmp'
+payload = {
+    'lastSuccessfulReleaseAt': datetime.now(timezone.utc).isoformat(timespec='milliseconds').replace('+00:00', 'Z'),
+    'target': target,
+    'releaseId': release_id
+}
+descriptor = os.open(temporary, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o640)
+try:
+    with os.fdopen(descriptor, 'w', encoding='utf-8') as stream:
+        json.dump(payload, stream, ensure_ascii=False)
+        stream.write('\n')
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+    directory_fd = os.open(directory, os.O_RDONLY)
+    try:
+        os.fsync(directory_fd)
+    finally:
+        os.close(directory_fd)
+except Exception:
+    try:
+        temporary.unlink()
+    except FileNotFoundError:
+        pass
+    raise
+print(json.dumps(payload, ensure_ascii=False))
+PY
+"""
+script = script.replace('__TARGET__', target).replace('__RELEASE_ID__', release_id)
+
+client = paramiko.SSHClient()
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+client.connect(hostname=host, username=user, password=password, timeout=20, banner_timeout=20, auth_timeout=20)
+try:
+    stdin, stdout, stderr = client.exec_command('bash -se', get_pty=False, timeout=60)
+    stdin.write(script)
+    stdin.channel.shutdown_write()
+    channel = stdout.channel
+    while not channel.exit_status_ready():
+        if channel.recv_ready():
+            sys.stdout.buffer.write(channel.recv(4096))
+            sys.stdout.flush()
+        if channel.recv_stderr_ready():
+            sys.stderr.buffer.write(channel.recv_stderr(4096))
+            sys.stderr.flush()
+        time.sleep(0.2)
+    while channel.recv_ready():
+        sys.stdout.buffer.write(channel.recv(4096))
+    while channel.recv_stderr_ready():
+        sys.stderr.buffer.write(channel.recv_stderr(4096))
+    code = channel.recv_exit_status()
+    print(f'RELEASE_METADATA_EXIT={code}', flush=True)
+    if code != 0:
+        sys.exit(code)
+finally:
+    client.close()
+'@ | python -
+  if ($LASTEXITCODE -ne 0) {
+    throw "线上部署已通过健康检查，但最近成功发布时间未能记录。Python/SSH 退出码：$LASTEXITCODE"
+  }
 }

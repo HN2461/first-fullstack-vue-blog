@@ -5,6 +5,7 @@ import { Media } from '#modules/media/models/Media.js'
 import { Tag } from '#modules/content/models/Tag.js'
 import { User } from '#modules/user/models/User.js'
 import { getSettings } from '#modules/settings/services/setting.service.js'
+import { getReleaseInfo } from '#modules/dashboard/services/releaseInfo.service.js'
 
 export async function getAdminStats() {
   const now = new Date()
@@ -20,10 +21,9 @@ export async function getAdminStats() {
     mediaCount,
     categoryCount,
     tagCount,
-    // 上周数据（用于计算趋势）
-    lastWeekArticleCount,
-    lastWeekUserCount,
-    lastWeekPublishedCount
+    articleCreatedLast7Days,
+    articlePublishedLast7Days,
+    userCreatedLast7Days
   ] = await Promise.all([
     Article.countDocuments({ deletedAt: null }),
     Article.countDocuments({ deletedAt: null, status: 'published' }),
@@ -34,17 +34,10 @@ export async function getAdminStats() {
     Media.countDocuments(),
     Category.countDocuments(),
     Tag.countDocuments(),
-    // 上周同期数据
-    Article.countDocuments({ deletedAt: null, createdAt: { $lt: oneWeekAgo } }),
-    User.countDocuments({ createdAt: { $lt: oneWeekAgo } }),
-    Article.countDocuments({ deletedAt: null, status: 'published', publishedAt: { $lt: oneWeekAgo } })
+    Article.countDocuments({ deletedAt: null, createdAt: { $gte: oneWeekAgo, $lte: now } }),
+    Article.countDocuments({ deletedAt: null, status: 'published', publishedAt: { $gte: oneWeekAgo, $lte: now } }),
+    User.countDocuments({ createdAt: { $gte: oneWeekAgo, $lte: now } })
   ])
-
-  // 计算趋势百分比
-  const calcTrend = (current, lastWeek) => {
-    if (lastWeek === 0) return current > 0 ? 100 : 0
-    return Math.round(((current - lastWeek) / lastWeek) * 100)
-  }
 
   return {
     articleCount,
@@ -56,10 +49,9 @@ export async function getAdminStats() {
     mediaCount,
     categoryCount,
     tagCount,
-    // 趋势数据
-    articleTrend: calcTrend(articleCount, lastWeekArticleCount),
-    publishedTrend: calcTrend(publishedCount, lastWeekPublishedCount),
-    userTrend: calcTrend(userCount, lastWeekUserCount)
+    articleCreatedLast7Days,
+    articlePublishedLast7Days,
+    userCreatedLast7Days
   }
 }
 
@@ -70,11 +62,15 @@ export async function getAdminStats() {
  * 完整设置包含账号找回、媒体限制和入口效果等超级管理员专属配置。
  */
 export async function getAdminDashboardContext() {
-  const settings = await getSettings()
+  const [settings, releaseInfo] = await Promise.all([
+    getSettings(),
+    getReleaseInfo()
+  ])
 
   return {
     siteTitle: settings.siteTitle,
     authorName: settings.authorName,
-    systemVersion: settings.systemVersion
+    systemVersion: settings.systemVersion,
+    releaseInfo
   }
 }

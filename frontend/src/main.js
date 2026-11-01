@@ -1,5 +1,6 @@
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
+import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import Antd from 'ant-design-vue'
@@ -8,6 +9,8 @@ import { router } from './router'
 import { useAuthStore } from './stores/auth'
 import { useAppStore } from './stores/app'
 import { useSiteStore } from './stores/site'
+import { setAuthExpiredHandler } from './services/http'
+import { getAuthExpiredRedirect } from './utils/authRedirect'
 import 'ant-design-vue/dist/reset.css'
 import './styles/index.css'
 import './styles/console.css'
@@ -30,6 +33,19 @@ app.use(Antd)
 const authStore = useAuthStore()
 const appStore = useAppStore()
 const siteStore = useSiteStore()
+let authExpiryRedirectPending = false
+
+setAuthExpiredHandler(() => {
+  const redirect = getAuthExpiredRedirect(router.currentRoute.value)
+  authStore.clearSession({ clearEntranceAutoPlay: true })
+  if (redirect && !authExpiryRedirectPending) {
+    authExpiryRedirectPending = true
+    message.warning('登录状态已失效，请重新登录')
+    return router.replace(redirect).finally(() => {
+      authExpiryRedirectPending = false
+    })
+  }
+})
 
 Promise.allSettled([
   authStore.restoreSession(),
