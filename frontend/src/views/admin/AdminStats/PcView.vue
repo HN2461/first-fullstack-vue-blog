@@ -45,7 +45,12 @@
         />
       </template>
       <template v-else>
-        <div class="stat-card" v-for="item in statCards" :key="item.label">
+        <div
+          class="stat-card"
+          :class="{ 'stat-card--with-caption': item.caption }"
+          v-for="item in statCards"
+          :key="item.label"
+        >
           <div
             class="stat-icon"
             :style="{ '--icon-tone': item.iconColor, background: item.iconBg, color: item.iconColor }"
@@ -55,9 +60,7 @@
           <div class="stat-body">
             <span class="stat-label">{{ item.label }}</span>
             <span class="stat-value">{{ item.value }}</span>
-          </div>
-          <div class="stat-trend" v-if="item.caption">
-            <span class="stat-caption">{{ item.caption }}</span>
+            <span v-if="item.caption" class="stat-caption">{{ item.caption }}</span>
           </div>
         </div>
       </template>
@@ -856,6 +859,10 @@ watch(selectedQuickActionPages, (pages) => {
   box-shadow: 0 2px 8px rgba(16, 24, 40, 0.06);
 }
 
+.stat-card--with-caption {
+  align-items: flex-start;
+}
+
 .stat-icon {
   width: 40px;
   height: 40px;
@@ -887,13 +894,13 @@ watch(selectedQuickActionPages, (pages) => {
   line-height: 1.2;
 }
 
-.stat-trend {
-  flex-shrink: 0;
-}
-
 .stat-caption {
+  display: block;
+  margin-top: 6px;
   font-size: 12px;
+  line-height: 1.4;
   color: var(--console-text-secondary);
+  overflow-wrap: anywhere;
 }
 
 /* 主内容 */
