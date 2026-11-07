@@ -164,7 +164,8 @@ workJournalRouter.get('/reports', requireDailyAccess, asyncHandler(async (req, r
 workJournalRouter.get('/attendance', requireAttendanceAccess, asyncHandler(async (req, res) => {
   res.json(ok(await getAttendanceSummary(req.user._id, {
     employmentId: String(req.query.employmentId || ''),
-    date: String(req.query.date || '')
+    date: String(req.query.date || ''),
+    period: String(req.query.period || 'week')
   })))
 }))
 

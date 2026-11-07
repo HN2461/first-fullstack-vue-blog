@@ -309,6 +309,20 @@ describe('work journal routes', () => {
     expect(summary.body.data.items.map((item) => item.attendance.overtimeMinutes)).toEqual([120, 0, 480])
     expect(summary.body.data.items.every((item) => item.attendance.source === 'rule_inferred')).toBe(true)
 
+    const monthlySummary = await request(app)
+      .get('/api/work-journal/attendance')
+      .query({ employmentId: employment.id, period: 'month', date: '2026-06-03' })
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(monthlySummary.body.data).toMatchObject({
+      period: 'month',
+      from: '2026-06-01',
+      to: '2026-06-30',
+      totalMinutes: 1500,
+      overtimeMinutes: 600
+    })
+    expect(monthlySummary.body.data.targetMinutes).toBeUndefined()
+
     const listed = await request(app)
       .get('/api/work-journal/logs')
       .query({ employmentId: employment.id, from: '2026-06-01', to: '2026-06-06' })

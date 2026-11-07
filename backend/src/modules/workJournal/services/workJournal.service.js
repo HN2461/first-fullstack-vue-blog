@@ -586,7 +586,8 @@ export async function getWorkReport(userId, filters = {}) {
 
 export async function getAttendanceSummary(userId, filters = {}) {
   const employment = await findOwnedEmployment(filters.employmentId, userId)
-  const { from, to } = getReportRange('week', filters.date || getBusinessDate())
+  const period = filters.period || 'week'
+  const { from, to } = getReportRange(period, filters.date || getBusinessDate())
   const logs = await WorkLog.find({
     createdBy: userId,
     employment: employment._id,
@@ -612,15 +613,21 @@ export async function getAttendanceSummary(userId, filters = {}) {
   })
   const normalizedRule = normalizeAttendanceRule(employment.attendanceRule, employment)
   const targetMinutes = normalizedRule.weeklyOvertimeTargetMinutes
+  const summaryTarget = period === 'week'
+    ? {
+        targetMinutes,
+        remainingMinutes: Math.max(targetMinutes - totals.overtimeMinutes, 0),
+        excessMinutes: Math.max(totals.overtimeMinutes - targetMinutes, 0)
+      }
+    : {}
   return {
     employment: employment.toSafeJSON(),
+    period,
     from,
     to,
-    targetMinutes,
     ruleConfigured: isAttendanceRuleConfigured(normalizedRule, employment),
     ...totals,
-    remainingMinutes: Math.max(targetMinutes - totals.overtimeMinutes, 0),
-    excessMinutes: Math.max(totals.overtimeMinutes - targetMinutes, 0),
+    ...summaryTarget,
     items
   }
 }

@@ -3,7 +3,11 @@
     <div class="work-time-stats-page__toolbar">
       <div class="work-time-stats-page__toolbar-left">
         <span class="work-time-stats-page__title">工时统计</span>
-        <WorkJournalHelpButton title="工时统计" intro="按工作经历和自然周汇总日报中的总时长，使用考勤规则拆分正常时长与加班时长。" :sections="helpSections" />
+        <WorkJournalHelpButton title="工时统计" intro="按工作经历和所选周/月汇总日报中的总时长，使用考勤规则拆分正常时长与加班时长。" :sections="helpSections" />
+        <a-radio-group v-model:value="period" button-style="solid" aria-label="选择工时统计周期" @change="reload">
+          <a-radio-button value="week">周</a-radio-button>
+          <a-radio-button value="month">月</a-radio-button>
+        </a-radio-group>
         <a-select
           v-model:value="employmentId"
           class="work-time-stats-page__employment"
@@ -14,13 +18,13 @@
           @change="reload"
         />
         <label class="work-time-stats-page__date-label">
-          <span>周内日期</span>
-          <a-input v-model:value="anchorDate" type="date" aria-label="选择周内日期" @change="reload" />
+          <span>{{ period === 'week' ? '周内日期' : '月份日期' }}</span>
+          <a-input v-model:value="anchorDate" type="date" :aria-label="period === 'week' ? '选择周内日期' : '选择月份日期'" @change="reload" />
         </label>
         <a-button-group v-if="employmentId">
-          <a-button aria-label="上一周" @click="shiftWeek(-1)">上一周</a-button>
-          <a-button @click="setToday">本周</a-button>
-          <a-button aria-label="下一周" @click="shiftWeek(1)">下一周</a-button>
+          <a-button :aria-label="`上一${periodLabel}`" @click="shiftPeriod(-1)">上一{{ periodLabel }}</a-button>
+          <a-button @click="setToday">本{{ periodLabel }}</a-button>
+          <a-button :aria-label="`下一${periodLabel}`" @click="shiftPeriod(1)">下一{{ periodLabel }}</a-button>
         </a-button-group>
       </div>
       <div class="work-time-stats-page__toolbar-right">
@@ -39,19 +43,19 @@
     <WorkJournalEmptyState
       v-if="!employments.length"
       title="还没有工作经历"
-      description="先登记公司、岗位和考勤规则，再开始统计每周加班时长。"
+      description="先登记公司、岗位和考勤规则，再开始统计周/月加班时长。"
     >
       <a-button type="primary" @click="router.push('/console/work-journal/employments')">新增工作经历</a-button>
     </WorkJournalEmptyState>
 
     <template v-else>
-      <div v-if="summary" class="work-time-stats-page__summary" :class="{ 'is-complete': summary.remainingMinutes === 0 }">
+      <div v-if="summary" class="work-time-stats-page__summary" :class="{ 'is-complete': summary.remainingMinutes === 0, 'is-month': period === 'month' }">
         <div class="work-time-stats-page__summary-period">
           <span>统计周期</span>
           <strong>{{ summary.from }} 至 {{ summary.to }}</strong>
           <small>{{ summary.employment.company }} · {{ summary.employment.position }}</small>
         </div>
-        <div class="work-time-stats-page__metric">
+        <div v-if="period === 'week'" class="work-time-stats-page__metric">
           <span>本周目标</span>
           <strong>{{ formatMinutes(summary.targetMinutes) }}</strong>
         </div>
@@ -59,7 +63,7 @@
           <span>合计加班</span>
           <strong>{{ formatMinutes(summary.overtimeMinutes) }}</strong>
         </div>
-        <div class="work-time-stats-page__metric">
+        <div v-if="period === 'week'" class="work-time-stats-page__metric">
           <span>{{ summary.remainingMinutes ? '还差' : '已超出' }}</span>
           <strong>{{ formatMinutes(summary.remainingMinutes || summary.excessMinutes) }}</strong>
         </div>
@@ -67,9 +71,9 @@
           <span>总工作时长</span>
           <strong>{{ formatMinutes(summary.totalMinutes) }}</strong>
         </div>
-        <div class="work-time-stats-page__progress">
+        <div v-if="period === 'week'" class="work-time-stats-page__progress">
           <div class="work-time-stats-page__progress-heading">
-            <span>{{ summary.remainingMinutes ? '目标完成进度' : '本周目标已完成' }}</span>
+            <span>{{ summary.remainingMinutes ? '目标完成进度' : `本${periodLabel}目标已完成` }}</span>
             <strong>{{ progressPercent }}%</strong>
           </div>
           <a-progress :percent="progressPercent" :show-info="false" :status="summary.remainingMinutes ? 'active' : 'success'" />
@@ -80,8 +84,8 @@
       <section class="work-time-stats-page__details">
         <div class="work-time-stats-page__details-heading">
           <div>
-            <strong>每日明细</strong>
-            <span>本周最多展示 7 天，不分页</span>
+            <strong>{{ period === 'week' ? '每日明细' : '本月每日明细' }}</strong>
+            <span>{{ period === 'week' ? '本周展示 7 天，不分页' : '按当月日期展示，不分页' }}</span>
           </div>
           <a-tag v-if="summary" :color="summary.ruleConfigured ? 'blue' : 'default'" :bordered="false">
             {{ summary.ruleConfigured ? '按考勤规则推算' : '仅记录总时长' }}
@@ -97,8 +101,8 @@
         </WorkJournalEmptyState>
         <WorkJournalEmptyState
           v-else-if="!summary?.items?.length"
-          title="本周还没有日报"
-          description="在日报中记录工作时长后，这里会自动汇总本周正常与加班时长。"
+          :title="`本${periodLabel}还没有日报`"
+          :description="`在日报中记录工作时长后，这里会自动汇总本${periodLabel}正常与加班时长。`"
         />
 
         <div v-else class="work-time-stats-page__week-list">
@@ -111,7 +115,7 @@
             <span>计算方式</span>
           </div>
           <div
-            v-for="item in weeklyItems"
+            v-for="item in periodItems"
             :key="item.workDate"
             class="work-time-stats-page__week-row"
             :class="{ 'is-empty': !item.log, 'is-weekend': item.weekday === '星期六' || item.weekday === '星期日' }"
@@ -157,14 +161,17 @@ const router = useRouter()
 const employments = ref([])
 const employmentId = ref('')
 const anchorDate = ref(today())
+const period = ref('week')
 const summary = ref(null)
 const loading = ref(false)
 const employmentOptions = computed(() => employments.value.map((item) => ({ value: item.id, label: `${item.company} · ${item.position}` })))
-const weeklyItems = computed(() => {
+const periodLabel = computed(() => period.value === 'month' ? '月' : '周')
+const periodItems = computed(() => {
   if (!summary.value) return []
   const logMap = new Map((summary.value.items || []).map((item) => [item.workDate, item]))
   const items = []
-  for (let index = 0; index < 7; index += 1) {
+  const totalDays = daysBetween(summary.value.from, summary.value.to)
+  for (let index = 0; index <= totalDays; index += 1) {
     const workDate = shiftDate(summary.value.from, index)
     items.push({ workDate, weekday: weekdayLabel(workDate), log: logMap.get(workDate) || null })
   }
@@ -175,7 +182,7 @@ const progressPercent = computed(() => {
   return Math.min(100, Math.round((summary.value.overtimeMinutes / summary.value.targetMinutes) * 100))
 })
 const helpSections = [
-  { heading: '统计口径', items: ['统计按周一至周日汇总，目标来自当前工作经历的考勤规则。', '历史日报只有总时长时，系统按正常工作段推算加班时长，并在明细中标记为规则推算。', '没有完整正常工作时间时只显示总时长，不会猜测加班时长。'] },
+  { heading: '统计口径', items: ['可按周一至周日或自然月汇总，目标来自当前工作经历的考勤规则。', '历史日报只有总时长时，系统按正常工作段推算加班时长，并在明细中标记为规则推算。', '没有完整正常工作时间时只显示总时长，不会猜测加班时长。'] },
   { heading: '规则调整', items: ['工作经历中的考勤规则会作为日报统计的默认规则；修改规则后，历史统计会按新规则重新计算。', '周末是否计入统计由工作经历的工作日配置决定。'] }
 ]
 
@@ -204,8 +211,22 @@ function shiftDate(value, days) {
   return date.toISOString().slice(0, 10)
 }
 
-function shiftWeek(offset) {
-  anchorDate.value = shiftDate(anchorDate.value, offset * 7)
+function daysBetween(from, to) {
+  const start = new Date(`${from}T00:00:00.000Z`)
+  const end = new Date(`${to}T00:00:00.000Z`)
+  return Math.round((end - start) / 86400000)
+}
+
+function shiftMonth(value, offset) {
+  const date = new Date(`${value.slice(0, 7)}-01T00:00:00.000Z`)
+  date.setUTCMonth(date.getUTCMonth() + offset)
+  return date.toISOString().slice(0, 10)
+}
+
+function shiftPeriod(offset) {
+  anchorDate.value = period.value === 'month'
+    ? shiftMonth(anchorDate.value, offset)
+    : shiftDate(anchorDate.value, offset * 7)
   reload()
 }
 
@@ -225,7 +246,7 @@ async function loadSummary() {
   }
   loading.value = true
   try {
-    summary.value = await getAttendanceSummary({ employmentId: employmentId.value, date: anchorDate.value })
+    summary.value = await getAttendanceSummary({ employmentId: employmentId.value, date: anchorDate.value, period: period.value })
   } catch (error) {
     summary.value = null
     message.error(error.message || '加载工时统计失败')
@@ -306,6 +327,10 @@ onMounted(loadEmployments)
   border-radius: 0 0 8px 8px;
   background: var(--console-border, #ebeef5);
   overflow: hidden;
+}
+
+.work-time-stats-page__summary.is-month {
+  grid-template-columns: minmax(220px, 1.5fr) repeat(2, minmax(130px, 1fr));
 }
 
 .work-time-stats-page__summary > div {
@@ -435,6 +460,7 @@ onMounted(loadEmployments)
   .work-time-stats-page__toolbar { flex-direction: column; align-items: stretch; }
   .work-time-stats-page__toolbar-right { justify-content: flex-end; }
   .work-time-stats-page__summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .work-time-stats-page__summary.is-month { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-time-stats-page__summary-period { grid-column: 1 / -1; }
   .work-time-stats-page__progress { grid-column: 1 / -1; }
   .work-time-stats-page__week-head { display: none; }
