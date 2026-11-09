@@ -6,8 +6,10 @@ import { Role } from '#modules/rbac/models/Role.js'
 import { User } from '#modules/user/models/User.js'
 import { env } from '#config/env'
 import { createSystemNotification } from '#modules/notification/services/notification.service.js'
+import { FEEDBACK_MENUS, grantInitialFeedbackAccess } from '#modules/feedback/services/feedbackMenu.service.js'
 
 const DEFAULT_MENUS = [
+  // 反馈父节点先由原菜单定义创建，反馈菜单在本数组末尾追加。
   { code: 'knowledge.root', name: '知识库', icon: 'BookOutlined', routePath: '', routeKey: 'knowledge.root', parentType: MENU_PARENT_TYPES.ROOT, sortOrder: 10, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.articles', name: '全部文章', icon: 'FileTextOutlined', routePath: '/console/articles', routeKey: 'knowledge.article.list', parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10, type: MENU_TYPES.SYSTEM },
   { code: 'knowledge.directory', name: '文章目录', icon: 'FolderOutlined', routePath: '/console/article-directory', routeKey: 'knowledge.article.directory', directoryAutoExpandWhenNested: true, parentCode: 'knowledge.root', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 15, type: MENU_TYPES.SYSTEM },
@@ -72,7 +74,8 @@ const DEFAULT_MENUS = [
   { code: 'governance.settings', name: '系统设置', icon: 'SettingOutlined', routePath: '/console/manage/settings', routeKey: 'admin.setting.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 10 },
   { code: 'governance.monitor', name: '服务监控', icon: 'MonitorOutlined', routePath: '/console/manage/monitor', routeKey: 'admin.monitor.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 20 },
   { code: 'governance.projectTimeline', name: '项目记录台账', icon: 'ClockCircleOutlined', routePath: '/console/manage/project-timeline', routeKey: 'admin.project.timeline', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 25 },
-  { code: 'governance.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/manage/trash', routeKey: 'admin.trash.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 }
+  { code: 'governance.trash', name: '回收站', icon: 'DeleteOutlined', routePath: '/console/manage/trash', routeKey: 'admin.trash.list', parentCode: 'system.group', parentType: MENU_PARENT_TYPES.CHILD, sortOrder: 30 },
+  ...FEEDBACK_MENUS
 ]
 const RETIRED_SYSTEM_MENU_CODES = ['resume.editor', 'knowledge.workjournal.evidence']
 
@@ -292,6 +295,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
   let workJournalMenuCreated = false
   let workJournalChildCreated = false
   let migrateLegacyWorkJournalGrants = false
+  let feedbackMenuCreated = false
 
   for (const menuInput of DEFAULT_MENUS) {
     const parent = menuInput.parentCode
@@ -300,6 +304,7 @@ async function runRbacSeed(forceBuiltinSync = false) {
 
     let menu = await Menu.findOne({ code: menuInput.code })
     if (!menu) {
+      if (menuInput.code === 'knowledge.feedback') feedbackMenuCreated = true
       if (menuInput.code.toLowerCase() === 'knowledge.workjournal') workJournalMenuCreated = true
       if (menuInput.code.toLowerCase().startsWith('knowledge.workjournal.')) workJournalChildCreated = true
       if (menuInput.code === 'content.mediaShares') mediaShareMenuCreated = true
@@ -415,6 +420,10 @@ async function runRbacSeed(forceBuiltinSync = false) {
     )
   }
   const knowledgeRootMenu = allMenus.find((menu) => menu.code === 'knowledge.root')
+  const feedbackMenu = allMenus.find((menu) => menu.code === 'knowledge.feedback')
+  if (feedbackMenuCreated && feedbackMenu && knowledgeRootMenu) {
+    await grantInitialFeedbackAccess(feedbackMenu._id, knowledgeRootMenu._id)
+  }
   const bookmarkMenu = allMenus.find((menu) => menu.code === 'knowledge.bookmarks')
   if (knowledgeRootMenu && bookmarkMenu) {
     await Role.updateMany(

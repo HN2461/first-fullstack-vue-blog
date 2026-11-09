@@ -9,7 +9,7 @@
       <template v-else-if="announcements.length === 0">
         <div class="announce-panel-empty">
           <BellOutlined />
-          <strong>暂无公告</strong>
+          <strong>暂无公告与通知</strong>
           <span>功能升级、重要提醒和紧急通知会在这里显示。</span>
         </div>
       </template>
@@ -30,7 +30,7 @@
                 size="small"
                 class="announce-panel-level-tag"
               >
-                {{ getLevelText(item.level) }}
+                {{ item.type === 'system' && /^\/console\/(?:manage\/)?feedback\?/.test(item.link || '') ? '意见反馈' : getLevelText(item.level) }}
               </a-tag>
               <span class="announce-panel-item-time">{{ formatTimeAgo(item.createdAt) }}</span>
             </div>
@@ -49,7 +49,7 @@
         全部已读
       </a-button>
       <a-button size="small" @click="$emit('view-all')">
-        查看全部公告
+        查看全部通知
       </a-button>
       <a-button v-if="canManage" type="primary" size="small" @click="$emit('manage')">
         管理公告

@@ -41,6 +41,11 @@ export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
     sortOrder: 6
   },
   {
+    name: '意见反馈',
+    description: '意见反馈的私有截图，仅提交者和授权处理人可查看',
+    sortOrder: 8
+  },
+  {
     name: '历史未登记资源',
     description: '服务器上传目录中扫描并补登记的历史资源',
     sortOrder: 7

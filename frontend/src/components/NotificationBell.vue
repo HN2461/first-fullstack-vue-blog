@@ -23,7 +23,7 @@
         <a-tabs v-model:active-key="activeTab" size="small">
           <a-tab-pane key="announcements">
             <template #tab>
-              <NotificationTabLabel label="公告" :count="notificationStore.unreadCount" />
+              <NotificationTabLabel label="公告与通知" :count="notificationStore.unreadCount" />
             </template>
           </a-tab-pane>
           <a-tab-pane key="messages">
@@ -182,14 +182,22 @@ async function loadTimelineList() {
 function handleItemClick(item) {
   markLocalAnnouncementRead(item)
   dropdownVisible.value = false
+  if (openFeedbackNotification(item)) return
   detailData.value = item
   detailVisible.value = true
 }
 
 function handleTimelineItemClick(item) {
   markLocalAnnouncementRead(item)
+  if (openFeedbackNotification(item)) { timelineVisible.value = false; return }
   detailData.value = item
   detailVisible.value = true
+}
+
+function openFeedbackNotification(item) {
+  if (item.type !== 'system' || !/^\/console\/(?:manage\/)?feedback\?id=[a-f\d]{24}$/i.test(item.link || '')) return false
+  router.push(item.link)
+  return true
 }
 
 function markLocalAnnouncementRead(item) {

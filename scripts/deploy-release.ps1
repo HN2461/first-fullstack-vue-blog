@@ -5,6 +5,7 @@ param(
   [switch]$SkipChecks,
   [switch]$SkipPackage,
   [switch]$RunDatabaseTasks,
+  [switch]$RunFeedbackMigration,
   [switch]$ResetBookmarkData,
   [switch]$ClearQuestionBankHistory
 )
@@ -15,7 +16,7 @@ $root = Resolve-Path (Join-Path $PSScriptRoot '..')
 $includeFrontend = $Target -in @('full', 'frontend')
 $includeBackend = $Target -in @('full', 'backend')
 
-if (($RunDatabaseTasks -or $ResetBookmarkData -or $ClearQuestionBankHistory) -and -not $includeBackend) {
+if (($RunDatabaseTasks -or $RunFeedbackMigration -or $ResetBookmarkData -or $ClearQuestionBankHistory) -and -not $includeBackend) {
   throw '数据库任务、书签重置和题库历史清理必须和 backend 或 full 发布目标一起使用。'
 }
 if ($BackendTestFiles.Count -gt 0 -and -not $includeBackend) {
@@ -51,6 +52,7 @@ if (-not $SkipChecks) {
       Push-Location (Join-Path $root 'frontend')
       try {
         npm run build
+        if ($LASTEXITCODE -ne 0) { throw '前端构建失败，停止发布。' }
       } finally {
         Pop-Location
       }
@@ -73,6 +75,7 @@ if (-not $SkipChecks) {
         } else {
           npm run test
         }
+        if ($LASTEXITCODE -ne 0) { throw '后端测试失败，停止发布。' }
       } finally {
         Pop-Location
       }
@@ -100,6 +103,7 @@ $env:DEPLOY_RELEASE_ID = Get-Date -Format 'yyyyMMdd-HHmmss'
 $env:DEPLOY_RESET_BOOKMARK_DATA = $(if ($ResetBookmarkData) { '1' } else { '0' })
 $env:DEPLOY_CLEAR_QUESTION_BANK_HISTORY = $(if ($ClearQuestionBankHistory) { '1' } else { '0' })
 $env:DEPLOY_RUN_DATABASE_TASKS = $(if ($RunDatabaseTasks) { '1' } else { '0' })
+$env:DEPLOY_RUN_FEEDBACK_MIGRATION = $(if ($RunFeedbackMigration) { '1' } else { '0' })
 
 if (($includeFrontend -and -not (Test-Path -LiteralPath $frontendZip)) -or
     ($includeBackend -and -not (Test-Path -LiteralPath $backendZip))) {
@@ -401,6 +405,13 @@ npm run menu:page-cache:dry-run'''
 if not run_database_tasks:
     database_steps = "echo 'Database tasks skipped; use -RunDatabaseTasks for migrations and idempotent seed operations'"
 script = script.replace('__DATABASE_TASKS__', database_steps)
+if os.environ.get('DEPLOY_RUN_FEEDBACK_MIGRATION') == '1':
+    # 发布脚本已在替换后端前完成 mongodump；仅运行本次反馈需要的菜单与索引初始化。
+    feedback_steps = r'''echo "Initialize feedback menus and indexes"
+node src/scripts/initializeFeedback.js
+node src/scripts/initializeFeedback.js --apply
+node src/scripts/initializeFeedback.js --verify'''
+    script = script.replace(database_steps, database_steps + '\n' + feedback_steps, 1)
 post_database_checks = r'''echo "[19/20] Verify idempotent data operations"
 npm run question-bank:seed
 npm run media-categories:verify'''

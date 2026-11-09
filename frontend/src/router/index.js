@@ -197,6 +197,19 @@ export const router = createRouter({
           meta: { title: '个人记录', requiresAuth: true, requiresMenuAccess: true }
         },
         {
+          path: 'feedback',
+          name: 'ConsoleFeedback',
+          component: () => import('@/views/console/FeedbackPage/index.vue'),
+          meta: { title: '意见反馈', requiresAuth: true, requiresMenuAccess: true }
+        },
+        {
+          path: 'manage/feedback',
+          name: 'AdminFeedback',
+          component: () => import('@/views/console/FeedbackPage/index.vue'),
+          props: { management: true },
+          meta: { title: '反馈管理', requiresAdmin: true }
+        },
+        {
           path: 'work-journal',
           redirect: '/console/work-journal/daily',
           meta: { title: '工作日记', requiresAuth: true }

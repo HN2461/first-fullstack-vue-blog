@@ -97,6 +97,13 @@ export function buildUrlFromRelativePath(relativePath) {
 
 export function inferInventorySource(relativePath) {
   const normalizedPath = String(relativePath || '').replace(/\\/g, '/')
+  if (normalizedPath.startsWith('feedback/')) {
+    return {
+      type: 'protectedFeedback', label: '意见反馈私有截图',
+      description: '反馈截图通过本人或授权处理人鉴权访问。', registerable: false,
+      protectedReason: '反馈截图不能登记为公开媒体或按未登记文件清理'
+    }
+  }
   // 密码箱目录不属于普通媒体库存，即使历史文件误放进 uploads，也不能公开登记、预览或清理。
   if (normalizedPath.startsWith('vault/') || normalizedPath.startsWith('uploads-private/')) {
     return {

@@ -1,7 +1,7 @@
 <template>
   <a-modal
     v-model:open="open"
-    title="全部公告"
+    title="公告与通知"
     :footer="null"
     width="720px"
     centered
@@ -9,7 +9,7 @@
     :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
   >
     <div class="announce-timeline-head">
-      <span>共 {{ announcements.length }} 条公告</span>
+      <span>最近 {{ announcements.length }} 条公告与通知</span>
       <a-button
         v-if="hasUnread"
         type="link"
@@ -26,7 +26,7 @@
     </template>
     <a-empty
       v-else-if="announcements.length === 0"
-      description="暂无公告"
+      description="暂无公告与通知"
       :image-style="{ height: '48px' }"
     />
     <a-timeline v-else class="announce-timeline">
@@ -42,7 +42,7 @@
           <div class="announce-timeline-card__top">
             <div>
               <a-tag :color="getLevelColor(item.level)" :bordered="false">
-                {{ getLevelText(item.level) }}
+              {{ item.type === 'system' && /^\/console\/(?:manage\/)?feedback\?/.test(item.link || '') ? '意见反馈' : getLevelText(item.level) }}
               </a-tag>
               <span v-if="!item.isRead" class="announce-timeline-unread">未读</span>
             </div>

@@ -68,6 +68,12 @@ const mediaSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       default: null
     },
+    feedback: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Feedback',
+      default: null,
+      index: true
+    },
     uploader: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -122,6 +128,7 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
     article: this.article?.toString?.() || null,
     workJournalLog: this.workJournalLog?.toString?.() || null,
     workJournalEvidence: this.workJournalEvidence?.toString?.() || null,
+    feedback: this.feedback?.toString?.() || null,
     deletedAt: this.deletedAt || null,
     deletedBy: this.deletedBy?.toString?.() || null,
     createdAt: this.createdAt,

@@ -16,6 +16,7 @@ import { healthRouter } from '#modules/health/routes/health.routes.js'
 import { interactionRouter } from '#modules/interaction/routes/interaction.routes.js'
 import { ledgerRouter } from '#modules/ledger/routes/ledger.routes.js'
 import { memoRouter } from '#modules/memo/routes/memo.routes.js'
+import { feedbackRouter, feedbackAdminRouter } from '#modules/feedback/routes/feedback.routes.js'
 import { todoRouter } from '#modules/todo/routes/todo.routes.js'
 import { workJournalRouter } from '#modules/workJournal/routes/workJournal.routes.js'
 import { logRelayRouter } from '#modules/logRelay/routes/logRelay.routes.js'
@@ -54,6 +55,7 @@ export function createApp() {
   app.use(express.json({ limit: '1mb' }))
   app.use(express.urlencoded({ extended: true }))
   app.use('/uploads/work-journal', (_req, res) => res.sendStatus(404))
+  app.use('/uploads/feedback', (_req, res) => res.sendStatus(404))
   // 历史上可能误放在公开 uploads 目录中的密码箱文件也必须拒绝静态访问。
   // 当前密码箱文件存放在 uploads-private，但保留这层拦截可以避免旧路径重新暴露。
   app.use(['/uploads/vault', '/uploads/uploads-private'], (_req, res) => res.sendStatus(404))
@@ -70,12 +72,14 @@ export function createApp() {
   app.use(`${API_PREFIX}/admin/article-shares`, articleShareAdminRouter)
   app.use(`${API_PREFIX}/admin/media-downloads`, mediaDownloadAdminRouter)
   app.use(`${API_PREFIX}/admin/media-uploads`, mediaUploadAdminRouter)
+  app.use(`${API_PREFIX}/admin/feedback`, feedbackAdminRouter)
   app.use(`${API_PREFIX}/admin`, adminRouter)
   app.use(`${API_PREFIX}/auth`, authRouter)
   app.use(`${API_PREFIX}/bookmarks`, bookmarkRouter)
   app.use(`${API_PREFIX}/captcha`, captchaRouter)
   app.use(`${API_PREFIX}/ledger`, ledgerRouter)
   app.use(`${API_PREFIX}/memos`, memoRouter)
+  app.use(`${API_PREFIX}/feedback`, feedbackRouter)
   app.use(`${API_PREFIX}/todos`, todoRouter)
   app.use(`${API_PREFIX}/work-journal`, workJournalRouter)
   app.use(`${API_PREFIX}/log-relay`, logRelayRouter)

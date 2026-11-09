@@ -107,6 +107,10 @@
                 <template #icon><UserOutlined /></template>
                 个人信息
               </a-menu-item>
+              <a-menu-item v-if="authStore.canAccessPath('/console/feedback')" key="feedback">
+                <template #icon><MessageOutlined /></template>
+                意见反馈
+              </a-menu-item>
               <a-menu-item key="reading-history">
                 <template #icon><HistoryOutlined /></template>
                 最近阅读
@@ -897,6 +901,10 @@ function handleMobileSecondaryClick(payload) {
 }
 
 async function handleProfileAction({ key }) {
+  if (key === 'feedback') {
+    router.push({ path: '/console/feedback', query: { create: '1', from: route.path } })
+    return
+  }
   if (key === 'profile') {
     router.push('/console/profile')
     return

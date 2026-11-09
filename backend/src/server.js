@@ -6,6 +6,7 @@ import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { initDiscussionSocket } from '#modules/discussion/realtime/discussionSocket.js'
 import { ensureHolidayYears } from '#modules/festival/services/festival.service.js'
 import { startMediaUploadCleanup } from '#modules/media/services/mediaUploadSession.service.js'
+import { startFeedbackNotificationRetry } from '#modules/feedback/services/feedbackNotification.service.js'
 
 async function bootstrap() {
   await connectDatabase()
@@ -18,6 +19,7 @@ async function bootstrap() {
   // Node 默认只允许约 5 分钟接收请求体，旧整文件上传在慢网络下会直接返回 408。
   httpServer.requestTimeout = env.httpRequestTimeoutMs
   await startMediaUploadCleanup()
+  startFeedbackNotificationRetry()
   initDiscussionSocket(httpServer)
   httpServer.listen(env.port, () => {
     console.log(`API server listening on http://127.0.0.1:${env.port}`)

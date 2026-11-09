@@ -195,7 +195,9 @@ export async function getUnreadCount(userId) {
 export async function markAsRead(notificationId, userId) {
   if (!userId) return null
 
-  const notification = await Notification.findById(notificationId)
+  const notification = await Notification.findOne({ _id: notificationId, $or: [
+    { type: 'announcement' }, { type: 'system', recipient: userId }
+  ] })
   if (!notification) {
     const error = new Error('公告不存在')
     error.statusCode = 404

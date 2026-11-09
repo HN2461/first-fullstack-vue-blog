@@ -52,7 +52,8 @@ function getReferenceLabel(type) {
     userAvatar: '用户头像',
     setting: '系统设置',
     resourceShare: '资源分享',
-    workJournalEvidence: '工作日记图片凭证'
+    workJournalEvidence: '工作日记图片凭证',
+    feedbackAttachment: '意见反馈图片'
   }
   return labels[type] || '其他引用'
 }
@@ -66,7 +67,8 @@ const referenceTypeOrder = [
   'userAvatar',
   'setting',
   'resourceShare',
-  'workJournalEvidence'
+  'workJournalEvidence',
+  'feedbackAttachment'
 ]
 
 function createReferenceCountMap(mediaItems = []) {
@@ -206,6 +208,10 @@ async function getMediaReferenceCounts(mediaItems = []) {
     }
   }
 
+  for (const media of mediaItems) {
+    if (media.feedback) addReferenceCount(counts, media._id.toString(), 'feedbackAttachment')
+  }
+
   return counts
 }
 
@@ -286,6 +292,15 @@ export function summarizeMediaReferences(references = []) {
 }
 
 export async function findMediaReferences(media) {
+  // 反馈关闭后仍保留沟通凭证；资源管理不能将其当成未引用图片删除。
+  if (media?.feedback) {
+    return [{
+      type: 'feedbackAttachment', typeLabel: '意见反馈图片',
+      ownerId: String(media.feedback), ownerTitle: '意见反馈', ownerSubtitle: '',
+      routePath: '/console/manage/feedback', routeQuery: { id: String(media.feedback) },
+      status: '', updatedAt: media.updatedAt
+    }]
+  }
   const url = normalizeUrl(media?.url)
   const shareReferencesPromise = findMediaShareReferences(media?._id)
   if (!url) {

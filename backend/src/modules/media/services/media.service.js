@@ -458,6 +458,9 @@ export async function moveMediaCategory(id, categoryName, actor = null, category
     throw error
   }
 
+  if (media.feedback) {
+    throw Object.assign(new Error('反馈截图由意见反馈模块维护，不能迁移分类'), { statusCode: 409, code: 'FEEDBACK_MEDIA_PROTECTED' })
+  }
   const category = await assertMediaCategoryExists(categoryName, media.uploader, categoryId)
   assertActorCanUseCategory(category, actor, media.uploader)
   const nextAccessScope = category.accessMode === 'vault' ? 'vault' : (media.accessScope === 'private' ? 'private' : 'public')
