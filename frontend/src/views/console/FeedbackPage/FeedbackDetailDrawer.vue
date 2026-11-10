@@ -1,107 +1,166 @@
 <template>
   <a-drawer
     :open="Boolean(id)"
-    :title="detail ? `${detail.number} · ${detail.title}` : '反馈详情'"
-    width="min(820px, 100vw)"
+    :width="drawerWidth"
     :mask-closable="false"
-    :body-style="{ padding: '0', overflow: 'hidden' }"
+    root-class-name="feedback-detail-drawer"
+    :body-style="{ padding: 0, overflow: 'hidden' }"
+    :header-style="{ padding: '18px 24px' }"
     @close="close"
   >
+    <template #title
+      ><div class="feedback-drawer-heading">
+        <span>反馈详情</span><span v-if="detail">{{ detail.number }}</span>
+      </div></template
+    >
+    <template #extra
+      ><a-tooltip title="刷新反馈详情"
+        ><a-button type="text" shape="circle" aria-label="刷新反馈详情" :loading="loading" :disabled="saving" @click="load"
+          ><ReloadOutlined /></a-button></a-tooltip
+    ></template>
     <div class="feedback-detail">
-      <div class="feedback-detail__tools">
-        <a-button size="small" :loading="loading" @click="load">刷新详情</a-button><span>仅提交者和获授权处理人可见</span>
-      </div>
-      <a-alert v-if="loadError" type="error" show-icon :message="loadError"
+      <a-alert v-if="loadError" type="error" show-icon :message="loadError" class="feedback-detail__error"
         ><template #action><a-button type="link" @click="load">重试</a-button></template></a-alert
       >
-      <a-skeleton v-if="loading && !detail" active :paragraph="{ rows: 8 }" />
-      <div v-if="detail" class="feedback-detail__scroll">
-        <div class="feedback-detail__meta">
-          <a-tag :color="getFeedbackStatus(detail.status).color">{{ getFeedbackStatus(detail.status).label }}</a-tag>
-          <span>{{ getFeedbackType(detail.type) }}</span
-          ><span>{{ detail.createdBy.username }}</span
-          ><span>{{ feedbackTime(detail.createdAt) }}</span>
-        </div>
-        <p class="feedback-detail__text">{{ detail.content }}</p>
-        <FeedbackAttachments :attachments="detail.attachments" />
-        <div v-if="detail.sourcePath" class="feedback-detail__context">
-          来源页面：<router-link :to="detail.sourcePath">{{ detail.sourcePath }}</router-link>
-        </div>
-        <div v-if="detail.environment" class="feedback-detail__context">环境：{{ detail.environment }}</div>
-        <a-divider orientation="left">沟通与处理记录</a-divider>
-        <a-button v-if="events.length < eventTotal" type="link" :loading="loadingMore" @click="loadMore"
-          >加载更早记录（{{ events.length }}/{{ eventTotal }}）</a-button
-        >
-        <article v-for="event in events" :key="event.id" class="feedback-event">
-          <div class="feedback-event__head">
-            <strong>{{ event.actor.username }}</strong
-            ><span>{{ eventLabel(event) }}</span
-            ><time>{{ feedbackTime(event.createdAt) }}</time>
+      <div v-if="loading && !detail" class="feedback-detail__loading"><a-skeleton active :paragraph="{ rows: 8 }" /></div>
+      <div v-if="detail" ref="scrollRef" class="feedback-detail__scroll">
+        <header class="feedback-detail__overview">
+          <div class="feedback-detail__status-row">
+            <div class="feedback-detail__badges">
+              <a-tag :color="getFeedbackStatus(detail.status).color" :bordered="false">{{ getFeedbackStatus(detail.status).label }}</a-tag
+              ><span>{{ getFeedbackType(detail.type) }}</span>
+            </div>
+            <div class="feedback-detail__actions">
+              <a-button v-if="management && !terminal" size="small" :disabled="saving" @click="openAction('status')">更新状态</a-button>
+              <a-dropdown v-if="canWithdraw" :trigger="['click']"
+                ><a-tooltip title="更多反馈操作"
+                  ><a-button type="text" size="small" aria-label="更多反馈操作" :disabled="saving"><MoreOutlined /></a-button></a-tooltip
+                ><template #overlay
+                  ><a-menu @click="openAction('withdraw')"><a-menu-item key="withdraw" danger>撤回反馈</a-menu-item></a-menu></template
+                ></a-dropdown
+              >
+            </div>
           </div>
-          <p v-if="event.content" class="feedback-detail__text">{{ event.content }}</p>
-          <FeedbackAttachments :attachments="event.attachments" />
-        </article>
-        <a-divider orientation="left">{{ terminal ? '后续处理' : '继续沟通' }}</a-divider>
-        <a-form layout="vertical" class="feedback-detail__form">
-          <div class="feedback-detail__action-fields">
-            <a-form-item label="操作"
-              ><a-select v-model:value="action" :options="actionOptions" show-search option-filter-prop="label" :disabled="saving"
-            /></a-form-item>
-            <a-form-item v-if="action === 'status'" label="处理状态"
-              ><a-select
-                v-model:value="nextStatus"
-                :options="statusOptions"
-                show-search
-                option-filter-prop="label"
-                placeholder="选择新的状态"
-                :disabled="saving"
-            /></a-form-item>
+          <h2>{{ detail.title }}</h2>
+          <dl class="feedback-detail__facts">
+            <div>
+              <dt>提交人</dt>
+              <dd>{{ detail.createdBy.username }}</dd>
+            </div>
+            <div>
+              <dt>提交时间</dt>
+              <dd>{{ feedbackTime(detail.createdAt) }}</dd>
+            </div>
+          </dl>
+        </header>
+        <section class="feedback-detail__section" aria-labelledby="feedback-description-title">
+          <h3 id="feedback-description-title">反馈内容</h3>
+          <p class="feedback-detail__description">{{ detail.content }}</p>
+          <FeedbackAttachments :attachments="detail.attachments" />
+          <details v-if="detail.sourcePath || detail.environment" class="feedback-detail__context">
+            <summary>页面与环境信息</summary>
+            <dl>
+              <div v-if="detail.sourcePath">
+                <dt>来源页面</dt>
+                <dd>
+                  <router-link :to="detail.sourcePath">{{ detail.sourcePath }}</router-link>
+                </dd>
+              </div>
+              <div v-if="detail.environment">
+                <dt>使用环境</dt>
+                <dd>{{ detail.environment }}</dd>
+              </div>
+            </dl>
+          </details>
+        </section>
+        <section class="feedback-detail__section feedback-detail__conversation" aria-labelledby="feedback-conversation-title">
+          <div class="feedback-detail__section-heading">
+            <h3 id="feedback-conversation-title">沟通记录</h3>
+            <span>{{ eventTotal }} 条动态</span>
           </div>
-          <a-form-item :label="action === 'reply' ? '回复内容' : '处理说明'">
-            <a-textarea
-              v-model:value="content"
-              :disabled="saving"
-              :maxlength="10000"
-              show-count
-              :auto-size="{ minRows: 3, maxRows: 7 }"
-              :placeholder="
-                action === 'status'
-                  ? '说明安排或结果；标记已完成时，请确认修复或功能已上线。'
-                  : action === 'reopen'
-                    ? '请说明仍然存在的问题或需要继续处理的原因。'
-                    : action === 'withdraw'
-                      ? '请说明撤回原因，已有记录仍会保留。'
-                      : '补充问题或回复；可粘贴截图。'
-              "
-              @paste="imageInput?.handlePaste($event)"
-            />
-          </a-form-item>
-          <FeedbackImagesInput ref="imageInput" v-model="images" :disabled="saving" />
-          <a-alert v-if="submitError" class="feedback-detail__submit-error" type="error" show-icon :message="submitError" />
-          <div class="feedback-detail__submit">
-            <a-button type="primary" :loading="saving" :disabled="!action" @click="submit">{{
-              action === 'reply' ? '发送回复' : '确认提交'
-            }}</a-button>
-          </div>
-        </a-form>
+          <a-button v-if="events.length < eventTotal" block class="feedback-detail__earlier" :loading="loadingMore" @click="loadMore"
+            >加载更早的记录</a-button
+          >
+          <FeedbackActivityList :events="events" />
+          <div v-if="!events.length" class="feedback-detail__no-replies">管理员的回复和处理进展会显示在这里。</div>
+        </section>
       </div>
+      <footer v-if="detail" class="feedback-reply">
+        <template v-if="!terminal || hasReply">
+          <div class="feedback-reply__heading">
+            <label for="feedback-reply-content">{{ management ? '回复提交者' : '补充回复' }}</label
+            ><span>{{ management ? '回复后将通知提交者' : '发送后将通知管理员' }}</span>
+          </div>
+          <a-alert
+            v-if="terminal"
+            type="info"
+            show-icon
+            message="反馈已结束，未发送的回复已保留。重新打开后可继续发送。"
+            class="feedback-reply__draft-notice"
+          />
+          <a-textarea
+            id="feedback-reply-content"
+            ref="replyInput"
+            v-model:value="content"
+            :disabled="saving"
+            :readonly="terminal"
+            :maxlength="10000"
+            :auto-size="{ minRows: 3, maxRows: 5 }"
+            placeholder="补充信息或回复，可粘贴截图"
+            @paste="imageInput?.handlePaste($event)"
+            @keydown="replyShortcut"
+          />
+          <FeedbackImagesInput ref="imageInput" v-model="images" :disabled="saving || terminal" compact />
+          <a-alert v-if="submitError" class="feedback-reply__error" type="error" show-icon :message="submitError" />
+          <div class="feedback-reply__footer">
+            <span>{{ content.length ? content.length + ' / 10000' : 'Ctrl / ⌘ + Enter 发送' }}</span
+            ><a-button v-if="!terminal" type="primary" :loading="saving" :disabled="!hasReply || loading" @click="submitReply"
+              ><SendOutlined />发送回复</a-button
+            >
+            <a-button v-else @click="openAction('reopen')">重新打开</a-button>
+          </div>
+        </template>
+        <div v-else class="feedback-reply__closed">
+          <div>
+            <strong>{{ detail.status === 'completed' ? '这条反馈已完成' : '这条反馈已关闭' }}</strong>
+            <p>如需继续沟通，可以说明原因后重新打开。</p>
+          </div>
+          <a-button @click="openAction('reopen')">重新打开</a-button>
+        </div>
+      </footer>
     </div>
+    <FeedbackActionModal
+      ref="actionModal"
+      v-model:open="actionOpen"
+      :action="currentAction"
+      :feedback="detail"
+      :management="management"
+      :has-reply-draft="hasReply"
+      @saved="actionSaved"
+      @conflict="load"
+    />
   </a-drawer>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { Modal, message } from 'ant-design-vue'
+import { MoreOutlined, ReloadOutlined, SendOutlined } from '@ant-design/icons-vue'
 import { getFeedback, listFeedbackEvents, updateFeedback } from '@/services/feedback'
+import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
-import { createFeedbackRequestId, feedbackStatuses, feedbackTime, getFeedbackStatus, getFeedbackType } from './feedbackMeta'
+import { createFeedbackRequestId, feedbackTime, getFeedbackStatus, getFeedbackType } from './feedbackMeta'
+import FeedbackActionModal from './FeedbackActionModal.vue'
+import FeedbackActivityList from './FeedbackActivityList.vue'
 import FeedbackAttachments from './FeedbackAttachments.vue'
 import FeedbackImagesInput from './FeedbackImagesInput.vue'
+import './feedback-detail.css'
 
 const props = defineProps({ id: { type: String, default: '' }, management: Boolean })
 const emit = defineEmits(['close', 'updated'])
 const authStore = useAuthStore()
+const appStore = useAppStore()
 const detail = ref(null)
 const events = ref([])
 const eventTotal = ref(0)
@@ -111,31 +170,31 @@ const loadingMore = ref(false)
 const loadError = ref('')
 const saving = ref(false)
 const submitError = ref('')
-const action = ref('reply')
-const nextStatus = ref(undefined)
 const content = ref('')
 const images = ref([])
 const imageInput = ref(null)
+const replyInput = ref(null)
+const scrollRef = ref(null)
+const actionOpen = ref(false)
+const currentAction = ref('status')
+const actionModal = ref(null)
 let requestId = createFeedbackRequestId()
+let submittedSnapshot = ''
 let loadVersion = 0
+const drawerWidth = computed(() => (appStore.viewportWidth <= 720 ? '100%' : Math.min(880, appStore.viewportWidth - 48)))
 const terminal = computed(() => ['completed', 'closed'].includes(detail.value?.status))
-const statusOptions = computed(() => feedbackStatuses.filter((item) => item.value !== detail.value?.status))
-const actionOptions = computed(() => [
-  ...(!terminal.value ? [{ value: 'reply', label: '回复 / 补充信息' }] : [{ value: 'reopen', label: '仍有问题，重新打开' }]),
-  ...(props.management ? [{ value: 'status', label: '更新处理状态' }] : []),
-  ...(!terminal.value && detail.value?.createdBy.id === authStore.user?.id ? [{ value: 'withdraw', label: '撤回反馈' }] : [])
-])
+const hasReply = computed(() => Boolean(content.value.trim() || images.value.length))
+const canWithdraw = computed(() => !terminal.value && detail.value?.createdBy.id === authStore.user?.id)
 
 function apply(result) {
   detail.value = result
   events.value = [...result.events.items].reverse()
   eventTotal.value = result.events.total
   eventPage.value = 1
-  if (!actionOptions.value.some((item) => item.value === action.value)) action.value = actionOptions.value[0]?.value
 }
 
 async function load() {
-  if (!props.id) return
+  if (!props.id || saving.value) return
   const version = ++loadVersion
   loading.value = true
   loadError.value = ''
@@ -143,15 +202,19 @@ async function load() {
     const result = await getFeedback(props.id, props.management)
     if (version === loadVersion) apply(result)
   } catch (error) {
-    if (version === loadVersion) loadError.value = error.message || '反馈加载失败'
+    if (version === loadVersion) loadError.value = error.message || '反馈加载失败，请重试'
   } finally {
     if (version === loadVersion) loading.value = false
   }
 }
 
 async function loadMore() {
+  if (loadingMore.value || loading.value) return
   const id = props.id
   const version = loadVersion
+  const area = scrollRef.value
+  const oldHeight = area?.scrollHeight || 0
+  const oldTop = area?.scrollTop || 0
   loadingMore.value = true
   try {
     const result = await listFeedbackEvents(id, eventPage.value + 1, props.management)
@@ -160,6 +223,8 @@ async function loadMore() {
     events.value = [...result.items.filter((item) => !seen.has(item.id)).reverse(), ...events.value]
     eventPage.value = result.page
     eventTotal.value = result.total
+    await nextTick()
+    if (area) area.scrollTop = oldTop + area.scrollHeight - oldHeight
   } catch (error) {
     message.error(error.message || '历史记录加载失败')
   } finally {
@@ -167,29 +232,19 @@ async function loadMore() {
   }
 }
 
-async function submit() {
-  if (saving.value || !detail.value) return
-  if (!content.value.trim() && (action.value !== 'reply' || !images.value.length)) {
-    message.warning('请填写内容或处理说明')
-    return
-  }
-  if (action.value === 'status' && !nextStatus.value) {
-    message.warning('请选择新的处理状态')
-    return
-  }
+async function submitReply() {
+  if (saving.value || loading.value || !detail.value || !hasReply.value || terminal.value) return
+  const snapshot = JSON.stringify([content.value.trim(), images.value.map((image) => image.uid)])
+  if (submittedSnapshot && submittedSnapshot !== snapshot) requestId = createFeedbackRequestId()
+  submittedSnapshot = snapshot
   saving.value = true
   submitError.value = ''
   const id = props.id
   try {
     const result = await updateFeedback(
       id,
-      action.value,
-      {
-        requestId,
-        version: detail.value.version,
-        content: content.value,
-        status: action.value === 'status' ? nextStatus.value : undefined
-      },
+      'reply',
+      { requestId, version: detail.value.version, content: content.value.trim() },
       images.value,
       props.management
     )
@@ -199,45 +254,83 @@ async function submit() {
     apply(result)
     content.value = ''
     images.value = []
-    nextStatus.value = undefined
     requestId = createFeedbackRequestId()
-    message.success('反馈已更新')
+    submittedSnapshot = ''
+    message.success('回复已发送')
     emit('updated')
+    await nextTick()
+    scrollRef.value?.scrollTo({ top: scrollRef.value.scrollHeight, behavior: 'smooth' })
   } catch (error) {
-    submitError.value = error.message || '发送失败，内容已保留，请重试'
-    if (error.code === 'FEEDBACK_VERSION_CONFLICT') await load()
+    submitError.value =
+      error.code === 'FEEDBACK_VERSION_CONFLICT'
+        ? '反馈已有新进展。请刷新详情后重试，你的回复已保留。'
+        : error.message || '回复发送失败，内容已保留，请重试'
+    if (error.code === 'FEEDBACK_VERSION_CONFLICT') {
+      saving.value = false
+      await load()
+    }
   } finally {
     saving.value = false
-    loading.value = false
   }
 }
 
-function eventLabel(event) {
-  if (event.kind === 'created') return '提交了反馈'
-  const labels = { reply: '回复', status: '更新处理状态', reopen: '重新打开', withdraw: '撤回' }
-  const changed = event.fromStatus !== event.toStatus
-  return `${labels[event.kind] || ''}${changed ? ` · ${getFeedbackStatus(event.fromStatus).label} → ${getFeedbackStatus(event.toStatus).label}` : ''}`
+function replyShortcut(event) {
+  if (event.key === 'Enter' && (event.ctrlKey || event.metaKey) && !event.isComposing) {
+    event.preventDefault()
+    submitReply()
+  }
 }
 
-function confirmLeave() {
-  if (saving.value) return false
-  if (!props.id || (!content.value.trim() && !images.value.length)) return true
+async function discardReply(title = '放弃尚未发送的回复？') {
+  if (!hasReply.value) return true
   return new Promise((resolve) =>
     Modal.confirm({
-      title: '放弃尚未发送的内容？',
-      content: '已有沟通记录会保留，本次未发送内容将丢弃。',
-      okText: '放弃',
+      title,
+      content: '这段回复和所选图片尚未发送，已有沟通记录会保留。',
+      okText: '放弃回复',
       cancelText: '继续填写',
-      onOk: () => resolve(true),
+      zIndex: 1200,
+      onOk: () => {
+        content.value = ''
+        images.value = []
+        resolve(true)
+      },
       onCancel: () => resolve(false)
     })
   )
 }
-async function close() {
-  if (await confirmLeave()) {
+
+async function openAction(action) {
+  if (saving.value || loading.value) return
+  // 回复和处理说明各自保留草稿，切换处理动作或取消弹窗不丢失正在输入的回复。
+  currentAction.value = action
+  actionOpen.value = true
+}
+
+async function actionSaved(result) {
+  loadVersion += 1
+  apply(result)
+  if (['completed', 'closed'].includes(result.status)) {
     content.value = ''
     images.value = []
-    emit('close')
+  }
+  emit('updated')
+  await nextTick()
+  scrollRef.value?.scrollTo({ top: scrollRef.value.scrollHeight, behavior: 'smooth' })
+}
+
+async function confirmLeave() {
+  if (saving.value || actionModal.value?.saving) return false
+  if (actionOpen.value && !(await actionModal.value?.confirmLeave())) return false
+  return discardReply()
+}
+async function close() {
+  if (await confirmLeave()) emit('close')
+}
+function beforeUnload(event) {
+  if (hasReply.value || (actionOpen.value && actionModal.value?.hasDraft)) {
+    event.preventDefault()
+    event.returnValue = ''
   }
 }
 onBeforeRouteLeave(confirmLeave)
@@ -252,103 +345,16 @@ watch(
     images.value = []
     submitError.value = ''
     loadError.value = ''
-    action.value = 'reply'
+    actionOpen.value = false
     requestId = createFeedbackRequestId()
+    submittedSnapshot = ''
     if (props.id) load()
   },
   { immediate: true }
 )
+window.addEventListener('beforeunload', beforeUnload)
 onBeforeUnmount(() => {
   loadVersion += 1
+  window.removeEventListener('beforeunload', beforeUnload)
 })
 </script>
-
-<style scoped>
-.feedback-detail {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  min-height: 0;
-  padding: 16px 20px;
-  color: var(--console-text);
-  background: var(--console-surface);
-}
-.feedback-detail__tools {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex: 0 0 auto;
-  gap: 10px;
-  padding-bottom: 12px;
-}
-.feedback-detail__tools > span,
-.feedback-detail__context {
-  font-size: 12px;
-  color: var(--console-text-secondary);
-}
-.feedback-detail__scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding-right: 6px;
-  padding-bottom: 20px;
-}
-.feedback-detail__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  color: var(--console-text-secondary);
-  font-size: 12px;
-}
-.feedback-detail__text {
-  margin: 12px 0;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  line-height: 1.8;
-}
-.feedback-detail__context {
-  margin-top: 12px;
-  overflow-wrap: anywhere;
-}
-.feedback-event {
-  padding: 12px 0;
-  border-bottom: 1px solid var(--console-border);
-}
-.feedback-event__head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--console-text-secondary);
-}
-.feedback-event__head > strong {
-  color: var(--console-text);
-}
-.feedback-event__head > time {
-  margin-left: auto;
-}
-.feedback-detail__action-fields {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-.feedback-detail__submit {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
-}
-.feedback-detail__submit-error {
-  margin-top: 12px;
-}
-@media (max-width: 600px) {
-  .feedback-detail {
-    padding: 12px;
-  }
-  .feedback-detail__action-fields {
-    grid-template-columns: 1fr;
-    gap: 0;
-  }
-}
-</style>

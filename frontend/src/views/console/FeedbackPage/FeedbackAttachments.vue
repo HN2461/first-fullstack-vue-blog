@@ -1,14 +1,16 @@
 <template>
-  <div v-if="attachments.length" class="feedback-attachments">
-    <div v-for="attachment in attachments" :key="attachment.id" class="feedback-attachments__item">
-      <a-image v-if="images[attachment.id]" :src="images[attachment.id]" :alt="attachment.name" :width="112" :height="80" />
-      <a-button v-else-if="errors[attachment.id]" class="feedback-attachments__retry" @click="load(attachment)"
-        >图片加载失败<br />点击重试</a-button
-      >
-      <div v-else class="feedback-attachments__loading"><a-spin size="small" /></div>
-      <span :title="attachment.name">{{ attachment.name }}</span>
-    </div>
-  </div>
+  <a-image-preview-group
+    ><div v-if="attachments.length" class="feedback-attachments" aria-label="反馈截图">
+      <div v-for="attachment in attachments" :key="attachment.id" class="feedback-attachments__item">
+        <a-image v-if="images[attachment.id]" :src="images[attachment.id]" :alt="attachment.name" :width="144" :height="96" />
+        <a-button v-else-if="errors[attachment.id]" class="feedback-attachments__retry" @click="load(attachment)"
+          >图片加载失败<br />点击重试</a-button
+        >
+        <div v-else class="feedback-attachments__loading"><a-spin size="small" /></div>
+        <span :title="attachment.name">{{ attachment.name }}</span>
+      </div>
+    </div></a-image-preview-group
+  >
 </template>
 
 <script setup>
@@ -56,15 +58,17 @@ onBeforeUnmount(clear)
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 16px;
 }
 .feedback-attachments__item {
   display: grid;
   gap: 4px;
-  width: 112px;
+  width: 144px;
 }
 .feedback-attachments__item :deep(img) {
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--console-surface-muted);
+  border: 1px solid var(--console-border);
   border-radius: 4px;
 }
 .feedback-attachments__item > span {
@@ -76,8 +80,8 @@ onBeforeUnmount(clear)
 }
 .feedback-attachments__loading,
 .feedback-attachments__retry {
-  width: 112px;
-  height: 80px;
+  width: 144px;
+  height: 96px;
   display: grid;
   place-content: center;
   background: var(--console-surface-muted);

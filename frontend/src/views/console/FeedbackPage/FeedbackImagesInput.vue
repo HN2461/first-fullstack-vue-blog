@@ -1,23 +1,35 @@
 <template>
-  <div class="feedback-images-input">
+  <div class="feedback-images-input" :class="{ 'is-compact': compact }">
+    <input
+      ref="fileInput"
+      class="feedback-images-input__native"
+      type="file"
+      accept="image/png,image/jpeg,image/webp,image/gif"
+      multiple
+      hidden
+      tabindex="-1"
+      aria-hidden="true"
+      @change="selectFiles"
+    />
     <div class="feedback-images-input__toolbar">
-      <a-upload
-        accept="image/png,image/jpeg,image/webp,image/gif"
-        multiple
-        :show-upload-list="false"
-        :before-upload="selectImage"
-        :disabled="disabled || modelValue.length >= 5"
+      <a-button :size="compact ? 'small' : 'middle'" :disabled="disabled || modelValue.length >= 5" @click="fileInput?.click()"
+        ><PictureOutlined />{{ compact ? '添加截图' : '选择图片' }}</a-button
       >
-        <a-button :disabled="disabled || modelValue.length >= 5"><PictureOutlined />添加图片</a-button>
-      </a-upload>
-      <span>最多 5 张，每张 5MB；可在文字框中粘贴截图</span>
+      <span>{{ compact ? modelValue.length + ' / 5 张' : '支持选择、拖入或粘贴截图，最多 5 张，每张 5MB' }}</span>
     </div>
     <div v-if="modelValue.length" class="feedback-images-input__list">
       <div v-for="image in modelValue" :key="image.uid" class="feedback-images-input__item">
-        <a-image :src="image.url" :width="80" :height="64" :alt="image.file.name || '截图预览'" />
+        <a-image :src="image.url" :width="compact ? 64 : 96" :height="compact ? 48 : 72" :alt="image.file.name || '截图预览'" />
         <a-tooltip title="移除图片"
-          ><a-button type="text" size="small" danger :disabled="disabled" aria-label="移除图片" @click="remove(image.uid)"
-            ><DeleteOutlined /></a-button
+          ><a-button
+            class="feedback-images-input__remove"
+            type="text"
+            size="small"
+            danger
+            :disabled="disabled"
+            :aria-label="'移除图片 ' + (image.file.name || '截图')"
+            @click="remove(image.uid)"
+            ><CloseOutlined /></a-button
         ></a-tooltip>
       </div>
     </div>
@@ -25,14 +37,15 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount, watch } from 'vue'
+import { onBeforeUnmount, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
-import { DeleteOutlined, PictureOutlined } from '@ant-design/icons-vue'
+import { CloseOutlined, PictureOutlined } from '@ant-design/icons-vue'
 
-const props = defineProps({ modelValue: { type: Array, default: () => [] }, disabled: Boolean })
+const props = defineProps({ modelValue: { type: Array, default: () => [] }, disabled: Boolean, compact: Boolean })
 const emit = defineEmits(['update:modelValue'])
+const fileInput = ref(null)
 const urls = new Map()
-// 同一批多选会同步触发 beforeUpload，保留本地队列避免受控 prop 尚未更新而覆盖先选图片。
+// 原生多选和剪贴板均批量进入同一队列，避免受控 prop 尚未刷新时覆盖前一张图片。
 let selection = [...props.modelValue]
 watch(
   () => props.modelValue,
@@ -49,27 +62,29 @@ watch(
 )
 
 function selectImage(file) {
-  if (props.disabled) return false
+  if (props.disabled) return
   if (!['image/png', 'image/jpeg', 'image/webp', 'image/gif'].includes(file.type)) {
     message.warning('请选择 PNG、JPG、WEBP 或 GIF 图片')
-    return false
+    return
   }
   if (!file.size || file.size > 5 * 1024 * 1024) {
     message.warning('单张图片不能超过 5MB')
-    return false
+    return
   }
   if (selection.length >= 5) {
     message.warning('每次最多添加 5 张图片')
-    return false
+    return
   }
-  const uid = `${Date.now()}-${Math.random().toString(36).slice(2)}`
+  const uid = Date.now() + '-' + Math.random().toString(36).slice(2)
   const url = URL.createObjectURL(file)
   urls.set(uid, url)
   selection = [...selection, { uid, file, url }]
   emit('update:modelValue', selection)
-  return false
 }
-
+function selectFiles(event) {
+  Array.from(event.target.files || []).forEach(selectImage)
+  event.target.value = ''
+}
 function handlePaste(event) {
   const images = [...(event.clipboardData?.items || [])].filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
   if (!images.length || props.disabled) return
@@ -79,24 +94,35 @@ function handlePaste(event) {
     if (file) selectImage(file)
   })
 }
-
+function handleDrop(event) {
+  if (props.disabled || !event.dataTransfer?.files?.length) return
+  event.preventDefault()
+  Array.from(event.dataTransfer.files).forEach(selectImage)
+}
 function remove(uid) {
   selection = selection.filter((image) => image.uid !== uid)
   emit('update:modelValue', selection)
 }
-
 onBeforeUnmount(() => {
   for (const url of urls.values()) URL.revokeObjectURL(url)
 })
-defineExpose({ handlePaste })
+defineExpose({ handlePaste, handleDrop })
 </script>
 
 <style scoped>
+.feedback-images-input {
+  min-width: 0;
+  font-size: 12px;
+  line-height: 20px;
+}
+.feedback-images-input__native {
+  display: none;
+}
 .feedback-images-input__toolbar {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 6px 12px;
 }
 .feedback-images-input__toolbar > span {
   font-size: 12px;
@@ -105,16 +131,36 @@ defineExpose({ handlePaste })
 .feedback-images-input__list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 10px;
+  max-height: 182px;
+  overflow-y: auto;
+  padding: 10px 0 4px;
 }
 .feedback-images-input__item {
-  display: flex;
-  align-items: start;
-  gap: 2px;
+  position: relative;
+  flex-shrink: 0;
+  border: 1px solid var(--console-border);
+  border-radius: 6px;
+  overflow: hidden;
 }
 .feedback-images-input__item :deep(img) {
+  display: block;
   object-fit: cover;
-  border-radius: 4px;
+}
+.feedback-images-input__remove {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 22px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0;
+  background: var(--console-surface) !important;
+  border-radius: 0 0 0 4px;
+}
+.is-compact .feedback-images-input__list {
+  max-height: 72px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 </style>

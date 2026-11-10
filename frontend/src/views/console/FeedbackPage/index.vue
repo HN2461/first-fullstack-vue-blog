@@ -55,7 +55,8 @@
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'title'"
-          ><button class="feedback-page__title" type="button" @click="openDetail(record.id)">{{ record.title }}</button></template
+          ><button class="feedback-page__title" type="button" @click="openDetail(record.id)">{{ record.title }}</button
+          ><span class="feedback-page__number">{{ record.number }}</span></template
         >
         <template v-else-if="column.key === 'type'">{{ getFeedbackType(record.type) }}</template>
         <template v-else-if="column.key === 'status'"
@@ -64,12 +65,10 @@
         <template v-else-if="column.key === 'createdBy'">{{ record.createdBy.username }}</template>
         <template v-else-if="column.key === 'lastActivityAt'">{{ feedbackTime(record.lastActivityAt) }}</template>
         <template v-else-if="column.key === 'action'"
-          ><a-button type="link" size="small" @click="openDetail(record.id)">{{
-            management ? '查看 / 处理' : '查看 / 回复'
-          }}</a-button></template
+          ><a-button type="link" size="small" @click="openDetail(record.id)">查看详情</a-button></template
         >
       </template>
-      <template #empty>
+      <template #emptyText>
         <div v-if="!loadError" class="feedback-page__empty" role="status">
           <MessageOutlined aria-hidden="true" /><strong>{{
             hasFilters ? '没有匹配的反馈' : management ? '暂未收到反馈' : '还没有提交过反馈'
@@ -117,13 +116,12 @@ const activeId = computed(() => (/^[a-f\d]{24}$/i.test(String(route.query.id || 
 const params = computed(() => ({ keyword: submittedKeyword.value || undefined, type: type.value, status: status.value }))
 const hasFilters = computed(() => Boolean(submittedKeyword.value || type.value || status.value))
 const columns = computed(() => [
-  { title: '编号', key: 'number', dataIndex: 'number', width: 230 },
-  { title: '标题', key: 'title', width: 280 },
+  { title: '反馈', key: 'title', width: 340 },
   { title: '类型', key: 'type', width: 130 },
   { title: '状态', key: 'status', width: 100 },
   ...(props.management ? [{ title: '提交者', key: 'createdBy', width: 140 }] : []),
   { title: '最近活动', key: 'lastActivityAt', width: 190 },
-  { title: '操作', key: 'action', width: 120, fixed: 'right' }
+  { title: '操作', key: 'action', width: 100, fixed: 'right' }
 ])
 
 async function loadRows(filters) {
@@ -194,6 +192,7 @@ onBeforeUnmount(() => clearTimeout(searchTimer))
   width: 145px;
 }
 .feedback-page__title {
+  display: block;
   max-width: 100%;
   padding: 0;
   border: 0;
@@ -202,6 +201,15 @@ onBeforeUnmount(() => clearTimeout(searchTimer))
   cursor: pointer;
   text-align: left;
   overflow-wrap: anywhere;
+  line-height: 1.65;
+  font-weight: 500;
+}
+.feedback-page__number {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--console-text-secondary);
 }
 .feedback-page__empty {
   display: flex;
