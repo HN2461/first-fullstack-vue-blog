@@ -100,10 +100,17 @@ export async function reconcileResources({ apply = false } = {}) {
       const descriptor = describeResourcePath(media.storagePath)
       const scene = media.scene || (media.feedback ? 'feedback-image' : media.workJournalLog ? 'work-journal-evidence' : 'admin-library')
       const missingLifecycle = media.$isDefault('lifecycleStatus')
-      if (media.scene === scene && media.storageKey === descriptor.storageKey && media.provider === 'local' && !missingLifecycle) return
+      const missingAccessScope = media.$isDefault('accessScope')
+      const legacyAccessScope = getResourceScene(scene).accessScope
+      if (missingAccessScope && legacyAccessScope === 'public' && !descriptor.storageKey.startsWith('public/')) {
+        throw new Error('历史文件缺少访问范围且位于私有目录，未按公开素材补齐')
+      }
+      if (media.scene === scene && media.storageKey === descriptor.storageKey && media.provider === 'local' && !missingLifecycle && !missingAccessScope) return
       result.metadata += 1
       // 旧库没有状态字段时明确补为保留，避免“保留素材”筛选漏掉旧库存。
-      const metadata = { ...descriptor, scene, ...(missingLifecycle ? { lifecycleStatus: 'retained', expiresAt: null } : {}) }
+      // Mongoose 默认值只在内存补齐，必须落库才能让公开素材的数据库筛选包含早期记录。
+      const metadata = { ...descriptor, scene, ...(missingLifecycle ? { lifecycleStatus: 'retained', expiresAt: null } : {}),
+        ...(missingAccessScope ? { accessScope: legacyAccessScope } : {}) }
       if (apply) await Media.updateOne({ _id: media._id }, { $set: metadata })
       Object.assign(media, metadata)
     })

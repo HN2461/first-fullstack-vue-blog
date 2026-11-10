@@ -276,6 +276,7 @@ describe('统一文件管理', () => {
       storagePath: vaultPath, url: '/api/media/vault/old', kind: 'image', accessScope: 'vault', uploader: owner._id, category: '密码箱' })
     // 模拟线上改造前的原始记录，不能只在带新默认值的文档上证明历史兼容。
     await Media.collection.updateMany({}, { $unset: { scene: '', provider: '', storageKey: '', lifecycleStatus: '', expiresAt: '', attachedAt: '' } })
+    await Media.collection.updateOne({ _id: original._id }, { $unset: { accessScope: '' } })
     await User.updateMany({ _id: { $in: [owner._id, other._id] } }, { $set: { avatar: original.url } })
     await Article.create({ title: '旧文章', slug: 'kept-old-source', createdBy: owner._id, updatedBy: owner._id, cover: `https://example.com${original.url}` })
     const before = await reconcileResources()
@@ -285,6 +286,7 @@ describe('统一文件管理', () => {
     expect((await reconcileResources({ apply: true })).errors).toEqual([])
     const after = await Media.findById(original._id)
     expect((await Media.collection.findOne({ _id: original._id })).lifecycleStatus).toBe('retained')
+    expect((await Media.collection.findOne({ _id: original._id })).accessScope).toBe('public')
     expect(after.toObject()).toMatchObject({ uploader: owner._id, categoryId: category._id, category: category.name, url: original.url,
       storagePath: avatarPath, lifecycleStatus: 'retained', accessScope: 'public' })
     expect((await Media.findById(vault._id)).toObject()).toMatchObject({ accessScope: 'vault', url: vault.url, uploader: owner._id, lifecycleStatus: 'retained' })
@@ -304,5 +306,18 @@ describe('统一文件管理', () => {
     expect(rejected.errors).toHaveLength(3)
     expect(await MediaReference.countDocuments({ mediaId: vault._id })).toBe(0)
     expect((await Media.findById(vault._id)).accessScope).toBe('vault')
+  })
+
+  it('私有目录中的未知历史文件缺少访问范围时不按公开补齐', async () => {
+    const privatePath = path.join(getResourceStorageAreas().find((area) => area.key === 'private').path, 'unknown.jpg')
+    await fs.mkdir(path.dirname(privatePath), { recursive: true })
+    await fs.writeFile(privatePath, jpegFixture)
+    const media = await Media.create({ filename: 'unknown.jpg', originalName: '历史私有目录文件', mimeType: 'image/jpeg', size: jpegFixture.length,
+      storagePath: privatePath, url: '/unknown.jpg', kind: 'image', uploader: owner._id })
+    await Media.collection.updateOne({ _id: media._id }, { $unset: { accessScope: '' } })
+    const result = await reconcileResources({ apply: true })
+    expect(result.errors).toEqual([expect.objectContaining({ message: expect.stringContaining('位于私有目录') })])
+    expect(await Media.collection.findOne({ _id: media._id })).not.toHaveProperty('accessScope')
+    expect(await fs.readFile(privatePath)).toEqual(jpegFixture)
   })
 })
