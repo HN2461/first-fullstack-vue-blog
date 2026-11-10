@@ -160,6 +160,12 @@ if [ "$PUBLISH_FRONTEND" = "1" ]; then
 fi
 if [ "$BACKUP_RUNTIME_DATA" = "1" ]; then
   cp -a /www/personal-blog/uploads "$RELEASE_DIR/uploads-before"
+  # 永久私有资源与密码箱同样属于运行数据，必须与公开上传目录一起备份。
+  if [ -d /www/personal-blog/uploads-private ]; then
+    cp -a /www/personal-blog/uploads-private "$RELEASE_DIR/uploads-private-before"
+  else
+    mkdir -p "$RELEASE_DIR/uploads-private-before"
+  fi
   if [ -d /www/personal-blog/work-journal-private ]; then
     cp -a /www/personal-blog/work-journal-private "$RELEASE_DIR/work-journal-private-before"
   else
@@ -317,11 +323,23 @@ import re
 path = Path('/etc/nginx/conf.d/personal-blog.conf')
 content = path.read_text(encoding='utf-8')
 # 这两个 location 由本脚本独占维护：先删除旧版本（包括上次失败留下的重复块），再一次性写入标准配置。
+content = re.sub(r'    # BEGIN managed resource isolation.*?    # END managed resource isolation\n\n', '', content, flags=re.S)
 content = re.sub(r'    location(?: =)? /api/admin/media(?:-uploads|-downloads)?/? \{.*?    \}\n\n', '', content, flags=re.S)
 marker = '    location /api/ {'
 if marker not in content:
     raise SystemExit('Cannot find generic API location in Nginx config')
-locations = '''    location = /api/admin/media {
+locations = '''    # BEGIN managed resource isolation
+    location ^~ /uploads/resources/ { return 404; }
+    location ^~ /uploads/discussions/ { return 404; }
+    location ^~ /uploads/resumes/ { return 404; }
+    location ^~ /uploads/feedback/ { return 404; }
+    location ^~ /uploads/work-journal/ { return 404; }
+    location ^~ /uploads/vault/ { return 404; }
+    location ^~ /uploads/uploads-private/ { return 404; }
+    location ^~ /uploads/.generated-thumbnails/ { return 404; }
+    # END managed resource isolation
+
+    location = /api/admin/media {
         proxy_pass http://127.0.0.1:3001/api/admin/media;
         proxy_http_version 1.1;
         proxy_request_buffering off;

@@ -87,7 +87,7 @@ describe('document article import', () => {
       contentMode: 'document',
       status: 'draft'
     })
-    expect(imported.document.originalUrl).toMatch(/^\/uploads\//)
+    expect(imported.document.originalUrl).toMatch(/^\/api\/resources\/[a-f\d]{24}\/content$/)
     expect(imported.document.conversionStatus).toBe('ready')
     expect(imported.wordCount).toBeGreaterThan(0)
     expect(await Media.countDocuments()).toBeGreaterThanOrEqual(1)

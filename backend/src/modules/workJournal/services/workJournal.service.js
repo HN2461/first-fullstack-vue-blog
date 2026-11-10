@@ -1,3 +1,6 @@
+import { createResource } from '#modules/media/services/resourceFile.service.js'
+import { saveResourceBindings } from '#modules/media/services/resourceBinding.service.js'
+import { resolveResourcePath, removeResourceFile } from '#modules/media/services/resourceStorage.service.js'
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -392,53 +395,18 @@ export async function addWorkEvidence(logId, userId, file) {
     throw createError(400, 'WORK_EVIDENCE_TYPE_INVALID', '凭证仅支持真实格式匹配的 JPG、PNG、GIF 或 WEBP 图片')
   }
 
-  await ensureDefaultMediaCategory()
-  const category = await assertMediaCategoryExists('工作日志', userId)
-  const root = path.join(resolveUploadRoot(), 'work-journal')
-  const date = new Date()
-  const uploadDirectory = path.join(root, String(date.getFullYear()), String(date.getMonth() + 1).padStart(2, '0'))
-  await fs.promises.mkdir(uploadDirectory, { recursive: true })
-  const storedName = `${crypto.randomUUID()}${extension}`
-  const filePath = path.join(uploadDirectory, storedName)
-  const sha256 = crypto.createHash('sha256').update(file.buffer).digest('hex')
-  await fs.promises.writeFile(filePath, file.buffer, { flag: 'wx', mode: 0o600 })
-  const mediaId = new mongoose.Types.ObjectId()
-  const evidence = {
-    originalName,
-    storedName: '',
-    mediaId,
-    mimeType,
-    size: file.size,
-    sha256,
-    uploadedAt: new Date()
-  }
+  const media = await createResource(file, userId, { scene: 'work-journal-evidence', targetId: logId, workJournalLog: log._id })
+  const evidence = { originalName: media.originalName, storedName: '', mediaId: media._id, mimeType: media.mimeType, size: media.size, sha256: media.sha256, uploadedAt: new Date() }
   log.evidence.push(evidence)
   const savedEvidence = log.evidence[log.evidence.length - 1]
-  const media = new Media({
-    _id: mediaId,
-    filename: storedName,
-    originalName,
-    mimeType,
-    size: file.size,
-    url: `/api/work-journal/media-content/${mediaId}`,
-    storagePath: filePath.replace(/\\/g, '/'),
-    kind: 'image',
-    category: category.name,
-    categoryId: category._id,
-    fileClass: 'image',
-    accessScope: 'private',
-    sha256,
-    workJournalLog: log._id,
-    uploader: userId
-  })
   media.workJournalEvidence = savedEvidence._id
   try {
-    await media.save()
-    await log.save()
+    await saveResourceBindings({ targetType: 'work-log', targetId: log._id, field: `evidence:${savedEvidence._id}`, ownerId: userId, mediaIds: [media._id] }, async () => {
+      await media.save()
+      await log.save()
+    })
   } catch (error) {
-    await Media.deleteOne({ _id: media._id }).catch(() => {})
     log.evidence.pull(savedEvidence._id)
-    await fs.promises.unlink(filePath).catch(() => {})
     throw error
   }
   return {
@@ -459,8 +427,8 @@ export async function getWorkEvidence(logId, evidenceId, userId, options = {}) {
   if (evidence.mediaId) {
     const media = await Media.findOne({ _id: evidence.mediaId, uploader: userId })
     if (!media) throw createError(404, 'WORK_EVIDENCE_NOT_FOUND', '凭证不存在')
-    const filePath = path.resolve(media.storagePath)
-    resolvePrivateWorkJournalUploadPath(filePath)
+    const filePath = await resolveResourcePath(media)
+    if (!media.storageKey) resolvePrivateWorkJournalUploadPath(filePath)
     const contents = await fs.promises.readFile(filePath).catch(() => null)
     if (!contents) throw createError(404, 'WORK_EVIDENCE_FILE_MISSING', '凭证文件不存在')
     if (crypto.createHash('sha256').update(contents).digest('hex') !== evidence.sha256) {
@@ -488,8 +456,8 @@ export async function getWorkJournalMediaContent(mediaId, actor, options = {}) {
   if (!options.canManageAll && media.uploader.toString() !== actorId) {
     throw createError(404, 'MEDIA_NOT_FOUND', '媒体文件不存在')
   }
-  const filePath = path.resolve(media.storagePath)
-  resolvePrivateWorkJournalUploadPath(filePath)
+  const filePath = await resolveResourcePath(media)
+  if (!media.storageKey) resolvePrivateWorkJournalUploadPath(filePath)
   const contents = await fs.promises.readFile(filePath).catch(() => null)
   if (!contents) throw createError(404, 'MEDIA_FILE_MISSING', '媒体文件不存在')
   if (media.sha256 && crypto.createHash('sha256').update(contents).digest('hex') !== media.sha256) {

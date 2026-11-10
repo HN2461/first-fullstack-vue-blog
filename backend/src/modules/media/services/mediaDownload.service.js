@@ -5,6 +5,8 @@ import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { getVaultStorageRoot, requireMediaVaultAccess } from './mediaVault.service.js'
+import { resolveResourcePath } from './resourceStorage.service.js'
+import { authorizeResourceRead } from './resourceAccess.service.js'
 
 const DEFAULT_ARCHIVE_PREFIX = '媒体资源'
 
@@ -168,14 +170,15 @@ async function resolveDownloadItems(ids, actor) {
   }
 
   const mediaMap = new Map(mediaList.map((media) => [media._id.toString(), media]))
-  return uniqueIds.map((id) => {
+  return Promise.all(uniqueIds.map(async (id) => {
     const media = mediaMap.get(id)
     if (media.accessScope === 'vault') requireMediaVaultAccess(actor)
+    else if (media.accessScope === 'private') await authorizeResourceRead(media, actor)
     return {
       media,
-      filePath: resolveManagedFilePath(media)
+      filePath: media.storageKey ? await resolveResourcePath(media) : resolveManagedFilePath(media)
     }
-  })
+  }))
 }
 
 export async function getSingleMediaDownload(id, actor) {

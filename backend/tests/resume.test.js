@@ -351,10 +351,13 @@ describe('resume module', () => {
   })
 
   it('preserves Boss profile fields and exports the latest five-project resume', async () => {
+    const payload = structuredClone(HN246_BOSS_RESUME)
+    // 内容模板中的生产照片不属于测试用户；照片上传与权限由资源专项测试验证。
+    payload.sections.profile.photoUrl = ''
     const resumeResponse = await request(app)
       .post('/api/resumes')
       .set('Authorization', `Bearer ${token}`)
-      .send(structuredClone(HN246_BOSS_RESUME))
+      .send(payload)
       .expect(201)
 
     expect(resumeResponse.body.data).toMatchObject({

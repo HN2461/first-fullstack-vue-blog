@@ -1,3 +1,4 @@
+import { saveDiscussionAttachment } from './discussionAttachment.service.js'
 import mongoose from 'mongoose'
 import { USER_STATUS } from '#constants/domain'
 import { DISCUSSION_CONFIG, DISCUSSION_CONTENT_TYPES, DISCUSSION_MEMBER_ROLES, DISCUSSION_THREAD_TYPES } from '#modules/discussion/constants/discussion.constants.js'
@@ -118,7 +119,7 @@ export async function createDiscussionMessage(threadId, input, currentUserId) {
     throw createDiscussionError(404, 'DISCUSSION_NOT_FOUND', '讨论不存在')
   }
 
-  const message = await DiscussionMessage.create({
+  const message = new DiscussionMessage({
     threadId,
     senderId: currentUserId,
     content: input.content.trim(),
@@ -127,8 +128,9 @@ export async function createDiscussionMessage(threadId, input, currentUserId) {
       : input.attachment
         ? DISCUSSION_CONTENT_TYPES.FILE
         : DISCUSSION_CONTENT_TYPES.TEXT,
-    attachments: input.attachment ? [input.attachment] : []
+    attachments: []
   })
+  await saveDiscussionAttachment(message, input.attachment?.mediaId, () => message.save())
   await DiscussionThread.updateOne(
     { _id: threadId },
     {
@@ -224,7 +226,7 @@ export async function revokeDiscussionMessage(threadId, messageId, currentUserId
   message.content = ''
   message.attachments = []
   await message.save()
-  await removeDiscussionAttachmentFiles([{ attachments: attachmentsToRemove }])
+  await removeDiscussionAttachmentFiles([{ _id: message._id, attachments: attachmentsToRemove }])
   await updateThreadLastMessage(threadId)
   await message.populate('senderId', 'username email avatar gender')
   const safeMessage = message.toSafeJSON()

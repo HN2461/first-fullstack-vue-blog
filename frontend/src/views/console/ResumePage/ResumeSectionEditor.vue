@@ -2,7 +2,7 @@
   <div v-if="activeSection === 'profile'" class="resume-form-grid">
     <div class="resume-photo-field">
       <div class="resume-photo-field__preview">
-        <img v-if="profile.photoUrl" :src="profile.photoUrl" alt="当前证件照" />
+        <ResourceImage v-if="profile.photoUrl" :src="photoSource" alt="当前证件照" />
         <UserOutlined v-else />
       </div>
       <div>
@@ -99,10 +99,12 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import ResourceImage from '@/components/resources/ResourceImage.vue'
 import { ArrowDownOutlined, ArrowUpOutlined, DeleteOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons-vue'
 import ResumeHighlightEditor from './ResumeHighlightEditor.vue'
 
-defineProps({
+const props = defineProps({
   activeSection: { type: String, required: true },
   sectionLabel: { type: String, default: '' },
   profile: { type: Object, required: true },
@@ -110,6 +112,8 @@ defineProps({
   resumeId: { type: String, default: '' },
   photoUploading: { type: Boolean, default: false }
 })
+
+const photoSource = computed(() => /^(?:https?:\/\/[^/]+)?\/uploads\/resumes\//i.test(props.profile.photoUrl || '') ? `/api/resumes/${props.resumeId}/photo` : props.profile.photoUrl)
 
 const emit = defineEmits([
   'move-item',

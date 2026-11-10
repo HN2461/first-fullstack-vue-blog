@@ -3,6 +3,7 @@ import { DISCUSSION_CONTENT_TYPES } from '#modules/discussion/constants/discussi
 
 const discussionAttachmentSchema = new mongoose.Schema(
   {
+    mediaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Media', default: null },
     filename: {
       type: String,
       required: true,
@@ -98,7 +99,14 @@ discussionMessageSchema.methods.toSafeJSON = function toSafeJSON() {
     senderGender: sender?.gender || 'unknown',
     content: this.revokedAt ? '' : this.content,
     contentType: this.contentType,
-    attachments: this.revokedAt ? [] : (this.attachments || []),
+    attachments: this.revokedAt ? [] : (this.attachments || []).map((item, index) => ({
+      mediaId: item.mediaId?.toString?.() || null,
+      filename: item.filename,
+      originalName: item.originalName,
+      mimeType: item.mimeType,
+      size: item.size,
+      url: item.mediaId ? `/api/resources/${item.mediaId}/content` : `/api/discussions/${this.threadId}/messages/${this._id}/attachments/${index}`
+    })),
     revokedAt: this.revokedAt || null,
     revokedBy: this.revokedBy?.toString?.() || null,
     createdAt: this.createdAt,

@@ -98,6 +98,8 @@
           size="middle"
           :options="usageStatusOptions"
         />
+        <a-select v-model:value="filterScene" show-search option-filter-prop="label" allow-clear placeholder="文件来源" style="width: 145px" :options="resourceSceneOptions" />
+        <a-select v-model:value="filterLifecycle" show-search option-filter-prop="label" allow-clear placeholder="保留状态" style="width: 145px" :options="resourceLifecycleOptions" />
       </div>
       <div class="media-cloud__type-filter">
         <button
@@ -195,6 +197,11 @@
           </template>
 
           <!-- 引用状态 -->
+          <template v-else-if="column.key === 'resourceState'">
+            <div>{{ resourceSceneOptions.find((item) => item.value === record.scene)?.label || '历史资源' }}</div>
+            <a-tag :bordered="false">{{ resourceLifecycleOptions.find((item) => item.value === record.lifecycleStatus)?.label || '已保留' }}</a-tag>
+          </template>
+
           <template v-else-if="column.key === 'usage'">
             <a-button
               v-if="!isMaskedVaultRecord(record)"
@@ -529,6 +536,16 @@ const keyword = ref('')
 const filterCategory = ref(undefined)
 const filterFileClass = ref(undefined)
 const filterUsageStatus = ref(undefined)
+const filterScene = ref(undefined)
+const filterLifecycle = ref(undefined)
+const resourceSceneOptions = [
+  ['admin-library', '媒体素材'], ['article-cover', '文章封面'], ['article-content', '文章正文图片'],
+  ['user-avatar', '用户头像'], ['resume-photo', '简历照片'], ['discussion-attachment', '讨论附件'],
+  ['feedback-image', '意见反馈'], ['work-journal-evidence', '工作日志']
+].map(([value, label]) => ({ value, label }))
+const resourceLifecycleOptions = [
+  ['pending', '待保存 / 待清理'], ['attached', '业务正在使用'], ['retained', '主动保留素材']
+].map(([value, label]) => ({ value, label }))
 const categoryModalVisible = ref(false)
 const categorySubmitting = ref(false)
 const editingCategoryId = ref('')
@@ -666,7 +683,9 @@ const tableParams = computed(() => ({
   categoryId: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? filterCategory.value : undefined,
   category: /^[a-f\d]{24}$/i.test(filterCategory.value || '') ? undefined : filterCategory.value,
   fileClass: filterFileClass.value || undefined,
-  usageStatus: filterUsageStatus.value || undefined
+  usageStatus: filterUsageStatus.value || undefined,
+  scene: filterScene.value || undefined,
+  lifecycleStatus: filterLifecycle.value || undefined
 }))
 
 const columns = [
@@ -679,6 +698,7 @@ const columns = [
   { title: '类型', key: 'fileClass', width: 90, align: 'center' },
   { title: '大小', key: 'size', width: 95, align: 'right' },
   { title: '分类', key: 'category', width: 120, align: 'center' },
+  { title: '来源 / 保留状态', key: 'resourceState', width: 175 },
   { title: '引用状态', key: 'usage', width: 140, align: 'center' },
   { title: '上传时间', key: 'createdAt', width: 170, align: 'center' },
   { title: '操作', key: 'action', width: 110, align: 'center', fixed: 'right' }

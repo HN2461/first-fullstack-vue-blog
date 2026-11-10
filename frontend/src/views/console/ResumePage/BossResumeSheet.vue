@@ -16,7 +16,7 @@
         </p>
       </div>
       <div class="boss-resume-photo">
-        <img v-if="profile.photoUrl" :src="profile.photoUrl" alt="简历证件照" />
+        <ResourceImage v-if="profile.photoUrl" :src="photoSource" alt="简历证件照" />
         <UserRound v-else :size="48" />
       </div>
     </header>
@@ -82,6 +82,7 @@
 </template>
 
 <script setup>
+import ResourceImage from '@/components/resources/ResourceImage.vue'
 import { computed, defineComponent, h } from 'vue'
 import { Button } from 'ant-design-vue'
 import { EditOutlined } from '@ant-design/icons-vue'
@@ -96,6 +97,7 @@ defineEmits(['edit-section'])
 
 const sections = computed(() => props.resume.sections || {})
 const profile = computed(() => sections.value.profile || {})
+const photoSource = computed(() => /^(?:https?:\/\/[^/]+)?\/uploads\/resumes\//i.test(profile.value.photoUrl || '') ? `/api/resumes/${props.resume.id}/photo` : profile.value.photoUrl)
 const advantages = computed(() => sorted(sections.value.advantages))
 const workExperiences = computed(() => sorted(sections.value.workExperiences))
 const projects = computed(() => sorted(sections.value.projects))

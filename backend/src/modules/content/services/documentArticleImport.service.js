@@ -1,3 +1,4 @@
+import { removeResourceFile } from '#modules/media/services/resourceStorage.service.js'
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
@@ -9,8 +10,8 @@ import { ARTICLE_STATUS } from '#constants/domain'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
 import { Media } from '#modules/media/models/Media.js'
-import { createMediaFromFile, getUploadSubdir } from '#modules/media/services/media.service.js'
-import { buildSafeStoredFilename, decodeUploadFilename } from '#utils/uploadFilename.js'
+import { createMediaFromFile } from '#modules/media/services/media.service.js'
+import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { createArticle } from './article.service.js'
 
 const execFileAsync = promisify(execFile)
@@ -110,16 +111,10 @@ async function createPdfPreview(sourceFile, originalName, user) {
       }
     }
 
-    const uploadDir = getUploadSubdir()
-    await fs.mkdir(uploadDir, { recursive: true })
     const previewOriginalName = `${path.basename(originalName, path.extname(originalName))}-阅读版.pdf`
-    const filename = `${Date.now()}-${buildSafeStoredFilename(previewOriginalName)}`
-    const destination = path.join(uploadDir, filename)
-    await fs.copyFile(conversionResult, destination)
-    const stats = await fs.stat(destination)
+    const stats = await fs.stat(conversionResult)
     const media = await createMediaFromFile({
-      path: destination,
-      filename,
+      path: conversionResult,
       originalname: previewOriginalName,
       mimetype: 'application/pdf',
       size: stats.size
@@ -135,7 +130,7 @@ async function cleanupMedia(mediaItems = []) {
   for (const item of mediaItems.filter(Boolean)) {
     const media = await Media.findById(item.id)
     if (!media) continue
-    await fs.unlink(media.storagePath).catch((error) => {
+    await removeResourceFile(media).catch((error) => {
       if (error.code !== 'ENOENT') throw error
     })
     await Media.deleteOne({ _id: media._id })

@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import path from 'node:path'
 import { requireAnyMenuAccess, requireAuth, requireMenuAccess } from '#middlewares/auth.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
@@ -12,6 +13,7 @@ import {
   updateResume
 } from '#modules/resume/services/resume.service.js'
 import { handleResumePhotoUpload, saveResumePhoto } from '#modules/resume/services/resumePhoto.service.js'
+import { resolveResumePhoto } from '#modules/resume/services/resumeResource.service.js'
 import {
   addInterviewLink,
   createInterview,
@@ -72,6 +74,16 @@ resumeRouter.post(
 
 resumeRouter.get('/:id', asyncHandler(async (req, res) => {
   res.json(ok(await getResume(req.params.id, req.user._id)))
+}))
+
+resumeRouter.get('/:id/photo', asyncHandler(async (req, res) => {
+  const resume = await findOwnedResume(req.params.id, req.user._id)
+  const filePath = await resolveResumePhoto(resume)
+  const types = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.gif': 'image/gif', '.webp': 'image/webp', '.avif': 'image/avif' }
+  // 兼容选用的公开 PNG 等照片；未知旧格式只下载，不能当成可信网页执行。
+  const contentType = types[path.extname(filePath).toLowerCase()]
+  res.set({ 'Content-Type': contentType || 'application/octet-stream', 'Content-Disposition': contentType ? 'inline' : 'attachment', 'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff' })
+  res.sendFile(filePath, { dotfiles: 'allow' })
 }))
 
 resumeRouter.patch('/:id', asyncHandler(async (req, res) => {

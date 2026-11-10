@@ -5,6 +5,7 @@ import sharp from 'sharp'
 import { Media } from '#modules/media/models/Media.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { getVaultStorageRoot } from './mediaVault.service.js'
+import { resolveResourcePath } from './resourceStorage.service.js'
 
 const THUMBNAIL_DIRECTORY = '.generated-thumbnails'
 const THUMBNAIL_SIZE = 640
@@ -79,14 +80,14 @@ function withLimitedConcurrency(task) {
 }
 
 async function generateThumbnail(media) {
-  const sourcePath = path.resolve(media.storagePath)
+  const sourcePath = media.storageKey ? await resolveResourcePath(media) : path.resolve(media.storagePath)
   const allowedRoots = [
     resolveUploadRoot(),
     resolveLegacyUploadRoot(),
     path.resolve(resolveUploadRoot(), 'work-journal'),
     getVaultStorageRoot()
   ]
-  if (!allowedRoots.some((root) => isPathInside(root, sourcePath))) {
+  if (!media.storageKey && !allowedRoots.some((root) => isPathInside(root, sourcePath))) {
     const error = new Error('媒体文件存储路径无效，已阻止生成缩略图')
     error.statusCode = 409
     error.code = 'MEDIA_THUMBNAIL_PATH_INVALID'

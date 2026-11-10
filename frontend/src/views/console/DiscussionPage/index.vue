@@ -232,7 +232,7 @@ async function sendMessage(payload) {
     const content = payload?.content || ''
     const sentMessage = await createDiscussionMessage(activeThreadId.value, {
       content,
-      ...(attachment ? { attachment } : {})
+      ...(attachment ? { attachment: { mediaId: attachment.mediaId || attachment.id } } : {})
     })
     upsertMessage(sentMessage)
     composerRef.value?.resetAfterSent(payload)

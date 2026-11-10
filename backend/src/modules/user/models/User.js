@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    avatarMediaId: { type: mongoose.Schema.Types.ObjectId, ref: 'Media', default: null },
     avatar: {
       type: String,
       default: ''

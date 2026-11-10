@@ -32,6 +32,7 @@ import { articleShareAdminRouter } from '#modules/articleShare/routes/articleSha
 import { articleSharePublicRouter } from '#modules/articleShare/routes/articleSharePublic.routes.js'
 import { mediaDownloadAdminRouter } from '#modules/media/routes/mediaDownloadAdmin.routes.js'
 import { mediaUploadAdminRouter } from '#modules/media/routes/mediaUploadAdmin.routes.js'
+import { resourceRouter } from '#modules/media/routes/resource.routes.js'
 import {
   resumeExportRouter,
   resumeInterviewRouter,
@@ -56,6 +57,8 @@ export function createApp() {
   app.use(express.urlencoded({ extended: true }))
   app.use('/uploads/work-journal', (_req, res) => res.sendStatus(404))
   app.use('/uploads/feedback', (_req, res) => res.sendStatus(404))
+  // 私人业务附件禁止从静态目录绕过业务授权；历史文件通过兼容鉴权入口读取。
+  app.use(['/uploads/discussions', '/uploads/resumes', '/uploads/resources'], (_req, res) => res.sendStatus(404))
   // 历史上可能误放在公开 uploads 目录中的密码箱文件也必须拒绝静态访问。
   // 当前密码箱文件存放在 uploads-private，但保留这层拦截可以避免旧路径重新暴露。
   app.use(['/uploads/vault', '/uploads/uploads-private'], (_req, res) => res.sendStatus(404))
@@ -69,6 +72,7 @@ export function createApp() {
   }
 
   app.use(`${API_PREFIX}/admin/media-shares`, mediaShareAdminRouter)
+  app.use(`${API_PREFIX}/resources`, resourceRouter)
   app.use(`${API_PREFIX}/admin/article-shares`, articleShareAdminRouter)
   app.use(`${API_PREFIX}/admin/media-downloads`, mediaDownloadAdminRouter)
   app.use(`${API_PREFIX}/admin/media-uploads`, mediaUploadAdminRouter)

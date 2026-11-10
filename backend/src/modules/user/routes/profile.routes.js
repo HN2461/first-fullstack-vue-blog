@@ -7,11 +7,7 @@ import { User } from '#modules/user/models/User.js'
 import { Article } from '#modules/content/models/Article.js'
 import { Comment } from '#modules/interaction/models/Comment.js'
 import bcrypt from 'bcryptjs'
-import multer, { MulterError } from 'multer'
-import path from 'path'
-import fs from 'node:fs'
 import { env } from '#config/env'
-import { resolveUploadRoot } from '#utils/uploadPath.js'
 import {
   createPermissionRequest,
   hydrateUserPermissions,
@@ -26,56 +22,13 @@ import { getFestivalCalendar } from '#modules/festival/services/festival.service
 import { listMyLoginSessions } from '#modules/auth/services/loginSession.service.js'
 import { changeMediaVaultPassword, getMediaVaultStatus } from '#modules/media/services/mediaVault.service.js'
 
+import { receiveResourceFile } from '#modules/media/handlers/resourceUpload.handler.js'
+import { saveAvatarResource } from '#modules/user/services/avatarResource.service.js'
+
 const router = Router()
 
-// 头像和媒体文件使用同一个上传根目录，避免部署时出现两套上传路径。
-const avatarDir = path.join(resolveUploadRoot(), 'avatars')
-fs.mkdirSync(avatarDir, { recursive: true })
-
-// 配置文件上传
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, avatarDir)
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname)
-    cb(null, `${req.user._id}-${Date.now()}${ext}`)
-  }
-})
-
-const upload = multer({
-  storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-    if (allowedTypes.includes(file.mimetype)) {
-      cb(null, true)
-    } else {
-      const error = new Error('仅支持 JPG/PNG/GIF/WebP 格式')
-      error.statusCode = 400
-      error.code = 'INVALID_AVATAR_TYPE'
-      cb(error)
-    }
-  }
-})
-
-function handleAvatarUpload(req, res, next) {
-  upload.single('avatar')(req, res, (error) => {
-    if (error) {
-      if (error instanceof MulterError) {
-        error.statusCode = 400
-        error.code = error.code || 'UPLOAD_ERROR'
-        if (error.code === 'LIMIT_FILE_SIZE') {
-          error.message = '图片大小不能超过 5MB'
-        }
-      }
-      next(error)
-      return
-    }
-
-    next()
-  })
-}
+// 上传入口保留在个人信息中，校验和存储统一交给媒体模块。
+const handleAvatarUpload = receiveResourceFile('user-avatar', 'avatar')
 
 /**
  * GET /api/profile
@@ -203,27 +156,17 @@ router.post('/avatar', requireAuth, handleAvatarUpload, asyncHandler(async (req,
     throw error
   }
 
-  const avatarUrl = `/uploads/avatars/${req.file.filename}`
-
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    { $set: { avatar: avatarUrl } },
-    { returnDocument: 'after' }
-  )
+  const user = await saveAvatarResource(req.user, req.file)
 
   res.json(ok(await hydrateUserPermissions(user), '头像上传成功'))
 }))
 
 /**
  * DELETE /api/profile/avatar
- * 删除当前用户头像，仅清空头像引用；历史上传文件作为运行数据保留，避免误删共享或备份文件。
+ * 删除当前用户头像并解除文件引用；仍被使用的文件继续保留，待绑定文件由统一清理任务处理。
  */
 router.delete('/avatar', requireAuth, asyncHandler(async (req, res) => {
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    { $set: { avatar: '' } },
-    { returnDocument: 'after' }
-  )
+  const user = await saveAvatarResource(req.user, null)
 
   res.json(ok(await hydrateUserPermissions(user), '头像已删除'))
 }))

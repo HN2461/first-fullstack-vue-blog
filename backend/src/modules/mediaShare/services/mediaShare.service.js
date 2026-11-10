@@ -434,6 +434,12 @@ export async function getPublicShareDownloadEntries(publicId, req) {
 }
 
 async function resolveStoragePath(media) {
+  if (media.storageKey) {
+    const { resolveResourcePath } = await import('#modules/media/services/resourceStorage.service.js')
+    const resolved = await resolveResourcePath(media)
+    const stat = await fs.stat(resolved)
+    return { path: resolved, size: stat.size }
+  }
   const roots = [resolveUploadRoot(), resolveLegacyUploadRoot()]
   const candidates = [media.storagePath]
   if (String(media.url || '').startsWith('/uploads/')) {

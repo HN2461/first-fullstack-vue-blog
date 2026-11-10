@@ -1,8 +1,9 @@
+import { receiveResourceFile } from '#modules/media/handlers/resourceUpload.handler.js'
+import { createResource, resourceDescriptor } from '#modules/media/services/resourceFile.service.js'
+import { DiscussionMessage } from '#modules/discussion/models/DiscussionMessage.js'
+import { resolveLegacyDiscussionAttachment } from '#modules/discussion/services/discussionAttachment.service.js'
 import { Router } from 'express'
 import { DISCUSSION_ROUTE_PATH } from '#modules/discussion/constants/discussion.constants.js'
-import fs from 'node:fs'
-import path from 'node:path'
-import multer, { MulterError } from 'multer'
 import { createDiscussionMessage, createDiscussionThread, deleteDiscussionMessage, getDiscussionConfig, getDiscussionThread, hideDiscussionMessageForUser, listDiscussionMessages, listDiscussionThreads, markDiscussionRead, revokeDiscussionMessage } from '#modules/discussion/services/discussion.service.js'
 import { clearDiscussionThreadForUser, getDiscussionThreadStorage, purgeAllDiscussionMessages, purgeDiscussionThread } from '#modules/discussion/services/discussionStorage.service.js'
 import { listDiscussionUsers } from '#modules/discussion/services/discussionUser.service.js'
@@ -11,66 +12,10 @@ import { discussionCreateSchema, discussionMessageCreateSchema, parseBody } from
 import { requireAuth, requireMenuAccess, requireSuperAdmin } from '#middlewares/auth.js'
 import { ok } from '#utils/apiResponse.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
-import { buildSafeStoredFilename, decodeUploadFilename } from '#utils/uploadFilename.js'
-import { resolveUploadRoot } from '#utils/uploadPath.js'
 
 export const discussionRouter = Router()
 
-function getDiscussionUploadDir() {
-  const date = new Date()
-  return path.join(
-    resolveUploadRoot(),
-    'discussions',
-    String(date.getFullYear()),
-    String(date.getMonth() + 1).padStart(2, '0')
-  )
-}
-
-const attachmentStorage = multer.diskStorage({
-  destination(req, file, cb) {
-    const uploadDir = getDiscussionUploadDir()
-    fs.mkdirSync(uploadDir, { recursive: true })
-    cb(null, uploadDir)
-  },
-  filename(req, file, cb) {
-    const safeName = buildSafeStoredFilename(file.originalname)
-    cb(null, `${Date.now()}-${safeName}`)
-  }
-})
-
-const attachmentUpload = multer({
-  storage: attachmentStorage,
-  limits: {
-    fileSize: DISCUSSION_CONFIG.attachmentMaxFileSizeMB * 1024 * 1024
-  }
-})
-
-function handleAttachmentUpload(req, res, next) {
-  attachmentUpload.single('file')(req, res, (error) => {
-    if (error instanceof MulterError) {
-      error.statusCode = 400
-      error.code = error.code || 'DISCUSSION_ATTACHMENT_UPLOAD_ERROR'
-      if (error.code === 'LIMIT_FILE_SIZE') {
-        error.message = `单文件大小不能超过 ${DISCUSSION_CONFIG.attachmentMaxFileSizeMB}MB`
-      }
-    }
-    next(error)
-  })
-}
-
-function buildAttachmentFromFile(file) {
-  const normalizedPath = file.path.replace(/\\/g, '/')
-  const uploadsIndex = normalizedPath.lastIndexOf('uploads/')
-  const relativePath = uploadsIndex >= 0 ? normalizedPath.slice(uploadsIndex) : normalizedPath
-  return {
-    filename: file.filename,
-    originalName: decodeUploadFilename(file.originalname),
-    mimeType: file.mimetype,
-    size: file.size,
-    url: `/${relativePath}`,
-    storagePath: normalizedPath
-  }
-}
+const handleAttachmentUpload = receiveResourceFile('discussion-attachment')
 
 discussionRouter.use(requireAuth)
 discussionRouter.use(requireMenuAccess(DISCUSSION_ROUTE_PATH))
@@ -123,7 +68,8 @@ discussionRouter.post('/:threadId/attachments', asyncHandler(async (req, res, ne
     error.code = 'DISCUSSION_ATTACHMENT_REQUIRED'
     throw error
   }
-  res.status(201).json(ok(buildAttachmentFromFile(req.file), '附件已上传'))
+  const media = await createResource(req.file, req.user, { scene: 'discussion-attachment', targetId: req.params.threadId })
+  res.status(201).json(ok(resourceDescriptor(media), '附件已上传'))
 }))
 
 discussionRouter.delete('/:threadId/messages/:messageId', asyncHandler(async (req, res) => {
@@ -148,4 +94,15 @@ discussionRouter.post('/:threadId/admin/purge', requireSuperAdmin, asyncHandler(
 
 discussionRouter.post('/:threadId/read', asyncHandler(async (req, res) => {
   res.json(ok(await markDiscussionRead(req.params.threadId, req.user._id)))
+}))
+
+// 旧消息继续通过所属会话鉴权读取，禁止用原静态地址访问私人附件。
+discussionRouter.get('/:threadId/messages/:messageId/attachments/:index', asyncHandler(async (req, res) => {
+  await getDiscussionThread(req.params.threadId, req.user._id)
+  const message = await DiscussionMessage.findOne({ _id: req.params.messageId, threadId: req.params.threadId, revokedAt: null, hiddenFor: { $ne: req.user._id } })
+  if (!message) return res.sendStatus(404)
+  const { filePath, attachment } = await resolveLegacyDiscussionAttachment(message, Number(req.params.index))
+  const inline = /^image\/(jpeg|png|gif|webp|avif)$/.test(attachment.mimeType)
+  res.set({ 'Content-Type': inline ? attachment.mimeType : 'application/octet-stream', 'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff', 'Content-Disposition': inline ? 'inline' : 'attachment' })
+  res.sendFile(filePath, { dotfiles: 'allow' })
 }))

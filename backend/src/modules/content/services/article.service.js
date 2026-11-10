@@ -1,3 +1,4 @@
+import { saveArticleResources, releaseArticleResources } from '#modules/media/services/articleResource.service.js'
 import { ARTICLE_STATUS } from '#constants/domain'
 import { Category } from '#modules/content/models/Category.js'
 import { Article } from '#modules/content/models/Article.js'
@@ -151,7 +152,7 @@ export async function createArticle(input, user) {
   const contentMode = input.contentMode === 'document' ? 'document' : 'markdown'
   const wordCount = calculateWordCount(getArticleContentText({ ...input, contentMode }))
   const categoryId = input.category || null
-  const article = await Article.create({
+  const article = new Article({
     title: input.title.trim(),
     slug,
     summary: input.summary || '',
@@ -177,6 +178,8 @@ export async function createArticle(input, user) {
     updatedBy: user._id,
     publishedAt: input.status === ARTICLE_STATUS.PUBLISHED ? new Date() : null
   })
+
+  await saveArticleResources(article, user, () => article.save())
 
   if (article.category) {
     await adjustCategoryArticleCount(article.category, 1)
@@ -228,7 +231,7 @@ export async function updateArticle(id, input, user) {
     assertArticlePublishable(article)
   }
 
-  await article.save()
+  await saveArticleResources(article, user, () => article.save())
 
   if (previousCategoryId !== nextCategoryId) {
     if (previousCategoryId) {
@@ -267,7 +270,7 @@ export async function updateArticleStatus(id, status, user) {
     article.publishedAt = article.publishedAt || new Date()
   }
 
-  await article.save()
+  await saveArticleResources(article, user, () => article.save())
   return article.toSafeJSON()
 }
 
@@ -385,7 +388,7 @@ export async function deleteArticle(id, user) {
   }
   article.deletedAt = new Date()
   article.updatedBy = user._id
-  await article.save()
+  await saveArticleResources(article, user, () => article.save())
   await releaseArticleContentMediaBindings(article._id)
 
   return { id, deleted: true }
@@ -440,7 +443,7 @@ export async function restoreArticle(id, user) {
 
   article.deletedAt = null
   article.updatedBy = user._id
-  await article.save()
+  await saveArticleResources(article, user, () => article.save())
 
   if (article.category) {
     await adjustCategoryArticleCount(article.category, 1)
@@ -473,7 +476,7 @@ export async function permanentDeleteArticle(id) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在或未被删除')
   }
 
-  await Article.findByIdAndDelete(id)
+  await releaseArticleResources(id, () => Article.findByIdAndDelete(id))
 
   return { id, permanentDeleted: true }
 }
@@ -494,6 +497,7 @@ export async function batchPermanentDeleteArticles(ids) {
 
 // 清空回收站（彻底删除所有已删除的文章）
 export async function emptyTrash() {
-  const result = await Article.deleteMany({ deletedAt: { $ne: null } })
-  return { deletedCount: result.deletedCount }
+  const items = await Article.find({ deletedAt: { $ne: null } }).select('_id')
+  for (const item of items) await permanentDeleteArticle(item._id)
+  return { deletedCount: items.length }
 }

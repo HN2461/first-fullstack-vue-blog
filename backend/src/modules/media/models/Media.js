@@ -2,6 +2,13 @@ import mongoose from 'mongoose'
 
 const mediaSchema = new mongoose.Schema(
   {
+    provider: { type: String, default: 'local' },
+    storageKey: { type: String, default: '' },
+    scene: { type: String, default: '', index: true },
+    sourceTargetId: { type: String, default: '' },
+    lifecycleStatus: { type: String, enum: ['pending', 'retained', 'attached', 'trash', 'deleting'], default: 'retained' },
+    expiresAt: { type: Date, default: null },
+    attachedAt: { type: Date, default: null },
     filename: {
       type: String,
       required: true
@@ -99,6 +106,8 @@ const mediaSchema = new mongoose.Schema(
   }
 )
 
+mediaSchema.index({ lifecycleStatus: 1, expiresAt: 1 }, { name: 'resource_pending_cleanup' })
+
 mediaSchema.methods.toSafeJSON = function toSafeJSON() {
   const uploaderValue = this.uploader
   const uploader = uploaderValue && typeof uploaderValue === 'object' && uploaderValue._id
@@ -112,6 +121,9 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
 
   return {
     id: this._id.toString(),
+    scene: this.scene || '',
+    lifecycleStatus: this.deletedAt ? 'trash' : (this.lifecycleStatus || 'retained'),
+    expiresAt: this.expiresAt || null,
     filename: this.filename,
     originalName: this.originalName,
     mimeType: this.mimeType,

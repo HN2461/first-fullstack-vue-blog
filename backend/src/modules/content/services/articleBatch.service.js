@@ -1,3 +1,4 @@
+import { saveArticleResources } from '#modules/media/services/articleResource.service.js'
 import { ARTICLE_STATUS } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
@@ -233,7 +234,7 @@ export async function batchUpdateArticleMeta(ids, input, user) {
 
     if (changed) {
       article.updatedBy = user._id
-      await article.save()
+      await saveArticleResources(article, user, () => article.save())
 
       const nextCategoryId = article.category ? String(article.category) : ''
       const nextTagIds = uniqueStrings(article.tags || [])
@@ -357,7 +358,7 @@ export async function batchUpdateArticleTitles(items, user) {
 
     article.title = nextTitle
     article.updatedBy = user._id
-    await article.save()
+    await saveArticleResources(article, user, () => article.save())
 
     itemResult.status = 'updated'
     updatedCount += 1

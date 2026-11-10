@@ -1,3 +1,5 @@
+import { jpegFixture } from './helpers/resourceFixtures.js'
+import { getResourceStorageAreas } from '#modules/media/services/resourceStorage.service.js'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import request from 'supertest'
@@ -388,7 +390,7 @@ describe('work journal routes', () => {
     const evidence = await request(app)
       .post(`/api/work-journal/logs/${created.body.data.id}/evidence`)
       .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from([0xff, 0xd8, 0xff, 0xd9]), '联调截图.jpg')
+      .attach('file', jpegFixture, '联调截图.jpg')
       .expect(201)
 
     expect(evidence.body.data).toMatchObject({ originalName: '联调截图.jpg', mimeType: 'image/jpeg' })
@@ -400,7 +402,7 @@ describe('work journal routes', () => {
     expect(media).toMatchObject({ accessScope: 'private', category: '工作日志', categoryId: workCategory._id })
     expect(media.workJournalLog.toString()).toBe(log._id.toString())
     expect(log.evidence[0].mediaId.toString()).toBe(media._id.toString())
-    expect(path.relative(path.join(resolveUploadRoot(), 'work-journal'), storedPath).startsWith('..')).toBe(false)
+    expect(path.relative(getResourceStorageAreas().find((area) => area.key === 'private').path, storedPath).startsWith('..')).toBe(false)
     const managedAssets = await listMedia({ category: '工作日志', actor: user })
     expect(managedAssets.items.map((item) => item.id)).toContain(media._id.toString())
     expect(managedAssets.items.find((item) => item.id === media._id.toString()).usage).toMatchObject({
@@ -417,7 +419,7 @@ describe('work journal routes', () => {
         routeQuery: { logId: created.body.data.id }
       })
     ]))
-    expect(await fs.readFile(storedPath)).toEqual(Buffer.from([0xff, 0xd8, 0xff, 0xd9]))
+    expect(await fs.readFile(storedPath)).toEqual(jpegFixture)
     const publicRelativePath = path.relative(resolveUploadRoot(), storedPath).replace(/\\/g, '/')
     await request(app).get(`/uploads/${publicRelativePath}`).expect(404)
 
@@ -431,7 +433,7 @@ describe('work journal routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
     expect(managedImage.headers['cache-control']).toContain('private')
-    expect(managedImage.body).toEqual(Buffer.from([0xff, 0xd8, 0xff, 0xd9]))
+    expect(managedImage.body).toEqual(jpegFixture)
 
     await request(app)
       .get(`/api/work-journal/logs/${created.body.data.id}/evidence/${evidence.body.data.id}`)
@@ -444,14 +446,14 @@ describe('work journal routes', () => {
     expect(downloaded.status, JSON.stringify({ body: downloaded.body, text: downloaded.text, headers: downloaded.headers })).toBe(200)
     expect(downloaded.headers['cache-control']).toContain('private')
     expect(downloaded.headers['x-content-type-options']).toBe('nosniff')
-    expect(downloaded.body).toEqual(Buffer.from([0xff, 0xd8, 0xff, 0xd9]))
+    expect(downloaded.body).toEqual(jpegFixture)
 
     await fs.writeFile(storedPath, Buffer.from('changed'))
     await request(app)
       .get(`/api/work-journal/logs/${created.body.data.id}/evidence/${evidence.body.data.id}`)
       .set('Authorization', `Bearer ${token}`)
       .expect(409)
-    await fs.writeFile(storedPath, Buffer.from([0xff, 0xd8, 0xff, 0xd9]))
+    await fs.writeFile(storedPath, jpegFixture)
 
     await request(app)
       .delete(`/api/work-journal/logs/${created.body.data.id}/evidence/${evidence.body.data.id}`)
@@ -498,7 +500,7 @@ describe('work journal routes', () => {
     await request(app)
       .post(`/api/work-journal/logs/${created.body.data.id}/evidence`)
       .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from([0xff, 0xd8, 0xff, 0xd9]), 'proof.jpg')
+      .attach('file', jpegFixture, 'proof.jpg')
       .expect(201)
 
     const response = await request(app)
@@ -526,7 +528,7 @@ describe('work journal routes', () => {
     const evidence = await request(app)
       .post(`/api/work-journal/logs/${created.body.data.id}/evidence`)
       .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from([0xff, 0xd8, 0xff, 0xd9]), '交付截图.jpg')
+      .attach('file', jpegFixture, '交付截图.jpg')
       .expect(201)
     const log = await WorkLog.findById(created.body.data.id)
     const media = await Media.findById(evidence.body.data.mediaId)
@@ -655,7 +657,7 @@ describe('work journal routes', () => {
     await request(app)
       .post(`/api/work-journal/logs/${created.body.data.id}/evidence`)
       .set('Authorization', `Bearer ${token}`)
-      .attach('file', Buffer.from([0xff, 0xd8, 0xff, 0xd9]), 'proof.jpg')
+      .attach('file', jpegFixture, 'proof.jpg')
       .expect(201)
     await request(app)
       .post('/api/work-journal/saved-reports')

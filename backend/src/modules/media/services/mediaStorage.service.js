@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { resolveUploadRoot } from '#utils/uploadPath.js'
+import { getResourceStorageAreas } from './resourceStorage.service.js'
 
 const CACHE_TTL_MS = 60_000
 const FILE_STAT_BATCH_SIZE = 128
@@ -51,13 +51,7 @@ async function measureDirectory(rootPath, label) {
 }
 
 async function scanMediaStorage() {
-  const uploadRoot = resolveUploadRoot()
-  const parent = path.dirname(uploadRoot)
-  const areas = await Promise.all([
-    measureDirectory(uploadRoot, '公开上传目录'),
-    measureDirectory(path.join(parent, 'uploads-private'), '密码箱及私有资源'),
-    measureDirectory(path.join(parent, '.media-tmp'), '临时上传文件')
-  ])
+  const areas = await Promise.all(getResourceStorageAreas().map((area) => measureDirectory(area.path, area.label)))
   const unavailable = areas.some((area) => area.status === 'unavailable')
   return {
     totalBytes: areas.reduce((sum, area) => sum + area.bytes, 0),

@@ -1,3 +1,6 @@
+import { jpegFixture } from './helpers/resourceFixtures.js'
+import { Media } from '#modules/media/models/Media.js'
+import { cleanupPendingResources } from '#modules/media/services/resourceLifecycle.service.js'
 import request from 'supertest'
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -88,6 +91,13 @@ describe('discussion routes', () => {
     const filePath = path.join(dir, filename)
     await fs.writeFile(filePath, content, 'utf8')
     return filePath
+  }
+
+  async function uploadAttachment(threadId, filename, size = 12, sourceToken = token) {
+    const response = await request(app).post(`/api/discussions/${threadId}/attachments`)
+      .set('Authorization', `Bearer ${sourceToken}`)
+      .attach('file', filename.endsWith('.png') ? jpegFixture : Buffer.alloc(size, 65), filename).expect(201)
+    return { mediaId: response.body.data.mediaId }
   }
 
   it('does not grant discussion menu to visitor role by default', async () => {
@@ -291,14 +301,7 @@ describe('discussion routes', () => {
       .post(`/api/discussions/${threadId}/messages`)
       .set('Authorization', `Bearer ${token}`)
       .send({
-        attachment: {
-          filename: 'only.png',
-          originalName: 'only.png',
-          mimeType: 'image/png',
-          size: 2048,
-          url: '/uploads/discussions/2026/06/only.png',
-          storagePath: 'uploads/discussions/2026/06/only.png'
-        }
+        attachment: await uploadAttachment(threadId, 'only.png', 2048)
       })
       .expect(201)
 
@@ -313,8 +316,8 @@ describe('discussion routes', () => {
     expect(storageResponse.body.data.thread).toMatchObject({
       messageCount: 1,
       attachmentCount: 1,
-      attachmentBytes: 2048,
-      totalBytes: 2048
+      attachmentBytes: jpegFixture.length,
+      totalBytes: jpegFixture.length
     })
     expect(storageResponse.body.data.global).toBeUndefined()
   })
@@ -357,14 +360,7 @@ describe('discussion routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         content: '需要短时撤销的图片附件',
-        attachment: {
-          filename: 'shot.png',
-          originalName: 'shot.png',
-          mimeType: 'image/png',
-          size: 1234,
-          url: '/uploads/discussions/2026/06/shot.png',
-          storagePath: 'uploads/discussions/2026/06/shot.png'
-        }
+        attachment: await uploadAttachment(threadId, 'shot.png', 1234)
       })
       .expect(201)
 
@@ -408,22 +404,14 @@ describe('discussion routes', () => {
       .expect(201)
 
     const threadId = threadResponse.body.data.id
-    const deleteFilePath = await createTempDiscussionFile('delete-target.txt')
-    const revokeFilePath = await createTempDiscussionFile('revoke-target.txt')
+
 
     const deleteMessageResponse = await request(app)
       .post(`/api/discussions/${threadId}/messages`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         content: '删除时清理附件',
-        attachment: {
-          filename: 'delete-target.txt',
-          originalName: 'delete-target.txt',
-          mimeType: 'text/plain',
-          size: 12,
-          url: '/uploads/discussions/delete-target.txt',
-          storagePath: deleteFilePath
-        }
+        attachment: await uploadAttachment(threadId, 'delete-target.txt', 12)
       })
       .expect(201)
 
@@ -432,21 +420,16 @@ describe('discussion routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
 
-    await expect(fs.access(deleteFilePath)).rejects.toThrow()
+    const deletedMedia = await Media.findById(deleteMessageResponse.body.data.attachments[0].mediaId)
+    await cleanupPendingResources({ now: new Date(Date.now() + 25 * 60 * 60 * 1000) })
+    await expect(fs.access(deletedMedia.storagePath)).rejects.toThrow()
 
     const revokeMessageResponse = await request(app)
       .post(`/api/discussions/${threadId}/messages`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         content: '撤销时清理附件',
-        attachment: {
-          filename: 'revoke-target.txt',
-          originalName: 'revoke-target.txt',
-          mimeType: 'text/plain',
-          size: 12,
-          url: '/uploads/discussions/revoke-target.txt',
-          storagePath: revokeFilePath
-        }
+        attachment: await uploadAttachment(threadId, 'revoke-target.txt', 12)
       })
       .expect(201)
 
@@ -455,7 +438,9 @@ describe('discussion routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(200)
 
-    await expect(fs.access(revokeFilePath)).rejects.toThrow()
+    const revokedMedia = await Media.findById(revokeMessageResponse.body.data.attachments[0].mediaId)
+    await cleanupPendingResources({ now: new Date(Date.now() + 25 * 60 * 60 * 1000) })
+    await expect(fs.access(revokedMedia.storagePath)).rejects.toThrow()
   })
 
   it('rejects revoking messages after the short window expires', async () => {
@@ -501,14 +486,7 @@ describe('discussion routes', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         content: '带附件的清理测试',
-        attachment: {
-          filename: 'cleanup.txt',
-          originalName: 'cleanup.txt',
-          mimeType: 'text/plain',
-          size: 512,
-          url: '/uploads/discussions/2026/06/cleanup.txt',
-          storagePath: 'backend/tests/.tmp/missing-cleanup.txt'
-        }
+        attachment: await uploadAttachment(threadId, 'cleanup.txt', 512)
       })
       .expect(201)
 

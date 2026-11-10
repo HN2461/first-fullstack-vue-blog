@@ -133,13 +133,7 @@
           <a-form-item label="封面图片">
             <div class="cover-upload-panel">
               <div class="cover-upload-field">
-                <a-upload
-                  :show-upload-list="false"
-                  accept="image/*"
-                  :custom-request="handleCoverUpload"
-                >
-                  <a-button :loading="coverUploading">上传封面</a-button>
-                </a-upload>
+                <ResourceUpload scene="article-cover" accept="image/jpeg,image/png,image/gif,image/webp" :show-list="false" button-text="上传封面" @uploaded="(media) => { publishForm.cover = media.url }" />
                 <span class="cover-upload-tip">直接从本地电脑选择图片上传，预览尺寸已固定。</span>
               </div>
               <div v-if="publishForm.cover" class="cover-preview">
@@ -186,117 +180,8 @@
       </div>
     </a-modal>
 
-    <a-modal
-      v-model:open="resourcePickerVisible"
-      title="选择关联资源"
-      width="980px"
-      :footer="null"
-      wrap-class-name="business-modal resource-picker-modal"
-      centered
-      @cancel="closeResourcePicker"
-    >
-      <div class="modal-scroll-shell">
-        <div class="media-picker media-picker--resource">
-          <div class="media-picker__toolbar">
-            <a-input-search
-              v-model:value="resourceKeyword"
-              placeholder="搜索文件名"
-              allow-clear
-              style="width: 240px"
-              @search="loadResourceOptions"
-            />
-            <a-button @click="loadResourceOptions">刷新</a-button>
-          </div>
-
-          <div v-if="resourceLoading" class="media-picker__status">正在加载资源...</div>
-          <div v-else-if="resourceItems.length === 0" class="media-picker__status">暂无可用资源，请先上传媒体文件。</div>
-
-          <div v-else class="resource-picker-list">
-            <div
-              v-for="item in resourceItems"
-              :key="item.id"
-              class="resource-picker-row"
-            >
-              <div class="resource-picker-row__main">
-                <div class="resource-picker-row__icon" :class="`is-${item.fileClass || 'other'}`">
-                  {{ getFileBadge(item) }}
-                </div>
-                <div class="resource-picker-row__meta">
-                  <strong>{{ item.originalName }}</strong>
-                  <div class="resource-picker-row__sub">
-                    <span>{{ item.category || '未分类' }}</span>
-                    <span>{{ getFileClassLabel(item.fileClass) }}</span>
-                    <span>{{ formatFileSize(item.size) }}</span>
-                  </div>
-                </div>
-              </div>
-              <div class="resource-picker-row__actions">
-                <a-button type="link" @click="previewResource(item)">查看</a-button>
-                <a-button
-                  type="primary"
-                  ghost
-                  :disabled="isResourceSelected(item)"
-                  @click="selectArticleResource(item)"
-                >
-                  {{ isResourceSelected(item) ? '已关联' : '选择' }}
-                </a-button>
-              </div>
-            </div>
-          </div>
-
-          <div v-if="resourceTotal > resourcePageSize" class="media-picker__pagination">
-            <a-pagination
-              v-model:current="resourcePage"
-              :page-size="resourcePageSize"
-              :total="resourceTotal"
-              size="small"
-              @change="loadResourceOptions"
-            />
-          </div>
-        </div>
-      </div>
-    </a-modal>
-
-    <a-modal
-      v-model:open="resourcePreviewVisible"
-      title="资源详情"
-      width="640px"
-      :footer="null"
-      wrap-class-name="business-modal resource-preview-modal"
-      centered
-      @cancel="closeResourcePreview"
-    >
-      <div v-if="resourcePreviewItem" class="modal-scroll-shell">
-        <div class="resource-preview">
-          <div v-if="resourcePreviewItem.kind === 'image'" class="resource-preview__image">
-            <img :src="resourcePreviewItem.url" :alt="resourcePreviewItem.originalName || resourcePreviewItem.name">
-          </div>
-
-          <div class="resource-preview__meta">
-            <div class="resource-preview__meta-row">
-              <span>资源名称</span>
-              <strong>{{ resourcePreviewItem.originalName || resourcePreviewItem.name }}</strong>
-            </div>
-            <div class="resource-preview__meta-row">
-              <span>资源分类</span>
-              <strong>{{ resourcePreviewItem.category || '未分类' }}</strong>
-            </div>
-            <div class="resource-preview__meta-row">
-              <span>文件类型</span>
-              <strong>{{ getFileClassLabel(resourcePreviewItem.fileClass) }}</strong>
-            </div>
-            <div class="resource-preview__meta-row">
-              <span>文件大小</span>
-              <strong>{{ formatFileSize(resourcePreviewItem.size || resourcePreviewItem.fileSize || 0) }}</strong>
-            </div>
-            <div class="resource-preview__meta-row">
-              <span>资源链接</span>
-              <a :href="resourcePreviewItem.url" target="_blank" rel="noreferrer">打开资源</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </a-modal>
+    <ResourcePicker v-model:open="resourcePickerVisible" scene="article-resource" :selected-ids="publishForm.resources.map((item) => item.mediaId).filter(Boolean)" @select="selectArticleResource" />
+    <ResourcePreview v-model:open="resourcePreviewVisible" :resource="resourcePreviewItem" />
 
     <a-modal
       v-model:open="categoryModalVisible"
@@ -350,6 +235,10 @@
 </template>
 
 <script setup>
+import ResourcePicker from '@/components/resources/ResourcePicker.vue'
+import ResourcePreview from '@/components/resources/ResourcePreview.vue'
+import ResourceUpload from '@/components/resources/ResourceUpload.vue'
+import { uploadResource } from '@/services/resources'
 import { computed, defineAsyncComponent, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -361,11 +250,9 @@ import {
   createAdminTag,
   getAdminArticle,
   listAllAdminCategories,
-  listAdminMedia,
   listAllAdminTags,
   publishAdminArticle,
   updateAdminArticle,
-  uploadAdminMedia
 } from '@/services/admin'
 import { useUnsavedChanges } from '@/composables/useAdminUi'
 
@@ -385,18 +272,10 @@ const categoryModalVisible = ref(false)
 const tagModalVisible = ref(false)
 const categorySubmitting = ref(false)
 const tagSubmitting = ref(false)
-const resourceLoading = ref(false)
 const resourcePreviewVisible = ref(false)
-const coverUploading = ref(false)
 const categories = ref([])
 const tags = ref([])
-const resourceItems = ref([])
 const resourcePreviewItem = ref(null)
-const resourceKeyword = ref('')
-const resourcePage = ref(1)
-const resourcePageSize = 12
-const resourceTotal = ref(0)
-const ARTICLE_COVER_CATEGORY = '文章封面'
 const editorId = 'knowledge-writer-editor'
 const viewMode = ref('edit')
 const editorRenderKey = ref(0)
@@ -789,18 +668,7 @@ async function handleCreateTag() {
 
 function openResourcePicker() {
   resourcePickerVisible.value = true
-  if (resourceItems.value.length === 0) {
-    loadResourceOptions()
-  }
-}
 
-function closeResourcePicker() {
-  resourcePickerVisible.value = false
-}
-
-function previewResource(item) {
-  resourcePreviewItem.value = item
-  resourcePreviewVisible.value = true
 }
 
 function previewSelectedResource(item) {
@@ -810,44 +678,6 @@ function previewSelectedResource(item) {
     size: item.fileSize || 0
   }
   resourcePreviewVisible.value = true
-}
-
-function closeResourcePreview() {
-  resourcePreviewVisible.value = false
-  resourcePreviewItem.value = null
-}
-
-async function loadResourceOptions() {
-  resourceLoading.value = true
-  try {
-    const result = await listAdminMedia({
-      page: resourcePage.value,
-      pageSize: resourcePageSize,
-      keyword: resourceKeyword.value || undefined,
-      excludeCategories: [ARTICLE_COVER_CATEGORY]
-    })
-    resourceItems.value = result.items || []
-    resourceTotal.value = result.total || 0
-  } catch (error) {
-    message.error(error.message || '资源加载失败')
-  } finally {
-    resourceLoading.value = false
-  }
-}
-
-async function handleCoverUpload({ file, onSuccess, onError }) {
-  coverUploading.value = true
-  try {
-    const media = await uploadAdminMedia(file, { category: ARTICLE_COVER_CATEGORY })
-    publishForm.cover = media.url
-    message.success('封面图片已上传')
-    onSuccess?.(media)
-  } catch (error) {
-    message.error(error.message || '封面上传失败')
-    onError?.(error)
-  } finally {
-    coverUploading.value = false
-  }
 }
 
 function selectArticleResource(item) {
@@ -915,7 +745,7 @@ async function handleUploadImg(files, callback) {
   try {
     const uploaded = await Promise.all(
       files.map(async (file) => {
-        const media = await uploadAdminMedia(file, { category: ARTICLE_CONTENT_TEMP_CATEGORY })
+        const media = await uploadResource(file, { scene: 'article-content' })
         return {
           url: media.url,
           alt: media.originalName || file.name,

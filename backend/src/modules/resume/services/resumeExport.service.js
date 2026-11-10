@@ -1,12 +1,12 @@
 import fs from 'node:fs/promises'
-import path from 'node:path'
+import sharp from 'sharp'
 import { ResumeExportRecord } from '#modules/resume/models/ResumeExportRecord.js'
-import { resolveUploadRoot } from '#utils/uploadPath.js'
 import { findOwnedResume } from './resume.service.js'
 import { assertObjectId, createResumeError, formatCompactDate, safeFilename } from './resume.utils.js'
 import { buildResumeMarkdown } from './resumeExportContent.js'
 import { buildResumeDocx } from './resumeDocxExport.js'
 import { buildResumePdf } from './resumePdfExport.js'
+import { resolveResumePhoto } from './resumeResource.service.js'
 
 const FORMAT_META = {
   markdown: { ext: 'md', contentType: 'text/markdown; charset=utf-8' },
@@ -24,14 +24,15 @@ async function buildExportFile(resume, format, templateKey) {
 }
 
 async function loadResumePhoto(resume) {
-  const photoUrl = String(resume.sections?.profile?.photoUrl || '')
-  if (!photoUrl.startsWith('/uploads/')) return null
-
-  const relativePath = photoUrl.slice('/uploads/'.length).replaceAll('/', path.sep)
-  const uploadRoot = path.resolve(resolveUploadRoot())
-  const filePath = path.resolve(uploadRoot, relativePath)
-  if (!filePath.startsWith(`${uploadRoot}${path.sep}`)) return null
-  return fs.readFile(filePath).catch(() => null)
+  try {
+    const buffer = await fs.readFile(await resolveResumePhoto(resume))
+    const image = sharp(buffer, { limitInputPixels: 40000000 })
+    const metadata = await image.metadata()
+    // Boss 的 PDF/Word 图片嵌入共用 JPG；从公开素材选 PNG 时只转换导出副本，原文件不变。
+    return metadata.format === 'jpeg' ? buffer : await image.rotate().flatten({ background: '#ffffff' }).jpeg({ quality: 92 }).toBuffer()
+  } catch {
+    return null
+  }
 }
 
 export async function createResumeExport(userId, input) {

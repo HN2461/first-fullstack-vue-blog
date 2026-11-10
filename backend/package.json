@@ -104,7 +104,9 @@
     "question-bank:history:clear": "node src/scripts/clearQuestionBankHistory.js",
     "question-bank:history:clear:apply": "node src/scripts/clearQuestionBankHistory.js --apply",
     "question-bank:seed": "node src/scripts/seedQuestionBank.js",
-    "question-bank:seed:apply": "node src/scripts/seedQuestionBank.js --apply"
+    "question-bank:seed:apply": "node src/scripts/seedQuestionBank.js --apply",
+    "resources:dry-run": "node src/scripts/reconcileResources.js",
+    "resources:apply": "node src/scripts/reconcileResources.js --apply"
   },
   "dependencies": {
     "archiver": "^8.0.0",

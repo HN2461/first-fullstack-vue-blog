@@ -5,6 +5,10 @@ import { Media } from '#modules/media/models/Media.js'
 import { User } from '#modules/user/models/User.js'
 
 export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
+  { name: '用户头像', description: '用户资料中的头像', sortOrder: 9 },
+  { name: '简历照片', description: '简历专属私有照片', sortOrder: 10 },
+  { name: '讨论附件', description: '由讨论成员权限保护的附件', sortOrder: 11 },
+  { name: '文章资源', description: '文章关联的附件', sortOrder: 12 },
   {
     name: '默认素材',
     description: '系统默认资源分类',

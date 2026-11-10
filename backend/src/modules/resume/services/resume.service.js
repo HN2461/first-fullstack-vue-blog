@@ -1,6 +1,8 @@
 import { Resume, createEmptyResumeSections } from '#modules/resume/models/Resume.js'
 import { ResumeInterview } from '#modules/resume/models/ResumeInterview.js'
 import { escapeRegExp, assertObjectId, createResumeError, normalizeSections } from './resume.utils.js'
+import { saveResumeResource } from './resumeResource.service.js'
+import { saveResourceBindings } from '#modules/media/services/resourceBinding.service.js'
 
 function buildResumeQuery(userId, filters = {}) {
   const query = { ownerId: userId }
@@ -58,7 +60,7 @@ export async function listResumes(userId, filters = {}) {
 }
 
 export async function createResume(userId, input) {
-  const resume = await Resume.create({
+  const resume = new Resume({
     ownerId: userId,
     title: input.title,
     targetRole: input.targetRole || '',
@@ -67,7 +69,10 @@ export async function createResume(userId, input) {
     sections: normalizeSections(input.sections || createEmptyResumeSections())
   })
 
-  return resume.toSafeJSON()
+  return saveResumeResource(resume, async () => {
+    await resume.save()
+    return resume.toSafeJSON()
+  })
 }
 
 export async function getResume(id, userId) {
@@ -85,13 +90,15 @@ export async function updateResume(id, userId, input) {
   if (input.sections !== undefined) resume.sections = normalizeSections(input.sections)
 
   resume.version = (resume.version || 1) + 1
-  await resume.save()
-  return resume.toSafeJSON()
+  return saveResumeResource(resume, async () => {
+    await resume.save()
+    return resume.toSafeJSON()
+  })
 }
 
 export async function duplicateResume(id, userId) {
   const resume = await findOwnedResume(id, userId)
-  const copy = await Resume.create({
+  const copy = new Resume({
     ownerId: userId,
     title: `${resume.title} 副本`.slice(0, 80),
     targetRole: resume.targetRole || '',
@@ -100,7 +107,10 @@ export async function duplicateResume(id, userId) {
     sections: normalizeSections(JSON.parse(JSON.stringify(resume.sections || createEmptyResumeSections())))
   })
 
-  return copy.toSafeJSON()
+  return saveResumeResource(copy, async () => {
+    await copy.save()
+    return copy.toSafeJSON()
+  })
 }
 
 export async function deleteResume(id, userId) {
@@ -109,6 +119,6 @@ export async function deleteResume(id, userId) {
     { ownerId: userId, 'links.resumeId': resume._id },
     { $pull: { links: { resumeId: resume._id } } }
   )
-  await resume.deleteOne()
+  await saveResourceBindings({ targetType: 'resume', targetId: resume._id, field: 'photo', ownerId: userId, mediaIds: [] }, () => resume.deleteOne())
   return { id: resume._id.toString(), deleted: true }
 }

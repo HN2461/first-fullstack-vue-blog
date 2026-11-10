@@ -1,3 +1,4 @@
+import { pngFixture } from './helpers/resourceFixtures.js'
 import request from 'supertest'
 import fs from 'node:fs'
 import path from 'node:path'
@@ -371,7 +372,7 @@ describe('operations routes', () => {
     const uploadResponse = await request(app)
       .post('/api/admin/media')
       .set('Authorization', `Bearer ${adminToken}`)
-      .attach('file', Buffer.from('image-content'), {
+      .attach('file', pngFixture, {
         filename: 'article-image.png',
         contentType: 'image/png'
       })
@@ -467,7 +468,7 @@ describe('operations routes', () => {
     const uploadResponse = await request(app)
       .post('/api/admin/media')
       .set('Authorization', `Bearer ${adminToken}`)
-      .attach('file', Buffer.from('referenced-avatar'), {
+      .attach('file', pngFixture, {
         filename: `${Date.now()}-avatar-guard.png`,
         contentType: 'image/png'
       })

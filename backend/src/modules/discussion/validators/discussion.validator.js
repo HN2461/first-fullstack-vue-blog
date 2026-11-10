@@ -14,13 +14,8 @@ export const discussionCreateSchema = z.object({
 export const discussionMessageCreateSchema = z.object({
   content: z.string().trim().max(DISCUSSION_CONFIG.messageMaxLength, `单条内容不能超过 ${DISCUSSION_CONFIG.messageMaxLength} 个字符`).optional().default(''),
   attachment: z.object({
-    filename: z.string().trim().min(1).max(180),
-    originalName: z.string().trim().min(1).max(180),
-    mimeType: z.string().trim().min(1).max(120),
-    size: z.number().int().nonnegative(),
-    url: z.string().trim().min(1).max(500),
-    storagePath: z.string().trim().min(1).max(500)
-  }).optional()
+    mediaId: z.string().regex(objectIdPattern, '附件 ID 不正确')
+  }).strict('附件仅允许提交已上传文件 ID').optional()
 }).strict('存在不支持的讨论内容字段').refine((value) => {
   return !!value.content?.trim() || !!value.attachment
 }, {

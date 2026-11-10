@@ -1,3 +1,6 @@
+import { Media } from '#modules/media/models/Media.js'
+import { jpegFixture } from './helpers/resourceFixtures.js'
+import { getResourceStorageAreas } from '#modules/media/services/resourceStorage.service.js'
 import fs from 'node:fs'
 import path from 'node:path'
 import request from 'supertest'
@@ -85,15 +88,15 @@ describe('Boss resume replacement and photo upload', () => {
       const response = await request(app)
         .post(`/api/resumes/${resume._id}/photo`)
         .set('Authorization', `Bearer ${token}`)
-        .attach('photo', Buffer.from([0xff, 0xd8, 0xff, 0xd9]), {
+        .attach('photo', jpegFixture, {
           filename: 'resume-photo.jpg',
           contentType: 'image/jpeg'
         })
         .expect(200)
 
       const photoUrl = response.body.data.sections.profile.photoUrl
-      expect(photoUrl).toMatch(/^\/uploads\/resumes\/.+\.jpg$/)
-      uploadedPath = path.join(resolveUploadRoot(), photoUrl.replace('/uploads/', ''))
+      expect(photoUrl).toMatch(/^\/api\/resources\/[a-f\d]{24}\/content$/)
+      uploadedPath = (await Media.findById(response.body.data.sections.profile.photoMediaId)).storagePath
       expect(fs.existsSync(uploadedPath)).toBe(true)
 
       await request(app)

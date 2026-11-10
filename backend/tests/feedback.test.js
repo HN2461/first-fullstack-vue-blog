@@ -1,3 +1,4 @@
+import { getResourceStorageAreas } from '#modules/media/services/resourceStorage.service.js'
 import crypto from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
@@ -150,7 +151,7 @@ describe('意见反馈完整流程', () => {
     expect(image).not.toHaveProperty('storagePath')
     const media = await Media.findById(image.id)
     expect(media.accessScope).toBe('private')
-    expect(path.relative(path.join(resolveUploadRoot(), 'feedback'), media.storagePath)).not.toMatch(/^\.\./)
+    expect(path.relative(getResourceStorageAreas().find((area) => area.key === 'private').path, media.storagePath)).not.toMatch(/^\.\./)
     await request(app).get(image.url).expect(401)
     await request(app).get(image.url).set(authorization(otherToken)).expect(404)
     const ownImage = await request(app).get(image.url).set(authorization(token))

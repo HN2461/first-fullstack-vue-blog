@@ -4,8 +4,8 @@ export default defineConfig({
   test: {
     environment: 'node',
     // Multiple suites reset the same temporary upload root, so test files must not overlap.
-    // 串行复用线程 worker，降低 Windows 上测试进程过量启动导致的不稳定。
-    pool: 'threads',
+    // 串行使用独立进程，隔离 Sharp、内存 MongoDB 等原生模块的运行状态。
+    pool: 'forks',
     maxWorkers: 1,
     fileParallelism: false,
     env: {

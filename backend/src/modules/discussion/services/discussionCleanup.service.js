@@ -1,7 +1,7 @@
 import { DISCUSSION_CONFIG } from '#modules/discussion/constants/discussion.constants.js'
 import { DiscussionMessage } from '#modules/discussion/models/DiscussionMessage.js'
 import { DiscussionThread } from '#modules/discussion/models/DiscussionThread.js'
-import fs from 'node:fs/promises'
+import { removeDiscussionResources } from './discussionAttachment.service.js'
 
 function buildPreview(content = '') {
   return content.replace(/\s+/g, ' ').trim().slice(0, 120)
@@ -38,21 +38,7 @@ async function refreshLastMessagesForDeleted(deletedMessages = []) {
 }
 
 export async function removeDiscussionAttachmentFiles(messages = []) {
-  let deletedFileCount = 0
-  for (const message of messages) {
-    for (const attachment of message.attachments || []) {
-      if (!attachment.storagePath) continue
-      try {
-        await fs.unlink(attachment.storagePath)
-        deletedFileCount += 1
-      } catch (error) {
-        if (error.code !== 'ENOENT') {
-          throw error
-        }
-      }
-    }
-  }
-  return deletedFileCount
+  return removeDiscussionResources(messages)
 }
 
 export async function cleanupUserDiscussionMessages(userId, options = {}) {

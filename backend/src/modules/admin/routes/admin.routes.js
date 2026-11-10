@@ -1,3 +1,4 @@
+import { getResourceStorageAreas } from '#modules/media/services/resourceStorage.service.js'
 import fs from 'node:fs'
 import multer from 'multer'
 import { Router } from 'express'
@@ -47,7 +48,7 @@ export const adminRouter = Router()
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    const uploadDir = getUploadSubdir()
+    const uploadDir = getResourceStorageAreas().find((area) => area.temporary).path
     fs.mkdirSync(uploadDir, { recursive: true })
     cb(null, uploadDir)
   },

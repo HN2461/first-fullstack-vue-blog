@@ -10,7 +10,7 @@ function normalizeUploadedMediaUrl(value) {
 
   try {
     const parsed = new URL(raw, 'http://local.invalid')
-    if (!parsed.pathname.startsWith('/uploads/')) return []
+    if (!parsed.pathname.startsWith('/uploads/') && !/^\/api\/resources\/[a-f\d]{24}\/content$/i.test(parsed.pathname)) return []
 
     const candidates = new Set([parsed.pathname])
     try {

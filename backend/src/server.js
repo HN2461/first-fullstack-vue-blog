@@ -6,6 +6,7 @@ import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { initDiscussionSocket } from '#modules/discussion/realtime/discussionSocket.js'
 import { ensureHolidayYears } from '#modules/festival/services/festival.service.js'
 import { startMediaUploadCleanup } from '#modules/media/services/mediaUploadSession.service.js'
+import { startResourceCleanup } from '#modules/media/services/resourceLifecycle.service.js'
 import { startFeedbackNotificationRetry } from '#modules/feedback/services/feedbackNotification.service.js'
 
 async function bootstrap() {
@@ -19,6 +20,7 @@ async function bootstrap() {
   // Node 默认只允许约 5 分钟接收请求体，旧整文件上传在慢网络下会直接返回 408。
   httpServer.requestTimeout = env.httpRequestTimeoutMs
   await startMediaUploadCleanup()
+  startResourceCleanup()
   startFeedbackNotificationRetry()
   initDiscussionSocket(httpServer)
   httpServer.listen(env.port, () => {

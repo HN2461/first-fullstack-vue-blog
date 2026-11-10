@@ -1,11 +1,14 @@
+import { createResource } from './resourceFile.service.js'
+import { resolveResourcePath, removeResourceFile, describeResourcePath } from './resourceStorage.service.js'
+import { withResourceLocks } from './resourceLock.service.js'
+import { MediaReference } from '../models/MediaReference.js'
+import { authorizeResourceRead } from './resourceAccess.service.js'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import mongoose from 'mongoose'
 import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
 import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
-import { inferMediaFileClass } from '#modules/media/constants/mediaUpload.constants.js'
-import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
 import { assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCategory.service.js'
 import { getVaultStorageRoot } from './mediaVault.service.js'
@@ -101,105 +104,46 @@ function normalizeRenamedOriginalName(value, fallbackName = '') {
   return fallbackExt ? `${nextName}${fallbackExt}` : nextName
 }
 
+/**
+ * 兼容现有文档导入等调用，底层复用统一校验、存储和登记。
+ * @param {object} file 服务器接收的文件。
+ * @param {object} user 当前用户。
+ * @param {object} metadata 分类信息。
+ * @returns {Promise<object>} 已登记的媒体信息。
+ * @throws {Error} 分类、格式或存储失败时抛出。
+ */
 export async function createMediaFromFile(file, user, metadata = {}) {
-  await ensureDefaultMediaCategory()
-  const category = await assertMediaCategoryExists(
-    normalizeMediaCategory(metadata.category),
-    user,
-    metadata.categoryId
-  )
-  if (category.accessMode === 'vault') {
-    const error = new Error('密码箱资源必须通过资源管理页面上传')
-    error.statusCode = 400
-    error.code = 'MEDIA_VAULT_UPLOAD_FLOW_REQUIRED'
-    throw error
-  }
-  const kind = file.mimetype.startsWith('image/') ? 'image' : 'attachment'
-  const normalizedPath = file.path.replace(/\\/g, '/')
-  const uploadsIndex = normalizedPath.lastIndexOf('uploads/')
-  const relativePath = uploadsIndex >= 0 ? normalizedPath.slice(uploadsIndex) : normalizedPath
-  const originalName = decodeUploadFilename(file.originalname)
-  const media = await Media.create({
-    filename: file.filename,
-    originalName,
-    mimeType: file.mimetype,
-    size: file.size,
-    url: `/${relativePath}`,
-    storagePath: normalizedPath,
-    kind,
-    category: category.name,
-    categoryId: category._id,
-    fileClass: inferMediaFileClass(file.originalname, file.mimetype),
-    uploader: user._id,
-    accessScope: category.accessMode === 'vault' ? 'vault' : 'public'
-  })
-
+  const media = await createResource(file, user, { scene: 'admin-library', retained: true, ...metadata })
   return media.toSafeJSON()
 }
 
+/**
+ * 普通上传与分片完成共同使用统一文件服务，固定 ID 保证分片完成幂等。
+ * @param {Array<object>} files 待入库临时文件。
+ * @param {object} user 上传用户。
+ * @param {object} metadata 分类和预分配 ID。
+ * @returns {Promise<{items:Array,total:number}>} 登记结果。
+ * @throws {Error} 任一文件失败时补偿本批登记和文件，原临时文件由上传入口清理。
+ */
 export async function createMediaFromFiles(files, user, metadata = {}) {
-  await ensureDefaultMediaCategory()
-  const category = await assertMediaCategoryExists(
-    normalizeMediaCategory(metadata.category),
-    user,
-    metadata.categoryId
-  )
-  const targetDir = category.accessMode === 'vault'
-    ? path.join(getVaultStorageRoot(), String(user._id), String(new Date().getFullYear()), String(new Date().getMonth() + 1).padStart(2, '0'))
-    : getUploadSubdir()
-  await fs.mkdir(targetDir, { recursive: true })
-  const movedFiles = []
-  const documents = []
+  const category = await assertMediaCategoryExists(normalizeMediaCategory(metadata.category), user, metadata.categoryId)
+  const created = []
   try {
     for (const [index, file] of files.entries()) {
-      const targetPath = path.join(targetDir, file.filename)
-      await fs.rename(file.path, targetPath)
-      movedFiles.push(targetPath)
-      const normalizedPath = targetPath.replace(/\\/g, '/')
-      documents.push({
-        // 分片完成请求使用预分配 ID，响应丢失后的重试可以找回同一资源。
-        ...(metadata.mediaIds?.[index] ? { _id: metadata.mediaIds[index] } : {}),
-        filename: file.filename,
-        originalName: decodeUploadFilename(file.originalname),
-        mimeType: file.mimetype,
-        size: file.size,
-        url: category.accessMode === 'vault' ? '/api/admin/media-downloads/content/pending' : `/${normalizedPath.slice(normalizedPath.lastIndexOf('uploads/'))}`,
-        storagePath: normalizedPath,
-        kind: file.mimetype.startsWith('image/') ? 'image' : 'attachment',
-        category: category.name,
-        categoryId: category._id,
-        fileClass: inferMediaFileClass(file.originalname, file.mimetype),
-        uploader: user._id,
-        accessScope: category.accessMode === 'vault' ? 'vault' : 'public'
-      })
+      created.push(await createResource(file, user, {
+        scene: 'admin-library', retained: true, category: category.name, categoryId: category._id,
+        accessScope: category.accessMode === 'vault' ? 'vault' : 'public', mediaId: metadata.mediaIds?.[index]
+      }))
     }
+    // 普通 multipart 的临时文件已经复制入库，不再继续保留；分片原始内容由会话服务管理。
+    await Promise.all(files.map((file) => fs.unlink(file.path).catch((error) => { if (error.code !== 'ENOENT') throw error })))
+    return { items: created.map((media) => media.toSafeJSON()), total: created.length }
   } catch (error) {
-    await Promise.allSettled(movedFiles.map((targetPath) => fs.unlink(targetPath)))
+    await Promise.allSettled(created.map(async (media) => {
+      await removeResourceFile(media)
+      await Media.deleteOne({ _id: media._id })
+    }))
     throw error
-  }
-  let created = []
-  try {
-    created = await Media.insertMany(documents)
-  } catch (error) {
-    const insertedIds = (error.insertedDocs || []).map((item) => item._id).filter(Boolean)
-    if (insertedIds.length > 0) {
-      await Media.deleteMany({ _id: { $in: insertedIds } })
-    }
-    await Promise.allSettled(movedFiles.map((targetPath) => fs.unlink(targetPath)))
-    throw error
-  }
-  if (category.accessMode === 'vault') {
-    await Promise.all(created.map((item) => Media.updateOne(
-      { _id: item._id },
-      { $set: { url: `/api/admin/media-downloads/content/${item._id}` } }
-    )))
-    created = await Media.find({ _id: { $in: created.map((item) => item._id) } })
-  }
-  const items = created.map((item) => item.toSafeJSON())
-
-  return {
-    items,
-    total: items.length
   }
 }
 
@@ -211,6 +155,14 @@ function buildMediaListQuery(options = {}) {
     ? { deletedAt: { $exists: true, $ne: null } }
     : { deletedAt: null }
   Object.assign(query, getMediaListAccessQuery(options.actor))
+  if (options.resourcePicker) {
+    query.accessScope = 'public'
+    query.lifecycleStatus = { $nin: ['pending', 'deleting'] }
+    query.scene = { $nin: ['feedback-image', 'work-journal-evidence', 'discussion-attachment', 'resume-photo', 'user-avatar'] }
+  }
+  for (const field of ['scene', 'lifecycleStatus', 'accessScope']) {
+    if (!options.resourcePicker && options[field]) query[field] = options[field]
+  }
 
   if (kind) {
     query.kind = kind
@@ -389,6 +341,8 @@ export async function getMediaThumbnail(id, actor = null) {
     throw error
   }
 
+  if (media.accessScope === 'private') await authorizeResourceRead(media, actor)
+
   const filePath = await getMediaThumbnailFile(media)
   const stats = await fs.stat(filePath)
   return { media, filePath, size: stats.size }
@@ -449,7 +403,11 @@ function assertActorCanUseCategory(category, actor, owner) {
   }
 }
 
-export async function moveMediaCategory(id, categoryName, actor = null, categoryId = '') {
+export function moveMediaCategory(id, categoryName, actor = null, categoryId = '') {
+  return withResourceLocks([id], () => moveMediaCategoryLocked(id, categoryName, actor, categoryId))
+}
+
+async function moveMediaCategoryLocked(id, categoryName, actor = null, categoryId = '') {
   const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('媒体文件不存在')
@@ -460,6 +418,9 @@ export async function moveMediaCategory(id, categoryName, actor = null, category
 
   if (media.feedback) {
     throw Object.assign(new Error('反馈截图由意见反馈模块维护，不能迁移分类'), { statusCode: 409, code: 'FEEDBACK_MEDIA_PROTECTED' })
+  }
+  if (media.scene && ['resume-photo', 'discussion-attachment', 'work-journal-evidence', 'user-avatar'].includes(media.scene)) {
+    throw Object.assign(new Error('此文件由所属业务维护，不能调整业务分类或访问范围'), { statusCode: 409, code: 'RESOURCE_BUSINESS_PROTECTED' })
   }
   const category = await assertMediaCategoryExists(categoryName, media.uploader, categoryId)
   assertActorCanUseCategory(category, actor, media.uploader)
@@ -483,6 +444,8 @@ export async function moveMediaCategory(id, categoryName, actor = null, category
     throw error
   }
   if (media.accessScope !== nextAccessScope) {
+    // 文件被业务使用时不能改成密码箱，避免原来的公开内容与读取策略失配。
+    await assertMediaHasNoBusinessReferences(media)
     const currentPath = path.resolve(media.storagePath)
     const targetDir = nextAccessScope === 'vault'
       ? path.join(getVaultStorageRoot(), String(media.uploader), String(new Date().getFullYear()), String(new Date().getMonth() + 1).padStart(2, '0'))
@@ -498,7 +461,9 @@ export async function moveMediaCategory(id, categoryName, actor = null, category
     await fs.mkdir(targetDir, { recursive: true })
     await fs.rename(currentPath, targetPath)
     media.storagePath = targetPath.replace(/\\/g, '/')
-    media.url = nextAccessScope === 'vault' ? `/api/admin/media-downloads/content/${media._id}` : `/${media.storagePath.slice(media.storagePath.lastIndexOf('uploads/'))}`
+    if (media.storageKey) Object.assign(media, describeResourcePath(targetPath))
+    media.url = nextAccessScope === 'vault' ? `/api/admin/media-downloads/content/${media._id}`
+      : media.storageKey ? `/api/resources/${media._id}/content` : `/${media.storagePath.slice(media.storagePath.lastIndexOf('uploads/'))}`
   }
   media.category = category.name
   media.categoryId = category._id
@@ -661,6 +626,7 @@ function collectCandidateStoragePaths(storagePath, fileUrl = '') {
 }
 
 async function removeStoredFile(storagePath, fileUrl = '', media = null) {
+  if (media?.storageKey) return removeResourceFile(media)
   const allowedUploadRoots = getAllowedUploadRoots(media?.accessScope === 'private', media?.accessScope === 'vault')
   const candidates = collectCandidateStoragePaths(storagePath, fileUrl)
   let sawUnsafePath = false
@@ -689,7 +655,11 @@ async function removeStoredFile(storagePath, fileUrl = '', media = null) {
   return false
 }
 
-export async function deleteMedia(id, user) {
+export function deleteMedia(id, user) {
+  return withResourceLocks([id], () => deleteMediaLocked(id, user))
+}
+
+async function deleteMediaLocked(id, user) {
   const media = await Media.findOne({ _id: id, deletedAt: null, ...getMediaAccessQuery(user) })
   if (!media) {
     const error = new Error('媒体文件不存在')
@@ -785,7 +755,11 @@ export async function batchRestoreMedia(ids, actor = null) {
   return { restoredCount }
 }
 
-export async function permanentDeleteMedia(id, actor = null, { skipBusinessReferenceCheck = false } = {}) {
+export function permanentDeleteMedia(id, actor = null, options = {}) {
+  return withResourceLocks([id], () => permanentDeleteMediaLocked(id, actor, options))
+}
+
+async function permanentDeleteMediaLocked(id, actor = null, { skipBusinessReferenceCheck = false } = {}) {
   const media = await Media.findOne({ _id: id, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('媒体文件不存在')
@@ -813,7 +787,7 @@ export async function permanentDeleteMedia(id, actor = null, { skipBusinessRefer
     await assertMediaHasNoBusinessReferences(media)
   }
 
-  if (media.accessScope === 'private') {
+  if (media.accessScope === 'private' && !media.storageKey) {
     const privateRoot = path.resolve(resolveUploadRoot(), 'work-journal')
     const privatePath = path.resolve(media.storagePath)
     const relative = path.relative(privateRoot, privatePath)
@@ -835,6 +809,7 @@ export async function permanentDeleteMedia(id, actor = null, { skipBusinessRefer
     )
   }
 
+  await MediaReference.deleteMany({ mediaId: id })
   await Media.findByIdAndDelete(id)
   return { id, deleted: true, mode: 'permanent', fileRemoved }
 }
@@ -850,7 +825,7 @@ export async function permanentlyDeleteWorkJournalMedia(id, actor) {
     throw error
   }
 
-  if (media.accessScope === 'private') {
+  if (media.accessScope === 'private' && !media.storageKey) {
     const privateRoot = path.resolve(resolveUploadRoot(), 'work-journal')
     const privatePath = path.resolve(media.storagePath)
     const relative = path.relative(privateRoot, privatePath)
@@ -862,6 +837,7 @@ export async function permanentlyDeleteWorkJournalMedia(id, actor) {
     }
   }
   // 工作日志删除流程负责先移除或级联删除凭证关系，再由此专用入口清理私有文件。
+  await MediaReference.deleteMany({ mediaId: media._id, targetType: 'work-log' })
   return permanentDeleteMedia(media._id, actor, { skipBusinessReferenceCheck: true })
 }
 
@@ -911,25 +887,15 @@ export async function emptyMediaTrash(actor = null) {
   }
   let removedFileCount = 0
 
+  let deletedCount = 0
   for (const media of mediaList) {
-    if (await removeStoredFile(media.storagePath, media.url, media)) {
-      removedFileCount += 1
-    }
-    await removeMediaThumbnail(media._id)
-    if (media.workJournalEvidence) {
-      await WorkLog.updateOne(
-        { _id: media.workJournalLog, 'evidence._id': media.workJournalEvidence },
-        { $pull: { evidence: { _id: media.workJournalEvidence } } }
-      )
-    }
+    const result = await permanentDeleteMedia(media._id, actor)
+    deletedCount += 1
+    if (result.fileRemoved) removedFileCount += 1
   }
 
-  const result = await Media.deleteMany({
-    _id: { $in: mediaList.map((media) => media._id) }
-  })
-
   return {
-    deletedCount: result.deletedCount || 0,
+    deletedCount,
     removedFileCount
   }
 }

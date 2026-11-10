@@ -1,93 +1,59 @@
-import crypto from 'node:crypto'
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import mongoose from 'mongoose'
-import sharp from 'sharp'
 import { Media } from '#modules/media/models/Media.js'
-import { MediaCategory } from '#modules/media/models/MediaCategory.js'
-import { resolveUploadRoot } from '#utils/uploadPath.js'
-import { decodeUploadFilename } from '#utils/uploadFilename.js'
-import { getBusinessDate } from '#utils/businessDate.js'
+import { createResource } from '#modules/media/services/resourceFile.service.js'
+import { removeResourceFile, resolveResourcePath } from '#modules/media/services/resourceStorage.service.js'
+import { saveResourceBindings } from '#modules/media/services/resourceBinding.service.js'
+import { MediaReference } from '#modules/media/models/MediaReference.js'
 
 export const FEEDBACK_IMAGE_LIMIT = 5
 export const FEEDBACK_IMAGE_BYTES = 5 * 1024 * 1024
 
-/** 将真实图片写入统一上传根目录并登记媒体；失败会回收本次文件，不接受客户端路径。 */
+/**
+ * 通过统一文件服务保存反馈截图，真实图片校验、私有存储及登记复用媒体能力。
+ * @param {Array<object>} files 本次图片文件。
+ * @param {string} feedbackId 服务端反馈 ID。
+ * @param {string} uploaderId 上传人 ID。
+ * @returns {Promise<Array<object>>} 已登记的截图资源。
+ * @throws {Error} 超量或格式不合法时拒绝，本次失败会补偿清理。
+ */
 export async function storeFeedbackAttachments(files, feedbackId, uploaderId) {
-  if (files.length > FEEDBACK_IMAGE_LIMIT) {
-    throw Object.assign(new Error('每次最多添加 5 张图片'), { statusCode: 400 })
-  }
+  if (files.length > FEEDBACK_IMAGE_LIMIT) throw Object.assign(new Error('每次最多添加 5 张图片'), { statusCode: 400 })
   const stored = []
   try {
     for (const file of files) {
-      let format
-      try {
-        const metadata = await sharp(file.buffer, { limitInputPixels: 40000000 }).metadata()
-        format = metadata.format
-        if (!['png', 'jpeg', 'webp', 'gif'].includes(format)) throw new Error('format')
-        // 解码实际像素，拒绝仅伪造文件头或截断的图片。
-        await sharp(file.buffer, { limitInputPixels: 40000000 }).resize(1, 1).toBuffer()
-      } catch {
-        throw Object.assign(new Error('仅支持有效的 PNG、JPG、WEBP 或 GIF 图片'), { statusCode: 400, code: 'FEEDBACK_IMAGE_INVALID' })
-      }
-      if (!file.size || file.size > FEEDBACK_IMAGE_BYTES) {
-        throw Object.assign(new Error('单张图片不能超过 5MB'), { statusCode: 400 })
-      }
-      const category = await MediaCategory.findOneAndUpdate(
-        { name: '意见反馈', owner: null },
-        { $setOnInsert: { system: true, description: '意见反馈私有截图，通过反馈权限读取', sortOrder: 8 } },
-        { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
-      )
-      const id = new mongoose.Types.ObjectId()
-      const filename = `${crypto.randomUUID()}.${format === 'jpeg' ? 'jpg' : format}`
-      const directory = path.join(resolveUploadRoot(), 'feedback', ...getBusinessDate().slice(0, 7).split('-'))
-      await fs.mkdir(directory, { recursive: true })
-      const filePath = path.join(directory, filename)
-      const media = new Media({
-        _id: id,
-        filename,
-        originalName: decodeUploadFilename(file.originalname || filename).slice(0, 180),
-        mimeType: `image/${format}`,
-        size: file.size,
-        storagePath: filePath,
-        url: `/api/feedback/attachments/${id}`,
-        kind: 'image',
-        fileClass: 'image',
-        accessScope: 'private',
-        category: category.name,
-        categoryId: category._id,
-        feedback: feedbackId,
-        uploader: uploaderId,
-        sha256: crypto.createHash('sha256').update(file.buffer).digest('hex')
-      })
-      await fs.writeFile(filePath, file.buffer, { flag: 'wx', mode: 0o600 })
+      const media = await createResource(file, uploaderId, { scene: 'feedback-image', targetId: feedbackId, feedback: feedbackId })
       stored.push(media)
-      await media.save()
+      // 业务提交失败时由 discard 回收，业务响应丢失时仍保留证据引用。
+      await saveResourceBindings({ targetType: 'feedback', targetId: feedbackId, field: `image:${media._id}`, ownerId: uploaderId, mediaIds: [media._id] }, async () => {})
     }
     return stored
   } catch (error) {
+    if (error.code === 'RESOURCE_IMAGE_INVALID') error.code = 'FEEDBACK_IMAGE_INVALID'
     await discardFeedbackAttachments(stored)
     throw error
   }
 }
 
-/** 回收本次尚未关联成功的附件；参数为服务端媒体记录，失败不覆盖原业务异常。 */
+/**
+ * 回收本次尚未提交成功的反馈附件，参数仅来自服务端创建结果。
+ * @param {Array<object>} mediaItems 本次新建的资源记录。
+ * @returns {Promise<void>} 清理完成。
+ * @throws {Error} 补偿失败不覆盖原业务异常，剩余资源由对账发现。
+ */
 export async function discardFeedbackAttachments(mediaItems) {
   for (const media of mediaItems) {
+    await MediaReference.deleteMany({ mediaId: media._id }).catch(() => {})
+    await removeResourceFile(media).catch(() => {})
     await Media.deleteOne({ _id: media._id }).catch(() => {})
-    await fs.unlink(media.storagePath).catch(() => {})
   }
 }
 
-/** 读取已授权反馈附件，返回媒体与路径；路径越界、软删除、文件缺失时拒绝读取。 */
+/**
+ * 读取已授权反馈截图，兼容旧目录与新私有存储并校验真实路径。
+ * @param {object} media 已由反馈服务校验权限的媒体记录。
+ * @returns {Promise<object>} 资源与路径。
+ * @throws {Error} 文件缺失、软删除或路径非法时拒绝。
+ */
 export async function resolveFeedbackAttachment(media) {
-  const root = path.resolve(resolveUploadRoot(), 'feedback')
-  const filePath = path.resolve(media.storagePath)
-  const relative = path.relative(root, filePath)
-  if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) {
-    throw Object.assign(new Error('图片路径不正确'), { statusCode: 404 })
-  }
-  const stats = await fs.stat(filePath).catch(() => null)
-  if (!stats?.isFile()) throw Object.assign(new Error('图片文件不存在'), { statusCode: 404 })
-  return { media, filePath }
+  if (media.deletedAt) throw Object.assign(new Error('图片不存在'), { statusCode: 404 })
+  return { media, filePath: await resolveResourcePath(media) }
 }
