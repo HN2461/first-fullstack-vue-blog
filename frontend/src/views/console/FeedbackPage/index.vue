@@ -177,7 +177,8 @@ onBeforeUnmount(() => clearTimeout(searchTimer))
 <style scoped>
 .feedback-page {
   min-height: 0;
-  height: 100%;
+  /* 控制台父容器只有 min-height；使用明确的工作区高度，避免表格数据区被 flex 压缩为零。 */
+  height: var(--console-page-available-height, calc(100vh - 160px));
   display: flex;
   flex-direction: column;
   gap: 10px;
