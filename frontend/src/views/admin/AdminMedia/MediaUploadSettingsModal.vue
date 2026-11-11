@@ -6,8 +6,9 @@
     ok-text="保存限制"
     cancel-text="取消"
     centered
-    width="640px"
-    :body-style="{ maxHeight: '72vh', overflow: 'hidden' }"
+    width="min(640px, calc(100vw - 32px))"
+    wrap-class-name="business-modal"
+    :body-style="{ maxHeight: 'calc(100dvh - 190px)', overflow: 'auto' }"
     @update:open="emit('update:open', $event)"
     @cancel="handleCancel"
     @ok="handleSubmit"
@@ -22,21 +23,11 @@
 
       <a-form layout="vertical">
         <a-form-item label="单次最大上传文件数量">
-          <a-input-number
-            v-model:value="draft.mediaMaxFilesPerUpload"
-            :min="1"
-            :max="20"
-            style="width: 100%"
-          />
+          <a-input-number v-model:value="draft.mediaMaxFilesPerUpload" :min="1" :max="20" style="width: 100%" />
         </a-form-item>
 
         <a-form-item label="单文件上传最大容量（MB）">
-          <a-input-number
-            v-model:value="draft.mediaMaxFileSizeMB"
-            :min="1"
-            :max="1024"
-            style="width: 100%"
-          />
+          <a-input-number v-model:value="draft.mediaMaxFileSizeMB" :min="1" :max="1024" style="width: 100%" />
           <div class="media-upload-settings__note">
             当前应用层最高 1024MB；大文件上传耗时取决于网络速度，上传面板会显示进度、速度和预计剩余时间。
           </div>
@@ -55,11 +46,7 @@
           </div>
 
           <div class="media-upload-settings__groups">
-            <section
-              v-for="group in MEDIA_EXTENSION_GROUPS"
-              :key="group.key"
-              class="media-upload-settings__group"
-            >
+            <section v-for="group in MEDIA_EXTENSION_GROUPS" :key="group.key" class="media-upload-settings__group">
               <div class="media-upload-settings__group-title">
                 <span>{{ group.label }}</span>
                 <a-checkbox
@@ -168,9 +155,9 @@ function selectAllExtensions() {
 }
 
 function selectCoreExtensions() {
-  draft.mediaAllowedExtensions = MEDIA_EXTENSION_GROUPS
-    .filter((group) => CORE_EXTENSION_GROUPS.has(group.key))
-    .flatMap((group) => group.extensions)
+  draft.mediaAllowedExtensions = MEDIA_EXTENSION_GROUPS.filter((group) => CORE_EXTENSION_GROUPS.has(group.key)).flatMap(
+    (group) => group.extensions
+  )
 }
 
 function handleCancel() {

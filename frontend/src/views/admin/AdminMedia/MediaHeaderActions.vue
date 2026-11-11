@@ -1,8 +1,8 @@
 <template>
   <div class="media-header-actions">
     <a-dropdown :trigger="['click']" placement="bottomRight">
-      <a-tooltip title="资源工具">
-        <a-button class="media-header-actions__tool" aria-label="打开资源工具菜单">
+      <a-tooltip title="设置与维护">
+        <a-button size="small" class="media-header-actions__tool" aria-label="打开资源设置与维护">
           <template #icon><MoreOutlined /></template>
         </a-button>
       </a-tooltip>
@@ -27,10 +27,6 @@
               <PictureOutlined />
               <span>缩略图缓存</span>
             </a-menu-item>
-            <a-menu-item key="trash">
-              <RestOutlined />
-              <span>媒体回收站</span>
-            </a-menu-item>
           </a-menu-item-group>
           <a-menu-item-group v-if="canManageShares" title="协作">
             <a-menu-item key="shares">
@@ -41,7 +37,7 @@
         </a-menu>
       </template>
     </a-dropdown>
-    <a-button type="primary" @click="emit('upload')">
+    <a-button v-if="showUpload" type="primary" size="small" @click="emit('upload')">
       <template #icon><InboxOutlined /></template>
       上传资源
     </a-button>
@@ -54,13 +50,13 @@ import {
   InboxOutlined,
   MoreOutlined,
   PictureOutlined,
-  RestOutlined,
   SearchOutlined,
   SettingOutlined,
   ShareAltOutlined
 } from '@ant-design/icons-vue'
 
 defineProps({
+  showUpload: { type: Boolean, default: true },
   superAdmin: {
     type: Boolean,
     default: false

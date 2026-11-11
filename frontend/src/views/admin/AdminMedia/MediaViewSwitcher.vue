@@ -11,12 +11,12 @@
         <template #icon><UnorderedListOutlined /></template>
       </a-button>
     </a-tooltip>
-    <a-tooltip title="文件夹视图">
+    <a-tooltip title="网格视图">
       <a-button
         type="text"
         size="small"
         :class="{ 'is-active': modelValue === 'folders' }"
-        aria-label="文件夹视图"
+        aria-label="网格视图"
         @click="select('folders')"
       >
         <template #icon><AppstoreOutlined /></template>

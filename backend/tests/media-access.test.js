@@ -112,6 +112,43 @@ describe('media access scope', () => {
     )
   })
 
+  it('按工作区在服务端分页和统计，分类跨视图保留且不能绕过上传人范围', async () => {
+    const library = await createMedia(superAdmin, 'library.txt')
+    const legacy = await createMedia(superAdmin, 'legacy.txt')
+    const article = await createMedia(superAdmin, 'article.txt')
+    const photo = await createMedia(mediaManager, 'resume-photo.txt')
+    const ownVault = await createMedia(superAdmin, 'owner-vault.txt')
+    const otherVault = await createMedia(mediaManager, 'other-vault.txt')
+    await Media.updateOne({ _id: library._id }, { $set: { scene: 'admin-library' } })
+    await Media.collection.updateOne({ _id: legacy._id }, { $unset: { scene: '' } })
+    await Media.updateOne({ _id: article._id }, { $set: { scene: 'article-content' } })
+    await Media.updateOne({ _id: photo._id }, { $set: { scene: 'resume-photo', accessScope: 'private' } })
+    await Media.updateMany({ _id: { $in: [ownVault._id, otherVault._id] } }, { $set: { accessScope: 'vault', scene: 'admin-library' } })
+    const list = async (query, token = superToken) => (await request(app).get('/api/admin/media').query(query).set('Authorization', `Bearer ${token}`).expect(200)).body.data
+    const materials = await list({ workspace: 'library', pageSize: 1 })
+    expect(materials.total).toBe(2)
+    expect(materials.items).toHaveLength(1)
+    expect((await list({ workspace: 'business' })).items.map((item) => item.id)).toEqual(expect.arrayContaining([String(article._id), String(photo._id)]))
+    expect((await list({ workspace: 'business' }, managerToken)).items.map((item) => item.id)).toEqual([String(photo._id)])
+    expect((await list({ workspace: 'vault' }, managerToken)).items).toEqual([expect.objectContaining({ id: String(otherVault._id), originalName: '密码箱文件', url: '' })])
+    expect((await list({ workspace: 'vault' })).items.map((item) => item.id)).toEqual([String(ownVault._id)])
+    const statistics = await request(app).get('/api/admin/media/statistics').query({ workspace: 'library' }).set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(statistics.body.data.byFileClass.code).toBe(2)
+    expect((await list({ workspace: 'business', category: '默认素材' })).total).toBe(2)
+    expect((await list({ workspace: 'all' })).total).toBe(5)
+  })
+
+  it('工作区与分类来源筛选取交集，私人及密码箱文件不能混入素材库', async () => {
+    const media = await createMedia(superAdmin, 'private.txt')
+    await Media.updateOne({ _id: media._id }, { $set: { accessScope: 'private', scene: 'resume-photo' } })
+    const response = await request(app).get('/api/admin/media').query({ workspace: 'library', scene: 'resume-photo', accessScope: 'private' })
+      .set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(response.body.data.total).toBe(0)
+    const stats = await request(app).get('/api/admin/media/statistics').query({ workspace: 'library', scene: 'resume-photo', accessScope: 'private' })
+      .set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(Object.values(stats.body.data.byFileClass).reduce((sum, count) => sum + count, 0)).toBe(0)
+  })
+
   it('allows only super admin to scan server files and marks referenced avatars', async () => {
     const uploadRoot = resolveUploadRoot()
     const relativePath = `avatars/${Date.now()}-avatar.png`

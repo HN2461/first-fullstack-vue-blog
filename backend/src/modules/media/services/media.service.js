@@ -164,6 +164,22 @@ function buildMediaListQuery(options = {}) {
     if (!options.resourcePicker && options[field]) query[field] = options[field]
   }
 
+  // 页签只是同一资源库的查询视图，使用交集条件，不能覆盖账号及密码箱的可见范围。
+  if (options.workspace === 'library') {
+    query.$and = [...(query.$and || []), { accessScope: 'public' }, {
+      $or: [{ scene: { $in: ['', 'admin-library'] } }, { scene: { $exists: false } }]
+    }, { feedback: null }, { workJournalLog: null }]
+  } else if (options.workspace === 'business') {
+    query.$and = [...(query.$and || []), { accessScope: { $ne: 'vault' } }, {
+      $or: [
+        { scene: { $exists: true, $nin: ['', 'admin-library', null] } },
+        { feedback: { $ne: null } }, { workJournalLog: { $ne: null } }
+      ]
+    }]
+  } else if (options.workspace === 'vault') {
+    query.$and = [...(query.$and || []), { accessScope: 'vault', uploader: options.actor?._id || options.actor?.id }]
+  }
+
   if (kind) {
     query.kind = kind
   }
