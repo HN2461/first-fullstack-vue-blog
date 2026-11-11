@@ -1,5 +1,16 @@
 <template>
   <div class="media-view-switcher" role="group" aria-label="资源视图切换">
+    <a-tooltip title="分类文件夹">
+      <a-button
+        type="text"
+        size="small"
+        :class="{ 'is-active': modelValue === 'folders' }"
+        aria-label="分类文件夹"
+        @click="select('folders')"
+      >
+        <template #icon><FolderOpenOutlined /></template>
+      </a-button>
+    </a-tooltip>
     <a-tooltip title="列表视图">
       <a-button
         type="text"
@@ -15,9 +26,9 @@
       <a-button
         type="text"
         size="small"
-        :class="{ 'is-active': modelValue === 'folders' }"
+        :class="{ 'is-active': modelValue === 'grid' }"
         aria-label="网格视图"
-        @click="select('folders')"
+        @click="select('grid')"
       >
         <template #icon><AppstoreOutlined /></template>
       </a-button>
@@ -26,7 +37,7 @@
 </template>
 
 <script setup>
-import { AppstoreOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
+import { AppstoreOutlined, FolderOpenOutlined, UnorderedListOutlined } from '@ant-design/icons-vue'
 
 const props = defineProps({
   modelValue: {
@@ -38,7 +49,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 function select(value) {
-  if (props.modelValue !== value) {
+  if (props.modelValue !== value || value === 'folders') {
     emit('update:modelValue', value)
   }
 }

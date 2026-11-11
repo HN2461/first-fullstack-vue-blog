@@ -3,6 +3,7 @@ import { USER_ROLES } from '#constants/domain'
 import { MediaCategory } from '#modules/media/models/MediaCategory.js'
 import { Media } from '#modules/media/models/Media.js'
 import { User } from '#modules/user/models/User.js'
+import { getMediaWorkspaceConditions } from './mediaWorkspaceQuery.service.js'
 
 export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
   { name: '用户头像', description: '用户资料中的头像', sortOrder: 9 },
@@ -194,8 +195,10 @@ export async function listMediaCategories(actor, options = {}) {
   const vaultMatch = actorId
     ? { $or: [{ accessScope: { $ne: 'vault' } }, { accessScope: 'vault', uploader: actorId }] }
     : { accessScope: { $ne: 'vault' } }
+  const workspaceConditions = getMediaWorkspaceConditions(options.workspace, actorId)
   const counts = await Media.aggregate([
-    { $match: { ...mediaMatch, deletedAt: null, ...vaultMatch } },
+    { $match: { ...mediaMatch, deletedAt: null, ...vaultMatch,
+      ...(workspaceConditions.length ? { $and: workspaceConditions } : {}) } },
     {
       $group: {
         _id: {
@@ -207,15 +210,18 @@ export async function listMediaCategories(actor, options = {}) {
       }
     }
   ])
-  const countById = new Map(counts
-    .filter((item) => item._id.categoryId)
-    .map((item) => [item._id.categoryId.toString(), item.count]))
-  const legacyCountByOwnerName = new Map(counts
-    .filter((item) => !item._id.categoryId)
-    .map((item) => [
-      getLegacyCategoryKey(isSystemMediaCategory(item._id.name) ? 'system' : item._id.owner, item._id.name),
-      item.count
-    ]))
+  const countById = new Map()
+  const legacyCountByOwnerName = new Map()
+  // 系统分类可以被多个账号共用，聚合按上传人分组后的各项必须累加。
+  for (const item of counts) {
+    if (item._id.categoryId) {
+      const key = String(item._id.categoryId)
+      countById.set(key, (countById.get(key) || 0) + item.count)
+    } else {
+      const key = getLegacyCategoryKey(isSystemMediaCategory(item._id.name) ? 'system' : item._id.owner, item._id.name)
+      legacyCountByOwnerName.set(key, (legacyCountByOwnerName.get(key) || 0) + item.count)
+    }
+  }
 
   const legacyOwnerIds = [...legacyCountByOwnerName.keys()]
     .map((key) => JSON.parse(key)[0])

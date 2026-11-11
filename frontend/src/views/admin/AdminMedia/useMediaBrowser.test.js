@@ -1,7 +1,12 @@
 import { effectScope, nextTick, reactive } from 'vue'
 import { describe, expect, it, vi } from 'vitest'
 import { useMediaBrowser } from './useMediaBrowser'
-import { getMediaActionRestrictions, resolveMediaWorkspace } from './mediaWorkspace'
+import {
+  getMediaActionRestrictions,
+  resolveMediaWorkspace,
+  resolveMediaLayout,
+  getMediaCategoryQuery
+} from './mediaWorkspace'
 
 vi.mock('@/services/admin', () => ({ listAdminMedia: vi.fn() }))
 function deferred() {
@@ -32,7 +37,7 @@ describe('资源工作区查询', () => {
         page: 2
       })
     )
-    props.layout = 'folders'
+    props.layout = 'grid'
     await nextTick()
     await nextTick()
     expect(state.filters.value.keyword).toBe('图片')
@@ -52,7 +57,7 @@ describe('资源工作区查询', () => {
       .mockReturnValueOnce(first.promise)
       .mockReturnValueOnce(second.promise)
       .mockReturnValueOnce(third.promise)
-    const { scope, state } = setup('folders', request)
+    const { scope, state } = setup('grid', request)
     state.filters.value.keyword = 'new'
     await nextTick()
     second.resolve({ items: [{ id: 'new' }], total: 1 })
@@ -101,5 +106,59 @@ describe('资源工作区查询', () => {
     expect(
       getMediaActionRestrictions({ scene: 'admin-library', lifecycleStatus: 'retained', usage: { referenceCount: 0 } })
     ).toEqual({ moveReason: '', deleteReason: '' })
+  })
+
+  it('默认先看文件夹，进入分类后用列表读取，回根目录不请求全库文件', async () => {
+    const request = vi.fn().mockResolvedValue({ items: [{ id: 'file' }], total: 1 })
+    const { scope, state } = setup('folders', request)
+    expect(state.presentation.value).toBe('folders')
+    expect(request).not.toHaveBeenCalled()
+    state.filters.value.categoryId = '123456789012345678901234'
+    await nextTick()
+    expect(state.presentation.value).toBe('list')
+    await state.loadTable({ page: 1, pageSize: 16 })
+    expect(state.items.value).toEqual([{ id: 'file' }])
+    state.filters.value.categoryId = ''
+    await nextTick()
+    expect(state.presentation.value).toBe('folders')
+    expect(state.items.value).toEqual([])
+    expect(request).toHaveBeenCalledTimes(1)
+    scope.stop()
+  })
+
+  it('旧分类编号和同名不同归属形成明确查询，视图书签不混用网格与文件夹', () => {
+    const own = { id: '123456789012345678901234', name: '项目', owner: '111111111111111111111111' }
+    const other = {
+      id: 'legacy:222222222222222222222222:项目',
+      name: '项目',
+      owner: '222222222222222222222222',
+      virtual: true
+    }
+    expect(getMediaCategoryQuery(own.id, [own, other])).toEqual({
+      categoryId: own.id,
+      category: own.name,
+      categoryOwner: own.owner
+    })
+    expect(getMediaCategoryQuery(other.id, [own, other])).toEqual({ category: other.name, categoryOwner: other.owner })
+    expect(resolveMediaLayout({})).toBe('folders')
+    expect(resolveMediaLayout({ view: 'folders' })).toBe('folders')
+    expect(resolveMediaLayout({ view: 'grid' })).toBe('grid')
+    expect(resolveMediaLayout({ view: 'list' })).toBe('list')
+  })
+
+  it('返回文件夹后迟到的列表错误不能破坏目录状态', async () => {
+    const pending = deferred()
+    const { scope, state } = setup('folders', vi.fn().mockReturnValue(pending.promise), {
+      categoryId: '123456789012345678901234'
+    })
+    const request = state.loadTable({ page: 1 })
+    state.filters.value.categoryId = ''
+    await nextTick()
+    pending.reject(new Error('迟到的文件请求'))
+    await request
+    expect(state.presentation.value).toBe('folders')
+    expect(state.error.value).toBe('')
+    expect(state.loading.value).toBe(false)
+    scope.stop()
   })
 })

@@ -3,6 +3,7 @@ import { resolveResourcePath, removeResourceFile, describeResourcePath } from '.
 import { withResourceLocks } from './resourceLock.service.js'
 import { MediaReference } from '../models/MediaReference.js'
 import { authorizeResourceRead } from './resourceAccess.service.js'
+import { getMediaWorkspaceConditions } from './mediaWorkspaceQuery.service.js'
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import mongoose from 'mongoose'
@@ -165,20 +166,8 @@ function buildMediaListQuery(options = {}) {
   }
 
   // 页签只是同一资源库的查询视图，使用交集条件，不能覆盖账号及密码箱的可见范围。
-  if (options.workspace === 'library') {
-    query.$and = [...(query.$and || []), { accessScope: 'public' }, {
-      $or: [{ scene: { $in: ['', 'admin-library'] } }, { scene: { $exists: false } }]
-    }, { feedback: null }, { workJournalLog: null }]
-  } else if (options.workspace === 'business') {
-    query.$and = [...(query.$and || []), { accessScope: { $ne: 'vault' } }, {
-      $or: [
-        { scene: { $exists: true, $nin: ['', 'admin-library', null] } },
-        { feedback: { $ne: null } }, { workJournalLog: { $ne: null } }
-      ]
-    }]
-  } else if (options.workspace === 'vault') {
-    query.$and = [...(query.$and || []), { accessScope: 'vault', uploader: options.actor?._id || options.actor?.id }]
-  }
+  const workspaceConditions = getMediaWorkspaceConditions(options.workspace, options.actor?._id || options.actor?.id)
+  if (workspaceConditions.length) query.$and = [...(query.$and || []), ...workspaceConditions]
 
   if (kind) {
     query.kind = kind
@@ -209,6 +198,10 @@ function buildMediaListQuery(options = {}) {
     }
   } else if (options.category) {
     query.category = normalizeMediaCategory(options.category)
+    // 同名历史分类按上传人区分；该条件只能缩小账号原有的可见范围。
+    if (options.categoryOwner && mongoose.isObjectIdOrHexString(options.categoryOwner)) {
+      query.$and = [...(query.$and || []), { uploader: options.categoryOwner }]
+    }
   }
 
   if (Array.isArray(options.excludeCategories) && options.excludeCategories.length > 0) {

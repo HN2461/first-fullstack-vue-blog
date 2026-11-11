@@ -178,7 +178,13 @@ import { useAdminActions } from '@/composables/useAdminUi'
 import { useMediaDownloads } from './useMediaDownloads'
 import { getMovableMediaCategories } from './mediaCategoryOptions'
 import { DEFAULT_MEDIA_ALLOWED_EXTENSIONS, normalizeAllowedMediaExtensions } from './mediaUploadConfig'
-import { mediaWorkspaces, resolveMediaWorkspace, getMediaActionRestrictions, formatMediaSize } from './mediaWorkspace'
+import {
+  mediaWorkspaces,
+  resolveMediaWorkspace,
+  resolveMediaLayout,
+  getMediaActionRestrictions,
+  formatMediaSize
+} from './mediaWorkspace'
 import {
   listAdminMediaCategories,
   getAdminMediaStorageUsage,
@@ -198,7 +204,7 @@ const route = useRoute()
 const router = useRouter()
 const { confirmAction } = useAdminActions()
 const workspace = ref(resolveMediaWorkspace(route.query))
-const layout = ref(route.query.view === 'folders' || route.query.view === 'grid' ? 'folders' : 'list')
+const layout = ref(resolveMediaLayout(route.query))
 const navigationVersion = ref(0)
 const initialFilters = ref(readFilters(route.query))
 const browserRef = ref(null)
@@ -265,7 +271,7 @@ function readFilters(query) {
   }
 }
 function writeRoute() {
-  const query = { ...route.query, tab: workspace.value, view: layout.value === 'folders' ? 'grid' : 'list' }
+  const query = { ...route.query, tab: workspace.value, view: layout.value }
   delete query.category
   for (const [key, value] of Object.entries(initialFilters.value)) {
     if (value) query[key] = value
@@ -288,7 +294,7 @@ function changeLayout(value) {
   writeRoute()
 }
 function syncFilters(value) {
-  initialFilters.value = { ...value }
+  initialFilters.value = readFilters(value)
   writeRoute()
 }
 function clearSelection() {
@@ -322,7 +328,7 @@ watch(
   () => {
     const nextWorkspace = resolveMediaWorkspace(route.query)
     const nextFilters = readFilters(route.query)
-    const nextLayout = ['folders', 'grid'].includes(route.query.view) ? 'folders' : 'list'
+    const nextLayout = resolveMediaLayout(route.query)
     if (
       nextWorkspace === workspace.value &&
       JSON.stringify(nextFilters) === JSON.stringify(initialFilters.value) &&

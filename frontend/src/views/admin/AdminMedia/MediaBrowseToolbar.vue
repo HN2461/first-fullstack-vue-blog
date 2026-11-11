@@ -1,98 +1,108 @@
 <template>
-  <div class="media-browse-toolbar">
-    <a-input-search
-      v-model:value="keyword"
-      class="media-browse-toolbar__search"
-      placeholder="搜索文件名或分类"
-      allow-clear
-      size="small"
-      @search="search"
-    />
-    <a-select
-      v-if="workspace !== 'vault'"
-      :value="filters.categoryId || undefined"
-      class="media-browse-toolbar__category"
-      size="small"
-      placeholder="全部分类"
-      allow-clear
-      show-search
-      option-filter-prop="label"
-      :options="categoryOptions"
-      @change="update('categoryId', $event)"
-    />
-    <a-popover
-      v-model:open="filterOpen"
-      trigger="click"
-      placement="bottomRight"
-      :overlay-style="{ maxWidth: 'calc(100vw - 32px)' }"
-    >
-      <template #content>
-        <div class="media-browse-toolbar__advanced">
-          <label>
-            类型
-            <a-select
-              :value="filters.fileClass || undefined"
-              allow-clear
-              show-search
-              option-filter-prop="label"
-              :options="fileClassOptions"
-              @change="update('fileClass', $event)"
-            />
-          </label>
-          <label>
-            使用情况
-            <a-select
-              :value="filters.usageStatus || undefined"
-              allow-clear
-              show-search
-              option-filter-prop="label"
-              :options="usageOptions"
-              @change="update('usageStatus', $event)"
-            />
-          </label>
-          <label v-if="workspace !== 'vault'">
-            文件来源
-            <a-select
-              :value="filters.scene || undefined"
-              allow-clear
-              show-search
-              option-filter-prop="label"
-              :options="sceneOptions"
-              @change="update('scene', $event)"
-            />
-          </label>
-          <label>
-            保留状态
-            <a-select
-              :value="filters.lifecycleStatus || undefined"
-              allow-clear
-              show-search
-              option-filter-prop="label"
-              :options="resourceLifecycleOptions"
-              @change="update('lifecycleStatus', $event)"
-            />
-          </label>
-          <a-button size="small" @click="reset">清除筛选</a-button>
-        </div>
-      </template>
-      <a-button
-        size="small"
-        :type="advancedCount ? 'primary' : 'default'"
-        :ghost="advancedCount > 0"
-        aria-label="展开资源筛选"
-      >
-        <FilterOutlined />
-        筛选{{ advancedCount ? ` (${advancedCount})` : '' }}
+  <div class="media-toolbar-wrap">
+    <nav v-if="workspace !== 'vault'" class="media-browse-toolbar__location" aria-label="资源分类当前位置">
+      <a-button type="link" size="small" @click="$emit('folders')">
+        <FolderOpenOutlined />
+        分类文件夹
       </a-button>
-    </a-popover>
-    <MediaViewSwitcher :model-value="layout" @update:model-value="$emit('update:layout', $event)" />
-    <slot />
+      <RightOutlined />
+      <strong :title="categoryLabel">{{ categoryLabel }}</strong>
+    </nav>
+    <div class="media-browse-toolbar">
+      <a-input-search
+        v-model:value="keyword"
+        class="media-browse-toolbar__search"
+        placeholder="搜索文件名或分类"
+        allow-clear
+        size="small"
+        @search="search"
+      />
+      <a-select
+        v-if="workspace !== 'vault'"
+        :value="filters.categoryId || undefined"
+        class="media-browse-toolbar__category"
+        size="small"
+        placeholder="全部分类"
+        allow-clear
+        show-search
+        option-filter-prop="label"
+        :options="categoryOptions"
+        @change="update('categoryId', $event)"
+      />
+      <a-popover
+        v-model:open="filterOpen"
+        trigger="click"
+        placement="bottomRight"
+        :overlay-style="{ maxWidth: 'calc(100vw - 32px)' }"
+      >
+        <template #content>
+          <div class="media-browse-toolbar__advanced">
+            <label>
+              类型
+              <a-select
+                :value="filters.fileClass || undefined"
+                allow-clear
+                show-search
+                option-filter-prop="label"
+                :options="fileClassOptions"
+                @change="update('fileClass', $event)"
+              />
+            </label>
+            <label>
+              使用情况
+              <a-select
+                :value="filters.usageStatus || undefined"
+                allow-clear
+                show-search
+                option-filter-prop="label"
+                :options="usageOptions"
+                @change="update('usageStatus', $event)"
+              />
+            </label>
+            <label v-if="workspace !== 'vault'">
+              文件来源
+              <a-select
+                :value="filters.scene || undefined"
+                allow-clear
+                show-search
+                option-filter-prop="label"
+                :options="sceneOptions"
+                @change="update('scene', $event)"
+              />
+            </label>
+            <label>
+              保留状态
+              <a-select
+                :value="filters.lifecycleStatus || undefined"
+                allow-clear
+                show-search
+                option-filter-prop="label"
+                :options="resourceLifecycleOptions"
+                @change="update('lifecycleStatus', $event)"
+              />
+            </label>
+            <a-button size="small" @click="reset">清除筛选</a-button>
+          </div>
+        </template>
+        <a-button
+          size="small"
+          :type="advancedCount ? 'primary' : 'default'"
+          :ghost="advancedCount > 0"
+          aria-label="展开资源筛选"
+        >
+          <FilterOutlined />
+          筛选{{ advancedCount ? ` (${advancedCount})` : '' }}
+        </a-button>
+      </a-popover>
+      <MediaViewSwitcher :model-value="layout" @update:model-value="$emit('update:layout', $event)" />
+      <slot />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { FilterOutlined } from '@ant-design/icons-vue'
+import { FilterOutlined, FolderOpenOutlined, RightOutlined } from '@ant-design/icons-vue'
 import MediaViewSwitcher from './MediaViewSwitcher.vue'
 import { fileClassOptions, resourceSceneOptions, resourceLifecycleOptions } from './mediaWorkspace'
 
@@ -102,7 +112,14 @@ const props = defineProps({
   layout: String,
   workspace: String
 })
-const emit = defineEmits(['update:filters', 'update:layout'])
+const emit = defineEmits(['update:filters', 'update:layout', 'folders'])
+const categoryLabel = computed(() => {
+  if (!props.filters.categoryId) return '全部文件'
+  const item = props.categories.find(
+    (category) => String(category.id) === props.filters.categoryId || category.name === props.filters.categoryId
+  )
+  return item ? `${item.name}${item.ownerName && !item.system ? ` · ${item.ownerName}` : ''}` : '当前分类'
+})
 const keyword = ref(props.filters.keyword || '')
 const filterOpen = ref(false)
 const advancedCount = computed(
@@ -155,6 +172,32 @@ function reset() {
 </script>
 
 <style scoped>
+.media-toolbar-wrap {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.media-browse-toolbar__location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 12px;
+  color: var(--console-text-secondary);
+}
+.media-browse-toolbar__location strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.media-browse-toolbar__location :deep(.ant-btn) {
+  padding: 0;
+  height: 24px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
 .media-browse-toolbar {
   display: flex;
   align-items: center;

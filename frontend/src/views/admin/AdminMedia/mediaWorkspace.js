@@ -44,6 +44,35 @@ export function resolveMediaWorkspace(query = {}) {
 }
 
 /**
+ * 保留明确的列表和网格书签，新入口默认先按分类文件夹定位。
+ * @param {object} query 路由查询参数。
+ * @returns {string} folders、list 或 grid。
+ * @throws {Error} 非法视图回退到文件夹。
+ */
+export function resolveMediaLayout(query = {}) {
+  return ['folders', 'list', 'grid'].includes(query.view) ? query.view : 'folders'
+}
+
+/**
+ * 将分类选择转换为后端查询，保留同名归属及旧记录没有 categoryId 的兼容。
+ * @param {string} value 分类 ID 或旧分类名称。
+ * @param {Array<object>} categories 已授权分类描述。
+ * @returns {object} 文件查询的分类及上传人限定。
+ * @throws {Error} 未知分类保持原值供后端筛选，不推断访问权限。
+ */
+export function getMediaCategoryQuery(value, categories = []) {
+  if (!value) return {}
+  const category = categories.find((item) => String(item.id) === value || item.name === value)
+  if (/^[a-f\d]{24}$/i.test(value)) {
+    return {
+      categoryId: value,
+      ...(category ? { category: category.name, ...(category.owner ? { categoryOwner: category.owner } : {}) } : {})
+    }
+  }
+  return { category: category?.name || value, ...(category?.owner ? { categoryOwner: category.owner } : {}) }
+}
+
+/**
  * 提前呈现业务保护原因，最终权限和删除引用仍由服务器复查。
  * @param {object} record 列表返回的资源信息。
  * @returns {{moveReason:string,deleteReason:string}} 不允许操作时的可读原因。

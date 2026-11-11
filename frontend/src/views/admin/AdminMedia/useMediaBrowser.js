@@ -1,5 +1,6 @@
 import { computed, onScopeDispose, ref, watch } from 'vue'
 import { listAdminMedia } from '@/services/admin'
+import { getMediaCategoryQuery } from './mediaWorkspace'
 
 /**
  * 管理资源浏览查询，切换筛选、视图或卸载后不让过时请求覆盖当前状态。
@@ -28,12 +29,17 @@ export function useMediaBrowser(props, request = listAdminMedia) {
   let tableVersion = 0
   let latestTableTask
   let disposed = false
+  const presentation = computed(() => {
+    if (props.layout === 'grid') return 'grid'
+    if (props.layout === 'folders' && props.workspace !== 'vault' && !filters.value.categoryId) return 'folders'
+    return 'list'
+  })
   const query = computed(() => {
     const { categoryId, ...values } = filters.value
     return {
       ...Object.fromEntries(Object.entries(values).filter(([, value]) => value)),
       workspace: props.workspace,
-      ...(categoryId ? (/^[a-f\d]{24}$/i.test(categoryId) ? { categoryId } : { category: categoryId }) : {})
+      ...getMediaCategoryQuery(categoryId, props.categories)
     }
   })
   const requestKey = computed(() => JSON.stringify(query.value))
@@ -45,21 +51,21 @@ export function useMediaBrowser(props, request = listAdminMedia) {
     error.value = ''
     const task = request({ ...query.value, ...params })
       .then((result) => {
-        if (disposed || key !== requestKey.value || props.layout !== 'list') return { items: [], total: 0 }
+        if (disposed || key !== requestKey.value || presentation.value !== 'list') return { items: [], total: 0 }
         // BlogTable 接收每次 Promise 的返回值；旧翻页请求也返回最新结果，避免倒序完成覆盖当前页。
         if (current !== tableVersion) return latestTableTask !== task ? latestTableTask : { items: [], total: 0 }
         items.value = result.items
         return result
       })
       .catch((reason) => {
-        if (!disposed && key === requestKey.value && props.layout === 'list') {
+        if (!disposed && key === requestKey.value && presentation.value === 'list') {
           if (current !== tableVersion && latestTableTask !== task) return latestTableTask
           error.value = reason.message || '资源加载失败'
         }
         return { items: [], total: 0 }
       })
       .finally(() => {
-        if (!disposed && current === tableVersion && props.layout === 'list') loading.value = false
+        if (!disposed && current === tableVersion && presentation.value === 'list') loading.value = false
       })
     latestTableTask = task
     return task
@@ -74,7 +80,7 @@ export function useMediaBrowser(props, request = listAdminMedia) {
     total.value = 0
     try {
       const result = await request({ ...query.value, page: page.value, pageSize: pageSize.value })
-      if (disposed || current !== version || key !== requestKey.value || props.layout === 'list') return
+      if (disposed || current !== version || key !== requestKey.value || presentation.value !== 'grid') return
       items.value = result.items
       total.value = result.total
     } catch (reason) {
@@ -85,13 +91,16 @@ export function useMediaBrowser(props, request = listAdminMedia) {
   }
 
   watch(
-    () => [requestKey.value, props.layout],
+    () => [requestKey.value, presentation.value],
     () => {
       version += 1
       tableVersion += 1
       page.value = 1
+      loading.value = false
+      items.value = []
+      total.value = 0
       error.value = ''
-      if (props.layout !== 'list') loadGrid()
+      if (presentation.value === 'grid') loadGrid()
     },
     { immediate: true }
   )
@@ -100,5 +109,5 @@ export function useMediaBrowser(props, request = listAdminMedia) {
     version += 1
     tableVersion += 1
   })
-  return { filters, items, total, page, pageSize, loading, error, query, requestKey, loadTable, loadGrid }
+  return { filters, items, total, page, pageSize, loading, error, query, requestKey, presentation, loadTable, loadGrid }
 }

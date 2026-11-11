@@ -3,8 +3,16 @@
     <a-alert v-if="error" type="error" :message="error" show-icon>
       <template #action><a-button size="small" @click="refresh">重试</a-button></template>
     </a-alert>
+    <MediaFolderNavigator
+      v-if="presentation === 'folders'"
+      ref="folderRef"
+      :workspace="workspace"
+      @open="openFolder"
+      @files="changeLayout('list')"
+      @update:layout="changeLayout"
+    />
     <BlogTable
-      v-if="layout === 'list'"
+      v-else-if="presentation === 'list'"
       :key="requestKey"
       ref="tableRef"
       :api-fn="loadTable"
@@ -21,7 +29,8 @@
         <MediaBrowseToolbar
           v-bind="toolbarProps"
           @update:filters="setFilters"
-          @update:layout="$emit('update:layout', $event)"
+          @update:layout="changeLayout"
+          @folders="backToFolders"
         />
       </template>
       <template #empty>
@@ -56,7 +65,18 @@
             </div>
           </div>
         </template>
-        <template v-else-if="column.key === 'category'">{{ masked(record) ? '密码箱' : record.category }}</template>
+        <template v-else-if="column.key === 'category'">
+          <span v-if="masked(record)">密码箱</span>
+          <a-button
+            v-else
+            type="link"
+            size="small"
+            :title="`打开分类：${record.category}`"
+            @click="openRecordFolder(record)"
+          >
+            {{ record.category }}
+          </a-button>
+        </template>
         <template v-else-if="column.key === 'source'">
           <div class="media-browser__facts">
             <span>{{ masked(record) ? '密码保护' : sceneLabel(record.scene) }}</span>
@@ -94,7 +114,8 @@
       <MediaBrowseToolbar
         v-bind="toolbarProps"
         @update:filters="setFilters"
-        @update:layout="$emit('update:layout', $event)"
+        @update:layout="changeLayout"
+        @folders="backToFolders"
       >
         <a-tooltip title="刷新资源">
           <a-button type="text" size="small" aria-label="刷新资源" :loading="loading" @click="refresh">
@@ -150,6 +171,7 @@ import MediaBrowseToolbar from './MediaBrowseToolbar.vue'
 import MediaFileGrid from './MediaFileGrid.vue'
 import MediaRowActions from './MediaRowActions.vue'
 import MediaBatchActions from './MediaBatchActions.vue'
+import MediaFolderNavigator from './MediaFolderNavigator.vue'
 import { useMediaBrowser } from './useMediaBrowser'
 import {
   formatMediaSize,
@@ -186,7 +208,8 @@ const emit = defineEmits([
   'vault'
 ])
 const tableRef = ref(null)
-const { filters, items, total, page, pageSize, loading, error, requestKey, loadTable, loadGrid } =
+const folderRef = ref(null)
+const { filters, items, total, page, pageSize, loading, error, requestKey, presentation, loadTable, loadGrid } =
   useMediaBrowser(props)
 const toolbarProps = computed(() => ({
   filters: filters.value,
@@ -257,6 +280,34 @@ function setFilters(value) {
 function resetFilters() {
   setFilters({ keyword: '', categoryId: '', fileClass: '', usageStatus: '', scene: '', lifecycleStatus: '' })
 }
+function changeLayout(value) {
+  clearSelection()
+  if (value === 'folders') resetFilters()
+  emit('update:layout', value)
+}
+function openFolder(category) {
+  setFilters({
+    keyword: '',
+    categoryId: String(category.id || category.name),
+    fileClass: '',
+    usageStatus: '',
+    scene: '',
+    lifecycleStatus: ''
+  })
+  emit('update:layout', 'folders')
+}
+function openRecordFolder(record) {
+  const category = props.categories.find((item) =>
+    record.categoryId
+      ? item.id === record.categoryId
+      : item.name === record.category &&
+        (!item.owner || String(item.owner) === String(record.uploader?.id || record.uploader))
+  )
+  openFolder(category || { id: record.categoryId, name: record.category })
+}
+function backToFolders() {
+  changeLayout('folders')
+}
 function handleData() {
   clearSelection()
 }
@@ -268,7 +319,8 @@ function changePage(value) {
 }
 function refresh() {
   clearSelection()
-  if (props.layout === 'list') return tableRef.value?.refresh()
+  if (presentation.value === 'folders') return folderRef.value?.refresh()
+  if (presentation.value === 'list') return tableRef.value?.refresh()
   return loadGrid()
 }
 defineExpose({ refresh, clearSelection, filters })

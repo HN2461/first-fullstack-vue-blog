@@ -112,6 +112,40 @@ describe('media access scope', () => {
     )
   })
 
+  it('文件夹数量按当前工作区累计跨账号的系统分类，与进入后的列表一致', async () => {
+    const first = await createMedia(superAdmin, 'mine.txt')
+    const second = await createMedia(mediaManager, 'theirs.txt')
+    const legacy = await createMedia(mediaManager, 'legacy.txt')
+    const image = await createMedia(superAdmin, 'article.txt')
+    await request(app).get('/api/admin/media/categories').set('Authorization', `Bearer ${superToken}`).expect(200)
+    const category = await MediaCategory.findOne({ name: '默认素材', system: true })
+    await Media.updateMany({ _id: { $in: [first._id, second._id] } }, { $set: { scene: 'admin-library', categoryId: category._id } })
+    await Media.updateOne({ _id: image._id }, { $set: { scene: 'article-content', categoryId: category._id } })
+    const categories = async (workspace, token = superToken) => (await request(app).get('/api/admin/media/categories')
+      .query({ workspace, scope: 'all' }).set('Authorization', `Bearer ${token}`).expect(200)).body.data
+    const materials = await categories('library')
+    expect(materials.find((item) => item.id === String(category._id)).count).toBe(3)
+    expect((await categories('business')).find((item) => item.id === String(category._id)).count).toBe(1)
+    expect((await categories('all')).find((item) => item.id === String(category._id)).count).toBe(4)
+    expect((await categories('library', managerToken)).find((item) => item.id === String(category._id)).count).toBe(2)
+    const listed = await request(app).get('/api/admin/media').query({ workspace: 'library', categoryId: String(category._id), category: '默认素材' })
+      .set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(listed.body.data.total).toBe(3)
+    expect(listed.body.data.items.map((item) => item.id)).toEqual(expect.arrayContaining([String(first._id), String(second._id), String(legacy._id)]))
+  })
+
+  it('历史同名分类进入文件夹后按归属过滤，普通账号不能借分类参数跨账号', async () => {
+    const first = await createMedia(superAdmin, 'my-project.txt')
+    const second = await createMedia(mediaManager, 'their-project.txt')
+    await Media.updateMany({ _id: { $in: [first._id, second._id] } }, { $set: { category: '项目', categoryId: null } })
+    const listed = await request(app).get('/api/admin/media').query({ workspace: 'library', category: '项目', categoryOwner: String(mediaManager._id) })
+      .set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(listed.body.data.items.map((item) => item.id)).toEqual([String(second._id)])
+    const forbidden = await request(app).get('/api/admin/media').query({ workspace: 'library', category: '项目', categoryOwner: String(superAdmin._id) })
+      .set('Authorization', `Bearer ${managerToken}`).expect(200)
+    expect(forbidden.body.data.total).toBe(0)
+  })
+
   it('按工作区在服务端分页和统计，分类跨视图保留且不能绕过上传人范围', async () => {
     const library = await createMedia(superAdmin, 'library.txt')
     const legacy = await createMedia(superAdmin, 'legacy.txt')

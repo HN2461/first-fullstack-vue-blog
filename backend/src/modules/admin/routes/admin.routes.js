@@ -705,7 +705,7 @@ adminRouter.get('/media/trash', asyncHandler(async (req, res) => {
 }))
 
 adminRouter.get('/media/categories', asyncHandler(async (req, res) => {
-  res.json(ok(await listMediaCategories(req.user, { scope: req.query.scope })))
+  res.json(ok(await listMediaCategories(req.user, { scope: req.query.scope, workspace: req.query.workspace })))
 }))
 
 adminRouter.get('/media-vault/status', asyncHandler(async (req, res) => {
