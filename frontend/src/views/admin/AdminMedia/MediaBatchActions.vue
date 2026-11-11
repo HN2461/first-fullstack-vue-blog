@@ -14,11 +14,7 @@
         <template #overlay>
           <a-menu class="media-action-menu" @click="handleMenuClick">
             <a-menu-item-group title="组织管理">
-              <a-menu-item
-                key="move"
-                :disabled="moveDisabled"
-                :title="moveDisabled ? '选择中包含由业务维护的文件，请到所属业务修改' : ''"
-              >
+              <a-menu-item key="move" :disabled="moveDisabled" :title="moveDisabled ? '选择中包含业务维护文件' : ''">
                 <SwapOutlined />
                 <span>迁移分类</span>
               </a-menu-item>
@@ -28,12 +24,7 @@
               </a-menu-item>
             </a-menu-item-group>
             <a-menu-divider />
-            <a-menu-item
-              key="delete"
-              danger
-              :disabled="deleteDisabled"
-              :title="deleteDisabled ? '选择中仍有正在使用的文件，请先处理使用关系' : ''"
-            >
+            <a-menu-item key="delete" danger :disabled="deleteDisabled" :title="deleteDisabled ? '选择中仍有使用位置' : ''">
               <DeleteOutlined />
               <span>移入回收站</span>
             </a-menu-item>
@@ -41,13 +32,7 @@
         </template>
       </a-dropdown>
     </div>
-    <a-button
-      size="small"
-      type="default"
-      class="media-batch-actions__clear"
-      aria-label="清除媒体选择"
-      @click="emit('clear')"
-    >
+    <a-button size="small" type="default" class="media-batch-actions__clear" aria-label="清除媒体选择" @click="emit('clear')">
       <template #icon><CloseOutlined /></template>
       清除选择
     </a-button>
@@ -64,7 +49,7 @@ import {
   SwapOutlined
 } from '@ant-design/icons-vue'
 
-defineProps({
+const props = defineProps({
   moveDisabled: Boolean,
   deleteDisabled: Boolean,
   count: {
@@ -80,6 +65,7 @@ defineProps({
 const emit = defineEmits(['download', 'move', 'share', 'delete', 'clear'])
 
 function handleMenuClick({ key }) {
+  if ((key === 'move' && props.moveDisabled) || (key === 'delete' && props.deleteDisabled)) return
   emit(key)
 }
 </script>

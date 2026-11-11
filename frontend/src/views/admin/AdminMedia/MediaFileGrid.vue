@@ -3,9 +3,7 @@
     <div v-if="loading" class="media-file-grid__state">
       <a-spin tip="正在加载资源" />
     </div>
-    <a-empty v-else-if="items.length === 0" class="media-file-grid__state" :description="emptyText">
-      <slot name="empty-action" />
-    </a-empty>
+    <a-empty v-else-if="items.length === 0" class="media-file-grid__state" :description="emptyText" />
     <div v-else class="media-file-grid" :class="{ 'is-selecting': selectedKeys.length > 0 }">
       <article
         v-for="record in items"
@@ -18,9 +16,7 @@
           <a-checkbox
             :checked="selectedKeys.includes(record.id)"
             :disabled="isMaskedVaultRecord(record)"
-            :aria-label="
-              isVaultRecord(record) && !vaultDetailsVisible ? '选择密码箱文件' : `选择 ${record.originalName}`
-            "
+            :aria-label="isVaultRecord(record) && !vaultDetailsVisible ? '选择密码箱文件' : `选择 ${record.originalName}`"
             @click.stop
             @change="toggleSelection(record)"
           />
@@ -28,9 +24,7 @@
         <button
           type="button"
           class="media-file-card__preview"
-          :aria-label="
-            isVaultRecord(record) && !vaultDetailsVisible ? '密码箱文件已隐藏' : `预览 ${record.originalName}`
-          "
+          :aria-label="isVaultRecord(record) && !vaultDetailsVisible ? '密码箱文件已隐藏' : `预览 ${record.originalName}`"
           @click.stop="isMaskedVaultRecord(record) ? emit('reveal-vault') : emit('view', record)"
         >
           <template v-if="isMaskedVaultRecord(record)">
@@ -45,7 +39,7 @@
             decoding="async"
             fetchpriority="low"
             @error="hideFailedThumbnail"
-          />
+          >
           <span v-else class="media-file-card__badge" :class="`is-${record.fileClass || 'other'}`">
             {{ getFileBadge(record) }}
           </span>
@@ -53,7 +47,7 @@
         <div class="media-file-card__info" @click.stop="toggleSelection(record)">
           <template v-if="isMaskedVaultRecord(record)">
             <strong>密码箱文件</strong>
-            <span>通过右上角密码箱入口解锁</span>
+            <span>点击上方“显示文件信息”后查看</span>
             <span>文件内容仍受密码箱会话保护</span>
           </template>
           <template v-else>
@@ -61,7 +55,7 @@
             <span>{{ formatFileSize(record.size) }} · {{ getFileClassLabel(record.fileClass) }}</span>
             <a-badge
               :status="record.usage?.referenceCount > 0 ? 'success' : 'warning'"
-              :text="record.usage?.referenceCount ? `${record.usage.referenceCount} 处使用` : '暂未查到使用位置'"
+              :text="`${record.usage?.usageStatusLabel || '待扫描'} · ${record.usage?.referenceCount || 0}`"
             />
           </template>
         </div>
@@ -138,34 +132,26 @@ function isMaskedVaultRecord(record) {
   return isVaultRecord(record) && !props.vaultDetailsVisible
 }
 
-watch(
-  () => props.page,
-  (value) => {
-    currentPage.value = value
-  }
-)
+watch(() => props.page, (value) => {
+  currentPage.value = value
+})
 
-watch(
-  () => props.pageSize,
-  (value) => {
-    currentPageSize.value = value
-  }
-)
+watch(() => props.pageSize, (value) => {
+  currentPageSize.value = value
+})
 
 function getFileBadge(record) {
   return record.originalName?.split('.').at(-1)?.toUpperCase() || 'FILE'
 }
 
 function getFileClassLabel(fileClass) {
-  return (
-    {
-      image: '图片',
-      code: '代码',
-      document: '文档',
-      archive: '压缩包',
-      other: '其他'
-    }[fileClass] || '其他'
-  )
+  return {
+    image: '图片',
+    code: '代码',
+    document: '文档',
+    archive: '压缩包',
+    other: '其他'
+  }[fileClass] || '其他'
 }
 
 function formatFileSize(size = 0) {
@@ -215,7 +201,7 @@ function handlePageSizeChange(page, pageSize) {
 .media-file-grid__state {
   display: grid;
   flex: 1;
-  min-height: 120px;
+  min-height: 220px;
   place-items: center;
   color: var(--console-text-secondary);
 }
@@ -230,9 +216,7 @@ function handlePageSizeChange(page, pageSize) {
   border: 1px solid var(--console-border);
   border-radius: 8px;
   background: var(--console-surface);
-  transition:
-    border-color 0.16s ease,
-    box-shadow 0.16s ease;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease;
 }
 
 .media-file-card:hover,
@@ -291,15 +275,9 @@ function handlePageSizeChange(page, pageSize) {
   font-weight: 700;
 }
 
-.media-file-card__badge.is-code {
-  color: #389e0d;
-}
-.media-file-card__badge.is-document {
-  color: #d48806;
-}
-.media-file-card__badge.is-archive {
-  color: #cf1322;
-}
+.media-file-card__badge.is-code { color: #389e0d; }
+.media-file-card__badge.is-document { color: #d48806; }
+.media-file-card__badge.is-archive { color: #cf1322; }
 
 .media-file-card__info {
   display: grid;

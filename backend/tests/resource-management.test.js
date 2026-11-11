@@ -237,6 +237,19 @@ describe('统一文件管理', () => {
     expect(detail.references).toEqual(expect.arrayContaining([expect.objectContaining({ status: 'pending', ownerId: 'uncertain' })]))
   })
 
+  it('超级管理员可集中读取其他成员的私人业务资源，普通用户及密码箱仍不能绕过权限', async () => {
+    const resume = await Resume.create({ title: '成员照片', ownerId: other._id })
+    const media = await createResource(image(), other, { scene: 'resume-photo', targetId: resume._id })
+    await request(app).get(media.url).expect(401)
+    await request(app).get(media.url).set('Authorization', `Bearer ${token}`).expect(200)
+    await request(app).get(`/api/admin/media-downloads/thumbnail/${media._id}`).set('Authorization', `Bearer ${token}`).expect(200)
+    const stranger = await User.create({ username: '无权成员', email: 'stranger@example.com', passwordHash: 'hash', role: 'user' })
+    await request(app).get(media.url).set('Authorization', `Bearer ${signAccessToken(stranger)}`).expect(403)
+    const vault = await createResource(image(), owner, { scene: 'admin-library', accessScope: 'vault' })
+    await request(app).get(vault.url.replace('/api/admin/media-downloads/content/', '/api/resources/') + '/content')
+      .set('Authorization', `Bearer ${token}`).expect(403)
+  })
+
   it('完整网址不能绕过文章私人照片限制', async () => {
     const resume = await Resume.create({ title: '私人照片', ownerId: owner._id })
     const media = await createResource(image(), owner, { scene: 'resume-photo', targetId: resume._id })

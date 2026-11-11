@@ -6,6 +6,7 @@
  * @throws {Error} 不访问数据库，不抛出业务异常。
  */
 export function getMediaWorkspaceConditions(workspace, actorId) {
+  if (workspace === 'folders') return [{ accessScope: { $ne: 'vault' } }]
   if (workspace === 'library') {
     return [
       { accessScope: 'public' },

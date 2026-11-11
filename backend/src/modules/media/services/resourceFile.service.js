@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 import { Media } from '../models/Media.js'
 import { inferMediaFileClass } from '../constants/mediaUpload.constants.js'
 import { getResourceScene, resourceError } from '../constants/resourceScenes.js'
-import { assertMediaCategoryExists } from './mediaCategory.service.js'
+import { assertMediaCategoryExists, resolveManualMediaCategory } from './mediaCategory.service.js'
 import { validateResourceFile } from './resourceValidation.service.js'
 import { removeResourceFile, writeResourceFile } from './resourceStorage.service.js'
 import { invalidateMediaStorageUsageCache } from './mediaStorage.service.js'
@@ -32,7 +32,9 @@ export async function createResource(file, actor, options = {}) {
   }
   const validated = await validateResourceFile(file, policy)
   const owner = actor?._id || actor?.id || actor
-  const category = await assertMediaCategoryExists(categoryName || policy.category, actor, categoryId)
+  const category = scene === 'admin-library'
+    ? await resolveManualMediaCategory(categoryName, actor, categoryId)
+    : await assertMediaCategoryExists(categoryName || policy.category, actor, categoryId)
   const scope = accessScope || policy.accessScope
   const id = mediaId || new mongoose.Types.ObjectId()
   const stored = await writeResourceFile(file.buffer || file.path, {

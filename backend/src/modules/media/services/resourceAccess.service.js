@@ -40,7 +40,7 @@ export async function authorizeResourceUpload(scene, targetId, actor) {
 }
 
 /**
- * 读取私有资源前执行业务授权；管理媒体菜单不授予私人业务内容读取权。
+ * 读取私有资源前执行业务授权；超级管理员可集中检查非密码箱业务资源。
  * @param {object} media 服务端资源记录。
  * @param {object} actor 当前已认证用户。
  * @returns {Promise<void>} 已授权。
@@ -50,6 +50,8 @@ export async function authorizeResourceRead(media, actor) {
   if (media.deletedAt || media.lifecycleStatus === 'deleting') throw resourceError(404, 'MEDIA_NOT_FOUND', '文件不存在')
   if (media.accessScope === 'public') return
   if (!actor) throw resourceError(401, 'UNAUTHORIZED', '请先登录')
+  // 集中管理授权只授予超级管理员，密码箱仍要求独立验证，不能通过此入口绕过。
+  if (media.accessScope === 'private' && actor.role === 'super_admin' && await canAccessMenu(actor, '/console/manage/media')) return
   const ownerId = String(actor._id || actor.id)
   // 历史私有媒体尚未补录 scene 时也必须执行原业务权限，不能从通用下载或缩略图绕过。
   const scene = media.scene || (media.feedback ? 'feedback-image' : media.workJournalLog ? 'work-journal-evidence' : '')

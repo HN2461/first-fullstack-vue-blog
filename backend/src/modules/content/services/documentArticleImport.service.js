@@ -118,7 +118,7 @@ async function createPdfPreview(sourceFile, originalName, user) {
       originalname: previewOriginalName,
       mimetype: 'application/pdf',
       size: stats.size
-    }, user, { category: DOCUMENT_PREVIEW_CATEGORY })
+    }, user, { scene: 'article-resource', category: DOCUMENT_PREVIEW_CATEGORY })
 
     return { media, message: '' }
   } finally {
@@ -153,7 +153,7 @@ export async function importDocumentArticle(file, input, user) {
   const createdMedia = []
 
   try {
-    const originalMedia = await createMediaFromFile(file, user, { category: DOCUMENT_MEDIA_CATEGORY })
+    const originalMedia = await createMediaFromFile(file, user, { scene: 'article-resource', category: DOCUMENT_MEDIA_CATEGORY })
     createdMedia.push(originalMedia)
     const previewResult = await createPdfPreview(file, originalName, user)
     if (previewResult.media) createdMedia.push(previewResult.media)

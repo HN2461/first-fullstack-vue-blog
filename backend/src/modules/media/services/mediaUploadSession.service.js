@@ -8,7 +8,7 @@ import { buildSafeStoredFilename } from '#utils/uploadFilename.js'
 import { Media } from '#modules/media/models/Media.js'
 import { getSettings } from '#modules/settings/services/setting.service.js'
 import { isMediaExtensionAllowed } from '#modules/media/constants/mediaUpload.constants.js'
-import { assertMediaCategoryExists } from './mediaCategory.service.js'
+import { resolveManualMediaCategory } from './mediaCategory.service.js'
 import { createMediaFromFiles } from './media.service.js'
 import { requireMediaVaultAccess } from './mediaVault.service.js'
 import { getMediaUploadCapacity } from './mediaUploadGuard.service.js'
@@ -82,7 +82,7 @@ async function validateFile(input, actor) {
   if (!isMediaExtensionAllowed(input.name, settings.mediaAllowedExtensions)) {
     throw uploadError(400, 'MEDIA_UPLOAD_EXTENSION_NOT_ALLOWED', '当前上传限制不支持此文件类型')
   }
-  const category = await assertMediaCategoryExists(input.category, actor, input.categoryId)
+  const category = await resolveManualMediaCategory(input.category, actor, input.categoryId)
   if (category.accessMode === 'vault') requireMediaVaultAccess(actor)
   return { category, maxFiles: Math.min(20, Number(settings.mediaMaxFilesPerUpload) || 5) }
 }

@@ -21,7 +21,6 @@
           size="small"
           :placeholder="activeFolder ? '搜索当前文件夹' : '搜索文件夹或资源名称'"
           @search="submitKeyword"
-          @press-enter="submitKeyword"
         />
         <a-button
           type="primary"
@@ -46,6 +45,8 @@
             v-if="selectedKeys.length"
             :count="selectedKeys.length"
             :can-manage-shares="canManageShares"
+            :move-disabled="moveBlocked"
+            :delete-disabled="deleteBlocked"
             @download="emit('batch-download')"
             @move="emit('batch-move')"
             @share="emit('batch-share')"
@@ -112,6 +113,8 @@
         <MediaBatchActions
           :count="selectedKeys.length"
           :can-manage-shares="canManageShares"
+          :move-disabled="moveBlocked"
+          :delete-disabled="deleteBlocked"
           @download="emit('batch-download')"
           @move="emit('batch-move')"
           @share="emit('batch-share')"
@@ -143,6 +146,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { CheckSquareOutlined, FolderOutlined, RightOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { getMediaActionRestrictions } from './mediaCategoryOptions'
 import MediaBatchActions from './MediaBatchActions.vue'
 import MediaFileGrid from './MediaFileGrid.vue'
 import MediaFolderCard from './MediaFolderCard.vue'
@@ -185,18 +189,21 @@ const emit = defineEmits([
 const keywordDraft = ref(props.keyword)
 const activeFolder = computed(() => props.categories.find((item) => (
   (item.id && String(item.id) === String(props.activeFolderId)) ||
-  ((!item.id || item.system) && item.name === props.activeFolderId)
+  (item.name === props.activeFolderId)
 )) || null)
 const isVaultCategory = (item) => item?.accessMode === 'vault' || item?.builtinKey === 'vault'
 const customFolders = computed(() => props.categories.filter((item) => !item.system && item.id && !isVaultCategory(item)))
 const systemFolders = computed(() => props.categories.filter((item) => item.system || !item.id || isVaultCategory(item)))
+const selectedItems = computed(() => props.items.filter((item) => props.selectedKeys.map(String).includes(String(item.id))))
+const moveBlocked = computed(() => selectedItems.value.some((item) => getMediaActionRestrictions(item).moveReason))
+const deleteBlocked = computed(() => selectedItems.value.some((item) => getMediaActionRestrictions(item).deleteReason))
 const selectedKeys = computed(() => props.selectedKeys.map(String))
 const itemKeys = computed(() => props.items.map((item) => String(item.id)))
 const allItemsSelected = computed(() => itemKeys.value.length > 0 && itemKeys.value.every((id) => selectedKeys.value.includes(id)))
 const canUploadCurrentFolder = computed(() => (
   !activeFolder.value || (
     !activeFolder.value.virtual && (
-      activeFolder.value.system || String(activeFolder.value.owner || '') === String(props.currentUserId || '')
+      !activeFolder.value.system && String(activeFolder.value.owner || '') === String(props.currentUserId || '')
     )
   )
 ))

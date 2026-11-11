@@ -1,641 +1,2378 @@
 <template>
-  <section class="media-workspace">
-    <div class="media-workspace__header">
-      <div class="media-workspace__identity">
-        <strong>资源管理</strong>
-        <a-tooltip title="查看资源管理说明">
-          <a-button type="text" size="small" aria-label="查看资源管理说明" @click="guideVisible = true">
-            <QuestionCircleOutlined />
+  <section class="media-cloud">
+    <!-- 一级工具栏只保留页面识别和全局命令，避免与查询条件互相挤压。 -->
+    <div class="media-cloud__topbar">
+      <div class="media-cloud__identity">
+        <h2 class="media-cloud__title">媒体资产</h2>
+        <a-tooltip title="查看资源管理使用指南">
+          <a-button type="text" size="small" aria-label="查看资源管理使用指南" @click="openMediaGuide('overview')">
+            <template #icon><QuestionCircleOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-tooltip :title="storageTooltip">
-          <a-button
-            type="text"
-            size="small"
-            class="media-workspace__storage"
-            aria-label="刷新资源存储占用"
-            :loading="storageLoading"
-            @click="loadStorage(true)"
-          >
-            <DatabaseOutlined />
-            <span>{{ storage ? formatMediaSize(storage.totalBytes) : '存储' }}</span>
+        <a-tooltip :title="mediaStorageTooltip">
+          <a-tag class="media-storage-indicator" :color="storageError ? 'orange' : 'default'" :bordered="false">
+            {{ mediaStorageLabel }}
+          </a-tag>
+        </a-tooltip>
+        <a-tooltip title="刷新上传目录占用">
+          <a-button type="text" size="small" aria-label="刷新上传目录占用" :loading="storageLoading" @click="loadMediaStorage(true)">
+            <template #icon><ReloadOutlined /></template>
           </a-button>
         </a-tooltip>
+        <div v-if="vaultContext" class="media-vault-session">
+          <a-tooltip :title="vaultStatus.unlocked ? '本次验证从密码输入成功时开始计时，固定 30 分钟，期间操作不会重置' : '输入密码后才能查看密码箱内容'">
+            <a-tag :color="vaultStatus.unlocked ? 'green' : 'orange'" :bordered="false">
+              <LockOutlined />
+              {{ vaultStatus.unlocked ? `密码箱已验证 · 本次剩余 ${vaultRemainingLabel}` : '密码箱内容已隐藏' }}
+            </a-tag>
+          </a-tooltip>
+          <a-tooltip v-if="viewMode === 'list'" :title="vaultStatus.unlocked ? (vaultDetailsVisible ? '隐藏密码箱文件信息' : '显示密码箱文件信息') : '解除密码箱隐藏'">
+            <a-button type="text" size="small" aria-label="切换密码箱文件信息显示" @click="toggleVaultDetails">
+              <template #icon><EyeInvisibleOutlined v-if="vaultDetailsVisible" /><EyeOutlined v-else /></template>
+            </a-button>
+          </a-tooltip>
+          <a-tooltip v-if="vaultStatus.unlocked" title="结束本次密码箱验证">
+            <a-button type="text" size="small" aria-label="结束本次密码箱验证" @click="lockVault">
+              <template #icon><LockOutlined /></template>
+              <span class="media-vault-session__end-label">结束验证</span>
+            </a-button>
+          </a-tooltip>
+        </div>
       </div>
-      <div class="media-workspace__actions">
-        <MediaVaultAccess
-          ref="vaultRef"
-          :active="workspace === 'vault'"
-          @entered="enterVault"
-          @state-change="handleVaultState"
-        />
+      <div class="media-cloud__topbar-actions">
+        <MediaViewSwitcher v-model="viewMode" @update:model-value="changeViewMode" />
         <MediaHeaderActions
-          :super-admin="auth.isSuperAdmin"
-          :can-manage-shares="canManageShares"
-          :show-upload="['library', 'all', 'vault'].includes(workspace)"
-          @upload="openUpload"
-          @categories="categoryVisible = true"
-          @settings="openSettings"
-          @inventory="inventoryVisible = true"
-          @thumbnail-cache="cacheVisible = true"
+          class="media-cloud__actions"
+          :super-admin="authStore.isSuperAdmin"
+          :can-manage-shares="canManageMediaShares"
+          :show-upload="canUploadCurrentFolder"
+          @upload="openUploadModal()"
+          @inventory="inventoryModalVisible = true"
+          @settings="openUploadSettings"
+          @trash="openTrashModal"
+          @categories="categoryModalVisible = true"
           @shares="router.push('/console/manage/media-shares')"
+          @thumbnail-cache="thumbnailCacheVisible = true"
         />
       </div>
     </div>
-    <a-tabs
-      :active-key="workspace === 'vault' ? '' : workspace"
-      size="small"
-      :animated="false"
-      class="media-workspace__navigation"
-      @change="changeWorkspace"
-    >
-      <a-tab-pane v-for="tab in mediaWorkspaces" :key="tab.key" :tab="tab.label" />
-      <template v-if="workspace === 'vault'" #rightExtra>
-        <a-tag :bordered="false">
-          <LockOutlined />
-          我的密码箱
-        </a-tag>
-      </template>
-    </a-tabs>
-    <a-alert v-if="error" type="error" :message="error" show-icon closable @close="error = ''">
-      <template #action><a-button size="small" @click="reloadMetadata">重试</a-button></template>
-    </a-alert>
-    <div v-if="initializing" class="media-workspace__state"><a-spin tip="正在准备资源工作区" /></div>
-    <MediaTrashPanel v-else-if="workspace === 'trash'" @changed="refreshResources" />
-    <div v-else-if="workspace === 'vault' && !vaultUnlocked" class="media-workspace__state">
-      <LockOutlined />
-      <strong>密码箱已锁定</strong>
-      <a-button @click="vaultRef?.enter()">验证后查看</a-button>
-    </div>
-    <MediaAssetBrowser
-      v-else
-      :key="workspace + ':' + navigationVersion"
-      ref="browserRef"
-      :workspace="workspace"
-      :layout="layout"
-      :categories="categories"
-      :initial-filters="initialFilters"
-      :selected-records="selectedRecords"
-      :can-share="canShareSelection"
-      :vault-unlocked="vaultUnlocked"
-      @update:layout="changeLayout"
-      @filters-change="syncFilters"
-      @selection-change="selectedRecords = $event"
-      @view="openPreview"
-      @detail="openDetail"
-      @references="openDetail($event, 'usage')"
-      @download="downloadSingleMedia"
-      @rename="openRename"
-      @move="openMove"
-      @delete="deleteOne"
-      @batch-download="openBatchDownload"
-      @batch-move="openBatchMove"
-      @batch-delete="deleteSelected"
-      @batch-share="shareVisible = true"
-      @vault="vaultRef?.enter()"
-    />
 
-    <MediaCategoryManager v-model:open="categoryVisible" :categories="categories" @changed="refreshResources" />
+    <!-- 查询、类型统计和批量操作属于同一工作层，选中前不展示无效命令。 -->
+    <div v-if="viewMode === 'list'" class="media-cloud__list-toolbar">
+      <div class="media-cloud__filters">
+        <a-input-search
+          v-model:value="keyword"
+          allow-clear
+          placeholder="搜索文件名或分类"
+          style="width: 260px"
+          size="middle"
+          @search="refreshTable"
+        />
+        <a-select
+          v-model:value="filterCategory"
+          allow-clear
+          show-search
+          placeholder="分类筛选"
+          style="width: 150px"
+          size="middle"
+          :options="filterCategoryOptions"
+          :filter-option="filterSelectOption"
+          @change="handleCategoryFilterChange"
+        />
+        <a-select
+          v-model:value="filterFileClass"
+          allow-clear
+          show-search
+          option-filter-prop="label"
+          placeholder="类型"
+          style="width: 110px"
+          size="middle"
+          :options="fileClassOptions"
+        />
+        <a-select
+          v-model:value="filterUsageStatus"
+          allow-clear
+          show-search
+          option-filter-prop="label"
+          placeholder="引用状态"
+          style="width: 130px"
+          size="middle"
+          :options="usageStatusOptions"
+        />
+        <a-select v-model:value="filterScene" show-search option-filter-prop="label" allow-clear placeholder="文件来源" style="width: 145px" :options="resourceSceneOptions" />
+        <a-select v-model:value="filterLifecycle" show-search option-filter-prop="label" allow-clear placeholder="保留状态" style="width: 145px" :options="resourceLifecycleOptions" />
+      </div>
+      <div class="media-cloud__type-filter">
+        <button
+          v-for="item in summaryCards"
+          :key="item.key"
+          class="media-type-chip"
+          :class="{ 'is-active': filterFileClass === item.value }"
+          @click="toggleFileClassFilter(item.value)"
+        >
+          {{ item.label }}
+          <b>{{ item.count }}</b>
+        </button>
+      </div>
+      <MediaBatchActions
+        v-if="selectedMediaKeys.length > 0"
+        :count="selectedMediaKeys.length"
+        :can-manage-shares="canManageMediaShares"
+        :move-disabled="selectedMediaRecords.some((item) => getMediaActionRestrictions(item).moveReason)"
+        :delete-disabled="selectedMediaRecords.some((item) => getMediaActionRestrictions(item).deleteReason)"
+        @download="openBatchDownload"
+        @move="openBatchCategoryMove"
+        @share="shareCreateVisible = true"
+        @delete="handleBatchDelete"
+        @clear="clearMediaSelection"
+      />
+    </div>
+
+    <!-- 表格主体 -->
+    <div v-if="viewMode === 'list'" class="media-cloud__body">
+      <BlogTable
+        ref="tableRef"
+        :api-fn="loadMedia"
+        :columns="columns"
+        :params="tableParams"
+        :auto-load="true"
+        :page-size="16"
+        :page-sizes="['16', '32', '64']"
+        :scroll="{ x: 920 }"
+        :row-selection="mediaRowSelection"
+        empty-text="暂无符合条件的媒体资源"
+        height="auto"
+        @selection-change="handleMediaSelectionChange"
+      >
+        <template #bodyCell="{ column, record }">
+          <!-- 文件信息：缩略图 + 文件名 -->
+          <template v-if="column.key === 'asset'">
+            <div class="media-file">
+              <div class="media-file__thumb" :class="`is-${record.fileClass || 'other'}`">
+                <template v-if="isMaskedVaultRecord(record)">
+                  <LockOutlined class="media-file__vault-icon" />
+                </template>
+                <img
+                  v-else-if="record.kind === 'image'"
+                  :src="getMediaThumbnailUrl(record)"
+                  :alt="record.originalName"
+                  loading="lazy"
+                  decoding="async"
+                  fetchpriority="low"
+                  @error="hideFailedThumbnail"
+                >
+                <span v-else class="media-file__ext">{{ getFileBadge(record) }}</span>
+              </div>
+              <div class="media-file__info">
+                <template v-if="isMaskedVaultRecord(record)">
+                  <div class="media-file__name">密码箱文件</div>
+                  <span class="media-file__url">点击顶部眼睛按钮显示</span>
+                </template>
+                <template v-else>
+                  <div class="media-file__name" :title="record.originalName">{{ record.originalName }}</div>
+                  <a-typography-text
+                    :content="record.url"
+                    :copyable="{ text: record.url, tooltips: ['复制地址', '已复制'] }"
+                    class="media-file__url"
+                  >
+                    {{ record.url }}
+                  </a-typography-text>
+                </template>
+              </div>
+            </div>
+          </template>
+
+          <!-- 类型标签 -->
+          <template v-else-if="column.key === 'fileClass'">
+            <a-tag :bordered="false" :color="getFileClassColor(record.fileClass)" class="media-type-tag">
+              {{ isMaskedVaultRecord(record) ? '已隐藏' : getFileClassLabel(record.fileClass) }}
+            </a-tag>
+          </template>
+
+          <!-- 文件大小 -->
+          <template v-else-if="column.key === 'size'">
+            <span class="media-size">{{ isMaskedVaultRecord(record) ? '—' : formatFileSize(record.size) }}</span>
+          </template>
+
+          <!-- 分类 -->
+          <template v-else-if="column.key === 'category'">
+            <span class="media-category-label">{{ isMaskedVaultRecord(record) ? '密码箱' : (record.category || '未分类') }}</span>
+          </template>
+
+          <!-- 引用状态 -->
+          <template v-else-if="column.key === 'resourceState'">
+            <div>{{ resourceSceneOptions.find((item) => item.value === record.scene)?.label || '历史资源' }}</div>
+            <a-tag :bordered="false">{{ resourceLifecycleOptions.find((item) => item.value === record.lifecycleStatus)?.label || '已保留' }}</a-tag>
+          </template>
+
+          <template v-else-if="column.key === 'usage'">
+            <a-button
+              v-if="!isMaskedVaultRecord(record)"
+              type="link"
+              size="small"
+              class="media-usage-link"
+              @click="openReferenceModal(record)"
+            >
+              <a-badge
+                :status="record.usage?.referenceCount > 0 ? 'success' : 'warning'"
+                :text="`${record.usage?.usageStatusLabel || '待扫描'} · ${record.usage?.referenceCount || 0}`"
+              />
+            </a-button>
+          </template>
+
+          <!-- 上传时间 -->
+          <template v-else-if="column.key === 'createdAt'">
+            <span class="media-time">{{ isMaskedVaultRecord(record) ? '—' : formatDate(record.createdAt) }}</span>
+          </template>
+
+          <!-- 操作按钮 -->
+          <template v-else-if="column.key === 'action'">
+            <a-tag v-if="isMaskedVaultRecord(record)" :bordered="false" color="orange">已隐藏</a-tag>
+            <MediaRowActions v-else :record="record"
+              @view="handleView(record)"
+              @download="downloadSingleMedia(record)"
+              @rename="handleRename(record)"
+              @move="openSingleCategoryMove(record)"
+              @references="openReferenceModal(record)"
+              @delete="handleDelete(record)"
+            />
+          </template>
+        </template>
+      </BlogTable>
+    </div>
+
+    <div v-else class="media-cloud__body media-cloud__body--folders">
+      <MediaFolderBrowser
+        :categories="folderCategories"
+        :active-folder-id="activeFolderId"
+        :items="folderItems"
+        :loading="folderLoading"
+        :total="folderTotal"
+        :page="folderPage"
+        :page-size="folderPageSize"
+        :keyword="folderKeyword"
+        :selected-keys="folderSelectedKeys"
+        :can-manage-shares="canManageMediaShares"
+        :current-user-id="authStore.user?.id"
+        @open-folder="openFolder"
+        @back="backToFolderRoot"
+        @upload="openUploadModal"
+        @manage-categories="categoryModalVisible = true"
+        @search="handleFolderSearch"
+        @page-change="handleFolderPageChange"
+        @selection-change="handleFolderSelectionChange"
+        @view="handleView"
+        @download="folderDownloads.downloadSingleMedia"
+        @rename="handleRename"
+        @move="openSingleCategoryMove"
+        @references="openReferenceModal"
+        @delete="handleDelete"
+        @batch-download="folderDownloads.openBatchDownload"
+        @batch-move="openFolderBatchCategoryMove"
+        @batch-share="shareCreateVisible = true"
+        @batch-delete="handleFolderBatchDelete"
+        @clear-selection="clearFolderSelection"
+      />
+    </div>
+
     <MediaUploadSettingsModal
-      v-model:open="settingsVisible"
+      v-model:open="settingsModalVisible"
       :value="settingsDraft"
       :submitting="settingsSaving"
-      @submit="saveSettings"
+      @submit="saveUploadSettings"
     />
+
+    <MediaTrashModal
+      v-model:open="trashModalVisible"
+      @changed="handleTrashChanged"
+    />
+
     <MediaRenameModal
-      v-model:open="renameVisible"
+      v-model:open="renameModalVisible"
       :record="renameRecord"
       :submitting="renameSubmitting"
       @submit="submitRename"
     />
-    <MediaCategoryMoveModal
-      v-model:open="moveVisible"
-      :record="moveRecord"
-      :selected-count="moveIds.length"
-      :categories="moveOptions"
-      :submitting="moveSubmitting"
-      @submit="submitMove"
-    />
+
     <MediaDownloadModal
       v-model:open="downloadModalVisible"
-      :records="selectedRecords"
+      :records="selectedMediaRecords"
       :submitting="downloadSubmitting"
       @submit="submitBatchDownload"
     />
-    <MediaShareCreateModal
-      v-model:open="shareVisible"
-      :media-ids="selectedRecords.map((item) => item.id)"
-      @created="clearSelection"
+
+    <MediaDownloadModal
+      v-model:open="folderDownloadModalVisible"
+      :records="folderSelectedRecords"
+      :submitting="folderDownloadSubmitting"
+      @submit="submitFolderBatchDownload"
     />
-    <MediaDetailDrawer
-      v-model:open="detailVisible"
-      :record="detailRecord"
-      :initial-tab="detailTab"
-      @preview="openPreview"
-      @download="downloadSingleMedia"
-      @rename="openRename"
-      @move="openMove"
-      @delete="deleteOne"
+
+    <MediaCategoryMoveModal
+      v-model:open="categoryMoveModalVisible"
+      :record="categoryMoveRecord"
+      :selected-count="categoryMoveIds.length"
+      :categories="categoryMoveOptions"
+      :submitting="categoryMoveSubmitting"
+      @submit="submitCategoryMove"
     />
-    <MediaPreviewModal v-model:open="previewVisible" :record="previewRecord" @download="downloadSingleMedia" />
+
+    <MediaReferenceModal
+      v-model:open="referenceModalVisible"
+      :record="referenceRecord"
+    />
+
     <MediaInventoryModal
-      v-if="auth.isSuperAdmin && inventoryVisible"
-      v-model:open="inventoryVisible"
-      @changed="refreshResources"
+      v-model:open="inventoryModalVisible"
+      @changed="handleInventoryChanged"
     />
+
+    <MediaPreviewModal v-model:open="previewVisible" :record="previewRecord" @download="downloadSingleMedia" />
+
+    <MediaShareCreateModal
+      v-model:open="shareCreateVisible"
+      :media-ids="activeSelectedMediaKeys"
+      @created="handleShareCreated"
+    />
+
+    <a-modal
+      v-model:open="categoryModalVisible"
+      :footer="null"
+      width="900px"
+      centered
+      :body-style="{ maxHeight: '72vh', overflow: 'hidden', paddingBottom: '16px' }"
+    >
+      <template #title>
+        <div class="media-category-modal__title">
+          <span>资源分类</span>
+          <a-tooltip title="查看分类规则">
+            <a-button type="text" size="small" aria-label="查看资源分类说明" @click="openMediaGuide('category')">
+              <template #icon><QuestionCircleOutlined /></template>
+            </a-button>
+          </a-tooltip>
+        </div>
+      </template>
+
+      <div class="media-category-panel">
+        <aside class="media-category-panel__list-wrap">
+          <div class="media-category-panel__list-header">
+            <strong>已有分类</strong>
+            <span>{{ categories.length }} 个</span>
+          </div>
+          <div v-if="categories.length === 0" class="media-category-panel__empty">暂无资源分类</div>
+          <div v-else class="media-category-panel__list">
+            <article
+              v-for="item in categories"
+              :key="item.id || item.name"
+              class="media-category-item"
+              :class="{
+                'is-active': editingCategoryId === item.id,
+                'is-system': item.system
+              }"
+            >
+              <div class="media-category-item__info">
+                <div class="media-category-item__title">
+                  <strong>{{ item.name }}</strong>
+                  <a-tag v-if="item.system" :bordered="false" color="blue">系统</a-tag>
+                  <a-tag v-else-if="isVaultCategory(item)" :bordered="false" color="orange">内置密码箱</a-tag>
+                  <a-tag v-else-if="!item.id" :bordered="false" color="orange">待归档</a-tag>
+                </div>
+                <p>{{ item.description || '未填写分类说明' }}</p>
+                <span>{{ item.count || 0 }} 个资源</span>
+              </div>
+              <a-space v-if="canEditCategory(item)" :size="2" class="media-category-item__actions">
+                <a-tooltip title="编辑分类">
+                  <a-button
+                    type="text"
+                    size="small"
+                    :aria-label="`编辑分类 ${item.name}`"
+                    @click="editCategory(item)"
+                  >
+                    <template #icon><EditOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+                <a-tooltip title="删除分类">
+                  <a-button
+                    type="text"
+                    size="small"
+                    danger
+                    :aria-label="`删除分类 ${item.name}`"
+                    @click="removeCategory(item)"
+                  >
+                    <template #icon><DeleteOutlined /></template>
+                  </a-button>
+                </a-tooltip>
+              </a-space>
+            </article>
+          </div>
+        </aside>
+
+        <section class="media-category-panel__form">
+          <div class="media-category-panel__form-header">
+            <div>
+              <strong>{{ editingCategoryId ? '编辑自定义分类' : '新建自定义分类' }}</strong>
+              <span>系统分类由业务链路维护，不能修改或删除；密码箱是每个账号固定拥有的内置分类，只能在个人信息中设置或修改密码。</span>
+            </div>
+            <a-button v-if="editingCategoryId" type="text" size="small" @click="resetCategoryDraft">取消编辑</a-button>
+          </div>
+          <a-form layout="vertical">
+            <a-form-item label="分类名称">
+              <a-input v-model:value="categoryDraft.name" placeholder="例如 项目截图 / 课程资料 / 接口示例" />
+            </a-form-item>
+            <a-form-item label="分类描述">
+              <a-textarea v-model:value="categoryDraft.description" :rows="2" placeholder="可选，说明这个分类存放什么资源" />
+            </a-form-item>
+            <div class="media-category-panel__actions">
+              <a-button type="primary" :loading="categorySubmitting" @click="submitCategory">
+                {{ editingCategoryId ? '保存分类' : '新建分类' }}
+              </a-button>
+            </div>
+          </a-form>
+        </section>
+      </div>
+    </a-modal>
+
+    <MediaGuideModal v-model:open="mediaGuideVisible" :topic="mediaGuideTopic" />
     <MediaThumbnailCacheModal
-      v-if="auth.isSuperAdmin && cacheVisible"
-      v-model:open="cacheVisible"
-      @changed="loadStorage(true)"
+      v-if="authStore.isSuperAdmin"
+      v-model:open="thumbnailCacheVisible"
+      @changed="loadMediaStorage(true)"
     />
-    <MediaGuideModal v-model:open="guideVisible" topic="overview" />
+
+    <a-modal
+      v-model:open="vaultModalVisible"
+      :title="vaultModalMode === 'setup' ? '设置密码箱密码' : '解锁密码箱'"
+      ok-text="确认"
+      cancel-text="取消"
+      :confirm-loading="vaultSubmitting"
+      :destroy-on-close="true"
+      :body-style="{ maxHeight: '48vh', overflow: 'auto' }"
+      @cancel="closeVaultModal"
+      @ok="submitVaultAccess"
+    >
+      <a-form layout="vertical" @submit.prevent="submitVaultAccess">
+        <a-form-item :label="vaultModalMode === 'setup' ? '设置密码' : '密码箱密码'">
+          <a-input-password
+            v-model:value="vaultPassword"
+            autofocus
+            :placeholder="vaultModalMode === 'setup' ? '请输入 8-72 位密码' : '请输入密码箱密码'"
+            @press-enter="submitVaultAccess"
+          />
+        </a-form-item>
+        <p class="media-vault-modal__hint">
+          {{ vaultModalMode === 'setup' ? '密码设置后会立即解锁当前密码箱。' : '验证通过后才能查看、上传和管理密码箱内的资源。' }}
+        </p>
+      </a-form>
+    </a-modal>
   </section>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { DatabaseOutlined, LockOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
-import MediaAssetBrowser from './MediaAssetBrowser.vue'
+import {
+  EditOutlined,
+  DeleteOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
+  LockOutlined,
+  QuestionCircleOutlined,
+  ReloadOutlined
+} from '@ant-design/icons-vue'
+import BlogTable from '@/components/BlogTable.vue'
+import MediaBatchActions from './MediaBatchActions.vue'
+import MediaDownloadModal from './MediaDownloadModal.vue'
 import MediaHeaderActions from './MediaHeaderActions.vue'
-import MediaCategoryManager from './MediaCategoryManager.vue'
-import MediaVaultAccess from './MediaVaultAccess.vue'
-import MediaDetailDrawer from './MediaDetailDrawer.vue'
-import MediaTrashPanel from './MediaTrashPanel.vue'
+import MediaRowActions from './MediaRowActions.vue'
+import MediaTrashModal from './MediaTrashModal.vue'
 import MediaRenameModal from './MediaRenameModal.vue'
 import MediaCategoryMoveModal from './MediaCategoryMoveModal.vue'
-import MediaDownloadModal from './MediaDownloadModal.vue'
 import MediaPreviewModal from './MediaPreviewModal.vue'
-import MediaShareCreateModal from './MediaShareCreateModal.vue'
+import MediaReferenceModal from './MediaReferenceModal.vue'
 import MediaInventoryModal from './MediaInventoryModal.vue'
-import MediaThumbnailCacheModal from './MediaThumbnailCacheModal.vue'
 import MediaUploadSettingsModal from './MediaUploadSettingsModal.vue'
-import MediaGuideModal from './MediaGuideModal.vue'
-import { useAuthStore } from '@/stores/auth'
 import { useMediaUploadStore } from '@/stores/mediaUpload'
-import { useAdminActions } from '@/composables/useAdminUi'
-import { useMediaDownloads } from './useMediaDownloads'
-import { getMovableMediaCategories } from './mediaCategoryOptions'
-import { DEFAULT_MEDIA_ALLOWED_EXTENSIONS, normalizeAllowedMediaExtensions } from './mediaUploadConfig'
+import MediaGuideModal from './MediaGuideModal.vue'
+import MediaThumbnailCacheModal from './MediaThumbnailCacheModal.vue'
+import MediaShareCreateModal from './MediaShareCreateModal.vue'
+import MediaFolderBrowser from './MediaFolderBrowser.vue'
+import MediaViewSwitcher from './MediaViewSwitcher.vue'
 import {
-  mediaWorkspaces,
-  resolveMediaWorkspace,
-  resolveMediaLayout,
-  getMediaActionRestrictions,
-  formatMediaSize
-} from './mediaWorkspace'
+  DEFAULT_MEDIA_ALLOWED_EXTENSIONS,
+  normalizeAllowedMediaExtensions
+} from './mediaUploadConfig'
 import {
-  listAdminMediaCategories,
-  getAdminMediaStorageUsage,
-  getAdminSettings,
-  updateAdminSettings,
-  renameAdminMedia,
-  moveAdminMediaCategory,
-  batchMoveAdminMediaCategory,
+  createAdminMediaCategory,
   deleteAdminMedia,
+  deleteAdminMediaCategory,
+  getAdminMediaStatistics,
+  getAdminMediaStorageUsage,
+  getAdminMediaDeleteRisk,
+  getAdminSettings,
+  listAdminMedia,
+  listAdminMediaCategories,
   batchDeleteAdminMedia,
-  getAdminMediaDeleteRisk
+  batchMoveAdminMediaCategory,
+  moveAdminMediaCategory,
+  renameAdminMedia,
+  updateAdminMediaCategory,
+  updateAdminSettings,
+  getAdminMediaVaultStatus,
+  lockAdminMediaVault,
+  setupAdminMediaVault,
+  unlockAdminMediaVault
 } from '@/services/admin'
+import { useAdminActions } from '@/composables/useAdminUi'
+import { useAuthStore } from '@/stores/auth'
+import { getMovableMediaCategories, getUploadMediaCategories, getMediaActionRestrictions, getMediaCategoryQuery } from './mediaCategoryOptions'
+import { getMediaThumbnailUrl, hideFailedThumbnail } from './mediaThumbnailUrl'
+import { useMediaDownloads } from './useMediaDownloads'
 
-const auth = useAuthStore()
-const uploadStore = useMediaUploadStore()
-const route = useRoute()
+const tableRef = ref(null)
 const router = useRouter()
-const { confirmAction } = useAdminActions()
-const workspace = ref(resolveMediaWorkspace(route.query))
-const layout = ref(resolveMediaLayout(route.query))
-const navigationVersion = ref(0)
-const initialFilters = ref(readFilters(route.query))
-const browserRef = ref(null)
-const vaultRef = ref(null)
-const selectedRecords = ref([])
+const route = useRoute()
+const uploadStore = useMediaUploadStore()
+const errorMessage = ref('')
 const categories = ref([])
-const initializing = ref(true)
-const error = ref('')
-const storage = ref(null)
-const storageLoading = ref(false)
-const vaultUnlocked = ref(false)
-const vaultCategoryId = ref('')
-const categoryVisible = ref(false)
-const settingsVisible = ref(false)
+const folderCategories = ref([])
+const keyword = ref('')
+const filterCategory = ref(undefined)
+const filterFileClass = ref(undefined)
+const filterUsageStatus = ref(undefined)
+const filterScene = ref(undefined)
+const filterLifecycle = ref(undefined)
+const resourceSceneOptions = [
+  ['admin-library', '媒体素材'], ['article-cover', '文章封面'], ['article-content', '文章正文图片'],
+  ['user-avatar', '用户头像'], ['resume-photo', '简历照片'], ['discussion-attachment', '讨论附件'],
+  ['feedback-image', '意见反馈'], ['work-journal-evidence', '工作日志']
+].map(([value, label]) => ({ value, label }))
+const resourceLifecycleOptions = [
+  ['pending', '待保存 / 待清理'], ['attached', '业务正在使用'], ['retained', '主动保留素材']
+].map(([value, label]) => ({ value, label }))
+const categoryModalVisible = ref(false)
+const categorySubmitting = ref(false)
+const editingCategoryId = ref('')
+const actionLoadingKey = ref('')
+const settingsModalVisible = ref(false)
 const settingsSaving = ref(false)
-const inventoryVisible = ref(false)
-const cacheVisible = ref(false)
-const guideVisible = ref(false)
-const shareVisible = ref(false)
-const renameVisible = ref(false)
-const renameRecord = ref(null)
+const renameModalVisible = ref(false)
 const renameSubmitting = ref(false)
-const moveVisible = ref(false)
-const moveRecord = ref(null)
-const moveIds = ref([])
-const moveSubmitting = ref(false)
-const detailVisible = ref(false)
-const detailRecord = ref(null)
-const detailTab = ref('info')
-const previewVisible = ref(false)
-const previewRecord = ref(null)
-const uploadRules = ref({ maxFiles: 5, maxFileSizeMB: 20, allowedExtensions: [...DEFAULT_MEDIA_ALLOWED_EXTENSIONS] })
-const settingsDraft = ref({})
+const renameRecord = ref(null)
+const categoryMoveModalVisible = ref(false)
+const categoryMoveSubmitting = ref(false)
+const categoryMoveRecord = ref(null)
+const categoryMoveIds = ref([])
+const referenceModalVisible = ref(false)
+const referenceRecord = ref(null)
+const inventoryModalVisible = ref(false)
+const mediaGuideVisible = ref(false)
+const mediaGuideTopic = ref('overview')
+const thumbnailCacheVisible = ref(false)
+const shareCreateVisible = ref(false)
+const uploadRules = ref({
+  maxFiles: 5,
+  maxFileSizeMB: 20,
+  allowedExtensions: [...DEFAULT_MEDIA_ALLOWED_EXTENSIONS]
+})
+const settingsDraft = ref({
+  mediaMaxFilesPerUpload: 5,
+  mediaMaxFileSizeMB: 20,
+  mediaAllowedExtensions: [...DEFAULT_MEDIA_ALLOWED_EXTENSIONS]
+})
+const trashModalVisible = ref(false)
+const selectedMediaKeys = ref([])
+const selectedMediaRecords = ref([])
+const viewMode = ref(route.query.view === 'list' ? 'list' : 'folders')
+const activeFolderId = ref(String(route.query.categoryId || route.query.category || ''))
+const folderKeyword = ref(String(route.query.keyword || ''))
+const folderPage = ref(1)
+const folderPageSize = ref(20)
+const folderItems = ref([])
+const folderTotal = ref(0)
+const folderLoading = ref(false)
+const folderSelectedKeys = ref([])
+const folderSelectedRecords = ref([])
+const uploadCategoryId = ref('')
+const vaultModalVisible = ref(false)
+const vaultModalMode = ref('unlock')
+const vaultPassword = ref('')
+const vaultSubmitting = ref(false)
+const vaultTargetFolder = ref(null)
+const vaultStatus = ref({ configured: false, unlocked: false, remainingSeconds: 0, expiresAt: null })
+const vaultDetailsVisible = ref(false)
+const vaultRecordsPresent = ref(false)
+const vaultNow = ref(Date.now())
+const vaultRemainingSeconds = ref(0)
+let vaultTimer = null
 let disposed = false
+let vaultRequest = 0
+let folderRequest = 0
+let folderResultKey = ''
+let listRequest = 0
+let latestListTask
 let categoryRequest = 0
-let storageRequest = 0
-const canManageShares = computed(() => auth.canAccessPath('/console/manage/media-shares'))
-const canShareSelection = computed(
-  () => canManageShares.value && selectedRecords.value.every((item) => item.accessScope === 'public')
-)
-const moveOptions = computed(() =>
-  getMovableMediaCategories(
-    categories.value,
-    moveRecord.value ? [moveRecord.value] : selectedRecords.value,
-    auth.user?.id
-  )
-)
-const storageTooltip = computed(() =>
-  storage.value
-    ? `服务器文件占用，含原件及缓存，共 ${storage.value.fileCount} 个文件。点击刷新；详情见设置与维护中的缩略图缓存。`
-    : '统计服务器上传文件占用，点击重试'
-)
-const { downloadModalVisible, downloadSubmitting, downloadSingleMedia, openBatchDownload, submitBatchDownload } =
-  useMediaDownloads({ selectedMediaRecords: selectedRecords, clearSelection })
+let folderCategoryRequest = 0
+const categoryDraft = ref({
+  name: '',
+  description: ''
+})
+const { runAction, confirmAction } = useAdminActions()
+const authStore = useAuthStore()
+const canManageMediaShares = computed(() => authStore.canAccessPath('/console/manage/media-shares'))
+const activeFolder = computed(() => folderCategories.value.find((item) => String(item.id) === String(activeFolderId.value) || item.name === activeFolderId.value) || null)
+const canUploadCurrentFolder = computed(() => {
+  const category = viewMode.value === 'folders' ? activeFolder.value : categories.value.find((item) => String(item.id) === String(filterCategory.value))
+  return !category || (!category.system && !category.virtual && String(category.owner) === String(authStore.user?.id))
+})
+const vaultContext = computed(() => (
+  activeFolder.value?.accessMode === 'vault' || activeFolder.value?.builtinKey === 'vault' ||
+  (viewMode.value === 'list' && (
+    vaultStatus.value.configured ||
+    categories.value.find((item) => String(item.id) === String(filterCategory.value))?.accessMode === 'vault' ||
+    vaultRecordsPresent.value
+  ))
+))
+function calculateVaultRemainingSeconds(status = vaultStatus.value, now = Date.now()) {
+  if (!status.unlocked || !status.expiresAt) return 0
+  return Math.max(0, Math.ceil((new Date(status.expiresAt).getTime() - now) / 1000))
+}
+const vaultRemainingLabel = computed(() => {
+  const seconds = vaultRemainingSeconds.value
+  if (seconds <= 0) return '已到期'
+  const minutes = Math.floor(seconds / 60)
+  const remainder = seconds % 60
+  return minutes > 0 ? `${minutes} 分 ${String(remainder).padStart(2, '0')} 秒` : `${remainder} 秒`
+})
+const {
+  downloadModalVisible,
+  downloadSubmitting,
+  downloadSingleMedia,
+  openBatchDownload,
+  submitBatchDownload
+} = useMediaDownloads({ selectedMediaRecords, clearSelection: clearMediaSelection })
+const folderDownloads = useMediaDownloads({
+  selectedMediaRecords: folderSelectedRecords,
+  clearSelection: clearFolderSelection
+})
+const {
+  downloadModalVisible: folderDownloadModalVisible,
+  downloadSubmitting: folderDownloadSubmitting,
+  submitBatchDownload: submitFolderBatchDownload
+} = folderDownloads
 
-function readFilters(query) {
-  return {
-    keyword: String(query.keyword || ''),
-    categoryId: String(query.categoryId || query.category || ''),
-    fileClass: String(query.fileClass || ''),
-    scene: String(query.scene || ''),
-    lifecycleStatus: String(query.lifecycleStatus || ''),
-    usageStatus: String(query.usageStatus || '')
+const fileClassOptions = [
+  { label: '图片', value: 'image' },
+  { label: '代码', value: 'code' },
+  { label: '文档', value: 'document' },
+  { label: '压缩包/安装包', value: 'archive' },
+  { label: '其他', value: 'other' }
+]
+
+const usageStatusOptions = [
+  { label: '已引用', value: 'referenced' },
+  { label: '疑似未引用', value: 'unreferenced' }
+]
+
+const categoryOptions = computed(() => {
+  return categories.value
+    .filter((item) => item.id)
+    .map((item) => ({
+    label: `${item.name}${item.count ? ` (${item.count})` : ''}`,
+    value: item.id,
+    name: item.name
+  }))
+})
+
+const filterCategoryOptions = computed(() => categories.value.map((item) => ({
+  label: `${item.name}${item.count ? ` (${item.count})` : ''}`,
+  value: item.id || item.name
+})))
+
+const categoryMoveOptions = computed(() => {
+  const records = categoryMoveRecord.value ? [categoryMoveRecord.value]
+    : viewMode.value === 'folders' ? folderSelectedRecords.value : selectedMediaRecords.value
+  return getMovableMediaCategories(categories.value, records, authStore.user?.id)
+})
+
+const tableParams = computed(() => ({
+  keyword: keyword.value || undefined,
+  ...getMediaCategoryQuery(filterCategory.value || '', categories.value),
+  fileClass: filterFileClass.value || undefined,
+  usageStatus: filterUsageStatus.value || undefined,
+  scene: filterScene.value || undefined,
+  lifecycleStatus: filterLifecycle.value || undefined
+}))
+
+const columns = [
+  {
+    title: '文件信息',
+    key: 'asset',
+    width: 320,
+    fixed: 'left'
+  },
+  { title: '类型', key: 'fileClass', width: 90, align: 'center' },
+  { title: '大小', key: 'size', width: 95, align: 'right' },
+  { title: '分类', key: 'category', width: 120, align: 'center' },
+  { title: '来源 / 保留状态', key: 'resourceState', width: 175 },
+  { title: '引用状态', key: 'usage', width: 140, align: 'center' },
+  { title: '上传时间', key: 'createdAt', width: 170, align: 'center' },
+  { title: '操作', key: 'action', width: 110, align: 'center', fixed: 'right' }
+]
+
+const mediaRowSelection = computed(() => ({
+  fixed: true,
+  selectedRowKeys: selectedMediaKeys.value,
+  getCheckboxProps: (record) => ({ disabled: isMaskedVaultRecord(record) }),
+  onChange: (keys, rows) => {
+    selectedMediaRecords.value = rows.filter((item) => !isMaskedVaultRecord(item))
+    selectedMediaKeys.value = selectedMediaRecords.value.map((item) => item.id)
   }
+}))
+
+const summaryCards = computed(() => {
+  const countMap = Object.fromEntries(fileClassOptions.map((item) => [item.value, 0]))
+  categories.value.forEach(() => {})
+  return fileClassOptions.map((item) => ({
+    key: item.value,
+    label: item.label,
+    value: item.value,
+    count: mediaStats.value[item.value] || 0
+  }))
+})
+
+const mediaStats = ref({
+  image: 0,
+  code: 0,
+  document: 0,
+  archive: 0,
+  other: 0
+})
+const mediaStorageUsage = ref(null)
+const storageError = ref(false)
+const storageLoading = ref(false)
+const mediaStorageLabel = computed(() => {
+  if (storageError.value) return '上传占用不可用'
+  if (!mediaStorageUsage.value) return '统计上传占用中'
+  return `资源存储 ${formatStorageSize(mediaStorageUsage.value.totalBytes)}`
+})
+const mediaStorageTooltip = computed(() => {
+  if (storageError.value) return '上传目录占用统计暂时不可用，页面刷新后会重试'
+  const usage = mediaStorageUsage.value
+  if (!usage) return '正在统计上传资源目录占用'
+  const detail = (usage.areas || []).map((area) => `${area.label} ${formatStorageSize(area.bytes)}`).join(' · ')
+  const status = usage.status === 'partial' ? '部分目录无法读取，当前值不完整。' : ''
+  return `服务器磁盘文件占用（非运行内存，包含原图和图片预览小图）· ${detail} · ${usage.fileCount} 个文件 · ${status}小图明细与清理入口：资源工具 > 缩略图缓存。统计时间 ${new Date(usage.scannedAt).toLocaleString('zh-CN')}`
+})
+
+const activeSelectedMediaKeys = computed(() => (
+  viewMode.value === 'folders' ? folderSelectedKeys.value : selectedMediaKeys.value
+))
+
+function filterSelectOption(input, option) {
+  const keyword = String(input || '').trim().toLowerCase()
+  if (!keyword) return true
+  const label = String(option?.label || '').toLowerCase()
+  return label.includes(keyword)
 }
-function writeRoute() {
-  const query = { ...route.query, tab: workspace.value, view: layout.value }
-  delete query.category
-  for (const [key, value] of Object.entries(initialFilters.value)) {
-    if (value) query[key] = value
-    else delete query[key]
+
+function refreshTable() {
+  tableRef.value?.refresh()
+}
+
+async function handleInventoryChanged() {
+  await loadCategories()
+  await loadFolderCategoriesAndItems()
+  refreshTable()
+}
+
+function handleMediaSelectionChange(keys) {
+  selectedMediaKeys.value = keys
+}
+
+function clearMediaSelection() {
+  selectedMediaKeys.value = []
+  selectedMediaRecords.value = []
+  tableRef.value?.clearSelection()
+}
+
+function handleShareCreated() {
+  clearMediaSelection()
+  clearFolderSelection()
+}
+
+function toggleFileClassFilter(value) {
+  filterFileClass.value = filterFileClass.value === value ? undefined : value
+}
+
+function formatFileSize(size = 0) {
+  if (size >= 1024 * 1024) {
+    return `${(size / 1024 / 1024).toFixed(1)} MB`
   }
-  router.replace({ query }).catch(() => {})
+  return `${Math.ceil(size / 1024)} KB`
 }
-function changeWorkspace(value) {
-  if (workspace.value === value) return
-  clearSelection()
-  detailVisible.value = false
-  previewVisible.value = false
-  workspace.value = value
-  initialFilters.value = readFilters({})
-  writeRoute()
+
+function formatStorageSize(size = 0) {
+  const bytes = Math.max(0, Number(size) || 0)
+  if (bytes >= 1024 ** 4) return `${(bytes / 1024 ** 4).toFixed(1)} TB`
+  if (bytes >= 1024 ** 3) return `${(bytes / 1024 ** 3).toFixed(1)} GB`
+  if (bytes >= 1024 ** 2) return `${(bytes / 1024 ** 2).toFixed(1)} MB`
+  if (bytes >= 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${Math.round(bytes)} B`
 }
-function changeLayout(value) {
-  clearSelection()
-  layout.value = value
-  writeRoute()
+
+function formatDate(value) {
+  return value ? new Date(value).toLocaleString('zh-CN') : '-'
 }
-function syncFilters(value) {
-  initialFilters.value = readFilters(value)
-  writeRoute()
+
+function getFileBadge(record) {
+  return record.originalName?.split('.').at(-1)?.toUpperCase() || 'FILE'
 }
-function clearSelection() {
-  selectedRecords.value = []
+
+function isMaskedVaultRecord(record) {
+  return viewMode.value === 'list' && record?.accessScope === 'vault' && (
+    !vaultStatus.value.unlocked || !vaultDetailsVisible.value
+  )
 }
-function enterVault() {
-  changeWorkspace('vault')
+
+function getFileClassLabel(fileClass) {
+  return fileClassOptions.find((item) => item.value === fileClass)?.label || '其他'
 }
-function handleVaultState(status) {
-  vaultUnlocked.value = status.unlocked === true
-  vaultCategoryId.value = status.categoryId || ''
-  // 锁定或到期立即卸下业务内容与预览，不能只在下一次请求时才隐藏。
-  clearSelection()
-  if (!vaultUnlocked.value) {
-    detailVisible.value = false
-    previewVisible.value = false
-    detailRecord.value = null
-    previewRecord.value = null
-    renameVisible.value = false
-    moveVisible.value = false
-    downloadModalVisible.value = false
-    shareVisible.value = false
-    renameRecord.value = null
-    moveRecord.value = null
-    moveIds.value = []
+
+function getFileClassColor(fileClass) {
+  const map = {
+    image: 'blue',
+    code: 'geekblue',
+    document: 'green',
+    archive: 'orange',
+    other: 'default'
   }
-  navigationVersion.value += 1
+  return map[fileClass] || 'default'
 }
-watch(
-  () => route.fullPath,
-  () => {
-    const nextWorkspace = resolveMediaWorkspace(route.query)
-    const nextFilters = readFilters(route.query)
-    const nextLayout = resolveMediaLayout(route.query)
-    if (
-      nextWorkspace === workspace.value &&
-      JSON.stringify(nextFilters) === JSON.stringify(initialFilters.value) &&
-      nextLayout === layout.value
-    )
-      return
-    clearSelection()
-    detailVisible.value = false
-    previewVisible.value = false
-    workspace.value = nextWorkspace
-    initialFilters.value = nextFilters
-    layout.value = nextLayout
-    navigationVersion.value += 1
-  }
-)
-async function loadCategories() {
-  const current = ++categoryRequest
-  const result = await listAdminMediaCategories({ scope: auth.isSuperAdmin ? 'all' : undefined })
-  if (!disposed && current === categoryRequest) categories.value = result
+
+function loadMedia(params) {
+  const current = ++listRequest
+  const statsParams = { ...params }
+  delete statsParams.fileClass
+  delete statsParams.usageStatus
+  const task = Promise.all([listAdminMedia(params), getAdminMediaStatistics(statsParams)]).then(([result, statistics]) => {
+    if (disposed || viewMode.value !== 'list') return { items: [], total: 0 }
+    if (current !== listRequest) return latestListTask !== task ? latestListTask : { items: [], total: 0 }
+    vaultRecordsPresent.value = statistics.vaultRecordsPresent
+    mediaStats.value = statistics.byFileClass
+    return result
+  }).catch((error) => {
+    if (disposed || viewMode.value !== 'list') return { items: [], total: 0 }
+    if (current !== listRequest && latestListTask !== task) return latestListTask
+    throw error
+  })
+  latestListTask = task
+  return task
 }
-async function loadStorage(force = false) {
-  const current = ++storageRequest
+
+async function loadMediaStorage(refresh = false) {
   storageLoading.value = true
   try {
-    const result = await getAdminMediaStorageUsage({ refresh: force })
-    if (!disposed && current === storageRequest) storage.value = result
+    mediaStorageUsage.value = await getAdminMediaStorageUsage({ refresh })
+    storageError.value = false
   } catch {
-    if (!disposed && current === storageRequest) storage.value = null
+    storageError.value = true
   } finally {
-    if (!disposed && current === storageRequest) storageLoading.value = false
+    storageLoading.value = false
   }
 }
-async function reloadMetadata() {
-  error.value = ''
+
+async function loadCategories() {
+  const current = ++categoryRequest
+  const result = await listAdminMediaCategories()
+  if (!disposed && current === categoryRequest) categories.value = result
+}
+
+async function loadFolderCategories() {
+  const current = ++folderCategoryRequest
+  const result = await listAdminMediaCategories({
+    scope: authStore.isSuperAdmin ? 'all' : undefined
+  })
+  if (!disposed && current === folderCategoryRequest) folderCategories.value = result
+}
+
+function updateFolderRoute() {
+  const query = { ...route.query }
+  delete query.tab
+  delete query.category
+  delete query.itemsView
+  router.replace({
+    query: {
+      ...query,
+      view: viewMode.value,
+      categoryId: viewMode.value === 'folders' && activeFolderId.value ? activeFolderId.value : undefined,
+      keyword: viewMode.value === 'folders' && folderKeyword.value ? folderKeyword.value : undefined
+    }
+  })
+}
+
+function changeViewMode(value) {
+  viewMode.value = value
+  if (value === 'folders') {
+    activeFolderId.value = ''
+    folderPage.value = 1
+    folderSelectedKeys.value = []
+    loadFolderCategoriesAndItems()
+  }
+  updateFolderRoute()
+}
+
+function applyVaultStatus(status = {}) {
+  const wasUnlocked = vaultStatus.value.unlocked
+  vaultStatus.value = {
+    configured: status.configured === true,
+    unlocked: status.unlocked === true && new Date(status.expiresAt).getTime() > Date.now(),
+    enabled: status.enabled !== false,
+    categoryId: status.categoryId || null,
+    expiresAt: status.expiresAt || null,
+    remainingSeconds: Number(status.remainingSeconds) || 0
+  }
+  vaultNow.value = Date.now()
+  vaultRemainingSeconds.value = calculateVaultRemainingSeconds(vaultStatus.value, vaultNow.value)
+  if (!vaultStatus.value.unlocked) {
+    if (isVaultCategory(activeFolder.value)) folderRequest += 1
+    if (wasUnlocked) closeVaultModal()
+    vaultDetailsVisible.value = false
+    vaultRecordsPresent.value = false
+    previewVisible.value = false
+    previewRecord.value = null
+    referenceModalVisible.value = false
+    referenceRecord.value = null
+    renameModalVisible.value = false
+    renameRecord.value = null
+    categoryMoveModalVisible.value = false
+    categoryMoveRecord.value = null
+    categoryMoveIds.value = []
+    downloadModalVisible.value = false
+    folderDownloadModalVisible.value = false
+    shareCreateVisible.value = false
+    clearMediaSelection()
+    clearFolderSelection()
+    if (activeFolder.value?.accessMode === 'vault') {
+      folderLoading.value = false
+      folderItems.value = []
+      folderTotal.value = 0
+      clearFolderSelection()
+    }
+    if (viewMode.value === 'list') tableRef.value?.refresh()
+  }
+}
+
+async function syncVaultStatus() {
+  const current = ++vaultRequest
   try {
-    await loadCategories()
-  } catch (reason) {
-    error.value = reason.message || '分类加载失败'
+    const status = await getAdminMediaVaultStatus()
+    if (disposed || current !== vaultRequest) return
+    applyVaultStatus(status)
+  } catch {
+    if (disposed || current !== vaultRequest) return
+    // 状态同步失败时保留锁定视图，后续进入密码箱时仍会重新校验。
+    applyVaultStatus()
   }
 }
-async function refreshResources() {
-  clearSelection()
-  detailVisible.value = false
-  await Promise.all([reloadMetadata(), loadStorage(true)])
-  browserRef.value?.refresh()
+
+function startVaultClock() {
+  if (vaultTimer) clearInterval(vaultTimer)
+  vaultTimer = window.setInterval(() => {
+    vaultNow.value = Date.now()
+    vaultRemainingSeconds.value = calculateVaultRemainingSeconds(vaultStatus.value, vaultNow.value)
+    if (vaultStatus.value.unlocked && vaultRemainingSeconds.value <= 0) {
+      applyVaultStatus()
+      void syncVaultStatus()
+    }
+  }, 1000)
 }
-function rulesFrom(settings) {
-  return {
+
+function toggleVaultDetails() {
+  if (!vaultStatus.value.unlocked) {
+    openVaultRevealModal()
+    return
+  }
+  vaultDetailsVisible.value = !vaultDetailsVisible.value
+}
+
+async function openVaultRevealModal() {
+  const current = ++vaultRequest
+  vaultTargetFolder.value = null
+  try {
+    const status = await getAdminMediaVaultStatus()
+    if (disposed || current !== vaultRequest) return
+    applyVaultStatus(status)
+    vaultModalMode.value = status?.configured ? (vaultStatus.value.unlocked ? 'open' : 'unlock') : 'setup'
+    if (vaultModalMode.value === 'open') {
+      vaultDetailsVisible.value = true
+      refreshTable()
+      return
+    }
+    vaultPassword.value = ''
+    vaultModalVisible.value = true
+  } catch (error) {
+    message.error(error.message || '密码箱状态获取失败')
+  }
+}
+
+async function lockVault() {
+  const current = ++vaultRequest
+  try {
+    const status = await lockAdminMediaVault()
+    if (disposed || current !== vaultRequest) return
+    applyVaultStatus(status)
+    tableRef.value?.refresh()
+    if (activeFolder.value?.accessMode === 'vault') await loadFolderItems()
+    message.success('已结束本次密码箱验证')
+  } catch (error) {
+    message.error(error.message || '结束密码箱验证失败')
+  }
+}
+
+async function handleCategoryFilterChange(value) {
+  const category = categories.value.find((item) => String(item.id || item.name) === String(value || ''))
+  if (category?.accessMode !== 'vault' && category?.builtinKey !== 'vault') return
+  vaultTargetFolder.value = category
+  await openFolder(category)
+}
+
+async function openFolder(folder) {
+  const current = ++vaultRequest
+  if (folder?.accessMode === 'vault' || folder?.builtinKey === 'vault') {
+    const currentUserId = String(authStore.user?.id || authStore.user?._id || '')
+    if (folder.owner && currentUserId && String(folder.owner) !== currentUserId) {
+      message.error('密码箱只能由所属用户使用自己的密码解锁')
+      return
+    }
+    vaultTargetFolder.value = folder
+    try {
+      const status = await getAdminMediaVaultStatus()
+      if (disposed || current !== vaultRequest) return
+      applyVaultStatus(status)
+      vaultTargetFolder.value = folder
+      vaultModalMode.value = status?.configured ? (vaultStatus.value.unlocked ? 'open' : 'unlock') : 'setup'
+      if (vaultModalMode.value === 'open') {
+        enterVaultFolder(folder)
+        return
+      }
+      vaultPassword.value = ''
+      vaultModalVisible.value = true
+    } catch (error) {
+      errorMessage.value = error.message || '密码箱状态获取失败'
+    }
+    return
+  }
+
+  enterVaultFolder(folder)
+}
+
+function enterVaultFolder(folder) {
+  vaultRequest += 1
+  activeFolderId.value = folder?.id || folder?.name || ''
+  folderPage.value = 1
+  folderKeyword.value = ''
+  // 文件夹视图在密码验证通过后直接展示内容；眼睛按钮只服务于列表视图。
+  vaultDetailsVisible.value = true
+  previewVisible.value = false
+  referenceModalVisible.value = false
+  clearFolderSelection()
+  updateFolderRoute()
+  loadFolderItems()
+}
+
+function closeVaultModal() {
+  vaultRequest += 1
+  vaultModalVisible.value = false
+  vaultPassword.value = ''
+  vaultTargetFolder.value = null
+}
+
+async function submitVaultAccess() {
+  const password = String(vaultPassword.value || '')
+  if (!password) {
+    message.error('请输入密码箱密码')
+    return
+  }
+  if (vaultModalMode.value === 'setup' && (password.length < 8 || password.length > 72)) {
+    message.error('密码箱密码长度应为 8-72 位')
+    return
+  }
+
+  const current = ++vaultRequest
+  vaultSubmitting.value = true
+  try {
+    const status = vaultModalMode.value === 'setup'
+      ? await setupAdminMediaVault(password)
+      : await unlockAdminMediaVault(password)
+    if (disposed || current !== vaultRequest) return
+    applyVaultStatus(status)
+    const target = vaultTargetFolder.value
+    vaultTargetFolder.value = null
+    vaultModalVisible.value = false
+    vaultPassword.value = ''
+    await loadFolderCategories()
+    if (disposed || current !== vaultRequest) return
+    if (target && vaultStatus.value.unlocked) {
+      enterVaultFolder(target)
+    } else if (vaultStatus.value.unlocked) {
+      vaultDetailsVisible.value = true
+      refreshTable()
+    }
+  } catch (error) {
+    if (!disposed && current === vaultRequest) message.error(error.message || '密码箱验证失败')
+  } finally {
+    vaultSubmitting.value = false
+  }
+}
+
+function backToFolderRoot() {
+  vaultRequest += 1
+  folderRequest += 1
+  folderLoading.value = false
+  folderItems.value = []
+  folderTotal.value = 0
+  activeFolderId.value = ''
+  folderPage.value = 1
+  folderKeyword.value = ''
+  clearFolderSelection()
+  updateFolderRoute()
+}
+
+function handleFolderSearch(value) {
+  folderKeyword.value = value || ''
+  folderPage.value = 1
+  clearFolderSelection()
+  updateFolderRoute()
+  loadFolderItems()
+}
+
+function handleFolderPageChange({ page, pageSize }) {
+  clearFolderSelection()
+  folderPage.value = page
+  folderPageSize.value = pageSize
+  loadFolderItems()
+}
+
+function handleFolderSelectionChange(keys, rows) {
+  folderSelectedKeys.value = keys
+  folderSelectedRecords.value = rows
+}
+
+function clearFolderSelection() {
+  folderSelectedKeys.value = []
+  folderSelectedRecords.value = []
+}
+
+async function openUploadModal(category = '') {
+  const preferred = typeof category === 'object' ? category
+    : categories.value.find((item) => String(item.id) === String(category)) || (viewMode.value === 'folders' ? activeFolder.value : null)
+  if (preferred?.system || preferred?.virtual) return message.info('系统分类由所属业务维护，请到对应业务上传')
+  const vault = isVaultCategory(preferred)
+  if (vault && !vaultStatus.value.unlocked) return openFolder(preferred)
+  try {
+    let available = getUploadMediaCategories(categories.value, authStore.user?.id, vault)
+    // 保留历史系统库存，新素材仅在用户主动上传时创建个人收件分类。
+    if (!available.length && !vault) {
+      await createAdminMediaCategory({ name: '未分类', description: '尚未整理到其他自建分类的素材' })
+      await Promise.all([loadCategories(), loadFolderCategories()])
+      available = getUploadMediaCategories(categories.value, authStore.user?.id)
+    }
+    if (!available.length) return message.info('没有可上传的个人分类，请刷新分类后重试')
+    uploadCategoryId.value = available.find((item) => item.id === preferred?.id)?.id || available[0].id
+    uploadStore.open({
+      ownerId: authStore.user?.id,
+      rules: uploadRules.value,
+      categoryOptions: available.map((item) => ({ value: item.id, name: item.name, label: item.name })),
+      categoryId: uploadCategoryId.value
+    })
+  } catch (error) {
+    message.error(error.message || '无法打开上传，请刷新分类后重试')
+  }
+}
+
+function openFolderBatchCategoryMove() {
+  if (folderSelectedRecords.value.some((item) => getMediaActionRestrictions(item).moveReason)) return message.info('选择中包含业务维护文件，请到对应业务修改')
+  categoryMoveRecord.value = null
+  categoryMoveIds.value = [...folderSelectedKeys.value]
+  categoryMoveModalVisible.value = true
+}
+
+function handleFolderBatchDelete() {
+  const ids = [...folderSelectedKeys.value]
+  if (!ids.length) return
+
+  confirmMediaDelete(ids, {
+    title: '批量移入回收站',
+    getContent: () => (`确认将选中的 ${ids.length} 个媒体资源移入回收站？数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`),
+    okText: '批量移入回收站',
+    okType: 'danger',
+    async onOk() {
+      await runAction(() => batchDeleteAdminMedia(ids), {
+        successMessage: `已移入回收站 ${ids.length} 个媒体文件`,
+        errorMessage: '批量删除失败',
+        onSuccess: async () => {
+          clearFolderSelection()
+          await loadFolderCategoriesAndItems()
+          await loadCategories()
+        }
+      })
+    }
+  }).catch(() => {})
+}
+
+async function loadFolderCategoriesAndItems() {
+  await loadFolderCategories()
+  if (activeFolderId.value && !activeFolder.value) {
+    activeFolderId.value = ''
+    folderKeyword.value = ''
+    updateFolderRoute()
+  }
+  await loadFolderItems()
+}
+
+async function loadFolderItems() {
+  const current = ++folderRequest
+  const category = activeFolder.value
+  const vault = isVaultCategory(category)
+  if ((!activeFolderId.value && !folderKeyword.value.trim()) || (activeFolderId.value && !category) || (vault && !vaultStatus.value.unlocked)) {
+    folderItems.value = []
+    folderTotal.value = 0
+    folderLoading.value = false
+    return
+  }
+  const key = JSON.stringify([activeFolderId.value, folderKeyword.value, folderPage.value, folderPageSize.value])
+  if (key !== folderResultKey) {
+    folderItems.value = []
+    folderTotal.value = 0
+  }
+  const stillCurrent = () => !disposed && current === folderRequest && viewMode.value === 'folders' &&
+    key === JSON.stringify([activeFolderId.value, folderKeyword.value, folderPage.value, folderPageSize.value]) &&
+    (!vault || vaultStatus.value.unlocked)
+  folderLoading.value = true
+  errorMessage.value = ''
+  try {
+    const result = await listAdminMedia({
+      ...getMediaCategoryQuery(activeFolderId.value, folderCategories.value),
+      // 根目录搜索不展示密码箱文件，只有完成独立验证的密码箱目录可请求。
+      workspace: vault ? 'vault' : 'folders',
+      keyword: folderKeyword.value.trim() || undefined,
+      page: folderPage.value,
+      pageSize: folderPageSize.value
+    })
+    if (!stillCurrent()) return
+    folderResultKey = key
+    folderItems.value = result.items
+    folderTotal.value = result.total
+    vaultRecordsPresent.value = vault && result.items.some((item) => item.accessScope === 'vault')
+  } catch (error) {
+    if (stillCurrent()) {
+      errorMessage.value = error.message || '文件夹资源加载失败'
+      message.error(errorMessage.value)
+    }
+  } finally {
+    if (!disposed && current === folderRequest) folderLoading.value = false
+  }
+}
+
+async function loadUploadRules() {
+  const settings = await getAdminSettings()
+  uploadRules.value = {
     maxFiles: Number(settings.mediaMaxFilesPerUpload) || 5,
     maxFileSizeMB: Number(settings.mediaMaxFileSizeMB) || 20,
     allowedExtensions: normalizeAllowedMediaExtensions(settings.mediaAllowedExtensions)
   }
-}
-function settingsFromRules() {
-  return {
+  settingsDraft.value = {
     mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
     mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB,
-    mediaAllowedExtensions: [...uploadRules.value.allowedExtensions]
+    mediaAllowedExtensions: uploadRules.value.allowedExtensions
   }
 }
-function openSettings() {
-  settingsDraft.value = settingsFromRules()
-  settingsVisible.value = true
+
+function openUploadSettings() {
+  settingsDraft.value = {
+    mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
+    mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB,
+    mediaAllowedExtensions: uploadRules.value.allowedExtensions
+  }
+  settingsModalVisible.value = true
 }
-async function saveSettings(value) {
+
+async function saveUploadSettings(payload) {
   settingsSaving.value = true
   try {
-    const next = await updateAdminSettings({
-      mediaMaxFilesPerUpload: Number(value.mediaMaxFilesPerUpload),
-      mediaMaxFileSizeMB: Number(value.mediaMaxFileSizeMB),
-      mediaAllowedExtensions: normalizeAllowedMediaExtensions(value.mediaAllowedExtensions)
+    const nextSettings = await runAction(() => updateAdminSettings({
+      mediaMaxFilesPerUpload: Number(payload.mediaMaxFilesPerUpload),
+      mediaMaxFileSizeMB: Number(payload.mediaMaxFileSizeMB),
+      mediaAllowedExtensions: normalizeAllowedMediaExtensions(payload.mediaAllowedExtensions)
+    }), {
+      successMessage: '上传限制已保存',
+      errorMessage: '上传限制保存失败'
     })
-    uploadRules.value = rulesFrom(next)
+
+    uploadRules.value = {
+      maxFiles: Number(nextSettings.mediaMaxFilesPerUpload) || 5,
+      maxFileSizeMB: Number(nextSettings.mediaMaxFileSizeMB) || 20,
+      allowedExtensions: normalizeAllowedMediaExtensions(nextSettings.mediaAllowedExtensions)
+    }
+    settingsDraft.value = {
+      mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
+      mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB,
+      mediaAllowedExtensions: uploadRules.value.allowedExtensions
+    }
+    settingsModalVisible.value = false
     if (!uploadStore.started) uploadStore.rules = { ...uploadRules.value }
-    settingsVisible.value = false
-    message.success('上传限制已保存')
-  } catch (reason) {
-    message.error(reason.message || '上传限制保存失败')
   } finally {
     settingsSaving.value = false
   }
 }
-function openUpload() {
-  if (workspace.value === 'vault' && !vaultUnlocked.value) return vaultRef.value?.enter()
-  const protectedNames = new Set(['用户头像', '简历照片', '讨论附件', '工作日志', '意见反馈', '文章正文临时图片'])
-  const available = categories.value.filter(
-    (item) =>
-      item.id &&
-      !item.virtual &&
-      (item.system || String(item.owner || '') === String(auth.user?.id || '')) &&
-      (workspace.value === 'vault'
-        ? item.accessMode === 'vault'
-        : item.accessMode !== 'vault' && !protectedNames.has(item.name))
-  )
-  const preferred = workspace.value === 'vault' ? vaultCategoryId.value : initialFilters.value.categoryId
-  const categoryId =
-    available.find((item) => item.id === preferred)?.id ||
-    available.find((item) => item.name === '默认素材')?.id ||
-    available[0]?.id
-  uploadStore.open({
-    ownerId: auth.user?.id,
-    rules: uploadRules.value,
-    categoryId,
-    categoryOptions: available.map((item) => ({ value: item.id, name: item.name, label: item.name }))
-  })
+
+async function handleUploadCompleted() {
+  if (disposed) return
+  await Promise.all([loadCategories(), loadMediaStorage(true)])
+  await loadFolderCategoriesAndItems()
+  tableRef.value?.refresh()
 }
-function openPreview(record) {
-  detailVisible.value = false
+
+watch(() => uploadStore.completedVersion, () => {
+  if (uploadStore.ownerId === authStore.user?.id) handleUploadCompleted()
+})
+
+const previewVisible = ref(false)
+const previewRecord = ref(null)
+
+function handleView(record) {
   previewRecord.value = record
   previewVisible.value = true
 }
-function openDetail(record, tab = 'info') {
-  detailRecord.value = record
-  detailTab.value = tab
-  detailVisible.value = true
-}
-function openRename(record) {
-  renameRecord.value = record
-  renameVisible.value = true
-}
-async function submitRename(name) {
-  if (!name?.trim()) return message.warning('请输入资源名称')
-  renameSubmitting.value = true
-  try {
-    await renameAdminMedia(renameRecord.value.id, { originalName: name })
-    renameVisible.value = false
-    await refreshResources()
-    message.success('名称已保存')
-  } catch (reason) {
-    message.error(reason.message || '重命名失败')
-  } finally {
-    renameSubmitting.value = false
-  }
-}
-function openMove(record) {
-  const reason = getMediaActionRestrictions(record).moveReason
-  if (reason) return message.info(reason)
-  moveRecord.value = record
-  moveIds.value = []
-  moveVisible.value = true
-}
-function openBatchMove() {
-  if (selectedRecords.value.some((item) => getMediaActionRestrictions(item).moveReason))
-    return message.info('部分文件由所属业务维护，请分别处理')
-  moveRecord.value = null
-  moveIds.value = selectedRecords.value.map((item) => item.id)
-  moveVisible.value = true
-}
-async function submitMove(target) {
-  moveSubmitting.value = true
-  try {
-    if (moveRecord.value) await moveAdminMediaCategory(moveRecord.value.id, target)
-    else await batchMoveAdminMediaCategory(moveIds.value, target)
-    moveVisible.value = false
-    await refreshResources()
-    message.success('分类已调整')
-  } catch (reason) {
-    message.error(reason.message || '分类调整失败')
-  } finally {
-    moveSubmitting.value = false
-  }
-}
-function deleteOne(record) {
-  confirmDelete([record.id])
-}
-function deleteSelected() {
-  confirmDelete(selectedRecords.value.map((item) => item.id))
-}
-async function confirmDelete(ids) {
-  if (!ids.length) return
-  let risk
-  try {
-    risk = await getAdminMediaDeleteRisk(ids)
-  } catch (reason) {
-    message.error(reason.message || '无法确认资源使用情况，请重试')
-    return
-  }
-  if (risk.referencedCount > 0) {
-    message.warning('选中的文件仍有使用位置，请先在所属业务中移除或替换')
-    return
-  }
-  if (risk.items.length !== ids.length) {
-    message.warning('部分资源已不可用，请刷新列表后重试')
-    return
-  }
-  confirmAction({
-    title: ids.length > 1 ? '批量移入回收站' : '移入回收站',
-    content: `将 ${ids.length} 份资源移入回收站，原文件保留，可在回收站恢复。服务器会再次检查使用关系。`,
+
+function handleDelete(record) {
+  confirmMediaDelete([record.id], {
+    title: '移入回收站',
+    getContent: () => (`文件「${record.originalName}」会从媒体库列表移除，数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`),
     okText: '移入回收站',
     okType: 'danger',
     async onOk() {
+      actionLoadingKey.value = `delete:${record.id}`
       try {
-        if (ids.length === 1) await deleteAdminMedia(ids[0])
-        else await batchDeleteAdminMedia(ids)
-        await refreshResources()
-        message.success('已移入回收站')
-      } catch (reason) {
-        message.error(reason.message || '删除失败')
-        throw reason
+        await runAction(() => deleteAdminMedia(record.id), {
+          successMessage: '文件已移入回收站',
+          errorMessage: '删除失败',
+          onSuccess: async () => {
+            await loadCategories()
+            await loadFolderCategoriesAndItems()
+            tableRef.value?.refresh()
+          }
+        })
+      } finally {
+        actionLoadingKey.value = ''
       }
     }
   }).catch(() => {})
 }
-watch(
-  () => uploadStore.completedVersion,
-  () => {
-    if (uploadStore.ownerId === auth.user?.id) refreshResources()
+
+function handleRename(record) {
+  renameRecord.value = record
+  renameModalVisible.value = true
+}
+
+function openSingleCategoryMove(record) {
+  const reason = getMediaActionRestrictions(record).moveReason
+  if (reason) return message.info(reason)
+  categoryMoveRecord.value = record
+  categoryMoveIds.value = []
+  categoryMoveModalVisible.value = true
+}
+
+function openBatchCategoryMove() {
+  if (selectedMediaRecords.value.some((item) => getMediaActionRestrictions(item).moveReason)) return message.info('选择中包含业务维护文件，请到对应业务修改')
+  categoryMoveRecord.value = null
+  categoryMoveIds.value = [...selectedMediaKeys.value]
+  categoryMoveModalVisible.value = true
+}
+
+async function submitCategoryMove(target) {
+  if (!target?.id || !target?.name) {
+    return
   }
-)
+
+  const record = categoryMoveRecord.value
+  const ids = [...categoryMoveIds.value]
+  if (!record && ids.length === 0) {
+    return
+  }
+
+  categoryMoveSubmitting.value = true
+  try {
+    await runAction(
+      () => record
+        ? moveAdminMediaCategory(record.id, target)
+        : batchMoveAdminMediaCategory(ids, target),
+      {
+        successMessage: record
+          ? `已将资源迁移至「${target.name}」`
+          : `已将 ${ids.length} 个资源迁移至「${target.name}」`,
+        errorMessage: '资源分类迁移失败',
+        onSuccess: async () => {
+          categoryMoveModalVisible.value = false
+          categoryMoveRecord.value = null
+          categoryMoveIds.value = []
+          clearMediaSelection()
+          clearFolderSelection()
+          await loadCategories()
+          await loadFolderCategoriesAndItems()
+          tableRef.value?.refresh()
+        }
+      }
+    )
+  } finally {
+    categoryMoveSubmitting.value = false
+  }
+}
+
+async function submitRename(nextName) {
+  if (!renameRecord.value) return
+
+  const value = String(nextName || '').trim()
+  if (!value) {
+    errorMessage.value = '请输入资源名称'
+    return
+  }
+
+  renameSubmitting.value = true
+  try {
+    await runAction(() => renameAdminMedia(renameRecord.value.id, { originalName: value }), {
+      successMessage: '资源名称已更新',
+      errorMessage: '资源重命名失败',
+      onSuccess: async () => {
+        renameModalVisible.value = false
+        renameRecord.value = null
+        await loadCategories()
+        await loadFolderCategoriesAndItems()
+        tableRef.value?.refresh()
+      }
+    })
+  } finally {
+    renameSubmitting.value = false
+  }
+}
+
+function handleBatchDelete() {
+  const ids = [...selectedMediaKeys.value]
+  if (!ids.length) return
+
+  confirmMediaDelete(ids, {
+    title: '批量移入回收站',
+    getContent: () => (`确认将选中的 ${ids.length} 个媒体资源移入回收站？数据库记录和服务器文件会保留，可在回收站恢复或彻底删除。`),
+    okText: '批量移入回收站',
+    okType: 'danger',
+    async onOk() {
+      await runAction(() => batchDeleteAdminMedia(ids), {
+        successMessage: `已移入回收站 ${ids.length} 个媒体文件`,
+        errorMessage: '批量删除失败',
+        onSuccess: async () => {
+          clearMediaSelection()
+          await loadCategories()
+          await loadFolderCategoriesAndItems()
+          tableRef.value?.refresh()
+        }
+      })
+    }
+  }).catch(() => {})
+}
+
+async function confirmMediaDelete(ids, options) {
+  try {
+    const risk = await getAdminMediaDeleteRisk(ids)
+    if (risk.items.length !== ids.length) return message.warning('部分文件不可用，请刷新后重试')
+    if (risk.referencedCount > 0) return message.warning('文件仍有使用位置，请先在所属业务移除或替换')
+    return confirmAction({ title: options.title, content: options.getContent?.(risk) || options.content,
+      okText: options.okText, okType: options.okType, onOk: options.onOk })
+  } catch (error) {
+    message.error(error.message || '无法核对文件使用情况，请重试')
+  }
+}
+
+
+function openReferenceModal(record) {
+  referenceRecord.value = record
+  referenceModalVisible.value = true
+}
+
+function openTrashModal() {
+  trashModalVisible.value = true
+}
+
+function openMediaGuide(topic) {
+  mediaGuideTopic.value = topic
+  mediaGuideVisible.value = true
+}
+
+async function handleTrashChanged() {
+  await loadCategories()
+  await loadFolderCategoriesAndItems()
+  tableRef.value?.refresh()
+}
+
+function resetCategoryDraft() {
+  editingCategoryId.value = ''
+  categoryDraft.value = {
+    name: '',
+    description: ''
+  }
+}
+
+function isVaultCategory(item) {
+  return item?.accessMode === 'vault' || item?.builtinKey === 'vault'
+}
+
+function canEditCategory(item) {
+  return Boolean(item?.id) && !item.virtual && !item.system && !isVaultCategory(item) && String(item.owner) === String(authStore.user?.id)
+}
+
+function editCategory(item) {
+  if (!canEditCategory(item)) {
+    errorMessage.value = '系统资源分类不支持编辑'
+    return
+  }
+
+  editingCategoryId.value = item.id
+  categoryDraft.value = {
+    name: item.name,
+    description: item.description || ''
+  }
+}
+
+async function submitCategory() {
+  if (!String(categoryDraft.value.name || '').trim()) {
+    errorMessage.value = '请输入资源分类名称'
+    return
+  }
+
+  categorySubmitting.value = true
+  errorMessage.value = ''
+  try {
+    if (editingCategoryId.value) {
+      await updateAdminMediaCategory(editingCategoryId.value, categoryDraft.value)
+    } else {
+      await createAdminMediaCategory(categoryDraft.value)
+    }
+    resetCategoryDraft()
+    await Promise.all([loadCategories(), loadFolderCategoriesAndItems()])
+  } catch (error) {
+    errorMessage.value = error.message || '分类保存失败'
+  } finally {
+    categorySubmitting.value = false
+  }
+}
+
+function removeCategory(item) {
+  confirmAction({
+    title: '删除资源分类',
+    content: `确认删除分类「${item.name}」？该分类下资源会归入你的“未分类”，原文件保留。`,
+    okText: '确认删除',
+    okType: 'danger',
+    async onOk() {
+      await runAction(() => deleteAdminMediaCategory(item.id), {
+        successMessage: '分类已删除',
+        errorMessage: '分类删除失败',
+        onSuccess: async () => {
+          resetCategoryDraft()
+          await Promise.all([loadCategories(), loadFolderCategoriesAndItems()])
+          tableRef.value?.refresh()
+        }
+      })
+    }
+  }).catch(() => {})
+}
+
+
+watch(() => route.fullPath, () => {
+  const nextView = route.query.view === 'list' ? 'list' : 'folders'
+  const nextId = String(route.query.categoryId || route.query.category || '')
+  const nextKeyword = String(route.query.keyword || '')
+  if (nextView === viewMode.value && (nextView !== 'folders' ||
+    (nextId === activeFolderId.value && nextKeyword === folderKeyword.value))) return
+  closeVaultModal()
+  folderRequest += 1
+  listRequest += 1
+  clearFolderSelection()
+  clearMediaSelection()
+  previewVisible.value = false
+  referenceModalVisible.value = false
+  viewMode.value = nextView
+  activeFolderId.value = nextId
+  folderKeyword.value = nextKeyword
+  folderPage.value = 1
+  if (nextView === 'folders') loadFolderItems()
+})
+
 onMounted(async () => {
+  // 从组件挂载时就开始刷新，避免初始化请求较慢时倒计时迟迟不动。
+  startVaultClock()
   try {
     await Promise.all([
-      reloadMetadata(),
-      loadStorage(),
-      getAdminSettings().then((settings) => {
-        if (!disposed) uploadRules.value = rulesFrom(settings)
-      })
+      loadCategories(),
+      loadUploadRules(),
+      loadMediaStorage(),
+      syncVaultStatus(),
+      loadFolderCategories()
     ])
-  } catch (reason) {
-    error.value = reason.message || '资源工作区初始化失败'
-  } finally {
-    if (!disposed) initializing.value = false
+    if (viewMode.value === 'folders') {
+      updateFolderRoute()
+      await loadFolderItems()
+    }
+    if (viewMode.value === 'list' && typeof route.query.category === 'string') {
+      const category = categories.value.find((item) => item.name === route.query.category)
+      filterCategory.value = category?.id || route.query.category
+      await nextTick()
+      await tableRef.value?.refresh()
+    }
+  } catch (error) {
+    errorMessage.value = error.message || '媒体页初始化失败'
+    message.error(errorMessage.value)
   }
 })
-onBeforeUnmount(() => {
+
+onUnmounted(() => {
   disposed = true
+  vaultRequest += 1
+  folderRequest += 1
+  listRequest += 1
   categoryRequest += 1
-  storageRequest += 1
+  folderCategoryRequest += 1
+  if (vaultTimer) clearInterval(vaultTimer)
 })
 </script>
 
 <style scoped>
-.media-workspace {
+.media-vault-modal__hint {
+  margin: 0;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ===== 页面容器：表格是绝对主角 ===== */
+.media-cloud {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   height: var(--console-page-available-height);
-  min-height: 0;
-  min-width: 0;
-  overflow: hidden;
-  container-type: inline-size;
 }
-.media-workspace__header {
+
+/* ===== 顶层命令：页面身份在左，全局命令在右 ===== */
+.media-cloud__topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
-  flex: 0 0 auto;
-  min-height: 32px;
+  gap: 12px;
+  min-height: 44px;
+  padding: 0 2px 8px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--console-border);
 }
-.media-workspace__identity,
-.media-workspace__actions {
+
+.media-cloud__identity {
   display: flex;
   align-items: center;
   gap: 4px;
   min-width: 0;
 }
-.media-workspace__identity > strong {
-  font-size: 16px;
+
+.media-storage-indicator {
+  max-width: 190px;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+  text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--console-text);
 }
-.media-workspace__storage {
+
+.media-cloud__title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--console-text);
+  white-space: nowrap;
+  line-height: 36px;
+}
+
+.media-cloud__filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.media-cloud__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.media-cloud__topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ===== 查询状态带：读取顺序为搜索 -> 条件 -> 类型 -> 选中操作 ===== */
+.media-cloud__list-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 8px 2px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.media-cloud__type-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding-left: 10px;
+  border-left: 1px solid var(--console-border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.media-cloud__type-filter::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.media-type-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 28px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 13px;
+  color: #64748b;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.media-type-chip:hover {
+  border-color: var(--console-border-strong);
+  color: var(--console-text);
+  background: var(--console-surface-hover);
+}
+
+.media-type-chip.is-active {
+  border-color: color-mix(in srgb, var(--console-primary) 32%, var(--console-border));
+  background: var(--console-primary-soft);
+  color: var(--console-primary-strong);
+  font-weight: 500;
+}
+
+.media-type-chip b {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.media-batch-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  padding-left: 12px;
+  border-left: 1px solid var(--console-border);
+  flex-shrink: 0;
+}
+
+.media-batch-actions__count {
+  color: #64748b;
+  font-size: 13px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ===== 表格主体：占据剩余全部空间 ===== */
+.media-cloud__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; /* 关键：允许 flex 子元素收缩 */
+  overflow: hidden; /* 强制裁剪，防止内容撑开 */
+}
+
+.media-cloud__body--folders {
+  overflow: hidden;
+}
+
+/* ===== 表格行：文件信息 ===== */
+.media-file {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.media-file__thumb {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--console-surface-muted);
+  border: 1px solid var(--console-border);
+  position: relative;
+}
+
+.media-file__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 5px;
+}
+
+.media-file__ext {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #64748b;
+}
+
+/* 文件类型缩略图色彩 */
+.media-file__thumb.is-image {
+  background: color-mix(in srgb, var(--console-primary) 10%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, var(--console-primary) 28%, var(--console-border));
+}
+.media-file__thumb.is-image .media-file__ext { color: var(--console-primary-strong); }
+
+.media-file__thumb.is-code {
+  background: color-mix(in srgb, #52c41a 10%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, #52c41a 30%, var(--console-border));
+}
+.media-file__thumb.is-code .media-file__ext { color: #389e0d; }
+
+.media-file__thumb.is-document {
+  background: color-mix(in srgb, #faad14 12%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, #faad14 30%, var(--console-border));
+}
+.media-file__thumb.is-document .media-file__ext { color: #d48806; }
+
+.media-file__thumb.is-archive {
+  background: color-mix(in srgb, #ff4d4f 10%, var(--console-surface-muted));
+  border-color: color-mix(in srgb, #ff4d4f 28%, var(--console-border));
+}
+.media-file__thumb.is-archive .media-file__ext { color: #cf1322; }
+
+.media-file__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.media-file__name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.media-file__url {
+  font-size: 12px !important;
+  color: #94a3b8 !important;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ===== 类型标签 ===== */
+.media-type-tag {
+  font-size: 12px !important;
+  line-height: 1 !important;
+  padding-inline: 8px !important;
+  border-radius: 6px !important;
+  font-weight: 500 !important;
+}
+
+/* ===== 文件大小 ===== */
+.media-size {
+  font-size: 13px;
+  color: #64748b;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ===== 分类标签 ===== */
+.media-category-label {
+  font-size: 13px;
+  color: #475569;
+  background: #f1f5f9;
+  padding: 2px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.media-usage-link {
+  height: auto !important;
+  padding: 0 !important;
+  white-space: nowrap;
+}
+
+.media-usage-link :deep(.ant-badge-status-text) {
+  color: #475569;
+  font-size: 12px;
+}
+
+/* ===== 时间 ===== */
+.media-time {
+  font-size: 13px;
+  color: #64748b;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== 表格区域深度样式覆盖 ===== */
+
+.media-category-panel {
+  height: min(58vh, 520px);
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+  overflow: hidden;
+  border: 1px solid var(--console-border);
+  border-radius: 8px;
+  background: var(--console-surface);
+}
+
+.media-category-panel__form {
+  min-width: 0;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--console-surface);
+  scrollbar-width: none;
+}
+
+.media-category-panel__form::-webkit-scrollbar,
+.media-category-panel__list-wrap::-webkit-scrollbar {
+  display: none;
+}
+
+.media-category-panel__form-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.media-category-panel__form-header strong,
+.media-category-panel__list-header strong {
+  display: block;
+  color: var(--console-text);
+  font-size: 15px;
+}
+
+.media-category-panel__form-header span {
+  display: block;
+  margin-top: 4px;
+  color: var(--console-text-secondary);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.media-category-panel__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.media-category-panel__list-wrap {
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 1px solid var(--console-border);
+  padding: 10px;
+  background: var(--console-surface-muted);
+  scrollbar-width: none;
+}
+
+.media-category-panel__list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 6px 12px;
+}
+
+.media-category-panel__list-header span {
   color: var(--console-text-secondary);
   font-size: 12px;
 }
-.media-workspace__actions {
-  flex-shrink: 0;
+
+.media-category-panel__empty {
+  text-align: center;
+  color: var(--console-text-secondary);
+  font-size: 13px;
+  padding: 32px 0;
 }
-.media-workspace__navigation {
-  flex: 0 0 auto;
+
+.media-category-panel__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.media-category-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 11px;
+  border-radius: 8px;
+  border: 1px solid var(--console-border);
+  background: var(--console-surface);
+  transition: all 0.15s ease;
+}
+
+.media-category-item:hover,
+.media-category-item.is-active {
+  border-color: var(--console-primary-strong);
+  background: var(--console-surface-hover);
+}
+
+.media-category-item__info {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.media-category-item__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   min-width: 0;
 }
-.media-workspace__navigation :deep(.ant-tabs-nav) {
-  margin-bottom: 0;
+
+.media-category-item strong {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--console-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.media-workspace__navigation :deep(.ant-tabs-content-holder) {
-  display: none;
+
+.media-category-item p,
+.media-category-item span {
+  margin: 0;
+  font-size: 12px;
+  color: var(--console-text-secondary);
+  line-height: 1.5;
 }
-.media-workspace__navigation :deep(.ant-tabs-tab) {
-  padding: 8px 0;
+
+.media-category-item p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
-.media-workspace__state {
+
+.media-category-item__actions {
+  flex: 0 0 auto;
+}
+
+.media-category-modal__title {
   display: flex;
-  flex: 1;
-  min-height: 0;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 14px;
+  gap: 2px;
+}
+
+.dark-theme .media-cloud__toolbar,
+.dark-theme .media-cloud__filters,
+.dark-theme .media-cloud__actions {
   color: var(--console-text-secondary);
 }
-@container (max-width: 620px) {
-  .media-workspace__storage span {
-    display: none;
+
+.dark-theme .media-cloud__list-toolbar {
+  border-color: var(--console-border);
+}
+
+.dark-theme .media-cloud__topbar,
+.dark-theme .media-cloud__type-filter,
+.dark-theme .media-batch-actions {
+  border-color: var(--console-border);
+}
+
+.dark-theme .media-batch-actions__count {
+  color: var(--console-text-secondary);
+}
+
+.dark-theme .media-type-chip {
+  color: var(--console-menu-text);
+  border-color: transparent;
+  background: transparent;
+}
+
+.dark-theme .media-type-chip:hover {
+  color: var(--console-primary-strong);
+  border-color: var(--console-primary-strong);
+  background: var(--console-surface-hover);
+}
+
+.dark-theme .media-type-chip.is-active {
+  color: var(--console-primary-strong);
+  border-color: var(--console-primary-strong);
+  background: var(--console-primary-soft);
+}
+
+.dark-theme .media-file__thumb,
+.dark-theme .media-category-label,
+.dark-theme .media-cloud__file-chip,
+.dark-theme .media-category-item {
+  color: var(--console-menu-text);
+  border-color: var(--console-border);
+  background: var(--console-surface-muted);
+}
+
+.dark-theme .media-category-item:hover {
+  border-color: var(--console-border-strong);
+  background: var(--console-surface-hover);
+}
+
+.dark-theme .media-file__name,
+.dark-theme .media-cloud__title,
+.dark-theme .media-category-item strong {
+  color: var(--console-text);
+}
+
+.dark-theme .media-file__url,
+.dark-theme .media-size,
+.dark-theme .media-time,
+.dark-theme .media-usage-link :deep(.ant-badge-status-text),
+.dark-theme .media-category-item span,
+.dark-theme .media-category-panel__empty {
+  color: var(--console-text-secondary) !important;
+}
+
+.dark-theme .media-file__thumb.is-image,
+.dark-theme .media-file__thumb.is-code,
+.dark-theme .media-file__thumb.is-document,
+.dark-theme .media-file__thumb.is-archive {
+  border-color: var(--console-border);
+  background: color-mix(in srgb, var(--console-primary) 10%, var(--console-surface-muted));
+}
+
+.dark-theme .media-category-panel__form {
+  border-bottom-color: var(--console-border);
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 1280px) {
+  .media-cloud__list-toolbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
   }
-  .media-workspace__identity > strong {
-    font-size: 14px;
+
+  .media-cloud__type-filter {
+    flex-basis: 100%;
+    order: 3;
+    padding-left: 0;
+    border-left: 0;
   }
 }
-@media (max-height: 760px) {
-  .media-workspace {
-    gap: 4px;
+
+@media (max-width: 720px) {
+  .media-cloud__topbar {
+    align-items: flex-start;
   }
-  .media-workspace__navigation :deep(.ant-tabs-tab) {
-    padding-top: 5px;
-    padding-bottom: 5px;
+
+  .media-cloud__topbar-actions {
+    gap: 6px;
+  }
+
+  .media-cloud__title {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .media-cloud {
+    height: auto;
+    min-height: 0;
+  }
+
+  .media-cloud__topbar {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .media-cloud__title {
+    font-size: 16px;
+  }
+
+  .media-cloud__identity {
+    flex-wrap: wrap;
+  }
+
+  .media-cloud__filters {
+    flex-basis: 100%;
+    flex-wrap: wrap;
+  }
+
+  .media-cloud__actions {
+    margin-left: auto;
+  }
+
+  .media-cloud__body {
+    overflow: visible;
+  }
+
+  .media-cloud__filters :deep(.ant-input-search),
+  .media-cloud__filters :deep(.ant-select) {
+    width: 100% !important;
+  }
+
+  .media-cloud__list-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .media-cloud__type-filter {
+    flex-basis: auto;
+    width: 100%;
+    padding-top: 8px;
+    border-top: 1px solid var(--console-border);
+  }
+
+  .media-batch-actions {
+    width: 100%;
+    margin-left: 0;
+    padding-top: 8px;
+    padding-left: 0;
+    border-top: 1px solid var(--console-border);
+    border-left: 0;
+  }
+
+  .media-type-chip {
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+
+  .media-file {
+    gap: 10px;
+  }
+
+  .media-file__thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+  }
+
+  .media-file__name {
+    font-size: 13px;
+  }
+
+  .media-file__url {
+    max-width: 140px;
+    font-size: 11px !important;
+  }
+
+  .media-category-panel__list-wrap {
+    max-height: 280px;
+  }
+
+  .media-category-panel {
+    height: min(62vh, 640px);
+    grid-template-rows: minmax(180px, 0.8fr) minmax(0, 1fr);
+    grid-template-columns: 1fr;
+  }
+
+  .media-category-panel__list-wrap {
+    border-right: 0;
+    border-bottom: 1px solid var(--console-border);
+  }
+
+  .media-category-panel__form {
+    padding: 16px;
+  }
+
+  .media-category-item {
+    padding: 8px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .media-cloud__title {
+    font-size: 15px;
+  }
+
+  .media-cloud__actions {
+    gap: 6px;
+  }
+
+  .media-cloud__actions :deep(.ant-btn-primary) {
+    padding-inline: 10px;
+  }
+
+  .media-type-chip {
+    padding: 2px 8px;
+    font-size: 11px;
+  }
+
+  .media-file {
+    gap: 8px;
+  }
+
+  .media-file__thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+  }
+
+  .media-file__ext {
+    font-size: 9px;
+  }
+
+  .media-file__name {
+    font-size: 12px;
+  }
+
+  .media-file__url {
+    max-width: 100px;
+    font-size: 10px !important;
+  }
+
+  .media-category-item {
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .media-category-panel__actions {
+    flex-direction: column;
   }
 }
 </style>

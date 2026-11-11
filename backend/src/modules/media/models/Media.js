@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { isSystemMediaCategory } from '../constants/mediaCategories.js'
 
 const mediaSchema = new mongoose.Schema(
   {
@@ -122,6 +123,7 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
   return {
     id: this._id.toString(),
     scene: this.scene || '',
+    systemManaged: isSystemMediaCategory(this.category) || Boolean(this.feedback || this.workJournalLog) || Boolean(this.scene && this.scene !== 'admin-library'),
     lifecycleStatus: this.deletedAt ? 'trash' : (this.lifecycleStatus || 'retained'),
     expiresAt: this.expiresAt || null,
     filename: this.filename,

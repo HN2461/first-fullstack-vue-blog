@@ -1,13 +1,7 @@
 <template>
   <a-space :size="4">
     <a-tooltip title="预览">
-      <a-button
-        type="text"
-        size="small"
-        class="media-row-action media-row-action--view"
-        aria-label="预览媒体"
-        @click="emit('view')"
-      >
+      <a-button type="text" size="small" class="media-row-action media-row-action--view" aria-label="预览媒体" @click="emit('view')">
         <template #icon><EyeOutlined /></template>
       </a-button>
     </a-tooltip>
@@ -36,16 +30,11 @@
             </a-menu-item>
             <a-menu-item key="references">
               <LinkOutlined />
-              <span>详情与使用位置</span>
+              <span>查看引用</span>
             </a-menu-item>
           </a-menu-item-group>
           <a-menu-divider />
-          <a-menu-item
-            key="delete"
-            danger
-            :disabled="Boolean(restrictions.deleteReason)"
-            :title="restrictions.deleteReason"
-          >
+          <a-menu-item key="delete" danger :disabled="Boolean(restrictions.deleteReason)" :title="restrictions.deleteReason">
             <DeleteOutlined />
             <span>移入回收站</span>
           </a-menu-item>
@@ -57,7 +46,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { getMediaActionRestrictions } from './mediaWorkspace'
+import { getMediaActionRestrictions } from './mediaCategoryOptions'
 import {
   DeleteOutlined,
   DownloadOutlined,
@@ -68,9 +57,10 @@ import {
   SwapOutlined
 } from '@ant-design/icons-vue'
 
-const emit = defineEmits(['view', 'download', 'rename', 'move', 'references', 'delete'])
 const props = defineProps({ record: { type: Object, default: () => ({}) } })
 const restrictions = computed(() => getMediaActionRestrictions(props.record))
+
+const emit = defineEmits(['view', 'download', 'rename', 'move', 'references', 'delete'])
 
 function handleMenuClick({ key }) {
   if ((key === 'move' && restrictions.value.moveReason) || (key === 'delete' && restrictions.value.deleteReason)) return

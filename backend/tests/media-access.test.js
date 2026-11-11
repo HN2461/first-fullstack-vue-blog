@@ -170,6 +170,10 @@ describe('media access scope', () => {
     expect(statistics.body.data.byFileClass.code).toBe(2)
     expect((await list({ workspace: 'business', category: '默认素材' })).total).toBe(2)
     expect((await list({ workspace: 'all' })).total).toBe(5)
+    const folderSearch = await list({ workspace: 'folders' })
+    expect(folderSearch.total).toBe(4)
+    expect(folderSearch.items.every((item) => item.accessScope !== 'vault')).toBe(true)
+    expect((await list({ workspace: 'folders' }, managerToken)).items.map((item) => item.id)).toEqual([String(photo._id)])
   })
 
   it('工作区与分类来源筛选取交集，私人及密码箱文件不能混入素材库', async () => {
@@ -181,6 +185,21 @@ describe('media access scope', () => {
     const stats = await request(app).get('/api/admin/media/statistics').query({ workspace: 'library', scene: 'resume-photo', accessScope: 'private' })
       .set('Authorization', `Bearer ${superToken}`).expect(200)
     expect(Object.values(stats.body.data.byFileClass).reduce((sum, count) => sum + count, 0)).toBe(0)
+  })
+
+  it('文件名中的方括号和正则符号按原文字搜索，列表与统计口径一致', async () => {
+    await createMedia(superAdmin, '资料[最终版].txt')
+    await createMedia(superAdmin, '普通资料.txt')
+    const list = await request(app).get('/api/admin/media').query({ keyword: '[' })
+      .set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(list.body.data.total).toBe(1)
+    expect(list.body.data.items[0].originalName).toBe('资料[最终版].txt')
+    const stats = await request(app).get('/api/admin/media/statistics').query({ keyword: '[' })
+      .set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(stats.body.data.byFileClass.code).toBe(1)
+    const literal = await request(app).get('/api/admin/media').query({ keyword: '.*' })
+      .set('Authorization', `Bearer ${superToken}`).expect(200)
+    expect(literal.body.data.total).toBe(0)
   })
 
   it('allows only super admin to scan server files and marks referenced avatars', async () => {
@@ -267,71 +286,40 @@ describe('media access scope', () => {
     )
   })
 
-  it('moves owned media to configured categories and rejects cross-owner batch moves', async () => {
-    const managerMedia = await createMedia(mediaManager, 'manager-category-move.txt')
-    const managerSecondMedia = await createMedia(mediaManager, 'manager-category-second.txt')
-    const superMedia = await createMedia(superAdmin, 'super-category-protected.txt')
-
-    await request(app)
-      .patch(`/api/admin/media/${managerMedia._id}/category`)
-      .set('Authorization', `Bearer ${managerToken}`)
-      .send({ category: '文章封面' })
-      .expect(200)
-
-    expect((await Media.findById(managerMedia._id)).category).toBe('文章封面')
-
-    await request(app)
-      .patch('/api/admin/media/category/batch')
-      .set('Authorization', `Bearer ${managerToken}`)
-      .send({
-        ids: [managerMedia._id.toString(), managerSecondMedia._id.toString(), superMedia._id.toString()],
-        category: '文章正文图片'
-      })
-      .expect(404)
-
-    expect((await Media.findById(managerMedia._id)).category).toBe('文章封面')
-    expect((await Media.findById(managerSecondMedia._id)).category).toBe('默认素材')
-
-    await request(app)
-      .patch('/api/admin/media/category/batch')
-      .set('Authorization', `Bearer ${managerToken}`)
-      .send({
-        ids: [managerMedia._id.toString(), managerSecondMedia._id.toString()],
-        category: '文章正文图片'
-      })
-      .expect(200)
-
-    expect((await Media.findById(managerMedia._id)).category).toBe('文章正文图片')
-    expect((await Media.findById(managerSecondMedia._id)).category).toBe('文章正文图片')
+  it('本人普通资源可整理，系统分类禁止上传和双向迁移，批量预检避免部分成功', async () => {
+    const category = await MediaCategory.create({ name: '项目资料', owner: mediaManager._id })
+    const target = await MediaCategory.create({ name: '部署', owner: mediaManager._id })
+    const ordinary = await createMedia(mediaManager, 'ordinary.txt')
+    const system = await createMedia(mediaManager, 'system.txt')
+    await Media.updateOne({ _id: ordinary._id }, { category: category.name, categoryId: category._id, scene: 'admin-library' })
+    await request(app).patch(`/api/admin/media/${ordinary._id}/category`).set('Authorization', `Bearer ${managerToken}`)
+      .send({ categoryId: String(target._id) }).expect(200)
+    const denied = await request(app).patch(`/api/admin/media/${ordinary._id}/category`).set('Authorization', `Bearer ${managerToken}`)
+      .send({ category: '文章封面' }).expect(403)
+    expect(denied.body.code).toBe('MEDIA_SYSTEM_CATEGORY_READONLY')
+    await request(app).patch(`/api/admin/media/${system._id}/category`).set('Authorization', `Bearer ${managerToken}`)
+      .send({ categoryId: String(target._id) }).expect(403)
+    await request(app).patch('/api/admin/media/category/batch').set('Authorization', `Bearer ${managerToken}`)
+      .send({ ids: [String(ordinary._id), String(system._id)], categoryId: String(category._id) }).expect(403)
+    expect((await Media.findById(ordinary._id)).category).toBe('部署')
+    const before = listUploadFiles(resolveUploadRoot())
+    await request(app).post('/api/admin/media').set('Authorization', `Bearer ${managerToken}`)
+      .field('category', '文章封面').attach('files', Buffer.from('system upload'), 'system.txt').expect(403)
+    await request(app).post('/api/admin/media-uploads').set('Authorization', `Bearer ${managerToken}`)
+      .send({ uploadId: '12345678-1234-4234-8234-123456789abc', name: 'system.txt', size: 1, category: '文章封面' }).expect(403)
+    expect(listUploadFiles(resolveUploadRoot())).toEqual(before)
+    expect(await Media.countDocuments()).toBe(2)
   })
 
-  it('only allows super admins to move another user media into system categories', async () => {
-    const managerMedia = await createMedia(mediaManager, 'manager-super-move.txt')
-    const managerCategory = await request(app)
-      .post('/api/admin/media/categories')
-      .set('Authorization', `Bearer ${managerToken}`)
-      .send({ name: '经理私有分类' })
-      .expect(201)
-
-    const forbidden = await request(app)
-      .patch(`/api/admin/media/${managerMedia._id}/category`)
-      .set('Authorization', `Bearer ${superToken}`)
-      .send({
-        category: '经理私有分类',
-        categoryId: managerCategory.body.data.id
-      })
-      .expect(403)
-
-    expect(forbidden.body.code).toBe('MEDIA_CATEGORY_OWNER_FORBIDDEN')
-    expect((await Media.findById(managerMedia._id)).category).toBe('默认素材')
-
-    await request(app)
-      .patch(`/api/admin/media/${managerMedia._id}/category`)
-      .set('Authorization', `Bearer ${superToken}`)
-      .send({ category: '文章封面' })
-      .expect(200)
-
-    expect((await Media.findById(managerMedia._id)).category).toBe('文章封面')
+  it('超级管理员也不能手动整理其他人的文件或把素材写进系统分类', async () => {
+    const category = await MediaCategory.create({ name: '项目资料', owner: mediaManager._id })
+    const media = await createMedia(mediaManager, 'other.txt')
+    await Media.updateOne({ _id: media._id }, { category: category.name, categoryId: category._id })
+    await request(app).patch(`/api/admin/media/${media._id}/category`).set('Authorization', `Bearer ${superToken}`)
+      .send({ categoryId: String(category._id) }).expect(403)
+    await request(app).patch(`/api/admin/media/${media._id}/category`).set('Authorization', `Bearer ${superToken}`)
+      .send({ category: '文章封面' }).expect(403)
+    expect((await Media.findById(media._id)).category).toBe('项目资料')
   })
 
   it('isolates same-name custom categories by creator', async () => {
@@ -414,7 +402,7 @@ describe('media access scope', () => {
       Media.findById(firstMedia._id),
       Media.findById(secondMedia._id)
     ])
-    expect(updatedFirst.category).toBe('默认素材')
+    expect(updatedFirst.category).toBe('未分类')
     expect(updatedFirst.categoryId.toString()).not.toBe(firstCategory.body.data.id)
     expect(updatedSecond.category).toBe('项目资料')
     expect(updatedSecond.categoryId.toString()).toBe(secondCategory.body.data.id)

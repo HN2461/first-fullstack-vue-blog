@@ -1,3 +1,4 @@
+import { MediaCategory } from '../models/MediaCategory.js'
 import { createResource } from './resourceFile.service.js'
 import { resolveResourcePath, removeResourceFile, describeResourcePath } from './resourceStorage.service.js'
 import { withResourceLocks } from './resourceLock.service.js'
@@ -11,7 +12,7 @@ import { USER_ROLES } from '#constants/domain'
 import { Media } from '#modules/media/models/Media.js'
 import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
 import { resolveLegacyUploadRoot, resolveUploadRoot } from '#utils/uploadPath.js'
-import { assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCategory.service.js'
+import { assertManualMediaCategory, resolveManualMediaCategory, isSystemMediaCategory, assertMediaCategoryExists, ensureDefaultMediaCategory } from './mediaCategory.service.js'
 import { getVaultStorageRoot } from './mediaVault.service.js'
 import { attachMediaReferenceSummaries, findMediaReferences, getMediaReferenceDetail } from './mediaReference.service.js'
 import { findBlockingMediaShares } from '#modules/mediaShare/services/mediaShareReference.service.js'
@@ -127,7 +128,7 @@ export async function createMediaFromFile(file, user, metadata = {}) {
  * @throws {Error} 任一文件失败时补偿本批登记和文件，原临时文件由上传入口清理。
  */
 export async function createMediaFromFiles(files, user, metadata = {}) {
-  const category = await assertMediaCategoryExists(normalizeMediaCategory(metadata.category), user, metadata.categoryId)
+  const category = await resolveManualMediaCategory(metadata.category, user, metadata.categoryId)
   const created = []
   try {
     for (const [index, file] of files.entries()) {
@@ -217,11 +218,13 @@ function buildMediaListQuery(options = {}) {
   }
 
   if (keyword) {
+    // 搜索的是文件名和分类文字；方括号等文件名字符不能被当作正则表达式。
+    const search = String(keyword).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     query.$and = query.$and || []
     query.$and.push({ $or: [
-      { originalName: { $regex: keyword, $options: 'i' } },
-      { filename: { $regex: keyword, $options: 'i' } },
-      { category: { $regex: keyword, $options: 'i' } }
+      { originalName: { $regex: search, $options: 'i' } },
+      { filename: { $regex: search, $options: 'i' } },
+      { category: { $regex: search, $options: 'i' } }
     ] })
   }
 
@@ -404,8 +407,8 @@ function isSameOwner(actor, owner) {
 }
 
 function assertActorCanUseCategory(category, actor, owner) {
-  if (!category.system && !isSameOwner(actor, owner)) {
-    const error = new Error('只能将其他用户的资源迁移到系统分类')
+  if (!isSameOwner(actor, owner)) {
+    const error = new Error('不能手动调整其他用户资源的分类')
     error.statusCode = 403
     error.code = 'MEDIA_CATEGORY_OWNER_FORBIDDEN'
     throw error
@@ -428,10 +431,14 @@ async function moveMediaCategoryLocked(id, categoryName, actor = null, categoryI
   if (media.feedback) {
     throw Object.assign(new Error('反馈截图由意见反馈模块维护，不能迁移分类'), { statusCode: 409, code: 'FEEDBACK_MEDIA_PROTECTED' })
   }
-  if (media.scene && ['resume-photo', 'discussion-attachment', 'work-journal-evidence', 'user-avatar'].includes(media.scene)) {
+  if (isSystemMediaCategory(media.category) || (media.categoryId && await MediaCategory.exists({ _id: media.categoryId, system: true }))) {
+    throw Object.assign(new Error('系统分类中的文件由所属业务维护，不能手动迁移'), { statusCode: 403, code: 'MEDIA_SYSTEM_CATEGORY_READONLY' })
+  }
+  if (media.workJournalLog || (media.scene && media.scene !== 'admin-library')) {
     throw Object.assign(new Error('此文件由所属业务维护，不能调整业务分类或访问范围'), { statusCode: 409, code: 'RESOURCE_BUSINESS_PROTECTED' })
   }
   const category = await assertMediaCategoryExists(categoryName, media.uploader, categoryId)
+  assertManualMediaCategory(category)
   assertActorCanUseCategory(category, actor, media.uploader)
   const nextAccessScope = category.accessMode === 'vault' ? 'vault' : (media.accessScope === 'private' ? 'private' : 'public')
   if (nextAccessScope === 'vault' && actor?.mediaVaultUnlocked !== true) {
@@ -504,9 +511,17 @@ export async function moveMediaCategories(ids = [], categoryName, actor = null, 
     throw error
   }
 
-  const mediaList = await Media.find(query).select('uploader category categoryId accessScope')
+  const mediaList = await Media.find(query).select('uploader category categoryId accessScope scene feedback workJournalLog')
   const ownerIds = [...new Set(mediaList.map((item) => item.uploader.toString()))]
   const requestedCategory = await assertMediaCategoryExists(categoryName, ownerIds[0], categoryId)
+  assertManualMediaCategory(requestedCategory)
+  // 预检整批资源，禁止先移动部分普通素材再因系统文件失败。
+  const systemIds = await MediaCategory.distinct('_id', { system: true })
+  const systemIdSet = new Set(systemIds.map(String))
+  if (mediaList.some((item) => isSystemMediaCategory(item.category) || systemIdSet.has(String(item.categoryId)) || item.feedback || item.workJournalLog ||
+    (item.scene && item.scene !== 'admin-library'))) {
+    throw Object.assign(new Error('选择中包含由所属业务维护的文件，未执行分类迁移'), { statusCode: 403, code: 'MEDIA_SYSTEM_CATEGORY_READONLY' })
+  }
   ownerIds.forEach((ownerId) => assertActorCanUseCategory(requestedCategory, actor, ownerId))
   if (!requestedCategory.system && ownerIds.length > 1) {
     const error = new Error('跨用户资源只能迁移到系统分类')

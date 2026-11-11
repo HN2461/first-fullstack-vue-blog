@@ -5,61 +5,8 @@ import { Media } from '#modules/media/models/Media.js'
 import { User } from '#modules/user/models/User.js'
 import { getMediaWorkspaceConditions } from './mediaWorkspaceQuery.service.js'
 
-export const SYSTEM_MEDIA_CATEGORIES = Object.freeze([
-  { name: '用户头像', description: '用户资料中的头像', sortOrder: 9 },
-  { name: '简历照片', description: '简历专属私有照片', sortOrder: 10 },
-  { name: '讨论附件', description: '由讨论成员权限保护的附件', sortOrder: 11 },
-  { name: '文章资源', description: '文章关联的附件', sortOrder: 12 },
-  {
-    name: '默认素材',
-    description: '系统默认资源分类',
-    sortOrder: 0
-  },
-  {
-    name: '文章封面',
-    description: '文章封面专用资源分类',
-    sortOrder: 1
-  },
-  {
-    name: '文章正文图片',
-    description: '文章正文中已保存引用的图片资源',
-    sortOrder: 2
-  },
-  {
-    name: '文章正文临时图片',
-    description: '编辑器粘贴或插入但尚未绑定文章的正文图片',
-    sortOrder: 3
-  },
-  {
-    name: '文章原始文档',
-    description: '通过文档导入创建的原始附件，供文章下载和内容转换使用',
-    sortOrder: 4
-  },
-  {
-    name: '文章快照原始文档',
-    description: '本地文章快照同步生成的原始附件，保留文章来源与阅读关联',
-    sortOrder: 5
-  },
-  {
-    name: '工作日志',
-    description: '工作日记的私有图片凭证，由日报与资源管理共同维护',
-    sortOrder: 6
-  },
-  {
-    name: '意见反馈',
-    description: '意见反馈的私有截图，仅提交者和授权处理人可查看',
-    sortOrder: 8
-  },
-  {
-    name: '历史未登记资源',
-    description: '服务器上传目录中扫描并补登记的历史资源',
-    sortOrder: 7
-  }
-])
-
-export function isSystemMediaCategory(name) {
-  return SYSTEM_MEDIA_CATEGORIES.some((item) => item.name === name)
-}
+import { SYSTEM_MEDIA_CATEGORIES, isSystemMediaCategory } from '../constants/mediaCategories.js'
+export { SYSTEM_MEDIA_CATEGORIES, isSystemMediaCategory } from '../constants/mediaCategories.js'
 
 function getActorId(actor) {
   if (mongoose.isObjectIdOrHexString(actor)) return actor
@@ -183,6 +130,41 @@ export async function assertMediaCategoryExists(name, actor, categoryId = '') {
   }
 
   return category
+}
+
+/**
+ * 校验资源后台的手动写入目标，系统分类只由所属业务写入。
+ * @param {object} category 已解析的分类实体。
+ * @returns {void} 普通分类或本人密码箱可继续操作。
+ * @throws {Error} 系统分类返回 403，包含默认素材等历史系统库存。
+ */
+export function assertManualMediaCategory(category) {
+  if (category.system || isSystemMediaCategory(category.name)) {
+    throw createHttpError(403, 'MEDIA_SYSTEM_CATEGORY_READONLY', '系统分类由所属业务维护，请到对应业务上传或修改')
+  }
+}
+
+/**
+ * 为未指定分类的素材上传提供个人收件分类，避免新素材写入历史系统分类。
+ * @param {string} name 显式分类名称，可为空。
+ * @param {object} actor 已认证的上传人。
+ * @param {string} categoryId 显式分类编号，可为空。
+ * @returns {Promise<object>} 允许手动上传的分类实体。
+ * @throws {Error} 无账号、无归属权限或显式选择系统分类时拒绝。
+ */
+export async function resolveManualMediaCategory(name, actor, categoryId = '') {
+  if (name || categoryId) {
+    const category = await assertMediaCategoryExists(name, actor, categoryId)
+    assertManualMediaCategory(category)
+    return category
+  }
+  const owner = getActorId(actor)
+  if (!owner) throw createHttpError(401, 'MEDIA_CATEGORY_OWNER_REQUIRED', '请先登录')
+  return MediaCategory.findOneAndUpdate(
+    { owner, name: '未分类' },
+    { $setOnInsert: { system: false, description: '尚未整理到其他自建分类的素材' } },
+    { upsert: true, returnDocument: 'after', setDefaultsOnInsert: true }
+  )
 }
 
 export async function listMediaCategories(actor, options = {}) {
@@ -361,7 +343,16 @@ export async function deleteMediaCategory(id, actor) {
     throw createHttpError(403, 'MEDIA_VAULT_CATEGORY_IMMUTABLE', '密码箱是内置分类，不能删除')
   }
 
-  const defaultCategory = await assertMediaCategoryExists('默认素材', actor)
+  const resources = { uploader: owner, $or: [{ categoryId: category._id }, { categoryId: null, category: category.name }] }
+  const hasResources = await Media.exists(resources)
+  if (category.name === '未分类' && hasResources) {
+    throw createHttpError(409, 'MEDIA_DEFAULT_CATEGORY_NOT_EMPTY', '请先移走未分类中的文件，再删除这个分类')
+  }
+  if (!hasResources) {
+    await MediaCategory.findByIdAndDelete(id)
+    return { id, deleted: true }
+  }
+  const defaultCategory = await resolveManualMediaCategory('', actor)
   await Media.updateMany({
     uploader: owner,
     $or: [
