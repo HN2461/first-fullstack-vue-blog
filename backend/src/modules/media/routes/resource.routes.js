@@ -13,6 +13,7 @@ import { RESOURCE_SCENES } from '../constants/resourceScenes.js'
 import { listMedia } from '../services/media.service.js'
 import { MediaReference } from '../models/MediaReference.js'
 import { withResourceLocks } from '../services/resourceLock.service.js'
+import { getResourceContentHeaders } from '../utils/resourceResponse.util.js'
 
 export const resourceRouter = Router()
 
@@ -26,14 +27,7 @@ resourceRouter.get('/:id/content', asyncHandler(async (req, res, next) => {
   const media = req.resource
   await authorizeResourceRead(media, req.user)
   const filePath = await resolveResourcePath(media)
-  const inline = /^image\/(jpeg|png|gif|webp|avif)$/.test(media.mimeType) || media.mimeType === 'application/pdf' || /^(audio|video)\//.test(media.mimeType)
-  res.set({
-    'Content-Type': inline ? media.mimeType : 'application/octet-stream',
-    'X-Content-Type-Options': 'nosniff',
-    'Content-Security-Policy': "default-src 'none'; sandbox",
-    'Cache-Control': media.accessScope === 'public' ? 'public, max-age=300' : 'private, no-store',
-    'Content-Disposition': `${inline && req.query.download !== '1' ? 'inline' : 'attachment'}; filename="file"; filename*=UTF-8''${encodeURIComponent(media.originalName)}`
-  })
+  res.set(getResourceContentHeaders(media, req.query.download === '1'))
   res.sendFile(filePath, { dotfiles: 'allow' })
 }))
 

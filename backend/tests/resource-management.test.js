@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 import request from 'supertest'
-import { beforeAll, beforeEach, afterAll, describe, it, expect } from 'vitest'
+import { beforeAll, beforeEach, afterAll, describe, it, expect, vi } from 'vitest'
 import { createApp } from '../src/app.js'
 import { User } from '#modules/user/models/User.js'
 import { Resume } from '#modules/resume/models/Resume.js'
@@ -19,7 +19,7 @@ import { resolveResourcePath } from '#modules/media/services/resourceStorage.ser
 import { getResourceStorageAreas } from '#modules/media/services/resourceStorage.service.js'
 import { attachMediaReferenceSummaries, getMediaReferenceDetail } from '#modules/media/services/mediaReference.service.js'
 import { MediaCategory } from '#modules/media/models/MediaCategory.js'
-import { deleteMedia, permanentDeleteMedia } from '#modules/media/services/media.service.js'
+import { deleteMedia, permanentDeleteMedia, restoreMedia } from '#modules/media/services/media.service.js'
 import { createArticle, deleteArticle, permanentDeleteArticle } from '#modules/content/services/article.service.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
@@ -42,6 +42,26 @@ describe('统一文件管理', () => {
   afterAll(disconnectTestDatabase)
 
   const image = () => ({ buffer: jpegFixture, originalname: '照片.jpg', mimetype: 'image/jpeg', size: jpegFixture.length })
+
+  it('清理候选生成后移入回收站的资源不能被清理，主动恢复后转为保留', async () => {
+    const media = await createResource(image(), owner, { scene: 'article-cover' })
+    await Media.updateOne({ _id: media._id }, { $set: { expiresAt: new Date(0) } })
+    const findById = Media.findById.bind(Media)
+    // 模拟候选查询完成、取得资源锁之前，另一个操作已将文件移入回收站。
+    const spy = vi.spyOn(Media, 'findById').mockImplementationOnce(async (id) => {
+      await Media.updateOne({ _id: id }, { $set: { deletedAt: new Date() } })
+      return findById(id)
+    })
+    try {
+      expect((await cleanupPendingResources()).deleted).toBe(0)
+    } finally {
+      spy.mockRestore()
+    }
+    expect(await fs.readFile(media.storagePath)).toEqual(jpegFixture)
+    await restoreMedia(media._id, owner)
+    expect(await Media.findById(media._id)).toMatchObject({ lifecycleStatus: 'retained', expiresAt: null, deletedAt: null })
+    expect((await cleanupPendingResources()).deleted).toBe(0)
+  })
 
   it('普通用户无需媒体后台权限即可上传真实头像，替换和移除只解绑', async () => {
     const response = await request(app).post('/api/profile/avatar').set('Authorization', `Bearer ${otherToken}`)

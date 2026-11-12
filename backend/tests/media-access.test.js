@@ -101,6 +101,7 @@ describe('media access scope', () => {
       id: mediaManager._id.toString(),
       username: mediaManager.username
     })
+    expect(managerResponse.body.data.items[0]).not.toHaveProperty('storagePath')
 
     const superResponse = await request(app)
       .get('/api/admin/media')
@@ -110,6 +111,34 @@ describe('media access scope', () => {
     expect(superResponse.body.data.items.map((item) => item.originalName)).toEqual(
       expect.arrayContaining(['super-note.txt', 'manager-note.txt'])
     )
+  })
+
+  it('媒体管理员只读取上传约束，完整系统设置仍受超级管理员保护', async () => {
+    const response = await request(app).get('/api/admin/media/upload-rules')
+      .set('Authorization', `Bearer ${managerToken}`).expect(200)
+    expect(Object.keys(response.body.data).sort()).toEqual(['allowedExtensions', 'maxFileSizeMB', 'maxFiles'])
+    await request(app).get('/api/admin/settings').set('Authorization', `Bearer ${managerToken}`).expect(403)
+    await request(app).get('/api/admin/media/upload-rules').expect(401)
+  })
+
+  it('混入越权或不存在文件的批量删除在整批校验时拒绝，不先删除本人文件', async () => {
+    const mine = await createMedia(mediaManager, 'owned.txt')
+    const other = await createMedia(superAdmin, 'other.txt')
+    const response = await request(app).post('/api/admin/media/batch/delete')
+      .set('Authorization', `Bearer ${managerToken}`).send({ ids: [String(mine._id), String(other._id)] }).expect(409)
+    expect(response.body.code).toBe('MEDIA_BATCH_CHANGED')
+    expect((await Media.findById(mine._id)).deletedAt).toBeNull()
+    expect((await Media.findById(other._id)).deletedAt).toBeNull()
+  })
+
+  it('回收站批量恢复和彻底删除在混入失效 ID 时不先改动有效文件', async () => {
+    const media = await createMedia(superAdmin, 'trash-owned.txt')
+    await Media.updateOne({ _id: media._id }, { $set: { deletedAt: new Date() } })
+    for (const action of ['restore', 'permanent']) {
+      await request(app).post(`/api/admin/media/trash/batch/${action}`).set('Authorization', `Bearer ${superToken}`)
+        .send({ ids: [String(media._id), 'ffffffffffffffffffffffff'] }).expect(409)
+      expect((await Media.findById(media._id)).deletedAt).toBeTruthy()
+    }
   })
 
   it('文件夹数量按当前工作区累计跨账号的系统分类，与进入后的列表一致', async () => {

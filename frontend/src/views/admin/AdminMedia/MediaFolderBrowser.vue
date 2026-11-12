@@ -44,6 +44,7 @@
           <MediaBatchActions
             v-if="selectedKeys.length"
             :count="selectedKeys.length"
+            :share-disabled="selectedItems.some((item) => ['private', 'vault'].includes(item.accessScope))"
             :can-manage-shares="canManageShares"
             :move-disabled="moveBlocked"
             :delete-disabled="deleteBlocked"
@@ -112,6 +113,7 @@
         </div>
         <MediaBatchActions
           :count="selectedKeys.length"
+          :share-disabled="selectedItems.some((item) => ['private', 'vault'].includes(item.accessScope))"
           :can-manage-shares="canManageShares"
           :move-disabled="moveBlocked"
           :delete-disabled="deleteBlocked"

@@ -421,6 +421,15 @@ export function getAdminMediaStatistics(params = {}) {
   return http.get('/api/admin/media/statistics', { params })
 }
 
+/**
+ * 获取当前媒体上传约束，只要求媒体菜单权限。
+ * @returns {Promise<object>} 数量、容量及扩展名白名单。
+ * @throws {Error} 无权限或网络失败时由统一请求服务抛出。
+ */
+export function getAdminMediaUploadRules() {
+  return http.get('/api/admin/media/upload-rules')
+}
+
 export function getAdminMediaStorageUsage({ refresh = false } = {}) {
   return http.get('/api/admin/media/storage', { params: refresh ? { refresh: 'true' } : undefined })
 }

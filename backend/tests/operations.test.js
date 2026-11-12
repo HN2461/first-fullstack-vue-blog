@@ -378,7 +378,9 @@ describe('operations routes', () => {
       })
       .expect(201)
 
-    const media = uploadResponse.body.data
+    // 物理文件断言读取服务端记录，客户端响应只包含安全的资源身份。
+    expect(uploadResponse.body.data).not.toHaveProperty('storagePath')
+    const media = await Media.findById(uploadResponse.body.data.id)
     const unrelatedMedia = await Media.create({
       filename: 'unrelated-image.png',
       originalName: 'unrelated-image.png',
@@ -473,7 +475,8 @@ describe('operations routes', () => {
         contentType: 'image/png'
       })
       .expect(201)
-    const media = uploadResponse.body.data
+    expect(uploadResponse.body.data).not.toHaveProperty('storagePath')
+    const media = await Media.findById(uploadResponse.body.data.id)
 
     await User.findByIdAndUpdate(admin._id, { $set: { avatar: media.url } })
 
@@ -684,7 +687,8 @@ describe('operations routes', () => {
       })
       .expect(201)
 
-    const media = uploadResponse.body.data
+    expect(uploadResponse.body.data).not.toHaveProperty('storagePath')
+    const media = await Media.findById(uploadResponse.body.data.id)
     const renameResponse = await request(app)
       .patch(`/api/admin/media/${media.id}/name`)
       .set('Authorization', `Bearer ${adminToken}`)
@@ -692,7 +696,7 @@ describe('operations routes', () => {
       .expect(200)
 
     expect(renameResponse.body.data.originalName).toBe('课程资料.txt')
-    expect(renameResponse.body.data.storagePath).toBe(media.storagePath)
+    expect(renameResponse.body.data).not.toHaveProperty('storagePath')
 
     const stored = await Media.findById(media.id)
     expect(stored.originalName).toBe('课程资料.txt')
@@ -747,7 +751,8 @@ describe('operations routes', () => {
       })
       .expect(201)
 
-    const media = uploadResponse.body.data
+    expect(uploadResponse.body.data).not.toHaveProperty('storagePath')
+    const media = await Media.findById(uploadResponse.body.data.id)
     expect(fs.existsSync(media.storagePath)).toBe(true)
 
     const softDeleteResponse = await request(app)
@@ -815,7 +820,8 @@ describe('operations routes', () => {
       })
       .expect(201)
 
-    const media = uploadResponse.body.data
+    expect(uploadResponse.body.data).not.toHaveProperty('storagePath')
+    const media = await Media.findById(uploadResponse.body.data.id)
     expect(fs.existsSync(media.storagePath)).toBe(true)
 
     await Media.findByIdAndUpdate(media.id, {

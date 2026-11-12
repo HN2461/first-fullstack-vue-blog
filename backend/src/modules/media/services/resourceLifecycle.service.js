@@ -24,7 +24,8 @@ export async function cleanupPendingResources({ now = new Date(), limit = 100, d
   for (const candidate of candidates) {
     await withResourceLocks([candidate._id], async () => {
       const media = await Media.findById(candidate._id)
-      if (!media || !['pending', 'deleting'].includes(media.lifecycleStatus) || !media.expiresAt || media.expiresAt > now) return
+      // 候选查询发生在锁外；等待期间文件可能已被用户移入回收站，必须重新确认。
+      if (!media || media.deletedAt || !['pending', 'deleting'].includes(media.lifecycleStatus) || !media.expiresAt || media.expiresAt > now) return
       try {
         if (await MediaReference.exists({ mediaId: media._id }) || (await findMediaReferences(media)).length) {
           result.protected += 1

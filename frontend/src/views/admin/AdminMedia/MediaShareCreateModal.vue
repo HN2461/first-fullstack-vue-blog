@@ -33,7 +33,7 @@
 
         <div class="media-share-create__grid">
           <a-form-item label="分享有效期">
-            <a-select v-model:value="form.expiryPreset" :options="expiryOptions" />
+            <a-select v-model:value="form.expiryPreset" show-search option-filter-prop="label" :options="expiryOptions" />
           </a-form-item>
           <a-form-item v-if="form.expiryPreset === 'custom'" label="指定失效时间">
             <a-date-picker v-model:value="form.customExpiresAt" show-time format="YYYY-MM-DD HH:mm" style="width: 100%" />

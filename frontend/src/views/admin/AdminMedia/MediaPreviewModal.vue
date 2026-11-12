@@ -16,7 +16,7 @@
       </div>
     </template>
 
-    <div v-if="record" class="media-preview-workspace" :class="{ 'is-inspector-hidden': !inspectorVisible }">
+    <div v-if="open && record" class="media-preview-workspace" :class="{ 'is-inspector-hidden': !inspectorVisible }">
       <main class="media-preview-workspace__canvas">
         <div class="media-preview-workspace__toolbar" role="toolbar" aria-label="资源预览操作">
           <div class="media-preview-workspace__summary">

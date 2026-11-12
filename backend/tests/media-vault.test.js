@@ -81,6 +81,34 @@ describe('media vault protection', () => {
     await disconnectTestDatabase()
   })
 
+  it('密码箱主动内容按附件响应，沿用统一原件的沙箱及禁止缓存策略', async () => {
+    const media = await createVaultMedia(owner, 'preview.html')
+    await Media.updateOne({ _id: media._id }, { $set: { mimeType: 'text/html', sha256: 'a'.repeat(64) } })
+    const locked = await agent.get('/api/admin/media').set('Authorization', `Bearer ${token}`).expect(200)
+    expect(locked.body.data.items[0]).toMatchObject({ sha256: '', createdAt: null, updatedAt: null })
+    await agent.post('/api/admin/media-vault/setup').set('Authorization', `Bearer ${token}`)
+      .send({ password: 'vault-pass-123' }).expect(201)
+    const response = await agent.get(media.url).set('Authorization', `Bearer ${token}`).expect(200)
+    expect(response.headers['content-type']).toMatch(/^application\/octet-stream/)
+    expect(response.headers['content-disposition']).toMatch(/^attachment;/)
+    expect(response.headers['content-security-policy']).toBe("default-src 'none'; sandbox")
+    expect(response.headers['cache-control']).toBe('private, no-store')
+  })
+
+  it('未解锁时搜索与类型筛选不能推断密码箱内容，统计按隐藏类型处理', async () => {
+    await createVaultMedia(owner, 'sensitive-contract.txt')
+    for (const query of [{ keyword: 'sensitive' }, { fileClass: 'document' }]) {
+      const response = await agent.get('/api/admin/media').query(query).set('Authorization', `Bearer ${token}`).expect(200)
+      expect(response.body.data.total).toBe(0)
+    }
+    const stats = await agent.get('/api/admin/media/statistics').set('Authorization', `Bearer ${token}`).expect(200)
+    expect(stats.body.data.byFileClass).toMatchObject({ document: 0, other: 1 })
+    await agent.post('/api/admin/media-vault/setup').set('Authorization', `Bearer ${token}`)
+      .send({ password: 'vault-pass-123' }).expect(201)
+    const unlocked = await agent.get('/api/admin/media').query({ keyword: 'sensitive' }).set('Authorization', `Bearer ${token}`).expect(200)
+    expect(unlocked.body.data.total).toBe(1)
+  })
+
   it('allows first-time setup, requires the vault session, and serves protected content only after unlock', async () => {
     const status = await agent
       .get('/api/admin/media-vault/status')
@@ -107,10 +135,10 @@ describe('media vault protection', () => {
       originalName: '密码箱文件',
       filename: '',
       url: '',
-      storagePath: '',
       accessScope: 'vault'
     })
     expect(lockedList.body.data.items[0].originalName).not.toBe(media.originalName)
+    expect(lockedList.body.data.items[0]).not.toHaveProperty('storagePath')
 
     await agent
       .get(`/api/admin/media-downloads/content/${media._id}`)

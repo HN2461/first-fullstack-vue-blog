@@ -88,13 +88,16 @@ async function validateFile(input, actor) {
 }
 
 function publicSession(session) {
+  // 兼容升级前落盘的完成回执，服务器磁盘路径不属于前端资源身份。
+  const result = session.result ? { ...session.result } : null
+  if (result) delete result.storagePath
   return {
     uploadId: session.id,
     offset: session.offset,
     size: session.size,
     chunkSize: MEDIA_UPLOAD_CHUNK_SIZE,
     status: session.result ? 'completed' : 'uploading',
-    result: session.result || null
+    result
   }
 }
 

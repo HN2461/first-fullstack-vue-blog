@@ -131,7 +131,6 @@ mediaSchema.methods.toSafeJSON = function toSafeJSON() {
     mimeType: this.mimeType,
     size: this.size,
     url: this.url,
-    storagePath: this.storagePath,
     kind: this.kind,
     category: this.category || '未分类',
     categoryId: this.categoryId?.toString?.() || null,

@@ -13,7 +13,7 @@
               <FolderOpenOutlined />
               <span>资源分类</span>
             </a-menu-item>
-            <a-menu-item key="settings">
+            <a-menu-item v-if="superAdmin" key="settings">
               <SettingOutlined />
               <span>上传限制</span>
             </a-menu-item>
@@ -27,7 +27,7 @@
               <PictureOutlined />
               <span>缩略图缓存</span>
             </a-menu-item>
-            <a-menu-item key="trash">
+            <a-menu-item v-if="canAccessTrash" key="trash">
               <RestOutlined />
               <span>媒体回收站</span>
             </a-menu-item>
@@ -61,6 +61,7 @@ import {
 } from '@ant-design/icons-vue'
 
 defineProps({
+  canAccessTrash: { type: Boolean, default: false },
   showUpload: { type: Boolean, default: true },
   superAdmin: {
     type: Boolean,

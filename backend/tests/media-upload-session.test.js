@@ -117,7 +117,8 @@ describe('resumable media uploads', () => {
     await fs.appendFile(part, 'unconfirmed')
     await sendChunk(id, 3, 'def').expect(200)
     const response = await request(app).post(`${base}/${id}/complete`).set('Authorization', `Bearer ${token}`).send({}).expect(200)
-    expect(await fs.readFile(response.body.data.result.storagePath, 'utf8')).toBe('abcdef')
+    expect(response.body.data.result).not.toHaveProperty('storagePath')
+    expect(await fs.readFile((await Media.findById(response.body.data.result.id)).storagePath, 'utf8')).toBe('abcdef')
   })
 
   it('recovers a committed resource when the completion receipt was not saved', async () => {
@@ -133,6 +134,19 @@ describe('resumable media uploads', () => {
     expect(await Media.countDocuments()).toBe(1)
   })
 
+  it('旧上传完成回执中的服务器路径不再返回客户端', async () => {
+    const { id } = await create(3)
+    await sendChunk(id, 0, 'abc').expect(200)
+    await request(app).post(`${base}/${id}/complete`).set('Authorization', `Bearer ${token}`).send({}).expect(200)
+    const metaPath = path.join(getMediaUploadTemporaryRoot(), 'resumable', id, 'session.json')
+    const meta = JSON.parse(await fs.readFile(metaPath, 'utf8'))
+    meta.result.storagePath = 'C:/server/private/old-file.txt'
+    await fs.writeFile(metaPath, JSON.stringify(meta), 'utf8')
+    const response = await request(app).get(`${base}/${id}`).set('Authorization', `Bearer ${token}`).expect(200)
+    expect(response.body.data.result).not.toHaveProperty('storagePath')
+    expect(response.body.data.result.id).toBe(meta.result.id)
+  })
+
   it('bounds each chunk and supports files spanning several requests', async () => {
     const { id } = await create(MEDIA_UPLOAD_CHUNK_SIZE + 1)
     // 用声明长度验证入口拒绝；无需真正发送超量字节，避免早期拒绝触发 TCP 重置。
@@ -142,7 +156,8 @@ describe('resumable media uploads', () => {
     await sendChunk(id, 0, Buffer.alloc(MEDIA_UPLOAD_CHUNK_SIZE, 65)).expect(200)
     await sendChunk(id, MEDIA_UPLOAD_CHUNK_SIZE, 'B').expect(200)
     const result = await request(app).post(`${base}/${id}/complete`).set('Authorization', `Bearer ${token}`).send({}).expect(200)
-    const content = await fs.readFile(result.body.data.result.storagePath)
+    expect(result.body.data.result).not.toHaveProperty('storagePath')
+    const content = await fs.readFile((await Media.findById(result.body.data.result.id)).storagePath)
     expect(content.length).toBe(MEDIA_UPLOAD_CHUNK_SIZE + 1)
     expect(content.at(-1)).toBe(66)
   })

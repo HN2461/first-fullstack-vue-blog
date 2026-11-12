@@ -18,7 +18,7 @@
                 <SwapOutlined />
                 <span>迁移分类</span>
               </a-menu-item>
-              <a-menu-item v-if="canManageShares" key="share">
+              <a-menu-item v-if="canManageShares" key="share" :disabled="shareDisabled" :title="shareDisabled ? '私人文件和密码箱文件不能创建公开分享' : ''">
                 <ShareAltOutlined />
                 <span>创建分享</span>
               </a-menu-item>
@@ -50,6 +50,7 @@ import {
 } from '@ant-design/icons-vue'
 
 const props = defineProps({
+  shareDisabled: Boolean,
   moveDisabled: Boolean,
   deleteDisabled: Boolean,
   count: {
@@ -65,7 +66,7 @@ const props = defineProps({
 const emit = defineEmits(['download', 'move', 'share', 'delete', 'clear'])
 
 function handleMenuClick({ key }) {
-  if ((key === 'move' && props.moveDisabled) || (key === 'delete' && props.deleteDisabled)) return
+  if ((key === 'move' && props.moveDisabled) || (key === 'delete' && props.deleteDisabled) || (key === 'share' && props.shareDisabled)) return
   emit(key)
 }
 </script>

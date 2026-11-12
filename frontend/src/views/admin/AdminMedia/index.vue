@@ -45,6 +45,7 @@
           class="media-cloud__actions"
           :super-admin="authStore.isSuperAdmin"
           :can-manage-shares="canManageMediaShares"
+          :can-access-trash="authStore.canAccessPath('/console/manage/trash')"
           :show-upload="canUploadCurrentFolder"
           @upload="openUploadModal()"
           @inventory="inventoryModalVisible = true"
@@ -117,6 +118,7 @@
       <MediaBatchActions
         v-if="selectedMediaKeys.length > 0"
         :count="selectedMediaKeys.length"
+        :share-disabled="selectedMediaRecords.some((item) => ['private', 'vault'].includes(item.accessScope))"
         :can-manage-shares="canManageMediaShares"
         :move-disabled="selectedMediaRecords.some((item) => getMediaActionRestrictions(item).moveReason)"
         :delete-disabled="selectedMediaRecords.some((item) => getMediaActionRestrictions(item).deleteReason)"
@@ -283,7 +285,9 @@
     />
 
     <MediaTrashModal
+      v-if="trashModalVisible"
       v-model:open="trashModalVisible"
+      :vault-unlocked="vaultStatus.unlocked"
       @changed="handleTrashChanged"
     />
 
@@ -509,7 +513,7 @@ import {
   getAdminMediaStatistics,
   getAdminMediaStorageUsage,
   getAdminMediaDeleteRisk,
-  getAdminSettings,
+  getAdminMediaUploadRules,
   listAdminMedia,
   listAdminMediaCategories,
   batchDeleteAdminMedia,
@@ -528,6 +532,7 @@ import { useAuthStore } from '@/stores/auth'
 import { getMovableMediaCategories, getUploadMediaCategories, getMediaActionRestrictions, getMediaCategoryQuery } from './mediaCategoryOptions'
 import { getMediaThumbnailUrl, hideFailedThumbnail } from './mediaThumbnailUrl'
 import { useMediaDownloads } from './useMediaDownloads'
+import { useMediaConfirm } from './useMediaConfirm'
 
 const tableRef = ref(null)
 const router = useRouter()
@@ -545,7 +550,7 @@ const filterLifecycle = ref(undefined)
 const resourceSceneOptions = [
   ['admin-library', '媒体素材'], ['article-cover', '文章封面'], ['article-content', '文章正文图片'],
   ['user-avatar', '用户头像'], ['resume-photo', '简历照片'], ['discussion-attachment', '讨论附件'],
-  ['feedback-image', '意见反馈'], ['work-journal-evidence', '工作日志']
+  ['feedback-image', '意见反馈'], ['work-journal-evidence', '工作日志'], ['article-resource', '文章附件']
 ].map(([value, label]) => ({ value, label }))
 const resourceLifecycleOptions = [
   ['pending', '待保存 / 待清理'], ['attached', '业务正在使用'], ['retained', '主动保留素材']
@@ -613,11 +618,13 @@ let listRequest = 0
 let latestListTask
 let categoryRequest = 0
 let folderCategoryRequest = 0
+let deleteRiskRequest = 0
 const categoryDraft = ref({
   name: '',
   description: ''
 })
-const { runAction, confirmAction } = useAdminActions()
+const { runAction } = useAdminActions()
+const { confirmAction, cancelConfirmations } = useMediaConfirm()
 const authStore = useAuthStore()
 const canManageMediaShares = computed(() => authStore.canAccessPath('/console/manage/media-shares'))
 const activeFolder = computed(() => folderCategories.value.find((item) => String(item.id) === String(activeFolderId.value) || item.name === activeFolderId.value) || null)
@@ -685,7 +692,7 @@ const categoryOptions = computed(() => {
 })
 
 const filterCategoryOptions = computed(() => categories.value.map((item) => ({
-  label: `${item.name}${item.count ? ` (${item.count})` : ''}`,
+  label: `${item.name}${item.ownerName ? ` · ${item.ownerName}` : ''}${item.count ? ` (${item.count})` : ''}`,
   value: item.id || item.name
 })))
 
@@ -851,6 +858,8 @@ function getFileClassColor(fileClass) {
 }
 
 function loadMedia(params) {
+  // 列表翻页、筛选和刷新都从同一个入口清除选择，避免批量操作命中已离开视图的文件。
+  clearMediaSelection()
   const current = ++listRequest
   const statsParams = { ...params }
   delete statsParams.fileClass
@@ -884,7 +893,7 @@ async function loadMediaStorage(refresh = false) {
 
 async function loadCategories() {
   const current = ++categoryRequest
-  const result = await listAdminMediaCategories()
+  const result = await listAdminMediaCategories({ scope: authStore.isSuperAdmin ? 'all' : undefined })
   if (!disposed && current === categoryRequest) categories.value = result
 }
 
@@ -912,6 +921,15 @@ function updateFolderRoute() {
 }
 
 function changeViewMode(value) {
+  deleteRiskRequest += 1
+  cancelConfirmations()
+  closeVaultModal()
+  folderRequest += 1
+  listRequest += 1
+  clearMediaSelection()
+  clearFolderSelection()
+  previewVisible.value = false
+  referenceModalVisible.value = false
   viewMode.value = value
   if (value === 'folders') {
     activeFolderId.value = ''
@@ -935,6 +953,12 @@ function applyVaultStatus(status = {}) {
   vaultNow.value = Date.now()
   vaultRemainingSeconds.value = calculateVaultRemainingSeconds(vaultStatus.value, vaultNow.value)
   if (!vaultStatus.value.unlocked) {
+    deleteRiskRequest += 1
+    cancelConfirmations()
+    // 使锁定前发出的列表请求失效，回收站组件卸载后也不保留已解锁的名称和选择。
+    listRequest += 1
+    latestListTask = Promise.resolve({ items: [], total: 0 })
+    trashModalVisible.value = false
     if (isVaultCategory(activeFolder.value)) folderRequest += 1
     if (wasUnlocked) closeVaultModal()
     vaultDetailsVisible.value = false
@@ -1017,6 +1041,8 @@ async function openVaultRevealModal() {
 }
 
 async function lockVault() {
+  // 本地先隐藏，网络故障也不能让用户点击“结束验证”后仍继续显示密码箱内容。
+  applyVaultStatus({ ...vaultStatus.value, unlocked: false })
   const current = ++vaultRequest
   try {
     const status = await lockAdminMediaVault()
@@ -1060,6 +1086,7 @@ async function openFolder(folder) {
       vaultModalVisible.value = true
     } catch (error) {
       errorMessage.value = error.message || '密码箱状态获取失败'
+      if (!disposed && current === vaultRequest) message.error(errorMessage.value)
     }
     return
   }
@@ -1232,6 +1259,7 @@ async function loadFolderCategoriesAndItems() {
 }
 
 async function loadFolderItems() {
+  clearFolderSelection()
   const current = ++folderRequest
   const category = activeFolder.value
   const vault = isVaultCategory(category)
@@ -1261,12 +1289,19 @@ async function loadFolderItems() {
       pageSize: folderPageSize.value
     })
     if (!stillCurrent()) return
+    const lastPage = Math.max(1, Math.ceil(result.total / folderPageSize.value))
+    if (folderPage.value > lastPage) {
+      folderPage.value = lastPage
+      return loadFolderItems()
+    }
     folderResultKey = key
     folderItems.value = result.items
     folderTotal.value = result.total
     vaultRecordsPresent.value = vault && result.items.some((item) => item.accessScope === 'vault')
   } catch (error) {
     if (stillCurrent()) {
+      folderItems.value = []
+      folderTotal.value = 0
       errorMessage.value = error.message || '文件夹资源加载失败'
       message.error(errorMessage.value)
     }
@@ -1276,11 +1311,11 @@ async function loadFolderItems() {
 }
 
 async function loadUploadRules() {
-  const settings = await getAdminSettings()
+  const rules = await getAdminMediaUploadRules()
   uploadRules.value = {
-    maxFiles: Number(settings.mediaMaxFilesPerUpload) || 5,
-    maxFileSizeMB: Number(settings.mediaMaxFileSizeMB) || 20,
-    allowedExtensions: normalizeAllowedMediaExtensions(settings.mediaAllowedExtensions)
+    maxFiles: Number(rules.maxFiles) || 5,
+    maxFileSizeMB: Number(rules.maxFileSizeMB) || 20,
+    allowedExtensions: normalizeAllowedMediaExtensions(rules.allowedExtensions)
   }
   settingsDraft.value = {
     mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
@@ -1290,6 +1325,7 @@ async function loadUploadRules() {
 }
 
 function openUploadSettings() {
+  if (!authStore.isSuperAdmin) return
   settingsDraft.value = {
     mediaMaxFilesPerUpload: uploadRules.value.maxFiles,
     mediaMaxFileSizeMB: uploadRules.value.maxFileSizeMB,
@@ -1482,8 +1518,10 @@ function handleBatchDelete() {
 }
 
 async function confirmMediaDelete(ids, options) {
+  const current = ++deleteRiskRequest
   try {
     const risk = await getAdminMediaDeleteRisk(ids)
+    if (disposed || current !== deleteRiskRequest) return
     if (risk.items.length !== ids.length) return message.warning('部分文件不可用，请刷新后重试')
     if (risk.referencedCount > 0) return message.warning('文件仍有使用位置，请先在所属业务移除或替换')
     return confirmAction({ title: options.title, content: options.getContent?.(risk) || options.content,
@@ -1500,6 +1538,7 @@ function openReferenceModal(record) {
 }
 
 function openTrashModal() {
+  if (!authStore.canAccessPath('/console/manage/trash')) return
   trashModalVisible.value = true
 }
 
@@ -1546,6 +1585,7 @@ function editCategory(item) {
 async function submitCategory() {
   if (!String(categoryDraft.value.name || '').trim()) {
     errorMessage.value = '请输入资源分类名称'
+    message.warning(errorMessage.value)
     return
   }
 
@@ -1561,6 +1601,7 @@ async function submitCategory() {
     await Promise.all([loadCategories(), loadFolderCategoriesAndItems()])
   } catch (error) {
     errorMessage.value = error.message || '分类保存失败'
+    message.error(errorMessage.value)
   } finally {
     categorySubmitting.value = false
   }
@@ -1594,6 +1635,8 @@ watch(() => route.fullPath, () => {
   if (nextView === viewMode.value && (nextView !== 'folders' ||
     (nextId === activeFolderId.value && nextKeyword === folderKeyword.value))) return
   closeVaultModal()
+  deleteRiskRequest += 1
+  cancelConfirmations()
   folderRequest += 1
   listRequest += 1
   clearFolderSelection()

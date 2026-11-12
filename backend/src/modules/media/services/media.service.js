@@ -74,10 +74,19 @@ function maskLockedVaultMedia(items = [], actor) {
       mimeType: 'application/octet-stream',
       size: 0,
       url: '',
-      storagePath: '',
       kind: 'attachment',
       category: '密码箱',
       fileClass: 'other',
+      sha256: '',
+      article: null,
+      workJournalLog: null,
+      workJournalEvidence: null,
+      feedback: null,
+      createdAt: null,
+      updatedAt: null,
+      deletedAt: null,
+      deletedBy: null,
+      expiresAt: null,
       usage: {
         usageStatus: 'protected',
         usageStatusLabel: '已隐藏',
@@ -157,6 +166,11 @@ function buildMediaListQuery(options = {}) {
     ? { deletedAt: { $exists: true, $ne: null } }
     : { deletedAt: null }
   Object.assign(query, getMediaListAccessQuery(options.actor))
+  // 脱敏必须发生在筛选语义中；不能通过逐字搜索文件名或类型统计推断锁定内容。
+  if (options.actor?.mediaVaultUnlocked !== true &&
+    [keyword, kind, fileClass, usageStatus, options.scene, options.lifecycleStatus].some(Boolean)) {
+    query.$and = [{ accessScope: { $ne: 'vault' } }]
+  }
   if (options.resourcePicker) {
     query.accessScope = 'public'
     query.lifecycleStatus = { $nin: ['pending', 'deleting'] }
@@ -267,7 +281,9 @@ export async function getMediaStatistics(options = {}) {
   const [groups, vaultCount] = await Promise.all([
     Media.aggregate([
       { $match: castMediaAggregateObjectIds(query) },
-      { $group: { _id: { $ifNull: ['$fileClass', 'other'] }, count: { $sum: 1 } } }
+      { $group: { _id: options.actor?.mediaVaultUnlocked === true
+        ? { $ifNull: ['$fileClass', 'other'] }
+        : { $cond: [{ $eq: ['$accessScope', 'vault'] }, 'other', { $ifNull: ['$fileClass', 'other'] }] }, count: { $sum: 1 } } }
     ]),
     Media.exists({ ...query, accessScope: 'vault' })
   ])
@@ -285,7 +301,7 @@ export async function listMedia(options = {}) {
   if (!query) return { items: [], total: 0, page, pageSize }
 
   if (usageStatus === 'referenced' || usageStatus === 'unreferenced') {
-    const candidates = await Media.find(query).populate('uploader', 'username email role').sort({ createdAt: -1 })
+    const candidates = await Media.find(query).populate('uploader', 'username email role').sort({ createdAt: -1, _id: -1 })
     const enrichedCandidates = await attachMediaReferenceSummaries(candidates)
     const filtered = enrichedCandidates.filter((item) => item.usage?.usageStatus === usageStatus)
     const skip = (page - 1) * pageSize
@@ -303,7 +319,7 @@ export async function listMedia(options = {}) {
   const [media, total] = await Promise.all([
     Media.find(query)
       .populate('uploader', 'username email role')
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: -1, _id: -1 })
       .skip(skip)
       .limit(pageSize),
     Media.countDocuments(query)
@@ -595,7 +611,7 @@ export async function getMediaContent(id, actor) {
     error.code = 'MEDIA_NOT_FOUND'
     throw error
   }
-  const filePath = path.resolve(media.storagePath)
+  const filePath = await resolveResourcePath(media)
   if (!isPathInside(getVaultStorageRoot(), filePath)) {
     const error = new Error('密码箱文件路径无效')
     error.statusCode = 409
@@ -724,6 +740,16 @@ async function assertMediaHasNoBusinessReferences(media) {
   throw error
 }
 
+function assertCompleteMediaBatch(ids, mediaList) {
+  // 先核对整批范围，避免遇到无权访问或已不存在的后续 ID 时，前面的文件已经变更。
+  if (new Set(ids.map(String)).size !== ids.length || mediaList.length !== ids.length) {
+    const error = new Error('部分文件不存在或不可操作，请刷新列表后重试')
+    error.statusCode = 409
+    error.code = 'MEDIA_BATCH_CHANGED'
+    throw error
+  }
+}
+
 export async function batchDeleteMedia(ids, user) {
   if (!Array.isArray(ids) || ids.length === 0) {
     const error = new Error('请选择要删除的媒体文件')
@@ -733,6 +759,7 @@ export async function batchDeleteMedia(ids, user) {
   }
 
   const mediaList = await Media.find({ _id: { $in: ids }, deletedAt: null, ...getMediaAccessQuery(user) })
+  assertCompleteMediaBatch(ids, mediaList)
   for (const media of mediaList) {
     await assertMediaHasNoBusinessReferences(media)
   }
@@ -747,6 +774,10 @@ export async function batchDeleteMedia(ids, user) {
 }
 
 export async function restoreMedia(id, actor = null) {
+  return withResourceLocks([id], () => restoreMediaLocked(id, actor))
+}
+
+async function restoreMediaLocked(id, actor) {
   const media = await Media.findOne({ _id: id, deletedAt: { $exists: true, $ne: null }, ...getMediaAccessQuery(actor) })
   if (!media) {
     const error = new Error('回收站中未找到该媒体文件')
@@ -757,6 +788,11 @@ export async function restoreMedia(id, actor = null) {
 
   media.deletedAt = null
   media.deletedBy = null
+  // 用户明确恢复的文件视为主动保留，不能因回收前的待绑定期限立即再次被清理。
+  if (['pending', 'deleting'].includes(media.lifecycleStatus)) {
+    media.lifecycleStatus = 'retained'
+    media.expiresAt = null
+  }
   await media.save()
 
   return media.toSafeJSON()
@@ -770,6 +806,8 @@ export async function batchRestoreMedia(ids, actor = null) {
     throw error
   }
 
+  const mediaList = await Media.find({ _id: { $in: ids }, deletedAt: { $ne: null }, ...getMediaAccessQuery(actor) })
+  assertCompleteMediaBatch(ids, mediaList)
   let restoredCount = 0
   for (const id of ids) {
     await restoreMedia(id, actor)
@@ -874,6 +912,7 @@ export async function batchPermanentDeleteMedia(ids, actor = null) {
   }
 
   const mediaList = await Media.find({ _id: { $in: ids }, ...getMediaAccessQuery(actor) })
+  assertCompleteMediaBatch(ids, mediaList)
   for (const media of mediaList) {
     const blockingShares = await findBlockingMediaShares(media._id)
     if (blockingShares.length > 0) {

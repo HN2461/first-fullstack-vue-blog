@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { DeleteOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
 import {
@@ -101,9 +101,11 @@ import {
   restoreAdminMedia
 } from '@/services/admin'
 import { useAdminActions } from '@/composables/useAdminUi'
+import { useMediaConfirm } from './useMediaConfirm'
 
 const props = defineProps({
-  open: { type: Boolean, default: false }
+  open: { type: Boolean, default: false },
+  vaultUnlocked: { type: Boolean, default: false }
 })
 
 const emit = defineEmits(['update:open', 'changed'])
@@ -111,7 +113,11 @@ const emit = defineEmits(['update:open', 'changed'])
 const tableRef = ref(null)
 const selectedTrashKeys = ref([])
 const trashTotal = ref(0)
-const { runAction, confirmAction } = useAdminActions()
+let requestVersion = 0
+let latestTask = Promise.resolve({ items: [], total: 0 })
+let disposed = false
+const { runAction } = useAdminActions()
+const { confirmAction, cancelConfirmations } = useMediaConfirm()
 
 const columns = [
   {
@@ -143,22 +149,37 @@ const trashRowSelection = computed(() => ({
 watch(
   () => props.open,
   (visible) => {
-    if (!visible) return
+    cancelConfirmations()
+    requestVersion += 1
+    latestTask = Promise.resolve({ items: [], total: 0 })
     selectedTrashKeys.value = []
+    if (!visible) return
     tableRef.value?.reload?.()
   }
 )
 
-async function loadTrash(params = {}) {
-  const result = await runAction(() => listTrashMedia(params), {
-    errorMessage: '回收站加载失败'
+function loadTrash(params = {}) {
+  selectedTrashKeys.value = []
+  const current = ++requestVersion
+  // 未验证时不把密码箱占位项混进可恢复、可删除的回收站选择范围。
+  const task = listTrashMedia({ ...params, workspace: props.vaultUnlocked ? 'all' : 'folders' }).then((result) => {
+    if (disposed || !props.open) return { items: [], total: 0 }
+    if (current !== requestVersion) return latestTask
+    trashTotal.value = result.total || 0
+    return result
+  }).catch((error) => {
+    if (disposed || !props.open) return { items: [], total: 0 }
+    if (current !== requestVersion) return latestTask
+    throw error
   })
-  trashTotal.value = result.total || 0
-  selectedTrashKeys.value = selectedTrashKeys.value.filter((id) =>
-    (result.items || []).some((item) => item.id === id)
-  )
-  return result
+  latestTask = task
+  return task
 }
+
+onUnmounted(() => {
+  disposed = true
+  requestVersion += 1
+})
 
 function handleSelectionChange(keys) {
   selectedTrashKeys.value = keys

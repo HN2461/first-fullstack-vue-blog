@@ -15,9 +15,10 @@ vi.mock('@/stores/auth', () => ({ useAuthStore: () => fixture.auth }))
 vi.mock('@/stores/mediaUpload', () => ({ useMediaUploadStore: () => fixture.upload }))
 vi.mock('ant-design-vue', () => ({ message: { error: vi.fn(), info: vi.fn(), warning: vi.fn(), success: vi.fn() } }))
 vi.mock('@/composables/useAdminUi', () => ({ useAdminActions: () => fixture.actions }))
+vi.mock('./useMediaConfirm', () => ({ useMediaConfirm: () => ({ confirmAction: fixture.actions.confirmAction, cancelConfirmations: vi.fn() }) }))
 vi.mock('./useMediaDownloads', () => ({ useMediaDownloads: () => ({ downloadModalVisible: ref(false), downloadSubmitting: ref(false), downloadSingleMedia: vi.fn(), openBatchDownload: vi.fn(), submitBatchDownload: vi.fn() }) }))
 vi.mock('@/services/admin', () => {
-  const names = ['createAdminMediaCategory', 'deleteAdminMedia', 'deleteAdminMediaCategory', 'getAdminMediaStatistics', 'getAdminMediaStorageUsage', 'getAdminMediaDeleteRisk', 'getAdminSettings', 'listAdminMedia', 'listAdminMediaCategories', 'batchDeleteAdminMedia', 'batchMoveAdminMediaCategory', 'moveAdminMediaCategory', 'renameAdminMedia', 'updateAdminMediaCategory', 'updateAdminSettings', 'getAdminMediaVaultStatus', 'lockAdminMediaVault', 'setupAdminMediaVault', 'unlockAdminMediaVault']
+  const names = ['createAdminMediaCategory', 'deleteAdminMedia', 'deleteAdminMediaCategory', 'getAdminMediaStatistics', 'getAdminMediaStorageUsage', 'getAdminMediaDeleteRisk', 'getAdminMediaUploadRules', 'listAdminMedia', 'listAdminMediaCategories', 'batchDeleteAdminMedia', 'batchMoveAdminMediaCategory', 'moveAdminMediaCategory', 'renameAdminMedia', 'updateAdminMediaCategory', 'updateAdminSettings', 'getAdminMediaVaultStatus', 'lockAdminMediaVault', 'setupAdminMediaVault', 'unlockAdminMediaVault']
   fixture.api = Object.fromEntries(names.map((name) => [name, vi.fn()]))
   return fixture.api
 })
@@ -79,6 +80,86 @@ afterEach(() => {
 })
 
 describe('初代媒体页面实际操作链路', () => {
+  it('锁定后迟到的删除风险结果不能再次弹出文件名和确认操作', async () => {
+    const pending = deferred()
+    fixture.api.getAdminMediaDeleteRisk.mockReturnValueOnce(pending.promise)
+    const action = page.confirmMediaDelete(['secret'], { title: '删除' })
+    page.applyVaultStatus({ configured: true, unlocked: false })
+    pending.resolve({ items: [{ media: { id: 'secret' } }], referencedCount: 0 })
+    await action
+    expect(fixture.actions.confirmAction).not.toHaveBeenCalled()
+  })
+  it('文件夹末页删除后自动回到最后一个有效分页', async () => {
+    page.activeFolderId.value = mine.id
+    page.folderPage.value = 2
+    fixture.api.listAdminMedia.mockResolvedValueOnce({ items: [], total: 20 })
+      .mockResolvedValueOnce({ items: [{ id: 'remaining' }], total: 20 })
+    await page.loadFolderItems()
+    expect(page.folderPage.value).toBe(1)
+    expect(page.folderItems.value).toEqual([{ id: 'remaining' }])
+    expect(fixture.api.listAdminMedia).toHaveBeenCalledTimes(2)
+  })
+
+  it('结束密码箱验证立即隐藏文件，即使锁定接口尚未响应', async () => {
+    page.applyVaultStatus({ configured: true, unlocked: true, expiresAt: new Date(Date.now() + 60000).toISOString() })
+    page.previewVisible.value = true
+    const pending = deferred()
+    fixture.api.lockAdminMediaVault.mockReturnValueOnce(pending.promise)
+    const action = page.lockVault()
+    expect(page.vaultStatus.value.unlocked).toBe(false)
+    expect(page.previewVisible.value).toBe(false)
+    pending.resolve({ configured: true, unlocked: false })
+    await action
+  })
+
+  it('列表翻页或筛选开始即清除旧选择，视图切换也不保留隐藏选择', async () => {
+    page.viewMode.value = 'list'
+    page.selectedMediaKeys.value = ['previous']
+    page.selectedMediaRecords.value = [{ id: 'previous' }]
+    const loading = page.loadMedia({ page: 2 })
+    expect(page.selectedMediaKeys.value).toEqual([])
+    expect(page.selectedMediaRecords.value).toEqual([])
+    await loading
+    page.folderSelectedKeys.value = ['old-folder']
+    page.folderSelectedRecords.value = [{ id: 'old-folder' }]
+    page.changeViewMode('list')
+    expect(page.folderSelectedKeys.value).toEqual([])
+    expect(page.folderSelectedRecords.value).toEqual([])
+  })
+
+  it('普通媒体管理员读取独立上传规则，不能打开系统设置', async () => {
+    fixture.auth.isSuperAdmin = false
+    fixture.api.getAdminMediaUploadRules.mockResolvedValueOnce({ maxFiles: 8, maxFileSizeMB: 100, allowedExtensions: ['.txt'] })
+    await page.loadUploadRules()
+    expect(page.uploadRules.value).toEqual({ maxFiles: 8, maxFileSizeMB: 100, allowedExtensions: ['.txt'] })
+    page.openUploadSettings()
+    expect(page.settingsModalVisible.value).toBe(false)
+    fixture.auth.canAccessPath = () => false
+    page.openTrashModal()
+    expect(page.trashModalVisible.value).toBe(false)
+  })
+
+  it('密码箱锁定关闭回收站，锁定前的完整列表响应不能恢复敏感数据', async () => {
+    page.viewMode.value = 'list'
+    page.applyVaultStatus({ configured: true, unlocked: true, expiresAt: new Date(Date.now() + 60000).toISOString() })
+    page.trashModalVisible.value = true
+    const pending = deferred()
+    fixture.api.listAdminMedia.mockReturnValueOnce(pending.promise)
+    const old = page.loadMedia({ page: 1 })
+    page.applyVaultStatus({ configured: true, unlocked: false })
+    pending.resolve({ items: [{ id: 'secret', originalName: '秘密文件', accessScope: 'vault' }], total: 1 })
+    expect(page.trashModalVisible.value).toBe(false)
+    await expect(old).resolves.toEqual({ items: [], total: 0 })
+  })
+
+  it('超级管理员的列表分类与文件夹使用相同的全部归属范围', async () => {
+    await page.loadCategories()
+    expect(fixture.api.listAdminMediaCategories).toHaveBeenLastCalledWith({ scope: 'all' })
+    fixture.auth.isSuperAdmin = false
+    await page.loadCategories()
+    expect(fixture.api.listAdminMediaCategories).toHaveBeenLastCalledWith({ scope: undefined })
+  })
+
   it('切到列表后写入明确列表地址，地址同步不会再跳回目录', () => {
     page.changeViewMode('list')
     expect(fixture.router.replace.mock.lastCall[0].query.view).toBe('list')

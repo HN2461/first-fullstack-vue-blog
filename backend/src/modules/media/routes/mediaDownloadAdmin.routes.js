@@ -15,6 +15,7 @@ import {
   parseMediaPayload
 } from '#modules/media/validators/media.validator.js'
 import { asyncHandler } from '#utils/asyncHandler.js'
+import { getResourceContentHeaders } from '../utils/resourceResponse.util.js'
 
 export const mediaDownloadAdminRouter = Router()
 
@@ -31,11 +32,8 @@ mediaDownloadAdminRouter.get('/content/:id', asyncHandler(async (req, res) => {
   const id = parseMediaPayload(mediaIdSchema, req.params.id)
   const content = await getMediaContent(id, req.user)
   res.set({
-    'Content-Type': content.media.mimeType || 'application/octet-stream',
-    'Content-Length': String(content.size),
-    'Cache-Control': 'private, no-store',
-    'X-Content-Type-Options': 'nosniff',
-    'Content-Disposition': 'inline'
+    ...getResourceContentHeaders(content.media, req.query.download === '1'),
+    'Content-Length': String(content.size)
   })
   await pipeline(fs.createReadStream(content.filePath), res)
 }))

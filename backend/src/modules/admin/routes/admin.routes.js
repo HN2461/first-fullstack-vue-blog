@@ -680,6 +680,11 @@ adminRouter.get('/media/statistics', asyncHandler(async (req, res) => {
   res.json(ok(await getMediaStatistics({ ...req.query, actor: req.user })))
 }))
 
+// 媒体管理员只需读取上传约束，不应为初始化页面请求超级管理员的完整系统设置。
+adminRouter.get('/media/upload-rules', asyncHandler(async (_req, res) => {
+  res.json(ok(await getMediaUploadRules()))
+}))
+
 adminRouter.get('/media/storage', asyncHandler(async (req, res) => {
   res.json(ok(await getMediaStorageUsage({ refresh: req.query.refresh === 'true' })))
 }))
