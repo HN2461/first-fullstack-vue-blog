@@ -3,6 +3,7 @@ import { access } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { normalizeCalendar, selectPrimaryFestival } from './festivalApi'
 import { getFestivalAtmosphereProfile, getFestivalVisual } from './festivalCatalog'
+import { SOLAR_TERM_META } from './solarTermCatalog'
 
 describe('festival calendar server data', () => {
   it('normalizes custom broadcast festivals with their configured greeting and scope', () => {
@@ -139,6 +140,17 @@ describe('festival calendar server data', () => {
     const icons = terms.map((name) => getFestivalVisual(name, 'solar-term').icons[0])
 
     expect(new Set(icons).size).toBe(24)
+  })
+
+  it('ships local assets for every configured solar-term icon', async () => {
+    const assetDirectory = new URL('../../../public/assets/festival-icons/', import.meta.url)
+    const icons = new Set(Object.values(SOLAR_TERM_META).flatMap((term) => term.icons))
+
+    for (const icon of icons) {
+      const codepoints = [...icon].map((character) => character.codePointAt(0).toString(16)).filter((codepoint) => codepoint !== 'fe0f').join('-')
+      const assetPath = fileURLToPath(new URL(`${codepoints}.svg`, assetDirectory))
+      await expect(access(assetPath)).resolves.toBeUndefined()
+    }
   })
 
   it('ships a valid local SVG asset for each icon used by current lunar observances', async () => {

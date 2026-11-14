@@ -18,7 +18,7 @@ export const SOLAR_TERM_META = {
   code_dew: { key: 'term-hanlu', effect: 'term-autumn', icons: ['💧', '🍁'], greetings: ['寒露渐深，愿衣暖心安。', '秋意更浓，愿你照顾好清晨和夜晚。'] },
   frost_descent: { key: 'term-shuangjiang', effect: 'term-autumn', icons: ['❄️', '🍂'], greetings: ['霜降已至，愿岁月沉静有光。', '秋深露重，愿一切沉淀成收获。'] },
   the_beginning_of_winter: { key: 'term-lidong', effect: 'term-winter', icons: ['❄️', '🍲'], greetings: ['立冬已至，愿有暖可依。', '冬意初生，愿热汤和好消息都在路上。'] },
-  lesser_snow: { key: 'term-xiaoxue', effect: 'term-winter', icons: ['❄️', '✨'], greetings: ['小雪将至，愿心里有暖。', '天渐寒，愿你被温柔照看。'] },
+  lesser_snow: { key: 'term-xiaoxue', effect: 'term-winter', icons: ['🌨️', '✨'], greetings: ['小雪将至，愿心里有暖。', '天渐寒，愿你被温柔照看。'] },
   greater_snow: { key: 'term-daxue', effect: 'term-winter', icons: ['❄️', '🌨️'], greetings: ['大雪时节，愿天地清宁。', '雪意渐浓，愿归途有灯，心里有暖。'] },
   the_winter_solstice: { key: 'winter-solstice', effect: 'winter', icons: ['❄️', '🥟'], greetings: ['冬至安康。', '愿最长的夜，也有热汤和归人。'] },
   lesser_cold: { key: 'term-xiaohan', effect: 'term-winter', icons: ['❄️', '🧣'], greetings: ['小寒料峭，愿心有暖意。', '岁寒渐深，照顾好奔忙的自己。'] },
