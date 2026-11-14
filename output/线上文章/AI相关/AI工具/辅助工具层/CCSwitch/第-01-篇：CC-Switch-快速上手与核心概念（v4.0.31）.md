@@ -1,7 +1,7 @@
 ---
-title: "第 01 篇：CC Switch 快速上手与核心概念（v4.0.21）"
+title: "第 01 篇：CC Switch 快速上手与核心概念（v4.0.31）"
 slug: "ai-ccswitch-ccswitch-82653641"
-summary: "CC Switch 是跨平台桌面 AI 编程工具配置中控台。v4.0 重做侧栏、直连/路由/聚合模式、用量与会话管理，并改为只替换供应商关键字段、保留用户配置；本篇按 v4.0.21（2026-10-26）官方发布说明、用户手册与 FAQ 更新安装、Provider、聚合、MCP、同步和升级边界。"
+summary: "CC Switch 是跨平台桌面 AI 编程工具配置中控台。v4.0 重做侧栏、直连/路由/聚合模式、用量与会话管理，并改为只替换供应商关键字段、保留用户配置；本篇按 v4.0.31（2026-11-12）官方发布说明、CHANGELOG、用户手册与 FAQ 更新安装、Provider、聚合、MCP、同步、隐私过滤和升级边界。"
 category: "CCSwitch"
 categoryPath:
   - "AI相关"
@@ -22,16 +22,16 @@ originalId: "6a2d291d8a2b1c68f2cac05a"
 originalSlug: "ai-ccswitch-ccswitch-82653641"
 originalStatus: "published"
 publishedAt: "2026-05-30T11:24:47.588Z"
-updatedAt: "2026-10-28T16:00:00.000Z"
+updatedAt: "2026-11-14T08:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
-# 第 01 篇：CC Switch 快速上手与核心概念（v4.0.21）
+# 第 01 篇：CC Switch 快速上手与核心概念（v4.0.31）
 
 > 官方仓库：[github.com/farion1231/cc-switch](https://github.com/farion1231/cc-switch)  
-> 当前版本：v4.0.21（2026-10-26）
-> 资料核对时间：2026-10-28
+> 当前版本：v4.0.31（2026-11-12）
+> 资料核对时间：2026-11-14
 > 技术栈：Tauri 2 + Rust（后端）+ React 18 + TypeScript（前端）
-> 口径说明：4.0 是一次结构性升级。涉及当前版本、模式、配置写入和同步边界时，本文以 v4.0.21 release、v4.0 中文发布说明、用户手册与 Configuration Files FAQ 为准；旧版“通用配置片段”和整份供应商快照覆盖的说法不再适用于 4.0。
+> 口径说明：4.0 是一次结构性升级。涉及当前版本、模式、配置写入和同步边界时，本文以 v4.0.31 release、CHANGELOG、用户手册与 Configuration Files FAQ 为准；旧版“通用配置片段”和整份供应商快照覆盖的说法不再适用于 4.0。
 
 ---
 
@@ -46,15 +46,33 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 Claude 多账号功能使用 Claude Code 官方授权流程（`claude auth login --claudeai`），通过独立 `CLAUDE_CONFIG_DIR` 区分账号。令牌继续由 Claude Code 保存在本机，CC Switch 不上传、不云同步、不自动轮换订阅账号；需要同时使用多个账号时，使用绑定账号卡片上的“打开终端”创建隔离终端。
 
+## 一点六、v4.0.22–v4.0.31 新增内容
+
+| 版本 | 当前影响 |
+|---|---|
+| v4.0.22 | 增加 DeepSeek Harness（第 14 个受管应用），同步 Web/Desktop 配置、MCP、Skills、提示词、会话和用量；“打开终端”支持临时跳过权限确认和附加参数；WebDAV 可清除本机配置；Skills 支持打开目录和查看文档 |
+| v4.0.23 | Kimi Code、MiniMax Code、Oh My Pi 的 Provider 编辑器改为显示各自原生配置格式；路由到 OpenAI/Gemini 时可传递更多思考档位；授权中心增加全部刷新，Antigravity 和 MiniMax 用量显示耗时 |
+| v4.0.24 | 授权中心增加“登录时自动打开浏览器”开关；关闭后只复制登录链接，适合为不同账号选择独立浏览器环境 |
+| v4.0.25 | MCP 页面增加单个或批量连通性检查；Codex 官方额度保护、汇率自动获取、Provider 模型来源显示和 Codex 子代理并发设置进一步完善 |
+| v4.0.26 | 授权中心和官方卡显示订阅计划；一键导入链接覆盖更多应用；DeepSeek Harness 支持自定义目录和 WSL；启动、会话读取和路由转发继续优化 |
+| v4.0.27 | 会话管理可按消息正文搜索；新增界面密度、缩放和模型定价搜索；软链接配置文件写入和 Skills 更新检测更加稳健 |
+| v4.0.28 | 适配 Codex 26.1103/CLI 0.167 的会话隔离：直连切换后另一侧会话可能只读；可改用路由/聚合，或在“设置 → 应用配置 → Codex”开启“统一 Codex 会话历史” |
+| v4.0.29 | 增加 GitHub Copilot CLI（第 15 个受管应用），自带 Key 的 Provider 写入 Copilot 的 `providers.json`，不经过 CC Switch 本地路由；界面补齐韩语和俄语 |
+| v4.0.30 | 增加隐私过滤器，路由或聚合发往上游前可替换邮箱、手机号、身份证号、银行卡号、IPv4 和密钥；默认关闭，模型回复、思考、工具参数和图片不处理 |
+| v4.0.31 | 增加腾讯 WorkBuddy（第 16 个受管应用），支持自定义模型、多个账号切换、MCP/Skills/提示词、会话和用量；新增德语界面；隐私过滤器改为每次发往上游前的最后一步处理 |
+
+升级到 4.0.28 及以上时，先确认 Codex 桌面版/CLI 版本和会话策略，再决定使用直连、路由、聚合或“统一 Codex 会话历史”。隐私过滤器默认关闭，开启后仍应把它当作降低意外泄露的辅助措施，不要把 API Key、个人资料或内部路径当作可以随意发送的数据。
+
 ## 一、CC Switch 是什么？
 
 CC Switch 是一款**跨平台桌面工具**，核心定位是"多 AI 编程 CLI 配置中控台"。它把分散在多款 AI 编程 CLI 工具中的配置（尤其是 API 服务商/中转商配置）收敛到统一界面管理，解决手动切换配置易出错、效率低的问题。
 
-### 官方受管应用（当前 10 款）
+### 官方受管应用（当前 16 款）
 
 | CLI 工具 | 描述 | 配置文件位置 |
 |----------|------|-------------|
 | Claude Code | Anthropic 官方终端 AI 助手 | `~/.claude/settings.json` |
+| Claude Desktop | Claude 桌面应用 | 复用 Claude Code 的 Provider、MCP、Skills 和 Prompt 数据边界 |
 | Codex CLI | OpenAI 命令行编程工具 | `~/.codex/config.toml` |
 | Gemini CLI | Google 终端 AI 工具 | `~/.gemini/.env` |
 | OpenCode | 开源终端 AI 助手 | `~/.config/opencode/` |
@@ -63,8 +81,14 @@ CC Switch 是一款**跨平台桌面工具**，核心定位是"多 AI 编程 CLI
 | Grok Build | xAI 编程工具 | `~/.grok/config.toml` |
 | Pi | Pi coding agent | `~/.pi/agent/` |
 | MiniMax Code | MiniMax 编程工具 | `~/.minimax/` |
+| Kimi Code | Kimi 编程工具 | `~/.kimi-code/`，可用 `KIMI_CODE_HOME` 覆盖 |
+| Antigravity | Google Antigravity CLI/IDE | 以应用页显示的 CLI/IDE 数据目录为准 |
+| Oh My Pi | Pi 的增强版 Agent | 以 `models.yml` 和应用设置显示的目录为准 |
+| DeepSeek Harness | DeepSeek Web/Desktop Agent | `~/.dsh/`，可用 `DSH_HOME` 覆盖 |
+| GitHub Copilot CLI | GitHub Copilot 终端工具 | 自带 Key Provider 使用 `$COPILOT_HOME/providers.json` |
+| WorkBuddy | 腾讯 WorkBuddy | `models.json`、`mcp.json`、`CODEBUDDY.md` 由 WorkBuddy 管理 |
 
-> 注：4.0 的官方发布说明按“应用”而不是“CLI 六款”组织能力。Claude Desktop 是独立受管应用，但它没有自己的 MCP、Skills、Prompt 或会话数据页，这些页面仍操作 Claude Code 数据。受管应用数量和可见侧栏项目可在设置中调整，至少保留一个。
+> 注：4.0 的官方发布说明按“应用”而不是“CLI 六款”组织能力。Claude Desktop 是独立受管应用，但它没有自己的 MCP、Skills、Prompt 或会话数据页，这些页面仍操作 Claude Code 数据。DeepSeek Harness 的 Web/Desktop 共用供应商和 MCP 配置，WorkBuddy 的自定义模型只支持 OpenAI Chat Completions。受管应用数量和可见侧栏项目可在设置中调整，至少保留一个。
 
 ### 与手动配置的对比
 
@@ -72,7 +96,7 @@ CC Switch 是一款**跨平台桌面工具**，核心定位是"多 AI 编程 CLI
 |----------|----------------|-----------|
 | 学习成本 | 高，需理解各工具配置格式 | 低，可视化操作 |
 | 切换效率 | 需编辑文件、理解各工具格式 | 直连、路由、聚合三种模式按场景切换 |
-| 多工具支持 | 每款工具单独配置 | 统一管理 10 款应用及全局 MCP、Skills、Prompt |
+| 多工具支持 | 每款工具单独配置 | 统一管理 16 款应用及全局 MCP、Skills、Prompt |
 | 配置保留 | 容易覆盖整份文件 | 只替换供应商关键字段，Hooks、MCP、权限等原样保留 |
 | 备份恢复 | 手动备份 | 自动数据库备份、首次写入原文件备份和“其他备份”总览 |
 | 观察能力 | 需分别查日志和账单 | 用量、请求日志、成本、速度、成功率和会话统一查看 |
@@ -199,6 +223,7 @@ Provider 即 API 服务商/中转商配置，是 CC Switch 最核心的功能。
 - 4.0 起切换只替换地址、凭据、模型、协议等关键字段；配置文件中的 MCP、Hooks、权限、项目设置、注释和未涉及字段保留
 - Codex、Gemini CLI、Grok Build 等模型目录变化后按提示重启；Claude Code 聚合模型变化无需重启
 - v4.0.21 只安装 Codex 桌面版时也可以使用 Codex 聚合模式；官方模型列表不可用时会回退到桌面版内置命令行，并在提示中列出失败原因
+- v4.0.28 起，Codex 直连切换可能让另一侧会话只读；需要跨官方账号和第三方 Provider 继续旧会话时，优先使用路由/聚合，或开启“统一 Codex 会话历史”
 
 ### 功能四：本地路由（Local Routing）
 
@@ -216,6 +241,8 @@ Provider 即 API 服务商/中转商配置，是 CC Switch 最核心的功能。
 > ⚠️ 注意：开启本地路由时，系统会阻止切换到官方 Provider（因为将官方 API 流量路由到本地代理存在账号封禁风险）。
 > v3.15.0 起，Provider 卡片会额外显示是否支持 Routing 的标识，排查“为什么这家能切、那家不能切”会更直观。
 
+v4.0.30 起，路由和聚合模式可在“设置 → 数据 → 隐私过滤器”开启出口前过滤。它会把邮箱、中国大陆手机号、身份证号、银行卡号、IPv4 地址及常见 API Key、Token、私钥和口令替换为占位符；v4.0.31 起过滤发生在每次发往上游前的最后一步，覆盖故障转移重试和压缩摘要。模型回复、思考内容、工具调用参数和图片不在过滤范围内，默认仍是关闭状态。
+
 **请求流转示意：**
 ```
 Claude Code → localhost:端口 → CC Switch 本地路由 → 中转服务商 → Claude API
@@ -227,6 +254,7 @@ Claude Code → localhost:端口 → CC Switch 本地路由 → 中转服务商 
 - 支持三种传输类型：`stdio`、`http`、`sse`
 - 双向同步，变更自动传播到所有关联应用
 - 支持 Deep Link 导入（`ccswitch://` 协议）
+- v4.0.25 起可在 MCP 页面检查单个或全部已启用服务器的连通性；检查只做握手，不等同于业务调用一定成功
 
 ### 功能六：Prompts（系统提示词）管理
 
@@ -250,6 +278,8 @@ Claude Code → localhost:端口 → CC Switch 本地路由 → 中转服务商 
 - 支持关键词高亮、会话标题提取、批量删除
 - 虚拟化列表，支持结构化查看正文、思考、工具调用、工具结果和图片；可按“全部 / 对话 / 改动”查看
 - v4.0.7 可读取 Codex 压缩后的 `.jsonl.zst` 会话并统计用量
+- v4.0.27 起可建立本地正文索引搜索消息内容；索引文件不参与云同步和备份
+- v4.0.28 起 Codex 直连会话可能按官方/第三方分组并出现只读边界，使用“统一 Codex 会话历史”前先备份并确认迁入选项
 
 ### 功能九：用量与成本追踪
 
@@ -266,6 +296,7 @@ Claude Code → localhost:端口 → CC Switch 本地路由 → 中转服务商 
 - 云端下载前显示远程快照信息，覆盖本地前自动创建安全备份
 - 需要区分“配置导入/导出”和“SQL 数据库备份”：前者用于迁移配置，后者可包含用量日志；两者都不包含设备级 `settings.json`
 - `设置 -> 数据 -> 应用诊断日志` 提供「打开日志」按钮，日志文件尚未生成时会打开日志目录，便于提交模型列表、路由或同步问题的诊断材料
+- v4.0.22 起 WebDAV 设置可清除本机地址、账号和密码；云端数据不会因清除本机配置而删除
 
 ### 功能十一：Deep Link 协议
 
@@ -291,6 +322,7 @@ Claude Code → localhost:端口 → CC Switch 本地路由 → 中转服务商 
 | 首次写入原文件 | `~/.cc-switch/backups/live-first-write/` |
 | Skills 文件 / 备份 | `~/.cc-switch/skills/`、`~/.cc-switch/skill-backups/` |
 | 诊断日志 / 崩溃日志 | `~/.cc-switch/logs/`、`~/.cc-switch/crash.log` |
+| 会话正文搜索索引 | `session-index.db`（本机单独文件，不参与云同步和备份） |
 
 ---
 
@@ -410,6 +442,16 @@ claude  # 重新登录官方账号
 | v4.0.5–v4.0.6 | 2026-10-08 至 2026-10-09 | 修复 4.0 正式版后的 Codex、Claude、MCP、用量和升级流程问题 |
 | v4.0.7 | 2026-10-10 | Codex 压缩会话读写、Plus/Team 工作区切换、额度已用/剩余显示、直连/路由重启提示、Windows Codex 服务识别、缓存计价和命中统计修复 |
 | v4.0.8 | 2026-10-10 | Codex 桌面版聚合回退、官方模型列表失败原因提示与自动恢复、模型发现请求头透传、设置页打开日志、深色模式文字对比度调整 |
+| v4.0.22 | 2026-10-30 | DeepSeek Harness、临时终端参数、WebDAV 配置清除、Skills 文档入口和 Copilot 原生 Claude 接口 |
+| v4.0.23 | 2026-10-31 | Kimi/MiniMax/Oh My Pi 原生 Provider 编辑器、思考档位透传、授权中心全部刷新 |
+| v4.0.24 | 2026-11-01 | 登录时自动打开浏览器开关，修复思考档位、WSL 和第三方供应商显示问题 |
+| v4.0.25 | 2026-11-02 | MCP 连通性检查、Codex 官方额度保护、汇率自动获取、子代理并发和模型来源显示 |
+| v4.0.26 | 2026-11-05 | 订阅计划显示、更多应用的一键导入、DeepSeek WSL/目录配置和性能优化 |
+| v4.0.27 | 2026-11-07 | 会话消息正文搜索、界面密度/缩放、定价搜索和软链接配置修复 |
+| v4.0.28 | 2026-11-08 | 适配新版 Codex 会话分组、统一会话历史、官方额度暂停和应用安装进度 |
+| v4.0.29 | 2026-11-10 | GitHub Copilot CLI 受管应用、韩语和俄语界面 |
+| v4.0.30 | 2026-11-12 | 路由/聚合隐私过滤器，出口前替换常见个人信息和密钥 |
+| v4.0.31 | 2026-11-12 | 腾讯 WorkBuddy 受管应用、德语界面、隐私过滤器出口最后一步处理 |
 
 ---
 
@@ -420,7 +462,8 @@ claude  # 重新登录官方账号
 3. [CC Switch CHANGELOG（完整版本历史）](https://github.com/farion1231/cc-switch/blob/main/CHANGELOG.md)
 4. [CC Switch Releases（下载最新版本）](https://github.com/farion1231/cc-switch/releases)
 5. [CC Switch v4.0 中文发布说明](https://github.com/farion1231/cc-switch/blob/main/docs/release-notes/v4.0.4-zh.md)
-6. [CC Switch v4.0.21 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.21)
-7. [CC Switch v4.0.7 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.7)
-8. [CC Switch 用户手册｜设置](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/zh/1-getting-started/1.5-settings.md)
-9. [CC Switch FAQ｜Configuration Files](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/en/5-faq/5.1-config-files.md)
+6. [CC Switch v4.0.31 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.31)
+7. [CC Switch v4.0.28 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.28)
+8. [CC Switch v4.0.30 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v4.0.30)
+9. [CC Switch 用户手册｜设置](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/zh/1-getting-started/1.5-settings.md)
+10. [CC Switch FAQ｜Configuration Files](https://github.com/farion1231/cc-switch/blob/main/docs/user-manual/en/5-faq/5.1-config-files.md)

@@ -22,19 +22,19 @@ originalId: "6a2d291d8a2b1c68f2cac062"
 originalSlug: "ai-ccswitch-claudecode-mimotokenplan-736772f0"
 originalStatus: "published"
 publishedAt: "2026-05-24T14:10:38.110Z"
-updatedAt: "2026-10-28T16:00:00.000Z"
+updatedAt: "2026-11-14T08:00:00.000Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）
 
-> CC Switch 版本补充：本文的 MiMo 参数仍按官方接口文档执行；截至 2026-10-28，当前 v4.0.21切换 Provider 时只替换连接、认证和模型等关键字段，Claude Code 配置中的全局字段、Hooks、MCP 和权限会保留。不要再按 3.x 的“整份配置快照覆盖”理解升级后的行为。v4.0.21 还会在获取模型列表时带上 Claude Code Provider 的 Header 覆盖，使用额外请求头的网关应在 CC Switch 中一并填写。
+> CC Switch 版本补充：本文的 MiMo 参数仍按官方接口文档执行；截至 2026-11-14，当前 v4.0.31 切换 Provider 时只替换连接、认证和模型等关键字段，Claude Code 配置中的全局字段、Hooks、MCP 和权限会保留。不要再按 3.x 的“整份配置快照覆盖”理解升级后的行为。v4.0.21 起获取模型列表会带上 Claude Code Provider 的 Header 覆盖，使用额外请求头的网关应在 CC Switch 中一并填写；v4.0.30–v4.0.31 的隐私过滤器只作用于路由/聚合发往上游前的请求，不会改变 MiMo 的 Token Plan 额度或本地 Provider 保存边界。
 
 > 资料核对时间：2026-05-24
 > 说明：本文以 MiMo 官方 `Claude Code Configuration`、`Quick Access`、`Subscription Instructions` 为准，适合已经购买 `Token Plan`、想让 Claude Code 走 MiMo 线路的人。  
 > 放在 `CC Switch` 专题里，是因为它本质上仍是一份 Provider / 中转配置文；即使你最后不用 CC Switch，只手改 `.claude/settings.json` 也能照着做。
 
 
-> 版本边界（2026-10-28）：CC Switch 官方最新发布为 `v4.0.21`（2026-10-26）。本文把 v4.0.18–v4.0.21 的新增能力与旧版历史故障分开；当前 Provider、应用目录、账号授权和配置写入行为应以 v4.0.21 release、用户手册和本机日志为准。
+> 版本边界（2026-11-14）：CC Switch 官方最新发布为 `v4.0.31`（2026-11-12）。本文保留 MiMo 配置的历史复核日期；当前 Provider、应用目录、账号授权和配置写入行为应以 v4.0.31 release、用户手册和本机日志为准。
 
 [[toc]]
 

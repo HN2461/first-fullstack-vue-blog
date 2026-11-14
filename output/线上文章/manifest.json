@@ -6652,10 +6652,10 @@
       "originalId": "6a2d291d8a2b1c68f2cac070",
       "originalSlug": "ai-ccswitch-ccswitch-2b997b92",
       "exportedSlug": "ai-ccswitch-ccswitch-2b997b92",
-      "title": "第 06 篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-10复核）",
-      "summary": "结合 CC Switch v4.0.21 官方 FAQ、Settings 手册和真实排障记录，重新解释跨机迁移后的旧路径污染：4.0 以数据库为配置 SSOT、以 live-state.json 记录本机状态，并在切换时只替换 Provider 关键字段；本文给出源头、设备状态、live 文件和 MCP/Node 验证的分层排查顺序。",
+      "title": "第 06 篇：CC Switch 跨机同步后绝对路径污染排障手册（2026-11复核）",
+      "summary": "结合 CC Switch v4.0.31 官方 FAQ、Settings 手册和真实排障记录，重新解释跨机迁移后的旧路径污染：4.0 以数据库为配置 SSOT、以 live-state.json 记录本机状态，并在切换时只替换 Provider 关键字段；本文给出源头、设备状态、live 文件和 MCP/Node 验证的分层排查顺序。",
       "cover": "",
-      "contentHash": "1b4cf63e67c121f09f5dcbed7472d0fe3dac72f0f0365266de0bee8013a82236",
+      "contentHash": "fc5cc9ce08b318be6071a2c2843b35e2728c87593ab9cbb91c6cd7d3df15057f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6675,17 +6675,17 @@
       "sortOrder": 60,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第五篇_CCSwitch跨机同步后绝对路径污染排障手册_2026-05.md",
       "publishedAt": "2026-05-30T11:26:29.663Z",
-      "updatedAt": "2026-10-11T13:24:34.191Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-06-篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-10复核）.md"
+      "updatedAt": "2026-11-14T08:00:00.000Z",
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-06-篇：CC-Switch-跨机同步后绝对路径污染排障手册（2026-11复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac078",
       "originalSlug": "ai-ccswitch-ccswitch-0c54d5c6",
       "exportedSlug": "ai-ccswitch-ccswitch-0c54d5c6",
-      "title": "第 05 篇：CC Switch 跨电脑导出导入与云同步实战（2026-10复核）",
-      "summary": "基于 CC Switch v4.0.21 官方发布说明、Settings 手册与 Configuration Files FAQ，重新梳理跨电脑迁移边界：配置导入、SQL 数据库备份、配置目录、WebDAV/S3 云同步分别能带走什么，哪些设备状态和账号凭据必须留在本机。",
+      "title": "第 05 篇：CC Switch 跨电脑导出导入与云同步实战（2026-11复核）",
+      "summary": "基于 CC Switch v4.0.31 官方发布说明、Settings 手册与 Configuration Files FAQ，重新梳理跨电脑迁移边界：配置导入、SQL 数据库备份、配置目录、WebDAV/S3 云同步分别能带走什么，哪些设备状态和账号凭据必须留在本机。",
       "cover": "",
-      "contentHash": "b77a42d1b51134edfb100ae5a0a74430da945f1f633c0ade6b987e1d4c19c509",
+      "contentHash": "cad41c4575108c9a90968727f1a6768cd484dcb5950b04e05940b10b998453ec",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6705,17 +6705,17 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第四篇_CCSwitch跨电脑导出导入与云同步实战_2026-05.md",
       "publishedAt": "2026-05-30T11:24:47.591Z",
-      "updatedAt": "2026-10-11T13:24:34.261Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-05-篇：CC-Switch-跨电脑导出导入与云同步实战（2026-10复核）.md"
+      "updatedAt": "2026-11-14T08:00:00.000Z",
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-05-篇：CC-Switch-跨电脑导出导入与云同步实战（2026-11复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac06a",
       "originalSlug": "ai-ccswitch-ccswitch-4cff94a4",
       "exportedSlug": "ai-ccswitch-ccswitch-4cff94a4",
-      "title": "第 03 篇：CC Switch 接入中转站与计费排查实战（2026-10复核）",
-      "summary": "结合 CC Switch v4.0.21 官方发布说明、Provider 手册和用量文档，面向同时使用 Codex、Claude、Gemini CLI 等工具的开发者，讲清直连/路由/聚合模式下如何接入中转站、验证模型、判断计费与排查缓存和额度差异。",
+      "title": "第 03 篇：CC Switch 接入中转站与计费排查实战（2026-11复核）",
+      "summary": "结合 CC Switch v4.0.31 官方发布说明、Provider 手册和用量文档，面向同时使用 Codex、Claude、Gemini CLI 等工具的开发者，讲清直连/路由/聚合模式下如何接入中转站、验证模型、判断计费与排查缓存和额度差异。",
       "cover": "",
-      "contentHash": "3fb6c011cb1e506d7f90895a2c0757b3546d364b27b777810dd96441172bc88e",
+      "contentHash": "18649c6463d9167f1b983685d4d01b417d10e7d28636722cfb071ef3c625cbe1",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6735,17 +6735,17 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第二篇_CCSwitch接入中转站与计费排查_2026-04.md",
       "publishedAt": "2026-05-30T11:24:47.590Z",
-      "updatedAt": "2026-10-11T13:24:34.285Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-03-篇：CC-Switch-接入中转站与计费排查实战（2026-10复核）.md"
+      "updatedAt": "2026-11-14T08:00:00.000Z",
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-03-篇：CC-Switch-接入中转站与计费排查实战（2026-11复核）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac05a",
       "originalSlug": "ai-ccswitch-ccswitch-82653641",
       "exportedSlug": "ai-ccswitch-ccswitch-82653641",
-      "title": "第 01 篇：CC Switch 快速上手与核心概念（v4.0.8）",
-      "summary": "CC Switch 是跨平台桌面 AI 编程工具配置中控台。v4.0 重做侧栏、直连/路由/聚合模式、用量与会话管理，并改为只替换供应商关键字段、保留用户配置；本篇按 v4.0.21（2026-10-26）官方发布说明、用户手册与 FAQ 更新安装、Provider、聚合、MCP、同步和升级边界。",
+      "title": "第 01 篇：CC Switch 快速上手与核心概念（v4.0.31）",
+      "summary": "CC Switch 是跨平台桌面 AI 编程工具配置中控台。v4.0 重做侧栏、直连/路由/聚合模式、用量与会话管理，并改为只替换供应商关键字段、保留用户配置；本篇按 v4.0.31（2026-11-12）官方发布说明、CHANGELOG、用户手册与 FAQ 更新安装、Provider、聚合、MCP、同步、隐私过滤和升级边界。",
       "cover": "",
-      "contentHash": "7a50e947c110882edec25b94c94b39c75c3584e6407451a9be97e202497bf072",
+      "contentHash": "d13222890ce6d8464aaea209cb19191bae3dee47e6402ac974ba3b9be4d7f4a5",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6765,17 +6765,17 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第一篇_CCSwitch快速上手与核心概念_2026-04.md",
       "publishedAt": "2026-05-30T11:24:47.588Z",
-      "updatedAt": "2026-10-11T13:24:34.301Z",
-      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-01-篇：CC-Switch-快速上手与核心概念（v4.0.8）.md"
+      "updatedAt": "2026-11-14T08:00:00.000Z",
+      "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-01-篇：CC-Switch-快速上手与核心概念（v4.0.31）.md"
     },
     {
       "originalId": "6a2d291d8a2b1c68f2cac050",
       "originalSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
       "exportedSlug": "ai-ccswitch-codex-node-ccswitch-codexprovider-node-5922efbb",
       "title": "第 02 篇：CC Switch 切换 Codex Provider 后 Node 调用失败排查修复实录",
-      "summary": "记录一次发生在 CC Switch 3.x 时期的真实排查：症状爆在 Codex，根因落在 Provider 配置与 shell_environment_policy。文章保留历史证据，同时补充 v4.0.x 已改为只替换关键字段，升级到 v4.0.21 后应按新版配置写入和诊断日志机制复核。",
+      "summary": "记录一次发生在 CC Switch 3.x 时期的真实排查：症状爆在 Codex，根因落在 Provider 配置与 shell_environment_policy。文章保留历史证据，同时补充 v4.0.x 已改为只替换关键字段；截至 v4.0.31 还应结合 Codex 会话分组、隐私过滤和诊断日志机制复核。",
       "cover": "",
-      "contentHash": "3a793b872cdde7c9b1e742132f9a2ed9059ad9f027a330923c92f41a7c201cff",
+      "contentHash": "aaa55b80ce294d8faf61dfce4a00f54db80110f7fa5ed7d9fbfa13b219caedcd",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6796,7 +6796,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/Codex切换后Node排障/第一篇_CCSwitch切换CodexProvider后Node调用失败排查修复实录_2026-04.md",
       "publishedAt": "2026-05-30T10:00:56.019Z",
-      "updatedAt": "2026-10-11T13:24:34.323Z",
+      "updatedAt": "2026-11-14T08:00:00.000Z",
       "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-02-篇：CC-Switch-切换-Codex-Provider-后-Node-调用失败排查修复实录.md"
     },
     {
@@ -7408,7 +7408,7 @@
       "title": "第 04 篇：Claude Code 对接小米 MiMo Token Plan 配置说明（2026-05-24复核）",
       "summary": "基于小米 MiMo 官方 Claude Code 与 Token Plan 文档，整理 tp/sk 区分、区域 Base URL、模型映射、Windows 配置路径、1M 长上下文启用方式和 CC Switch 4.x 下的 Provider 保存边界。",
       "cover": "",
-      "contentHash": "f714f73116e8723a8b9174d7ef07ea6a4506d8eee8501bfacfcdae34bca86dfd",
+      "contentHash": "c6f94d78c4e7f8b08babcdf4ffd5206cfbf7dc04c0947d634f4730a2e6548a53",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -7428,7 +7428,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/05_辅助工具层/CCSwitch/第三篇_ClaudeCode对接小米MiMoTokenPlan配置说明_2026-05.md",
       "publishedAt": "2026-05-24T14:10:38.110Z",
-      "updatedAt": "2026-10-11T13:24:34.342Z",
+      "updatedAt": "2026-11-14T08:00:00.000Z",
       "fileName": "AI相关/AI工具/辅助工具层/CCSwitch/第-04-篇：Claude-Code-对接小米-MiMo-Token-Plan-配置说明（2026-05-24复核）.md"
     },
     {
