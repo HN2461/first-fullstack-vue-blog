@@ -17,7 +17,7 @@
   >
     <div v-if="celebrationFestival" class="public-festival-celebration" :style="celebrationStyle">
       <div class="public-festival-celebration__icon">
-        <FestivalIcon :icon="celebrationFestival.icons?.[0] || '✨'" />
+        <FestivalIcon :icon="celebrationFestival.icons?.[0] || '✨'" :festival="celebrationFestival" />
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
       <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
@@ -28,11 +28,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import FestivalAtmosphere from './FestivalAtmosphere.vue'
-import FestivalIcon from './FestivalIcon.vue'
 import { getPublicFestivalEffectState } from '@/services/public'
 import { useAppStore } from '@/stores/app'
 import {
@@ -45,6 +44,7 @@ import { loadFestivalCalendar, selectPrimaryFestival } from '@/utils/festival/fe
 import { playFestivalConfetti } from '@/utils/festival/confettiPlayer'
 import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
+const FestivalIcon = defineAsyncComponent(() => import('./FestivalIcon.vue'))
 const appStore = useAppStore()
 const route = useRoute()
 const serverDate = ref('')

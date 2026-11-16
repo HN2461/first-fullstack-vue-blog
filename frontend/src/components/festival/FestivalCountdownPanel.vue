@@ -40,7 +40,7 @@
 
           <div v-if="nextFestival" class="festival-countdown__focus">
             <div class="festival-countdown__orbit" aria-hidden="true">
-              <FestivalIcon :icon="nextFestival.icons?.[0] || '✨'" />
+              <FestivalIcon :icon="nextFestival.icons?.[0] || '✨'" :festival="nextFestival" />
             </div>
             <div class="festival-countdown__focus-copy">
               <strong>{{ nextFestival.daysUntil === 0 ? '就是今天' : `还有 ${nextFestival.daysUntil} 天` }}</strong>
@@ -106,7 +106,7 @@
               @click="$emit('select', item)"
             >
               <span class="festival-countdown__icon">
-                <FestivalIcon :icon="item.icons?.[0] || '✨'" />
+                <FestivalIcon :icon="item.icons?.[0] || '✨'" :festival="item" />
               </span>
               <span class="festival-countdown__body">
                 <strong>{{ item.displayName || item.name }}</strong>
@@ -125,11 +125,13 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { CalendarOutlined } from '@ant-design/icons-vue'
 import { MAJOR_FESTIVAL_LABEL } from '@/utils/festival/festivalCalendar'
-import FestivalIcon from './FestivalIcon.vue'
 import './FestivalCountdownPanel.css'
+
+// 打开节日面板时再加载主题图案，避免把整套 SVG 加入首页首屏包。
+const FestivalIcon = defineAsyncComponent(() => import('./FestivalIcon.vue'))
 
 const props = defineProps({
   schedule: { type: Array, default: () => [] },

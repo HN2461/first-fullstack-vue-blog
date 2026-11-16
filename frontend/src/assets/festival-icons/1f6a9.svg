@@ -1,0 +1,11 @@
+<svg width="100%" height="100%" aria-hidden="true" focusable="false" viewBox="0.00 0.00 72.00 72.00" xmlns="http://www.w3.org/2000/svg">
+  <g>
+  <polygon fill="#d22f27" points="67 24 36 33.5 5 43 5 24 5 5 36 14.5 67 24"/>
+  </g>
+  <g>
+  <g>
+  <polygon fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" points="67 24 36 33.5 5 43 5 24 5 5 36 14.5 67 24"/>
+  <line x1="5" x2="5" y1="5" y2="67" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4"/>
+  </g>
+  </g>
+  </svg>

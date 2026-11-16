@@ -155,26 +155,16 @@
   place-items: center;
   width: 62px;
   height: 62px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--festival-countdown-accent) 12%, var(--console-surface));
+  border-radius: 8px;
+  background: var(--console-surface-muted);
   color: var(--festival-countdown-accent);
   font-size: 28px;
   line-height: 1;
 }
 
 .festival-countdown__orbit .festival-icon {
-  width: 42px;
-  height: 42px;
-  transform: translateY(-2px);
-}
-
-.festival-countdown__orbit::before {
-  content: '';
-  position: absolute;
-  inset: 6px;
-  border: 1px dashed color-mix(in srgb, var(--festival-countdown-accent) 45%, transparent);
-  border-radius: inherit;
-  animation: festivalCountdownSpin 12s linear infinite;
+  width: 52px;
+  height: 52px;
 }
 
 .festival-countdown__focus-copy {
@@ -314,7 +304,7 @@
 .festival-countdown__item {
   appearance: none;
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) auto;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -339,17 +329,17 @@
 .festival-countdown__icon {
   display: grid;
   place-items: center;
-  width: 28px;
-  height: 28px;
+  width: 40px;
+  height: 40px;
   border-radius: 8px;
-  background: color-mix(in srgb, var(--festival-countdown-accent) 9%, transparent);
+  background: var(--console-surface-muted);
   font-size: 18px;
   line-height: 1;
 }
 
 .festival-countdown__icon .festival-icon {
-  width: 24px;
-  height: 24px;
+  width: 34px;
+  height: 34px;
 }
 
 .festival-countdown__body {
@@ -381,12 +371,6 @@
   white-space: nowrap;
 }
 
-@keyframes festivalCountdownSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .dark-theme .festival-countdown-popover .ant-popover-inner {
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.42);
 }
@@ -404,7 +388,7 @@
 
 .dark-theme .festival-countdown__orbit,
 .dark-theme .festival-countdown__icon {
-  background: color-mix(in srgb, var(--festival-countdown-accent) 16%, var(--console-surface-muted));
+  background: var(--console-surface-muted);
 }
 
 .dark-theme .festival-countdown__progress {

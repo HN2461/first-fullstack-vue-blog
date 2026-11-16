@@ -31,7 +31,7 @@
   >
     <div v-if="celebrationFestival" class="festival-celebration" :style="celebrationStyle">
       <div class="festival-celebration__icon">
-        <FestivalIcon :icon="celebrationFestival.icons?.[0] || '✨'" />
+        <FestivalIcon :icon="celebrationFestival.icons?.[0] || '✨'" :festival="celebrationFestival" />
       </div>
       <strong>{{ celebrationFestival.text }}</strong>
       <span>{{ celebrationFestival.displaySource || celebrationFestival.source }} · {{ celebrationFestival.date }} · {{ celebrationFestival.visibilityLabel || '全站公开' }}</span>
@@ -47,11 +47,10 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import FestivalAtmosphere from './FestivalAtmosphere.vue'
 import FestivalCountdownPanel from './FestivalCountdownPanel.vue'
-import FestivalIcon from './FestivalIcon.vue'
 import { getFestivalEffectState, updateFestivalEffectState } from '@/services/http'
 import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
@@ -69,6 +68,7 @@ import { loadFestivalCalendar, normalizeCalendar, selectPrimaryFestival } from '
 import { playBirthdayConfetti, playFestivalConfetti } from '@/utils/festival/confettiPlayer'
 import { EFFECT_PRIORITIES, enqueueEffect } from '@/utils/effects/effectQueue'
 
+const FestivalIcon = defineAsyncComponent(() => import('./FestivalIcon.vue'))
 const appStore = useAppStore()
 const authStore = useAuthStore()
 const serverDate = ref('')

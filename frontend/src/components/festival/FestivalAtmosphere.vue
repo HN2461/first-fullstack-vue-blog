@@ -22,7 +22,7 @@
         <span>{{ activeFestival.text }}</span>
       </template>
       <div class="festival-ribbon">
-        <span class="festival-ribbon__icon"><FestivalIcon :icon="activeFestival.icons?.[0] || '✨'" /></span>
+        <span class="festival-ribbon__icon"><FestivalIcon :icon="activeFestival.icons?.[0] || '✨'" :festival="activeFestival" /></span>
         <span class="festival-ribbon__meta">{{ activeFestival.displayName || activeFestival.name }}</span>
         <a-tooltip title="关闭本端节日氛围">
           <button class="festival-ribbon__close" type="button" aria-label="关闭节日氛围" @click="$emit('close')">
@@ -45,11 +45,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { X } from '@lucide/vue'
-import FestivalIcon from './FestivalIcon.vue'
 import { getFestivalAtmosphereProfile } from '@/utils/festival/festivalCatalog'
 import { getParticleItems } from '@/utils/festival/festivalCalendar'
+
+const FestivalIcon = defineAsyncComponent(() => import('./FestivalIcon.vue'))
 
 const props = defineProps({
   activeFestival: { type: Object, default: null },
