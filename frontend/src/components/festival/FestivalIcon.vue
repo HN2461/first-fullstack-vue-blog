@@ -22,8 +22,9 @@ const iconSvg = computed(() => getFestivalIconSvg(props.icon, props.festival))
 <style scoped>
 .festival-icon {
   display: block;
-  width: 100%;
-  height: 100%;
+  /* 尺寸由使用场景传入，避免异步 CSS 的加载顺序覆盖列表尺寸。 */
+  width: var(--festival-icon-size, 100%);
+  height: var(--festival-icon-size, 100%);
   flex-shrink: 0;
   color: #263747;
   line-height: 0;

@@ -163,8 +163,7 @@
 }
 
 .festival-countdown__orbit .festival-icon {
-  width: 52px;
-  height: 52px;
+  --festival-icon-size: 52px;
 }
 
 .festival-countdown__focus-copy {
@@ -338,8 +337,7 @@
 }
 
 .festival-countdown__icon .festival-icon {
-  width: 34px;
-  height: 34px;
+  --festival-icon-size: 34px;
 }
 
 .festival-countdown__body {

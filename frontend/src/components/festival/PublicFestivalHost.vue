@@ -285,8 +285,6 @@ onUnmounted(() => {
 }
 
 .public-festival-celebration__icon .festival-icon {
-  width: 42px;
-  height: 42px;
-  transform: translateY(-2px);
+  --festival-icon-size: 52px;
 }
 </style>
