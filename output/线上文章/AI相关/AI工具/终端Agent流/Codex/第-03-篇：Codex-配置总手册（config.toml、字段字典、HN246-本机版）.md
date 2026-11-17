@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）"
 slug: "ai-agent-codex-codex-edeadb5e"
-summary: "以本机 Codex CLI 0.162.1 配置快照为主，补充远端 0.165.0 的版本边界与升级核对方法，整理 102 个顶层配置键、全部嵌套字段、功能开关生命周期、权限 profile、MCP/Provider、TUI、Hooks 和管理员约束索引。"
+summary: "保留 0.162.1 完整配置历史索引，按 0.169.0 官方 schema 补齐 103 个顶层键的版本差异、TUI 新设置、Provider 认证和多代理迁移，明确本机模板与当前行为边界。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -21,20 +21,81 @@ originalId: "6a2d291d8a2b1c68f2cabf5a"
 originalSlug: "ai-agent-codex-codex-edeadb5e"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.777Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T14:46:23.451Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）
 
-> 更新时间：2026-10-28。
-> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-11-17。
+> 核对范围：2026-11-17 查询 npm，稳定标签为 `latest=0.169.0`，预发布标签为 `alpha=0.171.0-alpha.12`；本机只读核验为 `codex-cli 0.169.0`、Windows 包 `OpenAI.Codex 26.1111.2228.0`。本次新增结论以 OpenAI 官方 GitHub Releases、`rust-v0.169.0` 固定源码/schema 和本机 `--help` 为依据；官方文档站本轮访问受限，桌面/IDE 功能不因 CLI 更新而视为同步上线。完整配置看第三篇，命令看第六篇，版本变化看第九篇。
 > 定位：配置总手册。以后所有 `config.toml`、provider、模型、审批、沙箱、MCP、Desktop、本机路径、CCSwitch 快照污染和 HN246 本机替换版配置，都统一在这一篇维护。
 > 前置：第一篇跑通 CLI；第二篇看懂终端英文状态。
 > 下一篇建议：第四篇（多线路接入与迁移）。
-> 版本边界：本文的大型字段表和脱敏模板来自本机 `0.162.1` 的 schema 快照，不能把它当成远端 `0.165.0` 的逐字段保证。升级后先用 `codex debug-config`、`codex features list` 和对应版本的 `codex <command> --help` 复核；0.164–0.165 的新增重点是企业 MCP 授权、Bedrock 向导、Vertex AI provider、GPT-6.1 Terra 与 reasoning effort 动态更新。
+> 版本边界：第 18 节为 0.162.1 历史全量索引；当前 0.169.0 新增与迁移项先看第 0 节。旧模板并非本机当前私人配置，不能整段覆盖后直接用于新版本。
 > 小白读完目标：你应该能说清 Codex 配置为什么会生效或失效，能看懂每个高频字段，能安全整理 HN246 本机配置，并能用 `/status`、`/debug-config`、`/mcp` 验证结果。
 
 [[toc]]
+
+## 0. 0.169.0 升级索引：先读这里，再查历史全量表
+
+第 18 节保留 `0.162.1` 的 102 个顶层键与嵌套字段，便于定位旧配置；本节按 `rust-v0.169.0` 官方 schema 补齐当前高频差异。两个固定版本直接比较后，当前顶层键为 **103 个**，新增 `include_environment_context_time`，没有删除旧顶层键；嵌套字段和功能生命周期仍有变化，不能只按顶层数量判断兼容性。
+
+### 0.1 影响日常配置的变化
+
+| 字段 / 入口 | 0.169.0 核对结果 | 迁移建议 |
+|---|---|---|
+| `include_environment_context_time` | boolean，控制环境上下文是否包含当前日期和时区；schema 未声明默认值 | 一般保留宿主默认，不用它改系统时间 |
+| `features.multi_agent` | 已弃用；0.168 起显式配置会提示迁移 | 常规子代理开关改用 `[agents] enabled`；同时检查 v2 与宿主限制 |
+| `agents.enabled` | schema 说明默认 true；启用的 `features.multi_agent_v2` 优先 | `false` 不能被写成跨所有宿主的强制关闭保证；会话指令也可限制委派 |
+| `features.tui_workspace` | 终端并排侧聊工作区；本机注册表为 under development、有效值 false | 有需求再显式开启，不属于默认界面 |
+| `tui.sidebar_width_percent` | 整数 1–99，未设时侧栏约占三分之一 | 调整并排阅读宽度 |
+| `tui.collapse_turn_details` | boolean，schema 默认 false | 折叠已完成活动；不改变上下文 token |
+| `tui.copy_on_select` | 当前 schema 默认 `auto` | Windows Terminal、部分原生复制终端与 tmux 的自动行为不同，按实际终端检查 |
+| `tui.copy_on_select_clear_selection` | boolean，默认 false | 复制确认后清除只读区选中；不清除可编辑输入框选中 |
+| `tui.notification_method` | 新增 `osc777` 选择 | 需要终端支持；优先保留 auto |
+| `features.gcp_setup_wizard` / `features.gateway_setup_wizard` | 本机有效状态为 stable、false | stable 描述注册阶段，false 才是本次机器的启用状态 |
+| `features.image_generation_animation` | 0.168 发布说明给出 GIF 能力；本机为 under development、false | 还需要支持的模型与工具，不因为键存在就保证可用 |
+
+可单独试用的界面配置如下；合并到已有 TOML 时复用已有表，不要重复声明 `[features]` 或 `[tui]`：
+
+```toml
+[features]
+tui_workspace = true
+
+[tui]
+sidebar_width_percent = 35
+collapse_turn_details = true
+```
+
+只需控制常规子代理工具时使用：
+
+```toml
+[agents]
+enabled = false
+```
+
+随后用 `codex features list`、`/debug-config` 和当前会话工具目录检查实际状态。若宿主已经开启 multi-agent v2，先按宿主支持的设置处理；不要把旧 `features.multi_agent=false` 当成万能禁用项。
+
+### 0.2 Provider 新字段与认证边界
+
+| 字段 | 用途 | 注意点 |
+|---|---|---|
+| `model_providers.gcp.project_id` | Vertex AI 项目 ID | 推导端点时优先于 `GOOGLE_CLOUD_PROJECT` |
+| `model_providers.gcp.location` | Vertex AI 区域 | 优先于 `GOOGLE_CLOUD_LOCATION`，两者未设时为 global |
+| `model_providers.gcp.credential_file` | ADC 凭据文件的绝对路径 | 只覆盖认证命令环境中的 `GOOGLE_APPLICATION_CREDENTIALS`；文件由运行主机维护 |
+| `model_providers.<id>.gateway_oauth` | 网关 OAuth 或凭据导出命令配置 | 需要网关配合；普通 API key 网关不自动支持设备码 |
+| `model_providers.<id>.model_catalog_url` | Codex 原生模型目录地址 | 不是普通 `/v1/models`；请求会使用 Provider 凭据，只配置可信地址 |
+
+这些字段应结合用户级配置和组织策略维护，不能依赖项目配置重定向用户凭据。`model_catalog_url` 的存在也不代表有访问权限；内置 OpenAI 对允许主机和覆盖范围还有额外限制。
+
+### 0.3 项目信任、权限与严格校验
+
+0.169 的 `codex exec` 在未信任目录继续禁用项目配置和 MCP，即使沙箱是 workspace-write。`--trust` 保存的是项目配置的信任，`--sandbox` 控制命令文件访问范围，`approval_policy` 决定审批机制；三者不能互相替代。
+
+`--strict-config` 能发现当前版本不认识的字段，但 schema 中仍可能保留已弃用或兼容空开关。升级后还要检查 `/warnings` 和 `codex features list`，不要把“解析成功”理解成“每个配置都生效”。
+
+本节依据：[0.169.0 schema](https://github.com/openai/codex/blob/rust-v0.169.0/codex-rs/core/config.schema.json)、[0.168.0 发布说明](https://github.com/openai/codex/releases/tag/rust-v0.168.0)、[0.169.0 发布说明](https://github.com/openai/codex/releases/tag/rust-v0.169.0)及本机只读命令。历史索引仍按原版本解释；本文没有读取或发布当前私人认证文件。
+
 
 ---
 
@@ -802,7 +863,7 @@ codex --profile deep_refactor
 
 ---
 
-## 18. 0.162.1 全量配置索引
+## 18. 0.162.1 历史全量配置索引（当前增量见第 0 节）
 
 本节按稳定版随包 schema 枚举，不把“schema 接受”解释成“当前账号已开放”。共有 **102 个顶层键**；嵌套索引列出所有可静态枚举的字段和动态映射入口。`<键>` 代表实际 provider ID、server 名、路径、域名或应用 ID；`[]` 代表 TOML 数组元素。schema 默认与客户端最终默认不同，未设字段继续受到模型、平台、server 和 managed requirements 影响。
 
@@ -1219,7 +1280,7 @@ Apps/连接器的默认策略、单应用和单工具策略。
 | `features.memory_tool` | boolean | 该键属于 `features` 配置；值形状见类型列，schema 未提供额外说明。 |
 | `features.mentions_v2` | boolean | 该键属于 `features` 配置；值形状见类型列，schema 未提供额外说明。 |
 | `features.model_catalog_in_context` | boolean | 该键属于 `features` 配置；值形状见类型列，schema 未提供额外说明。 |
-| `features.multi_agent` | boolean | 该键属于 `features` 配置；值形状见类型列，schema 未提供额外说明。 |
+| `features.multi_agent` | boolean | 0.169 已弃用；当前迁移到 agents.enabled，v2 优先级见第 0 节。 |
 | `features.multi_agent_mode` | boolean | 该键属于 `features` 配置；值形状见类型列，schema 未提供额外说明。 |
 | `features.multi_agent_v2` | boolean 或 表/对象 | 该键属于 `features` 配置；值形状见类型列，schema 未提供额外说明。 |
 | `features.multi_agent_v2.default_wait_timeout_ms` | integer；最小 0.0；最大 3600000.0 | 该键属于 `features` 配置；值形状见类型列，schema 未提供额外说明。 |
@@ -2616,7 +2677,7 @@ Windows 沙箱实现选择，与任务 sandbox_mode 分开。
 | `features.worktrees` | 稳定 | true | Enable managed worktree creation and repository-aware sessions. |
 | `features.respect_system_proxy` | 开发中 | false | Respect host system proxy settings for Codex-owned network clients. |
 | `features.system_proxy_fallback` | 稳定 | true | Retry eligible bootstrap requests through the system proxy after normal routing fails. |
-| `features.multi_agent` | 稳定 | true | Enable collab tools. |
+| `features.multi_agent` | 0.162.1 稳定；0.169 已弃用 | true | 当前常规子代理配置迁移到 agents.enabled，详见第 0 节。 |
 | `features.multi_agent_v2` | 稳定 | false | Enable task-path-based multi-agent routing. |
 | `features.model_catalog_in_context` | 开发中 | false | Keep spawn model choices in append-only context instead of tool descriptions. |
 | `features.multi_agent_v2_dynamic_tools` | 开发中 | false | Inherit client-defined dynamic tools in fresh V2 subagents. |

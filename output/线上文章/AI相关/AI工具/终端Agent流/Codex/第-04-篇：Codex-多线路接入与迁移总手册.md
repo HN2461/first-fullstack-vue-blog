@@ -1,7 +1,7 @@
 ---
 title: "第 04 篇：Codex 多线路接入与迁移总手册"
 slug: "ai-agent-codex-codex-94189641"
-summary: "将官方、Packy、yunyi、rpcod 等线路统一收进一篇完整的线路选择与迁移总手册，集中解决多线路怎么选、怎么配、怎么迁移、怎么排错。"
+summary: "统一整理官方与第三方 Codex 线路的配置和迁移，补充 0.169.0 Provider 管理、旧会话绑定、网关 OAuth、Vertex AI 与网络诊断边界。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -22,19 +22,45 @@ originalId: "6a2d291d8a2b1c68f2cabf66"
 originalSlug: "ai-agent-codex-codex-94189641"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.298Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T14:46:23.451Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Codex 多线路接入与迁移总手册
 
-> 更新时间：2026-10-28。
-> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-11-17。
+> 核对范围：2026-11-17 查询 npm，稳定标签为 `latest=0.169.0`，预发布标签为 `alpha=0.171.0-alpha.12`；本机只读核验为 `codex-cli 0.169.0`、Windows 包 `OpenAI.Codex 26.1111.2228.0`。本次新增结论以 OpenAI 官方 GitHub Releases、`rust-v0.169.0` 固定源码/schema 和本机 `--help` 为依据；官方文档站本轮访问受限，桌面/IDE 功能不因 CLI 更新而视为同步上线。完整配置看第三篇，命令看第六篇，版本变化看第九篇。
 > 定位：线路总手册。专门解决“我要走哪条线路、配置该怎么落、切线路时最容易在哪翻车”这些问题。
 > 前置建议：先读第一篇、第三篇、第五篇。先把 CLI 主线、配置层级和三端差异搞清，再来看线路，判断会稳很多。
 > 精简说明：rpcod 线路补充内容已经合并到本篇，专题不再单独保留历史跳转页。
 > 使用方式：不要从头硬背。先看第 1、2、3 节做选路，再跳到自己实际在用的 provider 模板与排错小节。
 
 [[toc]]
+
+## 2026-11-17：切换 Provider 时先区分新会话与旧会话
+
+0.168.0 在终端的 **Sessions → Model providers** 中加入 Provider 浏览与新会话默认值选择，并修复已有/恢复会话沿用保存 Provider 的行为。0.169.0 进一步加入终端新增、编辑自定义 Provider，以及受支持网关的设备码授权。
+
+这意味着：改 `model_provider` 或选择新的默认值后，旧线程仍可能使用原来的线路。排障先建立一个新的短会话，确认 `/status` 中的模型、Provider 和工作目录，再回头处理旧线程。0.167 起切 Provider 后保存的聊天仍应可见；无法恢复时可以阅读原记录，并准备可编辑的新会话提示。
+
+### 网关认证要和模型登录分开
+
+1. 普通 API key 网关继续按自己的 `env_key` 和 `base_url` 配置。
+2. OAuth 网关需要声明并实现相应授权端点；设备码只适用于支持它的网关。
+3. 登录页的自定义网关引导受 `gateway_setup_wizard` 开关控制；没有入口时先看有效配置。
+4. 终端保存了 Provider 配置，不等于已经完成认证或成功调用模型。
+
+不要把本篇 Packy、yunyi、rpcod 历史模板中的域名、套餐和模型别名当成官方持续保证。本轮没有登录这些第三方后台核对，实际地址与能力由各服务自己的文档决定。
+
+### Vertex AI：先验证 ADC，再看工具兼容
+
+0.167 发布说明增加了 GCP setup wizard，可使用 Application Default Credentials 或凭据文件；0.169 schema 已有 `project_id`、`location` 和 `credential_file`。这些值属于 GCP Provider 设置，不是把 OpenAI key 改名后就能使用。
+
+0.167.2 单独说明 Vertex AI 默认增量发送工具，给出 `[features] incremental_tools_legacy_gcp=false` 的退出方式。版本分支之间的默认值应在实际安装版本核对，只有出现明确兼容故障时才考虑相应覆盖，不能把补丁说明变成所有线路通用模板。
+
+网络排障入口：`codex doctor --network-only --summary`。先分清 HTTP、WebSocket、凭据和模型授权的失败位置，再调整线路。
+
+依据：[0.167.0](https://github.com/openai/codex/releases/tag/rust-v0.167.0)、[0.167.2](https://github.com/openai/codex/releases/tag/rust-v0.167.2)、[0.168.0](https://github.com/openai/codex/releases/tag/rust-v0.168.0)、[0.169.0](https://github.com/openai/codex/releases/tag/rust-v0.169.0)。
+
 
 ---
 

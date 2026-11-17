@@ -1,0 +1,337 @@
+{
+  "date": "2026-11-17",
+  "phase": "preflight",
+  "scope": "Codex 9 篇文章增量更新",
+  "research": {
+    "stable": "0.169.0",
+    "alpha": "0.171.0-alpha.12",
+    "localCli": "0.169.0",
+    "windowsPackage": "26.1111.2228.0",
+    "officialDocsFetch": "developers 403；learn 连接超时；以官方固定 tag、Releases、npm 和本机帮助交叉核验",
+    "sources": [
+      {
+        "url": "https://registry.npmjs.org/@openai/codex",
+        "sha256": "c20f3c697e639a6c1e326ad16080d60fe1838b4f88214c25289f1cbd03ff35bc",
+        "bytes": 19423142
+      },
+      {
+        "url": "https://api.github.com/repos/openai/codex/releases?per_page=35",
+        "sha256": "02830593c84ab05e560c4502400f67a27e080a8b498bd4a35456d84f59931500",
+        "bytes": 11647566
+      },
+      {
+        "url": "https://api.github.com/repos/openai/codex/releases/tags/rust-v0.166.0",
+        "sha256": "000f47cc120e928390721ce3b73435d2385db6f174cb7469bf62b8418de95ff3",
+        "bytes": 625779
+      },
+      {
+        "url": "https://raw.githubusercontent.com/openai/codex/rust-v0.169.0/codex-rs/core/config.schema.json",
+        "sha256": "f515f420927460250181097af8dc72b80a6be4f01f4324a0efef816e46cc9c86",
+        "bytes": 271771
+      },
+      {
+        "url": "https://raw.githubusercontent.com/openai/codex/rust-v0.162.1/codex-rs/core/config.schema.json",
+        "sha256": "7933a70506e753a6e98c16800d2a76770b2af2b7295491f8f0b8e713e952027e",
+        "bytes": 236751
+      },
+      {
+        "url": "https://raw.githubusercontent.com/openai/codex/rust-v0.169.0/codex-rs/tui/src/slash_command.rs",
+        "sha256": "d44560ec54634860043ec82a5758480a60d4d63935e3d6acd641ba8090899349",
+        "bytes": 14248
+      },
+      {
+        "url": "https://raw.githubusercontent.com/openai/codex/rust-v0.169.0/codex-rs/models-manager/models.json",
+        "sha256": "1384625c0b6b3e67d3c60da29becea2b017f2c283fc1e2d05b8edafb4698eb10",
+        "bytes": 539696
+      }
+    ]
+  },
+  "baselineReason": "线上仍为 2026-10-12 正文；本地 2026-10-28 更新只同步到本地。已将线上 9 篇正文、标题、摘要与 Git e5e5e3a6 权威快照逐字核对，恢复这 9 篇真实生产比较基线；本地正文及 10 月更新保留。",
+  "baselineEvidence": [
+    {
+      "slug": "ai-agent-codex-codex-1c9633e1",
+      "originalId": "6a2d291d8a2b1c68f2cabf80",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "7213b2b00e379f588e4f8e3c3ff75312c8dc5eba3c1214f76aa775718084ad08"
+    },
+    {
+      "slug": "ai-agent-codex-codex-94189641",
+      "originalId": "6a2d291d8a2b1c68f2cabf66",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "62546387d4ae9e9dede8d99349b3ba3e9d8bc7faa5b6d28ff179c9f7209fe170"
+    },
+    {
+      "slug": "ai-agent-codex-codex-9cf3fc01",
+      "originalId": "6a2d291d8a2b1c68f2cabf78",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "196d518cf255c2069ae8d0c5105679fa240829ddf36f61096c8a16bbab720d63"
+    },
+    {
+      "slug": "ai-agent-codex-codex-cli-10e9408b",
+      "originalId": "6a2d291d8a2b1c68f2cabf4c",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "44a8b2d102775cedf6a93265556d01d8306659ed9f3d663a238f70ccde52ee08"
+    },
+    {
+      "slug": "ai-agent-codex-codex-cli-64e9fd24",
+      "originalId": "6a2d291d8a2b1c68f2cabf50",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "942d4de4288320aca6086749b64a36c00523c6d40a6b7a56faaa623dff0b4320"
+    },
+    {
+      "slug": "ai-agent-codex-codex-cli-app-afad6d17",
+      "originalId": "6a2d291d8a2b1c68f2cabf6e",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "6361fc7578bb84bcf0d915140f6de495a55d63812aba5de11ceb4ea151916651"
+    },
+    {
+      "slug": "ai-agent-codex-codex-edeadb5e",
+      "originalId": "6a2d291d8a2b1c68f2cabf5a",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "1e048333918dac4f34bf860bdff91fee025376a893f963e0bf747fe67c6a00dd"
+    },
+    {
+      "slug": "ai-agent-codex-current-feature-radar-20260913",
+      "originalId": "6aa6a8afeea462382bcdf5a3",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "f579d314da205ba3e708da925ae25600361f029bf5ff73f961d736ff6d1be078"
+    },
+    {
+      "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+      "originalId": "6a6b691f4bf50146e9b95e6c",
+      "historicalCommit": "e5e5e3a6",
+      "bodyMatches": true,
+      "titleMatches": true,
+      "summaryMatches": true,
+      "contentHash": "83b77cdf147d5dd553aca73f0a748155146c515d613920a5de914d34eeaf951a"
+    }
+  ],
+  "preflight": {
+    "selected": 9,
+    "updates": 9,
+    "conflicts": 0,
+    "metadataPull": 0,
+    "fields": [
+      "summary",
+      "contentHash"
+    ]
+  },
+  "articles": [
+    {
+      "slug": "ai-agent-codex-current-feature-radar-20260913",
+      "originalId": "6aa6a8afeea462382bcdf5a3",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md",
+      "beforeHash": "f579d314da205ba3e708da925ae25600361f029bf5ff73f961d736ff6d1be078",
+      "afterHash": "9a5c8b6c43d012fd1f2626ae1dafbb8b7b272eeaa9baf217b096c03dff5a643a",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+      "originalId": "6a6b691f4bf50146e9b95e6c",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-08-篇：Codex-桌面-App-当前功能与-Windows-实战.md",
+      "beforeHash": "83b77cdf147d5dd553aca73f0a748155146c515d613920a5de914d34eeaf951a",
+      "afterHash": "3dbef9430505f65d9989de54b35eff671d1cfbd7ba179975b8f2038ba634a458",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-codex-94189641",
+      "originalId": "6a2d291d8a2b1c68f2cabf66",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-04-篇：Codex-多线路接入与迁移总手册.md",
+      "beforeHash": "62546387d4ae9e9dede8d99349b3ba3e9d8bc7faa5b6d28ff179c9f7209fe170",
+      "afterHash": "dc94de10604b2019c22e60e11446aafea4360e985550f350a3d21dbfdb949926",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-codex-cli-10e9408b",
+      "originalId": "6a2d291d8a2b1c68f2cabf4c",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-01-篇：Codex-CLI-第一日开发实战.md",
+      "beforeHash": "44a8b2d102775cedf6a93265556d01d8306659ed9f3d663a238f70ccde52ee08",
+      "afterHash": "9eb35a051b426d40eced984d391333ea5ca6b5a2b5675c86093688e34253a0b6",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-codex-1c9633e1",
+      "originalId": "6a2d291d8a2b1c68f2cabf80",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-07-篇：Codex-当前常用功能与进阶工作流手册.md",
+      "beforeHash": "7213b2b00e379f588e4f8e3c3ff75312c8dc5eba3c1214f76aa775718084ad08",
+      "afterHash": "72da6d61eceb3abc019f7c2c7cdb113470b5ec8a8dc89c5f5678414184a51d3c",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-codex-9cf3fc01",
+      "originalId": "6a2d291d8a2b1c68f2cabf78",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-06-篇：Codex-命令与配置文件速查.md",
+      "beforeHash": "196d518cf255c2069ae8d0c5105679fa240829ddf36f61096c8a16bbab720d63",
+      "afterHash": "bc43a5292d8902199186dd0467c334b9ed0322c6279edf7426783dbaeb24bf15",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-codex-cli-app-afad6d17",
+      "originalId": "6a2d291d8a2b1c68f2cabf6e",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-05-篇：Codex-CLI、插件、App-三端联动实战.md",
+      "beforeHash": "6361fc7578bb84bcf0d915140f6de495a55d63812aba5de11ceb4ea151916651",
+      "afterHash": "cf71d1def324f72ab809dfeac7f80c44f1b56846372ac21e645532135e943058",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-codex-edeadb5e",
+      "originalId": "6a2d291d8a2b1c68f2cabf5a",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-03-篇：Codex-配置总手册（config.toml、字段字典、HN246-本机版）.md",
+      "beforeHash": "1e048333918dac4f34bf860bdff91fee025376a893f963e0bf747fe67c6a00dd",
+      "afterHash": "542d328a8f74049679eff7d327d62054f36e7046e366d00fcb66bae22c018fc9",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    },
+    {
+      "slug": "ai-agent-codex-codex-cli-64e9fd24",
+      "originalId": "6a2d291d8a2b1c68f2cabf50",
+      "fileName": "AI相关/AI工具/终端Agent流/Codex/第-02-篇：Codex-CLI-英文终端界面翻译与排错.md",
+      "beforeHash": "942d4de4288320aca6086749b64a36c00523c6d40a6b7a56faaa623dff0b4320",
+      "afterHash": "0d3c6b28334be37d1b2300f063311518ba873a37e53542a1db84a62186fdd228",
+      "pushFields": [
+        "summary",
+        "contentHash"
+      ]
+    }
+  ],
+  "validations": {
+    "frontMatterIdentityAndOperationFields": "passed",
+    "utf8NoBom": "passed",
+    "markdownFences": "passed",
+    "frontendBuild": "passed",
+    "encodingScript": "passed",
+    "backendFullTest": {
+      "passedFiles": 56,
+      "passedTests": 396,
+      "totalFiles": 58,
+      "totalTests": 405,
+      "workerExitCode": 3221226505,
+      "retryFiles": [
+        "media-vault.test.js",
+        "ledgerImportSync.test.js"
+      ],
+      "retryStatus": "passed",
+      "retryPassedFiles": 2,
+      "retryPassedTests": 11
+    }
+  },
+  "localSync": {
+    "mode": "after",
+    "target": "local",
+    "inspected": 9,
+    "contentPush": 0,
+    "metadataPull": 0,
+    "conflicts": 0,
+    "remoteOnly": 0,
+    "aligned": 9,
+    "operationFieldsPreserved": true,
+    "articles": [
+      {
+        "slug": "ai-agent-codex-current-feature-radar-20260913",
+        "hash": "9a5c8b6c43d012fd1f2626ae1dafbb8b7b272eeaa9baf217b096c03dff5a643a",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.231Z"
+      },
+      {
+        "slug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
+        "hash": "3dbef9430505f65d9989de54b35eff671d1cfbd7ba179975b8f2038ba634a458",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.396Z"
+      },
+      {
+        "slug": "ai-agent-codex-codex-94189641",
+        "hash": "dc94de10604b2019c22e60e11446aafea4360e985550f350a3d21dbfdb949926",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.466Z"
+      },
+      {
+        "slug": "ai-agent-codex-codex-cli-10e9408b",
+        "hash": "9eb35a051b426d40eced984d391333ea5ca6b5a2b5675c86093688e34253a0b6",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.492Z"
+      },
+      {
+        "slug": "ai-agent-codex-codex-1c9633e1",
+        "hash": "72da6d61eceb3abc019f7c2c7cdb113470b5ec8a8dc89c5f5678414184a51d3c",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.508Z"
+      },
+      {
+        "slug": "ai-agent-codex-codex-9cf3fc01",
+        "hash": "bc43a5292d8902199186dd0467c334b9ed0322c6279edf7426783dbaeb24bf15",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.528Z"
+      },
+      {
+        "slug": "ai-agent-codex-codex-cli-app-afad6d17",
+        "hash": "cf71d1def324f72ab809dfeac7f80c44f1b56846372ac21e645532135e943058",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.566Z"
+      },
+      {
+        "slug": "ai-agent-codex-codex-edeadb5e",
+        "hash": "542d328a8f74049679eff7d327d62054f36e7046e366d00fcb66bae22c018fc9",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.583Z"
+      },
+      {
+        "slug": "ai-agent-codex-codex-cli-64e9fd24",
+        "hash": "0d3c6b28334be37d1b2300f063311518ba873a37e53542a1db84a62186fdd228",
+        "pushFields": [],
+        "updatedAt": "2026-11-17T14:52:34.656Z"
+      }
+    ]
+  },
+  "localBackup": {
+    "mongodump": "tmp/codex-research-20261117/local-mongodb-before",
+    "articles": "backend/backups/article-content-before-2026-11-17T14-52-34-217Z.ejson"
+  },
+  "schemaChanges": "无；仅更新所选文章摘要、正文及对应 sourceHash/updatedAt"
+}

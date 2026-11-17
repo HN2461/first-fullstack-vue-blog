@@ -1,7 +1,7 @@
 ---
 title: "第 06 篇：Codex 命令与配置文件速查"
 slug: "ai-agent-codex-codex-9cf3fc01"
-summary: "以本机 Codex CLI 0.162.1 命令快照为底，补充远端 0.163–0.165 的内置斜杠命令、行内参数和配置变化，修正旧版命令说明。"
+summary: "以 0.169.0 本机帮助和官方源码核对高频命令，补充 --trust、queue --resume、doctor --network-only 与终端工作区，并保留有明确版本标识的历史命令快照。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -21,13 +21,13 @@ originalId: "6a2d291d8a2b1c68f2cabf78"
 originalSlug: "ai-agent-codex-codex-9cf3fc01"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.294Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T14:46:23.451Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 06 篇：Codex 命令与配置文件速查
 
-> 更新时间：2026-10-28。
-> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-11-17。
+> 核对范围：2026-11-17 查询 npm，稳定标签为 `latest=0.169.0`，预发布标签为 `alpha=0.171.0-alpha.12`；本机只读核验为 `codex-cli 0.169.0`、Windows 包 `OpenAI.Codex 26.1111.2228.0`。本次新增结论以 OpenAI 官方 GitHub Releases、`rust-v0.169.0` 固定源码/schema 和本机 `--help` 为依据；官方文档站本轮访问受限，桌面/IDE 功能不因 CLI 更新而视为同步上线。完整配置看第三篇，命令看第六篇，版本变化看第九篇。
 > 定位：工具底座（全系列命令与配置文件统一说明）。
 > 使用方式：读任何一篇时，遇到“这条命令是干嘛的”就回查本篇。
 > 小白读完目标：你应该能分清“命令层 / 配置层 / 项目规则层”，并且看到一个命令或字段名时，知道它属于哪一层。
@@ -35,6 +35,42 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 章节导航（点击跳转）：
 
 [[toc]]
+
+## 2026-11-17：0.169.0 当前命令增量
+
+下表经本机 `codex <command> --help` 核对；后文的 0.162.1 完整参数转录保留作历史查询，不能代替本表与当前帮助。
+
+| 命令 / 操作 | 用途 | 关键边界 |
+|---|---|---|
+| `codex exec --trust ...` | 为当前项目及未来会话保存信任 | 允许加载项目配置/MCP；即使 ephemeral 也持久化；不覆盖显式 untrusted |
+| `codex review --trust --uncommitted` | 在明确信任项目后审查当前改动 | 先检查仓库配置，不把 trust 当沙箱级别 |
+| `codex doctor --network-only --summary` | 检查配置、网络环境、Provider HTTP 与 Responses WebSocket | 不保证模型额度、MCP 授权或项目测试通过 |
+| `codex queue --thread <ID> --message <TEXT> --resume` | 排队消息后尝试恢复未加载线程 | 恢复失败只警告，命令仍可成功退出；队列消息使用目标线程模型 |
+| `codex agents --no-daemon` | 无共享 daemon 模式下打开任务中心 | 任务中心与会话选择器支持未读结果标记 |
+| `codex --enable tui_workspace` | 启动可选终端工作区 | 0.168 并排侧聊、0.169 多侧聊标签；本机默认未开启 |
+| `/feedback` 后 `Ctrl+S` | 在报告编辑器保存本地诊断 ZIP | 上传被禁用时仍可保存；分享前检查内容 |
+| `/config`、`/presets` | 配置偏好和复用提示/命令 | 当前 0.169 枚举已包含；不是普通 shell 子命令 |
+
+### Queue 的成功退出应怎样验收
+
+```powershell
+codex queue --thread "会话的精确名称或 UUID" --message "请继续完成已确认的测试" --resume
+codex agents
+```
+
+先看是否出现 resume warning，再从目标线程确认实际运行与结果。退出码为 0 不等于目标任务已执行完成；不要据此自动进入发布步骤。
+
+### 工作区与上下文命令要分开
+
+- `/side` 或 `/btw` 启动侧聊；启用终端工作区后可以并排显示，并支持多个标签。
+- `leader z` 缩放当前面板；leader 由当前 `/keymap` 设置决定，不固定解释为某个控制键。
+- `Collapse turn details` 只折叠界面；`/compact` 才是会话上下文整理入口。
+- `Ctrl+L` 清屏后，历史仍可通过 `Ctrl+T` 查看；`/clear` 则会清屏并开始新聊天，两者语义不同。
+
+`/model` 与 `/permissions` 在 0.169 枚举中均接受行内参数；本篇旧 0.162.1 表中的“否”只描述旧版本。具体取值以当前菜单为准，不从接受参数推断所有字符串都有效。
+
+依据：[0.166.0](https://github.com/openai/codex/releases/tag/rust-v0.166.0)、[0.167.0](https://github.com/openai/codex/releases/tag/rust-v0.167.0)、[0.169.0](https://github.com/openai/codex/releases/tag/rust-v0.169.0)、[0.169 slash 枚举](https://github.com/openai/codex/blob/rust-v0.169.0/codex-rs/tui/src/slash_command.rs)。
+
 
 ---
 
@@ -113,7 +149,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ---
 
-## 3. 全部 CLI Slash Commands（本机 0.162.1 快照；远端 0.163–0.165 见下）
+## 3. 全部 CLI Slash Commands（0.162.1 历史快照；0.169 当前增量见篇首）
 
 本表逐项核对稳定版内置命令枚举及菜单门控。输入 `/` 打开菜单并搜索；命令需要放在 composer 起始位置。“允许入口”表示任务运行中允许调度此命令，不保证操作立即完成；“参数=是”只表示解析器接受行内参数，不能据此自行猜所有参数语法。side conversation 会进一步限制菜单，模型、server 能力、平台和 feature flags 也会影响可见性。
 
@@ -293,7 +329,7 @@ model_reasoning_effort = "medium"
 
 ---
 
-## 8. 全部 CLI 命令与参数（本机 0.162.1 快照）
+## 8. 全部 CLI 命令与参数（2026-10-28 本机 0.162.1 历史 快照）
 
 以下清单直接读取本机稳定版的 **74 个命令/子命令帮助页面**（含根入口），不执行登录、任务、升级、删除或迁移。根层有 26 个公开业务子命令，另有 `help`；隐藏内部命令不作为公共接口。别名 `exec=e`、`apply=a`、`cloud-tasks=cloud`、`--yolo`、`--not-so-yolo` 仅为兼容入口。
 

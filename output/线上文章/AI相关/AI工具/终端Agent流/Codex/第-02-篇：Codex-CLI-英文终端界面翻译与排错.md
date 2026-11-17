@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：Codex CLI 英文终端界面翻译与排错"
 slug: "ai-agent-codex-codex-cli-64e9fd24"
-summary: "基于主人整理的 Codex CLI 终端界面线索，用文字图逐屏解释首页、模型选择、推理强度、权限、状态页、MCP、插件、skills、experimental 与错误提示，帮助把英文终端界面读成可操作的开发判断。"
+summary: "按真实终端场景解释 Codex 的模型、权限、MCP 与诊断提示，补充 0.166–0.169 的网络诊断、Provider 选择、历史搜索和侧聊界面。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -21,17 +21,42 @@ originalId: "6a2d291d8a2b1c68f2cabf50"
 originalSlug: "ai-agent-codex-codex-cli-64e9fd24"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:38:33.774Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T14:46:23.451Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Codex CLI 英文终端界面翻译与排错
 
-> 更新时间：2026-10-28。
-> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-11-17。
+> 核对范围：2026-11-17 查询 npm，稳定标签为 `latest=0.169.0`，预发布标签为 `alpha=0.171.0-alpha.12`；本机只读核验为 `codex-cli 0.169.0`、Windows 包 `OpenAI.Codex 26.1111.2228.0`。本次新增结论以 OpenAI 官方 GitHub Releases、`rust-v0.169.0` 固定源码/schema 和本机 `--help` 为依据；官方文档站本轮访问受限，桌面/IDE 功能不因 CLI 更新而视为同步上线。完整配置看第三篇，命令看第六篇，版本变化看第九篇。
 > 这一篇不是再讲 Codex 是什么。
 > 它专门解决一个真实问题：终端里全是英文菜单、状态词、权限词、插件词和错误词，看着都认识，合起来却不知道下一步该怎么判断。
 
 [[toc]]
+
+## 2026-11-17：新增界面词汇与故障判断
+
+| 英文 / 提示 | 应怎样理解 | 下一步 |
+|---|---|---|
+| Sessions → Model providers | 选择新会话默认使用的 Provider | 旧线程会保留自己的 Provider；在目标线程中再次核对状态 |
+| Sign in another way | API key、云 Provider 等登录入口集中在这里 | 按实际认证来源选择，不能把 ChatGPT 登录和网关 OAuth 当成一份凭据 |
+| Collapse turn details | 折叠已经完成的活动，保留答案和可搜索的工具输出 | 适合长任务阅读；它不会压缩模型上下文 |
+| Unread results | 会话有尚未查看的结果 | 回到对应任务看结果，不能据此判断测试已经通过 |
+| Side conversation / tabs | 主线程旁的独立侧聊 | CLI 多标签工作区需要显式开启 `tui_workspace`，主线约束仍在原任务维护 |
+| Clear context and implement | 把批准的计划交给新的上下文实施 | 0.169 修复完整计划传递；交接失败时保留当前会话 |
+| Project trust / --trust | 是否加载并信任项目配置与 MCP | 先审阅仓库配置；workspace-write 不会自动建立信任 |
+
+连接失败时，0.166.0 起可以缩小诊断范围：
+
+```powershell
+codex doctor --network-only --summary
+```
+
+它检查配置、网络环境、Provider HTTP 和 Responses WebSocket。网络诊断通过后，模型授权、额度、MCP OAuth 或具体项目命令仍可能分别失败，应按错误所在层继续检查。
+
+0.169 的 `/feedback` 报告编辑器支持 `Ctrl+S` 保存本地诊断 ZIP，即使上传被禁用也可保存。对外提供前检查日志中的项目路径、命令和上下文。这里记录的是官方行为及本机帮助，本轮没有实际发送反馈或打开终端界面。
+
+依据：[0.166.0](https://github.com/openai/codex/releases/tag/rust-v0.166.0)、[0.168.0](https://github.com/openai/codex/releases/tag/rust-v0.168.0)、[0.169.0](https://github.com/openai/codex/releases/tag/rust-v0.169.0)。
+
 
 ---
 

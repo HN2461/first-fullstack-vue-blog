@@ -1,7 +1,7 @@
 ---
 title: "第 09 篇：Codex 近期功能雷达与三端快速上手"
 slug: "ai-agent-codex-current-feature-radar-20260913"
-summary: "集中追踪 Codex 0.154 至 0.165.0 的开发者更新，区分稳定版、预发布和开发分支，说明模型、MCP OAuth、终端界面、Provider 能力、弃用项和固定复核流程。"
+summary: "追踪到 Codex 0.169.0 稳定版，集中说明 0.166–0.169 的项目显式信任、Provider 管理、侧聊工作区、诊断与模型更新，区分预发布和客户端差异。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -22,21 +22,72 @@ originalId: "6aa6a8afeea462382bcdf5a3"
 originalSlug: "ai-agent-codex-current-feature-radar-20260913"
 originalStatus: "published"
 publishedAt: "2026-09-13T13:44:41.251Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T14:46:23.451Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 09 篇：Codex 近期功能雷达与三端快速上手
 
-> 更新时间：2026-10-28。
-> 当前版本基线：远端 npm `latest=0.165.0`、`alpha=0.166.0-alpha.5`；本机 `codex-cli 0.162.1`、Windows Store 包 `OpenAI.Codex 26.1021.3705.0`。VS Code Marketplace 官方扩展 `openai.chatgpt` 页面版本为 `26.51021.22027`。
-> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-11-17。
+> 当前版本基线：npm stable 与本机 CLI 均为 `0.169.0`；alpha 为 `0.171.0-alpha.12`；Windows 包为 `26.1111.2228.0`。IDE 版本本轮未重新核验。
+> 核对范围：2026-11-17 查询 npm，稳定标签为 `latest=0.169.0`，预发布标签为 `alpha=0.171.0-alpha.12`；本机只读核验为 `codex-cli 0.169.0`、Windows 包 `OpenAI.Codex 26.1111.2228.0`。本次新增结论以 OpenAI 官方 GitHub Releases、`rust-v0.169.0` 固定源码/schema 和本机 `--help` 为依据；官方文档站本轮访问受限，桌面/IDE 功能不因 CLI 更新而视为同步上线。完整配置看第三篇，命令看第六篇，版本变化看第九篇。
 > 这篇把“最近推出了什么、我应该先学什么”单独维护，不替代第 03 篇配置手册、第 06 篇命令速查和第 08 篇 Windows App 实战。
 
 [[toc]]
 
-## 0. 从 0.154 到 0.165.0：当前应关注的变化
+## 0. 从 0.165 到 0.169.0：这次应优先更新什么
 
-本次于 **2026-10-28** 查询 npm dist-tags：`latest=0.165.0`，`alpha=0.166.0-alpha.5`。当前机器仍安装 `codex-cli 0.162.1`，Windows Store 包读取为 `26.1021.3705.0`，没有执行 CLI 升级或 App 界面操作。以下把远端稳定发布、本机实测和 alpha 预发布明确分开，不把 alpha 自动写成稳定事实。
+2026-11-17 查询 npm 得到 `latest=0.169.0`、`alpha=0.171.0-alpha.12`；GitHub `rust-v0.169.0` 标记为正式发布。当天 registry 的 alpha 平台包标签一度仍为 `0.171.0-alpha.11-*`，说明预发布元包与平台标签可能不同时推进，不能只按最大版本号判断稳定性。
+
+本机 CLI 为 `0.169.0`，Windows Store 包为 `26.1111.2228.0`。本轮只读取版本、帮助及功能开关，没有升级客户端或执行 App 界面验证。IDE Marketplace `26.51021.22027` 保留为 2026-10-28 的历史资料。
+
+| 版本 / GitHub 发布日（UTC） | 主要变化 | 使用建议 |
+|---|---|---|
+| 0.166.0 / 2026-10-29 | 键盘选择 transcript、异步问答 Markdown；Terra 补齐 bundled/Vertex AI/Bedrock 目录；queue --resume；doctor --network-only | 长输出、断线恢复和网络排错优先使用新入口 |
+| 0.167.0 / 2026-11-06 | agents --no-daemon、未读标记、连接后端切换；GCP 向导；macOS/Windows 系统代理 opt-in；审批中展开 patch | 区分账号、Provider、后端和目标线程 |
+| 0.167.1 / 2026-11-10 | 官方版本存在，本次 release body 无功能摘要 | 不根据补丁号补写功能 |
+| 0.167.2 / 2026-11-11 | Vertex AI 默认增量发送工具；给出退出开关 | 对应线路和实际版本核对，不套用到所有 Provider |
+| 0.168.0 / 2026-11-13 | Sessions → Model providers；可选并排侧聊；音频附件与可选 GIF；osc777；multi_agent 弃用提示 | 模型和工具能力仍受账号/Provider 影响，迁移常规子代理配置 |
+| 0.169.0 / 2026-11-13 | 多侧聊标签、旧任务搜索、折叠活动；终端自定义 Provider/设备码；本地诊断 ZIP；显式项目 trust 修复 | 先处理项目安全边界和旧配置，再按需开启新界面 |
+
+### 0.1 最影响脚本的变化：workspace-write 不建立项目信任
+
+0.169 的 `codex exec` 在未信任目录中继续禁用项目配置和 MCP。确认仓库配置可靠后，可以在 exec/review 显式使用 `--trust`；该标志保存未来会话的项目信任，`--ephemeral` 不会撤销它，也不会覆盖显式 untrusted。
+
+这对 CI 和自动化很重要：从“命令能写文件”不能推断“项目 MCP 已经加载”。先检查项目配置和来源，再按任务需要信任，避免通过扩大沙箱权限排查错误层级。
+
+### 0.2 Provider 默认值、历史记录与线程绑定
+
+0.167 修复换 Provider 后聊天可见性；0.168 保证已打开/恢复线程沿用保存的 Provider，并按当前 ChatGPT 账号过滤新建线程的本地历史。0.169 可以在终端新增、编辑 Provider；自定义网关登录与设备码还需要对应功能开关和网关支持。
+
+切换后先建立新短会话验证 `/status`，再检查旧线程。不要因为换了默认 Provider 就删除旧历史或覆盖认证文件。
+
+### 0.3 终端工作区：可选侧聊，不是默认全开
+
+```powershell
+codex --enable tui_workspace
+```
+
+0.168 支持主聊与侧聊并排、拖动分隔线以及 `leader z` 缩放；0.169 加入多个侧聊标签、键盘/鼠标切换以及重启后重新打开已保存的本地侧聊。本机功能注册表仍把 `tui_workspace` 标为 under development，有效值为 false。
+
+完成活动可通过 `tui.collapse_turn_details=true` 折叠，答案继续可见、工具输出仍可搜索。折叠和上下文压缩是两种动作，不能用折叠估算 token 节省。
+
+### 0.4 模型与实验能力如何判断
+
+第七篇模型表已对照 0.169.0 固定目录重核。GPT-6.1 Sol、Terra、Astra、Luna 的可选 effort 和窗口属于目录元数据，实际授权仍以账号/Provider 为准。0.168 的音频附件需要支持音频的模型，GIF 还要求 `image_generation_animation`，两者不因安装新版而对所有模型开放。
+
+0.169 的终端 Cloud opt-in 发布范围明确为 macOS/Linux，并增加图片、模型/effort 与归档恢复；不能把这条发布记录用于证明 Windows CLI 或桌面 App 已同步获得同一入口。
+
+### 0.5 本轮资料的可信范围
+
+已实际取得 npm registry、官方 GitHub 发布说明、0.169.0 schema/模型目录/slash 源码，并读取本机 CLI 帮助和 Windows 包版本。官方 developers 文档页返回 403，learn 文档站连接超时，因此后文保留的桌面/IDE 历史说明不属于本轮重新实测项。
+
+`latest`、`alpha`、GitHub `main` 和本机安装版本必须分别记录。本篇新增行为只按正式 release 或固定 tag 解释，不能把 Context7 检索出的 main 分支片段直接当成已发布行为。
+
+资料：[npm registry](https://registry.npmjs.org/@openai/codex)、[0.166.0](https://github.com/openai/codex/releases/tag/rust-v0.166.0)、[0.167.0](https://github.com/openai/codex/releases/tag/rust-v0.167.0)、[0.167.2](https://github.com/openai/codex/releases/tag/rust-v0.167.2)、[0.168.0](https://github.com/openai/codex/releases/tag/rust-v0.168.0)、[0.169.0](https://github.com/openai/codex/releases/tag/rust-v0.169.0)。
+
+### 0.6 0.154–0.165 历史更新索引
+
+下表保留截至 2026-10-28 的上一轮资料，便于从更旧版本迁移；当前默认值与新增行为先看上面的 0.166–0.169 核验。
 
 | 稳定版本 | 开发者相关变化 | 使用动作 |
 |---|---|---|
@@ -49,26 +100,10 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | 0.159.1 / 0.161.0 | GPT-6.1 Sol 成为随包/Bedrock 目录默认；`/mcp login`；语音设备/声道；Daybreak 明确 opt-in | 先查 /model 与 provider 列表，按需选择 effort |
 | 0.159.2 / 0.160.0 / 0.160.1 | Windows 后台窗口、长路径/沙箱修复；重连消息避免重复；provider catalog 与 MCP Windows 环境变量修复 | 更新客户端后复查旧排障结论，保留未发送消息和原线程权限 |
 | 0.162.0 | 受信任项目的托管 worktree 工具；Command Center pin；/copy 和 Ctrl+Insert；滚轮速度；provider capabilities；CRLF 默认保留；Retry-After；签名 PowerShell 安装器 | 更新第三篇配置并练习第六篇命令 |
-| 0.162.1 | 修复多行异步问题导致 TUI 崩溃；修复后台 server feature 与 CLI 默认不一致导致启动失败 | 本机仍可见的历史验证基线，优先检查显式 --enable/--disable 覆盖 |
+| 0.162.1 | 修复多行异步问题导致 TUI 崩溃；修复后台 server feature 与 CLI 默认不一致导致启动失败 | 2026-10-28 本机历史验证基线，优先检查显式 --enable/--disable 覆盖 |
 | 0.163.0 | `/config` 分类搜索与即时设置、响应中 steer、`/keymap` leader key、`/daemon` 重启、只读工具并行、Windows 图片粘贴、退休 patched zsh | 升级后重新检查 `/config`、`/keymap`、`/daemon` 和 shell flags |
 | 0.164.0 | `/presets` 十个可复用槽位；`/model` 与 `/permissions` 行内参数；Kitty/Sixel 图片预览；企业 MCP OAuth 与机密客户端；远程凭据遮蔽；Bedrock setup wizard 默认启用 | 为团队工作流保存 presets；企业连接先核对授权方式；AWS 用户重新跑 setup wizard |
 | 0.165.0 | 内置 Google Cloud Vertex AI provider（`model_provider = "gcp"`）；加入 GPT-6.1 Terra；会话选择器支持 repository filter；reasoning effort 可在会话中动态调整；新 profile 默认 memory v2 | 先确认账号/provider 与组织策略，再启用 GCP、Terra 或 memory v2 |
-
-### 0.1 最新模型与工作流
-
-当前完整随包模型表放在第七篇：`gpt-6.1-sol` 是新主力，`gpt-6.1-terra` 提供更长上下文的平衡档，`gpt-6-astra` 面向最困难任务，`gpt-6-luna` 面向轻任务；GPT-6 Sol 与 GPT-5.6 目录仍有兼容项。默认 effort 是目录元数据，不能把全体模型统一写成 medium。
-
-源码中提供的窗口不是“所有线路保证”；不再使用 1M 窗口作为通用模板。新模型访问、价格和用量要按账号/provider 的实际支持核对。
-
-### 0.2 稳定、预发布和开发分支如何分开
-
-`latest` 是本次稳定基准，`alpha` 为 opt-in 测试；`main` 是开发源码。当前 `0.165.0` 已包含 `/config`、`/presets` 和 0.165 的 provider / 模型变化；`0.166.0-alpha.5` 仍是预发布，不能把它的新增入口写成稳定承诺。本机 `0.162.1` 的命令表和 App 操作只代表本机复核点。
-
-同样，Daybreak 需要 `--enable cli_daybreak` 或 `features.cli_daybreak=true`，单写 `daybreak=true` 不足以开启 CLI 控制；访问仍要求 eligible ChatGPT 登录、OpenAI provider 与模型/程序支持。没有明确场景时保留默认关闭。exec 显式 `--cyber-access-program` 是独立入口，不等于自动获得某个程序访问权。
-
-### 0.3 完整配置与命令在哪里维护
-
-第三篇新增全量 schema 索引、feature 生命周期、provider capabilities、permissions、Hooks 与 requirements 顶层约束；第六篇新增全部稳定内置 slash、别名、参数/忙碌行为、CLI 全命令树与每个子命令的专属参数。这些内容适合用浏览器页内搜索字段，而不是每次照抄整份本机模板。
 
 ---
 
@@ -107,7 +142,7 @@ Codex 现在不是简单的“CLI + 一个编辑器插件”。开发者需要�
 
 ### 2.2 VS Code 官方扩展的安装与能力边界
 
-Marketplace 官方扩展 ID 为 `openai.chatgpt`，当前页面版本 `26.51021.22027`（页面标记为预发布），VS Code engine `^1.96.2`。在 VS Code 中用 `Ctrl/Cmd+Shift+P` 执行 `Extensions: Install Extensions`，搜索 `openai.chatgpt`，安装后登录 ChatGPT。扩展侧边栏可基于 opened files 和 selected code 对话、编辑和预览；Cloud 任务可以在 IDE 内跟踪、审查，完成后重新打开到本地继续。
+Marketplace 官方扩展 ID 为 `openai.chatgpt`，2026-10-28 历史页面版本 `26.51021.22027`（当时标记为预发布，本轮未重新读取），VS Code engine `^1.96.2`。在 VS Code 中用 `Ctrl/Cmd+Shift+P` 执行 `Extensions: Install Extensions`，搜索 `openai.chatgpt`，安装后登录 ChatGPT。扩展侧边栏可基于 opened files 和 selected code 对话、编辑和预览；Cloud 任务可以在 IDE 内跟踪、审查，完成后重新打开到本地继续。
 
 扩展支持 VS Code / Insiders，官方页面也列出 Cursor、Windsurf 等兼容编辑器。Plus、Pro、Business、Edu、Enterprise 是 Marketplace 描述中的支持计划，实际可见模型、Cloud、连接器和企业策略仍以账号与工作区为准。ChatGPT macOS App 的“Work with VS Code”是单独的 macOS 连接入口，Windows 用户不要把它当作扩展通用能力。
 
@@ -374,11 +409,11 @@ Get-AppxPackage -Name OpenAI.Codex | Select-Object Name,Version
 
 每周复核一个可验收的小任务：read → change → review → test。新命令若未出现在当前菜单，先确定自己在 CLI、IDE 还是桌面 App，再查是否 platform/feature/server/account 门控；不要为了找按钮切到 alpha 或手工启用所有开发中开关。
 
-- [稳定版发布记录](https://github.com/openai/codex/releases/tag/rust-v0.165.0)
+- [当前稳定版发布记录](https://github.com/openai/codex/releases/tag/rust-v0.169.0)
 - [0.164.0](https://github.com/openai/codex/releases/tag/rust-v0.164.0)
 - [0.163.0](https://github.com/openai/codex/releases/tag/rust-v0.163.0)
 - [0.162.0](https://github.com/openai/codex/releases/tag/rust-v0.162.0)
 - [0.161.0](https://github.com/openai/codex/releases/tag/rust-v0.161.0)
 - [0.159.0](https://github.com/openai/codex/releases/tag/rust-v0.159.0)
 - [0.156.0](https://github.com/openai/codex/releases/tag/rust-v0.156.0)
-- [模型目录](https://github.com/openai/codex/blob/rust-v0.165.0/codex-rs/models-manager/models.json)
+- [模型目录](https://github.com/openai/codex/blob/rust-v0.169.0/codex-rs/models-manager/models.json)

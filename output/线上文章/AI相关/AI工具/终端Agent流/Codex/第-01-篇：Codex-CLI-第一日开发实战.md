@@ -1,7 +1,7 @@
 ---
 title: "第 01 篇：Codex CLI 第一日开发实战"
 slug: "ai-agent-codex-codex-cli-10e9408b"
-summary: "面向平时主要用 Codex 开发的程序员，按安装确认、进入真实仓库、看懂英文终端、完成第一轮小任务、再扩展到 VS Code 插件和桌面 App 的顺序重写 Codex 第一日上手路线。"
+summary: "从安装、项目检查和首轮任务开始学习 Codex CLI，按 0.169.0 补充项目显式信任、非交互执行和升级后的最小验收流程。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -21,17 +21,41 @@ originalId: "6a2d291d8a2b1c68f2cabf4c"
 originalSlug: "ai-agent-codex-codex-cli-10e9408b"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.297Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T14:46:23.451Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Codex CLI 第一日开发实战
 
-> 更新时间：2026-10-28。
-> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-11-17。
+> 核对范围：2026-11-17 查询 npm，稳定标签为 `latest=0.169.0`，预发布标签为 `alpha=0.171.0-alpha.12`；本机只读核验为 `codex-cli 0.169.0`、Windows 包 `OpenAI.Codex 26.1111.2228.0`。本次新增结论以 OpenAI 官方 GitHub Releases、`rust-v0.169.0` 固定源码/schema 和本机 `--help` 为依据；官方文档站本轮访问受限，桌面/IDE 功能不因 CLI 更新而视为同步上线。完整配置看第三篇，命令看第六篇，版本变化看第九篇。
 > 这篇只解决 4 件事：怎么确认装对、怎么进仓库、怎么看第一屏、怎么完成第一轮真实开发。
 > 配置字段、第三方线路、MCP 细节、桌面 App 深挖，都先放到后面的专题里查；桌面 App 高频使用请直接看第八篇。
 
 [[toc]]
+
+## 2026-11-17：第一天先确认项目是否受信任
+
+0.169.0 修正了非交互执行的项目配置加载：在未受信任目录中，即使设置 `--sandbox workspace-write`，项目配置和项目 MCP 仍不会自动启用。写文件范围和项目配置的信任状态是两项检查。
+
+第一次处理陌生仓库，先查看 `AGENTS.md`、`.codex/config.toml`、MCP 启动命令和 scripts，再决定是否信任。用于只读分析的命令可以是：
+
+```powershell
+codex --version
+codex exec --sandbox read-only "阅读仓库并说明入口、测试命令和风险，不修改文件"
+```
+
+确认仓库配置可靠、且本次任务确实需要加载项目配置后，可以显式信任：
+
+```powershell
+codex exec --trust --sandbox workspace-write "完成已确认的小改动，运行对应测试并说明结果"
+```
+
+`--trust` 会保存项目信任，供未来会话使用；即使同时使用 `--ephemeral` 也会保留。它不会覆盖已经显式标为 untrusted 的项目。CI 中不要把它无条件加到来自外部贡献者的仓库任务里。
+
+第一次任务的验收仍然是：看差异、跑项目要求的检查、确认修改范围，再提交。CLI 的成功退出、模型写出的完成说明，都不能替代实际测试结果。
+
+依据：[0.169.0 发布说明](https://github.com/openai/codex/releases/tag/rust-v0.169.0)与本机 `codex exec --help`、`codex review --help`。
+
 
 ---
 

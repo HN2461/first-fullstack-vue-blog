@@ -1,7 +1,7 @@
 ---
 title: "第 05 篇：Codex CLI、插件、App 三端联动实战"
 slug: "ai-agent-codex-codex-cli-app-afad6d17"
-summary: "详细讲解 Codex CLI、插件和 App 三端共用配置、认证与规则的关系，帮助排查“CLI 能用但插件或 App 不同步”的典型问题。"
+summary: "讲解 CLI、IDE 扩展与桌面 App 的配置和工作目录关系，补充三端独立版本、账号历史筛选、Provider 绑定及项目显式信任排障。"
 category: "Codex"
 categoryPath:
   - "AI相关"
@@ -21,13 +21,13 @@ originalId: "6a2d291d8a2b1c68f2cabf6e"
 originalSlug: "ai-agent-codex-codex-cli-app-afad6d17"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.293Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T14:46:23.451Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：Codex CLI、插件、App 三端联动实战
 
-> 更新时间：2026-10-28。
-> 核对范围：截至 2026-10-28，远端 npm 稳定版为 `0.165.0`，预发布 dist-tag 为 `0.166.0-alpha.5`；本机 PATH 实测 `codex-cli 0.162.1`，Windows Store 包实测 `OpenAI.Codex 26.1021.3705.0`。0.163–0.165 的变更依据 OpenAI Codex 官方 GitHub Releases、官方 OpenAI Developers / ChatGPT Learn 文档和本机命令核对；桌面/IDE 的账号权限、平台支持和灰度界面仍以实际入口为准。完整字段看第三篇，完整命令看第六篇，升级差异看第九篇。
+> 更新时间：2026-11-17。
+> 核对范围：2026-11-17 查询 npm，稳定标签为 `latest=0.169.0`，预发布标签为 `alpha=0.171.0-alpha.12`；本机只读核验为 `codex-cli 0.169.0`、Windows 包 `OpenAI.Codex 26.1111.2228.0`。本次新增结论以 OpenAI 官方 GitHub Releases、`rust-v0.169.0` 固定源码/schema 和本机 `--help` 为依据；官方文档站本轮访问受限，桌面/IDE 功能不因 CLI 更新而视为同步上线。完整配置看第三篇，命令看第六篇，版本变化看第九篇。
 > 定位：主线 03（三端统一与联动排障）。
 > 前置：第三篇（先懂配置原理和字段，再做联动最稳）。
 > 下一篇建议：第六篇（命令与配置速查）。
@@ -39,6 +39,26 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 章节导航（点击跳转）：
 
 [[toc]]
+
+## 2026-11-17：三端联动先核对四个独立状态
+
+本次只读核验：PATH 中 CLI 为 `0.169.0`，Windows `OpenAI.Codex` 包为 `26.1111.2228.0`。IDE 扩展本轮未重新读取 Marketplace 或运行界面；文中的 `26.51021.22027` 仅是 2026-10-28 历史页面值。
+
+| 状态 | 为什么会导致三端表现不同 | 核对动作 |
+|---|---|---|
+| 客户端与后台版本 | CLI、IDE、App 独立发布，CLI 版本不能代表 App 内部后端 | 各自记录版本；只读检查 daemon version，更新时按对应渠道操作 |
+| 当前账号 / 工作区 | 0.168 的本地历史与 resume 选择器会按已登录 ChatGPT 账号过滤新线程 | 聊天“消失”时先检查账号，不直接删除历史目录 |
+| 线程保存的 Provider | 旧线程会继续保留自己的 Provider | 改默认后建一个新线程验证，再检查旧线程状态 |
+| 项目路径与信任 | Windows、WSL、Worktree 可以是不同目录、不同配置层 | 核对 cwd、CODEX_HOME 的实际位置、项目配置以及信任状态 |
+
+CLI 0.169 的 `--trust` 行为针对非交互 exec/review：它保存项目信任，且 `--ephemeral` 不会撤销。不能把这个 flag 直接当成 IDE 设置名称或 App 按钮。
+
+0.168–0.169 的 terminal workspace、多侧聊标签以及终端 Cloud opt-in 属于明确的 CLI 功能说明。其中 Cloud 连接的发布范围写的是 macOS/Linux；Windows App 现有 Cloud 入口要按 App 自己的支持情况核对。
+
+最小排错顺序：同一项目 → 同一账号 → 新线程 → 同一 Provider / 模型 → 检查配置来源 → 比较工具目录。这样可以把“版本差异”与“旧线程状态没有改变”区分开。
+
+依据：[0.168.0](https://github.com/openai/codex/releases/tag/rust-v0.168.0)、[0.169.0](https://github.com/openai/codex/releases/tag/rust-v0.169.0)及本机版本读取。
+
 
 ---
 
