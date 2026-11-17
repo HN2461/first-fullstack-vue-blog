@@ -22,7 +22,7 @@ originalId: "6a2d291d8a2b1c68f2cabf3e"
 originalSlug: "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb"
 originalStatus: "published"
 publishedAt: "2026-05-30T09:36:22.756Z"
-updatedAt: "2026-11-17T15:13:25.738Z"
+updatedAt: "2026-11-17T15:21:29.419Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错

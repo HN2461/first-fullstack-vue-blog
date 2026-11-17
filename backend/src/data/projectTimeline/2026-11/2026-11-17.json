@@ -11,8 +11,8 @@
     },
     {
       "id": "claudecode-docs-official-research-20261117",
-      "title": "更新 Claude Code 六篇资料至 2.1.326 并核对发布基线",
-      "detail": "1. 直接检索 Anthropic 官方发布说明与配置、命令、安装、Code Mode、权限和网关文档，将 ClaudeCode 六篇文章更新到 latest 2.1.326，区分 stable 2.1.311 与本机 2.1.319。2. 重建 249 项配置索引和 121 行命令参考，修正沙箱命令默认审批、定时 Skill 许可、已移除 subagentStatusLine、Code Mode 条件、Fable 5.2、插件 engines 与后台网关认证边界。3. 线上六篇仍为 10 月 12 日版本，已与 Git e5e5e3a6 逐字核对后恢复生产比较基线，保留本地 10 月 28 日更新；前端构建、5 个文件/7 项文章测试、Markdown 解析与表格列数检查通过。4. 本地完成 mongodump 和文章专项备份后定向同步六篇，写后比较全部对齐，再次预览为零变更；身份、运营字段和互动统计保持一致。",
+      "title": "更新 Claude Code 六篇资料至 2.1.326 并完成增量上线",
+      "detail": "1. 直接检索 Anthropic 官方发布说明与配置、命令、安装、Code Mode、权限和网关文档，将 ClaudeCode 六篇文章更新到 latest 2.1.326，区分 stable 2.1.311 与本机 2.1.319。2. 重建 249 项配置索引和 121 行命令参考，修正沙箱命令默认审批、定时 Skill 许可、已移除 subagentStatusLine、Code Mode 条件、Fable 5.2、插件 engines 与后台网关认证边界。3. 线上六篇仍为 10 月 12 日版本，已与 Git e5e5e3a6 逐字核对后恢复生产比较基线，保留本地 10 月 28 日更新；前端构建、5 个文件/7 项文章测试、Markdown 解析与表格列数检查通过。4. 本地完成 mongodump 和文章专项备份后定向同步六篇，写后比较全部对齐，再次预览为零变更；身份、运营字段和互动统计保持一致。5. 内容提交 d4e78fed 已推送 origin/main，2026-11-17 23:21 完成生产 mongodump 和文章专项备份后定向更新六篇；写后全部对齐，再次 dry-run 零变更。公网六篇正文 SHA-256、摘要、身份及发布状态一致，首页和健康接口均为 200；已回写 manifest 和 Front Matter 时间并保存同步审计，采用文章内容发布，无应用服务替换或重启。",
       "category": "内容上新"
     }
   ]

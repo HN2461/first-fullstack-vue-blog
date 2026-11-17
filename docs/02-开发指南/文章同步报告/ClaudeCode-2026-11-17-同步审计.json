@@ -1,6 +1,6 @@
 {
   "date": "2026-11-17",
-  "phase": "preflight",
+  "phase": "complete",
   "scope": "Claude Code 6 篇文章增量更新",
   "research": {
     "latest": "2.1.326",
@@ -259,7 +259,9 @@
       "tests": 7,
       "result": "passed"
     },
-    "backendFullTest": "复用本会话此前对同一业务代码的全量验证：56 文件/396 项通过，另 2 文件 Windows worker 异常后单独重跑 11 项通过。本任务没有业务代码变更。"
+    "backendFullTest": "复用本会话此前对同一业务代码的全量验证：56 文件/396 项通过，另 2 文件 Windows worker 异常后单独重跑 11 项通过。本任务没有业务代码变更。",
+    "finalManifestScope": "仅六篇更新摘要、正文 hash、数据库 updatedAt；其余 567 篇保持原值",
+    "encodingScript": "passed"
   },
   "schemaChanges": "无；仅更新所选文章摘要、正文及对应 sourceHash/updatedAt",
   "localSync": {
@@ -314,5 +316,173 @@
   "localBackup": {
     "mongodump": "tmp/claudecode-research-20261117/local-mongodb-before",
     "articles": "backend/backups/article-content-before-2026-11-17T15-17-01-629Z.ejson"
+  },
+  "sourceCommit": "d4e78fedb9c8cb2f9eaecbb7cbca0bb12e985e82",
+  "production": {
+    "stage": "/www/personal-blog/article-staging/claudecode-20261117-d4e78fed",
+    "mongodumpBackup": "/www/personal-blog/backups/claudecode-content-20261117-d4e78fed/mongodb-before",
+    "articleBackup": "/www/personal-blog/backups/claudecode-content-20261117-d4e78fed/article-backups/article-content-before-2026-11-17T15-21-29-407Z.ejson",
+    "postCompare": {
+      "mode": "after",
+      "target": "production",
+      "inspected": 6,
+      "contentPush": 0,
+      "metadataPull": 0,
+      "conflicts": 0,
+      "remoteOnly": 0,
+      "aligned": 6,
+      "operationFieldsPreserved": true,
+      "articles": [
+        {
+          "slug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
+          "hash": "70044ad848cf181120cf38b57262d9ab50dbb659d233257710acbe63fa279e23",
+          "pushFields": [],
+          "updatedAt": "2026-11-17T15:21:29.419Z"
+        },
+        {
+          "slug": "ai-agent-claudecode-claudecode-8b6661f9",
+          "hash": "84e073c0a5c04e811e2d634cfa0d42ad1e7959fbb13af5056fbe01f0ba9ee91c",
+          "pushFields": [],
+          "updatedAt": "2026-11-17T15:21:29.478Z"
+        },
+        {
+          "slug": "ai-agent-claudecode-claudecode-083e790a",
+          "hash": "4a650e3db2a7d89db9da6488b78f7fd259cfb95d54ac0d3d7d5e77ef8f3b8f9c",
+          "pushFields": [],
+          "updatedAt": "2026-11-17T15:21:29.490Z"
+        },
+        {
+          "slug": "ai-agent-claudecode-claudecode-4c9d5bfe",
+          "hash": "00366651063fd0a67a11346cef2ac8782b9093559ef6dd1f5150861c56a15e9b",
+          "pushFields": [],
+          "updatedAt": "2026-11-17T15:21:29.502Z"
+        },
+        {
+          "slug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
+          "hash": "e924e1443548f43a0961938e7c1f2e6205d15109d090598a8f9363b06c8b4070",
+          "pushFields": [],
+          "updatedAt": "2026-11-17T15:21:29.513Z"
+        },
+        {
+          "slug": "ai-agent-claudecode-claudecode-76aa3c89",
+          "hash": "509813707b773732012ebc6db3948ec955abddf1901bf5f54eb13f34a432258b",
+          "pushFields": [],
+          "updatedAt": "2026-11-17T15:21:29.523Z"
+        }
+      ]
+    },
+    "secondDryRun": {
+      "updates": 0,
+      "blocked": 0
+    },
+    "fullCompare": {
+      "inspected": 573,
+      "contentPush": 0,
+      "metadataPull": 0,
+      "remoteOnly": 0,
+      "excludedDocumentArticles": [
+        "uni-app-android-apk-0-1",
+        "article-20260729150605"
+      ],
+      "note": "2 篇文档型文章由通用比较器标记人工处理，不在本次范围；ClaudeCode 六篇无冲突"
+    },
+    "runtimeDependencyCheck": {
+      "allLockedPackagesIdentical": true,
+      "rootNodeEngineOnlyDifference": [
+        ">=20.9.0",
+        ">=20.19.0"
+      ],
+      "serverNode": "v24.22.1"
+    },
+    "deploymentMode": "文章内容增量同步；发布源使用白名单后端包和同一 Git 提交文章快照，无应用服务替换或重启"
+  },
+  "publicVerification": {
+    "verifiedAt": "2026-11-17T15:24:37.482713+00:00",
+    "baseUrl": "http://121.41.11.78",
+    "healthHttpStatus": 200,
+    "health": {
+      "success": true,
+      "message": "success",
+      "data": {
+        "service": "personal-fullstack-blog-api",
+        "status": "ok",
+        "timestamp": "2026-11-17T15:24:37.133Z"
+      }
+    },
+    "homeHttpStatus": 200,
+    "articles": [
+      {
+        "slug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
+        "httpStatus": 200,
+        "sha256": "70044ad848cf181120cf38b57262d9ab50dbb659d233257710acbe63fa279e23",
+        "idMatches": true,
+        "summaryMatches": true,
+        "status": "published"
+      },
+      {
+        "slug": "ai-agent-claudecode-claudecode-8b6661f9",
+        "httpStatus": 200,
+        "sha256": "84e073c0a5c04e811e2d634cfa0d42ad1e7959fbb13af5056fbe01f0ba9ee91c",
+        "idMatches": true,
+        "summaryMatches": true,
+        "status": "published"
+      },
+      {
+        "slug": "ai-agent-claudecode-claudecode-083e790a",
+        "httpStatus": 200,
+        "sha256": "4a650e3db2a7d89db9da6488b78f7fd259cfb95d54ac0d3d7d5e77ef8f3b8f9c",
+        "idMatches": true,
+        "summaryMatches": true,
+        "status": "published"
+      },
+      {
+        "slug": "ai-agent-claudecode-claudecode-4c9d5bfe",
+        "httpStatus": 200,
+        "sha256": "00366651063fd0a67a11346cef2ac8782b9093559ef6dd1f5150861c56a15e9b",
+        "idMatches": true,
+        "summaryMatches": true,
+        "status": "published"
+      },
+      {
+        "slug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
+        "httpStatus": 200,
+        "sha256": "e924e1443548f43a0961938e7c1f2e6205d15109d090598a8f9363b06c8b4070",
+        "idMatches": true,
+        "summaryMatches": true,
+        "status": "published"
+      },
+      {
+        "slug": "ai-agent-claudecode-claudecode-76aa3c89",
+        "httpStatus": 200,
+        "sha256": "509813707b773732012ebc6db3948ec955abddf1901bf5f54eb13f34a432258b",
+        "idMatches": true,
+        "summaryMatches": true,
+        "status": "published"
+      }
+    ],
+    "retryNote": "首次公网请求超时，重试后六篇及健康检查全部通过"
+  },
+  "releaseSource": {
+    "sourceCommit": "d4e78fedb9c8cb2f9eaecbb7cbca0bb12e985e82",
+    "target": "article-content",
+    "date": "2026-11-17",
+    "files": {
+      "backend-release.zip": {
+        "sha256": "7b0c83898f3615c62cf1d3bb4464f9dba53be6f63ad703cf5f9b18113bfdc12c",
+        "bytes": 4851732
+      },
+      "article-source.zip": {
+        "sha256": "320d1b9a4072c89b23648b49f7707740dd13e3e0bc884f1bc35570506ae3d1eb",
+        "bytes": 7811539
+      },
+      "verify_sync.mjs": {
+        "sha256": "fe83a57b2b2d5fccbae0b00b6e7dda4017e45cdc0416289ce7a2732ad874211f",
+        "bytes": 3931
+      },
+      "slugs.txt": {
+        "sha256": "4e016f6ee7fa5eba1dd2bd1253ec38f858c0d3ea4754651922c6d22faf2b481b",
+        "bytes": 268
+      }
+    }
   }
 }

@@ -6804,9 +6804,9 @@
       "originalSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
       "exportedSlug": "ai-agent-claudecode-claudecode-skills-mcp-plugin-a4c669eb",
       "title": "第 06 篇：Claude Code 的 Skills、MCP、Plugin 界面怎么读、命令怎么用与怎么排错",
-      "summary": "按 2026-10-12 Claude Code 2.1.296 官方 Commands、Skills、MCP、Plugins、Interactive Mode、Agent View 与 Changelog 更新，重新整理 /mcp、/skills、/plugin、权限提示、后台会话、全量斜杠命令和常见排错路径。",
+      "summary": "按 2026-11-17 官方 Commands 页面重建 121 行命令参考，补充 /help 参数、插件版本和严格校验、MCP 任务、配置保存错误、启动提示与排错流程。",
       "cover": "",
-      "contentHash": "befe14ccd3b75e3b1de47c4c2ae8bb8aa1484bdd14d7745ce67bc3aeceea74d8",
+      "contentHash": "70044ad848cf181120cf38b57262d9ab50dbb659d233257710acbe63fa279e23",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6826,7 +6826,7 @@
       "sortOrder": 60,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第六篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md",
       "publishedAt": "2026-05-30T09:36:22.756Z",
-      "updatedAt": "2026-10-12T15:17:34.433Z",
+      "updatedAt": "2026-11-17T15:21:29.419Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-06-篇：Claude-Code-的-Skills、MCP、Plugin-界面怎么读、命令怎么用与怎么排错.md"
     },
     {
@@ -6834,9 +6834,9 @@
       "originalSlug": "ai-agent-claudecode-claudecode-8b6661f9",
       "exportedSlug": "ai-agent-claudecode-claudecode-8b6661f9",
       "title": "第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）",
-      "summary": "按 2026-10-12 Claude Code 2.1.296 官方 Common Workflows、Best Practices、Agent View、Sub-agents、Agent Teams、Workflows、Headless 与 Changelog 更新，覆盖陌生仓库、修 bug、重构、测试、文档、PR、并行任务、长会话和无人值守脚本。",
+      "summary": "按 2.1.326 更新读仓库、修复、验证、并行和无人值守工作流，补充定时 Skill 审批、拒绝代替等待、后台网关凭据、空闲压缩与恢复验收。",
       "cover": "",
-      "contentHash": "174ac4a6bee5f5eeb06913b90199f6e190250feb940452b701fd5061486794d0",
+      "contentHash": "84e073c0a5c04e811e2d634cfa0d42ad1e7959fbb13af5056fbe01f0ba9ee91c",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6856,7 +6856,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第三篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.838Z",
-      "updatedAt": "2026-10-12T15:13:40.092Z",
+      "updatedAt": "2026-11-17T15:21:29.478Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-03-篇：Claude-Code-常见工作流、Prompt-模板与最佳实践（程序员深度版）.md"
     },
     {
@@ -6864,9 +6864,9 @@
       "originalSlug": "ai-agent-claudecode-claudecode-083e790a",
       "exportedSlug": "ai-agent-claudecode-claudecode-083e790a",
       "title": "第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）",
-      "summary": "按 2026-10-12 Claude Code 2.1.296 官方 Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams 与 Workflows 文档更新，重新厘清 CLAUDE.md、AGENTS.md、rules、auto memory、权限、扩展和上下文成本的边界。",
+      "summary": "梳理 Claude Code 规则、记忆、Skills、Hooks、MCP 与插件，补充 2.1.326 的 Code Mode 条件、工具权限、MCP 后台任务和插件引擎版本约束。",
       "cover": "",
-      "contentHash": "346b31b602e4b26b7c65100cffe71a13bda130441ad4399aaa7b3280d422fa21",
+      "contentHash": "4a650e3db2a7d89db9da6488b78f7fd259cfb95d54ac0d3d7d5e77ef8f3b8f9c",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6886,7 +6886,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第二篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.835Z",
-      "updatedAt": "2026-10-12T15:17:34.457Z",
+      "updatedAt": "2026-11-17T15:21:29.490Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-02-篇：Claude-Code-功能全景、规则、记忆与扩展机制（程序员深度版）.md"
     },
     {
@@ -6894,9 +6894,9 @@
       "originalSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
       "exportedSlug": "ai-agent-claudecode-claudecode-4c9d5bfe",
       "title": "第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）",
-      "summary": "按 2026-10-12 可查到的 Claude Code 2.1.296、官方 Setup、Quickstart、Interactive Mode、Commands、Permission Modes 与 Changelog 更新，覆盖原生安装、npm 更新、Windows/WSL、终端状态、权限模式、会话管理和第一轮可验证工作流。",
+      "summary": "按 2026-11-17 官方资料更新至 latest 2.1.326，区分 stable 2.1.311 与本机 2.1.319，补充安装渠道、沙箱审批默认值、定时 Skill 权限和升级后的最小核验。",
       "cover": "",
-      "contentHash": "037eda92c54ba57ec58aeecf6f323a8b7c671d8773ed832d3b07093bf6bbe297",
+      "contentHash": "00366651063fd0a67a11346cef2ac8782b9093559ef6dd1f5150861c56a15e9b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6916,7 +6916,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第一篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md",
       "publishedAt": "2026-05-30T08:58:26.833Z",
-      "updatedAt": "2026-10-12T15:13:40.112Z",
+      "updatedAt": "2026-11-17T15:21:29.502Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-01-篇：Claude-Code-快速上手、npm-安装更新与终端工作原理（程序员版）.md"
     },
     {
@@ -6924,9 +6924,9 @@
       "originalSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
       "exportedSlug": "ai-agent-claudecode-claudecode-llmgateway-66916234",
       "title": "第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）",
-      "summary": "按 2026-10-12 Claude Code 2.1.296 官方 LLM Gateway Connect、Gateway Protocol、Model Config、Settings 与第三方 Provider 文档更新，覆盖 Anthropic 兼容中转、Bedrock/Vertex/Foundry/Claude Platform on AWS 路由、模型映射、网关凭据、各运行界面和排障。",
+      "summary": "按 2.1.326 更新 Claude Code 中转和 LLM Gateway 配置，说明后台凭据丢失时停止请求、自动审批服务边界、Fable 5.2 模型映射及 Code Mode 的直连限制。",
       "cover": "",
-      "contentHash": "b39c641280e8c22a70bf5ba0ea6b5bc5741b703699926a073bf6b2717ebd6c04",
+      "contentHash": "e924e1443548f43a0961938e7c1f2e6205d15109d090598a8f9363b06c8b4070",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6946,7 +6946,7 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第五篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md",
       "publishedAt": "2026-05-30T08:58:26.824Z",
-      "updatedAt": "2026-10-12T15:13:40.122Z",
+      "updatedAt": "2026-11-17T15:21:29.513Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-05-篇：Claude-Code-接入中转、LLM-Gateway-与多模型线路实战（程序员版）.md"
     },
     {
@@ -6954,9 +6954,9 @@
       "originalSlug": "ai-agent-claudecode-claudecode-76aa3c89",
       "exportedSlug": "ai-agent-claudecode-claudecode-76aa3c89",
       "title": "第 04 篇：Claude Code 设置、CLAUDE.md 与个性化配置（程序员深度版）",
-      "summary": "按 2026-10-12 Claude Code 2.1.296 官方 Settings、Settings Reference、Environment Variables、Model Config、Permission Modes、Sandboxing、Statusline、Keybindings 与 Memory 文档更新，并从当前官方索引整理 244 个配置键的主题、作用域和排障方法。",
+      "summary": "按 2026-11-17 官方设置页重建 249 项配置索引，补充目录外写入限制、无人值守拒绝、沙箱审批默认值、Code Mode、Fable 5.2，并移除已废弃状态栏配置的推荐。",
       "cover": "",
-      "contentHash": "d617aea37565afc0ac5c77bfe0f24a84724cc43101a95fcf1a4913f7c031be55",
+      "contentHash": "509813707b773732012ebc6db3948ec955abddf1901bf5f54eb13f34a432258b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6976,7 +6976,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/终端Agent流/ClaudeCode/第四篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md",
       "publishedAt": "2026-05-30T08:58:26.821Z",
-      "updatedAt": "2026-10-12T15:13:40.130Z",
+      "updatedAt": "2026-11-17T15:21:29.523Z",
       "fileName": "AI相关/AI工具/终端Agent流/ClaudeCode/第-04-篇：Claude-Code-设置、CLAUDE.md-与个性化配置（程序员深度版）.md"
     },
     {
