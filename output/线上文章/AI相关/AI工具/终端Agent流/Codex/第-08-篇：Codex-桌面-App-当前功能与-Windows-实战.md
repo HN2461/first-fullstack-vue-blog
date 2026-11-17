@@ -22,7 +22,7 @@ originalId: "6a6b691f4bf50146e9b95e6c"
 originalSlug: "ai-agent-codex-desktop-app-windows-workflow-20260726"
 originalStatus: "published"
 publishedAt: "2026-07-30T15:09:19.559Z"
-updatedAt: "2026-11-17T14:46:23.451Z"
+updatedAt: "2026-11-17T15:01:25.192Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 08 篇：Codex 桌面 App 当前功能与 Windows 实战

@@ -2534,9 +2534,9 @@
       "originalSlug": "ai-agent-codex-current-feature-radar-20260913",
       "exportedSlug": "ai-agent-codex-current-feature-radar-20260913",
       "title": "第 09 篇：Codex 近期功能雷达与三端快速上手",
-      "summary": "集中追踪 Codex 0.154 至 0.162.1 的开发者更新，区分稳定版、预发布和开发分支，说明模型、MCP OAuth、终端界面、Provider 能力、弃用项和固定复核流程。",
+      "summary": "追踪到 Codex 0.169.0 稳定版，集中说明 0.166–0.169 的项目显式信任、Provider 管理、侧聊工作区、诊断与模型更新，区分预发布和客户端差异。",
       "cover": "",
-      "contentHash": "f579d314da205ba3e708da925ae25600361f029bf5ff73f961d736ff6d1be078",
+      "contentHash": "9a5c8b6c43d012fd1f2626ae1dafbb8b7b272eeaa9baf217b096c03dff5a643a",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -2556,7 +2556,7 @@
       "sortOrder": 90,
       "sourcePath": "AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md",
       "publishedAt": "2026-09-13T13:44:41.251Z",
-      "updatedAt": "2026-10-12T15:03:18.995Z",
+      "updatedAt": "2026-11-17T15:01:25.132Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-09-篇：Codex-近期功能雷达与三端快速上手.md"
     },
     {
@@ -3169,9 +3169,9 @@
       "originalSlug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
       "exportedSlug": "ai-agent-codex-desktop-app-windows-workflow-20260726",
       "title": "第 08 篇：Codex 桌面 App 当前功能与 Windows 实战",
-      "summary": "面向高频使用 ChatGPT 桌面 App 中 Codex 的 Windows 开发者，集中说明版本检查、多文件夹项目、Local、Worktree、Git、PR Chat、Voice、Browser、Computer Use、Scheduled tasks、Remote、插件与 Windows-native / WSL 工作流。",
+      "summary": "面向 Windows 开发者维护 Codex 桌面工作流，记录 2026-11-17 包版本与 CLI 核验结果，说明 App、IDE 和 CLI 的发布、权限及功能边界。",
       "cover": "",
-      "contentHash": "83b77cdf147d5dd553aca73f0a748155146c515d613920a5de914d34eeaf951a",
+      "contentHash": "3dbef9430505f65d9989de54b35eff671d1cfbd7ba179975b8f2038ba634a458",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -3191,7 +3191,7 @@
       "sortOrder": 80,
       "sourcePath": "AI工具/终端Agent流/Codex/第八篇：Codex-桌面-App-当前功能与-Windows-实战.md",
       "publishedAt": "2026-07-30T15:09:19.559Z",
-      "updatedAt": "2026-10-12T15:03:19.053Z",
+      "updatedAt": "2026-11-17T15:01:25.192Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-08-篇：Codex-桌面-App-当前功能与-Windows-实战.md"
     },
     {
@@ -6393,9 +6393,9 @@
       "originalSlug": "ai-agent-codex-codex-94189641",
       "exportedSlug": "ai-agent-codex-codex-94189641",
       "title": "第 04 篇：Codex 多线路接入与迁移总手册",
-      "summary": "将官方、Packy、yunyi、rpcod 等线路统一收进一篇完整的线路选择与迁移总手册，集中解决多线路怎么选、怎么配、怎么迁移、怎么排错。",
+      "summary": "统一整理官方与第三方 Codex 线路的配置和迁移，补充 0.169.0 Provider 管理、旧会话绑定、网关 OAuth、Vertex AI 与网络诊断边界。",
       "cover": "",
-      "contentHash": "62546387d4ae9e9dede8d99349b3ba3e9d8bc7faa5b6d28ff179c9f7209fe170",
+      "contentHash": "dc94de10604b2019c22e60e11446aafea4360e985550f350a3d21dbfdb949926",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6415,7 +6415,7 @@
       "sortOrder": 40,
       "sourcePath": "AI工具/终端Agent流/Codex/第四篇：Codex-多线路接入与迁移总手册.md",
       "publishedAt": "2026-06-04T13:41:34.298Z",
-      "updatedAt": "2026-10-12T15:03:19.083Z",
+      "updatedAt": "2026-11-17T15:01:25.211Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-04-篇：Codex-多线路接入与迁移总手册.md"
     },
     {
@@ -6423,9 +6423,9 @@
       "originalSlug": "ai-agent-codex-codex-cli-10e9408b",
       "exportedSlug": "ai-agent-codex-codex-cli-10e9408b",
       "title": "第 01 篇：Codex CLI 第一日开发实战",
-      "summary": "面向平时主要用 Codex 开发的程序员，按安装确认、进入真实仓库、看懂英文终端、完成第一轮小任务、再扩展到 VS Code 插件和桌面 App 的顺序重写 Codex 第一日上手路线。",
+      "summary": "从安装、项目检查和首轮任务开始学习 Codex CLI，按 0.169.0 补充项目显式信任、非交互执行和升级后的最小验收流程。",
       "cover": "",
-      "contentHash": "44a8b2d102775cedf6a93265556d01d8306659ed9f3d663a238f70ccde52ee08",
+      "contentHash": "9eb35a051b426d40eced984d391333ea5ca6b5a2b5675c86093688e34253a0b6",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6444,7 +6444,7 @@
       "sortOrder": 10,
       "sourcePath": "AI工具/终端Agent流/Codex/第一篇：Codex-CLI-第一日开发实战.md",
       "publishedAt": "2026-06-04T13:41:34.297Z",
-      "updatedAt": "2026-10-12T15:03:19.097Z",
+      "updatedAt": "2026-11-17T15:01:25.224Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-01-篇：Codex-CLI-第一日开发实战.md"
     },
     {
@@ -6452,9 +6452,9 @@
       "originalSlug": "ai-agent-codex-codex-1c9633e1",
       "exportedSlug": "ai-agent-codex-codex-1c9633e1",
       "title": "第 07 篇：Codex 当前常用功能与进阶工作流手册",
-      "summary": "按当前稳定版梳理 GPT-6.1 Sol、GPT-6 Astra 与 Luna 的模型选择、推理强度和开发工作流，并串联完整配置、命令与近期版本动态。",
+      "summary": "按 0.169.0 模型目录与发布记录整理模型、推理强度、长任务、侧聊、队列和多代理工作流，区分目录能力、账号授权与实验开关。",
       "cover": "",
-      "contentHash": "7213b2b00e379f588e4f8e3c3ff75312c8dc5eba3c1214f76aa775718084ad08",
+      "contentHash": "72da6d61eceb3abc019f7c2c7cdb113470b5ec8a8dc89c5f5678414184a51d3c",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6474,7 +6474,7 @@
       "sortOrder": 70,
       "sourcePath": "AI工具/终端Agent流/Codex/第七篇：Codex-当前常用功能与进阶工作流手册.md",
       "publishedAt": "2026-06-04T13:41:34.296Z",
-      "updatedAt": "2026-10-12T15:03:19.108Z",
+      "updatedAt": "2026-11-17T15:01:25.234Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-07-篇：Codex-当前常用功能与进阶工作流手册.md"
     },
     {
@@ -6482,9 +6482,9 @@
       "originalSlug": "ai-agent-codex-codex-9cf3fc01",
       "exportedSlug": "ai-agent-codex-codex-9cf3fc01",
       "title": "第 06 篇：Codex 命令与配置文件速查",
-      "summary": "按 Codex CLI 0.162.1 完整列出内置斜杠命令、别名、行内参数与任务状态限制，以及公开 CLI 命令树和全部子命令专属参数，修正旧版命令及配置说明。",
+      "summary": "以 0.169.0 本机帮助和官方源码核对高频命令，补充 --trust、queue --resume、doctor --network-only 与终端工作区，并保留有明确版本标识的历史命令快照。",
       "cover": "",
-      "contentHash": "196d518cf255c2069ae8d0c5105679fa240829ddf36f61096c8a16bbab720d63",
+      "contentHash": "bc43a5292d8902199186dd0467c334b9ed0322c6279edf7426783dbaeb24bf15",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6503,7 +6503,7 @@
       "sortOrder": 60,
       "sourcePath": "AI工具/终端Agent流/Codex/第六篇：Codex-命令与配置文件速查.md",
       "publishedAt": "2026-06-04T13:41:34.294Z",
-      "updatedAt": "2026-10-12T15:03:19.122Z",
+      "updatedAt": "2026-11-17T15:01:25.248Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-06-篇：Codex-命令与配置文件速查.md"
     },
     {
@@ -6511,9 +6511,9 @@
       "originalSlug": "ai-agent-codex-codex-cli-app-afad6d17",
       "exportedSlug": "ai-agent-codex-codex-cli-app-afad6d17",
       "title": "第 05 篇：Codex CLI、插件、App 三端联动实战",
-      "summary": "详细讲解 Codex CLI、插件和 App 三端共用配置、认证与规则的关系，帮助排查“CLI 能用但插件或 App 不同步”的典型问题。",
+      "summary": "讲解 CLI、IDE 扩展与桌面 App 的配置和工作目录关系，补充三端独立版本、账号历史筛选、Provider 绑定及项目显式信任排障。",
       "cover": "",
-      "contentHash": "6361fc7578bb84bcf0d915140f6de495a55d63812aba5de11ceb4ea151916651",
+      "contentHash": "cf71d1def324f72ab809dfeac7f80c44f1b56846372ac21e645532135e943058",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6532,7 +6532,7 @@
       "sortOrder": 50,
       "sourcePath": "AI工具/终端Agent流/Codex/第五篇：Codex-CLI-插件-App-三端联动实战.md",
       "publishedAt": "2026-06-04T13:41:34.293Z",
-      "updatedAt": "2026-10-12T15:03:19.141Z",
+      "updatedAt": "2026-11-17T15:01:25.268Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-05-篇：Codex-CLI、插件、App-三端联动实战.md"
     },
     {
@@ -6540,9 +6540,9 @@
       "originalSlug": "ai-agent-codex-codex-edeadb5e",
       "exportedSlug": "ai-agent-codex-codex-edeadb5e",
       "title": "第 03 篇：Codex 配置总手册（config.toml、字段字典、HN246 本机版）",
-      "summary": "按 Codex CLI 0.162.1 稳定版核对配置层级与脱敏模板，补齐 102 个顶层配置键、全部嵌套字段、功能开关生命周期、权限 profile、MCP/Provider、TUI、Hooks 和管理员约束索引。",
+      "summary": "保留 0.162.1 完整配置历史索引，按 0.169.0 官方 schema 补齐 103 个顶层键的版本差异、TUI 新设置、Provider 认证和多代理迁移，明确本机模板与当前行为边界。",
       "cover": "",
-      "contentHash": "1e048333918dac4f34bf860bdff91fee025376a893f963e0bf747fe67c6a00dd",
+      "contentHash": "542d328a8f74049679eff7d327d62054f36e7046e366d00fcb66bae22c018fc9",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6561,7 +6561,7 @@
       "sortOrder": 30,
       "sourcePath": "AI工具/终端Agent流/Codex/第三篇：Codex-配置总手册（config.toml-字段字典-HN246-本机版）.md",
       "publishedAt": "2026-06-04T13:38:33.777Z",
-      "updatedAt": "2026-10-12T15:03:19.151Z",
+      "updatedAt": "2026-11-17T15:01:25.278Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-03-篇：Codex-配置总手册（config.toml、字段字典、HN246-本机版）.md"
     },
     {
@@ -6569,9 +6569,9 @@
       "originalSlug": "ai-agent-codex-codex-cli-64e9fd24",
       "exportedSlug": "ai-agent-codex-codex-cli-64e9fd24",
       "title": "第 02 篇：Codex CLI 英文终端界面翻译与排错",
-      "summary": "基于主人整理的 Codex CLI 终端界面线索，用文字图逐屏解释首页、模型选择、推理强度、权限、状态页、MCP、插件、skills、experimental 与错误提示，帮助把英文终端界面读成可操作的开发判断。",
+      "summary": "按真实终端场景解释 Codex 的模型、权限、MCP 与诊断提示，补充 0.166–0.169 的网络诊断、Provider 选择、历史搜索和侧聊界面。",
       "cover": "",
-      "contentHash": "942d4de4288320aca6086749b64a36c00523c6d40a6b7a56faaa623dff0b4320",
+      "contentHash": "0d3c6b28334be37d1b2300f063311518ba873a37e53542a1db84a62186fdd228",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6590,7 +6590,7 @@
       "sortOrder": 20,
       "sourcePath": "AI工具/终端Agent流/Codex/第二篇：Codex-CLI-英文终端界面翻译与排错.md",
       "publishedAt": "2026-06-04T13:38:33.774Z",
-      "updatedAt": "2026-10-12T15:03:19.186Z",
+      "updatedAt": "2026-11-17T15:01:25.324Z",
       "fileName": "AI相关/AI工具/终端Agent流/Codex/第-02-篇：Codex-CLI-英文终端界面翻译与排错.md"
     },
     {

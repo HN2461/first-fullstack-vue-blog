@@ -21,7 +21,7 @@ originalId: "6a2d291d8a2b1c68f2cabf78"
 originalSlug: "ai-agent-codex-codex-9cf3fc01"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.294Z"
-updatedAt: "2026-11-17T14:46:23.451Z"
+updatedAt: "2026-11-17T15:01:25.248Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 06 篇：Codex 命令与配置文件速查

@@ -21,7 +21,7 @@ originalId: "6a2d291d8a2b1c68f2cabf4c"
 originalSlug: "ai-agent-codex-codex-cli-10e9408b"
 originalStatus: "published"
 publishedAt: "2026-06-04T13:41:34.297Z"
-updatedAt: "2026-11-17T14:46:23.451Z"
+updatedAt: "2026-11-17T15:01:25.224Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Codex CLI 第一日开发实战
