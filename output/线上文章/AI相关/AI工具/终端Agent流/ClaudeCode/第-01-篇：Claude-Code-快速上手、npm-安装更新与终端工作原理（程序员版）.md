@@ -1,7 +1,7 @@
 ---
 title: "第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）"
 slug: "ai-agent-claudecode-claudecode-4c9d5bfe"
-summary: "按 2026-10-28 可查到的 Claude Code 2.1.312、官方 Setup、Quickstart、Interactive Mode、Commands、Permission Modes 与 Changelog 更新，覆盖原生安装、npm 更新、Windows/WSL、终端状态、权限模式、会话管理和第一轮可验证工作流。"
+summary: "按 2026-11-17 官方资料更新至 latest 2.1.326，区分 stable 2.1.311 与本机 2.1.319，补充安装渠道、沙箱审批默认值、定时 Skill 权限和升级后的最小核验。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,17 +22,55 @@ originalId: "6a2d291d8a2b1c68f2cabf18"
 originalSlug: "ai-agent-claudecode-claudecode-4c9d5bfe"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.833Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T15:13:25.738Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Claude Code 快速上手、npm 安装更新与终端工作原理（程序员版）
 
-> 本文按 2026-10-28 能查到的官方资料复核，示例以 Claude Code `2.1.312` 为当前版本快照。Claude Code 是会读代码、修改文件、运行命令并连接开发工具的终端代理；安装成功只是起点，真正稳定的使用依赖“版本可确认、目录正确、权限可控、结果可验证”。
+> 本文按 2026-11-17 官方资料复核，新增行为以 Claude Code `2.1.326` 发布记录为准。Claude Code 是会读代码、修改文件、运行命令并连接开发工具的终端代理；安装成功只是起点，真正稳定的使用依赖“版本可确认、目录正确、权限可控、结果可验证”。
 
 
-> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
+> 版本边界（2026-11-17）：npm `latest/next=2.1.326`，`stable=2.1.311`；本机只读核验为 `2.1.319`。本文以当日直接获取的官方文档、`v2.1.314` 至 `v2.1.326` 发布记录和 npm 信息更新；本机帮助只验证 2.1.319 已有入口，未执行客户端升级或界面操作。`latest` 是最新正式发布渠道，不能与 npm 的 `stable` 标签混为一谈。
 
 [[toc]]
+
+## 0. 2.1.312 升到 2.1.326：先检查这些变化
+
+本轮核验日期为 **2026-11-17**。`latest` 与 `next` 均为 `2.1.326`，`stable` 为 `2.1.311`；本机 PATH 中实际运行的是 `2.1.319`。因此使用 stable 渠道的用户，不能直接按本文全部新功能判断自己的安装是否异常。
+
+| 发布版本 | 对程序员最有影响的变化 | 升级后怎么检查 |
+|---|---|---|
+| 2.1.314 | 文件工具可阻止工作目录外写入；IDE/Desktop 增加空闲压缩；网关拒绝部分 beta/tool search 时改进降级 | 核对工具边界及实际 Provider 错误 |
+| 2.1.316–2.1.318 | 子代理 effort、认证到期提示、后台命令与组织策略改进；不再从 IDE 终端自动安装/更新扩展 | CLI 与 IDE 扩展分别检查版本 |
+| 2.1.319 | MCP tasks 可后台执行；denyInsteadOfPrompting；auto mode 在缺少服务端检查时的处理变化 | 无人值守任务检查拒绝信息、结果与退出码 |
+| 2.1.321–2.1.322 | Fable 5.2；MCP OAuth 重定向凭据修复；Vertex 指定区域 fast mode | 核对模型授权、网关映射与 MCP 登录 |
+| 2.1.323 | 实验 Code Mode；插件 engines 版本范围；移除 subagentStatusLine | Code Mode 有安装、模型、认证和运行入口限制 |
+| 2.1.325 | 沙箱命令默认走普通审批；定时任务/loop 调用声明工具或 hooks 的 Skill 需要许可 | 审查旧自动化为何开始等待，不直接扩大权限 |
+| 2.1.326 | Code Mode 支持启用 agent teams；后台网关与恢复修复；更多配置/启动诊断；/help 参数 | 先验证最小任务，再恢复长任务 |
+
+### 0.1 沙箱开启后，命令仍可能询问
+
+当前官方配置页把 `sandbox.autoAllowBashIfSandboxed` 的默认值写为 **false**，并注明 2.1.324 之前为 true；2.1.325 的正式发布记录也明确说明这一变化。旧资料中“开启 sandbox 就自动放行沙箱内 Bash”的默认行为已经不适合当前版本。
+
+保留普通权限流程的例子：
+
+```json
+{
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": false
+  }
+}
+```
+
+只有明确需要旧 auto-allow 行为时才显式设 true；deny 和具体命令的 ask 规则仍生效。原生 Windows 的 Bash sandbox 平台限制仍应按第四篇检查，不能因为 CLI 能在 Windows 运行就假设隔离能力相同。
+
+### 0.2 自动化和扩展的最小复核
+
+升级后先在熟悉仓库做一次读取、修改和测试；检查 `/status`、`/permissions`、`/mcp`。定时任务或 `/loop` 若调用声明 `allowed-tools` 或 hooks 的 Skill，按 2.1.325 的新行为先检查 `Skill(name)` 许可。安装新版 CLI 不会替你升级 IDE 扩展：2.1.318 起，在 IDE 终端启动 Claude 不再自动安装/更新扩展，应使用编辑器扩展管理或外部终端 `/ide`。
+
+资料：[2.1.323](https://github.com/anthropics/claude-code/releases/tag/v2.1.323)、[2.1.325](https://github.com/anthropics/claude-code/releases/tag/v2.1.325)、[2.1.326](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)、[官方安装与更新](https://code.claude.com/docs/en/setup)、[沙箱配置默认值](https://code.claude.com/docs/en/settings-reference#sandbox-autoallowbashifsandboxed)。
+
 
 ---
 
@@ -55,7 +93,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ## 1. 先确认版本和发布渠道
 
-截至 2026-10-28，npm `@anthropic-ai/claude-code` 的 `latest/next` 为 `2.1.312`，`stable` 为 `2.1.308`；本机 PATH 中的 `claude` 仍是 `2.1.296`。原生安装器会自动更新，npm、Homebrew 和 WinGet 的更新策略不同，文章中的版本号不能替代本机 `claude --version`。
+截至 2026-11-17，npm `@anthropic-ai/claude-code` 的 `latest/next` 为 `2.1.326`，`stable` 为 `2.1.311`；本机 PATH 中的 `claude` 是 `2.1.319`。原生安装器会自动更新，npm、Homebrew 和 WinGet 的更新策略不同，文章中的版本号不能替代本机 `claude --version`。
 
 ```bash
 claude --version
@@ -124,7 +162,7 @@ claude --version
 锁定某个版本用于复现问题：
 
 ```bash
-npm install -g @anthropic-ai/claude-code@2.1.312
+npm install -g @anthropic-ai/claude-code@2.1.326
 ```
 
 卸载 npm 安装：
@@ -139,11 +177,11 @@ npm 安装需要 Node.js 22 或更高版本；Claude Code 本体是原生二进�
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
-官方不建议用 `npm update -g`，因为它会遵循最初安装时的 semver 范围，可能不会移动到最新版本；也不要使用 `sudo npm install -g`，应按 npm 权限排障文档修复全局目录权限。更新后仍旧显示旧版本，执行 `npm prefix -g`、`npm bin -g`（具体命令随 npm 版本而异）或 `Get-Command claude` 检查实际 PATH。不要在同一个终端里混用“原生安装器更新”和“npm 全局更新”来判断是否成功。
+官方不建议用 `npm update -g`，因为它会遵循最初安装时的 semver 范围，可能不会移动到最新版本；也不要使用 `sudo npm install -g`，应按 npm 权限排障文档修复全局目录权限。更新后仍旧显示旧版本，执行 `npm prefix -g`、`Get-Command claude -All` 或 `where.exe claude` 检查实际 PATH。不要在同一个终端里混用“原生安装器更新”和“npm 全局更新”来判断是否成功。
 
 ### 2.3 固定发布渠道和最低版本
 
-官方支持 `latest`（默认，较快获得新功能）与 `stable`（通常滞后一周左右，避开明显回归）两个更新通道：
+官方支持 `latest`（默认，较快获得新功能）与 `stable`（通常延迟发布，实际滞后以标签为准）两个更新通道。Homebrew 用 cask 名区分：`claude-code` 跟随 stable，`claude-code@latest` 跟随 latest；Linux 的 apt/dnf/apk 通过仓库选择渠道。原生更新配置示例：
 
 ```json
 {
@@ -391,7 +429,7 @@ claude --permission-mode plan
 
 ## 10. 参考资料与核验范围
 
-本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
+本文核验日期：2026-11-17；官方 latest 版本：`2.1.326`；本机只读帮助基线：`2.1.319`。
 
 - 官方 Overview：https://code.claude.com/docs/en/overview
 - 官方 Setup：https://code.claude.com/docs/en/installation
@@ -408,3 +446,5 @@ claude --permission-mode plan
 - Remote Control：https://code.claude.com/docs/en/remote-control
 
 如果官方文档和第三方教程冲突，优先采用当前官方文档、当前 CLI 的 `/help` 与 `claude --help`；第三方资料只用于理解真实部署、网关和团队工作流，不能替代版本核验。
+
+本轮更新依据：[v2.1.326 官方发布说明](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)、[官方文档索引](https://code.claude.com/docs/llms.txt)、[npm 版本与渠道](https://registry.npmjs.org/@anthropic-ai/claude-code)。

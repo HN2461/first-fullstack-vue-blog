@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-8b6661f9"
-summary: "按 2026-10-28 Claude Code 2.1.312 官方 Common Workflows、Best Practices、Agent View、Sub-agents、Agent Teams、Workflows、Headless 与 Changelog 更新，覆盖陌生仓库、修 bug、重构、测试、文档、PR、并行任务、长会话和无人值守脚本。"
+summary: "按 2.1.326 更新读仓库、修复、验证、并行和无人值守工作流，补充定时 Skill 审批、拒绝代替等待、后台网关凭据、空闲压缩与恢复验收。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,17 +22,70 @@ originalId: "6a2d291d8a2b1c68f2cabf22"
 originalSlug: "ai-agent-claudecode-claudecode-8b6661f9"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.838Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T15:13:25.738Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Claude Code 常见工作流、Prompt 模板与最佳实践（程序员深度版）
 
-> 好的 Claude Code 工作流不是“让模型一次写完”，而是把目标、范围、证据和批准点设计清楚。本文以当前 `2.1.312` 的 CLI、交互模式、Workflows 和并行能力为基线，给出能直接复制的程序员工作流。
+> 好的 Claude Code 工作流不是“让模型一次写完”，而是把目标、范围、证据和批准点设计清楚。本文以 `2.1.326` 发布说明及当前官方 CLI、交互模式、Workflows 文档为基线，给出能直接复制的程序员工作流。
 
 
-> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
+> 版本边界（2026-11-17）：npm `latest/next=2.1.326`，`stable=2.1.311`；本机只读核验为 `2.1.319`。本文以当日直接获取的官方文档、`v2.1.314` 至 `v2.1.326` 发布记录和 npm 信息更新；本机帮助只验证 2.1.319 已有入口，未执行客户端升级或界面操作。`latest` 是最新正式发布渠道，不能与 npm 的 `stable` 标签混为一谈。
 
 [[toc]]
+
+## 0. 2026-11-17：升级后重新验收自动化和长任务
+
+### 0.1 无人值守：拒绝需要批准的动作，仍要验收任务结果
+
+2.1.319 新增 `permissions.denyInsteadOfPrompting`。它让本来需要等待批准的工具调用直接被拒绝，回合继续；已经被规则、权限模式或 auto 分类器批准的动作仍可执行。该设置来自用户/managed 或 `--settings`，仓库不能替用户开启。
+
+```json
+{
+  "permissions": {
+    "denyInsteadOfPrompting": true
+  }
+}
+```
+
+单次 `-p` 运行也可使用 `--permission-prompts none`。但这不会替你回答初始项目信任或项目 MCP 审批；开启后 AskUserQuestion 和部分计划工具也不可用。必须在任务说明中写清遇到拒绝时如何汇报。
+
+2.1.319 修复了 auto mode 因无法执行安全检查而拒绝动作时，`-p` 的 text/JSON 输出仍退出 0 的问题。自动化应同时检查退出码、结构化错误和实际产物，不能只寻找最后一条“完成”文本。
+
+### 0.2 定时任务的 Skill 调用应显式收敛范围
+
+2.1.325 起，定时任务和 `/loop` 调用声明 `allowed-tools` 或 hooks 的 Skill 可能等待批准。若已审阅一个名为 `daily-check` 的 Skill，确实要让它自动执行，可在合适的 settings 层添加：
+
+```json
+{
+  "permissions": {
+    "allow": ["Skill(daily-check)"]
+  }
+}
+```
+
+先手动运行同一个 Skill，确认实际访问目录、工具和输出，再检查定时运行。`/loop` 仍依赖会话/容器生命周期；需要持续运行的任务按 Cloud scheduled tasks 的文档配置环境，不把本地循环当成常驻服务。
+
+### 0.3 长任务、后台执行和恢复
+
+- 2.1.317 起，不同模型的子代理/队友使用各自保存的 effort 或模型默认值；2.1.316 的 `CLAUDE_CODE_SUBAGENT_EFFORT` 可为未显式指定的情况设默认值。
+- 2.1.318 起，后台子代理的长 shell 命令在 3 分钟后转入后台；2.1.319 的 `/tasks` 可查看已完成的早期子代理。后台状态不等于测试成功，需看完成结果。
+- 2.1.326 修复后台服务缺少启动 shell 的网关/认证配置时误用其他登录态的问题：缺少关键网关状态会在发模型请求前停止。恢复失败时先恢复预期启动环境。
+- `/rewind` 不保证恢复 shell/MCP 造成的所有改动；新版本会把无法跟踪的变更显示为 `Code changes unknown`。发布回滚仍依赖 Git、数据库及文件备份。
+
+空闲压缩默认只在满足条件时运行：自动压缩开启、使用一小时缓存 TTL、上下文达到默认 200,000 token 门槛、空闲约一小时且电脑保持唤醒。`idleCompaction=false` 可以关闭它；不能把一次空闲后摘要理解成历史文件丢失。
+
+### 0.4 适合复制的升级验收提示
+
+```text
+先读取仓库约定和当前差异，确认本次允许的文件与命令。
+完成一个可复现的小改动，执行项目已有验证。
+遇到权限拒绝、后台失败或缺少网关配置时，说明失败步骤与剩余工作。
+最终给出实际变更、执行过的检查、失败项与可复现证据。
+```
+
+资料：[权限设置](https://code.claude.com/docs/en/settings-reference#permissions-denyinsteadofprompting)、[定时任务](https://code.claude.com/docs/en/scheduled-tasks)、[2.1.319](https://github.com/anthropics/claude-code/releases/tag/v2.1.319)、[2.1.325](https://github.com/anthropics/claude-code/releases/tag/v2.1.325)、[2.1.326](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)。
+
 
 ---
 
@@ -384,7 +437,7 @@ git diff --name-only origin/main...HEAD \
 
 ## 13. 参考资料
 
-本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
+本文核验日期：2026-11-17；官方 latest 版本：`2.1.326`；本机只读帮助基线：`2.1.319`。
 
 - Common workflows：https://code.claude.com/docs/en/common-workflows
 - Best practices：https://code.claude.com/docs/en/best-practices
@@ -406,3 +459,4 @@ Prompt 模板是工程约定，不是 Claude Code API；真正可用的命令和
 - https://code.claude.com/docs/en/desktop-scheduled-tasks
 - VS Code 集成：https://code.claude.com/docs/en/vs-code
 - Desktop：https://code.claude.com/docs/en/desktop
+本轮更新依据：[v2.1.326 官方发布说明](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)、[官方文档索引](https://code.claude.com/docs/llms.txt)、[npm 版本与渠道](https://registry.npmjs.org/@anthropic-ai/claude-code)。

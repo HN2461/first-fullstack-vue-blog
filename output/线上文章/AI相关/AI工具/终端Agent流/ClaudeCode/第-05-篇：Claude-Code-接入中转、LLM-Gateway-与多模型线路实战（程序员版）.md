@@ -1,7 +1,7 @@
 ---
 title: "第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）"
 slug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
-summary: "按 2026-10-28 Claude Code 2.1.312 官方 LLM Gateway Connect、Gateway Protocol、Model Config、Settings 与第三方 Provider 文档更新，覆盖 Anthropic 兼容中转、Bedrock/Vertex/Foundry/Claude Platform on AWS 路由、模型映射、网关凭据、各运行界面和排障。"
+summary: "按 2.1.326 更新 Claude Code 中转和 LLM Gateway 配置，说明后台凭据丢失时停止请求、自动审批服务边界、Fable 5.2 模型映射及 Code Mode 的直连限制。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,17 +22,49 @@ originalId: "6a2d291d8a2b1c68f2cabf36"
 originalSlug: "ai-agent-claudecode-claudecode-llmgateway-66916234"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.824Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T15:13:25.738Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：Claude Code 接入中转、LLM Gateway 与多模型线路实战（程序员版）
 
-> 本文按 2026-10-28 官方 Gateway Connect、Gateway Protocol、Model Config 和各 Provider 文档更新。中转、网关、包月线路和 Claude Code 订阅是不同概念；先确认请求到底发给谁，再谈模型、计费、上下文和权限。
+> 本文按 2026-11-17 取得的官方 Gateway Connect、Model Config 文档及 2.1.326 发布说明更新。中转、网关、包月线路和 Claude Code 订阅是不同概念；先确认请求到底发给谁，再谈模型、计费、上下文和权限。
 
 
-> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
+> 版本边界（2026-11-17）：npm `latest/next=2.1.326`，`stable=2.1.311`；本机只读核验为 `2.1.319`。本文以当日直接获取的官方文档、`v2.1.314` 至 `v2.1.326` 发布记录和 npm 信息更新；本机帮助只验证 2.1.319 已有入口，未执行客户端升级或界面操作。`latest` 是最新正式发布渠道，不能与 npm 的 `stable` 标签混为一谈。
 
 [[toc]]
+
+## 0. 2026-11-17：先确认请求身份，再恢复网关长任务
+
+### 0.1 后台服务不能靠“前台能用”判断配置正确
+
+2.1.326 修复后台会话在崩溃、从其他文件夹重开或后台服务没有 shell 导出的网关设置时丢失线路的问题：缺少所需状态会在模型请求发出前停止。它还修复从 agent view 恢复会话时，在后台服务缺少终端 key/token 的情况下误用服务登录态的问题。
+
+排查顺序：启动 shell 的 `ANTHROPIC_BASE_URL` 和认证来源 → 后台进程/会话 → `/status` 的实际账号与 Provider → 新建最小请求 → 恢复旧线程。只确认变量是否设置，不在日志或文章里打印 key/token。
+
+2.1.326 的 `/login` 会在批准的 `ANTHROPIC_API_KEY` 仍优先生效时说明这一点。因此“Login successful”不保证请求已经改走刚登录的订阅；先查当前采用的认证来源与计费组织。
+
+### 0.2 auto mode 的服务端检查是另一条链路
+
+2.1.319 改变在遥测/feature flags 关闭、包括网关场景中的 auto mode 行为：服务端无法检查的调用会询问或拒绝，不再自动退回内置分类器；Bedrock、Vertex、Foundry 的发布说明边界不同。该版本提供 `CLAUDE_CODE_AUTO_MODE_SERVER=0` 的显式本地分类器选择，但需接受对应能力与用量差异。
+
+`CLAUDE_CODE_AUTO_MODE_SERVER=1` 可在相应网关场景请求服务端检查，即使关了 experimental betas；若组织托管关闭 betas，托管层也需要允许该值。它不能替网关实现被丢弃的审核响应。排查时看 `/status` 与实际拒绝原因，不把“模型聊天成功”当成自动审批正常。
+
+### 0.3 模型 ID、上下文与 fast mode
+
+- 2.1.321 新增 Fable 5.2；官方模型页说明，网关未配置 `claude-fable-5-2` 时会拒绝该模型。`ANTHROPIC_DEFAULT_FABLE_MODEL` 要填网关真实支持的 ID。
+- 2.1.325 修复多个第三方网关和 Foundry 上每轮 context length 错误而无法压缩的问题；2.1.326 继续修复第三方 Provider 的摘要和 Vertex 大图片请求恢复。先确认版本及错误响应，再考虑改压缩配置。
+- 2.1.322 为 Vertex 的 global/us/eu 区域加入 fast mode，Provider 拒绝时回退标准速度；不能推断任意地区或网关都支持。
+- Opus 4.8 fast mode 计划 2026-11-30 移除，届时不会自动回退普通速度；需要速度提升的使用者按官方指引评估 Opus 5.5。
+
+### 0.4 Code Mode 与 MCP 登录的独立边界
+
+Code Mode 当前要求直接 Anthropic 连接，不支持本篇的自定义网关和云 Provider。即使基础 Messages 协议兼容，也不意味着 Code Mode、服务端 auto review、插件和 Cloud 服务一并兼容。
+
+2.1.321 修复 MCP OAuth 重定向时向另一主机发送 refresh token 等秘密的问题。MCP OAuth、模型 key 和网关登录是独立认证，不应通过复制一份凭据文件强行共用。
+
+资料：[网关连接](https://code.claude.com/docs/en/llm-gateway-connect)、[模型配置](https://code.claude.com/docs/en/model-config)、[Code Mode](https://code.claude.com/docs/en/code-mode)、[2.1.319](https://github.com/anthropics/claude-code/releases/tag/v2.1.319)、[2.1.321](https://github.com/anthropics/claude-code/releases/tag/v2.1.321)、[2.1.326](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)。
+
 
 ---
 
@@ -172,12 +204,12 @@ Invoke-RestMethod -Method Post -Uri "$env:ANTHROPIC_BASE_URL/v1/messages" `
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "gateway/claude-opus-5-5",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "gateway/claude-sonnet-5-5",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "gateway/claude-haiku-5-5",
-    "ANTHROPIC_DEFAULT_FABLE_MODEL": "gateway/claude-fable-5-1"
+    "ANTHROPIC_DEFAULT_FABLE_MODEL": "gateway/claude-fable-5-2"
   }
 }
 ```
 
-真实 ID 必须是网关可识别并接受的名称。`opus`、`sonnet`、`haiku`、`fable` 是 Claude Code alias；它们不会因为你设置了 Base URL 就自动映射到网关的任意字符串。
+上面的 `gateway/claude-fable-5-2` 是示例 ID，只有网关明确提供该映射时才可使用。真实 ID 必须是网关可识别并接受的名称。`opus`、`sonnet`、`haiku`、`fable` 是 Claude Code alias；它们不会因为你设置了 Base URL 就自动映射到网关的任意字符串。
 
 ### 4.2 Provider 专用映射
 
@@ -371,7 +403,7 @@ LiteLLM、One API 等兼容层适合统一多 Provider，但其模型名、Respo
 
 ## 10. 参考资料
 
-本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
+本文核验日期：2026-11-17；官方 latest 版本：`2.1.326`；本机只读帮助基线：`2.1.319`。
 
 - Connect Claude Code to an LLM gateway：https://code.claude.com/docs/en/llm-gateway-connect
 - Gateway compatibility guide：https://code.claude.com/docs/en/llm-gateway-protocol
@@ -394,3 +426,4 @@ Gateway 是基础设施，不是“换一个 URL 就完成的模型兼容层”�
 - https://code.claude.com/docs/en/amazon-bedrock
 - https://code.claude.com/docs/en/google-vertex-ai
 - https://code.claude.com/docs/en/microsoft-foundry
+本轮更新依据：[v2.1.326 官方发布说明](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)、[官方文档索引](https://code.claude.com/docs/llms.txt)、[npm 版本与渠道](https://registry.npmjs.org/@anthropic-ai/claude-code)。

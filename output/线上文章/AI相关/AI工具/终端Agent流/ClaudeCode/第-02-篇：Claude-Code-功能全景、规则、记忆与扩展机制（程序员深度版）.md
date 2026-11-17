@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）"
 slug: "ai-agent-claudecode-claudecode-083e790a"
-summary: "按 2026-10-28 Claude Code 2.1.312 官方 Memory、Skills、Hooks、MCP、Plugins、Sub-agents、Agent Teams 与 Workflows 文档更新，重新厘清 CLAUDE.md、AGENTS.md、rules、auto memory、权限、扩展和上下文成本的边界。"
+summary: "梳理 Claude Code 规则、记忆、Skills、Hooks、MCP 与插件，补充 2.1.326 的 Code Mode 条件、工具权限、MCP 后台任务和插件引擎版本约束。"
 category: "ClaudeCode"
 categoryPath:
   - "AI相关"
@@ -22,7 +22,7 @@ originalId: "6a2d291d8a2b1c68f2cabf2a"
 originalSlug: "ai-agent-claudecode-claudecode-083e790a"
 originalStatus: "published"
 publishedAt: "2026-05-30T08:58:26.835Z"
-updatedAt: "2026-10-28T13:43:14.000Z"
+updatedAt: "2026-11-17T15:13:25.738Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Claude Code 功能全景、规则、记忆与扩展机制（程序员深度版）
@@ -30,9 +30,50 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 > Claude Code 的难点不是“功能少”，而是规则、权限、记忆、工具、工作流和界面扩展同时存在。本文按当前官方文档把它们拆开，避免把 `CLAUDE.md` 当成权限文件、把 Skill 当成 MCP、把 Plugin 当成单个命令，也避免为了一次任务把所有能力都塞进上下文。
 
 
-> 版本边界（2026-10-28）：远端 npm `latest/next=2.1.312`，`stable=2.1.308`；本机 `claude --version` 仍为 `2.1.296`。本文以官方文档和 `v2.1.312` 发布记录补充最新能力，读者应先用 `claude --version`、`claude --help` 和 `/status` 核对自己实际启用的入口。
+> 版本边界（2026-11-17）：npm `latest/next=2.1.326`，`stable=2.1.311`；本机只读核验为 `2.1.319`。本文以当日直接获取的官方文档、`v2.1.314` 至 `v2.1.326` 发布记录和 npm 信息更新；本机帮助只验证 2.1.319 已有入口，未执行客户端升级或界面操作。`latest` 是最新正式发布渠道，不能与 npm 的 `stable` 标签混为一谈。
 
 [[toc]]
+
+## 0. 2026-11-17：Code Mode、Skill 权限和扩展生命周期
+
+### 0.1 Code Mode 改变工具调用方式
+
+Code Mode 在 2.1.323 加入，是默认关闭的实验能力：Claude 写 JavaScript，把多个工具调用及结果处理放到一段代码中执行。它适合多文件重复修改、结果过滤和独立命令并行；普通对话仍用自然语言发任务，`Ctrl+O` 中展开 **Code** 行可以检查代码。
+
+当前官方条件需要同时满足：
+
+- 2.1.323+ 的原生构建，在交互式终端 `claude` 中运行；Windows 还需 Git for Windows。
+- 直接使用 Anthropic 的订阅或 Console 认证，以及受支持的 Opus 5.5、Sonnet 5.5、Haiku 5.5 或 Fable 5.2。
+- 组织没有使用文档列出的 HIPAA/ZDR 等限制，相关功能配置允许启用。
+- 不通过自定义网关、Bedrock、Vertex/Google Cloud、Foundry 或 Claude Platform on AWS 使用。
+
+`-p`、Agent SDK、VS Code 面板、Desktop 和 Cloud 会话当前不支持 Code Mode。Remote Control、Chrome 和 computer use 也不可与它同时使用，Code Mode 会话不能转成独立后台会话或迁移到 Desktop。恢复时仍需开启 Code Mode。
+
+需要试用时，在自己的 shell 中显式启用，按首次确认提示操作：
+
+```powershell
+$env:CLAUDE_CODE_EXPERIMENTAL_CODE_MODE = '1'
+claude
+```
+
+本机 2.1.319 尚未达到该版本门槛，以上是官方用法，未在本轮启用或实测。项目 settings 不能替用户打开它；用户 settings 可以设置该变量，组织 managed settings 可以用 `0` 禁用。
+
+2.1.326 开始允许同时开启 agent teams，in-process 队友可以使用 Code Mode，split panes 队友仍不使用。auto mode 分类器审查的是整段代码，运行时计算出来的路径不在静态审查中；具体工具的 deny/ask 规则和 PreToolUse hooks 仍会处理工具调用。不能因此删掉原有边界检查。
+
+### 0.2 Skill 的说明和工具预授权不是同一生命周期
+
+`SKILL.md` 内容进入对话后可继续存在；`allowed-tools` 授权只覆盖调用该 Skill 的当前回合，下一条用户消息后清除，再调用才重新应用。它预先允许一部分工具，不会把其他工具从能力池中移除；需要限制工具时使用 `disallowed-tools` 或会话权限规则，并遵守各自范围。
+
+2.1.325 起，定时任务和 `/loop` 调用声明 `allowed-tools` 或 hooks 的 Skill 时需要许可。对已经审阅且确定要无人值守执行的 Skill，可为准确名称配置 `Skill(name)`；这仍不绕过组织的 deny、托管规则及底层工具检查。
+
+### 0.3 MCP tasks 与插件版本兼容
+
+2.1.319 支持 MCP tasks：服务器将工具调用作为任务处理时，CLI 可转入后台，在完成后把结果交给 Claude。`CLAUDE_CODE_DISABLE_MCP_TASK_BACKGROUND=1` 可让调用等待；服务器先要实现该能力，不能把所有慢 MCP 请求都当成 task。
+
+2.1.323 增加 `plugin.json` 的 `engines["claude-code"]` 版本范围，范围外插件不会安装、更新或加载；`claude plugin validate --strict` 可把校验警告变为失败。2.1.326 还会提示被忽略的无效元数据。插件安装、组件加载与工具授权应分别检查。
+
+资料：[Code Mode](https://code.claude.com/docs/en/code-mode)、[Skills](https://code.claude.com/docs/en/skills)、[2.1.319](https://github.com/anthropics/claude-code/releases/tag/v2.1.319)、[2.1.323](https://github.com/anthropics/claude-code/releases/tag/v2.1.323)、[2.1.326](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)。
+
 
 ---
 
@@ -51,7 +92,7 @@ Claude Code 还会通过 language server、Artifacts、Remote Control、IDE 集�
 
 ---
 
-## 0.1 VS Code 扩展与 Desktop 的当前能力边界
+## 0.4 VS Code 扩展与 Desktop 的能力边界
 
 ### VS Code 扩展
 
@@ -240,7 +281,7 @@ effort: high
 
 - `disable-model-invocation: true`：Claude 不会自行触发，只能用户显式调用，适合部署、提交、发消息等副作用流程。
 - `user-invocable: false`：Skill 只作为 Claude 的背景知识，不出现在用户命令列表中。
-- `allowed-tools`：预先给出工具范围，仍受组织托管规则约束。
+- `allowed-tools`：在调用 Skill 的当前回合预先允许所列工具，下一条用户消息后清除；不限制其他工具的可用性，仍受组织托管规则约束。
 - `context: fork`：在隔离上下文中运行；适合研究结果只需要摘要回传的任务。
 - `$ARGUMENTS`、`$0`、`${CLAUDE_SESSION_ID}`、`${CLAUDE_SKILL_DIR}` 等替换变量应按官方 Skill 文档写法使用。
 - `!` 命令注入可把 shell 输出放入 Skill 上下文；不要在 Skill 中打印 Key、Cookie 或完整环境变量。
@@ -490,7 +531,7 @@ project/
 
 ## 12. 参考资料
 
-本文核验日期：2026-10-28；版本快照：Claude Code `2.1.312`。
+本文核验日期：2026-11-17；官方 latest 版本：`2.1.326`；本机只读帮助基线：`2.1.319`。
 
 - 官方功能总览：https://code.claude.com/docs/en/features-overview
 - Memory 与规则：https://code.claude.com/docs/en/memory
@@ -512,3 +553,4 @@ project/
 - https://code.claude.com/docs/en/desktop
 - https://code.claude.com/docs/en/remote-control
 - https://code.claude.com/docs/en/claude-projects
+本轮更新依据：[v2.1.326 官方发布说明](https://github.com/anthropics/claude-code/releases/tag/v2.1.326)、[官方文档索引](https://code.claude.com/docs/llms.txt)、[npm 版本与渠道](https://registry.npmjs.org/@anthropic-ai/claude-code)。
