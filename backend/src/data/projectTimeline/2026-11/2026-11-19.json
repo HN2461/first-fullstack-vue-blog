@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-19",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "rules-mechanisms-content-publish-20261119",
+      "title": "完成规则机制层文章审核、正文同步与后端发布",
+      "detail": "1. 审核 MCP 8 篇、Plugin 4 篇、Rules 5 篇、Skill 5 篇共 22 篇文章，校验 Front Matter、originalId/originalSlug、Markdown 代码围栏、manifest 身份和 UTF-8 无 BOM；保留 manifest 在同步前作为上次线上基线。2. 提交规则机制层内容与 2026-11-18 研究记录，生成提交 807e51bb；后端发布目标为 backend，完成 MongoDB 备份、白名单后端替换、PM2 reload 和健康检查，未执行数据库迁移。3. 发现生产旧 output 快照缺少 30 个本地文件，先备份并上传完整 573 篇文章快照到临时目录，再备份 23 个待变更快照文件；生产三方对比核验 573 篇，定向 dry-run 识别 22 篇正文待推送、运营字段待回写 0，确认无选中项冲突后 apply 同步 22 篇，写后定向 dry-run 为 0，并回写本地与生产 manifest 正文基线。4. 公网健康接口和首页均返回 200；全局报告仍保留 2 篇文档型文章需人工处理的阻断项，与本次 Markdown 同步无关。GitHub 推送因本机代理连续 3 次连接失败，提交已保留在本地，未切换其他推送通道。",
+      "category": "部署发布"
+    }
+  ]
+}
