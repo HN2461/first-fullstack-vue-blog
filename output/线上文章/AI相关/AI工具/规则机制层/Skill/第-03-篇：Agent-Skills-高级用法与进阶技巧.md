@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Agent Skills 高级用法与进阶技巧"
 slug: "ai-skill-agentskills-b37a5530"
-summary: "按 2026-10-30 重新整理 Agent Skills 的进阶写法，重点区分哪些能力仍然稳定可用、哪些属于规范层字段、哪些只是工具专属扩展，以及哪些旧说法不应再当作默认事实。"
+summary: "更新渐进披露、实验性 allowed-tools、Claude 调用控制与 fork、Cursor paths、Codex 当前目录，并给出触发质量与脚本执行的验证方法。"
 category: "Skill"
 categoryPath:
   - "AI相关"
@@ -28,9 +28,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Agent Skills 高级用法与进阶技巧
 
-## 2026-10-30 复核补充
+> 核验日期：2026-11-18。高级能力分别依据开放规范、Claude Code、Cursor、Kiro 文档和 Codex 公开实现说明，不推定所有客户端一致支持。
 
-高级用法的边界需要更新：开放规范稳定字段是 `name`、`description`、`license`、`compatibility`、`metadata`；`allowed-tools` 仍为 Experimental。Cursor 的 `paths`、`disable-model-invocation`、`icon`、`color`，Claude 的 invocation control、subagent 和 dynamic context 都属于产品扩展，不能写成跨工具通用语法。Codex 的官方插件示例请改看 [openai/plugins](https://github.com/openai/plugins)，`openai/skills` 只保留为历史参考。
 
 > 这一篇不再追求“功能列表越多越好”，而是优先回答一个更重要的问题：**哪些写法今天还稳，哪些写法已经明显带版本风险。**
 
@@ -46,17 +45,18 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 - `assets/` 放模板和输出资源
 - Agent Skills 规范层里的 `metadata`、`license`、`compatibility`
 - Kiro 的 `skill://...` 资源声明
-- Codex 的本地 `~/.codex/skills/` 目录与 `openai/plugins` 生态
+- Codex 当前公开实现中的 `.agents/skills/`、`~/.agents/skills/` 与 `openai/plugins` 生态
 
 ### 第二层：产品专属，但仍有现实价值
 
 这些能力不是所有工具共享的通用基线，但在对应产品里仍很有用：
 
 - Claude Code skills / commands 里的 `$ARGUMENTS`
-- Claude Code skills / commands 里的 `$1`、`$2`
+- Claude Code skills / commands 中从 `$0` 开始的索引参数
 - Claude Code 的 `!` 命令注入
-- Claude Code frontmatter 里的 `allowed-tools`、`argument-hint`、`model`、`effort`、`context`、`hooks`
-- Kiro skill 作为 slash command 时的参数占位
+- Claude Code frontmatter 里的 `argument-hint`、`model`、`effort`、`context`、`hooks`
+- `allowed-tools` 是实验性标准字段；Claude 的具体工具匹配和授权效果按产品文档解释
+- Kiro CLI 技能中的参数占位；IDE/Web 追加上下文不等于同样的替换能力
 - Codex skill 目录里的 `agents/openai.yaml`
 
 ### 第三层：版本敏感，不能再默认通用
@@ -187,41 +187,15 @@ release-helper/
 
 ---
 
-## 五、Codex 这边现在最值得知道的进阶点
+## 五、Codex：把技能源与运行时缓存分开
 
-### 5.1 `.system` 是真实存在的
+当前公开源码读取项目 `.agents/skills/`、用户 `~/.agents/skills/`，并兼容旧 `$CODEX_HOME/skills`。`.system`、插件缓存和托管环境来源由产品维护，不能从本机出现某个目录推导为所有用户都应手工安装到那里。
 
-本机当前 `~/.codex/skills/` 下能看到：
+团队新增技能可以选择项目目录或插件。OpenAI 旧 `openai/skills` 仓库已标记废弃，当前示例移至 `openai/plugins`。复用旧技能时保留流程价值，再核对依赖、字段与安装方式。
 
-- `.system/imagegen`
-- `.system/openai-docs`
-- `.system/plugin-creator`
-- `.system/skill-creator`
-- `.system/skill-installer`
+`agents/openai.yaml` 是 Codex 产品适配层，不属于开放格式的必需文件。涉及 UI 元信息、依赖或调用策略时，依据实际客户端格式维护，不把它仅仅理解为任何产品都能识别的通用展示文件。
 
-这说明对 Codex 来说，skills 已经不是概念页，而是实际在工作。
-
-### 5.2 `skill-creator` 给出的当前建议
-
-本机自带 `skill-creator` 明确强调：
-
-- `SKILL.md` 里最核心的是 `name` 和 `description`
-- `references/` 用来承载大块参考资料
-- `scripts/` 用来放可执行工具
-- `agents/openai.yaml` 是推荐但非必需的 UI 元信息
-
-这也反过来说明：
-
-**如果您想写“更能跟得上 Codex 现状”的 skill，优先学这些，而不是优先学一堆跨工具真假难辨的高级字段。**
-
-### 5.3 `skill-installer` 给出的当前事实
-
-当前 Codex skills 生态可以确认的是：
-
-- `.system` skills 属于预装层
-- 旧 curated / experimental 分层来自已废弃的 `openai/skills` 仓库；当前官方插件与 Skills 示例以 `openai/plugins` 为准
-- 通过 `skill-installer` 可以安装
-- 安装后需要重启 Codex 才会被重新发现
+目录存在也不代表当前会话已重载。修改技能后先检查可发现列表和真实调用；按客户端提示刷新或开启新会话，不机械承诺所有修改都必须重启，也不承诺全部修改都会热更新。
 
 ---
 
@@ -236,7 +210,7 @@ Kiro 当前最实用的进阶点，不是“神秘隐藏字段”，而是：
 
 ### 6.2 这意味着什么
 
-如果主人发现：
+如果你发现：
 
 - skill 明明写了
 - 但某个自定义 agent 就是不认
@@ -254,15 +228,15 @@ Kiro 当前最实用的进阶点，不是“神秘隐藏字段”，而是：
 Claude Code 当前官方 skills / slash commands 文档明确展示了：
 
 - `$ARGUMENTS`
-- `$1`、`$2`
+- `$0`、`$1`、`$2`（索引从 0 开始）
 
 例如：
 
 ```markdown
-Review PR #$1 with priority $2 and assign to $3.
+Review PR #$0 with priority $1 and proposed reviewer $2. Report findings only.
 ```
 
-这个思路对于“把一个流程做成可带参数的模板”非常好用。
+例如 `/review-pr 42 high alice` 中，`$0` 为 `42`，`$1` 为 `high`，`$2` 为 `alice`。正文若要真实修改 PR 指派，必须另有相应工具与授权；上例仅生成审查结果。
 
 ### 7.2 命令注入
 
@@ -289,39 +263,41 @@ Review PR #$1 with priority $2 and assign to $3.
 
 ---
 
-## 八、现在应当降级处理的旧说法
+## 八、按规范与产品分别使用高级能力
 
-下面这些以前看起来很酷，但这次已经不建议继续当“默认知识”传播：
+### 8.1 渐进披露的数字是建议
 
-### 8.1 固定 token 配额说法
+Agent Skills 规范给出元信息约 100 tokens、正文建议少于 5000 tokens、主文件建议少于 500 行。它们帮助控制上下文成本，不是每个客户端一致执行的硬性配额。短正文说明判断流程，详细资料按条件读取，脚本只返回解决当前任务所需的结果。
 
-比如：
+### 8.2 `allowed-tools` 是实验性标准字段
 
-- “每个 skill 保留前多少 token”
-- “所有 skills 总预算多少”
+规范允许空格分隔的工具列表，但具体客户端支持情况、工具名称和权限语义不同。不要把某客户端的逗号列表或通配表达式当成跨工具规范，也不要把技能内工具声明解释成对沙箱、组织策略或用户授权的覆盖。
 
-这类数字非常容易被版本改动打脸。现在更稳妥的写法应该是：
+### 8.3 Claude Code 的调用与隔离是两个维度
 
-**正文尽量短，把细节拆出去，减少上下文负担。**
+| 配置 | 解决的问题 |
+| --- | --- |
+| `disable-model-invocation: true` | 阻止模型自动调用该技能，由用户显式启动 |
+| `user-invocable: false` | 从用户 `/` 菜单隐藏；模型是否可用另看调用设置 |
+| `context: fork` | 在独立子代理上下文执行 |
+| `agent` | 为 fork 场景指定代理 |
+| `hooks` | 配置技能生命周期内适用的 hooks，按当前文档核对事件 |
 
-### 8.2 skill 级 hooks / paths / fork
+这些都是需要客户端支持的语义。`context: fork` 的技能正文应提供明确任务；仅写一份背景参考资料而没有任务，不会自动得到有意义的子代理结果。
 
-这几类能力即使在某些产品当前已有官方文档，也不适合继续写成：
+### 8.4 Cursor 的 `paths` 负责技能适用文件
 
-- 所有工具都懂
-- 已经稳定多年
-- 可以放心拿来做主设计
+```yaml
+paths:
+  - 'src/components/**/*.vue'
+  - 'src/styles/**'
+```
 
-主人真要用，最好先以“具体产品、具体版本、具体官方页”再单独复核一次。
+这是 Cursor **Skill** 的文件范围扩展。旧 Skill `globs` 被接受为回退，新 Skill 使用 `paths`。Cursor `.cursor/rules/*.mdc` 仍有自己的 `globs` 语义，两者不能批量互换。
 
-### 8.3 “某个目录别名跨工具通用”
+### 8.5 目录复用必须基于支持矩阵
 
-像 `.agents/skills/` 这种说法，这次也一律降级处理。原因不是它一定错，而是：
-
-- 一旦没有当前官方页再次确认
-- 把它写成“默认跨工具通用目录”
-
-就非常容易误导后来人。
+`.agents/skills/` 已在当前 Codex 公开实现与 Cursor 官方文档中明确出现，不能再把它写成“未确认的民间目录”。但 Claude Code、Kiro 等工具的原生目录仍需分别设置，不要从两个产品支持推出全部产品支持。
 
 ---
 
@@ -354,8 +330,8 @@ description: Audit release readiness by checking recent changes, risky areas, te
 ### 9.3 再按其他工具转换
 
 - Kiro：直接放入 `.kiro/skills/`
-- Cursor：通常改写成 `.cursor/rules` 或根目录 `AGENTS.md`
-- Claude：通常改写成 `.claude/commands/*.md`
+- Cursor：保留原生 Skill，按需加 `paths`；长期规则另放 `.cursor/rules` 或 AGENTS.md
+- Claude：放入 `.claude/skills/<name>/SKILL.md`，直接使用 `/name` 入口
 
 ---
 
@@ -371,11 +347,20 @@ description: Audit release readiness by checking recent changes, risky areas, te
 
 **这是不是某个工具、某个版本、某个页面里的专属能力，而不是所有技能系统共享的稳定真相？**
 
-只要主人先有这个判断，后面不管写 Codex skill、Kiro skill，还是把同样思路迁移到 Cursor / Claude，都不会那么容易踩过时坑。
+只要你先有这个判断，后面不管写 Codex skill、Kiro skill，还是把同样思路迁移到 Cursor / Claude，都不会那么容易踩过时坑。
 
-## 参考资料
 
-- [Kiro Agent Skills 文档](https://kiro.dev/docs/skills/)
-- [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
-- [OpenAI Codex Skills 文档](https://developers.openai.com/codex/skills)
-- [OpenAI Plugins 仓库](https://github.com/openai/plugins)
+## 验证进阶配置是否真的改善任务
+
+将触发准确性与执行正确性分别检查：一组任务应该触发，一组相近但不匹配的任务不应触发；再检查输出证据、脚本退出码和错误处理。多技能都能匹配时，优先收紧 description 和适用范围，避免堆叠重复指令。
+
+针对脚本，把参数、工作目录、依赖和写入范围写清；批处理先 dry-run，失败时停止并报告已完成范围。长工具输出优先摘要与定位线索，按需读取详细记录，避免“渐进披露”最后变成一次灌入全部文档。
+
+## 参考资料（2026-11-18 核验）
+
+- [Agent Skills Specification](https://agentskills.io/specification)
+- [Claude Code Skills：调用控制、fork 与动态上下文](https://code.claude.com/docs/en/skills)
+- [Cursor Skills：paths 与发现范围](https://cursor.com/docs/skills)
+- [Kiro Agent Skills](https://kiro.dev/docs/skills/)
+- [Codex 技能根目录公开实现](https://github.com/openai/codex/blob/main/codex-rs/ext/skills/src/host_roots.rs)
+- [OpenAI Plugins](https://github.com/openai/plugins)

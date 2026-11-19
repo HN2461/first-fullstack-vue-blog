@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：CLAUDE.md 与 Claude Code 记忆系统"
 slug: "ai-rules-claude-claude-md-claudecode-ff6cd587"
-summary: "深度解析 Claude Code 的完整记忆系统，包括 CLAUDE.md 四层文件层级、@import 语法、.claude/rules/ 路径作用域规则、Auto Memory 自动记忆机制，以及 /memory 命令的使用与调试技巧。"
+summary: "按 2026-11-18 官方文档更新 Claude Code 的 CLAUDE/AGENTS 默认选择、内置插件配置、路径规则、自动记忆类型与目录信任边界，并说明版本门槛和排障方法。"
 category: "Rules"
 categoryPath:
   - "AI相关"
@@ -26,508 +26,237 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：CLAUDE.md 与 Claude Code 记忆系统
 
-## 2026-10-30 复核补充
-
-Claude Code 当前 Auto Memory 按 Git 仓库派生 `~/.claude/projects/<repo>/memory/`，同一仓库的 worktree 与子目录共享；它是本机数据，不会自动跨机器或 cloud 同步。官方还提供内置 `cc-plugin-agents-md@builtin` 读取最近的 `AGENTS.md`（可配置），因此 AGENTS.md 不应只通过 `@import` 间接支持。长期、可审阅的工程规则仍应放回仓库文件，Auto Memory 适合记录本机反复复用的经验。
-
-参考：[Claude Code Memory](https://docs.anthropic.com/en/docs/claude-code/memory)、[Claude Code Skills](https://code.claude.com/docs/en/skills)。
-
-> 资料来源：Anthropic Claude Code 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-10-30。
+> 核验日期：2026-11-18。以下版本门槛来自当前 Claude Code 官方文档；核验日期不等于功能发布日期。旧版本或企业托管环境需同时核对可用设置。
 
 [[toc]]
 
----
+## 一、两种持久上下文
 
-## 一、Claude Code 的两套记忆机制
+Claude Code 用两类机制跨会话保留指导：
 
-Claude Code 的每次会话都从空白上下文开始。为了跨会话保持知识，它提供了两套互补的记忆机制：
+| 机制 | 谁维护 | 适合记录 | 关键边界 |
+| --- | --- | --- | --- |
+| CLAUDE.md / AGENTS.md 与 rules | 人或团队 | 规范、构建命令、架构边界 | 是模型上下文，不是强制权限配置 |
+| Auto Memory | Claude，可人工审阅修改 | 用户偏好、纠正、项目背景、外部参考位置 | 通常保存在本机；不同会话类型可能有不同默认开关 |
 
-| 机制 | 谁来写 | 写什么 | 作用域 | 加载时机 |
-|------|--------|--------|--------|---------|
-| **CLAUDE.md 文件** | 你（手动） | 指令和规则 | 项目 / 用户 / 组织 | 每次会话开始 |
-| **Auto Memory（自动记忆）** | Claude（自动） | 学到的模式和经验 | 同一 Git 仓库（worktree/子目录共享） | 每次会话开始（前 200 行） |
+它们不能替代真实权限与 CI。需要在工具调用前阻断某类动作时，应使用当前宿主支持的权限策略或 `PreToolUse` Hook，而不是只在文档里反复强调。
 
-两者相互补充：`CLAUDE.md` 用于你主动定义的规范，Auto Memory 用于 Claude 从对话中积累的经验。
+## 二、CLAUDE 文件放在哪里
 
----
+| 层级 | 路径 | 用途 |
+| --- | --- | --- |
+| 用户 | `~/.claude/CLAUDE.md` | 跨项目个人偏好 |
+| 项目 | `./CLAUDE.md` 或 `./.claude/CLAUDE.md` | 团队共享的项目指导 |
+| 项目个人 | `./CLAUDE.local.md` | 不提交的个人项目说明，需加入 `.gitignore` |
+| 组织托管 | 系统规定的 CLAUDE.md 路径 | 管理员统一提供的组织指导 |
 
-## 二、CLAUDE.md 文件层级
+组织托管路径包括：
 
-### 2.1 四层作用域
-
-Claude Code 支持多层 `CLAUDE.md`，从大到小：
-
-| 层级 | 路径 | 作用范围 | 是否提交 git |
-|------|------|---------|------------|
-| **组织级（托管策略）** | macOS: `/Library/Application Support/ClaudeCode/CLAUDE.md` | 所有用户，IT 管理员部署 | 不适用 |
-| **项目级** | `./CLAUDE.md` 或 `./.claude/CLAUDE.md` | 当前项目所有成员 | ✅ 提交共享 |
-| **用户级** | `~/.claude/CLAUDE.md` | 个人所有项目 | ❌ 仅本人 |
-| **本地私有** | `./CLAUDE.local.md` | 当前项目，本人专用 | ❌ 加入 .gitignore |
-
-### 2.2 加载规则
-
-Claude Code 从当前工作目录向上遍历，**所有找到的文件都会被拼接加载**（不是覆盖）：
-
-```
-当前目录：foo/bar/
-加载顺序：
-  foo/bar/CLAUDE.md
-  foo/bar/CLAUDE.local.md
-  foo/CLAUDE.md
-  foo/CLAUDE.local.md
-  （继续向上直到根目录）
+```text
+macOS: /Library/Application Support/ClaudeCode/CLAUDE.md
+Linux / WSL: /etc/claude-code/CLAUDE.md
+Windows: C:\Program Files\ClaudeCode\CLAUDE.md
 ```
 
-子目录中的 `CLAUDE.md` 不在启动时加载，而是在 Claude 读取该目录文件时**按需加载**。
+这些是指导文件位置。组织强制设置、权限和文件系统隔离仍需在相应管理配置中落实。
 
-> **重要**：`CLAUDE.md` 文件**全量加载**，不受 200 行限制（200 行限制只适用于 Auto Memory 的 MEMORY.md）。但文件越长，遵守率越低，官方建议控制在 200 行以内。
+### 加载顺序与时机
 
-### 2.2.1 加载额外目录的 CLAUDE.md
+Claude Code 启动时读取工作目录及祖先目录的 CLAUDE 文件，按从上到下的顺序组合进上下文。同一目录的 `CLAUDE.local.md` 追加在 `CLAUDE.md` 后面。
 
-使用 `--add-dir` 给 Claude 访问额外目录时，默认不加载这些目录的 CLAUDE.md。通过环境变量开启：
+子目录文件按需加载：当 Claude 读取、写入或编辑该目录中的其他文件时，才加载相应指导。并不是每次启动都递归装入整个仓库。
 
-```bash
-CLAUDE_CODE_ADDITIONAL_DIRECTORIES_CLAUDE_MD=1 claude --add-dir ../shared-config
+多份文件是组合上下文，并非配置对象逐键覆盖。相互矛盾的规则仍可能造成不稳定结果，应在维护时消除冲突。
+
+## 三、AGENTS.md 已有直接支持
+
+当前官方文档明确：**v2.1.277 及以上版本可直接读取 AGENTS.md**。因此，“Claude Code 不支持 AGENTS，只能手动导入”已经不准确。
+
+### 3.1 默认选择逻辑
+
+| 仓库情况 | 默认读取 |
+| --- | --- |
+| 有 AGENTS，工作目录及祖先没有项目 CLAUDE 文件 | AGENTS |
+| 有 AGENTS，同时存在 `CLAUDE.md`、`.claude/CLAUDE.md` 或 `CLAUDE.local.md` | 项目 CLAUDE 文件 |
+| CLAUDE 文件中已经写了 `@AGENTS.md` | CLAUDE 加上导入的 AGENTS |
+
+用户级 `~/.claude/CLAUDE.md`、组织托管文件和 `.claude/rules/` 不触发这个“有项目 CLAUDE 就替代 AGENTS”的条件。
+
+一个容易忽略的边界：给原本只使用 AGENTS 的项目增加 `CLAUDE.local.md`，也会改变默认选择。如果需要两者同时读，应显式调整设置。
+
+### 3.2 Project instructions 设置
+
+在 `/config` 的 **Project instructions** 中可选择：
+
+| 值 | 含义 |
+| --- | --- |
+| `claude-md-or-agents-md` | 默认：有项目 CLAUDE 就读 CLAUDE，否则读 AGENTS |
+| `claude-md-and-agents-md` | 两者一起读，并对已导入 AGENTS 去重 |
+| `claude-md` | 只读 CLAUDE 系列 |
+| `managed-only` | 启动时仅保留组织托管指导与自动记忆；不是禁止所有后续按需加载 |
+
+对应用户设置示例：
+
+```json
+{
+  "pluginConfigs": {
+    "cc-plugin-agents-md@builtin": {
+      "options": {
+        "instructionFiles": "claude-md-and-agents-md"
+      }
+    }
+  }
+}
 ```
 
-开启后，额外目录中的 `CLAUDE.md`、`.claude/CLAUDE.md` 和 `.claude/rules/*.md` 都会被加载。注意：额外目录中的 `CLAUDE.local.md` 不会被加载。
+该设置从用户、`--settings` 或托管设置读取，项目级与 local 设置中的此项不生效。v2.1.285 之前插件 ID 是 `agents-md@builtin`；v2.1.285 及以后兼容两个名称。跨版本共享设置时不能只替换名称而不看版本。
 
-### 2.3 两个 .claude 目录
+### 3.3 直接加载的边界
 
-项目中有两个 `.claude` 目录，职责不同：
+- 支持工作目录及祖先的 `AGENTS.md`、`.claude/AGENTS.md`，也支持子目录按需发现。
+- 不读取 `AGENTS.local.md`、`AGENTS.override.md` 或 `.agents/` 下的规则文件。
+- 禁用对应内置插件、旧版本或升级后的部分首个会话可能无法直接读取。
+- 通过设置直接加载 AGENTS 与通过 CLAUDE 导入，在 `InstructionsLoaded` Hook、额外目录及外部导入审批方面存在差异。
 
-```
-your-project/
-└── .claude/              # 项目级，提交到 git，团队共享
-    ├── CLAUDE.md         # 项目规则
-    ├── rules/            # 路径作用域规则
-    └── settings.json     # 项目权限配置
-
-~/.claude/                # 用户级，仅本人，跨所有项目
-├── CLAUDE.md             # 个人偏好
-├── rules/                # 个人规则
-└── projects/             # Auto Memory 存储位置
-    └── <project>/
-        └── memory/
-```
-
----
-
-## 三、创建与管理 CLAUDE.md
-
-### 3.1 三种创建方式
-
-**方式一：手动创建**
-
-在项目根目录新建 `CLAUDE.md`，直接写入内容。最灵活，完全自定义。
-
-**方式二：/init 命令自动生成**
-
-在 Claude Code 中运行：
-
-```
-/init
-```
-
-Claude 会扫描项目结构，自动生成一份基础 `CLAUDE.md`，包含检测到的构建命令、目录结构、技术栈等信息。生成后再手动补充团队规范。
-
-**方式三：通过对话让 Claude 更新**
-
-在会话中直接说：
-
-```
-把"始终使用 pnpm，不用 npm"加到 CLAUDE.md
-```
-
-或：
-
-```
-记住：我们的测试框架是 Vitest，不是 Jest，把这个加到 CLAUDE.md
-```
-
-Claude 会自动编辑文件。
-
-### 3.2 @import 语法
-
-`CLAUDE.md` 支持用 `@` 语法引入其他文件，避免重复维护：
+旧版本或确需跨版本兼容时，可保留：
 
 ```markdown
-# CLAUDE.md
-
-# 项目概览
-参见 @README 了解项目背景，@package.json 查看可用命令。
-
-# Git 工作流
-@docs/git-instructions.md
-
-# 如果仓库已有 AGENTS.md，直接引用（避免重复维护）
 @AGENTS.md
 
-## Claude Code 专属规则
-- 在 `src/billing/` 下的改动使用 plan mode
-- 权限边界：不允许执行 rm -rf 命令
+## Claude 专属说明
+- 涉及指定业务模块时，先阅读该模块的设计文档。
 ```
 
-引用规则：
-- 支持相对路径和绝对路径
-- 相对路径相对于包含 `@import` 的文件，不是工作目录
-- 支持递归引用，最多 5 层
-- 引用的文件在会话启动时与 `CLAUDE.md` 一起加载
+在 Windows 团队中，这种导入通常比提交符号链接更易维护。普通“请阅读 AGENTS”文字只是在提示模型，不等同于导入语法的加载保证。
 
-### 3.3 HTML 注释（维护备注）
+## 四、导入与路径规则
 
-`CLAUDE.md` 中的 HTML 注释会在注入上下文前被自动剥离，不消耗 token：
+### 4.1 `@path` 导入
+
+CLAUDE.md 可以使用：
 
 ```markdown
-<!--
-  这段是给人类维护者看的备注，不会被 Claude 读到。
-  上次更新：2026-04-11，原因：迁移到 Vitest
--->
-
-## 测试规范
-- 测试框架：Vitest（已从 Jest 迁移）
+# 项目指导
+@docs/architecture.md
+@docs/testing.md
 ```
 
-代码块内的注释不会被剥离。
+相对路径以导入文件自身所在目录为基准。导入可以递归，但当前文档限制最多四次跳转。代码围栏和行内代码里的 `@` 不作为导入展开。
 
----
+导入帮助拆分文件，但**不会减少这些内容进入上下文的成本**。希望只在特定模块加载的内容，应使用路径规则。
 
-## 四、.claude/rules/ 路径作用域规则
+指向工作目录外的项目导入属于外部导入，可能触发工作区审批；不要把此机制当作读取任意本机文件的授权。
 
-### 4.1 为什么需要路径作用域
+### 4.2 `.claude/rules/`
 
-大型项目中，不同目录有不同的规范：
-
-- `src/api/` 需要 API 设计规范
-- `src/components/` 需要 UI 组件规范
-- `tests/` 需要测试编写规范
-
-把所有规范都写在根目录的 `CLAUDE.md` 里会导致文件过长，而且每次会话都加载所有规则，浪费 token。
-
-`.claude/rules/` 目录解决了这个问题：规则只在处理匹配文件时才加载。
-
-### 4.2 目录结构
-
-```
-your-project/
-└── .claude/
-    ├── CLAUDE.md           # 主规则文件（始终加载）
-    └── rules/
-        ├── code-style.md   # 代码风格（始终加载，无 paths）
-        ├── testing.md      # 测试约定（始终加载，无 paths）
-        ├── api-design.md   # API 规范（只在处理 src/api/ 时加载）
-        └── security.md     # 安全要求（只在处理特定文件时加载）
+```text
+.claude/
+└── rules/
+    ├── general.md
+    ├── api.md
+    └── testing.md
 ```
 
-### 4.3 路径作用域配置
-
-在规则文件顶部添加 YAML frontmatter，指定 `paths` 字段：
+无路径限制的规则作为一般指导加载。指定 `paths` 可以让规则只在 Claude 处理匹配文件时进入上下文：
 
 ```markdown
 ---
 paths:
-  - "src/api/**/*.ts"
+  - "backend/src/**/*.js"
+  - "backend/tests/**/*.js"
 ---
 
-# API 开发规范
-
-- 所有端点必须包含输入校验
-- 使用标准错误响应格式：`{ code, message, data }`
-- 必须包含 OpenAPI 注释
-- 异步路由处理器必须有错误处理
+# 后端约定
+- 复用模块已有参数校验和错误处理方式。
+- 修改权限逻辑时覆盖无权限和资源不存在的情况。
 ```
 
-没有 `paths` 字段的规则文件在启动时无条件加载。
+用户级规则可放在 `~/.claude/rules/`。跨项目共享规则、符号链接和排除模式还要核对工作区信任及路径限制。
 
-**支持的 glob 模式：**
+大型仓库可以用 `claudeMdExcludes` 排除不相关文件，但不要把它写成能够排除组织托管指导的通用机制。
 
-| 模式 | 匹配范围 |
-|------|---------|
-| `**/*.ts` | 任意目录下的 TypeScript 文件 |
-| `src/**/*` | src/ 目录下的所有文件 |
-| `*.md` | 项目根目录的 Markdown 文件 |
-| `src/components/*.tsx` | 特定目录的 React 组件 |
-| `src/**/*.{ts,tsx}` | 多扩展名匹配 |
+## 五、Auto Memory 的当前机制
 
-**多路径配置：**
+### 5.1 记什么
 
-```markdown
----
-paths:
-  - "src/**/*.{ts,tsx}"
-  - "lib/**/*.ts"
-  - "tests/**/*.test.ts"
----
-```
+当前文档明确列出四类 frontmatter `type`：
 
-### 4.4 用户级规则
+| 类型 | 内容 |
+| --- | --- |
+| `user` | 用户角色、经验和工作偏好 |
+| `feedback` | 用户纠正或确认的工作方式 |
+| `project` | 从代码和 Git 历史无法直接得到的项目背景与决策 |
+| `reference` | 外部信息所在位置，例如问题跟踪器或知识库 |
 
-个人规则放在 `~/.claude/rules/`，对所有项目生效：
+代码里已经能找到的目录、架构和修复记录，以及 CLAUDE.md 已经说明的内容，不宜重复塞进记忆。记忆也需要清理过时事实。
 
-```
-~/.claude/rules/
-├── preferences.md    # 个人编码偏好
-└── workflows.md      # 个人工作流偏好
-```
+### 5.2 保存位置与共享边界
 
-用户级规则在项目规则之前加载，项目规则优先级更高。
-
-### 4.5 symlink 支持
-
-`.claude/rules/` 支持符号链接，可以在多个项目间共享规则：
-
-```bash
-# 链接共享规则目录
-ln -s ~/shared-claude-rules .claude/rules/shared
-
-# 链接单个规则文件
-ln -s ~/company-standards/security.md .claude/rules/security.md
-```
-
----
-
-## 五、Auto Memory 自动记忆
-
-### 5.1 是什么
-
-Auto Memory 让 Claude 在工作过程中自动积累知识，无需你手动记录。Claude 会保存：
-
-- 构建命令和环境配置
-- 调试经验和已知问题
-- 架构决策
-- 代码风格偏好
-- 工作流习惯
-
-Claude 不会每次会话都保存内容，它会判断哪些信息在未来的会话中有价值。
-
-### 5.2 官方口径下，Auto Memory 更适合记什么
-
-Anthropic 官方文档对 Auto Memory 的描述重点，不是某套固定的内部分类，而是**它应该保存什么类型的信息**。更稳妥的理解是：
-
-- 你反复纠正 Claude 后形成的偏好
-- 构建命令、调试经验、项目里的已知坑
-- 代码本身不容易直接看出来的背景信息
-- 以后开新会话时仍然值得复用的做法
-
-反过来说，如果一条信息本来就能从代码、README、测试或 git 历史里直接看出来，它通常更适合写进仓库文件，而不是依赖 Auto Memory。
-
-### 5.3 存储位置
-
-每个项目有独立的记忆目录：
-
-```
+```text
 ~/.claude/projects/<project>/memory/
-├── MEMORY.md          # 简洁索引，每次会话加载前 200 行
-├── debugging.md       # 调试模式详细记录
-├── api-conventions.md # API 设计决策
-└── ...                # Claude 自动创建的其他主题文件
+├── MEMORY.md
+├── user_role.md
+├── feedback_testing.md
+└── ...
 ```
 
-`<project>` 路径从 git 仓库派生，同一仓库的所有工作树和子目录共享一个记忆目录。
+默认项目目录根据 Git 仓库派生，同一仓库的 worktree 和子目录共享自动记忆。它通常是机器本地数据，不自动在电脑和云环境之间同步。
 
-### 5.4 加载机制与 200 行阈值
+主会话自动记忆也不应被理解为所有子 Agent 的共同数据库；子 Agent 的独立 memory 配置和继承会话有各自规则。
 
-- `MEMORY.md` 的前 **200 行**，或前 **25KB**（以先到者为准）会在每次会话开始时加载
-- 超出这个阈值的内容不会在会话启动时自动进入上下文
-- 主题文件（如 `debugging.md`、`patterns.md`）不在启动时加载，而是在需要时按需读取
-- Auto Memory 是机器本地的，不跨机器同步
+### 5.3 200 行 / 25KB 的真实含义
 
-> **实践建议**：定期通过 `/memory` 检查 Auto Memory 文件；如果 `MEMORY.md` 越写越长，就把细节整理进 topic files，避免真正重要的开场信息被挤到阈值之外。
+会话启动时加载 `MEMORY.md` 的前 200 行或前 25KB，以先达到者为准。主题文件按需读取。
 
-### 5.5 开启与关闭
+这个限制只针对自动记忆索引，**不是 CLAUDE.md 的统一 200 行截断线**。官方仍建议每份 CLAUDE.md 保持约 200 行以内以提升可读性和遵守率，但建议长度与硬限制不同。
 
-Auto Memory 默认开启。关闭方式：
+### 5.4 开关和自定义目录
 
-```bash
-# 通过环境变量关闭
-CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 claude
+本地普通会话默认开启自动记忆；自托管或特殊会话的默认值与开关限制可能不同。使用 `/memory` 查看当前实际状态。
 
-# 通过项目设置关闭
-# .claude/settings.json
+可以在设置中关闭：
+
+```json
 {
   "autoMemoryEnabled": false
 }
 ```
 
-也可以在会话中通过 `/memory` 命令切换开关。
+也可通过 `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` 关闭。
 
-### 5.6 自定义存储位置
+当前文档允许 `autoMemoryDirectory` 从用户、项目、local、托管或 `--settings` 作用域读取：
 
 ```json
-// ~/.claude/settings.json（用户级或本地级设置）
 {
-  "autoMemoryDirectory": "~/my-custom-memory-dir"
+  "autoMemoryDirectory": "~/my-project-memory"
 }
 ```
 
-注意：此设置不接受项目级配置（`.claude/settings.json`），防止共享项目将记忆写入敏感位置。
+值必须是绝对路径或以 `~/` 开头。项目提供的目录受工作区信任约束；启用 `permissions.blockReadsOutsideWorkingDirectories` 时，对仓库指定目录还有额外限制。旧文“不接受项目级 autoMemoryDirectory”已不适用于当前文档。
 
----
+## 六、检查加载、审阅与排障
 
-## 六、/memory 命令
+- `/memory`：查看或编辑指导与记忆文件，检查自动记忆开关。
+- `/context all`：查看启动时 Memory files 等上下文信息；子目录按需加载文件不一定出现在启动列表。
+- `/doctor prompt-audit`：v2.1.283+ 可审查过时指令、无效引用与冲突；依赖相应 bundled skill 可用，默认给出建议，不自动改文件。
+- `claude --version`：记录实际客户端版本，再判断文档中某项行为是否可用。
 
-`/memory` 是管理所有记忆文件的入口命令：
+规则未生效时按此顺序检查：
 
-```
-/memory
-```
+1. 文件名、实际工作目录、祖先路径和信任状态。
+2. 是否因为项目 CLAUDE 文件使 AGENTS fallback 不再启用。
+3. `paths` 是否匹配，以及文件是否已经被访问。
+4. 是否被排除、插件禁用、版本过旧或预算限制影响。
+5. 是否有互相冲突或无法执行的指令。
 
-执行后可以：
-- 查看当前会话加载的所有 `CLAUDE.md`、`CLAUDE.local.md` 和规则文件列表
-- 切换 Auto Memory 开关
-- 打开 Auto Memory 文件夹链接
-- 选择任意文件在编辑器中打开
+压缩会话不是给不完整规则兜底的办法。长期要求应保存到正确的指导文件；只在当前任务有效的要求保留在任务上下文中。
 
-**让 Claude 主动记住某件事：**
+## 官方资料
 
-```
-记住：我们的 API 测试需要本地 Redis 实例，端口 6379
-```
+- [Claude Code：Memory 完整文档](https://code.claude.com/docs/en/memory)
+- [AGENTS.md 直接支持与设置](https://code.claude.com/docs/en/memory#agents-md)
+- [Settings reference](https://code.claude.com/docs/en/settings-reference)
+- [Hooks guide](https://code.claude.com/docs/en/hooks-guide)
+- [Claude Code permissions](https://code.claude.com/docs/en/permissions)
 
-Claude 会把这条信息保存到 Auto Memory。
-
-**把内容加到 CLAUDE.md 而不是 Auto Memory：**
-
-```
-把这条加到 CLAUDE.md：始终使用 pnpm，不用 npm
-```
-
----
-
-## 七、写出高质量 CLAUDE.md
-
-### 7.1 结构建议
-
-```markdown
-# CLAUDE.md
-
-## 常用命令
-- `npm run dev` - 启动开发服务器
-- `npm run build` - 构建生产版本
-- `npm test` - 运行测试
-
-## 项目架构
-（简要说明各目录职责和关键设计决策）
-
-## 代码规范
-（最关键的几条，不是完整规范文档）
-
-## 注意事项
-（容易踩坑的地方、特殊约定）
-```
-
-### 7.2 大小控制
-
-- **目标 200 行以内**：超长文件消耗更多 token，遵守率反而下降
-- 超出时用 `@import` 引用外部文件，或拆分到 `.claude/rules/`
-- 用 `/memory` 命令查看上下文可视化，了解 `CLAUDE.md` 在启动上下文中的位置
-
-### 7.3 Anthropic 官方建议：什么该写，什么不该写
-
-来自 Anthropic 工程博客的官方建议：
-
-| ✅ 应该写 | ❌ 不应该写 |
-|----------|-----------|
-| Claude 无法从代码中猜到的 Bash 命令 | Claude 通过读代码就能知道的内容 |
-| 与默认不同的代码风格规则 | 标准语言约定（Claude 已知） |
-| 测试指令和首选测试运行器 | 详细的 API 文档（链接即可） |
-| 仓库礼仪（分支命名、PR 约定） | 频繁变化的信息 |
-| 项目特有的架构决策 | 冗长的解释或教程 |
-| 开发环境特殊要求（必需的环境变量） | 逐文件的代码库描述 |
-| 常见坑和非显而易见的行为 | 不言而喻的实践（如"写干净的代码"） |
-
-**判断标准**：对每一行问自己"如果删掉这行，Claude 会犯错吗？"如果不会，就删掉。
-
-### 7.4 强调词提升遵守率
-
-对于关键规则，可以加强调词提升 Claude 的遵守率：
-
-```markdown
-## 重要规则
-
-- **IMPORTANT**: 提交前必须运行 `npm test`，不允许跳过
-- **YOU MUST**: 所有 SQL 使用参数化查询，禁止字符串拼接
-- **NEVER**: 不要硬编码 API 密钥或凭证
-```
-
-### 7.5 规则 vs Hooks
-
-如果某条规则 Claude 反复不遵守，考虑改用 **Hooks** 而不是在 `CLAUDE.md` 里加更多强调：
-
-- `CLAUDE.md` 规则是**建议性的**，Claude 会尽力遵守但不保证
-- Hooks 是**确定性的**，保证在特定时机执行
-
-```
-# 与其在 CLAUDE.md 写：
-# "每次编辑文件后运行 eslint"
-
-# 不如配置一个 Hook：
-# postToolUse（write 类型）→ 运行 eslint
-```
-
-### 7.6 避免冲突
-
-多个 `CLAUDE.md` 文件（项目级、用户级、子目录）的内容会被拼接，如果两个文件对同一行为给出不同指令，Claude 可能随机选一个。
-
-定期检查：
-- 根目录 `CLAUDE.md`
-- 子目录 `CLAUDE.md`
-- `.claude/rules/` 中的规则文件
-- 用户级 `~/.claude/CLAUDE.md`
-
-### 7.4 大型团队管理
-
-**排除不相关的 CLAUDE.md**
-
-在大型 monorepo 中，其他团队的 `CLAUDE.md` 可能被误加载。用 `claudeMdExcludes` 排除：
-
-```json
-// .claude/settings.local.json
-{
-  "claudeMdExcludes": [
-    "**/monorepo/CLAUDE.md",
-    "/home/user/monorepo/other-team/.claude/rules/**"
-  ]
-}
-```
-
-**组织级托管策略**
-
-IT 管理员可以部署组织级 `CLAUDE.md`，对所有用户生效且不可被排除：
-
-```
-macOS: /Library/Application Support/ClaudeCode/CLAUDE.md
-Linux: /etc/claude-code/CLAUDE.md
-Windows: C:\Program Files\ClaudeCode\CLAUDE.md
-```
-
----
-
-## 八、常见问题排查
-
-### Claude 没有遵守 CLAUDE.md 的规则
-
-1. 运行 `/memory`，确认文件出现在加载列表中
-2. 检查文件路径是否正确（见"加载规则"一节）
-3. 让规则更具体：`"使用 2 空格缩进"` 比 `"格式化代码"` 有效
-4. 检查是否有冲突规则（多个文件对同一行为给出不同指令）
-
-### /compact 后规则消失了
-
-项目根目录的 `CLAUDE.md` 在 `/compact` 后会重新从磁盘读取并注入。子目录的 `CLAUDE.md` 不会自动重新注入，需要等 Claude 下次读取该目录文件时才会加载。
-
-如果某条指令在 `/compact` 后消失，说明它只存在于对话中，需要把它加到 `CLAUDE.md`。
-
-### CLAUDE.md 太大了
-
-- 超过 200 行时，把详细内容移到 `@import` 引用的文件中
-- 或拆分到 `.claude/rules/` 目录，用路径作用域按需加载
-
----
-
-> 参考资料：
-> - [Claude Code 记忆系统官方文档 - Anthropic](https://docs.anthropic.com/en/docs/claude-code/memory)
-> - [Claude Code 最佳实践官方博客 - Anthropic](https://www.anthropic.com/engineering/claude-code-best-practices)
-> - [.claude/ 文件夹完整解析 - dailydoseofds.com](https://blog.dailydoseofds.com/p/anatomy-of-the-claude-folder)
-> - [Claude Code 记忆指南 2026 - blog.laozhang.ai](https://blog.laozhang.ai/en/posts/claude-code-memory)
-> - [Claude Code 记忆源码深度分析（200 行截断、四种类型）- mem0.ai](https://mem0.ai/blog/how-memory-works-in-claude-code)
+本篇加载细节、版本门槛、自动记忆类型与目录约束均以本次实际读取的官方 Memory 页面为依据，避免把早期教程的实现固定为长期规则。

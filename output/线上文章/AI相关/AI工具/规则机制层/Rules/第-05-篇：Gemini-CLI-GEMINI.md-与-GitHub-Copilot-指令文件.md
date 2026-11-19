@@ -1,7 +1,7 @@
 ---
 title: "第 05 篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件"
 slug: "ai-rules-gemini-copilot-geminicli-copilot-853f4742"
-summary: "详解 Gemini CLI 的 GEMINI.md 三层加载机制、JIT 即时上下文、/memory 命令族与模块化导入语法，以及 GitHub Copilot 的双格式指令系统（copilot-instructions.md 与 .github/instructions/）和 AGENTS.md 支持情况。"
+summary: "按 2026-11-18 官方资料更新 Gemini CLI 的分层上下文、JIT、文件名与 memory 命令差异；按 GitHub.com、VS Code、Agent 和 code review 区分 Copilot 指令支持与优先级。"
 category: "Rules"
 categoryPath:
   - "AI相关"
@@ -26,246 +26,169 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：Gemini CLI GEMINI.md 与 GitHub Copilot 指令文件
 
-## 2026-10-30 复核补充
-
-Gemini CLI 仍按全局、工作区/父目录和 JIT 三层加载 `GEMINI.md`，但 `settings.json` 的 `context.fileName` 可配置 `AGENTS.md`、`CONTEXT.md` 等文件名；同时 CLI 已有 `gemini skills list/install/link` 管理入口。GitHub Copilot 文档（2026-10-16 更新）强调最近的 `AGENTS.md` 优先，仓库根目录还可用 `CLAUDE.md` 或 `GEMINI.md`，`.github/instructions/*.instructions.md` 通过 `applyTo` glob 控制范围；GitHub.com 上的路径级指令重点作用于 cloud agent 和 code review。
-
-参考：[Gemini CLI GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md)、[GitHub Copilot 仓库指令](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions)。
-
-> 资料来源：Gemini CLI 官方 GitHub 文档、GitHub Copilot 官方文档。初稿整理：2026-04；按官方文档复核更新：2026-10-30。
+> 核验日期：2026-11-18。本文区分产品、客户端和任务入口；官方页面存在命令差异时如实标注，最终以安装版本的帮助信息为准。
 
 [[toc]]
 
----
+## 一、Gemini CLI 的 GEMINI.md
 
-## 一、Gemini CLI 与 GEMINI.md
+GEMINI.md 用于给 Gemini CLI 提供持续的项目上下文。它是 Markdown 文件，可以包含项目背景、代码约定、构建与验证命令，也支持导入其他文件。
 
-### 1.1 Gemini CLI 简介
+规则、MCP 配置、技能安装和执行权限是不同能力。把一条命令写进 GEMINI.md，只是在提供任务指导，不会自动安装工具或授予操作权限。
 
-Gemini CLI 是 Google 推出的开源终端 AI Agent，直接在命令行中运行，底层使用 Gemini 模型。版本迭代很快，复习规则机制时不要死记某个旧 release 号；需要安装或排障时，以 `google-gemini/gemini-cli` 官方仓库的最新 README、配置文档和 release 页面为准。
+### 1.1 三层上下文
 
-Gemini CLI 的规则文件叫 `GEMINI.md`，有一个独特的**三层加载机制**，与其他工具的"向上遍历"不同。
+| 层级 | 发现位置 | 典型用途 |
+| --- | --- | --- |
+| 全局 | `~/.gemini/GEMINI.md` | 跨项目个人指导 |
+| 环境与工作区 | 已配置工作区及其父目录 | 项目背景、共享约定 |
+| JIT 即时上下文 | 工具访问的文件/目录及其祖先，直到信任根 | 当前模块专属指导 |
 
-### 1.2 三层加载机制
+文件内容会组合为指导上下文。JIT 的意义是访问相关目录时再带入指导，不必一开始就装入所有子目录内容。
 
-Gemini CLI 按以下顺序加载 `GEMINI.md` 文件，将所有找到的内容拼接后发送给模型：
-
-**第一层：全局上下文**
-
-```
-~/.gemini/GEMINI.md
-```
-
-用户主目录下的全局配置，对所有项目生效。适合个人偏好、通用编码习惯。
-
-**第二层：工作区上下文**
-
-```
-./GEMINI.md（项目根目录）
-./子目录/GEMINI.md（工作区内各级目录）
-```
-
-CLI 搜索配置的工作区目录及其父目录中的 `GEMINI.md` 文件。
-
-**第三层：JIT（Just-In-Time）即时上下文**
-
-这是 Gemini CLI 最独特的机制：当工具访问某个文件或目录时，CLI 自动扫描该目录及其所有祖先目录（直到信任根目录）中的 `GEMINI.md` 文件，并将其加载。
-
-这意味着：
-
-```
+```text
 project/
-├── GEMINI.md              # 项目级，始终加载
-├── src/
-│   ├── GEMINI.md          # 当 AI 读取 src/ 下的文件时加载
-│   └── api/
-│       └── GEMINI.md      # 当 AI 读取 src/api/ 下的文件时加载
-└── tests/
-    └── GEMINI.md          # 当 AI 读取 tests/ 下的文件时加载
+├── GEMINI.md
+├── backend/
+│   ├── GEMINI.md
+│   └── src/
+└── frontend/
+    ├── GEMINI.md
+    └── src/
 ```
 
-JIT 加载让 Gemini CLI 能够在不预先加载所有规则的情况下，在需要时自动获取最相关的上下文。
+不能仅凭“目录越深”就推导所有冲突一定按某种机械覆盖算法处理。建议根文件写共识，子目录补充局部要求，并用实际加载内容检查冲突。
 
-### 1.3 文件格式
-
-`GEMINI.md` 是纯 Markdown，无特殊 schema：
+### 1.2 最小项目示例
 
 ```markdown
-# Project: My TypeScript Library
+# 项目指导
 
-## General Instructions
-- 生成新 TypeScript 代码时，遵循现有代码风格
-- 所有新函数和类必须有 JSDoc 注释
-- 优先使用函数式编程范式
+## 环境
+- 使用 package.json 声明的命令与锁文件。
+- 前后端分别安装依赖，先确认当前工作目录。
 
-## Coding Style
-- 使用 2 空格缩进
-- 接口名以 `I` 开头（如 `IUserService`）
-- 始终使用严格相等（`===` 和 `!==`）
+## 开发
+- 复用现有接口校验、错误处理与权限能力。
+- 文件编码统一为 UTF-8 无 BOM。
+- 不把密钥写入代码、配置示例或日志。
 
-## Project Structure
-- 组件放在 /src/components/
-- 工具函数放在 /src/utils/
-- 类型定义放在 /src/types/
+## 验证
+- 修改前端运行前端构建。
+- 修改后端运行相关测试。
+- 交付时说明实际完成的验证。
 ```
 
-### 1.4 /memory 命令族
+个人偏好放全局，团队规范放工作区。不要把某个项目的语言风格无条件推广到所有项目。
 
-Gemini CLI 提供一组 `/memory` 命令管理上下文文件：
+### 1.3 `/memory` 的当前文档差异
 
-| 命令 | 功能 |
-|------|------|
-| `/memory show` | 显示当前所有已加载 `GEMINI.md` 的完整拼接内容，可以检查 AI 实际看到的上下文 |
-| `/memory reload` | 强制重新扫描并加载所有 `GEMINI.md` 文件（修改文件后用这个刷新） |
-| `/memory add <text>` | 将文本追加到 `~/.gemini/GEMINI.md`，实现运行时添加持久记忆 |
+本次实际核验发现，Gemini 官方两处页面的命令名称并不完全一致：
 
-**实用场景：**
+| 官方页面 | 当前列出的相关命令 |
+| --- | --- |
+| GEMINI.md 专题页 | `/memory show`、`/memory reload` |
+| Command reference | `/memory list`、`/memory refresh`、`/memory show` |
 
-```bash
-# 查看 AI 当前的完整上下文
+因此可以先用：
+
+```text
 /memory show
-
-# 修改了 GEMINI.md 后刷新
-/memory reload
-
-# 快速添加一条全局记忆
-/memory add "始终使用 pnpm，不用 npm"
 ```
 
-### 1.5 模块化导入语法
+它用于查看实际已加载的拼接指导。刷新时，查看安装版本 `/memory` 的补全或帮助；若提供 `refresh` 就使用 `/memory refresh`，若该版本提供 `reload` 则使用 `/memory reload`。不要仅根据旧文章把其中一个写成永久唯一名称。
 
-`GEMINI.md` 支持用 `@file.md` 语法引入其他文件，支持相对路径和绝对路径：
+当前 Command reference 未列出 `/memory add`，不能继续保证这个旧教程中的子命令可用。需要持久化指导时直接编辑对应 GEMINI.md，再按安装版本提供的方式刷新。
+
+### 1.4 导入与自定义文件名
 
 ```markdown
-# Main GEMINI.md
-
-这是主配置文件。
-
-@./components/instructions.md
-
-更多内容在这里。
-
-@../shared/style-guide.md
+# 项目指导
+@./docs/architecture.md
+@./docs/testing.md
 ```
 
-这让你可以把大型规则文件拆分成多个主题文件，保持每个文件简洁。
+官方说明 `@file.md` 支持相对与绝对路径。导入内容来自文件本身，应避免将机器专属绝对路径提交给团队，也不要导入敏感文件。
 
-### 1.6 自定义文件名
-
-默认文件名是 `GEMINI.md`，但可以通过 `settings.json` 配置额外的文件名，实现与其他工具的规则共享：
+在 `settings.json` 中可以指定一个名称或名称列表：
 
 ```json
 {
   "context": {
-    "fileName": ["AGENTS.md", "GEMINI.md", "CONTEXT.md"]
+    "fileName": ["AGENTS.md", "GEMINI.md"]
   }
 }
 ```
 
-配置后，Gemini CLI 会在每个目录中依次查找这些文件名，找到的都会加载。这样就可以让 Gemini CLI 读取 `AGENTS.md`，实现跨工具规则共享。
+这意味着把 AGENTS 加入上下文发现，而不是默认文件名已经从 GEMINI 改为 AGENTS。若同一份规范既被自动发现又被另一个文件导入，应检查实际上下文是否重复，选用一种清晰的共享方式。
 
-### 1.7 实战示例
+## 二、Copilot 不是一个统一的加载器
 
-**全局个人配置（~/.gemini/GEMINI.md）：**
+GitHub Copilot 覆盖 GitHub.com、VS Code、其他 IDE、CLI、cloud agent 和 code review。是否支持某类指令，要同时说明**在哪里使用、在执行什么任务**。
 
-```markdown
-# 全局个人规则
+例如，GitHub.com 的 code review 支持范围不能直接套到 VS Code 的 code review；VS Code 中不同 Agent harness 也可能使用不同文件格式。
 
-## 语言
-- 用中文回复
-- 简洁直接，不要废话
+### 2.1 三类仓库指令
 
-## 代码风格
-- 所有项目统一 2 空格缩进
-- 优先 async/await，不用 Promise 链
+| 类型 | 文件 | 常见作用 |
+| --- | --- | --- |
+| 仓库级 | `.github/copilot-instructions.md` | 整个仓库的共同指导 |
+| 路径级 | `.github/instructions/**/*.instructions.md` | `applyTo` 匹配文件时的指导 |
+| Agent 指令 | `AGENTS.md`、部分使用面中的 `CLAUDE.md` / `GEMINI.md` | 兼容 Agent 生态的项目指导 |
 
-## 安全
-- 永远不要硬编码密钥
-- 涉及权限的改动必须标注
-```
+Agent 指令文件与 `.github/agents/` 中的 custom agent 定义不是一回事。前者给现有 Agent 提供指导，后者定义专门的 Agent 配置。
 
-**项目级配置（./GEMINI.md）：**
+### 2.2 关键支持矩阵
 
-```markdown
-# Go 后端项目
+以下为本次官方矩阵明确列出的仓库相关能力；个人与组织设置另有作用范围。
 
-## Stack
-- Go 1.22, Chi router, sqlc for database queries
-- Frontend: Svelte 5 with TypeScript
+| 使用面 | 仓库级 | 路径级 | Agent 文件 |
+| --- | --- | --- | --- |
+| GitHub.com Copilot Chat | 支持 | 该矩阵未列为此入口能力 | 该矩阵未列为此入口能力 |
+| GitHub.com cloud agent | 支持 | 支持 | AGENTS / CLAUDE / GEMINI |
+| GitHub.com code review | 支持 | 支持 | AGENTS / CLAUDE / GEMINI / REVIEW |
+| VS Code Copilot Chat | 支持 | 支持 | AGENTS |
+| VS Code cloud agent | 支持 | 支持 | AGENTS / CLAUDE / GEMINI |
+| VS Code code review | 支持 | 该矩阵未列为此入口能力 | 该矩阵未列为此入口能力 |
 
-## Guidelines
-- 使用结构化日志（slog），不用 fmt.Println
-- 所有错误必须用 fmt.Errorf 包装
-- 测试文件放在同包的 _test.go 文件中
+此表不能代替每个版本的 IDE 功能矩阵。对 JetBrains、Visual Studio、Xcode 等客户端，按官方支持矩阵选择对应栏目，不推断它们与 VS Code 一致。
 
-## Project Structure
-@./docs/structure.md
-```
+旧文“VS Code 子目录 AGENTS 永远默认关闭”也不应脱离客户端与 harness 版本固定保留。使用当前 Agent Customizations 界面查看发现情况，再用同一 harness 的新会话验证。
 
-**子目录即时上下文（./src/api/GEMINI.md）：**
+## 三、Copilot 实战配置
+
+### 3.1 仓库级指令
 
 ```markdown
-# API 层规范
+# 仓库约定
 
-- 所有路由处理器必须有错误处理
-- 返回格式统一：`{ code, data, message }`
-- 使用 Chi 的中间件做认证，不在 handler 里直接处理
-- 新增接口必须同步更新 /docs/api-reference.md
+- 沿用当前语言、包管理器和测试框架。
+- 接口输入统一走已有参数校验。
+- 修改公共组件前检查受影响调用方。
+- 不修改生成目录，不提交凭证。
+- 完成后说明相关构建与测试结果。
 ```
 
----
+保存为 `.github/copilot-instructions.md`。所谓“仓库级”是作用域，不表示所有 Copilot 功能无条件读取它；仍要满足该使用面的支持与设置条件。
 
-## 二、GitHub Copilot 指令文件
+### 3.2 路径级指令
 
-### 2.1 三种指令类型
-
-根据 GitHub 官方文档，Copilot 当前可以结合**三种**仓库级 / Agent 级指令来源：
-
-| 类型 | 文件路径 | 作用范围 |
-|------|---------|---------|
-| **仓库级指令** | `.github/copilot-instructions.md` | 所有请求，始终加载 |
-| **路径级指令** | `.github/instructions/*.instructions.md` | 匹配 `applyTo` glob 的文件 |
-| **Agent 指令** | `AGENTS.md`（任意目录）/ `CLAUDE.md`（根目录）/ `GEMINI.md`（根目录） | AI Agent 使用，最近目录优先 |
-
-> **重要**：Copilot 官方文档明确说明，Agent 指令除了 `AGENTS.md` 外，还支持根目录的 `CLAUDE.md` 和 `GEMINI.md` 作为替代格式。
-
-### 2.2 仓库级指令：copilot-instructions.md
-
-放在 `.github/` 目录，对整个仓库所有请求生效：
-
-```markdown
-# .github/copilot-instructions.md
-
-本仓库使用 TypeScript strict 模式。
-优先使用函数式组件和 hooks，不用 class 组件。
-使用 Zod 做运行时校验，不用 io-ts。
-所有数据库查询通过 /src/repos/ 中的 Repository 模式。
-
-## 提交规范
-- 使用 Conventional Commits：feat:, fix:, chore:, refactor:
-- 范围到包：feat(web):, fix(api):
-- 提交前运行 pnpm lint && pnpm test
-```
-
-**让 Copilot 自动生成**：在 GitHub Copilot Agents 页面（github.com/copilot/agents）选择仓库，粘贴官方提供的生成 prompt，Copilot 会自动扫描仓库并创建 PR。
-
-### 2.3 路径级指令：.github/instructions/
-
-支持通过 `applyTo` 字段指定路径作用域，只在处理匹配文件时生效：
+保存为 `.github/instructions/typescript.instructions.md`：
 
 ```markdown
 ---
 applyTo: "src/**/*.ts,src/**/*.tsx"
 ---
 
-# TypeScript 规范
-
-使用 strict TypeScript，禁止 `any` 类型。
-所有函数必须有明确的返回类型注解。
-使用 `type` 定义对象形状，`interface` 只用于可扩展契约。
+# TypeScript 业务代码
+- 外部输入先做运行时校验。
+- 复用既有领域类型，避免重复定义接口契约。
+- 覆盖空值、异常和权限边界。
 ```
 
-**`excludeAgent` 字段**：可以排除特定 Agent 使用该指令：
+官方支持 `applyTo` 中使用逗号分隔多个 glob。匹配模式的 `*` 与 `**` 不同：`src/*.ts` 不会递归匹配更深目录，`src/**/*.ts` 才覆盖子目录。
+
+针对支持 cloud agent 和 code review 的入口，可以排除其中一种：
 
 ```markdown
 ---
@@ -273,118 +196,68 @@ applyTo: "**"
 excludeAgent: "code-review"
 ---
 
-# 仅供 cloud-agent 使用的指令
+# 实现任务约定
+- 修改前先定位现有模块和相应测试。
 ```
 
-有效值：`"code-review"` 或 `"cloud-agent"`。
+官方当前支持的 `excludeAgent` 值包括 `code-review` 和 `cloud-agent`。这不是任意 Agent 名称黑名单，也不是跨客户端通用的权限设置。
 
-> **注意时效性**：GitHub 官方当前文档明确写到，在 **GitHub.com** 上，路径级指令主要面向 **Copilot cloud agent** 和 **Copilot code review**。如果你在其他入口里测试效果，别默认认为所有 Copilot 交互面板都已经完全等价支持。
+### 3.3 AGENTS 与替代文件
 
-**目录结构示例：**
+GitHub 的 Agent 指令说明允许仓库内多个 AGENTS.md，并规定目录树中最近的 AGENTS 优先。支持的入口还可使用根目录的单个 CLAUDE.md 或 GEMINI.md 作为替代。
 
-```
+这不构成 `AGENTS > CLAUDE > GEMINI` 的通用三级优先表。若同时放多个来源，应先确认所用入口的实际发现与组合规则，避免重复和冲突。
+
+## 四、优先级与审查分支
+
+GitHub 当前概念文档明确：**大多数客户端和使用面，包括 Copilot CLI、VS Code 和 Visual Studio，会组合适用指令，但没有统一的一般优先级顺序**。
+
+Copilot Chat on GitHub.com 单独给出从高到低的关系：个人指导、适用仓库指导、组织指导；仓库层内部还区分路径、仓库级与 Agent 来源。这是该使用面的说明，不能与支持矩阵分开后推导成所有入口都加载这些文件。
+
+官方还说明，审阅 PR 时从 **head branch，也就是包含变更的分支**读取仓库指令、Agent 指令与 Skills。团队可以在同一个 PR 中测试指导变化，但也需要审阅这些文件本身的修改。
+
+自定义指令不保证生成结果百分之百合规，强制要求仍应由 CI、仓库保护和权限检查落实。
+
+## 五、VS Code 中的发现与验证
+
+当前 VS Code 文档按所选 harness 区分格式：
+
+- Copilot 使用 `.github/copilot-instructions.md` 或 AGENTS.md。
+- Claude harness 使用 CLAUDE.md 与其路径规则。
+- Codex harness 使用 AGENTS.md 与目录作用域。
+
+通过 **Chat: Open Customizations** 打开 Instructions，确认文件可见；这一步只证明发现，不能证明每次任务都激活或完全遵守。
+
+然后在同一个 harness、同一个仓库的新会话中做一个最小任务，验证文件匹配和输出。不要使用另一种 harness 的结果判断这份规则是否正常。
+
+## 六、多工具团队的推荐分工
+
+```text
 project/
-└── .github/
-    ├── copilot-instructions.md          # 全局规则（始终加载）
-    └── instructions/
-        ├── typescript.instructions.md   # TypeScript 文件规范
-        ├── testing.instructions.md      # 测试文件规范
-        ├── api.instructions.md          # API 文件规范
-        └── security.instructions.md    # 安全相关规范
-```
-
-### 2.4 Agent 指令：AGENTS.md / CLAUDE.md / GEMINI.md
-
-Copilot Agent 在工作时会查找以下文件（按优先级）：
-
-1. **AGENTS.md**：目录树中最近的文件优先（可在仓库任意位置创建一个或多个）
-2. **CLAUDE.md**：仓库根目录（作为 AGENTS.md 的替代）
-3. **GEMINI.md**：仓库根目录（作为 AGENTS.md 的替代）
-
-> 注意：在 VS Code 中，子目录的 AGENTS.md 支持默认关闭，需要在 VS Code 设置中手动启用。
-
-### 2.5 全局个人指令
-
-不同 IDE 的全局指令路径不同：
-
-| IDE | 更稳妥的当前理解 |
-|-----|----------------|
-| VS Code | 以仓库级文件和 IDE 设置为主；子目录 `AGENTS.md` 默认需手动启用 |
-| JetBrains | 支持仓库内 `.github/copilot-instructions.md`，也支持本地 `global-copilot-instructions.md` |
-| Xcode | 通过 GitHub Copilot for Xcode 的设置界面管理全局偏好 |
-
-### 2.6 推荐分工
-
-```
-project/
-├── AGENTS.md                          # 跨工具共享：技术栈、约定、边界
-└── .github/
-    ├── copilot-instructions.md        # Copilot 全局规则（补充 AGENTS.md）
-    └── instructions/
-        └── *.instructions.md          # Copilot 路径作用域规则
-```
-
----
-
-## 三、五大工具规则文档终极对比
-
-| 维度 | Claude Code | Codex | Cursor | Windsurf | Gemini CLI | Copilot |
-|------|------------|-------|--------|----------|-----------|---------|
-| 主规则文件 | `CLAUDE.md` | `AGENTS.md` | `.cursor/rules/*.mdc` | `.devin/rules/*.md`（旧资料常见 `.windsurf/rules/*.md`） | `GEMINI.md` | `copilot-instructions.md` |
-| 全局个人配置 | `~/.claude/CLAUDE.md` | `~/.codex/AGENTS.md` | 设置界面 | 以 Devin / Windsurf 当前设置为准 | `~/.gemini/GEMINI.md` | IDE 设置 / 本地全局指令文件 |
-| 路径作用域 | `.claude/rules/` paths | 子目录文件 | `globs` 数组 | `globs` 字段 | JIT 自动加载 | `applyTo` frontmatter |
-| 自动记忆 | ✅ Auto Memory | ❌ | ❌ | ✅ Memories | ❌ | ❌ |
-| AGENTS.md 支持 | 内置 `cc-plugin-agents-md@builtin`（最近目录优先） | ✅ 原生 | ✅，根目录和子目录均可 | ✅，具体加载细节按当前 Devin / Windsurf 版本复核 | 可配置 | ✅（Agent 指令类型；仓库任意目录可放，但 VS Code 子目录默认需开启） |
-| 额外支持的跨工具文件 | — | — | — | — | — | `CLAUDE.md`、`GEMINI.md`（根目录） |
-| 文件格式 | Markdown + @import | 纯 Markdown | MDC（YAML frontmatter） | Markdown + frontmatter | Markdown + @import | Markdown + frontmatter |
-| 上下文查看命令 | `/memory` | 无 | 无 | 询问 Cascade | `/memory show` | 查看 References 列表 |
-| 推荐文件大小 | < 200 行 | < 500 行 | 单文件 < 100 行 | 6000/12000 字符限制 | 无明确限制 | 无明确限制 |
-
----
-
-## 四、多工具团队的终极配置方案
-
-如果你的团队同时使用多种 AI 工具，推荐以下结构：
-
-```
-project/
-├── AGENTS.md                              # 共享核心：技术栈、约定、边界、验证
-│
-├── CLAUDE.md                              # Claude Code 专属
-│   # 内容：@AGENTS.md + Claude 特有配置
-│
-├── GEMINI.md                              # Gemini CLI 专属
-│   # 内容：@AGENTS.md 或直接写（Gemini 可配置读 AGENTS.md）
-│
+├── AGENTS.md
+├── GEMINI.md
+├── CLAUDE.md
 ├── .github/
-│   ├── copilot-instructions.md            # Copilot 全局规则
+│   ├── copilot-instructions.md
 │   └── instructions/
-│       └── *.instructions.md             # Copilot 路径规则
-│
-├── .cursor/
-│   └── rules/
-│       └── *.mdc                         # Cursor 路径规则
-│
-└── .devin/
-    └── rules/
-        └── *.md                          # Devin / Windsurf 路径规则，旧项目可能仍是 .windsurf/rules
+│       ├── api.instructions.md
+│       └── testing.instructions.md
+└── docs/
+    ├── architecture.md
+    └── testing.md
 ```
 
-**AGENTS.md 写什么（所有工具共享）：**
-- 技术栈声明
-- 代码约定（命名、风格）
-- 边界规则（不能动的目录、需要审批的操作）
-- 验证步骤（提交前必须执行的命令）
+共享核心放一个权威文件；Gemini 用导入或文件名配置复用，Claude 按版本和设置选择直接 AGENTS 或导入，Copilot 保留实际使用面需要的仓库与路径指导。
 
-**工具专属文件写什么：**
-- 工具特有的行为配置（Claude 的 plan mode、Cursor 的 glob 规则）
-- 引用 AGENTS.md（避免重复维护）
-- 该工具独有的功能配置
+不要为了“全兼容”把全部内容复制到每个入口。维护时同时记录适用客户端、触发条件、验证方法和上次核验日期，才能在升级后定位变化。
 
----
+## 官方资料与差异说明
 
-> 参考资料：
-> - [Gemini CLI GEMINI.md 官方文档 - google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/gemini-md.md)
-> - [Gemini CLI 命令参考（含 /memory reload）- google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/cli-reference.md)
-> - [Gemini CLI Releases - google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli/releases)
-> - [GitHub Copilot 仓库自定义指令官方文档 - docs.github.com](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions)
+- [Gemini CLI：GEMINI.md](https://geminicli.com/docs/cli/gemini-md/)
+- [Gemini CLI：Command reference](https://geminicli.com/docs/reference/commands/)
+- [GitHub Copilot：About customizing responses](https://docs.github.com/en/copilot/concepts/prompting/response-customization)
+- [GitHub Copilot：Repository instructions](https://docs.github.com/en/copilot/how-tos/configure-custom-instructions/add-repository-instructions)
+- [GitHub Copilot：指令支持矩阵](https://docs.github.com/en/copilot/reference/custom-instructions-support)
+- [VS Code：Custom instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
+
+Gemini 的 `reload` / `refresh` 差异是本次读取官方页面时实际观察到的文档差异，未假定两者在每个版本中互为别名。Copilot 表格只描述对应使用面，不把没有列出的能力写成整个产品永久不支持。

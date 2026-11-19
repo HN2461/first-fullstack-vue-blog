@@ -1,7 +1,7 @@
 ---
 title: "第 07 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）"
 slug: "ai-mcp-mcp-79fea32a"
-summary: "面向需要在 Windows 上快速复刻 Chrome DevTools MCP 的开发者，整理 Codex 环境下的配置、验证和排障步骤，并解释为什么这类资料应归在 MCP 分类而不是单一终端工具分类。"
+summary: "按官方文档整理 Windows 上 Codex 接入 Chrome DevTools MCP 的最小配置、版本要求、分层验证、浏览器连接方式、统计开关和故障排查，保留现有认证与项目权限设置。"
 category: "MCP"
 categoryPath:
   - "AI相关"
@@ -26,178 +26,153 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 07 篇：谷歌 MCP 配置手册（Windows，Chrome DevTools MCP 复刻）
 
-## 2026-10-30 复核补充
+复核日期：2026-11-18。这里的“谷歌 MCP”专指 Google Chrome DevTools 团队维护的 `chrome-devtools-mcp`，不是 Google 全部服务的统一入口。
 
-Chrome DevTools MCP 当前更推荐直接使用 `npx -y chrome-devtools-mcp@latest`，在首次调用需要浏览器的工具时自动启动 Chrome；`--browser-url` 或远程调试端口属于连接已有浏览器的可选路径，不应再写成默认前置条件。项目还提供随版本更新的 skills 与插件安装入口，实际使用时应先看官方 README，再按宿主的 MCP 配置格式接入。
+本文配置依据 Chrome DevTools 官方 README、客户端配置指南与 Codex 当前配置 schema。只添加 MCP 服务配置；登录方式、模型提供商和项目权限沿用你自己的设置。
 
-参考：[Chrome DevTools MCP 官方仓库](https://github.com/ChromeDevTools/chrome-devtools-mcp)。
+## 1. 先确定需要哪一种入口
 
-> 适用对象：要在另一台 Windows 电脑上快速复刻可用的 Codex + Chrome DevTools MCP。
-> 更新时间：2026-10-30
-> 复核说明：Chrome DevTools MCP 以官方包默认启动或复用浏览器；远程调试端口只是连接已有浏览器的高级方式。Codex 侧 MCP 配置入口请以当前 Codex 官方文档或本机 `codex mcp list` / `codex mcp get` 输出为准。
+Chrome DevTools 当前同时提供 MCP server、`chrome-devtools` CLI、Skills 与部分宿主的插件。本文使用 **Codex + 本地 stdio MCP server**。
 
-## 1. 目标结果
+- 首次接入可以使用 `@latest`；要长期复刻环境时，把版本改成经过验证的版本号并记录。
+- 默认由 server 在首次调用需要浏览器的工具时启动 Chrome，无需预先打开 `9222` 端口。
+- 如果只想运行脚本，可评估 CLI；安装了包含该 MCP 的插件时，先检查是否已经注册同名服务。
 
-按本手册做完后，你应该达到以下状态：
+## 2. 检查基础环境
 
-1. `codex` 可以正常启动
-2. `codex mcp list` 能看到 `chrome-devtools`，且状态为 `enabled`
-3. 不再出现以下常见问题
-   - 连接 `127.0.0.1:9222` 失败
-   - `npm/npx` 报 `EPERM` 权限错误
-
-## 2. 先确认基础环境
-
-在 PowerShell 执行：
+在 PowerShell 中执行：
 
 ```powershell
-node -v
-npm -v
-npx -v
+node --version
+npm --version
+npx --version
 codex --version
 ```
 
-预期：以上 4 条命令都能输出版本号。
-如果有命令找不到，先修复 PATH，再继续。
-
-## 3. 创建 Codex 目录
-
-在 PowerShell 执行：
+官方要求使用受支持的 Node.js LTS、npm 与 Chrome。具体 Node.js 下限随包版本变化，安装前可以查包声明：
 
 ```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex" | Out-Null
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\npm-cache" | Out-Null
+npm view chrome-devtools-mcp@latest version engines
+Get-Command node, npm, npx, codex
 ```
 
-## 4. 写入配置文件（最关键）
+官方保证支持 Google Chrome 和 Chrome for Testing；其他 Chromium 浏览器可能可用，但不在同等保证范围内。先解决 PATH 或浏览器安装问题，再配置服务。
 
-文件路径：`C:\Users\<你的用户名>\.codex\config.toml`
+## 3. 备份现有配置
 
-将下面内容完整粘贴进去，再把 `<REPLACE_WITH_YOUR_TOKEN>` 替换为你的真实 token：
+默认用户配置位于 `%USERPROFILE%\.codex\config.toml`；设置过 `CODEX_HOME` 时，以实际 Codex 主目录为准。
+
+```powershell
+$codexConfigDir = if ($env:CODEX_HOME) { $env:CODEX_HOME } else { Join-Path $env:USERPROFILE '.codex' }
+New-Item -ItemType Directory -Path $codexConfigDir -Force | Out-Null
+$codexConfigFile = Join-Path $codexConfigDir 'config.toml'
+if (Test-Path -LiteralPath $codexConfigFile) {
+  $configBackup = "$codexConfigFile.backup-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+  Copy-Item -LiteralPath $codexConfigFile -Destination $configBackup
+}
+```
+
+打开已有文件，只修改对应 MCP 配置块；不要用整份示例覆盖你的模型、认证和其他服务设置。使用 UTF-8 无 BOM 保存。
+
+## 4. 添加 Windows 最小配置
 
 ```toml
-model_provider = "yunyi"
-model = "gpt-5.3-codex"
-model_reasoning_effort = "xhigh"
-disable_response_storage = true
-preferred_auth_method = "apikey"
-
-[model_providers.yunyi]
-name = "yunyi"
-base_url = "https://yunyi.rdzhvip.com/codex"
-wire_api = "responses"
-experimental_bearer_token = "<REPLACE_WITH_YOUR_TOKEN>"
-requires_openai_auth = true
-
-[windows]
-sandbox = "elevated"
-
-[mcp_servers]
-
 [mcp_servers.chrome-devtools]
 command = "cmd"
-args = ["/c", "npx", "-y", "chrome-devtools-mcp@latest", "--no-usage-statistics"]
-env = { SystemRoot = "C:\\Windows", PROGRAMFILES = "C:\\Program Files", npm_config_cache = "C:\\Users\\<你的用户名>\\.codex\\npm-cache", CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS = "1" }
-startup_timeout_ms = 20000
+args = ["/c", "npx", "-y", "chrome-devtools-mcp@latest", "--no-usage-statistics", "--no-performance-crux"]
+env = { SystemRoot = "C:\\Windows", PROGRAMFILES = "C:\\Program Files" }
+startup_timeout_sec = 20
 ```
 
-## 5. 可选：配置项目信任（避免反复询问）
+- `cmd /c` 是官方 Windows 客户端示例采用的启动方式，便于执行 `npx` 包装命令。
+- `SystemRoot`、`PROGRAMFILES` 按当前机器真实路径填写；系统不是安装在 C 盘时相应调整。
+- 当前 Codex schema 支持 `startup_timeout_sec`，也保留 `startup_timeout_ms`。本文统一使用秒，避免两个字段同时填写产生歧义。
+- `--no-usage-statistics` 关闭工具使用统计；`--no-performance-crux` 关闭通过 trace URL 查询 CrUX 的通道。这不等于阻止浏览器访问目标站点，也不等于禁止向当前 AI 宿主返回页面内容。
+- 默认创建的是工具自己的浏览器用户目录。需要临时隔离会话时，可在 `args` 增加 `--isolated`；浏览器关闭后该临时资料目录会清理，登录态不应预期保留。
 
-如果你想让常用目录默认 trusted，可在 `config.toml` 追加：
+Chrome DevTools 本地 server 本身不要求配置模型 API token。不要为了接入它添加第三方模型网关、降低沙箱等级或把整个桌面目录设为受信任。
 
-```toml
-[projects.'C:\Users\<你的用户名>\Desktop']
-trust_level = "trusted"
+## 5. 也可以通过 CLI 注册
 
-[projects.'C:\Users\<你的用户名>\Desktop\你的项目目录']
-trust_level = "trusted"
+如果没有同名服务，可使用：
+
+```powershell
+codex mcp add chrome-devtools -- cmd /c npx -y chrome-devtools-mcp@latest --no-usage-statistics --no-performance-crux
 ```
 
-## 6. 验证 MCP 是否生效
+CLI 注册和手工配置选一种即可；需要 Windows 环境变量和启动超时时，再补充第 4 节字段。命令随 Codex 版本可能调整，可先执行 `codex mcp add --help` 确认当前版本支持。
 
-在 PowerShell 执行：
+## 6. 分两层验证
+
+先检查配置：
 
 ```powershell
 codex mcp list
 codex mcp get chrome-devtools
 ```
 
-预期检查点：
+确认服务名、command、args 与超时设置正确。`enabled` 只代表配置允许启用，不能证明 Chrome 已连接或工具执行成功。
 
-1. 能看到 `chrome-devtools`
-2. `Status` 为 `enabled`
-3. `command` 是 `cmd`
-4. `args` 含 `npx -y chrome-devtools-mcp@latest`
+随后重新连接 MCP 或开启一个新 Codex 会话，让当前客户端加载配置。是否支持热重载依赖客户端，不必默认关闭其他无关窗口或强杀全部进程。
 
-## 7. 必做步骤：重启 Codex
+当确实需要浏览器验证且已获授权时，选择一个无敏感数据的本地测试页，验证读取页面、控制台和网络信息。先确认工具调用成功，再进行性能 trace 等较重操作。文档配置核对本身不需要打开浏览器。
 
-配置改完后必须执行：
+## 7. 连接已有浏览器属于可选路径
 
-1. 关闭所有 Codex 窗口和进程
-2. 重新打开 Codex
+| 方式 | 适用场景 | 前提 |
+| --- | --- | --- |
+| 默认启动 | 独立调试、首次接入 | Chrome 可发现，server 有启动权限 |
+| `--browser-url=http://127.0.0.1:9222` | 连接已开启远程调试的 Chrome | 对应调试端口已实际监听 |
+| `--autoConnect` | 连接受支持的本地 Chrome 会话 | 官方要求 Chrome 144+，并在 `chrome://inspect/#remote-debugging` 启用相应调试服务 |
+| `--executable-path=...` | Chrome 不在标准安装位置 | 指向真实 Chrome 可执行文件 |
 
-不重启会继续使用旧配置，导致你以为“改了但没生效”。
+这些参数应按目标方式选择，不能为了排错全部一起加。已有浏览器可能包含登录态和私人页面；连接前确认该会话适合向 AI 工具暴露。
 
-## 8. 一键自检命令（可直接复制）
+## 8. 常见故障
+
+### 8.1 `EPERM` 或 npm 缓存不可写
+
+先确认报错指向哪个目录，不要直接用管理员权限重跑所有进程。只有缓存确实不可写时，才改用当前用户的独立缓存目录：
 
 ```powershell
-Write-Host "=== 版本 ==="
-node -v
-npm -v
-npx -v
-codex --version
-
-Write-Host "=== npm 配置 ==="
-npm config get cache
-npm config get registry
-
-Write-Host "=== MCP 列表 ==="
-codex mcp list
-
-Write-Host "=== MCP 详情 ==="
-codex mcp get chrome-devtools
+$mcpCacheDir = Join-Path $env:LOCALAPPDATA 'chrome-devtools-mcp/npm-cache'
+New-Item -ItemType Directory -Path $mcpCacheDir -Force | Out-Null
+$mcpCacheDir
 ```
 
-## 9. 常见故障与处理
+把输出路径写入该服务的 `env`，例如增加 `npm_config_cache = 'C:\Users\<用户名>\AppData\Local\chrome-devtools-mcp\npm-cache'`。不要覆盖原有 `SystemRoot`、`PROGRAMFILES`。
 
-### 9.1 报 `EPERM`（npx 拉包失败）
+### 8.2 无法连接 `127.0.0.1:9222`
 
-现象：日志出现 `npm error code EPERM`、`operation not permitted`。
+检查是否显式设置了 `--browser-url`。需要独立浏览器时删除这个参数，让 server 按默认方式启动；需要已有会话时，核对 Chrome 的调试开关、端口、用户目录和监听状态。
 
-处理步骤：
+### 8.3 MCP 启动超时
 
-1. 确认 `config.toml` 中 `npm_config_cache` 指向用户目录（如 `C:\Users\<你>\.codex\npm-cache`）
-2. 确认该目录存在（见第 3 步）
-3. 彻底重启 Codex
+第一次 `npx` 需要下载包。核对 Node/npm 版本、网络、代理、证书和缓存写权限，再按实际需要增加 `startup_timeout_sec`。不要通过关闭 TLS 校验掩盖下载问题。
 
-### 9.2 报 `Could not connect to Chrome` / `127.0.0.1:9222`
+可以只检查包命令能否启动，而不打开浏览器：
 
-常见原因：配置里写了 `--browser-url=http://127.0.0.1:9222`，但本机没有打开这个调试端口。
+```powershell
+npx -y chrome-devtools-mcp@latest --help
+```
 
-处理步骤：
+### 8.4 服务已启用，但看不到工具或参数不匹配
 
-1. 删除 `--browser-url=...` 参数
-2. 使用本手册第 4 步给出的默认配置
-3. 重启 Codex
+检查当前会话是否加载了修改后的配置，是否同时安装了包含相同 MCP 的插件，以及 Skills 是否仍描述旧版本工具。按该宿主的重连/更新方式处理，再用一个小任务验证。
 
-说明：仅在“你明确要连接一个已开启远程调试端口的 Chrome”时，才需要 `--browser-url`。
+## 9. 维护与清理
 
-### 9.3 `codex mcp list` 看不到服务
+记录 Codex、Node、Chrome、MCP 包和相关 Skills 的版本。更新工具后同步更新 Skills；批量升级前先验证一个小任务。
 
-处理步骤：
+浏览器会话、trace、截图可能包含 URL、请求和页面数据。只保存排障所需产物，结束后关闭本次启动的临时会话。已有日常浏览器应由用户决定何时关闭。
 
-1. 检查路径是否正确：`%USERPROFILE%\.codex\config.toml`
-2. 检查 TOML 语法（中括号、逗号、引号）
-3. 重启 Codex 后再执行 `codex mcp list`
+## 10. 官方来源
 
-## 10. 安全注意事项
+- [Chrome DevTools README](https://github.com/ChromeDevTools/chrome-devtools-mcp)
+- [客户端配置与 Windows/Codex 示例](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/client-configurations.md)
+- [参数与配置指南](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/configuration.md)
+- [已有浏览器与高级连接方式](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/docs/advanced-usage.md)
+- [Codex MCP 文档](https://developers.openai.com/codex/mcp/)
+- [Codex 当前配置 schema](https://github.com/openai/codex/blob/main/codex-rs/core/config.schema.json)
 
-1. 真实 token 不要发在聊天、邮件、工单里
-2. 文档和截图里只保留占位符
-3. 一旦怀疑泄露，立即更换 token
-
-## 11. 官方参考链接
-
-- OpenAI Codex MCP 文档：<https://developers.openai.com/codex/mcp/>
-- OpenAI Codex 配置文档：<https://developers.openai.com/codex/config/>
-- Chrome DevTools MCP 说明：<https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/main/README.md>
+本轮通过官方 GitHub 文档和配置 schema 核验参数；Codex 文档页面在本次抓取中返回 403，未将不可读取的页面内容当作已验证证据。

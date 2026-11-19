@@ -25,15 +25,11 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 05 篇：MCP 架构与安全边界问题
 
-## 2026-10-30 复核补充
+复核日期：2026-11-18。架构与授权结论依据 MCP `2026-07-28` 稳定规范及其安全文档。
 
-架构回答需要补充一个兼容性提醒：2026-07-28 将 Streamable HTTP 改为无协议级 session 的自包含请求，能力和版本按请求协商，并新增 `server/discover`；Tasks 从核心协议移到官方扩展，MRTR 用 `InputRequiredResult` 表达中间输入。安全边界仍然由宿主审批、最小权限、隔离和审计负责，协议升级不会替代这些控制。
+当前版本已取消初始化握手和协议级 session，每个请求携带版本、能力信息。服务器借助 MRTR 的 `InputRequiredResult` 请求补充输入；Tasks 通过可选扩展提供持久任务句柄。业务登录态、浏览器上下文、文件锁与数据库事务仍由各应用自己管理。
 
-参考：[MCP 2026-07-28 稳定规范](https://modelcontextprotocol.io/specification/2026-07-28)。
-
-复核日期：2026-10-30
-
-> 时效说明：本文的 host / client / server、tools / resources / prompts、安全治理等基础回答仍按 MCP 当前正式规范复习。官方 draft 中的协议状态、授权和弃用策略变化属于进阶趋势；讲架构时可以补充“协议层可能减少会话状态依赖，但应用层仍然可能有自己的业务状态”。
+“协议无状态”不会自动带来请求幂等，也不会让浏览器或数据库变成无状态服务。客户端重试写操作时，应使用业务幂等键或先核对结果，避免重复提交。
 
 ## 第一题：MCP 架构里的 Host、Client、Server 分别是什么
 
@@ -166,3 +162,39 @@ MCP 一旦连到真实环境，就不再只是一个问答功能，而是外部�
 
 - 你们现在更希望 AI 帮忙读和查，还是已经希望它改和执行？
 - 如果进入生产场景，哪些动作在你们团队里一定需要人工确认？
+
+## 第五题：远程 OAuth 和本地 stdio 的权限边界有什么区别
+
+### 30 秒回答
+
+受保护的 HTTP MCP server 通常作为 OAuth 资源服务器，客户端获取明确面向该资源的令牌；本地 stdio server 是宿主启动的进程，其文件和网络权限受操作系统、沙箱和运行身份控制。两者不能用同一套“登录成功就安全”的判断。
+
+### 2 分钟展开
+
+- **远程授权**：按 OAuth 2.1 与 Protected Resource Metadata 发现授权服务。授权请求和令牌请求中的 `resource` 指向目标 MCP server；服务端校验受众、有效期与操作权限，禁止把别处的 token 直接透传给下游。
+- **授权方身份**：客户端校验授权响应的 `iss`，凭据按 issuer 隔离保存。更换授权服务器后不能沿用旧方签发的客户端凭据。
+- **客户端注册**：当前规范优先建议 Client ID Metadata Documents；预注册仍可使用，DCR 已标为 Deprecated，保留作兼容。不要把 DCR 写成所有远程 MCP 的必选步骤。
+- **本地进程**：安装 `npx` / `uvx` server 相当于执行软件。限定工作目录、运行账号、可见环境变量与网络权限；stdio 标准输出不能夹带普通日志。
+- **本地 HTTP**：监听回环地址，并校验 Origin；仅“端口在本机”不足以防止来自网页的 DNS rebinding 等攻击。
+
+### 不能只看工具名称或描述
+
+`readOnlyHint`、`destructiveHint` 等工具注解是提示信息，不是强制授权。服务端仍要校验用户和目标对象权限，宿主不能因为工具自称只读就扩大权限。
+
+网页、仓库文件和工具返回值可能包含提示注入。把它们当作待分析的数据，不允许其改写用户授权、要求上传凭据或跳过审批。只读检索也可能泄露私人仓库、访问令牌、浏览器登录态和内部地址。
+
+远程 URL、OAuth 元数据和重定向地址都应校验目标与来源，限制 SSRF、非预期内部网络访问以及混淆代理风险。协议规范提供约定，实际防护需要服务端和宿主执行。
+
+## 第六题：如何表达新版协议的兼容与缓存边界
+
+1. 新版 Streamable HTTP 不保留 `Mcp-Session-Id`，流中断后用新请求 ID 重发；业务需要另行处理重复执行。
+2. `ttlMs` 只表示缓存新鲜度提示，`cacheScope: private` 不可在不同用户之间共享。
+3. Roots、Sampling、Logging 处于弃用窗口，不代表立即失效；新实现应按官方迁移建议替换。
+4. MCP Apps、Tasks 等扩展必须检查双方能力和扩展阶段，不能由工具描述自行开启。
+
+## 本轮核验来源
+
+- [MCP 2026-07-28 变更记录](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
+- [Authorization](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
+- [Security Best Practices](https://modelcontextprotocol.io/specification/2026-07-28/basic/security_best_practices)
+- [Transport bindings](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports)

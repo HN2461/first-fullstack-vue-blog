@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：Codex Plugin 体系详解与实战"
 slug: "ai-plugin-codex-codexplugin-9b9edb10"
-summary: "深入解析 Codex Plugin 的目录结构、manifest 形态、官方 `openai/plugins` 仓库、本机实装目录，以及 `codex plugin marketplace` 的配置与管理方式，帮助开发者更稳地理解 Codex 插件体系。"
+summary: "依据 2026-11-18 OpenAI 官方插件仓库与 CLI 实现，讲解 Codex manifest、marketplace、plugin add/list/remove、技能包制作和团队安装验证。"
 category: "Plugin"
 categoryPath:
   - "AI相关"
@@ -28,370 +28,181 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Codex Plugin 体系详解与实战
 
-## 2026-10-30 复核补充
-
-OpenAI `openai/plugins` 当前 README 明确：每个 Codex 插件必须有 `.codex-plugin/plugin.json`，可选配 `skills/`、`.app.json`、`.mcp.json`、插件级 `agents/`、`commands/`、`hooks.json` 与 `assets/`。默认 marketplace catalog 是 `.agents/plugins/marketplace.json`，API key 登录用户还有 `.agents/plugins/api_marketplace.json`；这两个路径是仓库 catalog，不等于用户侧 `~/.codex/config.toml` 的持久化配置。Codex 仍应使用 `codex plugin marketplace ...` 管理 source，不要套用 Claude Code 的 `/plugin install`。
-
-参考：[OpenAI Plugins README](https://github.com/openai/plugins/blob/main/README.md)。
-
-> 资料来源：OpenAI Academy、OpenAI Codex 官方文档、OpenAI Codex 官方产品页、`openai/plugins` 官方仓库、本机 `~/.codex/plugins/` 与 `~/.codex/config.toml` 实装。2026-10-30 按官方口径与本机行为重校。
+> 核验日期：2026-11-18。本次以 OpenAI 官方 `openai/plugins` 示例仓库和 `openai/codex` 的 CLI 实现为依据。文档站请求返回 403；仓库 `main` 的能力需与已安装版本的 `--help` 对照。
 
 [[toc]]
 
----
+## 一、Plugin 为工作流提供安装与分发边界
 
-## 一、Codex Plugin 的发布背景
+Codex Plugin 可以把技能、MCP、应用集成、命令、代理、hooks 和配套资源组织成一个可安装单元。单个 `SKILL.md` 描述任务流程，插件则负责让这套流程及依赖一起被发现和管理。
 
-OpenAI 已经把 Plugin 作为 Codex 的正式能力之一来描述。
+以团队前端工作流为例：组件设计 Skill 说明实现步骤，浏览器测试 Skill 规定验证方法，MCP 接入外部设计资料，插件统一提供这些内容。账号授权、运行环境和执行权限仍由客户端与组织配置决定，安装插件不等于自动授权所有操作。
 
-当前可以直接对应官方资料的几条口径：
+## 二、官方仓库的实际结构
 
-- OpenAI Academy 明确把 **Plugins** 和 **Skills** 并列介绍
-- OpenAI 产品页会动态更新使用量和插件数量；阅读时以页面当前统计为准，不把某次复核的数字写成稳定事实
-
-这意味着 Codex 的插件体系已经不是"零散试验"，而是被放进官方产品叙事里的正式扩展层。
-
-从工程角度看，Codex Plugin 的定位可以概括为：
-
-- 把 Skill、应用集成、MCP 配置和其他配套资源组织成可安装单元
-- 让插件能被 marketplace / 配置系统识别和管理
-- 把"个人机器上的能力目录"升级成"可分发的能力包"
-
----
-
-## 二、Codex 官方如何区分 Plugin 与 Skill
-
-OpenAI 官方对两者的区分很值得单独拎出来：
-
-| 维度 | Skill | Plugin |
-| --- | --- | --- |
-| **更像什么** | 单一代码库或工作流里的方法模板 | 可安装、可复用的更广义能力包 |
-| **使用范围** | 更偏个人、本地、具体任务 | 更偏团队、共享、跨项目 |
-| **包含内容** | `SKILL.md` 与辅助资源 | 一个或多个 skill，加上应用或配置层 |
-| **分发方式** | 更像内容复用 | 更像原生安装和 marketplace 复用 |
-
-这也是为什么你写这组文章时，不能把两者简单写成"只是名字不同"。**Skill 更偏内容本体，Plugin 更偏打包与分发。**
-
----
-
-## 三、Codex Plugin 的实际目录长什么样
-
-### 3.1 本机已安装插件目录
-
-当前本机能看到的已安装官方插件在：
+`openai/plugins` README 当前明确要求每个示例插件具备 `.codex-plugin/plugin.json`：
 
 ```text
-~/.codex/plugins/
-└── cache/
-    └── openai-primary-runtime/
-        ├── documents/
-        ├── presentations/
-        └── spreadsheets/
-```
-
-其中 `documents` 的实际结构大致如下：
-
-```text
-~/.codex/plugins/cache/openai-primary-runtime/documents/26.521.10419/
+plugins/team-review/
 ├── .codex-plugin/
 │   └── plugin.json
-├── assets/
-│   ├── icon.png
-│   └── logo.png
-├── README.md
-└── skills/
-    └── documents/
-        ├── agents/
-        │   └── openai.yaml
-        ├── assets/
-        ├── examples/
-        ├── ooxml/
-        ├── references/
-        ├── scripts/
-        ├── tasks/
-        ├── troubleshooting/
-        ├── render_docx.py
-        └── SKILL.md
+├── skills/
+│   └── review-pr/
+│       ├── SKILL.md
+│       └── references/checklist.md
+├── agents/          # 可选：插件级代理
+├── commands/        # 可选
+├── hooks.json       # 可选
+├── .mcp.json        # 可选：MCP 配置
+├── .app.json        # 可选：应用集成
+└── assets/          # 可选：图标、模板等
 ```
 
-从这个实装结构里，至少能确认几件事：
+不要因为本机缓存中出现 `openai-primary-runtime/<name>/<version>`，就要求所有用户把插件手动复制进去。缓存由客户端管理，可能随产品、版本和来源变化；应通过原生安装入口加载。
 
-1. **Codex Plugin 不是只有一个 manifest 文件**，而是完整目录包
-2. **一个 Plugin 可以内含 skill 目录**，skill 仍然是具体工作流的主体
-3. **安装后会落到本地缓存目录**，而不是只存在远端
-4. **插件具备版本目录**，例如 `26.521.10419`
+另一个需要区分的概念是 Agent Plugins 开放格式，其核心 manifest 位于根目录 `plugin.json`。本节描述 OpenAI 仓库当前使用的 Codex 专属结构，不能仅改一个文件名就假设完成格式转换。
 
-### 3.2 `openai/plugins` 官方仓库给出的结构线索
+## 三、manifest：从可核对的官方示例开始
 
-`openai/plugins` 官方仓库 README 写得很清楚：
-
-- 每个插件都需要 `.codex-plugin/plugin.json`
-- 可选的伴随结构包括：
-  - `skills/`
-  - `.app.json`
-  - `.mcp.json`
-  - plugin-level `agents/`
-  - `commands/`
-  - `hooks.json`
-  - `assets/`
-
-这条信息非常关键，因为它比"社区文章里的猜测字段"更权威，也更贴近当前实际形态。
-
----
-
-## 四、`.codex-plugin/plugin.json` 现在到底长什么样
-
-### 4.1 本机官方插件真实示例
-
-`documents` 插件本机 manifest 的核心内容是：
+官方 `build-web-apps` 示例包含 `name`、`version`、`description`、`skills` 和 `interface` 等字段。下面是按该示例精简的教学版本，并非宣称所有字段都必填：
 
 ```json
 {
-  "name": "documents",
-  "version": "26.521.10419",
-  "description": "Create and edit document artifacts in Codex, including Word files and Google Docs.",
-  "author": {
-    "name": "OpenAI",
-    "email": "support@openai.com",
-    "url": "https://openai.com/"
-  },
-  "homepage": "https://openai.com/",
-  "repository": "https://github.com/openai/openai",
-  "license": "MIT",
-  "keywords": ["doc", "docs", "document"],
+  "name": "team-review",
+  "version": "1.0.0",
+  "description": "Review project changes using the team's checklist.",
   "skills": "./skills/",
   "interface": {
-    "displayName": "Documents",
-    "shortDescription": "Create and edit document artifacts",
-    "category": "Productivity",
-    "capabilities": ["Interactive", "Write"],
-    "composerIcon": "./assets/icon.png",
-    "logo": "./assets/logo.png"
+    "displayName": "Team Review",
+    "shortDescription": "Review changes and report regression risks"
   }
 }
 ```
 
-### 4.2 现在更稳妥的字段判断
+三个容易混淆的位置：
 
-结合本机官方插件和 `openai/plugins` 官方仓库，当前更稳妥的判断是：
-
-| 字段 | 当前能确认什么 |
+| 文件/目录 | 职责 |
 | --- | --- |
-| `name` | 插件标识符，官方插件都显式提供 |
-| `version` | 官方插件显式提供，不一定必须是 semver，也可能是运行时版本号 |
-| `description` | 官方插件显式提供 |
-| `skills` | 当前官方插件常见写法是指向 `./skills/` |
-| `interface` | 当前 Codex 插件里很重要，用于显示名、图标、分类、默认提示等 UI / 产品元信息 |
-| `author` / `homepage` / `repository` / `license` / `keywords` | 官方插件中也常见 |
-| `apps` | 在部分插件里出现，例如 `slack`、`notion` 这类集成型插件会指向 `./.app.json` |
+| `.codex-plugin/plugin.json` | 插件元数据、组件与界面配置 |
+| `skills/<name>/SKILL.md` | 具体技能元信息与任务步骤 |
+| 技能中的 `agents/openai.yaml` | Codex 技能适配元数据，属于产品扩展 |
 
-这里要特别注意两点：
+`interface` 不是 Agent Skills Front Matter 的通用标准；技能内部的 `agents/` 也不能直接等同于插件根目录的代理组件。
 
-1. **不要把你自己举的完整 JSON 示例当成官方 schema**
-2. **不要把 Codex 的 `plugin.json` 误写成和 Claude Code 完全同一套字段**
+## 四、marketplace、安装缓存和用户设置
 
-Codex 当前更明显的特征是：它把 plugin-level 的产品展示信息直接放在 `interface` 字段里。
-
-### 4.3 `agents/openai.yaml` 应该怎么理解
-
-在已安装 skill 目录里，你还能看到 `skills/<name>/agents/openai.yaml`。例如：
-
-```yaml
-interface:
-  display_name: "Documents"
-  short_description: "Create and edit Word and Google Docs files"
-  icon_small: "./assets/file-document.png"
-  icon_large: "./assets/file-document.png"
-  brand_color: "#2563EB"
-```
-
-更稳妥的理解方式是：
-
-- 它确实承担了展示层 / 发现层信息
-- 但它**不是**你能对外宣称的"所有 Codex Plugin 的唯一标准入口"
-- 真正对插件打包最关键、最稳定的还是 `.codex-plugin/plugin.json`
-
-换句话说：
-
-> `openai.yaml` 更像运行时或 skill 侧附属元信息，`plugin.json` 才是插件包级别的正式 manifest。
-
----
-
-## 五、Codex 的 marketplace 现在应该怎么理解
-
-这一块最容易被社区文章写乱。
-
-### 5.1 官方仓库、已安装插件、用户配置不是一回事
-
-它们至少是三层不同概念：
-
-1. **插件仓库内容本身**
-   例如 `openai/plugins` 仓库，里面每个插件目录都包含 `.codex-plugin/plugin.json`
-2. **安装到本机后的缓存内容**
-   例如 `~/.codex/plugins/cache/openai-primary-runtime/...`
-3. **用户本机对 marketplace 和插件启用状态的配置**
-   例如 `~/.codex/config.toml`
-
-本机 `config.toml` 里当前能看到：
-
-```toml
-[marketplaces.openai-primary-runtime]
-last_updated = "2026-07-04T13:52:43Z"  # 历史本机快照，当前配置请以本机文件为准
-source_type = "local"
-source = '\\?\C:\Users\HN246\.cache\codex-runtimes\codex-primary-runtime\plugins\openai-primary-runtime'
-
-[plugins."documents@openai-primary-runtime"]
-enabled = true
-```
-
-这说明：
-
-- marketplace 的配置持久化在 **`~/.codex/config.toml`**
-- 插件启用状态也记录在 **`~/.codex/config.toml`**
-- 文章里不该把用户侧配置路径写成 `~/.agents/plugins/marketplace.json`
-
-### 5.2 `.agents/plugins/marketplace.json` 是什么
-
-在 `openai/plugins` 仓库内部，确实能看到类似：
+官方仓库目前有两份 catalog：
 
 ```text
 .agents/plugins/marketplace.json
+.agents/plugins/api_marketplace.json
 ```
 
-但它更像是**marketplace 仓库自身的目录与 catalog 文件结构**，不是你个人机器上日常持久化配置 marketplace 的主路径。
+前者是默认 marketplace，后者用于 API key 登录用户对应的目录。默认文件本次登记名称为 `openai-curated`；名称属于 catalog 数据，可能与客户端预置源、API key 源不同，因此先列出实际 source，再选择插件。
 
-这一点一定要和用户侧配置区分开。
+这两份文件是 **发布仓库里的插件索引**。它们不等于用户应自行创建的全局配置文件，也不等于安装缓存。用户端配置与启用状态由客户端维护；复制 catalog 文件到错误目录通常不能完成安装。
 
-### 5.3 `codex plugin marketplace` CLI 现在能做什么
+## 五、当前 CLI 已包含插件安装、列出和删除
 
-本机 `codex plugin --help` 和 `codex plugin marketplace --help` 能确认当前 CLI 明确提供：
-
-- `codex plugin marketplace add <SOURCE>`
-- `codex plugin marketplace upgrade [MARKETPLACE_NAME]`
-- `codex plugin marketplace remove <MARKETPLACE_NAME>`
-
-而且 `add` 的帮助信息明确写了 `SOURCE` 支持：
-
-- `owner/repo[@ref]`
-- HTTP(S) Git URL
-- SSH URL
-- 本地目录
-
-这意味着一个重要结论：
-
-> **当前 Codex 不是“只能本地路径装社区插件”。至少在 marketplace source 这一层，它已经支持 GitHub / Git URL / SSH / local directory。**
-
-### 5.4 现在不要再写成“Marketplace 三级分发”
-
-把 Codex 直接概括成"官方 / 项目 / 用户三级 marketplace"容易误导，原因是：
-
-- 官方文档和本机行为更直接体现的是 **marketplace source + config.toml 持久化**
-- `.agents/plugins/marketplace.json` 更像仓库内部 catalog 文件，而不是统一用户配置路径
-- CLI 当前明确暴露的是 **marketplace 管理命令**，不是你文里原来那套 `/plugin install` 斜杠命令体系
-
-更稳妥的写法应该是：
-
-- **官方 curated marketplace / runtime**
-- **用户添加的 marketplace sources**
-- **每个 marketplace 源内部自己的 catalog 结构**
-
----
-
-## 六、Codex 的插件安装与管理，哪些是“确认过”的
-
-### 6.1 已确认的管理入口
-
-当前我能通过本机 CLI 确认的，是 marketplace 管理能力：
+旧版文章仅列 `codex plugin marketplace ...`，现在已不完整。核验的官方 CLI 源码明确包含：
 
 ```bash
-codex plugin marketplace add <SOURCE>
-codex plugin marketplace upgrade
-codex plugin marketplace remove <MARKETPLACE_NAME>
+codex plugin --help
+codex plugin marketplace --help
+codex plugin marketplace list
+codex plugin list
 ```
 
-这部分是硬事实，因为 `--help` 就能直接看到。
-
-### 6.2 不要再写成 `/plugin install`
-
-你原稿里最需要修正的点之一，就是把 Codex 写成：
+插件管理支持以下形式：
 
 ```bash
-/plugin install documents
-/plugin status documents
+codex plugin add <plugin>@<marketplace>
+codex plugin add <plugin> --marketplace <marketplace>
+codex plugin remove <plugin>@<marketplace>
 ```
 
-但本机 `codex --help` / `codex plugin --help` 并没有暴露这套斜杠命令为 Codex CLI 主入口。更稳妥的表述应该是：
+尖括号是占位符，执行时替换成真实名称，不要原样输入。`plugin list` 当前也提供 JSON 输出及按 marketplace 筛选；以安装版本的帮助信息确认参数。
 
-- **Codex CLI 明确提供的是 marketplace 管理命令**
-- **插件的发现、启用、实际使用会体现在应用内 / 运行时 / 配置文件中**
-- **不要把 Claude Code 的 `/plugin ...` 直接套到 Codex 上**
+marketplace 管理与插件管理是不同操作：
 
-### 6.3 现在更适合怎么教读者
+```bash
+codex plugin marketplace add <source>
+codex plugin marketplace list
+codex plugin marketplace upgrade <marketplace>
+codex plugin marketplace remove <marketplace>
+```
 
-如果是写给读者的实操建议，推荐这样说：
+`upgrade` 刷新来源快照，不能在没有依据时解释为“所有已安装插件、全部依赖、全部账号连接均已升级”。移除来源与卸载某个插件也应分别理解。
 
-1. 先理解插件包结构和 manifest
-2. 再看 `~/.codex/config.toml` 中 marketplace 与 plugins 的记录方式
-3. 通过 `codex plugin marketplace add ...` 管理插件源
-4. 结合运行时已安装插件目录，理解插件真正落到了哪里
+## 六、从官方示例开始安装
 
-这样更贴近当前 Codex 的真实行为。
+支持这些命令的版本可以按以下顺序操作：
 
+```bash
+codex plugin marketplace add openai/plugins
+codex plugin marketplace list
+codex plugin list
+```
+
+确认列出的 marketplace 名称和目标插件后，再执行 `codex plugin add`。例如默认 catalog 确实显示为 `openai-curated` 且包含 `build-web-apps` 时：
+
+```bash
+codex plugin add build-web-apps@openai-curated
+```
+
+API key 登录、组织策略或不同产品入口可能显示另一组可用插件。安装失败时记录具体错误：是源不存在、插件名不匹配、版本缺少命令、组织禁止安装，还是连接器尚未授权。不要通过盲改缓存目录规避这些问题。
+
+## 七、自建一个只含 Skill 的团队插件
+
+先准备上一节的 `team-review` 目录与 manifest，再写 `skills/review-pr/SKILL.md`：
+
+```markdown
+---
+name: review-pr
+description: Review changed code for correctness, regressions, and missing tests. Use when reviewing a pull request or preparing a change for merge.
 ---
 
-## 七、从本机实装理解 Codex Plugin 的工作方式
+## Workflow
 
-以 `Documents` 插件为例，安装后你并不只是得到一个名字，而是得到一整套可调用的工作流资源：
+1. Inspect the changed files and the relevant project instructions.
+2. Read references/checklist.md for the team's review criteria.
+3. Verify the risky behavior with the smallest relevant checks.
+4. Report findings with file locations, impact, and evidence.
+```
 
-| 能力 | 来源 | 说明 |
-| --- | --- | --- |
-| 文档工作流定义 | `skills/documents/SKILL.md` | 负责什么时候用、怎么做 |
-| 辅助脚本 | `skills/documents/scripts/` | 包含大量 Python / 处理脚本 |
-| 任务模板 | `skills/documents/tasks/` | 把常见任务拆成更细的操作说明 |
-| 参考资料 | `skills/documents/references/` | 作为稳定的内部参考 |
-| OOXML 细节说明 | `skills/documents/ooxml/` | 负责底层格式处理 |
-| 显示元信息 | `plugin.json` 与 `agents/openai.yaml` | 控制发现、展示和提示语 |
+随包提供 `references/checklist.md`，其中写项目真正需要的检查，例如权限判定、输入边界和数据兼容。然后将插件登记到团队 marketplace，并按当前客户端提供的 source 管理方式安装。
 
-更有意思的是，`Documents` skill 还会引用其他插件能力。例如它会引导使用 Google Drive 插件完成 Google Docs 原生导入。这说明：
+团队应该版本化 **插件源文件和 catalog**。密钥、个人配置和安装缓存不进入插件包。共享配置可声明所需环境变量，但每位使用者仍需在自己的环境中完成授权。
 
-> **Codex Plugin 不是孤岛，它可以与其他插件和应用能力形成协作网络。**
+## 八、前端开发插件案例
 
----
+OpenAI 当前示例仓库可直接核对：
 
-## 八、Codex Plugin 当前更稳妥的结论
+| 官方插件示例 | 可借鉴的组织方式 |
+| --- | --- |
+| `build-web-apps` | 页面构建、前端测试、组件和支付/数据库相关技能分工 |
+| `figma` | 设计资料获取、Code Connect、设计系统工作流 |
+| `expo` | Expo / React Native、SDK 升级及 EAS 工作流 |
+| `netlify` | 部署相关工作流与服务接入 |
+| `remotion` | 面向视频生成的技能组合 |
 
-### 8.1 已经可以明确说对的
+案例代表仓库当前内容，不代表这些插件在每个账号和客户端上默认启用。引用社区插件时还要单独检查作者、许可证、脚本依赖与更新记录。
 
-- Codex 官方支持插件体系
-- 官方存在 `.codex-plugin/plugin.json`
-- 官方存在 `openai/plugins` 仓库
-- 本机有 `~/.codex/plugins/cache/` 安装缓存目录
-- marketplace 与插件启用状态会写入 `~/.codex/config.toml`
-- `codex plugin marketplace add` 支持 GitHub、Git URL、SSH 与本地目录源
+## 九、安装后验证什么
 
-### 8.2 不建议再写成定论的
+1. 插件出现在当前客户端可用列表中，名称与来源符合预期。
+2. 点名具体技能能够加载正确说明，任务描述也能合理匹配。
+3. 相对引用能找到随包文件，脚本没有依赖作者机器的绝对路径。
+4. 需要 MCP 或应用连接时，确认服务可用、账号授权和操作范围。
+5. 用一个真实小任务检查结果；记录插件版本或提交、客户端版本和验证命令。
 
-- "Codex 用 `/plugin install` 管理插件"
-- "社区插件只能本地路径安装"
-- "Marketplace 明确分官方 / 项目 / 用户三级，且路径就是 `~/.agents/plugins/marketplace.json`"
-- "manifest 必填字段只有 `name/version/description`，其他字段是固定 schema"
+浏览器、发消息、部署等动作是否允许，仍依据当前任务授权和项目规则。写进 Skill 的步骤不应覆盖更高优先级的限制。
 
-### 8.3 面向读者的实操建议
+## 参考资料
 
-1. **先看官方仓库**
-   从 `openai/plugins` 理解插件包的组成，而不是先看二手博客
-2. **再看本机实装**
-   用 `~/.codex/plugins/cache/` 对照官方目录，理解安装结果
-3. **最后看配置**
-   用 `~/.codex/config.toml` 观察 marketplace 源和插件启用状态
-
----
-
-## 九、参考资料
-
-- [OpenAI Academy: Codex Plugins and Skills](https://openai.com/academy/codex-plugins-and-skills/)
-- [OpenAI: Codex for almost everything](https://openai.com/index/codex-for-almost-everything/)
-- [OpenAI Plugins 官方仓库](https://github.com/openai/plugins)
-- [OpenAI Codex 官方仓库](https://github.com/openai/codex)
-- 本机 `~/.codex/plugins/cache/openai-primary-runtime/` 实装目录
-- 本机 `~/.codex/config.toml` marketplace 与 plugins 配置
+- [OpenAI Plugins README](https://github.com/openai/plugins/blob/main/README.md)
+- [build-web-apps 官方 manifest](https://github.com/openai/plugins/blob/main/plugins/build-web-apps/.codex-plugin/plugin.json)
+- [默认 marketplace catalog](https://github.com/openai/plugins/blob/main/.agents/plugins/marketplace.json)
+- [Codex plugin CLI 官方实现](https://github.com/openai/codex/blob/main/codex-rs/cli/src/plugin_cmd.rs)
+- [Codex marketplace CLI 官方实现](https://github.com/openai/codex/blob/main/codex-rs/cli/src/marketplace_cmd.rs)
+- [Build plugins 指南](https://developers.openai.com/codex/plugins/build)（本次抓取返回 403，作为进一步阅读入口）

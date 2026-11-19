@@ -1,7 +1,7 @@
 ---
 title: "第 04 篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地"
 slug: "ai-plugin-plugin-a8202a00"
-summary: "通过对比矩阵、选型决策树和团队协作策略，帮助开发者在 Plugin、Skill、MCP、Rules 四大扩展机制中做出更稳妥的选择，并给出 Codex、Claude Code 与无独立 Plugin 体系工具的落地方案。"
+summary: "按 2026-11-18 更新 Rules、MCP、Skill、Plugin 选型矩阵，补充 Cursor 插件、Agent Plugins 标准、Codex CLI 及团队安装和云端边界。"
 category: "Plugin"
 categoryPath:
   - "AI相关"
@@ -29,13 +29,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地
 
-## 2026-10-30 复核补充
 
-选型矩阵增加一条：Cursor 已把 Skills 纳入正式扩展入口，Claude Code 将 custom commands 纳入 Skills 总框架，Codex 则把插件作为组合 Skills、MCP、应用和 hooks 的分发单元。因此先按“任务流程、外部能力、长期规范、分发治理”判断载体，再按工具支持的目录和安装方式落地，不能只看名称。
-
-参考：[Cursor Skills](https://cursor.com/docs/skills)、[Claude Code Skills](https://code.claude.com/docs/en/skills)、[OpenAI Plugins](https://developers.openai.com/codex/plugins)。
-
-> 资料来源：本系列前三篇、OpenAI Codex 官方资料、Claude Code 官方插件文档。2026-10-30 按最新官方口径重整选型建议。
+> 核验日期：2026-11-18。选型依据任务约束、外部能力、可复用流程与分发需求，同时区分开放格式、产品扩展和运行环境。
 
 [[toc]]
 
@@ -47,10 +42,10 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 | 属性 | Rules | MCP | Skill | Plugin |
 | --- | --- | --- | --- | --- |
-| **本质** | 静态规则层 | 外部能力接入层 | 单任务流程模板 | 打包与分发层 |
+| **本质** | 作用域内的规范层 | 外部能力接入层 | 单任务流程模板 | 打包与分发层 |
 | **典型内容** | 规范文档、偏好说明 | server、tools、resources、prompts | `SKILL.md` 与辅助资源 | Skills、Commands、Hooks、集成、配置 |
 | **解决的问题** | AI 每次都要遵守什么 | AI 怎么连外部系统 | 这件事应该怎么做 | 这套能力怎么安装、共享、复用 |
-| **生效方式** | 默认长期生效 | 按需调用 | 按触发条件使用 | 通过工具原生安装 / 启用流程生效 |
+| **生效方式** | 按作用域/条件加载 | 按需调用 | 按触发条件使用 | 通过工具原生安装 / 启用流程生效 |
 | **分享方式** | Git 提交共享 | 配置或服务共享 | Git / 模板仓库 / 插件打包 | marketplace / CLI / 本地源 / 团队分发 |
 | **版本感知** | 通常靠 Git | 配置与服务自行维护 | 通常靠 Git | 更容易进入工具原生版本、启用、更新体系 |
 | **最适合什么** | 团队规范 | 连外部能力 | 重复任务流程 | 多能力组合与团队复用 |
@@ -108,13 +103,13 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | 项目规范 | `AGENTS.md` |
 | 个人偏好 | `~/.codex/AGENTS.md` |
 | 连接外部服务 | MCP |
-| 单一任务流程 | `~/.codex/skills/` 或插件内的 skill |
+| 单一任务流程 | 项目 `.agents/skills/`、用户 `~/.agents/skills/` 或插件内 skill |
 | 多能力打包分发 | Codex Plugin |
 | 团队统一插件源 | 维护 marketplace source，并通过 `codex plugin marketplace ...` 管理 |
 
 这里最重要的一条修正是：
 
-- Codex 现在更稳妥的 CLI 入口是 `codex plugin marketplace ...`
+- Codex 当前公开 CLI 使用 `codex plugin add/list/remove` 管理插件，`codex plugin marketplace ...` 管理来源
 - 不要把它直接写成 Claude Code 风格的 `/plugin install`
 
 ### 3.2 Claude Code 选型速查
@@ -124,10 +119,10 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | 项目规范 | `CLAUDE.md` |
 | 个人偏好 | `~/.claude/CLAUDE.md` + settings / memory |
 | 连接外部服务 | MCP |
-| 快捷命令 | `.claude/commands/*.md` |
+| 快捷命令 | `.claude/skills/<name>/SKILL.md` 本身提供 `/name`；旧 commands 继续兼容 |
 | 单一任务流程 | Skill |
 | 多能力打包分发 | Claude Code Plugin |
-| 插件共享范围 | 根据 `user` / `project` / `local` / `managed` scope 选择 |
+| 插件共享范围 | 普通安装选择 `user` / `project` / `local`；`managed` 由组织管理 |
 
 ### 3.3 Cursor 选型速查
 
@@ -135,8 +130,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | --- | --- |
 | 项目规范 | `.cursor/rules` + 根目录 `AGENTS.md` |
 | 连接外部服务 | MCP |
-| 任务流程 | Rules / Prompt 体系 / 约定化模板 |
-| 多能力组合 | 没有独立 Plugin 体系，组合 Rules + MCP + VS Code 扩展 |
+| 任务流程 | `.agents/skills/` 或 `.cursor/skills/` 的 Skills |
+| 多能力组合 | Cursor Plugins；也支持核心为 Skills/MCP 的 Agent Plugins 格式 |
 
 ### 3.4 Devin Desktop / Windsurf 选型速查
 
@@ -145,7 +140,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | 项目规范 | Rules |
 | 连接外部服务 | MCP |
 | 任务流程 | Skills / Workflows |
-| 多能力组合 | 没有独立 Plugin 体系，组合 Rules + Skills + MCP；规则路径按当前 Devin / Windsurf 文档复核 |
+| 多能力组合 | 根据当前官方入口组合 Rules、Skills、Workflows 与 MCP，路径按实际产品版本复核 |
 
 ### 3.5 Kiro 选型速查
 
@@ -155,7 +150,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | 连接外部服务 | MCP |
 | 任务流程 | `.kiro/skills/` |
 | 规格驱动 | specs |
-| 多能力组合 | 没有独立 Plugin 体系，组合 skills + hooks + MCP |
+| 多能力组合 | 按当前 Kiro 文档组合 skills、hooks 与 MCP |
 
 ---
 
@@ -189,9 +184,9 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ---
 
-## 五、没有独立 Plugin 体系时的替代方案
+## 五、不使用原生 Plugin 分发时的替代方案
 
-Cursor、Devin Desktop / Windsurf、Kiro 当前没有像 Codex / Claude Code 那样成熟的独立 Plugin 体系，但不代表没法落地。
+如果目标客户端缺少所需插件能力，或团队暂时不需要维护 marketplace，可以采用下面的轻量组合。Cursor 已有原生插件体系，不属于“没有插件能力”的例子。
 
 ### 5.1 替代方案 1：Rules + MCP
 
@@ -258,8 +253,9 @@ project-template/
 
 这里的关键点是：
 
-- Codex 更适合维护团队自己的 marketplace source
-- Claude Code 更适合明确 `project` scope 与 marketplace 来源
+- Codex 和 Cursor 都可维护团队插件来源，按账号与组织策略确认入口
+- Claude Code 明确 `project` scope 与 marketplace 来源后，每位成员仍需实际安装
+- 本地与云端分别验证，不把一台机器的安装状态当成全团队状态
 
 ### 6.3 大型团队 / 企业
 
@@ -305,7 +301,7 @@ project-template/
 
 **正确做法**：
 
-- Codex 现在更稳妥地写 `codex plugin marketplace ...`
+- Codex 安装使用 `codex plugin add <plugin>@<marketplace>`，来源管理使用 `codex plugin marketplace ...`
 - Claude Code 才是 `/plugin install ...`、`/plugin marketplace ...`
 
 ### 7.5 误区：把 marketplace 仓库结构和用户本机配置混为一谈
@@ -332,8 +328,8 @@ project-template/
 ```text
 my-project/
 ├── AGENTS.md                    # Rules：项目规范
-├── .mcp.json                    # MCP：GitHub、Figma、文档系统等
-├── skills/                      # Skill：局部任务流程
+├── tool-config/                 # 各工具原生 MCP 配置模板
+├── skills-source/               # 技能源；安装时放入宿主支持的目录
 └── plugins/                     # Plugin：面向团队安装的能力包
 ```
 
@@ -362,10 +358,29 @@ my-project/
 
 ---
 
-## 十、参考资料
 
-- [OpenAI Academy: Codex Plugins and Skills](https://openai.com/academy/codex-plugins-and-skills/)
-- [OpenAI Codex 官方文档：Plugins](https://developers.openai.com/codex/plugins)
-- [OpenAI Plugins 官方仓库](https://github.com/openai/plugins)
-- [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)
-- 本系列目录：同级 Plugin 文章按 01–04 篇排序阅读
+## 十、开放标准与产品扩展的选择
+
+Agent Skills 标准化任务包格式；Agent Plugins 本次规范版本为 1.0.0，标准化根目录 `plugin.json` 及 Skills/MCP 的可移植打包层。Codex、Claude Code、Cursor 仍有自己的插件 manifest、扩展组件与安装方式。
+
+| 团队目标 | 做法 |
+| --- | --- |
+| 跨工具共享任务说明 | 维护最小标准 `SKILL.md` 与相对引用 |
+| 跨支持的客户端共享 Skills/MCP 包 | 核对 Agent Plugins 版本与客户端兼容表 |
+| 需要特定 hooks、agents、commands 或 UI 元数据 | 维护产品适配层，不假设开放核心涵盖全部能力 |
+| 需要本地与云端共用 | 分别确认发现目录、账号同步、组织策略和服务凭据 |
+
+插件格式兼容只是第一步。例如 Cursor 文档明确保留其 MCP 插件根目录变量差异；Claude 的 project scope 启用设置不等于替团队成员下载安装，云会话也不自动加载本地插件。写清这些边界比给工具贴一个笼统“支持插件”的标签更实用。
+
+## 十一、参考资料（2026-11-18 核验）
+
+- [Agent Skills Specification](https://agentskills.io/specification)
+- [Agent Plugins Specification](https://agent-plugins.org/specification)
+- [OpenAI Plugins](https://github.com/openai/plugins)
+- [Codex plugin CLI 官方实现](https://github.com/openai/codex/blob/main/codex-rs/cli/src/plugin_cmd.rs)
+- [Codex 技能目录公开实现](https://github.com/openai/codex/blob/main/codex-rs/ext/skills/src/host_roots.rs)
+- [Claude Code 插件安装与 scope](https://code.claude.com/docs/en/plugins/install)
+- [Claude Code Skills](https://code.claude.com/docs/en/skills)
+- [Cursor Plugins](https://cursor.com/docs/plugins)
+- [Cursor Skills](https://cursor.com/docs/skills)
+- [Kiro Agent Skills](https://kiro.dev/docs/skills/)

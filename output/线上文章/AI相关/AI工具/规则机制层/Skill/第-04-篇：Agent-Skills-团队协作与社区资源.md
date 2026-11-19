@@ -1,7 +1,7 @@
 ---
 title: "第 04 篇：Agent Skills 团队协作与社区资源"
 slug: "ai-skill-agentskills-4a94dc23"
-summary: "按 2026-10-30 重新整理 Agent Skills 的团队协作方案与资料来源，重点说明 Codex / Kiro / Cursor / Claude 当前如何共享 skills，以及 rules / AGENTS / CLAUDE / commands 分别适合沉淀什么。"
+summary: "按 2026-11-18 更新团队技能目录、Codex/Cursor 插件分发、Claude 项目安装与云端边界，保留团队协作策略并补充版本、来源和回归验收。"
 category: "Skill"
 categoryPath:
   - "AI相关"
@@ -29,17 +29,14 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：Agent Skills 团队协作与社区资源
 
-## 2026-10-30 复核补充
+> 核验日期：2026-11-18。重点更新团队目录、插件分发、项目安装和本地/云端验收差异。
 
-团队共享时优先把可移植层放在普通 `SKILL.md`，把 Codex、Cursor、Claude Code 的目录、触发和权限扩展分开维护。OpenAI 当前插件仓库已经承载官方/合作插件与 Skills 示例，旧 `openai/skills` 不再作为新项目的首选来源；Cursor 可从 `.agents/skills`、`.cursor/skills` 以及兼容目录发现技能，Claude Code 则可通过插件与 Skills 统一分发。
-
-参考：[OpenAI Plugins](https://github.com/openai/plugins)、[Cursor Skills](https://cursor.com/docs/skills)、[Claude Code Plugins](https://code.claude.com/docs/en/plugins)。
 
 ## 一、团队协作先别急着问“放哪”，先问“用什么载体”
 
 很多团队共享失败，不是因为 skill 写得不好，而是因为一开始就选错了载体。
 
-到 2026-10-30 这次复核为止，更实用的划分是：
+到 2026-11-18 这次复核为止，更实用的划分是：
 
 | 目标 | 更推荐的载体 |
 | ---- | ------------ |
@@ -58,81 +55,33 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ---
 
-## 二、Codex 团队共享：现在是最清晰的一类
+## 二、Codex 团队共享：版本化源文件与安装目录分开
 
-## 2.1 本地现状已经说明它可行
+### 2.1 单仓库技能
 
-当前本机真实可见：
-
-```text
-~/.codex/skills/
-```
-
-并且里面已经有：
-
-- `.system` 预装层
-- 自定义 skills
-- `agents/`、`scripts/`、`references/`、`assets/` 等常见资源目录
-
-这意味着 Codex 团队共享 skills 不是纸上谈兵，而是可以直接围绕已有目录结构来做。
-
-## 2.2 团队推荐做法
-
-如果主人团队准备在 Codex 里沉淀一套能力包，现在更推荐：
-
-### 方式 A：单独 skill 仓库
-
-```text
-team-codex-skills/
-├── code-review/
-│   ├── SKILL.md
-│   └── references/
-├── release-audit/
-│   ├── SKILL.md
-│   └── scripts/
-└── frontend-design/
-    └── SKILL.md
-```
-
-优点：
-
-- 可以单独 review
-- 可以单独发版本
-- 不和业务代码混在一起
-
-### 方式 B：放在主仓库并配项目说明
+当前公开实现读取项目 `.agents/skills/`，适合随业务代码一起维护：
 
 ```text
 my-project/
-├── .codex/
-│   └── skills/
 ├── AGENTS.md
-└── src/
+└── .agents/
+    └── skills/
+        └── code-review/
+            ├── SKILL.md
+            └── references/checklist.md
 ```
 
-适合：
+个人级技能可用 `~/.agents/skills/`；旧 `$CODEX_HOME/skills` 保留兼容。团队目录不要写开发者用户名、绝对路径或插件缓存版本号。
 
-- 这个 skill 只服务当前项目
-- 技能内容和项目规范强耦合
+### 2.2 多仓库能力包
 
-## 2.3 安装与来源
+多个仓库共用同一组流程时，可以维护独立技能仓库，或将多个 skills 与 MCP/应用配置组成 Codex Plugin。OpenAI 当前示例在 `openai/plugins`，旧 `openai/skills` 已明确废弃。
 
-当前能明确确认的来源，是 OpenAI 官方 `openai/plugins` 仓库。
+选用 Plugin 的理由应是需要统一安装、依赖与版本管理，而不是技能必须插件化才能共享。团队仍需记录来源、更新负责人和回滚方式。
 
-它里面区分了：
+### 2.3 客户端版本与环境
 
-- `.system`
-- `.curated`
-- `.experimental`
-
-并且官方仓库说明：
-
-- `.system` 随新版 Codex 自动安装
-- curated / experimental 可通过 `skill-installer` 安装
-
-所以如果主人问“Codex 团队从哪里拿基础 skill 最稳”，答案优先是：
-
-**先看 `openai/plugins`，再考虑其他社区来源。**
+项目目录支持以当前公开实现为依据，旧稳定版可能有差异。团队约定最低客户端版本，并用真实任务检查技能发现、引用路径和脚本依赖。终端、IDE、桌面和云环境不要共用“某台机器已安装”这一条验收结论。
 
 ---
 
@@ -201,6 +150,8 @@ Cursor 当前官方能明确确认的是：
 
 ## 4.1 共享 Cursor skills
 
+当前原生支持 `.agents/skills/` 和 `.cursor/skills/`，对应用户级目录也受支持；兼容目录按官方文档核对。多能力分发可以使用 Cursor Plugins 或 Agent Plugins，不能再把 Cursor 归为没有插件体系的工具。
+
 适合：
 
 - PR 审查
@@ -242,45 +193,21 @@ Cursor 当前官方能明确确认的是：
 
 ---
 
-## 五、Claude Code 团队共享：优先 Skills，再配 Commands / `CLAUDE.md`
+## 五、Claude Code：项目 Skill、插件与云会话分别管理
 
-Claude Code 当前更稳的官方口径已经是 skills，因此团队协作时更推荐先共享：
+单仓库流程放 `.claude/skills/<name>/SKILL.md`，即可提供 `/name` 入口。旧 `.claude/commands/*.md` 可继续维护；新流程不需要额外复制一个 command。
 
-- Claude skills
-- `.claude/commands/`
-- `CLAUDE.md`
+多能力插件可选择 `project` scope，并提交 `.claude/settings.json`。这只共享启用配置，不会替每位成员下载安装到本机；同事仍需添加对应 marketplace 并在自己的 clone 安装。
 
-### 5.1 什么时候共享 Claude skills
+```bash
+claude plugin install <plugin>@<marketplace> --scope project
+```
 
-当团队经常重复执行同类流程，并且需要目录化资源时，例如：
+命令中的名称需要替换成团队真实 catalog。`managed` 由组织管理，不能当作普通用户可自行选择的安装范围。
 
-- PR 复查
-- 提交说明生成
-- 发布检查
-- 附带 `references/`、`scripts/` 的复杂工作流
+本地技能和插件不自动进入云会话。Claude 当前云端、Cowork 与项目云线程在账号同步和仓库技能方面存在区别，应依据实际入口检查。团队发布记录至少注明“本地终端验证”还是“云会话验证”，不要混写为全面兼容。
 
-### 5.2 什么时候共享 `.claude/commands/`
-
-当团队经常重复执行同类流程时，例如：
-
-- PR 复查
-- 提交说明生成
-- 发布检查
-- 想提供一个非常顺手的快捷入口
-
-### 5.3 什么时候共享 `CLAUDE.md`
-
-当团队想长期固定：
-
-- 代码风格
-- 目录职责
-- 禁止事项
-- 交付习惯
-
-这一层和 skills 的关系，和 Cursor 里的 `AGENTS.md` 很像：
-
-- 一个更像长期项目记忆
-- 一个更像按任务触发的流程包
+长期项目约定仍放 `CLAUDE.md` 或当前客户端支持的规则文件。插件根目录放一个 `CLAUDE.md` 不会自动让所有任务读取它。
 
 ---
 
@@ -304,7 +231,7 @@ Claude Code 当前更稳的官方口径已经是 skills，因此团队协作时�
 
 ## 6.2 第二优先级：GitHub 上的具体 skill 仓库
 
-如果主人要找可直接借鉴的 skill，实现上比“社区市场首页”更靠谱的通常是：
+如果你要找可直接借鉴的 skill，实现上比“社区市场首页”更靠谱的通常是：
 
 - 直接查看 GitHub 仓库里的 `SKILL.md`
 - 看是否带 `scripts/` 和 `references/`
@@ -357,7 +284,7 @@ Claude Code 当前更稳的官方口径已经是 skills，因此团队协作时�
 放这里：
 
 - `SKILL.md` skills
-- `.claude/commands`
+- `.claude/commands`（仅维护旧格式；新流程使用 Skills）
 
 写：
 
@@ -388,10 +315,29 @@ Claude Code 当前更稳的官方口径已经是 skills，因此团队协作时�
 
 - Codex / Kiro：确实适合共享 skills
 - Cursor：skills 负责任务流程，rules / `AGENTS.md` 负责长期规范
-- Claude Code：skills 负责主流程，commands / `CLAUDE.md` 负责快捷入口与长期记忆
+- Claude Code：Skills 同时提供主流程与快捷入口，`CLAUDE.md` 维护长期项目说明
 
-如果主人要给团队定一条最简单的落地规则，我建议直接用这句：
+如果你要给团队定一条最简单的落地规则，我建议直接用这句：
 
-**长期规范进 rules / AGENTS / CLAUDE / memory，任务流程先进 skills，快捷入口再用 commands，可执行逻辑进 scripts。**
+**长期规范进宿主规则与记忆体系，任务流程进 Skills，使用宿主提供的快捷入口，可执行逻辑进 scripts。**
 
 这样以后就算产品继续演进，迁移成本也会低很多。
+
+
+## 团队验收与升级记录
+
+建议每次版本升级记录以下信息：来源仓库和 commit/tag、许可证、维护人、最低客户端版本、脚本依赖、所需服务权限、验证过的任务，以及回滚目标。社区排行榜和收藏数不能替代这些信息。
+
+保留一组稳定样例：明确调用、自然触发、误触发反例、缺少凭据、脚本失败和权限不足。更新描述或参考文档后重跑受影响样例，确认没有引入无关触发和外部副作用。用于质量保证的 hooks 与 CI 应按工具真实机制配置，不能只在 Skill 中写“必须成功”就认为形成了强制校验。
+
+## 参考资料（2026-11-18 核验）
+
+- [Agent Skills Specification](https://agentskills.io/specification)
+- [Codex 技能根目录公开实现](https://github.com/openai/codex/blob/main/codex-rs/ext/skills/src/host_roots.rs)
+- [OpenAI Plugins](https://github.com/openai/plugins)
+- [OpenAI Skills 废弃说明](https://github.com/openai/skills)
+- [Claude Code Skills](https://code.claude.com/docs/en/skills)
+- [Claude Code 插件安装与 scope](https://code.claude.com/docs/en/plugins/install)
+- [Cursor Skills](https://cursor.com/docs/skills)
+- [Cursor Plugins](https://cursor.com/docs/plugins)
+- [Kiro Agent Skills](https://kiro.dev/docs/skills/)

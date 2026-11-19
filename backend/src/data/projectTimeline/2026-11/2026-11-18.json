@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-18",
+  "source": "collaboration_daily",
+  "records": [
+    {
+      "id": "ai-rules-mechanisms-official-research-20261118",
+      "title": "更新规则机制层 22 篇文章的官方资料与配置示例",
+      "detail": "1. 检索 MCP、AGENTS.md、Codex、Claude Code、Cursor、Devin、Kiro、Gemini CLI、GitHub Copilot 与 Agent Skills 官方资料，更新 MCP 8 篇、Rules 5 篇、Skill 5 篇、Plugin 4 篇，统一标明 2026-11-18 核验日期与各平台版本边界。2. 补齐 MCP 2026-07-28 稳定规范的生命周期与弃用项，修订 Chrome DevTools Windows 最小配置、各工具规则加载行为、Skills 标准字段和插件命令，并清理旧复核补丁造成的正文矛盾。3. 逐项核对文章身份与运营字段；7 处历史标题或摘要基线与 Git e5e5e3a6 和生产值核验后校准，保留本地正文，采用指定 slug 的增量同步流程。",
+      "category": "内容上新"
+    }
+  ]
+}

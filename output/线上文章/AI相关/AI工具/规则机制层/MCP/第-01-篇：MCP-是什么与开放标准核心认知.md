@@ -26,19 +26,25 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：MCP 是什么与开放标准核心认知
 
-## 2026-10-30 复核补充
+复核日期：2026-11-18。当前官方稳定规范入口为 **2026-07-28**；具体客户端和服务端是否实现该版，需要分别确认，不能仅看软件安装日期。
 
-本文需要把版本口径改成：**2026-07-28 是当前稳定规范，2025-11-25 是上一版稳定基线，draft 只表示后续演进方向**。2026-07-28 的关键变化包括：Streamable HTTP 移除协议级 session 与 `Mcp-Session-Id`，请求改为自包含并在 `_meta` 中携带协议版本和能力；新增 `server/discover`；Tasks 移到官方扩展并改用 `tasks/get` / `tasks/update`；引入 MRTR 与 `InputRequiredResult`，结果要求带 `resultType`。因此文中“协议会建立连接并发现能力”的入门描述仍可保留，但实现与面试追问必须注明版本边界。
+## 稳定规范与旧实现的关键区别
 
-参考：
+| 关注点 | 2025-11-25 等旧版 | 2026-07-28 稳定规范 |
+| --- | --- | --- |
+| 初始化 | `initialize` / `notifications/initialized` 握手 | 取消初始化握手，每个请求在 `_meta` 中携带协议版本和客户端能力 |
+| 能力发现 | 连接初始化返回能力 | 服务端必须实现 `server/discover`，客户端可先调用它进行版本选择 |
+| HTTP 会话 | 可使用 `Mcp-Session-Id` | 取消协议级 session；跨调用业务状态使用显式句柄 |
+| 通知订阅 | 独立 HTTP GET SSE、资源订阅方法 | 使用 `subscriptions/listen` 的 POST 响应流接收已订阅的变化通知 |
+| 补充输入 | 服务端发起 sampling、elicitation 等请求 | MRTR：返回 `resultType: input_required`，客户端携带输入重试原请求 |
+| 长任务 | 核心中的实验性 Tasks | 独立 Tasks 扩展，使用 `tasks/get`、`tasks/update` 等方法 |
+| 流中断 | 曾支持 SSE 事件恢复 | 移除 `Last-Event-ID` 恢复；新请求 ID 重发，业务写操作仍须自行防重 |
 
-- [MCP 2026-07-28 稳定规范](https://modelcontextprotocol.io/specification/2026-07-28)
-- [MCP 2026-07-28 变更记录](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
-- [MCP Draft](https://modelcontextprotocol.io/specification/draft)
+所有新规范结果要求 `resultType`；兼容旧版时，缺省结果类型按 `complete` 处理。列举/读取类结果新增 `ttlMs` 和 `cacheScope`，缓存必须遵循公开/私有范围，不能把一个用户的私有结果复用给其他用户。
 
-复核日期：2026-10-30
+当前标准传输是 **stdio** 与 **Streamable HTTP**。Streamable HTTP 的响应仍可使用 SSE，所以“旧 HTTP+SSE 传输已弃用”不等于“SSE 不能再用”。stdio 的标准输出用于协议消息，诊断日志应写入标准错误。
 
-> 时效说明：截至 2026-10-30，MCP 当前正式规范仍以 `2026-07-28` 为稳定基线；官方 draft 入口展示了下一版规范方向。复习时建议把“正式可依赖口径”和“draft 中的演进方向”分开记，不要把 draft 内容当成所有宿主都已落地的现状。
+这些是已发布稳定规范的变化，不再仅仅是 draft 趋势。旧客户端互操作要走官方版本回退规则，不能把新旧请求字段随意拼接。
 
 ## 一、先把概念说清楚
 
@@ -63,7 +69,7 @@ MCP（Model Context Protocol）本质上是一个开放协议。
 
 所以如果你把 MCP 简化成“工具调用协议”并不算全错，但它其实比“工具层”更完整。
 
-2026 年复习时还要补一个版本感知：MCP 不是静态不变的术语。`2026-07-28` 稳定规范仍然以 host / client / server、tools / resources / prompts 等概念为核心；draft 规范则可能在协议状态、扩展框架和授权模型上继续演进。面试或写方案时，先说清楚自己讨论的是稳定规范还是 draft 方向，会显得更专业。
+版本号、传输方式和功能支持是三个独立维度。相同名称的 SDK 或 MCP server，不代表默认实现全部稳定规范与扩展；方案中应记录实际版本、启用能力和验证结果。
 
 ## 二、为什么前端开发者也要懂 MCP
 
@@ -93,17 +99,17 @@ MCP 的价值就在于：把零散能力统一到可组合、可治理、可审�
 4. Server 返回结构化结果或可读取内容
 5. 模型把结果整合进最终回答或后续动作
 
-## 四、你之前提到的“浏览器 MCP”属于哪一层
+## 四、“浏览器 MCP”属于哪一层
 
 浏览器 MCP 不是 MCP 全部，它只是 MCP 生态中的一个能力分类。
-你之前那篇 `07-谷歌-MCP-配置手册`，本质是“某个具体 MCP server 的安装使用记录”。
+本系列第 07 篇 Chrome DevTools 配置手册，本质是“某个具体 MCP server 的安装使用记录”。
 
 这两者关系是：
 
 1. MCP：协议层，定义 host、client、server 如何协作
 2. 浏览器 MCP：按业务能力划分的一类 server，通常负责页面交互、截图、网络面板等能力
 
-这次目录重构后，后续会把浏览器、文件系统、数据库、搜索等都纳入“常用清单”，而不是把单个工具当成 MCP 全部。
+本系列把浏览器、文件系统、数据库和搜索都纳入常用清单，便于按任务选型。
 
 这里还要再区分一层：
 “浏览器类、文件类、搜索类”是为了方便选型而做的业务分类；
@@ -140,15 +146,22 @@ MCP 把“能力发现、资源读取、工具调用、结果返回”抽象成�
 
 建议你按以下节奏维护：
 
-1. `01-MCP-是什么与开放标准核心认知.md`：沉淀协议理解与面试表达
-2. `02-常用-MCP-分类与选型总览.md` 与 `03-前端开发常用-MCP-清单与选型建议（2026-10复核）.md`：按类别维护常用 server 地图
+1. `第-01-篇：MCP-是什么与开放标准核心认知.md`：沉淀协议理解与面试表达
+2. `第-02-篇：常用-MCP-分类与选型总览.md` 与 `第-03-篇：前端开发常用-MCP-清单与选型建议（2026-07复核）.md`：按类别维护常用 server 地图
 3. `04` 到 `06` 三组问答：沉淀可复述的标准答案
-4. `07-谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md`：沉淀具体实践与踩坑记录
+4. `第-07-篇：谷歌-MCP-配置手册（Windows，Chrome-DevTools-MCP-复刻）.md`：沉淀具体实践与踩坑记录
 
-一句话收口：
-先懂 MCP 是什么，再选用哪类 MCP；不要反过来只会某个工具命令。
+## 八、核心协议、扩展与弃用能力
+
+官方扩展目录在本次核验时标注 MCP Apps 为 Stable，Tasks 和 Skills over MCP 为 Beta。Beta 仍可能出现有记录的不兼容变更；只有客户端与服务端实际支持、启用相应扩展时才能使用。
+
+Roots、Sampling、Logging 已进入 Deprecated 状态，仍处于兼容窗口。新实现分别优先使用显式目录/资源参数、直接的模型服务 API，以及 stderr 或 OpenTelemetry 等日志方案。不要把“标记弃用”描述成“所有已安装客户端立即失效”。
 
 ## 参考资料
 
 - Model Context Protocol 当前正式规范：<https://modelcontextprotocol.io/specification/2026-07-28>
 - Model Context Protocol Draft / 下一版规范入口：<https://modelcontextprotocol.io/specification/draft>
+
+- [MCP 2026-07-28 变更记录](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
+- [当前传输规范](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports)
+- [扩展生命周期](https://modelcontextprotocol.io/docs/extensions/overview)

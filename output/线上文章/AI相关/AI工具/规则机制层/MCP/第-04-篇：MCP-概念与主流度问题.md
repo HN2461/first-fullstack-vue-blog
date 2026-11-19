@@ -25,15 +25,11 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 04 篇：MCP 概念与主流度问题
 
-## 2026-10-30 复核补充
+复核日期：2026-11-18。基础概念按 MCP `2026-07-28` 稳定规范复核。
 
-“MCP 为什么主流”应拆成生态采用、协议能力和具体实现质量三个问题。当前稳定规范已是 `2026-07-28`，回答基础概念时仍可使用 Host / Client / Server、Tools / Resources / Prompts；追问版本时要补充无状态请求、`server/discover`、Tasks 扩展和 MRTR，不能把旧版 session、SSE 可恢复等行为当成所有实现的默认能力。
+“MCP 是否主流”要分别考察官方接入文档、真实工具实现和项目落地效果。Chrome DevTools、Playwright、GitHub、Figma 等已有官方接入资料，但这不能推出“所有宿主支持所有扩展”，也不能凭工具数量断言某一方案最可靠。
 
-参考：[MCP 2026-07-28 变更记录](https://modelcontextprotocol.io/specification/2026-07-28/changelog)。
-
-复核日期：2026-10-30
-
-> 时效说明：当前稳定回答仍以 MCP `2026-07-28` 正式规范为主；官方 draft 入口可作为观察下一版规范方向的材料。面试时可以把 draft 作为“发展趋势”补充，但不要把 draft 能力说成所有宿主已经默认支持。
+版本追问时应补充：无状态请求与 `server/discover` 已属于当前稳定规范；Tasks 与 Skills over MCP 是 Beta 扩展；MCP Apps 是 Stable 扩展。旧版 session 与 SSE 恢复逻辑只能在对应协议版本下讨论。
 
 ## 第一题：你理解的 MCP 是什么
 
@@ -102,7 +98,7 @@ MCP 提供了一个比较清晰的共识层，所以它会被越来越多宿主�
 
 ### 30 秒回答
 
-function calling 更像模型一次调用某个函数的能力接口，重点在“单次调用格式”。
+function calling / tool calling 让模型按工具 schema 生成调用意图和参数，真正执行由应用或运行时负责。
 MCP 更像完整的外部能力接入协议，重点在“能力发现、连接管理、资源读取、工具调用和治理边界”。
 
 ### 2 分钟展开
@@ -121,7 +117,9 @@ MCP 更像完整的外部能力接入协议，重点在“能力发现、连接�
 
 1. host / client / server 的职责划分
 2. `tools`、`resources`、`prompts` 等不同能力原语
-3. 权限、审批、审计、隔离这些治理要求
+3. 传输、版本元数据和授权相关约定；审批、审计与进程隔离仍需宿主和服务端实现
+
+一个典型链路是：宿主用 `tools/list` 取得工具定义，将它映射到模型 API 的工具 schema；模型生成调用参数后，宿主通过 `tools/call` 请求 MCP server；宿主再把返回结果交给模型。模型 API 的调用 ID 与 MCP 请求 ID 也不必相同，因此两层机制可以同时存在。
 
 ### 追问应对
 
@@ -169,3 +167,10 @@ MCP 更强调跨宿主的开放协议和标准化能力暴露。
 
 - 你们当前更需要单产品扩展，还是多产品共享一套 AI 能力？
 - 你们团队现在有没有遇到“同一能力重复接多次”的问题？
+
+## 本轮核验来源
+
+- [MCP 稳定规范变更](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
+- [官方扩展生命周期](https://modelcontextprotocol.io/docs/extensions/overview)
+- [GitHub MCP Server](https://github.com/github/github-mcp-server)
+- [Chrome DevTools for agents](https://github.com/ChromeDevTools/chrome-devtools-mcp)

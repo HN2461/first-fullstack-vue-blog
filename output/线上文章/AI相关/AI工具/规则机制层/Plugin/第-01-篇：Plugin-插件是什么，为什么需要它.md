@@ -1,7 +1,7 @@
 ---
 title: "第 01 篇：Plugin 插件是什么，为什么需要它"
 slug: "ai-plugin-plugin-da2ad951"
-summary: "从“功能分散、难以共享”的痛点出发，解释 Plugin 的本质、解决的核心问题，横向对比 Plugin 与 Skill、MCP、Rules 的区别，并速览主流 AI 编程工具的 Plugin 支持现状。"
+summary: "解释 Plugin 与 Skill、MCP、Rules 的分工，按 2026-11-18 官方资料补充 Cursor 插件、Agent Plugins 1.0.0 及产品格式兼容边界。"
 category: "Plugin"
 categoryPath:
   - "AI相关"
@@ -28,13 +28,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 01 篇：Plugin 插件是什么，为什么需要它
 
-## 2026-10-30 复核补充
 
-Plugin 仍然是“可分发能力包”的产品层概念，但具体组成已经明显分化：Codex 插件可组合 Skills、应用集成、MCP、agents、commands、hooks 和 assets；Claude Code 插件也可携带 skills、agents、hooks 与 MCP servers。文章中的四类扩展对比应始终标注工具范围，不能把某一个产品的 manifest 或安装命令推成跨工具标准。
-
-参考：[OpenAI Plugins](https://github.com/openai/plugins)、[Claude Code Plugins](https://code.claude.com/docs/en/plugins)。
-
-> 资料来源：OpenAI Codex 官方产品页、Codex 官方文档 / Academy、`openai/plugins` 官方仓库、Claude Code 官方插件文档与官方 marketplace 说明。2026-10-30 按官方口径重校。
+> 核验日期：2026-11-18。本文更新 Cursor 独立插件体系、Agent Plugins 开放格式及 Codex CLI；概念与产品实现分别说明。
 
 [[toc]]
 
@@ -55,7 +50,7 @@ Plugin 仍然是“可分发能力包”的产品层概念，但具体组成已�
 或者在 Codex 侧分散成：
 
 ```text
-~/.codex/skills/
+~/.agents/skills/
 ~/.codex/config.toml
 plugins/<name>/
 ```
@@ -97,7 +92,7 @@ Plugin 解决的，正是这件事。
 
 | 机制 | 类比 |
 | --- | --- |
-| Rules | 员工手册：默认长期生效的规范 |
+| Rules | 员工手册：按作用域与触发条件加载的规范 |
 | Skill | 操作菜谱：某个任务的流程模板 |
 | MCP | 工具连接层：让模型接入外部系统 |
 | **Plugin** | **可安装工具包：把多种能力装进一个包里统一分发** |
@@ -155,7 +150,7 @@ my-plugin/
 比如：
 
 - Claude Code 常见是 `/plugin install ...`
-- Codex 当前更明确的是 `codex plugin marketplace ...` 这类 CLI / marketplace 管理能力，以及在应用内发现和启用插件
+- Codex 当前公开 CLI 支持 `codex plugin add/list/remove`，并通过 `codex plugin marketplace ...` 管理来源；安装版本应先检查 `--help`
 
 不要把不同工具的命令体系混成一套。
 
@@ -212,7 +207,7 @@ Plugin 可以包含 MCP，但 Plugin 不是 MCP 的替代品。
 
 | 维度 | Rules | Plugin |
 | --- | --- | --- |
-| **生效方式** | 默认持续生效 | 安装后按工具原生方式启用 |
+| **生效方式** | 按宿主作用域、文件范围或显式触发加载 | 安装后按工具原生方式启用 |
 | **内容性质** | 规范、约束、偏好 | 能力包、工作流、集成组合 |
 | **适合放什么** | 命名规范、提交规范、技术栈要求 | 审查流、部署流、设计协作、第三方集成 |
 | **变化频率** | 相对稳定 | 更适合迭代更新 |
@@ -242,19 +237,24 @@ Plugin 可以包含 MCP，但 Plugin 不是 MCP 的替代品。
 
 ---
 
-## 八、哪些工具真正有独立 Plugin 体系
+## 八、主流插件体系与新的开放格式
 
-截至 2026-10-30，更稳妥的结论是：
+截至 2026-11-18，本次官方资料能够确认：
 
-| 工具 | 独立 Plugin 体系 | 更稳妥的说明 |
+| 工具/规范 | manifest 与入口 | 已核对的范围 |
 | --- | --- | --- |
-| **OpenAI Codex** | ✅ | 官方支持 Codex Plugins，存在 `.codex-plugin/plugin.json`、官方 `openai/plugins` 仓库与 marketplace 配置能力 |
-| **Claude Code** | ✅ | 官方支持 `/plugin` 命令、官方 / 社区 marketplace、scope 与 manifest 体系 |
-| **Cursor** | ⚠️ 没有独立 Plugin 体系 | 更依赖 Rules、MCP、VS Code 扩展生态 |
-| **Devin Desktop / Windsurf** | ⚠️ 没有独立 Plugin 体系 | 更依赖 Rules、Skills、MCP 与工作流能力；旧 Windsurf 路径需按当前 Devin 文档复核 |
-| **Kiro** | ⚠️ 没有独立 Plugin 体系 | 更依赖 steering、skills、hooks、MCP |
+| Codex 官方插件示例 | `.codex-plugin/plugin.json`；`codex plugin` CLI | Skills、MCP、应用和其他配套组件；具体入口依客户端版本 |
+| Claude Code | `.claude-plugin/plugin.json`，可省略；`/plugin` 或 `claude plugin` | Skills、agents、hooks、MCP、LSP 等；支持本地开发和 marketplace |
+| Cursor | `.cursor-plugin/plugin.json`；Customize / Marketplace | 独立插件体系，可组合 rules、skills、agents、commands、MCP、hooks |
+| Agent Plugins 开放格式 | 根目录 `plugin.json` | 可移植核心包含 Skills 与 MCP，产品扩展另行定义 |
 
-这一组表述故意没有把过多工具一口气下结论，是因为"某工具今天有没有独立 plugin marketplace"这类事实很容易过期，写窄一点反而更稳。
+旧版“Cursor 没有独立 Plugin 体系”已不适用。Cursor 官方当前明确同时支持 Agent Plugins 与 Cursor Plugins；两种格式的扩展范围不同。
+
+Agent Plugins 官方规范本次显示版本 **1.0.0**。它的核心 manifest 在插件根目录，MCP 文件为 `mcp.json`，与产品专属的 `.mcp.json` 并非可随意互换的拼写。规范中的扩展命名空间用于客户端专属能力，不能把各产品 manifest 全部合并成一个“万能 JSON”。
+
+即使客户端支持开放格式，仍可能有实现差异。例如 Cursor 文档明确说明，MCP 配置中不展开标准的 `${PLUGIN_ROOT}`、`${PLUGIN_DATA}`，当前使用 `${CURSOR_PLUGIN_ROOT}`。迁移时应逐项核对变量和组件，而不是仅改目录名。
+
+Kiro、Devin/Windsurf 等产品应按各自当前文档选择 Skills、Rules、Workflows、hooks 和 MCP。本次没有用足够完整的插件资料为它们下“永远没有插件”的否定结论。
 
 ---
 
@@ -278,7 +278,7 @@ Plugin 可以包含 MCP，但 Plugin 不是 MCP 的替代品。
 ## 十、本系列后续内容
 
 - **第二篇**：Codex Plugin 体系详解与实战
-  会重点讲 `.codex-plugin/plugin.json`、官方 `openai/plugins` 仓库、本机安装目录与 `codex plugin marketplace` 命令
+  会重点讲 `.codex-plugin/plugin.json`、官方 `openai/plugins` 仓库、`codex plugin add/list/remove` 与 marketplace 管理
 - **第三篇**：Claude Code Plugin 体系详解与实战
   会重点讲 `/plugin` 命令族、official / community / demo marketplace、scope 与 manifest
 - **第四篇**：Plugin vs Skill vs MCP vs Rules 选型指南与团队落地
@@ -286,10 +286,14 @@ Plugin 可以包含 MCP，但 Plugin 不是 MCP 的替代品。
 
 ---
 
-## 参考资料
 
-- [OpenAI Academy: Codex Plugins and Skills](https://openai.com/academy/codex-plugins-and-skills/)
-- [OpenAI Codex 官方文档：Plugins](https://developers.openai.com/codex/plugins)
-- [OpenAI: Codex for almost everything](https://openai.com/index/codex-for-almost-everything/)
-- [OpenAI Plugins 官方仓库](https://github.com/openai/plugins)
-- [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)
+## 参考资料（2026-11-18 核验）
+
+- [OpenAI Plugins README](https://github.com/openai/plugins)
+- [Codex plugin CLI 官方实现](https://github.com/openai/codex/blob/main/codex-rs/cli/src/plugin_cmd.rs)
+- [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
+- [Claude Code Manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference)
+- [Cursor Plugins](https://cursor.com/docs/plugins)
+- [Agent Plugins Specification](https://agent-plugins.org/specification)
+
+Codex 文档站本次请求返回 403，相关目录和命令以官方仓库为依据；源码 `main` 的能力可能先于安装版，请用当前版本帮助确认。

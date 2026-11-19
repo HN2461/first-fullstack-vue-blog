@@ -1,7 +1,7 @@
 ---
 title: "第 02 篇：Agent Skills 场景模板与案例库"
 slug: "ai-skill-agentskills-a705fbb5"
-summary: "按 2026-10-30 重新整理的 Agent Skills 模板库，优先提供可移植基础模板，再说明如何分别落到 Codex、Kiro、Cursor、Claude Code 当前官方支持的 skills / rules / commands 机制中。"
+summary: "按 2026-11-18 官方规范更新代码审查、调试、README 与发布准备模板，补充 Codex 当前目录、Claude Skill 直接命令入口及依赖和触发验收。"
 category: "Skill"
 categoryPath:
   - "AI相关"
@@ -28,11 +28,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 02 篇：Agent Skills 场景模板与案例库
 
-## 2026-10-30 复核补充
 
-模板继续采用最小 `SKILL.md` + `references/`、`scripts/`、`assets/` 结构；新增模板字段时可使用规范中的 `license`、`compatibility`、`metadata`，把 `allowed-tools` 标成实验性并按客户端单独适配。Cursor 新技能优先使用 `paths`，Claude Code 旧 `.claude/commands/*.md` 仍兼容但新工作流应优先按 Skills 组织。OpenAI 旧 `openai/skills` 仓库已废弃，示例来源改看 [openai/plugins](https://github.com/openai/plugins)。
-
-> 这一篇最大的更新是：**不再把所有模板都写成“所有工具可直接复制运行”。**
+> 核验日期：2026-11-18。本文保留代码审查、调试、README、发布审查等模板，区分可移植流程与客户端专属执行语法。
 >
 > 现在更推荐的做法是：
 >
@@ -56,9 +53,9 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ### 1.2 再补工具专属层
 
 - Kiro：直接按 `.kiro/skills/` 收纳
-- Codex：直接按 `~/.codex/skills/` 或项目 skills 收纳，并可补 `agents/openai.yaml`
+- Codex：项目优先使用 `.agents/skills/`，用户级使用 `~/.agents/skills/`，也可随插件分发；旧 `$CODEX_HOME/skills` 保留兼容。`agents/openai.yaml` 属于产品适配层
 - Cursor：任务流程优先保留为 skills，长期规范再改写成 `.cursor/rules` 或根目录 `AGENTS.md`
-- Claude Code：优先做成 skills，需要快捷入口时再补 `.claude/commands/*.md`
+- Claude Code：优先做成 `.claude/skills/<name>/SKILL.md`，本身就能通过 `/name` 调用；旧 `.claude/commands/*.md` 仅在维护旧流程时保留
 
 ### 1.3 为什么要这样分
 
@@ -234,7 +231,7 @@ description: Audit release readiness by checking recent code changes, tests, rol
 
 - `agents/openai.yaml` 更像 Codex UI 补充层
 - 没它也能做 skill
-- 但如果主人要把 skill 做得更完整、在 Codex 里展示更友好，这一层值得保留
+- 但如果你要把 skill 做得更完整、在 Codex 里展示更友好，这一层值得保留
 
 ---
 
@@ -273,7 +270,7 @@ Cursor 当前官方不再只是 rules 路线。更稳妥的理解是：
 
 ## 4.3 用 `.cursor/rules` 承载有范围的流程规则
 
-如果主人已经在 Cursor 里用 Project Rules，那么同样的审查模板更适合变成：
+如果你已经在 Cursor 里用 Project Rules，那么同样的审查模板更适合变成：
 
 - 某条 Agent Requested rule
 - 某条 Auto Attached rule
@@ -282,42 +279,35 @@ Cursor 当前官方不再只是 rules 路线。更稳妥的理解是：
 
 ---
 
-## 五、Claude Code：优先按 Skills 理解，再视情况补 Commands
+## 五、Claude Code：用一个 Skill 提供手动与自动入口
 
-Claude Code 这轮更稳的官方口径已经是 skills，总体更推荐：
+Claude Code 新流程使用 `.claude/skills/review-pr/SKILL.md`。同一个技能既可通过 `/review-pr` 调用，也可按描述由模型选用，无需再复制一个同名 commands 文件。
 
-- 主流程做成 Claude skill
-- 需要快捷入口时，再补 command 风格文件
-
-## 5.1 用命令文件做快捷入口
-
-目录：
-
-```text
-.claude/commands/review-pr.md
-```
-
-内容：
+### 5.1 审查技能模板（Claude Code 专属增强）
 
 ```markdown
 ---
-description: Review a pull request for bugs, regression risks, and missing tests
-allowed-tools: Bash(git status:*), Bash(git diff:*)
+name: review-pr
+description: Review a pull request for bugs, regression risks, and missing tests.
 argument-hint: [pr-or-branch]
+disable-model-invocation: true
 ---
 
-- Current git status: !`git status`
-- Current diff: !`git diff`
+## Workflow
 
-Review the requested change and report findings ordered by severity.
-Target: $ARGUMENTS
+1. Read the project instructions and the current git diff.
+2. Inspect the requested branch or pull request: $ARGUMENTS
+3. Verify the risky behavior with focused checks.
+4. Report findings ordered by severity, with file locations and evidence.
 ```
 
-这样写的好处是：
+这里明确使用 `disable-model-invocation: true`，表示该流程由用户点名启动。若希望自然语言任务也能自动激活，可以移除此字段，并通过清晰的 description 约束场景。这个开关不会解除工具原有的权限要求。
 
-- 贴合 Claude 当前官方文档
-- 参数和命令注入都有明确出处
-- 可以作为 skill 的快捷入口，而不需要把它伪装成“跨工具通用字段”
+### 5.2 动态上下文只在确有必要时使用
+
+Claude Code 支持 `` !`git diff` `` 一类动态上下文，在技能正文发送给模型前执行并替换结果。它与“正文里建议模型稍后运行命令”不同，因此不适合放未经审查的 shell 表达式或默认执行有副作用的操作。
+
+`$ARGUMENTS`、`argument-hint` 和动态注入是这里的产品增强层，不是承诺所有 Agent Skills 客户端原样执行的通用模板。旧 commands 格式继续兼容，但新技能不需要额外创建 command 才有 slash 入口。
 
 ---
 
@@ -343,7 +333,7 @@ description: Verify release readiness by checking tests, risky changes, rollback
 
 - Kiro / Codex：保留 skill 目录
 - Cursor：保留成 skill，或按长期约束拆成 rule
-- Claude：先做 skill，需要快捷入口再补 command
+- Claude：保留原生 Skill，并直接通过 `/skill-name` 使用快捷入口
 
 ## 6.2 文档生成
 
@@ -395,28 +385,42 @@ description: Review code and configuration for auth mistakes, secret exposure, u
 
 ## 八、现在最实用的抄法
 
-如果主人只想记一套最省心的模板流程，就按这个顺序：
+如果你只想记一套最省心的模板流程，就按这个顺序：
 
 1. 先写 portable `SKILL.md`
 2. 把长内容放进 `references/`
 3. 把重复命令变成 `scripts/`
-4. 在 Codex 增加 `agents/openai.yaml`
-5. 在 Cursor 改写成 `Rules` / `AGENTS.md`
-6. 在 Claude 改写成 slash command
+4. 在 Codex 按需增加 `agents/openai.yaml` 产品适配信息
+5. 在 Cursor 放入支持的 skills 目录；长期规范另写 Rules / AGENTS.md
+6. 在 Claude 放入 `.claude/skills/<name>/SKILL.md`，通过自带 slash 入口调用
 
 这样写出来的模板，不一定“最炫”，但最抗过时，也最容易真正落地。
 
 ## 九、延伸阅读
 
-如果主人想看**更贴近前端开发**的 skills 清单，而不是继续看抽象模板，可以直接接着看：
+如果你想看**更贴近前端开发**的 skills 清单，而不是继续看抽象模板，可以直接接着看：
 
-- [补充篇：前端开发常用 Skills 清单与落地顺序（2026-10复核）](第-05-篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md)
+- [补充篇：前端开发常用 Skills 清单与落地顺序（2026-11复核）](第-05-篇：前端开发常用-Skills-清单与落地顺序（2026-07复核）.md)
 
-## 参考资料
+## 模板落地前的验收
 
-- [Kiro Agent Skills 文档](https://kiro.dev/docs/skills/)
-- [Cursor 2.4 更新说明](https://cursor.com/changelog/2-4)
-- [Cursor Rules 文档](https://cursor.com/docs/rules)
-- [Cursor Skills 文档](https://cursor.com/docs/skills)
-- [Claude Code Skills 文档](https://code.claude.com/docs/en/skills)
-- [OpenAI Plugins 仓库](https://github.com/openai/plugins)
+示例里的脚本、参考文件和外部服务需要实际提供。不要复制了目录树就假设 `collect_release_notes.py` 已存在，也不要把技能文档里的工具名当成已经安装的工具。
+
+| 场景 | 验收方式 |
+| --- | --- |
+| 显式调用 | 点名 skill，确认加载到预期目录和版本 |
+| 自然语言匹配 | 用同义描述请求任务，核对是否合理触发 |
+| 不相关任务 | 确认没有无故执行该流程 |
+| 依赖缺失 | 脚本、凭据或命令缺失时应报告缺项，不伪造执行结果 |
+| 产生写操作 | 先明确目标、范围、预览方式和现有授权 |
+
+Front Matter 按开放规范核验：`name` 与目录一致，`description` 非空；`allowed-tools` 属于实验性规范字段，但语法和执行效果由宿主决定。Cursor Skill 新增文件范围使用 `paths`，不要据此改写 Cursor Rules 中的 `globs`。
+
+## 参考资料（2026-11-18 核验）
+
+- [Agent Skills Specification](https://agentskills.io/specification)
+- [Claude Code Skills：调用控制与动态上下文](https://code.claude.com/docs/en/skills)
+- [Cursor Skills：路径范围与迁移](https://cursor.com/docs/skills)
+- [Kiro Agent Skills](https://kiro.dev/docs/skills/)
+- [Codex 技能目录公开实现](https://github.com/openai/codex/blob/main/codex-rs/ext/skills/src/host_roots.rs)
+- [OpenAI Plugins](https://github.com/openai/plugins)

@@ -1,7 +1,7 @@
 ---
 title: "第 03 篇：Claude Code Plugin 体系详解与实战"
 slug: "ai-plugin-claudecode-claudecodeplugin-ed613976"
-summary: "深入解析 Claude Code Plugin 的定位、scope、官方与社区 marketplace、manifest 规则、`/plugin` 命令族，以及前端开发者可以怎样把 Skills、Commands、Hooks、MCP 等能力打包成可安装插件。"
+summary: "依据 2026-11-18 Claude Code 官方文档，更新插件目录、可选 manifest、命名空间、校验与本地开发、scope、marketplace 和云端加载边界。"
 category: "Plugin"
 categoryPath:
   - "AI相关"
@@ -28,361 +28,171 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 03 篇：Claude Code Plugin 体系详解与实战
 
-## 2026-10-30 复核补充
-
-Claude Code 官方插件文档在 2026-10-28 仍在更新。当前插件可携带 skills、agents、hooks、MCP servers 以及可选的 JS hooks module；官方文档还增加了 context cost/measure、组织 allowlist/force-install 和 `claude plugin disable` 等治理入口。阅读 manifest、marketplace 和安装命令时应以当前官方 reference 为准，并把组织策略与个人本地安装分开描述。
-
-参考：[Claude Code Plugins 官方文档](https://code.claude.com/docs/en/plugins)。
-
-> 资料来源：Claude Code 官方《Create plugins》文档与 Anthropic 官方 / 社区 marketplace 仓库。2026-10-30 按官方文档重新校对命令、Marketplace 与 manifest 规则。
+> 核验日期：2026-11-18。本文依据 Claude Code 当前插件安装、manifest、CLI 与 Skills 文档；版本相关参数以本机 `claude plugin --help` 为准。
 
 [[toc]]
 
----
+## 一、Plugin 如何组合工作流
 
-## 一、先把定位说准：Plugin 是“打包层”
+Claude Code Plugin 可提供 skills、agents、hooks、MCP、LSP 等组件。团队可以把“PR 审查流程 + reviewer agent + 项目工具连接 + 检查脚本”统一分发，再由使用者在相应 scope 启用。
 
-为了方便理解 Claude Code 的扩展体系，你可以把常见扩展面粗分成几类：
+插件只负责能力组织与加载。MCP 凭据、语言服务器程序、脚本依赖和权限仍需单独就绪。例如安装 LSP 插件不代表机器上一定已有对应语言服务器二进制。
 
-- `CLAUDE.md`：规则与上下文偏好
-- Hooks：事件触发的自动化
-- Skills：任务流程模板
-- MCP：外部能力接入
-- Subagents：并行或专责代理
-- Plugin：把多种能力组织成可安装单元
-- Memory / settings：跨会话偏好与配置
-
-这里最关键的一句是：
-
-> **Plugin 不是新的底层能力，而是把已有能力按 Claude Code 认可的方式打包、安装、启用、禁用和更新。**
-
-也就是说，Claude Code 的 Plugin 更像：
-
-- 一个可安装包
-- 一个带 scope 的配置对象
-- 一个能挂接 marketplace 的分发单元
-
-而不是单独取代 Skill、Hooks、MCP 或 Subagent。
-
----
-
-## 二、一个 Claude Code Plugin 现在可以包含什么
-
-你的原稿里把 Claude Code Plugin 写成只能包含五类能力，这已经偏窄了。按当前官方文档，更稳妥的说法是：
-
-Claude Code Plugin 可以组织的内容至少包括：
-
-- Skills
-- Slash Commands
-- Subagents
-- Hooks
-- MCP servers
-- LSP servers
-- Monitors
-- Themes
-- Output styles
-- Bin executables
-- Settings
-
-也就是说，Plugin 在 Claude Code 里更像一个**统一插件容器**。
-
-一个更贴近当前文档的抽象结构示意：
+## 二、目录：组件放在插件根目录
 
 ```text
-my-claude-plugin/
+frontend-dev-toolkit/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── skills/
-├── commands/
+│   └── review-pr/
+│       ├── SKILL.md
+│       └── references/checklist.md
 ├── agents/
+│   └── reviewer.md
 ├── hooks/
+│   └── hooks.json
+├── scripts/
+│   └── check-format.sh
 ├── .mcp.json
-├── lsp/
-├── monitors/
-├── themes/
-└── settings/
+└── .lsp.json
 ```
 
-不是每个插件都会同时拥有这些目录，但它说明了 Claude Code 的插件系统已经不是"只打包几个 markdown 文件"那么简单。
+只有 `plugin.json` 放进 `.claude-plugin/`；不要把 `skills/`、`agents/` 或 `hooks/` 放进该目录。新插件优先用 `skills/<name>/SKILL.md`；旧 `commands/*.md` 仍兼容。
 
----
+插件根目录中的 `CLAUDE.md` 不会自动作为上下文加载。需要提供任务说明时写入 Skill，长期仓库规则仍放在仓库自己的记忆/规则位置。
 
-## 三、Claude Code 的安装 scope 现在怎么理解
+## 三、manifest 可选，但团队发布建议显式维护
 
-这是官方文档里非常明确、而社区文章经常略过的一块。
-
-Claude Code 的 Plugin 使用和其他配置一样，走统一 scope 体系：
-
-| Scope | 配置文件 | 适用场景 |
-| --- | --- | --- |
-| `user` | `~/.claude/settings.json` | 个人插件，所有项目可用 |
-| `project` | `.claude/settings.json` | 团队共享，进入版本控制 |
-| `local` | `.claude/settings.local.json` | 仅本地项目使用，通常 gitignore |
-| `managed` | managed settings | 受管环境中的只读插件配置 |
-
-这一点会直接影响你怎么写团队落地建议：
-
-- 想全局自用 -> `user`
-- 想团队统一 -> `project`
-- 想只在自己机器对当前仓库试验 -> `local`
-- 企业或平台托管 -> `managed`
-
-所以别再把 Claude Code 插件只理解成"装到某个固定目录里"。**它本质上还是一组带 scope 的配置与组件。**
-
----
-
-## 四、Marketplace 现在分哪几类
-
-这一块比原稿写得要丰富，而且官方名称非常具体。
-
-### 4.1 官方 marketplace：`claude-plugins-official`
-
-官方文档明确写到：
-
-- 官方 Anthropic marketplace 名叫 **`claude-plugins-official`**
-- 它在 Claude Code 启动时会自动可用
-- 可以在 `/plugin` 的 **Discover** 标签里浏览
-- 也可以去 `claude.com/plugins` 看目录
-
-安装官方插件的示意写法是：
-
-```bash
-/plugin install github@claude-plugins-official
-```
-
-### 4.2 官方 marketplace：`claude-code-plugins`
-
-官方文档同时给出了社区市场：
-
-- Anthropic 当前官方 marketplace 还包括 `claude-code-plugins`；与 `claude-plugins-official` 同属官方 marketplace。
-- 托管第三方插件
-- 会经过自动校验与安全筛查
-- catalog 中每个插件会 pin 到特定 commit SHA
-
-这比"有个社区仓库"的说法精确得多，也比你原稿中的 `anthropics/claude-code-plugins` 更接近当前官方口径。
-
-### 4.3 Community marketplace：`claude-community`
-
-官方文档将 `claude-community` 作为 Community marketplace 示例：
-
-- 社区示例源可使用文档中的 `claude-community`；添加前先审阅 source 和插件权限
-- 其中 `plugins/` 目录展示示例插件
-- 更偏"演示能力边界"和"给开发者看怎么做"
-
-所以更稳妥的区分方式是：
-
-| 类型 | 名称 / 来源 | 用途 |
-| --- | --- | --- |
-| 官方 | `claude-plugins-official` | 正式官方插件目录 |
-| 官方 | `claude-code-plugins` | Anthropic 官方 marketplace |
-| Community | `claude-community` | 社区 marketplace 示例 |
-
----
-
-## 五、`/plugin` 命令族现在怎么写才不误导
-
-你原稿里写的命令表有一部分方向是对的，但细节有两个问题：
-
-1. 少了 `enable` / `disable`
-2. 把 `status` 写成了主命令，而官方现在更接近 `details`
-
-结合当前官方文档，更稳妥的常用命令表如下：
-
-| 命令 | 作用 |
-| --- | --- |
-| `/plugin` | 打开插件界面，浏览 Discover / 已安装插件等 |
-| `/plugin install <name>` | 安装插件 |
-| `/plugin uninstall <name>` | 卸载插件 |
-| `/plugin enable <name>` | 启用插件 |
-| `/plugin disable <name>` | 禁用插件 |
-| `/plugin list` | 列出插件 |
-| `/plugin details <name>` | 查看插件详情 |
-| `/plugin marketplace add <source>` | 添加 marketplace |
-| `/plugin marketplace list` | 查看已添加 marketplace |
-| `/plugin marketplace update <name>` | 更新 marketplace |
-| `/plugin marketplace remove <name>` | 移除 marketplace |
-
-另外，Claude Code 也有 CLI 形式的 `claude plugin ...` 命令族。写文章时，最好明确区分：
-
-- **交互式 TUI / slash command**
-- **CLI 形式**
-
-不要把两个入口混成一句"就用 /plugin"。
-
----
-
-## 六、手动安装与添加源，官方现在支持到什么程度
-
-Claude Code 官方文档对安装源的说明比很多二手文章要细：
-
-- 可以从官方 marketplace 安装
-- 可以手动添加 community / demo marketplace
-- 可以 **add from local paths**
-- 也支持添加远程 URL
-
-所以更稳妥的安装思路是：
-
-### 6.1 安装官方插件
-
-```bash
-/plugin install github@claude-plugins-official
-```
-
-### 6.2 添加社区 marketplace
-
-```bash
-/plugin marketplace add claude-code-plugins
-```
-
-### 6.3 添加 demo marketplace
-
-```bash
-/plugin marketplace add claude-community
-```
-
-### 6.4 本地路径开发与试装
-
-如果你在本地开发插件，可以直接通过本地路径加入或安装，这对团队内试运行非常有用。
-
-这也是为什么 Claude Code 的插件系统会比"把几个 Skill 手动放目录里"更完整：它不只是支持内容复用，还支持**官方市场、社区市场、本地路径、远程源**几种不同分发路线。
-
----
-
-## 七、`.claude-plugin/plugin.json` 现在要怎么讲
-
-这是本文里最需要纠正的一块之一。
-
-### 7.1 manifest 不是必需文件
-
-官方文档当前明确写到：
-
-> `.claude-plugin/plugin.json` 是可选的。
-
-如果你不写 manifest：
-
-- Claude Code 会按默认位置自动发现组件
-- 插件名会从目录名推导
-
-也就是说，你不能再把 Claude Code 写成"每个插件根目录必须有 `plugin.json`"。
-
-### 7.2 如果写 manifest，唯一必填字段是 `name`
-
-官方文档当前明确写到：
-
-> If you include a manifest, `name` is the only required field.
-
-因此更稳妥的最小示例应该是：
+没有 manifest 时，Claude Code 可以从标准目录发现组件；插件名称来自 marketplace 条目，或本地 `--plugin-dir` 加载时的目录名。存在 manifest 时，`name` 是必填字段。
 
 ```json
 {
-  "name": "frontend-dev-toolkit"
+  "name": "frontend-dev-toolkit",
+  "description": "Frontend review workflows and supporting tools",
+  "version": "1.0.0",
+  "author": {
+    "name": "Example Team"
+  }
 }
 ```
 
-而不是你原稿里的 `name + version + description` 三项全必填。
+这个示例没有强行声明默认组件路径。确实需要自定义路径时，按 manifest reference 指定 `./` 开头、位于插件根目录内且真实存在的路径。
 
-### 7.3 `version` 是可选的
+当前字段还包含 `userConfig`、`dependencies` 等能力，部分新字段有最低版本条件。不要把最新示例中的字段全部复制给旧客户端。`version` 可选，但省略与填写时的缓存/更新行为不同；发布新代码时应同步维护版本，不能默认推送 Git 后每台机器都立即刷新。
 
-官方文档还明确说明：
+## 四、先本地加载与校验
 
-- `version` 可选
-- 如果省略，Claude Code 会回退到 **git commit SHA**
-- 这意味着每个提交都可能被视为一个新版本
+在终端执行：
 
-因此更稳妥的字段理解是：
+```bash
+claude plugin validate ./frontend-dev-toolkit
+claude --plugin-dir ./frontend-dev-toolkit
+```
 
-| 字段 | 当前更稳妥的说明 |
+`--plugin-dir` 仅为当前会话加载，不等于永久安装到用户配置。多个插件使用多个参数：
+
+```bash
+claude --plugin-dir ./frontend-dev-toolkit --plugin-dir ./review-tools
+```
+
+校验会检查字段类型和组件路径等问题。`Validation passed with warnings` 应继续审阅警告；团队 CI 可使用当前版本支持的 `--strict`，使警告导致失败。
+
+插件技能使用带命名空间的入口，例如：
+
+```text
+/frontend-dev-toolkit:review-pr
+```
+
+这样能区分不同插件的同名技能。单独项目 Skill 则可使用 `/review-pr`。
+
+## 五、marketplace：来源和名称要分清
+
+官方安装文档使用的主要市场是 `anthropics/claude-plugins-official` 仓库，登记名称为 `claude-plugins-official`。在全新机器的脚本中，先添加来源再安装：
+
+```bash
+claude plugin marketplace add anthropics/claude-plugins-official
+claude plugin install commit-commands@claude-plugins-official
+claude plugin list
+```
+
+在交互会话中也可使用：
+
+```text
+/plugin
+/plugin install commit-commands@claude-plugins-official
+```
+
+`owner/repo` 是来源；`@` 后面是 marketplace 登记名称。不要把名称、GitHub 仓库短名和示例社区名混用。添加团队市场可用真实 `owner/repo`、Git URL 或包含 `.claude-plugin/marketplace.json` 的本地目录，例如：
+
+```text
+/plugin marketplace add ./team-marketplace
+```
+
+官方目录中的第三方插件仍有各自的作者和授权需求。“在官方市场可见”不意味着所有内容都由 Anthropic 编写，也不代替团队审阅。
+
+## 六、scope 与团队安装
+
+| Scope | 存储/用途 | 团队使用注意 |
+| --- | --- | --- |
+| `user` | 用户配置，跨本地项目 | 普通安装默认范围 |
+| `project` | `.claude/settings.json` | 可提交共享启用配置；同事仍需在自己的 clone 安装 |
+| `local` | 项目本地设置 | 仅当前开发者使用，不提交个人配置 |
+| `managed` | 管理员策略下发 | 普通用户不能用 `plugin install --scope managed` 自行安装 |
+
+团队安装示例中 `formatter@team-tools` 是占位名称，需要替换为真实 catalog 中的插件：
+
+```bash
+claude plugin install formatter@team-tools --scope project
+```
+
+提交 `.claude/settings.json` 不等于帮其他人下载插件。每位成员应先能访问 marketplace，再在自己的 clone 执行安装。插件被更高优先级组织策略禁止时，应调整正确的管理配置，而不是修改本地缓存。
+
+## 七、更新与故障排查
+
+常用 shell 命令如下：
+
+| 命令 | 用途 |
 | --- | --- |
-| `name` | 如果写 manifest，这是唯一必填字段 |
-| `version` | 可选；省略时回退到 git commit SHA |
-| `description` | 可选说明字段 |
-| `author` 等元信息 | 可选 |
-| 自定义组件路径 | 在需要时可提供 |
+| `claude plugin list` | 查看已安装插件、版本、scope、状态 |
+| `claude plugin enable <plugin>` | 启用插件 |
+| `claude plugin disable <plugin>` | 禁用插件 |
+| `claude plugin update <plugin>@<marketplace>` | 更新指定插件 |
+| `claude plugin uninstall <plugin>` | 卸载 |
+| `claude plugin marketplace update <marketplace>` | 刷新 marketplace |
+| `claude plugin validate ./plugin-directory` | 校验插件结构 |
 
-### 7.4 什么时候应该写 manifest
+操作具体 scope 时可显式传 `--scope`。`managed` 仅在部分管理动作（如当前 `update`）支持，不能把所有命令的 scope 参数视为完全相同。
 
-如果你只是按默认结构写一个简单插件，manifest 甚至可以不写。
+排查顺序：来源能否访问 → 插件是否已下载 → 当前 scope 是否启用 → manifest/路径是否正确 → 依赖与 MCP 授权是否齐全 → 本会话是否已加载更新。修改后按客户端提示重载或开启新会话，不将“磁盘有文件”当成“本会话已生效”。
 
-更适合写 manifest 的情况是：
+## 八、脚本路径、用户配置和云端边界
 
-- 需要显式元信息
-- 需要自定义路径
-- 需要更稳定的版本控制
-- 需要让插件在 marketplace / 团队分发中更清晰可识别
+插件更新时安装根目录可能变化。脚本和随包二进制引用使用 `${CLAUDE_PLUGIN_ROOT}`；持久状态放适用的持久数据位置，不写进版本化安装目录。shell 命令中的路径变量要正确引用，以兼容带空格目录。
 
----
+`userConfig` 可声明需要向用户收集的配置；敏感项使用文档支持的 sensitive 语义，避免把 token 写入共享仓库。不要假设每种组件都能读取所有配置变量，按 manifest reference 的支持表逐项确认。
 
-## 八、前端开发者实际可以怎么用 Claude Code Plugin
+本地安装的插件不会自动成为云会话插件。当前官方文档明确：云会话不加载用户本机已安装插件，也不因为仓库 `.claude/settings.json` 启用了插件就自动加载。账号同步与组织管理分发属于另一条流程，使用桌面、终端或云端时应分别验证。
 
-这一部分你的方向是对的，我把口径收紧一下。
+## 九、三个实际工作流
 
-### 8.1 组件开发工具包
+### 9.1 组件开发
 
-一个前端团队可以把以下内容打成插件：
+将组件实现 Skill、组件审查 agent 与设计资料 MCP 放在一个插件。Skill 先读取项目设计系统，再实现组件；检查脚本只运行与变更相关的构建/测试。需要真实浏览器验证时遵守项目授权规则。
 
-- `/create-component` 命令
-- 组件生成 Skill
-- 组件审查 Subagent
-- ESLint / 测试 Hook
-- Figma / GitHub / 文档类 MCP 集成
+### 9.2 PR 审查
 
-这样插件装上后，团队成员拿到的不只是"一个命令"，而是一套能协作的前端生产流。
+Skill 读取 diff 和 `references/checklist.md`，审查 agent 检查复杂边界，GitHub MCP 提供必要上下文。输出问题、影响与证据；是否提交评论由当前任务授权决定。
 
-### 8.2 代码审查工作流
+### 9.3 发布准备
 
-适合打成插件的组合包括：
+将发布清单、环境核对脚本、回滚说明和部署工具接入统一分发。清晰区分只读预览与正式写入，不把“安装发布插件”当作对任何环境的永久发布授权。
 
-- `/review-pr`
-- PR 审查 Skill
-- reviewer subagent
-- GitHub MCP
-- 提交前检查 Hook
+## 参考资料
 
-### 8.3 部署与发布工作流
-
-如果你的流程里同时涉及：
-
-- 部署命令
-- 环境检查 Skill
-- 平台集成
-- 审批或通知逻辑
-
-它就已经很像一个 Plugin，而不只是"再多写一个 markdown 命令"。
-
----
-
-## 九、Claude Code Plugin 当前更稳妥的结论
-
-### 9.1 已经可以明确说对的
-
-- Claude Code 官方支持插件体系
-- 官方 marketplace 名叫 `claude-plugins-official`
-- 官方 marketplace：`claude-plugins-official`、`claude-code-plugins`；Community 示例：`claude-community`
-- 插件支持 user / project / local / managed scope
-- `.claude-plugin/plugin.json` 是可选文件
-- 如果写 manifest，`name` 是唯一必填字段
-- `version` 可省略，省略时回退到 git commit SHA
-
-### 9.2 不要再写成定论的
-
-- "每个 Claude Code 插件都必须有 plugin.json"
-- "最小 manifest 必须包含 `name/version/description`"
-- "官方 marketplace 仓库叫 `anthropics/claude-code-plugins`"
-- "`/plugin status` 是主命令"
-- "Plugin 只能包含五类能力"
-
-### 9.3 给读者的实操建议
-
-1. 先从官方 marketplace 装 1 个插件体验
-2. 再理解 scope，决定是装到 `user`、`project` 还是 `local`
-3. 自己开发插件时，先按默认目录结构跑通，再决定要不要补 manifest
-
----
-
-## 十、参考资料
-
-- [Claude Code: Create plugins](https://code.claude.com/docs/en/plugins)
-- [Claude Code: Skills](https://code.claude.com/docs/en/skills)
-- [Anthropic 官方 marketplace：claude-plugins-official](https://github.com/anthropics/claude-plugins-official)
-- [Claude Code Plugins 官方文档](https://code.claude.com/docs/en/plugins)
-- 添加社区 source 前先阅读其 README、manifest 和权限声明
+- [Claude Code Plugins](https://code.claude.com/docs/en/plugins)
+- [安装与管理插件](https://code.claude.com/docs/en/plugins/install)
+- [Plugin manifest reference](https://code.claude.com/docs/en/plugins/manifest-reference)
+- [Plugin CLI reference](https://code.claude.com/docs/en/plugins/cli-reference)
+- [Claude Code Skills](https://code.claude.com/docs/en/skills)
+- [Anthropic 官方 marketplace](https://github.com/anthropics/claude-plugins-official)
