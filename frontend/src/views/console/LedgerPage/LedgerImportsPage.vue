@@ -3,6 +3,7 @@
     <LedgerImportTable
       ref="tableRef"
       :book-id="bookId"
+      :book-options="bookOptions"
       :refresh-key="refreshKey"
     />
   </section>
@@ -14,6 +15,7 @@ import LedgerImportTable from './LedgerImportTable.vue'
 
 const props = defineProps({
   bookId: { type: String, default: '' },
+  bookOptions: { type: Array, default: () => [] },
   refreshKey: { type: Number, default: 0 }
 })
 

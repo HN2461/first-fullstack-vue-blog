@@ -121,11 +121,12 @@
       v-model:open="importRecordsOpen"
       title="导入记录"
       :footer="null"
-      width="920px"
-      :body-style="{ maxHeight: '68vh', overflowY: 'auto' }"
+      width="min(1520px, calc(100vw - 48px))"
+      wrap-class-name="ledger-import-records-modal"
+      :body-style="{ maxHeight: 'min(72vh, calc(100dvh - 160px))', overflow: 'hidden' }"
       destroy-on-close
     >
-      <LedgerImportTable :book-id="selectedBookId" :refresh-key="refreshKey" />
+      <LedgerImportTable :book-options="bookOptions" :refresh-key="refreshKey" />
     </a-modal>
 
     <a-modal
@@ -406,7 +407,7 @@ async function saveBook() {
 }
 
 function handleMenuAction(key) {
-  if (['categories', 'newCategory', 'importRecords', 'importExcel'].includes(key) && selectedBookId.value === 'all') {
+  if (['categories', 'newCategory', 'importExcel'].includes(key) && selectedBookId.value === 'all') {
     message.warning('请先选择具体账本后再执行此操作')
     return
   }
@@ -518,6 +519,11 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* 全局弹窗已有包裹层顶部留白，只调整这一层，避免 top 再次叠加把弹窗下推。 */
+:global(.ant-modal-root .ledger-import-records-modal.ant-modal-wrap) {
+  padding: clamp(24px, 6vh, 64px) 24px 48px;
+}
+
 .ledger-page {
   display: grid;
   gap: 12px;
@@ -603,6 +609,10 @@ onMounted(async () => {
 }
 
 @media (max-width: 640px) {
+  :global(.ant-modal-root .ledger-import-records-modal.ant-modal-wrap) {
+    padding: 24px 12px 32px;
+  }
+
   .ledger-page {
     gap: 10px;
   }
