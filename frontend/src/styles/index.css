@@ -1,4 +1,7 @@
 :root {
+  /* 弹窗统一复用定位变量，避免业务组件各自叠加偏移而失去一致性。 */
+  --console-modal-top-gap: clamp(24px, 6vh, 64px);
+  --console-modal-bottom-gap: 48px;
   --bg-primary: #f7f4ed;
   --bg-secondary: #ebe7dc;
   --bg-elevated: #fffdf8;
@@ -119,7 +122,7 @@ body.ant-scrolling-effect {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: clamp(56px, 8vh, 88px) 16px 24px;
+  padding: var(--console-modal-top-gap) 16px var(--console-modal-bottom-gap);
   overscroll-behavior: contain;
 }
 
@@ -131,7 +134,7 @@ body.ant-scrolling-effect {
 }
 
 .ant-modal-root .ant-modal-content {
-  max-height: calc(100vh - clamp(80px, 12vh, 120px));
+  max-height: calc(100dvh - var(--console-modal-top-gap) - var(--console-modal-bottom-gap));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -155,17 +158,18 @@ body.ant-scrolling-effect {
 }
 
 @media (max-width: 760px) {
+  :root {
+    --console-modal-top-gap: 24px;
+    --console-modal-bottom-gap: 32px;
+  }
+
   .ant-modal-root .ant-modal-wrap,
   .ant-modal-root .ant-modal-wrap.ant-modal-centered {
-    padding: 32px 12px 16px;
+    padding-inline: 12px;
   }
 
   .ant-modal-root .ant-modal {
     max-width: calc(100vw - 24px);
-  }
-
-  .ant-modal-root .ant-modal-content {
-    max-height: calc(100vh - 48px);
   }
 }
 

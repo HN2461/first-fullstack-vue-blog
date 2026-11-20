@@ -519,11 +519,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* 全局弹窗已有包裹层顶部留白，只调整这一层，避免 top 再次叠加把弹窗下推。 */
-:global(.ant-modal-root .ledger-import-records-modal.ant-modal-wrap) {
-  padding: clamp(24px, 6vh, 64px) 24px 48px;
-}
-
 .ledger-page {
   display: grid;
   gap: 12px;
@@ -609,10 +604,6 @@ onMounted(async () => {
 }
 
 @media (max-width: 640px) {
-  :global(.ant-modal-root .ledger-import-records-modal.ant-modal-wrap) {
-    padding: 24px 12px 32px;
-  }
-
   .ledger-page {
     gap: 10px;
   }
