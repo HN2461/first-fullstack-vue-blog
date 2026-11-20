@@ -3,6 +3,7 @@ import * as XLSX from 'xlsx'
 import { LedgerCategory } from '#modules/ledger/models/LedgerCategory.js'
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { LedgerImportBatch } from '#modules/ledger/models/LedgerImportBatch.js'
+import { decodeUploadFilename } from '#utils/uploadFilename.js'
 import { createError, formatDay, parseAmount, startOfDay, toObjectId } from './ledger.utils.js'
 import { findOwnedBook, findWritableBook, seedDefaultCategories } from './ledgerBook.service.js'
 import { getCategoryMap, getOrCreateCategoryByName } from './ledgerCategory.service.js'
@@ -275,7 +276,8 @@ export async function previewLedgerImport(userId, input, file) {
   const batch = await LedgerImportBatch.create({
     userId,
     bookId: book._id,
-    filename: file.originalname || 'ledger.xlsx',
+    // multipart 的原文件名可能按 Latin1 解析，入库前复用统一解码以保留中文。
+    filename: decodeUploadFilename(file.originalname) || 'ledger.xlsx',
     fileHash,
     templateType: TEMPLATE_TYPE,
     status: 'previewed',

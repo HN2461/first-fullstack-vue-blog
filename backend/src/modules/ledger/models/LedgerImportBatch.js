@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { decodeUploadFilename } from '#utils/uploadFilename.js'
 
 export const LEDGER_IMPORT_STATUSES = ['previewed', 'committing', 'committed', 'failed']
 export const LEDGER_IMPORT_TEMPLATE_TYPES = ['yuque_monthly_ledger_v1']
@@ -78,7 +79,8 @@ ledgerImportBatchSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     id: this._id.toString(),
     userId: this.userId?.toString?.(),
     bookId: this.bookId?.toString?.(),
-    filename: this.filename,
+    // 历史批次仅修复展示，不在读取时改写数据库或更新时间。
+    filename: decodeUploadFilename(this.filename),
     fileHash: this.fileHash,
     templateType: this.templateType,
     status: this.status,

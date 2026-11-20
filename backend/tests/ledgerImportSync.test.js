@@ -4,6 +4,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { BUILTIN_ROLE_CODES, USER_ROLES } from '#constants/domain'
 import { createApp } from '../src/app.js'
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
+import { LedgerImportBatch } from '#modules/ledger/models/LedgerImportBatch.js'
 import { Role } from '#modules/rbac/models/Role.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { User } from '#modules/user/models/User.js'
@@ -79,12 +80,12 @@ describe('ledger Excel import synchronization', () => {
 
   afterAll(disconnectTestDatabase)
 
-  async function previewAndCommit(buffer) {
+  async function previewAndCommit(buffer, filename = 'ledger.xlsx') {
     const previewResponse = await request(app)
       .post('/api/ledger/imports/preview')
       .set('Authorization', `Bearer ${token}`)
       .field('bookId', bookId)
-      .attach('file', buffer, 'ledger.xlsx')
+      .attach('file', buffer, filename)
       .expect(200)
 
     const commitResponse = await request(app)
@@ -94,6 +95,56 @@ describe('ledger Excel import synchronization', () => {
 
     return { previewResponse, commitResponse }
   }
+
+  it('preserves a Chinese upload filename in preview, commit, history and storage', async () => {
+    const filename = '2026年6月份收支明细.xlsx'
+    const { previewResponse, commitResponse } = await previewAndCommit(buildLedgerWorkbookBuffer(), filename)
+    const batchId = previewResponse.body.data.id
+
+    expect(previewResponse.body.data.filename).toBe(filename)
+    expect(commitResponse.body.data.filename).toBe(filename)
+    expect((await LedgerImportBatch.findById(batchId).lean()).filename).toBe(filename)
+
+    const history = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+    expect(history.body.data.items).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: batchId, filename, status: 'committed' })
+    ]))
+  })
+
+  it('repairs historical Latin1 filenames on read without rewriting stored records', async () => {
+    const filename = '历史账本收支明细.xlsx'
+    const historicalFilename = Buffer.from(filename, 'utf8').toString('latin1')
+    const batches = await LedgerImportBatch.create([
+      historicalFilename,
+      '正常中文账本.xlsx',
+      'ledger-2026.xlsx'
+    ].map((storedFilename) => ({
+      userId: user._id,
+      bookId,
+      filename: storedFilename,
+      fileHash: 'historical-import-fixture',
+      status: 'committed'
+    })))
+    const storedQuery = { _id: { $in: batches.map((batch) => batch._id) } }
+    const before = await LedgerImportBatch.collection.find(storedQuery).sort({ _id: 1 }).toArray()
+
+    const history = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    expect(history.body.data.items).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: batches[0]._id.toString(), filename }),
+      expect.objectContaining({ id: batches[1]._id.toString(), filename: '正常中文账本.xlsx' }),
+      expect.objectContaining({ id: batches[2]._id.toString(), filename: 'ledger-2026.xlsx' })
+    ]))
+    // 历史修复仅作用于响应，不改写已存批次及其时间戳。
+    expect(await LedgerImportBatch.collection.find(storedQuery).sort({ _id: 1 }).toArray()).toEqual(before)
+    expect(before.find((batch) => batch._id.equals(batches[0]._id)).filename).toBe(historicalFilename)
+  })
 
   it('commits monthly Excel data idempotently with comments and daily notes', async () => {
     const { previewResponse } = await previewAndCommit(buildLedgerWorkbookBuffer())
