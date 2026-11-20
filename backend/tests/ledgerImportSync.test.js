@@ -113,6 +113,101 @@ describe('ledger Excel import synchronization', () => {
     expect(await LedgerEntry.countDocuments({ userId: user._id })).toBe(9)
   })
 
+  it('lists previewed and committed imports by book without losing repeated import history', async () => {
+    const previewResponse = await request(app)
+      .post('/api/ledger/imports/preview')
+      .set('Authorization', `Bearer ${token}`)
+      .field('bookId', bookId)
+      .attach('file', buildLedgerWorkbookBuffer(), 'ledger.xlsx')
+      .expect(200)
+    const firstBatchId = previewResponse.body.data.id
+
+    const previewList = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId })
+      .expect(200)
+
+    expect(previewList.body.data.total).toBe(1)
+    expect(previewList.body.data.items[0]).toMatchObject({ id: firstBatchId, bookId, status: 'previewed' })
+
+    await request(app)
+      .post(`/api/ledger/imports/${firstBatchId}/commit`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+    const second = await previewAndCommit(buildLedgerWorkbookBuffer())
+    const secondBatchId = second.previewResponse.body.data.id
+    expect(secondBatchId).not.toBe(firstBatchId)
+
+    // 相同文件重新预览会生成独立批次，流水幂等不能导致历史批次被覆盖。
+    const firstPage = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, page: 1, pageSize: 1 })
+      .expect(200)
+    const secondPage = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId, page: 2, pageSize: 1 })
+      .expect(200)
+
+    expect(firstPage.body.data).toMatchObject({ total: 2, page: 1, pageSize: 1 })
+    expect(secondPage.body.data).toMatchObject({ total: 2, page: 2, pageSize: 1 })
+    expect(firstPage.body.data.items).toHaveLength(1)
+    expect(secondPage.body.data.items).toHaveLength(1)
+    expect(firstPage.body.data.items[0]).toMatchObject({
+      id: secondBatchId,
+      bookId,
+      status: 'committed',
+      stats: { inserted: 0, updated: 9 }
+    })
+    expect(secondPage.body.data.items[0]).toMatchObject({
+      id: firstBatchId,
+      bookId,
+      status: 'committed',
+      stats: { inserted: 9, updated: 0 }
+    })
+    expect(firstPage.body.data.items[0].committedAt).toBeTruthy()
+    expect(secondPage.body.data.items[0].committedAt).toBeTruthy()
+  })
+
+  it('isolates import history by book and user', async () => {
+    await previewAndCommit(buildLedgerWorkbookBuffer())
+    const otherBook = await request(app)
+      .post('/api/ledger/books')
+      .set('Authorization', `Bearer ${token}`)
+      .send({ name: '没有导入记录的账本' })
+      .expect(201)
+
+    const otherBookList = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${token}`)
+      .query({ bookId: otherBook.body.data.id })
+      .expect(200)
+    expect(otherBookList.body.data).toMatchObject({ items: [], total: 0 })
+
+    const otherUser = await User.create({
+      username: 'other-ledger-import-user',
+      email: 'other-ledger-import-user@example.com',
+      passwordHash: 'hashed-password',
+      role: USER_ROLES.USER,
+      roles: user.roles
+    })
+    const otherToken = signAccessToken(otherUser)
+    const otherUserList = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${otherToken}`)
+      .expect(200)
+    expect(otherUserList.body.data).toMatchObject({ items: [], total: 0 })
+
+    const forbiddenBookList = await request(app)
+      .get('/api/ledger/imports')
+      .set('Authorization', `Bearer ${otherToken}`)
+      .query({ bookId })
+      .expect(404)
+    expect(forbiddenBookList.body.code).toBe('LEDGER_BOOK_NOT_FOUND')
+  })
+
   it('deletes cleared Excel cells without deleting manual entries', async () => {
     await previewAndCommit(buildLedgerWorkbookBuffer())
     const breakfast = await LedgerEntry.findOne({ userId: user._id, categoryNameSnapshot: '早餐' })

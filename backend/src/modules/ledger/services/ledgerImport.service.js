@@ -4,8 +4,7 @@ import { LedgerCategory } from '#modules/ledger/models/LedgerCategory.js'
 import { LedgerEntry } from '#modules/ledger/models/LedgerEntry.js'
 import { LedgerImportBatch } from '#modules/ledger/models/LedgerImportBatch.js'
 import { createError, formatDay, parseAmount, startOfDay, toObjectId } from './ledger.utils.js'
-import { seedDefaultCategories } from './ledgerBook.service.js'
-import { findWritableBook } from './ledgerBook.service.js'
+import { findOwnedBook, findWritableBook, seedDefaultCategories } from './ledgerBook.service.js'
 import { getCategoryMap, getOrCreateCategoryByName } from './ledgerCategory.service.js'
 
 const DERIVED_COLUMNS = new Set(['当日吃饭总支出', '当日总支出', '当日逆差'])
