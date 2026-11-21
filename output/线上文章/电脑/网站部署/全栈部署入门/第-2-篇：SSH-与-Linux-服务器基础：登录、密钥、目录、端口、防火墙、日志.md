@@ -41,13 +41,13 @@ SSH 可以理解成：
 你在自己电脑上输入：
 
 ```bash
-ssh root@1.2.3.4
+ssh deploy@203.0.113.10
 ```
 
 意思是：
 
 ```txt
-我要用 root 用户，登录 IP 是 1.2.3.4 的服务器。
+我要用 deploy 账户，登录地址为 203.0.113.10 的服务器。实际操作需替换成自己的服务器和账号。
 ```
 
 OpenSSH 官方手册提供了 `ssh`、`scp`、`sftp` 等命令说明，所以 SSH 不是某个云厂商私有功能，而是非常通用的远程登录方式。
@@ -62,11 +62,11 @@ OpenSSH 官方手册提供了 `ssh`、`scp`、`sftp` 等命令说明，所以 SS
 密码或密钥
 ```
 
-最常见密码登录：
+在自己电脑的 PowerShell 或终端运行下面的命令。示例用文档地址 `203.0.113.10` 和普通账户 `deploy`。请换成云控制台提供的实际公网 IP、登录账户及端口。
 
 ```bash
-# 把 1.2.3.4 换成你的服务器公网 IP
-ssh root@1.2.3.4
+# 默认 SSH 端口为 22。如使用其他端口，加上 -p 与端口号
+ssh deploy@203.0.113.10
 ```
 
 第一次登录时，终端可能提示：
@@ -81,7 +81,13 @@ Are you sure you want to continue connecting?
 这是你第一次连接这台服务器，要不要把它记住？
 ```
 
-确认 IP 没输错后，输入 `yes`。
+首次连接提示还会显示主机密钥类型和 `SHA256:...` 指纹。先从独立可信渠道取得正确信息，例如已登录云账号后使用该实例的 Web/VNC 控制台，或向管理服务器的人通过已确认身份的官方渠道索取指纹。在可信控制台中如果有权限，可查看对应的主机公钥指纹。下面以 ED25519 为例。
+
+```bash
+ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub
+```
+
+比较相同算法下的完整 SHA256 指纹。匹配后回到本机提示输入 `yes`。若指纹对不上或没有可信来源，终止连接并检查实例及主机密钥。已知服务器后来出现 `REMOTE HOST IDENTIFICATION HAS CHANGED` 时，先通过可信控制台确认是否发生了重装或密钥轮换，再让管理员更新已知主机记录。
 
 ## 3. 密钥登录是什么
 
@@ -94,7 +100,7 @@ Are you sure you want to continue connecting?
 ```bash
 # -i 指定私钥文件
 # ~/.ssh/my-server-key 是私钥路径，真实文件名以你自己创建的为准
-ssh -i ~/.ssh/my-server-key root@1.2.3.4
+ssh -i ~/.ssh/my-server-key deploy@203.0.113.10
 ```
 
 注意：
@@ -403,36 +409,22 @@ pm2 logs my-api
 | 接口 404 | Nginx `/api` 转发路径和 Express 路由 |
 | 数据库连不上 | `.env`、MongoDB 用户、端口、网络 |
 
-## 12. 这一篇的练习
+## 12. 第一次登录后的练习
 
-你可以在测试服务器上完成这些动作：
+1. 先从可信控制台取得主机指纹，再在自己的电脑上执行前面的 `ssh` 命令。看到指纹时逐一核对。连接成功后，终端会显示远端的命令提示符。
+2. 在远端执行下列命令。练习文件建在当前账号自己的目录里，无需管理员权限。
 
 ```bash
-# 登录服务器
-ssh root@你的服务器IP
-
-# 查看系统
+whoami
+hostname
 cat /etc/os-release
-
-# 创建前后端目录
-mkdir -p /var/www/my-vue-app
-mkdir -p /opt/my-express-api
-
-# 查看 Nginx 日志目录是否存在
-ls /var/log/nginx
-
-# 查看当前开放端口规则
-sudo ufw status
+mkdir -p ~/deploy-practice
+printf 'ssh ok\n' > ~/deploy-practice/connection.txt
+cat ~/deploy-practice/connection.txt
 ```
 
-学完这一篇，你的目标不是会背命令，而是：
-
-```txt
-我能进入服务器。
-我知道项目大概放哪里。
-我知道怎么查看日志。
-我知道端口和防火墙不是一个东西。
-```
+3. 对照云控制台确认登录的是预期实例。最后一条命令应显示 `ssh ok`。练完执行 `exit`，确认命令提示符回到本机。
+4. 下一步按需看服务记录。如果 Ubuntu 开了 UFW，可用 `sudo ufw status` 查看主机规则。Nginx 已安装时，可用 `sudo journalctl -u nginx -n 20 --no-pager` 查看近期日志。云安全组在云控制台查看。
 
 ## 官方资料
 

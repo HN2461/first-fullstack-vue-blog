@@ -26,7 +26,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 # 第 10 篇：Windows C 盘系统文件夹说明：Program Files、ProgramData、Users、System32
 
 > 资料来源：Microsoft Learn、Microsoft Support，整理时间：2026-04-12。  
-> 适用范围：默认安装方式的 Windows 10 / Windows 11。
+> 目录示例以常见的 x64 Windows 11 默认安装为主。系统盘可能不是 C 盘，Windows on Arm 和旧版 32 位系统的目录用途有所不同。
 
 > 如果你想继续细看 `AppData`、`ProgramData`、隐藏文件、文件扩展名、`Storage Sense` 和常见系统路径，可以直接跳到文末“配套阅读”。
 
@@ -38,11 +38,11 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ### 1.1 `Program Files` 是不是主要放 64 位程序？
 
-是，但要加一个前提：**你用的是 64 位 Windows**。
+在常见的 x64 Windows 默认安装中，两个目录按应用架构区分。
 
-- 在 **64 位 Windows** 上：
+- 在 **x64 Windows** 上：
   - `C:\Program Files` 默认用于 **64 位程序**
-  - `C:\Program Files (x86)` 默认用于 **32 位程序**
+  - `C:\Program Files (x86)` 默认用于 **32 位 x86 程序**
 - 在 **32 位 Windows** 上，通常不会单独看到一个给 32 位程序区分出来的 `Program Files (x86)` 目录
 
 这里的 `x86` 是历史上对 **32 位 x86 架构** 的常见叫法，所以看到 `Program Files (x86)`，可以先把它理解成“给 32 位程序准备的默认安装目录”。
@@ -63,8 +63,8 @@ Windows 为了兼容老软件，保留了很多历史命名，所以你会看到
 | 目录 | 主要作用 | 常见内容 | 能不能乱删/乱搬 |
 | --- | --- | --- | --- |
 | `C:\Windows` | 操作系统核心目录 | 系统组件、驱动、DLL、更新相关文件 | 不建议 |
-| `C:\Program Files` | 64 位程序默认安装目录（64 位系统） | 应用主程序、共享组件 | 不建议 |
-| `C:\Program Files (x86)` | 32 位程序默认安装目录（64 位系统） | 旧软件、32 位应用 | 不建议 |
+| `C:\Program Files` | x64 程序默认安装目录（x64 Windows） | 应用主程序、共享组件 | 不建议 |
+| `C:\Program Files (x86)` | 32 位 x86 程序默认安装目录（x64 Windows） | 旧软件、32 位应用 | 不建议 |
 | `C:\ProgramData` | 所有用户共享的程序数据 | 配置、缓存、许可证、更新数据 | 不建议 |
 | `C:\Users` | 每个用户自己的资料目录 | 桌面、下载、文档、`AppData` | 可以清理个人文件，但不要乱动系统子目录 |
 | `C:\Users\Public` | 所有用户都能访问的公共资料目录 | 公共桌面、共享文档、共享图片等 | 只在明确知道用途时整理 |
@@ -105,7 +105,7 @@ Windows 为了兼容老软件，保留了很多历史命名，所以你会看到
 
 ### 3.3 `C:\Program Files (x86)`
 
-这个目录出现在 **64 位 Windows** 上，默认给 32 位程序使用。
+在 **x64 Windows** 上，这个目录默认给 32 位 x86 程序使用。
 
 看到它时，你可以直接这样记：
 
@@ -148,15 +148,19 @@ Windows 为了兼容老软件，保留了很多历史命名，所以你会看到
 C:\Users\你的用户名
 ```
 
-里面最常见的是：
+个人目录下常见 `Desktop`、`Documents`、`Downloads`、`Pictures`、`Videos` 和 `AppData`。`Public` 在 `C:\Users` 下，与个人目录同级。以下为默认目录层级示意。
 
-- `Desktop`
-- `Documents`
-- `Downloads`
-- `Pictures`
-- `Videos`
-- `AppData`
-- `Public`（所有用户共享目录，位于 `C:\Users\Public`）
+```text
+C:\Users
+├─ 示例用户
+│  ├─ Desktop
+│  ├─ Documents
+│  ├─ Downloads
+│  └─ AppData
+└─ Public
+```
+
+要查看自己电脑的目录，按 `Win + E`，在左侧点「此电脑」→「本地磁盘 (C:)」→「用户」。直接定位个人目录时，可用 `Win + R` 后输入 `%USERPROFILE%`。桌面和文档可能已重定向到 OneDrive 等位置，可从资源管理器左侧入口查看。
 
 如果你自己下载了很多文件、桌面堆了很多安装包、文档里放了大量素材，C 盘空间吃紧时，**优先排查这里**通常最有效。
 
@@ -182,7 +186,7 @@ C:\Users\你的用户名\AppData\Local\Programs
 
 ### 3.7 `System32` 和 `SysWOW64`
 
-这两个目录最容易把人绕晕，所以单独记忆一次：
+在常见的 x64 Windows 中，两个目录主要包含下列文件。
 
 | 目录 | 实际主要内容 |
 | --- | --- |
@@ -284,8 +288,8 @@ C:\Users\你的用户名\AppData\Local\Programs
 
 如果你只想记结论，记这 6 句就够了：
 
-1. 64 位 Windows 里，`Program Files` 默认偏 **64 位程序**
-2. 64 位 Windows 里，`Program Files (x86)` 默认偏 **32 位程序**
+1. x64 Windows 中，`Program Files` 默认存放 **x64 程序**
+2. x64 Windows 中，`Program Files (x86)` 默认存放 **32 位 x86 程序**
 3. `Windows` 目录是系统本体
 4. `ProgramData` 是**所有用户共享**的程序数据
 5. `Users` 是每个用户自己的资料目录
@@ -297,10 +301,10 @@ C:\Users\你的用户名\AppData\Local\Programs
 
 如果你准备继续折腾电脑配置，建议连着看下面几篇：
 
-- [Windows 用户目录、Public、AppData、ProgramData 详解](./Windows%20用户目录、Public、AppData、ProgramData%20详解.md)
-- [Windows 文件扩展名、隐藏文件与资源管理器显示设置](./Windows%20文件扩展名、隐藏文件与资源管理器显示设置.md)
-- [Windows C盘空间清理：Storage Sense、临时文件与 Windows.old](./Windows%20C盘空间清理：Storage%20Sense、临时文件与%20Windows.old.md)
-- [Windows 常见系统路径与环境变量速查](./Windows%20常见系统路径与环境变量速查.md)
+- [Windows 用户目录、Public、AppData、ProgramData 详解](/console/article-directory/articles/windows-public-appdata-programdata-d717719e)
+- [Windows 文件扩展名、隐藏文件与资源管理器显示设置](/console/article-directory/articles/windows-7c8d9756)
+- [Windows C盘空间清理：Storage Sense、临时文件与 Windows.old](/console/article-directory/articles/windows-c-storage-sense-windows-old-4fcfcbe9)
+- [Windows 常见系统路径与环境变量速查](/console/article-directory/articles/windows-b0b9b49e)
 
 ---
 

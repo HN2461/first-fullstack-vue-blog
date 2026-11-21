@@ -1,7 +1,7 @@
 ---
 title: "第 5 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障"
 slug: "vpn-0373b572"
-summary: "公司网络下网站需开 VPN 才能访问时的排查与修复流程，包含 Windows 系统代理清理、WinHTTP 代理、网络栈重置、DNS 刷新和 IT 白名单沟通。"
+summary: "用手机热点和浏览器对照缩小 Windows 断网范围，再检查个人代理残留、VPN、WinHTTP、DNS 与 Git 配置。"
 category: "代理与VPN"
 categoryPath:
   - "电脑"
@@ -22,118 +22,72 @@ publishedAt: "2026-06-02T12:59:14.389Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
-# 第 5 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障
 
-问题现象：
-- 微信/QQ 可用，但豆包/淘宝/GPT 等网站必须开 VPN 才能访问
-- 浏览器出现连接重置、加载缓慢或无法打开
+# 第 5 篇：代理网络问题处理指南
 
-可能原因：
-- 公司网络策略限制（需 IT 白名单）
-- 系统代理或 WinHTTP 代理残留指向本地端口
-- VPN/代理软件未完全退出直接关机，导致代理残留
-- 浏览器代理扩展或设置残留
-- DNS 缓存或 Winsock 网络栈异常
+**适用环境**　以 Windows 11 为主，兼顾 Windows 10。适合退出代理软件后浏览器打不开网页，以及浏览器能打开、终端连接失败的情况。优先辨别故障范围，再改对应设置。
 
-排查思路：
-先判断是否公司网络限制，再定位电脑侧问题点，最后处理与恢复。
+## 先用手机热点对照
 
-第一步：判断是否公司网络限制
-1. 切换手机热点验证
-2. 断开公司网，连手机 4G/5G 热点
-3. 不开 VPN 访问豆包/淘宝
-4. 能打开：电脑侧问题，继续下一步
-5. 仍打不开：公司网络限制，联系 IT
+1. 先退出代理客户端或断开个人 VPN，记下当前连接的网络。遇到公司统一配置的 VPN，按 IT 的要求测试。
+2. 用同一台电脑、同一个浏览器访问两个平时能打开的网站，并记下错误。
+3. 断开原网络，连接自己的手机热点，再访问同样的两个网站。
 
-命令行基础连通性验证（管理员 PowerShell）：
+| 对照结果 | 接下来查什么 |
+| --- | --- |
+| 热点正常，原网络异常 | 先查原网络、路由器、DNS 或单位网络策略。把对照结果交给 IT，便于核查。 |
+| 两边都异常 | 先试另一个浏览器，再查电脑的代理、浏览器扩展，或网站本身。也可用另一台设备打开同一网站。 |
+| 只有一个浏览器异常 | 先看该浏览器的代理扩展和设置。 |
+| 只有一个网站异常 | 记录该站错误，用另一个浏览器和设备对照。 |
+| 只有 Git 或其他命令行工具异常 | 直接看下文「Git 单独排查」。 |
+
+## 在设置里检查个人代理残留
+
+1. 打开「设置 → 网络和 Internet → 代理」，记录「自动检测设置」「使用设置脚本」「使用代理服务器」的当前状态。
+2. 如果个人代理软件已经退出，手动代理仍指向 `127.0.0.1` 或 `localhost`，并且你确认那是该软件留下的设置，可关闭「使用代理服务器」。
+3. 「自动检测设置」和「使用设置脚本」可由单位网络提供。公司或校园设备按 IT 提供的值使用。若刚刚改过个人代理脚本，可恢复到自己记录的原值。
+4. 重新打开浏览器，验证原本打不开的网站。需要回退时，在同一设置页恢复原值。
+
+Windows 中 VPN 的代理设置可以单独配置。只有接入某个 VPN 后复现时，查看「设置 → 网络和 Internet → VPN → 对应 VPN → 高级选项」，并和所用 VPN 的配置要求对照。 [Microsoft：在 Windows 中使用代理服务器](https://support.microsoft.com/en-us/windows/experience/connectivity-networking/use-a-proxy-server-in-windows)
+
+**只有一个浏览器受影响时**，可用其他浏览器或访客窗口复测。隐私窗口也可能加载明确允许在隐私模式运行的扩展。每次只停用一个自己安装的代理扩展，复测并记录，以便还原。
+
+## 用只读命令缩小范围
+
+右键开始按钮，打开「终端」或「Windows PowerShell」，以下测试可用普通权限执行。把示例网址换成故障网站的域名，省略 `https://` 和末尾路径。
+
 ```powershell
-nslookup doubao.com
-Test-NetConnection doubao.com -Port 443
-```
-判断依据：
-- 能解析 + TcpTestSucceeded 为 True：网络底层正常，问题多在代理/浏览器
-- 超时或失败：公司网拦截，联系 IT
-
-第二步：电脑侧代理与网络排查
-1. 系统代理设置
-   打开“设置 → 网络和 Internet → 代理”，关闭：自动检测设置、使用设置脚本、使用代理服务器
-2. 一键清理（推荐）
-   运行本文同目录的 `清理代理残留.bat`（管理员权限），执行后重启电脑
-3. 手动清理（备用，管理员 PowerShell），执行后重启电脑
-
-精简版（优先使用）：
-```powershell
-# 清空手动代理残留（WinINet）
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name ProxyServer -Value ''
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name ProxyOverride -Value ''
-# 重置网络栈与 WinHTTP 代理
-netsh winsock reset
-netsh winhttp reset proxy
-# 检查代理常用端口占用
-netstat -ano | findstr :7890
+nslookup www.microsoft.com
+Test-NetConnection www.microsoft.com -Port 443
+netsh winhttp show proxy
 ```
 
-扩展版（精简版无效再用）：
-```powershell
-# 彻底关闭手动代理开关
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name ProxyEnable -Value 0
-# 清空手动代理残留（WinINet）
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name ProxyServer -Value ''
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name ProxyOverride -Value ''
-# 清理自动代理（PAC/自动检测）
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name AutoConfigURL -Value ''
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name AutoDetect -Value 0
-# 重置网络栈与 WinHTTP 代理
-netsh winsock reset
-netsh winhttp reset proxy
-# 刷新 DNS 缓存
-ipconfig /flushdns
-```
-如公司依赖 PAC/自动检测，执行扩展版后需按 IT 配置恢复。
-4. 浏览器代理与扩展
-   禁用代理类扩展（Proxy/Omega/Clash/V2Ray），重置浏览器设置，并用无痕模式验证
-5. 如果是 `git pull`、`git clone`、终端访问 GitHub 不通
-   很多时候不是“代理软件没开”，而是“浏览器走了代理，但 Git 没走代理”。尤其是 Clash / Mihomo 这类客户端，就算界面显示已启动，终端里的 Git 也未必自动复用它当前的本地端口。
+- `nslookup` 给出可用地址，说明本次查询得到了 DNS 回答。看到 `Server: UnKnown` 时仍要看下方是否有实际查询结果。
+- `TcpTestSucceeded : True` 表示到该目标的 TCP 443 建连成功。网页还需要经过浏览器的代理、TLS 和站点响应。
+- TCP 测试失败时，可用另一个网站和手机热点做对照。超时也可能出现在 DNS、路由、网络故障及目标站限流等场景。
+- `netsh winhttp show proxy` 查看 WinHTTP 使用的代理。一些应用和系统组件使用 WinHTTP，浏览器和单位配置仍需分别核对。
 
-Git / 终端单独排查（普通 PowerShell 即可）：
+仅在已确认 WinHTTP 指向废弃的个人代理且应使用直连时，才在管理员终端执行 `netsh winhttp reset proxy`。它会把 WinHTTP 设置为直接访问。先记录原配置，单位设备交由 IT 决定。只有怀疑系统 DNS 缓存过旧时才刷新缓存，然后复测相同站点。 [Microsoft：Test-NetConnection](https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection) · [Microsoft：WinHTTP 命令](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/netsh-winhttp) · [Windows DNS 缓存与 hosts](/console/article-directory/articles/windows-hosts-dns-a34c6e09)
+
+## Git 单独排查
+
+在已有仓库的目录中打开普通 PowerShell，确认远程地址和生效的代理设置。
+
 ```powershell
 git remote -v
-git config --global --get http.proxy
-git config --global --get https.proxy
+git config --show-origin --get-urlmatch http.proxy https://github.com/
 git ls-remote origin
 ```
 
-判断思路：
-- 远程是 `https://github.com/...`：优先检查 `http.proxy` / `https.proxy`
-- 远程是 `git@github.com:...`：优先检查 SSH，而不是 HTTP 代理
-- 浏览器能上 GitHub，但 `git ls-remote origin` 超时：大概率是 Git 没走当前代理
+- 远程是 `https://...` 时，查看对应主机的 `http.proxy` 设置，以及终端是否有 `HTTP_PROXY`、`HTTPS_PROXY` 或 `ALL_PROXY` 环境变量。无匹配配置时，第二条命令可能不会输出内容。
+- 远程是 `git@...` 或 `ssh://...` 时，从 SSH 连接和远程配置查起。
+- `git ls-remote origin` 通常会列出远端引用。如果失败，先区分连接超时、认证失败、仓库地址错误和证书错误。分享诊断结果前，删除远程地址、代理地址里的令牌或个人账号信息。
 
-如果 Clash / Mihomo 当前显示的本地混合端口是 `127.0.0.1:7897`，可以这样给 Git 单独指定：
-```powershell
-git config --global http.proxy http://127.0.0.1:7897
-git config --global https.proxy http://127.0.0.1:7897
-git ls-remote origin
-```
+确认 Git 的正确代理需要由所用客户端或 IT 提供。测试时优先使用仓库或单次命令范围的配置，避免影响其他仓库。Git 的代理配置项是 `http.proxy`，`HTTPS_PROXY` 是环境变量。 [Git：代理配置](https://raw.githubusercontent.com/git/git/master/Documentation/config/http.adoc)
 
-如果后续不再需要：
-```powershell
-git config --global --unset http.proxy
-git config --global --unset https.proxy
-```
+## 两分钟练习
 
-一句话记忆：
-- 浏览器代理能用，不代表 Git 自动能用
-- Clash 开着，不代表每个终端工具都会自动走它
-   如公司网络策略禁止 GitHub，给 Git 配代理也可能依然不通，这时仍需联系 IT 或换网络环境验证
+联网时打开 Windows 的代理设置页，辨认自动检测、脚本和手动代理三个区域。运行两条连通性查询，记下正常时 `nslookup` 的地址和 `TcpTestSucceeded` 的结果。下次故障先做热点对照，再比较这些输出。
 
-第三步：仍需 VPN → 联系 IT 申请白名单
-参考话术：
-您好，我在办公中需要访问豆包、淘宝等网站用于工作，但当前公司网络下必须开启 VPN 才能正常访问，微信/QQ 等工具不受影响。
-已排查电脑侧代理与网络设置正常，判断为公司网络策略限制。
-麻烦将以下域名加入访问白名单：doubao.com、taobao.com（以及其他工作域名）。
-感谢配合。
-
-预防建议：
-- 不使用未授权 VPN/代理工具，减少残留配置
-- 用完代理后彻底退出客户端，不要仅最小化到托盘
-- 定期清理浏览器代理类扩展
+- [代理模式与流量接管方式](/console/article-directory/articles/proxy-mode-and-traffic-capture-guide-20260705)
+- [Windows Wi‑Fi 图标消失修复](/console/article-directory/articles/wifi-09cbf6da)

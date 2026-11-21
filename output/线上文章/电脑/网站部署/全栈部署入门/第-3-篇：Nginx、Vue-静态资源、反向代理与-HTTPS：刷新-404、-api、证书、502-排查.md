@@ -37,6 +37,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ## 1. Vue 上线不是 `npm run dev`
 
+下面的示例假定网站挂在独立域名的根路径，Express 与 Nginx 在同一台服务器上。前端构建命令在自己电脑的 Vue 项目目录运行。Nginx 配置、服务状态和指向 `127.0.0.1:3000` 的测试命令在服务器 SSH 会话中运行。用浏览器打开站点域名的步骤在自己电脑上操作。
+
 开发时：
 
 ```bash
@@ -67,6 +69,8 @@ dist/
 Vue 源码是给开发者看的。
 dist 是给服务器和浏览器用的。
 ```
+
+独立域名根路径可用 Vite 默认 `base: '/'`。若实际发布在 `/blog/` 等子目录，应使用对应的 Vite `base: '/blog/'`，让 Vue Router 的历史模式使用同一基路径（例如 `createWebHistory(import.meta.env.BASE_URL)`），并让 Nginx 在相同的 `/blog/` 路径提供静态文件及路由回退。以下配置使用根路径，发布前检查 `dist/index.html` 的静态资源引用。
 
 Vite 官方部署文档也强调，`vite preview` 是本地预览构建结果，不应当当成生产服务器。
 
@@ -166,7 +170,7 @@ http://127.0.0.1:3000
 你希望用户访问：
 
 ```txt
-https://example.com/api/users
+http://example.com/api/users
 ```
 
 Nginx 转发给 Express：
@@ -213,7 +217,14 @@ Nginx 官方反向代理文档说明，`proxy_pass` 用于把请求传给被代�
 
 ## 5. `/api` 路径到底要不要保留
 
-这里很容易糊涂。
+对外地址都可以是 `/api/health`。区别在于请求进入 Express 后，后端路由要匹配的路径。
+
+| `location /api/` 中的写法 | 浏览器访问 | Express 收到 | 在服务器直接测试 Express |
+| --- | --- | --- | --- |
+| `proxy_pass http://127.0.0.1:3000/;` | `/api/health` | `/health` | `curl -i http://127.0.0.1:3000/health` |
+| `proxy_pass http://127.0.0.1:3000;` | `/api/health` | `/api/health` | `curl -i http://127.0.0.1:3000/api/health` |
+
+选定一套后让 Express 路由和转发规则配对。两套配置的外部健康检查都应返回 HTTP 200 和预期 JSON。
 
 ### 写法一：Nginx 去掉 `/api`
 
@@ -404,8 +415,8 @@ pm2 list
 # 看 Express 日志
 pm2 logs my-api
 
-# 在服务器本机测试接口
-curl http://127.0.0.1:3000/api/health
+# 在服务器直连接口。以下假定 Express 保留 /api，若省略前缀则改用 /health
+curl -i http://127.0.0.1:3000/api/health
 
 # 看 Nginx 错误日志
 sudo tail -n 50 /var/log/nginx/error.log
@@ -466,31 +477,17 @@ server {
 }
 ```
 
-## 10. 这一篇的练习
+## 10. 分层验证练习
 
-你可以做一个最小验证：
+1. 在自己电脑的 Vue 项目目录执行 `npm run build`，找到生成的 `dist/index.html` 和静态资源。将构建产物上传到专用测试站点目录，再核对服务器上的 `root` 指向该目录。
+2. 登录服务器，先运行 `sudo nginx -t`。看到配置测试成功后运行 `sudo systemctl reload nginx`。用带站点域名的本机请求验证虚拟主机配置，把 `example.com` 换成测试站点域名。若已启用 HTTP 跳到 HTTPS，则用已生效的 HTTPS 域名进行后续验证。
 
 ```bash
-# 在服务器上创建一个测试 dist
-mkdir -p /var/www/my-vue-app/dist
-
-# 写一个临时首页
-echo 'hello nginx vue dist' | sudo tee /var/www/my-vue-app/dist/index.html
-
-# 检查 Nginx 配置
-sudo nginx -t
-
-# 重载 Nginx
-sudo systemctl reload nginx
+curl -i -H 'Host: example.com' http://127.0.0.1/
 ```
 
-然后浏览器访问：
-
-```txt
-http://你的服务器IP
-```
-
-能看到文字，就说明 Nginx 静态站点这一层通了。
+3. 在自己电脑打开测试站点首页，再进入一个真实存在的 Vue Router 子页并刷新。两次都应渲染页面，脚本和样式应正常加载。刷新返回 HTTP 404 时，检查 `try_files` 回退和实际部署路径。
+4. 在服务器按第五节选定的语义直连 Express 测健康接口，再访问测试域名的 `/api/health`。两次都应返回 HTTP 200 和预期 JSON。直连正常且站点返回 HTTP 502 时，核对 Nginx 上游地址和错误日志。只在站点侧返回 HTTP 404 时，检查转发后的路径是否匹配 Express。
 
 ## 官方资料
 

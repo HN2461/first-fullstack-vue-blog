@@ -26,7 +26,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 # 第 6 篇：Windows 常见系统路径与环境变量：USERPROFILE、APPDATA、ProgramData、ProgramFiles
 
 > 资料来源：Microsoft Learn，整理时间：2026-04-12。  
-> 适用范围：需要找配置目录、写脚本、看教程、改环境路径的 Windows 场景。
+> 示例以 Windows 11 中文界面为主，适合定位配置目录、理解教程路径和编写简单脚本。
 
 [[toc]]
 
@@ -65,9 +65,19 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | `%ProgramFiles%` | `C:\Program Files` | 程序安装主目录 |
 | `%ProgramFiles(x86)%` | `C:\Program Files (x86)` | 64 位系统上的 32 位程序目录 |
 
+## 三、用同一个路径在不同窗口试一次
+
+| 当前窗口 | 查找当前账号的漫游应用数据 |
+| --- | --- |
+| 「运行」或文件资源管理器地址栏 | 输入 `%APPDATA%` 后回车，资源管理器会打开对应文件夹 |
+| CMD（命令提示符） | 输入 `echo %APPDATA%` 后回车，查看展开后的绝对路径 |
+| PowerShell | 输入 `$env:APPDATA` 后回车查看路径，输入 `explorer.exe $env:APPDATA` 可打开文件夹 |
+
+这三个操作只用于定位。资源管理器的地址栏通常会显示展开后的实际位置。示例可换成 `%LOCALAPPDATA%` 或 `$env:LOCALAPPDATA` 来查看本机应用数据。
+
 ---
 
-## 三、这些变量到底有什么价值
+## 四、这些变量到底有什么价值
 
 ### 3.1 价值一：路径写法更通用
 
@@ -80,7 +90,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 比直接写死：
 
 ```text
-C:\Users\HN246\AppData\Roaming\SomeApp
+C:\Users\示例用户\AppData\Roaming\SomeApp
 ```
 
 更适合教程、脚本和配置文档，因为不同电脑的用户名不一样。
@@ -97,7 +107,7 @@ C:\Users\HN246\AppData\Roaming\SomeApp
 
 ---
 
-## 四、逐个解释最常用的几个
+## 五、逐个解释最常用的几个
 
 ### 4.1 `%USERPROFILE%`
 
@@ -118,7 +128,7 @@ C:\Users\<用户名>
 %USERPROFILE%\Desktop
 ```
 
-本质上就是在说你的下载目录和桌面目录。
+这些写法适用于默认位置。Windows 允许更改已知文件夹的位置，OneDrive 也可能接管桌面和文档。要找当前实际位置，优先点击资源管理器左侧的对应入口，也可在「运行」输入 `shell:Desktop` 或 `shell:Downloads`。
 
 ### 4.2 `%APPDATA%`
 
@@ -201,7 +211,7 @@ C:\Windows
 
 ---
 
-## 五、微软官方对这些路径有什么提醒
+## 六、微软官方对这些路径有什么提醒
 
 微软在 `DoEnvironmentSubstW` 说明里专门提醒了一点：**环境变量可能会被用户或应用修改，所以完整列表是系统相关的。**
 
@@ -217,7 +227,7 @@ C:\Windows
 
 ---
 
-## 六、平时最常见的 5 个使用场景
+## 七、平时最常见的 5 个使用场景
 
 ### 6.1 找软件配置
 
@@ -242,7 +252,7 @@ C:\Windows
 %USERPROFILE%\Desktop
 ```
 
-代替写死某个人的桌面绝对路径。
+在桌面位于默认位置时，这比写死某个用户名更通用。自动化需要定位实际桌面时，可使用 Windows 已知文件夹机制。
 
 ### 6.4 看系统目录
 
@@ -262,7 +272,7 @@ C:\Windows
 
 ---
 
-## 七、折腾配置时最容易踩的坑
+## 八、折腾配置时最容易踩的坑
 
 ### 7.1 误区一：把变量名当成固定真实路径
 
@@ -283,7 +293,7 @@ C:\Windows
 
 ---
 
-## 八、最短记忆版
+## 九、最短记忆版
 
 1. `%USERPROFILE%` = 当前用户目录
 2. `%APPDATA%` = `AppData\Roaming`
@@ -294,6 +304,8 @@ C:\Windows
 7. `%ProgramFiles%` / `%ProgramFiles(x86)%` 是最常见的程序安装目录变量
 
 ---
+
+相关目录的归属区别见 [Windows 用户目录体系](/console/article-directory/articles/windows-public-appdata-programdata-d717719e)。
 
 ## 参考资料
 

@@ -5880,7 +5880,7 @@
       "title": "第 6 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL",
       "summary": "宝塔面板部署入门，讲清宝塔适合新手快速部署什么、不能替代什么，以及如何部署 Vue 静态站点、Express 接口、反向代理和 SSL。",
       "cover": "",
-      "contentHash": "c9e786eb19463205c3c639212d015c98ebb791d0226678bae00096a9f8a3d411",
+      "contentHash": "9bb161858f3e3749f5f1516d68fd08a71d8c58f71f70337f69832b47d2bbaea7",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5908,7 +5908,7 @@
       "title": "第 5 篇：MongoDB 生产安全、连接与备份：认证、专用用户、连接字符串、mongodump",
       "summary": "MongoDB 上线安全笔记，讲清认证、专用用户、网络暴露限制、连接字符串、mongodump 备份和生产数据库常见安全边界。",
       "cover": "",
-      "contentHash": "5b2e50d16ee20342269c0d070b871e47733c0087a3e07621f0b3eb1d1b602085",
+      "contentHash": "b287d737283667a82a51f8140e272cf0bbd490bd6f843beb422771903c2ad25f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5935,7 +5935,7 @@
       "title": "第 4 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调",
       "summary": "Express 生产运行入门，讲清为什么不能只靠 npm run dev，如何配置健康检查、环境变量、PM2 常驻运行、日志、开机自启和 Nginx 反向代理联调。",
       "cover": "",
-      "contentHash": "a25f955ea13fe95e3dd711f358577fcfaf7884487c5d45a75692d7cdada286ea",
+      "contentHash": "d9e01824102a07a9bccc5896c97be150fbbc2d202e8ac98df9d7d567474303da",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5962,7 +5962,7 @@
       "title": "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、/api、证书、502 排查",
       "summary": "从 Vue 打包、Nginx 静态站点、前端路由刷新 404、/api 反向代理、HTTPS 证书到 404/502 排查，梳理前端上线入口。",
       "cover": "",
-      "contentHash": "58524657d17917930c1c27cfc81085f1ac4abebd673d633301ff390b1ba71c8a",
+      "contentHash": "201a5d7cca8ae862484a3d3395d0b99c2134d186d334de08bbfc3b96dfc3ee28",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5990,7 +5990,7 @@
       "title": "第 2 篇：SSH 与 Linux 服务器基础：登录、密钥、目录、端口、防火墙、日志",
       "summary": "部署小白入门 SSH 与 Linux 服务器，讲清 SSH 登录、密钥登录、服务器目录、常用 Linux 命令、端口、防火墙和日志查看。",
       "cover": "",
-      "contentHash": "aa8b9a1f1889d0c9773314f34ef32d3da2bee3a883770addc19462241230071d",
+      "contentHash": "0b24eac3d9aeba413052d02d51dbbfa8ee815022adf333b86dac460b29a5b103",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6017,7 +6017,7 @@
       "title": "第 1 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全",
       "summary": "全栈项目部署学习路线，按 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和 Docker 等方向梳理前后端分离项目上线要学的内容。",
       "cover": "",
-      "contentHash": "cc55d2bfb03117076af486df92f08d32dc54f7ab7958c2fd3d507ef6fca1394b",
+      "contentHash": "4438a8fe058306d906154707609ba59955fdab1a0b30608e97344ac7bc8067fd",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9109,7 +9109,7 @@
       "title": "第 3 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具",
       "summary": "开发人员常用快捷键速查，覆盖 Windows 系统、Chrome 浏览器、通用代码编辑器、VS Code、Cursor、Windsurf、Kiro、Codex 和 Claude Code。",
       "cover": "",
-      "contentHash": "4861b6d12f90e97a5e15d5f3623e11e46f49e67975cbc63bc32f295426ecf598",
+      "contentHash": "69ecfd77383d2a15dad3b996e8d4f0964fe8a28923b204aa7ce5342a9c18188f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10971,7 +10971,7 @@
       "title": "第 1 篇：开发必懂网络基础概念：IP、127.0.0.1、localhost、端口、DNS",
       "summary": "面向开发者的网络基础速查，讲清 IP 地址、127.0.0.1、localhost、端口、DNS 域名解析等核心概念，帮助理解本地服务访问方式。",
       "cover": "",
-      "contentHash": "6eaa45c7315ac98d23de9926fbc6a8f98c9f2921ecb8872a113e3cd21b794c0d",
+      "contentHash": "61eabc9f40cb646b2d263604b28ad1cf8e04519458d224a7f8341ece9b89cea5",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13668,7 +13668,7 @@
       "title": "第 1 篇：Windows WiFi 图标消失修复：WLAN AutoConfig、网络重置、开机自启",
       "summary": "Windows 笔记本 WiFi 图标消失排障笔记，覆盖 WLAN AutoConfig 服务、依赖服务、网络栈重置、注册表修复和开机自启兜底方案。",
       "cover": "",
-      "contentHash": "3e80840cbc0cdec3f750047b4a4afda05a5305e494dff36df1c154a5619df07e",
+      "contentHash": "7f54972b2dcd0cd8038824efc70e01ce836c40c57f31083e432e4dd316c0a12d",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [

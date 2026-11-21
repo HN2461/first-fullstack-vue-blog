@@ -22,7 +22,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 ---
 # 第 3 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具
 
-作为开发人员，熟练掌握快捷键能显著提升工作效率。本文整理了 Windows 系统、浏览器、代码编辑器和 AI 编程工具中最常用的快捷键，按场景分类便于速查。
+本文以 Windows 11、Chrome 和各工具的 Windows 默认键位为例。编辑器和终端的快捷键会随版本、焦点、扩展和自定义键位变化。刚接触电脑可先完成 [Windows 电脑基础入门](/console/article-directory/articles/windows-basic-concepts-for-beginners) 的文件和截图练习。
 
 ## Windows 系统快捷键
 
@@ -35,7 +35,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | `Win + L` | 锁定电脑 |
 | `Win + Tab` | 打开任务视图（虚拟桌面） |
 | `Win + Left/Right` | 窗口贴靠到屏幕左/右半边 |
-| `Win + Up/Down` | 最大化/最小化窗口 |
+| `Win + ↑` / `Win + ↓` | 最大化或还原窗口，从普通窗口状态按向下可最小化 |
 | `Win + Shift + S` | 截图工具（区域截图） |
 | `Alt + Tab` | 切换窗口 |
 | `Alt + F4` | 关闭当前窗口 |
@@ -46,7 +46,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 | 快捷键 | 功能 |
 |--------|------|
 | `Ctrl + N` | 新开一个资源管理器窗口 |
-| `Ctrl + W` | 关闭当前窗口 |
+| `Ctrl + W` | 关闭当前标签页，只有一个标签页时关闭窗口 |
 | `Ctrl + Shift + N` | 新建文件夹 |
 | `F2` | 重命名选中项 |
 | `Alt + Left` | 后退 |
@@ -75,13 +75,15 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ### 命令行与终端
 
+以下以使用默认 Windows 键位的 PowerShell PSReadLine 为例，CMD 和其他 Shell 的快捷键有差异。选中文字时，终端也可能把 `Ctrl + C` 识别为复制。
+
 | 快捷键 | 功能 |
 |--------|------|
-| `Ctrl + C` | 终止当前命令 |
+| `Ctrl + C` | 可中断运行中的命令。在提示符中可取消当前输入，选中文字时可能复制 |
 | `Ctrl + L` | 清屏 |
 | `Tab` | 自动补全 |
 | `上/下方向键` | 浏览历史命令 |
-| `Ctrl + R` | 搜索历史命令 |
+| `Ctrl + R` | 反向搜索历史命令 |
 
 ## 浏览器快捷键（以 Chrome 为例）
 
@@ -244,7 +246,7 @@ VS Code、Cursor、Windsurf、Kiro 这类工具大多沿用了 VS Code 风格的
 | `Ctrl + K V` | Markdown 侧边预览 |
 | `Ctrl + Shift + V` | Markdown 预览 |
 | `Ctrl + K M` | 更改当前文件语言模式 |
-| `Ctrl + K Ctrl + O` | 打开当前文件所在文件夹 |
+| `Ctrl + K Ctrl + O` | 打开文件夹选择窗口 |
 
 ## Cursor 快捷键
 
@@ -310,8 +312,9 @@ Codex 这类终端 Agent 不完全是“编辑器快捷键”模型，更常用 
 
 | 快捷键 / 输入 | 功能 |
 |---------------|------|
-| `/help` | 查看可用命令 |
-| `/mode` | 切换会话模式 / 自动化程度 |
+| `/` | 展开当前版本的可用命令 |
+| `/plan` | 切换到计划模式 |
+| `/permissions` | 查看或调整当前版本提供的权限设置 |
 | `Ctrl + C` | 中断当前运行或退出当前命令 |
 | `Ctrl + L` | 清屏 |
 | `↑ / ↓` | 浏览历史输入 |
@@ -337,8 +340,9 @@ Claude Code 同样更偏终端 Agent，日常效率主要来自 slash command、
 | `/terminal-setup` | 配置终端换行等快捷键支持 |
 | `/vim` | 切换 Vim 输入模式 |
 | `Esc` | 中断当前 Claude 响应 |
-| `Ctrl + R` | 展开完整输出 / 上下文视图（以当前版本支持为准） |
-| `Ctrl + V` | 粘贴图片（终端支持时） |
+| `Ctrl + R` | 反向搜索历史输入 |
+| `Ctrl + O` | 打开或关闭交互记录视图 |
+| `Alt + V` | 在 Windows 或 WSL 中粘贴剪贴板图片，依赖终端支持 |
 | `@文件或目录` | 引用文件、目录或上下文 |
 | `!命令` | 执行 shell 命令并把输出放入上下文（需权限允许） |
 
@@ -346,7 +350,7 @@ Claude Code 同样更偏终端 Agent，日常效率主要来自 slash command、
 
 1. **基础编辑先统一记 VS Code 风格**：`Ctrl + P`、`Ctrl + Shift + P`、`Ctrl + /`、`Ctrl + D`、`F12`、`F2` 在 VS Code、Cursor、Windsurf、Kiro 中都很常用。
 
-2. **AI 工具重点记入口键**：Cursor 常用 `Ctrl + K` 和 `Ctrl + L`，Windsurf 常用 `Ctrl + L` 打开 Cascade，Claude Code / Codex 常用 `/help` 查看当前可用命令。
+2. **按命令名找入口**。Cursor 可在命令面板搜索「Inline Edit」或「Agent」，Windsurf 可搜索「Cascade」。终端工具可在输入框输入 `/` 查看该版本列出的命令。
 
 3. **遇到冲突先查快捷键设置**：同一个快捷键可能被输入法、显卡驱动、系统热键、编辑器插件占用。优先用 `Ctrl + K Ctrl + S` 搜索命令名并改成自己顺手的组合。
 
@@ -354,14 +358,17 @@ Claude Code 同样更偏终端 Agent，日常效率主要来自 slash command、
 
 ## 小贴士
 
-1. **先掌握高频快捷键**：先记住 `Ctrl + C/V/Z/S`、`Alt + Tab`、`F12` 这些最高频的，再逐步扩展。
+1. **先掌握高频快捷键**：先记住 `Ctrl + C/V/Z/S`、`Alt + Tab`、`Ctrl + F` 这些最高频的，再逐步扩展。
 
-2. **肌肉记忆需要时间**：每天有意识地用 3-5 个新快捷键，一周后就能形成肌肉记忆。
+2. **肌肉记忆需要时间**：每天挑几个常用快捷键在真实操作中练习。
 
 3. **不同系统有差异**：Mac 系统的 `Ctrl` 通常对应 `Cmd`，部分快捷键可能不同。
 
 4. **自定义快捷键**：VS Code、IDEA 等工具支持自定义快捷键，可根据习惯调整。
 
----
+## 参考资料
 
-掌握这些快捷键，能让您的开发工作如虎添翼！建议收藏本文，随时查阅。
+- [Windows 快捷键](https://support.microsoft.com/windows/keyboard-shortcuts-in-windows-dcc61a57-8ff0-cffe-9796-cb9706c75eec) · [Chrome 快捷键](https://support.google.com/chrome/answer/157179)
+- [VS Code 默认键位](https://code.visualstudio.com/docs/reference/default-keybindings) · [PowerShell PSReadLine 键位](https://learn.microsoft.com/en-us/powershell/module/psreadline/about/about_psreadline)
+- [Cursor 快捷键](https://cursor.com/docs/configuration/keyboard-shortcuts) · [Windsurf Cascade](https://docs.windsurf.com/windsurf/cascade/cascade) · [Kiro CLI Tangent](https://kiro.dev/docs/cli/chat/tangent/)
+- [Codex CLI 命令](https://developers.openai.com/codex/cli/slash-commands) · [Claude Code 交互快捷键](https://code.claude.com/docs/en/interactive-mode)

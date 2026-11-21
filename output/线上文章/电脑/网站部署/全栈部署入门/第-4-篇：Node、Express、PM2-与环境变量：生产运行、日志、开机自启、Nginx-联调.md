@@ -22,445 +22,160 @@ publishedAt: "2026-06-08T11:09:58.537Z"
 updatedAt: "2026-08-16T14:39:48.203Z"
 exportedAt: "2026-10-18T11:58:42.583Z"
 ---
+
 # 第 4 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调
 
-资料核对时间：2026-06-08。
+本篇使用 Linux 服务器、Node.js 24 LTS 和 Express 5。在服务器上建一个最小 API，先直接运行，再交给 PM2。配置、入口和验证命令都使用同一个项目目录。已有项目可用自己的路径、入口和健康检查替换示例。
 
-这一篇解决后端上线：
+| 示例值 | 用途 |
+| --- | --- |
+| `$HOME/apps/my-api` | 当前部署用户的项目目录 |
+| `127.0.0.1:3000` | Express 的监听地址，供同机 Nginx 转发 |
+| `/api/health` | 直接访问和经过 Nginx 时共用的健康检查 |
 
-> Express 怎么在服务器上稳定运行？
+## 1. 准备最小 Express 项目
 
-先说结论：
-
-```txt
-Express 负责处理接口。
-PM2 负责让 Express 在后台持续运行。
-Nginx 负责把公网 /api 请求转发给 Express。
-```
-
-## 1. 开发运行和生产运行不一样
-
-开发时你可能这样：
+用平时管理此应用的部署用户登录服务器。`node --version` 应显示 `v24.` 开头的版本号，`npm --version` 应能正常输出。
 
 ```bash
-npm run dev
+mkdir -p "$HOME/apps/my-api"
+cd "$HOME/apps/my-api"
+npm init -y
+npm install express@5
 ```
 
-这通常会启动热更新、调试日志、开发工具。
-
-生产时更常见：
-
-```bash
-# 安装生产依赖
-npm install --omit=dev
-
-# 用生产环境变量启动
-NODE_ENV=production node app.js
-```
-
-但是直接 `node app.js` 还有问题：
-
-- SSH 断开后进程可能停止。
-- 应用崩溃后不会自动重启。
-- 服务器重启后不会自动启动。
-- 日志管理不方便。
-
-所以需要 PM2 或 systemd。
-
-Express 官方生产最佳实践也建议生产环境使用反向代理，并使用进程管理器来提高稳定性。
-
-## 2. 一个最小 Express 入口
-
-下面是一个适合部署练习的 `app.js`：
+新建 `server.mjs`，写入以下内容。使用 `.mjs` 可以直接运行 ES 模块。
 
 ```js
 import express from 'express'
-import process from 'node:process'
+
+const port = Number(process.env.PORT)
+const label = process.env.APP_LABEL
+const nodeEnv = process.env.NODE_ENV
+if (!Number.isInteger(port) || port < 1 || port > 65535 || !label || nodeEnv !== 'production') {
+  throw new Error('请先检查 .env 中的 PORT、APP_LABEL 和 NODE_ENV')
+}
 
 const app = express()
+app.disable('x-powered-by')
 
-// 允许 Express 解析 JSON 请求体，例如 POST /api/users 时传入 JSON
-app.use(express.json())
-
-// 健康检查接口，用来验证后端进程是否真的活着
-// 部署排查时，先 curl 这个接口，比直接猜问题更可靠
-app.get('/api/health', (req, res) => {
-  res.json({
-    ok: true,
-    message: 'api is running',
-    env: process.env.NODE_ENV || 'development'
-  })
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true, service: label, environment: nodeEnv })
 })
 
-// 示例接口，确认 Nginx /api 反向代理是否能转到 Express
-app.get('/api/articles', (req, res) => {
-  res.json([
-    { id: 1, title: '第一篇文章' },
-    { id: 2, title: '第二篇文章' }
-  ])
-})
-
-// PORT 从环境变量读取，方便开发、测试、生产使用不同端口
-const port = Number(process.env.PORT || 3000)
-
-// 生产部署时通常让 Express 监听 127.0.0.1
-// 这样外网不能直接访问 3000，只能通过 Nginx 转发进来
 app.listen(port, '127.0.0.1', () => {
-  console.log(`api listening on http://127.0.0.1:${port}`)
+  console.log('API listening on 127.0.0.1:' + port)
 })
 ```
 
-如果你暂时没有用 ESM，可以用 CommonJS 写法。关键不是语法，而是：
+健康检查只返回示例服务名称和当前环境。生产项目的健康响应保持简短，数据库凭据、内部堆栈和可用于定位配置文件的路径放在服务端。
 
-- 有健康检查。
-- 端口从环境变量读。
-- 生产环境不要随意监听 `0.0.0.0` 暴露给公网。
+## 2. 创建并验证 `.env`
 
-## 3. `.env` 环境变量
-
-后端项目根目录放一个 `.env`：
+在项目目录执行以下命令。`umask 077` 让当前 shell 创建的配置文件默认仅向文件所有者开放。
 
 ```bash
-# 当前运行环境
+cd "$HOME/apps/my-api"
+umask 077
+cat > .env <<'EOF'
 NODE_ENV=production
-
-# Express 监听端口
 PORT=3000
-
-# MongoDB 连接字符串
-# 密码要换成强密码，且不要提交到公开仓库
-MONGODB_URI=mongodb://app_user:strong_password@127.0.0.1:27017/my_app?authSource=my_app
+APP_LABEL=my-api-from-dotenv
+EOF
+chmod 600 .env
+printf '%s\n' '.env' 'node_modules/' >> .gitignore
 ```
 
-如果项目使用 `dotenv`：
-
-```js
-import 'dotenv/config'
-
-// dotenv/config 会把 .env 里的变量加载到 process.env
-console.log(process.env.MONGODB_URI)
-```
-
-注意：
+Node.js 会通过 `--env-file=.env` 加载配置。先在前台运行，方便看到错误。
 
 ```bash
-# .gitignore
-# .env 里通常有密码，不能提交
-.env
+node --env-file=.env server.mjs
 ```
 
-## 4. 在服务器上准备后端项目
-
-假设后端放在：
-
-```txt
-/opt/my-express-api
-```
-
-命令：
+另开一个服务器终端，运行以下命令。看到 `200` 和给定的 `service` 字段，就验证了示例读取到了环境文件。确认后回第一个终端按 `Ctrl + C`，释放 3000 端口。
 
 ```bash
-# 进入 /opt
-cd /opt
-
-# 拉代码，地址换成自己的仓库
-git clone https://github.com/your-name/my-express-api.git
-
-# 进入项目
-cd my-express-api
-
-# 安装依赖
-npm install --omit=dev
-
-# 创建生产环境变量文件
-nano .env
+curl -fsS -w '\nHTTP %{http_code}\n' http://127.0.0.1:3000/api/health
 ```
 
-写完 `.env` 后，先本机测试：
-
-```bash
-# 先直接启动一次，确认代码和环境变量没问题
-NODE_ENV=production node app.js
+```text
+{"ok":true,"service":"my-api-from-dotenv","environment":"production"}
+HTTP 200
 ```
 
-另开一个 SSH 窗口测试：
+同名环境变量已经由 shell 或服务管理器设置时，Node 会优先使用那些值。示例让 `.env` 提供这三个变量。在正式项目中从相同来源管理同一变量，并使用 `.env.example` 记录变量名和无敏感性的示例。拥有锁文件的已有项目可在服务器中执行 `npm ci --omit=dev`。如果项目要先编译，按项目构建说明生成产物，再安装或保留运行所需依赖。 [Node.js 的环境变量](https://nodejs.org/docs/latest-v24.x/api/environment_variables.html)
 
-```bash
-# 在服务器本机访问健康检查
-curl http://127.0.0.1:3000/api/health
-```
+## 3. 交给 PM2 并验证工作目录
 
-能返回 JSON，说明 Express 本身通了。
+按部署用户的 Node/npm 安装方式准备 PM2，例如使用该用户可写的全局 npm 前缀后运行 `npm install --global pm2`。运行 `pm2 --version` 确认命令可用。之后启动、保存和查看进程都用同一个部署用户。
 
-## 5. PM2 是什么
-
-PM2 是 Node.js 常用进程管理器。
-
-它主要解决：
-
-- 后台运行。
-- 崩溃重启。
-- 日志查看。
-- 多应用管理。
-- 开机自启。
-
-安装：
-
-```bash
-# 全局安装 PM2
-npm install -g pm2
-```
-
-启动：
-
-```bash
-# 启动 app.js，并把进程命名为 my-api
-pm2 start app.js --name my-api
-```
-
-查看：
-
-```bash
-# 查看 PM2 管理的应用
-pm2 list
-
-# 查看日志
-pm2 logs my-api
-
-# 重启应用
-pm2 restart my-api
-
-# 停止应用
-pm2 stop my-api
-```
-
-保存进程列表：
-
-```bash
-# 保存当前 PM2 进程列表，配合开机自启使用
-pm2 save
-```
-
-配置开机自启：
-
-```bash
-# 生成开机自启命令
-# 执行后 PM2 会输出一段 sudo 命令，按它提示复制执行
-pm2 startup
-```
-
-小白重点：
-
-```txt
-pm2 start 是启动应用。
-pm2 save 是保存当前启动列表。
-pm2 startup 是配置服务器重启后自动恢复。
-```
-
-## 6. PM2 配置文件写法
-
-可以新建 `ecosystem.config.cjs`：
+在 `$HOME/apps/my-api` 新建 `ecosystem.config.cjs`。`__dirname` 指向配置文件所在的绝对目录。`cwd` 明确了相对脚本路径和 `.env` 的查找位置。
 
 ```js
 module.exports = {
   apps: [
     {
-      // PM2 里显示的应用名
       name: 'my-api',
-
-      // Express 入口文件
-      script: './app.js',
-
-      // 生产环境变量
-      env: {
-        NODE_ENV: 'production',
-        PORT: '3000'
-      },
-
-      // 应用异常退出后自动重启
+      cwd: __dirname,
+      script: './server.mjs',
+      node_args: '--env-file=.env',
       autorestart: true,
-
-      // 最大内存限制，超过后 PM2 会重启应用
-      // 小项目可以先写 300M，后续按服务器内存调整
-      max_memory_restart: '300M'
+      restart_delay: 2000
     }
   ]
 }
 ```
 
-启动：
-
 ```bash
-# 使用配置文件启动
-pm2 start ecosystem.config.cjs
-
-# 查看日志
-pm2 logs my-api
+cd "$HOME/apps/my-api"
+pm2 start ecosystem.config.cjs --only my-api
+pm2 describe my-api
+pm2 logs my-api --lines 30 --nostream
+curl -fsS -w '\nHTTP %{http_code}\n' http://127.0.0.1:3000/api/health
 ```
 
-## 7. 让 Nginx 转发给 PM2 管理的 Express
+在 `pm2 describe` 中核对 `exec cwd` 为实际项目目录、脚本为 `server.mjs`，日志应包含端口提示。返回的 `service` 仍须为 `my-api-from-dotenv`。把 `.env` 中的 `APP_LABEL` 改为 `my-api-restart-check`，再执行以下命令，两次结果的服务名不同即可确认 PM2 确实重新读取了配置。
 
-PM2 管的是进程，不负责公网入口。
+```bash
+pm2 restart my-api
+curl -fsS http://127.0.0.1:3000/api/health
+```
 
-公网入口仍然是 Nginx：
+如果修改的是 `ecosystem.config.cjs` 的启动配置，从项目目录按配置重载 `pm2 restart ecosystem.config.cjs --only my-api --update-env`，再核对进程和健康检查。
+
+Linux 使用 systemd 时，在部署用户下运行 `pm2 startup`，按它输出的命令安装启动服务，再以同一部署用户运行 `pm2 save`。重启计划允许时，重启后执行 `pm2 list` 和健康检查验收。升级 Node 安装路径后，按 PM2 指引重新生成 systemd 启动配置。 [PM2 配置文件](https://pm2.keymetrics.io/docs/usage/application-declaration/) · [PM2 开机启动](https://pm2.keymetrics.io/docs/usage/startup/)
+
+## 4. 接入 Nginx
+
+先确认本机直连接口返回 200，再将以下 `location` 放进该站点已有的 `server` 配置。`proxy_pass` 只写上游地址，保留 `/api/health` 路径。
 
 ```nginx
 location /api/ {
-  # Express 由 PM2 守护，监听本机 3000
-  proxy_pass http://127.0.0.1:3000;
-
-  # 传递真实请求信息给 Express
-  proxy_set_header Host $host;
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_pass http://127.0.0.1:3000;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
 }
 ```
 
-联调顺序：
-
 ```bash
-# 第一步：确认 Express 本机可访问
-curl http://127.0.0.1:3000/api/health
-
-# 第二步：确认 Nginx 配置没错
 sudo nginx -t
-
-# 第三步：确认域名 API 能访问
-curl https://example.com/api/health
+sudo systemctl reload nginx
+curl -fsS -w '\nHTTP %{http_code}\n' https://你的域名/api/health
 ```
 
-如果第一步失败，看 Express 和 PM2。
+最后一条命令需要把 `你的域名` 换成已有 HTTPS 配置的域名。若直连工作、域名失败，先确认请求命中正确的 Nginx 站点。正式项目依赖代理转发的客户端 IP 或协议时，按实际代理拓扑设置 Express 的 `trust proxy`。同源部署可通过 `/api` 请求后端。跨源部署按允许的前端来源配置 CORS。 [第 3 篇：Nginx、反向代理与 HTTPS](/console/article-directory/articles/nginx-https-f134e6f0) · [Express：代理后的部署](https://expressjs.com/en/guide/behind-proxies.html)
 
-如果第一步成功、第三步失败，看 Nginx。
+## 5. 按现象排查
 
-## 8. Express 生产安全小点
+| 现象 | 检查 |
+| --- | --- |
+| Node 提示找不到 `.env` | 看 `pwd` 或 `pm2 describe my-api` 的 `exec cwd`，确认文件在该目录，且部署用户有读取权限 |
+| PM2 显示 `online`，本机接口无法访问 | 看 `pm2 logs my-api --lines 50 --nostream`，检查端口、启动错误及是否反复重启 |
+| `EADDRINUSE` | 检查前台测试进程是否已停止，或者本机是否已有服务监听 3000 |
+| `service` 与 `.env` 不同 | 检查同名 shell/PM2 环境变量，确认启动参数含 `--env-file=.env` 并重启 |
+| 域名返回 502，本机接口正常 | 核对 Nginx 上游地址和端口、站点配置及 Nginx 错误日志 |
+| 域名返回 404，本机接口正常 | 核对 `location` 和 `proxy_pass` 得到的实际路径 |
 
-### 不要信任所有代理
-
-如果你要在 Express 里读取真实 IP，需要了解 `trust proxy`。
-
-```js
-// 只有当 Express 前面确实有 Nginx 这类反向代理时才考虑开启
-// 开启后 Express 会更信任 X-Forwarded-* 头
-app.set('trust proxy', 1)
-```
-
-不要不理解就乱开。因为请求头可能被伪造，具体要结合部署拓扑判断。
-
-### CORS 不要全放开
-
-开发时可能这样：
-
-```js
-// 开发练习可以临时允许所有来源
-app.use(cors())
-```
-
-生产更建议指定前端域名：
-
-```js
-app.use(cors({
-  // 只允许自己的前端域名访问接口
-  origin: 'https://example.com',
-
-  // 如果使用 Cookie 登录，需要开启 credentials
-  credentials: true
-}))
-```
-
-### 不要把错误详情直接返回给用户
-
-```js
-app.use((err, req, res, next) => {
-  // 服务端日志可以记录详细错误
-  console.error(err)
-
-  // 返回给用户的内容要克制，避免泄漏路径、SQL、连接字符串等敏感信息
-  res.status(500).json({
-    message: '服务器内部错误'
-  })
-})
-```
-
-## 9. 常见问题
-
-### PM2 显示 online，但接口访问失败
-
-先看日志：
-
-```bash
-pm2 logs my-api
-```
-
-再本机测试：
-
-```bash
-curl http://127.0.0.1:3000/api/health
-```
-
-可能原因：
-
-- 端口不是 3000。
-- 应用只监听了别的地址。
-- `.env` 没加载。
-- 代码启动成功，但接口路径不是 `/api/health`。
-
-### Nginx 502
-
-常见原因：
-
-- PM2 里的 Express 没启动。
-- `proxy_pass` 端口写错。
-- Express 启动后马上崩溃。
-- 防火墙或监听地址异常。
-
-### 修改代码后没有生效
-
-检查是否忘了：
-
-```bash
-# 拉新代码后重新安装依赖
-npm install --omit=dev
-
-# 重启 PM2 应用
-pm2 restart my-api
-```
-
-## 10. 这一篇的练习
-
-你可以完成：
-
-```bash
-# 进入后端项目
-cd /opt/my-express-api
-
-# 安装依赖
-npm install --omit=dev
-
-# 用 PM2 启动
-pm2 start app.js --name my-api
-
-# 查看状态
-pm2 list
-
-# 测试健康检查
-curl http://127.0.0.1:3000/api/health
-
-# 查看日志
-pm2 logs my-api
-```
-
-学完这一篇，你应该能说清楚：
-
-```txt
-Express 是接口程序。
-PM2 让接口程序常驻运行。
-Nginx 把用户访问的 /api 转给 Express。
-.env 保存生产环境变量和数据库连接。
-```
-
-## 官方资料
-
-- Express Production Best Practices：https://expressjs.com/en/advanced/best-practice-performance.html
-- PM2 Runtime Overview：https://pm2.io/docs/runtime/overview/
+接下来可把数据库连接加入应用启动流程。 [第 5 篇：MongoDB 生产安全、连接与备份](/console/article-directory/articles/mongodb-ad14cd5a)

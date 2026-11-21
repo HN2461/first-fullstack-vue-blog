@@ -39,6 +39,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 Nginx 是网站大门，PM2 是后端保姆，MongoDB 不能直接裸露在公网。
 ```
 
+> **读者准备**：先在练习服务器走一遍，确认本机前端能构建、后端接口能返回、会用 SSH。示例采用 Ubuntu 22.04/24.04、Node.js 24 LTS 和 MongoDB 8.0。把 `example.com`、`1.2.3.4`、仓库和账号换成自己的值。凡写「本机」就在自己的电脑执行，凡写「服务器」就在 SSH 终端执行。
+
 ## 0. 最终要搭成什么样
 
 本文用一个典型前后端分离项目做例子：
@@ -265,13 +267,13 @@ ssh root@1.2.3.4
 Are you sure you want to continue connecting?
 ```
 
-确认 IP 没输错后，输入：
+通过云厂商控制台打开可信终端，对照客户端提示的算法和主机指纹。例如提示 ED25519 时，在服务器上运行 `sudo ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`，对比完整的 SHA256 指纹。确认一致后，输入：
 
 ```txt
 yes
 ```
 
-然后输入服务器密码。
+然后使用实例配置的 SSH 密钥或云厂商提供的认证方式。生产使用有必要权限的部署账号，正文的 root 命令对应首次初始化示例。
 
 登录成功后，先执行：
 
@@ -441,7 +443,7 @@ fetch(`${apiBaseUrl}/api/health`)
 
 ```bash
 # frontend/.env.development
-VITE_API_BASE_URL=http://localhost:3000
+VITE_API_BASE_URL=
 ```
 
 再新建生产环境文件：
@@ -482,7 +484,7 @@ export default {
 }
 ```
 
-但这个代理只在 `npm run dev` 时生效。上线后的代理是 Nginx 做的。
+本例在开发环境也走同源路径；Vite 代理负责把相对的 `/api` 转给 Express。如果另用绝对后端网址直连，浏览器会绕过 Vite 代理，后端需要按实际来源配置 CORS。Vite 开发代理只在 `npm run dev` 时生效。上线后的代理是 Nginx 做的。
 
 小白记法：
 
@@ -724,6 +726,8 @@ assets
 
 ## 9. 部署后端代码
 
+下面两种布局选一种。全文后续示例统一使用 `/opt/my-fullstack-api`。如果使用包含前端和后端的 Git 仓库，将后续**后端**的 `cd`、PM2 工作目录和文件检查路径统一替换成 `/opt/my-fullstack-app/backend`。前端静态目录保持 `/var/www/my-fullstack-app/dist`。
+
 推荐用 Git 拉后端代码。下面命令在服务器上执行。
 
 ```bash
@@ -737,7 +741,7 @@ git clone https://github.com/your-name/my-fullstack-api.git my-fullstack-api
 cd /opt/my-fullstack-api
 
 # 安装生产依赖
-npm install --omit=dev
+npm ci --omit=dev
 ```
 
 如果你的项目是前后端放在一个仓库：
@@ -746,7 +750,7 @@ npm install --omit=dev
 cd /opt
 git clone https://github.com/your-name/my-fullstack-app.git my-fullstack-app
 cd /opt/my-fullstack-app/backend
-npm install --omit=dev
+npm ci --omit=dev
 ```
 
 创建生产环境变量：
@@ -771,7 +775,7 @@ nano 里按 Ctrl + O 保存，按 Enter 确认文件名，再按 Ctrl + X 退出
 
 **成功标准：**
 
-- `npm install --omit=dev` 没有失败。
+- `npm ci --omit=dev` 没有失败。
 - `.env` 已创建。
 - `.env` 没有出现在 Git 仓库里。
 
@@ -920,7 +924,7 @@ cd /opt/my-fullstack-api
 如果你的入口文件是 `app.js`：
 
 ```bash
-NODE_ENV=production node app.js
+node --env-file=.env app.js
 ```
 
 另开一个 SSH 终端，测试：
@@ -963,7 +967,7 @@ pm2 -v
 ```bash
 cd /opt/my-fullstack-api
 
-pm2 start app.js --name my-fullstack-api
+pm2 start app.js --name my-fullstack-api --node-args="--env-file=.env"
 ```
 
 如果你的启动命令写在 `package.json` 里，例如：
@@ -971,7 +975,7 @@ pm2 start app.js --name my-fullstack-api
 ```json
 {
   "scripts": {
-    "start": "node app.js"
+    "start": "node --env-file=.env app.js"
   }
 }
 ```
@@ -1203,6 +1207,8 @@ https://example.com/articles/1
 - MongoDB 认证开启。
 - 3000 和 27017 没有直接对公网开放。
 
+练习验收时，把本机预览、服务器上后端端口、Nginx HTTPS 三处的检查分别记下来。只有前一层正常后再查下一层。健康接口应返回 HTTP 200 和业务约定的 JSON。对接真实数据库的接口建议再做一次只读查询，以确认账号和数据库连接有效。
+
 ## 16. 更新项目时怎么做
 
 ### 16.1 更新前端
@@ -1235,7 +1241,7 @@ cd /opt/my-fullstack-api
 git pull
 
 # 如果依赖变化，重新安装
-npm install --omit=dev
+npm ci --omit=dev
 
 # 重启后端
 pm2 restart my-fullstack-api
@@ -1390,8 +1396,9 @@ app.get('/api/health', (req, res) => {
 排查：
 
 ```bash
-cat /opt/my-fullstack-api/.env
-mongosh "mongodb://app_user:strong_password@127.0.0.1:27017/my_app?authSource=my_app"
+test -s /opt/my-fullstack-api/.env && echo '.env exists'
+node --env-file=/opt/my-fullstack-api/.env -e 'console.log("MONGODB_URI is set:", Boolean(process.env.MONGODB_URI))'
+mongosh "mongodb://127.0.0.1:27017/my_app?authSource=my_app" --username app_user --password
 pm2 logs my-fullstack-api
 ```
 

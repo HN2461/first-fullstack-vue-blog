@@ -41,6 +41,8 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ---
 
+**适合单台电脑打不开某个网站，或家里共享设备突然找不到时查阅。** 三分钟练习是查看当前网络属于公共还是专用，打开 Windows 安全中心找到防火墙页面，然后退出。下面的修改步骤可等遇到对应情况后再用。
+
 ## 一、先记结论
 
 ### 1.1 `hosts` 的优先级很高
@@ -213,7 +215,8 @@ ipconfig /flushdns
 微软推荐的常见路径是：
 
 ```text
-设置 > 网络和 Internet > Wi-Fi / 以太网 > 当前连接 > 网络配置文件类型
+Windows 11：设置 → 网络和 Internet → Wi‑Fi 或以太网 → 当前连接 → 网络配置文件类型
+Windows 10：设置 → 网络和 Internet → 状态 → 当前连接的属性 → 网络配置文件
 ```
 
 如果你遇到这些问题，可以先检查是不是网络类型不合适：
@@ -265,12 +268,7 @@ ipconfig /flushdns
 
 ### 11.1 网站只在这台电脑打不开
 
-先查：
-
-1. `hosts`
-2. DNS 缓存
-3. 浏览器代理
-4. 防火墙或安全软件
+用手机连接同一个 Wi‑Fi，再访问同一网站。手机也异常时先查站点或原网络。只有这台电脑异常时，先用另一个浏览器对照，然后按现象查浏览器代理、DNS 或 `hosts`。访问多个站点都失败时，先看电脑的网络属性和代理设置。
 
 ### 11.2 局域网共享突然失效
 
@@ -294,13 +292,11 @@ ipconfig /flushdns
 
 如果你确实要改 `hosts`，建议按这个顺序：
 
-1. 先备份原文件
-2. 用管理员权限编辑
-3. 只加你明确知道作用的条目
-4. 改完马上注明用途
-5. 测试完成后及时删掉临时条目
+1. 在资源管理器地址栏输入 `%SystemRoot%\System32\drivers\etc`，把 `hosts` 复制到文档目录的备份文件夹，保留原文件名。
+2. 用管理员权限编辑原件，只改能确认用途的条目。保存时确认文件名仍为 `hosts`，没有 `.txt` 后缀。
+3. 如果要回退，把备份复制回原位置，确认覆盖提示，再按需要运行 `ipconfig /flushdns` 并打开原本受影响的网站。公司设备按 IT 的要求操作。
 
-如果只是偶尔需要改，不想手动操作，也可以考虑微软提供的 PowerToys Hosts File Editor。
+也可以使用微软 PowerToys 的 Hosts File Editor。它会在编辑前自动生成备份。 [Microsoft：PowerToys Hosts File Editor](https://learn.microsoft.com/en-us/windows/powertoys/hosts-file-editor)
 
 ---
 
@@ -316,9 +312,9 @@ ipconfig /flushdns
 
 ## 十四、配套阅读
 
-- [Windows IP地址、DNS、网关、DHCP、私网公网速查](./Windows%20IP地址、DNS、网关、DHCP、私网公网速查.md)
-- [代理网络问题处理指南](../代理与VPN/代理网络问题处理指南.md)
-- [电脑WIFI图标消失修复](../网络排障/电脑WIFI图标消失修复.md)
+- [Windows IP地址、DNS、网关、DHCP、私网公网速查](/console/article-directory/articles/windows-ip-dns-dhcp-fd5c357b)
+- [代理网络问题处理指南](/console/article-directory/articles/vpn-0373b572)
+- [电脑WIFI图标消失修复](/console/article-directory/articles/wifi-09cbf6da)
 
 ---
 
@@ -326,6 +322,6 @@ ipconfig /flushdns
 
 - [Microsoft Learn: Hosts File Editor utility](https://learn.microsoft.com/en-us/windows/powertoys/hosts-file-editor)
 - [Microsoft Support: Essential Network Settings and Tasks in Windows](https://support.microsoft.com/en-us/windows/essential-network-settings-and-tasks-in-windows-f21a9bbc-c582-55cd-35e0-73431160a1b9)
-- [Microsoft Support: Fix Wi-Fi connection issues in Windows](https://support.microsoft.com/en-us/windows/wi-fi-connection-icons-and-what-they-mean-in-windows-35f58c75-bd23-4b8b-dd1a-009fe53f86b3)
+- [Microsoft Support: Fix Wi-Fi connection issues in Windows](https://support.microsoft.com/en-us/windows/experience/connectivity-networking/fix-wi-fi-connection-issues-in-windows)
 - [Microsoft Support: Firewall and network protection in the Windows Security app](https://support.microsoft.com/en-us/windows/firewall-and-network-protection-in-the-windows-security-app-ec0844f7-aebd-0583-67fe-601ecf5d774f)
 - [Microsoft Learn: Windows Firewall tools](https://learn.microsoft.com/en-us/windows/security/operating-system-security/network-security/windows-firewall/tools)

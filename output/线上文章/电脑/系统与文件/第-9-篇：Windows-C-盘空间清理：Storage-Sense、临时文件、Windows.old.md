@@ -26,7 +26,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 # 第 9 篇：Windows C 盘空间清理：Storage Sense、临时文件、Windows.old
 
 > 资料来源：Microsoft Support，整理时间：2026-04-12。  
-> 适用范围：Windows 10 / Windows 11 的官方清理路径。
+> 以 Windows 11 中文界面为主。Windows 10 找不到「清理建议」时，可先用「临时文件」「存储感知」或「磁盘清理」。
 
 [[toc]]
 
@@ -34,13 +34,9 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ## 一、先说结论：清 C 盘最好先走系统自带路径
 
-微软当前给出的主线非常明确，优先顺序基本是：
-
-1. 看 `Storage` 设置
-2. 用 `Storage Sense`
-3. 看 `Temporary files` / `Cleanup recommendations`
-4. 删个人大文件或移到外部存储
-5. 必要时再用 `Disk Cleanup`
+1. 按 `Win + I`，进入「系统」→「存储」，记下 C 盘剩余空间，再看哪个类别占得最多。
+2. 根据占用处理。个人文件太大时，先备份或移动自己认识的文件。应用太大时，用「设置」卸载。临时文件太多时，使用「临时文件」或「清理建议」。
+3. 操作后回到「存储」查看可用空间。想减少反复手动清理，可以再配置「存储感知」。需要传统入口时可用「磁盘清理」。
 
 这比直接打开 `C:\Windows` 或 `C:\ProgramData` 看到哪个大就删，稳得多。
 
@@ -50,9 +46,9 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 微软在“Storage settings in Windows”里给出的路径是：
 
-1. 打开 `Settings`
-2. 进入 `System`
-3. 进入 `Storage`
+1. 按 `Win + I` 打开「设置」。
+2. 进入「系统」→「存储」（Settings → System → Storage）。
+3. 记下系统盘的可用空间。也可按 `Win + E`，点「此电脑」，查看「本地磁盘 (C:)」的可用空间。
 
 这里能看到 Windows 按类别拆出来的空间占用，例如：
 
@@ -73,7 +69,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 
 ---
 
-## 三、`Storage Sense` 是什么
+## 三、存储感知（Storage Sense）
 
 微软对 `Storage Sense` 的定义很直接：它可以自动帮你释放空间，典型对象包括：
 
@@ -94,16 +90,16 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 - 回收站内容会按规则清理
 - `Downloads` 和 OneDrive 等云文件，不会默认乱动，除非你自己配置
 
-这对普通用户很重要，因为很多人最怕“系统自动清理把自己文件清掉”。
+在「设置」→「系统」→「存储」→「存储感知」查看清理间隔。下载文件需保留时，让「下载」相关自动删除选项保持「从不」。如果开启了云内容管理，检查它何时释放本地副本，避免断网时才发现需要重新下载。
 
 ---
 
-## 四、如果你不想全靠自动清理，可以看 `Cleanup recommendations`
+## 四、用「清理建议」查看待清理项目
 
 微软在“Free up drive space in Windows”里提到，除了 `Storage Sense`，还可以看：
 
 ```text
-Settings > System > Storage > Cleanup recommendations
+设置 → 系统 → 存储 → 清理建议
 ```
 
 系统会按分类建议你清理内容，例如：
@@ -121,14 +117,20 @@ Settings > System > Storage > Cleanup recommendations
 
 ---
 
-## 五、`Temporary files` 能清什么
+## 五、用「临时文件」手动清理
 
 微软对 `Temporary files` 的使用路径非常明确：
 
-1. 打开 `Settings > System > Storage`
-2. 进入 `Temporary files`
-3. 勾选你确认要删的内容
-4. 点击 `Remove files`
+1. 打开「设置」→「系统」→「存储」，进入「临时文件」，等系统统计完成。
+2. 逐项读说明，先勾选能确认的项目。系统有时会列出「下载」「回收站」或「以前的 Windows 安装」。
+3. 点「删除文件」。完成后返回「系统」→「存储」，等统计刷新再对比 C 盘可用空间。
+
+| 看到的项目 | 点删除前先确认 |
+| --- | --- |
+| 下载 | 里面可能有文档、图片和安装包，先在资源管理器打开「下载」逐项看。要保留时取消勾选 |
+| 回收站 | 打开回收站确认里面没有要还原的文件 |
+| 以前的 Windows 安装 | 近期升级且仍希望能回退时，保留此项 |
+| 缩略图 | Windows 会重新生成预览缩略图，可按需清理 |
 
 这也是很多系统级可清理项的官方入口。
 
@@ -156,10 +158,9 @@ Settings > System > Storage > Cleanup recommendations
 
 如果你确认不需要回退，可以按微软给出的路径删除：
 
-1. `Settings > System > Storage`
-2. 进入 `Temporary files`
-3. 勾选 `Previous version of Windows`
-4. 点击 `Remove files`
+1. 打开「设置」→「系统」→「存储」→「临时文件」。
+2. 勾选「以前的 Windows 安装」（Previous version of Windows）。
+3. 确认已经备份所需资料并接受无法回退，再点击「删除文件」。
 
 ### 6.1 删 `Windows.old` 前一定要想清楚什么
 
@@ -173,11 +174,11 @@ Settings > System > Storage > Cleanup recommendations
 
 ---
 
-## 七、微软官方更推荐先清哪里
+## 七、按占用最大的类别处理
 
-结合微软“Free up drive space in Windows”的顺序，我建议你优先按这个路线处理：
+根据开头看到的占用情况，从占空间多的一类开始。
 
-### 7.1 先清个人大文件
+### 7.1 个人文件占用最多
 
 微软明确点名了几个容易出大文件的位置：
 
@@ -188,11 +189,11 @@ Settings > System > Storage > Cleanup recommendations
 
 这些通常都在你的用户目录下。
 
-### 7.2 再处理不用的应用
+### 7.2 应用占用最多
 
 看 `Installed apps` 或系统应用列表，把不常用又大的程序卸载。
 
-### 7.3 再处理临时文件和系统建议项
+### 7.3 临时文件占用最多
 
 这一步再用：
 
@@ -213,7 +214,7 @@ Settings > System > Storage > Cleanup recommendations
 
 官方路径是：
 
-1. 搜索 `disk cleanup`
+1. 在「开始」搜索「磁盘清理」（Disk Cleanup）
 2. 选择驱动器
 3. 选择要删的文件类型
 4. 需要更多空间时可选择 `Clean up system files`
@@ -264,6 +265,8 @@ Settings > System > Storage > Cleanup recommendations
 6. 不要把 `Windows`、`Program Files`、`ProgramData`、`AppData` 根目录当成第一清理入口
 
 ---
+
+想认识 C 盘文件夹，可对照 [C 盘系统文件夹说明](/console/article-directory/articles/windows-c-1552bf32)。
 
 ## 参考资料
 

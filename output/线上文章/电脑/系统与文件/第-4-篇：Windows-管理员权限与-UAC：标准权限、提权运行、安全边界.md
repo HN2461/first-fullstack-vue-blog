@@ -25,7 +25,7 @@ exportedAt: "2026-10-18T11:58:42.583Z"
 # 第 4 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界
 
 > 资料来源：Microsoft Learn、Microsoft Support，整理时间：2026-04-12。  
-> 适用范围：Windows 10 / Windows 11。
+> 菜单以 Windows 11 中文界面为例，账户与提权原理也适用于 Windows 10。
 
 很多人会把下面三件事混成一件事：
 
@@ -94,11 +94,21 @@ UAC 是 User Account Control，也就是用户账户控制。
 - 标准用户通常会看到“输入管理员凭据”的提示
 - 管理员用户通常会看到“是否允许此应用对你的设备进行更改”的确认提示
 
-微软的核心思路是：**高权限动作必须有一次显式确认。**
+是否弹窗、需要确认还是输入管理员凭据，取决于账户类型、UAC 级别和组织策略。
 
 ---
 
-## 三、“以管理员身份运行”到底在干什么
+## 三、看到 UAC 窗口时怎么做
+
+| 屏幕上的情况 | 怎么处理 |
+| --- | --- |
+| 刚主动打开可信软件的安装程序 | 核对弹窗里的应用名称、发布者和安装包来源。都符合预期时再选择「是」 |
+| 浏览网页时突然弹出，或弹窗程序与刚才的操作对不上 | 选择「否」，回到原窗口确认来源 |
+| 弹窗要求输入管理员账号或密码 | 当前账户无法直接批准这次操作。家用设备请管理员本人确认，公司设备按管理流程处理 |
+
+需要确认来源时，可从可信的发行方或 Microsoft Store 重新获取安装包。发布者字段可以帮助识别程序，仍应结合下载来源做判断。 [微软 UAC 工作原理](https://learn.microsoft.com/en-us/windows/security/application-security/application-control/user-account-control/how-it-works)
+
+### 以管理员身份运行的入口
 
 它的本质是：**让这个程序以提升后的权限启动。**
 
@@ -163,9 +173,8 @@ UAC 是 User Account Control，也就是用户账户控制。
 
 适合：
 
-- 经常测试来路不明的软件
-- 需要更严格防护
-- 不介意提示次数更多
+- 需要更严格的通知策略
+- 希望修改 Windows 设置时也收到提示
 
 特点：
 
@@ -232,7 +241,7 @@ UAC 是 User Account Control，也就是用户账户控制。
 优先顺序建议是：
 
 1. 先确认这个操作本来是否需要提权
-2. 再试一次“以管理员身份运行”
+2. 确认应用来源可信、目标操作确实需要提升权限后，再尝试「以管理员身份运行」
 3. 仍不行，再检查是不是账户类型、公司策略或文件权限问题
 
 ---
@@ -275,9 +284,9 @@ UAC 的主要作用是安全，不是性能调优。
 
 ## 十、配套阅读
 
-- [Windows 启动项、任务管理器、MSConfig 与常用系统配置工具](./Windows%20启动项、任务管理器、MSConfig%20与常用系统配置工具.md)
-- [Windows 常见系统路径与环境变量速查](./Windows%20常见系统路径与环境变量速查.md)
-- [Windows C盘常见系统文件夹说明：Program Files、ProgramData、Users 一次讲清](./Windows%20C盘常见系统文件夹说明.md)
+- [Windows 启动项、任务管理器、MSConfig 与常用系统配置工具](/console/article-directory/articles/windows-msconfig-3392836b)
+- [Windows 常见系统路径与环境变量速查](/console/article-directory/articles/windows-b0b9b49e)
+- [Windows C盘常见系统文件夹说明：Program Files、ProgramData、Users 一次讲清](/console/article-directory/articles/windows-c-1552bf32)
 
 ---
 
