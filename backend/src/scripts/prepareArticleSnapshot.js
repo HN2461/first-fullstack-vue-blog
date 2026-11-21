@@ -19,7 +19,7 @@ const APPLY = args.has('--apply')
 const PUBLISH_ALL = args.has('--publish-all')
 const EXPORT_ROOT = path.resolve(process.env.ARTICLE_EXPORT_DIR || path.join(env.rootDir, '../output/线上文章'))
 const REPORT_ROOT = path.resolve(
-  process.env.ARTICLE_REPORT_DIR || path.join(env.rootDir, '../docs/02-开发指南/文章同步报告')
+  process.env.ARTICLE_REPORT_DIR || path.join(env.rootDir, '../tmp/article-reports')
 )
 
 function readManifest() {

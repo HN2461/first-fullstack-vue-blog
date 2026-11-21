@@ -25,3 +25,4 @@ backend/legacy-notes/
 backend/tests/.tmp/
 .media-tmp/
 .playwright-cli/
+.codex-logs/

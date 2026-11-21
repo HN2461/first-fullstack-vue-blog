@@ -1,5 +1,7 @@
 # 文章文件夹分批基础配置整改报告
 
+本报告记录 2026 年 7 月 31 日的分批整理。下文各批次的“变更明细”使用原 JSON 文件名作为查询键，对应文章 ID、slug、改名前后的字段和目录保存在[合并审计明细](folder-by-folder-details-2026-07-31.json)中。
+
 ## 范围
 
 - 处理范围：`output/线上文章` 中除 `安卓APK` 外的根目录。
@@ -29,7 +31,7 @@
 - 将 MaxKB 系列 `NN-标题` 统一为 `NN：标题`。
 - 将 CatPaw 系列 `第N篇：标题` 统一为 `第 N 篇：标题`。
 - 同步更新 Front Matter、首个同名 H1、`manifest.json` 的 `title` 与 `contentHash`。
-- 变更明细：`docs/02-开发指南/文章同步报告/ai-related-title-cleanup-20260731.json`。
+- 变更明细：`ai-related-title-cleanup-20260731.json`。
 - 本地备份：`backups/ai-related-before-title-cleanup-20260731-1210`。
 
 ### 我的总结
@@ -37,7 +39,7 @@
 - 将 `第16篇：标题`、`第04篇：标题` 等统一为 `第 16 篇：标题`、`第 4 篇：标题`。
 - 将标题中的 `_` 统一为空格，例如 `Vue3_Composition_API核心笔记` 调整为 `Vue3 Composition API核心笔记`。
 - 同步更新 Front Matter、首个同名 H1、`manifest.json` 的 `title` 与 `contentHash`。
-- 变更明细：`docs/02-开发指南/文章同步报告/my-summary-title-cleanup-20260731.json`。
+- 变更明细：`my-summary-title-cleanup-20260731.json`。
 - 本地备份：`backups/my-summary-before-title-cleanup-20260731-1220`。
 
 ### 项目复用技术
@@ -45,7 +47,7 @@
 - 修改 8 篇标题分隔符格式，将标题中的分隔性 `_` 统一为中文冒号、顿号或连接词。
 - 保留 `wx.qy.login`、`ww.createWWLoginPanel`、`corpId`、`agentId` 等技术标识原文，不做字段名破坏性替换。
 - 同步更新 Front Matter 与 `manifest.json` 的 `title` 与 `contentHash`。
-- 变更明细：`docs/02-开发指南/文章同步报告/reuse-frontend-title-cleanup-20260731.json`。
+- 变更明细：`reuse-frontend-title-cleanup-20260731.json`。
 - 本地备份：`backups/reuse-tech-before-title-cleanup-20260731-1430`。
 
 ### 前端技术
@@ -53,7 +55,7 @@
 - 修改 7 篇 `AI版CSS` 标题分隔符格式，将标题中的分隔性 `_` 统一为中文冒号、顿号或空格。
 - 保留 `session_key` 等技术字段名原文，不作为标题异常处理。
 - 同步更新 Front Matter 与 `manifest.json` 的 `title` 与 `contentHash`。
-- 变更明细：`docs/02-开发指南/文章同步报告/reuse-frontend-title-cleanup-20260731.json`。
+- 变更明细：`reuse-frontend-title-cleanup-20260731.json`。
 - 本地备份：`backups/frontend-tech-before-title-cleanup-20260731-1430`。
 
 ## 验证结果
@@ -75,7 +77,7 @@
 - 将目录内文章 `sortOrder` 调整为 10、20、30、40、50、60，使左侧知识库目录按学习路径展示：初相识、基本语法、组件通信、Pinia、Vue Router、其他 API。
 - 为 6 篇文章补充摘要和检索标签，标签按主题控制在 4 个左右，避免继续产生无意义长尾标签。
 - 保持分类路径 `前端技术 / Vue / vue3` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/vue3-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`vue3-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/vue3-folder-before-semantic-cleanup-20260731-1450`。
 
 ### 前端技术 / Vue / vue2
@@ -86,7 +88,7 @@
 - 同步重命名 23 个本地导出 Markdown 文件，主线文件名采用两位序号，例如 `第 01 篇：Vue 2 初体验.md`，并更新 `manifest.json` 的 `fileName`；历史 `sourcePath` 保留不动，仅用于溯源。
 - 为 23 篇文章补充摘要和检索标签，标签按主题控制在 4 个左右，避免空标签和无意义长尾标签。
 - 保持分类路径 `前端技术 / Vue / vue2` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/vue2-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`vue2-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/vue2-folder-before-semantic-cleanup-20260731-1510`。
 - 说明：为兼顾本地阅读，主线文件名已使用 `第 01 篇` 到 `第 22 篇` 的两位序号，避免 Windows 文件管理器字典序把 `第 10 篇` 排到 `第 2 篇` 前。
 
@@ -97,7 +99,7 @@
 - 将 `sortOrder` 调整为 10、20、30、40，使线上目录先展示短复习稿，再展示分版本题目，最后展示完整修订题库。
 - 同步重命名 4 个本地导出 Markdown 文件，文件名采用 `第 01 篇` 到 `第 04 篇` 的两位序号，并更新 `manifest.json` 的 `fileName`；历史 `sourcePath` 保留不动，仅用于溯源。
 - 为 4 篇文章补充摘要和检索标签，保持分类路径 `前端技术 / Vue / vue面试题` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/vue-interview-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`vue-interview-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/vue-interview-folder-before-semantic-cleanup-20260731-1530`。
 
 ### 前端技术 / Vue / Ai的vue
@@ -107,7 +109,7 @@
 - 将 `sortOrder` 调整为 10 到 300，使线上目录按章节顺序展示：Vue 概念、环境准备、实例绑定、模板语法、渲染、表单、响应式、计算/监听、生命周期、组件、路由、Vuex、工程化、Axios、实战、优化、问题、迁移、附录。
 - 同步重命名 30 个本地导出 Markdown 文件，章节文件名采用 `第 01 章` 到 `第 24 章` 的两位序号，附录文件名采用 `附录 A` 到 `附录 F`，并更新 `manifest.json` 的 `fileName`。
 - 为 30 篇文章补充摘要和检索标签，保持分类路径 `前端技术 / Vue / Ai的vue` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/ai-vue-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`ai-vue-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-vue-folder-before-semantic-cleanup-20260731-1545`。
 
 ### Vue 体系整理状态
@@ -123,7 +125,7 @@
 - 将 `sortOrder` 调整为 10 到 90，使线上目录按学习顺序展示；本地文件名采用 `第 01 篇` 到 `第 09 篇`，保证文件管理器阅读顺序一致。
 - 清理标题中的书名号残留，例如 `《现代HTML实践——迈向专业前端》` 规范为 `第 5 篇：现代 HTML 实践`。
 - 为 9 篇文章补充摘要和检索标签，保持分类路径 `前端技术 / 前端三剑客 / AI版HTML` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/ai-html-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`ai-html-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-html-folder-before-semantic-cleanup-20260731-1610`。
 
 ### 前端技术 / 前端三剑客 / AI版CSS
@@ -133,7 +135,7 @@
 - 将 `sortOrder` 调整为 10 到 90，使线上目录按 CSS 学习顺序展示；本地文件名采用 `第 01 篇` 到 `第 09 篇`，保证文件管理器阅读顺序一致。
 - 将 SCSS 文章从原先第 2 位调整到补充篇位置，避免在 CSS 基础尚未铺开时提前进入预处理器语法。
 - 为 9 篇文章补充摘要和检索标签，保持分类路径 `前端技术 / 前端三剑客 / AI版CSS` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/ai-css-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`ai-css-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-css-folder-before-semantic-cleanup-20260731-1625`。
 
 ### 前端技术 / 前端三剑客 / AI版JS
@@ -143,7 +145,7 @@
 - 将 `sortOrder` 调整为 10 到 310，使线上目录先展示教程目录，再按第 1 章到第 30 章展示；本地文件名采用 `第 00 篇` 和 `第 01 章` 到 `第 30 章`，保证文件管理器阅读顺序一致。
 - 为 31 篇文章补充摘要和检索标签，并同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `前端技术 / 前端三剑客 / AI版JS` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/ai-js-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`ai-js-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-js-folder-before-semantic-cleanup-20260731-1635`。
 
 ### 前端技术 / 前端三剑客 / 青鸟版三剑客
@@ -153,7 +155,7 @@
 - 将 `sortOrder` 调整为 10、20、30、40，使线上目录按前端三剑客学习路径展示；本地文件名采用 `第 01 篇` 到 `第 04 篇`，保证文件管理器阅读顺序一致。
 - 将旧标题 `html+css笔记`、`js`、`ess`、`js高级` 规范为可阅读标题，补充摘要和检索标签，并同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `前端技术 / 前端三剑客 / 青鸟版三剑客` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/qingniao-trio-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`qingniao-trio-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/qingniao-trio-folder-before-semantic-cleanup-20260731-1645`。
 
 ### 前端技术 / uni-app / 通用基础
@@ -163,7 +165,7 @@
 - 将 `sortOrder` 调整为 10、20、30、40，使线上目录按基础认知、生命周期、工程配置、通用 API 方法展示；本地文件名采用 `第 01 篇` 到 `第 04 篇`，保证文件管理器阅读顺序一致。
 - 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留已有高质量摘要和标签，仅按新标题收敛展示名称。
 - 保持分类路径 `前端技术 / uni-app / 通用基础` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/uniapp-general-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`uniapp-general-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/uniapp-general-folder-before-semantic-cleanup-20260731-1655`。
 
 ### 前端技术 / uni-app / 微信小程序
@@ -174,7 +176,7 @@
 - 对 `08-常用功能全景` 和 `04-性能优化` 未机械按 sourcePath 排序：总览型文章提前到常见能力前，性能优化放到最后；历史 `sourcePath` 保留用于溯源。
 - 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`，摘要和标签按新标题做轻量收敛。
 - 保持分类路径 `前端技术 / uni-app / 微信小程序` 不变，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/uniapp-wechat-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`uniapp-wechat-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/uniapp-wechat-folder-before-semantic-cleanup-20260731-1705`。
 
 ### 前端技术 / 组件库 / ECharts
@@ -185,7 +187,7 @@
 - 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留原有带官方资料核对日期的摘要和已有标签。
 - 按用户反馈补强“见名知意”要求：不再将 `交互与联动`、`项目开发速查清单` 等文件名压缩到只剩主题，而是补回安装、封装、上线排查或具体交互组件信息。
 - 保持分类路径 `前端技术 / 组件库 / ECharts` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/echarts-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`echarts-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/echarts-folder-before-semantic-cleanup-20260731-1715`。
 
 ### 前端技术 / 组件库 / ElementPlus
@@ -197,7 +199,7 @@
 - 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留原有带官方资料核对日期的摘要，并收敛标签命名，例如 `input` 统一为 `Input`。
 - 按用户反馈补强“见名知意”要求：已将过短的 `基础组件`、`表单体系`、`中后台核心组件` 等标题和本地文件名补充为具体组件清单，避免只看文件名无法判断文章范围。
 - 保持分类路径 `前端技术 / 组件库 / ElementPlus` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/element-plus-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`element-plus-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/element-plus-folder-before-semantic-cleanup-20260731-1725`。
 
 ### 前端技术 / 组件库 / uvui
@@ -208,7 +210,7 @@
 - 同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；保留原有带官方资料核对日期的摘要和已有标签。
 - 按用户反馈补强“见名知意”要求：不再将第一篇文件名压缩为 `快速认识 uv-ui`，已补回安装、扩展配置、组件地图和项目路线。
 - 保持分类路径 `前端技术 / 组件库 / uvui` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/uvui-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`uvui-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/uvui-folder-before-semantic-cleanup-20260731-1735`。
 
 ### 组件库体系整理状态
@@ -234,7 +236,7 @@
 - 保持语义顺序为认证概念、常用命令、分支追踪排障；本地文件名采用 `第 01 篇` 到 `第 03 篇`。
 - 按见名知意要求保留关键内容范围，例如平台认证、HTTPS、SSH、Token，提交、分支、撤销、回退、GitHub 连接，upstream、fetch、远程分支。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
-- 变更明细：`docs/02-开发指南/文章同步报告/common-tools-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`common-tools-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/common-tools-folder-before-semantic-cleanup-20260731-1745`。
 
 ### 常用缺易忘 / 浏览器与网络
@@ -245,7 +247,7 @@
 - 按见名知意要求保留关键内容范围，例如 DNS 的分层查询、记录类型、缓存与排障，TCP 的 SYN/ACK 和两次/四次问题，HTTP 的请求报文、响应报文、状态码与请求头，渲染原理的 DOM、CSSOM、布局、绘制、合成。
 - 为缺少摘要和标签的文章补齐摘要和检索标签，同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `常用缺易忘 / 浏览器与网络` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/browser-network-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`browser-network-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/browser-network-folder-before-semantic-cleanup-20260731-1755`。
 
 ### 常用缺易忘 / 数据类型
@@ -256,7 +258,7 @@
 - 按见名知意要求保留关键内容范围，例如 ASCII、UTF-8、密钥长度、Content-Type、文件上传、上传下载预览、构造函数、类型转换、localStorage、sessionStorage、Cookie、事务与复杂度取舍。
 - 为缺少摘要和标签的文章补齐摘要和检索标签，同步规范 Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `常用缺易忘 / 数据类型` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/data-types-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`data-types-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/data-types-folder-before-semantic-cleanup-20260731-1805`。
 
 ### 常用缺易忘 / 网络请求
@@ -267,7 +269,7 @@
 - 按见名知意要求保留关键内容范围，例如请求头、状态码、缓存、下载、实时通信，Fetch、Axios、XHR，response.ok、业务 code、超时、取消、通用封装，Token、Cookie、CORS、OAuth2、FormData。
 - 为缺少摘要和标签的 `Fetch、Axios、XHR 详解` 补齐摘要和检索标签，同步规范其他文章摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `常用缺易忘 / 网络请求` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/network-request-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`network-request-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/network-request-folder-before-semantic-cleanup-20260731-1815`。
 
 ### 常用缺易忘整理状态
@@ -284,7 +286,7 @@
 - 按见名知意要求保留关键内容范围，例如 Rule、Global、Direct、System Proxy、TUN，直连、中转、专线、VLESS Reality、Hysteria2，TCPing、ICMP、URL Test、RTT，家宽、机房、ISP、住宅代理，Windows 代理残留、WinHTTP、DNS、VPN 排障。
 - 为缺少标签的文章补齐检索标签，同步规范摘要、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `电脑 / 电脑网络 / 代理与VPN` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/proxy-vpn-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`proxy-vpn-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/proxy-vpn-folder-before-semantic-cleanup-20260731-1825`。
 
 ### 电脑 / 电脑网络 / 网络基础
@@ -295,7 +297,7 @@
 - 按见名知意要求保留关键内容范围，例如 IP、127.0.0.1、localhost、端口、DNS，IP、DNS、网关、DHCP、私网公网，hosts、DNS 缓存、网络类型、防火墙。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `电脑 / 电脑网络 / 网络基础` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/windows-network-basics-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`windows-network-basics-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/windows-network-basics-folder-before-semantic-cleanup-20260731-1835`。
 
 ### 电脑 / 电脑网络 / 网络排障
@@ -305,7 +307,7 @@
 - 保持 `sortOrder` 为 10；本地文件名采用 `第 01 篇`，并保留 WLAN AutoConfig、网络重置、开机自启等关键排障范围。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `电脑 / 电脑网络 / 网络排障` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/windows-network-troubleshooting-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`windows-network-troubleshooting-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/windows-network-troubleshooting-folder-before-semantic-cleanup-20260731-1845`。
 
 ### 电脑网络整理状态
@@ -331,7 +333,7 @@
 - 说明：Nginx 文章标题和 H1 保留 `/api`，但 Windows 文件名不能包含 `/`，因此本地文件名中使用 `api`。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `电脑 / 网站部署 / 全栈部署入门` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/website-deployment-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`website-deployment-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/website-deployment-folder-before-semantic-cleanup-20260731-1855`。
 
 ### 电脑部署整理状态
@@ -348,7 +350,7 @@
 - 按见名知意要求保留关键内容范围，例如任务管理器、黑屏恢复、窗口操作、复制保存、开始菜单、任务栏、资源管理器、设置、终端、VS Code、Cursor、AI 编程工具、UAC、MSConfig、服务、干净启动、USERPROFILE、APPDATA、ProgramData、ProgramFiles、Users、Public、扩展名、隐藏文件、默认应用、Storage Sense、Windows.old、System32。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `电脑 / 系统与文件` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/windows-system-files-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`windows-system-files-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/windows-system-files-folder-before-semantic-cleanup-20260731-1910`。
 
 ### 电脑整理状态
@@ -365,7 +367,7 @@
 - 按见名知意要求保留关键内容范围，例如运行环境、事件循环、全局对象、二进制数据、文件读写、目录操作、流式处理、跨平台路径、请求响应、状态码、GET/POST、原生服务器、CommonJS、require、module.exports、ESM、package.json、semver、本地全局包、Node 版本、路由、中间件、静态资源、模板、错误处理。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `后端技术 / Node.js` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/nodejs-direct-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`nodejs-direct-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/nodejs-direct-folder-before-semantic-cleanup-20260731-1925`。
 
 ### 后端技术 / Node.js / 接口与会话控制详解
@@ -376,7 +378,7 @@
 - 按见名知意要求保留关键内容范围，例如 URL 命名、HTTP 方法、状态码、统一响应、请求发送、Header、Token、环境变量、文档生成、Express 读写删除 Cookie、httpOnly、secure、sameSite、签名、express-session、Redis 存储、JWT 三段结构、签名验证、鉴权中间件、双 Token、bcrypt、参数校验、限流、helmet、安全响应头、注册登录、角色权限、CORS、Axios 拦截器、Refresh Token。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `后端技术 / Node.js / 接口与会话控制详解` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/nodejs-api-session-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`nodejs-api-session-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/nodejs-api-session-folder-before-semantic-cleanup-20260731-1935`。
 
 ### 后端技术 / Node.js / MongoDB详解
@@ -387,7 +389,7 @@
 - 按见名知意要求保留关键内容范围，例如文档模型、BSON、ObjectId、mongosh、Node.js Driver、过滤、分页、更新操作符、Model、字段校验、默认值、索引、查询链、lean、文档钩子、嵌入引用、populate、$lookup、$group、explain、复合索引、ESR、TTL、Mongoose 事务、建模、鉴权、分页搜索、软删除。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `后端技术 / Node.js / MongoDB详解` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/nodejs-mongodb-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`nodejs-mongodb-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/nodejs-mongodb-folder-before-semantic-cleanup-20260731-1945`。
 
 ### Node.js 体系整理状态
@@ -412,7 +414,7 @@
 - 按见名知意要求保留关键内容范围，例如 URL、HTTP、robots.txt、HTML、解析、数据保存、requests、Session、XPath、CSV、re、pandas、DataFrame、matplotlib、折线图、柱状图、散点图、饼图、多子图。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `后端技术 / Python / 应用实例 / 网络爬虫与数据分析` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/python-root-crawler-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`python-root-crawler-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/python-root-crawler-folder-before-semantic-cleanup-20260731-2000`。
 
 ### 后端技术 / Python / 应用实例 / Web入门
@@ -423,7 +425,7 @@
 - 按见名知意要求保留关键内容范围，例如路线、章节、项目实战、交付清单、虚拟环境、依赖安装、import、类对象、装饰器、类型注解、main.py、Uvicorn、Path、Query、Body、Pydantic v2、response_model、HTTPException、Depends、Middleware、lifespan、SQLAlchemy、Alembic、JWT、RBAC、UploadFile、BackgroundTasks、HTTPX、Redis、WebSocket、pytest、Docker、审核流、状态机、Express 对照。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `后端技术 / Python / 应用实例 / Web入门` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/python-fastapi-web-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`python-fastapi-web-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/python-fastapi-web-folder-before-semantic-cleanup-20260731-2015`。
 
 ### 后端技术 / Python / 知识目录
@@ -434,7 +436,7 @@
 - 按见名知意要求保留关键内容范围，例如解释器、脚本、交互模式、VS Code、Python、pip、终端、print、sep/end、int、float、str、bool、None、索引切片、f-string、input、if else、match、range、列表推导式、tuple、set、dict、open、with、try except、venv、requirements、class、datetime、pathlib、json、csv、logging、iter、next、yield、装饰器、UTF-8、pytest、fixture、argparse、secrets、zoneinfo。
 - 摘要已有基础质量，本批保留原摘要，只同步规范标题、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `后端技术 / Python / 知识目录` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/python-knowledge-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`python-knowledge-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/python-knowledge-folder-before-semantic-cleanup-20260731-2030`。
 
 ### Python 体系整理状态
@@ -493,7 +495,7 @@
 ### 项目复用技术阶段状态
 
 - 本批完成 `项目复用技术` 非第三方登录目录 24 篇文章整理，当前本地文件路径均存在，`manifest.json` 指向有效。
-- 变更明细：`docs/02-开发指南/文章同步报告/reuse-tech-non-third-party-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`reuse-tech-non-third-party-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/reuse-tech-non-third-party-before-semantic-cleanup-20260731-2100`。
 
 ### 项目复用技术 / 第三方登录对接 / 概念速查
@@ -534,7 +536,7 @@
 
 - `项目复用技术 / 第三方登录对接` 下 4 个子目录已完成本地文章层整理：`概念速查`、`企业微信`、`钉钉`、`对比笔记`。
 - 共涉及 31 篇第三方登录文章，当前本地文件路径均存在，`manifest.json` 指向有效。
-- 变更明细：`docs/02-开发指南/文章同步报告/third-party-login-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`third-party-login-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/third-party-login-folder-before-semantic-cleanup-20260731-2200`。
 
 ### AI相关 / AI开发 / 开发基础
@@ -554,7 +556,7 @@
 - 按见名知意要求保留关键内容范围，例如镜像、容器、端口映射、数据挂载、Dockerfile、Compose、DockerDesktop-CN、版本匹配、文件备份、替换验证、回滚。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `AI相关 / AI开发 / Docker` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/ai-dev-basics-docker-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`ai-dev-basics-docker-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-dev-basics-docker-before-semantic-cleanup-20260731-2115`。
 
 ### 面试
@@ -565,7 +567,7 @@
 - 按见名知意要求保留关键内容范围，例如浏览器内核、DOCTYPE、布局、语义化、盒模型、数据类型、作用域、事件循环、原型链、闭包、Promise、虚拟 DOM、diff、MVVM、Vue2、Vue3、provide/inject、Vuex、Three.js、配置文件、打包发布、分包、协议握手、实时通信、ECharts、小程序、工程化、状态管理、认证通信、生命周期、组件通信、综合题库。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`；对原本缺少 H1 的文章已补充同名 H1。
 - 保持分类路径 `面试` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/interview-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`interview-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/interview-folder-before-semantic-cleanup-20260731-2130`。
 
 ### Web安全
@@ -576,7 +578,7 @@
 - 按见名知意要求保留关键内容范围，例如 XSS、CSRF、SQL 注入、SSRF、XXE、点击劫持、XML、脚本执行、Stored XSS、防御方案。
 - 同步规范摘要、标签、Front Matter、首个 H1、`manifest.json` 的 `fileName` 和 `contentHash`。
 - 保持分类路径 `Web安全` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/web-security-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`web-security-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/web-security-folder-before-semantic-cleanup-20260731-2145`。
 
 ### AI相关 / AI工具
@@ -596,7 +598,7 @@
 - 对 `实战开发指南` 固化阅读顺序：接手环境到发布、智能体编排与状态设计、知识库与 RAG、工具/API 接入与安全、调试测试发布回滚、官方资料索引与文档审计。
 - 同步规范 Front Matter、首个 H1、`sortOrder`、`manifest.json` 的 `fileName/contentHash`，不修改正文主体段落、不修改标签体系。
 - 保持分类路径 `AI相关 / AI开发 / AI应用开发平台 / MaxKB` 不变，历史 `sourcePath` 保留不动，未修改 RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/ai-tools-maxkb-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`ai-tools-maxkb-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/ai-tools-before-semantic-cleanup-20260731-2230`、`backups/maxkb-before-semantic-cleanup-20260731-2230`。
 
 ### 当前整理边界
@@ -618,7 +620,7 @@
 - DOCX 型文章补齐 metadata 中的标题、摘要、标签、分类路径、发布状态和排序，并同步规范本地文档目录名。
 - 三篇文章按 `第 01 篇` 到 `第 03 篇` 排列：自定义 jar 包实操、电子班牌项目复盘与简历素材、uni-app Android APK 从 0 到 1 手册。
 - 保持分类路径 `安卓APK` 不变，未修改 DOCX 原件内容、RBAC 菜单、分类树排序或线上数据库。
-- 变更明细：`docs/02-开发指南/文章同步报告/remaining-my-summary-android-folder-semantic-cleanup-20260731.json`。
+- 变更明细：`remaining-my-summary-android-folder-semantic-cleanup-20260731.json`。
 - 本地备份：`backups/my-summary-before-semantic-cleanup-20260731-2245`、`backups/android-apk-before-semantic-cleanup-20260731-2245`。
 
 ### 全量校验状态

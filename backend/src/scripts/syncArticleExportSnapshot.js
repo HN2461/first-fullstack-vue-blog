@@ -42,7 +42,7 @@ const TARGET = rawArgs.find((item) => item.startsWith('--target='))?.slice('--ta
 const EXPORT_ROOT = path.resolve(process.env.ARTICLE_EXPORT_DIR || path.join(env.rootDir, '../output/线上文章'))
 const REPOSITORY_ROOT = path.resolve(process.env.ARTICLE_REPOSITORY_DIR || path.join(env.rootDir, '../output'))
 const REPORT_ROOT = path.resolve(
-  process.env.ARTICLE_REPORT_DIR || path.join(env.rootDir, '../docs/02-开发指南/文章同步报告')
+  process.env.ARTICLE_REPORT_DIR || path.join(env.rootDir, '../tmp/article-reports')
 )
 const REPORT_BASENAME = process.env.ARTICLE_REPORT_BASENAME || 'article-sync-analysis-latest'
 const SNAPSHOT_MEDIA_CATEGORY = '文章快照原始文档'
