@@ -1,24 +1,36 @@
 <template>
   <section class="tool-panel coin-tool">
-    <div class="tool-panel__toolbar"><a-input-number v-model:value="count" :min="1" :max="10000" size="small" addon-before="次数" /><a-button type="primary" size="small" @click="run">开始统计</a-button></div>
-    <div class="coin-stats"><div><span>正面</span><strong>{{ heads }}</strong><small>{{ headRate }}%</small></div><div><span>反面</span><strong>{{ tails }}</strong><small>{{ tailRate }}%</small></div></div>
+    <div class="coin-toolbar"><div class="coin-options"><label for="tool-coin-count">抛掷次数（1–10000）</label><a-input-number id="tool-coin-count" v-model:value="count" :min="1" :max="10000" size="small" /></div><div class="coin-actions"><a-button size="small" :disabled="!result" @click="copyToolResult(resultText, '统计结果')">复制结果</a-button><a-button type="primary" size="small" @click="run">开始统计</a-button></div></div>
+    <a-alert v-if="error" type="error" show-icon :message="error" />
+    <div class="coin-result-head">{{ result ? `本次实际抛掷 ${result.total} 次` : '等待统计' }}<span v-if="result && count !== result.total">参数已修改，当前显示上次结果</span></div>
+    <div v-if="result" class="coin-stats"><div><span>正面</span><strong>{{ result.heads }}</strong><small>{{ headRate }}%</small></div><div><span>反面</span><strong>{{ result.tails }}</strong><small>{{ tailRate }}%</small></div></div>
+    <div class="coin-note">比例始终按本次实际次数计算，保留一位小数；不累加上次统计。</div>
   </section>
 </template>
 <script setup>
 import { computed, ref } from 'vue'
+import { simulateCoins } from '../logic/randomTools'
+import { copyToolResult } from '../utils/copyToolResult'
 const count = ref(100)
-const heads = ref(0)
-const tails = ref(0)
-const headRate = computed(() => count.value ? (heads.value / count.value * 100).toFixed(1) : '0.0')
-const tailRate = computed(() => count.value ? (tails.value / count.value * 100).toFixed(1) : '0.0')
+const result = ref(null)
+const error = ref('')
+const headRate = computed(() => result.value ? (result.value.heads / result.value.total * 100).toFixed(1) : '0.0')
+const tailRate = computed(() => result.value ? (result.value.tails / result.value.total * 100).toFixed(1) : '0.0')
+const resultText = computed(() => result.value ? `抛掷次数：${result.value.total}\n正面：${result.value.heads}（${headRate.value}%）\n反面：${result.value.tails}（${tailRate.value}%）` : '')
 function run() {
-  heads.value = 0
-  tails.value = 0
-  const values = crypto.getRandomValues(new Uint32Array(count.value))
-  values.forEach((value) => value % 2 ? heads.value++ : tails.value++)
+  error.value = ''
+  try {
+    result.value = simulateCoins(count.value)
+  } catch (cause) {
+    error.value = cause.message
+    result.value = null
+  }
 }
 run()
 </script>
 <style scoped>
-.tool-panel { display: grid; gap: 18px; max-width: 700px; }.tool-panel__toolbar { display: flex; gap: 8px; }.coin-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }.coin-stats div { display: grid; gap: 7px; padding: 18px; border: 1px solid var(--console-border, #e5e7eb); border-radius: 8px; background: var(--console-surface-muted, #f8fafc); }.coin-stats span, .coin-stats small { color: var(--console-text-secondary, #667085); font-size: 12px; }.coin-stats strong { font-size: 28px; }
+.coin-tool { display: flex; flex: 1; flex-direction: column; gap: 14px; min-height: 0; min-width: 0; overflow: auto; }
+.coin-toolbar, .coin-options, .coin-actions, .coin-result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 0 0 auto; }
+.coin-toolbar { justify-content: space-between; }.coin-options, .coin-result-head, .coin-note { color: var(--console-text-secondary); font-size: 12px; }.coin-result-head { justify-content: space-between; }
+.coin-options :deep(.ant-input-number) { width: 116px; }.coin-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }.coin-stats > div { display: grid; gap: 7px; padding: 16px; border: 1px solid var(--console-border); border-radius: 6px; }.coin-stats span, .coin-stats small { color: var(--console-text-secondary); font-size: 12px; }.coin-stats strong { font-size: 28px; font-weight: 500; }.coin-note { flex: 0 0 auto; }
 </style>

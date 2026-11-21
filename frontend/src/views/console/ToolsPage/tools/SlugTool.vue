@@ -1,22 +1,46 @@
 <template>
-  <section class="tool-panel">
-    <label class="tool-field"><span>标题或文本</span><a-textarea v-model:value="input" :rows="8" spellcheck="false" placeholder="输入英文标题或短文本" /></label>
-    <div class="tool-panel__toolbar"><a-checkbox v-model:checked="removeStopwords">移除常见连接词</a-checkbox><a-button size="small" type="primary" @click="run">生成 Slug</a-button></div>
-    <label class="tool-field"><span>Slug</span><a-input v-model:value="output" readonly /></label>
-  </section>
+  <ToolTextWorkspace
+    v-model:input="input"
+    :output="output"
+    :error="error"
+    :source-key="removeStopwords"
+    :example="example"
+    input-label="标题或文本"
+    input-placeholder="输入中文、英文标题或短文本，中文会保留"
+    output-label="Slug"
+    run-label="生成 Slug"
+    @run="run"
+    @clear="clear"
+  >
+    <template #options>
+      <a-checkbox v-model:checked="removeStopwords">移除常见连接词</a-checkbox>
+    </template>
+  </ToolTextWorkspace>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import ToolTextWorkspace from '../components/ToolTextWorkspace.vue'
+import { createSlug } from '../logic/textTools'
+
 const input = ref('')
 const output = ref('')
-const removeStopwords = ref(true)
+const error = ref('')
+const removeStopwords = ref(false)
+const example = 'Vue 3 中文指南：A Guide to Node.js'
+
 function run() {
-  const stopwords = new Set(['a', 'an', 'the', 'and', 'or', 'to', 'of', 'in', 'for'])
-  output.value = input.value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, ' ').split(/\s+/).filter((word) => word && (!removeStopwords.value || !stopwords.has(word))).join('-').replace(/-+/g, '-')
+  error.value = ''
+  try {
+    output.value = createSlug(input.value, removeStopwords.value)
+  } catch (cause) {
+    output.value = ''
+    error.value = cause.message
+  }
+}
+
+function clear() {
+  output.value = ''
+  error.value = ''
 }
 </script>
-
-<style scoped>
-.tool-panel { display: grid; gap: 16px; max-width: 760px; }.tool-panel__toolbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }.tool-field { display: grid; gap: 7px; color: var(--console-text-secondary, #667085); font-size: 12px; }.tool-field :deep(input) { font: 13px 'Cascadia Code', Consolas, monospace; }
-</style>

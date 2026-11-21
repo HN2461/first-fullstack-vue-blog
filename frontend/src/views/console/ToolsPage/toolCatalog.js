@@ -46,7 +46,7 @@ export const TOOL_CATALOG = [
     key: 'json',
     category: 'data',
     name: 'JSON 格式化',
-    description: '格式化、压缩并校验 JSON 文本',
+    description: '保真格式化、压缩、校验、排序与节点提取',
     icon: Braces,
     component: defineAsyncComponent(() => import('./tools/JsonTool.vue'))
   },
@@ -54,7 +54,7 @@ export const TOOL_CATALOG = [
     key: 'base64',
     category: 'data',
     name: 'Base64 编解码',
-    description: '处理 UTF-8 文本的 Base64 编码',
+    description: 'UTF-8、文件与 Base64 / URL-safe 编解码',
     icon: Code2,
     component: defineAsyncComponent(() => import('./tools/Base64Tool.vue'))
   },
@@ -70,7 +70,7 @@ export const TOOL_CATALOG = [
     key: 'regex',
     category: 'web',
     name: '正则测试',
-    description: '实时查看匹配结果和捕获组',
+    description: '可取消的正则测试、匹配结果与捕获组',
     icon: CaseSensitive,
     component: defineAsyncComponent(() => import('./tools/RegexTool.vue'))
   },
@@ -110,7 +110,7 @@ export const TOOL_CATALOG = [
     key: 'hash',
     category: 'data',
     name: '哈希计算',
-    description: '计算文本的 SHA-1、SHA-256 摘要',
+    description: '计算 SHA-1、SHA-256、SHA-384、SHA-512 摘要',
     icon: Hash,
     component: defineAsyncComponent(() => import('./tools/HashTool.vue'))
   },
@@ -134,7 +134,7 @@ export const TOOL_CATALOG = [
     key: 'text-stats',
     category: 'text',
     name: '文本统计',
-    description: '统计字符、单词、行数和 UTF-8 字节数',
+    description: '统计 Unicode 字符、字素、词语与字节数',
     icon: FileText,
     component: defineAsyncComponent(() => import('./tools/TextStatsTool.vue'))
   },
@@ -158,7 +158,7 @@ export const TOOL_CATALOG = [
     key: 'number-base',
     category: 'data',
     name: '进制转换',
-    description: '在二进制、十进制、十六进制之间转换',
+    description: '精确转换二、八、十、十六进制整数',
     icon: Binary,
     component: defineAsyncComponent(() => import('./tools/NumberBaseTool.vue'))
   },

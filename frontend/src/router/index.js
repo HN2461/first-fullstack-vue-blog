@@ -281,13 +281,13 @@ export const router = createRouter({
           path: 'tools',
           name: 'ConsoleTools',
           component: ToolsPage,
-          meta: { title: '工具箱', requiresAuth: true, requiresMenuAccess: true }
+          meta: { title: '工具箱', requiresAuth: true, requiresMenuAccess: true, tabKey: 'console-tools' }
         },
         {
           path: 'tools/:toolKey',
           name: 'ConsoleTool',
           component: ToolsPage,
-          meta: { title: '工具箱', requiresAuth: true, requiresMenuAccess: true }
+          meta: { title: '工具箱', requiresAuth: true, requiresMenuAccess: true, tabKey: 'console-tools' }
         },
         { path: 'resumes', name: 'ConsoleResumes', component: ResumeListPage, meta: { title: '简历列表', requiresAuth: true, requiresMenuAccess: true } },
         { path: 'resumes/editor', name: 'ConsoleResumeEditor', component: ResumeEditorPage, meta: { title: '简历编辑', requiresAuth: true, requiresMenuAccess: true } },

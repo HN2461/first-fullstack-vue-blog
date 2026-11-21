@@ -1,26 +1,59 @@
 <template>
   <section class="tool-panel dice-tool">
-    <div class="tool-panel__toolbar"><a-input-number v-model:value="sides" :min="2" :max="100" size="small" addon-before="面数" /><a-input-number v-model:value="count" :min="1" :max="20" size="small" addon-before="数量" /><a-button type="primary" size="small" @click="roll">掷骰子</a-button><a-button size="small" @click="flip">抛硬币</a-button></div>
-    <div class="dice-result"><strong>{{ result || '准备好了吗？' }}</strong><span v-if="results.length">{{ results.join('、') }}</span></div>
+    <div class="dice-toolbar">
+      <div class="dice-options">
+        <label for="tool-dice-sides">面数（2–100）</label><a-input-number id="tool-dice-sides" v-model:value="sides" :min="2" :max="100" size="small" />
+        <label for="tool-dice-count">数量（1–20）</label><a-input-number id="tool-dice-count" v-model:value="count" :min="1" :max="20" size="small" />
+      </div>
+      <div class="dice-actions"><a-button size="small" @click="flip">抛硬币</a-button><a-button type="primary" size="small" @click="roll">掷骰子</a-button></div>
+    </div>
+    <a-alert v-if="error" type="error" show-icon :message="error" />
+    <div class="dice-result-head"><span>{{ result ? result.kind === 'dice' ? `${result.sides} 面骰子 · ${result.count} 颗` : '抛硬币 · 1 次' : '本次结果' }}</span><a-button size="small" :disabled="!result" @click="copyToolResult(resultText)">复制结果</a-button></div>
+    <div class="dice-result">
+      <template v-if="result?.kind === 'dice'"><div class="dice-values"><code v-for="(value, index) in result.values" :key="index">{{ value }}</code></div><p>总点数 <strong>{{ result.total }}</strong></p></template>
+      <strong v-else-if="result">{{ result.face }}</strong>
+      <span v-else>设置面数和数量后，点击掷骰子。</span>
+    </div>
+    <div class="dice-note">每次结果按本次参数单独生成；使用 Web Crypto 无偏抽样。</div>
   </section>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { rollDice, simulateCoins } from '../logic/randomTools'
+import { copyToolResult } from '../utils/copyToolResult'
 const sides = ref(6)
 const count = ref(1)
-const result = ref('')
-const results = ref([])
-function random(max) { return crypto.getRandomValues(new Uint32Array(1))[0] % max + 1 }
+const result = ref(null)
+const error = ref('')
+const resultText = computed(() => !result.value ? '' : result.value.kind === 'coin' ? result.value.face : `${result.value.sides} 面骰子 × ${result.value.count}：${result.value.values.join('、')}\n总点数：${result.value.total}`)
 function roll() {
-  results.value = Array.from({ length: count.value }, () => random(sides.value))
-  result.value = `总点数 ${results.value.reduce((a, b) => a + b, 0)}`
+  error.value = ''
+  try {
+    result.value = { kind: 'dice', ...rollDice({ sides: sides.value, count: count.value }) }
+  } catch (cause) {
+    error.value = cause.message
+    result.value = null
+  }
 }
-
 function flip() {
-  results.value = [crypto.getRandomValues(new Uint32Array(1))[0] % 2 ? '正面' : '反面']
-  result.value = results.value[0]
+  error.value = ''
+  try {
+    result.value = { kind: 'coin', face: simulateCoins(1).heads ? '正面' : '反面' }
+  } catch (cause) {
+    error.value = cause.message
+    result.value = null
+  }
 }
 </script>
 <style scoped>
-.tool-panel { display: grid; gap: 16px; max-width: 760px; }.tool-panel__toolbar { display: flex; flex-wrap: wrap; gap: 8px; }.dice-result { display: grid; gap: 10px; min-height: 140px; place-content: center; padding: 20px; border: 1px solid var(--console-border, #e5e7eb); border-radius: 8px; background: var(--console-surface-muted, #f8fafc); text-align: center; }.dice-result strong { color: var(--console-primary, #1677ff); font-size: 30px; }.dice-result span { color: var(--console-text-secondary, #667085); font: 16px 'Cascadia Code', Consolas, monospace; }
+.dice-tool { display: flex; flex: 1; flex-direction: column; gap: 12px; min-height: 0; min-width: 0; overflow: hidden; }
+.dice-toolbar, .dice-options, .dice-actions, .dice-result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 0 0 auto; }
+.dice-toolbar, .dice-result-head { justify-content: space-between; }
+.dice-options, .dice-result-head, .dice-note { color: var(--console-text-secondary); font-size: 12px; }
+.dice-options :deep(.ant-input-number) { width: 88px; }
+.dice-result { min-height: 0; overflow: auto; padding: 16px; border: 1px solid var(--console-border); border-radius: 6px; }
+.dice-values { display: flex; flex-wrap: wrap; gap: 8px; }
+.dice-values code { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; min-height: 40px; padding: 6px; border: 1px solid var(--console-border); border-radius: 6px; font-size: 18px; }
+.dice-result p { margin: 16px 0 0; }.dice-result strong { font-size: 24px; font-weight: 500; }.dice-note { flex: 0 0 auto; }
+.dice-tool > :deep(.ant-alert) { flex: 0 0 auto; }
 </style>
