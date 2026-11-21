@@ -2221,7 +2221,7 @@
       "title": "第 8 篇：全栈博客系统从开发到上线：阿里云真实部署实操",
       "summary": "以现有 Vue、Express、MongoDB 博客和一台 2 GiB 阿里云轻量服务器为实例，从本机安装、验证、构建、DNS、备案、环境安装到 Nginx、HTTPS、验收和回滚逐步上线。",
       "cover": "",
-      "contentHash": "583e676e96fd271b2f569d0c38ff9083fc6d1b02b3db69fbc8be88ef591fb321",
+      "contentHash": "42a362af94426274fe3dafaf5cb4700e29483401a56df493ab312b3fb6f9ed13",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -4142,7 +4142,7 @@
       "title": "第 2 篇：Windows 电脑基础概念入门：开始菜单、任务栏、资源管理器、设置、终端",
       "summary": "Windows 电脑基础概念入门，解释开始菜单、任务栏、桌面、资源管理器、任务管理器、设置、控制面板、运行、终端、服务和设备管理器。",
       "cover": "",
-      "contentHash": "69f61d0aea697946190c42fd370990ed53f7a6dcbd1500ba202188fef6848756",
+      "contentHash": "52a6f5c683b4e700d71586f11ab943eace8e2340e6718b6f2f58de963be2a98d",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -4169,7 +4169,7 @@
       "title": "第 1 篇：Windows 电脑卡死救急与常用快捷键：任务管理器、黑屏恢复、窗口操作、复制保存",
       "summary": "Windows 电脑卡死、黑屏和软件无响应时的救急快捷键速查，覆盖任务管理器、锁屏/重启、窗口管理、复制保存、浏览器和视频场景。",
       "cover": "",
-      "contentHash": "910dcef472e8d58c3b9d43f332cba47d1490d2c0273af1e13a3d63a6489fca9b",
+      "contentHash": "ee9e0acc3fcc6b143e6e8c9ad274c8708df9f4bad6b74ae35dc059c52b13396b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5078,7 +5078,7 @@
       "title": "第 1 篇：代理模式与流量接管方式：Rule、Global、Direct、System Proxy、TUN 怎么选",
       "summary": "从日常使用角度解释代理客户端中的规则、全局、直连模式，以及系统代理和 TUN 虚拟网卡的差异，帮助排查为什么有些应用没有走代理。",
       "cover": "",
-      "contentHash": "3e1f50d65d442fb18eb081a51f4938c196488af297b3df1aedacc4d4531b24fc",
+      "contentHash": "0d040ed0f4ffb2fc0180c29ab45765d93dfd02a9571b7c6df4d85a1d1fdea0ea",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5100,7 +5100,7 @@
       "title": "第 3 篇：延迟测试与测速方法：TCPing、ICMP、URL Test、RTT 测的是什么",
       "summary": "解释常见节点测速方式的测量对象、适用场景和误判来源，区分入口延迟、完整链路延迟、握手开销和真实使用体验。",
       "cover": "",
-      "contentHash": "396faac0eaf96ac7f9f8a5a1149d4612fbce764b003fddbc9eb00476f916a6eb",
+      "contentHash": "a28c718bab41bb96fb3e2b03481dc5b8e9faa781462f3193ff86c40165a20fcb",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5122,7 +5122,7 @@
       "title": "第 4 篇：IP 类型与风控判断：家宽、机房、ISP、住宅代理怎么分",
       "summary": "整理 IP 使用类型、住宅代理、机房 IP、ISP、平台风控和常见营销话术的判断方法，避免把单一查询网站标签当成绝对结论。",
       "cover": "",
-      "contentHash": "e0757e755f88226f3b2010ec7215a1a7ea9023d7de50d33c80972daa2a6e946c",
+      "contentHash": "febcf251fb9cfbaf3aef4e9972b03624d56cf6dad6173867129d45f79c7339a8",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5144,7 +5144,7 @@
       "title": "第 2 篇：线路与代理协议基础：直连、中转、专线、VLESS Reality、Hysteria2",
       "summary": "用网络路径和协议分层解释直连、中转、专线，以及 VLESS Reality、Hysteria2 等常见代理协议的特点、适用场景和选型误区。",
       "cover": "",
-      "contentHash": "47b0abb9cdd81721627889347fb1f0ebb50888cf6fbf2d410100b5daf1a2e3af",
+      "contentHash": "7cff2d4a4929705be2e27df7ee2d40c85d83299b3651dbd61f161ee938a25d91",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5851,7 +5851,7 @@
       "title": "第 7 篇：Vue + Express + MongoDB 从 0 到 1 完整上线实战：服务器、PM2、Nginx、HTTPS、防火墙",
       "summary": "Vue + Express + MongoDB 前后端分离项目完整上线实战，覆盖服务器登录、环境安装、前后端上传、MongoDB 安全、PM2 守护、Nginx 反向代理、域名 HTTPS、防火墙和故障排查。",
       "cover": "",
-      "contentHash": "dbe2497d70f6009f760354fd0cb3c4471db9d3ab73a8f088a37e367001a51d10",
+      "contentHash": "25b54dc133370d55c8101361009a7b056053a2ecf8ef03803c99b1c506cbc74a",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5880,7 +5880,7 @@
       "title": "第 6 篇：宝塔面板部署入门与避坑：Vue 静态站点、Express、反向代理、SSL",
       "summary": "宝塔面板部署入门，讲清宝塔适合新手快速部署什么、不能替代什么，以及如何部署 Vue 静态站点、Express 接口、反向代理和 SSL。",
       "cover": "",
-      "contentHash": "9bb161858f3e3749f5f1516d68fd08a71d8c58f71f70337f69832b47d2bbaea7",
+      "contentHash": "bfd64b5f1d4530099be27c46be33206e368d41ffe8cb085e708ea1ede40204fa",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5908,7 +5908,7 @@
       "title": "第 5 篇：MongoDB 生产安全、连接与备份：认证、专用用户、连接字符串、mongodump",
       "summary": "MongoDB 上线安全笔记，讲清认证、专用用户、网络暴露限制、连接字符串、mongodump 备份和生产数据库常见安全边界。",
       "cover": "",
-      "contentHash": "b287d737283667a82a51f8140e272cf0bbd490bd6f843beb422771903c2ad25f",
+      "contentHash": "1da3c2ebc6580e359fbcbf98e845de87b8d3a39e412c7f2f0a500a0f69e2caea",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5935,7 +5935,7 @@
       "title": "第 4 篇：Node、Express、PM2 与环境变量：生产运行、日志、开机自启、Nginx 联调",
       "summary": "Express 生产运行入门，讲清为什么不能只靠 npm run dev，如何配置健康检查、环境变量、PM2 常驻运行、日志、开机自启和 Nginx 反向代理联调。",
       "cover": "",
-      "contentHash": "d9e01824102a07a9bccc5896c97be150fbbc2d202e8ac98df9d7d567474303da",
+      "contentHash": "6ebee81748189ff7d9fc36a28e5fecd35065eb68596f18f7f9963ba934bae215",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5962,7 +5962,7 @@
       "title": "第 3 篇：Nginx、Vue 静态资源、反向代理与 HTTPS：刷新 404、/api、证书、502 排查",
       "summary": "从 Vue 打包、Nginx 静态站点、前端路由刷新 404、/api 反向代理、HTTPS 证书到 404/502 排查，梳理前端上线入口。",
       "cover": "",
-      "contentHash": "201a5d7cca8ae862484a3d3395d0b99c2134d186d334de08bbfc3b96dfc3ee28",
+      "contentHash": "115afa241b76ecbb8d269dc12171d9c6a25063bbd54d74182b5d1a98fe3bcb5c",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -5990,7 +5990,7 @@
       "title": "第 2 篇：SSH 与 Linux 服务器基础：登录、密钥、目录、端口、防火墙、日志",
       "summary": "部署小白入门 SSH 与 Linux 服务器，讲清 SSH 登录、密钥登录、服务器目录、常用 Linux 命令、端口、防火墙和日志查看。",
       "cover": "",
-      "contentHash": "0b24eac3d9aeba413052d02d51dbbfa8ee815022adf333b86dac460b29a5b103",
+      "contentHash": "ae9d68e4e7600cc553ca239589268838b4f35b4cac5f23490d066b15635e021a",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6017,7 +6017,7 @@
       "title": "第 1 篇：部署学习路线和知识分类：SSH、Linux、Nginx、PM2、MongoDB、安全",
       "summary": "全栈项目部署学习路线，按 SSH、Linux、Nginx、PM2、MongoDB、安全、宝塔和 Docker 等方向梳理前后端分离项目上线要学的内容。",
       "cover": "",
-      "contentHash": "4438a8fe058306d906154707609ba59955fdab1a0b30608e97344ac7bc8067fd",
+      "contentHash": "be1d99dc6f34793ec5d1bb81c70f5ca1e6773efc8da275048d37e3efdae5ad3b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -6598,9 +6598,9 @@
       "originalSlug": "vpn-0373b572",
       "exportedSlug": "vpn-0373b572",
       "title": "第 5 篇：代理网络问题处理指南：Windows 代理残留、WinHTTP、DNS、VPN 排障",
-      "summary": "公司网络下网站需开 VPN 才能访问时的排查与修复流程，包含 Windows 系统代理清理、WinHTTP 代理、网络栈重置、DNS 刷新和 IT 白名单沟通。",
+      "summary": "用手机热点和浏览器对照缩小 Windows 断网范围，再检查个人代理残留、VPN、WinHTTP、DNS 与 Git 配置。",
       "cover": "",
-      "contentHash": "91bbfdf9072a7fc33827196f85dcd585f1a5be7272f943ad08b7469f3d523c72",
+      "contentHash": "32b779e0db8ca06ea66380402d22bfddfa55fa824fe278f121d19c9a3c6685a8",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -9109,7 +9109,7 @@
       "title": "第 3 篇：开发常用快捷键速查：Windows、浏览器、VS Code、Cursor、AI 编程工具",
       "summary": "开发人员常用快捷键速查，覆盖 Windows 系统、Chrome 浏览器、通用代码编辑器、VS Code、Cursor、Windsurf、Kiro、Codex 和 Claude Code。",
       "cover": "",
-      "contentHash": "69ecfd77383d2a15dad3b996e8d4f0964fe8a28923b204aa7ce5342a9c18188f",
+      "contentHash": "2efbae975039d29785699523d261df42020f087563f30fad1c5a9e27ee550cf6",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -10971,7 +10971,7 @@
       "title": "第 1 篇：开发必懂网络基础概念：IP、127.0.0.1、localhost、端口、DNS",
       "summary": "面向开发者的网络基础速查，讲清 IP 地址、127.0.0.1、localhost、端口、DNS 域名解析等核心概念，帮助理解本地服务访问方式。",
       "cover": "",
-      "contentHash": "61eabc9f40cb646b2d263604b28ad1cf8e04519458d224a7f8341ece9b89cea5",
+      "contentHash": "03b274d6bafd00014c66ebdfc26a904cccd797e8cb603cbd3208e1d4e460a17b",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13333,7 +13333,7 @@
       "title": "第 1 篇：GitHub Pages 部署 Vue 博客完整教程：Vite base、Hash 路由、Actions 自动部署",
       "summary": "Vue 博客部署到 GitHub Pages 的完整流程，覆盖 Vite base 路径、Vue Router Hash 模式、dist 手动部署、GitHub Actions 自动部署与常见问题排查。",
       "cover": "",
-      "contentHash": "7306747eb0716a4475e68deef3dc50c9744950d305b2a8912cdfe2e48589f45d",
+      "contentHash": "779f51ee78c5132ee346dae2a285f2211e677a751ffea9100d8fdfc93aced34f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13665,10 +13665,10 @@
       "originalId": "6a2d291f8a2b1c68f2cac534",
       "originalSlug": "wifi-09cbf6da",
       "exportedSlug": "wifi-09cbf6da",
-      "title": "第 1 篇：Windows WiFi 图标消失修复：WLAN AutoConfig、网络重置、开机自启",
-      "summary": "Windows 笔记本 WiFi 图标消失排障笔记，覆盖 WLAN AutoConfig 服务、依赖服务、网络栈重置、注册表修复和开机自启兜底方案。",
+      "title": "第 1 篇：Windows Wi‑Fi 图标消失修复：网卡、WLAN 服务与网络重置",
+      "summary": "从 Wi‑Fi 开关、同网设备和系统诊断开始排查，检查无线网卡及 WLAN AutoConfig 服务，并说明执行网络重置的条件和影响。",
       "cover": "",
-      "contentHash": "7f54972b2dcd0cd8038824efc70e01ce836c40c57f31083e432e4dd316c0a12d",
+      "contentHash": "44a15ee7a32054da8daae8b23345d9f24e7be9b822138c1df2a4b912328f698f",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13695,7 +13695,7 @@
       "title": "第 3 篇：Windows hosts、DNS 缓存、网络类型与防火墙基础",
       "summary": "Windows 网络排障基础，整理 hosts 文件、DNS 缓存、公共/专用网络类型、Microsoft Defender Firewall 的作用和常见排障点。",
       "cover": "",
-      "contentHash": "217231780a70f353ed9e635fdafd58b06c2ec443740a000b03c4d649171c7e0d",
+      "contentHash": "0823011e2894579e8570a8b62cad7ccbe047bfc11519403af934e7496fc3010d",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13723,7 +13723,7 @@
       "title": "第 4 篇：Windows 管理员权限与 UAC：标准权限、提权运行、安全边界",
       "summary": "Windows 管理员权限与 UAC 入门，说明标准权限、管理员账户、UAC 提示、以管理员身份运行、提权场景和安全边界。",
       "cover": "",
-      "contentHash": "10d86942567222ff1a3af6f7408cb49121f0df8c6cdc96525cdc2ca35323f6fc",
+      "contentHash": "9f378d8ad66a4348d4f0e3077fda89b5cf538550633d5ff370911f6855ce0ed2",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13750,7 +13750,7 @@
       "title": "第 5 篇：Windows 启动项与系统配置工具：任务管理器、MSConfig、服务、干净启动",
       "summary": "Windows 启动项和系统配置工具速查，覆盖任务管理器启动页、设置应用、MSConfig、服务、干净启动和常见排障边界。",
       "cover": "",
-      "contentHash": "d00bbc45c12de5af20ec9a0824c1e0686b6f63756dae0767c5f253f57d96a9cd",
+      "contentHash": "c0ed07c722e1ef31c12b7af571ca6e87ce0f1044613b4cfbe41b2b2da4924503",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13777,7 +13777,7 @@
       "title": "第 2 篇：Windows IP、DNS、网关、DHCP、私网公网速查",
       "summary": "Windows 网络设置速查，整理 IP、DNS、网关、DHCP、子网掩码、私网公网等概念，帮助快速看懂本机网络属性和常见联网问题。",
       "cover": "",
-      "contentHash": "68de143b483a8fd7b4d8bb1a2335496d65a28ffb8a68dbc0f28322cec7af7595",
+      "contentHash": "e586a0515edc77d20403391ab5e270e0ffb8799795d213b5bfe42fe26dad29e5",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13805,7 +13805,7 @@
       "title": "第 6 篇：Windows 常见系统路径与环境变量：USERPROFILE、APPDATA、ProgramData、ProgramFiles",
       "summary": "Windows 常见系统路径和环境变量速查，覆盖 USERPROFILE、APPDATA、LOCALAPPDATA、ProgramData、PUBLIC、ProgramFiles 和路径定位方法。",
       "cover": "",
-      "contentHash": "f2721e881c2fdc9e2f26c7d6009231af80ad2e539844b0a71f0ed1a14add00ae",
+      "contentHash": "5794679e8a782f396bf70cdb570bf4f3735163a94ff1d6ad438a65779a7163a9",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13833,7 +13833,7 @@
       "title": "第 7 篇：Windows 用户目录体系：Users、Public、AppData、ProgramData",
       "summary": "Windows 用户目录体系说明，重点区分 Users、Public、AppData、ProgramData 的职责、典型用途、配置存放位置和清理风险。",
       "cover": "",
-      "contentHash": "49a70095c1dee5767757d3a86a6b64027cd60c5708217db4b0e598c2d43ea273",
+      "contentHash": "c8e12cfc42aee46bfa10cb9ed02542a565df94fd6aa0a6882d7c8fde54e3fe65",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13861,7 +13861,7 @@
       "title": "第 8 篇：Windows 文件显示设置：扩展名、隐藏文件、资源管理器、默认应用",
       "summary": "Windows 文件显示设置速查，说明文件扩展名、隐藏文件、资源管理器 This PC 入口和按扩展名修改默认打开方式的常用路径。",
       "cover": "",
-      "contentHash": "cd9906befc3fc35969f9f0974daf849fa0eb3c561b0f942f92ac154d46803752",
+      "contentHash": "5ba2c5f636900fb55140ccebe7f5e4ea78a3fa25f2f93965e3a3698aa3f9896d",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13888,7 +13888,7 @@
       "title": "第 9 篇：Windows C 盘空间清理：Storage Sense、临时文件、Windows.old",
       "summary": "Windows C 盘空间清理手册，覆盖 Storage Sense、Temporary files、Cleanup recommendations、Windows.old 和不建议手动乱删的目录。",
       "cover": "",
-      "contentHash": "699bca44d40b6eb2df89500266190fe8eb195aaf81fc677a76ff9ff5689e341f",
+      "contentHash": "ec5e5770d231103df571a995349ddfccd4526dcff769b964b57e9f97ea7b13ab",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
@@ -13916,7 +13916,7 @@
       "title": "第 10 篇：Windows C 盘系统文件夹说明：Program Files、ProgramData、Users、System32",
       "summary": "Windows C 盘常见系统文件夹说明，梳理 Program Files、Program Files (x86)、ProgramData、Users、AppData、System32 与 SysWOW64 的职责。",
       "cover": "",
-      "contentHash": "d2da7a1855eb4eb6688548478aa00df1c733de22dcdf476e354ae6e919d2c8b5",
+      "contentHash": "caeed317fd715e279f9fb0fcebf3fe28b13c126861fb28bef084f37e205057db",
       "contentMode": "markdown",
       "status": "published",
       "categoryPath": [
