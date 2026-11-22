@@ -4,8 +4,6 @@
     :title="record?.id ? '编辑记录' : form.kind === 'reference' ? '添加资料' : '快速记录'"
     :width="720"
     :confirm-loading="saving"
-    :body-style="{ maxHeight: '68vh', overflow: 'hidden' }"
-    wrap-class-name="memo-editor-dialog"
     ok-text="保存"
     cancel-text="取消"
     destroy-on-close
@@ -363,8 +361,6 @@ function submit() {
 
 <style scoped>
 .memo-editor-scroll {
-  max-height: min(62vh, 560px);
-  overflow-y: auto;
   padding: 2px 6px 8px 0;
 }
 
@@ -409,11 +405,6 @@ function submit() {
   white-space: nowrap;
 }
 
-:global(.memo-editor-dialog .ant-modal) {
-  top: 24px;
-  padding-bottom: 48px;
-}
-
 @media (max-width: 720px) {
   .memo-editor-grid {
     grid-template-columns: 1fr;
@@ -441,9 +432,5 @@ function submit() {
     grid-row: 1;
   }
 
-  :global(.memo-editor-dialog .ant-modal) {
-    top: 12px;
-    padding-bottom: 32px;
-  }
 }
 </style>

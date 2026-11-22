@@ -26,10 +26,10 @@
         <span class="ledger-toolbar-spacer" />
         <a-tooltip title="切换日表格展示方式">
           <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
-            <a-radio-button value="matrix">
+            <a-radio-button value="matrix" aria-label="日表格视图">
               <TableOutlined />
             </a-radio-button>
-            <a-radio-button value="cards">
+            <a-radio-button value="cards" aria-label="日账单卡片视图">
               <AppstoreOutlined />
             </a-radio-button>
           </a-radio-group>
@@ -83,10 +83,10 @@
         <span class="ledger-toolbar-spacer" />
         <a-tooltip title="切换日表格展示方式">
           <a-radio-group v-model:value="viewMode" size="small" button-style="solid">
-            <a-radio-button value="matrix">
+            <a-radio-button value="matrix" aria-label="日表格视图">
               <TableOutlined />
             </a-radio-button>
-            <a-radio-button value="cards">
+            <a-radio-button value="cards" aria-label="日账单卡片视图">
               <AppstoreOutlined />
             </a-radio-button>
           </a-radio-group>
@@ -110,6 +110,7 @@
 import { computed, ref, watch } from 'vue'
 import { AppstoreOutlined, TableOutlined } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import { useAppStore } from '@/stores/app'
 import LedgerBookSelect from './LedgerBookSelect.vue'
 import { getLedgerDaily } from '@/services/ledger'
 import { formatMoney } from './ledgerChartOptions'
@@ -126,8 +127,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update-book-id'])
 
+const appStore = useAppStore()
 const tableRef = ref(null)
-const viewMode = ref('matrix')
+const viewMode = ref(appStore.isMobile ? 'cards' : 'matrix')
 
 // 卡片视图分页状态
 const allCardItems = ref([])
@@ -152,7 +154,8 @@ const columns = computed(() => [
   { title: '支出合计', key: 'expense', width: 120, align: 'center' },
   { title: '收入合计', key: 'income', width: 120, align: 'center' },
   { title: '结余', key: 'balance', width: 120, align: 'center' },
-  { title: '当日备注', key: 'dailyNote', width: 340, align: 'center', fixed: 'right' }
+  // 窄屏右侧备注列比可用空间还宽，随表格一起滚动才能看到金额列。
+  { title: '当日备注', key: 'dailyNote', width: 340, align: 'center', fixed: appStore.isMobile ? undefined : 'right' }
 ])
 const tableWidth = computed(() => Math.max(1200, 600 + visibleCategories.value.length * 110))
 const params = computed(() => ({
@@ -231,7 +234,7 @@ watch(
 
 watch(viewMode, (mode) => {
   if (mode === 'cards') loadCardData()
-})
+}, { immediate: true })
 </script>
 
 <style scoped>
@@ -333,6 +336,11 @@ watch(viewMode, (mode) => {
 
   .ledger-inline-book-select {
     width: 100% !important;
+  }
+
+  .ledger-daily-page :deep(.ant-table-content) {
+    max-height: max(180px, calc(100dvh - 260px));
+    overflow-y: auto !important;
   }
 }
 </style>

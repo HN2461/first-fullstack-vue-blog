@@ -4,8 +4,7 @@
     title="媒体回收站"
     :footer="null"
     width="820px"
-    centered
-    :body-style="{ maxHeight: '72vh', overflow: 'hidden', paddingBottom: '16px' }"
+    :body-style="{ maxHeight: '72vh', paddingBottom: '16px' }"
     @update:open="emit('update:open', $event)"
     @cancel="handleCancel"
   >
@@ -34,7 +33,7 @@
                 已选择 {{ selectedTrashKeys.length }} 个
               </a-tag>
             </div>
-            <a-space>
+            <a-space wrap>
               <a-button
                 size="small"
                 :disabled="selectedTrashKeys.length === 0"
@@ -394,6 +393,7 @@ function formatDate(value) {
   .media-trash__context {
     align-items: flex-start;
     flex-direction: column;
+    min-width: 0;
   }
 }
 </style>

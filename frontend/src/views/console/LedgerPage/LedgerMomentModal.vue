@@ -18,7 +18,7 @@
           <a-select v-model:value="form.scope" :options="scopeOptions" @change="handleScopeChange" />
         </a-form-item>
         <a-form-item :label="dateLabel">
-          <a-range-picker
+          <ResponsiveDateRange
             v-if="form.scope === 'range'"
             v-model:value="form.dateRange"
             value-format="YYYY-MM-DD"
@@ -78,6 +78,7 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
+import ResponsiveDateRange from '@/components/ResponsiveDateRange.vue'
 import { createLedgerMoment, updateLedgerMoment } from '@/services/ledger'
 
 const props = defineProps({

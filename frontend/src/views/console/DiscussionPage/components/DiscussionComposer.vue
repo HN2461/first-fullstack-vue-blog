@@ -28,12 +28,12 @@
       </div>
       <input ref="fileInputRef" class="discussion-composer__file-input" type="file" :disabled="submitting" @change="handleFileChange">
       <a-tooltip title="上传附件">
-        <a-button :disabled="submitting" @click="fileInputRef?.click()">
+        <a-button aria-label="上传附件" :disabled="submitting" @click="fileInputRef?.click()">
           <template #icon><PaperClipOutlined /></template>
         </a-button>
       </a-tooltip>
       <a-tooltip title="发送">
-        <a-button type="primary" :loading="submitting" :disabled="!content.trim() && !pendingFile" @click="submit">
+        <a-button type="primary" aria-label="发送" :loading="submitting" :disabled="!content.trim() && !pendingFile" @click="submit">
           <template #icon><SendOutlined /></template>
         </a-button>
       </a-tooltip>

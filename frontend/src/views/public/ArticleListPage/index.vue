@@ -243,6 +243,7 @@ onMounted(async () => {
   color: var(--text-primary);
   font-size: 19px;
   line-height: 1.35;
+  overflow-wrap: anywhere;
   transition: color 0.18s ease;
 }
 

@@ -6,7 +6,7 @@
         <span>Knowledge OS</span>
       </router-link>
       <div class="article-share-public__top-actions">
-        <a-button type="text" @click="openMainSite"><template #icon><ExternalLink :size="16" /></template><span>进入知识库</span></a-button>
+        <a-button type="text" aria-label="进入知识库" @click="openMainSite"><template #icon><ExternalLink :size="16" /></template><span>进入知识库</span></a-button>
       </div>
     </header>
 
@@ -32,7 +32,7 @@
         <aside class="article-share-public__sidebar">
           <div class="article-share-public__sidebar-heading"><span>共享目录</span><b>{{ share.entryCount }} 篇</b></div>
           <nav aria-label="共享文章目录">
-            <button v-for="entry in share.entries" :key="entry.articleId" type="button" :class="{ 'is-active': entry.slug === currentSlug }" @click="selectArticle(entry.slug)">{{ entry.title }}</button>
+            <button v-for="entry in share.entries" :key="entry.articleId" type="button" :title="entry.title" :class="{ 'is-active': entry.slug === currentSlug }" @click="selectArticle(entry.slug)">{{ entry.title }}</button>
           </nav>
         </aside>
         <article class="article-share-public__reader">

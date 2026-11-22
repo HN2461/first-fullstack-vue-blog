@@ -202,7 +202,7 @@ const trendTitle = computed(() => ({ day: '每日收支趋势', month: '月度�
 </script>
 
 <style scoped>
-.ledger-dashboard { display: grid; gap: 12px; }
+.ledger-dashboard { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .ledger-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .ledger-metric { display: flex; align-items: center; gap: 14px; border: 1px solid var(--console-border); border-radius: 8px; padding: 16px 18px; background: var(--console-surface); }
 .ledger-metric__icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 8px; flex-shrink: 0; }
@@ -254,7 +254,7 @@ const trendTitle = computed(() => ({ day: '每日收支趋势', month: '月度�
 .ledger-category-bar { display: block; height: 100%; border-radius: 3px; transition: width 0.4s ease; }
 .ledger-category-amount { color: var(--console-text); font-weight: 500; text-align: right; min-width: 60px; }
 .ledger-category-percent { color: var(--console-text-secondary); text-align: right; min-width: 32px; }
-@media (max-width: 1100px) { .ledger-chart-row { grid-template-columns: 1fr; } }
+@media (max-width: 1100px) { .ledger-chart-row { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 760px) {
   .ledger-chart__head { flex-direction: column; }
   .ledger-chart__controls { justify-content: flex-start; }
@@ -262,8 +262,8 @@ const trendTitle = computed(() => ({ day: '每日收支趋势', month: '月度�
   .ledger-chart__controls :deep(.ant-radio-group) { max-width: 100%; overflow-x: auto; }
 }
 @media (max-width: 640px) {
-  .ledger-metrics { grid-template-columns: 1fr; }
-  .ledger-stats { grid-template-columns: repeat(2, 1fr); }
+  .ledger-metrics { grid-template-columns: minmax(0, 1fr); }
+  .ledger-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ledger-category-rank { grid-template-columns: 10px 56px 1fr auto; }
   .ledger-category-percent { display: none; }
   .ledger-metric { padding: 14px; }

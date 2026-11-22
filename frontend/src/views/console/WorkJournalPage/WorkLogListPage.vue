@@ -20,7 +20,7 @@
             <a-select-option value="draft">草稿</a-select-option>
             <a-select-option value="final">已定稿</a-select-option>
           </a-select>
-          <a-range-picker
+          <ResponsiveDateRange
             v-model:value="dateRange"
             class="work-log-list-page__date-range"
             :placeholder="['开始日期', '结束日期']"
@@ -120,9 +120,7 @@
               <a-button type="text" size="small" aria-label="恢复日报" :loading="busyId === record.id" @click="restore(record)"><template #icon><ArchiveRestore :size="15" /></template></a-button>
             </a-tooltip>
             <a-popconfirm :title="trash ? '永久删除这篇日报及其图片？此操作不可恢复。' : '将这篇日报移入回收站？图片凭证将保留。'" :ok-text="trash ? '永久删除' : '移入回收站'" cancel-text="取消" @confirm="trash ? purge(record) : remove(record)">
-              <a-tooltip :title="trash ? '永久删除日报' : '移入回收站'">
-                <a-button type="text" size="small" danger :aria-label="trash ? '永久删除日报' : '移入回收站'" :loading="busyId === record.id"><template #icon><Trash2 :size="15" /></template></a-button>
-              </a-tooltip>
+              <a-button type="text" size="small" danger :aria-label="trash ? '永久删除日报' : '移入回收站'" :loading="busyId === record.id"><template #icon><Trash2 :size="15" /></template></a-button>
             </a-popconfirm>
           </a-space>
         </template>
@@ -198,6 +196,7 @@ import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 import { useRoute, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app'
+import ResponsiveDateRange from '@/components/ResponsiveDateRange.vue'
 import { ArchiveRestore, CalendarDays, Copy, Eye, History, List, PencilLine, Plus, RefreshCw, Trash2 } from '@lucide/vue'
 import BlogTable from '@/components/BlogTable.vue'
 import { deleteWorkLog, getWorkLog, listEmployments, listTrashedWorkLogs, listWorkLogs, restoreWorkLog, updateWorkLog } from '@/services/workJournal'
@@ -718,8 +717,7 @@ watch(() => props.trash, async () => {
 
 .work-log-list-page__detail {
   display: flex;
-  max-height: calc(70vh - 40px);
-  min-height: 300px;
+  max-height: min(calc(70dvh - 40px), calc(100dvh - var(--console-modal-top-gap) - var(--console-modal-bottom-gap) - 80px));
   flex-direction: column;
 }
 
@@ -743,6 +741,7 @@ watch(() => props.trash, async () => {
 
 .work-log-list-page__summary {
   color: var(--console-text-secondary, #606266);
+  overflow-wrap: anywhere;
 }
 
 .work-log-list-page__detail-section {
@@ -770,9 +769,14 @@ watch(() => props.trash, async () => {
   font-size: 11px;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
   .work-log-list-page {
-    height: var(--console-page-available-height, calc(100vh - 130px));
+    height: auto;
+    overflow: visible;
+  }
+
+  .work-log-list-page > :deep(.blog-table) {
+    flex: 0 0 auto;
   }
 
   .work-log-list-page__employment,

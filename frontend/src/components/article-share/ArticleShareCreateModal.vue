@@ -62,7 +62,13 @@
           </div>
 
           <a-form-item v-if="form.expiryMode === 'custom'" label="失效时间">
-            <a-date-picker v-model:value="form.expiresAt" show-time format="YYYY-MM-DD HH:mm" style="width: 100%" />
+            <a-date-picker
+              v-model:value="form.expiresAt"
+              :show-time="{ format: 'HH:mm' }"
+              format="YYYY-MM-DD HH:mm"
+              popup-class-name="share-expiry-picker-popup"
+              style="width: 100%"
+            />
           </a-form-item>
           <a-form-item label="分享标题">
             <a-input v-model:value="form.title" maxlength="120" show-count placeholder="留空则使用文章或目录名称" />
@@ -219,6 +225,8 @@ function close() { emit('update:open', false) }
 
 watch(() => props.open, (value) => { if (value) initialize() })
 </script>
+
+<style src="@/styles/share-expiry-picker.css"></style>
 
 <style scoped>
 .article-share-create-modal { max-height: 68vh; overflow-y: auto; padding: 2px 2px 4px; color: var(--console-text, #101828); }

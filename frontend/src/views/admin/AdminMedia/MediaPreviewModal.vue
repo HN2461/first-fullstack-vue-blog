@@ -2,7 +2,6 @@
   <a-modal
     :open="open"
     :footer="null"
-    centered
     :wrap-class-name="modalWrapClass"
     width="min(1380px, calc(100vw - 48px))"
     :body-style="{ height: 'min(80vh, 820px)', overflow: 'hidden', padding: 0 }"
@@ -55,7 +54,7 @@
             <span class="media-preview-workspace__command-divider" aria-hidden="true" />
             <a-tooltip title="新页面打开"><a-button type="text" aria-label="新页面打开资源" :href="previewOpenUrl" target="_blank" rel="noopener noreferrer"><template #icon><ExportOutlined /></template></a-button></a-tooltip>
             <a-tooltip title="下载资源"><a-button type="text" aria-label="下载资源" @click="requestDownload"><template #icon><DownloadOutlined /></template></a-button></a-tooltip>
-            <a-tooltip :title="inspectorVisible ? '隐藏资源信息' : '显示资源信息'"><a-button class="media-preview-workspace__info-trigger" type="text" :aria-label="inspectorVisible ? '隐藏资源信息' : '显示资源信息'" @click="toggleInspector"><template #icon><InfoCircleOutlined /></template></a-button></a-tooltip>
+            <a-tooltip title="显示资源信息"><a-button class="media-preview-workspace__info-trigger" type="text" aria-label="显示资源信息" @click="toggleInspector"><template #icon><InfoCircleOutlined /></template></a-button></a-tooltip>
           </div>
         </div>
 

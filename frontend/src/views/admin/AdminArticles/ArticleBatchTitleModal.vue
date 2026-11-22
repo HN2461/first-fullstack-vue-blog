@@ -5,7 +5,6 @@
     width="980px"
     wrap-class-name="business-modal batch-title-modal-wrap"
     :confirm-loading="submitting"
-    centered
     @cancel="handleClose"
   >
     <div class="batch-title">

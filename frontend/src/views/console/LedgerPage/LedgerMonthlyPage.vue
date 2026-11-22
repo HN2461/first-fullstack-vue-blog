@@ -51,7 +51,7 @@
             <template #icon><RightOutlined /></template>
           </a-button>
         </a-tooltip>
-        <a-button v-if="selectedMonth !== currentMonth" type="link" @click="selectedMonth = currentMonth">
+        <a-button v-if="selectedMonth !== currentMonth" class="ledger-monthly-header__current" type="link" @click="selectedMonth = currentMonth">
           回到本月
         </a-button>
       </div>
@@ -305,7 +305,7 @@ function getCategoryNote(record, categoryId) {
 
   .ledger-monthly-header__controls {
     display: grid;
-    grid-template-columns: 32px minmax(0, 1fr) minmax(0, 1fr) 32px;
+    grid-template-columns: 32px minmax(0, 1fr) 32px;
     width: 100%;
     min-width: 0;
     gap: 6px;
@@ -320,18 +320,22 @@ function getCategoryNote(record, categoryId) {
   }
 
   .ledger-monthly-header__controls .ledger-inline-book-select {
+    grid-column: 1 / -1;
+    grid-row: 1;
     width: 100% !important;
     min-width: 0;
     flex: none;
   }
 
-  .ledger-monthly-header__controls > .ant-btn {
+  .ledger-monthly-header__controls > .ant-btn-circle {
     width: 32px;
     flex: none;
   }
 
-  .ledger-monthly-header__controls > .ant-btn:last-child {
-    margin-left: 0;
+  .ledger-monthly-header__current {
+    grid-column: 1 / -1;
+    justify-self: end;
+    padding-inline: 0;
   }
 
   .ledger-monthly-stats {
@@ -364,7 +368,7 @@ function getCategoryNote(record, categoryId) {
   }
 }
 
-@media (pointer: coarse) and (max-width: 1024px) {
+@media (pointer: coarse) and (min-width: 761px) and (max-width: 1024px) {
   .ledger-monthly-header {
     align-items: stretch;
     padding: 8px;
@@ -395,13 +399,15 @@ function getCategoryNote(record, categoryId) {
     flex: none;
   }
 
-  .ledger-monthly-header__controls > .ant-btn {
+  .ledger-monthly-header__controls > .ant-btn-circle {
     width: 32px;
     flex: none;
   }
 
-  .ledger-monthly-header__controls > .ant-btn:last-child {
-    margin-left: 0;
+  .ledger-monthly-header__current {
+    grid-column: 1 / -1;
+    justify-self: end;
+    padding-inline: 0;
   }
 
   .ledger-monthly-stats {

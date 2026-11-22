@@ -86,11 +86,9 @@
               </a-button>
             </a-tooltip>
             <a-popconfirm :title="`删除这篇${reportLabel}？此操作不可恢复。`" ok-text="删除" cancel-text="取消" @confirm="remove(record)">
-              <a-tooltip :title="`删除${reportLabel}`">
-                <a-button type="text" size="small" danger :aria-label="`删除${reportLabel}`" :loading="deletingId === record.id">
-                  <template #icon><Trash2 :size="15" /></template>
-                </a-button>
-              </a-tooltip>
+              <a-button type="text" size="small" danger :aria-label="`删除${reportLabel}`" :loading="deletingId === record.id">
+                <template #icon><Trash2 :size="15" /></template>
+              </a-button>
             </a-popconfirm>
           </a-space>
         </template>
@@ -311,9 +309,10 @@ watch(period, async (value) => {
   font-size: 12px;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .work-report-page {
-    height: var(--console-page-available-height, calc(100vh - 130px));
+    height: auto;
+    overflow: visible;
   }
 
   .work-report-page :deep(.blog-table__toolbar-left) {

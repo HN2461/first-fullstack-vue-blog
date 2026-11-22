@@ -26,7 +26,7 @@
         </a-tooltip>
       </div>
 
-      <a-range-picker
+      <ResponsiveDateRange
         v-if="showPeriod && period === 'custom'"
         :value="rangeValue"
         class="ledger-toolbar__range"
@@ -81,6 +81,7 @@
 import { computed } from 'vue'
 import { AppstoreOutlined, BookOutlined, DownloadOutlined, HistoryOutlined, TagsOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { BookOpen, MoreHorizontal, RefreshCw } from '@lucide/vue'
+import ResponsiveDateRange from '@/components/ResponsiveDateRange.vue'
 import LedgerBookSelect from './LedgerBookSelect.vue'
 
 const props = defineProps({
@@ -253,6 +254,7 @@ function handleRangeChange(value) {
 
   .ledger-toolbar__range {
     width: 100%;
+    margin-left: 0;
   }
 }
 </style>

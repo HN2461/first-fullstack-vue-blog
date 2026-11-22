@@ -57,4 +57,7 @@
 .share-detail__resource span { color: var(--console-text-tertiary); font-size: 12px; }
 .share-detail__footer { display: flex; justify-content: flex-end; padding: 16px 24px; background: var(--console-surface); }
 @media (max-width: 960px) { .media-shares-toolbar { flex-wrap: wrap; } .media-shares-toolbar__date { width: 220px; } }
+@media (max-width: 900px) {
+  .media-shares-page { height: auto; overflow: visible; }
+}
 @media (max-width: 720px) { .media-shares-toolbar__identity, .media-shares-toolbar__search, .media-shares-toolbar__select, .media-shares-toolbar__date { width: 100%; } .media-shares-status-track { overflow-x: auto; scrollbar-width: none; } .media-shares-status-track::-webkit-scrollbar { display: none; } .media-shares-status-track button { flex: 0 0 auto; } .share-detail__lead, .share-detail__section { padding-left: 16px; padding-right: 16px; } .share-detail__metrics { grid-template-columns: 1fr; } .share-detail__credential { grid-template-columns: 1fr; gap: 4px; } }

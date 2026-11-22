@@ -2,8 +2,14 @@
   <section class="tool-panel dice-tool">
     <div class="dice-toolbar">
       <div class="dice-options">
-        <label for="tool-dice-sides">面数（2–100）</label><a-input-number id="tool-dice-sides" v-model:value="sides" :min="2" :max="100" size="small" />
-        <label for="tool-dice-count">数量（1–20）</label><a-input-number id="tool-dice-count" v-model:value="count" :min="1" :max="20" size="small" />
+        <div class="dice-field">
+          <label for="tool-dice-sides">面数（2–100）</label>
+          <a-input-number id="tool-dice-sides" v-model:value="sides" :min="2" :max="100" size="small" />
+        </div>
+        <div class="dice-field">
+          <label for="tool-dice-count">数量（1–20）</label>
+          <a-input-number id="tool-dice-count" v-model:value="count" :min="1" :max="20" size="small" />
+        </div>
       </div>
       <div class="dice-actions"><a-button size="small" @click="flip">抛硬币</a-button><a-button type="primary" size="small" @click="roll">掷骰子</a-button></div>
     </div>
@@ -47,7 +53,8 @@ function flip() {
 </script>
 <style scoped>
 .dice-tool { display: flex; flex: 1; flex-direction: column; gap: 12px; min-height: 0; min-width: 0; overflow: hidden; }
-.dice-toolbar, .dice-options, .dice-actions, .dice-result-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 0 0 auto; }
+.dice-toolbar, .dice-options, .dice-actions, .dice-result-head, .dice-field { display: flex; align-items: center; gap: 8px; }
+.dice-toolbar, .dice-options, .dice-actions, .dice-result-head { flex: 0 0 auto; flex-wrap: wrap; max-width: 100%; }
 .dice-toolbar, .dice-result-head { justify-content: space-between; }
 .dice-options, .dice-result-head, .dice-note { color: var(--console-text-secondary); font-size: 12px; }
 .dice-options :deep(.ant-input-number) { width: 88px; }

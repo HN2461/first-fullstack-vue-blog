@@ -22,7 +22,7 @@
                   </div>
                 </div>
               </template>
-              <a-button class="menu-panel-help" type="text" size="small">
+              <a-button class="menu-panel-help" type="text" size="small" aria-label="查看菜单树说明">
                 <template #icon><QuestionCircleOutlined /></template>
               </a-button>
             </a-popover>
@@ -31,12 +31,12 @@
         <template #extra>
           <a-space>
             <a-tooltip title="刷新菜单">
-              <a-button size="small" @click="loadMenus">
+              <a-button size="small" aria-label="刷新菜单" @click="loadMenus">
                 <template #icon><ReloadOutlined /></template>
               </a-button>
             </a-tooltip>
             <a-tooltip title="新增顶级菜单">
-              <a-button size="small" type="primary" @click="openCreate(null)">
+              <a-button size="small" type="primary" aria-label="新增顶级菜单" @click="openCreate(null, true)">
                 <template #icon><PlusOutlined /></template>
               </a-button>
             </a-tooltip>
@@ -71,7 +71,7 @@
                   </div>
                   <div class="menu-tree-actions" @click.stop>
                     <a-tooltip :title="isArticleDirectoryMenu(id) ? '文章目录只可移动挂载位置，不能承载子菜单' : '新增子菜单'">
-                      <a-button class="menu-tree-action-btn" type="text" size="small" :disabled="isArticleDirectoryMenu(id)" @click="openCreate(id)">
+                      <a-button class="menu-tree-action-btn" type="text" size="small" aria-label="新增子菜单" :disabled="isArticleDirectoryMenu(id)" @click="openCreate(id, true)">
                         <template #icon><PlusOutlined /></template>
                       </a-button>
                     </a-tooltip>
@@ -85,7 +85,7 @@
 
       <a-card class="menu-form-panel" :body-style="{ padding: 0 }">
         <template #title>
-          <div class="menu-panel-title">
+          <div ref="formHeadingRef" class="menu-panel-title">
             <span>菜单编辑</span>
             <a-popover placement="bottomLeft" trigger="click" overlay-class-name="menu-help-popover">
               <template #content>
@@ -101,7 +101,7 @@
                   <div class="menu-help-item"><strong>启用 / 隐藏</strong><span>启用控制是否生效，隐藏控制是否在导航中展示。</span></div>
                 </div>
               </template>
-              <a-button class="menu-panel-help" type="text" size="small">
+              <a-button class="menu-panel-help" type="text" size="small" aria-label="查看菜单编辑说明">
                 <template #icon><QuestionCircleOutlined /></template>
               </a-button>
             </a-popover>
@@ -133,6 +133,8 @@
                 :tree-data="parentOptions"
                 :field-names="{ label: 'name', value: 'id', children: 'children' }"
                 allow-clear
+                show-search
+                tree-node-filter-prop="name"
                 tree-default-expand-all
                 placeholder="无（顶级菜单）"
               />
@@ -244,7 +246,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue'
 import { message, Modal } from 'ant-design-vue'
 import { DeleteOutlined, PlusOutlined, QuestionCircleOutlined, ReloadOutlined, SaveOutlined } from '@ant-design/icons-vue'
 import { createRbacMenu, deleteRbacMenu, listRbacMenus, reorderRbacMenus, updateRbacMenu } from '@/services/admin'
@@ -258,6 +260,7 @@ const expandedKeys = ref([])
 const selectedMenuId = ref('')
 const isCreating = ref(false)
 const formRef = ref(null)
+const formHeadingRef = ref(null)
 const EXPANDED_KEYS_STORAGE_KEY = 'admin-menu-tree-expanded-keys'
 
 const form = reactive({
@@ -391,7 +394,13 @@ function selectMenu(id) {
   resetForm(record)
 }
 
-function openCreate(parentId = null) {
+function scrollToMenuForm() {
+  // 上下排列时，树上的新增和叶子编辑需要把目标表单带入视野。
+  if (!window.matchMedia('(max-width: 1100px)').matches) return
+  nextTick(() => formHeadingRef.value?.scrollIntoView({ block: 'start' }))
+}
+
+function openCreate(parentId = null, fromTree = false) {
   if (parentId && isArticleDirectoryMenu(parentId)) {
     message.warning('文章目录是系统内置模块，不能新增子菜单')
     return
@@ -400,6 +409,7 @@ function openCreate(parentId = null) {
   selectedMenuId.value = ''
   isCreating.value = true
   resetForm({ parentId })
+  if (fromTree) scrollToMenuForm()
 }
 
 function handleSelect(keys) {
@@ -422,6 +432,7 @@ function handleNodeClick(id) {
       : [...expandedKeys.value, id]
   }
   selectMenu(id)
+  if (!record?.children?.length) scrollToMenuForm()
 }
 
 function handleExpand(keys) {

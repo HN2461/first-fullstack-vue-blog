@@ -13,7 +13,7 @@
     <template v-else>
       <div class="resume-editor__top">
         <a-tooltip title="返回简历列表">
-          <a-button @click="router.push('/console/resumes')">
+          <a-button aria-label="返回简历列表" @click="router.push('/console/resumes')">
             <template #icon><ArrowLeftOutlined /></template>
           </a-button>
         </a-tooltip>
@@ -23,12 +23,12 @@
         <a-select v-model:value="resume.status" class="resume-editor__select" :options="statusOptions" />
         <span :class="['resume-editor__save-state', `is-${saveState}`]">{{ saveStateText }}</span>
         <a-tooltip title="立即保存">
-          <a-button type="primary" :loading="saving" @click="saveNow">
+          <a-button class="resume-editor__save" type="primary" aria-label="立即保存" :loading="saving" @click="saveNow">
             <template #icon><SaveOutlined /></template>
           </a-button>
         </a-tooltip>
         <a-tooltip title="整体预览">
-          <a-button @click="previewOpen = true">
+          <a-button class="resume-editor__preview" @click="previewOpen = true">
             <template #icon><EyeOutlined /></template>
             预览
           </a-button>
@@ -399,3 +399,57 @@ onMounted(async () => {
 watch(() => route.query.id, loadResume)
 watch(resume, scheduleSave, { deep: true })
 </script>
+
+<style scoped>
+@media (max-width: 900px) {
+  .resume-editor__top {
+    /* 让主要操作和表单在短视口首屏出现，控件仍保留原来的键盘顺序。 */
+    grid-template-columns: auto repeat(2, minmax(0, 1fr)) auto auto;
+  }
+
+  .resume-editor__title {
+    grid-column: span 4;
+  }
+
+  .resume-editor__role {
+    grid-column: span 5;
+  }
+
+  .resume-editor__select {
+    grid-column: span 2;
+    width: 100%;
+  }
+
+  .resume-editor__save-state {
+    grid-column: 1 / 4;
+  }
+
+  .resume-editor__save,
+  .resume-editor__preview {
+    justify-self: end;
+  }
+
+  .resume-editor__nav {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .resume-editor__nav button {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 900px) {
+  .resume-editor__top {
+    grid-template-columns: auto repeat(2, minmax(0, 1fr)) minmax(108px, 0.6fr) minmax(76px, 0.5fr) auto auto auto;
+  }
+
+  .resume-editor__title,
+  .resume-editor__role,
+  .resume-editor__select,
+  .resume-editor__save-state {
+    grid-column: auto;
+  }
+}
+</style>

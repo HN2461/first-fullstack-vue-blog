@@ -116,6 +116,12 @@ body.ant-scrolling-effect {
   width: 100% !important;
 }
 
+/* 左右抽屉保留各业务指定宽度，在小屏上受可用容器宽度约束。 */
+.ant-drawer-left > .ant-drawer-content-wrapper,
+.ant-drawer-right > .ant-drawer-content-wrapper {
+  max-width: 100%;
+}
+
 .ant-modal-root .ant-modal-wrap,
 .ant-modal-root .ant-modal-wrap.ant-modal-centered {
   overflow: hidden;

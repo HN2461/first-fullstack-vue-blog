@@ -156,12 +156,12 @@
       <template v-else-if="column.key === 'action'">
         <a-space size="small">
           <a-tooltip title="编辑">
-            <a-button type="text" @click="$emit('edit', record)">
+            <a-button type="text" aria-label="编辑流水" @click="$emit('edit', record)">
               <template #icon><EditOutlined /></template>
             </a-button>
           </a-tooltip>
           <a-tooltip title="删除">
-            <a-button type="text" danger @click="$emit('delete', record)">
+            <a-button type="text" danger aria-label="删除流水" @click="$emit('delete', record)">
               <template #icon><DeleteOutlined /></template>
             </a-button>
           </a-tooltip>

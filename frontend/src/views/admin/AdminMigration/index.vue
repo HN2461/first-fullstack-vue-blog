@@ -106,7 +106,7 @@
                 <span class="mg-panel-subtitle">{{ currentCategory ? currentCategory.name : '请从左侧选择一个分类' }}</span>
               </div>
             </div>
-            <a-space :size="6" class="mg-panel-actions">
+            <a-space :size="6" class="mg-panel-actions" wrap>
               <a-button
                 class="mg-btn mg-btn-ghost"
                 :disabled="!currentCategory || isLockedCategory"
@@ -1688,12 +1688,20 @@ onMounted(() => {
 }
 
 @media (max-width: 1024px) {
+  .mg-page {
+    height: auto;
+    overflow: visible;
+  }
+
   .mg-workspace {
-    grid-template-columns: 1fr;
+    /* 单列时分类树和编辑区都随页面滚动，底部字段可直接触达。 */
+    flex-basis: auto;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .mg-tree-aside {
-    max-height: 420px;
+    min-height: 0;
+    max-height: min(58dvh, 420px);
   }
 
   .mg-article-panel {

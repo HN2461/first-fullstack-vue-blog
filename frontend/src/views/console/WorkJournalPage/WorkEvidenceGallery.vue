@@ -40,13 +40,11 @@
                 <template #icon><Expand :size="15" /></template>
               </a-button>
             </a-tooltip>
-            <a-tooltip v-if="!readonly" title="删除图片凭证">
-              <a-popconfirm title="删除这张图片凭证？" ok-text="删除" cancel-text="取消" @confirm="remove(item)">
-                <a-button type="text" size="small" danger :aria-label="`删除 ${item.originalName}`">
-                  <template #icon><Trash2 :size="15" /></template>
-                </a-button>
-              </a-popconfirm>
-            </a-tooltip>
+            <a-popconfirm v-if="!readonly" title="删除这张图片凭证？" ok-text="删除" cancel-text="取消" @confirm="remove(item)">
+              <a-button type="text" size="small" danger :aria-label="`删除 ${item.originalName}`">
+                <template #icon><Trash2 :size="15" /></template>
+              </a-button>
+            </a-popconfirm>
           </div>
         </div>
       </article>

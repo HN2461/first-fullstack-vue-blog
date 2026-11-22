@@ -132,11 +132,12 @@
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
   gap: 16px;
-  max-height: 70vh;
-  min-height: 520px;
+  /* 预览在桌面各自滚动，给弹窗标题和内边距预留空间。 */
+  height: min(70dvh, calc(100dvh - var(--console-modal-top-gap) - var(--console-modal-bottom-gap) - 104px));
 }
 
 .preview-meta {
+  min-height: 0;
   padding: 12px;
   overflow-y: auto;
   border: 1px solid var(--console-border);
@@ -168,6 +169,7 @@
 
 .preview-content {
   min-width: 0;
+  min-height: 0;
   padding: 16px 18px;
   overflow-y: auto;
   border: 1px solid var(--console-border);
@@ -217,20 +219,22 @@
   white-space: nowrap;
 }
 
-.article-preview-modal .ant-modal-body,
-.import-result-modal .ant-modal-body {
-  max-height: 76vh;
-  overflow: hidden;
-}
-
 @media (max-width: 900px) {
   .preview-layout {
-    grid-template-columns: 1fr;
-    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
   }
 
   .preview-meta,
   .preview-content {
-    max-height: 34vh;
+    overflow: visible;
+  }
+
+  .result-item {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .result-item span:last-child {
+    grid-column: 2;
   }
 }

@@ -343,8 +343,7 @@
       v-model:open="categoryModalVisible"
       :footer="null"
       width="900px"
-      centered
-      :body-style="{ maxHeight: '72vh', overflow: 'hidden', paddingBottom: '16px' }"
+      :body-style="{ maxHeight: '72vh', paddingBottom: '16px' }"
     >
       <template #title>
         <div class="media-category-modal__title">
@@ -2237,6 +2236,10 @@ onUnmounted(() => {
     flex-wrap: wrap;
   }
 
+  .media-cloud__filters {
+    flex-wrap: wrap;
+  }
+
   .media-cloud__type-filter {
     flex-basis: 100%;
     order: 3;
@@ -2259,12 +2262,18 @@ onUnmounted(() => {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .media-cloud {
     height: auto;
     min-height: 0;
   }
 
+  .media-cloud__body {
+    overflow: visible;
+  }
+}
+
+@media (max-width: 768px) {
   .media-cloud__topbar {
     align-items: flex-start;
     flex-wrap: wrap;
@@ -2280,21 +2289,22 @@ onUnmounted(() => {
   }
 
   .media-cloud__filters {
-    flex-basis: 100%;
-    flex-wrap: wrap;
+    display: grid;
+    flex: 0 0 auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .media-cloud__actions {
     margin-left: auto;
   }
 
-  .media-cloud__body {
-    overflow: visible;
-  }
-
   .media-cloud__filters :deep(.ant-input-search),
   .media-cloud__filters :deep(.ant-select) {
     width: 100% !important;
+  }
+
+  .media-cloud__filters :deep(.ant-input-search) {
+    grid-column: 1 / -1;
   }
 
   .media-cloud__list-toolbar {
@@ -2343,22 +2353,25 @@ onUnmounted(() => {
     font-size: 11px !important;
   }
 
-  .media-category-panel__list-wrap {
-    max-height: 280px;
-  }
-
   .media-category-panel {
-    height: min(62vh, 640px);
-    grid-template-rows: minmax(180px, 0.8fr) minmax(0, 1fr);
-    grid-template-columns: 1fr;
+    height: auto;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .media-category-panel__list-wrap {
+    max-height: min(34dvh, 280px);
     border-right: 0;
     border-bottom: 1px solid var(--console-border);
+    scrollbar-width: thin;
+  }
+
+  .media-category-panel__list-wrap::-webkit-scrollbar {
+    display: revert;
   }
 
   .media-category-panel__form {
+    /* 窄屏让正文滚动到完整表单，避免分类清单挤压表单的可视高度。 */
+    overflow: visible;
     padding: 16px;
   }
 

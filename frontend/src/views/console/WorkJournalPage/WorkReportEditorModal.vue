@@ -3,8 +3,7 @@
     :open="open"
     :title="report?.id ? `编辑${reportLabel}` : `${reportLabel}草稿`"
     :width="980"
-    :footer="null"
-    :body-style="{ maxHeight: '76vh', overflow: 'hidden' }"
+    :body-style="{ maxHeight: '70vh', overflowY: 'auto' }"
     wrap-class-name="work-journal-dialog"
     @cancel="emit('update:open', false)"
   >
@@ -30,13 +29,15 @@
         :footers="[]"
         :no-upload-img="true"
       />
+    </div>
+    <template #footer>
       <div class="work-report-editor__actions">
         <a-button :loading="saving" @click="save('draft')">保存草稿</a-button>
         <a-button type="primary" :loading="saving" :disabled="!form.contentMarkdown.trim()" @click="save(form.status === 'final' ? 'draft' : 'final')">
           {{ form.status === 'final' ? '重新打开为草稿' : '保存并定稿' }}
         </a-button>
       </div>
-    </div>
+    </template>
   </a-modal>
 </template>
 
@@ -86,8 +87,6 @@ async function save(status) {
 <style scoped>
 .work-report-editor {
   display: flex;
-  max-height: calc(70vh - 40px);
-  min-height: 400px;
   flex-direction: column;
   gap: 12px;
 }
@@ -113,8 +112,7 @@ async function save(status) {
 }
 
 .work-report-editor__markdown {
-  min-height: 0;
-  flex: 1 1 auto;
+  height: clamp(200px, 49dvh, 500px);
   overflow: hidden;
   border: 1px solid var(--console-border, #dcdfe6);
   border-radius: 6px;
@@ -122,11 +120,9 @@ async function save(status) {
 
 .work-report-editor__actions {
   display: flex;
-  flex: 0 0 auto;
+  flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid var(--console-border, #ebeef5);
 }
 
 @media (max-width: 700px) {

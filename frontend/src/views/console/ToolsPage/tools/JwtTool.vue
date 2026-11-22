@@ -98,6 +98,7 @@ function clear() {
 .jwt-claim-warning { color: var(--ant-color-warning-text, #ad6800); }
 :global(.dark-theme) .jwt-claim-warning { color: #ffb65d; }
 @media (max-width: 700px) {
+  .jwt-actions { min-width: 0; max-width: 100%; flex-wrap: wrap; justify-content: flex-start; }
   .jwt-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .jwt-input :deep(textarea) { height: 64px; }
 }

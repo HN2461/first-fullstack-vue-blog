@@ -4,12 +4,12 @@
       :class="[
         'enterprise-main-layout',
         {
-          'enterprise-main-layout--tabs': tabsEnabled,
+          'enterprise-main-layout--tabs': showTabs,
           'enterprise-main-layout--maximized': tabsStore.maximized
         }
       ]"
     >
-      <ConsoleTabsBar v-if="tabsEnabled" />
+      <ConsoleTabsBar v-if="showTabs" />
       <main
         ref="contentRef"
         :class="['enterprise-content', { 'enterprise-content--immersive': immersive }]"
@@ -45,6 +45,7 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Minimize2 } from '@lucide/vue'
+import { useAppStore } from '@/stores/app'
 import { useAuthStore } from '@/stores/auth'
 import { useConsoleTabsStore } from '@/stores/consoleTabs'
 import { buildConsoleTabKey } from '@/utils/consoleTabs'
@@ -60,10 +61,12 @@ defineProps({
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
+const appStore = useAppStore()
 const tabsStore = useConsoleTabsStore()
 const contentRef = ref(null)
 
 const tabsEnabled = computed(() => Boolean(authStore.user?.consoleTabsEnabled))
+const showTabs = computed(() => tabsEnabled.value && !appStore.isMobile)
 const homePath = computed(() => authStore.canAccessPath('/console') ? '/console' : '/console/articles')
 
 function initializeTabs() {
@@ -147,20 +150,20 @@ onBeforeUnmount(() => {
 <style scoped>
 .enterprise-main-layout--tabs {
   --console-workspace-top-offset: calc(var(--console-header-height) + var(--console-tabs-height, 48px));
-  --console-content-viewport-height: calc(100vh - var(--console-header-height) - var(--console-tabs-height, 48px));
+  --console-content-viewport-height: calc(var(--console-viewport-height) - var(--console-header-height) - var(--console-tabs-height, 48px));
   --console-page-available-height: calc(var(--console-content-viewport-height) - var(--console-content-padding) * 2);
 }
 
 .enterprise-main-layout--maximized {
   --console-workspace-top-offset: 0px;
-  --console-content-viewport-height: 100vh;
-  --console-page-available-height: calc(100vh - var(--console-content-padding) * 2);
+  --console-content-viewport-height: var(--console-viewport-height);
+  --console-page-available-height: calc(var(--console-viewport-height) - var(--console-content-padding) * 2);
   position: fixed;
   inset: 0;
   z-index: 1200;
   width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
+  height: var(--console-viewport-height);
+  min-height: var(--console-viewport-height);
   flex: none;
   background: var(--console-bg);
 }
@@ -172,7 +175,7 @@ onBeforeUnmount(() => {
 .enterprise-main-layout--maximized .enterprise-content {
   min-height: 0;
   flex: 1;
-  height: 100vh;
+  height: var(--console-viewport-height);
 }
 
 :global(body.console-workspace-maximized) {
@@ -201,13 +204,5 @@ onBeforeUnmount(() => {
 .console-workspace-exit:focus-visible {
   color: var(--console-primary-strong);
   border-color: var(--console-primary);
-}
-
-@media (max-width: 1024px) {
-  .enterprise-main-layout--tabs {
-    --console-workspace-top-offset: var(--console-header-height);
-    --console-content-viewport-height: calc(100vh - var(--console-header-height));
-    --console-page-available-height: calc(var(--console-content-viewport-height) - var(--console-content-padding) * 2);
-  }
 }
 </style>

@@ -23,7 +23,7 @@
           </div>
           <a-input-search v-model:value="keyword" allow-clear placeholder="搜索名称或说明" class="media-shares-toolbar__search" @change="clearReferenceShareTargetIfEdited" @search="reloadTable" />
           <a-select v-model:value="mode" allow-clear show-search option-filter-prop="label" placeholder="分享方式" :options="shareModeOptions" class="media-shares-toolbar__select" />
-          <a-range-picker v-model:value="createdRange" class="media-shares-toolbar__date" />
+          <ResponsiveDateRange v-model:value="createdRange" class="media-shares-toolbar__date" />
           <a-button v-if="canCreateShare" type="primary" @click="router.push('/console/manage/media')"><template #icon><PlusOutlined /></template>创建分享</a-button>
         </div>
         <div class="media-shares-status-track">
@@ -98,6 +98,7 @@ import {
   QuestionCircleOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import ResponsiveDateRange from '@/components/ResponsiveDateRange.vue'
 import { deleteAdminMediaShare, listAdminMediaShares, revokeAdminMediaShare } from '@/services/admin'
 import { useAuthStore } from '@/stores/auth'
 import MediaShareDetailDrawer from './MediaShareDetailDrawer.vue'

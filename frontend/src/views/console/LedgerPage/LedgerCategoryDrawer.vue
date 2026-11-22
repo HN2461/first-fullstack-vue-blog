@@ -2,7 +2,7 @@
   <a-drawer
     :open="open"
     title="分类管理"
-    width="520"
+    width="min(520px, 100vw)"
     :body-style="{ padding: '12px' }"
     @close="$emit('update:open', false)"
   >

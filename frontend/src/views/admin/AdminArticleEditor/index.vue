@@ -68,15 +68,13 @@
       title="发布文章"
       :confirm-loading="publishing"
       :mask-closable="false"
-      wrap-class-name="business-modal publish-modal"
-      centered
       width="720px"
       ok-text="确认发布"
       cancel-text="取消"
       @ok="confirmPublish"
       @cancel="closePublishModal"
     >
-      <div class="modal-scroll-shell">
+      <div>
         <a-form layout="vertical" class="publish-form">
           <a-form-item label="文章摘要">
             <a-textarea
@@ -187,14 +185,12 @@
       v-model:open="categoryModalVisible"
       title="新建分类"
       :confirm-loading="categorySubmitting"
-      centered
-      wrap-class-name="business-modal form-modal"
       ok-text="保存分类"
       cancel-text="取消"
       @ok="handleCreateCategory"
       @cancel="closeCategoryModal"
     >
-      <div class="modal-scroll-shell">
+      <div>
         <a-form layout="vertical">
           <a-form-item label="分类名称" required>
             <a-input v-model:value.trim="categoryDraft.name" placeholder="例如 产品文档" />
@@ -210,14 +206,12 @@
       v-model:open="tagModalVisible"
       title="新建标签"
       :confirm-loading="tagSubmitting"
-      centered
-      wrap-class-name="business-modal form-modal"
       ok-text="保存标签"
       cancel-text="取消"
       @ok="handleCreateTag"
       @cancel="closeTagModal"
     >
-      <div class="modal-scroll-shell">
+      <div>
         <a-form layout="vertical">
           <a-form-item label="标签名称" required>
             <a-input v-model:value.trim="tagDraft.name" placeholder="例如 入门指南" />
@@ -846,6 +840,7 @@ onMounted(async () => {
   font-size: 34px;
   line-height: 1.3;
   color: #1f1f1f;
+  overflow-wrap: anywhere;
 }
 
 .writer-studio__preview-body {
@@ -964,15 +959,6 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 16px;
-}
-
-.modal-scroll-shell {
-  max-height: min(68vh, 720px);
-  overflow-y: auto;
-  overflow-x: auto;
-  max-width: min(70vw, 100%);
-  padding-right: 4px;
-  box-sizing: border-box;
 }
 
 .publish-form {
@@ -1255,35 +1241,6 @@ onMounted(async () => {
   color: #1677ff;
 }
 
-:deep(.business-modal .ant-modal-content) {
-  overflow: hidden;
-}
-
-:deep(.business-modal .ant-modal-body) {
-  padding-top: 12px;
-  overflow-x: hidden;
-}
-
-:deep(.publish-modal .ant-modal) {
-  width: min(720px, 70vw) !important;
-  max-width: 70vw;
-}
-
-:deep(.resource-picker-modal .ant-modal) {
-  width: min(980px, 70vw) !important;
-  max-width: 70vw;
-}
-
-:deep(.resource-preview-modal .ant-modal) {
-  width: min(640px, 70vw) !important;
-  max-width: 70vw;
-}
-
-:deep(.form-modal .ant-modal) {
-  width: min(520px, 70vw) !important;
-  max-width: 70vw;
-}
-
 .color-picker-row {
   display: flex;
   align-items: center;
@@ -1308,6 +1265,18 @@ onMounted(async () => {
 .color-picker-input::-webkit-color-swatch {
   border: none;
   border-radius: 4px;
+}
+
+.dark-theme .writer-studio {
+  background: var(--console-bg);
+}
+
+.dark-theme .writer-studio__title {
+  color: var(--console-text);
+}
+
+.dark-theme .writer-studio__title::placeholder {
+  color: var(--console-text-tertiary);
 }
 
 .dark-theme .writer-studio__preview-board,
@@ -1443,6 +1412,113 @@ onMounted(async () => {
   .publish-resource-item__actions,
   .resource-picker-row__actions {
     justify-content: flex-end;
+  }
+}
+
+@media (max-width: 760px) {
+  .writer-studio {
+    padding: 12px 12px 20px;
+  }
+
+  .writer-studio__topbar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    padding: 4px 0 12px;
+  }
+
+  .writer-studio__actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .writer-studio__mode-switch {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .writer-studio__mode-switch :deep(.ant-segmented-group) {
+    width: 100%;
+  }
+
+  .writer-studio__mode-switch :deep(.ant-segmented-item) {
+    flex: 1;
+  }
+
+  .writer-studio__preview-board,
+  .writer-studio__editor {
+    height: calc(100dvh - var(--console-header-height) - 148px);
+    min-height: 360px;
+    border-radius: 8px;
+  }
+
+  .writer-studio__editor :deep(.md-editor-toolbar-wrapper) {
+    padding: 6px 8px;
+  }
+
+  .writer-studio__editor :deep(.cm-scroller) {
+    padding: 10px 0 16px;
+  }
+
+  .writer-studio__editor :deep(.cm-content) {
+    min-height: 0;
+    padding: 4px 12px 32px !important;
+  }
+
+  .writer-studio__editor--compare {
+    min-height: 560px;
+  }
+
+  /* 编辑器会以内联宽度布局左右分栏，窄屏将两个区域改为全宽并独立滚动。 */
+  .writer-studio__editor--compare :deep(.md-editor-content-wrapper) {
+    display: grid;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .writer-studio__editor--compare :deep(.md-editor-content-wrapper > .md-editor-custom-scrollbar) {
+    width: 100% !important;
+    min-height: 0;
+  }
+
+  .writer-studio__editor--compare :deep(.md-editor-resize-operate) {
+    display: none !important;
+  }
+
+  .writer-studio__editor--compare :deep(.md-editor-preview-wrapper) {
+    border-top: 1px solid var(--console-border);
+    border-left: 0;
+  }
+
+  .writer-studio__editor--compare :deep(.md-editor-preview) {
+    padding: 12px 14px 24px;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1024px) and (max-height: 520px) {
+  .writer-studio {
+    padding: 8px 16px 12px;
+  }
+
+  .writer-studio__topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 4px 0 8px;
+  }
+
+  .writer-studio__actions {
+    gap: 8px;
+  }
+
+  .writer-studio__mode-switch {
+    width: auto;
+  }
+
+  .writer-studio__preview-board,
+  .writer-studio__editor {
+    height: calc(100dvh - var(--console-header-height) - 72px);
+    min-height: 180px;
+    border-radius: 8px;
   }
 }
 </style>

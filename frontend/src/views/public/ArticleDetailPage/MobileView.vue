@@ -144,11 +144,11 @@
         :class="{ 'mobile-reader__actions--document': article.contentMode === 'document' }"
         aria-label="文章操作"
       >
-        <button type="button" :class="{ 'is-active is-like': likedByCurrentUser }" @click="toggleLike">
+        <button type="button" aria-label="点赞文章" :aria-pressed="likedByCurrentUser" :class="{ 'is-active is-like': likedByCurrentUser }" @click="toggleLike">
           <LikeOutlined />
           <span>{{ formatMetric(likeCount) }}</span>
         </button>
-        <button type="button" @click="openCommentDrawer">
+        <button type="button" aria-label="查看评论" @click="openCommentDrawer">
           <MessageOutlined />
           <span>{{ formatMetric(article.commentCount) }}</span>
         </button>
@@ -963,10 +963,6 @@ onBeforeRouteUpdate((to, from) => {
 }
 
 @media (orientation: landscape) and (max-height: 520px) {
-  .mobile-reader__actions {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-  }
-
   .mobile-reader__actions button {
     min-height: 44px;
     flex-direction: row;

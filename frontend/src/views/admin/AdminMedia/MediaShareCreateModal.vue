@@ -36,7 +36,13 @@
             <a-select v-model:value="form.expiryPreset" show-search option-filter-prop="label" :options="expiryOptions" />
           </a-form-item>
           <a-form-item v-if="form.expiryPreset === 'custom'" label="指定失效时间">
-            <a-date-picker v-model:value="form.customExpiresAt" show-time format="YYYY-MM-DD HH:mm" style="width: 100%" />
+            <a-date-picker
+              v-model:value="form.customExpiresAt"
+              :show-time="{ format: 'HH:mm' }"
+              format="YYYY-MM-DD HH:mm"
+              popup-class-name="share-expiry-picker-popup"
+              style="width: 100%"
+            />
           </a-form-item>
           <a-form-item label="访问人数上限">
             <div class="media-share-create__limit">
@@ -155,6 +161,8 @@ function openShareManagement() {
   router.push('/console/manage/media-shares')
 }
 </script>
+
+<style src="@/styles/share-expiry-picker.css"></style>
 
 <style scoped>
 .media-share-create__scroll { max-height: min(62vh, 590px); overflow-y: auto; padding-right: 2px; scrollbar-width: none; }

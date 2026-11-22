@@ -114,6 +114,7 @@ onMounted(loadSummary)
 .ledger-overview-page {
   min-width: 0;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
 }
 </style>

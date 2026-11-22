@@ -157,7 +157,6 @@
       :title="detailData?.title || '公告详情'"
       :footer="null"
       width="640px"
-      centered
       class="announce-detail-modal"
     >
       <template v-if="detailData">

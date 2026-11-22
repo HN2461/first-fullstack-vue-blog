@@ -2,7 +2,6 @@
   <a-modal
     :open="open"
     :footer="null"
-    centered
     width="min(1180px, calc(100vw - 32px))"
     :body-style="{ height: 'min(76vh, 760px)', overflow: 'hidden', padding: 0 }"
     @cancel="emit('update:open', false)"
@@ -247,6 +246,30 @@ onUnmounted(resetPreview)
 .share-preview-inspector__security div { display: grid; gap: 5px; }
 .share-preview-inspector__security strong { color: var(--share-text, var(--console-text)); font-size: 13px; }
 .share-preview-inspector__security span { color: var(--share-text-secondary, var(--console-text-secondary)); font-size: 12px; line-height: 1.65; }
-@media (max-width: 820px) { .share-preview-workspace { grid-template-columns: 1fr; grid-template-rows: minmax(360px, 55vh) auto; overflow-y: auto; scrollbar-width: none; } .share-preview-workspace::-webkit-scrollbar { display: none; } .share-preview-workspace__canvas { border-right: 0; border-bottom: 1px solid var(--share-border, var(--console-border)); } .share-preview-inspector { overflow: visible; } }
-@media (max-width: 480px) { .share-preview-workspace__toolbar { padding: 0 7px; } .share-preview-workspace__commands :deep(.ant-btn) { padding: 0 6px; } .share-preview-inspector { padding: 14px; } }
+@media (max-width: 820px) {
+  .share-preview-workspace {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(220px, 55dvh) auto;
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
+
+  .share-preview-workspace__canvas {
+    border-right: 0;
+    border-bottom: 1px solid var(--share-border, var(--console-border));
+  }
+
+  /* 图片适应窗口时可以直接滑到文件信息，放大后再接管拖动手势。 */
+  .share-preview-workspace__image-viewport { touch-action: pan-y; }
+  .share-preview-workspace__image-viewport.is-draggable { touch-action: none; }
+  .share-preview-inspector { overflow: visible; }
+}
+
+@media (max-width: 480px) {
+  .share-preview-workspace__canvas { grid-template-rows: auto minmax(0, 1fr); }
+  .share-preview-workspace__toolbar { flex-wrap: wrap; min-height: 46px; padding: 4px 7px; }
+  .share-preview-workspace__commands { min-width: 0; flex-wrap: wrap; }
+  .share-preview-workspace__commands :deep(.ant-btn) { padding: 0 6px; }
+  .share-preview-inspector { padding: 14px; }
+}
 </style>

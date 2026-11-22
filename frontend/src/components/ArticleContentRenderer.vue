@@ -8,7 +8,7 @@
   />
 
   <section v-else class="document-reader">
-    <div class="document-reader__toolbar">
+    <div class="document-reader__toolbar" :class="{ 'document-reader__toolbar--pdf': article.document?.previewUrl }">
       <div class="document-reader__identity">
         <span class="document-reader__file-icon" aria-hidden="true">
           <FileText :size="18" />
@@ -25,17 +25,30 @@
           </span>
         </div>
       </div>
-      <a-button
-        v-if="article.document?.originalUrl"
-        class="document-reader__download"
-        type="text"
-        :href="article.document.originalUrl"
-        target="_blank"
-        download
-      >
-        <template #icon><Download :size="16" /></template>
-        下载原件
-      </a-button>
+      <div class="document-reader__actions">
+        <a-button
+          v-if="article.document?.previewUrl"
+          class="document-reader__action"
+          type="text"
+          :href="article.document.previewUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <template #icon><ExternalLink :size="16" /></template>
+          打开 PDF
+        </a-button>
+        <a-button
+          v-if="article.document?.originalUrl"
+          class="document-reader__action"
+          type="text"
+          :href="article.document.originalUrl"
+          target="_blank"
+          download
+        >
+          <template #icon><Download :size="16" /></template>
+          下载原件
+        </a-button>
+      </div>
     </div>
 
     <iframe
@@ -74,7 +87,7 @@
 
 <script setup>
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
-import { Download, FileText } from '@lucide/vue'
+import { Download, ExternalLink, FileText } from '@lucide/vue'
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue'
 
 const props = defineProps({
@@ -239,8 +252,13 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
-.document-reader__download {
+.document-reader__actions {
+  display: flex;
   flex: 0 0 auto;
+  gap: 4px;
+}
+
+.document-reader__action {
   color: var(--primary-color);
   white-space: nowrap;
 }
@@ -322,13 +340,26 @@ onBeforeUnmount(() => {
     max-width: 52vw;
   }
 
-  .document-reader__download {
+  .document-reader__action {
     padding-inline: 8px;
   }
 
+  .document-reader__toolbar--pdf {
+    flex-wrap: wrap;
+  }
+
+  .document-reader__toolbar--pdf .document-reader__identity {
+    flex-basis: 100%;
+  }
+
+  .document-reader__toolbar--pdf .document-reader__actions {
+    justify-content: flex-end;
+    width: 100%;
+  }
+
   .document-reader__pdf {
-    height: 72vh;
-    min-height: 480px;
+    height: 72dvh;
+    min-height: 0;
   }
 
   .document-reader__docx-shell {
@@ -339,6 +370,13 @@ onBeforeUnmount(() => {
     padding: 24px 14px !important;
     overflow-wrap: anywhere;
     word-break: break-word;
+  }
+
+  /* 窄屏缩小了纸张内边距，页眉和页脚需要取消 Word 原始页边距带来的负偏移。 */
+  .document-reader__docx :deep(.docx-wrapper > section.docx > header),
+  .document-reader__docx :deep(.docx-wrapper > section.docx > footer) {
+    min-height: 0 !important;
+    margin-block: 0 !important;
   }
 
   .document-reader__docx :deep(table) {
@@ -362,6 +400,13 @@ onBeforeUnmount(() => {
 
   .document-reader__docx :deep(div:has(> img) > img) {
     width: 100% !important;
+  }
+}
+
+@media (min-width: 721px) and (max-height: 520px) {
+  .document-reader__pdf {
+    height: 72dvh;
+    min-height: 0;
   }
 }
 </style>

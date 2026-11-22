@@ -371,22 +371,20 @@
   font-weight: 500;
 }
 
-@media (max-width: 767px) {
-  :root:not(.dark-theme) {
-    --console-header-height: 56px;
-    --console-content-padding: 10px;
-    --console-page-gap: 10px;
-  }
+:root:not(.dark-theme)[data-device='mobile'] {
+  --console-header-height: 56px;
+  --console-content-padding: 10px;
+  --console-page-gap: 10px;
 
-  :root:not(.dark-theme) .ant-layout-header.enterprise-topnav {
+  .ant-layout-header.enterprise-topnav {
     gap: 0;
   }
 
-  :root:not(.dark-theme) .enterprise-topnav-brand {
+  .enterprise-topnav-brand {
     padding-inline: 8px;
   }
 
-  :root:not(.dark-theme) .enterprise-brand-icon {
+  .enterprise-brand-icon {
     width: 32px;
     height: 32px;
   }

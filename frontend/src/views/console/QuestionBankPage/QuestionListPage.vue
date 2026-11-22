@@ -32,7 +32,7 @@
         <a-select v-model:value="filters.difficulty" class="question-bank-filter" :options="difficultyOptions" allow-clear show-search option-filter-prop="label" placeholder="全部难度" @change="reload" />
         <a-select v-model:value="filters.status" class="question-bank-filter" :options="questionStatusOptions" allow-clear show-search option-filter-prop="label" placeholder="全部状态" @change="reload" />
         <a-tooltip title="管理技术分类">
-          <a-button @click="categoryDrawerOpen = true">
+          <a-button aria-label="管理技术分类" @click="categoryDrawerOpen = true">
             <template #icon><ApartmentOutlined /></template>
           </a-button>
         </a-tooltip>

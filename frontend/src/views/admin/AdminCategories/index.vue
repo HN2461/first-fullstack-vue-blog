@@ -788,6 +788,22 @@ function handleDelete(record) {
 }
 
 /* ── 响应式适配 ── */
+@media (max-width: 900px) {
+  .taxonomy-page {
+    height: auto;
+    overflow: visible;
+  }
+
+  .taxonomy-table-card,
+  .taxonomy-table {
+    flex-basis: auto;
+  }
+
+  .taxonomy-table :deep(.blog-table__pagination) {
+    padding-inline: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .taxonomy-topbar {
     flex-wrap: wrap;

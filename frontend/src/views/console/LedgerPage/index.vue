@@ -147,7 +147,7 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item v-if="exportForm.scope === 'custom'" label="时间范围">
-          <a-range-picker
+          <ResponsiveDateRange
             v-model:value="exportForm.range"
             class="ledger-export-range"
             format="YYYY-MM-DD"
@@ -175,6 +175,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message, Modal } from 'ant-design-vue'
 import { useAuthStore } from '@/stores/auth'
+import ResponsiveDateRange from '@/components/ResponsiveDateRange.vue'
 import LedgerCategoryDrawer from './LedgerCategoryDrawer.vue'
 import LedgerCategoryModal from './LedgerCategoryModal.vue'
 import LedgerEntryModal from './LedgerEntryModal.vue'
@@ -449,7 +450,7 @@ function toCsvRows(summary, insights) {
 
 async function exportAnalysis() {
   const range = exportForm.scope === 'custom' ? exportForm.range : queryRange.value
-  if (exportForm.scope === 'custom' && range.length !== 2) {
+  if (exportForm.scope === 'custom' && range?.length !== 2) {
     message.warning('请选择导出时间范围')
     return
   }
@@ -521,6 +522,8 @@ onMounted(async () => {
 <style scoped>
 .ledger-page {
   display: grid;
+  /* 图表的最小内容宽度不能把同级工具栏推到工作区之外。 */
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   min-width: 0;
 }

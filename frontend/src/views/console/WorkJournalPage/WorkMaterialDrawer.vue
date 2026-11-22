@@ -1,9 +1,9 @@
 <template>
   <a-drawer
     :open="open"
-    :width="560"
+    width="min(560px, 100vw)"
     :title="`补充资料 · ${employment?.company || ''}`"
-    :body-style="{ maxHeight: 'calc(100vh - 112px)', overflow: 'hidden' }"
+    :body-style="{ minHeight: 0, overflow: 'hidden' }"
     class="work-material-drawer"
     @close="close"
   >
@@ -45,9 +45,7 @@
                   <a-button type="text" size="small" aria-label="编辑资料" @click="openEdit(item)"><template #icon><PencilLine :size="15" /></template></a-button>
                 </a-tooltip>
                 <a-popconfirm title="删除这条补充资料？" ok-text="删除" cancel-text="取消" @confirm="remove(item)">
-                  <a-tooltip title="删除资料">
-                    <a-button type="text" size="small" danger aria-label="删除资料" :loading="deletingId === item.id"><template #icon><Trash2 :size="15" /></template></a-button>
-                  </a-tooltip>
+                  <a-button type="text" size="small" danger aria-label="删除资料" :loading="deletingId === item.id"><template #icon><Trash2 :size="15" /></template></a-button>
                 </a-popconfirm>
               </a-space>
             </div>

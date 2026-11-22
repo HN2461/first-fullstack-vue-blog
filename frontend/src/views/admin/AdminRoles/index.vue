@@ -116,12 +116,12 @@
     >
       <a-form ref="formRef" :model="form" :rules="rules" layout="vertical" class="rbac-form">
         <a-row :gutter="16">
-          <a-col :span="12">
+          <a-col :xs="24" :sm="12">
             <a-form-item label="角色名称" name="name">
               <a-input v-model:value="form.name" placeholder="例如：内容运营" :maxlength="40" />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :xs="24" :sm="12">
             <a-form-item label="角色编码" name="code">
               <a-input
                 v-model:value="form.code"
@@ -133,7 +133,7 @@
           </a-col>
         </a-row>
         <a-row :gutter="16">
-          <a-col :span="12">
+          <a-col :xs="24" :sm="12">
             <a-form-item label="状态" name="status">
               <a-segmented
                 v-model:value="form.status"
@@ -144,7 +144,7 @@
               />
             </a-form-item>
           </a-col>
-          <a-col :span="12">
+          <a-col :xs="24" :sm="12">
             <a-form-item label="排序" name="sortOrder">
               <a-input-number v-model:value="form.sortOrder" :min="0" :max="9999" style="width: 100%" />
             </a-form-item>
@@ -752,6 +752,12 @@ onMounted(loadPermissionTree)
 @media (max-width: 900px) {
   .rbac-page {
     height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .permission-picker-toolbar {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 </style>

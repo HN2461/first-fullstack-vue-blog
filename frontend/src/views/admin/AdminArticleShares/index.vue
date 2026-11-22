@@ -90,7 +90,15 @@
             <a-select v-model:value="form.expiryMode" :options="expiryOptions" />
           </a-form-item>
         </div>
-        <a-form-item v-if="form.expiryMode === 'custom'" label="失效时间"><a-date-picker v-model:value="form.expiresAt" show-time format="YYYY-MM-DD HH:mm" style="width: 100%" /></a-form-item>
+        <a-form-item v-if="form.expiryMode === 'custom'" label="失效时间">
+          <a-date-picker
+            v-model:value="form.expiresAt"
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
+            popup-class-name="share-expiry-picker-popup"
+            style="width: 100%"
+          />
+        </a-form-item>
         <a-alert v-if="createdCode" type="success" show-icon message="链接已生成" description="请及时复制提取码；之后仍可在共享详情中再次查看。" />
       </a-form>
     </a-modal>
@@ -118,7 +126,15 @@
         <a-form-item label="分享标题" required><a-input v-model:value="editForm.title" maxlength="120" show-count /></a-form-item>
         <a-form-item label="分享说明"><a-textarea v-model:value="editForm.description" :rows="3" maxlength="500" show-count /></a-form-item>
         <a-form-item label="有效期"><a-select v-model:value="editForm.expiryMode" :options="expiryOptions" /></a-form-item>
-        <a-form-item v-if="editForm.expiryMode === 'custom'" label="失效时间"><a-date-picker v-model:value="editForm.expiresAt" show-time format="YYYY-MM-DD HH:mm" style="width: 100%" /></a-form-item>
+        <a-form-item v-if="editForm.expiryMode === 'custom'" label="失效时间">
+          <a-date-picker
+            v-model:value="editForm.expiresAt"
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
+            popup-class-name="share-expiry-picker-popup"
+            style="width: 100%"
+          />
+        </a-form-item>
       </a-form>
     </a-modal>
   </section>
@@ -133,6 +149,7 @@ import { CopyOutlined, DeleteOutlined, EditOutlined, EyeOutlined, ExportOutlined
 import BlogTable from '@/components/BlogTable.vue'
 import { createAdminArticleShare, deleteAdminArticleShare, getAdminArticleShare, listAdminArticleShares, listArticleShareSources, revokeAdminArticleShare, updateAdminArticleShare } from '@/services/articleShare'
 import './article-shares.css'
+import '@/styles/share-expiry-picker.css'
 
 const tableRef = ref(null)
 const route = useRoute()

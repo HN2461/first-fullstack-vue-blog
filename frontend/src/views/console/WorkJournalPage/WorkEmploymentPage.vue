@@ -69,9 +69,7 @@
               cancel-text="取消"
               @confirm="remove(record)"
             >
-              <a-tooltip title="删除经历及其所有记录">
-                <a-button type="text" size="small" danger :aria-label="`删除 ${record.company} 工作经历`" :loading="deletingId === record.id"><template #icon><Trash2 :size="15" /></template></a-button>
-              </a-tooltip>
+              <a-button type="text" size="small" danger :aria-label="`删除 ${record.company} 工作经历`" :loading="deletingId === record.id"><template #icon><Trash2 :size="15" /></template></a-button>
             </a-popconfirm>
           </a-space>
         </template>
@@ -368,9 +366,10 @@ onMounted(async () => {
   padding-inline: 0;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
   .work-employment-page {
-    height: var(--console-page-available-height, calc(100vh - 130px));
+    height: auto;
+    overflow: visible;
   }
 
   .work-employment-page :deep(.ant-input-search) {

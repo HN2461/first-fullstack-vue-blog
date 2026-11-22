@@ -34,7 +34,7 @@
         <template v-else-if="column.key === 'createdAt'">{{ formatQuestionTime(record.createdAt) }}</template>
         <template v-else-if="column.key === 'action'">
           <a-tooltip :title="record.status === 'submitted' ? '查看答卷' : '继续作答'">
-            <a-button size="small" @click="router.push(`/console/question-bank/attempts/${record.id}`)"><template #icon><EyeOutlined /></template></a-button>
+            <a-button size="small" :aria-label="record.status === 'submitted' ? '查看答卷' : '继续作答'" @click="router.push(`/console/question-bank/attempts/${record.id}`)"><template #icon><EyeOutlined /></template></a-button>
           </a-tooltip>
         </template>
       </template>

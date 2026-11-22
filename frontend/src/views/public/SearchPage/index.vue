@@ -171,6 +171,8 @@ const suggestions = ref([])
 const showDropdown = ref(false)
 const activeDropdownIndex = ref(-1)
 let suggestTimeout = null
+let suggestionVersion = 0
+let searchVersion = 0
 
 const HISTORY_KEY = 'blog-search-history'
 const HISTORY_LIMIT = 10
@@ -224,9 +226,12 @@ async function syncRouteQuery() {
 }
 
 async function runSearch({ resetPage = false } = {}) {
+  const currentSearchVersion = ++searchVersion
+  const searchQuery = query.value
+  clearSuggestions()
   if (resetPage) currentPage.value = 1
 
-  if (!query.value) {
+  if (!searchQuery) {
     result.value = {
       items: [],
       total: 0,
@@ -238,6 +243,7 @@ async function runSearch({ resetPage = false } = {}) {
       meta: {}
     }
     searched.value = false
+    loading.value = false
     errorMessage.value = ''
     await syncRouteQuery()
     return
@@ -246,12 +252,12 @@ async function runSearch({ resetPage = false } = {}) {
   loading.value = true
   searched.value = true
   errorMessage.value = ''
-  showDropdown.value = false
   await syncRouteQuery()
+  if (currentSearchVersion !== searchVersion) return
 
   try {
     const params = {
-      q: query.value,
+      q: searchQuery,
       mode: matchMode.value,
       sort: sortBy.value,
       page: currentPage.value,
@@ -261,12 +267,14 @@ async function runSearch({ resetPage = false } = {}) {
     if (activeCategory.value) params.category = activeCategory.value
     if (activeTag.value) params.tag = activeTag.value
 
-    result.value = await searchPublicArticles(params)
-    saveHistory(query.value)
+    const nextResult = await searchPublicArticles(params)
+    if (currentSearchVersion !== searchVersion) return
+    result.value = nextResult
+    saveHistory(searchQuery)
   } catch (error) {
-    errorMessage.value = error.message || '搜索失败'
+    if (currentSearchVersion === searchVersion) errorMessage.value = error.message || '搜索失败'
   } finally {
-    loading.value = false
+    if (currentSearchVersion === searchVersion) loading.value = false
   }
 }
 
@@ -287,11 +295,21 @@ function handleInputFocus() {
   resetDropdownIndex()
 }
 
-function onInputChange() {
-  if (suggestTimeout) clearTimeout(suggestTimeout)
+function clearSuggestions() {
+  // 输入已变更或搜索已提交时，旧建议不能再被回车选中，也不能重新弹出。
+  suggestionVersion += 1
+  clearTimeout(suggestTimeout)
+  suggestions.value = []
+  showDropdown.value = false
+  activeDropdownIndex.value = -1
+}
 
-  if (!query.value) {
-    suggestions.value = []
+function onInputChange() {
+  clearSuggestions()
+  const currentSuggestionVersion = suggestionVersion
+  const suggestionQuery = query.value
+
+  if (!suggestionQuery) {
     showDropdown.value = searchHistory.value.length > 0
     resetDropdownIndex()
     return
@@ -299,14 +317,13 @@ function onInputChange() {
 
   suggestTimeout = setTimeout(async () => {
     try {
-      const response = await getSearchSuggestions({ q: query.value })
+      const response = await getSearchSuggestions({ q: suggestionQuery })
+      if (currentSuggestionVersion !== suggestionVersion) return
       suggestions.value = response.items || []
       showDropdown.value = suggestions.value.length > 0
       resetDropdownIndex()
     } catch {
-      suggestions.value = []
-      showDropdown.value = false
-      activeDropdownIndex.value = -1
+      if (currentSuggestionVersion === suggestionVersion) clearSuggestions()
     }
   }, 180)
 }
@@ -417,17 +434,7 @@ watch(() => route.query.q, async (nextValue) => {
     return
   }
 
-  searched.value = false
-  result.value = {
-    items: [],
-    total: 0,
-    page: 1,
-    pageSize: pageSize.value,
-    facets: { categories: [], tags: [] },
-    tookMs: 0,
-    terms: [],
-    meta: {}
-  }
+  await runSearch()
 })
 
 onMounted(async () => {
@@ -447,7 +454,8 @@ onMounted(async () => {
 
 onUnmounted(() => {
   document.removeEventListener('click', onDocumentClick)
-  if (suggestTimeout) clearTimeout(suggestTimeout)
+  clearSuggestions()
+  searchVersion += 1
 })
 </script>
 
@@ -664,6 +672,7 @@ onUnmounted(() => {
   color: var(--text-primary);
   font-size: 19px;
   line-height: 1.35;
+  overflow-wrap: anywhere;
   transition: color 0.18s ease;
 }
 

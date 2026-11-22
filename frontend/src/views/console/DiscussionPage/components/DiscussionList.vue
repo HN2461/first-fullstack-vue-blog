@@ -3,7 +3,7 @@
     <div class="discussion-list__toolbar">
       <a-input-search v-model:value="keyword" placeholder="筛选讨论" allow-clear />
       <a-tooltip title="新建讨论">
-        <a-button type="primary" @click="$emit('create')">
+        <a-button type="primary" aria-label="新建讨论" @click="$emit('create')">
           <template #icon><PlusOutlined /></template>
         </a-button>
       </a-tooltip>

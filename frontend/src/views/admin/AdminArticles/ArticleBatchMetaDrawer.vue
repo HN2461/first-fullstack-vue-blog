@@ -2,7 +2,7 @@
   <a-drawer
     :open="open"
     title="批量整理文章信息"
-    width="720"
+    width="min(720px, 100vw)"
     class="article-batch-meta-drawer"
     :body-style="{ padding: 0 }"
     @close="handleClose"

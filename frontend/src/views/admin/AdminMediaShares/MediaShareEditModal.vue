@@ -22,7 +22,13 @@
           <a-select v-model:value="form.expiryMode" :options="expiryOptions" />
         </a-form-item>
         <a-form-item v-if="form.expiryMode === 'custom'" label="失效时间">
-          <a-date-picker v-model:value="form.expiresAt" show-time format="YYYY-MM-DD HH:mm" style="width: 100%" />
+          <a-date-picker
+            v-model:value="form.expiresAt"
+            :show-time="{ format: 'HH:mm' }"
+            format="YYYY-MM-DD HH:mm"
+            popup-class-name="share-expiry-picker-popup"
+            style="width: 100%"
+          />
         </a-form-item>
         <a-form-item label="访问人数上限">
           <div class="share-edit-form__limit">
@@ -101,6 +107,8 @@ async function save() {
   }
 }
 </script>
+
+<style src="@/styles/share-expiry-picker.css"></style>
 
 <style scoped>
 .share-edit-form { max-height: 64vh; overflow-y: auto; padding-right: 2px; scrollbar-width: none; }

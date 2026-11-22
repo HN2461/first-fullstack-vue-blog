@@ -822,6 +822,7 @@ onBeforeRouteUpdate((to, from) => {
   line-height: 1.18;
   font-weight: 750;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 .doc-reader__meta {

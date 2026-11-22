@@ -3,12 +3,8 @@
     :open="open"
     :title="`${log?.id ? '编辑日报' : sourceLog?.id ? '复制日报' : '新增日报'} · ${employment?.company || ''}`"
     :width="980"
-    :confirm-loading="saving"
-    :body-style="{ maxHeight: '76vh', overflow: 'hidden' }"
+    :body-style="{ maxHeight: '70vh', overflowY: 'auto' }"
     wrap-class-name="work-journal-dialog"
-    ok-text="保存草稿"
-    cancel-text="取消"
-    @ok="save('draft')"
     @cancel="close"
   >
     <div class="work-log-editor">
@@ -70,14 +66,20 @@
         </a-form-item>
       </a-form>
 
+    </div>
+    <template #footer>
       <div class="work-log-editor__footer">
         <span>{{ sourceLog?.id ? '已复制日报内容，图片凭证不会复制；保存后默认是草稿。' : '保存后默认是草稿，可在详情中确认并定稿。' }}</span>
-        <a-button type="primary" :loading="saving" :disabled="!canFinalize" @click="save('final')">
-          <template #icon><CircleCheck :size="16" /></template>
-          保存并定稿
-        </a-button>
+        <a-space wrap>
+          <a-button @click="close">取消</a-button>
+          <a-button :loading="saving" @click="save('draft')">保存草稿</a-button>
+          <a-button type="primary" :loading="saving" :disabled="!canFinalize" @click="save('final')">
+            <template #icon><CircleCheck :size="16" /></template>
+            保存并定稿
+          </a-button>
+        </a-space>
       </div>
-    </div>
+    </template>
   </a-modal>
 </template>
 
@@ -189,17 +191,7 @@ watch(() => [props.open, props.log, props.sourceLog], ([visible]) => {
 </script>
 
 <style scoped>
-.work-log-editor {
-  max-height: calc(70vh - 24px);
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
 .work-log-editor > .ant-form {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
   padding: 2px 8px 4px 2px;
 }
 
@@ -280,13 +272,12 @@ watch(() => [props.open, props.log, props.sourceLog], ([visible]) => {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding-top: 12px;
-  border-top: 1px solid var(--console-border, #e5e7eb);
 }
 
 .work-log-editor__footer > span {
   color: var(--console-text-secondary, #667085);
   font-size: 12px;
+  text-align: left;
 }
 
 @media (max-width: 640px) {
@@ -296,8 +287,9 @@ watch(() => [props.open, props.log, props.sourceLog], ([visible]) => {
   }
 
   .work-log-editor__footer {
-    align-items: stretch;
+    align-items: flex-end;
     flex-direction: column;
+    gap: 8px;
   }
 }
 </style>

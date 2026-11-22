@@ -77,7 +77,7 @@
               @search="applyKeyword"
               @change="handleKeywordChange"
             />
-            <a-range-picker
+            <ResponsiveDateRange
               v-model:value="dateRange"
               class="online-users-date"
               format="YYYY-MM-DD"
@@ -220,6 +220,7 @@ import {
   WifiOutlined
 } from '@ant-design/icons-vue'
 import BlogTable from '@/components/BlogTable.vue'
+import ResponsiveDateRange from '@/components/ResponsiveDateRange.vue'
 import { listAdminOnlineUsers, revokeAdminOnlineSession } from '@/services/admin'
 import { getUserAvatar } from '@/utils/avatar'
 

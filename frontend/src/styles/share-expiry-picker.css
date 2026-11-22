@@ -1,0 +1,31 @@
+/* 分享失效时间同时展示日期和时分，窄屏需要为两个时间列保留触控空间。 */
+@media (max-width: 420px) {
+  .share-expiry-picker-popup .ant-picker-date-panel {
+    width: min(280px, calc(100vw - 108px));
+  }
+
+  .share-expiry-picker-popup .ant-picker-date-panel .ant-picker-body {
+    padding-inline: 6px;
+  }
+
+  .share-expiry-picker-popup .ant-picker-date-panel .ant-picker-content {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .share-expiry-picker-popup .ant-picker-date-panel .ant-picker-content th {
+    width: auto;
+  }
+
+  .share-expiry-picker-popup .ant-picker-time-panel .ant-picker-time-panel-column {
+    width: 42px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  .share-expiry-picker-popup .ant-picker-time-panel-cell .ant-picker-time-panel-cell-inner {
+    width: 100%;
+    padding-inline: 0;
+    text-align: center;
+  }
+}

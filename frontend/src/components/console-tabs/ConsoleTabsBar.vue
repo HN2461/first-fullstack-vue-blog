@@ -464,10 +464,4 @@ onBeforeUnmount(() => sortable?.destroy())
   outline: 2px solid var(--console-primary);
   outline-offset: -2px;
 }
-
-@media (max-width: 1024px) {
-  .console-tabs-bar {
-    display: none;
-  }
-}
 </style>

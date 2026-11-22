@@ -7,8 +7,9 @@
   --console-tabs-height: 48px;
   --console-content-padding: 20px;
   --console-page-gap: 16px;
+  --console-viewport-height: 100vh;
   --console-workspace-top-offset: var(--console-header-height);
-  --console-content-viewport-height: calc(100vh - var(--console-header-height));
+  --console-content-viewport-height: calc(var(--console-viewport-height) - var(--console-header-height));
   --console-page-available-height: calc(var(--console-content-viewport-height) - var(--console-content-padding) * 2);
   --console-bg: #f4f6f9;
   --console-surface: #ffffff;
@@ -64,8 +65,8 @@ body:has(.enterprise-admin-shell) {
 .enterprise-admin-shell {
   width: 100vw;
   min-width: 1024px;
-  height: 100vh;
-  min-height: 100vh;
+  height: var(--console-viewport-height);
+  min-height: var(--console-viewport-height);
   margin: 0;
   overflow: hidden;
   color: var(--console-text);
@@ -1414,21 +1415,14 @@ body:has(.enterprise-admin-shell) {
   background: var(--console-primary-soft);
 }
 
-@media (max-width: 1024px) {
-  body:has(.enterprise-admin-shell) {
-    overflow-x: auto;
-  }
-}
+/* 与 appStore 的移动布局共用状态，横屏触屏设备也需要完整的抽屉导航。 */
+:root[data-device='mobile'] {
+  --console-header-height: 56px;
+  --console-content-padding: 10px;
+  --console-page-gap: 10px;
 
-@media (max-width: 1024px) {
-  :root {
-    --console-header-height: 56px;
-    --console-content-padding: 10px;
-    --console-page-gap: 10px;
-  }
-
-  body:has(.enterprise-admin-shell) {
-    overflow: hidden;
+  @supports (height: 100dvh) {
+    --console-viewport-height: 100dvh;
   }
 
   .enterprise-admin-shell {
@@ -1516,8 +1510,8 @@ body:has(.enterprise-admin-shell) {
   .enterprise-console-body,
   .enterprise-main-layout,
   .enterprise-content {
-    height: calc(100vh - var(--console-header-height));
-    min-height: calc(100vh - var(--console-header-height));
+    height: var(--console-content-viewport-height);
+    min-height: var(--console-content-viewport-height);
   }
 
   .enterprise-content {
@@ -1584,6 +1578,9 @@ body:has(.enterprise-admin-shell) {
   }
 
   .enterprise-mobile-drawer .ant-drawer-body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     padding: 0;
     background: var(--console-surface);
   }
@@ -1611,6 +1608,7 @@ body:has(.enterprise-admin-shell) {
 
   .enterprise-mobile-root-tabs {
     display: flex;
+    flex: 0 0 auto;
     gap: 8px;
     padding: 10px;
     overflow-x: auto;
@@ -1645,7 +1643,9 @@ body:has(.enterprise-admin-shell) {
   }
 
   .enterprise-mobile-drawer .enterprise-menu {
-    height: calc(100vh - 56px - 65px);
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
     padding: 8px 10px 18px;
   }
 
@@ -1669,23 +1669,25 @@ body:has(.enterprise-admin-shell) {
  * 门户首页入口仍可从侧栏/菜单进入，因此在此断点收起该非核心图标，
  * 让品牌标题保持可读且不覆盖通知、更多和头像。 */
 @media (max-width: 360px) {
-  .enterprise-topnav-actions .ant-btn.enterprise-topnav-home {
-    display: none !important;
-  }
+  :root[data-device='mobile'] {
+    .enterprise-topnav-actions .ant-btn.enterprise-topnav-home {
+      display: none !important;
+    }
 
-  .enterprise-topnav-brand {
-    gap: 6px;
-    padding-inline: 4px;
-  }
+    .enterprise-topnav-brand {
+      gap: 6px;
+      padding-inline: 4px;
+    }
 
-  .enterprise-topnav-brand strong {
-    max-width: 78px;
-  }
+    .enterprise-topnav-brand strong {
+      max-width: 78px;
+    }
 
-  .enterprise-topnav-actions .ant-btn.enterprise-icon-action,
-  .enterprise-profile-button {
-    width: 36px;
-    min-width: 36px;
+    .enterprise-topnav-actions .ant-btn.enterprise-icon-action,
+    .enterprise-profile-button {
+      width: 36px;
+      min-width: 36px;
+    }
   }
 }
 

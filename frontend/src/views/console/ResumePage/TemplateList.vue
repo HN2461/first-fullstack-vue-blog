@@ -52,7 +52,7 @@
           <p>{{ template.description }}</p>
           <div class="resume-action-row">
             <a-tooltip title="预览模板">
-              <a-button :loading="previewingKey === template.key" @click="previewTemplate(template)">
+              <a-button :loading="previewingKey === template.key" :aria-label="`预览模板：${template.name}`" @click="previewTemplate(template)">
                 <template #icon><EyeOutlined /></template>
               </a-button>
             </a-tooltip>

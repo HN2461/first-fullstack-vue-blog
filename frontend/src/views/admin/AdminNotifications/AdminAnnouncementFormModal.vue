@@ -5,7 +5,6 @@
     :confirm-loading="submitting"
     width="760px"
     :mask-closable="false"
-    centered
     class="announce-form-modal"
     @cancel="$emit('close')"
     @update:open="handleOpenChange"
@@ -36,7 +35,7 @@
       </a-form-item>
 
       <a-row :gutter="16">
-        <a-col :span="12">
+        <a-col :xs="24" :sm="12">
           <a-form-item label="公告级别">
             <a-select v-model:value="form.level" show-search option-filter-prop="label">
               <a-select-option value="info" label="功能更新">
@@ -51,7 +50,7 @@
             </a-select>
           </a-form-item>
         </a-col>
-        <a-col :span="12">
+        <a-col :xs="24" :sm="12">
           <a-form-item label="上下架状态">
             <a-switch
               v-model:checked="form.isActive"

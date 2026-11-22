@@ -1,5 +1,6 @@
 .question-attempt-page {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   min-width: 0;
 }
@@ -94,12 +95,14 @@
 
 .question-attempt-answer {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   margin-top: 20px;
 }
 
 .question-attempt-options {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   width: 100%;
 }
@@ -112,6 +115,13 @@
   border: 1px solid var(--console-border, #d9d9d9);
   border-radius: 6px;
   color: var(--console-text, #101828);
+}
+
+/* 长代码标识符可出现在选项中，允许文字换行并保留独立的选择控件。 */
+.question-attempt-options .ant-radio-wrapper > span:last-child,
+.question-attempt-options .ant-checkbox-wrapper > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .question-attempt-options .ant-radio-wrapper-checked,
@@ -290,7 +300,7 @@
 
 @media (max-width: 900px) {
   .question-attempt-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .question-attempt-sheet {
