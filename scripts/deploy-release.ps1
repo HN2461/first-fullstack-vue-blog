@@ -5,6 +5,7 @@ param(
   [switch]$SkipChecks,
   [switch]$SkipPackage,
   [switch]$RunDatabaseTasks,
+  [switch]$RunArticleRevisionIndex,
   [switch]$RunFeedbackMigration,
   [switch]$ResetBookmarkData,
   [switch]$ClearQuestionBankHistory
@@ -16,7 +17,7 @@ $root = Resolve-Path (Join-Path $PSScriptRoot '..')
 $includeFrontend = $Target -in @('full', 'frontend')
 $includeBackend = $Target -in @('full', 'backend')
 
-if (($RunDatabaseTasks -or $RunFeedbackMigration -or $ResetBookmarkData -or $ClearQuestionBankHistory) -and -not $includeBackend) {
+if (($RunDatabaseTasks -or $RunArticleRevisionIndex -or $RunFeedbackMigration -or $ResetBookmarkData -or $ClearQuestionBankHistory) -and -not $includeBackend) {
   throw '数据库任务、书签重置和题库历史清理必须和 backend 或 full 发布目标一起使用。'
 }
 if ($BackendTestFiles.Count -gt 0 -and -not $includeBackend) {
@@ -45,12 +46,14 @@ function Invoke-Step {
 
 if (-not $SkipChecks) {
   if ($includeFrontend) {
-    Invoke-Step -Title '前端构建' -Action {
+    Invoke-Step -Title '前端测试与构建' -Action {
       if (Test-Path -LiteralPath (Join-Path $root 'frontend\dist')) {
         Remove-Item -LiteralPath (Join-Path $root 'frontend\dist') -Recurse -Force
       }
       Push-Location (Join-Path $root 'frontend')
       try {
+        npm run test
+        if ($LASTEXITCODE -ne 0) { throw '前端测试失败，停止发布。' }
         npm run build
         if ($LASTEXITCODE -ne 0) { throw '前端构建失败，停止发布。' }
       } finally {
@@ -103,6 +106,7 @@ $env:DEPLOY_RELEASE_ID = Get-Date -Format 'yyyyMMdd-HHmmss'
 $env:DEPLOY_RESET_BOOKMARK_DATA = $(if ($ResetBookmarkData) { '1' } else { '0' })
 $env:DEPLOY_CLEAR_QUESTION_BANK_HISTORY = $(if ($ClearQuestionBankHistory) { '1' } else { '0' })
 $env:DEPLOY_RUN_DATABASE_TASKS = $(if ($RunDatabaseTasks) { '1' } else { '0' })
+$env:DEPLOY_RUN_ARTICLE_REVISION_INDEX = $(if ($RunArticleRevisionIndex) { '1' } else { '0' })
 $env:DEPLOY_RUN_FEEDBACK_MIGRATION = $(if ($RunFeedbackMigration) { '1' } else { '0' })
 
 if (($includeFrontend -and -not (Test-Path -LiteralPath $frontendZip)) -or
@@ -113,6 +117,7 @@ if (($includeFrontend -and -not (Test-Path -LiteralPath $frontendZip)) -or
 Invoke-Step -Title '上传并部署到服务器' -Action {
   @'
 import os
+import re
 import sys
 import time
 import paramiko
@@ -137,8 +142,8 @@ if publish_backend:
 
 script = r"""set -euo pipefail
 
-RELEASE_DIR=/www/personal-blog/backups/release-$(date +%Y%m%d-%H%M%S)
-mkdir -p "$RELEASE_DIR"
+RELEASE_DIR=/www/personal-blog/backups/release-__RELEASE_ID__
+mkdir -m 700 "$RELEASE_DIR"
 PUBLISH_FRONTEND=__PUBLISH_FRONTEND__
 PUBLISH_BACKEND=__PUBLISH_BACKEND__
 BACKUP_RUNTIME_DATA=__BACKUP_RUNTIME_DATA__
@@ -236,7 +241,7 @@ if [ "$PUBLISH_BACKEND" = "1" ]; then
 
   echo "[17/20] Local health"
   for i in 1 2 3 4 5; do
-    if curl -fsS http://127.0.0.1:3001/api/health; then echo; break; fi
+    if curl --max-time 4 -fsS http://127.0.0.1:3001/api/ready; then echo; break; fi
     sleep 2
     if [ "$i" = "5" ]; then exit 4; fi
   done
@@ -286,15 +291,6 @@ fi
 
 __POST_DATABASE_CHECKS__
 
-echo "[20/20] Remove expired rollback copies"
-PROJECT_BYTES_BEFORE=$(du -sb /www/personal-blog | awk '{print $1}')
-find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%T@ %p\0' \
-  | sort -z -nr \
-  | tail -z -n +3 \
-  | cut -z -d' ' -f2- \
-  | xargs -0 -r rm -rf --
-PROJECT_BYTES_AFTER=$(du -sb /www/personal-blog | awk '{print $1}')
-echo "CLEANUP_BYTES=$((PROJECT_BYTES_BEFORE - PROJECT_BYTES_AFTER))"
 echo "RETAINED_RELEASES"
 find /www/personal-blog/backups -mindepth 1 -maxdepth 1 -type d -name 'release-*' -printf '%TY-%Tm-%Td %TH:%TM %p\n' | sort
 echo "[20/20] Finalize deployment and sizes"
@@ -313,6 +309,9 @@ script = script.replace('__BOOKMARK_RESET_STEP__', bookmark_reset_step)
 question_bank_history_step = 'npm run question-bank:history:clear:apply' if clear_question_bank_history else "echo 'Question bank history cleanup skipped'"
 script = script.replace('__QUESTION_BANK_HISTORY_STEP__', question_bank_history_step)
 script = script.replace('__PUBLISH_FRONTEND__', '1' if publish_frontend else '0')
+if not re.fullmatch(r'[0-9]{8}-[0-9]{6}', release_id):
+    raise ValueError('Invalid release id')
+script = script.replace('__RELEASE_ID__', release_id)
 script = script.replace('__PUBLISH_BACKEND__', '1' if publish_backend else '0')
 script = script.replace('__BACKUP_RUNTIME_DATA__', '1' if run_database_tasks else '0')
 nginx_setup = r"""echo "[14/20] Ensure large upload proxy configuration"
@@ -422,6 +421,11 @@ npm run menu:page-cache:apply
 npm run menu:page-cache:dry-run'''
 if not run_database_tasks:
     database_steps = "echo 'Database tasks skipped; use -RunDatabaseTasks for migrations and idempotent seed operations'"
+if os.environ.get('DEPLOY_RUN_ARTICLE_REVISION_INDEX') == '1':
+    # 后端切换之前已成功备份数据库，此处只初始化修订唯一索引。
+    database_steps += '\nnode src/scripts/ensureArticleRevisionIndexes.js'
+    database_steps += '\nnode src/scripts/ensureArticleRevisionIndexes.js --apply'
+    database_steps += '\nnode src/scripts/ensureArticleRevisionIndexes.js --verify'
 script = script.replace('__DATABASE_TASKS__', database_steps)
 if os.environ.get('DEPLOY_RUN_FEEDBACK_MIGRATION') == '1':
     # 发布脚本已在替换后端前完成 mongodump；仅运行本次反馈需要的菜单与索引初始化。
@@ -483,6 +487,10 @@ finally:
 
 Invoke-Step -Title '公网健康检查' -Action {
   $health = Invoke-WebRequest -Uri "http://$($env:DEPLOY_HOST)/api/health" -UseBasicParsing -TimeoutSec 20
+  if ($includeBackend) {
+    $ready = Invoke-RestMethod -Uri "http://$($env:DEPLOY_HOST)/api/ready" -TimeoutSec 8
+    if ($ready.data.status -ne 'ready') { throw '公网服务就绪检查失败。' }
+  }
   $homeResponse = Invoke-WebRequest -Uri "http://$($env:DEPLOY_HOST)/" -UseBasicParsing -TimeoutSec 20
   Write-Host $health.Content
   Write-Host "HOME_STATUS=$($homeResponse.StatusCode)"
@@ -549,14 +557,20 @@ except Exception:
     raise
 print(json.dumps(payload, ensure_ascii=False))
 PY
+python3 - "$RELEASE_ID" "$RELEASE_TARGET" <<'ROTATE'
+__ROLLBACK_RETENTION__
+ROTATE
 """
 script = script.replace('__TARGET__', target).replace('__RELEASE_ID__', release_id)
+from pathlib import Path
+rotation = Path(os.environ['DEPLOY_PROJECT_ROOT']) / 'scripts' / 'recovery' / 'release_retention.py'
+script = script.replace('__ROLLBACK_RETENTION__', rotation.read_text(encoding='utf-8'))
 
 client = paramiko.SSHClient()
 client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 client.connect(hostname=host, username=user, password=password, timeout=20, banner_timeout=20, auth_timeout=20)
 try:
-    stdin, stdout, stderr = client.exec_command('bash -se', get_pty=False, timeout=60)
+    stdin, stdout, stderr = client.exec_command('bash -se', get_pty=False, timeout=600)
     stdin.write(script)
     stdin.channel.shutdown_write()
     channel = stdout.channel
