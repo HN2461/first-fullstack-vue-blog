@@ -1,3 +1,4 @@
+import { readableArticleFilter } from '#modules/content/services/articleAudience.service.js'
 import bcrypt from 'bcryptjs'
 import { ARTICLE_STATUS, BUILTIN_ROLE_CODES, COMMENT_STATUS, USER_GENDERS, USER_STATUS } from '#constants/domain'
 import { Article } from '#modules/content/models/Article.js'
@@ -71,11 +72,10 @@ export async function createComment(input, user) {
   return comment.toSafeJSON()
 }
 
-export async function listVisibleComments(articleId) {
+export async function listVisibleComments(articleId, currentUserId = null) {
   const articleExists = await Article.exists({
     _id: articleId,
-    status: ARTICLE_STATUS.PUBLISHED,
-    deletedAt: null
+    ...readableArticleFilter(currentUserId)
   })
   if (!articleExists) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')

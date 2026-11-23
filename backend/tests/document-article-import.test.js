@@ -99,11 +99,13 @@ describe('document article import', () => {
 
     const detailResponse = await request(app)
       .get(`/api/public/articles/${imported.slug}`)
+      .set('Authorization', `Bearer ${token}`)
       .expect(200)
     expect(detailResponse.body.data.document.originalName).toBe('quarter-review.docx')
 
     const searchResponse = await request(app)
       .get('/api/public/search')
+      .set('Authorization', `Bearer ${token}`)
       .query({ q: '预算调整' })
       .expect(200)
     expect(searchResponse.body.data.items.map((item) => item.slug)).toContain(imported.slug)

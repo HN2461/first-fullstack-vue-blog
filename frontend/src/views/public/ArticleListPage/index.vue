@@ -3,6 +3,7 @@
     <header class="csdn-index__head">
       <h2>{{ pageTitle }}</h2>
       <div class="csdn-index__count">
+        <a-checkbox v-if="inConsole" :checked="favorites" @change="changeFavorites">我的收藏</a-checkbox>
         <span v-if="loading && hasArticles" class="csdn-index__syncing">正在同步</span>
         <span>{{ result.total }} 篇文章</span>
         <span>{{ pageSize }} 条/页</span>
@@ -40,7 +41,7 @@
 
         <a-empty v-if="result.items.length === 0" description="暂无符合条件的文章">
           <template #description>
-            <p>当前条件下没有文章</p>
+            <p>{{ favorites ? '当前条件下还没有收藏的文章' : '当前条件下没有文章' }}</p>
           </template>
         </a-empty>
       </template>
@@ -82,6 +83,7 @@ const result = ref({
 let articleRequestId = 0
 
 const inConsole = computed(() => route.path.startsWith('/console'))
+const favorites = computed(() => inConsole.value && route.query.favorites === '1')
 const hasArticles = computed(() => result.value.items.length > 0)
 const pageTitle = computed(() => {
   if (route.params.category) return `分类 / ${decodeURIComponent(route.params.category)}`
@@ -121,6 +123,7 @@ async function loadArticles() {
 
   try {
     const nextResult = await listPublicArticles({
+      favorites: favorites.value ? '1' : undefined,
       category: route.params.category,
       tag: route.params.tag,
       page: currentPage.value,
@@ -136,6 +139,11 @@ async function loadArticles() {
       loading.value = false
     }
   }
+}
+
+function changeFavorites(event) {
+  const query = { ...route.query, page: undefined, favorites: event.target.checked ? '1' : undefined }
+  return router.push({ query })
 }
 
 async function refreshFromRoute() {

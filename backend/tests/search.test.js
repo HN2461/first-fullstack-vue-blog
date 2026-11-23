@@ -1,6 +1,8 @@
 import request from 'supertest'
 import { ARTICLE_STATUS, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
+import { Reaction } from '#modules/interaction/models/Reaction.js'
+import { signAccessToken } from '#utils/jwt.js'
 import { createApp } from '../src/app.js'
 import { Article } from '#modules/content/models/Article.js'
 import { User } from '#modules/user/models/User.js'
@@ -15,7 +17,7 @@ import {
 
 async function createAdmin() {
   return User.create({
-    username: 'admin',
+    username: 'admin-' + Math.random().toString(36).slice(2, 9),
     email: `admin-${Date.now()}-${Math.random()}@example.com`,
     passwordHash: 'hashed-password',
     role: USER_ROLES.ADMIN
@@ -51,6 +53,7 @@ describe('search routes', () => {
       contentMarkdown: '# MongoDB 索引优化\n\n复合索引是提升查询性能的关键手段。ESR 原则帮助你正确排列索引字段顺序。',
       category: category.id,
       tags: [tag.id],
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED
     }, admin)
 
@@ -61,6 +64,7 @@ describe('search routes', () => {
       contentMarkdown: '# Express 中间件\n\n中间件是 Express 的核心概念，理解洋葱模型对编写高效 Node.js 应用至关重要。',
       category: category.id,
       tags: [tag.id],
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED
     }, admin)
 
@@ -71,6 +75,7 @@ describe('search routes', () => {
       contentMarkdown: '# 全栈 API 实战\n\n本文通过 Node.js、Express 与 MongoDB 组合构建企业知识库接口，包含索引、检索与性能调优。',
       category: category.id,
       tags: [tag.id],
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED,
       isRecommended: true
     }, admin)
@@ -80,6 +85,7 @@ describe('search routes', () => {
       slug: 'vue3-composition-api',
       summary: '深入理解 Vue3 Composition API 的设计理念与最佳实践',
       contentMarkdown: '# Vue3 组合式 API\n\nComposition API 让逻辑复用更加灵活，是 Vue3 最重要的特性之一。',
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED
     }, admin)
 
@@ -99,6 +105,37 @@ describe('search routes', () => {
 
   afterAll(async () => {
     await disconnectTestDatabase()
+  })
+
+  it('返回真实代码片段和同一原文行，在已有摘要时也能定位含符号的查询', async () => {
+    const article = await Article.findOne({ slug: 'express-middleware' })
+    article.contentMarkdown = ['# 示例', '', '## 配置', '```js', 'const cache_key = "<mark>"', '```'].join('\n')
+    await article.save()
+    const { body } = await request(createApp()).get('/api/public/search').query({ q: 'cache_key <mark>' }).expect(200)
+    expect(body.data.items[0]).toMatchObject({ slug: article.slug, matchLine: 5, matchSection: '配置' })
+    expect(body.data.items[0].highlightedSnippet).toContain('<mark>&lt;mark&gt;</mark>')
+    expect(body.data.items[0].snippet).toContain('const cache_key')
+  })
+
+  it('只返回当前账号仍可阅读的收藏，分页总数排除草稿和其他人的收藏', async () => {
+    const app = createApp()
+    const other = await createAdmin()
+    const [published, draft, otherArticle] = await Promise.all([
+      Article.findOne({ slug: 'express-middleware' }), Article.findOne({ slug: 'mongodb-draft' }),
+      Article.findOne({ slug: 'mongodb-index-guide' })
+    ])
+    await Reaction.insertMany([[admin, published], [admin, draft], [other, otherArticle]].map(([user, article]) => ({
+      user: user._id, targetType: 'article', targetId: article._id, type: 'favorite'
+    })))
+    const query = { favorites: '1', pageSize: 1, user: other.id }
+    await request(app).get('/api/public/articles').query(query).expect(401)
+    const auth = { Authorization: 'Bearer ' + signAccessToken(admin) }
+    const { body } = await request(app).get('/api/public/articles').query(query).set(auth).expect(200)
+    expect(body.data.total).toBe(1)
+    expect(body.data.items[0].id).toBe(published.id)
+    await Reaction.deleteOne({ user: admin._id, targetId: published._id, type: 'favorite' })
+    const cleared = await request(app).get('/api/public/articles').query(query).set(auth).expect(200)
+    expect(cleared.body.data.total).toBe(0)
   })
 
   it('returns search results with relevance scoring', async () => {

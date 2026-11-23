@@ -36,9 +36,9 @@
         <div class="todo-sidebar__section-title todo-sidebar__section-title--lists">
           <span>我的清单</span>
         </div>
-        <div v-if="visibleLists.length" class="todo-list-nav">
+        <div v-if="lists.length" class="todo-list-nav">
           <button
-            v-for="list in visibleLists"
+            v-for="list in lists"
             :key="list.id"
             type="button"
             :class="['todo-list-nav__item', { 'todo-list-nav__item--active': selectedListId === list.id }]"
@@ -50,6 +50,9 @@
           </button>
         </div>
         <div v-else class="todo-sidebar__empty">还没有清单</div>
+        <a-pagination v-if="listTotal > listPageSize" size="small" simple
+          :current="listPage" :total="listTotal" :page-size="listPageSize"
+          :show-size-changer="false" @change="changeListPage" />
       </aside>
 
       <main class="todo-workspace">
@@ -289,11 +292,11 @@ const editingItem = ref(null)
 const listForm = reactive({ title: '', type: 'daily', planDate: '', isPinned: false })
 const itemForm = reactive({ title: '', note: '', priority: 'medium' })
 
-const visibleLists = computed(() => {
-  if (currentView.value === 'archived') return lists.value.filter((list) => list.status === 'archived')
-  if (currentView.value === 'today') return lists.value.filter((list) => list.status === 'active' && isToday(list.planDate))
-  return lists.value.filter((list) => list.status === 'active')
-})
+const listPage = ref(1)
+const listTotal = ref(0)
+const listPageSize = 30
+let listGeneration = 0
+let detailGeneration = 0
 const selectedList = computed(() => lists.value.find((list) => list.id === selectedListId.value) || null)
 const selectedProgress = computed(() => {
   if (!selectedList.value?.itemCount) return 0
@@ -302,15 +305,6 @@ const selectedProgress = computed(() => {
 
 function getListTypeMeta(type) {
   return listTypeMeta[type] || listTypeMeta.custom
-}
-
-function isToday(value) {
-  if (!value) return false
-  const date = new Date(value)
-  const now = new Date()
-  return date.getFullYear() === now.getFullYear()
-    && date.getMonth() === now.getMonth()
-    && date.getDate() === now.getDate()
 }
 
 function formatDate(value) {
@@ -324,46 +318,67 @@ function toDateInputValue(value) {
   return value ? formatDate(value) : ''
 }
 
-async function loadLists(preferredId = selectedListId.value) {
-  const result = await listTodoLists({ status: currentView.value === 'archived' ? 'archived' : 'active' })
-  lists.value = result.items || []
-  const visible = visibleLists.value
-  const nextId = visible.find((list) => list.id === preferredId)?.id || visible[0]?.id || ''
-  selectedListId.value = nextId
-  if (nextId) await loadSelectedList(nextId)
-  else items.value = []
-}
-
 async function loadSelectedList(id) {
+  const version = ++detailGeneration
   const detail = await getTodoList(id)
+  if (version !== detailGeneration || selectedListId.value !== id) return
   const index = lists.value.findIndex((list) => list.id === id)
   if (index >= 0) lists.value[index] = detail
   items.value = detail.items || []
 }
 
 async function refreshAll(preferredId = selectedListId.value) {
+  const selectionAtStart = selectedListId.value
+  const version = ++listGeneration
+  ++detailGeneration
   loading.value = true
   errorMessage.value = ''
   try {
-    await loadLists(preferredId)
+    const result = await listTodoLists({
+      date: currentView.value === 'today' ? 'today' : undefined,
+      status: currentView.value === 'archived' ? 'archived' : 'active',
+      page: listPage.value,
+      pageSize: listPageSize
+    })
+    if (version !== listGeneration) return
+    listTotal.value = result.total
+    const lastPage = Math.max(1, Math.ceil(result.total / listPageSize))
+    if (listPage.value > lastPage) return changeListPage(lastPage)
+    lists.value = result.items
+    // 列表刷新期间仍可点选清单，以用户最后一次点击为准。
+    const wantedId = selectedListId.value !== selectionAtStart ? selectedListId.value : preferredId
+    const nextId = lists.value.find((list) => list.id === wantedId)?.id || lists.value[0]?.id || ''
+    if (selectedListId.value !== nextId) items.value = []
+    selectedListId.value = nextId
+    if (nextId) await loadSelectedList(nextId)
   } catch (error) {
-    errorMessage.value = error.message || '待办清单加载失败'
+    if (version === listGeneration) errorMessage.value = error.message || '待办清单加载失败'
   } finally {
-    loading.value = false
+    if (version === listGeneration) loading.value = false
   }
+}
+
+function changeListPage(page) {
+  listPage.value = page
+  lists.value = []
+  selectedListId.value = ''
+  items.value = []
+  return refreshAll('')
 }
 
 async function selectView(view) {
   currentView.value = view
-  await refreshAll('')
+  listTotal.value = 0
+  await changeListPage(1)
 }
 
 async function selectList(id) {
   selectedListId.value = id
+  items.value = []
   try {
     await loadSelectedList(id)
   } catch (error) {
-    message.error(error.message || '清单加载失败')
+    if (selectedListId.value === id) message.error(error.message || '清单加载失败')
   }
 }
 
@@ -428,12 +443,14 @@ function handleListAction({ key }) {
 }
 
 function removeListWithConfirm() {
+  const list = selectedList.value
+  if (!list) return
   Modal.confirm({
-    title: '确定删除这张清单及其全部事项吗？',
+    title: '确定删除「' + list.title + '」及其全部事项吗？',
     okText: '删除',
     cancelText: '取消',
     okType: 'danger',
-    onOk: removeList
+    onOk: () => removeList(list.id)
   })
 }
 
@@ -447,12 +464,11 @@ async function patchList(payload, successText) {
   }
 }
 
-async function removeList() {
-  if (!selectedList.value) return
+async function removeList(id) {
   try {
-    await deleteTodoList(selectedList.value.id)
+    await deleteTodoList(id)
     message.success('清单已删除')
-    await refreshAll('')
+    await refreshAll()
   } catch (error) {
     message.error(error.message || '清单删除失败')
   }

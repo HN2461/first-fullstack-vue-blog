@@ -77,7 +77,12 @@ export const router = createRouter({
           name: 'Home',
           component: HomePage,
           meta: { title: '首页' }
-        }
+        },
+        { path: 'articles', name: 'PublicArticles', component: ArticleListPage, meta: { title: '公开文章' } },
+        { path: 'articles/:slug', name: 'PublicArticle', component: ArticleDetailPage, meta: { title: '文章详情' } },
+        { path: 'categories/:category', component: ArticleListPage, meta: { title: '分类文章' } },
+        { path: 'tags/:tag', component: ArticleListPage, meta: { title: '标签文章' } },
+        { path: 'search', name: 'PublicSearch', component: SearchPage, meta: { title: '搜索公开文章' } }
       ]
     },
     {
@@ -594,16 +599,7 @@ router.beforeEach(async (to) => {
   }
 
   const consoleTarget = getConsoleTargetForLegacyPath(to)
-  if (consoleTarget) {
-    if (authStore.isLoggedIn) {
-      return consoleTarget
-    }
-
-    return {
-      name: 'Login',
-      query: { redirect: router.resolve(consoleTarget).fullPath }
-    }
-  }
+  if (consoleTarget && authStore.isLoggedIn) return consoleTarget
 
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return {

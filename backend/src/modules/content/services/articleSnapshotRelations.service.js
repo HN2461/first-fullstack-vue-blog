@@ -3,6 +3,8 @@ import path from 'node:path'
 import mongoose from 'mongoose'
 import { env } from '../../../config/env.js'
 import { Article } from '../models/Article.js'
+import { ArticleRevision } from '../models/ArticleRevision.js'
+import { MediaReference } from '#modules/media/models/MediaReference.js'
 import { Category } from '../models/Category.js'
 import { Tag } from '../models/Tag.js'
 import { Media } from '#modules/media/models/Media.js'
@@ -14,15 +16,18 @@ export async function createArticleSnapshotBackup(relatedMediaIds) {
   fs.mkdirSync(backupDir, { recursive: true })
   const stamp = new Date().toISOString().replace(/[:.]/g, '-')
   const backupPath = path.join(backupDir, `article-snapshot-before-${stamp}.ejson`)
+  const articleReferences = await MediaReference.find({ targetType: 'article' }).lean()
   const data = {
     createdAt: new Date(),
     collections: {
-      articles: await Article.find({}).lean(),
+      articles: await Article.find({}).select('+workingDraft').lean(),
+      articlerevisions: await ArticleRevision.find({}).lean(),
+      mediareferences: articleReferences,
       categories: await Category.find({}).lean(),
       tags: await Tag.find({}).lean(),
       comments: await Comment.find({}).lean(),
       reactions: await Reaction.find({}).lean(),
-      media: await Media.find({ _id: { $in: relatedMediaIds } }).lean()
+      media: await Media.find({ _id: { $in: [...relatedMediaIds, ...articleReferences.map((row) => row.mediaId)] } }).lean()
     }
   }
   fs.writeFileSync(backupPath, mongoose.mongo.BSON.EJSON.stringify(data, null, 2, { relaxed: false }), 'utf8')
@@ -65,7 +70,9 @@ export async function remapArticleRelations(remaps) {
     const [comments, reactions, media] = await Promise.all([
       Comment.updateMany({ article: remap.from }, { $set: { article: remap.to } }),
       Reaction.updateMany({ targetType: 'article', targetId: remap.from }, { $set: { targetId: remap.to } }),
-      Media.updateMany({ article: remap.from }, { $set: { article: remap.to } })
+      Media.updateMany({ article: remap.from }, { $set: { article: remap.to } }),
+      ArticleRevision.updateMany({ articleId: remap.from }, { $set: { articleId: remap.to } }),
+      MediaReference.updateMany({ targetType: 'article', targetId: String(remap.from) }, { $set: { targetId: String(remap.to) } })
     ])
     summary.comments += comments.modifiedCount || 0
     summary.reactions += reactions.modifiedCount || 0

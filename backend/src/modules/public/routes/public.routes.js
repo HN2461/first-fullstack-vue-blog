@@ -12,12 +12,14 @@ import { getFestivalCalendar, getFestivalYear } from '#modules/festival/services
 
 export const publicRouter = Router()
 
+publicRouter.use(optionalAuth)
+
 publicRouter.get('/home', asyncHandler(async (req, res) => {
-  res.json(ok(await getPublicHomeData()))
+  res.json(ok(await getPublicHomeData(req.user?._id)))
 }))
 
 publicRouter.get('/knowledge-menu', asyncHandler(async (req, res) => {
-  res.json(ok(await getKnowledgeMenuData()))
+  res.json(ok(await getKnowledgeMenuData(req.user?._id)))
 }))
 
 publicRouter.get('/site/profile', asyncHandler(async (req, res) => {
@@ -49,7 +51,6 @@ publicRouter.get('/festivals/year', asyncHandler(async (req, res) => {
   res.json(ok(await getFestivalYear(year)))
 }))
 
-publicRouter.use(optionalAuth)
 
 publicRouter.get('/announcements', asyncHandler(async (req, res) => {
   const userId = req.user?._id || null
@@ -84,15 +85,15 @@ publicRouter.post('/announcements/read-all', requireAuth, asyncHandler(async (re
 }))
 
 publicRouter.get('/articles', asyncHandler(async (req, res) => {
-  res.json(ok(await listPublicArticles(req.query)))
+  res.json(ok(await listPublicArticles(req.query, req.user?._id)))
 }))
 
 publicRouter.get('/search/suggest', asyncHandler(async (req, res) => {
-  res.json(ok(await getSearchSuggestions(req.query)))
+  res.json(ok(await getSearchSuggestions(req.query, req.user?._id)))
 }))
 
 publicRouter.get('/search', asyncHandler(async (req, res) => {
-  res.json(ok(await searchArticles(req.query)))
+  res.json(ok(await searchArticles(req.query, req.user?._id)))
 }))
 
 publicRouter.get('/articles/:slug', asyncHandler(async (req, res) => {
@@ -100,5 +101,5 @@ publicRouter.get('/articles/:slug', asyncHandler(async (req, res) => {
 }))
 
 publicRouter.get('/articles/:id/comments', asyncHandler(async (req, res) => {
-  res.json(ok(await listVisibleComments(req.params.id)))
+  res.json(ok(await listVisibleComments(req.params.id, req.user?._id)))
 }))

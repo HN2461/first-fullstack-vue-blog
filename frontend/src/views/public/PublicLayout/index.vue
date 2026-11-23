@@ -10,8 +10,9 @@
       </router-link>
 
       <nav class="public-nav">
+        <router-link to="/search">搜索文章</router-link>
         <router-link v-if="authStore.isLoggedIn" class="public-console-link" to="/console">进入知识库</router-link>
-        <router-link v-else class="public-console-link" to="/login">登录 / 注册</router-link>
+        <router-link v-else class="public-console-link" :to="{ path: '/login', query: route.path === '/' ? {} : { redirect: route.fullPath } }">登录 / 注册</router-link>
       </nav>
     </header>
 

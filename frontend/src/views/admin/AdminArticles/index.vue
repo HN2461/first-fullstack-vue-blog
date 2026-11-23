@@ -52,6 +52,7 @@
           change-on-select
           show-search
         />
+        <a-checkbox v-model:checked="reviewDue">到期需复核</a-checkbox>
         <a-button @click="resetFilters">重置</a-button>
       </template>
 
@@ -81,6 +82,7 @@
             <div class="article-meta-line">
               <a-tag :bordered="false" color="processing">{{ getStatusLabel(record.status) }}</a-tag>
               <span>{{ record.category?.name || '未分类' }}</span>
+              <span>{{ record.audience === 'public' ? '访客公开' : '成员可读' }}</span>
               <span v-if="record.tags?.length">{{ formatTagSummary(record.tags) }}</span>
             </div>
           </div>
@@ -148,6 +150,7 @@
                     <EditOutlined /> 转为草稿
                   </a-menu-item>
                   <a-menu-divider />
+                  <a-menu-item key="review">阅读范围与内容复核</a-menu-item>
                   <a-menu-item v-if="record.status === 'published'" key="share">
                     <LinkOutlined /> 生成共享阅读链接
                   </a-menu-item>
@@ -161,6 +164,7 @@
         </template>
       </template>
     </BlogTable>
+    <ArticleReviewModal :article="reviewArticle" @close="reviewArticle = null" @saved="reviewArticle = null; tableRef?.refresh()" />
 
     <ArticleBatchMetaDrawer
       v-model:open="batchMetaVisible"
@@ -193,6 +197,7 @@
 </template>
 
 <script setup>
+import ArticleReviewModal from './ArticleReviewModal.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {
@@ -232,6 +237,8 @@ const searchKeyword = ref('')
 const debouncedKeyword = ref('')
 const filterStatus = ref('all')
 const filterCategoryPath = ref([])
+const reviewArticle = ref(null)
+const reviewDue = ref(false)
 const categoryLoading = ref(false)
 const selectedArticleIds = ref([])
 const { runAction, confirmAction } = useAdminActions()
@@ -284,6 +291,7 @@ const {
 
 // 筛选参数：变化时 BlogTable 自动重新加载
 const filterParams = computed(() => ({
+  reviewDue: reviewDue.value || undefined,
   status: filterStatus.value === 'all' ? undefined : filterStatus.value,
   category: selectedCategoryId.value,
   keyword: debouncedKeyword.value || undefined
@@ -369,6 +377,10 @@ function openArticle(record) {
 }
 
 function handleAction(key, record) {
+  if (key === 'review') {
+    reviewArticle.value = record
+    return
+  }
   if (key === 'share') {
     router.push({ path: '/console/manage/article-shares', query: { articleId: record.id } })
     return
@@ -407,6 +419,7 @@ function resetFilters() {
   searchKeyword.value = ''
   debouncedKeyword.value = ''
   filterStatus.value = 'all'
+  reviewDue.value = false
   filterCategoryPath.value = []
   clearSelection()
 }

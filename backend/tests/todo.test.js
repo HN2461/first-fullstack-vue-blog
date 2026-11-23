@@ -8,6 +8,7 @@ import { TodoItem } from '#modules/todo/models/TodoItem.js'
 import { TodoList } from '#modules/todo/models/TodoList.js'
 import { ensureRbacSeed } from '#modules/rbac/services/rbac.service.js'
 import { signAccessToken } from '../src/utils/jwt.js'
+import { getBusinessDate } from '#utils/businessDate.js'
 import {
   clearTestDatabase,
   connectTestDatabase,
@@ -48,6 +49,23 @@ describe('todo routes', () => {
 
   afterAll(async () => {
     await disconnectTestDatabase()
+  })
+
+  it('filters today before paging and reads only own completed items for a journal date', async () => {
+    await TodoList.insertMany(Array.from({ length: 33 }, (_, i) => ({
+      title: '旧清单' + i, createdBy: user._id, planDate: new Date('2020-01-01')
+    })))
+    const list = await TodoList.create({ title: '今日清单', createdBy: user._id, planDate: new Date(getBusinessDate()) })
+    const auth = 'Bearer ' + token
+    const today = await request(app).get('/api/todos?date=today&status=active').set('Authorization', auth).expect(200)
+    expect(today.body.data.items.map((row) => row.title)).toEqual(['今日清单'])
+    const row = { listId: list._id, completed: true, completedAt: new Date('2026-02-11T16:15:00Z') }
+    await TodoItem.insertMany([{ ...row, title: '我的交付', createdBy: user._id },
+      { ...row, title: '别人的交付', createdBy: otherUser._id },
+      { ...row, title: '撤销完成', createdBy: user._id, completed: false }])
+    const completed = await request(app).get('/api/todos/completed?date=2026-02-12').set('Authorization', auth).expect(200)
+    expect(completed.body.data.items.map((item) => item.title)).toEqual(['我的交付'])
+    await request(app).get('/api/todos/completed?date=2026-02-31').set('Authorization', auth).expect(400)
   })
 
   it('creates an independent checklist and manages its items', async () => {

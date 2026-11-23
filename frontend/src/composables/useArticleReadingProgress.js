@@ -163,6 +163,7 @@ export function useArticleReadingProgress({ authStore, getScrollTarget }) {
     lastSavedSnapshot = { ...currentSnapshot, savedAt: Date.now() }
     progressPercent.value = currentSnapshot.progressPercent
     attachListeners()
+    if (options.skipResume) return
 
     let savedProgress = null
     if (authStore.isLoggedIn) {

@@ -6,6 +6,7 @@
         class="writer-studio__title"
         type="text"
         maxlength="120"
+        :disabled="saving || publishing"
         placeholder="输入文章标题"
         @input="handleTitleInput"
       >
@@ -17,12 +18,13 @@
           class="writer-studio__mode-switch"
           :options="viewModeOptions"
         />
-        <a-button :loading="saving" @click="saveDraft">保存草稿</a-button>
-        <a-button type="primary" :loading="publishing" @click="openPublishModal">发布</a-button>
+        <a-button v-if="editorState?.publishedRevision" @click="historyOpen = true">发布历史</a-button>
+        <a-button :loading="saving" :disabled="publishing || loading" @click="saveDraft">保存草稿</a-button>
+        <a-button type="primary" :loading="publishing" :disabled="saving || loading" @click="openPublishModal">发布</a-button>
       </div>
     </header>
 
-    <div class="writer-studio__body">
+    <div class="writer-studio__body" :inert="saving || publishing || loading">
       <div v-if="viewMode === 'preview'" class="writer-studio__preview-board">
         <div class="writer-studio__preview-header">
           <h1>{{ form.title.trim() || '无标题文章' }}</h1>
@@ -74,7 +76,12 @@
       @ok="confirmPublish"
       @cancel="closePublishModal"
     >
-      <div>
+      <div :inert="publishing">
+        <a-collapse v-if="editorState?.published" ghost>
+          <a-collapse-panel key="diff" header="与已发布版本比较">
+            <ArticleRevisionDiff :before="editorState.published" :after="normalizeArticlePayload()" :categories="categories" :tags="tags" />
+          </a-collapse-panel>
+        </a-collapse>
         <a-form layout="vertical" class="publish-form">
           <a-form-item label="文章摘要">
             <a-textarea
@@ -180,6 +187,31 @@
 
     <ResourcePicker v-model:open="resourcePickerVisible" scene="article-resource" :selected-ids="publishForm.resources.map((item) => item.mediaId).filter(Boolean)" @select="selectArticleResource" />
     <ResourcePreview v-model:open="resourcePreviewVisible" :resource="resourcePreviewItem" />
+    <ArticleRevisionHistory
+      :open="historyOpen"
+      :article-id="articleId"
+      :current="normalizeArticlePayload()"
+      :categories="categories"
+      :tags="tags"
+      @close="historyOpen = false"
+      @restore="restoreWorking"
+    />
+    <a-modal :open="!!conflictState" title="核对其他修改" width="800px" :footer="null" @cancel="conflictState = null">
+      <div v-if="conflictState" class="edit-conflict">
+        <ArticleRevisionDiff
+          :before="conflictState.baseChanged ? conflictState.published : conflictState.working"
+          :after="normalizeArticlePayload()"
+          :before-label="conflictState.baseChanged ? '最新发布稿' : '服务器最新稿件'"
+          after-label="本窗口稿件"
+          :categories="categories"
+          :tags="tags"
+        />
+        <a-space wrap>
+          <a-button @click="resolveConflict(true)">载入服务器稿件</a-button>
+          <a-button @click="resolveConflict(false)">保留本窗口稿件并继续编辑</a-button>
+        </a-space>
+      </div>
+    </a-modal>
 
     <a-modal
       v-model:open="categoryModalVisible"
@@ -242,12 +274,12 @@ import {
   createAdminArticle,
   createAdminCategory,
   createAdminTag,
-  getAdminArticle,
   listAllAdminCategories,
   listAllAdminTags,
-  publishAdminArticle,
-  updateAdminArticle,
 } from '@/services/admin'
+import { getArticleEditor, saveArticleEdit } from '@/services/articleEditor'
+import ArticleRevisionHistory from './ArticleRevisionHistory.vue'
+import ArticleRevisionDiff from './ArticleRevisionDiff.vue'
 import { useUnsavedChanges } from '@/composables/useAdminUi'
 
 const route = useRoute()
@@ -258,6 +290,10 @@ const articleId = computed(() => route.params.id)
 const loading = ref(false)
 const saving = ref(false)
 const publishing = ref(false)
+const editorState = ref(null)
+const conflictState = ref(null)
+const acknowledgedBase = ref(false)
+const historyOpen = ref(false)
 const optionLoading = ref(false)
 const optionsLoaded = ref(false)
 const publishModalVisible = ref(false)
@@ -460,12 +496,43 @@ async function ensureOptionsLoaded() {
 
 async function loadArticle() {
   if (!articleId.value) return
-  const article = await getAdminArticle(articleId.value)
+  const article = await getArticleEditor(articleId.value)
   if (article.contentMode === 'document') {
     await router.replace(`/console/manage/articles/${article.id}/read`)
     return
   }
-  applyArticleToForm(article)
+  editorState.value = article
+  applyArticleToForm({ ...article.working, status: article.status })
+  acknowledgedBase.value = false
+  if (article.baseChanged) conflictState.value = article
+}
+
+function restoreWorking(content) {
+  applyArticleToForm({ ...content, status: form.status })
+  historyOpen.value = false
+  message.info('历史版本已载入，可继续修改、保存草稿或发布')
+}
+
+function resolveConflict(useServer) {
+  editorState.value = conflictState.value
+  acknowledgedBase.value = true
+  if (useServer) {
+    const content = editorState.value.baseChanged ? editorState.value.published : editorState.value.working
+    applyArticleToForm({ ...content, status: editorState.value.status })
+    if (!editorState.value.baseChanged) markClean({ title: form.title.trim(), contentMarkdown: form.contentMarkdown, publish: normalizePublishPayload() })
+  }
+  conflictState.value = null
+}
+
+async function reportWriteError(error, fallback) {
+  message.error(error.message || fallback)
+  if (error.code !== 'ARTICLE_EDIT_CONFLICT' || !articleId.value) return
+  try {
+    conflictState.value = await getArticleEditor(articleId.value)
+    publishModalVisible.value = false
+  } catch (readError) {
+    message.error(readError.message || '读取最新稿件失败')
+  }
 }
 
 function validateWritingContent() {
@@ -500,14 +567,21 @@ function validatePublishPayload() {
   return true
 }
 
-async function ensureDraftSaved() {
+async function persistEditor(publish = false) {
   const payload = normalizeArticlePayload('draft')
-  const saved = articleId.value
-    ? await updateAdminArticle(articleId.value, payload)
-    : await createAdminArticle(payload)
-
-  applyArticleToForm(saved)
-  return saved
+  if (!articleId.value) {
+    const saved = await createAdminArticle({ ...payload, status: publish ? 'published' : 'draft' })
+    if (publish) return
+    pauseTracking()
+    await router.replace(`/console/manage/articles/${saved.id}`)
+    editorState.value = await getArticleEditor(saved.id)
+    return
+  }
+  if (!editorState.value) throw new Error('未读取到文章编辑状态，请刷新后重试')
+  const state = await saveArticleEdit(articleId.value, editorState.value.token, payload, publish, acknowledgedBase.value)
+  editorState.value = state
+  acknowledgedBase.value = false
+  form.status = state.status
 }
 
 async function saveDraft() {
@@ -517,12 +591,7 @@ async function saveDraft() {
 
   saving.value = true
   try {
-    const saved = await ensureDraftSaved()
-
-    if (!articleId.value && saved?.id) {
-      pauseTracking()
-      await router.replace(`/console/manage/articles/${saved.id}`)
-    }
+    await persistEditor()
 
     markClean({
       title: form.title.trim(),
@@ -531,7 +600,7 @@ async function saveDraft() {
     })
     message.success('草稿已保存')
   } catch (error) {
-    message.error(error.message || '保存失败')
+    await reportWriteError(error, '保存失败')
   } finally {
     saving.value = false
   }
@@ -711,14 +780,7 @@ async function confirmPublish() {
 
   publishing.value = true
   try {
-    const saved = await ensureDraftSaved()
-
-    if (!articleId.value && saved?.id) {
-      pauseTracking()
-      await router.replace(`/console/manage/articles/${saved.id}`)
-    }
-
-    await publishAdminArticle(saved.id)
+    await persistEditor(true)
     form.status = 'published'
     publishModalVisible.value = false
     markClean({
@@ -729,7 +791,7 @@ async function confirmPublish() {
     message.success('文章已发布')
     await router.push('/console/manage/articles')
   } catch (error) {
-    message.error(error.message || '发布失败')
+    await reportWriteError(error, '发布失败')
   } finally {
     publishing.value = false
   }
@@ -772,6 +834,7 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.edit-conflict { max-height: min(65vh, 680px); overflow: auto; }
 .writer-studio {
   display: flex;
   flex-direction: column;

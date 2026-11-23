@@ -56,6 +56,12 @@
         <section class="feedback-detail__section" aria-labelledby="feedback-description-title">
           <h3 id="feedback-description-title">反馈内容</h3>
           <p class="feedback-detail__description">{{ detail.content }}</p>
+          <p v-if="detail.articleId">
+            <router-link :to="{ path: detail.sourcePath, hash: detail.articleAnchor ? '#' + detail.articleAnchor : '' }">
+              {{ detail.articleSection || '查看文章' }}
+            </router-link>
+            · 提交时发布版本 V{{ detail.articleRevision }}
+          </p>
           <FeedbackAttachments :attachments="detail.attachments" />
           <details v-if="detail.sourcePath || detail.environment" class="feedback-detail__context">
             <summary>页面与环境信息</summary>

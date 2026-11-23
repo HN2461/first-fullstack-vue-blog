@@ -50,6 +50,7 @@ describe('interaction routes', () => {
       title: '互动文章',
       slug: `interaction-${Date.now()}`,
       contentMarkdown: '# 互动文章',
+      audience: 'public',
       status: 'published'
     }, admin)
   })

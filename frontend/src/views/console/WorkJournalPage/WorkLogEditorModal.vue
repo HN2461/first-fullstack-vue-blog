@@ -38,6 +38,7 @@
 
         <div class="work-log-editor__section-title">工作记录</div>
         <a-form-item label="今日完成">
+          <CompletedTodoPicker v-if="open && authStore.canAccessPath('/console/todos')" :date="form.workDate || ''" @insert="insertCompletedTodos" />
           <a-textarea v-model:value="form.accomplishments" :maxlength="10000" :auto-size="{ minRows: 3, maxRows: 7 }" placeholder="记录完成事项、交付结果和相关沟通" />
         </a-form-item>
         <div class="work-log-editor__grid">
@@ -88,6 +89,8 @@ import { computed, defineAsyncComponent, reactive, ref, watch } from 'vue'
 import { message } from 'ant-design-vue'
 import { CircleCheck } from '@lucide/vue'
 import { useAppStore } from '@/stores/app'
+import { useAuthStore } from '@/stores/auth'
+import CompletedTodoPicker from './CompletedTodoPicker.vue'
 import { createWorkLog, updateWorkLog } from '@/services/workJournal'
 import { calculateAttendancePreview, formatAttendanceMinutes } from '@/utils/attendance'
 import 'md-editor-v3/lib/style.css'
@@ -107,6 +110,16 @@ const emit = defineEmits(['update:open', 'saved'])
 const saving = ref(false)
 const formRef = ref(null)
 const appStore = useAppStore()
+const authStore = useAuthStore()
+
+function insertCompletedTodos(titles) {
+  const lines = (form.accomplishments || '').split('\n')
+  const existing = new Set(lines.map((line) => line.replace(/^\s*[-*]\s+/, '').trim()))
+  const additions = [...new Set(titles)].filter((title) => !existing.has(title))
+  const next = [form.accomplishments, ...additions.map((title) => '- ' + title)].filter(Boolean).join('\n')
+  if (next.length > 10000) return message.warning('超出今日完成字数上限，请减少所选事项')
+  form.accomplishments = next
+}
 const form = reactive(createEmptyForm())
 const rules = {
   employmentId: [{ required: true, message: '请选择工作经历', trigger: 'change' }],

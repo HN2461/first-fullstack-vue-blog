@@ -11,6 +11,7 @@ import { Role } from '#modules/rbac/models/Role.js'
 import { Menu } from '#modules/rbac/models/Menu.js'
 import { Media } from '#modules/media/models/Media.js'
 import { Notification } from '#modules/notification/models/Notification.js'
+import { Article } from '#modules/content/models/Article.js'
 import { Feedback } from '#modules/feedback/models/Feedback.js'
 import { FeedbackEvent } from '#modules/feedback/models/FeedbackEvent.js'
 import { flushFeedbackNotifications } from '#modules/feedback/services/feedbackNotification.service.js'
@@ -83,6 +84,19 @@ describe('意见反馈完整流程', () => {
   afterAll(async () => {
     vi.restoreAllMocks()
     await disconnectTestDatabase()
+  })
+
+  it('文章纠错保留读者所见历史版本、章节和来源，拒绝未来版本', async () => {
+    const article = await Article.create({
+      title: '技术文章', slug: 'reader-corrections', createdBy: manager._id, updatedBy: manager._id,
+      status: 'published', publishedRevision: 3
+    })
+    const payload = { articleId: article.id, articleRevision: 2, articleSection: '安装', articleAnchor: '安装' }
+    const response = await submit(payload).expect(201)
+    expect(response.body.data).toMatchObject({ ...payload, sourcePath: '/console/article-directory/articles/reader-corrections' })
+    await submit({ ...payload, articleRevision: 4 }).expect(400)
+    await Article.updateOne({ _id: article._id }, { status: 'draft' })
+    await submit(payload).expect(400)
   })
 
   it('私有提交、分页和幂等重试，并且不保存来源查询参数', async () => {

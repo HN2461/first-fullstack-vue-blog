@@ -262,6 +262,15 @@ async function buildDatabaseDocuments(snapshot, localArticles, localCategories, 
       category,
       tags: tagIds,
       status: PUBLISH_ALL ? 'published' : record.status,
+      // 工作草稿、历史版本以及访问/复核策略属于运行数据；按已核对的文章身份保留。
+      workingDraft: existing?.workingDraft,
+      editSequence: existing?.editSequence,
+      publishedRevision: existing?.publishedRevision,
+      revisionPublishedAt: existing?.revisionPublishedAt,
+      audience: existing?.audience || 'members',
+      applicableVersion: existing?.applicableVersion,
+      verifiedOn: existing?.verifiedOn,
+      nextReviewOn: existing?.nextReviewOn,
       isRecommended: Boolean(existing?.isRecommended),
       viewCount: Number(existing?.viewCount) || 0,
       likeCount: Number(existing?.likeCount) || 0,
@@ -299,7 +308,7 @@ async function buildDatabaseDocuments(snapshot, localArticles, localCategories, 
 async function replaceArticles(snapshot) {
   const [adminUser, localArticles, localCategories, localTags] = await Promise.all([
     findPreferredArticleAuthor(),
-    Article.find({}).lean(),
+    Article.find({}).select('+workingDraft').lean(),
     Category.find({}).lean(),
     Tag.find({}).lean()
   ])

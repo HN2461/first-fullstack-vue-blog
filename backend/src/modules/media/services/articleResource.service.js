@@ -9,10 +9,11 @@ import { getResourcePath, getResourceId } from './resourceIdentity.service.js'
  * @param {object} article 待保存文章。
  * @param {object} actor 当前作者或管理员。
  * @param {Function} save 文章保存回调。
+ * @param {string} field 当前发布正文、工作草稿或历史版本的独立引用字段。
  * @returns {Promise<*>} 保存结果；不存在的历史外链继续按外链处理。
  * @throws {Error} 受管文件已删除、私有或不存在时拒绝保存。
  */
-export async function saveArticleResources(article, actor, save) {
+export async function saveArticleResources(article, actor, save, field = 'resources') {
   const sourceUrls = [article.cover, ...extractArticleContentMediaUrls(article.contentMarkdown),
     ...(article.resources || []).map((item) => item.url), article.document?.originalUrl, article.document?.previewUrl].filter(Boolean)
   const urls = [...new Set(sourceUrls.flatMap((url) => [url, getResourcePath(url)]).filter(Boolean))]
@@ -25,7 +26,7 @@ export async function saveArticleResources(article, actor, save) {
   const found = new Set(media.map((item) => String(item._id)))
   if (ids.some((id) => !found.has(id))) throw resourceError(400, 'ARTICLE_RESOURCE_MISSING', '部分文章文件不存在，请重新选择')
   return saveResourceBindings({
-    targetType: 'article', targetId: article._id, field: 'resources', ownerId: article.createdBy || actor?._id,
+    targetType: 'article', targetId: article._id, field, ownerId: article.createdBy || actor?._id,
     mediaIds: media.map((item) => item._id), state: article.deletedAt ? 'retained' : 'active',
     validate: (item) => {
       if (item.accessScope !== 'public') throw resourceError(403, 'ARTICLE_PRIVATE_RESOURCE', '私人附件不能直接用于文章，请选择公开素材')
@@ -37,9 +38,10 @@ export async function saveArticleResources(article, actor, save) {
  * 彻底删除文章时解除其文件关系，其余业务的引用继续保留。
  * @param {string} articleId 服务端确认的文章 ID。
  * @param {Function} save 执行文章删除的持久化回调。
+ * @param {string} field 要解除的独立引用字段。
  * @returns {Promise<*>} 回调结果。
  * @throws {Error} 删除或引用更新失败时抛出，遵循保守保留规则。
  */
-export function releaseArticleResources(articleId, save) {
-  return saveResourceBindings({ targetType: 'article', targetId: articleId, field: 'resources', mediaIds: [] }, save)
+export function releaseArticleResources(articleId, save, field = 'resources') {
+  return saveResourceBindings({ targetType: 'article', targetId: articleId, field, mediaIds: [] }, save)
 }

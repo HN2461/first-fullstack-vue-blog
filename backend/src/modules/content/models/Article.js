@@ -142,6 +142,15 @@ const articleSchema = new mongoose.Schema(
       enum: Object.values(ARTICLE_STATUS),
       default: ARTICLE_STATUS.DRAFT
     },
+    // 工作副本只在有文章管理权限的编辑接口显式读取，列表、分享和导出默认只拿到发布内容。
+    workingDraft: { type: mongoose.Schema.Types.Mixed, select: false },
+    editSequence: { type: Number },
+    publishedRevision: { type: Number },
+    revisionPublishedAt: { type: Date },
+    audience: { type: String, enum: ['members', 'public'], default: 'members' },
+    applicableVersion: { type: String, default: '', maxlength: 100 },
+    verifiedOn: { type: String, default: '' },
+    nextReviewOn: { type: String, default: '' },
     isRecommended: {
       type: Boolean,
       default: false
@@ -292,6 +301,11 @@ articleSchema.methods.toSafeJSON = function toSafeJSON(options = {}) {
     category,
     tags,
     status: this.status,
+    audience: this.audience || 'members',
+    applicableVersion: this.applicableVersion || '',
+    verifiedOn: this.verifiedOn || '',
+    nextReviewOn: this.nextReviewOn || '',
+    publishedRevision: this.publishedRevision ?? (this.publishedAt || this.status === ARTICLE_STATUS.PUBLISHED ? 1 : 0),
     isRecommended: this.isRecommended,
     viewCount: this.viewCount,
     likeCount: this.likeCount,

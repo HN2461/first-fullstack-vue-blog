@@ -1,6 +1,7 @@
 import { Resume } from '#modules/resume/models/Resume.js'
 import { getResourcePath, getResourceAliases } from './resourceIdentity.service.js'
 import { Article } from '#modules/content/models/Article.js'
+import { ArticleRevision } from '#modules/content/models/ArticleRevision.js'
 import { Setting } from '#modules/settings/models/Setting.js'
 import { User } from '#modules/user/models/User.js'
 import {
@@ -336,7 +337,31 @@ export function summarizeMediaReferences(references = []) {
 }
 
 export async function findMediaReferences(media) {
-  return mergeResourceReferences(await findLegacyMediaReferences(media), await getIndexedResourceReferences(media?._id))
+  const [legacy, indexed] = await Promise.all([findLegacyMediaReferences(media), getIndexedResourceReferences(media?._id)])
+  const refs = mergeResourceReferences(legacy, indexed)
+  if (refs.length || !media?._id) return refs
+  // 删除判断的最后一道检查：新引用索引缺失时，直接向工作稿、历史正文核实。
+  const variants = getMediaUrlVariants(media)
+  function conditions(prefix) {
+    return [
+      { [prefix + '.resources.mediaId']: { $in: [String(media._id), media._id] } },
+      ...(variants.length ? [
+        { [prefix + '.cover']: getAddressRegex(variants) },
+        { [prefix + '.resources.url']: getAddressRegex(variants) },
+        { [prefix + '.contentMarkdown']: new RegExp(variants.map(escapeRegex).join('|')) }
+      ] : [])
+    ]
+  }
+  const [draft, history] = await Promise.all([
+    Article.findOne({ $or: conditions('workingDraft') }).select('title slug status deletedAt updatedAt').lean(),
+    ArticleRevision.findOne({ $or: conditions('content') }).select('articleId number').lean()
+  ])
+  if (draft) refs.push({ ...buildArticleReference(draft, 'articleResource'), typeLabel: '文章工作草稿' })
+  if (history) refs.push({
+    type: 'articleResource', typeLabel: '文章历史版本', ownerId: String(history.articleId), ownerTitle: '第 ' + history.number + ' 版',
+    routePath: '/console/manage/articles/' + history.articleId, routeQuery: {}
+  })
+  return refs
 }
 
 async function findLegacyMediaReferences(media) {

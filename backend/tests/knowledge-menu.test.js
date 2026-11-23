@@ -43,6 +43,7 @@ describe('knowledge menu routes', () => {
       summary: '菜单只需要轻量信息',
       contentMarkdown: '# 正文',
       category: category.id,
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED
     }, admin)
   })
@@ -89,6 +90,7 @@ describe('knowledge menu routes', () => {
       summary: '',
       contentMarkdown: '# 正文',
       category: category.id,
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED,
       sortOrder: (index + 2) * 10,
       publishedAt: new Date(),

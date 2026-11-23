@@ -124,7 +124,7 @@
 
         <div class="form-footer">
           <span>{{ lang === 'zh' ? '还没有账号？' : "Don't have an account?" }}</span>
-          <router-link to="/register">{{ lang === 'zh' ? '立即注册' : 'Sign Up' }}</router-link>
+          <router-link :to="{ path: '/register', query: route.query.redirect ? { redirect: getReturnPath(route.query.redirect) } : {} }">{{ lang === 'zh' ? '立即注册' : 'Sign Up' }}</router-link>
         </div>
 
         <div class="back-home">
@@ -139,6 +139,7 @@
 </template>
 
 <script setup>
+import { getReturnPath } from '@/utils/authRedirect'
 import { reactive, ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -216,7 +217,7 @@ async function handleSubmit() {
       localStorage.removeItem('blog-remembered-email')
     }
     message.success(lang.value === 'zh' ? '登录成功，正在跳转...' : 'Login successful!')
-    await router.push(route.query.redirect || '/console')
+    await router.push(getReturnPath(route.query.redirect))
   } catch (error) {
     message.error(error.message || (lang.value === 'zh' ? '登录失败' : 'Login failed'))
     slideCaptchaRef.value?.reset()
@@ -228,7 +229,7 @@ async function handleSubmit() {
 
 onMounted(() => {
   if (authStore.isLoggedIn) {
-    router.replace(route.query.redirect || '/console')
+    router.replace(getReturnPath(route.query.redirect))
     return
   }
 

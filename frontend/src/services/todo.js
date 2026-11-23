@@ -8,6 +8,10 @@ export function getTodoStats() {
   return http.get('/api/todos/stats')
 }
 
+export function listCompletedTodos(date, page = 1) {
+  return http.get('/api/todos/completed', { params: { date, page } })
+}
+
 export function getTodoList(id) {
   return http.get(`/api/todos/${id}`)
 }

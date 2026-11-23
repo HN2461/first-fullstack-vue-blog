@@ -1,7 +1,7 @@
 <template>
   <a-modal
     :open="open"
-    title="提交反馈"
+    :title="article ? '文章纠错与举报' : '提交反馈'"
     :width="680"
     :confirm-loading="saving"
     ok-text="提交反馈"
@@ -22,6 +22,9 @@
             ><span class="feedback-create-privacy"><LockOutlined />仅本人和处理人可见</span></a-tooltip
           >
         </div>
+        <a-form-item v-if="article" :label="'涉及章节 · 发布版本 V' + (article.publishedRevision || 1)">
+          <a-select v-model:value="articleAnchor" :options="sectionOptions" show-search option-filter-prop="label" />
+        </a-form-item>
         <a-form-item label="标题" name="title"
           ><a-input v-model:value="form.title" :maxlength="120" placeholder="用一句话描述你遇到的问题或建议"
         /></a-form-item>
@@ -63,7 +66,18 @@ import { createFeedback } from '@/services/feedback'
 import { createFeedbackRequestId, feedbackTypes } from './feedbackMeta'
 import FeedbackImagesInput from './FeedbackImagesInput.vue'
 
-const props = defineProps({ open: Boolean, sourcePath: { type: String, default: '' } })
+const props = defineProps({
+  open: Boolean,
+  sourcePath: { type: String, default: '' },
+  article: Object,
+  toc: { type: Array, default: () => [] },
+  initialAnchor: { type: String, default: '' }
+})
+const articleAnchor = ref('')
+const sectionOptions = computed(() => [
+  { value: '', label: '整篇文章' },
+  ...props.toc.filter((item) => item.slug && item.slug.length <= 240).map((item) => ({ value: item.slug, label: item.text }))
+])
 const emit = defineEmits(['update:open', 'created'])
 const formRef = ref(null)
 const form = reactive({ type: 'bug', title: '', content: '', sourcePath: '' })
@@ -75,7 +89,8 @@ const includeEnvironment = ref(false)
 const environment = ref('')
 let requestId = ''
 let submittedSnapshot = ''
-const hasDraft = computed(() => Boolean(form.title.trim() || form.content.trim() || images.value.length))
+const initialTitle = () => props.article ? ('文章纠错 · ' + props.article.title).slice(0, 120) : ''
+const hasDraft = computed(() => Boolean(form.title.trim() !== initialTitle() || form.content.trim() || images.value.length))
 const rules = {
   type: [{ required: true, message: '请选择反馈类型' }],
   title: [{ required: true, whitespace: true, message: '请填写反馈标题', trigger: ['blur', 'change'] }],
@@ -96,7 +111,8 @@ watch(
       images.value = []
       return
     }
-    Object.assign(form, { type: 'bug', title: '', content: '', sourcePath: props.sourcePath })
+    articleAnchor.value = sectionOptions.value.some((item) => item.value === props.initialAnchor) ? props.initialAnchor : ''
+    Object.assign(form, { type: 'bug', title: initialTitle(), content: '', sourcePath: props.sourcePath })
     images.value = []
     includeEnvironment.value = false
     environment.value = (navigator.userAgent + '；窗口 ' + window.innerWidth + '×' + window.innerHeight).slice(0, 300)
@@ -129,6 +145,12 @@ async function submit() {
   }
   const payload = {
     ...form,
+    ...(props.article ? {
+      articleId: props.article.id,
+      articleRevision: props.article.publishedRevision || 1,
+      articleAnchor: articleAnchor.value,
+      articleSection: (props.toc.find((item) => item.slug === articleAnchor.value)?.text || '').slice(0, 240)
+    } : {}),
     title: form.title.trim(),
     content: form.content.trim(),
     sourcePath: sourcePath(),
@@ -181,7 +203,12 @@ function beforeUnload(event) {
   }
 }
 onBeforeRouteLeave(confirmLeave)
-onBeforeRouteUpdate((to, from) => (props.open && to.query.id !== from.query.id ? confirmLeave() : true))
+onBeforeRouteUpdate(async (to, from) => {
+  if (!props.open || (to.path === from.path && to.query.id === from.query.id)) return true
+  if (!(await confirmLeave())) return false
+  emit('update:open', false)
+  return true
+})
 window.addEventListener('beforeunload', beforeUnload)
 onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnload))
 </script>

@@ -1,5 +1,7 @@
 import { saveArticleResources, releaseArticleResources } from '#modules/media/services/articleResource.service.js'
+import { withResourceLocks } from '#modules/media/services/resourceLock.service.js'
 import { ARTICLE_STATUS } from '#constants/domain'
+import { getBusinessDate } from '#utils/businessDate.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Article } from '#modules/content/models/Article.js'
 import {
@@ -7,6 +9,7 @@ import {
   syncArticleContentMediaBindings
 } from '#modules/media/services/articleContentMedia.service.js'
 import { getNextArticleSortOrder, normalizeArticleSortOrder } from './articleOrder.service.js'
+import { getArticleEditor, publishStoredDraft, removeArticleRevisions, saveArticleEdit } from './articleRevision.service.js'
 import {
   assertArticlePublishable,
   calculateReadingMinutes,
@@ -164,6 +167,7 @@ export async function createArticle(input, user) {
     category: categoryId,
     tags: input.tags || [],
     status: input.status || ARTICLE_STATUS.DRAFT,
+    audience: input.audience || 'members',
     isRecommended: !!input.isRecommended,
     wordCount,
     readingMinutes: calculateReadingMinutes(wordCount),
@@ -190,11 +194,18 @@ export async function createArticle(input, user) {
   return article.toSafeJSON()
 }
 
-export async function updateArticle(id, input, user) {
+export async function updateArticle(id, input, user, { draftOnly = input.status === 'draft', token } = {}) {
   const article = await Article.findById(id)
 
   if (!article || article.deletedAt) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
+  }
+
+  // 旧编辑器也会显式提交“保存草稿”。既有发布稿只有在发布操作中才切换。
+  if (draftOnly && article.contentMode !== 'document' && (article.status === 'published' || article.publishedAt)) {
+    const state = await getArticleEditor(id)
+    const saved = await saveArticleEdit(id, token || state.token, input, user)
+    return { ...article.toSafeJSON(), ...saved.working }
   }
 
   const slug = await resolveUpdateSlug(input, article)
@@ -248,7 +259,7 @@ export async function updateArticle(id, input, user) {
 }
 
 export async function updateArticleStatus(id, status, user) {
-  const article = await Article.findById(id)
+  const article = await Article.findById(id).select('+workingDraft')
 
   if (!article || article.deletedAt) {
     throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
@@ -260,6 +271,7 @@ export async function updateArticleStatus(id, status, user) {
 
   if (status === ARTICLE_STATUS.PUBLISHED) {
     // 所有发布入口都必须经过同一套完整性校验，避免通用状态接口绕过发布规则。
+    if (await publishStoredDraft(article, user)) return getArticleById(id)
     assertArticlePublishable(article)
   }
 
@@ -293,14 +305,6 @@ export async function batchUpdateArticleStatus(ids, status, user) {
 }
 
 export async function publishArticle(id, user) {
-  const article = await Article.findById(id)
-
-  if (!article || article.deletedAt) {
-    throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在')
-  }
-
-  assertArticlePublishable(article)
-
   return updateArticleStatus(id, ARTICLE_STATUS.PUBLISHED, user)
 }
 
@@ -314,6 +318,9 @@ export async function listArticles(options = {}) {
 
   // 构建查询条件
   const query = { deletedAt: null }
+  if (options.reviewDue === 'true') {
+    query.nextReviewOn = { $gt: '', $lte: getBusinessDate() }
+  }
 
   if (status && status !== 'all') {
     query.status = status
@@ -435,23 +442,17 @@ export async function listDeletedArticles(options = {}) {
 
 // 恢复文章（从回收站）
 export async function restoreArticle(id, user) {
-  const article = await Article.findOne({ _id: id, deletedAt: { $ne: null } })
+  return withResourceLocks(['article-editor:' + id], async () => {
+    const article = await Article.findOne({ _id: id, deletedAt: { $ne: null } })
+    if (!article) throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在或未被删除')
 
-  if (!article) {
-    throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在或未被删除')
-  }
-
-  article.deletedAt = null
-  article.updatedBy = user._id
-  await saveArticleResources(article, user, () => article.save())
-
-  if (article.category) {
-    await adjustCategoryArticleCount(article.category, 1)
-  }
-
-  await syncArticleContentMediaBindings(article)
-
-  return article.toSafeJSON()
+    article.deletedAt = null
+    article.updatedBy = user._id
+    await saveArticleResources(article, user, () => article.save())
+    if (article.category) await adjustCategoryArticleCount(article.category, 1)
+    await syncArticleContentMediaBindings(article)
+    return article.toSafeJSON()
+  })
 }
 
 export async function batchRestoreArticles(ids, user) {
@@ -470,15 +471,13 @@ export async function batchRestoreArticles(ids, user) {
 
 // 彻底删除文章（真删除）
 export async function permanentDeleteArticle(id) {
-  const article = await Article.findOne({ _id: id, deletedAt: { $ne: null } })
-
-  if (!article) {
-    throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在或未被删除')
-  }
-
-  await releaseArticleResources(id, () => Article.findByIdAndDelete(id))
-
-  return { id, permanentDeleted: true }
+  return withResourceLocks(['article-editor:' + id], async () => {
+    const filter = { _id: id, deletedAt: { $ne: null } }
+    if (!await Article.exists(filter)) throw createHttpError(404, 'ARTICLE_NOT_FOUND', '文章不存在或未被删除')
+    await removeArticleRevisions(id)
+    await releaseArticleResources(id, () => Article.findOneAndDelete(filter))
+    return { id, permanentDeleted: true }
+  })
 }
 
 export async function batchPermanentDeleteArticles(ids) {

@@ -1,6 +1,7 @@
 <template>
   <MarkdownRenderer
     v-if="article.contentMode !== 'document'"
+    source-lines
     :content="article.contentMarkdown"
     :asset-base="assetBase"
     :code-wrap="codeWrap"

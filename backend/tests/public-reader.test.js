@@ -2,6 +2,9 @@ import request from 'supertest'
 import { ARTICLE_STATUS, USER_ROLES } from '#constants/domain'
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { createApp } from '../src/app.js'
+import { signAccessToken } from '../src/utils/jwt.js'
+import { saveArticleReview } from '#modules/content/services/articleReview.service.js'
+import { listArticles } from '#modules/content/services/article.service.js'
 import { User } from '#modules/user/models/User.js'
 import { Article } from '#modules/content/models/Article.js'
 import { createArticle } from '#modules/content/services/article.service.js'
@@ -49,6 +52,7 @@ describe('public reader routes', () => {
       contentMarkdown: '# 已发布文章\n\nExpress reader content',
       category: category.id,
       tags: [tag.id],
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED
     }, admin)
     await createArticle({
@@ -76,6 +80,30 @@ describe('public reader routes', () => {
     expect(response.body.data.recentArticles[0].slug).toBe('published-post')
     expect(response.body.data.recentArticles[0]).not.toHaveProperty('contentMarkdown')
     expect(response.body.data.recentArticles[0]).not.toHaveProperty('resources')
+  })
+
+  it('keeps legacy articles member-only throughout discovery until explicitly opened', async () => {
+    const app = createApp()
+    const old = await createArticle({
+      title: 'membermanual', slug: 'membermanual', contentMarkdown: 'membermanual', status: 'published'
+    }, admin)
+    await Article.collection.updateOne({ slug: old.slug }, { $unset: { audience: '' } })
+    const path = '/api/public/articles/' + old.slug
+    const token = signAccessToken(admin)
+    await request(app).get(path).expect(404)
+    await request(app).get(path).set('Authorization', 'Bearer ' + token).expect(200)
+    for (const path of ['/api/public/home', '/api/public/articles', '/api/public/knowledge-menu',
+      '/api/public/articles/published-post', '/api/public/search?q=membermanual', '/api/public/search/suggest?q=membermanual']) {
+      const response = await request(app).get(path).expect(200)
+      expect(JSON.stringify(response.body.data)).not.toContain('"slug":"membermanual"')
+    }
+    await request(app).get('/api/public/articles/' + old.id + '/comments').expect(404)
+    const settings = { audience: 'public', applicableVersion: '1.x', verifiedOn: '2026-01-01', nextReviewOn: '2026-01-02', expectedUpdatedAt: old.updatedAt.toISOString() }
+    const verified = await saveArticleReview(old.id, settings, admin._id)
+    expect(verified.verifiedOn).toBe('2026-01-01')
+    await request(app).get(path).expect(200)
+    expect((await listArticles({ reviewDue: 'true' })).items.map((row) => row.slug)).toEqual([old.slug])
+    await expect(saveArticleReview(old.id, settings, admin._id)).rejects.toMatchObject({ statusCode: 409 })
   })
 
   it('lists only published articles', async () => {
@@ -118,6 +146,7 @@ describe('public reader routes', () => {
         contentMarkdown: `# 顺序文章${index}`,
         category: category.id,
         sortOrder: (index + 1) * 10,
+        audience: 'public',
         status: ARTICLE_STATUS.PUBLISHED
       }, admin)
     }
@@ -150,6 +179,7 @@ describe('public reader routes', () => {
         contentMarkdown: `# 边界文章${index}`,
         category: category.id,
         sortOrder: (index + 1) * 10,
+        audience: 'public',
         status: ARTICLE_STATUS.PUBLISHED
       }, admin)
     }
@@ -165,6 +195,7 @@ describe('public reader routes', () => {
       contentMarkdown: '# 目录补充文章',
       category: otherCategory.id,
       sortOrder: 5,
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED
     }, admin)
 
@@ -254,6 +285,7 @@ describe('public reader routes', () => {
       summary: '这篇文章属于 Node.js 的子分类',
       contentMarkdown: '# 子分类文章',
       category: childCategory.id,
+      audience: 'public',
       status: ARTICLE_STATUS.PUBLISHED
     }, admin)
 

@@ -29,6 +29,10 @@ export function getAdminArticle(id) {
   return http.get(`/api/admin/articles/${id}`)
 }
 
+export function updateArticleReview(id, data) {
+  return http.patch(`/api/admin/articles/${id}/review-settings`, data)
+}
+
 export function createAdminArticle(data) {
   return http.post('/api/admin/articles', data)
 }

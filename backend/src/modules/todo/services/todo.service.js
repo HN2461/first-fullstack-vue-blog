@@ -1,4 +1,6 @@
 import mongoose from 'mongoose'
+import { env } from '#config/env'
+import { getBusinessDate } from '#utils/businessDate.js'
 import { TodoItem, TODO_ITEM_PRIORITIES } from '#modules/todo/models/TodoItem.js'
 import { TodoList, TODO_LIST_STATUSES, TODO_LIST_TYPES } from '#modules/todo/models/TodoList.js'
 
@@ -22,11 +24,9 @@ function buildListQuery(userId, filters = {}) {
   if (filters.type && TODO_LIST_TYPES.includes(filters.type)) query.type = filters.type
 
   if (filters.date === 'today') {
-    const start = new Date()
-    start.setHours(0, 0, 0, 0)
-    const end = new Date(start)
-    end.setDate(end.getDate() + 1)
-    query.planDate = { $gte: start, $lt: end }
+    // 计划日期按日历日存为 UTC 零点；先决定业务日期，再取对应的存储范围。
+    const start = new Date(getBusinessDate() + 'T00:00:00Z')
+    query.planDate = { $gte: start, $lt: new Date(start.getTime() + 86400000) }
   }
 
   if (keyword) query.title = { $regex: keyword, $options: 'i' }
@@ -80,7 +80,7 @@ export async function listTodoLists(userId, filters = {}) {
   const query = buildListQuery(userId, filters)
   const [lists, total] = await Promise.all([
     TodoList.find(query)
-      .sort({ isPinned: -1, planDate: 1, updatedAt: -1 })
+      .sort({ isPinned: -1, planDate: 1, updatedAt: -1, _id: 1 })
       .skip((page - 1) * pageSize)
       .limit(pageSize),
     TodoList.countDocuments(query)
@@ -105,6 +105,30 @@ export async function getTodoStats(userId) {
   const completed = items.find((row) => row._id === true)?.count || 0
   const total = items.reduce((sum, row) => sum + row.count, 0)
   return { lists, totalItems: total, openItems: total - completed, completedItems: completed }
+}
+
+/**
+ * 根据日报的业务日期列出本人实际完成的事项。date 使用 YYYY-MM-DD，
+ * 每次返回一页供用户选择；无效日期返回 400，撤销完成的事项自动排除。
+ */
+export async function listCompletedTodos(userId, { date, page = 1 }) {
+  const midnight = new Date(String(date) + 'T00:00:00Z')
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(midnight.getTime()) || midnight.toISOString().slice(0, 10) !== date) {
+    throw createError(400, 'TODO_DATE_INVALID', '请选择有效的工作日期')
+  }
+  const query = {
+    createdBy: userId, completed: true,
+    completedAt: { $gte: new Date(midnight.getTime() - 86400000), $lt: new Date(midnight.getTime() + 2 * 86400000) },
+    $expr: { $eq: [{ $dateToString: { date: '$completedAt', format: '%Y-%m-%d', timezone: env.businessTimeZone } }, date] }
+  }
+  const pageNumber = Math.max(1, Number.parseInt(page, 10) || 1)
+  const pageSize = 50
+  const [rows, total] = await Promise.all([
+    TodoItem.find(query).select('_id title completedAt').sort({ completedAt: 1, _id: 1 })
+      .skip((pageNumber - 1) * pageSize).limit(pageSize).lean(),
+    TodoItem.countDocuments(query)
+  ])
+  return { items: rows.map((item) => ({ id: String(item._id), title: item.title })), total, page: pageNumber, pageSize }
 }
 
 export async function getTodoList(id, userId) {

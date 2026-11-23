@@ -3,6 +3,8 @@ import mongoose from 'mongoose'
 import { Feedback, FEEDBACK_STATUSES, FEEDBACK_TYPES } from '../models/Feedback.js'
 import { FeedbackEvent } from '../models/FeedbackEvent.js'
 import { Media } from '#modules/media/models/Media.js'
+import { Article } from '#modules/content/models/Article.js'
+import { readableArticleFilter } from '#modules/content/services/articleAudience.service.js'
 import { getBusinessDate } from '#utils/businessDate.js'
 import { discardFeedbackAttachments, storeFeedbackAttachments, resolveFeedbackAttachment } from './feedbackAttachment.service.js'
 import { deliverFeedbackEvent, getFeedbackManagers } from './feedbackNotification.service.js'
@@ -32,6 +34,12 @@ function serializeFeedback(item) {
     title: item.title,
     content: item.content,
     sourcePath: item.sourcePath,
+    ...(item.articleId ? {
+      articleId: String(item.articleId),
+      articleRevision: item.articleRevision,
+      articleSection: item.articleSection || '',
+      articleAnchor: item.articleAnchor || ''
+    } : {}),
     environment: item.environment,
     status: item.status,
     version: item.version,
@@ -143,6 +151,12 @@ export async function createFeedback(input, files, actor) {
   try {
     const existing = await Feedback.findOne({ createdBy: actorId(actor), requestId: input.requestId })
     if (existing) return getFeedback(existing._id, actor)
+    // 保存提交者阅读的版本。提交过程中发布了新版时，仍允许报告老版本的问题。
+    const article = input.articleId && await Article.findOne({ _id: input.articleId, ...readableArticleFilter(actorId(actor)) })
+      .select('slug publishedRevision').lean()
+    if (input.articleId && (!article || !input.articleRevision || input.articleRevision > (article.publishedRevision || 1))) {
+      throw error(400, '文章或发布版本无效，请刷新后重试')
+    }
     const id = new mongoose.Types.ObjectId()
     stored = await storeFeedbackAttachments(files, id, actorId(actor))
     // 只保留控制台路径；查询参数可能包含提取码、关键词或私人资料。
@@ -151,7 +165,7 @@ export async function createFeedback(input, files, actor) {
     item = await Feedback.create({
       _id: id,
       ...input,
-      sourcePath,
+      sourcePath: article ? `/console/article-directory/articles/${encodeURIComponent(article.slug)}` : sourcePath,
       createdBy: actorId(actor),
       number: `FB-${getBusinessDate().replaceAll('-', '')}-${crypto.randomBytes(4).toString('hex').toUpperCase()}`,
       attachments: stored.map((media) => media._id)

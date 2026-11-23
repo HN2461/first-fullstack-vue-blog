@@ -6,6 +6,7 @@ import { User } from '#modules/user/models/User.js'
 import { Resume } from '#modules/resume/models/Resume.js'
 import { DiscussionMessage } from '#modules/discussion/models/DiscussionMessage.js'
 import { Article } from '#modules/content/models/Article.js'
+import { ArticleRevision } from '#modules/content/models/ArticleRevision.js'
 import { WorkLog } from '#modules/workJournal/models/WorkLog.js'
 import { MediaCategory } from '../models/MediaCategory.js'
 import { resolveResourcePath, describeResourcePath } from './resourceStorage.service.js'
@@ -193,7 +194,7 @@ export async function reconcileResources({ apply = false } = {}) {
       if (media) await bind(media, 'work-log', log._id, `evidence:${evidence._id}`, log.createdBy, log.deletedAt ? 'retained' : 'active')
     }
   }
-  for (const article of await Article.find({})) {
+  async function bindArticleContent(article, source, field) {
     const urls = [article.cover, ...extractArticleContentMediaUrls(article.contentMarkdown), ...(article.resources || []).map((item) => item.url), article.document?.originalUrl, article.document?.previewUrl]
     const ids = [...(article.resources || []).map((item) => item.mediaId), article.document?.originalMediaId, article.document?.previewMediaId].filter(Boolean).map(String)
     const matched = new Map(mediaItems.filter((item) => urls.includes(item.url) || ids.includes(String(item._id))).map((item) => [String(item._id), item]))
@@ -203,11 +204,19 @@ export async function reconcileResources({ apply = false } = {}) {
     }
     for (const media of matched.values()) {
       if (media.accessScope !== 'public') {
-        result.errors.push({ source: `article:${article._id}`, message: '文章引用了私人文件或密码箱文件，保留原数据并要求人工确认' })
+        result.errors.push({ source: `article:${source._id}`, message: '文章引用了私人文件或密码箱文件，保留原数据并要求人工确认' })
         continue
       }
-      await bind(media, 'article', article._id, 'resources', article.createdBy, article.deletedAt ? 'retained' : 'active')
+      await bind(media, 'article', source._id, field, source.createdBy, source.deletedAt ? 'retained' : 'active')
     }
+  }
+  for await (const article of Article.find({}).select('+workingDraft').cursor()) {
+    await bindArticleContent(article, article, 'resources')
+    if (article.workingDraft) await bindArticleContent(article.workingDraft, article, 'workingDraft')
+  }
+  for await (const revision of ArticleRevision.find({}).cursor()) {
+    const owner = await Article.findById(revision.articleId).select('createdBy deletedAt').lean()
+    if (owner) await bindArticleContent(revision.content, owner, 'revision:' + revision.number)
   }
   // 只有完整读取所有来源且没有异常时才移除过时索引，避免把未知状态当成未引用。
   if (!result.errors.length) {

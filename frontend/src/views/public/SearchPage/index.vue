@@ -105,24 +105,24 @@
           v-for="article in result.items"
           :key="article.id"
           :class="['csdn-search__item', { 'csdn-search__item--plain': !article.cover }]"
-          :to="articlePath(article.slug)"
+          :to="articlePath(article)"
         >
           <div v-if="article.cover" class="csdn-search__thumb">
             <img :src="article.cover" :alt="article.title">
           </div>
 
           <div class="csdn-search__body">
-            <h3 class="csdn-search__title" v-html="article.highlightedTitle || article.title"></h3>
-            <p
-              class="csdn-search__snippet"
-              v-html="article.highlightedSnippet || article.snippet || article.highlightedSummary || article.summary || '这篇文章还没有摘要。'"
-            ></p>
+            <h3 v-if="article.highlightedTitle" class="csdn-search__title" v-html="article.highlightedTitle"></h3>
+            <h3 v-else class="csdn-search__title">{{ article.title }}</h3>
+            <p v-if="article.highlightedSnippet" class="csdn-search__snippet" v-html="article.highlightedSnippet"></p>
+            <p v-else class="csdn-search__snippet">{{ article.snippet || article.summary || '这篇文章还没有摘要。' }}</p>
 
             <div class="csdn-search__meta-row">
               <span class="csdn-search__category">{{ article.category?.name || '未分类' }}</span>
               <span>{{ formatDate(article.publishedAt || article.createdAt) }}</span>
               <span>{{ article.viewCount || 0 }} 浏览</span>
               <span>{{ article.readingMinutes || 1 }} 分钟</span>
+              <span v-if="article.matchSection">{{ article.matchSection }}</span>
               <span>相关度 {{ article.relevanceScore }}</span>
             </div>
           </div>
@@ -148,6 +148,7 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { getSearchSuggestions, searchPublicArticles } from '@/services/public'
 
@@ -174,7 +175,9 @@ let suggestTimeout = null
 let suggestionVersion = 0
 let searchVersion = 0
 
-const HISTORY_KEY = 'blog-search-history'
+const authStore = useAuthStore()
+// 访客搜索独立于成员账号，防止共享设备显示上一位成员的检索词。
+const historyKey = computed(() => 'blog-search-history:' + (authStore.user?.id || 'guest'))
 const HISTORY_LIMIT = 10
 const searchHistory = ref([])
 
@@ -203,8 +206,10 @@ function resetDropdownIndex() {
   activeDropdownIndex.value = dropdownItems.value.length > 0 ? 0 : -1
 }
 
-function articlePath(slug) {
-  return inConsole.value ? `/console/article-directory/articles/${slug}` : `/articles/${slug}`
+function articlePath(article) {
+  const slug = encodeURIComponent(article.slug)
+  const path = inConsole.value ? `/console/article-directory/articles/${slug}` : `/articles/${slug}`
+  return { path, query: article.matchLine ? { line: String(article.matchLine) } : {} }
 }
 
 function formatDate(value) {
@@ -397,7 +402,7 @@ function onDocumentClick(event) {
 
 function loadHistory() {
   try {
-    const data = localStorage.getItem(HISTORY_KEY)
+    const data = localStorage.getItem(historyKey.value)
     searchHistory.value = data ? JSON.parse(data) : []
   } catch {
     searchHistory.value = []
@@ -408,12 +413,20 @@ function saveHistory(value) {
   const text = String(value || '').trim()
   if (text.length <= 1) return
   searchHistory.value = [text, ...searchHistory.value.filter((item) => item !== text)].slice(0, HISTORY_LIMIT)
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(searchHistory.value))
+  try {
+    localStorage.setItem(historyKey.value, JSON.stringify(searchHistory.value))
+  } catch {
+    // 私密模式禁用存储时，当次搜索和内存历史仍然可用。
+  }
 }
 
 function clearHistory() {
   searchHistory.value = []
-  localStorage.removeItem(HISTORY_KEY)
+  try {
+    localStorage.removeItem(historyKey.value)
+  } catch {
+    // 当前会话显示的历史已清空。
+  }
   showDropdown.value = false
   activeDropdownIndex.value = -1
 }
@@ -437,8 +450,12 @@ watch(() => route.query.q, async (nextValue) => {
   await runSearch()
 })
 
-onMounted(async () => {
+watch(historyKey, () => {
+  clearSuggestions()
   loadHistory()
+}, { immediate: true })
+
+onMounted(async () => {
   document.addEventListener('click', onDocumentClick)
 
   const initialQuery = String(route.query.q || '')

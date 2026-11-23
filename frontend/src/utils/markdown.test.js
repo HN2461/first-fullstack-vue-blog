@@ -3,6 +3,14 @@ import { extractTOC, renderMarkdown } from './markdown'
 import { getCodeLanguageLabel, normalizeCodeLanguage } from './markdownCodeBlocks'
 
 describe('markdown rendering', () => {
+  it('搜索定位按原始行计算，目录占位和代码里的伪标题不改变位置', () => {
+    const content = ['# 文档', '', '[[toc]]', '', '## 环境', '', '~~~shell', '# 键名', 'echo cache_key', '~~~'].join('\n')
+    const html = renderMarkdown(content, { sourceLines: true })
+    expect(html).toContain('data-source-start="5" data-source-end="5"')
+    expect(html).toContain('data-source-start="7" data-source-end="10"')
+    expect(renderMarkdown(content)).not.toContain('data-source-start')
+  })
+
   it('renders heading anchors, toc entries and enhanced code block chrome', () => {
     const content = [
       '# 标题',

@@ -8,6 +8,10 @@ export const feedbackCreateSchema = z.object({
   title: z.string().trim().min(1, '请填写标题').max(120),
   content: z.string().trim().min(1, '请描述问题或建议').max(10000),
   sourcePath: z.string().max(2000).optional().default(''),
+  articleId: z.string().regex(/^[a-f\d]{24}$/i, '文章标识无效').optional(),
+  articleRevision: z.coerce.number().int().positive().optional(),
+  articleSection: z.string().trim().max(240).optional(),
+  articleAnchor: z.string().max(240).optional(),
   environment: z.string().trim().max(300).optional().default('')
 })
 

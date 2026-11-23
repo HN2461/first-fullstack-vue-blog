@@ -1,4 +1,5 @@
 import { getResourceStorageAreas } from '#modules/media/services/resourceStorage.service.js'
+import { articleRevisionRouter } from '#modules/content/routes/articleRevision.routes.js'
 import fs from 'node:fs'
 import multer from 'multer'
 import { Router } from 'express'
@@ -27,6 +28,7 @@ import { getMediaFileExtension, isMediaExtensionAllowed, normalizeAllowedMediaEx
 import { batchDeleteTags, batchUpdateTagStatus, createTag, deleteTag, listTags, updateTag } from '#modules/content/services/tag.service.js'
 import { MAX_IMPORT_FILES, buildArticleImportTemplate, commitMarkdownArticleImport, previewMarkdownArticleImport } from '#modules/content/services/articleImport.service.js'
 import { importDocumentArticle } from '#modules/content/services/documentArticleImport.service.js'
+import { saveArticleReview } from '#modules/content/services/articleReview.service.js'
 import { buildArticleExportHeaders, exportArticlesAsMarkdownZip } from '#modules/content/services/articleExport.service.js'
 import { assertArticlePublishable } from '#modules/content/services/articleContent.service.js'
 import { ok } from '#utils/apiResponse.js'
@@ -353,6 +355,10 @@ adminRouter.get('/articles', asyncHandler(async (req, res) => {
   res.json(ok(await listArticles(req.query)))
 }))
 
+adminRouter.patch('/articles/:id/review-settings', asyncHandler(async (req, res) => {
+  res.json(ok(await saveArticleReview(req.params.id, req.body, req.user._id), '阅读范围和复核设置已保存'))
+}))
+
 adminRouter.get('/articles/import/template', asyncHandler(async (req, res) => {
   const template = buildArticleImportTemplate()
   res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
@@ -464,13 +470,17 @@ adminRouter.post('/articles/reorder', canAccessArticleCategoryMigration, asyncHa
   res.json(ok(result, `已更新 ${result.updatedCount} 篇文章的目录顺序`))
 }))
 
+adminRouter.use('/articles', articleRevisionRouter)
+
 adminRouter.get('/articles/:id', asyncHandler(async (req, res) => {
   res.json(ok(await getArticleById(req.params.id)))
 }))
 
 adminRouter.patch('/articles/:id', asyncHandler(async (req, res) => {
   const input = parseBody(articleSchema, req.body)
-  const article = await updateArticle(req.params.id, input, req.user)
+  const article = await updateArticle(req.params.id, input, req.user, {
+    draftOnly: req.body.status === 'draft', token: req.body.token
+  })
   res.json(ok(article, '文章已保存'))
 }))
 

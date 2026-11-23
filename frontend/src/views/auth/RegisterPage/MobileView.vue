@@ -78,7 +78,7 @@
       </a-form>
 
       <div class="mobile-auth__links">
-        <router-link to="/login">{{ lang === 'zh' ? '立即登录' : 'Sign In' }}</router-link>
+        <router-link :to="{ path: '/login', query: route.query.redirect ? { redirect: getReturnPath(route.query.redirect) } : {} }">{{ lang === 'zh' ? '立即登录' : 'Sign In' }}</router-link>
         <router-link to="/">{{ lang === 'zh' ? '返回首页' : 'Back to Home' }}</router-link>
       </div>
 
@@ -88,8 +88,9 @@
 </template>
 
 <script setup>
+import { getReturnPath } from '@/utils/authRedirect'
 import { computed, reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons-vue'
 import AuthSettings from '@/components/AuthSettings.vue'
@@ -98,6 +99,7 @@ import { useAuthPageSettings } from '@/composables/useAuthPageSettings'
 import { useAuthStore } from '@/stores/auth'
 import { useSiteStore } from '@/stores/site'
 
+const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const siteStore = useSiteStore()
@@ -140,7 +142,7 @@ async function handleSubmit() {
       permissionRequestReason: form.applyAdmin ? form.permissionRequestReason : ''
     })
     message.success(lang.value === 'zh' ? '注册成功，正在跳转...' : 'Registration successful!')
-    await router.push('/console')
+    await router.push(getReturnPath(route.query.redirect))
   } catch (error) {
     errorMessage.value = error.message || (lang.value === 'zh' ? '注册失败' : 'Registration failed')
   } finally {

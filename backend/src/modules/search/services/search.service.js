@@ -1,4 +1,5 @@
-import { ARTICLE_STATUS } from '#constants/domain'
+import { bestSearchPassage, readSearchPassages } from './markdownSearchPassage.js'
+import { readableArticleFilter } from '#modules/content/services/articleAudience.service.js'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Tag } from '#modules/content/models/Tag.js'
@@ -56,19 +57,6 @@ function normalizeSearchText(raw = '') {
     .trim()
 }
 
-function stripMarkdown(raw = '') {
-  return String(raw || '')
-    .replace(/```[\s\S]*?```/g, ' ')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '$1 ')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ')
-    .replace(/^>\s+/gm, '')
-    .replace(/[#*_~>-]+/g, ' ')
-    .replace(/\|/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-}
-
 function getPagination(query = {}) {
   const page = Math.max(1, Number.parseInt(query.page || '1', 10))
   const pageSize = Math.min(100, Math.max(1, Number.parseInt(query.pageSize || '10', 10)))
@@ -91,20 +79,16 @@ function escapeHtmlSafe(str = '') {
 function highlightText(text = '', terms = []) {
   if (!text) return ''
 
-  const safeText = escapeHtmlSafe(text)
-  if (!terms.length) return safeText
-
-  const sortedTerms = [...terms].sort((left, right) => right.length - left.length)
-  let result = safeText
-
-  sortedTerms.forEach((term) => {
-    const safeTerm = escapeHtmlSafe(term)
-    if (!safeTerm) return
-    const regex = new RegExp(`(${escapeRegExp(safeTerm)})`, 'gi')
-    result = result.replace(regex, '<mark>$1</mark>')
-  })
-
-  return result
+  if (!terms.length) return escapeHtmlSafe(text)
+  // 只转义与标记原始文本一次，避免后续词条匹配到前一轮插入的 HTML。
+  const expression = new RegExp(terms.slice().sort((a, b) => b.length - a.length).map(escapeRegExp).join('|'), 'gi')
+  let result = ''
+  let cursor = 0
+  for (const match of text.matchAll(expression)) {
+    result += escapeHtmlSafe(text.slice(cursor, match.index)) + '<mark>' + escapeHtmlSafe(match[0]) + '</mark>'
+    cursor = match.index + match[0].length
+  }
+  return result + escapeHtmlSafe(text.slice(cursor))
 }
 
 function extractHighlightSnippet(content = '', terms = []) {
@@ -172,9 +156,10 @@ function getRecencyBoost(article) {
 }
 
 function buildSearchContext(article) {
+  const passages = article.contentMode === 'document' ? [] : readSearchPassages(article.contentMarkdown)
   const plainContent = article.contentMode === 'document'
     ? normalizeTextContent(article.document?.extractedText || '')
-    : stripMarkdown(article.contentMarkdown || '')
+    : passages.map((passage) => passage.text).join(' ')
   const tagNames = Array.isArray(article.tags)
     ? article.tags
       .map((tag) => tag?.name || '')
@@ -188,7 +173,8 @@ function buildSearchContext(article) {
     category: normalizeSearchText(article.category?.name || ''),
     tags: tagNames.map((name) => normalizeSearchText(name)),
     slug: normalizeSearchText(article.slug),
-    plainContent
+    plainContent,
+    passages
   }
 }
 
@@ -272,7 +258,8 @@ function evaluateArticle(article, context, query, terms, mode, textScores = new 
     score += 2
   }
 
-  const snippetSource = article.summary || context.plainContent || article.title
+  const passage = bestSearchPassage(context.passages, terms)
+  const snippetSource = passage?.text || (matchedFieldKeys.has('content') ? context.plainContent : '') || article.summary || article.title
   const snippet = extractHighlightSnippet(snippetSource, terms)
 
   return {
@@ -282,6 +269,8 @@ function evaluateArticle(article, context, query, terms, mode, textScores = new 
     matchedFieldKeys: Array.from(matchedFieldKeys),
     matchedTerms,
     termMatches,
+    matchLine: passage?.line || null,
+    matchSection: passage?.section || '',
     snippet,
     highlightedSnippet: highlightText(snippet, terms)
   }
@@ -390,6 +379,8 @@ function formatArticlePayload(article, evaluation) {
     slug: article.slug,
     summary: article.summary || '',
     highlightedSummary: highlightText(article.summary || '', evaluation.matchedTerms),
+    matchLine: evaluation.matchLine,
+    matchSection: evaluation.matchSection,
     snippet: evaluation.snippet,
     highlightedSnippet: evaluation.highlightedSnippet,
     cover: article.cover || '',
@@ -467,7 +458,7 @@ function emptyResult(pagination, query = '', mode = 'AND', sort = 'relevance', t
   }
 }
 
-export async function searchArticles(rawQuery = {}) {
+export async function searchArticles(rawQuery = {}, currentUserId = null) {
   const startTime = Date.now()
   const query = normalizeQuery(rawQuery.q || rawQuery.search || '')
   const mode = (rawQuery.mode || 'AND').toUpperCase() === 'OR' ? 'OR' : 'AND'
@@ -480,8 +471,7 @@ export async function searchArticles(rawQuery = {}) {
   }
 
   const baseFilter = {
-    status: ARTICLE_STATUS.PUBLISHED,
-    deletedAt: null
+    ...readableArticleFilter(currentUserId)
   }
 
   const categoryIds = await resolveCategoryAndDescendantIds(rawQuery.category)
@@ -614,7 +604,7 @@ export async function searchArticles(rawQuery = {}) {
   }
 }
 
-export async function getSearchSuggestions(rawQuery = {}) {
+export async function getSearchSuggestions(rawQuery = {}, currentUserId = null) {
   const query = normalizeQuery(rawQuery.q || '')
   const terms = splitTerms(query)
 
@@ -623,8 +613,7 @@ export async function getSearchSuggestions(rawQuery = {}) {
   }
 
   const items = await Article.find({
-    status: ARTICLE_STATUS.PUBLISHED,
-    deletedAt: null,
+    ...readableArticleFilter(currentUserId),
     $or: terms.map((term) => ({ title: new RegExp(escapeRegExp(term), 'i') }))
   })
     .select('title slug category viewCount publishedAt')

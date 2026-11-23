@@ -173,7 +173,7 @@ function highlightCode(code, language) {
   }
 }
 
-function renderCodeBlock(code, info = '') {
+function renderCodeBlock(code, info = '', sourceRange = '') {
   const language = normalizeCodeLanguage(info)
   const lineCount = countCodeLines(code)
   const lineNumbers = buildCodeLineNumbers(lineCount)
@@ -189,7 +189,7 @@ function renderCodeBlock(code, info = '') {
     : ''
 
   return `
-    <div class="code-block${collapsibleClasses}" data-line-count="${lineCount}" style="--code-visible-lines: ${visibleLines};">
+    <div class="code-block${collapsibleClasses}" ${sourceRange} data-line-count="${lineCount}" style="--code-visible-lines: ${visibleLines};">
       <div class="code-block__header">
         <div class="code-block__meta">
           <span class="code-block__language">${languageLabel}</span>
@@ -207,12 +207,12 @@ function renderCodeBlock(code, info = '') {
   `
 }
 
-function renderMermaidBlock(code = '') {
+function renderMermaidBlock(code = '', sourceRange = '') {
   const source = String(code || '').trim()
   const escapedSource = escapeHtml(source)
 
   return `
-    <figure class="mermaid-diagram">
+    <figure class="mermaid-diagram" ${sourceRange}>
       <div class="mermaid-diagram__canvas">
         <div class="mermaid">${escapedSource}</div>
       </div>
@@ -228,18 +228,35 @@ md.use(anchor, {
   level: [1, 2, 3, 4, 5, 6]
 })
 
-md.renderer.rules.fence = (tokens, index) => {
+// 行范围只在文章阅读器输出；搜索链接使用原文行号定位重复标题、列表和代码块。
+md.core.ruler.push('article-source-lines', (state) => {
+  if (!state.env?.sourceLines) return
+  for (const token of state.tokens) {
+    if (token.nesting === 1 && token.map) {
+      token.attrSet('data-source-start', String(token.map[0] + 1))
+      token.attrSet('data-source-end', String(token.map[1]))
+    }
+  }
+})
+
+function sourceRange(token, env) {
+  return env?.sourceLines && token.map
+    ? `data-source-start="${token.map[0] + 1}" data-source-end="${token.map[1]}"`
+    : ''
+}
+
+md.renderer.rules.fence = (tokens, index, options, env) => {
   const token = tokens[index]
   const language = normalizeCodeLanguage(token.info)
 
   if (language === 'mermaid') {
-    return renderMermaidBlock(token.content)
+    return renderMermaidBlock(token.content, sourceRange(token, env))
   }
 
-  return renderCodeBlock(token.content, token.info)
+  return renderCodeBlock(token.content, token.info, sourceRange(token, env))
 }
 
-md.renderer.rules.code_block = (tokens, index) => renderCodeBlock(tokens[index].content)
+md.renderer.rules.code_block = (tokens, index, options, env) => renderCodeBlock(tokens[index].content, '', sourceRange(tokens[index], env))
 
 // 语雀导出的行内代码偶尔会把颜色标签一起包进反引号，例如
 // `` `<font style="color:...">内容</font>` ``。行内代码会按原文转义，
@@ -337,7 +354,7 @@ function getInlineTokenText(token) {
 export default md
 
 function stripEmbeddedTocMarkers(content = '') {
-  return String(content || '').replace(/^\s*(?:\[toc\]|\[\[toc\]\]|@\[toc\]\([^)]*\))\s*$/gim, '')
+  return String(content || '').replace(/^[^\S\r\n]*(?:\[toc\]|\[\[toc\]\]|@\[toc\]\([^)]*\))[^\S\r\n]*$/gim, '')
 }
 
 function sanitizeRenderedHtml(html = '') {

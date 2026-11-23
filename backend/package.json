@@ -50,6 +50,7 @@
     "reading-progress:indexes:apply": "node src/scripts/ensureReadingProgressIndexes.js --apply",
     "reading-progress:indexes:verify": "node src/scripts/ensureReadingProgressIndexes.js --verify",
     "article-share:indexes": "node src/scripts/ensureArticleShareIndexes.js",
+    "article-revision:indexes": "node src/scripts/ensureArticleRevisionIndexes.js",
     "article-share:indexes:apply": "node src/scripts/ensureArticleShareIndexes.js --apply",
     "article-share:indexes:verify": "node src/scripts/ensureArticleShareIndexes.js --verify",
     "work-journal:indexes": "node src/scripts/ensureWorkJournalIndexes.js",

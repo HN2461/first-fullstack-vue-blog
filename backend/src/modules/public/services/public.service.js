@@ -1,4 +1,4 @@
-import { ARTICLE_STATUS } from '#constants/domain'
+import { readableArticleFilter } from '#modules/content/services/articleAudience.service.js'
 import { Article } from '#modules/content/models/Article.js'
 import { Category } from '#modules/content/models/Category.js'
 import { Reaction } from '#modules/interaction/models/Reaction.js'
@@ -26,10 +26,9 @@ function escapeRegExp(str = '') {
   return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-function createPublishedQuery(filters = {}) {
+function createPublishedQuery(filters, currentUserId) {
   const query = {
-    status: ARTICLE_STATUS.PUBLISHED,
-    deletedAt: null
+    ...readableArticleFilter(currentUserId)
   }
 
   if (filters.search) {
@@ -84,9 +83,9 @@ async function resolveTagId(slug) {
   return tag?._id || '__missing__'
 }
 
-export async function listPublicArticles(rawQuery = {}) {
+export async function listPublicArticles(rawQuery = {}, currentUserId = null) {
   const pagination = getPagination(rawQuery)
-  const query = createPublishedQuery({ search: rawQuery.q || rawQuery.search || '' })
+  const query = createPublishedQuery({ search: rawQuery.q || rawQuery.search || '' }, currentUserId)
   const categoryIds = await resolveCategoryAndDescendantIds(rawQuery.category)
   const tagId = await resolveTagId(rawQuery.tag)
   const includeContent = rawQuery.includeContent === 'true'
@@ -115,6 +114,12 @@ export async function listPublicArticles(rawQuery = {}) {
     query.tags = tagId
   }
 
+  // 先按当前身份筛选再分页，避免收藏了已下架文章时出现空页或错误总数。
+  if (rawQuery.favorites === '1') {
+    if (!currentUserId) throw createHttpError(401, 'AUTH_REQUIRED', '登录后可查看我的收藏')
+    query._id = { $in: await Reaction.distinct('targetId', { user: currentUserId, targetType: 'article', type: 'favorite' }) }
+  }
+
   const [items, total] = await Promise.all([
     Article.find(query)
       .populate('category')
@@ -137,11 +142,10 @@ export async function listPublicArticles(rawQuery = {}) {
   }
 }
 
-async function getArticleReadingNeighbors(article, limit = 3) {
+async function getArticleReadingNeighbors(article, currentUserId, limit = 3) {
   const categoryId = article.category?._id || article.category || null
   const siblings = await Article.find({
-    status: ARTICLE_STATUS.PUBLISHED,
-    deletedAt: null,
+    ...readableArticleFilter(currentUserId),
     category: categoryId
   })
     .select('_id title slug category')
@@ -167,8 +171,7 @@ async function getArticleReadingNeighbors(article, limit = 3) {
   const related = missingCount > 0
     ? await Article.find({
         _id: { $nin: selectedIds },
-        status: ARTICLE_STATUS.PUBLISHED,
-        deletedAt: null
+        ...readableArticleFilter(currentUserId)
       })
         .select('_id title slug category')
         .sort(getDirectoryArticleSort())
@@ -192,8 +195,7 @@ async function getArticleReadingNeighbors(article, limit = 3) {
 export async function getPublicArticleBySlug(slug, currentUserId = null) {
   const article = await Article.findOne({
     slug,
-    status: ARTICLE_STATUS.PUBLISHED,
-    deletedAt: null
+    ...readableArticleFilter(currentUserId)
   })
     .populate('category')
     .populate('tags')
@@ -213,7 +215,7 @@ export async function getPublicArticleBySlug(slug, currentUserId = null) {
 
   const [payload, readingNeighbors] = await Promise.all([
     Promise.resolve(article.toSafeJSON()),
-    getArticleReadingNeighbors(article)
+    getArticleReadingNeighbors(article, currentUserId)
   ])
 
   if (!currentUserId) {
@@ -242,18 +244,13 @@ export async function getPublicArticleBySlug(slug, currentUserId = null) {
   }
 }
 
-export async function getPublicHomeData() {
-  const [articleCount, categories, tags, recentArticles, recommendedArticles] = await Promise.all([
-    Article.countDocuments({
-      status: ARTICLE_STATUS.PUBLISHED,
-      deletedAt: null
-    }),
+export async function getPublicHomeData(currentUserId = null) {
+  const scope = readableArticleFilter(currentUserId)
+  const [articleCount, categories, tags, recentArticles, recommendedArticles, publicCounts] = await Promise.all([
+    Article.countDocuments(scope),
     Category.find({ status: 'active', isSystem: { $ne: true } }).sort({ sortOrder: 1, createdAt: -1 }),
     Tag.find().sort({ articleCount: -1, createdAt: -1 }),
-    Article.find({
-      status: ARTICLE_STATUS.PUBLISHED,
-      deletedAt: null
-    })
+    Article.find(scope)
       .select('-contentMarkdown -resources -document')
       .populate('category')
       .populate('tags')
@@ -261,8 +258,7 @@ export async function getPublicHomeData() {
       .sort({ publishedAt: -1, createdAt: -1 })
       .limit(5),
     Article.find({
-      status: ARTICLE_STATUS.PUBLISHED,
-      deletedAt: null,
+      ...readableArticleFilter(currentUserId),
       isRecommended: true
     })
       .select('-contentMarkdown -resources -document')
@@ -270,17 +266,32 @@ export async function getPublicHomeData() {
       .populate('tags')
       .populate('createdBy', 'username avatar gender role')
       .sort({ publishedAt: -1, createdAt: -1 })
-      .limit(4)
+      .limit(4),
+    currentUserId ? [] : Article.aggregate([
+      { $match: scope },
+      { $facet: {
+        categories: [{ $group: { _id: '$category', count: { $sum: 1 } } }],
+        tags: [{ $unwind: '$tags' }, { $group: { _id: '$tags', count: { $sum: 1 } } }]
+      } }
+    ])
   ])
-
+  function visibleTaxonomy(items, counts) {
+    if (currentUserId) return items.map((item) => item.toSafeJSON())
+    const byId = new Map((counts || []).map((row) => [String(row._id), row.count]))
+    return items.filter((item) => byId.has(String(item._id))).map((item) => ({
+      ...item.toSafeJSON(), articleCount: byId.get(String(item._id))
+    }))
+  }
+  const visibleCategories = visibleTaxonomy(categories, publicCounts[0]?.categories)
+  const visibleTags = visibleTaxonomy(tags, publicCounts[0]?.tags)
   return {
     stats: {
       articleCount,
-      categoryCount: categories.length,
-      tagCount: tags.length
+      categoryCount: visibleCategories.length,
+      tagCount: visibleTags.length
     },
-    categories: categories.map((category) => category.toSafeJSON()),
-    tags: tags.map((tag) => tag.toSafeJSON()),
+    categories: visibleCategories,
+    tags: visibleTags,
     recentArticles: recentArticles.map((article) => article.toSafeJSON({
       includeContent: false,
       includeResources: false
@@ -292,15 +303,14 @@ export async function getPublicHomeData() {
   }
 }
 
-export async function getKnowledgeMenuData() {
+export async function getKnowledgeMenuData(currentUserId = null) {
   const [categories, articles] = await Promise.all([
     Category.find({ status: 'active', isSystem: { $ne: true } })
       .select('_id name slug parent sortOrder articleCount isSystem')
       .sort({ sortOrder: 1, createdAt: -1 })
       .lean(),
     Article.find({
-      status: ARTICLE_STATUS.PUBLISHED,
-      deletedAt: null
+      ...readableArticleFilter(currentUserId)
     })
       .select('_id title slug category sortOrder publishedAt createdAt')
       .populate('category', '_id name slug isSystem')
@@ -308,15 +318,21 @@ export async function getKnowledgeMenuData() {
       .lean()
   ])
 
+  const counts = new Map()
+  for (const article of articles) {
+    const key = String(article.category?._id || '')
+    counts.set(key, (counts.get(key) || 0) + 1)
+  }
+  const visible = currentUserId ? categories : categories.filter((category) => counts.has(String(category._id)))
   return {
     total: articles.length,
-    categories: categories.map((category) => ({
+    categories: visible.map((category) => ({
       id: category._id.toString(),
       name: category.name,
       slug: category.slug,
       parent: category.parent?.toString() || null,
       sortOrder: category.sortOrder || 0,
-      articleCount: category.articleCount || 0,
+      articleCount: currentUserId ? category.articleCount || 0 : counts.get(String(category._id)),
       isSystem: !!category.isSystem
     })),
     articles: articles.map((article) => ({

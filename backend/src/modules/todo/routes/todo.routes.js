@@ -9,6 +9,7 @@ import {
   deleteTodoList,
   getTodoList,
   getTodoStats,
+  listCompletedTodos,
   listTodoLists,
   updateTodoItem,
   updateTodoList
@@ -32,6 +33,10 @@ todoRouter.get('/', asyncHandler(async (req, res) => {
 
 todoRouter.get('/stats', asyncHandler(async (req, res) => {
   res.json(ok(await getTodoStats(req.user._id)))
+}))
+
+todoRouter.get('/completed', asyncHandler(async (req, res) => {
+  res.json(ok(await listCompletedTodos(req.user._id, req.query)))
 }))
 
 todoRouter.post('/', asyncHandler(async (req, res) => {

@@ -208,14 +208,21 @@
             <template #overlay>
               <a-menu @click="handleFooterMoreAction">
                 <a-menu-item key="hide-session">本次登录隐藏底栏</a-menu-item>
-                <a-menu-divider />
-                <a-menu-item key="report">举报</a-menu-item>
+                <a-menu-divider v-if="authStore.canAccessPath('/console/feedback')" />
+                <a-menu-item v-if="authStore.canAccessPath('/console/feedback')" key="report">文章纠错与举报</a-menu-item>
               </a-menu>
             </template>
           </a-dropdown>
         </div>
       </footer>
 
+      <FeedbackCreateModal
+        v-model:open="correctionOpen"
+        :article="article"
+        :toc="toc"
+        :initial-anchor="correctionAnchor"
+        :source-path="route.path"
+      />
       <ArticleShareCreateModal v-model:open="shareModalVisible" :article="article" />
 
       <ReadingToolbar
@@ -301,6 +308,8 @@ import {
 import { ListTree, X } from '@lucide/vue'
 import ArticleContentRenderer from '@/components/ArticleContentRenderer.vue'
 import ArticleShareCreateModal from '@/components/article-share/ArticleShareCreateModal.vue'
+import FeedbackCreateModal from '@/views/console/FeedbackPage/FeedbackCreateModal.vue'
+import { revealArticlePassage } from '@/utils/articlePassage'
 import ReadingToolbar from '@/components/ReadingToolbar.vue'
 import TableOfContents from '@/components/TableOfContents.vue'
 import { getAdminArticle } from '@/services/admin'
@@ -354,8 +363,11 @@ const isTocOpen = ref(false)
 const footerSessionVisible = ref(sessionStorage.getItem(FOOTER_ACTIONS_SESSION_KEY) !== 'true')
 const footerVisibilityOverride = ref(false)
 const shareModalVisible = ref(false)
+const correctionOpen = ref(false)
+const correctionAnchor = ref('')
 const pageActive = ref(true)
 let cachedReadingPosition = null
+let loadSequence = 0
 
 const article = ref({
   id: '',
@@ -475,9 +487,9 @@ function showFooterActionBar() {
 function navigateToNeighbor(slug) {
   if (!slug) return
   preserveImmersiveOnNextLoad.value = isImmersiveReading.value
-  const query = isImmersiveReading.value
-    ? { ...route.query, [IMMERSIVE_QUERY_KEY]: '1' }
-    : route.query
+  const query = { ...route.query }
+  delete query.line
+  if (isImmersiveReading.value) query[IMMERSIVE_QUERY_KEY] = '1'
   if (inDirectoryConsole.value) {
     router.push({ path: `/console/article-directory/articles/${slug}`, query })
     return
@@ -506,6 +518,7 @@ async function loadComments() {
 }
 
 async function loadArticle() {
+  const sequence = ++loadSequence
   readingProgress.stop()
   loading.value = true
   errorMessage.value = ''
@@ -519,6 +532,7 @@ async function loadArticle() {
     result = isAdminPreview.value
       ? await getAdminArticle(route.params.id)
       : await getPublicArticle(route.params.slug)
+    if (sequence !== loadSequence || !pageActive.value) return
     article.value = result
     updateConsoleTabTitle(result.title)
     likeCount.value = Number(result.likeCount) || 0
@@ -526,19 +540,20 @@ async function loadArticle() {
     likedByCurrentUser.value = !!result.likedByCurrentUser
     favoritedByCurrentUser.value = !!result.favoritedByCurrentUser
   } catch (error) {
-    errorMessage.value = error.message || '文章加载失败'
+    if (sequence === loadSequence) errorMessage.value = error.message || '文章加载失败'
   } finally {
-    loading.value = false
+    if (sequence === loadSequence) loading.value = false
   }
 
-  if (!result) return
+  if (!result || sequence !== loadSequence) return
   await nextTick()
   readerScrollRef.value?.scrollTo({ top: 0, behavior: 'auto' })
   if (!isAdminPreview.value && commentDrawerVisible.value) {
     await loadComments()
   }
-  if (!isAdminPreview.value) {
-    await readingProgress.start(result, { autoResume: route.query.resume === '1' })
+  if (!isAdminPreview.value && pageActive.value && sequence === loadSequence) {
+    const atPassage = revealArticlePassage(readerScrollRef.value, route)
+    await readingProgress.start(result, { autoResume: route.query.resume === '1', skipResume: atPassage })
   }
 }
 
@@ -622,7 +637,9 @@ async function reportCurrentComment(id) {
 }
 
 function reportArticle() {
-  message.info('文章举报入口已预留，后续可直接接入正式表单流程。')
+  const target = readerScrollRef.value
+  correctionAnchor.value = target ? buildReadingSnapshot(captureReadingMetrics(target)).anchorSlug : ''
+  correctionOpen.value = true
 }
 
 async function shareArticle() {
@@ -669,6 +686,7 @@ onActivated(() => {
   pageActive.value = true
   syncImmersiveBodyClass()
   nextTick(() => {
+    if (article.value.slug === route.params.slug && revealArticlePassage(readerScrollRef.value, route)) return
     if (!readerScrollRef.value || !cachedReadingPosition) return
     restoreReadingPosition(readerScrollRef.value, {
       ...cachedReadingPosition,
@@ -683,7 +701,9 @@ watch(
     () => route.params.slug,
     () => route.params.id,
     () => route.query.resume,
-    () => route.query.restart
+    () => route.query.restart,
+    () => route.query.line,
+    () => route.hash
   ],
   () => {
     if (pageActive.value) loadArticle()
